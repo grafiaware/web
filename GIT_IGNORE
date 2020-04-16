@@ -1,0 +1,4 @@
+složka:
+vendor  - předpokládám spuštění composeru v každé lokální kopii
+node_modules
+public/grafia/css  - mění se při každém pull nebo checkout revision, pokud je aktivní less preprocesor - pak se soubory .css vždy nabízejí změněné pro commit
