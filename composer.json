@@ -10,15 +10,6 @@
         }
     ],
     "version": "0.6",
-    "repositories": [
-        {
-            "type": "path",
-            "url": "../Pes",
-            "options": {
-                "symlink": false
-            }
-        }
-    ],
     "require": {
         "pes/pes": "@dev",
         "phpmyadmin/phpmyadmin": "5.0.1",

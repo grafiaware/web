@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8eeaa498e7d6ae8f770020ef62fddce5",
+    "content-hash": "c4aa419fbdb107a8dd2d1ffbaef033b8",
     "packages": [
         {
             "name": "google/recaptcha",
@@ -55,11 +55,17 @@
         },
         {
             "name": "pes/pes",
-            "version": "1.20.30",
-            "dist": {
-                "type": "path",
-                "url": "../Pes",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/box4pes/pes.git",
                 "reference": "9cc2026cbc63fab54f2d64e41d34226045383184"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/box4pes/pes/zipball/9cc2026cbc63fab54f2d64e41d34226045383184",
+                "reference": "9cc2026cbc63fab54f2d64e41d34226045383184",
+                "shasum": ""
             },
             "require": {
                 "psr/container": "^1.0",
@@ -75,9 +81,7 @@
                     "Pes\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": []
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -92,9 +96,7 @@
                 "framework",
                 "pes"
             ],
-            "transport-options": {
-                "symlink": false
-            }
+            "time": "2020-04-15T09:31:54+00:00"
         },
         {
             "name": "phpmyadmin/motranslator",
