@@ -1,0 +1,32 @@
+{
+    "name": "grafia/www_grafia_development",
+    "description": "www_grafia_development_v0_6",
+    "license": "na dotaz",
+    "keywords": ["grafia"],
+    "authors": [
+        {
+            "name": "Petr Svoboda",
+            "email": "svoboda@grafia.cz"
+        }
+    ],
+    "version": "0.6",
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../Pes",
+            "options": {
+                "symlink": false
+            }
+        }
+    ],
+    "require": {
+        "pes/pes": "@dev",
+        "phpmyadmin/phpmyadmin": "5.0.1",
+        "samshal/acl": "@dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "" : "src"
+        }
+    }
+}

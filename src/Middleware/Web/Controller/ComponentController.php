@@ -1,0 +1,265 @@
+<?php
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+namespace Middleware\Web\Controller;
+
+use Psr\Http\Message\ServerRequestInterface;
+
+// komponenty
+use Component\View\{
+    Generated\LanguageSelectComponent,
+    Generated\SearchPhraseComponent,
+    Generated\SearchResultComponent,
+    Status\FlashComponent,
+};
+
+####################
+
+use Model\Repository\StatusFlashRepo;
+
+####################
+use Pes\Debug\Timer;
+use Pes\View\View;
+use Pes\View\Template\PhpTemplate;
+use Pes\View\Template\InterpolateTemplate;
+use Pes\View\Recorder\RecorderProvider;
+use Pes\View\Recorder\VariablesUsageRecorder;
+use Pes\View\Recorder\RecordsLogger;
+
+/**
+ * Description of GetControler
+ *
+ * @author pes2704
+ */
+class ComponentController extends LayoutControllerAbstract {
+
+    ### action metody ###############
+
+    public function home(ServerRequestInterface $request) {
+        $this->statusPresentation->setItemUid('');  // status model nastaví default uid (jazyk zachová)
+        $view = $this->createView($request);
+
+        return $this->createResponse($request, $view);
+    }
+
+    public function item(ServerRequestInterface $request, $uid) {
+        $this->statusPresentation->setItemUid($uid);
+        return $this->createResponse($request, $this->createView($request));
+    }
+
+    public function last(ServerRequestInterface $request) {
+        return $this->createResponse($request, $this->createView($request));
+    }
+
+    public function searchResult(ServerRequestInterface $request) {
+        // TODO tady je nějaký zmatek
+        /** @var SearchResultComponent $component */
+        $component = $this->container->get(SearchResultComponent::class);
+        $key = $this->request->getAttribute('klic', '');
+        $key = $this->request->getQueryParams()['klic'];
+        $contentView = $component->setSearch($key);
+        return $this->createResponse($request, $this->createView($request));
+    }
+
+##### private methods ##############################################################
+#
+    ### prezentace - view
+
+    protected function createView(ServerRequestInterface $request) {
+
+        #### speed test ####
+//        $timer = new Timer();
+//        $timer->start();
+
+        $layoutView = $this->getLayoutView($request);
+        foreach ($this->getComponentViews($request) as $name => $componentView) {
+            $layoutView->appendComponentView($componentView, $name);
+        }
+
+        return $layoutView;
+
+        ## proměnné pro html
+//        $duration['Získání dat z modelu'] = $timer->interval();
+//        $duration['Vytvoření view s template'] = $timer->interval();
+//        $html = $view->getString();   // vynutí renderování už zde
+//        $duration['Renderování template'] = $timer->interval();
+//        $this->container->get(RecordsLogger::class)
+//                ->logRecords($this->container->get(RecorderProvider::class));
+//        $duration['Zápis recordu do logu'] = $timer->interval();
+//        $duration['Celkem web middleware: '] = $timer->runtime();
+//        #### speed test výsledky jsou viditelné ve firebugu ####
+//        $html .= $this->createSpeedInfoHtml($duration);
+
+    }
+
+    private function isEditableLayout() {
+        $userActions = $this->statusPresentation->getUserActions();
+        return $userActions ? $userActions->isEditableLayout() : false;
+    }
+
+    private function isEditableArticle() {
+        $userActions = $this->statusPresentation->getUserActions();
+        return $userActions ? $userActions->isEditableArticle() : false;
+    }
+
+    private function createSpeedInfoHtml($duration) {
+        $testHtml[] = '<div style="display: none;">';
+        foreach ($duration as $message => $interval) {
+            $testHtml[] = "<p>$message:$interval</p>";
+        }
+        $testHtml[] = '</div>';
+        return implode(PHP_EOL, $testHtml);
+    }
+
+    protected function getComponentViews(ServerRequestInterface $request) {
+        $context = array_merge(
+                $this->getEditTools($request),
+                $this->getGeneratedLayoutComponents(),
+                $this->getAuthoredLayoutComnponents(),
+                $this->getEmptyMenuComponents(),
+                $this->getMenuComponents(),
+                $this->getContentComponents(),
+                $this->getArticleComponent()
+                );
+
+        return $context;
+    }
+
+    /**
+     * Vrací view objekt pro zobrazení centrálního obsahu v prostoru pro "content"
+     * @return type
+     */
+    private function getArticleComponent() {
+        return ["content" => $this->isEditableArticle() ? $this->container->get('article.headlined.editable') : $this->container->get('article.headlined')];
+    }
+
+    private function getEditTools(ServerRequestInterface $request) {
+        if ($this->isEditableArticle() OR $this->isEditableLayout()) {
+            $webPublicDir = \Middleware\Web\AppContext::getAppPublicDirectory();
+            $commonPublicDir = \Middleware\Web\AppContext::getPublicDirectory();
+            ## document base path - stejná hodnota se musí použiít i v nastavení tinyMCE
+            $basepath = $this->getBasePath($request);
+            return [
+                'editableJsLinks' => $this->container->get(View::class)
+                    ->setTemplate(new PhpTemplate(PROJECT_DIR.'/templates/layout/head/editableJsLinks.php'))
+                    ->setData([
+                        'tinyMCEConfig' => $this->container->get(View::class)
+                            ->setTemplate(new InterpolateTemplate(PROJECT_DIR.'/templates/layout/head/tiny_config.js'))
+                            ->setData([
+                                // pro tiny_config.js
+                                'basePath' => $basepath,
+                                'urlStylesCss' => $webPublicDir."grafia/css/styles.css",
+                                'urlPrefixTemplatesTinyMce' => $webPublicDir."tiny_templates/",
+                                'urlSemanticCss' => $webPublicDir."semantic/dist/semantic.min.css",
+                                'urlZkouskaCss' => $webPublicDir."grafia/css/zkouska_less.css",
+                            ]),
+                        'urlTinyMCE' => $commonPublicDir.'tinymce/tinymce.min.js', // "https://cloud.tinymce.com/5/tinymce.min.js"
+                        'urlTinyInit' => $webPublicDir.'grafia/js/TinyInit.js',
+                        'editScript' => \Middleware\Web\AppContext::getAppPublicDirectory() . 'grafia/js/edit.js',
+                        'kalendarScript' => \Middleware\Web\AppContext::getAppPublicDirectory() . 'grafia/js/kalendar.js',
+                    ]),
+
+            ];
+        } else {
+            return [];
+        }
+    }
+
+    private function getPoznamky(ServerRequestInterface $request) {
+        return [
+            'poznamky' => $this->container->get(View::class)
+                    ->setTemplate(new PhpTemplate('templates/poznamky/poznamky.php'))
+                    ->setData([
+                        'poznamka1'=> '<pre>'.print_r($this->statusPresentation, true).'</pre>',
+                        'flashMessage' => $this->container->get(FlashComponent::class),
+                        ]),
+
+        ];
+    }
+
+    private function getEmptyMenuComponents() {
+            return [
+                'menuPresmerovani' => $this->container->get(View::class),
+                'menuVodorovne' => $this->container->get(View::class),
+                'menuSvisle' => $this->container->get(View::class),
+             ];
+    }
+
+    private function getMenuComponents() {
+        if ($this->isEditableLayout()) {
+            return [
+                'menuPresmerovani' => $this->container->get('menu.presmerovani.editable')->setMenuRootName('l'),
+                'menuVodorovne' => $this->container->get('menu.vodorovne.editable')->setMenuRootName('p'),
+                ## var a
+                'menuSvisle' => $this->container->get('menu.svisle.editable')->setMenuRootName('$'),
+                ## var b
+//                'menuSvisle' => $this->container->get('menu.svisle.editable')->setMenuRootName('s'),
+//                'bloky' => $this->container->get('menu.bloky.editable')->setMenuRootName('block'), //menu.svisle.editable  //bloky
+//                'kos' => $this->container->get('menu.kos')->setMenuRootName('trash'), //menu.svisle  //kos
+            ];
+        } else {
+            if ($this->isEditableArticle()) {
+                return [
+                    'menuPresmerovani' => $this->container->get('menu.presmerovani.editable')->setMenuRootName('l'),
+                    'menuVodorovne' => $this->container->get('menu.vodorovne.editable')->setMenuRootName('p'),
+                    'menuSvisle' => $this->container->get('menu.svisle.editable')->setMenuRootName('s'),
+                    'kos' => $this->container->get('menu.kos')->setMenuRootName('trash'), //menu.svisle  //kos
+                ];
+            } else {
+                return [
+                    'menuPresmerovani' => $this->container->get('menu.presmerovani')->setMenuRootName('l'),
+                    'menuVodorovne' => $this->container->get('menu.vodorovne')->setMenuRootName('p'),
+                    'menuSvisle' => $this->container->get('menu.svisle')->setMenuRootName('s'),
+                ];
+            }
+        }
+    }
+
+    private function getContentComponents() {
+        if ($this->isEditableLayout() OR $this->isEditableArticle()) {
+            return [
+                    'aktuality' => $this->container->get('component.headlined.editable')->setComponentName('a1'),
+                    'nejblizsiAkce' => $this->container->get('component.headlined.editable')->setComponentName('a2'),
+                    'rychleOdkazy' => $this->container->get('component.headlined.editable')->setComponentName('a3'),
+                ];
+        } else {
+            return [
+                    'aktuality' => $this->container->get('component.headlined')->setComponentName('a1'),
+                    'nejblizsiAkce' => $this->container->get('component.headlined')->setComponentName('a2'),
+                    'rychleOdkazy' => $this->container->get('component.headlined')->setComponentName('a3'),
+                ];
+        }
+    }
+    private function getGeneratedLayoutComponents() {
+        return [
+            'languageSelect' => $this->container->get(LanguageSelectComponent::class),
+            'searchPhrase' => $this->container->get(SearchPhraseComponent::class),
+        ];
+    }
+
+    private function getAuthoredLayoutComnponents() {
+        if ($this->isEditableLayout()) {
+            return [
+                    'razitko' => $this->container->get('component.block.editable')->setComponentName('a4'),
+                    'socialniSite' => $this->container->get('component.block.editable')->setComponentName('a5'),
+                    'mapa' => $this->container->get('component.block.editable')->setComponentName('a6'),
+                    'logo' => $this->container->get('component.block.editable')->setComponentName('a7'),
+                    'banner' => $this->container->get('component.block.editable')->setComponentName('a8'),
+                ];
+        } else {
+            return [
+                    'razitko' => $this->container->get('component.block')->setComponentName('a4'),
+                    'socialniSite' => $this->container->get('component.block')->setComponentName('a5'),
+                    'mapa' => $this->container->get('component.block')->setComponentName('a6'),
+                    'logo' => $this->container->get('component.block')->setComponentName('a7'),
+                    'banner' => $this->container->get('component.block')->setComponentName('a8'),
+                ];
+        }
+    }
+
+}

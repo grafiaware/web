@@ -1,0 +1,36 @@
+
+
+I made some changes to @anubhava's response to working on localhost and with friendly URLs.
+
+Directory structure:
+
+    / (localhost root folder)
+        myapp/
+            public/
+            index.php
+        core/
+            some core files ...
+
+myapp/.htaccess (myapp root folder)
+
+RewriteEngine On
+RewriteBase /myapp
+
+RewriteCond %{THE_REQUEST} /public/([^\s?]*) [NC]
+RewriteRule ^ %1 [L,NE,R=302]
+RewriteRule ^(.*)$ public/index.php?$1 [L,QSA]
+
+myapp/public/.htaccess
+
+RewriteEngine On
+RewriteBase /
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?$1 [L,QSA]
+
+myapp/public/index.php
+
+<?php
+echo 'Hello<br>';
+echo $_SERVER['QUERY_STRING'];

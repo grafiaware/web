@@ -1,0 +1,1 @@
+C:37:"PHPUnit\Runner\DefaultTestResultCache":185:{a:2:{s:7:"defects";a:2:{s:18:"AppRunner::testRun";i:6;s:26:"AppRunner::testEnvironment";i:4;}s:5:"times";a:2:{s:18:"AppRunner::testRun";d:0;s:26:"AppRunner::testEnvironment";d:59.998;}}}

@@ -1,0 +1,21 @@
+[info] [2019-12-18 17:31:07] Logger start. Log file: C:/ApacheRoot/www_grafia_development_v0_6/tests/Logs/App/Web/Render.log.
+[debug]  [2019-12-18 17:31:07] RecordsLogger: Renderování template c:/ApacheRoot/www_grafia_development_v0_6//templates/layout.php: Vzniko 447844 bytů. Data kontextu mají 17 položek.
+[info] RecordsLogger: Template c:/ApacheRoot/www_grafia_development_v0_6//templates/layout.php. Seznam proměnných kontextu: 
+    Proměnná langCode string 2 bytes: "cs"
+    Proměnná basePath string 0 bytes
+    Proměnná languageSelect object Component\Controler\Generated\LanguageSelectComponent
+    Proměnná searchPhrase object Component\Controler\Generated\SearchPhraseComponent
+    Proměnná menuPresmerovani object Component\Controler\Menu\MenuComponent
+    Proměnná menuVodorovne object Component\Controler\Menu\MenuComponent
+    Proměnná menuSvisle object Component\Controler\Menu\MenuComponent
+    Proměnná aktuality object Component\Controler\Authored\NamedItemComponent
+    Proměnná nejblizsiAkce object Component\Controler\Authored\NamedItemComponent
+    Proměnná rychleOdkazy object Component\Controler\Authored\NamedItemComponent
+    Proměnná razitko object Component\Controler\Authored\NamedItemComponent
+    Proměnná socialniSite object Component\Controler\Authored\NamedItemComponent
+    Proměnná mapa object Component\Controler\Authored\NamedItemComponent
+    Proměnná logo object Component\Controler\Authored\NamedItemComponent
+    Proměnná banner object Component\Controler\Authored\NamedItemComponent
+    Proměnná modal object Pes\View\View
+    Proměnná content object Component\Controler\Authored\PresentedItemComponent
+[debug]  [2019-12-18 17:31:07] RecordsLogger: Renderování template c:/ApacheRoot/www_grafia_development_v0_6//templates/layout.php->c:/ApacheRoot/www_grafia_development_v0_6//templates/modal/modal_login.php: Vzniko 1316 bytů. Data kontextu jsou prázdná.

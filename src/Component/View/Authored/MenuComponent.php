@@ -1,0 +1,140 @@
+<?php
+
+namespace Component\View\Authored;
+
+use Component\View\ComponentAbstract;
+use Component\ViewModel\Authored\Menu\MenuViewModel;
+use Component\ViewModel\Authored\Menu\Item\ItemViewModel;
+
+use Pes\View\View;
+use Pes\View\ViewInterface;
+use Pes\View\Renderer\RendererInterface;
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ * Description of Menu
+ *
+ * @author pes2704
+ */
+class MenuComponent extends AuthoredComponentAbstract implements MenuComponentInterface {
+
+    protected $viewModel;
+
+    protected $levelWrapRendererName;
+    protected $itemRendererName;
+    protected $levelWrapRenderer;
+    protected $itemRenderer;
+
+    protected $active = TRUE;
+    protected $actual = TRUE;
+    protected $langCode;
+    protected $rootUid;
+    protected $withTitle;
+
+    protected $componentName;
+    protected $presentedUid;
+    protected $presentedItemLeftNode;
+    protected $presentedItemRightNode;
+    protected $presentRenderer;
+    /**
+     *
+     * @param MenuViewModel $viewModel
+     */
+    public function __construct(MenuViewModel $viewModel) {
+        $this->viewModel = $viewModel;
+    }
+
+    /**
+     *
+     * @param $levelWrapRendererName
+     * @param $itemRendererName
+     * @return \Component\Controler\Authored\MenuComponentInterface
+     */
+    public function setRenderersNames( $levelWrapRendererName, $itemRendererName): MenuComponentInterface {
+        $this->levelWrapRendererName = $levelWrapRendererName;
+        $this->itemRendererName = $itemRendererName;
+        return $this;
+    }
+
+    /**
+     *
+     * @param string $componentName
+     * @return \Component\Controler\Authored\MenuComponentInterface
+     */
+    public function setMenuRootName($componentName): MenuComponentInterface {
+        $this->componentName = $componentName;
+        return $this;
+    }
+
+    /**
+     *
+     * @param bool $withTitle
+     * @return \Component\Controler\Authored\MenuComponentInterface
+     */
+    public function withTitleItem($withTitle=false): MenuComponentInterface {
+        $this->withTitle = $withTitle;
+        return $this;
+    }
+
+    /**
+     * Renderuje menu a vrací string. Jazyk, uid aktuální položky menu, stav edit použije z presentation status.
+     * @return string
+     */
+    public function getString($data=null) {
+
+        // toto do view modelu
+        $presentedItem = $this->viewModel->getPresentedMenuNode();
+        if (isset($presentedItem)) {
+            $this->presentedUid = $presentedItem->getUid();
+            $this->presentedItemLeftNode = $presentedItem->getLeftNode();
+            $this->presentedItemRightNode = $presentedItem->getRightNode();
+        }
+        $rootItem = $this->viewModel->getMenuRoot($this->componentName);
+        if (!isset($rootItem)) {
+            user_error("Kořen menu se jménem komponety $this->componentName nebylo načten z tabulky kořenů menu.", E_USER_WARNING);
+        }
+        $this->rootUid = $rootItem->getUidFk();
+
+
+        if (!isset($this->rendererContainer)) {
+            throw new \LogicException("Komponent ".get_called_class()." nemá nastaven renderer kontejner metodou setRendererContainer().");
+        }
+        $this->setRenderer($this->rendererContainer->get($this->rendererName));
+        $this->levelWrapRenderer = $this->rendererContainer->get($this->levelWrapRendererName);
+        $this->itemRenderer = $this->rendererContainer->get($this->itemRendererName);
+        if ($this->withTitle) {
+            $rootMenuNode = $this->viewModel->getMenuNode($this->rootUid);
+            if (isset($rootMenuNode)) {
+                $titleItemHtml = $this->itemRenderer->render(new ItemViewModel($this->viewModel->getMenuNode($this->rootUid), TRUE, $this->presentedUid==$this->rootUid, true));
+            } else {
+                $titleItemHtml = '';  // root menu item nená publikovaný
+            }
+        } else {
+            $titleItemHtml = '';
+        }
+        return parent::getString($data ? $data : $titleItemHtml . $this->getMenuLevelHtml($this->rootUid));
+    }
+
+    // to do menu level rendereru ($this->presented... si bude brát z view modelu
+    protected function getMenuLevelHtml($parentUid) {
+        $itemTags = [];
+        foreach ($this->viewModel->getChildrenMenuNodes($parentUid) as $menuNode) {
+            if (isset($this->presentedItemLeftNode)) {
+                $isOnPath = ($this->presentedItemLeftNode >= $menuNode->getLeftNode()) && ($this->presentedItemRightNode <= $menuNode->getRightNode());
+            } else {
+                $isOnPath = FALSE;
+            }
+            $innerHtml = $isOnPath ? $this->levelWrapRenderer->render($this->getMenuLevelHtml($menuNode->getUid())) : '';
+            $isPresented = isset($this->presentedUid) ? ($this->presentedUid == $menuNode->getUid()) : FALSE;
+            $readonly = $menuNode->getUid()==$this->rootUid;
+            $itemViewModel = new ItemViewModel($menuNode, $isOnPath, $isPresented, $readonly, $innerHtml);
+            $itemTags[] = $this->itemRenderer->render($itemViewModel);
+        }
+        return $itemTags ? implode(PHP_EOL, $itemTags) : '';
+    }
+}

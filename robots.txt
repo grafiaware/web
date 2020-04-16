@@ -1,0 +1,5 @@
+User-Agent: *
+Disallow: /Middleware
+Disallow: /Logs
+Disallow: /vendor
+Disallow: /nbproject

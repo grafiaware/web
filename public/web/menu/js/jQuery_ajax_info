@@ -1,0 +1,22 @@
+_Methods_ (part of jqXHR and Deferred implementations, shown here for clarity only)
+
+.ajax().always(function(a, textStatus, b){});
+Replaces method .complete() which was deprecated in jQuery 1.8.
+In response to successful transaction, arguments are same as .done() (ie. a = data, b = jqXHR) and for failed transactions the arguments are same as .fail() (ie. a = jqXHR, b = errorThrown).
+This is an alternative construct for the complete callback function above. Refer to deferred.always() for implementation details.
+
+.ajax().done(function(data, textStatus, jqXHR){});
+Replaces method .success() which was deprecated in jQuery 1.8.
+This is an alternative construct for the success callback function above. Refer to deferred.done() for implementation details.
+
+.ajax().fail(function(jqXHR, textStatus, errorThrown){});
+Replaces method .error() which was deprecated in jQuery 1.8.
+This is an alternative construct for the complete callback function above. Refer to deferred.fail() for implementation details.
+
+.ajax().then(function(data, textStatus, jqXHR){}, function(jqXHR, textStatus, errorThrown){});
+Incorporates the functionality of .done() and .fail() methods.
+Refer to deferred.then() for implementation details.
+
+.ajax().pipe(function(data, textStatus, jqXHR){}, function(jqXHR, textStatus, errorThrown){});
+Incorporates the functionality of .done() and .fail() methods, allowing the underlying Promise to be manipulated.
+Refer to deferred.pipe() for implementation details.

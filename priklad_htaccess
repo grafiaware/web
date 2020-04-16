@@ -1,0 +1,47 @@
+//Rewrite to www
+Options +FollowSymLinks
+RewriteEngine on
+RewriteCond %{HTTP_HOST} ^testdomain.ccc[nc]
+RewriteRule ^(.*)$ http://www.testdomain.ccc/$1 [r=301,nc]
+
+//301 Redirect Old File
+Redirect 301 /oldfile.html /newfile.html
+
+//301 Redirect Entire Directory
+RedirectMatch 301 /olddirectory(.*) /newdirectory/$1
+
+//Caching schema
+<FilesMatch "\.(jpg|png|gif|ico)$">
+Header set Cache-Control "public, proxy-revalidate, max-age=0"
+</FilesMatch>
+
+//Custom 400 errors
+ErrorDocument 400 /errorpage/400.html
+
+//Custom 401 errors
+ErrorDocument 401 /errorpage/401.html
+
+//Custom 403 errors
+ErrorDocument 403 /errorpage/403.html
+
+//Custom 404 errors
+ErrorDocument 404 /errorpage/404.html
+
+//Custom 500 errors
+ErrorDocument 500 /errorpage/500.html
+
+//Block users by IP
+order allow,deny
+deny from 111.112.113.114
+allow from 115.116.117.118
+
+
+//Prevent viewing of .htaccess file
+<Files .htaccess>
+order allow,deny
+deny from all
+</Files>
+
+//Prevent directory listings
+Options All -Indexes
+ 

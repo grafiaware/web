@@ -1,0 +1,183 @@
+
+ @import "promenne_grafia_rs";
+
+ @import "styles_rs";
+
+
+
+//-- base  -----------------------------------------
+root {
+    display: block;
+}
+
+
+.reseter {
+    border: 0 none;
+    clear: both;
+    float: none;
+    font-size: 0;
+    height: 0;
+    line-height: 0;
+    margin: 0;
+    padding: 0;
+    width: 0;
+}
+//------- base konec ---------------------------------------------
+/* * {
+margin:0;
+padding:0;
+}*/
+
+
+//-------------------------------------------------------------
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+/*
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+*/
+/* HTML5 display-role reset for older browsers */
+/*
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+*/
+//-------------------------------------------------------------
+
+
+body {
+	padding: 0;   ///-TOP,-RIGHT,-BOTTOM,-LEFT
+	margin: 0;
+
+	font-family: /*Verdana, Geneva,*/ "arial ce", "helvetica ce", arial, helvetica, sans-serif;
+        font-size: @web_velikost_pisma_rs; // napr.1em;
+
+        color:     @web_barva_pisma_rs;
+        background-color: @web_pozadi_rs;
+//border: 1px solid green;
+
+}
+img {
+     //border:solid @cerna 0px;
+     border: none;
+}
+
+//---------------------------------------------------
+
+    .separator {
+        display: none;
+        visibility: hidden;
+    }
+
+
+    #bodywrap {
+        background-color: @web_bodyw_background-color; //#FFFFE0; //svzluta
+        border: 0 none;
+        margin: 0 auto;
+        padding: 0;
+        max-width: @web_bodyw_max_sirka;
+        min-width: @web_bodyw_min_sirka;
+
+        overflow: hidden;
+        font-size: 0.8*@web_velikost_pisma_rs;
+//border: solid green 2px;
+
+   //border-radius:   1*@web_velikost_pisma_rs  1*@web_velikost_pisma_rs 0  0 ;
+   border: 3px solid  @rs_hlavni_barva;
+
+    }
+
+    #headwrap, #footwrap {
+        background-color: @svetle_seda;  // @web_headwrap_background-color;
+        border: 2px solid @rs_hlavni_barva;
+    }
+
+    #colswrap {
+        background-color: transparent;
+
+        overflow: hidden;
+        width: 100%;
+    }
+    .column {
+        float: left;
+        margin-bottom: -20000px;
+        padding-bottom: 20010px;
+    }
+    #col1wrap {
+        background-color: @web_col1w_background-color; //#E0FFE0;
+        width: 100%;
+    }
+    #col1pad {
+        padding-left: @web_sirka_col2;    //200px;
+        padding-right: @web_sirka_col3;   //125px;
+//border: solid indigo 1px;
+    }
+    #col1pad_katalog {
+        padding-left: @web_sirka_col2 - 100;    //200px;
+        padding-right: @web_sirka_col3;   //125px;
+    }
+    #col2wrap {
+        background-color: @web_col2w_background-color; //#FFE0E0;
+        margin-left: -100%;
+        width: @web_sirka_col2; //200px;
+
+        //border-left: 2px solid @hlavni_barva_rs;
+//border: solid indigo 1px;
+    }
+    #col2wrap_katalog {
+        background-color: @web_col2w_background-color; //#FFE0E0;
+        margin-left: -100%;
+        width: @web_sirka_col2 - 100; //200px;
+    }
+
+    #col2pad {
+//border: solid indigo 1px;
+    }
+    #col3wrap {
+        background-color:  @web_col3w_background-color; //#E0E0FF;
+        margin-left: -@web_sirka_col3;  //-125px;
+        width: @web_sirka_col3; //125px;
+
+    }
+    #col3pad {
+
+    }

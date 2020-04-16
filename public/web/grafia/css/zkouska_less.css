@@ -1,0 +1,1685 @@
+/*******************************
+         Site Settings
+*******************************/
+/***********************************************************
+  Central element variation compilation enablers
+***********************************************************/
+/* General */
+/*******************************
+           Elements
+*******************************/
+/* Button */
+/* Container */
+/* Divider */
+/* Header */
+/* Icon */
+/* Image */
+/* Input */
+/* Label */
+/* List */
+/* Loader */
+/* Placeholder */
+/* Rail */
+/* Reveal */
+/* Segment */
+/* Step */
+/* Text */
+/*******************************
+           Collections
+*******************************/
+/* Breadcrumb */
+/* Form */
+/* Grid */
+/* Menu */
+/* Message */
+/* Table */
+/*******************************
+             Views
+*******************************/
+/* Ad */
+/* Card */
+/* Comment */
+/* Feed */
+/* Item */
+/* Statistic */
+/*******************************
+            Modules
+*******************************/
+/* Accordion */
+/* Calendar */
+/* Checkbox */
+/* Dimmer */
+/* Dropdown */
+/* Embed */
+/* Modal */
+/* Popup */
+/* Progress */
+/* Rating */
+/* Search */
+/* Shape */
+/* Sidebar */
+/* Slider */
+/* Tab */
+/* Toast */
+/* Loading */
+/* Emojis */
+/*-------------------
+       Fonts
+--------------------*/
+/*-------------------
+      Base Sizes
+--------------------*/
+/* This is the single variable that controls them all */
+/* The size of page text  */
+/*-------------------
+    Border Radius
+--------------------*/
+/* See Power-user section below
+   for explanation of @px variables
+*/
+/*-------------------
+    Brand Colors
+--------------------*/
+/* Whenever a color needs to get calculated (screen()/multiply()) out of a base color */
+/*--------------
+  Page Heading
+---------------*/
+/*--------------
+   Form Input
+---------------*/
+/* This adjusts the default form input across all elements */
+/* Input Text Color */
+/* Line Height Default For Inputs in Browser (Descenders are 17px at 14px base em) */
+/*-------------------
+    Focused Input
+--------------------*/
+/* Used on inputs, textarea etc */
+/* Used on dropdowns, other larger blocks */
+/*-------------------
+        Sizes
+--------------------*/
+/*
+  Sizes are all expressed in terms of 14px/em (default em)
+  This ensures these "ratios" remain constant despite changes in EM
+*/
+/*-------------------
+        Page
+--------------------*/
+/*-------------------
+      Paragraph
+--------------------*/
+/*-------------------
+       Links
+--------------------*/
+/*-------------------
+    Scroll Bars
+--------------------*/
+/* Inverted */
+/*-------------------
+  Highlighted Text
+--------------------*/
+/*-------------------
+       Loader
+--------------------*/
+/*-------------------
+        Grid
+--------------------*/
+/*-------------------
+     Transitions
+--------------------*/
+/*-------------------
+     Breakpoints
+--------------------*/
+/*-------------------
+      Site Colors
+--------------------*/
+/*---  Colors  ---*/
+/*---  Light Colors  ---*/
+/*---   Neutrals  ---*/
+/*--- Colored Backgrounds ---*/
+/*--- Colored Headers ---*/
+/*--- Colored Text ---*/
+/*--- Light Colored Text ---*/
+/*--- Hovered Colored Text ---*/
+/*--- Colored Border ---*/
+/*--- Shadows ---*/
+/* Inverted */
+/* Box Shadows */
+/*-------------------
+     Alpha Colors
+--------------------*/
+/*-------------------
+       Accents
+--------------------*/
+/* Differentiating Neutrals */
+/* Differentiating Layers */
+/*******************************
+           Power-User
+*******************************/
+/*-------------------
+    Emotive Colors
+--------------------*/
+/* Positive */
+/* Negative */
+/* Info */
+/* Warning */
+/*-------------------
+        Paths
+--------------------*/
+/* For source only. Modified in gulp for dist */
+/*-------------------
+       Em Sizes
+--------------------*/
+/*
+  This rounds @size values to the closest pixel then expresses that value in (r)em.
+  This ensures all size values round to exact pixels
+*/
+/* em */
+/* rem */
+/*-------------------
+       Icons
+--------------------*/
+/* Maximum Glyph Width of Icon */
+/*-------------------
+     Neutral Text
+--------------------*/
+/*-------------------
+     Brand Colors
+--------------------*/
+/*-------------------
+      Borders
+--------------------*/
+/*-------------------
+    Derived Values
+--------------------*/
+/* Loaders Position Offset */
+/* Rendered Scrollbar Width */
+/* Maximum Single Character Glyph Width, aka Capital "W" */
+/* Used to match floats with text */
+/* Header Spacing */
+/* Minimum Mobile Width */
+/* Positive / Negative Dupes */
+/* Responsive */
+/*-------------------
+  Exact Pixel Values
+--------------------*/
+/*
+  These are used to specify exact pixel values in em
+  for things like borders that remain constantly
+  sized as emSize adjusts
+
+  Since there are many more sizes than names for sizes,
+  these are named by their original pixel values.
+
+*/
+/* Columns */
+/*******************************
+             States
+*******************************/
+/*-------------------
+      Disabled
+--------------------*/
+/*-------------------
+        Hover
+--------------------*/
+/*---  Shadows  ---*/
+/*---  Colors  ---*/
+/*---  Emotive  ---*/
+/*---  Brand   ---*/
+/*---  Dark Tones  ---*/
+/*---  Light Tones  ---*/
+/*-------------------
+        Focus
+--------------------*/
+/*---  Colors  ---*/
+/*---  Emotive  ---*/
+/*---  Brand   ---*/
+/*---  Dark Tones  ---*/
+/*---  Light Tones  ---*/
+/*-------------------
+    Down (:active)
+--------------------*/
+/*---  Colors  ---*/
+/*---  Emotive  ---*/
+/*---  Brand   ---*/
+/*---  Dark Tones  ---*/
+/*---  Light Tones  ---*/
+/*-------------------
+        Active
+--------------------*/
+/*---  Colors  ---*/
+/*---  Emotive  ---*/
+/*---  Brand   ---*/
+/*---  Dark Tones  ---*/
+/*---  Light Tones  ---*/
+/*---  Tertiary  ---*/
+/*---  Bright  ---*/
+/*******************************
+ States shared in Form-related components
+ *******************************/
+/* Form state*/
+/* Input state */
+/* AutoFill */
+/* Dropdown state */
+/* Focused state */
+/* Placeholder state */
+/*******************************
+     User Global Variables
+*******************************/
+/*-------------------
+       Links
+--------------------*/
+/*-------------------
+      Base Sizes
+--------------------*/
+/* This is the single variable that controls them all */
+/* The size of page text  */
+/*-------------------
+    Border Radius
+--------------------*/
+/*--------------
+  Page Heading
+---------------*/
+/*--------------
+  Segment
+--------------*/
+/* Header Spacing */
+/*-------------------
+        Grid
+--------------------*/
+/* Columns */
+/*-------------------
+     Breakpoints
+--------------------*/
+body {
+  background-image: url("../img/Grafiabgr1.gif") !important;
+  background-color: #DCDDDE !important;
+}
+body > .container > .column {
+  background-color: #FFFFFF;
+  border: 10px solid #e9eaea;
+  padding: 0 15px 15px;
+  border-radius: 20px;
+}
+header .grid > .row:first-child {
+  padding-bottom: 0;
+  /*editační*/
+  height: 160px;
+}
+header .grid > .row:first-child > .column:first-child {
+  padding-right: 0;
+}
+header .grid > .row:first-child > .column {
+  vertical-align: top !important;
+}
+header .grid > .row:last-child {
+  padding-top: 10px;
+}
+header .grid > .row:last-child > .column:first-child {
+  padding-right: 0;
+}
+header .grid > .row:first-child > .column:last-child,
+header .grid > .row:last-child > .column:last-child {
+  padding-left: 0;
+}
+header {
+  margin-bottom: 10px;
+}
+header img {
+  max-width: 100%;
+}
+header a {
+  color: inherit;
+}
+header a:hover {
+  color: inherit;
+}
+header .presmerovani-menu ul.text.menu {
+  justify-content: center;
+}
+header ul.text.menu {
+  margin: auto !important;
+  padding: 0;
+}
+header .kontakt-hlavicka {
+  font-size: 0.8em;
+  text-align: right;
+  color: grey;
+}
+header .kontakt-hlavicka img {
+  margin: 0 5px;
+}
+header .kontakt-hlavicka .kontaktni-udaje p {
+  margin: 0;
+}
+header .jazyky {
+  margin-top: 10px;
+  clear: both;
+  margin-right: 5px;
+  float: right;
+}
+header .jazyky button {
+  margin-right: 5px;
+}
+header .jazyky button img {
+  vertical-align: middle;
+  width: 30px;
+  height: 17px;
+}
+header .jazyky .ui.basic.button {
+  padding: 0;
+  box-shadow: 0 0;
+}
+header .jazyky .ui.basic.button:hover {
+  box-shadow: 0 0;
+}
+header .jazyky .jazyk-on {
+  border: double #EB1B4C 3px;
+  height: 20px;
+  width: 33px;
+}
+header .jazyky .basic.button {
+  margin-right: 0;
+}
+header .jazyky .page.button {
+  vertical-align: bottom;
+}
+header .jazyky > form {
+  display: inline-block;
+}
+headline,
+content,
+block,
+div {
+  display: block;
+  position: relative;
+}
+/*****************Styly pro menu - normalni i editacni rezim*******************/
+/***PRO VSECHNA MENU***/
+.vodorovne-menu .menu .onpath > ul,
+.presmerovani-menu .menu .onpath > ul {
+  padding: 0;
+}
+.menu a {
+  z-index: 0;
+}
+/***SVISLE MENU***/
+.close-item,
+.nav-mobile {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  font-size: 15.42857143px;
+  margin: 10px;
+}
+.close-item:hover,
+.nav-mobile:hover {
+  cursor: pointer;
+}
+.close-item > a > i.times.circle.icon,
+.nav-mobile > i.bars.icon {
+  margin: 0;
+}
+.svisle-menu .menu {
+  padding: 0;
+  margin-top: 0;
+}
+.svisle-menu .menu > li {
+  list-style: none;
+}
+.svisle-menu .menu > li:not(:first-child) {
+  border-top: 2px solid rgba(0, 0, 0, 0.05);
+}
+.svisle-menu .menu > li:first-child {
+  border-radius: 4px 4px 0 0;
+}
+.svisle-menu .menu > li:last-child {
+  border-radius: 0 0 4px 4px;
+}
+.svisle-menu .menu li {
+  position: relative;
+}
+.svisle-menu .menu li:not(.leaf) > .item::after {
+  content: "\f107";
+  height: 1em;
+  width: 1.18em;
+  font-family: Icons;
+  font-weight: 500;
+  text-align: center;
+  margin: 0 0 0 .5em;
+  position: absolute;
+  right: 5px;
+  color: rgba(0, 0, 0, 0.87);
+  top: 40%;
+  transform: translateY(-50%);
+}
+.svisle-menu .menu.onpath > .item::after {
+  top: 15px;
+  transform: none;
+}
+.svisle-menu form > .menu {
+  padding: 0;
+  border: 0 !important;
+  box-shadow: 0 0 0 0 !important;
+}
+.svisle-menu form > .menu li {
+  list-style-type: none;
+  border: 2px solid rgba(0, 0, 0, 0.05);
+  border-bottom: 0;
+}
+.svisle-menu form > .menu li:not(:first-child) {
+  border-top: 0;
+}
+.svisle-menu form > .menu li:last-child {
+  border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+}
+.svisle-menu form > .menu li:first-child.onpath {
+  border-width: 2px 0 0 0;
+}
+.svisle-menu form > .menu li .item {
+  line-height: normal;
+}
+.svisle-menu form > .menu li i:first-child {
+  float: left;
+}
+.svisle-menu form > .menu .onpath {
+  border-width: 0 0 2px 0;
+  background-color: #FFFFFF;
+}
+.svisle-menu form > .menu .onpath.presented > .item {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+.svisle-menu form > .menu .onpath:hover {
+  background-color: #FFFFFF !important;
+}
+.svisle-menu form > .menu .onpath > .item {
+  font-weight: 700;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  background-color: rgba(0, 0, 0, 0.0975) !important;
+  border-left: 2px solid rgba(0, 0, 0, 0.05);
+  border-right: 2px solid rgba(0, 0, 0, 0.05) !important;
+  line-height: normal;
+}
+.svisle-menu form > .menu .onpath .menu {
+  border-top: 0;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+.svisle-menu form > .menu .onpath .menu li {
+  list-style-type: inherit;
+}
+.svisle-menu form > .menu .onpath .menu li:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+.svisle-menu form > .menu .onpath .menu .onpath > .menu {
+  background-color: rgba(0, 0, 0, 0.0975);
+}
+.svisle-menu form > .menu .onpath .menu .onpath > .menu > .onpath > .menu {
+  background-color: rgba(0, 0, 0, 0.142625);
+}
+/***PRESMEROVANI MENU***/
+/***VODOROVNE MENU***/
+.vodorovne-menu a {
+  padding: 2px 3px;
+}
+/******************************Menu normalni rezim*****************************/
+/***SVISLE MENU***/
+.svisle-menu form > .menu:not(.edit) li .item {
+  padding: 0.6em 0.6em !important;
+}
+.svisle-menu form > .menu:not(.edit) .onpath .menu {
+  margin-left: 20px;
+}
+/***PRESMEROVANI MENU***/
+/***VODOROVNE MENU***/
+.vodorovne-menu .menu .onpath > a {
+  color: #EB1B4C;
+  background-color: #FFFFFF;
+  box-shadow: 0 0 0 1px #EB1B4C inset;
+}
+.vodorovne-menu .menu .onpath > a:hover {
+  background-color: #FFFFFF !important;
+  color: #DC143C;
+}
+/****************************Editacni*menu*s*buttony***************************/
+/***PRO VSECHNA MENU***/
+.menu.edit li > p {
+  margin-bottom: 0;
+}
+.menu.edit li > p br {
+  display: none;
+}
+.menu.edit .onpath.presented p > span {
+  cursor: text;
+}
+.menu.edit li:not(.presented) .buttons {
+  display: none;
+}
+.menu.edit li.onpath.presented > .buttons.editMenu {
+  display: block;
+  background: #fbfbe7;
+}
+.menu.edit li.onpath.presented > .buttons.editMenu > .button:first-child {
+  background-color: #fff1d5;
+}
+.menu.edit li.onpath.presented > .buttons.editMenu > .button:first-child:hover {
+  background-color: #FFFFFF;
+}
+.menu.edit li.onpath.presented > .buttons.editName {
+  display: none;
+  background-color: #fff1d5;
+}
+i.grafia.active {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1em;
+  height: 100%;
+  border-radius: .333rem 0 0 .333rem;
+}
+i.grafia.active.green {
+  background-color: #73c373;
+}
+i.grafia.active.red {
+  background-color: #de7a7e;
+}
+i.grafia.actual {
+  border-right-color: inherit;
+  content: '';
+  position: absolute;
+  right: 0%;
+  top: 0;
+  width: 1em;
+  height: 100%;
+  border-radius: 0 .333rem .333rem 0;
+}
+i.grafia.actual.yellow {
+  background-color: #f0da63;
+}
+i.grafia.actual.grey {
+  background-color: #B9B9B9;
+}
+i.grafia.actual.orange {
+  background-color: #f2711c94;
+}
+i.grafia.actual.red {
+  background-color: #de7a7e;
+}
+/***SVISLE MENU***/
+.svisle-menu .menu.edit {
+  height: 650px;
+  overflow-y: scroll;
+  width: 107%;
+  margin-left: -8px;
+}
+.svisle-menu .menu.edit li:not(:first-child) {
+  border-top: 2px solid rgba(0, 0, 0, 0.05);
+}
+.svisle-menu .menu.edit .onpath .item {
+  border-bottom: 0;
+}
+.svisle-menu .menu.edit .onpath .menu {
+  margin-left: 10px;
+  padding: 0;
+}
+.svisle-menu .menu button[data-tooltip]::after {
+  font-weight: 700;
+}
+.svisle-menu .menu.edit .onpath.presented:first-child .buttons,
+.svisle-menu .menu.edit .onpath.presented:nth-child(2) .buttons {
+  top: 30px;
+  position: absolute;
+  z-index: 1;
+}
+.svisle-menu .menu.edit .onpath.presented .buttons {
+  position: absolute;
+  left: auto;
+  right: 0;
+  top: -25px;
+}
+/***SVISLE MENU BLOKY***/
+.svisle-menu.bloky {
+  margin: 10px auto;
+}
+.svisle-menu.bloky .menu.edit > .onpath.presented .buttons {
+  background: #edf7ff;
+}
+.svisle-menu.bloky .menu.edit > li:first-child {
+  text-align: center;
+}
+.svisle-menu.bloky .menu.edit > li:first-child > .item {
+  background-color: #edf7ff !important;
+}
+.svisle-menu.bloky .menu.edit > li:first-child > .item > i {
+  display: none;
+}
+/***SVISLE MENU KOS***/
+.svisle-menu.kos .menu .onpath.presented .buttons {
+  background: #f8f3ff;
+  position: absolute !important;
+  left: auto;
+  right: 0;
+  top: -25px;
+}
+.svisle-menu.kos .menu .onpath.presented .buttons .corner.icon {
+  font-size: 0.9em;
+  left: 7px;
+}
+.svisle-menu.kos .menu > li:first-child {
+  text-align: center;
+}
+.svisle-menu.kos .menu > li:first-child > .item {
+  background-color: #f8f3ff !important;
+}
+/***PRESMEROVANI MENU***/
+.presmerovani-menu .menu.edit .item {
+  margin-right: 10px;
+  padding: 0.25em 1em !important;
+}
+.presmerovani-menu .menu.edit .item .buttons {
+  margin-left: 5px;
+}
+.presmerovani-menu .menu.edit .item .buttons .button::before {
+  bottom: -80%;
+  left: 30%;
+  transform: rotate(225deg) scale(1) !important;
+}
+.presmerovani-menu .menu.edit .item .buttons .button::after {
+  bottom: -173%;
+  font-weight: 700;
+}
+/***VODOROVNE MENU***/
+.vodorovne-menu .menu.edit {
+  width: 700px;
+  flex-wrap: wrap;
+}
+.vodorovne-menu .menu.edit .item {
+  margin: 6px 5px 6px 0;
+  padding-left: 5px;
+}
+.vodorovne-menu .menu.edit .item.onpath.presented .active {
+  border-width: 1px 0 1px 1px;
+  border-color: #EB1B4C;
+  border-style: solid;
+}
+.vodorovne-menu .menu.edit .item.onpath.presented .actual {
+  border-width: 1px 1px 1px 0;
+  border-color: #EB1B4C;
+  border-style: solid;
+}
+.vodorovne-menu .menu.edit .item .buttons {
+  position: relative;
+  top: 0;
+  left: 5px;
+  margin-right: 5px;
+}
+/*************************************main*************************************/
+/*Styly stranky*/
+.notpermitted {
+  cursor: no-drop !important;
+  color: #dedede;
+}
+.notpermitted:hover {
+  outline: 2px dashed #EB1B4C;
+  color: #dedede;
+}
+.notpermitted:hover::before {
+  content: 'Nemáte oprávnění k editaci';
+  width: 65%;
+  height: 75px;
+  padding: 10px;
+  color: black;
+  font-weight: 700;
+  position: absolute;
+  z-index: 10;
+  background-color: white;
+  top: 20px;
+  left: 50%;
+  transform: translate(-50%);
+  border: 1px dashed black;
+}
+.locked {
+  cursor: progress !important;
+  color: #dedede;
+}
+.locked:hover {
+  outline: 2px dashed #FBBD08;
+  color: #dedede;
+}
+.locked:hover::before {
+  content: 'Stránku edituje uživatel ' attr(data-editor);
+  width: 60%;
+  height: 90px;
+  padding: 10px;
+  color: black;
+  font-weight: 700;
+  position: absolute;
+  z-index: 10;
+  background-color: white;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 1px dashed black;
+}
+.segment.notpermitted headline,
+.segment.notpermitted content,
+.segment.locked headline,
+.segment.locked content,
+.segment.notpermitted i.settings,
+.segment.locked i.settings {
+  opacity: 0.35;
+}
+.segment.locked .icon.buttons,
+.segment.notpermitted .icon.buttons {
+  opacity: 0.45;
+  pointer-events: none !important;
+}
+.segment.locked a,
+.segment.notpermitted a {
+  pointer-events: none;
+}
+.articleHeadlined > .ui.segment {
+  border: 0;
+  box-shadow: 0 0 0;
+  padding: 0 1em;
+}
+.articleHeadlined .articleContent {
+  margin: 0 auto;
+  width: 85%;
+  height: auto;
+}
+.grafia.segment.headlined.editable .buttons,
+.grafia.segment.block.editable .buttons {
+  position: absolute;
+  top: -30px;
+}
+.grafia.segment.headlined.editable .buttons [data-tooltip]::after,
+.grafia.segment.block.editable .buttons [data-tooltip]::after {
+  font-weight: 700;
+}
+.grafia.segment.headlined.editable .buttons.editPage {
+  right: -12px;
+  background: #fbfbe7;
+}
+.grafia.segment.headlined.editable .buttons.editPage > .toolsDate {
+  background-color: #fff1d5;
+}
+.grafia.segment.headlined.editable .buttons.editDate {
+  background-color: #fff1d5;
+  right: -12px;
+}
+.grafia.segment.block.editable .buttons.editPage {
+  right: 0;
+  background-color: #edf7ff;
+}
+.grafia.segment.block.editable .buttons.editPage > .toolsDate {
+  background-color: #fff1d5;
+}
+.grafia.segment.block.editable .buttons.editDate {
+  background-color: #fff1d5;
+  right: 0;
+}
+.page-content > .grid > .column:not(.row):first-child {
+  padding-right: 0;
+}
+.page-content > .grid > .column:not(.row):nth-child(2) {
+  padding-left: 1em;
+  padding-right: 1em;
+}
+.page-content > .grid > .column:not(.row):last-child {
+  padding-left: 0;
+}
+.page-content h1 {
+  color: #ad102f;
+  background-color: #e9eaea;
+  border-radius: 5px;
+  font-size: 1.14285714rem;
+  text-align: center;
+  padding: 5px 0;
+  margin-top: 0;
+}
+.page-content .articleHeadline-editable > button.ui.button.save {
+  position: absolute;
+  top: 11px;
+  right: 10px;
+  padding: 7px;
+}
+.grafia.segment.headlined.editable headline {
+  padding-right: 1em;
+  padding-left: 1em;
+}
+.grafia.segment.headlined.editable i.grafia.active {
+  left: -1em;
+}
+.grafia.segment.headlined.editable i.grafia.actual {
+  right: -1em;
+}
+.grafia.segment.headlined.editable:nth-child(3).edit {
+  float: none;
+  align-items: stretch;
+  display: flex;
+}
+footer {
+  background-color: #e9eaea;
+  margin: 10px -15px -15px;
+}
+footer .grid > .column:first-child p {
+  margin-left: 50px;
+}
+footer p {
+  margin: 5px 0;
+  color: #ad102f;
+}
+/******************************************************************************/
+.ui.grid {
+  clear: both;
+}
+.ui.grid.contents {
+  line-height: 1.3;
+  font-size: 1em;
+  margin: 5px;
+  display: flex;
+}
+.white.basic.segment {
+  background-color: white;
+}
+.dimmer .content {
+  width: 17%;
+}
+.dimmer .content .center p {
+  font-weight: 700;
+  padding: 7px;
+  border-radius: 5px;
+  position: relative;
+  border: 1px solid white;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+.dimmer .content .center p::before {
+  content: "\f007";
+  position: absolute;
+  left: 15px;
+  z-index: 1;
+  height: 1em;
+  opacity: 1;
+  font-family: icons;
+}
+.dimmer .content .center form > .field > button.button {
+  color: inherit;
+}
+.dimmer .content .center form > .field > button.button > i.large::before {
+  top: -9px;
+}
+.grafia.segment.headlined content p {
+  margin: 5px 0;
+}
+.ui.segment .settings.icon {
+  position: absolute;
+  font-size: 1.5em;
+  color: #ad102f;
+  top: 5px;
+  left: 10px;
+}
+main > div > .column:first-child .ui.segment:not(:first-child),
+main > div > .column:last-child .ui.segment:not(:first-child) {
+  margin-top: 35px;
+}
+.segment headline.header {
+  color: #ad102f;
+  background-color: #e9eaea;
+  border-radius: 4px 4px 0 0;
+  text-align: center;
+  margin: 0 -12px;
+  margin-top: -12px !important;
+  padding: 5px 0;
+}
+.segment headline.header p {
+  font-size: 1.14285714rem;
+  margin-bottom: 0;
+}
+#contents .segment headline.header {
+  margin-top: 0 !important;
+}
+.segment img {
+  max-width: 100%;
+  height: auto;
+}
+.ui.segment,
+block {
+  clear: both;
+}
+.primary.button > a {
+  color: inherit;
+}
+.primary.button:hover {
+  background-color: #c4002e !important;
+}
+.kontakt-hlavicka {
+  display: flex;
+  flex-direction: row-reverse;
+}
+/*******************************main editacni**********************************/
+#editName {
+  display: none;
+}
+.editDate,
+.buttons.editDate {
+  display: none;
+}
+.edit_kalendar {
+  position: absolute;
+  background-color: #fff1d5;
+  border-radius: 5px;
+  border: 1px solid #DCDDDE;
+  z-index: 1;
+  padding: 10px;
+  cursor: auto;
+  font-size: 0.85em;
+  top: 0;
+}
+.edit_kalendar p {
+  text-align: left;
+  margin-bottom: 5px;
+}
+.edit_kalendar .calendar {
+  margin-bottom: 10px;
+}
+.edit_kalendar .ui.button {
+  border-radius: 5px !important;
+  border: 1px solid #DCDDDE !important;
+  background: #FFFFFF;
+  padding: 8px;
+}
+.edit_kalendar .ui.button[type="submit"] {
+  width: 100%;
+  color: #21BA45 !important;
+  border-color: #21BA45 !important;
+}
+.grafia.segment.headlined.editable .edit_kalendar {
+  right: -1.15em;
+}
+.grafia.segment.block.editable .edit_kalendar {
+  right: 0;
+}
+.poznamky {
+  position: fixed;
+  border-radius: 5px;
+  background: #FFFFFF;
+  left: 10px;
+  top: 50px;
+  transform: translateY(-50%);
+  transition: 0.7s linear;
+  box-shadow: 1px 1px 10px 1px rgba(34, 36, 38, 0.15);
+  z-index: 1;
+}
+.poznamky .label {
+  margin: 0 !important;
+}
+.poznamky .label i {
+  width: 100% !important;
+}
+.poznamky .content {
+  width: 250px;
+  padding: 10px;
+}
+.poznamky .content p {
+  margin-bottom: 0.7em;
+}
+.poznamky .content p:last-child {
+  margin-bottom: 0;
+}
+/*******************************prostredi**tiny********************************/
+.mce-content-body:not(.mce-edit-focus) {
+  padding: 5px 10px;
+  margin: 0 -5px;
+}
+.mce-edit-focus {
+  background: linear-gradient(90deg, #21BA45 50%, transparent 50%), linear-gradient(90deg, #21BA45 50%, transparent 50%), linear-gradient(0deg, #21BA45 50%, transparent 50%), linear-gradient(0deg, #21BA45 50%, transparent 50%);
+  background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+  background-size: 12px 3px, 12px 3px, 3px 12px, 3px 12px;
+  padding: 5px;
+  animation: border-dance 40s infinite linear;
+  height: max-content;
+}
+@keyframes border-dance {
+  0% {
+    background-position: 0 0, 100% 100%, 0 100%, 100% 0;
+  }
+  100% {
+    background-position: 100% 0, 0 100%, 0 0, 100% 100%;
+  }
+}
+block:not(mce-edit-focus) a[data-mce-selected="inline-boundary"],
+content:not(mce-edit-focus) a[data-mce-selected="inline-boundary"] {
+  background-color: #FFFFFF !important;
+}
+block.mce-edit-focus a[data-mce-selected="inline-boundary"],
+content.mce-edit-focus a[data-mce-selected="inline-boundary"] {
+  background-color: #b4d7ff !important;
+}
+body.mce-content-body {
+  padding: 0 5px 0 10px;
+  margin: 7px;
+  font-size: 1em;
+}
+.mce-content-body .ui.grid {
+  background-color: lightyellow;
+}
+.mce-content-body .ui.grid .column {
+  outline: 1px dashed #DCDDDE !important;
+}
+.mce-content-body .ui.grid .ui.grid {
+  background-color: initial;
+}
+.mce-content-body .button {
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  cursor: text;
+}
+body#tinymce {
+  width: 100%;
+  padding: 5px;
+  margin: 0;
+  background: 0 0;
+}
+.tox-toolbar-dock-fadein {
+  z-index: 2;
+}
+/***********************************sablony************************************/
+/*.obtekanyVpravo{
+    float: right;
+    margin: 5px 0 5px 5px;
+}
+.obtekanyVlevo{
+    float: left;
+    margin: 5px 5px 5px 0;
+}*/
+.obrazek-vlevo .column p > img,
+.obrazek-vpravo .column p > img {
+  width: 100%;
+  height: auto;
+}
+.image_vlevo {
+  float: left;
+  margin: 5px 5px 5px 0;
+}
+.image_vpravo {
+  float: right;
+  margin: 5px 0 5px 5px;
+}
+.image_ramecek {
+  border: 1px solid #1B1C1D;
+}
+.image_vlevo_ramecek {
+  float: left;
+  border: 1px solid #1B1C1D;
+  margin: 5px 5px 5px 0;
+}
+.image_vpravo_ramecek {
+  float: right;
+  border: 1px solid #1B1C1D;
+  margin: 5px 0 5px 5px;
+}
+.eshop.card {
+  width: 270px !important;
+  margin-left: 0.3em !important;
+  margin-right: 0.3em !important;
+}
+.eshop.card .content:first-child p {
+  line-height: 2.5em;
+}
+.eshop.card .content p.cena {
+  display: inline-block;
+  margin-top: 10px !important;
+}
+.eshop.card-image {
+  height: 200px;
+  width: auto;
+  max-height: 100%;
+}
+.eshop.card .middle {
+  vertical-align: middle;
+  position: relative;
+  transform: translateY(-20%);
+  background-color: transparent;
+  color: #000;
+}
+.ui.corner.label::after {
+  border-right-width: 5em !important;
+  border-bottom-width: 4.8em !important;
+}
+.ui.teal.label {
+  padding: 5px !important;
+}
+/******************************sablona**stranka_kurzy**************************/
+.stranka-kurzy .column:nth-child(2) .content:first-child p {
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+.stranka-kurzy .column:nth-child(2) .content:nth-child(2) h3 {
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+/*******************************sablona**otevrene_kurzy************************/
+.otevreny-kurz p.popisek {
+  font-style: italic;
+  font-size: 0.9em;
+}
+/*******************************sablona**prednasky*****************************/
+.prednaska {
+  position: relative;
+  background-color: white;
+  padding: 20px 0 10px;
+  margin: 10px 0;
+  border-bottom: 1px solid #dedede;
+}
+.prednaska .obrazek_popisek {
+  position: relative;
+  align-self: center;
+}
+.prednaska .obrazek_popisek > p > img {
+  border-radius: 200px;
+  width: 155px !important;
+  height: 155px !important;
+  border: 1px solid #000;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+#contents .prednaska .obrazek_popisek p.prednasejici {
+  position: absolute;
+  font-size: 1em;
+  font-weight: 700;
+  bottom: -2px;
+  height: 57px;
+  width: 90%;
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 7px;
+  text-align: center;
+}
+/*#contents .prednaska .stitek{
+    color: white;
+    padding: 3px 3px 3px 13px;
+    background: rgb(0, 0, 128);
+    vertical-align: middle;
+    border-radius: 5px;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.prednaska .stitek::before{
+    width: 16px;
+    height: 16px;
+    content: '';
+    position: absolute;
+    background: rgb(0,0,128);
+    transform: rotate(45deg);
+    left: -5px;
+    top: 3px;
+    z-index: 1;
+}*/
+#contents .prednaska p.label {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.prednaska .informace_prednasky {
+  display: inline;
+}
+#contents .prednaska .informace_prednasky h4 {
+  font-size: 1.1em;
+}
+#contents .prednaska .informace_prednasky h4:first-child {
+  margin-bottom: 0;
+  margin-top: 10px;
+}
+#contents .prednaska .informace_prednasky h4:nth-child(2) {
+  margin-top: 0;
+}
+.prednaska .informace_prednasky ul {
+  transform: translateX(5%);
+  margin-bottom: 10px;
+}
+.prednaska a.odkaz_vtextu_kulaty_cerveny {
+  padding: 3px;
+  margin: 5px 5px 5px 0;
+}
+#contents .prednaska a.odkaz_vtextu_kulaty_sedy {
+  padding: 3px;
+  margin: 5px 0 5px 5px;
+}
+/*responz:
+.prednaska{
+    flex-direction: column;
+}
+.prednaska .stitek{
+    position: relative;
+    margin: 10px 30px;
+}
+*/
+/* v rs */
+.mce-content-body .prednaska p.label {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.mce-content-body .prednaska .obrazek_popisek {
+  outline: 1px dashed purple;
+  background-color: #f4eafa;
+}
+.mce-content-body .prednaska .obrazek_popisek > p > img {
+  border-radius: 200px;
+  width: 155px !important;
+  height: 155px !important;
+  border: 1px solid #000;
+}
+.mce-content-body .prednaska .informace_prednasky h4:first-child {
+  margin-bottom: 0;
+  margin-top: 10px;
+}
+.mce-content-body .prednaska .informace_prednasky h4:nth-child(2) {
+  margin-top: 5px;
+}
+/************************************media*************************************/
+@media (max-width: 1750px) {
+  .poznamky {
+    left: 10px;
+  }
+  .poznamky .label::before {
+    display: none;
+  }
+  .poznamky .content {
+    display: none;
+  }
+  .poznamky:hover .label::before {
+    display: block;
+  }
+  .poznamky:hover .content {
+    display: block;
+  }
+}
+@media (max-width: 1300px) {
+  header .grid > .row:first-child {
+    /*editační*/
+    height: 150px;
+  }
+  /*menu*/
+  /*svisle menu*/
+  .svisle-menu > .edit.menu li.presented div.ui.mini.icon.buttons:nth-of-type(2) {
+    right: 3px;
+  }
+  .dimmer .content {
+    width: 25%;
+  }
+  .poznamky {
+    left: 10px;
+  }
+}
+@media (max-width: 1099px) {
+  /*menu*/
+  /*vodorovne menu*/
+  .vodorovne-menu ul.menu.edit {
+    width: 620px;
+  }
+  /*svisle menu*/
+  .svisle-menu > .edit.menu li.presented div.ui.mini.icon.buttons:first-of-type {
+    left: auto;
+    right: 15px;
+  }
+  .svisle-menu > .edit.menu li.presented div.ui.mini.icon.buttons:nth-of-type(2) {
+    right: 15px;
+  }
+  .page-content > .grid > .column:not(.row):nth-child(2) {
+    padding-left: 2em;
+    padding-right: 1.5em;
+  }
+  .page-content .svisle-menu form > ul.menu.edit {
+    width: 100%;
+  }
+  .dimmer .content {
+    width: 35%;
+  }
+  .ui.container {
+    width: 100% !important;
+  }
+  header .kontakt-hlavicka {
+    margin-top: 10px;
+  }
+  header .kontakt-hlavicka img {
+    width: 55px;
+    height: 65px !important;
+    margin: 5px 0 10px 5px;
+  }
+  header .row:first-child .column:first-child img {
+    width: 130px;
+  }
+  header .row:first-child .column:nth-child(2) presmerovani-menu ul.menu li.presented div.buttons {
+    z-index: 20;
+  }
+  header .row:first-child .column:nth-child(2) img {
+    z-index: 0 !important;
+    position: static;
+  }
+  header .row:first-child .column:nth-child(2) ul.text.menu {
+    width: 45%;
+    transform: translateY(-30%);
+  }
+  header .grid > .row:first-child {
+    /*editační*/
+    height: 140px;
+  }
+  .page-content .grid .one.column .ui.segment {
+    display: none !important;
+  }
+  .page-content .column .segment:not(.ui):not(.grafia) {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    margin: 10px auto;
+    width: 70%;
+    height: auto;
+  }
+  .page-content .column > form > button.ui.button.save {
+    right: 15px;
+  }
+  .nav-mobile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    padding: 5px;
+    margin-top: 0;
+    left: 15px;
+    border: 1px solid #DCDDDE;
+    border-radius: 5px;
+    box-shadow: 1px 1px 10px 1px rgba(34, 36, 38, 0.15);
+  }
+  .nav-mobile:hover {
+    background-color: #f2f2f2;
+    transition: 0.3s all;
+  }
+  .svisle-menu:first-child {
+    display: none;
+  }
+  #mySidenav {
+    height: 100%;
+    width: 80%;
+    background-color: #FFFFFF;
+    position: fixed!important;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    overflow: auto;
+    -webkit-animation: animateleft 0.4s;
+    animation: animateleft 0.4s;
+    padding: 20px;
+  }
+  #myOverlay {
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+  }
+  @-webkit-keyframes animateleft {
+    from {
+      left: -300px;
+      opacity: 0;
+    }
+    to {
+      left: 0;
+      opacity: 1;
+    }
+  }
+  @keyframes animateleft {
+    from {
+      left: -300px;
+      opacity: 0;
+    }
+    to {
+      left: 0;
+      opacity: 1;
+    }
+  }
+  .poznamky {
+    left: 25px;
+    top: 240px;
+  }
+  .poznamky .label {
+    width: 55px !important;
+  }
+  .poznamky:hover .label {
+    width: 100% !important;
+  }
+}
+@media (min-width: 1100px) {
+  .close-item,
+  span.nav-mobile {
+    display: none;
+  }
+  #mySidenav {
+    display: block !important;
+  }
+}
+@media (max-width: 920px) {
+  /*menu*/
+  /*vodorovne menu*/
+  .vodorovne-menu ul.menu.edit {
+    width: 530px;
+  }
+  header .grid > .row:first-child {
+    height: 125px;
+  }
+  header .row:first-child .column:first-child img {
+    width: 110px;
+  }
+  header .row:last-child .column:nth-child(2) {
+    left: -7px;
+  }
+  header .kontakt-hlavicka {
+    margin-right: -4px;
+  }
+  header .jazyky {
+    margin-top: 0;
+    margin-bottom: -10px;
+    margin-right: -4px;
+  }
+  .nav-mobile {
+    left: 10px;
+  }
+  .fluid.input {
+    float: right;
+    width: 120px;
+  }
+  .page-content .column .segment:not(.ui):not(.grafia) {
+    width: 50%;
+    z-index: 5;
+    float: right;
+  }
+  .poznamky {
+    left: 20px;
+    top: 225px;
+  }
+}
+@media (max-width: 768px) {
+  header .grid > .row:first-child {
+    /*editační*/
+    height: auto;
+  }
+  /*menu s butony*/
+  /*vodorovne menu*/
+  .vodorovne-menu ul.menu.edit li i.line:first-of-type {
+    left: -8px;
+  }
+  .vodorovne-menu ul.menu.edit li i.line:nth-of-type(2) {
+    left: -4px;
+  }
+  .vodorovne-menu ul.menu.edit li.presented i.line {
+    height: 30px;
+    top: 1px;
+    transform: translateY(-15%);
+  }
+  .vodorovne-menu ul.menu.edit li.presented div.buttons {
+    background-color: #FFFFFF;
+  }
+  .vodorovne-menu ul.menu.edit li.presented div.buttons:first-of-type {
+    position: absolute;
+    top: -28px;
+    right: 0;
+    left: auto;
+  }
+  .vodorovne-menu ul.menu.edit li.presented div.buttons:first-of-type > .button {
+    width: auto;
+  }
+  .vodorovne-menu ul.menu.edit li.presented div.buttons:nth-of-type(2) {
+    position: absolute;
+    top: -25px;
+    bottom: auto;
+    right: 5px;
+  }
+  .vodorovne-menu ul.menu.edit li.presented div.buttons:nth-of-type(2) > .button {
+    width: auto;
+  }
+  .vodorovne-menu ui.menu:not(.floated):not(.left) {
+    flex-direction: column;
+    align-items: center;
+  }
+  .nav-mobile {
+    background: #fff;
+    z-index: 1;
+  }
+  @keyframes prechodPozadi {
+    0% {
+      background-color: #EB1B4C;
+    }
+    100% {
+      background-color: #FFFFFF;
+    }
+  }
+  .nav-mobile.active {
+    display: flex;
+    left: 30px;
+    transform: translateY(-168%);
+    padding: 6px;
+    margin-left: 5px;
+    animation-name: prechodPozadi;
+    animation-duration: 1s;
+    animation-timing-function: ease;
+    animation-delay: 0s;
+    animation-iteration-count: 1;
+  }
+  .nav-mobile:not(.active) {
+    display: none;
+  }
+  .dimmer .content {
+    width: 80%;
+  }
+  header .row:first-child .column:first-child {
+    position: absolute;
+    text-align: left !important;
+    left: 10px;
+  }
+  header .row:first-child .column:first-child .ui.buttons {
+    top: -48px;
+    left: 55px;
+    right: auto;
+  }
+  header .row:first-child .column:nth-child(2) img {
+    top: 10px;
+    left: auto;
+  }
+  header .row:first-child ul.text.menu {
+    width: 50%;
+    transform: translateY(0);
+  }
+  header .row:first-child .kontakt-hlavicka {
+    font-size: 0.75em;
+    margin-top: 10px;
+  }
+  header .row:first-child .kontakt-hlavicka img {
+    width: 65px;
+    height: auto !important;
+    margin: 2px 0 10px 5px;
+  }
+  header .ui.grid .row:last-child .column:nth-child(2) {
+    padding-bottom: 0 !important;
+  }
+  header .row:last-child .column:first-child {
+    margin-left: 5px !important;
+    height: auto;
+  }
+  header .row:last-child .column:nth-child(2) {
+    left: 0;
+  }
+  header .row:last-child .column:nth-child(2) .text.menu {
+    display: block;
+    column-count: 2;
+    width: 85%;
+    float: right;
+  }
+  header .row:last-child .column:nth-child(2) .text.menu .item {
+    margin: 10px auto;
+  }
+  header .row:last-child .column:nth-child(2) .text.menu .item:first-child {
+    margin-top: 0;
+  }
+  header .row:last-child .column:nth-child(2) .text.menu .item > .button {
+    width: 101%;
+    margin-left: -5px;
+  }
+  header .row:last-child .column:last-child .fluid.input {
+    width: 85%;
+    font-size: 1em;
+  }
+  .page-content .column > form > button.ui.button.save {
+    right: 10px;
+  }
+  footer .grid > .column {
+    text-align: center;
+  }
+  footer .grid > .column:first-child p {
+    margin-left: auto;
+  }
+  .poznamky {
+    left: 35px;
+    top: 430px;
+  }
+}
+@media (max-width: 500px) {
+  header .row:first-child .column:first-child {
+    /*position:relative;
+            text-align: center !important;
+            img{
+                margin: auto;
+                width: 40%;
+            }*/
+  }
+  header .row:last-child .column:nth-child(2) .text.menu {
+    width: 100%;
+    column-count: 1;
+  }
+  header .row:last-child .column:last-child .fluid.input {
+    width: 100%;
+  }
+  .nav-mobile.active {
+    transform: translateY(0);
+    top: 130px;
+  }
+  .poznamky {
+    left: 35px;
+    top: 100px;
+  }
+  .page-content .ui.segment {
+    padding: 0;
+  }
+}
+/*# sourceMappingURL=zkouska_less.css.map */

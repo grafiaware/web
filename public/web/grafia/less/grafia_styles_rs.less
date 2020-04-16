@@ -1,0 +1,167 @@
+@import "../../../web/semantic/src/themes/default/globals/site.variables";
+@import "../../../web/semantic/src/site/globals/site.variables";
+@import url('https://fonts.googleapis.com/css?family=Dancing+Script');
+@halfWidth: 50%;
+@backgroundLightGrey: lighten(@lightGrey, 5%);
+@grafiaRedRS: rgb(214, 63, 70);
+
+
+body{
+    background-color: darken(@backgroundLightGrey, 10);
+}
+body > .container > .column:only-child{
+    background-color: @white; 
+    border: 5px solid @grafiaRedRS; 
+    padding: 10px 15px 15px; 
+    border-radius: @bigBorderRadius;
+}
+header .grid{
+    border-radius: 15px 15px 0 0;
+    margin: -10px -15px 10px !important;
+    background-color: lighten(@backgroundLightGrey, 2);
+    .row {
+        &:first-child{
+            padding-bottom: 0;
+            .column:first-child img{
+                width: 100px;
+            }
+            .column:nth-child(2) p{
+                font-family: 'Dancing Script', cursive;
+                font-size: 2.3em;
+            }
+            .column:last-child form .button{
+                position: absolute;
+                top: 80px;
+                right: 10px;
+                z-index: 1;
+            }
+        }
+    }
+    .button{
+        padding: 0.7em;
+    }
+}
+/**************************************menu************************************/
+.svisle-menu ul{
+    padding: 0;
+    .header.item{
+        text-align: center;
+        color: @grafiaRedRS;
+        background-color: lighten(@backgroundLightGrey, 2) !important; 
+        border-radius: 4px 4px 0 0;  
+        padding: 0.6em 0.6em !important;
+    }
+    li.item{
+        padding: 0.5em 0.5em !important; 
+    }
+    li{
+        list-style: none;
+        &:not(:first-child){
+            border-top: 1px solid @transparentBlack;
+        }
+        a{
+            line-height: normal !important;
+            padding: 0.5em 0.5em !important; 
+        }
+        em{
+            color: darken(@grey, 15);
+            font-size: 0.9em;
+        }
+    }
+    &:nth-child(3){
+        img{
+            float: left;
+            margin-right: 2px !important;
+            height: 20px;
+            width: 20px !important;
+        }
+        li.selected{
+            > a.item{
+                background-color: @transparentBlack + @transparentBlack !important; 
+            }
+        }
+    }
+    li.selected{                                //pozadi jen v podrazenem ul
+        border-width: 0 0 1px 0;
+        background-color: @white;
+        border-top: 1px solid @transparentBlack;
+        &:hover{
+            background-color: @white !important;
+        }
+        > a.item{
+            font-weight: 700;
+            border-bottom: 1px solid @transparentBlack;
+            border-left: 1px solid @transparentBlack;
+            border-right: 1px solid @transparentBlack !important;
+            line-height: normal !important;
+        }
+        ul.menu{
+            margin-left: 20px; 
+            background-color: @transparentBlack; 
+            border-top: 0;
+            li{
+                list-style-type: inherit; 
+            }
+            li:hover{
+                background-color: @transparentBlack; 
+            }
+        }
+    }
+    &:first-child{
+        li:last-child{
+            display: flex !important;
+            justify-content: space-around;
+            .jazyk-on img{
+                outline: double @linkColor 3px;
+            }  
+        }
+    }
+}
+
+footer p{
+    margin: 0;
+    font-size: 0.85em;
+}
+
+
+/************************************media*************************************/
+@media (max-width: 1300px) {
+    
+}
+@media (max-width: 1099px) {
+    .ui.container{
+        width: 100% !important; 
+    } 
+    header .grid .row:first-child .column:nth-child(2){
+        padding-right: 0 !important;
+        padding-left: 100px !important;
+    }
+}
+@media (min-width: 1100px) {
+    
+}
+@media (max-width: 920px) {
+    
+}
+@media (max-width: 768px) {
+    header .grid .row:first-child{
+        .column:first-child{
+            text-align: left !important;
+            img{
+                height: auto;
+                width: 80px;
+            }
+        }
+        .column:nth-child(2){
+            
+        }
+        .column:last-child{
+            
+        }
+    }
+}
+@media (max-width: 500px) {
+    
+}
+
+    

@@ -1,0 +1,7 @@
+[info] [2019-12-18 17:31:06] Logger start. Log file: C:/ApacheRoot/www_grafia_development_v0_6/tests/Logs/Api/Router.log.
+[debug] Router: Nalezena route - method: GET, url: /
+[debug] Router: Volá se object: Closure s parametry Array
+    (
+    )
+    
+[debug] Router: Akce routy vrátila: object: Pes\Http\Response

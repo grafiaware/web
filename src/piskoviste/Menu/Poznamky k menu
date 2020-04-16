@@ -1,0 +1,32 @@
+stránka - nepublikovaná, publikovaná, publikovaná od - do
+- stránka publikovaná od - do musí být list, pokud by vypršela platnost zveřejnění, prestaly by být vidět potomci
+- stránka s potomky - pokud zruším publikaci nadřazené stránky - asi by bylo vhodné zrušit publikaci i všech potomků, protože až po čase
+    někdo zase nadřazenou stránku publikuje, kdoví v jakém stavu jsou potomci (co obsahují)
+
+
+jazykové verze
+- jazyk je oddělená vlastnost stránky, není součástí stromu
+    - pak strom ve všech jazykových verzích musí být vždy stejný -> při založení nové stránky v libovolném jazyce
+        musíš vyrobit stránky ve všech jazycích ( a když přidáš jazyk - musíš dogenerovat stránky) - stará grafia např
+        vkládá do všech jaz verzí stejný název a obsah jen do jedné. ?? možná by stačilo jen v případě neexistence stránky v dané jazykové verzi
+        načíst název stránky v nějakém jiném jazyce - počínaje výchozím jazykem, když nebude, tak nějaký jiný
+    - rozmyslet co se stane když odpublikuji stránku v default jazyce na vyšší úrovni a přitom existuje v jiném jazyce na nižší (hlubší úrovni
+        -> zřejmě jediné řešení je skutečně vždy vyrobit stránky ve všech jaz verzích
+
+- jazyk je první úroveň menu
+    - při přepnutí jazyka zobrazí vždy kořenovou stránku -> i pro uživatele zcela nezávislé weby
+
+- jazyk je list stromu
+    - tato varianta asi fakticky shodná s první
+
+- všechny varianty jaz verzí - všechny "bloky" ve stromu = layout, stránky pluginy mají jazykové verze
+
+
+
+- co je ve stromě ??
+    - kořen je layout = html obsah a k němu css, texty (innerText) a linky (href, src - vše co způsobí GET request)  a "sloty"?
+        - css, texty a linky - to vše získám z modelu
+        - sloty jsou linky na vnořený plugin - pak je také možné plugin vložit hned nebo vložit jen ajax dotazovadlo a obsah pluginu dodávat
+        přes ajax GET dotaz na API
+        - do slotu se vloží plugin - to je uzel - má zase html obsah a linky a sloty nebo i podstrom??
+    -> mám šablony ve formě

@@ -1,0 +1,6 @@
+Metody HTTP pro webové služby, jež jsou „RESTful“ 
+Zdroj 	GET 	PUT 	POST 	DELETE
+URI kolekce, například http://example.com/resources/
+ 	Seznam (List) URI a případně další detaily členů kolekce. 	Vyměnit (Replace) celou kolekci za jinou. 	Vytvořit (Create) nový záznam do kolekce. Jeho ID je automaticky přiděleno a většinou vráceno touto operací. 	Smazat (Delete) celou kolekci.
+URI prvku, například http://example.com/resources/142
+ 	Vrátit (Retrieve) reprezentaci adresovaného členu v kolekci, vyjádřeného vhodným internetovým typem média. 	Upravit (Update) adresovaný člen kolekce, nebo – pokud neexistuje – vytvořit (create) jej. 	Jednat s adresovaným členem jako s kolekcí a vytvořit v ní novou položku. 	Smazat (Delete) adresovaný prvek z kolekce.

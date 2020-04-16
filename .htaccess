@@ -1,0 +1,27 @@
+# Prevent viewing of .htaccess file
+<Files .htaccess>
+order allow,deny
+deny from all
+</Files>
+
+# Prevent directory listings
+Options All -Indexes
+
+Options +FollowSymLinks
+
+RewriteEngine On
+
+RewriteBase "/www_grafia_development_v0_6"
+#RewriteCond $1 !^(index\.php|public|robots\.txt)
+
+#RewriteCond %{REQUEST_FILENAME} !-f
+#RewriteCond %{REQUEST_FILENAME} !-d
+#RewriteRule ^(.*)\\.(gif|png|jpg|jpeg|css|js|swf|ico|bmp|less)$ /public/$1.$2 [L,NC]
+
+#RewriteRule ^public/ - [L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [QSA,L]
+
+# RewriteRule ^((?s).*)$ index.php?_uri=/$1 [QSA,L]

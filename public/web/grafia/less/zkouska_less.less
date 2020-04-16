@@ -1,0 +1,1533 @@
+@import "../../semantic/src/themes/default/globals/site.variables";
+@import "../../semantic/src/site/globals/site.variables";
+@halfWidth: 50%;
+@backgroundLightGrey: lighten(@lightGrey, 5%);
+
+body{
+    background-image: url("../img/Grafiabgr1.gif") !important;
+    background-color: @lightGrey !important;
+}
+body > .container > .column{
+    background-color: @white;
+    border: 10px solid @backgroundLightGrey;
+    padding: 0 15px 15px;
+    border-radius: @bigBorderRadius;
+}
+header{
+    .grid > .row:first-child{
+        padding-bottom: 0;
+        /*editační*/
+        height: 160px;
+        > .column:first-child{
+            padding-right: 0;
+        }
+        > .column{
+            vertical-align: top !important;
+        }
+    }
+    .grid > .row:last-child{
+        padding-top: 10px;
+        > .column:first-child{
+            padding-right: 0;
+        }
+    }
+    .grid > .row:first-child,
+    .grid > .row:last-child{
+        > .column:last-child{
+            padding-left: 0;
+        }
+    }
+}
+header{
+    margin-bottom: 10px;
+    img{
+        max-width: 100%;
+    }
+    a{
+        color: inherit;
+        &:hover{
+            color: inherit;
+        }
+    }
+    .presmerovani-menu ul.text.menu{
+        justify-content: center;
+    }
+    ul.text.menu{
+        margin: auto !important;
+        padding: 0;
+    }
+    .kontakt-hlavicka{
+        font-size: 0.8em;
+        text-align: right;
+        color: grey;
+        img{ //.ui.image img
+            margin: 0 5px;
+        }
+        .kontaktni-udaje p{
+            margin: 0;
+        }
+    }
+    .jazyky{
+        margin-top: 10px;
+        clear: both;
+        margin-right: 5px;
+        float: right;
+        button{
+            margin-right: 5px;
+        }
+        button img{
+            vertical-align: middle;
+            width: 30px;
+            height: 17px;
+        }
+        .ui.basic.button{
+            padding: 0;
+            box-shadow: 0 0;
+            &:hover{
+                box-shadow: 0 0;
+            }
+        }
+        .jazyk-on{
+            border: double @linkColor 3px;
+            height: 20px;
+            width: 33px;
+        }
+        .basic.button{
+            margin-right: 0;
+        }
+        .page.button{
+            vertical-align: bottom;
+        }
+        > form{
+            display: inline-block;
+        }
+    }
+}
+headline, content, block, div{
+    display: block;
+    position: relative;
+}
+
+/*****************Styly pro menu - normalni i editacni rezim*******************/
+//pouzivane tridy u polozky menu (li):
+//.leaf - posledni polozka menu
+//.onpath - "na ceste"; pouziva se u kazde polozky, na kterou se klikne - potreba pro stylovani podmenu
+//.presented - pouziva se vzdy u posledni polozky, na kterou se klikne
+
+//trida .item je pouzita u (li) nebo (a) podle sady stylu semantic UI (semanticka trida)
+
+/***PRO VSECHNA MENU***/
+.vodorovne-menu .menu .onpath,
+.presmerovani-menu .menu .onpath{
+     > ul{
+        padding: 0;
+    }
+}
+.menu a{
+    z-index: 0;
+}
+
+/***SVISLE MENU***/
+//hamburger menu
+.close-item,
+.nav-mobile{
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  font-size: @bigSize * @emSize;
+  margin: 10px;
+  &:hover{
+      cursor: pointer;
+  }
+}
+.close-item > a > i.times.circle.icon,
+.nav-mobile > i.bars.icon{
+    margin: 0;
+}
+//
+.svisle-menu .menu{  //ohraniceni semantic
+    padding: 0;
+    margin-top: 0;
+    > li{
+        list-style: none;
+        &:not(:first-child){
+            border-top: 2px solid @transparentBlack;
+        }
+        &:first-child{
+            border-radius: 4px 4px 0 0;
+        }
+        &:last-child{
+            border-radius: 0 0 4px 4px;
+        }
+    }
+    li{
+        position: relative;
+    }
+    li:not(.leaf){
+        > .item::after{
+            content: "\f107";
+            height: 1em;
+            width: 1.18em;
+            font-family: Icons;
+            font-weight: 500;
+            text-align: center;
+            margin: 0 0 0 .5em;
+            position: absolute;
+            right: 5px;
+            color: @textColor;
+            top: 40%;
+            transform: translateY(-50%);
+        }
+    }
+    &.onpath{
+        > .item::after{
+            top: 15px;
+            transform: none;
+        }
+    }
+}
+.svisle-menu form > .menu{                                   //preorganizovano ohraniceni
+    padding: 0;
+    border: 0 !important; //prepsat v semantic ui
+    box-shadow: 0 0 0 0 !important; //prepsat v semantic ui
+    li{
+        list-style-type: none;
+        border: 2px solid @transparentBlack;
+        border-bottom: 0;
+        &:not(:first-child){
+            border-top: 0;
+        }
+        &:last-child{
+            border-bottom: 2px solid @transparentBlack;
+        }
+        &:first-child.onpath{
+            border-width: 2px 0 0 0;
+        }
+        .item{
+            line-height: normal;
+        }
+        i:first-child{
+            float: left;
+        }
+    }
+    .onpath{                                //pozadi jen v podrazenem ul
+        &.presented > .item{
+            background-color: @transparentBlack;
+        }
+        border-width: 0 0 2px 0;
+        background-color: @white;
+        &:hover{
+            background-color: @white !important;
+        }
+        > .item{
+            font-weight: 700;
+            border-bottom: 1px solid @transparentBlack;
+            background-color: @transparentBlack + @transparentBlack !important;
+            border-left: 2px solid @transparentBlack;
+            border-right: 2px solid @transparentBlack !important;
+            line-height: normal;
+        }
+        .menu{
+            border-top: 0;
+            background-color: @transparentBlack;
+            li{
+                list-style-type: inherit;
+            }
+            li:hover{
+                background-color: @transparentBlack;
+            }
+            .onpath > .menu {
+                background-color: @transparentBlack+@transparentBlack;
+                > .onpath > .menu{
+                    background-color: @transparentBlack+@transparentBlack+@transparentBlack;
+                }
+            }
+        }
+    }
+}
+/***PRESMEROVANI MENU***/
+
+/***VODOROVNE MENU***/
+.vodorovne-menu a{
+    padding: 2px 3px;
+}
+
+/******************************Menu normalni rezim*****************************/
+
+/***SVISLE MENU***/
+.svisle-menu form > .menu:not(.edit){
+    li .item{
+        padding: 0.6em 0.6em !important;
+    }
+    .onpath .menu{
+        margin-left: 20px;
+    }
+}
+/***PRESMEROVANI MENU***/
+
+/***VODOROVNE MENU***/
+.vodorovne-menu .menu .onpath > a{
+    color: @primaryColor ;
+    background-color: @white;
+    box-shadow: 0 0 0 1px @primaryColor inset ;
+    &:hover{
+        background-color: @white !important;
+        color: @darkRedGrafia;
+    }
+}
+
+/****************************Editacni*menu*s*buttony***************************/
+
+/***PRO VSECHNA MENU***/
+.menu.edit li > p{
+    margin-bottom: 0;
+    br{
+        display: none;
+    }
+}
+.menu.edit .onpath.presented p > span{
+    cursor: text;
+}
+//zobrazeni sady buttonu pro operace s polozkou menu
+.menu.edit li:not(.presented) .buttons{
+    display: none;
+}
+.menu.edit li.onpath.presented > .buttons.editMenu{
+    display: block;
+    background: #fbfbe7;
+    > .button:first-child{
+        background-color: #fff1d5;
+        &:hover{
+            background-color: @white;
+        }
+    }
+}
+.menu.edit li.onpath.presented > .buttons.editName{
+    display: none;
+    background-color: #fff1d5;
+}
+
+//ukazatele stavu stranky u polozky menu
+i.grafia.active{
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1em;
+    height: 100%;
+    border-radius: .333rem 0 0 .333rem;
+    &.green{
+        background-color: rgba(115, 195, 115, 1);
+    }
+    &.red{
+        background-color: rgba(222, 122, 126, 1) ;
+    }
+}
+i.grafia.actual{
+    border-right-color: inherit;
+    content: '';
+    position: absolute;
+    right: 0%;
+    top: 0;
+    width: 1em;
+    height: 100%;
+    border-radius: 0 .333rem .333rem 0;
+    &.yellow{
+        background-color: rgba(240, 218, 99, 1);
+    }
+    &.grey{
+        background-color: #B9B9B9;
+    }
+    &.orange{
+        background-color: #f2711c94;
+    }
+    &.red{
+        background-color: rgba(222, 122, 126, 1);
+    }
+}
+
+/***SVISLE MENU***/
+.svisle-menu .menu.edit{
+    height: 650px;
+    overflow-y: scroll;
+    width: 107%;
+    margin-left: -8px;
+    li:not(:first-child){
+        border-top: 2px solid @transparentBlack;
+    }
+    .onpath {
+        .item{
+            border-bottom: 0;
+        }
+        .menu{
+              margin-left: 10px;
+              padding: 0;
+        }
+    }
+}
+.svisle-menu .menu button[data-tooltip]::after{
+    font-weight: 700;
+}
+.svisle-menu .menu.edit .onpath.presented{
+    &:first-child .buttons,
+    &:nth-child(2) .buttons{
+        top: 30px;
+        position: absolute;
+        z-index: 1;
+    }
+    .buttons{
+        position: absolute;
+        left: auto;
+        right: 0;
+        top: -25px;
+    }
+}
+
+/***SVISLE MENU BLOKY***/
+.svisle-menu.bloky{
+    margin: 10px auto;
+    .menu.edit > .onpath.presented .buttons{
+        background: #edf7ff;
+    }
+}
+.svisle-menu.bloky .menu.edit > li:first-child {
+    text-align: center;
+    > .item{
+        background-color: #edf7ff !important;
+        > i{
+            display: none;
+        }
+    }
+}
+
+/***SVISLE MENU KOS***/
+.svisle-menu.kos .menu .onpath.presented .buttons{
+    background: #f8f3ff;
+    position: absolute !important;
+    left: auto;
+    right: 0;
+    top: -25px;
+    .corner.icon{
+        font-size: 0.9em;
+        left: 7px;
+    }
+}
+.svisle-menu.kos .menu > li:first-child{
+    text-align: center;
+    > .item{
+        background-color: #f8f3ff !important;
+    }
+}
+
+/***PRESMEROVANI MENU***/
+.presmerovani-menu .menu.edit .item{
+    margin-right: 10px;
+    padding: 0.25em 1em !important;
+    .buttons{
+        margin-left: 5px;
+        .button{
+            &::before{
+                bottom: -80%;
+                left: 30%;
+                transform: rotate(225deg) scale(1) !important;
+            }
+            &::after{
+                bottom: -173%;
+                font-weight: 700;
+            }
+        }
+    }
+}
+
+/***VODOROVNE MENU***/
+.vodorovne-menu .menu.edit{
+    width: 700px;
+    flex-wrap: wrap;
+    .item{
+        margin: 6px 5px 6px 0;
+        padding-left: 5px;
+        &.onpath.presented{
+            .active{
+                border-width: 1px 0 1px 1px;
+                border-color: @primaryColor;
+                border-style: solid;
+            }
+            .actual{
+                border-width: 1px 1px 1px 0;
+                border-color: @primaryColor;
+                border-style: solid;
+            }
+        }
+        .buttons{
+            position: relative;
+            top: 0;
+            left: 5px;
+            margin-right: 5px;
+        }
+    }
+}
+
+/*************************************main*************************************/
+/*Styly stranky*/
+.notpermitted{
+    cursor: no-drop !important;
+    color: #dedede;
+    &:hover{
+        outline: 2px dashed @redGrafia;
+        color: #dedede;
+        &::before{
+            content: 'Nemáte oprávnění k editaci';
+            width: 65%;
+            height: 75px;
+            padding: 10px;
+            color: black;
+            font-weight: 700;
+            position: absolute;
+            z-index: 10;
+            background-color: white;
+            top: 20px;
+            left: 50%;
+            transform: translate(-50%);
+            border: 1px dashed black;
+        }
+    }
+}
+.locked{
+    cursor: progress !important;
+    color: #dedede;
+    &:hover{
+        outline: 2px dashed @yellow;
+        color: #dedede;
+        &::before{
+            content: 'Stránku edituje uživatel 'attr(data-editor);
+            width: 60%;
+            height: 90px;
+            padding: 10px;
+            color: black;
+            font-weight: 700;
+            position: absolute;
+            z-index: 10;
+            background-color: white;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 1px dashed black;
+        }
+    }
+}
+.segment.notpermitted headline, .segment.notpermitted content,
+.segment.locked headline, .segment.locked content,
+.segment.notpermitted i.settings, .segment.locked i.settings{
+    opacity: 0.35;
+}
+.segment.locked .icon.buttons, .segment.notpermitted .icon.buttons{
+    opacity: 0.45;
+    pointer-events: none !important;
+}
+.segment.locked a, .segment.notpermitted a{
+    pointer-events: none;
+}
+.articleHeadlined > .ui.segment{
+    border: 0;
+    box-shadow: 0 0 0;
+    padding: 0 1em;
+}
+.articleHeadlined .articleContent{
+    margin: 0 auto;
+    width: 85%;
+    height: auto;
+}
+.grafia.segment.headlined.editable .buttons,
+.grafia.segment.block.editable .buttons{
+    position: absolute;
+    top: -30px;
+    [data-tooltip]::after{
+        font-weight: 700;
+    }
+}
+.grafia.segment.headlined.editable .buttons.editPage{
+    right: -12px;
+    background: #fbfbe7;
+    > .toolsDate{
+        background-color: #fff1d5;
+    }
+}
+.grafia.segment.headlined.editable .buttons.editDate{
+    background-color: #fff1d5;
+    right: -12px;
+}
+.grafia.segment.block.editable .buttons.editPage{
+    right: 0;
+    background-color: #edf7ff;
+    > .toolsDate{
+        background-color: #fff1d5;
+    }
+}
+.grafia.segment.block.editable .buttons.editDate{
+    background-color: #fff1d5;
+    right: 0;
+}
+.page-content > .grid > .column:not(.row){
+    &:first-child{
+        padding-right: 0;
+    }
+    &:nth-child(2){
+        padding-left: 1em;
+        padding-right: 1em;
+    }
+    &:last-child{
+        padding-left: 0;
+    }
+}
+.page-content{
+    h1{
+        color: @redTextColor;
+        background-color: @backgroundLightGrey;
+        border-radius: 5px;
+        font-size: @h1;
+        text-align: center;
+        padding: 5px 0;
+        margin-top: 0;
+    }
+}
+.page-content .articleHeadline-editable > button.ui.button.save {
+    position: absolute;
+    top: 11px;
+    right: 10px;
+    padding: 7px;
+}
+.grafia.segment.headlined.editable{ //headline
+    headline{ //h2
+        padding-right: 1em;
+        padding-left: 1em;
+    }
+    i.grafia.active{
+        left: -1em;
+    }
+    i.grafia.actual{
+        right: -1em;
+    }
+    &:nth-child(3).edit{
+        float: none;
+        align-items: stretch;
+        display: flex;
+    }
+}
+footer{
+    .grid > .column:first-child p{
+        margin-left: 50px;
+    }
+    background-color: @backgroundLightGrey;
+    margin: 10px -15px -15px;
+    p{
+        margin: 5px 0;
+        color: @redTextColor;
+    }
+}
+/******************************************************************************/
+.ui.grid{
+    clear: both;
+}
+.ui.grid.contents{
+    line-height: 1.3;
+    font-size: 1em;
+    margin: 5px;
+    display: flex;
+}
+.white.basic.segment{
+    background-color: white;
+}
+.dimmer .content{
+    width: 17%;
+    .center{
+        p{
+            font-weight: 700;
+            padding: 7px;
+            border-radius: 5px;
+            position: relative;
+            border: 1px solid white;
+            background-color: rgba(0,0,0,.3);
+            &::before{
+                content: "\f007";
+                position: absolute;
+                left: 15px;
+                z-index: 1;
+                height: 1em;
+                opacity: 1;
+                font-family: icons;
+            }
+        }
+        form > .field > button.button{
+            color: inherit; //
+            > i.large::before{
+                top: -9px;
+            }
+        }
+    }
+}
+.grafia.segment.headlined content p, {
+    margin: 5px 0;
+}
+.ui.segment .settings.icon{
+    position: absolute;
+    font-size: 1.5em;
+    color: @redTextColor;
+    top: 5px;
+    left: 10px;
+}
+main > div > .column{
+    &:first-child .ui.segment:not(:first-child),
+    &:last-child .ui.segment:not(:first-child){
+        margin-top: 35px;
+    }
+}
+.segment headline.header{
+    color: @redTextColor;
+    background-color: @backgroundLightGrey;
+    border-radius: 4px 4px 0 0;
+    text-align: center;
+    margin: 0 -12px;
+    margin-top: -12px !important;
+    padding: 5px 0;
+    p{
+        font-size: @h2;
+        margin-bottom: 0;
+    }
+}
+#contents .segment headline.header{
+    margin-top: 0 !important;
+}
+.segment img{
+    max-width: 100%;
+    height: auto;
+}
+.ui.segment, block{
+    clear: both;
+}
+.primary.button > a{
+    color: inherit;
+}
+.primary.button:hover{
+    background-color: @linkHoverColor !important;
+}
+.kontakt-hlavicka{
+    display: flex;
+    flex-direction: row-reverse;
+}
+/*******************************main editacni**********************************/
+#editName{
+    display: none;
+}
+.editDate, .buttons.editDate{
+    display: none;
+}
+.edit_kalendar{
+    position: absolute;
+    background-color: #fff1d5;
+    border-radius: 5px;
+    border: 1px solid @lightGrey;
+    z-index: 1;
+    padding: 10px;
+    cursor: auto;
+    font-size: 0.85em;
+    top: 0;
+    p{
+        text-align: left;
+        margin-bottom: 5px;
+    }
+    .calendar{
+        margin-bottom: 10px;
+    }
+    .ui.button{
+        border-radius: 5px !important;
+        border: 1px solid @lightGrey !important;
+        background: @white;
+        padding: 8px;
+    }
+    .ui.button[type="submit"]{
+        width: 100%;
+        color: @green !important;
+        border-color: @green !important;
+    }
+}
+.grafia.segment.headlined.editable .edit_kalendar{
+    right: -1.15em;
+}
+.grafia.segment.block.editable .edit_kalendar{
+    right: 0;
+}
+.poznamky{
+    position: fixed;
+    border-radius: 5px;
+    background: @white;
+    left: 10px;
+    top: 50px;
+    transform: translateY(-50%);
+    transition: 0.7s linear;
+    box-shadow: 1px 1px 10px 1px rgba(34,36,38,.15);
+    z-index: 1;
+    .label{
+        margin: 0 !important;
+        i{
+            width: 100% !important;
+        }
+    }
+    .content{
+        width: 250px;
+        padding: 10px;
+        p{
+            margin-bottom: 0.7em;
+        }
+        p:last-child{
+            margin-bottom: 0;
+        }
+    }
+}
+/*******************************prostredi**tiny********************************/
+.mce-content-body:not(.mce-edit-focus){
+    padding: 5px 10px;
+    margin: 0 -5px;
+}
+.mce-edit-focus{
+    //outline: 2px dashed @green;
+    background: linear-gradient(90deg, @green 50%, transparent 50%),
+                linear-gradient(90deg, @green 50%, transparent 50%),
+                linear-gradient(0deg, @green 50%, transparent 50%),
+                linear-gradient(0deg, @green 50%, transparent 50%);
+    background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+    background-size: 12px 3px, 12px 3px, 3px 12px, 3px 12px;
+    padding: 5px;
+    animation: border-dance 40s infinite linear;
+    height: max-content;
+}
+@keyframes border-dance {
+  0% {
+    background-position: 0 0, 100% 100%, 0 100%, 100% 0;
+  }
+  100% {
+    background-position: 100% 0, 0 100%, 0 0, 100% 100%;
+  }
+}
+block:not(mce-edit-focus) a[data-mce-selected="inline-boundary"],
+content:not(mce-edit-focus) a[data-mce-selected="inline-boundary"]{
+    background-color: @white !important;
+}
+block.mce-edit-focus a[data-mce-selected="inline-boundary"],
+content.mce-edit-focus a[data-mce-selected="inline-boundary"]{
+    background-color: #b4d7ff !important;
+}
+body.mce-content-body{
+    padding: 0 5px 0 10px;
+    margin: 7px;
+    font-size: 1em;
+}
+.mce-content-body .ui.grid{
+    background-color: lightyellow;
+    .column{
+        outline: 1px dashed @lightGrey !important;
+    }
+}
+.mce-content-body .ui.grid .ui.grid{
+    background-color: initial;
+}
+.mce-content-body .button{
+    user-select: text;
+        -webkit-user-select: text;
+        -moz-user-select: text;
+        -ms-user-select: text;
+    cursor: text;
+}
+body#tinymce{
+    width: 100%;
+    padding: 5px;
+    margin: 0;
+    background: 0 0;
+}
+.tox-toolbar-dock-fadein{
+    z-index: 2;
+}
+/***********************************sablony************************************/
+/*.obtekanyVpravo{
+    float: right;
+    margin: 5px 0 5px 5px;
+}
+.obtekanyVlevo{
+    float: left;
+    margin: 5px 5px 5px 0;
+}*/
+.obrazek-vlevo, .obrazek-vpravo{
+    .column p > img{
+        width: 100%;
+        height: auto;
+    }
+}
+.image_vlevo{
+    float: left;
+    margin: 5px 5px 5px 0;
+}
+.image_vpravo{
+    float: right;
+    margin: 5px 0 5px 5px;
+}
+.image_ramecek{
+    border: 1px solid @black;
+}
+.image_vlevo_ramecek{
+    float: left;
+    border: 1px solid @black;
+    margin: 5px 5px 5px 0;
+}
+.image_vpravo_ramecek{
+    float: right;
+    border: 1px solid @black;
+    margin: 5px 0 5px 5px;
+}
+.eshop.card{
+    width: 270px !important;
+    margin-left: 0.3em !important;
+    margin-right: 0.3em !important;
+}
+.eshop.card .content:first-child p{
+    line-height: 2.5em;
+}
+.eshop.card .content p.cena{
+    display: inline-block;
+    margin-top: 10px !important;
+}
+.eshop.card-image{
+    height: 200px;
+    width: auto;
+    max-height: 100%;
+}
+.eshop.card .middle{
+    vertical-align: middle;
+    position: relative;
+    transform: translateY(-20%);
+    background-color: transparent;
+    color: #000;
+}
+.ui.corner.label::after{
+    border-right-width: 5em !important;
+    border-bottom-width: 4.8em !important;
+}
+.ui.teal.label{
+    padding: 5px !important;
+}
+
+/******************************sablona**stranka_kurzy**************************/
+.stranka-kurzy{
+    .column:nth-child(2){
+        .content:first-child{
+            p{
+                font-weight: 700;
+                margin-bottom: 5px;
+            }
+        }
+        .content:nth-child(2){
+            h3{
+                margin-top: 10px;
+                margin-bottom: 5px;
+            }
+        }
+    }
+}
+
+/*******************************sablona**otevrene_kurzy************************/
+.otevreny-kurz p.popisek{
+    font-style: italic;
+    font-size: 0.9em;
+}
+
+/*******************************sablona**prednasky*****************************/
+.prednaska{
+    position: relative;
+    background-color: white;
+    padding: 20px 0 10px;
+    margin: 10px 0;
+    border-bottom: 1px solid #dedede;
+}
+.prednaska .obrazek_popisek{
+    position: relative;
+    align-self: center;
+}
+.prednaska .obrazek_popisek > p > img{
+    border-radius: 200px;
+    width: 155px !important;
+    height: 155px !important;
+    border: 1px solid #000;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+#contents .prednaska .obrazek_popisek p.prednasejici{
+    position: absolute;
+    font-size: 1em;
+    font-weight: 700;
+    bottom: -2px;
+    height: 57px;
+    width: 90%;
+    background-color: rgba(255,255,255,0.7);
+    padding: 7px;
+    text-align: center;
+}
+/*#contents .prednaska .stitek{
+    color: white;
+    padding: 3px 3px 3px 13px;
+    background: rgb(0, 0, 128);
+    vertical-align: middle;
+    border-radius: 5px;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.prednaska .stitek::before{
+    width: 16px;
+    height: 16px;
+    content: '';
+    position: absolute;
+    background: rgb(0,0,128);
+    transform: rotate(45deg);
+    left: -5px;
+    top: 3px;
+    z-index: 1;
+}*/
+#contents .prednaska p.label{
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.prednaska .informace_prednasky{
+    display: inline;
+}
+#contents .prednaska .informace_prednasky h4{
+    font-size: 1.1em;
+}
+#contents .prednaska .informace_prednasky h4:first-child{
+    margin-bottom: 0;
+    margin-top: 10px;
+}
+
+#contents .prednaska .informace_prednasky h4:nth-child(2){
+    margin-top: 0;
+}
+.prednaska .informace_prednasky ul{
+    transform: translateX(5%);
+    margin-bottom: 10px;
+}
+.prednaska a.odkaz_vtextu_kulaty_cerveny{
+    padding: 3px;
+    margin: 5px 5px 5px 0;
+}
+#contents  .prednaska a.odkaz_vtextu_kulaty_sedy{
+    padding: 3px;
+    margin: 5px 0 5px 5px;
+}
+
+
+/*responz:
+.prednaska{
+    flex-direction: column;
+}
+.prednaska .stitek{
+    position: relative;
+    margin: 10px 30px;
+}
+*/
+
+/* v rs */
+.mce-content-body{
+    .prednaska p.label{
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+    .prednaska .obrazek_popisek{
+        outline: 1px dashed purple;
+        background-color: #f4eafa;
+    }
+    .prednaska .obrazek_popisek > p > img{
+        border-radius: 200px;
+        width: 155px !important;
+        height: 155px !important;
+        border: 1px solid #000;
+    }
+    .prednaska .informace_prednasky h4:first-child{
+        margin-bottom: 0;
+        margin-top: 10px;
+    }
+    .prednaska .informace_prednasky h4:nth-child(2){
+        margin-top: 5px;
+    }
+}
+
+
+
+
+
+/************************************media*************************************/
+@media (max-width: 1750px) {
+    .poznamky{
+        left: 10px;
+        .label::before{
+            display: none;
+        }
+        .content{
+            display: none;
+        }
+    }
+    .poznamky:hover{
+        .label::before{
+            display: block;
+        }
+        .content{
+            display: block;
+        }
+
+    }
+}
+@media (max-width: 1300px) {
+    header{
+        .grid > .row:first-child{
+            /*editační*/
+            height: 150px;
+        }
+    }
+    /*menu*/
+    /*svisle menu*/
+    .svisle-menu > .edit.menu li.presented div.ui.mini.icon.buttons{
+        &:first-of-type{
+            //left: 50px;
+        }
+        &:nth-of-type(2){
+            right: 3px;
+        }
+    }
+    .dimmer .content{
+        width: 25%;
+    }
+    .poznamky{
+        left: 10px;
+    }
+}
+@media (max-width: 1099px) {
+    /*menu*/
+    /*vodorovne menu*/
+    .vodorovne-menu ul.menu.edit{
+        width: 620px;
+    }
+    /*svisle menu*/
+    .svisle-menu > .edit.menu li.presented div.ui.mini.icon.buttons{
+        &:first-of-type{
+            left: auto;
+            right: 15px;
+        }
+        &:nth-of-type(2){
+            right: 15px;
+        }
+    }
+    .page-content > .grid > .column:not(.row){
+        &:nth-child(2){
+            padding-left: 2em;
+            padding-right: 1.5em;
+        }
+    }
+    .page-content .svisle-menu form > ul.menu.edit{
+        width: 100%;
+    }
+    .dimmer .content{
+        width: 35%;
+    }
+    .ui.container{
+        width: 100% !important;
+    }
+    header{
+        .kontakt-hlavicka{
+            margin-top: 10px;
+            img{ //.ui.image img
+                width: 55px;
+                height: 65px !important;
+                margin: 5px 0 10px 5px
+            }
+        }
+        .row:first-child{
+            .column:first-child{
+                img{
+                    width: 130px;
+                }
+            }
+            .column:nth-child(2){
+                presmerovani-menu ul.menu li.presented div.buttons{
+                    z-index: 20;
+                }
+                img{ //.ui.image
+                    z-index: 0 !important;
+                    position: static;
+                }
+                ul.text.menu{
+                    width: @halfWidth - 5;
+                    transform: translateY(-30%);
+                }
+            }
+        }
+    }
+    header{
+        .grid > .row:first-child{
+            /*editační*/
+            height: 140px;
+        }
+    }
+    .page-content .grid .one.column{
+        .ui.segment{
+            display: none !important;
+        }
+    }
+    .page-content .column .segment:not(.ui):not(.grafia){
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        margin: 10px auto;
+        width: 70%;
+        height: auto;
+    }
+    .page-content .column > form > button.ui.button.save{
+        right: 15px;
+    }
+    .nav-mobile{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+        padding: 5px;
+        margin-top: 0;
+        left: 15px;
+        border: 1px solid @lightGrey;
+        border-radius: 5px;
+        box-shadow: 1px 1px 10px 1px rgba(34,36,38,.15);
+        &:hover{
+            background-color: rgb(242, 242, 242);
+            transition: 0.3s all;
+        }
+    }
+    .svisle-menu:first-child {
+        display: none;
+    }
+    #mySidenav {
+        height: 100%;
+        width: 80%;
+        background-color: @white;
+        position: fixed!important;
+        top: 0;
+        left: 0;
+        z-index: 100;
+        overflow: auto;
+        -webkit-animation: animateleft 0.4s;
+        animation: animateleft 0.4s;
+        padding: 20px;
+    }
+    #myOverlay{
+        position: fixed;
+        display: none;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5); //@transparentBlack
+        z-index: 1;
+    }
+    @-webkit-keyframes animateleft {
+      from {
+        left: -300px;
+        opacity: 0;
+      }
+      to {
+        left: 0;
+        opacity: 1;
+      }
+    }
+    @keyframes animateleft {
+      from {
+        left: -300px;
+        opacity: 0;
+      }
+      to {
+        left: 0;
+        opacity: 1;
+      }
+    }
+    .poznamky{
+        left: 25px;
+        top: 240px;
+        .label{
+            width: 55px !important;
+        }
+    }
+    .poznamky:hover{
+        .label{
+            width: 100% !important;
+        }
+    }
+}
+@media (min-width: 1100px) {
+    .close-item, span.nav-mobile{
+        display: none;
+    }
+    #mySidenav {
+        display: block !important;
+    }
+}
+@media (max-width: 920px) {
+    /*menu*/
+    /*vodorovne menu*/
+    .vodorovne-menu ul.menu.edit{
+        width: 530px;
+    }
+    header .grid > .row:first-child{
+        //padding-bottom: 1rem;
+        height: 125px;
+    }
+    header{
+        .row:first-child{
+            ul.text.menu{
+               // width: @halfWidth + 10;
+            }
+            .column:first-child{
+                img{
+                    width: 110px;
+                }
+            }
+            .column:nth-child(2) .image{
+               // top: -10px;
+               // left: 15px;
+            }
+        }
+        .row:last-child{
+            .column:nth-child(2){
+                left: -7px;
+            }
+        }
+        .kontakt-hlavicka{
+            margin-right: -4px;
+        }
+        .jazyky{
+            margin-top: 0;
+            margin-bottom: -10px;
+            margin-right: -4px;
+        }
+    }
+    .nav-mobile {
+        left: 10px;
+    }
+    .fluid.input{
+        float: right;
+        width: 120px;
+    }
+    .page-content .column .segment:not(.ui):not(.grafia){
+        width: 50%;
+        z-index: 5;
+        float: right;
+    }
+    .poznamky{
+        left: 20px;
+        top: 225px;
+    }
+}
+@media (max-width: 768px) {
+    header{
+        .grid > .row:first-child{
+            /*editační*/
+            height: auto;
+        }
+    }
+    /*menu s butony*/
+    /*vodorovne menu*/
+    .vodorovne-menu ul.menu.edit li{
+        i.line{
+            &:first-of-type{
+                left: -8px;
+            }
+            &:nth-of-type(2){
+                left: -4px;
+            }
+        }
+        &.presented{
+            i.line{
+                height: 30px;
+                top: 1px;
+                transform: translateY(-15%);
+            }
+            div.buttons{
+                background-color: @white;
+                &:first-of-type{
+                    position: absolute;
+                    top: -28px;
+                    right: 0;
+                    left: auto;
+                    > .button{
+                        width: auto;
+                    }
+                }
+                &:nth-of-type(2){
+                    position: absolute;
+                    top: -25px;
+                    bottom: auto;
+                    right: 5px;
+                    > .button{
+                        width: auto;
+                    }
+                }
+            }
+        }
+    }
+    .vodorovne-menu ui.menu:not(.floated):not(.left){
+        flex-direction: column;
+        align-items: center;
+    }
+    .nav-mobile{
+       background: #fff;
+       z-index: 1;
+    }
+    @keyframes prechodPozadi {
+        0% { background-color: @primaryColor }
+        100% { background-color: @white }
+    }
+    .nav-mobile.active{
+       display: flex;
+       left: 30px;
+       transform: translateY(-168%);
+       padding: 6px;
+       margin-left: 5px;
+       animation-name: prechodPozadi;
+       animation-duration: 1s;
+       animation-timing-function: ease;
+       animation-delay: 0s;
+       animation-iteration-count: 1;
+    }
+    .nav-mobile:not(.active){
+        display: none;
+    }
+    .dimmer .content{
+        width: 80%;
+    }
+    header .row:first-child{
+        .column:first-child{
+            position: absolute;
+            text-align: left !important;
+            left: 10px;
+            .ui.buttons{
+                top: -48px;
+                left: 55px;
+                right: auto;
+            }
+        }
+        .column:nth-child(2){
+            img{ //.image
+                top: 10px;
+                left: auto;
+            }
+        }
+        ul.text.menu{
+            width: @halfWidth;
+            transform: translateY(0);
+        }
+        .kontakt-hlavicka{
+            font-size: 0.75em;
+            margin-top: 10px;
+            img{ //.ui.image
+                width: 65px;
+                height: auto !important;
+                margin: 2px 0 10px 5px
+            }
+        }
+    }
+    header .ui.grid .row:last-child .column:nth-child(2){
+        padding-bottom: 0 !important;
+    }
+    header .row:last-child{
+        .column:first-child{
+            margin-left: 5px !important;
+            height: auto;
+        }
+        .column:nth-child(2){
+            left: 0;
+            .text.menu{
+                display: block;
+                column-count: 2;
+                width: 85%;
+                float: right;
+                .item{
+                    margin: 10px auto;
+                    &:first-child{
+                        margin-top: 0;
+                    }
+                    > .button{
+                        width: 101%;
+                        margin-left: -5px;
+                    }
+                }
+            }
+        }
+        .column:last-child{
+            .fluid.input{
+                width: 85%;
+                font-size: 1em;
+            }
+        }
+    }
+    .page-content .column > form > button.ui.button.save{
+        right: 10px;
+    }
+    footer .grid > .column{
+        text-align: center;
+        &:first-child p{
+            margin-left: auto;
+        }
+    }
+    .poznamky{
+        left: 35px;
+        top: 430px;
+    }
+}
+@media (max-width: 500px) {
+    header .row:first-child{
+       .column:first-child{
+            /*position:relative;
+            text-align: center !important;
+            img{
+                margin: auto;
+                width: 40%;
+            }*/
+        }
+        .column:nth-child(2){
+           // display: none;
+        }
+    }
+    header .row:last-child{
+        .column:nth-child(2) .text.menu{
+            width: 100%;
+            column-count: 1;
+        }
+        .column:last-child{
+            .fluid.input{
+                width: 100%;
+            }
+        }
+    }
+    .nav-mobile.active {
+        transform: translateY(0);
+        top: 130px;
+    }
+    .poznamky{
+        left: 35px;
+        top: 100px;
+    }
+    .page-content .ui.segment{
+        padding: 0;
+    }
+}
+
+

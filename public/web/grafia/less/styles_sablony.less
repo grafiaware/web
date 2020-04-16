@@ -1,0 +1,436 @@
+.titul , .publikace , .kontakt {
+    float: left;
+    display: inline;
+    width: 32%;   
+    height: auto;
+    margin: 2px;
+    overflow: hidden;
+
+    border: 1px solid @svetle_seda;
+    background-color: @sablony_pozadi; 
+    .kulate_rohy_1111 (@kulate_rohy, @kulate_rohy_velikost);
+    text-align: left;
+
+    h1 {
+        padding: 0.3*@web_velikost_pisma; 
+        padding-left: 0.6*@kulate_rohy_velikost; 
+        padding-right: 0.6*@kulate_rohy_velikost;  
+
+        margin-top: 0px;
+        margin-bottom: 0px;
+        
+        text-align: left;
+        font-size: 1.2*@web_velikost_pisma;  
+        font-weight: normal; 
+        background-color: @svetle_seda!important;  
+        color: @seda !important;
+    }
+    p {
+        margin: 0.3*@web_velikost_pisma;  
+        
+        background-color: @sablony_pozadi;
+        text-align: justify;
+        font-size: 1.1*@web_velikost_pisma;     
+    }
+    a {
+        text-decoration: none;
+        color:  @hlavni_barva;   
+        font-size: 1.1*@web_velikost_pisma;    
+        &:hover {
+            text-decoration: none;
+            color: @seda;
+        }
+    }
+} 
+
+.titul { 
+     background-color:  @bila;
+}
+.publikace  {
+       height: 32*@web_velikost_pisma;
+}       
+.kontakt  {
+       height: 14*@web_velikost_pisma; 
+       h1 {
+          color: @hlavni_barva!important;  
+          text-align: right;  
+       }
+       p {
+        text-align: left;
+       }
+
+}
+
+//-----A----------------------------
+    
+.odkazy_bubliny_flex-container {
+    display: -webkit-flex;
+    display: flex;    
+    -webkit-justify-content: space-around;  //!
+    justify-content: space-around;        
+    width: 100%;     
+    background-color: @web_barva_pozadi;  
+}
+
+.odkazy_bubliny_flex-item {  
+    display: flex;   //kvuli stejne vysce shift/enter prodluzuje //!
+    width: 100%;     //!    
+    padding-right: 10px;
+    padding-bottom: 10px;
+    margin: 5px;
+    margin-left: 10px;
+    margin-right: 10px;  
+    
+    text-align: center;
+    overflow: hidden;         
+}
+
+.odkazy_bubliny_flex-item a {       
+               display: inline-block;    
+               width: 100%;                
+               padding: 2px 4px;
+               
+               text-decoration: none; 
+               font-size: 1*@web_velikost_pisma;   
+               font-weight:bold;  
+               color: @bila!important;
+               background-color: @seda;
+               overflow: hidden; 
+               line-height: normal;
+      
+               .kulate_rohy_1111 (@kulate_rohy, @kulate_rohy_velikost*0.8);  
+               box-shadow: 5px 5px 5px  @seda; 
+               border: solid @stribrna 3px;                            
+            &:hover {                           
+                   color: @bila!important;
+                   background-color: @stribrna;
+                   border: solid @bila 3px;                                                      
+            }
+            &:active {                  
+                   color: @seda!important;
+                   background-color:  @bila!important;     
+                   border: solid @seda 3px;                 
+            }                  
+}
+
+//-----A----------------------------
+.odkazy_3D_tlacitka_flex-container {
+    display: -webkit-flex;
+    display: flex;     
+    -webkit-justify-content: space-around;  //!
+    justify-content: space-around;        
+    width: 100%;   
+    background-color: @web_barva_pozadi;     
+}  
+    .odkazy_3D_tlacitka_flex-item {
+        display: flex;   //kvuli stejne vysce, shift/enter prodluzuje //!
+        width: 100%;     //!
+
+        margin: 5px;
+        margin-left: 10px;
+        margin-right: 10px;
+        text-align: center;
+        overflow: hidden;             
+    }           
+     .odkazy_3D_tlacitka_flex-item  a {                                    
+               display:inline-block; 
+               width: 100%; 
+               padding: 2px  4px;                                           
+
+               text-decoration: none;                
+               font-size: 1*@web_velikost_pisma;   
+               font-weight:bold;
+                                                            
+               color: @bila!important; 
+               background-color: @seda;
+               overflow: hidden;   
+               
+               .kulate_rohy_1111 (@kulate_rohy, @kulate_rohy_velikost*0.8);                 
+               border: solid  @stribrna_tmavsi 8px;          
+               border-style: outset; 
+          &:hover {                                     
+                   color: @bila!important;   //!important 
+                   background-color: @stribrna;                  
+                   border: solid @stribrna  8px;
+                   border-style: outset; 
+          }
+          &:active {
+                  color: @seda;   //!important
+                  background-color: @stribrna;                 
+                  border: solid @stribrna 8px; 
+                  border-style: inset; 
+          }
+    }
+    
+      
+
+//-----A----------------------------    
+
+ .blok_fieldset_bila { 
+       .kulate_rohy_1111 (@kulate_rohy, @kulate_rohy_velikost*0.8);
+        border: 3px solid @seda;    
+        background-color: @bila;
+    legend { 
+        display: block;
+        padding-left: 5px;
+        padding-right: 5px;
+        .kulate_rohy_1111 (@kulate_rohy, @kulate_rohy_velikost*0.8);
+        border: 3px solid  @seda;
+        background-color: @bila;
+    }
+}
+.blok_fieldset_seda { 
+       .kulate_rohy_1111 (@kulate_rohy, @kulate_rohy_velikost*0.8);
+        border: 3px solid @seda;
+        background-color: @svetle_seda;
+    legend { 
+        display: block;
+        padding-left: 5px;
+        padding-right: 5px;
+        .kulate_rohy_1111 (@kulate_rohy, @kulate_rohy_velikost*0.8);
+        border: 3px solid  @seda;
+        background-color: @svetle_seda;
+    }
+}
+.blok_fieldset_legenda_vyrazna {
+    .kulate_rohy_1111 (@kulate_rohy, @kulate_rohy_velikost*0.8);
+    border: 3px solid @seda;
+    background-color: @svetle_seda;
+    legend { 
+        display: block;
+        padding-left: 5px;
+        padding-right: 5px;
+        .kulate_rohy_1111 (@kulate_rohy, @kulate_rohy_velikost*0.8);
+        border: 3px solid  @hlavni_barva;
+        background-color:  @hlavni_barva;
+        color: @bila;
+        font-weight: bold;        
+    }
+    
+}
+    
+.container_na_stredobox{
+    display:flex;
+    width:100%;    
+    padding: 0;
+    margin: 0;       
+    height: auto;
+    justify-content: center;
+
+   p {        
+        padding: 3px;
+        padding-top: 2px;
+        padding-bottom:  2px;
+        .kulate_rohy_1111 (@kulate_rohy, @kulate_rohy_velikost*0.8);                        
+        font-size: 1*@web_velikost_pisma;      
+        background-color: @bila;
+        color: @cerna ;          
+        border: solid @cerna 1px;  
+        overflow: hidden;  
+    }
+}
+                    
+
+//-----------------------------------------------------------------
+
+//-------------------------------------------------------------------------------------------
+
+.odkazy_bubliny_stred {
+    text-align: center;
+    height: auto;   
+    margin-left: auto; margin-right: auto;
+    padding: 4px;
+    display:table;
+
+    width: 96%;    
+    border:   solid  orange 1px;   
+
+   .bublina_stred {                                 
+              padding: 4px;
+              display: table-cell;
+              text-align: center;   
+
+              border:   solid  blueviolet 1px; 
+              a {                          
+                   display: block;                                           
+                   padding-top: 5px;
+                   padding-bottom:  5px;                      
+
+                   .kulate_rohy_1111 (@kulate_rohy, @kulate_rohy_velikost*0.8);  
+                   box-shadow: 10px 10px 5px  @seda; 
+                   border: solid @stribrna 3px; 
+
+                   font-size: 1.2*@web_velikost_pisma;   
+                   font-weight:bold;
+                   text-decoration: none;                                              
+                   color: @bila!important;
+                   background-color: @seda;
+                   overflow: hidden;                    
+                    &:hover {                           
+                       color: @bila!important;
+                       background-color: @stribrna;
+                       border: solid @bila 3px;                                                      
+                    }
+                   &:active {
+
+                       color: @seda!important;
+                       background-color:  @bila!important;     
+                       border: solid @seda 3px;                 
+                   }                           
+               }
+            } //bublina_stred
+}
+
+.odkazy_3D_tlacitka_stred {
+    text-align: center;
+    height: auto;   
+    width: 98%;
+   div  {
+       margin-left: auto; margin-right: auto;
+       display:table;
+       width: 100%;
+       .odkaz_3D {
+          margin-left: 12px;
+          margin-right: 12px;
+          text-align: center ;
+          float:left ;
+          width: 135px;
+          height: auto;         
+          a {                                    
+               display:inline-block; 
+               display:table-cel;
+               padding-top: 2px;
+               padding-bottom:  2px;
+               text-align: center;
+               
+               .kulate_rohy_1111 (@kulate_rohy, @kulate_rohy_velikost*0.8);  
+               border: solid @stribrna 12px;   //3         
+               border-style: outset; 
+
+               font-size: 1.2*@web_velikost_pisma;   
+               font-weight:bold;
+               text-decoration: none;                                              
+               color: @bila!important; 
+               background-color: @seda;
+               overflow: hidden; 
+          }        
+          a:hover {
+                   padding-top: 2px;
+                   padding-bottom:  2px;
+                   color: @bila!important;   //!important
+                   background-color: @stribrna;
+                   border: solid @bila 12px; //1
+                   border-style: outset; 
+          }
+          a:active {
+                  color: @seda;   //!important
+                  background-color: @stribrna;
+                  border: solid @stribrna 12px ;     //3
+                  border-style: inset; 
+          }
+       } //odkaz 3D
+   }
+}
+
+
+
+.bublina_vlevo_3D {
+      margin-left: 30px;
+      margin-right: 30px;
+      text-align: center ;
+      float:left;
+      width: 140px;
+      height: auto;         
+      
+      a {                                    
+           display:inline-block; 
+           padding-top: 2px;
+           padding-bottom:  2px;
+
+           .kulate_rohy_1111 (@kulate_rohy, @kulate_rohy_velikost*0.8);  
+            border: solid @stribrna 12px;   //3         
+            border-style: outset; 
+
+           font-size: 1.2*@web_velikost_pisma;   
+           font-weight:bold;
+           text-decoration: none;                                              
+           color: @bila!important; 
+           background-color: @seda;
+           overflow: hidden; 
+      }        
+       
+      a:hover {
+               padding-top: 2px;
+               padding-bottom:  2px;
+               color: @bila!important;   //!important
+               background-color: @stribrna;
+               border: solid @bila 12px; //1
+               border-style: outset; 
+      }
+      a:active {
+              color: @seda;   //!important
+              background-color: @stribrna;
+              border: solid @stribrna 12px ;     //3
+              border-style: inset; 
+      }
+}
+
+
+
+
+
+//-------------------------------------------
+
+.bubliny_4 {    //   --------------   nestredene ---------
+    height: auto;
+    margin-left: 20px;   
+    .bublina {
+      margin: 10px;
+      text-align: center ;
+      float: left;
+      width: 140px;
+      height: auto;    
+     
+      a {                        
+           display: block;             
+           padding-top: 2px;
+           padding-bottom:  2px;
+
+           .kulate_rohy_1111 (@kulate_rohy, @kulate_rohy_velikost*0.8);  
+           box-shadow: 10px 10px 5px  @seda; 
+           border: solid @stribrna 3px; 
+
+           font-size: 1.2*@web_velikost_pisma;   
+           font-weight:bold;
+           text-decoration: none;                                              
+           color: @bila!important;
+           background-color: @seda;
+           overflow: hidden;                    
+            &:hover {
+               padding: 2px;
+               padding-top: 4px;
+               padding-bottom:  4px;
+               color: @bila!important;
+               background-color: @stribrna;
+               border: solid @bila 1px;  
+                    }
+        }
+    }
+}
+
+
+@media (max-width: 1100px) {
+    
+}    
+@media (max-width: 920px) {
+    
+}    
+@media (max-width: 768px) {
+    
+}
+@media (max-width: 500px) {
+    
+}
+
+
+
