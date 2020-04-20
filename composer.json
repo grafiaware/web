@@ -1,7 +1,7 @@
 {
-    "name": "grafia/www_grafia_development",
-    "description": "www_grafia_development_v0_6",
-    "license": "na dotaz",
+    "name": "grafiaware/web",
+    "description": "web",
+    "license": "MIT",
     "keywords": ["grafia"],
     "authors": [
         {
