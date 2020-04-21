@@ -192,16 +192,32 @@ class ComponentController extends LayoutControllerAbstract {
 
     private function getMenuComponents() {
         if ($this->isEditableLayout()) {
-            return [
-                'menuPresmerovani' => $this->container->get('menu.presmerovani.editable')->setMenuRootName('l'),
-                'menuVodorovne' => $this->container->get('menu.vodorovne.editable')->setMenuRootName('p'),
+            if ($this->isEditableArticle()) {
+                return [
+                    'menuPresmerovani' => $this->container->get('menu.presmerovani.editable')->setMenuRootName('l'),
+                    'menuVodorovne' => $this->container->get('menu.vodorovne.editable')->setMenuRootName('p'),
+                    'menuSvisle' => $this->container->get('menu.svisle.editable')->setMenuRootName('s'),
+                    'kos' => $this->container->get('menu.kos')->setMenuRootName('trash'), //menu.svisle  //kos
+                    'bloky' => $this->container->get('menu.bloky.editable')->setMenuRootName('block'),
+                ];
+//                return [
+//                'menuPresmerovani' => $this->container->get('menu.presmerovani.editable')->setMenuRootName('l'),
+//                'menuVodorovne' => $this->container->get('menu.vodorovne.editable')->setMenuRootName('p'),
                 ## var a
-                'menuSvisle' => $this->container->get('menu.svisle.editable')->setMenuRootName('$'),
+//                'menuSvisle' => $this->container->get('menu.svisle.editable')->setMenuRootName('$'),
                 ## var b
 //                'menuSvisle' => $this->container->get('menu.svisle.editable')->setMenuRootName('s'),
 //                'bloky' => $this->container->get('menu.bloky.editable')->setMenuRootName('block'), //menu.svisle.editable  //bloky
 //                'kos' => $this->container->get('menu.kos')->setMenuRootName('trash'), //menu.svisle  //kos
-            ];
+//                ];
+            } else {
+                return [
+                    'menuPresmerovani' => $this->container->get('menu.presmerovani')->setMenuRootName('l'),
+                    'menuVodorovne' => $this->container->get('menu.vodorovne')->setMenuRootName('p'),
+                    'menuSvisle' => $this->container->get('menu.svisle')->setMenuRootName('s'),
+                    'bloky' => $this->container->get('menu.bloky.editable')->setMenuRootName('block'),
+                ];
+            }
         } else {
             if ($this->isEditableArticle()) {
                 return [

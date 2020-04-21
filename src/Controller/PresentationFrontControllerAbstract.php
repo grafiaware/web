@@ -10,11 +10,6 @@ namespace Controller;
 
 use Psr\Http\Message\ServerRequestInterface;
 
-use Psr\Container\ContainerInterface;
-use Model\Repository\StatusSecurityRepo;
-use Model\Repository\StatusPresentationRepo;
-use Model\Entity\StatusPresentation;
-
 use Pes\Application\AppFactory;
 use Psr\Http\Message\ResponseInterface;
 use Pes\Application\UriInfoInterface;
@@ -24,25 +19,14 @@ use Pes\Application\UriInfoInterface;
  *
  * @author pes2704
  */
-abstract class PresentationFrontControllerAbstract extends SecurityFrontControllerAbstract {
-
-    /**
-     * @var StatusPresentation
-     */
-    protected $statusPresentation;
+abstract class PresentationFrontControllerAbstract extends StatusFrontControllerAbstract {
 
     /**
      *
-     * @param StatusPresentationModelInterface $statusPresentationModel
-     * @param ContainerInterface $container
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @return ResponseInterface
      */
-    public function __construct(
-            StatusSecurityRepo  $statusSecurityRepo,
-            StatusPresentationRepo $statusPresentationRepo) {
-        parent::__construct($statusSecurityRepo);
-        $this->statusPresentation = $statusPresentationRepo->get();
-    }
-
     public function addHeaders(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
 
         $language = $this->statusPresentation->getLanguage();

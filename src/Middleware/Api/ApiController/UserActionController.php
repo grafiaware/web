@@ -12,12 +12,9 @@ use Controller\PresentationFrontControllerAbstract;
 
 use Psr\Http\Message\ServerRequestInterface;
 
-use Pes\Http\Request\RequestParams;
 use Pes\Http\Response;
 use Pes\Http\Response\RedirectResponse;
 
-use Pes\Router\Router;
-use Pes\Router\RouteInterface;
 
 /**
  * Description of PostController
@@ -32,15 +29,5 @@ class UserActionController extends PresentationFrontControllerAbstract {
             $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().$app.'/'); // 302
     }
 
-    public function setEditArticle(ServerRequestInterface $request) {
-            $edit = (new RequestParams())->getParsedBodyParam($request, 'edit_article');
-            $this->statusPresentation->get()->getUserActions()->setEditableArticle($edit);
-        return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other
-    }
 
-    public function setEditLayout(ServerRequestInterface $request) {
-            $edit = (new RequestParams())->getParsedBodyParam($request, 'edit_layout');
-            $this->statusPresentation->get()->getUserActions()->setEditableLayout($edit);
-        return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other
-    }
 }

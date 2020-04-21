@@ -25,8 +25,11 @@ use Pes\Database\Handler\{
 
 // controller
 use Middleware\Api\ApiController\{
-    UserActionController, HierarchyController, EditItemController, PresentationController, PaperController
+    UserActionController, HierarchyController, EditItemController, PresentationActionController, PaperController
 };
+
+// dao
+use Database\Hierarchy\EditHierarchy;
 
 // repo
 use Model\Repository\{
@@ -133,19 +136,19 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
 ##############
 
             PaperController::class => function(ContainerInterface $c) {
-                return new PaperController($c->get(StatusSecurityRepo::class), $c->get(StatusPresentationRepo::class));
+                return new PaperController($c->get(StatusSecurityRepo::class), $c->get(StatusPresentationRepo::class), $c->get(PaperRepo::class));
             },
-            PresentationController::class => function(ContainerInterface $c) {
-                return new PresentationController($c->get(StatusSecurityRepo::class), $c->get(StatusPresentationRepo::class), $c->get(LanguageRepo::class));
+            PresentationActionController::class => function(ContainerInterface $c) {
+                return new PresentationActionController($c->get(StatusSecurityRepo::class), $c->get(StatusPresentationRepo::class), $c->get(LanguageRepo::class));
             },
             UserActionController::class => function(ContainerInterface $c) {
                 return new UserActionController($c->get(StatusPresentationRepo::class));
             },
             HierarchyController::class => function(ContainerInterface $c) {
-                return new HierarchyController($c->get(StatusPresentationRepo::class));
+                return new HierarchyController($c->get(StatusSecurityRepo::class), $c->get(StatusPresentationRepo::class), $c->get(EditHierarchy::class), $c->get(MenuRootRepo::class));
             },
             EditItemController::class => function(ContainerInterface $c) {
-                return new EditItemController($c->get(StatusPresentationRepo::class));
+                return new EditItemController($c->get(StatusSecurityRepo::class), $c->get(StatusPresentationRepo::class), $c->get(MenuItemRepo::class));
             },
 
             // view

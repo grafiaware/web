@@ -11,7 +11,7 @@ Options +FollowSymLinks
 
 RewriteEngine On
 
-RewriteBase "/grafiaware_web"
+RewriteBase "/web"
 #RewriteCond $1 !^(index\.php|public|robots\.txt)
 
 #RewriteCond %{REQUEST_FILENAME} !-f

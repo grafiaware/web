@@ -17,7 +17,9 @@ use Pes\Http\Request\RequestParams;
 use Pes\Http\Response;
 use Pes\Http\Response\RedirectResponse;
 
-use Model\Repository\PaperRepo;
+use Model\Repository\{
+    StatusSecurityRepo, StatusPresentationRepo, PaperRepo
+};
 use Model\Entity\PaperInterface;
 use Model\Entity\Paper;
 
@@ -28,14 +30,11 @@ use Model\Entity\Paper;
  */
 class PaperController extends PresentationFrontControllerAbstract {
 
-    /**
-     * Vrací pole dvojic jméno akce => role
-     * @return array
-     */
-    public function getGrants() {
-        return [
-        'update'=>'authenticated',
-        ];
+    private $paperRepo;
+
+    public function __construct(StatusSecurityRepo $statusSecurityRepo, StatusPresentationRepo $statusPresentationRepo, PaperRepo $paperRepo) {
+        parent::__construct($statusSecurityRepo, $statusPresentationRepo);
+        $this->paperRepo = $paperRepo;
     }
 
     /**
@@ -44,23 +43,19 @@ class PaperController extends PresentationFrontControllerAbstract {
      * @return type
      */
     public function update(ServerRequestInterface $request, $menuItemId) {
-        if ($this->isPermittedMethod(__METHOD__)) {
-            /* @var $paperRepo PaperRepo */
-            $paperRepo = $this->container->get(PaperRepo::class);
-            /* @var $paper PaperInterface */
-            $paper = $paperRepo->get($menuItemId);
-            if (!isset($paper)) {
-                $paper = $this->createPaper($menuItemId);
-                $paperRepo->add($paper);
-            }
-            $postContent = (new RequestParams())->getParam($this->request, 'content_'.$menuItemId);  // jméno POST proměnné je vytvořeno v paper rendereru složením 'content_' a $paper->getMenuItemId()
-            $postHeadline = (new RequestParams())->getParam($this->request, 'headline_'.$menuItemId);  // jméno POST proměnné je vytvořeno v paper rendereru složením 'headline_' a $paper->getMenuItemId()
-            $paper->setContent($postContent)->setHeadline($postHeadline);
+        $paper = $this->paperRepo->get($menuItemId);
+        if (!isset($paper)) {
+            $paper = $this->createPaper($menuItemId);
+            $this->paperRepo->add($paper);
         }
-        return RedirectResponse::withPostRedirectGet(new Response(), $this->request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other
+        // TODO: zjisti, jestli je třeba skládat jména proměnný - nestačí rest parametr? (může být v jednom POSTu vícekrát content a headline? - tady by se stejně použil jen jeden
+        $postContent = (new RequestParams())->getParam($request, 'content_'.$menuItemId);  // jméno POST proměnné je vytvořeno v paper rendereru složením 'content_' a $paper->getMenuItemId()
+        $postHeadline = (new RequestParams())->getParam($request, 'headline_'.$menuItemId);  // jméno POST proměnné je vytvořeno v paper rendereru složením 'headline_' a $paper->getMenuItemId()
+        $paper->setContent($postContent)->setHeadline($postHeadline);
+        return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other
     }
 
-    private function createPaper(ServerRequestInterface $request, $menuItemId) {
-        return (new Paper())->setMenuItemIdFk($menuItemId)->setLangCode($this->statusSecurityModel->getPresentationStatus()->getLanguage());
+    private function createPaper($menuItemId) {
+        return (new Paper())->setMenuItemIdFk($menuItemId)->setLangCode($this->statusPresentation->getLanguage()->getLangCode());
     }
 }

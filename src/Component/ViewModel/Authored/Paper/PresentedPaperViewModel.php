@@ -38,7 +38,11 @@ class PresentedPaperViewModel extends PaperViewModelAbstract implements Presente
     public function getPaper(): ?PaperInterface {
         $menuNode = $this->getMenuNode();
         return isset($menuNode)
-                    ? ($this->paperRepo->get($menuNode->getMenuItem()->getId()) ?? (new Paper())->setMenuItemIdFk($menuNode->getMenuItem()->getId())->setLangCode($this->getPresentationStatus()->getLanguage()))
+                    ? (
+                        $this->paperRepo->get($menuNode->getMenuItem()->getId())
+                        ??
+                        (new Paper())->setMenuItemIdFk($menuNode->getMenuItem()->getId())->setLangCode($this->getStatusPresentation()->getLanguage()->getLangCode())
+                      )
                     : null;
     }
 }

@@ -26,11 +26,6 @@ class Login extends AppMiddlewareAbstract implements MiddlewareInterface {
     private $container;
 
     /**
-     * @var ServerRequestInterface
-     */
-    private $request;
-
-    /**
      *
      * @param ServerRequestInterface $request
      * @param RequestHandlerInterface $handler
@@ -47,15 +42,15 @@ class Login extends AppMiddlewareAbstract implements MiddlewareInterface {
 
         $registry = new Registry(new MethodEnum(), new UrlPatternValidator());
 
-        $registry->register(new Action(new Resource('POST', '/auth/v1/logout'), function() {
-                /** @var LoginLogoutController $ctrl */
-                $ctrl = $this->container->get(LoginLogoutController::class);
-                return $ctrl->logout($this->request);
+        $registry->register(new Action(new Resource('POST', '/auth/v1/logout'), function(ServerRequestInterface $request) {
+            /** @var LoginLogoutController $ctrl */
+            $ctrl = $this->container->get(LoginLogoutController::class);
+            return $ctrl->logout(request);
         }));
-        $registry->register(new Action(new Resource('POST', '/auth/v1/login'), function() {
-                /** @var LoginLogoutController $ctrl */
-                $ctrl = $this->container->get(LoginLogoutController::class);
-                return $ctrl->login($this->request);
+        $registry->register(new Action(new Resource('POST', '/auth/v1/login'), function(ServerRequestInterface $request) {
+            /** @var LoginLogoutController $ctrl */
+            $ctrl = $this->container->get(LoginLogoutController::class);
+            return $ctrl->login(request);
         }));
 
         /** @var $router RouterInterface */
