@@ -33,8 +33,6 @@ class Login extends AppMiddlewareAbstract implements MiddlewareInterface {
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
 
-        $this->request = $request;
-
         $this->container =
             (new LoginContainerConfigurator())->configure(
                     (new Container($this->getApp()->getAppContainer()))
@@ -45,12 +43,12 @@ class Login extends AppMiddlewareAbstract implements MiddlewareInterface {
         $registry->register(new Action(new Resource('POST', '/auth/v1/logout'), function(ServerRequestInterface $request) {
             /** @var LoginLogoutController $ctrl */
             $ctrl = $this->container->get(LoginLogoutController::class);
-            return $ctrl->logout(request);
+            return $ctrl->logout($request);
         }));
         $registry->register(new Action(new Resource('POST', '/auth/v1/login'), function(ServerRequestInterface $request) {
             /** @var LoginLogoutController $ctrl */
             $ctrl = $this->container->get(LoginLogoutController::class);
-            return $ctrl->login(request);
+            return $ctrl->login($request);
         }));
 
         /** @var $router RouterInterface */

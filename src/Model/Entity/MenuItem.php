@@ -56,7 +56,7 @@ class MenuItem extends EntityAbstract implements MenuItemInterface {
     }
 
     /**
-     * @return \DateTime
+     * @return bool
      */
     public function getActual() {
         return $this->actual;
@@ -69,6 +69,9 @@ class MenuItem extends EntityAbstract implements MenuItemInterface {
         return $this->showTime;
     }
 
+    /**
+     * @return \DateTime
+     */
     public function getHideTime() {
         return $this->hideTime;
     }

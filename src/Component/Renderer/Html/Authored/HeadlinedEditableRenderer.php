@@ -45,16 +45,15 @@ class HeadlinedEditableRenderer extends HtmlRendererAbstract {
 
 
 //                                 'onblur'=>'var throw=confirm("Chcete zahodit změny v obsahu headline?"); if (throw==false) {document.getElementByName("headline").focus(); }'
-            $headlineAtttributes =                         [
+            $headlineAtttributes = [
                             'id'=>"headline_{$paper->getMenuItemIdFk()}",
                             'class'=>$this->classMap->getClass('Component', 'div div div headline'),
                         ];
-            $buttons = Html::tag('form', ['method'=>'POST', 'action'=>""],
+            $buttonsForm = Html::tag('form', ['method'=>'POST', 'action'=>""],
                             $this->renderButtons($menuNode, $paper)
                         );
-            $innerHtml =
-                    $buttons
-                    .Html::tag('form', ['method'=>'POST', 'action'=>"api/v1/paper/{$paper->getMenuItemIdFk()}"],
+            $paperForm =
+                    Html::tag('form', ['method'=>'POST', 'action'=>"api/v1/paper/{$paper->getMenuItemIdFk()}"],
                         Html::tag('div', ['class'=>$this->classMap->getClass('Component', 'div div div')],
                             Html::tag(
                                 'headline',
@@ -72,8 +71,9 @@ class HeadlinedEditableRenderer extends HtmlRendererAbstract {
                         )
                         .Html::tag('content', ['id'=>"content_{$paper->getMenuItemIdFk()}", 'class'=>$this->classMap->getClass('Component', 'div div content')], $paper->getContent())
                     );
+            $innerHtml = $buttonsForm.$paperForm;
         } else {
-            $innerHtml = Html::tag('div', [], 'No data item or article for rendering.');
+            $innerHtml = Html::tag('div', [], 'Missing data item or article for rendering.');
         }
         // atribut data-component je jen pro info v html
         return Html::tag('div', ['data-component'=>$name, 'class'=>$this->classMap->getClass('Component', 'div')],
@@ -83,20 +83,30 @@ class HeadlinedEditableRenderer extends HtmlRendererAbstract {
 
     private function renderButtons(MenuNodeInterface $menuNode, PaperInterface $paper) {
         //TODO: atributy data-tooltip a data-position jsou pro semantic - zde jsou napevno zadané
-            $showTime = $menuNode->getMenuItem()->getShowTime();
-            $hideTime = $menuNode->getMenuItem()->getHideTime();
-            if ($showTime) {
-                if ($hideTime) {
-                    $textZobrazeni = "Zobrazeno od $showTime  do $hideTime";
-                } else {
-                    $textZobrazeni = "Zobrazeno od $showTime";
-                }
-            } elseif ($hideTime) {
-                    $textZobrazeni = "Zobrazeno do $hideTime";
+        $show = $menuNode->getMenuItem()->getShowTime();
+        $hide = $menuNode->getMenuItem()->getHideTime();
+
+
+        if (isset($show)) {
+            $showTime = $show;//->format("d.m.Y") ;
+            if (isset($hide)) {
+                $hideTime = $hide;//->format("d.m.Y");
+                $textZobrazeni = "Zobrazeno od $showTime  do $hideTime";
             } else {
-                    $textZobrazeni = "Zobrazeno trvale";
+                $hideTime = '0';
+                $textZobrazeni = "Zobrazeno od $showTime";
             }
-            return
+        } elseif (isset($hide)) {
+            $showTime = '0';
+            $hideTime = $hide;//->format("d.m.Y");
+            $textZobrazeni = "Zobrazeno do $hideTime";
+        } else {
+            $showTime = '0';
+            $hideTime = '0';
+            $textZobrazeni = "Zobrazeno trvale";
+        }
+
+        return
             Html::tag('div', ['class'=>$this->classMap->getClass('Buttons', 'div.page')],
                 Html::tag('button',
                     ['class'=>$this->classMap->getClass('Buttons', 'div button'),
@@ -125,7 +135,7 @@ class HeadlinedEditableRenderer extends HtmlRendererAbstract {
                     'type'=>'submit',
                     //'name'=>'',
                     'formmethod'=>'post',
-                    'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/move/senPatříCílovýParentUid",
+                    'formaction'=>"api/v1/menu/{$menuNode->getUid()}/actual/0/0",
                     ],
                     Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button6 i')])
                 )

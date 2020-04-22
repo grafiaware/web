@@ -189,8 +189,9 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
             // session user - tato služba se používá pro vytvoření objetu Account a tedy pro připojení k databázi
             User::class => function(ContainerInterface $c) {
                 /** @var StatusSecurityRepo $securityStatus */
-                $securityStatus = $c->get(StatusSecurityRepo::class);
-                $user = $securityStatus->get()->getUser();
+                $securityStatusRepo = $c->get(StatusSecurityRepo::class);
+                $securityStatus = $securityStatusRepo->get();
+                $user = $securityStatus ? $securityStatus->getUser() : null;
                 return $user;
             },
 

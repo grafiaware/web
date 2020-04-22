@@ -32,14 +32,14 @@ class EditItemController extends PresentationFrontControllerAbstract {
     public function toggle(ServerRequestInterface $request, $id) {
         $menuItem = $this->getMenuItem($id);
         $menuItem->setActive( ! $menuItem->getActive());
-        return RedirectResponse::withPostRedirectGet(new Response(), $this->request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other
+        return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other
      }
 
      public function actual(ServerRequestInterface $request, $id, $showTime, $hideTime) {
         $menuItem = $this->getMenuItem($id);
         $menuItem->setShowTime($showTime);
         $menuItem->setHideTime($hideTime);
-            return RedirectResponse::withPostRedirectGet(new Response(), $this->request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other
+            return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other
      }
 
     public function title(ServerRequestInterface $request, $id) {
