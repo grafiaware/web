@@ -37,7 +37,45 @@ use Pes\View\Recorder\RecordsLogger;
  * @author pes2704
  */
 class ComponentController extends LayoutControllerAbstract {
+######################################
+    private function initLayoutTemplatesVars() {
+        $theme = 'new';
 
+        switch ($theme) {
+            case 'old':
+                $this->templatesLayout['layout'] = PROJECT_DIR.'/templates/layout.php';
+                $this->templatesLayout['links'] = PROJECT_DIR.'/templates/layout/head/editableJsLinks.php';
+                $this->templatesLayout['tiny_config'] = PROJECT_DIR.'/templates/layout/head/tiny_config.js';
+                break;
+            case 'new':
+                $this->templatesLayout['layout'] = PROJECT_DIR.'/templates/newlayout/layout.php';
+                $this->templatesLayout['links'] = PROJECT_DIR.'/templates/newlayout/head/editableJsLinks.php';
+                $this->templatesLayout['tiny_config'] = PROJECT_DIR.'/templates/newlayout/head/tiny_config.js';
+                break;
+            case 'new1':
+                $this->templatesLayout['layout'] = PROJECT_DIR.'/templates/newlayout_1/layout.php';
+                $this->templatesLayout['links'] = PROJECT_DIR.'/templates/newlayout_1/head/editableJsLinks.php';
+                $this->templatesLayout['tiny_config'] = PROJECT_DIR.'/templates/newlayout_1/head/tiny_config.js';
+                break;
+            case 'new2':
+                $this->templatesLayout['layout'] = PROJECT_DIR.'/templates/newlayout_2/layout.php';
+                $this->templatesLayout['links'] = PROJECT_DIR.'/templates/newlayout_2/head/editableJsLinks.php';
+                $this->templatesLayout['tiny_config'] = PROJECT_DIR.'/templates/newlayout_2/head/tiny_config.js';
+                break;
+            case 'new3':
+                $this->templatesLayout['layout'] = PROJECT_DIR.'/templates/newlayout_3/layout.php';
+                $this->templatesLayout['links'] = PROJECT_DIR.'/templates/newlayout_3/head/editableJsLinks.php';
+                $this->templatesLayout['tiny_config'] = PROJECT_DIR.'/templates/newlayout_3/head/tiny_config.js';
+                break;
+            default:
+                $this->templatesLayout['layout'] = PROJECT_DIR.'/templates/layout.php';
+                $this->templatesLayout['links'] = PROJECT_DIR.'/templates/layout/head/editableJsLinks.php';
+                $this->templatesLayout['tiny_config'] = PROJECT_DIR.'/templates/layout/head/tiny_config.js';
+                break;
+        }
+    }
+
+###############################################################################################################
     ### action metody ###############
 
     public function home(ServerRequestInterface $request) {
@@ -72,6 +110,7 @@ class ComponentController extends LayoutControllerAbstract {
 
     protected function createView(ServerRequestInterface $request) {
 
+        $this->initLayoutTemplatesVars();
         #### speed test ####
 //        $timer = new Timer();
 //        $timer->start();
@@ -147,10 +186,10 @@ class ComponentController extends LayoutControllerAbstract {
             $basepath = $this->getBasePath($request);
             return [
                 'editableJsLinks' => $this->container->get(View::class)
-                    ->setTemplate(new PhpTemplate(PROJECT_DIR.'/templates/layout/head/editableJsLinks.php'))
+                    ->setTemplate(new PhpTemplate($this->templatesLayout['links']))
                     ->setData([
                         'tinyMCEConfig' => $this->container->get(View::class)
-                            ->setTemplate(new InterpolateTemplate(PROJECT_DIR.'/templates/layout/head/tiny_config.js'))
+                            ->setTemplate(new InterpolateTemplate($this->templatesLayout['tiny_config']))
                             ->setData([
                                 // pro tiny_config.js
                                 'basePath' => $basepath,

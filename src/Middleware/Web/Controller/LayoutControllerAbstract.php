@@ -49,7 +49,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
      * @return CompositeView
      */
     protected function getLayoutView(ServerRequestInterface $request) {
-        return $this->viewFactory->phpTemplateCompositeView(PROJECT_DIR.'/templates/layout.php',
+        return $this->viewFactory->phpTemplateCompositeView($this->templatesLayout['layout'],
                 [
                     'basePath' => $this->getBasePath($request),
                     'langCode' => $this->statusPresentation->getLanguage()->getLangCode(),
