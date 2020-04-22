@@ -1,10 +1,11 @@
+test
 Úpravy potřebné pro spouštění, poikud má být aplikace umístěna jinde, než ve zdrojové adresáři.
 V příkladech je případ, kdy je aplikace v poadresáři kořenového adresáře
 
 
 index.php
 - upravit cestu v require Pes:
-require "../Pes/Pes/src/Bootstrap/Bootstrap.php"; 
+require "../Pes/Pes/src/Bootstrap/Bootstrap.php";
 
 Příklad:
 require "../../Pes/Pes/src/Bootstrap/Bootstrap.php";)
@@ -22,7 +23,7 @@ composer.json
             "Pes\\": "../../Pes/Pes/src",
             "Psr\\Http\\Server\\": "Interop/Http/Server"
 
-Příklad: 
+Příklad:
     "autoload": {
         "psr-4": {
             "" : "",
@@ -31,7 +32,7 @@ Příklad:
             "Psr\\Http\\Server\\": "Interop/Http/Server"
         }
     }
-        
+
 - spustit run_composer_update.bat
 Tím se "opraví" autoloader.
 
