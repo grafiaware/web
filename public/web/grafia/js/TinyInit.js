@@ -127,7 +127,7 @@ var segmentConfig = {
         { title: 'Menu - 1 položka (bez gridu) verze 2', description: 'Vložení položky menu na stránku', url: rsUrls.prefixTemplates + 'menu_1polozka_2.html'},
     ],
     toolbar1: 'undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent |' +
-            'hr | nonbreaking | forecolor backcolor ' + ' | fontsizeselect | code | searchreplace template | link image | save | example',
+            'hr | nonbreaking | forecolor backcolor ' + ' | fontsizeselect | code | searchreplace template | link image | save | example vlozitNadpis vlozitOdstavec',
 
     imagetools_toolbar: 'editimage | rotateleft rotateright | flipv fliph | imageoptions',
     relative_urls : true,
@@ -160,16 +160,16 @@ var segmentConfig = {
         editor.insertContent('<p>lala</p>');
       }
     });
-
+    
     editor.ui.registry.addContextToolbar('vlozitNadpis', {
       predicate: function (node) {
         return node.className === 'ui header'
       },
-    //      items: 'vlastniTlacitkoP',
-      items: 'example',
+      items: 'vlastniTlacitkoP', 
+      //items: 'example',
       position: 'node',
       scope: 'node'
-    });
+    }); 
     editor.ui.registry.addIcon('vlastni_icona',
      '<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="25px" height="25px" viewBox="0 0 595.279 841.89" enable-background="new 0 0 595.279 841.89" xml:space="preserve"><path d="M422.74,488.949c-5.332-4.775-13.523-4.309-18.272,1.01c-26.995,30.166-65.921,47.455-106.827,47.455     c-40.893,0-79.832-17.289-106.827-47.455c-4.774-5.318-12.94-5.785-18.272-1.01c-5.331,4.764-5.771,12.941-1.009,18.273     c31.899,35.639,77.865,56.072,126.108,56.072c48.257,0,94.223-20.447,126.108-56.072     C428.511,501.89,428.058,493.712,422.74,488.949z"/><path d="M297.64,123.305C133.524,123.305,0,256.829,0,420.945c0,164.117,133.523,297.64,297.64,297.64     s297.64-133.523,297.64-297.64C595.28,256.829,461.756,123.305,297.64,123.305z M297.64,692.703     c-149.855,0-271.758-121.902-271.758-271.757c0-149.855,121.902-271.759,271.758-271.759S569.399,271.09,569.399,420.945     C569.399,570.8,447.495,692.703,297.64,692.703z"/><path d="M401.167,330.359c-35.679,0-64.705,29.026-64.705,64.705c0,7.143,5.798,12.941,12.941,12.941s12.94-5.798,12.94-12.941     c0-21.404,17.419-38.823,38.823-38.823s38.822,17.418,38.822,38.823c0,7.143,5.798,12.941,12.94,12.941     c7.144,0,12.941-5.798,12.941-12.941C465.871,359.385,436.845,330.359,401.167,330.359z"/><path d="M232.936,395.063c0,7.143,5.798,12.941,12.94,12.941c7.144,0,12.941-5.798,12.941-12.941     c0-35.678-29.026-64.705-64.704-64.705c-35.679,0-64.705,29.026-64.705,64.705c0,7.143,5.798,12.941,12.941,12.941     s12.94-5.798,12.94-12.941c0-21.404,17.419-38.823,38.823-38.823C215.517,356.241,232.936,373.659,232.936,395.063z"/></svg>',
         );
@@ -180,7 +180,8 @@ var segmentConfig = {
         editor.insertContent('<h2>Nadpis</h2>');
       }
     });
-
+    
+    
     //
     editor.ui.registry.addContextToolbar('vlozitOdstavce', {
       predicate: function (node) {

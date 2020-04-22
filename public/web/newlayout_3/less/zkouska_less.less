@@ -7,19 +7,19 @@
 @import "content.less";
 @import "editor.less";
 @import "template.less";
- 
 
-.layout{ 
-    /************************************media*************************************/ 
+.newlayout_3{
+
+
     @media (max-width: 1750px) {
         .poznamky{
-            left: 10px; 
+            left: 10px;
             .label::before{
-                display: none; 
-            } 
-            .content{ 
                 display: none;
-            } 
+            }
+            .content{
+                display: none;
+            }
         }
         .poznamky:hover{
             .label::before{
@@ -138,70 +138,7 @@
         .page-content .column > form > button.ui.button.save{
             right: 15px;
         }
-        .nav-mobile{
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: fixed;
-            padding: 5px;
-            margin-top: 0;
-            left: 15px;
-            border: 1px solid @lightGrey;
-            border-radius: 5px;
-            box-shadow: 1px 1px 10px 1px rgba(34,36,38,.15);
-            &:hover{
-                background-color: rgb(242, 242, 242);
-                transition: 0.3s all;
-            }
-        }
-        .svisle-menu:first-child {
-            display: none;
-        }
-        #mySidenav {
-            height: 100%;
-            width: 80%;
-            background-color: @white;
-            position: fixed!important;
-            top: 0;
-            left: 0;
-            z-index: 100;
-            overflow: auto;
-            -webkit-animation: animateleft 0.4s;
-            animation: animateleft 0.4s;
-            padding: 20px;
-        }
-        #myOverlay{
-            position: fixed;
-            display: none;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5); //@transparentBlack
-            z-index: 1;
-        }
-        @-webkit-keyframes animateleft {
-          from {
-            left: -300px;
-            opacity: 0;
-          }
-          to {
-            left: 0;
-            opacity: 1;
-          }
-        }
-        @keyframes animateleft {
-          from {
-            left: -300px;
-            opacity: 0;
-          }
-          to {
-            left: 0;
-            opacity: 1;
-          }
-        }
+
         .poznamky{
             left: 25px;
             top: 240px;
@@ -217,10 +154,10 @@
     }
     @media (min-width: 1100px) {
         .close-item, span.nav-mobile{
-            display: none;
+            //display: none;
         }
         #mySidenav {
-            display: block !important;
+           // display: block !important;
         }
     }
     @media (max-width: 920px) {
@@ -256,14 +193,11 @@
             .kontakt-hlavicka{
                 margin-right: -4px;
             }
-            .jazyky{
-                margin-top: 0;
-                margin-bottom: -10px;
-                margin-right: -4px;
-            }
         }
-        .nav-mobile {
-            left: 10px;
+        .jazyky{
+            margin-top: 0;
+            margin-bottom: -10px;
+            margin-right: -4px;
         }
         .fluid.input{
             float: right;
@@ -330,28 +264,9 @@
             flex-direction: column;
             align-items: center;
         }
-        .nav-mobile{
-           background: #fff;
-           z-index: 1;
-        }
         @keyframes prechodPozadi {
             0% { background-color: @primaryColor }
             100% { background-color: @white }
-        }
-        .nav-mobile.active{
-           display: flex;
-           left: 30px;
-           transform: translateY(-168%);
-           padding: 6px;
-           margin-left: 5px;
-           animation-name: prechodPozadi;
-           animation-duration: 1s;
-           animation-timing-function: ease;
-           animation-delay: 0s;
-           animation-iteration-count: 1;
-        }
-        .nav-mobile:not(.active){
-            display: none;
         }
         .dimmer .content{
             width: 80%;
@@ -460,10 +375,7 @@
                 }
             }
         }
-        .nav-mobile.active {
-            transform: translateY(0);
-            top: 130px;
-        }
+
         .poznamky{
             left: 35px;
             top: 100px;

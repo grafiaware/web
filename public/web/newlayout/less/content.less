@@ -1,0 +1,97 @@
+.newlayout{
+    /*************************************main*************************************/
+    /*Styly stranky*/
+    .page-content{
+        h1{
+            color: @redTextColor;
+            background-color: @backgroundLightGrey;
+            border-radius: 5px;
+            font-size: @h1;
+            text-align: center;
+            padding: 5px 0;
+            margin-top: 0;
+        }
+    }
+    .page-content .articleHeadline-editable > button.ui.button.save {
+        position: absolute;
+        top: 11px;
+        right: 10px;
+        padding: 7px;
+    }
+    .white.basic.segment{
+        background-color: white;
+    }
+    .dimmer .content{
+        width: 17%;
+        .center{
+            p{
+                font-weight: 700;
+                padding: 7px;
+                border-radius: 5px;
+                position: relative;
+                border: 1px solid white;
+                background-color: rgba(0,0,0,.3);
+                &::before{
+                    content: "\f007";
+                    position: absolute;
+                    left: 15px;
+                    z-index: 1;
+                    height: 1em;
+                    opacity: 1;
+                    font-family: icons;
+                }
+            }
+            form > .field > button.button{
+                color: inherit; //
+                > i.large::before{
+                    top: -9px;
+                }
+            }
+        }
+    }
+    .grafia.segment.headlined content p, {
+        margin: 5px 0;
+    }
+    .ui.segment .settings.icon{
+        position: absolute;
+        font-size: 1.5em;
+        color: @redTextColor;
+        top: 5px;
+        left: 10px;
+    }
+    .segment headline.header{
+        color: @redTextColor;
+        background-color: @backgroundLightGrey;
+        border-radius: 4px 4px 0 0;
+        text-align: center;
+        margin: 0 -12px;
+        margin-top: -12px !important;
+        padding: 5px 0;
+        p{
+            font-size: @h2;
+            margin-bottom: 0;
+        }
+    }
+    #contents .segment headline.header{
+        margin-top: 0 !important;
+    }
+    .segment img{
+        max-width: 100%;
+        height: auto;
+    }
+    .ui.segment, block{
+        clear: both;
+    }
+    .primary.button > a{
+        color: inherit;
+    }
+    .primary.button:hover{
+        background-color: @linkHoverColor !important;
+    }
+    .kontakt-hlavicka{
+        display: flex;
+        flex-direction: row-reverse;
+    }
+    
+}
+

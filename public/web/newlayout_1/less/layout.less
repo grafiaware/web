@@ -1,0 +1,385 @@
+.newlayout_1{
+    header{
+        .grid > .row:first-child{
+            padding-bottom: 0;
+            /*editační*/
+            height: 160px;
+            > .column:first-child{
+                padding-right: 0;
+            }
+            > .column{
+                vertical-align: top !important;
+            }
+        }
+        .grid > .row:last-child{
+            padding-top: 10px;
+            > .column:first-child{
+                padding-right: 0;
+            }
+        }
+        .grid > .row:first-child,
+        .grid > .row:last-child{
+            > .column:last-child{
+                padding-left: 0;
+            }
+        }
+    }
+    header{
+        height: 300px;
+        background-color: rgb(233, 234, 234);
+        margin-bottom: 10px;
+        img{
+            max-width: 100%;
+        }
+        a{
+            color: inherit;
+            &:hover{
+                color: inherit;
+            }
+        }
+        .presmerovani-menu ul.text.menu{
+            justify-content: center;
+        }
+        ul.text.menu{
+            margin: auto !important;
+            padding: 0;
+        }
+        .kontakt-hlavicka{
+            font-size: 0.8em;
+            text-align: right;
+            color: grey;
+            img{ //.ui.image img
+                margin: 0 5px;
+            }
+            .kontaktni-udaje p{
+                margin: 0;
+            }
+        }
+    }
+    header p{
+        font-size: 2em;
+        color: @redTextColor;
+        text-align: center;
+        top: 10%;
+        right: 0;
+        position: relative;
+    }
+    .jazyky{
+       // margin-top: 10px;
+        clear: both;
+        margin-right: 5px;
+        float: right;
+        button{
+            margin-right: 5px;
+        }
+        button img{
+            vertical-align: middle;
+            width: 30px;
+            height: 17px;
+        }
+        .ui.basic.button{
+            padding: 0;
+            box-shadow: 0 0;
+            &:hover{
+                box-shadow: 0 0;
+            }
+        }
+        .jazyk-on{
+            border: double @linkColor 3px;
+            height: 20px;
+            width: 33px;
+        }
+        .basic.button{
+            margin-right: 0;
+        }
+        .page.button{
+            vertical-align: bottom;
+        }
+        > form{
+            display: inline-block;
+        }
+    }
+    headline, content, block, div[class=""]{
+        display: block;
+        position: relative;
+    }
+    .kontakt-hlavicka{
+        display: flex;
+        flex-direction: row-reverse;
+    }
+    .logo img{
+        width: 100px;
+    }
+    .background{
+        top: 93%;
+        height: 300px;
+        width: 100%;
+        position: absolute;
+        background-image: linear-gradient(
+            @backgroundLightGrey 80%,
+            @white 90%
+        );
+        z-index: -1;
+    }
+    .background-f{
+        top: -100%;
+        height: 300px;
+        width: 100%;
+        position: absolute;
+        background-image: linear-gradient(
+            @white 0%,
+            @backgroundLightGrey 10%
+        );
+        z-index: -1;
+    }
+    .page-content > .grid > .column:not(.row){
+        &:first-child{
+            padding-right: 0;
+        }
+        &:nth-child(2){
+            padding-left: 1em;
+            padding-right: 1em;
+        }
+        &:last-child{
+            padding-left: 0;
+        }
+    }
+    .page-content{
+        background: lighten(@backgroundLightGrey, 5);
+        box-shadow: 0px 0px 5px 5px darken(@backgroundLightGrey,8) ;
+        margin-right: -30px;
+        padding: 40px 50px;
+        min-height: 1000px;
+    }
+    .ui.grid{
+        clear: both;
+    }
+    main > div > .column{
+        &:first-child .ui.segment:not(:first-child),
+        &:last-child .ui.segment:not(:first-child){
+            margin-top: 35px;
+        }
+    }
+    footer{
+        .grid > .column:first-child p{
+            margin-left: 50px;
+        }
+        background-color: @backgroundLightGrey;
+        margin: 10px -15px -15px;
+        p{
+            margin: 5px 0;
+            color: @redTextColor;
+        }
+        p > a >img{
+            width: 80px;
+        }
+    }
+    /*****************Styly pro menu - normalni i editacni rezim*******************/
+    //pouzivane tridy u polozky menu (li):
+    //.leaf - posledni polozka menu
+    //.onpath - "na ceste"; pouziva se u kazde polozky, na kterou se klikne - potreba pro stylovani podmenu
+    //.presented - pouziva se vzdy u posledni polozky, na kterou se klikne
+
+    //trida .item je pouzita u (li) nebo (a) podle sady stylu semantic UI (semanticka trida)
+
+    /***PRO VSECHNA MENU***/
+    .vodorovne-menu .menu .onpath,
+    .presmerovani-menu .menu .onpath{
+         > ul{
+            padding: 0;
+        }
+    }
+    .menu a{
+        z-index: 0;
+    }
+
+    /***SVISLE MENU***/
+    //hamburger menu
+    .close-item,
+    .nav-mobile{
+      font-size: @bigSize * @emSize;
+      margin: 5px 0;
+      display: none;
+      &:hover{
+          cursor: pointer;
+      }
+    }
+    .close-item > a > i.times.circle.icon,
+    .nav-mobile > i.bars.icon{
+        margin: 0;
+    }
+    .svisle-menu:first-child {
+       // display: none;
+    }
+    //
+    .svisle-menu{
+        position: absolute;
+        left: -115px;
+        right: auto;
+        width: 370px
+    }
+    .ui.menu{
+        a.item:hover{
+            color: dark(@white,2);
+        }
+    }
+    .svisle-menu > form > .ui.vertical.menu{
+        background: @grey !important;
+        border-radius: 5px;
+        box-shadow: 0 0 5px 5px dark(@backgroundLightGrey,10) !important;
+        padding: 10px;
+    }
+    .svisle-menu .menu{  //ohraniceni semantic
+        padding: 0;
+        margin-top: 0;
+        > li{
+            list-style: none;
+            border-radius: 5px;
+            &:not(:first-child){
+                border-top: 2px solid @transparentBlack;
+            }
+            &:first-child{
+               // border-radius: 4px 4px 0 0;
+            }
+            &:last-child{
+              //  border-radius: 0 0 4px 4px;
+            }
+        }
+        li{
+            position: relative;
+            border: 0 !important;
+            a.item{
+                color: white;
+            }
+        }
+        li:not(.leaf){
+            > .item::after{
+                content: "\f107";
+                height: 1em;
+                width: 1.18em;
+                font-family: Icons;
+                font-weight: 500;
+                text-align: center;
+                margin: 0 0 0 .5em;
+                position: absolute;
+                right: 5px;
+                color: @white;
+                top: 40%;
+                transform: translateY(-50%);
+            }
+        }
+        &.onpath{
+            > .item::after{
+                top: 15px;
+                transform: none;
+            }
+        }
+    }
+    .svisle-menu form > .menu{                                   //preorganizovano ohraniceni
+        padding: 0;
+       // border: 0 !important; //prepsat v semantic ui
+       // box-shadow: 0 0 0 0 !important; //prepsat v semantic ui
+        li{
+            list-style-type: none;
+        //    border: 2px solid @transparentBlack;
+        //    border-bottom: 0;
+            &:not(:first-child){
+        //        border-top: 0;
+            }
+            &:last-child{
+        //        border-bottom: 2px solid @transparentBlack;
+            }
+            &:first-child.onpath{
+         //       border-width: 2px 0 0 0;
+            }
+            .item{
+                line-height: normal;
+                color: @white;
+                border: 0 !important;
+            }
+            i:first-child{
+                float: left;
+            }
+        }
+        .onpath{                                //pozadi jen v podrazenem ul
+            &.presented > .item{
+                background-color: @transparentBlack;
+            }
+          //  border-width: 0 0 2px 0;
+            background-color: @white;
+            &:hover{
+                background-color: @white !important;
+            }
+            > .item{
+                color: @redGrafia;
+                font-weight: 700;
+           //     border-bottom: 1px solid @transparentBlack;
+                background-color: @transparentBlack + @transparentBlack !important;
+         //       border-left: 2px solid @transparentBlack;
+         //       border-right: 2px solid @transparentBlack !important;
+                line-height: normal;
+                &::after{
+                    color: @redGrafia;
+                }
+            }
+            .menu{
+            //    border-top: 0;
+                background-color: @transparentBlack;
+                margin-left: 0 !important;
+                padding-left: 15px;
+                li{
+                    //list-style-type: inherit;
+                }
+                li:hover{
+                    background-color: @transparentBlack;
+                }
+                .onpath > .menu {
+                    background-color: @transparentBlack+@transparentBlack;
+                    border-radius: 0 0 5px 5px;
+                    > .onpath > .menu{
+                        background-color: @transparentBlack+@transparentBlack+@transparentBlack;
+                        border-radius: 0 0 5px 5px;
+                    }
+                }
+            }
+        }
+    }
+    /***PRESMEROVANI MENU***/
+
+    /***VODOROVNE MENU***/
+    .vodorovne-menu a{
+        padding: 2px 3px;
+    }
+
+    /******************************Menu normalni rezim*****************************/
+
+    /***SVISLE MENU***/
+    .svisle-menu form > .menu:not(.edit){
+        li .item{
+            padding: 0.6em 0.6em !important;
+        }
+        .onpath .menu{
+            margin-left: 20px;
+        }
+    }
+    /***PRESMEROVANI MENU***/
+
+    /***VODOROVNE MENU***/
+    .vodorovne-menu .menu .onpath > a{
+        color: @primaryColor ;
+        background-color: @white;
+        box-shadow: 0 0 0 1px @primaryColor inset ;
+        &:hover{
+            background-color: @white !important;
+            color: @darkRedGrafia;
+        }
+    }
+    .ui.secondary.menu{
+        margin: 0px 155px 0 110px;
+        .item{
+            margin: 0;
+            padding: 0.75em 0.7em;
+        } 
+    }
+}
+

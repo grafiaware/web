@@ -1,11 +1,13 @@
 <!doctype html>
 <html lang="<?= $langCode ?>">
-    <head>
-        <?php include "layout/head.php"; ?>
-    </head>
+        <head>
+            <base href="<?=$basePath;?>">
+            <title><?= Middleware\Web\AppContext::getWebTitle() ?></title>
+            <?php include "layout/head.php"; ?>
+        </head>
+        <body class="layout">
 
-    <body>
-        <?php include "layout/body.php"; ?>
-    </body>
+            <?php include "layout/body.php"; ?>
+        </body>
 </html>
 
