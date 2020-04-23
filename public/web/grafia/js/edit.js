@@ -50,7 +50,7 @@ $("block").click(function() {
   showHeight( $( ".mce-edit-focus" ).height(), $( ".mce-edit-focus" ).width() );
 });
 
-document.addEventListener('keydown', function (event) {
+function sendOnEnter(event) {
     var escPressed = event.which === 27,
     nlPressed = event.which === 13,
     targetElement = event.target,
@@ -92,4 +92,9 @@ document.addEventListener('keydown', function (event) {
             event.preventDefault();
         }
     }
-}, true);
+}
+var navigations = document.getElementsByTagName('nav');
+for (var i = 0, len = navigations.length; i < len; i++) {
+    navigations[i].addEventListener('keydown', sendOnEnter, true);;
+}
+//document.addEventListener('keydown', sendOnEnter, true);
