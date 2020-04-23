@@ -54,7 +54,7 @@ document.addEventListener('keydown', function (event) {
     var escPressed = event.which === 27,
     nlPressed = event.which === 13,
     targetElement = event.target,
-    acceptedElement = targetElement.nodeName !== 'INPUT' && targetElement.nodeName !== 'TEXTAREA',
+    acceptedElement = targetElement.nodeName === 'SPAN' && targetElement.parentNode.nodeName === 'P',
     location, url,
     data = {};
 
