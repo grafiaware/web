@@ -113,7 +113,7 @@ class Konverze extends AppMiddlewareAbstract implements MiddlewareInterface {
 ###### run ########
         $this->timer = new Timer();
         $this->log[] = "Záznam o konverzi ".(new \DateTime("now"))->format("d.m.Y H:i:s");
-        $limit = 60;
+        $limit = 120;
         set_time_limit($limit);
         $this->log[] = "Nastaven časový limit běhu php skriptu na $limit sekund.";
         #### speed test ####
