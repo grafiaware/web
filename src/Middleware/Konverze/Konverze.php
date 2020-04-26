@@ -29,7 +29,7 @@ use Pes\Http\Response;
  */
 class Konverze extends AppMiddlewareAbstract implements MiddlewareInterface {
 
-    const TIME_LIMIT = 10;
+    const TIME_LIMIT = 100;
 
     /**
      * @var Timer
