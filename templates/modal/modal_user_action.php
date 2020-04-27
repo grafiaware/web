@@ -33,13 +33,6 @@
                         <?= $editLayout ? "Vypnout inline editaci rozvržení" : "Zapnout inline editaci rozvržení" ?>
                     </button>
                 </div>
-                <div class="field">
-                    <button class="fluid ui secondary labeled icon button" type="submit" name="logout" value="1" formtarget="_self"
-                            formaction='auth/v1/logout'>
-                        <i class="sign out alternate large icon"></i>
-                        Odhlásit se
-                    </button>
-                </div>
                 <a class="ui hide button" href="javascript:void(0)">Zrušit</a>
             </form>
         </div>
