@@ -20,7 +20,7 @@ use Pes\View\ViewFactory;
 
 use Middleware\Login\Controller\LoginLogoutController;
 use Component\View\Status\{
-    LoginComponent, UserActionComponent
+    LoginComponent, LogoutComponent, UserActionComponent
 };
 
 /**
@@ -53,12 +53,30 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
                 [
                     'basePath' => $this->getBasePath($request),
                     'langCode' => $this->statusPresentation->getLanguage()->getLangCode(),
-                    'modal' => $this->getModal()
+                    'modalLoginLogout' => $this->getModalLoginLogout(),
+                    'modalUserAction' => $this->getModalUserAction()
                 ]);
     }
 
 
-    protected function getModal() {
+    protected function getModalLoginLogout() {
+        $user = $this->statusSecurity->getUser();
+        if (null != $user AND $user->getRole()) {   // libovolná role
+            /** @var LogoutComponent $logoutComponent */
+            $logoutComponent = $this->container->get(LogoutComponent::class);
+            //$logoutComponent nepoužívá viewModel, používá template definovanou v kontejneru - zadávám data pro template
+            $logoutComponent->setData(['userName' => $user->getUserName()]);
+            return $logoutComponent;
+        } else {
+            /** @var LoginComponent $loginComponent */
+            $loginComponent = $this->container->get(LoginComponent::class);
+            //$loginComponent nepoužívá viewModel, používá template definovanou v kontejneru - zadávám data pro template
+            $loginComponent->setData(["jmenoFieldName" => LoginLogoutController::JMENO_FIELD_NAME, "hesloFieldName" => LoginLogoutController::HESLO_FIELD_NAME]);
+            return $loginComponent;
+        }
+    }
+
+    protected function getModalUserAction() {
         $user = $this->statusSecurity->getUser();
         if (null != $user AND $user->getRole()) {   // libovolná role
             /** @var UserActionComponent $actionComponent */
@@ -71,11 +89,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
                     ]);
             return $actionComponent;
         } else {
-            /** @var LoginComponent $loginComponent */
-            $loginComponent = $this->container->get(LoginComponent::class);
-            //loginController nepoužívá viewModel, zadávám data
-            $loginComponent->setData(["jmenoFieldName" => LoginLogoutController::JMENO_FIELD_NAME, "hesloFieldName" => LoginLogoutController::HESLO_FIELD_NAME]);
-            return $loginComponent;
+
         }
     }
 }
