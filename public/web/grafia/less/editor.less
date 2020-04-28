@@ -11,6 +11,12 @@ body.layout#tinymce{
 }
 
 .layout{
+    .ui.container.editable{
+        margin-left: auto !important;
+        margin-right: 10px !important;
+        position: relative;
+        right: 0;
+    }
     /****************************Editacni*menu*s*buttony***************************/
     /***PRO VSECHNA MENU***/
     .menu.edit li > p{
@@ -357,12 +363,11 @@ body.layout#tinymce{
         right: 0;
     }
     .poznamky{
-        position: fixed;
+        position: absolute;
         border-radius: 5px;
         background: @white;
-        left: 10px;
-        top: 50px;
-        transform: translateY(-50%);
+        left: -260px;
+        top: 10px;
         transition: 0.7s linear;
         box-shadow: 1px 1px 10px 1px rgba(34,36,38,.15);
         z-index: 1;
@@ -382,6 +387,11 @@ body.layout#tinymce{
                 margin-bottom: 0;
             }
         }
+    }
+    pre{
+        white-space: pre-wrap;
+        word-wrap: break-word;
+
     }
     
     /*******************************prostredi**tiny********************************/

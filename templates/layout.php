@@ -7,7 +7,7 @@
         </head>
         <body class="layout">
 
-            <?php include "layout/body.php"; ?>
+            <?php include "layout/body_editacni.php"; ?>
         </body>
 </html>
 
