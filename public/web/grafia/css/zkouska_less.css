@@ -490,7 +490,7 @@ body.layout > .container > .column {
   font-family: Icons;
   font-weight: 500;
   text-align: center;
-  margin: 0 0 0 0.5em;
+  margin: 0 0 0 .5em;
   position: absolute;
   right: 5px;
   color: rgba(0, 0, 0, 0.87);
@@ -728,7 +728,7 @@ body.layout#tinymce {
   top: 0;
   width: 1em;
   height: 100%;
-  border-radius: 0.333rem 0 0 0.333rem;
+  border-radius: .333rem 0 0 .333rem;
 }
 .layout i.grafia.active.green {
   background-color: #73c373;
@@ -744,7 +744,7 @@ body.layout#tinymce {
   top: 0;
   width: 1em;
   height: 100%;
-  border-radius: 0 0.333rem 0.333rem 0;
+  border-radius: 0 .333rem .333rem 0;
 }
 .layout i.grafia.actual.yellow {
   background-color: #f0da63;
