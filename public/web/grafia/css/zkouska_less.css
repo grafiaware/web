@@ -490,7 +490,7 @@ body.layout > .container > .column {
   font-family: Icons;
   font-weight: 500;
   text-align: center;
-  margin: 0 0 0 .5em;
+  margin: 0 0 0 0.5em;
   position: absolute;
   right: 5px;
   color: rgba(0, 0, 0, 0.87);
@@ -689,6 +689,12 @@ body.layout#tinymce {
   /*Styly stranky*/
   /*******************************prostredi**tiny********************************/
 }
+.layout .ui.container.editable {
+  margin-left: auto !important;
+  margin-right: 10px !important;
+  position: relative;
+  right: 0;
+}
 .layout .menu.edit li > p {
   margin-bottom: 0;
 }
@@ -722,7 +728,7 @@ body.layout#tinymce {
   top: 0;
   width: 1em;
   height: 100%;
-  border-radius: .333rem 0 0 .333rem;
+  border-radius: 0.333rem 0 0 0.333rem;
 }
 .layout i.grafia.active.green {
   background-color: #73c373;
@@ -738,7 +744,7 @@ body.layout#tinymce {
   top: 0;
   width: 1em;
   height: 100%;
-  border-radius: 0 .333rem .333rem 0;
+  border-radius: 0 0.333rem 0.333rem 0;
 }
 .layout i.grafia.actual.yellow {
   background-color: #f0da63;
@@ -1015,12 +1021,11 @@ body.layout#tinymce {
   right: 0;
 }
 .layout .poznamky {
-  position: fixed;
+  position: absolute;
   border-radius: 5px;
   background: #FFFFFF;
-  left: 10px;
-  top: 50px;
-  transform: translateY(-50%);
+  left: -260px;
+  top: 10px;
   transition: 0.7s linear;
   box-shadow: 1px 1px 10px 1px rgba(34, 36, 38, 0.15);
   z-index: 1;
@@ -1040,6 +1045,10 @@ body.layout#tinymce {
 }
 .layout .poznamky .content p:last-child {
   margin-bottom: 0;
+}
+.layout pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
 }
 .layout .mce-content-body:not(.mce-edit-focus) {
   padding: 5px 10px;
@@ -1276,20 +1285,25 @@ body.layout#tinymce {
   /************************************media*************************************/
 }
 @media (max-width: 1750px) {
-  .layout .poznamky {
-    left: 10px;
-  }
-  .layout .poznamky .label::before {
-    display: none;
-  }
-  .layout .poznamky .content {
-    display: none;
-  }
-  .layout .poznamky:hover .label::before {
-    display: block;
-  }
-  .layout .poznamky:hover .content {
-    display: block;
+  .layout {
+    /*        .poznamky{
+            left: 10px; 
+            .label::before{
+                display: none; 
+            } 
+            .content{ 
+                display: none;
+            } 
+        }*/
+    /*        .poznamky:hover{
+            .label::before{
+                display: block;
+            }
+            .content{    
+                display: block;
+            }
+
+        }*/
   }
 }
 @media (max-width: 1300px) {
