@@ -30,6 +30,7 @@ use Component\View\{
     Generated\ItemTypeSelectComponent,
     Status\FlashComponent,
     Status\LoginComponent,
+    Status\LogoutComponent,
     Status\UserActionComponent
 };
 
@@ -334,6 +335,10 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
             'template.login' => PROJECT_DIR.'/templates/modal/modal_login.php',
             LoginComponent::class => function(ContainerInterface $c) {
                 return (new LoginComponent())->setTemplate(new PhpTemplate($c->get('template.login')))->setRendererContainer($c->get('rendererContainer'));
+            },
+            'template.logout' => PROJECT_DIR.'/templates/modal/modal_logout.php',
+            LogoutComponent::class => function(ContainerInterface $c) {
+                return (new LogoutComponent())->setTemplate(new PhpTemplate($c->get('template.logout')))->setRendererContainer($c->get('rendererContainer'));
             },
             'template.useraction' => PROJECT_DIR.'/templates/modal/modal_user_action.php',
             UserActionComponent::class => function(ContainerInterface $c) {
