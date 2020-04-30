@@ -36,13 +36,13 @@
             <?=
                 $languageSelect
             ?>
-            <div>
-            <?=
-                $modalLoginLogout
-            ?>
-            <?=
-                $modalUserAction
-            ?>
-            </div>
+        </div>
+        <div class="prihlaseni">
+        <?=
+            $modalLoginLogout
+        ?>
+        <?=
+            $modalUserAction
+        ?>
         </div>
     </div>
