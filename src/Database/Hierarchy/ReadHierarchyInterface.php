@@ -16,8 +16,11 @@ interface ReadHierarchyInterface {
 
     /**
      *
-     * @param string $langCode Hodnota existující v sloupci tabulky language.lang_code
-     * @param string $uid
+     * @param type $langCode Hodnota existující v sloupci tabulky language.lang_code
+     * @param type $uid
+     * @param type $active
+     * @param type $actual
+     *
      * @return array
      */
     public function getNode($langCode, $uid, $active, $actual);

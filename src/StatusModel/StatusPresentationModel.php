@@ -15,9 +15,10 @@ use Model\Repository\MenuRepo;
 use Model\Repository\MenuRootRepo;
 
 use Model\Entity\StatusPresentation;
-use Model\Entity\StatusPresentationInterface;
-use Model\Entity\StatusFlashInterface;
-use Model\Entity\LanguageInterface;
+
+use Model\Entity\{
+    MenuNodeInterface, StatusPresentationInterface, StatusFlashInterface, LanguageInterface
+};
 use Model\Entity\UserActions;
 
 /**
@@ -82,7 +83,7 @@ class StatusPresentationModel implements StatusPresentationModelInterface {
     }
 
     /**
-     * Pokud nejsou nastaveny hodnoty, nastaví defaultní hodnoty langCode do presentation statusu.
+     * Pokud nejsou nastaveny hodnoty, nastaví defaultní hodnoty language,  do presentation statusu.
      */
     private function regenerateStatusPresentation(): void {
         $this->statusPresentation = $this->statusPresentationRepo->get();

@@ -43,7 +43,7 @@ class StatusPresentationRepo extends StatusRepositoryAbstract {
     }
 
     /**
-     * Repository obsahuje vždy jen jednu entitu StatusLogin a ta je smazána.
+     * Repository obsahuje vždy jen jednu entitu StatusPresentationInterface a ta je smazána.
      */
     public function remove() {
         $this->entity = NULL;

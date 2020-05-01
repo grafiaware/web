@@ -32,7 +32,6 @@ interface MenuItemInterface extends EntityInterface {
     public function getHideTime();
 
     public function getActual();
-    public function getComponentName();
 
     public function setUidFk($uidFk): MenuItemInterface;
     public function setLangCodeFk($lang): MenuItemInterface;
@@ -43,5 +42,4 @@ interface MenuItemInterface extends EntityInterface {
     public function setShowTime(\DateTime $start): MenuItemInterface;
     public function setHideTime(\DateTime $stop): MenuItemInterface;
     public function setActual($actual): MenuItemInterface;
-    public function setComponentName($componentName): MenuItemInterface;
 }
