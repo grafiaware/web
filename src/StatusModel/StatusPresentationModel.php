@@ -8,11 +8,9 @@
 
 namespace StatusModel;
 
-use Model\Repository\StatusPresentationRepo;
-use Model\Repository\StatusFlashRepo;
-use Model\Repository\LanguageRepo;
-use Model\Repository\MenuRepo;
-use Model\Repository\MenuRootRepo;
+use Model\Repository\{
+    StatusPresentationRepo, StatusFlashRepo, LanguageRepo, MenuRepo, MenuRootRepo, MenuItemRepo
+};
 
 use Model\Entity\StatusPresentation;
 
