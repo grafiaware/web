@@ -8,6 +8,12 @@
 
 namespace Model\Entity;
 
+use Model\Entity\StatusPresentationInterface;
+
+use Model\Entity\{
+    MenuItem, Language, UserActions
+};
+
 /**
  * Description of StatusHierarchy
  *
@@ -15,50 +21,88 @@ namespace Model\Entity;
  */
 class StatusPresentation implements StatusPresentationInterface {
 
+    /**
+     * @var Language
+     */
     private $language;
 
     private $requestedLangCode;
 
-    private $itemUid = '';
+    /**
+     * @var MenuItem
+     */
+    private $menuItem;
 
     private $userActions;
 
     /**
      *
-     * @return \Model\Entity\Language
+     * @return Language|null
      */
     public function getLanguage(): ?Language {
         return $this->language;
     }
 
+    /**
+     *
+     * @return string
+     */
+    public function getRequestedLangCode() {
+        return $this->requestedLangCode;
+    }
+
+    /**
+     *
+     * @return MenuItem|null
+     */
+    public function getMenuItem(): ?MenuItem {
+        return $this->menuItem;
+    }
+
+    /**
+     *
+     * @return UserActions|null
+     */
+    public function getUserActions(): ?UserActions {
+        return $this->userActions;
+    }
+
+    /**
+     *
+     * @param Language $language
+     * @return StatusPresentationInterface
+     */
     public function setLanguage(Language $language): StatusPresentationInterface {
         $this->language = $language;
         return $this;
     }
 
-    public function getRequestedLangCode() {
-        return $this->requestedLangCode;
-    }
-
-    public function setRequestedLangCode($requestedLangCode) {
+    /**
+     *
+     * @param string $requestedLangCode
+     * @return StatusPresentationInterface
+     */
+    public function setRequestedLangCode($requestedLangCode): StatusPresentationInterface {
         $this->requestedLangCode = $requestedLangCode;
         return $this;
     }
 
-    public function getItemUid() {
-        return $this->itemUid;
-    }
-
-    public function setItemUid($uid): StatusPresentationInterface {
-        $this->itemUid = $uid;
+    /**
+     *
+     * @param MenuItem $menuItem
+     * @return StatusPresentationInterface
+     */
+    public function setMenuItem(MenuItem $menuItem): StatusPresentationInterface {
+        $this->menuItem = $menuItem;
         return $this;
     }
 
-    public function getUserActions(): ?UserActions {
-        return $this->userActions;
-    }
-
-    public function setUserActions(UserActions $userActions) {
+    /**
+     *
+     * @param UserActions $userActions
+     * @return StatusPresentationInterface
+     */
+    public function setUserActions(UserActions $userActions): StatusPresentationInterface {
         $this->userActions = $userActions;
         return $this;
     }

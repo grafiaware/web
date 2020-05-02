@@ -16,6 +16,7 @@ use Model\Repository\StatusFlashRepo;
 use Model\Repository\LanguageRepo;
 use Model\Repository\MenuRepo;
 use Model\Repository\MenuRootRepo;
+use Model\Repository\MenuItemRepo;
 
 use Model\Repository\ComponentRepo;
 use Model\Repository\PaperRepo;
@@ -45,10 +46,11 @@ abstract class PaperViewModelAbstract extends AuthoredViewModelAbstract implemen
             LanguageRepo $languageRepo,
             MenuRepo $menuRepo,
             MenuRootRepo $menuRootRepo,
+            MenuItemRepo $menuItemRepo,
             PaperRepo $paperRepo,
             ComponentRepo $componentRepo
             ) {
-        parent::__construct($presentationStatusRepo, $flashStatusRepo, $languageRepo, $menuRepo, $menuRootRepo);
+        parent::__construct($presentationStatusRepo, $flashStatusRepo, $languageRepo, $menuRepo, $menuRootRepo, $menuItemRepo);
         $this->paperRepo = $paperRepo;
         $this->componentRepo = $componentRepo;
     }

@@ -104,17 +104,21 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
             Account::class => function(ContainerInterface $c) {
                 /* @var $user UserInterface::class */
                 $user = $c->get(User::class);
-                switch ($user->getRole()) {
-                    case 'administrator':
-                        $account = new Account($c->get('database.account.administrator.name'), $c->get('database.account.administrator.password'));
-                        break;
-                    default:
-                        if ($user->getRole()) {
-                            $account = new Account($c->get('database.account.authenticated.name'), $c->get('database.account.authenticated.password'));
-                        } else {
-                            $account = new Account($c->get('database.account.everyone.name'), $c->get('database.account.everyone.password'));
-                        }
-                        break;
+                if (isset($user)) {
+                    switch ($user->getRole()) {
+                        case 'administrator':
+                            $account = new Account($c->get('database.account.administrator.name'), $c->get('database.account.administrator.password'));
+                            break;
+                        default:
+                            if ($user->getRole()) {
+                                $account = new Account($c->get('database.account.authenticated.name'), $c->get('database.account.authenticated.password'));
+                            } else {
+                                $account = new Account($c->get('database.account.everyone.name'), $c->get('database.account.everyone.password'));
+                            }
+                            break;
+                    }
+                } else {
+                    $account = new Account($c->get('database.account.everyone.name'), $c->get('database.account.everyone.password'));
                 }
                 return $account;
             },
@@ -139,7 +143,7 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new PaperController($c->get(StatusSecurityRepo::class), $c->get(StatusPresentationRepo::class), $c->get(PaperRepo::class));
             },
             PresentationActionController::class => function(ContainerInterface $c) {
-                return new PresentationActionController($c->get(StatusSecurityRepo::class), $c->get(StatusPresentationRepo::class), $c->get(LanguageRepo::class));
+                return new PresentationActionController($c->get(StatusSecurityRepo::class), $c->get(StatusPresentationRepo::class), $c->get(LanguageRepo::class), $c->get(MenuItemRepo::class));
             },
             UserActionController::class => function(ContainerInterface $c) {
                 return new UserActionController($c->get(StatusPresentationRepo::class));

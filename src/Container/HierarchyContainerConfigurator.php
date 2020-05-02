@@ -276,6 +276,7 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
                                 $c->get(LanguageRepo::class),
                                 $c->get(MenuRepo::class),
                                 $c->get(MenuRootRepo::class),
+                                $c->get(MenuItemRepo::class),
                         ));
             },
 

@@ -63,6 +63,11 @@ class StatusPresentationModel implements StatusPresentationModelInterface {
     protected $menuRootRepo;
 
     /**
+     * @var MenuItemRepo
+     */
+    protected $menuItemRepo;
+
+    /**
      * @var bool
      */
     private $isRegenerated = false;
@@ -73,13 +78,16 @@ class StatusPresentationModel implements StatusPresentationModelInterface {
             StatusFlashRepo $statusFlashRepo,
             LanguageRepo $languageRepo,
             MenuRepo $menuRepo,
-            MenuRootRepo $menuRootRepo
+            MenuRootRepo $menuRootRepo,
+            MenuItemRepo $menuItemRepo
             ) {
         $this->statusPresentationRepo = $statusPresentationRepo;
         $this->statusFlashRepo = $statusFlashRepo;
         $this->languageRepo = $languageRepo;
         $this->menuRepo = $menuRepo;
         $this->menuRootRepo = $menuRootRepo;
+        $this->menuItemRepo = $menuItemRepo;
+
     }
 
     /**
@@ -98,8 +106,11 @@ class StatusPresentationModel implements StatusPresentationModelInterface {
             $this->statusPresentation->setLanguage($language);
         }
 
-        if (!$this->statusPresentation->getItemUid()) {
-            $this->statusPresentation->setItemUid($this->getDefaultUid($language->getLangCode()));
+        $menuItem = $this->statusPresentation->getMenuItem();
+        if (!$menuItem) {
+            // defaultní node item pro zjištěný jazyk
+            $menuItem = $this->getDefaulMenuItem($language->getLangCode());
+            $this->statusPresentation->setMenuItem($menuItem);
         }
 
         if (!$this->statusPresentation->getUserActions()) {
@@ -129,12 +140,11 @@ class StatusPresentationModel implements StatusPresentationModelInterface {
 
     /**
      * Default menu item uid - kořenová položka menu určeného konstantou třídy DEEAULT_HIERARCHY_ROOT_COMPONENT_NAME
-     * @return Menunodein
+     * @return MenuNodeInterface
      */
-    private function getDefaultUid($langCode) {
-        return $this->menuRepo->get(
-                $langCode,
-                $this->menuRootRepo->get(self::DEEAULT_HIERARCHY_ROOT_COMPONENT_NAME)->getUidFk() )->getUid();    // kořen menu
+    private function getDefaulMenuItem($langCode) {
+        $uidFk = $this->menuRootRepo->get(self::DEEAULT_HIERARCHY_ROOT_COMPONENT_NAME)->getUidFk();
+        return $this->menuItemRepo->get($langCode, $uidFk );    // kořen menu
     }
 
     /**

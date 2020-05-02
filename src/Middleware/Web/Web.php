@@ -83,10 +83,10 @@ class Web extends AppMiddlewareAbstract implements MiddlewareInterface {
                 $ctrl = $this->container->get(ComponentController::class);
                 return $ctrl->last($request);
             }));
-        $this->registry->register(new Action(new Resource('GET', '/www/item/:uid'), function(ServerRequestInterface $request, $uid) {
+        $this->registry->register(new Action(new Resource('GET', '/www/item/:langCode/:uid'), function(ServerRequestInterface $request, $langCode, $uid) {
                 /** @var ComponentController $ctrl */
                 $ctrl = $this->container->get(ComponentController::class);
-                return $ctrl->item($request, $uid);
+                return $ctrl->item($request, $langCode, $uid);
             }));
         $this->registry->register(new Action(new Resource('GET', '/www/searchresult'), function(ServerRequestInterface $request) {
                 /** @var ComponentController $ctrl */

@@ -10,6 +10,8 @@ namespace Middleware\Web\Controller;
 
 use Psr\Http\Message\ServerRequestInterface;
 
+use Pes\Http\Response\RedirectResponse;
+
 // komponenty
 use Component\View\{
     Generated\LanguageSelectComponent,
@@ -20,7 +22,9 @@ use Component\View\{
 
 ####################
 
-use Model\Repository\StatusFlashRepo;
+use Model\Repository\{
+    MenuRepo, StatusFlashRepo
+};
 
 ####################
 use Pes\Debug\Timer;
@@ -79,14 +83,22 @@ class ComponentController extends LayoutControllerAbstract {
     ### action metody ###############
 
     public function home(ServerRequestInterface $request) {
-        $this->statusPresentation->setItemUid('');  // status model nastaví default uid (jazyk zachová)
+//        $this->statusPresentation->setMenuItem(null);  // status model nastaví default menu item (jazyk zachová)
         $view = $this->createView($request);
 
         return $this->createResponse($request, $view);
     }
 
-    public function item(ServerRequestInterface $request, $uid) {
-        $this->statusPresentation->setItemUid($uid);
+    public function item(ServerRequestInterface $request, $langCode, $uid) {
+        /** @var MenuRepo $menuRepo */
+        $menuRepo = $this->container->get(MenuRepo::class);
+        $menuNode = $menuRepo->get($langCode, $uid);
+        if ($menuNode) {
+            $this->statusPresentation->setMenuItem($menuNode->getMenuItem());
+        } else {
+            // neexistující stránka
+            return RedirectResponse::withRedirect(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/home/', $url, 303); // SeeOther
+        }
         return $this->createResponse($request, $this->createView($request));
     }
 
@@ -98,8 +110,8 @@ class ComponentController extends LayoutControllerAbstract {
         // TODO tady je nějaký zmatek
         /** @var SearchResultComponent $component */
         $component = $this->container->get(SearchResultComponent::class);
-        $key = $this->request->getAttribute('klic', '');
-        $key = $this->request->getQueryParams()['klic'];
+        $key = $request->getAttribute('klic', '');
+        $key = $request->getQueryParams()['klic'];
         $contentView = $component->setSearch($key);
         return $this->createResponse($request, $this->createView($request));
     }
@@ -162,8 +174,8 @@ class ComponentController extends LayoutControllerAbstract {
                 $this->getAuthoredLayoutComnponents(),
                 $this->getEmptyMenuComponents(),
                 $this->getMenuComponents(),
-                $this->getContentComponents(),
-                $this->getArticleComponent(),
+                $this->getLayoutComponents(),
+                $this->getContentComponent(),
                 $this->getPoznamky()
                 );
 
@@ -174,7 +186,7 @@ class ComponentController extends LayoutControllerAbstract {
      * Vrací view objekt pro zobrazení centrálního obsahu v prostoru pro "content"
      * @return type
      */
-    private function getArticleComponent() {
+    private function getContentComponent() {
         return ["content" => $this->isEditableArticle() ? $this->container->get('article.headlined.editable') : $this->container->get('article.headlined')];
     }
 
@@ -280,7 +292,7 @@ class ComponentController extends LayoutControllerAbstract {
         }
     }
 
-    private function getContentComponents() {
+    private function getLayoutComponents() {
         if ($this->isEditableLayout() OR $this->isEditableArticle()) {
             return [
                     'aktuality' => $this->container->get('component.headlined.editable')->setComponentName('a1'),

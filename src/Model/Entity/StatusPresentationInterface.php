@@ -8,6 +8,12 @@
 
 namespace Model\Entity;
 
+use Model\Entity\StatusPresentationInterface;
+
+use Model\Entity\{
+    MenuItem, Language, UserActions
+};
+
 /**
  *
  * @author pes2704
@@ -15,16 +21,11 @@ namespace Model\Entity;
 interface StatusPresentationInterface {
 
     /**
-     * @return Language
+     *
+     * @return Language|null
      */
     public function getLanguage(): ?Language;
 
-    /**
-     *
-     * @param \Model\Entity\Language $language
-     * @return \Model\Entity\StatusPresentationInterface
-     */
-    public function setLanguage(Language $language): StatusPresentationInterface;
 
     /**
      * @return string
@@ -33,31 +34,41 @@ interface StatusPresentationInterface {
 
     /**
      *
-     * @param string $requestedLangCode
+     * @return MenuItem|null
      */
-    public function setRequestedLangCode($requestedLangCode);
-
-    /**
-     * @return string
-     */
-    public function getItemUid();
+    public function getMenuItem(): ?MenuItem;
 
     /**
      *
-     * @param atring $itemUid
-     * @return \Model\Entity\StatusPresentationInterface
-     */
-    public function setItemUid($itemUid): StatusPresentationInterface;
-
-    /**
-     *
-     * @return \Model\Entity\UserActions|null
+     * @return UserActions|null
      */
     public function getUserActions(): ?UserActions;
 
     /**
      *
-     * @param \Model\Entity\UserActions $userStatus
+     * @param Language $language
+     * @return StatusPresentationInterface
      */
-    public function setUserActions(UserActions $userStatus);
+    public function setLanguage(Language $language): StatusPresentationInterface;
+
+    /**
+     *
+     * @param string $requestedLangCode
+     * @return StatusPresentationInterface
+     */
+    public function setRequestedLangCode($requestedLangCode): StatusPresentationInterface;
+
+    /**
+     *
+     * @param MenuItem $menuItem
+     * @return StatusPresentationInterface
+     */
+    public function setMenuItem(MenuItem $menuItem): StatusPresentationInterface;
+
+    /**
+     *
+     * @param UserActions $userStatus
+     * @return StatusPresentationInterface
+     */
+    public function setUserActions(UserActions $userStatus): StatusPresentationInterface;
 }

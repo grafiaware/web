@@ -55,7 +55,7 @@ class EditItemController extends PresentationFrontControllerAbstract {
 
     public function type(ServerRequestInterface $request) {
         $type = (new RequestParams())->getParam($request, 'type');
-        $this->getMenuItem($this->statusPresentation->getItemUid())->setType($type);
+        $this->getMenuItem($this->statusPresentation->getMenuItem())->setType($type);
         // vracím 200 OK - použití 204 NoContent způsobí, že v jQuery kódu .done(function(data, textStatus, jqXHR) je proměnná data undefined a ani jqXhr objekt neobsahuje vrácený text - jQuery předpoklákládá, že NoContent znamená NoContent
         $response = new Response();
         $response->getBody()->write("Zěmněn typ na $type.");

@@ -169,7 +169,8 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                                 $c->get(StatusFlashRepo::class),
                                 $c->get(LanguageRepo::class),
                                 $c->get(MenuRepo::class),
-                                $c->get(MenuRootRepo::class)
+                                $c->get(MenuRootRepo::class),
+                                $c->get(MenuItemRepo::class)
                             );
                 },
             MenuComponent::class => function(ContainerInterface $c) {
@@ -234,6 +235,7 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                                 $c->get(LanguageRepo::class),
                                 $c->get(MenuRepo::class),
                                 $c->get(MenuRootRepo::class),
+                                $c->get(MenuItemRepo::class),
                                 $c->get(PaperRepo::class),
                                 $c->get(ComponentRepo::class)
                             );
@@ -251,6 +253,7 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                                 $c->get(LanguageRepo::class),
                                 $c->get(MenuRepo::class),
                                 $c->get(MenuRootRepo::class),
+                                $c->get(MenuItemRepo::class),
                                 $c->get(PaperRepo::class),
                                 $c->get(ComponentRepo::class)
                         );
@@ -287,7 +290,8 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                                 $c->get(StatusFlashRepo::class),
                                 $c->get(LanguageRepo::class),
                                 $c->get(MenuRepo::class),
-                                $c->get(MenuRootRepo::class)
+                                $c->get(MenuRootRepo::class),
+                                $c->get(MenuItemRepo::class)
                         );
                 return (new LanguageSelectComponent($viewModel))->setRendererContainer($c->get('rendererContainer'))->setRendererName(LanguageSelectRenderer::class);
 
@@ -309,7 +313,8 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                                 $c->get(StatusFlashRepo::class),
                                 $c->get(LanguageRepo::class),
                                 $c->get(MenuRepo::class),
-                                $c->get(MenuRootRepo::class)
+                                $c->get(MenuRootRepo::class),
+                                $c->get(MenuItemRepo::class)
                         );
                 return (new SearchPhraseComponent($viewModel))->setRendererContainer($c->get('rendererContainer'))->setRendererName(SearchPhraseRenderer::class);
             },

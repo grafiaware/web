@@ -78,7 +78,7 @@ class Api extends AppMiddlewareAbstract implements MiddlewareInterface {
         $this->registry->register(new Action(new Resource('POST', '/api/v1/presentation/uid'), function(ServerRequestInterface $request) {
                 /** @var PresentationActionController $ctrl */
                 $ctrl = $this->container->get(PresentationActionController::class);
-                return $ctrl->setUid($request);
+                return $ctrl->setPresentedItem($request);
         }));
         $this->registry->register(new Action(new Resource('POST', '/api/v1/useraction/edit_layout'), function(ServerRequestInterface $request) {
                 /** @var PresentationActionController $ctrl */
