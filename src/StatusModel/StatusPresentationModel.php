@@ -12,11 +12,10 @@ use Model\Repository\{
     StatusPresentationRepo, StatusFlashRepo, LanguageRepo, MenuRepo, MenuRootRepo, MenuItemRepo
 };
 
-use Model\Entity\StatusPresentation;
-
 use Model\Entity\{
     MenuNodeInterface, StatusPresentationInterface, StatusFlashInterface, LanguageInterface
 };
+
 use Model\Entity\UserActions;
 
 /**
@@ -31,7 +30,7 @@ class StatusPresentationModel implements StatusPresentationModelInterface {
     const DEEAULT_HIERARCHY_ROOT_COMPONENT_NAME = 's';
 
     /**
-     * @var StatusPresentationInterface
+     * @var StatusPresentationRepo
      */
     protected $statusPresentationRepo;
 
@@ -44,11 +43,6 @@ class StatusPresentationModel implements StatusPresentationModelInterface {
      * @var LanguageRepo
      */
     protected $languageRepo;
-
-    /**
-     * @var StatusPresentation
-     */
-    private $statusPresentation;
 
     /**
      * @var MenuRepo
@@ -64,6 +58,11 @@ class StatusPresentationModel implements StatusPresentationModelInterface {
      * @var MenuItemRepo
      */
     protected $menuItemRepo;
+
+    /**
+     * @var StatusPresentationInterface
+     */
+    private $statusPresentation;
 
     /**
      * @var bool
