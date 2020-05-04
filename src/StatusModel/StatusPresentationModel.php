@@ -117,7 +117,9 @@ class StatusPresentationModel implements StatusPresentationModelInterface {
         $this->isRegenerated = true;
     }
 
-
+    public function update(\SplSubject $subject): void {
+        $this->statusPresentation->setUserActions(new UserActions());  // má default hodnoty, registrováno v kontejneru jako Observer v StatusSecurityModel
+    }
 
     /**
      * Default LanguageInterface objekt podle kódu jazyka požadovaného v requestu (z hlavičky Accept-Language) apokud takový jazyk aplikace není
