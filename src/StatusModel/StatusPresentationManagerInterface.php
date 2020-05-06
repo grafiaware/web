@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace StatusModel;
+namespace StatusManager;
 
 use Model\Entity\StatusPresentationInterface;
 use Model\Entity\StatusFlashInterface;
@@ -18,18 +18,13 @@ use Psr\Http\Message\ServerRequestInterface;
  *
  * @author pes2704
  */
-interface StatusPresentationModelInterface {
+interface StatusPresentationManagerInterface {
 
     /**
      *
+     * @param StatusPresentationInterface $statusPresentation
      * @return StatusPresentationInterface
      */
-    public function getStatusPresentation($a=null);
-
-    /**
-     *
-     * @return StatusFlashInterface
-     */
-    public function getStatusFlash();
+    public function regenerateStatusPresentation(StatusPresentationInterface $statusPresentation): void;
 
 }

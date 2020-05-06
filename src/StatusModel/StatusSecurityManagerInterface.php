@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace StatusModel;
+namespace StatusManager;
 
 use Model\Entity\StatusSecurityInterface;
 
@@ -14,19 +14,13 @@ use Model\Entity\StatusSecurityInterface;
  *
  * @author pes2704
  */
-interface StatusSecurityModelInterface {
-
-    /**
-     *
-     * @return StatusSecurityInterface
-     */
-    public function getStatusSecurity(): StatusSecurityInterface;
+interface StatusSecurityManagerInterface extends \SplSubject {
 
     /**
      * Určeno pro volání při změně bezpečnostního kontextu aplikace. Musí smazat všechny informace v security statusu odvozené z bezpečnostního kontextu,
      * typicky např. ty, vytvořené s použitím přihlášeného uživatele - změna kontextu je přihlášení, odhlášení uživatele.
-     * 
+     *
      * @return void
      */
-    public function regenerateSecurityStatus(): void;
+    public function newSecurityStatus(): StatusSecurityInterface;
 }

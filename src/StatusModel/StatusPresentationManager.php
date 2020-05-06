@@ -6,48 +6,36 @@
  * and open the template in the editor.
  */
 
-namespace StatusModel;
+namespace StatusManager;
 
 use Model\Repository\{
-    StatusPresentationRepo, StatusFlashRepo, LanguageRepo, MenuRepo, MenuRootRepo, MenuItemRepo
+    StatusPresentationRepo, LanguageRepo, MenuRepo, MenuRootRepo, MenuItemRepo
 };
 
 use Model\Entity\{
     MenuNodeInterface, StatusPresentationInterface, StatusFlashInterface, LanguageInterface
 };
 
-use Model\Entity\UserActions;
+use Model\Entity\{
+    StatusPresentationInterface, UserActions
+
+};
 
 /**
  * Description of PresentationController
  *
  * @author pes2704
  */
-class StatusPresentationModel implements StatusPresentationModelInterface {
+class StatusPresentationManager implements StatusPresentationManagerInterface {
 
     const DEFAULT_LANG_CODE = 'cs';
 
     const DEEAULT_HIERARCHY_ROOT_COMPONENT_NAME = 's';
 
     /**
-     * @var StatusPresentationRepo
-     */
-    protected $statusPresentationRepo;
-
-    /**
-     * @var StatusFlashRepo
-     */
-    protected $statusFlashRepo;
-
-    /**
      * @var LanguageRepo
      */
     protected $languageRepo;
-
-    /**
-     * @var MenuRepo
-     */
-    protected $menuRepo;
 
     /**
      * @var MenuRootRepo
@@ -64,61 +52,40 @@ class StatusPresentationModel implements StatusPresentationModelInterface {
      */
     private $statusPresentation;
 
-    /**
-     * @var bool
-     */
-    private $isRegenerated = false;
-
-
     public function __construct(
-            StatusPresentationRepo $statusPresentationRepo,
-            StatusFlashRepo $statusFlashRepo,
             LanguageRepo $languageRepo,
-            MenuRepo $menuRepo,
             MenuRootRepo $menuRootRepo,
             MenuItemRepo $menuItemRepo
             ) {
-        $this->statusPresentationRepo = $statusPresentationRepo;
-        $this->statusFlashRepo = $statusFlashRepo;
         $this->languageRepo = $languageRepo;
-        $this->menuRepo = $menuRepo;
         $this->menuRootRepo = $menuRootRepo;
         $this->menuItemRepo = $menuItemRepo;
-
     }
 
     /**
      * Pokud nejsou nastaveny hodnoty, nastaví defaultní hodnoty language,  do presentation statusu.
      */
-    private function regenerateStatusPresentation(): void {
-        $this->statusPresentation = $this->statusPresentationRepo->get();
-
+    public function regenerateStatusPresentation(StatusPresentationInterface $statusPresentation): void {
         ## defaultní hodnoty parametrů status presentation
 
         // předpokládá, že pokud objekt language v statusPresentation byl v session, byl již načten ze session
         // spolu s celým statusPresentation (např. v AppFactory)
-        $language = $this->statusPresentation->getLanguage();
+        $language = $statusPresentation->getLanguage();
         if (!isset($language)) {
             $language = $this->getRequestedLanguage();
-            $this->statusPresentation->setLanguage($language);
+            $statusPresentation->setLanguage($language);
         }
 
-        $menuItem = $this->statusPresentation->getMenuItem();
+        $menuItem = $statusPresentation->getMenuItem();
         if (!$menuItem) {
             // defaultní node item pro zjištěný jazyk
             $menuItem = $this->getDefaulMenuItem($language->getLangCode());
-            $this->statusPresentation->setMenuItem($menuItem);
+            $statusPresentation->setMenuItem($menuItem);
         }
 
-        if (!$this->statusPresentation->getUserActions()) {
-            $this->statusPresentation->setUserActions(new UserActions());  // má default hodnoty
+        if (!$statusPresentation->getUserActions()) {
+            $statusPresentation->setUserActions(new UserActions());  // má default hodnoty
         }
-
-        $this->isRegenerated = true;
-    }
-
-    public function update(\SplSubject $subject): void {
-        $this->statusPresentation->setUserActions(new UserActions());  // má default hodnoty, registrováno v kontejneru jako Observer v StatusSecurityModel
     }
 
     /**
@@ -144,25 +111,5 @@ class StatusPresentationModel implements StatusPresentationModelInterface {
     private function getDefaulMenuItem($langCode) {
         $uidFk = $this->menuRootRepo->get(self::DEEAULT_HIERARCHY_ROOT_COMPONENT_NAME)->getUidFk();
         return $this->menuItemRepo->get($langCode, $uidFk );    // kořen menu
-    }
-
-    /**
-     *
-     * @return StatusPresentationInterface
-     */
-    public function getStatusPresentation($a=null) {
-        assert(!isset($a), "Volání getStatusPresentation s parametrem!!");
-        if (!$this->isRegenerated) {
-            $this->regenerateStatusPresentation();
-        }
-        return $this->statusPresentationRepo->get();
-    }
-
-    /**
-     *
-     * @return StatusFlashInterface
-     */
-    public function getStatusFlash() {
-        return $this->statusFlashRepo->get();
     }
 }
