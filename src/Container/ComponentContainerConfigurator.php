@@ -37,6 +37,7 @@ use Component\View\{
 
 // viewModel
 use Component\ViewModel\{
+    ComponentViewModelAbstract,
     Authored\Paper\NamedPaperViewModel,
     Authored\Paper\PresentedPaperViewModel,
     Generated\LanguageSelectViewModel,
@@ -122,6 +123,16 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                             $c->get(StatusPresentationRepo::class),
                             $c->get(ViewFactory::class))
                         )->injectContainer($c);  // inject component kontejner
+            },
+            ComponentViewModelAbstract::class => function(ContainerInterface $c) {
+                return new ComponentViewModelAbstract(
+                                $c->get(StatusPresentationRepo::class),
+                                $c->get(StatusFlashRepo::class),
+                                $c->get(LanguageRepo::class),
+                                $c->get(MenuRepo::class),
+                                $c->get(MenuRootRepo::class),
+                                $c->get(MenuItemRepo::class),
+                        );
             }
         ];
     }

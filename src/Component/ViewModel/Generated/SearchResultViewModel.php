@@ -1,15 +1,7 @@
 <?php
 namespace Component\ViewModel\Generated;
 
-use StatusModel\StatusPresentationModel;
-
-use Model\Repository\StatusPresentationRepo;
-use Model\Repository\StatusFlashRepo;
-use Model\Repository\LanguageRepo;
-use Model\Repository\MenuRepo;
-use Model\Repository\MenuRootRepo;
-use Model\Repository\MenuItemRepo;
-use Model\Entity\MenuItemInterface;
+use Component\ViewModel\ComponentViewModelAbstract;
 
 use Pes\Text\Message;
 
@@ -24,23 +16,9 @@ use Pes\Text\Message;
  *
  * @author pes2704
  */
-class SearchResultViewModel extends StatusPresentationModel {
-
-    private $menuItemRepo;
+class SearchResultViewModel extends ComponentViewModelAbstract {
 
     private $query;
-
-    public function __construct(
-            StatusPresentationRepo $presentationStatusRepo,
-            StatusFlashRepo $flashStatusRepo,
-            LanguageRepo $languageRepo,
-            MenuRepo $menuRepo,
-            MenuRootRepo $menuRootRepo,
-            MenuItemRepo $menuItemRepo
-            ) {
-        parent::__construct($presentationStatusRepo, $flashStatusRepo, $languageRepo, $menuRepo, $menuRootRepo);
-        $this->menuItemRepo = $menuItemRepo;
-    }
 
     /**
      * Text pro hledání metodou getSearchedMenuItems(). Info v dokumntaci getSearchedMenuItems().

@@ -8,8 +8,8 @@
 
 namespace Component\ViewModel\Status;
 
-use StatusModel\StatusSecurityModelInterface;
-use StatusModel\StatusPresentationModelInterface;
+use StatusManager\StatusSecurityManagerInterface;
+use StatusManager\StatusPresentationManagerInterface;
 
 /**
  * Description of StatusBoardViewModel
@@ -21,7 +21,7 @@ class StatusBoardViewModel {
     private $statusSecurityModel;
     private $statusPresentationModel;
 
-    public function __construct(StatusSecurityModelInterface $statusSecurityModel, StatusPresentationModelInterface $statusPresentationModel) {
+    public function __construct(StatusSecurityManagerInterface $statusSecurityModel, StatusPresentationManagerInterface $statusPresentationModel) {
         $this->statusSecurityModel = $statusSecurityModel;
         $this->statusPresentationModel = $statusPresentationModel;
     }

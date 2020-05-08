@@ -25,7 +25,7 @@ class PresentedPaperViewModel extends PaperViewModelAbstract implements Presente
      * @return MenuNodeInterface|null
      */
     public function getMenuNode(): ?MenuNodeInterface {
-        $presentationStatus = $this->getStatusPresentation();
+        $presentationStatus = $this->statusPresentationRepo->get();
         $this->menuRepo->setOnlyPublishedMode($this->presentOnlyPublished());
         return $this->menuRepo->get($presentationStatus->getLanguage()->getLangCode(), $presentationStatus->getMenuItem()->getUidFk());
     }

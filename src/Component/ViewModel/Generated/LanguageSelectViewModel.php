@@ -8,14 +8,14 @@
 
 namespace Component\ViewModel\Generated;
 
-use StatusModel\StatusPresentationModel;
+use Component\ViewModel\ComponentViewModelAbstract;
 
 /**
  * Description of LanguageSelectViewModel
  *
  * @author pes2704
  */
-class LanguageSelectViewModel extends StatusPresentationModel implements GeneratedViewModelInterface {
+class LanguageSelectViewModel extends ComponentViewModelAbstract implements GeneratedViewModelInterface {
 
     public function getLanguages() {
         return $this->languageRepo->find();

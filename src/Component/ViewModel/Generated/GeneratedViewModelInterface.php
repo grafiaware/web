@@ -7,12 +7,12 @@
  */
 namespace Component\ViewModel\Generated;
 
-use StatusModel\StatusPresentationModelInterface;
+use Component\ViewModel\ComponentViewModelInterface;
 
 /**
  *
  * @author pes2704
  */
-interface GeneratedViewModelInterface extends StatusPresentationModelInterface {
+interface GeneratedViewModelInterface extends ComponentViewModelInterface {
     //put your code here
 }

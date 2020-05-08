@@ -24,7 +24,7 @@ class StatusSecurityRepo extends StatusRepositoryAbstract {
     const FRAGMENT_NAME = 'security';
 
     /**
-     * Repository obsahuje vždy jen jednu entitu StatusPresentation. Pokud entita ješte nebyla načtena z úložiště,
+     * Repository obsahuje vždy jen jednu entitu StatusSecurityInterface. Pokud entita ješte nebyla načtena z úložiště,
      * načte ji (jen jednou) a vrací.
      *
      * @return StatusSecurityInterface|null
@@ -37,7 +37,7 @@ class StatusSecurityRepo extends StatusRepositoryAbstract {
     }
 
     /**
-     * Repository obsahuje vždy jen jednu entitu StatusLogin. Metoda add přidá entitu do prázdného repository, pokud v repository již entita je, přepíše ji.
+     * Repository obsahuje vždy jen jednu entitu StatusSecurityInterface. Metoda add přidá entitu do prázdného repository, pokud v repository již entita je, přepíše ji.
      * @param StatusSecurityInterface $securityStatus
      */
     public function add(StatusSecurityInterface $securityStatus) {
@@ -45,7 +45,7 @@ class StatusSecurityRepo extends StatusRepositoryAbstract {
     }
 
     /**
-     * Repository obsahuje vždy jen jednu entitu StatusLogin a ta je smazána.
+     * Repository obsahuje vždy jen jednu entitu StatusSecurityInterface a ta je smazána.
      */
     public function remove() {
         $this->entity = NULL;

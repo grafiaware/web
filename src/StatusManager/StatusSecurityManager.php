@@ -8,11 +8,8 @@
 
 namespace StatusManager;
 
-use Model\Repository\StatusSecurityRepo;
 use Model\Entity\StatusSecurity;
 use Model\Entity\StatusSecurityInterface;
-
-use Model\Entity\SecurityContextRemoverInterface;
 
 /**
  * Description of SecurityStatusManager

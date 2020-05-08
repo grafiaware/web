@@ -8,15 +8,11 @@
 
 namespace Component\ViewModel\Generated;
 
-use StatusModel\StatusPresentationModel;
+use Component\ViewModel\ComponentViewModelAbstract;
 
-use Model\Repository\StatusSecurityRepo;
-use Model\Repository\StatusPresentationRepo;
-use Model\Repository\StatusFlashRepo;
-use Model\Repository\LanguageRepo;
-use Model\Repository\MenuRepo;
-use Model\Repository\MenuRootRepo;
-use Model\Repository\LanguageRepo;
+use Model\Repository\{
+    StatusPresentationRepo, StatusFlashRepo, LanguageRepo, MenuRepo, MenuRootRepo, MenuItemRepo
+};
 
 use Model\Repository\MenuItemTypeRepo;
 
@@ -27,22 +23,21 @@ use Model\Entity\MenuItemTypeInterface;
  *
  * @author pes2704
  */
-class ItemTypeSelectViewModel extends StatusPresentationModel implements GeneratedViewModelInterface {
+class ItemTypeSelectViewModel extends ComponentViewModelAbstract implements GeneratedViewModelInterface {
 
     /**
-     *
      * @var MenuItemTypeRepo
      */
     private $menuItemTypeRepo;
 
     public function __construct(
-            StatusSecurityRepo $securityStatusRepo,
-            StatusPresentationRepo $presentationStatusRepo,
-            StatusFlashRepo $flashStatusRepo,
+            StatusPresentationRepo $statusPresentationRepo,
+            StatusFlashRepo $statusFlashRepo,
+            LanguageRepo $languageRepo,
             MenuRepo $menuRepo,
             MenuRootRepo $menuRootRepo,
-            LanguageRepo $languageRepo,
-            MenuItemTypeRepo $menuItemTypeRepo
+            MenuItemRepo $menuItemRepo,
+            MenuItemTypeRepo $menuIremTypeRepo
             ) {
         parent::__construct($presentationStatusRepo, $flashStatusRepo, $languageRepo, $menuRepo, $menuRootRepo);
         $this->menuItemTypeRepo = $menuItemTypeRepo;

@@ -17,6 +17,9 @@ use Pes\Session\SaveHandler\PhpLoggingSaveHandler;
 // application
 use Application\WebAppFactory;
 
+// security context - použit v security status
+use StatusManager\Observer\SecurityContextObjectsRemover;
+
 //user - session
 use Model\Entity\User;
 use Model\Entity\UserInterface;
@@ -38,9 +41,9 @@ use Model\Repository\StatusPresentationRepo;
 use Model\Repository\StatusFlashRepo;
 
 // statusModel
-use StatusModel\StatusSecurityModel;
-use StatusModel\StatusSecurityModelInterface;
-use StatusModel\StatusPresentationModelInterface;
+use StatusManager\StatusSecurityManager;
+use StatusManager\StatusSecurityManagerInterface;
+use StatusManager\StatusPresentationManagerInterface;
 
 // router
 use Pes\Router\RouterInterface;
@@ -57,8 +60,8 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
     public function getAliases() {
         return [
             SessionStatusHandlerInterface::class => SessionStatusHandler::class,
-            StatusSecurityModelInterface::class => StatusSecurityModel::class,
-            StatusPresentationModelInterface::class => StatusPresentationModel::class,
+            StatusSecurityManagerInterface::class => StatusSecurityManager::class,
+            StatusPresentationManagerInterface::class => StatusPresentationModel::class,
             UserInterface::class => User::class,
             RouterInterface::class => Router::class,
         ];
@@ -107,7 +110,7 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
             #################################
             # Kondigurace proměnné pro ukládání údajů bezpečnostního kontextu do session
             #
-            'security_session_variable_name' => 'security_context',
+//            'security_session_variable_name' => 'security_context',
             #
             #################################
 
@@ -122,6 +125,11 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
                     $sessionHandler->setLogger($c->get('sessionLogger'));
                 }
                 return $sessionHandler;
+            },
+
+            // security context remover
+            SecurityContextObjectsRemover::class => function(ContainerInterface $c) {
+                return new SecurityContextObjectsRemover();
             },
 
             // database
@@ -188,11 +196,9 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
 
             // session user - tato služba se používá pro vytvoření objetu Account a tedy pro připojení k databázi
             User::class => function(ContainerInterface $c) {
-                /** @var StatusSecurityRepo $securityStatus */
+                /** @var StatusSecurityRepo $securityStatusRepo */
                 $securityStatusRepo = $c->get(StatusSecurityRepo::class);
-                $securityStatus = $securityStatusRepo->get();
-                $user = $securityStatus ? $securityStatus->getUser() : null;
-                return $user;
+                return $securityStatusRepo->get()->getUser();
             },
 
             // router

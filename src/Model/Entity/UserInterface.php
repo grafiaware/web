@@ -14,7 +14,7 @@ namespace Model\Entity;
  */
 interface UserInterface {
     public function getUserName();
-    public function setUserName($userName);
+    public function setUserName($userName): UserInterface;
     public function getRole();
-    public function setRole($role);
+    public function setRole($role): UserInterface;
 }

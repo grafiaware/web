@@ -7,63 +7,68 @@
  */
 
 namespace Model\Repository;
-
 use Model\Entity\UserInterface;
 use Model\Entity\User;
-use Model\Entity\UserActions;
+use Model\Dao\OpravneniDaoDao;
+use Model\Hydrator\HydratorInterface;
 
-use Model\Dao\UserOpravneniDao;
-
-use Pes\Type\Date;
+use Model\Repository\Exception\UnableRecreateEntityException;
 
 /**
  * Description of Menu
  *
  * @author pes2704
  */
-class UserRepo {
+class UserRepo extends RepoAbstract implements RepoInterface {
 
-    private $userOpravneniDao;
-
-    public function __construct(UserOpravneniDao $userDao) {
-        $this->userOpravneniDao = $userDao;
-    }
-
-    //TODO: Svoboda Je nutné vytvořit novou tabulku user místo opravneni a v ní zajistit, že user bude unique!
-    /**
-     * Vrací entitu User vyhledanou podle jména. Předpokládá unikátní hodnoty v tabulce ve sloupci user.
-     *
-     * @param type $user
-     * @return UserInterface|null
-     */
-    public function get($user): ?UserInterface {
-        $row = $this->userOpravneniDao->get($user);
-        return $row ? $this->createItem($row) : NULL;
+    public function __construct(OpravneniDaoDao $opravneniDao, HydratorInterface $userHydrator) {
+        $this->dao = $opravneniDao;
+        $this->hydrator = $userHydrator;
     }
 
     /**
-     * Vrací entitu User vyhledanou podle jména a hesla.
      *
-     * @param type $user
-     * @param type $password
-     * @return UserInterface
+     * @param type $userName
+     * @return PaperInterface|null
      */
-    public function getByAuthentication($user, $password) {
-        $row = $this->userOpravneniDao->getByAuthentication($user, $password);
-        return $row ? $this->createItem($row) : NULL;
-    }
-
-    private function createItem($row) {
-        return (new User())
-                ->setUserName($row['user'])
-                ->setRole($row['role']);
+    public function get($userName): ?UserInterface {
+        $index = $userName;
+        if (!isset($this->collection[$index])) {
+            $this->recreateEntity($index, $this->dao->get($userName));
+        }
+        return $this->collection[$index] ?? NULL;
     }
 
     public function add(UserInterface $user) {
-        ;
+        $this->collection[$this->indexFromEntity($user)] = $user;
     }
 
     public function remove(UserInterface $user) {
-        ;
+        $this->removed[] = $user;
+        unset($this->collection[$this->indexFromEntity($user)]);
     }
+
+    /**
+     *
+     * @param array $row
+     * @return string index
+     */
+    protected function recreateEntity($index, $row) {
+        if ($row) {
+            $user = new User();
+            $this->hydrator->hydrate($user, $row);
+            $user->setPersisted();
+            $this->collection[$index] = $user;
+        }
+    }
+
+    protected function indexFromEntity(UserInterface $user) {
+        return $user->getUserName();
+    }
+
+    protected function indexFromRow($row) {
+        return $row['user'];
+    }
+
 }
+

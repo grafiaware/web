@@ -15,18 +15,25 @@ namespace Model\Entity;
  */
 class StatusSecurity implements StatusSecurityInterface {
 
+    private $securityContextObservers;
+
+
     /**
      * @var UserInterface
      */
     private $user;
 
+    public function __construct() {
+        $this->securityContextObservers = new \SplObjectStorage();
+    }
+
     /**
-     * Vrací entitu User
-     * 
+     * Vrací jméno
+     *
      * @return \Model\Entity\UserInterface|null
      */
     public function getUser(): ?UserInterface {
-        return $this->user;
+        return $this->user->getUserName();
     }
 
     /**
@@ -34,7 +41,8 @@ class StatusSecurity implements StatusSecurityInterface {
      * @param \Model\Entity\UserInterface $user
      * @return \Model\Entity\StatusSecurityInterface
      */
-    public function setUser(UserInterface $user): StatusSecurityInterface {
+    public function setUser(UserInterface $user=NULL): StatusSecurityInterface {
+        $this->notify();
         $this->user = $user;
         return $this;
     }

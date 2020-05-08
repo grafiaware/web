@@ -8,18 +8,17 @@
 
 namespace Middleware\Login\Controller;
 
-use Pes\Container\ContainerSettingsAwareInterface;
-
 use Psr\Http\Message\ServerRequestInterface;
 
 use Pes\Http\Request\RequestParams;
+use Security\Auth\NamePasswordAuthenticatorInterface;
 
 // model
-use StatusModel\StatusSecurityModelInterface;
+use Model\Repository\StatusSecurityRepo;
+use Model\Entity\StatusSecurity;
+use Model\Entity\StatusSecurityInterface;
 use Model\Repository\UserRepo;
 use Model\Entity\UserInterface;
-use Pes\Database\Handler\AccountInterface;
-use Pes\Database\Handler\Handler;
 
 use Pes\Application\AppFactory;
 use Pes\Http\Response;
@@ -33,22 +32,27 @@ use Pes\Http\Response\RedirectResponse;
  */
 class LoginLogoutController {
 
+    // konstanty individualizované pro jeden web
     const JMENO_FIELD_NAME = "jmenowwwgrafia";
     const HESLO_FIELD_NAME = "heslowwwgrafia";
 
-    private $statusSecurityModel;
-    private $SecurityContextObjects = [];
+    private $authenticator;
 
     private $userRepo;
 
     /**
      *
-     * @param ContainerSettingsAwareInterface $container
+     * @var StatusSecurityRepo
      */
-    public function __construct(StatusSecurityModelInterface $statusSecurityModel, UserRepo $userRepo) {
-        $this->statusSecurityModel = $statusSecurityModel;
-        $this->userRepo = $userRepo;
+    protected $securityStatusRepo;
 
+    /**
+     *
+     */
+    public function __construct(StatusSecurityRepo $securityStatusRepo, UserRepo $userRepo, NamePasswordAuthenticatorInterface $authenticator) {
+        $this->securityStatusRepo = $securityStatusRepo;
+        $this->userRepo = $userRepo;
+        $this->authenticator = $authenticator;
     }
 
     public function login(ServerRequestInterface $request) {
@@ -56,12 +60,13 @@ class LoginLogoutController {
         $login = $requestParams->getParsedBodyParam($request, 'login', FALSE);
 
         if ($login) {
+            // používá konstanty třídy pro omezení množství našeptávaných jmen při vypl%nování formuláře v prohlížečích
             $loginJmeno = $requestParams->getParsedBodyParam($request, self::JMENO_FIELD_NAME, FALSE);
             $loginHeslo = $requestParams->getParsedBodyParam($request, self::HESLO_FIELD_NAME, FALSE);
             if ($loginJmeno AND $loginHeslo) {
-                $authenticatedUser = $this->userRepo->getByAuthentication($loginJmeno, $loginHeslo);  // user z databáze
-                if (isset($authenticatedUser) AND $authenticatedUser) {
-                    $this->changeSecurityContext($authenticatedUser);
+                $authenticated = $this->authenticator->authenticate($loginJmeno, $loginHeslo);  // z databáze
+                if ($authenticated) {
+                    $this->setLoggedUser($loginJmeno);
                 }
             }
         }
@@ -81,13 +86,18 @@ class LoginLogoutController {
      *
      * @throws \LogicException
      */
-    private function changeSecurityContext(UserInterface $authenticatedUser=NULL) {
-        // smaž starý security status a vytvoř nový
-        $this->statusSecurityModel->regenerateSecurityStatus();
-
-        // nový security status
-        if (isset($authenticatedUser)) {
-            $this->statusSecurityModel->getStatusSecurity()->setUser($authenticatedUser);   // ulož user do security statusu (uložen v session)
+    private function setLoggedUser($loginJmeno) {
+        $dbUser = $this->userRepo->get($loginJmeno);
+        $sessionUser = $statusSecurity->getUser();
+        if ($dbUser) {
+            $this->securityStatusRepo->get()->setUser($dbUser);
+        } else {
+            $this->securityStatusRepo->get()->setUser(null);
+            user_error("Pro ověřené login jméno nebyl následně načtel user z databáze.", E_USER_WARNING);
         }
+    }
+
+    private function removeLoggedUser() {
+            $this->securityStatusRepo->get()->setUser(null);
     }
 }

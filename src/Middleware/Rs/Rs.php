@@ -26,6 +26,8 @@ class Rs extends AppMiddlewareAbstract implements MiddlewareInterface {
         //      -> v něm jako delegát aplikační kontejner
         // komponenty používají databázi z menu kontejneru (upgrade), web používá starou databázi
         // do aplikačního kontejneru je přidán request (pro užití v kontroléru)
+
+        assert(false, 'Tohle určitě není dobře.');
         $rsContainer =
             (new WebContainerConfigurator())->configure(
                         new Container(

@@ -21,7 +21,7 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
      * @return MenuNodeInterface
      */
     public function getPresentedMenuNode() {
-        $presentationStatus = $this->getStatusPresentation();
+        $presentationStatus = $this->statusPresentationRepo->get();
         $this->menuRepo->setOnlyPublishedMode($this->presentOnlyPublished(!$this->userEdit())); //!
         return $this->menuRepo->get($presentationStatus->getLanguage()->getLangCode(), $presentationStatus->getMenuItem()->getUidFk());
     }
@@ -40,7 +40,7 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
      * @return MenuNodeInterface
      */
     public function getMenuNode($nodeUid) {
-        $presentationStatus = $this->getStatusPresentation();
+        $presentationStatus = $this->statusPresentationRepo->get();
         return $this->menuRepo->get($presentationStatus->getLanguage()->getLangCode(), $nodeUid);
     }
 
@@ -50,7 +50,7 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
      * @return MenuNodeInterface array af
      */
     public function getChildrenMenuNodes($parentUid) {
-        $presentationStatus = $this->getStatusPresentation();
+        $presentationStatus = $this->statusPresentationRepo->get();
         return $this->menuRepo->findChildren($presentationStatus->getLanguage()->getLangCode(), $parentUid);
     }
 

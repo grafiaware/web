@@ -13,6 +13,9 @@ use Pes\Router\Router;
 use Model\Entity\User;
 use Model\Entity\UserInterface;
 
+// security context - použit v security status
+use StatusManager\Observer\SecurityContextObjectsRemover;
+
 // database
 use Pes\Database\Handler\Account;
 use Pes\Database\Handler\AccountInterface;
@@ -27,8 +30,8 @@ use Pes\Database\Handler\HandlerInterface;
 use Model\Repository\StatusSecurityRepo;
 
 // status
-use StatusModel\StatusSecurityModel;
-use StatusModel\StatusSecurityModelInterface;
+use StatusManager\StatusSecurityManager;
+use StatusManager\StatusSecurityManagerInterface;
 
 /**
  *
@@ -43,7 +46,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
             UserInterface::class => User::class,
             AccountInterface::class => Account::class,
             HandlerInterface::class => Handler::class,
-            StatusSecurityModelInterface::class => StatusSecurityModel::class,
+            StatusSecurityManagerInterface::class => StatusSecurityManager::class,
         ];
     }
 
@@ -108,20 +111,25 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 ## konfigurováno více možností připojení k databázi - jedno pro vývoj a druhé pro běh na produkčním stroji
                 ## pro web middleware se používá zde definovaný Account, ostatní objekty jsou společné - z App kontejneru
             Handler::class => function(ContainerInterface $c) : HandlerInterface {
-                return new Handler(
+                $handler = new Handler(
                         $c->get(Account::class),
                         $c->get(ConnectionInfo::class),
                         $c->get(DsnProviderMysql::class),
                         $c->get(OptionsProviderMysql::class),
                         $c->get(AttributesProvider::class),
                         $c->get('databaseLogger'));
+                return $handler;
             },
+
+
             // viewModel s daty ukládanými v session - vytvářenými s použitím objektů, které závisejí na bezpečnostním kotextu
             // StatusSecurityModel v metodě ->regenerateSecurityStatus() musí tyto objekty smazat při změně bezpečnostního kontextu
             // Objekty StatusSecurityRepo a User (ze session) jsou získávány z app kontejneru,objekty Account a Handler závisí na konfiguraci databázovžch parametrů
             // a jsou získávány v tomto konteneru
-            StatusSecurityModel::class => function(ContainerInterface $c) {
-                return new StatusSecurityModel($c->get(StatusSecurityRepo::class), $c->get(User::class), $c->get(Account::class), $c->get(Handler::class));
+            StatusSecurityManager::class => function(ContainerInterface $c) {
+                $securityModel = new StatusSecurityManager($c->get(StatusSecurityRepo::class));
+                $securityModel->attach($c->get(SecurityContextObjectsRemover::class));
+                return $securityModel;
             },
 
         ];

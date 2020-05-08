@@ -8,13 +8,13 @@
 
 namespace Component\ViewModel\Authored;
 
-use StatusModel\StatusPresentationModelInterface;
+use Component\ViewModel\ComponentViewModelInterface;
 
 /**
  *
  * @author pes2704
  */
-interface AuthoredViewModelInterface extends StatusPresentationModelInterface {
+interface AuthoredViewModelInterface extends ComponentViewModelInterface {
     /**
      * Prezentuj položky v editovatelné podobě
      * @return bool

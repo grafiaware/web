@@ -50,7 +50,7 @@ class NamedPaperViewModel extends PaperViewModelAbstract implements NamedPaperVi
      */
     public function getMenuNode() {
         $active = $actual = $this->presentOnlyPublished();
-        return $this->menuRepo->get($this->getStatusPresentation()->getLanguage()->getLangCode(), $this->getComponent()->getUidFk(), $active, $actual);
+        return $this->menuRepo->get($this->statusPresentationRepo->get()->getLanguage()->getLangCode(), $this->getComponent()->getUidFk(), $active, $actual);
     }
 
     /**

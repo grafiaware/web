@@ -8,13 +8,13 @@
 
 namespace Component\ViewModel\Generated;
 
-use StatusModel\StatusPresentationModel;
+use Component\ViewModel\ComponentViewModelAbstract;
 
 /**
  * Description of SearchPhraseViewModel
  *
  * @author pes2704
  */
-class SearchPhraseViewModel extends StatusPresentationModel implements GeneratedViewModelInterface {
+class SearchPhraseViewModel extends ComponentViewModelAbstract implements GeneratedViewModelInterface {
 
 }

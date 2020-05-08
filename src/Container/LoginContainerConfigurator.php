@@ -37,8 +37,11 @@ use Pes\Router\Router;
 use Middleware\Login\Controller\LoginLogoutController;
 
 // status
-use StatusModel\StatusSecurityModel;
-use StatusModel\StatusSecurityModelInterface;
+use StatusManager\StatusSecurityManager;
+use StatusManager\StatusSecurityManagerInterface;
+
+// security context - použit v security status
+use StatusManager\Observer\SecurityContextObjectsRemover;
 
 /**
  *
@@ -52,7 +55,7 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
             AccountInterface::class => Account::class,
             HandlerInterface::class => Handler::class,
             RouterInterface::class => Router::class,
-            StatusSecurityModelInterface::class => StatusSecurityModel::class,
+            StatusSecurityManagerInterface::class => StatusSecurityManager::class,
         ];
     }
 
@@ -85,6 +88,7 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
             ##
             // database account
             Account::class => function(ContainerInterface $c) {
+                // account NENÍ vytvářen s použitím User - není třeba přidávat do SecurityContextObjectsRemover
                 $account = new Account($c->get('database.account.everyone.name'), $c->get('database.account.everyone.password'));
                 return $account;
             },
@@ -106,15 +110,16 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
             // StatusSecurityModel v metodě ->regenerateSecurityStatus() musí tyto objekty smazat při změně bezpečnostního kontextu
             // Objekty StatusSecurityRepo a User (ze session) jsou získávány z app kontejneru,objekty Account a Handler závisí na konfiguraci databázovžch parametrů
             // a jsou získávány v tomto konteneru
-            StatusSecurityModel::class => function(ContainerInterface $c) {
-                return new StatusSecurityModel($c->get(StatusSecurityRepo::class), $c->get(User::class), $c->get(Account::class), $c->get(Handler::class));
+            StatusSecurityManager::class => function(ContainerInterface $c) {
+                $securityModel = new StatusSecurityManager($c->get(StatusSecurityRepo::class));
+                return $securityModel;
             },
-            // model - db user
+            // db userRepo
             UserRepo::class => function(ContainerInterface $c) {
                 return new UserRepo(new UserOpravneniDao($c->get(Handler::class)));
             },
             LoginLogoutController::class => function(ContainerInterface $c) {
-                return new LoginLogoutController($c->get(StatusSecurityModel::class), $c->get(UserRepo::class));
+                return new LoginLogoutController($c->get(StatusSecurityManager::class), $c->get(UserRepo::class));
             }
         ];
     }

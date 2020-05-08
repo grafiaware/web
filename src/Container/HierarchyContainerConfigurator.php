@@ -61,8 +61,10 @@ use Model\Repository\StatusPresentationRepo;
 use Model\Repository\StatusFlashRepo;
 
 // status model
-use StatusModel\StatusPresentationModel;
-use StatusModel\StatusPresentationModelInterface;
+use StatusManager\StatusSecurityManager;
+use StatusManager\StatusSecurityManagerInterface;
+use StatusManager\StatusPresentationManager;
+use StatusManager\StatusPresentationManagerInterface;
 
 /**
  * Description of MenuContainerFactory
@@ -76,7 +78,8 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
             RouterInterface::class => Router::class,
             ReadHierarchyInterface::class => ReadHierarchy::class,
             EditHierarchyInterface::class => EditHierarchy::class,
-            StatusPresentationModelInterface::class => StatusPresentationModel::class,
+            StatusPresentationManagerInterface::class => StatusPresentationManager::class,
+            StatusSecurityManagerInterface::class => StatusSecurityManager::class,
         ];
     }
 
@@ -134,6 +137,7 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
             },
 
             Account::class => function(ContainerInterface $c) {
+                // account NENÍ vytvářen s použitím User - není třeba přidávat do SecurityContextObjectsRemover
                 if (PES_DEVELOPMENT) {
                     return new Account(
                             $c->get('database.development.user.name'),
@@ -269,15 +273,19 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
             LanguageRepo::class => function(ContainerInterface $c) {
                 return new LanguageRepo($c->get(LanguageDao::class));
             },
-            StatusPresentationModel::class => function(ContainerInterface $c) {
-                return (new StatusPresentationModel(
+            StatusPresentationManager::class => function(ContainerInterface $c) {
+                $statusPresentationModel = (new StatusPresentationManager(
                                 $c->get(StatusPresentationRepo::class),
                                 $c->get(StatusFlashRepo::class),
                                 $c->get(LanguageRepo::class),
-                                $c->get(MenuRepo::class),
                                 $c->get(MenuRootRepo::class),
                                 $c->get(MenuItemRepo::class),
                         ));
+                // status presentation model je nutno přidat jako Observer do status security modelu - zajistí mazání UserActions při odhlášení uživatele
+                $statusSecurityModel = $c->get(StatusSecurityManagerInterface::class);
+                /** @var StatusSecurityManagerInterface $statusSecurityModel */
+                $statusSecurityModel->attach($statusPresentationModel);
+                return $statusPresentationModel;
             },
 
 ########################

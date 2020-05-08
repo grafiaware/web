@@ -23,8 +23,8 @@ use Container\HierarchyContainerConfigurator;
 use Container\ComponentContainerConfigurator;
 use Container\RendererContainerConfigurator;
 
-use StatusModel\StatusPresentationModelInterface;
-use StatusModel\StatusSecurityModelInterface;
+use StatusManager\StatusPresentationManagerInterface;
+use StatusManager\StatusSecurityManagerInterface;
 
 use Middleware\Web\Controller\ComponentController;
 
@@ -67,12 +67,12 @@ class Web extends AppMiddlewareAbstract implements MiddlewareInterface {
             );
 
 ####################################
-        /** @var StatusSecurityModelInterface $statusSecurityModel */
-        $statusSecurityModel = $this->container->get(StatusSecurityModelInterface::class);
+        /** @var StatusSecurityManagerInterface $statusSecurityModel */
+        $statusSecurityModel = $this->container->get(StatusSecurityManagerInterface::class);
         $statusSecurityModel->getStatusSecurity();  // getStatusSecurity() provede regenereci statusu
 
-        /** @var StatusPresentationModelInterface $statusPresentationModel */
-        $statusPresentationModel = $this->container->get(StatusPresentationModelInterface::class);
+        /** @var StatusPresentationManagerInterface $statusPresentationModel */
+        $statusPresentationModel = $this->container->get(StatusPresentationManagerInterface::class);
         $statusPresentationModel->getStatusPresentation();  // getStatusPresentation() provede regenereci statusu
 ####################################
 

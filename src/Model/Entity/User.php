@@ -25,16 +25,16 @@ class User implements UserInterface {
      */
     private $role;
 
-    /**
-     * @var UserActions
-     */
-    private $userStatus;
+    public function __construct() {
+        $this->securityObservers = new \SplObjectStorage();
+    }
 
     public function getUserName() {
         return $this->userName;
     }
 
-    public function setUserName($userName) {
+    public function setUserName($userName): UserInterface {
+        $this->notify();
         $this->userName = $userName;
         return $this;
     }
@@ -43,7 +43,7 @@ class User implements UserInterface {
         return $this->role;
     }
 
-    public function setRole($role) {
+    public function setRole($role): UserInterface {
         $this->role = $role;
         return $this;
     }

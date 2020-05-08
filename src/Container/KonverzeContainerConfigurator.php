@@ -106,6 +106,7 @@ class KonverzeContainerConfigurator extends ContainerConfiguratorAbstract {
             },
 
             Account::class => function(ContainerInterface $c) {
+                // account NENÍ vytvářen s použitím User - není třeba přidávat do SecurityContextObjectsRemover
                 if (PES_DEVELOPMENT) {
                     return new Account(
                             $c->get('database.development.user.name'),

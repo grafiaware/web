@@ -41,8 +41,7 @@ class Permission implements PermissionInterface{
         $permitted = FALSE;
         //TODO: povoleno pro všechny přihlášené uživatele !!!
         $securityStatus = $this->statusModel->getStatusSecurity();
-        $user = isset($securityStatus) ? $securityStatus->getUser() : NULL;
-        $role = isset($user) ? $user->getRole() : NULL;
+        $role = isset($securityStatus) ? $securityStatus->getRole() : NULL;
         $grants = $this->getGrants();
         if (!isset($grants) OR ! is_array($grants)) {
             throw new \LogicException("Nejsou nastavena oprávnění. Metoda getGrants() objektu ".get_called_class()." nevrací potřebné pole.");

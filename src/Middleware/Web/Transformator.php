@@ -11,11 +11,11 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-use Container\ComponentContainerConfigurator;
+use Container\WebContainerConfigurator;
 use Container\HierarchyContainerConfigurator;
 
 use Model\Dao\MenuItemDao;
-use StatusModel\StatusPresentationModel;
+use StatusManager\StatusPresentationManager;
 
 use Pes\Http\Body;
 
@@ -34,11 +34,14 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
 
-        $this->container = (new ComponentContainerConfigurator())->configure(
-                                (new HierarchyContainerConfigurator())->configure(
-                                    new Container($this->getApp()->getAppContainer())
-                                )
-                           );
+        $this->container =
+                (new HierarchyContainerConfigurator())->configure(
+                    new Container(
+                        (new WebContainerConfigurator())->configure(
+                                new Container($this->getApp()->getAppContainer())
+                        )
+                    )
+                );
 
         $response = $handler->handle($request);
         $newBody = new Body(fopen('php://temp', 'r+'));
@@ -77,9 +80,9 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
         $key = 'list';
         $length = strlen($prefix);
         $dao = $this->container->get(MenuItemDao::class);
-        /** @var StatusPresentationModel $presentationStatusModel */
-        $presentationStatusModel = $this->container->get(StatusPresentationModel::class);
-        $langCode = $presentationStatusModel->getStatusPresentation()->getLanguage()->getLangCode();
+        /** @var StatusPresentationManager $presentationStatusManager */
+        $presentationStatusManager = $this->container->get(StatusPresentationManager::class);
+        $langCode = $presentationStatusManager->getStatusPresentation()->getLanguage()->getLangCode();
         $transform = [];
         $end = 0;
 

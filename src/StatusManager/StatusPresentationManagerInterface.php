@@ -9,10 +9,6 @@
 namespace StatusManager;
 
 use Model\Entity\StatusPresentationInterface;
-use Model\Entity\StatusFlashInterface;
-use Model\Entity\LanguageInterface;
-
-use Psr\Http\Message\ServerRequestInterface;
 
 /**
  *

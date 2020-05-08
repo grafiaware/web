@@ -8,13 +8,13 @@
 
 namespace Middleware\Login\ViewModel;
 
-use StatusModel\StatusSecurityModel;
+use StatusManager\StatusSecurityManager;
 
 /**
  * Description of LoginViewModel
  *
  * @author pes2704
  */
-class LoginViewModel extends StatusSecurityModel {
+class LoginViewModel extends StatusSecurityManager {
     //put your code here
 }

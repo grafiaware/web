@@ -1,6 +1,6 @@
 <DIV ID="rs_user">
 <?php
-        $sess_user = $_SESSION['login']['user']->getUserName();
+        $sess_user = $_SESSION['login']['user']->getUser();
 echo "Přihlášen je uživatel: <b>" . $sess_user."</b>";
 //if ($sess_prava['chpass']) {
 //                            echo '<a href="index.php?list=chpass">Změnit heslo</a>';

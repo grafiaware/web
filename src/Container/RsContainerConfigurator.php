@@ -17,6 +17,9 @@ use Pes\Session\SaveHandler\PhpLoggingSaveHandler;
 use Model\Entity\User;
 use Model\Entity\UserInterface;
 
+// security context - použit v security status
+use StatusManager\Observer\SecurityContextObjectsRemover;
+
 // database
 use Pes\Database\Handler\Account;
 use Pes\Database\Handler\AccountInterface;
@@ -69,31 +72,25 @@ class RsContainerConfigurator extends ContainerConfiguratorAbstract {
             #
             ###################################
 
-            // session user
-            User::class => function(ContainerInterface $c) {
-                $sessionUserVarName = $c->get('security_session_variable_name');
-                $sessionHandler = $c->get(SessionStatusHandler::class);
-                $user = $sessionHandler->get($sessionUserVarName);
-                if (!isset($user)) {
-                    $user = new User();
-                }
-                return $user;
-            },
             // database account
             Account::class => function(ContainerInterface $c) {
                 /* @var $user UserInterface::class */
                 $user = $c->get(User::class);
-                switch ($user->getRole()) {
-                    case 'administrator':
-                        $account = new Account($c->get('database.account.administrator.name'), $c->get('database.account.administrator.password'));
-                        break;
-                    default:
-                        if ($user->getRole()) {
-                            $account = new Account($c->get('database.account.authenticated.name'), $c->get('database.account.authenticated.password'));
-                        } else {
-                            $account = new Account($c->get('database.account.everyone.name'), $c->get('database.account.everyone.password'));
-                        }
-                        break;
+                if (isset($user)) {
+                    switch ($user->getRole()) {
+                        case 'administrator':
+                            $account = new Account($c->get('database.account.administrator.name'), $c->get('database.account.administrator.password'));
+                            break;
+                        default:
+                            if ($user->getRole()) {
+                                $account = new Account($c->get('database.account.authenticated.name'), $c->get('database.account.authenticated.password'));
+                            } else {
+                                $account = new Account($c->get('database.account.everyone.name'), $c->get('database.account.everyone.password'));
+                            }
+                            break;
+                    }
+                } else {
+                    $account = new Account($c->get('database.account.everyone.name'), $c->get('database.account.everyone.password'));
                 }
                 return $account;
             },
@@ -104,13 +101,14 @@ class RsContainerConfigurator extends ContainerConfiguratorAbstract {
             Handler::class => function(ContainerInterface $c) : HandlerInterface {
                 // povinný logger do kostruktoru = pro logování exception při intancování Handleru a PDO - zde používám stejný logger pro všechny db objekty
                 $logger = $c->get('databaseLogger');
-                return new Handler(
+                $handler = new Handler(
                         $c->get(Account::class),
                         $c->get(ConnectionInfo::class),
                         $c->get(DsnProviderMysql::class),
                         $c->get(OptionsProviderMysql::class),
                         $c->get(AttributesProviderDefault::class),
                         $logger);
+                return $handler;
             },
 
         ];

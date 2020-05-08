@@ -9,11 +9,11 @@
 namespace StatusManager;
 
 use Model\Repository\{
-    StatusPresentationRepo, LanguageRepo, MenuRepo, MenuRootRepo, MenuItemRepo
+    LanguageRepo, MenuRootRepo, MenuItemRepo
 };
 
 use Model\Entity\{
-    MenuNodeInterface, StatusPresentationInterface, StatusFlashInterface, LanguageInterface
+    MenuNodeInterface, StatusPresentationInterface, LanguageInterface
 };
 
 use Model\Entity\{

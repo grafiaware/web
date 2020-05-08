@@ -8,14 +8,14 @@
 
 namespace Component\ViewModel\Authored;
 
-use StatusModel\StatusPresentationModel;
+use Component\ViewModel\ComponentViewModelAbstract;
 
 /**
  * Description of AuthoredViewModelAbstract
  *
  * @author pes2704
  */
-class AuthoredViewModelAbstract extends StatusPresentationModel {
+class AuthoredViewModelAbstract extends ComponentViewModelAbstract {
 
     /**
      *
@@ -30,7 +30,7 @@ class AuthoredViewModelAbstract extends StatusPresentationModel {
      * @return bool
      */
     public function userEdit() {
-        $userAction = $this->getStatusPresentation()->getUserActions();
-        return $userAction ? $userAction->isEditableArticle() : false;
+        $userActions = $this->statusPresentationRepo->get()->getUserActions();
+        return $userActions ? $userActions->isEditableArticle() : false;
     }
 }

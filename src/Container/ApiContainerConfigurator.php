@@ -10,6 +10,9 @@ use Psr\Container\ContainerInterface;   // pro parametr closure function(Contain
 // logger
 use Pes\Logger\FileLogger;
 
+// security context - použit v security status
+use StatusManager\Observer\SecurityContextObjectsRemover;
+
 //user
 use Model\Entity\User;
 use Model\Entity\UserInterface;
@@ -46,8 +49,8 @@ use Model\Repository\{
 };
 
 // viewModel
-use StatusModel\StatusSecurityModel;
-use StatusModel\StatusPresentationModel;
+use StatusManager\StatusSecurityManager;
+use StatusManager\StatusPresentationManager;
 
 // view
 use Pes\View\View;
@@ -128,13 +131,14 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                 ## konfiguroványdvě připojení k databázi - jedno pro vývoj a druhé pro běh na produkčním stroji
                 ## pro web middleware se používá zde definovaný Account, ostatní objekty jsou společné - z App kontejneru
             Handler::class => function(ContainerInterface $c) : HandlerInterface {
-                return new Handler(
+                $handler = new Handler(
                         $c->get(Account::class),
                         $c->get(ConnectionInfo::class),
                         $c->get(DsnProviderMysql::class),
                         $c->get(OptionsProviderMysql::class),
                         $c->get(AttributesProvider::class),
                         $c->get('databaseLogger'));
+                return $handler;
             },
 
 ##############

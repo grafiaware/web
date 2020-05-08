@@ -15,12 +15,14 @@ use Model\Repository\{
     StatusSecurityRepo, StatusPresentationRepo
 };
 
+use st
+
 /**
- * Description of SecurityFrontControllerAbstract
+ * Description of StatusFrontControllerAbstract
  *
  * @author pes2704
  */
-abstract  class StatusFrontControllerAbstract extends FrontControllerAbstract implements FrontControllerInterface {
+abstract class StatusFrontControllerAbstract extends FrontControllerAbstract implements FrontControllerInterface {
 
     /**
      * @var StatusSecurity
@@ -39,7 +41,10 @@ abstract  class StatusFrontControllerAbstract extends FrontControllerAbstract im
      */
     public function __construct(
             StatusSecurityRepo  $statusSecurityRepo,
-            StatusPresentationRepo $statusPresentationRepo) {
+            StatusPresentationRepo $statusPresentationRepo
+
+
+            ) {
         $this->statusSecurity = $statusSecurityRepo->get();
         $this->statusPresentation = $statusPresentationRepo->get();
     }
