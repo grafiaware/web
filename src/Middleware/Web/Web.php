@@ -23,15 +23,24 @@ use Container\HierarchyContainerConfigurator;
 use Container\ComponentContainerConfigurator;
 use Container\RendererContainerConfigurator;
 
-use StatusManager\StatusPresentationManagerInterface;
-use StatusManager\StatusSecurityManagerInterface;
+use Model\Repository\{
+    StatusSecurityRepo, StatusPresentationRepo
+};
+
+use StatusManager\{
+    StatusSecurityManagerInterface, StatusPresentationManagerInterface
+};
 
 use Middleware\Web\Controller\ComponentController;
 
 class Web extends AppMiddlewareAbstract implements MiddlewareInterface {
 
-    ## proměnné třídy - pro dostupnost v Closure definovaných v routách ##
-    private $request;
+
+
+    /**
+     * @var StatusSecurityManagerInterface
+     */
+    protected $statusSecurityManager;
 
     /**
      * @var Registry
@@ -47,8 +56,6 @@ class Web extends AppMiddlewareAbstract implements MiddlewareInterface {
      * @return Response
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
-
-        $this->request = $request;
 
         // middleware kontejner:
         //      nový kontejner konfigurovaný třemi konfigurátory: ComponentContainerConfigurator, RendererContainerConfigurator a MenuContainerConfigurator
@@ -66,15 +73,19 @@ class Web extends AppMiddlewareAbstract implements MiddlewareInterface {
                 )
             );
 
-####################################
-        /** @var StatusSecurityManagerInterface $statusSecurityModel */
-        $statusSecurityModel = $this->container->get(StatusSecurityManagerInterface::class);
-        $statusSecurityModel->getStatusSecurity();  // getStatusSecurity() provede regenereci statusu
 
-        /** @var StatusPresentationManagerInterface $statusPresentationModel */
-        $statusPresentationModel = $this->container->get(StatusPresentationManagerInterface::class);
-        $statusPresentationModel->getStatusPresentation();  // getStatusPresentation() provede regenereci statusu
-####################################
+        /** @var StatusPresentationRepo $statusPresentationRepo */
+        $statusPresentationRepo = $this->container->get(StatusPresentationRepo::class);
+        /** @var StatusPresentationManagerInterface $statusPresentationManager */
+        $statusPresentationManager = $this->container->get(StatusPresentationManagerInterface::class);
+        $statusPresentation = $statusPresentationRepo->get();
+        if (!isset($statusPresentation)) {
+            $statusPresentation = $statusPresentationManager->createPresentationStatus($request);
+            $statusPresentationRepo->add($statusPresentation);
+        }
+
+        $statusPresentationManager->regenerateStatusPresentation($statusPresentation, $request);
+
 
         $this->registry = new Registry(new MethodEnum(), new UrlPatternValidator());
 

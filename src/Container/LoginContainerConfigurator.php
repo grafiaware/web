@@ -13,6 +13,7 @@ use Model\Entity\User;
 
 //user - db
 use Model\Dao\UserOpravneniDao;
+use Model\Hydrator\UserHydrator;
 use Model\Repository\UserRepo;
 
 // database
@@ -40,6 +41,10 @@ use Middleware\Login\Controller\LoginLogoutController;
 use StatusManager\StatusSecurityManager;
 use StatusManager\StatusSecurityManagerInterface;
 
+// authenticator
+use Security\Auth\NamePasswordAuthenticatorInterface;
+use Security\Auth\DbAuthenticator;
+
 // security context - použit v security status
 use StatusManager\Observer\SecurityContextObjectsRemover;
 
@@ -56,6 +61,7 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
             HandlerInterface::class => Handler::class,
             RouterInterface::class => Router::class,
             StatusSecurityManagerInterface::class => StatusSecurityManager::class,
+            NamePasswordAuthenticatorInterface::class => DbAuthenticator::class,
         ];
     }
 
@@ -116,10 +122,16 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             // db userRepo
             UserRepo::class => function(ContainerInterface $c) {
-                return new UserRepo(new UserOpravneniDao($c->get(Handler::class)));
+                return new UserRepo(new UserOpravneniDao($c->get(Handler::class)), new UserHydrator());
+            },
+            DbAuthenticator::class => function(ContainerInterface $c) {
+                return new DbAuthenticator(new UserOpravneniDao($c->get(Handler::class)));
             },
             LoginLogoutController::class => function(ContainerInterface $c) {
-                return new LoginLogoutController($c->get(StatusSecurityManager::class), $c->get(UserRepo::class));
+                return new LoginLogoutController(
+                    $c->get(StatusSecurityRepo::class),
+                    $c->get(UserRepo::class),
+                    $c->get(NamePasswordAuthenticatorInterface::class));
             }
         ];
     }

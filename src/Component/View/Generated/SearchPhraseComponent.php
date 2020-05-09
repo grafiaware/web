@@ -18,7 +18,4 @@ use Component\ViewModel\Generated\SearchPhraseViewModel;
  */
 class SearchPhraseComponent extends ComponentAbstract {
 
-    public function __construct(SearchPhraseViewModel $viewModel) {
-        $this->viewModel = $viewModel;
-    }
 }

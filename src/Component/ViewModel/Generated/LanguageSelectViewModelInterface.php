@@ -6,12 +6,13 @@
  * and open the template in the editor.
  */
 
-namespace Component\ViewModel\Status;
+namespace Component\ViewModel\Generated;
 
 /**
  *
  * @author pes2704
  */
-interface StatusViewModelInterface {
-    //put your code here
+interface LanguageSelectViewModelInterface {
+    public function getLanguages();
+    public function getPresentedLangCode();
 }

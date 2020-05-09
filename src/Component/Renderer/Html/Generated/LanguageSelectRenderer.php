@@ -29,7 +29,7 @@ class LanguageSelectRenderer extends HtmlRendererAbstract {
     }
 
     private function renderPrivate(LanguageSelectViewModel $viewModel) {
-        $presentedLangCode = $viewModel->getStatusPresentationRepo()->get()->getLanguage()->getLangCode();
+        $presentedLangCode = $viewModel->getPresentedLangCode();
         $path = \Middleware\Web\AppContext::getAppPublicDirectory().$this->flagsPath;
         foreach ($viewModel->getLanguages() as $language) {
             $flagfile = $path.$language->getState().".png";

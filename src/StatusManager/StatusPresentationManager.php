@@ -8,6 +8,9 @@
 
 namespace StatusManager;
 
+use Psr\Http\Message\ServerRequestInterface;
+use Application\WebAppFactory;
+
 use Model\Repository\{
     LanguageRepo, MenuRootRepo, MenuItemRepo
 };
@@ -17,7 +20,7 @@ use Model\Entity\{
 };
 
 use Model\Entity\{
-    StatusPresentationInterface, UserActions
+    StatusPresentation, UserActions
 
 };
 
@@ -63,28 +66,35 @@ class StatusPresentationManager implements StatusPresentationManagerInterface {
     }
 
     /**
-     * Pokud nejsou nastaveny hodnoty, nastaví defaultní hodnoty language,  do presentation statusu.
+     *
+     * @return StatusPresentationInterface
      */
-    public function regenerateStatusPresentation(StatusPresentationInterface $statusPresentation): void {
+    public function createPresentationStatus(): StatusPresentationInterface {
+        return new StatusPresentation();
+    }
+
+    /**
+     * Pokud nejsou nastaveny hodnoty, nastaví defaultní hodnoty language, menuItem do presentation statusu.
+     *
+     * @param StatusPresentationInterface $statusPresentation
+     * @param ServerRequestInterface $request
+     * @return void
+     */
+    public function regenerateStatusPresentation(StatusPresentationInterface $statusPresentation, ServerRequestInterface $request): void {
+
         ## defaultní hodnoty parametrů status presentation
 
-        // předpokládá, že pokud objekt language v statusPresentation byl v session, byl již načten ze session
-        // spolu s celým statusPresentation (např. v AppFactory)
+        // jazyk prezentace
         $language = $statusPresentation->getLanguage();
         if (!isset($language)) {
-            $language = $this->getRequestedLanguage();
+            $language = $this->getRequestedLanguage($request);
             $statusPresentation->setLanguage($language);
         }
-
+        // defaultní node item pro jazyk prezentace
         $menuItem = $statusPresentation->getMenuItem();
         if (!$menuItem) {
-            // defaultní node item pro zjištěný jazyk
             $menuItem = $this->getDefaulMenuItem($language->getLangCode());
             $statusPresentation->setMenuItem($menuItem);
-        }
-
-        if (!$statusPresentation->getUserActions()) {
-            $statusPresentation->setUserActions(new UserActions());  // má default hodnoty
         }
     }
 
@@ -93,8 +103,8 @@ class StatusPresentationManager implements StatusPresentationManagerInterface {
      * v databázi, pak podle konstanty třídy DEFAULT_LANG_CODE
      * @return LanguageInterface
      */
-    private function getRequestedLanguage() {
-        $requestedLangCode = $this->statusPresentation->getRequestedLangCode();
+    private function getRequestedLanguage(ServerRequestInterface $request) {
+        $requestedLangCode = $request->getAttribute(WebAppFactory::REQUESTED_LANGUAGE_ATTRIBUTE_NAME);
         $language = $this->languageRepo->get($requestedLangCode);
         if (!isset($language)) {
             user_error("Podle hlavičky requestu Accept-Language je požadován kód jazyka $requestedLangCode. "

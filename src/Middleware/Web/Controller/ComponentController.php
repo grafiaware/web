@@ -83,10 +83,9 @@ class ComponentController extends LayoutControllerAbstract {
     ### action metody ###############
 
     public function home(ServerRequestInterface $request) {
-//        $this->statusPresentation->setMenuItem(null);  // status model nastaví default menu item (jazyk zachová)
         $view = $this->createView($request);
 
-        return $this->createResponse($request, $view);
+        return $this->createResponseFromView($request, $view);
     }
 
     public function item(ServerRequestInterface $request, $langCode, $uid) {
@@ -94,16 +93,16 @@ class ComponentController extends LayoutControllerAbstract {
         $menuRepo = $this->container->get(MenuRepo::class);
         $menuNode = $menuRepo->get($langCode, $uid);
         if ($menuNode) {
-            $this->statusPresentation->setMenuItem($menuNode->getMenuItem());
+            $this->statusPresentationRepo->get()->setMenuItem($menuNode->getMenuItem());
         } else {
             // neexistující stránka
             return RedirectResponse::withRedirect(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/home/', $url, 303); // SeeOther
         }
-        return $this->createResponse($request, $this->createView($request));
+        return $this->createResponseFromView($request, $this->createView($request));
     }
 
     public function last(ServerRequestInterface $request) {
-        return $this->createResponse($request, $this->createView($request));
+        return $this->createResponseFromView($request, $this->createView($request));
     }
 
     public function searchResult(ServerRequestInterface $request) {
@@ -113,7 +112,7 @@ class ComponentController extends LayoutControllerAbstract {
         $key = $request->getAttribute('klic', '');
         $key = $request->getQueryParams()['klic'];
         $contentView = $component->setSearch($key);
-        return $this->createResponse($request, $this->createView($request));
+        return $this->createResponseFromView($request, $this->createView($request));
     }
 
 ##### private methods ##############################################################
@@ -146,16 +145,6 @@ class ComponentController extends LayoutControllerAbstract {
 //        #### speed test výsledky jsou viditelné ve firebugu ####
 //        $html .= $this->createSpeedInfoHtml($duration);
 
-    }
-
-    private function isEditableLayout() {
-        $userActions = $this->statusPresentation->getUserActions();
-        return $userActions ? $userActions->isEditableLayout() : false;
-    }
-
-    private function isEditableArticle() {
-        $userActions = $this->statusPresentation->getUserActions();
-        return $userActions ? $userActions->isEditableArticle() : false;
     }
 
     private function createSpeedInfoHtml($duration) {
@@ -229,8 +218,8 @@ class ComponentController extends LayoutControllerAbstract {
             'poznamky' => $this->container->get(View::class)
                     ->setTemplate(new PhpTemplate('templates/poznamky/poznamky.php'))
                     ->setData([
-                        'poznamka1'=> '<pre>'. var_export($this->statusPresentation->getLanguage(), true).'</pre>'
-                        . '<pre>'. var_export($this->statusPresentation->getUserActions(), true).'</pre>',
+                        'poznamka1'=> '<pre>'. var_export($this->statusPresentationRepo->get()->getLanguage(), true).'</pre>'
+                        . '<pre>'. var_export($this->statusSecurityRepo->get()->getUserActions(), true).'</pre>',
                         'flashMessage' => $statusFlashRepo->get(),
 //                        'flashMessage' => $this->container->get(FlashComponent::class),
                         ]),

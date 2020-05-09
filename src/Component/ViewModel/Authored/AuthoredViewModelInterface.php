@@ -14,7 +14,7 @@ use Component\ViewModel\ComponentViewModelInterface;
  *
  * @author pes2704
  */
-interface AuthoredViewModelInterface extends ComponentViewModelInterface {
+interface AuthoredViewModelInterface {
     /**
      * Prezentuj položky v editovatelné podobě
      * @return bool

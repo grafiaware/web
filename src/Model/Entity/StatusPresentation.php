@@ -33,8 +33,6 @@ class StatusPresentation implements StatusPresentationInterface {
      */
     private $menuItem;
 
-    private $userActions;
-
     /**
      *
      * @return Language|null
@@ -57,14 +55,6 @@ class StatusPresentation implements StatusPresentationInterface {
      */
     public function getMenuItem(): ?MenuItem {
         return $this->menuItem;
-    }
-
-    /**
-     *
-     * @return UserActions|null
-     */
-    public function getUserActions(): ?UserActions {
-        return $this->userActions;
     }
 
     /**
@@ -94,16 +84,6 @@ class StatusPresentation implements StatusPresentationInterface {
      */
     public function setMenuItem(MenuItem $menuItem): StatusPresentationInterface {
         $this->menuItem = $menuItem;
-        return $this;
-    }
-
-    /**
-     *
-     * @param UserActions $userActions
-     * @return StatusPresentationInterface
-     */
-    public function setUserActions(UserActions $userActions): StatusPresentationInterface {
-        $this->userActions = $userActions;
         return $this;
     }
 }

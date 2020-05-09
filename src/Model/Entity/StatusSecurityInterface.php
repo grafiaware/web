@@ -9,6 +9,7 @@
 namespace Model\Entity;
 
 use Model\Entity\UserInterface;
+use Model\Entity\UserActionsInterface;
 
 /**
  * Třída nemá metodu getUser(), nikdy nevrací celý objekt User. Tak nelze měnit vlastnosti objektu User získaného z StatusSecurity.
@@ -29,11 +30,23 @@ interface StatusSecurityInterface {
      */
     public function getUser(): ?UserInterface;
 
+    /**
+     *
+     * @return UserActionsInterface|null
+     */
+    public function getUserActions(): ?UserActionsInterface;
 
     /**
-     * Nastaví entitu User
-     * @param \Model\Entity\UserInterface $user
+     *
+     * @param UserActionsInterface $userActions
      * @return \Model\Entity\StatusSecurityInterface
      */
-    public function setUser(UserInterface $user=NULL): StatusSecurityInterface;
+    public function setUserActions(UserActionsInterface $userActions): StatusSecurityInterface;
+
+    /**
+     *
+     * @param UserInterface $user
+     * @return void
+     */
+    public function renewSecurityStatus(UserInterface $user=null): void;
 }

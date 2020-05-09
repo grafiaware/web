@@ -23,8 +23,8 @@ class SearchPhraseRenderer extends HtmlRendererAbstract {
         return $this->renderPrivate($data);
     }
 
-    private function renderPrivate(SearchPhraseViewModel $viewModel) {
-        // input - musí být required, jinak se při nulové délce neprovádá validace a pošle se dotaz s prázdným řetězcem
+    private function renderPrivate() {  // bez parametru - nepoužívá viewModel
+        // input - musí být required, jinak se při nulové délce neprovádí validace a pošle se dotaz s prázdným řetězcem
         return '
             <form action="www/searchresult" method="GET">
             <div class="ui mini action fluid input">

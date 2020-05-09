@@ -13,7 +13,7 @@ namespace Model\Entity;
  *
  * @author pes2704
  */
-class User implements UserInterface {
+class User extends EntityAbstract implements UserInterface {
 
     /**
      * @var string
@@ -34,7 +34,6 @@ class User implements UserInterface {
     }
 
     public function setUserName($userName): UserInterface {
-        $this->notify();
         $this->userName = $userName;
         return $this;
     }

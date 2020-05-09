@@ -6,6 +6,11 @@ use Component\ViewModel\Authored\AuthoredViewModelAbstract;
 use Model\Entity\MenuNodeInterface;
 use Model\Entity\MenuRootInterface;
 
+use Model\Repository\StatusSecurityRepo;
+use Model\Repository\StatusPresentationRepo;
+use Model\Repository\MenuRepo;
+use Model\Repository\MenuRootRepo;
+
 use Component\ViewModel\Authored\Menu\Item\ItemViewModel;
 
 /**
@@ -14,6 +19,18 @@ use Component\ViewModel\Authored\Menu\Item\ItemViewModel;
  * @author pes2704
  */
 class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelInterface {
+
+    private $menuRootRepo;
+
+    public function __construct(
+            StatusSecurityRepo $statusSecurityRepo,
+            StatusPresentationRepo $statusPresentationRepo,
+            MenuRepo $menuRepo,
+            MenuRootRepo $menuRootRepo
+            ) {
+        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $menuRepo);
+        $this->menuRootRepo = $menuRootRepo;
+    }
 
     /**
      * Vrací prezentovanou položku menu. Řídí se hodnotami vlastností objektu PresentationStatus.

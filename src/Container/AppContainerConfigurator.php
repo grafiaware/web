@@ -194,13 +194,6 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new StatusFlashRepo($c->get(StatusDao::class));
             },
 
-            // session user - tato služba se používá pro vytvoření objetu Account a tedy pro připojení k databázi
-            User::class => function(ContainerInterface $c) {
-                /** @var StatusSecurityRepo $securityStatusRepo */
-                $securityStatusRepo = $c->get(StatusSecurityRepo::class);
-                return $securityStatusRepo->get()->getUser();
-            },
-
             // router
             'logs.router.directory' => 'Logs/Api',
             'logs.router.file' => 'Router.log',

@@ -96,7 +96,12 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
             'database.account.administrator.password' => 'administrator',
             #
             ###################################
-
+            // session user - tato služba se používá pro vytvoření objetu Account a tedy pro připojení k databázi
+            User::class => function(ContainerInterface $c) {
+                /** @var StatusSecurityRepo $securityStatusRepo */
+                $securityStatusRepo = $c->get(StatusSecurityRepo::class);
+                return $securityStatusRepo->get()->getUser();
+            },
             ## !!!!!! Objekty Account a Handler musí být v kontejneru vždy definovány jako service (tedy vytvářeny jako singleton) a nikoli
             #         jako factory. Pokud definuji jako factory, může vzniknou řada objektů Account a Handler, které vznikly s použití
             #         údajů jméno a heslo k databázovému účtu. Tyto údaje jsou obvykle odvozovány od uživatele přihlášeného  k aplikaci.

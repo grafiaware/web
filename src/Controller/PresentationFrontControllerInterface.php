@@ -12,12 +12,20 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 use Pes\View\ViewInterface;
+
 /**
  *
  * @author pes2704
  */
-interface FrontControllerInterface {
+interface PresentationFrontControllerInterface {
 
+    /**
+     *
+     * @param \Controller\ServerRequestInterface $request
+     * @param \Controller\ViewInterface $view
+     * @return ResponseInterface
+     */
+    public function createResponseFromView(ServerRequestInterface $request, ViewInterface $view): ResponseInterface;
 
     /**
      *
@@ -26,4 +34,5 @@ interface FrontControllerInterface {
      * @return ResponseInterface
      */
     public function addHeaders(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface;
+
 }

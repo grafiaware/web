@@ -9,18 +9,30 @@
 namespace StatusManager;
 
 use Model\Entity\StatusSecurityInterface;
+use Model\Entity\UserInterface;
 
 /**
  *
  * @author pes2704
  */
-interface StatusSecurityManagerInterface extends \SplSubject {
+interface StatusSecurityManagerInterface {
 
     /**
-     * Určeno pro volání při změně bezpečnostního kontextu aplikace. Musí smazat všechny informace v security statusu odvozené z bezpečnostního kontextu,
-     * typicky např. ty, vytvořené s použitím přihlášeného uživatele - změna kontextu je přihlášení, odhlášení uživatele.
+     * Určeno pro vytvoření bezpečnostního kontextu aplikace.
      *
      * @return void
      */
-    public function newSecurityStatus(): StatusSecurityInterface;
+    public function createSecurityStatus(): StatusSecurityInterface;
+
+    /**
+
+     * Určeno pro změnu bezpečnostního statusu. Je nutné volat vždy při změně bezpečnostního kontextu, typicky při přihlášení, odhlášení uživatele.
+     *
+     * Musí smazat všechny informace v security statusu odvozené z bezpečnostního kontextu,
+     * typicky např. ty, vytvořené s použitím přihlášeného uživatele.
+     *
+     * @param UserInterface $user
+     * @return void
+     */
+    public function renewSecurityStatus(UserInterface $user=null): void;
 }

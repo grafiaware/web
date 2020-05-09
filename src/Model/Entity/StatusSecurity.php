@@ -8,6 +8,9 @@
 
 namespace Model\Entity;
 
+use Model\Entity\UserInterface;
+use Model\Entity\UserActionsInterface;
+
 /**
  * Description of Login
  *
@@ -15,17 +18,12 @@ namespace Model\Entity;
  */
 class StatusSecurity implements StatusSecurityInterface {
 
-    private $securityContextObservers;
-
-
     /**
      * @var UserInterface
      */
     private $user;
 
-    public function __construct() {
-        $this->securityContextObservers = new \SplObjectStorage();
-    }
+    private $userActions;
 
     /**
      * Vrací jméno
@@ -33,17 +31,35 @@ class StatusSecurity implements StatusSecurityInterface {
      * @return \Model\Entity\UserInterface|null
      */
     public function getUser(): ?UserInterface {
-        return $this->user->getUserName();
+        return $this->user;
     }
 
     /**
-     * Nastaví entitu User
-     * @param \Model\Entity\UserInterface $user
+     *
+     * @return UserActionsInterface|null
+     */
+    public function getUserActions(): ?UserActionsInterface {
+        return $this->userActions;
+    }
+
+    /**
+     *
+     * @param UserActionsInterface $userActions
      * @return \Model\Entity\StatusSecurityInterface
      */
-    public function setUser(UserInterface $user=NULL): StatusSecurityInterface {
-        $this->notify();
-        $this->user = $user;
+    public function setUserActions(UserActionsInterface $userActions): StatusSecurityInterface {
+        $this->userActions = $userActions;
         return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     * @param UserInterface $user
+     * @return void
+     */
+    public function renewSecurityStatus(UserInterface $user=null): void {
+        $this->user = $user;
+        $this->userActions = new UserActions();  // má default hodnoty
+
     }
 }

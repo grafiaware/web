@@ -73,6 +73,12 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
             #
             ###################################
 
+            // session user - tato služba se používá pro vytvoření objetu Account a tedy pro připojení k databázi
+            User::class => function(ContainerInterface $c) {
+                /** @var StatusSecurityRepo $securityStatusRepo */
+                $securityStatusRepo = $c->get(StatusSecurityRepo::class);
+                return $securityStatusRepo->get()->getUser();
+            },
             ## !!!!!! Objekty Account a Handler musí být v kontejneru vždy definovány jako service (tedy vytvářeny jako singleton) a nikoli
             #         jako factory. Pokud definuji jako factory, múže vzniknout řada objektů Account a Handler, které vznikly s použitím
             #         údajů 'name' a 'password' k databázovému účtu. Tyto údaje jsou obvykle odvozovány od uživatele přihlášeného  k aplikaci.
@@ -121,15 +127,8 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 return $handler;
             },
 
-
-            // viewModel s daty ukládanými v session - vytvářenými s použitím objektů, které závisejí na bezpečnostním kotextu
-            // StatusSecurityModel v metodě ->regenerateSecurityStatus() musí tyto objekty smazat při změně bezpečnostního kontextu
-            // Objekty StatusSecurityRepo a User (ze session) jsou získávány z app kontejneru,objekty Account a Handler závisí na konfiguraci databázovžch parametrů
-            // a jsou získávány v tomto konteneru
             StatusSecurityManager::class => function(ContainerInterface $c) {
-                $securityModel = new StatusSecurityManager($c->get(StatusSecurityRepo::class));
-                $securityModel->attach($c->get(SecurityContextObjectsRemover::class));
-                return $securityModel;
+                return new StatusSecurityManager();
             },
 
         ];

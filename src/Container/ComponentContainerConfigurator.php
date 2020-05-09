@@ -1,6 +1,12 @@
 <?php
 namespace Container;
 
+// status
+use StatusManager\StatusSecurityManager;
+use StatusManager\StatusSecurityManagerInterface;
+use StatusManager\StatusPresentationManager;
+use StatusManager\StatusPresentationManagerInterface;
+
 use Pes\Container\ContainerConfiguratorAbstract;
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
 
@@ -10,7 +16,8 @@ use Pes\Logger\FileLogger;
 // renderer kontejner
 use Pes\Container\Container;
 use Container\RendererContainerConfigurator;
-// templae renderer container
+
+// template renderer container
 use Pes\View\Renderer\Container\TemplateRendererContainer;
 
 // template
@@ -65,6 +72,7 @@ use Model\Repository\{
 // controller
 use Middleware\Web\Controller\ComponentController;
 
+
 // renderery - pro volání služeb renderer kontejneru renderer::class
 use Component\Renderer\Html\Generated\{
     LanguageSelectRenderer, SearchPhraseRenderer, SearchResultRenderer, ItemTypeRenderer, FlashRenderer
@@ -89,7 +97,10 @@ use \Pes\View\ViewFactory;
 class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getAliases() {
-        return [];
+        return [
+            StatusPresentationManagerInterface::class => StatusPresentationManager::class,
+
+        ];
     }
 
     public function getServicesDefinitions() {
@@ -123,16 +134,6 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                             $c->get(StatusPresentationRepo::class),
                             $c->get(ViewFactory::class))
                         )->injectContainer($c);  // inject component kontejner
-            },
-            ComponentViewModelAbstract::class => function(ContainerInterface $c) {
-                return new ComponentViewModelAbstract(
-                                $c->get(StatusPresentationRepo::class),
-                                $c->get(StatusFlashRepo::class),
-                                $c->get(LanguageRepo::class),
-                                $c->get(MenuRepo::class),
-                                $c->get(MenuRootRepo::class),
-                                $c->get(MenuItemRepo::class),
-                        );
             }
         ];
     }
@@ -176,12 +177,10 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
 
             MenuViewModel::class => function(ContainerInterface $c) {
                 return new MenuViewModel(
+                                $c->get(StatusSecurityRepo::class),
                                 $c->get(StatusPresentationRepo::class),
-                                $c->get(StatusFlashRepo::class),
-                                $c->get(LanguageRepo::class),
                                 $c->get(MenuRepo::class),
-                                $c->get(MenuRootRepo::class),
-                                $c->get(MenuItemRepo::class)
+                                $c->get(MenuRootRepo::class)
                             );
                 },
             MenuComponent::class => function(ContainerInterface $c) {
@@ -241,12 +240,9 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
         #
             NamedPaperViewModel::class => function(ContainerInterface $c) {
                 return new NamedPaperViewModel(
+                                $c->get(StatusSecurityRepo::class),
                                 $c->get(StatusPresentationRepo::class),
-                                $c->get(StatusFlashRepo::class),
-                                $c->get(LanguageRepo::class),
                                 $c->get(MenuRepo::class),
-                                $c->get(MenuRootRepo::class),
-                                $c->get(MenuItemRepo::class),
                                 $c->get(PaperRepo::class),
                                 $c->get(ComponentRepo::class)
                             );
@@ -259,12 +255,9 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
 
             PresentedPaperViewModel::class => function(ContainerInterface $c) {
                 return new PresentedPaperViewModel(
+                                $c->get(StatusSecurityRepo::class),
                                 $c->get(StatusPresentationRepo::class),
-                                $c->get(StatusFlashRepo::class),
-                                $c->get(LanguageRepo::class),
                                 $c->get(MenuRepo::class),
-                                $c->get(MenuRootRepo::class),
-                                $c->get(MenuItemRepo::class),
                                 $c->get(PaperRepo::class),
                                 $c->get(ComponentRepo::class)
                         );
@@ -297,12 +290,7 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
             // generated komponenty
             LanguageSelectComponent::class => function(ContainerInterface $c) {
                 $viewModel = new LanguageSelectViewModel(
-                                $c->get(StatusPresentationRepo::class),
-                                $c->get(StatusFlashRepo::class),
-                                $c->get(LanguageRepo::class),
-                                $c->get(MenuRepo::class),
-                                $c->get(MenuRootRepo::class),
-                                $c->get(MenuItemRepo::class)
+                                $c->get(LanguageRepo::class), $c->get(StatusPresentationRepo::class)
                         );
                 return (new LanguageSelectComponent($viewModel))->setRendererContainer($c->get('rendererContainer'))->setRendererName(LanguageSelectRenderer::class);
 
@@ -319,15 +307,7 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
             },
 
             SearchPhraseComponent::class => function(ContainerInterface $c) {
-                $viewModel = new SearchPhraseViewModel(
-                                $c->get(StatusPresentationRepo::class),
-                                $c->get(StatusFlashRepo::class),
-                                $c->get(LanguageRepo::class),
-                                $c->get(MenuRepo::class),
-                                $c->get(MenuRootRepo::class),
-                                $c->get(MenuItemRepo::class)
-                        );
-                return (new SearchPhraseComponent($viewModel))->setRendererContainer($c->get('rendererContainer'))->setRendererName(SearchPhraseRenderer::class);
+                return (new SearchPhraseComponent())->setRendererContainer($c->get('rendererContainer'))->setRendererName(SearchPhraseRenderer::class);
             },
 
             ItemTypeSelectComponent::class => function(ContainerInterface $c) {

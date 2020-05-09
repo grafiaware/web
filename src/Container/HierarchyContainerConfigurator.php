@@ -274,18 +274,11 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new LanguageRepo($c->get(LanguageDao::class));
             },
             StatusPresentationManager::class => function(ContainerInterface $c) {
-                $statusPresentationModel = (new StatusPresentationManager(
-                                $c->get(StatusPresentationRepo::class),
-                                $c->get(StatusFlashRepo::class),
+                return (new StatusPresentationManager(
                                 $c->get(LanguageRepo::class),
                                 $c->get(MenuRootRepo::class),
                                 $c->get(MenuItemRepo::class),
                         ));
-                // status presentation model je nutno přidat jako Observer do status security modelu - zajistí mazání UserActions při odhlášení uživatele
-                $statusSecurityModel = $c->get(StatusSecurityManagerInterface::class);
-                /** @var StatusSecurityManagerInterface $statusSecurityModel */
-                $statusSecurityModel->attach($statusPresentationModel);
-                return $statusPresentationModel;
             },
 
 ########################

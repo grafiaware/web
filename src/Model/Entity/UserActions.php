@@ -20,13 +20,6 @@ class UserActions implements UserActionsInterface {
     private $editLayout = FALSE;
     private $editPaper = FALSE;
 
-    private $user;
-
-    public function __construct(User $user) {
-        $this->user = $user;
-        $this->user->attach($this);
-    }
-
     /**
      * Informuje, zda prezentace je přepnuta do modu editace layoutu.
      * @return bool

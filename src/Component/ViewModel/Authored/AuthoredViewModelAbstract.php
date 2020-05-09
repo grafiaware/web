@@ -8,14 +8,41 @@
 
 namespace Component\ViewModel\Authored;
 
-use Component\ViewModel\ComponentViewModelAbstract;
+use Model\Repository\StatusSecurityRepo;
+use Model\Repository\StatusPresentationRepo;
+use Model\Repository\MenuRepo;
 
 /**
  * Description of AuthoredViewModelAbstract
  *
  * @author pes2704
  */
-class AuthoredViewModelAbstract extends ComponentViewModelAbstract {
+class AuthoredViewModelAbstract implements AuthoredViewModelInterface {
+
+    /**
+     * @var StatusSecurityRepo
+     */
+    protected $statusSecurityRepo;
+
+    /**
+     * @var StatusPresentationRepo
+     */
+    protected $statusPresentationRepo;
+
+    /**
+     * @var MenuRepo
+     */
+    protected $menuRepo;
+
+    public function __construct(
+            StatusSecurityRepo $statusSecurityRepo,
+            StatusPresentationRepo $statusPresentationRepo,
+            MenuRepo $menuRepo
+            ) {
+        $this->statusSecurityRepo = $statusSecurityRepo;
+        $this->statusPresentationRepo = $statusPresentationRepo;
+        $this->menuRepo = $menuRepo;
+    }
 
     /**
      *
@@ -30,7 +57,7 @@ class AuthoredViewModelAbstract extends ComponentViewModelAbstract {
      * @return bool
      */
     public function userEdit() {
-        $userActions = $this->statusPresentationRepo->get()->getUserActions();
+        $userActions = $this->statusSecurityRepo->get()->getUserActions();
         return $userActions ? $userActions->isEditableArticle() : false;
     }
 }

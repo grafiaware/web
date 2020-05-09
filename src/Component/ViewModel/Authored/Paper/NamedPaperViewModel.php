@@ -6,6 +6,12 @@ namespace Component\ViewModel\Authored\Paper;
  * and open the template in the editor.
  */
 
+use Model\Repository\StatusPresentationRepo;
+
+use Model\Repository\MenuRepo;
+use Model\Repository\ComponentRepo;
+use Model\Repository\PaperRepo;
+
 use Model\Entity\MenuNodeInterface;
 use Model\Entity\ComponentInterface;
 use Model\Entity\PaperInterface;
@@ -19,7 +25,6 @@ use Model\Entity\PaperInterface;
 class NamedPaperViewModel extends PaperViewModelAbstract implements NamedPaperViewModelInterface {
 
     private $componentName;
-    private $item;
 
     /**
      * Nastaví jméno komponenty. Jménem komponety se řídí metody getComponent() a getPaper

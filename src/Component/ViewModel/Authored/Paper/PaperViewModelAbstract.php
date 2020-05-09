@@ -8,16 +8,9 @@
 
 namespace Component\ViewModel\Authored\Paper;
 
-use Component\ViewModel\Authored\AuthoredViewModelInterface;
-
-use Model\Repository\StatusSecurityRepo;
 use Model\Repository\StatusPresentationRepo;
-use Model\Repository\StatusFlashRepo;
-use Model\Repository\LanguageRepo;
+use Model\Repository\StatusSecurityRepo;
 use Model\Repository\MenuRepo;
-use Model\Repository\MenuRootRepo;
-use Model\Repository\MenuItemRepo;
-
 use Model\Repository\ComponentRepo;
 use Model\Repository\PaperRepo;
 
@@ -28,7 +21,7 @@ use Component\ViewModel\Authored\AuthoredViewModelAbstract;
  *
  * @author pes2704
  */
-abstract class PaperViewModelAbstract extends AuthoredViewModelAbstract implements AuthoredViewModelInterface {
+abstract class PaperViewModelAbstract extends AuthoredViewModelAbstract implements PaperViewModelInterface {
 
     /**
      * @var PaperRepo
@@ -40,17 +33,21 @@ abstract class PaperViewModelAbstract extends AuthoredViewModelAbstract implemen
      */
     protected $componentRepo;
 
+    /**
+     *
+     * @var StatusPresentationRepo
+     */
+    protected $statusPresentationRepo;
+
+
     public function __construct(
-            StatusPresentationRepo $presentationStatusRepo,
-            StatusFlashRepo $flashStatusRepo,
-            LanguageRepo $languageRepo,
+            StatusSecurityRepo $statusSecurityRepo,
+            StatusPresentationRepo $statusPresentationRepo,
             MenuRepo $menuRepo,
-            MenuRootRepo $menuRootRepo,
-            MenuItemRepo $menuItemRepo,
             PaperRepo $paperRepo,
             ComponentRepo $componentRepo
             ) {
-        parent::__construct($presentationStatusRepo, $flashStatusRepo, $languageRepo, $menuRepo, $menuRootRepo, $menuItemRepo);
+        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $menuRepo);
         $this->paperRepo = $paperRepo;
         $this->componentRepo = $componentRepo;
     }

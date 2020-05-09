@@ -15,7 +15,7 @@ use Container\WebContainerConfigurator;
 use Container\HierarchyContainerConfigurator;
 
 use Model\Dao\MenuItemDao;
-use StatusManager\StatusPresentationManager;
+use Model\Repository\StatusPresentationRepo;
 
 use Pes\Http\Body;
 
@@ -80,9 +80,9 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
         $key = 'list';
         $length = strlen($prefix);
         $dao = $this->container->get(MenuItemDao::class);
-        /** @var StatusPresentationManager $presentationStatusManager */
-        $presentationStatusManager = $this->container->get(StatusPresentationManager::class);
-        $langCode = $presentationStatusManager->getStatusPresentation()->getLanguage()->getLangCode();
+        /** @var StatusPresentationRepo $statusPresentationRepo */
+        $statusPresentationRepo = $this->container->get(StatusPresentationRepo::class);
+        $langCode = $statusPresentationRepo->get()->getLanguage()->getLangCode();
         $transform = [];
         $end = 0;
 

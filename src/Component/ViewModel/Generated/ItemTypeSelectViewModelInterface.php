@@ -8,13 +8,10 @@
 
 namespace Component\ViewModel\Generated;
 
-use Component\ViewModel\ComponentViewModelAbstract;
-
 /**
- * Description of SearchPhraseViewModel
  *
  * @author pes2704
  */
-class SearchPhraseViewModel extends ComponentViewModelAbstract implements GeneratedViewModelInterface {
-
+interface ItemTypeSelectViewModelInterface {
+    public function getTypes();
 }

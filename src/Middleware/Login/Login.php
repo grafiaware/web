@@ -7,6 +7,9 @@ use Pes\Middleware\AppMiddlewareAbstract;
 use Pes\Container\Container;
 
 use Container\LoginContainerConfigurator;
+use Model\Repository\StatusSecurityRepo;
+
+use StatusManager\StatusSecurityManagerInterface;
 
 use Pes\Action\Registry;
 use Pes\Action\Action;
@@ -37,6 +40,14 @@ class Login extends AppMiddlewareAbstract implements MiddlewareInterface {
             (new LoginContainerConfigurator())->configure(
                     (new Container($this->getApp()->getAppContainer()))
                 );
+
+        /** @var StatusSecurityRepo $statusSecurityRepo */
+        $statusSecurityRepo = $this->container->get(StatusSecurityRepo::class);
+        /** @var StatusSecurityManagerInterface $statusSecurityManager */
+        $statusSecurityManager = $this->container->get(StatusSecurityManagerInterface::class);
+        if (!$statusSecurityRepo->get()) {
+            $statusSecurityRepo->add($statusSecurityManager->createSecurityStatus());
+        }
 
         $registry = new Registry(new MethodEnum(), new UrlPatternValidator());
 

@@ -8,6 +8,8 @@
 
 namespace StatusManager;
 
+use Psr\Http\Message\ServerRequestInterface;
+
 use Model\Entity\StatusPresentationInterface;
 
 /**
@@ -18,9 +20,16 @@ interface StatusPresentationManagerInterface {
 
     /**
      *
-     * @param StatusPresentationInterface $statusPresentation
      * @return StatusPresentationInterface
      */
-    public function regenerateStatusPresentation(StatusPresentationInterface $statusPresentation): void;
+    public function createPresentationStatus(): StatusPresentationInterface;
+
+    /**
+     *
+     * @param StatusPresentationInterface $statusPresentation
+     * @param ServerRequestInterface $request
+     * @return void
+     */
+    public function regenerateStatusPresentation(StatusPresentationInterface $statusPresentation, ServerRequestInterface $request): void;
 
 }

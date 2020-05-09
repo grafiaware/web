@@ -40,12 +40,6 @@ interface StatusPresentationInterface {
 
     /**
      *
-     * @return UserActions|null
-     */
-    public function getUserActions(): ?UserActions;
-
-    /**
-     *
      * @param Language $language
      * @return StatusPresentationInterface
      */
@@ -64,11 +58,4 @@ interface StatusPresentationInterface {
      * @return StatusPresentationInterface
      */
     public function setMenuItem(MenuItem $menuItem): StatusPresentationInterface;
-
-    /**
-     *
-     * @param UserActions $userStatus
-     * @return StatusPresentationInterface
-     */
-    public function setUserActions(UserActions $userStatus): StatusPresentationInterface;
 }

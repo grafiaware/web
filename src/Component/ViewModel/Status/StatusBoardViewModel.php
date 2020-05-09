@@ -8,45 +8,48 @@
 
 namespace Component\ViewModel\Status;
 
-use StatusManager\StatusSecurityManagerInterface;
-use StatusManager\StatusPresentationManagerInterface;
+use Model\Repository\StatusSecurityRepo;
+use Model\Repository\StatusPresentationRepo;
 
 /**
  * Description of StatusBoardViewModel
  *
  * @author pes2704
  */
-class StatusBoardViewModel {
+class StatusBoardViewModel implements StatusBoardViewModelInterface {
 
-    private $statusSecurityModel;
-    private $statusPresentationModel;
+    private $statusSecurityRepo;
+    private $statusPresentationRepo;
 
-    public function __construct(StatusSecurityManagerInterface $statusSecurityModel, StatusPresentationManagerInterface $statusPresentationModel) {
-        $this->statusSecurityModel = $statusSecurityModel;
-        $this->statusPresentationModel = $statusPresentationModel;
+    public function __construct(StatusSecurityRepo $statusSecurityRepo, StatusPresentationRepo $statusPresentationRepo) {
+        $this->statusSecurityRepo = $statusSecurityRepo;
+        $this->statusPresentationRepo = $statusPresentationRepo;
     }
 
     public function getLanguageInfo() {
-        $statusPresentation = $this->statusPresentationModel->getStatusPresentation();
+        $language = $this->statusPresentationRepo->get()->getLanguage();
         return [
-            'code' => $statusPresentation->getLanguage()->getLangCode(),
-            'name' => $statusPresentation->getLanguage()->getName(),
-            'state' => $statusPresentation->getLanguage()->getState(),
-            'locale' => $statusPresentation->getLanguage()->getLocale(),
+            'code' => $language->getLangCode(),
+            'name' => $language->getName(),
+            'state' => $language->getState(),
+            'locale' => $language->getLocale(),
             ];
     }
 
-    public function getEditableInfo($param) {
-        $statusPresentation = $this->statusPresentationModel->getStatusPresentation();
+    public function getEditableInfo() {
+        $userActions = $this->statusSecurityRepo->get()->getUserActions();
         [
-            'article' => $statusPresentation->getUserActions()->isEditableArticle(),
-            'layout' => $statusPresentation->getUserActions()->isEditableLayout(),
+            'article' => $userActions->isEditableArticle(),
+            'layout' => $userActions->isEditableLayout(),
         ];
 
     }
 
-    public function getSucurityInfo($param) {
-        return 'No security info.';
+    public function getSecurityInfo() {
+        return [
+            'userName' => $this->statusSecurityRepo->get()->getUser()->getUserName(),
+            'role' => $this->statusSecurityRepo->get()->getUser()->getRole(),
+            ];
     }
 
 }

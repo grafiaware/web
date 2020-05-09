@@ -10,10 +10,6 @@ namespace Component\ViewModel\Generated;
 
 use Component\ViewModel\ComponentViewModelAbstract;
 
-use Model\Repository\{
-    StatusPresentationRepo, StatusFlashRepo, LanguageRepo, MenuRepo, MenuRootRepo, MenuItemRepo
-};
-
 use Model\Repository\MenuItemTypeRepo;
 
 use Model\Entity\MenuItemTypeInterface;
@@ -23,7 +19,7 @@ use Model\Entity\MenuItemTypeInterface;
  *
  * @author pes2704
  */
-class ItemTypeSelectViewModel extends ComponentViewModelAbstract implements GeneratedViewModelInterface {
+class ItemTypeSelectViewModel implements ItemTypeSelectViewModelInterface {
 
     /**
      * @var MenuItemTypeRepo
@@ -31,15 +27,8 @@ class ItemTypeSelectViewModel extends ComponentViewModelAbstract implements Gene
     private $menuItemTypeRepo;
 
     public function __construct(
-            StatusPresentationRepo $statusPresentationRepo,
-            StatusFlashRepo $statusFlashRepo,
-            LanguageRepo $languageRepo,
-            MenuRepo $menuRepo,
-            MenuRootRepo $menuRootRepo,
-            MenuItemRepo $menuItemRepo,
             MenuItemTypeRepo $menuIremTypeRepo
             ) {
-        parent::__construct($presentationStatusRepo, $flashStatusRepo, $languageRepo, $menuRepo, $menuRootRepo);
         $this->menuItemTypeRepo = $menuItemTypeRepo;
     }
 

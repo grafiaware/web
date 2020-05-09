@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Component\ViewModel\Status;
+namespace Component\ViewModel\Flash;
 
 use Model\Repository\StatusFlashRepo;
 
@@ -15,7 +15,7 @@ use Model\Repository\StatusFlashRepo;
  *
  * @author pes2704
  */
-class FlashVieModel implements StatusViewModelInterface {
+class FlashVieModel implements StatusBoardViewModelInterface {
 
     private $statusFlashRepo;
 

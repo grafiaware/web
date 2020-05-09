@@ -8,44 +8,28 @@
 
 namespace Controller;
 
-use Model\Entity\{
-    StatusSecurity, StatusPresentation
-};
-use Model\Repository\{
-    StatusSecurityRepo, StatusPresentationRepo
-};
-
-use st
+use Model\Repository\StatusSecurityRepo;
 
 /**
  * Description of StatusFrontControllerAbstract
  *
  * @author pes2704
  */
-abstract class StatusFrontControllerAbstract extends FrontControllerAbstract implements FrontControllerInterface {
+abstract class StatusFrontControllerAbstract extends FrontControllerAbstract {
 
     /**
-     * @var StatusSecurity
+     * @var StatusSecurityRepo
      */
-    protected $statusSecurity;
-
-    /**
-     * @var StatusPresentation
-     */
-    protected $statusPresentation;
+    protected $statusSecurityRepo;
 
     /**
      *
      * @param StatusSecurityRepo $statusSecurityRepo
-     * @param StatusPresentationRepo $statusPresentationRepo
      */
     public function __construct(
-            StatusSecurityRepo  $statusSecurityRepo,
-            StatusPresentationRepo $statusPresentationRepo
-
-
+            StatusSecurityRepo $statusSecurityRepo
             ) {
-        $this->statusSecurity = $statusSecurityRepo->get();
-        $this->statusPresentation = $statusPresentationRepo->get();
+        $this->statusSecurityRepo = $statusSecurityRepo;
+
     }
 }

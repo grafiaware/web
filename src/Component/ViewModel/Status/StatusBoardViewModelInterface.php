@@ -5,14 +5,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-namespace Component\ViewModel\Generated;
 
-use Component\ViewModel\ComponentViewModelInterface;
+namespace Component\ViewModel\Status;
 
 /**
  *
  * @author pes2704
  */
-interface GeneratedViewModelInterface extends ComponentViewModelInterface {
-    //put your code here
+interface StatusBoardViewModelInterface {
+    public function getLanguageInfo();
+    public function getEditableInfo();
+    public function getSecurityInfo();    
 }

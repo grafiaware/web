@@ -13,8 +13,14 @@ use Psr\Http\Message\ServerRequestInterface;
 
 use Psr\Container\ContainerInterface;
 
-use Model\Repository\StatusSecurityRepo;
-use Model\Repository\StatusPresentationRepo;
+use StatusManager\{
+    StatusSecurityManagerInterface, StatusPresentationManagerInterface
+
+};
+
+use Model\Repository\{
+    StatusSecurityRepo, StatusPresentationRepo
+};
 ####################
 use Pes\View\ViewFactory;
 
@@ -39,7 +45,10 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
         return $this;
     }
 
-    public function __construct(StatusSecurityRepo $statusSecurityRepo, StatusPresentationRepo $statusPresentationRepo, ViewFactory $viewFactory) {
+    public function __construct(
+            StatusSecurityRepo $statusSecurityRepo,
+            StatusPresentationRepo $statusPresentationRepo,
+            ViewFactory $viewFactory) {
         parent::__construct($statusSecurityRepo, $statusPresentationRepo);
         $this->viewFactory = $viewFactory;
     }
@@ -52,7 +61,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
         return $this->viewFactory->phpTemplateCompositeView($this->templatesLayout['layout'],
                 [
                     'basePath' => $this->getBasePath($request),
-                    'langCode' => $this->statusPresentation->getLanguage()->getLangCode(),
+                    'langCode' => $this->statusPresentationRepo->get()->getLanguage()->getLangCode(),
                     'modalLoginLogout' => $this->getModalLoginLogout(),
                     'modalUserAction' => $this->getModalUserAction()
                 ]);
@@ -60,7 +69,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
 
 
     protected function getModalLoginLogout() {
-        $user = $this->statusSecurity->getUser();
+        $user = $this->statusSecurityRepo->get()->getUser();
         if (null != $user AND $user->getRole()) {   // libovolná role
             /** @var LogoutComponent $logoutComponent */
             $logoutComponent = $this->container->get(LogoutComponent::class);
@@ -76,15 +85,25 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
         }
     }
 
+    protected function isEditableLayout() {
+        $userActions = $this->statusSecurityRepo->get()->getUserActions();
+        return $userActions ? $userActions->isEditableLayout() : false;
+    }
+
+    protected function isEditableArticle() {
+        $userActions = $this->statusSecurityRepo->get()->getUserActions();
+        return $userActions ? $userActions->isEditableArticle() : false;
+    }
+
     protected function getModalUserAction() {
-        $user = $this->statusSecurity->getUser();
+        $user = $this->statusSecurityRepo->get()->getUser();
         if (null != $user AND $user->getRole()) {   // libovolná role
             /** @var UserActionComponent $actionComponent */
             $actionComponent = $this->container->get(UserActionComponent::class);
             $actionComponent->setData(
                     [
-                    'editArticle' => $this->statusPresentation->getUserActions()->isEditableArticle(),
-                    'editLayout' => $this->statusPresentation->getUserActions()->isEditableLayout(),
+                    'editArticle' => $this->isEditableArticle(),
+                    'editLayout' => $this->isEditableLayout(),
                     'userName' => $user->getUserName()
                     ]);
             return $actionComponent;

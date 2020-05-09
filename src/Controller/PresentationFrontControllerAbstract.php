@@ -8,11 +8,24 @@
 
 namespace Controller;
 
-use Psr\Http\Message\ServerRequestInterface;
-
 use Pes\Application\AppFactory;
-use Psr\Http\Message\ResponseInterface;
 use Pes\Application\UriInfoInterface;
+
+use StatusManager\{
+    StatusSecurityManagerInterface, StatusPresentationManagerInterface
+
+};
+
+use Model\Repository\{
+    StatusSecurityRepo, StatusPresentationRepo
+};
+
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
+
+use Pes\Http\Factory\ResponseFactory;
+
+use Pes\View\ViewInterface;
 
 /**
  * Description of PresentationFrontControllerAbstract
@@ -22,6 +35,44 @@ use Pes\Application\UriInfoInterface;
 abstract class PresentationFrontControllerAbstract extends StatusFrontControllerAbstract {
 
     /**
+     * @var StatusPresentationRepo
+     */
+    protected $statusPresentationRepo;
+
+
+    /**
+     * @var StatusPresentationManagerInterface
+     */
+    protected $statusPresentationManager;
+
+    public function __construct(
+            StatusSecurityRepo $statusSecurityRepo,
+            StatusPresentationRepo $statusPresentationRepo
+            ) {
+        parent::__construct($statusSecurityRepo);
+        $this->statusPresentationRepo = $statusPresentationRepo;
+
+    }
+
+    /**
+     *
+     * @param ServerRequestInterface $request
+     * @param ViewInterface $view
+     * @return ResponseInterface
+     */
+    public function createResponseFromView(ServerRequestInterface $request, ViewInterface $view): ResponseInterface {
+        $response = (new ResponseFactory())->createResponse();
+
+        ####  hlavičky  ####
+        $response = $this->addHeaders($request, $response);
+
+        ####  body  ####
+        $size = $response->getBody()->write($view->getString());
+        $response->getBody()->rewind();
+        return $response;
+    }
+
+    /**
      *
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
@@ -29,10 +80,10 @@ abstract class PresentationFrontControllerAbstract extends StatusFrontController
      */
     public function addHeaders(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
 
-        $language = $this->statusPresentation->getLanguage();
+        $language = $this->statusPresentationRepo->get()->getLanguage();
         $response = $response->withHeader('Content-Language', $language->getLocale());
 
-        $userActions = $this->statusPresentation->getUserActions();
+        $userActions = $this->statusSecurityRepo->get()->getUserActions();
         if ($userActions AND $userActions->isEditableArticle()) {
             $response = $response->withHeader('Cache-Control', 'no-cache');
         } else {

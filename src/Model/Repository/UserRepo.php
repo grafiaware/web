@@ -9,7 +9,7 @@
 namespace Model\Repository;
 use Model\Entity\UserInterface;
 use Model\Entity\User;
-use Model\Dao\OpravneniDaoDao;
+use Model\Dao\UserOpravneniDao;
 use Model\Hydrator\HydratorInterface;
 
 use Model\Repository\Exception\UnableRecreateEntityException;
@@ -21,7 +21,7 @@ use Model\Repository\Exception\UnableRecreateEntityException;
  */
 class UserRepo extends RepoAbstract implements RepoInterface {
 
-    public function __construct(OpravneniDaoDao $opravneniDao, HydratorInterface $userHydrator) {
+    public function __construct(UserOpravneniDao $opravneniDao, HydratorInterface $userHydrator) {
         $this->dao = $opravneniDao;
         $this->hydrator = $userHydrator;
     }

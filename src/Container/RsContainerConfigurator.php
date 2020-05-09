@@ -71,7 +71,12 @@ class RsContainerConfigurator extends ContainerConfiguratorAbstract {
             'database.account.administrator.password' => 'administrator',
             #
             ###################################
-
+            // session user - tato služba se používá pro vytvoření objetu Account a tedy pro připojení k databázi
+            User::class => function(ContainerInterface $c) {
+                /** @var StatusSecurityRepo $securityStatusRepo */
+                $securityStatusRepo = $c->get(StatusSecurityRepo::class);
+                return $securityStatusRepo->get()->getUser();
+            },
             // database account
             Account::class => function(ContainerInterface $c) {
                 /* @var $user UserInterface::class */
