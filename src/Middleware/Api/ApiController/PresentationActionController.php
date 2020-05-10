@@ -44,7 +44,7 @@ class PresentationActionController extends PresentationFrontControllerAbstract {
         $requestedLangCode = (new RequestParams())->getParsedBodyParam($request, 'langcode');
         $language = $this->languageRepo->get($requestedLangCode);
         if (isset($language)) {
-            $this->statusPresentation->setLanguage($language);
+            $this->statusPresentationRepo->get()->setLanguage($language);
         } else{
             throw new UnexpectedLanguageException("Požadavek a nastavení neznámého jazyka aplikace s kódem $requestedLangCode.");
         }
@@ -53,27 +53,28 @@ class PresentationActionController extends PresentationFrontControllerAbstract {
 
     public function setPresentedItem(ServerRequestInterface $request) {
         $requestedUid = (new RequestParams())->getParsedBodyParam($request, 'uid');
-        $langCodeFk = $this->statusPresentation->getLanguage()->getLangCode();
+        $statusPresentation = $this->statusPresentationRepo->get();
+        $langCodeFk = $statusPresentation->getLanguage()->getLangCode();
         $menuItem = $this->menuItemRepo->get($langCodeFk, $requestedUid);
-        $this->statusPresentation->setMenuItem($menuItem);  // bez kontroly
+        $statusPresentation->setMenuItem($menuItem);  // bez kontroly
         return $this->response($request);
     }
 
     public function setEditArticle(ServerRequestInterface $request) {
         $edit = (new RequestParams())->getParsedBodyParam($request, 'edit_article');
-        $this->statusPresentation->getUserActions()->setEditableArticle($edit);
+        $this->statusSecurityRepo->get()->getUserActions()->setEditableArticle($edit);
         return $this->response($request);
     }
 
     public function setEditLayout(ServerRequestInterface $request) {
         $edit = (new RequestParams())->getParsedBodyParam($request, 'edit_layout');
-        $this->statusPresentation->getUserActions()->setEditableLayout($edit);
+        $this->statusSecurityRepo->get()->getUserActions()->setEditableLayout($edit);
         return $this->response($request);
     }
 
     private function response($request) {
-        $uidFk = $this->statusPresentation->getMenuItem()->getUidFk();
-        $langCodeFk = $this->statusPresentation->getLanguage()->getLangCode();
+        $uidFk = $this->statusPresentationRepo->get()->getMenuItem()->getUidFk();
+        $langCodeFk = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
         return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath()."www/item/$langCodeFk/$uidFk/"); // 303 See Other
 
     }
