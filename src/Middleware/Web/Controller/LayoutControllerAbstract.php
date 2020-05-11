@@ -19,8 +19,9 @@ use StatusManager\{
 };
 
 use Model\Repository\{
-    StatusSecurityRepo, StatusPresentationRepo
+    StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo
 };
+
 ####################
 use Pes\View\ViewFactory;
 
@@ -47,9 +48,10 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
 
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
+            StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
             ViewFactory $viewFactory) {
-        parent::__construct($statusSecurityRepo, $statusPresentationRepo);
+        parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
         $this->viewFactory = $viewFactory;
     }
 

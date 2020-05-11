@@ -11,13 +11,8 @@ namespace Controller;
 use Pes\Application\AppFactory;
 use Pes\Application\UriInfoInterface;
 
-use StatusManager\{
-    StatusSecurityManagerInterface, StatusPresentationManagerInterface
-
-};
-
 use Model\Repository\{
-    StatusSecurityRepo, StatusPresentationRepo
+    StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo
 };
 
 use Psr\Http\Message\ServerRequestInterface;
@@ -39,17 +34,12 @@ abstract class PresentationFrontControllerAbstract extends StatusFrontController
      */
     protected $statusPresentationRepo;
 
-
-    /**
-     * @var StatusPresentationManagerInterface
-     */
-    protected $statusPresentationManager;
-
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
+            StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo
             ) {
-        parent::__construct($statusSecurityRepo);
+        parent::__construct($statusSecurityRepo, $statusFlashRepo);
         $this->statusPresentationRepo = $statusPresentationRepo;
 
     }

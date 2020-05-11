@@ -8,7 +8,9 @@
 
 namespace Controller;
 
-use Model\Repository\StatusSecurityRepo;
+use Model\Repository\{
+    StatusSecurityRepo, StatusFlashRepo
+};
 
 /**
  * Description of StatusFrontControllerAbstract
@@ -24,12 +26,20 @@ abstract class StatusFrontControllerAbstract extends FrontControllerAbstract {
 
     /**
      *
+     * @var StatusFlashRepo
+     */
+    protected $statusFlashRepo;
+
+    /**
+     *
      * @param StatusSecurityRepo $statusSecurityRepo
      */
     public function __construct(
-            StatusSecurityRepo $statusSecurityRepo
+            StatusSecurityRepo $statusSecurityRepo,
+            StatusFlashRepo $statusFlashRepo
             ) {
         $this->statusSecurityRepo = $statusSecurityRepo;
+        $this->statusFlashRepo = $statusFlashRepo;
 
     }
 }

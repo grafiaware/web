@@ -24,8 +24,12 @@ class EditItemController extends PresentationFrontControllerAbstract {
 
     private $menuItemRepo;
 
-    public function __construct(StatusSecurityRepo $statusSecurityRepo, StatusPresentationRepo $statusPresentationRepo, MenuItemRepo $menuItemRepo) {
-        parent::__construct($statusSecurityRepo, $statusPresentationRepo);
+    public function __construct(
+            StatusSecurityRepo $statusSecurityRepo,
+            StatusFlashRepo $statusFlashRepo,
+            StatusPresentationRepo $statusPresentationRepo,
+            MenuItemRepo $menuItemRepo) {
+        parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);;
         $this->menuItemRepo = $menuItemRepo;
     }
 

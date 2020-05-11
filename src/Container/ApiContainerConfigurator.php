@@ -149,19 +149,40 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
 ##############
 
             PaperController::class => function(ContainerInterface $c) {
-                return new PaperController($c->get(StatusSecurityRepo::class), $c->get(StatusPresentationRepo::class), $c->get(PaperRepo::class));
+                return new PaperController(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(PaperRepo::class));
             },
             PresentationActionController::class => function(ContainerInterface $c) {
-                return new PresentationActionController($c->get(StatusSecurityRepo::class), $c->get(StatusPresentationRepo::class), $c->get(LanguageRepo::class), $c->get(MenuItemRepo::class));
+                return new PresentationActionController(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(LanguageRepo::class),
+                        $c->get(MenuItemRepo::class));
             },
             UserActionController::class => function(ContainerInterface $c) {
-                return new UserActionController($c->get(StatusPresentationRepo::class));
+                return new UserActionController(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class)                        );
             },
             HierarchyController::class => function(ContainerInterface $c) {
-                return new HierarchyController($c->get(StatusSecurityRepo::class), $c->get(StatusPresentationRepo::class), $c->get(EditHierarchy::class), $c->get(MenuRootRepo::class));
+                return new HierarchyController(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(EditHierarchy::class),
+                        $c->get(MenuRootRepo::class));
             },
             EditItemController::class => function(ContainerInterface $c) {
-                return new EditItemController($c->get(StatusSecurityRepo::class), $c->get(StatusPresentationRepo::class), $c->get(MenuItemRepo::class));
+                return new EditItemController(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(MenuItemRepo::class));
             },
 
             // view

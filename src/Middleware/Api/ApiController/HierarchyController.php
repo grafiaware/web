@@ -13,7 +13,7 @@ use Pes\Http\Response;
 use Database\Hierarchy\EditHierarchy;
 
 use Model\Repository\{
-    StatusSecurityRepo, StatusPresentationRepo, MenuRootRepo
+    StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo, MenuRootRepo
 };
 
 /**
@@ -34,8 +34,13 @@ class HierarchyController extends PresentationFrontControllerAbstract {
     private $editHierarchyDao;
     private $menuRootRepo;
 
-    public function __construct(StatusSecurityRepo $statusSecurityRepo, StatusPresentationRepo $statusPresentationRepo, EditHierarchy $editHierarchyDao, MenuRootRepo $menuRootRepo) {
-        parent::__construct($statusSecurityRepo, $statusPresentationRepo);
+    public function __construct(
+            StatusSecurityRepo $statusSecurityRepo,
+            StatusFlashRepo $statusFlashRepo,
+            StatusPresentationRepo $statusPresentationRepo,
+            EditHierarchy $editHierarchyDao,
+            MenuRootRepo $menuRootRepo) {
+        parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
         // TODO: vyměnit hierarchy Dao za Repo
         $this->editHierarchyDao = $editHierarchyDao;
         $this->menuRootRepo = $menuRootRepo;

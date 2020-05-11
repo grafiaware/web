@@ -18,7 +18,7 @@ use Pes\Http\Response;
 use Pes\Http\Response\RedirectResponse;
 
 use Model\Repository\{
-    StatusSecurityRepo, StatusPresentationRepo, PaperRepo
+    StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo, PaperRepo
 };
 use Model\Entity\PaperInterface;
 use Model\Entity\Paper;
@@ -32,8 +32,12 @@ class PaperController extends PresentationFrontControllerAbstract {
 
     private $paperRepo;
 
-    public function __construct(StatusSecurityRepo $statusSecurityRepo, StatusPresentationRepo $statusPresentationRepo, PaperRepo $paperRepo) {
-        parent::__construct($statusSecurityRepo, $statusPresentationRepo);
+    public function __construct(
+            StatusSecurityRepo $statusSecurityRepo,
+            StatusFlashRepo $statusFlashRepo,
+            StatusPresentationRepo $statusPresentationRepo,
+            PaperRepo $paperRepo) {
+        parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
         $this->paperRepo = $paperRepo;
     }
 

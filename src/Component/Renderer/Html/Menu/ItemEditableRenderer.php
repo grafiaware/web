@@ -39,7 +39,7 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
                     Html::tag($presentedEditable ? 'p' : 'a',
                         [
                         'class'=>$this->classMap->getClass('Item', 'li a'),   // class - 'editable' v kontejneru
-                        'href'=>"www/item/{$menuNode->getUid()}",
+                        'href'=>"www/item/{$menuNode->getMenuItem()->getLangCodeFk()}/{$menuNode->getUid()}",
                         'tabindex'=>0,
                         ],
                         // class - editable

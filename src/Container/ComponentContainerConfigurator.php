@@ -131,6 +131,7 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
             ComponentController::class => function(ContainerInterface $c) {
                 return (new ComponentController(
                             $c->get(StatusSecurityRepo::class),
+                            $c->get(StatusFlashRepo::class),
                             $c->get(StatusPresentationRepo::class),
                             $c->get(ViewFactory::class))
                         )->injectContainer($c);  // inject component kontejner

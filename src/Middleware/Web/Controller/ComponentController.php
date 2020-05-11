@@ -8,6 +8,8 @@
 
 namespace Middleware\Web\Controller;
 
+use Pes\Database\Handler\Account;
+
 use Psr\Http\Message\ServerRequestInterface;
 
 use Pes\Http\Response\RedirectResponse;
@@ -34,6 +36,7 @@ use Pes\View\Template\InterpolateTemplate;
 use Pes\View\Recorder\RecorderProvider;
 use Pes\View\Recorder\VariablesUsageRecorder;
 use Pes\View\Recorder\RecordsLogger;
+
 
 /**
  * Description of GetControler
@@ -218,9 +221,10 @@ class ComponentController extends LayoutControllerAbstract {
             'poznamky' => $this->container->get(View::class)
                     ->setTemplate(new PhpTemplate('templates/poznamky/poznamky.php'))
                     ->setData([
-                        'poznamka1'=> '<pre>'. var_export($this->statusPresentationRepo->get()->getLanguage(), true).'</pre>'
+                        'poznamka1'=>
+                        '<pre>'. var_export($this->statusPresentationRepo->get()->getLanguage(), true).'</pre>'
                         . '<pre>'. var_export($this->statusSecurityRepo->get()->getUserActions(), true).'</pre>',
-                        'flashMessage' => $statusFlashRepo->get(),
+                        'flashMessage' => $statusFlashRepo->get()->getFlash(),
 //                        'flashMessage' => $this->container->get(FlashComponent::class),
                         ]),
 
