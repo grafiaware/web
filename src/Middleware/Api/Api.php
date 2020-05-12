@@ -104,10 +104,10 @@ class Api extends AppMiddlewareAbstract implements MiddlewareInterface {
                 $ctrl = $this->container->get(EditItemController::class);
                 return $ctrl->toggle($request, $menuItemId);
         }));
-        $this->registry->register(new Action(new Resource('POST', '/api/v1/menu/:menuItemId/actual/:showTime/:hideTime'), function(ServerRequestInterface $request, $menuItemId, $showTime, $hideTime) {
+        $this->registry->register(new Action(new Resource('POST', '/api/v1/menu/:menuItemId/actual'), function(ServerRequestInterface $request, $menuItemId) {
                 /** @var EditItemController $ctrl */
                 $ctrl = $this->container->get(EditItemController::class);
-                return $ctrl->actual($request, $menuItemId, $showTime, $hideTime);
+                return $ctrl->actual($request, $menuItemId);
         }));
         $this->registry->register(new Action(new Resource('POST', '/api/v1/menu/:menuItemId/title'), function(ServerRequestInterface $request, $menuItemId) {
                 /** @var EditItemController $ctrl */

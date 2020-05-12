@@ -15,6 +15,8 @@ use Model\Repository\{
     StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo
 };
 
+use Model\Entity\StatusFlash;
+
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -80,6 +82,17 @@ abstract class PresentationFrontControllerAbstract extends StatusFrontController
             $response = $response->withHeader('Cache-Control', 'public, max-age=180');
         }
         return $response;
+    }
+
+    public function addFlashMessage($message) {
+        $statusFlash = $this->statusFlashRepo->get();
+        if ($statusFlash) {
+            $message = $statusFlash->getFlash().PHP_EOL.$message;
+        } else {
+            $statusFlash = new StatusFlash();
+            $this->statusFlashRepo->add($statusFlash);
+        }
+        $statusFlash->setFlash($message);
     }
 
     /**

@@ -112,7 +112,8 @@ class HeadlinedEditableRenderer extends HtmlRendererAbstract {
                     ['class'=>$this->classMap->getClass('Buttons', 'div button'),
                     'data-tooltip'=>'Aktivní/neaktivní stránka',
                     'type'=>'submit',
-                    'name'=>'toggle',
+                    'name'=>'button',
+                    'value' => 'toggle',
                     'formmethod'=>'post',
                     'formaction'=>"api/v1/menu/{$menuNode->getUid()}/toggle",
                     ],
@@ -133,9 +134,10 @@ class HeadlinedEditableRenderer extends HtmlRendererAbstract {
                     'data-tooltip'=>'Trvale',
                     'data-position'=>'top right',
                     'type'=>'submit',
-                    //'name'=>'',
+                    'name'=>'button',
+                    'value' => 'permanent',
                     'formmethod'=>'post',
-                    'formaction'=>"api/v1/menu/{$menuNode->getUid()}/actual/0/0",
+                    'formaction'=>"api/v1/menu/{$menuNode->getUid()}/actual/",
                     ],
                     Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button6 i')])
                 )
@@ -144,9 +146,10 @@ class HeadlinedEditableRenderer extends HtmlRendererAbstract {
                     'data-tooltip'=>'Uložit',
                     'data-position'=>'top right',
                     'type'=>'submit',
-                    //'name'=>'',
+                    'name'=>'button',
+                    'value' => 'calendar',
                     'formmethod'=>'post',
-                    'formaction'=>"api/v1/menu/{$menuNode->getUid()}/actual/$showTime/$hideTime",
+                    'formaction'=>"api/v1/menu/{$menuNode->getUid()}/actual/",
                     ],
                     Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button7 i')])
                 )
@@ -154,10 +157,6 @@ class HeadlinedEditableRenderer extends HtmlRendererAbstract {
                     'class'=>$this->classMap->getClass('Buttons', 'div button.page'),
                     'data-tooltip'=>'Zrušit úpravy',
                     'data-position'=>'top right',
-                    //'type'=>'submit',
-                    //'name'=>'',
-                    //'formmethod'=>'post',
-                    //'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/move/senPatříCílovýParentUid",
                     'onclick'=>"this.form.reset()"
                     ],
                     Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button8 i')])
@@ -174,13 +173,13 @@ class HeadlinedEditableRenderer extends HtmlRendererAbstract {
                         Html::tag('p', ['class'=>$this->classMap->getClass('Buttons', 'div div div p')], 'Uveřejnit od')
                         .Html::tag('div', ['class'=>$this->classMap->getClass('Buttons', 'div div div div')],
                             Html::tag('div',['class'=>$this->classMap->getClass('Buttons', 'div div div div div')],
-                                Html::tagNopair('input', ['type'=>'text', 'name'=>'kalendarOD', 'placeholder'=>'Klikněte pro výběr data', 'value'=>$menuNode->getMenuItem()->getShowTime()])
+                                Html::tagNopair('input', ['type'=>'text', 'name'=>'show', 'placeholder'=>'Klikněte pro výběr data', 'value'=>$menuNode->getMenuItem()->getShowTime()])
                             )
                          )
                         .Html::tag('p', ['class'=>$this->classMap->getClass('Buttons', 'div div div p')], 'Uveřejnit do')
                         .Html::tag('div', ['class'=>$this->classMap->getClass('Buttons', 'div div div div')],
                             Html::tag('div',['class'=>$this->classMap->getClass('Buttons', 'div div div div div')],
-                            Html::tagNopair('input', ['type'=>'text', 'name'=>'kalendarDO', 'placeholder'=>'Klikněte pro výběr data', 'value'=> $menuNode->getMenuItem()->getHideTime()])
+                            Html::tagNopair('input', ['type'=>'text', 'name'=>'hide', 'placeholder'=>'Klikněte pro výběr data', 'value'=> $menuNode->getMenuItem()->getHideTime()])
                         )
                     )
                 )

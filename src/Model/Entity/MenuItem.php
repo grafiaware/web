@@ -103,12 +103,12 @@ class MenuItem extends EntityAbstract implements MenuItemInterface {
         return $this;
     }
 
-    public function setShowTime($start): MenuItemInterface {
+    public function setShowTime($start=null): MenuItemInterface {
         $this->showTime = $start;
         return $this;
     }
 
-    public function setHideTime($stop): MenuItemInterface {
+    public function setHideTime($stop=null): MenuItemInterface {
         $this->hideTime = $stop;
         return $this;
     }

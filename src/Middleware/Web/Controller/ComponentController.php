@@ -217,6 +217,7 @@ class ComponentController extends LayoutControllerAbstract {
     private function getPoznamky() {
         /** @var StatusFlashRepo $statusFlashRepo */
         $statusFlashRepo = $this->container->get(StatusFlashRepo::class);
+        $statusFlash = $statusFlashRepo->get();
         return [
             'poznamky' => $this->container->get(View::class)
                     ->setTemplate(new PhpTemplate('templates/poznamky/poznamky.php'))
@@ -224,8 +225,7 @@ class ComponentController extends LayoutControllerAbstract {
                         'poznamka1'=>
                         '<pre>'. var_export($this->statusPresentationRepo->get()->getLanguage(), true).'</pre>'
                         . '<pre>'. var_export($this->statusSecurityRepo->get()->getUserActions(), true).'</pre>',
-                        'flashMessage' => $statusFlashRepo->get()->getFlash(),
-//                        'flashMessage' => $this->container->get(FlashComponent::class),
+                        'flashMessage' => $statusFlash ? $statusFlash->getFlash() : 'no flash',
                         ]),
 
         ];

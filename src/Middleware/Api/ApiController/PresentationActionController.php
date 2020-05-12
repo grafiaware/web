@@ -20,7 +20,6 @@ use Pes\Http\Response\RedirectResponse;
 use Model\Repository\{
     StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo, LanguageRepo, MenuItemRepo
 };
-use Model\Entity\StatusFlash;
 
 use Middleware\Api\ApiController\Exception\UnexpectedLanguageException;
 
@@ -88,13 +87,4 @@ class PresentationActionController extends PresentationFrontControllerAbstract {
         return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath()."www/item/$langCodeFk/$uidFk/"); // 303 See Other
     }
 
-    private function addFlashMessage($message) {
-        $statusFlash = $this->statusFlashRepo->get();
-        if ($statusFlash) {
-            $message = $statusFlash->getFlash().PHP_EOL.$message;
-        } else {
-            $statusFlash = new StatusFlash();
-        }
-        $statusFlash->setFlash($message);
-    }
 }

@@ -13,13 +13,13 @@ use Application\SelectorFactory;
 use Pes\Container\AutowiringContainer;
 
 use Pes\Http\Factory\EnvironmentFactory;
-use Pes\Middleware\NoMatchSelectorItemRequestHandler;
+use Pes\Middleware\UnprocessedRequestHandler;  //NoMatchSelectorItemRequestHandler;
 use Pes\Http\ResponseSender;
 
 $environment = (new EnvironmentFactory())->createFromGlobals();
 $app = (new WebAppFactory())->createFromEnvironment($environment);
 $selector = (new SelectorFactory($app))->create();
 
-$response = $app->run($selector, new NoMatchSelectorItemRequestHandler());
+$response = $app->run($selector, new UnprocessedRequestHandler());
 
 (new ResponseSender())->send($response);
