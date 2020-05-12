@@ -31,7 +31,7 @@ class SearchResultRenderer extends HtmlRendererAbstract {
         foreach($viewModel->getSearchedMenuItems() as $menuItem) {
             $html .= Html::tag('p', [],
                         ++$n
-                        .Html::tag('a', ['href'=>"/www/item/{$menuItem->getUidFk()}"], $menuItem->getTitle())
+                        .Html::tag('a', ['href'=>"/www/item/{$menuNode->getMenuItem()->getLangCodeFk()}/{$menuItem->getUidFk()}"], $menuItem->getTitle())
                     );
         }
         if ( $n== 0) {
