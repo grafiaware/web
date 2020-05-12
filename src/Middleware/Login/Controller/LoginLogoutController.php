@@ -18,6 +18,7 @@ use Controller\StatusFrontControllerAbstract;
 
 // model
 use Model\Repository\StatusSecurityRepo;
+use Model\Repository\StatusFlashRepo;
 use Model\Entity\StatusSecurity;
 use Model\Entity\StatusSecurityInterface;
 use Model\Repository\UserRepo;
@@ -47,9 +48,10 @@ class LoginLogoutController extends StatusFrontControllerAbstract {
      */
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
+            StatusFlashRepo $statusFlashRepo,
             UserRepo $userRepo,
             NamePasswordAuthenticatorInterface $authenticator) {
-        parent::__construct($statusSecurityRepo);
+        parent::__construct($statusSecurityRepo, $statusFlashRepo);
         $this->userRepo = $userRepo;
         $this->authenticator = $authenticator;
     }

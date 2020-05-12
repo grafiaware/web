@@ -29,6 +29,7 @@ use Pes\Database\Handler\HandlerInterface;
 
 // repo
 use Model\Repository\StatusSecurityRepo;
+use Model\Repository\StatusFlashRepo;
 
 // router
 use Pes\Router\RouterInterface;
@@ -130,6 +131,7 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
             LoginLogoutController::class => function(ContainerInterface $c) {
                 return new LoginLogoutController(
                     $c->get(StatusSecurityRepo::class),
+                    $c->get(StatusFlashRepo::class),
                     $c->get(UserRepo::class),
                     $c->get(NamePasswordAuthenticatorInterface::class));
             }
