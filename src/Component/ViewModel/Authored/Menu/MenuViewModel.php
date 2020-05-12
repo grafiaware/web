@@ -39,7 +39,7 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
      */
     public function getPresentedMenuNode() {
         $presentationStatus = $this->statusPresentationRepo->get();
-        $this->menuRepo->setOnlyPublishedMode($this->presentOnlyPublished(!$this->userEdit())); //!
+        $this->menuRepo->setOnlyPublishedMode($this->presentOnlyPublished()); //!
         return $this->menuRepo->get($presentationStatus->getLanguage()->getLangCode(), $presentationStatus->getMenuItem()->getUidFk());
     }
     /**
