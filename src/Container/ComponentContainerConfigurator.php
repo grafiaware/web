@@ -259,8 +259,7 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                                 $c->get(StatusSecurityRepo::class),
                                 $c->get(StatusPresentationRepo::class),
                                 $c->get(MenuRepo::class),
-                                $c->get(PaperRepo::class),
-                                $c->get(ComponentRepo::class)
+                                $c->get(PaperRepo::class)
                         );
             },
             PresentedItemComponent::class => function(ContainerInterface $c) {

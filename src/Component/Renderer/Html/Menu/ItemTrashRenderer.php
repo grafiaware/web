@@ -28,7 +28,10 @@ class ItemTrashRenderer extends HtmlRendererAbstract {
     private function privateRender(ItemViewModel $itemViewModel=NULL) {
         $menuNode = $itemViewModel->getMenuNode();
         $innerHtml = Html::tag('i', ['class'=> $this->classMap->getClass('Item', 'li i1')])
-                    .Html::tag('a', ['class'=>$this->classMap->getClass('Item', 'li a'), 'href'=> "www/item/{$menuNode->getUid()}" ],
+                    .Html::tag('a', [
+                        'class'=>$this->classMap->getClass('Item', 'li a'),
+                        'href'=>"www/item/{$menuNode->getMenuItem()->getLangCodeFk()}/{$menuNode->getUid()}",
+                         ],
                         $menuNode->getMenuItem()->getTitle()
                     )
                     .Html::tag('i', ['class'=>$this->classMap->resolveClass($itemViewModel->getInnerHtml(), 'Item', 'li i')])

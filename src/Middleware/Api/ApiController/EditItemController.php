@@ -60,8 +60,6 @@ class EditItemController extends PresentationFrontControllerAbstract {
                 $this->addFlashMessage("actual: Error - unknown button name.");
                 break;
         }
-
-
         return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other
      }
 
