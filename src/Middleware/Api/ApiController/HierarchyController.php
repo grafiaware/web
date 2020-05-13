@@ -49,23 +49,26 @@ class HierarchyController extends PresentationFrontControllerAbstract {
 /* non REST metody */
     public function add(ServerRequestInterface $request, $uid) {
         $siblingUid = $this->editHierarchyDao->addNode($uid);
-        return $this->redirectSeeOther($request, "www/item/$siblingUid/");
+        $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
+        return $this->redirectSeeOther($request, "www/item/$langCode/$siblingUid/");
     }
 
     public function addchild(ServerRequestInterface $request, $uid) {
         $childUid = $this->editHierarchyDao->addChildNode($uid);
-        return $this->redirectSeeOther($request, "www/item/$childUid/");
+        $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
+        return $this->redirectSeeOther($request, "www/item/$langCode/$childUid/");
     }
 
     public function delete(ServerRequestInterface $request, $uid) {
         $parentUid = $this->editHierarchyDao->deleteLeafNode($uid);
-        return $this->redirectSeeOther($request, "www/item/$parentUid/");
+        $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
+        return $this->redirectSeeOther($request, "www/item/$langCode/$parentUid/");
     }
 
     // odloženo!!
     public function nonPermittedDelete(ServerRequestInterface $request, $uid) {
-
-        return $this->redirectSeeOther($request, "www/item/$uid/");
+        $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
+        return $this->redirectSeeOther($request, "www/item/$langCode/$uid/");
     }
 
 

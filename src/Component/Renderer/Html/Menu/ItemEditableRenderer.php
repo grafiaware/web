@@ -30,10 +30,6 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
         $menuNode = $itemViewModel->getMenuNode();
         $menuItem = $menuNode->getMenuItem();
         $presentedEditable = ($itemViewModel->getIsPresented() AND !$itemViewModel->getReadonly());
-        $ii = Html::tag('i', ['class'=> $this->classMap->resolveClass($menuItem->getActive(), 'Item',
-                                    $menuItem->getActual() ? 'li i2.published' : 'li i2.notactual',
-                                    $menuItem->getActual() ?  'li i2.notactive' : 'li i2.notactivenotactual'
-                                    )]);
 
         $innerHtml =
                     Html::tag($presentedEditable ? 'p' : 'a',
@@ -84,25 +80,6 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
                 $innerHtml);
         return $html;
     }
-
-//    private function renderButtons() {
-//        return
-//        Html::tag('div', ['class'=>$this->classMap->getClass('Buttons', 'div')],
-//            Html::tag('button', ['class'=>$this->classMap->getClass('Buttons', 'div button'), 'data-tooltip'=>'Odstranit položku'],
-//                Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button1 i')])
-//            )
-//            .Html::tag('button', ['class'=>$this->classMap->getClass('Buttons', 'div button'), 'data-tooltip'=>'Přidat sourozence'],
-//                Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button2 i')])
-//            )
-//            .Html::tag('button', ['class'=>$this->classMap->getClass('Buttons', 'div button'), 'data-tooltip'=>'Přidat potomka'],
-//                Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button3 i')])
-//            )
-//            .Html::tag('button', ['class'=>$this->classMap->getClass('Buttons', 'div button'), 'data-tooltip'=>'Vybrat k přesunutí', 'data-position'=>'top right'],
-//                Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button4 i')])
-//            )
-//        );
-//    }
-//}
 
     private function renderButtons(MenuNodeInterface $menuNode) {
 
@@ -200,15 +177,3 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
         );
     }
 }
-//        $item = $data['item'];
-//        $basePath = $data['basePath'];
-//        // data- atributy conteteditable div-u používá javascript
-//        return "<div>"
-//            . "<a contenteditable=false class=\"editable\" tabindex=0 data-original-title=\"{$item['title']}\" data-uid=\"{$item['uid']}\" href=\"/menu/item/{$item['uid']}/\">{$item['title']}</a>"
-//                . "<div>"
-//                    . "<span>{$item['depth']}</span>"
-//                    . "<button type=\"submit\" name=\"delete\" class=\"\" formmethod=\"post\" formaction=\"/menu/delete/{$item['uid']}/\"  onclick=\"return confirm('Jste si jisti?');\">X</button>"
-//                    . "<button type=\"submit\" name=\"add\" class=\"\" formmethod=\"post\" formaction=\"/menu/add/{$item['uid']}/\">+</button>"
-//                    . "<button type=\"submit\" name=\"addchild\" class=\"\" formmethod=\"post\" formaction=\"/menu/addchild/{$item['uid']}/\">+></button>"
-//                . "</div>"
-//            . "</div>";

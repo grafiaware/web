@@ -10,7 +10,7 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Pes\View\Renderer\PhpTemplateRenderer;
 
 use Component\Renderer\Html\Menu\{
-    MenuWrapRenderer, LevelWrapRenderer, ItemRenderer, ItemEditableRenderer, ItemBlockEditableRenderer, ItemTrashRenderer
+    MenuWrapRenderer, MenuWrapEditableRenderer, LevelWrapRenderer, ItemRenderer, ItemEditableRenderer, ItemBlockEditableRenderer, ItemTrashRenderer
 };
 
 use Component\Renderer\Html\Authored\{
@@ -242,7 +242,7 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new ItemRenderer($c->get('menu.presmerovani.classmap'));
             },
             'menu.presmerovani.menuwraprenderer.editable' => function(ContainerInterface $c) {
-                return new MenuWrapRenderer($c->get('menu.presmerovani.classmap.editable'));
+                return new MenuWrapEditableRenderer($c->get('menu.presmerovani.classmap.editable'));
             },
             'menu.presmerovani.levelwraprenderer.editable' => function(ContainerInterface $c) {
                 return new LevelWrapRenderer($c->get('menu.presmerovani.classmap.editable'));
@@ -261,7 +261,7 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new ItemRenderer($c->get('menu.vodorovne.classmap'));
             },
             'menu.vodorovne.menuwraprenderer.editable' => function(ContainerInterface $c) {
-                return new MenuWrapRenderer($c->get('menu.vodorovne.classmap.editable'));
+                return new MenuWrapEditableRenderer($c->get('menu.vodorovne.classmap.editable'));
             },
             'menu.vodorovne.levelwraprenderer.editable' => function(ContainerInterface $c) {
                 return new LevelWrapRenderer($c->get('menu.vodorovne.classmap.editable'));
@@ -280,7 +280,7 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new ItemRenderer($c->get('menu.svisle.classmap'));
             },
             'menu.svisle.menuwraprenderer.editable' => function(ContainerInterface $c) {
-                return new MenuWrapRenderer($c->get('menu.svisle.classmap.editable'));
+                return new MenuWrapEditableRenderer($c->get('menu.svisle.classmap.editable'));
             },
             'menu.svisle.levelwraprenderer.editable' => function(ContainerInterface $c) {
                 return new LevelWrapRenderer($c->get('menu.svisle.classmap.editable'));
@@ -290,7 +290,7 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
             },
                    //bloky
             'menu.bloky.menuwraprenderer.editable' => function(ContainerInterface $c) {
-                return new MenuWrapRenderer($c->get('menu.bloky.classmap.editable'));
+                return new MenuWrapEditableRenderer($c->get('menu.bloky.classmap.editable'));
             },
             'menu.bloky.levelwraprenderer.editable' => function(ContainerInterface $c) {
                 return new LevelWrapRenderer($c->get('menu.bloky.classmap.editable'));
@@ -308,7 +308,9 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
             'menu.kos.itemrenderer' => function(ContainerInterface $c) {
                 return new ItemTrashRenderer($c->get('menu.kos.classmap'));
             },
-
+            'menu.kos.menuwraprenderer.editable' => function(ContainerInterface $c) {
+                return new MenuWrapEditableRenderer($c->get('menu.kos.classmap'));
+            },
         #
         #  paper classmap
         #

@@ -246,7 +246,7 @@ class ComponentController extends LayoutControllerAbstract {
                     'menuPresmerovani' => $this->container->get('menu.presmerovani.editable')->setMenuRootName('l'),
                     'menuVodorovne' => $this->container->get('menu.vodorovne.editable')->setMenuRootName('p'),
                     'menuSvisle' => $this->container->get('menu.svisle.editable')->setMenuRootName('s'),
-                    'kos' => $this->container->get('menu.kos')->setMenuRootName('trash'), //menu.svisle  //kos
+                    'kos' => $this->container->get('menu.kos.editable')->setMenuRootName('trash'), //menu.svisle  //kos
                     'bloky' => $this->container->get('menu.bloky.editable')->setMenuRootName('block'),
                 ];
 //                return [
@@ -273,7 +273,7 @@ class ComponentController extends LayoutControllerAbstract {
                     'menuPresmerovani' => $this->container->get('menu.presmerovani.editable')->setMenuRootName('l'),
                     'menuVodorovne' => $this->container->get('menu.vodorovne.editable')->setMenuRootName('p'),
                     'menuSvisle' => $this->container->get('menu.svisle.editable')->setMenuRootName('s'),
-                    'kos' => $this->container->get('menu.kos')->setMenuRootName('trash'), //menu.svisle  //kos
+                    'kos' => $this->container->get('menu.kos.editable')->setMenuRootName('trash'), //menu.svisle  //kos
                 ];
             } else {
                 return [

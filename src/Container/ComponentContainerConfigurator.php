@@ -222,6 +222,12 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                         ->setRenderersNames('menu.svisle.levelwraprenderer.editable', 'menu.svisle.itemrenderer.editable');
             },
                     //bloky
+            'menu.bloky' => function(ContainerInterface $c) {
+                return $c->get(MenuComponent::class)
+                        ->withTitleItem(true)
+                        ->setRendererName('menu.bloky.menuwraprenderer')
+                        ->setRenderersNames('menu.bloky.levelwraprenderer', 'menu.bloky.itemrenderer');
+            },
             'menu.bloky.editable' => function(ContainerInterface $c) {
                 return $c->get(MenuComponent::class)
                         ->withTitleItem(true)
@@ -229,10 +235,10 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                         ->setRenderersNames('menu.bloky.levelwraprenderer.editable', 'menu.bloky.itemrenderer.editable');
             },
                     //kos
-            'menu.kos' => function(ContainerInterface $c) {
+            'menu.kos.editable' => function(ContainerInterface $c) {
                 return $c->get(MenuComponent::class)
                         ->withTitleItem(true)
-                        ->setRendererName('menu.kos.menuwraprenderer')
+                        ->setRendererName('menu.kos.menuwraprenderer.editable')
                         ->setRenderersNames('menu.kos.levelwraprenderer', 'menu.kos.itemrenderer');
             },
 

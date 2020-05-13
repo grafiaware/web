@@ -41,7 +41,7 @@ class PresentedPaperViewModel extends PaperViewModelAbstract implements Presente
                     ? (
                         $this->paperRepo->get($menuNode->getMenuItem()->getId())
                         ??
-                        (new Paper())->setMenuItemIdFk($menuNode->getMenuItem()->getId())->setLangCode($this->getStatusPresentation()->getLanguage()->getLangCode())
+                        (new Paper())->setMenuItemIdFk($menuNode->getMenuItem()->getId())->setLangCode($this->statusPresentationRepo->get()->getLanguage()->getLangCode())
                       )
                     : null;
     }
