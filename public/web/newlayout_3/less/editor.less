@@ -340,13 +340,29 @@
     .grafia.segment.block.editable .edit_kalendar{
         right: 0;
     }
+    .prihlaseni{
+        clear: both;
+        margin-right: 2px;
+        position: relative;
+        float: right;
+        .logout{
+            display: inline-block;
+            > p, > form{
+                display: inline-block;
+            }
+            > form{
+                button > i.icon{
+                    font-size: 1.4em;
+                }
+            }
+        }
+    }
     .poznamky{
-        position: fixed;
+        position: absolute;
         border-radius: 5px;
         background: @white;
         left: 10px;
-        top: 130px;
-        transform: translateY(-50%);
+        top: 10px;
         transition: 0.7s linear;
         box-shadow: 1px 1px 10px 1px rgba(34,36,38,.15);
         z-index: 1;

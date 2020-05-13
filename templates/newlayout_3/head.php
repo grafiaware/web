@@ -9,7 +9,7 @@
 
     <link rel="icon" href="<?= Middleware\Web\AppContext::getAppPublicDirectory().'grafia/img/Grafia.ico'?>" type="image/x-icon">
 
-
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet"> 
     <link rel="stylesheet" type="text/css" href="<?= Middleware\Web\AppContext::getAppPublicDirectory().'semantic/dist/semantic.min.css'?>">
     <link rel="stylesheet" type="text/css" href="<?= Middleware\Web\AppContext::getAppPublicDirectory().'newlayout_3/css/zkouska_less.css'?>" >
     <link rel="stylesheet" type="text/css" href="<?= Middleware\Web\AppContext::getAppPublicDirectory().'grafia/css/styles.css'?>" />
