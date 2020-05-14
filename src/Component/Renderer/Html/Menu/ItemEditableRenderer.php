@@ -58,6 +58,9 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
                                 'role'=>"presentation",
                                 'title'=>$menuItem->getActive() ? ($menuItem->getActual() ? "active and actual" : "active but not actual") : ($menuItem->getActual() ? "actual but not active" : "not active nor actual")
                                 ])
+                        // POZOR: závislost na edit.js
+                        // ve skriptu edit.js je element k editaci txtu položky vybírán pravidlem (selektorem) acceptedElement = targetElement.nodeName === 'SPAN' && targetElement.parentNode.nodeName === 'P',
+                        // vyvírá <span>, který má rodiče <p>
                         .Html::tag('span', [
                             'contenteditable'=> ($presentedEditable ? "true" : "false"),
                             'data-original-title'=>$menuItem->getTitle(),
@@ -85,18 +88,19 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
 
         return
         Html::tag('div', ['class'=>$this->classMap->getClass('Buttons', 'div.menu')],
-            Html::tag('button', [
-                'class'=>$this->classMap->getClass('Buttons', 'div button'),
-                'data-tooltip'=>'Přejmenovat položku',
-                //'type'=>'submit',
-                'name'=>'add',
-                //'formmethod'=>'post',
-                //'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/",
-                'onclick'=>'event.preventDefault();edit_name()'
-                    ],
-                Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button0 i')])
-            )
-            .Html::tag('button', [
+//            Html::tag('button', [
+//                'class'=>$this->classMap->getClass('Buttons', 'div button'),
+//                'data-tooltip'=>'Přejmenovat položku',
+//                //'type'=>'submit',
+//                'name'=>'add',
+//                //'formmethod'=>'post',
+//                //'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/",
+//                'onclick'=>'event.preventDefault();edit_name()'
+//                    ],
+//                Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button0 i')])
+//            )
+//            .
+                Html::tag('button', [
                 'class'=>$this->classMap->getClass('Buttons', 'div button'),
                 'data-tooltip'=>'Odstranit položku',
                 'type'=>'submit',

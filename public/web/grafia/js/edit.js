@@ -55,7 +55,7 @@ function sendOnEnter(event) {
     nlPressed = event.which === 13,
     targetElement = event.target,
     acceptedElement = targetElement.nodeName === 'SPAN' && targetElement.parentNode.nodeName === 'P',
-    location, url,
+    url,
     data = {};
 
     if (acceptedElement) {
