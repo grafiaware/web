@@ -1,8 +1,21 @@
-            <div class="logout">
-                <p><?= $userName ?></p>
-                <form class="ui inverted form centered" method="POST" action="">
-                    <button class="ui mini icon button" type="submit" name="logout" value="1" title="Odhlásit se" formtarget="_self"
-                        formaction='auth/v1/logout'><i class="sign out alternate icon"></i>
-                    </button>
-                </form>
+    <div class="logout">
+        <form class="ui form" method="POST" action="">
+            <div class="ui icon top left pointing dropdown button">
+              <i class="sign out alternate icon"></i>
+              <div class="menu">
+                <div class="item header"><p><i class="user icon"></i><?= $userName ?></p></div>
+                <button class="ui button" type="submit" name="logout" value="1" 
+                       formtarget="_self"formaction='auth/v1/logout'>
+                    Odhlásit
+                </button>
+              </div>
             </div>
+        </form>
+    </div>
+
+
+    <script>
+        $('.ui.dropdown')
+          .dropdown()
+        ;
+    </script>

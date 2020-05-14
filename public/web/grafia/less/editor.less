@@ -12,12 +12,34 @@ body.layout#tinymce{
 
 .layout{
     header .prihlaseni{
-        clear: both;
         margin-right: 2px;
         position: relative;
         float: right;
-        margin-top: 7px;
-        margin-bottom: -10px;
+        margin-top: 6px;
+        margin-bottom: -5px;
+        .header.item{
+            background-color: @white;
+            cursor: default;
+            text-align: center;
+            &:hover{
+                background-color: @white;
+            }
+        }
+        div.icon{
+            padding: 7px;
+        }
+        input{
+            border: 1px solid @lightGrey !important;
+        }
+        button.fluid{
+            margin: 5px 0;
+        }
+        .ui.labeled.icon.button > .icon::before{
+            top: -7px;
+        }
+        .menu{
+            padding: 0 8px;
+        }
         .logout{
             display: inline-block;
             > p, > form{
@@ -26,6 +48,19 @@ body.layout#tinymce{
             > form{
                 button > i.icon{
                     font-size: 1.4em;
+                }
+            }
+        }
+        > form{
+            float: right;
+        }
+        &:not(.dimmed){
+            button:not(.fluid){
+                position: relative;
+                left: 15%;
+                margin-bottom: 15px;
+                &.positive{
+                    left: 20%;
                 }
             }
         }
