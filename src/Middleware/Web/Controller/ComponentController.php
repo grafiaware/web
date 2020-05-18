@@ -46,7 +46,7 @@ use Pes\View\Recorder\RecordsLogger;
 class ComponentController extends LayoutControllerAbstract {
 ######################################
     private function initLayoutTemplatesVars() {
-        $theme = 'old';
+        $theme = 'new3';
 
         switch ($theme) {
             case 'old':
