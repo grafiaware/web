@@ -9,8 +9,8 @@
 namespace Model\Repository;
 use Model\Entity\PaperInterface;
 use Model\Entity\Paper;
-use Model\Dao\PaperDao;
-use Model\Hydrator\HydratorInterface;
+use Model\Hydrator\PaperHydrator;
+
 
 use Model\Repository\Exception\UnableRecreateEntityException;
 
@@ -19,22 +19,33 @@ use Model\Repository\Exception\UnableRecreateEntityException;
  *
  * @author pes2704
  */
-class PaperRepo extends RepoAbstract implements RepoInterface {
+class PaperAggregateRepo extends RepoAbstract implements RepoInterface {
 
-    public function __construct(PaperDao $paperDao, HydratorInterface $paperHydrator) {
-        $this->dao = $paperDao;
+    private $paperHeadlineRepo;
+    private $paperContentRepo;
+
+    public function __construct(PaperHeadlineRepo $paperHeadlineRepo, PaperContentRepo $paperContentRepo, PaperHydrator $paperHydrator) {
+        $this->paperHeadlineRepo = $paperHeadlineRepo;
+        $this->paperContentRepo = $paperContentRepo;
         $this->hydrator = $paperHydrator;
     }
 
     /**
      *
-     * @param type $menuItemId
+     * @param type $menuItemIdFk
      * @return PaperInterface|null
      */
-    public function get($menuItemId): ?PaperInterface {
-        $index = $menuItemId;
+    public function get($menuItemIdFk): ?PaperInterface {
+        $index = $menuItemIdFk;
         if (!isset($this->collection[$index])) {
-            $this->recreateEntity($index, $this->dao->get($menuItemId));
+            $headline = $this->paperHeadlineRepo->get($menuItemIdFk);
+            if ($headline) {
+                $row =[];
+                $row['menu_item_id_fk'] = $menuItemIdFk;
+                $row['headline'] = $headline;
+                $row['contents'] = $this->paperContentRepo->findByMenuItemIdFk($menuItemIdFk);
+                $this->recreateEntity($index, $row);
+            }
         }
         return $this->collection[$index] ?? NULL;
     }

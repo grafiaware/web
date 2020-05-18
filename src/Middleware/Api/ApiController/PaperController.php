@@ -18,7 +18,7 @@ use Pes\Http\Response;
 use Pes\Http\Response\RedirectResponse;
 
 use Model\Repository\{
-    StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo, PaperRepo
+    StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo, PaperAggregateRepo
 };
 use Model\Entity\PaperInterface;
 use Model\Entity\Paper;
@@ -36,7 +36,7 @@ class PaperController extends PresentationFrontControllerAbstract {
             StatusSecurityRepo $statusSecurityRepo,
             StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
-            PaperRepo $paperRepo) {
+            PaperAggregateRepo $paperRepo) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
         $this->paperRepo = $paperRepo;
     }
@@ -46,20 +46,43 @@ class PaperController extends PresentationFrontControllerAbstract {
      * @param type $id mnu_item_id_fk - primární klíč paper
      * @return type
      */
-    public function update(ServerRequestInterface $request, $menuItemId) {
+    public function updateHeadline(ServerRequestInterface $request, $menuItemId) {
         $paper = $this->paperRepo->get($menuItemId);
         if (!isset($paper)) {
-            $paper = $this->createPaper($menuItemId);
-            $this->paperRepo->add($paper);
+            user_error('Neexistuje paper se zadaným menuItemId.');
+        } else {
+            $postHeadline = (new RequestParams())->getParam($request, 'headline');
+            $paper->getHeadline()->setHeadline($postHeadline);
         }
-        // TODO: zjisti, jestli je třeba skládat jména proměnný - nestačí rest parametr? (může být v jednom POSTu vícekrát content a headline? - tady by se stejně použil jen jeden
-        $postContent = (new RequestParams())->getParam($request, 'content_'.$menuItemId);  // jméno POST proměnné je vytvořeno v paper rendereru složením 'content_' a $paper->getMenuItemId()
-        $postHeadline = (new RequestParams())->getParam($request, 'headline_'.$menuItemId);  // jméno POST proměnné je vytvořeno v paper rendereru složením 'headline_' a $paper->getMenuItemId()
-        $paper->setContent($postContent)->setHeadline($postHeadline);
         return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other
     }
 
-    private function createPaper($menuItemId) {
-        return (new Paper())->setMenuItemIdFk($menuItemId)->setLangCode($this->statusPresentation->getLanguage()->getLangCode());
+    /**
+     *
+     * @param type $id mnu_item_id_fk - primární klíč paper
+     * @return type
+     */
+    public function updateContent(ServerRequestInterface $request, $menuItemId, $id) {
+        $paper = $this->paperRepo->get($menuItemId);
+        if (!isset($paper)) {
+            user_error('Neexistuje paper se zadaným menuItemId.');
+        } else {
+            $postContent = (new RequestParams())->getParam($request, 'content_'.$menuItemId);  // jméno POST proměnné je vytvořeno v paper rendereru složením 'content_' a $paper->getMenuItemId()
+
+            //TODO: PROVIZORNÍ ŘEŠENÍ!!
+            $contents = $paper->getContents();
+            $contents[$id] = $postContent;
+            $paper->setContents($contents);
+        }
+
+        return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other
     }
+
+//    $paper = $this->paperRepo->get($menuItemId) ?? $this->createPaper($menuItemId);
+
+//    private function createPaper($menuItemId) {
+//        $paper = (new Paper())->setMenuItemIdFk($menuItemId)->setLangCode($this->statusPresentation->getLanguage()->getLangCode());
+//        $this->paperRepo->add($paper);
+//        return $paper;
+//    }
 }

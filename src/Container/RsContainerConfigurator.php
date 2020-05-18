@@ -33,8 +33,8 @@ use Pes\Database\Handler\HandlerInterface;
 
 use Model\Repository\MenuRepo;
 use Model\Dao\MenuDao;
-use Model\Repository\PaperRepo;
-use Model\Dao\PaperDao;
+use Model\Repository\PaperAggregateRepo;
+use Model\Dao\PaperContentDao;
 
 /**
  *

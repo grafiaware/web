@@ -11,7 +11,7 @@ use Model\Repository\StatusPresentationRepo;
 
 use Model\Repository\MenuRepo;
 use Model\Repository\ComponentRepo;
-use Model\Repository\PaperRepo;
+use Model\Repository\PaperAggregateRepo;
 
 use Model\Entity\MenuNodeInterface;
 use Model\Entity\ComponentInterface;
@@ -36,7 +36,7 @@ class NamedPaperViewModel extends PaperViewModelAbstract implements NamedPaperVi
             StatusSecurityRepo $statusSecurityRepo,
             StatusPresentationRepo $statusPresentationRepo,
             MenuRepo $menuRepo,
-            PaperRepo $paperRepo,
+            PaperAggregateRepo $paperRepo,
             ComponentRepo $componentRepo
     ) {
         parent::__construct($statusSecurityRepo, $statusPresentationRepo, $menuRepo, $paperRepo);

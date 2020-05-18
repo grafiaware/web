@@ -16,7 +16,7 @@ use Model\Entity\PaperInterface;
  *
  * @author pes2704
  */
-class PaperHydrator implements HydratorInterface {
+class PaperHeadlineHydrator implements HydratorInterface {
 
     /**
      *
@@ -28,7 +28,9 @@ class PaperHydrator implements HydratorInterface {
         $paper
             ->setMenuItemIdFk($row['menu_item_id_fk'])
             ->setHeadline($row['headline'])
-            ->setContents($row['contents']);
+            ->setKeywords($row['keywords'])
+            ->setEditor($row['editor'])
+            ->setUpdated($row['updated'] ? \DateTime::createFromFormat('Y-m-d H:i:s', $row['updated']) : NULL);
     }
 
     /**
@@ -40,7 +42,9 @@ class PaperHydrator implements HydratorInterface {
         /** @var PaperInterface $paper */
         $row['menu_item_id_fk'] = $paper->getMenuItemIdFk();
         $row['headline'] = $paper->getHeadline();
-        $row['contents'] = $paper->getContents();
+        $row['keywords'] = $paper->getKeywords();
+        $row['editor'] = $paper->getEditor();
+        // updated je timestamp
     }
 
 }

@@ -12,6 +12,8 @@ use Component\Renderer\Html\HtmlRendererAbstract;
 use Component\ViewModel\Authored\Paper\PaperViewModelInterface;
 use Component\ViewModel\Authored\Paper\NamedPaperViewModelInterface;
 
+use Model\Entity\PaperContentInterface;
+
 use Pes\Text\Html;
 
 /**
@@ -19,7 +21,7 @@ use Pes\Text\Html;
  *
  * @author pes2704
  */
-class BlockRenderer extends HtmlRendererAbstract {
+class BlockRenderer extends AuthoredRendererAbstract {
 
     public function render($data=NULL) {
         return $this->renderPrivate($data);
@@ -35,13 +37,10 @@ class BlockRenderer extends HtmlRendererAbstract {
         }
 
         if (isset($menuNode) AND isset($paper)) {
-            $innerHtml =
-                    Html::tag('block', ['class'=>$this->classMap->getClass('Component', 'div block')],
-                        $paper->getContent()
-                    );
+            $innerHtml = $this->renderContents($paper);
             $style = "display: block;";
         } else {
-            $innerHtml = Html::tag('div', ['data-component'=>$name], 'No data item or article for rendering.');
+            $innerHtml = Html::tag('div', [], 'No data item or article for rendering.');
             $style = "display: none;";
         }
         return Html::tag('div', ['data-component'=>$name, 'class'=>$this->classMap->getClass('Component', 'div'), 'style'=>$style], $innerHtml);

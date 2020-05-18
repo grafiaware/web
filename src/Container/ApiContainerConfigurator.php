@@ -45,7 +45,7 @@ use Model\Repository\{
     MenuItemTypeRepo,
     ComponentRepo,
     MenuRootRepo,
-    PaperRepo
+    PaperAggregateRepo
 };
 
 // viewModel
@@ -153,7 +153,7 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
-                        $c->get(PaperRepo::class));
+                        $c->get(PaperAggregateRepo::class));
             },
             PresentationActionController::class => function(ContainerInterface $c) {
                 return new PresentationActionController(

@@ -9,23 +9,28 @@
 namespace Model\Repository;
 
 use Model\Dao\DaoInterface;
+use Model\Hydrator\HydratorInterface;
 
 /**
  * Description of RepoAbstract
  *
  * @author pes2704
  */
-class RepoAbstract implements RepoInterface {
+abstract class RepoAbstract implements RepoInterface {
 
     protected $collection = [];
     protected $removed = [];
 
     protected $readOnly = false;
+
     /**
      * @var DaoInterface
      */
     protected $dao;
 
+    /**
+     * @var HydratorInterface
+     */
     protected $hydrator;
 
     public function setReadOnly($readOnly): RepoInterface {
@@ -37,7 +42,7 @@ class RepoAbstract implements RepoInterface {
         return $this->readOnly;
 
     }
-    
+
     public function flush() {
         /** @var \Model\Entity\EntityAbstract $entity */
         foreach ($this->collection as $menuItemId => $entity) {

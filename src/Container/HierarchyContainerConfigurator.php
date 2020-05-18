@@ -39,9 +39,16 @@ use Model\Repository\MenuItemRepo;
 use Model\Dao\MenuItemTypeDao;
 use Model\Hydrator\MenuItemTypeHydrator;
 use Model\Repository\MenuItemTypeRepo;
-use Model\Dao\PaperDao;
+use Model\Dao\PaperHeadlineDao;
+use Model\Hydrator\PaperHeadlineHydrator;
+use Model\Repository\PaperHeadlineRepo;
+use Model\Dao\PaperContentDao;
+use Model\Hydrator\PaperContentHydrator;
+use Model\Repository\PaperContentRepo;
+
+//aggregate
 use Model\Hydrator\PaperHydrator;
-use Model\Repository\PaperRepo;
+use Model\Repository\PaperAggregateRepo;
 
 use Model\Dao\ComponentDao;
 use Model\Repository\ComponentRepo;
@@ -54,11 +61,6 @@ use Model\Repository\LanguageRepo;
 use Model\HierarchyHooks\HookedMenuItemActor;
 use Model\HierarchyHooks\ArticleTitleUpdater;
 use Model\HierarchyHooks\MenuListStyles;
-
-// repo
-use Model\Repository\StatusSecurityRepo;
-use Model\Repository\StatusPresentationRepo;
-use Model\Repository\StatusFlashRepo;
 
 // status model
 use StatusManager\StatusSecurityManager;
@@ -243,14 +245,29 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
             MenuItemTypeRepo::class => function(ContainerInterface $c) {
                 return new MenuItemTypeRepo($c->get(MenuItemTypeDao::class), $c->get(MenuItemTypeHydrator::class));
             },
-            PaperDao::class => function(ContainerInterface $c) {
-                return new PaperDao($c->get(HandlerInterface::class));
+            PaperHeadlineDao::class => function(ContainerInterface $c) {
+                return new PaperHeadlineDao($c->get(HandlerInterface::class));
+            },
+            PaperHeadlineHydrator::class => function(ContainerInterface $c) {
+                return new PaperHeadlineHydrator();
+            },
+            PaperHeadlineRepo::class => function(ContainerInterface $c) {
+                return new PaperHeadlineRepo($c->get(PaperHeadlineDao::class), $c->get(PaperHeadlineHydrator::class));
+            },
+            PaperContentDao::class => function(ContainerInterface $c) {
+                return new PaperContentDao($c->get(HandlerInterface::class));
+            },
+            PaperContentHydrator::class => function(ContainerInterface $c) {
+                return new PaperContentHydrator();
+            },
+            PaperContentRepo::class => function(ContainerInterface $c) {
+                return new PaperContentRepo($c->get(PaperContentDao::class), $c->get(PaperContentHydrator::class));
             },
             PaperHydrator::class => function(ContainerInterface $c) {
                 return new PaperHydrator();
             },
-            PaperRepo::class => function(ContainerInterface $c) {
-                return new PaperRepo($c->get(PaperDao::class), $c->get(PaperHydrator::class));
+            PaperAggregateRepo::class => function(ContainerInterface $c) {
+                return new PaperAggregateRepo($c->get(PaperHeadlineRepo::class), $c->get(PaperContentRepo::class), $c->get(PaperHydrator::class));
             },
 
             ComponentDao::class => function(ContainerInterface $c) {

@@ -8,6 +8,10 @@
 
 namespace Model\Entity;
 
+use Model\Entity\PaperInterface;
+use Model\Entity\PaperHeadline;
+use Model\Entity\PaperContent;
+
 /**
  * Description of Article
  *
@@ -15,84 +19,69 @@ namespace Model\Entity;
  */
 class Paper extends EntityAbstract implements PaperInterface {
 
-    private $menuItemId;
-    private $langCode;
-    private $list;
+    private $menuItemIdFk;
+
+    /**
+     * @var PaperHeadline
+     */
     private $headline;
-    private $content;
-    private $keywords;
-    private $editor;
-    private $updated;
 
+    /**
+     * @var PaperContent array of
+     */
+    private $contents = [];
+
+    /**
+     *
+     * @return type
+     */
     public function getMenuItemIdFk() {
-        return $this->menuItemId;
+        return $this->menuItemIdFk;
     }
 
-    public function getLangCode() {
-        return $this->langCode;
-    }
-
-    public function getList() {
-        return $this->list;
-    }
-
-    public function getHeadline() {
+    /**
+     *
+     * @return PaperHeadline
+     */
+    public function getHeadline(): PaperHeadline {
         return $this->headline;
     }
 
-    public function getContent() {
-        return $this->content;
+    /**
+     *
+     * @return PaperContent array of
+     */
+    public function getContents(): array {
+        return $this->contents;
     }
 
-    public function getKeywords() {
-        return $this->keywords;
-    }
-
-    public function getEditor() {
-        return $this->editor;
-    }
-
-    public function getUpdated() {
-        return $this->updated;
-    }
-
-    public function setMenuItemIdFk($uidFk) {
-        $this->menuItemId = $uidFk;
+    /**
+     *
+     * @param type $menuItemIdFk
+     * @return PaperHeadline
+     */
+    public function setMenuItemIdFk($menuItemIdFk): PaperInterface {
+        $this->menuItemIdFk = $menuItemIdFk;
         return $this;
     }
 
-    public function setLangCode($langCodeFk) {
-        $this->langCode = $langCodeFk;
-        return $this;
-    }
-
-    public function setList($list) {
-        $this->list = $list;
-        return $this;
-    }
-
-    public function setHeadline($headline) {
+    /**
+     *
+     * @param PaperHeadline $headline
+     * @return \Model\Entity\PaperInterface
+     */
+    public function setHeadline(PaperHeadline $headline): PaperInterface {
         $this->headline = $headline;
         return $this;
     }
 
-    public function setContent($content) {
-        $this->content = $content;
-        return $this;
-    }
-
-    public function setKeywords($keywords) {
-        $this->keywords = $keywords;
-        return $this;
-    }
-
-    public function setEditor($editor) {
-        $this->editor = $editor;
-        return $this;
-    }
-
-    public function setUpdated($updated) {
-        $this->updated = $updated;
+    /**
+     *
+     * @param array $contents
+     * @return \Model\Entity\PaperInterface
+     */
+    public function setContents(array $contents=[]): PaperInterface {
+        $this->contents = $contents;
         return $this;
     }
 }

@@ -14,7 +14,7 @@ use Pes\Database\Handler\HandlerInterface;
  *
  * @author pes2704
  */
-class PaperDao extends DaoAbstract {
+class PaperHeadlineDao extends DaoAbstract {
 
     /**
      * Vrací jednu řádku tabulky 'paper' ve formě asociativního pole.
@@ -25,10 +25,16 @@ class PaperDao extends DaoAbstract {
      */
     public function get($menuItemId) {
 
-        $sql = "SELECT menu_item_id_fk, headline, content, keywords, editor, updated "
-                . "FROM paper "
-                . "WHERE (menu_item_id_fk=:menu_item_id_fk) "
-               ;
+        $sql = "SELECT
+        `paper_headline`.`menu_item_id_fk` AS `menu_item_id_fk`,
+        `paper_headline`.`headline` AS `headline`,
+        `paper_headline`.`keywords` AS `keywords`,
+        `paper_headline`.`editor` AS `editor`,
+        `paper_headline`.`updated` AS `updated`
+    FROM
+        `paper_headline`
+    WHERE
+        `paper_headline`.`menu_item_id_fk` = :menu_item_id_fk";
         return $this->selectOne($sql, [':menu_item_id_fk' => $menuItemId], TRUE);
     }
 

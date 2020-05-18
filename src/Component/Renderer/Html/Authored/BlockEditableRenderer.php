@@ -18,7 +18,7 @@ use Pes\Text\Html;
  *
  * @author pes2704
  */
-class BlockEditableRenderer extends AuthoredEditableRenderer {
+class BlockEditableRenderer extends AuthoredEditableRendererAbstract {
 
     public function render($data=NULL) {
         return $this->renderPrivate($data);
@@ -34,14 +34,9 @@ class BlockEditableRenderer extends AuthoredEditableRenderer {
         }
 
         if (isset($menuNode) AND isset($paper)) {
-            $buttonsForm = $this->renderButtons($menuNode, $paper);
             $innerHtml =
-                    $buttonsForm
-                    .Html::tag('form', ['method'=>'POST', 'action'=>""],
-                        Html::tag('block', ['class'=>$this->classMap->getClass('Component', 'div block')],
-                            $paper->getContent()
-                        )
-                    );
+                 $this->renderButtonsForm($menuNode)
+                .$this->renderContentsForms($paper);
             $style = "display: block;";
         } else {
             $innerHtml = Html::tag('div', ['data-component'=>$name], 'No data item or article for rendering.');

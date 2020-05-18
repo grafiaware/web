@@ -8,6 +8,10 @@
 
 namespace Model\Entity;
 
+use Model\Entity\PaperInterface;
+use Model\Entity\PaperHeadline;
+use Model\Entity\PaperContent;
+
 /**
  * Description of PaperInterface
  *
@@ -15,36 +19,41 @@ namespace Model\Entity;
  */
 interface PaperInterface extends EntityInterface {
 
-    public function getLangCode();
-
+    /**
+     *
+     */
     public function getMenuItemIdFk();
 
-    public function getList();
+    /**
+     *
+     * @return PaperHeadline
+     */
+    public function getHeadline(): PaperHeadline;
 
-    public function getHeadline();
+    /**
+     *
+     * @return PaperContent array of
+     */
+    public function getContents(): array;
 
-    public function getContent();
+    /**
+     *
+     * @param type $menuItemIdFk
+     * @return \Model\Entity\PaperInterface
+     */
+    public function setMenuItemIdFk($menuItemIdFk): PaperInterface;
 
-    public function getKeywords();
+    /**
+     *
+     * @param PaperHeadline $headline
+     * @return PaperInterface
+     */
+    public function setHeadline(PaperHeadline $headline): PaperInterface;
 
-    public function getEditor();
-
-    public function getUpdated();
-
-    public function setLangCode($langCodeFk);
-
-    public function setMenuItemIdFk($uidFk);
-
-    public function setList($list);
-
-    public function setHeadline($headline);
-
-    public function setContent($content);
-
-    public function setKeywords($keywords);
-
-    public function setEditor($editor);
-
-    public function setUpdated($updated);
-
+    /**
+     *
+     * @param array $contents
+     * @return PaperInterface
+     */
+    public function setContents(array $contents=[]): PaperInterface;
 }

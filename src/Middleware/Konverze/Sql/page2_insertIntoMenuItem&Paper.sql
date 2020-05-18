@@ -88,13 +88,20 @@ UPDATE menu_item
 SET active = 1
 WHERE active=2;
 
--- naplnění paper selectem z stranky_innodb join menu_item
--- list a title jsou dočasné, list slouží pro propojení ve fázi naplňování 'paper' tabulky a bude odstraněn, title obsahuje duplicitně hodnotu,
--- která správně patří jen do menu_item - ve starých stránkám měla stránka vždy title, je možno toto title zkonvertovat do headline paper
-INSERT INTO `paper` ( `menu_item_id_fk`, `list`, `headline`, `content`, `keywords`, `editor`, `updated`)
-SELECT   id AS menu_item_id_fk, stranky_innodb.list, nazev_lan1 AS headline, obsah_lan1 AS content, keywords_lan1 AS keywords, editor, zmena  AS updated FROM stranky_innodb  INNER JOIN `menu_item`  ON  (menu_item.lang_code_fk='cs' AND stranky_innodb.list=menu_item.list)
+-- naplnění paper a paper_content selectem z stranky_innodb join menu_item
+-- list slouží pro propojení ve fázi naplňování 'paper' tabulky a bude odstraněn
+INSERT INTO `paper_headline` ( `menu_item_id_fk`, `list`, `headline`, `keywords`, `editor`, `updated`)
+SELECT   id AS menu_item_id_fk, stranky_innodb.list, nazev_lan1 AS headline, keywords_lan1 AS keywords, editor, zmena  AS updated FROM stranky_innodb  INNER JOIN `menu_item`  ON  (menu_item.lang_code_fk='cs' AND stranky_innodb.list=menu_item.list)
 UNION ALL
-SELECT   id AS menu_item_id_fk, stranky_innodb.list, nazev_lan2 AS headline, obsah_lan2 AS content, keywords_lan2 AS keywords, editor, zmena  AS updated FROM stranky_innodb  INNER JOIN `menu_item`  ON  (menu_item.lang_code_fk='en' AND stranky_innodb.list=menu_item.list)
+SELECT   id AS menu_item_id_fk, stranky_innodb.list, nazev_lan2 AS headline, keywords_lan2 AS keywords, editor, zmena  AS updated FROM stranky_innodb  INNER JOIN `menu_item`  ON  (menu_item.lang_code_fk='en' AND stranky_innodb.list=menu_item.list)
 UNION ALL
-SELECT   id AS menu_item_id_fk, stranky_innodb.list, nazev_lan3 AS headline, obsah_lan3 AS content, keywords_lan3 AS keywords, editor, zmena  AS updated FROM stranky_innodb  INNER JOIN `menu_item`  ON  (menu_item.lang_code_fk='de' AND stranky_innodb.list=menu_item.list)
+SELECT   id AS menu_item_id_fk, stranky_innodb.list, nazev_lan3 AS headline, keywords_lan3 AS keywords, editor, zmena  AS updated FROM stranky_innodb  INNER JOIN `menu_item`  ON  (menu_item.lang_code_fk='de' AND stranky_innodb.list=menu_item.list)
+ORDER BY list ASC;
+
+INSERT INTO `paper_content` ( `menu_item_id_fk`, `list`, `content`, `editor`, `updated`)
+SELECT   id AS menu_item_id_fk, stranky_innodb.list, obsah_lan1 AS content, editor, zmena  AS updated FROM stranky_innodb  INNER JOIN `menu_item`  ON  (menu_item.lang_code_fk='cs' AND stranky_innodb.list=menu_item.list)
+UNION ALL
+SELECT   id AS menu_item_id_fk, stranky_innodb.list, obsah_lan2 AS content, editor, zmena  AS updated FROM stranky_innodb  INNER JOIN `menu_item`  ON  (menu_item.lang_code_fk='en' AND stranky_innodb.list=menu_item.list)
+UNION ALL
+SELECT   id AS menu_item_id_fk, stranky_innodb.list, obsah_lan3 AS content, editor, zmena  AS updated FROM stranky_innodb  INNER JOIN `menu_item`  ON  (menu_item.lang_code_fk='de' AND stranky_innodb.list=menu_item.list)
 ORDER BY list ASC;

@@ -11,6 +11,8 @@ namespace Component\Renderer\Html\Authored;
 use Component\Renderer\Html\HtmlRendererAbstract;
 use Model\Entity\MenuNodeInterface;
 use Model\Entity\PaperInterface;
+use Model\Entity\PaperHeadlineInterface;
+use Model\Entity\PaperContentInterface;
 
 use Pes\Text\Html;
 
@@ -19,8 +21,9 @@ use Pes\Text\Html;
  *
  * @author pes2704
  */
-abstract class AuthoredEditableRenderer extends HtmlRendererAbstract{
-    protected function renderButtons(MenuNodeInterface $menuNode, PaperInterface $paper) {
+abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
+
+    protected function renderButtonsForm(MenuNodeInterface $menuNode) {
         //TODO: atributy data-tooltip a data-position jsou pro semantic - zde jsou napevno zadané
         $show = $menuNode->getMenuItem()->getShowTime();
         $hide = $menuNode->getMenuItem()->getHideTime();
@@ -126,5 +129,53 @@ abstract class AuthoredEditableRenderer extends HtmlRendererAbstract{
                 )
             )
         );
+    }
+
+    protected function renderContentsForms(PaperInterface $paper) {
+        foreach ($paper->getContents() as $id => $paperContent) {
+            /** @var PaperContentInterface $paperContent */
+            $form[] =
+                Html::tag('form',
+                    ['method'=>'POST', 'action'=>"api/v1/paper/{$paperContent->getMenuItemIdFk()}/content/{$paperContent->getId()}"],
+                    Html::tag('block',
+                        [
+                            'id' => "content_{$paperContent->getId()}",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lte toto jméno také složit a hledat v POST proměnných
+//                            'class'=> $this->classMap->getClass('Component', 'div block'),    // classmap 'paper.block.classmap'
+                            'class'=>$this->classMap->getClass('Component', 'div div content'),
+                            'data-owner'=>$paperContent->getEditor()
+                        ],
+                        $paperContent->getContent()
+                    )
+                );
+        }
+        return implode(PHP_EOL, $form);
+    }
+
+    protected function renderHeadlineForm(PaperInterface $paper, $active, $actual) {
+        $paperHeadline = $paper->getHeadline();
+        return Html::tag('form', ['method'=>'POST', 'action'=>"api/v1/paper/{$paperHeadline->getMenuItemIdFk()}/headline/"],
+                        Html::tag('div', ['class'=>$this->classMap->getClass('Component', 'div div div')],
+                            Html::tag(
+                                'headline',
+                                [
+                                    'id'=>"headline",
+                                    'class'=>$this->classMap->getClass('Component', 'div div div headline'),
+                                ],
+                                $paperHeadline->getHeadline()
+                            )
+                            .Html::tag('i',
+                                ['class'=> $this->classMap->resolveClass(($active AND $actual), 'Component',
+                                    'div div div i1.published', 'div div div i1.notpublished')
+                                ]
+                            )
+                            .Html::tag('i',
+                                ['class'=> $this->classMap->resolveClass($active, 'Component',
+                                    $actual ? 'div div div i2.published' : 'div div div i2.notactual',
+                                    $actual ?  'div div div i2.notactive' : 'div div div i2.notactivenotactual')
+                                ]
+                            )
+                            //.Html::tag('i', ['class'=>$this->classMap->getClass('Component', 'div div div i3')])
+                        )
+                    );
     }
 }

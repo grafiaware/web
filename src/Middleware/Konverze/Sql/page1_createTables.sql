@@ -1,4 +1,6 @@
 DROP TABLE IF EXISTS `paper`;
+DROP TABLE IF EXISTS `paper_headline`;
+DROP TABLE IF EXISTS `paper_content`;
 DROP TABLE IF EXISTS `menu_item`;
 DROP TABLE IF EXISTS `menu_item_type`;
 DROP TABLE IF EXISTS `component`;
@@ -56,17 +58,28 @@ CREATE TABLE `menu_item` (
   CONSTRAINT `type_menu_item_type_fk1` FOREIGN KEY ( `type_fk`) REFERENCES `menu_item_type` (`type`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `paper` (
+CREATE TABLE `paper_headline` (
   `menu_item_id_fk` int(11) unsigned NOT NULL,
   `list` varchar(45) DEFAULT NULL,  -- list je vazba pro insert starých stránek do paper
   `headline` text,  -- default pro db: CHARACTER SET utf8 COLLATE utf8_general_ci
-  `content` longtext,  -- default pro db: CHARACTER SET utf8 COLLATE utf8_general_ci
   `keywords` text,  -- default pro db: CHARACTER SET utf8 COLLATE utf8_general_ci
   `editor` varchar(20) DEFAULT NULL,
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`menu_item_id_fk`),
   CONSTRAINT `menu_item_id_fk1` FOREIGN KEY ( `menu_item_id_fk`) REFERENCES `menu_item` (`id`),
-  FULLTEXT KEY `search` (`headline`,`content`)
+  FULLTEXT KEY `search` (`headline`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `paper_content` (
+  `menu_item_id_fk` int(11) unsigned NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `list` varchar(45) DEFAULT NULL,  -- list je vazba pro insert starých stránek do paper
+  `content` longtext,  -- default pro db: CHARACTER SET utf8 COLLATE utf8_general_ci
+  `editor` varchar(20) DEFAULT NULL,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `menu_item_id_fk2` FOREIGN KEY ( `menu_item_id_fk`) REFERENCES `menu_item` (`id`),
+  FULLTEXT KEY `search` (`content`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `component` (

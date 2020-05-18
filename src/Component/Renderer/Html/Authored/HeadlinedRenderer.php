@@ -18,7 +18,7 @@ use Pes\Text\Html;
  *
  * @author pes2704
  */
-class HeadlinedRenderer extends HtmlRendererAbstract {
+class HeadlinedRenderer extends AuthoredRendererAbstract {
     public function render($data=NULL) {
         return $this->renderPrivate($data);
     }
@@ -33,10 +33,8 @@ class HeadlinedRenderer extends HtmlRendererAbstract {
         }
 
         if (isset($menuNode) AND isset($paper)) {
-            $innerHtml = Html::tag('div', ['class'=>$this->classMap->getClass('Component', 'div div')],
-                            Html::tag('headline', ['class'=>$this->classMap->getClass('Component', 'div div headline')], $paper->getHeadline())
-                        )
-                        .Html::tag('content', ['class'=>$this->classMap->getClass('Component', 'div content')], $paper->getContent());
+            $innerHtml = $this->renderHeadline($paper)
+                        .$this->renderContents($paper);
             $style = "display: block;";
         } else {
             $innerHtml = Html::tag('div', [], 'No data item or article for rendering.');

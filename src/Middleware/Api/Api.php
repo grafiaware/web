@@ -90,14 +90,17 @@ class Api extends AppMiddlewareAbstract implements MiddlewareInterface {
                 $ctrl = $this->container->get(PresentationActionController::class);
                 return $ctrl->setEditArticle($request);
         }));
-
         #### PaperController ####
-        $this->registry->register(new Action(new Resource('POST', '/api/v1/paper/:menuItemId'), function(ServerRequestInterface $request, $menuItemId) {
+        $this->registry->register(new Action(new Resource('POST', '/api/v1/paper/:menuItemId/headline'), function(ServerRequestInterface $request, $menuItemId) {
                 /** @var PaperController $ctrl */
                 $ctrl = $this->container->get(PaperController::class);
-                return $ctrl->update($request, $menuItemId);
+                return $ctrl->updateHeadline($request, $menuItemId);
         }));
-
+        $this->registry->register(new Action(new Resource('POST', '/api/v1/paper/:menuItemId/content/:id'), function(ServerRequestInterface $request, $menuItemId, $id) {
+                /** @var PaperController $ctrl */
+                $ctrl = $this->container->get(PaperController::class);
+                return $ctrl->updateContent($request, $menuItemId, $id);
+        }));
         #### EditItemController ####
         $this->registry->register(new Action(new Resource('POST', '/api/v1/menu/:menuItemId/toggle'), function(ServerRequestInterface $request, $menuItemId) {
                 /** @var EditItemController $ctrl */
