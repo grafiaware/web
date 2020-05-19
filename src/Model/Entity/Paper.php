@@ -43,17 +43,26 @@ class Paper extends EntityAbstract implements PaperInterface {
      *
      * @return PaperHeadline
      */
-    public function getHeadline(): PaperHeadline {
+    public function getPaperHeadline(): PaperHeadline {
         return $this->headline;
+    }
+
+    /**
+     *
+     * @param int $id id paper content
+     * @return PaperContent|null
+     */
+    public function getPaperContent($id): ?PaperContent {
+        return array_key_exists($id, $this->contents) ? $this->contents[$id] : null;
     }
 
     /**
      *
      * @return PaperContent array of
      */
-    public function getContents(): array {
+    public function getPaperContentsArray(): array {
         return $this->contents;
-    }
+}
 
     /**
      *
@@ -70,7 +79,7 @@ class Paper extends EntityAbstract implements PaperInterface {
      * @param PaperHeadline $headline
      * @return \Model\Entity\PaperInterface
      */
-    public function setHeadline(PaperHeadline $headline): PaperInterface {
+    public function setPaperHeadline(PaperHeadline $headline): PaperInterface {
         $this->headline = $headline;
         return $this;
     }
@@ -80,7 +89,7 @@ class Paper extends EntityAbstract implements PaperInterface {
      * @param array $contents
      * @return \Model\Entity\PaperInterface
      */
-    public function setContents(array $contents=[]): PaperInterface {
+    public function exchangePaperContentsArray(array $contents=[]): PaperInterface {
         $this->contents = $contents;
         return $this;
     }

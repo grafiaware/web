@@ -19,7 +19,7 @@ use Model\Repository\Exception\UnableRecreateEntityException;
  *
  * @author pes2704
  */
-class PaperAggregateRepo extends RepoAbstract implements RepoInterface {
+class PaperAggregateRepo extends AggregateRepoAbstract implements RepoInterface {
 
     private $paperHeadlineRepo;
     private $paperContentRepo;

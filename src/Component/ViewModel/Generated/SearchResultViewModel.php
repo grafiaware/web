@@ -104,7 +104,7 @@ class SearchResultViewModel extends ComponentViewModelAbstract {
                 }
                 $n = 1;
                 foreach($papers as $paper) {
-                    echo '<p>'.$n++.'. <a href="index.php?list='.$paper->getMenuItem().'&language='.$this->lang.'">'.$paper->getHeadline().'</a></p>';
+                    echo '<p>'.$n++.'. <a href="index.php?list='.$paper->getMenuItem().'&language='.$this->lang.'">'.$paper->getPaperHeadline().'</a></p>';
                 }
             }
 

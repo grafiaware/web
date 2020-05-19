@@ -24,10 +24,10 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract{
 
     protected function renderHeadline(PaperInterface $paper) {
         return  Html::tag('div',
-                    ['class'=>$this->classMap->getClass('Component', 'div div')],
+                    ['class'=>$this->classMap->getClass('Headline', 'div')],
                     Html::tag('headline',
-                            ['class'=>$this->classMap->getClass('Component', 'div div headline')],
-                            $paper->getHeadline()->getHeadline()
+                            ['class'=>$this->classMap->getClass('Headline', 'div headline')],
+                            $paper->getPaperHeadline()->getHeadline()
                     )
                 );
     }
@@ -41,13 +41,12 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract{
      */
     protected function renderContents(PaperInterface $paper) {
         $innerHtml = '';
-        foreach ($paper->getContents() as $paperContent) {
+        foreach ($paper->getPaperContentsArray() as $paperContent) {
             /** @var PaperContentInterface $paperContent */
             $innerHtml .=
-                Html::tag('block', [
+                Html::tag('content', [
                             'id' => "content_{$paperContent->getId()}",
-//                            'class'=> $this->classMap->getClass('Component', 'div block'),    // classmap 'paper.block.classmap'
-                            'class'=>$this->classMap->getClass('Component', 'div div content'),
+                            'class'=>$this->classMap->getClass('Content', 'content'),
                             'data-owner'=>$paperContent->getEditor()
                         ],
                     $paperContent->getContent()

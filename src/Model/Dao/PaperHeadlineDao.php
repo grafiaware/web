@@ -17,7 +17,7 @@ use Pes\Database\Handler\HandlerInterface;
 class PaperHeadlineDao extends DaoAbstract {
 
     /**
-     * Vrací jednu řádku tabulky 'paper' ve formě asociativního pole.
+     * Vrací jednu řádku tabulky 'paper_headline' ve formě asociativního pole.
      *
      * @param string $menuItemId
      * @return array Asociativní pole
@@ -39,21 +39,21 @@ class PaperHeadlineDao extends DaoAbstract {
     }
 
     public function insert($row) {
-        $sql = "INSERT INTO paper (menu_item_id_fk, headline, content, keywords, editor)
-                VALUES (:menu_item_id_fk, :headline, :content, :keywords, :editor)";
-        return $this->execInsert($sql, [':menu_item_id_fk'=>$row['menu_item_id_fk'], ':headline'=>$row['headline'], ':content'=>$row['content'], ':keywords'=>$row['keywords'], ':editor'=>$row['editor'],
+        $sql = "INSERT INTO paper_headline (menu_item_id_fk, headline, keywords, editor)
+                VALUES (:menu_item_id_fk, :headline, :keywords, :editor)";
+        return $this->execInsert($sql, [':menu_item_id_fk'=>$row['menu_item_id_fk'], ':headline'=>$row['headline'], ':keywords'=>$row['keywords'], ':editor'=>$row['editor'],
             ]);
     }
 
     public function update($row) {
-        $sql = "UPDATE paper SET headline = :headline, content = :content, keywords = :keywords, editor = :editor
+        $sql = "UPDATE paper_headline SET headline = :headline, keywords = :keywords, editor = :editor
                 WHERE menu_item_id_fk = :menu_item_id_fk";
-        return $this->execUpdate($sql, [':headline'=>$row['headline'], ':content'=>$row['content'], ':keywords'=>$row['keywords'], ':editor'=>$row['editor'],
+        return $this->execUpdate($sql, [':headline'=>$row['headline'], ':keywords'=>$row['keywords'], ':editor'=>$row['editor'],
              ':menu_item_id_fk'=>$row['menu_item_id_fk']]);
     }
 
     public function delete($row) {
-        $sql = "DELETE FROM paper WHERE menu_item_id_fk = :menu_item_id_fk";
+        $sql = "DELETE FROM paper_headline WHERE menu_item_id_fk = :menu_item_id_fk";
         return $this->execDelete($sql, [':menu_item_id_fk'=>$row['menu_item_id_fk']]);
     }
 }

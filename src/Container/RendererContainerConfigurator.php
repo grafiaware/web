@@ -314,34 +314,97 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
         #
         #  paper classmap
         #
+//            'paper.headlined.classmap' => function(ContainerInterface $c) {
+//                return new ClassMap (
+//                    ['Component' => [
+//                        'div'=>'ui segment',
+//                        'div div'=>'grafia segment headlined headline',
+//                        'div div headline'=>'ui header',
+//                        'div content'=>'grafia segment headlined content',
+//                        ]
+//                    ]
+//                );
+//            },
+//            'paper.headlined.editable.classmap' => function(ContainerInterface $c) {
+//                return new ClassMap (
+//                    ['Component' => [
+//                        'div'=>'ui segment',
+//                        'div div'=>'grafia segment headlined editable',
+//                        'div div.notpermitted'=>'grafia segment headlined notpermitted',
+//                        'div div.locked'=>'grafia segment headlined locked',
+//                        'div div div'=>'',
+//                        'div div div headline'=>'ui header',
+//                        'div div div i1.published' => 'grafia active green',
+//                        'div div div i1.notpublished' => 'grafia active red ',
+//                        'div div div i2.published' => 'grafia actual grey',
+//                        'div div div i2.notactive' => 'grafia actual yellow',
+//                        'div div div i2.notactual' => 'grafia actual orange',
+//                        'div div div i2.notactivenotactual' => 'grafia actual red',
+//                        'div div div i3'=>'settings icon',
+//                        'div div content'=>'',
+//                        ],
+//                     'Buttons' => $c->get('paper_edit_buttons'),
+//                    ]
+//                );
+//            },
+//
+//            'paper.block.classmap' => function(ContainerInterface $c) {
+//                return new ClassMap (
+//                    ['Component' => [
+//                        'div'=>'grafia segment block',
+//                        'div block'=>'',
+//                        ]
+//                    ]
+//                );
+//            },
+//            'paper.block.editable.classmap' => function(ContainerInterface $c) {
+//                return new ClassMap (
+//                    ['Component' => [
+//                        'div'=>'grafia segment block editable',
+//                        'div block'=>'',
+//                        //'block.notpermitted'=>'grafia segment block notpermitted',
+//                        //'block.locked'=>'grafia segment block locked',
+//                        ],
+//                    'Buttons' => $c->get('paper_edit_buttons'),
+//                        ]
+//                );
+//            },
+############################
             'paper.headlined.classmap' => function(ContainerInterface $c) {
                 return new ClassMap (
-                    ['Component' => [
+                    ['Segment' => [
                         'div'=>'ui segment',
-                        'div div'=>'grafia segment headlined headline',
-                        'div div headline'=>'ui header',
-                        'div content'=>'grafia segment headlined content',
-                        ]
-                    ]
+                        ],
+                     'Headline' => [
+                        'div'=>'grafia segment headlined headline',
+                        'div headline'=>'ui header',
+                        ],
+                     'Content' => [
+                        'content'=>'grafia segment headlined content',
+                        ]                    ]
                 );
             },
             'paper.headlined.editable.classmap' => function(ContainerInterface $c) {
                 return new ClassMap (
-                    ['Component' => [
+                    ['Segment' => [
                         'div'=>'ui segment',
                         'div div'=>'grafia segment headlined editable',
                         'div div.notpermitted'=>'grafia segment headlined notpermitted',
                         'div div.locked'=>'grafia segment headlined locked',
-                        'div div div'=>'',
-                        'div div div headline'=>'ui header',
-                        'div div div i1.published' => 'grafia active green',
-                        'div div div i1.notpublished' => 'grafia active red ',
-                        'div div div i2.published' => 'grafia actual grey',
-                        'div div div i2.notactive' => 'grafia actual yellow',
-                        'div div div i2.notactual' => 'grafia actual orange',
-                        'div div div i2.notactivenotactual' => 'grafia actual red',
-                        'div div div i3'=>'settings icon',
-                        'div div content'=>'',
+                        ],
+                     'Headline' => [
+                        'form div'=>'',
+                        'form div headline'=>'ui header',
+                        'form div i1.published' => 'grafia active green',
+                        'form div i1.notpublished' => 'grafia active red ',
+                        'form div i2.published' => 'grafia actual grey',
+                        'form div i2.notactive' => 'grafia actual yellow',
+                        'form div i2.notactual' => 'grafia actual orange',
+                        'form div i2.notactivenotactual' => 'grafia actual red',
+                        'form div i3'=>'settings icon',
+                        ],
+                     'Content' => [
+                        'form content'=>'',
                         ],
                      'Buttons' => $c->get('paper_edit_buttons'),
                     ]
@@ -350,18 +413,22 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
 
             'paper.block.classmap' => function(ContainerInterface $c) {
                 return new ClassMap (
-                    ['Component' => [
+                    ['Segment' => [
                         'div'=>'grafia segment block',
-                        'div block'=>'',
+                        ],
+                    'Content' => [
+                        'content'=>'',
                         ]
                     ]
                 );
             },
             'paper.block.editable.classmap' => function(ContainerInterface $c) {
                 return new ClassMap (
-                    ['Component' => [
+                    ['Segment' => [
                         'div'=>'grafia segment block editable',
-                        'div block'=>'',
+                        ],
+                     'Content' => [
+                        'form content'=>'',
                         //'block.notpermitted'=>'grafia segment block notpermitted',
                         //'block.locked'=>'grafia segment block locked',
                         ],
@@ -369,9 +436,23 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
                         ]
                 );
             },
+
         #
         #  paper renderer
         #
+//            'paper.headlined.renderer' => function(ContainerInterface $c) {
+//                return new HeadlinedRenderer($c->get('paper.headlined.classmap'));
+//            },
+//            'paper.headlined.renderer.editable' => function(ContainerInterface $c) {
+//                return new HeadlinedEditableRenderer($c->get('paper.headlined.editable.classmap'));
+//            },
+//            'paper.block.renderer' => function(ContainerInterface $c) {
+//                return new BlockRenderer($c->get('paper.block.classmap'));
+//            },
+//            'paper.block.renderer.editable' => function(ContainerInterface $c) {
+//                return new BlockEditableRenderer($c->get('paper.block.editable.classmap'));
+//            },
+###########################
             'paper.headlined.renderer' => function(ContainerInterface $c) {
                 return new HeadlinedRenderer($c->get('paper.headlined.classmap'));
             },
@@ -384,7 +465,6 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
             'paper.block.renderer.editable' => function(ContainerInterface $c) {
                 return new BlockEditableRenderer($c->get('paper.block.editable.classmap'));
             },
-
         #
         #  generated classmap
         #

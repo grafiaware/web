@@ -50,8 +50,8 @@ class HeadlinedEditableRenderer extends AuthoredEditableRendererAbstract {
             $innerHtml = Html::tag('div', [], 'Missing data item or article for rendering.');
         }
         // atribut data-component je jen pro info v html
-        return Html::tag('div', ['data-component'=>$name, 'class'=>$this->classMap->getClass('Component', 'div')],
-                Html::tag('div', ['class'=>$this->classMap->getClass('Component', 'div div')], $innerHtml)
+        return Html::tag('div', ['data-component'=>$name, 'class'=>$this->classMap->getClass('Segment', 'div')],
+                Html::tag('div', ['class'=>$this->classMap->getClass('Segment', 'div div')], $innerHtml)
             );
     }
 

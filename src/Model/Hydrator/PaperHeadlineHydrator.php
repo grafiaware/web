@@ -9,7 +9,7 @@
 namespace Model\Hydrator;
 
 use Model\Entity\EntityInterface;
-use Model\Entity\PaperInterface;
+use Model\Entity\PaperHeadlineInterface;
 
 /**
  * Description of PaperHydrator
@@ -20,12 +20,12 @@ class PaperHeadlineHydrator implements HydratorInterface {
 
     /**
      *
-     * @param PaperInterface $paper
+     * @param PaperHeadlineInterface $paperHeadline
      * @param type $row
      */
-    public function hydrate(EntityInterface $paper, &$row) {
-        /** @var PaperInterface $paper */
-        $paper
+    public function hydrate(EntityInterface $paperHeadline, &$row) {
+        /** @var PaperHeadlineInterface $paperHeadline */
+        $paperHeadline
             ->setMenuItemIdFk($row['menu_item_id_fk'])
             ->setHeadline($row['headline'])
             ->setKeywords($row['keywords'])
@@ -35,15 +35,15 @@ class PaperHeadlineHydrator implements HydratorInterface {
 
     /**
      *
-     * @param PaperInterface $paper
+     * @param PaperHeadlineInterface $paperHeadline
      * @param type $row
      */
-    public function extract(EntityInterface $paper, &$row) {
-        /** @var PaperInterface $paper */
-        $row['menu_item_id_fk'] = $paper->getMenuItemIdFk();
-        $row['headline'] = $paper->getHeadline();
-        $row['keywords'] = $paper->getKeywords();
-        $row['editor'] = $paper->getEditor();
+    public function extract(EntityInterface $paperHeadline, &$row) {
+        /** @var PaperHeadlineInterface $paperHeadline */
+        $row['menu_item_id_fk'] = $paperHeadline->getMenuItemIdFk();
+        $row['headline'] = $paperHeadline->getHeadline();
+        $row['keywords'] = $paperHeadline->getKeywords();
+        $row['editor'] = $paperHeadline->getEditor();
         // updated je timestamp
     }
 

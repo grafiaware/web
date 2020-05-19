@@ -34,9 +34,9 @@ class HeadlinedRenderer extends HtmlRendererAbstract {
 
         if (isset($menuNode) AND isset($paper)) {
             $innerHtml = Html::tag('div', ['class'=>$this->classMap->getClass('Component', 'div div')],
-                            Html::tag('headline', ['class'=>$this->classMap->getClass('Component', 'div div headline')], $paper->getHeadline())
+                            Html::tag('headline', ['class'=>$this->classMap->getClass('Component', 'div div headline')], $paper->getPaperHeadline())
                         )
-                        .Html::tag('content', ['class'=>$this->classMap->getClass('Component', 'div content')], $paper->getContent());
+                        .Html::tag('content', ['class'=>$this->classMap->getClass('Component', 'div content')], $paper->getPaperContent());
             $style = "display: block;";
         } else {
             $innerHtml = Html::tag('div', [], 'No data item or article for rendering.');

@@ -27,8 +27,8 @@ class PaperHydrator implements HydratorInterface {
         /** @var PaperInterface $paper */
         $paper
             ->setMenuItemIdFk($row['menu_item_id_fk'])
-            ->setHeadline($row['headline'])
-            ->setContents($row['contents']);
+            ->setPaperHeadline($row['headline'])
+            ->exchangePaperContentsArray($row['contents']);
     }
 
     /**
@@ -39,8 +39,8 @@ class PaperHydrator implements HydratorInterface {
     public function extract(EntityInterface $paper, &$row) {
         /** @var PaperInterface $paper */
         $row['menu_item_id_fk'] = $paper->getMenuItemIdFk();
-        $row['headline'] = $paper->getHeadline();
-        $row['contents'] = $paper->getContents();
+        $row['headline'] = $paper->getPaperHeadline();
+        $row['contents'] = $paper->getPaperContentsArray();
     }
 
 }

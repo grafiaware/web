@@ -19,11 +19,11 @@ class PaperContentDao extends DaoAbstract {
     /**
      * Vrací jednu řádku tabulky 'paper' ve formě asociativního pole.
      *
-     * @param string $paperContentId
+     * @param string $id
      * @return array Asociativní pole
      * @throws StatementFailureException
      */
-    public function get($paperContentId) {
+    public function get($id) {
 
         $sql = "SELECT
             `paper_content`.`menu_item_id_fk` AS `menu_item_id_fk`,
@@ -34,7 +34,7 @@ class PaperContentDao extends DaoAbstract {
         FROM
             `paper_content`
         WHERE `paper_content`.`id` = :id";
-        return $this->selectOne($sql, [':id' => $paperContentId], TRUE);
+        return $this->selectOne($sql, [':id' => $id], TRUE);
     }
 
     /**
@@ -59,21 +59,20 @@ class PaperContentDao extends DaoAbstract {
     }
 
     public function insert($row) {
-        $sql = "INSERT INTO paper_content (menu_item_id_fk, headline, content, keywords, editor)
-                VALUES (:menu_item_id_fk, :headline, :content, :keywords, :editor)";
-        return $this->execInsert($sql, [':menu_item_id_fk'=>$row['menu_item_id_fk'], ':headline'=>$row['headline'], ':content'=>$row['content'], ':keywords'=>$row['keywords'], ':editor'=>$row['editor'],
+        $sql = "INSERT INTO paper_content (menu_item_id_fk, content, editor)
+                VALUES (:menu_item_id_fk, :content, :editor)";
+        return $this->execInsert($sql, [':menu_item_id_fk'=>$row['menu_item_id_fk'], ':content'=>$row['content'], ':editor'=>$row['editor'],
             ]);
     }
 
     public function update($row) {
-        $sql = "UPDATE paper_content SET headline = :headline, content = :content, keywords = :keywords, editor = :editor
-                WHERE menu_item_id_fk = :menu_item_id_fk";
-        return $this->execUpdate($sql, [':headline'=>$row['headline'], ':content'=>$row['content'], ':keywords'=>$row['keywords'], ':editor'=>$row['editor'],
-             ':menu_item_id_fk'=>$row['menu_item_id_fk']]);
+        $sql = "UPDATE paper_content SET menu_item_id_fk = :menu_item_id_fk, content = :content, editor = :editor
+                WHERE  id = :id";
+        return $this->execUpdate($sql, [':menu_item_id_fk'=>$row['menu_item_id_fk'], ':content'=>$row['content'], ':editor'=>$row['editor'], ':id'=>$row['id']]);
     }
 
     public function delete($row) {
-        $sql = "DELETE FROM paper_content WHERE menu_item_id_fk = :menu_item_id_fk";
-        return $this->execDelete($sql, [':menu_item_id_fk'=>$row['menu_item_id_fk']]);
+        $sql = "DELETE FROM paper_content WHERE id = :id";
+        return $this->execDelete($sql, [':id'=>$row['id']]);
     }
 }

@@ -42,7 +42,7 @@ class BlockEditableRenderer extends AuthoredEditableRendererAbstract {
             $innerHtml = Html::tag('div', ['data-component'=>$name], 'No data item or article for rendering.');
             $style = "display: none;";
         }
-        return Html::tag('div', ['data-component'=>$name, 'class'=>$this->classMap->getClass('Component', 'div'), 'style'=>$style], $innerHtml);
+        return Html::tag('div', ['data-component'=>$name, 'class'=>$this->classMap->getClass('Segment', 'div'), 'style'=>$style], $innerHtml);
 
     }
 

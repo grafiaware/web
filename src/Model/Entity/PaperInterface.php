@@ -28,32 +28,24 @@ interface PaperInterface extends EntityInterface {
      *
      * @return PaperHeadline
      */
-    public function getHeadline(): PaperHeadline;
+    public function getPaperHeadline(): PaperHeadline;
+
+    /**
+     *
+     * @param type $id
+     * @return PaperContent|null
+     */
+    public function getPaperContent($id): ?PaperContent;
 
     /**
      *
      * @return PaperContent array of
      */
-    public function getContents(): array;
+    public function getPaperContentsArray(): array;
 
-    /**
-     *
-     * @param type $menuItemIdFk
-     * @return \Model\Entity\PaperInterface
-     */
     public function setMenuItemIdFk($menuItemIdFk): PaperInterface;
 
-    /**
-     *
-     * @param PaperHeadline $headline
-     * @return PaperInterface
-     */
-    public function setHeadline(PaperHeadline $headline): PaperInterface;
+    public function setPaperHeadline(PaperHeadline $headline): PaperInterface;
 
-    /**
-     *
-     * @param array $contents
-     * @return PaperInterface
-     */
-    public function setContents(array $contents=[]): PaperInterface;
+    public function exchangePaperContentsArray(array $contents=[]): PaperInterface;
 }

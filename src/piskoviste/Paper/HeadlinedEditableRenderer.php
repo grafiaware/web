@@ -48,7 +48,7 @@ class HeadlinedEditableRenderer extends HtmlRendererAbstract {
                     $this->renderButtons($menuNode, $paper)
                     .Html::tag('div', ['class'=>$this->classMap->getClass('Component', 'div div div')],
                         Html::tag('headline', ['id'=>"headline_{$paper->getMenuItemIdFk()}", 'class'=>$this->classMap->getClass('Component', 'div div div headline')],
-                            $paper->getHeadline()
+                            $paper->getPaperHeadline()
                         )
                         .Html::tag('i', ['class'=> $this->classMap->resolveClass(($menuNode->getMenuItem()->getActive() AND $menuNode->getMenuItem()->getActual()), 'Component',
                                 'div div div i1.published', 'div div div i1.notpublished')]
@@ -60,7 +60,7 @@ class HeadlinedEditableRenderer extends HtmlRendererAbstract {
                         )
                         //.Html::tag('i', ['class'=>$this->classMap->getClass('Component', 'div div div i3')])
                     )
-                    .Html::tag('content', ['id'=>"content_{$paper->getMenuItemIdFk()}", 'class'=>$this->classMap->getClass('Component', 'div div content')], $paper->getContent())
+                    .Html::tag('content', ['id'=>"content_{$paper->getMenuItemIdFk()}", 'class'=>$this->classMap->getClass('Component', 'div div content')], $paper->getPaperContent())
                 );
         } else {
             $innerHtml = Html::tag('div', [], 'No data item or article for rendering.');

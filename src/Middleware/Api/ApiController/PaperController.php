@@ -51,8 +51,8 @@ class PaperController extends PresentationFrontControllerAbstract {
         if (!isset($paper)) {
             user_error('Neexistuje paper se zadaným menuItemId.');
         } else {
-            $postHeadline = (new RequestParams())->getParam($request, 'headline');
-            $paper->getHeadline()->setHeadline($postHeadline);
+            $postHeadline = (new RequestParams())->getParam($request, 'headline_'.$menuItemId);
+            $paper->getPaperHeadline()->setHeadline($postHeadline);
         }
         return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other
     }
@@ -67,12 +67,10 @@ class PaperController extends PresentationFrontControllerAbstract {
         if (!isset($paper)) {
             user_error('Neexistuje paper se zadaným menuItemId.');
         } else {
-            $postContent = (new RequestParams())->getParam($request, 'content_'.$menuItemId);  // jméno POST proměnné je vytvořeno v paper rendereru složením 'content_' a $paper->getMenuItemId()
+            $postContent = (new RequestParams())->getParam($request, 'content_'.$id);  // jméno POST proměnné je vytvořeno v paper rendereru složením 'content_' a $paper->getMenuItemId()
 
-            //TODO: PROVIZORNÍ ŘEŠENÍ!!
-            $contents = $paper->getContents();
-            $contents[$id] = $postContent;
-            $paper->setContents($contents);
+            $content = $paper->getPaperContent($id);
+            $content->setContent($postContent);
         }
 
         return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other

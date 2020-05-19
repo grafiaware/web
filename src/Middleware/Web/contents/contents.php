@@ -32,7 +32,7 @@ function createDatabaseContent(Psr\Container\ContainerInterface $mwContainer, $l
             $content[] =        "<button class='ui mini basic icon button save'><i class='save green outline big icon'></i></button>";
             $content[] =    "</div>";
             $content[] =    "<div class='articleContent-editable' name='obsah'>"
-                                .$article->getContent().
+                                .$article->getPaperContent().
                             "</div>";
             $content[] = "</form>";
         } else {
@@ -40,7 +40,7 @@ function createDatabaseContent(Psr\Container\ContainerInterface $mwContainer, $l
             $content[] =    "<h1>" . $article->getHeadline(). "</h1>";
             $content[] = "</div>";
             $content[] = "<div class='articleContent'>"
-                            .$article->getContent().
+                            .$article->getPaperContent().
                          "</div>";
         }
     } else {

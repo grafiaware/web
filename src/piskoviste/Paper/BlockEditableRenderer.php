@@ -40,7 +40,7 @@ class BlockEditableRenderer extends HtmlRendererAbstract {
         if (isset($menuNode) AND isset($paper)) {
             $innerHtml = 
                     $this->renderButtons($menuNode, $paper)
-                    .$paper->getContent();
+                    .$paper->getPaperContent();
             $style = "display: block;";
         } else {
             $innerHtml = Html::tag('div', ['data-component'=>$name], 'No data item or article for rendering.');

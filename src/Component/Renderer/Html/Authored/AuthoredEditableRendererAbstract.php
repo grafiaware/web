@@ -132,16 +132,15 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
     }
 
     protected function renderContentsForms(PaperInterface $paper) {
-        foreach ($paper->getContents() as $id => $paperContent) {
+        foreach ($paper->getPaperContentsArray() as $id => $paperContent) {
             /** @var PaperContentInterface $paperContent */
             $form[] =
                 Html::tag('form',
                     ['method'=>'POST', 'action'=>"api/v1/paper/{$paperContent->getMenuItemIdFk()}/content/{$paperContent->getId()}"],
-                    Html::tag('block',
+                    Html::tag('content',
                         [
                             'id' => "content_{$paperContent->getId()}",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lte toto jméno také složit a hledat v POST proměnných
-//                            'class'=> $this->classMap->getClass('Component', 'div block'),    // classmap 'paper.block.classmap'
-                            'class'=>$this->classMap->getClass('Component', 'div div content'),
+                            'class'=>$this->classMap->getClass('Content', 'form content'),
                             'data-owner'=>$paperContent->getEditor()
                         ],
                         $paperContent->getContent()
@@ -152,26 +151,26 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
     }
 
     protected function renderHeadlineForm(PaperInterface $paper, $active, $actual) {
-        $paperHeadline = $paper->getHeadline();
+        $paperHeadline = $paper->getPaperHeadline();
         return Html::tag('form', ['method'=>'POST', 'action'=>"api/v1/paper/{$paperHeadline->getMenuItemIdFk()}/headline/"],
-                        Html::tag('div', ['class'=>$this->classMap->getClass('Component', 'div div div')],
+                        Html::tag('div', ['class'=>$this->classMap->getClass('Headline', 'form div')],
                             Html::tag(
                                 'headline',
                                 [
-                                    'id'=>"headline",
-                                    'class'=>$this->classMap->getClass('Component', 'div div div headline'),
+                                    'id'=>"headline_{$paperHeadline->getMenuItemIdFk()}",  // id musí být na stránce unikátní - skládám ze slova headline_ a MenuItemIdFk, v kontroléru lte toto jméno také složit a hledat v POST proměnných
+                                    'class'=>$this->classMap->getClass('Headline', 'form div headline'),
                                 ],
                                 $paperHeadline->getHeadline()
                             )
                             .Html::tag('i',
-                                ['class'=> $this->classMap->resolveClass(($active AND $actual), 'Component',
-                                    'div div div i1.published', 'div div div i1.notpublished')
+                                ['class'=> $this->classMap->resolveClass(($active AND $actual), 'Headline',
+                                    'form div i1.published', 'form div i1.notpublished')
                                 ]
                             )
                             .Html::tag('i',
-                                ['class'=> $this->classMap->resolveClass($active, 'Component',
-                                    $actual ? 'div div div i2.published' : 'div div div i2.notactual',
-                                    $actual ?  'div div div i2.notactive' : 'div div div i2.notactivenotactual')
+                                ['class'=> $this->classMap->resolveClass($active, 'Headline',
+                                    $actual ? 'form div i2.published' : 'form div i2.notactual',
+                                    $actual ?  'form div i2.notactive' : 'form div i2.notactivenotactual')
                                 ]
                             )
                             //.Html::tag('i', ['class'=>$this->classMap->getClass('Component', 'div div div i3')])
