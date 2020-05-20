@@ -1,8 +1,9 @@
-body.newlayout_3 > .container > .column{
-    background-color: @white;
-}
 
 .newlayout_3{
+    font-family: 'Open Sans', sans-serif !important;
+    .container > .column{
+        background-color: @white;
+    }
     header{
         .grid > .row:first-child{
             padding-bottom: 0;
@@ -28,10 +29,10 @@ body.newlayout_3 > .container > .column{
         }
     }
     header{
-        height: 335px;
+        height: 330px;
         background-image: url('../img/header_image3.jpg');
         margin-bottom: -20px;
-        padding: 10px 20px 0;
+        padding: 15px 20px 0;
         img{
             max-width: 100%;
         }
@@ -64,15 +65,16 @@ body.newlayout_3 > .container > .column{
         }
     }
     header .grid > .column:nth-child(2) p{
-        font-size: 2em;
+        font-size: 2.8em;
+        font-weight: 900;
         color: @redTextColor;
         text-align: center;
-        top: 100%;
-        right: 50%;
+        top: 75%;
+        right: 70%;
         position: relative;
+        width: 150%;
     }
     .jazyky{
-       // margin-top: 10px;
         clear: both;
         margin-right: 5px;
         float: right;
@@ -83,6 +85,13 @@ body.newlayout_3 > .container > .column{
             vertical-align: middle;
             width: 30px;
             height: 17px;
+            filter: grayscale(50%);
+            opacity: 0.85;
+            transition: 0.2s all;
+            &:hover{
+                filter: grayscale(0%);
+                opacity: 1;
+            }
         }
         .ui.basic.button{
             padding: 0;
@@ -101,6 +110,7 @@ body.newlayout_3 > .container > .column{
         }
         .page.button{
             vertical-align: bottom;
+            line-height: normal;
         }
         > form{
             display: inline-block;
@@ -167,7 +177,7 @@ body.newlayout_3 > .container > .column{
         box-shadow: none;
         headline{
             text-align: left;
-            padding-left: 12px;
+            padding-left: 60px;
         }
     }
     footer .grid .column:nth-child(3) img{
@@ -247,7 +257,7 @@ body.newlayout_3 > .container > .column{
     #mySidenav {
         display: none;
         height: 100%;
-        width: 80%;
+        width: 45%;
         background-color: @white;
         position: fixed!important;
         top: 0;

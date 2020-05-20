@@ -9,12 +9,23 @@
             padding: 5px 0;
             margin-top: 0;
         }
-    }
-    .page-content .articleHeadline-editable > button.ui.button.save {
-        position: absolute;
-        top: 11px;
-        right: 10px;
-        padding: 7px;
+        p{
+            font-size: 1.2em;
+        }
+        p span{
+            font-size: 1em !important;
+        }
+        li span{
+            font-size: 1.2em !important;
+        }
+        h2{
+            font-size: 1.7em;
+            font-family: 'Open Sans';
+        }
+        .ui.header{
+            font-size: 1.3em !important;
+            font-family: 'Open Sans';
+        }
     }
     .dimmer .content{
         width: 17%;
@@ -56,23 +67,29 @@
     }
     .segment headline.header{
         color: @redTextColor;
-        background-color: @backgroundLightGrey;
         border-radius: 4px 4px 0 0;
         text-align: center;
         margin: 0 -12px;
         margin-top: -12px !important;
         padding: 5px 0;
+        font-size: 1.3em !important;
         p{
-            font-size: @h2;
             margin-bottom: 0;
         }
     }
     #contents .segment headline.header{
-        margin-top: 0 !important;
+        margin-top: -5px !important;
+    }
+    #contents .grid > .eleven.column > .ui.segment{
+        box-shadow: none;
+        border: 0;
     }
     .segment img{
         max-width: 100%;
         height: auto;
+        > span{
+            height: auto;
+        }
     }
     .ui.segment, block{
         clear: both;

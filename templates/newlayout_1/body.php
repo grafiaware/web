@@ -15,7 +15,14 @@
                                     <?=$searchPhrase?>
                                 </div>
                                 <div class="item">
-                                    <?=$modal?>
+                                    <div class="prihlaseni">
+                                        <?=
+                                            $modalLoginLogout
+                                        ?>
+                                        <?=
+                                            $modalUserAction
+                                        ?>
+                                    </div>
                                 </div>
                             </div>
                         </div>

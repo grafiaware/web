@@ -75,7 +75,7 @@
     .svisle-menu .menu.edit{
         height: 650px;
         overflow-y: scroll;
-        width: 107%;
+        width: 100%;
         margin-left: -8px;
         li:not(:first-child){
             border-top: 2px solid @transparentBlack;
@@ -261,7 +261,7 @@
         }
     }
     .grafia.segment.headlined.editable .buttons.editPage{
-        right: -12px;
+        right: 0;
         background: #fbfbe7;
         > .toolsDate{
             background-color: #fff1d5;
@@ -340,13 +340,59 @@
     .grafia.segment.block.editable .edit_kalendar{
         right: 0;
     }
+    .prihlaseni{
+        margin-right: 2px;
+        position: relative;
+        float: right;
+        margin-top: 6px;
+        margin-bottom: -5px;
+        .header.item{
+            background-color: @white;
+            cursor: default;
+            text-align: center;
+            &:hover{
+                background-color: @white;
+            }
+        }
+        div.icon{
+            padding: 7px;
+        }
+        input{
+            border: 1px solid @lightGrey !important;
+        }
+        button.fluid{
+            margin: 5px 0;
+        }
+        .ui.labeled.icon.button > .icon::before{
+            top: -7px;
+        }
+        .menu{
+            padding: 0 8px;
+        }
+        .logout{
+            display: inline-block;
+            > p, > form{
+                display: inline-block;
+            }
+            > form{
+                button > i.icon{
+                    font-size: 1.4em;
+                }
+            }
+        }
+        > form{
+            float: right;
+        }
+        .ui.form .menu.left{
+            flex-direction: column;
+        }
+    }
     .poznamky{
-        position: fixed;
+        position: absolute;
         border-radius: 5px;
         background: @white;
         left: 10px;
-        top: 130px;
-        transform: translateY(-50%);
+        top: 10px;
         transition: 0.7s linear;
         box-shadow: 1px 1px 10px 1px rgba(34,36,38,.15);
         z-index: 1;
