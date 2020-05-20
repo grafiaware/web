@@ -89,14 +89,4 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
         }
     }
 
-    public function flush() {
-        foreach ($this->collection as $index => $menuItem) {
-            $this->hydrator->extract($menuItem, $row);
-            if ($menuItem->isPersisted()) {
-                $this->dao->update($row);
-            } else {
-                $this->dao->insert($row);
-            }
-        }
-    }
 }
