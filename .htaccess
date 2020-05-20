@@ -18,7 +18,7 @@ RewriteBase "/web"
 #RewriteCond %{REQUEST_FILENAME} !-d
 #RewriteRule ^(.*)\\.(gif|png|jpg|jpeg|css|js|swf|ico|bmp|less)$ /public/$1.$2 [L,NC]
 
-#RewriteRule ^public/ - [L]
+RewriteRule ^public/ - [L]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d

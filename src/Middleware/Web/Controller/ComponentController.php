@@ -46,7 +46,7 @@ use Pes\View\Recorder\RecordsLogger;
 class ComponentController extends LayoutControllerAbstract {
 ######################################
     private function initLayoutTemplatesVars() {
-        $theme = 'new3';
+        $theme = 'old';
 
         switch ($theme) {
             case 'old':
@@ -198,7 +198,7 @@ class ComponentController extends LayoutControllerAbstract {
                                 // pro tiny_config.js
                                 'basePath' => $basepath,
                                 'urlStylesCss' => $webPublicDir."grafia/css/styles.css",
-                                'urlPrefixTemplatesTinyMce' => $webPublicDir."tiny_templates/",
+                                'urlPrefixTemplatesTinyMce' => $commonPublicDir."tiny_templates/",
                                 'urlSemanticCss' => $webPublicDir."semantic/dist/semantic.min.css",
                                 'urlZkouskaCss' => $webPublicDir."grafia/css/zkouska_less.css",
                             ]),
