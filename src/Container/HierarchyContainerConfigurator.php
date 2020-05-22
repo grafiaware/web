@@ -110,15 +110,11 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
             'database.production_host.connection.host' => 'xxxx',
             'database.production_host.connection.name' => 'xxxx',
 
-            'logs.database.directory' => 'Logs/Menu',
+            'logs.database.directory' => 'Logs/Hierarchy',
             'logs.database.file' => 'Database.log',
             #
             #  Konec sekce konfigurace databáze
             ###################################
-
-            // konfigurace routeru
-            'logs.router.directory' => 'Logs/Menu',
-            'logs.router.file' => 'Router.log',
 
             // konfigurace hierarchy tabulek
             'menu.nested_set_table' => 'menu_nested_set',

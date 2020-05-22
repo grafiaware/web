@@ -21,7 +21,6 @@ use Psr\Http\Message\ServerRequestInterface;
 use Container\WebContainerConfigurator;
 use Container\HierarchyContainerConfigurator;
 use Container\ComponentContainerConfigurator;
-use Container\RendererContainerConfigurator;
 
 use Model\Repository\{
     StatusSecurityRepo, StatusPresentationRepo

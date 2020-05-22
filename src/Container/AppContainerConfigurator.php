@@ -195,7 +195,7 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
             },
 
             // router
-            'logs.router.directory' => 'Logs/Api',
+            'logs.router.directory' => 'Logs/App',
             'logs.router.file' => 'Router.log',
             Router::class => function(ContainerInterface $c) {
                 $router = new Router(new UrlPatternValidator());
