@@ -99,7 +99,7 @@ class ComponentController extends LayoutControllerAbstract {
             $this->statusPresentationRepo->get()->setMenuItem($menuNode->getMenuItem());
         } else {
             // neexistující stránka
-            return RedirectResponse::withRedirect(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/home/', $url, 303); // SeeOther
+            return RedirectResponse::withRedirect(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/home/', 303); // SeeOther
         }
         return $this->createResponseFromView($request, $this->createView($request));
     }
