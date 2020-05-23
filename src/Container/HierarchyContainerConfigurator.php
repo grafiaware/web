@@ -62,9 +62,7 @@ use Model\HierarchyHooks\HookedMenuItemActor;
 use Model\HierarchyHooks\ArticleTitleUpdater;
 use Model\HierarchyHooks\MenuListStyles;
 
-// status model
-use StatusManager\StatusSecurityManager;
-use StatusManager\StatusSecurityManagerInterface;
+// status manager - používá novou databázi
 use StatusManager\StatusPresentationManager;
 use StatusManager\StatusPresentationManagerInterface;
 
@@ -81,7 +79,6 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
             ReadHierarchyInterface::class => ReadHierarchy::class,
             EditHierarchyInterface::class => EditHierarchy::class,
             StatusPresentationManagerInterface::class => StatusPresentationManager::class,
-            StatusSecurityManagerInterface::class => StatusSecurityManager::class,
         ];
     }
 

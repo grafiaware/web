@@ -35,28 +35,35 @@ class SelectorFactory {
      */
     public function __construct(AppInterface $app=NULL) {
         $this->app = $app;
-        // všechny addItem dostávají jako stack anonymní funkci, která přijímá kontejner, vzniklé Item budou připraveny appContainer předaný jim sektorem
-        $this->items = [
-            '/www/' =>
-            function(AppInterface $app) {
+        $default = function(AppInterface $app) {
                 return [
+                    new \Middleware\Status\SecurityStatus(),
                     new \Middleware\Login\Login(),
+                    new \Middleware\Status\PresentationStatus(),
                     new \Middleware\Web\Transformator(),
                     new \Middleware\Web\Web()
-                ];},
+                ];};
+
+        // všechny addItem dostávají jako stack anonymní funkci, která přijímá kontejner, vzniklé Item budou připraveny appContainer předaný jim sektorem
+        $this->items = [
+            '/www/' => $default,
             '/api/'=>
             function(AppInterface $app) {
                 return [
+                    new \Middleware\Status\SecurityStatus(),
+                    new \Middleware\Status\PresentationStatus(),
                     new \Middleware\Api\Api()
                 ];},
             '/auth/'=>
             function(AppInterface $app) {
                 return [
+                    new \Middleware\Status\SecurityStatus(),
                     new \Middleware\Login\Login()
                 ];},
             '/rs'=>
             function(AppInterface $app) {
                 return [
+                    new \Middleware\Status\SecurityStatus(),
                     new \Middleware\Logged\LoggedAccess(new LoggedAccessor($app)),
                     new \Middleware\Rs\Transformator(),
                     new \Middleware\Rs\Rs()
@@ -64,6 +71,7 @@ class SelectorFactory {
             '/edun'=>
             function(AppInterface $app) {
                 return [
+                    new \Middleware\Status\SecurityStatus(),
                     new \Middleware\Logged\LoggedAccess(new LoggedAccessor($app)),
                     new \Middleware\Edun\Transformator(),
                     new \Middleware\Edun\Edun()
@@ -71,6 +79,7 @@ class SelectorFactory {
             '/staffer'=>
             function(AppInterface $app) {
                 return [
+                    new \Middleware\Status\SecurityStatus(),
                     new \Middleware\Logged\LoggedAccess(new LoggedAccessor($app)),
                     new \Middleware\Staffer\Transformator(),
                     new \Middleware\Staffer\Staffer()
@@ -84,20 +93,12 @@ class SelectorFactory {
             '/konverze'=>       // bez koncového lomítka - je jen tato jedna uri, uri neí delší než prefix
             function(AppInterface $app) {
                 return [
+                    new \Middleware\Status\SecurityStatus(),
                     new \Middleware\Logged\LoggedAccess(new LoggedAccessor($app)),
                     new \Middleware\Konverze\Konverze()
                 ];},
 
-
-
-// tento item je vybrán vždy - pro libovolné url
-            '/' =>
-            function(AppInterface $app) {
-                return [
-                    (new \Middleware\Login\Login()),
-                    new \Middleware\Web\Transformator(),
-                    (new \Middleware\Web\Web())
-                ];},
+            '/' => $default,
             ];
     }
 

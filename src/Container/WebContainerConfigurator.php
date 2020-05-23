@@ -29,10 +29,6 @@ use Pes\Database\Handler\HandlerInterface;
 // repo
 use Model\Repository\StatusSecurityRepo;
 
-// status
-use StatusManager\StatusSecurityManager;
-use StatusManager\StatusSecurityManagerInterface;
-
 /**
  *
  *
@@ -46,7 +42,6 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
             UserInterface::class => User::class,
             AccountInterface::class => Account::class,
             HandlerInterface::class => Handler::class,
-            StatusSecurityManagerInterface::class => StatusSecurityManager::class,
         ];
     }
 
@@ -125,10 +120,6 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(AttributesProvider::class),
                         $c->get('databaseLogger'));
                 return $handler;
-            },
-
-            StatusSecurityManager::class => function(ContainerInterface $c) {
-                return new StatusSecurityManager();
             },
 
         ];

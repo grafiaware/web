@@ -1,12 +1,6 @@
 <?php
 namespace Container;
 
-// status
-use StatusManager\StatusSecurityManager;
-use StatusManager\StatusSecurityManagerInterface;
-use StatusManager\StatusPresentationManager;
-use StatusManager\StatusPresentationManagerInterface;
-
 use Pes\Container\ContainerConfiguratorAbstract;
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
 
@@ -98,7 +92,6 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getAliases() {
         return [
-            StatusPresentationManagerInterface::class => StatusPresentationManager::class,
 
         ];
     }

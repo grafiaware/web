@@ -48,10 +48,6 @@ use Model\Repository\{
     PaperAggregateRepo
 };
 
-// viewModel
-use StatusManager\StatusSecurityManager;
-use StatusManager\StatusPresentationManager;
-
 // view
 use Pes\View\View;
 use Pes\View\Renderer\Container\TemplateRendererContainer;

@@ -43,6 +43,7 @@ use Model\Repository\StatusFlashRepo;
 // statusModel
 use StatusManager\StatusSecurityManager;
 use StatusManager\StatusSecurityManagerInterface;
+use StatusManager\StatusPresentationManager;
 use StatusManager\StatusPresentationManagerInterface;
 
 // router
@@ -61,9 +62,10 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
         return [
             SessionStatusHandlerInterface::class => SessionStatusHandler::class,
             StatusSecurityManagerInterface::class => StatusSecurityManager::class,
-            StatusPresentationManagerInterface::class => StatusPresentationModel::class,
+            StatusPresentationManagerInterface::class => StatusPresentationManager::class,
             UserInterface::class => User::class,
             RouterInterface::class => Router::class,
+
         ];
     }
 
@@ -194,6 +196,12 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new StatusFlashRepo($c->get(StatusDao::class));
             },
 
+            StatusSecurityManager::class => function(ContainerInterface $c) {
+                return new StatusSecurityManager();
+            },
+            StatusPresentationManager::class => function(ContainerInterface $c) {
+                return new StatusPresentationManager();
+            },
             // router
             'logs.router.directory' => 'Logs/App',
             'logs.router.file' => 'Router.log',

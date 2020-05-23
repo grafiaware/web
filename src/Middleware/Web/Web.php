@@ -72,20 +72,6 @@ class Web extends AppMiddlewareAbstract implements MiddlewareInterface {
                 )
             );
 
-
-        /** @var StatusPresentationRepo $statusPresentationRepo */
-        $statusPresentationRepo = $this->container->get(StatusPresentationRepo::class);
-        /** @var StatusPresentationManagerInterface $statusPresentationManager */
-        $statusPresentationManager = $this->container->get(StatusPresentationManagerInterface::class);
-        $statusPresentation = $statusPresentationRepo->get();
-        if (!isset($statusPresentation)) {
-            $statusPresentation = $statusPresentationManager->createPresentationStatus($request);
-            $statusPresentationRepo->add($statusPresentation);
-        }
-
-        $statusPresentationManager->regenerateStatusPresentation($statusPresentation, $request);
-
-
         $this->registry = new Registry(new MethodEnum(), new UrlPatternValidator());
 
         $this->registry->register(new Action(new Resource('GET', '/www/last'), function(ServerRequestInterface $request) {

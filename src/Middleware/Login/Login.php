@@ -41,14 +41,6 @@ class Login extends AppMiddlewareAbstract implements MiddlewareInterface {
                     (new Container($this->getApp()->getAppContainer()))
                 );
 
-        /** @var StatusSecurityRepo $statusSecurityRepo */
-        $statusSecurityRepo = $this->container->get(StatusSecurityRepo::class);
-        /** @var StatusSecurityManagerInterface $statusSecurityManager */
-        $statusSecurityManager = $this->container->get(StatusSecurityManagerInterface::class);
-        if (!$statusSecurityRepo->get()) {
-            $statusSecurityRepo->add($statusSecurityManager->createSecurityStatus());
-        }
-
         $registry = new Registry(new MethodEnum(), new UrlPatternValidator());
 
         $registry->register(new Action(new Resource('POST', '/auth/v1/logout'), function(ServerRequestInterface $request) {
