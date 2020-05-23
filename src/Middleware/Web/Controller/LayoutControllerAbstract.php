@@ -39,6 +39,9 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
 
     private $viewFactory;
 
+    /**
+     * @var ContainerInterface
+     */
     protected $container;
 
     public function injectContainer(ContainerInterface $componentContainer): LayoutControllerInterface {

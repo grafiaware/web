@@ -57,7 +57,7 @@ class Web extends AppMiddlewareAbstract implements MiddlewareInterface {
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
 
         // middleware kontejner:
-        //      nový kontejner konfigurovaný třemi konfigurátory: ComponentContainerConfigurator, RendererContainerConfigurator a MenuContainerConfigurator
+        //      nový kontejner konfigurovaný třemi konfigurátory: ComponentContainerConfigurator a HierarchyContainerConfigurator
         //      -> delagát další nový kontejner konfigurovaný WebContainerConfigurator
         //      -> v něm jako delegát aplikační kontejner
         // komponenty a menu používají databázi z menu kontejneru (upgrade), web používá starou databázi z app kontejneru
@@ -72,24 +72,25 @@ class Web extends AppMiddlewareAbstract implements MiddlewareInterface {
                 )
             );
 
-        $this->registry = new Registry(new MethodEnum(), new UrlPatternValidator());
+        /** @var Registry $registry */
+        $registry = $this->container->get(Registry::class);
 
-        $this->registry->register(new Action(new Resource('GET', '/www/last'), function(ServerRequestInterface $request) {
+        $registry->register(new Action(new Resource('GET', '/www/last'), function(ServerRequestInterface $request) {
                 /** @var ComponentController $ctrl */
                 $ctrl = $this->container->get(ComponentController::class);
                 return $ctrl->last($request);
             }));
-        $this->registry->register(new Action(new Resource('GET', '/www/item/:langCode/:uid'), function(ServerRequestInterface $request, $langCode, $uid) {
+        $registry->register(new Action(new Resource('GET', '/www/item/:langCode/:uid'), function(ServerRequestInterface $request, $langCode, $uid) {
                 /** @var ComponentController $ctrl */
                 $ctrl = $this->container->get(ComponentController::class);
                 return $ctrl->item($request, $langCode, $uid);
             }));
-        $this->registry->register(new Action(new Resource('GET', '/www/searchresult'), function(ServerRequestInterface $request) {
+        $registry->register(new Action(new Resource('GET', '/www/searchresult'), function(ServerRequestInterface $request) {
                 /** @var ComponentController $ctrl */
                 $ctrl = $this->container->get(ComponentController::class);
                 return $ctrl->searchResult($request);
             }));
-        $this->registry->register(new Action(new Resource('GET', '/'), function(ServerRequestInterface $request) {
+        $registry->register(new Action(new Resource('GET', '/'), function(ServerRequestInterface $request) {
                 /** @var ComponentController $ctrl */
                 $ctrl = $this->container->get(ComponentController::class);
                 return $ctrl->home($request);
@@ -100,7 +101,7 @@ class Web extends AppMiddlewareAbstract implements MiddlewareInterface {
         $router = $this->container->get(RouterInterface::class);
 
         /** @var Action $action */
-        foreach ($this->registry as $action) {
+        foreach ($registry as $action) {
             $router->addRoute($action->getResource(), $action->getActionCallable());
         }
 

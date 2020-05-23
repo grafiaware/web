@@ -8,8 +8,6 @@
 
 namespace Middleware\Web\Controller;
 
-use Pes\Database\Handler\Account;
-
 use Psr\Http\Message\ServerRequestInterface;
 
 use Pes\Http\Response\RedirectResponse;
@@ -19,23 +17,24 @@ use Component\View\{
     Generated\LanguageSelectComponent,
     Generated\SearchPhraseComponent,
     Generated\SearchResultComponent,
-    Status\FlashComponent,
 };
 
 ####################
 
 use Model\Repository\{
-    MenuRepo, StatusFlashRepo
+    MenuRepo, StatusFlashRepo, MenuRootRepo, MenuItemRepo
 };
 
+use \StatusManager\StatusPresentationManager;
+
 ####################
-use Pes\Debug\Timer;
+//use Pes\Debug\Timer;
 use Pes\View\View;
 use Pes\View\Template\PhpTemplate;
 use Pes\View\Template\InterpolateTemplate;
-use Pes\View\Recorder\RecorderProvider;
-use Pes\View\Recorder\VariablesUsageRecorder;
-use Pes\View\Recorder\RecordsLogger;
+//use Pes\View\Recorder\RecorderProvider;
+//use Pes\View\Recorder\VariablesUsageRecorder;
+//use Pes\View\Recorder\RecordsLogger;
 
 
 /**
@@ -44,6 +43,9 @@ use Pes\View\Recorder\RecordsLogger;
  * @author pes2704
  */
 class ComponentController extends LayoutControllerAbstract {
+
+    const DEEAULT_HIERARCHY_ROOT_COMPONENT_NAME = 's';
+
 ######################################
     private function initLayoutTemplatesVars() {
         $theme = 'old';
@@ -86,9 +88,18 @@ class ComponentController extends LayoutControllerAbstract {
     ### action metody ###############
 
     public function home(ServerRequestInterface $request) {
-        $view = $this->createView($request);
+        /** @var MenuRootRepo $menuRootRepo */
+        $menuRootRepo = $this->container->get(MenuRootRepo::class);
+        /** @var MenuItemRepo $menuItemRepo */
+        $menuItemRepo = $this->container->get(MenuItemRepo::class);
 
-        return $this->createResponseFromView($request, $view);
+        $uidFk = $menuRootRepo->get(StatusPresentationManager::DEEAULT_HIERARCHY_ROOT_COMPONENT_NAME)->getUidFk();
+        $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
+        $rootMenuItem = $menuItemRepo->get($langCode, $uidFk );    // kořen menu
+
+        $this->statusPresentationRepo->get()->setMenuItem($rootMenuItem);
+
+        return $this->createResponseFromView($request, $this->createView($request));
     }
 
     public function item(ServerRequestInterface $request, $langCode, $uid) {

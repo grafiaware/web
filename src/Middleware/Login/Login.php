@@ -41,7 +41,8 @@ class Login extends AppMiddlewareAbstract implements MiddlewareInterface {
                     (new Container($this->getApp()->getAppContainer()))
                 );
 
-        $registry = new Registry(new MethodEnum(), new UrlPatternValidator());
+        /** @var Registry $registry */
+        $registry = $this->container->get(Registry::class);
 
         $registry->register(new Action(new Resource('POST', '/auth/v1/logout'), function(ServerRequestInterface $request) {
             /** @var LoginLogoutController $ctrl */

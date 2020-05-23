@@ -50,6 +50,12 @@ use StatusManager\StatusPresentationManagerInterface;
 use Pes\Router\RouterInterface;
 use Pes\Router\Router;
 use Pes\Router\UrlPatternValidator;
+use Pes\Router\MethodEnum;
+
+//actions
+use Pes\Action\Registry;
+use Pes\Action\Action;
+use Pes\Action\Resource;
 
 /**
  *
@@ -205,8 +211,11 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
             // router
             'logs.router.directory' => 'Logs/App',
             'logs.router.file' => 'Router.log',
+            UrlPatternValidator::class => function(ContainerInterface $c) {
+                return new UrlPatternValidator();
+                },
             Router::class => function(ContainerInterface $c) {
-                $router = new Router(new UrlPatternValidator());
+                $router = new Router($c->get(UrlPatternValidator::class));
                 if (PES_DEVELOPMENT) {
                     $router->setLogger(FileLogger::getInstance($c->get('logs.router.directory'), $c->get('logs.router.file'), FileLogger::REWRITE_LOG));
                 }
@@ -216,6 +225,17 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
     }
 
     public function getFactoriesDefinitions() {
-        return [];
+        return [
+            Registry::class => function(ContainerInterface $c) {
+                return new Registry(new MethodEnum(), $c->get(UrlPatternValidator::class));
+            },
+            Action::class => function(ContainerInterface $c) {
+                return new Action();
+            },
+            Resource::class => function(ContainerInterface $c) {
+                return new Resource();
+            },
+
+        ];
     }
 }

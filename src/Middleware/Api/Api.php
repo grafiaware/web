@@ -56,90 +56,87 @@ class Api extends AppMiddlewareAbstract implements MiddlewareInterface {
                 );
 
 ####################################
-        $this->registry = new Registry(new MethodEnum(), new UrlPatternValidator());
-
-// else {
-//            return new Response(403);  // 403 Forbidden
-//        }
+        /** @var Registry $registry */
+        $registry = $this->container->get(Registry::class);
 
         #### UserActionController ####
-        $this->registry->register(new Action(new Resource('GET', '/api/v1/useraction/app/:app'), function(ServerRequestInterface $request, $app) {
+        $registry->register(new Action(new Resource('GET', '/api/v1/useraction/app/:app'), function(ServerRequestInterface $request, $app) {
                 /** @var UserActionController $ctrl */
                 $ctrl = $this->container->get(UserActionController::class);
                 return $ctrl->app($request, $app);
         }));
 
         #### PresentationController ####
-        $this->registry->register(new Action(new Resource('POST', '/api/v1/presentation/language'), function(ServerRequestInterface $request) {
+        $registry->register(new Action(new Resource('POST', '/api/v1/presentation/language'), function(ServerRequestInterface $request) {
                 /** @var PresentationActionController $ctrl */
                 $ctrl = $this->container->get(PresentationActionController::class);
                 return $ctrl->setLangCode($request, );
         }));
-        $this->registry->register(new Action(new Resource('POST', '/api/v1/presentation/uid'), function(ServerRequestInterface $request) {
+        $registry->register(new Action(new Resource('POST', '/api/v1/presentation/uid'), function(ServerRequestInterface $request) {
                 /** @var PresentationActionController $ctrl */
                 $ctrl = $this->container->get(PresentationActionController::class);
                 return $ctrl->setPresentedItem($request);
         }));
-        $this->registry->register(new Action(new Resource('POST', '/api/v1/useraction/edit_layout'), function(ServerRequestInterface $request) {
+        $registry->register(new Action(new Resource('POST', '/api/v1/useraction/edit_layout'), function(ServerRequestInterface $request) {
                 /** @var PresentationActionController $ctrl */
                 $ctrl = $this->container->get(PresentationActionController::class);
                 return $ctrl->setEditLayout($request);
         }));
-        $this->registry->register(new Action(new Resource('POST', '/api/v1/useraction/edit_article'), function(ServerRequestInterface $request) {
+        $registry->register(new Action(new Resource('POST', '/api/v1/useraction/edit_article'), function(ServerRequestInterface $request) {
                 /** @var PresentationActionController $ctrl */
                 $ctrl = $this->container->get(PresentationActionController::class);
                 return $ctrl->setEditArticle($request);
         }));
         #### PaperController ####
-        $this->registry->register(new Action(new Resource('POST', '/api/v1/paper/:menuItemId/headline'), function(ServerRequestInterface $request, $menuItemId) {
+        $registry->register(new Action(new Resource('POST', '/api/v1/paper/:menuItemId/headline'), function(ServerRequestInterface $request, $menuItemId) {
                 /** @var PaperController $ctrl */
                 $ctrl = $this->container->get(PaperController::class);
                 return $ctrl->updateHeadline($request, $menuItemId);
         }));
-        $this->registry->register(new Action(new Resource('POST', '/api/v1/paper/:menuItemId/content/:id'), function(ServerRequestInterface $request, $menuItemId, $id) {
+        $registry->register(new Action(new Resource('POST', '/api/v1/paper/:menuItemId/content/:id'), function(ServerRequestInterface $request, $menuItemId, $id) {
                 /** @var PaperController $ctrl */
                 $ctrl = $this->container->get(PaperController::class);
                 return $ctrl->updateContent($request, $menuItemId, $id);
         }));
         #### EditItemController ####
-        $this->registry->register(new Action(new Resource('POST', '/api/v1/menu/:menuItemId/toggle'), function(ServerRequestInterface $request, $menuItemId) {
+        $registry->register(new Action(new Resource('POST', '/api/v1/menu/:menuItemId/toggle'), function(ServerRequestInterface $request, $menuItemId) {
                 /** @var EditItemController $ctrl */
                 $ctrl = $this->container->get(EditItemController::class);
                 return $ctrl->toggle($request, $menuItemId);
         }));
-        $this->registry->register(new Action(new Resource('POST', '/api/v1/menu/:menuItemId/actual'), function(ServerRequestInterface $request, $menuItemId) {
+        $registry->register(new Action(new Resource('POST', '/api/v1/menu/:menuItemId/actual'), function(ServerRequestInterface $request, $menuItemId) {
                 /** @var EditItemController $ctrl */
                 $ctrl = $this->container->get(EditItemController::class);
                 return $ctrl->actual($request, $menuItemId);
         }));
-        $this->registry->register(new Action(new Resource('POST', '/api/v1/menu/:menuItemId/title'), function(ServerRequestInterface $request, $menuItemId) {
+        $registry->register(new Action(new Resource('POST', '/api/v1/menu/:menuItemId/title'), function(ServerRequestInterface $request, $menuItemId) {
                 /** @var EditItemController $ctrl */
                 $ctrl = $this->container->get(EditItemController::class);
                 return $ctrl->title($request, $menuItemId);
         }));
 
         #### HierarchyController ####
-        $this->registry->register(new Action(new Resource('POST', '/api/v1/hierarchy/:uid/add'), function(ServerRequestInterface $request, $uid) {
+        $registry->register(new Action(new Resource('POST', '/api/v1/hierarchy/:uid/add'), function(ServerRequestInterface $request, $uid) {
             /** @var HierarchyController $ctrl */
             $ctrl = $this->container->get(HierarchyController::class);
             return $ctrl->add($request, $uid);
         }));
-        $this->registry->register(new Action(new Resource('POST', '/api/v1/hierarchy/:uid/addchild'), function(ServerRequestInterface $request, $uid) {
+        $registry->register(new Action(new Resource('POST', '/api/v1/hierarchy/:uid/addchild'), function(ServerRequestInterface $request, $uid) {
             /** @var HierarchyController $ctrl */
             $ctrl = $this->container->get(HierarchyController::class);
             return $ctrl->addchild($request, $uid);
         }));
-        $this->registry->register(new Action(new Resource('POST', '/api/v1/hierarchy/:uid/delete'), function(ServerRequestInterface $request, $uid) {
+        $registry->register(new Action(new Resource('POST', '/api/v1/hierarchy/:uid/delete'), function(ServerRequestInterface $request, $uid) {
             /** @var HierarchyController $ctrl */
             $ctrl = $this->container->get(HierarchyController::class);
             return $ctrl->delete($request, $uid);
         }));
-        $this->registry->register(new Action(new Resource('POST', '/api/v1/hierarchy/:uid/trash'), function(ServerRequestInterface $request, $uid) {
+        $registry->register(new Action(new Resource('POST', '/api/v1/hierarchy/:uid/trash'), function(ServerRequestInterface $request, $uid) {
             /** @var HierarchyController $ctrl */
             $ctrl = $this->container->get(HierarchyController::class);
             return $ctrl->trash($request, $uid);
         }));
-        $this->registry->register(new Action(new Resource('POST', '/api/v1/hierarchy/:uid/move/:parentUid'), function(ServerRequestInterface $request, $uid, $parentUid) {
+        $registry->register(new Action(new Resource('POST', '/api/v1/hierarchy/:uid/move/:parentUid'), function(ServerRequestInterface $request, $uid, $parentUid) {
             /** @var HierarchyController $ctrl */
             $ctrl = $this->container->get(HierarchyController::class);
             return $ctrl->post($request, $uid, $parentUid);
@@ -150,7 +147,7 @@ class Api extends AppMiddlewareAbstract implements MiddlewareInterface {
         $router = $this->container->get(RouterInterface::class);
 
         /** @var Action $action */
-        foreach ($this->registry as $action) {
+        foreach ($registry as $action) {
             $router->addRoute($action->getResource(), $action->getActionCallable());
         }
 
