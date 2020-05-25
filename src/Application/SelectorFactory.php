@@ -52,7 +52,7 @@ class SelectorFactory {
                 return [
                     new \Middleware\Status\SecurityStatus(),
                     new \Middleware\Status\PresentationStatus(),
-                    new \Middleware\Api\Api()
+                    new \Middleware\Actions\Actions()
                 ];},
             '/auth/'=>
             function(AppInterface $app) {

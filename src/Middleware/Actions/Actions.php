@@ -1,5 +1,5 @@
 <?php
-namespace Middleware\Api;
+namespace Middleware\Actions;
 
 use Pes\Middleware\AppMiddlewareAbstract;
 use Pes\Container\Container;
@@ -13,14 +13,14 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 use Container\{
-    ApiContainerConfigurator, HierarchyContainerConfigurator, LoginContainerConfigurator
+    ActionsContainerConfigurator, HierarchyContainerConfigurator, LoginContainerConfigurator
 };
 
-use Middleware\Api\ApiController\{
+use Middleware\Actions\ActionsController\{
     UserActionController, HierarchyController, EditItemController, PresentationActionController, PaperController
 };
 
-class Api extends AppMiddlewareAbstract implements MiddlewareInterface {
+class Actions extends AppMiddlewareAbstract implements MiddlewareInterface {
 
     ## proměnné třídy - pro dostupnost v Closure definovaných v routách ##
     private $request;
@@ -44,7 +44,7 @@ class Api extends AppMiddlewareAbstract implements MiddlewareInterface {
         // operace s menu používají databázi z menu kontejneru (upgrade), ostatní používají starou databázi z app kontejneru (připojovací informace
         // jsou v jednotlivých kontejnerech)
         $this->container =
-                (new ApiContainerConfigurator())->configure(
+                (new ActionsContainerConfigurator())->configure(
                     (new HierarchyContainerConfigurator())->configure(
                         (new Container(
                                 (new LoginContainerConfigurator())->configure(

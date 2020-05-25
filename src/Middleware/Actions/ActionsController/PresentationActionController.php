@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Middleware\Api\ApiController;
+namespace Middleware\Actions\ActionsController;
 
 use Controller\PresentationFrontControllerAbstract;
 
@@ -21,7 +21,7 @@ use Model\Repository\{
     StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo, LanguageRepo, MenuItemRepo
 };
 
-use Middleware\Api\ApiController\Exception\UnexpectedLanguageException;
+use Middleware\Actions\ActionsController\Exception\UnexpectedLanguageException;
 
 /**
  * Description of PostController

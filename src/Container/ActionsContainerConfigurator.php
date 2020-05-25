@@ -27,7 +27,7 @@ use Pes\Database\Handler\{
 };
 
 // controller
-use Middleware\Api\ApiController\{
+use \Middleware\Actions\ActionsController\{
     UserActionController, HierarchyController, EditItemController, PresentationActionController, PaperController
 };
 
@@ -61,7 +61,7 @@ use Pes\View\Recorder\RecordsLogger;
  *
  * @author pes2704
  */
-class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
+class ActionsContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getAliases() {
         return [

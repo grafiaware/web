@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Middleware\Api\ApiController;
+namespace Middleware\Actions\ActionsController;
 
 use Controller\PresentationFrontControllerAbstract;
 
@@ -14,6 +14,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 use Pes\Http\Response;
 use Pes\Http\Response\RedirectResponse;
+use Pes\Application\AppFactory;
 
 
 /**

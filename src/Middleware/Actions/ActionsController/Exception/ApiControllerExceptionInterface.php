@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Middleware\Api\ApiController\Exception;
+namespace Middleware\Actions\ActionsController\Exception;
 
 /**
  *

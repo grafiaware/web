@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Middleware\Api\ApiController;
+namespace Middleware\Actions\ActionsController;
 
 use Controller\PresentationFrontControllerAbstract;
 

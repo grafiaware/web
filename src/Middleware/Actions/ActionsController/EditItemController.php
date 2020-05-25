@@ -1,6 +1,6 @@
 <?php
 
-namespace Middleware\Api\ApiController;
+namespace Middleware\Actions\ActionsController;
 
 use Controller\PresentationFrontControllerAbstract;
 
