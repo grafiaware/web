@@ -118,7 +118,7 @@ class SelectorFactory {
         ## selector middleware
         $selector = new Selector();
 
-        // kontejner selektoru - selektor je middleware, nastavuji kontejner selektoru setMwContainer(). Selector svůj middleware kontejner pouze předává jako parametr middleware stacku (Closure) vybraného SelectorItem
+        // Selector aplikaci pouze předává jako parametr middleware stacku (Closure) vybraného SelectorItem
         if ($this->app) {
             $selector = $selector->setApp($this->app);
         }
