@@ -11,12 +11,8 @@ use Model\Repository\StatusSecurityRepo;
 
 use StatusManager\StatusSecurityManagerInterface;
 
-use Pes\Action\Registry;
-use Pes\Action\Action;
-use Pes\Action\Resource;
+use Pes\Router\RouteSegmentGenerator;
 use Pes\Router\RouterInterface;
-use Pes\Router\MethodEnum;
-use Pes\Router\UrlPatternValidator;
 
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -41,27 +37,24 @@ class Login extends AppMiddlewareAbstract implements MiddlewareInterface {
                     (new Container($this->getApp()->getAppContainer()))
                 );
 
-        /** @var Registry $registry */
-        $registry = $this->container->get(Registry::class);
+        /** @var RouteSegmentGenerator $routeGenerator */
+        $routeGenerator = $this->container->get(RouteSegmentGenerator::class);
 
-        $registry->register(new Action(new Resource('POST', '/auth/v1/logout'), function(ServerRequestInterface $request) {
+        $routeGenerator->addRouteForAction('/auth/', 'POST', '/auth/v1/logout', function(ServerRequestInterface $request) {
             /** @var LoginLogoutController $ctrl */
             $ctrl = $this->container->get(LoginLogoutController::class);
             return $ctrl->logout($request);
-        }));
-        $registry->register(new Action(new Resource('POST', '/auth/v1/login'), function(ServerRequestInterface $request) {
+            });
+        $routeGenerator->addRouteForAction('/auth/', 'POST', '/auth/v1/login', function(ServerRequestInterface $request) {
             /** @var LoginLogoutController $ctrl */
             $ctrl = $this->container->get(LoginLogoutController::class);
             return $ctrl->login($request);
-        }));
+            });
 
         /** @var $router RouterInterface */
         $router = $this->container->get(RouterInterface::class);
+        $router->exchangeRoutes($routeGenerator);
 
-        /** @var Action $action */
-        foreach ($registry as $action) {
-            $router->addRoute($action->getResource(), $action->getActionCallable());
-        }
 
         return $router->process($request, $handler) ;
     }

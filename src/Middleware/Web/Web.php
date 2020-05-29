@@ -4,12 +4,8 @@ namespace Middleware\Web;
 use Pes\Middleware\AppMiddlewareAbstract;
 use Pes\Container\Container;
 
-use Pes\Action\Registry;
-use Pes\Action\Action;
-use Pes\Action\Resource;
+use Pes\Router\RouteSegmentGenerator;
 use Pes\Router\RouterInterface;
-use Pes\Router\MethodEnum;
-use Pes\Router\UrlPatternValidator;
 
 use Pes\Acl\ResourcePrefix;
 
@@ -41,11 +37,6 @@ class Web extends AppMiddlewareAbstract implements MiddlewareInterface {
      */
     protected $statusSecurityManager;
 
-    /**
-     * @var Registry
-     */
-    private $registry;
-
     private $container;
 
     /**
@@ -72,42 +63,36 @@ class Web extends AppMiddlewareAbstract implements MiddlewareInterface {
                 )
             );
 
-        /** @var Registry $registry */
-        $registry = $this->container->get(Registry::class);
+        /** @var RouteSegmentGenerator $routeGenerator */
+        $routeGenerator = $this->container->get(RouteSegmentGenerator::class);
 
-        $registry->register(new Action(new Resource('GET', '/www/last'), function(ServerRequestInterface $request) {
-                /** @var ComponentController $ctrl */
-                $ctrl = $this->container->get(ComponentController::class);
-                return $ctrl->last($request);
-            }));
-        $registry->register(new Action(new Resource('GET', '/www/item/:langCode/:uid'), function(ServerRequestInterface $request, $langCode, $uid) {
-                /** @var ComponentController $ctrl */
-                $ctrl = $this->container->get(ComponentController::class);
-                return $ctrl->item($request, $langCode, $uid);
-            }));
-        $registry->register(new Action(new Resource('GET', '/www/searchresult'), function(ServerRequestInterface $request) {
-                /** @var ComponentController $ctrl */
-                $ctrl = $this->container->get(ComponentController::class);
-                return $ctrl->searchResult($request);
-            }));
-        $registry->register(new Action(new Resource('GET', '/'), function(ServerRequestInterface $request) {
-                /** @var ComponentController $ctrl */
-                $ctrl = $this->container->get(ComponentController::class);
-                return $ctrl->home($request);
-            }));
+        $routeGenerator->addRouteForAction('/www/', 'GET', '/www/last', function(ServerRequestInterface $request) {
+            /** @var ComponentController $ctrl */
+            $ctrl = $this->container->get(ComponentController::class);
+            return $ctrl->last($request);
+            });
+        $routeGenerator->addRouteForAction('/www/', 'GET', '/www/item/:langCode/:uid', function(ServerRequestInterface $request, $langCode, $uid) {
+            /** @var ComponentController $ctrl */
+            $ctrl = $this->container->get(ComponentController::class);
+            return $ctrl->item($request, $langCode, $uid);
+            });
+        $routeGenerator->addRouteForAction('/www/', 'GET', '/www/searchresult', function(ServerRequestInterface $request) {
+            /** @var ComponentController $ctrl */
+            $ctrl = $this->container->get(ComponentController::class);
+            return $ctrl->searchResult($request);
+            });
+        $routeGenerator->addRouteForAction('/', 'GET', '/', function(ServerRequestInterface $request) {
+            /** @var ComponentController $ctrl */
+            $ctrl = $this->container->get(ComponentController::class);
+            return $ctrl->home($request);
+            });
 
 ####################################
         /** @var $router RouterInterface */
         $router = $this->container->get(RouterInterface::class);
-
-        /** @var Action $action */
-        foreach ($registry as $action) {
-            $router->addRoute($action->getResource(), $action->getActionCallable());
-        }
+        $router->exchangeRoutes($routeGenerator);
 
         return $router->process($request, $handler) ;
-
-//        return $router->route($request) ;
     }
 }
 

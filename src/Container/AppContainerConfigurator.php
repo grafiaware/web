@@ -52,10 +52,10 @@ use Pes\Router\Router;
 use Pes\Router\UrlPatternValidator;
 use Pes\Router\MethodEnum;
 
-//actions
-use Pes\Action\Registry;
-use Pes\Action\Action;
-use Pes\Action\Resource;
+use Pes\Router\Resource\ResourceRegistry;
+use Pes\Router\Resource\ResourceRegistryInterface;
+use Pes\Router\RouteSegmentGenerator;
+use Application\Api\ApiRegistrator;
 
 /**
  *
@@ -71,7 +71,7 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
             StatusPresentationManagerInterface::class => StatusPresentationManager::class,
             UserInterface::class => User::class,
             RouterInterface::class => Router::class,
-
+            ResourceRegistryInterface::class => ResourceRegistry::class,
         ];
     }
 
@@ -211,30 +211,33 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
             // router
             'logs.router.directory' => 'Logs/App',
             'logs.router.file' => 'Router.log',
+            MethodEnum::class => function(ContainerInterface $c) {
+                return new MethodEnum();
+            },
             UrlPatternValidator::class => function(ContainerInterface $c) {
                 return new UrlPatternValidator();
-                },
+            },
             Router::class => function(ContainerInterface $c) {
-                $router = new Router($c->get(UrlPatternValidator::class));
+                $router = new Router();
                 if (PES_DEVELOPMENT) {
                     $router->setLogger(FileLogger::getInstance($c->get('logs.router.directory'), $c->get('logs.router.file'), FileLogger::REWRITE_LOG));
                 }
                 return $router;
+            },
+            ResourceRegistry::class => function(ContainerInterface $c) {
+                return new ResourceRegistry();
+            },
+            ApiRegistrator::class => function(ContainerInterface $c) {
+                return new ApiRegistrator($c->get(MethodEnum::class), $c->get(UrlPatternValidator::class));
+            },
+            RouteSegmentGenerator::class => function(ContainerInterface $c) {
+                return new RouteSegmentGenerator($c->get(ResourceRegistry::class));
             },
         ];
     }
 
     public function getFactoriesDefinitions() {
         return [
-            Registry::class => function(ContainerInterface $c) {
-                return new Registry(new MethodEnum(), $c->get(UrlPatternValidator::class));
-            },
-            Action::class => function(ContainerInterface $c) {
-                return new Action();
-            },
-            Resource::class => function(ContainerInterface $c) {
-                return new Resource();
-            },
 
         ];
     }
