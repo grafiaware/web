@@ -10,6 +10,9 @@ include 'vendor/pes/pes/src/Bootstrap/Bootstrap.php';
 
 use Application\WebAppFactory;
 use Application\SelectorFactory;
+use Application\Api\ApiRegistrator;
+use Pes\Router\Resource\ResourceRegistry;
+
 use Pes\Container\AutowiringContainer;
 
 use Pes\Http\Factory\EnvironmentFactory;
@@ -18,7 +21,10 @@ use Pes\Http\ResponseSender;
 
 $environment = (new EnvironmentFactory())->createFromGlobals();
 $app = (new WebAppFactory())->createFromEnvironment($environment);
+// middleware selector
 $selector = (new SelectorFactory($app))->create();
+// registrace api do ResourceRegistry, ResourceRegistry se zaregistrovaným api je dostupný v kontejneru aplikace
+$app->getAppContainer()->get(ApiRegistrator::class)->registerApi($app->getAppContainer()->get(ResourceRegistry::class));
 
 $response = $app->run($selector, new UnprocessedRequestHandler());
 
