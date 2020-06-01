@@ -15,6 +15,8 @@ use Model\Repository\{
     StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo
 };
 
+use \Pes\Router\Resource\ResourceRegistryInterface;
+
 use Model\Entity\StatusFlash;
 
 use Psr\Http\Message\ServerRequestInterface;
@@ -36,14 +38,20 @@ abstract class PresentationFrontControllerAbstract extends StatusFrontController
      */
     protected $statusPresentationRepo;
 
+    /**
+     * @var ResourceRegistryInterface
+     */
+    protected $resourceRegistry;
+
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusFlashRepo $statusFlashRepo,
-            StatusPresentationRepo $statusPresentationRepo
+            StatusPresentationRepo $statusPresentationRepo,
+            ResourceRegistryInterface $resourceRegistry=null
             ) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo);
         $this->statusPresentationRepo = $statusPresentationRepo;
-
+        $this->resourceRegistry = $resourceRegistry;
     }
 
     /**
@@ -53,6 +61,8 @@ abstract class PresentationFrontControllerAbstract extends StatusFrontController
      * @return ResponseInterface
      */
     public function createResponseFromView(ServerRequestInterface $request, ViewInterface $view): ResponseInterface {
+
+        $view->setData($data);
         $response = (new ResponseFactory())->createResponse();
 
         ####  hlavičky  ####
