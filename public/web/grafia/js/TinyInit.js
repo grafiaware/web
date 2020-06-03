@@ -99,7 +99,7 @@ var contentConfig = {
 };
 
 var segmentConfig = {
-  selector: '.headlined.editable content', //.segment:not(.locked):not(.notpermitted) .grafia.segment...
+  selector: '.headlined.editable .content_edit', //.segment:not(.locked):not(.notpermitted) .grafia.segment...
     schema : 'html5',
     language : 'cs',
 
@@ -230,7 +230,7 @@ var segmentConfig = {
 };
 
 var blockConfig = {
-    selector: '.block.editable content',
+    selector: '.block.editable .content_edit',
     schema : 'html5',
     language : 'cs',
 
