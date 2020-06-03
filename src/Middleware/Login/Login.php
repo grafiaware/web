@@ -40,12 +40,12 @@ class Login extends AppMiddlewareAbstract implements MiddlewareInterface {
         /** @var RouteSegmentGenerator $routeGenerator */
         $routeGenerator = $this->container->get(RouteSegmentGenerator::class);
 
-        $routeGenerator->addRouteForAction('/auth/', 'POST', '/auth/v1/logout', function(ServerRequestInterface $request) {
+        $routeGenerator->addRouteForAction('POST', '/auth/v1/logout', function(ServerRequestInterface $request) {
             /** @var LoginLogoutController $ctrl */
             $ctrl = $this->container->get(LoginLogoutController::class);
             return $ctrl->logout($request);
             });
-        $routeGenerator->addRouteForAction('/auth/', 'POST', '/auth/v1/login', function(ServerRequestInterface $request) {
+        $routeGenerator->addRouteForAction('POST', '/auth/v1/login', function(ServerRequestInterface $request) {
             /** @var LoginLogoutController $ctrl */
             $ctrl = $this->container->get(LoginLogoutController::class);
             return $ctrl->login($request);

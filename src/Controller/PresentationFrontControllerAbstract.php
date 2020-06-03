@@ -62,7 +62,6 @@ abstract class PresentationFrontControllerAbstract extends StatusFrontController
      */
     public function createResponseFromView(ServerRequestInterface $request, ViewInterface $view): ResponseInterface {
 
-        $view->setData($data);
         $response = (new ResponseFactory())->createResponse();
 
         ####  hlavičky  ####

@@ -60,84 +60,84 @@ class Actions extends AppMiddlewareAbstract implements MiddlewareInterface {
         $routeGenerator = $this->container->get(RouteSegmentGenerator::class);
 
         #### UserActionController ####
-        $routeGenerator->addRouteForAction('/api/', 'GET', '/api/v1/useraction/app/:app', function(ServerRequestInterface $request, $app) {
+        $routeGenerator->addRouteForAction('GET', '/api/v1/useraction/app/:app', function(ServerRequestInterface $request, $app) {
             /** @var UserActionController $ctrl */
             $ctrl = $this->container->get(UserActionController::class);
             return $ctrl->app($request, $app);
             });
 
         #### PresentationController ####
-        $routeGenerator->addRouteForAction('/api/', 'POST', '/api/v1/presentation/language', function(ServerRequestInterface $request) {
+        $routeGenerator->addRouteForAction('POST', '/api/v1/presentation/language', function(ServerRequestInterface $request) {
                 /** @var PresentationActionController $ctrl */
                 $ctrl = $this->container->get(PresentationActionController::class);
                 return $ctrl->setLangCode($request, );
         });
-        $routeGenerator->addRouteForAction('/api/', 'POST', '/api/v1/presentation/uid', function(ServerRequestInterface $request) {
+        $routeGenerator->addRouteForAction('POST', '/api/v1/presentation/uid', function(ServerRequestInterface $request) {
                 /** @var PresentationActionController $ctrl */
                 $ctrl = $this->container->get(PresentationActionController::class);
                 return $ctrl->setPresentedItem($request);
         });
-        $routeGenerator->addRouteForAction('/api/', 'POST', '/api/v1/useraction/edit_layout', function(ServerRequestInterface $request) {
+        $routeGenerator->addRouteForAction('POST', '/api/v1/useraction/edit_layout', function(ServerRequestInterface $request) {
                 /** @var PresentationActionController $ctrl */
                 $ctrl = $this->container->get(PresentationActionController::class);
                 return $ctrl->setEditLayout($request);
         });
-        $routeGenerator->addRouteForAction('/api/', 'POST', '/api/v1/useraction/edit_article', function(ServerRequestInterface $request) {
+        $routeGenerator->addRouteForAction('POST', '/api/v1/useraction/edit_article', function(ServerRequestInterface $request) {
                 /** @var PresentationActionController $ctrl */
                 $ctrl = $this->container->get(PresentationActionController::class);
                 return $ctrl->setEditArticle($request);
         });
 
         #### PaperController ####
-        $routeGenerator->addRouteForAction('/api/', 'POST', '/api/v1/paper/:menuItemId/headline', function(ServerRequestInterface $request, $menuItemId) {
+        $routeGenerator->addRouteForAction('POST', '/api/v1/paper/:menuItemId/headline', function(ServerRequestInterface $request, $menuItemId) {
                 /** @var PaperController $ctrl */
                 $ctrl = $this->container->get(PaperController::class);
                 return $ctrl->updateHeadline($request, $menuItemId);
         });
-        $routeGenerator->addRouteForAction('/api/', 'POST', '/api/v1/paper/:menuItemId/content/:id', function(ServerRequestInterface $request, $menuItemId, $id) {
+        $routeGenerator->addRouteForAction('POST', '/api/v1/paper/:menuItemId/content/:id', function(ServerRequestInterface $request, $menuItemId, $id) {
                 /** @var PaperController $ctrl */
                 $ctrl = $this->container->get(PaperController::class);
                 return $ctrl->updateContent($request, $menuItemId, $id);
         });
         #### EditItemController ####
-        $routeGenerator->addRouteForAction('/api/', 'POST', '/api/v1/menu/:menuItemId/toggle', function(ServerRequestInterface $request, $menuItemId) {
+        $routeGenerator->addRouteForAction('POST', '/api/v1/menu/:menuItemId/toggle', function(ServerRequestInterface $request, $menuItemId) {
                 /** @var EditItemController $ctrl */
                 $ctrl = $this->container->get(EditItemController::class);
                 return $ctrl->toggle($request, $menuItemId);
         });
-        $routeGenerator->addRouteForAction('/api/', 'POST', '/api/v1/menu/:menuItemId/actual', function(ServerRequestInterface $request, $menuItemId) {
+        $routeGenerator->addRouteForAction('POST', '/api/v1/menu/:menuItemId/actual', function(ServerRequestInterface $request, $menuItemId) {
                 /** @var EditItemController $ctrl */
                 $ctrl = $this->container->get(EditItemController::class);
                 return $ctrl->actual($request, $menuItemId);
         });
-        $routeGenerator->addRouteForAction('/api/', 'POST', '/api/v1/menu/:menuItemId/title', function(ServerRequestInterface $request, $menuItemId) {
+        $routeGenerator->addRouteForAction('POST', '/api/v1/menu/:menuItemId/title', function(ServerRequestInterface $request, $menuItemId) {
                 /** @var EditItemController $ctrl */
                 $ctrl = $this->container->get(EditItemController::class);
                 return $ctrl->title($request, $menuItemId);
         });
 
         #### HierarchyController ####
-        $routeGenerator->addRouteForAction('/api/', 'POST', '/api/v1/hierarchy/:uid/add', function(ServerRequestInterface $request, $uid) {
+        $routeGenerator->addRouteForAction('POST', '/api/v1/hierarchy/:uid/add', function(ServerRequestInterface $request, $uid) {
             /** @var HierarchyController $ctrl */
             $ctrl = $this->container->get(HierarchyController::class);
             return $ctrl->add($request, $uid);
         });
-        $routeGenerator->addRouteForAction('/api/', 'POST', '/api/v1/hierarchy/:uid/addchild', function(ServerRequestInterface $request, $uid) {
+        $routeGenerator->addRouteForAction('POST', '/api/v1/hierarchy/:uid/addchild', function(ServerRequestInterface $request, $uid) {
             /** @var HierarchyController $ctrl */
             $ctrl = $this->container->get(HierarchyController::class);
             return $ctrl->addchild($request, $uid);
         });
-        $routeGenerator->addRouteForAction('/api/', 'POST', '/api/v1/hierarchy/:uid/delete', function(ServerRequestInterface $request, $uid) {
+        $routeGenerator->addRouteForAction('POST', '/api/v1/hierarchy/:uid/delete', function(ServerRequestInterface $request, $uid) {
             /** @var HierarchyController $ctrl */
             $ctrl = $this->container->get(HierarchyController::class);
             return $ctrl->delete($request, $uid);
         });
-        $routeGenerator->addRouteForAction('/api/', 'POST', '/api/v1/hierarchy/:uid/trash', function(ServerRequestInterface $request, $uid) {
+        $routeGenerator->addRouteForAction('POST', '/api/v1/hierarchy/:uid/trash', function(ServerRequestInterface $request, $uid) {
             /** @var HierarchyController $ctrl */
             $ctrl = $this->container->get(HierarchyController::class);
             return $ctrl->trash($request, $uid);
         });
-        $routeGenerator->addRouteForAction('/api/', 'POST', '/api/v1/hierarchy/:uid/move/:parentUid', function(ServerRequestInterface $request, $uid, $parentUid) {
+        $routeGenerator->addRouteForAction('POST', '/api/v1/hierarchy/:uid/move/:parentUid', function(ServerRequestInterface $request, $uid, $parentUid) {
             /** @var HierarchyController $ctrl */
             $ctrl = $this->container->get(HierarchyController::class);
             return $ctrl->post($request, $uid, $parentUid);

@@ -213,10 +213,14 @@ class ComponentController extends LayoutControllerAbstract {
                                 'urlSemanticCss' => $webPublicDir."semantic/dist/semantic.min.css",
                                 'urlZkouskaCss' => $webPublicDir."grafia/css/zkouska_less.css",
                             ]),
-                        'urlTinyMCE' => $commonPublicDir.'tinymce/tinymce.min.js', // "https://cloud.tinymce.com/5/tinymce.min.js"
-                        'urlTinyInit' => $webPublicDir.'grafia/js/TinyInit.js',
-                        'editScript' => \Middleware\Web\AppContext::getAppPublicDirectory() . 'grafia/js/edit.js',
-                        'kalendarScript' => \Middleware\Web\AppContext::getAppPublicDirectory() . 'grafia/js/kalendar.js',
+                'urlTinyMCE' => $commonPublicDir.'tinymce/tinymce.min.js',
+                'urlJqueryTinyMCE' => $commonPublicDir.'tinymce/jquery.tinymce.min.js',
+//    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+//    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+//    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/jquery.tinymce.min.js" referrerpolicy="origin"></script>
+                'urlTinyInit' => $webPublicDir.'grafia/js/TinyInit.js',
+                'editScript' => $webPublicDir . 'grafia/js/edit.js',
+                'kalendarScript' => $webPublicDir . 'grafia/js/kalendar.js',
                     ]),
 
             ];
@@ -242,6 +246,7 @@ class ComponentController extends LayoutControllerAbstract {
         ];
     }
 
+    // pro debug
     private function getEmptyMenuComponents() {
             return [
                 'menuPresmerovani' => $this->container->get(View::class),
