@@ -1,12 +1,11 @@
-
-$('.editDate .button.toolsPage').click(function(){
-    $(this).parent(".editDate").siblings(".editPage").css("display", "block");
+$('.editDate .button.toolsContent').click(function(){
+    $(this).parent(".editDate").siblings(".contentButtons").css("display", "block");
     $(this).parent(".editDate").css("display", "none");
     $(this).parent(".editDate").siblings(".editDate").css("display", "none");
 });
-$('.editPage .button.toolsDate').click(function(){
-    $(this).parent(".editPage").siblings(".editDate").css("display", "block");
-    $(this).parent(".editPage").css("display", "none");
+$('.contentButtons .button.toolsDate').click(function(){
+    $(this).parent(".editContent").parent(".contentButtons").siblings(".editDate").css("display", "block");
+    $(this).parent(".editContent").parent(".contentButtons").css("display", "none");
 });
 
 $('.edit_kalendar .ui.calendar').calendar({ 

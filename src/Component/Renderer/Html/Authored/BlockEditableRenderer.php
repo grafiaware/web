@@ -34,9 +34,11 @@ class BlockEditableRenderer extends AuthoredEditableRendererAbstract {
         }
 
         if (isset($menuNode) AND isset($paper)) {
+            $active = $menuNode->getMenuItem()->getActive();
+            $actual = $menuNode->getMenuItem()->getActual();
             $innerHtml =
-                 $this->renderButtonsForm($menuNode)
-                .$this->renderContentsForms($paper);
+                $this->renderContentButtonsForm($menuNode)
+                .$this->renderContentsForms($paper , $active, $actual);
             $style = "display: block;";
         } else {
             $innerHtml = Html::tag('div', ['data-component'=>$name], 'No data item or article for rendering.');

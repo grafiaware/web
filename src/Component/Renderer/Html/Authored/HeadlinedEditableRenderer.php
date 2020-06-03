@@ -41,11 +41,12 @@ class HeadlinedEditableRenderer extends AuthoredEditableRendererAbstract {
 //                'onblur'=>'var throw=confirm("Chcete zahodit změny v obsahu headline?"); if (throw==false) {document.getElementByName("headline").focus(); }'
             $active = $menuNode->getMenuItem()->getActive();
             $actual = $menuNode->getMenuItem()->getActual();
-            $buttonsForm =  $this->renderButtonsForm($menuNode);
+            $paperButtonsForm =  $this->renderPaperButtonsForm($menuNode);
+            $contentButtonsForm = $this->renderContentButtonsForm($menuNode);
             $headlineForm = $this->renderHeadlineForm($paper, $active, $actual);
-            $contentsForms = $this->renderContentsForms($paper);
+            $contentsForms = $this->renderContentsForms($paper, $active, $actual);
 
-            $innerHtml = $buttonsForm.$headlineForm.$contentsForms;
+            $innerHtml = $paperButtonsForm.$headlineForm.$contentButtonsForm.$contentsForms;
         } else {
             $innerHtml = Html::tag('div', [], 'Missing data item or article for rendering.');
         }
