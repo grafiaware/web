@@ -22,82 +22,6 @@ var headlineConfig = {
     custom_elements: 'headline'
 };
 
-var contentConfig = {
-    selector: '.articleContent-editable',
-    schema : 'html5',
-    language : 'cs',
-
-    //menubar: false,
-    inline: true,
-    plugins: [
-       'paste advlist autolink lists link  charmap  preview hr anchor pagebreak image code', // codesample print  //
-       'searchreplace wordcount visualblocks visualchars code fullscreen',
-       'insertdatetime  nonbreaking save autosave table directionality',
-       'template textpattern searchreplace example'
-    ],
-    toolbar1: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent |' +
-            'hr | nonbreaking',
-    toolbar2: 'forecolor backcolor ' + ' | fontselect  fontsizeselect | code | searchreplace template | link image example',  // charmap',
-
-    relative_urls : true,
-    document_base_url : rsUrls.basePath,
-    content_css: [rsUrls.editorCss, rsUrls.semanticCss, rsUrls.zkouskaCss],
-    templates: [
-        { title: 'Kontakt', description: 'Grafia web - kontakt',       url: rsUrls.prefixTemplates + 'kontakt.html'}, //vztaženo k rootu RS, tam kde je index redakčního s.
-        { title: 'Publikace', description: 'Grafia web - publikace',   url: rsUrls.prefixTemplates + 'publikace.html'},
-        { title: 'Bloky na titulku', description: 'Grafia web - bloky na titulku', url: rsUrls.prefixTemplates + 'titulka.html'},
-        { title: 'Bloky na titulku Semantic', description: 'Grafia web - bloky na titulku', url: rsUrls.prefixTemplates + 'titulka_1.html'},
-        { title: 'Stránka', description: 'Grafia web - stránka',        url: rsUrls.prefixTemplates + 'stranka.html'},
-        { title: '----',    description: 'oddelovac',  url: '' },
-        { title: 'Odkaz(y) celoplošné na střed', description: 'HTML bubliny.' ,    url: rsUrls.prefixTemplates + 'odkaz_bubliny_stred_flex.html' },
-        { title: 'Odkaz(y) 3D tlačítka na střed', description: 'HTML bubliny.' ,   url: rsUrls.prefixTemplates + 'odkaz_3D_tlacitka_stred_flex.html' },
-        { title: 'Blok na střed', description: 'Blok na střed.' ,     url: rsUrls.prefixTemplates + 'box_stred_flex.html' },
-        { title: 'Blok s legendou', description: 'Blok s legendou.' ,     url: rsUrls.prefixTemplates + 'blok_s_legendou.html' },
-        { title: '----',    description: 'oddelovac',  url: '' },
-        { title: 'Obrázek vpravo a text', description: 'Bez obtékání. Dva sloupce', url: rsUrls.prefixTemplates + 'obrazekVpravo_blok.html'},
-        { title: 'Obrázek vlevo a text', description: 'Bez obtékání. Dva sloupce', url: rsUrls.prefixTemplates + 'obrazekVlevo_blok.html'},
-        { title: 'Publikace - 2', description: 'Vložení publikací na stránku', url: rsUrls.prefixTemplates + 'eshop_radka.html'},
-        { title: 'Publikace - 1', description: 'Vložení publikace na stránku', url: rsUrls.prefixTemplates + 'eshop_nove.html'},
-        { title: '---Tvorba šablon---',    description: 'oddelovac',  url: '' },
-        { title: 'Nutné k vytvoření šablon', description: 'Vložte nejprve tuto šablonu a do ní vkládejte ostatní prvky této sekce' , url: rsUrls.prefixTemplates + 'grid.html' },
-        { title: 'Ohraničený blok', description: 'Univerzální šablona pro vytvoření bloků', url: rsUrls.prefixTemplates + 'ohraniceny_blok.html'},
-        { title: 'Neohraničený blok', description: 'Univerzální šablona pro vytvoření bloků', url: rsUrls.prefixTemplates + 'neohraniceny_blok.html'},
-    ],
-    color_map: [
-        '000000', 'Black',
-        '808080','Gray',
-        '999999','Medium gray',
-        'FFFFFF','White',
-        'EB1B4C','Grafia-červená',
-        '000080','Grafia-modrá'
-    ],
-    font_formats:
-        'Arial=arial,helvetica,sans-serif;'+
-        'Arial Black=arial black,avant garde;'+
-        'Impact=impact,chicago;'+
-        'Verdana=verdana,geneva;',
-
-    fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt',
-    insertdatetime_formats: [ '%d.%m.%Y', '%H:%M:%S' ],
-
-    image_advtab: true,
-    image_title: true,
-    image_class_list: [    //classy se po vybrani neskladaji
-        {title: 'Vyberte styl obrázku (Vyp.)', value: ''},
-        {title: 'Obrázek obtékaný zprava', value: 'image_vlevo'},
-        {title: 'Obrázek obtékaný zleva', value: 'image_vpravo'},
-        {title: 'Rámeček 1px černý', value: 'image_ramecek'},
-        {title: 'Obtékaný zprava a rámeček', value: 'image_vlevo_ramecek'},
-        {title: 'Obtékaný zleva a rámeček', value: 'image_vpravo_ramecek'}
-    ],
-    link_class_list: [
-        {title: 'Odkaz jako tlačítko (Vyp.)', value: ''},
-        {title: 'Primární tlačítko', value: 'ui primary button'},
-        {title: 'Sekundární tlačítko', value: 'ui secondary button'}
-    ],
-    custom_undo_redo_levels: 30
-};
-
 var segmentConfig = {
   selector: '.headlined.editable .content_edit', //.segment:not(.locked):not(.notpermitted) .grafia.segment...
     schema : 'html5',
@@ -267,7 +191,6 @@ var headerFooterConfig = {
 
 
 tinymce.init(headlineConfig);
-//tinymce.init(contentConfig);
 tinymce.init(segmentConfig);
 tinymce.init(blockConfig);
 tinymce.init(headerFooterConfig);
