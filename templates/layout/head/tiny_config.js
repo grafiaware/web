@@ -1,7 +1,6 @@
-var rsUrls = {
+var tinyConfig = {
     basePath: '{{basePath}}',
-    stylesCss : '{{urlStylesCss}}',
-    semanticCss : '{{urlSemanticCss}}',
-    zkouskaCss : '{{urlZkouskaCss}}',
-    prefixTemplates : '{{urlPrefixTemplatesTinyMce}}'
+    contentCss: ['{{urlStylesCss}}', '{{urlSemanticCss}}', '{{urlZkouskaCss}}'],
+    templatesPath : '{{templatesPath}}',
+    toolbarsLang: '{{toolbarsLang}}'
 };
