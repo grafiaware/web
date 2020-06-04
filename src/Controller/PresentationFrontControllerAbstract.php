@@ -74,7 +74,7 @@ abstract class PresentationFrontControllerAbstract extends StatusFrontController
     }
 
     /**
-     *
+     * Přetěžuje addHeaders() z FrontControllerAbstract
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
      * @return ResponseInterface
