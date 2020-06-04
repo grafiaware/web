@@ -23,9 +23,10 @@ use Pes\Text\Html;
  */
 abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
 
-    protected function renderPaperButtonsForm(MenuNodeInterface $menuNode) {
+    protected function renderPaperButtonsForm(MenuNodeInterface $paperMenuNode) {
         //TODO: atributy data-tooltip a data-position jsou pro semantic - zde jsou napevno zadané
-        
+        $uid = $paperMenuNode->getUid();
+        $active = $paperMenuNode->getMenuItem()->getActive();
         return
 
         Html::tag('form', ['method'=>'POST', 'action'=>""],
@@ -37,9 +38,9 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
                     'name'=>'button',
                     'value' => 'toggle',
                     'formmethod'=>'post',
-                    'formaction'=>"api/v1/menu/{$menuNode->getUid()}/toggle",
+                    'formaction'=>"api/v1/menu/$uid/toggle",
                     ],
-                    Html::tag('i', ['class'=>$this->classMap->resolveClass($menuNode->getMenuItem()->getActive(), 'PaperButtons', 'div button1 i.on', 'div button1 i.off')])
+                    Html::tag('i', ['class'=>$this->classMap->resolveClass($active, 'PaperButtons', 'div button1 i.on', 'div button1 i.off')])
                 )
                 .Html::tag('button', [
                     'class'=>$this->classMap->getClass('PaperButtons', 'div button'),
@@ -54,12 +55,14 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
         );
     }
     
-    protected function renderContentButtonsForm(MenuNodeInterface $menuNode) {
+    protected function renderContentButtonsForm(MenuNodeInterface $contentMenuNode) {
         //TODO: atributy data-tooltip a data-position jsou pro semantic - zde jsou napevno zadané
-        $show = $menuNode->getMenuItem()->getShowTime();
-        $hide = $menuNode->getMenuItem()->getHideTime();
-
-
+        $show = $contentMenuNode->getMenuItem()->getShowTime();
+        $hide = $contentMenuNode->getMenuItem()->getHideTime();
+        $uid = $contentMenuNode->getUid();
+        $active = $contentMenuNode->getMenuItem()->getActive();
+        $actual = $contentMenuNode->getMenuItem()->getActual();
+        
         if (isset($show)) {
             $showTime = $show;//->format("d.m.Y") ;
             if (isset($hide)) {
@@ -91,9 +94,9 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
                         'name'=>'button',
                         'value' => 'toggle',
                         'formmethod'=>'post',
-                        'formaction'=>"api/v1/menu/{$menuNode->getUid()}/toggle",
+                        'formaction'=>"api/v1/menu/$uid/toggle",
                         ],
-                        Html::tag('i', ['class'=>$this->classMap->resolveClass($menuNode->getMenuItem()->getActive(), 'ContentButtons', 'div div button1 i.on', 'div div button1 i.off')])
+                        Html::tag('i', ['class'=>$this->classMap->resolveClass($active, 'ContentButtons', 'div div button1 i.on', 'div div button1 i.off')])
                     )
                     .Html::tag('button', [
                         'class'=>$this->classMap->getClass('ContentButtons', 'div div button.date'),
@@ -187,7 +190,7 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
                     'name'=>'button',
                     'value' => 'permanent',
                     'formmethod'=>'post',
-                    'formaction'=>"api/v1/menu/{$menuNode->getUid()}/actual/",
+                    'formaction'=>"api/v1/menu/$uid/actual/",
                     ],
                     Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'div button16 i')])
                 )
@@ -199,7 +202,7 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
                     'name'=>'button',
                     'value' => 'calendar',
                     'formmethod'=>'post',
-                    'formaction'=>"api/v1/menu/{$menuNode->getUid()}/actual/",
+                    'formaction'=>"api/v1/menu/$uid/actual/",
                     ],
                     Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'div button17 i')])
                 )
@@ -223,13 +226,13 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
                         Html::tag('p', ['class'=>$this->classMap->getClass('ContentButtons', 'div div div p')], 'Uveřejnit od')
                         .Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div div div div')],
                             Html::tag('div',['class'=>$this->classMap->getClass('ContentButtons', 'div div div div div')],
-                                Html::tagNopair('input', ['type'=>'text', 'name'=>'show', 'placeholder'=>'Klikněte pro výběr data', 'value'=>$menuNode->getMenuItem()->getShowTime()])
+                                Html::tagNopair('input', ['type'=>'text', 'name'=>'show', 'placeholder'=>'Klikněte pro výběr data', 'value'=>$show])
                             )
                          )
                         .Html::tag('p', ['class'=>$this->classMap->getClass('ContentButtons', 'div div div p')], 'Uveřejnit do')
                         .Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div div div div')],
                             Html::tag('div',['class'=>$this->classMap->getClass('ContentButtons', 'div div div div div')],
-                            Html::tagNopair('input', ['type'=>'text', 'name'=>'hide', 'placeholder'=>'Klikněte pro výběr data', 'value'=> $menuNode->getMenuItem()->getHideTime()])
+                            Html::tagNopair('input', ['type'=>'text', 'name'=>'hide', 'placeholder'=>'Klikněte pro výběr data', 'value'=> $hide])
                         )
                     )
                 )
@@ -237,65 +240,80 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
         );
     }
 
-    protected function renderContentsForms(PaperInterface $paper, $active, $actual) {
+    protected function renderContentsDivs(PaperInterface $paper, MenuNodeInterface $contentMenuNode) {
+        $active = $contentMenuNode->getMenuItem()->getActive();
+        $actual = $contentMenuNode->getMenuItem()->getActual();
+        
         foreach ($paper->getPaperContentsArray() as $id => $paperContent) {
             /** @var PaperContentInterface $paperContent */
             $form[] =
-                Html::tag('form',
-                    ['method'=>'POST', 'action'=>"api/v1/paper/{$paperContent->getMenuItemIdFk()}/content/{$paperContent->getId()}"],
-                    Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'form div')],
+                Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div')],
+                    Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div div')],
                             Html::tag('i',
                                 ['class'=> $this->classMap->resolveClass(($active AND $actual), 'Content',
-                                    'form div i1.published', 'form div i1.notpublished')
+                                    'div div i1.published', 'div div i1.notpublished')
                                 ]
                             )
                             .Html::tag('i',
                                 ['class'=> $this->classMap->resolveClass($active, 'Content',
-                                    $actual ? 'form div i2.published' : 'form div i2.notactual',
-                                    $actual ?  'form div i2.notactive' : 'form div i2.notactivenotactual')
+                                    $actual ? 'div div i2.published' : 'div div i2.notactual',
+                                    $actual ? 'div div i2.notactive' : 'div div i2.notactivenotactual')
                                 ]
                             )
                     )
-                    .Html::tag('content',
-                        [
-                            'id' => "content_{$paperContent->getId()}",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lte toto jméno také složit a hledat v POST proměnných
-                            'class'=>$this->classMap->getClass('Content', 'form content'),
-                            'data-owner'=>$paperContent->getEditor()
-                        ],
-                        Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'form content div1')],
+                    .Html::tag('form',
+                        ['method'=>'POST', 'action'=>"api/v1/paper/{$paperContent->getMenuItemIdFk()}/content/{$paperContent->getId()}"],
+                        Html::tag('content',
+                            [
+                                'id' => "content_{$paperContent->getId()}",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lte toto jméno také složit a hledat v POST proměnných
+                                'class'=>$this->classMap->getClass('Content', 'form content'),
+                                'data-owner'=>$paperContent->getEditor()
+                            ],
                             $paperContent->getContent()
-                        )
-                        .Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'form content div2')])
+                            )
                     )
+                    .$this->renderContentButtonsForm($contentMenuNode)
                 );
         }
         return implode(PHP_EOL, $form);
     }
 
-    protected function renderHeadlineForm(PaperInterface $paper, $active, $actual) {
+    /**
+     * headline semafor a form
+     * 
+     * @param PaperInterface $paper
+     * @param MenuNodeInterface $menuNode
+     * @return type
+     */
+    protected function renderHeadlineForm(PaperInterface $paper, MenuNodeInterface $menuNode) {
+        $active = $menuNode->getMenuItem()->getActive();
+        $actual = $menuNode->getMenuItem()->getActual();
         $paperHeadline = $paper->getPaperHeadline();
-        return Html::tag('form', ['method'=>'POST', 'action'=>"api/v1/paper/{$paperHeadline->getMenuItemIdFk()}/headline/"],
-                        Html::tag('div', ['class'=>$this->classMap->getClass('Headline', 'form div')],
-                            Html::tag('i',
-                                ['class'=> $this->classMap->resolveClass(($active AND $actual), 'Headline',
-                                    'form div i1.published', 'form div i1.notpublished')
-                                ]
-                            )
-                            .Html::tag('i',
-                                ['class'=> $this->classMap->resolveClass($active, 'Headline',
-                                    $actual ? 'form div i2.published' : 'form div i2.notactual',
-                                    $actual ?  'form div i2.notactive' : 'form div i2.notactivenotactual')
-                                ]
-                            )
-                        )
-                        .Html::tag(
-                            'headline',
-                            [
-                                'id'=>"headline_{$paperHeadline->getMenuItemIdFk()}",  // id musí být na stránce unikátní - skládám ze slova headline_ a MenuItemIdFk, v kontroléru lte toto jméno také složit a hledat v POST proměnných
-                                'class'=>$this->classMap->getClass('Headline', 'form headline'),
-                            ],
-                            $paperHeadline->getHeadline()
-                        )
-                    );
+        return 
+            Html::tag('div', ['class'=>$this->classMap->getClass('Headline', 'div')],
+                Html::tag('div', ['class'=>$this->classMap->getClass('Headline', 'div div')],
+                    Html::tag('i',
+                        ['class'=> $this->classMap->resolveClass(($active AND $actual), 'Headline',
+                            'div div i1.published', 'div div i1.notpublished')
+                        ]
+                    )
+                    .Html::tag('i',
+                        ['class'=> $this->classMap->resolveClass($active, 'Headline',
+                            $actual ? 'div div i2.published' : 'div div i2.notactual',
+                            $actual ?  'div div i2.notactive' : 'div div i2.notactivenotactual')
+                        ]
+                    )
+                )
+                .Html::tag('form', ['method'=>'POST', 'action'=>"api/v1/paper/{$paperHeadline->getMenuItemIdFk()}/headline/"],
+                    Html::tag(
+                        'headline',
+                        [
+                            'id'=>"headline_{$paperHeadline->getMenuItemIdFk()}",  // id musí být na stránce unikátní - skládám ze slova headline_ a MenuItemIdFk, v kontroléru lte toto jméno také složit a hledat v POST proměnných
+                            'class'=>$this->classMap->getClass('Headline', 'form headline'),
+                        ],
+                        $paperHeadline->getHeadline()
+                    )
+                )
+            );
     }
 }

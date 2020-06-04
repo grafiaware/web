@@ -4,12 +4,15 @@
  * and open the template in the editor.
  */
 
-$('.pull-out').mouseover(function(){
-    $(this).parents('.grafia.segment').find('.contentButtons').css("display", "flex");
-});
-$('.contentButtons').mouseleave(function(){
-    $(this).css("display", "none");
-});
+$('.pull-out').hover(
+    function(){
+        $(this).parents('.grafia.segment').find('.contentButtons').css("display", "flex");
+    },
+    function(){
+        $(this).parents('.grafia.segment').find('.contentButtons').css("display", "none");
+    }
+);
+
 
 function hamburger_open() {
     document.getElementById("mySidenav").style.display = "block";

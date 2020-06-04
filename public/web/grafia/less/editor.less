@@ -100,6 +100,18 @@ body.layout#tinymce{
                 background-color: @white;
             }
         }
+        > .dropdown.button{ //rozeviraci nabidka u menu
+            display: inline-table;
+            &[data-tooltip]::after{
+                font-weight: 700;
+            }
+            .menu{
+                background-color: @white;
+                button.item{
+                    font-size: 1.3em !important;
+                }
+            }
+        }
     }
     .menu.edit li.onpath.presented > .buttons.editName{
         display: none;
@@ -415,8 +427,11 @@ body.layout#tinymce{
             margin-right: -0.45em;
         }
         form{
-            margin: 5px 0;
+            margin-bottom: 5px;
             position: relative;
+        }
+        > form {
+            margin: 0;
         }
         i.grafia.active{
             left: -1em;
@@ -435,11 +450,11 @@ body.layout#tinymce{
     }
     .pull-out{
         height: 100%;
-        width: 10px;
-        top: 0;
-        right: -6px;
-        position: absolute;
+        position: relative;
         border-right: 5px double @lightGrey;
+        > form:nth-of-type(2){
+            position: static !important;
+        }
     }
     #editName{
         display: none;
@@ -488,6 +503,7 @@ body.layout#tinymce{
         display: none;
         position: absolute;
         right: 99px;
+        top: 0;
     }
     .buttons.editContent{
         position: absolute;
