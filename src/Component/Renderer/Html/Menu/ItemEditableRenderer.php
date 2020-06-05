@@ -45,27 +45,30 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
 //                            'li i2.notactive' => 'grafia actual yellow',
 //                            'li i2.notactual' => 'grafia actual orange',
 //                            'li i2.notactivenotactual' => 'grafia actual red',
-                        Html::tag('i', [
-                            'class'=> $this->classMap->resolveClass(($menuItem->getActive() AND $menuItem->getActual()), 'Item', 'li i1.published', 'li i1.notpublished'),
-                            'title'=>($menuItem->getActive() AND $menuItem->getActual()) ? "published" :  "not published"
-                            ])
-                        .Html::tag('i',
-                                [
-                                'class'=> $this->classMap->resolveClass($menuItem->getActive(), 'Item',
-                                        $menuItem->getActual() ? 'li i2.published' : 'li i2.notactual',
-                                        $menuItem->getActual() ?  'li i2.notactive' : 'li i2.notactivenotactual'
-                                    ),
-                                'role'=>"presentation",
-                                'title'=>$menuItem->getActive() ? ($menuItem->getActual() ? "active and actual" : "active but not actual") : ($menuItem->getActual() ? "actual but not active" : "not active nor actual")
-                                ])
+                        
                         // POZOR: závislost na edit.js
                         // ve skriptu edit.js je element k editaci txtu položky vybírán pravidlem (selektorem) acceptedElement = targetElement.nodeName === 'SPAN' && targetElement.parentNode.nodeName === 'P',
                         // vyvírá <span>, který má rodiče <p>
-                        .Html::tag('span', [
+                        Html::tag('span', [
                             'contenteditable'=> ($presentedEditable ? "true" : "false"),
                             'data-original-title'=>$menuItem->getTitle(),
                             'data-uid'=>$menuNode->getUid(),
                             ], $menuItem->getTitle())
+                        .Html::tag('div', ['class'=>$this->classMap->getClass('Item', 'li div')],
+                            Html::tag('i', [
+                                'class'=> $this->classMap->resolveClass(($menuItem->getActive() AND $menuItem->getActual()), 'Item', 'li div i1.published', 'li div i1.notpublished'),
+                                'title'=>($menuItem->getActive() AND $menuItem->getActual()) ? "published" :  "not published"
+                                ])
+                            .Html::tag('i',
+                                    [
+                                    'class'=> $this->classMap->resolveClass($menuItem->getActive(), 'Item',
+                                            $menuItem->getActual() ? 'li div i2.published' : 'li div i2.notactual',
+                                            $menuItem->getActual() ?  'li div i2.notactive' : 'li div i2.notactivenotactual'
+                                        ),
+                                    'role'=>"presentation",
+                                    'title'=>$menuItem->getActive() ? ($menuItem->getActual() ? "active and actual" : "active but not actual") : ($menuItem->getActual() ? "actual but not active" : "not active nor actual")
+                                    ])
+                        )
                     )
                     .Html::tag('i',
                             [
@@ -111,6 +114,17 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
                     ],
                 Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button1 i'),])
             )
+            .Html::tag('button',
+                ['class'=>$this->classMap->getClass('Buttons', 'div button'),
+                'data-tooltip'=>'Aktivní/neaktivní stránka',
+                'type'=>'submit',
+                'name'=>'button',
+                'value' => 'toggle',
+                'formmethod'=>'post',
+                'formaction'=>"api/v1/menu/{$menuNode->getUid()}/toggle",
+                ],
+                Html::tag('i', ['class'=>$this->classMap->resolveClass($menuNode->getMenuItem()->getActive(), 'Buttons', 'div button2 i.on', 'div button2 i.off')])
+            )
             .Html::tag('button', [
                 'class'=>$this->classMap->getClass('Buttons', 'div button'),
                 'data-tooltip'=>'Přidat sourozence',
@@ -119,7 +133,7 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
                 'formmethod'=>'post',
                 'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/add",
                     ],
-                Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button2 i')])
+                Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button3 i')])
             )
             .Html::tag('button', [
                 'class'=>$this->classMap->getClass('Buttons', 'div button'),
@@ -129,7 +143,7 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
                 'formmethod'=>'post',
                 'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/addchild",
                     ],
-                Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button3 i')])
+                Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button4 i')])
             )
             .Html::tag('button', [
                 'class'=>$this->classMap->getClass('Buttons', 'div button'),
@@ -140,7 +154,7 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
                 'formmethod'=>'post',
                 'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/move/senPatříCílovýParentUid",
                     ],
-                Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button4 i')])
+                Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button5 i')])
             )
         )
         .Html::tag('div', ['class'=>$this->classMap->getClass('Buttons', 'div.name')],
@@ -153,7 +167,7 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
                 'formmethod'=>'post',
                 'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/move/senPatříCílovýParentUid",
                     ],
-                Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button5 i')])
+                Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button6 i')])
             )
             .Html::tag('button', [
                 'class'=>$this->classMap->getClass('Buttons', 'div button'),
@@ -164,7 +178,7 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
                 'formmethod'=>'post',
                 'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/move/senPatříCílovýParentUid",
                     ],
-                Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button6 i')])
+                Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button7 i')])
             )
             .Html::tag('button', [
                 'class'=>$this->classMap->getClass('Buttons', 'div button'),
@@ -176,7 +190,7 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
                 //'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/move/senPatříCílovýParentUid",
                 'onclick'=>'event.preventDefault();close_edit_name()'
                     ],
-                Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button7 i')])
+                Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button8 i')])
             )
         );
     }

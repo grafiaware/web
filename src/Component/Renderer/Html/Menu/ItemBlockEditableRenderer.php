@@ -51,12 +51,14 @@ class ItemBlockEditableRenderer extends HtmlRendererAbstract {
 //                            'li i2.notactive' => 'grafia actual yellow',
 //                            'li i2.notactual' => 'grafia actual orange',
 //                            'li i2.notactivenotactual' => 'grafia actual red',
-                            Html::tag('i', ['class'=> $this->classMap->resolveClass(($menuItem->getActive() AND $menuItem->getActual()), 'Item', 'li i1.published', 'li i1.notpublished')])
-                            .Html::tag('i', ['class'=> $this->classMap->resolveClass($menuItem->getActive(), 'Item',
-                                    $menuItem->getActual() ? 'li i2.published' : 'li i2.notactual',
-                                    $menuItem->getActual() ?  'li i2.notactive' : 'li i2.notactivenotactual'
-                                    )])
-                            .$menuItem->getTitle()
+                            $menuItem->getTitle()
+                            .Html::tag('div', ['class'=>$this->classMap->getClass('Item', 'li div')],
+                                Html::tag('i', ['class'=> $this->classMap->resolveClass(($menuItem->getActive() AND $menuItem->getActual()), 'Item', 'li div i1.published', 'li div i1.notpublished')])
+                                .Html::tag('i', ['class'=> $this->classMap->resolveClass($menuItem->getActive(), 'Item',
+                                        $menuItem->getActual() ? 'li div i2.published' : 'li div i2.notactual',
+                                        $menuItem->getActual() ?  'li div i2.notactive' : 'li div i2.notactivenotactual'
+                                        )])
+                            )
                     )
                     .Html::tag('i', ['class'=>$this->classMap->resolveClass($itemViewModel->getInnerHtml(), 'Item', 'li i')])
                     .(($itemViewModel->getIsPresented() AND !$itemViewModel->getReadonly()) ? $this->renderButtons($menuNode) : '')
@@ -88,6 +90,17 @@ class ItemBlockEditableRenderer extends HtmlRendererAbstract {
                     ],
                 Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button1 i'),])
             )
+            .Html::tag('button',
+                ['class'=>$this->classMap->getClass('Buttons', 'div button'),
+                'data-tooltip'=>'Aktivní/neaktivní stránka',
+                'type'=>'submit',
+                'name'=>'button',
+                'value' => 'toggle',
+                'formmethod'=>'post',
+                'formaction'=>"api/v1/menu/{$menuNode->getUid()}/toggle",
+                ],
+                Html::tag('i', ['class'=>$this->classMap->resolveClass($menuNode->getMenuItem()->getActive(), 'Buttons', 'div button2 i.on', 'div button2 i.off')])
+            )
             .Html::tag('button', [
                 'class'=>$this->classMap->getClass('Buttons', 'div button'),
                 'data-tooltip'=>'Přidat sourozence',
@@ -97,7 +110,7 @@ class ItemBlockEditableRenderer extends HtmlRendererAbstract {
                 'formmethod'=>'post',
                 'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/add",
                     ],
-                Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button2 i')])
+                Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button3 i')])
             )
         );
     }
