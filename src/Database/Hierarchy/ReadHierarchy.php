@@ -269,7 +269,7 @@ class ReadHierarchy extends HierarchyAbstract implements ReadHierarchyInterface 
                     parent.uid, (COUNT(grand_parent.uid) - 1) AS depth, parent.left_node, parent.right_node, parent.parent_uid
                     ,
                     (SELECT COUNT(*)
-                       FROM menu_nested_set AS middle_parent
+                       FROM $this->nestedSetTableName AS middle_parent
                        WHERE middle_parent.left_node BETWEEN grand_parent.left_node AND grand_parent.right_node
                          AND parent.left_node BETWEEN middle_parent.left_node AND middle_parent.right_node
                        ) AS depth

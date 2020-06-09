@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS `menu_item_type`;
 DROP TABLE IF EXISTS `component`;
 DROP TABLE IF EXISTS `menu_root`;
 DROP TABLE IF EXISTS `menu_adjlist`;
+DROP TABLE IF EXISTS `hierarchy`;
 DROP TABLE IF EXISTS `menu_nested_set`;
 DROP TABLE IF EXISTS `language`;
 
@@ -18,7 +19,7 @@ CREATE TABLE `language` (
   UNIQUE KEY (`lang_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `menu_nested_set` (
+CREATE TABLE `hierarchy` (
   `uid` char(20) NOT NULL,
   `left_node` int(11) NOT NULL,
   `right_node` int(11) NOT NULL,
@@ -85,12 +86,12 @@ CREATE TABLE `component` (
   `name` varchar(128) NOT NULL,
   `uid_fk` varchar(45) NOT NULL,
   PRIMARY KEY (`name`),
-  CONSTRAINT `nested_set_uid_fk1` FOREIGN KEY ( `uid_fk`) REFERENCES `menu_nested_set` (`uid`)
+  CONSTRAINT `nested_set_uid_fk1` FOREIGN KEY ( `uid_fk`) REFERENCES `hierarchy` (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `menu_root` (
   `name` varchar(128) NOT NULL,
   `uid_fk` varchar(45) NOT NULL,
   PRIMARY KEY (`name`),
-  CONSTRAINT `nested_set_uid_fk2` FOREIGN KEY ( `uid_fk`) REFERENCES `menu_nested_set` (`uid`)
+  CONSTRAINT `nested_set_uid_fk2` FOREIGN KEY ( `uid_fk`) REFERENCES `hierarchy` (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

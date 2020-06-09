@@ -114,7 +114,7 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
             ###################################
 
             // konfigurace hierarchy tabulek
-            'menu.nested_set_table' => 'menu_nested_set',
+            'menu.hierarchy_table' => 'hierarchy',
             'menu.menu_item_table' => 'menu_item',
 
             // konfigurace menu
@@ -198,11 +198,11 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
 
 ########################
             ReadHierarchy::class => function(ContainerInterface $c) : ReadHierarchy {
-                return new ReadHierarchy($c->get(Handler::class), $c->get('menu.nested_set_table'), $c->get('menu.menu_item_table'));
+                return new ReadHierarchy($c->get(Handler::class), $c->get('menu.hierarchy_table'), $c->get('menu.menu_item_table'));
             },
             EditHierarchy::class => function(ContainerInterface $c) : EditHierarchy {
                 /** @var EditHierarchy $editHierarchy */
-                $editHierarchy = (new EditHierarchy($c->get(Handler::class), $c->get('menu.nested_set_table')));
+                $editHierarchy = (new EditHierarchy($c->get(Handler::class), $c->get('menu.hierarchy_table')));
                 $editHierarchy->registerHookedActor($c->get(HookedMenuItemActor::class));
                 return $editHierarchy;
             },

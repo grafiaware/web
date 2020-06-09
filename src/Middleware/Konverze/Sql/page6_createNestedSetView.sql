@@ -1,6 +1,6 @@
-DROP VIEW IF EXISTS menu_nested_set_view;
+DROP VIEW IF EXISTS hierarchy_view;
 
-CREATE VIEW `menu_nested_set_view` AS
+CREATE VIEW `hierarchy_view` AS
 select `uid`, `left_node`, `right_node`,
 `lang_code_fk`AS lang_code,
  `uid_fk`,
@@ -13,4 +13,4 @@ select `uid`, `left_node`, `right_node`,
  `show_time`,
  `hide_time`,
 `auto_generated`
-from (`menu_nested_set` left join `menu_item` on((`menu_nested_set`.`uid` = `menu_item`.`uid_fk`)));
+from (`hierarchy` left join `menu_item` on((`hierarchy`.`uid` = `menu_item`.`uid_fk`)));

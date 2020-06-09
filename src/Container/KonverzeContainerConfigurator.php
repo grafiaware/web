@@ -96,8 +96,8 @@ class KonverzeContainerConfigurator extends ContainerConfiguratorAbstract {
             ###################################
 
             // konfigurace hirarchy objektů
-            'menu.nested_set_table' => 'menu_nested_set',
-            'menu.nested_set_view' => 'menu_nested_set_view',
+            'menu.hierarchy' => 'hierarchy',
+            'menu.nested_set_view' => 'hierarchy_view',
 
             #####################################
             // db objekty
@@ -177,11 +177,11 @@ class KonverzeContainerConfigurator extends ContainerConfiguratorAbstract {
 
             // hierarchny
             ReadHierarchy::class => function(ContainerInterface $c) : ReadHierarchy {
-                return new ReadHierarchy($c->get(Handler::class), $c->get('menu.nested_set_view'));
+                return new ReadHierarchy($c->get(Handler::class), $c->get('hierarchy_view'));
             },
 
             EditHierarchy::class => function(ContainerInterface $c) : EditHierarchy {
-                return new EditHierarchy($c->get(Handler::class), $c->get('menu.nested_set_table'));
+                return new EditHierarchy($c->get(Handler::class), $c->get('menu.hierarchy'));
             },
 
             HookedMenuItemActor::class => function(ContainerInterface $c) {

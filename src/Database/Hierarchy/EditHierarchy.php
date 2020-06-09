@@ -400,7 +400,7 @@ class EditHierarchy extends HierarchyAbstract implements EditHierarchyInterface 
             $dbhTransact->exec("UPDATE $this->nestedSetTableName SET left_node = 0-left_node, right_node = 0-right_node
                 WHERE left_node BETWEEN @source_left_node AND @source_right_node");
             // zpátky:
-            // UPDATE menu_nested_set SET left_node = 0-left_node, right_node = 0-right_node WHERE left_node<0;
+            // UPDATE $this->nestedSetTableName SET left_node = 0-left_node, right_node = 0-right_node WHERE left_node<0;
             //SELECT @sourceId, @targetId, @source_left_node, @source_right_node, @source_width ;
 
             // odstraň prostor zbylý po vyřazeném podstromu
