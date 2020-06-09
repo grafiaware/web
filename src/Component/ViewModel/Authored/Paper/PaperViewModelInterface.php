@@ -9,24 +9,20 @@
 namespace Component\ViewModel\Authored\Paper;
 
 use Component\ViewModel\Authored\AuthoredViewModelInterface;
-use Model\Entity\MenuNodeInterface;
-use Model\Entity\PaperInterface;
+use Model\Entity\HierarchyNodeInterface;
+use Model\Entity\MenuItemPaperAggregateInterface;
 
 /**
  *
  * @author pes2704
  */
 interface PaperViewModelInterface extends AuthoredViewModelInterface {
-    /**
-     * Vrací položku menu.
-     *
-     * @return MenuNodeInterface
-     */
-    public function getMenuNode();
 
     /**
      * Vrací paper.
      *
-     * @return PaperInterface
+     * @return MenuItemPaperAggregateInterface
      */
-    public function getPaper();}
+    public function getMenuItemPaperAggregate();
+
+}

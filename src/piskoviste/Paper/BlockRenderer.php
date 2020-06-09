@@ -26,8 +26,8 @@ class BlockRenderer extends HtmlRendererAbstract {
     }
 
     private function renderPrivate(PaperViewModelInterface $viewModel) {
-        $menuNode = $viewModel->getMenuNode();
-        $paper = $viewModel->getPaper();
+        $menuNode = $viewModel->getHierarchyNode();
+        $paper = $viewModel->getMenuItemPaperAggregate();
         if ($viewModel instanceof NamedPaperViewModelInterface) {
             $name = "named: ".$viewModel->getComponent()->getName();
         } else {

@@ -83,7 +83,7 @@ class MenuItemDao extends DaoAbstract {
      * @return type
      * @throws StatementFailureException
      */
-    public function findByPaperFulltextSearch($langCodeFk, $text, $active=\TRUE, $actual=\TRUE) {
+    public function findByContentFulltextSearch($langCodeFk, $text, $active=\TRUE, $actual=\TRUE) {
         //InnoDB tables require a FULLTEXT index on all columns of the MATCH() expression to perform boolean queries. Boolean queries against a MyISAM search index can work even without a FULLTEXT index, although a search executed in this fashion would be quite slow.
         // starý web je: FULLTEXT KEY `vyhledavani` (`nazev_lan1`,`obsah_lan1`,`nazev_lan2`,`obsah_lan2`,`nazev_lan3`,`obsah_lan3`)) a typ MyISAM
         //
@@ -104,12 +104,16 @@ class MenuItemDao extends DaoAbstract {
 
         // čti dokumentaci - umí "word" - slovo musí být uvedeno
 
-        $scoreLimit = '0.2';  // musí být string - císlo 0.2 se převede na string 0,2
-        $sql = "SELECT lang_code_fk, uid_fk, type_fk, id, title, active, show_time, hide_time,
-                    (ISNULL(show_time) OR show_time<=CURDATE()) AND (ISNULL(hide_time) OR CURDATE()<=hide_time) AS actual "
-                    .", MATCH (headline, content) AGAINST(:text1) as score
+        $scoreLimitHeadline = '1';  // musí být string - císlo 0.2 se převede na string 0,2
+        $scoreLimitContent = '0.2';  // musí být string - císlo 0.2 se převede na string 0,2
+        $sql = "SELECT lang_code_fk, uid_fk, type_fk, menu_item.id AS id, title, active, show_time, hide_time,
+                    (ISNULL(show_time) OR show_time<=CURDATE()) AND (ISNULL(hide_time) OR CURDATE()<=hide_time) AS actual,
+                    MATCH (headline) AGAINST(:text1) as score_h,
+                    MATCH (content) AGAINST(:text2) as score_c
                 FROM
-                        paper
+                        paper_content
+                        INNER JOIN
+                        paper_headline ON paper_content.menu_item_id_fk=paper_headline.menu_item_id_fk
                         INNER JOIN
                         (SELECT
                                 lang_code_fk, uid_fk, type_fk, id, title, active, show_time, hide_time
@@ -117,13 +121,17 @@ class MenuItemDao extends DaoAbstract {
                                 menu_item
                         WHERE "
                         .$this->menuItemCondition($langCodeFk, $active, $actual, ["menu_item.type_fk = 'paper'"])
-                        .") AS menu_item ON (paper.menu_item_id_fk=menu_item.id)
+                        .") AS menu_item ON (paper_content.menu_item_id_fk=menu_item.id)
                 WHERE
-                        MATCH(headline, content) AGAINST(:text2) > $scoreLimit
-                ORDER BY score DESC";
+                        MATCH(headline) AGAINST(:text3) > $scoreLimitHeadline
+                             OR
+                        MATCH(content) AGAINST(:text4) > $scoreLimitContent
+                ORDER BY score_h DESC, score_c DESC";
         $statement = $this->dbHandler->prepare($sql);
-        $statement->bindParam(':text1', $text, \PDO::PARAM_STR);
-        $statement->bindParam(':text2', $text, \PDO::PARAM_STR);    // PDO neumožňuje použít vícekrát stejný placeholder
+        $statement->bindParam(':text1', $text, \PDO::PARAM_STR);    // PDO neumožňuje použít vícekrát stejný placeholder
+        $statement->bindParam(':text2', $text, \PDO::PARAM_STR);
+        $statement->bindParam(':text3', $text, \PDO::PARAM_STR);
+        $statement->bindParam(':text4', $text, \PDO::PARAM_STR);
         $statement->bindParam(':lang_code_fk', $langCodeFk, \PDO::PARAM_STR);
         if ($statement == FALSE) {
             $einfo = $this->dbHandler->errorInfo();

@@ -11,8 +11,8 @@ namespace Component\ViewModel\Authored\Paper;
 use Component\ViewModel\Authored\Paper\PaperViewModelInterface;
 
 use Model\Entity\ComponentInterface;
-use Model\Entity\MenuNodeInterface;
-use Model\Entity\PaperInterface;
+use Model\Entity\HierarchyNodeInterface;
+use Model\Entity\MenuItemPaperAggregateInterface;
 
 /**
  *
@@ -26,18 +26,12 @@ interface NamedPaperViewModelInterface extends PaperViewModelInterface {
      * Vrací entitu komponenty.
      * @return ComponentInterface
      */
-    public function getComponent();
-
-    /**
-     * Metoda nemá parametr. Vrací položku menu odpovídající komponentě se jménem zadaným metodou setComponentName($componentName).
-     * @return MenuNodeInterface
-     */
-    public function getMenuNode();
+    public function getComponent(): ComponentInterface;
 
     /**
      * Metoda nemá parametr. Vrací paper odpovídající položce menu, zapsané v databázi jako komponenta se se jménem komponenty zadaným metodou setComponentName($componentName).
      *
-     * @return PaperInterface
+     * @return MenuItemPaperAggregateInterface
      */
-    public function getPaper();
+    public function getMenuItemPaperAggregate(): MenuItemPaperAggregateInterface;
 }

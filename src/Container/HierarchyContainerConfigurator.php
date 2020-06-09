@@ -32,9 +32,9 @@ use Database\Hierarchy\ReadHierarchy;
 use Database\Hierarchy\EditHierarchyInterface;
 use Database\Hierarchy\ReadHierarchyInterface;
 use Model\Dao\MenuItemDao;
-use Model\Hydrator\MenuNodeHydrator;
+use Model\Hydrator\HierarchyNodeHydrator;
 use Model\Hydrator\MenuItemHydrator;
-use Model\Repository\MenuRepo;
+use Model\Repository\HierarchyNodeRepo;
 use Model\Repository\MenuItemRepo;
 use Model\Dao\MenuItemTypeDao;
 use Model\Hydrator\MenuItemTypeHydrator;
@@ -47,8 +47,8 @@ use Model\Hydrator\PaperContentHydrator;
 use Model\Repository\PaperContentRepo;
 
 //aggregate
-use Model\Hydrator\PaperHydrator;
-use Model\Repository\PaperAggregateRepo;
+use Model\Hydrator\MenuItemPaperAggregateHydrator;
+use Model\Repository\MenuItemPaperAggregateRepo;
 
 use Model\Dao\ComponentDao;
 use Model\Repository\ComponentRepo;
@@ -215,18 +215,21 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
             ArticleTitleUpdater::class => function(ContainerInterface $c) {
                 return new ArticleTitleUpdater($c->get(Handler::class));
             },
-            MenuNodeHydrator::class => function(ContainerInterface $c) {
-                return new MenuNodeHydrator();
+            HierarchyNodeHydrator::class => function(ContainerInterface $c) {
+                return new HierarchyNodeHydrator();
             },
             MenuItemHydrator::class => function(ContainerInterface $c) {
                 return new MenuItemHydrator();
             },
             MenuItemRepo::class => function(ContainerInterface $c) {
-                return new MenuItemRepo($c->get(MenuItemDao::class), $c->get(MenuItemHydrator::class), $c->get(MenuNodeHydrator::class));
+                return new MenuItemRepo($c->get(MenuItemDao::class),
+                        $c->get(MenuItemHydrator::class),
+//                        $c->get(MenuNodeHydrator::class)
+                        );
             },
-            MenuRepo::class => function(ContainerInterface $c) {
-                return new MenuRepo($c->get(ReadHierarchy::class), $c->get(EditHierarchy::class),
-                        $c->get(MenuNodeHydrator::class), $c->get(MenuItemHydrator::class),
+            HierarchyNodeRepo::class => function(ContainerInterface $c) {
+                return new HierarchyNodeRepo($c->get(ReadHierarchy::class), $c->get(EditHierarchy::class),
+                        $c->get(HierarchyNodeHydrator::class), $c->get(MenuItemHydrator::class),
                         $c->get(MenuItemRepo::class));
             },
             MenuItemTypeDao::class => function(ContainerInterface $c) {
@@ -256,11 +259,17 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
             PaperContentRepo::class => function(ContainerInterface $c) {
                 return new PaperContentRepo($c->get(PaperContentDao::class), $c->get(PaperContentHydrator::class));
             },
-            PaperHydrator::class => function(ContainerInterface $c) {
-                return new PaperHydrator();
+            MenuItemPaperAggregateHydrator::class => function(ContainerInterface $c) {
+                return new MenuItemPaperAggregateHydrator();
             },
-            PaperAggregateRepo::class => function(ContainerInterface $c) {
-                return new PaperAggregateRepo($c->get(PaperHeadlineRepo::class), $c->get(PaperContentRepo::class), $c->get(PaperHydrator::class));
+            MenuItemPaperAggregateRepo::class => function(ContainerInterface $c) {
+                return new MenuItemPaperAggregateRepo(
+                        $c->get(MenuItemDao::class),
+                        $c->get(MenuItemHydrator::class),
+                        $c->get(PaperHeadlineRepo::class),
+                        $c->get(PaperContentRepo::class),
+                        $c->get(MenuItemPaperAggregateHydrator::class)
+                        );
             },
 
             ComponentDao::class => function(ContainerInterface $c) {

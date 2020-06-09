@@ -22,7 +22,7 @@ use Component\View\{
 ####################
 
 use Model\Repository\{
-    MenuRepo, StatusFlashRepo, MenuRootRepo, MenuItemRepo
+    HierarchyNodeRepo, StatusFlashRepo, MenuRootRepo, MenuItemRepo
 };
 
 use \StatusManager\StatusPresentationManager;
@@ -45,6 +45,8 @@ use Pes\View\Template\InterpolateTemplate;
 class ComponentController extends LayoutControllerAbstract {
 
     const DEEAULT_HIERARCHY_ROOT_COMPONENT_NAME = 's';
+
+    private $componentViews = [];
 
 ######################################
     private function initLayoutTemplatesVars() {
@@ -92,19 +94,18 @@ class ComponentController extends LayoutControllerAbstract {
         $menuRootRepo = $this->container->get(MenuRootRepo::class);
         /** @var MenuItemRepo $menuItemRepo */
         $menuItemRepo = $this->container->get(MenuItemRepo::class);
-
         $uidFk = $menuRootRepo->get(StatusPresentationManager::DEEAULT_HIERARCHY_ROOT_COMPONENT_NAME)->getUidFk();
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
         $rootMenuItem = $menuItemRepo->get($langCode, $uidFk );    // kořen menu
-
         $this->statusPresentationRepo->get()->setMenuItem($rootMenuItem);
 
+        $this->setPaperContentComponent();
         return $this->createResponseFromView($request, $this->createView($request));
     }
 
     public function item(ServerRequestInterface $request, $langCode, $uid) {
-        /** @var MenuRepo $menuRepo */
-        $menuRepo = $this->container->get(MenuRepo::class);
+        /** @var HierarchyNodeRepo $menuRepo */
+        $menuRepo = $this->container->get(HierarchyNodeRepo::class);
         $menuNode = $menuRepo->get($langCode, $uid);
         if ($menuNode) {
             $this->statusPresentationRepo->get()->setMenuItem($menuNode->getMenuItem());
@@ -112,10 +113,13 @@ class ComponentController extends LayoutControllerAbstract {
             // neexistující stránka
             return RedirectResponse::withRedirect(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/home/', 303); // SeeOther
         }
+
+        $this->setPaperContentComponent();
         return $this->createResponseFromView($request, $this->createView($request));
     }
 
     public function last(ServerRequestInterface $request) {
+        $this->setPaperContentComponent();
         return $this->createResponseFromView($request, $this->createView($request));
     }
 
@@ -125,7 +129,7 @@ class ComponentController extends LayoutControllerAbstract {
         $component = $this->container->get(SearchResultComponent::class);
         $key = $request->getAttribute('klic', '');
         $key = $request->getQueryParams()['klic'];
-        $contentView = $component->setSearch($key);
+        $this->componentViews["content"] = $component->setSearch($key);
         return $this->createResponseFromView($request, $this->createView($request));
     }
 
@@ -134,14 +138,14 @@ class ComponentController extends LayoutControllerAbstract {
     ### prezentace - view
 
     protected function createView(ServerRequestInterface $request) {
-
-        $this->initLayoutTemplatesVars();
         #### speed test ####
 //        $timer = new Timer();
 //        $timer->start();
+        $this->initLayoutTemplatesVars();
+        $this->setComponentViews($request);
 
         $layoutView = $this->getLayoutView($request);
-        foreach ($this->getComponentViews($request) as $name => $componentView) {
+        foreach ($this->componentViews as $name => $componentView) {
             $layoutView->appendComponentView($componentView, $name);
         }
 
@@ -170,27 +174,25 @@ class ComponentController extends LayoutControllerAbstract {
         return implode(PHP_EOL, $testHtml);
     }
 
-    protected function getComponentViews(ServerRequestInterface $request) {
-        $context = array_merge(
+    protected function setComponentViews(ServerRequestInterface $request) {
+        $this->componentViews = array_merge(
+                $this->componentViews,
                 $this->getEditTools($request),
                 $this->getGeneratedLayoutComponents(),
                 $this->getAuthoredLayoutComnponents(),
                 $this->getEmptyMenuComponents(),
                 $this->getMenuComponents(),
                 $this->getLayoutComponents(),
-                $this->getContentComponent(),
                 $this->getPoznamky()
                 );
-
-        return $context;
     }
 
     /**
      * Vrací view objekt pro zobrazení centrálního obsahu v prostoru pro "content"
      * @return type
      */
-    private function getContentComponent() {
-        return ["content" => $this->isEditableArticle() ? $this->container->get('article.headlined.editable') : $this->container->get('article.headlined')];
+    private function setPaperContentComponent() {
+        $this->componentViews["content"] = $this->isEditableArticle() ? $this->container->get('article.headlined.editable') : $this->container->get('article.headlined');
     }
 
     private function getEditTools(ServerRequestInterface $request) {

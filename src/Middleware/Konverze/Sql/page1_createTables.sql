@@ -1,6 +1,5 @@
-DROP TABLE IF EXISTS `paper`;
-DROP TABLE IF EXISTS `paper_headline`;
 DROP TABLE IF EXISTS `paper_content`;
+DROP TABLE IF EXISTS `paper_headline`;
 DROP TABLE IF EXISTS `menu_item`;
 DROP TABLE IF EXISTS `menu_item_type`;
 DROP TABLE IF EXISTS `component`;

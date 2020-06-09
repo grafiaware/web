@@ -18,10 +18,10 @@ use Pes\Http\Response;
 use Pes\Http\Response\RedirectResponse;
 
 use Model\Repository\{
-    StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo, PaperAggregateRepo
+    StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo, MenuItemPaperAggregateRepo
 };
-use Model\Entity\PaperInterface;
-use Model\Entity\Paper;
+use Model\Entity\MenuItemPaperAggregateInterface;
+use Model\Entity\MenuItemPaperAggregate;
 
 /**
  * Description of PostController
@@ -36,7 +36,7 @@ class PaperController extends PresentationFrontControllerAbstract {
             StatusSecurityRepo $statusSecurityRepo,
             StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
-            PaperAggregateRepo $paperRepo) {
+            MenuItemPaperAggregateRepo $paperRepo) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
         $this->paperRepo = $paperRepo;
     }

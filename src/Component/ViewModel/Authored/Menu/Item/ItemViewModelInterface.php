@@ -8,7 +8,7 @@
 
 namespace Component\ViewModel\Authored\Menu\Item;
 
-use Model\Entity\MenuNodeInterface;
+use Model\Entity\HierarchyNodeInterface;
 
 /**
  *
@@ -22,7 +22,7 @@ interface ItemViewModelInterface {
     public function getInnerHtml();
 
     /**
-     * @return MenuNodeInterface
+     * @return HierarchyNodeInterface
      */
     public function getMenuNode();
 }

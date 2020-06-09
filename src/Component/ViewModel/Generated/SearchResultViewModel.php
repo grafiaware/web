@@ -1,7 +1,8 @@
 <?php
 namespace Component\ViewModel\Generated;
 
-use Component\ViewModel\ComponentViewModelAbstract;
+use Model\Repository\StatusPresentationRepo;
+use Model\Repository\MenuItemRepo;
 
 use Pes\Text\Message;
 
@@ -16,9 +17,18 @@ use Pes\Text\Message;
  *
  * @author pes2704
  */
-class SearchResultViewModel extends ComponentViewModelAbstract {
+class SearchResultViewModel {
 
     private $query;
+
+    private $statusPresentationRepo;
+
+    private $menuItemRepo;
+
+    public function __construct(StatusPresentationRepo $statusPresentationRepo, MenuItemRepo $menuItemRepo) {
+        $this->statusPresentationRepo = $statusPresentationRepo;
+        $this->menuItemRepo = $menuItemRepo;
+    }
 
     /**
      * Text pro hledání metodou getSearchedMenuItems(). Info v dokumntaci getSearchedMenuItems().
@@ -55,8 +65,8 @@ class SearchResultViewModel extends ComponentViewModelAbstract {
             $text = trim(implode(' ', explode(" ",$text)));
 
             // hledají se jednotlivá slova IN NATURAL LANGUAGE MODE
-            $langCodeFk = $this->getPresentationStatus()->getLanguage();
-            return $this->menuItemRepo->findByPaperFulltextSearch($langCodeFk, $text);  // jen active a actual
+            $langCodeFk = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
+            return $this->menuItemRepo->findByPaperFulltextSearch($langCodeFk, $text, true, true);  // jen active a actual
     }
 
     public function getString() {

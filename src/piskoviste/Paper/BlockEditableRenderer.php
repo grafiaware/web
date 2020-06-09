@@ -14,8 +14,8 @@ use Component\ViewModel\Authored\Paper\PaperViewModelInterface;
 use Component\ViewModel\Authored\Paper\NamedPaperViewModelInterface;
 use Pes\Text\Html;
 
-use Model\Entity\MenuNodeInterface;
-use Model\Entity\PaperInterface;
+use Model\Entity\HierarchyNodeInterface;
+use Model\Entity\MenuItemPaperAggregateInterface;
 
 /**
  * Description of BlockEditableRenderer
@@ -29,8 +29,8 @@ class BlockEditableRenderer extends HtmlRendererAbstract {
     }
 
     private function renderPrivate(PaperViewModelInterface $viewModel) {
-        $menuNode = $viewModel->getMenuNode();
-        $paper = $viewModel->getPaper();
+        $menuNode = $viewModel->getHierarchyNode();
+        $paper = $viewModel->getMenuItemPaperAggregate();
         if ($viewModel instanceof NamedPaperViewModelInterface) {
             $name = "named: ".$viewModel->getComponent()->getName();
         } else {
@@ -51,7 +51,7 @@ class BlockEditableRenderer extends HtmlRendererAbstract {
                );
     }
     
-    private function renderButtons(MenuNodeInterface $menuNode, PaperInterface $paper) {
+    private function renderButtons(HierarchyNodeInterface $menuNode, MenuItemPaperAggregateInterface $paper) {
         //TODO: atributy data-tooltip a data-position jsou pro semantic - zde jsou napevno zadané
             return
             Html::tag('div', ['class'=>$this->classMap->getClass('Buttons', 'div')],

@@ -10,7 +10,7 @@ namespace Component\ViewModel\Authored;
 
 use Model\Repository\StatusSecurityRepo;
 use Model\Repository\StatusPresentationRepo;
-use Model\Repository\MenuRepo;
+use Model\Repository\HierarchyNodeRepo;
 
 /**
  * Description of AuthoredViewModelAbstract
@@ -30,18 +30,18 @@ class AuthoredViewModelAbstract implements AuthoredViewModelInterface {
     protected $statusPresentationRepo;
 
     /**
-     * @var MenuRepo
+     * @var HierarchyNodeRepo
      */
-    protected $menuRepo;
+    protected $HierarchyRepo;
 
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusPresentationRepo $statusPresentationRepo,
-            MenuRepo $menuRepo
+            HierarchyNodeRepo $menuRepo
             ) {
         $this->statusSecurityRepo = $statusSecurityRepo;
         $this->statusPresentationRepo = $statusPresentationRepo;
-        $this->menuRepo = $menuRepo;
+        $this->HierarchyRepo = $menuRepo;
     }
 
     /**

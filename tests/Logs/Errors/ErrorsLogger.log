@@ -250,3 +250,23 @@
 [info] [2019-12-18 17:31:06] Logger start. Log file: C:/ApacheRoot/www_grafia_development_v0_6/tests/Logs/Errors/ErrorsLogger.log.
 [debug] PHP error or unknown user error type: E_NOTICE [8] [2019-12-18 17:31:06] Undefined index: HTTP_USER_AGENT on line 435 in file C:\ApacheRoot\www_grafia_development_v0_6\vendor\pes\pes\src\Session\SessionStatusHandler.php
 [debug] PHP error or unknown user error type: E_NOTICE [8] [2019-12-18 17:31:06] Undefined index: HTTP_USER_AGENT on line 435 in file C:\ApacheRoot\www_grafia_development_v0_6\vendor\pes\pes\src\Session\SessionStatusHandler.php
+[info] [2020-06-08 08:56:43] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/Errors/ErrorsLogger.log. Mode 'a+'.
+[debug] PHP error or unknown user error type: E_NOTICE [8] [2020-06-08 08:56:43] Undefined property: MenuItemPaperRepositoryTest::$node on line 103 in file C:\ApacheRoot\web\tests\Integration\Model\Repository\MenuItemPaperRepositoryTest.php
+[debug] PHP error or unknown user error type: E_NOTICE [8] [2020-06-08 08:56:43] Undefined property: MenuItemPaperRepositoryTest::$node on line 103 in file C:\ApacheRoot\web\tests\Integration\Model\Repository\MenuItemPaperRepositoryTest.php
+[info] [2020-06-08 08:57:55] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/Errors/ErrorsLogger.log. Mode 'a+'.
+[debug] PHP error or unknown user error type: E_NOTICE [8] [2020-06-08 08:57:55] Undefined property: MenuItemPaperRepositoryTest::$node on line 103 in file C:\ApacheRoot\web\tests\Integration\Model\Repository\MenuItemPaperRepositoryTest.php
+[debug] PHP error or unknown user error type: E_NOTICE [8] [2020-06-08 08:57:55] Undefined property: MenuItemPaperRepositoryTest::$node on line 103 in file C:\ApacheRoot\web\tests\Integration\Model\Repository\MenuItemPaperRepositoryTest.php
+[info] [2020-06-08 09:12:57] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/Errors/ErrorsLogger.log. Mode 'a+'.
+[debug] PHP error or unknown user error type: E_NOTICE [8] [2020-06-08 09:12:57] Undefined variable: repo on line 126 in file C:\ApacheRoot\web\tests\Integration\Model\Repository\MenuItemPaperRepositoryTest.php
+[info] [2020-06-08 09:14:16] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/Errors/ErrorsLogger.log. Mode 'a+'.
+[debug] PHP error or unknown user error type: E_NOTICE [8] [2020-06-08 09:14:16] Undefined variable: repo on line 126 in file C:\ApacheRoot\web\tests\Integration\Model\Repository\MenuItemPaperRepositoryTest.php
+[info] [2020-06-08 09:16:03] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/Errors/ErrorsLogger.log. Mode 'a+'.
+[debug] PHP error or unknown user error type: E_NOTICE [8] [2020-06-08 09:16:03] Undefined variable: repo on line 126 in file C:\ApacheRoot\web\tests\Integration\Model\Repository\MenuItemPaperRepositoryTest.php
+[info] [2020-06-08 09:18:39] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/Errors/ErrorsLogger.log. Mode 'a+'.
+[debug] PHP error or unknown user error type: E_NOTICE [8] [2020-06-08 09:18:39] Undefined variable: repo on line 126 in file C:\ApacheRoot\web\tests\Integration\Model\Repository\MenuItemPaperRepositoryTest.php
+[info] [2020-06-08 09:38:00] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/Errors/ErrorsLogger.log. Mode 'a+'.
+[debug] PHP error or unknown user error type: E_NOTICE [8] [2020-06-08 09:38:00] Constant PES_FORCE_DEVELOPMENT already defined on line 79 in file C:\ApacheRoot\web\tests\Integration\Model\Repository\MenuItemPaperRepositoryTest.php
+[debug] PHP error or unknown user error type: E_NOTICE [8] [2020-06-08 09:38:00] Constant PROJECT_DIR already defined on line 83 in file C:\ApacheRoot\web\tests\Integration\Model\Repository\MenuItemPaperRepositoryTest.php
+[info] [2020-06-08 09:39:49] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/Errors/ErrorsLogger.log. Mode 'a+'.
+[debug] PHP error or unknown user error type: E_NOTICE [8] [2020-06-08 09:39:49] Constant PES_FORCE_DEVELOPMENT already defined on line 79 in file C:\ApacheRoot\web\tests\Integration\Model\Repository\MenuItemPaperRepositoryTest.php
+[debug] PHP error or unknown user error type: E_NOTICE [8] [2020-06-08 09:39:49] Constant PROJECT_DIR already defined on line 83 in file C:\ApacheRoot\web\tests\Integration\Model\Repository\MenuItemPaperRepositoryTest.php

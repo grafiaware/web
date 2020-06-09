@@ -9,8 +9,8 @@
 namespace Component\Renderer\Html\Authored;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
-use Model\Entity\MenuNodeInterface;
-use Model\Entity\PaperInterface;
+use Model\Entity\HierarchyNodeInterface;
+use Model\Entity\MenuItemPaperAggregateInterface;
 use Model\Entity\PaperHeadlineInterface;
 use Model\Entity\PaperContentInterface;
 
@@ -23,10 +23,10 @@ use Pes\Text\Html;
  */
 abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
 
-    protected function renderPaperButtonsForm(MenuNodeInterface $paperMenuNode) {
+    protected function renderPaperButtonsForm(MenuItemPaperAggregateInterface $paper) {
         //TODO: atributy data-tooltip a data-position jsou pro semantic - zde jsou napevno zadané
-        $uid = $paperMenuNode->getUid();
-        $active = $paperMenuNode->getMenuItem()->getActive();
+        $uid = $paper->getUidFk();
+        $active = $paper->getActive();
         return
 
         Html::tag('form', ['method'=>'POST', 'action'=>""],
@@ -54,15 +54,15 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
             )
         );
     }
-    
-    protected function renderContentButtonsForm(MenuNodeInterface $contentMenuNode) {
+
+    protected function renderContentButtonsForm(MenuItemPaperAggregateInterface $paper) {
         //TODO: atributy data-tooltip a data-position jsou pro semantic - zde jsou napevno zadané
-        $show = $contentMenuNode->getMenuItem()->getShowTime();
-        $hide = $contentMenuNode->getMenuItem()->getHideTime();
-        $uid = $contentMenuNode->getUid();
-        $active = $contentMenuNode->getMenuItem()->getActive();
-        $actual = $contentMenuNode->getMenuItem()->getActual();
-        
+        $show = $paper->getShowTime();
+        $hide = $paper->getHideTime();
+        $uid = $paper->getUidFk();
+        $active = $paper->getActive();
+        $actual = $paper->getActual();
+
         if (isset($show)) {
             $showTime = $show;//->format("d.m.Y") ;
             if (isset($hide)) {
@@ -240,10 +240,10 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
         );
     }
 
-    protected function renderContentsDivs(PaperInterface $paper, MenuNodeInterface $contentMenuNode) {
-        $active = $contentMenuNode->getMenuItem()->getActive();
-        $actual = $contentMenuNode->getMenuItem()->getActual();
-        
+    protected function renderContentsDivs(MenuItemPaperAggregateInterface $paper) {
+        $active = $paper->getActive();
+        $actual = $paper->getActual();
+
         foreach ($paper->getPaperContentsArray() as $id => $paperContent) {
             /** @var PaperContentInterface $paperContent */
             $form[] =
@@ -272,7 +272,7 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
                             $paperContent->getContent()
                             )
                     )
-                    .$this->renderContentButtonsForm($contentMenuNode)
+                    .$this->renderContentButtonsForm($paper)
                 );
         }
         return implode(PHP_EOL, $form);
@@ -280,16 +280,15 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
 
     /**
      * headline semafor a form
-     * 
-     * @param PaperInterface $paper
-     * @param MenuNodeInterface $menuNode
+     *
+     * @param MenuItemPaperAggregateInterface $paper
      * @return type
      */
-    protected function renderHeadlineForm(PaperInterface $paper, MenuNodeInterface $menuNode) {
-        $active = $menuNode->getMenuItem()->getActive();
-        $actual = $menuNode->getMenuItem()->getActual();
+    protected function renderHeadlineForm(MenuItemPaperAggregateInterface $paper) {
+        $active = $paper->getActive();
+        $actual = $paper->getActual();
         $paperHeadline = $paper->getPaperHeadline();
-        return 
+        return
             Html::tag('div', ['class'=>$this->classMap->getClass('Headline', 'div')],
                 Html::tag('div', ['class'=>$this->classMap->getClass('Headline', 'div div')],
                     Html::tag('i',

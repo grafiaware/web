@@ -58,10 +58,10 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
      * @return MenuItemInterface array of
      */
     public function findByPaperFulltextSearch($langCodeFk, $text, $active=\TRUE, $actual=\TRUE) {
-        $rows = $this->dao->findByPaperFulltextSearch($langCodeFk, $text, $active, $actual);
+        $rows = $this->dao->findByContentFulltextSearch($langCodeFk, $text, $active, $actual);
         $collection = [];
         foreach ($rows as $row) {
-            $index = $row['lang_code_fk'].$row['uid_fk'];
+            $index = $this->indexFromRow($row);
             if (!isset($this->collection[$index])) {
                 $this->recreateEntity($index, $row);
             }
@@ -71,8 +71,13 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
     }
 
     public function add(MenuItemInterface $menuItem) {
-        $index = $menuItem->getLangCodeFk().$menuItem->getUidFk();
+        $index = $this->indexFromEntity($menuItem);
         $this->collection[$index] = $menuItem;
+    }
+
+    public function remove(MenuItemInterface $menuItem) {
+        $this->removed[] = $menuItem;
+        unset($this->collection[$this->indexFromEntity($menuItem)]);
     }
 
     /**
@@ -80,7 +85,7 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
      * @param array $row
      * @return MenuItem
      */
-    private function recreateEntity($index, $row) {
+    protected function recreateEntity($index, $row) {    // protected - může být přetížena aggregateRepo
         if ($row) {
             $menuItem = new MenuItem();
             $this->hydrator->hydrate($menuItem, $row);
@@ -88,5 +93,11 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
             $this->collection[$index] = $menuItem;
         }
     }
+    protected function indexFromEntity(MenuItemInterface $menuItem) {
+        return $menuItem->getLangCodeFk().$menuItem->getUidFk();
+    }
 
+    protected function indexFromRow($row) {
+        return $row['lang_code_fk'].$row['uid_fk'];
+    }
 }

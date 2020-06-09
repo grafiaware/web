@@ -16,7 +16,7 @@ use Model\Repository\{
 };
 
 use Model\Entity\{
-    MenuNodeInterface, StatusPresentationInterface, LanguageInterface
+    HierarchyNodeInterface, StatusPresentationInterface, LanguageInterface
 };
 
 use Model\Entity\{
@@ -116,7 +116,7 @@ class StatusPresentationManager implements StatusPresentationManagerInterface {
 
     /**
      * Default menu item uid - kořenová položka menu určeného konstantou třídy DEEAULT_HIERARCHY_ROOT_COMPONENT_NAME
-     * @return MenuNodeInterface
+     * @return HierarchyNodeInterface
      */
     private function getDefaulMenuItem($langCode) {
         $uidFk = $this->menuRootRepo->get(self::DEEAULT_HIERARCHY_ROOT_COMPONENT_NAME)->getUidFk();

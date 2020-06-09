@@ -9,13 +9,13 @@ namespace Component\ViewModel\Authored\Paper;
 use Model\Repository\StatusSecurityRepo;
 use Model\Repository\StatusPresentationRepo;
 
-use Model\Repository\MenuRepo;
+use Model\Repository\HierarchyNodeRepo;
 use Model\Repository\ComponentRepo;
-use Model\Repository\PaperAggregateRepo;
+use Model\Repository\MenuItemPaperAggregateRepo;
 
-use Model\Entity\MenuNodeInterface;
+use Model\Entity\HierarchyNodeInterface;
 use Model\Entity\ComponentInterface;
-use Model\Entity\PaperInterface;
+use Model\Entity\MenuItemPaperAggregateInterface;
 
 
 /**
@@ -35,11 +35,11 @@ class NamedPaperViewModel extends PaperViewModelAbstract implements NamedPaperVi
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusPresentationRepo $statusPresentationRepo,
-            MenuRepo $menuRepo,
-            PaperAggregateRepo $paperRepo,
+            HierarchyNodeRepo $menuRepo,
+            MenuItemPaperAggregateRepo $paperAggregateRepo,
             ComponentRepo $componentRepo
     ) {
-        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $menuRepo, $paperRepo);
+        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $menuRepo, $paperAggregateRepo);
         $this->componentRepo = $componentRepo;
     }
 
@@ -57,7 +57,7 @@ class NamedPaperViewModel extends PaperViewModelAbstract implements NamedPaperVi
      * @return ComponentInterface
      * @throws \LogicException
      */
-    public function getComponent() {
+    public function getComponent(): ComponentInterface {
         if (!isset($this->componentName)) {
             throw new \LogicException("Není zadáno jméno komponenty. Nelze načíst odpovídající položku menu.");
         }
@@ -65,24 +65,15 @@ class NamedPaperViewModel extends PaperViewModelAbstract implements NamedPaperVi
     }
 
     /**
-     * Metoda nemá parametr. Vrací položku menu odpovídající komponentě se jménem zadaným metodou setComponentName($componentName).
-     * V závislosti na stavu prezentace vrací všechny položky nebo pro stav presentPublishOnly jen aktivní a aktuální položky.
-     *
-     * @return MenuNodeInterface
-     */
-    public function getMenuNode() {
-        $active = $actual = $this->presentOnlyPublished();
-        return $this->menuRepo->get($this->statusPresentationRepo->get()->getLanguage()->getLangCode(), $this->getComponent()->getUidFk(), $active, $actual);
-    }
-
-    /**
      * Vrací paper příslušný k položce menu.
      *
-     * @param MenuNodeInterface $menuNode
-     * @return PaperInterface
+     * @param HierarchyNodeInterface $menuNode
+     * @return MenuItemPaperAggregateInterface
      */
-    public function getPaper() {
-        $menuNode = $this->getMenuNode();
-        return isset($menuNode) ? $this->paperRepo->get($menuNode->getMenuItem()->getId()) : NULL;
+    public function getMenuItemPaperAggregate(): MenuItemPaperAggregateInterface {
+        $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
+        $uid = $this->getComponent()->getUidFk();
+//        $active = $actual = $this->presentOnlyPublished();
+        return $this->paperAggregateRepo->get($langCode, $uid) ?? NULL;
     }
 }

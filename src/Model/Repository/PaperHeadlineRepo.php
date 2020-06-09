@@ -63,7 +63,7 @@ class PaperHeadlineRepo extends RepoAbstract implements RepoInterface {
         }
     }
 
-    protected function indexFromEntity(PaperInterface $paper) {
+    protected function indexFromEntity(MenuItemPaperAggregateInterface $paper) {
         return $paper->getMenuItemIdFk();
     }
 

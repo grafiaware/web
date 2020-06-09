@@ -60,17 +60,18 @@ class AppRunner extends TestCase {
     }
 
     public static function setUpBeforeClass(): void {
-        define('PES_FORCE_DEVELOPMENT', 'force_development');
-        //// nebo
-        //define('PES_FORCE_PRODUCTION', 'force_production');
+        if ( !defined('PES_DEVELOPMENT') AND !defined('PES_PRODUCTION') ) {
+            define('PES_FORCE_DEVELOPMENT', 'force_development');
+            //// nebo
+            //define('PES_FORCE_PRODUCTION', 'force_production');
 
-        define('PROJECT_DIR', 'c:/ApacheRoot/www_grafia_development_v0_6/');
+            define('PROJECT_DIR', 'c:/ApacheRoot/www_grafia_development_v0_6/');
 
-        include '../vendor/pes/pes/src/Bootstrap/Bootstrap.php';
+            include '../vendor/pes/pes/src/Bootstrap/Bootstrap.php';
+        }
 
         // input stream je možné otevřít jen jednou
         self::$inputStream = fopen('php://temp', 'w+');  // php://temp will store its data in memory but will use a temporary file once the amount of data stored hits a predefined limit (the default is 2 MB). The location of this temporary file is determined in the same way as the sys_get_temp_dir() function.
-
     }
 
 //    public function testEnvironment() {

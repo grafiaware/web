@@ -10,8 +10,8 @@ namespace Component\ViewModel\Authored\Paper;
 
 use Component\ViewModel\Authored\Paper\PaperViewModelInterface;
 
-use Model\Entity\MenuNodeInterface;
-use Model\Entity\PaperInterface;
+use Model\Entity\HierarchyNodeInterface;
+use Model\Entity\MenuItemPaperAggregateInterface;
 
 /**
  *
@@ -20,17 +20,10 @@ use Model\Entity\PaperInterface;
 interface PresentedPaperViewModelInterface extends PaperViewModelInterface {
 
     /**
-     * Vrací prezentovanou položku menu. Řídí se hodnotami vlastností objektu PresentationStatus.
-     *
-     * @return MenuNodeInterface
-     */
-    public function getMenuNode(): ?MenuNodeInterface;
-
-    /**
      * Vrací paper odpovídajíví prezentované položce menu. Řídí se hodnotami vlastností objektu PresentationStatus.
      *
-     * @return PaperInterface
+     * @return MenuItemPaperAggregateInterface
      */
-    public function getPaper(): ?PaperInterface;
+    public function getMenuItemPaperAggregate(): ?MenuItemPaperAggregateInterface;
 
 }

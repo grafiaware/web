@@ -25,16 +25,15 @@ class BlockEditableRenderer extends AuthoredEditableRendererAbstract {
     }
 
     private function renderPrivate(PaperViewModelInterface $viewModel) {
-        $menuNode = $viewModel->getMenuNode();
-        $paper = $viewModel->getPaper();
+        $paper = $viewModel->getMenuItemPaperAggregate();
         if ($viewModel instanceof NamedPaperViewModelInterface) {
             $name = "named: ".$viewModel->getComponent()->getName();
         } else {
             $name = "presented";
         }
 
-        if (isset($menuNode) AND isset($paper)) {
-            $innerHtml = $this->renderContentsDivs($paper, $menuNode);            
+        if (isset($paper)) {
+            $innerHtml = $this->renderContentsDivs($paper);
             $style = "display: block;";
         } else {
             $innerHtml = Html::tag('div', ['data-component'=>$name], 'No data item or article for rendering.');

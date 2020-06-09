@@ -10,7 +10,7 @@ namespace Component\ViewModel\Authored\Menu;
 
 use Component\ViewModel\Authored\AuthoredViewModelInterface;
 
-use Model\Entity\MenuNodeInterface;
+use Model\Entity\HierarchyNodeInterface;
 use Model\Entity\MenuRootInterface;
 
 /**
@@ -21,7 +21,7 @@ interface MenuViewModelInterface extends AuthoredViewModelInterface {
 
     /**
      *
-     * @return MenuNodeInterface
+     * @return HierarchyNodeInterface
      */
     public function getPresentedMenuNode();
 
@@ -35,14 +35,14 @@ interface MenuViewModelInterface extends AuthoredViewModelInterface {
     /**
      *
      * @param string $nodeUid
-     * @return MenuNodeInterface
+     * @return HierarchyNodeInterface
      */
     public function getMenuNode($nodeUid) ;
 
     /**
      *
      * @param string $parentUid
-     * @return MenuNodeInterface array af
+     * @return HierarchyNodeInterface array af
      */
     public function getChildrenMenuNodes($parentUid);
 

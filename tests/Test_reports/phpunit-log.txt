@@ -1,3 +1,5 @@
-AppRunner
- [ ] Run
+MenuItemPaperRepository
+ [x] Set up
+ [x] Repo get
+ [x] Repo find by paper fulltext search
 

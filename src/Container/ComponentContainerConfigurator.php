@@ -55,12 +55,12 @@ use Model\Repository\{
     StatusPresentationRepo,
     StatusFlashRepo,
     LanguageRepo,
-    MenuRepo,
+    HierarchyNodeRepo,
     MenuItemRepo,
     MenuItemTypeRepo,
     ComponentRepo,
     MenuRootRepo,
-    PaperAggregateRepo
+    MenuItemPaperAggregateRepo
 };
 
 // controller
@@ -173,7 +173,7 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new MenuViewModel(
                                 $c->get(StatusSecurityRepo::class),
                                 $c->get(StatusPresentationRepo::class),
-                                $c->get(MenuRepo::class),
+                                $c->get(HierarchyNodeRepo::class),
                                 $c->get(MenuRootRepo::class)
                             );
                 },
@@ -242,8 +242,8 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new NamedPaperViewModel(
                                 $c->get(StatusSecurityRepo::class),
                                 $c->get(StatusPresentationRepo::class),
-                                $c->get(MenuRepo::class),
-                                $c->get(PaperAggregateRepo::class),
+                                $c->get(HierarchyNodeRepo::class),
+                                $c->get(MenuItemPaperAggregateRepo::class),
                                 $c->get(ComponentRepo::class)
                             );
             },
@@ -257,8 +257,8 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new PresentedPaperViewModel(
                                 $c->get(StatusSecurityRepo::class),
                                 $c->get(StatusPresentationRepo::class),
-                                $c->get(MenuRepo::class),
-                                $c->get(PaperAggregateRepo::class)
+                                $c->get(HierarchyNodeRepo::class),
+                                $c->get(MenuItemPaperAggregateRepo::class)
                         );
             },
             PresentedItemComponent::class => function(ContainerInterface $c) {
@@ -297,10 +297,6 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
             SearchResultComponent::class => function(ContainerInterface $c) {
                 $viewModel = new SearchResultViewModel(
                                 $c->get(StatusPresentationRepo::class),
-                                $c->get(StatusFlashRepo::class),
-                                $c->get(LanguageRepo::class),
-                                $c->get(MenuRepo::class),
-                                $c->get(MenuRootRepo::class),
                                 $c->get(MenuItemRepo::class));
                 return (new SearchResultComponent($viewModel))->setRendererContainer($c->get('rendererContainer'))->setRendererName(SearchResultRenderer::class);
             },
@@ -314,7 +310,7 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                                 $c->get(StatusSecurityRepo::class),
                                 $c->get(StatusPresentationRepo::class),
                                 $c->get(StatusFlashRepo::class),
-                                $c->get(MenuRepo::class),
+                                $c->get(HierarchyNodeRepo::class),
                                 $c->get(MenuRootRepo::class),
                                 $c->get(LanguageRepo::class),
                                 $c->get(MenuItemTypeRepo::class)

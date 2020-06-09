@@ -8,7 +8,7 @@
 
 namespace Model\Entity;
 
-use Model\Entity\MenuNodeInterface;
+use Model\Entity\HierarchyNodeInterface;
 
 /**
  * Description of Menutem

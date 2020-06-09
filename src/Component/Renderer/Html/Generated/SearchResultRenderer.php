@@ -10,7 +10,7 @@ namespace Component\Renderer\Html\Generated;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
 use Component\ViewModel\Generated\SearchResultViewModel;
-
+use Model\Entity\MenuItemInterface;
 use Pes\Text\Html;
 use Pes\Text\Message;
 
@@ -29,9 +29,10 @@ class SearchResultRenderer extends HtmlRendererAbstract {
         $html = '';
         $n = 0;
         foreach($viewModel->getSearchedMenuItems() as $menuItem) {
+            /** @var MenuItemInterface $menuItem */
             $html .= Html::tag('p', [],
                         ++$n
-                        .Html::tag('a', ['href'=>"/www/item/{$menuNode->getMenuItem()->getLangCodeFk()}/{$menuItem->getUidFk()}"], $menuItem->getTitle())
+                        .Html::tag('a', ['href'=>"www/item/{$menuItem->getLangCodeFk()}/{$menuItem->getUidFk()}"], $menuItem->getTitle())
                     );
         }
         if ( $n== 0) {

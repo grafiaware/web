@@ -8,7 +8,7 @@
 
 namespace Component\ViewModel\Authored\Menu\Item;
 
-use Model\Entity\MenuNodeInterface;
+use Model\Entity\HierarchyNodeInterface;
 
 /**
  * Description of ItemViwModel
@@ -18,7 +18,7 @@ use Model\Entity\MenuNodeInterface;
 class ItemViewModel implements ItemViewModelInterface {
 
     /**
-     * @var MenuNodeInterface
+     * @var HierarchyNodeInterface
      */
     private $menuNode;
 
@@ -28,7 +28,7 @@ class ItemViewModel implements ItemViewModelInterface {
     private $readonly;
     private $innerHtml;
 
-    public function __construct(MenuNodeInterface $menuNode, $isOnPath, $isPresented, $readonly, $innerHtml='') {
+    public function __construct(HierarchyNodeInterface $menuNode, $isOnPath, $isPresented, $readonly, $innerHtml='') {
         $this->menuNode = $menuNode;
         $this->isOnPath = $isOnPath;
         $this->isPresented = $isPresented;
@@ -40,7 +40,7 @@ class ItemViewModel implements ItemViewModelInterface {
 
     /**
      *
-     * @return MenuNodeInterface
+     * @return HierarchyNodeInterface
      */
     public function getMenuNode() {
         return $this->menuNode;

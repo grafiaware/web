@@ -24,15 +24,14 @@ class HeadlinedRenderer extends AuthoredRendererAbstract {
     }
 
     private function renderPrivate(PaperViewModelInterface $viewModel) {
-        $menuNode = $viewModel->getMenuNode();
-        $paper = $viewModel->getPaper();
+        $paper = $viewModel->getMenuItemPaperAggregate();
         if ($viewModel instanceof NamedPaperViewModelInterface) {
             $name = "named: ".$viewModel->getComponent()->getName();
         } else {
             $name = "presented";
         }
 
-        if (isset($menuNode) AND isset($paper)) {
+        if (isset($paper)) {
             $innerHtml = $this->renderHeadline($paper)
                         .$this->renderContents($paper);
             $style = "display: block;";

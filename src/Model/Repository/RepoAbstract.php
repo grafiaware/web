@@ -45,7 +45,7 @@ abstract class RepoAbstract implements RepoInterface {
 
     public function flush() {
         /** @var \Model\Entity\EntityAbstract $entity */
-        foreach ($this->collection as $menuItemId => $entity) {
+        foreach ($this->collection as $entity) {
             $row = [];
             $this->hydrator->extract($entity, $row);
             if ($entity->isPersisted()) {

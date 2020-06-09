@@ -6,10 +6,10 @@ namespace Component\ViewModel\Authored\Paper;
  * and open the template in the editor.
  */
 
-use Model\Entity\MenuNodeInterface;
+use Model\Entity\HierarchyNodeInterface;
 
-use Model\Entity\Paper;
-use Model\Entity\PaperInterface;
+use Model\Entity\MenuItemPaperAggregate;
+use Model\Entity\MenuItemPaperAggregateInterface;
 
 
 /**
@@ -20,29 +20,15 @@ use Model\Entity\PaperInterface;
 class PresentedPaperViewModel extends PaperViewModelAbstract implements PresentedPaperViewModelInterface {
 
     /**
-     * Vrací prezentovanou položku menu. Řídí se hodnotami vlastností objektu PresentationStatus.
-     *
-     * @return MenuNodeInterface|null
-     */
-    public function getMenuNode(): ?MenuNodeInterface {
-        $presentationStatus = $this->statusPresentationRepo->get();
-        $this->menuRepo->setOnlyPublishedMode($this->presentOnlyPublished());
-        return $this->menuRepo->get($presentationStatus->getLanguage()->getLangCode(), $presentationStatus->getMenuItem()->getUidFk());
-    }
-
-    /**
      * Vrací paper odpovídající prezentované položce menu. Řídí se hodnotami vlastností objektu PresentationStatus.
      *
-     * @return PaperInterface|null
+     * @return MenuItemPaperAggregateInterface|null
      */
-    public function getPaper(): ?PaperInterface {
-        $menuNode = $this->getMenuNode();
-        return isset($menuNode)
-                    ? (
-                        $this->paperRepo->get($menuNode->getMenuItem()->getId())
-                        ??
-                        (new Paper())->setMenuItemIdFk($menuNode->getMenuItem()->getId())->setLangCode($this->statusPresentationRepo->get()->getLanguage()->getLangCode())
-                      )
-                    : null;
+    public function getMenuItemPaperAggregate(): ?MenuItemPaperAggregateInterface {
+        $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
+        $uid = $this->statusPresentationRepo->get()->getMenuItem()->getUidFk();
+        return $this->paperAggregateRepo->get($langCode, $uid)
+                    ??
+                    (new MenuItemPaperAggregate())->setMenuItemIdFk($uid)->setLangCode($langCode);
     }
 }

@@ -3,7 +3,7 @@ namespace Component\Renderer\Html\Menu;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
 use Pes\Text\Html;
-use Model\Entity\MenuNodeInterface;
+use Model\Entity\HierarchyNodeInterface;
 use Component\ViewModel\Authored\Menu\Item\ItemViewModel;
 
 /*
@@ -74,7 +74,7 @@ class ItemBlockEditableRenderer extends HtmlRendererAbstract {
         return $html;
     }
 
-    private function renderButtons(MenuNodeInterface $menuNode) {
+    private function renderButtons(HierarchyNodeInterface $menuNode) {
 
         return
         Html::tag('div', ['class'=>$this->classMap->getClass('Buttons', 'div')],

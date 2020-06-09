@@ -31,9 +31,9 @@ use Pes\Database\Handler\AttributesProvider\AttributesProviderDefault;
 use Pes\Database\Handler\Handler;
 use Pes\Database\Handler\HandlerInterface;
 
-use Model\Repository\MenuRepo;
+use Model\Repository\HierarchyNodeRepo;
 use Model\Dao\MenuDao;
-use Model\Repository\PaperAggregateRepo;
+use Model\Repository\MenuItemPaperAggregateRepo;
 use Model\Dao\PaperContentDao;
 
 /**
