@@ -127,7 +127,6 @@ class ComponentController extends LayoutControllerAbstract {
         // TODO tady je nějaký zmatek
         /** @var SearchResultComponent $component */
         $component = $this->container->get(SearchResultComponent::class);
-        $key = $request->getAttribute('klic', '');
         $key = $request->getQueryParams()['klic'];
         $this->componentViews["content"] = $component->setSearch($key);
         return $this->createResponseFromView($request, $this->createView($request));
@@ -249,20 +248,25 @@ class ComponentController extends LayoutControllerAbstract {
     }
 
     private function getPoznamky() {
-        /** @var StatusFlashRepo $statusFlashRepo */
-        $statusFlashRepo = $this->container->get(StatusFlashRepo::class);
-        $statusFlash = $statusFlashRepo->get();
-        return [
-            'poznamky' => $this->container->get(View::class)
-                    ->setTemplate(new PhpTemplate('templates/poznamky/poznamky.php'))
-                    ->setData([
-                        'poznamka1'=>
-                        '<pre>'. var_export($this->statusPresentationRepo->get()->getLanguage(), true).'</pre>'
-                        . '<pre>'. var_export($this->statusSecurityRepo->get()->getUserActions(), true).'</pre>',
-                        'flashMessage' => $statusFlash ? $statusFlash->getFlash() : 'no flash',
-                        ]),
+        if ($this->isEditableLayout() OR $this->isEditableArticle()) {
+            /** @var StatusFlashRepo $statusFlashRepo */
+            $statusFlashRepo = $this->container->get(StatusFlashRepo::class);
+            $statusFlash = $statusFlashRepo->get();
+            $componets = [
+                'poznamky' => $this->container->get(View::class)
+                        ->setTemplate(new PhpTemplate('templates/poznamky/poznamky.php'))
+                        ->setData([
+                            'poznamka1'=>
+                            '<pre>'. var_export($this->statusPresentationRepo->get()->getLanguage(), true).'</pre>'
+                            . '<pre>'. var_export($this->statusSecurityRepo->get()->getUserActions(), true).'</pre>',
+                            'flashMessage' => $statusFlash ? $statusFlash->getFlash() : 'no flash',
+                            ]),
 
-        ];
+            ];
+        } else {
+            $componets = [];
+        }
+        return $componets;
     }
 
     // pro debug
@@ -277,7 +281,7 @@ class ComponentController extends LayoutControllerAbstract {
     private function getMenuComponents() {
         if ($this->isEditableLayout()) {
             if ($this->isEditableArticle()) {
-                return [
+                $componets = [
                     'menuPresmerovani' => $this->container->get('menu.presmerovani.editable')->setMenuRootName('l'),
                     'menuVodorovne' => $this->container->get('menu.vodorovne.editable')->setMenuRootName('p'),
                     'menuSvisle' => $this->container->get('menu.svisle.editable')->setMenuRootName('s'),
@@ -295,7 +299,7 @@ class ComponentController extends LayoutControllerAbstract {
 //                'kos' => $this->container->get('menu.kos')->setMenuRootName('trash'), //menu.svisle  //kos
 //                ];
             } else {
-                return [
+                $componets = [
                     'menuPresmerovani' => $this->container->get('menu.presmerovani')->setMenuRootName('l'),
                     'menuVodorovne' => $this->container->get('menu.vodorovne')->setMenuRootName('p'),
                     'menuSvisle' => $this->container->get('menu.svisle')->setMenuRootName('s'),
@@ -304,36 +308,38 @@ class ComponentController extends LayoutControllerAbstract {
             }
         } else {
             if ($this->isEditableArticle()) {
-                return [
+                $componets = [
                     'menuPresmerovani' => $this->container->get('menu.presmerovani.editable')->setMenuRootName('l'),
                     'menuVodorovne' => $this->container->get('menu.vodorovne.editable')->setMenuRootName('p'),
                     'menuSvisle' => $this->container->get('menu.svisle.editable')->setMenuRootName('s'),
                     'kos' => $this->container->get('menu.kos.editable')->setMenuRootName('trash'), //menu.svisle  //kos
                 ];
             } else {
-                return [
+                $componets = [
                     'menuPresmerovani' => $this->container->get('menu.presmerovani')->setMenuRootName('l'),
                     'menuVodorovne' => $this->container->get('menu.vodorovne')->setMenuRootName('p'),
                     'menuSvisle' => $this->container->get('menu.svisle')->setMenuRootName('s'),
                 ];
             }
         }
+        return $componets;
     }
 
     private function getLayoutComponents() {
         if ($this->isEditableLayout() OR $this->isEditableArticle()) {
-            return [
+            $componets = [
                     'aktuality' => $this->container->get('component.headlined.editable')->setComponentName('a1'),
                     'nejblizsiAkce' => $this->container->get('component.headlined.editable')->setComponentName('a2'),
                     'rychleOdkazy' => $this->container->get('component.headlined.editable')->setComponentName('a3'),
                 ];
         } else {
-            return [
+            $componets = [
                     'aktuality' => $this->container->get('component.headlined')->setComponentName('a1'),
                     'nejblizsiAkce' => $this->container->get('component.headlined')->setComponentName('a2'),
                     'rychleOdkazy' => $this->container->get('component.headlined')->setComponentName('a3'),
                 ];
         }
+        return $componets;
     }
     private function getGeneratedLayoutComponents() {
         return [
@@ -344,7 +350,7 @@ class ComponentController extends LayoutControllerAbstract {
 
     private function getAuthoredLayoutComnponents() {
         if ($this->isEditableLayout()) {
-            return [
+            $componets = [
                     'razitko' => $this->container->get('component.block.editable')->setComponentName('a4'),
                     'socialniSite' => $this->container->get('component.block.editable')->setComponentName('a5'),
                     'mapa' => $this->container->get('component.block.editable')->setComponentName('a6'),
@@ -352,7 +358,7 @@ class ComponentController extends LayoutControllerAbstract {
                     'banner' => $this->container->get('component.block.editable')->setComponentName('a8'),
                 ];
         } else {
-            return [
+            $componets = [
                     'razitko' => $this->container->get('component.block')->setComponentName('a4'),
                     'socialniSite' => $this->container->get('component.block')->setComponentName('a5'),
                     'mapa' => $this->container->get('component.block')->setComponentName('a6'),
@@ -360,6 +366,7 @@ class ComponentController extends LayoutControllerAbstract {
                     'banner' => $this->container->get('component.block')->setComponentName('a8'),
                 ];
         }
+        return $componets;
     }
 
 }
