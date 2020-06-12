@@ -13,14 +13,19 @@ namespace Model\Entity;
  *
  * @author pes2704
  */
-class PaperHeadline extends EntityAbstract implements PaperHeadlineInterface {
+class Paper extends EntityAbstract implements PaperInterface {
 
+    private $id;
     private $menuItemIdFk;
     private $list;
     private $headline;
     private $keywords;
     private $editor;
     private $updated;
+
+    public function getId() {
+        return $this->id;
+    }
 
     public function getMenuItemIdFk() {
         return $this->menuItemIdFk;
@@ -46,32 +51,37 @@ class PaperHeadline extends EntityAbstract implements PaperHeadlineInterface {
         return $this->updated;
     }
 
-    public function setMenuItemIdFk($uidFk): PaperHeadlineInterface {
+    public function setId($id): PaperInterface {
+        $this->id = $id;
+        return $this;
+    }
+    
+    public function setMenuItemIdFk($uidFk): PaperInterface {
         $this->menuItemIdFk = $uidFk;
         return $this;
     }
 
-    public function setList($list): PaperHeadlineInterface {
+    public function setList($list): PaperInterface {
         $this->list = $list;
         return $this;
     }
 
-    public function setHeadline($headline): PaperHeadlineInterface {
+    public function setHeadline($headline): PaperInterface {
         $this->headline = $headline;
         return $this;
     }
 
-    public function setKeywords($keywords): PaperHeadlineInterface {
+    public function setKeywords($keywords): PaperInterface {
         $this->keywords = $keywords;
         return $this;
     }
 
-    public function setEditor($editor): PaperHeadlineInterface {
+    public function setEditor($editor): PaperInterface {
         $this->editor = $editor;
         return $this;
     }
 
-    public function setUpdated($updated): PaperHeadlineInterface {
+    public function setUpdated($updated): PaperInterface {
         $this->updated = $updated;
         return $this;
     }

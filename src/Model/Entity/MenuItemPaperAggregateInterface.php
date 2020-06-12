@@ -9,8 +9,7 @@
 namespace Model\Entity;
 
 use Model\Entity\MenuItemPaperAggregateInterface;
-use Model\Entity\PaperHeadline;
-use Model\Entity\PaperContent;
+use Model\Entity\PaperPaperContentsAggregateInterface;
 
 /**
  * Description of PaperInterface
@@ -21,24 +20,10 @@ interface MenuItemPaperAggregateInterface extends MenuItemInterface {
 
     /**
      *
-     * @return PaperHeadline
+     * @return PaperPaperContentsAggregateInterface
      */
-    public function getPaperHeadline(): PaperHeadline;
+    public function getPaper(): PaperPaperContentsAggregateInterface;
 
-    /**
-     *
-     * @param type $id
-     * @return PaperContent|null
-     */
-    public function getPaperContent($id): ?PaperContent;
+    public function setPaper(PaperPaperContentsAggregateInterface $headline): MenuItemPaperAggregateInterface;
 
-    /**
-     *
-     * @return PaperContent array of
-     */
-    public function getPaperContentsArray(): array;
-
-    public function setPaperHeadline(PaperHeadline $headline): MenuItemPaperAggregateInterface;
-
-    public function exchangePaperContentsArray(array $contents=[]): MenuItemPaperAggregateInterface;
 }

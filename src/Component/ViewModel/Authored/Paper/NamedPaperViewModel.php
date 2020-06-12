@@ -11,7 +11,7 @@ use Model\Repository\StatusPresentationRepo;
 
 use Model\Repository\HierarchyNodeRepo;
 use Model\Repository\ComponentRepo;
-use Model\Repository\MenuItemPaperAggregateRepo;
+use Model\Repository\MenuItemAggregateRepo;
 
 use Model\Entity\HierarchyNodeInterface;
 use Model\Entity\ComponentInterface;
@@ -36,7 +36,7 @@ class NamedPaperViewModel extends PaperViewModelAbstract implements NamedPaperVi
             StatusSecurityRepo $statusSecurityRepo,
             StatusPresentationRepo $statusPresentationRepo,
             HierarchyNodeRepo $menuRepo,
-            MenuItemPaperAggregateRepo $paperAggregateRepo,
+            MenuItemAggregateRepo $paperAggregateRepo,
             ComponentRepo $componentRepo
     ) {
         parent::__construct($statusSecurityRepo, $statusPresentationRepo, $menuRepo, $paperAggregateRepo);

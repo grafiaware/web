@@ -106,14 +106,23 @@ class MenuItemDao extends DaoAbstract {
 
         $scoreLimitHeadline = '1';  // musí být string - císlo 0.2 se převede na string 0,2
         $scoreLimitContent = '0.2';  // musí být string - císlo 0.2 se převede na string 0,2
-        $sql = "SELECT lang_code_fk, uid_fk, type_fk, menu_item.id AS id, title, active, show_time, hide_time,
-                    (ISNULL(show_time) OR show_time<=CURDATE()) AND (ISNULL(hide_time) OR CURDATE()<=hide_time) AS actual,
-                    MATCH (headline) AGAINST(:text1) as score_h,
-                    MATCH (content) AGAINST(:text2) as score_c
+        $sql = "SELECT lang_code_fk, uid_fk, type_fk, active_menu_item.id AS id, title, active_menu_item.active AS active, active_menu_item.show_time AS show_time, active_menu_item.hide_time AS hide_time,
+                    (ISNULL(active_menu_item.show_time) OR active_menu_item.show_time<=CURDATE()) AND (ISNULL(active_menu_item.hide_time) OR CURDATE()<=active_menu_item.hide_time) AS actual,
+                    score_h,
+                    score_c
                 FROM
-                        paper_content
+                        (SELECT
+                            paper_id_fk, content, MATCH (content) AGAINST(:text2) as score_c
+                        FROM paper_content
+                        WHERE active = 1 AND (ISNULL(paper_content.show_time) OR paper_content.show_time<=CURDATE()) AND (ISNULL(paper_content.hide_time) OR CURDATE()<=paper_content.hide_time)
+                        ) AS active_content
                         INNER JOIN
-                        paper_headline ON paper_content.menu_item_id_fk=paper_headline.menu_item_id_fk
+                        (SELECT
+                            id, menu_item_id_fk, headline, MATCH (headline) AGAINST(:text1) as score_h
+                        FROM paper
+                        ) AS searched_paper  ON active_content.paper_id_fk=searched_paper.id
+
+
                         INNER JOIN
                         (SELECT
                                 lang_code_fk, uid_fk, type_fk, id, title, active, show_time, hide_time
@@ -121,17 +130,15 @@ class MenuItemDao extends DaoAbstract {
                                 menu_item
                         WHERE "
                         .$this->menuItemCondition($langCodeFk, $active, $actual, ["menu_item.type_fk = 'paper'"])
-                        .") AS menu_item ON (paper_content.menu_item_id_fk=menu_item.id)
+                        .") AS active_menu_item ON (searched_paper.menu_item_id_fk=active_menu_item.id)
                 WHERE
-                        MATCH(headline) AGAINST(:text3) > $scoreLimitHeadline
+                        score_h > $scoreLimitHeadline
                              OR
-                        MATCH(content) AGAINST(:text4) > $scoreLimitContent
+                        score_c > $scoreLimitContent
                 ORDER BY score_h DESC, score_c DESC";
         $statement = $this->dbHandler->prepare($sql);
         $statement->bindParam(':text1', $text, \PDO::PARAM_STR);    // PDO neumožňuje použít vícekrát stejný placeholder
         $statement->bindParam(':text2', $text, \PDO::PARAM_STR);
-        $statement->bindParam(':text3', $text, \PDO::PARAM_STR);
-        $statement->bindParam(':text4', $text, \PDO::PARAM_STR);
         $statement->bindParam(':lang_code_fk', $langCodeFk, \PDO::PARAM_STR);
         if ($statement == FALSE) {
             $einfo = $this->dbHandler->errorInfo();

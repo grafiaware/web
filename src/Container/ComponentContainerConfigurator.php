@@ -60,7 +60,7 @@ use Model\Repository\{
     MenuItemTypeRepo,
     ComponentRepo,
     MenuRootRepo,
-    MenuItemPaperAggregateRepo
+    MenuItemAggregateRepo
 };
 
 // controller
@@ -243,7 +243,7 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                                 $c->get(StatusSecurityRepo::class),
                                 $c->get(StatusPresentationRepo::class),
                                 $c->get(HierarchyNodeRepo::class),
-                                $c->get(MenuItemPaperAggregateRepo::class),
+                                $c->get(MenuItemAggregateRepo::class),
                                 $c->get(ComponentRepo::class)
                             );
             },
@@ -258,7 +258,7 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                                 $c->get(StatusSecurityRepo::class),
                                 $c->get(StatusPresentationRepo::class),
                                 $c->get(HierarchyNodeRepo::class),
-                                $c->get(MenuItemPaperAggregateRepo::class)
+                                $c->get(MenuItemAggregateRepo::class)
                         );
             },
             PresentedItemComponent::class => function(ContainerInterface $c) {

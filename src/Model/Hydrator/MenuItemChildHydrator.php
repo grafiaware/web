@@ -16,7 +16,7 @@ use Model\Entity\MenuItemPaperAggregateInterface;
  *
  * @author pes2704
  */
-class MenuItemPaperAggregateHydrator implements HydratorInterface {
+class MenuItemChildHydrator implements HydratorInterface {
 
     /**
      *
@@ -26,8 +26,7 @@ class MenuItemPaperAggregateHydrator implements HydratorInterface {
     public function hydrate(EntityInterface $menuItemPaperAggregate, &$row) {
         /** @var MenuItemPaperAggregateInterface $menuItemPaperAggregate */
         $menuItemPaperAggregate
-            ->setPaperHeadline($row['headline'])
-            ->exchangePaperContentsArray($row['contents']);
+            ->setPaper($row['paper']);
     }
 
     /**
@@ -37,8 +36,7 @@ class MenuItemPaperAggregateHydrator implements HydratorInterface {
      */
     public function extract(EntityInterface $paperAggregate, &$row) {
         /** @var MenuItemPaperAggregateInterface $paperAggregate */
-        $row['headline'] = $paperAggregate->getPaperHeadline();
-        $row['contents'] = $paperAggregate->getPaperContentsArray();
+        $row['paper'] = $paperAggregate->getPaper();
     }
 
 }

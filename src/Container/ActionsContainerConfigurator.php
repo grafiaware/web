@@ -45,7 +45,7 @@ use Model\Repository\{
     MenuItemTypeRepo,
     ComponentRepo,
     MenuRootRepo,
-    MenuItemPaperAggregateRepo
+    MenuItemAggregateRepo
 };
 
 // view
@@ -149,7 +149,7 @@ class ActionsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
-                        $c->get(MenuItemPaperAggregateRepo::class));
+                        $c->get(MenuItemAggregateRepo::class));
             },
             PresentationActionController::class => function(ContainerInterface $c) {
                 return new PresentationActionController(

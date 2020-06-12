@@ -48,7 +48,7 @@ class HeadlinedEditableRenderer extends HtmlRendererAbstract {
                     $this->renderButtons($menuNode, $paper)
                     .Html::tag('div', ['class'=>$this->classMap->getClass('Component', 'div div div')],
                         Html::tag('headline', ['id'=>"headline_{$paper->getMenuItemIdFk()}", 'class'=>$this->classMap->getClass('Component', 'div div div headline')],
-                            $paper->getPaperHeadline()
+                            $paper->getPaper()
                         )
                         .Html::tag('i', ['class'=> $this->classMap->resolveClass(($menuNode->getMenuItem()->getActive() AND $menuNode->getMenuItem()->getActual()), 'Component',
                                 'div div div i1.published', 'div div div i1.notpublished')]

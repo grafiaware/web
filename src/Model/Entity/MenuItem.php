@@ -117,4 +117,5 @@ class MenuItem extends EntityAbstract implements MenuItemInterface {
         $this->actual = $actual;
         return $this;
     }
-}
+
+    }

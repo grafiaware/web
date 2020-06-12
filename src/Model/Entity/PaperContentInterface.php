@@ -15,7 +15,7 @@ namespace Model\Entity;
  */
 interface PaperContentInterface extends EntityInterface {
 
-    public function getMenuItemIdFk();
+    public function getPaperIdFk();
 
     public function getId();
 
@@ -23,11 +23,19 @@ interface PaperContentInterface extends EntityInterface {
 
     public function getContent();
 
+    public function getActive();
+
+    public function getShowTime();
+
+    public function getHideTime();
+
     public function getEditor();
 
     public function getUpdated();
 
-    public function setMenuItemIdFk($uidFk): PaperContentInterface;
+    public function getActual();
+
+    public function setPaperIdFk($paperIdFk): PaperContentInterface;
 
     public function setId($id): PaperContentInterface;
 
@@ -35,8 +43,15 @@ interface PaperContentInterface extends EntityInterface {
 
     public function setContent($content): PaperContentInterface;
 
+    public function setActive($active): PaperContentInterface;
+
+    public function setShowTime($showTime): PaperContentInterface;
+
+    public function setHideTime($hideTime): PaperContentInterface;
+
     public function setEditor($editor): PaperContentInterface;
 
     public function setUpdated($updated): PaperContentInterface;
 
+    public function setActual($actual): PaperContentInterface;
 }

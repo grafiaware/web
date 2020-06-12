@@ -40,9 +40,9 @@ class PaperContentRepo extends RepoAbstract implements RepoInterface {
         return $this->collection[$index] ?? NULL;
     }
 
-    public function findByMenuItemIdFk($menuItemIdFk) {
+    public function findByPaperIdFk($paperIdFk) {
         $selected = [];
-        foreach ($this->dao->find("menu_item_id_fk = :menu_item_id_fk", [':menu_item_id_fk' => $menuItemIdFk]) as $paperContentRow) {
+        foreach ($this->dao->find("paper_id_fk = :paper_id_fk", [':paper_id_fk' => $paperIdFk]) as $paperContentRow) {
             $index = $this->indexFromRow($paperContentRow);
             $this->recreateEntity($index, $paperContentRow);
             $selected[$index] = $this->collection[$index];

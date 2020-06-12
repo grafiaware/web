@@ -17,7 +17,7 @@ use Pes\Container\Container;
 use Container\WebContainerConfigurator;
 use Container\HierarchyContainerConfigurator;
 use Database\Hierarchy\ReadHierarchy;
-use Model\Repository\MenuItemPaperAggregateRepo;
+use Model\Repository\MenuItemAggregateRepo;
 
 use Model\Entity\MenuItemPaperAggregate;
 /**
@@ -34,10 +34,11 @@ class MenuItemPaperRepositoryTest extends TestCase {
 
     /**
      *
-     * @var MenuItemPaperAggregateRepo
+     * @var MenuItemAggregateRepo
      */
     private $repo;
 
+    private $title;
     private $langCode;
     private $uid;
 
@@ -105,12 +106,13 @@ class MenuItemPaperRepositoryTest extends TestCase {
                     )
                 );
 
-        $this->repo = $this->container->get(MenuItemPaperAggregateRepo::class);
+        $this->repo = $this->container->get(MenuItemAggregateRepo::class);
 
         /** @var ReadHierarchy $hierarchy */
         $hierarchy = $this->container->get(ReadHierarchy::class);
         $this->langCode = 'cs';
-        $node = $hierarchy->getNodeByTitle($this->langCode, 'Vzdělávání', false, false);
+        $this->title = 'VZDĚLÁVÁNÍ';
+        $node = $hierarchy->getNodeByTitle($this->langCode, $this->title, false, false);
         //  node.uid, (COUNT(parent.uid) - 1) AS depth, node.left_node, node.right_node, node.parent_uid
         $this->uid = $node['uid'];
 
@@ -119,14 +121,14 @@ class MenuItemPaperRepositoryTest extends TestCase {
     public function testSetUp() {
         $this->assertIsString($this->langCode);
         $this->assertIsString($this->uid);
-        $this->assertInstanceOf(MenuItemPaperAggregateRepo::class, $this->repo);
+        $this->assertInstanceOf(MenuItemAggregateRepo::class, $this->repo);
     }
 
     public function testRepoGet() {
 
         $entity = $this->repo->get($this->langCode, $this->uid);
         $this->assertInstanceOf(MenuItemPaperAggregate::class, $entity);
-
+        $this->assertEquals($this->title, $entity->getTitle());
 
         $a = 1;
     }
@@ -134,7 +136,7 @@ class MenuItemPaperRepositoryTest extends TestCase {
     public function testRepoFindByPaperFulltextSearch() {
         $items = $this->repo->findByPaperFulltextSearch($this->langCode, "Grafia", false, false);
         $this->assertIsArray($items);
-        $this->assertTrue(count($items) !== false);
+        $this->assertTrue(count($items) > 0, 'Nebyl nalezen alespoň jeden výskyt řetězce.');
     }
 
 }

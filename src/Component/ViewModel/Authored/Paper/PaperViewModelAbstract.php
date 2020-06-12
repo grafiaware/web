@@ -11,7 +11,7 @@ namespace Component\ViewModel\Authored\Paper;
 use Model\Repository\StatusPresentationRepo;
 use Model\Repository\StatusSecurityRepo;
 use Model\Repository\HierarchyNodeRepo;
-use Model\Repository\MenuItemPaperAggregateRepo;
+use Model\Repository\MenuItemAggregateRepo;
 
 use Component\ViewModel\Authored\AuthoredViewModelAbstract;
 
@@ -23,7 +23,7 @@ use Component\ViewModel\Authored\AuthoredViewModelAbstract;
 abstract class PaperViewModelAbstract extends AuthoredViewModelAbstract implements PaperViewModelInterface {
 
     /**
-     * @var MenuItemPaperAggregateRepo
+     * @var MenuItemAggregateRepo
      */
     protected $paperAggregateRepo;
 
@@ -38,7 +38,7 @@ abstract class PaperViewModelAbstract extends AuthoredViewModelAbstract implemen
             StatusSecurityRepo $statusSecurityRepo,
             StatusPresentationRepo $statusPresentationRepo,
             HierarchyNodeRepo $menuRepo,
-            MenuItemPaperAggregateRepo $paperAggregateRepo
+            MenuItemAggregateRepo $paperAggregateRepo
             ) {
         parent::__construct($statusSecurityRepo, $statusPresentationRepo, $menuRepo);
         $this->paperAggregateRepo = $paperAggregateRepo;

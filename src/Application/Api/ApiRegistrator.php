@@ -48,18 +48,20 @@ class ApiRegistrator {
         #### PresentationController ####
         $registry->register($this->resourcePrototype->withHttpMethod('POST')->withUrlPattern('/api/v1/presentation/language'));
         $registry->register($this->resourcePrototype->withHttpMethod('POST')->withUrlPattern('/api/v1/presentation/uid'));
-        $registry->register($this->resourcePrototype->withHttpMethod('POST')->withUrlPattern('/api/v1/useraction/edit_layout'));
-        $registry->register($this->resourcePrototype->withHttpMethod('POST')->withUrlPattern('/api/v1/useraction/edit_article'));
-
+        $registry->register($this->resourcePrototype->withHttpMethod('POST')->withUrlPattern('/api/v1/presentation/edit_layout'));
+        $registry->register($this->resourcePrototype->withHttpMethod('POST')->withUrlPattern('/api/v1/presentation/edit_article'));
         #### PaperController ####
-        $registry->register($this->resourcePrototype->withHttpMethod('POST')->withUrlPattern('/api/v1/paper/:menuItemId/headline'));
-        $registry->register($this->resourcePrototype->withHttpMethod('POST')->withUrlPattern('/api/v1/paper/:menuItemId/content/:id'));
+        $registry->register($this->resourcePrototype->withHttpMethod('POST')->withUrlPattern('/api/v1/paper/:paperIdFk/headline'));
+
+        $registry->register($this->resourcePrototype->withHttpMethod('POST')->withUrlPattern('/api/v1/paper/:menuItemId/contents/:id'));
+        $registry->register($this->resourcePrototype->withHttpMethod('POST')->withUrlPattern('/api/v1/paper/:paperIdFk/contents/:paperContentId/toggle'));
 
         #### EditItemController ####
         $registry->register($this->resourcePrototype->withHttpMethod('POST')->withUrlPattern('/api/v1/menu/:menuItemId/toggle'));
         $registry->register($this->resourcePrototype->withHttpMethod('POST')->withUrlPattern('/api/v1/menu/:menuItemId/actual'));
         $registry->register($this->resourcePrototype->withHttpMethod('POST')->withUrlPattern('/api/v1/menu/:menuItemId/title'));
-
+//
+//
         #### HierarchyController ####
         $registry->register($this->resourcePrototype->withHttpMethod('POST')->withUrlPattern('/api/v1/hierarchy/:uid/add'));
         $registry->register($this->resourcePrototype->withHttpMethod('POST')->withUrlPattern('/api/v1/hierarchy/:uid/addchild'));

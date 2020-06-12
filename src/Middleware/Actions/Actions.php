@@ -77,12 +77,12 @@ class Actions extends AppMiddlewareAbstract implements MiddlewareInterface {
                 $ctrl = $this->container->get(PresentationActionController::class);
                 return $ctrl->setPresentedItem($request);
         });
-        $routeGenerator->addRouteForAction('POST', '/api/v1/useraction/edit_layout', function(ServerRequestInterface $request) {
+        $routeGenerator->addRouteForAction('POST', '/api/v1/presentation/edit_layout', function(ServerRequestInterface $request) {
                 /** @var PresentationActionController $ctrl */
                 $ctrl = $this->container->get(PresentationActionController::class);
                 return $ctrl->setEditLayout($request);
         });
-        $routeGenerator->addRouteForAction('POST', '/api/v1/useraction/edit_article', function(ServerRequestInterface $request) {
+        $routeGenerator->addRouteForAction('POST', '/api/v1/presentation/edit_article', function(ServerRequestInterface $request) {
                 /** @var PresentationActionController $ctrl */
                 $ctrl = $this->container->get(PresentationActionController::class);
                 return $ctrl->setEditArticle($request);
@@ -94,7 +94,7 @@ class Actions extends AppMiddlewareAbstract implements MiddlewareInterface {
                 $ctrl = $this->container->get(PaperController::class);
                 return $ctrl->updateHeadline($request, $menuItemId);
         });
-        $routeGenerator->addRouteForAction('POST', '/api/v1/paper/:menuItemId/content/:id', function(ServerRequestInterface $request, $menuItemId, $id) {
+        $routeGenerator->addRouteForAction('POST', '/api/v1/paper/:menuItemId/contents/:id', function(ServerRequestInterface $request, $menuItemId, $id) {
                 /** @var PaperController $ctrl */
                 $ctrl = $this->container->get(PaperController::class);
                 return $ctrl->updateContent($request, $menuItemId, $id);

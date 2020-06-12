@@ -54,5 +54,6 @@ class MenuItemHydrator implements HydratorInterface {
         $row['active'] = (int) $menuItem->getActive();
         $row['show_time'] = $menuItem->getShowTime() ? Date::createFromCzechStringDate($menuItem->getShowTime())->getSqlDate() : null;
         $row['hide_time'] = $menuItem->getHideTime() ? Date::createFromCzechStringDate($menuItem->getHideTime())->getSqlDate() : null;
+        // actual - readonly
     }
 }

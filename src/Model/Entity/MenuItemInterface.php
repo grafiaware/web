@@ -30,7 +30,6 @@ interface MenuItemInterface extends EntityInterface {
      * @return \DateTime
      */
     public function getHideTime();
-
     public function getActual();
 
     public function setUidFk($uidFk): MenuItemInterface;
@@ -42,4 +41,5 @@ interface MenuItemInterface extends EntityInterface {
     public function setShowTime(\DateTime $start): MenuItemInterface;
     public function setHideTime(\DateTime $stop): MenuItemInterface;
     public function setActual($actual): MenuItemInterface;
+
 }

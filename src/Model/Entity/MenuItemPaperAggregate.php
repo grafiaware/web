@@ -10,7 +10,7 @@ namespace Model\Entity;
 
 use Model\Entity\MenuItemPaperAggregateInterface;
 use Model\Entity\MenuItem;
-use Model\Entity\PaperHeadline;
+use Model\Entity\Paper;
 use Model\Entity\PaperContent;
 
 /**
@@ -21,58 +21,26 @@ use Model\Entity\PaperContent;
 class MenuItemPaperAggregate extends MenuItem implements MenuItemPaperAggregateInterface {
 
     /**
-     * @var PaperHeadline
+     * @var PaperPaperContentsAggregateInterface
      */
-    private $headline;
-
-    /**
-     * @var PaperContent array of
-     */
-    private $contents = [];
-
+    private $paper;
 
     /**
      *
-     * @return PaperHeadline
+     * @return PaperPaperContentsAggregateInterface
      */
-    public function getPaperHeadline(): PaperHeadline {
-        return $this->headline;
+    public function getPaper(): PaperPaperContentsAggregateInterface {
+        return $this->paper;
     }
 
     /**
      *
-     * @param int $id id paper content
-     * @return PaperContent|null
-     */
-    public function getPaperContent($id): ?PaperContent {
-        return array_key_exists($id, $this->contents) ? $this->contents[$id] : null;
-    }
-
-    /**
-     *
-     * @return PaperContent array of
-     */
-    public function getPaperContentsArray(): array {
-        return $this->contents;
-    }
-
-    /**
-     *
-     * @param PaperHeadline $headline
+     * @param Paper $paperAggregate
      * @return \Model\Entity\MenuItemPaperAggregateInterface
      */
-    public function setPaperHeadline(PaperHeadline $headline): MenuItemPaperAggregateInterface {
-        $this->headline = $headline;
+    public function setPaper(PaperPaperContentsAggregateInterface $paperAggregate): MenuItemPaperAggregateInterface {
+        $this->paper = $paperAggregate;
         return $this;
     }
 
-    /**
-     *
-     * @param array $contents
-     * @return \Model\Entity\MenuItemPaperAggregateInterface
-     */
-    public function exchangePaperContentsArray(array $contents=[]): MenuItemPaperAggregateInterface {
-        $this->contents = $contents;
-        return $this;
-    }
 }

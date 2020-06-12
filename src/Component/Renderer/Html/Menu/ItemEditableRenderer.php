@@ -45,7 +45,7 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
 //                            'li i2.notactive' => 'grafia actual yellow',
 //                            'li i2.notactual' => 'grafia actual orange',
 //                            'li i2.notactivenotactual' => 'grafia actual red',
-                        
+
                         // POZOR: závislost na edit.js
                         // ve skriptu edit.js je element k editaci txtu položky vybírán pravidlem (selektorem) acceptedElement = targetElement.nodeName === 'SPAN' && targetElement.parentNode.nodeName === 'P',
                         // vyvírá <span>, který má rodiče <p>
@@ -116,7 +116,7 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
             )
             .Html::tag('button',
                 ['class'=>$this->classMap->getClass('Buttons', 'div button'),
-                'data-tooltip'=>'Aktivní/neaktivní stránka',
+                'data-tooltip'=>'Aktivní/neaktivní položka',
                 'type'=>'submit',
                 'name'=>'button',
                 'value' => 'toggle',

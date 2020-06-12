@@ -11,7 +11,7 @@ namespace Component\Renderer\Html\Authored;
 use Component\Renderer\Html\HtmlRendererAbstract;
 use Model\Entity\MenuItemPaperAggregateInterface;
 use Model\Entity\PaperContentInterface;
-use Model\Entity\PaperHeadlineInterface;
+use Model\Entity\PaperInterface;
 
 use Pes\Text\Html;
 
@@ -27,7 +27,7 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract{
                     ['class'=>$this->classMap->getClass('Headline', 'div')],
                     Html::tag('headline',
                             ['class'=>$this->classMap->getClass('Headline', 'div headline')],
-                            $paper->getPaperHeadline()->getHeadline()
+                            $paper->getPaper()->getHeadline()
                     )
                 );
     }
@@ -35,13 +35,13 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract{
     /**
      * Renderuje bloky s atributem id pro TinyMCE jméno proměnné ve formuláři
      *
-     * @param MenuItemPaperAggregateInterface $paper
+     * @param MenuItemPaperAggregateInterface $menuItemAggregate
      * @param type $class
      * @return type
      */
-    protected function renderContents(MenuItemPaperAggregateInterface $paper) {
+    protected function renderContents(MenuItemPaperAggregateInterface $menuItemAggregate) {
         $innerHtml = '';
-        foreach ($paper->getPaperContentsArray() as $paperContent) {
+        foreach ($menuItemAggregate->getPaper()->getPaperContentsArray() as $paperContent) {
             /** @var PaperContentInterface $paperContent */
             $innerHtml .=
                 Html::tag('content', [

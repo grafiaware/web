@@ -92,7 +92,7 @@ class ItemBlockEditableRenderer extends HtmlRendererAbstract {
             )
             .Html::tag('button',
                 ['class'=>$this->classMap->getClass('Buttons', 'div button'),
-                'data-tooltip'=>'Aktivní/neaktivní stránka',
+                'data-tooltip'=>'Aktivní/neaktivní položka',
                 'type'=>'submit',
                 'name'=>'button',
                 'value' => 'toggle',

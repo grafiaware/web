@@ -26,11 +26,15 @@ class PaperContentHydrator implements HydratorInterface {
     public function hydrate(EntityInterface $paperContent, &$row) {
         /** @var PaperContentInterface $paperContent */
         $paperContent
-            ->setMenuItemIdFk($row['menu_item_id_fk'])
+            ->setPaperIdFk($row['paper_id_fk'])
             ->setId($row['id'])
             ->setContent($row['content'])
+            ->setActive($row['active'])
+            ->setShowTime($row['show_time'])
+            ->setHideTime($row['hide_time'])
             ->setEditor($row['editor'])
-            ->setUpdated($row['updated'] ? \DateTime::createFromFormat('Y-m-d H:i:s', $row['updated']) : NULL);
+            ->setUpdated($row['updated'] ? \DateTime::createFromFormat('Y-m-d H:i:s', $row['updated']) : NULL)
+            ->setActual($row['actual']);
     }
 
     /**
@@ -40,11 +44,15 @@ class PaperContentHydrator implements HydratorInterface {
      */
     public function extract(EntityInterface $paperContent, &$row) {
         /** @var PaperContentInterface $paperContent */
-        $row['menu_item_id_fk'] = $paperContent->getMenuItemIdFk();
+        $row['paper_id_fk'] = $paperContent->getPaperIdFk();
         $row['id'] = $paperContent->getId();
         $row['content'] = $paperContent->getContent();
+        $row['active'] = $paperContent->getActive();
+        $row['show_time'] = $paperContent->getShowTime();
+        $row['hide_time'] = $paperContent->getHideTime();
         $row['editor'] = $paperContent->getEditor();
         // updated je timestamp
+        // actual je readonly
     }
 
 }

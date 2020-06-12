@@ -13,7 +13,9 @@ namespace Model\Entity;
  *
  * @author pes2704
  */
-interface PaperHeadlineInterface extends EntityInterface {
+interface PaperInterface extends EntityInterface {
+
+    public function getId();
 
     public function getMenuItemIdFk();
 
@@ -27,16 +29,18 @@ interface PaperHeadlineInterface extends EntityInterface {
 
     public function getUpdated();
 
-    public function setMenuItemIdFk($uidFk): PaperHeadlineInterface;
+    public function setId($id): PaperInterface;
 
-    public function setList($list): PaperHeadlineInterface;
+    public function setMenuItemIdFk($uidFk): PaperInterface;
 
-    public function setHeadline($headline): PaperHeadlineInterface;
+    public function setList($list): PaperInterface;
 
-    public function setKeywords($keywords): PaperHeadlineInterface;
+    public function setHeadline($headline): PaperInterface;
 
-    public function setEditor($editor): PaperHeadlineInterface;
+    public function setKeywords($keywords): PaperInterface;
 
-    public function setUpdated($updated): PaperHeadlineInterface;
+    public function setEditor($editor): PaperInterface;
+
+    public function setUpdated($updated): PaperInterface;
 
 }

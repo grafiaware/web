@@ -33,7 +33,7 @@ use Pes\Database\Handler\HandlerInterface;
 
 use Model\Repository\HierarchyNodeRepo;
 use Model\Dao\MenuDao;
-use Model\Repository\MenuItemPaperAggregateRepo;
+use Model\Repository\MenuItemAggregateRepo;
 use Model\Dao\PaperContentDao;
 
 /**

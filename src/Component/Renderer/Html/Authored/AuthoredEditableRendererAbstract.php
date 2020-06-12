@@ -9,9 +9,8 @@
 namespace Component\Renderer\Html\Authored;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
-use Model\Entity\HierarchyNodeInterface;
 use Model\Entity\MenuItemPaperAggregateInterface;
-use Model\Entity\PaperHeadlineInterface;
+use Model\Entity\PaperInterface;
 use Model\Entity\PaperContentInterface;
 
 use Pes\Text\Html;
@@ -55,13 +54,14 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
         );
     }
 
-    protected function renderContentButtonsForm(MenuItemPaperAggregateInterface $paper) {
+    protected function renderContentButtonsForm(PaperContentInterface $paperContent) {
         //TODO: atributy data-tooltip a data-position jsou pro semantic - zde jsou napevno zadané
-        $show = $paper->getShowTime();
-        $hide = $paper->getHideTime();
-        $uid = $paper->getUidFk();
-        $active = $paper->getActive();
-        $actual = $paper->getActual();
+        $show = $paperContent->getShowTime();
+        $hide = $paperContent->getHideTime();
+        $paperIdFk = $paperContent->getPaperIdFk();
+        $paperContentId = $paperContent->getId();
+        $active = $paperContent->getActive();
+        $actual = $paperContent->getActual();
 
         if (isset($show)) {
             $showTime = $show;//->format("d.m.Y") ;
@@ -94,7 +94,7 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
                         'name'=>'button',
                         'value' => 'toggle',
                         'formmethod'=>'post',
-                        'formaction'=>"api/v1/menu/$uid/toggle",
+                        'formaction'=>"api/v1/paper/$paperIdFk/contents/$paperContentId/toggle",
                         ],
                         Html::tag('i', ['class'=>$this->classMap->resolveClass($active, 'ContentButtons', 'div div button1 i.on', 'div div button1 i.off')])
                     )
@@ -190,7 +190,7 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
                     'name'=>'button',
                     'value' => 'permanent',
                     'formmethod'=>'post',
-                    'formaction'=>"api/v1/menu/$uid/actual/",
+                    'formaction'=>"api/v1/menu/$paperIdFk/actual/",
                     ],
                     Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'div button16 i')])
                 )
@@ -202,7 +202,7 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
                     'name'=>'button',
                     'value' => 'calendar',
                     'formmethod'=>'post',
-                    'formaction'=>"api/v1/menu/$uid/actual/",
+                    'formaction'=>"api/v1/menu/$paperIdFk/actual/",
                     ],
                     Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'div button17 i')])
                 )
@@ -240,12 +240,12 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
         );
     }
 
-    protected function renderContentsDivs(MenuItemPaperAggregateInterface $paper) {
-        $active = $paper->getActive();
-        $actual = $paper->getActual();
-
-        foreach ($paper->getPaperContentsArray() as $id => $paperContent) {
+    protected function renderContentsDivs(MenuItemPaperAggregateInterface $menuItemAggregate) {
+        $paper = $menuItemAggregate->getPaper();
+        foreach ($paper->getPaperContentsArray() as $paperContent) {
             /** @var PaperContentInterface $paperContent */
+            $active = $paperContent->getActive();
+            $actual = $paperContent->getActual();
             $form[] =
                 Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div')],
                     Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div div')],
@@ -262,7 +262,7 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
                             )
                     )
                     .Html::tag('form',
-                        ['method'=>'POST', 'action'=>"api/v1/paper/{$paperContent->getMenuItemIdFk()}/content/{$paperContent->getId()}"],
+                        ['method'=>'POST', 'action'=>"api/v1/paper/{$paperContent->getPaperIdFk()}/content/{$paperContent->getId()}"],
                         Html::tag('content',
                             [
                                 'id' => "content_{$paperContent->getId()}",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lte toto jméno také složit a hledat v POST proměnných
@@ -272,7 +272,7 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
                             $paperContent->getContent()
                             )
                     )
-                    .$this->renderContentButtonsForm($paper)
+                    .$this->renderContentButtonsForm($paperContent)
                 );
         }
         return implode(PHP_EOL, $form);
@@ -284,10 +284,10 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
      * @param MenuItemPaperAggregateInterface $paper
      * @return type
      */
-    protected function renderHeadlineForm(MenuItemPaperAggregateInterface $paper) {
-        $active = $paper->getActive();
-        $actual = $paper->getActual();
-        $paperHeadline = $paper->getPaperHeadline();
+    protected function renderHeadlineForm(MenuItemPaperAggregateInterface $menuItemAggregate) {
+        $active = $menuItemAggregate->getActive();
+        $actual = $menuItemAggregate->getActual();
+        $paper = $menuItemAggregate->getPaper();
         return
             Html::tag('div', ['class'=>$this->classMap->getClass('Headline', 'div')],
                 Html::tag('div', ['class'=>$this->classMap->getClass('Headline', 'div div')],
@@ -303,14 +303,14 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
                         ]
                     )
                 )
-                .Html::tag('form', ['method'=>'POST', 'action'=>"api/v1/paper/{$paperHeadline->getMenuItemIdFk()}/headline/"],
+                .Html::tag('form', ['method'=>'POST', 'action'=>"api/v1/paper/{$paper->getMenuItemIdFk()}/headline/"],
                     Html::tag(
                         'headline',
                         [
-                            'id'=>"headline_{$paperHeadline->getMenuItemIdFk()}",  // id musí být na stránce unikátní - skládám ze slova headline_ a MenuItemIdFk, v kontroléru lte toto jméno také složit a hledat v POST proměnných
+                            'id'=>"headline_{$paper->getMenuItemIdFk()}",  // id musí být na stránce unikátní - skládám ze slova headline_ a MenuItemIdFk, v kontroléru lte toto jméno také složit a hledat v POST proměnných
                             'class'=>$this->classMap->getClass('Headline', 'form headline'),
                         ],
-                        $paperHeadline->getHeadline()
+                        $paper->getHeadline()
                     )
                 )
             );
