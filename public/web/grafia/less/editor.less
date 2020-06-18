@@ -124,7 +124,6 @@ body.layout#tinymce{
         display: flex;
         flex-direction: column;
         top: 0;
-        z-index: 1;
         left: -21px;
         i.icon{
             margin-bottom: 2px;
@@ -271,6 +270,90 @@ body.layout#tinymce{
         > .item{
             background-color: #f8f3ff !important;
         }
+    }
+    
+    /***VYBEROVE MENU***/
+    .nav-vyberove{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: fixed;
+        padding: 5px;
+        margin-top: 0;
+        left: 15px;
+        border: 1px solid @lightGrey;
+        border-radius: 5px;
+        box-shadow: 1px 1px 10px 1px rgba(34,36,38,.15);
+        &:hover{
+            background-color: rgb(242, 242, 242);
+            transition: 0.3s all;
+        }
+    }
+    #vyberove_menu {
+        display: none;
+        height: 100%;
+        width: auto;
+        background-color: @white; 
+        position: fixed!important;
+        top: 0;
+        left: 0;
+        z-index: 100;
+        overflow: auto;
+        -webkit-animation: animateleft 0.4s;
+        animation: animateleft 0.4s;
+        padding: 20px;
+        .close_vyberoveMenu{
+            font-size: 1.3em;
+            display: flex;
+            flex-direction: column; 
+            align-items: end;
+            margin: -5px 10px 0 0;
+        }
+        .svisle-menu ul.menu.edit{
+            width: 100%;
+        }
+        .vodorovne-menu ul.menu.edit{
+            padding-left: 0px;
+            margin: 10px 0 10px -7px;
+            
+        }
+    }
+    #prekryti_pro_vyber{
+        position: fixed;
+        display: none;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5); //@transparentBlack
+        z-index: 1;
+    }
+    .nav_vyberove{
+        cursor: pointer;
+        display: flex;
+        width: 75px;
+        padding: 5px;
+        margin-top: 0;
+        left: 15px;
+        border: 1px solid @lightGrey;
+        border-radius: 5px;
+        box-shadow: 1px 1px 10px 1px rgba(34,36,38,.15);
+        &:hover{
+            background-color: rgb(242, 242, 242);
+            transition: 0.3s all;
+        }
+    }
+    @keyframes animateleft {
+      from {
+        left: -300px;
+        opacity: 0;
+      }
+      to {
+        left: 0;
+        opacity: 1;
+      }
     }
 
     /***PRESMEROVANI MENU***/

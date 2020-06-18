@@ -23,6 +23,15 @@ function hamburger_close() {
     document.getElementById("myOverlay").style.display = "none";
 }
 
+function vyberoveMenu_open() { 
+    document.getElementById("vyberove_menu").style.display = "block";
+    document.getElementById("prekryti_pro_vyber").style.display = "block";
+}
+function vyberoveMenu_close() {
+    document.getElementById("vyberove_menu").style.display = "none";
+    document.getElementById("prekryti_pro_vyber").style.display = "none";
+}
+
 function edit_name() {
     document.getElementById("editName").style.display = "block";
     document.getElementById("editMenu").style.display = "none";
