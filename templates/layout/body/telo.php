@@ -9,7 +9,30 @@
     </div>
     <div id="contents" class="column">
         <div class="articleHeadlined">
-       
+            <!---->
+            <div id="vyberove_menu">
+                <div class="close_vyberoveMenu" onclick="vyberoveMenu_close()"><a href="javascript:void(0)"><i class="times circle outline large icon" title="zavřít"></i></a></div>
+                <nav class="vodorovne-menu">
+                    <?=
+                        $menuVodorovne
+                    ?>
+                </nav>
+                <nav class="svisle-menu">
+                    <?=
+                        $menuSvisle
+                    ?>
+                </nav>
+                <nav class="svisle-menu bloky">
+                    <form action="">
+                    <?=
+                        $bloky ?? ''
+                    ?>
+                    </form>
+                </nav>
+            </div> 
+            <div id="prekryti_pro_vyber" onclick="vyberoveMenu_close()"></div>
+            <span class="nav_vyberove active" onclick="vyberoveMenu_open()"><i class="bars large icon"></i>Menu</span>
+            <!---->
             <?=
             $content;
             ?>

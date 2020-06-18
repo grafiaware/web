@@ -7,9 +7,8 @@
 @import "content.less";       
 @import "editor.less";               
 @import "template.less"; 
-      
                                      
-.layout{          
+.layout{           
     /************************************media*************************************/ 
     @media (max-width: 1750px) {  
 /*        .poznamky{  
@@ -126,7 +125,7 @@
             .ui.segment{
                 display: none !important;
             }
-        }
+        }  
         .page-content .column .segment:not(.ui):not(.grafia){
             display: flex;
             flex-direction: column;
@@ -134,10 +133,10 @@
             margin: 10px auto;
             width: 70%;
             height: auto;
-        }
+        }  
         .page-content .column > form > button.ui.button.save{
             right: 15px;
-        }
+        } 
         .nav-mobile{
             display: flex;
             flex-direction: column;
@@ -168,7 +167,7 @@
             overflow: auto;
             -webkit-animation: animateleft 0.4s;
             animation: animateleft 0.4s;
-            padding: 20px;
+            padding: 20px; 
         }
         #myOverlay{
             position: fixed;
@@ -181,7 +180,7 @@
             bottom: 0;
             background-color: rgba(0, 0, 0, 0.5); //@transparentBlack
             z-index: 1;
-        }
+        }  
         @-webkit-keyframes animateleft {
           from {
             left: -300px;
@@ -203,23 +202,23 @@
           }
         }
         .poznamky{
-            left: 25px;
+            left: 25px; 
             top: 240px;
-            .label{
+            .label{ 
                 width: 55px !important;
             }
         }
         .poznamky:hover{
-            .label{
+            .label{ 
                 width: 100% !important;
-            }
-        }
-    }
+            } 
+        } 
+    } 
     @media (min-width: 1100px) {
         .close-item, span.nav-mobile{
-            display: none;
+            display: none;   
         }
-        #mySidenav {
+        #mySidenav { 
             display: block !important;
         }
     }
