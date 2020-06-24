@@ -18,7 +18,7 @@ body.layout#tinymce{
     }
     header .prihlaseni{
         margin-right: 2px;
-        position: relative;
+        position: relative; 
         float: right;
         margin-top: 6px;
         margin-bottom: -5px;
@@ -129,7 +129,7 @@ body.layout#tinymce{
             margin-bottom: 2px;
         }
         &.polozky_menu{
-            left: -2px;
+            left: -1px;
         }
     }
     li a > .semafor.polozky_menu{
@@ -194,7 +194,7 @@ body.layout#tinymce{
         overflow-y: scroll;
         width: 107%;
         margin-left: -8px;
-        li:not(:first-child){
+        li:not(:first-child){ 
             border-top: 2px solid @transparentBlack;
         }
         .onpath {
@@ -218,6 +218,16 @@ body.layout#tinymce{
             }
         }
     }
+    .svisle-menu .menu button[data-tooltip]::before,
+    .vodorovne-menu .menu button[data-tooltip]::before{
+        top: auto;
+        right: auto;
+        bottom: 100%;
+        left: 50%;
+        background: #fff;
+        margin-left: -0.08em;
+        margin-bottom: 0.16em;
+    }
     .svisle-menu .menu button[data-tooltip]::after,
     .vodorovne-menu .menu button[data-tooltip]::after{
         font-weight: 700;
@@ -238,8 +248,14 @@ body.layout#tinymce{
     }
 
     /***SVISLE MENU BLOKY***/
+    .svisle-menu.bloky .menu.edit{
+        height: 400px;
+        overflow-y: scroll;
+        width: 107%;
+        margin-left: -8px;
+    }
     .svisle-menu.bloky{
-        margin: 10px auto;
+        margin: 20px auto;
         .menu.edit > .onpath.presented .buttons{
             background: #edf7ff;
         }
@@ -249,6 +265,9 @@ body.layout#tinymce{
         > .item{
             background-color: #edf7ff !important;
             > i{
+                display: none;
+            }
+            .semafor{
                 display: none;
             }
         }
@@ -386,7 +405,7 @@ body.layout#tinymce{
             margin: 6px 5px 6px 0;
             padding-left: 5px;
             &.onpath.presented{
-                .active{
+/*                .active{
                     border-width: 1px 0 1px 1px;
                     border-color: @primaryColor;
                     border-style: solid;
@@ -395,6 +414,12 @@ body.layout#tinymce{
                     border-width: 1px 1px 1px 0;
                     border-color: @primaryColor;
                     border-style: solid;
+                }*/
+                .semafor, p.button{
+                    margin-left: 5px;
+                }
+                p.button{
+                    padding: 9px 12px;
                 }
             }
             .buttons{
@@ -404,9 +429,9 @@ body.layout#tinymce{
                 margin-right: 5px;
             }
             a{
-                padding-right: 12px;
-                padding-left: 12px;
+                padding: 9px 12px;
             }
+            
         }
     }
     /*************************************main*************************************/
