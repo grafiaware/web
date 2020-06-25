@@ -77,8 +77,12 @@
                 </div>
         </div>
         <div class="eight wide column">
-            <iframe style="border:none" src="https://frame.mapy.cz/s/gusojobeco" width="1000" height="250" frameborder="0"></iframe>
-            
+            <div id="map" class="map"></div>
+            <div id="popup" class="ol-popup">
+                 <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+                 <div id="popup-content"></div>
+            </div>
+
         </div>
     </div>
     </footer>

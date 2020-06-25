@@ -17,6 +17,13 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
     <?= $editableJsLinks ?? '' ?>
     <script src="<?= Middleware\Web\AppContext::getAppPublicDirectory().'semantic/dist/semantic.min.js'?>"></script>
-
-
-
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/css/ol.css" type="text/css">
+    <style>
+      .map {
+        height: 400px;
+        width: 600px;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/build/ol.js"></script>
+    

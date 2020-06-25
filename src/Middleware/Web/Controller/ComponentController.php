@@ -50,7 +50,7 @@ class ComponentController extends LayoutControllerAbstract {
 
 ######################################
     private function initLayoutTemplatesVars() {
-        $theme = 'old';
+        $theme = 'new';
 
         switch ($theme) {
             case 'old':
