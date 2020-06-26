@@ -17,47 +17,23 @@
                 document.getElementById("mySidenav").style.display = "none";
                 document.getElementById("myOverlay").style.display = "none";
             }
+
+    
+            map = new OpenLayers.Map("map");
+            map.addLayer(new OpenLayers.Layer.OSM());
+
+            var lonLat = new OpenLayers.LonLat([13.3704967, 49.7463531])
+            .transform(
+                new OpenLayers.Projection("EPSG:4326"),
+                map.getProjectionObject() 
+            );
+            var zoom = 17;
             
-             var map = new ol.Map({
-                target: 'map',
-                layers: [
-                  new ol.layer.Tile({
-                    source: new ol.source.OSM()
-                  })
-                ],
-                view: new ol.View({
-                  center: ol.proj.fromLonLat([13.3704967, 49.7463531]),
-                  zoom: 17
-                })
-             });
-              var layer = new ol.layer.Vector({
-                 source: new ol.source.Vector({
-                     features: [
-                         new ol.Feature({
-                             geometry: new ol.geom.Point(ol.proj.fromLonLat([13.3704967, 49.7463531]))
-                         })
-                     ]
-                 })
-             });
-             map.addLayer(layer);
-             var container = document.getElementById('popup');
-             var content = document.getElementById('popup-content');
-             var closer = document.getElementById('popup-closer');
+            var markers = new OpenLayers.Layer.Markers( "Markers" );
+            map.addLayer(markers);
+            markers.addMarker(new OpenLayers.Marker(lonLat));
 
-             var overlay = new ol.Overlay({
-                 element: container,
-                 autoPan: true,
-                 autoPanAnimation: {
-                     duration: 250
-                 }
-             });
-             map.addOverlay(overlay);
-
-             closer.onclick = function() {
-                 overlay.setPosition(undefined);
-                 closer.blur();
-                 return false;
-             };
+            map.setCenter (lonLat, zoom);
 
 
         </script>

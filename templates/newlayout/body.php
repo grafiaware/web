@@ -1,5 +1,5 @@
 
-    <div class="ui grid">
+    <div class="ui stackable centered grid">
         <div class="fifteen wide column">
             <header>
                 <div class="ui three column grid equal width">
@@ -65,7 +65,7 @@
         </div>
     </div>
     <footer>
-    <div class="ui two column grid">
+    <div class="ui two column stackable centered grid">
         <div class="seven wide column">
                 <!--?=$mapa?-->
                 <div class="kontaktni-udaje">
@@ -78,10 +78,6 @@
         </div>
         <div class="eight wide column">
             <div id="map" class="map"></div>
-            <div id="popup" class="ol-popup">
-                 <a href="#" id="popup-closer" class="ol-popup-closer"></a>
-                 <div id="popup-content"></div>
-            </div>
 
         </div>
     </div>

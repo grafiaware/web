@@ -24,6 +24,19 @@
         height: 400px;
         width: 600px;
       }
+      #OpenLayers_Control_Attribution_7{ 
+        position: absolute;
+        background: #ffffffc7;
+        right: 0;
+        bottom: 0;
+      }
+      @media (max-width: 768px) {
+          .map{
+              width: 350px;
+              height: 400px;
+          }
+          
+      }
     </style>
-    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/build/ol.js"></script>
+    <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
     
