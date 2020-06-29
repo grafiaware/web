@@ -8,8 +8,6 @@
 
 namespace Model\Entity;
 
-use Model\Entity\User;
-
 /**
  * Description of StatusPresentation
  *

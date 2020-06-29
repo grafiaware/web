@@ -9,7 +9,7 @@
 namespace Model\HierarchyHooks;
 
 use Pes\Database\Handler\HandlerInterface;
-use Database\Hierarchy\HookedActorAbstract;
+use Model\Dao\Hierarchy\HookedActorAbstract;
 
 /**
  * Description of HookedArticleActions

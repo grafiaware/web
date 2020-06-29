@@ -12,6 +12,8 @@ use Model\Entity\MenuItem;
 use Model\Entity\MenuItemInterface;
 
 use Model\Dao\MenuItemDao;
+use Model\Dao\ContextPublishedInterface;
+
 use Model\Hydrator\HydratorInterface;
 
 use Model\Repository\Exception\UnableRecreateEntityException;
@@ -21,18 +23,15 @@ use Model\Repository\Exception\UnableRecreateEntityException;
  *
  * @author pes2704
  */
-class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
+class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface, RepoPublishedOnlyModeInterface {
 
-    private $onlyPublished;
+    use RepoPublishedOnlyModeTrait;
 
+    protected $dao;
 
     public function __construct(MenuItemDao $menuItemDao, HydratorInterface $menuItemHydrator) {
         $this->dao = $menuItemDao;
-        $this->hydrator = $menuItemHydrator;
-    }
-
-    public function setOnlyPublishedMode($onlyPublished = true): void {
-        $this->onlyPublished = $onlyPublished;
+        $this->registerHydrator($menuItemHydrator);
     }
 
     /**
@@ -44,7 +43,7 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
     public function get($langCodeFk, $uidFk): ?MenuItemInterface {
         $index = $langCodeFk.$uidFk;
         if (!isset($this->collection[$index])) {
-            $this->recreateEntity($index, $this->dao->get($langCodeFk, $uidFk, $this->onlyPublished, $this->onlyPublished));
+            $this->recreateEntity($index, $this->dao->get($langCodeFk, $uidFk));
         }
         return $this->collection[$index] ?? null;
     }
@@ -57,8 +56,8 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
      * @param bool $actual Nepovinný parametr, default=TRUE. Defaultně metoda hledá jen aktuální položky.
      * @return MenuItemInterface array of
      */
-    public function findByPaperFulltextSearch($langCodeFk, $text, $active=\TRUE, $actual=\TRUE) {
-        $rows = $this->dao->findByContentFulltextSearch($langCodeFk, $text, $active, $actual);
+    public function findByPaperFulltextSearch($langCodeFk, $text) {
+        $rows = $this->dao->findByContentFulltextSearch($langCodeFk, $text);
         $collection = [];
         foreach ($rows as $row) {
             $index = $this->indexFromRow($row);
@@ -80,19 +79,10 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
         unset($this->collection[$this->indexFromEntity($menuItem)]);
     }
 
-    /**
-     *
-     * @param array $row
-     * @return MenuItem
-     */
-    protected function recreateEntity($index, $row) {    // protected - může být přetížena aggregateRepo
-        if ($row) {
-            $menuItem = new MenuItem();
-            $this->hydrator->hydrate($menuItem, $row);
-            $menuItem->setPersisted();
-            $this->collection[$index] = $menuItem;
-        }
+    protected function createEntity() {
+        return new MenuItem();
     }
+    
     protected function indexFromEntity(MenuItemInterface $menuItem) {
         return $menuItem->getLangCodeFk().$menuItem->getUidFk();
     }

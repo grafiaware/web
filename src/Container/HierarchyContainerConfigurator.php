@@ -27,10 +27,10 @@ use Pes\Logger\FileLogger;
 // models
 
 //dao + hydrator + repo
-use Database\Hierarchy\EditHierarchy;
-use Database\Hierarchy\ReadHierarchy;
-use Database\Hierarchy\EditHierarchyInterface;
-use Database\Hierarchy\ReadHierarchyInterface;
+use Model\Dao\Hierarchy\EditHierarchy;
+use Model\Dao\Hierarchy\NodeAggregateReadonlyDao;
+use Model\Dao\Hierarchy\EditHierarchyInterface;
+use Model\Dao\Hierarchy\NodeAggregateReadonlyDaoInterface;
 use Model\Dao\MenuItemDao;
 use Model\Hydrator\HierarchyNodeHydrator;
 use Model\Hydrator\MenuItemHydrator;
@@ -78,7 +78,7 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
         return [
             HandlerInterface::class => Handler::class,
             RouterInterface::class => Router::class,
-            ReadHierarchyInterface::class => ReadHierarchy::class,
+            NodeAggregateReadonlyDaoInterface::class => NodeAggregateReadonlyDao::class,
             EditHierarchyInterface::class => EditHierarchy::class,
             StatusPresentationManagerInterface::class => StatusPresentationManager::class,
         ];
@@ -199,8 +199,8 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
 
 
 ########################
-            ReadHierarchy::class => function(ContainerInterface $c) : ReadHierarchy {
-                return new ReadHierarchy($c->get(Handler::class), $c->get('menu.hierarchy_table'), $c->get('menu.menu_item_table'));
+            NodeAggregateReadonlyDao::class => function(ContainerInterface $c) : NodeAggregateReadonlyDao {
+                return new NodeAggregateReadonlyDao($c->get(Handler::class), $c->get('menu.hierarchy_table'), $c->get('menu.menu_item_table'));
             },
             EditHierarchy::class => function(ContainerInterface $c) : EditHierarchy {
                 /** @var EditHierarchy $editHierarchy */
@@ -230,7 +230,7 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
                         );
             },
             HierarchyNodeRepo::class => function(ContainerInterface $c) {
-                return new HierarchyNodeRepo($c->get(ReadHierarchy::class), $c->get(EditHierarchy::class),
+                return new HierarchyNodeRepo($c->get(NodeAggregateReadonlyDao::class),
                         $c->get(HierarchyNodeHydrator::class), $c->get(MenuItemHydrator::class),
                         $c->get(MenuItemRepo::class));
             },

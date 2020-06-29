@@ -1,5 +1,5 @@
 <?php
-namespace Database\Hierarchy;
+namespace Model\Dao\Hierarchy;
 
 use Pes\Database\Handler\HandlerInterface;
 
@@ -14,6 +14,8 @@ abstract class HierarchyAbstract {
      * @var HandlerInterface
      */
     protected $handler;
+
+    protected $contextConditions = [];
 
     /**
      *

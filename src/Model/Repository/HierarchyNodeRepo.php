@@ -12,8 +12,8 @@ use Model\Entity\MenuItem;
 use Model\Entity\MenuItemInterface;
 use Model\Entity\HierarchyNode;
 use Model\Entity\HierarchyNodeInterface;
-use Database\Hierarchy\ReadHierarchyInterface;
-use Database\Hierarchy\EditHierarchyInterface;
+use Model\Dao\Hierarchy\NodeAggregateReadonlyDaoInterface;
+use Model\Dao\Hierarchy\EditHierarchyInterface;
 use Model\Hydrator\HydratorInterface;
 use Model\Repository\MenuItemRepo;
 
@@ -22,7 +22,9 @@ use Model\Repository\MenuItemRepo;
  *
  * @author pes2704
  */
-class HierarchyNodeRepo implements RepoReadonlyInterface {
+class HierarchyNodeRepo implements RepoPublishedOnlyModeInterface, RepoReadonlyInterface {
+
+    use RepoPublishedOnlyModeTrait;
 
     const SIEBLING = 'SIEBLING';
     const CHILD = 'CHILD';
@@ -34,9 +36,9 @@ class HierarchyNodeRepo implements RepoReadonlyInterface {
     private $hierarchyNodeCollection = [];
 
     /**
-     * @var ReadHierarchyInterface
+     * @var NodeAggregateReadonlyDaoInterface
      */
-    private $readHierarchy;
+    private $dao;
 
     /**
      * @var EditHierarchyInterface
@@ -58,28 +60,14 @@ class HierarchyNodeRepo implements RepoReadonlyInterface {
      */
     private $menuItemRepo;
 
-    private $onlyPublished = false;
-
-    public function __construct(ReadHierarchyInterface $readHirerarchy, EditHierarchyInterface $editHierarchy,
+    public function __construct(NodeAggregateReadonlyDaoInterface $readHirerarchy,
             HydratorInterface $menuNodeHydrator, HydratorInterface $menuItemHydrator,
             MenuItemRepo $menuItemRepo
             ) {
-        $this->readHierarchy = $readHirerarchy;
-        $this->editHierarchy = $editHierarchy;
+        $this->dao = $readHirerarchy;
         $this->hierarchyNodeHydrator = $menuNodeHydrator;
         $this->menuItemHydrator = $menuItemHydrator;
         $this->menuItemRepo = $menuItemRepo;
-
-        // hierarchy repo je vždy readonly - pokud je menuItemRepo použito v hierarchyRepo je zde nastaveno také na readonly!!
-        // při získávání menuItemRepo ze služby kontejneru předpokládám, že nebude současně použito ukládání menuItem
-        $this->menuItemRepo->setReadOnly(true);
-    }
-
-
-//         * @param bool $active Podud je TRUE, vybírá jen položky s vlastností active=TRUE, jinak vrací aktivní i neaktivní.
-//     * @param bool $actual Pokud je TRUE, vybírá jen položky kde dnešní datum je mezi show_time a hide_time včetně.
-    public function setOnlyPublishedMode($onlyPublished = true) {
-        $this->onlyPublished = $onlyPublished;
     }
 
     /**
@@ -94,7 +82,7 @@ class HierarchyNodeRepo implements RepoReadonlyInterface {
     public function get($langCode, $uid): ?HierarchyNodeInterface {
         $index = $langCode.$uid;
         if (!isset($this->hierarchyNodeCollection[$index])) {
-            $row = $this->readHierarchy->getNode($langCode, $uid, $this->onlyPublished, $this->onlyPublished);
+            $row = $this->dao->get($langCode, $uid);
             $this->recreateEntity($index, $row);
         }
         return $this->hierarchyNodeCollection[$index] ?? null;
@@ -110,7 +98,7 @@ class HierarchyNodeRepo implements RepoReadonlyInterface {
      * @return HierarchyNodeInterface
      */
     public function getNodeByTitle($langCode, $title) {
-        $row = $this->readHierarchy->getNodeByTitle($langCode, $title, $this->onlyPublished, $this->onlyPublished);
+        $row = $this->dao->getByTitleHelper($langCode, $title);
         $index = $langCode.$row['uid_fk']; // index z parametru a row
         if (!isset($this->hierarchyNodeCollection[$index])) {
             $this->recreateEntity($index, $row);
@@ -130,7 +118,7 @@ class HierarchyNodeRepo implements RepoReadonlyInterface {
      */
     public function findChildren($langCode, $parentUid) {
         $children = [];
-        foreach($this->readHierarchy->getImmediateSubNodes($langCode, $parentUid, $this->onlyPublished, $this->onlyPublished) as $row) {
+        foreach($this->dao->getImmediateSubNodes($langCode, $parentUid) as $row) {
             $index = $this->indexFromRow($row);
             $this->recreateEntity($index, $row);
             $children[] = $this->hierarchyNodeCollection[$index];
@@ -145,7 +133,7 @@ class HierarchyNodeRepo implements RepoReadonlyInterface {
      */
     public function getFullTree($langCode) {
         $tree = [];
-        foreach($this->readHierarchy->getFullTree($langCode, $this->onlyPublished, $this->onlyPublished) as $row) {
+        foreach($this->dao->getFullTree($langCode) as $row) {
             $index = $this->indexFromRow($row);
             $this->recreateEntity($index, $row);
             $tree[] = $this->hierarchyNodeCollection[$index];
@@ -162,7 +150,7 @@ class HierarchyNodeRepo implements RepoReadonlyInterface {
      */
     public function getSubTree($langCode, $rootUid, $maxDepth=NULL) {
         $subTree = [];
-        foreach($this->readHierarchy->getSubTree($langCode, $rootUid, $this->onlyPublished, $this->onlyPublished, $maxDepth) as $row) {
+        foreach($this->dao->getSubTree($langCode, $rootUid, $maxDepth) as $row) {
             $index = $this->indexFromRow($row);
             $this->recreateEntity($index, $row);
             $subTree[] = $this->hierarchyNodeCollection[$index];
@@ -179,7 +167,7 @@ class HierarchyNodeRepo implements RepoReadonlyInterface {
      */
     public function getSubNodes($langCode, $parentUid, $maxDepth=NULL) {
         $subTree = [];
-        foreach($this->readHierarchy->getSubNodes($langCode, $parentUid, $this->onlyPublished, $this->onlyPublished, $maxDepth) as $row) {
+        foreach($this->dao->getSubNodes($langCode, $parentUid, $maxDepth) as $row) {
             $index = $this->indexFromRow($row);
             $this->recreateEntity($index, $row);
             $subTree[] = $this->hierarchyNodeCollection[$index];
@@ -214,7 +202,7 @@ class HierarchyNodeRepo implements RepoReadonlyInterface {
             default:
                 throw \UnexpectedValueException("Neznámá pozice přidávané položky.");
         }
-        $this->hierarchyNodeHydrator->hydrate($menuNode, $this->readHierarchy->getNode($langCode, $uid, true, true));  // hydratuje menuNode daty zpětně načtenými z databáze
+        $this->hierarchyNodeHydrator->hydrate($menuNode, $this->dao->get($langCode, $uid, true, true));  // hydratuje menuNode daty zpětně načtenými z databáze
     }
 
     public function remove(HierarchyNodeInterface $menuNode) {

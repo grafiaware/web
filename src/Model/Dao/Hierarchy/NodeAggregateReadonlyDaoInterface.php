@@ -6,24 +6,24 @@
  * and open the template in the editor.
  */
 
-namespace Database\Hierarchy;
+namespace Model\Dao\Hierarchy;
+
+use Model\Dao\ContextPublishedInterface;
 
 /**
  *
  * @author pes2704
  */
-interface ReadHierarchyInterface {
+interface NodeAggregateReadonlyDaoInterface extends ContextPublishedInterface {
 
     /**
      *
      * @param type $langCode Hodnota existující v sloupci tabulky language.lang_code
      * @param type $uid
-     * @param type $active
-     * @param type $actual
      *
      * @return array
      */
-    public function getNode($langCode, $uid, $active, $actual);
+    public function get($langCode, $uid);
 
     /**
      * JEN POMOCNÁ FUNKCE PRO LADĚNÍ
@@ -34,7 +34,7 @@ interface ReadHierarchyInterface {
      * @param string $title
      * @return array
      */
-    public function getNodeByTitle($langCode, $title, $active, $actual);
+    public function getByTitleHelper($langCode, $title);
 
     /**
      * Full tree ve formě řazeného seznamu získaného traverzováním okolo stronu. V položkách seznamu vrací name, id, depth, breadcrumb.
@@ -42,7 +42,7 @@ interface ReadHierarchyInterface {
      *
      * @return array
      */
-    public function getFullTree($langCode, $active, $actual);
+    public function getFullTree($langCode);
 
     /**
      * Subtree ve formě řazeného seznamu.
@@ -54,7 +54,7 @@ interface ReadHierarchyInterface {
      * @param int $maxDepth
      * @return array
      */
-    public function getSubTree($langCode, $rootUid, $active, $actual, $maxDepth=NULL);
+    public function getSubTree($langCode, $rootUid, $maxDepth=NULL);
 
     /**
      * Vrací cestu od kořene stromu k zadanému prvku
@@ -65,7 +65,7 @@ interface ReadHierarchyInterface {
      * @param bool $actual
      * @return array
      */
-    public function singlePath($langCode, $uid, $active, $actual);
+    public function singlePath($langCode, $uid);
 
     /**
      * Vrací cestu od zadaného počátečného (kořenového) ke koncovému prvku cesty
@@ -77,7 +77,7 @@ interface ReadHierarchyInterface {
      * @param bool $actual
      * @return array
      */
-    public function singleSubPath($langCode, $rootUid, $uid, $active, $actual);
+    public function singleSubPath($langCode, $rootUid, $uid);
 
     /**
      * Vrací bezprostřední potomky
@@ -88,7 +88,7 @@ interface ReadHierarchyInterface {
      * @param type $actual
      * @return array
      */
-    public function getImmediateSubNodes($langCode, $nodeUid, $active, $actual);
+    public function getImmediateSubNodes($langCode, $nodeUid);
 
     /**
      * Vrací potomky rodičovského prvku. Pokud je zadán, vrací jen potomky do maximální hloubky jejich umístění v celém stromu, jinak vrací celý postrom.
@@ -100,7 +100,7 @@ interface ReadHierarchyInterface {
      * @param type $maxDepth
      * @return array
      */
-    public function getSubNodes($langCode, $parentUid, $active, $actual, $maxDepth=NULL);
+    public function getSubNodes($langCode, $parentUid, $maxDepth=NULL);
 
     /**
      * Vrací jednu položku. Položka obsahuje depth a breadcrumb.

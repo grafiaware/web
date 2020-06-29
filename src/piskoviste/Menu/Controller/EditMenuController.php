@@ -7,7 +7,7 @@ use Psr\Http\Message\RequestInterface;
 use Pes\Http\Response\RedirectResponse;
 use Pes\Http\Response;
 
-use Database\Hierarchy\EditHierarchy;
+use Model\Dao\Hierarchy\EditHierarchy;
 use Model\HierarchyHooks\HookedMenuItemActor;
 
 use Model\HierarchyHooks\ArticleTitleUpdater;

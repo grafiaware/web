@@ -1,11 +1,11 @@
 <?php
 
-namespace Database\Hierarchy;
+namespace Model\Dao\Hierarchy;
 
 //use Pes\Database\MyMiniHandler\HandlerInterface;
 use Pes\Database\Handler\HandlerInterface;
 
-use Database\Hierarchy\HookedMenuItemActorInterface;
+use Model\Dao\Hierarchy\HookedMenuItemActorInterface;
 
 /**
  * Třída pro editaci nested set hierarchie.

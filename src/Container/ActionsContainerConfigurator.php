@@ -28,11 +28,11 @@ use Pes\Database\Handler\{
 
 // controller
 use \Middleware\Actions\ActionsController\{
-    UserActionController, HierarchyController, EditItemController, PresentationActionController, PaperController
+    UserActionController, HierarchyController, EditItemController, PresentationActionController, PaperController, ContentController
 };
 
 // dao
-use Database\Hierarchy\EditHierarchy;
+use Model\Dao\Hierarchy\EditHierarchy;
 
 // repo
 use Model\Repository\{
@@ -45,7 +45,9 @@ use Model\Repository\{
     MenuItemTypeRepo,
     ComponentRepo,
     MenuRootRepo,
-    MenuItemAggregateRepo
+    MenuItemAggregateRepo,
+    PaperRepo,
+    PaperContentRepo
 };
 
 // view
@@ -144,13 +146,6 @@ class ActionsContainerConfigurator extends ContainerConfiguratorAbstract {
 
 ##############
 
-            PaperController::class => function(ContainerInterface $c) {
-                return new PaperController(
-                        $c->get(StatusSecurityRepo::class),
-                        $c->get(StatusFlashRepo::class),
-                        $c->get(StatusPresentationRepo::class),
-                        $c->get(MenuItemAggregateRepo::class));
-            },
             PresentationActionController::class => function(ContainerInterface $c) {
                 return new PresentationActionController(
                         $c->get(StatusSecurityRepo::class),
@@ -180,7 +175,20 @@ class ActionsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusPresentationRepo::class),
                         $c->get(MenuItemRepo::class));
             },
-
+            PaperController::class => function(ContainerInterface $c) {
+                return new PaperController(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(PaperRepo::class));
+            },
+            ContentController::class => function(ContainerInterface $c) {
+                return new ContentController(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(PaperContentRepo::class));
+            },
             // view
             'logs.view.directory' => 'Logs/App/Web',
             'logs.view.file' => 'Render.log',

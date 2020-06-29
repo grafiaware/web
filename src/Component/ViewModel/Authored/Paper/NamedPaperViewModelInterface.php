@@ -29,9 +29,9 @@ interface NamedPaperViewModelInterface extends PaperViewModelInterface {
     public function getComponent(): ComponentInterface;
 
     /**
-     * Metoda nemá parametr. Vrací paper odpovídající položce menu, zapsané v databázi jako komponenta se se jménem komponenty zadaným metodou setComponentName($componentName).
+     * Metoda nemá parametr. Vrací menuItemAggregate odpovídající položce menu, zapsané v databázi jako komponenta se se jménem komponenty zadaným metodou setComponentName($componentName).
      *
-     * @return MenuItemPaperAggregateInterface
+     * @return MenuItemPaperAggregateInterface|null
      */
-    public function getMenuItemPaperAggregate(): MenuItemPaperAggregateInterface;
+    public function getMenuItemPaperAggregate(): ?MenuItemPaperAggregateInterface;
 }

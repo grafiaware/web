@@ -16,16 +16,17 @@ use Application\WebAppFactory;
 use Pes\Container\Container;
 use Container\WebContainerConfigurator;
 use Container\HierarchyContainerConfigurator;
-use Database\Hierarchy\ReadHierarchy;
+use Model\Dao\Hierarchy\NodeAggregateReadonlyDao;
 use Model\Repository\MenuItemAggregateRepo;
 
 use Model\Entity\MenuItemPaperAggregate;
+use Model\Entity\PaperPaperContentsAggregate;
 /**
  * Description of MenuItemPaperRepositoryTest
  *
  * @author pes2704
  */
-class MenuItemPaperRepositoryTest extends TestCase {
+class MenuItemAggregateRepositoryTest extends TestCase {
 
     private static $inputStream;
 
@@ -109,13 +110,12 @@ class MenuItemPaperRepositoryTest extends TestCase {
         $this->repo = $this->container->get(MenuItemAggregateRepo::class);
 
         /** @var ReadHierarchy $hierarchy */
-        $hierarchy = $this->container->get(ReadHierarchy::class);
+        $hierarchy = $this->container->get(NodeAggregateReadonlyDao::class);
         $this->langCode = 'cs';
         $this->title = 'VZDĚLÁVÁNÍ';
-        $node = $hierarchy->getNodeByTitle($this->langCode, $this->title, false, false);
+        $node = $hierarchy->getByTitleHelper($this->langCode, $this->title, false, false);
         //  node.uid, (COUNT(parent.uid) - 1) AS depth, node.left_node, node.right_node, node.parent_uid
         $this->uid = $node['uid'];
-
     }
 
     public function testSetUp() {
@@ -125,12 +125,16 @@ class MenuItemPaperRepositoryTest extends TestCase {
     }
 
     public function testRepoGet() {
-
         $entity = $this->repo->get($this->langCode, $this->uid);
         $this->assertInstanceOf(MenuItemPaperAggregate::class, $entity);
         $this->assertEquals($this->title, $entity->getTitle());
+        /** @var PaperPaperContentsAggregate $paper */      // není interface
+        $paper = $entity->getPaper();
+        $this->assertInstanceOf(PaperPaperContentsAggregate::class, $paper);
+        $contents = $paper->getPaperContentsArray();
+        $this->assertIsArray($contents);
+        $this->assertTrue(count($contents)>0, "Nenalezen žádný obsah");
 
-        $a = 1;
     }
 
     public function testRepoFindByPaperFulltextSearch() {

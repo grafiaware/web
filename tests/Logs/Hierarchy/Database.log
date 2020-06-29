@@ -1,4 +1,4 @@
-[info] [2020-06-11 19:00:05] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/Hierarchy/Database.log. Mode 'w+'.
+[info] [2020-06-26 16:23:28] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/Hierarchy/Database.log. Mode 'w+'.
 [debug] Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=localhost;port=3306;dbname=grafia_upgrade
 [debug] Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
     (
@@ -38,12 +38,54 @@
                     ) AS nested_set
                         INNER JOIN
                     menu_item AS menu_item ON (nested_set.uid = menu_item.uid_fk)
-                WHERE menu_item.title = :title AND menu_item.lang_code_fk = :lang_code, ). Vytvořen Statement (1).
-[debug] Statement (1) bindParam(:title, VZDĚLÁVÁNÍ, 2, , )
+                WHERE menu_item.lang_code_fk = :lang_code AND menu_item.title = :title, ). Vytvořen Statement (1).
+[debug] Statement (1) bindParam(:title, Test 2, 2, , )
 [debug] Statement (1) bindParam(:lang_code, cs, 2, , )
 [debug] Statement (1) execute().
 [debug] Statement (1) execute()
 [debug] Statement (1) fetch(2, 0, 0)
+[debug] Handler grafia_upgrade (1) prepare(SELECT lang_code_fk, uid_fk, type_fk, id, title, active, show_time, hide_time,
+    	(ISNULL(show_time) OR show_time<=CURDATE()) AND (ISNULL(hide_time) OR CURDATE()<=hide_time) AS actual FROM menu_item WHERE menu_item.lang_code_fk = :lang_code_fk AND menu_item.uid_fk=:uid_fk, ). Vytvořen Statement (2).
+[debug] Statement (2) bindValue(:lang_code_fk, cs, 2)
+[debug] Statement (2) bindValue(:uid_fk, 5eea26a1dfa66, 2)
+[debug] Statement (2) execute().
+[debug] Statement (2) execute()
+[debug] Statement (2) fetch(2, 0, 0)
+[debug] Handler grafia_upgrade (1) prepare(SELECT
+            `paper`.`id` AS `id`,
+            `paper`.`menu_item_id_fk` AS `menu_item_id_fk`,
+            `paper`.`headline` AS `headline`,
+            `paper`.`keywords` AS `keywords`,
+            `paper`.`editor` AS `editor`,
+            `paper`.`updated` AS `updated`
+        FROM
+            `paper`
+        WHERE
+            `paper`.`menu_item_id_fk` = :menu_item_id_fk, ). Vytvořen Statement (3).
+[debug] Statement (3) bindValue(:menu_item_id_fk, 679, 2)
+[debug] Statement (3) execute().
+[debug] Statement (3) execute()
+[debug] Statement (3) fetch(2, 0, 0)
+[debug] Handler grafia_upgrade (1) prepare(SELECT
+                `paper_content`.`id` AS `id`,
+                `paper_content`.`paper_id_fk` AS `paper_id_fk`,
+                `paper_content`.`content` AS `content`,
+                `paper_content`.`active` AS `active`,
+                `paper_content`.`priority` AS `priority`,
+                `paper_content`.`show_time` AS `show_time`,
+                `paper_content`.`hide_time` AS `hide_time`,
+                `paper_content`.`event_time` AS `event_time`,
+                `paper_content`.`editor` AS `editor`,
+                `paper_content`.`updated` AS `updated`,
+                 (ISNULL(show_time) OR show_time<=CURDATE()) AND (ISNULL(hide_time) OR CURDATE()<=hide_time) AS actual
+            FROM
+                `paper_content`
+            WHERE `paper_content`.`paper_id_fk` = :paper_id_fk, ). Vytvořen Statement (4).
+[debug] Statement (4) bindValue(:paper_id_fk, 664, 2)
+[debug] Statement (4) execute().
+[debug] Statement (4) execute()
+[debug] Statement (4) fetchAll(2)
+[debug] Result má 1 prvků.
 [debug] Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=localhost;port=3306;dbname=grafia_upgrade
 [debug] Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
     (
@@ -83,19 +125,19 @@
                     ) AS nested_set
                         INNER JOIN
                     menu_item AS menu_item ON (nested_set.uid = menu_item.uid_fk)
-                WHERE menu_item.title = :title AND menu_item.lang_code_fk = :lang_code, ). Vytvořen Statement (2).
-[debug] Statement (2) bindParam(:title, VZDĚLÁVÁNÍ, 2, , )
-[debug] Statement (2) bindParam(:lang_code, cs, 2, , )
-[debug] Statement (2) execute().
-[debug] Statement (2) execute()
-[debug] Statement (2) fetch(2, 0, 0)
+                WHERE menu_item.lang_code_fk = :lang_code AND menu_item.title = :title, ). Vytvořen Statement (5).
+[debug] Statement (5) bindParam(:title, Test 2, 2, , )
+[debug] Statement (5) bindParam(:lang_code, cs, 2, , )
+[debug] Statement (5) execute().
+[debug] Statement (5) execute()
+[debug] Statement (5) fetch(2, 0, 0)
 [debug] Handler grafia_upgrade (2) prepare(SELECT lang_code_fk, uid_fk, type_fk, id, title, active, show_time, hide_time,
-    	(ISNULL(show_time) OR show_time<=CURDATE()) AND (ISNULL(hide_time) OR CURDATE()<=hide_time) AS actual FROM menu_item WHERE menu_item.uid_fk=:uid_fk AND menu_item.lang_code_fk = :lang_code_fk, ). Vytvořen Statement (3).
-[debug] Statement (3) bindValue(:lang_code_fk, cs, 2)
-[debug] Statement (3) bindValue(:uid_fk, 5ee25bd8cacc9, 2)
-[debug] Statement (3) execute().
-[debug] Statement (3) execute()
-[debug] Statement (3) fetch(2, 0, 0)
+    	(ISNULL(show_time) OR show_time<=CURDATE()) AND (ISNULL(hide_time) OR CURDATE()<=hide_time) AS actual FROM menu_item WHERE menu_item.lang_code_fk = :lang_code_fk AND menu_item.uid_fk=:uid_fk, ). Vytvořen Statement (6).
+[debug] Statement (6) bindValue(:lang_code_fk, cs, 2)
+[debug] Statement (6) bindValue(:uid_fk, 5eea26a1dfa66, 2)
+[debug] Statement (6) execute().
+[debug] Statement (6) execute()
+[debug] Statement (6) fetch(2, 0, 0)
 [debug] Handler grafia_upgrade (2) prepare(SELECT
             `paper`.`id` AS `id`,
             `paper`.`menu_item_id_fk` AS `menu_item_id_fk`,
@@ -106,11 +148,31 @@
         FROM
             `paper`
         WHERE
-            `paper`.`menu_item_id_fk` = :menu_item_id_fk, ). Vytvořen Statement (4).
-[debug] Statement (4) bindValue(:menu_item_id_fk, 88, 2)
-[debug] Statement (4) execute().
-[debug] Statement (4) execute()
-[debug] Statement (4) fetch(2, 0, 0)
+            `paper`.`menu_item_id_fk` = :menu_item_id_fk, ). Vytvořen Statement (7).
+[debug] Statement (7) bindValue(:menu_item_id_fk, 679, 2)
+[debug] Statement (7) execute().
+[debug] Statement (7) execute()
+[debug] Statement (7) fetch(2, 0, 0)
+[debug] Handler grafia_upgrade (2) prepare(SELECT
+                `paper_content`.`id` AS `id`,
+                `paper_content`.`paper_id_fk` AS `paper_id_fk`,
+                `paper_content`.`content` AS `content`,
+                `paper_content`.`active` AS `active`,
+                `paper_content`.`priority` AS `priority`,
+                `paper_content`.`show_time` AS `show_time`,
+                `paper_content`.`hide_time` AS `hide_time`,
+                `paper_content`.`event_time` AS `event_time`,
+                `paper_content`.`editor` AS `editor`,
+                `paper_content`.`updated` AS `updated`,
+                 (ISNULL(show_time) OR show_time<=CURDATE()) AND (ISNULL(hide_time) OR CURDATE()<=hide_time) AS actual
+            FROM
+                `paper_content`
+            WHERE `paper_content`.`paper_id_fk` = :paper_id_fk, ). Vytvořen Statement (8).
+[debug] Statement (8) bindValue(:paper_id_fk, 664, 2)
+[debug] Statement (8) execute().
+[debug] Statement (8) execute()
+[debug] Statement (8) fetchAll(2)
+[debug] Result má 1 prvků.
 [debug] Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=localhost;port=3306;dbname=grafia_upgrade
 [debug] Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
     (
@@ -150,47 +212,19 @@
                     ) AS nested_set
                         INNER JOIN
                     menu_item AS menu_item ON (nested_set.uid = menu_item.uid_fk)
-                WHERE menu_item.title = :title AND menu_item.lang_code_fk = :lang_code, ). Vytvořen Statement (5).
-[debug] Statement (5) bindParam(:title, VZDĚLÁVÁNÍ, 2, , )
-[debug] Statement (5) bindParam(:lang_code, cs, 2, , )
-[debug] Statement (5) execute().
-[debug] Statement (5) execute()
-[debug] Statement (5) fetch(2, 0, 0)
-[debug] Handler grafia_upgrade (3) prepare(SELECT lang_code_fk, uid_fk, type_fk, active_menu_item.id AS id, title, active_menu_item.active AS active, active_menu_item.show_time AS show_time, active_menu_item.hide_time AS hide_time,
-                        (ISNULL(active_menu_item.show_time) OR active_menu_item.show_time<=CURDATE()) AND (ISNULL(active_menu_item.hide_time) OR CURDATE()<=active_menu_item.hide_time) AS actual,
-                        score_h,
-                        score_c
-                    FROM
-                            (SELECT
-                                paper_id_fk, content, MATCH (content) AGAINST(:text2) as score_c
-                            FROM paper_content
-                            WHERE active = 1 AND (ISNULL(paper_content.show_time) OR paper_content.show_time<=CURDATE()) AND (ISNULL(paper_content.hide_time) OR CURDATE()<=paper_content.hide_time)
-                            ) AS active_content
-                            INNER JOIN
-                            (SELECT
-                                id, menu_item_id_fk, headline, MATCH (headline) AGAINST(:text1) as score_h
-                            FROM paper
-                            ) AS searched_paper  ON active_content.paper_id_fk=searched_paper.id
-    
-    
-                            INNER JOIN
-                            (SELECT
-                                    lang_code_fk, uid_fk, type_fk, id, title, active, show_time, hide_time
-                            FROM
-                                    menu_item
-                            WHERE menu_item.type_fk = 'paper' AND menu_item.lang_code_fk = :lang_code_fk) AS active_menu_item ON (searched_paper.menu_item_id_fk=active_menu_item.id)
-                    WHERE
-                            score_h > 1
-                                 OR
-                            score_c > 0.2
-                    ORDER BY score_h DESC, score_c DESC, ). Vytvořen Statement (6).
-[debug] Statement (6) bindParam(:text1, Grafia, 2, , )
-[debug] Statement (6) bindParam(:text2, Grafia, 2, , )
-[debug] Statement (6) bindParam(:lang_code_fk, cs, 2, , )
-[debug] Statement (6) execute().
-[debug] Statement (6) execute()
-[debug] Statement (6) fetchAll(2)
-[debug] Result má 79 prvků.
+                WHERE menu_item.lang_code_fk = :lang_code AND menu_item.title = :title, ). Vytvořen Statement (9).
+[debug] Statement (9) bindParam(:title, Test 2, 2, , )
+[debug] Statement (9) bindParam(:lang_code, cs, 2, , )
+[debug] Statement (9) execute().
+[debug] Statement (9) execute()
+[debug] Statement (9) fetch(2, 0, 0)
+[debug] Handler grafia_upgrade (3) prepare(SELECT lang_code_fk, uid_fk, type_fk, id, title, active, show_time, hide_time,
+    	(ISNULL(show_time) OR show_time<=CURDATE()) AND (ISNULL(hide_time) OR CURDATE()<=hide_time) AS actual FROM menu_item WHERE menu_item.lang_code_fk = :lang_code_fk AND menu_item.uid_fk=:uid_fk, ). Vytvořen Statement (10).
+[debug] Statement (10) bindValue(:lang_code_fk, cs, 2)
+[debug] Statement (10) bindValue(:uid_fk, 5eea26a1dfa66, 2)
+[debug] Statement (10) execute().
+[debug] Statement (10) execute()
+[debug] Statement (10) fetch(2, 0, 0)
 [debug] Handler grafia_upgrade (3) prepare(SELECT
             `paper`.`id` AS `id`,
             `paper`.`menu_item_id_fk` AS `menu_item_id_fk`,
@@ -201,1284 +235,75 @@
         FROM
             `paper`
         WHERE
-            `paper`.`menu_item_id_fk` = :menu_item_id_fk, ). Vytvořen Statement (7).
-[debug] Statement (7) bindValue(:menu_item_id_fk, 592, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 271, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 481, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 628, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 58, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 430, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 676, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 487, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 85, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 469, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 589, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 115, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 76, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 358, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 163, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 259, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 448, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 652, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 646, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 112, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 118, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 121, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 124, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 127, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 130, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 133, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 136, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 205, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 208, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 559, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 361, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 211, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 433, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 436, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 439, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 472, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 544, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 79, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 637, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 685, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 301, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 370, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 484, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 139, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 109, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 187, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 304, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 307, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 310, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 319, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 340, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 334, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 328, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 322, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 325, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 337, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 331, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 346, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 349, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 352, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 355, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 373, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 376, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 379, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 442, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 454, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 460, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 607, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 610, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 313, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 463, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 175, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 298, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 397, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 400, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 409, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 421, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 424, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Statement (7) bindValue(:menu_item_id_fk, 568, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Handler grafia_upgrade (3) prepare(UPDATE paper SET headline = :headline, keywords = :keywords, editor = :editor
-                    WHERE id = :id, ). Vytvořen Statement (8).
-[debug] Statement (8) bindValue(:headline, VZDĚLÁVÁNÍ, 2)
-[debug] Statement (8) bindValue(:keywords, rekvalifikace, plzeň, dotace, vzdělávání, kurzy, vzdělání, IQ, rekvalifikační kurzy, vzdělávací kurzy, vzdělávání zaměstnanců, vzdělávání manažerů, kurzy pro pracovníky státní správy, klub personalistů, 2)
-[debug] Statement (8) bindValue(:editor, anta2208, 2)
-[debug] Statement (8) bindValue(:id, , 1)
-[debug] Statement (8) execute().
-[debug] Statement (8) execute()
-[debug] Statement (8) bindValue(:headline, VZDĚLÁVÁNÍ, 2)
-[debug] Statement (8) bindValue(:keywords, rekvalifikace, plzeň, dotace, vzdělávání, kurzy, vzdělání, IQ, rekvalifikační kurzy, vzdělávací kurzy, vzdělávání zaměstnanců, vzdělávání manažerů, kurzy pro pracovníky státní správy, klub personalistů, 2)
-[debug] Statement (8) bindValue(:editor, anta2208, 2)
-[debug] Statement (8) bindValue(:id, , 1)
-[debug] Statement (8) execute().
-[debug] Statement (8) execute()
-[debug] Handler grafia_upgrade (3) prepare(UPDATE paper SET headline = :headline, keywords = :keywords, editor = :editor
-                    WHERE id = :id, ). Vytvořen Statement (9).
-[debug] Statement (9) bindValue(:headline, Tiskové zprávy, 2)
-[debug] Statement (9) bindValue(:keywords, projekt, za prací, s jazyky, Grafia, 2)
-[debug] Statement (9) bindValue(:editor, alha1912, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, OTEVŘENÉ KURZY, 2)
-[debug] Statement (9) bindValue(:keywords, harmonogram otevřených kurzů, nabídka aktuálních kurzů, termíny otevřených kurzů, aktuální kurzy, jazykové kurzy, komunikační kurzy, podnikové kurzy, školení, asertivita, dovednosti, marketing, objednávka kurzu, objednat kurz, 2)
-[debug] Statement (9) bindValue(:editor, masl0303, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Certifikáty, akreditace..., 2)
-[debug] Statement (9) bindValue(:keywords, certifikát, akreditace, akreditovaná instituce, akreditovaná vzdělávací instituce, člen, 2)
-[debug] Statement (9) bindValue(:editor, administrator, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, REALIZOVANÉ AKCE, 2)
-[debug] Statement (9) bindValue(:keywords, Reference, ohlasy, názory, zpětná vazba, monitoring, kontrola, kurzy, aktivity, 2)
-[debug] Statement (9) bindValue(:editor, midv2409, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, KONTAKTY, 2)
-[debug] Statement (9) bindValue(:keywords, kontakty Grafia, kontakty Grafia s.r.o., kontakty Grafia Plzeň, sekretariát Grafia kontakt, centrála Grafia kontakt, jazykové vzdělávání Grafia kontakt, jazyky Grafia kontakt, redakce Grafia kontakt, obchodní oddělení Grafia kontakt, firemní vzdělávání Grafia kontakt, konferenční servis Grafia kontakt, produkce Grafia kontakt, projekty Grafia kontakt, překlady Grafia kontakt, tlumočení Grafia kontakt, správce IT učebny Grafia kontakt, rekvalifikace Grafia kontakt, 2)
-[debug] Statement (9) bindValue(:editor, administrator, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, EVROPSKÉ PROJEKTY, 2)
-[debug] Statement (9) bindValue(:keywords, evropské projekty, 2)
-[debug] Statement (9) bindValue(:editor, jab1408, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, TestQ, 2)
-[debug] Statement (9) bindValue(:keywords, , 2)
-[debug] Statement (9) bindValue(:editor, pes2704, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Z médií, 2)
-[debug] Statement (9) bindValue(:keywords, Tiskové zprávy, 2)
-[debug] Statement (9) bindValue(:editor, administrator, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Vítejte v Grafii, kde to žije vzděláváním, marketingem a projekty!, 2)
-[debug] Statement (9) bindValue(:keywords, vzdělávání, kurz, školení, výzkum, marketing, evropské projekty, marketing, propagace, vzdělání, rekvalifikace, personal service, kurzy, firemní kurzy, 2)
-[debug] Statement (9) bindValue(:editor, kasl2405, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, SLUŽBY PRO ZAMĚSTNAVATELE, 2)
-[debug] Statement (9) bindValue(:keywords, služby pro zaměstnavatele, služby zaměstnavatelům, služby, zaměstnavatelé, zaměstnanci, firemní kultura, audit, pracovní diagnostika, výběrové řízení, průzkum chování, outdoor, corporate identity, firemní identita, assesment center, manažerské vzdělávání, outplacement, rekvalifikace, PERSONAL, Klub personalistů, 2)
-[debug] Statement (9) bindValue(:editor, mipi1303, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Projekt S jazyky za prací, 2)
-[debug] Statement (9) bindValue(:keywords, projekt, jazyk, práce, Plzeň, s jazyky za prací, 2)
-[debug] Statement (9) bindValue(:editor, alha1912, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Vzdělávání pro úřady a veřejnou správu, 2)
-[debug] Statement (9) bindValue(:keywords, vzdělávání pro úřady a veřejnou správu, vzdělávání úředníků veřejné správy, vzdělávání pracovníků veřejné správy, vzdělávání úředníků, 2)
-[debug] Statement (9) bindValue(:editor, jab1408, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, OCENĚNÍ MAMMA/PARENT FRIENDLY, 2)
-[debug] Statement (9) bindValue(:keywords, ocenění mamma firendly, parent friendly, společnost přátelská rodině, 2)
-[debug] Statement (9) bindValue(:editor, stepi1506, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, O TOMTO WEBU, 2)
-[debug] Statement (9) bindValue(:keywords, webdesign, redakční systém, publikační systém, infonet, intranet, web, www stránky, webové stránky, publikování, webmaster, editor, editace, korektura, archivace, informace, 2)
-[debug] Statement (9) bindValue(:editor, anta2208, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, VZDĚLÁVÁNÍ ZAMĚSTNANCŮ, 2)
-[debug] Statement (9) bindValue(:keywords, vzdělávání zaměstnanců, tréninky komunikace, vzdělávání manažerů, 2)
-[debug] Statement (9) bindValue(:editor, anta2208, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, KLUB PERSONALISTŮ, 2)
-[debug] Statement (9) bindValue(:keywords, aktuality, klub, personalista, workshop klubu personalistů, časopis, personal, personalisté, HR, časopis pro podporu a rozvoj HR, vzdělávejte se, školení je šance, mpsv, novinky, ESF, hospodářská krize, hospodářská recese, ekonomická krize, EDUCA, granty, globání grant, specifické vzdělávání, krize jako alibi, rozvoj lidských zdrojů, lidské zdroje, HR, personalistika, krizový management, management změny, outplacement, výzkum, zákoník práce, 2)
-[debug] Statement (9) bindValue(:editor, kasl2405, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, OPENDOOR, 2)
-[debug] Statement (9) bindValue(:keywords, open door, projekt open door, jazykové kurzy open door, kurzy open door, evropský projekt open door, 2)
-[debug] Statement (9) bindValue(:editor, stepi1506, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Anotace publikace PLAV, 2)
-[debug] Statement (9) bindValue(:keywords, středoškolák, plav, skoč, kariérní příručka, publikace PLAV, kariéra, střední škola, absolvent, absolventka, publikace, 2)
-[debug] Statement (9) bindValue(:editor, anta2208, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, PLAV! pro studenty SŠ/SOU, 2)
-[debug] Statement (9) bindValue(:keywords, Plav, kariérní příručka,  absolvent, 2)
-[debug] Statement (9) bindValue(:editor, kasl2405, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Managers to managers® , 2)
-[debug] Statement (9) bindValue(:keywords, semináře managers to managers, Managers to Managers, semináře pro manažery, vzdělávání manažerů, cyklus seminářů pro manažery, mangement, kurzy pro manažery, manažerské kurzy, krizový management, management změny, grantové programy, vzdělávejte se, školení je šance, time management, presentation skills, klíčové kompetence pracovníků, interkulturní rozdíly, vztahy se zákazníky, lektorské dovednosti, firemní komunikace, firemní kultura, zákaznické akce, 2)
-[debug] Statement (9) bindValue(:editor, anta2208, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Asertivní jednání, 2)
-[debug] Statement (9) bindValue(:keywords, , 2)
-[debug] Statement (9) bindValue(:editor, administrator, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Zásady profesionální komunikace a zvládání stresových situací, 2)
-[debug] Statement (9) bindValue(:keywords, , 2)
-[debug] Statement (9) bindValue(:editor, administrator, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Vzdělávání úředníků ve veřejné správě ve smyslu zákona č. 321/2002 Sb., 2)
-[debug] Statement (9) bindValue(:keywords, , 2)
-[debug] Statement (9) bindValue(:editor, administrator, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Výběrové řízení ve veřejné správě, 2)
-[debug] Statement (9) bindValue(:keywords, , 2)
-[debug] Statement (9) bindValue(:editor, administrator, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Motivace k osobnímu rozvoji pro úředníky ve veřejné správě, 2)
-[debug] Statement (9) bindValue(:keywords, , 2)
-[debug] Statement (9) bindValue(:editor, administrator, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Profesionální přístup úředníků ke zdravotně handicapovaným klientům (zejména ke zrakově postiženým), 2)
-[debug] Statement (9) bindValue(:keywords, , 2)
-[debug] Statement (9) bindValue(:editor, administrator, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Vzdělávání úředníků a vedoucích úředníků ve veřejné správě ve smyslu zákona č. 312/202 Sb., 2)
-[debug] Statement (9) bindValue(:keywords, , 2)
-[debug] Statement (9) bindValue(:editor, administrator, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Akreditované kurzy a jejich obsah, 2)
-[debug] Statement (9) bindValue(:keywords, rekvalifikace, Plzeň, obsah, kvalifikace, vzdělávání, celoživotní učení, vzdělávání dospělých, akreditované rekvalifikační kurzy, zkoušky, kurz, seznam, 2)
-[debug] Statement (9) bindValue(:editor, masl0303, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Zkouška z profesní kvalifikace, 2)
-[debug] Statement (9) bindValue(:keywords, zkouška, kvalifikace, profese, NSK, zkouška před autorizovanou osobou, profesní zkouška, Plzeň, standard, hodnotící standard, 2)
-[debug] Statement (9) bindValue(:editor, masl0303, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Pro zaměstnavatele, 2)
-[debug] Statement (9) bindValue(:keywords, , 2)
-[debug] Statement (9) bindValue(:editor, sist0701, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, TLUMOČNICKÝ A PŘEKLADATELSKÝ SERVIS, 2)
-[debug] Statement (9) bindValue(:keywords, překlady, tlumočení, tlumočnický a překladatelský servis, tlumočnický servis, překladatelský servis, 2)
-[debug] Statement (9) bindValue(:editor, alka2209, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Aktuální termíny, 2)
-[debug] Statement (9) bindValue(:keywords, rekvalifikace, Plzeň, termín, kvalifikace, vzdělávání, celoživotní učení, vzdělávání dospělých, akreditované rekvalifikační kurzy, zkoušky, 2)
-[debug] Statement (9) bindValue(:editor, masl0303, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, InterFace, 2)
-[debug] Statement (9) bindValue(:keywords, interface, projekt interface, evropský projekt interface, 2)
-[debug] Statement (9) bindValue(:editor, anta2208, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Najdi si práci, 2)
-[debug] Statement (9) bindValue(:keywords, najdi si práci, projekt najdi si práci, evropský projekt najdi si práci, 2)
-[debug] Statement (9) bindValue(:editor, anta2208, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Příprava na práci, 2)
-[debug] Statement (9) bindValue(:keywords, příprava na práci, projekt příprava na práci, evropský projekt příprava na práci, 2)
-[debug] Statement (9) bindValue(:editor, anta2208, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Pracovní diagnostika, 2)
-[debug] Statement (9) bindValue(:keywords, pracovní diagnostika, psychologický profil, osobnostní diagnostika, pomoc pro personalisty, pomoc pro hledající zaměstnání, výběrové řízení, nábor zaměstnanců, 2)
-[debug] Statement (9) bindValue(:editor, stepi1506, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Konzultační centra, 2)
-[debug] Statement (9) bindValue(:keywords, , 2)
-[debug] Statement (9) bindValue(:editor, mipi1303, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, E-SHOP, 2)
-[debug] Statement (9) bindValue(:keywords, , 2)
-[debug] Statement (9) bindValue(:editor, cech, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, SKOČ! pro absolventy VŠ, 2)
-[debug] Statement (9) bindValue(:keywords, Skoč, příručka, absolvent, vysoká škola, průvodce, užitečné informace, zdarma, 2)
-[debug] Statement (9) bindValue(:editor, cech, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Přednášky a akce, 2)
-[debug] Statement (9) bindValue(:keywords, přednášky, semináře, doktorské přednášky, doktoři, celostní medicína, psychosomatika, 2)
-[debug] Statement (9) bindValue(:editor, jab1408, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, KONFERENČNÍ SERVIS, 2)
-[debug] Statement (9) bindValue(:keywords, konference, servis, pronájem, služby, konferenční servis, 2)
-[debug] Statement (9) bindValue(:editor, administrator, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, SOCIO-EKONOMICKÝ VÝZKUM, 2)
-[debug] Statement (9) bindValue(:keywords, věda v praxi, výzkum, společnost, socio-ekonomický výzkum, sociologie, psychologie, 2)
-[debug] Statement (9) bindValue(:editor, administrator, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, OPEN DOOR - odborná němčina, 2)
-[debug] Statement (9) bindValue(:keywords, projekt, open door, opendoor, vzdělávání, jazyky, němčina, odborná němčina, odborný jazyk, 2)
-[debug] Statement (9) bindValue(:editor, jiji3103, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, PC kurzy a školení, 2)
-[debug] Statement (9) bindValue(:keywords, pc kurzy a školení, počítačové kurzy, počítačové školení, 2)
-[debug] Statement (9) bindValue(:editor, stepi1506, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Fotogalerie z našich kurzů, 2)
-[debug] Statement (9) bindValue(:keywords, fotogalerie z našich kurzů, fotogalerie z kurzů, 2)
-[debug] Statement (9) bindValue(:editor, sako2303, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Řekněte si až o 50.000,- Kč na své vzdělávání, 2)
-[debug] Statement (9) bindValue(:keywords, zvolená rekvalifikace, zdarma, 50.000, zájemce o zaměstnání, 2)
-[debug] Statement (9) bindValue(:editor, anta2208, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Konference Klíč EU, 2)
-[debug] Statement (9) bindValue(:keywords, konference klíč eu, 2)
-[debug] Statement (9) bindValue(:editor, anta2208, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Konference v Senátu, 2)
-[debug] Statement (9) bindValue(:keywords, konference v senátu, 2)
-[debug] Statement (9) bindValue(:editor, mipi1303, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Konference Identita versus integrita, 2)
-[debug] Statement (9) bindValue(:keywords, konference identita versus integrita, 2)
-[debug] Statement (9) bindValue(:editor, anta2208, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Výstavní servis, 2)
-[debug] Statement (9) bindValue(:keywords, výstavní servis, příprava veletržního stánku nebo prezentace, veletrhy, 2)
-[debug] Statement (9) bindValue(:editor, administrator, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Firemní časopis, 2)
-[debug] Statement (9) bindValue(:keywords, firemní časopis, 2)
-[debug] Statement (9) bindValue(:editor, administrator, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Servis spotřebních tiskovin, 2)
-[debug] Statement (9) bindValue(:keywords, servis spotřebních tiskovin, 2)
-[debug] Statement (9) bindValue(:editor, administrator, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Digitální tisk, 2)
-[debug] Statement (9) bindValue(:keywords, digitální tisk, 2)
-[debug] Statement (9) bindValue(:editor, alka2209, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Firemní akce, 2)
-[debug] Statement (9) bindValue(:keywords, firemní akce, 2)
-[debug] Statement (9) bindValue(:editor, administrator, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Firemní inzertní servis, 2)
-[debug] Statement (9) bindValue(:keywords, firemní inzertní servis, 2)
-[debug] Statement (9) bindValue(:editor, administrator, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Autoatlas jako reklamní dárek, 2)
-[debug] Statement (9) bindValue(:keywords, reklamní dárek autoatlas, 2)
-[debug] Statement (9) bindValue(:editor, administrator, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Originální vánoční a novoroční přání, 2)
-[debug] Statement (9) bindValue(:keywords, originální vánoční a novoroční přání, 2)
-[debug] Statement (9) bindValue(:editor, administrator, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Firemní www stránky, 2)
-[debug] Statement (9) bindValue(:keywords, firemní webové stránky, firemní internetové stránky, 2)
-[debug] Statement (9) bindValue(:editor, anta2208, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Staffer - automatický pomocník personalisty, 2)
-[debug] Statement (9) bindValue(:keywords, internetová aplikace, staffer, program pro personální oddělení, program pro personalisty, 2)
-[debug] Statement (9) bindValue(:editor, administrator, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Redakční systém na Vašem webu, 2)
-[debug] Statement (9) bindValue(:keywords, redakční systém na webu, redakční systém, web, 2)
-[debug] Statement (9) bindValue(:editor, anta2208, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Infonet - základ vnitrofiremní komunikace, 2)
-[debug] Statement (9) bindValue(:keywords, infonet, publikační systém, redakční systém, web, webdesign, vnitrofiremní komunikace, 2)
-[debug] Statement (9) bindValue(:editor, anta2208, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Marketingový výzkum, 2)
-[debug] Statement (9) bindValue(:keywords, marketingový výzkum, marketing, focus group, poradenství, expertní rozhovory, marketingový mix, 2)
-[debug] Statement (9) bindValue(:editor, mipi1303, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Výzkumy uvnitř společností, 2)
-[debug] Statement (9) bindValue(:keywords, výzkumy, analýzy, interní zákazník, zaměstnanec, výzkumy ve společnosti, výzkumy uvnitř společnosti, 2)
-[debug] Statement (9) bindValue(:editor, anta2208, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Výzkumy pro obce a regiony, 2)
-[debug] Statement (9) bindValue(:keywords, výzkum, obce, regiony, občané, investoři, turisté, výzkumy pro obce a regiony, focus groups, dotazníková šetření, expertní rozhovory, polostrukturované rozhovory, 2)
-[debug] Statement (9) bindValue(:editor, administrator, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Epitome, 2)
-[debug] Statement (9) bindValue(:keywords, epitome, projekt epitome, evropský projekt epitome, 2)
-[debug] Statement (9) bindValue(:editor, anta2208, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, BOOST, 2)
-[debug] Statement (9) bindValue(:keywords, , 2)
-[debug] Statement (9) bindValue(:editor, anv1305, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, IN2IN, 2)
-[debug] Statement (9) bindValue(:keywords, , 2)
-[debug] Statement (9) bindValue(:editor, alka2209, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Aktivity pro účastníky, 2)
-[debug] Statement (9) bindValue(:keywords, projekt, za prací, s jazyky, Grafia, 2)
-[debug] Statement (9) bindValue(:editor, alha1912, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Konzultační centra, 2)
-[debug] Statement (9) bindValue(:keywords, projekt, za prací, s jazyky, Grafia, adresa, centra, 2)
-[debug] Statement (9) bindValue(:editor, alha1912, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, REKLAMA A PROPAGACE, 2)
-[debug] Statement (9) bindValue(:keywords, reklama a propagace, jak vytvořit dobrou reklamu, marketing, reklamní agentura, 2)
-[debug] Statement (9) bindValue(:editor, jab1408, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Myslíme si..., 2)
-[debug] Statement (9) bindValue(:keywords, DPH, vzdělávání, krize, AIVD, školství, snížená sazba DPH, názor, 2)
-[debug] Statement (9) bindValue(:editor, jab1408, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, REKVALIFIKAČNÍ KURZY, 2)
-[debug] Statement (9) bindValue(:keywords, rekvalifikační kurzy akreditované Ministerstvem školství ČR, akreditované rekvalifikační kurzy, rekvalifikace, plzeň, zkouška, před autorizovanou osobou, NSK, kvalifikace, vzdělávání, celoživotní učení, 2)
-[debug] Statement (9) bindValue(:editor, masl0303, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Hodnocení spokojenosti, 2)
-[debug] Statement (9) bindValue(:keywords, , 2)
-[debug] Statement (9) bindValue(:editor, masl0303, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Svlékl jsem bílý plášť, 2)
-[debug] Statement (9) bindValue(:keywords, , 2)
-[debug] Statement (9) bindValue(:editor, cech, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Bez pláště, 2)
-[debug] Statement (9) bindValue(:keywords, MUDr. Lebenhart, bez pláště, svlékl jsem bílý plášť, kniha, vydavatelství, Grafia, 2)
-[debug] Statement (9) bindValue(:editor, cech, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, VIDEA z přednášek, 2)
-[debug] Statement (9) bindValue(:keywords, , 2)
-[debug] Statement (9) bindValue(:editor, cech, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, NOVINKA: Toulky českým západem, 2)
-[debug] Statement (9) bindValue(:keywords, , 2)
-[debug] Statement (9) bindValue(:editor, jab1408, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Napsali o knize..., 2)
-[debug] Statement (9) bindValue(:keywords, , 2)
-[debug] Statement (9) bindValue(:editor, cech, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Reakce účastníků, 2)
-[debug] Statement (9) bindValue(:keywords, , 2)
-[debug] Statement (9) bindValue(:editor, sist0701, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Tiskové zprávy, 2)
-[debug] Statement (9) bindValue(:keywords, projekt, za prací, s jazyky, Grafia, 2)
-[debug] Statement (9) bindValue(:editor, alha1912, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, OTEVŘENÉ KURZY, 2)
-[debug] Statement (9) bindValue(:keywords, harmonogram otevřených kurzů, nabídka aktuálních kurzů, termíny otevřených kurzů, aktuální kurzy, jazykové kurzy, komunikační kurzy, podnikové kurzy, školení, asertivita, dovednosti, marketing, objednávka kurzu, objednat kurz, 2)
-[debug] Statement (9) bindValue(:editor, masl0303, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Certifikáty, akreditace..., 2)
-[debug] Statement (9) bindValue(:keywords, certifikát, akreditace, akreditovaná instituce, akreditovaná vzdělávací instituce, člen, 2)
-[debug] Statement (9) bindValue(:editor, administrator, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, REALIZOVANÉ AKCE, 2)
-[debug] Statement (9) bindValue(:keywords, Reference, ohlasy, názory, zpětná vazba, monitoring, kontrola, kurzy, aktivity, 2)
-[debug] Statement (9) bindValue(:editor, midv2409, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, KONTAKTY, 2)
-[debug] Statement (9) bindValue(:keywords, kontakty Grafia, kontakty Grafia s.r.o., kontakty Grafia Plzeň, sekretariát Grafia kontakt, centrála Grafia kontakt, jazykové vzdělávání Grafia kontakt, jazyky Grafia kontakt, redakce Grafia kontakt, obchodní oddělení Grafia kontakt, firemní vzdělávání Grafia kontakt, konferenční servis Grafia kontakt, produkce Grafia kontakt, projekty Grafia kontakt, překlady Grafia kontakt, tlumočení Grafia kontakt, správce IT učebny Grafia kontakt, rekvalifikace Grafia kontakt, 2)
-[debug] Statement (9) bindValue(:editor, administrator, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, EVROPSKÉ PROJEKTY, 2)
-[debug] Statement (9) bindValue(:keywords, evropské projekty, 2)
-[debug] Statement (9) bindValue(:editor, jab1408, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, TestQ, 2)
-[debug] Statement (9) bindValue(:keywords, , 2)
-[debug] Statement (9) bindValue(:editor, pes2704, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Z médií, 2)
-[debug] Statement (9) bindValue(:keywords, Tiskové zprávy, 2)
-[debug] Statement (9) bindValue(:editor, administrator, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Vítejte v Grafii, kde to žije vzděláváním, marketingem a projekty!, 2)
-[debug] Statement (9) bindValue(:keywords, vzdělávání, kurz, školení, výzkum, marketing, evropské projekty, marketing, propagace, vzdělání, rekvalifikace, personal service, kurzy, firemní kurzy, 2)
-[debug] Statement (9) bindValue(:editor, kasl2405, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, SLUŽBY PRO ZAMĚSTNAVATELE, 2)
-[debug] Statement (9) bindValue(:keywords, služby pro zaměstnavatele, služby zaměstnavatelům, služby, zaměstnavatelé, zaměstnanci, firemní kultura, audit, pracovní diagnostika, výběrové řízení, průzkum chování, outdoor, corporate identity, firemní identita, assesment center, manažerské vzdělávání, outplacement, rekvalifikace, PERSONAL, Klub personalistů, 2)
-[debug] Statement (9) bindValue(:editor, mipi1303, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Projekt S jazyky za prací, 2)
-[debug] Statement (9) bindValue(:keywords, projekt, jazyk, práce, Plzeň, s jazyky za prací, 2)
-[debug] Statement (9) bindValue(:editor, alha1912, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Vzdělávání pro úřady a veřejnou správu, 2)
-[debug] Statement (9) bindValue(:keywords, vzdělávání pro úřady a veřejnou správu, vzdělávání úředníků veřejné správy, vzdělávání pracovníků veřejné správy, vzdělávání úředníků, 2)
-[debug] Statement (9) bindValue(:editor, jab1408, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, OCENĚNÍ MAMMA/PARENT FRIENDLY, 2)
-[debug] Statement (9) bindValue(:keywords, ocenění mamma firendly, parent friendly, společnost přátelská rodině, 2)
-[debug] Statement (9) bindValue(:editor, stepi1506, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, O TOMTO WEBU, 2)
-[debug] Statement (9) bindValue(:keywords, webdesign, redakční systém, publikační systém, infonet, intranet, web, www stránky, webové stránky, publikování, webmaster, editor, editace, korektura, archivace, informace, 2)
-[debug] Statement (9) bindValue(:editor, anta2208, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, VZDĚLÁVÁNÍ ZAMĚSTNANCŮ, 2)
-[debug] Statement (9) bindValue(:keywords, vzdělávání zaměstnanců, tréninky komunikace, vzdělávání manažerů, 2)
-[debug] Statement (9) bindValue(:editor, anta2208, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, KLUB PERSONALISTŮ, 2)
-[debug] Statement (9) bindValue(:keywords, aktuality, klub, personalista, workshop klubu personalistů, časopis, personal, personalisté, HR, časopis pro podporu a rozvoj HR, vzdělávejte se, školení je šance, mpsv, novinky, ESF, hospodářská krize, hospodářská recese, ekonomická krize, EDUCA, granty, globání grant, specifické vzdělávání, krize jako alibi, rozvoj lidských zdrojů, lidské zdroje, HR, personalistika, krizový management, management změny, outplacement, výzkum, zákoník práce, 2)
-[debug] Statement (9) bindValue(:editor, kasl2405, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, OPENDOOR, 2)
-[debug] Statement (9) bindValue(:keywords, open door, projekt open door, jazykové kurzy open door, kurzy open door, evropský projekt open door, 2)
-[debug] Statement (9) bindValue(:editor, stepi1506, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Anotace publikace PLAV, 2)
-[debug] Statement (9) bindValue(:keywords, středoškolák, plav, skoč, kariérní příručka, publikace PLAV, kariéra, střední škola, absolvent, absolventka, publikace, 2)
-[debug] Statement (9) bindValue(:editor, anta2208, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, PLAV! pro studenty SŠ/SOU, 2)
-[debug] Statement (9) bindValue(:keywords, Plav, kariérní příručka,  absolvent, 2)
-[debug] Statement (9) bindValue(:editor, kasl2405, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Managers to managers® , 2)
-[debug] Statement (9) bindValue(:keywords, semináře managers to managers, Managers to Managers, semináře pro manažery, vzdělávání manažerů, cyklus seminářů pro manažery, mangement, kurzy pro manažery, manažerské kurzy, krizový management, management změny, grantové programy, vzdělávejte se, školení je šance, time management, presentation skills, klíčové kompetence pracovníků, interkulturní rozdíly, vztahy se zákazníky, lektorské dovednosti, firemní komunikace, firemní kultura, zákaznické akce, 2)
-[debug] Statement (9) bindValue(:editor, anta2208, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Asertivní jednání, 2)
-[debug] Statement (9) bindValue(:keywords, , 2)
-[debug] Statement (9) bindValue(:editor, administrator, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Zásady profesionální komunikace a zvládání stresových situací, 2)
-[debug] Statement (9) bindValue(:keywords, , 2)
-[debug] Statement (9) bindValue(:editor, administrator, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Vzdělávání úředníků ve veřejné správě ve smyslu zákona č. 321/2002 Sb., 2)
-[debug] Statement (9) bindValue(:keywords, , 2)
-[debug] Statement (9) bindValue(:editor, administrator, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Výběrové řízení ve veřejné správě, 2)
-[debug] Statement (9) bindValue(:keywords, , 2)
-[debug] Statement (9) bindValue(:editor, administrator, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Motivace k osobnímu rozvoji pro úředníky ve veřejné správě, 2)
-[debug] Statement (9) bindValue(:keywords, , 2)
-[debug] Statement (9) bindValue(:editor, administrator, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Profesionální přístup úředníků ke zdravotně handicapovaným klientům (zejména ke zrakově postiženým), 2)
-[debug] Statement (9) bindValue(:keywords, , 2)
-[debug] Statement (9) bindValue(:editor, administrator, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Vzdělávání úředníků a vedoucích úředníků ve veřejné správě ve smyslu zákona č. 312/202 Sb., 2)
-[debug] Statement (9) bindValue(:keywords, , 2)
-[debug] Statement (9) bindValue(:editor, administrator, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Akreditované kurzy a jejich obsah, 2)
-[debug] Statement (9) bindValue(:keywords, rekvalifikace, Plzeň, obsah, kvalifikace, vzdělávání, celoživotní učení, vzdělávání dospělých, akreditované rekvalifikační kurzy, zkoušky, kurz, seznam, 2)
-[debug] Statement (9) bindValue(:editor, masl0303, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Zkouška z profesní kvalifikace, 2)
-[debug] Statement (9) bindValue(:keywords, zkouška, kvalifikace, profese, NSK, zkouška před autorizovanou osobou, profesní zkouška, Plzeň, standard, hodnotící standard, 2)
-[debug] Statement (9) bindValue(:editor, masl0303, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Pro zaměstnavatele, 2)
-[debug] Statement (9) bindValue(:keywords, , 2)
-[debug] Statement (9) bindValue(:editor, sist0701, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, TLUMOČNICKÝ A PŘEKLADATELSKÝ SERVIS, 2)
-[debug] Statement (9) bindValue(:keywords, překlady, tlumočení, tlumočnický a překladatelský servis, tlumočnický servis, překladatelský servis, 2)
-[debug] Statement (9) bindValue(:editor, alka2209, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Aktuální termíny, 2)
-[debug] Statement (9) bindValue(:keywords, rekvalifikace, Plzeň, termín, kvalifikace, vzdělávání, celoživotní učení, vzdělávání dospělých, akreditované rekvalifikační kurzy, zkoušky, 2)
-[debug] Statement (9) bindValue(:editor, masl0303, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, InterFace, 2)
-[debug] Statement (9) bindValue(:keywords, interface, projekt interface, evropský projekt interface, 2)
-[debug] Statement (9) bindValue(:editor, anta2208, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Najdi si práci, 2)
-[debug] Statement (9) bindValue(:keywords, najdi si práci, projekt najdi si práci, evropský projekt najdi si práci, 2)
-[debug] Statement (9) bindValue(:editor, anta2208, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Příprava na práci, 2)
-[debug] Statement (9) bindValue(:keywords, příprava na práci, projekt příprava na práci, evropský projekt příprava na práci, 2)
-[debug] Statement (9) bindValue(:editor, anta2208, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Pracovní diagnostika, 2)
-[debug] Statement (9) bindValue(:keywords, pracovní diagnostika, psychologický profil, osobnostní diagnostika, pomoc pro personalisty, pomoc pro hledající zaměstnání, výběrové řízení, nábor zaměstnanců, 2)
-[debug] Statement (9) bindValue(:editor, stepi1506, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Konzultační centra, 2)
-[debug] Statement (9) bindValue(:keywords, , 2)
-[debug] Statement (9) bindValue(:editor, mipi1303, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, E-SHOP, 2)
-[debug] Statement (9) bindValue(:keywords, , 2)
-[debug] Statement (9) bindValue(:editor, cech, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, SKOČ! pro absolventy VŠ, 2)
-[debug] Statement (9) bindValue(:keywords, Skoč, příručka, absolvent, vysoká škola, průvodce, užitečné informace, zdarma, 2)
-[debug] Statement (9) bindValue(:editor, cech, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Přednášky a akce, 2)
-[debug] Statement (9) bindValue(:keywords, přednášky, semináře, doktorské přednášky, doktoři, celostní medicína, psychosomatika, 2)
-[debug] Statement (9) bindValue(:editor, jab1408, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, KONFERENČNÍ SERVIS, 2)
-[debug] Statement (9) bindValue(:keywords, konference, servis, pronájem, služby, konferenční servis, 2)
-[debug] Statement (9) bindValue(:editor, administrator, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, SOCIO-EKONOMICKÝ VÝZKUM, 2)
-[debug] Statement (9) bindValue(:keywords, věda v praxi, výzkum, společnost, socio-ekonomický výzkum, sociologie, psychologie, 2)
-[debug] Statement (9) bindValue(:editor, administrator, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, OPEN DOOR - odborná němčina, 2)
-[debug] Statement (9) bindValue(:keywords, projekt, open door, opendoor, vzdělávání, jazyky, němčina, odborná němčina, odborný jazyk, 2)
-[debug] Statement (9) bindValue(:editor, jiji3103, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, PC kurzy a školení, 2)
-[debug] Statement (9) bindValue(:keywords, pc kurzy a školení, počítačové kurzy, počítačové školení, 2)
-[debug] Statement (9) bindValue(:editor, stepi1506, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Fotogalerie z našich kurzů, 2)
-[debug] Statement (9) bindValue(:keywords, fotogalerie z našich kurzů, fotogalerie z kurzů, 2)
-[debug] Statement (9) bindValue(:editor, sako2303, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Řekněte si až o 50.000,- Kč na své vzdělávání, 2)
-[debug] Statement (9) bindValue(:keywords, zvolená rekvalifikace, zdarma, 50.000, zájemce o zaměstnání, 2)
-[debug] Statement (9) bindValue(:editor, anta2208, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Konference Klíč EU, 2)
-[debug] Statement (9) bindValue(:keywords, konference klíč eu, 2)
-[debug] Statement (9) bindValue(:editor, anta2208, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Konference v Senátu, 2)
-[debug] Statement (9) bindValue(:keywords, konference v senátu, 2)
-[debug] Statement (9) bindValue(:editor, mipi1303, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Konference Identita versus integrita, 2)
-[debug] Statement (9) bindValue(:keywords, konference identita versus integrita, 2)
-[debug] Statement (9) bindValue(:editor, anta2208, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Výstavní servis, 2)
-[debug] Statement (9) bindValue(:keywords, výstavní servis, příprava veletržního stánku nebo prezentace, veletrhy, 2)
-[debug] Statement (9) bindValue(:editor, administrator, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Firemní časopis, 2)
-[debug] Statement (9) bindValue(:keywords, firemní časopis, 2)
-[debug] Statement (9) bindValue(:editor, administrator, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Servis spotřebních tiskovin, 2)
-[debug] Statement (9) bindValue(:keywords, servis spotřebních tiskovin, 2)
-[debug] Statement (9) bindValue(:editor, administrator, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Digitální tisk, 2)
-[debug] Statement (9) bindValue(:keywords, digitální tisk, 2)
-[debug] Statement (9) bindValue(:editor, alka2209, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Firemní akce, 2)
-[debug] Statement (9) bindValue(:keywords, firemní akce, 2)
-[debug] Statement (9) bindValue(:editor, administrator, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Firemní inzertní servis, 2)
-[debug] Statement (9) bindValue(:keywords, firemní inzertní servis, 2)
-[debug] Statement (9) bindValue(:editor, administrator, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Autoatlas jako reklamní dárek, 2)
-[debug] Statement (9) bindValue(:keywords, reklamní dárek autoatlas, 2)
-[debug] Statement (9) bindValue(:editor, administrator, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Originální vánoční a novoroční přání, 2)
-[debug] Statement (9) bindValue(:keywords, originální vánoční a novoroční přání, 2)
-[debug] Statement (9) bindValue(:editor, administrator, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Firemní www stránky, 2)
-[debug] Statement (9) bindValue(:keywords, firemní webové stránky, firemní internetové stránky, 2)
-[debug] Statement (9) bindValue(:editor, anta2208, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Staffer - automatický pomocník personalisty, 2)
-[debug] Statement (9) bindValue(:keywords, internetová aplikace, staffer, program pro personální oddělení, program pro personalisty, 2)
-[debug] Statement (9) bindValue(:editor, administrator, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Redakční systém na Vašem webu, 2)
-[debug] Statement (9) bindValue(:keywords, redakční systém na webu, redakční systém, web, 2)
-[debug] Statement (9) bindValue(:editor, anta2208, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Infonet - základ vnitrofiremní komunikace, 2)
-[debug] Statement (9) bindValue(:keywords, infonet, publikační systém, redakční systém, web, webdesign, vnitrofiremní komunikace, 2)
-[debug] Statement (9) bindValue(:editor, anta2208, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Marketingový výzkum, 2)
-[debug] Statement (9) bindValue(:keywords, marketingový výzkum, marketing, focus group, poradenství, expertní rozhovory, marketingový mix, 2)
-[debug] Statement (9) bindValue(:editor, mipi1303, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Výzkumy uvnitř společností, 2)
-[debug] Statement (9) bindValue(:keywords, výzkumy, analýzy, interní zákazník, zaměstnanec, výzkumy ve společnosti, výzkumy uvnitř společnosti, 2)
-[debug] Statement (9) bindValue(:editor, anta2208, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Výzkumy pro obce a regiony, 2)
-[debug] Statement (9) bindValue(:keywords, výzkum, obce, regiony, občané, investoři, turisté, výzkumy pro obce a regiony, focus groups, dotazníková šetření, expertní rozhovory, polostrukturované rozhovory, 2)
-[debug] Statement (9) bindValue(:editor, administrator, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Epitome, 2)
-[debug] Statement (9) bindValue(:keywords, epitome, projekt epitome, evropský projekt epitome, 2)
-[debug] Statement (9) bindValue(:editor, anta2208, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, BOOST, 2)
-[debug] Statement (9) bindValue(:keywords, , 2)
-[debug] Statement (9) bindValue(:editor, anv1305, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, IN2IN, 2)
-[debug] Statement (9) bindValue(:keywords, , 2)
-[debug] Statement (9) bindValue(:editor, alka2209, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Aktivity pro účastníky, 2)
-[debug] Statement (9) bindValue(:keywords, projekt, za prací, s jazyky, Grafia, 2)
-[debug] Statement (9) bindValue(:editor, alha1912, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Konzultační centra, 2)
-[debug] Statement (9) bindValue(:keywords, projekt, za prací, s jazyky, Grafia, adresa, centra, 2)
-[debug] Statement (9) bindValue(:editor, alha1912, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, REKLAMA A PROPAGACE, 2)
-[debug] Statement (9) bindValue(:keywords, reklama a propagace, jak vytvořit dobrou reklamu, marketing, reklamní agentura, 2)
-[debug] Statement (9) bindValue(:editor, jab1408, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Myslíme si..., 2)
-[debug] Statement (9) bindValue(:keywords, DPH, vzdělávání, krize, AIVD, školství, snížená sazba DPH, názor, 2)
-[debug] Statement (9) bindValue(:editor, jab1408, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, REKVALIFIKAČNÍ KURZY, 2)
-[debug] Statement (9) bindValue(:keywords, rekvalifikační kurzy akreditované Ministerstvem školství ČR, akreditované rekvalifikační kurzy, rekvalifikace, plzeň, zkouška, před autorizovanou osobou, NSK, kvalifikace, vzdělávání, celoživotní učení, 2)
-[debug] Statement (9) bindValue(:editor, masl0303, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Hodnocení spokojenosti, 2)
-[debug] Statement (9) bindValue(:keywords, , 2)
-[debug] Statement (9) bindValue(:editor, masl0303, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Svlékl jsem bílý plášť, 2)
-[debug] Statement (9) bindValue(:keywords, , 2)
-[debug] Statement (9) bindValue(:editor, cech, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Bez pláště, 2)
-[debug] Statement (9) bindValue(:keywords, MUDr. Lebenhart, bez pláště, svlékl jsem bílý plášť, kniha, vydavatelství, Grafia, 2)
-[debug] Statement (9) bindValue(:editor, cech, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, VIDEA z přednášek, 2)
-[debug] Statement (9) bindValue(:keywords, , 2)
-[debug] Statement (9) bindValue(:editor, cech, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, NOVINKA: Toulky českým západem, 2)
-[debug] Statement (9) bindValue(:keywords, , 2)
-[debug] Statement (9) bindValue(:editor, jab1408, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Napsali o knize..., 2)
-[debug] Statement (9) bindValue(:keywords, , 2)
-[debug] Statement (9) bindValue(:editor, cech, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) bindValue(:headline, Reakce účastníků, 2)
-[debug] Statement (9) bindValue(:keywords, , 2)
-[debug] Statement (9) bindValue(:editor, sist0701, 2)
-[debug] Statement (9) bindValue(:id, , 1)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
+            `paper`.`menu_item_id_fk` = :menu_item_id_fk, ). Vytvořen Statement (11).
+[debug] Statement (11) bindValue(:menu_item_id_fk, 679, 2)
+[debug] Statement (11) execute().
+[debug] Statement (11) execute()
+[debug] Statement (11) fetch(2, 0, 0)
+[debug] Handler grafia_upgrade (3) prepare(SELECT
+                `paper_content`.`id` AS `id`,
+                `paper_content`.`paper_id_fk` AS `paper_id_fk`,
+                `paper_content`.`content` AS `content`,
+                `paper_content`.`active` AS `active`,
+                `paper_content`.`priority` AS `priority`,
+                `paper_content`.`show_time` AS `show_time`,
+                `paper_content`.`hide_time` AS `hide_time`,
+                `paper_content`.`event_time` AS `event_time`,
+                `paper_content`.`editor` AS `editor`,
+                `paper_content`.`updated` AS `updated`,
+                 (ISNULL(show_time) OR show_time<=CURDATE()) AND (ISNULL(hide_time) OR CURDATE()<=hide_time) AS actual
+            FROM
+                `paper_content`
+            WHERE `paper_content`.`paper_id_fk` = :paper_id_fk, ). Vytvořen Statement (12).
+[debug] Statement (12) bindValue(:paper_id_fk, 664, 2)
+[debug] Statement (12) execute().
+[debug] Statement (12) execute()
+[debug] Statement (12) fetchAll(2)
+[debug] Result má 1 prvků.
+[debug] Handler grafia_upgrade (3) prepare(UPDATE menu_item SET title=:title, active=:active, show_time=:show_time, hide_time=:hide_time
+                    WHERE lang_code_fk=:lang_code_fk AND uid_fk=:uid_fk , ). Vytvořen Statement (13).
+[debug] Statement (13) bindValue(:title, Test 2, 2)
+[debug] Statement (13) bindValue(:active, 1, 2)
+[debug] Statement (13) bindValue(:show_time, , 1)
+[debug] Statement (13) bindValue(:hide_time, , 1)
+[debug] Statement (13) bindValue(:lang_code_fk, cs, 2)
+[debug] Statement (13) bindValue(:uid_fk, 5eea26a1dfa66, 2)
+[debug] Statement (13) execute().
+[debug] Statement (13) execute()
+[debug] Statement (13) bindValue(:lang_code_fk, cs, 2)
+[debug] Statement (13) bindValue(:uid_fk, 5eea26a1dfa66, 2)
+[debug] Statement (13) execute().
+[debug] Statement (13) execute()
+[debug] Statement (13) fetch(2, 0, 0)
+[debug] Handler grafia_upgrade (3) prepare(UPDATE menu_item SET title=:title, active=:active, show_time=:show_time, hide_time=:hide_time
+                    WHERE lang_code_fk=:lang_code_fk AND uid_fk=:uid_fk , ). Vytvořen Statement (14).
+[debug] Statement (14) bindValue(:title, Test 2, 2)
+[debug] Statement (14) bindValue(:active, 1, 2)
+[debug] Statement (14) bindValue(:show_time, , 1)
+[debug] Statement (14) bindValue(:hide_time, , 1)
+[debug] Statement (14) bindValue(:lang_code_fk, cs, 2)
+[debug] Statement (14) bindValue(:uid_fk, 5eea26a1dfa66, 2)
+[debug] Statement (14) execute().
+[debug] Statement (14) execute()
+[debug] Handler grafia_upgrade (3) prepare(UPDATE paper SET menu_item_id_fk = :menu_item_id_fk, headline = :headline, keywords = :keywords, editor = :editor
+                    WHERE id = :id, ). Vytvořen Statement (15).
+[debug] Statement (15) bindValue(:menu_item_id_fk, 679, 2)
+[debug] Statement (15) bindValue(:headline, Test 2, 2)
+[debug] Statement (15) bindValue(:keywords, , 1)
+[debug] Statement (15) bindValue(:editor, kasl2405, 2)
+[debug] Statement (15) bindValue(:id, 664, 2)
+[debug] Statement (15) execute().
+[debug] Statement (15) execute()
+[debug] Handler grafia_upgrade (3) prepare(UPDATE paper_content SET paper_id_fk = :paper_id_fk, content = :content, active = :active, priority = :priority, show_time = :show_time, hide_time = :hide_time, editor = :editor
+                    WHERE  id = :id, ). Vytvořen Statement (16).
+[debug] Statement (16) bindValue(:paper_id_fk, 664, 2)
+[debug] Statement (16) bindValue(:content, --%a0%--, 2)
+[debug] Statement (16) bindValue(:active, 1, 2)
+[debug] Statement (16) bindValue(:priority, , 1)
+[debug] Statement (16) bindValue(:show_time, , 1)
+[debug] Statement (16) bindValue(:hide_time, , 1)
+[debug] Statement (16) bindValue(:editor, kasl2405, 2)
+[debug] Statement (16) bindValue(:id, 664, 2)
+[error] Statement (16) selhal execute().
+[error]  Metoda Pes\Database\Statement\Statement::execute selhala. Vyhozena výjimka \PDOException: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'priority' cannot be null.
+[debug] Statement (16) execute().

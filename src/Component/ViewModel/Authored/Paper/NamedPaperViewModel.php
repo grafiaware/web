@@ -36,10 +36,10 @@ class NamedPaperViewModel extends PaperViewModelAbstract implements NamedPaperVi
             StatusSecurityRepo $statusSecurityRepo,
             StatusPresentationRepo $statusPresentationRepo,
             HierarchyNodeRepo $menuRepo,
-            MenuItemAggregateRepo $paperAggregateRepo,
+            MenuItemAggregateRepo $menuItemAggregateRepo,
             ComponentRepo $componentRepo
     ) {
-        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $menuRepo, $paperAggregateRepo);
+        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $menuRepo, $menuItemAggregateRepo);
         $this->componentRepo = $componentRepo;
     }
 
@@ -65,15 +65,15 @@ class NamedPaperViewModel extends PaperViewModelAbstract implements NamedPaperVi
     }
 
     /**
-     * Vrací paper příslušný k položce menu.
+     * Vrací menuItemAggregate příslušný ke komponentě se zadaným jménem.
      *
-     * @param HierarchyNodeInterface $menuNode
-     * @return MenuItemPaperAggregateInterface
+     * @return MenuItemPaperAggregateInterface|null
      */
-    public function getMenuItemPaperAggregate(): MenuItemPaperAggregateInterface {
+    public function getMenuItemPaperAggregate(): ?MenuItemPaperAggregateInterface {
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
         $uid = $this->getComponent()->getUidFk();
 //        $active = $actual = $this->presentOnlyPublished();
-        return $this->paperAggregateRepo->get($langCode, $uid) ?? NULL;
+        $this->menuItemAggregateRepo->setOnlyPublishedMode(true);
+        return $this->menuItemAggregateRepo->get($langCode, $uid) ?? NULL;
     }
 }

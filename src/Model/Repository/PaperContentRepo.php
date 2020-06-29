@@ -19,33 +19,37 @@ use Model\Repository\Exception\UnableRecreateEntityException;
  *
  * @author pes2704
  */
-class PaperContentRepo extends RepoAbstract implements RepoInterface {
+class PaperContentRepo extends RepoAbstract implements PaperContentRepoInterface, RepoPublishedOnlyModeInterface {
+
+    use RepoPublishedOnlyModeTrait;
+
+    protected $dao;
 
     public function __construct(PaperContentDao $paperContentDao, HydratorInterface $contentHydrator) {
         $this->dao = $paperContentDao;
-        $this->hydrator = $contentHydrator;
+        $this->registerHydrator($contentHydrator);
     }
 
     /**
      *
-     * @param int $id
+     * @param int $contentId
      * @return PaperContentInterface|null
      */
-    public function get($id): ?PaperContentInterface {
-        $index = $menuItemIdFk;
+    public function get($contentId): ?PaperContentInterface {
+        $index = $contentId;
         if (!isset($this->collection[$index])) {
             /** @var PaperContentDao $this->dao */
-            $this->recreateEntity($index, $this->dao->get($id));
+            $this->recreateEntity($index, $this->dao->get($contentId));
         }
         return $this->collection[$index] ?? NULL;
     }
 
-    public function findByPaperIdFk($paperIdFk) {
+    public function findByReference($paperIdFk): iterable {
         $selected = [];
-        foreach ($this->dao->find("paper_id_fk = :paper_id_fk", [':paper_id_fk' => $paperIdFk]) as $paperContentRow) {
+        foreach ($this->dao->findAllByFk($paperIdFk) as $paperContentRow) {
             $index = $this->indexFromRow($paperContentRow);
             $this->recreateEntity($index, $paperContentRow);
-            $selected[$index] = $this->collection[$index];
+            $selected[] = $this->collection[$index];
         }
         return $selected;
     }
@@ -59,18 +63,8 @@ class PaperContentRepo extends RepoAbstract implements RepoInterface {
         unset($this->collection[$this->indexFromEntity($paperContent)]);
     }
 
-    /**
-     *
-     * @param array $row
-     * @return string index
-     */
-    protected function recreateEntity($index, $row) {
-        if ($row) {
-            $paper = new PaperContent();
-            $this->hydrator->hydrate($paper, $row);
-            $paper->setPersisted();
-            $this->collection[$index] = $paper;
-        }
+    protected function createEntity() {
+        return new PaperContent();
     }
 
     protected function indexFromEntity(PaperContentInterface $paperContent) {

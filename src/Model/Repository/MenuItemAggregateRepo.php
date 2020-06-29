@@ -10,19 +10,15 @@ namespace Model\Repository;
 
 use Model\Repository\MenuItemRepo;
 
-use Model\Entity\MenuItem;
-use Model\Entity\MenuItemInterface;
-
 use Model\Dao\MenuItemDao;
 use Model\Hydrator\HydratorInterface;
 
 use Model\Repository\PaperAggregateRepo;
-use Model\Repository\PaperContentRepo;
-use Model\Entity\MenuItemPaperAggregateInterface;
 use Model\Entity\MenuItemPaperAggregate;
 use Model\Hydrator\MenuItemChildHydrator;
-use Model\Entity\PaperPaperContentsAggregate;
-use Model\Hydrator\PaperChildHydrator;
+use Model\Repository\Association\AssotiationOneToOneFactory;
+
+use Model\Repository\Association\AssociationFactoryInterface;
 
 use Model\Repository\Exception\UnableRecreateEntityException;
 
@@ -31,38 +27,18 @@ use Model\Repository\Exception\UnableRecreateEntityException;
  *
  * @author pes2704
  */
-class MenuItemAggregateRepo extends MenuItemRepo implements RepoInterface, MenuItemRepoInterface {
+class MenuItemAggregateRepo extends MenuItemRepo implements MenuItemRepoInterface, RepoPublishedOnlyModeInterface, RepoReadonlyInterface {
 
-    use AggregateRepoTrait;
-
-    private $paperAggregateRepo;
-    private $menuItemPaperHydrator;
+    use RepoPublishedOnlyModeTrait;
 
     public function __construct(MenuItemDao $menuItemDao, HydratorInterface $menuItemHydrator,
             PaperAggregateRepo $paperAggregateRepo, MenuItemChildHydrator $menuItemPaperHydrator) {
         parent::__construct($menuItemDao, $menuItemHydrator);
-        $this->paperAggregateRepo = $paperAggregateRepo;
-        $this->menuItemPaperHydrator = $menuItemPaperHydrator;
-        $this->childRepositories[] = $this->paperAggregateRepo;
+        $this->registerOneToOneAssotiation('paper', 'id', $paperAggregateRepo);
+        $this->registerHydrator($menuItemPaperHydrator);
     }
 
-    /**
-     *
-     * @param array $row
-     * @return string index
-     */
-    protected function recreateEntity($index, $row) {
-        if ($row) {
-            $row['paper'] = $this->paperAggregateRepo->getByFk($row['id']);
-
-            $menuItemPaperAggregate = new MenuItemPaperAggregate();
-            $this->hydrator->hydrate($menuItemPaperAggregate, $row);
-            $this->menuItemPaperHydrator->hydrate($menuItemPaperAggregate, $row);
-            $menuItemPaperAggregate->setPersisted();
-            $this->collection[$index] = $menuItemPaperAggregate;
-        }
+    protected function createEntity() {
+        return new MenuItemPaperAggregate();
     }
-
-    // __destruct je v trait
-
 }

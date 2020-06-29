@@ -35,9 +35,9 @@ class EditItemController extends PresentationFrontControllerAbstract {
 
     public function toggle(ServerRequestInterface $request, $id) {
         $menuItem = $this->getMenuItem($id);
-        $active = ! $menuItem->getActive();
+        $active = $menuItem->getActive() ? 0 : 1;  //active je integer
         $menuItem->setActive($active);
-        $this->addFlashMessage("setActive({$active})");
+        $this->addFlashMessage("menuItem toggle(".($active?'true':'false').")");
         return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other
      }
 
@@ -50,14 +50,15 @@ class EditItemController extends PresentationFrontControllerAbstract {
                 $hideTime = (new RequestParams())->getParam($request, 'hide');
                 $menuItem->setShowTime($showTime);
                 $menuItem->setHideTime($hideTime);
-                $this->addFlashMessage("setShowTime($showTime), setHideTime($hideTime)");
+                $this->addFlashMessage("menuItem setShowTime($showTime), setHideTime($hideTime)");
                 break;
             case 'permanent':
                 $menuItem->setShowTime(null);
                 $menuItem->setHideTime(null);
+                $this->addFlashMessage("menuItem set permanent");
                 break;
             default:
-                $this->addFlashMessage("actual: Error - unknown button name.");
+                $this->addFlashMessage("menuItem actual: Error - unknown button name.");
                 break;
         }
         return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other

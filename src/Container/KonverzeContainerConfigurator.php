@@ -29,10 +29,10 @@ use Pes\Logger\FileLogger;
 
 use Pes\Database\Manipulator\Manipulator;
 
-use Database\Hierarchy\EditHierarchy;
-use Database\Hierarchy\ReadHierarchy;
-use Database\Hierarchy\EditHierarchyInterface;
-use Database\Hierarchy\ReadHierarchyInterface;
+use Model\Dao\Hierarchy\EditHierarchy;
+use Model\Dao\Hierarchy\NodeAggregateReadonlyDao;
+use Model\Dao\Hierarchy\EditHierarchyInterface;
+use Model\Dao\Hierarchy\NodeAggregateReadonlyDaoInterface;
 
 use Model\HierarchyHooks\HookedMenuItemActor;
 use Model\HierarchyHooks\ArticleTitleUpdater;
@@ -48,7 +48,7 @@ class KonverzeContainerConfigurator extends ContainerConfiguratorAbstract {
         return [
             HandlerInterface::class => Handler::class,
             RouterInterface::class => Router::class,
-            ReadHierarchyInterface::class => ReadHierarchy::class,
+            NodeAggregateReadonlyDaoInterface::class => NodeAggregateReadonlyDao::class,
             EditHierarchyInterface::class => EditHierarchy::class,
         ];
     }
@@ -176,8 +176,8 @@ class KonverzeContainerConfigurator extends ContainerConfiguratorAbstract {
             },
 
             // hierarchny
-            ReadHierarchy::class => function(ContainerInterface $c) : ReadHierarchy {
-                return new ReadHierarchy($c->get(Handler::class), $c->get('hierarchy_view'));
+            NodeAggregateReadonlyDao::class => function(ContainerInterface $c) : NodeAggregateReadonlyDao {
+                return new NodeAggregateReadonlyDao($c->get(Handler::class), $c->get('hierarchy_view'));
             },
 
             EditHierarchy::class => function(ContainerInterface $c) : EditHierarchy {

@@ -13,7 +13,7 @@ use Pes\Debug\Timer;
 use Container\KonverzeContainerConfigurator;
 
 use Pes\Database\Manipulator\Manipulator;
-use Database\Hierarchy\EditHierarchy;
+use Model\Dao\Hierarchy\EditHierarchy;
 
 use Middleware\Konverze\Exception\{
     ActionFailedException, MaxExucutionTimeException, KonverzeExceptionInterface

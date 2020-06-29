@@ -6,13 +6,13 @@
  * and open the template in the editor.
  */
 
-namespace Model\Repository;
+namespace Model\Repository\Exception;
 
 /**
+ * Description of UnableRecreateEntityException
  *
  * @author pes2704
  */
-interface RepoInterface {
+class UnableToSetOnlyPublishedModeException extends \LogicException implements RepositoryExceptionInterface {
 
-    public function flush();
 }

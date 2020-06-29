@@ -16,8 +16,6 @@ use Model\Entity\MenuItemInterface;
  */
 interface MenuItemRepoInterface extends RepoInterface {
 
-    public function setOnlyPublishedMode($onlyPublished = true): void ;
-
     /**
      *
      * @param type $langCodeFk
@@ -34,12 +32,16 @@ interface MenuItemRepoInterface extends RepoInterface {
 
     /**
      *
+     * @param MenuItemInterface $menuItem
+     */
+    public function remove(MenuItemInterface $menuItem);
+
+    /**
+     *
      * @param string $langCodeFk
      * @param string $text
-     * @param bool $active Nepovinný parametr, default=TRUE. Defaultně metoda hledá jen aktivní (zveřejněné) položky.
-     * @param bool $actual Nepovinný parametr, default=TRUE. Defaultně metoda hledá jen aktuální položky.
      * @return MenuItemInterface array of
      */
-    public function findByPaperFulltextSearch($langCodeFk, $text, $active=\TRUE, $actual=\TRUE);
+    public function findByPaperFulltextSearch($langCodeFk, $text);
 
 }

@@ -16,12 +16,11 @@ use Pes\Application\AppFactory;
 use Pes\Http\Request\RequestParams;
 use Pes\Http\Response;
 use Pes\Http\Response\RedirectResponse;
+use Psr\Http\Message\ResponseInterface;
 
 use Model\Repository\{
-    StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo, MenuItemAggregateRepo
+    StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo, PaperRepo
 };
-use Model\Entity\MenuItemPaperAggregateInterface;
-use Model\Entity\MenuItemPaperAggregate;
 
 /**
  * Description of PostController
@@ -36,43 +35,25 @@ class PaperController extends PresentationFrontControllerAbstract {
             StatusSecurityRepo $statusSecurityRepo,
             StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
-            MenuItemAggregateRepo $paperRepo) {
+            PaperRepo $paperRepo) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
         $this->paperRepo = $paperRepo;
     }
 
     /**
      *
-     * @param type $id mnu_item_id_fk - primární klíč paper
-     * @return type
+     * @param ServerRequestInterface $request
+     * @param type $paperId
+     * @return ResponseInterface
      */
-    public function updateHeadline(ServerRequestInterface $request, $menuItemId) {
-        $paper = $this->paperRepo->get($menuItemId);
+    public function updateHeadline(ServerRequestInterface $request, $paperId): ResponseInterface {
+        $paper = $this->paperRepo->get($paperId);
         if (!isset($paper)) {
             user_error('Neexistuje paper se zadaným menuItemId.');
         } else {
-            $postHeadline = (new RequestParams())->getParam($request, 'headline_'.$menuItemId);
-            $paper->getPaperHeadline()->setHeadline($postHeadline);
+            $postHeadline = (new RequestParams())->getParam($request, 'headline_'.$paperId);
+            $paper->setHeadline($postHeadline);
         }
-        return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other
-    }
-
-    /**
-     *
-     * @param type $id mnu_item_id_fk - primární klíč paper
-     * @return type
-     */
-    public function updateContent(ServerRequestInterface $request, $menuItemId, $id) {
-        $paper = $this->paperRepo->get($menuItemId);
-        if (!isset($paper)) {
-            user_error('Neexistuje paper se zadaným menuItemId.');
-        } else {
-            $postContent = (new RequestParams())->getParam($request, 'content_'.$id);  // jméno POST proměnné je vytvořeno v paper rendereru složením 'content_' a $paper->getMenuItemId()
-
-            $content = $paper->getPaperContent($id);
-            $content->setContent($postContent);
-        }
-
         return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other
     }
 

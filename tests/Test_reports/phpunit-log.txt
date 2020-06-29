@@ -1,8 +1,5 @@
-AppRunner
- [ ] Run
-
-MenuItemPaperRepository
- [x] Set up
- [x] Repo get
- [x] Repo find by paper fulltext search
+PaperContentManipulation
+ [x] Existing row
+ [x]  11 columns
+ [x] Insert
 

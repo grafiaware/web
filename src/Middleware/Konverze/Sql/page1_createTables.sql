@@ -79,8 +79,10 @@ CREATE TABLE `paper_content` (
   `list` varchar(45) DEFAULT NULL,  -- list je vazba pro insert starých stránek do paper
   `content` longtext,  -- default pro db: CHARACTER SET utf8 COLLATE utf8_general_ci
   `active` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `priority` float(10) unsigned NOT NULL DEFAULT '1',
   `show_time` date DEFAULT NULL,
   `hide_time` date DEFAULT NULL,
+  `event_time` date DEFAULT NULL,
   `editor` varchar(20) DEFAULT NULL,
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),

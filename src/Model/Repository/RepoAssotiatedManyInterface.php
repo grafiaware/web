@@ -8,14 +8,12 @@
 
 namespace Model\Repository;
 
-use Model\Entity\PaperInterface;
+use Model\Entity\EntityInterface;
 
 /**
  *
  * @author pes2704
  */
-interface PaperRepoInterface extends RepoAssotiatedOneInterface {
-    public function get($id): ?PaperInterface;
-    public function add(PaperInterface $paper);
-    public function remove(PaperInterface $paper);
+interface RepoAssotiatedManyInterface extends RepoInterface {
+    public function findByReference($id): iterable;
 }

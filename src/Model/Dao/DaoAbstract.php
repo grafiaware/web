@@ -17,17 +17,29 @@ use Pes\Database\Handler\HandlerInterface;
  */
 class DaoAbstract {
 
+    protected $contextConditions = [];
+
     /**
      *
      * @var HandlerInterface
      */
     protected $dbHandler;
 
+    /**
+     * Prepares stamentes cache
+     *
+     * @var array
+     */
+    private $preparedStatements = [];
+
     public function __construct(HandlerInterface $dbHandler) {
         $this->dbHandler = $dbHandler;
     }
 
-    private $preparedStatements = [];
+    protected function where($condition = []) {
+        return ($this->contextConditions OR $condition) ? implode(" AND ", array_merge($this->contextConditions, $condition)) : "";
+
+    }
 
     /**
      * Očekává SQL string s příkazem SELECT a případnými placeholdery. Provede ho s použitím parametrů a vrací jednu řádku tabulky ve formě asociativního pole.
@@ -40,14 +52,14 @@ class DaoAbstract {
      * s hlášením o duplicitním záznamu. I v případě duplicitního záznamu vrací první vyhledaný řádek, nevyhazuje výjimku.
      *
      * @param string $sql SQL příkaz s případnými placeholdery.
-     * @param array $params Pole parametrů pro bind, nepovinný parametr, default prázdné pole.
+     * @param array $touplesToBind Pole parametrů pro bind, nepovinný parametr, default prázdné pole.
      * @param bool $checkDuplicities Nepovinný parametr, default FALSE.
      * @return array
      */
-    protected function selectOne($sql, $params=[], $checkDuplicities=FALSE) {
+    protected function selectOne($sql, $touplesToBind=[], $checkDuplicities=FALSE) {
         $statement = $this->getPreparedStatement($sql);
-        if ($params) {
-            $this->bindParams($statement, $params);
+        if ($touplesToBind) {
+            $this->bindParams($statement, $touplesToBind);
         }
         $statement->execute();
         if ($checkDuplicities) {
@@ -68,13 +80,13 @@ class DaoAbstract {
      * - Provede příkaz a vrací vyhledané řádky ve formě asociativního pole.
      *
      * @param string $sql SQL příkaz s případnými placeholdery.
-     * @param array $params Pole parametrů pro bind, nepovinný parametr, default prázdné pole.
+     * @param array $touplesToBind Pole parametrů pro bind, nepovinný parametr, default prázdné pole.
      * @return aray
      */
-    protected function selectMany($sql, $params=[]) {
+    protected function selectMany($sql, $touplesToBind=[]) {
         $statement = $this->getPreparedStatement($sql);
-        if ($params) {
-            $this->bindParams($statement, $params);
+        if ($touplesToBind) {
+            $this->bindParams($statement, $touplesToBind);
         }
         $statement->execute();
         return $statement->fetchAll(\PDO::FETCH_ASSOC);
@@ -89,13 +101,13 @@ class DaoAbstract {
      * - Provede příkaz a vrací výsledek metody PDOStatement->execute().
      *
      * @param string $sql SQL příkaz s případnými placeholdery.
-     * @param array $params Pole parametrů pro bind, nepovinný parametr, default prázdné pole.
+     * @param array $touplesToBind Pole parametrů pro bind, nepovinný parametr, default prázdné pole.
      * @return aray
      */
-    protected function execInsert($sql, $params=[]) {
+    protected function execInsert($sql, $touplesToBind=[]) {
         $statement = $this->getPreparedStatement($sql);
-        if ($params) {
-            $this->bindParams($statement, $params);
+        if ($touplesToBind) {
+            $this->bindParams($statement, $touplesToBind);
         }
         return $statement->execute();
     }
@@ -109,13 +121,13 @@ class DaoAbstract {
      * - Provede příkaz a vrací výsledek metody PDOStatement->execute().
      *
      * @param string $sql SQL příkaz s případnými placeholdery.
-     * @param array $params Pole parametrů pro bind, nepovinný parametr, default prázdné pole.
+     * @param array $touplesToBind Pole parametrů pro bind, nepovinný parametr, default prázdné pole.
      * @return aray
      */
-    protected function execUpdate($sql, $params=[]) {
+    protected function execUpdate($sql, $touplesToBind=[]) {
         $statement = $this->getPreparedStatement($sql);
-        if ($params) {
-            $this->bindParams($statement, $params);
+        if ($touplesToBind) {
+            $this->bindParams($statement, $touplesToBind);
         }
         return $statement->execute();
     }
@@ -129,13 +141,13 @@ class DaoAbstract {
      * - Provede příkaz a vrací výsledek metody PDOStatement->execute().
      *
      * @param string $sql SQL příkaz s případnými placeholdery.
-     * @param array $params Pole parametrů pro bind, nepovinný parametr, default prázdné pole.
+     * @param array $touplesToBind Pole parametrů pro bind, nepovinný parametr, default prázdné pole.
      * @return aray
      */
-    protected function execDelete($sql, $params=[]) {
+    protected function execDelete($sql, $touplesToBind=[]) {
         $statement = $this->getPreparedStatement($sql);
-        if ($params) {
-            $this->bindParams($statement, $params);
+        if ($touplesToBind) {
+            $this->bindParams($statement, $touplesToBind);
         }
         $statement->execute();
         return ;
@@ -149,8 +161,8 @@ class DaoAbstract {
         return $this->preparedStatements[$sql];
     }
 
-    private function bindParams(\PDOStatement $statement, $params=[]) {
-        foreach ($params as $key => $value) {
+    private function bindParams(\PDOStatement $statement, $touplesToBind=[]) {
+        foreach ($touplesToBind as $key => $value) {
             $placeholder = $key;
             if (strpos($statement->queryString, $placeholder) !== FALSE) {
                 if (isset($value)) {

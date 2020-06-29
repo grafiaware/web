@@ -25,7 +25,7 @@ abstract class PaperViewModelAbstract extends AuthoredViewModelAbstract implemen
     /**
      * @var MenuItemAggregateRepo
      */
-    protected $paperAggregateRepo;
+    protected $menuItemAggregateRepo;
 
     /**
      *
@@ -38,10 +38,10 @@ abstract class PaperViewModelAbstract extends AuthoredViewModelAbstract implemen
             StatusSecurityRepo $statusSecurityRepo,
             StatusPresentationRepo $statusPresentationRepo,
             HierarchyNodeRepo $menuRepo,
-            MenuItemAggregateRepo $paperAggregateRepo
+            MenuItemAggregateRepo $menuItemAggregateRepo
             ) {
         parent::__construct($statusSecurityRepo, $statusPresentationRepo, $menuRepo);
-        $this->paperAggregateRepo = $paperAggregateRepo;
+        $this->menuItemAggregateRepo = $menuItemAggregateRepo;
     }
 
 }

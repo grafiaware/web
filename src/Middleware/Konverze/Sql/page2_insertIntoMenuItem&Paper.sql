@@ -101,8 +101,10 @@ SELECT   id AS menu_item_id_fk, stranky_innodb.list, nazev_lan3 AS headline, key
 FROM stranky_innodb  INNER JOIN `menu_item`  ON  (menu_item.lang_code_fk='de' AND stranky_innodb.list=menu_item.list)
 ORDER BY list ASC;
 
+-- paper_content
+-- priority je default = 1, event_time je null
 INSERT INTO `paper_content` ( `paper_id_fk`, `list`, `content`, `active`, `show_time`, `hide_time`, `editor`, `updated`)
-SELECT paper.id AS paper_id_fk, stranky_innodb.list, obsah_lan1 AS content, aktiv_lan1 AS active,  aktiv_lan1start AS show_time,  aktiv_lan1stop AS hide_time, stranky_innodb.editor AS editor, zmena  AS updated
+SELECT paper.id AS paper_id_fk, stranky_innodb.list, obsah_lan1 AS content, aktiv_lan1 AS active, aktiv_lan1start AS show_time, aktiv_lan1stop AS hide_time, stranky_innodb.editor AS editor, zmena  AS updated
 FROM
 stranky_innodb
     INNER JOIN
@@ -110,7 +112,7 @@ stranky_innodb
     INNER JOIN
 paper ON (menu_item.id=paper.menu_item_id_fk)
 UNION ALL
-SELECT paper.id AS paper_id_fk, stranky_innodb.list, obsah_lan2 AS content, aktiv_lan1 AS active,  aktiv_lan1start AS show_time,  aktiv_lan1stop AS hide_time, stranky_innodb.editor AS editor, zmena  AS updated
+SELECT paper.id AS paper_id_fk, stranky_innodb.list, obsah_lan2 AS content, aktiv_lan2 AS active, aktiv_lan2start AS show_time, aktiv_lan2stop AS hide_time, stranky_innodb.editor AS editor, zmena  AS updated
 FROM
 stranky_innodb
     INNER JOIN
@@ -118,7 +120,7 @@ stranky_innodb
     INNER JOIN
 paper ON (menu_item.id=paper.menu_item_id_fk)
 UNION ALL
-SELECT paper.id AS paper_id_fk, stranky_innodb.list, obsah_lan3 AS content, aktiv_lan1 AS active,  aktiv_lan1start AS show_time,  aktiv_lan1stop AS hide_time, stranky_innodb.editor AS editor, zmena  AS updated
+SELECT paper.id AS paper_id_fk, stranky_innodb.list, obsah_lan3 AS content, aktiv_lan3 AS active, aktiv_lan3start AS show_time, aktiv_lan3stop AS hide_time, stranky_innodb.editor AS editor, zmena  AS updated
 FROM
 stranky_innodb
     INNER JOIN

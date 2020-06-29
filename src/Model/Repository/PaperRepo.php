@@ -7,6 +7,7 @@
  */
 
 namespace Model\Repository;
+use Model\Entity\EntityInterface;
 use Model\Entity\PaperInterface;
 use Model\Entity\Paper;
 use Model\Dao\PaperDao;
@@ -20,16 +21,16 @@ use Model\Repository\Exception\UnableRecreateEntityException;
  *
  * @author pes2704
  */
-class PaperRepo extends RepoAbstract implements RepoInterface {
+class PaperRepo extends RepoAbstract implements PaperRepoInterface {
 
     /**
      * @var DaoChildInterface
      */
     protected $dao;  // přetěžuje $dao v AbstractRepo - typ DaoChildInterface
 
-    public function __construct(PaperDao $paperDao, PaperHydrator $paperHeadlineHydrator) {
+    public function __construct(PaperDao $paperDao, PaperHydrator $paperHydrator) {
         $this->dao = $paperDao;
-        $this->hydrator = $paperHeadlineHydrator;
+        $this->registerHydrator($paperHydrator);
     }
 
     /**
@@ -50,7 +51,7 @@ class PaperRepo extends RepoAbstract implements RepoInterface {
      * @param type $menuItemIdFk
      * @return PaperInterface|null
      */
-    public function getByFk($menuItemIdFk): ?PaperInterface {
+    public function getByReference($menuItemIdFk): ?EntityInterface {
         $row = $this->dao->getByFk($menuItemIdFk);
         $index = $this->indexFromRow($row);
         if (!isset($this->collection[$index])) {
@@ -68,18 +69,8 @@ class PaperRepo extends RepoAbstract implements RepoInterface {
         unset($this->collection[$this->indexFromEntity($paper)]);
     }
 
-    /**
-     *
-     * @param array $row
-     * @return string index
-     */
-    protected function recreateEntity($index, $row) {
-        if ($row) {
-            $paper = new Paper();
-            $this->hydrator->hydrate($paper, $row);
-            $paper->setPersisted();
-            $this->collection[$index] = $paper;
-        }
+    protected function createEntity() {
+        return new Paper();
     }
 
     protected function indexFromEntity(PaperInterface $paper) {

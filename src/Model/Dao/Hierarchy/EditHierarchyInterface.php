@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Database\Hierarchy;
+namespace Model\Dao\Hierarchy;
 
 /**
  *

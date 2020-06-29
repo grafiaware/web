@@ -10,7 +10,7 @@ use Pes\Application\AppFactory;
 use Pes\Http\Response\RedirectResponse;
 use Pes\Http\Response;
 
-use Database\Hierarchy\EditHierarchy;
+use Model\Dao\Hierarchy\EditHierarchy;
 
 use Model\Repository\{
     StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo, MenuRootRepo

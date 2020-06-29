@@ -17,7 +17,7 @@ use Container\{
 };
 
 use Middleware\Actions\ActionsController\{
-    UserActionController, HierarchyController, EditItemController, PresentationActionController, PaperController
+    UserActionController, HierarchyController, EditItemController, PresentationActionController, PaperController, ContentController
 };
 
 class Actions extends AppMiddlewareAbstract implements MiddlewareInterface {
@@ -70,7 +70,7 @@ class Actions extends AppMiddlewareAbstract implements MiddlewareInterface {
         $routeGenerator->addRouteForAction('POST', '/api/v1/presentation/language', function(ServerRequestInterface $request) {
                 /** @var PresentationActionController $ctrl */
                 $ctrl = $this->container->get(PresentationActionController::class);
-                return $ctrl->setLangCode($request, );
+                return $ctrl->setLangCode($request);
         });
         $routeGenerator->addRouteForAction('POST', '/api/v1/presentation/uid', function(ServerRequestInterface $request) {
                 /** @var PresentationActionController $ctrl */
@@ -89,16 +89,57 @@ class Actions extends AppMiddlewareAbstract implements MiddlewareInterface {
         });
 
         #### PaperController ####
-        $routeGenerator->addRouteForAction('POST', '/api/v1/paper/:menuItemId/headline', function(ServerRequestInterface $request, $menuItemId) {
+
+        $routeGenerator->addRouteForAction('POST', '/api/v1/paper/:paperId/headline', function(ServerRequestInterface $request, $paperId) {
                 /** @var PaperController $ctrl */
                 $ctrl = $this->container->get(PaperController::class);
-                return $ctrl->updateHeadline($request, $menuItemId);
+                return $ctrl->updateHeadline($request, $paperId);
         });
-        $routeGenerator->addRouteForAction('POST', '/api/v1/paper/:menuItemId/contents/:id', function(ServerRequestInterface $request, $menuItemId, $id) {
-                /** @var PaperController $ctrl */
-                $ctrl = $this->container->get(PaperController::class);
-                return $ctrl->updateContent($request, $menuItemId, $id);
+
+        #### ContentController ####
+
+        $routeGenerator->addRouteForAction('POST', '/api/v1/paper/:paperId/contents/:contentId/content', function(ServerRequestInterface $request, $paperId, $contentId) {
+                /** @var ContentController $ctrl */
+                $ctrl = $this->container->get(ContentController::class);
+                return $ctrl->updateContent($request, $paperId, $contentId);
         });
+        $routeGenerator->addRouteForAction('POST', '/api/v1/paper/:paperId/contents/:contentId/toggle', function(ServerRequestInterface $request, $paperId, $contentId) {
+                /** @var ContentController $ctrl */
+                $ctrl = $this->container->get(ContentController::class);
+                return $ctrl->toggleContent($request, $paperId, $contentId);
+        });
+        $routeGenerator->addRouteForAction('POST', '/api/v1/paper/:paperId/contents/:contentId/actual', function(ServerRequestInterface $request, $paperId, $contentId) {
+                /** @var ContentController $ctrl */
+                $ctrl = $this->container->get(ContentController::class);
+                return $ctrl->actualContent($request, $paperId, $contentId);
+        });
+        $routeGenerator->addRouteForAction('POST', '/api/v1/paper/:paperId/contents/:contentId/up', function(ServerRequestInterface $request, $paperId, $contentId) {
+                /** @var ContentController $ctrl */
+                $ctrl = $this->container->get(ContentController::class);
+                return $ctrl->up($request, $paperId, $contentId);
+        });
+        $routeGenerator->addRouteForAction('POST', '/api/v1/paper/:paperId/contents/:contentId/down', function(ServerRequestInterface $request, $paperId, $contentId) {
+                /** @var ContentController $ctrl */
+                $ctrl = $this->container->get(ContentController::class);
+                return $ctrl->down($request, $paperId, $contentId);
+        });
+        $routeGenerator->addRouteForAction('POST', '/api/v1/paper/:paperId/contents/:contentId/add_above', function(ServerRequestInterface $request, $paperId, $contentId) {
+                /** @var ContentController $ctrl */
+                $ctrl = $this->container->get(ContentController::class);
+                return $ctrl->addAbove($request, $paperId, $contentId);
+        });
+        $routeGenerator->addRouteForAction('POST', '/api/v1/paper/:paperId/contents/:contentId/add_below', function(ServerRequestInterface $request, $paperId, $contentId) {
+                /** @var ContentController $ctrl */
+                $ctrl = $this->container->get(ContentController::class);
+                return $ctrl->addBelow($request, $paperId, $contentId);
+        });
+        $routeGenerator->addRouteForAction('POST', '/api/v1/paper/:paperId/contents/:contentId/delete', function(ServerRequestInterface $request, $paperId, $contentId) {
+                /** @var ContentController $ctrl */
+                $ctrl = $this->container->get(ContentController::class);
+                return $ctrl->delete($request, $paperId, $contentId);
+        });
+
+
         #### EditItemController ####
         $routeGenerator->addRouteForAction('POST', '/api/v1/menu/:menuItemId/toggle', function(ServerRequestInterface $request, $menuItemId) {
                 /** @var EditItemController $ctrl */

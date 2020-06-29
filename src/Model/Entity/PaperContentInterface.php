@@ -25,9 +25,13 @@ interface PaperContentInterface extends EntityInterface {
 
     public function getActive();
 
+    public function getPriority();
+
     public function getShowTime();
 
     public function getHideTime();
+
+    public function getEventTime();
 
     public function getEditor();
 
@@ -45,9 +49,13 @@ interface PaperContentInterface extends EntityInterface {
 
     public function setActive($active): PaperContentInterface;
 
+    public function setPriority($priority): PaperContentInterface;
+
     public function setShowTime($showTime): PaperContentInterface;
 
     public function setHideTime($hideTime): PaperContentInterface;
+
+    public function setEventTime($eventTime): PaperContentInterface;
 
     public function setEditor($editor): PaperContentInterface;
 

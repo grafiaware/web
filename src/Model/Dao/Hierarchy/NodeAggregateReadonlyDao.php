@@ -1,10 +1,12 @@
 <?php
 
-namespace Database\Hierarchy;
+namespace Model\Dao\Hierarchy;
 
 //use Pes\Database\MyMiniHandler\HandlerInterface;
 use Pes\Database\Handler\HandlerInterface;
 use Pes\Database\Statement\StatementInterface;
+
+use Model\Dao\ContextPublishedInterface;
 
 /**
  * Podle tutoriálu na https://www.phpro.org/tutorials/Managing-Hierarchical-Data-with-PHP-and-MySQL.html - pozor jsou tam chyby
@@ -14,10 +16,10 @@ use Pes\Database\Statement\StatementInterface;
  * Joiny nested setu trvají podle MySQL Workbench pro cca 500 položek (Grafia) méně než 1ms,
  * cross join s menu_item zvedne čas na 15-16ms a to bez ohledu na to jak složitá je podmínka ve "vnějším" selectu.
  *
- * Při výběru jen podle lang_dode je výsledkem je "spojitý" strom - větve jsou celé, obsahují všechny hloubky.
+ * Při výběru jen podle lang_code je výsledkem je "spojitý" strom - větve jsou celé, obsahují všechny hloubky.
  * Jde to, protože pro každou kombinaci uid a lang_code existuje položka.
  *
- * Pokud se vybírá i podle jiných sloupců - například podle menu_item.active nebo show_time, hide_time dojde by k tomu,
+ * Pokud se vybírá i podle jiných sloupců - například podle menu_item.active nebo show_time,hide_time dojde k tomu,
  * že větve stromu nebudou celé - obashují např. uzel s hloubkou 1 a pak až uzel s hloukou 4.
  *
  * Tomu je třeba přizpůsobit renderování, například nerenderovat uzel, který má hloubky o více než 1 větší než aktuální hloubka.
@@ -27,12 +29,11 @@ use Pes\Database\Statement\StatementInterface;
  *
  * V obou případech jsou např. publikované uzly, které mají nějakého nepublikovaného předka v menu nedostupné. Jsou jen v menu v "editačním" modu, kdy se zobrazijí i neaktivní a neaktuální uzly.
  */
-class ReadHierarchy extends HierarchyAbstract implements ReadHierarchyInterface {
+class NodeAggregateReadonlyDao extends EditHierarchy implements NodeAggregateReadonlyDaoInterface {
 
     const UID_TITLE_SEPARATOR = '|';
     const BREADCRUMB_SEPARATOR = '/';
 
-    private $nestedSetTableName;
     private $itemTableName;
 
     /**
@@ -42,11 +43,31 @@ class ReadHierarchy extends HierarchyAbstract implements ReadHierarchyInterface 
      * @param string $itemTableName Jméno databázové tabulky menu item
      */
     public function __construct(HandlerInterface $handler, $nestedSetTableName, $itemTableName) {
-        parent::__construct($handler);
-        $this->nestedSetTableName = $nestedSetTableName;
+        parent::__construct($handler, $nestedSetTableName);
         $this->itemTableName = $itemTableName;
     }
-###############
+
+################
+#
+    /**
+     * DAO vrací pouze položky odpovídající nastavenému kontextu.
+     *
+     * @param bool $active Pokud je TRUE,  metoda hledá jen aktivní (zveřejněné) položky.
+     * @param bool $actual Pokud je TRUE,  metoda hledá jen aktuální položky.
+     * @return void
+     */
+    public function setContextPublished($active, $actual):void {
+        if ($active) {
+            $this->contextConditions['active'] = "menu_item.active = 1";
+        } else {
+            unset($this->contextConditions['active']);
+        }
+        if ($actual) {
+            $this->contextConditions['actual'] = "(ISNULL(menu_item.show_time) OR menu_item.show_time<=CURDATE()) AND (ISNULL(menu_item.hide_time) OR CURDATE()<=menu_item.hide_time)";
+        } else {
+            unset($this->contextConditions['actual']);
+        }
+    }
 
     private function selected() {
         return "
@@ -56,27 +77,20 @@ class ReadHierarchy extends HierarchyAbstract implements ReadHierarchyInterface 
         ";
     }
 
-    private function menuItemCondition($langCode, $active, $actual, $condition = []) {
-        if ($langCode) {
-            $condition[] = "menu_item.lang_code_fk = :lang_code";
-        }
-        if ($active) {
-            $condition[] = "menu_item.active = 1";
-        }
-        if ($actual) {
-            $condition[] = "(ISNULL(menu_item.show_time) OR menu_item.show_time<=CURDATE()) AND (ISNULL(menu_item.hide_time) OR CURDATE()<=menu_item.hide_time)";
-        }
-        return $condition ? implode(" AND ", $condition) : "";
-    }
+    private function where($condition = []) {
+        return ($this->contextConditions OR $condition) ? implode(" AND ", array_merge($this->contextConditions, $condition)) : "";
 
+    }
+#
 #################
+
     /**
      * Vrací jeden node podle primárního klíče (kompozitní klíč lang_code_fk a uid_fk)
      * @param string $langCode Hodnota existující v sloupci tabulky language.lang_code
      * @param string $uid
      * @return array
      */
-    public function getNode($langCode, $uid, $active, $actual) {
+    public function get($langCode, $uid) {
         $sql =
             "SELECT "
             .$this->selected()
@@ -94,7 +108,7 @@ class ReadHierarchy extends HierarchyAbstract implements ReadHierarchyInterface 
                     INNER JOIN
                 $this->itemTableName AS menu_item ON (nested_set.uid = menu_item.uid_fk)
             WHERE "
-                .$this->menuItemCondition($langCode, $active, $actual, ["nested_set.uid = :uid"]);
+                .$this->where(["menu_item.lang_code_fk = :lang_code", "nested_set.uid = :uid"]);
         $stmt = $this->handler->prepare($sql);
         $stmt->bindParam(':uid', $uid, \PDO::PARAM_STR);
         $stmt->bindParam(':lang_code', $langCode, \PDO::PARAM_STR);
@@ -108,7 +122,7 @@ class ReadHierarchy extends HierarchyAbstract implements ReadHierarchyInterface 
      * @param string $title
      * @return array
      */
-    public function getNodeByTitle($langCode, $title, $active, $actual) {
+    public function getByTitleHelper($langCode, $title) {
         $sql =
             "SELECT "
             .$this->selected()
@@ -124,7 +138,7 @@ class ReadHierarchy extends HierarchyAbstract implements ReadHierarchyInterface 
                     INNER JOIN
                 $this->itemTableName AS menu_item ON (nested_set.uid = menu_item.uid_fk)
             WHERE "
-                .$this->menuItemCondition($langCode, $active, $actual, ["menu_item.title = :title"]);
+                .$this->where(["menu_item.lang_code_fk = :lang_code", "menu_item.title = :title"])
                 ;
         $stmt = $this->handler->prepare($sql);
         $stmt->bindParam(':title', $title, \PDO::PARAM_STR);
@@ -139,7 +153,7 @@ class ReadHierarchy extends HierarchyAbstract implements ReadHierarchyInterface 
      *
      * @return type
      */
-    public function getFullTree($langCode, $active, $actual) {
+    public function getFullTree($langCode) {
 //        $stmt = $this->handler->prepare(
 //            " SELECT node.title, node.uid, (COUNT(parent.uid ) - 1) AS depth, GROUP_CONCAT(DISTINCT parent.title  ORDER BY parent.uid ASC SEPARATOR ' / ') AS breadcrumb
 //            FROM $this->nestedSetTableName AS node CROSS JOIN $this->nestedSetTableName AS parent
@@ -161,7 +175,7 @@ class ReadHierarchy extends HierarchyAbstract implements ReadHierarchyInterface 
                     INNER JOIN
                 $this->itemTableName ON (nested_set.uid = menu_item.uid_fk)
             WHERE "
-                .$this->menuItemCondition($langCode, $active, $actual)
+                .$this->where(["menu_item.lang_code_fk = :lang_code"])
             ." ORDER BY nested_set.left_node"
                 ;
         $stmt = $this->handler->prepare($sql);
@@ -175,12 +189,10 @@ class ReadHierarchy extends HierarchyAbstract implements ReadHierarchyInterface 
      *
      * @param string $langCode
      * @param string $rootUid Uid kořenového prvku podstromu.
-     * @param bool $active
-     * @param bool $actual
      * @param int $maxDepth
      * @return array
      */
-    public function getSubTree($langCode, $rootUid, $active, $actual, $maxDepth=NULL){
+    public function getSubTree($langCode, $rootUid, $maxDepth=NULL){
         $sql =
              "SELECT "
             .$this->selected()
@@ -200,7 +212,7 @@ class ReadHierarchy extends HierarchyAbstract implements ReadHierarchyInterface 
                     INNER JOIN
                 $this->itemTableName ON (nested_set.uid = menu_item.uid_fk)
             WHERE "
-                .$this->menuItemCondition($langCode, $active, $actual)
+                .$this->where(["menu_item.lang_code_fk = :lang_code"])
             ." ORDER BY nested_set.left_node"
                 ;
         $stmt = $this->handler->prepare($sql);
@@ -219,11 +231,9 @@ class ReadHierarchy extends HierarchyAbstract implements ReadHierarchyInterface 
      *
      * @param string $langCode
      * @param string $uid Uid zadaného prvku
-     * @param bool $active
-     * @param bool $actual
      * @return array
      */
-    public function singlePath($langCode, $uid, $active, $actual){
+    public function singlePath($langCode, $uid){
         $sql =
              "SELECT "
             .$this->selected()
@@ -241,7 +251,7 @@ class ReadHierarchy extends HierarchyAbstract implements ReadHierarchyInterface 
                     INNER JOIN
                 $this->itemTableName ON (nested_set.uid = menu_item.uid_fk)
             WHERE "
-                .$this->menuItemCondition($langCode, $active, $actual)
+                .$this->where(["menu_item.lang_code_fk = :lang_code"])
                 ;
         $stmt = $this->handler->prepare($sql);
         $stmt->bindParam(':uid', $uid, \PDO::PARAM_STR);
@@ -256,11 +266,9 @@ class ReadHierarchy extends HierarchyAbstract implements ReadHierarchyInterface 
      * @param string $langCode
      * @param string $rootUid Uid počátečního prvku cesty
      * @param string $uid Uid koncového prvku cesty
-     * @param bool $active
-     * @param bool $actual
      * @return array
      */
-    public function singleSubPath($langCode, $rootUid, $uid, $active, $actual){
+    public function singleSubPath($langCode, $rootUid, $uid){
         $sql =
              "SELECT "
             .$this->selected()
@@ -285,7 +293,7 @@ class ReadHierarchy extends HierarchyAbstract implements ReadHierarchyInterface 
                 INNER JOIN
                 $this->itemTableName ON (nested_set.uid = menu_item.uid_fk)
             WHERE "
-                .$this->menuItemCondition($langCode, $active, $actual)
+                .$this->where(["menu_item.lang_code_fk = :lang_code"])
             ." ORDER BY nested_set.left_node"
                 ;
         $stmt = $this->handler->prepare($sql);
@@ -300,12 +308,10 @@ class ReadHierarchy extends HierarchyAbstract implements ReadHierarchyInterface 
      *
      * @param string $langCode
      * @param string $uid
-     * @param bool $active
-     * @param type $actual
      * @return array
      */
-    public function getImmediateSubNodes($langCode, $uid, $active, $actual){
-        return $this->getSubNodes($langCode, $uid, $active, $actual, 1);
+    public function getImmediateSubNodes($langCode, $uid){
+        return $this->getSubNodes($langCode, $uid, 1);
     }
 
     /**
@@ -313,12 +319,10 @@ class ReadHierarchy extends HierarchyAbstract implements ReadHierarchyInterface 
      *
      * @param string $langCode
      * @param string $parentUid uid rodičovského porvku
-     * @param type $active
-     * @param type $actual
      * @param type $maxDepth
      * @return array
      */
-    public function getSubNodes($langCode, $parentUid, $active, $actual, $maxDepth=NULL){
+    public function getSubNodes($langCode, $parentUid, $maxDepth=NULL){
         $sql =
             "SELECT "
             .$this->selected()
@@ -361,7 +365,7 @@ class ReadHierarchy extends HierarchyAbstract implements ReadHierarchyInterface 
                     INNER JOIN
                 $this->itemTableName ON (nested_set.uid = menu_item.uid_fk)
             WHERE "
-                .$this->menuItemCondition($langCode, $active, $actual)
+                .$this->where(["menu_item.lang_code_fk = :lang_code"])
                 ." ORDER BY nested_set.left_node"
             ;
         $stmt = $this->handler->prepare($sql);
@@ -374,7 +378,7 @@ class ReadHierarchy extends HierarchyAbstract implements ReadHierarchyInterface 
         return $stmt->fetchALL(\PDO::FETCH_ASSOC);
     }
 
-    public function getFullPathWithSiblings($langCode, $rootUid, $uid, $active, $actual) {
+    public function getFullPathWithSiblings($langCode, $rootUid, $uid) {
         $sql =
             "SELECT "
             .$this->selected()
@@ -401,7 +405,7 @@ class ReadHierarchy extends HierarchyAbstract implements ReadHierarchyInterface 
                     INNER JOIN
                 $this->itemTableName ON (nested_set.uid = menu_item.uid_fk)
             WHERE "
-                .$this->menuItemCondition($langCode, $active, $actual)
+                .$this->where(["menu_item.lang_code_fk = :lang_code"])
             ." ORDER BY nested_set.left_node"
             ;
         $stmt = $this->handler->prepare($sql);

@@ -8,14 +8,13 @@
 
 namespace Model\Repository;
 
-use Model\Entity\PaperInterface;
+use Model\Entity\MenuItemPaperAggregateInterface;
 
 /**
  *
  * @author pes2704
  */
-interface PaperRepoInterface extends RepoAssotiatedOneInterface {
-    public function get($id): ?PaperInterface;
-    public function add(PaperInterface $paper);
-    public function remove(PaperInterface $paper);
+interface MenuItemAggregateRepoInterface  extends MenuItemRepoInterface {
+    public function get($langCodeFk, $uidFk): ?MenuItemPaperAggregateInterface;
+
 }

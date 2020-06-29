@@ -288,6 +288,7 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
         $active = $menuItemAggregate->getActive();
         $actual = $menuItemAggregate->getActual();
         $paper = $menuItemAggregate->getPaper();
+
         return
             Html::tag('div', ['class'=>$this->classMap->getClass('Headline', 'div')],
                 Html::tag('div', ['class'=>$this->classMap->getClass('Headline', 'div div')],
@@ -303,11 +304,11 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
                         ]
                     )
                 )
-                .Html::tag('form', ['method'=>'POST', 'action'=>"api/v1/paper/{$paper->getMenuItemIdFk()}/headline/"],
+                .Html::tag('form', ['method'=>'POST', 'action'=>"api/v1/paper/{$paper->getId()}/headline/"],
                     Html::tag(
                         'headline',
                         [
-                            'id'=>"headline_{$paper->getMenuItemIdFk()}",  // id musí být na stránce unikátní - skládám ze slova headline_ a MenuItemIdFk, v kontroléru lte toto jméno také složit a hledat v POST proměnných
+                            'id'=>"headline_{$paper->getId()}",  // id musí být na stránce unikátní - skládám ze slova headline_ a paper id, v kontroléru lte toto jméno také složit a hledat v POST proměnných
                             'class'=>$this->classMap->getClass('Headline', 'form headline'),
                         ],
                         $paper->getHeadline()

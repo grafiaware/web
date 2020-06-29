@@ -20,8 +20,10 @@ class PaperContent extends EntityAbstract implements PaperContentInterface {
     private $list;
     private $content;
     private $active;
+    private $priority;
     private $showTime;
     private $hideTime;
+    private $eventTime;
     private $editor;
     private $updated;
     private $actual;
@@ -46,12 +48,20 @@ class PaperContent extends EntityAbstract implements PaperContentInterface {
         return $this->active;
     }
 
+    public function getPriority() {
+        return $this->priority;
+    }
+
     public function getShowTime() {
         return $this->showTime;
     }
 
     public function getHideTime() {
         return $this->hideTime;
+    }
+
+    public function getEventTime() {
+        return $this->eventTime;
     }
 
     public function getEditor() {
@@ -91,6 +101,11 @@ class PaperContent extends EntityAbstract implements PaperContentInterface {
         return $this;
     }
 
+    public function setPriority($priority): PaperContentInterface {
+        $this->priority = $priority;
+        return $this;
+    }
+
     public function setShowTime($showTime): PaperContentInterface {
         $this->showTime = $showTime;
         return $this;
@@ -98,6 +113,11 @@ class PaperContent extends EntityAbstract implements PaperContentInterface {
 
     public function setHideTime($hideTime): PaperContentInterface {
         $this->hideTime = $hideTime;
+        return $this;
+    }
+
+    public function setEventTime($eventTime): PaperContentInterface {
+        $this->eventTime = $eventTime;
         return $this;
     }
 

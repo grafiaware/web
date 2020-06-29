@@ -13,27 +13,26 @@ namespace Model\Dao;
  *
  * @author pes2704
  */
-class MenuItemDao extends DaoAbstract {
+class MenuItemDao extends DaoAbstract implements ContextPublishedInterface {
 
     /**
+     * DAO vrací pouze položky odpovídající nastavenému kontextu.
      *
-     * @param type $langCode
-     * @param type $active
-     * @param type $actual
-     * @param type $condition
-     * @return type
+     * @param bool $active Pokud je TRUE,  metoda hledá jen aktivní (zveřejněné) položky.
+     * @param bool $actual Pokud je TRUE,  metoda hledá jen aktuální položky.
+     * @return void
      */
-    private function menuItemCondition($langCode, $active, $actual, $condition = []) {
-        if ($langCode) {
-            $condition[] = "menu_item.lang_code_fk = :lang_code_fk";
-        }
+    public function setContextPublished($active, $actual):void {
         if ($active) {
-            $condition[] = "menu_item.active = 1";
+            $this->contextConditions['active'] = "menu_item.active = 1";
+        } else {
+            unset($this->contextConditions['active']);
         }
         if ($actual) {
-            $condition[] = "(ISNULL(menu_item.show_time) OR menu_item.show_time<=CURDATE()) AND (ISNULL(menu_item.hide_time) OR CURDATE()<=menu_item.hide_time)";
+            $this->contextConditions['actual'] = "(ISNULL(menu_item.show_time) OR menu_item.show_time<=CURDATE()) AND (ISNULL(menu_item.hide_time) OR CURDATE()<=menu_item.hide_time)";
+        } else {
+            unset($this->contextConditions['actual']);
         }
-        return $condition ? implode(" AND ", $condition) : "";
     }
 
     /**
@@ -46,13 +45,13 @@ class MenuItemDao extends DaoAbstract {
      * @return array
      * @throws StatementFailureException
      */
-    public function get($langCodeFk, $uidFk, $active=\TRUE, $actual=\TRUE) {
+    public function get($langCodeFk, $uidFk) {
 
         $sql = "SELECT lang_code_fk, uid_fk, type_fk, id, title, active, show_time, hide_time,
 	(ISNULL(show_time) OR show_time<=CURDATE()) AND (ISNULL(hide_time) OR CURDATE()<=hide_time) AS actual "
                 . "FROM menu_item "
-                . "WHERE ".$this->menuItemCondition($langCodeFk, $active, $actual, ['menu_item.uid_fk=:uid_fk']);
-        return $this->selectOne($sql, [':lang_code_fk' => $langCodeFk, ':uid_fk'=> $uidFk], TRUE);
+                . "WHERE ".$this->where(['menu_item.lang_code_fk = :lang_code_fk', 'menu_item.uid_fk=:uid_fk']);
+        return $this->selectOne($sql, [':lang_code_fk' => $langCodeFk, ':uid_fk'=> $uidFk], true);
     }
 
     /**
@@ -64,12 +63,12 @@ class MenuItemDao extends DaoAbstract {
      * @param bool $actual Nepovinný parametr, default=TRUE. Defaultně metoda hledá jen aktuální stránky.
      * @return array
      */
-    public function getByList($langCodeFk, $list, $active=\TRUE, $actual=\TRUE) {
+    public function getByList($langCodeFk, $list, $active=true, $actual=true) {
         $sql = "SELECT lang_code_fk, uid_fk, type_fk, id, title, active, show_time, hide_time,
 	(ISNULL(show_time) OR show_time<=CURDATE()) AND (ISNULL(hide_time) OR CURDATE()<=hide_time) AS actual "
                 . "FROM menu_item "
-                . "WHERE ".$this->menuItemCondition($langCodeFk, $active, $actual, ['menu_item.list=:list']);
-        return $this->selectOne($sql, [':lang_code_fk'=>$langCodeFk, ':list' => $list], TRUE);
+                . "WHERE ".$this->where(['menu_item.lang_code_fk = :lang_code_fk', 'menu_item.list=:list']);
+        return $this->selectOne($sql, [':lang_code_fk'=>$langCodeFk, ':list' => $list], true);
     }
 
     /**
@@ -83,7 +82,7 @@ class MenuItemDao extends DaoAbstract {
      * @return type
      * @throws StatementFailureException
      */
-    public function findByContentFulltextSearch($langCodeFk, $text, $active=\TRUE, $actual=\TRUE) {
+    public function findByContentFulltextSearch($langCodeFk, $text, $active=true, $actual=true) {
         //InnoDB tables require a FULLTEXT index on all columns of the MATCH() expression to perform boolean queries. Boolean queries against a MyISAM search index can work even without a FULLTEXT index, although a search executed in this fashion would be quite slow.
         // starý web je: FULLTEXT KEY `vyhledavani` (`nazev_lan1`,`obsah_lan1`,`nazev_lan2`,`obsah_lan2`,`nazev_lan3`,`obsah_lan3`)) a typ MyISAM
         //
@@ -129,7 +128,7 @@ class MenuItemDao extends DaoAbstract {
                         FROM
                                 menu_item
                         WHERE "
-                        .$this->menuItemCondition($langCodeFk, $active, $actual, ["menu_item.type_fk = 'paper'"])
+                        .$this->where(['menu_item.lang_code_fk = :lang_code_fk', "menu_item.type_fk = 'paper'"])
                         .") AS active_menu_item ON (searched_paper.menu_item_id_fk=active_menu_item.id)
                 WHERE
                         score_h > $scoreLimitHeadline
@@ -170,6 +169,6 @@ class MenuItemDao extends DaoAbstract {
     }
 
     public function delete($row) {
-        throw \LogicException("Nelze samostatně smazat položku menu_item.");
+        throw new \LogicException("Nelze samostatně smazat položku menu_item.");
     }
 }

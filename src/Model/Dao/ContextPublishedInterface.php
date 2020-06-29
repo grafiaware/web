@@ -6,13 +6,12 @@
  * and open the template in the editor.
  */
 
-namespace Model\Repository;
+namespace Model\Dao;
 
 /**
  *
  * @author pes2704
  */
-interface RepoInterface {
-
-    public function flush();
+interface ContextPublishedInterface {
+    public function setContextPublished($active, $actual):void;
 }

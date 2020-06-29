@@ -12,7 +12,7 @@ namespace Model\Entity;
  *
  * @author pes2704
  */
-interface PaperPaperContentsAggregateInterface {
+interface PaperPaperContentsAggregateInterface extends PaperInterface {
 
     /**
      *
