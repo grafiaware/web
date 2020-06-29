@@ -89,7 +89,8 @@
                             </div>
                     </div>
                     <div class="eight wide column">
-                        <iframe style="border:none" src="https://frame.mapy.cz/s/gusojobeco" width="1000" height="250" frameborder="0"></iframe>
+                        <iframe width="600" height="400" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.openstreetmap.org/export/embed.html?bbox=13.365973234176638%2C49.744568057781755%2C13.374931812286377%2C49.74814185389686&amp;layer=mapnik&amp;marker=49.74635325557977%2C13.370452523231506" style="border: 1px solid black"></iframe>
+                        <br/><small><a href="https://www.openstreetmap.org/?mlat=49.74635&amp;mlon=13.37045#map=18/49.74635/13.37045">Zobrazit větší mapu</a></small>
 
                     </div>
                 </div>

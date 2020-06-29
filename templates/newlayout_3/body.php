@@ -91,12 +91,12 @@
             </main>
             <footer>     
                 <div class="ui three column grid">
-                    <div class="column middle aligned">
+                    <div class="five wide column middle aligned">
                         <?=
                             $rychleOdkazy
                         ?>
                     </div>
-                    <div class="column left aligned middle aligned center aligned">
+                    <div class="four wide column left aligned middle aligned center aligned">
                         <?=
                             $razitko
                         ?>
@@ -108,10 +108,8 @@
                                 <p>E-mail: <a href="mailto:info@grafia.cz">info@grafia.cz</a></p>
                             </div>
                     </div>
-                    <div class="column bottom aligned">
-                        <?=
-                            $socialniSite
-                        ?>
+                    <div class="six wide column middle aligned">
+                        <a href="https://osm.org/go/0JbQCAEeV-?m=" target="_blank"><img src="<?= Middleware\Web\AppContext::getAppPublicDirectory().'newlayout_3/img/mapa.png'?>" alt="mapa" /></a>
 
                     </div>
                 </div>

@@ -1,5 +1,5 @@
 
-    <div class="ui grid">
+    <div class="ui stackable centered grid">
         <div class="fifteen wide column">
             <header>
                 <div class="ui three column grid equal width">
@@ -65,7 +65,7 @@
         </div>
     </div>
     <footer>
-    <div class="ui two column grid">
+    <div class="ui two column stackable centered grid">
         <div class="seven wide column">
                 <!--?=$mapa?-->
                 <div class="kontaktni-udaje">
@@ -77,8 +77,8 @@
                 </div>
         </div>
         <div class="eight wide column">
-            <iframe style="border:none" src="https://frame.mapy.cz/s/gusojobeco" width="1000" height="250" frameborder="0"></iframe>
-            
+            <div id="map" class="map"></div>
+
         </div>
     </div>
     </footer>

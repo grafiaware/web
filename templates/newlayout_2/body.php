@@ -95,7 +95,7 @@
                     </div>
             </div>
             <div class="eight wide column">
-                <iframe style="border:none" src="https://frame.mapy.cz/s/gusojobeco" width="1000" height="250" frameborder="0"></iframe>
+                <div id="mapa" style="width:600px; height:400px;"></div>
             </div>
         </div>
     </footer>
