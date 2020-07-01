@@ -3022,3 +3022,12 @@
 [debug] PHP error or unknown user error type: E_NOTICE [8] [2020-06-26 16:23:29] Undefined variable: entities on line 45 in file C:\ApacheRoot\web\src\Model\Repository\Association\AssociationOneToOneFactory.php
 [debug] PHP error or unknown user error type: E_NOTICE [8] [2020-06-26 16:23:33] Undefined variable: entities on line 42 in file C:\ApacheRoot\web\src\Model\Repository\Association\AssociationOneToOneFactory.php
 [debug] PHP error or unknown user error type: E_NOTICE [8] [2020-06-26 16:23:33] Undefined variable: entities on line 45 in file C:\ApacheRoot\web\src\Model\Repository\Association\AssociationOneToOneFactory.php
+[info] [2020-07-01 11:30:53] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/Errors/ErrorsLogger.log. Mode 'a+'.
+[debug] PHP error or unknown user error type: E_NOTICE [8] [2020-07-01 11:30:53] Undefined variable: newContentsArray on line 159 in file C:\ApacheRoot\web\tests\Integration\Model\Dao\PaperContentManipulationTest.php
+[debug] PHP error or unknown user error type: E_WARNING [2] [2020-07-01 11:30:53] count(): Parameter must be an array or an object that implements Countable on line 159 in file C:\ApacheRoot\web\tests\Integration\Model\Dao\PaperContentManipulationTest.php
+[info] [2020-07-01 11:31:47] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/Errors/ErrorsLogger.log. Mode 'a+'.
+[debug] PHP error or unknown user error type: E_NOTICE [8] [2020-07-01 11:31:47] Undefined variable: newContentsArray on line 159 in file C:\ApacheRoot\web\tests\Integration\Model\Dao\PaperContentManipulationTest.php
+[debug] PHP error or unknown user error type: E_WARNING [2] [2020-07-01 11:31:48] count(): Parameter must be an array or an object that implements Countable on line 159 in file C:\ApacheRoot\web\tests\Integration\Model\Dao\PaperContentManipulationTest.php
+[info] [2020-07-01 11:32:00] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/Errors/ErrorsLogger.log. Mode 'a+'.
+[debug] PHP error or unknown user error type: E_NOTICE [8] [2020-07-01 11:32:00] Undefined variable: newContentsArray on line 159 in file C:\ApacheRoot\web\tests\Integration\Model\Dao\PaperContentManipulationTest.php
+[debug] PHP error or unknown user error type: E_WARNING [2] [2020-07-01 11:32:00] count(): Parameter must be an array or an object that implements Countable on line 159 in file C:\ApacheRoot\web\tests\Integration\Model\Dao\PaperContentManipulationTest.php

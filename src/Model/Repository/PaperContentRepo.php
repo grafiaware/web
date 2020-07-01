@@ -48,14 +48,20 @@ class PaperContentRepo extends RepoAbstract implements PaperContentRepoInterface
         $selected = [];
         foreach ($this->dao->findAllByFk($paperIdFk) as $paperContentRow) {
             $index = $this->indexFromRow($paperContentRow);
-            $this->recreateEntity($index, $paperContentRow);
+            if (!isset($this->collection[$index])) {
+                $this->recreateEntity($index, $paperContentRow);
+            }
             $selected[] = $this->collection[$index];
         }
         return $selected;
     }
 
     public function add(PaperContentInterface $paperContent) {
-        $this->collection[$this->indexFromEntity($paperContent)] = $paperContent;
+        if ($paperContent->isPersisted()) {
+            $this->collection[$this->indexFromEntity($paperContent)] = $paperContent;
+        } else {
+            $this->new[] = $paperContent;
+        }
     }
 
     public function remove(PaperContentInterface $paperContent) {

@@ -27,6 +27,7 @@ use Model\Hydrator\PaperContentHydrator;
 use Model\Repository\PaperContentRepo;
 
 use Model\Entity\PaperContentInterface;
+use Model\Entity\PaperContent;
 
 
 /**
@@ -153,29 +154,35 @@ class PaperContentManipulationTest extends TestCase {
     }
 
     public function testInsert() {
-        // aggregate repo
         $oldContentsArray = $this->paper->getPaperContentsArray();
-
-        /** @var PaperContentInterface $newContent */
-        $newContent = clone $oldContentsArray[0];
-        $newContent->isPersisted(false);  // pro zajištění insertu
-        $newContent->setId(null);  // pro zajištění isertu
+        $oldContent = $oldContentsArray[0];
+        $oldContentCount = count($oldContentsArray);
+        
+        $paperIdFk = $this->paper->getId();
+        $newContent = new PaperContent();
         $newContent->setContent("bflmpsvz");
-        $newContent2 = clone $newContent;
-        $newContent2->setContent("hchkrdtn");
+        $newContent->setPaperIdFk($paperIdFk);
 
-        $newContentsArray = array_merge($oldContentsArray, [$newContent]);
-        $this->paper->exchangePaperContentsArray($newContentsArray);
+        /** @var PaperContentRepo $paperContentRepo */
+        $paperContentRepo = $this->container->get(PaperContentRepo::class);
+        $paperContentRepo->add($newContent);
 
-        $this->menuItemAggRepo->flush();  // unset nevyvolá zavolání destruktoru
+        $paperContentRepo->flush();  // unset nevyvolá zavolání destruktoru
 
+        // reset odstraní repo - voláním container->get() vznikne nové
+        $this->container->reset(MenuItemAggregateRepo::class);
         /** @var MenuItemAggregateRepo $menuItemAggRepo */
         $this->menuItemAggRepo = $this->container->get(MenuItemAggregateRepo::class);
         $this->menuItemAgg = $this->menuItemAggRepo->get($this->langCode, $this->uid);
         $this->paper = $this->menuItemAgg->getPaper();
         $newContentsArray = $this->paper->getPaperContentsArray();
 
-        $this->assertTrue(count($newContentsArray) == count($oldContentsArray)+1, "Není o jeden obsah více po paper->exchangePaperContentsArray ");
+        $this->assertTrue(count($newContentsArray) == $oldContentCount+1, "Není o jeden obsah více po paper->exchangePaperContentsArray ");
+
+        // tohle nefunguje!
+//        $this->assertTrue(count($newContentsArray) == count($oldContentsArray)+1, "Není o jeden obsah více po paper->exchangePaperContentsArray ");
+//
+//
 //        $this->contentRepoIsolated->($newContent2);
 //        $newContentsArray2 = $this->paper->getPaperContentsArray();
 //        $this->assertTrue(count($newContentsArray2) == count($newContentsArray)+1, "Není o jeden obsah více po contentRepo->add ");

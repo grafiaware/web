@@ -1,4 +1,4 @@
-[info] [2020-06-26 16:23:28] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/App/AppLogger.log. Mode 'w+'.
+[info] [2020-07-01 11:36:02] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/App/AppLogger.log. Mode 'w+'.
 [info] REQUEST DUMP - GET request
     URI Scheme: http
     URI Authority: localhost
@@ -84,8 +84,8 @@
         [HTTP_ACCEPT_CHARSET] => ISO-8859-1,utf-8;q=0.7,*;q=0.3
         [HTTP_USER_AGENT] => AppRunner
         [REMOTE_ADDR] => 127.0.0.1
-        [REQUEST_TIME] => 1593181408
-        [REQUEST_TIME_FLOAT] => 1593181408,7858
+        [REQUEST_TIME] => 1593596162
+        [REQUEST_TIME_FLOAT] => 1593596162,3986
         [INPUT_STREAM] => Resource id #94
     )
     
@@ -178,8 +178,8 @@
         [HTTP_ACCEPT_CHARSET] => ISO-8859-1,utf-8;q=0.7,*;q=0.3
         [HTTP_USER_AGENT] => AppRunner
         [REMOTE_ADDR] => 127.0.0.1
-        [REQUEST_TIME] => 1593181409
-        [REQUEST_TIME_FLOAT] => 1593181409,0356
+        [REQUEST_TIME] => 1593596162
+        [REQUEST_TIME_FLOAT] => 1593596162,5082
         [INPUT_STREAM] => Resource id #94
     )
     
@@ -272,8 +272,8 @@
         [HTTP_ACCEPT_CHARSET] => ISO-8859-1,utf-8;q=0.7,*;q=0.3
         [HTTP_USER_AGENT] => AppRunner
         [REMOTE_ADDR] => 127.0.0.1
-        [REQUEST_TIME] => 1593181409
-        [REQUEST_TIME_FLOAT] => 1593181409,2118
+        [REQUEST_TIME] => 1593596162
+        [REQUEST_TIME_FLOAT] => 1593596162,534
         [INPUT_STREAM] => Resource id #94
     )
     

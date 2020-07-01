@@ -7,7 +7,6 @@
  */
 
 namespace Model\Dao;
-use Pes\Database\Handler\HandlerInterface;
 
 /**
  * Description of RsDao
@@ -117,10 +116,34 @@ class PaperContentDao extends DaoAbstract implements ContextPublishedInterface {
         return $this->selectMany($sql, $touplesToBind);
     }
 
+    /**
+     * Provede insert jen hodnot v row, které nwjsou null. Hlídá, aby row neobsahovalo klíč 'id'.
+     *
+     * @param type $row
+     * @return type
+     * @throws UnexpectedValueException
+     */
     public function insert($row) {
-        $sql = "INSERT INTO paper_content (paper_id_fk, active, priority, show_time, hide_time, content, editor)
-                VALUES (:paper_id_fk, :content, :active, :priority, :show_time, :hide_time, :editor)";
-        return $this->execInsert($sql, [':paper_id_fk'=>$row['paper_id_fk'], ':content'=>$row['content'], ':active'=>$row['active'], ':priority'=>$row['priority'], ':show_time'=>$row['show_time'], ':hide_time'=>$row['hide_time'], ':editor'=>$row['editor']]);
+        $idKey = 'id';
+        foreach ($row as $key => $value) {
+            if (isset($value)) {
+                if ($key==$idKey) {
+                    throw new \UnexpectedValueException("Chybný pokus o insert. Tabulka má autoincrement id a hodnoty obsahují id.");
+                } else {
+                    $columns[] = $key;
+                    $placeholders[] = ":".$key;
+                    $touplesToBind[":".$key] = $value;
+                }
+            }
+
+        }
+        $sql = "INSERT INTO paper_content (".implode(", ", $columns).") "
+                . "VALUES (".implode(", ", $placeholders).")";
+        return $this->execInsert($sql, $touplesToBind);
+
+//        $sql = "INSERT INTO paper_content (paper_id_fk, active, priority, show_time, hide_time, content, editor)
+//                VALUES (:paper_id_fk, :content, :active, :priority, :show_time, :hide_time, :editor)";
+//        return $this->execInsert($sql, [':paper_id_fk'=>$row['paper_id_fk'], ':content'=>$row['content'], ':active'=>$row['active'], ':priority'=>$row['priority'], ':show_time'=>$row['show_time'], ':hide_time'=>$row['hide_time'], ':editor'=>$row['editor']]);
     }
 
     public function update($row) {

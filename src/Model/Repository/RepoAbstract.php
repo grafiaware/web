@@ -24,6 +24,7 @@ use Model\Repository\Association\AssociationOneToManyFactory;
 abstract class RepoAbstract implements RepoInterface {
 
     protected $collection = [];
+    protected $new = [];
     protected $removed = [];
 
     private $associations = [];
@@ -103,11 +104,15 @@ abstract class RepoAbstract implements RepoInterface {
                 if ($entity->isPersisted()) {
                     $this->dao->update($row);
                 } else {
-                    $this->dao->insert($row);
-                    $entity->setPersisted();
+                    throw new \LogicException("V collection je nepersistovaná entita.");
                 }
             }
-            $this->collection = [];
+            foreach ($this->new as $entity) {
+                $row = [];
+                $this->extract($entity, $row);
+                $this->dao->insert($row);
+            }
+            $this->new = []; // při dalším pokusu o find se bude volat recteateEntity, entita se zpětně načte z db (včetně případného autoincrement id a dalších generovaných sloupců)
             foreach ($this->removed as $entity) {
                 $row = [];
                 $this->extract($entity, $row);
@@ -115,6 +120,10 @@ abstract class RepoAbstract implements RepoInterface {
                 $entity->setUnpersisted();
             }
             $this->removed = [];
+        } else {
+            if ($this->new OR $this->removed) {
+                throw new \LogicException("Repo je read only a byly do něj přidány nebo z něj smazány entity.");
+            }
         }
     }
 
