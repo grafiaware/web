@@ -115,7 +115,7 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
                         'name'=>'button',
                         'value' => '',
                         'formmethod'=>'post',
-                        'formaction'=>"",
+                        'formaction'=>"api/v1/paper/:paperId/contents/:contentId/up",
                         ],
                         Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'div div button i.group')],
                             Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'div div button i.note')])
@@ -129,7 +129,7 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
                         'name'=>'button',
                         'value' => '',
                         'formmethod'=>'post',
-                        'formaction'=>"",
+                        'formaction'=>"api/v1/paper/:paperId/contents/:contentId/down",
                         ],
                         Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'div div button i.group')],
                             Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'div div button i.note')])
@@ -145,7 +145,7 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
                         'name'=>'button',
                         'value' => '',
                         'formmethod'=>'post',
-                        'formaction'=>"",
+                        'formaction'=>"api/v1/paper/$paperIdFk/contents/$paperContentId/add_above",
                         ],
                         Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'div div button i.group')],
                             Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'div div button i.square')])
@@ -159,7 +159,7 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
                         'name'=>'button',
                         'value' => '',
                         'formmethod'=>'post',
-                        'formaction'=>"",
+                        'formaction'=>"api/v1/paper/$paperIdFk/contents/$paperContentId/add_below",
                         ],
                         Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'div div button i.group')],
                             Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'div div button i.square')])
@@ -265,7 +265,7 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
                         ['method'=>'POST', 'action'=>"api/v1/paper/{$paperContent->getPaperIdFk()}/contents/{$paperContent->getId()}/"],
                         Html::tag('content',
                             [
-                                'id' => "content_{$paperContent->getId()}",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lte toto jméno také složit a hledat v POST proměnných
+                                'id' => "content_{$paperContent->getId()}",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
                                 'class'=>$this->classMap->getClass('Content', 'form content'),
                                 'data-owner'=>$paperContent->getEditor()
                             ],

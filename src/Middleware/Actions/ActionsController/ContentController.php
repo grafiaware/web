@@ -21,7 +21,7 @@ use Psr\Http\Message\ResponseInterface;
 use Model\Repository\{
     StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo, PaperContentRepo
 };
-
+use Model\Entity\PaperContent;
 
 /**
  * Description of PostController
@@ -120,7 +120,13 @@ class ContentController extends PresentationFrontControllerAbstract {
     }
 
     public function addBelow($request, $paperId, $contentId) {
-        $this->addFlashMessage("addBelow - není implementováno.");
+        $contents = $this->paperContentRepo->findByReference($paperId);
+        $content = $this->paperContentRepo->get($contentId);
+        $newContent = new PaperContent();
+        $newContent->setContent("Nový obsah");
+        $newContent->setPaperIdFk($paperId);
+        $this->paperContentRepo->add($newContent);
+        $this->addFlashMessage("addBelow - Nový obsah.");
         return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other
     }
 
