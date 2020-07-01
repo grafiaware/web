@@ -216,9 +216,23 @@
     @media (max-width: 768px) {
         header{
             padding: 0;
+            height: 182px;
             .grid > .row:first-child{
                 /*editační*/
                 height: auto;
+            }
+            .grid > .column:nth-child(2) p{
+                right: 70%;
+                top: 10px;
+                font-size: 1.6em;
+                z-index: 2;
+            }
+            .hlavicka{
+                height: 180px;
+                right: -24%;
+            }
+            a > img{
+                width: 80px;
             }
         }
         /*menu s butony*/
@@ -268,6 +282,31 @@
         @keyframes prechodPozadi {
             0% { background-color: @primaryColor }
             100% { background-color: @white }
+        }
+        .secondary.menu{
+            .right.menu{
+                margin-left: -5px !important;
+                 > .item:first-child{
+                    margin-right: 30px;
+                }
+                 > .item:nth-child(2){
+                    align-self: baseline;
+                    .prihlaseni{
+                        .ui.icon.button{
+                            padding: 0.9em 0.6em;
+                        }
+                    }
+                    .logout{
+                        float: left;
+                    }
+                    .form{
+                        display: inline-block;
+                    }
+                }
+            }
+        }
+        .nav-mobile{
+            padding: 6px 7px 6px 3px;
         }
         .dimmer .content{
             width: 80%;
@@ -337,6 +376,10 @@
                 }
             }
         }
+        .ui.container{
+            margin: 0 12px !important;
+            width: auto !important;  
+        }
         .page-content .column > form > button.ui.button.save{
             right: 10px;
         }
@@ -350,6 +393,14 @@
             left: 35px;
             top: 430px;
         }
+        .map{
+          width: 400px;
+          height: 400px;
+        }
+        footer{
+            margin: 10px 0;
+        }
+          
     }
     @media (max-width: 500px) {
         header .row:first-child{
@@ -383,6 +434,9 @@
         }
         .page-content .ui.segment{
             padding: 0;
+        }
+        #map{
+            width: 330px; 
         }
     }
 }
