@@ -219,6 +219,17 @@
                 /*editační*/
                 height: auto;
             }
+            .grid > .column:nth-child(2) p{
+                top: 0;
+                right: 0;
+                width: 100%;
+                font-size: 2em;
+            }
+            .jazyky{
+                position: absolute;
+                bottom: 208px;
+                right: 5px;
+            }
         }
         /*menu s butony*/
         /*vodorovne menu*/
@@ -267,6 +278,32 @@
         @keyframes prechodPozadi {
             0% { background-color: @primaryColor }
             100% { background-color: @white }
+        }
+        .secondary.menu{
+            margin-left: 5px;
+            .right.menu{
+                margin-left: -5px !important;
+                 > .item:first-child{
+                    margin-right: 30px;
+                }
+                 > .item:nth-child(2){
+                    align-self: baseline;
+                    .prihlaseni{
+                        .ui.icon.button{
+                            padding: 0.9em 0.6em;
+                        }
+                    }
+                    .logout{
+                        float: left;
+                    }
+                    .form{
+                        display: inline-block;
+                    }
+                }
+            }
+        }
+        .nav-mobile{
+            padding: 6px 7px 6px 3px;
         }
         .dimmer .content{
             width: 80%;
@@ -345,6 +382,9 @@
                 margin-left: auto;
             }
         }
+        footer{
+            margin: 10px 0;
+        }
         .poznamky{
             left: 35px;
             top: 430px;
@@ -375,13 +415,16 @@
                 }
             }
         }
-
+        
         .poznamky{
             left: 35px;
             top: 100px;
         }
         .page-content .ui.segment{
             padding: 0;
+        }
+        .mapa{
+            width: 330px;
         }
     }
 }

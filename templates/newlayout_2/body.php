@@ -1,7 +1,7 @@
-    <div class="ui grid">
+    <div class="ui stackable centered grid">
         <div class="fifteen wide column">
             <header>
-                <div class="ui three column grid equal width">
+                <div class="ui three column stackable centered grid equal width">
                     <div class="column">
                         <?=$logo?>
                     </div>
@@ -55,7 +55,7 @@
                  </div>
                 <div id="contents">
                     <div class="articleHeadlined">
-                        <div class="ui two column grid">
+                        <div class="ui two column grid stackable centered">
                             <div class="eleven wide column">
                                 <?=
                                     $content;
@@ -72,7 +72,7 @@
         </div>
     </div>    
     <footer>     
-        <div class="ui four column grid">
+        <div class="ui four column grid stackable centered">
             <div class="three wide column">
                 <?=
                     $rychleOdkazy
@@ -95,7 +95,22 @@
                     </div>
             </div>
             <div class="eight wide column">
-                <div id="mapa" style="width:600px; height:400px;"></div>
+                <div id="mapa">
+                    <script>
+                        var stred = SMap.Coords.fromWGS84(13.3704967, 49.7463531);
+                        var mapa = new SMap(JAK.gel("mapa"), stred, 17);
+                        mapa.addDefaultLayer(SMap.DEF_BASE).enable();
+                        mapa.addDefaultControls();	  
+
+                        var layer = new SMap.Layer.Marker();
+                        mapa.addLayer(layer);
+                        layer.enable();
+
+                        var options = {};
+                        var marker = new SMap.Marker(stred, "myMarker", options);
+                        layer.addMarker(marker);
+                    </script>
+                </div>
             </div>
         </div>
     </footer>

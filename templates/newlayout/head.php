@@ -19,24 +19,5 @@
     <script src="<?= Middleware\Web\AppContext::getAppPublicDirectory().'semantic/dist/semantic.min.js'?>"></script>
     
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.3.1/css/ol.css" type="text/css">
-    <style>
-      .map {
-        height: 400px;
-        width: 600px;
-      }
-      #OpenLayers_Control_Attribution_7{ 
-        position: absolute;
-        background: #ffffffc7;
-        right: 0;
-        bottom: 0;
-      }
-      @media (max-width: 768px) {
-          .map{
-              width: 350px;
-              height: 400px;
-          }
-          
-      }
-    </style>
     <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
     

@@ -17,6 +17,6 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
     <?= $editableJsLinks ?? '' ?>
     <script src="<?= Middleware\Web\AppContext::getAppPublicDirectory().'semantic/dist/semantic.min.js'?>"></script>
-
-
-
+    
+    <script src="https://api.mapy.cz/loader.js"></script>
+    <script>Loader.load()</script>
