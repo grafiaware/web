@@ -262,7 +262,7 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
                             )
                     )
                     .Html::tag('form',
-                        ['method'=>'POST', 'action'=>"api/v1/paper/{$paperContent->getPaperIdFk()}/content/{$paperContent->getId()}"],
+                        ['method'=>'POST', 'action'=>"api/v1/paper/{$paperContent->getPaperIdFk()}/contents/{$paperContent->getId()}/"],
                         Html::tag('content',
                             [
                                 'id' => "content_{$paperContent->getId()}",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lte toto jméno také složit a hledat v POST proměnných
