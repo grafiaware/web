@@ -240,9 +240,27 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
         );
     }
 
+    /**
+     * Compare funkce pro usort
+     * @param PaperContentInterface $c1
+     * @param PaperContentInterface $c2
+     * @return int
+     */
+    private function compareByPriority($c1, $c2) {
+        /** @var PaperContentInterface $c1 */
+        /** @var PaperContentInterface $c2 */
+        if ($c1->getPriority() == $c2->getPriority()) {
+            return 0;
+        }
+        // desc !
+        return ($c1->getPriority() < $c2->getPriority()) ? -1 : 1;
+    }
+
     protected function renderContentsDivs(MenuItemPaperAggregateInterface $menuItemAggregate) {
         $paper = $menuItemAggregate->getPaper();
-        foreach ($paper->getPaperContentsArray() as $paperContent) {
+        $contents = $paper->getPaperContentsArray();
+        usort($contents, array($this, "compareByPriority"));
+        foreach ($contents as $paperContent) {
             /** @var PaperContentInterface $paperContent */
             $active = $paperContent->getActive();
             $actual = $paperContent->getActual();

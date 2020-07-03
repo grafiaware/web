@@ -9,7 +9,7 @@
 namespace Model\Repository\Association;
 
 use Model\Repository\RepoAssotiatedOneInterface;
-
+use Model\Repository\RepoInterface;
 use Model\Entity\EntityInterface;
 
 /**
@@ -43,6 +43,10 @@ class AssociationOneToOneFactory implements AssociationFactoryInterface {
             $this->entities[$childId] = $this->childRepo->getByReference($childId);
         }
         $row[$this->getParentPropertyName()] = $this->entities[$childId];
+    }
+
+    public function getChildRepo(): RepoInterface {
+        return $this->childRepo;
     }
 
     public function getParentIdName() {

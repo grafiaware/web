@@ -16,6 +16,7 @@ use Model\Entity\EntityInterface;
  */
 interface AssociationFactoryInterface {
     public function createAssociated(&$row);
+    public function getChildRepo(): RepoInterface;
     public function getParentPropertyName();
     public function getParentIdName();
 }

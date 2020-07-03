@@ -21,7 +21,10 @@ use Psr\Http\Message\ResponseInterface;
 use Model\Repository\{
     StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo, PaperContentRepo
 };
+use \Model\Entity\PaperContentInterface;
 use Model\Entity\PaperContent;
+
+use Pes\Text\Message;
 
 /**
  * Description of PostController
@@ -44,7 +47,7 @@ class ContentController extends PresentationFrontControllerAbstract {
     private function isContent($content) {
         if (!isset($content)) {
             user_error('Neexistuje content se zadaným $contentId.');
-            $this->addFlashMessage('Neexistuje content se zadaným $contentId.');
+            $this->addFlashMessage('Neexistuje content s $contentId v requestu.');
             return false;
         }
         return true;
@@ -62,14 +65,14 @@ class ContentController extends PresentationFrontControllerAbstract {
         if ($this->isContent($content)) {
             $postContent = (new RequestParams())->getParam($request, 'content_'.$contentId);  // jméno POST proměnné je vytvořeno v paper rendereru složením 'content_' a $paper->getMenuItemId()
             $content->setContent($postContent);
-            $this->addFlashMessage('Neexistuje content se zadaným $contentId.');
+            $this->addFlashMessage('updateContent');
 
         }
         return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other
     }
 
     public function toggleContent($request, $paperId, $contentId) {
-        $content = $this->paperContentRepo->get($contentId, false, false);
+        $content = $this->paperContentRepo->get($contentId);
         if ($this->isContent($content)) {
             $active = $content->getActive() ? 0 : 1;  //active je integer
             $content->setActive($active);
@@ -115,18 +118,40 @@ class ContentController extends PresentationFrontControllerAbstract {
     }
 
     public function addAbove($request, $paperId, $contentId) {
-        $this->addFlashMessage("addAbove - není implementováno.");
+        $contents = $this->paperContentRepo->findByReference($paperId);
+        $content = $this->paperContentRepo->get($contentId);
+        $selectedContentPriority = $content->getPriority();
+        foreach ($contents as $contentItem) {
+            /** @var PaperContentInterface $contentItem */
+            if ($contentItem->getPriority()>=$selectedContentPriority) {  // obsahy s vyšší nebo stejnou prioritou - zvětším jim prioriru o 1 - vznikne díra pro $selectedContentPriority
+                $contentItem->setPriority($contentItem->getPriority()+1);
+            }
+        }
+        $newContent = new PaperContent();
+        $newContent->setContent("Nový obsah");
+        $newContent->setPaperIdFk($paperId);
+        $newContent->setPriority($selectedContentPriority);
+        $this->paperContentRepo->add($newContent);
+        $this->addFlashMessage("addBelow - Nový obsah, priorita $selectedContentPriority");
         return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other
     }
 
     public function addBelow($request, $paperId, $contentId) {
         $contents = $this->paperContentRepo->findByReference($paperId);
         $content = $this->paperContentRepo->get($contentId);
+        $selectedContentPriority = $content->getPriority();
+        foreach ($contents as $contentItem) {
+            /** @var PaperContentInterface $contentItem */
+            if ($contentItem->getPriority()>$selectedContentPriority) {  // obsahy s vyšší prioritou - zvětším jim prioriru o 1 - vznikne díra pro $selectedContentPriority+1
+                $contentItem->setPriority($contentItem->getPriority()+1);
+            }
+        }
         $newContent = new PaperContent();
         $newContent->setContent("Nový obsah");
         $newContent->setPaperIdFk($paperId);
+        $newContent->setPriority($selectedContentPriority+1);
         $this->paperContentRepo->add($newContent);
-        $this->addFlashMessage("addBelow - Nový obsah.");
+        $this->addFlashMessage("addBelow - Nový obsah, priorita $selectedContentPriority");
         return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other
     }
 

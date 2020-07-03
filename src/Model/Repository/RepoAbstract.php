@@ -12,6 +12,8 @@ use Model\Dao\DaoInterface;
 use Model\Hydrator\HydratorInterface;
 use Model\Entity\EntityInterface;
 
+use Model\Repository\RepoPublishedOnlyModeInterface;
+
 use Model\Repository\Association\AssociationFactoryInterface;
 use Model\Repository\Association\AssociationOneToOneFactory;
 use Model\Repository\Association\AssociationOneToManyFactory;
@@ -58,6 +60,10 @@ abstract class RepoAbstract implements RepoInterface {
     protected function addCreatedAssociations(&$row): void {
         foreach ($this->associations as $association) {
             /** @var AssociationFactoryInterface $association */
+            $childRepo = $association->getChildRepo();
+            if ($childRepo instanceof RepoPublishedOnlyModeInterface) {
+                $childRepo->setOnlyPublishedMode(!!!!!!);
+            }
             $association->createAssociated($row);
         }
     }
