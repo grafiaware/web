@@ -421,7 +421,7 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
                         'div div i2.notactive' => 'calendar plus icon yellow',
                         'div div i2.notactual' => 'calendar minus icon orange',
                         'div div i2.notactivenotactual' => 'calendar times icon red',
-                        'form headline'=>'ui header',
+                        'form headline'=>'ui header', 
                         ],
                      'Content' => [
                         'div'=>'pull-out',
@@ -436,7 +436,7 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
                         ],
                      'PaperButtons' => $c->get('paper_edit_buttons'),
                      'ContentButtons' => $c->get('content_edit_buttons'),
-                    ]
+                    ] 
                 );
             },
 

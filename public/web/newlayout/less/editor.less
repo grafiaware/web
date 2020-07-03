@@ -30,45 +30,33 @@
     }
 
     //ukazatele stavu stranky u polozky menu
-    i.grafia.active{
-        content: '';
+    .semafor{
         position: absolute;
-        left: 0;
+        display: flex;
+        flex-direction: column;
         top: 0;
-        width: 1em;
-        height: 100%;
-        border-radius: .333rem 0 0 .333rem;
-        &.green{
-            background-color: rgba(115, 195, 115, 1);
+        left: -21px;
+        i.icon{
+            margin-bottom: 2px;
         }
-        &.red{
-            background-color: rgba(222, 122, 126, 1) ;
+        &.polozky_menu{
+            left: -1px;
         }
     }
-    
-    i.grafia.actual{
-        border-right-color: inherit;
-        content: '';
-        position: absolute;
-        right: 0%;
-        top: 0;
-        width: 1em;
+    li a > .semafor.polozky_menu{
+        justify-content: center;
         height: 100%;
-        border-radius: 0 .333rem .333rem 0;
-        &.yellow{
-            background-color: rgba(240, 218, 99, 1);
-        }
-        &.grey{
-            background-color: #B9B9B9;
-        }
-        &.green{
-            background-color: #73c373;
-        }
-        &.orange{
-            background-color: #f2711c94;
-        }
-        &.red{
-            background-color: rgba(222, 122, 126, 1);
+    }
+    li > .semafor.polozky_menu{
+        top: 4px;
+    }
+    .vodorovne-menu li .semafor.polozky_menu{
+        left: -6px;
+        background-color: @white;
+        border: 1px solid @primaryColor;
+        border-radius: 5px 0 0 5px;
+        i{
+            padding-left: 3px;
         }
     }
 

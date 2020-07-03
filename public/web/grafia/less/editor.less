@@ -555,6 +555,9 @@ body.layout#tinymce{
     }
     .mce-content-body:not(.mce-edit-focus){
         outline: 1px dotted @lightGrey;
+        &:hover{
+            outline-color: @yellow;
+        }
     }
     .pull-out{
         height: 100%;
@@ -672,7 +675,7 @@ body.layout#tinymce{
     }
     
     /*******************************prostredi**tiny********************************/
-    .mce-content-body:not(.mce-edit-focus){
+    .mce-content-body{
         padding: 5px 10px;
         margin: 0 -5px;
     }

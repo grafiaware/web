@@ -27,7 +27,7 @@ class PresentedPaperViewModel extends PaperViewModelAbstract implements Presente
     public function getMenuItemPaperAggregate(): ?MenuItemPaperAggregateInterface {
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
         $uid = $this->statusPresentationRepo->get()->getMenuItem()->getUidFk();
-        $this->menuItemAggregateRepo->setOnlyPublishedMode(true);
+
 
         return $this->menuItemAggregateRepo->get($langCode, $uid)
                     ??

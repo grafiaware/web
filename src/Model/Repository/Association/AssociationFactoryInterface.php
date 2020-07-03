@@ -9,7 +9,7 @@
 namespace Model\Repository\Association;
 
 use Model\Entity\EntityInterface;
-
+use Model\Repository\RepoInterface;
 /**
  *
  * @author pes2704

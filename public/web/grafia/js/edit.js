@@ -6,10 +6,10 @@
 
 $('.pull-out').hover(
     function(){
-        $(this).parents('.grafia.segment').find('.contentButtons').css("display", "flex");
+        $(this).find('.contentButtons').css("display", "flex");
     },
     function(){
-        $(this).parents('.grafia.segment').find('.contentButtons').css("display", "none");
+        $(this).find('.contentButtons').css("display", "none");
     }
 );
 
