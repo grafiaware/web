@@ -62,7 +62,7 @@ abstract class RepoAbstract implements RepoInterface {
             /** @var AssociationFactoryInterface $association */
             $childRepo = $association->getChildRepo();
             if ($childRepo instanceof RepoPublishedOnlyModeInterface) {
-                $childRepo->setOnlyPublishedMode(!!!!!!);
+                $childRepo->setOnlyPublishedMode();
             }
             $association->createAssociated($row);
         }
