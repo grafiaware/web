@@ -54,9 +54,9 @@
         }
     }
     @media (max-width: 1099px) {
-        /*menu*/
+        /*menu*/ 
         #mySidenav {
-            display: block;
+            display: none;
             height: 100%;
             width: 80%;
             background-color: @white;
@@ -71,7 +71,7 @@
         }
         #myOverlay{
             position: fixed;
-            display: block;
+            display: none;
             width: 100%;
             height: 100%;
             top: 0;
@@ -219,10 +219,10 @@
     }
     @media (min-width: 1100px) {
         .close-item, span.nav-mobile{
-            //display: none;
+            display: none;
         }
         #mySidenav {
-           // display: block !important;
+            display: block !important;
         }
     }
     @media (max-width: 920px) {
@@ -285,6 +285,9 @@
                 /*editační*/
                 height: auto;
             }
+            .logo img{
+                width: 95px;
+            }
         }
         /*menu s butony*/
         /*vodorovne menu*/
@@ -333,6 +336,32 @@
         @keyframes prechodPozadi {
             0% { background-color: @primaryColor }
             100% { background-color: @white }
+        }
+        .ui.secondary.menu{
+            margin: 0;
+            .right.menu{
+                > .item:first-child{
+                    top: -20px;
+                } 
+                > .item:nth-child(2){
+                    top: 20px;
+                    left: -72px;
+                }
+                > .item:nth-child(3){
+                    align-self: baseline;
+                    top: -4px;
+                    right: 130px;
+                    .ui.icon.button{
+                        padding: 0.5em;
+                    }
+                    .logout{
+                        float: left;
+                    }
+                    .form{
+                        display: inline-block;
+                    }
+                }
+            }
         }
         .dimmer .content{
             width: 80%;
@@ -402,8 +431,19 @@
                 }
             }
         }
+        .page-content{
+            margin-right: 0;
+            padding: 0 15px;
+            min-height: 1000px;
+        }
+        .background, .background-f{
+            display: none; 
+        }
         .page-content .column > form > button.ui.button.save{
             right: 10px;
+        }
+        footer{
+            margin: 10px 0;
         }
         footer .grid > .column{
             text-align: center;
