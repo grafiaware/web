@@ -13,7 +13,7 @@ use Model\Entity\MenuItemInterface;
 use Model\Entity\HierarchyNode;
 use Model\Entity\HierarchyNodeInterface;
 use Model\Dao\Hierarchy\NodeAggregateReadonlyDaoInterface;
-use Model\Dao\Hierarchy\EditHierarchyInterface;
+use Model\Dao\Hierarchy\NodeEditDaoInterface;
 use Model\Hydrator\HydratorInterface;
 use Model\Repository\MenuItemRepo;
 
@@ -41,7 +41,7 @@ class HierarchyNodeRepo implements RepoPublishedOnlyModeInterface, RepoReadonlyI
     private $dao;
 
     /**
-     * @var EditHierarchyInterface
+     * @var NodeEditDaoInterface
      */
     private $editHierarchy;
 

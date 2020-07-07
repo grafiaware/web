@@ -10,6 +10,7 @@ namespace Model\Repository\Association;
 
 use Model\Repository\RepoAssotiatedOneInterface;
 use Model\Repository\RepoInterface;
+use Model\Repository\RepoPublishedOnlyModeInterface;
 use Model\Entity\EntityInterface;
 
 /**
@@ -22,14 +23,13 @@ class AssociationOneToOneFactory implements AssociationFactoryInterface {
     private $parentPropertyName;
     private $parentIdName;
 
-    private $entities;
-
     /**
      *
      * @var RepoAssotiatedOneInterface
      */
     private $childRepo;
 
+    private $entities;
 
     public function __construct($parentPropertyName, $parentIdName, RepoAssotiatedOneInterface $childRepo) {
         $this->parentPropertyName = $parentPropertyName;
@@ -38,11 +38,21 @@ class AssociationOneToOneFactory implements AssociationFactoryInterface {
     }
 
     public function createAssociated(&$row) {
-        $childId = $row[$this->getParentIdName()];
-        if (!isset($this->entities[$childId])) {
-            $this->entities[$childId] = $this->childRepo->getByReference($childId);
+        $parentKeyAttribute = $this->getParentIdName();
+        if (is_array($parentKeyAttribute)) {
+            foreach ($parentKeyAttribute as $field) {
+                $childKey[$field] = $row[$field];
+            }
+        } else {
+            $childKey = $row[$this->getParentIdName()];
         }
-        $row[$this->getParentPropertyName()] = $this->entities[$childId];
+
+
+        $index = $this->indexFromId($childKey);
+        if (!isset($this->entities[$index])) {
+            $this->entities[$index] = $this->childRepo->getByReference($childKey);
+        }
+        $row[$this->getParentPropertyName()] = $this->entities[$index];
     }
 
     public function getChildRepo(): RepoInterface {
@@ -55,5 +65,13 @@ class AssociationOneToOneFactory implements AssociationFactoryInterface {
 
     public function getParentPropertyName() {
         return $this->parentPropertyName;
+    }
+
+    protected function indexFromId($id) {
+        if (is_array($id)) {
+            return implode($id);
+        } else{
+            return $id;
+        }
     }
 }

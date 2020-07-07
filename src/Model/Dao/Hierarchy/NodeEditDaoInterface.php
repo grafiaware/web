@@ -12,7 +12,7 @@ namespace Model\Dao\Hierarchy;
  *
  * @author pes2704
  */
-interface EditHierarchyInterface {
+interface NodeEditDaoInterface {
 
 #### pomocné čtecí metody ###################################################
 

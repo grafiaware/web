@@ -10,7 +10,7 @@ use Pes\Application\AppFactory;
 use Pes\Http\Response\RedirectResponse;
 use Pes\Http\Response;
 
-use Model\Dao\Hierarchy\EditHierarchy;
+use Model\Dao\Hierarchy\NodeEditDao;
 
 use Model\Repository\{
     StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo, MenuRootRepo
@@ -38,7 +38,7 @@ class HierarchyController extends PresentationFrontControllerAbstract {
             StatusSecurityRepo $statusSecurityRepo,
             StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
-            EditHierarchy $editHierarchyDao,
+            NodeEditDao $editHierarchyDao,
             MenuRootRepo $menuRootRepo) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
         // TODO: vyměnit hierarchy Dao za Repo

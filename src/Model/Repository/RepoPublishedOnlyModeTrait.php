@@ -9,6 +9,9 @@
 namespace Model\Repository;
 
 use Model\Dao\ContextPublishedInterface;
+use Model\Dao\Context\PublishedContextInterface;
+use Model\Dao\Context\PublishedContext;
+
 use Model\Repository\Exception\UnableToSetOnlyPublishedModeException;
 
 /**
@@ -29,7 +32,7 @@ trait RepoPublishedOnlyModeTrait {
      */
     public function setOnlyPublishedMode($onlyPublished = true): void {
         if ($this->dao instanceof ContextPublishedInterface) {
-            $this->dao->setContextPublished($onlyPublished, $onlyPublished);
+            $this->dao->setContextPublished(new PublishedContext($onlyPublished, $onlyPublished));
         } else {
             throw new UnableToSetOnlyPublishedModeException("Objekt dao ". get_class($this->dao)." používaný tímto repository ". get_class($this)." není typu ContextPublishedInterface.");
         }

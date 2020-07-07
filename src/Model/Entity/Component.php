@@ -26,12 +26,12 @@ class Component implements ComponentInterface {
         return $this->uidFk;
     }
 
-    public function setName($name) {
+    public function setName($name): ComponentInterface {
         $this->name = $name;
         return $this;
     }
 
-    public function setUidFk($uid_fk) {
+    public function setUidFk($uid_fk): ComponentInterface {
         $this->uidFk = $uid_fk;
         return $this;
     }

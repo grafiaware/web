@@ -12,7 +12,7 @@ namespace Model\Entity;
  *
  * @author pes2704
  */
-interface PaperPaperContentsAggregateInterface extends PaperInterface {
+interface PaperAggregateInterface extends PaperInterface {
 
     /**
      *
@@ -27,5 +27,5 @@ interface PaperPaperContentsAggregateInterface extends PaperInterface {
      */
     public function getPaperContentsArray(): array;
 
-    public function exchangePaperContentsArray(array $contents=[]): PaperPaperContentsAggregateInterface;
+    public function exchangePaperContentsArray(array $contents=[]): PaperAggregateInterface;
 }

@@ -9,7 +9,7 @@
 namespace Component\Renderer\Html\Authored;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
-use Model\Entity\MenuItemPaperAggregateInterface;
+use Model\Entity\PaperAggregateInterface;
 use Model\Entity\PaperContentInterface;
 use Model\Entity\PaperInterface;
 
@@ -22,12 +22,12 @@ use Pes\Text\Html;
  */
 abstract class AuthoredRendererAbstract extends HtmlRendererAbstract{
 
-    protected function renderHeadline(MenuItemPaperAggregateInterface $paper) {
+    protected function renderHeadline(PaperAggregateInterface $paper) {
         return  Html::tag('div',
                     ['class'=>$this->classMap->getClass('Headline', 'div')],
                     Html::tag('headline',
                             ['class'=>$this->classMap->getClass('Headline', 'div headline')],
-                            $paper->getPaper()->getHeadline()
+                            $paper->getHeadline()
                     )
                 );
     }
@@ -35,13 +35,13 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract{
     /**
      * Renderuje bloky s atributem id pro TinyMCE jméno proměnné ve formuláři
      *
-     * @param MenuItemPaperAggregateInterface $menuItemAggregate
+     * @param MenuItemPaperAggregateInterface $paper
      * @param type $class
      * @return type
      */
-    protected function renderContents(MenuItemPaperAggregateInterface $menuItemAggregate) {
+    protected function renderContents(PaperAggregateInterface $paper) {
         $innerHtml = '';
-        foreach ($menuItemAggregate->getPaper()->getPaperContentsArray() as $paperContent) {
+        foreach ($paper->getPaperContentsArray() as $paperContent) {
             /** @var PaperContentInterface $paperContent */
             $innerHtml .=
                 Html::tag('content', [

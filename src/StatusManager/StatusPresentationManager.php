@@ -20,7 +20,7 @@ use Model\Entity\{
 };
 
 use Model\Entity\{
-    StatusPresentation, UserActions
+    StatusPresentation
 
 };
 

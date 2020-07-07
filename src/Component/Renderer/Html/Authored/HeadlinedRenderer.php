@@ -24,7 +24,7 @@ class HeadlinedRenderer extends AuthoredRendererAbstract {
     }
 
     private function renderPrivate(PaperViewModelInterface $viewModel) {
-        $paper = $viewModel->getMenuItemPaperAggregate();
+        $paper = $viewModel->getPaperAggregate();
         if ($viewModel instanceof NamedPaperViewModelInterface) {
             $name = "named: ".$viewModel->getComponent()->getName();
         } else {

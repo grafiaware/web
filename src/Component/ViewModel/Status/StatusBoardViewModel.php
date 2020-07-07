@@ -38,7 +38,7 @@ class StatusBoardViewModel implements StatusBoardViewModelInterface {
 
     public function getEditableInfo() {
         $userActions = $this->statusSecurityRepo->get()->getUserActions();
-        [
+        return [
             'article' => $userActions->isEditableArticle(),
             'layout' => $userActions->isEditableLayout(),
         ];

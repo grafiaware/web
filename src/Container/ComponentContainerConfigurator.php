@@ -60,7 +60,9 @@ use Model\Repository\{
     MenuItemTypeRepo,
     ComponentRepo,
     MenuRootRepo,
-    MenuItemAggregateRepo
+    PaperAggregateRepo,
+    ComponentAggregateRepo
+
 };
 
 // controller
@@ -242,9 +244,8 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new NamedPaperViewModel(
                                 $c->get(StatusSecurityRepo::class),
                                 $c->get(StatusPresentationRepo::class),
-                                $c->get(HierarchyNodeRepo::class),
-                                $c->get(MenuItemAggregateRepo::class),
-                                $c->get(ComponentRepo::class)
+                                $c->get(PaperAggregateRepo::class),
+                                $c->get(ComponentAggregateRepo::class)
                             );
             },
             NamedItemComponent::class => function(ContainerInterface $c) {
@@ -257,8 +258,7 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new PresentedPaperViewModel(
                                 $c->get(StatusSecurityRepo::class),
                                 $c->get(StatusPresentationRepo::class),
-                                $c->get(HierarchyNodeRepo::class),
-                                $c->get(MenuItemAggregateRepo::class)
+                                $c->get(PaperAggregateRepo::class)
                         );
             },
             PresentedItemComponent::class => function(ContainerInterface $c) {

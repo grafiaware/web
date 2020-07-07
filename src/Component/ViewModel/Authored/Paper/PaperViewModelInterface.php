@@ -9,8 +9,7 @@
 namespace Component\ViewModel\Authored\Paper;
 
 use Component\ViewModel\Authored\AuthoredViewModelInterface;
-use Model\Entity\HierarchyNodeInterface;
-use Model\Entity\MenuItemPaperAggregateInterface;
+use Model\Entity\PaperAggregateInterface;
 
 /**
  *
@@ -19,10 +18,10 @@ use Model\Entity\MenuItemPaperAggregateInterface;
 interface PaperViewModelInterface extends AuthoredViewModelInterface {
 
     /**
-     * Vrací paper.
+     * Metoda nemá parametr. Vrací menuItemAggregate odpovídající položce menu, zapsané v databázi jako komponenta se se jménem komponenty zadaným metodou setComponentName($componentName).
      *
-     * @return MenuItemPaperAggregateInterface
+     * @return PaperAggregateInterface|null
      */
-    public function getMenuItemPaperAggregate();
+    public function getPaperAggregate(): ?PaperAggregateInterface;
 
 }

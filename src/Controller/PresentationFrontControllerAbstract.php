@@ -68,7 +68,8 @@ abstract class PresentationFrontControllerAbstract extends StatusFrontController
         $response = $this->addHeaders($request, $response);
 
         ####  body  ####
-        $size = $response->getBody()->write($view);
+//        $size = $response->getBody()->write($view);
+        $size = $response->getBody()->write($view->getString());
         $response->getBody()->rewind();
         return $response;
     }

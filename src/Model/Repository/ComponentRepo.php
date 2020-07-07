@@ -11,18 +11,20 @@ namespace Model\Repository;
 use Model\Entity\Component;
 use Model\Entity\ComponentInterface;
 use Model\Dao\ComponentDao;
+use Model\Hydrator\ComponentHydrator;
 
 /**
  * Description of ComponentRepo
  *
  * @author pes2704
  */
-class ComponentRepo {
+class ComponentRepo extends RepoAbstract implements ComponentRepoInterface, RepoReadonlyInterface {
 
     private $componentDao;
 
-    public function __construct(ComponentDao $componentDao) {
+    public function __construct(ComponentDao $componentDao, ComponentHydrator $componentHydrator) {
         $this->componentDao = $componentDao;
+        $this->registerHydrator($componentHydrator);
     }
 
     /**
@@ -32,31 +34,24 @@ class ComponentRepo {
      */
     public function get($name):?ComponentInterface {
         $row = $this->componentDao->get($name);
-        return $row ? $this->createItem($row) : NULL;
+        return $row ? $this->recreateEntity($name, $row) : NULL;
     }
 
     /**
      *
      * @return ComponentInterface array of
      */
-    public function find() {
+    public function find(): iterable {
         $entities = [];
         foreach ($this->componentDao->findAll() as $row) {
-            $entities[] = $this->createItem($row);
+            $entities[] = $this->recreateEntity($name, $row);
         }
         return $entities;
     }
 
-    /**
-     *
-     * @param type $lang
-     * @param type $row
-     * @return PaperInterface
-     */
-    private function createItem($row) {
-        return (new Component())
-                ->setName($row['name'])
-                ->setUidFk($row['uid_fk']);
+
+    protected function createEntity() {
+        return new Component();
     }
 
     public function add(EntityInterface $entity) {

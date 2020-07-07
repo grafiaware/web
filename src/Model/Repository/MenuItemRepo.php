@@ -15,7 +15,7 @@ use Model\Dao\MenuItemDao;
 use Model\Dao\ContextPublishedInterface;
 
 use Model\Hydrator\HydratorInterface;
-
+use Model\Entity\EntityInterface;
 use Model\Repository\Exception\UnableRecreateEntityException;
 
 /**
@@ -46,6 +46,10 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface, RepoPu
             $this->recreateEntity($index, $this->dao->get($langCodeFk, $uidFk));
         }
         return $this->collection[$index] ?? null;
+    }
+
+    public function getByReference($id): ?EntityInterface {
+        return $this->get($id['lang_code_fk'], $id['uid_fk']);
     }
 
     /**
@@ -82,7 +86,7 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface, RepoPu
     protected function createEntity() {
         return new MenuItem();
     }
-    
+
     protected function indexFromEntity(MenuItemInterface $menuItem) {
         return $menuItem->getLangCodeFk().$menuItem->getUidFk();
     }

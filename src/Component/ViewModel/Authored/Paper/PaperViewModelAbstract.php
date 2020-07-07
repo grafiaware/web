@@ -8,12 +8,13 @@
 
 namespace Component\ViewModel\Authored\Paper;
 
-use Model\Repository\StatusPresentationRepo;
-use Model\Repository\StatusSecurityRepo;
-use Model\Repository\HierarchyNodeRepo;
-use Model\Repository\MenuItemAggregateRepo;
+use Model\Entity\PaperAggregateInterface;
 
 use Component\ViewModel\Authored\AuthoredViewModelAbstract;
+
+use Model\Repository\StatusSecurityRepo;
+use Model\Repository\StatusPresentationRepo;
+use Model\Repository\PaperAggregateRepo;
 
 /**
  * Description of PaperViewModelAnstract
@@ -21,27 +22,20 @@ use Component\ViewModel\Authored\AuthoredViewModelAbstract;
  * @author pes2704
  */
 abstract class PaperViewModelAbstract extends AuthoredViewModelAbstract implements PaperViewModelInterface {
-
     /**
-     * @var MenuItemAggregateRepo
+     * @var PaperAggregateRepo
      */
-    protected $menuItemAggregateRepo;
-
-    /**
-     *
-     * @var StatusPresentationRepo
-     */
-    protected $statusPresentationRepo;
-
+    protected $paperAggregateRepo;
 
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusPresentationRepo $statusPresentationRepo,
-            HierarchyNodeRepo $menuRepo,
-            MenuItemAggregateRepo $menuItemAggregateRepo
+            PaperAggregateRepo $paperAggregateRepo
             ) {
-        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $menuRepo);
-        $this->menuItemAggregateRepo = $menuItemAggregateRepo;
+        parent::__construct($statusSecurityRepo, $statusPresentationRepo);
+        $this->paperAggregateRepo = $paperAggregateRepo;
     }
-
+    public function getPaperAggregate(): ?PaperAggregateInterface {
+        ;
+    }
 }

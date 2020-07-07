@@ -13,7 +13,7 @@ use Model\Dao\Hierarchy\HookedMenuItemActorInterface;
  * Podle tutoriálu na https://www.phpro.org/tutorials/Managing-Hierarchical-Data-with-PHP-and-MySQL.html - pozor jsou tam chyby
  * V tutoriálu jsou přepracované sql skripty, které zveřejnil http://mikehillyer.com/articles/managing-hierarchical-data-in-mysql/ - a od té doby je všichni kopíruji.
  */
-class EditHierarchy extends HierarchyAbstract implements EditHierarchyInterface {
+class NodeEditDao extends HierarchyAbstract implements NodeEditDaoInterface {
 
     protected $nestedSetTableName;
 

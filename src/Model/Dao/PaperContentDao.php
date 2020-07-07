@@ -8,6 +8,8 @@
 
 namespace Model\Dao;
 
+use Model\Dao\Context\PublishedContextInterface;
+
 /**
  * Description of RsDao
  *
@@ -17,18 +19,20 @@ class PaperContentDao extends DaoAbstract implements ContextPublishedInterface {
 
     /**
      * DAO vrací pouze obsahy odpovídající nastavenému kontextu.
+     * Pokud je kontext->getActive() TRUE,  metoda hledá jen aktivní (zveřejněné) obsahy.
+     * Pokud je kontext->getActual() TRUE,  metoda hledá jen aktuální obsahy, tedy s datem zobrazení (show time) nenastaveným nebo nižším než dnešní datum
+     * a s datem skrytí (hide time) nenastaveným nebo vyšším než dnešní datum (aktuální datum serveru v okamžiku dotazu).
      *
-     * @param bool $active Pokud je TRUE,  metoda hledá jen aktivní (zveřejněné) obsahy.
-     * @param bool $actual Pokud je TRUE,  metoda hledá jen aktuální obsahy.
+     * @param PublishedContextInterface $publishedContext
      * @return void
      */
-    public function setContextPublished($active, $actual):void {
-        if ($active) {
+    public function setContextPublished(PublishedContextInterface $publishedContext):void {
+        if ($publishedContext->getActive()) {
             $this->contextConditions['active'] = "paper_content.active = 1";
         } else {
             unset($this->contextConditions['active']);
         }
-        if ($actual) {
+        if ($publishedContext->getActual()) {
             $this->contextConditions['actual'] = "(ISNULL(paper_content.show_time) OR paper_content.show_time<=CURDATE()) AND (ISNULL(paper_content.hide_time) OR CURDATE()<=paper_content.hide_time)";
         } else {
             unset($this->contextConditions['actual']);

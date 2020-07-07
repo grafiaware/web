@@ -7,6 +7,7 @@ use Pes\Database\Handler\HandlerInterface;
 use Pes\Database\Statement\StatementInterface;
 
 use Model\Dao\ContextPublishedInterface;
+use Model\Dao\Context\PublishedContextInterface;
 
 /**
  * Podle tutoriálu na https://www.phpro.org/tutorials/Managing-Hierarchical-Data-with-PHP-and-MySQL.html - pozor jsou tam chyby
@@ -29,7 +30,7 @@ use Model\Dao\ContextPublishedInterface;
  *
  * V obou případech jsou např. publikované uzly, které mají nějakého nepublikovaného předka v menu nedostupné. Jsou jen v menu v "editačním" modu, kdy se zobrazijí i neaktivní a neaktuální uzly.
  */
-class NodeAggregateReadonlyDao extends EditHierarchy implements NodeAggregateReadonlyDaoInterface {
+class NodeAggregateReadonlyDao extends NodeEditDao implements NodeAggregateReadonlyDaoInterface {
 
     const UID_TITLE_SEPARATOR = '|';
     const BREADCRUMB_SEPARATOR = '/';
@@ -52,17 +53,16 @@ class NodeAggregateReadonlyDao extends EditHierarchy implements NodeAggregateRea
     /**
      * DAO vrací pouze položky odpovídající nastavenému kontextu.
      *
-     * @param bool $active Pokud je TRUE,  metoda hledá jen aktivní (zveřejněné) položky.
-     * @param bool $actual Pokud je TRUE,  metoda hledá jen aktuální položky.
+     * @param \Model\Dao\Hierarchy\PublishedContextInterface $publishedContext
      * @return void
      */
-    public function setContextPublished($active, $actual):void {
-        if ($active) {
+    public function setContextPublished(PublishedContextInterface $publishedContext):void {
+        if ($publishedContext->getActive()) {
             $this->contextConditions['active'] = "menu_item.active = 1";
         } else {
             unset($this->contextConditions['active']);
         }
-        if ($actual) {
+        if ($publishedContext->getActual()) {
             $this->contextConditions['actual'] = "(ISNULL(menu_item.show_time) OR menu_item.show_time<=CURDATE()) AND (ISNULL(menu_item.hide_time) OR CURDATE()<=menu_item.hide_time)";
         } else {
             unset($this->contextConditions['actual']);

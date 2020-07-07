@@ -32,7 +32,7 @@ use \Middleware\Actions\ActionsController\{
 };
 
 // dao
-use Model\Dao\Hierarchy\EditHierarchy;
+use Model\Dao\Hierarchy\NodeEditDao;
 
 // repo
 use Model\Repository\{
@@ -165,7 +165,7 @@ class ActionsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
-                        $c->get(EditHierarchy::class),
+                        $c->get(NodeEditDao::class),
                         $c->get(MenuRootRepo::class));
             },
             EditItemController::class => function(ContainerInterface $c) {

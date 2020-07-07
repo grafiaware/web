@@ -8,6 +8,8 @@
 
 namespace Model\Dao;
 
+use Model\Dao\Context\PublishedContextInterface;
+
 /**
  * Description of RsDao
  *
@@ -17,18 +19,20 @@ class MenuItemDao extends DaoAbstract implements ContextPublishedInterface {
 
     /**
      * DAO vrací pouze položky odpovídající nastavenému kontextu.
+     * Pokud je kontext->getActive() TRUE,  metoda hledá jen aktivní (zveřejněné) položky menu.
+     * Pokud je kontext->getActual() TRUE,  metoda hledá jen aktuální položky menu, tedy s datem zobrazení (show time) nenastaveným nebo nižším než dnešní datum
+     * a s datem skrytí (hide time) nenastaveným nebo vyšším než dnešní datum (aktuální datum serveru v okamžiku dotazu).
      *
-     * @param bool $active Pokud je TRUE,  metoda hledá jen aktivní (zveřejněné) položky.
-     * @param bool $actual Pokud je TRUE,  metoda hledá jen aktuální položky.
+     * @param PublishedContextInterface $publishedContext
      * @return void
      */
-    public function setContextPublished($active, $actual):void {
-        if ($active) {
+    public function setContextPublished(PublishedContextInterface $publishedContext):void {
+        if ($publishedContext->getActive()) {
             $this->contextConditions['active'] = "menu_item.active = 1";
         } else {
             unset($this->contextConditions['active']);
         }
-        if ($actual) {
+        if ($publishedContext->getActual()) {
             $this->contextConditions['actual'] = "(ISNULL(menu_item.show_time) OR menu_item.show_time<=CURDATE()) AND (ISNULL(menu_item.hide_time) OR CURDATE()<=menu_item.hide_time)";
         } else {
             unset($this->contextConditions['actual']);

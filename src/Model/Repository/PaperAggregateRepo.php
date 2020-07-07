@@ -8,7 +8,7 @@
 
 namespace Model\Repository;
 use Model\Entity\PaperInterface;
-use Model\Entity\PaperPaperContentsAggregate;
+use Model\Entity\PaperAggregate;
 use Model\Dao\PaperDao;
 use Model\Dao\DaoChildInterface;
 use Model\Hydrator\PaperHydrator;
@@ -22,13 +22,9 @@ use Model\Repository\Exception\UnableRecreateEntityException;
  *
  * @author pes2704
  */
-class PaperAggregateRepo extends PaperRepo implements RepoInterface, PaperRepoInterface, RepoReadonlyInterface {
+class PaperAggregateRepo extends PaperRepo implements RepoInterface, PaperRepoInterface, RepoPublishedOnlyModeInterface, RepoReadonlyInterface {
 
-    /**
-     * @var DaoChildInterface
-     */
-// ???    protected $dao;  // přetěžuje $dao v AbstractRepo - typ DaoChildInterface
-
+    use RepoPublishedOnlyModeTrait;
 
     public function __construct(PaperDao $paperDao, PaperHydrator $paperHydrator,
             PaperContentRepo $paperContentRepo, PaperChildHydrator $paperChildHydrator) {
@@ -38,7 +34,7 @@ class PaperAggregateRepo extends PaperRepo implements RepoInterface, PaperRepoIn
     }
 
     protected function createEntity() {
-        return new PaperPaperContentsAggregate();
+        return new PaperAggregate();
     }
 
     protected function indexFromEntity(PaperInterface $paper) {

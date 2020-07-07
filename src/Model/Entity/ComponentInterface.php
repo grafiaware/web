@@ -17,7 +17,7 @@ interface ComponentInterface {
 
     public function getUidFk();
 
-    public function setName($name);
+    public function setName($name): ComponentInterface;
 
-    public function setUidFk($uid_fk);
+    public function setUidFk($uid_fk): ComponentInterface;
 }

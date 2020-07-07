@@ -9,7 +9,7 @@
 namespace Model\Hydrator;
 
 use Model\Entity\EntityInterface;
-use Model\Entity\PaperPaperContentsAggregateInterface;
+use Model\Entity\PaperAggregateInterface;
 
 /**
  * Description of PaperPaperContentAggregateHydrator
@@ -20,21 +20,21 @@ class PaperChildHydrator implements HydratorInterface {
 
     /**
      *
-     * @param PaperPaperContentsAggregateInterface $menuItemPaperAggregate
+     * @param PaperAggregateInterface $menuItemPaperAggregate
      * @param type $row
      */
     public function hydrate(EntityInterface $paperPaperContentsAggregate, &$row) {
-        /** @var PaperPaperContentsAggregateInterface $menuItemPaperAggregate */
+        /** @var PaperAggregateInterface $menuItemPaperAggregate */
         $paperPaperContentsAggregate
             ->exchangePaperContentsArray($row['contents']);
     }
 
     /**
      *
-     * @param PaperPaperContentsAggregateInterface $paperAggregate
+     * @param PaperAggregateInterface $paperAggregate
      * @param type $row
      */
     public function extract(EntityInterface $paperAggregate, &$row) {
-        /** @var PaperPaperContentsAggregateInterface $paperAggregate */
+        /** @var PaperAggregateInterface $paperAggregate */
         $row['contents'] = $paperAggregate->getPaperContentsArray();
     }}

@@ -14,7 +14,7 @@ use Model\Entity\MenuItemInterface;
  *
  * @author pes2704
  */
-interface MenuItemRepoInterface extends RepoInterface {
+interface MenuItemRepoInterface extends RepoInterface, RepoAssotiatedOneInterface  {
 
     /**
      *

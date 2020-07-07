@@ -6,14 +6,13 @@
  * and open the template in the editor.
  */
 
-namespace Model\Dao;
-
-use Model\Dao\Context\PublishedContextInterface;
+namespace Model\Dao\Context;
 
 /**
  *
  * @author pes2704
  */
-interface ContextPublishedInterface {
-    public function setContextPublished(PublishedContextInterface $publishedContext):void;
+interface PublishedContextInterface {
+    public function getActive(): bool;
+    public function getActual():bool;
 }

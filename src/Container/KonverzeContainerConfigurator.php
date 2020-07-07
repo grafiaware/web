@@ -29,9 +29,9 @@ use Pes\Logger\FileLogger;
 
 use Pes\Database\Manipulator\Manipulator;
 
-use Model\Dao\Hierarchy\EditHierarchy;
+use Model\Dao\Hierarchy\NodeEditDao;
 use Model\Dao\Hierarchy\NodeAggregateReadonlyDao;
-use Model\Dao\Hierarchy\EditHierarchyInterface;
+use Model\Dao\Hierarchy\NodeEditDaoInterface;
 use Model\Dao\Hierarchy\NodeAggregateReadonlyDaoInterface;
 
 use Model\HierarchyHooks\HookedMenuItemActor;
@@ -49,7 +49,7 @@ class KonverzeContainerConfigurator extends ContainerConfiguratorAbstract {
             HandlerInterface::class => Handler::class,
             RouterInterface::class => Router::class,
             NodeAggregateReadonlyDaoInterface::class => NodeAggregateReadonlyDao::class,
-            EditHierarchyInterface::class => EditHierarchy::class,
+            NodeEditDaoInterface::class => NodeEditDao::class,
         ];
     }
 
@@ -180,8 +180,8 @@ class KonverzeContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new NodeAggregateReadonlyDao($c->get(Handler::class), $c->get('hierarchy_view'));
             },
 
-            EditHierarchy::class => function(ContainerInterface $c) : EditHierarchy {
-                return new EditHierarchy($c->get(Handler::class), $c->get('menu.hierarchy'));
+            NodeEditDao::class => function(ContainerInterface $c) : NodeEditDao {
+                return new NodeEditDao($c->get(Handler::class), $c->get('menu.hierarchy'));
             },
 
             HookedMenuItemActor::class => function(ContainerInterface $c) {

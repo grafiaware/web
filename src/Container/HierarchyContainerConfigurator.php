@@ -27,21 +27,35 @@ use Pes\Logger\FileLogger;
 // models
 
 //dao + hydrator + repo
-use Model\Dao\Hierarchy\EditHierarchy;
+use Model\Dao\Hierarchy\NodeEditDao;
 use Model\Dao\Hierarchy\NodeAggregateReadonlyDao;
-use Model\Dao\Hierarchy\EditHierarchyInterface;
+use Model\Dao\Hierarchy\NodeEditDaoInterface;
 use Model\Dao\Hierarchy\NodeAggregateReadonlyDaoInterface;
-use Model\Dao\MenuItemDao;
 use Model\Hydrator\HierarchyNodeHydrator;
-use Model\Hydrator\MenuItemHydrator;
 use Model\Repository\HierarchyNodeRepo;
+
+use Model\Dao\MenuItemDao;
+use Model\Hydrator\MenuItemHydrator;
 use Model\Repository\MenuItemRepo;
+
+use Model\Dao\MenuRootDao;
+use Model\Repository\MenuRootRepo;
+
+use Model\Dao\LanguageDao;
+use Model\Repository\LanguageRepo;
+
 use Model\Dao\MenuItemTypeDao;
 use Model\Hydrator\MenuItemTypeHydrator;
 use Model\Repository\MenuItemTypeRepo;
+
+use Model\Dao\ComponentDao;
+use Model\Hydrator\ComponentHydrator;
+use Model\Repository\ComponentRepo;
+
 use Model\Dao\PaperDao;
 use Model\Hydrator\PaperHydrator;
 use Model\Repository\PaperRepo;
+
 use Model\Dao\PaperContentDao;
 use Model\Hydrator\PaperContentHydrator;
 use Model\Repository\PaperContentRepo;
@@ -51,15 +65,10 @@ use Model\Repository\MenuItemAggregateRepo;
 use Model\Hydrator\MenuItemChildHydrator;
 use Model\Repository\PaperAggregateRepo;
 use Model\Hydrator\PaperChildHydrator;
+use Model\Repository\ComponentAggregateRepo;
+use Model\Hydrator\ComponentChildHydrator;
 
-use Model\Dao\ComponentDao;
-use Model\Repository\ComponentRepo;
-use Model\Dao\MenuRootDao;
-use Model\Repository\MenuRootRepo;
-
-use Model\Dao\LanguageDao;
-use Model\Repository\LanguageRepo;
-
+// hierarchy hooks
 use Model\HierarchyHooks\HookedMenuItemActor;
 use Model\HierarchyHooks\ArticleTitleUpdater;
 use Model\HierarchyHooks\MenuListStyles;
@@ -79,7 +88,7 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
             HandlerInterface::class => Handler::class,
             RouterInterface::class => Router::class,
             NodeAggregateReadonlyDaoInterface::class => NodeAggregateReadonlyDao::class,
-            EditHierarchyInterface::class => EditHierarchy::class,
+            NodeEditDaoInterface::class => NodeEditDao::class,
             StatusPresentationManagerInterface::class => StatusPresentationManager::class,
         ];
     }
@@ -202,9 +211,9 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
             NodeAggregateReadonlyDao::class => function(ContainerInterface $c) : NodeAggregateReadonlyDao {
                 return new NodeAggregateReadonlyDao($c->get(Handler::class), $c->get('menu.hierarchy_table'), $c->get('menu.menu_item_table'));
             },
-            EditHierarchy::class => function(ContainerInterface $c) : EditHierarchy {
-                /** @var EditHierarchy $editHierarchy */
-                $editHierarchy = (new EditHierarchy($c->get(Handler::class), $c->get('menu.hierarchy_table')));
+            NodeEditDao::class => function(ContainerInterface $c) : NodeEditDao {
+                /** @var NodeEditDao $editHierarchy */
+                $editHierarchy = (new NodeEditDao($c->get(Handler::class), $c->get('menu.hierarchy_table')));
                 $editHierarchy->registerHookedActor($c->get(HookedMenuItemActor::class));
                 return $editHierarchy;
             },
@@ -283,8 +292,19 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
             ComponentDao::class => function(ContainerInterface $c) {
                 return new ComponentDao($c->get(HandlerInterface::class));
             },
-            ComponentRepo::class => function(ContainerInterface $c) {
-                return new ComponentRepo($c->get(ComponentDao::class));
+            ComponentHydrator::class => function(ContainerInterface $c) {
+                return new ComponentHydrator($c->get(ComponentDao::class));
+            },
+            ComponentChildHydrator::class => function(ContainerInterface $c) {
+                return new ComponentChildHydrator();
+            },
+            ComponentAggregateRepo::class => function(ContainerInterface $c) {
+                return new ComponentAggregateRepo(
+                        $c->get(ComponentDao::class),
+                        $c->get(ComponentHydrator::class),
+                        $c->get(MenuItemRepo::class),
+                        $c->get(ComponentChildHydrator::class)
+                    );
             },
 
             MenuRootDao::class => function(ContainerInterface $c) {

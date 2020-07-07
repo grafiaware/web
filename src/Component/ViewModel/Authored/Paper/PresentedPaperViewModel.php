@@ -6,10 +6,7 @@ namespace Component\ViewModel\Authored\Paper;
  * and open the template in the editor.
  */
 
-use Model\Entity\HierarchyNodeInterface;
-
-use Model\Entity\MenuItemPaperAggregate;
-use Model\Entity\MenuItemPaperAggregateInterface;
+use Model\Entity\PaperAggregateInterface;
 
 
 /**
@@ -24,13 +21,12 @@ class PresentedPaperViewModel extends PaperViewModelAbstract implements Presente
      *
      * @return MenuItemPaperAggregateInterface|null
      */
-    public function getMenuItemPaperAggregate(): ?MenuItemPaperAggregateInterface {
-        $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
-        $uid = $this->statusPresentationRepo->get()->getMenuItem()->getUidFk();
+    public function getPaperAggregate(): ?PaperAggregateInterface {
+        $menuItemId = $this->statusPresentationRepo->get()->getMenuItem()->getId();
+        return $this->paperAggregateRepo->get($menuItemId);
 
-
-        return $this->menuItemAggregateRepo->get($langCode, $uid)
-                    ??
-                    (new MenuItemPaperAggregate())->setMenuItemIdFk($uid)->setLangCode($langCode);
+//        return $this->menuItemAggregateRepo->get($langCode, $uid)
+//                    ??
+//                    (new MenuItemPaperAggregate())->setMenuItemIdFk($uid)->setLangCode($langCode);
     }
 }

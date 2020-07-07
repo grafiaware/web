@@ -36,7 +36,7 @@ class AssociationOneToManyFactory implements AssociationFactoryInterface {
     public function getChildRepo(): RepoInterface {
         return $this->childRepo;
     }
-    
+
     public function getParentIdName() {
         return $this->parentIdName;
     }

@@ -9,11 +9,9 @@ namespace Component\ViewModel\Authored\Paper;
 use Model\Repository\StatusSecurityRepo;
 use Model\Repository\StatusPresentationRepo;
 
-use Model\Repository\HierarchyNodeRepo;
-use Model\Repository\ComponentRepo;
-use Model\Repository\MenuItemAggregateRepo;
+use Model\Repository\ComponentAggregateRepo;
 
-use Model\Entity\HierarchyNodeInterface;
+use Model\Repository\PaperAggregateRepo;
 use Model\Entity\ComponentInterface;
 use Model\Entity\MenuItemPaperAggregateInterface;
 
@@ -26,21 +24,20 @@ use Model\Entity\MenuItemPaperAggregateInterface;
 class NamedPaperViewModel extends PaperViewModelAbstract implements NamedPaperViewModelInterface {
 
     /**
-     * @var ComponentRepo
+     * @var ComponentAggregateRepo
      */
-    protected $componentRepo;
+    protected $componentAggregateRepo;
 
     private $componentName;
 
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusPresentationRepo $statusPresentationRepo,
-            HierarchyNodeRepo $menuRepo,
-            MenuItemAggregateRepo $menuItemAggregateRepo,
-            ComponentRepo $componentRepo
+            PaperAggregateRepo $paperAggregateRepo,
+            ComponentAggregateRepo $componentAggregateRepo
     ) {
-        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $menuRepo, $menuItemAggregateRepo);
-        $this->componentRepo = $componentRepo;
+        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $paperAggregateRepo);
+        $this->componentAggregateRepo = $componentAggregateRepo;
     }
 
     /**
@@ -61,7 +58,7 @@ class NamedPaperViewModel extends PaperViewModelAbstract implements NamedPaperVi
         if (!isset($this->componentName)) {
             throw new \LogicException("Není zadáno jméno komponenty. Nelze načíst odpovídající položku menu.");
         }
-        return $this->componentRepo->get($this->componentName);
+        return $this->componentAggregateRepo->get($this->componentName);
     }
 
     /**
@@ -73,7 +70,7 @@ class NamedPaperViewModel extends PaperViewModelAbstract implements NamedPaperVi
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
         $uid = $this->getComponent()->getUidFk();
 //        $active = $actual = $this->presentOnlyPublished();
-        $this->menuItemAggregateRepo->setOnlyPublishedMode(true);
+        $this->paperAggregateRepo->setOnlyPublishedMode(true);
         return $this->menuItemAggregateRepo->get($langCode, $uid) ?? NULL;
     }
 }

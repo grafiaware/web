@@ -13,7 +13,7 @@ namespace Model\Entity;
  *
  * @author pes2704
  */
-class PaperPaperContentsAggregate extends Paper implements PaperPaperContentsAggregateInterface {
+class PaperAggregate extends Paper implements PaperAggregateInterface {
 
     /**
      * @var PaperContent array of
@@ -42,7 +42,7 @@ class PaperPaperContentsAggregate extends Paper implements PaperPaperContentsAgg
      * @param array $contents
      * @return \Model\Entity\MenuItemPaperAggregateInterface
      */
-    public function exchangePaperContentsArray(array $contents=[]): PaperPaperContentsAggregateInterface {
+    public function exchangePaperContentsArray(array $contents=[]): PaperAggregateInterface {
         $this->contents = $contents;
         return $this;
     }

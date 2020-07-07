@@ -13,7 +13,7 @@ use Pes\Debug\Timer;
 use Container\KonverzeContainerConfigurator;
 
 use Pes\Database\Manipulator\Manipulator;
-use Model\Dao\Hierarchy\EditHierarchy;
+use Model\Dao\Hierarchy\NodeEditDao;
 
 use Middleware\Konverze\Exception\{
     ActionFailedException, MaxExucutionTimeException, KonverzeExceptionInterface
@@ -72,7 +72,7 @@ class Konverze extends AppMiddlewareAbstract implements MiddlewareInterface {
                 $adjList = $this->manipulator->findAllRows('menu_adjlist');
                 if (is_array($adjList) AND count($adjList)) {
                     $this->log[] = "Načteno ".count($adjList)." položek z tabulky 'menu_adjlist'.";
-                    $hierachy = $this->container->get(EditHierarchy::class);
+                    $hierachy = $this->container->get(NodeEditDao::class);
                     // $hierachy->newNestedSet() založí kořenovou položku nested setu a vrací její uid
                     $rootUid = $hierachy->newNestedSet();
                     try {

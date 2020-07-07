@@ -39,8 +39,8 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
      */
     public function getPresentedMenuNode() {
         $presentationStatus = $this->statusPresentationRepo->get();
-        $this->HierarchyRepo->setOnlyPublishedMode($this->presentOnlyPublished()); //!
-        return $this->HierarchyRepo->get($presentationStatus->getLanguage()->getLangCode(), $presentationStatus->getMenuItem()->getUidFk());
+        $this->paperAggregateRepo->setOnlyPublishedMode($this->presentOnlyPublished()); //!
+        return $this->paperAggregateRepo->get($presentationStatus->getLanguage()->getLangCode(), $presentationStatus->getMenuItem()->getUidFk());
     }
     /**
      *
@@ -58,7 +58,7 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
      */
     public function getMenuNode($nodeUid) {
         $presentationStatus = $this->statusPresentationRepo->get();
-        return $this->HierarchyRepo->get($presentationStatus->getLanguage()->getLangCode(), $nodeUid);
+        return $this->paperAggregateRepo->get($presentationStatus->getLanguage()->getLangCode(), $nodeUid);
     }
 
     /**
@@ -68,7 +68,7 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
      */
     public function getChildrenMenuNodes($parentUid) {
         $presentationStatus = $this->statusPresentationRepo->get();
-        return $this->HierarchyRepo->findChildren($presentationStatus->getLanguage()->getLangCode(), $parentUid);
+        return $this->paperAggregateRepo->findChildren($presentationStatus->getLanguage()->getLangCode(), $parentUid);
     }
 
     /**
@@ -87,7 +87,7 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
         }
 
         $presentationStatus = $this->getStatusPresentation();
-        $items = $this->HierarchyRepo->getSubTree($presentationStatus->getLanguage()->getLangCode(), $rootUid, $maxDepth);
+        $items = $this->paperAggregateRepo->getSubTree($presentationStatus->getLanguage()->getLangCode(), $rootUid, $maxDepth);
         $models = [];
         foreach ($items as $item) {
            if (isset($presentedItemLeftNode)) {

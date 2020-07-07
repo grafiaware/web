@@ -20,7 +20,7 @@ use Model\Dao\Hierarchy\NodeAggregateReadonlyDao;
 use Model\Repository\MenuItemAggregateRepo;
 
 use Model\Entity\MenuItemPaperAggregate;
-use Model\Entity\PaperPaperContentsAggregate;
+use Model\Entity\PaperAggregate;
 /**
  * Description of MenuItemPaperRepositoryTest
  *
@@ -128,9 +128,9 @@ class MenuItemAggregateRepositoryTest extends TestCase {
         $entity = $this->repo->get($this->langCode, $this->uid);
         $this->assertInstanceOf(MenuItemPaperAggregate::class, $entity);
         $this->assertEquals($this->title, $entity->getTitle());
-        /** @var PaperPaperContentsAggregate $paper */      // není interface
+        /** @var PaperAggregate $paper */      // není interface
         $paper = $entity->getPaper();
-        $this->assertInstanceOf(PaperPaperContentsAggregate::class, $paper);
+        $this->assertInstanceOf(PaperAggregate::class, $paper);
         $contents = $paper->getPaperContentsArray();
         $this->assertIsArray($contents);
         $this->assertTrue(count($contents)>0, "Nenalezen žádný obsah");
