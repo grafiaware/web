@@ -559,12 +559,16 @@ body.layout#tinymce{
             outline-color: @yellow;
         }
     }
-    .pull-out{
+    .section{
         height: 100%;
         position: relative;
-        border-right: 5px double @lightGrey;
         > form:nth-of-type(2){
             position: static !important;
+        }
+        .corner.label{
+            font-size: 0.5em;
+            right: -5px;
+            border-color: lighten(@blue,40) !important;
         }
     }
     #editName{
@@ -609,12 +613,12 @@ body.layout#tinymce{
         right: 0;
     }
     .contentButtons{
-       // display: flex;
+        display: flex;
         flex-direction: column;
         display: none;
-        position: absolute;
-        right: 99px;
-        top: 0;
+        //position: absolute;
+        //right: 99px;
+        //top: 0;
     }
     .buttons.editContent{
         position: absolute;
@@ -641,6 +645,15 @@ body.layout#tinymce{
         button[data-tooltip]::after{
             font-weight: 700;
         }
+    }
+    .section .ui.corner.label .icon.editContent{
+/*        cursor: inherit;
+        position: relative;
+        top: 0;
+        left: auto;
+        right: 0;
+        font-size: inherit;
+        margin: 0;*/
     }
     .poznamky{
         position: absolute;
@@ -687,7 +700,7 @@ body.layout#tinymce{
                     linear-gradient(0deg, @green 50%, transparent 50%);
         background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
         background-size: 12px 3px, 12px 3px, 3px 12px, 3px 12px;
-        padding: 5px;
+        padding: 5px 10px;
         animation: border-dance 40s infinite linear;
         height: max-content;
     }
