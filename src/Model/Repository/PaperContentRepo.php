@@ -19,9 +19,7 @@ use Model\Repository\Exception\UnableRecreateEntityException;
  *
  * @author pes2704
  */
-class PaperContentRepo extends RepoAbstract implements PaperContentRepoInterface, RepoPublishedOnlyModeInterface {
-
-    use RepoPublishedOnlyModeTrait;
+class PaperContentRepo extends RepoAbstract implements PaperContentRepoInterface {
 
     protected $dao;
 

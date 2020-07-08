@@ -12,8 +12,8 @@ use Model\Repository\StatusPresentationRepo;
 use Model\Repository\ComponentAggregateRepo;
 
 use Model\Repository\PaperAggregateRepo;
-use Model\Entity\ComponentInterface;
-use Model\Entity\MenuItemPaperAggregateInterface;
+use Model\Entity\ComponentAggregateInterface;
+use Model\Entity\PaperAggregateInterface;
 
 
 /**
@@ -49,28 +49,26 @@ class NamedPaperViewModel extends PaperViewModelAbstract implements NamedPaperVi
     }
 
     /**
-     * Vrací entitu komponenty.
+     * Vrací entitu ComponentAggregate se zadaným jménem.
      *
-     * @return ComponentInterface
+     * @return ComponentAggregateInterface|null
      * @throws \LogicException
      */
-    public function getComponent(): ComponentInterface {
+    public function getComponentAggregate(): ?ComponentAggregateInterface {
         if (!isset($this->componentName)) {
             throw new \LogicException("Není zadáno jméno komponenty. Nelze načíst odpovídající položku menu.");
         }
-        return $this->componentAggregateRepo->get($this->componentName);
+        $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
+        return $this->componentAggregateRepo->getAggregate($langCode, $this->componentName);
     }
 
     /**
-     * Vrací menuItemAggregate příslušný ke komponentě se zadaným jménem.
+     * Vrací PaperAggregate příslušný ke komponentě se zadaným jménem.
      *
-     * @return MenuItemPaperAggregateInterface|null
+     * @return PaperAggregateInterface|null
      */
-    public function getMenuItemPaperAggregate(): ?MenuItemPaperAggregateInterface {
-        $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
-        $uid = $this->getComponent()->getUidFk();
-//        $active = $actual = $this->presentOnlyPublished();
-        $this->paperAggregateRepo->setOnlyPublishedMode(true);
-        return $this->menuItemAggregateRepo->get($langCode, $uid) ?? NULL;
+    public function getPaperAggregate(): ?PaperAggregateInterface {
+        $menuItemId = $this->getComponentAggregate()->getMenuItem()->getId();
+        return $this->paperAggregateRepo->getByReference($menuItemId) ?? NULL;   // repo z PaperViewModelAbstract
     }
 }

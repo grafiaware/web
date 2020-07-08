@@ -13,7 +13,7 @@ namespace Model\Entity;
  *
  * @author pes2704
  */
-class Component implements ComponentInterface {
+class Component extends EntityAbstract implements ComponentInterface {
 
     private $name;
     private $uidFk;

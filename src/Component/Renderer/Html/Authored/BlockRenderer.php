@@ -28,15 +28,15 @@ class BlockRenderer extends AuthoredRendererAbstract {
     }
 
     private function renderPrivate(PaperViewModelInterface $viewModel) {
-        $paper = $viewModel->getMenuItemPaperAggregate();
+        $paperAggregate = $viewModel->getPaperAggregate();
         if ($viewModel instanceof NamedPaperViewModelInterface) {
-            $name = "named: ".$viewModel->getComponent()->getName();
+            $name = "named: ".$viewModel->getComponentAggregate()->getName();
         } else {
             $name = "presented";
         }
 
-        if (isset($paper)) {
-            $innerHtml = $this->renderContents($paper);
+        if (isset($paperAggregate)) {
+            $innerHtml = $this->renderContents($paperAggregate);
             $style = "display: block;";
         } else {
             $innerHtml = Html::tag('div', [], 'No data item or article for rendering.');

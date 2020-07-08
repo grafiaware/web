@@ -8,35 +8,27 @@
 
 namespace Model\Dao;
 
-use Model\Dao\Context\PublishedContextInterface;
 
 /**
  * Description of RsDao
  *
  * @author pes2704
  */
-class PaperContentDao extends DaoAbstract implements ContextPublishedInterface {
+class PaperContentDao extends DaoAbstract {
 
-    /**
-     * DAO vrací pouze obsahy odpovídající nastavenému kontextu.
-     * Pokud je kontext->getActive() TRUE,  metoda hledá jen aktivní (zveřejněné) obsahy.
-     * Pokud je kontext->getActual() TRUE,  metoda hledá jen aktuální obsahy, tedy s datem zobrazení (show time) nenastaveným nebo nižším než dnešní datum
-     * a s datem skrytí (hide time) nenastaveným nebo vyšším než dnešní datum (aktuální datum serveru v okamžiku dotazu).
-     *
-     * @param PublishedContextInterface $publishedContext
-     * @return void
-     */
-    public function setContextPublished(PublishedContextInterface $publishedContext):void {
-        if ($publishedContext->getActive()) {
-            $this->contextConditions['active'] = "paper_content.active = 1";
-        } else {
-            unset($this->contextConditions['active']);
+
+    protected function getContextConditions() {
+        $contextConditions = [];
+        $publishedContext = $this->contextFactory->createPublishedContext();
+        if ($publishedContext) {
+            if ($publishedContext->getActive()) {
+                $contextConditions['active'] = "paper_content.active = 1";
+            }
+            if ($publishedContext->getActual()) {
+                $contextConditions['actual'] = "(ISNULL(paper_content.show_time) OR paper_content.show_time<=CURDATE()) AND (ISNULL(paper_content.hide_time) OR CURDATE()<=paper_content.hide_time)";
+            }
         }
-        if ($publishedContext->getActual()) {
-            $this->contextConditions['actual'] = "(ISNULL(paper_content.show_time) OR paper_content.show_time<=CURDATE()) AND (ISNULL(paper_content.hide_time) OR CURDATE()<=paper_content.hide_time)";
-        } else {
-            unset($this->contextConditions['actual']);
-        }
+        return $contextConditions;
     }
 
     /**

@@ -20,10 +20,8 @@ use Model\Hydrator\ComponentHydrator;
  */
 class ComponentRepo extends RepoAbstract implements ComponentRepoInterface, RepoReadonlyInterface {
 
-    private $componentDao;
-
     public function __construct(ComponentDao $componentDao, ComponentHydrator $componentHydrator) {
-        $this->componentDao = $componentDao;
+        $this->dao = $componentDao;
         $this->registerHydrator($componentHydrator);
     }
 
@@ -33,22 +31,12 @@ class ComponentRepo extends RepoAbstract implements ComponentRepoInterface, Repo
      * @return ComponentInterface|null
      */
     public function get($name):?ComponentInterface {
-        $row = $this->componentDao->get($name);
-        return $row ? $this->recreateEntity($name, $row) : NULL;
-    }
-
-    /**
-     *
-     * @return ComponentInterface array of
-     */
-    public function find(): iterable {
-        $entities = [];
-        foreach ($this->componentDao->findAll() as $row) {
-            $entities[] = $this->recreateEntity($name, $row);
+        $index = $name;
+        if (!isset($this->collection[$index])) {
+            $this->recreateEntity($index, $this->dao->get($name));
         }
-        return $entities;
+        return $this->collection[$index] ?? null;
     }
-
 
     protected function createEntity() {
         return new Component();

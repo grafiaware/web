@@ -10,6 +10,8 @@ namespace Model\Dao;
 
 use Pes\Database\Handler\HandlerInterface;
 
+use Model\Context\ContextFactoryInterface;
+
 /**
  * Description of DaoAbstract
  *
@@ -17,7 +19,11 @@ use Pes\Database\Handler\HandlerInterface;
  */
 class DaoAbstract {
 
-    protected $contextConditions = [];
+    /**
+     *
+     * @var ContextFactoryInterface
+     */
+    protected $contextFactory;
 
     /**
      *
@@ -32,13 +38,18 @@ class DaoAbstract {
      */
     private $preparedStatements = [];
 
-    public function __construct(HandlerInterface $dbHandler) {
+    public function __construct(HandlerInterface $dbHandler, ContextFactoryInterface $context=null) {
         $this->dbHandler = $dbHandler;
+        $this->contextFactory = $context;
+    }
+
+    protected function getContextConditions() {
+        return [];
     }
 
     protected function where($condition = []) {
-        return ($this->contextConditions OR $condition) ? implode(" AND ", array_merge($this->contextConditions, $condition)) : "";
-
+        $contextConditions = $this->getContextConditions();
+        return ($contextConditions OR $condition) ? implode(" AND ", array_merge($contextConditions, $condition)) : "";
     }
 
     /**

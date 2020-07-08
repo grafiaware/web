@@ -10,9 +10,7 @@ namespace Component\ViewModel\Authored\Paper;
 
 use Component\ViewModel\Authored\Paper\PaperViewModelInterface;
 
-use Model\Entity\ComponentInterface;
-use Model\Entity\HierarchyNodeInterface;
-use Model\Entity\MenuItemPaperAggregateInterface;
+use Model\Entity\ComponentAggregateInterface;
 
 /**
  *
@@ -23,8 +21,8 @@ interface NamedPaperViewModelInterface extends PaperViewModelInterface {
     public function setComponentName($componentName);
 
     /**
-     * Vrací entitu komponenty.
-     * @return ComponentInterface
+     *
+     * @return ComponentAggregateInterface|null
      */
-    public function getComponent(): ComponentInterface;
+    public function getComponentAggregate(): ?ComponentAggregateInterface;
 }

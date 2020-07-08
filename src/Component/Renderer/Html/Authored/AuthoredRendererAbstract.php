@@ -35,13 +35,13 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract{
     /**
      * Renderuje bloky s atributem id pro TinyMCE jméno proměnné ve formuláři
      *
-     * @param MenuItemPaperAggregateInterface $paper
+     * @param MenuItemPaperAggregateInterface $paperAggregate
      * @param type $class
      * @return type
      */
-    protected function renderContents(PaperAggregateInterface $paper) {
+    protected function renderContents(PaperAggregateInterface $paperAggregate) {
         $innerHtml = '';
-        foreach ($paper->getPaperContentsArray() as $paperContent) {
+        foreach ($paperAggregate->getPaperContentsArray() as $paperContent) {
             /** @var PaperContentInterface $paperContent */
             $innerHtml .=
                 Html::tag('content', [

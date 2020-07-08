@@ -22,9 +22,7 @@ use Model\Repository\Exception\UnableRecreateEntityException;
  *
  * @author pes2704
  */
-class PaperAggregateRepo extends PaperRepo implements RepoInterface, PaperRepoInterface, RepoPublishedOnlyModeInterface, RepoReadonlyInterface {
-
-    use RepoPublishedOnlyModeTrait;
+class PaperAggregateRepo extends PaperRepo implements RepoInterface, PaperRepoInterface, RepoReadonlyInterface {
 
     public function __construct(PaperDao $paperDao, PaperHydrator $paperHydrator,
             PaperContentRepo $paperContentRepo, PaperChildHydrator $paperChildHydrator) {

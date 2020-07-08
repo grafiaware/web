@@ -22,12 +22,6 @@ interface ComponentRepoInterface {
      */
     public function get($name):?ComponentInterface;
 
-    /**
-     *
-     * @return ComponentInterface array of
-     */
-    public function find(): iterable;
-
     public function add(EntityInterface $entity);
 
     public function remove(EntityInterface $entity);

@@ -35,7 +35,5 @@ abstract class PaperViewModelAbstract extends AuthoredViewModelAbstract implemen
         parent::__construct($statusSecurityRepo, $statusPresentationRepo);
         $this->paperAggregateRepo = $paperAggregateRepo;
     }
-    public function getPaperAggregate(): ?PaperAggregateInterface {
-        ;
-    }
+
 }

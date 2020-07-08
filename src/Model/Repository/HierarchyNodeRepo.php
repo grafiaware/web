@@ -22,9 +22,7 @@ use Model\Repository\MenuItemRepo;
  *
  * @author pes2704
  */
-class HierarchyNodeRepo implements RepoPublishedOnlyModeInterface, RepoReadonlyInterface {
-
-    use RepoPublishedOnlyModeTrait;
+class HierarchyNodeRepo implements RepoReadonlyInterface {
 
     const SIEBLING = 'SIEBLING';
     const CHILD = 'CHILD';

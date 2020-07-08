@@ -26,7 +26,7 @@ class HeadlinedRenderer extends AuthoredRendererAbstract {
     private function renderPrivate(PaperViewModelInterface $viewModel) {
         $paper = $viewModel->getPaperAggregate();
         if ($viewModel instanceof NamedPaperViewModelInterface) {
-            $name = "named: ".$viewModel->getComponent()->getName();
+            $name = "named: ".$viewModel->getComponentAggregate()->getName();
         } else {
             $name = "presented";
         }

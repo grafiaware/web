@@ -26,6 +26,13 @@ use Pes\Logger\FileLogger;
 
 // models
 
+// context
+use Model\Context\ContextFactory;
+use Model\Context\ContextFactoryInterface;
+use Model\Repository\{
+    StatusSecurityRepo,
+    StatusPresentationRepo
+};
 //dao + hydrator + repo
 use Model\Dao\Hierarchy\NodeEditDao;
 use Model\Dao\Hierarchy\NodeAggregateReadonlyDao;
@@ -208,17 +215,32 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
 
 
 ########################
+            ContextFactory::class => function(ContainerInterface $c) {
+                return new ContextFactory($c->get(StatusSecurityRepo::class),
+                                $c->get(StatusPresentationRepo::class));
+            },
+
             NodeAggregateReadonlyDao::class => function(ContainerInterface $c) : NodeAggregateReadonlyDao {
-                return new NodeAggregateReadonlyDao($c->get(Handler::class), $c->get('menu.hierarchy_table'), $c->get('menu.menu_item_table'));
+                return new NodeAggregateReadonlyDao(
+                        $c->get(Handler::class),
+                        $c->get('menu.hierarchy_table'),
+                        $c->get('menu.menu_item_table'),
+                        $c->get(ContextFactory::class));
             },
             NodeEditDao::class => function(ContainerInterface $c) : NodeEditDao {
                 /** @var NodeEditDao $editHierarchy */
-                $editHierarchy = (new NodeEditDao($c->get(Handler::class), $c->get('menu.hierarchy_table')));
+                $editHierarchy = (new NodeEditDao(
+                        $c->get(Handler::class),
+                        $c->get('menu.hierarchy_table'),
+                        $c->get(ContextFactory::class))
+                        );
                 $editHierarchy->registerHookedActor($c->get(HookedMenuItemActor::class));
                 return $editHierarchy;
             },
             MenuItemDao::class => function(ContainerInterface $c) {
-                return new MenuItemDao($c->get(HandlerInterface::class));
+                return new MenuItemDao(
+                        $c->get(HandlerInterface::class),
+                        $c->get(ContextFactory::class));
             },
             HookedMenuItemActor::class => function(ContainerInterface $c) {
                 return new HookedMenuItemActor($c->get('menu.menu_item_table'), $c->get('menu.new_title'));
@@ -262,7 +284,9 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new PaperRepo($c->get(PaperDao::class), $c->get(PaperHydrator::class));
             },
             PaperContentDao::class => function(ContainerInterface $c) {
-                return new PaperContentDao($c->get(HandlerInterface::class));
+                return new PaperContentDao(
+                        $c->get(HandlerInterface::class),
+                        $c->get(ContextFactory::class));
             },
             PaperContentHydrator::class => function(ContainerInterface $c) {
                 return new PaperContentHydrator();

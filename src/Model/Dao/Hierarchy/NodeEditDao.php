@@ -2,9 +2,10 @@
 
 namespace Model\Dao\Hierarchy;
 
-//use Pes\Database\MyMiniHandler\HandlerInterface;
-use Pes\Database\Handler\HandlerInterface;
+use Model\Dao\DaoAbstract;
 
+use Pes\Database\Handler\HandlerInterface;
+use Model\Context\ContextFactoryInterface;
 use Model\Dao\Hierarchy\HookedMenuItemActorInterface;
 
 /**
@@ -13,7 +14,7 @@ use Model\Dao\Hierarchy\HookedMenuItemActorInterface;
  * Podle tutoriálu na https://www.phpro.org/tutorials/Managing-Hierarchical-Data-with-PHP-and-MySQL.html - pozor jsou tam chyby
  * V tutoriálu jsou přepracované sql skripty, které zveřejnil http://mikehillyer.com/articles/managing-hierarchical-data-in-mysql/ - a od té doby je všichni kopíruji.
  */
-class NodeEditDao extends HierarchyAbstract implements NodeEditDaoInterface {
+class NodeEditDao extends DaoAbstract implements NodeEditDaoInterface {
 
     protected $nestedSetTableName;
 
@@ -23,9 +24,10 @@ class NodeEditDao extends HierarchyAbstract implements NodeEditDaoInterface {
      *
      * @param HandlerInterface $handler
      * @param strimg $nestedSetTableName Jméno tabulky obsahující nested set hierarchii položek. Používá se pro editaci hierarchie.
+     * @param ContextFactoryInterface $contextFactory
      */
-    public function __construct(HandlerInterface $handler, $nestedSetTableName) {
-        parent::__construct($handler);
+    public function __construct(HandlerInterface $handler, $nestedSetTableName, ContextFactoryInterface $contextFactory=null) {
+        parent::__construct($handler, $contextFactory);
         $this->nestedSetTableName = $nestedSetTableName;
     }
 
@@ -52,7 +54,7 @@ class NodeEditDao extends HierarchyAbstract implements NodeEditDaoInterface {
      * @return array
      */
     public function getNode($uid) {
-        $stmt = $this->handler->prepare(
+        $stmt = $this->dbHandler->prepare(
             "SELECT *
             FROM $this->nestedSetTableName
             WHERE uid = :uid");
@@ -62,7 +64,7 @@ class NodeEditDao extends HierarchyAbstract implements NodeEditDaoInterface {
     }
 
     public function getNodeByTitle($title) {
-        $stmt = $this->handler->prepare(
+        $stmt = $this->dbHandler->prepare(
             "SELECT *
             FROM $this->viewName
             WHERE title = :title");
@@ -80,7 +82,7 @@ class NodeEditDao extends HierarchyAbstract implements NodeEditDaoInterface {
      * @throws LogicException Pokud tabulka pro ukládání nested setu není prázdná.
      */
     public function newNestedSet() {
-        $dbh = $this->handler;
+        $dbh = $this->dbHandler;
         $stmt = $dbh->prepare("SELECT uid FROM $this->nestedSetTableName");
         $stmt->execute();
         if($stmt->rowCount()) {
@@ -102,7 +104,7 @@ class NodeEditDao extends HierarchyAbstract implements NodeEditDaoInterface {
      *
      */
     public function insertNode($leftNode, $rightNode, $parentNodeUid=NULL) {
-        $dbhTransact = $this->handler;
+        $dbhTransact = $this->dbHandler;
         try {
             $dbhTransact->beginTransaction();
             $uid = $this->getNewUidWithinTransaction($dbhTransact);
@@ -165,7 +167,7 @@ class NodeEditDao extends HierarchyAbstract implements NodeEditDaoInterface {
      * @throws Exception
      */
     public function addChildNode($parentNodeUid){
-        $dbhTransact = $this->handler;
+        $dbhTransact = $this->dbHandler;
         try {
             $dbhTransact->beginTransaction();
             $stmt = $dbhTransact->prepare(
@@ -206,7 +208,7 @@ class NodeEditDao extends HierarchyAbstract implements NodeEditDaoInterface {
      * @throws Exception
      */
     public function addChildNodeAsLast($parentNodeUid){
-        $dbhTransact = $this->handler;
+        $dbhTransact = $this->dbHandler;
         try {
             $dbhTransact->beginTransaction();
             $stmt = $dbhTransact->prepare(
@@ -249,7 +251,7 @@ class NodeEditDao extends HierarchyAbstract implements NodeEditDaoInterface {
      * @throws Exception
      */
     public function addNode($leftNodeUid){
-        $dbhTransact = $this->handler;
+        $dbhTransact = $this->dbHandler;
         try {
             $dbhTransact->beginTransaction();
             $stmt = $dbhTransact->prepare(
@@ -293,7 +295,7 @@ class NodeEditDao extends HierarchyAbstract implements NodeEditDaoInterface {
      * @return string parent_uid
      */
     public function deleteLeafNode($nodeUid){
-        $dbhTransact = $this->handler;
+        $dbhTransact = $this->dbHandler;
         try {
             $dbhTransact->beginTransaction();
             $stmt = $dbhTransact->prepare(
@@ -337,7 +339,7 @@ class NodeEditDao extends HierarchyAbstract implements NodeEditDaoInterface {
      * @return string parent_uid
      */
     public function deleteSubTree($nodeUid){
-        $dbhTransact = $this->handler;
+        $dbhTransact = $this->dbHandler;
         try {
             $dbhTransact->beginTransaction();
             $stmt = $dbhTransact->prepare(
@@ -380,7 +382,7 @@ class NodeEditDao extends HierarchyAbstract implements NodeEditDaoInterface {
      * @throws Exception
      */
     public function moveSubTree($sourceUid, $targetUid) {
-        $dbhTransact = $this->handler;
+        $dbhTransact = $this->dbHandler;
         try {
 
             // parametry
@@ -430,7 +432,7 @@ class NodeEditDao extends HierarchyAbstract implements NodeEditDaoInterface {
      * Smaže uzel a jeho potomky posune na jeho místo.
      */
     public function replaceNodeWithChild($nodeUid){
-        $dbhTransact = $this->handler;
+        $dbhTransact = $this->dbHandler;
         try {
             $dbhTransact->beginTransaction();
             $stmt = $dbhTransact->prepare(
@@ -549,7 +551,7 @@ class NodeEditDao extends HierarchyAbstract implements NodeEditDaoInterface {
 //
 //        set_time_limit(20);
 //
-//        $dbhTransact = $this->handlerFactory->get();
+//        $dbhTransact = $this->dbHandlerFactory->get();
 //        try {
 //            $dbhTransact->beginTransaction();
 //            $dbhTransact->exec($sql);
@@ -566,7 +568,7 @@ class NodeEditDao extends HierarchyAbstract implements NodeEditDaoInterface {
 //
 //        set_time_limit(20);
 //
-//        $dbhTransact = $this->handlerFactory->get();
+//        $dbhTransact = $this->dbHandlerFactory->get();
 //        try {
 //            $dbhTransact->beginTransaction();
 //            $dbhTransact->exec("DROP TABLE IF EXISTS `adjacencylist`");

@@ -27,7 +27,7 @@ class HeadlinedRenderer extends HtmlRendererAbstract {
         $menuNode = $viewModel->getHierarchyNode();
         $paper = $viewModel->getMenuItemPaperAggregate();
         if ($viewModel instanceof NamedPaperViewModelInterface) {
-            $name = "named: ".$viewModel->getComponent()->getName();
+            $name = "named: ".$viewModel->getComponentAggregate()->getName();
         } else {
             $name = "presented";
         }

@@ -8,13 +8,13 @@
 
 namespace Model\Dao\Hierarchy;
 
-use Model\Dao\ContextPublishedInterface;
+use Model\ContextPublishedInterface;
 
 /**
  *
  * @author pes2704
  */
-interface NodeAggregateReadonlyDaoInterface extends ContextPublishedInterface {
+interface NodeAggregateReadonlyDaoInterface {
 
     /**
      *

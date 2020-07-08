@@ -27,9 +27,7 @@ use Model\Repository\Exception\UnableRecreateEntityException;
  *
  * @author pes2704
  */
-class MenuItemAggregateRepo extends MenuItemRepo implements MenuItemRepoInterface, RepoPublishedOnlyModeInterface, RepoReadonlyInterface {
-
-    use RepoPublishedOnlyModeTrait;
+class MenuItemAggregateRepo extends MenuItemRepo implements MenuItemRepoInterface, RepoReadonlyInterface {
 
     public function __construct(MenuItemDao $menuItemDao, HydratorInterface $menuItemHydrator,
             PaperAggregateRepo $paperAggregateRepo, MenuItemChildHydrator $menuItemPaperHydrator) {

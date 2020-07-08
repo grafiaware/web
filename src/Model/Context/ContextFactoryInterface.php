@@ -6,12 +6,12 @@
  * and open the template in the editor.
  */
 
-namespace Model\Repository;
+namespace Model\Context;
 
 /**
  *
  * @author pes2704
  */
-interface RepoPublishedOnlyModeInterface {
-    public function setOnlyPublishedMode($onlyPublished = true): void ;
+interface ContextFactoryInterface {
+    public function createPublishedContext(): PublishedContextInterface;
 }

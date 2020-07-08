@@ -6,8 +6,7 @@ namespace Model\Dao\Hierarchy;
 use Pes\Database\Handler\HandlerInterface;
 use Pes\Database\Statement\StatementInterface;
 
-use Model\Dao\ContextPublishedInterface;
-use Model\Dao\Context\PublishedContextInterface;
+use Model\Context\ContextFactoryInterface;
 
 /**
  * Podle tutoriálu na https://www.phpro.org/tutorials/Managing-Hierarchical-Data-with-PHP-and-MySQL.html - pozor jsou tam chyby
@@ -43,30 +42,25 @@ class NodeAggregateReadonlyDao extends NodeEditDao implements NodeAggregateReado
      * @param string $nestedSetTableName Jméno databázové tabulky menu nested set
      * @param string $itemTableName Jméno databázové tabulky menu item
      */
-    public function __construct(HandlerInterface $handler, $nestedSetTableName, $itemTableName) {
-        parent::__construct($handler, $nestedSetTableName);
+    public function __construct(HandlerInterface $handler, $nestedSetTableName, $itemTableName, ContextFactoryInterface $contextFactory=null) {
+        parent::__construct($handler, $nestedSetTableName, $contextFactory);
         $this->itemTableName = $itemTableName;
     }
 
 ################
 #
-    /**
-     * DAO vrací pouze položky odpovídající nastavenému kontextu.
-     *
-     * @param \Model\Dao\Hierarchy\PublishedContextInterface $publishedContext
-     * @return void
-     */
-    public function setContextPublished(PublishedContextInterface $publishedContext):void {
-        if ($publishedContext->getActive()) {
-            $this->contextConditions['active'] = "menu_item.active = 1";
-        } else {
-            unset($this->contextConditions['active']);
+    protected function getContextConditions() {
+        $contextConditions = [];
+        $publishedContext = $this->contextFactory->createPublishedContext();
+        if ($publishedContext) {
+            if ($publishedContext->getActive()) {
+                $this->contextConditions['active'] = "menu_item.active = 1";
+            }
+            if ($publishedContext->getActual()) {
+                $this->contextConditions['actual'] = "(ISNULL(menu_item.show_time) OR menu_item.show_time<=CURDATE()) AND (ISNULL(menu_item.hide_time) OR CURDATE()<=menu_item.hide_time)";
+            }
         }
-        if ($publishedContext->getActual()) {
-            $this->contextConditions['actual'] = "(ISNULL(menu_item.show_time) OR menu_item.show_time<=CURDATE()) AND (ISNULL(menu_item.hide_time) OR CURDATE()<=menu_item.hide_time)";
-        } else {
-            unset($this->contextConditions['actual']);
-        }
+        return $contextConditions;
     }
 
     private function selected() {
@@ -75,11 +69,6 @@ class NodeAggregateReadonlyDao extends NodeEditDao implements NodeAggregateReado
         menu_item.lang_code_fk, menu_item.uid_fk, menu_item.type_fk, menu_item.id, menu_item.title, menu_item.active, menu_item.show_time, menu_item.hide_time,
 	(ISNULL(menu_item.show_time) OR menu_item.show_time<=CURDATE()) AND (ISNULL(menu_item.hide_time) OR CURDATE()<=menu_item.hide_time) AS actual
         ";
-    }
-
-    private function where($condition = []) {
-        return ($this->contextConditions OR $condition) ? implode(" AND ", array_merge($this->contextConditions, $condition)) : "";
-
     }
 #
 #################
@@ -109,7 +98,7 @@ class NodeAggregateReadonlyDao extends NodeEditDao implements NodeAggregateReado
                 $this->itemTableName AS menu_item ON (nested_set.uid = menu_item.uid_fk)
             WHERE "
                 .$this->where(["menu_item.lang_code_fk = :lang_code", "nested_set.uid = :uid"]);
-        $stmt = $this->handler->prepare($sql);
+        $stmt = $this->dbHandler->prepare($sql);
         $stmt->bindParam(':uid', $uid, \PDO::PARAM_STR);
         $stmt->bindParam(':lang_code', $langCode, \PDO::PARAM_STR);
         $stmt->execute();
@@ -140,7 +129,7 @@ class NodeAggregateReadonlyDao extends NodeEditDao implements NodeAggregateReado
             WHERE "
                 .$this->where(["menu_item.lang_code_fk = :lang_code", "menu_item.title = :title"])
                 ;
-        $stmt = $this->handler->prepare($sql);
+        $stmt = $this->dbHandler->prepare($sql);
         $stmt->bindParam(':title', $title, \PDO::PARAM_STR);
         $stmt->bindParam(':lang_code', $langCode, \PDO::PARAM_STR);
         $stmt->execute();
@@ -154,7 +143,7 @@ class NodeAggregateReadonlyDao extends NodeEditDao implements NodeAggregateReado
      * @return type
      */
     public function getFullTree($langCode) {
-//        $stmt = $this->handler->prepare(
+//        $stmt = $this->dbHandler->prepare(
 //            " SELECT node.title, node.uid, (COUNT(parent.uid ) - 1) AS depth, GROUP_CONCAT(DISTINCT parent.title  ORDER BY parent.uid ASC SEPARATOR ' / ') AS breadcrumb
 //            FROM $this->nestedSetTableName AS node CROSS JOIN $this->nestedSetTableName AS parent
 //            WHERE node.left_node BETWEEN parent.left_node AND parent.right_node AND node.lang_code = :lang_code
@@ -178,7 +167,7 @@ class NodeAggregateReadonlyDao extends NodeEditDao implements NodeAggregateReado
                 .$this->where(["menu_item.lang_code_fk = :lang_code"])
             ." ORDER BY nested_set.left_node"
                 ;
-        $stmt = $this->handler->prepare($sql);
+        $stmt = $this->dbHandler->prepare($sql);
         $stmt->bindParam(':lang_code', $langCode, \PDO::PARAM_STR);
         $stmt->execute();
         return $stmt->fetchALL(\PDO::FETCH_ASSOC);
@@ -215,7 +204,7 @@ class NodeAggregateReadonlyDao extends NodeEditDao implements NodeAggregateReado
                 .$this->where(["menu_item.lang_code_fk = :lang_code"])
             ." ORDER BY nested_set.left_node"
                 ;
-        $stmt = $this->handler->prepare($sql);
+        $stmt = $this->dbHandler->prepare($sql);
         $stmt->bindParam(':uid', $rootUid, \PDO::PARAM_STR);
         if(isset($maxDepth)) {
             $stmt->bindParam(':maxdepth', $maxDepth, \PDO::PARAM_INT);
@@ -253,7 +242,7 @@ class NodeAggregateReadonlyDao extends NodeEditDao implements NodeAggregateReado
             WHERE "
                 .$this->where(["menu_item.lang_code_fk = :lang_code"])
                 ;
-        $stmt = $this->handler->prepare($sql);
+        $stmt = $this->dbHandler->prepare($sql);
         $stmt->bindParam(':uid', $uid, \PDO::PARAM_STR);
         $stmt->bindParam(':lang_code', $langCode, \PDO::PARAM_STR);
         $stmt->execute();
@@ -296,7 +285,7 @@ class NodeAggregateReadonlyDao extends NodeEditDao implements NodeAggregateReado
                 .$this->where(["menu_item.lang_code_fk = :lang_code"])
             ." ORDER BY nested_set.left_node"
                 ;
-        $stmt = $this->handler->prepare($sql);
+        $stmt = $this->dbHandler->prepare($sql);
         $stmt->bindParam(':rootuid', $rootUid, \PDO::PARAM_STR);
         $stmt->bindParam(':uid', $uid, \PDO::PARAM_STR);
         $stmt->bindParam(':lang_code', $langCode, \PDO::PARAM_STR);
@@ -368,7 +357,7 @@ class NodeAggregateReadonlyDao extends NodeEditDao implements NodeAggregateReado
                 .$this->where(["menu_item.lang_code_fk = :lang_code"])
                 ." ORDER BY nested_set.left_node"
             ;
-        $stmt = $this->handler->prepare($sql);
+        $stmt = $this->dbHandler->prepare($sql);
         $stmt->bindParam(':uid', $parentUid, \PDO::PARAM_STR);
         if(isset($maxDepth)) {
             $stmt->bindParam(':maxdepth', $maxDepth, \PDO::PARAM_INT);
@@ -408,7 +397,7 @@ class NodeAggregateReadonlyDao extends NodeEditDao implements NodeAggregateReado
                 .$this->where(["menu_item.lang_code_fk = :lang_code"])
             ." ORDER BY nested_set.left_node"
             ;
-        $stmt = $this->handler->prepare($sql);
+        $stmt = $this->dbHandler->prepare($sql);
         $stmt->bindParam(':uid', $uid, \PDO::PARAM_STR);
 //                                AND sub_parent.uid = :rootuid
 
@@ -448,7 +437,7 @@ class NodeAggregateReadonlyDao extends NodeEditDao implements NodeAggregateReado
                     AND menu_item_for_breadcrumb.lang_code_fk = :lang_code
                     AND menu_item_for_title.lang_code_fk = :lang_code"
                ;
-        $stmt = $this->handler->prepare($sql);
+        $stmt = $this->dbHandler->prepare($sql);
         $stmt->bindParam(':uid', $uid, \PDO::PARAM_STR);
         $stmt->bindParam(':lang_code', $langCode, \PDO::PARAM_STR);
         $stmt->execute();
@@ -463,7 +452,7 @@ class NodeAggregateReadonlyDao extends NodeEditDao implements NodeAggregateReado
      * @return array
      */
 //    public function leafNodes(){
-//        $stmt = $this->handler->prepare(
+//        $stmt = $this->dbHandler->prepare(
 //                "SELECT menu_item.title, nested_set.uid
 //                FROM $this->nestedSetTableName AS nested_set
 //                    INNER JOIN

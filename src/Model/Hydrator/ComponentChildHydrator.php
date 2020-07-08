@@ -26,7 +26,7 @@ class ComponentChildHydrator implements HydratorInterface {
     public function hydrate(EntityInterface $componentAggregate, &$row) {
         /** @var ComponentAggregateInterface $componentAggregate */
         $componentAggregate
-            ->setMenuItem($row['MenuItem']);
+            ->setMenuItem($row['menuItem']);
     }
 
     /**
@@ -36,7 +36,7 @@ class ComponentChildHydrator implements HydratorInterface {
      */
     public function extract(EntityInterface $componentAggregate, &$row) {
         /** @var ComponentAggregateInterface $componentAggregate */
-        $row['MenuItem'] = $componentAggregate->getMenuItem();
+        $row['menuItem'] = $componentAggregate->getMenuItem();
     }
 
 }

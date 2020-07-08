@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Model\Dao\Context;
+namespace Model\Context;
 
 /**
  * Description of PublishedContext

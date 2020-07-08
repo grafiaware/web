@@ -59,11 +59,6 @@ abstract class RepoAbstract implements RepoInterface {
 
     protected function addCreatedAssociations(&$row): void {
         foreach ($this->associations as $association) {
-            /** @var AssociationFactoryInterface $association */
-            $childRepo = $association->getChildRepo();
-            if ($childRepo instanceof RepoPublishedOnlyModeInterface) {
-                $childRepo->setOnlyPublishedMode();
-            }
             $association->createAssociated($row);
         }
     }

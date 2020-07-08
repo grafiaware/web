@@ -12,23 +12,16 @@ use Model\Dao\ComponentDao;
 use Model\Hydrator\HydratorInterface;
 
 use Model\Repository\MenuItemRepo;
-use Model\Entity\ComponentAggregate;
 use Model\Entity\ComponentAggregateInterface;
+use Model\Entity\ComponentAggregate;
 use Model\Hydrator\ComponentChildHydrator;
-use Model\Repository\Association\AssotiationOneToOneFactory;
-
-use Model\Repository\Association\AssociationFactoryInterface;
-
-use Model\Repository\Exception\UnableRecreateEntityException;
 
 /**
  * Description of Menu
  *
  * @author pes2704
  */
-class ComponentAggregateRepo extends ComponentRepo implements ComponentRepoInterface, RepoPublishedOnlyModeInterface, RepoReadonlyInterface {
-
-    use RepoPublishedOnlyModeTrait;
+class ComponentAggregateRepo extends ComponentRepo implements ComponentAggregateRepoInterface, RepoReadonlyInterface {
 
     public function __construct(ComponentDao $componentDao, HydratorInterface $componentHydrator,
             MenuItemRepo $menuItemRepo, ComponentChildHydrator $componentMenuItemHydrator) {
@@ -37,11 +30,23 @@ class ComponentAggregateRepo extends ComponentRepo implements ComponentRepoInter
         $this->registerHydrator($componentMenuItemHydrator);
     }
 
-    public function get($langCode, $name): ?ComponentAggregateInterface {
-
+    /**
+     * Vrací ComponentAggregate - agregát Component a MenuItem. Parametr $langCode je pouze použit pro výběr MenuItem.
+     * @param type $langCode
+     * @param type $name
+     * @return ComponentAggregateInterface|null
+     */
+    public function getAggregate($langCode, $name): ?ComponentAggregateInterface {
+        $index = $name;
+        if (!isset($this->collection[$index])) {
+        $row = $this->dao->get($name);
+        $row['lang_code_fk'] = $langCode;
+        $this->recreateEntity($index, $row);
+        }
+        return $this->collection[$index] ?? null;
     }
 
     protected function createEntity() {
-        return new componentAggregate();
+        return new ComponentAggregate();
     }
 }

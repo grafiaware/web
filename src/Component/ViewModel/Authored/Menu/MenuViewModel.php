@@ -21,14 +21,16 @@ use Component\ViewModel\Authored\Menu\Item\ItemViewModel;
 class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelInterface {
 
     private $menuRootRepo;
+    private $nodeRepo;
 
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusPresentationRepo $statusPresentationRepo,
-            HierarchyNodeRepo $menuRepo,
+            HierarchyNodeRepo $nodeRepo,
             MenuRootRepo $menuRootRepo
             ) {
-        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $menuRepo);
+        parent::__construct($statusSecurityRepo, $statusPresentationRepo);
+        $this->nodeRepo = $nodeRepo;
         $this->menuRootRepo = $menuRootRepo;
     }
 
@@ -39,9 +41,9 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
      */
     public function getPresentedMenuNode() {
         $presentationStatus = $this->statusPresentationRepo->get();
-        $this->paperAggregateRepo->setOnlyPublishedMode($this->presentOnlyPublished()); //!
-        return $this->paperAggregateRepo->get($presentationStatus->getLanguage()->getLangCode(), $presentationStatus->getMenuItem()->getUidFk());
+        return $this->nodeRepo->get($presentationStatus->getLanguage()->getLangCode(), $presentationStatus->getMenuItem()->getUidFk());
     }
+
     /**
      *
      * @param string $menuRootName
@@ -58,7 +60,7 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
      */
     public function getMenuNode($nodeUid) {
         $presentationStatus = $this->statusPresentationRepo->get();
-        return $this->paperAggregateRepo->get($presentationStatus->getLanguage()->getLangCode(), $nodeUid);
+        return $this->nodeRepo->get($presentationStatus->getLanguage()->getLangCode(), $nodeUid);
     }
 
     /**
@@ -68,7 +70,7 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
      */
     public function getChildrenMenuNodes($parentUid) {
         $presentationStatus = $this->statusPresentationRepo->get();
-        return $this->paperAggregateRepo->findChildren($presentationStatus->getLanguage()->getLangCode(), $parentUid);
+        return $this->nodeRepo->findChildren($presentationStatus->getLanguage()->getLangCode(), $parentUid);
     }
 
     /**
@@ -87,7 +89,7 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
         }
 
         $presentationStatus = $this->getStatusPresentation();
-        $items = $this->paperAggregateRepo->getSubTree($presentationStatus->getLanguage()->getLangCode(), $rootUid, $maxDepth);
+        $items = $this->nodeRepo->getSubTree($presentationStatus->getLanguage()->getLangCode(), $rootUid, $maxDepth);
         $models = [];
         foreach ($items as $item) {
            if (isset($presentedItemLeftNode)) {

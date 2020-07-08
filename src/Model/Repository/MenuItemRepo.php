@@ -12,7 +12,7 @@ use Model\Entity\MenuItem;
 use Model\Entity\MenuItemInterface;
 
 use Model\Dao\MenuItemDao;
-use Model\Dao\ContextPublishedInterface;
+use Model\ContextPublishedInterface;
 
 use Model\Hydrator\HydratorInterface;
 use Model\Entity\EntityInterface;
@@ -23,9 +23,7 @@ use Model\Repository\Exception\UnableRecreateEntityException;
  *
  * @author pes2704
  */
-class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface, RepoPublishedOnlyModeInterface {
-
-    use RepoPublishedOnlyModeTrait;
+class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
 
     protected $dao;
 
