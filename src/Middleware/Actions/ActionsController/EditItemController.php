@@ -33,16 +33,16 @@ class EditItemController extends PresentationFrontControllerAbstract {
         $this->menuItemRepo = $menuItemRepo;
     }
 
-    public function toggle(ServerRequestInterface $request, $id) {
-        $menuItem = $this->getMenuItem($id);
+    public function toggle(ServerRequestInterface $request, $uid) {
+        $menuItem = $this->getMenuItem($uid);
         $active = $menuItem->getActive() ? 0 : 1;  //active je integer
         $menuItem->setActive($active);
         $this->addFlashMessage("menuItem toggle(".($active?'true':'false').")");
         return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other
      }
 
-     public function actual(ServerRequestInterface $request, $id) {
-        $menuItem = $this->getMenuItem($id);
+     public function actual(ServerRequestInterface $request, $uid) {
+        $menuItem = $this->getMenuItem($uid);
         $button = (new RequestParams())->getParam($request, 'button');
         switch ($button) {
             case 'calendar':
@@ -64,8 +64,8 @@ class EditItemController extends PresentationFrontControllerAbstract {
         return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other
      }
 
-    public function title(ServerRequestInterface $request, $id) {
-        $menuItem = $this->getMenuItem($id);
+    public function title(ServerRequestInterface $request, $uid) {
+        $menuItem = $this->getMenuItem($uid);
         $postTitle = (new RequestParams())->getParam($request, 'title');
         $postOriginalTitle = (new RequestParams())->getParam($request, 'original-title');
         $menuItem->setTitle($postTitle);
@@ -84,8 +84,7 @@ class EditItemController extends PresentationFrontControllerAbstract {
         return $response;
     }
 
-    private function getMenuItem($id) {
-        $this->menuItemRepo->setOnlyPublishedMode(false);  // nebylo by možné zapnout a editovat vypnutý item
-        return $this->menuItemRepo->get($this->statusPresentationRepo->get()->getLanguage()->getLangCode(), $id);
+    private function getMenuItem($uid) {
+        return $this->menuItemRepo->get($this->statusPresentationRepo->get()->getLanguage()->getLangCode(), $uid);
     }
 }

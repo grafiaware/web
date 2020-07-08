@@ -103,18 +103,7 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
 //                Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button0 i')])
 //            )
 //            .
-                Html::tag('button', [
-                'class'=>$this->classMap->getClass('Buttons', 'div button'),
-                'data-tooltip'=>'Odstranit položku',
-                'type'=>'submit',
-                'name'=>'delete',
-                'formmethod'=>'post',
-                'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/trash",
-                'onclick'=>"return confirm('Jste si jisti?');"
-                    ],
-                Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button1 i'),])
-            )
-            .Html::tag('button',
+            Html::tag('button',
                 ['class'=>$this->classMap->getClass('Buttons', 'div button'),
                 'data-tooltip'=>'Aktivní/neaktivní položka',
                 'type'=>'submit',
@@ -156,6 +145,19 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
                     ],
                 Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button5 i')])
             )
+            .Html::tag('button', [
+                'class'=>$this->classMap->getClass('Buttons', 'div button'),
+                'data-tooltip'=>'Odstranit položku',
+                'data-position'=>'top right',
+                'type'=>'submit',
+                'name'=>'delete',
+                'formmethod'=>'post',
+                'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/trash",
+                'onclick'=>"return confirm('Jste si jisti?');"
+                    ],
+                Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button1 i'),])
+            )
+
         )
         .Html::tag('div', ['class'=>$this->classMap->getClass('Buttons', 'div.name')],
             Html::tag('button', [

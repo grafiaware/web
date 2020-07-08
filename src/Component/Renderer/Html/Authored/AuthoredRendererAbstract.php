@@ -33,6 +33,23 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract{
     }
 
     /**
+     * Compare funkce pro usort - řadí shora od nejvyšší priority
+     *
+     * @param PaperContentInterface $c1
+     * @param PaperContentInterface $c2
+     * @return int
+     */
+    private function compareByPriority($c1, $c2) {
+        /** @var PaperContentInterface $c1 */
+        /** @var PaperContentInterface $c2 */
+        if ($c1->getPriority() == $c2->getPriority()) {
+            return 0;
+        }
+        // desc !
+        return ($c1->getPriority() > $c2->getPriority()) ? -1 : 1;
+    }
+
+    /**
      * Renderuje bloky s atributem id pro TinyMCE jméno proměnné ve formuláři
      *
      * @param MenuItemPaperAggregateInterface $paperAggregate
@@ -40,8 +57,10 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract{
      * @return type
      */
     protected function renderContents(PaperAggregateInterface $paperAggregate) {
+        $contents = $paperAggregate->getPaperContentsArray();
+        \usort($contents, array($this, "compareByPriority"));
         $innerHtml = '';
-        foreach ($paperAggregate->getPaperContentsArray() as $paperContent) {
+        foreach ($contents as $paperContent) {
             /** @var PaperContentInterface $paperContent */
             $innerHtml .=
                 Html::tag('content', [

@@ -9,7 +9,7 @@
 namespace Component\Renderer\Html\Authored;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
-use Model\Entity\MenuItemPaperAggregateInterface;
+use Model\Entity\PaperAggregateInterface;
 use Model\Entity\PaperInterface;
 use Model\Entity\PaperContentInterface;
 
@@ -22,26 +22,27 @@ use Pes\Text\Html;
  */
 abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
 
-    protected function renderPaperButtonsForm(MenuItemPaperAggregateInterface $paper) {
+    protected function renderPaperButtonsForm(PaperAggregateInterface $paper) {
         //TODO: atributy data-tooltip a data-position jsou pro semantic - zde jsou napevno zadané
-        $uid = $paper->getUidFk();
-        $active = $paper->getActive();
+//        $uid = $paper->getUidFk();
+//        $active = $paper->getActive();
         return
 
         Html::tag('form', ['method'=>'POST', 'action'=>""],
             Html::tag('div', ['class'=>$this->classMap->getClass('PaperButtons', 'div.page')],
-                Html::tag('button',
-                    ['class'=>$this->classMap->getClass('PaperButtons', 'div button'),
-                    'data-tooltip'=>'Aktivní/neaktivní stránka',
-                    'type'=>'submit',
-                    'name'=>'button',
-                    'value' => 'toggle',
-                    'formmethod'=>'post',
-                    'formaction'=>"api/v1/menu/$uid/toggle",
-                    ],
-                    Html::tag('i', ['class'=>$this->classMap->resolveClass($active, 'PaperButtons', 'div button1 i.on', 'div button1 i.off')])
-                )
-                .Html::tag('button', [
+//                Html::tag('button',
+//                    ['class'=>$this->classMap->getClass('PaperButtons', 'div button'),
+//                    'data-tooltip'=>'Aktivní/neaktivní stránka',
+//                    'type'=>'submit',
+//                    'name'=>'button',
+//                    'value' => 'toggle',
+//                    'formmethod'=>'post',
+//                    'formaction'=>"api/v1/menu/$uid/toggle",
+//                    ],
+//                    Html::tag('i', ['class'=>$this->classMap->resolveClass($active, 'PaperButtons', 'div button1 i.on', 'div button1 i.off')])
+//                )
+//                .
+                Html::tag('button', [
                     'class'=>$this->classMap->getClass('PaperButtons', 'div button'),
                     'data-tooltip'=> 'Seřadit podle data',
                     'data-position'=>'top right',
@@ -52,6 +53,102 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
                 )
             )
         );
+    }
+
+    /**
+     * headline semafor a form
+     *
+     * @param MenuItemPaperAggregateInterface $paper
+     * @return type
+     */
+    protected function renderHeadlineForm(PaperAggregateInterface $paper) {
+//        $active = $menuItemAggregate->getActive();
+//        $actual = $menuItemAggregate->getActual();
+//        $paper = $menuItemAggregate->getPaper();
+
+        return
+            Html::tag('div', ['class'=>$this->classMap->getClass('Headline', 'div')],
+//                Html::tag('div', ['class'=>$this->classMap->getClass('Headline', 'div div')],
+//                    Html::tag('i',
+//                        ['class'=> $this->classMap->resolveClass(($active AND $actual), 'Headline',
+//                            'div div i1.published', 'div div i1.notpublished')
+//                        ]
+//                    )
+//                    .Html::tag('i',
+//                        ['class'=> $this->classMap->resolveClass($active, 'Headline',
+//                            $actual ? 'div div i2.published' : 'div div i2.notactual',
+//                            $actual ?  'div div i2.notactive' : 'div div i2.notactivenotactual')
+//                        ]
+//                    )
+//                )
+//                .
+                Html::tag('form', ['method'=>'POST', 'action'=>"api/v1/paper/{$paper->getId()}/headline/"],
+                    Html::tag(
+                        'headline',
+                        [
+                            'id'=>"headline_{$paper->getId()}",  // id musí být na stránce unikátní - skládám ze slova headline_ a paper id, v kontroléru lte toto jméno také složit a hledat v POST proměnných
+                            'class'=>$this->classMap->getClass('Headline', 'form headline'),
+                        ],
+                        $paper->getHeadline()
+                    )
+                )
+            );
+    }
+
+    /**
+     * Compare funkce pro usort - řadí shora od nejvyšší priority
+     *
+     * @param PaperContentInterface $c1
+     * @param PaperContentInterface $c2
+     * @return int
+     */
+    private function compareByPriority($c1, $c2) {
+        /** @var PaperContentInterface $c1 */
+        /** @var PaperContentInterface $c2 */
+        if ($c1->getPriority() == $c2->getPriority()) {
+            return 0;
+        }
+        // desc !
+        return ($c1->getPriority() > $c2->getPriority()) ? -1 : 1;
+    }
+
+    protected function renderContentsDivs(PaperAggregateInterface $paperAggregate) {
+        $contents = $paperAggregate->getPaperContentsArray();
+        \usort($contents, array($this, "compareByPriority"));
+        foreach ($contents as $paperContent) {
+            /** @var PaperContentInterface $paperContent */
+            $active = $paperContent->getActive();
+            $actual = $paperContent->getActual();
+            $form[] =
+                Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div')],
+                    Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div div')],
+                            Html::tag('i',
+                                ['class'=> $this->classMap->resolveClass(($active AND $actual), 'Content',
+                                    'div div i1.published', 'div div i1.notpublished')
+                                ]
+                            )
+                            .Html::tag('i',
+                                ['class'=> $this->classMap->resolveClass($active, 'Content',
+                                    $actual ? 'div div i2.published' : 'div div i2.notactual',
+                                    $actual ? 'div div i2.notactive' : 'div div i2.notactivenotactual')
+                                ]
+                            )
+                    )
+                    .Html::tag('form',
+                        ['method'=>'POST', 'action'=>"api/v1/paper/{$paperContent->getPaperIdFk()}/contents/{$paperContent->getId()}/"],
+                        Html::tag('content',
+                            [
+                                'id' => "content_{$paperContent->getId()}",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
+                                'class'=>$this->classMap->getClass('Content', 'form content'),
+                                'data-owner'=>$paperContent->getEditor()
+                            ],
+                            $paperContent->getContent()
+                            )
+                    )
+                    .$this->renderContentButtonsForm($paperContent)
+                );
+        }
+        return implode(PHP_EOL, $form);
     }
 
     protected function renderContentButtonsForm(PaperContentInterface $paperContent) {
@@ -115,7 +212,7 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
                         'name'=>'button',
                         'value' => '',
                         'formmethod'=>'post',
-                        'formaction'=>"api/v1/paper/:paperId/contents/:contentId/up",
+                        'formaction'=>"api/v1/paper/$paperIdFk/contents/$paperContentId/up",
                         ],
                         Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'div div button i.group')],
                             Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'div div button i.note')])
@@ -129,7 +226,7 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
                         'name'=>'button',
                         'value' => '',
                         'formmethod'=>'post',
-                        'formaction'=>"api/v1/paper/:paperId/contents/:contentId/down",
+                        'formaction'=>"api/v1/paper/$paperIdFk/contents/$paperContentId/down",
                         ],
                         Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'div div button i.group')],
                             Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'div div button i.note')])
@@ -175,7 +272,7 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
                         'name'=>'button',
                         'value' => '',
                         'formmethod'=>'post',
-                        'formaction'=>"",
+                        'formaction'=>"api/v1/paper/$paperIdFk/contents/$paperContentId/delete",
                         ],
                         Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'div div button7 i')])
                     )
@@ -240,98 +337,4 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
         );
     }
 
-    /**
-     * Compare funkce pro usort
-     * @param PaperContentInterface $c1
-     * @param PaperContentInterface $c2
-     * @return int
-     */
-    private function compareByPriority($c1, $c2) {
-        /** @var PaperContentInterface $c1 */
-        /** @var PaperContentInterface $c2 */
-        if ($c1->getPriority() == $c2->getPriority()) {
-            return 0;
-        }
-        // desc !
-        return ($c1->getPriority() < $c2->getPriority()) ? -1 : 1;
-    }
-
-    protected function renderContentsDivs(MenuItemPaperAggregateInterface $menuItemAggregate) {
-        $paper = $menuItemAggregate->getPaper();
-        $contents = $paper->getPaperContentsArray();
-        usort($contents, array($this, "compareByPriority"));
-        foreach ($contents as $paperContent) {
-            /** @var PaperContentInterface $paperContent */
-            $active = $paperContent->getActive();
-            $actual = $paperContent->getActual();
-            $form[] =
-                Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div')],
-                    Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div div')],
-                            Html::tag('i',
-                                ['class'=> $this->classMap->resolveClass(($active AND $actual), 'Content',
-                                    'div div i1.published', 'div div i1.notpublished')
-                                ]
-                            )
-                            .Html::tag('i',
-                                ['class'=> $this->classMap->resolveClass($active, 'Content',
-                                    $actual ? 'div div i2.published' : 'div div i2.notactual',
-                                    $actual ? 'div div i2.notactive' : 'div div i2.notactivenotactual')
-                                ]
-                            )
-                    )
-                    .Html::tag('form',
-                        ['method'=>'POST', 'action'=>"api/v1/paper/{$paperContent->getPaperIdFk()}/contents/{$paperContent->getId()}/"],
-                        Html::tag('content',
-                            [
-                                'id' => "content_{$paperContent->getId()}",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
-                                'class'=>$this->classMap->getClass('Content', 'form content'),
-                                'data-owner'=>$paperContent->getEditor()
-                            ],
-                            $paperContent->getContent()
-                            )
-                    )
-                    .$this->renderContentButtonsForm($paperContent)
-                );
-        }
-        return implode(PHP_EOL, $form);
-    }
-
-    /**
-     * headline semafor a form
-     *
-     * @param MenuItemPaperAggregateInterface $paper
-     * @return type
-     */
-    protected function renderHeadlineForm(MenuItemPaperAggregateInterface $menuItemAggregate) {
-        $active = $menuItemAggregate->getActive();
-        $actual = $menuItemAggregate->getActual();
-        $paper = $menuItemAggregate->getPaper();
-
-        return
-            Html::tag('div', ['class'=>$this->classMap->getClass('Headline', 'div')],
-                Html::tag('div', ['class'=>$this->classMap->getClass('Headline', 'div div')],
-                    Html::tag('i',
-                        ['class'=> $this->classMap->resolveClass(($active AND $actual), 'Headline',
-                            'div div i1.published', 'div div i1.notpublished')
-                        ]
-                    )
-                    .Html::tag('i',
-                        ['class'=> $this->classMap->resolveClass($active, 'Headline',
-                            $actual ? 'div div i2.published' : 'div div i2.notactual',
-                            $actual ?  'div div i2.notactive' : 'div div i2.notactivenotactual')
-                        ]
-                    )
-                )
-                .Html::tag('form', ['method'=>'POST', 'action'=>"api/v1/paper/{$paper->getId()}/headline/"],
-                    Html::tag(
-                        'headline',
-                        [
-                            'id'=>"headline_{$paper->getId()}",  // id musí být na stránce unikátní - skládám ze slova headline_ a paper id, v kontroléru lte toto jméno také složit a hledat v POST proměnných
-                            'class'=>$this->classMap->getClass('Headline', 'form headline'),
-                        ],
-                        $paper->getHeadline()
-                    )
-                )
-            );
-    }
 }

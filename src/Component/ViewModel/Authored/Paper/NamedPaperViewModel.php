@@ -69,6 +69,6 @@ class NamedPaperViewModel extends PaperViewModelAbstract implements NamedPaperVi
      */
     public function getPaperAggregate(): ?PaperAggregateInterface {
         $menuItemId = $this->getComponentAggregate()->getMenuItem()->getId();
-        return $this->paperAggregateRepo->getByReference($menuItemId) ?? NULL;   // repo z PaperViewModelAbstract
+        return $this->paperAggregateRepo->getByReference($menuItemId);   // repo z PaperViewModelAbstract
     }
 }

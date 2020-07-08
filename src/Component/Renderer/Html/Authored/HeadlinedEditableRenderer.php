@@ -24,7 +24,7 @@ class HeadlinedEditableRenderer extends AuthoredEditableRendererAbstract {
     }
 
     private function renderPrivate(PaperViewModelInterface $viewModel) {
-        $paper = $viewModel->getMenuItemPaperAggregate();
+        $paper = $viewModel->getPaperAggregate();
         if ($viewModel instanceof NamedPaperViewModelInterface) {
             $name = "named: ".$viewModel->getComponentAggregate()->getName();
         } else {
