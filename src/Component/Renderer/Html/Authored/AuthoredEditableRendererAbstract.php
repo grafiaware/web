@@ -59,6 +59,7 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
         return 
         Html::tag('form', ['method'=>'POST', 'action'=>""],
             Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div')], 
+                Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div div.content')],
                     Html::tag('button',
                         ['class'=>$this->classMap->getClass('ContentButtons', 'div div button'),
                         'data-tooltip'=>'Přidat obsah',
@@ -73,7 +74,7 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
                             .Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'div div button i.arrowdown')])
                         )
                     )                    
-                    
+                )   
             )
         );
     }

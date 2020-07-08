@@ -1,4 +1,64 @@
 .newlayout_3{
+    .ui.menu .prihlaseni{
+        margin-right: 2px;
+        position: relative; 
+        float: right;
+        margin-top: 6px;
+        margin-bottom: -5px;
+        .ui.dropdown .menu .header.item{
+            background-color: @white;
+            cursor: default;
+            text-align: center;
+            p{
+                font-weight: 700;
+                padding-top: 5px;
+                font-size: 1em;
+                color: @black;
+            }
+            &:hover{
+                background-color: @white !important;
+            }
+        }
+        .ui.dropdown .menu.left.visible.transition{
+            flex-direction: column;
+        }
+        input{
+            border: 1px solid @lightGrey !important;
+        }
+        button.fluid{
+            margin: 5px 0;
+        }
+        .ui.labeled.icon.button > .icon::before{
+            top: -7px;
+        }
+        .menu{
+            padding: 0 8px;
+        }
+        .logout{
+            display: inline-block;
+            > p, > form{
+                display: inline-block;
+            }
+            > form{
+                button > i.icon{
+                    font-size: 1.4em;
+                }
+            }
+        }
+        > form{
+            float: right;
+        }
+        &:not(.dimmed){
+            button:not(.fluid){
+                position: relative;
+                left: 15%;
+                margin-bottom: 15px;
+                &.positive{
+                    left: 20%;
+                }
+            }
+        }
+    }
     /****************************Editacni*menu*s*buttony***************************/
     /***PRO VSECHNA MENU***/
     .menu.edit li > p{
@@ -181,6 +241,21 @@
             }
         }
     }
+    .secondary.menu{
+        margin-top: 0;
+        margin-bottom: 2em;
+        .right.menu{
+            > .item:nth-child(2){
+                align-self: baseline;
+                .logout{
+                    float: left;
+                }
+                .form{
+                    display: inline-block;
+                }
+            }
+        }
+    }
     /*************************************main*************************************/
     /*Styly stranky*/
     .notpermitted{
@@ -291,15 +366,20 @@
     .mce-content-body:not(.mce-edit-focus){
         outline: 1px dotted @lightGrey;
         &:hover{
-            outline-color: @yellow;
+            outline-color: darken(@lightGrey,15);
         }
     }
     .section{
         height: 100%;
         position: relative;
-        border-right: 5px double @lightGrey;
         > form:nth-of-type(2){
             position: static !important;
+        }
+        .corner.label{
+            font-size: 0.3em;
+            right: -13px;
+            top: 0;
+            border-color: lighten(@blue,40) !important;
         }
     }
     #editName{
@@ -357,9 +437,6 @@
                 background-color: @white;
             }
         }
-        div.icon{
-            padding: 7px;
-        }
         input{
             border: 1px solid @lightGrey !important;
         }
@@ -395,8 +472,8 @@
         flex-direction: column;
         display: none;
         position: absolute;
-        right: 99px;
-        top: 0;
+        right: 6px;
+        top: 6px;
     }
     .buttons.editContent{
         position: absolute;
@@ -422,6 +499,19 @@
         }
         button[data-tooltip]::after{
             font-weight: 700;
+        }
+    }
+    .section .ui.corner.label{
+        width: 2em;
+        height: 2em;
+        .icon.editContent{
+            position: initial;
+            .icon{
+                position: initial;
+            }
+            .icons .icon{
+                transform: translateX(50%);
+            }
         }
     }
     .poznamky{
@@ -458,7 +548,7 @@
     /*******************************prostredi**tiny********************************/
     .mce-content-body:not(.mce-edit-focus){
         padding: 5px 10px;
-        margin: 0 -5px;
+        margin: 0 -12px;
     }
     .mce-edit-focus{
         //outline: 2px dashed @green;
@@ -468,7 +558,8 @@
                     linear-gradient(0deg, @green 50%, transparent 50%);
         background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
         background-size: 12px 3px, 12px 3px, 3px 12px, 3px 12px;
-        padding: 5px;
+        padding: 5px 10px;
+        margin: 0 -12px;
         animation: border-dance 40s infinite linear;
         height: max-content;
     }
