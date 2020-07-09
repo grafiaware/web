@@ -1,4 +1,64 @@
 .newlayout_1{
+    .ui.menu .prihlaseni{
+        margin-right: 2px;
+        position: relative; 
+        float: right;
+        margin-top: 6px;
+        margin-bottom: -5px;
+        .ui.dropdown .menu .header.item{
+            background-color: @white;
+            cursor: default;
+            text-align: center;
+            p{
+                font-weight: 700;
+                padding-top: 5px;
+                font-size: 1em;
+                color: @black;
+            }
+            &:hover{
+                background-color: @white !important;
+            }
+        }
+        .ui.dropdown .menu.left.visible.transition{
+            flex-direction: column;
+        }
+        input{
+            border: 1px solid @lightGrey !important;
+        }
+        button.fluid{
+            margin: 2px 0;
+        }
+        .ui.labeled.icon.button > .icon::before{
+            top: -7px;
+        }
+        .menu{
+            padding: 0 8px;
+        }
+        .logout{
+            display: inline-block;
+            > p, > form{
+                display: inline-block;
+            }
+            > form{
+                button > i.icon{
+                    font-size: 1.4em;
+                }
+            }
+        }
+        > form{
+            float: right;
+        }
+        &:not(.dimmed){
+            button:not(.fluid){
+                position: relative;
+                left: 15%;
+                margin-bottom: 15px;
+                &.positive{
+                    left: 20%;
+                }
+            }
+        }
+    }
     /****************************Editacni*menu*s*buttony***************************/
     /***PRO VSECHNA MENU***/
     .menu.edit li > p{
@@ -30,44 +90,36 @@
     }
 
     //ukazatele stavu stranky u polozky menu
-    i.grafia.active{
-        content: '';
+    .semafor{
         position: absolute;
-        left: 0;
+        display: flex;
+        flex-direction: column;
         top: 0;
-        width: 1em;
-        height: 100%;
-        border-radius: .333rem 0 0 .333rem;
-        &.green{
-            background-color: rgba(115, 195, 115, 1);
+        left: -30px;
+        i.icon{
+            margin-bottom: 2px;
         }
-        &.red{
-            background-color: rgba(222, 122, 126, 1) ;
+        &.polozky_menu{
+            left: -1px;
         }
     }
-    i.grafia.actual{
-        border-right-color: inherit;
-        content: '';
-        position: absolute;
-        right: 0%;
-        top: 0;
-        width: 1em;
+    li a > .semafor.polozky_menu{
+        justify-content: center;
         height: 100%;
-        border-radius: 0 .333rem .333rem 0;
-        &.yellow{
-            background-color: rgba(240, 218, 99, 1);
+        .icon.grey{
+            color: @lightGrey;
         }
-        &.grey{
-            background-color: #B9B9B9;
-        }
-        &.green{
-            background-color: #73c373;
-        }
-        &.orange{
-            background-color: #f2711c94;
-        }
-        &.red{
-            background-color: rgba(222, 122, 126, 1);
+    }
+    li > .semafor.polozky_menu{
+        top: 4px;
+    }
+    .vodorovne-menu li .semafor.polozky_menu{
+        left: -6px;
+        background-color: @white;
+        border: 1px solid @primaryColor;
+        border-radius: 5px 0 0 5px;
+        i{
+            padding-left: 3px;
         }
     }
 
@@ -192,6 +244,21 @@
             }
         }
     }
+    .secondary.menu{
+        margin-top: 0;
+        margin-bottom: 2em;
+        .right.menu{
+            > .item:nth-child(3){
+                margin-top: -10px;
+                .logout{
+                    float: left;
+                }
+                .form{
+                    display: inline-block;
+                }
+            }
+        }
+    }
     /*************************************main*************************************/
     /*Styly stranky*/
     .notpermitted{
@@ -252,8 +319,8 @@
     .segment.locked a, .segment.notpermitted a{
         pointer-events: none;
     }
-    .grafia.segment.headlined.editable .buttons,
-    .grafia.segment.block.editable .buttons{
+    .grafia.segment.headlined.editable .buttons:not(.editContent),
+    .grafia.segment.block.editable .buttons:not(.editContent){
         position: absolute;
         top: -30px;
         [data-tooltip]::after{
@@ -303,6 +370,24 @@
             float: none;
             align-items: stretch;
             display: flex;
+        }
+    }
+    .mce-content-body:not(.mce-edit-focus){
+        outline: 1px dotted @lightGrey;
+        &:hover{
+            outline-color: darken(@lightGrey,15);
+        }
+    }
+    .section{
+        height: 100%;
+        position: relative;
+        > form:nth-of-type(2){
+            position: static !important;
+        }
+        .corner.label{
+            font-size: 0.3em;
+            right: -12px;
+            border-color: lighten(@blue,40) !important;
         }
     }
     #editName{
@@ -365,8 +450,55 @@
             }
         }
     }
+    .contentButtons{
+       // display: flex;
+        flex-direction: column;
+        display: none;
+        position: absolute;
+        right: 6px;
+        top: 6px;
+    }
+    .buttons.editContent{
+        position: absolute;
+        background-color: #fbfbe7;
+        z-index: 5;
+        width: 100px;
+        .arrow.icon{
+            font-size: 1em;
+            right: -11px;
+        }
+        &:first-child{
+            top: 0px;
+        }
+        &:nth-child(2){
+            top: 30px;
+        }
+        &:nth-child(3){
+            top: 60px;
+        }
+        &:nth-child(4){
+            top: 90px;
+            background-color: #fff1d5;;
+        }
+        button[data-tooltip]::after{
+            font-weight: 700;
+        }
+    }
+    .section .ui.corner.label{
+        width: 2em;
+        height: 2em;
+        .icon.editContent{
+            position: initial;
+            .icon{
+                position: initial;
+            }
+            .icons .icon{
+                transform: translateX(50%);
+            }
+        }
+    }
     .poznamky{
-        position: fixed;
+        position: absolute;
         border-radius: 5px;
         background: @white;
         left: 10px;
@@ -392,10 +524,15 @@
             }
         }
     }
+    pre{
+        white-space: pre-wrap;
+        word-wrap: break-word;
+
+    }
     /*******************************prostredi**tiny********************************/
     .mce-content-body:not(.mce-edit-focus){
         padding: 5px 10px;
-        margin: 0 -5px;
+        margin: 0 -12px;
     }
     .mce-edit-focus{
         //outline: 2px dashed @green;
@@ -405,7 +542,8 @@
                     linear-gradient(0deg, @green 50%, transparent 50%);
         background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
         background-size: 12px 3px, 12px 3px, 3px 12px, 3px 12px;
-        padding: 5px;
+        padding: 5px 10px;
+        margin: 0 -12px;
         animation: border-dance 40s infinite linear;
         height: max-content;
     }

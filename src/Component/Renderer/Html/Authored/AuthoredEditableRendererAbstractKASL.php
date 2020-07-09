@@ -20,7 +20,7 @@ use Pes\Text\Html;
  *
  * @author pes2704
  */
-abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
+abstract class AuthoredEditableRendererAbstractKASL extends HtmlRendererAbstract {
 
     protected function renderPaperButtonsForm(PaperAggregateInterface $paper) {
         //TODO: atributy data-tooltip a data-position jsou pro semantic - zde jsou napevno zadané
@@ -163,8 +163,8 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
         return implode(PHP_EOL, $form);
     }
 
-    protected function renderNewContentButton(PaperAggregateInterface $paperAggregate) {
-        $paperId = $paperAggregate->getId();
+    protected function renderNewContentButton(PaperInterface $paper) {
+        $paperId = $paper->getId();
         return
         Html::tag('form', ['method'=>'POST', 'action'=>""],
             Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div')],

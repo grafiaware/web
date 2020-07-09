@@ -4,7 +4,7 @@ $('.editDate .button.toolsContent').click(function(){
     $(this).parent(".editDate").siblings(".editDate").css("display", "none");
 });
 $('.contentButtons .button.toolsDate').click(function(){
-    $(this).parent(".editContent").parent(".contentButtons").siblings(".editDate").css("display", "block");
+    $(this).parent(".editContent").parent(".contentButtons").siblings(".editDate").css("display", "flex");
     $(this).parent(".editContent").parent(".contentButtons").css("display", "none");
 });
 
