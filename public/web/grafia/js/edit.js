@@ -12,6 +12,25 @@ $('.right.corner.blue').hover(
         $(this).parent('.section').find('.contentButtons').css("display", "none");
     }
 );
+$('.toolsDate').click(function(){
+    $('.right.corner.blue').hover(
+        function(){
+            $(this).parent('.section').find('.contentButtons').css("display", "none");
+        }
+    );
+});
+$('.editDate .button').click(function(){
+    $('.right.corner.blue').hover(
+        function(){
+            $(this).parent('.section').find('.contentButtons').css("display", "flex");
+        },
+        function(){
+            $(this).parent('.section').find('.contentButtons').css("display", "none");
+        }
+    );
+});
+
+
 
 
 function hamburger_open() {
