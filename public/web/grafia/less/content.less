@@ -11,10 +11,10 @@
         } 
     }
     .page-content .articleHeadline-editable > button.ui.button.save {
-        position: absolute;
-        top: 11px;
-        right: 10px;
-        padding: 7px;
+        position: relative;
+        top: 0;
+        float: none;
+        clear: both;
     }
     .white.basic.segment{
         background-color: white;
@@ -22,7 +22,7 @@
         margin: 5px auto;
         opacity: 1;
     }
-    .dimmer .content{
+/*    .dimmer .content{ //prihlaseni pres modalove okno semantic .dimmer
         width: 17%;
         .center{
             p{
@@ -49,8 +49,8 @@
                 }
             }
         }
-    }
-    .grafia.segment.headlined content p, {
+    }*/
+    .grafia.segment.headlined content p {
         margin: 5px 0;
     }
     .segment headline.header{
@@ -58,9 +58,7 @@
         background-color: @backgroundLightGrey;
         border-radius: 4px 4px 0 0;
         text-align: center;
-        line-height: normal;
         margin: 0 -12px;
-        margin-top: -12px !important;
         padding: 5px 0;
         p{
             font-size: @h2;

@@ -191,7 +191,6 @@ body.layout > .container > .column{
         padding: 0;
         margin-top: 0;
         > li{
-            list-style: none;
             &:not(:first-child){
                 border-top: 2px solid @transparentBlack;
             }
@@ -204,6 +203,9 @@ body.layout > .container > .column{
         }
         li{
             position: relative;
+        }
+        li:not(:first-child){ 
+            border-top: 2px solid @transparentBlack;
         }
         li:not(.leaf){
             > .item::after{
@@ -221,14 +223,20 @@ body.layout > .container > .column{
                 transform: translateY(-50%);
             }
         }
-        &.onpath{
-            > .item::after{
-                top: 15px;
-                transform: none;
+        .onpath {
+            .item{
+                border-bottom: 0;
+            }
+            .menu{
+                  margin-left: 12px;
+                  padding: 0;
             }
         }
+        .item::before{
+            display: none;
+        }
     }
-    .svisle-menu form > .menu{                                   //preorganizovano ohraniceni
+    .svisle-menu > .menu, .svisle-menu form > .menu{                                   //preorganizovano ohraniceni
         padding: 0;
         border: 0 !important; //prepsat v semantic ui
         box-shadow: 0 0 0 0 !important; //prepsat v semantic ui
@@ -236,9 +244,6 @@ body.layout > .container > .column{
             list-style-type: none;
             border: 2px solid @transparentBlack;
             border-bottom: 0;
-            &:not(:first-child){
-                border-top: 0;
-            }
             &:last-child{
                 border-bottom: 2px solid @transparentBlack;
             }
@@ -272,10 +277,10 @@ body.layout > .container > .column{
             .menu{
                 border-top: 0;
                 background-color: @transparentBlack;
-                li{
+                > li{
                     list-style-type: inherit;
                 }
-                li:hover{
+                > li:hover{
                     background-color: @transparentBlack;
                 }
                 .onpath > .menu {

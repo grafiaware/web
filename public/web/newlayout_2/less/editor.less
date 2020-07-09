@@ -77,7 +77,7 @@
     .menu.edit li.onpath.presented > .buttons.editMenu{
         display: block;
         background: #fbfbe7;
-        > .button:first-child{
+        > .button:last-child{
             background-color: #fff1d5;
             &:hover{
                 background-color: @white;
@@ -87,6 +87,11 @@
     .menu.edit li.onpath.presented > .buttons.editName{
         display: none;
         background-color: #fff1d5;
+    }
+    .vodorovne-menu .menu.edit li.onpath.presented > .buttons.editMenu{
+        > .button:last-child{
+            height: 28px;
+        }
     }
 
     //ukazatele stavu stranky u polozky menu
@@ -236,8 +241,12 @@
             .buttons{
                 position: relative;
                 top: 0;
-                left: 5px;
                 margin-right: 5px;
+                height: 30px;
+                .button:hover{
+                    height: 29px;
+                    border-bottom: 1px solid @lightGrey !important;
+                }
             }
         }
     }

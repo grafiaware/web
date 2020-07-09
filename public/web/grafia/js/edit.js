@@ -30,18 +30,6 @@ $('.editDate .button').click(function(){
     );
 });
 
-
-
-
-function hamburger_open() {
-    document.getElementById("mySidenav").style.display = "block";
-    document.getElementById("myOverlay").style.display = "block";
-}
-function hamburger_close() {
-    document.getElementById("mySidenav").style.display = "none";
-    document.getElementById("myOverlay").style.display = "none";
-}
-
 function vyberoveMenu_open() { 
     document.getElementById("vyberove_menu").style.display = "block";
     document.getElementById("prekryti_pro_vyber").style.display = "block";
