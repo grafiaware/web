@@ -50,18 +50,21 @@ class HierarchyController extends PresentationFrontControllerAbstract {
     public function add(ServerRequestInterface $request, $uid) {
         $siblingUid = $this->editHierarchyDao->addNode($uid);
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
+        $this->addFlashMessage('add');
         return $this->redirectSeeOther($request, "www/item/$langCode/$siblingUid/");
     }
 
     public function addchild(ServerRequestInterface $request, $uid) {
         $childUid = $this->editHierarchyDao->addChildNode($uid);
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
+        $this->addFlashMessage('addchild');
         return $this->redirectSeeOther($request, "www/item/$langCode/$childUid/");
     }
 
     public function delete(ServerRequestInterface $request, $uid) {
         $parentUid = $this->editHierarchyDao->deleteLeafNode($uid);
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
+        $this->addFlashMessage('delete');
         return $this->redirectSeeOther($request, "www/item/$langCode/$parentUid/");
     }
 
@@ -75,6 +78,7 @@ class HierarchyController extends PresentationFrontControllerAbstract {
     public function trash(ServerRequestInterface $request, $uid) {
         $trashUid = $this->menuRootRepo->get(self::TRASH_MENU_ROOT)->getUidFk();
         $this->editHierarchyDao->moveSubTree($uid, $trashUid);
+        $this->addFlashMessage('trash');
         return $this->redirectSeeOther($request, 'www/last/');
     }
 

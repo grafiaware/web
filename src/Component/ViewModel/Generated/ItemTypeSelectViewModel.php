@@ -27,7 +27,7 @@ class ItemTypeSelectViewModel implements ItemTypeSelectViewModelInterface {
     private $menuItemTypeRepo;
 
     public function __construct(
-            MenuItemTypeRepo $menuIremTypeRepo
+            MenuItemTypeRepo $menuItemTypeRepo
             ) {
         $this->menuItemTypeRepo = $menuItemTypeRepo;
     }

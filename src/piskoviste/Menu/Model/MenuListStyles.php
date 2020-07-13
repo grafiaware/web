@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Model\HierarchyHooks;
+namespace Menu\Model\HierarchyHooks;
 
 /**
  * Description of MenuStyles

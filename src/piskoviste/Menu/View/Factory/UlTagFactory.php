@@ -1,26 +1,26 @@
 <?php
 
-namespace Middleware\Menu\View\Factory;
+namespace Menu\Middleware\Menu\View\Factory;
 
-use Middleware\Menu\View\ItemView;
+use Menu\Middleware\Menu\View\ItemView;
 
 use Pes\Dom\Node\Tag;
 use Pes\Dom\Node\Text;
 
-use Psr\Container\ContainerInterface;
-//use Model\HierarchyHooks\MenuListStyles;
+use Menu\Psr\Container\ContainerInterface;
+//use Menu\Model\HierarchyHooks\MenuListStyles;
 
 // Components
-use Component\Renderer\Html\ClassMap\ClassMap;
-use Component\ViewModel\Authored\Menu\MenuViewModelInterface;
-use Component\ViewModel\Authored\Menu\Item\ItemViewModelInterface;
+use Menu\Component\Renderer\Html\ClassMap\ClassMap;
+use Menu\Component\ViewModel\Authored\Menu\MenuViewModelInterface;
+use Menu\Component\ViewModel\Authored\Menu\Item\ItemViewModelInterface;
 
 // Model
-use Model\Entity\MenuItemInterface;
+use Menu\Model\Entity\MenuItemInterface;
 
 
 use Pes\View\View;
-use Middleware\Menu\View\Renderer\ItemRenderer;
+use Menu\Middleware\Menu\View\Renderer\ItemRenderer;
 
 /**
  * Description of ListView

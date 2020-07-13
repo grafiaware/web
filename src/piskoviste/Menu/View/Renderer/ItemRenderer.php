@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Middleware\Menu\View\Renderer;
+namespace Menu\Middleware\Menu\View\Renderer;
 
 use Pes\View\Renderer\RendererInterface;
 

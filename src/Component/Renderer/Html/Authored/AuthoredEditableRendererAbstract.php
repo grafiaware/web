@@ -156,7 +156,7 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
                 $form[] =
                     Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div')],
                         Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div div.corner')],
-                            $this->renderNewContentButton($paper)
+                            $this->renderNewContentButton($paperAggregate)
                         )
                     );
         }

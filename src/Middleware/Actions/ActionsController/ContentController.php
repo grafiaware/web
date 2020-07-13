@@ -136,47 +136,81 @@ class ContentController extends PresentationFrontControllerAbstract {
         }
         return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other
     }
-
-    public function addAbove($request, $paperId, $contentId) {
+    public function add($request, $paperId) {
+        $priority = 1;
+        // pro případ volání add i v situaci, kdy již existuje obsah
         $contents = $this->paperContentRepo->findByReference($paperId);
-        $content = $this->paperContentRepo->get($contentId);
-        $selectedContentPriority = $content->getPriority();
         foreach ($contents as $contentItem) {
-            /** @var PaperContentInterface $contentItem */
-            if ($contentItem->getPriority()>=$selectedContentPriority) {  // obsahy s vyšší nebo stejnou prioritou - zvětším jim prioriru o 1 - vznikne díra pro $selectedContentPriority
-                $contentItem->setPriority($contentItem->getPriority()+1);
+            if ($contentItem->getPriority()>$priority) {
+                $priority = $contentItem->getPriority();
             }
         }
         $newContent = new PaperContent();
         $newContent->setContent("Nový obsah");
         $newContent->setPaperIdFk($paperId);
-        $newContent->setPriority($selectedContentPriority);
+        $newContent->setPriority($priority);
         $this->paperContentRepo->add($newContent);
-        $this->addFlashMessage("addBelow - Nový obsah, priorita $selectedContentPriority");
+        $this->addFlashMessage("add - Nový obsah, priorita $priority");
+        return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other
+    }
+
+    public function addAbove($request, $paperId, $contentId) {
+        $contents = $this->paperContentRepo->findByReference($paperId);
+        $content = $this->paperContentRepo->get($contentId);
+        $priority = $content->getPriority();
+        foreach ($contents as $contentItem) {
+            /** @var PaperContentInterface $contentItem */
+            $itemPriority = $contentItem->getPriority();
+            if ($itemPriority>$priority) {  // obsahy s vyšší prioritou - zvětším jim prioritu o 1 - vznikne díra pro nový content
+                $contentItem->setPriority($itemPriority+1);
+            }
+        }
+        $this->paperContentRepo->add($this->createNewContent($paperId, $priority));
+        $this->addFlashMessage("addBelow - Nový obsah, priorita $priority");
         return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other
     }
 
     public function addBelow($request, $paperId, $contentId) {
         $contents = $this->paperContentRepo->findByReference($paperId);
         $content = $this->paperContentRepo->get($contentId);
-        $selectedContentPriority = $content->getPriority();
+        $priority = $content->getPriority();
         foreach ($contents as $contentItem) {
             /** @var PaperContentInterface $contentItem */
-            if ($contentItem->getPriority()>$selectedContentPriority) {  // obsahy s vyšší prioritou - zvětším jim prioriru o 1 - vznikne díra pro $selectedContentPriority+1
-                $contentItem->setPriority($contentItem->getPriority()+1);
+            $itemPriority = $contentItem->getPriority();
+            if ($itemPriority >= $priority) {  // obsahy s vyšší nebo rovnou prioritou - zvětším jim prioritu o 1 - vznikne díra pro nový content
+                $contentItem->setPriority($itemPriority+1);
             }
         }
         $newContent = new PaperContent();
         $newContent->setContent("Nový obsah");
         $newContent->setPaperIdFk($paperId);
-        $newContent->setPriority($selectedContentPriority+1);
+        $newContent->setPriority($priority+1);
         $this->paperContentRepo->add($newContent);
-        $this->addFlashMessage("addBelow - Nový obsah, priorita $selectedContentPriority");
+        $this->addFlashMessage("addBelow - Nový obsah, priorita $priority");
         return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other
     }
 
+    private function createNewContent($paperId, $priority) {
+        $newContent = new PaperContent();
+        $newContent->setContent("Nový obsah");
+        $newContent->setPaperIdFk($paperId);
+        $newContent->setPriority($priority);
+        return $newContent;
+    }
+
     public function delete($request, $paperId, $contentId) {
-        $this->addFlashMessage("delete - není implementováno.");
+        $contents = $this->paperContentRepo->findByReference($paperId);
+        $content = $this->paperContentRepo->get($contentId);
+        $priority = $content->getPriority();
+        $this->paperContentRepo->remove($content);
+        foreach ($contents as $contentItem) {
+            /** @var PaperContentInterface $contentItem */
+            $itemPriority = $contentItem->getPriority();
+            if ($itemPriority>$priority) {  // obsahy s vyšší prioritou - zmenším jim prioritu o 1 - zavřu díru po smazaném
+                $contentItem->setPriority($itemPriority-1);
+            }
+        }
+        $this->addFlashMessage("delete - smazán content.");
         return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other
     }
 

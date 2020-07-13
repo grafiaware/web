@@ -1,21 +1,21 @@
 <?php
-namespace Middleware\Menu;
+namespace Menu\Middleware\Menu;
 
 use Pes\Middleware\AppMiddlewareAbstract;
 use Pes\Router\RouterInterface;
 use Pes\Container\Container;
 
-use Middleware\Menu\Controller\EditMenuController;
-use Middleware\Menu\Controller\DisplayController;
+use Menu\Middleware\Menu\Controller\EditMenuController;
+use Menu\Middleware\Menu\Controller\DisplayController;
 
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\RequestHandlerInterface;
-use Psr\Http\Message\ResponseInterface;
+use Menu\Psr\Http\Message\ServerRequestInterface;
+use Menu\Psr\Http\Server\RequestHandlerInterface;
+use Menu\Psr\Http\Message\ResponseInterface;
 
-use Container\HierarchyContainerConfigurator;
+use Menu\Container\HierarchyContainerConfigurator;
 // experimentální propojení s classmap web
-use Container\ComponentContainerConfigurator;
-use Container\WebContainerConfigurator;
+use Menu\Container\ComponentContainerConfigurator;
+use Menu\Container\WebContainerConfigurator;
 
 /**
  * Description of MenuApplication

@@ -279,6 +279,12 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
             'article.headlined.editable' => function(ContainerInterface $c) {
                 return $c->get(PresentedItemComponent::class)->setRendererName('paper.headlined.renderer.editable');
             },
+            'article.block' => function(ContainerInterface $c) {
+                return $c->get(PresentedItemComponent::class)->setRendererName('paper.block.renderer');
+            },
+            'article.block.editable' => function(ContainerInterface $c) {
+                return $c->get(PresentedItemComponent::class)->setRendererName('paper.block.renderer.editable');
+            },
             'component.block' => function(ContainerInterface $c) {
                 return $c->get(NamedItemComponent::class)->setRendererName('paper.block.renderer');
             },
@@ -307,12 +313,6 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
 
             ItemTypeSelectComponent::class => function(ContainerInterface $c) {
                 $viewModel = new ItemTypeSelectViewModel(
-                                $c->get(StatusSecurityRepo::class),
-                                $c->get(StatusPresentationRepo::class),
-                                $c->get(StatusFlashRepo::class),
-                                $c->get(HierarchyNodeRepo::class),
-                                $c->get(MenuRootRepo::class),
-                                $c->get(LanguageRepo::class),
                                 $c->get(MenuItemTypeRepo::class)
                         );
                 return (new ItemTypeSelectComponent($viewModel))->setRendererContainer($c->get('rendererContainer'))->setRendererName(ItemTypeRenderer::class);

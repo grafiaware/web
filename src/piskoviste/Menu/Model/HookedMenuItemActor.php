@@ -6,10 +6,10 @@
  * and open the template in the editor.
  */
 
-namespace Model\HierarchyHooks;
+namespace Menu\Model\HierarchyHooks;
 
 use Pes\Database\Handler\HandlerInterface;
-use Model\Dao\Hierarchy\HookedActorAbstract;
+use Menu\Model\Dao\Hierarchy\HookedActorAbstract;
 
 /**
  * Description of HookedArticleActions

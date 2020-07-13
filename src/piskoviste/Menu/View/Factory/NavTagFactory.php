@@ -1,6 +1,6 @@
 <?php
 
-namespace Middleware\Menu\View\Factory;
+namespace Menu\Middleware\Menu\View\Factory;
 
 use Pes\Dom\Node\Tag;
 use Pes\Dom\Node\Text;
@@ -8,10 +8,10 @@ use Pes\Dom\Node\Text;
 use Pes\View\View;
 use Pes\View\Template\FileInterpolateTemplate;
 
-use Middleware\Menu\View\Factory\UlTagFactory;
+use Menu\Middleware\Menu\View\Factory\UlTagFactory;
 
-//use Model\HierarchyHooks\MenuListStyles;
-use Component\Renderer\Html\ClassMap\ClassMap;
+//use Menu\Model\HierarchyHooks\MenuListStyles;
+use Menu\Component\Renderer\Html\ClassMap\ClassMap;
 
 /**
  * Generuje <nav> tag obsahující strukturu <ul><li> tagů obsahující strom položek menu a tagy <script> s obslužnými javascripty

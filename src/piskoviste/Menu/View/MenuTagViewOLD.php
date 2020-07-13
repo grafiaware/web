@@ -1,6 +1,6 @@
 <?php
 
-namespace Middleware\Menu\View;
+namespace Menu\Middleware\Menu\View;
 
 use Pes\View\View;
 use Pes\View\ViewFactory;
@@ -10,9 +10,9 @@ use Pes\View\ViewInterface;
 use Pes\View\Renderer\InterpolateRenderer;
 
 
-use Menu\Model\MenuListStyles;
+use Menu\Menu\Model\MenuListStyles;
 
-use Menu\View\ListView;
+use Menu\Menu\View\ListView;
 
 use Pes\Dom\Node\Tag;
 use Pes\Dom\Node\Text;

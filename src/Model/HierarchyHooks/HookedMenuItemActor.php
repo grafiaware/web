@@ -24,6 +24,11 @@ class HookedMenuItemActor extends HookedActorAbstract {
     private $menuItemTableName;
     private $newTitle;
 
+    /**
+     *
+     * @param string $menuItemTableName
+     * @param string $newTitle Default hodnota zadána konstantou třídy.
+     */
     public function __construct($menuItemTableName, $newTitle = self::NEW_TITLE) {
         $this->menuItemTableName = $menuItemTableName;
         //TODO: Svoboda Message
@@ -31,6 +36,7 @@ class HookedMenuItemActor extends HookedActorAbstract {
     }
 
     /**
+
      * Metoda add
      *
      * {@inheritdoc}
@@ -38,25 +44,29 @@ class HookedMenuItemActor extends HookedActorAbstract {
      * Typ nové položky menu je dán konstantou třídy (hodnota pro prázdnou položku) a titulek nové položky menu je dán instanční proměnnou.
      *
      * Vkládá:
-     * - lang_code_fk -  zkopíruje z předchůdce (rodiče nebo sourozence), uid předchůdce ja zadáno jako parameetr $predecessorUuid
+     * - lang_code_fk - zkopíruje z předchůdce (rodiče nebo sourozence), uid předchůdce je zadáno jako parameetr $predecessorUuid,
+     *                  Hodnoty lang_code_fk čte vnořeným selectem, select vrací a insert vloží tolik položek, kolik je verzí předchůdce se stejným uid_fk,
+     *                  tedy standartně verze pro všechny jazyky.
      * - type_fk - nový type_fk zadaný konstantou třídy, musí odpovídat hodnotě vyhrazené v databázi pro prázdnou položku menu
      * - nové uid - zadáno jako parametr metody
      * - title zadané jako instanční proměnná třídy nebo konstantou třídy
      * Ostatní sloupce mají default hodnoty databázové tabulky.
-     * Hodnoty lang_code_fk čte vnořeným selectem, select vrací a insert vloží tolik položek, kolik je verzí předchůdce se stejným uid_fk,
-     * tedy standartně verze pro všechny jazyky.
      *
+     * @param HandlerInterface $transactionHandler
+     * @param string$predecessorUid
+     * @param string $uid
+     * @param string $newType
      */
-    public function add(HandlerInterface $transactionHandler, $predecessorUid, $uid) {
+    public function add(HandlerInterface $transactionHandler, $predecessorUid, $uid, $newType = self::NEW_ITEM_TYPE_FK) {
         $this->checkTransaction($transactionHandler);
 
-        $newType = self::NEW_ITEM_TYPE_FK;
+        ;
         // lang_code_fk zkopírované z předchůdce (rodiče nebo sourozence), nové uid, type_fk zkopírované z předchůdce (rodiče nebo sourozence) a default title zadané jako instanční proměnná,
         // ostatní sloupce mají default hodnoty dané definicé tabulky.
         // select vrací a insert vloží tolik položek, kolik je verzí předchůdce se stejným uid_fk - standartně verze pro všechny jazyky
         $stmt = $transactionHandler->prepare(
                 " INSERT INTO $this->menuItemTableName (lang_code_fk, uid_fk, type_fk, title)
-                    SELECT lang_code_fk, '$uid', type_fk, '$this->newTitle'
+                    SELECT lang_code_fk, '$uid', '$newType', '$this->newTitle'
                     FROM $this->menuItemTableName
                     WHERE uid_fk=:predecessorUid
                     ");

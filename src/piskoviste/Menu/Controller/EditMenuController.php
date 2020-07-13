@@ -1,16 +1,16 @@
 <?php
 
-namespace Middleware\Menu\Controller;
+namespace Menu\Middleware\Menu\Controller;
 
-use Psr\Http\Message\RequestInterface;
+use Menu\Psr\Http\Message\RequestInterface;
 
 use Pes\Http\Response\RedirectResponse;
 use Pes\Http\Response;
 
-use Model\Dao\Hierarchy\NodeEditDao;
-use Model\HierarchyHooks\HookedMenuItemActor;
+use Menu\Model\Dao\Hierarchy\NodeEditDao;
+use Menu\Model\HierarchyHooks\HookedMenuItemActor;
 
-use Model\HierarchyHooks\ArticleTitleUpdater;
+use Menu\Model\HierarchyHooks\ArticleTitleUpdater;
 
 /**
  * Description of Controller

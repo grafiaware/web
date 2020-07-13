@@ -22,6 +22,7 @@ use Pes\Database\Handler\HandlerInterface;
  */
 interface HookedMenuItemActorInterface {
     /**
+
      * Metoda add
      *
      * Vloží nové řádky do tabulky položek menu. Při vkládání de řídí vlastnostmí předchůdce, tedy rodiče nebo sourozence,  ke kterému se nová položka přidává
@@ -29,9 +30,10 @@ interface HookedMenuItemActorInterface {
      *
      * @param HandlerInterface $transactionHandler Databázový handler se spuštěnou transakcí
      * @param string $parentUid uid předchůdce
-     * @param type $uid uid položky hierarchie vložené v probíhající transakci
+     * @param string $uid uid položky hierarchie vložené v probíhající transakci
+     * @param string $newType
      */
-    public function add(HandlerInterface $transactionHandler, $parentUid, $uid);
+    public function add(HandlerInterface $transactionHandler, $parentUid, $uid, $newType);
 
     /**
      * Metoda trash

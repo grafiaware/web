@@ -98,6 +98,11 @@ class Actions extends AppMiddlewareAbstract implements MiddlewareInterface {
 
         #### ContentController ####
 
+        $routeGenerator->addRouteForAction('POST', '/api/v1/paper/:paperId/contents', function(ServerRequestInterface $request, $paperId) {
+                /** @var ContentController $ctrl */
+                $ctrl = $this->container->get(ContentController::class);
+                return $ctrl->add($request, $paperId);
+        });
         $routeGenerator->addRouteForAction('POST', '/api/v1/paper/:paperId/contents/:contentId', function(ServerRequestInterface $request, $paperId, $contentId) {
                 /** @var ContentController $ctrl */
                 $ctrl = $this->container->get(ContentController::class);

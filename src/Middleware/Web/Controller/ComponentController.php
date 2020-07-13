@@ -17,12 +17,13 @@ use Component\View\{
     Generated\LanguageSelectComponent,
     Generated\SearchPhraseComponent,
     Generated\SearchResultComponent,
+    Generated\ItemTypeSelectComponent
 };
 
 ####################
 
 use Model\Repository\{
-    HierarchyNodeRepo, StatusFlashRepo, MenuRootRepo, MenuItemRepo
+    HierarchyNodeRepo, MenuRootRepo, MenuItemRepo
 };
 
 use \StatusManager\StatusPresentationManager;
@@ -90,16 +91,17 @@ class ComponentController extends LayoutControllerAbstract {
     ### action metody ###############
 
     public function home(ServerRequestInterface $request) {
+        $statusPresentation = $this->statusPresentationRepo->get();
         /** @var MenuRootRepo $menuRootRepo */
         $menuRootRepo = $this->container->get(MenuRootRepo::class);
         /** @var MenuItemRepo $menuItemRepo */
         $menuItemRepo = $this->container->get(MenuItemRepo::class);
         $uidFk = $menuRootRepo->get(StatusPresentationManager::DEEAULT_HIERARCHY_ROOT_COMPONENT_NAME)->getUidFk();
-        $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
+        $langCode = $statusPresentation->getLanguage()->getLangCode();
         $rootMenuItem = $menuItemRepo->get($langCode, $uidFk );    // kořen menu
-        $this->statusPresentationRepo->get()->setMenuItem($rootMenuItem);
+        $statusPresentation->setMenuItem($rootMenuItem);
 
-        $this->setPaperContentComponent();
+        $this->setContentComponent();
         return $this->createResponseFromView($request, $this->createView($request));
     }
 
@@ -114,12 +116,12 @@ class ComponentController extends LayoutControllerAbstract {
             return RedirectResponse::withRedirect(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/home/', 303); // SeeOther
         }
 
-        $this->setPaperContentComponent();
+        $this->setContentComponent();
         return $this->createResponseFromView($request, $this->createView($request));
     }
 
     public function last(ServerRequestInterface $request) {
-        $this->setPaperContentComponent();
+        $this->setContentComponent();
         return $this->createResponseFromView($request, $this->createView($request));
     }
 
@@ -190,8 +192,46 @@ class ComponentController extends LayoutControllerAbstract {
      * Vrací view objekt pro zobrazení centrálního obsahu v prostoru pro "content"
      * @return type
      */
-    private function setPaperContentComponent() {
-        $this->componentViews["content"] = $this->isEditableArticle() ? $this->container->get('article.headlined.editable') : $this->container->get('article.headlined');
+    private function setContentComponent() {
+        $editable = $this->isEditableArticle();
+        $menuItemType = $this->statusPresentationRepo->get()->getMenuItem()->getTypeFk();
+            switch ($menuItemType) {
+                case 'block':
+                    if ($editable) {
+                        $content = $this->container->get('article.block.editable');
+                    } else {
+                        $content = $this->container->get('article.block');
+                    }
+                    break;
+                case 'empty':
+                    if ($editable) {
+                        $content = $this->container->get(ItemTypeSelectComponent::class);
+                    } else {
+                        $content = $this->container->get('article.headlined');
+                    }
+                    break;
+                case 'paper':
+                    if ($editable) {
+                        $content = $this->container->get('article.headlined.editable');
+                    } else {
+                        $content = $this->container->get('article.headlined');
+                    }
+                    break;
+                case 'redirect':
+                    $content = "No content for redirect type.";
+                    break;
+                case 'root':
+                        $content = $this->container->get('article.headlined');
+                    break;
+                case 'trash':
+                        $content = $this->container->get('article.headlined');
+                    break;
+
+                default:
+                    break;
+            }
+
+        $this->componentViews["content"] = $content;
     }
 
     private function getEditTools(ServerRequestInterface $request) {
@@ -249,9 +289,6 @@ class ComponentController extends LayoutControllerAbstract {
 
     private function getPoznamky() {
         if ($this->isEditableLayout() OR $this->isEditableArticle()) {
-            /** @var StatusFlashRepo $statusFlashRepo */
-            $statusFlashRepo = $this->container->get(StatusFlashRepo::class);
-            $statusFlash = $statusFlashRepo->get();
             $componets = [
                 'poznamky' => $this->container->get(View::class)
                         ->setTemplate(new PhpTemplate('templates/poznamky/poznamky.php'))
@@ -259,7 +296,7 @@ class ComponentController extends LayoutControllerAbstract {
                             'poznamka1'=>
                             '<pre>'. var_export($this->statusPresentationRepo->get()->getLanguage(), true).'</pre>'
                             . '<pre>'. var_export($this->statusSecurityRepo->get()->getUserActions(), true).'</pre>',
-                            'flashMessage' => $statusFlash ? $statusFlash->getFlash() : 'no flash',
+                            'flashMessage' => $this->getFlashMessage(),
                             ]),
 
             ];
@@ -267,6 +304,10 @@ class ComponentController extends LayoutControllerAbstract {
             $componets = [];
         }
         return $componets;
+    }
+
+    private function getFlashMessage() {
+        return $this->statusFlashRepo->get()->getFlash() ?? 'no flash message';
     }
 
     // pro debug

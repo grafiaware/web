@@ -1,9 +1,9 @@
 <?php
 
-namespace Middleware\Menu\View;
+namespace Menu\Middleware\Menu\View;
 
 use Pes\View\View;
-use Menu\Model\MenuListStyles;
+use Menu\Menu\Model\MenuListStyles;
 
 /**
  * Description of ListView

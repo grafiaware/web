@@ -1,35 +1,35 @@
 <?php
 
-namespace Middleware\Menu\Controller;
+namespace Menu\Middleware\Menu\Controller;
 
-use Middleware\Controller\FrontControllerAbstract;
+use Menu\Middleware\Controller\FrontControllerAbstract;
 
-use Helper\TestHelper;
+use Menu\Helper\TestHelper;
 
-use Middleware\Menu\MenuContainerConfigurator;
+use Menu\Middleware\Menu\MenuContainerConfigurator;
 use Pes\Container\Container;
 
-use Psr\Http\Message\ServerRequestInterface;
+use Menu\Psr\Http\Message\ServerRequestInterface;
 
-use Model\HierarchyHooks\MenuListStyles;
-use Model\Repository\HierarchyNodeRepo;
+use Menu\Model\HierarchyHooks\MenuListStyles;
+use Menu\Model\Repository\HierarchyNodeRepo;
 
 // propojení s middleware web
-use Component\ViewModel\Authored\Menu\MenuViewModel;
-use Component\ViewModel\Authored\Menu\ItemViewModel;
+use Menu\Component\ViewModel\Authored\Menu\MenuViewModel;
+use Menu\Component\ViewModel\Authored\Menu\ItemViewModel;
 
 
 
-use Middleware\Menu\View\Factory\NavTagFactory;
-use Middleware\Menu\View\Factory\UlTagFactory;
+use Menu\Middleware\Menu\View\Factory\NavTagFactory;
+use Menu\Middleware\Menu\View\Factory\UlTagFactory;
 
-use Middleware\Menu\View\PageView;
-use Middleware\Menu\View\DetailView;
+use Menu\Middleware\Menu\View\PageView;
+use Menu\Middleware\Menu\View\DetailView;
 // varianta:
-use Middleware\Menu\View\MenuView;
+use Menu\Middleware\Menu\View\MenuView;
 
-use Middleware\Menu\View\Renderer\PageRenderer;
-use Middleware\Menu\View\Renderer\DetailRenderer;
+use Menu\Middleware\Menu\View\Renderer\PageRenderer;
+use Menu\Middleware\Menu\View\Renderer\DetailRenderer;
 
 use Pes\View\View;
 use Pes\View\Template\NodeTemplate;

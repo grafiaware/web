@@ -1,6 +1,6 @@
 <?php
 
-namespace Middleware\Menu\View;
+namespace Menu\Middleware\Menu\View;
 
 /**
  * Description of menuView
