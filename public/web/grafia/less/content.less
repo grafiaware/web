@@ -17,7 +17,7 @@
         clear: both;
     }
     .white.basic.segment{
-        background-color: white;
+        background-color: white; 
         color: black;
         margin: 5px auto;
         opacity: 1;
@@ -59,6 +59,7 @@
         border-radius: 4px 4px 0 0;
         text-align: center;
         margin: 0 -12px;
+        margin-top: -12px !important;
         padding: 5px 0;
         p{
             font-size: @h2;
@@ -67,6 +68,18 @@
     }
     #contents .segment headline.header{
         margin-top: 0 !important;
+    }
+    #contents content.grafia.content:not(.mce-content-body){
+        margin-top: 10px;
+        margin-bottom: 15px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid @lightGrey;
+        &:only-of-type{
+            border-bottom: 0;
+        }
+        &:last-of-type{
+            border-bottom: 0;
+        }
     }
     .segment img{
         max-width: 100%;
