@@ -25,18 +25,20 @@ class BlockEditableRenderer extends AuthoredEditableRendererAbstract {
     }
 
     private function renderPrivate(PaperViewModelInterface $viewModel) {
-        $paper = $viewModel->getPaperAggregate();
+        $paperContent = $viewModel->getPaperAggregate();
         if ($viewModel instanceof NamedPaperViewModelInterface) {
             $name = "named: ".$viewModel->getComponentAggregate()->getName();
         } else {
             $name = "presented";
         }
 
-        if (isset($paper)) {
-            $innerHtml = $this->renderContentsDivs($paper);
+        if (isset($paperContent)) {
+            $innerHtml =
+                $this->renderPerexForm($paperContent)
+                .$this->renderContentsDivs($paperContent);
             $style = "display: block;";
         } else {
-            $innerHtml = Html::tag('div', ['data-component'=>$name], 'No data item or article for rendering.');
+            $innerHtml = Html::tag('div', [], 'No paper for rendering.');
             $style = "display: none;";
         }
         return Html::tag('div', ['data-component'=>$name, 'class'=>$this->classMap->getClass('Segment', 'div'), 'style'=>$style], $innerHtml);

@@ -29,7 +29,7 @@ class ItemTypeRenderer extends HtmlRendererAbstract {
     private function renderPrivate(ItemTypeSelectViewModel $viewModel) {
         $radioHtml = '';
         foreach ($viewModel->getTypes() as $type) {
-            $radioHtml .=Html::tag('label', [],
+            $radioHtml .=Html::tag('label', ['method'=>'POST', 'action'=>'/api/v1/menu/:menuItemId'],
                                 Html::tag('input', ['type'=>"radio", 'name'=>"type", 'value'=>$type->getType()])
                                 .$type->getType()
                             );
@@ -44,25 +44,7 @@ class ItemTypeRenderer extends HtmlRendererAbstract {
                     )
                 );
     }
-//    <form>
-//  <p>Please select your preferred contact method:</p>
-//  <div>
-//    <input type="radio" id="contactChoice1"
-//     name="contact" value="email">
-//    <label for="contactChoice1">Email</label>
-//
-//    <input type="radio" id="contactChoice2"
-//     name="contact" value="phone">
-//    <label for="contactChoice2">Phone</label>
-//
-//    <input type="radio" id="contactChoice3"
-//     name="contact" value="mail">
-//    <label for="contactChoice3">Mail</label>
-//  </div>
-//  <div>
-//    <button type="submit">Submit</button>
-//  </div>
-//</form>
+
 
 
 }

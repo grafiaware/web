@@ -69,19 +69,15 @@ class EditItemController extends PresentationFrontControllerAbstract {
         $postTitle = (new RequestParams())->getParam($request, 'title');
         $postOriginalTitle = (new RequestParams())->getParam($request, 'original-title');
         $menuItem->setTitle($postTitle);
-        // vracím 200 OK - použití 204 NoContent způsobí, že v jQuery kódu .done(function(data, textStatus, jqXHR) je proměnná data undefined a ani jqXhr objekt neobsahuje vrácený text - jQuery předpoklákládá, že NoContent znamená NoContent
-        $response = new Response();
-        $response->getBody()->write("Uložen nový text položky menu:".PHP_EOL.$postTitle);
-        return $response;
+        $this->addFlashMessage("menuItem title($postTitle)");
+        return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other
     }
 
     public function type(ServerRequestInterface $request) {
         $type = (new RequestParams())->getParam($request, 'type');
         $this->getMenuItem($this->statusPresentationRepo->get()->getMenuItem())->setType($type);
-        // vracím 200 OK - použití 204 NoContent způsobí, že v jQuery kódu .done(function(data, textStatus, jqXHR) je proměnná data undefined a ani jqXhr objekt neobsahuje vrácený text - jQuery předpoklákládá, že NoContent znamená NoContent
-        $response = new Response();
-        $response->getBody()->write("Zěmněn typ na $type.");
-        return $response;
+        $this->addFlashMessage("menuItem type($type)");
+        return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other
     }
 
     private function getMenuItem($uid) {

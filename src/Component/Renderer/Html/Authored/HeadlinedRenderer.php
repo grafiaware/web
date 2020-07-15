@@ -33,10 +33,11 @@ class HeadlinedRenderer extends AuthoredRendererAbstract {
 
         if (isset($paper)) {
             $innerHtml = $this->renderHeadline($paper)
+                        .$this->renderPerex($paper)
                         .$this->renderContents($paper);
             $style = "display: block;";
         } else {
-            $innerHtml = Html::tag('div', [], 'No data item or article for rendering.');
+            $innerHtml = Html::tag('div', [], 'No paper for rendering.');
             $style = "display: none;";
         }
         return Html::tag('div', ['data-component'=>$name, 'class'=>$this->classMap->getClass('Segment', 'div'), 'style'=>$style], $innerHtml);

@@ -61,7 +61,7 @@ class Konverze extends AppMiddlewareAbstract implements MiddlewareInterface {
             return $this->execute($fileName);
         };
         $steps[] = function() {
-            $fileName = "page2_insertIntoMenuItem&Paper.sql";
+            $fileName = "page2_insertIntoMenuItem.sql";
             return $this->execute($fileName);
         };
         $steps[] = function() {
@@ -116,7 +116,12 @@ class Konverze extends AppMiddlewareAbstract implements MiddlewareInterface {
             return $this->execute($fileName);
         };
         $steps[] = function() {
-            $fileName = "page6_createNestedSetView.sql";
+            $fileName = "page6_createHierarchy_view.sql";
+            return $this->execute($fileName);
+        };
+
+        $steps[] = function() {
+            $fileName = "page7_insertIntoPaper.sql";
             return $this->execute($fileName);
         };
 

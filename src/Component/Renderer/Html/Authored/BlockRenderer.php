@@ -36,10 +36,12 @@ class BlockRenderer extends AuthoredRendererAbstract {
         }
 
         if (isset($paperAggregate)) {
-            $innerHtml = $this->renderContents($paperAggregate);
+            $innerHtml =
+                 $this->renderPerex($paperAggregate)
+                .$this->renderContents($paperAggregate);
             $style = "display: block;";
         } else {
-            $innerHtml = Html::tag('div', [], 'No data item or article for rendering.');
+            $innerHtml = Html::tag('div', [], 'No paper for rendering.');
             $style = "display: none;";
         }
         return Html::tag('div', ['data-component'=>$name, 'class'=>$this->classMap->getClass('Segment', 'div'), 'style'=>$style], $innerHtml);

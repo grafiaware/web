@@ -399,6 +399,9 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
                         'div'=>'grafia segment headlined headline',
                         'div headline'=>'ui header',
                         ],
+                     'Perex' => [
+                        'perex'=>'grafia segment headlined content',
+                        ],
                      'Content' => [
                         'content'=>'grafia segment headlined content',
                         ]                    ]
@@ -416,13 +419,18 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
                         'div'=>'section',
                         'div div.semafor'=>'semafor',
                         'div div.corner'=>'ui right tiny corner blue label',
-                        'div div i1.published' => 'circle icon green',
-                        'div div i1.notpublished' => 'circle icon red ',
-                        'div div i2.published' => 'calendar check icon green',
-                        'div div i2.notactive' => 'calendar plus icon yellow',
-                        'div div i2.notactual' => 'calendar minus icon orange',
-                        'div div i2.notactivenotactual' => 'calendar times icon red',
-                        'form headline'=>'ui header', 
+//                        'div div i1.published' => 'circle icon green',
+//                        'div div i1.notpublished' => 'circle icon red ',
+//                        'div div i2.published' => 'calendar check icon green',
+//                        'div div i2.notactive' => 'calendar plus icon yellow',
+//                        'div div i2.notactual' => 'calendar minus icon orange',
+//                        'div div i2.notactivenotactual' => 'calendar times icon red',
+                        'form headline'=>'ui header',
+                        ],
+                     'Perex' => [
+                        'div'=>'section',
+                        'div div.corner'=>'ui right tiny corner blue label',
+                        'form perex'=>'',
                         ],
                      'Content' => [
                         'div'=>'section',
@@ -438,7 +446,7 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
                         ],
                      'PaperButtons' => $c->get('paper_edit_buttons'),
                      'ContentButtons' => $c->get('content_edit_buttons'),
-                    ] 
+                    ]
                 );
             },
 
@@ -457,6 +465,11 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new ClassMap (
                     ['Segment' => [
                         'div'=>'grafia segment block editable',
+                        ],
+                     'Perex' => [
+                        'div'=>'section',
+                        'div div.corner'=>'ui right tiny corner blue label',
+                        'form perex'=>'',
                         ],
                      'Content' => [
                         'div'=>'section',

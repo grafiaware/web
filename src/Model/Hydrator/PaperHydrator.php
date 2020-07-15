@@ -29,6 +29,7 @@ class PaperHydrator implements HydratorInterface {
             ->setId($row['id'])
             ->setMenuItemIdFk($row['menu_item_id_fk'])
             ->setHeadline($row['headline'])
+            ->setPerex($row['perex'])
             ->setKeywords($row['keywords'])
             ->setEditor($row['editor'])
             ->setUpdated($row['updated'] ? \DateTime::createFromFormat('Y-m-d H:i:s', $row['updated']) : NULL);
@@ -44,6 +45,7 @@ class PaperHydrator implements HydratorInterface {
         $row['id'] = $paperHeadline->getId(); // id je autoincrement - readonly, hodnota pro where
         $row['menu_item_id_fk'] = $paperHeadline->getMenuItemIdFk();
         $row['headline'] = $paperHeadline->getHeadline();
+        $row['perex'] = $paperHeadline->getPerex();
         $row['keywords'] = $paperHeadline->getKeywords();
         $row['editor'] = $paperHeadline->getEditor();
         // updated je timestamp

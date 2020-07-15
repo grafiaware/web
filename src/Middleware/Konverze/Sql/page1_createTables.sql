@@ -65,6 +65,7 @@ CREATE TABLE `paper` (
   `menu_item_id_fk` int(11) unsigned NOT NULL,
   `list` varchar(45) DEFAULT NULL,  -- list je vazba pro insert starých stránek do paper
   `headline` text,  -- default pro db: CHARACTER SET utf8 COLLATE utf8_general_ci
+  `perex` longtext,  -- default pro db: CHARACTER SET utf8 COLLATE utf8_general_ci
   `keywords` text,  -- default pro db: CHARACTER SET utf8 COLLATE utf8_general_ci
   `editor` varchar(20) DEFAULT NULL,
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

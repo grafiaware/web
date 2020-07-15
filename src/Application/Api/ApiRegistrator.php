@@ -59,6 +59,7 @@ class ApiRegistrator {
 
         #### PaperController ####
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/paper/:paperId/headline'));
+        $registry->register($this->postPrototype->withUrlPattern('/api/v1/paper/:paperId/perex'));
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/paper/:paperId/contents'));
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/paper/:paperId/contents/:contentId'));
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/paper/:paperId/contents/:contentId/toggle'));
@@ -70,9 +71,11 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/paper/:paperId/contents/:contentId/delete'));
 
         #### EditItemController ####
+        $registry->register($this->postPrototype->withUrlPattern('/api/v1/menu'));
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/menu/:menuItemId/toggle'));
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/menu/:menuItemId/actual'));
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/menu/:menuItemId/title'));
+        $registry->register($this->postPrototype->withUrlPattern('/api/v1/menu/:menuItemId/type'));
 
         #### HierarchyController ####
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/hierarchy/:uid/add'));

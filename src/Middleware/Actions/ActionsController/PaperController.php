@@ -49,10 +49,27 @@ class PaperController extends PresentationFrontControllerAbstract {
     public function updateHeadline(ServerRequestInterface $request, $paperId): ResponseInterface {
         $paper = $this->paperRepo->get($paperId);
         if (!isset($paper)) {
-            user_error('Neexistuje paper se zadaným menuItemId.');
+            user_error("Neexistuje paper se zadaným id.$paperId");
         } else {
             $postHeadline = (new RequestParams())->getParam($request, 'headline_'.$paperId);
             $paper->setHeadline($postHeadline);
+        }
+        return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other
+    }
+
+    /**
+     *
+     * @param ServerRequestInterface $request
+     * @param type $paperId
+     * @return ResponseInterface
+     */
+    public function updatePerex(ServerRequestInterface $request, $paperId): ResponseInterface {
+        $paper = $this->paperRepo->get($paperId);
+        if (!isset($paper)) {
+            user_error("Neexistuje paper se zadaným id.$paperId");
+        } else {
+            $postPerex = (new RequestParams())->getParam($request, 'perex_'.$paperId);
+            $paper->setPerex($postPerex);
         }
         return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other
     }

@@ -39,13 +39,13 @@ class HeadlinedEditableRenderer extends AuthoredEditableRendererAbstract {
 
 //                'onblur'=>'var throw=confirm("Chcete zahodit změny v obsahu headline?"); if (throw==false) {document.getElementByName("headline").focus(); }'
 
-            $paperButtonsForm =  $this->renderPaperButtonsForm($paper);
-            $headlineForm = $this->renderHeadlineForm($paper);
-            $contentsForms = $this->renderContentsDivs($paper);
-
-            $innerHtml = $paperButtonsForm.$headlineForm.$contentsForms;
+            $innerHtml =
+                    $this->renderHeadlineForm($paper)
+                    .$this->renderPerexForm($paper)
+                    .$this->renderContentsDivs($paper)
+                    ;
         } else {
-            $innerHtml = Html::tag('div', [], 'Missing data item or article for rendering.');
+            $innerHtml = Html::tag('div', [], 'Missing paper for rendering.');
         }
         // atribut data-component je jen pro info v html
         return Html::tag('div', ['data-component'=>$name, 'class'=>$this->classMap->getClass('Segment', 'div')],

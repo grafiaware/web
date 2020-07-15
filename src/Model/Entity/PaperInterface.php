@@ -23,6 +23,8 @@ interface PaperInterface extends EntityInterface {
 
     public function getHeadline();
 
+    public function getPerex();
+
     public function getKeywords();
 
     public function getEditor();
@@ -36,6 +38,8 @@ interface PaperInterface extends EntityInterface {
     public function setList($list): PaperInterface;
 
     public function setHeadline($headline): PaperInterface;
+
+    public function setPerex($perex): PaperInterface;
 
     public function setKeywords($keywords): PaperInterface;
 

@@ -136,6 +136,7 @@ class ContentController extends PresentationFrontControllerAbstract {
         }
         return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other
     }
+    
     public function add($request, $paperId) {
         $priority = 1;
         // pro případ volání add i v situaci, kdy již existuje obsah

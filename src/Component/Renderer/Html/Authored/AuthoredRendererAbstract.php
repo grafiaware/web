@@ -32,6 +32,14 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract{
                 );
     }
 
+    protected function renderPerex(PaperAggregateInterface $paper) {
+        return  Html::tag('perex',
+                            ['class'=>$this->classMap->getClass('Perex', 'perex')],
+                            $paper->getPerex()
+                    )
+                ;
+    }
+
     /**
      * Compare funkce pro usort - řadí shora od nejvyšší priority
      *

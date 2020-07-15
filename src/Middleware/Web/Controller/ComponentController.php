@@ -307,7 +307,8 @@ class ComponentController extends LayoutControllerAbstract {
     }
 
     private function getFlashMessage() {
-        return $this->statusFlashRepo->get()->getFlash() ?? 'no flash message';
+        $statusFlash = $this->statusFlashRepo->get();
+        return $statusFlash ? $statusFlash->getFlash() ?? 'no flash' : 'no flash message';
     }
 
     // pro debug

@@ -27,52 +27,7 @@ var headlineConfig = {
     custom_elements: 'headline'
 };
 
-var segmentConfig = {
-  selector: '.headlined.editable content', //.segment:not(.locked):not(.notpermitted) .grafia.segment...
-    schema : 'html5',
-
-    language : tinyConfig.toolbarsLang,
-    document_base_url : tinyConfig.basePath,
-    content_css: tinyConfig.contentCss,
-
-    menubar: false,
-    inline: true,
-    plugins: [
-       'paste advlist autolink lists link  charmap  preview hr anchor pagebreak image code', // codesample print  //
-       'searchreplace wordcount visualblocks visualchars code fullscreen',
-       'insertdatetime  nonbreaking noneditable save autosave table directionality',
-       'template textpattern searchreplace image imagetools save'
-//       'template textpattern searchreplace image imagetools save example'
-    ],
-    templates: [
-        { title: 'Kontakt', description: 'Grafia web - kontakt',       url: tinyConfig.templatesPath + 'kontakt.html'}, //vztaženo k rootu RS, tam kde je index redakčního s.
-        { title: 'Publikace', description: 'Grafia web - publikace',   url: tinyConfig.templatesPath + 'publikace.html'},
-        { title: 'Obrázek vlevo a text', description: 'Bez obtékání. Dva sloupce', url: tinyConfig.templatesPath + 'obrazekVlevo_blok.html'},
-        { title: 'Publikace - 2', description: 'Vložení publikací na stránku', url: tinyConfig.templatesPath + 'eshop_radka.html'},
-        { title: 'Menu - 1 položka', description: 'Vložení položky menu na stránku', url: tinyConfig.templatesPath + 'menu_1polozka.html'},
-        { title: 'Menu - 2 položky', description: 'Vložení 2 položek menu na stránku', url: tinyConfig.templatesPath + 'menu_2polozky.html'},
-        { title: 'Menu - 3 položky', description: 'Vložení 3 položek menu na stránku', url: tinyConfig.templatesPath + 'menu_3polozky.html'},
-        { title: '---Tvorba šablon---',    description: 'oddelovac',  url: '' },
-        { title: 'Nutné k vytvoření šablon', description: 'Vložte nejprve tuto šablonu a do ní vkládejte ostatní prvky této sekce' , url: tinyConfig.templatesPath + 'grid.html' },
-        { title: 'Menu - 1 položka (bez gridu) verze 1', description: 'Vložení položky menu na stránku', url: tinyConfig.templatesPath + 'menu_1polozka_1.html'},
-        { title: 'Menu - 1 položka (bez gridu) dlouha', description: 'Vložení položky menu na stránku', url: tinyConfig.templatesPath + 'menu_1polozka_1_delsi.html'},
-        { title: 'Menu - 1 položka (bez gridu) dalsi', description: 'Vložení položky menu na stránku', url: tinyConfig.templatesPath + 'menu_1polozka_1_delsi_1.html'},
-        { title: 'Menu - 1 položka (bez gridu) verze 2', description: 'Vložení položky menu na stránku', url: tinyConfig.templatesPath + 'menu_1polozka_2.html'}
-    ],
-    toolbar1: 'undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent |' +
-            'hr | nonbreaking | forecolor backcolor ' + ' | fontsizeselect | code | searchreplace template | link image | save',
-//            'hr | nonbreaking | forecolor backcolor ' + ' | fontsizeselect | code | searchreplace template | link image | save | example vlozitNadpis vlozitOdstavec',
-
-    imagetools_toolbar: 'editimage | rotateleft rotateright | flipv fliph | imageoptions',
-    relative_urls : true,
-    extended_valid_elements: 'content',
-    custom_elements: 'content',
-    valid_children: '+a[div]',
-    link_title: false,
-    noneditable_editable_class: 'mceEditable',
-    noneditable_noneditable_class: 'mceNonEditable',
-
-    setup: function (editor) {
+var editorFunction = function (editor) {
 
     editor.ui.registry.addContextToolbar('vyberSablony', {
       predicate: function (node) {
@@ -158,7 +113,103 @@ var segmentConfig = {
     //        }
     });
 
-    }
+    };
+
+var segmentConfig = {
+  selector: '.headlined.editable content', //.segment:not(.locked):not(.notpermitted) .grafia.segment...
+    schema : 'html5',
+
+    language : tinyConfig.toolbarsLang,
+    document_base_url : tinyConfig.basePath,
+    content_css: tinyConfig.contentCss,
+
+    menubar: false,
+    inline: true,
+    plugins: [
+       'paste advlist autolink lists link  charmap  preview hr anchor pagebreak image code', // codesample print  //
+       'searchreplace wordcount visualblocks visualchars code fullscreen',
+       'insertdatetime  nonbreaking noneditable save autosave table directionality',
+       'template textpattern searchreplace image imagetools save'
+//       'template textpattern searchreplace image imagetools save example'
+    ],
+    templates: [
+        { title: 'Kontakt', description: 'Grafia web - kontakt',       url: tinyConfig.templatesPath + 'kontakt.html'}, //vztaženo k rootu RS, tam kde je index redakčního s.
+        { title: 'Publikace', description: 'Grafia web - publikace',   url: tinyConfig.templatesPath + 'publikace.html'},
+        { title: 'Obrázek vlevo a text', description: 'Bez obtékání. Dva sloupce', url: tinyConfig.templatesPath + 'obrazekVlevo_blok.html'},
+        { title: 'Publikace - 2', description: 'Vložení publikací na stránku', url: tinyConfig.templatesPath + 'eshop_radka.html'},
+        { title: 'Menu - 1 položka', description: 'Vložení položky menu na stránku', url: tinyConfig.templatesPath + 'menu_1polozka.html'},
+        { title: 'Menu - 2 položky', description: 'Vložení 2 položek menu na stránku', url: tinyConfig.templatesPath + 'menu_2polozky.html'},
+        { title: 'Menu - 3 položky', description: 'Vložení 3 položek menu na stránku', url: tinyConfig.templatesPath + 'menu_3polozky.html'},
+        { title: '---Tvorba šablon---',    description: 'oddelovac',  url: '' },
+        { title: 'Nutné k vytvoření šablon', description: 'Vložte nejprve tuto šablonu a do ní vkládejte ostatní prvky této sekce' , url: tinyConfig.templatesPath + 'grid.html' },
+        { title: 'Menu - 1 položka (bez gridu) verze 1', description: 'Vložení položky menu na stránku', url: tinyConfig.templatesPath + 'menu_1polozka_1.html'},
+        { title: 'Menu - 1 položka (bez gridu) dlouha', description: 'Vložení položky menu na stránku', url: tinyConfig.templatesPath + 'menu_1polozka_1_delsi.html'},
+        { title: 'Menu - 1 položka (bez gridu) dalsi', description: 'Vložení položky menu na stránku', url: tinyConfig.templatesPath + 'menu_1polozka_1_delsi_1.html'},
+        { title: 'Menu - 1 položka (bez gridu) verze 2', description: 'Vložení položky menu na stránku', url: tinyConfig.templatesPath + 'menu_1polozka_2.html'}
+    ],
+    toolbar1: 'undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent |' +
+            'hr | nonbreaking | forecolor backcolor ' + ' | fontsizeselect | code | searchreplace template | link image | save',
+//            'hr | nonbreaking | forecolor backcolor ' + ' | fontsizeselect | code | searchreplace template | link image | save | example vlozitNadpis vlozitOdstavec',
+
+    imagetools_toolbar: 'editimage | rotateleft rotateright | flipv fliph | imageoptions',
+    relative_urls: true,
+    extended_valid_elements: 'content, perex',
+    custom_elements: 'content, perex',
+    valid_children: '+a[div]',
+    link_title: false,
+    noneditable_editable_class: 'mceEditable',
+    noneditable_noneditable_class: 'mceNonEditable',
+
+    setup: editorFunction
+};
+
+var perexConfig = {
+  selector: '.headlined.editable perex', //.segment:not(.locked):not(.notpermitted) .grafia.segment...
+    schema : 'html5',
+
+    language : tinyConfig.toolbarsLang,
+    document_base_url : tinyConfig.basePath,
+    content_css: tinyConfig.contentCss,
+
+    menubar: false,
+    inline: true,
+    plugins: [
+       'paste advlist autolink lists link  charmap  preview hr anchor pagebreak image code', // codesample print  //
+       'searchreplace wordcount visualblocks visualchars code fullscreen',
+       'insertdatetime  nonbreaking noneditable save autosave table directionality',
+       'template textpattern searchreplace image imagetools save'
+//       'template textpattern searchreplace image imagetools save example'
+    ],
+    templates: [
+        { title: 'Kontakt', description: 'Grafia web - kontakt',       url: tinyConfig.templatesPath + 'kontakt.html'}, //vztaženo k rootu RS, tam kde je index redakčního s.
+        { title: 'Publikace', description: 'Grafia web - publikace',   url: tinyConfig.templatesPath + 'publikace.html'},
+        { title: 'Obrázek vlevo a text', description: 'Bez obtékání. Dva sloupce', url: tinyConfig.templatesPath + 'obrazekVlevo_blok.html'},
+        { title: 'Publikace - 2', description: 'Vložení publikací na stránku', url: tinyConfig.templatesPath + 'eshop_radka.html'},
+        { title: 'Menu - 1 položka', description: 'Vložení položky menu na stránku', url: tinyConfig.templatesPath + 'menu_1polozka.html'},
+        { title: 'Menu - 2 položky', description: 'Vložení 2 položek menu na stránku', url: tinyConfig.templatesPath + 'menu_2polozky.html'},
+        { title: 'Menu - 3 položky', description: 'Vložení 3 položek menu na stránku', url: tinyConfig.templatesPath + 'menu_3polozky.html'},
+        { title: '---Tvorba šablon---',    description: 'oddelovac',  url: '' },
+        { title: 'Nutné k vytvoření šablon', description: 'Vložte nejprve tuto šablonu a do ní vkládejte ostatní prvky této sekce' , url: tinyConfig.templatesPath + 'grid.html' },
+        { title: 'Menu - 1 položka (bez gridu) verze 1', description: 'Vložení položky menu na stránku', url: tinyConfig.templatesPath + 'menu_1polozka_1.html'},
+        { title: 'Menu - 1 položka (bez gridu) dlouha', description: 'Vložení položky menu na stránku', url: tinyConfig.templatesPath + 'menu_1polozka_1_delsi.html'},
+        { title: 'Menu - 1 položka (bez gridu) dalsi', description: 'Vložení položky menu na stránku', url: tinyConfig.templatesPath + 'menu_1polozka_1_delsi_1.html'},
+        { title: 'Menu - 1 položka (bez gridu) verze 2', description: 'Vložení položky menu na stránku', url: tinyConfig.templatesPath + 'menu_1polozka_2.html'}
+    ],
+    toolbar1: 'undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent'
+            + ' | hr | nonbreaking | forecolor backcolor ' + ' | fontsizeselect | code | searchreplace template | link image | save'
+            + ' | save | example vlozitNadpis vlozitOdstavec'
+            ,
+
+    imagetools_toolbar: 'editimage | rotateleft rotateright | flipv fliph | imageoptions',
+    relative_urls: true,
+    extended_valid_elements: 'content, perex',
+    custom_elements: 'content, perex',
+    valid_children: '+a[div]',
+    link_title: false,
+    noneditable_editable_class: 'mceEditable',
+    noneditable_noneditable_class: 'mceNonEditable',
+
+    setup: editorFunction
 };
 
 var blockConfig = {
@@ -202,6 +253,7 @@ var headerFooterConfig = {
 
 tinymce.init(headlineConfig);
 tinymce.init(segmentConfig);
+tinymce.init(perexConfig);
 tinymce.init(blockConfig);
 tinymce.init(headerFooterConfig);
 

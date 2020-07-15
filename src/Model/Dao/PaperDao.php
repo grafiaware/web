@@ -29,6 +29,7 @@ class PaperDao extends DaoAbstract {
         `paper`.`id` AS `id`,
         `paper`.`menu_item_id_fk` AS `menu_item_id_fk`,
         `paper`.`headline` AS `headline`,
+        `paper`.`perex` AS `perex`,
         `paper`.`keywords` AS `keywords`,
         `paper`.`editor` AS `editor`,
         `paper`.`updated` AS `updated`
@@ -52,6 +53,7 @@ class PaperDao extends DaoAbstract {
         `paper`.`id` AS `id`,
         `paper`.`menu_item_id_fk` AS `menu_item_id_fk`,
         `paper`.`headline` AS `headline`,
+        `paper`.`perex` AS `perex`,
         `paper`.`keywords` AS `keywords`,
         `paper`.`editor` AS `editor`,
         `paper`.`updated` AS `updated`
@@ -63,16 +65,16 @@ class PaperDao extends DaoAbstract {
     }
 
     public function insert($row) {
-        $sql = "INSERT INTO paper (menu_item_id_fk, headline, keywords, editor)
-                VALUES (:menu_item_id_fk, :headline, :keywords, :editor)";
-        return $this->execInsert($sql, [':menu_item_id_fk'=>$row['menu_item_id_fk'], ':headline'=>$row['headline'], ':keywords'=>$row['keywords'], ':editor'=>$row['editor'],
+        $sql = "INSERT INTO paper (menu_item_id_fk, headline, perex, keywords, editor)
+                VALUES (:menu_item_id_fk, :headline, :perex, :keywords, :editor)";
+        return $this->execInsert($sql, [':menu_item_id_fk'=>$row['menu_item_id_fk'], ':headline'=>$row['headline'], ':perex'=>$row['perex'], ':keywords'=>$row['keywords'], ':editor'=>$row['editor'],
             ]);
     }
 
     public function update($row) {
-        $sql = "UPDATE paper SET menu_item_id_fk = :menu_item_id_fk, headline = :headline, keywords = :keywords, editor = :editor
+        $sql = "UPDATE paper SET menu_item_id_fk = :menu_item_id_fk, headline = :headline, keywords = :keywords, perex = :perex, editor = :editor
                 WHERE id = :id";
-        return $this->execUpdate($sql, [':menu_item_id_fk'=>$row['menu_item_id_fk'], ':headline'=>$row['headline'], ':keywords'=>$row['keywords'], ':editor'=>$row['editor'],
+        return $this->execUpdate($sql, [':menu_item_id_fk'=>$row['menu_item_id_fk'], ':headline'=>$row['headline'], ':perex'=>$row['perex'], ':keywords'=>$row['keywords'], ':editor'=>$row['editor'],
              ':id'=>$row['id']]);
     }
 

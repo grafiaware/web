@@ -19,6 +19,7 @@ class Paper extends EntityAbstract implements PaperInterface {
     private $menuItemIdFk;
     private $list;
     private $headline;
+    private $perex;
     private $keywords;
     private $editor;
     private $updated;
@@ -38,6 +39,9 @@ class Paper extends EntityAbstract implements PaperInterface {
     public function getHeadline() {
         return $this->headline;
     }
+    public function getPerex() {
+        return $this->perex;
+    }
 
     public function getKeywords() {
         return $this->keywords;
@@ -55,7 +59,7 @@ class Paper extends EntityAbstract implements PaperInterface {
         $this->id = $id;
         return $this;
     }
-    
+
     public function setMenuItemIdFk($uidFk): PaperInterface {
         $this->menuItemIdFk = $uidFk;
         return $this;
@@ -68,6 +72,11 @@ class Paper extends EntityAbstract implements PaperInterface {
 
     public function setHeadline($headline): PaperInterface {
         $this->headline = $headline;
+        return $this;
+    }
+
+    public function setPerex($perex): PaperInterface {
+        $this->perex = $perex;
         return $this;
     }
 

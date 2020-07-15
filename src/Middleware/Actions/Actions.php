@@ -95,6 +95,11 @@ class Actions extends AppMiddlewareAbstract implements MiddlewareInterface {
                 $ctrl = $this->container->get(PaperController::class);
                 return $ctrl->updateHeadline($request, $paperId);
         });
+        $routeGenerator->addRouteForAction('POST', '/api/v1/paper/:paperId/perex', function(ServerRequestInterface $request, $paperId) {
+                /** @var PaperController $ctrl */
+                $ctrl = $this->container->get(PaperController::class);
+                return $ctrl->updatePerex($request, $paperId);
+        });
 
         #### ContentController ####
 
@@ -146,6 +151,11 @@ class Actions extends AppMiddlewareAbstract implements MiddlewareInterface {
 
 
         #### EditItemController ####
+        $routeGenerator->addRouteForAction('POST', '/api/v1/menu', function(ServerRequestInterface $request) {
+                /** @var EditItemController $ctrl */
+                $ctrl = $this->container->get(EditItemController::class);
+                return $ctrl->toggle($request, $menuItemId);
+        });
         $routeGenerator->addRouteForAction('POST', '/api/v1/menu/:menuItemId/toggle', function(ServerRequestInterface $request, $menuItemId) {
                 /** @var EditItemController $ctrl */
                 $ctrl = $this->container->get(EditItemController::class);
@@ -160,6 +170,11 @@ class Actions extends AppMiddlewareAbstract implements MiddlewareInterface {
                 /** @var EditItemController $ctrl */
                 $ctrl = $this->container->get(EditItemController::class);
                 return $ctrl->title($request, $menuItemId);
+        });
+        $routeGenerator->addRouteForAction('POST', '/api/v1/menu/:menuItemId/type', function(ServerRequestInterface $request, $menuItemId) {
+                /** @var EditItemController $ctrl */
+                $ctrl = $this->container->get(EditItemController::class);
+                return $ctrl->type($request, $menuItemId);
         });
 
         #### HierarchyController ####
