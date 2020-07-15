@@ -11,7 +11,7 @@ $('.right.corner.blue').hover(
     },
     function(){
         $(this).parent('.section').find('.contentButtons').css("display", "none");
-        $(this).css("z-index", "0");
+        $(this).css("z-index", "1");
     }
 );
 $('.toolsDate').click(function(){

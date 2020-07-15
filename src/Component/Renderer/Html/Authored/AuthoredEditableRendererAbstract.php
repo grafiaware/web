@@ -99,29 +99,20 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
 
     protected function renderPerexForm(PaperAggregateInterface $paperAggregate) {
         $perex = $paperAggregate->getPerex();
-        if ($perex) {
-            $form =
-                Html::tag('div', ['class'=>$this->classMap->getClass('Perex', 'div')],
-                    Html::tag('form',
-                        ['method'=>'POST', 'action'=>"api/v1/paper/{$paperAggregate->getId()}/perex/"],
-                        Html::tag('perex',
-                            [
-                                'id' => "perex_{$paperAggregate->getId()}",  // id musí být na stránce unikátní - skládám ze slova perex_ a paper id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
-                                'class'=>$this->classMap->getClass('Perex', 'form perex'),
-                                'data-owner'=>$paperAggregate->getEditor()
-                            ],
-                            $perex
-                            )
-                    )
-                );
-        } else {
-            $form = "";
-//                Html::tag('div', ['class'=>$this->classMap->getClass('Perex', 'div')],
-//                    Html::tag('div', ['class'=>$this->classMap->getClass('Perex', 'div div.corner')],
-//                        $this->renderNewContent($paperAggregate)
-//                    )
-//                );
-        }
+        $form =
+            Html::tag('div', ['class'=>$this->classMap->getClass('Perex', 'div')],
+                Html::tag('form',
+                    ['method'=>'POST', 'action'=>"api/v1/paper/{$paperAggregate->getId()}/perex/"],
+                    Html::tag('perex',
+                        [
+                            'id' => "perex_{$paperAggregate->getId()}",  // id musí být na stránce unikátní - skládám ze slova perex_ a paper id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
+                            'class'=>$this->classMap->getClass('Perex', 'form perex'),
+                            'data-owner'=>$paperAggregate->getEditor()
+                        ],
+                        $perex ?? ""
+                        )
+                )
+            );
         return $form;
     }
 

@@ -147,9 +147,10 @@ var segmentConfig = {
         { title: 'Menu - 1 položka (bez gridu) dalsi', description: 'Vložení položky menu na stránku', url: tinyConfig.templatesPath + 'menu_1polozka_1_delsi_1.html'},
         { title: 'Menu - 1 položka (bez gridu) verze 2', description: 'Vložení položky menu na stránku', url: tinyConfig.templatesPath + 'menu_1polozka_2.html'}
     ],
-    toolbar1: 'undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent |' +
-            'hr | nonbreaking | forecolor backcolor ' + ' | fontsizeselect | code | searchreplace template | link image | save',
-//            'hr | nonbreaking | forecolor backcolor ' + ' | fontsizeselect | code | searchreplace template | link image | save | example vlozitNadpis vlozitOdstavec',
+    toolbar1: 'undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent'
+            + ' | hr | nonbreaking | forecolor backcolor ' + ' | fontsizeselect | code | searchreplace template | link image | save'
+//            + ' | example vlozitNadpis vlozitOdstavec'
+            ,
 
     imagetools_toolbar: 'editimage | rotateleft rotateright | flipv fliph | imageoptions',
     relative_urls: true,
@@ -197,7 +198,7 @@ var perexConfig = {
     ],
     toolbar1: 'undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent'
             + ' | hr | nonbreaking | forecolor backcolor ' + ' | fontsizeselect | code | searchreplace template | link image | save'
-            + ' | save | example vlozitNadpis vlozitOdstavec'
+//            + ' | example vlozitNadpis vlozitOdstavec'
             ,
 
     imagetools_toolbar: 'editimage | rotateleft rotateright | flipv fliph | imageoptions',
