@@ -66,7 +66,7 @@ class SearchResultViewModel {
 
             // hledají se jednotlivá slova IN NATURAL LANGUAGE MODE
             $langCodeFk = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
-            return $this->menuItemRepo->findByPaperFulltextSearch($langCodeFk, $text, true, true);  // jen active a actual
+            return $this->menuItemRepo->findByPaperFulltextSearch($langCodeFk, $text);
     }
 
     public function getString() {

@@ -54,10 +54,10 @@ class NodeAggregateReadonlyDao extends NodeEditDao implements NodeAggregateReado
         $publishedContext = $this->contextFactory->createPublishedContext();
         if ($publishedContext) {
             if ($publishedContext->getActive()) {
-                $this->contextConditions['active'] = "menu_item.active = 1";
+                $contextConditions['active'] = "menu_item.active = 1";
             }
             if ($publishedContext->getActual()) {
-                $this->contextConditions['actual'] = "(ISNULL(menu_item.show_time) OR menu_item.show_time<=CURDATE()) AND (ISNULL(menu_item.hide_time) OR CURDATE()<=menu_item.hide_time)";
+                $contextConditions['actual'] = "(ISNULL(menu_item.show_time) OR menu_item.show_time<=CURDATE()) AND (ISNULL(menu_item.hide_time) OR CURDATE()<=menu_item.hide_time)";
             }
         }
         return $contextConditions;
@@ -97,7 +97,7 @@ class NodeAggregateReadonlyDao extends NodeEditDao implements NodeAggregateReado
                     INNER JOIN
                 $this->itemTableName AS menu_item ON (nested_set.uid = menu_item.uid_fk)
             WHERE "
-                .$this->where(["menu_item.lang_code_fk = :lang_code", "nested_set.uid = :uid"]);
+                .$this->whereWithContext(["menu_item.lang_code_fk = :lang_code", "nested_set.uid = :uid"]);
         $stmt = $this->dbHandler->prepare($sql);
         $stmt->bindParam(':uid', $uid, \PDO::PARAM_STR);
         $stmt->bindParam(':lang_code', $langCode, \PDO::PARAM_STR);
@@ -127,7 +127,7 @@ class NodeAggregateReadonlyDao extends NodeEditDao implements NodeAggregateReado
                     INNER JOIN
                 $this->itemTableName AS menu_item ON (nested_set.uid = menu_item.uid_fk)
             WHERE "
-                .$this->where(["menu_item.lang_code_fk = :lang_code", "menu_item.title = :title"])
+                .$this->whereWithContext(["menu_item.lang_code_fk = :lang_code", "menu_item.title = :title"])
                 ;
         $stmt = $this->dbHandler->prepare($sql);
         $stmt->bindParam(':title', $title, \PDO::PARAM_STR);
@@ -164,7 +164,7 @@ class NodeAggregateReadonlyDao extends NodeEditDao implements NodeAggregateReado
                     INNER JOIN
                 $this->itemTableName ON (nested_set.uid = menu_item.uid_fk)
             WHERE "
-                .$this->where(["menu_item.lang_code_fk = :lang_code"])
+                .$this->whereWithContext(["menu_item.lang_code_fk = :lang_code"])
             ." ORDER BY nested_set.left_node"
                 ;
         $stmt = $this->dbHandler->prepare($sql);
@@ -201,7 +201,7 @@ class NodeAggregateReadonlyDao extends NodeEditDao implements NodeAggregateReado
                     INNER JOIN
                 $this->itemTableName ON (nested_set.uid = menu_item.uid_fk)
             WHERE "
-                .$this->where(["menu_item.lang_code_fk = :lang_code"])
+                .$this->whereWithContext(["menu_item.lang_code_fk = :lang_code"])
             ." ORDER BY nested_set.left_node"
                 ;
         $stmt = $this->dbHandler->prepare($sql);
@@ -240,7 +240,7 @@ class NodeAggregateReadonlyDao extends NodeEditDao implements NodeAggregateReado
                     INNER JOIN
                 $this->itemTableName ON (nested_set.uid = menu_item.uid_fk)
             WHERE "
-                .$this->where(["menu_item.lang_code_fk = :lang_code"])
+                .$this->whereWithContext(["menu_item.lang_code_fk = :lang_code"])
                 ;
         $stmt = $this->dbHandler->prepare($sql);
         $stmt->bindParam(':uid', $uid, \PDO::PARAM_STR);
@@ -282,7 +282,7 @@ class NodeAggregateReadonlyDao extends NodeEditDao implements NodeAggregateReado
                 INNER JOIN
                 $this->itemTableName ON (nested_set.uid = menu_item.uid_fk)
             WHERE "
-                .$this->where(["menu_item.lang_code_fk = :lang_code"])
+                .$this->whereWithContext(["menu_item.lang_code_fk = :lang_code"])
             ." ORDER BY nested_set.left_node"
                 ;
         $stmt = $this->dbHandler->prepare($sql);
@@ -354,7 +354,7 @@ class NodeAggregateReadonlyDao extends NodeEditDao implements NodeAggregateReado
                     INNER JOIN
                 $this->itemTableName ON (nested_set.uid = menu_item.uid_fk)
             WHERE "
-                .$this->where(["menu_item.lang_code_fk = :lang_code"])
+                .$this->whereWithContext(["menu_item.lang_code_fk = :lang_code"])
                 ." ORDER BY nested_set.left_node"
             ;
         $stmt = $this->dbHandler->prepare($sql);
@@ -394,7 +394,7 @@ class NodeAggregateReadonlyDao extends NodeEditDao implements NodeAggregateReado
                     INNER JOIN
                 $this->itemTableName ON (nested_set.uid = menu_item.uid_fk)
             WHERE "
-                .$this->where(["menu_item.lang_code_fk = :lang_code"])
+                .$this->whereWithContext(["menu_item.lang_code_fk = :lang_code"])
             ." ORDER BY nested_set.left_node"
             ;
         $stmt = $this->dbHandler->prepare($sql);

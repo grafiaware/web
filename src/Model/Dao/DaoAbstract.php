@@ -47,7 +47,7 @@ class DaoAbstract {
         return [];
     }
 
-    protected function where($condition = []) {
+    protected function whereWithContext($condition = []) {
         $contextConditions = $this->getContextConditions();
         return ($contextConditions OR $condition) ? implode(" AND ", array_merge($contextConditions, $condition)) : "";
     }

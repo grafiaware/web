@@ -54,7 +54,7 @@ class PaperContentDao extends DaoAbstract {
              (ISNULL(show_time) OR show_time<=CURDATE()) AND (ISNULL(hide_time) OR CURDATE()<=hide_time) AS actual
         FROM
             `paper_content`
-        WHERE ".$this->where(['paper_content.id=:id']);
+        WHERE ".$this->whereWithContext(['paper_content.id=:id']);
         return $this->selectOne($sql, [':id' => $id], true);
     }
 
@@ -81,7 +81,7 @@ class PaperContentDao extends DaoAbstract {
              (ISNULL(show_time) OR show_time<=CURDATE()) AND (ISNULL(hide_time) OR CURDATE()<=hide_time) AS actual
         FROM
             `paper_content`
-        WHERE ".$this->where(['`paper_content`.`paper_id_fk` = :paper_id_fk']);
+        WHERE ".$this->whereWithContext(['`paper_content`.`paper_id_fk` = :paper_id_fk']);
         return $this->selectMany($sql, [':paper_id_fk' => $paperIdFk], true);    }
 
     /**

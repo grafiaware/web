@@ -10,8 +10,6 @@ namespace Middleware\Web\Controller;
 
 use Psr\Http\Message\ServerRequestInterface;
 
-use Pes\Http\Response\RedirectResponse;
-
 // komponenty
 use Component\View\{
     Generated\LanguageSelectComponent,
@@ -113,7 +111,7 @@ class ComponentController extends LayoutControllerAbstract {
             $this->statusPresentationRepo->get()->setMenuItem($menuNode->getMenuItem());
         } else {
             // neexistující stránka
-            return RedirectResponse::withRedirect(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/home/', 303); // SeeOther
+            return $this->redirectSeeOther($request, ""); // SeeOther - ->home
         }
 
         $this->setContentComponent();
@@ -230,7 +228,6 @@ class ComponentController extends LayoutControllerAbstract {
                 default:
                     break;
             }
-
         $this->componentViews["content"] = $content;
     }
 
@@ -243,9 +240,9 @@ class ComponentController extends LayoutControllerAbstract {
             // Language packages tinyMce požívají krátké i dlouhé kódy (k=d odpovídá jménu souboru např cs.js) - proto mapování
             // pozn. - popisky šablon pro tiny jsou jen česky (TinyInit.js)
             $tinyLanguage = [
-              'cs' => 'cs',
-              'de' => 'de',
-              'en' => 'en_US'
+                'cs' => 'cs',
+                'de' => 'de',
+                'en' => 'en_US'
             ];
             $langCode =$this->statusPresentationRepo->get()->getLanguage()->getLangCode();
             $toolsbarsLang = array_key_exists($langCode, $tinyLanguage) ? $tinyLanguage[$langCode] : 'cs';
@@ -313,11 +310,11 @@ class ComponentController extends LayoutControllerAbstract {
 
     // pro debug
     private function getEmptyMenuComponents() {
-            return [
-                'menuPresmerovani' => $this->container->get(View::class),
-                'menuVodorovne' => $this->container->get(View::class),
-                'menuSvisle' => $this->container->get(View::class),
-             ];
+        return [
+            'menuPresmerovani' => $this->container->get(View::class),
+            'menuVodorovne' => $this->container->get(View::class),
+            'menuSvisle' => $this->container->get(View::class),
+         ];
     }
 
     private function getMenuComponents() {

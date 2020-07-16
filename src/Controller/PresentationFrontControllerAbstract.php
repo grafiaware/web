@@ -26,6 +26,10 @@ use Pes\Http\Factory\ResponseFactory;
 
 use Pes\View\ViewInterface;
 
+// pro redirect response
+use Pes\Http\Response\RedirectResponse;
+use Pes\Http\Response;
+
 /**
  * Description of PresentationFrontControllerAbstract
  *
@@ -81,7 +85,6 @@ abstract class PresentationFrontControllerAbstract extends StatusFrontController
      * @return ResponseInterface
      */
     public function addHeaders(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
-
         $language = $this->statusPresentationRepo->get()->getLanguage();
         $response = $response->withHeader('Content-Language', $language->getLocale());
 
@@ -130,6 +133,14 @@ abstract class PresentationFrontControllerAbstract extends StatusFrontController
      */
     private function getRequestUriInfo(ServerRequestInterface $request) {
         return $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME);
+    }
 
+    /**
+     *
+     * @param string $relativePath
+     * @return Response
+     */
+    protected function redirectSeeOther($request, $relativePath) {
+        return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().$relativePath); // 303 See Other
     }
 }

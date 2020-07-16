@@ -71,7 +71,7 @@ CREATE TABLE `paper` (
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   CONSTRAINT `menu_item_id_fk1` FOREIGN KEY ( `menu_item_id_fk`) REFERENCES `menu_item` (`id`),
-  FULLTEXT KEY `search` (`headline`)
+  FULLTEXT KEY `searchpaper` (`headline`, `perex`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `paper_content` (
@@ -88,7 +88,7 @@ CREATE TABLE `paper_content` (
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   CONSTRAINT `paper_id_fk2` FOREIGN KEY ( `paper_id_fk`) REFERENCES `paper` (`id`),
-  FULLTEXT KEY `search` (`content`)
+  FULLTEXT KEY `searchcontent` (`content`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `component` (

@@ -6,10 +6,6 @@ use Controller\PresentationFrontControllerAbstract;
 
 use Psr\Http\Message\ServerRequestInterface;
 
-use Pes\Application\AppFactory;
-use Pes\Http\Response\RedirectResponse;
-use Pes\Http\Response;
-
 use Model\Dao\Hierarchy\NodeEditDao;
 
 use Model\Repository\{
@@ -86,12 +82,4 @@ class HierarchyController extends PresentationFrontControllerAbstract {
 
     }
 
-    /**
-     *
-     * @param string $relativePath
-     * @return Response
-     */
-    private function redirectSeeOther($request, $relativePath) {
-        return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().$relativePath); // 303 See Other
-    }
 }
