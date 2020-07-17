@@ -24,14 +24,14 @@ class HeadlinedEditableRenderer extends AuthoredEditableRendererAbstract {
     }
 
     private function renderPrivate(PaperViewModelInterface $viewModel) {
-        $paper = $viewModel->getPaperAggregate();
+        $paperAggregate = $viewModel->getPaperAggregate();
         if ($viewModel instanceof NamedPaperViewModelInterface) {
             $name = "named: ".$viewModel->getComponentAggregate()->getName();
         } else {
             $name = "presented";
         }
 
-        if (isset($paper)) {
+        if (isset($paperAggregate)) {
 
             // TinyMCE v inline režimu pojmenovává proměnné v POSTu mce_XX, kde XX je asi pořadové číslo selected elementu na celé stránce, pokud editovaný element má id, pak TinyMCE použije toto id.
             // Použije ho tak, že přidá tag <input type=hidden name=id_editovaného_elementu> a této proměnné přiřadí hodnotu.
@@ -40,10 +40,11 @@ class HeadlinedEditableRenderer extends AuthoredEditableRendererAbstract {
 //                'onblur'=>'var throw=confirm("Chcete zahodit změny v obsahu headline?"); if (throw==false) {document.getElementByName("headline").focus(); }'
 
             $innerHtml =
-                    $this->renderHeadlineForm($paper)
-                    .$this->renderPerexForm($paper)
-                    .$this->renderContentsDivs($paper)
-                    ;
+                 $this->renderPaperButtonsForm($paperAggregate)
+                .$this->renderHeadlineForm($paperAggregate)
+                .$this->renderPerexForm($paperAggregate)
+                .$this->renderContentsDivs($paperAggregate)
+                ;
         } else {
             $innerHtml = Html::tag('div', [], 'Missing paper for rendering.');
         }

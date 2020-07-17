@@ -22,6 +22,46 @@ use Pes\Text\Html;
  */
 abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
 
+    protected function renderPaperButtonsForm(PaperAggregateInterface $paperAggregate) {
+        //TODO: atributy data-tooltip a data-position jsou pro semantic - zde jsou napevno zadané
+//        $uid = $paper->getUidFk();
+//        $active = $paper->getActive();
+        $paperId = $paperAggregate->getId();
+
+        $buttons = [];
+        if ($paperAggregate->getPaperContentsArray()) {
+            $buttons[] = Html::tag('button', [
+                    'class'=>$this->classMap->getClass('PaperButtons', 'div button'),
+                    'data-tooltip'=> 'Seřadit podle data',
+                    'data-position'=>'top right',
+                    'formmethod'=>'post',
+                    'formaction'=>"",
+                    ],
+                    Html::tag('i', ['class'=>$this->classMap->getClass('PaperButtons', 'div button2 i')])
+                );
+        }
+
+        $buttons[] =  Html::tag('button',
+                        ['class'=>$this->classMap->getClass('ContentButtons', 'div div button'),
+                        'data-tooltip'=>'Přidat obsah',
+                        'type'=>'submit',
+                        'name'=>'button',
+                        'value' => '',
+                        'formmethod'=>'post',
+                        'formaction'=>"api/v1/paper/$paperId/contents",
+                        ],
+                        Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'div div button i.group')],
+                            Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'div div button i.square')])
+                            .Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'div div button i.arrowdown')])
+                        )
+                    );
+
+        return Html::tag('form', ['method'=>'POST', 'action'=>""],
+            Html::tag('div', ['class'=>$this->classMap->getClass('PaperButtons', 'div.page')],
+                    implode('', $buttons)
+            )
+        );
+    }
     /**
      * headline semafor a form
      *
@@ -32,11 +72,9 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
 //        $active = $menuItemAggregate->getActive();
 //        $actual = $menuItemAggregate->getActual();
 //        $paper = $menuItemAggregate->getPaper();
-        $buttons = $paperAggregate->getPaperContentsArray() ? $this->renderHeadlineButtonsForm($paperAggregate) : "";
 
         return
-            $buttons
-            .Html::tag('div', ['class'=>$this->classMap->getClass('Headline', 'div')],
+            Html::tag('div', ['class'=>$this->classMap->getClass('Headline', 'div')],
 //                Html::tag('div', ['class'=>$this->classMap->getClass('Headline', 'div div.semafor')],
 //                    Html::tag('i',
 //                        ['class'=> $this->classMap->resolveClass(($active AND $actual), 'Headline',
@@ -62,39 +100,6 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
                     )
                 )
             );
-    }
-
-    private function renderHeadlineButtonsForm(PaperAggregateInterface $paper) {
-        //TODO: atributy data-tooltip a data-position jsou pro semantic - zde jsou napevno zadané
-//        $uid = $paper->getUidFk();
-//        $active = $paper->getActive();
-        return
-
-        Html::tag('form', ['method'=>'POST', 'action'=>""],
-            Html::tag('div', ['class'=>$this->classMap->getClass('PaperButtons', 'div.page')],
-//                Html::tag('button',
-//                    ['class'=>$this->classMap->getClass('PaperButtons', 'div button'),
-//                    'data-tooltip'=>'Aktivní/neaktivní stránka',
-//                    'type'=>'submit',
-//                    'name'=>'button',
-//                    'value' => 'toggle',
-//                    'formmethod'=>'post',
-//                    'formaction'=>"api/v1/menu/$uid/toggle",
-//                    ],
-//                    Html::tag('i', ['class'=>$this->classMap->resolveClass($active, 'PaperButtons', 'div button1 i.on', 'div button1 i.off')])
-//                )
-//                .
-                Html::tag('button', [
-                    'class'=>$this->classMap->getClass('PaperButtons', 'div button'),
-                    'data-tooltip'=> 'Seřadit podle data',
-                    'data-position'=>'top right',
-                    'formmethod'=>'post',
-                    'formaction'=>"",
-                    ],
-                    Html::tag('i', ['class'=>$this->classMap->getClass('PaperButtons', 'div button2 i')])
-                )
-            )
-        );
     }
 
     protected function renderPerexForm(PaperAggregateInterface $paperAggregate) {
@@ -387,31 +392,31 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
         ;
     }
 
-    private function renderNewContentButtonsForm(PaperAggregateInterface $paperAggregate) {
-        $paperId = $paperAggregate->getId();
-
-        return
-        Html::tag('form', ['method'=>'POST', 'action'=>""],
-            Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div')],
-                Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div div.content')],
-                    Html::tag('button',
-                        ['class'=>$this->classMap->getClass('ContentButtons', 'div div button'),
-                        'data-tooltip'=>'Přidat obsah',
-                        'type'=>'submit',
-                        'name'=>'button',
-                        'value' => '',
-                        'formmethod'=>'post',
-                        'formaction'=>"api/v1/paper/$paperId/contents",
-                        ],
-                        Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'div div button i.group')],
-                            Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'div div button i.square')])
-                            .Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'div div button i.arrowdown')])
-                        )
-                    )
-                )
-            )
-        );
-    }
+//    private function renderNewContentButtonsForm(PaperAggregateInterface $paperAggregate) {
+//        $paperId = $paperAggregate->getId();
+//
+//        return
+//        Html::tag('form', ['method'=>'POST', 'action'=>""],
+//            Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div')],
+//                Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div div.content')],
+//                    Html::tag('button',
+//                        ['class'=>$this->classMap->getClass('ContentButtons', 'div div button'),
+//                        'data-tooltip'=>'Přidat obsah',
+//                        'type'=>'submit',
+//                        'name'=>'button',
+//                        'value' => '',
+//                        'formmethod'=>'post',
+//                        'formaction'=>"api/v1/paper/$paperId/contents",
+//                        ],
+//                        Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'div div button i.group')],
+//                            Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'div div button i.square')])
+//                            .Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'div div button i.arrowdown')])
+//                        )
+//                    )
+//                )
+//            )
+//        );
+//    }
 
     /**
      * Compare funkce pro usort - řadí shora od nejvyšší priority
