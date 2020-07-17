@@ -50,7 +50,7 @@ class HeadlinedEditableRenderer extends AuthoredEditableRendererAbstract {
         }
         // atribut data-component je jen pro info v html
         return Html::tag('div', ['data-component'=>$name, 'class'=>$this->classMap->getClass('Segment', 'div')],
-                Html::tag('div', ['class'=>$this->classMap->getClass('Segment', 'div div')], $innerHtml)
+                Html::tag('div', ['class'=>$this->classMap->getClass('Segment', 'div.grafia')], $innerHtml)
             );
     }
 

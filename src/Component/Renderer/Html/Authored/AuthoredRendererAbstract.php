@@ -26,7 +26,7 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract{
         return  Html::tag('div',
                     ['class'=>$this->classMap->getClass('Headline', 'div')],
                     Html::tag('headline',
-                            ['class'=>$this->classMap->getClass('Headline', 'div headline')],
+                            ['class'=>$this->classMap->getClass('Headline', 'headline')],
                             $paper->getHeadline()
                     )
                 );

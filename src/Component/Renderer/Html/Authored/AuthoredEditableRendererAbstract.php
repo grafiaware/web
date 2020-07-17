@@ -74,27 +74,13 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
 //        $paper = $menuItemAggregate->getPaper();
 
         return
-            Html::tag('div', ['class'=>$this->classMap->getClass('Headline', 'div')],
-//                Html::tag('div', ['class'=>$this->classMap->getClass('Headline', 'div div.semafor')],
-//                    Html::tag('i',
-//                        ['class'=> $this->classMap->resolveClass(($active AND $actual), 'Headline',
-//                            'div div i1.published', 'div div i1.notpublished')
-//                        ]
-//                    )
-//                    .Html::tag('i',
-//                        ['class'=> $this->classMap->resolveClass($active, 'Headline',
-//                            $actual ? 'div div i2.published' : 'div div i2.notactual',
-//                            $actual ?  'div div i2.notactive' : 'div div i2.notactivenotactual')
-//                        ]
-//                    )
-//                )
-//                .
+            Html::tag('section', ['class'=>$this->classMap->getClass('Headline', 'section')],
                     Html::tag('form', ['method'=>'POST', 'action'=>"api/v1/paper/{$paperAggregate->getId()}/headline/"],
                     Html::tag(
                         'headline',
                         [
                             'id'=>"headline_{$paperAggregate->getId()}",  // id musí být na stránce unikátní - skládám ze slova headline_ a paper id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
-                            'class'=>$this->classMap->getClass('Headline', 'form headline'),
+                            'class'=>$this->classMap->getClass('Headline', 'headline'),
                         ],
                         $paperAggregate->getHeadline()
                     )
@@ -105,13 +91,13 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
     protected function renderPerexForm(PaperAggregateInterface $paperAggregate) {
         $perex = $paperAggregate->getPerex();
         $form =
-            Html::tag('div', ['class'=>$this->classMap->getClass('Perex', 'div')],
+            Html::tag('section', ['class'=>$this->classMap->getClass('Perex', 'section')],
                 Html::tag('form',
                     ['method'=>'POST', 'action'=>"api/v1/paper/{$paperAggregate->getId()}/perex/"],
                     Html::tag('perex',
                         [
                             'id' => "perex_{$paperAggregate->getId()}",  // id musí být na stránce unikátní - skládám ze slova perex_ a paper id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
-                            'class'=>$this->classMap->getClass('Perex', 'form perex'),
+                            'class'=>$this->classMap->getClass('Perex', 'perex'),
                             'data-owner'=>$paperAggregate->getEditor()
                         ],
                         $perex ?? ""
@@ -131,20 +117,20 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
                 $active = $paperContent->getActive();
                 $actual = $paperContent->getActual();
                 $form[] =
-                    Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div')],
-                        Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div div.corner')],
+                    Html::tag('section', ['class'=>$this->classMap->getClass('Content', 'section')],
+                        Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.corner')],
                             $this->renderContentButtonsForm($paperContent)
                         )
-                        .Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div div.semafor')],
+                        .Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.semafor')],
                                 Html::tag('i',
                                     ['class'=> $this->classMap->resolveClass(($active AND $actual), 'Content',
-                                        'div div i1.published', 'div div i1.notpublished')
+                                        'i1.published', 'i1.notpublished')
                                     ]
                                 )
                                 .Html::tag('i',
                                     ['class'=> $this->classMap->resolveClass($active, 'Content',
-                                        $actual ? 'div div i2.published' : 'div div i2.notactual',
-                                        $actual ? 'div div i2.notactive' : 'div div i2.notactivenotactual')
+                                        $actual ? 'i2.published' : 'i2.notactual',
+                                        $actual ? 'i2.notactive' : 'i2.notactivenotactual')
                                     ]
                                 )
                         )
@@ -153,7 +139,7 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
                             Html::tag('content',
                                 [
                                     'id' => "content_{$paperContent->getId()}",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
-                                    'class'=>$this->classMap->getClass('Content', 'form content'),
+                                    'class'=>$this->classMap->getClass('Content', 'content'),
                                     'data-paperowner'=>$paperAggregate->getEditor(),
                                     'data-owner'=>$paperContent->getEditor()
                                 ],
