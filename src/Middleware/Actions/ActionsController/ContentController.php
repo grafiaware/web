@@ -136,14 +136,15 @@ class ContentController extends PresentationFrontControllerAbstract {
         }
         return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other
     }
-    
+
     public function add($request, $paperId) {
         $priority = 1;
         // pro případ volání add i v situaci, kdy již existuje obsah
         $contents = $this->paperContentRepo->findByReference($paperId);
         foreach ($contents as $contentItem) {
+            /** @var PaperContentInterface $contentItem */
             if ($contentItem->getPriority()>$priority) {
-                $priority = $contentItem->getPriority();
+                $contentItem->setPriority($contentItem->getPriority());
             }
         }
         $newContent = new PaperContent();
@@ -166,7 +167,7 @@ class ContentController extends PresentationFrontControllerAbstract {
                 $contentItem->setPriority($itemPriority+1);
             }
         }
-        $this->paperContentRepo->add($this->createNewContent($paperId, $priority));
+        $this->paperContentRepo->add($this->createNewContent($paperId, $priority+1));
         $this->addFlashMessage("addBelow - Nový obsah, priorita $priority");
         return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other
     }
@@ -182,11 +183,7 @@ class ContentController extends PresentationFrontControllerAbstract {
                 $contentItem->setPriority($itemPriority+1);
             }
         }
-        $newContent = new PaperContent();
-        $newContent->setContent("Nový obsah");
-        $newContent->setPaperIdFk($paperId);
-        $newContent->setPriority($priority+1);
-        $this->paperContentRepo->add($newContent);
+        $this->paperContentRepo->add($this->createNewContent($paperId, $priority));
         $this->addFlashMessage("addBelow - Nový obsah, priorita $priority");
         return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other
     }

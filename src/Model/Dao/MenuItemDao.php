@@ -73,12 +73,10 @@ class MenuItemDao extends DaoAbstract {
      *
      * @param string $langCodeFk
      * @param string $text
-     * @param bool $active Nepovinný parametr, default=TRUE. Defaultně metoda hledá jen aktivní (zveřejněné) stránky.
-     * @param bool $actual Nepovinný parametr, default=TRUE. Defaultně metoda hledá jen aktuální stránky.
      * @return type
      * @throws StatementFailureException
      */
-    public function findByContentFulltextSearch($langCodeFk, $text, $active=true, $actual=true) {
+    public function findByContentFulltextSearch($langCodeFk, $text) {
         //InnoDB tables require a FULLTEXT index on all columns of the MATCH() expression to perform boolean queries. Boolean queries against a MyISAM search index can work even without a FULLTEXT index, although a search executed in this fashion would be quite slow.
         // starý web je: FULLTEXT KEY `vyhledavani` (`nazev_lan1`,`obsah_lan1`,`nazev_lan2`,`obsah_lan2`,`nazev_lan3`,`obsah_lan3`)) a typ MyISAM
         //
@@ -133,7 +131,7 @@ class MenuItemDao extends DaoAbstract {
                  OR
             score_c > $scoreLimitContent
         ORDER BY score_h DESC, score_c DESC";
-        
+
         $statement = $this->dbHandler->prepare($sql);
         $statement->bindParam(':text1', $text, \PDO::PARAM_STR);    // PDO neumožňuje použít vícekrát stejný placeholder
         $statement->bindParam(':text2', $text, \PDO::PARAM_STR);

@@ -39,9 +39,8 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
                     ],
                     Html::tag('i', ['class'=>$this->classMap->getClass('PaperButtons', 'div button2 i')])
                 );
-        }
-
-        $buttons[] =  Html::tag('button',
+        } else {
+            $buttons[] =  Html::tag('button',
                         ['class'=>$this->classMap->getClass('ContentButtons', 'div div button'),
                         'data-tooltip'=>'Přidat obsah',
                         'type'=>'submit',
@@ -55,7 +54,7 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
                             .Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'div div button i.arrowdown')])
                         )
                     );
-
+        }
         return Html::tag('form', ['method'=>'POST', 'action'=>""],
             Html::tag('div', ['class'=>$this->classMap->getClass('PaperButtons', 'div.page')],
                     implode('', $buttons)
@@ -109,9 +108,9 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
 
     protected function renderContentsDivs(PaperAggregateInterface $paperAggregate) {
         $contents = $paperAggregate->getPaperContentsArray();
-        \usort($contents, array($this, "compareByPriority"));
-        usort($contents, array($this, "compareByPriority"));
+        $form = [];
         if ($contents) {
+            \usort($contents, array($this, "compareByPriority"));
             foreach ($contents as $paperContent) {
                 /** @var PaperContentInterface $paperContent */
                 $active = $paperContent->getActive();
@@ -133,6 +132,7 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
                                         $actual ? 'i2.notactive' : 'i2.notactivenotactual')
                                     ]
                                 )
+                                .$paperContent->getPriority()
                         )
                         .Html::tag('form',
                             ['method'=>'POST', 'action'=>"api/v1/paper/{$paperContent->getPaperIdFk()}/contents/{$paperContent->getId()}/"],
@@ -148,25 +148,6 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
                         )
                     );
             }
-        } else {
-                $form[] = "";
-//                    Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div')],
-//                        Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div div.corner')],
-//                            $this->renderNewContent($paperAggregate)
-//                        )
-//                        .Html::tag('form',
-//                            ['method'=>'POST', 'action'=>"api/v1/paper/{$paperContent->getPaperIdFk()}/contents/{$paperContent->getId()}/"],
-//                            Html::tag('content',
-//                                [
-//                                    'id' => "content_{$paperContent->getId()}",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
-//                                    'class'=>$this->classMap->getClass('Content', 'form content'),
-//                                    'data-paperowner'=>$paperAggregate->getEditor(),
-//                                    'data-owner'=>$paperContent->getEditor()
-//                                ],
-//                                $paperContent->getContent()
-//                                )
-//                        )
-//                    );
         }
         return implode(PHP_EOL, $form);
     }
