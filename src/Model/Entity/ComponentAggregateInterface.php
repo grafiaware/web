@@ -18,7 +18,11 @@ interface ComponentAggregateInterface {
 
     public function setLangCode($langCode): ComponentAggregateInterface;
 
-    public function getMenuItem(): MenuItemInterface;
+    /**
+     * Vrací MenuItemInterface nebo null - komponenta obsahuje item, kerý není aktivní nebo aktuální
+     * @return \Model\Entity\MenuItemInterface|null
+     */
+    public function getMenuItem(): ?MenuItemInterface;
 
     public function setMenuItem(MenuItemInterface $menuItem): ComponentAggregateInterface;
 }

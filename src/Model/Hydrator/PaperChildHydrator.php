@@ -19,6 +19,7 @@ use Model\Entity\PaperAggregateInterface;
 class PaperChildHydrator implements HydratorInterface {
 
     /**
+     * Nastaví do agregátu contents, pokud existuje. Contents jsou závislé na kontextu a tedy mohou být null (neaktivní nebo neaktuální content) a pole může být prázdné
      *
      * @param PaperAggregateInterface $menuItemPaperAggregate
      * @param type $row

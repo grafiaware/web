@@ -47,9 +47,38 @@ class DaoAbstract {
         return [];
     }
 
-    protected function whereWithContext($condition = []) {
-        $contextConditions = $this->getContextConditions();
-        return ($contextConditions OR $condition) ? implode(" AND ", array_merge($contextConditions, $condition)) : "";
+    protected function where($condition = "") {
+        return $condition ? " WHERE ".$condition." " : "";
+    }
+
+    /**
+     *
+     * @param array $conditions Jedno nebo více asociativních polí.
+     * @return string
+     */
+    protected function and(...$conditions) {
+        $merged = [];
+        if ($conditions) {
+            foreach ($conditions as $condition) {
+                $merged = array_merge_recursive($merged, $condition);
+            }
+        }
+        return $merged ? implode(" AND ", $merged) : "";
+    }
+
+    /**
+     *
+     * @param array $conditions Jedno nebo více asociativních polí.
+     * @return string
+     */
+    protected function or(...$conditions) {
+        $merged = [];
+        if ($conditions) {
+            foreach ($conditions as $condition) {
+                $merged = array_merge_recursive($merged, $condition);
+            }
+        }
+        return $merged ? "(".implode(" OR ", $merged).")" : "";  // závorky pro prioritu OR před případnými AND spojujícími jednotlivé OR výrazy
     }
 
     /**

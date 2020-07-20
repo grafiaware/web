@@ -32,10 +32,10 @@ class ComponentAggregate extends Component implements ComponentAggregateInterfac
     }
 
     /**
-     *
-     * @return MenuItemInterface
+     * Vrací MenuItemInterface nebo null - komponenta obsahuje item, kerý není aktivní nebo aktuální
+     * @return \Model\Entity\MenuItemInterface|null
      */
-    public function getMenuItem(): MenuItemInterface {
+    public function getMenuItem(): ?MenuItemInterface {
         return $this->menuItem;
     }
 

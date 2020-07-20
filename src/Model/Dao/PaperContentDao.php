@@ -16,6 +16,12 @@ namespace Model\Dao;
  */
 class PaperContentDao extends DaoAbstract {
 
+    private $sqlGet;
+    private $sqlFindAllByFk;
+    private $sqlFind;
+    private $sqlInsert;
+    private $sqlUpdate;
+    private $sqlDelete;
 
     protected function getContextConditions() {
         $contextConditions = [];
@@ -39,23 +45,24 @@ class PaperContentDao extends DaoAbstract {
      * @return array Jednorozměrné asociativní pole
      */
     public function get($id) {
-
-        $sql = "SELECT
-            `paper_content`.`id` AS `id`,
-            `paper_content`.`paper_id_fk` AS `paper_id_fk`,
-            `paper_content`.`content` AS `content`,
-            `paper_content`.`active` AS `active`,
-            `paper_content`.`priority` AS `priority`,
-            `paper_content`.`show_time` AS `show_time`,
-            `paper_content`.`hide_time` AS `hide_time`,
-            `paper_content`.`event_time` AS `event_time`,
-            `paper_content`.`editor` AS `editor`,
-            `paper_content`.`updated` AS `updated`,
-             (ISNULL(show_time) OR show_time<=CURDATE()) AND (ISNULL(hide_time) OR CURDATE()<=hide_time) AS actual
-        FROM
-            `paper_content`
-        WHERE ".$this->whereWithContext(['paper_content.id=:id']);
-        return $this->selectOne($sql, [':id' => $id], true);
+        if (!isset($this->sqlGet)) {
+            $this->sqlGet = "SELECT
+                `paper_content`.`id` AS `id`,
+                `paper_content`.`paper_id_fk` AS `paper_id_fk`,
+                `paper_content`.`content` AS `content`,
+                `paper_content`.`active` AS `active`,
+                `paper_content`.`priority` AS `priority`,
+                `paper_content`.`show_time` AS `show_time`,
+                `paper_content`.`hide_time` AS `hide_time`,
+                `paper_content`.`event_time` AS `event_time`,
+                `paper_content`.`editor` AS `editor`,
+                `paper_content`.`updated` AS `updated`,
+                 (ISNULL(show_time) OR show_time<=CURDATE()) AND (ISNULL(hide_time) OR CURDATE()<=hide_time) AS actual
+            FROM
+                `paper_content`"
+            . $this->where($this->and($this->getContextConditions(), ['paper_content.id=:id']));
+        }
+        return $this->selectOne($this->sqlGet, [':id' => $id], true);
     }
 
     /**
@@ -67,22 +74,25 @@ class PaperContentDao extends DaoAbstract {
      * @return array Jednorozměrné asociativní pole
      */
     public function findAllByFk($paperIdFk) {
-        $sql = "SELECT
-            `paper_content`.`id` AS `id`,
-            `paper_content`.`paper_id_fk` AS `paper_id_fk`,
-            `paper_content`.`content` AS `content`,
-            `paper_content`.`active` AS `active`,
-            `paper_content`.`priority` AS `priority`,
-            `paper_content`.`show_time` AS `show_time`,
-            `paper_content`.`hide_time` AS `hide_time`,
-            `paper_content`.`event_time` AS `event_time`,
-            `paper_content`.`editor` AS `editor`,
-            `paper_content`.`updated` AS `updated`,
-             (ISNULL(show_time) OR show_time<=CURDATE()) AND (ISNULL(hide_time) OR CURDATE()<=hide_time) AS actual
-        FROM
-            `paper_content`
-        WHERE ".$this->whereWithContext(['`paper_content`.`paper_id_fk` = :paper_id_fk']);
-        return $this->selectMany($sql, [':paper_id_fk' => $paperIdFk], true);    }
+        if (!isset($this->sqlFindAllByFk)) {
+            $this->sqlFindAllByFk = "SELECT
+                `paper_content`.`id` AS `id`,
+                `paper_content`.`paper_id_fk` AS `paper_id_fk`,
+                `paper_content`.`content` AS `content`,
+                `paper_content`.`active` AS `active`,
+                `paper_content`.`priority` AS `priority`,
+                `paper_content`.`show_time` AS `show_time`,
+                `paper_content`.`hide_time` AS `hide_time`,
+                `paper_content`.`event_time` AS `event_time`,
+                `paper_content`.`editor` AS `editor`,
+                `paper_content`.`updated` AS `updated`,
+                 (ISNULL(show_time) OR show_time<=CURDATE()) AND (ISNULL(hide_time) OR CURDATE()<=hide_time) AS actual
+            FROM
+                `paper_content`"
+            . $this->where($this->and($this->getContextConditions(), ['`paper_content`.`paper_id_fk` = :paper_id_fk']));
+        }
+        return $this->selectMany($this->sqlFindAllByFk, [':paper_id_fk' => $paperIdFk], true);
+    }
 
     /**
      * Vrací všechny řádky tabulky 'paper' ve formě asociativního pole vybranou podle podmínky WHERE.
@@ -91,25 +101,25 @@ class PaperContentDao extends DaoAbstract {
      * @return array Dvojrozměrné asociativní pole
      */
     public function find($whereClause=null, $touplesToBind=[]) {
+        if (!isset($this->sqlFind)) {
+            $this->sqlFind = "SELECT
+                `paper_content`.`id` AS `id`,
+                `paper_content`.`paper_id_fk` AS `paper_id_fk`,
+                `paper_content`.`content` AS `content`,
+                `paper_content`.`active` AS `active`,
+                `paper_content`.`priority` AS `priority`,
+                `paper_content`.`show_time` AS `show_time`,
+                `paper_content`.`hide_time` AS `hide_time`,
+                `paper_content`.`event_time` AS `event_time`,
+                `paper_content`.`editor` AS `editor`,
+                `paper_content`.`updated` AS `updated`,
+                 (ISNULL(show_time) OR show_time<=CURDATE()) AND (ISNULL(hide_time) OR CURDATE()<=hide_time) AS actual
+            FROM
+                `paper_content`"
+            .$this->where($whereClause);
 
-        $sql = "SELECT
-            `paper_content`.`id` AS `id`,
-            `paper_content`.`paper_id_fk` AS `paper_id_fk`,
-            `paper_content`.`content` AS `content`,
-            `paper_content`.`active` AS `active`,
-            `paper_content`.`priority` AS `priority`,
-            `paper_content`.`show_time` AS `show_time`,
-            `paper_content`.`hide_time` AS `hide_time`,
-            `paper_content`.`event_time` AS `event_time`,
-            `paper_content`.`editor` AS `editor`,
-            `paper_content`.`updated` AS `updated`,
-             (ISNULL(show_time) OR show_time<=CURDATE()) AND (ISNULL(hide_time) OR CURDATE()<=hide_time) AS actual
-        FROM
-            `paper_content`";
-        if (isset($whereClause) AND $whereClause) {
-            $sql .= " WHERE ".$whereClause;
         }
-        return $this->selectMany($sql, $touplesToBind);
+        return $this->selectMany($this->sqlFind, $touplesToBind);
     }
 
     /**
@@ -143,8 +153,10 @@ class PaperContentDao extends DaoAbstract {
     }
 
     public function update($row) {
-        $sql = "UPDATE paper_content SET paper_id_fk = :paper_id_fk, content = :content, active = :active, priority = :priority, show_time = :show_time, hide_time = :hide_time, editor = :editor
+        if (!isset($this->sqlu)) {
+            $this->sqlGet = "UPDATE paper_content SET paper_id_fk = :paper_id_fk, content = :content, active = :active, priority = :priority, show_time = :show_time, hide_time = :hide_time, editor = :editor
                 WHERE  id = :id";
+        }
         return $this->execUpdate($sql, [':paper_id_fk'=>$row['paper_id_fk'], ':content'=>$row['content'], ':active'=>$row['active'], ':priority'=>$row['priority'], ':show_time'=>$row['show_time'], ':hide_time'=>$row['hide_time'], ':editor'=>$row['editor'], ':id'=>$row['id']]);
     }
 
