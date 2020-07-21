@@ -170,7 +170,7 @@ class MenuItemDao extends DaoAbstract {
      */
     public function update($row) {
         $sql = "UPDATE menu_item SET title=:title, active=:active, show_time=:show_time, hide_time=:hide_time "
-                . $this->where($this->and(['menu_item.lang_code_fk = :lang_code_fk', 'menu_item.list=:list']));
+                . $this->where($this->and(['lang_code_fk=:lang_code_fk AND uid_fk=:uid_fk']));
         return $this->execUpdate($sql, [':title'=>$row['title'], ':active'=>$row['active'], ':show_time'=>$row['show_time'], ':hide_time'=>$row['hide_time'],
             ':lang_code_fk' => $row['lang_code_fk'], ':uid_fk'=> $row['uid_fk']]);
     }
