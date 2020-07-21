@@ -261,21 +261,21 @@ class ComponentController extends LayoutControllerAbstract {
                                 'templatesPath' => $commonPublicDir."tiny_templates/",
                                 'toolbarsLang' => $toolsbarsLang
                             ]),
-//                'urlTinyMCE' => $commonPublicDir.'tinymce/tinymce.min.js',
-//                'urlJqueryTinyMCE' => $commonPublicDir.'tinymce/jquery.tinymce.min.js',
+//                        'urlTinyMCE' => $commonPublicDir.'tinymce/tinymce.min.js',
+//                        'urlJqueryTinyMCE' => $commonPublicDir.'tinymce/jquery.tinymce.min.js',
 
-                'urlTinyMCE' => $commonPublicDir.'tinymce5_3_1\js\tinymce\tinymce.min.js',
-                'urlJqueryTinyMCE' => $commonPublicDir.'tinymce5_3_1\js\tinymce\jquery.tinymce.min.js',
+                        'urlTinyMCE' => $commonPublicDir.'tinymce5_3_1\js\tinymce\tinymce.min.js',
+                        'urlJqueryTinyMCE' => $commonPublicDir.'tinymce5_3_1\js\tinymce\jquery.tinymce.min.js',
 
-//                'urlTinyMCE' => $commonPublicDir.'tinymce5_3_1_dev\js\tinymce\tinymce.js',
-//                'urlJqueryTinyMCE' => $commonPublicDir.'tinymce5_3_1_dev\js\tinymce\jquery.tinymce.min.js',
+//                        'urlTinyMCE' => $commonPublicDir.'tinymce5_3_1_dev\js\tinymce\tinymce.js',
+//                        'urlJqueryTinyMCE' => $commonPublicDir.'tinymce5_3_1_dev\js\tinymce\jquery.tinymce.min.js',
 
 //    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 //    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 //    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/jquery.tinymce.min.js" referrerpolicy="origin"></script>
-                'urlTinyInit' => $webPublicDir.'grafia/js/TinyInit.js',
-                'editScript' => $webPublicDir . 'grafia/js/edit.js',
-                'kalendarScript' => $webPublicDir . 'grafia/js/kalendar.js',
+                        'urlTinyInit' => $webPublicDir.'grafia/js/TinyInit.js',
+                        'editScript' => $webPublicDir . 'grafia/js/edit.js',
+                        'kalendarScript' => $webPublicDir . 'grafia/js/kalendar.js',
                     ]),
 
             ];
@@ -380,6 +380,7 @@ class ComponentController extends LayoutControllerAbstract {
         }
         return $componets;
     }
+    
     private function getGeneratedLayoutComponents() {
         return [
             'languageSelect' => $this->container->get(LanguageSelectComponent::class),
