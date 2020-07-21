@@ -113,40 +113,61 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
             \usort($contents, array($this, "compareByPriority"));
             foreach ($contents as $paperContent) {
                 /** @var PaperContentInterface $paperContent */
-                $active = $paperContent->getActive();
-                $actual = $paperContent->getActual();
-                $form[] =
-                    Html::tag('section', ['class'=>$this->classMap->getClass('Content', 'section')],
-                        Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.corner')],
-                            $this->renderContentButtonsForm($paperContent)
-                        )
-                        .Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.semafor')],
-                                Html::tag('i',
-                                    ['class'=> $this->classMap->resolveClass(($active AND $actual), 'Content',
-                                        'i1.published', 'i1.notpublished')
-                                    ]
-                                )
-                                .Html::tag('i',
-                                    ['class'=> $this->classMap->resolveClass($active, 'Content',
-                                        $actual ? 'i2.published' : 'i2.notactual',
-                                        $actual ? 'i2.notactive' : 'i2.notactivenotactual')
-                                    ]
-                                )
-                                .$paperContent->getPriority()
-                        )
-                        .Html::tag('form',
-                            ['method'=>'POST', 'action'=>"api/v1/paper/{$paperContent->getPaperIdFk()}/contents/{$paperContent->getId()}/"],
-                            Html::tag('content',
-                                [
-                                    'id' => "content_{$paperContent->getId()}",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
-                                    'class'=>$this->classMap->getClass('Content', 'content'),
-                                    'data-paperowner'=>$paperAggregate->getEditor(),
-                                    'data-owner'=>$paperContent->getEditor()
-                                ],
-                                $paperContent->getContent()
-                                )
-                        )
-                    );
+                if ($paperContent->getPriority() > 0) {  // není v koši
+                    $active = $paperContent->getActive();
+                    $actual = $paperContent->getActual();
+                    $form[] =
+                        Html::tag('section', ['class'=>$this->classMap->getClass('Content', 'section')],
+                            Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.corner')],
+                                $this->renderContentButtonsForm($paperContent)
+                            )
+                            .Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.semafor')],
+                                    Html::tag('i',
+                                        ['class'=> $this->classMap->resolveClass(($active AND $actual), 'Content',
+                                            'i1.published', 'i1.notpublished')
+                                        ]
+                                    )
+                                    .Html::tag('i',
+                                        ['class'=> $this->classMap->resolveClass($active, 'Content',
+                                            $actual ? 'i2.published' : 'i2.notactual',
+                                            $actual ? 'i2.notactive' : 'i2.notactivenotactual')
+                                        ]
+                                    )
+                                    .$paperContent->getPriority()
+                            )
+                            .Html::tag('form',
+                                ['method'=>'POST', 'action'=>"api/v1/paper/{$paperContent->getPaperIdFk()}/contents/{$paperContent->getId()}/"],
+                                Html::tag('content',
+                                    [
+                                        'id' => "content_{$paperContent->getId()}",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
+                                        'class'=>$this->classMap->getClass('Content', 'content'),
+                                        'data-paperowner'=>$paperAggregate->getEditor(),
+                                        'data-owner'=>$paperContent->getEditor()
+                                    ],
+                                    $paperContent->getContent()
+                                    )
+                            )
+                        );
+                } else {  // je v koši
+                    $form[] =
+                        Html::tag('section', ['class'=>$this->classMap->getClass('Content', 'section')],
+                            Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.corner')],
+                                $this->renderTrashButtonsForm($paperContent)
+                            )
+                            .Html::tag('div',
+                                [],
+                                Html::tag('content',
+                                    [
+                                        'id' => "content_{$paperContent->getId()}",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
+                                        'class'=>$this->classMap->getClass('Content', 'content'),
+                                        'data-paperowner'=>$paperAggregate->getEditor(),
+                                        'data-owner'=>$paperContent->getEditor()
+                                    ],
+                                    $paperContent->getContent()
+                                    )
+                            )
+                        );
+                }
             }
         }
         return implode(PHP_EOL, $form);
@@ -273,7 +294,7 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
                         'name'=>'button',
                         'value' => '',
                         'formmethod'=>'post',
-                        'formaction'=>"api/v1/paper/$paperIdFk/contents/$paperContentId/delete",
+                        'formaction'=>"api/v1/paper/$paperIdFk/contents/$paperContentId/trash",
                         ],
                         Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'div div button7 i')])
                     )
@@ -336,6 +357,46 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
                 )
             )
         );
+    }
+    private function renderTrashButtonsForm(PaperContentInterface $paperContent) {
+        //TODO: atributy data-tooltip a data-position jsou pro semantic - zde jsou napevno zadané
+        $paperIdFk = $paperContent->getPaperIdFk();
+        $paperContentId = $paperContent->getId();
+
+        return
+
+        Html::tag('form', ['method'=>'POST', 'action'=>""],
+            Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div')],
+                Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div div.content')],
+                    Html::tag('button',
+                        ['class'=>$this->classMap->getClass('ContentButtons', 'div div button'),
+                        'data-tooltip'=>'Obnovit',
+                        'type'=>'submit',
+                        'name'=>'button',
+                        'value' => '',
+                        'formmethod'=>'post',
+                        'formaction'=>"api/v1/paper/$paperIdFk/contents/$paperContentId/restore",
+                        ],
+                        Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'div div button7 i')])
+                    )
+                )
+                .Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div div.content')],
+                    Html::tag('button',
+                        ['class'=>$this->classMap->getClass('ContentButtons', 'div div button'),
+                        'data-tooltip'=>'Smazat',
+                        'type'=>'submit',
+                        'name'=>'button',
+                        'value' => '',
+                        'formmethod'=>'post',
+                        'formaction'=>"api/v1/paper/$paperIdFk/contents/$paperContentId/delete",
+                        ],
+                        Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'div div button7 i')])
+                    )
+                )
+            )
+
+        );
+
     }
 
     protected function renderNewContent(PaperAggregateInterface $paperAggregate) {

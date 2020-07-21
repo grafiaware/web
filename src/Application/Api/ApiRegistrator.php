@@ -68,6 +68,8 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/paper/:paperId/contents/:contentId/down'));
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/paper/:paperId/contents/:contentId/add_above'));
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/paper/:paperId/contents/:contentId/add_below'));
+        $registry->register($this->postPrototype->withUrlPattern('/api/v1/paper/:paperId/contents/:contentId/trash'));
+        $registry->register($this->postPrototype->withUrlPattern('/api/v1/paper/:paperId/contents/:contentId/restore'));
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/paper/:paperId/contents/:contentId/delete'));
 
         #### EditItemController ####

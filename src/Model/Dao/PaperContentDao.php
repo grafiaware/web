@@ -153,11 +153,11 @@ class PaperContentDao extends DaoAbstract {
     }
 
     public function update($row) {
-        if (!isset($this->sqlu)) {
-            $this->sqlGet = "UPDATE paper_content SET paper_id_fk = :paper_id_fk, content = :content, active = :active, priority = :priority, show_time = :show_time, hide_time = :hide_time, editor = :editor
+        if (!isset($this->sqlUpdate)) {
+            $this->sqlUpdate = "UPDATE paper_content SET paper_id_fk = :paper_id_fk, content = :content, active = :active, priority = :priority, show_time = :show_time, hide_time = :hide_time, editor = :editor
                 WHERE  id = :id";
         }
-        return $this->execUpdate($sql, [':paper_id_fk'=>$row['paper_id_fk'], ':content'=>$row['content'], ':active'=>$row['active'], ':priority'=>$row['priority'], ':show_time'=>$row['show_time'], ':hide_time'=>$row['hide_time'], ':editor'=>$row['editor'], ':id'=>$row['id']]);
+        return $this->execUpdate($this->sqlUpdate, [':paper_id_fk'=>$row['paper_id_fk'], ':content'=>$row['content'], ':active'=>$row['active'], ':priority'=>$row['priority'], ':show_time'=>$row['show_time'], ':hide_time'=>$row['hide_time'], ':editor'=>$row['editor'], ':id'=>$row['id']]);
     }
 
     public function delete($row) {

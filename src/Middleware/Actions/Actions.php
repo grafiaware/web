@@ -143,6 +143,16 @@ class Actions extends AppMiddlewareAbstract implements MiddlewareInterface {
                 $ctrl = $this->container->get(ContentController::class);
                 return $ctrl->addBelow($request, $paperId, $contentId);
         });
+        $routeGenerator->addRouteForAction('POST', '/api/v1/paper/:paperId/contents/:contentId/trash', function(ServerRequestInterface $request, $paperId, $contentId) {
+                /** @var ContentController $ctrl */
+                $ctrl = $this->container->get(ContentController::class);
+                return $ctrl->trash($request, $paperId, $contentId);
+        });
+        $routeGenerator->addRouteForAction('POST', '/api/v1/paper/:paperId/contents/:contentId/restore', function(ServerRequestInterface $request, $paperId, $contentId) {
+                /** @var ContentController $ctrl */
+                $ctrl = $this->container->get(ContentController::class);
+                return $ctrl->delete($request, $paperId, $contentId);
+        });
         $routeGenerator->addRouteForAction('POST', '/api/v1/paper/:paperId/contents/:contentId/delete', function(ServerRequestInterface $request, $paperId, $contentId) {
                 /** @var ContentController $ctrl */
                 $ctrl = $this->container->get(ContentController::class);
