@@ -15,7 +15,15 @@
     </form>
 
     <script>
-        $('.ui.dropdown')
-          .dropdown()
-        ;
+        $('.ui.dropdown').dropdown(
+//                    {
+//                        action: 'select'
+//                    }
+        );
+           
+        $('.dropdown').keyup(function(event){
+            if(event.keyCode === 13){
+                $('.positive.button').click();
+            }
+        });
     </script>

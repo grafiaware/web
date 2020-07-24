@@ -30,15 +30,8 @@ use Component\Renderer\Html\ClassMap\ClassMap;
  */
 class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
 
-    public function getAliases() {
+    public function getFactoriesDefinitions() {
         return [
-//            PhpTemplateRendererInterface::class => PhpTemplateRenderer::class,
-        ];
-    }
-
-    public function getServicesDefinitions() {
-        return [
-
         #
         #  menu classmap
         #
@@ -125,6 +118,17 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
                             'div div div div' => 'ui calendar',
                             'div div div div div' => 'ui input',
                         ],
+        ];
+    }
+
+    public function getAliases() {
+        return [
+//            PhpTemplateRendererInterface::class => PhpTemplateRenderer::class,
+        ];
+    }
+
+    public function getServicesDefinitions() {
+        return [
             'menu.presmerovani.classmap' => function(ContainerInterface $c) {
                 return new ClassMap (
                     [
@@ -423,6 +427,7 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
                         ],
                      'Content' => [
                         'section'=>'',
+                        'section.trash'=>'trash',
                         'div.semafor'=>'semafor',
                         'div.corner'=>'ui right tiny corner blue label',
                         'i1.published' => 'circle icon green',
@@ -431,10 +436,13 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
                         'i2.notactive' => 'calendar plus icon yellow',
                         'i2.notactual' => 'calendar minus icon orange',
                         'i2.notactivenotactual' => 'calendar times icon red',
+                        'i.trash' => 'trash icon purple',
                         'content'=>'',
+                        'div.trash_content'=>'trash_content'
                         ],
                      'PaperButtons' => $c->get('paper_edit_buttons'),
                      'ContentButtons' => $c->get('content_edit_buttons'),
+                     'TrashButtons' => $c->get('deleted_content_buttons'),
                     ]
                 );
             },
@@ -518,6 +526,16 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
                     ]
                 );
             },
+
+        ];
+    }
+
+    public function getServicesOverrideDefinitions() {
+        return [
+
+        // !! pokud je delegátem zde definovaného kontejneru TemplateRendererContainer
+        // TemplateRendererContainer vrací true při volání has(jméno třídy) pro každou eistující třídu
+        // => každý renderer, pro který jméno služby je jméno třídy musí být definován zde, v getServicesOverrideDefinitions()
         #
         #  generated renderer
         #
@@ -540,9 +558,5 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
 //                return new PhpTemplateRenderer();
 //            },
         ];
-    }
-
-    public function getFactoriesDefinitions() {
-        return [];
     }
 }
