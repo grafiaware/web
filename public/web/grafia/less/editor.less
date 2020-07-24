@@ -564,8 +564,13 @@ body.layout#tinymce{
     }
     .mce-content-body:not(.mce-edit-focus){
         outline: 1px dotted @lightGrey;
+    }
+    .trash_content{
+        padding: 10px;
+        margin: 0 -5px 5px -5px;
+        outline: 1px dotted #ddc5ff;
         &:hover{
-            outline-color: darken(@lightGrey,15);
+            outline-color: darken(#f8f3ff,15);
         }
     }
     section{
@@ -581,6 +586,10 @@ body.layout#tinymce{
             z-index: 1;
         }
     }
+    section.trash .trash_content{
+        filter: grayscale(1);
+        opacity: 0.5;
+    }
     #editName{
         display: none;
     }
@@ -589,6 +598,7 @@ body.layout#tinymce{
     }
     .editDate{
         flex-direction: row;
+        z-index: 10;
     }
     .edit_kalendar{
         position: absolute;
@@ -659,6 +669,9 @@ body.layout#tinymce{
         button[data-tooltip]::after{
             font-weight: 700;
         }
+    }
+    .contentButtons.trash .editContent{
+        background-color: #f8f3ff;
     }
     section .ui.corner.label{
         width: 2em;

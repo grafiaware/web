@@ -11,21 +11,17 @@ $('.right.corner.blue').hover(
     },
     function(){
         $(this).parent('section').find('.contentButtons').css("display", "none");
+//        if($('.editDate').css("display") === "flex"){
+//            //alert("EditDate");
+//            $(this).css("z-index", "10");
+//        } else{
+//            $(this).css("z-index", "1");
+//        }
         $(this).css("z-index", "1");
     }
 );
 $('.toolsDate').click(function(){
     $('.right.corner.blue').hover(
-        function(){
-            $(this).parent('section').find('.contentButtons').css("display", "none");
-        }
-    );
-});
-$('.editDate .button').click(function(){
-    $('.right.corner.blue').hover(
-        function(){
-            $(this).parent('section').find('.contentButtons').css("display", "flex");
-        },
         function(){
             $(this).parent('section').find('.contentButtons').css("display", "none");
         }
