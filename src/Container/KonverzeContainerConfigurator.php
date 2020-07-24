@@ -44,121 +44,118 @@ use Model\HierarchyHooks\MenuListStyles;
  * @author pes2704
  */
 class KonverzeContainerConfigurator extends ContainerConfiguratorAbstract {
-    public function getAliases() {
-        return [
-            HandlerInterface::class => Handler::class,
-            RouterInterface::class => Router::class,
-            NodeAggregateReadonlyDaoInterface::class => NodeAggregateReadonlyDao::class,
-            NodeEditDaoInterface::class => NodeEditDao::class,
-        ];
-    }
 
     public function getFactoriesDefinitions() {
-        return [];
-    }
-
-    public function getServicesDefinitions() {
-
         return [
             #################################
             # Sekce konfigurace databáze
             # Konfigurace databáze může být v aplikačním kontejneru nebo různá v jednotlivých middleware kontejnerech.
             #
-            ## konfigurována jen jedna databáze pro celou aplikaci
             ## konfigurována dvě připojení k databázi - jedno pro vývoj a druhé pro běh na produkčním stroji
             #
-            'database.type' => DbTypeEnum::MySQL,
-            'database.port' => '3306',
-            'database.charset' => 'utf8',
-            'database.collation' => 'utf8_general_ci',
 
-            'database.development.user.name' => 'grafia_upgrader',
-            'database.development.user.password' => 'grafia_upgrader',
-            'database.development.connection.host' => 'localhost',
-            'database.development.connection.name' => 'grafia_upgrade',
+            'konverze.db.development.user.name' => 'grafia_upgrader',
+            'konverze.db.development.user.password' => 'grafia_upgrader',
+            'konverze.db.development.connection.host' => 'localhost',
+            'konverze.db.development.connection.name' => 'grafia_upgrade',
 
-            'database.production_host.user.name' => 'xxxxxxxxxxxxxxxxx',
-            'database.production_host.user.password' => 'xxxxxxxxxxxxxxxxxxxx',
-            'database.production_host.connection.host' => 'xxxx',
-            'database.production_host.connection.name' => 'xxxx',
+            'konverze.db.production_host.user.name' => 'xxxxxxxxxxxxxxxxx',
+            'konverze.db.production_host.user.password' => 'xxxxxxxxxxxxxxxxxxxx',
+            'konverze.db.production_host.connection.host' => 'xxxx',
+            'konverze.db.production_host.connection.name' => 'xxxx',
 
-            'logs.database.directory' => 'Logs/Konverze',
-            'logs.database.file' => 'Database.log',
             #
             #  Konec sekce konfigurace databáze
             ###################################
 
             ###################################
             # Konfigurace logů koncerze
-            'logs.konverze.directory' => 'Logs/Konverze',
-            'logs.konverze.file' => 'Konverze.log',
+            'konverze.db.logs.directory' => 'Logs/Konverze',
+            'konverze.db.logs.file' => 'Konverze.log',
             #
             ###################################
 
-            // konfigurace hirarchy objektů
-            'menu.hierarchy' => 'hierarchy',
-            'menu.nested_set_view' => 'hierarchy_view',
+            // konfigurace názvů tabulek a view hierarchy objektů
+            'konverze.hierarchy.table' => 'hierarchy',
+            'konverze.hirarchy.view' => 'hierarchy_view',
+
 
             #####################################
+        ];
+    }
+
+    public function getAliases() {
+        return [
+            RouterInterface::class => Router::class,
+            NodeAggregateReadonlyDaoInterface::class => NodeAggregateReadonlyDao::class,
+            NodeEditDaoInterface::class => NodeEditDao::class,
+        ];
+    }
+
+    public function getServicesDefinitions() {
+
+        return [
+
             // db objekty
-            'databaseLogger' => function(ContainerInterface $c) {
-                return FileLogger::getInstance($c->get('logs.database.directory'), $c->get('logs.database.file'), FileLogger::REWRITE_LOG); //new NullLogger();
+            'konverze.db.logger' => function(ContainerInterface $c) {
+                return FileLogger::getInstance($c->get('konverze.db.logs.directory'), $c->get('konverze.db.logs.file'), FileLogger::REWRITE_LOG); //new NullLogger();
             },
 
             Account::class => function(ContainerInterface $c) {
                 // account NENÍ vytvářen s použitím User - není třeba přidávat do SecurityContextObjectsRemover
                 if (PES_DEVELOPMENT) {
                     return new Account(
-                            $c->get('database.development.user.name'),
-                            $c->get('database.development.user.password'));
+                            $c->get('konverze.db.development.user.name'),
+                            $c->get('konverze.db.development.user.password'));
                 } elseif(PES_RUNNING_ON_PRODUCTION_HOST) {
                     return new Account(
-                            $c->get('database.production_host.user.name'),
-                            $c->get('database.production_host.user.password'));                }
+                            $c->get('konverze.db.production_host.user.name'),
+                            $c->get('konverze.db.production_host.user.password'));
+                }
             },
             ConnectionInfo::class => function(ContainerInterface $c) {
                 if (PES_DEVELOPMENT) {
                     return new ConnectionInfo(
-                            $c->get('database.type'),
-                            $c->get('database.development.connection.host'),
-                            $c->get('database.development.connection.name'),
-                            $c->get('database.charset'),
-                            $c->get('database.collation'),
-                            $c->get('database.port'));
+                            $c->get('konverze.db.type'),
+                            $c->get('konverze.db.development.connection.host'),
+                            $c->get('konverze.db.development.connection.name'),
+                            $c->get('konverze.db.charset'),
+                            $c->get('konverze.db.collation'),
+                            $c->get('konverze.db.port'));
                 } elseif(PES_RUNNING_ON_PRODUCTION_HOST) {
                     return new ConnectionInfo(
-                            $c->get('database.type'),
-                            $c->get('database.production_host.connection.host'),
-                            $c->get('database.production_host.connection.name'),
-                            $c->get('database.charset'),
-                            $c->get('database.collation'),
-                            $c->get('database.port'));
+                            $c->get('konverze.db.type'),
+                            $c->get('konverze.db.production_host.connection.host'),
+                            $c->get('konverze.db.production_host.connection.name'),
+                            $c->get('konverze.db.charset'),
+                            $c->get('konverze.db.collation'),
+                            $c->get('konverze.db.port'));
                 }
             },
             DsnProviderMysql::class =>  function(ContainerInterface $c) {
                 $dsnProvider = new DsnProviderMysql();
                 if (PES_DEVELOPMENT) {
-                    $dsnProvider->setLogger($c->get('databaseLogger'));
+                    $dsnProvider->setLogger($c->get('konverze.db.logger'));
                 }
                 return $dsnProvider;
             },
             OptionsProviderMysql::class =>  function(ContainerInterface $c) {
                 $optionsProvider = new OptionsProviderMysql();
                 if (PES_DEVELOPMENT) {
-                    $optionsProvider->setLogger($c->get('databaseLogger'));
+                    $optionsProvider->setLogger($c->get('konverze.db.logger'));
                 }
                 return $optionsProvider;
             },
             AttributesProvider::class =>  function(ContainerInterface $c) {
                 $attributesProvider = new AttributesProvider();
                 if (PES_DEVELOPMENT) {
-                    $attributesProvider->setLogger($c->get('databaseLogger'));
+                    $attributesProvider->setLogger($c->get('konverze.db.logger'));
                 }
                 return $attributesProvider;
             },
             Handler::class => function(ContainerInterface $c) : HandlerInterface {
                 // povinný logger do kostruktoru = pro logování exception při intancování Handleru a PDO - zde používám stejný logger pro všechny db objekty
-                $logger = $c->get('databaseLogger');
+                $logger = $c->get('konverze.db.logger');
                 return new Handler(
                         $c->get(Account::class),
                         $c->get(ConnectionInfo::class),
@@ -172,21 +169,21 @@ class KonverzeContainerConfigurator extends ContainerConfiguratorAbstract {
             #
             // manipulator
             Manipulator::class => function(ContainerInterface $c) : Manipulator {
-                return new Manipulator($c->get(Handler::class), FileLogger::getInstance($c->get('logs.konverze.directory'), $c->get('logs.konverze.file'), FileLogger::REWRITE_LOG));
+                return new Manipulator($c->get(Handler::class), FileLogger::getInstance($c->get('konverze.logsdirectory'), $c->get('konverze.logsfile'), FileLogger::REWRITE_LOG));
             },
 
             // hierarchny
             NodeAggregateReadonlyDao::class => function(ContainerInterface $c) : NodeAggregateReadonlyDao {
-                return new NodeAggregateReadonlyDao($c->get(Handler::class), $c->get('hierarchy_view'));
+                return new NodeAggregateReadonlyDao($c->get(Handler::class), $c->get('konverze.hirarchy.view'));
             },
 
             NodeEditDao::class => function(ContainerInterface $c) : NodeEditDao {
-                return new NodeEditDao($c->get(Handler::class), $c->get('menu.hierarchy'));
+                return new NodeEditDao($c->get(Handler::class), $c->get('konverze.hierarchy.table'));
             },
 
-            HookedMenuItemActor::class => function(ContainerInterface $c) {
-                return new HookedMenuItemActor('cs', 'Nová položka');
-            },
+//            HookedMenuItemActor::class => function(ContainerInterface $c) {
+//                return new HookedMenuItemActor('cs', 'Nová položka');
+//            },
 
             ArticleTitleUpdater::class => function(ContainerInterface $c) {
                 return new ArticleTitleUpdater($c->get(Handler::class));
@@ -196,5 +193,9 @@ class KonverzeContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new MenuListStyles();
             }
         ];
+    }
+
+    public function getServicesOverrideDefinitions() {
+        ;
     }
 }

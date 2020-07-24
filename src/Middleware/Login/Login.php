@@ -7,6 +7,8 @@ use Pes\Middleware\AppMiddlewareAbstract;
 use Pes\Container\Container;
 
 use Container\LoginContainerConfigurator;
+use Container\DbOldContainerConfigurator;
+
 use Model\Repository\StatusSecurityRepo;
 
 use StatusManager\StatusSecurityManagerInterface;
@@ -34,8 +36,10 @@ class Login extends AppMiddlewareAbstract implements MiddlewareInterface {
 
         $this->container =
             (new LoginContainerConfigurator())->configure(
+                (new DbOldContainerConfigurator())->configure(
                     (new Container($this->getApp()->getAppContainer()))
-                );
+                )
+            );
 
         /** @var RouteSegmentGenerator $routeGenerator */
         $routeGenerator = $this->container->get(RouteSegmentGenerator::class);

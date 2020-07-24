@@ -56,12 +56,35 @@ use StatusManager\Observer\SecurityContextObjectsRemover;
  */
 class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
 
+    public function getFactoriesDefinitions() {
+        return [
+            #################################
+            # Sekce konfigurace účtů databáze
+            # Konfigurace připojení k databázi je v aplikačním kontejneru, je pro celou aplikaci stejná.
+            # Služby, které vrací objekty s informacemi pro připojení k databázi jsou také v aplikačním kontejneru a v jednotlivých middleware
+            # kontejnerech se volají jako služby delegate kontejneru.
+            #
+            # Zde je konfigurace údajů uživatele pro připojení k databázi. Ta je pro každý middleware v jeho kontejneru.
+            'login.db.account.everyone.name' => 'everyone',
+            'login.db.account.everyone.password' => 'everyone',
+            'login.db.account.authenticated.name' => 'everyone',
+            'login.db.account.authenticated.password' => 'everyone',
+            'login.db.account.administrator.name' => 'everyone',
+            'login.db.account.administrator.password' => 'everyone',
+
+            'login.logs.database.directory' => 'Logs/Login',
+            'login.logs.database.file' => 'Database.log',
+            #
+            ###################################
+
+        ];
+    }
+
     public function getAliases() {
         return [
             AccountInterface::class => Account::class,
             HandlerInterface::class => Handler::class,
-            RouterInterface::class => Router::class,
-            StatusSecurityManagerInterface::class => StatusSecurityManager::class,
+
             NamePasswordAuthenticatorInterface::class => DbAuthenticator::class,
         ];
     }
@@ -70,22 +93,9 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
         return [
             // LoginContainer má AppContainer jako delegáta
             //
-
-            #################################
-            # Sekce konfigurace účtů databáze
-            # Konfigurace připojení k databázi je v aplikačním kontejneru, je pro celou aplikaci stejná.
-            # Služby, které vrací objekty s informacemi pro připojení k databázi jsou také v aplikačním kontejneru a v jednotlivých middleware
-            # kontejnerech se volají jako služby delegate kontejneru.
-            #
-            # Zde je konfigurace údajů uživatele pro připojení k databázi. Ta je pro každý middleware v jeho kontejneru.
-            'database.account.everyone.name' => 'everyone',
-            'database.account.everyone.password' => 'everyone',
-            'database.account.authenticated.name' => 'everyone',
-            'database.account.authenticated.password' => 'everyone',
-            'database.account.administrator.name' => 'everyone',
-            'database.account.administrator.password' => 'everyone',
-            #
-            ###################################
+            'login.database.logger' => function(ContainerInterface $c) {
+                return FileLogger::getInstance($c->get('login.logs.database.directory'), $c->get('login.logs.database.file'), FileLogger::REWRITE_LOG); //new NullLogger();
+            },
 
             ## !!!!!! Objekty Account a Handler musí být v kontejneru vždy definovány jako service (tedy vytvářeny jako singleton) a nikoli
             #         jako factory. Pokud definuji jako factory, múže vzniknou řada objektů Account a Handler, které vznikly s použití
@@ -95,14 +105,12 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
             ##
             // database account
             Account::class => function(ContainerInterface $c) {
-                // account NENÍ vytvářen s použitím User - není třeba přidávat do SecurityContextObjectsRemover
-                $account = new Account($c->get('database.account.everyone.name'), $c->get('database.account.everyone.password'));
+                $account = new Account($c->get('login.db.account.everyone.name'), $c->get('login.db.account.everyone.password'));
                 return $account;
             },
 
             // database
-                ## konfigurována jen jedna databáze pro celou aplikaci
-                ## konfiguroványdvě připojení k databázi - jedno pro vývoj a druhé pro běh na produkčním stroji
+                ## konfigurována dvě připojení k databázi - jedno pro vývoj a druhé pro běh na produkčním stroji
                 ## pro loginmiddleware se používá zde definovaný Account, ostatní objekty jsou společné - z App kontejneru
             Handler::class => function(ContainerInterface $c) : HandlerInterface {
                 return new Handler(
@@ -111,15 +119,7 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(DsnProviderMysql::class),
                         $c->get(OptionsProviderMysql::class),
                         $c->get(AttributesProvider::class),
-                        $c->get('databaseLogger'));
-            },
-            // viewModel s daty ukládanými v session - vytvářenými s použitím objektů, které závisejí na bezpečnostním kotextu
-            // StatusSecurityModel v metodě ->regenerateSecurityStatus() musí tyto objekty smazat při změně bezpečnostního kontextu
-            // Objekty StatusSecurityRepo a User (ze session) jsou získávány z app kontejneru,objekty Account a Handler závisí na konfiguraci databázovžch parametrů
-            // a jsou získávány v tomto konteneru
-            StatusSecurityManager::class => function(ContainerInterface $c) {
-                $securityModel = new StatusSecurityManager($c->get(StatusSecurityRepo::class));
-                return $securityModel;
+                        $c->get('login.database.logger'));
             },
             // db userRepo
             UserRepo::class => function(ContainerInterface $c) {
@@ -138,7 +138,7 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
         ];
     }
 
-    public function getFactoriesDefinitions() {
+    public function getServicesOverrideDefinitions() {
         return [];
     }
 }

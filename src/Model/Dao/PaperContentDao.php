@@ -91,7 +91,7 @@ class PaperContentDao extends DaoAbstract {
                 `paper_content`"
             . $this->where($this->and($this->getContextConditions(), ['`paper_content`.`paper_id_fk` = :paper_id_fk']));
         }
-        return $this->selectMany($this->sqlFindAllByFk, [':paper_id_fk' => $paperIdFk], true);
+        return $this->selectMany($this->sqlFindAllByFk, [':paper_id_fk' => $paperIdFk]);
     }
 
     /**
@@ -130,12 +130,15 @@ class PaperContentDao extends DaoAbstract {
      * @throws UnexpectedValueException
      */
     public function insert($row) {
-        $idKey = 'id';
+        $readonly = [
+            'id'
+        ];
+
         foreach ($row as $key => $value) {
-            if (isset($value)) {
-                if ($key==$idKey) {
-                    throw new \UnexpectedValueException("Chybný pokus o insert. Tabulka má autoincrement id a hodnoty obsahují id.");
-                } else {
+            if (array_key_exists($key, $readonly)) {
+                throw new \UnexpectedValueException("Chybný pokus o insert. Pole vstupních dat obsahuje položku $key, která odpovídá readonly atributu.");
+            } else {
+                if (isset($value)) {
                     $columns[] = $key;
                     $placeholders[] = ":".$key;
                     $touplesToBind[":".$key] = $value;
@@ -152,12 +155,18 @@ class PaperContentDao extends DaoAbstract {
 //        return $this->execInsert($sql, [':paper_id_fk'=>$row['paper_id_fk'], ':content'=>$row['content'], ':active'=>$row['active'], ':priority'=>$row['priority'], ':show_time'=>$row['show_time'], ':hide_time'=>$row['hide_time'], ':editor'=>$row['editor']]);
     }
 
+    /**
+     * Update - neukládá paper_id_fk a actual (actual je readonly)
+     *
+     * @param type $row
+     * @return type
+     */
     public function update($row) {
         if (!isset($this->sqlUpdate)) {
-            $this->sqlUpdate = "UPDATE paper_content SET paper_id_fk = :paper_id_fk, content = :content, active = :active, priority = :priority, show_time = :show_time, hide_time = :hide_time, editor = :editor
+            $this->sqlUpdate = "UPDATE paper_content SET content = :content, active = :active, priority = :priority, show_time = :show_time, hide_time = :hide_time, editor = :editor
                 WHERE  id = :id";
         }
-        return $this->execUpdate($this->sqlUpdate, [':paper_id_fk'=>$row['paper_id_fk'], ':content'=>$row['content'], ':active'=>$row['active'], ':priority'=>$row['priority'], ':show_time'=>$row['show_time'], ':hide_time'=>$row['hide_time'], ':editor'=>$row['editor'], ':id'=>$row['id']]);
+        return $this->execUpdate($this->sqlUpdate, [':content'=>$row['content'], ':active'=>$row['active'], ':priority'=>$row['priority'], ':show_time'=>$row['show_time'], ':hide_time'=>$row['hide_time'], ':editor'=>$row['editor'], ':id'=>$row['id']]);
     }
 
     public function delete($row) {

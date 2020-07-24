@@ -59,12 +59,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/box4pes/pes.git",
-                "reference": "5dac3e58d9a9bfdf1fca163bb92b3b9df69e7309"
+                "reference": "882c2c3a61b975732a5cf477d585f0d5d9d62238"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/box4pes/pes/zipball/5dac3e58d9a9bfdf1fca163bb92b3b9df69e7309",
-                "reference": "5dac3e58d9a9bfdf1fca163bb92b3b9df69e7309",
+                "url": "https://api.github.com/repos/box4pes/pes/zipball/882c2c3a61b975732a5cf477d585f0d5d9d62238",
+                "reference": "882c2c3a61b975732a5cf477d585f0d5d9d62238",
                 "shasum": ""
             },
             "require": {
@@ -101,7 +101,7 @@
                 "framework",
                 "pes"
             ],
-            "time": "2020-07-18T20:28:51+00:00"
+            "time": "2020-07-22T23:02:16+00:00"
         },
         {
             "name": "phpmyadmin/motranslator",

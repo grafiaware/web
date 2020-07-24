@@ -20,7 +20,7 @@ class MenuItemDao extends DaoAbstract {
     private $sqlGet;
     private $sqlGetByList;
     private $sqlFindByContentFulltextSearch;
-
+    private $sqlUpdate;
 
 
     protected function getContextConditions() {
@@ -119,9 +119,8 @@ class MenuItemDao extends DaoAbstract {
                 score_c
             FROM
                 (SELECT lang_code_fk, uid_fk, type_fk, id, title, active, show_time, hide_time
-                    FROM menu_item
-                    WHERE "
-                        .$this->where(['menu_item.lang_code_fk = :lang_code_fk', "menu_item.type_fk = 'paper'"])
+                    FROM menu_item "
+                        .$this->where($this->and(['menu_item.lang_code_fk = :lang_code_fk', "menu_item.type_fk = 'paper'"]))
                         ."
                 ) AS active_menu_item
             INNER JOIN
@@ -142,21 +141,9 @@ class MenuItemDao extends DaoAbstract {
                 score_c > $scoreLimitContent
             ORDER BY score_h DESC, score_c DESC";
         }
-        $statement = $this->dbHandler->prepare($this->sqlFindByContentFulltextSearch);
-        $statement->bindParam(':text1', $text, \PDO::PARAM_STR);    // PDO neumožňuje použít vícekrát stejný placeholder
-        $statement->bindParam(':text2', $text, \PDO::PARAM_STR);
-        $statement->bindParam(':lang_code_fk', $langCodeFk, \PDO::PARAM_STR);
-        if ($statement == FALSE) {
-            $einfo = $this->dbHandler->errorInfo();
-            throw new StatementFailureException($einfo[2].PHP_EOL.". Nevznikl PDO statement z sql příkazu: $sql", $einfo[1]);
-        }
-        $success = $statement->execute();
-        if (!$success) {
-            $einfo = $this->dbHandler->errorInfo();
-            throw new StatementFailureException($einfo[2].PHP_EOL.". Nevykonal se PDO statement z sql příkazu: $sql", $einfo[1]);
-        }
-        $num_rows = $statement->rowCount();
-        return $num_rows ? $statement->fetchAll(\PDO::FETCH_ASSOC) : [];
+
+        return $this->selectMany($this->sqlFindByContentFulltextSearch, [':text1' => $text, ':text2' => $text, ':lang_code_fk' => $langCodeFk]);
+
     }
 
     public function insert($row) {
@@ -169,9 +156,11 @@ class MenuItemDao extends DaoAbstract {
      * @return type
      */
     public function update($row) {
-        $sql = "UPDATE menu_item SET title=:title, active=:active, show_time=:show_time, hide_time=:hide_time "
+        if (!$this->sqlUpdate) {
+            $this->sqlUpdate = "UPDATE menu_item SET title=:title, active=:active, show_time=:show_time, hide_time=:hide_time "
                 . $this->where($this->and(['lang_code_fk=:lang_code_fk AND uid_fk=:uid_fk']));
-        return $this->execUpdate($sql, [':title'=>$row['title'], ':active'=>$row['active'], ':show_time'=>$row['show_time'], ':hide_time'=>$row['hide_time'],
+        }
+        return $this->execUpdate($this->sqlUpdate, [':title'=>$row['title'], ':active'=>$row['active'], ':show_time'=>$row['show_time'], ':hide_time'=>$row['hide_time'],
             ':lang_code_fk' => $row['lang_code_fk'], ':uid_fk'=> $row['uid_fk']]);
     }
 

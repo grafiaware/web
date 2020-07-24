@@ -337,4 +337,8 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
             }
         ];
     }
+
+    public function getServicesOverrideDefinitions() {
+        return [];
+    }
 }

@@ -90,19 +90,9 @@ use StatusManager\StatusPresentationManagerInterface;
  * @author pes2704
  */
 class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
-    public function getAliases() {
-        return [
-            HandlerInterface::class => Handler::class,
-            RouterInterface::class => Router::class,
-            NodeAggregateReadonlyDaoInterface::class => NodeAggregateReadonlyDao::class,
-            NodeEditDaoInterface::class => NodeEditDao::class,
-            StatusPresentationManagerInterface::class => StatusPresentationManager::class,
-        ];
-    }
 
-    public function getServicesDefinitions() {
+    public function getFactoriesDefinitions() {
         return [
-
             #################################
             # Sekce konfigurace databáze
             # Konfigurace databáze může být v aplikačním kontejneru nebo různá v jednotlivých middleware kontejnerech.
@@ -132,10 +122,11 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
             ###################################
 
             // konfigurace hierarchy tabulek
-            'menu.hierarchy_table' => 'hierarchy',
-            'menu.menu_item_table' => 'menu_item',
+            'hierarchy.table' => 'hierarchy',
+            'hirarchy.view' => 'hierarchy_view',
 
             // konfigurace menu
+            'menu.menu_item_table' => 'menu_item',
             'menu.new_title' => 'Nová položka',
             'menu.trash_type' => 'trash',
 
@@ -144,75 +135,21 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
             'navElementClass' => 'menu_nav',
 
             #####################################
-            // db objekty
-            'databaseLogger' => function(ContainerInterface $c) {
-                return FileLogger::getInstance($c->get('logs.database.directory'), $c->get('logs.database.file'), FileLogger::REWRITE_LOG); //new NullLogger();
-            },
+        ];
+    }
 
-            Account::class => function(ContainerInterface $c) {
-                // account NENÍ vytvářen s použitím User - není třeba přidávat do SecurityContextObjectsRemover
-                if (PES_DEVELOPMENT) {
-                    return new Account(
-                            $c->get('database.development.user.name'),
-                            $c->get('database.development.user.password'));
-                } elseif(PES_RUNNING_ON_PRODUCTION_HOST) {
-                    return new Account(
-                            $c->get('database.production_host.user.name'),
-                            $c->get('database.production_host.user.password'));                }
-            },
-            ConnectionInfo::class => function(ContainerInterface $c) {
-                if (PES_DEVELOPMENT) {
-                    return new ConnectionInfo(
-                            $c->get('database.type'),
-                            $c->get('database.development.connection.host'),
-                            $c->get('database.development.connection.name'),
-                            $c->get('database.charset'),
-                            $c->get('database.collation'),
-                            $c->get('database.port'));
-                } elseif(PES_RUNNING_ON_PRODUCTION_HOST) {
-                    return new ConnectionInfo(
-                            $c->get('database.type'),
-                            $c->get('database.production_host.connection.host'),
-                            $c->get('database.production_host.connection.name'),
-                            $c->get('database.charset'),
-                            $c->get('database.collation'),
-                            $c->get('database.port'));
-                }
-            },
-            DsnProviderMysql::class =>  function(ContainerInterface $c) {
-                $dsnProvider = new DsnProviderMysql();
-                if (PES_DEVELOPMENT) {
-                    $dsnProvider->setLogger($c->get('databaseLogger'));
-                }
-                return $dsnProvider;
-            },
-            OptionsProviderMysql::class =>  function(ContainerInterface $c) {
-                $optionsProvider = new OptionsProviderMysql();
-                if (PES_DEVELOPMENT) {
-                    $optionsProvider->setLogger($c->get('databaseLogger'));
-                }
-                return $optionsProvider;
-            },
-            AttributesProvider::class =>  function(ContainerInterface $c) {
-                $attributesProvider = new AttributesProvider();
-                if (PES_DEVELOPMENT) {
-                    $attributesProvider->setLogger($c->get('databaseLogger'));
-                }
-                return $attributesProvider;
-            },
-            Handler::class => function(ContainerInterface $c) : HandlerInterface {
-                // povinný logger do kostruktoru = pro logování exception při intancování Handleru a PDO
-                $logger = $c->get('databaseLogger');
-                return new Handler(
-                        $c->get(Account::class),
-                        $c->get(ConnectionInfo::class),
-                        $c->get(DsnProviderMysql::class),
-                        $c->get(OptionsProviderMysql::class),
-                        $c->get(AttributesProvider::class),
-                        $logger);
-            },
+    public function getAliases() {
+        return [
+            HandlerInterface::class => Handler::class,
+            RouterInterface::class => Router::class,
+            NodeAggregateReadonlyDaoInterface::class => NodeAggregateReadonlyDao::class,
+            NodeEditDaoInterface::class => NodeEditDao::class,
+            StatusPresentationManagerInterface::class => StatusPresentationManager::class,
+        ];
+    }
 
-
+    public function getServicesDefinitions() {
+        return [
 
 ########################
             ContextFactory::class => function(ContainerInterface $c) {
@@ -223,7 +160,7 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
             NodeAggregateReadonlyDao::class => function(ContainerInterface $c) : NodeAggregateReadonlyDao {
                 return new NodeAggregateReadonlyDao(
                         $c->get(Handler::class),
-                        $c->get('menu.hierarchy_table'),
+                        $c->get('hierarchy.table'),
                         $c->get('menu.menu_item_table'),
                         $c->get(ContextFactory::class));
             },
@@ -231,7 +168,7 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
                 /** @var NodeEditDao $editHierarchy */
                 $editHierarchy = (new NodeEditDao(
                         $c->get(Handler::class),
-                        $c->get('menu.hierarchy_table'),
+                        $c->get('hierarchy.table'),
                         $c->get(ContextFactory::class))
                         );
                 $editHierarchy->registerHookedActor($c->get(HookedMenuItemActor::class));
@@ -361,7 +298,75 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
         ];
     }
 
-    public function getFactoriesDefinitions() {
-        return [];
+    public function getServicesOverrideDefinitions() {
+        return [
+            // db objekty
+            'hierarchyDbLogger' => function(ContainerInterface $c) {
+                return FileLogger::getInstance($c->get('logs.database.directory'), $c->get('logs.database.file'), FileLogger::REWRITE_LOG); //new NullLogger();
+            },
+
+            Account::class => function(ContainerInterface $c) {
+                // account NENÍ vytvářen s použitím User - není třeba přidávat do SecurityContextObjectsRemover
+                if (PES_DEVELOPMENT) {
+                    return new Account(
+                            $c->get('database.development.user.name'),
+                            $c->get('database.development.user.password'));
+                } elseif(PES_RUNNING_ON_PRODUCTION_HOST) {
+                    return new Account(
+                            $c->get('database.production_host.user.name'),
+                            $c->get('database.production_host.user.password'));                }
+            },
+            ConnectionInfo::class => function(ContainerInterface $c) {
+                if (PES_DEVELOPMENT) {
+                    return new ConnectionInfo(
+                            $c->get('database.type'),
+                            $c->get('database.development.connection.host'),
+                            $c->get('database.development.connection.name'),
+                            $c->get('database.charset'),
+                            $c->get('database.collation'),
+                            $c->get('database.port'));
+                } elseif(PES_RUNNING_ON_PRODUCTION_HOST) {
+                    return new ConnectionInfo(
+                            $c->get('database.type'),
+                            $c->get('database.production_host.connection.host'),
+                            $c->get('database.production_host.connection.name'),
+                            $c->get('database.charset'),
+                            $c->get('database.collation'),
+                            $c->get('database.port'));
+                }
+            },
+            DsnProviderMysql::class =>  function(ContainerInterface $c) {
+                $dsnProvider = new DsnProviderMysql();
+                if (PES_DEVELOPMENT) {
+                    $dsnProvider->setLogger($c->get('hierarchyDbLogger'));
+                }
+                return $dsnProvider;
+            },
+            OptionsProviderMysql::class =>  function(ContainerInterface $c) {
+                $optionsProvider = new OptionsProviderMysql();
+                if (PES_DEVELOPMENT) {
+                    $optionsProvider->setLogger($c->get('hierarchyDbLogger'));
+                }
+                return $optionsProvider;
+            },
+            AttributesProvider::class =>  function(ContainerInterface $c) {
+                $attributesProvider = new AttributesProvider();
+                if (PES_DEVELOPMENT) {
+                    $attributesProvider->setLogger($c->get('hierarchyDbLogger'));
+                }
+                return $attributesProvider;
+            },
+            Handler::class => function(ContainerInterface $c) : HandlerInterface {
+                // povinný logger do kostruktoru = pro logování exception při intancování Handleru a PDO
+                $logger = $c->get('hierarchyDbLogger');
+                return new Handler(
+                        $c->get(Account::class),
+                        $c->get(ConnectionInfo::class),
+                        $c->get(DsnProviderMysql::class),
+                        $c->get(OptionsProviderMysql::class),
+                        $c->get(AttributesProvider::class),
+                        $logger);
+            },
+        ];
     }
 }

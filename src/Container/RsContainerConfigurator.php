@@ -43,18 +43,8 @@ use Model\Dao\PaperContentDao;
  */
 class RsContainerConfigurator extends ContainerConfiguratorAbstract {
 
-    public function getAliases() {
+    public function getFactoriesDefinitions() {
         return [
-            UserInterface::class => User::class,
-            AccountInterface::class => Account::class,
-            HandlerInterface::class => Handler::class,
-        ];
-    }
-
-    public function getServicesDefinitions() {
-        return [
-            // LoginContainer má AppContainer jako delegáta
-            //
 
             #################################
             # Sekce konfigurace účtů databáze
@@ -71,6 +61,23 @@ class RsContainerConfigurator extends ContainerConfiguratorAbstract {
             'database.account.administrator.password' => 'administrator',
             #
             ###################################
+
+        ];
+    }
+
+    public function getAliases() {
+        return [
+            UserInterface::class => User::class,
+            AccountInterface::class => Account::class,
+            HandlerInterface::class => Handler::class,
+        ];
+    }
+
+    public function getServicesDefinitions() {
+        return [
+            // LoginContainer má AppContainer jako delegáta
+            //
+
             // session user - tato služba se používá pro vytvoření objetu Account a tedy pro připojení k databázi
             User::class => function(ContainerInterface $c) {
                 /** @var StatusSecurityRepo $securityStatusRepo */
@@ -119,7 +126,7 @@ class RsContainerConfigurator extends ContainerConfiguratorAbstract {
         ];
     }
 
-    public function getFactoriesDefinitions() {
+    public function getServicesOverrideDefinitions() {
         return [];
     }
 }

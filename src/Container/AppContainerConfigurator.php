@@ -64,43 +64,8 @@ use Application\Api\ApiRegistrator;
  */
 class AppContainerConfigurator extends ContainerConfiguratorAbstract {
 
-    public function getAliases() {
+    public function getFactoriesDefinitions() {
         return [
-            SessionStatusHandlerInterface::class => SessionStatusHandler::class,
-            StatusSecurityManagerInterface::class => StatusSecurityManager::class,
-            StatusPresentationManagerInterface::class => StatusPresentationManager::class,
-            UserInterface::class => User::class,
-            RouterInterface::class => Router::class,
-            ResourceRegistryInterface::class => ResourceRegistry::class,
-        ];
-    }
-
-    public function getServicesDefinitions() {
-        return [
-
-            #################################
-            # Sekce konfigurace databáze
-            # Konfigurace databáze může být v aplikačním kontejneru nebo různá v jednotlivých middleware kontejnerech.
-            # Služby, které vrací objekty jsou v aplikačním kontejneru a v jednotlivých middleware kontejnerech musí být
-            # stejná sada služeb, které vracejí hodnoty konfigurace.
-            #
-            'database.type' => DbTypeEnum::MySQL,
-            'database.port' => '3306',
-            'database.charset' => 'utf8',
-            'database.collation' => 'utf8_general_ci',
-
-            'database.development.connection.host' => 'localhost',
-            'database.development.connection.name' => 'grafiacz',
-
-            'database.production_host.connection.host' => 'xxxx',
-            'database.production_host.connection.name' => 'xxxx',
-
-            'logs.database.directory' => 'Logs/App',
-            'logs.database.file' => 'Database.log',
-            #
-            # Konec sekce konfigurace databáze
-            ###################################
-
             #################################
             # Sekce konfigurace session
             # Konfigurace session je vždy v aplikačním kontejneru.
@@ -114,6 +79,22 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
             #
             # Konec sekce konfigurace session
             ##################################
+        ];
+    }
+
+    public function getAliases() {
+        return [
+            SessionStatusHandlerInterface::class => SessionStatusHandler::class,
+            StatusSecurityManagerInterface::class => StatusSecurityManager::class,
+            StatusPresentationManagerInterface::class => StatusPresentationManager::class,
+            UserInterface::class => User::class,
+            RouterInterface::class => Router::class,
+            ResourceRegistryInterface::class => ResourceRegistry::class,
+        ];
+    }
+
+    public function getServicesDefinitions() {
+        return [
 
             #################################
             # Kondigurace proměnné pro ukládání údajů bezpečnostního kontextu do session
@@ -140,51 +121,6 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new SecurityContextObjectsRemover();
             },
 
-            // database
-            // account a handler v middleware kontejnerech
-            'databaseLogger' => function(ContainerInterface $c) {
-                return FileLogger::getInstance($c->get('logs.database.directory'), $c->get('logs.database.file'), FileLogger::REWRITE_LOG); //new NullLogger();
-            },
-            ConnectionInfo::class => function(ContainerInterface $c) {
-                if (PES_DEVELOPMENT) {
-                    return new ConnectionInfo(
-                            $c->get('database.type'),
-                            $c->get('database.development.connection.host'),
-                            $c->get('database.development.connection.name'),
-                            $c->get('database.charset'),
-                            $c->get('database.collation'),
-                            $c->get('database.port'));
-                } elseif(PES_RUNNING_ON_PRODUCTION_HOST) {
-                    return new ConnectionInfo(
-                            $c->get('database.type'),
-                            $c->get('database.production_host.connection.host'),
-                            $c->get('database.production_host.connection.name'),
-                            $c->get('database.charset'),
-                            $c->get('database.collation'),
-                            $c->get('database.port'));
-                }
-            },
-            DsnProviderMysql::class =>  function(ContainerInterface $c) {
-                $dsnProvider = new DsnProviderMysql();
-                if (PES_DEVELOPMENT) {
-                    $dsnProvider->setLogger($c->get('databaseLogger'));
-                }
-                return $dsnProvider;
-            },
-            OptionsProviderMysql::class =>  function(ContainerInterface $c) {
-                $optionsProvider = new OptionsProviderMysql();
-                if (PES_DEVELOPMENT) {
-                    $optionsProvider->setLogger($c->get('databaseLogger'));
-                }
-                return $optionsProvider;
-            },
-            AttributesProvider::class =>  function(ContainerInterface $c) {
-                $attributesProvider = new AttributesProvider();
-                if (PES_DEVELOPMENT) {
-                    $attributesProvider->setLogger($c->get('databaseLogger'));
-                }
-                return $attributesProvider;
-            },
 
             // model - pro data v session - dao používají všechny session repo v kontejnerech
             StatusDao::class => function(ContainerInterface $c) {
@@ -205,9 +141,7 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
             StatusSecurityManager::class => function(ContainerInterface $c) {
                 return new StatusSecurityManager();
             },
-            StatusPresentationManager::class => function(ContainerInterface $c) {
-                return new StatusPresentationManager();
-            },
+                    
             // router
             'logs.router.directory' => 'Logs/App',
             'logs.router.file' => 'Router.log',
@@ -236,7 +170,7 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
         ];
     }
 
-    public function getFactoriesDefinitions() {
+    public function getServicesOverrideDefinitions() {
         return [
 
         ];

@@ -36,23 +36,11 @@ use Model\Repository\StatusSecurityRepo;
  */
 class WebContainerConfigurator extends ContainerConfiguratorAbstract {
 
-    public function getAliases() {
+    public function getFactoriesDefinitions() {
         return [
-            RouterInterface::class => Router::class,
-            UserInterface::class => User::class,
-            AccountInterface::class => Account::class,
-            HandlerInterface::class => Handler::class,
-        ];
-    }
-
-    public function getServicesDefinitions() {
-        return [
-            //  má AppContainer jako delegáta
-            //
-
             #################################
             # Sekce konfigurace účtů databáze
-            # Konfigurace připojení k databázi je v aplikačním kontejneru, je pro celou apliaci stejná.
+            # Konfigurace připojení k databázi je v aplikačním kontejneru, je pro celou aplikaci stejná.
             # Služby, které vrací objekty s informacemi pro připojení k databázi jsou také v aplikačním kontejneru a v jednotlivých middleware
             # kontejnerech se volají jako služby delegate kontejneru.
             #
@@ -67,6 +55,28 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
             'database.account.administrator.password' => 'administrator',
             #
             ###################################
+        ];
+    }
+
+    public function getAliases() {
+        return [
+            UserInterface::class => User::class,
+            AccountInterface::class => Account::class,
+            HandlerInterface::class => Handler::class,
+        ];
+    }
+
+    public function getServicesDefinitions() {
+        return [
+
+
+        ];
+    }
+
+    public function getServicesOverrideDefinitions() {
+        return [
+            //  má AppContainer jako delegáta
+            //
 
             // session user - tato služba se používá pro vytvoření objetu Account a tedy pro připojení k databázi
             User::class => function(ContainerInterface $c) {
@@ -121,13 +131,6 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get('databaseLogger'));
                 return $handler;
             },
-
-        ];
-    }
-
-    public function getFactoriesDefinitions() {
-        return [
-
         ];
     }
 }

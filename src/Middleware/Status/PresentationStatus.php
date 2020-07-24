@@ -14,6 +14,7 @@ use Psr\Http\Message\ResponseInterface;
 
 use Pes\Middleware\AppMiddlewareAbstract;
 
+use Pes\Container\Container;
 use Container\HierarchyContainerConfigurator;
 use Model\Repository\StatusPresentationRepo;
 use StatusManager\StatusPresentationManagerInterface;
@@ -27,7 +28,7 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
         // potřebuje noovu databázi -> hierarchy konfigurator
         $container =
-                (new HierarchyContainerConfigurator())->configure($this->getApp()->getAppContainer());
+                (new HierarchyContainerConfigurator())->configure(new Container($this->getApp()->getAppContainer()));
 
         /** @var StatusPresentationRepo $statusPresentationRepo */
         $statusPresentationRepo = $container->get(StatusPresentationRepo::class);

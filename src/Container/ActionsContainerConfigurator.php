@@ -65,19 +65,8 @@ use Pes\View\Recorder\RecordsLogger;
  */
 class ActionsContainerConfigurator extends ContainerConfiguratorAbstract {
 
-    public function getAliases() {
+    public function getFactoriesDefinitions() {
         return [
-            RouterInterface::class => Router::class,
-            UserInterface::class => User::class,
-            AccountInterface::class => Account::class,
-            HandlerInterface::class => Handler::class,
-        ];
-    }
-
-    public function getServicesDefinitions() {
-        return [
-            //  má AppContainer jako delegáta
-            //
 
             #################################
             # Sekce konfigurace účtů databáze
@@ -94,55 +83,21 @@ class ActionsContainerConfigurator extends ContainerConfiguratorAbstract {
             'database.account.administrator.password' => 'administrator',
             #
             ###################################
-            // session user - tato služba se používá pro vytvoření objetu Account a tedy pro připojení k databázi
-            User::class => function(ContainerInterface $c) {
-                /** @var StatusSecurityRepo $securityStatusRepo */
-                $securityStatusRepo = $c->get(StatusSecurityRepo::class);
-                return $securityStatusRepo->get()->getUser();
-            },
-            ## !!!!!! Objekty Account a Handler musí být v kontejneru vždy definovány jako service (tedy vytvářeny jako singleton) a nikoli
-            #         jako factory. Pokud definuji jako factory, může vzniknou řada objektů Account a Handler, které vznikly s použití
-            #         údajů jméno a heslo k databázovému účtu. Tyto údaje jsou obvykle odvozovány od uživatele přihlášeného  k aplikaci.
-            #         Při odhlášení uživatele, tedy při změně bezpečnostního kontextu je pak nutné smazat i takové objety, jinak může dojít
-            #         k přístupu k databázi i po odhlášení uživatele. Takové smazání není možné zajistit, pokud objektů Account a Handler vznikne více.
-            ##
-            // database account - podle role přihlášebého uživatele - User ze session
-            Account::class => function(ContainerInterface $c) {
-                /* @var $user UserInterface::class */
-                $user = $c->get(User::class);
-                if (isset($user)) {
-                    switch ($user->getRole()) {
-                        case 'administrator':
-                            $account = new Account($c->get('database.account.administrator.name'), $c->get('database.account.administrator.password'));
-                            break;
-                        default:
-                            if ($user->getRole()) {
-                                $account = new Account($c->get('database.account.authenticated.name'), $c->get('database.account.authenticated.password'));
-                            } else {
-                                $account = new Account($c->get('database.account.everyone.name'), $c->get('database.account.everyone.password'));
-                            }
-                            break;
-                    }
-                } else {
-                    $account = new Account($c->get('database.account.everyone.name'), $c->get('database.account.everyone.password'));
-                }
-                return $account;
-            },
+        ];
+    }
 
-            // database handler
-                ## konfigurována jen jedna databáze pro celou aplikaci
-                ## konfiguroványdvě připojení k databázi - jedno pro vývoj a druhé pro běh na produkčním stroji
-                ## pro web middleware se používá zde definovaný Account, ostatní objekty jsou společné - z App kontejneru
-            Handler::class => function(ContainerInterface $c) : HandlerInterface {
-                $handler = new Handler(
-                        $c->get(Account::class),
-                        $c->get(ConnectionInfo::class),
-                        $c->get(DsnProviderMysql::class),
-                        $c->get(OptionsProviderMysql::class),
-                        $c->get(AttributesProvider::class),
-                        $c->get('databaseLogger'));
-                return $handler;
-            },
+    public function getAliases() {
+        return [
+            RouterInterface::class => Router::class,
+            UserInterface::class => User::class,
+            AccountInterface::class => Account::class,
+            HandlerInterface::class => Handler::class,
+        ];
+    }
+
+    public function getServicesDefinitions() {
+        return [
+
 
 ##############
 
@@ -217,7 +172,60 @@ class ActionsContainerConfigurator extends ContainerConfiguratorAbstract {
         ];
     }
 
-    public function getFactoriesDefinitions() {
-        return [];
+
+    public function getServicesOverrideDefinitions() {
+        return [
+            //  má AppContainer jako delegáta
+            //
+            // session user - tato služba se používá pro vytvoření objetu Account a tedy pro připojení k databázi
+            User::class => function(ContainerInterface $c) {
+                /** @var StatusSecurityRepo $securityStatusRepo */
+                $securityStatusRepo = $c->get(StatusSecurityRepo::class);
+                return $securityStatusRepo->get()->getUser();
+            },
+            ## !!!!!! Objekty Account a Handler musí být v kontejneru vždy definovány jako service (tedy vytvářeny jako singleton) a nikoli
+            #         jako factory. Pokud definuji jako factory, může vzniknou řada objektů Account a Handler, které vznikly s použití
+            #         údajů jméno a heslo k databázovému účtu. Tyto údaje jsou obvykle odvozovány od uživatele přihlášeného  k aplikaci.
+            #         Při odhlášení uživatele, tedy při změně bezpečnostního kontextu je pak nutné smazat i takové objety, jinak může dojít
+            #         k přístupu k databázi i po odhlášení uživatele. Takové smazání není možné zajistit, pokud objektů Account a Handler vznikne více.
+            ##
+            // database account - podle role přihlášebého uživatele - User ze session
+            Account::class => function(ContainerInterface $c) {
+                /* @var $user UserInterface::class */
+                $user = $c->get(User::class);
+                if (isset($user)) {
+                    switch ($user->getRole()) {
+                        case 'administrator':
+                            $account = new Account($c->get('database.account.administrator.name'), $c->get('database.account.administrator.password'));
+                            break;
+                        default:
+                            if ($user->getRole()) {
+                                $account = new Account($c->get('database.account.authenticated.name'), $c->get('database.account.authenticated.password'));
+                            } else {
+                                $account = new Account($c->get('database.account.everyone.name'), $c->get('database.account.everyone.password'));
+                            }
+                            break;
+                    }
+                } else {
+                    $account = new Account($c->get('database.account.everyone.name'), $c->get('database.account.everyone.password'));
+                }
+                return $account;
+            },
+
+            // database handler
+                ## konfigurována jen jedna databáze pro celou aplikaci
+                ## konfiguroványdvě připojení k databázi - jedno pro vývoj a druhé pro běh na produkčním stroji
+                ## pro web middleware se používá zde definovaný Account, ostatní objekty jsou společné - z App kontejneru
+            Handler::class => function(ContainerInterface $c) : HandlerInterface {
+                $handler = new Handler(
+                        $c->get(Account::class),
+                        $c->get(ConnectionInfo::class),
+                        $c->get(DsnProviderMysql::class),
+                        $c->get(OptionsProviderMysql::class),
+                        $c->get(AttributesProvider::class),
+                        $c->get('hierarchyDbLogger'));
+                return $handler;
+            },
+        ];
     }
 }
