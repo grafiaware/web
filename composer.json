@@ -12,6 +12,7 @@
     "version": "0.6",
     "require": {
         "pes/pes": "@dev",
+        "pes/monorm": "@dev",
         "phpmyadmin/phpmyadmin": "5.0.1",
         "samshal/acl": "@dev"
     },
