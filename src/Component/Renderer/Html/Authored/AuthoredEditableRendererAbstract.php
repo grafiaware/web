@@ -81,14 +81,13 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
                             'id'=>"headline_{$paperAggregate->getId()}",  // id musí být na stránce unikátní - skládám ze slova headline_ a paper id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
                             'class'=>$this->classMap->getClass('Headline', 'headline'),
                         ],
-                        $paperAggregate->getHeadline()
+                        $paperAggregate->getHeadline() ?? ""
                     )
                 )
             );
     }
 
     protected function renderPerexForm(PaperAggregateInterface $paperAggregate) {
-        $perex = $paperAggregate->getPerex();
         $form =
             Html::tag('section', ['class'=>$this->classMap->getClass('Perex', 'section')],
                 Html::tag('form',
@@ -99,7 +98,7 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
                             'class'=>$this->classMap->getClass('Perex', 'perex'),
                             'data-owner'=>$paperAggregate->getEditor()
                         ],
-                        $perex ?? ""
+                        $paperAggregate->getPerex() ?? ""
                         )
                 )
             );
@@ -420,31 +419,31 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
         ;
     }
 
-//    private function renderNewContentButtonsForm(PaperAggregateInterface $paperAggregate) {
-//        $paperId = $paperAggregate->getId();
-//
-//        return
-//        Html::tag('form', ['method'=>'POST', 'action'=>""],
-//            Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div')],
-//                Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div div.content')],
-//                    Html::tag('button',
-//                        ['class'=>$this->classMap->getClass('ContentButtons', 'div div button'),
-//                        'data-tooltip'=>'Přidat obsah',
-//                        'type'=>'submit',
-//                        'name'=>'button',
-//                        'value' => '',
-//                        'formmethod'=>'post',
-//                        'formaction'=>"api/v1/paper/$paperId/contents",
-//                        ],
-//                        Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'div div button i.group')],
-//                            Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'div div button i.square')])
-//                            .Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'div div button i.arrowdown')])
-//                        )
-//                    )
-//                )
-//            )
-//        );
-//    }
+    private function renderNewContentButtonsForm(PaperAggregateInterface $paperAggregate) {
+        $paperId = $paperAggregate->getId();
+
+        return
+        Html::tag('form', ['method'=>'POST', 'action'=>""],
+            Html::tag('div', ['class'=>$this->classMap->getClass('PaperButtons', 'div.page')],
+                Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div div.content')],
+                    Html::tag('button',
+                        ['class'=>$this->classMap->getClass('ContentButtons', 'div div button'),
+                        'data-tooltip'=>'Přidat obsah',
+                        'type'=>'submit',
+                        'name'=>'button',
+                        'value' => '',
+                        'formmethod'=>'post',
+                        'formaction'=>"api/v1/paper/$paperId/contents",
+                        ],
+                        Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'div div button i.group')],
+                            Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'div div button i.square')])
+                            .Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'div div button i.arrowdown')])
+                        )
+                    )
+                )
+            )
+        );
+    }
 
     /**
      * Compare funkce pro usort - řadí shora od nejvyšší priority

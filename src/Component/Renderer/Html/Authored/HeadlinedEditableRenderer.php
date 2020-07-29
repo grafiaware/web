@@ -40,10 +40,11 @@ class HeadlinedEditableRenderer extends AuthoredEditableRendererAbstract {
 //                'onblur'=>'var throw=confirm("Chcete zahodit změny v obsahu headline?"); if (throw==false) {document.getElementByName("headline").focus(); }'
 
             $innerHtml =
-                 $this->renderPaperButtonsForm($paperAggregate)
-                .$this->renderHeadlineForm($paperAggregate)
-                .$this->renderPerexForm($paperAggregate)
-                .$this->renderContentsDivs($paperAggregate)
+                $this->renderPaperButtonsForm($paperAggregate).
+                $this->renderHeadlineForm($paperAggregate).
+                $this->renderPerexForm($paperAggregate).
+                $this->renderContentsDivs($paperAggregate).
+                    ""
                 ;
         } else {
             $innerHtml = Html::tag('div', [], 'Missing paper for rendering.');

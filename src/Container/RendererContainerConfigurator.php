@@ -482,6 +482,7 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
                         'i2.notactivenotactual' => 'calendar times icon red',
                         'content'=>'',
                         ],
+                    'PaperButtons' => $c->get('paper_edit_buttons'),
                     'ContentButtons' => $c->get('content_edit_buttons'),
                     ]
                 );

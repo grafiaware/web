@@ -23,20 +23,31 @@ use Pes\Text\Html;
 abstract class AuthoredRendererAbstract extends HtmlRendererAbstract{
 
     protected function renderHeadline(PaperAggregateInterface $paper) {
-        return  Html::tag('div',
+        $paper = $paper->getHeadline();
+        return  $paper 
+                ?
+                Html::tag('div',
                     ['class'=>$this->classMap->getClass('Headline', 'div')],
                     Html::tag('headline',
                             ['class'=>$this->classMap->getClass('Headline', 'headline')],
-                            $paper->getHeadline()
+                            $paper
                     )
-                );
+                )
+                :
+                ""
+            ;
     }
 
     protected function renderPerex(PaperAggregateInterface $paper) {
-        return  Html::tag('perex',
-                            ['class'=>$this->classMap->getClass('Perex', 'perex')],
-                            $paper->getPerex()
-                    )
+        $perex = $paper->getPerex();
+        return  $perex 
+                ?
+                Html::tag('perex',
+                    ['class'=>$this->classMap->getClass('Perex', 'perex')],
+                    $perex
+                )
+                : 
+                ""
                 ;
     }
 
