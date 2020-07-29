@@ -59,10 +59,10 @@ class KonverzeContainerConfigurator extends ContainerConfiguratorAbstract {
             'konverze.db.development.connection.host' => 'localhost',
             'konverze.db.development.connection.name' => 'grafia_upgrade',
 
-            'konverze.db.production_host.user.name' => 'xxxxxxxxxxxxxxxxx',
-            'konverze.db.production_host.user.password' => 'xxxxxxxxxxxxxxxxxxxx',
-            'konverze.db.production_host.connection.host' => 'xxxx',
-            'konverze.db.production_host.connection.name' => 'xxxx',
+            'konverze.db.production.user.name' => 'xxxxxxxxxxxxxxxxx',
+            'konverze.db.production.user.password' => 'xxxxxxxxxxxxxxxxxxxx',
+            'konverze.db.production.connection.host' => 'xxxx',
+            'konverze.db.production.connection.name' => 'xxxx',
 
             #
             #  Konec sekce konfigurace databáze
@@ -107,10 +107,10 @@ class KonverzeContainerConfigurator extends ContainerConfiguratorAbstract {
                     return new Account(
                             $c->get('konverze.db.development.user.name'),
                             $c->get('konverze.db.development.user.password'));
-                } elseif(PES_RUNNING_ON_PRODUCTION_HOST) {
+                } elseif(PES_PRODUCTION) {
                     return new Account(
-                            $c->get('konverze.db.production_host.user.name'),
-                            $c->get('konverze.db.production_host.user.password'));
+                            $c->get('konverze.db.production.user.name'),
+                            $c->get('konverze.db.production.user.password'));
                 }
             },
             ConnectionInfo::class => function(ContainerInterface $c) {
@@ -122,11 +122,11 @@ class KonverzeContainerConfigurator extends ContainerConfiguratorAbstract {
                             $c->get('konverze.db.charset'),
                             $c->get('konverze.db.collation'),
                             $c->get('konverze.db.port'));
-                } elseif(PES_RUNNING_ON_PRODUCTION_HOST) {
+                } elseif(PES_PRODUCTION) {
                     return new ConnectionInfo(
                             $c->get('konverze.db.type'),
-                            $c->get('konverze.db.production_host.connection.host'),
-                            $c->get('konverze.db.production_host.connection.name'),
+                            $c->get('konverze.db.production.connection.host'),
+                            $c->get('konverze.db.production.connection.name'),
                             $c->get('konverze.db.charset'),
                             $c->get('konverze.db.collation'),
                             $c->get('konverze.db.port'));

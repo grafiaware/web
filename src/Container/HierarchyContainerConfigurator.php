@@ -110,10 +110,10 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
             'database.development.connection.host' => 'localhost',
             'database.development.connection.name' => 'grafia_upgrade',
 
-            'database.production_host.user.name' => 'xxxxxxxxxxxxxxxxx',
-            'database.production_host.user.password' => 'xxxxxxxxxxxxxxxxxxxx',
-            'database.production_host.connection.host' => 'xxxx',
-            'database.production_host.connection.name' => 'xxxx',
+            'database.production.user.name' => 'xxxxxxxxxxxxxxxxx',
+            'database.production.user.password' => 'xxxxxxxxxxxxxxxxxxxx',
+            'database.production.connection.host' => 'xxxx',
+            'database.production.connection.name' => 'xxxx',
 
             'logs.database.directory' => 'Logs/Hierarchy',
             'logs.database.file' => 'Database.log',
@@ -311,10 +311,10 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
                     return new Account(
                             $c->get('database.development.user.name'),
                             $c->get('database.development.user.password'));
-                } elseif(PES_RUNNING_ON_PRODUCTION_HOST) {
+                } elseif(PES_PRODUCTION) {
                     return new Account(
-                            $c->get('database.production_host.user.name'),
-                            $c->get('database.production_host.user.password'));                }
+                            $c->get('database.production.user.name'),
+                            $c->get('database.production.user.password'));                }
             },
             ConnectionInfo::class => function(ContainerInterface $c) {
                 if (PES_DEVELOPMENT) {
@@ -325,11 +325,11 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
                             $c->get('database.charset'),
                             $c->get('database.collation'),
                             $c->get('database.port'));
-                } elseif(PES_RUNNING_ON_PRODUCTION_HOST) {
+                } elseif(PES_PRODUCTION) {
                     return new ConnectionInfo(
                             $c->get('database.type'),
-                            $c->get('database.production_host.connection.host'),
-                            $c->get('database.production_host.connection.name'),
+                            $c->get('database.production.connection.host'),
+                            $c->get('database.production.connection.name'),
                             $c->get('database.charset'),
                             $c->get('database.collation'),
                             $c->get('database.port'));

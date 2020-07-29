@@ -201,7 +201,7 @@ class ContentController extends PresentationFrontControllerAbstract {
         $content = $this->paperContentRepo->get($contentId);
         $priority = $content->getPriority();
         $content->setPriority(0);   // "koš" - s prioritou 0 může být více contentů
-        $content->setActive(false);
+        $content->setActive(0);
         foreach ($contents as $contentItem) {
             /** @var PaperContentInterface $contentItem */
             $itemPriority = $contentItem->getPriority();

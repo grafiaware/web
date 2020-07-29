@@ -25,6 +25,10 @@ use Model\Repository\Association\AssociationOneToManyFactory;
  */
 abstract class RepoAbstract implements RepoInterface {
 
+    public static $counter;
+    protected $count;
+    protected $oid;
+
     protected $collection = [];
     protected $new = [];
     protected $removed = [];

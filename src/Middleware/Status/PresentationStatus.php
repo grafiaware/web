@@ -40,6 +40,8 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
             $statusPresentationRepo->add($statusPresentation);
         }
 
+        $statusPresentationRepo->flush();
+        
         $statusPresentationManager->regenerateStatusPresentation($statusPresentation, $request);
 
         return $handler->handle($request);

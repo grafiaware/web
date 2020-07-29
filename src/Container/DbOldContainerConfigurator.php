@@ -80,8 +80,8 @@ class DbOldContainerConfigurator extends ContainerConfiguratorAbstract {
             'dbold.database.development.connection.host' => 'localhost',
             'dbold.database.development.connection.name' => 'grafiacz',
 
-            'dbold.database.production_host.connection.host' => 'xxxx',
-            'dbold.database.production_host.connection.name' => 'xxxx',
+            'dbold.database.production.connection.host' => 'xxxx',
+            'dbold.database.production.connection.name' => 'xxxx',
 
             'logs.database.directory' => 'Logs/App',
             'logs.database.file' => 'DatabaseOld.log',
@@ -123,11 +123,11 @@ class DbOldContainerConfigurator extends ContainerConfiguratorAbstract {
                             $c->get('dbold.database.charset'),
                             $c->get('dbold.database.collation'),
                             $c->get('dbold.database.port'));
-                } elseif(PES_RUNNING_ON_PRODUCTION_HOST) {
+                } elseif(PES_PRODUCTION) {
                     return new ConnectionInfo(
                             $c->get('dbold.database.type'),
-                            $c->get('dbold.database.production_host.connection.host'),
-                            $c->get('dbold.database.production_host.connection.name'),
+                            $c->get('dbold.database.production.connection.host'),
+                            $c->get('dbold.database.production.connection.name'),
                             $c->get('dbold.database.charset'),
                             $c->get('dbold.database.collation'),
                             $c->get('dbold.database.port'));
