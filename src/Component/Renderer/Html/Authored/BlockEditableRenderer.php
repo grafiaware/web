@@ -34,9 +34,10 @@ class BlockEditableRenderer extends AuthoredEditableRendererAbstract {
 
         if (isset($paperAggregate)) {
             $innerHtml =
-//                $this->renderPaperButtonsForm($paperAggregate).
+                $this->renderPaperButtonsForm($paperAggregate).
                 $this->renderPerexForm($paperAggregate).
-                $this->renderContentsDivs($paperAggregate);
+                $this->renderContentsDivs($paperAggregate).
+                    "";
             $style = "display: block;";
         } else {
             $innerHtml = Html::tag('div', [], 'No paper for rendering.');
