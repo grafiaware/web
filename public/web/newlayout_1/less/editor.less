@@ -369,6 +369,13 @@
             padding-right: 1em;
             padding-left: 1em;
         }
+        form{
+            margin-bottom: 5px;
+            position: relative;
+        }
+        > form {
+            margin: 0;
+        }
         i.grafia.active{
             left: -1em;
         }
@@ -387,7 +394,7 @@
             outline-color: darken(@lightGrey,15);
         }
     }
-    .section{
+    section{
         height: 100%;
         position: relative;
         > form:nth-of-type(2){
@@ -403,7 +410,7 @@
         display: none;
     }
     .editDate, .buttons.editDate{
-        display: none;
+        display: none ;
     }
     .edit_kalendar{
         position: absolute;
@@ -493,7 +500,7 @@
             font-weight: 700;
         }
     }
-    .section .ui.corner.label{
+    section .ui.corner.label{
         width: 2em;
         height: 2em;
         .icon.editContent{
