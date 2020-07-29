@@ -1,0 +1,27 @@
+{
+    "name": "grafiaware/web",
+    "description": "web",
+    "license": "MIT",
+    "keywords": ["grafia"],
+    "authors": [
+        {
+            "name": "Petr Svoboda",
+            "email": "svoboda@grafia.cz"
+        }
+    ],
+    "version": "0.6",
+    "require": {
+        "pes/pes": "@dev",
+        "pes/monorm": "@dev",
+        "phpmyadmin/phpmyadmin": "5.0.1",
+        "samshal/acl": "@dev"
+    },
+    "autoload": {
+        "psr-4": {
+            "" : "src"
+        }
+    },
+    "config": {
+        "optimize-autoloader": true
+    }
+}

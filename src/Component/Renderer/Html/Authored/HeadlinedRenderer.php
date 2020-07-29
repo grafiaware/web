@@ -24,17 +24,17 @@ class HeadlinedRenderer extends AuthoredRendererAbstract {
     }
 
     private function renderPrivate(PaperViewModelInterface $viewModel) {
-        $paper = $viewModel->getPaperAggregate();
+        $paperAggregate = $viewModel->getPaperAggregate();
         if ($viewModel instanceof NamedPaperViewModelInterface) {
             $name = "named: ".$viewModel->getComponentAggregate()->getName();
         } else {
             $name = "presented";
         }
 
-        if (isset($paper)) {
-            $innerHtml = $this->renderHeadline($paper)
-                        .$this->renderPerex($paper)
-                        .$this->renderContents($paper);
+        if (isset($paperAggregate)) {
+            $innerHtml = $this->renderHeadline($paperAggregate)
+                        .$this->renderPerex($paperAggregate)
+                        .$this->renderContents($paperAggregate);
             $style = "display: block;";
         } else {
             $innerHtml = Html::tag('div', [], 'No paper for rendering.');

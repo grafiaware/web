@@ -37,8 +37,11 @@ class BlockRenderer extends AuthoredRendererAbstract {
 
         if (isset($paperAggregate)) {
             $innerHtml =
-                 $this->renderPerex($paperAggregate)
-                .$this->renderContents($paperAggregate);
+//                    $this->renderHeadline($paperAggregate)
+//                    .
+                    $this->renderPerex($paperAggregate)
+                    .
+                    $this->renderContents($paperAggregate);
             $style = "display: block;";
         } else {
             $innerHtml = Html::tag('div', [], 'No paper for rendering.');
