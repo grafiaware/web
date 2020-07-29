@@ -35,6 +35,7 @@ class BlockEditableRenderer extends AuthoredEditableRendererAbstract {
         if (isset($paperAggregate)) {
             $innerHtml =
                 $this->renderPaperButtonsForm($paperAggregate).
+                $this->renderHeadlineForm($paperAggregate).                    
                 $this->renderPerexForm($paperAggregate).
                 $this->renderContentsDivs($paperAggregate).
                     "";
