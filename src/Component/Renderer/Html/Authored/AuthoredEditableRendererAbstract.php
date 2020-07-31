@@ -96,7 +96,8 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
                         [
                             'id' => "perex_{$paperAggregate->getId()}",  // id musí být na stránce unikátní - skládám ze slova perex_ a paper id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
                             'class'=>$this->classMap->getClass('Perex', 'perex'),
-                            'data-owner'=>$paperAggregate->getEditor()
+                            'data-owner'=>$paperAggregate->getEditor(),
+                            'data-text'=>'prázdný'
                         ],
                         $paperAggregate->getPerex() ?? ""
                         )

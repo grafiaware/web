@@ -264,8 +264,11 @@ class ComponentController extends LayoutControllerAbstract {
 //                        'urlTinyMCE' => $commonPublicDir.'tinymce/tinymce.min.js',
 //                        'urlJqueryTinyMCE' => $commonPublicDir.'tinymce/jquery.tinymce.min.js',
 
-                        'urlTinyMCE' => $commonPublicDir.'tinymce5_3_1\js\tinymce\tinymce.min.js',
-                        'urlJqueryTinyMCE' => $commonPublicDir.'tinymce5_3_1\js\tinymce\jquery.tinymce.min.js',
+//                        'urlTinyMCE' => $commonPublicDir.'tinymce5_3_1\js\tinymce\tinymce.min.js',
+//                        'urlJqueryTinyMCE' => $commonPublicDir.'tinymce5_3_1\js\tinymce\jquery.tinymce.min.js',
+                        
+                        'urlTinyMCE' => $commonPublicDir.'tinymce5_4_0\js\tinymce\tinymce.min.js',
+                        'urlJqueryTinyMCE' => $commonPublicDir.'tinymce5_4_0\js\tinymce\jquery.tinymce.min.js',
 
 //                        'urlTinyMCE' => $commonPublicDir.'tinymce5_3_1_dev\js\tinymce\tinymce.js',
 //                        'urlJqueryTinyMCE' => $commonPublicDir.'tinymce5_3_1_dev\js\tinymce\jquery.tinymce.min.js',

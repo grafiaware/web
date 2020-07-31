@@ -565,6 +565,11 @@ body.layout#tinymce{
     .mce-content-body:not(.mce-edit-focus){
         outline: 1px dotted @lightGrey;
     }
+    .mce-content-body:empty:not(.mce-edit-focus):before{
+        content:attr(data-text);
+        color: @lightGrey;
+        cursor: text;
+    }
     .trash_content{
         padding: 10px;
         margin: 0 -5px 5px -5px;
