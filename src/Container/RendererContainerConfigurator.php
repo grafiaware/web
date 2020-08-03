@@ -439,7 +439,13 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
                         'i2.notactive' => 'calendar plus icon yellow',
                         'i2.notactual' => 'calendar minus icon orange',
                         'i2.notactivenotactual' => 'calendar times icon red',
-                        'i.trash' => 'trash icon purple',
+                         // verze2
+                        'i2.actual' => 'calendar check icon green',
+                        'i2.past' => 'calendar plus icon grey',
+                        'i2.future' => 'calendar minus icon orange',
+                        'i2.invalid' => 'calendar times icon red',
+
+                         'i.trash' => 'trash icon purple',
                         'content'=>'',
                         'div.trash_content'=>'trash_content'
                         ],

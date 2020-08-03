@@ -23,9 +23,6 @@ use Pes\Text\Html;
 abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
 
     protected function renderPaperButtonsForm(PaperAggregateInterface $paperAggregate) {
-        //TODO: atributy data-tooltip a data-position jsou pro semantic - zde jsou napevno zadané
-//        $uid = $paper->getUidFk();
-//        $active = $paper->getActive();
         $paperId = $paperAggregate->getId();
 
         $buttons = [];
@@ -68,10 +65,6 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
      * @return type
      */
     protected function renderHeadlineForm(PaperAggregateInterface $paperAggregate) {
-//        $active = $menuItemAggregate->getActive();
-//        $actual = $menuItemAggregate->getActual();
-//        $paper = $menuItemAggregate->getPaper();
-
         return
             Html::tag('section', ['class'=>$this->classMap->getClass('Headline', 'section')],
                     Html::tag('form', ['method'=>'POST', 'action'=>"api/v1/paper/{$paperAggregate->getId()}/headline/"],
@@ -114,45 +107,12 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
             foreach ($contents as $paperContent) {
                 /** @var PaperContentInterface $paperContent */
                 if ($paperContent->getPriority() > 0) {  // není v koši
-                    $active = $paperContent->getActive();
-                    $actual = $paperContent->getActual();
-                    $form[] =
-                        Html::tag('section', ['class'=>$this->classMap->getClass('Content', 'section')],
-                            Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.corner')],
-                                $this->renderContentButtonsForm($paperContent)
-                            )
-                            .Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.semafor')],
-                                    Html::tag('i',
-                                        ['class'=> $this->classMap->resolveClass(($active AND $actual), 'Content',
-                                            'i1.published', 'i1.notpublished')
-                                        ]
-                                    )
-                                    .Html::tag('i',
-                                        ['class'=> $this->classMap->resolveClass($active, 'Content',
-                                            $actual ? 'i2.published' : 'i2.notactual',
-                                            $actual ? 'i2.notactive' : 'i2.notactivenotactual')
-                                        ]
-                                    )
-                                    .$paperContent->getPriority()
-                            )
-                            .Html::tag('form',
-                                ['method'=>'POST', 'action'=>"api/v1/paper/{$paperContent->getPaperIdFk()}/contents/{$paperContent->getId()}/"],
-                                Html::tag('content',
-                                    [
-                                        'id' => "content_{$paperContent->getId()}",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
-                                        'class'=>$this->classMap->getClass('Content', 'content'),
-                                        'data-paperowner'=>$paperAggregate->getEditor(),
-                                        'data-owner'=>$paperContent->getEditor()
-                                    ],
-                                    $paperContent->getContent()
-                                    )
-                            )
-                        );
+                    $form[] = $this->getContentForm2($paperContent, $paperAggregate);
                 } else {  // je v koši
                     $form[] =
                         Html::tag('section', ['class'=>$this->classMap->getClass('Content', 'section.trash')],
                             Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.corner')],
-                                $this->renderTrashButtonsForm($paperContent)
+                                $this->getTrashButtonsForm($paperContent)
                             )
                             .Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.semafor')],
                                     Html::tag('i',['class'=>$this->classMap->getClass('Content', 'i.trash')])
@@ -173,7 +133,97 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
         return implode(PHP_EOL, $form);
     }
 
-    private function renderContentButtonsForm(PaperContentInterface $paperContent) {
+    private function getContentForm($paperContent, $paperAggregate) {
+        $active = $paperContent->getActive();
+        $actual = $paperContent->getActual();
+        $form =
+            Html::tag('section', ['class'=>$this->classMap->getClass('Content', 'section')],
+                Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.corner')],
+                    $this->getContentButtonsForm($paperContent)
+                )
+                .Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.semafor')],
+                        Html::tag('i',
+                            ['class'=> $this->classMap->resolveClass(($active AND $actual), 'Content',
+                                'i1.published', 'i1.notpublished')
+                            ]
+                        )
+                        .Html::tag('i',
+                            ['class'=> $this->classMap->resolveClass($active, 'Content',
+                                $actual ? 'i2.published' : 'i2.notactual',
+                                $actual ? 'i2.notactive' : 'i2.notactivenotactual')
+                            ]
+                        )
+                        .$paperContent->getPriority()
+                )
+                .Html::tag('form',
+                    ['method'=>'POST', 'action'=>"api/v1/paper/{$paperContent->getPaperIdFk()}/contents/{$paperContent->getId()}/"],
+                    Html::tag('content',
+                        [
+                            'id' => "content_{$paperContent->getId()}",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
+                            'class'=>$this->classMap->getClass('Content', 'content'),
+                            'data-paperowner'=>$paperAggregate->getEditor(),
+                            'data-owner'=>$paperContent->getEditor()
+                        ],
+                        $paperContent->getContent()
+                        )
+                )
+            );
+        return $form;
+    }
+
+    private function getContentForm2($paperContent, $paperAggregate) {
+        $active = $paperContent->getActive();
+        $actual = $paperContent->getActual();
+        $now =  new \DateTime("now");
+        $future = $paperContent->getShowTime() > $now;
+        $past = $paperContent->getHideTime() < $now;  // pro zobrszeno trvale - null je vždy menší a $passed je true - vyhodnucuji nejprve $actual, nevadí to
+
+        return
+            Html::tag('section', ['class'=>$this->classMap->getClass('Content', 'section')],
+                Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.corner')],
+                    $this->getContentButtonsForm($paperContent)
+                )
+                .Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.semafor')],
+                    Html::tag('i',
+                       [
+                       'class'=> $this->classMap->resolveClass($active, 'Content','i1.published', 'i1.notpublished'),
+                       'title'=> $active ? "published" : "not published",
+                       ]
+                    )
+//                        'i2.published' => 'calendar check icon green',
+//                        'i2.notactive' => 'calendar plus icon yellow',
+//                        'i2.notactual' => 'calendar minus icon orange',
+//                        'i2.notactivenotactual' => 'calendar times icon red',
+                    .Html::tag('i',
+                        [
+                        'class'=> $this->classMap->resolveClass($actual, 'Content',
+                                'i2.actual',
+                                $past ?  'i2.past' : ($future ? 'i2.future' : 'i2.invalid')
+                            ),
+                        'role'=>"presentation",
+                        'title'=> $actual ? 'actual' : $past ?  'past' : ($future ? 'future' : 'invalid dates')
+                        ])
+                    .$paperContent->getPriority()
+                )
+                .Html::tag('form',
+                    [
+                    'method'=>'POST',
+                    'action'=>"api/v1/paper/{$paperContent->getPaperIdFk()}/contents/{$paperContent->getId()}/"
+                    ],
+                     Html::tag('content',
+                        [
+                        'id' => "content_{$paperContent->getId()}",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
+                        'class'=>$this->classMap->getClass('Content', 'content'),
+                        'data-paperowner'=>$paperAggregate->getEditor(),
+                        'data-owner'=>$paperContent->getEditor()
+                        ],
+                        $paperContent->getContent()
+                    )
+                )
+            );
+    }
+
+    private function getContentButtonsForm(PaperContentInterface $paperContent) {
         //TODO: atributy data-tooltip a data-position jsou pro semantic - zde jsou napevno zadané
         $show = $paperContent->getShowTime();
         $hide = $paperContent->getHideTime();
@@ -183,9 +233,9 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
         $actual = $paperContent->getActual();
 
         if (isset($show)) {
-            $showTime = $show;//->format("d.m.Y") ;
+            $showTime = $show->format("d.m.Y") ;
             if (isset($hide)) {
-                $hideTime = $hide;//->format("d.m.Y");
+                $hideTime = $hide->format("d.m.Y");
                 $textZobrazeni = "Zobrazeno od $showTime  do $hideTime";
             } else {
                 $hideTime = '0';
@@ -193,7 +243,7 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
             }
         } elseif (isset($hide)) {
             $showTime = '0';
-            $hideTime = $hide;//->format("d.m.Y");
+            $hideTime = $hide->format("d.m.Y");
             $textZobrazeni = "Zobrazeno do $hideTime";
         } else {
             $showTime = '0';
@@ -345,20 +395,21 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
                         Html::tag('p', ['class'=>$this->classMap->getClass('ContentButtons', 'div div div p')], 'Uveřejnit od')
                         .Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div div div div')],
                             Html::tag('div',['class'=>$this->classMap->getClass('ContentButtons', 'div div div div div')],
-                                Html::tagNopair('input', ['type'=>'text', 'name'=>'show', 'placeholder'=>'Klikněte pro výběr data', 'value'=>$show])
+                                Html::tagNopair('input', ['type'=>'text', 'name'=>'show', 'placeholder'=>'Klikněte pro výběr data', 'value'=>$showTime])
                             )
                          )
                         .Html::tag('p', ['class'=>$this->classMap->getClass('ContentButtons', 'div div div p')], 'Uveřejnit do')
                         .Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div div div div')],
                             Html::tag('div',['class'=>$this->classMap->getClass('ContentButtons', 'div div div div div')],
-                            Html::tagNopair('input', ['type'=>'text', 'name'=>'hide', 'placeholder'=>'Klikněte pro výběr data', 'value'=> $hide])
+                            Html::tagNopair('input', ['type'=>'text', 'name'=>'hide', 'placeholder'=>'Klikněte pro výběr data', 'value'=> $hideTime])
                         )
                     )
                 )
             )
         );
     }
-    private function renderTrashButtonsForm(PaperContentInterface $paperContent) {
+
+    private function getTrashButtonsForm(PaperContentInterface $paperContent) {
         //TODO: atributy data-tooltip a data-position jsou pro semantic - zde jsou napevno zadané
         $paperIdFk = $paperContent->getPaperIdFk();
         $paperContentId = $paperContent->getId();
@@ -404,7 +455,7 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
 
         return
         Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div div.corner')],
-            $this->renderNewContentButtonsForm($paperAggregate)
+            $this->getNewContentButtonsForm($paperAggregate)
         )
         .Html::tag('form',
             ['method'=>'POST', 'action'=>"api/v1/paper/$paperId/contents"],
@@ -415,12 +466,12 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
                     'data-paperowner'=>$paperAggregate->getEditor()
                 ],
                 "Nový obsah"
-                )
+            )
         )
         ;
     }
 
-    private function renderNewContentButtonsForm(PaperAggregateInterface $paperAggregate) {
+    private function getNewContentButtonsForm(PaperAggregateInterface $paperAggregate) {
         $paperId = $paperAggregate->getId();
 
         return

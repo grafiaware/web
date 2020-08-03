@@ -32,11 +32,11 @@ class PaperContentHydrator implements HydratorInterface {
             ->setContent($row['content'])
             ->setActive($row['active'])
             ->setPriority($row['priority'])
-            ->setShowTime($row['show_time'] ? Date::createFromSqlDate($row['show_time'])->getCzechStringDate() : NULL)
-            ->setHideTime($row['hide_time'] ? Date::createFromSqlDate($row['hide_time'])->getCzechStringDate() : NULL)
-            ->setEventTime($row['event_time'] ? Date::createFromSqlDate($row['event_time'])->getCzechStringDate() : NULL)
+            ->setShowTime($row['show_time'] ? \DateTime::createFromFormat('Y-m-d', $row['show_time']) : NULL)
+            ->setHideTime($row['hide_time'] ? \DateTime::createFromFormat('Y-m-d', $row['hide_time']) : NULL)
+            ->setEventTime($row['event_time'] ? \DateTime::createFromFormat('Y-m-d', $row['event_time']) : NULL)
             ->setEditor($row['editor'])
-            ->setUpdated($row['updated'] ? \DateTime::createFromFormat('Y-m-d H:i:s', $row['updated']) : NULL)  // včetně času
+            ->setUpdated(\DateTime::createFromFormat('Y-m-d H:i:s', $row['updated']) )  // včetně času
             ->setActual($row['actual']);
     }
 
@@ -52,9 +52,9 @@ class PaperContentHydrator implements HydratorInterface {
         $row['content'] = $paperContent->getContent();
         $row['active'] = $paperContent->getActive();
         $row['priority'] = $paperContent->getPriority();
-        $row['show_time'] = $paperContent->getShowTime() ? Date::createFromCzechStringDate($paperContent->getShowTime())->getSqlDate() : null;
-        $row['hide_time'] = $paperContent->getHideTime() ? Date::createFromCzechStringDate($paperContent->getHideTime())->getSqlDate() : null;
-        $row['event_time'] = $paperContent->getEventTime() ? Date::createFromCzechStringDate($paperContent->getEventTime())->getSqlDate() : null;
+        $row['show_time'] = $paperContent->getShowTime() ? $paperContent->getShowTime()->format("Y-m-d") : null;
+        $row['hide_time'] = $paperContent->getHideTime() ? $paperContent->getHideTime()->format("Y-m-d") : null;
+        $row['event_time'] = $paperContent->getEventTime() ? $paperContent->getEventTime()->format("Y-m-d") : null;
         $row['editor'] = $paperContent->getEditor();
         // updated je timestamp
         // actual je readonly

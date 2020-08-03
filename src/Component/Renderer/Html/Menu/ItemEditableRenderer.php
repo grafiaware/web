@@ -30,7 +30,7 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
         $menuNode = $itemViewModel->getMenuNode();
         $menuItem = $menuNode->getMenuItem();
         $presentedEditable = ($itemViewModel->getIsPresented() AND !$itemViewModel->getReadonly());
-
+        $active = $menuItem->getActive();
         $innerHtml =
                     Html::tag($presentedEditable ? 'p' : 'a',
                         [
@@ -56,18 +56,22 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
                             ], $menuItem->getTitle())
                         .Html::tag('div', ['class'=>$this->classMap->getClass('Item', 'li div')],
                             Html::tag('i', [
-                                'class'=> $this->classMap->resolveClass(($menuItem->getActive() AND $menuItem->getActual()), 'Item', 'li div i1.published', 'li div i1.notpublished'),
-                                'title'=>($menuItem->getActive() AND $menuItem->getActual()) ? "published" :  "not published"
+                                'class'=> $this->classMap->resolveClass($active, 'Item', 'li div i1.published', 'li div i1.notpublished'),
+                                'title'=> $active ? "published" :  "not published"
                                 ])
-                            .Html::tag('i',
-                                    [
-                                    'class'=> $this->classMap->resolveClass($menuItem->getActive(), 'Item',
-                                            $menuItem->getActual() ? 'li div i2.published' : 'li div i2.notactual',
-                                            $menuItem->getActual() ?  'li div i2.notactive' : 'li div i2.notactivenotactual'
-                                        ),
-                                    'role'=>"presentation",
-                                    'title'=>$menuItem->getActive() ? ($menuItem->getActual() ? "active and actual" : "active but not actual") : ($menuItem->getActual() ? "actual but not active" : "not active nor actual")
-                                    ])
+//                            Html::tag('i', [
+//                                'class'=> $this->classMap->resolveClass(($menuItem->getActive() AND $menuItem->getActual()), 'Item', 'li div i1.published', 'li div i1.notpublished'),
+//                                'title'=>($menuItem->getActive() AND $menuItem->getActual()) ? "published" :  "not published"
+//                                ])
+//                            .Html::tag('i',
+//                                    [
+//                                    'class'=> $this->classMap->resolveClass($menuItem->getActive(), 'Item',
+//                                            $menuItem->getActual() ? 'li div i2.published' : 'li div i2.notactual',
+//                                            $menuItem->getActual() ?  'li div i2.notactive' : 'li div i2.notactivenotactual'
+//                                        ),
+//                                    'role'=>"presentation",
+//                                    'title'=>$menuItem->getActive() ? ($menuItem->getActual() ? "active and actual" : "active but not actual") : ($menuItem->getActual() ? "actual but not active" : "not active nor actual")
+//                                    ])
                         )
                     )
                     .Html::tag('i',

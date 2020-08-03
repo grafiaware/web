@@ -88,10 +88,10 @@ class ContentController extends PresentationFrontControllerAbstract {
             $button = (new RequestParams())->getParam($request, 'button');
             switch ($button) {
                 case 'calendar':
-                    $showTime = (new RequestParams())->getParam($request, 'show');
-                    $hideTime = (new RequestParams())->getParam($request, 'hide');
-                    $content->setShowTime($showTime);
-                    $content->setHideTime($hideTime);
+                    $showTime = preg_replace('/\s+/', '', (new RequestParams())->getParam($request, 'show'));
+                    $hideTime = preg_replace('/\s+/', '', (new RequestParams())->getParam($request, 'hide'));
+                    $content->setShowTime(\DateTime::createFromFormat('d.m.Y', $showTime));
+                    $content->setHideTime(\DateTime::createFromFormat('d.m.Y', $hideTime));
                     $this->addFlashMessage("content setShowTime($showTime), setHideTime($hideTime)");
                     break;
                 case 'permanent':

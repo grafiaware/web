@@ -18,7 +18,7 @@ use Pes\Text\Html;
  *
  * @author pes2704
  */
-class BlockEditableRenderer extends AuthoredEditableRendererAbstract {
+class BlockEditableRenderer extends PaperEditableRendererAbstract {
 
     public function render($data=NULL) {
         return $this->renderPrivate($data);
@@ -33,12 +33,7 @@ class BlockEditableRenderer extends AuthoredEditableRendererAbstract {
         }
 
         if (isset($paperAggregate)) {
-            $innerHtml =
-                $this->renderPaperButtonsForm($paperAggregate).
-                $this->renderHeadlineForm($paperAggregate).                    
-                $this->renderPerexForm($paperAggregate).
-                $this->renderContentsDivs($paperAggregate).
-                    "";
+            $innerHtml = $this->renderPaper($paperAggregate);
             $style = "display: block;";
         } else {
             $innerHtml = Html::tag('div', [], 'No paper for rendering.');

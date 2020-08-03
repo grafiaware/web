@@ -21,7 +21,7 @@ use Pes\Text\Html;
  *
  * @author pes2704
  */
-class BlockRenderer extends AuthoredRendererAbstract {
+class BlockRenderer extends PaperRendererAbstract {
 
     public function render($data=NULL) {
         return $this->renderPrivate($data);
@@ -36,11 +36,7 @@ class BlockRenderer extends AuthoredRendererAbstract {
         }
 
         if (isset($paperAggregate)) {
-            $innerHtml =
-                    $this->renderHeadline($paperAggregate).
-                    $this->renderPerex($paperAggregate).
-                    $this->renderContents($paperAggregate).
-                    "";
+            $innerHtml = $this->renderPaper($paperAggregate);
             $style = "display: block;";
         } else {
             $innerHtml = Html::tag('div', [], 'No paper for rendering.');

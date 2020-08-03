@@ -18,7 +18,7 @@ use Pes\Text\Html;
  *
  * @author pes2704
  */
-class HeadlinedEditableRenderer extends AuthoredEditableRendererAbstract {
+class HeadlinedEditableRenderer extends PaperEditableRendererAbstract {
     public function render($data=NULL) {
         return $this->renderPrivate($data);
     }
@@ -32,20 +32,7 @@ class HeadlinedEditableRenderer extends AuthoredEditableRendererAbstract {
         }
 
         if (isset($paperAggregate)) {
-
-            // TinyMCE v inline režimu pojmenovává proměnné v POSTu mce_XX, kde XX je asi pořadové číslo selected elementu na celé stránce, pokud editovaný element má id, pak TinyMCE použije toto id.
-            // Použije ho tak, že přidá tag <input type=hidden name=id_editovaného_elementu> a této proměnné přiřadí hodnotu.
-            // Samozřejmě id elementu musí být unikátní na stránce.
-
-//                'onblur'=>'var throw=confirm("Chcete zahodit změny v obsahu headline?"); if (throw==false) {document.getElementByName("headline").focus(); }'
-
-            $innerHtml =
-                $this->renderPaperButtonsForm($paperAggregate).
-                $this->renderHeadlineForm($paperAggregate).
-                $this->renderPerexForm($paperAggregate).
-                $this->renderContentsDivs($paperAggregate).
-                    ""
-                ;
+            $innerHtml = $this->renderPaper($paperAggregate);
         } else {
             $innerHtml = Html::tag('div', [], 'Missing paper for rendering.');
         }

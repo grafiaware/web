@@ -27,15 +27,15 @@ interface PaperContentInterface extends EntityInterface {
 
     public function getPriority();
 
-    public function getShowTime();
+    public function getShowTime(): ?\DateTimeInterface;
 
-    public function getHideTime();
+    public function getHideTime(): ?\DateTimeInterface;
 
-    public function getEventTime();
+    public function getEventTime(): ?\DateTimeInterface;
 
     public function getEditor();
 
-    public function getUpdated();
+    public function getUpdated(): \DateTimeInterface;
 
     public function getActual();
 
@@ -51,15 +51,15 @@ interface PaperContentInterface extends EntityInterface {
 
     public function setPriority($priority): PaperContentInterface;
 
-    public function setShowTime($showTime): PaperContentInterface;
+    public function setShowTime(\DateTimeInterface $showTime=null): PaperContentInterface;
 
-    public function setHideTime($hideTime): PaperContentInterface;
+    public function setHideTime(\DateTimeInterface $hideTime=null): PaperContentInterface;
 
-    public function setEventTime($eventTime): PaperContentInterface;
+    public function setEventTime(\DateTimeInterface $eventTime=null): PaperContentInterface;
 
     public function setEditor($editor): PaperContentInterface;
 
-    public function setUpdated($updated): PaperContentInterface;
+    public function setUpdated(\DateTimeInterface $updated): PaperContentInterface;
 
     public function setActual($actual): PaperContentInterface;
 }
