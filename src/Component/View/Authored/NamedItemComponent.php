@@ -2,7 +2,7 @@
 namespace Component\View\Authored;
 
 use Component\View\ComponentAbstract;
-use Component\ViewModel\Authored\Paper\NamedPaperViewModel;
+use Component\ViewModel\Authored\Paper\NamedPaperViewModelInterface;
 
 use Pes\View\Renderer\RendererInterface;
 
@@ -31,7 +31,7 @@ class NamedItemComponent extends AuthoredComponentAbstract implements NamedItemC
 //    - speciálně akce - zasložily by si nový typ - s datem konání, aby bylo možno řadit (možná i jiná kriteria)
 
 
-    public function __construct(NamedPaperViewModel $viewModel) {
+    public function __construct(NamedPaperViewModelInterface $viewModel) {
         $this->viewModel = $viewModel;
     }
 
