@@ -27,42 +27,25 @@ class ItemBlockEditableRenderer extends HtmlRendererAbstract {
     private function privateRender(ItemViewModel $itemViewModel=NULL) {
         $menuNode = $itemViewModel->getMenuNode();
         $menuItem = $menuNode->getMenuItem();
-
-        $ii = Html::tag('i', ['class'=> $this->classMap->resolveClass($menuItem->getActive(), 'Item',
-                                    $menuItem->getActual() ? 'li i2.published' : 'li i2.notactual',
-                                    $menuItem->getActual() ?  'li i2.notactive' : 'li i2.notactivenotactual'
-                                    )]);
+        $active = $menuItem->getActive();
 
         $innerHtml =
-//             "<a contenteditable=false class=\"editable\" tabindex=0 data-original-title=\"{$item['title']}\" data-uid=\"{$item['uid']}\" href=\"/menu/item/{$item['uid']}/\">{$item['title']}</a>"
-
-                    Html::tag('a',[
-                        'class'=>$this->classMap->getClass('Item', 'li a'),   // class - editable v kontejneru
-                        'href'=>"www/item/{$menuNode->getMenuItem()->getLangCodeFk()}/{$menuNode->getUid()}",
-                        'tabindex'=>0,
-                        'data-original-title'=>$menuItem->getTitle(),
-                        'data-uid'=>$menuNode->getUid(),
-
-
-                        ],  // class - editable
-//                            'li i1.published' => 'grafia active green',
-//                            'li i1.notpublished' => 'grafia active red ',
-//                            'li i2.published' => 'grafia actual grey',
-//                            'li i2.notactive' => 'grafia actual yellow',
-//                            'li i2.notactual' => 'grafia actual orange',
-//                            'li i2.notactivenotactual' => 'grafia actual red',
-                            $menuItem->getTitle()
-                            .Html::tag('div', ['class'=>$this->classMap->getClass('Item', 'li div')],
-                                Html::tag('i', ['class'=> $this->classMap->resolveClass(($menuItem->getActive() AND $menuItem->getActual()), 'Item', 'li div i1.published', 'li div i1.notpublished')])
-                                .Html::tag('i', ['class'=> $this->classMap->resolveClass($menuItem->getActive(), 'Item',
-                                        $menuItem->getActual() ? 'li div i2.published' : 'li div i2.notactual',
-                                        $menuItem->getActual() ?  'li div i2.notactive' : 'li div i2.notactivenotactual'
-                                        )])
-                            )
-                    )
-                    .Html::tag('i', ['class'=>$this->classMap->resolveClass($itemViewModel->getInnerHtml(), 'Item', 'li i')])
-                    .(($itemViewModel->getIsPresented() AND !$itemViewModel->getReadonly()) ? $this->renderButtons($menuNode) : '')
-                    .$itemViewModel->getInnerHtml();
+            Html::tag('a',
+                [
+                'class'=>$this->classMap->getClass('Item', 'li a'),   // class - editable v kontejneru
+                'href'=>"www/item/{$menuNode->getMenuItem()->getLangCodeFk()}/{$menuNode->getUid()}",
+                'tabindex'=>0,
+                'data-original-title'=>$menuItem->getTitle(),
+                'data-uid'=>$menuNode->getUid(),
+                ],
+                $menuItem->getTitle()
+                .Html::tag('div', ['class'=>$this->classMap->getClass('Item', 'li div')],
+                    Html::tag('i', ['class'=> $this->classMap->resolveClass($active, 'Item', 'li div i1.published', 'li div i1.notpublished')])
+                )
+            )
+            .Html::tag('i', ['class'=>$this->classMap->resolveClass($itemViewModel->getInnerHtml(), 'Item', 'li i')])
+            .(($itemViewModel->getIsPresented() AND !$itemViewModel->getReadonly()) ? $this->renderButtons($menuNode) : '')
+            .$itemViewModel->getInnerHtml();
         $html = Html::tag('li',
                 ['class'=>[
                     $this->classMap->resolveClass($itemViewModel->isOnPath(), 'Item', 'li.onpath', 'li'),

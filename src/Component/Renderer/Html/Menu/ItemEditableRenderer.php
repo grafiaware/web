@@ -38,16 +38,9 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
                         'href'=>"www/item/{$menuNode->getMenuItem()->getLangCodeFk()}/{$menuNode->getUid()}",
                         'tabindex'=>0,
                         ],
-                        // class - editable
-//                            'li i1.published' => 'grafia active green',
-//                            'li i1.notpublished' => 'grafia active red ',
-//                            'li i2.published' => 'grafia actual grey',
-//                            'li i2.notactive' => 'grafia actual yellow',
-//                            'li i2.notactual' => 'grafia actual orange',
-//                            'li i2.notactivenotactual' => 'grafia actual red',
 
                         // POZOR: závislost na edit.js
-                        // ve skriptu edit.js je element k editaci txtu položky vybírán pravidlem (selektorem) acceptedElement = targetElement.nodeName === 'SPAN' && targetElement.parentNode.nodeName === 'P',
+                        // ve skriptu edit.js je element k editaci textu položky vybírán pravidlem (selektorem) acceptedElement = targetElement.nodeName === 'SPAN' && targetElement.parentNode.nodeName === 'P',
                         // vyvírá <span>, který má rodiče <p>
                         Html::tag('span', [
                             'contenteditable'=> ($presentedEditable ? "true" : "false"),
