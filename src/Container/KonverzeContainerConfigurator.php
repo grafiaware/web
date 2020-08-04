@@ -74,13 +74,6 @@ class KonverzeContainerConfigurator extends ContainerConfiguratorAbstract {
             'konverze.db.logs.file' => 'Konverze.log',
             #
             ###################################
-
-            // konfigurace názvů tabulek a view hierarchy objektů
-            'konverze.hierarchy.table' => 'hierarchy',
-            'konverze.hirarchy.view' => 'hierarchy_view',
-
-
-            #####################################
         ];
     }
 
@@ -95,7 +88,37 @@ class KonverzeContainerConfigurator extends ContainerConfiguratorAbstract {
     public function getServicesDefinitions() {
 
         return [
+            #
+            // manipulator
+            Manipulator::class => function(ContainerInterface $c) : Manipulator {
+                return new Manipulator($c->get(Handler::class), $c->get('konverze.db.logger'));
+            },
 
+            // hierarchny
+            NodeAggregateReadonlyDao::class => function(ContainerInterface $c) : NodeAggregateReadonlyDao {
+                return new NodeAggregateReadonlyDao($c->get(Handler::class), $c->get('hierarchy.view'));
+            },
+
+            NodeEditDao::class => function(ContainerInterface $c) : NodeEditDao {
+                return new NodeEditDao($c->get(Handler::class), $c->get('hierarchy.table'));
+            },
+
+//            HookedMenuItemActor::class => function(ContainerInterface $c) {
+//                return new HookedMenuItemActor('cs', 'Nová položka');
+//            },
+
+            ArticleTitleUpdater::class => function(ContainerInterface $c) {
+                return new ArticleTitleUpdater($c->get(Handler::class));
+            },
+
+            MenuListStyles::class => function() {
+                return new MenuListStyles();
+            }
+        ];
+    }
+
+    public function getServicesOverrideDefinitions() {
+        return [
             // db objekty
             'konverze.db.logger' => function(ContainerInterface $c) {
                 return FileLogger::getInstance($c->get('konverze.db.logs.directory'), $c->get('konverze.db.logs.file'), FileLogger::REWRITE_LOG); //new NullLogger();
@@ -116,20 +139,20 @@ class KonverzeContainerConfigurator extends ContainerConfiguratorAbstract {
             ConnectionInfo::class => function(ContainerInterface $c) {
                 if (PES_DEVELOPMENT) {
                     return new ConnectionInfo(
-                            $c->get('konverze.db.type'),
+                            $c->get('dbUpgrade.db.type'),
                             $c->get('konverze.db.development.connection.host'),
                             $c->get('konverze.db.development.connection.name'),
-                            $c->get('konverze.db.charset'),
-                            $c->get('konverze.db.collation'),
-                            $c->get('konverze.db.port'));
+                            $c->get('dbUpgrade.db.charset'),
+                            $c->get('dbUpgrade.db.collation'),
+                            $c->get('dbUpgrade.db.port'));
                 } elseif(PES_PRODUCTION) {
                     return new ConnectionInfo(
-                            $c->get('konverze.db.type'),
+                            $c->get('dbUpgrade.db.type'),
                             $c->get('konverze.db.production.connection.host'),
                             $c->get('konverze.db.production.connection.name'),
-                            $c->get('konverze.db.charset'),
-                            $c->get('konverze.db.collation'),
-                            $c->get('konverze.db.port'));
+                            $c->get('dbUpgrade.db.charset'),
+                            $c->get('dbUpgrade.db.collation'),
+                            $c->get('dbUpgrade.db.port'));
                 }
             },
             DsnProviderMysql::class =>  function(ContainerInterface $c) {
@@ -164,38 +187,6 @@ class KonverzeContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(AttributesProvider::class),
                         $logger);
             },
-
-            ########################
-            #
-            // manipulator
-            Manipulator::class => function(ContainerInterface $c) : Manipulator {
-                return new Manipulator($c->get(Handler::class), FileLogger::getInstance($c->get('konverze.logsdirectory'), $c->get('konverze.logsfile'), FileLogger::REWRITE_LOG));
-            },
-
-            // hierarchny
-            NodeAggregateReadonlyDao::class => function(ContainerInterface $c) : NodeAggregateReadonlyDao {
-                return new NodeAggregateReadonlyDao($c->get(Handler::class), $c->get('konverze.hirarchy.view'));
-            },
-
-            NodeEditDao::class => function(ContainerInterface $c) : NodeEditDao {
-                return new NodeEditDao($c->get(Handler::class), $c->get('konverze.hierarchy.table'));
-            },
-
-//            HookedMenuItemActor::class => function(ContainerInterface $c) {
-//                return new HookedMenuItemActor('cs', 'Nová položka');
-//            },
-
-            ArticleTitleUpdater::class => function(ContainerInterface $c) {
-                return new ArticleTitleUpdater($c->get(Handler::class));
-            },
-
-            MenuListStyles::class => function() {
-                return new MenuListStyles();
-            }
         ];
-    }
-
-    public function getServicesOverrideDefinitions() {
-        ;
     }
 }

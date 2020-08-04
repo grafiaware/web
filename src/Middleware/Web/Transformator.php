@@ -12,6 +12,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 use Container\WebContainerConfigurator;
+use Container\DbUpgradeContainerConfigurator;
 use Container\HierarchyContainerConfigurator;
 
 use Model\Dao\MenuItemDao;
@@ -36,7 +37,7 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
 
         $this->container =
                 (new HierarchyContainerConfigurator())->configure(
-                    new Container(
+                    (new DbUpgradeContainerConfigurator())->configure(
                         (new WebContainerConfigurator())->configure(
                                 new Container($this->getApp()->getAppContainer())
                         )

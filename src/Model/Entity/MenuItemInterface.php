@@ -21,25 +21,11 @@ interface MenuItemInterface extends EntityInterface {
     public function getTitle();
     public function getActive();
 
-    /**
-     * @return \DateTime
-     */
-    public function getShowTime();
-
-    /**
-     * @return \DateTime
-     */
-    public function getHideTime();
-    public function getActual();
-
     public function setUidFk($uidFk): MenuItemInterface;
     public function setLangCodeFk($lang): MenuItemInterface;
     public function setType($type): MenuItemInterface;
     public function setId($id): MenuItemInterface;
     public function setTitle($title): MenuItemInterface;
     public function setActive($active): MenuItemInterface;
-    public function setShowTime(\DateTime $start): MenuItemInterface;
-    public function setHideTime(\DateTime $stop): MenuItemInterface;
-    public function setActual($actual): MenuItemInterface;
 
 }

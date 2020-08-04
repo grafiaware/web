@@ -128,7 +128,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(DsnProviderMysql::class),
                         $c->get(OptionsProviderMysql::class),
                         $c->get(AttributesProvider::class),
-                        $c->get('databaseLogger'));
+                        $c->get('dbUpgradeLogger'));
                 return $handler;
             },
         ];

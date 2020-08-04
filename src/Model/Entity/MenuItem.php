@@ -52,27 +52,6 @@ class MenuItem extends EntityAbstract implements MenuItemInterface {
         return $this->active;
     }
 
-    /**
-     * @return bool
-     */
-    public function getActual() {
-        return $this->actual;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getShowTime() {
-        return $this->showTime;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getHideTime() {
-        return $this->hideTime;
-    }
-
     public function setUidFk($uidFk): MenuItemInterface {
         $this->uidFk = $uidFk;
         return $this;
@@ -103,19 +82,4 @@ class MenuItem extends EntityAbstract implements MenuItemInterface {
         return $this;
     }
 
-    public function setShowTime($start=null): MenuItemInterface {
-        $this->showTime = $start;
-        return $this;
-    }
-
-    public function setHideTime($stop=null): MenuItemInterface {
-        $this->hideTime = $stop;
-        return $this;
-    }
-
-    public function setActual($actual): MenuItemInterface {
-        $this->actual = $actual;
-        return $this;
-    }
-
-    }
+}

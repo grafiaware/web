@@ -53,8 +53,6 @@ CREATE TABLE `menu_item` (
   `order` tinyint(80) unsigned NOT NULL DEFAULT '0',
   `title` text, -- default pro db: CHARACTER SET utf8 COLLATE utf8_general_ci
   `active` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `show_time` date DEFAULT NULL,
-  `hide_time` date DEFAULT NULL,
   `auto_generated` varchar(6) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   CONSTRAINT `type_menu_item_type_fk1` FOREIGN KEY ( `type_fk`) REFERENCES `menu_item_type` (`type`) ON UPDATE CASCADE

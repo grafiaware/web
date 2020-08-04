@@ -10,7 +10,5 @@ select `uid`, `left_node`, `right_node`,
  `order`,
  `title`,
  `active`,
- `show_time`,
- `hide_time`,
 `auto_generated`
 from (`hierarchy` left join `menu_item` on((`hierarchy`.`uid` = `menu_item`.`uid_fk`)));

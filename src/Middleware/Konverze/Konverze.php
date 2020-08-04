@@ -10,6 +10,7 @@ use Pes\Container\Container;
 use Pes\Middleware\AppMiddlewareAbstract;
 use Pes\Debug\Timer;
 
+use Container\DbUpgradeContainerConfigurator;
 use Container\KonverzeContainerConfigurator;
 
 use Pes\Database\Manipulator\Manipulator;
@@ -49,7 +50,14 @@ class Konverze extends AppMiddlewareAbstract implements MiddlewareInterface {
    //-------------------------------------------------------------------------------
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
 
-        $this->container = (new KonverzeContainerConfigurator())->configure(new Container($this->getApp()->getAppContainer()));
+        $this->container =
+            (new KonverzeContainerConfigurator())->configure(
+                new Container(      // konverze container musí bý nový kontejner - jeho konfigurace přepisuje objekty v DbUpgradeContainer
+                    (new DbUpgradeContainerConfigurator())->configure(
+                        new Container($this->getApp()->getAppContainer())  
+                    )
+                )
+            );
         $this->manipulator = $this->container->get(Manipulator::class);
 
         $steps[] = function() {

@@ -15,6 +15,7 @@ use Psr\Http\Message\ResponseInterface;
 use Pes\Middleware\AppMiddlewareAbstract;
 
 use Pes\Container\Container;
+use Container\DbUpgradeContainerConfigurator;
 use Container\HierarchyContainerConfigurator;
 use Model\Repository\StatusPresentationRepo;
 use StatusManager\StatusPresentationManagerInterface;
@@ -26,9 +27,13 @@ use StatusManager\StatusPresentationManagerInterface;
  */
 class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInterface {
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
-        // potřebuje noovu databázi -> hierarchy konfigurator
+        // potřebuje noovu databázi -> HierarchyContainerConfigurator a DbUpgradeContainerConfigurator
         $container =
-                (new HierarchyContainerConfigurator())->configure(new Container($this->getApp()->getAppContainer()));
+                (new HierarchyContainerConfigurator())->configure(
+                    (new DbUpgradeContainerConfigurator())->configure(
+                        (new Container($this->getApp()->getAppContainer())) //->addContainerInfo("PresentationStatus")
+                    )
+                );
 
         /** @var StatusPresentationRepo $statusPresentationRepo */
         $statusPresentationRepo = $container->get(StatusPresentationRepo::class);
@@ -41,7 +46,7 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
         }
 
         $statusPresentationRepo->flush();
-        
+
         $statusPresentationManager->regenerateStatusPresentation($statusPresentation, $request);
 
         return $handler->handle($request);

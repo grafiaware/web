@@ -13,7 +13,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 use Container\{
-    ActionsContainerConfigurator, HierarchyContainerConfigurator, LoginContainerConfigurator
+    ActionsContainerConfigurator, HierarchyContainerConfigurator, DbUpgradeContainerConfigurator, LoginContainerConfigurator
 };
 
 use Middleware\Actions\ActionsController\{
@@ -46,9 +46,11 @@ class Actions extends AppMiddlewareAbstract implements MiddlewareInterface {
         $this->container =
                 (new ActionsContainerConfigurator())->configure(
                     (new HierarchyContainerConfigurator())->configure(
-                        (new Container(
-                                (new LoginContainerConfigurator())->configure(
-                                    new Container($this->getApp()->getAppContainer())
+                       (new DbUpgradeContainerConfigurator())->configure(
+                            (new Container(
+                                    (new LoginContainerConfigurator())->configure(
+                                        new Container($this->getApp()->getAppContainer())
+                                    )
                                 )
                             )
                         )

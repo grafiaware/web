@@ -15,6 +15,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 use Container\WebContainerConfigurator;
+use Container\DbUpgradeContainerConfigurator;
 use Container\HierarchyContainerConfigurator;
 use Container\ComponentContainerConfigurator;
 
@@ -55,8 +56,8 @@ class Web extends AppMiddlewareAbstract implements MiddlewareInterface {
         $this->container =
             (new ComponentContainerConfigurator())->configure(
                 (new HierarchyContainerConfigurator())->configure(
-                    new Container(
-                        (new WebContainerConfigurator())->configure(
+                    (new WebContainerConfigurator())->configure(
+                        (new DbUpgradeContainerConfigurator())->configure(
                                 new Container($this->getApp()->getAppContainer())
                         )
                     )

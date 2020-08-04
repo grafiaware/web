@@ -70,17 +70,17 @@ class ActionsContainerConfigurator extends ContainerConfiguratorAbstract {
 
             #################################
             # Sekce konfigurace účtů databáze
-            # Konfigurace připojení k databázi je v aplikačním kontejneru, je pro celou apliaci stejná.
+            # Konfigurace připojení k databázi je v aplikačním kontejneru, je pro celou aplikaci stejná.
             # Služby, které vrací objekty s informacemi pro připojení k databázi jsou také v aplikačním kontejneru a v jednotlivých middleware
             # kontejnerech se volají jako služby delegate kontejneru.
             #
             # Zde je konfigurace údajů uživatele pro připojení k databázi. Ta je pro každý middleware v jeho kontejneru.
-            'database.account.everyone.name' => 'everyone',
-            'database.account.everyone.password' => 'everyone',
-            'database.account.authenticated.name' => 'authenticated',
-            'database.account.authenticated.password' => 'authenticated',
-            'database.account.administrator.name' => 'administrator',
-            'database.account.administrator.password' => 'administrator',
+            'actions.db.everyone.name' => 'everyone',
+            'actions.db.everyone.password' => 'everyone',
+            'actions.db.authenticated.name' => 'authenticated',
+            'actions.db.authenticated.password' => 'authenticated',
+            'actions.db.administrator.name' => 'administrator',
+            'actions.db.administrator.password' => 'administrator',
             #
             ###################################
         ];
@@ -196,18 +196,18 @@ class ActionsContainerConfigurator extends ContainerConfiguratorAbstract {
                 if (isset($user)) {
                     switch ($user->getRole()) {
                         case 'administrator':
-                            $account = new Account($c->get('database.account.administrator.name'), $c->get('database.account.administrator.password'));
+                            $account = new Account($c->get('actions.db.administrator.name'), $c->get('actions.db.administrator.password'));
                             break;
                         default:
                             if ($user->getRole()) {
-                                $account = new Account($c->get('database.account.authenticated.name'), $c->get('database.account.authenticated.password'));
+                                $account = new Account($c->get('actions.db.authenticated.name'), $c->get('actions.db.authenticated.password'));
                             } else {
-                                $account = new Account($c->get('database.account.everyone.name'), $c->get('database.account.everyone.password'));
+                                $account = new Account($c->get('actions.db.everyone.name'), $c->get('actions.db.everyone.password'));
                             }
                             break;
                     }
                 } else {
-                    $account = new Account($c->get('database.account.everyone.name'), $c->get('database.account.everyone.password'));
+                    $account = new Account($c->get('actions.db.everyone.name'), $c->get('actions.db.everyone.password'));
                 }
                 return $account;
             },
@@ -223,7 +223,7 @@ class ActionsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(DsnProviderMysql::class),
                         $c->get(OptionsProviderMysql::class),
                         $c->get(AttributesProvider::class),
-                        $c->get('hierarchyDbLogger'));
+                        $c->get('dbUpgradeLogger'));
                 return $handler;
             },
         ];

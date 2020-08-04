@@ -67,17 +67,25 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
     public function getFactoriesDefinitions() {
         return [
             #################################
-            # Sekce konfigurace session
-            # Konfigurace session je vždy v aplikačním kontejneru.
-            # Data session jsou používá
-            # na jako globální a objekty SessionStatusHandler ani SaveHandler nejsou připraveny
-            # na používání ve více instancích - používají interně PHP funkce pro práci se session a docházelo by ke kolizím při práci se session.
+            # Konfigurace adresáře logů
+            #
+            'app.logs.directory' => 'Logs/App',
+            #
+            #################################
+
+            #################################
+            # Konfigurace session
             #
             WebAppFactory::SESSION_NAME_SERVICE => 'www_Grafia_session',
-            'logs.session.directory' => 'Logs/App',
-            'logs.session.file' => 'Session.log',
+            'app.logs.session.file' => 'Session.log',
             #
-            # Konec sekce konfigurace session
+            ##################################
+
+            ##################################
+            # Konfigurace session
+            #
+            'app.logs.router.file' => 'Router.log',
+            #
             ##################################
         ];
     }
@@ -97,15 +105,17 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
         return [
 
             #################################
-            # Kondigurace proměnné pro ukládání údajů bezpečnostního kontextu do session
+            # Konfigurace proměnné pro ukládání údajů bezpečnostního kontextu do session
             #
 //            'security_session_variable_name' => 'security_context',
             #
             #################################
-
+            # Služby pro objekty session musí být vždy v aplikačním kontejneru.
+            # Data session jsou používána jako globální a objekty SessionStatusHandler ani SaveHandler nejsou připraveny
+            # na používání ve více instancích - používají interně PHP funkce pro práci se session a docházelo by ke kolizím při práci se session.
             // session handler
             'sessionLogger' => function(ContainerInterface $c) {
-                return FileLogger::getInstance( $c->get('logs.session.directory'), $c->get('logs.session.file'), FileLogger::REWRITE_LOG);
+                return FileLogger::getInstance( $c->get('app.logs.directory'), $c->get('app.logs.session.file'), FileLogger::REWRITE_LOG);
             },
             SessionStatusHandler::class => function(ContainerInterface $c) {
                 $saveHandler = new PhpLoggingSaveHandler($c->get('sessionLogger'));
@@ -141,10 +151,8 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
             StatusSecurityManager::class => function(ContainerInterface $c) {
                 return new StatusSecurityManager();
             },
-                    
+
             // router
-            'logs.router.directory' => 'Logs/App',
-            'logs.router.file' => 'Router.log',
             MethodEnum::class => function(ContainerInterface $c) {
                 return new MethodEnum();
             },
@@ -154,7 +162,7 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
             Router::class => function(ContainerInterface $c) {
                 $router = new Router();
                 if (PES_DEVELOPMENT) {
-                    $router->setLogger(FileLogger::getInstance($c->get('logs.router.directory'), $c->get('logs.router.file'), FileLogger::REWRITE_LOG));
+                    $router->setLogger(FileLogger::getInstance($c->get('app.logs.directory'), $c->get('app.logs.router.file'), FileLogger::REWRITE_LOG));
                 }
                 return $router;
             },

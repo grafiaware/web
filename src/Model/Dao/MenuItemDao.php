@@ -30,9 +30,6 @@ class MenuItemDao extends DaoAbstract {
             if ($publishedContext->getActive()) {
                 $contextConditions['active'] = "menu_item.active = 1";
             }
-            if ($publishedContext->getActual()) {
-                $contextConditions['actual'] = "(ISNULL(menu_item.show_time) OR menu_item.show_time<=CURDATE()) AND (ISNULL(menu_item.hide_time) OR CURDATE()<=menu_item.hide_time)";
-            }
         }
         return $contextConditions;
     }
@@ -49,8 +46,7 @@ class MenuItemDao extends DaoAbstract {
      */
     public function get($langCodeFk, $uidFk) {
         if(!isset($this->sqlGet)) {
-            $this->sqlGet = "SELECT lang_code_fk, uid_fk, type_fk, id, title, active, show_time, hide_time,
-            (ISNULL(show_time) OR show_time<=CURDATE()) AND (ISNULL(hide_time) OR CURDATE()<=hide_time) AS actual "
+            $this->sqlGet = "SELECT lang_code_fk, uid_fk, type_fk, id, title, active "
                 . "FROM menu_item "
                 . $this->where($this->and($this->getContextConditions(), ['menu_item.lang_code_fk = :lang_code_fk', 'menu_item.uid_fk=:uid_fk']));
         }
@@ -68,8 +64,7 @@ class MenuItemDao extends DaoAbstract {
      */
     public function getByList($langCodeFk, $list, $active=true, $actual=true) {
         if (!isset($this->sqlGetByList)) {
-            $this->sqlGetByList = "SELECT lang_code_fk, uid_fk, type_fk, id, title, active, show_time, hide_time,
-                (ISNULL(show_time) OR show_time<=CURDATE()) AND (ISNULL(hide_time) OR CURDATE()<=hide_time) AS actual "
+            $this->sqlGetByList = "SELECT lang_code_fk, uid_fk, type_fk, id, title, active "
                 . "FROM menu_item "
                 . $this->where($this->and(['menu_item.lang_code_fk = :lang_code_fk', 'menu_item.list=:list']));
         }
@@ -113,12 +108,11 @@ class MenuItemDao extends DaoAbstract {
             "SELECT lang_code_fk, uid_fk, type_fk, active_menu_item.id AS id, title
                 , searched_paper.headline, searched_paper.perex
                 , active_content.content
-                , active_menu_item.active AS active, active_menu_item.show_time AS show_time, active_menu_item.hide_time AS hide_time,
-                (ISNULL(active_menu_item.show_time) OR active_menu_item.show_time<=CURDATE()) AND (ISNULL(active_menu_item.hide_time) OR CURDATE()<=active_menu_item.hide_time) AS actual,
+                , active_menu_item.active AS active,
                 score_h,
                 score_c
             FROM
-                (SELECT lang_code_fk, uid_fk, type_fk, id, title, active, show_time, hide_time
+                (SELECT lang_code_fk, uid_fk, type_fk, id, title, active,
                     FROM menu_item "
                         .$this->where($this->and(['menu_item.lang_code_fk = :lang_code_fk', "menu_item.type_fk = 'paper'"]))
                         ."

@@ -72,19 +72,19 @@ class DbOldContainerConfigurator extends ContainerConfiguratorAbstract {
             # Služby, které vrací objekty jsou v aplikačním kontejneru a v jednotlivých middleware kontejnerech musí být
             # stejná sada služeb, které vracejí hodnoty konfigurace.
             #
-            'dbold.database.type' => DbTypeEnum::MySQL,
-            'dbold.database.port' => '3306',
-            'dbold.database.charset' => 'utf8',
-            'dbold.database.collation' => 'utf8_general_ci',
+            'dbold.db.type' => DbTypeEnum::MySQL,
+            'dbold.db.port' => '3306',
+            'dbold.db.charset' => 'utf8',
+            'dbold.db.collation' => 'utf8_general_ci',
 
-            'dbold.database.development.connection.host' => 'localhost',
-            'dbold.database.development.connection.name' => 'grafiacz',
+            'dbold.db.development.connection.host' => 'localhost',
+            'dbold.db.development.connection.name' => 'grafiacz',
 
-            'dbold.database.production.connection.host' => 'xxxx',
-            'dbold.database.production.connection.name' => 'xxxx',
+            'dbold.db.production.connection.host' => 'xxxx',
+            'dbold.db.production.connection.name' => 'xxxx',
 
-            'logs.database.directory' => 'Logs/App',
-            'logs.database.file' => 'DatabaseOld.log',
+            'dbold.logs.directory' => 'Logs/DbOld',
+            'dbold.logs.db.file' => 'Database.log',
             #
             # Konec sekce konfigurace databáze
             ###################################
@@ -103,57 +103,59 @@ class DbOldContainerConfigurator extends ContainerConfiguratorAbstract {
     }
 
     public function getServicesDefinitions() {
-        return [];
-    }
-
-    public function getServicesOverrideDefinitions() {
         return [
 
             // database
             // account a handler v middleware kontejnerech
-            'dbold.database.logger' => function(ContainerInterface $c) {
-                return FileLogger::getInstance($c->get('logs.database.directory'), $c->get('logs.database.file'), FileLogger::REWRITE_LOG); //new NullLogger();
+            'dbold.db.logger' => function(ContainerInterface $c) {
+                return FileLogger::getInstance($c->get('dbold.logs.directory'), $c->get('dbold.logs.db.file'), FileLogger::REWRITE_LOG); //new NullLogger();
             },
             ConnectionInfo::class => function(ContainerInterface $c) {
                 if (PES_DEVELOPMENT) {
                     return new ConnectionInfo(
-                            $c->get('dbold.database.type'),
-                            $c->get('dbold.database.development.connection.host'),
-                            $c->get('dbold.database.development.connection.name'),
-                            $c->get('dbold.database.charset'),
-                            $c->get('dbold.database.collation'),
-                            $c->get('dbold.database.port'));
+                            $c->get('dbold.db.type'),
+                            $c->get('dbold.db.development.connection.host'),
+                            $c->get('dbold.db.development.connection.name'),
+                            $c->get('dbold.db.charset'),
+                            $c->get('dbold.db.collation'),
+                            $c->get('dbold.db.port'));
                 } elseif(PES_PRODUCTION) {
                     return new ConnectionInfo(
-                            $c->get('dbold.database.type'),
-                            $c->get('dbold.database.production.connection.host'),
-                            $c->get('dbold.database.production.connection.name'),
-                            $c->get('dbold.database.charset'),
-                            $c->get('dbold.database.collation'),
-                            $c->get('dbold.database.port'));
+                            $c->get('dbold.db.type'),
+                            $c->get('dbold.db.production.connection.host'),
+                            $c->get('dbold.db.production.connection.name'),
+                            $c->get('dbold.db.charset'),
+                            $c->get('dbold.db.collation'),
+                            $c->get('dbold.db.port'));
                 }
             },
             DsnProviderMysql::class =>  function(ContainerInterface $c) {
                 $dsnProvider = new DsnProviderMysql();
                 if (PES_DEVELOPMENT) {
-                    $dsnProvider->setLogger($c->get('dbold.database.logger'));
+                    $dsnProvider->setLogger($c->get('dbold.db.logger'));
                 }
                 return $dsnProvider;
             },
             OptionsProviderMysql::class =>  function(ContainerInterface $c) {
                 $optionsProvider = new OptionsProviderMysql();
                 if (PES_DEVELOPMENT) {
-                    $optionsProvider->setLogger($c->get('dbold.database.logger'));
+                    $optionsProvider->setLogger($c->get('dbold.db.logger'));
                 }
                 return $optionsProvider;
             },
             AttributesProvider::class =>  function(ContainerInterface $c) {
                 $attributesProvider = new AttributesProvider();
                 if (PES_DEVELOPMENT) {
-                    $attributesProvider->setLogger($c->get('dbold.database.logger'));
+                    $attributesProvider->setLogger($c->get('dbold.db.logger'));
                 }
                 return $attributesProvider;
             },
+        ];
+    }
+
+    public function getServicesOverrideDefinitions() {
+        return [
+
         ];
     }
 }
