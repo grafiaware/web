@@ -24,6 +24,9 @@ use Model\Repository\{
 
 ####################
 use Pes\View\ViewFactory;
+use Pes\View\View;
+use Pes\View\Template\PhpTemplate;
+use Pes\View\Template\InterpolateTemplate;
 
 use Middleware\Login\Controller\LoginLogoutController;
 use Component\View\Status\{
@@ -44,10 +47,8 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
      */
     protected $container;
 
-    public function injectContainer(ContainerInterface $componentContainer): LayoutControllerInterface {
-        $this->container = $componentContainer;
-        return $this;
-    }
+    protected $componentViews = [];
+
 
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
@@ -58,22 +59,146 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
         $this->viewFactory = $viewFactory;
     }
 
+    public function injectContainer(ContainerInterface $componentContainer): LayoutControllerInterface {
+        $this->container = $componentContainer;
+        return $this;
+    }
+
+    protected function isEditableLayout() {
+        $userActions = $this->statusSecurityRepo->get()->getUserActions();
+        return $userActions ? $userActions->isEditableLayout() : false;
+    }
+
+    protected function isEditableArticle() {
+        $userActions = $this->statusSecurityRepo->get()->getUserActions();
+        return $userActions ? $userActions->isEditableArticle() : false;
+    }
+
+    ### prezentace - view
+
+    protected function createView(ServerRequestInterface $request) {
+        #### speed test ####
+//        $timer = new Timer();
+//        $timer->start();
+        $this->initLayoutTemplatesVars();
+        $this->setComponentViews($request);
+
+        $layoutView = $this->getLayoutView($request);
+        foreach ($this->componentViews as $name => $componentView) {
+            $layoutView->appendComponentView($componentView, $name);
+        }
+        return $layoutView;
+    }
+
+######################################
+
     /**
      *
      * @return CompositeView
      */
-    protected function getLayoutView(ServerRequestInterface $request) {
+    private function getLayoutView(ServerRequestInterface $request) {
         return $this->viewFactory->phpTemplateCompositeView($this->templatesLayout['layout'],
                 [
                     'basePath' => $this->getBasePath($request),
                     'langCode' => $this->statusPresentationRepo->get()->getLanguage()->getLangCode(),
                     'modalLoginLogout' => $this->getModalLoginLogout(),
-                    'modalUserAction' => $this->getModalUserAction()
+                    'modalUserAction' => $this->getModalUserAction(),
+                    'editableJsLinks' => $this->getEditTools($request),
+                    'poznamky' => $this->getPoznamky(),
                 ]);
     }
 
+    private function initLayoutTemplatesVars() {
+        $theme = 'old';
 
-    protected function getModalLoginLogout() {
+        switch ($theme) {
+            case 'old':
+                $this->templatesLayout['layout'] = PROJECT_DIR.'/templates/layout.php';
+                $this->templatesLayout['links'] = PROJECT_DIR.'/templates/layout/head/editableJsLinks.php';
+                $this->templatesLayout['tiny_config'] = PROJECT_DIR.'/templates/layout/head/tiny_config.js';
+                break;
+            case 'new':
+                $this->templatesLayout['layout'] = PROJECT_DIR.'/templates/newlayout/layout.php';
+                $this->templatesLayout['links'] = PROJECT_DIR.'/templates/newlayout/head/editableJsLinks.php';
+                $this->templatesLayout['tiny_config'] = PROJECT_DIR.'/templates/newlayout/head/tiny_config.js';
+                break;
+            case 'new1':
+                $this->templatesLayout['layout'] = PROJECT_DIR.'/templates/newlayout_1/layout.php';
+                $this->templatesLayout['links'] = PROJECT_DIR.'/templates/newlayout_1/head/editableJsLinks.php';
+                $this->templatesLayout['tiny_config'] = PROJECT_DIR.'/templates/newlayout_1/head/tiny_config.js';
+                break;
+            case 'new2':
+                $this->templatesLayout['layout'] = PROJECT_DIR.'/templates/newlayout_2/layout.php';
+                $this->templatesLayout['links'] = PROJECT_DIR.'/templates/newlayout_2/head/editableJsLinks.php';
+                $this->templatesLayout['tiny_config'] = PROJECT_DIR.'/templates/newlayout_2/head/tiny_config.js';
+                break;
+            case 'new3':
+                $this->templatesLayout['layout'] = PROJECT_DIR.'/templates/newlayout_3/layout.php';
+                $this->templatesLayout['links'] = PROJECT_DIR.'/templates/newlayout_3/head/editableJsLinks.php';
+                $this->templatesLayout['tiny_config'] = PROJECT_DIR.'/templates/newlayout_3/head/tiny_config.js';
+                break;
+            default:
+                $this->templatesLayout['layout'] = PROJECT_DIR.'/templates/layout.php';
+                $this->templatesLayout['links'] = PROJECT_DIR.'/templates/layout/head/editableJsLinks.php';
+                $this->templatesLayout['tiny_config'] = PROJECT_DIR.'/templates/layout/head/tiny_config.js';
+                break;
+        }
+    }
+
+
+    private function getEditTools(ServerRequestInterface $request) {
+        if ($this->isEditableArticle() OR $this->isEditableLayout()) {
+            $webPublicDir = \Middleware\Web\AppContext::getAppPublicDirectory();
+            $commonPublicDir = \Middleware\Web\AppContext::getPublicDirectory();
+            ## document base path - stejná hodnota se musí použiít i v nastavení tinyMCE
+            $basepath = $this->getBasePath($request);
+            // Language packages tinyMce požívají krátké i dlouhé kódy (k=d odpovídá jménu souboru např cs.js) - proto mapování
+            // pozn. - popisky šablon pro tiny jsou jen česky (TinyInit.js)
+            $tinyLanguage = [
+                'cs' => 'cs',
+                'de' => 'de',
+                'en' => 'en_US'
+            ];
+            $langCode =$this->statusPresentationRepo->get()->getLanguage()->getLangCode();
+            $toolsbarsLang = array_key_exists($langCode, $tinyLanguage) ? $tinyLanguage[$langCode] : 'cs';
+            return
+                $this->container->get(View::class)
+                    ->setTemplate(new PhpTemplate($this->templatesLayout['links']))
+                    ->setData([
+                        'tinyMCEConfig' => $this->container->get(View::class)
+                            ->setTemplate(new InterpolateTemplate($this->templatesLayout['tiny_config']))
+                            ->setData([
+                                // pro tiny_config.js
+                                'basePath' => $basepath,
+                                'urlStylesCss' => $webPublicDir."grafia/css/styles.css",
+                                'urlSemanticCss' => $webPublicDir."semantic/dist/semantic.min.css",
+                                'urlZkouskaCss' => $webPublicDir."grafia/css/zkouska_less.css",
+                                'templatesPath' => $commonPublicDir."tiny_templates/",
+                                'toolbarsLang' => $toolsbarsLang
+                            ]),
+//                        'urlTinyMCE' => $commonPublicDir.'tinymce/tinymce.min.js',
+//                        'urlJqueryTinyMCE' => $commonPublicDir.'tinymce/jquery.tinymce.min.js',
+
+//                        'urlTinyMCE' => $commonPublicDir.'tinymce5_3_1\js\tinymce\tinymce.min.js',
+//                        'urlJqueryTinyMCE' => $commonPublicDir.'tinymce5_3_1\js\tinymce\jquery.tinymce.min.js',
+
+                        'urlTinyMCE' => $commonPublicDir.'tinymce5_4_0\js\tinymce\tinymce.min.js',
+                        'urlJqueryTinyMCE' => $commonPublicDir.'tinymce5_4_0\js\tinymce\jquery.tinymce.min.js',
+
+//                        'urlTinyMCE' => $commonPublicDir.'tinymce5_3_1_dev\js\tinymce\tinymce.js',
+//                        'urlJqueryTinyMCE' => $commonPublicDir.'tinymce5_3_1_dev\js\tinymce\jquery.tinymce.min.js',
+
+//    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+//    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+//    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/jquery.tinymce.min.js" referrerpolicy="origin"></script>
+                        'urlTinyInit' => $webPublicDir.'grafia/js/TinyInit.js',
+                        'editScript' => $webPublicDir . 'grafia/js/edit.js',
+                        'kalendarScript' => $webPublicDir . 'grafia/js/kalendar.js',
+                    ]);
+        }
+    }
+
+    private function getModalLoginLogout() {
         $user = $this->statusSecurityRepo->get()->getUser();
         if (null != $user AND $user->getRole()) {   // libovolná role
             /** @var LogoutComponent $logoutComponent */
@@ -90,17 +215,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
         }
     }
 
-    protected function isEditableLayout() {
-        $userActions = $this->statusSecurityRepo->get()->getUserActions();
-        return $userActions ? $userActions->isEditableLayout() : false;
-    }
-
-    protected function isEditableArticle() {
-        $userActions = $this->statusSecurityRepo->get()->getUserActions();
-        return $userActions ? $userActions->isEditableArticle() : false;
-    }
-
-    protected function getModalUserAction() {
+    private function getModalUserAction() {
         $user = $this->statusSecurityRepo->get()->getUser();
         if (null != $user AND $user->getRole()) {   // libovolná role
             /** @var UserActionComponent $actionComponent */
@@ -115,5 +230,24 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
         } else {
 
         }
+    }
+
+    private function getPoznamky() {
+        if ($this->isEditableLayout() OR $this->isEditableArticle()) {
+            return
+                $this->container->get(View::class)
+                    ->setTemplate(new PhpTemplate('templates/poznamky/poznamky.php'))
+                    ->setData([
+                        'poznamka1'=>
+                        '<pre>'. var_export($this->statusPresentationRepo->get()->getLanguage(), true).'</pre>'
+                        . '<pre>'. var_export($this->statusSecurityRepo->get()->getUserActions(), true).'</pre>',
+                        'flashMessage' => $this->getFlashMessage(),
+                        ]);
+        }
+    }
+
+    private function getFlashMessage() {
+        $statusFlash = $this->statusFlashRepo->get();
+        return $statusFlash ? $statusFlash->getFlash() ?? 'no flash' : 'no flash message';
     }
 }

@@ -11,7 +11,7 @@ namespace Model\Entity;
 use Model\Entity\StatusPresentationInterface;
 
 use Model\Entity\{
-    MenuItem, Language, UserActions
+    MenuItemInterface, LanguageInterface
 };
 
 /**
@@ -22,22 +22,22 @@ use Model\Entity\{
 class StatusPresentation implements StatusPresentationInterface {
 
     /**
-     * @var Language
+     * @var LanguageInterface
      */
     private $language;
 
     private $requestedLangCode;
 
     /**
-     * @var MenuItem
+     * @var MenuItemInterface
      */
     private $menuItem;
 
     /**
      *
-     * @return Language|null
+     * @return LanguageInterface|null
      */
-    public function getLanguage(): ?Language {
+    public function getLanguage(): ?LanguageInterface {
         return $this->language;
     }
 
@@ -51,18 +51,18 @@ class StatusPresentation implements StatusPresentationInterface {
 
     /**
      *
-     * @return MenuItem|null
+     * @return MenuItemInterface|null
      */
-    public function getMenuItem(): ?MenuItem {
+    public function getMenuItem(): ?MenuItemInterface {
         return $this->menuItem;
     }
 
     /**
      *
-     * @param Language $language
+     * @param LanguageInterface $language
      * @return StatusPresentationInterface
      */
-    public function setLanguage(Language $language): StatusPresentationInterface {
+    public function setLanguage(LanguageInterface $language): StatusPresentationInterface {
         $this->language = $language;
         return $this;
     }
@@ -79,10 +79,10 @@ class StatusPresentation implements StatusPresentationInterface {
 
     /**
      *
-     * @param MenuItem $menuItem
+     * @param MenuItemInterface $menuItem
      * @return StatusPresentationInterface
      */
-    public function setMenuItem(MenuItem $menuItem): StatusPresentationInterface {
+    public function setMenuItem(MenuItemInterface $menuItem): StatusPresentationInterface {
         $this->menuItem = $menuItem;
         return $this;
     }
