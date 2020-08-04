@@ -20,6 +20,7 @@ class HookedMenuItemActor extends HookedActorAbstract {
 
     const NEW_TITLE = 'Title';
     const NEW_ITEM_TYPE_FK = 'empty';
+    const TRASH_ITEM_TYPE_FK = 'trash';
 
     private $menuItemTableName;
     private $newTitle;
@@ -83,12 +84,12 @@ class HookedMenuItemActor extends HookedActorAbstract {
      */
     public function trash(HandlerInterface $transactionHandler, $uidsArray) {
         $this->checkTransaction($transactionHandler);
-        $in = "'".implode("', '", $uidsArray)."'";
+        $in = $this->getInFromUidsArray($uidsArray);
 
         // přesunuté do koše - nastavím neaktivní
         $transactionHandler->exec(
             "UPDATE $this->menuItemTableName
-            SET active = 0
+            SET active = 0, type_fk = '".self::TRASH_ITEM_TYPE_FK."¨
             WHERE uid_fk IN ( $in )"
             );
     }
@@ -103,7 +104,7 @@ class HookedMenuItemActor extends HookedActorAbstract {
      */
     public function delete(HandlerInterface $transactionHandler, $uidsArray) {
         $this->checkTransaction($transactionHandler);
-        $in = "'".implode("', '", $uidsArray)."'";
+        $in = $this->getInFromUidsArray($uidsArray);
         // tvrdý delete
 
         // !! nelze mazat - foreign keys v paper, block - nutno smazat nejdříve paper a block položky
@@ -127,5 +128,18 @@ class HookedMenuItemActor extends HookedActorAbstract {
 //        AND delete_rule = 'CASCADE'
 
 
+    }
+
+    /**
+     * $uidsArray je resultset z fetchAll() => je to dvourozměrné pole, každá položka obsahuje pole hodnot sloupců.
+     * Očekávám číslovaná pole a jen jeden sloupec v každém řádku.
+     *
+     * @param type $uidsArray
+     */
+    private function getInFromUidsArray($uidsArray) {
+        foreach ($uidsArray as $row) {
+            $uids[] = $row[0];
+        }
+        return "'".implode("', '", $uids)."'";
     }
 }

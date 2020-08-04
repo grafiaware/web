@@ -194,7 +194,7 @@ class ComponentController extends LayoutControllerAbstract {
         $editable = $this->isEditableArticle();
         $menuItemType = $this->statusPresentationRepo->get()->getMenuItem()->getTypeFk();
             switch ($menuItemType) {
-                case 'block':
+                case 'segment':
                     if ($editable) {
                         $content = $this->container->get('article.block.editable');
                     } else {
@@ -226,6 +226,7 @@ class ComponentController extends LayoutControllerAbstract {
                     break;
 
                 default:
+                        $content = $this->container->get('article.headlined');
                     break;
             }
         $this->componentViews["content"] = $content;
@@ -266,7 +267,7 @@ class ComponentController extends LayoutControllerAbstract {
 
 //                        'urlTinyMCE' => $commonPublicDir.'tinymce5_3_1\js\tinymce\tinymce.min.js',
 //                        'urlJqueryTinyMCE' => $commonPublicDir.'tinymce5_3_1\js\tinymce\jquery.tinymce.min.js',
-                        
+
                         'urlTinyMCE' => $commonPublicDir.'tinymce5_4_0\js\tinymce\tinymce.min.js',
                         'urlJqueryTinyMCE' => $commonPublicDir.'tinymce5_4_0\js\tinymce\jquery.tinymce.min.js',
 
@@ -383,7 +384,7 @@ class ComponentController extends LayoutControllerAbstract {
         }
         return $componets;
     }
-    
+
     private function getGeneratedLayoutComponents() {
         return [
             'languageSelect' => $this->container->get(LanguageSelectComponent::class),

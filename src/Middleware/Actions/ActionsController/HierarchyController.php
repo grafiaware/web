@@ -58,7 +58,9 @@ class HierarchyController extends PresentationFrontControllerAbstract {
     }
 
     public function delete(ServerRequestInterface $request, $uid) {
-        $parentUid = $this->editHierarchyDao->deleteLeafNode($uid);
+        // opatrná varianta - maže jen leaf - nutno mazat po jednom uzlu (to se musí projevit i v renderování obládacích prvků - tlačítek, nabízet smazat jen pro leaf)
+//        $parentUid = $this->editHierarchyDao->deleteLeafNode($uid);
+        $parentUid = $this->editHierarchyDao->deleteSubTree($uid);
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
         $this->addFlashMessage('delete');
         return $this->redirectSeeOther($request, "www/item/$langCode/$parentUid/");
