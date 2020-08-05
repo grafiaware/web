@@ -42,7 +42,8 @@ class ItemTrashRenderer extends HtmlRendererAbstract {
                     $this->classMap->resolveClass($itemViewModel->isOnPath(), 'Item', 'li.onpath', 'li'),
                     $this->classMap->resolveClass($itemViewModel->isLeaf(), 'Item', 'li.leaf', 'li'),
                     $this->classMap->resolveClass($itemViewModel->getIsPresented(), 'Item', 'li.presented', 'li'),
-                    ]
+                    ],
+                 "style" => $itemViewModel->isRestored() ? "background-color: coral" : ""
                 ],
                 $innerHtml);
         return $html;
@@ -74,7 +75,7 @@ class ItemTrashRenderer extends HtmlRendererAbstract {
                 'type'=>'submit',
                 'name'=>'move',
                 'formmethod'=>'post',
-                'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/move/senPatříCílovýParentUid",
+                'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/restore",
                     ],
                 Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button4 i')])
             )

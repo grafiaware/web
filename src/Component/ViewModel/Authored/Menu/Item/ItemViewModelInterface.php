@@ -18,6 +18,7 @@ interface ItemViewModelInterface {
     public function isOnPath();
     public function isLeaf();
     public function getIsPresented();
+    public function isRestored();
     public function getReadonly();
     public function getInnerHtml();
 

@@ -98,7 +98,7 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
                 $isOnPath = FALSE;
             }
             $isPresented = isset($presentedUid) ? ($presentedUid == $item->getHierarchyUid()) : FALSE;
-            $models[] = new ItemViewModel($item, $isOnPath, $isPresented, $readonly);
+  !!          $models[] = new ItemViewModel($item, $isOnPath, $isPresented, $isRestored, $readonly);
         }
         return $models;
     }

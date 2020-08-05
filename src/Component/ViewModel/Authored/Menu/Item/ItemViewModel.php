@@ -25,13 +25,15 @@ class ItemViewModel implements ItemViewModelInterface {
     private $isOnPath;
     private $isLeaf;
     private $isPresented;
+    private $isRestored;
     private $readonly;
     private $innerHtml;
 
-    public function __construct(HierarchyNodeInterface $menuNode, $isOnPath, $isPresented, $readonly, $innerHtml='') {
+    public function __construct(HierarchyNodeInterface $menuNode, $isOnPath, $isPresented, $isRestored, $readonly, $innerHtml='') {
         $this->menuNode = $menuNode;
         $this->isOnPath = $isOnPath;
         $this->isPresented = $isPresented;
+        $this->isRestored = $isRestored;
         $this->readonly = $readonly;
         $this->innerHtml = $innerHtml;
 
@@ -57,6 +59,11 @@ class ItemViewModel implements ItemViewModelInterface {
     public function getIsPresented() {
         return $this->isPresented;
     }
+
+    public function isRestored() {
+        return $this->isRestored;
+    }
+    
     public function getReadonly() {
         return $this->readonly;
     }

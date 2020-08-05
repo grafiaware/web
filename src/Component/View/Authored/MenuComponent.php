@@ -131,8 +131,9 @@ class MenuComponent extends AuthoredComponentAbstract implements MenuComponentIn
             }
             $innerHtml = $isOnPath ? $this->levelWrapRenderer->render($this->getMenuLevelHtml($menuNode->getUid())) : '';
             $isPresented = isset($this->presentedUid) ? ($this->presentedUid == $menuNode->getUid()) : FALSE;
+  !!          $isRestored = $this->viewModel->
             $readonly = $menuNode->getUid()==$this->rootUid;
-            $itemViewModel = new ItemViewModel($menuNode, $isOnPath, $isPresented, $readonly, $innerHtml);
+            $itemViewModel = new ItemViewModel($menuNode, $isOnPath, $isPresented, $isRestored, $readonly, $innerHtml);
             $itemTags[] = $this->itemRenderer->render($itemViewModel);
         }
         return $itemTags ? implode(PHP_EOL, $itemTags) : '';
