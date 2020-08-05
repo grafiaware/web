@@ -14,7 +14,7 @@ use Component\Renderer\Html\Menu\{
 };
 
 use Component\Renderer\Html\Authored\{
-    HeadlinedRenderer, HeadlinedEditableRenderer, BlockRenderer, BlockEditableRenderer
+    PaperRenderer, PaperEditableRenderer
 };
 
 use Component\Renderer\Html\Generated\{
@@ -338,66 +338,8 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
             'menu.kos.menuwraprenderer.editable' => function(ContainerInterface $c) {
                 return new MenuWrapEditableRenderer($c->get('menu.kos.classmap'));
             },
-        #
-        #  paper classmap
-        #
-//            'paper.headlined.classmap' => function(ContainerInterface $c) {
-//                return new ClassMap (
-//                    ['Component' => [
-//                        'div'=>'ui segment',
-//                        'div div'=>'grafia segment headlined headline',
-//                        'div div headline'=>'ui header',
-//                        'div content'=>'grafia segment headlined content',
-//                        ]
-//                    ]
-//                );
-//            },
-//            'paper.headlined.editable.classmap' => function(ContainerInterface $c) {
-//                return new ClassMap (
-//                    ['Component' => [
-//                        'div'=>'ui segment',
-//                        'div div'=>'grafia segment headlined editable',
-//                        'div div.notpermitted'=>'grafia segment headlined notpermitted',
-//                        'div div.locked'=>'grafia segment headlined locked',
-//                        'div div div'=>'',
-//                        'div div div headline'=>'ui header',
-//                        'div div div i1.published' => 'grafia active green',
-//                        'div div div i1.notpublished' => 'grafia active red ',
-//                        'div div div i2.published' => 'grafia actual grey',
-//                        'div div div i2.notactive' => 'grafia actual yellow',
-//                        'div div div i2.notactual' => 'grafia actual orange',
-//                        'div div div i2.notactivenotactual' => 'grafia actual red',
-//                        'div div div i3'=>'settings icon',
-//                        'div div content'=>'',
-//                        ],
-//                     'Buttons' => $c->get('paper_edit_buttons'),
-//                    ]
-//                );
-//            },
-//
-//            'paper.block.classmap' => function(ContainerInterface $c) {
-//                return new ClassMap (
-//                    ['Component' => [
-//                        'div'=>'grafia segment block',
-//                        'div block'=>'',
-//                        ]
-//                    ]
-//                );
-//            },
-//            'paper.block.editable.classmap' => function(ContainerInterface $c) {
-//                return new ClassMap (
-//                    ['Component' => [
-//                        'div'=>'grafia segment block editable',
-//                        'div block'=>'',
-//                        //'block.notpermitted'=>'grafia segment block notpermitted',
-//                        //'block.locked'=>'grafia segment block locked',
-//                        ],
-//                    'Buttons' => $c->get('paper_edit_buttons'),
-//                        ]
-//                );
-//            },
 ############################
-            'paper.headlined.classmap' => function(ContainerInterface $c) {
+            'paper.classmap' => function(ContainerInterface $c) {
                 return new ClassMap (
                     ['Segment' => [
                         'div'=>'ui segment',
@@ -414,7 +356,7 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
                         ]                    ]
                 );
             },
-            'paper.headlined.editable.classmap' => function(ContainerInterface $c) {
+            'paper.editable.classmap' => function(ContainerInterface $c) {
                 return new ClassMap (
                     ['Segment' => [
                         'div'=>'ui segment',
@@ -447,9 +389,7 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
 
                          'i.trash' => 'trash icon purple',
                         'content'=>'',
-                        'div.trash_content'=>'trash_content',
-                        'div.none'=>'display_none',
-                        'div.block'=>'display_block'
+                        'div.trash_content'=>'trash_content'
                         ],
                      'PaperButtons' => $c->get('paper_edit_buttons'),
                      'ContentButtons' => $c->get('content_edit_buttons'),
@@ -458,27 +398,38 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
                 );
             },
 
-            'paper.block.classmap' => function(ContainerInterface $c) {
+            'block.classmap' => function(ContainerInterface $c) {
                 return new ClassMap (
                     ['Segment' => [
                         'div'=>'grafia segment block',
                         ],
-                    'Perex' => [
+                     'Headline' => [
+                        'div'=>'',
+                        'headline'=>'',
+                        ],                        
+                     'Perex' => [
                         'perex'=>'',
-                        ]
+                        ],
+                    'Content' => [
+                        'content'=>''
+                        ],                        
                     ]
                 );
             },
-            'paper.block.editable.classmap' => function(ContainerInterface $c) {
+            'block.editable.classmap' => function(ContainerInterface $c) {
                 return new ClassMap (
                     ['Segment' => [
                         'div'=>'grafia segment block editable',
                         ],
-                     'Perex' => [
+                     'Headline' => [
+                        'section'=>'',
+                        'headline'=>'',
+                        ],
+                    'Perex' => [
                         'section'=>'',
                         'perex'=>'',
                         ],
-                     'Content' => [
+                    'Content' => [
                         'section'=>'',
                         'div.semafor'=>'semafor',
                         'div.corner'=>'ui right tiny corner blue label',
@@ -488,43 +439,25 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
                         'i2.notactive' => 'calendar plus icon grey',
                         'i2.notactual' => 'calendar minus icon orange',
                         'i2.notactivenotactual' => 'calendar times icon red',
-                        'content'=>'',
-                        'div.none'=>'display_none',
-                        'div.block'=>'display_block'
+                        'content'=>''
                         ],
                     'PaperButtons' => $c->get('paper_edit_buttons'),
                     'ContentButtons' => $c->get('content_edit_buttons'),
                     ]
                 );
             },
-
-        #
-        #  paper renderer
-        #
-//            'paper.headlined.renderer' => function(ContainerInterface $c) {
-//                return new HeadlinedRenderer($c->get('paper.headlined.classmap'));
-//            },
-//            'paper.headlined.renderer.editable' => function(ContainerInterface $c) {
-//                return new HeadlinedEditableRenderer($c->get('paper.headlined.editable.classmap'));
-//            },
-//            'paper.block.renderer' => function(ContainerInterface $c) {
-//                return new BlockRenderer($c->get('paper.block.classmap'));
-//            },
-//            'paper.block.renderer.editable' => function(ContainerInterface $c) {
-//                return new BlockEditableRenderer($c->get('paper.block.editable.classmap'));
-//            },
 ###########################
             'paper.headlined.renderer' => function(ContainerInterface $c) {
-                return new HeadlinedRenderer($c->get('paper.headlined.classmap'));
+                return new PaperRenderer($c->get('paper.classmap'));
             },
             'paper.headlined.renderer.editable' => function(ContainerInterface $c) {
-                return new HeadlinedEditableRenderer($c->get('paper.headlined.editable.classmap'));
+                return new PaperEditableRenderer($c->get('paper.editable.classmap'));
             },
             'paper.block.renderer' => function(ContainerInterface $c) {
-                return new BlockRenderer($c->get('paper.block.classmap'));
+                return new PaperRenderer($c->get('block.classmap'));
             },
             'paper.block.renderer.editable' => function(ContainerInterface $c) {
-                return new BlockEditableRenderer($c->get('paper.block.editable.classmap'));
+                return new PaperEditableRenderer($c->get('block.editable.classmap'));
             },
         #
         #  generated classmap

@@ -8,17 +8,17 @@
 
 namespace Component\Renderer\Html\Authored;
 
+use Model\Entity\PaperAggregateInterface;
 use Component\ViewModel\Authored\Paper\PaperViewModelInterface;
 use Component\ViewModel\Authored\Paper\NamedPaperViewModelInterface;
-
 use Pes\Text\Html;
-
 /**
- * Description of HeadlinedEditableRenderer
+ * Description of PaperRenderer
  *
  * @author pes2704
  */
-class HeadlinedEditableRenderer extends PaperEditableRendererAbstract {
+class PaperRenderer extends AuthoredRendererAbstract {
+    
     public function render($data=NULL) {
         return $this->renderPrivate($data);
     }
@@ -33,13 +33,21 @@ class HeadlinedEditableRenderer extends PaperEditableRendererAbstract {
 
         if (isset($paperAggregate)) {
             $innerHtml = $this->renderPaper($paperAggregate);
+            $style = "display: block;";
         } else {
-            $innerHtml = Html::tag('div', [], 'Missing paper for rendering.');
+            $innerHtml = Html::tag('div', [], 'No paper for rendering.');
+            $style = "display: none;";
         }
-        // atribut data-component je jen pro info v html
-        return Html::tag('div', ['data-component'=>$name, 'class'=>$this->classMap->getClass('Segment', 'div')],
-                Html::tag('div', ['class'=>$this->classMap->getClass('Segment', 'div.grafia')], $innerHtml)
-            );
+        return Html::tag('div', ['data-component'=>$name, 'class'=>$this->classMap->getClass('Segment', 'div'), 'style'=>$style], $innerHtml);
+    }
+    
+    private function renderPaper(PaperAggregateInterface $paperAggregate) {
+        return
+            $innerHtml =
+                $this->renderHeadline($paperAggregate).
+                $this->renderPerex($paperAggregate).
+                $this->renderContents($paperAggregate).
+                    "";
     }
 
 }
