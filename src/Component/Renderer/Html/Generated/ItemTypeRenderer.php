@@ -27,14 +27,15 @@ class ItemTypeRenderer extends HtmlRendererAbstract {
     }
 
     private function renderPrivate(ItemTypeSelectViewModel $viewModel) {
+        $menuItemUidFk = $viewModel->getMenuItem()->getUidFk();
         $radioHtml = '';
         foreach ($viewModel->getTypes() as $type) {
-            $radioHtml .=Html::tag('label', ['method'=>'POST', 'action'=>'/api/v1/menu/:menuItemId'],
+            $radioHtml .=Html::tag('label', [],
                                 Html::tag('input', ['type'=>"radio", 'name'=>"type", 'value'=>$type->getType()])
                                 .$type->getType()
                             );
         }
-        return Html::tag('form', [],
+        return Html::tag('form', ['method'=>'POST', 'action'=>"api/v1/menu/$menuItemUidFk/type"],
                     Html::tag('p', [], Message::t("Vyberte typ obsahu:"))
                     .Html::tag('div', [],
                             $radioHtml

@@ -141,24 +141,24 @@ class MenuItemDao extends DaoAbstract {
     }
 
     public function insert($row) {
-        throw \LogicException("Nelze samostatně vložit novou položku menu_item.");
+        throw \LogicException("Nelze samostatně vložit novou položku menu_item. Nové položky lze vytvořit pouze voláním metod Node (Hierarchy) dao.");
     }
 
     /**
-     * Zapisuje jen title, active, show_time, hide_time - ostatní jsou měněny jen pomocí hierarchy (active je readonly)
+     * Zapisuje jen type_fk, title, active - lang_code_fk, uid_fk jsou měněny jen pomocí hierarchy, id je readonly
      * @param type $row
      * @return type
      */
     public function update($row) {
         if (!$this->sqlUpdate) {
-            $this->sqlUpdate = "UPDATE menu_item SET title=:title, active=:active "
+            $this->sqlUpdate = "UPDATE menu_item SET type_fk=:type_fk, title=:title, active=:active "
                 . $this->where($this->and(['lang_code_fk=:lang_code_fk AND uid_fk=:uid_fk']));
         }
-        return $this->execUpdate($this->sqlUpdate, [':title'=>$row['title'], ':active'=>$row['active'],
+        return $this->execUpdate($this->sqlUpdate, [':type_fk'=>$row['type_fk'], ':title'=>$row['title'], ':active'=>$row['active'],
             ':lang_code_fk' => $row['lang_code_fk'], ':uid_fk'=> $row['uid_fk']]);
     }
 
     public function delete($row) {
-        throw new \LogicException("Nelze samostatně smazat položku menu_item.");
+        throw new \LogicException("Nelze samostatně smazat položku menu_item. Položky lze mazat pouze voláním metod Node (Hierarchy) dao.");
     }
 }

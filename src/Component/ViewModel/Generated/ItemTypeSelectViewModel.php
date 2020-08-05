@@ -10,10 +10,11 @@ namespace Component\ViewModel\Generated;
 
 use Component\ViewModel\ComponentViewModelAbstract;
 
+use Model\Repository\StatusPresentationRepo;
 use Model\Repository\MenuItemTypeRepo;
 
 use Model\Entity\MenuItemTypeInterface;
-
+use Model\Entity\MenuItemInterface;
 /**
  * Description of LanguageSelect
  *
@@ -22,13 +23,20 @@ use Model\Entity\MenuItemTypeInterface;
 class ItemTypeSelectViewModel implements ItemTypeSelectViewModelInterface {
 
     /**
+     * @var StatusPresentationRepo
+     */
+    protected $statusPresentationRepo;
+
+    /**
      * @var MenuItemTypeRepo
      */
     private $menuItemTypeRepo;
 
     public function __construct(
+            StatusPresentationRepo $statusPresentationRepo,
             MenuItemTypeRepo $menuItemTypeRepo
             ) {
+        $this->statusPresentationRepo = $statusPresentationRepo;
         $this->menuItemTypeRepo = $menuItemTypeRepo;
     }
 
@@ -41,4 +49,12 @@ class ItemTypeSelectViewModel implements ItemTypeSelectViewModelInterface {
     }
 
 
+    /**
+     * Vrací menuItem odpovídající prezentované položce menu. Řídí se hodnotami vlastností objektu PresentationStatus.
+     *
+     * @return MenuItemInterface|null
+     */
+    public function getMenuItem(): ?MenuItemInterface {
+        return $this->statusPresentationRepo->get()->getMenuItem();
+    }
 }

@@ -20,11 +20,11 @@ use Model\Repository\Exception\UnableRecreateEntityException;
  *
  * @author pes2704
  */
-class MenuItemTypeRepo extends RepoAbstract { // implements Chybí interface pro repa {
+class MenuItemTypeRepo extends RepoAbstract implements MenuItemTypeRepoInterface { // implements Chybí interface pro repa {
 
     public function __construct(MenuItemTypeDao $menuItemTypeDao, HydratorInterface $menuItemTypeHydrator) {
         $this->dao = $menuItemTypeDao;
-        $this->hydrator = $menuItemTypeHydrator;
+        $this->registerHydrator($menuItemTypeHydrator);
     }
 
     /**
@@ -38,7 +38,7 @@ class MenuItemTypeRepo extends RepoAbstract { // implements Chybí interface pro
         if (!isset($this->collection[$index])) {
             $this->recreateEntity($index, $this->dao->get($type));
         }
-        return $this->collection[$index];
+        return $this->collection[$index] ?? null;
     }
 
     /**
@@ -58,19 +58,14 @@ class MenuItemTypeRepo extends RepoAbstract { // implements Chybí interface pro
         return $collection;
     }
 
-    /**
-     *
-     * @param array $row
-     */
-    protected function recreateEntity($index, $row) {
-        if ($row) {
-            $menuItemType = new MenuItemType();
-            $this->hydrator->hydrate($menuItemType, $row);
-            $menuItemType->setPersisted();
-            $this->collection[$index] = $menuItemType;
-        } else {
-            throw new UnableRecreateEntityException("Nelze obnovit entitu, hledaná položka v databázi neexistuje.");
-        }
+    public function add(MenuItemTypeInterface $menuItemType) {
+        $index = $this->indexFromEntity($menuItemType);
+        $this->collection[$index] = $menuItemType;
+    }
+
+    public function remove(MenuItemTypeInterface $menuItemType) {
+        $this->removed[] = $menuItemType;
+        unset($this->collection[$this->indexFromEntity($menuItemType)]);
     }
 
     protected function indexFromEntity(MenuItemTypeInterface $menuItemType) {
@@ -79,5 +74,9 @@ class MenuItemTypeRepo extends RepoAbstract { // implements Chybí interface pro
 
     protected function indexFromRow($row) {
         return $row['type'];
+    }
+
+    protected function createEntity() {
+        return new MenuItemType();
     }
 }

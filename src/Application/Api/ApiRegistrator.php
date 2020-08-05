@@ -74,10 +74,9 @@ class ApiRegistrator {
 
         #### EditItemController ####
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/menu'));
-        $registry->register($this->postPrototype->withUrlPattern('/api/v1/menu/:menuItemId/toggle'));
-        $registry->register($this->postPrototype->withUrlPattern('/api/v1/menu/:menuItemId/actual'));
-        $registry->register($this->postPrototype->withUrlPattern('/api/v1/menu/:menuItemId/title'));
-        $registry->register($this->postPrototype->withUrlPattern('/api/v1/menu/:menuItemId/type'));
+        $registry->register($this->postPrototype->withUrlPattern('/api/v1/menu/:menuItemUidFk/toggle'));
+        $registry->register($this->postPrototype->withUrlPattern('/api/v1/menu/:menuItemUidFk/title'));
+        $registry->register($this->postPrototype->withUrlPattern('/api/v1/menu/:menuItemUidFk/type'));
 
         #### HierarchyController ####
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/hierarchy/:uid/add'));

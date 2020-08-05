@@ -147,11 +147,7 @@ class ContentController extends PresentationFrontControllerAbstract {
                 $contentItem->setPriority($contentItem->getPriority());
             }
         }
-        $newContent = new PaperContent();
-        $newContent->setContent("Nový obsah");
-        $newContent->setPaperIdFk($paperId);
-        $newContent->setPriority($priority);
-        $this->paperContentRepo->add($newContent);
+        $this->paperContentRepo->add($this->createNewContent($paperId, $priority));
         $this->addFlashMessage("add - Nový obsah, priorita $priority");
         return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other
     }

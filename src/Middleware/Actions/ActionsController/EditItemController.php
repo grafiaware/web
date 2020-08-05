@@ -41,29 +41,6 @@ class EditItemController extends PresentationFrontControllerAbstract {
         return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other
      }
 
-     public function actual(ServerRequestInterface $request, $uid) {
-        $menuItem = $this->getMenuItem($uid);
-        $button = (new RequestParams())->getParam($request, 'button');
-        switch ($button) {
-            case 'calendar':
-                $showTime = (new RequestParams())->getParam($request, 'show');
-                $hideTime = (new RequestParams())->getParam($request, 'hide');
-                $menuItem->setShowTime($showTime);
-                $menuItem->setHideTime($hideTime);
-                $this->addFlashMessage("menuItem setShowTime($showTime), setHideTime($hideTime)");
-                break;
-            case 'permanent':
-                $menuItem->setShowTime(null);
-                $menuItem->setHideTime(null);
-                $this->addFlashMessage("menuItem set permanent");
-                break;
-            default:
-                $this->addFlashMessage("menuItem actual: Error - unknown button name.");
-                break;
-        }
-        return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other
-     }
-
     public function title(ServerRequestInterface $request, $uid) {
         $menuItem = $this->getMenuItem($uid);
         $postTitle = (new RequestParams())->getParam($request, 'title');
@@ -73,9 +50,10 @@ class EditItemController extends PresentationFrontControllerAbstract {
         return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other
     }
 
-    public function type(ServerRequestInterface $request) {
+    public function type(ServerRequestInterface $request, $uid) {
+        $menuItem = $this->getMenuItem($uid);
         $type = (new RequestParams())->getParam($request, 'type');
-        $this->getMenuItem($this->statusPresentationRepo->get()->getMenuItem())->setType($type);
+        $menuItem->setType($type);
         $this->addFlashMessage("menuItem type($type)");
         return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other
     }

@@ -168,22 +168,17 @@ class Actions extends AppMiddlewareAbstract implements MiddlewareInterface {
                 $ctrl = $this->container->get(EditItemController::class);
                 return $ctrl->toggle($request, $menuItemId);
         });
-        $routeGenerator->addRouteForAction('POST', '/api/v1/menu/:menuItemId/toggle', function(ServerRequestInterface $request, $menuItemId) {
+        $routeGenerator->addRouteForAction('POST', '/api/v1/menu/:menuItemUidFk/toggle', function(ServerRequestInterface $request, $menuItemId) {
                 /** @var EditItemController $ctrl */
                 $ctrl = $this->container->get(EditItemController::class);
                 return $ctrl->toggle($request, $menuItemId);
         });
-        $routeGenerator->addRouteForAction('POST', '/api/v1/menu/:menuItemId/actual', function(ServerRequestInterface $request, $menuItemId) {
-                /** @var EditItemController $ctrl */
-                $ctrl = $this->container->get(EditItemController::class);
-                return $ctrl->actual($request, $menuItemId);
-        });
-        $routeGenerator->addRouteForAction('POST', '/api/v1/menu/:menuItemId/title', function(ServerRequestInterface $request, $menuItemId) {
+        $routeGenerator->addRouteForAction('POST', '/api/v1/menu/:menuItemUidFk/title', function(ServerRequestInterface $request, $menuItemId) {
                 /** @var EditItemController $ctrl */
                 $ctrl = $this->container->get(EditItemController::class);
                 return $ctrl->title($request, $menuItemId);
         });
-        $routeGenerator->addRouteForAction('POST', '/api/v1/menu/:menuItemId/type', function(ServerRequestInterface $request, $menuItemId) {
+        $routeGenerator->addRouteForAction('POST', '/api/v1/menu/:menuItemUidFk/type', function(ServerRequestInterface $request, $menuItemId) {
                 /** @var EditItemController $ctrl */
                 $ctrl = $this->container->get(EditItemController::class);
                 return $ctrl->type($request, $menuItemId);

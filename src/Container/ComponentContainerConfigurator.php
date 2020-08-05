@@ -313,6 +313,7 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
 
             ItemTypeSelectComponent::class => function(ContainerInterface $c) {
                 $viewModel = new ItemTypeSelectViewModel(
+                                $c->get(StatusPresentationRepo::class),
                                 $c->get(MenuItemTypeRepo::class)
                         );
                 return (new ItemTypeSelectComponent($viewModel))->setRendererContainer($c->get('rendererContainer'))->setRendererName(ItemTypeRenderer::class);
