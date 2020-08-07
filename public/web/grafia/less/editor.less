@@ -75,6 +75,9 @@ body.layout#tinymce{
         margin-right: 10px !important;
         position: relative;
         right: 0;
+        header{
+            margin-top: 50px;
+        }
     }
     /****************************Editacni*menu*s*buttony***************************/
     /***PRO VSECHNA MENU***/
@@ -86,6 +89,10 @@ body.layout#tinymce{
     }
     .menu.edit .onpath.presented p > span{
         cursor: text;
+    }
+    nav .restore{
+        opacity: 0.5;
+        border: 1px solid @black !important;
     }
     //zobrazeni sady buttonu pro operace s polozkou menu
     .menu.edit li:not(.presented) .buttons{
@@ -100,7 +107,7 @@ body.layout#tinymce{
         display: block;
         background: #fbfbe7;
         > .button:last-child{
-            background-color: #fff1d5;
+            background-color: #f8f3ff;;
             &:hover{
                 background-color: @white;
             }
@@ -504,16 +511,25 @@ body.layout#tinymce{
     .segment.locked a, .segment.notpermitted a{
         pointer-events: none;
     }
+    .buttons.editComponent{
+        position: absolute;
+        top: -32px;
+        right: 6px;
+        background-color: #f8f3ff;
+        [data-tooltip]::after{
+            font-weight: 700;
+        }
+    }
     .grafia.segment.headlined.editable .buttons:not(.editContent),
     .grafia.segment.block.editable .buttons:not(.editContent){
         position: absolute;
-        top: -30px;
+        top: -32px;
         [data-tooltip]::after{
             font-weight: 700;
         }
     }
     .grafia.segment.headlined.editable .buttons.editPage{
-        right: 0px;
+        right: 28px;
         background: #fbfbe7;
         > .toolsDate{
             background-color: #fff1d5;
@@ -524,7 +540,7 @@ body.layout#tinymce{
         right: 0px;
     }
     .grafia.segment.block.editable .buttons.editPage{
-        right: -6px; 
+        right: 30px; 
         background-color: #edf7ff;
         > .toolsDate{
             background-color: #fff1d5;
@@ -563,8 +579,12 @@ body.layout#tinymce{
             display: flex;
         }
     }
-    .mce-content-body:not(.mce-edit-focus){
+    .mce-content-body:not(.mce-edit-focus):not(.vyber_komponenty){
         outline: 1px dotted @lightGrey;
+    }
+    .vyber_komponenty.mce-content-body:not(.mce-edit-focus){
+        outline: 1px dashed #90E1DE;
+        margin: 5px 10px;
     }
     .mce-content-body:empty:not(.mce-edit-focus):before{
         content:attr(data-text);
@@ -734,7 +754,7 @@ body.layout#tinymce{
         padding: 5px;
         margin: 0 -5px;
     }
-    .mce-edit-focus{
+    .mce-edit-focus:not(.vyber_komponenty){
         //outline: 2px dashed @green;
         background: linear-gradient(90deg, @green 50%, transparent 50%),
                     linear-gradient(90deg, @green 50%, transparent 50%),
@@ -745,6 +765,18 @@ body.layout#tinymce{
         padding: 5px;
         margin: 0 -5px;
         animation: border-dance 40s infinite linear;
+        height: max-content;
+    }
+    .mce-edit-focus.vyber_komponenty{
+        //outline: 2px dashed @green;
+        background: linear-gradient(90deg, @teal 50%, transparent 50%),
+                    linear-gradient(90deg, @teal 50%, transparent 50%),
+                    linear-gradient(0deg, @teal 50%, transparent 50%),
+                    linear-gradient(0deg, @teal 50%, transparent 50%);
+        background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+        background-size: 12px 3px, 12px 3px, 3px 12px, 3px 12px;
+        animation: border-dance 40s infinite linear;
+        margin: 5px 10px;
         height: max-content;
     }
 
@@ -774,5 +806,15 @@ body.layout#tinymce{
     }
     .tox-toolbar-dock-fadein{
         z-index: 2;
+    }
+}
+.layout.preview{
+    background: @white !important;
+    background-image: none !important;
+    .ui.segment[data-component="presented"]{
+        margin: 50px 30px 0;
+        border: 0;
+        box-shadow: none;
+        padding: 0 1em;
     }
 }

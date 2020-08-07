@@ -1,6 +1,7 @@
 var tinyConfig = {
     basePath: '{{basePath}}',
-    contentCss: ['{{urlStylesCss}}', '{{urlSemanticCss}}', '{{urlZkouskaCss}}'],
+    contentCss: ['{{urlSemanticCss}}', '{{urlZkouskaCss}}', '{{urlStylesCss}}'],
     templatesPath : '{{templatesPath}}',
+    componentTemplatesPath : '{{componentTemplatesPath}}',
     toolbarsLang: '{{toolbarsLang}}'
 };

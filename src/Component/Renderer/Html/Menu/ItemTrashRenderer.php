@@ -41,7 +41,7 @@ class ItemTrashRenderer extends HtmlRendererAbstract {
                 ['class'=>[
                     $this->classMap->resolveClass($itemViewModel->isOnPath(), 'Item', 'li.onpath', 'li'),
                     $this->classMap->resolveClass($itemViewModel->isLeaf(), 'Item', 'li.leaf', 'li'),
-                    $this->classMap->resolveClass($itemViewModel->getIsPresented(), 'Item', 'li.presented', 'li'),
+                    $this->classMap->resolveClass($itemViewModel->getIsPresented(), 'Item', 'li.presented', 'li'), //li.presented.restore
                     ]
                 ],
                 $innerHtml);
@@ -69,7 +69,7 @@ class ItemTrashRenderer extends HtmlRendererAbstract {
             )
             .Html::tag('button', [
                 'class'=>$this->classMap->getClass('Buttons', 'div button'),
-                'data-tooltip'=>'Vybrat k přesunutí',
+                'data-tooltip'=>'Vybrat k obnovení',
                 'data-position'=>'top right',
                 'type'=>'submit',
                 'name'=>'move',

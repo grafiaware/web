@@ -174,6 +174,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
                                 'urlSemanticCss' => $webPublicDir."semantic/dist/semantic.min.css",
                                 'urlZkouskaCss' => $webPublicDir."grafia/css/zkouska_less.css",
                                 'templatesPath' => $commonPublicDir."tiny_templates/",
+                                'componentTemplatesPath' => $commonPublicDir."tiny_componentTemplates/",
                                 'toolbarsLang' => $toolsbarsLang
                             ]),
 //                        'urlTinyMCE' => $commonPublicDir.'tinymce/tinymce.min.js',

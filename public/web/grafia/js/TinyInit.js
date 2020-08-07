@@ -260,11 +260,40 @@ var headerFooterConfig = {
     extended_valid_elements : 'i[*]'
 };
 
+var vyberKomponenty = {
+    selector: '.vyber_komponenty',
+    schema : 'html5',
+
+    language : tinyConfig.toolbarsLang,
+    document_base_url : tinyConfig.basePath,
+    content_css: tinyConfig.contentCss,
+    body_class: "layout preview",
+
+    menubar: false,
+    inline: true,
+    plugins: [
+    'template', 'save', 'noneditable'
+    ],
+    toolbar: 'template | save',
+    relative_urls : true,
+    extended_valid_elements : 'i[*], headline, content, perex',
+    custom_elements: 'headline, content, perex',
+    valid_children: '+a[div]',
+    link_title: false,
+    noneditable_editable_class: 'mceEditable',
+    noneditable_noneditable_class: 'mceNonEditable', 
+    templates: [
+        { title: 'Článek', description: 'Grafia web - článek',       url: tinyConfig.componentTemplatesPath + 'paper.html'},
+       // { title: 'Publikace', description: 'Grafia web - publikace',   url: tinyConfig.componentTemplatesPath + 'block.html'},
+    ]
+};
 
 
-tinymce.init(headlineConfig);
-tinymce.init(segmentConfig);
-tinymce.init(perexConfig);
-tinymce.init(blockConfig);
-tinymce.init(headerFooterConfig);
+
+//tinymce.init(headlineConfig);
+//tinymce.init(segmentConfig);
+//tinymce.init(perexConfig);
+//tinymce.init(blockConfig);
+//tinymce.init(headerFooterConfig);
+tinymce.init(vyberKomponenty);
 

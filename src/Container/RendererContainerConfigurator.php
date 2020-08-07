@@ -48,6 +48,7 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
                             'li.onpath' => 'onpath',
                             'li.leaf' => 'leaf',
                             'li.presented' => 'presented',
+                            'li.presented.restore' => 'presented restore',
                             'li div'=>'semafor polozky_menu',
                             'li div i1.published' => 'circle icon green',
                             'li div i1.notpublished' => 'circle icon red ',
@@ -91,6 +92,11 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
                             'div button1 i1' => 'trash icon',
                             'div button1 i2' => 'corner red exclamation icon',
                             'div button4 i' => 'large cut icon' //zmena na paste pri vkladani z vyberu (vybrat k presunuti)
+                        ],
+            'component_edit_buttons' => [
+                            'div.component' => 'mini ui basic icon buttons editComponent',
+                            'div button' => 'ui button',
+                            'div button1 i' => 'large trash icon'
                         ],
             'paper_edit_buttons' => [
                             'div.page' => 'mini ui basic icon buttons editPage',
@@ -387,10 +393,11 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
                         'i2.future' => 'calendar minus icon orange',
                         'i2.invalid' => 'calendar times icon red',
 
-                         'i.trash' => 'trash icon purple',
+                        'i.trash' => 'trash icon purple',
                         'content'=>'',
                         'div.trash_content'=>'trash_content'
                         ],
+                     'ComponentButtons' => $c->get('component_edit_buttons'),
                      'PaperButtons' => $c->get('paper_edit_buttons'),
                      'ContentButtons' => $c->get('content_edit_buttons'),
                      'TrashButtons' => $c->get('deleted_content_buttons'),
@@ -419,7 +426,7 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
             'block.editable.classmap' => function(ContainerInterface $c) {
                 return new ClassMap (
                     ['Segment' => [
-                        'div'=>'grafia segment block editable',
+                        'div.grafia'=>'grafia segment block editable',
                         ],
                      'Headline' => [
                         'section'=>'',
@@ -431,6 +438,7 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
                         ],
                     'Content' => [
                         'section'=>'',
+                        'section.trash'=>'trash',
                         'div.semafor'=>'semafor',
                         'div.corner'=>'ui right tiny corner blue label',
                         'i1.published' => 'circle icon green',
@@ -439,10 +447,14 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
                         'i2.notactive' => 'calendar plus icon grey',
                         'i2.notactual' => 'calendar minus icon orange',
                         'i2.notactivenotactual' => 'calendar times icon red',
-                        'content'=>''
+                        'i.trash' => 'trash icon purple',
+                        'content'=>'',
+                        'div.trash_content'=>'trash_content'
                         ],
+                    'ComponentButtons' => $c->get('component_edit_buttons'),
                     'PaperButtons' => $c->get('paper_edit_buttons'),
                     'ContentButtons' => $c->get('content_edit_buttons'),
+                    'TrashButtons' => $c->get('deleted_content_buttons'),
                     ]
                 );
             },

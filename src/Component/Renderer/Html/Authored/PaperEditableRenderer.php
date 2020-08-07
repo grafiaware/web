@@ -39,7 +39,8 @@ class PaperEditableRenderer  extends AuthoredEditableRendererAbstract {
         }
         // atribut data-component je jen pro info v html
         return Html::tag('div', ['data-component'=>$name, 'class'=>$this->classMap->getClass('Segment', 'div')],
-                Html::tag('div', ['class'=>$this->classMap->getClass('Segment', 'div.grafia')], $innerHtml)
+                $this->renderComponentButtonsForm($paperAggregate)
+                .Html::tag('div', ['class'=>$this->classMap->getClass('Segment', 'div.grafia')], $innerHtml)
             );
     }
     
