@@ -110,7 +110,10 @@ class MenuComponent extends AuthoredComponentAbstract implements MenuComponentIn
         if ($this->withTitle) {
             $rootMenuNode = $this->viewModel->getMenuNode($this->rootUid);
             if (isset($rootMenuNode)) {
-                $titleItemHtml = $this->itemRenderer->render(new ItemViewModel($this->viewModel->getMenuNode($this->rootUid), TRUE, $this->presentedUid==$this->rootUid, true));
+                $titleItemHtml = $this->itemRenderer->render(
+            //TODO: ($menuNode, $isOnPath, $isPresented, $isRestored, $readonly, $innerHtml='')
+                        new ItemViewModel($this->viewModel->getMenuNode($this->rootUid), TRUE, $this->presentedUid==$this->rootUid, false, true)
+                        );
             } else {
                 $titleItemHtml = '';  // root menu item nená publikovaný
             }
@@ -131,8 +134,9 @@ class MenuComponent extends AuthoredComponentAbstract implements MenuComponentIn
             }
             $innerHtml = $isOnPath ? $this->levelWrapRenderer->render($this->getMenuLevelHtml($menuNode->getUid())) : '';
             $isPresented = isset($this->presentedUid) ? ($this->presentedUid == $menuNode->getUid()) : FALSE;
-  !!          $isRestored = $this->viewModel->
+            $isRestored = false;
             $readonly = $menuNode->getUid()==$this->rootUid;
+            //TODO: ($menuNode, $isOnPath, $isPresented, $isRestored, $readonly, $innerHtml='')
             $itemViewModel = new ItemViewModel($menuNode, $isOnPath, $isPresented, $isRestored, $readonly, $innerHtml);
             $itemTags[] = $this->itemRenderer->render($itemViewModel);
         }

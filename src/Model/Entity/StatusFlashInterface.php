@@ -19,12 +19,12 @@ interface StatusFlashInterface {
      * Vrací message
      * @return string
      */
-    public function getFlash();
+    public function getFlashMessage();
 
     /**
      * Nastaví message
      * @param string $flash
      * @return $this
      */
-    public function setFlash(string $flash): StatusFlashInterface;
+    public function setFlashMessage(string $flash): StatusFlashInterface;
 }

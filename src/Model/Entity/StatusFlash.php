@@ -18,11 +18,11 @@ class StatusFlash implements StatusFlashInterface {
     private $flash='';
 
     /**
-     * Vrací  a smyže flash message. První volání vrací poslední nstavenou message a snaže ji. Další volání pak již vrací prázdný řetězec
+     * Vrací  a smaže flash message. První volání vrací poslední nastavenou message a snaže ji. Další volání pak již vrací prázdný řetězec
      * a také do session je po prvím volání getFlash() již uložen jenprázdný řetězec.
      * @return string Flash message string.
      */
-    public function getFlash() {
+    public function getFlashMessage() {
         $lastFlash = $this->flash;
         $this->flash = '';
         return $lastFlash;
@@ -33,7 +33,7 @@ class StatusFlash implements StatusFlashInterface {
      * @param string $flash
      * @return $this
      */
-    public function setFlash(string $flash): StatusFlashInterface {
+    public function setFlashMessage(string $flash): StatusFlashInterface {
         $this->flash = $flash;
         return $this;
     }

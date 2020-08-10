@@ -25,6 +25,6 @@ class FlashVieModel implements StatusBoardViewModelInterface {
 
     public function getFlash() {
         $flashStatus = $flashRepo->get();
-        return $flashStatus ? $flashStatus->getFlash() : '';
+        return $flashStatus ? $flashStatus->getFlashMessage() : '';
     }
 }

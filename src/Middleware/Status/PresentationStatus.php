@@ -27,7 +27,7 @@ use StatusManager\StatusPresentationManagerInterface;
  */
 class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInterface {
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
-        // potřebuje noovu databázi -> HierarchyContainerConfigurator a DbUpgradeContainerConfigurator
+        // potřebuje novou databázi (language, menuItem a menuRoot) -> HierarchyContainerConfigurator a DbUpgradeContainerConfigurator
         $container =
                 (new HierarchyContainerConfigurator())->configure(
                     (new DbUpgradeContainerConfigurator())->configure(

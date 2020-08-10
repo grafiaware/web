@@ -3,11 +3,11 @@
 /*
  * Přidání/změna selectoru pro Tiny
  * Pokud v Rendereru přidám html prvek, na kterém má být aktivní Tiny,
- * zařadím ho do TinyInit.js - selector může být html tag, id, třída 
- * - pokud mám vlastní html tag (např. <mujtag></mujtag>), přidám ještě 
+ * zařadím ho do TinyInit.js - selector může být html tag, id, třída
+ * - pokud mám vlastní html tag (např. <mujtag></mujtag>), přidám ještě
  *      1. do TinyInit custom_elements: 'mujtag', extended_valid_elements: 'mujtag'
  *      2. do stylů (layout.less) css vlastnosti mujtag{"display: block; position: relative;"} - Tiny potřebuje blokový prvek
- * - pokud chci selektovat Tiny pomocí třídy/id, ujistím se, že jsem jej přidal/a také v RendererContainerConfigurator.php v classmapách    
+ * - pokud chci selektovat Tiny pomocí třídy/id, ujistím se, že jsem jej přidal/a také v RendererContainerConfigurator.php v classmapách
  */
 
 // line 25436

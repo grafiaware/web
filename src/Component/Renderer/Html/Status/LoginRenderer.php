@@ -23,6 +23,6 @@ class LoginRenderer extends HtmlRendererAbstract {
     }
 
     private function renderPrivate(FlashVieModel $viewModel) {
-        return $viewModel->getFlash();
+        return $viewModel->getFlashMessage();
     }
 }

@@ -100,12 +100,12 @@ abstract class PresentationFrontControllerAbstract extends StatusFrontController
     public function addFlashMessage($message) {
         $statusFlash = $this->statusFlashRepo->get();
         if ($statusFlash) {
-            $message = $statusFlash->getFlash().PHP_EOL.$message;
+            $message = $statusFlash->getFlashMessage().PHP_EOL.$message;
         } else {
             $statusFlash = new StatusFlash();
             $this->statusFlashRepo->add($statusFlash);
         }
-        $statusFlash->setFlash($message);
+        $statusFlash->setFlashMessage($message);
     }
 
     /**
