@@ -30,11 +30,6 @@
                     </form>
                 </nav>
             </div> 
-            
-            <div class="vyber_komponenty">
-                <p>tady</p>
-            </div>
-            
             <div id="prekryti_pro_vyber" onclick="vyberoveMenu_close()"></div>
             <span class="nav_vyberove active" onclick="vyberoveMenu_open()"><i class="bars large icon"></i>Menu</span>
             <!---->

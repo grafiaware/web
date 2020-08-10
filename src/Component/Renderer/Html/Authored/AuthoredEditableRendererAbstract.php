@@ -22,27 +22,6 @@ use Pes\Text\Html;
  */
 abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
 
-    protected function renderComponentButtonsForm(PaperAggregateInterface $paperAggregate) {
-        $paperId = $paperAggregate->getId();
-        return
-            Html::tag('form', ['method'=>'POST', 'action'=>""],
-                Html::tag('div', ['class'=>$this->classMap->getClass('ComponentButtons', 'div.component')],
-                    Html::tag('button', [
-                        'class'=>$this->classMap->getClass('PaperButtons', 'div button'),
-                        'data-tooltip'=>'Smazat',
-                        'data-position'=>'top right',
-                        'type'=>'submit',
-                        'name'=>'delete',
-                        'formmethod'=>'post',
-                        'formaction'=>"",
-                        'onclick'=>"return confirm('Jste si jisti?');"
-                    ],
-                    Html::tag('i', ['class'=>$this->classMap->getClass('ComponentButtons', 'div button1 i')])
-                    )
-                )
-            );
-    }
-    
     protected function renderPaperButtonsForm(PaperAggregateInterface $paperAggregate) {
         $paperId = $paperAggregate->getId();
 
@@ -110,7 +89,8 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
                         [
                             'id' => "perex_{$paperAggregate->getId()}",  // id musí být na stránce unikátní - skládám ze slova perex_ a paper id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
                             'class'=>$this->classMap->getClass('Perex', 'perex'),
-                            'data-owner'=>$paperAggregate->getEditor()
+                            'data-owner'=>$paperAggregate->getEditor(),
+                            'data-text'=>'prázdný'
                         ],
                         $paperAggregate->getPerex() ?? ""
                         )
