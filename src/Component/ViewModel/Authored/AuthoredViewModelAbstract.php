@@ -10,6 +10,7 @@ namespace Component\ViewModel\Authored;
 
 use Model\Repository\StatusSecurityRepo;
 use Model\Repository\StatusPresentationRepo;
+use Model\Repository\StatusFlashRepo;
 
 /**
  * Description of AuthoredViewModelAbstract
@@ -28,12 +29,19 @@ class AuthoredViewModelAbstract implements AuthoredViewModelInterface {
      */
     protected $statusPresentationRepo;
 
+    /**
+     * @var StatusFlashRepo
+     */
+    protected $statusFlashRepo;
+
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
-            StatusPresentationRepo $statusPresentationRepo
+            StatusPresentationRepo $statusPresentationRepo,
+            StatusFlashRepo $statusFlashRepo
             ) {
         $this->statusSecurityRepo = $statusSecurityRepo;
         $this->statusPresentationRepo = $statusPresentationRepo;
+        $this->statusFlashRepo = $statusFlashRepo;
     }
 
     /**
@@ -51,5 +59,16 @@ class AuthoredViewModelAbstract implements AuthoredViewModelInterface {
     public function userEdit() {
         $userActions = $this->statusSecurityRepo->get()->getUserActions();
         return $userActions ? $userActions->isEditableArticle() : false;
+    }
+
+    public function getFlashCommand($key) {
+        $flashCommand = $this->statusFlashRepo->get()->getCommand();
+        return $flashCommand[$key] ?? '';
+    }
+
+
+    public function getPostFlashCommand($key) {
+        $flashCommand = $this->statusFlashRepo->get()->getPostCommand();
+        return $flashCommand[$key] ?? '';
     }
 }

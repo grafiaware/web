@@ -27,4 +27,7 @@ interface AuthoredViewModelInterface {
      */
     public function presentOnlyPublished();
 
+    public function getFlashCommand($key);
+
+    public function getPostFlashCommand($key);
 }

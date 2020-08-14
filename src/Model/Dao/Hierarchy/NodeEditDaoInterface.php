@@ -82,7 +82,7 @@ interface NodeEditDaoInterface {
      * @param string $nodeUid
      */
     public function deleteSubTree($nodeUid);
-    
+
     /**
      * Přesune podstrom (zadaný uzel a všechny jeho potomky) jako dítě cílového uzlu.
      *
@@ -90,7 +90,7 @@ interface NodeEditDaoInterface {
      * @param type $targetUid
      * @throws Exception
      */
-    public function moveSubTree($sourceUid, $targetUid);
+    public function moveSubTree($sourceUid, $targetUid): void;
 
     public function replaceNodeWithChild($nodeUid);
 

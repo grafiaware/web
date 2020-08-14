@@ -44,13 +44,13 @@ class ItemBlockEditableRenderer extends HtmlRendererAbstract {
                 )
             )
             .Html::tag('i', ['class'=>$this->classMap->resolveClass($itemViewModel->getInnerHtml(), 'Item', 'li i')])
-            .(($itemViewModel->getIsPresented() AND !$itemViewModel->getReadonly()) ? $this->renderButtons($menuNode) : '')
+            .(($itemViewModel->isPresented() AND !$itemViewModel->isReadonly()) ? $this->renderButtons($menuNode) : '')
             .$itemViewModel->getInnerHtml();
         $html = Html::tag('li',
                 ['class'=>[
                     $this->classMap->resolveClass($itemViewModel->isOnPath(), 'Item', 'li.onpath', 'li'),
                     $this->classMap->resolveClass($itemViewModel->isLeaf(), 'Item', 'li.leaf', 'li'),
-                    $this->classMap->resolveClass($itemViewModel->getIsPresented(), 'Item', 'li.presented', 'li'),
+                    $this->classMap->resolveClass($itemViewModel->isPresented(), 'Item', 'li.presented', 'li'),
                     ]
                 ],
                 $innerHtml);

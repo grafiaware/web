@@ -14,6 +14,7 @@ use Component\ViewModel\Authored\AuthoredViewModelAbstract;
 
 use Model\Repository\StatusSecurityRepo;
 use Model\Repository\StatusPresentationRepo;
+use Model\Repository\StatusFlashRepo;
 use Model\Repository\PaperAggregateRepo;
 
 /**
@@ -30,9 +31,10 @@ abstract class PaperViewModelAbstract extends AuthoredViewModelAbstract implemen
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusPresentationRepo $statusPresentationRepo,
+            StatusFlashRepo $statusFlashRepo,
             PaperAggregateRepo $paperAggregateRepo
             ) {
-        parent::__construct($statusSecurityRepo, $statusPresentationRepo);
+        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo);
         $this->paperAggregateRepo = $paperAggregateRepo;
     }
 

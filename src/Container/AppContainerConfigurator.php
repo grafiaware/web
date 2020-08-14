@@ -24,14 +24,6 @@ use StatusManager\Observer\SecurityContextObjectsRemover;
 use Model\Entity\User;
 use Model\Entity\UserInterface;
 
-// database
-// account a handler v middleware kontejnerech
-use Pes\Database\Handler\ConnectionInfo;
-use Pes\Database\Handler\DbTypeEnum;
-use Pes\Database\Handler\DsnProvider\DsnProviderMysql;
-use Pes\Database\Handler\OptionsProvider\OptionsProviderMysql;
-use Pes\Database\Handler\AttributesProvider\AttributesProvider;
-
 // dao
 use Model\Dao\StatusDao;
 
@@ -45,6 +37,8 @@ use StatusManager\StatusSecurityManager;
 use StatusManager\StatusSecurityManagerInterface;
 use StatusManager\StatusPresentationManager;
 use StatusManager\StatusPresentationManagerInterface;
+use StatusManager\StatusFlashManager;
+use StatusManager\StatusFlashManagerInterface;
 
 // router
 use Pes\Router\RouterInterface;
@@ -95,6 +89,7 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
             SessionStatusHandlerInterface::class => SessionStatusHandler::class,
             StatusSecurityManagerInterface::class => StatusSecurityManager::class,
             StatusPresentationManagerInterface::class => StatusPresentationManager::class,
+            StatusFlashManagerInterface::class => StatusFlashManager::class,
             UserInterface::class => User::class,
             RouterInterface::class => Router::class,
             ResourceRegistryInterface::class => ResourceRegistry::class,
@@ -148,8 +143,12 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new StatusFlashRepo($c->get(StatusDao::class));
             },
 
+            // status managers - presentation manager používá hierarchy databázi - je v hierarchy kontejneru
             StatusSecurityManager::class => function(ContainerInterface $c) {
                 return new StatusSecurityManager();
+            },
+            StatusFlashManager::class => function(ContainerInterface $c) {
+                return new StatusFlashManager();
             },
 
             // router

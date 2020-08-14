@@ -8,10 +8,12 @@ use Model\Entity\MenuRootInterface;
 
 use Model\Repository\StatusSecurityRepo;
 use Model\Repository\StatusPresentationRepo;
+use Model\Repository\StatusFlashRepo;
 use Model\Repository\HierarchyNodeRepo;
 use Model\Repository\MenuRootRepo;
 
 use Component\ViewModel\Authored\Menu\Item\ItemViewModel;
+use Component\ViewModel\Authored\Menu\Item\ItemViewModelInterface;
 
 /**
  * Description of MenuViewModel
@@ -26,10 +28,11 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusPresentationRepo $statusPresentationRepo,
+            StatusFlashRepo $statusFlashRepo,
             HierarchyNodeRepo $nodeRepo,
             MenuRootRepo $menuRootRepo
             ) {
-        parent::__construct($statusSecurityRepo, $statusPresentationRepo);
+        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo);
         $this->nodeRepo = $nodeRepo;
         $this->menuRootRepo = $menuRootRepo;
     }
@@ -74,6 +77,49 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
     }
 
     /**
+     *
+     * @param type $parentUid
+     * @param type $maxDepth
+     * @return ItemViewModelInterface array of
+     */
+    public function getChildrenItemModels($parentUid) {
+
+        $presentedItem = $this->getPresentedMenuNode();
+        if (isset($presentedItem)) {
+            $presentedUid = $presentedItem->getUid();
+            $presentedItemLeftNode = $presentedItem->getLeftNode();
+            $presentedItemRightNode = $presentedItem->getRightNode();
+        }
+        // command
+        $pastedUid = $this->getPostFlashCommand('cut');
+        if ($pastedUid) {
+            $modeCommand = ['paste' => $pastedUid];
+        }
+
+        $nodes = $this->getChildrenMenuNodes($parentUid);
+        $models = [];
+        foreach ($nodes as $node) {
+           if (isset($presentedItemLeftNode)) {
+                $isOnPath = ($presentedItemLeftNode >= $node->getLeftNode()) && ($presentedItemRightNode <= $node->getRightNode());
+            } else {
+                $isOnPath = FALSE;
+            }
+            $nodeUid = $node->getUid();
+            $isPresented = isset($presentedUid) ? ($presentedUid == $nodeUid) : FALSE;
+            //TODO: ($menuNode, $isOnPath, $isPresented, $isRestored, $readonly, $innerHtml='')
+            $isCutted = $pastedUid == $nodeUid;
+//            $readonly = $node->getUid()==$this->rootUid;
+            $itemViewModel = new ItemViewModel($node, $isOnPath, $isPresented, $isCutted, false);
+            if (isset($modeCommand)) {
+                $itemViewModel->setModeCommand($modeCommand);
+            }
+            $models[] = $itemViewModel;
+        }
+        return $models;
+    }
+
+    /**
+     * Původní metoda getSubtreeItemModel pro Menu Display controler
      *
      * @param type $rootUid
      * @param type $maxDepth

@@ -95,6 +95,24 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
         return [
             #################################
             # Konfigurace databáze
+            # Konfigurace databáze může být v aplikačním kontejneru nebo různá v jednotlivých middleware kontejnerech.
+            #
+            ## konfigurována jen jedna databáze pro celou aplikaci
+            ## konfigurována dvě připojení k databázi - jedno pro vývoj a druhé pro běh na produkčním stroji
+            #
+            'dbUpgrade.db.type' => DbTypeEnum::MySQL,
+            'dbUpgrade.db.port' => '3306',
+            'dbUpgrade.db.charset' => 'utf8',
+            'dbUpgrade.db.collation' => 'utf8_general_ci',
+            #
+            #####################################
+            # Konfigurace hierarchy tabulek
+            'hierarchy.table' => 'hierarchy',
+            'hierarchy.view' => 'hierarchy_view',
+            'hierarchy.menu_item_table' => 'menu_item',
+            #         
+            #################################
+            # Konfigurace databáze
             # Konfigurována jen jedna databáze pro celou aplikaci - v kontejneru dbUpgrade
             # Zde konfigurována dvě připojení k databázi - jedno pro vývoj a druhé pro běh na produkčním stroji
             #

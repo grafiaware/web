@@ -91,7 +91,7 @@ class LoginLogoutController extends StatusFrontControllerAbstract {
         if ($dbUser) {
             $this->statusSecurityRepo->get()->renewSecurityStatus($dbUser);
         } else {
-            $this->statusSecurityRepo->get()->renewSecurityStatus(null);
+            $this->removeLoggedUser();
             user_error("Pro ověřené login jméno nebyl následně načten user z databáze.", E_USER_WARNING);
         }
     }
