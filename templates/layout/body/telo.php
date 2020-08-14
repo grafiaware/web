@@ -31,9 +31,11 @@
                 </nav>
             </div> 
             
-            <div class="vyber_komponenty">
-                <p>tady</p>
-            </div>
+            <form method="POST" action="">
+                <div class="vyber_komponenty">
+                    <p>Výběr komponenty</p>
+                </div>
+            </form>
             
             <div id="prekryti_pro_vyber" onclick="vyberoveMenu_close()"></div>
             <span class="nav_vyberove active" onclick="vyberoveMenu_open()"><i class="bars large icon"></i>Menu</span>
