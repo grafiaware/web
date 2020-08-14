@@ -57,6 +57,25 @@ class HierarchyController extends PresentationFrontControllerAbstract {
         return $this->redirectSeeOther($request, "www/item/$langCode/$childUid/");
     }
 
+    public function paste(ServerRequestInterface $request, $uid, $pasteduid) {
+        $parentUid = $this->editHierarchyDao->getNode($uid)['parent_uid'];
+        if (isset($parentUid)) {
+            $this->editHierarchyDao->moveSubTree($pasteduid, $parentUid);
+            $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
+            $this->addFlashMessage('paste');
+        } else {
+            $this->addFlashMessage('unable to paste, item has no parent');
+        }
+        return $this->redirectSeeOther($request, "www/item/$langCode/$pasteduid/");
+    }
+
+    public function pastechild(ServerRequestInterface $request, $uid, $pasteduid) {
+        $this->editHierarchyDao->moveSubTree($pasteduid, $uid);
+        $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
+        $this->addFlashMessage('paste child');
+        return $this->redirectSeeOther($request, "www/item/$langCode/$pasteduid/");
+    }
+
     public function delete(ServerRequestInterface $request, $uid) {
         // opatrná varianta - maže jen leaf - nutno mazat po jednom uzlu (to se musí projevit i v renderování obládacích prvků - tlačítek, nabízet smazat jen pro leaf)
 //        $parentUid = $this->editHierarchyDao->deleteLeafNode($uid);
@@ -78,10 +97,6 @@ class HierarchyController extends PresentationFrontControllerAbstract {
         $this->editHierarchyDao->moveSubTree($uid, $trashUid);
         $this->addFlashMessage('trash');
         return $this->redirectSeeOther($request, 'www/last/');
-    }
-
-    public function time(ServerRequestInterface $request, $id) {
-
     }
 
 }

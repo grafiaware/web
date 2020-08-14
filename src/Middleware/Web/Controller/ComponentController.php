@@ -122,7 +122,7 @@ class ComponentController extends LayoutControllerAbstract {
                 $this->componentViews,
                 $this->getGeneratedLayoutComponents(),
                 $this->getAuthoredLayoutComnponents(),
-//                $this->getEmptyMenuComponents(),
+                $this->getEmptyMenuComponents(),
                 $this->getMenuComponents(),
                 $this->getLayoutComponents()
                 );

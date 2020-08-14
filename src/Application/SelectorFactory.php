@@ -39,6 +39,7 @@ class SelectorFactory {
                 return [
                     new \Middleware\Status\SecurityStatus(),
                     new \Middleware\Login\Login(),
+                    new \Middleware\Status\FlashStatus(),
                     new \Middleware\Status\PresentationStatus(),
                     new \Middleware\Web\Transformator(),
                     new \Middleware\Web\Web()
@@ -51,6 +52,7 @@ class SelectorFactory {
             function(AppInterface $app) {
                 return [
                     new \Middleware\Status\SecurityStatus(),
+                    new \Middleware\Status\FlashStatus(),
                     new \Middleware\Status\PresentationStatus(),
                     new \Middleware\Actions\Actions()
                 ];},

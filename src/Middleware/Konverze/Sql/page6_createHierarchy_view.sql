@@ -1,7 +1,7 @@
 DROP VIEW IF EXISTS hierarchy_view;
 
 CREATE VIEW `hierarchy_view` AS
-select `uid`, `left_node`, `right_node`,
+select `uid`, `left_node`, `right_node`, `parent_uid`,
 `lang_code_fk`AS lang_code,
  `uid_fk`,
  `type_fk`,

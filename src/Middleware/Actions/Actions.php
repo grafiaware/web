@@ -161,7 +161,6 @@ class Actions extends AppMiddlewareAbstract implements MiddlewareInterface {
                 return $ctrl->delete($request, $paperId, $contentId);
         });
 
-
         #### EditItemController ####
         $routeGenerator->addRouteForAction('POST', '/api/v1/menu', function(ServerRequestInterface $request) {
                 /** @var EditItemController $ctrl */
@@ -183,6 +182,11 @@ class Actions extends AppMiddlewareAbstract implements MiddlewareInterface {
                 $ctrl = $this->container->get(EditItemController::class);
                 return $ctrl->type($request, $menuItemId);
         });
+        $routeGenerator->addRouteForAction('POST', '/api/v1/menu/:uid/cut', function(ServerRequestInterface $request, $uid) {
+            /** @var EditItemController $ctrl */
+            $ctrl = $this->container->get(EditItemController::class);
+            return $ctrl->cut($request, $uid);
+        });
 
         #### HierarchyController ####
         $routeGenerator->addRouteForAction('POST', '/api/v1/hierarchy/:uid/add', function(ServerRequestInterface $request, $uid) {
@@ -195,6 +199,16 @@ class Actions extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(HierarchyController::class);
             return $ctrl->addchild($request, $uid);
         });
+        $routeGenerator->addRouteForAction('POST', '/api/v1/hierarchy/:uid/paste/:pasteduid', function(ServerRequestInterface $request, $uid, $pasteduid) {
+            /** @var HierarchyController $ctrl */
+            $ctrl = $this->container->get(HierarchyController::class);
+            return $ctrl->paste($request, $uid, $pasteduid);
+        });
+        $routeGenerator->addRouteForAction('POST', '/api/v1/hierarchy/:uid/pastechild/:pasteduid', function(ServerRequestInterface $request, $uid, $pasteduid) {
+            /** @var HierarchyController $ctrl */
+            $ctrl = $this->container->get(HierarchyController::class);
+            return $ctrl->pastechild($request, $uid, $pasteduid);
+        });
         $routeGenerator->addRouteForAction('POST', '/api/v1/hierarchy/:uid/delete', function(ServerRequestInterface $request, $uid) {
             /** @var HierarchyController $ctrl */
             $ctrl = $this->container->get(HierarchyController::class);
@@ -204,11 +218,6 @@ class Actions extends AppMiddlewareAbstract implements MiddlewareInterface {
             /** @var HierarchyController $ctrl */
             $ctrl = $this->container->get(HierarchyController::class);
             return $ctrl->trash($request, $uid);
-        });
-        $routeGenerator->addRouteForAction('POST', '/api/v1/hierarchy/:uid/move/:parentUid', function(ServerRequestInterface $request, $uid, $parentUid) {
-            /** @var HierarchyController $ctrl */
-            $ctrl = $this->container->get(HierarchyController::class);
-            return $ctrl->post($request, $uid, $parentUid);
         });
 
 ####################################

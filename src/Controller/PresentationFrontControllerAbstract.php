@@ -98,14 +98,7 @@ abstract class PresentationFrontControllerAbstract extends StatusFrontController
     }
 
     public function addFlashMessage($message) {
-        $statusFlash = $this->statusFlashRepo->get();
-        if ($statusFlash) {
-            $message = $statusFlash->getFlash().PHP_EOL.$message;
-        } else {
-            $statusFlash = new StatusFlash();
-            $this->statusFlashRepo->add($statusFlash);
-        }
-        $statusFlash->setFlash($message);
+        $this->statusFlashRepo->get()->appendMessage($message);
     }
 
     /**
@@ -141,6 +134,6 @@ abstract class PresentationFrontControllerAbstract extends StatusFrontController
      * @return Response
      */
     protected function redirectSeeOther($request, $relativePath) {
-        return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().$relativePath); // 303 See Other
+        return RedirectResponse::withPostRedirectGet(new Response(), $this->getRequestUriInfo($request)->getSubdomainPath().$relativePath); // 303 See Other
     }
 }

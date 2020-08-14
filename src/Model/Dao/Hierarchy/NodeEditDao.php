@@ -49,7 +49,8 @@ class NodeEditDao extends DaoAbstract implements NodeEditDaoInterface {
 
 #### pomocné čtecí metody ###################################################
     /**
-     *
+     * `uid`, `left_node`, `right_node`, `parent_uid`, `lang_code_fk`AS lang_code, `uid_fk`, `type_fk`, `id`, `list`, `order`, `title`, `active`,`auto_generated`
+     * 
      * @param type $uid
      * @return array
      */
@@ -381,7 +382,7 @@ class NodeEditDao extends DaoAbstract implements NodeEditDaoInterface {
      * @param type $targetUid
      * @throws Exception
      */
-    public function moveSubTree($sourceUid, $targetUid) {
+    public function moveSubTree($sourceUid, $targetUid): void {
         $dbhTransact = $this->dbHandler;
         try {
 

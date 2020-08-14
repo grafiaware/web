@@ -38,7 +38,7 @@ class EditItemController extends PresentationFrontControllerAbstract {
         $active = $menuItem->getActive() ? 0 : 1;  //active je integer
         $menuItem->setActive($active);
         $this->addFlashMessage("menuItem toggle(".($active?'true':'false').")");
-        return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other
+        return $this->redirectSeeOther($request,'www/last/'); // 303 See Other
      }
 
     public function title(ServerRequestInterface $request, $uid) {
@@ -47,7 +47,7 @@ class EditItemController extends PresentationFrontControllerAbstract {
         $postOriginalTitle = (new RequestParams())->getParam($request, 'original-title');
         $menuItem->setTitle($postTitle);
         $this->addFlashMessage("menuItem title($postTitle)");
-        return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other
+        return $this->redirectSeeOther($request,'www/last/'); // 303 See Other
     }
 
     public function type(ServerRequestInterface $request, $uid) {
@@ -55,7 +55,14 @@ class EditItemController extends PresentationFrontControllerAbstract {
         $type = (new RequestParams())->getParam($request, 'type');
         $menuItem->setType($type);
         $this->addFlashMessage("menuItem type($type)");
-        return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other
+        return $this->redirectSeeOther($request,'www/last/'); // 303 See Other
+    }
+
+    public function cut(ServerRequestInterface $request, $uid) {
+        $menuItem = $this->getMenuItem($uid);       // zde navíc 
+        $statusFlash = $this->statusFlashRepo->get();
+        $statusFlash->setPostCommand(['cut'=>$uid]);  // command s životností do dalšího POST requestu
+        return $this->redirectSeeOther($request,'www/last/'); // 303 See Other
     }
 
     private function getMenuItem($uid) {

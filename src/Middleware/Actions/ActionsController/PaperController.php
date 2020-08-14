@@ -54,7 +54,7 @@ class PaperController extends PresentationFrontControllerAbstract {
             $postHeadline = (new RequestParams())->getParam($request, 'headline_'.$paperId);
             $paper->setHeadline($postHeadline);
         }
-        return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other
+        return $this->redirectSeeOther($request,'www/last/'); // 303 See Other
     }
 
     /**
@@ -71,7 +71,7 @@ class PaperController extends PresentationFrontControllerAbstract {
             $postPerex = (new RequestParams())->getParam($request, 'perex_'.$paperId);
             $paper->setPerex($postPerex);
         }
-        return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other
+        return $this->redirectSeeOther($request,'www/last/'); // 303 See Other
     }
 
 //    $paper = $this->paperRepo->get($menuItemId) ?? $this->createPaper($menuItemId);

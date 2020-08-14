@@ -120,7 +120,7 @@ class UlTagFactory {
                     'class'=>[
                         $this->classMap->resolveClass($itemViewModel->isOnPath(), 'Item', 'li.onpath', 'li'),
                         $this->classMap->resolveClass($itemViewModel->isLeaf(), 'Item', 'li.leaf', 'li'),
-                        $this->classMap->resolveClass($itemViewModel->getIsPresented(), 'Item', 'li.presented', 'li'),
+                        $this->classMap->resolveClass($itemViewModel->isPresented(), 'Item', 'li.presented', 'li'),
                         ],
                     'data-depth'=>$itemViewModel->getMenuNode()->getDepth()
                 ]);

@@ -20,7 +20,7 @@ interface StatusSecurityManagerInterface {
     /**
      * Určeno pro vytvoření bezpečnostního kontextu aplikace.
      *
-     * @return void
+     * @return StatusSecurityInterface
      */
     public function createSecurityStatus(): StatusSecurityInterface;
 

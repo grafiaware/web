@@ -15,12 +15,17 @@ use Model\Entity\HierarchyNodeInterface;
  * @author pes2704
  */
 interface ItemViewModelInterface {
+
+    public function setInnerHtml($innerHtml): void;
+    public function setModeCommand($mode);
+
     public function isOnPath();
     public function isLeaf();
-    public function getIsPresented();
-    public function getReadonly();
+    public function isPresented();
+    public function isCutted();
+    public function isReadonly();
     public function getInnerHtml();
-
+    public function getModeCommand();
     /**
      * @return HierarchyNodeInterface
      */

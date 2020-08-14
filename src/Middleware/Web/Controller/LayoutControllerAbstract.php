@@ -248,6 +248,6 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
 
     private function getFlashMessage() {
         $statusFlash = $this->statusFlashRepo->get();
-        return $statusFlash ? $statusFlash->getFlash() ?? 'no flash' : 'no flash message';
+        return $statusFlash ? $statusFlash->getMessage() ?? 'no flash' : 'no flash message';
     }
 }

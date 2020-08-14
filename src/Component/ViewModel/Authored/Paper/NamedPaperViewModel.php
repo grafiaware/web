@@ -8,6 +8,7 @@ namespace Component\ViewModel\Authored\Paper;
 
 use Model\Repository\StatusSecurityRepo;
 use Model\Repository\StatusPresentationRepo;
+use Model\Repository\StatusFlashRepo;
 
 use Model\Repository\ComponentAggregateRepo;
 
@@ -33,10 +34,11 @@ class NamedPaperViewModel extends PaperViewModelAbstract implements NamedPaperVi
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusPresentationRepo $statusPresentationRepo,
+            StatusFlashRepo $statusFlashRepo,
             PaperAggregateRepo $paperAggregateRepo,
             ComponentAggregateRepo $componentAggregateRepo
     ) {
-        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $paperAggregateRepo);
+        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo, $paperAggregateRepo);
         $this->componentAggregateRepo = $componentAggregateRepo;
     }
 

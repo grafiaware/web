@@ -84,7 +84,7 @@ class PresentationActionController extends PresentationFrontControllerAbstract {
     private function response($request) {
         $uidFk = $this->statusPresentationRepo->get()->getMenuItem()->getUidFk();
         $langCodeFk = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
-        return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath()."www/item/$langCodeFk/$uidFk/"); // 303 See Other
+        return $this->redirectSeeOther($request,"www/item/$langCodeFk/$uidFk/"); // 303 See Other
     }
 
 }

@@ -31,7 +31,7 @@ interface MenuViewModelInterface extends AuthoredViewModelInterface {
      * @return MenuRootInterface
      */
     public function getMenuRoot($menuRootName);
-    
+
     /**
      *
      * @param string $nodeUid
@@ -45,6 +45,14 @@ interface MenuViewModelInterface extends AuthoredViewModelInterface {
      * @return HierarchyNodeInterface array af
      */
     public function getChildrenMenuNodes($parentUid);
+
+    /**
+     *
+     * @param type $parentUid
+     * @param type $maxDepth
+     * @return ItemViewModelInterface array of
+     */
+    public function getChildrenItemModels($parentUid);
 
     /**
      *

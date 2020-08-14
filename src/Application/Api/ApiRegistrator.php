@@ -77,12 +77,14 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/menu/:menuItemUidFk/toggle'));
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/menu/:menuItemUidFk/title'));
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/menu/:menuItemUidFk/type'));
+        $registry->register($this->postPrototype->withUrlPattern('/api/v1/menu/:menuItemUidFk/cut'));
 
         #### HierarchyController ####
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/hierarchy/:uid/add'));
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/hierarchy/:uid/addchild'));
+        $registry->register($this->postPrototype->withUrlPattern('/api/v1/hierarchy/:uid/paste/:pasteduid'));
+        $registry->register($this->postPrototype->withUrlPattern('/api/v1/hierarchy/:uid/pastechild/:pasteduid'));
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/hierarchy/:uid/delete'));
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/hierarchy/:uid/trash'));
-        $registry->register($this->postPrototype->withUrlPattern('/api/v1/hierarchy/:uid/move/:parentUid'));
     }
 }

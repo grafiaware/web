@@ -25,17 +25,27 @@ class ItemViewModel implements ItemViewModelInterface {
     private $isOnPath;
     private $isLeaf;
     private $isPresented;
+    private $isCutted;
     private $readonly;
     private $innerHtml;
+    private $modeCommand;
 
-    public function __construct(HierarchyNodeInterface $menuNode, $isOnPath, $isPresented, $readonly, $innerHtml='') {
+    public function __construct(HierarchyNodeInterface $menuNode, $isOnPath, $isPresented, $isCutted, $readonly) {
         $this->menuNode = $menuNode;
         $this->isOnPath = $isOnPath;
         $this->isPresented = $isPresented;
+        $this->isCutted = $isCutted;
         $this->readonly = $readonly;
-        $this->innerHtml = $innerHtml;
 
         $this->isLeaf = ($this->menuNode->getRightNode() - $this->menuNode->getLeftNode()) == 1;
+    }
+
+    public function setInnerHtml($innerHtml): void {
+        $this->innerHtml = $innerHtml;
+    }
+
+    public function setModeCommand($mode) {
+        $this->modeCommand = $mode;
     }
 
     /**
@@ -54,14 +64,23 @@ class ItemViewModel implements ItemViewModelInterface {
         return $this->isLeaf;
     }
 
-    public function getIsPresented() {
+    public function isPresented() {
         return $this->isPresented;
     }
-    public function getReadonly() {
+
+    public function isCutted() {
+        return $this->isCutted;
+    }
+
+    public function isReadonly() {
         return $this->readonly;
     }
 
     public function getInnerHtml() {
-        return $this->innerHtml;
+        return $this->innerHtml ?? '';
+    }
+
+    public function getModeCommand() {
+        return $this->modeCommand;
     }
 }

@@ -35,14 +35,15 @@ class ItemTrashRenderer extends HtmlRendererAbstract {
                         $menuNode->getMenuItem()->getTitle()
                     )
                     .Html::tag('i', ['class'=>$this->classMap->resolveClass($itemViewModel->getInnerHtml(), 'Item', 'li i')])
-                    .(($itemViewModel->getIsPresented() AND !$itemViewModel->getReadonly()) ? $this->renderButtons($menuNode) : '')
+                    .(($itemViewModel->isPresented() AND !$itemViewModel->isReadonly()) ? $this->renderButtons($menuNode) : '')
                     .$itemViewModel->getInnerHtml();
         $html = Html::tag('li',
                 ['class'=>[
                     $this->classMap->resolveClass($itemViewModel->isOnPath(), 'Item', 'li.onpath', 'li'),
                     $this->classMap->resolveClass($itemViewModel->isLeaf(), 'Item', 'li.leaf', 'li'),
-                    $this->classMap->resolveClass($itemViewModel->getIsPresented(), 'Item', 'li.presented', 'li'),
-                    ]
+                    $this->classMap->resolveClass($itemViewModel->isPresented(), 'Item', 'li.presented', 'li'),
+                    ],
+                 "style" => $itemViewModel->isCutted() ? "background-color: coral" : ""
                 ],
                 $innerHtml);
         return $html;
@@ -57,7 +58,6 @@ class ItemTrashRenderer extends HtmlRendererAbstract {
                 'data-tooltip'=>'Trvale odstranit',
                 'data-position'=>'top right',
                 'type'=>'submit',
-                'name'=>'delete',
                 'formmethod'=>'post',
                 'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/delete",
                 'onclick'=>"return confirm('Jste si jisti?');"
@@ -72,9 +72,8 @@ class ItemTrashRenderer extends HtmlRendererAbstract {
                 'data-tooltip'=>'Vybrat k přesunutí',
                 'data-position'=>'top right',
                 'type'=>'submit',
-                'name'=>'move',
                 'formmethod'=>'post',
-                'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/move/senPatříCílovýParentUid",
+                'formaction'=>"api/v1/menu/{$menuNode->getUid()}/cut",
                     ],
                 Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button4 i')])
             )

@@ -110,7 +110,10 @@ class MenuComponent extends AuthoredComponentAbstract implements MenuComponentIn
         if ($this->withTitle) {
             $rootMenuNode = $this->viewModel->getMenuNode($this->rootUid);
             if (isset($rootMenuNode)) {
-                $titleItemHtml = $this->itemRenderer->render(new ItemViewModel($this->viewModel->getMenuNode($this->rootUid), TRUE, $this->presentedUid==$this->rootUid, true));
+                $titleItemHtml = $this->itemRenderer->render(
+            //TODO: ($menuNode, $isOnPath, $isPresented, $isRestored, $readonly, $innerHtml='')
+                        new ItemViewModel($this->viewModel->getMenuNode($this->rootUid), TRUE, $this->presentedUid==$this->rootUid, false, true)
+                        );
             } else {
                 $titleItemHtml = '';  // root menu item nená publikovaný
             }
@@ -123,18 +126,31 @@ class MenuComponent extends AuthoredComponentAbstract implements MenuComponentIn
     // to do menu level rendereru ($this->presented... si bude brát z view modelu
     protected function getMenuLevelHtml($parentUid) {
         $itemTags = [];
-        foreach ($this->viewModel->getChildrenMenuNodes($parentUid) as $menuNode) {
-            if (isset($this->presentedItemLeftNode)) {
-                $isOnPath = ($this->presentedItemLeftNode >= $menuNode->getLeftNode()) && ($this->presentedItemRightNode <= $menuNode->getRightNode());
-            } else {
-                $isOnPath = FALSE;
+//        foreach ($this->viewModel->getChildrenMenuNodes($parentUid) as $menuNode) {
+//            if (isset($this->presentedItemLeftNode)) {
+//                $isOnPath = ($this->presentedItemLeftNode >= $menuNode->getLeftNode()) && ($this->presentedItemRightNode <= $menuNode->getRightNode());
+//            } else {
+//                $isOnPath = FALSE;
+//            }
+//            $innerHtml = $isOnPath ? $this->levelWrapRenderer->render($this->getMenuLevelHtml($menuNode->getUid())) : '';
+//            $isPresented = isset($this->presentedUid) ? ($this->presentedUid == $menuNode->getUid()) : FALSE;
+//            $isRestored = false;
+//            $readonly = $menuNode->getUid()==$this->rootUid;
+//            //TODO: ($menuNode, $isOnPath, $isPresented, $isRestored, $readonly, $innerHtml='')
+//            $itemViewModel = new ItemViewModel($menuNode, $isOnPath, $isPresented, $isRestored, $readonly, $innerHtml);
+//            $itemTags[] = $this->itemRenderer->render($itemViewModel);
+//        }
+//        return $itemTags ? implode(PHP_EOL, $itemTags) : '';
+        
+        $subtreeItemModels = $this->viewModel->getChildrenItemModels($parentUid);
+        foreach ($subtreeItemModels as $itemViewModel) {    // , $maxDepth
+            if($itemViewModel->isOnPath()) {
+                $innerHtml = $this->levelWrapRenderer->render($this->getMenuLevelHtml($itemViewModel->getMenuNode()->getUid()));
+                $itemViewModel->setInnerHtml($innerHtml);
             }
-            $innerHtml = $isOnPath ? $this->levelWrapRenderer->render($this->getMenuLevelHtml($menuNode->getUid())) : '';
-            $isPresented = isset($this->presentedUid) ? ($this->presentedUid == $menuNode->getUid()) : FALSE;
-            $readonly = $menuNode->getUid()==$this->rootUid;
-            $itemViewModel = new ItemViewModel($menuNode, $isOnPath, $isPresented, $readonly, $innerHtml);
             $itemTags[] = $this->itemRenderer->render($itemViewModel);
+
         }
-        return $itemTags ? implode(PHP_EOL, $itemTags) : '';
+        return $itemTags ? \implode(PHP_EOL, $itemTags) : '';
     }
 }

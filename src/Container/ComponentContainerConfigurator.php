@@ -175,6 +175,7 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new MenuViewModel(
                                 $c->get(StatusSecurityRepo::class),
                                 $c->get(StatusPresentationRepo::class),
+                                $c->get(StatusFlashRepo::class),
                                 $c->get(HierarchyNodeRepo::class),
                                 $c->get(MenuRootRepo::class)
                             );
@@ -244,6 +245,7 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new NamedPaperViewModel(
                                 $c->get(StatusSecurityRepo::class),
                                 $c->get(StatusPresentationRepo::class),
+                                $c->get(StatusFlashRepo::class),
                                 $c->get(PaperAggregateRepo::class),
                                 $c->get(ComponentAggregateRepo::class)
                             );
@@ -258,6 +260,7 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new PresentedPaperViewModel(
                                 $c->get(StatusSecurityRepo::class),
                                 $c->get(StatusPresentationRepo::class),
+                                $c->get(StatusFlashRepo::class),
                                 $c->get(PaperAggregateRepo::class)
                         );
             },
