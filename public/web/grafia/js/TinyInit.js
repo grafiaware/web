@@ -260,11 +260,85 @@ var headerFooterConfig = {
     extended_valid_elements : 'i[*]'
 };
 
+var vyberKomponenty = {
+    selector: '.vyber_komponenty',
+    schema : 'html5',
+
+    language : tinyConfig.toolbarsLang,
+    document_base_url : tinyConfig.basePath,
+    content_css: tinyConfig.contentCss,
+    body_class: "layout preview",
+
+    menubar: false,
+    inline: true,
+    plugins: [
+    'template', 'save', 'noneditable', 'code'
+    ],
+    toolbar: 'template | save code',
+    relative_urls : true,
+    extended_valid_elements : 'i[*], headline, content, perex',
+    custom_elements: 'headline, content, perex',
+    valid_children: '+a[div] ',
+    link_title: false,
+    noneditable_editable_class: 'mceEditable',
+    noneditable_noneditable_class: 'mceNonEditable', 
+    templates: [
+        { title: 'Článek', description: 'Grafia web - článek',       url: tinyConfig.componentTemplatesPath + 'paper.html'},
+        { title: 'Kontakty', description: 'Grafia web - kontakty',       url: tinyConfig.componentTemplatesPath + 'paper-contact.html'},
+       // { title: 'Publikace', description: 'Grafia web - publikace',   url: tinyConfig.componentTemplatesPath + 'block.html'},
+    ],
+};
+var vyberSablony = {
+    selector: '.vyber_sablony',
+    schema : 'html5',
+
+    language : tinyConfig.toolbarsLang,
+    document_base_url : tinyConfig.basePath,
+    content_css: tinyConfig.contentCss,
+    body_class: "layout preview",
+
+    menubar: false,
+    inline: true,
+    plugins: [
+    'template', 'save', 'noneditable', 'code'
+    ],
+    toolbar: 'template | save | styleselect code',
+    relative_urls : true,
+    extended_valid_elements : 'i[*], headline, content, perex',
+    custom_elements: 'headline, content, perex',
+    valid_children: '+a[div], form[perex], form[content]',
+    link_title: false,
+    noneditable_editable_class: 'mceEditable',
+    noneditable_noneditable_class: 'mceNonEditable', 
+    templates: [
+        { title: 'Kontakt', description: 'Grafia web - kontakt',  url: tinyConfig.templatesPath + 'ohraniceny_blok.html'},
+    ],
+    style_formats: [
+        { title: 'Headers', items: [
+          { title: 'Nadpis h2', block: 'h2' },
+          { title: 'Nadpis h3', block: 'h3' }
+        ] },
+
+        { title: 'Blocks', items: [
+          { title: 'Odstavec', block: 'p' },
+          { title: 'Blok', block: 'div' }
+        ] },
+    
+        { title: 'Containers', items: [
+          { title: 'sekce', block: 'section', merge_siblings: false },
+          { title: 'článek', block: 'article',  merge_siblings: false },
+          { title: 'citace', block: 'blockquote' },
+          { title: 'doplněk', block: 'aside' }
+        ] }
+  ],
+};
 
 
-tinymce.init(headlineConfig);
-tinymce.init(segmentConfig);
-tinymce.init(perexConfig);
-tinymce.init(blockConfig);
-tinymce.init(headerFooterConfig);
 
+//tinymce.init(headlineConfig);
+//tinymce.init(segmentConfig);
+//tinymce.init(perexConfig);
+//tinymce.init(blockConfig);
+//tinymce.init(headerFooterConfig);
+tinymce.init(vyberKomponenty);
+tinymce.init(vyberSablony);
