@@ -17,6 +17,10 @@ class AppContext {
         return 'public/web/';  // relativní cesta
     }
 
+    public static function getTinyPublicDirectory() {
+        return 'public/tiny_templates/';  // relativní cesta
+    }
+
     public static function getScriptsDirectory() {
         return \AppContext::workingPath()."Middleware/Web/";  // absolutní cesta vzhledem ke kořenovému adresáři skriptu (index.php)
     }

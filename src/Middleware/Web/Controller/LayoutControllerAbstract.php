@@ -150,6 +150,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
         if ($this->isEditableArticle() OR $this->isEditableLayout()) {
             $webPublicDir = \Middleware\Web\AppContext::getAppPublicDirectory();
             $commonPublicDir = \Middleware\Web\AppContext::getPublicDirectory();
+            $tinyPublicDir = \Middleware\Web\AppContext::getTinyPublicDirectory();
             ## document base path - stejná hodnota se musí použiít i v nastavení tinyMCE
             $basepath = $this->getBasePath($request);
             // Language packages tinyMce požívají krátké i dlouhé kódy (k=d odpovídá jménu souboru např cs.js) - proto mapování
@@ -173,7 +174,8 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
                                 'urlStylesCss' => $webPublicDir."grafia/css/styles.css",
                                 'urlSemanticCss' => $webPublicDir."semantic/dist/semantic.min.css",
                                 'urlZkouskaCss' => $webPublicDir."grafia/css/zkouska_less.css",
-                                'templatesPath' => $commonPublicDir."tiny_templates/",
+                                'paperTemplatesPath' => $tinyPublicDir."paper/",
+                                'contentTemplatesPath' => $tinyPublicDir."content/",
                                 'toolbarsLang' => $toolsbarsLang
                             ]),
 //                        'urlTinyMCE' => $commonPublicDir.'tinymce/tinymce.min.js',
@@ -239,11 +241,36 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
                     ->setTemplate(new PhpTemplate('templates/poznamky/poznamky.php'))
                     ->setData([
                         'poznamka1'=>
-                        '<pre>'. var_export($this->statusPresentationRepo->get()->getLanguage(), true).'</pre>'
-                        . '<pre>'. var_export($this->statusSecurityRepo->get()->getUserActions(), true).'</pre>',
+                        '<pre>'. $this->prettyDump($this->statusPresentationRepo->get()->getLanguage(), true).'</pre>'
+                        . '<pre>'. $this->prettyDump($this->statusSecurityRepo->get()->getUserActions(), true).'</pre>',
                         'flashMessage' => $this->getFlashMessage(),
                         ]);
         }
+    }
+
+    private function prettyDump($var) {
+        return htmlspecialchars(var_export($var, true), ENT_QUOTES, 'UTF-8', true);
+//        return htmlspecialchars(print_r($var, true), ENT_QUOTES, 'UTF-8', true);
+//        return $this->pp($var);
+    }
+
+    private function pp($arr){
+        if (is_object($arr))
+            $arr = (array) $arr;
+        $retStr = '<ul>';
+        if (is_array($arr)){
+            foreach ($arr as $key=>$val){
+                if (is_object($val))
+                    $val = (array) $val;
+                if (is_array($val)){
+                    $retStr .= '<li>' . str_replace('\0', ':', $key) . ' => array(' . $this->pp($val) . ')</li>';
+                }else{
+                    $retStr .= '<li>' . $key . ' => ' . ($val == '' ? '""' : $val) . '</li>';
+                }
+            }
+        }
+        $retStr .= '</ul>';
+        return $retStr;
     }
 
     private function getFlashMessage() {

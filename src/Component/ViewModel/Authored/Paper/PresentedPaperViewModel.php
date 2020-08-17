@@ -7,7 +7,7 @@ namespace Component\ViewModel\Authored\Paper;
  */
 
 use Model\Entity\PaperAggregateInterface;
-
+use Model\Entity\MenuItemInterface;
 
 /**
  * Description of PresentedPaperViewModel
@@ -16,13 +16,18 @@ use Model\Entity\PaperAggregateInterface;
  */
 class PresentedPaperViewModel extends PaperViewModelAbstract implements PresentedPaperViewModelInterface {
 
+    public function getPresentedMenuItem(): \Model\Entity\MenuItemInterface {
+        return $this->statusPresentationRepo->get()->getMenuItem();
+    }
+
+
     /**
      * Vrací paper odpovídající prezentované položce menu. Řídí se hodnotami vlastností objektu PresentationStatus.
      *
      * @return MenuItemPaperAggregateInterface|null
      */
     public function getPaperAggregate(): ?PaperAggregateInterface {
-        $menuItemId = $this->statusPresentationRepo->get()->getMenuItem()->getId();
+        $menuItemId = $this->getPresentedMenuItem()->getId();
         return $this->paperAggregateRepo->getByReference($menuItemId);
     }
 }

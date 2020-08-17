@@ -11,6 +11,7 @@ namespace Component\ViewModel\Authored\Paper;
 use Component\ViewModel\Authored\Paper\PaperViewModelInterface;
 
 use Model\Entity\PaperAggregateInterface;
+use Model\Entity\MenuItemInterface;
 
 
 /**
@@ -18,6 +19,12 @@ use Model\Entity\PaperAggregateInterface;
  * @author pes2704
  */
 interface PresentedPaperViewModelInterface extends PaperViewModelInterface {
+
+    /**
+     *
+     * @return MenuItemInterface
+     */
+    public function getPresentedMenuItem(): MenuItemInterface;
 
     /**
      * Vrací paper odpovídajíví prezentované položce menu. Řídí se hodnotami vlastností objektu PresentationStatus.

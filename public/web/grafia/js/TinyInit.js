@@ -143,19 +143,19 @@ var segmentConfig = {
 //       'template textpattern searchreplace image imagetools save example'
     ],
     templates: [
-        { title: 'Kontakt', description: 'Grafia web - kontakt',       url: tinyConfig.templatesPath + 'kontakt.html'}, //vztaženo k rootu RS, tam kde je index redakčního s.
-        { title: 'Publikace', description: 'Grafia web - publikace',   url: tinyConfig.templatesPath + 'publikace.html'},
-        { title: 'Obrázek vlevo a text', description: 'Bez obtékání. Dva sloupce', url: tinyConfig.templatesPath + 'obrazekVlevo_blok.html'},
-        { title: 'Publikace - 2', description: 'Vložení publikací na stránku', url: tinyConfig.templatesPath + 'eshop_radka.html'},
-        { title: 'Menu - 1 položka', description: 'Vložení položky menu na stránku', url: tinyConfig.templatesPath + 'menu_1polozka.html'},
-        { title: 'Menu - 2 položky', description: 'Vložení 2 položek menu na stránku', url: tinyConfig.templatesPath + 'menu_2polozky.html'},
-        { title: 'Menu - 3 položky', description: 'Vložení 3 položek menu na stránku', url: tinyConfig.templatesPath + 'menu_3polozky.html'},
+        { title: 'Kontakt', description: 'Grafia web - kontakt',       url: tinyConfig.content_templates_path + 'kontakt.html'}, //vztaženo k rootu RS, tam kde je index redakčního s.
+        { title: 'Publikace', description: 'Grafia web - publikace',   url: tinyConfig.content_templates_path + 'publikace.html'},
+        { title: 'Obrázek vlevo a text', description: 'Bez obtékání. Dva sloupce', url: tinyConfig.content_templates_path + 'obrazekVlevo_blok.html'},
+        { title: 'Publikace - 2', description: 'Vložení publikací na stránku', url: tinyConfig.content_templates_path + 'eshop_radka.html'},
+        { title: 'Menu - 1 položka', description: 'Vložení položky menu na stránku', url: tinyConfig.content_templates_path + 'menu_1polozka.html'},
+        { title: 'Menu - 2 položky', description: 'Vložení 2 položek menu na stránku', url: tinyConfig.content_templates_path + 'menu_2polozky.html'},
+        { title: 'Menu - 3 položky', description: 'Vložení 3 položek menu na stránku', url: tinyConfig.content_templates_path + 'menu_3polozky.html'},
         { title: '---Tvorba šablon---',    description: 'oddelovac',  url: '' },
-        { title: 'Nutné k vytvoření šablon', description: 'Vložte nejprve tuto šablonu a do ní vkládejte ostatní prvky této sekce' , url: tinyConfig.templatesPath + 'grid.html' },
-        { title: 'Menu - 1 položka (bez gridu) verze 1', description: 'Vložení položky menu na stránku', url: tinyConfig.templatesPath + 'menu_1polozka_1.html'},
-        { title: 'Menu - 1 položka (bez gridu) dlouha', description: 'Vložení položky menu na stránku', url: tinyConfig.templatesPath + 'menu_1polozka_1_delsi.html'},
-        { title: 'Menu - 1 položka (bez gridu) dalsi', description: 'Vložení položky menu na stránku', url: tinyConfig.templatesPath + 'menu_1polozka_1_delsi_1.html'},
-        { title: 'Menu - 1 položka (bez gridu) verze 2', description: 'Vložení položky menu na stránku', url: tinyConfig.templatesPath + 'menu_1polozka_2.html'}
+        { title: 'Nutné k vytvoření šablon', description: 'Vložte nejprve tuto šablonu a do ní vkládejte ostatní prvky této sekce' , url: tinyConfig.content_templates_path + 'grid.html' },
+        { title: 'Menu - 1 položka (bez gridu) verze 1', description: 'Vložení položky menu na stránku', url: tinyConfig.content_templates_path + 'menu_1polozka_1.html'},
+        { title: 'Menu - 1 položka (bez gridu) dlouha', description: 'Vložení položky menu na stránku', url: tinyConfig.content_templates_path + 'menu_1polozka_1_delsi.html'},
+        { title: 'Menu - 1 položka (bez gridu) dalsi', description: 'Vložení položky menu na stránku', url: tinyConfig.content_templates_path + 'menu_1polozka_1_delsi_1.html'},
+        { title: 'Menu - 1 položka (bez gridu) verze 2', description: 'Vložení položky menu na stránku', url: tinyConfig.content_templates_path + 'menu_1polozka_2.html'}
     ],
     toolbar1: 'undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent'
             + ' | hr | nonbreaking | forecolor backcolor ' + ' | fontsizeselect | code | searchreplace template | link image | save'
@@ -192,19 +192,19 @@ var perexConfig = {
 //       'template textpattern searchreplace image imagetools save example'
     ],
     templates: [
-        { title: 'Kontakt', description: 'Grafia web - kontakt',       url: tinyConfig.templatesPath + 'kontakt.html'}, //vztaženo k rootu RS, tam kde je index redakčního s.
-        { title: 'Publikace', description: 'Grafia web - publikace',   url: tinyConfig.templatesPath + 'publikace.html'},
-        { title: 'Obrázek vlevo a text', description: 'Bez obtékání. Dva sloupce', url: tinyConfig.templatesPath + 'obrazekVlevo_blok.html'},
-        { title: 'Publikace - 2', description: 'Vložení publikací na stránku', url: tinyConfig.templatesPath + 'eshop_radka.html'},
-        { title: 'Menu - 1 položka', description: 'Vložení položky menu na stránku', url: tinyConfig.templatesPath + 'menu_1polozka.html'},
-        { title: 'Menu - 2 položky', description: 'Vložení 2 položek menu na stránku', url: tinyConfig.templatesPath + 'menu_2polozky.html'},
-        { title: 'Menu - 3 položky', description: 'Vložení 3 položek menu na stránku', url: tinyConfig.templatesPath + 'menu_3polozky.html'},
+        { title: 'Kontakt', description: 'Grafia web - kontakt',       url: tinyConfig.content_templates_path + 'kontakt.html'}, //vztaženo k rootu RS, tam kde je index redakčního s.
+        { title: 'Publikace', description: 'Grafia web - publikace',   url: tinyConfig.content_templates_path + 'publikace.html'},
+        { title: 'Obrázek vlevo a text', description: 'Bez obtékání. Dva sloupce', url: tinyConfig.content_templates_path + 'obrazekVlevo_blok.html'},
+        { title: 'Publikace - 2', description: 'Vložení publikací na stránku', url: tinyConfig.content_templates_path + 'eshop_radka.html'},
+        { title: 'Menu - 1 položka', description: 'Vložení položky menu na stránku', url: tinyConfig.content_templates_path + 'menu_1polozka.html'},
+        { title: 'Menu - 2 položky', description: 'Vložení 2 položek menu na stránku', url: tinyConfig.content_templates_path + 'menu_2polozky.html'},
+        { title: 'Menu - 3 položky', description: 'Vložení 3 položek menu na stránku', url: tinyConfig.content_templates_path + 'menu_3polozky.html'},
         { title: '---Tvorba šablon---',    description: 'oddelovac',  url: '' },
-        { title: 'Nutné k vytvoření šablon', description: 'Vložte nejprve tuto šablonu a do ní vkládejte ostatní prvky této sekce' , url: tinyConfig.templatesPath + 'grid.html' },
-        { title: 'Menu - 1 položka (bez gridu) verze 1', description: 'Vložení položky menu na stránku', url: tinyConfig.templatesPath + 'menu_1polozka_1.html'},
-        { title: 'Menu - 1 položka (bez gridu) dlouha', description: 'Vložení položky menu na stránku', url: tinyConfig.templatesPath + 'menu_1polozka_1_delsi.html'},
-        { title: 'Menu - 1 položka (bez gridu) dalsi', description: 'Vložení položky menu na stránku', url: tinyConfig.templatesPath + 'menu_1polozka_1_delsi_1.html'},
-        { title: 'Menu - 1 položka (bez gridu) verze 2', description: 'Vložení položky menu na stránku', url: tinyConfig.templatesPath + 'menu_1polozka_2.html'}
+        { title: 'Nutné k vytvoření šablon', description: 'Vložte nejprve tuto šablonu a do ní vkládejte ostatní prvky této sekce' , url: tinyConfig.content_templates_path + 'grid.html' },
+        { title: 'Menu - 1 položka (bez gridu) verze 1', description: 'Vložení položky menu na stránku', url: tinyConfig.content_templates_path + 'menu_1polozka_1.html'},
+        { title: 'Menu - 1 položka (bez gridu) dlouha', description: 'Vložení položky menu na stránku', url: tinyConfig.content_templates_path + 'menu_1polozka_1_delsi.html'},
+        { title: 'Menu - 1 položka (bez gridu) dalsi', description: 'Vložení položky menu na stránku', url: tinyConfig.content_templates_path + 'menu_1polozka_1_delsi_1.html'},
+        { title: 'Menu - 1 položka (bez gridu) verze 2', description: 'Vložení položky menu na stránku', url: tinyConfig.content_templates_path + 'menu_1polozka_2.html'}
     ],
     toolbar1: 'undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent'
             + ' | hr | nonbreaking | forecolor backcolor ' + ' | fontsizeselect | code | searchreplace template | link image | save'
@@ -260,8 +260,8 @@ var headerFooterConfig = {
     extended_valid_elements : 'i[*]'
 };
 
-var vyberKomponenty = {
-    selector: '.vyber_komponenty',
+var selectPaperTemplateConfig = {
+    selector: '.paper_template_select',
     schema : 'html5',
 
     language : tinyConfig.toolbarsLang,
@@ -281,11 +281,11 @@ var vyberKomponenty = {
     valid_children: '+a[div] ',
     link_title: false,
     noneditable_editable_class: 'mceEditable',
-    noneditable_noneditable_class: 'mceNonEditable', 
+    noneditable_noneditable_class: 'mceNonEditable',
     templates: [
-        { title: 'Článek', description: 'Grafia web - článek',       url: tinyConfig.componentTemplatesPath + 'paper.html'},
-        { title: 'Kontakty', description: 'Grafia web - kontakty',       url: tinyConfig.componentTemplatesPath + 'paper-contact.html'},
-       // { title: 'Publikace', description: 'Grafia web - publikace',   url: tinyConfig.componentTemplatesPath + 'block.html'},
+        { title: 'Článek', description: 'Grafia web - článek',       url: tinyConfig.paper_templates_path + 'paper.html'},
+        { title: 'Kontakty', description: 'Grafia web - kontakty',       url: tinyConfig.paper_templates_path + 'paper-contact.html'},
+       // { title: 'Publikace', description: 'Grafia web - publikace',   url: tinyConfig.paper_templates_path + 'block.html'},
     ],
 };
 var vyberSablony = {
@@ -309,9 +309,9 @@ var vyberSablony = {
     valid_children: '+a[div], form[perex], form[content]',
     link_title: false,
     noneditable_editable_class: 'mceEditable',
-    noneditable_noneditable_class: 'mceNonEditable', 
+    noneditable_noneditable_class: 'mceNonEditable',
     templates: [
-        { title: 'Kontakt', description: 'Grafia web - kontakt',  url: tinyConfig.templatesPath + 'ohraniceny_blok.html'},
+        { title: 'Kontakt', description: 'Grafia web - kontakt',  url: tinyConfig.content_templates_path + 'ohraniceny_blok.html'},
     ],
     style_formats: [
         { title: 'Headers', items: [
@@ -323,7 +323,7 @@ var vyberSablony = {
           { title: 'Odstavec', block: 'p' },
           { title: 'Blok', block: 'div' }
         ] },
-    
+
         { title: 'Containers', items: [
           { title: 'sekce', block: 'section', merge_siblings: false },
           { title: 'článek', block: 'article',  merge_siblings: false },
@@ -335,10 +335,10 @@ var vyberSablony = {
 
 
 
-//tinymce.init(headlineConfig);
-//tinymce.init(segmentConfig);
-//tinymce.init(perexConfig);
-//tinymce.init(blockConfig);
-//tinymce.init(headerFooterConfig);
-tinymce.init(vyberKomponenty);
+tinymce.init(headlineConfig);
+tinymce.init(segmentConfig);
+tinymce.init(perexConfig);
+tinymce.init(blockConfig);
+tinymce.init(headerFooterConfig);
+tinymce.init(selectPaperTemplateConfig);
 tinymce.init(vyberSablony);

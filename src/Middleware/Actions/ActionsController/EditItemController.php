@@ -55,11 +55,12 @@ class EditItemController extends PresentationFrontControllerAbstract {
         $type = (new RequestParams())->getParam($request, 'type');
         $menuItem->setType($type);
         $this->addFlashMessage("menuItem type($type)");
-        return $this->redirectSeeOther($request,'www/last/'); // 303 See Other
+        $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
+        return $this->redirectSeeOther($request, "www/item/$langCode/$uid/");
     }
 
     public function cut(ServerRequestInterface $request, $uid) {
-        $menuItem = $this->getMenuItem($uid);       // zde navíc 
+        $menuItem = $this->getMenuItem($uid);       // zde navíc
         $statusFlash = $this->statusFlashRepo->get();
         $statusFlash->setPostCommand(['cut'=>$uid]);  // command s životností do dalšího POST requestu
         return $this->redirectSeeOther($request,'www/last/'); // 303 See Other

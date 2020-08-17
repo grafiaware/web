@@ -40,6 +40,32 @@ class PaperController extends PresentationFrontControllerAbstract {
         $this->paperRepo = $paperRepo;
     }
 
+    public function create(ServerRequestInterface $request): ResponseInterface {
+        $menuItemId = (new RequestParams())->getParam($request, 'menu_item_id');  // jméno POST proměnné je vytvořeno v paper rendereru
+        $html = (new RequestParams())->getParam($request, 'paper_template');  // jméno POST proměnné je vytvořeno v paper rendereru
+        $layoutDocument = new \DOMDocument('1.0');
+        $layoutDocument->loadHTML(
+"<!DOCTYPE html>
+<!--
+
+-->
+<html>
+    <head>
+    </head>
+    <body>
+    </body>
+</html>"
+           );
+
+        $bodyNode = $layoutDocument->getElementsByTagName('body')->item(0);
+        $bodyNode->textContent = $html;
+//        $headlineElement = $layoutDocument->getElementsByTagName('headline')->item(0);
+//        $perexElement = $layoutDocument->getElementsByTagName('perex')->item(0);
+
+
+        return $this->redirectSeeOther($request,'www/last/'); // 303 See Other
+
+    }
     /**
      *
      * @param ServerRequestInterface $request

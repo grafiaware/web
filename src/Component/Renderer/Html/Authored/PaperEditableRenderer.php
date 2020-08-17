@@ -12,7 +12,7 @@ use Model\Entity\PaperAggregateInterface;
 
 use Component\ViewModel\Authored\Paper\PaperViewModelInterface;
 use Component\ViewModel\Authored\Paper\NamedPaperViewModelInterface;
-
+use Component\ViewModel\Authored\Paper\PresentedPaperViewModelInterface;
 use Pes\Text\Html;
 /**
  * Description of PaperRenderer
@@ -35,14 +35,18 @@ class PaperEditableRenderer  extends AuthoredEditableRendererAbstract {
         if (isset($paperAggregate)) {
             $innerHtml = $this->renderPaper($paperAggregate);
         } else {
-            $innerHtml = Html::tag('div', [], 'Missing paper for rendering.');
+            if ($viewModel instanceof PresentedPaperViewModelInterface) {
+                $innerHtml = $this->renderSelectPaperTemplate($viewModel);
+            } else {
+                $innerHtml = Html::tag('div', [], "Missing paper named $name for rendering.");
+            }
         }
         // atribut data-component je jen pro info v html
         return Html::tag('div', ['data-component'=>$name, 'class'=>$this->classMap->getClass('Segment', 'div')],
                 Html::tag('div', ['class'=>$this->classMap->getClass('Segment', 'div.grafia')], $innerHtml)
             );
     }
-    
+
     private function renderPaper(PaperAggregateInterface $paperAggregate) {
 
             // TinyMCE v inline režimu pojmenovává proměnné v POSTu mce_XX, kde XX je asi pořadové číslo selected elementu na celé stránce, pokud editovaný element má id, pak TinyMCE použije toto id.
@@ -58,6 +62,19 @@ class PaperEditableRenderer  extends AuthoredEditableRendererAbstract {
                 $this->renderContentsDivs($paperAggregate).
                     ""
                 ;
+    }
+
+    private function renderSelectPaperTemplate(PresentedPaperViewModelInterface $viewModel) {
+        $menuItemId = $viewModel->getPresentedMenuItem()->getId();
+        return
+            Html::tag('form', ['method' => 'POST', 'action' => 'api/v1/paper'],
+                Html::tag('input', ['name'=>'menu_item_id', 'value'=>$menuItemId, 'type'=>'hidden'])
+                .
+                Html::tag('div', ['id'=>'paper_template', 'class'=>'paper_template_select'],
+                    Html::tag('p', [], 'Výběr šablony článku')
+
+                    )
+                );
     }
 }
 

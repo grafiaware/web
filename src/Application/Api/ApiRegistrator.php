@@ -58,6 +58,7 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/presentation/edit_article'));
 
         #### PaperController ####
+        $registry->register($this->postPrototype->withUrlPattern('/api/v1/paper'));
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/paper/:paperId/headline'));
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/paper/:paperId/perex'));
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/paper/:paperId/contents'));
