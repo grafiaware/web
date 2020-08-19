@@ -18,6 +18,8 @@ use Pes\Http\Response;
 use Pes\Http\Response\RedirectResponse;
 use Psr\Http\Message\ResponseInterface;
 
+
+use Model\Entity\Paper;
 use Model\Repository\{
     StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo, PaperRepo
 };
@@ -43,25 +45,39 @@ class PaperController extends PresentationFrontControllerAbstract {
     public function create(ServerRequestInterface $request): ResponseInterface {
         $menuItemId = (new RequestParams())->getParam($request, 'menu_item_id');  // jméno POST proměnné je vytvořeno v paper rendereru
         $html = (new RequestParams())->getParam($request, 'paper_template');  // jméno POST proměnné je vytvořeno v paper rendereru
-        $layoutDocument = new \DOMDocument('1.0');
-        $layoutDocument->loadHTML(
-"<!DOCTYPE html>
-<!--
-
--->
+        $text = html_entity_decode($html, ENT_HTML5);
+        $layoutDocument = new \DOMDocument('1.0', 'utf-8');
+        $layoutDocument->loadXML(
+"<?xml version=\"1.0\" encoding=\"utf-8\"?>
 <html>
     <head>
+        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>
     </head>
-    <body>
-    </body>
+    <body>"
+                .
+                $text
+                .
+    "</body>
 </html>"
            );
 
-        $bodyNode = $layoutDocument->getElementsByTagName('body')->item(0);
-        $bodyNode->textContent = $html;
-//        $headlineElement = $layoutDocument->getElementsByTagName('headline')->item(0);
-//        $perexElement = $layoutDocument->getElementsByTagName('perex')->item(0);
-
+        $bodyElement = $layoutDocument->getElementsByTagName('body')->item(0);
+        $headlineElement = $layoutDocument->getElementsByTagName('headline')->item(0);
+        $perexElement = $layoutDocument->getElementsByTagName('perex')->item(0);
+        if($this->paperRepo->getByReference($menuItemId)){
+            user_error("Zadaná položka menu již ma připojen článek (paper).", E_USER_WARNING);
+        }
+        if ($headlineElement AND $perexElement) {
+            $paper = new Paper();
+            $editor = $this->statusSecurityRepo->get()->getUser()->getUserName();
+            $paper
+                    ->setEditor($editor)
+                    ->setHeadline($headlineElement->textContent)
+                    ->setMenuItemIdFk($menuItemId)
+                    ->setPerex($perexElement->textContent);
+        } else {
+            $this->addFlashMessage("Paper creating failed. No healine or perex element detected.");
+        }
 
         return $this->redirectSeeOther($request,'www/last/'); // 303 See Other
 
