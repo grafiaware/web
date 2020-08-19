@@ -285,8 +285,9 @@ var selectPaperTemplateConfig = {
     templates: [
         { title: 'Článek', description: 'Grafia web - článek',       url: tinyConfig.paper_templates_path + 'paper.html'},
         { title: 'Kontakty', description: 'Grafia web - kontakty',       url: tinyConfig.paper_templates_path + 'paper-contact.html'},
+        { title: 'Test - nový paper ze šablony', description: 'paper_test',       url: tinyConfig.paper_templates_path + 'paper_test.html'},
        // { title: 'Publikace', description: 'Grafia web - publikace',   url: tinyConfig.paper_templates_path + 'block.html'},
-    ],
+    ]
 };
 var vyberSablony = {
     selector: '.vyber_sablony',
