@@ -263,6 +263,7 @@ var headerFooterConfig = {
 var selectPaperTemplateConfig = {
     selector: '.paper_template_select',
     schema : 'html5',
+    placeholder: 'Výběr šablony článku',
 
     language : tinyConfig.toolbarsLang,
     document_base_url : tinyConfig.basePath,
@@ -276,8 +277,8 @@ var selectPaperTemplateConfig = {
     ],
     toolbar: 'template | save code',
     relative_urls : true,
-    extended_valid_elements : 'i[*], headline, content, perex',
-    custom_elements: 'headline, content, perex',
+    extended_valid_elements : ['headline[*]', 'perex[*]', 'content[*]'],
+    custom_elements: ['headline', 'perex', 'content'],
     valid_children: '+a[div] ',
     link_title: false,
     noneditable_editable_class: 'mceEditable',

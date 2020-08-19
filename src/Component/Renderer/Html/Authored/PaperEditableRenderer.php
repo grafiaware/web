@@ -71,7 +71,7 @@ class PaperEditableRenderer  extends AuthoredEditableRendererAbstract {
                 Html::tag('input', ['name'=>'menu_item_id', 'value'=>$menuItemId, 'type'=>'hidden'])
                 .
                 Html::tag('div', ['id'=>'paper_template', 'class'=>'paper_template_select'],
-                    Html::tag('p', [], 'Výběr šablony článku')
+                    Html::tag('p', [], '')
 
                     )
                 );
