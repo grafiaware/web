@@ -42,8 +42,8 @@ class ItemTrashRenderer extends HtmlRendererAbstract {
                     $this->classMap->resolveClass($itemViewModel->isOnPath(), 'Item', 'li.onpath', 'li'),
                     $this->classMap->resolveClass($itemViewModel->isLeaf(), 'Item', 'li.leaf', 'li'),
                     $this->classMap->resolveClass($itemViewModel->isPresented(), 'Item', 'li.presented', 'li'),
+                    $this->classMap->resolveClass($itemViewModel->isCutted(), 'Item', 'li.cut', 'li')
                     ],
-                 "style" => $itemViewModel->isCutted() ? "background-color: coral" : ""
                 ],
                 $innerHtml);
         return $html;

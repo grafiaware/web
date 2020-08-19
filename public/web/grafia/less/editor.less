@@ -76,6 +76,9 @@ body.layout#tinymce{
         position: relative;
         right: 0;
     }
+    header{
+        margin-top: 50px;
+    }
     /****************************Editacni*menu*s*buttony***************************/
     /***PRO VSECHNA MENU***/
     .menu.edit li > p{
@@ -100,7 +103,7 @@ body.layout#tinymce{
         display: block;
         background: #fbfbe7;
         > .button:last-child{
-            background-color: #fff1d5;
+            background-color: #f8f3ff;
             &:hover{
                 background-color: @white;
             }
@@ -295,7 +298,23 @@ body.layout#tinymce{
             background-color: #f8f3ff !important;
         }
     }
-    
+    li.cut{
+        border: 1px solid #AAA !important;
+        > a.item, > p.item span{
+            color: #AAA;
+            &:hover{
+                color: #AAA;
+                background-color: transparent !important;
+            }
+        }
+    }
+    .button.paste{ 
+        border: 1px solid  #74746B !important;
+        background-color: #eaffbb !important;
+        &:nth-of-type(3){
+            border-left: 0 !important;
+        }
+    }
     
     /***VYBEROVE MENU***/
     .nav-vyberove{
@@ -504,16 +523,25 @@ body.layout#tinymce{
     .segment.locked a, .segment.notpermitted a{
         pointer-events: none;
     }
+    .buttons.editComponent{
+        position: absolute;
+        top: -32px;
+        right: 28px;
+        background-color: #f8f3ff;
+        [data-tooltip]::after{
+            font-weight: 700;
+        }
+    }
     .grafia.segment.headlined.editable .buttons:not(.editContent),
     .grafia.segment.block.editable .buttons:not(.editContent){
         position: absolute;
-        top: -30px;
+        top: -32px;
         [data-tooltip]::after{
             font-weight: 700;
         }
     }
     .grafia.segment.headlined.editable .buttons.editPage{
-        right: 0px;
+        right: -6px;
         background: #fbfbe7;
         > .toolsDate{
             background-color: #fff1d5;
@@ -524,7 +552,7 @@ body.layout#tinymce{
         right: 0px;
     }
     .grafia.segment.block.editable .buttons.editPage{
-        right: -6px; 
+        right: -6px;
         background-color: #edf7ff;
         > .toolsDate{
             background-color: #fff1d5;
@@ -563,8 +591,12 @@ body.layout#tinymce{
             display: flex;
         }
     }
-    .mce-content-body:not(.mce-edit-focus){
+    .mce-content-body:not(.mce-edit-focus):not(.paper_template_select){
         outline: 1px dotted @lightGrey;
+    }
+    .paper_template_select.mce-content-body:not(.mce-edit-focus){
+        outline: 1px dashed #90E1DE;
+        margin: 5px 10px;
     }
     .mce-content-body:empty:not(.mce-edit-focus):before{
         content:attr(data-text);
@@ -670,7 +702,7 @@ body.layout#tinymce{
         }
         &:nth-child(4){
             top: 90px;
-            background-color: #fff1d5;;
+            background-color: #f8f3ff;
         }
         button[data-tooltip]::after{
             font-weight: 700;
@@ -734,7 +766,7 @@ body.layout#tinymce{
         padding: 5px;
         margin: 0 -5px;
     }
-    .mce-edit-focus{
+    .mce-edit-focus:not(.paper_template_select){
         //outline: 2px dashed @green;
         background: linear-gradient(90deg, @green 50%, transparent 50%),
                     linear-gradient(90deg, @green 50%, transparent 50%),
@@ -745,6 +777,18 @@ body.layout#tinymce{
         padding: 5px;
         margin: 0 -5px;
         animation: border-dance 40s infinite linear;
+        height: max-content;
+    }
+    .mce-edit-focus.paper_template_select{
+        //outline: 2px dashed @green;
+        background: linear-gradient(90deg, @teal 50%, transparent 50%),
+                    linear-gradient(90deg, @teal 50%, transparent 50%),
+                    linear-gradient(0deg, @teal 50%, transparent 50%),
+                    linear-gradient(0deg, @teal 50%, transparent 50%);
+        background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+        background-size: 12px 3px, 12px 3px, 3px 12px, 3px 12px;
+        animation: border-dance 40s infinite linear;
+        margin: 5px 10px;
         height: max-content;
     }
 
@@ -774,5 +818,15 @@ body.layout#tinymce{
     }
     .tox-toolbar-dock-fadein{
         z-index: 2;
+    }
+}
+.layout.preview{
+    background: @white !important;
+    background-image: none !important;
+    .ui.segment[data-component="presented"]{
+        margin: 50px 30px 0;
+        border: 0;
+        box-shadow: none;
+        padding: 0 1em;
     }
 }

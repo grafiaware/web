@@ -73,8 +73,8 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
                     $this->classMap->resolveClass($itemViewModel->isOnPath(), 'Item', 'li.onpath', 'li'),
                     $this->classMap->resolveClass($itemViewModel->isLeaf(), 'Item', 'li.leaf', 'li'),
                     $this->classMap->resolveClass($itemViewModel->isPresented(), 'Item', 'li.presented', 'li'),
+                    $this->classMap->resolveClass($itemViewModel->isCutted(), 'Item', 'li.cut', 'li')
                     ],
-                 'style'=> $itemViewModel->isCutted() ? 'background-color: orange' : ''
                 ],
                 $innerHtml);
         return $html;
@@ -150,23 +150,21 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
     }
     private function getButtonPaste(HierarchyNodeInterface $menuNode, $pastedUid) {
         return Html::tag('button', [
-                'class'=>$this->classMap->getClass('Buttons', 'div button'),
+                'class'=>$this->classMap->getClass('Buttons', 'div button.paste'),
                 'data-tooltip'=>'Vložit jako sourozence',
                 'type'=>'submit',
                 'formmethod'=>'post',
                 'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/paste/$pastedUid",
-                'style'=>'background-color: salmon',
                     ],
                 Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button3 i')])
             )
             .
             Html::tag('button', [
-                'class'=>$this->classMap->getClass('Buttons', 'div button'),
+                'class'=>$this->classMap->getClass('Buttons', 'div button.paste'),
                 'data-tooltip'=>'Vložit jako potomka',
                 'type'=>'submit',
                 'formmethod'=>'post',
                 'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/pastechild/$pastedUid",
-                'style'=>'background-color: salmon',
                     ],
                 Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button4 i')])
             );
