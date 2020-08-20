@@ -15,6 +15,7 @@
 var headlineConfig = {
     selector: '.editable headline',
     schema : 'html5',
+    placeholder: 'Nadpis',
 
     language : tinyConfig.toolbarsLang,
     document_base_url : tinyConfig.basePath,
@@ -25,15 +26,16 @@ var headlineConfig = {
     plugins: [
     'lists',
     'paste',
-    'autolink', 'save'
+    'autolink',  
+    'quickbars',
+    'link'
     ],
-    toolbar: 'undo redo | bold italic underline | save',
-    // valid_elements: 'strong,em,span[style],a[href]',
-    // valid_styles: {
-    //  '*': 'font-size,font-family,color,text-decoration,text-align'
-    // },
+    toolbar: false,
+    quickbars_insert_toolbar: '',
+    quickbars_selection_toolbar: 'undo redo | removeformat italic | link ',
+//    toolbar: 'undo redo | bold italic underline | save',
     relative_urls : true,
-    extended_valid_elements : 'i[*], headline',
+    extended_valid_elements : ['i[*]', 'headline'],
     custom_elements: 'headline'
 };
 
@@ -126,7 +128,7 @@ var editorFunction = function (editor) {
     };
 
 var segmentConfig = {
-  selector: '.headlined.editable content', //.segment:not(.locked):not(.notpermitted) .grafia.segment...
+    selector: '.headlined.editable content', //.segment:not(.locked):not(.notpermitted) .grafia.segment...
     schema : 'html5',
 
     language : tinyConfig.toolbarsLang,
@@ -139,7 +141,7 @@ var segmentConfig = {
        'paste advlist autolink lists link  charmap  preview hr anchor pagebreak image code', // codesample print  //
        'searchreplace wordcount visualblocks visualchars code fullscreen',
        'insertdatetime  nonbreaking noneditable save autosave table directionality',
-       'template textpattern searchreplace image imagetools save'
+       'template textpattern searchreplace image imagetools save formatpainter cancel'
 //       'template textpattern searchreplace image imagetools save example'
     ],
     templates: [
@@ -157,10 +159,37 @@ var segmentConfig = {
         { title: 'Menu - 1 položka (bez gridu) dalsi', description: 'Vložení položky menu na stránku', url: tinyConfig.content_templates_path + 'menu_1polozka_1_delsi_1.html'},
         { title: 'Menu - 1 položka (bez gridu) verze 2', description: 'Vložení položky menu na stránku', url: tinyConfig.content_templates_path + 'menu_1polozka_2.html'}
     ],
-    toolbar1: 'undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent'
-            + ' | hr | nonbreaking | forecolor backcolor ' + ' | fontsizeselect | code | searchreplace template | link image | save'
+//    toolbar1: 'undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent'
+//            + ' | hr | nonbreaking | forecolor backcolor ' + ' | fontsizeselect | code | searchreplace template | link image | save'
 //            + ' | example vlozitNadpis vlozitOdstavec'
-            ,
+    toolbar: 'save cancel | undo redo | fontstyle fontweight | aligment | list | template | link image | code',
+    toolbar_groups: {
+        fontstyle: {
+          icon: 'format',
+          tooltip: 'Písmo',
+          items: 'styleselect fontsizeselect forecolor | formatpainter removeformat'
+        },
+        fontweight: {
+          icon: 'bold',
+          tooltip: 'Formát',
+          items: 'bold italic underline strikethrough | nonbreaking'
+        },
+        aligment: {
+          icon: 'align-left',
+          tooltip: 'Zarovnání',
+          items: 'alignleft aligncenter alignright alignjustify'
+        },
+        list: {
+          icon: 'ordered-list',
+          tooltip: 'Odrážky',
+          items: 'bullist numlist outdent indent'
+        }
+    },
+    mobile: {
+        menubar: false,
+        plugins: [ 'save', 'cancel', 'lists', 'autolink' ],
+        toolbar: [ 'save', 'cancel', 'undo', 'bold', 'italic', 'styleselect' ]
+    },
 
     imagetools_toolbar: 'editimage | rotateleft rotateright | flipv fliph | imageoptions',
     relative_urls: true,
@@ -175,8 +204,9 @@ var segmentConfig = {
 };
 
 var perexConfig = {
-  selector: '.editable perex', //.segment:not(.locked):not(.notpermitted) .grafia.segment...
+    selector: '.editable perex', //.segment:not(.locked):not(.notpermitted) .grafia.segment...
     schema : 'html5',
+    placeholder: 'Vyplňte perex',
 
     language : tinyConfig.toolbarsLang,
     document_base_url : tinyConfig.basePath,
@@ -188,7 +218,7 @@ var perexConfig = {
        'paste advlist autolink lists link  charmap  preview hr anchor pagebreak image code', // codesample print  //
        'searchreplace wordcount visualblocks visualchars code fullscreen',
        'insertdatetime  nonbreaking noneditable save autosave table directionality',
-       'template textpattern searchreplace image imagetools save'
+       'template textpattern searchreplace image imagetools save cancel'
 //       'template textpattern searchreplace image imagetools save example'
     ],
     templates: [
@@ -206,10 +236,11 @@ var perexConfig = {
         { title: 'Menu - 1 položka (bez gridu) dalsi', description: 'Vložení položky menu na stránku', url: tinyConfig.content_templates_path + 'menu_1polozka_1_delsi_1.html'},
         { title: 'Menu - 1 položka (bez gridu) verze 2', description: 'Vložení položky menu na stránku', url: tinyConfig.content_templates_path + 'menu_1polozka_2.html'}
     ],
-    toolbar1: 'undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent'
-            + ' | hr | nonbreaking | forecolor backcolor ' + ' | fontsizeselect | code | searchreplace template | link image | save'
+//    toolbar1: 'undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent'
+//            + ' | hr | nonbreaking | forecolor backcolor ' + ' | fontsizeselect | code | searchreplace template | link image | save'
 //            + ' | example vlozitNadpis vlozitOdstavec'
-            ,
+    toolbar1: 'save cancel | undo redo | formatpainter removeformat | bold italic underline strikethrough nonbreaking | alignleft aligncenter alignright alignjustify | link image ',
+    toolbar2: 'styleselect fontsizeselect forecolor | bullist numlist outdent indent | template | code',
 
     imagetools_toolbar: 'editimage | rotateleft rotateright | flipv fliph | imageoptions',
     relative_urls: true,
@@ -290,50 +321,6 @@ var selectPaperTemplateConfig = {
        // { title: 'Publikace', description: 'Grafia web - publikace',   url: tinyConfig.paper_templates_path + 'block.html'},
     ]
 };
-var vyberSablony = {
-    selector: '.vyber_sablony',
-    schema : 'html5',
-
-    language : tinyConfig.toolbarsLang,
-    document_base_url : tinyConfig.basePath,
-    content_css: tinyConfig.contentCss,
-    body_class: "layout preview",
-
-    menubar: false,
-    inline: true,
-    plugins: [
-    'template', 'save', 'noneditable', 'code'
-    ],
-    toolbar: 'template | save | styleselect code',
-    relative_urls : true,
-    extended_valid_elements : 'i[*], headline, content, perex',
-    custom_elements: 'headline, content, perex',
-    valid_children: '+a[div], form[perex], form[content]',
-    link_title: false,
-    noneditable_editable_class: 'mceEditable',
-    noneditable_noneditable_class: 'mceNonEditable',
-    templates: [
-        { title: 'Kontakt', description: 'Grafia web - kontakt',  url: tinyConfig.content_templates_path + 'ohraniceny_blok.html'},
-    ],
-    style_formats: [
-        { title: 'Headers', items: [
-          { title: 'Nadpis h2', block: 'h2' },
-          { title: 'Nadpis h3', block: 'h3' }
-        ] },
-
-        { title: 'Blocks', items: [
-          { title: 'Odstavec', block: 'p' },
-          { title: 'Blok', block: 'div' }
-        ] },
-
-        { title: 'Containers', items: [
-          { title: 'sekce', block: 'section', merge_siblings: false },
-          { title: 'článek', block: 'article',  merge_siblings: false },
-          { title: 'citace', block: 'blockquote' },
-          { title: 'doplněk', block: 'aside' }
-        ] }
-  ],
-};
 
 
 
@@ -343,4 +330,3 @@ tinymce.init(perexConfig);
 tinymce.init(blockConfig);
 tinymce.init(headerFooterConfig);
 tinymce.init(selectPaperTemplateConfig);
-tinymce.init(vyberSablony);
