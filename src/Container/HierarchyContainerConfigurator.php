@@ -95,41 +95,16 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
         return [
             #################################
             # Konfigurace databáze
-            # Konfigurace databáze může být v aplikačním kontejneru nebo různá v jednotlivých middleware kontejnerech.
-            #
-            ## konfigurována jen jedna databáze pro celou aplikaci
-            ## konfigurována dvě připojení k databázi - jedno pro vývoj a druhé pro běh na produkčním stroji
-            #
-            'dbUpgrade.db.type' => DbTypeEnum::MySQL,
-            'dbUpgrade.db.port' => '3306',
-            'dbUpgrade.db.charset' => 'utf8',
-            'dbUpgrade.db.collation' => 'utf8_general_ci',
-            #
-            #####################################
-            # Konfigurace hierarchy tabulek
-            'hierarchy.table' => 'hierarchy',
-            'hierarchy.view' => 'hierarchy_view',
-            'hierarchy.menu_item_table' => 'menu_item',
-            #         
-            #################################
-            # Konfigurace databáze
-            # Konfigurována jen jedna databáze pro celou aplikaci - v kontejneru dbUpgrade
-            # Zde konfigurována dvě připojení k databázi - jedno pro vývoj a druhé pro běh na produkčním stroji
+            # Konfigurovány databáze - v kontejneru dbUpgrade
             #
             'hierarchy.db.development.user.name' => 'grafia_upgrader',
             'hierarchy.db.development.user.password' => 'grafia_upgrader',
-            'hierarchy.db.development.connection.host' => 'localhost',
-            'hierarchy.db.development.connection.name' => 'grafia_upgrade',
 
             'hierarchy.db.production.user.name' => 'xxxxxxxxxxxxxxxxx',
             'hierarchy.db.production.user.password' => 'xxxxxxxxxxxxxxxxxxxx',
-            'hierarchy.db.production.connection.host' => 'xxxx',
-            'hierarchy.db.production.connection.name' => 'xxxx',
             #
-            #  Konec sekce konfigurace databáze
             ###################################
-
-            // konfigurace menu
+            # konfigurace menu
             'menu.new_title' => 'Nová položka',
             'menu.trash_type' => 'trash',
 
@@ -309,28 +284,9 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
                             $c->get('hierarchy.db.production.user.name'),
                             $c->get('hierarchy.db.production.user.password'));                }
             },
-            ConnectionInfo::class => function(ContainerInterface $c) {
-                if (PES_DEVELOPMENT) {
-                    return new ConnectionInfo(
-                            $c->get('dbUpgrade.db.type'),
-                            $c->get('hierarchy.db.development.connection.host'),
-                            $c->get('hierarchy.db.development.connection.name'),
-                            $c->get('dbUpgrade.db.charset'),
-                            $c->get('dbUpgrade.db.collation'),
-                            $c->get('dbUpgrade.db.port'));
-                } elseif(PES_PRODUCTION) {
-                    return new ConnectionInfo(
-                            $c->get('dbUpgrade.db.type'),
-                            $c->get('hierarchy.db.production.connection.host'),
-                            $c->get('hierarchy.db.production.connection.name'),
-                            $c->get('dbUpgrade.db.charset'),
-                            $c->get('dbUpgrade.db.collation'),
-                            $c->get('dbUpgrade.db.port'));
-                }
-            },
             Handler::class => function(ContainerInterface $c) : HandlerInterface {
                 // povinný logger do kostruktoru = pro logování exception při intancování Handleru a PDO
-                $logger = $c->get('dbUpgradeLogger');
+                $logger = $c->get('dbupgradeLogger');
                 return new Handler(
                         $c->get(Account::class),
                         $c->get(ConnectionInfo::class),

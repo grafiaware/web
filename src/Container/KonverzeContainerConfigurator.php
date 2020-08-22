@@ -56,13 +56,9 @@ class KonverzeContainerConfigurator extends ContainerConfiguratorAbstract {
 
             'konverze.db.development.user.name' => 'grafia_upgrader',
             'konverze.db.development.user.password' => 'grafia_upgrader',
-            'konverze.db.development.connection.host' => 'localhost',
-            'konverze.db.development.connection.name' => 'grafia_upgrade',
 
             'konverze.db.production.user.name' => 'xxxxxxxxxxxxxxxxx',
             'konverze.db.production.user.password' => 'xxxxxxxxxxxxxxxxxxxx',
-            'konverze.db.production.connection.host' => 'xxxx',
-            'konverze.db.production.connection.name' => 'xxxx',
 
             #
             #  Konec sekce konfigurace databáze
@@ -91,7 +87,7 @@ class KonverzeContainerConfigurator extends ContainerConfiguratorAbstract {
             #
             // manipulator
             Manipulator::class => function(ContainerInterface $c) : Manipulator {
-                return new Manipulator($c->get(Handler::class), $c->get('konverze.db.logger'));
+                return new Manipulator($c->get(Handler::class), $c->get('konverzeLogger'));
             },
 
             // hierarchny
@@ -119,11 +115,10 @@ class KonverzeContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getServicesOverrideDefinitions() {
         return [
-            // db objekty
-            'konverze.db.logger' => function(ContainerInterface $c) {
+            'konverzeLogger' => function(ContainerInterface $c) {
                 return FileLogger::getInstance($c->get('konverze.db.logs.directory'), $c->get('konverze.db.logs.file'), FileLogger::REWRITE_LOG); //new NullLogger();
             },
-
+            // db objekty
             Account::class => function(ContainerInterface $c) {
                 // account NENÍ vytvářen s použitím User - není třeba přidávat do SecurityContextObjectsRemover
                 if (PES_DEVELOPMENT) {
@@ -136,49 +131,9 @@ class KonverzeContainerConfigurator extends ContainerConfiguratorAbstract {
                             $c->get('konverze.db.production.user.password'));
                 }
             },
-            ConnectionInfo::class => function(ContainerInterface $c) {
-                if (PES_DEVELOPMENT) {
-                    return new ConnectionInfo(
-                            $c->get('dbUpgrade.db.type'),
-                            $c->get('konverze.db.development.connection.host'),
-                            $c->get('konverze.db.development.connection.name'),
-                            $c->get('dbUpgrade.db.charset'),
-                            $c->get('dbUpgrade.db.collation'),
-                            $c->get('dbUpgrade.db.port'));
-                } elseif(PES_PRODUCTION) {
-                    return new ConnectionInfo(
-                            $c->get('dbUpgrade.db.type'),
-                            $c->get('konverze.db.production.connection.host'),
-                            $c->get('konverze.db.production.connection.name'),
-                            $c->get('dbUpgrade.db.charset'),
-                            $c->get('dbUpgrade.db.collation'),
-                            $c->get('dbUpgrade.db.port'));
-                }
-            },
-            DsnProviderMysql::class =>  function(ContainerInterface $c) {
-                $dsnProvider = new DsnProviderMysql();
-                if (PES_DEVELOPMENT) {
-                    $dsnProvider->setLogger($c->get('konverze.db.logger'));
-                }
-                return $dsnProvider;
-            },
-            OptionsProviderMysql::class =>  function(ContainerInterface $c) {
-                $optionsProvider = new OptionsProviderMysql();
-                if (PES_DEVELOPMENT) {
-                    $optionsProvider->setLogger($c->get('konverze.db.logger'));
-                }
-                return $optionsProvider;
-            },
-            AttributesProvider::class =>  function(ContainerInterface $c) {
-                $attributesProvider = new AttributesProvider();
-                if (PES_DEVELOPMENT) {
-                    $attributesProvider->setLogger($c->get('konverze.db.logger'));
-                }
-                return $attributesProvider;
-            },
             Handler::class => function(ContainerInterface $c) : HandlerInterface {
                 // povinný logger do kostruktoru = pro logování exception při intancování Handleru a PDO - zde používám stejný logger pro všechny db objekty
-                $logger = $c->get('konverze.db.logger');
+                $logger = $c->get('dbupgradeLogger');
                 return new Handler(
                         $c->get(Account::class),
                         $c->get(ConnectionInfo::class),

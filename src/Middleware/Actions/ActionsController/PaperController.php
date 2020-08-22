@@ -47,6 +47,72 @@ class PaperController extends PresentationFrontControllerAbstract {
         $html = (new RequestParams())->getParam($request, 'paper_template');  // jméno POST proměnné je vytvořeno v paper rendereru
         $text = html_entity_decode($html, ENT_HTML5);
         $layoutDocument = new \DOMDocument('1.0', 'utf-8');
+        $this->loadHtml($layoutDocument, $text);
+
+        $headlineElement = $layoutDocument->getElementsByTagName('headline')->item(0);
+        $perexElement = $layoutDocument->getElementsByTagName('perex')->item(0);
+        if($this->paperRepo->getByReference($menuItemId)){
+            user_error("Zadaná položka menu již ma připojen článek (paper).", E_USER_WARNING);
+        }
+        if ($headlineElement AND $perexElement) {
+            $paper = new Paper();
+            $editor = $this->statusSecurityRepo->get()->getUser()->getUserName();
+            $paper
+                    ->setEditor($editor)
+                    ->setHeadline($this->getInnerHtml($headlineElement->childNodes))
+                    ->setMenuItemIdFk($menuItemId)
+                    ->setPerex($this->getInnerHtml($perexElement->childNodes));
+            $this->paperRepo->add($paper);
+        } else {
+            $this->addFlashMessage("Paper creating failed. No healine or perex element detected.");
+        }
+
+        return $this->redirectSeeOther($request,'www/last/'); // 303 See Other
+
+    }
+
+    private function loadHtml($layoutDocument, $text) {
+//libxml_use_internal_errors(TRUE);
+//// Do your load here
+//$errors = libxml_get_errors();
+//
+//foreach ($errors as $error)
+//{
+//    /* @var $error LibXMLError */
+//}
+//
+//Here is a print_r() of a single error:
+//
+//LibXMLError Object
+//(
+//    [level] => 2
+//    [code] => 801
+//    [column] => 17
+//    [message] => Tag section invalid
+//
+//    [file] =>
+//    [line] => 39
+//)
+
+        @$layoutDocument->loadHTML(
+"<!DOCTYPE html>
+<!--
+
+-->
+<html>
+    <head>
+        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\"/>
+    </head>
+    <body>"
+                .
+                $text
+                .
+    "</body>
+</html>"
+           );
+    }
+
+    private function loadXml($layoutDocument, $text) {
         $layoutDocument->loadXML(
 "<?xml version=\"1.0\" encoding=\"utf-8\"?>
 <html>
@@ -60,29 +126,18 @@ class PaperController extends PresentationFrontControllerAbstract {
     "</body>
 </html>"
            );
-
-        $bodyElement = $layoutDocument->getElementsByTagName('body')->item(0);
-        $headlineElement = $layoutDocument->getElementsByTagName('headline')->item(0);
-        $perexElement = $layoutDocument->getElementsByTagName('perex')->item(0);
-        if($this->paperRepo->getByReference($menuItemId)){
-            user_error("Zadaná položka menu již ma připojen článek (paper).", E_USER_WARNING);
-        }
-        if ($headlineElement AND $perexElement) {
-            $paper = new Paper();
-            $editor = $this->statusSecurityRepo->get()->getUser()->getUserName();
-            $paper
-                    ->setEditor($editor)
-                    ->setHeadline($headlineElement->textContent)
-                    ->setMenuItemIdFk($menuItemId)
-                    ->setPerex($perexElement->textContent);
-            $this->paperRepo->add($paper);
-        } else {
-            $this->addFlashMessage("Paper creating failed. No healine or perex element detected.");
-        }
-
-        return $this->redirectSeeOther($request,'www/last/'); // 303 See Other
-
     }
+
+    private function getInnerHtml(\DOMDocument $document, \DOMNodeList $nodeList) {
+        $html = "";
+        foreach ($nodeList as $node) {
+            /** @var \DOMNode $node */
+            $html .= $document->saveHTML($node);
+
+        }
+        return $html;
+    }
+
     /**
      *
      * @param ServerRequestInterface $request

@@ -42,14 +42,36 @@ class DbUpgradeContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getFactoriesDefinitions() {
         return [
-            #################################
-            # Konfigurace logu
+            #####################################
+            # Konfigurace databáze
             #
-            'dbUpgrade.logs.db.directory' => 'Logs/DbUpgrade',
-            'dbUpgrade.logs.db.file' => 'Database.log',
+            # konfigurovány dvě databáze pro Hierarchy a Konverze kontejnery
+            # - jedna pro vývoj a druhá pro běh na produkčním stroji
+            #
+            'dbUpgrade.db.type' => DbTypeEnum::MySQL,
+            'dbUpgrade.db.port' => '3306',
+            'dbUpgrade.db.charset' => 'utf8',
+            'dbUpgrade.db.collation' => 'utf8_general_ci',
+            'dbUpgrade.db.development.connection.host' => 'localhost',
+            'dbUpgrade.db.development.connection.name' => 'grafia_upgrade',
+            'dbUpgrade.db.production.connection.host' => 'xxxx',
+            'dbUpgrade.db.production.connection.name' => 'xxxx',
             #
             #  Konec sekce konfigurace databáze
-            ################################### 
+            ###################################
+            # Konfigurace logu databáze
+            #
+            'dbUpgrade.logs.db.directory' => 'Logs/Hierarchy',
+            'dbUpgrade.logs.db.file' => 'Database.log',
+            #
+            #################################
+            # Konfigurace hierarchy tabulek
+            #
+            'hierarchy.table' => 'hierarchy',
+            'hierarchy.view' => 'hierarchy_view',
+            'hierarchy.menu_item_table' => 'menu_item',
+            #
+            #################################
         ];
     }
 
@@ -65,29 +87,48 @@ class DbUpgradeContainerConfigurator extends ContainerConfiguratorAbstract {
     public function getServicesDefinitions() {
         return [
             // db objekty
-            'dbUpgradeLogger' => function(ContainerInterface $c) {
+            'dbupgradeLogger' => function(ContainerInterface $c) {
                 return FileLogger::getInstance($c->get('dbUpgrade.logs.db.directory'), $c->get('dbUpgrade.logs.db.file'), FileLogger::REWRITE_LOG); //new NullLogger();
             },
             DsnProviderMysql::class =>  function(ContainerInterface $c) {
                 $dsnProvider = new DsnProviderMysql();
                 if (PES_DEVELOPMENT) {
-                    $dsnProvider->setLogger($c->get('dbUpgradeLogger'));
+                    $dsnProvider->setLogger($c->get('dbupgradeLogger'));
                 }
                 return $dsnProvider;
             },
             OptionsProviderMysql::class =>  function(ContainerInterface $c) {
                 $optionsProvider = new OptionsProviderMysql();
                 if (PES_DEVELOPMENT) {
-                    $optionsProvider->setLogger($c->get('dbUpgradeLogger'));
+                    $optionsProvider->setLogger($c->get('dbupgradeLogger'));
                 }
                 return $optionsProvider;
             },
             AttributesProvider::class =>  function(ContainerInterface $c) {
                 $attributesProvider = new AttributesProvider();
                 if (PES_DEVELOPMENT) {
-                    $attributesProvider->setLogger($c->get('dbUpgradeLogger'));
+                    $attributesProvider->setLogger($c->get('dbupgradeLogger'));
                 }
                 return $attributesProvider;
+            },
+            ConnectionInfo::class => function(ContainerInterface $c) {
+                if (PES_DEVELOPMENT) {
+                    return new ConnectionInfo(
+                            $c->get('dbUpgrade.db.type'),
+                            $c->get('dbUpgrade.db.development.connection.host'),
+                            $c->get('dbUpgrade.db.development.connection.name'),
+                            $c->get('dbUpgrade.db.charset'),
+                            $c->get('dbUpgrade.db.collation'),
+                            $c->get('dbUpgrade.db.port'));
+                } elseif(PES_PRODUCTION) {
+                    return new ConnectionInfo(
+                            $c->get('dbUpgrade.db.type'),
+                            $c->get('dbUpgrade.db.production.connection.host'),
+                            $c->get('dbUpgrade.db.production.connection.name'),
+                            $c->get('dbUpgrade.db.charset'),
+                            $c->get('dbUpgrade.db.collation'),
+                            $c->get('dbUpgrade.db.port'));
+                }
             },
         ];
     }

@@ -62,6 +62,12 @@ class SelectorFactory {
                     new \Middleware\Status\SecurityStatus(),
                     new \Middleware\Login\Login()
                 ];},
+            '/component/'=>
+            function(AppInterface $app) {
+                return [
+                    new \Middleware\Status\SecurityStatus(),
+                    new \Middleware\Xhr\Component()
+                ];},
             '/rs'=>
             function(AppInterface $app) {
                 return [

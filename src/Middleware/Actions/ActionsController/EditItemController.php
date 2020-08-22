@@ -47,7 +47,7 @@ class EditItemController extends PresentationFrontControllerAbstract {
         $postOriginalTitle = (new RequestParams())->getParam($request, 'original-title');
         $menuItem->setTitle($postTitle);
         $this->addFlashMessage("menuItem title($postTitle)");
-        return $this->redirectSeeOther($request,'www/last/'); // 303 See Other
+        return $this->okMessageResponse("Uložen nový text položky menu:".PHP_EOL.$postTitle);
     }
 
     public function type(ServerRequestInterface $request, $uid) {
@@ -69,4 +69,12 @@ class EditItemController extends PresentationFrontControllerAbstract {
     private function getMenuItem($uid) {
         return $this->menuItemRepo->get($this->statusPresentationRepo->get()->getLanguage()->getLangCode(), $uid);
     }
+
+    private function okMessageResponse($messageText) {
+        // vracím 200 OK - použití 204 NoContent způsobí, že v jQuery kódu .done(function(data, textStatus, jqXHR) je proměnná data undefined a ani jqXhr objekt neobsahuje vrácený text - jQuery předpoklákládá, že NoContent znamená NoContent
+        $response = new Response();
+        $response->getBody()->write($messageText);
+        return $response;
+    }
+
 }

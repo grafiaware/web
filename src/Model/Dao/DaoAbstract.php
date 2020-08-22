@@ -105,7 +105,7 @@ class DaoAbstract {
         if ($checkDuplicities) {
             $num_rows = $statement->rowCount();
             if ($num_rows > 1) {
-                user_error("V databázi existuje duplicitní záznam list=$lang_code", E_USER_WARNING);
+                user_error("V databázi existuje duplicitní záznam.". "Dao: ".get_called_class().", ". print_r($touplesToBind, true), E_USER_WARNING);
             }
         }
         return $statement->fetch(\PDO::FETCH_ASSOC);
