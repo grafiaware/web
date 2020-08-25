@@ -369,6 +369,13 @@
             padding-left: 1em;
             margin-bottom: 5px;
         }
+        form{
+            margin-bottom: 5px;
+            position: relative;
+        }
+        > form {
+            margin: 0;
+        }
         i.grafia.active{
             left: -1em;
         }
@@ -387,9 +394,12 @@
             outline-color: darken(@lightGrey,15);
         }
     }
-    .section{
+    section{
         height: 100%;
         position: relative;
+        &:not(:last-child){
+            margin-bottom: 10px;
+        }
         > form:nth-of-type(2){
             position: static !important;
         }
@@ -494,7 +504,7 @@
             font-weight: 700;
         }
     }
-    .section .ui.corner.label{
+    section .ui.corner.label{
         width: 2em;
         height: 2em;
         .icon.editContent{
@@ -504,6 +514,11 @@
             }
             .icons .icon{
                 transform: translateX(50%);
+            }
+        }
+        .icon.editDate{
+            .icon{
+                position: initial;
             }
         }
     }

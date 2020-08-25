@@ -238,16 +238,16 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
                 $hideTime = $hide->format("d.m.Y");
                 $textZobrazeni = "Zobrazeno od $showTime  do $hideTime";
             } else {
-                $hideTime = '0';
+                $hideTime = '';
                 $textZobrazeni = "Zobrazeno od $showTime";
             }
         } elseif (isset($hide)) {
-            $showTime = '0';
+            $showTime = '';
             $hideTime = $hide->format("d.m.Y");
             $textZobrazeni = "Zobrazeno do $hideTime";
         } else {
-            $showTime = '0';
-            $hideTime = '0';
+            $showTime = '';
+            $hideTime = '';
             $textZobrazeni = "Zobrazeno trvale";
         }
 
