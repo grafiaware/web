@@ -223,7 +223,7 @@ class ActionsContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(DsnProviderMysql::class),
                         $c->get(OptionsProviderMysql::class),
                         $c->get(AttributesProvider::class),
-                        $c->get('dbUpgradeLogger'));
+                        $c->get('dbupgradeLogger'));
                 return $handler;
             },
         ];

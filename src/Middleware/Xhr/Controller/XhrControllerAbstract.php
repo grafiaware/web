@@ -10,6 +10,7 @@ namespace Middleware\Xhr\Controller;
 
 use Controller\PresentationFrontControllerAbstract;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 use Psr\Container\ContainerInterface;
 
@@ -93,5 +94,14 @@ abstract class XhrControllerAbstract extends PresentationFrontControllerAbstract
     }
 
 ######################################
-
+    /**
+     * Přetěžuje addHeaders() z FrontControllerAbstract
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @return ResponseInterface
+     */
+    public function addHeaders(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
+        $response = $response->withHeader('Cache-Control', 'public, max-age=180');
+        return $response;
+    }
 }

@@ -117,6 +117,11 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
                 $this->templatesLayout['links'] = PROJECT_DIR.'/templates/layout/head/editableJsLinks.php';
                 $this->templatesLayout['tiny_config'] = PROJECT_DIR.'/templates/layout/head/tiny_config.js';
                 break;
+            case 'xhr':
+                $this->templatesLayout['layout'] = PROJECT_DIR.'/templates/layoutXhr/layout.php';
+                $this->templatesLayout['links'] = PROJECT_DIR.'/templates/layoutXhr/head/editableJsLinks.php';
+                $this->templatesLayout['tiny_config'] = PROJECT_DIR.'/templates/layoutXhr/head/tiny_config.js';
+                break;
             case 'new':
                 $this->templatesLayout['layout'] = PROJECT_DIR.'/templates/newlayout/layout.php';
                 $this->templatesLayout['links'] = PROJECT_DIR.'/templates/newlayout/head/editableJsLinks.php';

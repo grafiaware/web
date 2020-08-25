@@ -66,6 +66,7 @@ class SelectorFactory {
             function(AppInterface $app) {
                 return [
                     new \Middleware\Status\SecurityStatus(),
+                    new \Middleware\Xhr\Transformator(),
                     new \Middleware\Xhr\Component()
                 ];},
             '/rs'=>
