@@ -26,7 +26,7 @@ var headlineConfig = {
     plugins: [
     'lists',
     'paste',
-    'autolink',  
+    'autolink',
     'quickbars',
     'link'
     ],

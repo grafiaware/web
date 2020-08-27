@@ -6,7 +6,6 @@
             <?php include "head.php"; ?>
         </head>
         <body class="layout">
-
             <?php include "body_editacni.php"; ?>
         </body>
 </html>

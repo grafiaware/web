@@ -109,11 +109,11 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
     }
 
     private function initLayoutTemplatesVars() {
-        $theme = 'old';
+        $theme = 'xhr';
 
         switch ($theme) {
             case 'old':
-                $this->templatesLayout['layout'] = PROJECT_DIR.'/templates/layout.php';
+                $this->templatesLayout['layout'] = PROJECT_DIR.'/templates/layout/layout.php';
                 $this->templatesLayout['links'] = PROJECT_DIR.'/templates/layout/head/editableJsLinks.php';
                 $this->templatesLayout['tiny_config'] = PROJECT_DIR.'/templates/layout/head/tiny_config.js';
                 break;
@@ -172,28 +172,22 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
                     ->setTemplate(new PhpTemplate($this->templatesLayout['links']))
                     ->setData([
                         'tinyMCEConfig' => $this->container->get(View::class)
-                            ->setTemplate(new InterpolateTemplate($this->templatesLayout['tiny_config']))
-                            ->setData([
-                                // pro tiny_config.js
-                                'basePath' => $basepath,
-                                'urlStylesCss' => $webPublicDir."grafia/css/styles.css",
-                                'urlSemanticCss' => $webPublicDir."semantic/dist/semantic.min.css",
-                                'urlZkouskaCss' => $webPublicDir."grafia/css/zkouska_less.css",
-                                'paperTemplatesPath' => $tinyPublicDir."paper/",
-                                'contentTemplatesPath' => $tinyPublicDir."content/",
-                                'toolbarsLang' => $toolsbarsLang
-                            ]),
-//                        'urlTinyMCE' => $commonPublicDir.'tinymce/tinymce.min.js',
-//                        'urlJqueryTinyMCE' => $commonPublicDir.'tinymce/jquery.tinymce.min.js',
+                                ->setTemplate(new InterpolateTemplate($this->templatesLayout['tiny_config']))
+                                ->setData([
+                                    // pro tiny_config.js
+                                    'basePath' => $basepath,
+                                    'urlStylesCss' => $webPublicDir."grafia/css/styles.css",
+                                    'urlSemanticCss' => $webPublicDir."semantic/dist/semantic.min.css",
+                                    'urlZkouskaCss' => $webPublicDir."grafia/css/zkouska_less.css",
+                                    'paperTemplatesPath' => $tinyPublicDir."paper/",
+                                    'contentTemplatesPath' => $tinyPublicDir."content/",
+                                    'toolbarsLang' => $toolsbarsLang
+                                ]),
 
-//                        'urlTinyMCE' => $commonPublicDir.'tinymce5_3_1\js\tinymce\tinymce.min.js',
-//                        'urlJqueryTinyMCE' => $commonPublicDir.'tinymce5_3_1\js\tinymce\jquery.tinymce.min.js',
-
-                        'urlTinyMCE' => $commonPublicDir.'tinymce5_4_0\js\tinymce\tinymce.min.js',
-                        'urlJqueryTinyMCE' => $commonPublicDir.'tinymce5_4_0\js\tinymce\jquery.tinymce.min.js',
-
-//                        'urlTinyMCE' => $commonPublicDir.'tinymce5_3_1_dev\js\tinymce\tinymce.js',
-//                        'urlJqueryTinyMCE' => $commonPublicDir.'tinymce5_3_1_dev\js\tinymce\jquery.tinymce.min.js',
+                        'urlTinyMCE' => $commonPublicDir.'tinymce5_3_1\js\tinymce\tinymce.min.js',
+                        'urlJqueryTinyMCE' => $commonPublicDir.'tinymce5_3_1\js\tinymce\jquery.tinymce.min.js',
+//                        'urlTinyMCE' => $commonPublicDir.'tinymce5_4_0\js\tinymce\tinymce.min.js',
+//                        'urlJqueryTinyMCE' => $commonPublicDir.'tinymce5_4_0\js\tinymce\jquery.tinymce.min.js',
 
 //    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 //    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
