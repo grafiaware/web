@@ -68,8 +68,51 @@ class TemplateController extends XhrControllerAbstract {
 
     }
 
-    public function rendered(ServerRequestInterface $request, $name) {
+    public function namedPaper(ServerRequestInterface $request, $name) {
         $view = $this->container->get('component.block')->setComponentName($name);
+        return $this->createResponseFromView($request, $view);
+    }
+
+    public function presentedPaper(ServerRequestInterface $request) {
+        $menuItem = $this->statusPresentationRepo->get()->getMenuItem();
+        $editable = $this->isEditableArticle();
+        $menuItemType = $menuItem->getTypeFk();
+            switch ($menuItemType) {
+                case 'segment':
+                    if ($editable) {
+                        $view = $this->container->get('article.block.editable');
+                    } else {
+                        $view = $this->container->get('article.block');
+                    }
+                    break;
+                case 'empty':
+                    if ($editable) {
+                        $view = $this->container->get(ItemTypeSelectComponent::class);
+                    } else {
+                        $view = $this->container->get('article.headlined');
+                    }
+                    break;
+                case 'paper':
+                    if ($editable) {
+                        $view = $this->container->get('article.headlined.editable');
+                    } else {
+                        $view = $this->container->get('article.headlined');
+                    }
+                    break;
+                case 'redirect':
+                    $view = "No content for redirect type.";
+                    break;
+                case 'root':
+                        $view = $this->container->get('article.headlined');
+                    break;
+                case 'trash':
+                        $view = $this->container->get('article.headlined');
+                    break;
+
+                default:
+                        $view = $this->container->get('article.headlined');
+                    break;
+            }
         return $this->createResponseFromView($request, $view);
     }
 

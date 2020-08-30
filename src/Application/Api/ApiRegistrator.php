@@ -90,6 +90,7 @@ class ApiRegistrator {
 
         ### component ###
         #### ComponentController ####
-        $registry->register($this->getPrototype->withUrlPattern('/component/rendered/:name'));
+        $registry->register($this->getPrototype->withUrlPattern('/component/namedpaper/:name'));
+        $registry->register($this->getPrototype->withUrlPattern('/component/presentedpaper'));
     }
 }

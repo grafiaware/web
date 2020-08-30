@@ -76,15 +76,14 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
 
     ### prezentace - view
 
-    protected function createView(ServerRequestInterface $request) {
+    protected function createView(ServerRequestInterface $request, array $componentViews) {
         #### speed test ####
 //        $timer = new Timer();
 //        $timer->start();
         $this->initLayoutTemplatesVars();
-        $this->setComponentViews($request);
 
         $layoutView = $this->getLayoutView($request);
-        foreach ($this->componentViews as $name => $componentView) {
+        foreach ($componentViews as $name => $componentView) {
             $layoutView->appendComponentView($componentView, $name);
         }
         return $layoutView;
@@ -158,7 +157,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
             $tinyPublicDir = \Middleware\Web\AppContext::getTinyPublicDirectory();
             ## document base path - stejná hodnota se musí použiít i v nastavení tinyMCE
             $basepath = $this->getBasePath($request);
-            // Language packages tinyMce požívají krátké i dlouhé kódy (k=d odpovídá jménu souboru např cs.js) - proto mapování
+            // Language packages tinyMce požívají krátké i dlouhé kódy, kód odpovídá jménu souboru např cs.js nebo en_US.js - proto mapování
             // pozn. - popisky šablon pro tiny jsou jen česky (TinyInit.js)
             $tinyLanguage = [
                 'cs' => 'cs',

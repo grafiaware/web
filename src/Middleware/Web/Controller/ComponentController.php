@@ -31,12 +31,6 @@ use \StatusManager\StatusPresentationManager;
 ####################
 //use Pes\Debug\Timer;
 use Pes\View\View;
-use Pes\View\Template\PhpTemplate;
-use Pes\View\Template\InterpolateTemplate;
-//use Pes\View\Recorder\RecorderProvider;
-//use Pes\View\Recorder\VariablesUsageRecorder;
-//use Pes\View\Recorder\RecordsLogger;
-
 
 /**
  * Description of GetControler
@@ -60,9 +54,8 @@ class ComponentController extends LayoutControllerAbstract {
         $rootMenuItem = $menuItemRepo->get($langCode, $uidFk );    // kořen menu
         $statusPresentation->setMenuItem($rootMenuItem);
 
-        $this->getMenuItemComponent($rootMenuItem);
-        return $this->createResponseFromView($request, $this->createView($request));
-    }
+        $actionComponents = ["content" => $this->getMenuItemComponent($rootMenuItem)];
+        return $this->createResponseFromView($request, $this->createView($request, $this->getComponentViews($actionComponents)));    }
 
     public function item(ServerRequestInterface $request, $langCode, $uid) {
         /** @var HierarchyNodeRepo $menuRepo */
@@ -71,8 +64,8 @@ class ComponentController extends LayoutControllerAbstract {
         if ($menuNode) {
             $menuItem = $menuNode->getMenuItem();
             $this->statusPresentationRepo->get()->setMenuItem($menuItem);
-            $this->getMenuItemComponent($menuItem);
-            return $this->createResponseFromView($request, $this->createView($request));
+            $actionComponents = ["content" => $this->getMenuItemComponent($menuItem)];
+            return $this->createResponseFromView($request, $this->createView($request, $this->getComponentViews($actionComponents)));
         } else {
             // neexistující stránka
             return $this->redirectSeeOther($request, ""); // SeeOther - ->home
@@ -80,8 +73,8 @@ class ComponentController extends LayoutControllerAbstract {
     }
 
     public function last(ServerRequestInterface $request) {
-        $this->getMenuItemComponent($this->statusPresentationRepo->get()->getMenuItem());
-        return $this->createResponseFromView($request, $this->createView($request));
+        $actionComponents = ["content" => $this->getMenuItemComponent($this->statusPresentationRepo->get()->getMenuItem())];
+        return $this->createResponseFromView($request, $this->createView($request, $this->getComponentViews($actionComponents)));
     }
 
     public function searchResult(ServerRequestInterface $request) {
@@ -89,8 +82,8 @@ class ComponentController extends LayoutControllerAbstract {
         /** @var SearchResultComponent $component */
         $component = $this->container->get(SearchResultComponent::class);
         $key = $request->getQueryParams()['klic'];
-        $this->componentViews["content"] = $component->setSearch($key);
-        return $this->createResponseFromView($request, $this->createView($request));
+        $actionComponents = ["content" => $component->setSearch($key)];
+        return $this->createResponseFromView($request, $this->createView($request, $this->getComponentViews($actionComponents)));
     }
 
 ##### private methods ##############################################################
@@ -117,14 +110,14 @@ class ComponentController extends LayoutControllerAbstract {
         return implode(PHP_EOL, $testHtml);
     }
 
-    protected function setComponentViews(ServerRequestInterface $request) {
-        $this->componentViews = array_merge(
-                $this->componentViews,
+    protected function getComponentViews(array $actionComponents) {
+        return array_merge(
+                $actionComponents,
                 $this->getGeneratedLayoutComponents(),
                 $this->getAuthoredLayoutComnponents(),
-                $this->getEmptyMenuComponents(),
-                $this->getMenuComponents(),
-                $this->getLayoutComponents()
+                $this->getLayoutComponents(),
+//                $this->getEmptyMenuComponents(),
+                $this->getMenuComponents()
                 );
     }
 
@@ -171,7 +164,14 @@ class ComponentController extends LayoutControllerAbstract {
                         $content = $this->container->get('article.headlined');
                     break;
             }
-        $this->componentViews["content"] = $content;
+        return $content;
+    }
+
+    private function getGeneratedLayoutComponents() {
+        return [
+            'languageSelect' => $this->container->get(LanguageSelectComponent::class),
+            'searchPhrase' => $this->container->get(SearchPhraseComponent::class),
+        ];
     }
 
     // pro debug
@@ -245,13 +245,6 @@ class ComponentController extends LayoutControllerAbstract {
                 ];
         }
         return $componets;
-    }
-
-    private function getGeneratedLayoutComponents() {
-        return [
-            'languageSelect' => $this->container->get(LanguageSelectComponent::class),
-            'searchPhrase' => $this->container->get(SearchPhraseComponent::class),
-        ];
     }
 
     private function getAuthoredLayoutComnponents() {
