@@ -38,7 +38,7 @@ use Pes\View\Template\InterpolateTemplate;
 //use Pes\View\Recorder\RecorderProvider;
 //use Pes\View\Recorder\VariablesUsageRecorder;
 //use Pes\View\Recorder\RecordsLogger;
-
+use \Pes\View\ViewFactory;
 
 /**
  * Description of GetControler
@@ -67,7 +67,7 @@ class TemplateController extends XhrControllerAbstract {
     }
 
     public function template(ServerRequestInterface $request, $name) {
-        return file_get_contents(AppContext::getTinyPublicDirectory()."paper/".$name);
+        return $this->createResponseFromString($request, file_get_contents(AppContext::getTinyPublicDirectory()."paper/".$name.".html"));
     }
 
     public function namedPaper(ServerRequestInterface $request, $name) {

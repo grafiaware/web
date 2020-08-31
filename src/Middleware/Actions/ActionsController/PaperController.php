@@ -59,9 +59,9 @@ class PaperController extends PresentationFrontControllerAbstract {
             $editor = $this->statusSecurityRepo->get()->getUser()->getUserName();
             $paper
                     ->setEditor($editor)
-                    ->setHeadline($this->getInnerHtml($headlineElement->childNodes))
+                    ->setHeadline($this->getInnerHtml($layoutDocument, $headlineElement->childNodes))
                     ->setMenuItemIdFk($menuItemId)
-                    ->setPerex($this->getInnerHtml($perexElement->childNodes));
+                    ->setPerex($this->getInnerHtml($layoutDocument, $perexElement->childNodes));
             $this->paperRepo->add($paper);
         } else {
             $this->addFlashMessage("Paper creating failed. No healine or perex element detected.");

@@ -77,6 +77,24 @@ abstract class PresentationFrontControllerAbstract extends StatusFrontController
         $response->getBody()->rewind();
         return $response;
     }
+    /**
+     *
+     * @param ServerRequestInterface $request
+     * @param ViewInterface $view
+     * @return ResponseInterface
+     */
+    public function createResponseFromString(ServerRequestInterface $request, $stringContent): ResponseInterface {
+
+        $response = (new ResponseFactory())->createResponse();
+
+        ####  hlavičky  ####
+        $response = $this->addHeaders($request, $response);
+
+        ####  body  ####
+        $size = $response->getBody()->write($stringContent);
+        $response->getBody()->rewind();
+        return $response;
+    }
 
     /**
      * Přetěžuje addHeaders() z FrontControllerAbstract
