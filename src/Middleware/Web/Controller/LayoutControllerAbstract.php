@@ -108,7 +108,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
     }
 
     private function initLayoutTemplatesVars() {
-        $theme = 'xhr';
+        $theme = 'old';
 
         switch ($theme) {
             case 'old':
