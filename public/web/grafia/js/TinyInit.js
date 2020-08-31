@@ -318,7 +318,7 @@ var selectPaperTemplateConfig = {
         { title: 'Článek', description: 'Grafia web - článek',       url: tinyConfig.paper_templates_path + 'paper.html'},
         { title: 'Kontakty', description: 'Grafia web - kontakty',       url: tinyConfig.paper_templates_path + 'paper-contact.html'},
         { title: 'Test - nový paper ze šablony', description: 'paper_test',       url: tinyConfig.paper_templates_path + 'paper_test.html'},
-        { title: 'Test - rendered component', description: 'rendered component',       url: 'component/rendered/a6'},
+        { title: 'Test - rendered component', description: 'rendered component',       url: 'component/namedpaper/a6'},
        // { title: 'Publikace', description: 'Grafia web - publikace',   url: tinyConfig.paper_templates_path + 'block.html'},
     ]
 };
