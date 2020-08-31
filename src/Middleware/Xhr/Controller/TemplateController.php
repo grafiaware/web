@@ -20,6 +20,8 @@ use Component\View\{
     Generated\ItemTypeSelectComponent
 };
 
+use \Middleware\Xhr\AppContext;
+
 ####################
 
 use Model\Repository\{
@@ -64,8 +66,8 @@ class TemplateController extends XhrControllerAbstract {
         return $this->createResponseFromView($request, $this->createView($request));
     }
 
-    public function template(ServerRequestInterface $request, $langCode, $name) {
-
+    public function template(ServerRequestInterface $request, $name) {
+        return file_get_contents(AppContext::getTinyPublicDirectory()."paper/".$name);
     }
 
     public function namedPaper(ServerRequestInterface $request, $name) {

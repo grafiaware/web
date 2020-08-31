@@ -318,7 +318,15 @@ var selectPaperTemplateConfig = {
         { title: 'Článek', description: 'Grafia web - článek',       url: tinyConfig.paper_templates_path + 'paper.html'},
         { title: 'Kontakty', description: 'Grafia web - kontakty',       url: tinyConfig.paper_templates_path + 'paper-contact.html'},
         { title: 'Test - nový paper ze šablony', description: 'paper_test',       url: tinyConfig.paper_templates_path + 'paper_test.html'},
-        { title: 'Test - rendered component', description: 'rendered component',       url: 'component/namedpaper/a6'},
+        { title: 'Test - template', description: 'template',       url: 'component/template/paper.html'},
+        { title: 'Test - rendered component1', description: 'rendered component',       url: 'component/namedpaper/a1'},
+        { title: 'Test - rendered component2', description: 'rendered component',       url: 'component/namedpaper/a2'},
+        { title: 'Test - rendered component3', description: 'rendered component',       url: 'component/namedpaper/a3'},
+        { title: 'Test - rendered component4', description: 'rendered component',       url: 'component/namedpaper/a4'},
+        { title: 'Test - rendered component5', description: 'rendered component',       url: 'component/namedpaper/a5'},
+        { title: 'Test - rendered component6', description: 'rendered component',       url: 'component/namedpaper/a6'},
+        { title: 'Test - rendered component7', description: 'rendered component',       url: 'component/namedpaper/a7'},
+        { title: 'Test - rendered component8', description: 'rendered component',       url: 'component/namedpaper/a8'},
        // { title: 'Publikace', description: 'Grafia web - publikace',   url: tinyConfig.paper_templates_path + 'block.html'},
     ]
 };
