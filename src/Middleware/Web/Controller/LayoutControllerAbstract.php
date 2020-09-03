@@ -99,7 +99,10 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
         return $this->viewFactory->phpTemplateCompositeView($this->templatesLayout['layout'],
                 [
                     'basePath' => $this->getBasePath($request),
+                    'title' => \Middleware\Web\AppContext::getWebTitle(),
                     'langCode' => $this->statusPresentationRepo->get()->getLanguage()->getLangCode(),
+                    'webPublicDir' => \Middleware\Web\AppContext::getAppPublicDirectory(),
+
                     'modalLoginLogout' => $this->getModalLoginLogout(),
                     'modalUserAction' => $this->getModalUserAction(),
                     'editableJsLinks' => $this->getEditTools($request),
@@ -165,7 +168,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
                 'en' => 'en_US'
             ];
             $langCode =$this->statusPresentationRepo->get()->getLanguage()->getLangCode();
-            $toolsbarsLang = array_key_exists($langCode, $tinyLanguage) ? $tinyLanguage[$langCode] : 'cs';
+            $tinyToolsbarsLang = array_key_exists($langCode, $tinyLanguage) ? $tinyLanguage[$langCode] : 'cs';
             return
                 $this->container->get(View::class)
                     ->setTemplate(new PhpTemplate($this->templatesLayout['links']))
@@ -180,7 +183,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
                                     'urlZkouskaCss' => $webPublicDir."grafia/css/zkouska_less.css",
                                     'paperTemplatesPath' => $tinyPublicDir."paper/",
                                     'contentTemplatesPath' => $tinyPublicDir."content/",
-                                    'toolbarsLang' => $toolsbarsLang
+                                    'toolbarsLang' => $tinyToolsbarsLang
                                 ]),
 
                         'urlTinyMCE' => $commonPublicDir.'tinymce5_3_1\js\tinymce\tinymce.min.js',
