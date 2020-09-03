@@ -107,6 +107,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
                     'modalUserAction' => $this->getModalUserAction(),
                     'bodyContainerAttributes' => $this->getBodyContainerAttributes(),
                     'editableJsLinks' => $this->getEditTools($request),
+                    'editableCssLinks' => $this->getEditCss($request),
                     'poznamky' => $this->getPoznamky(),
                 ]);
     }
@@ -117,37 +118,44 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
         switch ($theme) {
             case 'old':
                 $this->templatesLayout['layout'] = PROJECT_DIR.'/templates/layout/layout.php';
-                $this->templatesLayout['links'] = PROJECT_DIR.'/templates/layout/head/editableJsLinks.php';
+                $this->templatesLayout['linksJs'] = PROJECT_DIR.'/templates/layout/head/editableJsLinks.php';
+                $this->templatesLayout['linksCss'] = PROJECT_DIR.'/templates/layout/head/editableCssLinks.php';
                 $this->templatesLayout['tiny_config'] = PROJECT_DIR.'/templates/layout/head/tiny_config.js';
                 break;
             case 'xhr':
                 $this->templatesLayout['layout'] = PROJECT_DIR.'/templates/layoutXhr/layout.php';
-                $this->templatesLayout['links'] = PROJECT_DIR.'/templates/layoutXhr/head/editableJsLinks.php';
+                $this->templatesLayout['linksJs'] = PROJECT_DIR.'/templates/layoutXhr/head/editableJsLinks.php';
+                $this->templatesLayout['linksCss'] = PROJECT_DIR.'/templates/layout/head/editableCssLinks.php';
                 $this->templatesLayout['tiny_config'] = PROJECT_DIR.'/templates/layoutXhr/head/tiny_config.js';
                 break;
             case 'new':
                 $this->templatesLayout['layout'] = PROJECT_DIR.'/templates/newlayout/layout.php';
-                $this->templatesLayout['links'] = PROJECT_DIR.'/templates/newlayout/head/editableJsLinks.php';
+                $this->templatesLayout['linksJs'] = PROJECT_DIR.'/templates/newlayout/head/editableJsLinks.php';
+                $this->templatesLayout['linksCss'] = PROJECT_DIR.'/templates/layout/head/editableCssLinks.php';
                 $this->templatesLayout['tiny_config'] = PROJECT_DIR.'/templates/newlayout/head/tiny_config.js';
                 break;
             case 'new1':
                 $this->templatesLayout['layout'] = PROJECT_DIR.'/templates/newlayout_1/layout.php';
-                $this->templatesLayout['links'] = PROJECT_DIR.'/templates/newlayout_1/head/editableJsLinks.php';
+                $this->templatesLayout['linksJs'] = PROJECT_DIR.'/templates/newlayout_1/head/editableJsLinks.php';
+                $this->templatesLayout['linksCss'] = PROJECT_DIR.'/templates/layout/head/editableCssLinks.php';
                 $this->templatesLayout['tiny_config'] = PROJECT_DIR.'/templates/newlayout_1/head/tiny_config.js';
                 break;
             case 'new2':
                 $this->templatesLayout['layout'] = PROJECT_DIR.'/templates/newlayout_2/layout.php';
-                $this->templatesLayout['links'] = PROJECT_DIR.'/templates/newlayout_2/head/editableJsLinks.php';
+                $this->templatesLayout['linksJs'] = PROJECT_DIR.'/templates/newlayout_2/head/editableJsLinks.php';
+                $this->templatesLayout['linksCss'] = PROJECT_DIR.'/templates/layout/head/editableCssLinks.php';
                 $this->templatesLayout['tiny_config'] = PROJECT_DIR.'/templates/newlayout_2/head/tiny_config.js';
                 break;
             case 'new3':
                 $this->templatesLayout['layout'] = PROJECT_DIR.'/templates/newlayout_3/layout.php';
-                $this->templatesLayout['links'] = PROJECT_DIR.'/templates/newlayout_3/head/editableJsLinks.php';
+                $this->templatesLayout['linksJs'] = PROJECT_DIR.'/templates/newlayout_3/head/editableJsLinks.php';
+                $this->templatesLayout['linksCss'] = PROJECT_DIR.'/templates/layout/head/editableCssLinks.php';
                 $this->templatesLayout['tiny_config'] = PROJECT_DIR.'/templates/newlayout_3/head/tiny_config.js';
                 break;
             default:
                 $this->templatesLayout['layout'] = PROJECT_DIR.'/templates/layout.php';
-                $this->templatesLayout['links'] = PROJECT_DIR.'/templates/layout/head/editableJsLinks.php';
+                $this->templatesLayout['linksJs'] = PROJECT_DIR.'/templates/layout/head/editableJsLinks.php';
+                $this->templatesLayout['linksCss'] = PROJECT_DIR.'/templates/layout/head/editableCssLinks.php';
                 $this->templatesLayout['tiny_config'] = PROJECT_DIR.'/templates/layout/head/tiny_config.js';
                 break;
         }
@@ -179,7 +187,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
             $tinyToolsbarsLang = array_key_exists($langCode, $tinyLanguage) ? $tinyLanguage[$langCode] : 'cs';
             return
                 $this->container->get(View::class)
-                    ->setTemplate(new PhpTemplate($this->templatesLayout['links']))
+                    ->setTemplate(new PhpTemplate($this->templatesLayout['linksJs']))
                     ->setData([
                         'tinyMCEConfig' => $this->container->get(View::class)
                                 ->setTemplate(new InterpolateTemplate($this->templatesLayout['tiny_config']))
@@ -209,6 +217,17 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
         }
     }
 
+    private function getEditCss(ServerRequestInterface $request) {
+        if ($this->isEditableArticle() OR $this->isEditableLayout()) {
+            return                 $this->container->get(View::class)
+                    ->setTemplate(new PhpTemplate($this->templatesLayout['linksCss']))
+                    ->setData(
+                            [
+                            'webPublicDir' => \Middleware\Web\AppContext::getAppPublicDirectory(),
+                            ]
+                            );
+        }
+    }
     private function getModalLoginLogout() {
         $user = $this->statusSecurityRepo->get()->getUser();
         if (null != $user AND $user->getRole()) {   // libovolná role
