@@ -50,7 +50,7 @@ class NodeEditDao extends DaoAbstract implements NodeEditDaoInterface {
 #### pomocné čtecí metody ###################################################
     /**
      * `uid`, `left_node`, `right_node`, `parent_uid`, `lang_code_fk`AS lang_code, `uid_fk`, `type_fk`, `id`, `list`, `order`, `title`, `active`,`auto_generated`
-     * 
+     *
      * @param type $uid
      * @return array
      */
@@ -376,10 +376,10 @@ class NodeEditDao extends DaoAbstract implements NodeEditDaoInterface {
     }
 
     /**
-     * Přesune podstrom (zadaný uzel a všechny jeho potomky) jako dítě cílového uzlu.
+     * Přesune podstrom (zdrojový uzel a všechny jeho potomky) jako dítě cílového uzlu.
      *
-     * @param type $sourceUid
-     * @param type $targetUid
+     * @param string $sourceUid uid zdrojového uzlu
+     * @param string $targetUid uid cílového uzlu
      * @throws Exception
      */
     public function moveSubTree($sourceUid, $targetUid): void {
@@ -395,11 +395,11 @@ class NodeEditDao extends DaoAbstract implements NodeEditDaoInterface {
             $stmt->bindParam(':target_uid', $targetUid);
             $stmt->execute();
 
-            // data přesunovaného podstromu
+            // data zdrojového uzlu
             $dbhTransact->exec("SELECT left_node, right_node, right_node-left_node+1 INTO @source_left_node, @source_right_node, @source_width
                 FROM $this->nestedSetTableName WHERE uid = @sourceId");
 
-            // vyřazení podstromu z nested set
+            // vyřazení zdrojovéjo podstromu z nested set
             $dbhTransact->exec("UPDATE $this->nestedSetTableName SET left_node = 0-left_node, right_node = 0-right_node
                 WHERE left_node BETWEEN @source_left_node AND @source_right_node");
             // zpátky:
@@ -410,14 +410,14 @@ class NodeEditDao extends DaoAbstract implements NodeEditDaoInterface {
             $dbhTransact->exec("UPDATE $this->nestedSetTableName SET right_node = right_node-@source_width WHERE right_node > @source_right_node");
             $dbhTransact->exec("UPDATE $this->nestedSetTableName SET left_node = left_node-@source_width WHERE left_node > @source_right_node");
 
-            // data cílového uzlu (načtou se až po odstranění prostoru zbylého po přesunovaném stromu
+            // data cílového uzlu (načtou se až po odstranění prostoru zbylého po přesunovaném stromu)
             $dbhTransact->exec("SELECT left_node INTO @target_left_node
                 FROM $this->nestedSetTableName WHERE uid = @targetId");
 
             // vytvoř cílový volný prostor
             $dbhTransact->exec("UPDATE $this->nestedSetTableName SET right_node = right_node+@source_width WHERE right_node >= @target_left_node");
             $dbhTransact->exec("UPDATE $this->nestedSetTableName SET left_node = left_node+@source_width WHERE left_node > @target_left_node");
-
+            //
             $dbhTransact->exec("UPDATE $this->nestedSetTableName SET
                 left_node = 0 - left_node - (@source_left_node - @target_left_node - 1),
                 right_node = 0 - right_node - (@source_left_node - @target_left_node - 1)

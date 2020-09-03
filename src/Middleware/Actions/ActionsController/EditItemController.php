@@ -60,9 +60,10 @@ class EditItemController extends PresentationFrontControllerAbstract {
     }
 
     public function cut(ServerRequestInterface $request, $uid) {
-        $menuItem = $this->getMenuItem($uid);       // zde navíc
         $statusFlash = $this->statusFlashRepo->get();
         $statusFlash->setPostCommand(['cut'=>$uid]);  // command s životností do dalšího POST requestu
+        $menuItem = $this->getMenuItem($uid);       // zde navíc
+        $statusFlash->appendMessage("cut - vybrán k přesunutí: ".$menuItem->getTitle());
         return $this->redirectSeeOther($request,'www/last/'); // 303 See Other
     }
 
