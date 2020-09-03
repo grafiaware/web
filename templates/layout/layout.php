@@ -8,7 +8,7 @@
         <?php include "head-scripts.php"; ?>
     </head>
     <body class="layout">
-        <?php include "body_editacni.php"; ?>
+        <?php include "body-container.php"; ?>
         <?php include "body-scripts.php"; ?>
     </body>
 </html>

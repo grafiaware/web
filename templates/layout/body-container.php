@@ -1,4 +1,5 @@
-    <div class="ui container editable">
+    <!--<div class="ui container editable">-->
+    <div <?= $this->attributes($bodyContainerAttributes) ?> >
         <div class="column">
             <header>
                 <?php include "body/hlavicka.php"; ?>

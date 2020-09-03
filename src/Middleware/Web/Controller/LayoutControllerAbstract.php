@@ -105,6 +105,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
 
                     'modalLoginLogout' => $this->getModalLoginLogout(),
                     'modalUserAction' => $this->getModalUserAction(),
+                    'bodyContainerAttributes' => $this->getBodyContainerAttributes(),
                     'editableJsLinks' => $this->getEditTools($request),
                     'poznamky' => $this->getPoznamky(),
                 ]);
@@ -152,6 +153,13 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
         }
     }
 
+    private function getBodyContainerAttributes() {
+        if ($this->isEditableArticle() OR $this->isEditableLayout()) {
+            return ["class" => "ui container editable"];
+        } else {
+            return ["class" => "ui container"];
+        }
+    }
 
     private function getEditTools(ServerRequestInterface $request) {
         if ($this->isEditableArticle() OR $this->isEditableLayout()) {
