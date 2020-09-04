@@ -109,6 +109,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
                     'editableJsLinks' => $this->getEditTools($request),
                     'editableCssLinks' => $this->getEditCss($request),
                     'poznamky' => $this->getPoznamky(),
+                    'flashMessage' => $this->getFlashMessage(),
                 ]);
     }
 
@@ -271,7 +272,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
                         'poznamka1'=>
                         '<pre>'. $this->prettyDump($this->statusPresentationRepo->get()->getLanguage(), true).'</pre>'
                         . '<pre>'. $this->prettyDump($this->statusSecurityRepo->get()->getUserActions(), true).'</pre>',
-                        'flashMessage' => $this->getFlashMessage(),
+                        //'flashMessage' => $this->getFlashMessage(),
                         ]);
         }
     }
@@ -302,7 +303,14 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
     }
 
     private function getFlashMessage() {
-        $statusFlash = $this->statusFlashRepo->get();
-        return $statusFlash ? $statusFlash->getMessage() ?? 'no flash' : 'no flash message';
+        if ($this->isEditableLayout() OR $this->isEditableArticle()) {
+            $statusFlash = $this->statusFlashRepo->get();
+            return
+                $this->container->get(View::class)
+                    ->setTemplate(new PhpTemplate('templates/poznamky/flashMessage.php'))
+                    ->setData([
+                        'flashMessage1' => $statusFlash ? $statusFlash->getMessage() ?? 'no flash' : 'no flash message'
+                        ]);
+        }
     }
 }

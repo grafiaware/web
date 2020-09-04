@@ -734,7 +734,6 @@ body.layout#tinymce{
         border-radius: 5px;
         background: @white;
         left: -260px;
-        top: 10px;
         transition: 0.7s linear;
         box-shadow: 1px 1px 10px 1px rgba(34,36,38,.15);
         z-index: 1;
@@ -754,6 +753,15 @@ body.layout#tinymce{
                 margin-bottom: 0;
             }
         }
+    }
+    .poznamky.flash{
+        top: 10px;
+        .content{
+            min-height: 110px;
+        }
+    }
+    .poznamky:not(.flash){
+        top: 170px;
     }
     pre{
         white-space: pre-wrap;
