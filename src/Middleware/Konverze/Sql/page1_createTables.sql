@@ -70,7 +70,7 @@ CREATE TABLE `paper` (
   `editor` varchar(20) DEFAULT NULL,
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  CONSTRAINT `menu_item_id_fk1` FOREIGN KEY ( `menu_item_id_fk`) REFERENCES `menu_item` (`id`),
+  CONSTRAINT `menu_item_id_fk1` FOREIGN KEY ( `menu_item_id_fk`) REFERENCES `menu_item` (`id`) ON DELETE CASCADE,
   FULLTEXT KEY `searchpaper` (`headline`, `perex`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -87,7 +87,7 @@ CREATE TABLE `paper_content` (
   `editor` varchar(20) DEFAULT NULL,
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  CONSTRAINT `paper_id_fk2` FOREIGN KEY ( `paper_id_fk`) REFERENCES `paper` (`id`),
+  CONSTRAINT `paper_id_fk2` FOREIGN KEY ( `paper_id_fk`) REFERENCES `paper` (`id`) ON DELETE CASCADE,
   FULLTEXT KEY `searchcontent` (`content`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

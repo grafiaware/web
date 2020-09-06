@@ -41,7 +41,7 @@ class StatusRepositoryAbstract extends RepoAbstract {
         }
     }
 
-    public function flush() {
+    public function flush(): void {
         if ($this->entity) {
             $this->statusDao->set(static::FRAGMENT_NAME, [$this->entity]);
         } else {

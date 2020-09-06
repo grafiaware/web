@@ -90,7 +90,7 @@ abstract class RepoAbstract implements RepoInterface {
      * @param array $row
      * @return string index
      */
-    protected function recreateEntity($index, $row) {
+    protected function recreateEntity($index, $row): void {
         if ($row) {
             $this->addCreatedAssociations($row);
             $entity = $this->createEntity();  // definována v konkrétní třídě - adept na entity managera
@@ -100,7 +100,28 @@ abstract class RepoAbstract implements RepoInterface {
         }
     }
 
-    public function flush() {
+    protected function addEntity(EntityInterface $entity, $index=null): void {
+        if ($index) {
+            $this->collection[$index] = $entity;
+        } else {
+            $this->new[] = $entity;
+        }
+    }
+
+    protected function removeEntity(EntityInterface $entity, $index=null): void {
+        if ($index) {
+            $this->removed[] = $entity;
+        } else {   // smazání před uložením do db
+            foreach ($this->new as $key => $new) {
+                if ($new === $entity) {
+                    unset($this->new[$key]);
+                }
+            }
+        }
+        unset($this->collection[$index]);
+    }
+
+    public function flush(): void {
         if ( !($this instanceof RepoReadonlyInterface)) {
             /** @var \Model\Entity\EntityAbstract $entity */
             foreach ($this->collection as $entity) {

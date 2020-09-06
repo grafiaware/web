@@ -62,16 +62,12 @@ class PaperRepo extends RepoAbstract implements PaperRepoInterface {
 
     public function add(PaperInterface $paper) {
         $index = $this->indexFromEntity($paper);
-        if ($index) {
-            $this->collection[$this->indexFromEntity($paper)] = $paper;
-        } else {
-            $this->new[] = $paper;
-        }
+        $this->addEntity($paper, $index);
     }
 
     public function remove(PaperInterface $paper) {
-        $this->removed[] = $paper;
-        unset($this->collection[$this->indexFromEntity($paper)]);
+        $index = $this->indexFromEntity($paper);
+        $this->removeEntity($entity, $index);
     }
 
     protected function createEntity() {

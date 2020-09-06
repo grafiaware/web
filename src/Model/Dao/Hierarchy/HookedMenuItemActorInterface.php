@@ -25,15 +25,14 @@ interface HookedMenuItemActorInterface {
 
      * Metoda add
      *
-     * Vloží nové řádky do tabulky položek menu. Při vkládání de řídí vlastnostmí předchůdce, tedy rodiče nebo sourozence,  ke kterému se nová položka přidává
-     * (jako dítě nebo sourozenec). Vloží položky ve všech jazykových verzích, které má předchůdce.
+     * Vloží nové řádky do tabulky položek menu_item. Při vkládání se řídí vlastnostmí předchůdce v hierarchii, tedy rodiče nebo sourozence,
+     * ke kterému se nová položka přidává (jako dítě nebo sourozenec). Vloží položky ve všech jazykových verzích, které má předchůdce.
      *
      * @param HandlerInterface $transactionHandler Databázový handler se spuštěnou transakcí
-     * @param string $parentUid uid předchůdce
+     * @param string $parentUid uid předchůdce v hierarchii
      * @param string $uid uid položky hierarchie vložené v probíhající transakci
-     * @param string $newType
      */
-    public function add(HandlerInterface $transactionHandler, $parentUid, $uid, $newType);
+    public function add(HandlerInterface $transactionHandler, $parentUid, $uid);
 
     /**
      * Metoda trash
@@ -48,8 +47,8 @@ interface HookedMenuItemActorInterface {
     /**
      * Metoda delete
      *
-     * Provede příkazy potřebné před tím, než jsou v transakci smazány položky hierarchie. Typicky smaže položky tabulky, ve které je primární klíč hierarchie
-     * použit jako cizí klíč a pokud by nebyly smazány, došlo by k chybě.
+     * Provede příkazy potřebné před tím, než jsou v transakci smazány položky hierarchie. Musí smazat nebo změnit cizí klíče u položek tabulky,
+     * ve které je primární klíč hierarchie použit jako cizí klíč a pokud by nebyly smazány, došlo by k chybě.
      *
      * @param HandlerInterface $transactionHandler Databázový handler se spuštěnou transakcí
      * @param array $uidsArray Pole primárních klíčů položek (pole uid) připravených v transakci pro smazání.

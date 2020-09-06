@@ -119,7 +119,7 @@ class NodeEditDao extends DaoAbstract implements NodeEditDaoInterface {
             $stmt->bindParam(':parent_uid', $parentNodeUid);
             $stmt->execute();
             if (isset($this->hookedActor)) {
-                $this->hookedActor->add($dbhTransact, [$uid]);
+                $this->hookedActor->add($dbhTransact, $parentNodeUid, $uid);
             }
             /*** commit the transaction ***/
             $dbhTransact->commit();
@@ -233,7 +233,7 @@ class NodeEditDao extends DaoAbstract implements NodeEditDaoInterface {
             $stmt->bindParam(':parent_uid', $parentNodeUid);
             $stmt->execute();
             if (isset($this->hookedActor)) {
-                $this->hookedActor->add($dbhTransact, [$uid]);
+                $this->hookedActor->add($dbhTransact, $parentNodeUid, $uid);
             }
             $dbhTransact->commit();
         } catch(Exception $e) {

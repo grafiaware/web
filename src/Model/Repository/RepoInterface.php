@@ -14,5 +14,5 @@ namespace Model\Repository;
  */
 interface RepoInterface {
 
-    public function flush();
+    public function flush(): void;
 }

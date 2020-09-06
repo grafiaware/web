@@ -107,7 +107,7 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
             foreach ($contents as $paperContent) {
                 /** @var PaperContentInterface $paperContent */
                 if ($paperContent->getPriority() > 0) {  // není v koši
-                    $form[] = $this->getContentForm2($paperContent, $paperAggregate);
+                    $form[] = $this->getContentForm($paperContent, $paperAggregate);
                 } else {  // je v koši
                     $form[] =
                         Html::tag('section', ['class'=>$this->classMap->getClass('Content', 'section.trash')],
@@ -134,44 +134,6 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
     }
 
     private function getContentForm($paperContent, $paperAggregate) {
-        $active = $paperContent->getActive();
-        $actual = $paperContent->getActual();
-        $form =
-            Html::tag('section', ['class'=>$this->classMap->getClass('Content', 'section')],
-                Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.corner')],
-                    $this->getContentButtonsForm($paperContent)
-                )
-                .Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.semafor')],
-                        Html::tag('i',
-                            ['class'=> $this->classMap->resolveClass(($active AND $actual), 'Content',
-                                'i1.published', 'i1.notpublished')
-                            ]
-                        )
-                        .Html::tag('i',
-                            ['class'=> $this->classMap->resolveClass($active, 'Content',
-                                $actual ? 'i2.published' : 'i2.notactual',
-                                $actual ? 'i2.notactive' : 'i2.notactivenotactual')
-                            ]
-                        )
-                        .$paperContent->getPriority()
-                )
-                .Html::tag('form',
-                    ['method'=>'POST', 'action'=>"api/v1/paper/{$paperContent->getPaperIdFk()}/contents/{$paperContent->getId()}/"],
-                    Html::tag('content',
-                        [
-                            'id' => "content_{$paperContent->getId()}",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
-                            'class'=>$this->classMap->getClass('Content', 'content'),
-                            'data-paperowner'=>$paperAggregate->getEditor(),
-                            'data-owner'=>$paperContent->getEditor()
-                        ],
-                        $paperContent->getContent()
-                        )
-                )
-            );
-        return $form;
-    }
-
-    private function getContentForm2($paperContent, $paperAggregate) {
         $active = $paperContent->getActive();
         $actual = $paperContent->getActual();
         $now =  new \DateTime("now");

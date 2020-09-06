@@ -19,21 +19,28 @@ use Model\Dao\Hierarchy\HookedActorAbstract;
 class HookedMenuItemActor extends HookedActorAbstract {
 
     const NEW_TITLE = 'Title';
+
+    #### tyto konstanty musí odpovídat existujícím hodnotám v databázi ####
     const NEW_ITEM_TYPE_FK = 'empty';
     const TRASH_ITEM_TYPE_FK = 'trash';
 
     private $menuItemTableName;
     private $newTitle;
+    private $newItemTypeFk;
+    private $trashItemTypeFk;
 
     /**
-     *
-     * @param string $menuItemTableName
-     * @param string $newTitle Default hodnota zadána konstantou třídy.
+     * @param string $menuItemTableName Jméno tabulky pro položky menu
+     * @param string $newTitle Titulek nově vytvořené položky. Default hodnota zadána konstantou třídy.
+     * @param type $newItemTypeFk Typ nově vytvořené položky. Default hodnota zadána konstantou třídy.
+     * @param type $trashItemTypeFk Typ položky, která je v koši. Default hodnota zadána konstantou třídy.
      */
-    public function __construct($menuItemTableName, $newTitle = self::NEW_TITLE) {
+    public function __construct($menuItemTableName, $newTitle = self::NEW_TITLE, $newItemTypeFk=self::NEW_ITEM_TYPE_FK, $trashItemTypeFk= self::TRASH_ITEM_TYPE_FK) {
         $this->menuItemTableName = $menuItemTableName;
         //TODO: Svoboda Message
         $this->newTitle = $newTitle;
+        $this->newItemTypeFk = $newItemTypeFk;
+        $this->trashItemTypeFk = $trashItemTypeFk;
     }
 
     /**
@@ -42,12 +49,13 @@ class HookedMenuItemActor extends HookedActorAbstract {
      *
      * {@inheritdoc}
      *
-     * Typ nové položky menu je dán konstantou třídy (hodnota pro prázdnou položku) a titulek nové položky menu je dán instanční proměnnou.
+     * Typ nové položky menu je dán konstantou třídy (hodnota pro prázdnou položku) a titulek nové položky menu je dán instanční proměnnou
+     * (default hodnota zadána konstantou třídy).
      *
      * Vkládá:
      * - lang_code_fk - zkopíruje z předchůdce (rodiče nebo sourozence), uid předchůdce je zadáno jako parameetr $predecessorUuid,
-     *                  Hodnoty lang_code_fk čte vnořeným selectem, select vrací a insert vloží tolik položek, kolik je verzí předchůdce se stejným uid_fk,
-     *                  tedy standartně verze pro všechny jazyky.
+     *                  Hodnoty lang_code_fk čte vnořeným selectem, select vrací a insert vloží tolik jazykových mutací položky,
+     *                  kolik mutací má předchůdce.
      * - type_fk - nový type_fk zadaný konstantou třídy, musí odpovídat hodnotě vyhrazené v databázi pro prázdnou položku menu
      * - nové uid - zadáno jako parametr metody
      * - title zadané jako instanční proměnná třídy nebo konstantou třídy
@@ -56,9 +64,8 @@ class HookedMenuItemActor extends HookedActorAbstract {
      * @param HandlerInterface $transactionHandler
      * @param string$predecessorUid
      * @param string $uid
-     * @param string $newType
      */
-    public function add(HandlerInterface $transactionHandler, $predecessorUid, $uid, $newType = self::NEW_ITEM_TYPE_FK) {
+    public function add(HandlerInterface $transactionHandler, $predecessorUid, $uid) {
         $this->checkTransaction($transactionHandler);
 
         ;
@@ -67,7 +74,7 @@ class HookedMenuItemActor extends HookedActorAbstract {
         // select vrací a insert vloží tolik položek, kolik je verzí předchůdce se stejným uid_fk - standartně verze pro všechny jazyky
         $stmt = $transactionHandler->prepare(
                 " INSERT INTO $this->menuItemTableName (lang_code_fk, uid_fk, type_fk, title)
-                    SELECT lang_code_fk, '$uid', '$newType', '$this->newTitle'
+                    SELECT lang_code_fk, '$uid', '$this->newItemTypeFk', '$this->newTitle'
                     FROM $this->menuItemTableName
                     WHERE uid_fk=:predecessorUid
                     ");
@@ -76,11 +83,9 @@ class HookedMenuItemActor extends HookedActorAbstract {
     }
 
     /**
-     * Metoda trash
-     *
-     * @inheritdoc
-     *
-     * Nastaví položky menu přesunuté do koše jako neaktivní.
+     * {@inheritdoc}
+     * Metoda trash nastaví položky menu_item přesunuté do koše jako neaktivní typ položky (type_fk) nastaví na hodnotu určenou pro koš.
+     * Hodnota typu koš je dána konstantou třídy. Metoda nastaví jako neaktivní položky ve všech jazykových verzích.
      */
     public function trash(HandlerInterface $transactionHandler, $uidsArray) {
         $this->checkTransaction($transactionHandler);
@@ -89,25 +94,26 @@ class HookedMenuItemActor extends HookedActorAbstract {
         // přesunuté do koše - nastavím neaktivní
         $transactionHandler->exec(
             "UPDATE $this->menuItemTableName
-            SET active = 0, type_fk = '".self::TRASH_ITEM_TYPE_FK."¨
+            SET active = 0, type_fk = '".$this->trashItemTypeFk."¨
             WHERE uid_fk IN ( $in )"
             );
     }
 
     /**
-     * Metoda delete
-     *
      * {@inheritdoc}
+     * Metoda delete smaže položky menu_item, paper a všechny položky content. Maže položky ve všech jazykových verzích.
      *
-     * Smaže položky menu. Podmínkou je, že id položky menu nebyla nikde použita jako cizí klíč.
-     * Pokud je použita jako cizí klíč (paper, block) nastane chyba constraint violation.
+     * Smaže položky menu_item. paper a všechny položky content. Maže položky ve všec jazykových verzích.
+     * Tabulky paper a content mají constraint ON DELETE CASCADE - smazání menu_item smaže i paper a content. Použitý SQL příkaz delete
+     * vybírá menu_item jen podle uid_fk => smaže všechny jazykové verze.
      */
     public function delete(HandlerInterface $transactionHandler, $uidsArray) {
         $this->checkTransaction($transactionHandler);
         $in = $this->getInFromUidsArray($uidsArray);
         // tvrdý delete
 
-        // !! nelze mazat - foreign keys v paper, block - nutno smazat nejdříve paper a block položky
+        // !! paper a content mají constraint ON DELETE CASCADE - smazání menu_item smaže i paper a content
+        // !! delete vybírá menu_item jen podle uid_fk => smaže všechny jazykové verze
         $transactionHandler->exec(
             "DELETE FROM $this->menuItemTableName
             WHERE uid_fk IN ( $in )"

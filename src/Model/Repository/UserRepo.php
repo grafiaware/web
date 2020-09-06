@@ -23,7 +23,7 @@ class UserRepo extends RepoAbstract implements RepoInterface {
 
     public function __construct(UserOpravneniDao $opravneniDao, HydratorInterface $userHydrator) {
         $this->dao = $opravneniDao;
-        $this->hydrator = $userHydrator;
+        $this->registerHydrator($userHydrator);
     }
 
     /**
@@ -48,18 +48,8 @@ class UserRepo extends RepoAbstract implements RepoInterface {
         unset($this->collection[$this->indexFromEntity($user)]);
     }
 
-    /**
-     *
-     * @param array $row
-     * @return string index
-     */
-    protected function recreateEntity($index, $row) {
-        if ($row) {
-            $user = new User();
-            $this->hydrator->hydrate($user, $row);
-            $user->setPersisted();
-            $this->collection[$index] = $user;
-        }
+    protected function createEntity() {
+        return new User();
     }
 
     protected function indexFromEntity(UserInterface $user) {
