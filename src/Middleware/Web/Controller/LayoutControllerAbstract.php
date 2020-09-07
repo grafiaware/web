@@ -29,8 +29,9 @@ use Pes\View\Template\PhpTemplate;
 use Pes\View\Template\InterpolateTemplate;
 
 use Middleware\Login\Controller\LoginLogoutController;
-use Component\View\Status\{
-    LoginComponent, LogoutComponent, UserActionComponent
+use Component\View\{
+    Status\LoginComponent, Status\LogoutComponent, Status\UserActionComponent,
+    Flash\FlashComponent
 };
 
 /**
@@ -118,46 +119,46 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
 
         switch ($theme) {
             case 'old':
-                $this->templatesLayout['layout'] = PROJECT_DIR.'/templates/layout/layout.php';
-                $this->templatesLayout['linksJs'] = PROJECT_DIR.'/templates/layout/head/editableJsLinks.php';
-                $this->templatesLayout['linksCss'] = PROJECT_DIR.'/templates/layout/head/editableCssLinks.php';
-                $this->templatesLayout['tiny_config'] = PROJECT_DIR.'/templates/layout/head/tiny_config.js';
+                $this->templatesLayout['layout'] = PROJECT_PATH.'templates/layout/layout.php';
+                $this->templatesLayout['linksJs'] = PROJECT_PATH.'templates/layout/head/editableJsLinks.php';
+                $this->templatesLayout['linksCss'] = PROJECT_PATH.'templates/layout/head/editableCssLinks.php';
+                $this->templatesLayout['tiny_config'] = PROJECT_PATH.'templates/layout/head/tiny_config.js';
                 break;
             case 'xhr':
-                $this->templatesLayout['layout'] = PROJECT_DIR.'/templates/layoutXhr/layout.php';
-                $this->templatesLayout['linksJs'] = PROJECT_DIR.'/templates/layoutXhr/head/editableJsLinks.php';
-                $this->templatesLayout['linksCss'] = PROJECT_DIR.'/templates/layout/head/editableCssLinks.php';
-                $this->templatesLayout['tiny_config'] = PROJECT_DIR.'/templates/layoutXhr/head/tiny_config.js';
+                $this->templatesLayout['layout'] = PROJECT_PATH.'templates/layoutXhr/layout.php';
+                $this->templatesLayout['linksJs'] = PROJECT_PATH.'templates/layoutXhr/head/editableJsLinks.php';
+                $this->templatesLayout['linksCss'] = PROJECT_PATH.'templates/layout/head/editableCssLinks.php';
+                $this->templatesLayout['tiny_config'] = PROJECT_PATH.'templates/layoutXhr/head/tiny_config.js';
                 break;
             case 'new':
-                $this->templatesLayout['layout'] = PROJECT_DIR.'/templates/newlayout/layout.php';
-                $this->templatesLayout['linksJs'] = PROJECT_DIR.'/templates/newlayout/head/editableJsLinks.php';
-                $this->templatesLayout['linksCss'] = PROJECT_DIR.'/templates/layout/head/editableCssLinks.php';
-                $this->templatesLayout['tiny_config'] = PROJECT_DIR.'/templates/newlayout/head/tiny_config.js';
+                $this->templatesLayout['layout'] = PROJECT_PATH.'templates/newlayout/layout.php';
+                $this->templatesLayout['linksJs'] = PROJECT_PATH.'templates/newlayout/head/editableJsLinks.php';
+                $this->templatesLayout['linksCss'] = PROJECT_PATH.'templates/layout/head/editableCssLinks.php';
+                $this->templatesLayout['tiny_config'] = PROJECT_PATH.'templates/newlayout/head/tiny_config.js';
                 break;
             case 'new1':
-                $this->templatesLayout['layout'] = PROJECT_DIR.'/templates/newlayout_1/layout.php';
-                $this->templatesLayout['linksJs'] = PROJECT_DIR.'/templates/newlayout_1/head/editableJsLinks.php';
-                $this->templatesLayout['linksCss'] = PROJECT_DIR.'/templates/layout/head/editableCssLinks.php';
-                $this->templatesLayout['tiny_config'] = PROJECT_DIR.'/templates/newlayout_1/head/tiny_config.js';
+                $this->templatesLayout['layout'] = PROJECT_PATH.'templates/newlayout_1/layout.php';
+                $this->templatesLayout['linksJs'] = PROJECT_PATH.'templates/newlayout_1/head/editableJsLinks.php';
+                $this->templatesLayout['linksCss'] = PROJECT_PATH.'templates/layout/head/editableCssLinks.php';
+                $this->templatesLayout['tiny_config'] = PROJECT_PATH.'templates/newlayout_1/head/tiny_config.js';
                 break;
             case 'new2':
-                $this->templatesLayout['layout'] = PROJECT_DIR.'/templates/newlayout_2/layout.php';
-                $this->templatesLayout['linksJs'] = PROJECT_DIR.'/templates/newlayout_2/head/editableJsLinks.php';
-                $this->templatesLayout['linksCss'] = PROJECT_DIR.'/templates/layout/head/editableCssLinks.php';
-                $this->templatesLayout['tiny_config'] = PROJECT_DIR.'/templates/newlayout_2/head/tiny_config.js';
+                $this->templatesLayout['layout'] = PROJECT_PATH.'templates/newlayout_2/layout.php';
+                $this->templatesLayout['linksJs'] = PROJECT_PATH.'templates/newlayout_2/head/editableJsLinks.php';
+                $this->templatesLayout['linksCss'] = PROJECT_PATH.'templates/layout/head/editableCssLinks.php';
+                $this->templatesLayout['tiny_config'] = PROJECT_PATH.'templates/newlayout_2/head/tiny_config.js';
                 break;
             case 'new3':
-                $this->templatesLayout['layout'] = PROJECT_DIR.'/templates/newlayout_3/layout.php';
-                $this->templatesLayout['linksJs'] = PROJECT_DIR.'/templates/newlayout_3/head/editableJsLinks.php';
-                $this->templatesLayout['linksCss'] = PROJECT_DIR.'/templates/layout/head/editableCssLinks.php';
-                $this->templatesLayout['tiny_config'] = PROJECT_DIR.'/templates/newlayout_3/head/tiny_config.js';
+                $this->templatesLayout['layout'] = PROJECT_PATH.'templates/newlayout_3/layout.php';
+                $this->templatesLayout['linksJs'] = PROJECT_PATH.'templates/newlayout_3/head/editableJsLinks.php';
+                $this->templatesLayout['linksCss'] = PROJECT_PATH.'templates/layout/head/editableCssLinks.php';
+                $this->templatesLayout['tiny_config'] = PROJECT_PATH.'templates/newlayout_3/head/tiny_config.js';
                 break;
             default:
-                $this->templatesLayout['layout'] = PROJECT_DIR.'/templates/layout.php';
-                $this->templatesLayout['linksJs'] = PROJECT_DIR.'/templates/layout/head/editableJsLinks.php';
-                $this->templatesLayout['linksCss'] = PROJECT_DIR.'/templates/layout/head/editableCssLinks.php';
-                $this->templatesLayout['tiny_config'] = PROJECT_DIR.'/templates/layout/head/tiny_config.js';
+                $this->templatesLayout['layout'] = PROJECT_PATH.'templates/layout.php';
+                $this->templatesLayout['linksJs'] = PROJECT_PATH.'templates/layout/head/editableJsLinks.php';
+                $this->templatesLayout['linksCss'] = PROJECT_PATH.'templates/layout/head/editableCssLinks.php';
+                $this->templatesLayout['tiny_config'] = PROJECT_PATH.'templates/layout/head/tiny_config.js';
                 break;
         }
     }
@@ -304,13 +305,14 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
 
     private function getFlashMessage() {
         if ($this->isEditableLayout() OR $this->isEditableArticle()) {
-            $statusFlash = $this->statusFlashRepo->get();
-            return
-                $this->container->get(View::class)
-                    ->setTemplate(new PhpTemplate('templates/poznamky/flashMessage.php'))
-                    ->setData([
-                        'flashMessage1' => $statusFlash ? $statusFlash->getMessage() ?? 'no flash' : 'no flash message'
-                        ]);
+//            $statusFlash = $this->statusFlashRepo->get();
+//            return
+//                $this->container->get(View::class)
+//                    ->setTemplate(new PhpTemplate('templates/poznamky/flashMessage.php'))
+//                    ->setData([
+//                        'flashMessage' => $statusFlash ? $statusFlash->getMessage() ?? 'no flash' : 'no flash message'
+//                        ]);
+            return $this->container->get(FlashComponent::class);
         }
     }
 }

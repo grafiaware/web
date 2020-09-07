@@ -29,7 +29,7 @@ use Component\View\{
     Generated\SearchPhraseComponent,
     Generated\SearchResultComponent,
     Generated\ItemTypeSelectComponent,
-    Status\FlashComponent,
+    Flash\FlashComponent,
     Status\LoginComponent,
     Status\LogoutComponent,
     Status\UserActionComponent
@@ -45,7 +45,8 @@ use Component\ViewModel\{
     Generated\SearchPhraseViewModel,
     Generated\SearchResultViewModel,
     Generated\ItemTypeSelectViewModel,
-    Status\FlashVieModel,
+    Flash\FlashViewModel,
+    Flash\FlashViewModelForRenderer,
     Status\UserActionViewModel
 };
 
@@ -71,8 +72,8 @@ use \Middleware\Xhr\Controller\TemplateController;
 
 
 // renderery - pro volání služeb renderer kontejneru renderer::class
-use Component\Renderer\Html\Generated\{
-    LanguageSelectRenderer, SearchPhraseRenderer, SearchResultRenderer, ItemTypeRenderer, FlashRenderer
+use Component\Renderer\Html\{
+    Generated\LanguageSelectRenderer, Generated\SearchPhraseRenderer, Generated\SearchResultRenderer, Generated\ItemTypeRenderer, Flash\FlashRenderer
 };
 
 // view
@@ -332,23 +333,29 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                         );
                 return (new ItemTypeSelectComponent($viewModel))->setRendererContainer($c->get('rendererContainer'))->setRendererName(ItemTypeRenderer::class);
             },
+            // FlashComponent s vlastním rendererem
             FlashComponent::class => function(ContainerInterface $c) {
-                $viewModel = new FlashVieModel($c->get(StatusFlashRepo::class));
+                $viewModel = new FlashViewModelForRenderer($c->get(StatusFlashRepo::class));
                 return (new FlashComponent($viewModel))->setRendererContainer($c->get('rendererContainer'))->setRendererName(FlashRenderer::class);
             },
 
             // php template komponenty
-            'template.login' => PROJECT_DIR.'/templates/modal/modal_login.php',
+            'template.flash' => PROJECT_PATH.'templates/poznamky/flashMessage.php',
+            FlashComponent::class => function(ContainerInterface $c) {
+                $viewModel = new FlashViewModel($c->get(StatusFlashRepo::class));
+                return (new FlashComponent($viewModel))->setRendererContainer($c->get('rendererContainer'))->setTemplate(new PhpTemplate($c->get('template.flash')));
+            },
+            'template.login' => PROJECT_PATH.'templates/modal/modal_login.php',
             LoginComponent::class => function(ContainerInterface $c) {
-                return (new LoginComponent())->setTemplate(new PhpTemplate($c->get('template.login')))->setRendererContainer($c->get('rendererContainer'));
+                return (new LoginComponent())->setRendererContainer($c->get('rendererContainer'))->setTemplate(new PhpTemplate($c->get('template.login')));
             },
-            'template.logout' => PROJECT_DIR.'/templates/modal/modal_logout.php',
+            'template.logout' => PROJECT_PATH.'templates/modal/modal_logout.php',
             LogoutComponent::class => function(ContainerInterface $c) {
-                return (new LogoutComponent())->setTemplate(new PhpTemplate($c->get('template.logout')))->setRendererContainer($c->get('rendererContainer'));
+                return (new LogoutComponent())->setRendererContainer($c->get('rendererContainer'))->setTemplate(new PhpTemplate($c->get('template.logout')));
             },
-            'template.useraction' => PROJECT_DIR.'/templates/modal/modal_user_action.php',
+            'template.useraction' => PROJECT_PATH.'templates/modal/modal_user_action.php',
             UserActionComponent::class => function(ContainerInterface $c) {
-                return (new UserActionComponent())->setTemplate(new PhpTemplate($c->get('template.useraction')))->setRendererContainer($c->get('rendererContainer'));
+                return (new UserActionComponent())->setRendererContainer($c->get('rendererContainer'))->setTemplate(new PhpTemplate($c->get('template.useraction')));
             }
         ];
     }

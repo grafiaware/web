@@ -83,7 +83,7 @@ class MenuItemAggregateRepositoryTest extends TestCase {
             //// nebo
             //define('PES_FORCE_PRODUCTION', 'force_production');
 
-            define('PROJECT_DIR', 'c:/ApacheRoot/www_grafia_development_v0_6/');
+            define('PROJECT_PATH', 'c:/ApacheRoot/www_grafia_development_v0_6/');
 
             include '../vendor/pes/pes/src/Bootstrap/Bootstrap.php';
         }

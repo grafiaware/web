@@ -76,6 +76,7 @@ class TemplateController extends XhrControllerAbstract {
     }
 
     public function presentedPaper(ServerRequestInterface $request) {
+        // dočasně duplicitní s ComponentController
         $menuItem = $this->statusPresentationRepo->get()->getMenuItem();
         $editable = $this->isEditableArticle();
         $menuItemType = $menuItem->getTypeFk();

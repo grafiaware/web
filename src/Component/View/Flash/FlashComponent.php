@@ -6,10 +6,10 @@
  * and open the template in the editor.
  */
 
-namespace Component\View\Status;
+namespace Component\View\Flash;
 
 use Component\View\ComponentAbstract;
-use Component\ViewModel\Status\FlashVieModel;
+use Component\ViewModel\Flash\FlashViewModelInterface;
 
 /**
  * Description of FlashComponent
@@ -20,9 +20,9 @@ class FlashComponent extends ComponentAbstract {
 
     /**
      *
-     * @param FlashVieModel $viewModel
+     * @param FlashViewModelInterface $viewModel
      */
-    public function __construct(FlashVieModel $viewModel) {
+    public function __construct(FlashViewModelInterface $viewModel) {
         $this->viewModel = $viewModel;
     }
 

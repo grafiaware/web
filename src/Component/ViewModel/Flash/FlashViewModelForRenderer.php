@@ -11,11 +11,11 @@ namespace Component\ViewModel\Flash;
 use Model\Repository\StatusFlashRepo;
 
 /**
- * Description of FlashVieModel
+ * Description of FlashViewModelForRenderer
  *
  * @author pes2704
  */
-class FlashVieModel implements StatusBoardViewModelInterface {
+class FlashViewModelForRenderer implements FlashViewModelForRendererInterface {
 
     private $statusFlashRepo;
 
@@ -23,8 +23,8 @@ class FlashVieModel implements StatusBoardViewModelInterface {
         $this->statusFlashRepo = $statusFlashRepo;
     }
 
-    public function getFlash() {
-        $flashStatus = $flashRepo->get();
-        return $flashStatus ? $flashStatus->getMessage() : '';
+    public function getMessage() {
+        $statusFlash = $this->statusFlashRepo->get();
+        return $statusFlash ? $statusFlash->getMessage() ?? 'no flash' : 'no flash message';
     }
 }

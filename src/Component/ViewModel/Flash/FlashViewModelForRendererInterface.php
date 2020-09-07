@@ -12,6 +12,6 @@ namespace Component\ViewModel\Flash;
  *
  * @author pes2704
  */
-interface FlashViewModelInterface extends \IteratorAggregate {
-
+interface FlashViewModelForRendererInterface {
+    public function getMessage();
 }

@@ -126,14 +126,22 @@ class ComponentController extends LayoutControllerAbstract {
      * @return type
      */
     private function getMenuItemComponent(MenuItemInterface $menuItem) {
+        // dočasně duplicitní s TemplateController
         $editable = $this->isEditableArticle();
         $menuItemType = $menuItem->getTypeFk();
             switch ($menuItemType) {
+//                case 'segment':
+//                    if ($editable) {
+//                        $content = $this->container->get('article.block.editable');
+//                    } else {
+//                        $content = $this->container->get('article.block');
+//                    }
+//                    break;
                 case 'segment':
                     if ($editable) {
-                        $content = $this->container->get('article.block.editable');
+                        $content = $this->container->get('article.headlined.editable');
                     } else {
-                        $content = $this->container->get('article.block');
+                        $content = $this->container->get('article.headlined');
                     }
                     break;
                 case 'empty':

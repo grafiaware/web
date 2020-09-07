@@ -4,7 +4,7 @@ define('PES_FORCE_DEVELOPMENT', 'force_development');
 // nebo
 //define('PES_FORCE_PRODUCTION', 'force_production');
 
-define('PROJECT_DIR', preg_replace('/^' . preg_quote($_SERVER['DOCUMENT_ROOT'], '/') . '/', '', __DIR__));
+define('PROJECT_PATH', str_replace("\\", "/", preg_replace('/^' . preg_quote($_SERVER['DOCUMENT_ROOT'], '/') . '/', '', __DIR__))."/");
 
 include 'vendor/pes/pes/src/Bootstrap/Bootstrap.php';
 
