@@ -5,7 +5,7 @@
                 <?php include "body/hlavicka.php"; ?>
             </header>
             <main class="page-content">
-                <?= $flashMessage ?? '' ?>
+                <?= $flash ?? '' ?>
                 <?= $poznamky ?? '' ?>
                 <?php include "body/telo.php"; ?>
             </main>

@@ -110,7 +110,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
                     'editableJsLinks' => $this->getEditTools($request),
                     'editableCssLinks' => $this->getEditCss($request),
                     'poznamky' => $this->getPoznamky(),
-                    'flashMessage' => $this->getFlashMessage(),
+                    'flash' => $this->getFlashComponent(),
                 ]);
     }
 
@@ -303,7 +303,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
         return $retStr;
     }
 
-    private function getFlashMessage() {
+    private function getFlashComponent() {
         if ($this->isEditableLayout() OR $this->isEditableArticle()) {
 //            $statusFlash = $this->statusFlashRepo->get();
 //            return
