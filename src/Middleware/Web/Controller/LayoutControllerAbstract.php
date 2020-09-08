@@ -155,7 +155,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
                 $this->templatesLayout['tiny_config'] = PROJECT_PATH.'templates/newlayout_3/head/tiny_config.js';
                 break;
             default:
-                $this->templatesLayout['layout'] = PROJECT_PATH.'templates/layout.php';
+                $this->templatesLayout['layout'] = PROJECT_PATH.'templates/layout/layout.php';
                 $this->templatesLayout['linksJs'] = PROJECT_PATH.'templates/layout/head/editableJsLinks.php';
                 $this->templatesLayout['linksCss'] = PROJECT_PATH.'templates/layout/head/editableCssLinks.php';
                 $this->templatesLayout['tiny_config'] = PROJECT_PATH.'templates/layout/head/tiny_config.js';

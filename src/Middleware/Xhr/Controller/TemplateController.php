@@ -17,7 +17,8 @@ use Component\View\{
     Generated\LanguageSelectComponent,
     Generated\SearchPhraseComponent,
     Generated\SearchResultComponent,
-    Generated\ItemTypeSelectComponent
+    Generated\ItemTypeSelectComponent,
+    Flash\FlashComponent
 };
 
 use \Middleware\Xhr\AppContext;
@@ -68,6 +69,11 @@ class TemplateController extends XhrControllerAbstract {
 
     public function template(ServerRequestInterface $request, $name) {
         return $this->createResponseFromString($request, file_get_contents(AppContext::getTinyPublicDirectory()."paper/".$name.".html"));
+    }
+
+    public function flash(ServerRequestInterface $request) {
+        $view = $this->container->get(FlashComponent::class);
+        return $this->createResponseFromView($request, $view);
     }
 
     public function namedPaper(ServerRequestInterface $request, $name) {

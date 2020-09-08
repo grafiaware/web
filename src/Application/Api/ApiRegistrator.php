@@ -93,5 +93,6 @@ class ApiRegistrator {
         $registry->register($this->getPrototype->withUrlPattern('/component/template/:name'));
         $registry->register($this->getPrototype->withUrlPattern('/component/namedpaper/:name'));
         $registry->register($this->getPrototype->withUrlPattern('/component/presentedpaper'));
+        $registry->register($this->getPrototype->withUrlPattern('/component/flash'));
     }
 }

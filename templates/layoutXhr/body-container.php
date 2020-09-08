@@ -5,7 +5,9 @@
                 <?php include "body/hlavicka.php"; ?>
             </header>
             <main class="page-content">
-                <?= $flash ?? '' ?>
+                <div id="component_flash">
+                    <script>$("#component_flash").load("component/flash");</script>
+                </div>
                 <?= $poznamky ?? '' ?>
                 <?php include "body/telo.php"; ?>
             </main>

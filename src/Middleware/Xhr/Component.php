@@ -77,6 +77,11 @@ class Component extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(TemplateController::class);
             return $ctrl->presentedPaper($request);
             });
+        $routeGenerator->addRouteForAction('GET', '/component/flash', function(ServerRequestInterface $request) {
+            /** @var TemplateController $ctrl */
+            $ctrl = $this->container->get(TemplateController::class);
+            return $ctrl->flash($request);
+            });
 ####################################
         /** @var $router RouterInterface */
         $router = $this->container->get(RouterInterface::class);
