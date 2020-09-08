@@ -1,0 +1,309 @@
+@import "../../semantic/src/themes/default/globals/site.variables";
+@import "../../semantic/src/site/globals/site.variables";
+@halfWidth: 50%;
+@backgroundLightGrey: lighten(@lightGrey, 5%);
+
+body{    
+    //zobrazeni sady buttonu pro operace s polozkou menu
+    .menu.edit li:not(.presented) .buttons{
+        display: none;
+    }
+    .vodorovne-menu .menu.edit li.onpath.presented > .buttons.editMenu{
+        > .button:last-child{
+            height: 28px;
+        }
+    }
+    .menu.edit li.onpath.presented > .buttons.editMenu{
+        display: block;
+        background: #fbfbe7;
+        > .button:last-child{
+            background-color: #f8f3ff;
+            &:hover{
+                background-color: @white;
+            }
+        }
+        > .dropdown.button{ //rozeviraci nabidka u menu
+            display: inline-table;
+            &[data-tooltip]::after{
+                font-weight: 700;
+            }
+            .menu{
+                background-color: @white;
+                button.item{
+                    font-size: 1.3em !important;
+                }
+            }
+        }
+    }
+    .menu.edit li.onpath.presented > .buttons.editName{
+        display: none;
+        background-color: #fff1d5;
+    }
+
+    //ukazatele stavu stranky u polozky menu
+    .semafor{
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        top: 0;
+        left: -21px;
+        i.icon{
+            margin-bottom: 2px;
+        }
+        &.polozky_menu{
+            left: -1px;
+        }
+    }
+    li a > .semafor.polozky_menu{
+        justify-content: center;
+        height: 100%;
+    }
+    li > .semafor.polozky_menu{
+        top: 4px;
+    }
+    .vodorovne-menu li .semafor.polozky_menu{
+        left: -6px;
+        background-color: @white;
+        border: 1px solid @primaryColor;
+        border-radius: 5px 0 0 5px;
+        i{
+            padding-left: 3px;
+        }
+    }
+
+    //modry roh u contentu
+    section{
+        position: relative;
+        > form:nth-of-type(2){
+            position: static !important;
+        }
+        .right.blue.corner.label{
+            font-size: 0.3em;
+            right: -5px;
+            border-color: lighten(@blue,40) !important;
+            z-index: 1;
+        }
+    }
+    section .ui.corner.label{
+        width: 2em;
+        height: 2em;
+        .icon.editContent{
+            position: initial;
+            .icon{
+                position: initial;
+            }
+            .icons .icon{
+                transform: translateX(50%);
+            }
+        }
+        .icon.editDate{
+            .icon{
+                position: initial;
+            }
+        }
+    }
+    
+    //smazany content
+    section.trash .trash_content{
+        filter: grayscale(1);
+        opacity: 0.5;
+    }
+    .trash_content{
+        padding: 10px;
+        margin: 0 -5px 5px -5px;
+        outline: 1px dotted #ddc5ff;
+        &:hover{
+            outline-color: darken(#f8f3ff,15);
+        }
+    }
+    
+    //buttony pro paper
+    .grafia.segment.headlined.editable .buttons:not(.editContent),
+    .grafia.segment.block.editable .buttons:not(.editContent){
+        position: absolute;
+        top: -32px;
+        [data-tooltip]::after{
+            font-weight: 700;
+        }
+    }
+    .grafia.segment.headlined.editable .buttons.editPage{
+        right: -6px;
+        background: #fbfbe7;
+        > .toolsDate{
+            background-color: #fff1d5;
+        }
+    }
+    .grafia.segment.headlined.editable .buttons.editDate{
+        background-color: #fff1d5;
+        right: 0px;
+    }
+    .grafia.segment.block.editable .buttons.editPage{
+        right: -6px;
+        background-color: #edf7ff;
+        > .toolsDate{
+            background-color: #fff1d5;
+        }
+    }
+    .grafia.segment.block.editable .buttons.editDate{
+        background-color: #fff1d5;
+        right: 0;
+    }
+    
+    //buttony pro content 
+    #editName{
+        display: none;
+    }
+    //editace aktualnosti contentu (kalendar)
+    .editDate, .buttons.editDate{
+        display: none;
+    }
+    .editDate{
+        flex-direction: row;
+        z-index: 10;
+        position: relative;
+    }
+    .edit_kalendar{
+        position: absolute;
+        background-color: #fff1d5;
+        border-radius: 5px;
+        border: 1px solid @lightGrey;
+        z-index: 1;
+        padding: 10px;
+        cursor: auto;
+        font-size: 2.8em;
+        color: @black;
+        top: 0;
+        p{
+            text-align: left;
+            margin-bottom: 5px;
+        }
+        .calendar{
+            margin-bottom: 10px;
+        }
+        .ui.button{
+            border-radius: 5px !important;
+            border: 1px solid @lightGrey !important;
+            background: @white;
+            padding: 8px;
+        }
+        .ui.button[type="submit"]{
+            width: 100%;  
+            color: @green !important;
+            border-color: @green !important;
+        }
+    }
+    .grafia.segment.headlined.editable .edit_kalendar{
+        right: -0.15em;
+    }
+    .grafia.segment.block.editable .edit_kalendar{
+        right: 0;
+    }
+    //operace s contentem - pridat obsah, posunout obsah, smazat... 
+    .contentButtons{
+        display: flex;
+        flex-direction: column;
+        display: none;
+        position: absolute;
+        right: 6px;
+        top: 6px;
+    }
+    .buttons.editContent{
+        position: absolute;
+        background-color: #fbfbe7;
+        z-index: 5;
+        width: 100px;
+        .arrow.icon{
+            font-size: 1em;
+            right: -11px;
+        }
+        &:first-child{
+            top: 0px;
+        }
+        &:nth-child(2){
+            top: 30px;
+        }
+        &:nth-child(3){
+            top: 60px;
+        }
+        &:nth-child(4){
+            top: 90px;
+            background-color: #f8f3ff;
+        }
+        button[data-tooltip]::after{
+            font-weight: 700;
+        }
+    }
+    .contentButtons.trash .editContent{
+        background-color: #f8f3ff;
+    }
+    
+    //prostredi pro tiny
+    .mce-content-body{
+        padding: 5px;
+        margin: 0 -5px;
+    }
+    .mce-edit-focus:not(.paper_template_select){
+        //outline: 2px dashed @green;
+        background: linear-gradient(90deg, @green 50%, transparent 50%),
+                    linear-gradient(90deg, @green 50%, transparent 50%),
+                    linear-gradient(0deg, @green 50%, transparent 50%),
+                    linear-gradient(0deg, @green 50%, transparent 50%);
+        background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+        background-size: 12px 3px, 12px 3px, 3px 12px, 3px 12px;
+        padding: 5px;
+        margin: 0 -5px;
+        animation: border-dance 40s infinite linear;
+        height: max-content;
+    }
+    .mce-edit-focus.paper_template_select{
+        //outline: 2px dashed @green;
+        background: linear-gradient(90deg, @teal 50%, transparent 50%),
+                    linear-gradient(90deg, @teal 50%, transparent 50%),
+                    linear-gradient(0deg, @teal 50%, transparent 50%),
+                    linear-gradient(0deg, @teal 50%, transparent 50%);
+        background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+        background-size: 12px 3px, 12px 3px, 3px 12px, 3px 12px;
+        animation: border-dance 40s infinite linear;
+        margin: 5px 10px;
+        height: max-content;
+    }
+
+    block:not(mce-edit-focus) a[data-mce-selected="inline-boundary"],
+    content:not(mce-edit-focus) a[data-mce-selected="inline-boundary"]{
+        background-color: @white !important;
+    }
+    block.mce-edit-focus a[data-mce-selected="inline-boundary"],
+    content.mce-edit-focus a[data-mce-selected="inline-boundary"]{
+        background-color: #b4d7ff !important;
+    }
+    .mce-content-body .ui.grid{
+        background-color: lightyellow;
+        .column{
+            outline: 1px dashed @lightGrey !important;
+        }
+    }
+    .mce-content-body .ui.grid .ui.grid{
+        background-color: initial;
+    }
+    .mce-content-body .button{
+        user-select: text;
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+        cursor: text;
+    }
+    .tox-toolbar-dock-fadein{
+        z-index: 2;
+    }
+}
+.layout.preview{
+    background: @white !important;
+    background-image: none !important;
+    .ui.segment[data-component="presented"]{
+        margin: 50px 30px 0;
+        border: 0;
+        box-shadow: none;
+        padding: 0 1em;
+    }
+}
+
