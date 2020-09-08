@@ -28,11 +28,12 @@ var headlineConfig = {
     'paste',
     'autolink',
     'quickbars',
-    'link'
+    'link',
+    'save'
     ],
     toolbar: false,
     quickbars_insert_toolbar: '',
-    quickbars_selection_toolbar: 'undo redo | removeformat italic | link ',
+    quickbars_selection_toolbar: 'save | undo redo | removeformat italic | link ',
 //    toolbar: 'undo redo | bold italic underline | save',
     relative_urls : true,
     extended_valid_elements : ['i[*]', 'headline'],
@@ -128,8 +129,9 @@ var editorFunction = function (editor) {
     };
 
 var segmentConfig = {
-    selector: '.headlined.editable content', //.segment:not(.locked):not(.notpermitted) .grafia.segment...
+    selector: 'content', //.segment:not(.locked):not(.notpermitted) .grafia.segment...
     schema : 'html5',
+    placeholder: 'Nový obsah',
 
     language : tinyConfig.toolbarsLang,
     document_base_url : tinyConfig.basePath,
@@ -204,7 +206,7 @@ var segmentConfig = {
 };
 
 var perexConfig = {
-    selector: '.editable perex', //.segment:not(.locked):not(.notpermitted) .grafia.segment...
+    selector: 'perex', //.segment:not(.locked):not(.notpermitted) .grafia.segment...
     schema : 'html5',
     placeholder: 'Vyplňte perex',
 
@@ -254,25 +256,6 @@ var perexConfig = {
     setup: editorFunction
 };
 
-var blockConfig = {
-    selector: '.block.editable content',
-    schema : 'html5',
-
-    language : tinyConfig.toolbarsLang,
-    document_base_url : tinyConfig.basePath,
-    content_css: tinyConfig.contentCss,
-
-    menubar: false,
-    inline: true,
-    plugins: [
-    'lists paste autolink link image save'
-    ],
-    toolbar: 'undo redo | alignleft aligncenter alignright | link image | save',
-    relative_urls : true,
-    extended_valid_elements : 'i[*], block',
-    custom_elements: 'block'
-};
-
 var headerFooterConfig = {
     selector: '.kontaktni-udaje, footer p',
     schema : 'html5',
@@ -294,7 +277,7 @@ var headerFooterConfig = {
 var selectPaperTemplateConfig = {
     selector: '.paper_template_select',
     schema : 'html5',
-    placeholder: 'Výběr šablony článku',
+    placeholder: 'Výběr šablony stránky',
 
     language : tinyConfig.toolbarsLang,
     document_base_url : tinyConfig.basePath,
@@ -336,6 +319,5 @@ var selectPaperTemplateConfig = {
 tinymce.init(headlineConfig);
 tinymce.init(segmentConfig);
 tinymce.init(perexConfig);
-tinymce.init(blockConfig);
 tinymce.init(headerFooterConfig);
 tinymce.init(selectPaperTemplateConfig);

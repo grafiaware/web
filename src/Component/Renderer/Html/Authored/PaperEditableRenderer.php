@@ -43,7 +43,7 @@ class PaperEditableRenderer  extends AuthoredEditableRendererAbstract {
         }
         // atribut data-component je jen pro info v html
         return Html::tag('div', ['data-component'=>$name, 'class'=>$this->classMap->getClass('Segment', 'div')],
-                Html::tag('div', ['class'=>'paper_template_selec t'.$this->classMap->getClass('Segment', 'div.grafia')], $innerHtml)
+                Html::tag('div', ['class'=>$this->classMap->getClass('Segment', 'div.paper')], $innerHtml)
             );
     }
 
@@ -56,6 +56,7 @@ class PaperEditableRenderer  extends AuthoredEditableRendererAbstract {
 //                'onblur'=>'var throw=confirm("Chcete zahodit změny v obsahu headline?"); if (throw==false) {document.getElementByName("headline").focus(); }'
 
         return
+                $this->renderPaperTemplateButtonsForm($paperAggregate).
                 $this->renderPaperButtonsForm($paperAggregate).
                 $this->renderHeadlineForm($paperAggregate).
                 $this->renderPerexForm($paperAggregate).

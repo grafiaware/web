@@ -95,6 +95,11 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
                             'div button1 i2' => 'corner red exclamation icon',
                             'div button4 i' => 'large cut icon' //zmena na paste pri vkladani z vyberu (vybrat k presunuti)
                         ],
+            'paper_template_edit_buttons' => [
+                            'div.paperTemplate' => 'mini ui basic icon buttons changePaperTemplate',
+                            'div button' => 'ui button',
+                            'div button1 i' => 'large clone outline icon'
+                        ],
             'paper_edit_buttons' => [
                             'div.page' => 'mini ui basic icon buttons editPage',
                             'div button' => 'ui button',
@@ -348,14 +353,14 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
                         'div'=>'ui segment',
                         ],
                      'Headline' => [
-                        'div'=>'grafia segment headlined headline',
+                        'div'=>'paper',
                         'headline'=>'ui header',
                         ],
                      'Perex' => [
-                        'perex'=>'grafia segment headlined content',
+                        'perex'=>'',
                         ],
                      'Content' => [
-                        'content'=>'grafia segment headlined content',
+                        'content'=>'',
                         ]                    ]
                 );
             },
@@ -363,7 +368,7 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new ClassMap (
                     ['Segment' => [
                         'div'=>'ui segment',
-                        'div.grafia'=>'grafia segment headlined editable',
+                        'div.paper'=>'paper editable',
                         ],
                      'Headline' => [
                         'section'=>'',
@@ -394,6 +399,7 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
                         'content'=>'',
                         'div.trash_content'=>'trash_content'
                         ],
+                     'PaperTemplateButtons' => $c->get('paper_template_edit_buttons'),
                      'PaperButtons' => $c->get('paper_edit_buttons'),
                      'ContentButtons' => $c->get('content_edit_buttons'),
                      'TrashButtons' => $c->get('deleted_content_buttons'),
@@ -404,7 +410,7 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
             'block.classmap' => function(ContainerInterface $c) {
                 return new ClassMap (
                     ['Segment' => [
-                        'div'=>'grafia segment block',
+                        'div'=>'paper',
                         ],
                      'Headline' => [
                         'div'=>'',
@@ -422,7 +428,7 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
             'block.editable.classmap' => function(ContainerInterface $c) {
                 return new ClassMap (
                     ['Segment' => [
-                        'div'=>'grafia segment block editable',
+                        'div'=>'paper editable',
                         ],
                      'Headline' => [
                         'section'=>'',
@@ -444,6 +450,7 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
                         'i2.notactivenotactual' => 'calendar times icon red',
                         'content'=>''
                         ],
+                    'PaperTemplateButtons' => $c->get('paper_template_edit_buttons'),
                     'PaperButtons' => $c->get('paper_edit_buttons'),
                     'ContentButtons' => $c->get('content_edit_buttons'),
                     ]

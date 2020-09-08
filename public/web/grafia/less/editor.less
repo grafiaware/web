@@ -315,90 +315,6 @@ body.layout#tinymce{
             border-left: 0 !important;
         }
     }
-    
-    /***VYBEROVE MENU***/
-    .nav-vyberove{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        position: fixed;
-        padding: 5px;
-        margin-top: 0;
-        left: 15px;
-        border: 1px solid @lightGrey;
-        border-radius: 5px;
-        box-shadow: 1px 1px 10px 1px rgba(34,36,38,.15);
-        &:hover{
-            background-color: rgb(242, 242, 242);
-            transition: 0.3s all;
-        }
-    }
-    #vyberove_menu {
-        display: none;
-        height: 100%;
-        width: auto;
-        background-color: @white; 
-        position: fixed!important;
-        top: 0;
-        left: 0;
-        z-index: 100;
-        overflow: auto;
-        -webkit-animation: animateleft 0.4s;
-        animation: animateleft 0.4s;
-        padding: 20px;
-        .close_vyberoveMenu{
-            font-size: 1.3em;
-            display: flex;
-            flex-direction: column; 
-            align-items: end;
-            margin: -5px 10px 0 0;
-        }
-        .svisle-menu ul.menu.edit{
-            width: 100%;
-        }
-        .vodorovne-menu ul.menu.edit{
-            padding-left: 0px;
-            margin: 10px 0 10px -7px;
-            
-        }
-    }
-    #prekryti_pro_vyber{
-        position: fixed;
-        display: none;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: rgba(0, 0, 0, 0.5); //@transparentBlack
-        z-index: 5;
-    }
-    .nav_vyberove{
-        cursor: pointer;
-        display: flex;
-        width: 75px;
-        padding: 5px;
-        margin-top: 0;
-        left: 15px;
-        border: 1px solid @lightGrey;
-        border-radius: 5px;
-        box-shadow: 1px 1px 10px 1px rgba(34,36,38,.15);
-        &:hover{
-            background-color: rgb(242, 242, 242);
-            transition: 0.3s all;
-        }
-    }
-    @keyframes animateleft {
-      from {
-        left: -300px;
-        opacity: 0;
-      }
-      to {
-        left: 0;
-        opacity: 1;
-      }
-    }
 
     /***PRESMEROVANI MENU***/
     .presmerovani-menu .menu.edit .item{
@@ -523,50 +439,45 @@ body.layout#tinymce{
     .segment.locked a, .segment.notpermitted a{
         pointer-events: none;
     }
-    .buttons.editComponent{
+    .buttons.changePaperTemplate{
         position: absolute;
         top: -32px;
         right: 28px;
-        background-color: #f8f3ff;
+        background-color: #edf7ff;
         [data-tooltip]::after{
             font-weight: 700;
         }
     }
-    .grafia.segment.headlined.editable .buttons:not(.editContent),
-    .grafia.segment.block.editable .buttons:not(.editContent){
+    .paper.editable .buttons:not(.editContent){
         position: absolute;
         top: -32px;
         [data-tooltip]::after{
             font-weight: 700;
         }
     }
-    .grafia.segment.headlined.editable .buttons.editPage{
+    .paper.editable .buttons.editPage{
         right: -6px;
         background: #fbfbe7;
         > .toolsDate{
             background-color: #fff1d5;
         }
     }
-    .grafia.segment.headlined.editable .buttons.editDate{
+    .paper .buttons.editDate{
         background-color: #fff1d5;
         right: 0px;
     }
-    .grafia.segment.block.editable .buttons.editPage{
+/*    .grafia.segment.block.editable .buttons.editPage{ //.paper
         right: -6px;
         background-color: #edf7ff;
         > .toolsDate{
             background-color: #fff1d5;
         }
-    }
-    .grafia.segment.block.editable .buttons.editDate{
-        background-color: #fff1d5;
-        right: 0;
-    }
-    .grafia.segment.block.editable{
+    }*/
+    .paper.editable{
         position: relative;
         margin: 0 10px;
     }
-    .grafia.segment.headlined.editable{ //headline
+    .paper.editable{ //headline
         margin-left: 10px;
         headline{ //h2
             margin-left: -0.45em;
@@ -668,12 +579,12 @@ body.layout#tinymce{
             border-color: @green !important;
         }
     }
-    .grafia.segment.headlined.editable .edit_kalendar{
+    .paper.editable .edit_kalendar{
         right: -0.15em;
     }
-    .grafia.segment.block.editable .edit_kalendar{
+/*    .grafia.segment.block.editable .edit_kalendar{
         right: 0;
-    }
+    }*/
     .contentButtons{
         display: flex;
         flex-direction: column;

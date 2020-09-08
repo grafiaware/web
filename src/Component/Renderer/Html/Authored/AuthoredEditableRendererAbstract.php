@@ -22,6 +22,26 @@ use Pes\Text\Html;
  */
 abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
 
+    protected function renderPaperTemplateButtonsForm(PaperAggregateInterface $paperAggregate) {
+        $paperId = $paperAggregate->getId();
+        return
+            Html::tag('form', ['method'=>'POST', 'action'=>""],
+                Html::tag('div', ['class'=>$this->classMap->getClass('PaperTemplateButtons', 'div.paperTemplate')],
+                    Html::tag('button', [
+                        'class'=>$this->classMap->getClass('PaperTemplateButtons', 'div button'),
+                        'data-tooltip'=>'Výběr šablony stránky',
+                        'data-position'=>'top right',
+                        'type'=>'submit',
+                        'name'=>'',
+                        'formmethod'=>'post',
+                        'formaction'=>"",
+                    ],
+                    Html::tag('i', ['class'=>$this->classMap->getClass('PaperTemplateButtons', 'div button1 i')])
+                    )
+                )
+            );
+    }
+    
     protected function renderPaperButtonsForm(PaperAggregateInterface $paperAggregate) {
         $paperId = $paperAggregate->getId();
 

@@ -186,7 +186,7 @@ class ContentController extends PresentationFrontControllerAbstract {
 
     private function createNewContent($paperId, $priority) {
         $newContent = new PaperContent();
-        $newContent->setContent("Nový obsah");
+        $newContent->setContent(""); //Nový obsah
         $newContent->setPaperIdFk($paperId);
         $newContent->setPriority($priority);
         return $newContent;
