@@ -4,17 +4,73 @@
 @backgroundLightGrey: lighten(@lightGrey, 5%);
 @lightGrey: #DCDDDE;
 
-body.layout{
+
+.layout{
     background-image: url("../img/Grafiabgr1.gif") !important;
     background-color: @lightGrey !important;
-}
-body.layout > .container > .column{
+    
+    > .container > .column{
     background-color: @white;
     border: 10px solid @backgroundLightGrey;
     padding: 0 15px 15px;
     border-radius: @bigBorderRadius;
-}
-.layout{
+    }
+    
+    header .prihlaseni{
+        margin-right: 2px;
+        position: relative; 
+        float: right;
+        margin-top: 6px;
+        margin-bottom: -5px;
+        .header.item{
+            background-color: @white;
+            cursor: default;
+            text-align: center;
+            &:hover{
+                background-color: @white;
+            }
+        }
+        div.icon{
+            padding: 7px;
+        }
+        input{
+            border: 1px solid @lightGrey !important;
+        }
+        button.fluid{
+            margin: 5px 0;
+        }
+        .ui.labeled.icon.button > .icon::before{
+            top: -7px;
+        }
+        .menu{
+            padding: 0 8px;
+        }
+        .logout{
+            display: inline-block;
+            > p, > form{
+                display: inline-block;
+            }
+            > form{
+                button > i.icon{
+                    font-size: 1.4em;
+                }
+            }
+        }
+        > form{
+            float: right;
+        }
+        &:not(.dimmed){
+            button:not(.fluid){
+                position: relative;
+                left: 15%;
+                margin-bottom: 15px;
+                &.positive{
+                    left: 20%;
+                }
+            }
+        }
+    }
+    
     display_none{
         display: none;
     }
@@ -334,10 +390,11 @@ body.layout > .container > .column{
             color: @darkRedGrafia;
         }
     }
-    .vodorovne-menu .menu{
+    .vodorovne-menu .text.menu{
+        width: 700px;
         flex-wrap: wrap;
         .item{
-            margin: 6px 5px 6px 0;
+            margin: 5px 5px 5px 0;
         }
     }
 }
