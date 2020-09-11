@@ -1,11 +1,11 @@
 @import "../../semantic/src/themes/default/globals/site.variables";
 @import "../../semantic/src/site/globals/site.variables";
-@halfWidth: 50%;
-@backgroundLightGrey: lighten(@lightGrey, 5%);
 @white: #fff;
+@mediumGrey: darken(@lightGrey, 15);
+@barvaEditButtony: #FBFBE7;
+@barvaKos: #F8F3FF;
 
-.layout{
-    
+.layout{  
     /*celá stránka v editačním režimu posunutá napravo*/
     .ui.container.editable{
         margin-left: auto !important;
@@ -13,7 +13,6 @@
         position: relative;
         right: 0;
     }
-    
     /*poznámky a flash mají stejný styl, jen jinou pozici*/
     .poznamky{
         z-index: 1;
@@ -22,7 +21,7 @@
         width: 250px;
         background: @white;
         border-radius: 5px;
-        box-shadow: 1px 1px 10px 1px #bbb;
+        box-shadow: 1px 1px 10px 1px @mediumGrey;
         transition: 0.7s linear;
         .label{ //horní pruh s ikonou
             margin: 0 !important;
@@ -54,11 +53,13 @@
         }
     }
     
+    
     /***HEADER***/
     /*header posunutý od horního okraje pouze v edit. režimu kvůli data-tooltip u buttonů*/
     header{
         margin-top: 50px;
     }
+    
     
     /***MENU***/
     /*pouzivane tridy u polozky menu (li):
@@ -66,9 +67,7 @@
         .onpath - "na ceste"; pouziva se u kazde polozky, na kterou se klikne - potreba pro stylovani podmenu
         .presented - pouziva se vzdy u posledni polozky, na kterou se klikne
         .item je pouzita u (li) nebo (a) podle sady stylu semantic UI (semanticka trida)
-        .cut - třída se přidá, pokud se klikne na tlačítko vybrat k přesunutí*/
-    
-    
+        .cut - třída se přidá, pokud se klikne na tlačítko vybrat k přesunutí*/ 
     /*PRO VSECHNA MENU*/
     /*vybraná položka menu má editovatelný název - přizpůsobený kurzor myši*/
     /*nový název se ukládá pomocí entru - zároveň se vloží html <br>, které tam není žádoucí*/
@@ -111,7 +110,7 @@
             li:first-child{
                 text-align: center;
                 > .item{
-                    background-color: #edf7ff !important;
+                    background-color: @barvaEditButtony !important;
                     > i{
                         display: none;
                     }
@@ -127,12 +126,11 @@
             li:first-child{
                 text-align: center;
                 > .item{
-                    background-color: #f8f3ff !important;
+                    background-color: @barvaKos !important;
                 }
             }
         }
-    } 
-    
+    }   
     /*VODOROVNE MENU*/
     .vodorovne-menu .menu.edit{
         .item{
@@ -143,17 +141,28 @@
             }
             
         }
-    }
-    
+    }  
     /*PRESMEROVANI MENU*/
     .presmerovani-menu .menu.edit .item{
         margin-right: 10px;
         padding: 0.25em 1em !important;
     }
   
-    /***MAIN***/
     
-    //grafia segment block/headlined - změna na .paper
+    /***PAPER***/
+    .paper.editable{
+        margin: 0 10px;
+        section{
+            /*vytvoření nového omezujícího bloku - pro zanořené position: absolute*/
+            position: relative;
+            margin-bottom: 5px;
+        }
+    }
+}
+
+
+//KE SMAZÁNÍ
+//grafia segment block/headlined - změna na .paper
     .grafia.segment.block.editable{
         position: relative;
         margin: 0 10px;
@@ -183,10 +192,11 @@
             display: flex;
         }
     }
-}
-
-
-//KE SMAZÁNÍ
+    section{
+            /*vytvoření nového omezujícího bloku - pro zanořené position: absolute*/
+            position: relative;
+            margin-bottom: 5px;
+        }
 /***VYBEROVE MENU***/ 
     .nav-vyberove{
         display: flex;
