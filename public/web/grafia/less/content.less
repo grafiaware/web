@@ -1,108 +1,59 @@
 @import "../../semantic/src/themes/default/globals/site.variables";
 @import "../../semantic/src/site/globals/site.variables";
-@halfWidth: 50%;
 @backgroundLightGrey: lighten(@lightGrey, 5%);
-@redGrafia: #EB1B4C;
-@redTextColor: darken(@darkRedGrafia, 10);
 
 .layout{
-    .page-content{
-        h1{
-            color: @redTextColor;
-            background-color: @backgroundLightGrey;
-            border-radius: 5px;
-            font-size: @h1;
-            text-align: center;
-            padding: 5px 0;
-            margin-top: 0;
-        } 
-    }
-    .page-content .articleHeadline-editable > button.ui.button.save {
-        position: relative;
-        top: 0;
-        float: none;
+    
+    /***PAPER***/
+    /*používané třídy
+        .articleHeadlined - rodič .ui.segment (semantická třída, obalovací div .paper) - pouze prostřední část <main> (obsah stránek z menu) */
+    .paper, .ui.segment{
         clear: both;
     }
-    .white.basic.segment{
-        background-color: white; 
-        color: black;
-        margin: 5px auto;
-        opacity: 1;
+    .articleHeadlined > .ui.segment{
+        border: 0;
+        box-shadow: none;
+        padding: 0 1em;
     }
-/*    .dimmer .content{ //prihlaseni pres modalove okno semantic .dimmer
-        width: 17%;
-        .center{
-            p{
-                font-weight: 700;
-                padding: 7px;
-                border-radius: 5px;
-                position: relative;
-                border: 1px solid white;
-                background-color: rgba(0,0,0,.3);
-                &::before{
-                    content: "\f007";
-                    position: absolute;
-                    left: 15px;
-                    z-index: 1;
-                    height: 1em;
-                    opacity: 1;
-                    font-family: icons;
-                }
+    .paper{
+       /*styly pro rozdělení contentů - "dolní dělící čára" je border-bottom*/
+        content{
+            margin-top: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid @lightGrey;
+            &:only-of-type{
+                border-bottom: 0;
             }
-            form > .field > button.button{
-                color: inherit; //
-                > i.large::before{
-                    top: -9px;
-                }
+            &:last-of-type{
+                border-bottom: 0;
             }
         }
-    }*/
-    .grafia.segment.headlined content p {
-        margin: 5px 0;
     }
-    .segment headline.header{
+    /*nadpis paperu*/
+    /*díky .segment se rozliší nadpis pro block (logo, razítko,...) a pro headlined (aktuality, odkazy,...)*/
+    /*myšlený .ui.segment semantický*/
+    .segment headline.header{ 
         color: @redTextColor;
         background-color: @backgroundLightGrey;
         border-radius: 4px 4px 0 0;
         text-align: center;
-        margin-top: -12px !important; //pro nadpisy v segmentu
+        margin: 0 -12px;
+        margin-top: -12px !important; //pro nadpisy v ohraničeném paperu (např. aktuality)
         padding: 5px 15px;
         p{
             font-size: @h2;
             margin-bottom: 0;
         }
     }
-    #contents .segment headline.header{
+    #contents headline{
         margin-top: 0 !important; //pro hlavni obsah - zarovnaný s menu
     }
-    #contents content.grafia.content:not(.mce-content-body){
-        margin-top: 10px;
-        margin-bottom: 15px;
-        padding-bottom: 15px;
-        border-bottom: 1px solid @lightGrey;
-        &:only-of-type{
-            border-bottom: 0;
-        }
-        &:last-of-type{
-            border-bottom: 0;
-        }
-    }
-    .segment img{
-        max-width: 100%;
-        height: auto;
-    }
-    .ui.segment, block{
-        clear: both;
-    }
-    .primary.button > a{
-        color: inherit;
-    }
-    .primary.button:hover{
-        background-color: @linkHoverColor !important;
-    }
-    .kontakt-hlavicka{
-        display: flex;
-        flex-direction: row-reverse;
+    
+   
+    /***FOOTER***/
+    footer p{
+        margin: 5px 0;
+        color: @redTextColor;
     }
 }
 

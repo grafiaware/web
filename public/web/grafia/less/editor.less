@@ -1,6 +1,5 @@
 @import "../../semantic/src/themes/default/globals/site.variables";
 @import "../../semantic/src/site/globals/site.variables";
-@white: #fff;
 @mediumGrey: darken(@lightGrey, 15);
 @barvaEditButtony: #FBFBE7;
 @barvaKos: #F8F3FF;
@@ -135,7 +134,7 @@
     .vodorovne-menu .menu.edit{
         .item{
             padding-left: 5px;
-            /*padding pro polozku menu (semantická třída .button, aby položka vypadala jako tlačítko)*/
+            /*padding pro položku menu (semantická třída .button, aby položka vypadala jako tlačítko)*/
             a.button, p.button{
                 padding: 9px 12px;
             }
@@ -145,7 +144,6 @@
     /*PRESMEROVANI MENU*/
     .presmerovani-menu .menu.edit .item{
         margin-right: 10px;
-        padding: 0.25em 1em !important;
     }
   
     
@@ -153,9 +151,13 @@
     .paper.editable{
         margin: 0 10px;
         section{
-            /*vytvoření nového omezujícího bloku - pro zanořené position: absolute*/
+            /*vytvoření nového omezujícího bloku - pro zanořené position: absolute (vyuzivaji prvky-editace.less)*/
             position: relative;
             margin-bottom: 5px;
+        }
+        headline{ 
+            margin-left: -0.45em;
+            margin-right: -0.45em;
         }
     }
 }

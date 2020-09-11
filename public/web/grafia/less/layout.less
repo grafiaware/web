@@ -1,27 +1,113 @@
 @import "../../semantic/src/themes/default/globals/site.variables";
 @import "../../semantic/src/site/globals/site.variables";
-@halfWidth: 50%;
 @backgroundLightGrey: lighten(@lightGrey, 5%);
-@lightGrey: #DCDDDE;
-
 
 .layout{
+    /***BODY***/
     background-image: url("../img/Grafiabgr1.gif") !important;
     background-color: @lightGrey !important;
-    
     > .container > .column{
     background-color: @white;
     border: 10px solid @backgroundLightGrey;
     padding: 0 15px 15px;
     border-radius: @bigBorderRadius;
     }
+    img{
+        max-width: 100%; //aby se obrázky "vešly" do semantických obalů
+        height: auto; //kvůli deformaci, pokud má obrázek nastavenou výšku i šířku
+    }
+    /*TLAČÍTKA*/
+    .primary.button{
+        /*aby v červeném tlačítku nebyl červený text*/
+        > a{
+            color: inherit;
+        }
+        &:hover{
+            background-color: @linkHoverColor !important;
+        }
+    } 
+    /*VLASTNÍ HTML TAGY*/
+    headline, content, block, div[class=""], perex{
+        display: block;
+        position: relative;
+        span[class=""]{
+            display: inline-block;
+        }
+    }
     
-    header .prihlaseni{
-        margin-right: 2px;
-        position: relative; 
+    /***HEADER***/
+    /*změna paddingů oproti semanticu*/
+    header{
+        padding-top: 10px;
+        margin-bottom: 10px;
+        .grid > .row:first-child{
+            padding-bottom: 0;
+        }
+        .grid > .row:first-child,
+        .grid > .row:last-child{
+            > .column:first-child{
+                padding-right: 0; //zarovnani s 1.sloupcem v main
+            }
+            > .column:last-child{
+                padding-left: 0; //zarovnani se 3.sloupcem v main
+            }
+        }
+    }
+    header{
+        a{
+            /*v hlavičce nebudou odkazy červené (týká se i .presmerovani-menu)*/
+            color: inherit;
+            &:hover{
+                color: inherit;
+            }
+        }
+        /*VYHLEDÁVÁNÍ*/
+        .fluid.input{
+            margin-right: 5px;
+            display: flex;
+            position: relative
+        }
+    }
+    /*KONTAKT*/
+    /*mapa a kontaktní údaje v hlavičce*/
+    .kontakt-hlavicka{
+        font-size: 0.8em;
+        text-align: right;
+        color: grey;
+        display: flex;
+        flex-direction: row-reverse;
+        margin-bottom: 5px;
+        img{ 
+            margin: 0 5px;
+        }
+        .kontaktni-udaje p{
+            margin: 0;
+        }
+    }
+    /*JAZYKY*/
+    /*vlajky na přepínání mezi jazykovými verzemi webu*/
+    .jazyky{
+        margin: 10px 5px auto 0;
+        float: left;
+        .button{
+            padding: 0;
+            margin-right: 0;
+        }
+        img{
+            vertical-align: middle;
+            width: 30px;
+            height: 17px;
+            &.jazyk-on{
+                border: double @linkColor 3px;
+                height: 20px;
+                width: 33px;
+            }
+        }
+    }
+    /*PŘIHLÁŠENÍ*/
+    .prihlaseni{
+        margin: 6px 2px -5px 0;
         float: right;
-        margin-top: 6px;
-        margin-bottom: -5px;
         .header.item{
             background-color: @white;
             cursor: default;
@@ -40,145 +126,34 @@
             margin: 5px 0;
         }
         .ui.labeled.icon.button > .icon::before{
-            top: -7px;
+            top: -10px;
         }
         .menu{
             padding: 0 8px;
         }
         .logout{
             display: inline-block;
-            > p, > form{
-                display: inline-block;
+            i.icon{
+                font-size: 1.2em;
             }
-            > form{
-                button > i.icon{
-                    font-size: 1.4em;
-                }
-            }
+
         }
-        > form{
+        > form{ //obalit do divu - v tomhle formu je tlacitko Akce
             float: right;
         }
-        &:not(.dimmed){
-            button:not(.fluid){
-                position: relative;
-                left: 15%;
-                margin-bottom: 15px;
-                &.positive{
-                    left: 20%;
-                }
+        button:not(.fluid){
+            position: relative;
+            left: 15%;
+            margin-bottom: 15px;
+            &.positive{
+                left: 20%;
             }
         }
     }
+        
     
-    display_none{
-        display: none;
-    }
-    display_block{
-        display: block;
-    }
-    header{
-        .grid > .row:first-child{
-            padding-bottom: 0;
-            /*editační*/
-            //height: 160px;
-            > .column:first-child{
-                padding-right: 0;
-            }
-            > .column{
-                vertical-align: top !important;
-            }
-        }
-        .grid > .row:last-child{
-            padding-top: 10px;
-            > .column:first-child{
-                padding-right: 0;
-            }
-        }
-        .grid > .row:first-child,
-        .grid > .row:last-child{
-            > .column:last-child{
-                padding-left: 0;
-            }
-        }
-    }
-    header{
-        margin-bottom: 10px;
-        img{
-            max-width: 100%;
-        }
-        a{
-            color: inherit;
-            &:hover{
-                color: inherit;
-            }
-        }
-        .presmerovani-menu ul.text.menu{
-            justify-content: center;
-        }
-        ul.text.menu{
-            margin: auto !important;
-            padding: 0;
-        }
-        .kontakt-hlavicka{
-            font-size: 0.8em;
-            text-align: right;
-            color: grey;
-            img{ //.ui.image img
-                margin: 0 5px;
-            }
-            .kontaktni-udaje p{
-                margin: 0;
-            }
-        }
-        .jazyky{
-            clear: both;
-            margin: 10px 5px auto 0;
-            float: left;
-            button{
-                margin-right: 5px;
-            }
-            button img{
-                vertical-align: middle;
-                width: 30px;
-                height: 17px;
-            }
-            .ui.basic.button{
-                padding: 0;
-                box-shadow: 0 0;
-                &:hover{
-                    box-shadow: 0 0;
-                }
-            }
-            .jazyk-on{
-                border: double @linkColor 3px;
-                height: 20px;
-                width: 33px;
-            }
-            .basic.button{
-                margin-right: 0;
-            }
-            .page.button{
-                vertical-align: bottom;
-            }
-            > form{
-                display: inline-block;
-            }
-        }
-        .fluid.input{
-            margin-right: 5px;
-            display: flex;
-            position: relative
-        }
-    }
-    headline, content, block, div[class=""], perex{
-        display: block;
-        position: relative;
-        span[class=""]{
-            display: inline-block;
-        }
-    }
-    .page-content > .grid > .column:not(.row){
+    /***MAIN***/
+    main > .grid > .column{
         &:first-child{
             padding-right: 0;
         }
@@ -189,31 +164,25 @@
         &:last-child{
             padding-left: 0;
         }
-    }
-    .ui.grid{
-        clear: both !important;
-    } 
-    main > div > .column{
         &:first-child .ui.segment:not(:first-child),
         &:last-child .ui.segment:not(:first-child){
             margin-top: 35px;
         }
     }
-    .articleHeadlined > .ui.segment{
-        border: 0;
-        box-shadow: none;
-        padding: 0 1em;
-    }
+    .ui.grid{
+        clear: both !important;
+    } 
+/*    main > div > .column{
+        
+    }*/
+    
+    /***FOOTER***/
     footer{
         .grid > .column:first-child p{
             margin-left: 50px;
         }
         background-color: @backgroundLightGrey;
         margin: 10px -15px -15px;
-        p{
-            margin: 5px 0;
-            color: @redTextColor;
-        }
     }
     /*****************Styly pro menu - normalni i editacni rezim*******************/
     //pouzivane tridy u polozky menu (li):
@@ -361,6 +330,16 @@
         }
     }
     /***PRESMEROVANI MENU***/
+    .presmerovani-menu ul.text.menu{
+        justify-content: center;
+        .item{
+            padding: 0.25em 1em;
+        }
+    }
+    ul.text.menu{
+        margin: auto !important;
+        padding: 0;
+    }
 
     /***VODOROVNE MENU***/
     .vodorovne-menu a{
@@ -396,5 +375,84 @@
         .item{
             margin: 5px 5px 5px 0;
         }
+    }
+}
+
+//KE SMAZÁNÍ
+display_none{
+    display: none;
+}
+display_block{
+    display: block;
+}
+/***VYBEROVE MENU***/ 
+.nav-vyberove{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    padding: 5px;
+    margin-top: 0;
+    left: 15px;
+    border: 1px solid @lightGrey;
+    border-radius: 5px;
+    box-shadow: 1px 1px 10px 1px rgba(34,36,38,.15);
+    &:hover{
+        background-color: rgb(242, 242, 242);
+        transition: 0.3s all;
+    }
+}
+#vyberove_menu {
+    display: none;
+    height: 100%;
+    width: auto;
+    background-color: @white; 
+    position: fixed!important;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    overflow: auto;
+    padding: 20px;
+    .close_vyberoveMenu{
+        font-size: 1.3em;
+        display: flex;
+        flex-direction: column; 
+        align-items: end;
+        margin: -5px 10px 0 0;
+    }
+    .svisle-menu ul.menu.edit{
+        width: 100%;
+    }
+    .vodorovne-menu ul.menu.edit{
+        padding-left: 0px;
+        margin: 10px 0 10px -7px;
+
+    }
+}
+#prekryti_pro_vyber{
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); //@transparentBlack
+    z-index: 5;
+}
+.nav_vyberove{
+    cursor: pointer;
+    display: flex;
+    width: 75px;
+    padding: 5px;
+    margin-top: 0;
+    left: 15px;
+    border: 1px solid @lightGrey;
+    border-radius: 5px;
+    box-shadow: 1px 1px 10px 1px rgba(34,36,38,.15);
+    &:hover{
+        background-color: rgb(242, 242, 242);
+        transition: 0.3s all;
     }
 }

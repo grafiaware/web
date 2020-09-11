@@ -173,16 +173,26 @@ body{
         background-color: @barvaButtonuSablony;
     }
     /*CONTENTY*/
+    content{
+        /*nastavena min. výška, aby se nepřekrývaly semafory a priority u contentů*/
+        min-height: 45px;
+    }
     /*SMAZANÝ CONTENT*/
     section.trash{
-        /*outline už na sekci, kdyby se dal ke contentu (.trash_content), byl by šedý kvůli filter: grayscale*/
+        /*outline už na sekci; kdyby se dal ke contentu (.trash_content), byl by šedý kvůli filter: grayscale*/
         outline: 1px dotted darken(@barvaKos,20);
+        margin: 0 -5px 5px -5px;
+        .semafor{
+            left: -17px;
+        }
+        .blue.corner.label{
+            right: 0;
+        }
     }
     .trash_content{
         filter: grayscale(1);
         opacity: 0.5;
-        padding: 10px;
-        margin: 0 -5px 5px -5px;
+        padding: 5px;
     }
     /*MODRÝ ROH U CONTENTU*/
     .blue.corner.label{
@@ -261,13 +271,13 @@ body{
     
     /***PROSTŘEDÍ TINY***/  
     /*používané třídy pro práci s editovatelnou částí webu, třídy, které přidává Tiny
-        .mce-content-body - tuto třídu dá Tiny ke všem prvkům, které mají být editovatelné
-        .mce-edit-focus - tato třída se přidá jen k prvku, který právě edituji*/
+        .mce-content-body - tuto třídu dá Tiny ke všem tagům, které mají být editovatelné
+        .mce-edit-focus - tato třída se přidá jen k tagu, který právě edituji*/
     /*výběr šablony paperu .paper_template_select má jiné ohraničení*/
     .mce-content-body{
         padding: 5px;
         margin: 0 -5px;
-        /*označení pro prvky, které jsou editovatelné, ale ještě nebyly vybrány pro editaci*/
+        /*označení pro tagy, které jsou editovatelné, ale ještě nebyly vybrány pro editaci*/
         /*rozdílné ohraničení pro editaci a pro výběr šablony*/
         &:not(.mce-edit-focus){
             &:not(.paper_template_select){
@@ -277,8 +287,8 @@ body{
                 outline: 1px dashed darken(@barvaButtonuSablony, 15);
             }
         }
-        /*Při editaci odkazu ho Tiny obarvuje modře - podbarvení zůstává i při opuštění editovatelného prvku*/
-        /*změna podbarvení při opuštění prvku na bílou - potřeba změnit, pokud bude nastavena editačním prvkům background-color*/
+        /*Při editaci odkazu ho Tiny obarvuje modře - podbarvení zůstává i při opuštění editovatelného tagu*/
+        /*změna podbarvení při opuštění editovatelného tagu na bílou - potřeba změnit, pokud bude nastavena editačním tagům background-color*/
         &:not(mce-edit-focus) a[data-mce-selected]{
             background-color: @white !important;
         }
@@ -298,12 +308,12 @@ body{
         
     }
     .mce-edit-focus{
-        /*"mravenci" - obíhající border kolem editačního prvku, v edit.js ještě nastavena animation-duration podle výšky a šířky prvku*/
+        /*"mravenci" - obíhající border kolem editačního tagu, v edit.js ještě nastavena animation-duration podle výšky a šířky tagu*/
         padding: 5px;
         margin: 0 -5px;
         height: max-content;
         animation: border-dance 40s infinite linear;
-        /*označení pro prvky, které jsou editovatelné a byly vybrány pro editaci*/
+        /*označení pro tagy, které jsou editovatelné a byly vybrány pro editaci*/
         /*rozdílné ohraničení pro editaci a pro výběr šablony*/
         &:not(.paper_template_select){
             background: linear-gradient(90deg, @green 50%, transparent 50%),
