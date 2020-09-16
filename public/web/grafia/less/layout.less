@@ -170,11 +170,8 @@
         }
     }
     .ui.grid{
-        clear: both !important;
+        clear: both !important; 
     } 
-/*    main > div > .column{
-        
-    }*/
     
     /***FOOTER***/
     footer{
@@ -193,12 +190,6 @@
     //trida .item je pouzita u (li) nebo (a) podle sady stylu semantic UI (semanticka trida)
 
     /***PRO VSECHNA MENU***/
-    .vodorovne-menu .menu .onpath,
-    .presmerovani-menu .menu .onpath{
-         > ul{
-            padding: 0;
-        }
-    }
     .menu a{
         z-index: 0;
     }
@@ -330,61 +321,46 @@
         }
     }
     /***PRESMEROVANI MENU***/
-    .presmerovani-menu ul.text.menu{
+    .presmerovani-menu .menu{
         justify-content: center;
+        margin: auto; //!important;
+        padding: 0;
         .item{
             padding: 0.25em 1em;
         }
     }
-    ul.text.menu{
-        margin: auto !important;
-        padding: 0;
+    
+    .vodorovne-menu .menu .onpath,
+    .presmerovani-menu .menu .onpath{
+         > ul{
+            padding: 0;
+        }
     }
 
     /***VODOROVNE MENU***/
-    .vodorovne-menu a{
-        padding: 2px 3px;
-    }
-
-    /******************************Menu normalni rezim*****************************/
-
-    /***SVISLE MENU***/
-    .svisle-menu form > .menu:not(.edit){
-        li .item{
-            padding: 0.6em 0.6em !important;
-        }
-        .onpath .menu{
-            margin-left: 20px;
-        }
-    }
-    /***PRESMEROVANI MENU***/
-
-    /***VODOROVNE MENU***/
-    .vodorovne-menu .menu .onpath > a{
-        color: @primaryColor ;
-        background-color: @white;
-        box-shadow: 0 0 0 1px @primaryColor inset ;
-        &:hover{
-            background-color: @white !important;
-            color: @darkRedGrafia;
-        }
-    }
-    .vodorovne-menu .text.menu{
+    .vodorovne-menu .menu{
         width: 700px;
         flex-wrap: wrap;
+        padding: 0;
         .item{
             margin: 5px 5px 5px 0;
+        }
+        .onpath > a{
+            color: @primaryColor ;
+            background-color: @white;
+            box-shadow: 0 0 0 1px @primaryColor inset ;
+            &:hover{
+                background-color: @white !important;
+                color: @darkRedGrafia;
+            }
+        }
+        a{
+            padding: 2px 3px;
         }
     }
 }
 
 //KE SMAZÁNÍ
-display_none{
-    display: none;
-}
-display_block{
-    display: block;
-}
 /***VYBEROVE MENU***/ 
 .nav-vyberove{
     display: flex;
