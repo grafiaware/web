@@ -1,114 +1,32 @@
-body.layout{
+@import "../../semantic/src/themes/default/globals/site.variables";
+@import "../../semantic/src/site/globals/site.variables";
+@backgroundLightGrey: lighten(@lightGrey, 5%);
+
+.layout{
+    /***BODY***/
     background-image: url("../img/Grafiabgr1.gif") !important;
     background-color: @lightGrey !important;
-}
-body.layout > .container > .column{
+    > .container > .column{
     background-color: @white;
     border: 10px solid @backgroundLightGrey;
     padding: 0 15px 15px;
     border-radius: @bigBorderRadius;
-}
-.layout{
-    display_none{
-        display: none;
     }
-    display_block{
-        display: block;
+    img{
+        max-width: 100%; //aby se obrázky "vešly" do semantických obalů
+        height: auto; //kvůli deformaci, pokud má obrázek nastavenou výšku i šířku
     }
-    header{
-        .grid > .row:first-child{
-            padding-bottom: 0;
-            /*editační*/
-            //height: 160px;
-            > .column:first-child{
-                padding-right: 0;
-            }
-            > .column{
-                vertical-align: top !important;
-            }
-        }
-        .grid > .row:last-child{
-            padding-top: 10px;
-            > .column:first-child{
-                padding-right: 0;
-            }
-        }
-        .grid > .row:first-child,
-        .grid > .row:last-child{
-            > .column:last-child{
-                padding-left: 0;
-            }
-        }
-    }
-    header{
-        margin-bottom: 10px;
-        img{
-            max-width: 100%;
-        }
-        a{
+    /*TLAČÍTKA*/
+    .primary.button{
+        /*aby v červeném tlačítku nebyl červený text*/
+        > a{
             color: inherit;
-            &:hover{
-                color: inherit;
-            }
         }
-        .presmerovani-menu ul.text.menu{
-            justify-content: center;
+        &:hover{
+            background-color: @linkHoverColor !important;
         }
-        ul.text.menu{
-            margin: auto !important;
-            padding: 0;
-        }
-        .kontakt-hlavicka{
-            font-size: 0.8em;
-            text-align: right;
-            color: grey;
-            img{ //.ui.image img
-                margin: 0 5px;
-            }
-            .kontaktni-udaje p{
-                margin: 0;
-            }
-        }
-        .jazyky{
-            clear: both;
-            margin: 10px 5px auto 0;
-            float: left;
-            button{
-                margin-right: 5px;
-            }
-            button img{
-                vertical-align: middle;
-                width: 30px;
-                height: 17px;
-            }
-            .ui.basic.button{
-                padding: 0;
-                box-shadow: 0 0;
-                &:hover{
-                    box-shadow: 0 0;
-                }
-            }
-            .jazyk-on{
-                border: double @linkColor 3px;
-                height: 20px;
-                width: 33px;
-            }
-            .basic.button{
-                margin-right: 0;
-            }
-            .page.button{
-                vertical-align: bottom;
-            }
-            > form{
-                display: inline-block;
-            }
-        }
-        .fluid.input{
-            margin-right: 5px;
-            display: flex;
-            position: relative
-        }
-    }
+    } 
+    /*VLASTNÍ HTML TAGY*/
     headline, content, block, div[class=""], perex{
         display: block;
         position: relative;
@@ -116,7 +34,126 @@ body.layout > .container > .column{
             display: inline-block;
         }
     }
-    .page-content > .grid > .column:not(.row){
+    
+    /***HEADER***/
+    /*změna paddingů oproti semanticu*/
+    header{
+        padding-top: 10px;
+        margin-bottom: 10px;
+        .grid > .row:first-child{
+            padding-bottom: 0;
+        }
+        .grid > .row:first-child,
+        .grid > .row:last-child{
+            > .column:first-child{
+                padding-right: 0; //zarovnani s 1.sloupcem v main
+            }
+            > .column:last-child{
+                padding-left: 0; //zarovnani se 3.sloupcem v main
+            }
+        }
+    }
+    header{
+        a{
+            /*v hlavičce nebudou odkazy červené (týká se i .presmerovani-menu)*/
+            color: inherit;
+            &:hover{
+                color: inherit;
+            }
+        }
+        /*VYHLEDÁVÁNÍ*/
+        .fluid.input{
+            margin-right: 5px;
+            display: flex;
+            position: relative
+        }
+    }
+    /*KONTAKT*/
+    /*mapa a kontaktní údaje v hlavičce*/
+    .kontakt-hlavicka{
+        font-size: 0.8em;
+        text-align: right;
+        color: grey;
+        display: flex;
+        flex-direction: row-reverse;
+        margin-bottom: 5px;
+        img{ 
+            margin: 0 5px;
+        }
+        .kontaktni-udaje p{
+            margin: 0;
+        }
+    }
+    /*JAZYKY*/
+    /*vlajky na přepínání mezi jazykovými verzemi webu*/
+    .jazyky{
+        margin: 10px 5px auto 0;
+        float: left;
+        .button{
+            padding: 0;
+            margin-right: 0;
+        }
+        img{
+            vertical-align: middle;
+            width: 30px;
+            height: 17px;
+            &.jazyk-on{
+                border: double @linkColor 3px;
+                height: 20px;
+                width: 33px;
+            }
+        }
+    }
+    /*PŘIHLÁŠENÍ*/
+    .prihlaseni{
+        margin: 6px 2px -5px 0;
+        float: right;
+        .header.item{
+            background-color: @white;
+            cursor: default;
+            text-align: center;
+            &:hover{
+                background-color: @white;
+            }
+        }
+        div.icon{
+            padding: 7px;
+        }
+        input{
+            border: 1px solid @lightGrey !important;
+        }
+        button.fluid{
+            margin: 5px 0;
+        }
+        .ui.labeled.icon.button > .icon::before{
+            top: -10px;
+        }
+        .menu{
+            padding: 0 8px;
+        }
+        .logout{
+            display: inline-block;
+            i.icon{
+                font-size: 1.2em;
+            }
+
+        }
+        > form{ //obalit do divu - v tomhle formu je tlacitko Akce
+            float: right;
+        }
+        button:not(.fluid){
+            position: relative;
+            left: 15%;
+            margin-bottom: 15px;
+            &.positive{
+                left: 20%;
+            }
+        }
+    }
+        
+    
+    /***MAIN***/
+    main > .grid > .column{
         &:first-child{
             padding-right: 0;
         }
@@ -127,31 +164,22 @@ body.layout > .container > .column{
         &:last-child{
             padding-left: 0;
         }
-    }
-    .ui.grid{
-        clear: both !important;
-    } 
-    main > div > .column{
         &:first-child .ui.segment:not(:first-child),
         &:last-child .ui.segment:not(:first-child){
             margin-top: 35px;
         }
     }
-    .articleHeadlined > .ui.segment{
-        border: 0;
-        box-shadow: none;
-        padding: 0 1em;
-    }
+    .ui.grid{
+        clear: both !important; 
+    } 
+    
+    /***FOOTER***/
     footer{
         .grid > .column:first-child p{
             margin-left: 50px;
         }
         background-color: @backgroundLightGrey;
         margin: 10px -15px -15px;
-        p{
-            margin: 5px 0;
-            color: @redTextColor;
-        }
     }
     /*****************Styly pro menu - normalni i editacni rezim*******************/
     //pouzivane tridy u polozky menu (li):
@@ -162,12 +190,6 @@ body.layout > .container > .column{
     //trida .item je pouzita u (li) nebo (a) podle sady stylu semantic UI (semanticka trida)
 
     /***PRO VSECHNA MENU***/
-    .vodorovne-menu .menu .onpath,
-    .presmerovani-menu .menu .onpath{
-         > ul{
-            padding: 0;
-        }
-    }
     .menu a{
         z-index: 0;
     }
@@ -299,39 +321,41 @@ body.layout > .container > .column{
         }
     }
     /***PRESMEROVANI MENU***/
-
-    /***VODOROVNE MENU***/
-    .vodorovne-menu a{
-        padding: 2px 3px;
-    }
-
-    /******************************Menu normalni rezim*****************************/
-
-    /***SVISLE MENU***/
-    .svisle-menu form > .menu:not(.edit){
-        li .item{
-            padding: 0.6em 0.6em !important;
-        }
-        .onpath .menu{
-            margin-left: 20px;
-        }
-    }
-    /***PRESMEROVANI MENU***/
-
-    /***VODOROVNE MENU***/
-    .vodorovne-menu .menu .onpath > a{
-        color: @primaryColor ;
-        background-color: @white;
-        box-shadow: 0 0 0 1px @primaryColor inset ;
-        &:hover{
-            background-color: @white !important;
-            color: @darkRedGrafia;
-        }
-    }
-    .vodorovne-menu .menu{
-        flex-wrap: wrap;
+    .presmerovani-menu .menu{
+        justify-content: center;
+        margin: auto !important;
+        padding: 0;
         .item{
-            margin: 6px 5px 6px 0;
+            padding: 0.25em 1em;
+        }
+    }
+    
+    .vodorovne-menu .menu .onpath,
+    .presmerovani-menu .menu .onpath{
+         > ul{
+            padding: 0;
+        }
+    }
+
+    /***VODOROVNE MENU***/
+    .vodorovne-menu .text.menu{
+        width: 700px;
+        flex-wrap: wrap;
+        padding: 0;
+        .item{
+            margin: 5px 5px 5px 0;
+        }
+        .onpath > a{
+            color: @primaryColor ;
+            background-color: @white;
+            box-shadow: 0 0 0 1px @primaryColor inset ;
+            &:hover{
+                background-color: @white !important;
+                color: @darkRedGrafia;
+            }
+        }
+        a{
+            padding: 2px 3px;
         }
     }
 }

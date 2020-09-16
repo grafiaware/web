@@ -1,3 +1,9 @@
+@import "../../semantic/src/themes/default/globals/site.variables";
+@import "../../semantic/src/site/globals/site.variables";
+@halfWidth: 50%;
+@backgroundLightGrey: lighten(@lightGrey, 5%); 
+@black: #000;
+
 .layout{
     .obrazek-vlevo, .obrazek-vpravo{
         .column p > img{
@@ -57,6 +63,17 @@
     .ui.teal.label{
         padding: 5px !important;
     }
+    /*tiny*/
+/*    .mce-content-body .ui.grid{ ??
+        background-color: lightyellow;
+        .column{
+            outline: 1px dashed @lightGrey !important;
+        }
+    }
+    .mce-content-body .ui.grid .ui.grid{
+        background-color: initial;
+    }
+*/
     /******************************sablona**stranka_kurzy**************************/
     .stranka-kurzy{
         .column:nth-child(2){

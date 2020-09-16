@@ -1,751 +1,163 @@
-body.layout.mce-content-body{
-    padding: 0 5px 0 10px;
-    margin: 7px;
-    font-size: 1em;
-}
-body.layout#tinymce{
-    width: 100%;
-    padding: 5px;
-    margin: 0;
-    background: 0 0;
-} 
+@import "../../semantic/src/themes/default/globals/site.variables";
+@import "../../semantic/src/site/globals/site.variables";
+@mediumGrey: darken(@lightGrey, 15);
+@barvaEditButtony: #FBFBE7;
+@barvaKos: #F8F3FF;
 
-.layout{
-    header .row:first-child .column:last-child{
-        .contentButtons, .semafor{
-            display: none;
-        }
-    }
-    header .prihlaseni{
-        margin-right: 2px;
-        position: relative; 
-        float: right;
-        margin-top: 6px;
-        margin-bottom: -5px;
-        .header.item{
-            background-color: @white;
-            cursor: default;
-            text-align: center;
-            &:hover{
-                background-color: @white;
-            }
-        }
-        div.icon{
-            padding: 7px;
-        }
-        input{
-            border: 1px solid @lightGrey !important;
-        }
-        button.fluid{
-            margin: 5px 0;
-        }
-        .ui.labeled.icon.button > .icon::before{
-            top: -7px;
-        }
-        .menu{
-            padding: 0 8px;
-        }
-        .logout{
-            display: inline-block;
-            > p, > form{
-                display: inline-block;
-            }
-            > form{
-                button > i.icon{
-                    font-size: 1.4em;
-                }
-            }
-        }
-        > form{
-            float: right;
-        }
-        &:not(.dimmed){
-            button:not(.fluid){
-                position: relative;
-                left: 15%;
-                margin-bottom: 15px;
-                &.positive{
-                    left: 20%;
-                }
-            }
-        }
-    }
+.layout{  
+    /*celá stránka v editačním režimu posunutá napravo*/
     .ui.container.editable{
         margin-left: auto !important;
         margin-right: 10px !important;
         position: relative;
         right: 0;
     }
-    header{
-        margin-top: 50px;
-    }
-    /****************************Editacni*menu*s*buttony***************************/
-    /***PRO VSECHNA MENU***/
-    .menu.edit li > p{
-        margin-bottom: 0;
-        br{
-            display: none;
-        }
-    }
-    .menu.edit .onpath.presented p > span{
-        cursor: text;
-    }
-    //zobrazeni sady buttonu pro operace s polozkou menu
-    .menu.edit li:not(.presented) .buttons{
-        display: none;
-    }
-    .vodorovne-menu .menu.edit li.onpath.presented > .buttons.editMenu{
-        > .button:last-child{
-            height: 28px;
-        }
-    }
-    .menu.edit li.onpath.presented > .buttons.editMenu{
-        display: block;
-        background: #fbfbe7;
-        > .button:last-child{
-            background-color: #f8f3ff;
-            &:hover{
-                background-color: @white;
-            }
-        }
-        > .dropdown.button{ //rozeviraci nabidka u menu
-            display: inline-table;
-            &[data-tooltip]::after{
-                font-weight: 700;
-            }
-            .menu{
-                background-color: @white;
-                button.item{
-                    font-size: 1.3em !important;
-                }
-            }
-        }
-    }
-    .menu.edit li.onpath.presented > .buttons.editName{
-        display: none;
-        background-color: #fff1d5;
-    }
-
-    //ukazatele stavu stranky u polozky menu
-    .semafor{
-        position: absolute;
-        display: flex;
-        flex-direction: column;
-        top: 0;
-        left: -21px;
-        i.icon{
-            margin-bottom: 2px;
-        }
-        &.polozky_menu{
-            left: -1px;
-        }
-    }
-    li a > .semafor.polozky_menu{
-        justify-content: center;
-        height: 100%;
-    }
-    li > .semafor.polozky_menu{
-        top: 4px;
-    }
-    .vodorovne-menu li .semafor.polozky_menu{
-        left: -6px;
-        background-color: @white;
-        border: 1px solid @primaryColor;
-        border-radius: 5px 0 0 5px;
-        i{
-            padding-left: 3px;
-        }
-    }
-/*    i.grafia.active{
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 1em;
-        height: 100%;
-        border-radius: .333rem 0 0 .333rem;
-        &.green{
-            background-color: rgba(115, 195, 115, 1);
-        }
-        &.red{
-            background-color: rgba(222, 122, 126, 1) ;
-        }
-    }
-    i.grafia.actual{
-        border-right-color: inherit;
-        content: '';
-        position: absolute;
-        right: 0%;
-        top: 0;
-        width: 1em;
-        height: 100%;
-        border-radius: 0 .333rem .333rem 0;
-        &.yellow{
-            background-color: rgba(240, 218, 99, 1);
-        }
-        &.grey{
-            background-color: #B9B9B9;
-        }
-        &.green{
-            background-color: #73c373;
-        }
-        &.orange{
-            background-color: #f2711c94;
-        }
-        &.red{
-            background-color: rgba(222, 122, 126, 1);
-        }
-    }*/
-    /***SVISLE MENU***/
-    .svisle-menu .menu.edit{
-        height: 650px;
-        overflow-y: scroll;
-        width: 107%;
-        margin-left: -8px;
-        li:not(:first-child){ 
-            border-top: 2px solid @transparentBlack;
-        }
-        .onpath {
-            .item{
-                border-bottom: 0;
-            }
-            .menu{
-                  margin-left: 12px;
-                  padding: 0;
-            }
-        }
-        .menu > li:not(.presented){
-            padding: 3px;
-        }
-        .menu > li.presented{
-            p.item{
-                padding: 11px 20px;
-            }
-            .semafor.polozky_menu{
-                left: 2px;
-            }
-        }
-    }
-    .svisle-menu .menu button[data-tooltip]::before,
-    .vodorovne-menu .menu button[data-tooltip]::before{
-        top: auto;
-        right: auto;
-        bottom: 100%;
-        left: 50%;
-        background: #fff;
-        margin-left: -0.08em;
-        margin-bottom: 0.16em;
-    }
-    .svisle-menu .menu button[data-tooltip]::after,
-    .vodorovne-menu .menu button[data-tooltip]::after{
-        font-weight: 700;
-    }
-    .svisle-menu .menu.edit .onpath.presented{
-        &:first-child .buttons,
-        &:nth-child(2) .buttons{
-            top: 30px;
-            position: absolute;
-            z-index: 1;
-        }
-        .buttons{
-            position: absolute;
-            left: auto;
-            right: 0;
-            top: -25px;
-        }
-    }
-
-    /***SVISLE MENU BLOKY***/
-    .svisle-menu.bloky .menu.edit{
-        height: 400px;
-        overflow-y: scroll;
-        width: 107%;
-        margin-left: -8px;
-    }
-    .svisle-menu.bloky{
-        margin: 20px auto;
-        .menu.edit > .onpath.presented .buttons{
-            background: #edf7ff;
-        }
-    }
-    .svisle-menu.bloky .menu.edit > li:first-child{
-        text-align: center;
-        > .item{
-            background-color: #edf7ff !important;
-            > i{
-                display: none;
-            }
-            .semafor{
-                display: none;
-            }
-        }
-    }
-    /***SVISLE MENU KOS***/
-    .svisle-menu.kos .menu .onpath.presented .buttons{
-        background: #f8f3ff;
-        position: absolute !important;
-        left: auto;
-        right: 0;
-        top: -25px;
-        .corner.icon{
-            font-size: 0.9em;
-            left: 7px;
-        }
-    }
-    .svisle-menu.kos > form > .menu > li:first-child{
-        text-align: center;
-        > .item{
-            background-color: #f8f3ff !important;
-        }
-    }
-    li.cut{
-        border: 1px solid #AAA !important;
-        > a.item, > p.item span{
-            color: #AAA;
-            &:hover{
-                color: #AAA;
-                background-color: transparent !important;
-            }
-        }
-    }
-    .button.paste{ 
-        border: 1px solid  #74746B !important;
-        background-color: #eaffbb !important;
-        &:nth-of-type(3){
-            border-left: 0 !important;
-        }
-    }
-
-    /***PRESMEROVANI MENU***/
-    .presmerovani-menu .menu.edit .item{
-        margin-right: 10px;
-        padding: 0.25em 1em !important;
-        .buttons{
-            margin-left: 5px;
-            .button{
-                &::before{
-                    bottom: -80%;
-                    left: 30%;
-                    transform: rotate(225deg) scale(1) !important;
-                }
-                &::after{
-                    bottom: -173%;
-                    font-weight: 700;
-                }
-            }
-            
-        }
-    }
-    
-    
-    /***VODOROVNE MENU***/
-    .vodorovne-menu .menu.edit{
-        width: 700px;
-        flex-wrap: wrap;
-        .item{
-            margin: 6px 5px 6px 0;
-            padding-left: 5px;
-            &.onpath.presented{
-/*                .active{
-                    border-width: 1px 0 1px 1px;
-                    border-color: @primaryColor;
-                    border-style: solid;
-                }
-                .actual{
-                    border-width: 1px 1px 1px 0;
-                    border-color: @primaryColor;
-                    border-style: solid;
-                }*/
-                .semafor, p.button{
-                    margin-left: 5px;
-                }
-                p.button{
-                    padding: 9px 12px;
-                }
-            }
-            .buttons{
-                position: relative;
-                top: 0;
-                margin-right: 5px;
-                height: 30px;
-                .button:hover{
-                    height: 29px;
-                    border-bottom: 1px solid @lightGrey !important;
-                }
-            }
-            a{
-                padding: 9px 12px;
-            }
-            
-        }
-    }
-    /*************************************main*************************************/
-    /*Styly stranky*/
-    .notpermitted{
-        cursor: no-drop !important;
-        color: #dedede;
-        &:hover{
-            outline: 2px dashed @redGrafia;
-            color: #dedede;
-            &::before{
-                content: 'Nemáte oprávnění k editaci';
-                width: 65%;
-                height: 75px;
-                padding: 10px;
-                color: black;
-                font-weight: 700;
-                position: absolute;
-                z-index: 10;
-                background-color: white;
-                top: 20px;
-                left: 50%;
-                transform: translate(-50%);
-                border: 1px dashed black;
-            }
-        }
-    }
-    .locked{
-        cursor: progress !important;
-        color: #dedede;
-        &:hover{
-            outline: 2px dashed @yellow;
-            color: #dedede;
-            &::before{
-                content: 'Stránku edituje uživatel 'attr(data-editor);
-                width: 60%;
-                height: 90px;
-                padding: 10px;
-                color: black;
-                font-weight: 700;
-                position: absolute;
-                z-index: 10;
-                background-color: white;
-                top: 20px;
-                left: 50%;
-                transform: translateX(-50%);
-                border: 1px dashed black;
-            }
-        }
-    }
-    .segment.notpermitted headline, .segment.notpermitted content,
-    .segment.locked headline, .segment.locked content,
-    .segment.notpermitted i.settings, .segment.locked i.settings{
-        opacity: 0.35;
-    }
-    .segment.locked .icon.buttons, .segment.notpermitted .icon.buttons{
-        opacity: 0.45;
-        pointer-events: none !important;
-    }
-    .segment.locked a, .segment.notpermitted a{
-        pointer-events: none;
-    }
-    .buttons.changePaperTemplate{
-        position: absolute;
-        top: -32px;
-        right: 28px;
-        background-color: #edf7ff;
-        [data-tooltip]::after{
-            font-weight: 700;
-        }
-    }
-    .paper.editable .buttons:not(.editContent){
-        position: absolute;
-        top: -32px;
-        [data-tooltip]::after{
-            font-weight: 700;
-        }
-    }
-    .paper.editable .buttons.editPage{
-        right: -6px;
-        background: #fbfbe7;
-        > .toolsDate{
-            background-color: #fff1d5;
-        }
-    }
-    .paper .buttons.editDate{
-        background-color: #fff1d5;
-        right: 0px;
-    }
-/*    .grafia.segment.block.editable .buttons.editPage{ //.paper
-        right: -6px;
-        background-color: #edf7ff;
-        > .toolsDate{
-            background-color: #fff1d5;
-        }
-    }*/
-    .paper.editable{
-        position: relative;
-        margin: 0 10px;
-    }
-    .paper.editable{ //headline
-        margin-left: 10px;
-        headline{ //h2
-            margin-left: -0.45em;
-            margin-right: -0.45em;
-        }
-        form{
-            margin-bottom: 5px;
-            position: relative;
-        }
-        > form {
-            margin: 0;
-        }
-        i.grafia.active{
-            left: -1em;
-        }
-        i.grafia.actual{
-            right: -1em;
-        }
-        &:nth-child(3).edit{
-            float: none;
-            align-items: stretch;
-            display: flex;
-        }
-    }
-    .mce-content-body:not(.mce-edit-focus):not(.paper_template_select){
-        outline: 1px dotted @lightGrey;
-    }
-    .paper_template_select.mce-content-body:not(.mce-edit-focus){
-        outline: 1px dashed #90E1DE;
-        margin: 5px 10px;
-    }
-    .mce-content-body:empty:not(.mce-edit-focus):before{
-        content:attr(data-text);
-        color: @lightGrey;
-        cursor: text;
-    }
-    .trash_content{
-        padding: 10px;
-        margin: 0 -5px 5px -5px;
-        outline: 1px dotted #ddc5ff;
-        &:hover{
-            outline-color: darken(#f8f3ff,15);
-        }
-    }
-    section{
-        position: relative;
-        > form:nth-of-type(2){
-            position: static !important;
-        }
-        .corner.label{
-            font-size: 0.3em;
-            right: -5px;
-            border-color: lighten(@blue,40) !important;
-            z-index: 1;
-        }
-    }
-    section.trash .trash_content{
-        filter: grayscale(1);
-        opacity: 0.5;
-    }
-    #editName{
-        display: none;
-    }
-    .editDate, .buttons.editDate{
-        display: none;
-    }
-    .editDate{
-        flex-direction: row;
-        z-index: 10;
-        position: relative;
-    }
-    .edit_kalendar{
-        position: absolute;
-        background-color: #fff1d5;
-        border-radius: 5px;
-        border: 1px solid @lightGrey;
-        z-index: 1;
-        padding: 10px;
-        cursor: auto;
-        font-size: 2.8em;
-        color: @black;
-        top: 0;
-        p{
-            text-align: left;
-            margin-bottom: 5px;
-        }
-        .calendar{
-            margin-bottom: 10px;
-        }
-        .ui.button{
-            border-radius: 5px !important;
-            border: 1px solid @lightGrey !important;
-            background: @white;
-            padding: 8px;
-        }
-        .ui.button[type="submit"]{
-            width: 100%;
-            color: @green !important;
-            border-color: @green !important;
-        }
-    }
-    .paper.editable .edit_kalendar{
-        right: -0.15em;
-    }
-/*    .grafia.segment.block.editable .edit_kalendar{
-        right: 0;
-    }*/
-    .contentButtons{
-        display: flex;
-        flex-direction: column;
-        display: none;
-        position: absolute;
-        right: 6px;
-        top: 6px;
-    }
-    .buttons.editContent{
-        position: absolute;
-        background-color: #fbfbe7;
-        z-index: 5;
-        width: 100px;
-        .arrow.icon{
-            font-size: 1em;
-            right: -11px;
-        }
-        &:first-child{
-            top: 0px;
-        }
-        &:nth-child(2){
-            top: 30px;
-        }
-        &:nth-child(3){
-            top: 60px;
-        }
-        &:nth-child(4){
-            top: 90px;
-            background-color: #f8f3ff;
-        }
-        button[data-tooltip]::after{
-            font-weight: 700;
-        }
-    }
-    .contentButtons.trash .editContent{
-        background-color: #f8f3ff;
-    }
-    section .ui.corner.label{
-        width: 2em;
-        height: 2em;
-        .icon.editContent{
-            position: initial;
-            .icon{
-                position: initial;
-            }
-            .icons .icon{
-                transform: translateX(50%);
-            }
-        }
-        .icon.editDate{
-            .icon{
-                position: initial;
-            }
-        }
-    }
+    /*poznámky a flash mají stejný styl, jen jinou pozici*/
     .poznamky{
-        position: absolute;
-        border-radius: 5px;
-        background: @white;
-        left: -260px;
-        transition: 0.7s linear;
-        box-shadow: 1px 1px 10px 1px rgba(34,36,38,.15);
         z-index: 1;
-        .label{
+        position: absolute;
+        left: -260px;
+        width: 250px;
+        background: @white;
+        border-radius: 5px;
+        box-shadow: 1px 1px 10px 1px @mediumGrey;
+        transition: 0.7s linear;
+        .label{ //horní pruh s ikonou
             margin: 0 !important;
             i{
                 width: 100% !important;
             }
         }
-        .content{
-            width: 250px;
+        .content{ //obsah poznámek
             padding: 10px;
             p{
                 margin-bottom: 0.7em;
+                &:last-child{
+                    margin-bottom: 0;
+                }
             }
-            p:last-child{
-                margin-bottom: 0;
+            pre{ //aby se předformátovaný text vešel do šířky divu poznámek a nepřetékal
+                white-space: pre-wrap;
+                word-wrap: break-word;
             }
         }
-    }
-    .poznamky.flash{
-        top: 10px;
-        .content{
-            min-height: 110px;
+        &:not(.flash){ //pozice pro poznámky
+            top: 170px;
         }
-    }
-    .poznamky:not(.flash){
-        top: 170px;
-    }
-    pre{
-        white-space: pre-wrap;
-        word-wrap: break-word;
-
+        &.flash{ //pozice pro flash
+            top: 10px;
+            .content{
+                min-height: 110px;
+            }
+        }
     }
     
-    /*******************************prostredi**tiny********************************/
-    .mce-content-body{
-        padding: 5px;
-        margin: 0 -5px;
+    
+    /***HEADER***/
+    /*header posunutý od horního okraje pouze v edit. režimu kvůli data-tooltip u buttonů*/
+    header{
+        margin-top: 50px;
     }
-    .mce-edit-focus:not(.paper_template_select){
-        //outline: 2px dashed @green;
-        background: linear-gradient(90deg, @green 50%, transparent 50%),
-                    linear-gradient(90deg, @green 50%, transparent 50%),
-                    linear-gradient(0deg, @green 50%, transparent 50%),
-                    linear-gradient(0deg, @green 50%, transparent 50%);
-        background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
-        background-size: 12px 3px, 12px 3px, 3px 12px, 3px 12px;
-        padding: 5px;
-        margin: 0 -5px;
-        animation: border-dance 40s infinite linear;
-        height: max-content;
-    }
-    .mce-edit-focus.paper_template_select{
-        //outline: 2px dashed @green;
-        background: linear-gradient(90deg, @teal 50%, transparent 50%),
-                    linear-gradient(90deg, @teal 50%, transparent 50%),
-                    linear-gradient(0deg, @teal 50%, transparent 50%),
-                    linear-gradient(0deg, @teal 50%, transparent 50%);
-        background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
-        background-size: 12px 3px, 12px 3px, 3px 12px, 3px 12px;
-        animation: border-dance 40s infinite linear;
-        margin: 5px 10px;
-        height: max-content;
-    }
-
-    block:not(mce-edit-focus) a[data-mce-selected="inline-boundary"],
-    content:not(mce-edit-focus) a[data-mce-selected="inline-boundary"]{
-        background-color: @white !important;
-    }
-    block.mce-edit-focus a[data-mce-selected="inline-boundary"],
-    content.mce-edit-focus a[data-mce-selected="inline-boundary"]{
-        background-color: #b4d7ff !important;
-    }
-    .mce-content-body .ui.grid{
-        background-color: lightyellow;
-        .column{
-            outline: 1px dashed @lightGrey !important;
+    
+    
+    /***MENU***/
+    /*pouzivane tridy u polozky menu (li):
+        .leaf - posledni polozka menu
+        .onpath - "na ceste"; pouziva se u kazde polozky, na kterou se klikne - potreba pro stylovani podmenu
+        .presented - pouziva se vzdy u posledni polozky, na kterou se klikne
+        .item je pouzita u (li) nebo (a) podle sady stylu semantic UI (semanticka trida)
+        .cut - třída se přidá, pokud se klikne na tlačítko vybrat k přesunutí*/ 
+    /*PRO VSECHNA MENU*/
+    /*vybraná položka menu má editovatelný název - přizpůsobený kurzor myši*/
+    /*nový název se ukládá pomocí entru - zároveň se vloží html <br>, které tam není žádoucí*/
+    .menu.edit{ 
+        .presented p{
+            margin-bottom: 0;
+            span{
+                cursor: text;
+            }
+        }
+        br{
+            display: none;
         }
     }
-    .mce-content-body .ui.grid .ui.grid{
-        background-color: initial;
+    /*SVISLE MENU*/
+    /*svislé menu má pevnou výšku, protože jsou v editačním režimu vidět i neaktivní stránky
+    (a je jich tam hodně). Aby obsah nepřetékal, přidána svislá rolovací lišta*/
+    .svisle-menu{
+        margin-left: -8px;
+        overflow-y: scroll;
+        width: 107%;
+        .menu.edit{
+            height: 650px;
+            .menu {
+                > li:not(.presented){ //pro lepší čitelnost položek menu vzhledem k dalším editačním prvkům pložky (semafor)
+                    padding: 3px; //není zvětšený padding pro <a>, protože to zajišťuje semantic
+                }
+                > .presented{
+                    p.item{ //stejný padding, jako mají <a> od semanticu
+                        padding: 10px 20px;
+                    }
+                }
+            }
+        }
+        /*SVISLÉ MENU BLOKY*/
+        &.bloky{
+            height: 400px;
+            margin: 20px auto;
+            /*první položka menu bloky je pouze nadpis - vycentrovaná a podbarvená, bez semaforu, ale odkaz je tam pořád*/
+            li:first-child{
+                text-align: center;
+                > .item{
+                    background-color: @barvaEditButtony !important;
+                    > i{
+                        display: none;
+                    }
+                    .semafor{
+                        display: none;
+                    }
+                }
+            }
+        }
+        /*SVISLÉ MENU KOŠ*/
+        &.kos{
+            /*první položka menu kos je pouze nadpis - vycentrovaná a podbarvená, ale odkaz je tam pořád*/
+            li:first-child{
+                text-align: center;
+                > .item{
+                    background-color: @barvaKos !important;
+                }
+            }
+        }
+    }   
+    /*VODOROVNE MENU*/
+    .vodorovne-menu .menu.edit{
+        .item{
+            padding-left: 5px;
+            /*padding pro položku menu (semantická třída .button, aby položka vypadala jako tlačítko)*/
+            a.button, p.button{
+                padding: 9px 12px;
+            }
+            
+        }
+    }  
+    /*PRESMEROVANI MENU*/
+    .presmerovani-menu .menu.edit .item{
+        margin-right: 10px;
     }
-    .mce-content-body .button{
-        user-select: text;
-            -webkit-user-select: text;
-            -moz-user-select: text;
-            -ms-user-select: text;
-        cursor: text;
-    }
-    .tox-toolbar-dock-fadein{
-        z-index: 2;
-    }
-}
-.layout.preview{
-    background: @white !important;
-    background-image: none !important;
-    .ui.segment[data-component="presented"]{
-        margin: 50px 30px 0;
-        border: 0;
-        box-shadow: none;
-        padding: 0 1em;
+  
+    
+    /***PAPER***/
+    .paper.editable{
+        margin: 0 10px;
+        section{
+            /*vytvoření nového omezujícího bloku - pro zanořené position: absolute (vyuzivaji prvky-editace.less)*/
+            position: relative;
+            margin-bottom: 5px;
+        }
+        headline{ 
+            margin-left: -0.45em;
+            margin-right: -0.45em;
+        }
     }
 }

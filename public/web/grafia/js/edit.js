@@ -75,7 +75,7 @@ $("content").click(function() {
   showHeight( $( ".mce-edit-focus" ).height(), $( ".mce-edit-focus" ).width() );
 });
 
-$("block").click(function() {
+$("perex").click(function() {
   showHeight( $( ".mce-edit-focus" ).height(), $( ".mce-edit-focus" ).width() );
 });
 

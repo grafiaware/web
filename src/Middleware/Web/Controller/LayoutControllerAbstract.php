@@ -196,7 +196,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
                                 ->setData([
                                     // pro tiny_config.js
                                     'basePath' => $basepath,
-                                    'urlStylesCss' => $webPublicDir."grafia/css/styles.css",
+                                    'urlStylesCss' => $webPublicDir."grafia/css/old/styles.css",
                                     'urlSemanticCss' => $webPublicDir."semantic/dist/semantic.min.css",
                                     'urlZkouskaCss' => $webPublicDir."grafia/css/zkouska_less.css",
                                     'paperTemplatesPath' => $tinyPublicDir."paper/",

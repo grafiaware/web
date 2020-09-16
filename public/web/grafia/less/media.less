@@ -1,12 +1,6 @@
 @import "../../semantic/src/themes/default/globals/site.variables";
 @import "../../semantic/src/site/globals/site.variables";
 @halfWidth: 50%;
-@backgroundLightGrey: lighten(@lightGrey, 5%);
-   
-@import "layout.less";      
-@import "content.less";       
-@import "editor.less";                       
-@import "template.less";  
                
 .layout{                  
     /************************************media*************************************/ 
@@ -126,7 +120,7 @@
                 display: none !important;
             }
         }  
-        .page-content .column .segment:not(.ui):not(.grafia){ //?
+        .page-content .column .segment:not(.ui):not(.grafia){
             display: flex;
             flex-direction: column;
             flex-wrap: nowrap;
@@ -268,7 +262,7 @@
             float: right;
             width: 110px;
         }
-        .page-content .column .segment:not(.ui):not(.grafia){ //?   
+        .page-content .column .segment:not(.ui):not(.grafia){
             width: 50%;
             z-index: 5;
             float: right;
@@ -480,5 +474,3 @@
     background-position: 100% 0, 0 100%, 0 0, 100% 100%;
   }
 }
-
-
