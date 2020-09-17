@@ -68,7 +68,17 @@ class TemplateController extends XhrControllerAbstract {
     }
 
     public function template(ServerRequestInterface $request, $name) {
-        return $this->createResponseFromString($request, file_get_contents(AppContext::getTinyPublicDirectory()."paper/".$name.".html"));
+        return $this->createResponseFromString($request, file_get_contents(PROJECT_PATH."templates/paper/".$name."/template.html"));
+    }
+
+    public function ttt($param) {
+        $menuItemId = (new RequestParams())->getParam($request, 'menu_item_id');  // jméno POST proměnné je vytvořeno v paper rendereru
+        $html = (new RequestParams())->getParam($request, 'paper_template');  // jméno POST proměnné je vytvořeno v paper rendereru
+        $text = html_entity_decode($html, ENT_HTML5);
+        $layoutDocument = new \DOMDocument('1.0', 'utf-8');
+        $this->loadHtml($layoutDocument, $text);
+
+        $headlineElement = $layoutDocument->getElementsByTagName('headline')->item(0);
     }
 
     public function flash(ServerRequestInterface $request) {

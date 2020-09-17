@@ -49,6 +49,9 @@ class PaperController extends PresentationFrontControllerAbstract {
         $layoutDocument = new \DOMDocument('1.0', 'utf-8');
         $this->loadHtml($layoutDocument, $text);
 
+        $articlrElement = $layoutDocument->getElementsByTagName('article')->item(0);
+        $dataTemplateAttribute = $articlrElement->attributes->getNamedItem("data-template");
+        $template = $dataTemplateAttribute->textContent ?? "defaulttemplate";
         $headlineElement = $layoutDocument->getElementsByTagName('headline')->item(0);
         $perexElement = $layoutDocument->getElementsByTagName('perex')->item(0);
         if($this->paperRepo->getByReference($menuItemId)){
@@ -56,9 +59,7 @@ class PaperController extends PresentationFrontControllerAbstract {
             $this->addFlashMessage("Zadaná položka menu již ma připojen článek (paper).");
         } else {
             if ($headlineElement AND $perexElement) {
-            $perexElements = $layoutDocument->getElementsByTagName('content');
-
-            $paper = new Paper();
+                $paper = new Paper();
                 $editor = $this->statusSecurityRepo->get()->getUser()->getUserName();
                 $paper
                         ->setEditor($editor)

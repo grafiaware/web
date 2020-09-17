@@ -67,10 +67,6 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
             # Zde je konfigurace údajů uživatele pro připojení k databázi. Ta je pro každý middleware v jeho kontejneru.
             'login.db.account.everyone.name' => 'everyone',
             'login.db.account.everyone.password' => 'everyone',
-            'login.db.account.authenticated.name' => 'everyone',
-            'login.db.account.authenticated.password' => 'everyone',
-            'login.db.account.administrator.name' => 'everyone',
-            'login.db.account.administrator.password' => 'everyone',
 
             'login.logs.database.directory' => 'Logs/Login',
             'login.logs.database.file' => 'Database.log',

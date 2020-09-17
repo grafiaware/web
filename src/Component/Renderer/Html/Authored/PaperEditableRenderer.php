@@ -71,6 +71,7 @@ class PaperEditableRenderer  extends AuthoredEditableRendererAbstract {
             Html::tag('form', ['method' => 'POST', 'action' => 'api/v1/paper'],
                 Html::tag('input', ['name'=>'menu_item_id', 'value'=>$menuItemId, 'type'=>'hidden'])
                 .
+                    // 'paper_template_select' class je selektor v TinyInit.js
                 Html::tag('div', ['id'=>'paper_template', 'class'=>'paper_template_select'],
                     Html::tag('p', [], '')
 

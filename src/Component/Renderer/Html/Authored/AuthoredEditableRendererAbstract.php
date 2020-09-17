@@ -34,14 +34,14 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
                         'type'=>'submit',
                         'name'=>'',
                         'formmethod'=>'post',
-                        'formaction'=>"",
+                        'formaction'=>"api/v1/paper/$paperId/templatechange/",
                     ],
                     Html::tag('i', ['class'=>$this->classMap->getClass('PaperTemplateButtons', 'div button1 i')])
                     )
                 )
             );
     }
-    
+
     protected function renderPaperButtonsForm(PaperAggregateInterface $paperAggregate) {
         $paperId = $paperAggregate->getId();
 

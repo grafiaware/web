@@ -1,4 +1,4 @@
-<script type="text/javascript" defer><?= $tinyMCEConfig ?></script>
+<script type="text/javascript"><?= $tinyMCEConfig ?></script>
 
 
 <script type="text/javascript" src=" <?= $urlTinyMCE ?>" ></script>

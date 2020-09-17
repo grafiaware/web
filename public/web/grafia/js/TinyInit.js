@@ -16,7 +16,9 @@ var headlineConfig = {
     selector: '.editable headline',
     schema : 'html5',
     placeholder: 'Nadpis',
-
+    relative_urls : true,
+    extended_valid_elements : ['i[*]', 'headline'],
+    custom_elements: 'headline',
     language : tinyConfig.toolbarsLang,
     document_base_url : tinyConfig.basePath,
     content_css: tinyConfig.contentCss,
@@ -34,10 +36,7 @@ var headlineConfig = {
     toolbar: false,
     quickbars_insert_toolbar: '',
     quickbars_selection_toolbar: 'save | undo redo | removeformat italic | link ',
-//    toolbar: 'undo redo | bold italic underline | save',
-    relative_urls : true,
-    extended_valid_elements : ['i[*]', 'headline'],
-    custom_elements: 'headline'
+//    toolbar: 'undo redo | bold italic underline | save'
 };
 
 var editorFunction = function (editor) {
@@ -128,11 +127,17 @@ var editorFunction = function (editor) {
 
     };
 
-var segmentConfig = {
+var contentConfig = {
     selector: 'content', //.segment:not(.locked):not(.notpermitted) .grafia.segment...
     schema : 'html5',
     placeholder: 'Nový obsah',
-
+    relative_urls: true,
+    extended_valid_elements: 'content',
+    custom_elements: 'content',
+    valid_children: '+a[div]',
+    link_title: false,
+    noneditable_editable_class: 'mceEditable',
+    noneditable_noneditable_class: 'mceNonEditable',
     language : tinyConfig.toolbarsLang,
     document_base_url : tinyConfig.basePath,
     content_css: tinyConfig.contentCss,
@@ -194,13 +199,6 @@ var segmentConfig = {
     },
 
     imagetools_toolbar: 'editimage | rotateleft rotateright | flipv fliph | imageoptions',
-    relative_urls: true,
-    extended_valid_elements: 'content, perex',
-    custom_elements: 'content, perex',
-    valid_children: '+a[div]',
-    link_title: false,
-    noneditable_editable_class: 'mceEditable',
-    noneditable_noneditable_class: 'mceNonEditable',
 
     setup: editorFunction
 };
@@ -209,13 +207,20 @@ var perexConfig = {
     selector: 'perex', //.segment:not(.locked):not(.notpermitted) .grafia.segment...
     schema : 'html5',
     placeholder: 'Vyplňte perex',
-
+    relative_urls: true,
+    extended_valid_elements: 'perex',
+    custom_elements: 'perex',
+    valid_children: '+a[div]',
+    link_title: false,
+    noneditable_editable_class: 'mceEditable',
+    noneditable_noneditable_class: 'mceNonEditable',
     language : tinyConfig.toolbarsLang,
     document_base_url : tinyConfig.basePath,
     content_css: tinyConfig.contentCss,
 
     menubar: false,
     inline: true,
+
     plugins: [
        'paste advlist autolink lists link  charmap  preview hr anchor pagebreak image code', // codesample print  //
        'searchreplace wordcount visualblocks visualchars code fullscreen',
@@ -245,13 +250,6 @@ var perexConfig = {
     toolbar2: 'styleselect fontsizeselect forecolor | bullist numlist outdent indent | template | code',
 
     imagetools_toolbar: 'editimage | rotateleft rotateright | flipv fliph | imageoptions',
-    relative_urls: true,
-    extended_valid_elements: 'content, perex',
-    custom_elements: 'content, perex',
-    valid_children: '+a[div]',
-    link_title: false,
-    noneditable_editable_class: 'mceEditable',
-    noneditable_noneditable_class: 'mceNonEditable',
 
     setup: editorFunction
 };
@@ -259,7 +257,8 @@ var perexConfig = {
 var headerFooterConfig = {
     selector: '.kontaktni-udaje, footer p',
     schema : 'html5',
-
+    relative_urls : true,
+    extended_valid_elements : 'i[*]',
     language : tinyConfig.toolbarsLang,
     document_base_url : tinyConfig.basePath,
     content_css: tinyConfig.contentCss,
@@ -269,16 +268,20 @@ var headerFooterConfig = {
     plugins: [
     'lists', 'paste', 'autolink', 'save'
     ],
-    toolbar: 'undo redo | bold italic underline | fontsizeselect | forecolor | save',
-    relative_urls : true,
-    extended_valid_elements : 'i[*]'
+    toolbar: 'undo redo | bold italic underline | fontsizeselect | forecolor | save'
 };
 
 var selectPaperTemplateConfig = {
     selector: '.paper_template_select',
     schema : 'html5',
     placeholder: 'Výběr šablony stránky',
-
+    relative_urls : true,
+    extended_valid_elements : ['headline[*]', 'perex[*]', 'content[*]'],
+    custom_elements: ['headline', 'perex', 'content'],
+    valid_children: '+a[div] ',
+    link_title: false,
+    noneditable_editable_class: 'mceEditable',
+    noneditable_noneditable_class: 'mceNonEditable',
     language : tinyConfig.toolbarsLang,
     document_base_url : tinyConfig.basePath,
     content_css: tinyConfig.contentCss,
@@ -290,26 +293,20 @@ var selectPaperTemplateConfig = {
     'template', 'save', 'noneditable', 'code'
     ],
     toolbar: 'template | save code',
-    relative_urls : true,
-    extended_valid_elements : ['headline[*]', 'perex[*]', 'content[*]'],
-    custom_elements: ['headline', 'perex', 'content'],
-    valid_children: '+a[div] ',
-    link_title: false,
-    noneditable_editable_class: 'mceEditable',
-    noneditable_noneditable_class: 'mceNonEditable',
     templates: [
-        { title: 'Článek', description: 'Grafia web - článek',       url: tinyConfig.paper_templates_path + 'paper.html'},
-        { title: 'Kontakty', description: 'Grafia web - kontakty',       url: tinyConfig.paper_templates_path + 'paper-contact.html'},
-        { title: 'Test - nový paper ze šablony', description: 'paper_test',       url: tinyConfig.paper_templates_path + 'paper_test.html'},
-        { title: 'Test - template', description: 'template',       url: 'component/template/paper'},
-        { title: 'Test - rendered component1', description: 'rendered component',       url: 'component/namedpaper/a1'},
-        { title: 'Test - rendered component2', description: 'rendered component',       url: 'component/namedpaper/a2'},
-        { title: 'Test - rendered component3', description: 'rendered component',       url: 'component/namedpaper/a3'},
-        { title: 'Test - rendered component4', description: 'rendered component',       url: 'component/namedpaper/a4'},
-        { title: 'Test - rendered component5', description: 'rendered component',       url: 'component/namedpaper/a5'},
-        { title: 'Test - rendered component6', description: 'rendered component',       url: 'component/namedpaper/a6'},
-        { title: 'Test - rendered component7', description: 'rendered component',       url: 'component/namedpaper/a7'},
-        { title: 'Test - rendered component8', description: 'rendered component',       url: 'component/namedpaper/a8'},
+        { title: 'Článek', description: 'Grafia web - článek',       url: tinyConfig.paper_templates_uri + 'default/'},
+        { title: 'Kontakty', description: 'Grafia web - kontakty',       url: tinyConfig.paper_templates_uri + 'contact/'},
+        { title: 'Test - nový paper ze šablony', description: 'paper_test',       url: tinyConfig.paper_templates_uri + 'test/'},
+        { title: 'Kurz', description: 'Grafia web - kurz',       url: tinyConfig.paper_templates_uri + 'course/'},
+        { title: 'Test - presentedpaper', description: 'rendered component',       url: 'component/presentedpaper'},
+        { title: 'Test - namedpaper a1', description: 'rendered component',       url: 'component/namedpaper/a1'},
+        { title: 'Test - namedpaper a2', description: 'rendered component',       url: 'component/namedpaper/a2'},
+        { title: 'Test - namedpaper a3', description: 'rendered component',       url: 'component/namedpaper/a3'},
+        { title: 'Test - namedpaper a4', description: 'rendered component',       url: 'component/namedpaper/a4'},
+        { title: 'Test - namedpaper a5', description: 'rendered component',       url: 'component/namedpaper/a5'},
+        { title: 'Test - namedpaper a6', description: 'rendered component',       url: 'component/namedpaper/a6'},
+        { title: 'Test - namedpaper a7', description: 'rendered component',       url: 'component/namedpaper/a7'},
+        { title: 'Test - namedpaper a8', description: 'rendered component',       url: 'component/namedpaper/a8'},
        // { title: 'Publikace', description: 'Grafia web - publikace',   url: tinyConfig.paper_templates_path + 'block.html'},
     ]
 };
@@ -317,7 +314,7 @@ var selectPaperTemplateConfig = {
 
 
 tinymce.init(headlineConfig);
-tinymce.init(segmentConfig);
+tinymce.init(contentConfig);
 tinymce.init(perexConfig);
 tinymce.init(headerFooterConfig);
 tinymce.init(selectPaperTemplateConfig);
