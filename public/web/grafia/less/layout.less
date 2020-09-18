@@ -108,28 +108,30 @@
     .prihlaseni{
         margin: 6px 2px -5px 0;
         float: right;
-        .header.item{
-            background-color: @white;
-            cursor: default;
-            text-align: center;
-            &:hover{
+        .dropdown{
+            .header.item{
                 background-color: @white;
+                cursor: default;
+                text-align: center;
+                &:hover{
+                    background-color: @white;
+                }
             }
-        }
+            .menu{
+                padding: 0 8px;
+            }
+            input{
+                border: 1px solid @lightGrey !important;
+            }
+            button.fluid{
+                margin: 5px 0;
+            }
+            .ui.labeled.icon.button > .icon::before{
+                top: -10px;
+            }
+        } 
         div.icon{
             padding: 7px;
-        }
-        input{
-            border: 1px solid @lightGrey !important;
-        }
-        button.fluid{
-            margin: 5px 0;
-        }
-        .ui.labeled.icon.button > .icon::before{
-            top: -10px;
-        }
-        .menu{
-            padding: 0 8px;
         }
         .logout{
             display: inline-block;
@@ -166,7 +168,7 @@
         }
         &:first-child .ui.segment:not(:first-child),
         &:last-child .ui.segment:not(:first-child){
-            margin-top: 35px;
+            margin-top: 40px; 
         }
     }
     .ui.grid{

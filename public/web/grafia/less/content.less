@@ -15,7 +15,10 @@
         box-shadow: none;
         padding: 0 1em;
     }
-    .paper{
+    .paper:not(.editable){
+        &:not(:first-of-type){
+            margin-top: 15px;
+        }
        /*styly pro rozdělení contentů - "dolní dělící čára" je border-bottom*/
         content{
             margin-top: 15px;

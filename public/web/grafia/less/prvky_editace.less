@@ -125,6 +125,12 @@ body{
         height: 100%;
         left: -1px
     }
+    /*PRESMEROVANI MENU*/
+    .presmerovani-menu .menu.edit{ //větší váha selektorů kvůli speciálnímu zobrazení pro přesměrování menu
+       .semafor{
+           left: -12px;
+       }
+    }
     /*VODOROVNÉ MENU*/
     .vodorovne-menu .menu.edit{ //větší váha selektorů kvůli speciálnímu zobrazení pro vodorovné menu
         .semafor{
@@ -168,8 +174,16 @@ body{
         right: -6px;
         background: @barvaEditButtony;
     }
+    .segment{
+        .editPage{
+            right: 15px;
+        }
+        .changePaperTemplate{ 
+            right: 48px;
+        }
+    }
     .changePaperTemplate{ 
-        right: 28px;
+        right: 26px;
         background-color: @barvaButtonuSablony;
     }
     /*CONTENTY*/
