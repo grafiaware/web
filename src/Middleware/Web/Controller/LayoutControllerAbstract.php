@@ -199,7 +199,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
                                     'urlStylesCss' => $webPublicDir."grafia/css/old/styles.css",
                                     'urlSemanticCss' => $webPublicDir."semantic/dist/semantic.min.css",
                                     'urlZkouskaCss' => $webPublicDir."grafia/css/zkouska_less.css",
-                                    'paperTemplatesPath' => $tinyPublicDir."paper/",
+                                    'paperTemplatesUri' =>  "component/template/",  // URI pro Template controler
                                     'contentTemplatesPath' => $tinyPublicDir."content/",
                                     'toolbarsLang' => $tinyToolsbarsLang
                                 ]),
