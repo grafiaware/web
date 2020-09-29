@@ -97,8 +97,8 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
             # Konfigurace databáze
             # Konfigurovány databáze - v kontejneru dbUpgrade
             #
-            'hierarchy.db.development.user.name' => 'grafia_upgrader',
-            'hierarchy.db.development.user.password' => 'grafia_upgrader',
+            'hierarchy.db.development.user.name' => 'gr_upgrader',
+            'hierarchy.db.development.user.password' => 'gr_upgrader',
 
             'hierarchy.db.production.user.name' => 'xxxxxxxxxxxxxxxxx',
             'hierarchy.db.production.user.password' => 'xxxxxxxxxxxxxxxxxxxx',

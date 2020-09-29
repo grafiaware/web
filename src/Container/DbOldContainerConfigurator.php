@@ -77,11 +77,8 @@ class DbOldContainerConfigurator extends ContainerConfiguratorAbstract {
             'dbold.db.charset' => 'utf8',
             'dbold.db.collation' => 'utf8_general_ci',
 
-            'dbold.db.development.connection.host' => 'localhost',
-            'dbold.db.development.connection.name' => 'grafiacz',
-
-            'dbold.db.production.connection.host' => 'xxxx',
-            'dbold.db.production.connection.name' => 'xxxx',
+            'dbold.db.connection.host' => PES_DEVELOPMENT ? 'localhost' : (PES_PRODUCTION ? 'OLD_PRODUCTION_NAME' : 'xxxxxxxxxxxxxxxxx'),
+            'dbold.db.connection.name' => PES_DEVELOPMENT ? 'otevreneatelierycz' : (PES_PRODUCTION ? 'OLD_PRODUCTION_HOST' : 'xxxxxxxxxxxxxxxxx'),
 
             'dbold.logs.directory' => 'Logs/DbOld',
             'dbold.logs.db.file' => 'Database.log',
@@ -111,23 +108,13 @@ class DbOldContainerConfigurator extends ContainerConfiguratorAbstract {
                 return FileLogger::getInstance($c->get('dbold.logs.directory'), $c->get('dbold.logs.db.file'), FileLogger::REWRITE_LOG); //new NullLogger();
             },
             ConnectionInfo::class => function(ContainerInterface $c) {
-                if (PES_DEVELOPMENT) {
-                    return new ConnectionInfo(
-                            $c->get('dbold.db.type'),
-                            $c->get('dbold.db.development.connection.host'),
-                            $c->get('dbold.db.development.connection.name'),
-                            $c->get('dbold.db.charset'),
-                            $c->get('dbold.db.collation'),
-                            $c->get('dbold.db.port'));
-                } elseif(PES_PRODUCTION) {
-                    return new ConnectionInfo(
-                            $c->get('dbold.db.type'),
-                            $c->get('dbold.db.production.connection.host'),
-                            $c->get('dbold.db.production.connection.name'),
-                            $c->get('dbold.db.charset'),
-                            $c->get('dbold.db.collation'),
-                            $c->get('dbold.db.port'));
-                }
+                return new ConnectionInfo(
+                        $c->get('dbold.db.type'),
+                        $c->get('dbold.db.connection.host'),
+                        $c->get('dbold.db.connection.name'),
+                        $c->get('dbold.db.charset'),
+                        $c->get('dbold.db.collation'),
+                        $c->get('dbold.db.port'));
             },
             DsnProviderMysql::class =>  function(ContainerInterface $c) {
                 $dsnProvider = new DsnProviderMysql();

@@ -70,7 +70,7 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
             #################################
             # Konfigurace session
             #
-            WebAppFactory::SESSION_NAME_SERVICE => 'www_Grafia_session',
+            WebAppFactory::SESSION_NAME_SERVICE => 'www_gr_session',
             'app.logs.session.file' => 'Session.log',
             #
             ##################################

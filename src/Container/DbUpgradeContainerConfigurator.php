@@ -52,10 +52,8 @@ class DbUpgradeContainerConfigurator extends ContainerConfiguratorAbstract {
             'dbUpgrade.db.port' => '3306',
             'dbUpgrade.db.charset' => 'utf8',
             'dbUpgrade.db.collation' => 'utf8_general_ci',
-            'dbUpgrade.db.development.connection.host' => 'localhost',
-            'dbUpgrade.db.development.connection.name' => 'grafia_upgrade',
-            'dbUpgrade.db.production.connection.host' => 'xxxx',
-            'dbUpgrade.db.production.connection.name' => 'xxxx',
+            'dbUpgrade.db.connection.host' => PES_DEVELOPMENT ? 'localhost' : (PES_PRODUCTION ? 'UPGRADE_PRODUCTION_HOST' : 'xxxx'),
+            'dbUpgrade.db.connection.name' => PES_DEVELOPMENT ? 'gr_upgrade' : (PES_PRODUCTION ? 'UPGRADE_PRODUCTION_NAME' : 'xxxx'),
             #
             #  Konec sekce konfigurace databáze
             ###################################
@@ -86,7 +84,13 @@ class DbUpgradeContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getServicesDefinitions() {
         return [
-            // db objekty
+
+        ];
+    }
+
+    public function getServicesOverrideDefinitions() {
+        return [
+            // db objekty - služby stejného jména jsou v db old konfiguraci - tedy v db old kontejneru, který musí delegátem
             'dbupgradeLogger' => function(ContainerInterface $c) {
                 return FileLogger::getInstance($c->get('dbUpgrade.logs.db.directory'), $c->get('dbUpgrade.logs.db.file'), FileLogger::REWRITE_LOG); //new NullLogger();
             },
@@ -112,30 +116,14 @@ class DbUpgradeContainerConfigurator extends ContainerConfiguratorAbstract {
                 return $attributesProvider;
             },
             ConnectionInfo::class => function(ContainerInterface $c) {
-                if (PES_DEVELOPMENT) {
-                    return new ConnectionInfo(
-                            $c->get('dbUpgrade.db.type'),
-                            $c->get('dbUpgrade.db.development.connection.host'),
-                            $c->get('dbUpgrade.db.development.connection.name'),
-                            $c->get('dbUpgrade.db.charset'),
-                            $c->get('dbUpgrade.db.collation'),
-                            $c->get('dbUpgrade.db.port'));
-                } elseif(PES_PRODUCTION) {
-                    return new ConnectionInfo(
-                            $c->get('dbUpgrade.db.type'),
-                            $c->get('dbUpgrade.db.production.connection.host'),
-                            $c->get('dbUpgrade.db.production.connection.name'),
-                            $c->get('dbUpgrade.db.charset'),
-                            $c->get('dbUpgrade.db.collation'),
-                            $c->get('dbUpgrade.db.port'));
-                }
+                return new ConnectionInfo(
+                        $c->get('dbUpgrade.db.type'),
+                        $c->get('dbUpgrade.db.connection.host'),
+                        $c->get('dbUpgrade.db.connection.name'),
+                        $c->get('dbUpgrade.db.charset'),
+                        $c->get('dbUpgrade.db.collation'),
+                        $c->get('dbUpgrade.db.port'));
             },
-        ];
-    }
-
-    public function getServicesOverrideDefinitions() {
-        return [
-
         ];
     }
 }

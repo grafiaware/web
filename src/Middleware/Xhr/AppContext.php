@@ -22,7 +22,7 @@ class AppContext {
     }
 
     public static function getFilesDirectory() {
-        return '/_www_grafia_files/';  // relativní cesta vzhledem k DOCUMENT_ROOT (htdocs)
+        return '/_www_gr_files/';  // relativní cesta vzhledem k DOCUMENT_ROOT (htdocs)
     }
 
     ##### TITLE ############

@@ -17,7 +17,7 @@ use Container\{
 };
 
 use \Middleware\Xhr\Controller\{
-    TemplateController
+    TemplateControler
 };
 
 class Component extends AppMiddlewareAbstract implements MiddlewareInterface {
@@ -62,24 +62,24 @@ class Component extends AppMiddlewareAbstract implements MiddlewareInterface {
         $routeGenerator = $this->container->get(RouteSegmentGenerator::class);
 
         #### TemplateController ####
-        $routeGenerator->addRouteForAction('GET', '/component/template/:name', function(ServerRequestInterface $request, $name) {
-            /** @var TemplateController $ctrl */
-            $ctrl = $this->container->get(TemplateController::class);
+        $routeGenerator->addRouteForAction('GET', '/component/v1/template/:name', function(ServerRequestInterface $request, $name) {
+            /** @var TemplateControler $ctrl */
+            $ctrl = $this->container->get(TemplateControler::class);
             return $ctrl->template($request, $name);
             });
-        $routeGenerator->addRouteForAction('GET', '/component/namedpaper/:name', function(ServerRequestInterface $request, $name) {
-            /** @var TemplateController $ctrl */
-            $ctrl = $this->container->get(TemplateController::class);
+        $routeGenerator->addRouteForAction('GET', '/component/v1/namedpaper/:name', function(ServerRequestInterface $request, $name) {
+            /** @var TemplateControler $ctrl */
+            $ctrl = $this->container->get(TemplateControler::class);
             return $ctrl->namedPaper($request, $name);
             });
-        $routeGenerator->addRouteForAction('GET', '/component/presentedpaper', function(ServerRequestInterface $request) {
-            /** @var TemplateController $ctrl */
-            $ctrl = $this->container->get(TemplateController::class);
+        $routeGenerator->addRouteForAction('GET', '/component/v1/presentedpaper', function(ServerRequestInterface $request) {
+            /** @var TemplateControler $ctrl */
+            $ctrl = $this->container->get(TemplateControler::class);
             return $ctrl->presentedPaper($request);
             });
-        $routeGenerator->addRouteForAction('GET', '/component/flash', function(ServerRequestInterface $request) {
-            /** @var TemplateController $ctrl */
-            $ctrl = $this->container->get(TemplateController::class);
+        $routeGenerator->addRouteForAction('GET', '/component/v1/flash', function(ServerRequestInterface $request) {
+            /** @var TemplateControler $ctrl */
+            $ctrl = $this->container->get(TemplateControler::class);
             return $ctrl->flash($request);
             });
 ####################################

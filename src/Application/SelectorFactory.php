@@ -54,7 +54,7 @@ class SelectorFactory {
                     new \Middleware\Status\SecurityStatus(),
                     new \Middleware\Status\FlashStatus(),
                     new \Middleware\Status\PresentationStatus(),
-                    new \Middleware\Actions\Actions()
+                    new \Middleware\Api\Api()
                 ];},
             '/auth/'=>
             function(AppInterface $app) {
@@ -99,12 +99,12 @@ class SelectorFactory {
 //                    new \Middleware\Logged\LoggedAccess(new LoggedAccessor($app)),
 //                    (new \Middleware\Menu\Menu())
 //                ];},
-            '/konverze'=>       // bez koncového lomítka - je jen tato jedna uri, uri neí delší než prefix
+            '/build/'=>       // bez koncového lomítka - je jen tato jedna uri, uri neí delší než prefix
             function(AppInterface $app) {
                 return [
-                    new \Middleware\Status\SecurityStatus(),
-                    new \Middleware\Logged\LoggedAccess(new LoggedAccessor($app)),
-                    new \Middleware\Konverze\Konverze()
+//                    new \Middleware\Status\SecurityStatus(),
+//                    new \Middleware\Logged\LoggedAccess(new LoggedAccessor($app)),
+                    new \Middleware\Build\Build()
                 ];},
 
             '/' => $default,
