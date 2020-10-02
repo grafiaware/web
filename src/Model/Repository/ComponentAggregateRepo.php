@@ -40,8 +40,10 @@ class ComponentAggregateRepo extends ComponentRepo implements ComponentAggregate
         $index = $name;
         if (!isset($this->collection[$index])) {
             $row = $this->dao->get($name);
-            $row['lang_code_fk'] = $langCode;
-            $this->recreateEntity($index, $row);
+            if ($row) {
+                $row['lang_code_fk'] = $langCode;
+                $this->recreateEntity($index, $row);
+            }
         }
         return $this->collection[$index] ?? null;
     }

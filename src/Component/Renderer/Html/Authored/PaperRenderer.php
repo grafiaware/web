@@ -18,7 +18,7 @@ use Pes\Text\Html;
  * @author pes2704
  */
 class PaperRenderer extends AuthoredRendererAbstract {
-    
+
     public function render($data=NULL) {
         return $this->renderPrivate($data);
     }
@@ -26,7 +26,12 @@ class PaperRenderer extends AuthoredRendererAbstract {
     private function renderPrivate(PaperViewModelInterface $viewModel) {
         $paperAggregate = $viewModel->getPaperAggregate();
         if ($viewModel instanceof NamedPaperViewModelInterface) {
-            $name = "named: ".$viewModel->getComponentAggregate()->getName();
+            $componentAggregate = $viewModel->getComponentAggregate();
+            if (isset($componentAggregate)) {
+                $name = "named: ".$componentAggregate->getName();
+            } else {
+                $name = "undefined component named: ".$viewModel->getComponentName();
+            }
         } else {
             $name = "presented";
         }
@@ -40,7 +45,7 @@ class PaperRenderer extends AuthoredRendererAbstract {
         }
         return Html::tag('div', ['data-component'=>$name, 'class'=>$this->classMap->getClass('Segment', 'div'), 'style'=>$style], $innerHtml);
     }
-    
+
     private function renderPaper(PaperAggregateInterface $paperAggregate) {
         return
             $innerHtml =
