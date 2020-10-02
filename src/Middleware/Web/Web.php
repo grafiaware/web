@@ -49,10 +49,8 @@ class Web extends AppMiddlewareAbstract implements MiddlewareInterface {
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
 
         // middleware kontejner:
-        //      nový kontejner konfigurovaný třemi konfigurátory: ComponentContainerConfigurator a HierarchyContainerConfigurator
-        //      -> delagát další nový kontejner konfigurovaný WebContainerConfigurator
-        //      -> v něm jako delegát aplikační kontejner
-        // komponenty a menu používají databázi z menu kontejneru (upgrade), web používá starou databázi z app kontejneru
+        //      používá jen db upgrade (k db old se přistupuje z login middleware)
+        //      app container se nekonfuguruje znovu - bere se z app
         $this->container =
             (new ComponentContainerConfigurator())->configure(
                 (new HierarchyContainerConfigurator())->configure(

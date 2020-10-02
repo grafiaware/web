@@ -68,7 +68,7 @@ use Model\Repository\{
 
 // controller
 use Middleware\Web\Controller\ComponentController;
-use \Middleware\Xhr\Controller\TemplateController;
+use \Middleware\Xhr\Controller\TemplateControler;
 
 
 // renderery - pro volání služeb renderer kontejneru renderer::class
@@ -133,8 +133,8 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                             $c->get(ViewFactory::class))
                         )->injectContainer($c);  // inject component kontejner
             },
-            TemplateController::class => function(ContainerInterface $c) {
-                return (new TemplateController(
+            TemplateControler::class => function(ContainerInterface $c) {
+                return (new TemplateControler(
                             $c->get(StatusSecurityRepo::class),
                             $c->get(StatusFlashRepo::class),
                             $c->get(StatusPresentationRepo::class),

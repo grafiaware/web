@@ -60,13 +60,12 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
         return [
             #################################
             # Sekce konfigurace účtů databáze
-            # Konfigurace připojení k databázi je v aplikačním kontejneru, je pro celou aplikaci stejná.
-            # Služby, které vrací objekty s informacemi pro připojení k databázi jsou také v aplikačním kontejneru a v jednotlivých middleware
-            # kontejnerech se volají jako služby delegate kontejneru.
             #
-            # Zde je konfigurace údajů uživatele pro připojení k databázi. Ta je pro každý middleware v jeho kontejneru.
-            'login.db.account.everyone.name' => 'everyone',
-            'login.db.account.everyone.password' => 'everyone',
+            # user s právem select k databázi s tabulkou uživatelských oprávnění
+            # MySQL 5.6: délka jména max 16 znaků
+
+            'login.db.account.everyone.name' => 'gr_login',  // nelze použít jméno uživatele použité pro db upgrade - došlo by k duplicitě jmen v build create
+            'login.db.account.everyone.password' => 'gr_login',
 
             'login.logs.database.directory' => 'Logs/Login',
             'login.logs.database.file' => 'Database.log',
@@ -87,7 +86,7 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getServicesDefinitions() {
         return [
-            // LoginContainer má AppContainer jako delegáta
+            // LoginContainer musí mít DbOld kontejner jako delegáta
             //
             'login.database.logger' => function(ContainerInterface $c) {
                 return FileLogger::getInstance($c->get('login.logs.database.directory'), $c->get('login.logs.database.file'), FileLogger::REWRITE_LOG); //new NullLogger();

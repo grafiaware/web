@@ -17,7 +17,8 @@ use Model\Repository\RepoPublishedOnlyModeInterface;
 use Model\Repository\Association\AssociationFactoryInterface;
 use Model\Repository\Association\AssociationOneToOneFactory;
 use Model\Repository\Association\AssociationOneToManyFactory;
-
+use Model\Repository\Exception\UnableToCreateAssotiatedChildEntity;
+use Model\Repository\Exception\UnableRecreateEntityException;
 /**
  * Description of RepoAbstract
  *
@@ -92,7 +93,11 @@ abstract class RepoAbstract implements RepoInterface {
      */
     protected function recreateEntity($index, $row): void {
         if ($row) {
-            $this->addCreatedAssociations($row);
+            try {
+                $this->addCreatedAssociations($row);
+            } catch (UnableToCreateAssotiatedChildEntity $unex) {
+                throw new UnableRecreateEntityException("Nelze obnovit agregovanou entitu v repository ". get_called_class()." s indexem $index.", 0, $unex);
+            }
             $entity = $this->createEntity();  // definována v konkrétní třídě - adept na entity managera
             $this->hydrate($entity, $row);
             $entity->setPersisted();

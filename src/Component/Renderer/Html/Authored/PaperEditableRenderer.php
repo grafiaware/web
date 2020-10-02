@@ -27,7 +27,12 @@ class PaperEditableRenderer  extends AuthoredEditableRendererAbstract {
     private function renderPrivate(PaperViewModelInterface $viewModel) {
         $paperAggregate = $viewModel->getPaperAggregate();
         if ($viewModel instanceof NamedPaperViewModelInterface) {
-            $name = "named: ".$viewModel->getComponentAggregate()->getName();
+            $componentAggregate = $viewModel->getComponentAggregate();
+            if (isset($componentAggregate)) {
+                $name = "named: ".$componentAggregate->getName();
+            } else {
+                $name = "undefined component named: ".$viewModel->getComponentName();
+            }
         } else {
             $name = "presented";
         }
@@ -38,7 +43,7 @@ class PaperEditableRenderer  extends AuthoredEditableRendererAbstract {
             if ($viewModel instanceof PresentedPaperViewModelInterface) {
                 $innerHtml = $this->renderSelectPaperTemplate($viewModel);
             } else {
-                $innerHtml = Html::tag('div', [], "Missing paper named $name for rendering.");
+                $innerHtml = Html::tag('div', [], "No paper for rendering. Component - $name");
             }
         }
         // atribut data-component je jen pro info v html

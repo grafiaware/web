@@ -45,14 +45,12 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
             # kontejnerech se volají jako služby delegate kontejneru.
             #
             # Zde je konfigurace údajů uživatele pro připojení k databázi. Ta je pro každý middleware v jeho kontejneru.
-            'database.account.everyone.name' => 'everyone',
-            'database.account.everyone.password' => 'everyone',
-            'database.account.authenticated.name' => 'authenticated',
-            'database.account.authenticated.password' => 'authenticated',
-            'database.account.administrator.name' => 'supervisor',
-            'database.account.administrator.password' => 'supervisor',
-            'database.account.administrator.name' => 'administrator',
-            'database.account.administrator.password' => 'administrator',
+            'database.account.everyone.name' => 'gr_everyone',
+            'database.account.everyone.password' => 'gr_everyone',
+            'database.account.authenticated.name' => 'gr_authenticated',
+            'database.account.authenticated.password' => 'gr_authenticated',
+            'database.account.administrator.name' => 'gr_administrator',
+            'database.account.administrator.password' => 'gr_administrator',
             #
             ###################################
         ];

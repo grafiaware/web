@@ -10,8 +10,7 @@ namespace Model\Repository\Association;
 
 use Model\Repository\RepoAssotiatedOneInterface;
 use Model\Repository\RepoInterface;
-use Model\Repository\RepoPublishedOnlyModeInterface;
-use Model\Entity\EntityInterface;
+use Model\Repository\Exception\UnableToCreateAssotiatedChildEntity;
 
 /**
  * Description of AssotiatedRepo
@@ -21,7 +20,7 @@ use Model\Entity\EntityInterface;
 class AssociationOneToOneFactory implements AssociationFactoryInterface {
 
     private $parentPropertyName;
-    private $parentIdName;
+    private $parentReferenceKeyAttribute;
 
     /**
      *
@@ -31,9 +30,15 @@ class AssociationOneToOneFactory implements AssociationFactoryInterface {
 
     private $entities;
 
-    public function __construct($parentPropertyName, $parentIdName, RepoAssotiatedOneInterface $childRepo) {
+    /**
+     *
+     * @param string $parentPropertyName Jméno vlastnosti rodičovské enity, která bude obsahovat asociovanou potomkovskou entitu
+     * @param array $parentReferenceKeyAttribute Jméno vlatnosti rodičovské enzity, která obsahuje referenční cizí klíč
+     * @param RepoAssotiatedOneInterface $childRepo Repo pro získání asociovaných entit
+     */
+    public function __construct($parentPropertyName, $parentReferenceKeyAttribute, RepoAssotiatedOneInterface $childRepo) {
         $this->parentPropertyName = $parentPropertyName;
-        $this->parentIdName = $parentIdName;
+        $this->parentReferenceKeyAttribute = $parentReferenceKeyAttribute;
         $this->childRepo = $childRepo;
     }
 
@@ -41,6 +46,9 @@ class AssociationOneToOneFactory implements AssociationFactoryInterface {
         $parentKeyAttribute = $this->getParentIdName();
         if (is_array($parentKeyAttribute)) {
             foreach ($parentKeyAttribute as $field) {
+                if( ! array_key_exists($field, $row)) {
+                    throw new UnableToCreateAssotiatedChildEntity("Nelze vytvořit asociovanou entitu pro vlastnost rodiče {$this->parentPropertyName}. Atribut referenčního klíče obsahuje pole $field a pole řádku dat pro vytvoření potomkovské entity neobsahuje takový prvek.");
+                }
                 $childKey[$field] = $row[$field];
             }
         } else {
@@ -60,7 +68,7 @@ class AssociationOneToOneFactory implements AssociationFactoryInterface {
     }
 
     public function getParentIdName() {
-        return $this->parentIdName;
+        return $this->parentReferenceKeyAttribute;
     }
 
     public function getParentPropertyName() {

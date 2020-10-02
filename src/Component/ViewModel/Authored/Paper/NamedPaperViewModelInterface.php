@@ -18,6 +18,8 @@ use Model\Entity\ComponentAggregateInterface;
  */
 interface NamedPaperViewModelInterface extends PaperViewModelInterface {
 
+    public function getComponentName();
+
     public function setComponentName($componentName);
 
     /**

@@ -31,6 +31,11 @@ class NamedPaperViewModel extends PaperViewModelAbstract implements NamedPaperVi
 
     private $componentName;
 
+    /**
+     * @var ComponentAggregateInterface
+     */
+    private $componentAggregate;
+
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusPresentationRepo $statusPresentationRepo,
@@ -42,6 +47,10 @@ class NamedPaperViewModel extends PaperViewModelAbstract implements NamedPaperVi
         $this->componentAggregateRepo = $componentAggregateRepo;
     }
 
+    public function getComponentName() {
+        return $this->componentName;
+    }
+
     /**
      * Nastaví jméno komponenty. Jménem komponety se řídí metody getComponent() a getPaper
      * @param string $componentName Jméno komponenty
@@ -51,17 +60,21 @@ class NamedPaperViewModel extends PaperViewModelAbstract implements NamedPaperVi
     }
 
     /**
-     * Vrací entitu ComponentAggregate se zadaným jménem.
+     * Vrací entitu ComponentAggregate se zadaným jménem a jazykem prezentace. Pokud je položka menu item použitá v komponentě neaktivní nebo neaktuální
+     * nebo neexistujw component v db se jménem $this->componentName, vrací null.
      *
      * @return ComponentAggregateInterface|null
-     * @throws \LogicException
+     * @throws \LogicException Nebylo nstaveno jméno komponenty
      */
     public function getComponentAggregate(): ?ComponentAggregateInterface {
-        if (!isset($this->componentName)) {
-            throw new \LogicException("Není zadáno jméno komponenty. Nelze načíst odpovídající položku menu.");
+        if (!isset($this->componentAggregate)) {
+            if (!isset($this->componentName)) {
+                throw new \LogicException("Není zadáno jméno komponenty. Nelze načíst odpovídající položku menu.");
+            }
+            $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
+            $this->componentAggregate = $this->componentAggregateRepo->getAggregate($langCode, $this->componentName);
         }
-        $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
-        return $this->componentAggregateRepo->getAggregate($langCode, $this->componentName);
+        return $this->componentAggregate ?? null;
     }
 
     /**
@@ -70,7 +83,10 @@ class NamedPaperViewModel extends PaperViewModelAbstract implements NamedPaperVi
      * @return PaperAggregateInterface|null
      */
     public function getPaperAggregate(): ?PaperAggregateInterface {
-        $menuItem = $this->getComponentAggregate()->getMenuItem();  // může být null - neaktiví nebo nektuální item v komponentě
+        $componentAggregate = $this->getComponentAggregate();  // může být null - neaktivní nebo neaktuální item v komponentě nebo neexistující component v db se jménem $this->componentName
+        if ($componentAggregate) {
+            $menuItem = $componentAggregate->getMenuItem();
+        }
         return isset($menuItem) ? $this->paperAggregateRepo->getByReference($menuItem->getId()) : null;
     }
 }
