@@ -31,6 +31,8 @@ use Model\Repository\{
 
 use \StatusManager\StatusPresentationManager;
 
+use Pes\Text\Message;
+
 ####################
 //use Pes\Debug\Timer;
 use Pes\View\View;
@@ -67,8 +69,15 @@ class TemplateControler extends XhrControlerAbstract {
         return $this->createResponseFromView($request, $this->createView($request));
     }
 
-    public function template(ServerRequestInterface $request, $name) {
-        return $this->createResponseFromString($request, file_get_contents(PROJECT_PATH."templates/paper/".$name."/template.html"));
+    public function papertemplate(ServerRequestInterface $request, $name) {
+        $view = $this->container->get(View::class)
+                                ->setTemplate(new InterpolateTemplate(PROJECT_PATH."templates/paper/".$name."/template.html"))
+                                ->setData([
+                                    'headline' => Message::t('Headline'),
+                                    'perex' => Message::t('Perex'),
+                                    'content' => Message::t('Content'),
+                                ]);
+        return $this->createResponseFromView($request, $view);
     }
 
     public function ttt($param) {

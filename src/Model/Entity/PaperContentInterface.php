@@ -23,6 +23,8 @@ interface PaperContentInterface extends EntityInterface {
 
     public function getContent();
 
+    public function getTemplate();
+
     public function getActive();
 
     public function getPriority();
@@ -46,6 +48,8 @@ interface PaperContentInterface extends EntityInterface {
     public function setList($list): PaperContentInterface;
 
     public function setContent($content): PaperContentInterface;
+
+    public function setTemplate($template): PaperContentInterface;
 
     public function setActive($active): PaperContentInterface;
 

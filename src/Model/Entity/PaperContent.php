@@ -19,6 +19,7 @@ class PaperContent extends EntityAbstract implements PaperContentInterface {
     private $paperIdFk;
     private $list;
     private $content;
+    private $template;
     private $active;
     private $priority;
     private $showTime;
@@ -42,6 +43,10 @@ class PaperContent extends EntityAbstract implements PaperContentInterface {
 
     public function getContent() {
         return $this->content;
+    }
+
+    public function getTemplate() {
+        return $this->template;
     }
 
     public function getActive() {
@@ -93,6 +98,11 @@ class PaperContent extends EntityAbstract implements PaperContentInterface {
 
     public function setContent($content): PaperContentInterface {
         $this->content = $content;
+        return $this;
+    }
+
+    public function setTemplate($template): PaperContentInterface {
+        $this->template = $template;
         return $this;
     }
 

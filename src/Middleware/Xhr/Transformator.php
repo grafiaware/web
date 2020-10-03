@@ -67,6 +67,11 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
         );
         $first = str_replace(array_keys($transform), array_values($transform), $text);
         $transformUrls = $this->transformUrls($first);
+        // str_replace při použití polí pro záměnu provádí náhrady posrupně znovu v celém řetězci pro každý prvek pole záměn
+        // pokud je v poli záměn řetězec, který je podřetězcem řetězce, který je v poli záměn později dojde k záměně podřetězce - např. chci nahradit
+        // ada za mařka a adam2 za božena3 -> v řetězci adam2 je nahrazen podřetězec ada a vznikne -> mařkam2 - a ta už tam zůstane
+        // nutné provést setřídění podle klíčů v reverzním pořadí
+        krsort($transformUrls);
         $second = str_replace(array_keys($transformUrls), array_values($transformUrls), $first);
         return $second;
     }
@@ -77,6 +82,7 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
      * @return type
      */
     private function transformUrls($text) {
+        // <a href="index.php?list=download&amp;file=1197476.txt" target="_blank">Obchodní podmínky e-shop Grafia ke stažení</a>
         $prefix = 'href="';
         $key = 'list';
         $length = strlen($prefix);
@@ -100,6 +106,9 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
                         $row = $dao->getByList($langCode, $pairs[$key]);
                         if ($row) {
                             $transform[$url] = "www/item/$langCode/{$row['uid_fk']}";
+                        } else {
+                            $notFound[] = $url;
+                            user_error("Nenalezen odkaz $url v databázi.", E_USER_WARNING);
                         }
                     }
                 }

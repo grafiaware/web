@@ -30,6 +30,7 @@ class PaperHydrator implements HydratorInterface {
             ->setMenuItemIdFk($row['menu_item_id_fk'])
             ->setHeadline($row['headline'])
             ->setPerex($row['perex'])
+            ->setTemplate($row['template'])
             ->setKeywords($row['keywords'])
             ->setEditor($row['editor'])
             ->setUpdated($row['updated'] ? \DateTime::createFromFormat('Y-m-d H:i:s', $row['updated']) : NULL);
@@ -46,6 +47,7 @@ class PaperHydrator implements HydratorInterface {
         $row['menu_item_id_fk'] = $paperHeadline->getMenuItemIdFk();
         $row['headline'] = $paperHeadline->getHeadline();
         $row['perex'] = $paperHeadline->getPerex();
+        $row['template'] = $paperHeadline->getTemplate();
         $row['keywords'] = $paperHeadline->getKeywords();
         $row['editor'] = $paperHeadline->getEditor();
         // updated je timestamp

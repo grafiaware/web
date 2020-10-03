@@ -63,7 +63,7 @@ class NodeAggregateReadonlyDao extends NodeEditDao implements NodeAggregateReado
     private function selected() {
         return "
 	nested_set.uid, nested_set.depth, nested_set.left_node, nested_set.right_node, nested_set.parent_uid,
-        menu_item.lang_code_fk, menu_item.uid_fk, menu_item.type_fk, menu_item.id, menu_item.title, menu_item.active
+        menu_item.lang_code_fk, menu_item.uid_fk, menu_item.type_fk, menu_item.id, menu_item.title, menu_item.prettyuri, menu_item.active
         ";
     }
 #

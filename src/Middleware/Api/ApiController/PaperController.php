@@ -178,6 +178,23 @@ class PaperController extends PresentationFrontControllerAbstract {
         return $this->redirectSeeOther($request,'www/last/'); // 303 See Other
     }
 
+    /**
+     *
+     * @param ServerRequestInterface $request
+     * @param type $paperId
+     * @return ResponseInterface
+     */
+    public function updateTemplate(ServerRequestInterface $request, $paperId): ResponseInterface {
+        $paper = $this->paperRepo->get($paperId);
+        if (!isset($paper)) {
+            user_error("Neexistuje paper se zadaným id.$paperId");
+        } else {
+            $postTemplate = (new RequestParams())->getParam($request, 'template_'.$paperId);
+            $paper->setTemplate($postTemplate);
+        }
+        return $this->redirectSeeOther($request,'www/last/'); // 303 See Other
+    }
+
 //    $paper = $this->paperRepo->get($menuItemId) ?? $this->createPaper($menuItemId);
 
 //    private function createPaper($menuItemId) {

@@ -20,6 +20,7 @@ class Paper extends EntityAbstract implements PaperInterface {
     private $list;
     private $headline;
     private $perex;
+    private $template;
     private $keywords;
     private $editor;
     private $updated;
@@ -41,6 +42,10 @@ class Paper extends EntityAbstract implements PaperInterface {
     }
     public function getPerex() {
         return $this->perex;
+    }
+
+    public function getTemplate() {
+        return $this->template;
     }
 
     public function getKeywords() {
@@ -77,6 +82,11 @@ class Paper extends EntityAbstract implements PaperInterface {
 
     public function setPerex($perex): PaperInterface {
         $this->perex = $perex;
+        return $this;
+    }
+
+    public function setTemplate($template): PaperInterface {
+        $this->template = $template;
         return $this;
     }
 

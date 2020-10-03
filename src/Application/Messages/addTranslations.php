@@ -36,7 +36,24 @@ Message::addTranslations(
             'de' => 'Senden',
             'en' => 'Send',
         ],
-
+    'Headline' =>
+        [
+            'cs' => 'Nadpis',
+            'de' => 'Titel',
+            'en' => 'Zitle',
+        ],
+    'Perex' =>
+        [
+            'cs' => 'Perex článku.',
+            'de' => 'Artikel perex.',
+            'en' => 'Article perex.',
+        ],
+    'Content' =>
+        [
+            'cs' => 'Další obsah článku.',
+            'de' => 'Anderer Inhalt des Artikels.',
+            'en' => 'Other article content.',
+        ],
 
 
 

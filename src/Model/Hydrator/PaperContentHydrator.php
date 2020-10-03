@@ -30,6 +30,7 @@ class PaperContentHydrator implements HydratorInterface {
             ->setPaperIdFk($row['paper_id_fk'])
             ->setId($row['id'])
             ->setContent($row['content'])
+            ->setTemplate($row['template'])
             ->setActive($row['active'])
             ->setPriority($row['priority'])
             ->setShowTime($row['show_time'] ? \DateTime::createFromFormat('Y-m-d', $row['show_time']) : NULL)
@@ -50,6 +51,7 @@ class PaperContentHydrator implements HydratorInterface {
         $row['paper_id_fk'] = $paperContent->getPaperIdFk();
         $row['id'] = $paperContent->getId();
         $row['content'] = $paperContent->getContent();
+        $row['template'] = $paperContent->getTemplate();
         $row['active'] = $paperContent->getActive();
         $row['priority'] = $paperContent->getPriority();
         $row['show_time'] = $paperContent->getShowTime() ? $paperContent->getShowTime()->format("Y-m-d") : null;

@@ -14,9 +14,9 @@
                         <i class="large plus square outline icon"></i>
                         <i class="bottom right corner arrow down icon"></i>
                     </i>
-                </button> 
-            </div> 
-        </form> 
+                </button>
+            </div>
+        </form>
         <section class="">
             <form method="POST" action="api/v1/paper/616/headline/">
                 <headline class="ui header"><p>Nadpis</p></headline>

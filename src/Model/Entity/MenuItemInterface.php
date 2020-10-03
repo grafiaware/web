@@ -19,6 +19,7 @@ interface MenuItemInterface extends EntityInterface {
     public function getTypeFk();
     public function getId();
     public function getTitle();
+    public function getPrettyuri();
     public function getActive();
 
     public function setUidFk($uidFk): MenuItemInterface;
@@ -26,6 +27,7 @@ interface MenuItemInterface extends EntityInterface {
     public function setType($type): MenuItemInterface;
     public function setId($id): MenuItemInterface;
     public function setTitle($title): MenuItemInterface;
+    public function setPrettyuri($prettyuri): MenuItemInterface;
     public function setActive($active): MenuItemInterface;
 
 }

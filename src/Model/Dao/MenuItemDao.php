@@ -46,7 +46,7 @@ class MenuItemDao extends DaoAbstract {
      */
     public function get($langCodeFk, $uidFk) {
         if(!isset($this->sqlGet)) {
-            $this->sqlGet = "SELECT lang_code_fk, uid_fk, type_fk, id, title, active "
+            $this->sqlGet = "SELECT lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active "
                 . "FROM menu_item "
                 . $this->where($this->and($this->getContextConditions(), ['menu_item.lang_code_fk = :lang_code_fk', 'menu_item.uid_fk=:uid_fk']));
         }
@@ -64,7 +64,7 @@ class MenuItemDao extends DaoAbstract {
      */
     public function getByList($langCodeFk, $list, $active=true, $actual=true) {
         if (!isset($this->sqlGetByList)) {
-            $this->sqlGetByList = "SELECT lang_code_fk, uid_fk, type_fk, id, title, active "
+            $this->sqlGetByList = "SELECT lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active "
                 . "FROM menu_item "
                 . $this->where($this->and(['menu_item.lang_code_fk = :lang_code_fk', 'menu_item.list=:list']));
         }
@@ -105,14 +105,14 @@ class MenuItemDao extends DaoAbstract {
             $scoreLimitHeadline = '1';  // musí být string - císlo 0.2 se převede na string 0,2
             $scoreLimitContent = '0.2';  // musí být string - císlo 0.2 se převede na string 0,2
             $this->sqlFindByContentFulltextSearch =
-            "SELECT lang_code_fk, uid_fk, type_fk, active_menu_item.id AS id, title
+            "SELECT lang_code_fk, uid_fk, type_fk, active_menu_item.id AS id, title, prettyuri
                 , searched_paper.headline, searched_paper.perex
                 , active_content.content
                 , active_menu_item.active AS active,
                 score_h,
                 score_c
             FROM
-                (SELECT lang_code_fk, uid_fk, type_fk, id, title, active,
+                (SELECT lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active,
                     FROM menu_item "
                         .$this->where($this->and(['menu_item.lang_code_fk = :lang_code_fk', "menu_item.type_fk = 'paper'"]))
                         ."
@@ -151,10 +151,10 @@ class MenuItemDao extends DaoAbstract {
      */
     public function update($row) {
         if (!$this->sqlUpdate) {
-            $this->sqlUpdate = "UPDATE menu_item SET type_fk=:type_fk, title=:title, active=:active "
+            $this->sqlUpdate = "UPDATE menu_item SET type_fk=:type_fk, title=:title, prettyuri=:prettyuri, active=:active "
                 . $this->where($this->and(['lang_code_fk=:lang_code_fk AND uid_fk=:uid_fk']));
         }
-        return $this->execUpdate($this->sqlUpdate, [':type_fk'=>$row['type_fk'], ':title'=>$row['title'], ':active'=>$row['active'],
+        return $this->execUpdate($this->sqlUpdate, [':type_fk'=>$row['type_fk'], ':title'=>$row['title'], ':prettyuri'=>$row['prettyuri'], ':active'=>$row['active'],
             ':lang_code_fk' => $row['lang_code_fk'], ':uid_fk'=> $row['uid_fk']]);
     }
 

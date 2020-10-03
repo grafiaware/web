@@ -52,9 +52,11 @@ CREATE TABLE `menu_item` (
   `list` varchar(45) DEFAULT NULL,  -- list je vazba pro insert starých stránek do menu_item
   `order` tinyint(80) unsigned NOT NULL DEFAULT '0',
   `title` text, -- default pro db: CHARACTER SET utf8 COLLATE utf8_general_ci
+  `prettyuri` varchar(100) DEFAULT NULL,
   `active` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `auto_generated` varchar(6) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
+  UNIQUE KEY (`prettyuri`),
   CONSTRAINT `type_menu_item_type_fk1` FOREIGN KEY ( `type_fk`) REFERENCES `menu_item_type` (`type`)
   ON UPDATE CASCADE
   ON DELETE CASCADE
@@ -66,8 +68,9 @@ CREATE TABLE `paper` (
   `list` varchar(45) DEFAULT NULL,  -- list je vazba pro insert starých stránek do paper
   `headline` text,  -- default pro db: CHARACTER SET utf8 COLLATE utf8_general_ci
   `perex` longtext,  -- default pro db: CHARACTER SET utf8 COLLATE utf8_general_ci
+  `template` varchar(100) DEFAULT '',
   `keywords` text,  -- default pro db: CHARACTER SET utf8 COLLATE utf8_general_ci
-  `editor` varchar(20) DEFAULT NULL,
+  `editor` varchar(20) DEFAULT '',
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   CONSTRAINT `menu_item_id_fk1` FOREIGN KEY ( `menu_item_id_fk`) REFERENCES `menu_item` (`id`) ON DELETE CASCADE,
@@ -79,6 +82,7 @@ CREATE TABLE `paper_content` (
   `paper_id_fk` int(11) unsigned NOT NULL,
   `list` varchar(45) DEFAULT NULL,  -- list je vazba pro insert starých stránek do paper
   `content` longtext,  -- default pro db: CHARACTER SET utf8 COLLATE utf8_general_ci
+  `template` varchar(100) DEFAULT '',
   `active` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `priority` float(10) unsigned NOT NULL DEFAULT '1',
   `show_time` date DEFAULT NULL,

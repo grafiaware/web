@@ -50,6 +50,7 @@ class PaperContentDao extends DaoAbstract {
                 `paper_content`.`id` AS `id`,
                 `paper_content`.`paper_id_fk` AS `paper_id_fk`,
                 `paper_content`.`content` AS `content`,
+                `paper_content`.`template` AS `template`,
                 `paper_content`.`active` AS `active`,
                 `paper_content`.`priority` AS `priority`,
                 `paper_content`.`show_time` AS `show_time`,
@@ -79,6 +80,7 @@ class PaperContentDao extends DaoAbstract {
                 `paper_content`.`id` AS `id`,
                 `paper_content`.`paper_id_fk` AS `paper_id_fk`,
                 `paper_content`.`content` AS `content`,
+                `paper_content`.`template` AS `template`,
                 `paper_content`.`active` AS `active`,
                 `paper_content`.`priority` AS `priority`,
                 `paper_content`.`show_time` AS `show_time`,
@@ -106,6 +108,7 @@ class PaperContentDao extends DaoAbstract {
                 `paper_content`.`id` AS `id`,
                 `paper_content`.`paper_id_fk` AS `paper_id_fk`,
                 `paper_content`.`content` AS `content`,
+                `paper_content`.`template` AS `template`,
                 `paper_content`.`active` AS `active`,
                 `paper_content`.`priority` AS `priority`,
                 `paper_content`.`show_time` AS `show_time`,
@@ -163,10 +166,10 @@ class PaperContentDao extends DaoAbstract {
      */
     public function update($row) {
         if (!isset($this->sqlUpdate)) {
-            $this->sqlUpdate = "UPDATE paper_content SET content = :content, active = :active, priority = :priority, show_time = :show_time, hide_time = :hide_time, editor = :editor
+            $this->sqlUpdate = "UPDATE paper_content SET content = :content, template = :template, active = :active, priority = :priority, show_time = :show_time, hide_time = :hide_time, editor = :editor
                 WHERE  id = :id";
         }
-        return $this->execUpdate($this->sqlUpdate, [':content'=>$row['content'], ':active'=>$row['active'], ':priority'=>$row['priority'], ':show_time'=>$row['show_time'], ':hide_time'=>$row['hide_time'], ':editor'=>$row['editor'], ':id'=>$row['id']]);
+        return $this->execUpdate($this->sqlUpdate, [':content'=>$row['content'], ':template'=>$row['template'], ':active'=>$row['active'], ':priority'=>$row['priority'], ':show_time'=>$row['show_time'], ':hide_time'=>$row['hide_time'], ':editor'=>$row['editor'], ':id'=>$row['id']]);
     }
 
     public function delete($row) {

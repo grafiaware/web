@@ -32,6 +32,7 @@ class MenuItemHydrator implements HydratorInterface {
             ->setType($row['type_fk'])
             ->setId($row['id'])
             ->setTitle($row['title'])
+            ->setPrettyuri($row['prettyuri'])
             ->setActive((bool) $row['active'])
             ;
     }
@@ -48,6 +49,7 @@ class MenuItemHydrator implements HydratorInterface {
         $row['type_fk'] = $menuItem->getTypeFk();
         $row['id'] = $menuItem->getId();
         $row['title'] = $menuItem->getTitle();
+        $row['prettyuri'] = $menuItem->getPrettyuri();
         $row['active'] = (int) $menuItem->getActive();
     }
 }

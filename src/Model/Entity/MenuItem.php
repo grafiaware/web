@@ -17,17 +17,13 @@ use Model\Entity\HierarchyNodeInterface;
  */
 class MenuItem extends EntityAbstract implements MenuItemInterface {
 
-//      menu_item.lang_code_fk, menu_item.uid_fk, menu_item.type_fk, menu_item.id, menu_item.title, menu_item.active, menu_item.show_time, menu_item.hide_time,
-//	(ISNULL(menu_item.show_time) OR menu_item.show_time<=CURDATE()) AND (ISNULL(menu_item.hide_time) OR CURDATE()<=menu_item.hide_time) AS actual
     private $uidFk;
     private $langCodeFk;
     private $type;
     private $id;
     private $title;  //nazev
+    private $prettyuri;
     private $active;  //aktiv
-    private $showTime;
-    private $hideTime;
-    private $actual;  //aktual
 
     public function getUidFk() {
         return $this->uidFk;
@@ -46,6 +42,10 @@ class MenuItem extends EntityAbstract implements MenuItemInterface {
 
     public function getTitle() {
         return $this->title;
+    }
+
+    public function getPrettyuri() {
+        return $this->prettyuri;
     }
 
     public function getActive() {
@@ -74,6 +74,11 @@ class MenuItem extends EntityAbstract implements MenuItemInterface {
 
     public function setTitle($title): MenuItemInterface {
         $this->title = $title;
+        return $this;
+    }
+
+    public function setPrettyuri($prettyuri): MenuItemInterface {
+        $this->prettyuri = $prettyuri;
         return $this;
     }
 
