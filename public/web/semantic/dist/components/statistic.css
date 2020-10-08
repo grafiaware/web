@@ -99,7 +99,7 @@
 
 .ui.statistics .statistic > .value,
 .ui.statistic > .value {
-  font-family: Verdana, Geneva, "arial ce";
+  font-family: Mali, Geneva, "arial ce";
   font-size: 4rem;
   font-weight: normal;
   line-height: 1em;
@@ -114,7 +114,7 @@
 
 .ui.statistics .statistic > .label,
 .ui.statistic > .label {
-  font-family: Verdana, Geneva, "arial ce";
+  font-family: Mali, Geneva, "arial ce";
   font-size: 1em;
   font-weight: bold;
   color: rgba(0, 0, 0, 0.87);
@@ -144,8 +144,8 @@
    Icon Value
 ---------------*/
 
-.ui.statistics .statistic > .value .icon,
-.ui.statistic > .value .icon {
+.ui.statistics .statistic > .value > i.icon,
+.ui.statistic > .value > i.icon {
   opacity: 1;
   width: auto;
   margin: 0;
@@ -294,8 +294,8 @@
 .ui.horizontal.statistics > .statistic > .text.value {
   min-height: 0 !important;
 }
-.ui.horizontal.statistics .statistic > .value .icon,
-.ui.horizontal.statistic > .value .icon {
+.ui.horizontal.statistics .statistic > .value > i.icon,
+.ui.horizontal.statistic > .value > i.icon {
   width: 1.18em;
 }
 .ui.horizontal.statistics .statistic > .value,
@@ -330,7 +330,7 @@
 .ui.primary.statistics .statistic > .value,
 .ui.statistics .primary.statistic > .value,
 .ui.primary.statistic > .value {
-  color: #EB1B4C;
+  color: #FBBD08;
 }
 .ui.inverted.primary.statistics .statistic > .value,
 .ui.statistics .inverted.primary.statistic > .value,

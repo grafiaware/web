@@ -17,8 +17,12 @@ class AppContext {
         return 'public/web/';  // relativní cesta
     }
 
+    public static function getAppSitePublicDirectory() {
+        return 'public/web/grafia/';  // relativní cesta
+    }
+
     public static function getTinyPublicDirectory() {
-        return 'public/tiny_templates/';  // relativní cesta
+        return 'public/templates/author/';  // relativní cesta
     }
 
     public static function getFilesDirectory() {

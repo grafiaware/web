@@ -49,7 +49,7 @@ class PresentedItemComponent extends AuthoredComponentAbstract implements Author
                     ];
                 }
             }
-            $this->setTemplate(new PhpTemplate(PROJECT_PATH."templates/paper/".$paperTemplateName."/template.php"))
+            $this->setTemplate(new PhpTemplate(PROJECT_PATH."public/web/templates/paper/".$paperTemplateName."/template.php"))
                 ->setData([
                     'paperTemplateName' => $paperTemplateName,
                     'paperAggregate' => $paperAggregate,

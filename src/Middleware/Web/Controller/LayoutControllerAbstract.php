@@ -103,7 +103,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
                     'title' => \Middleware\Web\AppContext::getWebTitle(),
                     'langCode' => $this->statusPresentationRepo->get()->getLanguage()->getLangCode(),
                     'webPublicDir' => \Middleware\Web\AppContext::getAppPublicDirectory(),
-
+                    'webSitePublicDir' =>\Middleware\Web\AppContext::getAppSitePublicDirectory(),
                     'modalLoginLogout' => $this->getModalLoginLogout(),
                     'modalUserAction' => $this->getModalUserAction(),
                     'bodyContainerAttributes' => $this->getBodyContainerAttributes(),
@@ -174,6 +174,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
     private function getEditTools(ServerRequestInterface $request) {
         if ($this->isEditableArticle() OR $this->isEditableLayout()) {
             $webPublicDir = \Middleware\Web\AppContext::getAppPublicDirectory();
+            $webSitePublicDir = \Middleware\Web\AppContext::getAppSitePublicDirectory();
             $commonPublicDir = \Middleware\Web\AppContext::getPublicDirectory();
             $tinyPublicDir = \Middleware\Web\AppContext::getTinyPublicDirectory();
             ## document base path - stejná hodnota se musí použiít i v nastavení tinyMCE
@@ -196,11 +197,11 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
                                 ->setData([
                                     // pro tiny_config.js
                                     'basePath' => $basepath,
-                                    'urlStylesCss' => $webPublicDir."grafia/css/old/styles.css",
+                                    'urlStylesCss' => $webPublicDir."styles/old/styles.css",
                                     'urlSemanticCss' => $webPublicDir."semantic/dist/semantic.min.css",
-                                    'urlZkouskaCss' => $webPublicDir."grafia/css/zkouska_less.css",
-                                    'paperTemplatesUri' =>  "component/v1/papertemplate/",  // URI pro Template controler
-                                    'contentTemplatesPath' => $tinyPublicDir."content/",
+                                    'urlContentTemplatesCss' => $webPublicDir."templates/author/template.css",
+                                    'paperTemplatesUri' =>  $webPublicDir."templates/paper/",  // URI pro Template controler
+                                    'contentTemplatesPath' => $webPublicDir."templates/author/",
                                     'toolbarsLang' => $tinyToolsbarsLang
                                 ]),
 
@@ -212,9 +213,9 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
 //    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 //    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 //    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/jquery.tinymce.min.js" referrerpolicy="origin"></script>
-                        'urlTinyInit' => $webPublicDir.'grafia/js/TinyInit.js',
-                        'editScript' => $webPublicDir . 'grafia/js/edit.js',
-                        'kalendarScript' => $webPublicDir . 'grafia/js/kalendar.js',
+                        'urlTinyInit' => $webPublicDir.'js/TinyInit.js',
+                        'editScript' => $webPublicDir . 'js/edit.js',
+                        'kalendarScript' => $webPublicDir . 'js/kalendar.js',
                     ]);
         }
     }

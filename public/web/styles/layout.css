@@ -1,0 +1,708 @@
+/*******************************
+         Site Settings
+*******************************/
+/***********************************************************
+  Central element variation compilation enablers
+***********************************************************/
+/* General */
+/*******************************
+           Elements
+*******************************/
+/* Button */
+/* Container */
+/* Divider */
+/* Header */
+/* Icon */
+/* Image */
+/* Input */
+/* Label */
+/* List */
+/* Loader */
+/* Placeholder */
+/* Rail */
+/* Reveal */
+/* Segment */
+/* Step */
+/* Text */
+/*******************************
+           Collections
+*******************************/
+/* Breadcrumb */
+/* Form */
+/* Grid */
+/* Menu */
+/* Message */
+/* Table */
+/*******************************
+             Views
+*******************************/
+/* Ad */
+/* Card */
+/* Comment */
+/* Feed */
+/* Item */
+/* Statistic */
+/*******************************
+            Modules
+*******************************/
+/* Accordion */
+/* Calendar */
+/* Checkbox */
+/* Dimmer */
+/* Dropdown */
+/* Embed */
+/* Modal */
+/* Popup */
+/* Progress */
+/* Rating */
+/* Search */
+/* Shape */
+/* Sidebar */
+/* Slider */
+/* Tab */
+/* Toast */
+/* Transition */
+/* Emojis */
+/*-------------------
+       Fonts
+--------------------*/
+/*-------------------
+      Base Sizes
+--------------------*/
+/* This is the single variable that controls them all */
+/* The size of page text  */
+/*-------------------
+    Border Radius
+--------------------*/
+/* See Power-user section below
+   for explanation of @px variables
+*/
+/*-------------------
+    Brand Colors
+--------------------*/
+/* Whenever a color needs to get calculated (screen()/multiply()) out of a base color */
+/*--------------
+  Page Heading
+---------------*/
+/*--------------
+   Form Input
+---------------*/
+/* This adjusts the default form input across all elements */
+/* Input Text Color */
+/* Line Height Default For Inputs in Browser (Descenders are 17px at 14px base em) */
+/*-------------------
+    Focused Input
+--------------------*/
+/* Used on inputs, textarea etc */
+/* Used on dropdowns, other larger blocks */
+/*-------------------
+        Sizes
+--------------------*/
+/*
+  Sizes are all expressed in terms of 14px/em (default em)
+  This ensures these "ratios" remain constant despite changes in EM
+*/
+/*-------------------
+        Page
+--------------------*/
+/*-------------------
+      Paragraph
+--------------------*/
+/*-------------------
+       Links
+--------------------*/
+/*-------------------
+    Scroll Bars
+--------------------*/
+/* Inverted */
+/*-------------------
+  Highlighted Text
+--------------------*/
+/*-------------------
+       Loader
+--------------------*/
+/*-------------------
+        Grid
+--------------------*/
+/*-------------------
+     Transitions
+--------------------*/
+/*-------------------
+     Breakpoints
+--------------------*/
+/*-------------------
+      Site Colors
+--------------------*/
+/*---  Colors  ---*/
+/*---  Light Colors  ---*/
+/*---   Neutrals  ---*/
+/*--- Colored Backgrounds ---*/
+/*--- Colored Headers ---*/
+/*--- Colored Text ---*/
+/*--- Light Colored Text ---*/
+/*--- Hovered Colored Text ---*/
+/*--- Colored Border ---*/
+/*--- Shadows ---*/
+/* Inverted */
+/* Box Shadows */
+/*-------------------
+     Alpha Colors
+--------------------*/
+/*-------------------
+       Accents
+--------------------*/
+/* Differentiating Neutrals */
+/* Differentiating Layers */
+/*******************************
+           Power-User
+*******************************/
+/*-------------------
+    Emotive Colors
+--------------------*/
+/* Positive */
+/* Negative */
+/* Info */
+/* Warning */
+/*-------------------
+        Paths
+--------------------*/
+/* For source only. Modified in gulp for dist */
+/*-------------------
+       Em Sizes
+--------------------*/
+/*
+  This rounds @size values to the closest pixel then expresses that value in (r)em.
+  This ensures all size values round to exact pixels
+*/
+/* em */
+/* rem */
+/*-------------------
+       Icons
+--------------------*/
+/* Maximum Glyph Width of Icon */
+/*-------------------
+     Neutral Text
+--------------------*/
+/*-------------------
+     Brand Colors
+--------------------*/
+/*-------------------
+      Borders
+--------------------*/
+/*-------------------
+    Derived Values
+--------------------*/
+/* Loaders Position Offset */
+/* Rendered Scrollbar Width */
+/* Maximum Single Character Glyph Width, aka Capital "W" */
+/* Used to match floats with text */
+/* Header Spacing */
+/* Minimum Mobile Width */
+/* Positive / Negative Dupes */
+/* Responsive */
+/*-------------------
+  Exact Pixel Values
+--------------------*/
+/*
+  These are used to specify exact pixel values in em
+  for things like borders that remain constantly
+  sized as emSize adjusts
+
+  Since there are many more sizes than names for sizes,
+  these are named by their original pixel values.
+
+*/
+/* Columns */
+/*******************************
+             States
+*******************************/
+/*-------------------
+      Disabled
+--------------------*/
+/*-------------------
+        Hover
+--------------------*/
+/*---  Shadows  ---*/
+/*---  Colors  ---*/
+/*---  Emotive  ---*/
+/*---  Brand   ---*/
+/*---  Dark Tones  ---*/
+/*---  Light Tones  ---*/
+/*-------------------
+        Focus
+--------------------*/
+/*---  Colors  ---*/
+/*---  Emotive  ---*/
+/*---  Brand   ---*/
+/*---  Dark Tones  ---*/
+/*---  Light Tones  ---*/
+/*-------------------
+    Down (:active)
+--------------------*/
+/*---  Colors  ---*/
+/*---  Emotive  ---*/
+/*---  Brand   ---*/
+/*---  Dark Tones  ---*/
+/*---  Light Tones  ---*/
+/*-------------------
+        Active
+--------------------*/
+/*---  Colors  ---*/
+/*---  Emotive  ---*/
+/*---  Brand   ---*/
+/*---  Dark Tones  ---*/
+/*---  Light Tones  ---*/
+/*---  Tertiary  ---*/
+/*---  Bright  ---*/
+/*******************************
+ States shared in Form-related components
+ *******************************/
+/* Form state*/
+/* Input state */
+/* AutoFill */
+/* Dropdown state */
+/* Focused state */
+/* Placeholder state */
+/*******************************
+     User Global Variables
+*******************************/
+/*-------------------
+       Links
+--------------------*/
+/*-------------------
+      Base Sizes
+--------------------*/
+/* This is the single variable that controls them all */
+/* The size of page text  */
+/*-------------------
+    Border Radius
+--------------------*/
+/*--------------
+  Page Heading
+---------------*/
+/*--------------
+  Segment
+--------------*/
+/* Header Spacing */
+/*-------------------
+        Grid
+--------------------*/
+/* Columns */
+/*-------------------
+     Breakpoints
+--------------------*/
+.layout {
+  /***BODY***/
+  background-image: url("../img/Grafiabgr1.gif") !important;
+  background-color: #DCDDDE !important;
+  /*TLAČÍTKA*/
+  /*VLASTNÍ HTML TAGY*/
+  /***HEADER***/
+  /*změna paddingů oproti semanticu*/
+  /*KONTAKT*/
+  /*mapa a kontaktní údaje v hlavičce*/
+  /*JAZYKY*/
+  /*vlajky na přepínání mezi jazykovými verzemi webu*/
+  /*PŘIHLÁŠENÍ*/
+  /***MAIN***/
+  /***FOOTER***/
+  /***MENU - normalni i editacni rezim*******************/
+  /***PRO VSECHNA MENU***/
+  /***SVISLE MENU***/
+  /***PRESMEROVANI MENU***/
+  /***VODOROVNE MENU***/
+  /***PAPER***/
+  /*nadpis paperu*/
+  /*díky .segment se rozliší nadpis pro block (logo, razítko,...) a pro headlined (aktuality, odkazy,...)*/
+  /*myšlený .ui.segment semantický*/
+}
+.layout > .container > .column {
+  background-color: #FFFFFF;
+  border: 10px solid #e9eaea;
+  padding: 0 15px 15px;
+  border-radius: 20px;
+}
+.layout img {
+  max-width: 100%;
+  height: auto;
+}
+.layout .primary.button {
+  /*aby v červeném tlačítku nebyl červený text*/
+}
+.layout .primary.button > a {
+  color: inherit;
+}
+.layout .primary.button:hover {
+  background-color: #c29100 !important;
+}
+.layout headline,
+.layout content,
+.layout block,
+.layout div[class=""],
+.layout perex {
+  display: block;
+  position: relative;
+}
+.layout headline span[class=""],
+.layout content span[class=""],
+.layout block span[class=""],
+.layout div[class=""] span[class=""],
+.layout perex span[class=""] {
+  display: inline-block;
+}
+.layout header {
+  padding-top: 10px;
+  margin-bottom: 10px;
+}
+.layout header .grid > .row:first-child {
+  padding-bottom: 0;
+}
+.layout header .grid > .row:first-child > .column:first-child,
+.layout header .grid > .row:last-child > .column:first-child {
+  padding-right: 0;
+}
+.layout header .grid > .row:first-child > .column:last-child,
+.layout header .grid > .row:last-child > .column:last-child {
+  padding-left: 0;
+}
+.layout header {
+  /*VYHLEDÁVÁNÍ*/
+}
+.layout header a {
+  /*v hlavičce nebudou odkazy červené (týká se i .presmerovani-menu)*/
+  color: inherit;
+}
+.layout header a:hover {
+  color: inherit;
+}
+.layout header .fluid.input {
+  margin-right: 5px;
+  display: flex;
+  position: relative;
+}
+.layout .kontakt-hlavicka {
+  font-size: 0.8em;
+  text-align: right;
+  color: grey;
+  display: flex;
+  flex-direction: row-reverse;
+  margin-bottom: 5px;
+}
+.layout .kontakt-hlavicka img {
+  margin: 0 5px;
+}
+.layout .kontakt-hlavicka .kontaktni-udaje p {
+  margin: 0;
+}
+.layout .jazyky {
+  margin: 10px 5px auto 0;
+  float: left;
+}
+.layout .jazyky .button {
+  padding: 0;
+  margin-right: 0;
+}
+.layout .jazyky img {
+  vertical-align: middle;
+  width: 30px;
+  height: 17px;
+}
+.layout .jazyky img.jazyk-on {
+  border: double #FBBD08 3px;
+  height: 20px;
+  width: 33px;
+}
+.layout .prihlaseni {
+  margin: 6px 2px -5px 0;
+  float: right;
+}
+.layout .prihlaseni .dropdown .header.item {
+  background-color: #FFFFFF;
+  cursor: default;
+  text-align: center;
+}
+.layout .prihlaseni .dropdown .header.item:hover {
+  background-color: #FFFFFF;
+}
+.layout .prihlaseni .dropdown .menu {
+  padding: 0 8px;
+}
+.layout .prihlaseni .dropdown input {
+  border: 1px solid #DCDDDE !important;
+}
+.layout .prihlaseni .dropdown button.fluid {
+  margin: 5px 0;
+}
+.layout .prihlaseni .dropdown .ui.labeled.icon.button > .icon::before {
+  top: -10px;
+}
+.layout .prihlaseni div.icon {
+  padding: 7px;
+}
+.layout .prihlaseni .logout {
+  display: inline-block;
+}
+.layout .prihlaseni .logout i.icon {
+  font-size: 1.2em;
+}
+.layout .prihlaseni > form {
+  float: right;
+}
+.layout .prihlaseni button:not(.fluid) {
+  position: relative;
+  left: 15%;
+  margin-bottom: 15px;
+}
+.layout .prihlaseni button:not(.fluid).positive {
+  left: 20%;
+}
+.layout main > .grid > .column:first-child {
+  padding-right: 0;
+}
+.layout main > .grid > .column:nth-child(2) {
+  padding-left: 1em;
+  padding-right: 1em;
+}
+.layout main > .grid > .column:last-child {
+  padding-left: 0;
+}
+.layout main > .grid > .column:first-child .ui.segment:not(:first-child),
+.layout main > .grid > .column:last-child .ui.segment:not(:first-child) {
+  margin-top: 40px;
+}
+.layout .ui.grid {
+  clear: both !important;
+}
+.layout footer {
+  background-color: #e9eaea;
+  margin: 10px -15px -15px;
+}
+.layout footer .grid > .column:first-child p {
+  margin-left: 50px;
+}
+.layout footer p {
+  margin: 5px 0;
+  color: #ad102f;
+}
+.layout .menu a {
+  z-index: 0;
+}
+.layout .close-item,
+.layout .close_vyberoveMenu .nav-mobile,
+.layout nav_vyberove {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  font-size: 18px;
+  margin: 10px;
+}
+.layout .close-item:hover,
+.layout .close_vyberoveMenu .nav-mobile:hover,
+.layout nav_vyberove:hover {
+  cursor: pointer;
+}
+.layout .close-item > a > i.times.circle.icon,
+.layout .close_vyberoveMenu > a > i.times.circle.icon,
+.layout .nav-mobile > i.bars.icon,
+.layout .nav-vyberove > i.bars.icon {
+  margin: 0;
+}
+.layout .svisle-menu .menu {
+  padding: 0;
+  margin-top: 0;
+}
+.layout .svisle-menu .menu > li:not(:first-child) {
+  border-top: 2px solid rgba(0, 0, 0, 0.05);
+}
+.layout .svisle-menu .menu > li:first-child {
+  border-radius: 4px 4px 0 0;
+}
+.layout .svisle-menu .menu > li:last-child {
+  border-radius: 0 0 4px 4px;
+}
+.layout .svisle-menu .menu li {
+  position: relative;
+}
+.layout .svisle-menu .menu li:not(:first-child) {
+  border-top: 2px solid rgba(0, 0, 0, 0.05);
+}
+.layout .svisle-menu .menu li:not(.leaf) > .item::after {
+  content: "\f107";
+  height: 1em;
+  width: 1.18em;
+  font-family: Icons;
+  font-weight: 500;
+  text-align: center;
+  margin: 0 0 0 .5em;
+  position: absolute;
+  right: 5px;
+  color: rgba(0, 0, 0, 0.87);
+  top: 40%;
+  transform: translateY(-50%);
+}
+.layout .svisle-menu .menu .onpath .item {
+  border-bottom: 0;
+}
+.layout .svisle-menu .menu .onpath .menu {
+  margin-left: 12px;
+  padding: 0;
+}
+.layout .svisle-menu .menu .item::before {
+  display: none;
+}
+.layout .svisle-menu > .menu,
+.layout .svisle-menu form > .menu {
+  padding: 0;
+  border: 0 !important;
+  box-shadow: 0 0 0 0 !important;
+}
+.layout .svisle-menu > .menu li,
+.layout .svisle-menu form > .menu li {
+  list-style-type: none;
+  border: 2px solid rgba(0, 0, 0, 0.05);
+  border-bottom: 0;
+}
+.layout .svisle-menu > .menu li:last-child,
+.layout .svisle-menu form > .menu li:last-child {
+  border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+}
+.layout .svisle-menu > .menu li:first-child.onpath,
+.layout .svisle-menu form > .menu li:first-child.onpath {
+  border-width: 2px 0 0 0;
+}
+.layout .svisle-menu > .menu li .item,
+.layout .svisle-menu form > .menu li .item {
+  line-height: normal;
+}
+.layout .svisle-menu > .menu li i:first-child,
+.layout .svisle-menu form > .menu li i:first-child {
+  float: left;
+}
+.layout .svisle-menu > .menu .onpath,
+.layout .svisle-menu form > .menu .onpath {
+  border-width: 0 0 2px 0;
+  background-color: #FFFFFF;
+}
+.layout .svisle-menu > .menu .onpath.presented > .item,
+.layout .svisle-menu form > .menu .onpath.presented > .item {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+.layout .svisle-menu > .menu .onpath:hover,
+.layout .svisle-menu form > .menu .onpath:hover {
+  background-color: #FFFFFF !important;
+}
+.layout .svisle-menu > .menu .onpath > .item,
+.layout .svisle-menu form > .menu .onpath > .item {
+  font-weight: 700;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  background-color: rgba(0, 0, 0, 0.0975) !important;
+  border-left: 2px solid rgba(0, 0, 0, 0.05);
+  border-right: 2px solid rgba(0, 0, 0, 0.05) !important;
+  line-height: normal;
+}
+.layout .svisle-menu > .menu .onpath .menu,
+.layout .svisle-menu form > .menu .onpath .menu {
+  border-top: 0;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+.layout .svisle-menu > .menu .onpath .menu > li,
+.layout .svisle-menu form > .menu .onpath .menu > li {
+  list-style-type: inherit;
+}
+.layout .svisle-menu > .menu .onpath .menu > li:hover,
+.layout .svisle-menu form > .menu .onpath .menu > li:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+.layout .svisle-menu > .menu .onpath .menu .onpath > .menu,
+.layout .svisle-menu form > .menu .onpath .menu .onpath > .menu {
+  background-color: rgba(0, 0, 0, 0.0975);
+}
+.layout .svisle-menu > .menu .onpath .menu .onpath > .menu > .onpath > .menu,
+.layout .svisle-menu form > .menu .onpath .menu .onpath > .menu > .onpath > .menu {
+  background-color: rgba(0, 0, 0, 0.142625);
+}
+.layout .presmerovani-menu .menu {
+  justify-content: center;
+  margin: auto !important;
+  padding: 0;
+}
+.layout .presmerovani-menu .menu .item {
+  padding: 0.25em 1em;
+}
+.layout .vodorovne-menu .menu .onpath > ul,
+.layout .presmerovani-menu .menu .onpath > ul {
+  padding: 0;
+}
+.layout .vodorovne-menu .text.menu {
+  width: 700px;
+  flex-wrap: wrap;
+  padding: 0;
+}
+.layout .vodorovne-menu .text.menu .item {
+  margin: 5px 5px 5px 0;
+}
+.layout .vodorovne-menu .text.menu .onpath > a {
+  color: #FBBD08;
+  background-color: #FFFFFF;
+  box-shadow: 0 0 0 1px #FBBD08 inset;
+}
+.layout .vodorovne-menu .text.menu .onpath > a:hover {
+  background-color: #FFFFFF !important;
+  color: #DC143C;
+}
+.layout .vodorovne-menu .text.menu a {
+  padding: 2px 3px;
+}
+.layout .paper,
+.layout .ui.segment {
+  clear: both;
+}
+.layout .grid > .column:not(.wide) > .ui.segment {
+  border: 0;
+  box-shadow: none;
+  padding: 0 1em;
+  margin: 1rem 0;
+}
+.layout .ui.segment[data-templatepath="paper/default/"] {
+  border: 0;
+  box-shadow: none;
+  padding: 0 1em;
+  margin: 1rem 0;
+}
+.layout .paper:not(.editable) {
+  /*styly pro rozdělení contentů - "dolní dělící čára" je border-bottom*/
+}
+.layout .paper:not(.editable):not(:first-of-type) {
+  margin-top: 15px;
+}
+.layout .paper:not(.editable) content {
+  margin-top: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #DCDDDE;
+}
+.layout .paper:not(.editable) content:only-of-type {
+  border-bottom: 0;
+}
+.layout .paper:not(.editable) content:last-of-type {
+  border-bottom: 0;
+}
+.layout .segment headline.header {
+  color: #ad102f;
+  background-color: #e9eaea;
+  border-radius: 4px 4px 0 0;
+  text-align: center;
+  margin: 0 -12px;
+  margin-top: -12px !important;
+  padding: 5px 15px;
+}
+.layout .segment headline.header p {
+  font-size: 1.14285714rem;
+  margin-bottom: 0;
+}
+.layout #contents headline {
+  margin-top: 0 !important;
+}
+/*# sourceMappingURL=layout.css.map */

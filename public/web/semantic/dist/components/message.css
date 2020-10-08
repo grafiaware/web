@@ -25,7 +25,7 @@
   transition: opacity 0.1s ease, color 0.1s ease, background 0.1s ease, -webkit-box-shadow 0.1s ease;
   transition: opacity 0.1s ease, color 0.1s ease, background 0.1s ease, box-shadow 0.1s ease;
   transition: opacity 0.1s ease, color 0.1s ease, background 0.1s ease, box-shadow 0.1s ease, -webkit-box-shadow 0.1s ease;
-  border-radius: 0.33333333rem;
+  border-radius: 0.28571429rem;
   -webkit-box-shadow: 0 0 0 1px rgba(34, 36, 38, 0.22) inset, 0 0 0 0 rgba(0, 0, 0, 0);
           box-shadow: 0 0 0 1px rgba(34, 36, 38, 0.22) inset, 0 0 0 0 rgba(0, 0, 0, 0);
 }
@@ -44,14 +44,14 @@
 /* Header */
 .ui.message .header {
   display: block;
-  font-family: Verdana, Geneva, "arial ce";
+  font-family: Mali, Geneva, "arial ce";
   font-weight: bold;
   margin: -0.14285714em 0 0 0;
 }
 
 /* Default font size */
 .ui.message .header:not(.ui) {
-  font-size: 1.16666667em;
+  font-size: 1.14285714em;
 }
 
 /* Paragraph */
@@ -101,7 +101,7 @@
 }
 
 /* Icon */
-.ui.message > .icon {
+.ui.message > i.icon {
   margin-right: 0.6em;
 }
 
@@ -190,7 +190,7 @@
 
 .ui.attached.message {
   margin-bottom: -1px;
-  border-radius: 0.33333333rem 0.33333333rem 0 0;
+  border-radius: 0.28571429rem 0.28571429rem 0 0;
   -webkit-box-shadow: 0 0 0 1px rgba(34, 36, 38, 0.15) inset;
           box-shadow: 0 0 0 1px rgba(34, 36, 38, 0.15) inset;
   margin-left: -1px;
@@ -202,7 +202,7 @@
 }
 .ui.bottom.attached.message {
   margin-top: -1px;
-  border-radius: 0 0 0.33333333rem 0.33333333rem;
+  border-radius: 0 0 0.28571429rem 0.28571429rem;
   -webkit-box-shadow: 0 0 0 1px rgba(34, 36, 38, 0.15) inset, 0 1px 2px 0 rgba(34, 36, 38, 0.15);
           box-shadow: 0 0 0 1px rgba(34, 36, 38, 0.15) inset, 0 1px 2px 0 rgba(34, 36, 38, 0.15);
 }
@@ -226,7 +226,7 @@
       -ms-flex-align: center;
           align-items: center;
 }
-.ui.icon.message > .icon:not(.close) {
+.ui.icon.message > i.icon:not(.close) {
   display: block;
   -webkit-box-flex: 0;
       -ms-flex: 0 0 auto;
@@ -244,10 +244,10 @@
           flex: 1 1 auto;
   vertical-align: middle;
 }
-.ui.icon.message .icon:not(.close) + .content {
+.ui.icon.message > i.icon:not(.close) + .content {
   padding-left: 0;
 }
-.ui.icon.message .circular.icon {
+.ui.icon.message > i.circular.icon {
   width: 1em;
 }
 
@@ -371,12 +371,12 @@
 }
 .ui.primary.message,
 .ui.attached.primary.message {
-  -webkit-box-shadow: 0 0 0 1px #EB1B4C inset, 0 0 0 0 rgba(0, 0, 0, 0);
-          box-shadow: 0 0 0 1px #EB1B4C inset, 0 0 0 0 rgba(0, 0, 0, 0);
+  -webkit-box-shadow: 0 0 0 1px #FBBD08 inset, 0 0 0 0 rgba(0, 0, 0, 0);
+          box-shadow: 0 0 0 1px #FBBD08 inset, 0 0 0 0 rgba(0, 0, 0, 0);
 }
 .ui.floating.primary.message {
-  -webkit-box-shadow: 0 0 0 1px #EB1B4C inset, 0 2px 4px 0 rgba(34, 36, 38, 0.12), 0 2px 10px 0 rgba(34, 36, 38, 0.15);
-          box-shadow: 0 0 0 1px #EB1B4C inset, 0 2px 4px 0 rgba(34, 36, 38, 0.12), 0 2px 10px 0 rgba(34, 36, 38, 0.15);
+  -webkit-box-shadow: 0 0 0 1px #FBBD08 inset, 0 2px 4px 0 rgba(34, 36, 38, 0.12), 0 2px 10px 0 rgba(34, 36, 38, 0.15);
+          box-shadow: 0 0 0 1px #FBBD08 inset, 0 2px 4px 0 rgba(34, 36, 38, 0.12), 0 2px 10px 0 rgba(34, 36, 38, 0.15);
 }
 .ui.primary.message .header {
   color: rgba(242, 242, 242, 0.9);
@@ -609,25 +609,25 @@
   font-size: 1em;
 }
 .ui.mini.message {
-  font-size: 0.75em;
+  font-size: 0.78571429em;
 }
 .ui.tiny.message {
-  font-size: 0.83333333em;
+  font-size: 0.85714286em;
 }
 .ui.small.message {
-  font-size: 0.91666667em;
+  font-size: 0.92857143em;
 }
 .ui.large.message {
-  font-size: 1.16666667em;
+  font-size: 1.14285714em;
 }
 .ui.big.message {
-  font-size: 1.25em;
+  font-size: 1.28571429em;
 }
 .ui.huge.message {
-  font-size: 1.41666667em;
+  font-size: 1.42857143em;
 }
 .ui.massive.message {
-  font-size: 1.75em;
+  font-size: 1.71428571em;
 }
 
 

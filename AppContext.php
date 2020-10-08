@@ -21,27 +21,4 @@ class AppContext {
         return Directory::rootRelativePath();
     }
 
-############# TEXT FIRMA ##################################
-    public static function getTextFirma() {
-        return 'Grafia';
-    }
-
-    /**
-     *
-     * @param SessionStatusHandlerInterface $sessionHandler
-     */
-    public static function setSessionHandler(SessionStatusHandlerInterface $sessionHandler) {
-        if (isset(static::$sessionHandler)) {
-            throw new LogicException("Opakovaný pokus o nastavení session handleru aplikace.");
-        }
-        static::$sessionHandler = $sessionHandler;
-    }
-
-    /**
-     * @return SessionStatusHandlerInterface
-     */
-    public static function getSessionHandler() : SessionStatusHandlerInterface {
-        return static::$sessionHandler;
-    }
-
 }

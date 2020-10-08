@@ -1,0 +1,594 @@
+@import "../site-definitions.less";  
+@import "../semantic/src/themes/default/globals/site.variables";
+@import "../@{sitename}/semantic-ui/globals/site.variables";
+
+@hodnotaAuto: auto;
+@hodnota0: 0;
+@borderRadius: 5px;
+@mediumGrey: darken(@lightGrey, 15);
+@fontBold: bold;
+
+//Poznamky a flash
+@poznamkyPositionLeft: -260px;
+@poznamkyPositionRight: @hodnotaAuto;
+@poznamkyPositionTop: 170px;
+@flashPositionTop: 10px;
+@poznamkyPositionBottom: @hodnotaAuto;
+@poznamkyWidth: 250px;
+@poznamkyContentPadding: 10px;
+@flashContentHeight: 110px;
+@poznamkyParagraphMargin: 0.7em;
+
+//Menu
+//Svislé menu
+//Svislé menu bloky
+//Svislé menu koš
+//Vodorovné menu
+//Přesměrování menu
+
+//Semafor
+//Pro menu
+//Pro paper
+
+//Paper
+//Buttony pro paper
+//Headline
+//Section
+//Content
+//Smazaný content
+//Roh u contentu
+//Buttony pro content
+//Kalendář
+
+//Prostředí pro Tiny
+
+
+
+@barvaEditButtony: #FBFBE7;
+@barvaEditButtonyTmava: #FFF1D5;
+@barvaKos: #F8F3FF;
+@barvaButtonuSablony: #EDF7FF;
+
+@import (optional) "../@{sitename}/@{siteStylesFolder}/editor.less";
+
+body{  
+    /*popisky buttonů budou tučně - popisky jsou v atributu data-tooltip*/
+    .buttons button[data-tooltip]::after{
+        font-weight: @fontBold;
+    }
+    
+    /*celá stránka v editačním režimu posunutá napravo*/
+    .ui.container.editable{
+        margin-left: auto !important;
+        margin-right: 10px !important;
+        position: relative;
+        right: 0;
+    }
+    
+    /*poznámky a flash mají stejný styl, jen jinou pozici*/
+    .poznamky{
+        z-index: 1;
+        position: absolute;
+        left: @poznamkyPositionLeft;
+        right: @poznamkyPositionRight;
+        bottom: @poznamkyPositionBottom;
+        width: @poznamkyWidth;
+        background: @white;
+        border-radius: @borderRadius;
+        box-shadow: 1px 1px 10px 1px @mediumGrey;
+        transition: 0.7s linear;
+        .label{ //horní pruh s ikonou
+            margin: 0 !important;
+            i{
+                width: 100% !important;
+            }
+        }
+        .content{ //obsah poznámek
+            padding: @poznamkyContentPadding;
+            p{
+                margin-bottom: @poznamkyParagraphMargin;
+                &:last-child{
+                    margin-bottom: 0;
+                }
+            }
+            pre{ //aby se předformátovaný text vešel do šířky divu poznámek a nepřetékal
+                white-space: pre-wrap;
+                word-wrap: break-word;
+            }
+        }
+        &:not(.flash){ //pozice pro poznámky
+            top: @poznamkyPositionTop;
+        }
+        &.flash{ //pozice pro flash
+            top: @flashPositionTop;
+            .content{
+                min-height: @flashContentHeight;
+            }
+        }
+    }    
+    
+    /***HEADER***/
+    /*header posunutý od horního okraje pouze v edit. režimu kvůli data-tooltip u buttonů*/
+    header{
+        margin-top: 50px;
+        margin-bottom: 25px;
+    }
+      
+    /***MENU***/
+    /*pouzivane tridy u polozky menu (li):
+        .leaf - posledni polozka menu
+        .onpath - "na ceste"; pouziva se u kazde polozky, na kterou se klikne - potreba pro stylovani podmenu
+        .presented - pouziva se vzdy u posledni polozky, na kterou se klikne
+        .item je pouzita u (li) nebo (a) podle sady stylu semantic UI (semanticka trida)
+        .cut - třída se přidá, pokud se klikne na tlačítko vybrat k přesunutí*/
+    /*ZOBRAZENÍ SADY BUTTONU PRO OPERACE S POLOZKOU MENU*/
+        /*používané třídy u sady buttonů
+            .buttons - semantická třída, obalovací div pro všechna tlačítka
+            .button - semantická třída, jeden button ze sady
+            .paste - přidá se k třídě .button, když se přesouvá položka menu (button vybrat k přesunutí)*/
+    /*PRO VSECHNA MENU*/
+    .menu.edit{
+        /*styl pro položku menu, která je vybrána k přesunutí*/
+        li.cut{
+            border: 1px solid @mediumGrey !important;
+            > a.item, > p.item span{
+                color: @mediumGrey;
+                &:hover{
+                    color: @mediumGrey;
+                    background-color: transparent !important;
+                }
+            }
+        }
+        /*buttony se zobrazí jen u vybrané položky menu*/
+        li:not(.presented) .buttons{
+            display: none;
+        }
+        .presented > .buttons{
+            display: flex;
+            background: @barvaEditButtony;
+            > .button:last-child{
+                background-color: @barvaKos;
+                &:hover{
+                    background-color: @white;
+                }
+            }
+        }
+        /*vybraná položka menu má editovatelný název - přizpůsobený kurzor myši*/
+        .presented p{
+            margin-bottom: 0;
+            span{
+                cursor: text;
+            }
+        }
+        /*vložit vybranou položku jako sourozence, potomka - zvýraznění buttonů*/
+        .paste{ 
+            border: 1px solid @grey !important;
+            background-color: lighten(@lightOlive, 15) !important;
+            &:nth-of-type(3){
+                border-left: 0 !important;
+            }
+        }
+        /*nový název se ukládá pomocí entru - zároveň se vloží html <br>, které tam není žádoucí*/
+        br{
+            display: none;
+        }
+    } 
+    /*SVISLE MENU*/
+    /*svislé menu má pevnou výšku, protože jsou v editačním režimu vidět i neaktivní stránky
+    (a je jich tam hodně). Aby obsah nepřetékal, přidána svislá rolovací lišta*/
+    .svisle-menu{
+        margin-left: -8px;
+        overflow-y: scroll;
+        width: 107%;
+        .menu.edit{
+            height: 650px;
+            .menu {
+                > li:not(.presented){ //pro lepší čitelnost položek menu vzhledem k dalším editačním prvkům pložky (semafor)
+                    padding: 3px; //není zvětšený padding pro <a>, protože to zajišťuje semantic
+                }
+                > .presented{
+                    p.item{ //stejný padding, jako mají <a> od semanticu
+                        padding: 10px 20px;
+                    }
+                }
+            }
+        }
+        /*pozice buttonů u svislého menu*/
+        .buttons{
+            position: absolute;
+            left: auto;
+            right: 0;
+            top: -25px;
+        }
+        /*SVISLÉ MENU BLOKY*/
+        &.bloky{
+            height: 400px;
+            margin: 20px auto 20px -8px;
+            /*první položka menu bloky je pouze nadpis - vycentrovaná a podbarvená, bez semaforu, ale odkaz je tam pořád*/
+            li:first-child{
+                text-align: center;
+                > .item{
+                    background-color: @barvaEditButtony !important;
+                    > i{
+                        display: none;
+                    }
+                    .semafor{
+                        display: none;
+                    }
+                }
+            }
+        }
+        /*SVISLÉ MENU KOŠ*/
+        &.kos{
+            /*první položka menu kos je pouze nadpis - vycentrovaná a podbarvená, ale odkaz je tam pořád*/
+            li:first-child{
+                text-align: center;
+                > .item{
+                    background-color: @barvaKos !important;
+                }
+            }
+            .buttons{
+                background: @barvaKos;
+                /*button smazat trvale má iconu složenou ze dvou (koš a vykřičník - ten je zvýrazněný)*/
+                .exclamation.icon{ 
+                    font-size: 0.9em;
+                    left: 7px;
+                }
+            }
+        } 
+    } 
+    /*PRESMEROVANI MENU*/
+    .presmerovani-menu{
+        .menu.edit .item{
+            margin-right: 20px;
+        }
+        /*pozice buttonů u presmerovani menu*/
+        .buttons{
+            margin-left: 5px;
+        }
+    }
+    .presmerovani-menu, .vodorovne-menu{
+        /*buttony velké jako položka menu*/
+        /*není to u .buttons protože to je jen obal - nastaví výšku celé sady, ale buttony nezmenší*/
+        .button{
+            height: 28px;
+        }
+    }
+    /*VODOROVNE MENU*/
+    .vodorovne-menu{
+        .menu.edit .item{
+            padding-left: 5px;
+            /*padding pro položku menu (semantická třída .button, aby položka vypadala jako tlačítko)*/
+            a.button, p.button{
+                padding: 9px 12px;
+            }
+        }
+        /*pozice buttonů u vodorovného menu*/
+        .buttons{
+            top: 0;
+            position: relative;
+            margin-right: 5px;
+        }
+    }
+    
+    
+    /***SEMAFOR***/
+    /*ukazatelé stavu stránky u contentů a u položky menu*/
+    /*SPOLEČNÁ ČÁST*/
+    .semafor{
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        top: 0;
+        left: -21px; //pro content
+        i.icon{ //když bude více icon, nebudou nalepené u sebe
+            margin-bottom: 2px;
+        }
+    }
+    /*U POLOŽKY MENU*/
+    .menu.edit .semafor{
+        justify-content: center;
+        height: 100%;
+        left: -1px
+    }
+    /*PRESMEROVANI MENU*/
+    .presmerovani-menu .menu.edit{ //větší váha selektorů kvůli speciálnímu zobrazení pro přesměrování menu
+       .semafor{
+           left: -12px;
+       }
+    }
+    /*VODOROVNÉ MENU*/
+    .vodorovne-menu .menu.edit{ //větší váha selektorů kvůli speciálnímu zobrazení pro vodorovné menu
+        .semafor{
+            left: -6px;
+            background-color: @white;
+            border: 1px solid @primaryColor;
+            border-radius: @borderRadius 0 0 @borderRadius;
+            i{
+                padding-left: 3px;
+            }
+        }
+        //ke smazání, až bude .semafor i v <p>
+        .presented .semafor{
+            top: 4px;
+            height: 28px; 
+            margin-left: 5px;
+        }
+    }
+    /*SVISLÉ MENU*/ //ke smazání, až bude .semafor i v <p>
+    .svisle-menu .menu.edit{
+        li { 
+            > .semafor{ 
+                top: 10px;
+                left: 1px;
+                height: auto;
+            }
+        }
+    }
+
+    
+    /***PAPER***/
+    .paper.editable{
+        margin: 0 10px;
+        &:not(:first-of-type){
+            margin-top: 40px;
+        }
+    }
+    /*BUTTONY PRO PAPER*/
+    /*používané třídy pro buttony k paperu
+        .editPage - všechny buttony týkající se operace s vnitřkem paperu (přidat obsah, seřadit obsahy)
+        .changePaperTemplate - button na výměnu šablony stránky */
+    .editPage, .changePaperTemplate{
+        position: absolute;
+        top: -32px;
+    }
+    .editPage{ 
+        right: -6px;
+        background: @barvaEditButtony;
+    }
+    .segment{
+        .editPage{
+            right: 15px; 
+        }
+        .changePaperTemplate{ 
+            right: 48px;
+        }
+    }
+    .changePaperTemplate{ 
+        right: 26px;
+        background-color: @barvaButtonuSablony;
+    }
+    /*HEADLINE*/
+    headline{ 
+        margin-left: -0.45em;
+        margin-right: -0.45em;
+    }
+    /*SECTION*/
+    section{
+        /*vytvoření nového omezujícího bloku - pro zanořené position: absolute*/
+        position: relative;
+        margin-bottom: 5px;
+    }
+    /*CONTENTY*/
+    content{
+        /*nastavena min. výška, aby se nepřekrývaly semafory a priority u contentů*/
+        min-height: 45px;
+    }
+    /*SMAZANÝ CONTENT*/
+    section.trash{
+        /*outline už na sekci; kdyby se dal ke contentu (.trash_content), byl by šedý kvůli filter: grayscale*/
+        outline: 1px dotted darken(@barvaKos,20);
+        margin: 0 -5px 5px -5px;
+        .semafor{
+            left: -17px;
+        }
+        .blue.corner.label{
+            right: 0;
+        }
+    }
+    .trash_content{
+        filter: grayscale(1);
+        opacity: 0.5;
+        padding: 5px;
+    }
+    /*ROH U CONTENTU*/
+    .blue.corner.label{
+        width: 2em;
+        height: 2em;
+        font-size: 0.3em;
+        right: -5px;
+        border-color: lighten(@blue,40) !important;
+        .icon:not(.editDate){
+            /*výchozí vlastnost polohy CSS - semantic má nastaveno position: absolute, což je zde nežádoucí*/
+            position: initial;
+        }
+        /*icony, které jsou složené ze dvou, budou vycentrované jako ostatní*/
+        .icons .icon{
+            transform: translateX(50%);
+        }
+    }
+    /*BUTTONY PRO CONTENT*/
+    /*používané třídy pro buttony ke contentu
+        .contentButtons - obalovací div pro všechny .editContent
+        .editContent - třída u .buttons (aktivní/neaktivní, přidat obsah,...), slouží k nastavení contentu; označuje 1 řádků butonů*/
+    .contentButtons{
+        display: none; /*po najetí na "modrý roh" se v edit.js mění display na flex*/
+        width: 100px;
+        flex-direction: column;
+        position: absolute;
+        right: 6px;
+        top: 6px;
+        &.trash .editContent{
+            background-color: @barvaKos;
+        }
+        .editContent{
+            background-color: @barvaEditButtony;
+            &:last-child{
+                background-color: @barvaKos;
+            }
+        }
+    }
+    /*KALENDÁŘ*/
+    /*slouží k nastavení kalendáře contentu*/
+    /*používané třídy pro buttony ke kalendáři
+        .editDate - třída divu pro výběr data i .buttons (trvale, uložit,...)*/
+    /*BUTTONY*/
+    .corner.label .buttons.editDate{
+        position: absolute;
+        top: -32px; 
+        background-color: @barvaEditButtonyTmava;
+        right: 0;
+    }
+    .editDate, .buttons.editDate{
+        display: none; /*po kliknutí na iconu kalendáře se v edit.js mění display na flex*/
+    }
+    /*VÝBĚR DATA V KALENDÁŘI*/
+    .edit_kalendar{
+        cursor: auto;
+        top: 0;
+        right: -0.15em;
+        position: absolute;
+        font-size: 2.8em;
+        padding: 10px;
+        color: @black;
+        background-color: @barvaEditButtonyTmava;
+        border: 1px solid @lightGrey;
+        border-radius: @borderRadius;
+        z-index: 1;
+        /*popisky inputů*/
+        p{
+            text-align: left;
+            margin-bottom: 5px;
+        }
+        /*obalující div inputu, semantická třída*/
+        .calendar{
+            margin-bottom: 10px;
+        }
+    }
+    
+    
+    /***PROSTŘEDÍ TINY***/  
+    /*používané třídy pro práci s editovatelnou částí webu, třídy, které přidává Tiny
+        .mce-content-body - tuto třídu dá Tiny ke všem tagům, které mají být editovatelné
+        .mce-edit-focus - tato třída se přidá jen k tagu, který právě edituji*/
+    /*výběr šablony paperu .paper_template_select má jiné ohraničení*/
+    .mce-content-body{
+        padding: 5px;
+        margin: 0 -5px;
+        /*označení pro tagy, které jsou editovatelné, ale ještě nebyly vybrány pro editaci*/
+        /*rozdílné ohraničení pro editaci a pro výběr šablony*/
+        &:not(.mce-edit-focus){
+            &:not(.paper_template_select){
+                outline: 1px dotted @lightGrey;
+            }
+            &.paper_template_select{
+                outline: 1px dashed darken(@barvaButtonuSablony, 15);
+            }
+        }
+        /*Při editaci odkazu ho Tiny obarvuje modře - podbarvení zůstává i při opuštění editovatelného tagu*/
+        /*změna podbarvení při opuštění editovatelného tagu na bílou - potřeba změnit, pokud bude nastavena editačním tagům background-color*/
+        &:not(mce-edit-focus) a[data-mce-selected]{
+            background-color: @white !important;
+        }
+        &.mce-edit-focus a[data-mce-selected]{
+            background-color: #b4d7ff !important; //Tiny modrá pro odkaz
+        }
+        /*při editaci buttonů lze vybírat text myší, semantic má nastaveno user-select: none*/
+        &.mce-edit-focus{
+            .button{
+                user-select: text;
+                    -webkit-user-select: text;
+                    -moz-user-select: text;
+                    -ms-user-select: text;
+                cursor: text;
+            }
+        }
+        
+    }
+    .mce-edit-focus{
+        /*"mravenci" - obíhající border kolem editačního tagu, v edit.js ještě nastavena animation-duration podle výšky a šířky tagu*/
+        padding: 5px;
+        margin: 0 -5px;
+        height: max-content;
+        animation: border-dance 40s infinite linear;
+        /*označení pro tagy, které jsou editovatelné a byly vybrány pro editaci*/
+        /*rozdílné ohraničení pro editaci a pro výběr šablony*/
+        &:not(.paper_template_select){
+            background: linear-gradient(90deg, @green 50%, transparent 50%),
+                        linear-gradient(90deg, @green 50%, transparent 50%),
+                        linear-gradient(0deg, @green 50%, transparent 50%),
+                        linear-gradient(0deg, @green 50%, transparent 50%);
+            background-size: 12px 3px, 12px 3px, 3px 12px, 3px 12px;
+            background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+        }
+        &.paper_template_select{
+            background: linear-gradient(90deg, @teal 50%, transparent 50%),
+                        linear-gradient(90deg, @teal 50%, transparent 50%),
+                        linear-gradient(0deg, @teal 50%, transparent 50%),
+                        linear-gradient(0deg, @teal 50%, transparent 50%);
+            background-size: 12px 3px, 12px 3px, 3px 12px, 3px 12px;
+            background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+        }
+    }
+}
+
+/*ke smazání - připraven styl pro práva - 1. nemá práva, 2. upravuje jiný uživatel*/
+.notpermitted{
+    cursor: no-drop !important;
+    color: @mediumGrey;
+    &:hover{
+        outline: 2px dashed @redGrafia;
+        color: @mediumGrey;
+        &::before{
+            content: 'Nemáte oprávnění k editaci';
+            width: 65%;
+            height: 75px;
+            padding: 10px;
+            color: black;
+            font-weight: @fontBold;
+            position: absolute;
+            z-index: 10;
+            background-color: white;
+            top: 20px;
+            left: 50%;
+            transform: translate(-50%);
+            border: 1px dashed black;
+        }
+    }
+}
+.locked{
+    cursor: progress !important;
+    color: @mediumGrey;
+    &:hover{
+        outline: 2px dashed @yellow;
+        color: @mediumGrey;
+        &::before{
+            content: 'Stránku edituje uživatel 'attr(data-editor);
+            width: 60%;
+            height: 90px;
+            padding: 10px;
+            color: black;
+            font-weight: @fontBold;
+            position: absolute;
+            z-index: 10;
+            background-color: white;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 1px dashed black;
+        } 
+    }
+}
+.segment.notpermitted headline, .segment.notpermitted content,
+.segment.locked headline, .segment.locked content,
+.segment.notpermitted i.settings, .segment.locked i.settings{
+    opacity: 0.35;
+}
+.segment.locked .icon.buttons, .segment.notpermitted .icon.buttons{
+    opacity: 0.45;
+    pointer-events: none !important;
+}
+.segment.locked a, .segment.notpermitted a{
+    pointer-events: none;
+}
+

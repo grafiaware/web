@@ -71,7 +71,7 @@ class TemplateControler extends XhrControlerAbstract {
 
     public function papertemplate(ServerRequestInterface $request, $templateName) {
         $view = $this->container->get(View::class)
-                                ->setTemplate(new PhpTemplate(PROJECT_PATH."templates/paper/".$templateName."/template.php"))
+                                ->setTemplate(new PhpTemplate(PROJECT_PATH."public/web/templates/paper/".$templateName."/template.php"))
                                 ->setData([
                                     'templateName' => $templateName,
                                     'headline' => Message::t('Headline'),

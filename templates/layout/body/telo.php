@@ -7,25 +7,21 @@
             $rychleOdkazy
         ?>
     </div>
-    <div id="contents" class="column">
-        <div class="articleHeadlined">
-            
-            <?=
-            $content;
-            ?>
-            
-        </div>
-    </div>
-    <div class="four wide tablet three wide computer column">
+    <div class="column">
         <?=
-            $razitko
-            .
-            $socialniSite
-            .
-            $aktuality
-            .
-            $nejblizsiAkce
+        $content;
         ?>
     </div>
+<!--    <div class="four wide tablet three wide computer column">
+        <?
+//            $razitko
+//            .
+//            $socialniSite
+//            .
+//            $aktuality
+//            .
+//            $nejblizsiAkce
+        ?>
+    </div>-->
 </div>
 
