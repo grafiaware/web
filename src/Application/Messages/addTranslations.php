@@ -48,7 +48,7 @@ Message::addTranslations(
             'de' => 'Artikel perex.',
             'en' => 'Article perex.',
         ],
-    'Content' =>
+    'Contents' =>
         [
             'cs' => 'Další obsah článku.',
             'de' => 'Anderer Inhalt des Artikels.',

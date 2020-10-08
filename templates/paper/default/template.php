@@ -1,16 +1,20 @@
-<div data-component="presented" class="ui segment mceNonEditable">
+<?php
+use Model\Entity\PaperAggregateInterface;
+/** @var PaperAggregateInterface $paperAggregate */
+?>
+<div data-component="presented" data-template="<?= $paperTemplateName ?>" class="ui segment mceNonEditable">
     <div class="grafia segment headlined editable">
-        <article class="" data-template="default">
+        <article class="" >
             <section>
                 <headline class="ui header">
-                    <?= $headline ?>
+                    <?= $paperAggregate->getHeadline() ?>
                 </headline>
                 <perex>
-                    <p><?= $perex} ?></p>
+                    <p><?= $paperAggregate->getPerex() ?></p>
                 </perex>
             </section>
             <content>
-                <?= $contents} ?>
+                <?= $this->repeat(PROJECT_PATH."templates/paper_content/default/template.php", $paperAggregate->getPaperContentsArray()); ?>
             </content>
         </article>
     </div>

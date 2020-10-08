@@ -14,6 +14,8 @@ namespace Model\Entity;
  */
 interface PaperAggregateInterface extends PaperInterface {
 
+    const BY_PRIORITY = 'sort descending by content priority (highest on top)';
+
     /**
      *
      * @param type $id
@@ -26,6 +28,12 @@ interface PaperAggregateInterface extends PaperInterface {
      * @return PaperContentInterface array of
      */
     public function getPaperContentsArray(): array;
+
+    /**
+     *
+     * @return PaperContentInterface array of
+     */
+    public function getPaperContentsArraySorted($sortType): array;
 
     public function exchangePaperContentsArray(array $contents=[]): PaperAggregateInterface;
 }

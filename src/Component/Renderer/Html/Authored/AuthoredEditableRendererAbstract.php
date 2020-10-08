@@ -34,7 +34,7 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
                         'type'=>'submit',
                         'name'=>'',
                         'formmethod'=>'post',
-                        'formaction'=>"api/v1/paper/$paperId/templatechange/",
+                        'formaction'=>"api/v1/paper/$paperId/template/",
                     ],
                     Html::tag('i', ['class'=>$this->classMap->getClass('PaperTemplateButtons', 'div button1 i')])
                     )
@@ -120,34 +120,31 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
     }
 
     protected function renderContentsDivs(PaperAggregateInterface $paperAggregate) {
-        $contents = $paperAggregate->getPaperContentsArray();
+        $contents = $paperAggregate->getPaperContentsArraySorted(PaperAggregateInterface::BY_PRIORITY);
         $form = [];
-        if ($contents) {
-            \usort($contents, array($this, "compareByPriority"));
-            foreach ($contents as $paperContent) {
-                /** @var PaperContentInterface $paperContent */
-                if ($paperContent->getPriority() > 0) {  // není v koši
-                    $form[] = $this->getContentForm($paperContent, $paperAggregate);
-                } else {  // je v koši
-                    $form[] =
-                        Html::tag('section', ['class'=>$this->classMap->getClass('Content', 'section.trash')],
-                            Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.corner')],
-                                $this->getTrashButtonsForm($paperContent)
+        foreach ($contents as $paperContent) {
+            /** @var PaperContentInterface $paperContent */
+            if ($paperContent->getPriority() > 0) {  // není v koši
+                $form[] = $this->getContentForm($paperContent, $paperAggregate);
+            } else {  // je v koši
+                $form[] =
+                    Html::tag('section', ['class'=>$this->classMap->getClass('Content', 'section.trash')],
+                        Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.corner')],
+                            $this->getTrashButtonsForm($paperContent)
+                        )
+                        .Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.semafor')],
+                                Html::tag('i',['class'=>$this->classMap->getClass('Content', 'i.trash')])
+                        )
+                        .Html::tag('div',
+                            [
+                                'id' => "content_{$paperContent->getId()}",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
+                                'class'=>$this->classMap->getClass('Content', 'div.trash_content'),
+                                'data-paperowner'=>$paperAggregate->getEditor(),
+                                'data-owner'=>$paperContent->getEditor()
+                            ],
+                            $paperContent->getContent()
                             )
-                            .Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.semafor')],
-                                    Html::tag('i',['class'=>$this->classMap->getClass('Content', 'i.trash')])
-                            )
-                            .Html::tag('div',
-                                [
-                                    'id' => "content_{$paperContent->getId()}",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
-                                    'class'=>$this->classMap->getClass('Content', 'div.trash_content'),
-                                    'data-paperowner'=>$paperAggregate->getEditor(),
-                                    'data-owner'=>$paperContent->getEditor()
-                                ],
-                                $paperContent->getContent()
-                                )
-                        );
-                }
+                    );
             }
         }
         return implode(PHP_EOL, $form);

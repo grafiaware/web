@@ -96,6 +96,11 @@ class Api extends AppMiddlewareAbstract implements MiddlewareInterface {
                 $ctrl = $this->container->get(PaperController::class);
                 return $ctrl->create($request);
         });
+        $routeGenerator->addRouteForAction('POST', '/api/v1/paper/:paperId/template', function(ServerRequestInterface $request, $paperId) {
+                /** @var PaperController $ctrl */
+                $ctrl = $this->container->get(PaperController::class);
+                return $ctrl->updateTemplate($request, $paperId);
+        });
         $routeGenerator->addRouteForAction('POST', '/api/v1/paper/:paperId/headline', function(ServerRequestInterface $request, $paperId) {
                 /** @var PaperController $ctrl */
                 $ctrl = $this->container->get(PaperController::class);

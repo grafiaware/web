@@ -16,7 +16,7 @@ use Component\ViewModel\Status\StatusBoardViewModel;
  *
  * @author pes2704
  */
-class StatusBoadComponent extends ComponentAbstract {
+class StatusBoardComponent extends ComponentAbstract {
 
     // renderuje template, definováno v component kontejneru
     public function __construct(StatusBoardViewModel $viewModel) {

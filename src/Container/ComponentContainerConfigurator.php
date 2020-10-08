@@ -251,7 +251,8 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
             },
 
         ####
-        # paper komponenty
+        # paper komponenty - připravené komponenty bez rendereru a šablony
+        # - pro použití je třeba natavit renderer nebo šablonu
         #
             NamedPaperViewModel::class => function(ContainerInterface $c) {
                 return new NamedPaperViewModel(
@@ -283,28 +284,28 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                 },
 
             'component.headlined' => function(ContainerInterface $c) {
-                return $c->get(NamedItemComponent::class)->setRendererName('paper.headlined.renderer');
+                return $c->get(NamedItemComponent::class)->setFallbackRendererName('paper.headlined.renderer');
             },
             'component.headlined.editable' => function(ContainerInterface $c) {
-                return $c->get(NamedItemComponent::class)->setRendererName('paper.headlined.renderer.editable');
+                return $c->get(NamedItemComponent::class)->setFallbackRendererName('paper.headlined.renderer.editable');
             },
             'article.headlined' => function(ContainerInterface $c) {
-                return $c->get(PresentedItemComponent::class)->setRendererName('paper.headlined.renderer');
+                return $c->get(PresentedItemComponent::class)->setFallbackRendererName('paper.headlined.renderer');
             },
             'article.headlined.editable' => function(ContainerInterface $c) {
-                return $c->get(PresentedItemComponent::class)->setRendererName('paper.headlined.renderer.editable');
+                return $c->get(PresentedItemComponent::class)->setFallbackRendererName('paper.headlined.renderer.editable');
             },
             'article.block' => function(ContainerInterface $c) {
-                return $c->get(PresentedItemComponent::class)->setRendererName('paper.block.renderer');
+                return $c->get(PresentedItemComponent::class)->setFallbackRendererName('paper.block.renderer');
             },
             'article.block.editable' => function(ContainerInterface $c) {
-                return $c->get(PresentedItemComponent::class)->setRendererName('paper.block.renderer.editable');
+                return $c->get(PresentedItemComponent::class)->setFallbackRendererName('paper.block.renderer.editable');
             },
             'component.block' => function(ContainerInterface $c) {
-                return $c->get(NamedItemComponent::class)->setRendererName('paper.block.renderer');
+                return $c->get(NamedItemComponent::class)->setFallbackRendererName('paper.block.renderer');
             },
             'component.block.editable' => function(ContainerInterface $c) {
-                return $c->get(NamedItemComponent::class)->setRendererName('paper.block.renderer.editable');
+                return $c->get(NamedItemComponent::class)->setFallbackRendererName('paper.block.renderer.editable');
             },
 
             // generated komponenty
@@ -334,12 +335,15 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                 return (new ItemTypeSelectComponent($viewModel))->setRendererContainer($c->get('rendererContainer'))->setRendererName(ItemTypeRenderer::class);
             },
             // FlashComponent s vlastním rendererem
-            FlashComponent::class => function(ContainerInterface $c) {
-                $viewModel = new FlashViewModelForRenderer($c->get(StatusFlashRepo::class));
-                return (new FlashComponent($viewModel))->setRendererContainer($c->get('rendererContainer'))->setRendererName(FlashRenderer::class);
-            },
+//            FlashComponent::class => function(ContainerInterface $c) {
+//                $viewModel = new FlashViewModelForRenderer($c->get(StatusFlashRepo::class));
+//                return (new FlashComponent($viewModel))->setRendererContainer($c->get('rendererContainer'))->setRendererName(FlashRenderer::class);
+//            },
 
-            // php template komponenty
+
+           //TODO: upravit v Pes view-> přednost má template (pokud je) před rendererem -> renderer může být fallback, pokud není template, pak zdejší component renderery přidat k komponentám s temlatou jako fallback
+            // php template komponenty - template jsou (aspoň zatím) definované zde v kontejneru - komponenty se volají z více kontrolerů a zde je "na jednom místě" struktura dat (viewmodel) a template s proměnnými
+            // - samozřejmě je třeba vymyslet konfiguraci a přesunout do konfigurace
             'template.flash' => PROJECT_PATH.'templates/poznamky/flashMessage.php',
             FlashComponent::class => function(ContainerInterface $c) {
                 $viewModel = new FlashViewModel($c->get(StatusFlashRepo::class));

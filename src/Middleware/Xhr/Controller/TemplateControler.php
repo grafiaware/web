@@ -69,25 +69,16 @@ class TemplateControler extends XhrControlerAbstract {
         return $this->createResponseFromView($request, $this->createView($request));
     }
 
-    public function papertemplate(ServerRequestInterface $request, $name) {
+    public function papertemplate(ServerRequestInterface $request, $templateName) {
         $view = $this->container->get(View::class)
-                                ->setTemplate(new InterpolateTemplate(PROJECT_PATH."templates/paper/".$name."/template.html"))
+                                ->setTemplate(new PhpTemplate(PROJECT_PATH."templates/paper/".$templateName."/template.php"))
                                 ->setData([
+                                    'templateName' => $templateName,
                                     'headline' => Message::t('Headline'),
                                     'perex' => Message::t('Perex'),
-                                    'content' => Message::t('Content'),
+                                    'contents' => [ ['content'=> Message::t('Contents')]],
                                 ]);
         return $this->createResponseFromView($request, $view);
-    }
-
-    public function ttt($param) {
-        $menuItemId = (new RequestParams())->getParam($request, 'menu_item_id');  // jméno POST proměnné je vytvořeno v paper rendereru
-        $html = (new RequestParams())->getParam($request, 'paper_template');  // jméno POST proměnné je vytvořeno v paper rendereru
-        $text = html_entity_decode($html, ENT_HTML5);
-        $layoutDocument = new \DOMDocument('1.0', 'utf-8');
-        $this->loadHtml($layoutDocument, $text);
-
-        $headlineElement = $layoutDocument->getElementsByTagName('headline')->item(0);
     }
 
     public function flash(ServerRequestInterface $request) {
@@ -101,7 +92,7 @@ class TemplateControler extends XhrControlerAbstract {
     }
 
     public function presentedPaper(ServerRequestInterface $request) {
-        // dočasně duplicitní s ComponentController
+        // dočasně duplicitní s ComponentController a XhrControler
         $menuItem = $this->statusPresentationRepo->get()->getMenuItem();
         $editable = $this->isEditableArticle();
         $menuItemType = $menuItem->getTypeFk();

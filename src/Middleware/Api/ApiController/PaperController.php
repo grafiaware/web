@@ -44,13 +44,13 @@ class PaperController extends PresentationFrontControllerAbstract {
 
     public function create(ServerRequestInterface $request): ResponseInterface {
         $menuItemId = (new RequestParams())->getParam($request, 'menu_item_id');  // jméno POST proměnné je vytvořeno v paper rendereru
-        $html = (new RequestParams())->getParam($request, 'paper_template');  // jméno POST proměnné je vytvořeno v paper rendereru
+        $html = (new RequestParams())->getParam($request, 'paper_template_html');  // jméno POST proměnné je vytvořeno v paper rendereru
         $text = html_entity_decode($html, ENT_HTML5);
         $layoutDocument = new \DOMDocument('1.0', 'utf-8');
         $this->loadHtml($layoutDocument, $text);
 
-        $articlrElement = $layoutDocument->getElementsByTagName('article')->item(0);
-        $dataTemplateAttribute = $articlrElement->attributes->getNamedItem("data-template");
+        $articleElement = $layoutDocument->getElementsByTagName('article')->item(0);
+        $dataTemplateAttribute = $articleElement->attributes->getNamedItem("data-template");
         $template = $dataTemplateAttribute->textContent ?? "defaulttemplate";
         $headlineElement = $layoutDocument->getElementsByTagName('headline')->item(0);
         $perexElement = $layoutDocument->getElementsByTagName('perex')->item(0);
@@ -62,10 +62,12 @@ class PaperController extends PresentationFrontControllerAbstract {
                 $paper = new Paper();
                 $editor = $this->statusSecurityRepo->get()->getUser()->getUserName();
                 $paper
-                        ->setEditor($editor)
-                        ->setHeadline($this->getInnerHtml($layoutDocument, $headlineElement->childNodes))
-                        ->setMenuItemIdFk($menuItemId)
-                        ->setPerex($this->getInnerHtml($layoutDocument, $perexElement->childNodes));
+                    ->setEditor($editor)
+                    ->setHeadline($this->getInnerHtml($layoutDocument, $headlineElement->childNodes))
+                    ->setMenuItemIdFk($menuItemId)
+                    ->setPerex($this->getInnerHtml($layoutDocument, $perexElement->childNodes))
+                    ->setTemplate($template)
+                    ;
 
                 $this->paperRepo->add($paper);
             } else {

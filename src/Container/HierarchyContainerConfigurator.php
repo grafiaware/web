@@ -97,11 +97,8 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
             # Konfigurace databáze
             # Konfigurovány databáze - v kontejneru dbUpgrade
             #
-            'hierarchy.db.development.user.name' => 'gr_upgrader',
-            'hierarchy.db.development.user.password' => 'gr_upgrader',
-
-            'hierarchy.db.production.user.name' => 'xxxxxxxxxxxxxxxxx',
-            'hierarchy.db.production.user.password' => 'xxxxxxxxxxxxxxxxxxxx',
+            'dbUpgrade.db.user.name' => PES_DEVELOPMENT ? 'gr_upgrader' : (PES_PRODUCTION ? 'UPGRADE_PRODUCTION_USER_NAME' : 'xxxx'),
+            'dbUpgrade.db.user.password' => PES_DEVELOPMENT ? 'gr_upgrader' : (PES_PRODUCTION ? 'UPGRADE_PRODUCTION_USER_PASSWORD' : 'xxxx'),
             #
             ###################################
             # konfigurace menu
@@ -275,14 +272,9 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
             // db objekty
             Account::class => function(ContainerInterface $c) {
                 // account NENÍ vytvářen s použitím User - není třeba přidávat do SecurityContextObjectsRemover
-                if (PES_DEVELOPMENT) {
                     return new Account(
-                            $c->get('hierarchy.db.development.user.name'),
-                            $c->get('hierarchy.db.development.user.password'));
-                } elseif(PES_PRODUCTION) {
-                    return new Account(
-                            $c->get('hierarchy.db.production.user.name'),
-                            $c->get('hierarchy.db.production.user.password'));                }
+                            $c->get('dbUpgrade.db.user.name'),
+                            $c->get('dbUpgrade.db.user.password'));
             },
             Handler::class => function(ContainerInterface $c) : HandlerInterface {
                 // povinný logger do kostruktoru = pro logování exception při intancování Handleru a PDO

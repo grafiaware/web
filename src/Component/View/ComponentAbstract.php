@@ -39,6 +39,6 @@ abstract class ComponentAbstract extends View {
      * @return type
      */
     public function getString($data=null) {
-        return parent::getString(isset($data) ? $data : $this->viewModel);  // jakýkoli parametr má přednost před $this->viewModel - i prázdný string
+        return parent::getString(isset($data) ? $data : ($this->data ? $this->data : $this->viewModel));  // jakýkoli parametr má přednost před $this->viewModel - i prázdný string
     }
 }
