@@ -556,7 +556,7 @@ body .menu.edit .semafor {
   left: -1px;
 }
 body .presmerovani-menu .menu.edit .semafor {
-  left: -12px;
+  @semafor PresmerovaniMenuPositionLeft;
 }
 body .vodorovne-menu .menu.edit .semafor {
   left: -6px;

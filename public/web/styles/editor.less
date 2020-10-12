@@ -7,8 +7,17 @@
 @borderRadius: 5px;
 @mediumGrey: darken(@lightGrey, 15);
 @fontBold: bold;
+@positionAbsolute: absolute;
+@positionRelative: relative;
+@displayBlock: block;
+@displayFlex: flex;
+@displayInline: inline;
+@displayInlineBlock: inline-block;
+@flexColumn: column;
+@flexRow: row;
 
 //Poznamky a flash
+@poznamkyPosition: @positionAbsolute;
 @poznamkyPositionLeft: -260px;
 @poznamkyPositionRight: @hodnotaAuto;
 @poznamkyPositionTop: 170px;
@@ -27,8 +36,13 @@
 //Přesměrování menu
 
 //Semafor
+@semaforPositionTop: @hodnota0;
 //Pro menu
+@semaforSvisleMenuPositionLeft: -1px;
+@semaforPresmerovaniMenuPositionLeft: -12px;
+@semaforVodorovneMenuPositionLeft: -6px;
 //Pro paper
+@semaforContentPositionLeft: -21px;
 
 //Paper
 //Buttony pro paper
@@ -49,7 +63,23 @@
 @barvaKos: #F8F3FF;
 @barvaButtonuSablony: #EDF7FF;
 
+//import změněných proměnných stylu šablony (specifických pro projekt)
 @import (optional) "../@{sitename}/@{siteStylesFolder}/editor.less";
+
+.position(@position, @top, @right, @bottom, @left) when(@position = @positionRelative){
+    position: relative;
+    top: @top;
+    right: @right;
+    bottom: @bottom;
+    left: @left;
+}
+.position(@position, @top, @right, @bottom, @left) when(@position = @positionAbsolute){
+    position: absolute;
+    top: @top;
+    right: @right;
+    bottom: @bottom;
+    left: @left;
+}
 
 body{  
     /*popisky buttonů budou tučně - popisky jsou v atributu data-tooltip*/
@@ -77,6 +107,7 @@ body{
         border-radius: @borderRadius;
         box-shadow: 1px 1px 10px 1px @mediumGrey;
         transition: 0.7s linear;
+        //.position(@poznamkyPosition, @poznamkyPositionTop, @poznamkyPositionRight, @poznamkyPositionBottom, @poznamkyPositionLeft);
         .label{ //horní pruh s ikonou
             margin: 0 !important;
             i{
@@ -130,7 +161,7 @@ body{
     .menu.edit{
         /*styl pro položku menu, která je vybrána k přesunutí*/
         li.cut{
-            border: 1px solid @mediumGrey !important;
+            border: 1px solid @mediumGrey !important ;
             > a.item, > p.item span{
                 color: @mediumGrey;
                 &:hover{
@@ -138,7 +169,7 @@ body{
                     background-color: transparent !important;
                 }
             }
-        }
+        }    
         /*buttony se zobrazí jen u vybrané položky menu*/
         li:not(.presented) .buttons{
             display: none;
@@ -152,7 +183,7 @@ body{
                     background-color: @white;
                 }
             }
-        }
+        } 
         /*vybraná položka menu má editovatelný název - přizpůsobený kurzor myši*/
         .presented p{
             margin-bottom: 0;
@@ -279,8 +310,8 @@ body{
         position: absolute;
         display: flex;
         flex-direction: column;
-        top: 0;
-        left: -21px; //pro content
+        top: @semaforPositionTop;
+        left: @semaforContentPositionLeft;
         i.icon{ //když bude více icon, nebudou nalepené u sebe
             margin-bottom: 2px;
         }
@@ -289,18 +320,18 @@ body{
     .menu.edit .semafor{
         justify-content: center;
         height: 100%;
-        left: -1px
+        left: @semaforSvisleMenuPositionLeft;
     }
     /*PRESMEROVANI MENU*/
     .presmerovani-menu .menu.edit{ //větší váha selektorů kvůli speciálnímu zobrazení pro přesměrování menu
        .semafor{
-           left: -12px;
+           @semaforPresmerovaniMenuPositionLeft;
        }
     }
     /*VODOROVNÉ MENU*/
     .vodorovne-menu .menu.edit{ //větší váha selektorů kvůli speciálnímu zobrazení pro vodorovné menu
         .semafor{
-            left: -6px;
+            left: @semaforVodorovneMenuPositionLeft;
             background-color: @white;
             border: 1px solid @primaryColor;
             border-radius: @borderRadius 0 0 @borderRadius;
