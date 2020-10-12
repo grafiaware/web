@@ -475,21 +475,4 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
             )
         );
     }
-
-    /**
-     * Compare funkce pro usort - řadí shora od nejvyšší priority
-     *
-     * @param PaperContentInterface $c1
-     * @param PaperContentInterface $c2
-     * @return int
-     */
-    private function compareByPriority($c1, $c2) {
-        /** @var PaperContentInterface $c1 */
-        /** @var PaperContentInterface $c2 */
-        if ($c1->getPriority() == $c2->getPriority()) {
-            return 0;
-        }
-        // desc !
-        return ($c1->getPriority() > $c2->getPriority()) ? -1 : 1;
-    }
 }
