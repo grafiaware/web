@@ -221,7 +221,7 @@ vypis_urovne_menu ($i,$data,$rozsah_urovne,$stranka,$lang,$defurovne,$sess_prava
 //Dotaz a zobrazeni menu stranek s prefixem a
 $menuDao = new Model\Dao\MenuDao($mwContainer->get(Pes\Database\Handler\HandlerInterface::class), 3);
 $zaznamy = $menuDao->findChildren($lang, 'a', 2);   // a0, a1 atd. -> 'a' stránky mají délku identifikátoru 2 znaky na úrověň
-$menuDao = new Model\Dao\Hierarchy\ReadHierarchy($handler, $nestedSetTableName, $itemTableName)
+$menuDao = new Model\Dao\Hierarchy\ReadHierarchy($handler, $nestedSetTableName, $itemTableName);
 
         foreach($menuDao->getImmediateSubNodes($langCode, $parentUid, $active, $actual) as $row) {
 

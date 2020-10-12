@@ -8,6 +8,8 @@
 
 namespace Container;
 
+use Application\Configuration;
+
 use Pes\Container\ContainerConfiguratorAbstract;
 
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
@@ -91,22 +93,12 @@ use StatusManager\StatusPresentationManagerInterface;
  */
 class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
 
-    public function getFactoriesDefinitions() {
-        return [
-            #################################
-            # Konfigurace databáze
-            # Konfigurovány databáze - v kontejneru dbUpgrade
-            #
-            'dbUpgrade.db.user.name' => PES_DEVELOPMENT ? 'gr_upgrader' : (PES_PRODUCTION ? 'UPGRADE_PRODUCTION_USER_NAME' : 'xxxx'),
-            'dbUpgrade.db.user.password' => PES_DEVELOPMENT ? 'gr_upgrader' : (PES_PRODUCTION ? 'UPGRADE_PRODUCTION_USER_PASSWORD' : 'xxxx'),
-            #
-            ###################################
-            # konfigurace menu
-            'menu.new_title' => 'Nová položka',
-            'menu.trash_type' => 'trash',
+    public function getParams() {
+        return Configuration::hierarchy();
+    }
 
-            #####################################
-        ];
+    public function getFactoriesDefinitions() {
+        return [];
     }
 
     public function getAliases() {
@@ -149,7 +141,7 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(ContextFactory::class));
             },
             HookedMenuItemActor::class => function(ContainerInterface $c) {
-                return new HookedMenuItemActor($c->get('hierarchy.menu_item_table'), $c->get('menu.new_title'));
+                return new HookedMenuItemActor($c->get('hierarchy.menu_item_table'), $c->get('hierarchy.new_title'));
             },
             ArticleTitleUpdater::class => function(ContainerInterface $c) {
                 return new ArticleTitleUpdater($c->get(Handler::class));

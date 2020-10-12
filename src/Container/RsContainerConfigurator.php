@@ -1,6 +1,8 @@
 <?php
 namespace Container;
 
+use Application\Configuration;
+
 // kontejner
 use Pes\Container\ContainerConfiguratorAbstract;
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
@@ -43,26 +45,12 @@ use Model\Dao\PaperContentDao;
  */
 class RsContainerConfigurator extends ContainerConfiguratorAbstract {
 
+    public function getParams() {
+        return Configuration::rs();
+    }
+
     public function getFactoriesDefinitions() {
-        return [
-
-            #################################
-            # Sekce konfigurace účtů databáze
-            # Konfigurace připojení k databázi je v aplikačním kontejneru, je pro celou apliaci stejná.
-            # Služby, které vrací objekty s informacemi pro připojení k databázi jsou také v aplikačním kontejneru a v jednotlivých middleware
-            # kontejnerech se volají jako služby delegate kontejneru.
-            #
-            # Zde je konfigurace údajů uživatele pro připojení k databízi. Ta je pro každý middleware v jeho kontejneru.
-            'database.account.everyone.name' => 'gr_everyone',
-            'database.account.everyone.password' => 'gr_everyone',
-            'database.account.authenticated.name' => 'gr_authenticated',
-            'database.account.authenticated.password' => 'gr_authenticated',
-            'database.account.administrator.name' => 'gr_administrator',
-            'database.account.administrator.password' => 'gr_administrator',
-            #
-            ###################################
-
-        ];
+        return [];
     }
 
     public function getAliases() {
@@ -91,18 +79,18 @@ class RsContainerConfigurator extends ContainerConfiguratorAbstract {
                 if (isset($user)) {
                     switch ($user->getRole()) {
                         case 'administrator':
-                            $account = new Account($c->get('database.account.administrator.name'), $c->get('database.account.administrator.password'));
+                            $account = new Account($c->get('rs.db.account.administrator.name'), $c->get('rs.db.account.administrator.password'));
                             break;
                         default:
                             if ($user->getRole()) {
-                                $account = new Account($c->get('database.account.authenticated.name'), $c->get('database.account.authenticated.password'));
+                                $account = new Account($c->get('rs.db.account.authenticated.name'), $c->get('rs.db.account.authenticated.password'));
                             } else {
-                                $account = new Account($c->get('database.account.everyone.name'), $c->get('database.account.everyone.password'));
+                                $account = new Account($c->get('rs.db.account.everyone.name'), $c->get('rs.db.account.everyone.password'));
                             }
                             break;
                     }
                 } else {
-                    $account = new Account($c->get('database.account.everyone.name'), $c->get('database.account.everyone.password'));
+                    $account = new Account($c->get('rs.db.account.everyone.name'), $c->get('rs.db.account.everyone.password'));
                 }
                 return $account;
             },

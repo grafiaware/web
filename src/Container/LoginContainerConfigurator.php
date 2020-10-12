@@ -1,6 +1,8 @@
 <?php
 namespace Container;
 
+use Application\Configuration;
+
 // kontejner
 use Pes\Container\ContainerConfiguratorAbstract;
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
@@ -56,23 +58,12 @@ use StatusManager\Observer\SecurityContextObjectsRemover;
  */
 class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
 
+    public function getParams() {
+        return Configuration::login();
+    }
+
     public function getFactoriesDefinitions() {
-        return [
-            #################################
-            # Sekce konfigurace účtů databáze
-            #
-            # user s právem select k databázi s tabulkou uživatelských oprávnění
-            # MySQL 5.6: délka jména max 16 znaků
-
-            'login.db.account.everyone.name' => 'gr_login',  // nelze použít jméno uživatele použité pro db upgrade - došlo by k duplicitě jmen v build create
-            'login.db.account.everyone.password' => 'gr_login',
-
-            'login.logs.database.directory' => 'Logs/Login',
-            'login.logs.database.file' => 'Database.log',
-            #
-            ###################################
-
-        ];
+        return [];
     }
 
     public function getAliases() {
@@ -88,7 +79,7 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
         return [
             // LoginContainer musí mít DbOld kontejner jako delegáta
             //
-            'login.database.logger' => function(ContainerInterface $c) {
+            'loginDbLogger' => function(ContainerInterface $c) {
                 return FileLogger::getInstance($c->get('login.logs.database.directory'), $c->get('login.logs.database.file'), FileLogger::REWRITE_LOG); //new NullLogger();
             },
 
@@ -114,7 +105,7 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(DsnProviderMysql::class),
                         $c->get(OptionsProviderMysql::class),
                         $c->get(AttributesProvider::class),
-                        $c->get('login.database.logger'));
+                        $c->get('loginDbLogger'));
             },
             // db userRepo
             UserRepo::class => function(ContainerInterface $c) {

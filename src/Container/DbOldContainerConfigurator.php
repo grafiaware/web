@@ -2,6 +2,8 @@
 
 namespace Container;
 
+use Application\Configuration;
+
 // kontejner
 use Pes\Container\ContainerConfiguratorAbstract;
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
@@ -64,29 +66,12 @@ use Application\Api\ApiRegistrator;
  */
 class DbOldContainerConfigurator extends ContainerConfiguratorAbstract {
 
+    public function getParams() {
+        return Configuration::dbOld();
+    }
+
     public function getFactoriesDefinitions() {
-        return [
-            #################################
-            # Sekce konfigurace databáze
-            # Konfigurace databáze může být v aplikačním kontejneru nebo různá v jednotlivých middleware kontejnerech.
-            # Služby, které vrací objekty jsou v aplikačním kontejneru a v jednotlivých middleware kontejnerech musí být
-            # stejná sada služeb, které vracejí hodnoty konfigurace.
-            #
-            'dbold.db.type' => DbTypeEnum::MySQL,
-            'dbold.db.port' => '3306',
-            'dbold.db.charset' => 'utf8',
-            'dbold.db.collation' => 'utf8_general_ci',
-
-            'dbold.db.connection.host' => PES_DEVELOPMENT ? 'localhost' : (PES_PRODUCTION ? 'OLD_PRODUCTION_NAME' : 'xxxxxxxxxxxxxxxxx'),
-            'dbold.db.connection.name' => PES_DEVELOPMENT ? 'grafiacz' : (PES_PRODUCTION ? 'OLD_PRODUCTION_HOST' : 'xxxxxxxxxxxxxxxxx'),
-//            'dbold.db.connection.name' => PES_DEVELOPMENT ? 'wwwgrafia' : (PES_PRODUCTION ? 'OLD_PRODUCTION_HOST' : 'xxxxxxxxxxxxxxxxx'),
-
-            'dbold.logs.directory' => 'Logs/DbOld',
-            'dbold.logs.db.file' => 'Database.log',
-            #
-            # Konec sekce konfigurace databáze
-            ###################################
-        ];
+        return [];
     }
 
     public function getAliases() {
@@ -105,7 +90,7 @@ class DbOldContainerConfigurator extends ContainerConfiguratorAbstract {
 
             // database
             // account a handler v middleware kontejnerech
-            'dbold.db.logger' => function(ContainerInterface $c) {
+            'dboldDbLogger' => function(ContainerInterface $c) {
                 return FileLogger::getInstance($c->get('dbold.logs.directory'), $c->get('dbold.logs.db.file'), FileLogger::REWRITE_LOG); //new NullLogger();
             },
             ConnectionInfo::class => function(ContainerInterface $c) {
@@ -120,21 +105,21 @@ class DbOldContainerConfigurator extends ContainerConfiguratorAbstract {
             DsnProviderMysql::class =>  function(ContainerInterface $c) {
                 $dsnProvider = new DsnProviderMysql();
                 if (PES_DEVELOPMENT) {
-                    $dsnProvider->setLogger($c->get('dbold.db.logger'));
+                    $dsnProvider->setLogger($c->get('dboldDbLogger'));
                 }
                 return $dsnProvider;
             },
             OptionsProviderMysql::class =>  function(ContainerInterface $c) {
                 $optionsProvider = new OptionsProviderMysql();
                 if (PES_DEVELOPMENT) {
-                    $optionsProvider->setLogger($c->get('dbold.db.logger'));
+                    $optionsProvider->setLogger($c->get('dboldDbLogger'));
                 }
                 return $optionsProvider;
             },
             AttributesProvider::class =>  function(ContainerInterface $c) {
                 $attributesProvider = new AttributesProvider();
                 if (PES_DEVELOPMENT) {
-                    $attributesProvider->setLogger($c->get('dbold.db.logger'));
+                    $attributesProvider->setLogger($c->get('dboldDbLogger'));
                 }
                 return $attributesProvider;
             },

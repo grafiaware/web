@@ -18,7 +18,7 @@ class AppContext {
     }
 
     public static function getAppSitePublicDirectory() {
-        return 'public/web/grafia/';  // relativní cesta
+        return 'public/web/site/';  // relativní cesta
     }
 
     public static function getTinyPublicDirectory() {

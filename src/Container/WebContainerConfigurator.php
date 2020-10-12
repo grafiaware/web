@@ -1,6 +1,8 @@
 <?php
 namespace Container;
 
+use Application\Configuration;
+
 // kontejner
 use Pes\Container\ContainerConfiguratorAbstract;
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
@@ -36,24 +38,12 @@ use Model\Repository\StatusSecurityRepo;
  */
 class WebContainerConfigurator extends ContainerConfiguratorAbstract {
 
+    public function getParams() {
+        return Configuration::web();
+    }
+
     public function getFactoriesDefinitions() {
-        return [
-            #################################
-            # Sekce konfigurace účtů databáze
-            # Konfigurace připojení k databázi je v aplikačním kontejneru, je pro celou aplikaci stejná.
-            # Služby, které vrací objekty s informacemi pro připojení k databázi jsou také v aplikačním kontejneru a v jednotlivých middleware
-            # kontejnerech se volají jako služby delegate kontejneru.
-            #
-            # Zde je konfigurace údajů uživatele pro připojení k databázi. Ta je pro každý middleware v jeho kontejneru.
-            'database.account.everyone.name' => 'gr_everyone',
-            'database.account.everyone.password' => 'gr_everyone',
-            'database.account.authenticated.name' => 'gr_authenticated',
-            'database.account.authenticated.password' => 'gr_authenticated',
-            'database.account.administrator.name' => 'gr_administrator',
-            'database.account.administrator.password' => 'gr_administrator',
-            #
-            ###################################
-        ];
+        return [ ];
     }
 
     public function getAliases() {
@@ -96,21 +86,21 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                     $role = $user ? $user->getRole() : "";
                     switch ($role) {
                         case 'administrator':
-                            $account = new Account($c->get('database.account.administrator.name'), $c->get('database.account.administrator.password'));
+                            $account = new Account($c->get('web.db.account.administrator.name'), $c->get('web.db.account.administrator.password'));
                             break;
                         case 'supervisor':
-                            $account = new Account($c->get('database.account.administrator.name'), $c->get('database.account.administrator.password'));
+                            $account = new Account($c->get('web.db.account.administrator.name'), $c->get('web.db.account.administrator.password'));
                             break;
                         default:
                             if ($role) {
-                                $account = new Account($c->get('database.account.authenticated.name'), $c->get('database.account.authenticated.password'));
+                                $account = new Account($c->get('web.db.account.authenticated.name'), $c->get('web.db.account.authenticated.password'));
                             } else {
-                                $account = new Account($c->get('database.account.everyone.name'), $c->get('database.account.everyone.password'));
+                                $account = new Account($c->get('web.db.account.everyone.name'), $c->get('web.db.account.everyone.password'));
                             }
                             break;
                     }
                 } else {
-                    $account = new Account($c->get('database.account.everyone.name'), $c->get('database.account.everyone.password'));
+                    $account = new Account($c->get('web.db.account.everyone.name'), $c->get('web.db.account.everyone.password'));
                 }
                 return $account;
             },

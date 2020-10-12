@@ -107,8 +107,8 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
                     'modalLoginLogout' => $this->getModalLoginLogout(),
                     'modalUserAction' => $this->getModalUserAction(),
                     'bodyContainerAttributes' => $this->getBodyContainerAttributes(),
-                    'editableJsLinks' => $this->getEditTools($request),
-                    'editableCssLinks' => $this->getEditCss($request),
+                    'linkEditJs' => $this->getEditJs($request),
+                    'linkEditCss' => $this->getEditCss($request),
                     'poznamky' => $this->getPoznamky(),
                     'flash' => $this->getFlashComponent(),
                 ]);
@@ -120,8 +120,8 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
         switch ($theme) {
             case 'old':
                 $this->templatesLayout['layout'] = PROJECT_PATH.'templates/layout/layout.php';
-                $this->templatesLayout['linksJs'] = PROJECT_PATH.'templates/layout/head/editableJsLinks.php';
-                $this->templatesLayout['linksCss'] = PROJECT_PATH.'templates/layout/head/editableCssLinks.php';
+                $this->templatesLayout['linksJs'] = PROJECT_PATH.'templates/layout/head/linkEditableJs.php';
+                $this->templatesLayout['linksCss'] = PROJECT_PATH.'templates/layout/head/linkEditableCss.php';
                 $this->templatesLayout['tiny_config'] = PROJECT_PATH.'templates/layout/head/tiny_config.js';
                 break;
             case 'xhr':
@@ -171,7 +171,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
         }
     }
 
-    private function getEditTools(ServerRequestInterface $request) {
+    private function getEditJs(ServerRequestInterface $request) {
         if ($this->isEditableArticle() OR $this->isEditableLayout()) {
             $webPublicDir = \Middleware\Web\AppContext::getAppPublicDirectory();
             $webSitePublicDir = \Middleware\Web\AppContext::getAppSitePublicDirectory();

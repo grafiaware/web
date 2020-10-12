@@ -8,6 +8,8 @@
 
 namespace Container;
 
+use Application\Configuration;
+
 use Pes\Container\ContainerConfiguratorAbstract;
 
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
@@ -40,37 +42,12 @@ use Model\Dao\Hierarchy\NodeAggregateReadonlyDaoInterface;
  */
 class DbUpgradeContainerConfigurator extends ContainerConfiguratorAbstract {
 
+    public function getParams() {
+        return Configuration::dbUpgrade();
+    }
+
     public function getFactoriesDefinitions() {
-        return [
-            #####################################
-            # Konfigurace databáze
-            #
-            # konfigurovány dvě databáze pro Hierarchy a Konverze kontejnery
-            # - jedna pro vývoj a druhá pro běh na produkčním stroji
-            #
-            'dbUpgrade.db.type' => DbTypeEnum::MySQL,
-            'dbUpgrade.db.port' => '3306',
-            'dbUpgrade.db.charset' => 'utf8',
-            'dbUpgrade.db.collation' => 'utf8_general_ci',
-            'dbUpgrade.db.connection.host' => PES_DEVELOPMENT ? 'localhost' : (PES_PRODUCTION ? 'UPGRADE_PRODUCTION_HOST' : 'xxxx'),
-            'dbUpgrade.db.connection.name' => PES_DEVELOPMENT ? 'gr_upgrade' : (PES_PRODUCTION ? 'UPGRADE_PRODUCTION_NAME' : 'xxxx'),
-            #
-            #  Konec sekce konfigurace databáze
-            ###################################
-            # Konfigurace logu databáze
-            #
-            'dbUpgrade.logs.db.directory' => 'Logs/Hierarchy',
-            'dbUpgrade.logs.db.file' => 'Database.log',
-            #
-            #################################
-            # Konfigurace hierarchy tabulek
-            #
-            'hierarchy.table' => 'hierarchy',
-            'hierarchy.view' => 'hierarchy_view',
-            'hierarchy.menu_item_table' => 'menu_item',
-            #
-            #################################
-        ];
+        return [];
     }
 
     public function getAliases() {

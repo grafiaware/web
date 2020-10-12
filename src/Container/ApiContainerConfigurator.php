@@ -1,7 +1,7 @@
 <?php
 namespace Container;
 
-use Pes\Application\AppFactory;
+use Application\Configuration;
 
 // kontejner
 use Pes\Container\ContainerConfiguratorAbstract;
@@ -9,9 +9,6 @@ use Psr\Container\ContainerInterface;   // pro parametr closure function(Contain
 
 // logger
 use Pes\Logger\FileLogger;
-
-// security context - použit v security status
-use StatusManager\Observer\SecurityContextObjectsRemover;
 
 //user
 use Model\Entity\User;
@@ -65,25 +62,12 @@ use Pes\View\Recorder\RecordsLogger;
  */
 class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
 
-    public function getFactoriesDefinitions() {
-        return [
+    public function getParams() {
+        return Configuration::api();
+    }
 
-            #################################
-            # Sekce konfigurace účtů databáze
-            # Konfigurace připojení k databázi je v aplikačním kontejneru, je pro celou aplikaci stejná.
-            # Služby, které vrací objekty s informacemi pro připojení k databázi jsou také v aplikačním kontejneru a v jednotlivých middleware
-            # kontejnerech se volají jako služby delegate kontejneru.
-            #
-            # Zde je konfigurace údajů uživatele pro připojení k databázi. Ta je pro každý middleware v jeho kontejneru.
-            'actions.db.everyone.name' => 'gr_everyone',
-            'actions.db.everyone.password' => 'gr_everyone',
-            'actions.db.authenticated.name' => 'gr_authenticated',
-            'actions.db.authenticated.password' => 'gr_authenticated',
-            'actions.db.administrator.name' => 'gr_administrator',
-            'actions.db.administrator.password' => 'gr_administrator',
-            #
-            ###################################
-        ];
+    public function getFactoriesDefinitions() {
+        return [];
     }
 
     public function getAliases() {
@@ -97,10 +81,6 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getServicesDefinitions() {
         return [
-
-
-##############
-
             PresentationActionController::class => function(ContainerInterface $c) {
                 return new PresentationActionController(
                         $c->get(StatusSecurityRepo::class),
@@ -145,10 +125,8 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(PaperContentRepo::class));
             },
             // view
-            'logs.view.directory' => 'Logs/App/Web',
-            'logs.view.file' => 'Render.log',
             'renderLogger' => function(ContainerInterface $c) {
-                return FileLogger::getInstance($c->get('logs.view.directory'), $c->get('logs.view.file'), FileLogger::REWRITE_LOG);
+                return FileLogger::getInstance($c->get('api.logs.view.directory'), $c->get('api.logs.view.file'), FileLogger::REWRITE_LOG);
             },
             // Nastaveno logování průběhu renderování
             //
@@ -167,11 +145,8 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
             RecordsLogger::class => function(ContainerInterface $c) {
                 return new RecordsLogger($c->get('renderLogger'));
             },
-
-
         ];
     }
-
 
     public function getServicesOverrideDefinitions() {
         return [
@@ -196,18 +171,18 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                 if (isset($user)) {
                     switch ($user->getRole()) {
                         case 'administrator':
-                            $account = new Account($c->get('actions.db.administrator.name'), $c->get('actions.db.administrator.password'));
+                            $account = new Account($c->get('api.db.administrator.name'), $c->get('api.db.administrator.password'));
                             break;
                         default:
                             if ($user->getRole()) {
-                                $account = new Account($c->get('actions.db.authenticated.name'), $c->get('actions.db.authenticated.password'));
+                                $account = new Account($c->get('api.db.authenticated.name'), $c->get('api.db.authenticated.password'));
                             } else {
-                                $account = new Account($c->get('actions.db.everyone.name'), $c->get('actions.db.everyone.password'));
+                                $account = new Account($c->get('api.db.everyone.name'), $c->get('api.db.everyone.password'));
                             }
                             break;
                     }
                 } else {
-                    $account = new Account($c->get('actions.db.everyone.name'), $c->get('actions.db.everyone.password'));
+                    $account = new Account($c->get('api.db.everyone.name'), $c->get('api.db.everyone.password'));
                 }
                 return $account;
             },

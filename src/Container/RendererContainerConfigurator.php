@@ -30,6 +30,10 @@ use Component\Renderer\Html\ClassMap\ClassMap;
  */
 class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
 
+    public function getParams() {
+        return [];
+    }
+
     public function getAliases() {
         return [
 //            PhpTemplateRendererInterface::class => PhpTemplateRenderer::class,
@@ -361,7 +365,7 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
                         ],
                      'Content' => [
                         'content'=>'',
-                        ]                    
+                        ]
                     ]
                 );
             },
@@ -416,13 +420,13 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
                      'Headline' => [
                         'div'=>'',
                         'headline'=>'',
-                        ],                        
+                        ],
                      'Perex' => [
                         'perex'=>'',
                         ],
                     'Content' => [
                         'content'=>''
-                        ],                        
+                        ],
                     ]
                 );
             },

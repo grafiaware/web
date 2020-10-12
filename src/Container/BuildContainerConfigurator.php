@@ -8,6 +8,8 @@
 
 namespace Container;
 
+use Application\Configuration;
+
 use Pes\Container\ContainerConfiguratorAbstract;
 
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
@@ -54,70 +56,42 @@ use Model\Repository\{
  */
 class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
 
+    public function getParams() {
+        return Configuration::build();
+    }
+
     public function getFactoriesDefinitions() {
         return [
-            #################################
-            # Sekce konfigurace databáze
-            # Konfigurace databáze může být v aplikačním kontejneru nebo různá v jednotlivých middleware kontejnerech.
-            #
-            ## konfigurována dvě připojení k databázi - jedno pro vývoj a druhé pro běh na produkčním stroji
-            #
-            # user s právy drop a create database + crud práva + grant option k nové (upgrade) databázi
-            # a také select k staré databázi - reálně nejlépe role DBA
-            'build.db.user.name' => PES_DEVELOPMENT ? 'gr_upgrader' : (PES_PRODUCTION ? 'UPGRADE_BUILD_PRODUCTION_USER' : 'xxxxxxxxxxxxxxxxx'),
-            'build.db.user.password' => PES_DEVELOPMENT ? 'gr_upgrader' : (PES_PRODUCTION ? 'UPGRADE_BUILD_PRODUCTION_HOST' : 'xxxxxxxxxxxxxxxxx'),
-            #
-            #  Konec sekce konfigurace databáze
-            ###################################
+                'build.config.copy' => function(ContainerInterface $c) {
+                    return [
+                        'source_table_name' =>  $c->get('dbold.db.connection.name').'.stranky',
+                        'target_table_name' => $c->get('dbUpgrade.db.connection.name').'.stranky',
+                        ];
+                    },
+                'build.config.drop' => function(ContainerInterface $c) {
+                    return [
+                        'database' => $c->get('dbUpgrade.db.connection.name'),  // template proměnná database - jen pro template, objekt ConnectionInfo používá své parametry
+                        ];
+                    },
+                'build.config.create' => function(ContainerInterface $c) {
+                    return [
+                        'database' => $c->get('dbUpgrade.db.connection.name'),  // template proměnná database - jen pro template, objekt ConnectionInfo používá své parametry
+                        ];
+                    },
+                'build.config.users' => function(ContainerInterface $c) {
+                    return array_merge(
+                        Configuration::build()['build.config.createusers'],
+                        [
+                        'host' => $c->get('dbUpgrade.db.connection.host'),
+                        'database' => $c->get('dbUpgrade.db.connection.name'),
+                        'login_database' => $c->get('dbold.db.connection.name'),
 
-            ###################################
-            # Konfigurace konverze
-
-            'build.config.copy' => function(ContainerInterface $c) {
-                return [
-                'source_table_name' =>  $c->get('dbold.db.connection.name').'.stranky',
-                'target_table_name' => $c->get('dbUpgrade.db.connection.name').'.stranky',
+                        'login_user' => $c->get('login.db.account.everyone.name'),
+                        'login_password' => $c->get('login.db.account.everyone.password'),
+                        ]
+                        );
+                    },
                 ];
-            },
-            'build.config.users' => function(ContainerInterface $c) {
-                return [
-                    'host' => $c->get('dbUpgrade.db.connection.host'),
-                    'database' => $c->get('dbUpgrade.db.connection.name'),
-                    'login_database' => $c->get('dbold.db.connection.name'),
-
-                    'login_user' => $c->get('login.db.account.everyone.name'),
-                    'login_password' => $c->get('login.db.account.everyone.password'),
-                    'everyone_user' => 'gr_everyone',
-                    'everyone_password' => 'gr_everyone',
-                    'authenticated_user' => 'gr_authenticated',
-                    'authenticated_password' => 'gr_authenticated',
-                    'administrator_user' => 'gr_administrator',
-                    'administrator_password' => 'gr_administrator',
-                ];
-            },
-            'build.config.drop' => function(ContainerInterface $c) {
-                return [
-                    'database' => $c->get('dbUpgrade.db.connection.name'),  // template proměnná database - jen pro template, objekt ConnectionInfo používá své parametry
-                ];
-            },
-
-            'build.config.create' => function(ContainerInterface $c) {
-                return [
-                    'database' => $c->get('dbUpgrade.db.connection.name'),  // template proměnná database - jen pro template, objekt ConnectionInfo používá své parametry
-                ];
-            },
-            #
-            ###################################
-
-            ###################################
-            # Konfigurace logů konverze
-            'build.db.logs.directory' => 'Logs/Build',
-            'build.db.logs.file.drop' => 'Drop.log',
-            'build.db.logs.file.create' => 'Create.log',
-            'build.db.logs.file.convert' => 'Convert.log',
-            #
-            ###################################
-        ];
     }
 
     public function getAliases() {

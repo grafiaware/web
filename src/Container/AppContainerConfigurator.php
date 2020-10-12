@@ -2,6 +2,8 @@
 
 namespace Container;
 
+use Application\Configuration;
+
 // kontejner
 use Pes\Container\ContainerConfiguratorAbstract;
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
@@ -58,30 +60,12 @@ use Application\Api\ApiRegistrator;
  */
 class AppContainerConfigurator extends ContainerConfiguratorAbstract {
 
+    public function getParams() {
+        return Configuration::app();
+    }
+
     public function getFactoriesDefinitions() {
-        return [
-            #################################
-            # Konfigurace adresáře logů
-            #
-            'app.logs.directory' => 'Logs/App',
-            #
-            #################################
-
-            #################################
-            # Konfigurace session
-            #
-            WebAppFactory::SESSION_NAME_SERVICE => 'www_gr_session',
-            'app.logs.session.file' => 'Session.log',
-            #
-            ##################################
-
-            ##################################
-            # Konfigurace session
-            #
-            'app.logs.router.file' => 'Router.log',
-            #
-            ##################################
-        ];
+        return [];
     }
 
     public function getAliases() {

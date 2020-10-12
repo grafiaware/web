@@ -37,8 +37,8 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
 
         $this->container =
                 (new HierarchyContainerConfigurator())->configure(
-                    (new DbUpgradeContainerConfigurator())->configure(
-                        (new WebContainerConfigurator())->configure(
+                    (new WebContainerConfigurator())->configure(
+                        (new DbUpgradeContainerConfigurator())->configure(
                                 new Container($this->getApp()->getAppContainer())
                         )
                     )

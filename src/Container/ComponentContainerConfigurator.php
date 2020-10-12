@@ -1,6 +1,8 @@
 <?php
 namespace Container;
 
+use Application\Configuration;
+
 use Pes\Container\ContainerConfiguratorAbstract;
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
 
@@ -94,19 +96,19 @@ use \Pes\View\ViewFactory;
  */
 class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
 
-    public function getAliases() {
-        return [
+    public function getParams() {
+        return Configuration::component();
+    }
 
-        ];
+    public function getAliases() {
+        return [];
     }
 
     public function getServicesDefinitions() {
         return [
             // view
-            'logs.view.directory' => 'Logs/App/Web',
-            'logs.view.file' => 'Render.log',
             'renderLogger' => function(ContainerInterface $c) {
-                return FileLogger::getInstance($c->get('logs.view.directory'), $c->get('logs.view.file'), FileLogger::REWRITE_LOG);
+                return FileLogger::getInstance($c->get('component.logs.view.directory'), $c->get('component.logs.view.file'), FileLogger::REWRITE_LOG);
             },
             // Nastaveno logování průběhu renderování
             //

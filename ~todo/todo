@@ -2,3 +2,4 @@
 přesměrování starých adres (old) na nové (upgrade) - stačí pomocí transform
 friendly url's
 sitemap
+meta description <meta name="description" content="Get more vis... /> - požku description do paper? (jen pro "paper" generátor, pro ostatní stejně není kdo by to psal) (menu_item?), přidat pole do editace (zase asi jen pro paper) a tag <meta name="description" dávat do <head> 

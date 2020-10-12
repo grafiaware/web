@@ -2,15 +2,15 @@
     <div <?= $this->attributes($bodyContainerAttributes) ?> >
         <div class="column">
             <header>
-                <?php include "body/hlavicka.php"; ?>
+                <?php include "container/hlavicka.php"; ?>
             </header>
             <main class="page-content">
                 <?= $flash ?? '' ?>
                 <?= $poznamky ?? '' ?>
-                <?php include "body/telo.php"; ?>
+                <?php include "container/telo.php"; ?>
             </main>
             <footer>
-                <?php include "body/paticka.php"; ?>
+                <?php include "container/paticka.php"; ?>
             </footer>
         </div>
     </div>
