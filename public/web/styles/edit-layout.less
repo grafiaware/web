@@ -1,0 +1,257 @@
+@import "../site-definitions.less";  
+@import "../semantic/src/themes/default/globals/site.variables";
+@import "../@{sitename}/semantic-ui/globals/site.variables";
+
+@hodnotaAuto: auto;
+@hodnota0: 0;
+@borderWidth: 1px;
+@borderStyle: solid;
+@borderRadius: 5px;
+@mediumGrey: darken(@lightGrey, 15);
+@barvaEditButtony: #FBFBE7; //pro prvni polozku ve svislem menu Bloky
+@barvaKos: #F8F3FF; //pro smazany content a prvni polozku ve svislem menu Kos
+
+//Container
+@containerPositionRight: 0;
+@containerMargin: @hodnota0 10px @hodnota0 @hodnotaAuto;
+
+//Poznamky a flash
+@poznamkyPositionLeft: -260px;
+@poznamkyPositionRight: @hodnotaAuto;
+@poznamkyPositionTop: 170px;
+@flashPositionTop: 10px;
+@poznamkyPositionBottom: @hodnotaAuto;
+@poznamkyWidth: 250px;
+@poznamkyContentPadding: 10px;
+@poznamkyParagraphMarginBottom: 0.7em;
+@poznamkyLastParagraphMarginBottom: 0;
+@flashContentHeight: 110px;
+@poznamkyLabelMargin: @hodnota0;
+@poznamkyLabelIconWidth: 100%;
+@poznamkyBorderShadow: 1px 1px 10px 1px @mediumGrey;
+@poznamkyBorderRadius: @borderRadius;
+@poznamkyBackground: @white;
+@poznamkyTransition: 0.7s linear;
+@poznamkyZIndex: 1;
+@poznamkyBreakPre: true;
+
+//Header
+@headerMargin: 50px @hodnota0 35px @hodnota0;
+
+//Menu
+@menuParagraphSpanCursor: text;
+@menuParagraphMarginBottom: 0;
+
+//Svislé menu
+@svisleMenuWidth: 107%;
+@svisleMenuHeight: 650px; //pro overflow
+@svisleMenuMargin: @hodnota0 @hodnota0 @hodnota0 -8px;
+@svisleMenuOverflow: hidden scroll;
+@svisleMenuParagraphPadding: 10px 20px;
+@svisleMenuLiPadding: 3px;
+//Svislé menu bloky
+@svisleMenuBlokyHeight: 400px;
+@svisleMenuBlokyMargin: 20px auto 20px -8px;
+//Svislé menu koš
+//Vodorovné menu
+@vodorovneMenuItemPaddingLeft: 5px;
+@vodorovneMenuItemButtonPadding: 9px 12px;
+//Přesměrování menu
+@presmerovaniMenuItemMaginRight: 20px;
+
+//Paper
+@paperMargin: @hodnota0 10px;
+@paperNotFirstMargin: 40px 0 0 0;
+//Headline
+@headlineHorizontalMargin: -0.4em;
+//Section
+@sectionMargin: 0 0 5px 0;
+@sectionTrashOutline: @borderWidth dotted darken(@barvaKos,20);
+//Content
+@contentMinHeight: 45px;
+//Smazaný content
+@sectionTrashMargin: @hodnota0 -5px 5px -5px;
+@trashContentOpacity: 0.5;
+@trashContentPadding: 5px;
+@trashContentFilter: grayscale(1);
+
+//import změněných proměnných stylu šablony (specifických pro projekt)
+@import (optional) "../@{sitename}/@{siteStylesFolder}/editor.less";
+
+.breakPre(@poznamkyBreakPre) when (@poznamkyBreakPre){
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+body{
+    /*celá stránka v editačním režimu posunutá napravo*/
+    .ui.container.editable{
+        position: relative;
+        margin: @containerMargin !important;
+        right: @containerPositionRight;
+    }
+    
+    /*poznámky a flash mají stejný styl, jen jinou pozici*/
+    .poznamky{
+        position: absolute;
+        left: @poznamkyPositionLeft;
+        right: @poznamkyPositionRight;
+        bottom: @poznamkyPositionBottom;
+        width: @poznamkyWidth;
+        background: @poznamkyBackground;
+        border-radius: @poznamkyBorderRadius;
+        box-shadow: @poznamkyBorderShadow;
+        transition: @poznamkyTransition;
+        z-index: @poznamkyZIndex;
+        .label{ //horní pruh s ikonou
+            margin: @poznamkyLabelMargin !important;
+            i{
+                width: @poznamkyLabelIconWidth !important;
+            }
+        }
+        .content{ //obsah poznámek
+            padding: @poznamkyContentPadding;
+            p{
+                margin-bottom: @poznamkyParagraphMarginBottom;
+                &:last-child{
+                    margin-bottom: @poznamkyLastParagraphMarginBottom;
+                }
+            }
+            pre{ //aby se předformátovaný text vešel do šířky divu poznámek a nepřetékal
+                .breakPre(@poznamkyBreakPre)
+            }
+        }
+        &:not(.flash){ //pozice pro poznámky
+            top: @poznamkyPositionTop;
+        }
+        &.flash{ //pozice pro flash
+            top: @flashPositionTop;
+            .content{
+                min-height: @flashContentHeight;
+            }
+        }
+    }    
+    
+    /***HEADER***/
+    /*header posunutý od horního okraje pouze v edit. režimu kvůli data-tooltip u buttonů*/
+    header{
+        margin: @headerMargin !important;
+    }
+    
+    /***MENU***/
+    /*pouzivane tridy u polozky menu (li):
+        .leaf - posledni polozka menu
+        .onpath - "na ceste"; pouziva se u kazde polozky, na kterou se klikne - potreba pro stylovani podmenu
+        .presented - pouziva se vzdy u posledni polozky, na kterou se klikne
+        .item je pouzita u (li) nebo (a) podle sady stylu semantic UI (semanticka trida)
+        .cut - třída se přidá, pokud se klikne na tlačítko vybrat k přesunutí*/
+    /*PRO VSECHNA MENU*/
+    .menu.edit{
+        .presented p{
+            margin-bottom: @menuParagraphMarginBottom;
+            /*vybraná položka menu má editovatelný název - přizpůsobený kurzor myši*/
+            span{
+                cursor: @menuParagraphSpanCursor;
+            }
+        }
+    }
+    /*SVISLE MENU*/
+    /*svislé menu má pevnou výšku, protože jsou v editačním režimu vidět i neaktivní stránky
+    (a je jich tam hodně). Aby obsah nepřetékal, přidána svislá rolovací lišta*/
+    .svisle-menu{
+        margin: @svisleMenuMargin;
+        overflow: @svisleMenuOverflow;
+        width: @svisleMenuWidth;
+        .menu.edit{
+            height: @svisleMenuHeight;
+            .menu {
+                > li:not(.presented){ //pro lepší čitelnost položek menu vzhledem k dalším editačním prvkům pložky (semafor)
+                    padding: @svisleMenuLiPadding; //není zvětšený padding pro <a>, protože to zajišťuje semantic
+                }
+                > .presented{
+                    p.item{ //stejný padding, jako mají <a> od semanticu
+                        padding: @svisleMenuParagraphPadding;
+                    }
+                }
+            }
+        }
+        /*SVISLÉ MENU BLOKY*/
+        &.bloky{
+            height: @svisleMenuBlokyHeight;
+            margin: @svisleMenuBlokyMargin;
+            /*první položka menu bloky je pouze nadpis - vycentrovaná a podbarvená, bez semaforu, ale odkaz je tam pořád*/
+            li:first-child{
+                text-align: center;
+                > .item{
+                    background-color: @barvaEditButtony !important;
+                    > i{
+                        display: none;
+                    }
+                    .semafor{
+                        display: none;
+                    }
+                }
+            }
+        }
+        /*SVISLÉ MENU KOŠ*/
+        &.kos{
+            /*první položka menu kos je pouze nadpis - vycentrovaná a podbarvená, ale odkaz je tam pořád*/
+            li:first-child{
+                text-align: center;
+                > .item{
+                    background-color: @barvaKos !important;
+                }
+            }
+        } 
+    } 
+    /*PRESMEROVANI MENU*/
+    .presmerovani-menu{
+        .menu.edit .item{
+            margin-right: @presmerovaniMenuItemMaginRight;
+        }
+    }
+    /*VODOROVNE MENU*/
+    .vodorovne-menu{
+        .menu.edit .item{
+            padding-left: @vodorovneMenuItemPaddingLeft;
+            /*padding pro položku menu (semantická třída .button, aby položka vypadala jako tlačítko)*/
+            a.button, p.button{
+                padding: @vodorovneMenuItemButtonPadding;
+            }
+        }
+    }
+    
+    /***PAPER***/
+    .paper.editable{
+        margin: @paperMargin;
+        &:not(:first-of-type){
+            margin: @paperNotFirstMargin;
+        }
+    }
+    /*HEADLINE*/
+    headline{ 
+        margin-left: @headlineHorizontalMargin !important;
+        margin-right: @headlineHorizontalMargin !important;
+    }
+    /*SECTION*/
+    section{
+        margin: @sectionMargin;
+    }
+    /*CONTENTY*/
+    content{
+        /*nastavena min. výška, aby se nepřekrývaly semafory a priority u contentů*/
+        min-height: @contentMinHeight;
+    }
+    /*SMAZANÝ CONTENT*/
+    section.trash{
+        /*outline už na sekci; kdyby se dal ke contentu (.trash_content), byl by šedý kvůli filter: grayscale*/
+        outline: @sectionTrashOutline;
+        margin: @sectionTrashMargin;
+    }
+    .trash_content{
+        filter: @trashContentFilter;
+        opacity: @trashContentOpacity;
+        padding: @trashContentPadding;
+    }
+}
+

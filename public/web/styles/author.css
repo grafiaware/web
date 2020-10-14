@@ -293,10 +293,6 @@
 --------------------*/
 body {
   /*popisky buttonů budou tučně - popisky jsou v atributu data-tooltip*/
-  /*celá stránka v editačním režimu posunutá napravo*/
-  /*poznámky a flash mají stejný styl, jen jinou pozici*/
-  /***HEADER***/
-  /*header posunutý od horního okraje pouze v edit. režimu kvůli data-tooltip u buttonů*/
   /***MENU***/
   /*pouzivane tridy u polozky menu (li):
         .leaf - posledni polozka menu
@@ -322,15 +318,13 @@ body {
   /*PRESMEROVANI MENU*/
   /*VODOROVNÉ MENU*/
   /*SVISLÉ MENU*/
-  /***PAPER***/
+  /*PAPER*/
+  /*SECTION*/
+  /*SMAZANÝ CONTENT*/
   /*BUTTONY PRO PAPER*/
   /*používané třídy pro buttony k paperu
         .editPage - všechny buttony týkající se operace s vnitřkem paperu (přidat obsah, seřadit obsahy)
         .changePaperTemplate - button na výměnu šablony stránky */
-  /*HEADLINE*/
-  /*SECTION*/
-  /*CONTENTY*/
-  /*SMAZANÝ CONTENT*/
   /*ROH U CONTENTU*/
   /*BUTTONY PRO CONTENT*/
   /*používané třídy pro buttony ke contentu
@@ -351,60 +345,9 @@ body {
 body .buttons button[data-tooltip]::after {
   font-weight: bold;
 }
-body .ui.container.editable {
-  margin-left: auto !important;
-  margin-right: 10px !important;
-  position: relative;
-  right: 0;
-}
-body .poznamky {
-  z-index: 1;
-  position: absolute;
-  left: -260px;
-  right: auto;
-  bottom: auto;
-  width: 250px;
-  background: #FFFFFF;
-  border-radius: 5px;
-  box-shadow: 1px 1px 10px 1px #b5b7b9;
-  transition: 0.7s linear;
-}
-body .poznamky .label {
-  margin: 0 !important;
-}
-body .poznamky .label i {
-  width: 100% !important;
-}
-body .poznamky .content {
-  padding: 10px;
-}
-body .poznamky .content p {
-  margin-bottom: 0.7em;
-}
-body .poznamky .content p:last-child {
-  margin-bottom: 0;
-}
-body .poznamky .content pre {
-  white-space: pre-wrap;
-  word-wrap: break-word;
-}
-body .poznamky:not(.flash) {
-  top: 170px;
-}
-body .poznamky.flash {
-  top: 10px;
-}
-body .poznamky.flash .content {
-  min-height: 110px;
-}
-body header {
-  margin-top: 50px;
-  margin-bottom: 25px;
-}
 body .menu.edit {
   /*styl pro položku menu, která je vybrána k přesunutí*/
   /*buttony se zobrazí jen u vybrané položky menu*/
-  /*vybraná položka menu má editovatelný název - přizpůsobený kurzor myši*/
   /*vložit vybranou položku jako sourozence, potomka - zvýraznění buttonů*/
   /*nový název se ukládá pomocí entru - zároveň se vloží html <br>, které tam není žádoucí*/
 }
@@ -425,19 +368,13 @@ body .menu.edit li:not(.presented) .buttons {
 }
 body .menu.edit .presented > .buttons {
   display: flex;
-  background: #FBFBE7;
+  background-color: #FBFBE7;
 }
 body .menu.edit .presented > .buttons > .button:last-child {
   background-color: #F8F3FF;
 }
 body .menu.edit .presented > .buttons > .button:last-child:hover {
   background-color: #FFFFFF;
-}
-body .menu.edit .presented p {
-  margin-bottom: 0;
-}
-body .menu.edit .presented p span {
-  cursor: text;
 }
 body .menu.edit .paste {
   border: 1px solid #767676 !important;
@@ -450,21 +387,8 @@ body .menu.edit br {
   display: none;
 }
 body .svisle-menu {
-  margin-left: -8px;
-  overflow-y: scroll;
-  width: 107%;
   /*pozice buttonů u svislého menu*/
-  /*SVISLÉ MENU BLOKY*/
   /*SVISLÉ MENU KOŠ*/
-}
-body .svisle-menu .menu.edit {
-  height: 650px;
-}
-body .svisle-menu .menu.edit .menu > li:not(.presented) {
-  padding: 3px;
-}
-body .svisle-menu .menu.edit .menu > .presented p.item {
-  padding: 10px 20px;
 }
 body .svisle-menu .buttons {
   position: absolute;
@@ -472,34 +396,8 @@ body .svisle-menu .buttons {
   right: 0;
   top: -25px;
 }
-body .svisle-menu.bloky {
-  height: 400px;
-  margin: 20px auto 20px -8px;
-  /*první položka menu bloky je pouze nadpis - vycentrovaná a podbarvená, bez semaforu, ale odkaz je tam pořád*/
-}
-body .svisle-menu.bloky li:first-child {
-  text-align: center;
-}
-body .svisle-menu.bloky li:first-child > .item {
-  background-color: #FBFBE7 !important;
-}
-body .svisle-menu.bloky li:first-child > .item > i {
-  display: none;
-}
-body .svisle-menu.bloky li:first-child > .item .semafor {
-  display: none;
-}
-body .svisle-menu.kos {
-  /*první položka menu kos je pouze nadpis - vycentrovaná a podbarvená, ale odkaz je tam pořád*/
-}
-body .svisle-menu.kos li:first-child {
-  text-align: center;
-}
-body .svisle-menu.kos li:first-child > .item {
-  background-color: #F8F3FF !important;
-}
 body .svisle-menu.kos .buttons {
-  background: #F8F3FF;
+  background-color: #F8F3FF;
   /*button smazat trvale má iconu složenou ze dvou (koš a vykřičník - ten je zvýrazněný)*/
 }
 body .svisle-menu.kos .buttons .exclamation.icon {
@@ -509,11 +407,8 @@ body .svisle-menu.kos .buttons .exclamation.icon {
 body .presmerovani-menu {
   /*pozice buttonů u presmerovani menu*/
 }
-body .presmerovani-menu .menu.edit .item {
-  margin-right: 20px;
-}
 body .presmerovani-menu .buttons {
-  margin-left: 5px;
+  margin: 0 0 0 5px;
 }
 body .presmerovani-menu,
 body .vodorovne-menu {
@@ -527,23 +422,15 @@ body .vodorovne-menu .button {
 body .vodorovne-menu {
   /*pozice buttonů u vodorovného menu*/
 }
-body .vodorovne-menu .menu.edit .item {
-  padding-left: 5px;
-  /*padding pro položku menu (semantická třída .button, aby položka vypadala jako tlačítko)*/
-}
-body .vodorovne-menu .menu.edit .item a.button,
-body .vodorovne-menu .menu.edit .item p.button {
-  padding: 9px 12px;
-}
 body .vodorovne-menu .buttons {
-  top: 0;
   position: relative;
-  margin-right: 5px;
+  margin: 0 5px 0 0;
+  top: 0;
 }
 body .semafor {
-  position: absolute;
   display: flex;
   flex-direction: column;
+  position: absolute;
   top: 0;
   left: -21px;
 }
@@ -556,7 +443,7 @@ body .menu.edit .semafor {
   left: -1px;
 }
 body .presmerovani-menu .menu.edit .semafor {
-  @semafor PresmerovaniMenuPositionLeft;
+  left: -12px;
 }
 body .vodorovne-menu .menu.edit .semafor {
   left: -6px;
@@ -577,11 +464,15 @@ body .svisle-menu .menu.edit li > .semafor {
   left: 1px;
   height: auto;
 }
-body .paper.editable {
-  margin: 0 10px;
+body section {
+  /*vytvoření nového omezujícího bloku - pro zanořené position: absolute*/
+  position: relative;
 }
-body .paper.editable:not(:first-of-type) {
-  margin-top: 40px;
+body section.trash .semafor {
+  left: -17px;
+}
+body section.trash .blue.corner.label {
+  right: 0;
 }
 body .editPage,
 body .changePaperTemplate {
@@ -590,7 +481,7 @@ body .changePaperTemplate {
 }
 body .editPage {
   right: -6px;
-  background: #FBFBE7;
+  background-color: #FBFBE7;
 }
 body .segment .editPage {
   right: 15px;
@@ -601,35 +492,6 @@ body .segment .changePaperTemplate {
 body .changePaperTemplate {
   right: 26px;
   background-color: #EDF7FF;
-}
-body headline {
-  margin-left: -0.45em;
-  margin-right: -0.45em;
-}
-body section {
-  /*vytvoření nového omezujícího bloku - pro zanořené position: absolute*/
-  position: relative;
-  margin-bottom: 5px;
-}
-body content {
-  /*nastavena min. výška, aby se nepřekrývaly semafory a priority u contentů*/
-  min-height: 45px;
-}
-body section.trash {
-  /*outline už na sekci; kdyby se dal ke contentu (.trash_content), byl by šedý kvůli filter: grayscale*/
-  outline: 1px dotted #bc8dff;
-  margin: 0 -5px 5px -5px;
-}
-body section.trash .semafor {
-  left: -17px;
-}
-body section.trash .blue.corner.label {
-  right: 0;
-}
-body .trash_content {
-  filter: grayscale(1);
-  opacity: 0.5;
-  padding: 5px;
 }
 body .blue.corner.label {
   width: 2em;
@@ -649,9 +511,9 @@ body .blue.corner.label .icons .icon {
 body .contentButtons {
   display: none;
   /*po najetí na "modrý roh" se v edit.js mění display na flex*/
-  width: 100px;
   flex-direction: column;
   position: absolute;
+  width: 100px;
   right: 6px;
   top: 6px;
 }
@@ -666,9 +528,9 @@ body .contentButtons .editContent:last-child {
 }
 body .corner.label .buttons.editDate {
   position: absolute;
+  right: 0;
   top: -32px;
   background-color: #FFF1D5;
-  right: 0;
 }
 body .editDate,
 body .buttons.editDate {
@@ -676,10 +538,10 @@ body .buttons.editDate {
   /*po kliknutí na iconu kalendáře se v edit.js mění display na flex*/
 }
 body .edit_kalendar {
+  position: absolute;
   cursor: auto;
   top: 0;
   right: -0.15em;
-  position: absolute;
   font-size: 2.8em;
   padding: 10px;
   color: #1B1C1D;
@@ -726,7 +588,7 @@ body .mce-content-body.mce-edit-focus .button {
   cursor: text;
 }
 body .mce-edit-focus {
-  /*"mravenci" - obíhající border kolem editačního tagu, v edit.js ještě nastavena animation-duration podle výšky a šířky tagu*/
+  /*.border-dance - obíhající border kolem editačního tagu, v edit.js ještě nastavena animation-duration podle výšky a šířky tagu*/
   padding: 5px;
   margin: 0 -5px;
   height: max-content;
@@ -808,4 +670,4 @@ body .mce-edit-focus.paper_template_select {
 .segment.notpermitted a {
   pointer-events: none;
 }
-/*# sourceMappingURL=editor.css.map */
+/*# sourceMappingURL=author.css.map */
