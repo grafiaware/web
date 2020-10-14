@@ -83,7 +83,7 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
     private function renderButtons(HierarchyNodeInterface $menuNode) {
         $buttons[] = $this->getButtonActive($menuNode);
         $buttons[] = $this->getButtonAdd($menuNode);
-        $buttons[] = $this->getButtonMove($menuNode);
+        $buttons[] = $this->getButtonCut($menuNode);
         $buttons[] = $this->getButtonTrash($menuNode);
 //        $buttons[] = $this->getButtonsDiv2($menuNode);
 
@@ -93,7 +93,7 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
     private function renderPasteButtons(HierarchyNodeInterface $menuNode, $pastedUid) {
         $buttons[] = $this->getButtonActive($menuNode);
         $buttons[] = $this->getButtonPaste($menuNode, $pastedUid);
-        $buttons[] = $this->getButtonMove($menuNode);
+        $buttons[] = $this->getButtonCut($menuNode);
         $buttons[] = $this->getButtonTrash($menuNode);
 //        $buttons[] = $this->getButtonsDiv2($menuNode);
 
@@ -169,7 +169,7 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
                 Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button4 i')])
             );
     }
-    private function getButtonMove(HierarchyNodeInterface $menuNode) {
+    private function getButtonCut(HierarchyNodeInterface $menuNode) {
         return  Html::tag('button', [
                 'class'=>$this->classMap->getClass('Buttons', 'div button'),
                 'data-tooltip'=>'Vybrat k přesunutí',
@@ -177,7 +177,7 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
                 'type'=>'submit',
                 'name'=>'move',
                 'formmethod'=>'post',
-                'formaction'=>"api/v1/menu/{$menuNode->getUid()}/cut",
+                'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/cut",
                     ],
                 Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button5 i')])
             );

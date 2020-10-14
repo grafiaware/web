@@ -17,7 +17,7 @@ use Container\{
 };
 
 use \Middleware\Xhr\Controller\{
-    TemplateControler
+    TemplateControler, ComponentControler
 };
 
 class Component extends AppMiddlewareAbstract implements MiddlewareInterface {
@@ -62,26 +62,31 @@ class Component extends AppMiddlewareAbstract implements MiddlewareInterface {
         $routeGenerator = $this->container->get(RouteSegmentGenerator::class);
 
         #### TemplateController ####
+
         $routeGenerator->addRouteForAction('GET', '/component/v1/papertemplate/:name', function(ServerRequestInterface $request, $name) {
             /** @var TemplateControler $ctrl */
             $ctrl = $this->container->get(TemplateControler::class);
             return $ctrl->papertemplate($request, $name);
             });
+
+        #### ComponentControler ####
+
         $routeGenerator->addRouteForAction('GET', '/component/v1/namedpaper/:name', function(ServerRequestInterface $request, $name) {
-            /** @var TemplateControler $ctrl */
-            $ctrl = $this->container->get(TemplateControler::class);
+            /** @var ComponentControler $ctrl */
+            $ctrl = $this->container->get(ComponentControler::class);
             return $ctrl->namedPaper($request, $name);
             });
         $routeGenerator->addRouteForAction('GET', '/component/v1/presentedpaper', function(ServerRequestInterface $request) {
-            /** @var TemplateControler $ctrl */
-            $ctrl = $this->container->get(TemplateControler::class);
+            /** @var ComponentControler $ctrl */
+            $ctrl = $this->container->get(ComponentControler::class);
             return $ctrl->presentedPaper($request);
             });
         $routeGenerator->addRouteForAction('GET', '/component/v1/flash', function(ServerRequestInterface $request) {
-            /** @var TemplateControler $ctrl */
-            $ctrl = $this->container->get(TemplateControler::class);
+            /** @var ComponentControler $ctrl */
+            $ctrl = $this->container->get(ComponentControler::class);
             return $ctrl->flash($request);
             });
+
 ####################################
         /** @var $router RouterInterface */
         $router = $this->container->get(RouterInterface::class);

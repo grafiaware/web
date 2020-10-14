@@ -191,11 +191,6 @@ class Api extends AppMiddlewareAbstract implements MiddlewareInterface {
                 $ctrl = $this->container->get(EditItemController::class);
                 return $ctrl->type($request, $menuItemId);
         });
-        $routeGenerator->addRouteForAction('POST', '/api/v1/menu/:uid/cut', function(ServerRequestInterface $request, $uid) {
-            /** @var EditItemController $ctrl */
-            $ctrl = $this->container->get(EditItemController::class);
-            return $ctrl->cut($request, $uid);
-        });
 
         #### HierarchyController ####
         $routeGenerator->addRouteForAction('POST', '/api/v1/hierarchy/:uid/add', function(ServerRequestInterface $request, $uid) {
@@ -207,6 +202,11 @@ class Api extends AppMiddlewareAbstract implements MiddlewareInterface {
             /** @var HierarchyController $ctrl */
             $ctrl = $this->container->get(HierarchyController::class);
             return $ctrl->addchild($request, $uid);
+        });
+        $routeGenerator->addRouteForAction('POST', '/api/v1/hierarchy/:uid/cut', function(ServerRequestInterface $request, $uid) {
+            /** @var HierarchyController $ctrl */
+            $ctrl = $this->container->get(HierarchyController::class);
+            return $ctrl->cut($request, $uid);
         });
         $routeGenerator->addRouteForAction('POST', '/api/v1/hierarchy/:uid/paste/:pasteduid', function(ServerRequestInterface $request, $uid, $pasteduid) {
             /** @var HierarchyController $ctrl */

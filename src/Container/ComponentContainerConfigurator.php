@@ -25,8 +25,8 @@ use Component\ViewModel\Authored\Menu\MenuViewModel;
 
 //component
 use Component\View\{
-    Authored\NamedItemComponent,
-    Authored\PresentedItemComponent,
+    Authored\NamedPaperComponent,
+    Authored\PresentedPaperComponent,
     Generated\LanguageSelectComponent,
     Generated\SearchPhraseComponent,
     Generated\SearchResultComponent,
@@ -69,7 +69,7 @@ use Model\Repository\{
 };
 
 // controller
-use Middleware\Web\Controller\ComponentController;
+use \Middleware\Web\Controller\ComponentController;
 use \Middleware\Xhr\Controller\TemplateControler;
 
 
@@ -265,8 +265,8 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                                 $c->get(ComponentAggregateRepo::class)
                             );
             },
-            NamedItemComponent::class => function(ContainerInterface $c) {
-                $itemComponent = new NamedItemComponent($c->get(NamedPaperViewModel::class));
+            NamedPaperComponent::class => function(ContainerInterface $c) {
+                $itemComponent = new NamedPaperComponent($c->get(NamedPaperViewModel::class));
                 $itemComponent->setRendererContainer($c->get('rendererContainer'));
                 return $itemComponent;
                 },
@@ -279,35 +279,35 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                                 $c->get(PaperAggregateRepo::class)
                         );
             },
-            PresentedItemComponent::class => function(ContainerInterface $c) {
-                $itemComponent = new PresentedItemComponent($c->get(PresentedPaperViewModel::class));
+            PresentedPaperComponent::class => function(ContainerInterface $c) {
+                $itemComponent = new PresentedPaperComponent($c->get(PresentedPaperViewModel::class));
                 $itemComponent->setRendererContainer($c->get('rendererContainer'));
                 return $itemComponent;
                 },
 
             'component.headlined' => function(ContainerInterface $c) {
-                return $c->get(NamedItemComponent::class)->setFallbackRendererName('paper.headlined.renderer');
+                return $c->get(NamedPaperComponent::class)->setFallbackRendererName('paper.headlined.renderer');
             },
             'component.headlined.editable' => function(ContainerInterface $c) {
-                return $c->get(NamedItemComponent::class)->setFallbackRendererName('paper.headlined.renderer.editable');
+                return $c->get(NamedPaperComponent::class)->setFallbackRendererName('paper.headlined.renderer.editable');
             },
             'article.headlined' => function(ContainerInterface $c) {
-                return $c->get(PresentedItemComponent::class)->setFallbackRendererName('paper.headlined.renderer');
+                return $c->get(PresentedPaperComponent::class)->setFallbackRendererName('paper.headlined.renderer');
             },
             'article.headlined.editable' => function(ContainerInterface $c) {
-                return $c->get(PresentedItemComponent::class)->setFallbackRendererName('paper.headlined.renderer.editable');
+                return $c->get(PresentedPaperComponent::class)->setFallbackRendererName('paper.headlined.renderer.editable');
             },
             'article.block' => function(ContainerInterface $c) {
-                return $c->get(PresentedItemComponent::class)->setFallbackRendererName('paper.block.renderer');
+                return $c->get(PresentedPaperComponent::class)->setFallbackRendererName('paper.block.renderer');
             },
             'article.block.editable' => function(ContainerInterface $c) {
-                return $c->get(PresentedItemComponent::class)->setFallbackRendererName('paper.block.renderer.editable');
+                return $c->get(PresentedPaperComponent::class)->setFallbackRendererName('paper.block.renderer.editable');
             },
             'component.block' => function(ContainerInterface $c) {
-                return $c->get(NamedItemComponent::class)->setFallbackRendererName('paper.block.renderer');
+                return $c->get(NamedPaperComponent::class)->setFallbackRendererName('paper.block.renderer');
             },
             'component.block.editable' => function(ContainerInterface $c) {
-                return $c->get(NamedItemComponent::class)->setFallbackRendererName('paper.block.renderer.editable');
+                return $c->get(NamedPaperComponent::class)->setFallbackRendererName('paper.block.renderer.editable');
             },
 
             // generated komponenty

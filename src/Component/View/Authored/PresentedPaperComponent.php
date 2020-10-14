@@ -2,7 +2,7 @@
 namespace Component\View\Authored;
 
 use Component\ViewModel\Authored\Paper\PresentedPaperViewModelInterface;
-use Model\Entity\PaperContentInterface;
+use Pes\View\Template\Exception\NoTemplateFileException;
 
 use Pes\View\Template\PhpTemplate;
 
@@ -17,7 +17,7 @@ use Pes\View\Template\PhpTemplate;
  *
  * @author pes2704
  */
-class PresentedItemComponent extends AuthoredComponentAbstract implements AuthoredComponentInterface {
+class PresentedPaperComponent extends AuthoredComponentAbstract implements AuthoredComponentInterface {
 
     /**
      *
@@ -38,23 +38,16 @@ class PresentedItemComponent extends AuthoredComponentAbstract implements Author
     public function getString($data = null) {
         $paperAggregate = $this->viewModel->getPaperAggregate();
         $paperTemplateName = $paperAggregate->getTemplate();
-        if ($paperTemplateName ?? false) {
-            $contents = [];
-            foreach ($paperAggregate->getPaperContentsArray() as $id=>$paperContent) {
-                /** @var PaperContentInterface $paperContent */
-                if (true OR $paperContent->getActive() AND $paperContent->getActual()) {
-                    $contents[] = [
-                        'templateName' => $paperContent->getTemplate(),
-                        'content' => $paperContent->getContent(),
-                    ];
+            $templatePath = PROJECT_PATH."public/web/templates/paper/".$paperTemplateName."/template.php";
+            try {
+                $this->setTemplate(new PhpTemplate($templatePath));
+            } catch (NoTemplateFileException $noTemplExc) {
+                if ($paperTemplateName) {
+                    user_error("Neexistuje soubor šablony $templatePath", E_USER_WARNING);
                 }
+                $this->setTemplate(null);
             }
-            $this->setTemplate(new PhpTemplate(PROJECT_PATH."public/web/templates/paper/".$paperTemplateName."/template.php"))
-                ->setData([
-                    'paperTemplateName' => $paperTemplateName,
-                    'paperAggregate' => $paperAggregate,
-                ]);
-        }
+
         return parent::getString();
 
     }

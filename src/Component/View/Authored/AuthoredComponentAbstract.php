@@ -10,14 +10,15 @@ namespace Component\View\Authored;
 
 use Pes\View\View;
 
-use Component\View\ComponentAbstract;
+use Component\View\CompositeComponentAbstract;
 
 /**
  * Description of AuthoredComponentAbstract
+ * Objekt je potomkem CompositeView.
  *
  * @author pes2704
  */
-abstract class AuthoredComponentAbstract extends ComponentAbstract implements AuthoredComponentInterface {
+abstract class AuthoredComponentAbstract extends CompositeComponentAbstract implements AuthoredComponentInterface {
 
     /**
      * @var bool

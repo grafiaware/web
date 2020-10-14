@@ -12,7 +12,7 @@ namespace Component\View\Authored;
  *
  * @author pes2704
  */
-interface NamedItemComponentInterface extends AuthoredComponentInterface {
+interface NamedComponentInterface extends AuthoredComponentInterface {
 
     public function setComponentName($componentName);
 }

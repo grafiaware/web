@@ -57,6 +57,14 @@ class HierarchyController extends PresentationFrontControllerAbstract {
         return $this->redirectSeeOther($request, "www/item/$langCode/$childUid/");
     }
 
+    public function cut(ServerRequestInterface $request, $uid) {
+        $statusFlash = $this->statusFlashRepo->get();
+        $statusFlash->setPostCommand(['cut'=>$uid]);  // command s životností do dalšího POST requestu
+        $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
+        $statusFlash->appendMessage("cut - vybrán k přesunutí: $langCode/$uid");
+        return $this->redirectSeeOther($request,'www/last/'); // 303 See Other
+    }
+
     public function paste(ServerRequestInterface $request, $uid, $pasteduid) {
         $parentUid = $this->editHierarchyDao->getNode($uid)['parent_uid'];
         if (isset($parentUid)) {

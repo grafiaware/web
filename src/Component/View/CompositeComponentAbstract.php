@@ -19,7 +19,7 @@ use Component\ViewModel\ViewModelInterface;
  * @author pes2704
  */
 abstract class CompositeComponentAbstract extends CompositeView {
-    
+
     /**
      *
      * @var ViewModelInterface
@@ -33,7 +33,6 @@ abstract class CompositeComponentAbstract extends CompositeView {
     protected $renderer;
 
     public function getString($data=null) {
-        $this->setData($this->viewModel);
-        return parent::getString($data);
+        return parent::getString(isset($data) ? $data : ($this->data ? $this->data : $this->viewModel));  // jakýkoli parametr má přednost před $this->viewModel - i prázdný string
     }
 }

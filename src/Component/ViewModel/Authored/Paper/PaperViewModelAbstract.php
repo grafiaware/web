@@ -22,7 +22,7 @@ use Model\Repository\PaperAggregateRepo;
  *
  * @author pes2704
  */
-abstract class PaperViewModelAbstract extends AuthoredViewModelAbstract implements PaperViewModelInterface {
+abstract class PaperViewModelAbstract extends AuthoredViewModelAbstract implements PaperViewModelInterface, \IteratorAggregate {
     /**
      * @var PaperAggregateRepo
      */
@@ -38,4 +38,11 @@ abstract class PaperViewModelAbstract extends AuthoredViewModelAbstract implemen
         $this->paperAggregateRepo = $paperAggregateRepo;
     }
 
+    public function getIterator() {
+        return new \ArrayObject(
+                [
+                    'paperAggregate' => $this->getPaperAggregate()
+                ]
+            );
+    }
 }

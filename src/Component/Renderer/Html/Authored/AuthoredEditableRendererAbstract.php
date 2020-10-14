@@ -127,24 +127,7 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
             if ($paperContent->getPriority() > 0) {  // není v koši
                 $form[] = $this->getContentForm($paperContent, $paperAggregate);
             } else {  // je v koši
-                $form[] =
-                    Html::tag('section', ['class'=>$this->classMap->getClass('Content', 'section.trash')],
-                        Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.corner')],
-                            $this->getTrashButtonsForm($paperContent)
-                        )
-                        .Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.semafor')],
-                                Html::tag('i',['class'=>$this->classMap->getClass('Content', 'i.trash')])
-                        )
-                        .Html::tag('div',
-                            [
-                                'id' => "content_{$paperContent->getId()}",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
-                                'class'=>$this->classMap->getClass('Content', 'div.trash_content'),
-                                'data-paperowner'=>$paperAggregate->getEditor(),
-                                'data-owner'=>$paperContent->getEditor()
-                            ],
-                            $paperContent->getContent()
-                            )
-                    );
+                $form[] = $this->getTrashContentForm($paperContent, $paperAggregate);
             }
         }
         return implode(PHP_EOL, $form);
@@ -199,6 +182,27 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
                         $paperContent->getContent()
                     )
                 )
+            );
+    }
+
+    private function getTrashContentForm($paperContent, $paperAggregate) {
+        return
+            Html::tag('section', ['class'=>$this->classMap->getClass('Content', 'section.trash')],
+                Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.corner')],
+                    $this->getTrashButtonsForm($paperContent)
+                )
+                .Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.semafor')],
+                        Html::tag('i',['class'=>$this->classMap->getClass('Content', 'i.trash')])
+                )
+                .Html::tag('div',
+                    [
+                        'id' => "content_{$paperContent->getId()}",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
+                        'class'=>$this->classMap->getClass('Content', 'div.trash_content'),
+                        'data-paperowner'=>$paperAggregate->getEditor(),
+                        'data-owner'=>$paperContent->getEditor()
+                    ],
+                    $paperContent->getContent()
+                    )
             );
     }
 

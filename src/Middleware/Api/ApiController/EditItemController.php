@@ -59,14 +59,6 @@ class EditItemController extends PresentationFrontControllerAbstract {
         return $this->redirectSeeOther($request, "www/item/$langCode/$uid/");
     }
 
-    public function cut(ServerRequestInterface $request, $uid) {
-        $statusFlash = $this->statusFlashRepo->get();
-        $statusFlash->setPostCommand(['cut'=>$uid]);  // command s životností do dalšího POST requestu
-        $menuItem = $this->getMenuItem($uid);       // zde navíc
-        $statusFlash->appendMessage("cut - vybrán k přesunutí: ".$menuItem->getTitle());
-        return $this->redirectSeeOther($request,'www/last/'); // 303 See Other
-    }
-
     private function getMenuItem($uid) {
         return $this->menuItemRepo->get($this->statusPresentationRepo->get()->getLanguage()->getLangCode(), $uid);
     }

@@ -54,21 +54,6 @@ class TemplateControler extends XhrControlerAbstract {
 
     ### action metody ###############
 
-    public function home(ServerRequestInterface $request) {
-        $statusPresentation = $this->statusPresentationRepo->get();
-        /** @var MenuRootRepo $menuRootRepo */
-        $menuRootRepo = $this->container->get(MenuRootRepo::class);
-        /** @var MenuItemRepo $menuItemRepo */
-        $menuItemRepo = $this->container->get(MenuItemRepo::class);
-        $uidFk = $menuRootRepo->get(StatusPresentationManager::DEEAULT_HIERARCHY_ROOT_COMPONENT_NAME)->getUidFk();
-        $langCode = $statusPresentation->getLanguage()->getLangCode();
-        $rootMenuItem = $menuItemRepo->get($langCode, $uidFk );    // kořen menu
-        $statusPresentation->setMenuItem($rootMenuItem);
-
-        $this->getMenuItemComponent($rootMenuItem);
-        return $this->createResponseFromView($request, $this->createView($request));
-    }
-
     public function papertemplate(ServerRequestInterface $request, $templateName) {
         $view = $this->container->get(View::class)
                                 ->setTemplate(new PhpTemplate(PROJECT_PATH."public/web/templates/paper/".$templateName."/template.php"))
@@ -81,81 +66,5 @@ class TemplateControler extends XhrControlerAbstract {
         return $this->createResponseFromView($request, $view);
     }
 
-    public function flash(ServerRequestInterface $request) {
-        $view = $this->container->get(FlashComponent::class);
-        return $this->createResponseFromView($request, $view);
-    }
 
-    public function namedPaper(ServerRequestInterface $request, $name) {
-        $view = $this->container->get('component.block')->setComponentName($name);
-        return $this->createResponseFromView($request, $view);
-    }
-
-    public function presentedPaper(ServerRequestInterface $request) {
-        // dočasně duplicitní s ComponentController a XhrControler
-        $menuItem = $this->statusPresentationRepo->get()->getMenuItem();
-        $editable = $this->isEditableArticle();
-        $menuItemType = $menuItem->getTypeFk();
-            switch ($menuItemType) {
-                case 'segment':
-                    if ($editable) {
-                        $view = $this->container->get('article.block.editable');
-                    } else {
-                        $view = $this->container->get('article.block');
-                    }
-                    break;
-                case 'empty':
-                    if ($editable) {
-                        $view = $this->container->get(ItemTypeSelectComponent::class);
-                    } else {
-                        $view = $this->container->get('article.headlined');
-                    }
-                    break;
-                case 'paper':
-                    if ($editable) {
-                        $view = $this->container->get('article.headlined.editable');
-                    } else {
-                        $view = $this->container->get('article.headlined');
-                    }
-                    break;
-                case 'redirect':
-                    $view = "No content for redirect type.";
-                    break;
-                case 'root':
-                        $view = $this->container->get('article.headlined');
-                    break;
-                case 'trash':
-                        $view = $this->container->get('article.headlined');
-                    break;
-
-                default:
-                        $view = $this->container->get('article.headlined');
-                    break;
-            }
-        return $this->createResponseFromView($request, $view);
-    }
-
-    public function zasobnik($param) {
-
-        $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
-        $componentAggregate = $this->componentAggregateRepo->getAggregate($langCode, $this->componentName);
-        $menuItem = $componentAggregate->getMenuItem();  // může být null - neaktivní nebo nektuální item v komponentě
-        $paperAggregate = isset($menuItem) ? $this->paperAggregateRepo->getByReference($menuItem->getId()) : null;
-
-        /** @var HierarchyNodeRepo $menuRepo */
-        $menuRepo = $this->container->get(HierarchyNodeRepo::class);
-        $menuNode = $menuRepo->get($langCode, $uid);
-        if ($menuNode) {
-            $menuItem = $menuNode->getMenuItem();
-            $this->statusPresentationRepo->get()->setMenuItem($menuItem);
-            $this->getMenuItemComponent($menuItem);
-            return $this->createResponseFromView($request, $this->createView($request));
-        } else {
-            // neexistující stránka
-            return $this->redirectSeeOther($request, ""); // SeeOther - ->home
-        }
-    }
-
-##### private methods ##############################################################
-#
 }

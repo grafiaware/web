@@ -1,7 +1,5 @@
 <?php
-use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Model\Entity\PaperAggregateInterface;
-/** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregateInterface $paperAggregate */
 ?>
 <div data-component="presented" data-template="<?= $paperAggregate->getTemplate() ?>" class="ui segment mceNonEditable">
@@ -16,8 +14,7 @@ use Model\Entity\PaperAggregateInterface;
                 </perex>
             </section>
             <content>
-                <?=
-        $this->repeat(PROJECT_PATH."public/web/templates/paper-content/default/template.php", $paperAggregate->getPaperContentsArray(), 'paperContent'); ?>
+                <?= $this->repeat(PROJECT_PATH."public/web/templates/paper-content/default/template.php", $paperAggregate->getPaperContentsArray(), 'paperContent'); ?>
             </content>
         </article>
     </div>
