@@ -119,46 +119,46 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
 
         switch ($theme) {
             case 'old':
-                $this->templatesLayout['layout'] = PROJECT_PATH.'templates/layout/layout.php';
-                $this->templatesLayout['linksJs'] = PROJECT_PATH.'templates/layout/head/linkEditableJs.php';
-                $this->templatesLayout['linksCss'] = PROJECT_PATH.'templates/layout/head/linkEditableCss.php';
-                $this->templatesLayout['tiny_config'] = PROJECT_PATH.'templates/layout/head/tiny_config.js';
+                $this->templatesLayout['layout'] = PROJECT_PATH.'public/web/site/grafia/layout/layout.php';
+                $this->templatesLayout['linksJs'] = PROJECT_PATH.'public/web/site/grafia/layout/head/linkEditableJs.php';
+                $this->templatesLayout['linksCss'] = PROJECT_PATH.'public/web/site/grafia/layout/head/linkEditableCss.php';
+                $this->templatesLayout['tiny_config'] = PROJECT_PATH.'public/web/site/grafia/layout/head/tiny_config.js';
                 break;
             case 'xhr':
-                $this->templatesLayout['layout'] = PROJECT_PATH.'templates/layoutXhr/layout.php';
-                $this->templatesLayout['linksJs'] = PROJECT_PATH.'templates/layoutXhr/head/editableJsLinks.php';
-                $this->templatesLayout['linksCss'] = PROJECT_PATH.'templates/layout/head/editableCssLinks.php';
-                $this->templatesLayout['tiny_config'] = PROJECT_PATH.'templates/layoutXhr/head/tiny_config.js';
+                $this->templatesLayout['layout'] = PROJECT_PATH.'public/web/site/grafia/layoutXhr/layout.php';
+                $this->templatesLayout['linksJs'] = PROJECT_PATH.'public/web/site/grafia/layoutXhr/head/linkEditableJs.php';
+                $this->templatesLayout['linksCss'] = PROJECT_PATH.'public/web/site/grafia/layoutXhr/head/linkEditableCss.php';
+                $this->templatesLayout['tiny_config'] = PROJECT_PATH.'public/web/site/grafia/layoutXhr/head/tiny_config.js';
                 break;
             case 'new':
-                $this->templatesLayout['layout'] = PROJECT_PATH.'templates/newlayout/layout.php';
-                $this->templatesLayout['linksJs'] = PROJECT_PATH.'templates/newlayout/head/editableJsLinks.php';
-                $this->templatesLayout['linksCss'] = PROJECT_PATH.'templates/layout/head/editableCssLinks.php';
-                $this->templatesLayout['tiny_config'] = PROJECT_PATH.'templates/newlayout/head/tiny_config.js';
+                $this->templatesLayout['layout'] = PROJECT_PATH.'public/web/site/newlayout/layout/layout.php';
+                $this->templatesLayout['linksJs'] = PROJECT_PATH.'public/web/site/newlayout/layout/head/linkEditableJs.php';
+                $this->templatesLayout['linksCss'] = PROJECT_PATH.'public/web/site/newlayout/layout/head/linkEditableCss.php';
+                $this->templatesLayout['tiny_config'] = PROJECT_PATH.'public/web/site/newlayout/layout/head/tiny_config.js';
                 break;
             case 'new1':
-                $this->templatesLayout['layout'] = PROJECT_PATH.'templates/newlayout_1/layout.php';
-                $this->templatesLayout['linksJs'] = PROJECT_PATH.'templates/newlayout_1/head/editableJsLinks.php';
-                $this->templatesLayout['linksCss'] = PROJECT_PATH.'templates/layout/head/editableCssLinks.php';
-                $this->templatesLayout['tiny_config'] = PROJECT_PATH.'templates/newlayout_1/head/tiny_config.js';
+                $this->templatesLayout['layout'] = PROJECT_PATH.'public/web/site/newlayout_1/layout/layout.php';
+                $this->templatesLayout['linksJs'] = PROJECT_PATH.'public/web/site/newlayout_1/layout/head/linkEditableJs.php';
+                $this->templatesLayout['linksCss'] = PROJECT_PATH.'public/web/site/newlayout_1/layout/head/linkEditableCss.php';
+                $this->templatesLayout['tiny_config'] = PROJECT_PATH.'public/web/site/newlayout_1/layout/head/tiny_config.js';
                 break;
             case 'new2':
-                $this->templatesLayout['layout'] = PROJECT_PATH.'templates/newlayout_2/layout.php';
-                $this->templatesLayout['linksJs'] = PROJECT_PATH.'templates/newlayout_2/head/editableJsLinks.php';
-                $this->templatesLayout['linksCss'] = PROJECT_PATH.'templates/layout/head/editableCssLinks.php';
-                $this->templatesLayout['tiny_config'] = PROJECT_PATH.'templates/newlayout_2/head/tiny_config.js';
+                $this->templatesLayout['layout'] = PROJECT_PATH.'public/web/site/newlayout_2/layout/layout.php';
+                $this->templatesLayout['linksJs'] = PROJECT_PATH.'public/web/site/newlayout_2/layout/head/linkEditableJs.php';
+                $this->templatesLayout['linksCss'] = PROJECT_PATH.'public/web/site/newlayout_2/layout/head/linkEditableCss.php';
+                $this->templatesLayout['tiny_config'] = PROJECT_PATH.'public/web/site/newlayout_2/layout/head/tiny_config.js';
                 break;
             case 'new3':
-                $this->templatesLayout['layout'] = PROJECT_PATH.'templates/newlayout_3/layout.php';
-                $this->templatesLayout['linksJs'] = PROJECT_PATH.'templates/newlayout_3/head/editableJsLinks.php';
-                $this->templatesLayout['linksCss'] = PROJECT_PATH.'templates/layout/head/editableCssLinks.php';
-                $this->templatesLayout['tiny_config'] = PROJECT_PATH.'templates/newlayout_3/head/tiny_config.js';
+                $this->templatesLayout['layout'] = PROJECT_PATH.'public/web/site/newlayout_3/layout/layout.php';
+                $this->templatesLayout['linksJs'] = PROJECT_PATH.'public/web/site/newlayout_3/layout/head/linkEditableJs.php';
+                $this->templatesLayout['linksCss'] = PROJECT_PATH.'public/web/site/newlayout_3/layout/head/linkEditableCss.php';
+                $this->templatesLayout['tiny_config'] = PROJECT_PATH.'public/web/site/newlayout_3/layout/head/tiny_config.js';
                 break;
             default:
-                $this->templatesLayout['layout'] = PROJECT_PATH.'templates/layout/layout.php';
-                $this->templatesLayout['linksJs'] = PROJECT_PATH.'templates/layout/head/editableJsLinks.php';
-                $this->templatesLayout['linksCss'] = PROJECT_PATH.'templates/layout/head/editableCssLinks.php';
-                $this->templatesLayout['tiny_config'] = PROJECT_PATH.'templates/layout/head/tiny_config.js';
+                $this->templatesLayout['layout'] = PROJECT_PATH.'public/web/site/grafia/layout/layout.php';
+                $this->templatesLayout['linksJs'] = PROJECT_PATH.'public/web/site/grafia/layout/head/linkEditableJs.php';
+                $this->templatesLayout['linksCss'] = PROJECT_PATH.'public/web/site/grafia/layout/head/linkEditableCss.php';
+                $this->templatesLayout['tiny_config'] = PROJECT_PATH.'public/web/site/grafia/layout/head/tiny_config.js';
                 break;
         }
     }
@@ -269,7 +269,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
         if ($this->isEditableLayout() OR $this->isEditableArticle()) {
             return
                 $this->container->get(View::class)
-                    ->setTemplate(new PhpTemplate('templates/poznamky/poznamky.php'))
+                    ->setTemplate(new PhpTemplate('public/web/site/universal/poznamky/poznamky.php'))
                     ->setData([
                         'poznamka1'=>
                         '<pre>'. $this->prettyDump($this->statusPresentationRepo->get()->getLanguage(), true).'</pre>'

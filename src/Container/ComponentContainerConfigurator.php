@@ -362,20 +362,20 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
            //TODO: upravit v Pes view-> přednost má template (pokud je) před rendererem -> renderer může být fallback, pokud není template, pak zdejší component renderery přidat k komponentám s temlatou jako fallback
             // php template komponenty - template jsou (aspoň zatím) definované zde v kontejneru - komponenty se volají z více kontrolerů a zde je "na jednom místě" struktura dat (viewmodel) a template s proměnnými
             // - samozřejmě je třeba vymyslet konfiguraci a přesunout do konfigurace
-            'template.flash' => PROJECT_PATH.'templates/poznamky/flashMessage.php',
+            'template.flash' => PROJECT_PATH.'public/web/site/universal/poznamky/flashMessage.php',
             FlashComponent::class => function(ContainerInterface $c) {
                 $viewModel = new FlashViewModel($c->get(StatusFlashRepo::class));
                 return (new FlashComponent($viewModel))->setRendererContainer($c->get('rendererContainer'))->setTemplate(new PhpTemplate($c->get('template.flash')));
             },
-            'template.login' => PROJECT_PATH.'templates/modal/modal_login.php',
+            'template.login' => PROJECT_PATH.'public/web/site/universal/modal/modal_login.php',
             LoginComponent::class => function(ContainerInterface $c) {
                 return (new LoginComponent())->setRendererContainer($c->get('rendererContainer'))->setTemplate(new PhpTemplate($c->get('template.login')));
             },
-            'template.logout' => PROJECT_PATH.'templates/modal/modal_logout.php',
+            'template.logout' => PROJECT_PATH.'public/web/site/universal//modal/modal_logout.php',
             LogoutComponent::class => function(ContainerInterface $c) {
                 return (new LogoutComponent())->setRendererContainer($c->get('rendererContainer'))->setTemplate(new PhpTemplate($c->get('template.logout')));
             },
-            'template.useraction' => PROJECT_PATH.'templates/modal/modal_user_action.php',
+            'template.useraction' => PROJECT_PATH.'public/web/site/universal/modal/modal_user_action.php',
             UserActionComponent::class => function(ContainerInterface $c) {
                 return (new UserActionComponent())->setRendererContainer($c->get('rendererContainer'))->setTemplate(new PhpTemplate($c->get('template.useraction')));
             }

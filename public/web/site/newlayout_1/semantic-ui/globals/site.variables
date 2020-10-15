@@ -1,0 +1,94 @@
+/*******************************
+     User Global Variables
+*******************************/
+
+@fontName: Verdana;
+@headerFont: @fontName, Geneva, "arial ce";
+@pageFont: @fontName, Geneva, "arial ce";
+@rsHeaderFont: Dancing Script , cursive;
+
+@primaryColor        : @redGrafia;
+@secondaryColor      : @grey;
+
+@lightPrimaryColor   : @lightRedGrafia;
+@lightSecondaryColor : @lightGrey;
+
+@redGrafia           : #EB1B4C;
+@darkRedGrafia       : #DC143C;
+@lightRedGrafia      : lighten(@redGrafia, 30%);
+
+@red                 : @redGrafia;
+@redBackground       : @lightRedGrafia;
+@redTextColor        : darken(@darkRedGrafia, 10);
+
+/*-------------------
+       Links
+--------------------*/
+
+@linkColor           : @red;
+@linkHoverColor      : darken(saturate(@linkColor, 20), 25, relative);
+
+/*-------------------
+      Base Sizes
+--------------------*/
+
+/* This is the single variable that controls them all */
+@emSize   : 12px;
+
+/* The size of page text  */
+@fontSize : 12px;
+
+/*-------------------
+    Border Radius
+--------------------*/
+
+@bigBorderRadius: 20px;
+
+/*--------------
+  Page Heading
+---------------*/
+
+@headerFontWeight : @bold;
+@headerLineHeight : unit((18 / 14), em);
+
+/*--------------
+  Segment
+--------------*/
+@segmentFontWeight       : @normal;
+
+@segmentTopMargin    : 1em;
+@segmentBottomMargin : @segmentTopMargin;
+@segmentMargin       : @segmentTopMargin 0em @segmentBottomMargin;
+
+
+@h1 : unit((16 / 14), rem);
+@h2 : unit((16 / 14), rem);
+@h3 : unit((15 / 14), rem);
+@h4 : unit((14 / 14), rem);
+@h5 : unit((14 / 14), rem);
+
+/* Header Spacing */
+@headerTopMargin    : ~"calc(1.2rem - "@headerLineHeightOffset~")";
+@headerBottomMargin : 0.8rem;
+@headerMargin       : @headerTopMargin 0em @headerBottomMargin;
+
+/*-------------------
+        Grid
+--------------------*/
+
+@columnCount: 15;
+
+/* Columns */
+@fourWide       : (3.7 / @columnCount * 100%);
+
+
+
+/*-------------------
+     Breakpoints
+--------------------*/
+
+@mobileBreakpoint            : 320px;
+@tabletBreakpoint            : 769px;
+@computerBreakpoint          : 1100px;
+@largeMonitorBreakpoint      : 1300px;
+@widescreenMonitorBreakpoint : 1920px;

@@ -1,0 +1,10 @@
+/*******************************
+    User Variable Overrides
+*******************************/
+
+/***************
+    Button
+***************/
+
+@verticalPadding: @inputVerticalPadding;
+@horizontalPadding: 1em;
