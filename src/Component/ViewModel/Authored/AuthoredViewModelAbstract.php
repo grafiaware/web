@@ -49,14 +49,14 @@ class AuthoredViewModelAbstract implements AuthoredViewModelInterface {
      * @return bool
      */
     public function presentOnlyPublished() {
-        return ! $this->userEdit();  //negace
+        return ! $this->isArticleEditable();  //negace
     }
 
     /**
      *
      * @return bool
      */
-    public function userEdit() {
+    public function isArticleEditable() {
         $userActions = $this->statusSecurityRepo->get()->getUserActions();
         return $userActions ? $userActions->isEditableArticle() : false;
     }

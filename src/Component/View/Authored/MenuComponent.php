@@ -47,6 +47,7 @@ class MenuComponent extends AuthoredComponentAbstract implements MenuComponentIn
      */
     public function __construct(MenuViewModel $viewModel) {
         $this->viewModel = $viewModel;
+        parent::__construct();   // vytváří storage
     }
 
     /**
@@ -96,7 +97,7 @@ class MenuComponent extends AuthoredComponentAbstract implements MenuComponentIn
         }
         $rootItem = $this->viewModel->getMenuRoot($this->componentName);
         if (!isset($rootItem)) {
-            user_error("Kořen menu se jménem komponety $this->componentName nebylo načten z tabulky kořenů menu.", E_USER_WARNING);
+            user_error("Kořen menu se jménem komponety $this->componentName nebyl načten z tabulky kořenů menu.", E_USER_WARNING);
         }
         $this->rootUid = $rootItem->getUidFk();
 
@@ -141,7 +142,7 @@ class MenuComponent extends AuthoredComponentAbstract implements MenuComponentIn
 //            $itemTags[] = $this->itemRenderer->render($itemViewModel);
 //        }
 //        return $itemTags ? implode(PHP_EOL, $itemTags) : '';
-        
+
         $subtreeItemModels = $this->viewModel->getChildrenItemModels($parentUid);
         foreach ($subtreeItemModels as $itemViewModel) {    // , $maxDepth
             if($itemViewModel->isOnPath()) {

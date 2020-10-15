@@ -38,6 +38,16 @@ abstract class PaperViewModelAbstract extends AuthoredViewModelAbstract implemen
         $this->paperAggregateRepo = $paperAggregateRepo;
     }
 
+    /**
+     * Vrací PaperAggregate příslušný k menuItem. MenuItem poskytuje metoda konponenty getMenuItem().
+     *
+     * @return PaperAggregateInterface|null
+     */
+    public function getPaperAggregate(): ?PaperAggregateInterface {
+        $menuItem = $this->getMenuItem();
+        return isset($menuItem) ? $this->paperAggregateRepo->getByReference($menuItem->getId()) : null;
+    }
+
     public function getIterator() {
         return new \ArrayObject(
                 [

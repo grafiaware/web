@@ -19,7 +19,7 @@ interface AuthoredViewModelInterface {
      * Prezentuj položky v editovatelné podobě
      * @return bool
      */
-    public function userEdit();
+    public function isArticleEditable();
 
     /**
      * Prezentuj pouze publikované položky

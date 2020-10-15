@@ -14,6 +14,9 @@ use Component\ViewModel\Authored\Paper\PaperViewModelInterface;
 use Component\ViewModel\Authored\Paper\NamedPaperViewModelInterface;
 use Component\ViewModel\Authored\Paper\PresentedPaperViewModelInterface;
 use Pes\Text\Html;
+
+use Component\View\Authored\ButtonsForm\PaperTemplateButtonsForm;
+
 /**
  * Description of PaperRenderer
  *
@@ -25,31 +28,38 @@ class PaperEditableRenderer  extends AuthoredEditableRendererAbstract {
     }
 
     private function renderPrivate(PaperViewModelInterface $viewModel) {
+        $viewModel->isArticleEditable();
         $paperAggregate = $viewModel->getPaperAggregate();
-        if ($viewModel instanceof NamedPaperViewModelInterface) {
-            $componentAggregate = $viewModel->getComponentAggregate();
-            if (isset($componentAggregate)) {
-                $name = "named: ".$componentAggregate->getName();
-            } else {
-                $name = "undefined component named: ".$viewModel->getComponentName();
-            }
-        } else {
-            $name = "presented";
-        }
 
+        // select render
         if (isset($paperAggregate)) {
             $innerHtml = $this->renderPaper($paperAggregate);
         } else {
             if ($viewModel instanceof PresentedPaperViewModelInterface) {
                 $innerHtml = $this->renderSelectPaperTemplate($viewModel);
             } else {
-                $innerHtml = Html::tag('div', [], "No paper for rendering. Component - $name");
+                $innerHtml = $this->renderNoPaperContent($viewModel);
             }
         }
+
         // atribut data-component je jen pro info v html
-        return Html::tag('div', ['data-component'=>$name, 'class'=>$this->classMap->getClass('Segment', 'div')],
+        return Html::tag('div', ['data-componentinfo'=>$this->getComponentinfo($viewModel), 'class'=>$this->classMap->getClass('Segment', 'div')],
                 Html::tag('div', ['class'=>$this->classMap->getClass('Segment', 'div.paper')], $innerHtml)
             );
+    }
+
+    private function getComponentinfo(PaperViewModelInterface $viewModel) {
+        if ($viewModel instanceof NamedPaperViewModelInterface) {
+            $componentAggregate = $viewModel->getComponentAggregate();
+            if (isset($componentAggregate)) {
+                $componentinfo = "named: ".$componentAggregate->getName();
+            } else {
+                $componentinfo = "undefined component named: ".$viewModel->getComponentName();
+            }
+        } else {
+            $componentinfo = "presented";
+        }
+        return $componentinfo;
     }
 
     private function renderPaper(PaperAggregateInterface $paperAggregate) {
@@ -62,7 +72,7 @@ class PaperEditableRenderer  extends AuthoredEditableRendererAbstract {
 
         return
                 $this->renderPaperTemplateButtonsForm($paperAggregate).
-                $this->renderPaperButtonsForm($paperAggregate).
+        $this->renderPaperButtonsForm($paperAggregate).
                 $this->renderHeadlineForm($paperAggregate).
                 $this->renderPerexForm($paperAggregate).
                 $this->renderContentsDivs($paperAggregate).
@@ -76,12 +86,15 @@ class PaperEditableRenderer  extends AuthoredEditableRendererAbstract {
             Html::tag('form', ['method' => 'POST', 'action' => 'api/v1/paper'],
                 Html::tag('input', ['name'=>'menu_item_id', 'value'=>$menuItemId, 'type'=>'hidden'])
                 .
-                    // 'paper_template_select' class je selektor v TinyInit.js
+                // 'paper_template_select' class je selektor v TinyInit.js
                 Html::tag('div', ['id'=>'paper_template_html', 'class'=>'paper_template_select'],
-                    Html::tag('p', [], '')
-
+                        Html::tag('p', [], '')
                     )
                 );
+    }
+
+    private function renderNoPaperContent(PresentedPaperViewModelInterface $viewModel) {
+        return Html::tag('div', [], "No paper for rendering. Component - '{$this->getComponentinfo($viewModel)}'.");
     }
 }
 

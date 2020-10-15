@@ -21,12 +21,6 @@ use Model\Entity\MenuItemInterface;
 interface PresentedPaperViewModelInterface extends PaperViewModelInterface {
 
     /**
-     *
-     * @return MenuItemInterface
-     */
-    public function getPresentedMenuItem(): MenuItemInterface;
-
-    /**
      * Vrací paper odpovídajíví prezentované položce menu. Řídí se hodnotami vlastností objektu PresentationStatus.
      *
      * @return PaperAggregateInterface

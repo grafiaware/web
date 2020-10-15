@@ -15,6 +15,7 @@ use Model\Repository\ComponentAggregateRepo;
 use Model\Repository\PaperAggregateRepo;
 use Model\Entity\ComponentAggregateInterface;
 use Model\Entity\PaperAggregateInterface;
+use Model\Entity\MenuItemInterface;
 
 
 /**
@@ -77,16 +78,12 @@ class NamedPaperViewModel extends PaperViewModelAbstract implements NamedPaperVi
         return $this->componentAggregate ?? null;
     }
 
-    /**
-     * Vrací PaperAggregate příslušný ke komponentě se zadaným jménem.
-     *
-     * @return PaperAggregateInterface|null
-     */
-    public function getPaperAggregate(): ?PaperAggregateInterface {
+    public function getMenuItem(): ?MenuItemInterface {
         $componentAggregate = $this->getComponentAggregate();  // může být null - neaktivní nebo neaktuální item v komponentě nebo neexistující component v db se jménem $this->componentName
         if ($componentAggregate) {
             $menuItem = $componentAggregate->getMenuItem();
         }
-        return isset($menuItem) ? $this->paperAggregateRepo->getByReference($menuItem->getId()) : null;
+        return $menuItem ?? null;
     }
+
 }

@@ -16,18 +16,8 @@ use Model\Entity\MenuItemInterface;
  */
 class PresentedPaperViewModel extends PaperViewModelAbstract implements PresentedPaperViewModelInterface {
 
-    public function getPresentedMenuItem(): \Model\Entity\MenuItemInterface {
+    public function getMenuItem(): ?MenuItemInterface {
         return $this->statusPresentationRepo->get()->getMenuItem();
     }
 
-
-    /**
-     * Vrací paper odpovídající prezentované položce menu. Řídí se hodnotami vlastností objektu PresentationStatus.
-     *
-     * @return MenuItemPaperAggregateInterface|null
-     */
-    public function getPaperAggregate(): ?PaperAggregateInterface {
-        $menuItemId = $this->getPresentedMenuItem()->getId();
-        return $this->paperAggregateRepo->getByReference($menuItemId);
-    }
 }

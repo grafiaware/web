@@ -1,10 +1,10 @@
 <?php
 namespace Component\View\Authored;
 
-use Component\ViewModel\Authored\Paper\PresentedPaperViewModelInterface;
 use Pes\View\Template\Exception\NoTemplateFileException;
-
 use Pes\View\Template\PhpTemplate;
+
+use Component\ViewModel\Authored\Paper\PresentedPaperViewModelInterface;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -20,12 +20,9 @@ use Pes\View\Template\PhpTemplate;
 class PresentedPaperComponent extends AuthoredComponentAbstract implements AuthoredComponentInterface {
 
     /**
-     *
      * @var PresentedPaperViewModelInterface
      */
     protected $viewModel;
-
-    protected $renderer;
 
     /**
      *
@@ -33,6 +30,7 @@ class PresentedPaperComponent extends AuthoredComponentAbstract implements Autho
      */
     public function __construct(PresentedPaperViewModelInterface $viewModel) {
         $this->viewModel = $viewModel;
+        parent::__construct();   // vytváří storage
     }
 
     public function getString($data = null) {

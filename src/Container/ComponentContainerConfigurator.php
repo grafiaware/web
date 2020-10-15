@@ -24,17 +24,22 @@ use Component\View\Authored\MenuComponent;
 use Component\ViewModel\Authored\Menu\MenuViewModel;
 
 //component
-use Component\View\{
-    Authored\NamedPaperComponent,
-    Authored\PresentedPaperComponent,
-    Generated\LanguageSelectComponent,
-    Generated\SearchPhraseComponent,
-    Generated\SearchResultComponent,
-    Generated\ItemTypeSelectComponent,
-    Flash\FlashComponent,
-    Status\LoginComponent,
-    Status\LogoutComponent,
-    Status\UserActionComponent
+use Component\View\Authored\{
+    NamedPaperComponent,
+    PresentedPaperComponent,
+    ButtonsForm\PaperTemplateButtonsForm
+};
+use Component\View\Generated\{
+    LanguageSelectComponent,
+    SearchPhraseComponent,
+    SearchResultComponent,
+    ItemTypeSelectComponent
+};
+use Component\View\Flash\FlashComponent;
+use Component\View\Status\{
+    LoginComponent,
+    LogoutComponent,
+    UserActionComponent
 };
 
 
@@ -285,6 +290,8 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                 return $itemComponent;
                 },
 
+            #### komponenty s připojeným fallback rendererem - pro paper s šablonou je šablona připojena později
+            #
             'component.headlined' => function(ContainerInterface $c) {
                 return $c->get(NamedPaperComponent::class)->setFallbackRendererName('paper.headlined.renderer');
             },
@@ -309,6 +316,15 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
             'component.block.editable' => function(ContainerInterface $c) {
                 return $c->get(NamedPaperComponent::class)->setFallbackRendererName('paper.block.renderer.editable');
             },
+
+            #### button form komponenty - pro editační režim paper, komponenty bez nastaveného viewmodelu
+            #
+            PaperTemplateButtonsForm::class => function(ContainerInterface $c) {
+                $component = new PaperTemplateButtonsForm();
+                $component->setRenderer(new PaperButtonsFormRenderer());
+
+                return $component;
+                },
 
             // generated komponenty
             LanguageSelectComponent::class => function(ContainerInterface $c) {
