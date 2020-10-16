@@ -3,7 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
+//$('.changePaperTemplate').hover(
+//    function(){
+//        $(this).find('.selectTemplate').css("display", "flex");
+//        $(this).css("z-index", "10");
+//    },
+//    function(){
+//        $(this).find('.selectTemplate').css("display", "none");
+//        $(this).css("z-index", "0");
+//    }
+//);
 $('.right.corner.blue').hover(
     function(){
         $(this).parent('section').find('.contentButtons').css("display", "flex");

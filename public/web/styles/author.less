@@ -65,6 +65,17 @@
 @button1PaperPositionRight: 26px; //.changePaperTemplate
 @button1SegmentPaperPositionRight: 48px; 
 @button1PaperBackgroundColor: @barvaButtonSablony;
+//Zmena/Vyber sablony
+@divSelectWidth: 200px;
+@divSelectPositionTop: -1px;
+@divSelectPositionRight: 0;
+@divSelectBackgroundColor: @barvaButtonSablony;
+@divSelectBorder: @borderWidth @borderStyle @lightGrey;
+@divSelectBorderRadius: @borderRadius @hodnota0 @borderRadius @borderRadius;
+@divSelectPadding: 10px;
+@divSelectZIndex: 1;
+@divSelectParagraphTextAlign: left;
+@divSelectParagraphMarginBottom: 5px;
 
 //Roh u contentu
 @cornerWidth: 2em;
@@ -134,7 +145,7 @@
 
 body{  
     /*popisky buttonů budou tučně - popisky jsou v atributu data-tooltip*/
-    .buttons button[data-tooltip]::after{
+    .buttons [data-tooltip]::after{
         font-weight: @buttonDataTooltipFontWeight;
     }
     
@@ -329,6 +340,26 @@ body{
     .changePaperTemplate{ 
         right: @button1PaperPositionRight;
         background-color: @button1PaperBackgroundColor;
+    }
+    /*VYBER SABLONY*/
+    /*používané třídy pro div se selectem
+        .selectTemplate - obalovací div pro paragraph a select*/
+    .selectTemplate{
+        display: none; //po najetí na button .changePaperTemplate se v edit.js mění display na flex
+        flex-direction: column;
+        position: absolute;
+        width: @divSelectWidth;
+        top: @divSelectPositionTop;
+        right: @divSelectPositionRight;
+        background-color: @divSelectBackgroundColor;
+        padding: @divSelectPadding;
+        border: @divSelectBorder;
+        border-radius: @divSelectBorderRadius;
+        z-index: @divSelectZIndex;
+        p{
+            text-align: @divSelectParagraphTextAlign;
+            margin-bottom: @divSelectParagraphMarginBottom;
+        }
     }
     
     /*ROH U CONTENTU*/

@@ -100,9 +100,19 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
                             'div button4 i' => 'large cut icon' //zmena na paste pri vkladani z vyberu (vybrat k presunuti)
                         ],
             'paper_template_edit_buttons' => [
-                            'div.paperTemplate' => 'mini ui basic icon buttons changePaperTemplate',
+                            'div.paperTemplate' => 'ui mini basic icon dropdown button changePaperTemplate', //'mini ui basic icon buttons changePaperTemplate',
                             'div button' => 'ui button',
                             'div button1 i' => 'large clone outline icon'
+                        ],
+            'paper_template_select' => [
+                            'div button' => 'ui button',
+                            'div.menu' => 'menu selectTemplate',
+                            'div.header' => 'item header',
+                            'div.selection' => 'ui compact selection dropdown',
+                            'div.scrollmenu' => 'scrollhint vertical menu',
+                            'div.item' => 'item',
+                            'div.text' => 'default text',
+                            'i.dropdown' => 'dropdown icon',
                         ],
             'paper_edit_buttons' => [
                             'div.page' => 'mini ui basic icon buttons editPage',
@@ -405,6 +415,7 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
                         'div.trash_content'=>'trash_content'
                         ],
                      'PaperTemplateButtons' => $c->get('paper_template_edit_buttons'),
+                     'PaperTemplateSelect' => $c->get('paper_template_select'),
                      'PaperButtons' => $c->get('paper_edit_buttons'),
                      'ContentButtons' => $c->get('content_edit_buttons'),
                      'TrashButtons' => $c->get('deleted_content_buttons'),

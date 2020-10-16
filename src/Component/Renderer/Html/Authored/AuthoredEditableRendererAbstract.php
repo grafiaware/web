@@ -24,24 +24,35 @@ abstract class AuthoredEditableRendererAbstract extends HtmlRendererAbstract {
 
     protected function renderPaperTemplateButtonsForm(PaperAggregateInterface $paperAggregate) {
         $paperId = $paperAggregate->getId();
+        $paperTemplatesName = $paperAggregate->getTemplate();
+        $selectHtml = '';
+//        foreach ($paperTemplatesName as $type) {
+//            $selectHtml .=  Html::tag('div', ['value'=>$type->getType(), 'class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.item')],
+//                                $type->getType()
+//                            );
+//
+//        }
         return
-            Html::tag('form', ['method'=>'POST', 'action'=>""],
-                Html::tag('div', ['class'=>$this->classMap->getClass('PaperTemplateButtons', 'div.paperTemplate')],
-                    Html::tag('button', [
-                        'class'=>$this->classMap->getClass('PaperTemplateButtons', 'div button'),
-                        'data-tooltip'=>'Výběr šablony stránky',
-                        'data-position'=>'top right',
-                        'type'=>'submit',
-                        'name'=>'',
-                        'formmethod'=>'post',
-                        'formaction'=>"api/v1/paper/$paperId/template/",
-                    ],
+            Html::tag('form', ['method'=>'POST', 'action'=>"api/v1/paper/$paperId/template/"],
+                Html::tag('div', ['class'=>$this->classMap->getClass('PaperTemplateButtons', 'div.paperTemplate'), 'data-tooltip'=>'Výběr šablony stránky'],
                     Html::tag('i', ['class'=>$this->classMap->getClass('PaperTemplateButtons', 'div button1 i')])
+                    .Html::tag('div', ['class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.menu')],
+                        Html::tag('div', ['class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.header')], 'Vyberte šablonu stránky')
+                        .Html::tag('div', ['class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.selection')],
+                            Html::tag('input', ['class'=>$this->classMap->getClass('PaperTemplateSelect', 'input'), 'type'=>'hidden', 'name'=>'select', 'onchange'=>'this.form.submit()'] )
+                            .Html::tag('i', ['class'=>$this->classMap->getClass('PaperTemplateSelect', 'i.dropdown')])
+                            .Html::tag('div', ['class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.text')], 'Šablona')
+                            .Html::tag('div', ['class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.scrollmenu')],
+                                    Html::tag('div', ['class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.item'), 'value'=>'course'], 'Course')
+                                    .Html::tag('div', ['class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.item'), 'value'=>'contact'], 'Contact')
+                                    .Html::tag('div', ['class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.item'), 'value'=>'default'], 'Výchozí')
+                            )
+                        )
                     )
                 )
             );
     }
-
+    
     protected function renderPaperButtonsForm(PaperAggregateInterface $paperAggregate) {
         $paperId = $paperAggregate->getId();
 
