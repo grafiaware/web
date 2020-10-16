@@ -8,8 +8,14 @@
 
 namespace Application;
 
-
 use Pes\Database\Handler\DbTypeEnum;
+
+use Component\View\Flash\FlashComponent;
+use Component\View\Status\{
+    LoginComponent,
+    LogoutComponent,
+    UserActionComponent
+};
 
 /**
  * Description of Configuration
@@ -21,6 +27,7 @@ class Configuration {
         return [
             #################################
             # Sekce konfigurace účtů databáze pro api kontejner
+            # Ostatní parametry konfigurace databáze v kontejneru dbUpgrade
             #
             'api.db.everyone.name' => 'gr_everyone',
             'api.db.everyone.password' => 'gr_everyone',
@@ -77,13 +84,11 @@ class Configuration {
             'build.db.user.name' => PES_DEVELOPMENT ? 'gr_upgrader' : (PES_PRODUCTION ? 'UPGRADE_BUILD_PRODUCTION_USER' : 'xxxxxxxxxxxxxxxxx'),
             'build.db.user.password' => PES_DEVELOPMENT ? 'gr_upgrader' : (PES_PRODUCTION ? 'UPGRADE_BUILD_PRODUCTION_HOST' : 'xxxxxxxxxxxxxxxxx'),
             #
-            #  Konec sekce konfigurace databáze
             ###################################
 
             ###################################
             # Konfigurace konverze
             #
-
             'build.config.createusers' =>
                 [
                     'everyone_user' => 'gr_everyone',
@@ -104,6 +109,15 @@ class Configuration {
             'build.db.logs.file.convert' => 'Convert.log',
             #
             ###################################
+
+            ###################################
+            # Konfigurace hierarchy tabulek
+            #
+            'build.hierarchy.table' => 'hierarchy',
+            'build.hierarchy.view' => 'hierarchy_view',
+            #
+            ##################################
+            #
         ];
     }
 
@@ -111,6 +125,10 @@ class Configuration {
         return [
             'component.logs.view.directory' => 'Logs/App/Web',
             'component.logs.view.file' => 'Render.log',
+            'component.template.'.FlashComponent::class => PROJECT_PATH.'templates/poznamky/flashMessage.php',
+            'component.template.'.LoginComponent::class => PROJECT_PATH.'templates/modal/modal_login.php',
+            'component.template.'.LogoutComponent::class => PROJECT_PATH.'templates/modal/modal_logout.php',
+            'component.template.'.UserActionComponent::class => PROJECT_PATH.'templates/modal/modal_user_action.php',
         ];
     }
 
@@ -128,8 +146,8 @@ class Configuration {
             'dbold.db.collation' => 'utf8_general_ci',
 
             'dbold.db.connection.host' => PES_DEVELOPMENT ? 'localhost' : (PES_PRODUCTION ? 'OLD_PRODUCTION_NAME' : 'xxxxxxxxxxxxxxxxx'),
-            'dbold.db.connection.name' => PES_DEVELOPMENT ? 'grafiacz' : (PES_PRODUCTION ? 'OLD_PRODUCTION_HOST' : 'xxxxxxxxxxxxxxxxx'),
-//            'dbold.db.connection.name' => PES_DEVELOPMENT ? 'wwwgrafia' : (PES_PRODUCTION ? 'OLD_PRODUCTION_HOST' : 'xxxxxxxxxxxxxxxxx'),
+//            'dbold.db.connection.name' => PES_DEVELOPMENT ? 'grafiacz' : (PES_PRODUCTION ? 'OLD_PRODUCTION_HOST' : 'xxxxxxxxxxxxxxxxx'),
+            'dbold.db.connection.name' => PES_DEVELOPMENT ? 'wwwgrafia' : (PES_PRODUCTION ? 'OLD_PRODUCTION_HOST' : 'xxxxxxxxxxxxxxxxx'),
 
             'dbold.logs.directory' => 'Logs/DbOld',
             'dbold.logs.db.file' => 'Database.log',
@@ -170,7 +188,7 @@ class Configuration {
         return  [
             #################################
             # Konfigurace databáze
-            # Konfigurovány databáze - v kontejneru dbUpgrade
+            # Ostatní parametry konfigurace databáze v kontejneru dbUpgrade
             #
             'dbUpgrade.db.user.name' => PES_DEVELOPMENT ? 'gr_upgrader' : (PES_PRODUCTION ? 'UPGRADE_PRODUCTION_USER_NAME' : 'xxxx'),
             'dbUpgrade.db.user.password' => PES_DEVELOPMENT ? 'gr_upgrader' : (PES_PRODUCTION ? 'UPGRADE_PRODUCTION_USER_PASSWORD' : 'xxxx'),
@@ -249,6 +267,13 @@ class Configuration {
             #
             ###################################
 
+        ];
+    }
+
+    public static function statusPresentationManager() {
+        return [
+            'default_lang_code' => 'cs',
+            'default_hierarchy_root_component_name' => 's'
         ];
     }
 }

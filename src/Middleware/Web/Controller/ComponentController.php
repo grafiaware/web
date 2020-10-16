@@ -10,6 +10,7 @@ namespace Middleware\Web\Controller;
 
 use Psr\Http\Message\ServerRequestInterface;
 
+use Application\Configuration;
 use Model\Entity\MenuItemInterface;
 
 // komponenty
@@ -38,9 +39,6 @@ use Pes\View\View;
  * @author pes2704
  */
 class ComponentController extends LayoutControllerAbstract {
-
-    const DEEAULT_HIERARCHY_ROOT_COMPONENT_NAME = 's';
-
     ### action metody ###############
 
     public function home(ServerRequestInterface $request) {
@@ -49,7 +47,9 @@ class ComponentController extends LayoutControllerAbstract {
         $menuRootRepo = $this->container->get(MenuRootRepo::class);
         /** @var MenuItemRepo $menuItemRepo */
         $menuItemRepo = $this->container->get(MenuItemRepo::class);
-        $uidFk = $menuRootRepo->get(StatusPresentationManager::DEEAULT_HIERARCHY_ROOT_COMPONENT_NAME)->getUidFk();
+        // uid default kořenové položky (z konfigurace)
+        $rootName = Configuration::statusPresentationManager()['default_hierarchy_root_component_name'];
+        $uidFk = $menuRootRepo->get($rootName)->getUidFk();
         $langCode = $statusPresentation->getLanguage()->getLangCode();
         $rootMenuItem = $menuItemRepo->get($langCode, $uidFk );    // kořen menu
         $statusPresentation->setMenuItem($rootMenuItem);

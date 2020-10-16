@@ -10,6 +10,7 @@ namespace StatusManager;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Application\WebAppFactory;
+use Application\Configuration;
 
 use Model\Repository\{
     LanguageRepo, MenuRootRepo, MenuItemRepo
@@ -30,10 +31,6 @@ use Model\Entity\{
  * @author pes2704
  */
 class StatusPresentationManager implements StatusPresentationManagerInterface {
-
-    const DEFAULT_LANG_CODE = 'cs';
-
-    const DEEAULT_HIERARCHY_ROOT_COMPONENT_NAME = 's';
 
     /**
      * @var LanguageRepo
@@ -109,7 +106,7 @@ class StatusPresentationManager implements StatusPresentationManagerInterface {
         if (!isset($language)) {
             user_error("Podle hlavičky requestu Accept-Language je požadován kód jazyka $requestedLangCode. "
                     . "Takový kód jazyka nebyl nalezen mezi jazyky aplikace. Nastaven default jazyk aplikace.", E_USER_NOTICE);
-            $language = $this->languageRepo->get(self::DEFAULT_LANG_CODE);
+            $language = $this->languageRepo->get(Configuration::statusPresentationManager()['default_lang_code']);
         }
         return $language;
     }
@@ -119,7 +116,12 @@ class StatusPresentationManager implements StatusPresentationManagerInterface {
      * @return HierarchyNodeInterface
      */
     private function getDefaulMenuItem($langCode) {
-        $uidFk = $this->menuRootRepo->get(self::DEEAULT_HIERARCHY_ROOT_COMPONENT_NAME)->getUidFk();
+        $rootName = Configuration::statusPresentationManager()['default_hierarchy_root_component_name'];
+        $menuRootItem = $this->menuRootRepo->get($rootName);
+        if (!isset($menuRootItem)) {
+            throw new \UnexpectedValueException("Nenalezen default kořen menu se jménem '$rootName' načteným z konfigurace.");
+        }
+        $uidFk = $menuRootItem->getUidFk();
         return $this->menuItemRepo->get($langCode, $uidFk );    // kořen menu
     }
 }

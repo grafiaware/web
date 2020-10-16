@@ -156,11 +156,11 @@ class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
 
             // hierarchny
             NodeAggregateReadonlyDao::class => function(ContainerInterface $c) : NodeAggregateReadonlyDao {
-                return new NodeAggregateReadonlyDao($c->get(Handler::class), $c->get('hierarchy.view'));
+                return new NodeAggregateReadonlyDao($c->get(Handler::class), $c->get('build.hierarchy.view'));
             },
 
             NodeEditDao::class => function(ContainerInterface $c) : NodeEditDao {
-                return new NodeEditDao($c->get(Handler::class), $c->get('hierarchy.table'));
+                return new NodeEditDao($c->get(Handler::class), $c->get('build.hierarchy.table'));
             },
 
 //            HookedMenuItemActor::class => function(ContainerInterface $c) {
