@@ -8,6 +8,8 @@
 
 namespace Middleware\Web\Controller;
 
+use Application\Configuration;
+
 use Controller\PresentationFrontControllerAbstract;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -81,7 +83,6 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
         #### speed test ####
 //        $timer = new Timer();
 //        $timer->start();
-        $this->initLayoutTemplatesVars();
 
         $layoutView = $this->getLayoutView($request);
         foreach ($componentViews as $name => $componentView) {
@@ -97,13 +98,13 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
      * @return CompositeView
      */
     private function getLayoutView(ServerRequestInterface $request) {
-        return $this->viewFactory->phpTemplateCompositeView($this->templatesLayout['layout'],
+        return $this->viewFactory->phpTemplateCompositeView(Configuration::layoutControler()['layout'],
                 [
                     'basePath' => $this->getBasePath($request),
-                    'title' => \Middleware\Web\AppContext::getWebTitle(),
+                    'title' => Configuration::layoutControler()['title'],
                     'langCode' => $this->statusPresentationRepo->get()->getLanguage()->getLangCode(),
-                    'webPublicDir' => \Middleware\Web\AppContext::getAppPublicDirectory(),
-                    'webSitePublicDir' =>\Middleware\Web\AppContext::getAppSitePublicDirectory(),
+                    'webPublicDir' => Configuration::layoutControler()['webPublicDir'],
+                    'webSitePublicDir' => Configuration::layoutControler()['webSitePublicDir'],
                     'modalLoginLogout' => $this->getModalLoginLogout(),
                     'modalUserAction' => $this->getModalUserAction(),
                     'bodyContainerAttributes' => $this->getBodyContainerAttributes(),
@@ -112,55 +113,6 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
                     'poznamky' => $this->getPoznamky(),
                     'flash' => $this->getFlashComponent(),
                 ]);
-    }
-
-    private function initLayoutTemplatesVars() {
-        $theme = 'old';
-
-        switch ($theme) {
-            case 'old':
-                $this->templatesLayout['layout'] = PROJECT_PATH.'templates/layout/layout.php';
-                $this->templatesLayout['linksJs'] = PROJECT_PATH.'templates/layout/head/linkEditableJs.php';
-                $this->templatesLayout['linksCss'] = PROJECT_PATH.'templates/layout/head/linkEditableCss.php';
-                $this->templatesLayout['tiny_config'] = PROJECT_PATH.'templates/layout/head/tiny_config.js';
-                break;
-            case 'xhr':
-                $this->templatesLayout['layout'] = PROJECT_PATH.'templates/layoutXhr/layout.php';
-                $this->templatesLayout['linksJs'] = PROJECT_PATH.'templates/layoutXhr/head/editableJsLinks.php';
-                $this->templatesLayout['linksCss'] = PROJECT_PATH.'templates/layout/head/editableCssLinks.php';
-                $this->templatesLayout['tiny_config'] = PROJECT_PATH.'templates/layoutXhr/head/tiny_config.js';
-                break;
-            case 'new':
-                $this->templatesLayout['layout'] = PROJECT_PATH.'templates/newlayout/layout.php';
-                $this->templatesLayout['linksJs'] = PROJECT_PATH.'templates/newlayout/head/editableJsLinks.php';
-                $this->templatesLayout['linksCss'] = PROJECT_PATH.'templates/layout/head/editableCssLinks.php';
-                $this->templatesLayout['tiny_config'] = PROJECT_PATH.'templates/newlayout/head/tiny_config.js';
-                break;
-            case 'new1':
-                $this->templatesLayout['layout'] = PROJECT_PATH.'templates/newlayout_1/layout.php';
-                $this->templatesLayout['linksJs'] = PROJECT_PATH.'templates/newlayout_1/head/editableJsLinks.php';
-                $this->templatesLayout['linksCss'] = PROJECT_PATH.'templates/layout/head/editableCssLinks.php';
-                $this->templatesLayout['tiny_config'] = PROJECT_PATH.'templates/newlayout_1/head/tiny_config.js';
-                break;
-            case 'new2':
-                $this->templatesLayout['layout'] = PROJECT_PATH.'templates/newlayout_2/layout.php';
-                $this->templatesLayout['linksJs'] = PROJECT_PATH.'templates/newlayout_2/head/editableJsLinks.php';
-                $this->templatesLayout['linksCss'] = PROJECT_PATH.'templates/layout/head/editableCssLinks.php';
-                $this->templatesLayout['tiny_config'] = PROJECT_PATH.'templates/newlayout_2/head/tiny_config.js';
-                break;
-            case 'new3':
-                $this->templatesLayout['layout'] = PROJECT_PATH.'templates/newlayout_3/layout.php';
-                $this->templatesLayout['linksJs'] = PROJECT_PATH.'templates/newlayout_3/head/editableJsLinks.php';
-                $this->templatesLayout['linksCss'] = PROJECT_PATH.'templates/layout/head/editableCssLinks.php';
-                $this->templatesLayout['tiny_config'] = PROJECT_PATH.'templates/newlayout_3/head/tiny_config.js';
-                break;
-            default:
-                $this->templatesLayout['layout'] = PROJECT_PATH.'templates/layout/layout.php';
-                $this->templatesLayout['linksJs'] = PROJECT_PATH.'templates/layout/head/editableJsLinks.php';
-                $this->templatesLayout['linksCss'] = PROJECT_PATH.'templates/layout/head/editableCssLinks.php';
-                $this->templatesLayout['tiny_config'] = PROJECT_PATH.'templates/layout/head/tiny_config.js';
-                break;
-        }
     }
 
     private function getBodyContainerAttributes() {
@@ -174,59 +126,46 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
     private function getEditJs(ServerRequestInterface $request) {
         if ($this->isEditableArticle() OR $this->isEditableLayout()) {
             $webPublicDir = \Middleware\Web\AppContext::getAppPublicDirectory();
-            $webSitePublicDir = \Middleware\Web\AppContext::getAppSitePublicDirectory();
             $commonPublicDir = \Middleware\Web\AppContext::getPublicDirectory();
-            $tinyPublicDir = \Middleware\Web\AppContext::getTinyPublicDirectory();
             ## document base path - stejná hodnota se musí použiít i v nastavení tinyMCE
             $basepath = $this->getBasePath($request);
-            // Language packages tinyMce požívají krátké i dlouhé kódy, kód odpovídá jménu souboru např cs.js nebo en_US.js - proto mapování
-            // pozn. - popisky šablon pro tiny jsou jen česky (TinyInit.js)
-            $tinyLanguage = [
-                'cs' => 'cs',
-                'de' => 'de',
-                'en' => 'en_US'
-            ];
+            $tinyLanguage = Configuration::layoutControler()['tinyLanguage'];
             $langCode =$this->statusPresentationRepo->get()->getLanguage()->getLangCode();
-            $tinyToolsbarsLang = array_key_exists($langCode, $tinyLanguage) ? $tinyLanguage[$langCode] : 'cs';
+            $tinyToolsbarsLang = array_key_exists($langCode, $tinyLanguage) ? $tinyLanguage[$langCode] : Configuration::statusPresentationManager()['default_lang_code'];
             return
                 $this->container->get(View::class)
-                    ->setTemplate(new PhpTemplate($this->templatesLayout['linksJs']))
+                    ->setTemplate(new PhpTemplate(Configuration::layoutControler()['linksJs']))
                     ->setData([
                         'tinyMCEConfig' => $this->container->get(View::class)
-                                ->setTemplate(new InterpolateTemplate($this->templatesLayout['tiny_config']))
+                                ->setTemplate(new InterpolateTemplate(Configuration::layoutControler()['tiny_config']))
                                 ->setData([
                                     // pro tiny_config.js
                                     'basePath' => $basepath,
-                                    'urlStylesCss' => $webPublicDir."styles/old/styles.css",
-                                    'urlSemanticCss' => $webPublicDir."semantic/dist/semantic.min.css",
-                                    'urlContentTemplatesCss' => $webPublicDir."templates/author/template.css",
-                                    'paperTemplatesUri' =>  $webPublicDir."templates/paper/",  // URI pro Template controler
-                                    'contentTemplatesPath' => $webPublicDir."templates/author/",
+                                    'urlStylesCss' => Configuration::layoutControler()['urlStylesCss'],
+                                    'urlSemanticCss' => Configuration::layoutControler()['urlSemanticCss'],
+                                    'urlContentTemplatesCss' => Configuration::layoutControler()['urlContentTemplatesCss'],
+                                    'paperTemplatesUri' =>  Configuration::layoutControler()['paperTemplatesUri'],  // URI pro Template controler
+                                    'contentTemplatesPath' => Configuration::layoutControler()['contentTemplatesPath'],
                                     'toolbarsLang' => $tinyToolsbarsLang
                                 ]),
 
-                        'urlTinyMCE' => $commonPublicDir.'tinymce5_3_1\js\tinymce\tinymce.min.js',
-                        'urlJqueryTinyMCE' => $commonPublicDir.'tinymce5_3_1\js\tinymce\jquery.tinymce.min.js',
-//                        'urlTinyMCE' => $commonPublicDir.'tinymce5_4_0\js\tinymce\tinymce.min.js',
-//                        'urlJqueryTinyMCE' => $commonPublicDir.'tinymce5_4_0\js\tinymce\jquery.tinymce.min.js',
+                        'urlTinyMCE' => Configuration::layoutControler()['urlTinyMCE'],
+                        'urlJqueryTinyMCE' => Configuration::layoutControler()['urlJqueryTinyMCE'],
 
-//    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-//    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-//    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/jquery.tinymce.min.js" referrerpolicy="origin"></script>
-                        'urlTinyInit' => $webPublicDir.'js/TinyInit.js',
-                        'editScript' => $webPublicDir . 'js/edit.js',
-                        'kalendarScript' => $webPublicDir . 'js/kalendar.js',
+                        'urlTinyInit' => Configuration::layoutControler()['urlTinyInit'],
+                        'editScript' => Configuration::layoutControler()['editScript'],
+                        'kalendarScript' => Configuration::layoutControler()['kalendarScript'],
                     ]);
         }
     }
 
     private function getEditCss(ServerRequestInterface $request) {
         if ($this->isEditableArticle() OR $this->isEditableLayout()) {
-            return                 $this->container->get(View::class)
-                    ->setTemplate(new PhpTemplate($this->templatesLayout['linksCss']))
+            return $this->container->get(View::class)
+                    ->setTemplate(new PhpTemplate(Configuration::layoutControler()['linksCss']))
                     ->setData(
                             [
-                            'webPublicDir' => \Middleware\Web\AppContext::getAppPublicDirectory(),
+                            'webPublicDir' => Configuration::layoutControler()['webPublicDir'],
                             ]
                             );
         }
@@ -269,7 +208,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
         if ($this->isEditableLayout() OR $this->isEditableArticle()) {
             return
                 $this->container->get(View::class)
-                    ->setTemplate(new PhpTemplate('templates/poznamky/poznamky.php'))
+                    ->setTemplate(new PhpTemplate(Configuration::layoutControler()['templates.poznamky']))
                     ->setData([
                         'poznamka1'=>
                         '<pre>'. $this->prettyDump($this->statusPresentationRepo->get()->getLanguage(), true).'</pre>'
@@ -306,13 +245,6 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
 
     private function getFlashComponent() {
         if ($this->isEditableLayout() OR $this->isEditableArticle()) {
-//            $statusFlash = $this->statusFlashRepo->get();
-//            return
-//                $this->container->get(View::class)
-//                    ->setTemplate(new PhpTemplate('templates/poznamky/flashMessage.php'))
-//                    ->setData([
-//                        'flashMessage' => $statusFlash ? $statusFlash->getMessage() ?? 'no flash' : 'no flash message'
-//                        ]);
             return $this->container->get(FlashComponent::class);
         }
     }

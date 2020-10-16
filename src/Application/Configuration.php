@@ -125,10 +125,10 @@ class Configuration {
         return [
             'component.logs.view.directory' => 'Logs/App/Web',
             'component.logs.view.file' => 'Render.log',
-            'component.template.'.FlashComponent::class => PROJECT_PATH.'templates/poznamky/flashMessage.php',
-            'component.template.'.LoginComponent::class => PROJECT_PATH.'templates/modal/modal_login.php',
-            'component.template.'.LogoutComponent::class => PROJECT_PATH.'templates/modal/modal_logout.php',
-            'component.template.'.UserActionComponent::class => PROJECT_PATH.'templates/modal/modal_user_action.php',
+            'component.template.'.FlashComponent::class =>      PROJECT_PATH.'public/web/templates/info/flashMessage.php',
+            'component.template.'.LoginComponent::class =>      PROJECT_PATH.'public/web/templates/modal/login.php',
+            'component.template.'.LogoutComponent::class =>     PROJECT_PATH.'public/web/templates/modal/logout.php',
+            'component.template.'.UserActionComponent::class => PROJECT_PATH.'public/web/templates/modal/user_action.php',
         ];
     }
 
@@ -274,6 +274,105 @@ class Configuration {
         return [
             'default_lang_code' => 'cs',
             'default_hierarchy_root_component_name' => 's'
+        ];
+    }
+
+    public static function layoutControler() {
+            $webPublicDir = \Middleware\Web\AppContext::getAppPublicDirectory();
+            $webSitePublicDir = \Middleware\Web\AppContext::getAppSitePublicDirectory();
+            $commonPublicDir = \Middleware\Web\AppContext::getPublicDirectory();
+            $tinyPublicDir = \Middleware\Web\AppContext::getTinyPublicDirectory();
+
+        $theme = 'new3';
+
+        switch ($theme) {
+            case 'old':
+                $templatesLayout['layout'] = PROJECT_PATH.'public/web/site/grafia/layout/layout.php';
+                $templatesLayout['linksJs'] = PROJECT_PATH.'public/web/site/grafia/layout/head/linkEditableJs.php';
+                $templatesLayout['linksCss'] = PROJECT_PATH.'public/web/site/grafia/layout/head/linkEditableCss.php';
+                $templatesLayout['tiny_config'] = PROJECT_PATH.'public/web/site/grafia/layout/head/tiny_config.js';
+                break;
+            case 'xhr':
+                $templatesLayout['layout'] = PROJECT_PATH.'public/web/site/grafia/layoutXhr/layout.php';
+                $templatesLayout['linksJs'] = PROJECT_PATH.'public/web/site/grafia/layoutXhr/head/linkEditableJs.php';
+                $templatesLayout['linksCss'] = PROJECT_PATH.'public/web/site/grafia/layoutXhr/head/linkEditableCss.php';
+                $templatesLayout['tiny_config'] = PROJECT_PATH.'public/web/site/grafia/layoutXhr/head/tiny_config.js';
+                break;
+            case 'new':
+                $templatesLayout['layout'] = PROJECT_PATH.'public/web/site/newlayout/layout/layout.php';
+                $templatesLayout['linksJs'] = PROJECT_PATH.'public/web/site/newlayout/layout/head/linkEditableJs.php';
+                $templatesLayout['linksCss'] = PROJECT_PATH.'public/web/site/newlayout/layout/head/linkEditableCss.php';
+                $templatesLayout['tiny_config'] = PROJECT_PATH.'public/web/site/newlayout/layout/head/tiny_config.js';
+                break;
+            case 'new1':
+                $templatesLayout['layout'] = PROJECT_PATH.'public/web/site/newlayout_1/layout/layout.php';
+                $templatesLayout['linksJs'] = PROJECT_PATH.'public/web/site/newlayout_1/layout/head/linkEditableJs.php';
+                $templatesLayout['linksCss'] = PROJECT_PATH.'public/web/site/newlayout_1/layout/head/linkEditableCss.php';
+                $templatesLayout['tiny_config'] = PROJECT_PATH.'public/web/site/newlayout_1/layout/head/tiny_config.js';
+                break;
+            case 'new2':
+                $templatesLayout['layout'] = PROJECT_PATH.'public/web/site/newlayout_2/layout/layout.php';
+                $templatesLayout['linksJs'] = PROJECT_PATH.'public/web/site/newlayout_2/layout/head/linkEditableJs.php';
+                $templatesLayout['linksCss'] = PROJECT_PATH.'public/web/site/newlayout_2/layout/head/linkEditableCss.php';
+                $templatesLayout['tiny_config'] = PROJECT_PATH.'public/web/site/newlayout_2/layout/head/tiny_config.js';
+                break;
+            case 'new3':
+                $templatesLayout['layout'] = PROJECT_PATH.'public/web/site/newlayout_3/layout/layout.php';
+                $templatesLayout['linksJs'] = PROJECT_PATH.'public/web/site/newlayout_3/layout/head/linkEditableJs.php';
+                $templatesLayout['linksCss'] = PROJECT_PATH.'public/web/site/newlayout_3/layout/head/linkEditableCss.php';
+                $templatesLayout['tiny_config'] = PROJECT_PATH.'public/web/site/newlayout_3/layout/head/tiny_config.js';
+                break;
+            default:
+                $templatesLayout['layout'] = PROJECT_PATH.'public/web/site/grafia/layout/layout.php';
+                $templatesLayout['linksJs'] = PROJECT_PATH.'public/web/site/grafia/layout/head/linkEditableJs.php';
+                $templatesLayout['linksCss'] = PROJECT_PATH.'public/web/site/grafia/layout/head/linkEditableCss.php';
+                $templatesLayout['tiny_config'] = PROJECT_PATH.'public/web/site/grafia/layout/head/tiny_config.js';
+                break;
+        }
+
+
+        return [
+          'templates.poznamky' => 'public/web/templates/info/poznamky.php',
+
+
+           // Language packages tinyMce požívají krátké i dlouhé kódy, kód odpovídá jménu souboru např cs.js nebo en_US.js - proto mapování
+            // pozn. - popisky šablon pro tiny jsou jen česky (TinyInit.js)
+            'tinyLanguage' => [
+                'cs' => 'cs',
+                'de' => 'de',
+                'en' => 'en_US'
+            ],
+            // title
+            'title' => \Middleware\Web\AppContext::getWebTitle(),
+            // folders
+            'webPublicDir' => $webPublicDir,
+            'webSitePublicDir' =>$webSitePublicDir,
+            // layout folder
+            'layout' => $templatesLayout['layout'],
+            'tiny_config' =>    $templatesLayout['tiny_config'],
+            // links do head
+            'linksJs' =>    $templatesLayout['linksJs'],
+            'linksCss' =>    $templatesLayout['linksCss'],
+            // js links
+           'urlTinyMCE' => $commonPublicDir.'tinymce5_3_1\js\tinymce\tinymce.min.js',
+            'urlJqueryTinyMCE' => $commonPublicDir.'tinymce5_3_1\js\tinymce\jquery.tinymce.min.js',
+//            'urlTinyMCE' => $commonPublicDir.'tinymce5_4_0\js\tinymce\tinymce.min.js',
+//            'urlJqueryTinyMCE' => $commonPublicDir.'tinymce5_4_0\js\tinymce\jquery.tinymce.min.js',
+
+//    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+//    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+//    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/jquery.tinymce.min.js" referrerpolicy="origin"></script>
+            'urlTinyInit' => $webPublicDir.'js/TinyInit.js',
+            'editScript' => $webPublicDir . 'js/edit.js',
+            'kalendarScript' => $webPublicDir . 'js/kalendar.js',
+            // css links
+            'urlStylesCss' => $webPublicDir."styles/old/styles.css",
+            'urlSemanticCss' => $webPublicDir."semantic/dist/semantic.min.css",
+            'urlContentTemplatesCss' => $webPublicDir."templates/author/template.css",
+            //
+            'paperTemplatesUri' =>  $webPublicDir."templates/paper/",  // URI pro Template controler
+            'contentTemplatesPath' => $webPublicDir."templates/author/",
+
         ];
     }
 }
