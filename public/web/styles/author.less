@@ -1,6 +1,6 @@
 @import "../site-definitions.less";  
 @import "../semantic/src/themes/default/globals/site.variables";
-@import "../@{sitename}/semantic-ui/globals/site.variables";
+@import (optional) "../@{sitename}/semantic-ui/globals/site.variables";
 
 @hodnota0: 0;
 @borderWidth: 1px;
@@ -113,7 +113,7 @@
 
 
 //import změněných proměnných stylu šablony (specifických pro projekt)
-@import (optional) "../@{sitename}/@{siteStylesFolder}/editor.less";
+@import (optional) "../@{sitename}/@{siteStylesFolder}/author.less";
 
 .border-dance(@color){
     background: linear-gradient(90deg, @color 50%, transparent 50%),

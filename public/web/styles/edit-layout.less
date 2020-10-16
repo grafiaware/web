@@ -1,6 +1,6 @@
 @import "../site-definitions.less";  
 @import "../semantic/src/themes/default/globals/site.variables";
-@import "../@{sitename}/semantic-ui/globals/site.variables";
+@import (optional) "../@{sitename}/semantic-ui/globals/site.variables";
 
 @hodnotaAuto: auto;
 @hodnota0: 0;
@@ -76,7 +76,7 @@
 @trashContentFilter: grayscale(1);
 
 //import změněných proměnných stylu šablony (specifických pro projekt)
-@import (optional) "../@{sitename}/@{siteStylesFolder}/editor.less";
+@import (optional) "../@{sitename}/@{siteStylesFolder}/edit-layout.less";
 
 .breakPre(@poznamkyBreakPre) when (@poznamkyBreakPre){
     white-space: pre-wrap;

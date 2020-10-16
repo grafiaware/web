@@ -263,34 +263,6 @@
 /* Dropdown state */
 /* Focused state */
 /* Placeholder state */
-/*******************************
-     User Global Variables
-*******************************/
-/*-------------------
-       Links
---------------------*/
-/*-------------------
-      Base Sizes
---------------------*/
-/* This is the single variable that controls them all */
-/* The size of page text  */
-/*-------------------
-    Border Radius
---------------------*/
-/*--------------
-  Page Heading
----------------*/
-/*--------------
-  Segment
---------------*/
-/* Header Spacing */
-/*-------------------
-        Grid
---------------------*/
-/* Columns */
-/*-------------------
-     Breakpoints
---------------------*/
 @font-face {
   font-family: 'Dancing Script';
   font-style: normal;
@@ -304,7 +276,7 @@ body > .container > .column:only-child {
   background-color: #FFFFFF;
   border: 5px solid #d63f46;
   padding: 10px 15px 15px;
-  border-radius: 20px;
+  border-radius: 15px;
 }
 header .grid {
   border-radius: 15px 15px 0 0;
@@ -398,7 +370,7 @@ header .grid .button {
   justify-content: space-around;
 }
 .svisle-menu ul:first-child li:last-child .jazyk-on img {
-  outline: double #FBBD08 3px;
+  outline: double #4183C4 3px;
 }
 footer p {
   margin: 0;
