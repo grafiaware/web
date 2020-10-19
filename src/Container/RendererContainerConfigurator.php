@@ -109,7 +109,7 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
                             'div.menu' => 'menu selectTemplate',
                             'div.header' => 'item header',
                             'div.selection' => 'ui compact selection dropdown',
-                            'div.scrollmenu' => 'scrollhint vertical menu',
+                            'div.scrollmenu' => 'scrollhint menu',
                             'div.item' => 'item',
                             'div.text' => 'default text',
                             'i.dropdown' => 'dropdown icon',

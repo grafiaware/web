@@ -324,10 +324,11 @@ body {
   /*BUTTONY PRO PAPER*/
   /*používané třídy pro buttony k paperu
         .editPage - všechny buttony týkající se operace s vnitřkem paperu (přidat obsah, seřadit obsahy)
-        .changePaperTemplate - button na výměnu šablony stránky */
+        .changePaperTemplate - div vypadající jako button na výměnu šablony stránky - funguje jako dropdown */
   /*VYBER SABLONY*/
   /*používané třídy pro div se selectem
-        .selectTemplate - obalovací div pro paragraph a select*/
+        .changePaperTemplate - div vypadající jako button na výměnu šablony stránky - funguje jako dropdown
+        .selectTemplate - obalovací div pro selection dropdown (select)*/
   /*ROH U CONTENTU*/
   /*BUTTONY PRO CONTENT*/
   /*používané třídy pro buttony ke contentu
@@ -478,7 +479,7 @@ body section.trash .blue.corner.label {
   right: 0;
 }
 body .editPage,
-body .changePaperTemplate {
+body .dropdown.changePaperTemplate {
   position: absolute;
   top: -32px;
 }
@@ -489,29 +490,52 @@ body .editPage {
 body .segment .editPage {
   right: 15px;
 }
-body .segment .changePaperTemplate {
+body .segment .dropdown.changePaperTemplate {
   right: 48px;
 }
-body .changePaperTemplate {
+body .dropdown.changePaperTemplate {
   right: 26px;
-  background-color: #EDF7FF;
+  background-color: #EDF7FF !important;
 }
-body .selectTemplate {
+body .dropdown.changePaperTemplate {
+  /*po najetí na vnořený div .selectTemplate se v edit.js přidá třída .nodatatooltip, aby nebyl vidět popisek divu .changePaperTemplate*/
+}
+body .dropdown.changePaperTemplate[data-tooltip]::after {
+  font-weight: bold;
+}
+body .dropdown.changePaperTemplate.nodatatooltip[data-tooltip]::after,
+body .dropdown.changePaperTemplate.nodatatooltip[data-tooltip]::before {
   display: none;
-  flex-direction: column;
-  position: absolute;
+}
+body .dropdown.changePaperTemplate .menu.selectTemplate {
   width: 200px;
-  top: -1px;
-  right: 0;
+  top: 31px;
+  left: -162px;
   background-color: #EDF7FF;
-  padding: 10px;
   border: 1px solid #DCDDDE;
   border-radius: 5px 0 5px 5px;
-  z-index: 1;
+  /* u .header zároveň třída .item pro funkčnost dropdownu*/
+  /*dropdown, který vypadá jako select*/
 }
-body .selectTemplate p {
-  text-align: left;
-  margin-bottom: 5px;
+body .dropdown.changePaperTemplate .menu.selectTemplate .header {
+  cursor: auto;
+  background-color: transparent;
+}
+body .dropdown.changePaperTemplate .menu.selectTemplate .header:hover {
+  background-color: transparent;
+}
+body .dropdown.changePaperTemplate .menu.selectTemplate .selection.dropdown {
+  left: 50%;
+  transform: translateX(-50%) translateY(-20%);
+  /*rozbalená nabídka*/
+}
+body .dropdown.changePaperTemplate .menu.selectTemplate .selection.dropdown .scrollhint.menu {
+  left: 6px;
+  top: 37px;
+  /*jednotlivé položky*/
+}
+body .dropdown.changePaperTemplate .menu.selectTemplate .selection.dropdown .scrollhint.menu .item {
+  font-size: 0.95rem;
 }
 body .blue.corner.label {
   width: 2em;
