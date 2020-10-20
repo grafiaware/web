@@ -23,16 +23,6 @@ use Component\View\Status\{
  * @author pes2704
  */
 class Configuration {
-    ### bootstrap ###
-    #
-    public static function bootstrap() {
-        return [
-            'bootatrap_logs_base_path' => '/_www_gr_logs/',
-        ];
-    }
-
-    ### kontejner ###
-    #
     public static function api() {
         return [
             #################################
@@ -280,8 +270,6 @@ class Configuration {
         ];
     }
 
-    ### presentation ###
-    #
     public static function statusPresentationManager() {
         return [
             'default_lang_code' => 'cs',

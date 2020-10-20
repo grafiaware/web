@@ -13,6 +13,7 @@ use Pes\View\Template\InterpolateTemplate;
 use Pes\View\Renderer\InterpolateRenderer;
 
 use Pes\Database\Manipulator\Manipulator;
+use \Pes\Database\Statement\StatementInterface;
 use Pes\Debug\Timer;
 use Pes\Http\Headers;
 use Pes\Http\Body;
@@ -123,12 +124,53 @@ class BuildControlerAbstract  extends PresentationFrontControllerAbstract  imple
     protected function executeFromString($sqlString): void {
         $this->log[] = $sqlString;
         try {
-            $this->manipulator->executeQuery($sqlString);
+            $this->manipulator->exec($sqlString);
         } catch (\Exception $e) {
             $message = "Chybný krok. Nedokončeny všechny akce v kroku. Chyba nastala při vykonávání SQL příkazů v řetězci: ". substr($sqlString, 0, 100);
             $this->log[] = $message;
             throw new SqlExecutionStepFailedException($message, 0, $e);
         }
+    }
+
+    protected function queryFromTemplate($templateFilename, array $data=[]): StatementInterface {
+        if (!isset($this->interpolateRenderer)) {
+            $this->interpolateRenderer = new InterpolateRenderer();
+        }
+        $this->interpolateRenderer->setTemplate(new InterpolateTemplate(self::RELATIVE_SQLFILE_PATH.$templateFilename));
+        $sql = $this->interpolateRenderer->render($data);
+        try {
+            $statement = $this->queryFromString($sql);
+        } catch (SqlExecutionStepFailedException $e) {
+            $message = "Chybný krok. Nedokončeny všechny akce v kroku. Chyba nastala při vykonávání SQL příkazů v template $templateFilename.";
+            $this->log[] = $message;
+            $this->log[] = print_r($data, true);
+            throw new SqlExecutionStepFailedException($message, 0, $e);
+        }
+        return $statement;
+    }
+
+    protected function queryFromFile($fileName): StatementInterface {
+        $fileName = self::RELATIVE_SQLFILE_PATH.$fileName;
+        try {
+            $statement = $this->queryFromString(file_get_contents($fileName));
+        } catch (SqlExecutionStepFailedException $e) {
+            $message = "Chybný krok. Nedokončeny všechny akce v kroku. Chyba nastala při vykonávání SQL příkazů v souboru $fileName.";
+            $this->log[] = $message;
+            throw new SqlExecutionStepFailedException($message, 0, $e);
+        }
+        return $statement;
+    }
+
+    protected function queryFromString($sqlString): StatementInterface {
+        $this->log[] = $sqlString;
+        try {
+            $statement = $this->manipulator->query($sqlString);
+        } catch (\Exception $e) {
+            $message = "Chybný krok. Nedokončeny všechny akce v kroku. Chyba nastala při vykonávání SQL příkazů v řetězci: ". substr($sqlString, 0, 100);
+            $this->log[] = $message;
+            throw new SqlExecutionStepFailedException($message, 0, $e);
+        }
+        return $statement;
     }
 
     private function createReport() {

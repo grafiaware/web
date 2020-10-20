@@ -1,6 +1,10 @@
 <?php
 
+include 'src/Application/Configuration.php';  // SetBootstrap se volá před autoload
+
 use Pes\Logger\FileLogger;
+
+use Application\Configuration;
 
 /*
  * Copyright (C) 2018 pes2704
@@ -14,7 +18,7 @@ use Pes\Logger\FileLogger;
 
 // Cesta ke složce, ve které budou ukládány jednotlivé logy třídou Pes\Logger\Filelogger.
 // Cesta nastavená zde je použita pro nastavení base path loggeru v Bootsstrap skriptu ještě pře logování průběhu bootstrapu a tak i logy Bootstrapu budou uloženy do této cesty.
-define("PES_BOOTSTRAP_LOGS_BASE_PATH", $_SERVER['DOCUMENT_ROOT'].'/_www_gr_logs/');  // absolutní cesta k podsložce document root
+define("PES_BOOTSTRAP_LOGS_BASE_PATH", $_SERVER['DOCUMENT_ROOT'].Configuration::bootstrap()['bootatrap_logs_base_path']);  // absolutní cesta k podsložce document root
 // define('PES_BOOTSTRAP_LOGS_PATH', 'Mojelogy/Bootstrap/');  // cesta ke složce, do které budou zapisovány soubory s logy vytvářené skripty v průběhu bootstrapu
 // define('PES_BOOTSTRAP_ERROR_LOGS_PATH', 'Mojelogy/Errors/');  // Cesta ke složce, do které budou zapisovány soubory s chybovými logy vytvářené skripty v bootstrapu včetně error a exception handlerů
 

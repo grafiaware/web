@@ -19,24 +19,9 @@ use Container\DbUpgradeContainerConfigurator;
 use Container\HierarchyContainerConfigurator;
 use Container\ComponentContainerConfigurator;
 
-use Model\Repository\{
-    StatusSecurityRepo, StatusPresentationRepo
-};
-
-use StatusManager\{
-    StatusSecurityManagerInterface, StatusPresentationManagerInterface
-};
-
 use Middleware\Web\Controller\ComponentController;
 
 class Web extends AppMiddlewareAbstract implements MiddlewareInterface {
-
-
-
-    /**
-     * @var StatusSecurityManagerInterface
-     */
-    protected $statusSecurityManager;
 
     private $container;
 

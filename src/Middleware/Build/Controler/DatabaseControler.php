@@ -22,7 +22,7 @@ use Pes\Database\Manipulator\Manipulator;
  */
 class DatabaseControler extends BuildControlerAbstract {
 
-    public function drop() {
+    public function dropDb() {
         ####
         #
         #   Před spuštením tohoto kroku:
@@ -42,15 +42,18 @@ class DatabaseControler extends BuildControlerAbstract {
         $this->manipulator = $this->container->get('manipulator_for_drop_database');
         $this->log[] = "Záznam o smazání databáze ".(new \DateTime("now"))->format("d.m.Y H:i:s");
         $this->executeSteps($dropSteps);
+        if ($this->container instanceof ContainerSettingsAwareInterface) {
+            $this->container->reset('manipulator_for_drop_database');
+        }
         return $this->createResponseFromReport();
     }
-    public function create() {
+
+    public function createDb() {
 
         ####
         #
         #   Před spuštením tohoto kroku:
         #   - nesmí existovat databáze
-        #   - nesmí existovat uživatelé: prefix_everyone, prefix_authenticated, prefix_administrator
         #   - uživatel pod kterým je vytvořeno první spojení k databázovámu stroji (před vytvořením databáze)
         #     musí mít práva zakládat databáze a přidělovat všechna práva - nejlépe tedy role DBA
         #
@@ -58,6 +61,67 @@ class DatabaseControler extends BuildControlerAbstract {
         $createSteps[] = function() {
             return $this->executeFromTemplate("create_database_template.sql", $this->container->get('build.config.create'));
         };
+
+        $this->manipulator = $this->container->get('manipulator_for_create_database');
+        $this->log[] = "Záznam o vytvoření databáze ".(new \DateTime("now"))->format("d.m.Y H:i:s");
+        $response = $this->executeSteps($createSteps);
+        if ($this->container instanceof ContainerSettingsAwareInterface) {
+            $this->container->reset('manipulator_for_create_database');
+        }
+        return $this->createResponseFromReport();
+    }
+
+    public function drop() {
+        ####
+        #
+        #   Před spuštením tohoto kroku:
+        #   - musí existovat databáze
+        #   - musí existovat uživatelé: prefix_everyone, prefix_authenticated, prefix_administrator
+        #   - uživatel pod kterým je vytvořeno spojení k databázovámu stroji
+        #     musí mít práva mazat databáze a uživatele- nejlépe tedy role DBA
+        #
+        ####
+
+        $dropSteps[] = function() {
+            return $this->executeFromTemplate("drop_users_template.sql", $this->container->get('build.config.users'));
+        };
+
+        $this->manipulator = $this->container->get('manipulator_for_drop_database');
+        $this->log[] = "Záznam o smazání tabulek, pohledů a uživatelů ".(new \DateTime("now"))->format("d.m.Y H:i:s");
+        // tables
+        $selectStatement = $this->queryFromTemplate("drop_tables_0_select_tables_template.sql", $this->container->get('build.config.drop'));
+        $tableNamesRows = $selectStatement->fetchAll(\PDO::FETCH_ASSOC);
+        $dropQueriesString = '';
+        foreach ($tableNamesRows as $tableNamesRow) {
+            $dropQueriesString .= 'DROP TABLE IF EXISTS '.$tableNamesRow['table_name'].';'.PHP_EOL;
+        }
+        $this->executeFromTemplate('drop_tables_1_drop_tables_template.sql', ['dropTablesSql' => $dropQueriesString]);
+        // views
+        $selectStatement = $this->queryFromTemplate("drop_tables_2_select_views_template.sql", $this->container->get('build.config.drop'));
+        $viewNamesRows = $selectStatement->fetchAll(\PDO::FETCH_ASSOC);
+        $dropQueriesString = '';
+        foreach ($viewNamesRows as $viewNamesRow) {
+            $dropQueriesString .= 'DROP TABLE IF EXISTS '.$viewNamesRow['table_name'].';'.PHP_EOL;
+        }
+        $this->executeFromTemplate('drop_tables_3_drop_views_template.sql', ['dropViewsSql' => $dropQueriesString]);
+        // users
+        $this->executeSteps($dropSteps);
+        if ($this->container instanceof ContainerSettingsAwareInterface) {
+            $this->container->reset('manipulator_for_drop_database');
+        }
+        return $this->createResponseFromReport();
+    }
+
+    public function create() {
+
+        ####
+        #
+        #   Před spuštením tohoto kroku:
+        #   - nesmí existovat uživatelé: prefix_everyone, prefix_authenticated, prefix_administrator
+        #   - uživatel pod kterým je vytvořeno první spojení k databázovámu stroji (před vytvořením databáze)
+        #     musí mít práva zakládat databáze a přidělovat všechna práva - nejlépe tedy role DBA
+        #
+        ####
         $createSteps[] = function() {
             return $this->executeFromTemplate("create_users_template.sql", $this->container->get('build.config.users'));
         };
@@ -70,8 +134,6 @@ class DatabaseControler extends BuildControlerAbstract {
         }
         return $this->createResponseFromReport();
     }
-
-
 
     public function convert() {
         $this->manipulator = $this->container->get(Manipulator::class);
@@ -141,7 +203,7 @@ class DatabaseControler extends BuildControlerAbstract {
                                     if ($childItems) {
                                         $childUid = $hierachy->addChildNodeAsLast($parentItems[0]['uid_fk']);  //jen jeden parent
                                         // UPDATE menu_item položky pro všechny jazyky (nested set je jeden pro všechny jazyky)
-                                        $this->manipulator->executeQuery("UPDATE menu_item SET menu_item.uid_fk='$childUid'
+                                        $this->manipulator->exec("UPDATE menu_item SET menu_item.uid_fk='$childUid'
                                            WHERE menu_item.list='{$adjRow['child']}'");
                                     }
                                 } else {  // pro rodiče neexistuje položka v menu_item -> je to jen prázdný uzel ve struktuře menu
@@ -149,7 +211,7 @@ class DatabaseControler extends BuildControlerAbstract {
                                 }
                             } else {  // rodič je root
                                 // UPDATE menu_item položky pro všechny jazyky (nested set je jeden pro všechny jazyky)
-                                $this->manipulator->executeQuery("UPDATE menu_item SET menu_item.uid_fk='$rootUid'
+                                $this->manipulator->exec("UPDATE menu_item SET menu_item.uid_fk='$rootUid'
                                    WHERE menu_item.list='{$adjRow['child']}'");
                             }
                         }

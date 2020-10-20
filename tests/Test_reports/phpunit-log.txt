@@ -1,5 +1,19 @@
+AppRunner
+ [ ] Run
+
+MenuItemDao
+ [ ] Get existing row
+ [ ]  9 columns
+ [ ] Update
+ [ ] Delete
+
 PaperContentManipulation
- [x] Existing row
- [x]  11 columns
+ [ ] Existing row
+ [ ]  11 columns
  [ ] Insert
+
+MenuItemAggregateRepository
+ [ ] Set up
+ [ ] Repo get
+ [ ] Repo find by paper fulltext search
 

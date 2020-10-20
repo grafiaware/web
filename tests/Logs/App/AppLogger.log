@@ -1,4 +1,4 @@
-[info] [2020-07-01 11:36:02] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/App/AppLogger.log. Mode 'w+'.
+[info] [2020-10-16 18:13:23] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/App/AppLogger.log. Mode 'w+'.
 [info] REQUEST DUMP - GET request
     URI Scheme: http
     URI Authority: localhost
@@ -53,7 +53,7 @@
     
     Body: Pes\Http\Body Object
     (
-        [stream:protected] => Resource id #94
+        [stream:protected] => Resource id #130
         [meta:protected] => 
         [readable:protected] => 
         [writable:protected] => 
@@ -84,9 +84,9 @@
         [HTTP_ACCEPT_CHARSET] => ISO-8859-1,utf-8;q=0.7,*;q=0.3
         [HTTP_USER_AGENT] => AppRunner
         [REMOTE_ADDR] => 127.0.0.1
-        [REQUEST_TIME] => 1593596162
-        [REQUEST_TIME_FLOAT] => 1593596162,3986
-        [INPUT_STREAM] => Resource id #94
+        [REQUEST_TIME] => 1602864803
+        [REQUEST_TIME_FLOAT] => 1602864803,625
+        [INPUT_STREAM] => Resource id #130
     )
     
     Uploaded files: Array
@@ -147,7 +147,7 @@
     
     Body: Pes\Http\Body Object
     (
-        [stream:protected] => Resource id #94
+        [stream:protected] => Resource id #130
         [meta:protected] => 
         [readable:protected] => 
         [writable:protected] => 
@@ -178,9 +178,9 @@
         [HTTP_ACCEPT_CHARSET] => ISO-8859-1,utf-8;q=0.7,*;q=0.3
         [HTTP_USER_AGENT] => AppRunner
         [REMOTE_ADDR] => 127.0.0.1
-        [REQUEST_TIME] => 1593596162
-        [REQUEST_TIME_FLOAT] => 1593596162,5082
-        [INPUT_STREAM] => Resource id #94
+        [REQUEST_TIME] => 1602864803
+        [REQUEST_TIME_FLOAT] => 1602864803,722
+        [INPUT_STREAM] => Resource id #130
     )
     
     Uploaded files: Array
@@ -241,7 +241,7 @@
     
     Body: Pes\Http\Body Object
     (
-        [stream:protected] => Resource id #94
+        [stream:protected] => Resource id #130
         [meta:protected] => 
         [readable:protected] => 
         [writable:protected] => 
@@ -272,9 +272,667 @@
         [HTTP_ACCEPT_CHARSET] => ISO-8859-1,utf-8;q=0.7,*;q=0.3
         [HTTP_USER_AGENT] => AppRunner
         [REMOTE_ADDR] => 127.0.0.1
-        [REQUEST_TIME] => 1593596162
-        [REQUEST_TIME_FLOAT] => 1593596162,534
-        [INPUT_STREAM] => Resource id #94
+        [REQUEST_TIME] => 1602864803
+        [REQUEST_TIME_FLOAT] => 1602864803,7394
+        [INPUT_STREAM] => Resource id #130
+    )
+    
+    Uploaded files: Array
+    (
+    )
+    
+[info] REQUEST DUMP - GET request
+    URI Scheme: http
+    URI Authority: localhost
+    URI Path: /
+    URI Query: 
+    URI Fragment: 
+    Headers: Array
+    (
+        [Host] => Array
+            (
+                [0] => localhost
+            )
+    
+        [HTTP_ACCEPT] => Array
+            (
+                [0] => text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+            )
+    
+        [accept-language] => Array
+            (
+                [0] => en-US,en;q=0.8
+            )
+    
+        [HTTP_ACCEPT_CHARSET] => Array
+            (
+                [0] => ISO-8859-1,utf-8;q=0.7,*;q=0.3
+            )
+    
+        [HTTP_USER_AGENT] => Array
+            (
+                [0] => AppRunner
+            )
+    
+    )
+    
+    Cookies: Array
+    (
+    )
+    
+    Attributes: Array
+    (
+        [uriInfo] => Pes\Application\UrlInfo Object
+            (
+                [subdomainPath:protected] => 
+                [restUri:protected] => /
+                [rootRelativePath:protected] => //
+                [workingPath:protected] => C:/ApacheRoot/web/tests/
+            )
+    
+        [requestedLanguage] => en
+    )
+    
+    Body: Pes\Http\Body Object
+    (
+        [stream:protected] => Resource id #130
+        [meta:protected] => 
+        [readable:protected] => 
+        [writable:protected] => 
+        [seekable:protected] => 
+        [size:protected] => 
+        [isPipe:protected] => 
+    )
+    Body size: 0.
+    POST parsed body: 
+    Query params: Array
+    (
+    )
+    
+    Request target: /
+    Server params: Array
+    (
+        [SERVER_PROTOCOL] => HTTP/1.1
+        [REQUEST_METHOD] => GET
+        [REQUEST_SCHEME] => http
+        [SCRIPT_NAME] => 
+        [REQUEST_URI] => 
+        [QUERY_STRING] => 
+        [SERVER_NAME] => localhost
+        [SERVER_PORT] => 80
+        [HTTP_HOST] => localhost
+        [HTTP_ACCEPT] => text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+        [HTTP_ACCEPT_LANGUAGE] => en-US,en;q=0.8
+        [HTTP_ACCEPT_CHARSET] => ISO-8859-1,utf-8;q=0.7,*;q=0.3
+        [HTTP_USER_AGENT] => AppRunner
+        [REMOTE_ADDR] => 127.0.0.1
+        [REQUEST_TIME] => 1602864803
+        [REQUEST_TIME_FLOAT] => 1602864803,7505
+        [INPUT_STREAM] => Resource id #130
+    )
+    
+    Uploaded files: Array
+    (
+    )
+    
+[info] REQUEST DUMP - GET request
+    URI Scheme: http
+    URI Authority: localhost
+    URI Path: /
+    URI Query: 
+    URI Fragment: 
+    Headers: Array
+    (
+        [Host] => Array
+            (
+                [0] => localhost
+            )
+    
+        [HTTP_ACCEPT] => Array
+            (
+                [0] => text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+            )
+    
+        [accept-language] => Array
+            (
+                [0] => en-US,en;q=0.8
+            )
+    
+        [HTTP_ACCEPT_CHARSET] => Array
+            (
+                [0] => ISO-8859-1,utf-8;q=0.7,*;q=0.3
+            )
+    
+        [HTTP_USER_AGENT] => Array
+            (
+                [0] => AppRunner
+            )
+    
+    )
+    
+    Cookies: Array
+    (
+    )
+    
+    Attributes: Array
+    (
+        [uriInfo] => Pes\Application\UrlInfo Object
+            (
+                [subdomainPath:protected] => 
+                [restUri:protected] => /
+                [rootRelativePath:protected] => //
+                [workingPath:protected] => C:/ApacheRoot/web/tests/
+            )
+    
+        [requestedLanguage] => en
+    )
+    
+    Body: Pes\Http\Body Object
+    (
+        [stream:protected] => Resource id #212
+        [meta:protected] => 
+        [readable:protected] => 
+        [writable:protected] => 
+        [seekable:protected] => 
+        [size:protected] => 
+        [isPipe:protected] => 
+    )
+    Body size: 0.
+    POST parsed body: 
+    Query params: Array
+    (
+    )
+    
+    Request target: /
+    Server params: Array
+    (
+        [SERVER_PROTOCOL] => HTTP/1.1
+        [REQUEST_METHOD] => GET
+        [REQUEST_SCHEME] => http
+        [SCRIPT_NAME] => 
+        [REQUEST_URI] => 
+        [QUERY_STRING] => 
+        [SERVER_NAME] => localhost
+        [SERVER_PORT] => 80
+        [HTTP_HOST] => localhost
+        [HTTP_ACCEPT] => text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+        [HTTP_ACCEPT_LANGUAGE] => en-US,en;q=0.8
+        [HTTP_ACCEPT_CHARSET] => ISO-8859-1,utf-8;q=0.7,*;q=0.3
+        [HTTP_USER_AGENT] => AppRunner
+        [REMOTE_ADDR] => 127.0.0.1
+        [REQUEST_TIME] => 1602864803
+        [REQUEST_TIME_FLOAT] => 1602864803,7706
+        [INPUT_STREAM] => Resource id #212
+    )
+    
+    Uploaded files: Array
+    (
+    )
+    
+[info] REQUEST DUMP - GET request
+    URI Scheme: http
+    URI Authority: localhost
+    URI Path: /
+    URI Query: 
+    URI Fragment: 
+    Headers: Array
+    (
+        [Host] => Array
+            (
+                [0] => localhost
+            )
+    
+        [HTTP_ACCEPT] => Array
+            (
+                [0] => text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+            )
+    
+        [accept-language] => Array
+            (
+                [0] => en-US,en;q=0.8
+            )
+    
+        [HTTP_ACCEPT_CHARSET] => Array
+            (
+                [0] => ISO-8859-1,utf-8;q=0.7,*;q=0.3
+            )
+    
+        [HTTP_USER_AGENT] => Array
+            (
+                [0] => AppRunner
+            )
+    
+    )
+    
+    Cookies: Array
+    (
+    )
+    
+    Attributes: Array
+    (
+        [uriInfo] => Pes\Application\UrlInfo Object
+            (
+                [subdomainPath:protected] => 
+                [restUri:protected] => /
+                [rootRelativePath:protected] => //
+                [workingPath:protected] => C:/ApacheRoot/web/tests/
+            )
+    
+        [requestedLanguage] => en
+    )
+    
+    Body: Pes\Http\Body Object
+    (
+        [stream:protected] => Resource id #212
+        [meta:protected] => 
+        [readable:protected] => 
+        [writable:protected] => 
+        [seekable:protected] => 
+        [size:protected] => 
+        [isPipe:protected] => 
+    )
+    Body size: 0.
+    POST parsed body: 
+    Query params: Array
+    (
+    )
+    
+    Request target: /
+    Server params: Array
+    (
+        [SERVER_PROTOCOL] => HTTP/1.1
+        [REQUEST_METHOD] => GET
+        [REQUEST_SCHEME] => http
+        [SCRIPT_NAME] => 
+        [REQUEST_URI] => 
+        [QUERY_STRING] => 
+        [SERVER_NAME] => localhost
+        [SERVER_PORT] => 80
+        [HTTP_HOST] => localhost
+        [HTTP_ACCEPT] => text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+        [HTTP_ACCEPT_LANGUAGE] => en-US,en;q=0.8
+        [HTTP_ACCEPT_CHARSET] => ISO-8859-1,utf-8;q=0.7,*;q=0.3
+        [HTTP_USER_AGENT] => AppRunner
+        [REMOTE_ADDR] => 127.0.0.1
+        [REQUEST_TIME] => 1602864803
+        [REQUEST_TIME_FLOAT] => 1602864803,79
+        [INPUT_STREAM] => Resource id #212
+    )
+    
+    Uploaded files: Array
+    (
+    )
+    
+[info] REQUEST DUMP - GET request
+    URI Scheme: http
+    URI Authority: localhost
+    URI Path: /
+    URI Query: 
+    URI Fragment: 
+    Headers: Array
+    (
+        [Host] => Array
+            (
+                [0] => localhost
+            )
+    
+        [HTTP_ACCEPT] => Array
+            (
+                [0] => text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+            )
+    
+        [accept-language] => Array
+            (
+                [0] => en-US,en;q=0.8
+            )
+    
+        [HTTP_ACCEPT_CHARSET] => Array
+            (
+                [0] => ISO-8859-1,utf-8;q=0.7,*;q=0.3
+            )
+    
+        [HTTP_USER_AGENT] => Array
+            (
+                [0] => AppRunner
+            )
+    
+    )
+    
+    Cookies: Array
+    (
+    )
+    
+    Attributes: Array
+    (
+        [uriInfo] => Pes\Application\UrlInfo Object
+            (
+                [subdomainPath:protected] => 
+                [restUri:protected] => /
+                [rootRelativePath:protected] => //
+                [workingPath:protected] => C:/ApacheRoot/web/tests/
+            )
+    
+        [requestedLanguage] => en
+    )
+    
+    Body: Pes\Http\Body Object
+    (
+        [stream:protected] => Resource id #212
+        [meta:protected] => 
+        [readable:protected] => 
+        [writable:protected] => 
+        [seekable:protected] => 
+        [size:protected] => 
+        [isPipe:protected] => 
+    )
+    Body size: 0.
+    POST parsed body: 
+    Query params: Array
+    (
+    )
+    
+    Request target: /
+    Server params: Array
+    (
+        [SERVER_PROTOCOL] => HTTP/1.1
+        [REQUEST_METHOD] => GET
+        [REQUEST_SCHEME] => http
+        [SCRIPT_NAME] => 
+        [REQUEST_URI] => 
+        [QUERY_STRING] => 
+        [SERVER_NAME] => localhost
+        [SERVER_PORT] => 80
+        [HTTP_HOST] => localhost
+        [HTTP_ACCEPT] => text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+        [HTTP_ACCEPT_LANGUAGE] => en-US,en;q=0.8
+        [HTTP_ACCEPT_CHARSET] => ISO-8859-1,utf-8;q=0.7,*;q=0.3
+        [HTTP_USER_AGENT] => AppRunner
+        [REMOTE_ADDR] => 127.0.0.1
+        [REQUEST_TIME] => 1602864803
+        [REQUEST_TIME_FLOAT] => 1602864803,8064
+        [INPUT_STREAM] => Resource id #212
+    )
+    
+    Uploaded files: Array
+    (
+    )
+    
+[info] REQUEST DUMP - GET request
+    URI Scheme: http
+    URI Authority: localhost
+    URI Path: /
+    URI Query: 
+    URI Fragment: 
+    Headers: Array
+    (
+        [Host] => Array
+            (
+                [0] => localhost
+            )
+    
+        [HTTP_ACCEPT] => Array
+            (
+                [0] => text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+            )
+    
+        [accept-language] => Array
+            (
+                [0] => en-US,en;q=0.8
+            )
+    
+        [HTTP_ACCEPT_CHARSET] => Array
+            (
+                [0] => ISO-8859-1,utf-8;q=0.7,*;q=0.3
+            )
+    
+        [HTTP_USER_AGENT] => Array
+            (
+                [0] => AppRunner
+            )
+    
+    )
+    
+    Cookies: Array
+    (
+    )
+    
+    Attributes: Array
+    (
+        [uriInfo] => Pes\Application\UrlInfo Object
+            (
+                [subdomainPath:protected] => 
+                [restUri:protected] => /
+                [rootRelativePath:protected] => //
+                [workingPath:protected] => C:/ApacheRoot/web/tests/
+            )
+    
+        [requestedLanguage] => en
+    )
+    
+    Body: Pes\Http\Body Object
+    (
+        [stream:protected] => Resource id #221
+        [meta:protected] => 
+        [readable:protected] => 
+        [writable:protected] => 
+        [seekable:protected] => 
+        [size:protected] => 
+        [isPipe:protected] => 
+    )
+    Body size: 0.
+    POST parsed body: 
+    Query params: Array
+    (
+    )
+    
+    Request target: /
+    Server params: Array
+    (
+        [SERVER_PROTOCOL] => HTTP/1.1
+        [REQUEST_METHOD] => GET
+        [REQUEST_SCHEME] => http
+        [SCRIPT_NAME] => 
+        [REQUEST_URI] => 
+        [QUERY_STRING] => 
+        [SERVER_NAME] => localhost
+        [SERVER_PORT] => 80
+        [HTTP_HOST] => localhost
+        [HTTP_ACCEPT] => text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+        [HTTP_ACCEPT_LANGUAGE] => en-US,en;q=0.8
+        [HTTP_ACCEPT_CHARSET] => ISO-8859-1,utf-8;q=0.7,*;q=0.3
+        [HTTP_USER_AGENT] => AppRunner
+        [REMOTE_ADDR] => 127.0.0.1
+        [REQUEST_TIME] => 1602864803
+        [REQUEST_TIME_FLOAT] => 1602864803,8303
+        [INPUT_STREAM] => Resource id #221
+    )
+    
+    Uploaded files: Array
+    (
+    )
+    
+[info] REQUEST DUMP - GET request
+    URI Scheme: http
+    URI Authority: localhost
+    URI Path: /
+    URI Query: 
+    URI Fragment: 
+    Headers: Array
+    (
+        [Host] => Array
+            (
+                [0] => localhost
+            )
+    
+        [HTTP_ACCEPT] => Array
+            (
+                [0] => text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+            )
+    
+        [accept-language] => Array
+            (
+                [0] => en-US,en;q=0.8
+            )
+    
+        [HTTP_ACCEPT_CHARSET] => Array
+            (
+                [0] => ISO-8859-1,utf-8;q=0.7,*;q=0.3
+            )
+    
+        [HTTP_USER_AGENT] => Array
+            (
+                [0] => AppRunner
+            )
+    
+    )
+    
+    Cookies: Array
+    (
+    )
+    
+    Attributes: Array
+    (
+        [uriInfo] => Pes\Application\UrlInfo Object
+            (
+                [subdomainPath:protected] => 
+                [restUri:protected] => /
+                [rootRelativePath:protected] => //
+                [workingPath:protected] => C:/ApacheRoot/web/tests/
+            )
+    
+        [requestedLanguage] => en
+    )
+    
+    Body: Pes\Http\Body Object
+    (
+        [stream:protected] => Resource id #221
+        [meta:protected] => 
+        [readable:protected] => 
+        [writable:protected] => 
+        [seekable:protected] => 
+        [size:protected] => 
+        [isPipe:protected] => 
+    )
+    Body size: 0.
+    POST parsed body: 
+    Query params: Array
+    (
+    )
+    
+    Request target: /
+    Server params: Array
+    (
+        [SERVER_PROTOCOL] => HTTP/1.1
+        [REQUEST_METHOD] => GET
+        [REQUEST_SCHEME] => http
+        [SCRIPT_NAME] => 
+        [REQUEST_URI] => 
+        [QUERY_STRING] => 
+        [SERVER_NAME] => localhost
+        [SERVER_PORT] => 80
+        [HTTP_HOST] => localhost
+        [HTTP_ACCEPT] => text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+        [HTTP_ACCEPT_LANGUAGE] => en-US,en;q=0.8
+        [HTTP_ACCEPT_CHARSET] => ISO-8859-1,utf-8;q=0.7,*;q=0.3
+        [HTTP_USER_AGENT] => AppRunner
+        [REMOTE_ADDR] => 127.0.0.1
+        [REQUEST_TIME] => 1602864803
+        [REQUEST_TIME_FLOAT] => 1602864803,8584
+        [INPUT_STREAM] => Resource id #221
+    )
+    
+    Uploaded files: Array
+    (
+    )
+    
+[info] REQUEST DUMP - GET request
+    URI Scheme: http
+    URI Authority: localhost
+    URI Path: /
+    URI Query: 
+    URI Fragment: 
+    Headers: Array
+    (
+        [Host] => Array
+            (
+                [0] => localhost
+            )
+    
+        [HTTP_ACCEPT] => Array
+            (
+                [0] => text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+            )
+    
+        [accept-language] => Array
+            (
+                [0] => en-US,en;q=0.8
+            )
+    
+        [HTTP_ACCEPT_CHARSET] => Array
+            (
+                [0] => ISO-8859-1,utf-8;q=0.7,*;q=0.3
+            )
+    
+        [HTTP_USER_AGENT] => Array
+            (
+                [0] => AppRunner
+            )
+    
+    )
+    
+    Cookies: Array
+    (
+    )
+    
+    Attributes: Array
+    (
+        [uriInfo] => Pes\Application\UrlInfo Object
+            (
+                [subdomainPath:protected] => 
+                [restUri:protected] => /
+                [rootRelativePath:protected] => //
+                [workingPath:protected] => C:/ApacheRoot/web/tests/
+            )
+    
+        [requestedLanguage] => en
+    )
+    
+    Body: Pes\Http\Body Object
+    (
+        [stream:protected] => Resource id #221
+        [meta:protected] => 
+        [readable:protected] => 
+        [writable:protected] => 
+        [seekable:protected] => 
+        [size:protected] => 
+        [isPipe:protected] => 
+    )
+    Body size: 0.
+    POST parsed body: 
+    Query params: Array
+    (
+    )
+    
+    Request target: /
+    Server params: Array
+    (
+        [SERVER_PROTOCOL] => HTTP/1.1
+        [REQUEST_METHOD] => GET
+        [REQUEST_SCHEME] => http
+        [SCRIPT_NAME] => 
+        [REQUEST_URI] => 
+        [QUERY_STRING] => 
+        [SERVER_NAME] => localhost
+        [SERVER_PORT] => 80
+        [HTTP_HOST] => localhost
+        [HTTP_ACCEPT] => text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+        [HTTP_ACCEPT_LANGUAGE] => en-US,en;q=0.8
+        [HTTP_ACCEPT_CHARSET] => ISO-8859-1,utf-8;q=0.7,*;q=0.3
+        [HTTP_USER_AGENT] => AppRunner
+        [REMOTE_ADDR] => 127.0.0.1
+        [REQUEST_TIME] => 1602864803
+        [REQUEST_TIME_FLOAT] => 1602864803,8722
+        [INPUT_STREAM] => Resource id #221
     )
     
     Uploaded files: Array

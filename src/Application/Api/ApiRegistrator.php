@@ -98,6 +98,8 @@ class ApiRegistrator {
         $registry->register($this->getPrototype->withUrlPattern('/component/v1/flash'));
 
         #### BuildControler ####
+        $registry->register($this->getPrototype->withUrlPattern('/build/dropdb'));
+        $registry->register($this->getPrototype->withUrlPattern('/build/createdb'));
         $registry->register($this->getPrototype->withUrlPattern('/build/drop'));
         $registry->register($this->getPrototype->withUrlPattern('/build/create'));
         $registry->register($this->getPrototype->withUrlPattern('/build/convert'));

@@ -50,7 +50,17 @@ class Build extends AppMiddlewareAbstract implements MiddlewareInterface {
         $routeGenerator = $this->container->get(RouteSegmentGenerator::class);
 
         #### TemplateController ####
-        $routeGenerator->addRouteForAction('GET', '/build/drop', function(ServerRequestInterface $request) {
+        $routeGenerator->addRouteForAction('GET', '/build/dropdb', function(ServerRequestInterface $request) {
+            /** @var DatabaseControler $ctrl */
+            $ctrl = $this->container->get(DatabaseControler::class);
+            return $ctrl->dropDb();
+            });
+        $routeGenerator->addRouteForAction('GET', '/build/createdb', function(ServerRequestInterface $request) {
+            /** @var DatabaseControler $ctrl */
+            $ctrl = $this->container->get(DatabaseControler::class);
+            return $ctrl->createDb();
+            });
+            $routeGenerator->addRouteForAction('GET', '/build/drop', function(ServerRequestInterface $request) {
             /** @var DatabaseControler $ctrl */
             $ctrl = $this->container->get(DatabaseControler::class);
             return $ctrl->drop();

@@ -6,13 +6,13 @@
  * and open the template in the editor.
  */
 
-namespace Middleware\Build\Controler;
+namespace Deployer\Exception;
 
 /**
- * Description of CreateControler
+ * Description of MaxExucutionTimeException
  *
  * @author pes2704
  */
-class CreateControler {
-    //put your code here
+class MaxExecutionTimeException extends \RuntimeException implements BuildExceptionInterface {
+
 }
