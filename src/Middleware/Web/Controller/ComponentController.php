@@ -10,7 +10,7 @@ namespace Middleware\Web\Controller;
 
 use Psr\Http\Message\ServerRequestInterface;
 
-use Application\Configuration;
+use Site\Configuration;
 use Model\Entity\MenuItemInterface;
 
 // komponenty

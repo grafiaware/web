@@ -1,10 +1,10 @@
 <?php
 
-include 'src/Application/Configuration.php';  // SetBootstrap se volá před autoload
+include 'app/Site/Configuration.php';  // SetBootstrap se volá před autoload
 
 use Pes\Logger\FileLogger;
 
-use Application\Configuration;
+use Site\Configuration;
 
 /*
  * Copyright (C) 2018 pes2704

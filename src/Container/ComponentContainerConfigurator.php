@@ -1,7 +1,7 @@
 <?php
 namespace Container;
 
-use Application\Configuration;
+use Site\Configuration;
 
 use Pes\Container\ContainerConfiguratorAbstract;
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}

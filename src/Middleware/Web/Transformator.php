@@ -3,7 +3,7 @@
 namespace Middleware\Web;
 
 
-use Application\Configuration;
+use Site\Configuration;
 
 use Pes\Middleware\AppMiddlewareAbstract;
 use Pes\Container\Container;

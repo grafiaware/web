@@ -8,7 +8,7 @@
 
 namespace Container;
 
-use Application\Configuration;
+use Site\Configuration;
 
 use Pes\Container\ContainerConfiguratorAbstract;
 

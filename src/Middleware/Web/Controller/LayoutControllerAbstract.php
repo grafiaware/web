@@ -8,7 +8,7 @@
 
 namespace Middleware\Web\Controller;
 
-use Application\Configuration;
+use Site\Configuration;
 
 use Controller\PresentationFrontControllerAbstract;
 use Psr\Http\Message\ServerRequestInterface;

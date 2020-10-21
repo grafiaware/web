@@ -10,7 +10,7 @@ namespace StatusManager;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Application\WebAppFactory;
-use Application\Configuration;
+use Site\Configuration;
 
 use Model\Repository\{
     LanguageRepo, MenuRootRepo, MenuItemRepo

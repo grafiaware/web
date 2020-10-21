@@ -2,7 +2,7 @@
 
 namespace Container;
 
-use Application\Configuration;
+use Site\Configuration;
 
 // kontejner
 use Pes\Container\ContainerConfiguratorAbstract;
