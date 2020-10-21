@@ -291,297 +291,245 @@
 /*-------------------
      Breakpoints
 --------------------*/
-body.newlayout > .container > .column {
-  background-color: #FFFFFF;
-}
-.newlayout {
-  /*****************Styly pro menu - normalni i editacni rezim*******************/
+.layout {
+  /***BODY***/
+  background-image: url("../img/Grafiabgr1.gif") !important;
+  background-color: #DCDDDE !important;
+  /*TLAČÍTKA*/
+  /*VLASTNÍ HTML TAGY*/
+  /***HEADER***/
+  /*změna paddingů oproti semanticu*/
+  /*KONTAKT*/
+  /*mapa a kontaktní údaje v hlavičce*/
+  /*JAZYKY*/
+  /*vlajky na přepínání mezi jazykovými verzemi webu*/
+  /*PŘIHLÁŠENÍ*/
+  /***MAIN***/
+  /***FOOTER***/
+  /***MENU - normalni i editacni rezim*******************/
   /***PRO VSECHNA MENU***/
   /***SVISLE MENU***/
   /***PRESMEROVANI MENU***/
   /***VODOROVNE MENU***/
-  /******************************Menu normalni rezim*****************************/
-  /***SVISLE MENU***/
-  /***PRESMEROVANI MENU***/
-  /***VODOROVNE MENU***/
-  /*Styly stranky*/
+  /***PAPER***/
+  /*nadpis paperu*/
+  /*díky .segment se rozliší nadpis pro block (logo, razítko,...) a pro headlined (aktuality, odkazy,...)*/
+  /*myšlený .ui.segment semantický*/
 }
-.newlayout header .grid > .row:first-child {
-  padding-bottom: 0;
-  height: 160px;
+.layout > .container > .column {
+  background-color: #FFFFFF;
+  border: 10px solid #e9eaea;
+  padding: 0 15px 15px;
+  border-radius: 20px;
 }
-.newlayout header .grid > .row:first-child > .column:first-child {
-  padding-right: 0;
-}
-.newlayout header .grid > .row:first-child > .column {
-  vertical-align: top !important;
-}
-.newlayout header .grid > .row:last-child {
-  padding-top: 10px;
-}
-.newlayout header .grid > .row:last-child > .column:first-child {
-  padding-right: 0;
-}
-.newlayout header .grid > .row:first-child > .column:last-child,
-.newlayout header .grid > .row:last-child > .column:last-child {
-  padding-left: 0;
-}
-.newlayout header {
-  height: 300px;
-  background-image: linear-gradient(to right, #e9eaea 40%, #fff 70%);
-  margin-bottom: 10px;
-  padding: 10px 20px 0;
-}
-.newlayout header img {
+.layout img {
   max-width: 100%;
+  height: auto;
 }
-.newlayout header a {
+.layout .primary.button {
+  /*aby v červeném tlačítku nebyl červený text*/
+}
+.layout .primary.button > a {
   color: inherit;
 }
-.newlayout header a:hover {
-  color: inherit;
+.layout .primary.button:hover {
+  background-color: #c29100 !important;
 }
-.newlayout header a > img {
-  width: 100px;
-}
-.newlayout header .presmerovani-menu ul.text.menu {
-  justify-content: center;
-}
-.newlayout header ul.text.menu {
-  margin: auto !important;
-  padding: 0;
-}
-.newlayout header .hlavicka {
-  position: absolute;
-  height: 300px;
-  top: 2px;
-  right: -32%;
-}
-.newlayout header .kontakt-hlavicka {
-  font-size: 0.8em;
-  text-align: right;
-  color: grey;
-}
-.newlayout header .kontakt-hlavicka img {
-  margin: 0 5px;
-}
-.newlayout header .kontakt-hlavicka .kontaktni-udaje p {
-  margin: 0;
-}
-.newlayout header .grid > .column:nth-child(2) p {
-  font-size: 2em;
-  color: #ad102f;
-  text-align: center;
-  top: 100%;
-  right: 40%;
-  position: relative;
-}
-.newlayout headline,
-.newlayout content,
-.newlayout block,
-.newlayout div[class=""] {
+.layout headline,
+.layout content,
+.layout block,
+.layout div[class=""],
+.layout perex {
   display: block;
   position: relative;
 }
-.newlayout .jazyky {
-  clear: both;
-  margin-right: 5px;
-  float: right;
+.layout headline span[class=""],
+.layout content span[class=""],
+.layout block span[class=""],
+.layout div[class=""] span[class=""],
+.layout perex span[class=""] {
+  display: inline-block;
 }
-.newlayout .jazyky button {
-  margin-right: 5px;
+.layout header {
+  padding-top: 10px;
+  margin-bottom: 10px;
 }
-.newlayout .jazyky button img {
+.layout header .grid > .row:first-child {
+  padding-bottom: 0;
+}
+.layout header .grid > .row:first-child > .column:first-child,
+.layout header .grid > .row:last-child > .column:first-child {
+  padding-right: 0;
+}
+.layout header .grid > .row:first-child > .column:last-child,
+.layout header .grid > .row:last-child > .column:last-child {
+  padding-left: 0;
+}
+.layout header {
+  /*VYHLEDÁVÁNÍ*/
+}
+.layout header a {
+  /*v hlavičce nebudou odkazy červené (týká se i .presmerovani-menu)*/
+  color: inherit;
+}
+.layout header a:hover {
+  color: inherit;
+}
+.layout header .fluid.input {
+  margin-right: 5px;
+  display: flex;
+  position: relative;
+}
+.layout .kontakt-hlavicka {
+  font-size: 0.8em;
+  text-align: right;
+  color: grey;
+  display: flex;
+  flex-direction: row-reverse;
+  margin-bottom: 5px;
+}
+.layout .kontakt-hlavicka img {
+  margin: 0 5px;
+}
+.layout .kontakt-hlavicka .kontaktni-udaje p {
+  margin: 0;
+}
+.layout .jazyky {
+  margin: 10px 5px auto 0;
+  float: left;
+}
+.layout .jazyky .button {
+  padding: 0;
+  margin-right: 0;
+}
+.layout .jazyky img {
   vertical-align: middle;
   width: 30px;
   height: 17px;
 }
-.newlayout .jazyky .ui.basic.button {
-  padding: 0;
-  box-shadow: 0 0;
-}
-.newlayout .jazyky .ui.basic.button:hover {
-  box-shadow: 0 0;
-}
-.newlayout .jazyky .jazyk-on {
-  border: double #EB1B4C 3px;
+.layout .jazyky img.jazyk-on {
+  border: double #FBBD08 3px;
   height: 20px;
   width: 33px;
 }
-.newlayout .jazyky .basic.button {
-  margin-right: 0;
+.layout .prihlaseni {
+  margin: 6px 2px -5px 0;
+  float: right;
 }
-.newlayout .jazyky .page.button {
-  vertical-align: bottom;
+.layout .prihlaseni .dropdown .header.item {
+  background-color: #FFFFFF;
+  cursor: default;
+  text-align: center;
 }
-.newlayout .jazyky > form {
+.layout .prihlaseni .dropdown .header.item:hover {
+  background-color: #FFFFFF;
+}
+.layout .prihlaseni .dropdown .menu {
+  padding: 0 8px;
+}
+.layout .prihlaseni .dropdown input {
+  border: 1px solid #DCDDDE !important;
+}
+.layout .prihlaseni .dropdown button.fluid {
+  margin: 5px 0;
+}
+.layout .prihlaseni .dropdown .ui.labeled.icon.button > .icon::before {
+  top: -10px;
+}
+.layout .prihlaseni div.icon {
+  padding: 7px;
+}
+.layout .prihlaseni .logout {
   display: inline-block;
 }
-.newlayout .ui.fluid.input > input {
-  width: auto !important;
+.layout .prihlaseni .logout i.icon {
+  font-size: 1.2em;
 }
-.newlayout .ui.fluid.input .button {
-  background: white;
-  box-shadow: 0;
-  border: 1px solid #DCDDDE;
-  border-width: 1px 1px 1px 0;
+.layout .prihlaseni > form {
+  float: right;
 }
-.newlayout .page.button {
-  background: white;
-  border: 1px solid #DCDDDE;
-  height: 36px;
+.layout .prihlaseni button:not(.fluid) {
+  position: relative;
+  left: 15%;
+  margin-bottom: 15px;
 }
-.newlayout .page.button:hover {
-  background: #e9eaea;
+.layout .prihlaseni button:not(.fluid).positive {
+  left: 20%;
 }
-.newlayout .ui.secondary.menu .item {
-  margin: 0;
-  padding: 0.75em 0.7em;
-}
-.newlayout .page-content > .grid > .column:not(.row):first-child {
+.layout main > .grid > .column:first-child {
   padding-right: 0;
 }
-.newlayout .page-content > .grid > .column:not(.row):nth-child(2) {
+.layout main > .grid > .column:nth-child(2) {
   padding-left: 1em;
   padding-right: 1em;
 }
-.newlayout .page-content > .grid > .column:not(.row):last-child {
+.layout main > .grid > .column:last-child {
   padding-left: 0;
 }
-.newlayout .ui.grid {
-  clear: both;
+.layout main > .grid > .column:first-child .ui.segment:not(:first-child),
+.layout main > .grid > .column:last-child .ui.segment:not(:first-child) {
+  margin-top: 40px;
 }
-.newlayout .ui.grid.contents {
-  line-height: 1.3;
-  font-size: 1em;
-  margin: 5px;
-  display: flex;
+.layout .ui.grid {
+  clear: both !important;
 }
-.newlayout main > div > .column:first-child .ui.segment:not(:first-child),
-.newlayout main > div > .column:last-child .ui.segment:not(:first-child) {
-  margin-top: 35px;
-}
-.newlayout footer {
+.layout footer {
   background-color: #e9eaea;
   margin: 10px -15px -15px;
 }
-.newlayout footer .grid > .column:first-child p {
+.layout footer .grid > .column:first-child p {
   margin-left: 50px;
 }
-.newlayout footer p {
+.layout footer p {
   margin: 5px 0;
   color: #ad102f;
 }
-.newlayout .vodorovne-menu .menu .onpath > ul,
-.newlayout .presmerovani-menu .menu .onpath > ul {
-  padding: 0;
-}
-.newlayout .menu a {
+.layout .menu a {
   z-index: 0;
 }
-.newlayout .ui.secondary.menu {
-  margin-bottom: 30px;
+.layout .close-item,
+.layout .close_vyberoveMenu .nav-mobile,
+.layout nav_vyberove {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  font-size: 18px;
+  margin: 10px;
 }
-.newlayout .close-item,
-.newlayout .nav-mobile {
-  font-size: 15.42857143px;
-  margin: 5px 0;
-}
-.newlayout .close-item:hover,
-.newlayout .nav-mobile:hover {
+.layout .close-item:hover,
+.layout .close_vyberoveMenu .nav-mobile:hover,
+.layout nav_vyberove:hover {
   cursor: pointer;
 }
-.newlayout .close-item > a > i.times.circle.icon,
-.newlayout .nav-mobile > i.bars.icon {
+.layout .close-item > a > i.times.circle.icon,
+.layout .close_vyberoveMenu > a > i.times.circle.icon,
+.layout .nav-mobile > i.bars.icon,
+.layout .nav-vyberove > i.bars.icon {
   margin: 0;
 }
-.newlayout #mySidenav {
-  display: none;
-  height: 100%;
-  width: 80%;
-  background-color: #FFFFFF;
-  position: fixed!important;
-  top: 0;
-  left: 0;
-  z-index: 100;
-  overflow: auto;
-  -webkit-animation: animateleft 0.4s;
-  animation: animateleft 0.4s;
-  padding: 20px;
-}
-.newlayout #myOverlay {
-  position: fixed;
-  display: none;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 1;
-}
-@-webkit-keyframes animateleft {
-  from {
-    left: -300px;
-    opacity: 0;
-  }
-  to {
-    left: 0;
-    opacity: 1;
-  }
-}
-@keyframes animateleft {
-  from {
-    left: -300px;
-    opacity: 0;
-  }
-  to {
-    left: 0;
-    opacity: 1;
-  }
-}
-.newlayout .nav-mobile {
-  background: #fff;
-  z-index: 1;
-}
-.newlayout .nav-mobile {
-  display: block;
-  align-items: center;
-  position: relative;
-  padding: 5px;
-  height: 36px;
-  border: 1px solid #DCDDDE;
-  border-radius: 5px;
-  padding: 6px 10px 6px 5px;
-}
-.newlayout .nav-mobile:hover {
-  background-color: #f2f2f2;
-  transition: 0.3s all;
-}
-.newlayout .nav-mobile:not(.active) {
-  display: none;
-}
-.newlayout .svisle-menu .menu {
+.layout .svisle-menu .menu {
   padding: 0;
   margin-top: 0;
 }
-.newlayout .svisle-menu .menu > li {
-  list-style: none;
-}
-.newlayout .svisle-menu .menu > li:not(:first-child) {
+.layout .svisle-menu .menu > li:not(:first-child) {
   border-top: 2px solid rgba(0, 0, 0, 0.05);
 }
-.newlayout .svisle-menu .menu > li:first-child {
+.layout .svisle-menu .menu > li:first-child {
   border-radius: 4px 4px 0 0;
 }
-.newlayout .svisle-menu .menu > li:last-child {
+.layout .svisle-menu .menu > li:last-child {
   border-radius: 0 0 4px 4px;
 }
-.newlayout .svisle-menu .menu li {
+.layout .svisle-menu .menu li {
   position: relative;
 }
-.newlayout .svisle-menu .menu li:not(.leaf) > .item::after {
+.layout .svisle-menu .menu li:not(:first-child) {
+  border-top: 2px solid rgba(0, 0, 0, 0.05);
+}
+.layout .svisle-menu .menu li:not(.leaf) > .item::after {
   content: "\f107";
   height: 1em;
   width: 1.18em;
@@ -595,46 +543,59 @@ body.newlayout > .container > .column {
   top: 40%;
   transform: translateY(-50%);
 }
-.newlayout .svisle-menu .menu.onpath > .item::after {
-  top: 15px;
-  transform: none;
+.layout .svisle-menu .menu .onpath .item {
+  border-bottom: 0;
 }
-.newlayout .svisle-menu form > .menu {
+.layout .svisle-menu .menu .onpath .menu {
+  margin-left: 12px;
+  padding: 0;
+}
+.layout .svisle-menu .menu .item::before {
+  display: none;
+}
+.layout .svisle-menu > .menu,
+.layout .svisle-menu form > .menu {
   padding: 0;
   border: 0 !important;
   box-shadow: 0 0 0 0 !important;
 }
-.newlayout .svisle-menu form > .menu li {
+.layout .svisle-menu > .menu li,
+.layout .svisle-menu form > .menu li {
   list-style-type: none;
   border: 2px solid rgba(0, 0, 0, 0.05);
   border-bottom: 0;
 }
-.newlayout .svisle-menu form > .menu li:not(:first-child) {
-  border-top: 0;
-}
-.newlayout .svisle-menu form > .menu li:last-child {
+.layout .svisle-menu > .menu li:last-child,
+.layout .svisle-menu form > .menu li:last-child {
   border-bottom: 2px solid rgba(0, 0, 0, 0.05);
 }
-.newlayout .svisle-menu form > .menu li:first-child.onpath {
+.layout .svisle-menu > .menu li:first-child.onpath,
+.layout .svisle-menu form > .menu li:first-child.onpath {
   border-width: 2px 0 0 0;
 }
-.newlayout .svisle-menu form > .menu li .item {
+.layout .svisle-menu > .menu li .item,
+.layout .svisle-menu form > .menu li .item {
   line-height: normal;
 }
-.newlayout .svisle-menu form > .menu li i:first-child {
+.layout .svisle-menu > .menu li i:first-child,
+.layout .svisle-menu form > .menu li i:first-child {
   float: left;
 }
-.newlayout .svisle-menu form > .menu .onpath {
+.layout .svisle-menu > .menu .onpath,
+.layout .svisle-menu form > .menu .onpath {
   border-width: 0 0 2px 0;
   background-color: #FFFFFF;
 }
-.newlayout .svisle-menu form > .menu .onpath.presented > .item {
+.layout .svisle-menu > .menu .onpath.presented > .item,
+.layout .svisle-menu form > .menu .onpath.presented > .item {
   background-color: rgba(0, 0, 0, 0.05);
 }
-.newlayout .svisle-menu form > .menu .onpath:hover {
+.layout .svisle-menu > .menu .onpath:hover,
+.layout .svisle-menu form > .menu .onpath:hover {
   background-color: #FFFFFF !important;
 }
-.newlayout .svisle-menu form > .menu .onpath > .item {
+.layout .svisle-menu > .menu .onpath > .item,
+.layout .svisle-menu form > .menu .onpath > .item {
   font-weight: 700;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   background-color: rgba(0, 0, 0, 0.0975) !important;
@@ -642,126 +603,106 @@ body.newlayout > .container > .column {
   border-right: 2px solid rgba(0, 0, 0, 0.05) !important;
   line-height: normal;
 }
-.newlayout .svisle-menu form > .menu .onpath .menu {
+.layout .svisle-menu > .menu .onpath .menu,
+.layout .svisle-menu form > .menu .onpath .menu {
   border-top: 0;
   background-color: rgba(0, 0, 0, 0.05);
 }
-.newlayout .svisle-menu form > .menu .onpath .menu li {
+.layout .svisle-menu > .menu .onpath .menu > li,
+.layout .svisle-menu form > .menu .onpath .menu > li {
   list-style-type: inherit;
 }
-.newlayout .svisle-menu form > .menu .onpath .menu li:hover {
+.layout .svisle-menu > .menu .onpath .menu > li:hover,
+.layout .svisle-menu form > .menu .onpath .menu > li:hover {
   background-color: rgba(0, 0, 0, 0.05);
 }
-.newlayout .svisle-menu form > .menu .onpath .menu .onpath > .menu {
+.layout .svisle-menu > .menu .onpath .menu .onpath > .menu,
+.layout .svisle-menu form > .menu .onpath .menu .onpath > .menu {
   background-color: rgba(0, 0, 0, 0.0975);
 }
-.newlayout .svisle-menu form > .menu .onpath .menu .onpath > .menu > .onpath > .menu {
+.layout .svisle-menu > .menu .onpath .menu .onpath > .menu > .onpath > .menu,
+.layout .svisle-menu form > .menu .onpath .menu .onpath > .menu > .onpath > .menu {
   background-color: rgba(0, 0, 0, 0.142625);
 }
-.newlayout .vodorovne-menu a {
-  padding: 2px 3px;
+.layout .presmerovani-menu .menu {
+  justify-content: center;
+  margin: auto !important;
+  padding: 0;
 }
-.newlayout .svisle-menu form > .menu:not(.edit) li .item {
-  padding: 0.6em 0.6em !important;
+.layout .presmerovani-menu .menu .item {
+  padding: 0.25em 1em;
 }
-.newlayout .svisle-menu form > .menu:not(.edit) .onpath .menu {
-  margin-left: 20px;
+.layout .vodorovne-menu .menu .onpath > ul,
+.layout .presmerovani-menu .menu .onpath > ul {
+  padding: 0;
 }
-.newlayout .vodorovne-menu .menu .onpath > a {
-  color: #EB1B4C;
+.layout .vodorovne-menu .text.menu {
+  width: 700px;
+  flex-wrap: wrap;
+  padding: 0;
+}
+.layout .vodorovne-menu .text.menu .item {
+  margin: 5px 5px 5px 0;
+}
+.layout .vodorovne-menu .text.menu .onpath > a {
+  color: #FBBD08;
   background-color: #FFFFFF;
-  box-shadow: 0 0 0 1px #EB1B4C inset;
+  box-shadow: 0 0 0 1px #FBBD08 inset;
 }
-.newlayout .vodorovne-menu .menu .onpath > a:hover {
+.layout .vodorovne-menu .text.menu .onpath > a:hover {
   background-color: #FFFFFF !important;
   color: #DC143C;
 }
-.newlayout .page-content h1 {
-  color: #ad102f;
-  background-color: #e9eaea;
-  border-radius: 5px;
-  font-size: 1.14285714rem;
-  text-align: center;
-  padding: 5px 0;
-  margin-top: 0;
+.layout .vodorovne-menu .text.menu a {
+  padding: 2px 3px;
 }
-.newlayout .page-content .articleHeadline-editable > button.ui.button.save {
-  position: absolute;
-  top: 11px;
-  right: 10px;
-  padding: 7px;
+.layout .paper,
+.layout .ui.segment {
+  clear: both;
 }
-.newlayout .white.basic.segment {
-  background-color: white;
+.layout .grid > .column:not(.wide) > .ui.segment {
+  border: 0;
+  box-shadow: none;
+  padding: 0 1em;
+  margin: 1rem 0;
 }
-.newlayout .dimmer .content {
-  width: 17%;
+.layout .ui.segment[data-templatepath="paper/default/"] {
+  border: 0;
+  box-shadow: none;
+  padding: 0 1em;
+  margin: 1rem 0;
 }
-.newlayout .dimmer .content .center p {
-  font-weight: 700;
-  padding: 7px;
-  border-radius: 5px;
-  position: relative;
-  border: 1px solid white;
-  background-color: rgba(0, 0, 0, 0.3);
+.layout .paper:not(.editable) {
+  /*styly pro rozdělení contentů - "dolní dělící čára" je border-bottom*/
 }
-.newlayout .dimmer .content .center p::before {
-  content: "\f007";
-  position: absolute;
-  left: 15px;
-  z-index: 1;
-  height: 1em;
-  opacity: 1;
-  font-family: icons;
+.layout .paper:not(.editable):not(:first-of-type) {
+  margin-top: 15px;
 }
-.newlayout .dimmer .content .center form > .field > button.button {
-  color: inherit;
+.layout .paper:not(.editable) content {
+  margin-top: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #DCDDDE;
 }
-.newlayout .dimmer .content .center form > .field > button.button > i.large::before {
-  top: -9px;
+.layout .paper:not(.editable) content:only-of-type {
+  border-bottom: 0;
 }
-.newlayout .grafia.segment.headlined content p {
-  margin: 5px 0;
+.layout .paper:not(.editable) content:last-of-type {
+  border-bottom: 0;
 }
-.newlayout .ui.segment .settings.icon {
-  position: absolute;
-  font-size: 1.5em;
-  color: #ad102f;
-  top: 5px;
-  left: 10px;
-}
-.newlayout .segment headline.header {
+.layout .segment headline.header {
   color: #ad102f;
   background-color: #e9eaea;
   border-radius: 4px 4px 0 0;
   text-align: center;
   margin: 0 -12px;
   margin-top: -12px !important;
-  padding: 5px 0;
+  padding: 5px 15px;
 }
-.newlayout .segment headline.header p {
+.layout .segment headline.header p {
   font-size: 1.14285714rem;
   margin-bottom: 0;
 }
-.newlayout #contents .segment headline.header {
+.layout #contents headline {
   margin-top: 0 !important;
-}
-.newlayout .segment img {
-  max-width: 100%;
-  height: auto;
-}
-.newlayout .ui.segment,
-.newlayout block {
-  clear: both;
-}
-.newlayout .primary.button > a {
-  color: inherit;
-}
-.newlayout .primary.button:hover {
-  background-color: #c4002e !important;
-}
-.newlayout .kontakt-hlavicka {
-  display: flex;
-  flex-direction: row-reverse;
 }
 /*# sourceMappingURL=layout.css.map */
