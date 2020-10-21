@@ -10,6 +10,14 @@
     <body class="layout">
         <?php include "body/container.php"; ?>
         <?php include "body/scripts.php"; ?>
+        <script>
+            $('.ui.dropdown')
+              .dropdown()
+            ;
+            $('.ui.selection.dropdown')
+              .dropdown()
+            ;
+        </script>
     </body>
 </html>
 

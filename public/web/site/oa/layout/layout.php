@@ -11,5 +11,13 @@
         <?php include "body/container.php"; ?>
         <?php include "body/scripts.php"; ?>
     </body>
+    <script>
+        $('.ui.dropdown')
+          .dropdown()
+        ;
+        $('.ui.selection.dropdown')
+          .dropdown()
+        ;
+    </script>
 </html>
 

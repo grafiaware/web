@@ -291,104 +291,109 @@
 /*-------------------
      Breakpoints
 --------------------*/
-.newlayout {
+.layout {
   /************************************media*************************************/
 }
 @media (max-width: 1750px) {
-  .newlayout .poznamky {
-    left: 10px;
-  }
-  .newlayout .poznamky .label::before {
-    display: none;
-  }
-  .newlayout .poznamky .content {
-    display: none;
-  }
-  .newlayout .poznamky:hover .label::before {
-    display: block;
-  }
-  .newlayout .poznamky:hover .content {
-    display: block;
+  .layout {
+    /*        .poznamky{                  
+            left: 10px; 
+            .label::before{                 
+                display: none;        
+            } 
+            .content{       
+                display: none;        
+            } 
+        }*/
+    /*        .poznamky:hover{    
+            .label::before{  
+                display: block;
+            }
+            .content{      
+                display: block;
+            }
+ 
+        }*/
   }
 }
 @media (max-width: 1300px) {
-  .newlayout {
+  .layout {
     /*menu*/
     /*svisle menu*/
   }
-  .newlayout header .grid > .row:first-child {
+  .layout header .grid > .row:first-child {
     /*editační*/
     height: 150px;
   }
-  .newlayout .svisle-menu > .edit.menu li.presented div.ui.mini.icon.buttons:nth-of-type(2) {
+  .layout .svisle-menu > .edit.menu li.presented div.ui.mini.icon.buttons:nth-of-type(2) {
     right: 3px;
   }
-  .newlayout .dimmer .content {
+  .layout .dimmer .content {
     width: 25%;
   }
-  .newlayout .poznamky {
+  .layout .poznamky {
     left: 10px;
   }
 }
 @media (max-width: 1099px) {
-  .newlayout {
+  .layout {
     /*menu*/
     /*vodorovne menu*/
     /*svisle menu*/
   }
-  .newlayout .vodorovne-menu ul.menu.edit {
+  .layout .vodorovne-menu ul.menu.edit {
     width: 620px;
   }
-  .newlayout .svisle-menu > .edit.menu li.presented div.ui.mini.icon.buttons:first-of-type {
+  .layout .svisle-menu > .edit.menu li.presented div.ui.mini.icon.buttons:first-of-type {
     left: auto;
     right: 15px;
   }
-  .newlayout .svisle-menu > .edit.menu li.presented div.ui.mini.icon.buttons:nth-of-type(2) {
+  .layout .svisle-menu > .edit.menu li.presented div.ui.mini.icon.buttons:nth-of-type(2) {
     right: 15px;
   }
-  .newlayout .page-content > .grid > .column:not(.row):nth-child(2) {
+  .layout .page-content > .grid > .column:not(.row):nth-child(2) {
     padding-left: 2em;
     padding-right: 1.5em;
   }
-  .newlayout .page-content .svisle-menu form > ul.menu.edit {
+  .layout .page-content .svisle-menu form > ul.menu.edit {
     width: 100%;
   }
-  .newlayout .dimmer .content {
+  .layout .dimmer .content {
     width: 35%;
   }
-  .newlayout .ui.container {
+  .layout .ui.container {
     width: 100% !important;
   }
-  .newlayout header .kontakt-hlavicka {
+  .layout header .kontakt-hlavicka {
     margin-top: 10px;
   }
-  .newlayout header .kontakt-hlavicka img {
+  .layout header .kontakt-hlavicka img {
     width: 55px;
     height: 65px !important;
     margin: 5px 0 10px 5px;
   }
-  .newlayout header .row:first-child .column:first-child img {
+  .layout header .row:first-child .column:first-child img {
     width: 130px;
   }
-  .newlayout header .row:first-child .column:nth-child(2) presmerovani-menu ul.menu li.presented div.buttons {
+  .layout header .row:first-child .column:nth-child(2) presmerovani-menu ul.menu li.presented div.buttons {
     z-index: 20;
   }
-  .newlayout header .row:first-child .column:nth-child(2) img {
+  .layout header .row:first-child .column:nth-child(2) img {
     z-index: 0 !important;
     position: static;
   }
-  .newlayout header .row:first-child .column:nth-child(2) ul.text.menu {
+  .layout header .row:first-child .column:nth-child(2) ul.text.menu {
     width: 45%;
     transform: translateY(-30%);
   }
-  .newlayout header .grid > .row:first-child {
+  .layout header .grid > .row:first-child {
     /*editační*/
     height: 140px;
   }
-  .newlayout .page-content .grid .one.column .ui.segment {
+  .layout .page-content .grid .one.column .ui.segment {
     display: none !important;
   }
-  .newlayout .page-content .column .segment:not(.ui):not(.grafia) {
+  .layout .page-content .column .segment:not(.ui):not(.grafia) {
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
@@ -396,188 +401,283 @@
     width: 70%;
     height: auto;
   }
-  .newlayout .page-content .column > form > button.ui.button.save {
+  .layout .page-content .column > form > button.ui.button.save {
     right: 15px;
   }
-  .newlayout .poznamky {
+  .layout .nav-mobile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    padding: 5px;
+    margin-top: 0;
+    left: 15px;
+    border: 1px solid #DCDDDE;
+    border-radius: 5px;
+    box-shadow: 1px 1px 10px 1px rgba(34, 36, 38, 0.15);
+  }
+  .layout .nav-mobile:hover {
+    background-color: #f2f2f2;
+    transition: 0.3s all;
+  }
+  .layout .svisle-menu:first-child {
+    display: none;
+  }
+  .layout #mySidenav {
+    height: 100%;
+    width: 80%;
+    background-color: #FFFFFF;
+    position: fixed!important;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    overflow: auto;
+    -webkit-animation: animateleft 0.4s;
+    animation: animateleft 0.4s;
+    padding: 20px;
+  }
+  .layout #myOverlay {
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 5;
+  }
+  @-webkit-keyframes animateleft {
+    from {
+      left: -300px;
+      opacity: 0;
+    }
+    to {
+      left: 0;
+      opacity: 1;
+    }
+  }
+  @keyframes animateleft {
+    from {
+      left: -300px;
+      opacity: 0;
+    }
+    to {
+      left: 0;
+      opacity: 1;
+    }
+  }
+  .layout .poznamky {
     left: 25px;
     top: 240px;
   }
-  .newlayout .poznamky .label {
+  .layout .poznamky .label {
     width: 55px !important;
   }
-  .newlayout .poznamky:hover .label {
+  .layout .poznamky:hover .label {
     width: 100% !important;
   }
 }
+@media (min-width: 1100px) {
+  .layout .close-item,
+  .layout span.nav-mobile {
+    display: none;
+  }
+  .layout #mySidenav {
+    display: block !important;
+  }
+}
 @media (max-width: 920px) {
-  .newlayout {
+  .layout {
     /*menu*/
     /*vodorovne menu*/
   }
-  .newlayout .vodorovne-menu ul.menu.edit {
+  .layout .vodorovne-menu ul.menu.edit {
     width: 530px;
   }
-  .newlayout header .grid > .row:first-child {
+  .layout header .grid > .row:first-child {
     height: 125px;
   }
-  .newlayout header .row:first-child .column:first-child img {
+  .layout header .row:first-child .column:first-child img {
     width: 110px;
   }
-  .newlayout header .row:last-child .column:nth-child(2) {
+  .layout header .row:last-child .column:nth-child(2) {
     left: -7px;
   }
-  .newlayout header .kontakt-hlavicka {
+  .layout header .kontakt-hlavicka {
     margin-right: -4px;
   }
-  .newlayout .jazyky {
+  .layout header .jazyky {
     margin-top: 0;
     margin-bottom: -10px;
     margin-right: -4px;
   }
-  .newlayout .fluid.input {
-    float: right;
-    width: 120px;
+  .layout .nav-mobile {
+    left: 10px;
   }
-  .newlayout .page-content .column .segment:not(.ui):not(.grafia) {
+  .layout .fluid.input {
+    float: right;
+    width: 110px;
+  }
+  .layout .page-content .column .segment:not(.ui):not(.grafia) {
     width: 50%;
     z-index: 5;
     float: right;
   }
-  .newlayout .poznamky {
+  .layout .poznamky {
     left: 20px;
     top: 225px;
   }
 }
 @media (max-width: 768px) {
-  .newlayout {
+  .layout {
     /*menu s butony*/
     /*vodorovne menu*/
   }
-  .newlayout header .grid > .row:first-child {
+  .layout header .grid > .row:first-child {
     /*editační*/
     height: auto;
   }
-  .newlayout .vodorovne-menu ul.menu.edit li i.line:first-of-type {
+  .layout .vodorovne-menu ul.menu.edit li i.line:first-of-type {
     left: -8px;
   }
-  .newlayout .vodorovne-menu ul.menu.edit li i.line:nth-of-type(2) {
+  .layout .vodorovne-menu ul.menu.edit li i.line:nth-of-type(2) {
     left: -4px;
   }
-  .newlayout .vodorovne-menu ul.menu.edit li.presented i.line {
+  .layout .vodorovne-menu ul.menu.edit li.presented i.line {
     height: 30px;
     top: 1px;
     transform: translateY(-15%);
   }
-  .newlayout .vodorovne-menu ul.menu.edit li.presented div.buttons {
+  .layout .vodorovne-menu ul.menu.edit li.presented div.buttons {
     background-color: #FFFFFF;
   }
-  .newlayout .vodorovne-menu ul.menu.edit li.presented div.buttons:first-of-type {
+  .layout .vodorovne-menu ul.menu.edit li.presented div.buttons:first-of-type {
     position: absolute;
     top: -28px;
     right: 0;
     left: auto;
   }
-  .newlayout .vodorovne-menu ul.menu.edit li.presented div.buttons:first-of-type > .button {
+  .layout .vodorovne-menu ul.menu.edit li.presented div.buttons:first-of-type > .button {
     width: auto;
   }
-  .newlayout .vodorovne-menu ul.menu.edit li.presented div.buttons:nth-of-type(2) {
+  .layout .vodorovne-menu ul.menu.edit li.presented div.buttons:nth-of-type(2) {
     position: absolute;
     top: -25px;
     bottom: auto;
     right: 5px;
   }
-  .newlayout .vodorovne-menu ul.menu.edit li.presented div.buttons:nth-of-type(2) > .button {
+  .layout .vodorovne-menu ul.menu.edit li.presented div.buttons:nth-of-type(2) > .button {
     width: auto;
   }
-  .newlayout .vodorovne-menu ui.menu:not(.floated):not(.left) {
+  .layout .vodorovne-menu ui.menu:not(.floated):not(.left) {
     flex-direction: column;
     align-items: center;
   }
+  .layout .nav-mobile {
+    background: #fff;
+    z-index: 1;
+  }
   @keyframes prechodPozadi {
     0% {
-      background-color: #EB1B4C;
+      background-color: #FBBD08;
     }
     100% {
       background-color: #FFFFFF;
     }
   }
-  .newlayout .dimmer .content {
+  .layout .nav-mobile.active {
+    display: flex;
+    left: 30px;
+    transform: translateY(-168%);
+    padding: 6px;
+    margin-left: 5px;
+    animation-name: prechodPozadi;
+    animation-duration: 1s;
+    animation-timing-function: ease;
+    animation-delay: 0s;
+    animation-iteration-count: 1;
+  }
+  .layout .nav-mobile:not(.active) {
+    display: none;
+  }
+  .layout .dimmer .content {
     width: 80%;
   }
-  .newlayout header .row:first-child .column:first-child {
+  .layout header .row:first-child .column:first-child {
     position: absolute;
     text-align: left !important;
     left: 10px;
   }
-  .newlayout header .row:first-child .column:first-child .ui.buttons {
+  .layout header .row:first-child .column:first-child .ui.buttons {
     top: -48px;
     left: 55px;
     right: auto;
   }
-  .newlayout header .row:first-child .column:nth-child(2) img {
+  .layout header .row:first-child .column:nth-child(2) img {
     top: 10px;
     left: auto;
   }
-  .newlayout header .row:first-child ul.text.menu {
+  .layout header .row:first-child ul.text.menu {
     width: 50%;
     transform: translateY(0);
   }
-  .newlayout header .row:first-child .kontakt-hlavicka {
+  .layout header .row:first-child .kontakt-hlavicka {
     font-size: 0.75em;
     margin-top: 10px;
   }
-  .newlayout header .row:first-child .kontakt-hlavicka img {
+  .layout header .row:first-child .kontakt-hlavicka img {
     width: 65px;
     height: auto !important;
     margin: 2px 0 10px 5px;
   }
-  .newlayout header .ui.grid .row:last-child .column:nth-child(2) {
+  .layout header .ui.grid .row:last-child .column:nth-child(2) {
     padding-bottom: 0 !important;
   }
-  .newlayout header .row:last-child .column:first-child {
+  .layout header .row:last-child .column:first-child {
     margin-left: 5px !important;
     height: auto;
   }
-  .newlayout header .row:last-child .column:nth-child(2) {
+  .layout header .row:last-child .column:nth-child(2) {
     left: 0;
   }
-  .newlayout header .row:last-child .column:nth-child(2) .text.menu {
+  .layout header .row:last-child .column:nth-child(2) .text.menu {
     display: block;
     column-count: 2;
     width: 85%;
     float: right;
   }
-  .newlayout header .row:last-child .column:nth-child(2) .text.menu .item {
+  .layout header .row:last-child .column:nth-child(2) .text.menu .item {
     margin: 10px auto;
   }
-  .newlayout header .row:last-child .column:nth-child(2) .text.menu .item:first-child {
+  .layout header .row:last-child .column:nth-child(2) .text.menu .item:first-child {
     margin-top: 0;
   }
-  .newlayout header .row:last-child .column:nth-child(2) .text.menu .item > .button {
+  .layout header .row:last-child .column:nth-child(2) .text.menu .item > .button {
     width: 101%;
     margin-left: -5px;
   }
-  .newlayout header .row:last-child .column:last-child .fluid.input {
+  .layout header .row:last-child .column:last-child .fluid.input {
     width: 85%;
     font-size: 1em;
   }
-  .newlayout .page-content .column > form > button.ui.button.save {
+  .layout .page-content .column > form > button.ui.button.save {
     right: 10px;
   }
-  .newlayout footer .grid > .column {
+  .layout footer .grid > .column {
     text-align: center;
   }
-  .newlayout footer .grid > .column:first-child p {
+  .layout footer .grid > .column:first-child p {
     margin-left: auto;
   }
-  .newlayout .poznamky {
+  .layout .poznamky {
     left: 35px;
     top: 430px;
   }
 }
 @media (max-width: 500px) {
-  .newlayout header .row:first-child .column:first-child {
+  .layout header .row:first-child .column:first-child {
     /*position:relative;
                 text-align: center !important;
                 img{
@@ -585,18 +685,22 @@
                     width: 40%;
                 }*/
   }
-  .newlayout header .row:last-child .column:nth-child(2) .text.menu {
+  .layout header .row:last-child .column:nth-child(2) .text.menu {
     width: 100%;
     column-count: 1;
   }
-  .newlayout header .row:last-child .column:last-child .fluid.input {
+  .layout header .row:last-child .column:last-child .fluid.input {
     width: 100%;
   }
-  .newlayout .poznamky {
+  .layout .nav-mobile.active {
+    transform: translateY(0);
+    top: 130px;
+  }
+  .layout .poznamky {
     left: 35px;
     top: 100px;
   }
-  .newlayout .page-content .ui.segment {
+  .layout .page-content .ui.segment {
     padding: 0;
   }
 }
