@@ -386,4 +386,10 @@ class Configuration {
 
         ];
     }
+
+    public static function transformator() {
+        return [
+            'filesDirectory' => '/_www_oa_files/',  // relativní cesta vzhledem k DOCUMENT_ROOT (htdocs)
+        ];
+    }
 }

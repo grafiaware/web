@@ -2,6 +2,9 @@
 
 namespace Middleware\Web;
 
+
+use Application\Configuration;
+
 use Pes\Middleware\AppMiddlewareAbstract;
 use Pes\Container\Container;
 
@@ -58,7 +61,7 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
     private function transform($text) {
 // <a target="_blank" href="../index.php?list=s01_08_03&language=lan1&lay=">
 // <img width="234" height="167" alt="soubor plat.gif" src="files/1096212.gif" style="color: #ffffff; float: right;">
-        $filesDirectory = AppContext::getFilesDirectory();
+        $filesDirectory = Configuration::transformator()['filesDirectory'];
         $transform = array(
             'src="files/'               => 'src="'.$filesDirectory.'files/',   // změněna cesta ke složce files
             'src="../files/'            => 'src="'.$filesDirectory.'files/',   // změněna cesta ke složce files - pro chybně zadané obrázky (s tečkami)

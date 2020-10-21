@@ -387,4 +387,10 @@ class Configuration {
 
         ];
     }
+
+    public static function transformator() {
+        return [
+            'filesDirectory' => '/_www_gr_files/',  // relativní cesta vzhledem k DOCUMENT_ROOT (htdocs)
+        ];
+    }
 }
