@@ -3,6 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+$('.selectTemplate').hover(
+    function(){
+        $(this).parent('.changePaperTemplate').addClass('nodatatooltip');
+    },
+    function(){
+        $(this).parent('.changePaperTemplate').removeClass('nodatatooltip'); 
+    }
+);
 
 $('.right.corner.blue').hover(
     function(){
@@ -75,7 +83,7 @@ $("content").click(function() {
   showHeight( $( ".mce-edit-focus" ).height(), $( ".mce-edit-focus" ).width() );
 });
 
-$("block").click(function() {
+$("perex").click(function() {
   showHeight( $( ".mce-edit-focus" ).height(), $( ".mce-edit-focus" ).width() );
 });
 
