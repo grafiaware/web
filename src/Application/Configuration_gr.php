@@ -295,7 +295,7 @@ class Configuration {
             $commonPublicDir = \Middleware\Web\AppContext::getPublicDirectory();
             $tinyPublicDir = \Middleware\Web\AppContext::getTinyPublicDirectory();
 
-        $theme = 'new3';
+        $theme = 'old';
 
         switch ($theme) {
             case 'old':
@@ -333,6 +333,12 @@ class Configuration {
                 $templatesLayout['linksJs'] = PROJECT_PATH.'public/web/site/newlayout_3/layout/head/linkEditableJs.php';
                 $templatesLayout['linksCss'] = PROJECT_PATH.'public/web/site/newlayout_3/layout/head/linkEditableCss.php';
                 $templatesLayout['tiny_config'] = PROJECT_PATH.'public/web/site/newlayout_3/layout/head/tiny_config.js';
+                break;
+            case 'oa':
+                $templatesLayout['layout'] = PROJECT_PATH.'public/web/site/oa/layout/layout.php';
+                $templatesLayout['linksJs'] = PROJECT_PATH.'public/web/site/oa/layout/head/linkEditableJs.php';
+                $templatesLayout['linksCss'] = PROJECT_PATH.'public/web/site/oa/layout/head/linkEditableCss.php';
+                $templatesLayout['tiny_config'] = PROJECT_PATH.'public/web/site/oa/layout/head/tiny_config.js';
                 break;
             default:
                 $templatesLayout['layout'] = PROJECT_PATH.'public/web/site/grafia/layout/layout.php';
