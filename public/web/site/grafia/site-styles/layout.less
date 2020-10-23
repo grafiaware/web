@@ -13,7 +13,7 @@
         height: auto; //kvůli deformaci, pokud má obrázek nastavenou výšku i šířku
     }
     /*TLAČÍTKA*/
-    .primary.button{
+    .primary.button{ 
         /*aby v červeném tlačítku nebyl červený text*/
         > a{
             color: inherit;
@@ -180,7 +180,7 @@
         margin: 10px -15px -15px;
         p{
             margin: 5px 0;
-            color: @redTextColor;
+            color: @headerTextColor;
             
         }
     }
@@ -354,7 +354,7 @@
             box-shadow: 0 0 0 1px @primaryColor inset ;
             &:hover{
                 background-color: @white !important;
-                color: @darkRedGrafia;
+                color: @darkPrimaryColor;
             }
         }
         a{
@@ -399,7 +399,7 @@
     /*díky .segment se rozliší nadpis pro block (logo, razítko,...) a pro headlined (aktuality, odkazy,...)*/
     /*myšlený .ui.segment semantický*/
     .segment headline.header{ 
-        color: @redTextColor; //pridat do site.variables jako @headerTextColor
+        color: @headerTextColor; //pridat do site.variables jako @headerTextColor
         background-color: @backgroundLightGrey;
         border-radius: 4px 4px 0 0;
         text-align: center;

@@ -14,6 +14,7 @@
 //Container
 @containerPositionRight: 0;
 @containerMargin: @hodnota0 10px @hodnota0 @hodnotaAuto;
+@formMargin: 0;
 
 //Poznamky a flash
 @poznamkyPositionLeft: -260px;
@@ -89,6 +90,10 @@ body{
         position: relative;
         margin: @containerMargin !important;
         right: @containerPositionRight;
+    }
+    
+    form{
+        margin: @formMargin;
     }
     
     /*poznámky a flash mají stejný styl, jen jinou pozici*/
@@ -180,7 +185,7 @@ body{
             height: @svisleMenuBlokyHeight;
             margin: @svisleMenuBlokyMargin;
             /*první položka menu bloky je pouze nadpis - vycentrovaná a podbarvená, bez semaforu, ale odkaz je tam pořád*/
-            li:first-child{
+            .vertical.menu > li:first-child{
                 text-align: center;
                 > .item{
                     background-color: @barvaEditButtony !important;
@@ -196,7 +201,7 @@ body{
         /*SVISLÉ MENU KOŠ*/
         &.kos{
             /*první položka menu kos je pouze nadpis - vycentrovaná a podbarvená, ale odkaz je tam pořád*/
-            li:first-child{
+            .vertical.menu > li:first-child{
                 text-align: center;
                 > .item{
                     background-color: @barvaKos !important;

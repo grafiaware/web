@@ -370,14 +370,14 @@ body .menu.edit li.cut > p.item span:hover {
 body .menu.edit li:not(.presented) .buttons {
   display: none;
 }
-body .menu.edit .presented > .buttons {
+body .menu.edit li.presented > .buttons {
   display: flex;
   background-color: #FBFBE7;
 }
-body .menu.edit .presented > .buttons > .button:last-child {
+body .menu.edit li.presented > .buttons > .button:last-child {
   background-color: #F8F3FF;
 }
-body .menu.edit .presented > .buttons > .button:last-child:hover {
+body .menu.edit li.presented > .buttons > .button:last-child:hover {
   background-color: #FFFFFF;
 }
 body .menu.edit .paste {
@@ -452,7 +452,7 @@ body .presmerovani-menu .menu.edit .semafor {
 body .vodorovne-menu .menu.edit .semafor {
   left: -6px;
   background-color: #FFFFFF;
-  border: 1px solid #FBBD08;
+  border: 1px solid #EB1B4C;
   border-radius: 5px 0 0 5px;
 }
 body .vodorovne-menu .menu.edit .semafor i {
@@ -488,10 +488,11 @@ body .editPage {
   background-color: #FBFBE7;
 }
 body .segment .editPage {
-  right: 15px;
+  right: 18px;
 }
 body .segment .dropdown.changePaperTemplate {
   right: 48px;
+  height: 32px;
 }
 body .dropdown.changePaperTemplate {
   right: 26px;

@@ -12,14 +12,15 @@
 
 @lightPrimaryColor   : @lightRedGrafia;
 @lightSecondaryColor : @lightGrey;
+@darkPrimaryColor    : @darkRedGrafia;
 
 @redGrafia           : #EB1B4C;
-@darkRedGrafia       : #DC143C;
-@lightRedGrafia      : lighten(@redGrafia, 30%);
+@darkRedGrafia       : #DC143C; 
+@lightRedGrafia      : lighten(@redGrafia, 30%); 
 
 @red                 : @redGrafia;
-@redBackground       : @lightRedGrafia;
-@redTextColor        : darken(@darkRedGrafia, 10);
+@redBackground       : @lightRedGrafia; 
+@headerTextColor     : darken(@darkRedGrafia, 10);   
 
 /*-------------------
        Links

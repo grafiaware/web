@@ -8,20 +8,21 @@
 @rsHeaderFont: Dancing Script , cursive;
 
  
-@primaryColor        : @yellow;  
-@secondaryColor      : @grey;
-
+@primaryColor        : @yellow;   
+@secondaryColor      : @grey; 
+ 
 @lightPrimaryColor   : @lightRedGrafia;
 @lightSecondaryColor : @lightGrey;
+@darkPrimaryColor    : @yellowHeaderColor;
 
 @redGrafia           : #EB1B4C;
 @darkRedGrafia       : #DC143C;
 @lightRedGrafia      : lighten(@redGrafia, 30%);
-
+ 
 @red                 : @redGrafia;
 @redBackground       : @lightRedGrafia;
-@redTextColor        : darken(@darkRedGrafia, 10);
-@headerTextColor     : @yellowHeaderColor;
+@redTextColor        : darken(@darkRedGrafia, 10); 
+@headerTextColor     : @yellowHeaderColor; 
 
 /*-------------------
        Links
