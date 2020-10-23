@@ -13,13 +13,13 @@
              Page
 *******************************/
 
-@import url('https://fonts.googleapis.com/css?family=Mali:400,700,400italic,700italic&subset=latin&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Verdana:400,700,400italic,700italic&subset=latin&display=swap');
 html,
 body {
   height: 100%;
 }
 html {
-  font-size: 14px;
+  font-size: 12px;
 }
 body {
   margin: 0;
@@ -27,8 +27,8 @@ body {
   overflow-x: hidden;
   min-width: 320px;
   background: #FFFFFF;
-  font-family: Mali, Geneva, "arial ce";
-  font-size: 14px;
+  font-family: Verdana, Geneva, "arial ce";
+  font-size: 12px;
   line-height: 1.4285em;
   color: rgba(0, 0, 0, 0.87);
 }
@@ -43,7 +43,7 @@ h2,
 h3,
 h4,
 h5 {
-  font-family: Mali, Geneva, "arial ce";
+  font-family: Verdana, Geneva, "arial ce";
   line-height: 1.28571429em;
   margin: calc(1.2rem -  0.14285714em ) 0em 0.8rem;
   font-weight: bold;
@@ -101,11 +101,11 @@ p:last-child {
 --------------------*/
 
 a {
-  color: #FBBD08;
+  color: #EB1B4C;
   text-decoration: none;
 }
 a:hover {
-  color: #c29100;
+  color: #c4002e;
   text-decoration: none;
 }
 

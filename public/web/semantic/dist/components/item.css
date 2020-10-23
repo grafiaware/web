@@ -141,14 +141,14 @@
 .ui.items > .item > .content > .header {
   display: inline-block;
   margin: -0.21425em 0 0;
-  font-family: Mali, Geneva, "arial ce";
+  font-family: Verdana, Geneva, "arial ce";
   font-weight: bold;
   color: rgba(0, 0, 0, 0.85);
 }
 
 /* Default Header Size */
 .ui.items > .item > .content > .header:not(.ui) {
-  font-size: 1.28571429em;
+  font-size: 1.25em;
 }
 
 /*--------------
@@ -242,7 +242,7 @@
   color: rgba(0, 0, 0, 0.85);
 }
 .ui.items > .item > .content > a.header:hover {
-  color: #c29100;
+  color: #c4002e;
 }
 
 /* Meta */
@@ -453,7 +453,7 @@
 }
 .ui.items a.item:hover .content .header,
 .ui.link.items > .item:hover .content .header {
-  color: #c29100;
+  color: #c4002e;
 }
 
 /*--------------
@@ -464,25 +464,25 @@
   font-size: 1em;
 }
 .ui.mini.items > .item {
-  font-size: 0.78571429em;
+  font-size: 0.75em;
 }
 .ui.tiny.items > .item {
-  font-size: 0.85714286em;
+  font-size: 0.83333333em;
 }
 .ui.small.items > .item {
-  font-size: 0.92857143em;
+  font-size: 0.91666667em;
 }
 .ui.large.items > .item {
-  font-size: 1.14285714em;
+  font-size: 1.16666667em;
 }
 .ui.big.items > .item {
-  font-size: 1.28571429em;
+  font-size: 1.25em;
 }
 .ui.huge.items > .item {
-  font-size: 1.42857143em;
+  font-size: 1.41666667em;
 }
 .ui.massive.items > .item {
-  font-size: 1.71428571em;
+  font-size: 1.75em;
 }
 
 /*---------------
@@ -520,10 +520,10 @@
   color: rgba(255, 255, 255, 0.8);
 }
 .ui.inverted.items > .item > .content a:not(.ui) {
-  color: #ffcf45;
+  color: #ff4873;
 }
 .ui.inverted.items > .item > .content a:not(.ui):hover {
-  color: #FBBD08;
+  color: #EB1B4C;
 }
 .ui.inverted.items > .item > .content > a.header {
   color: rgba(255, 255, 255, 0.9);

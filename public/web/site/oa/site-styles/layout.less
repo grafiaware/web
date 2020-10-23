@@ -180,7 +180,7 @@
         margin: 10px -15px -15px;
         p{
             margin: 5px 0;
-            color: @redTextColor;
+            color: @headerTextColor;
             
         }
     }
@@ -354,7 +354,7 @@
             box-shadow: 0 0 0 1px @primaryColor inset ;
             &:hover{
                 background-color: @white !important;
-                color: @darkRedGrafia;
+                color: @darkPrimaryColor;
             }
         }
         a{
@@ -383,7 +383,7 @@
             margin-top: 15px;
         }
        /*styly pro rozdělení contentů - "dolní dělící čára" je border-bottom*/
-        content{
+        content{ 
             margin-top: 15px;
             padding-bottom: 15px;
             border-bottom: 1px solid @lightGrey;
@@ -397,9 +397,9 @@
     }
     /*nadpis paperu*/
     /*díky .segment se rozliší nadpis pro block (logo, razítko,...) a pro headlined (aktuality, odkazy,...)*/
-    /*myšlený .ui.segment semantický*/
+    /*myšlený .ui.segment semantický*/ 
     .segment headline.header{ 
-        color: @redTextColor; //pridat do site.variables jako @headerTextColor
+        color: @headerTextColor; 
         background-color: @backgroundLightGrey;
         border-radius: 4px 4px 0 0;
         text-align: center;

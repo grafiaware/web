@@ -60,10 +60,11 @@
 //Buttony pro paper
 @buttonyPaperPositionTop: -32px;
 @button2PaperPositionRight: -6px; //.editPage
-@button2SegmentPaperPositionRight: 15px; 
+@button2SegmentPaperPositionRight: 18px; 
 @button2PaperBackgroundColor: @barvaEditButtony;
 @button1PaperPositionRight: 26px; //.changePaperTemplate
 @button1SegmentPaperPositionRight: 48px; 
+@button1SegmentPaperHeight: 32px; 
 @button1PaperBackgroundColor: @barvaButtonSablony;
 //Zmena/Vyber sablony
 @divSelectWidth: 200px;
@@ -183,7 +184,7 @@ body{
         li:not(.presented) .buttons{
             display: none;
         }
-        .presented > .buttons{
+        li.presented > .buttons{
             display: flex;
             background-color: @buttonyMenuBackgroundColor;
             > .button:last-child{
@@ -340,6 +341,7 @@ body{
         }
         .dropdown.changePaperTemplate{ 
             right: @button1SegmentPaperPositionRight;
+            height: @button1SegmentPaperHeight;
         }
     }
     .dropdown.changePaperTemplate{ 

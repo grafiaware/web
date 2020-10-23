@@ -320,6 +320,9 @@ body .ui.container.editable {
   margin: 0 10px 0 auto !important;
   right: 0;
 }
+body form {
+  margin: 0;
+}
 body .poznamky {
   position: absolute;
   left: -260px;
@@ -391,25 +394,25 @@ body .svisle-menu.bloky {
   margin: 20px auto 20px -8px;
   /*první položka menu bloky je pouze nadpis - vycentrovaná a podbarvená, bez semaforu, ale odkaz je tam pořád*/
 }
-body .svisle-menu.bloky li:first-child {
+body .svisle-menu.bloky .vertical.menu > li:first-child {
   text-align: center;
 }
-body .svisle-menu.bloky li:first-child > .item {
+body .svisle-menu.bloky .vertical.menu > li:first-child > .item {
   background-color: #FBFBE7 !important;
 }
-body .svisle-menu.bloky li:first-child > .item > i {
+body .svisle-menu.bloky .vertical.menu > li:first-child > .item > i {
   display: none;
 }
-body .svisle-menu.bloky li:first-child > .item .semafor {
+body .svisle-menu.bloky .vertical.menu > li:first-child > .item .semafor {
   display: none;
 }
 body .svisle-menu.kos {
   /*první položka menu kos je pouze nadpis - vycentrovaná a podbarvená, ale odkaz je tam pořád*/
 }
-body .svisle-menu.kos li:first-child {
+body .svisle-menu.kos .vertical.menu > li:first-child {
   text-align: center;
 }
-body .svisle-menu.kos li:first-child > .item {
+body .svisle-menu.kos .vertical.menu > li:first-child > .item {
   background-color: #F8F3FF !important;
 }
 body .presmerovani-menu .menu.edit .item {

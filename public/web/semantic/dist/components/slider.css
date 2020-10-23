@@ -263,7 +263,7 @@
 
 /* Standard */
 .ui.primary.slider .inner .track-fill {
-  background-color: #FBBD08;
+  background-color: #EB1B4C;
 }
 .ui.primary.inverted.slider .inner .track-fill {
   background-color: #f7a8ba;
@@ -271,11 +271,11 @@
 
 /* Basic */
 .ui.primary.slider.basic .inner .thumb {
-  background-color: #FBBD08;
+  background-color: #EB1B4C;
 }
 .ui.primary.slider.basic .inner .thumb:hover,
 .ui.primary.slider.basic:focus .inner .thumb {
-  background-color: #eaae00;
+  background-color: #e3093d;
 }
 
 /* Basic Inverted */
