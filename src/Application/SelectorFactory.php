@@ -29,7 +29,7 @@ class SelectorFactory {
     private $items;
 
     /**
-     * Kontejner pro předání do jrdnotlivých middleware stacků definovaných při přidávání SelectorItem do vytvářeného objektu Selector.
+     * Kontejner pro předání do jednotlivých middleware stacků definovaných při přidávání SelectorItem do vytvářeného objektu Selector.
      *
      * @param AppInterface $app
      */
@@ -45,7 +45,8 @@ class SelectorFactory {
                     new \Middleware\Web\Web()
                 ];};
 
-        // všechny addItem dostávají jako stack anonymní funkci, která přijímá kontejner, vzniklé Item budou připraveny appContainer předaný jim sektorem
+        // všechny položky selektoru dostávají jako stack anonymní funkci, která přijímá AppInterface,
+        // ve vzniklých položkách bude dostupná proměnná $app
         $this->items = [
             '/www/' => $default,
             '/api/'=>
@@ -99,7 +100,7 @@ class SelectorFactory {
 //                    new \Middleware\Logged\LoggedAccess(new LoggedAccessor($app)),
 //                    (new \Middleware\Menu\Menu())
 //                ];},
-            '/build/'=>       // bez koncového lomítka - je jen tato jedna uri, uri neí delší než prefix
+            '/build/'=>
             function(AppInterface $app) {
                 return [
 //                    new \Middleware\Status\SecurityStatus(),

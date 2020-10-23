@@ -24,12 +24,12 @@ use Component\Renderer\Html\ClassMap\ClassMap;
  *
  * @author pes2704
  */
-class Configuration {
+class ConfigurationGr2 {
     ### bootstrap ###
     #
     public static function bootstrap() {
         return [
-            'bootstrap_logs_base_path' => '/_www_oa_logs/',
+            'bootstrap_logs_base_path' => '/_www_gr2_logs/',
         ];
     }
 
@@ -41,12 +41,12 @@ class Configuration {
             # Sekce konfigurace účtů databáze pro api kontejner
             # Ostatní parametry konfigurace databáze v kontejneru dbUpgrade
             #
-            'api.db.everyone.name' => 'oa_everyone',
-            'api.db.everyone.password' => 'oa_everyone',
-            'api.db.authenticated.name' => 'oa_authenticated',
-            'api.db.authenticated.password' => 'oa_authenticated',
-            'api.db.administrator.name' => 'oa_administrator',
-            'api.db.administrator.password' => 'oa_administrator',
+            'api.db.everyone.name' => 'gr2_everyone',
+            'api.db.everyone.password' => 'gr2_everyone',
+            'api.db.authenticated.name' => 'gr2_auth',
+            'api.db.authenticated.password' => 'gr2_auth',
+            'api.db.administrator.name' => 'gr2_admin',
+            'api.db.administrator.password' => 'gr2_admin',
             #
             ###################################
             #
@@ -69,7 +69,7 @@ class Configuration {
             #################################
             # Konfigurace session
             #
-            WebAppFactory::SESSION_NAME_SERVICE => 'www_oa_session',
+            WebAppFactory::SESSION_NAME_SERVICE => 'www_gr2_session',
             'app.logs.session.file' => 'Session.log',
             #
             ##################################
@@ -93,8 +93,8 @@ class Configuration {
             #
             # user s právy drop a create database + crud práva + grant option k nové (upgrade) databázi
             # a také select k staré databázi - reálně nejlépe role DBA
-            'build.db.user.name' => PES_DEVELOPMENT ? 'oa_upgrader' : (PES_PRODUCTION ? 'UPGRADE_BUILD_PRODUCTION_USER' : 'xxxxxxxxxxxxxxxxx'),
-            'build.db.user.password' => PES_DEVELOPMENT ? 'oa_upgrader' : (PES_PRODUCTION ? 'UPGRADE_BUILD_PRODUCTION_HOST' : 'xxxxxxxxxxxxxxxxx'),
+            'build.db.user.name' => PES_DEVELOPMENT ? 'gr2_upgrader' : (PES_PRODUCTION ? 'UPGRADE_BUILD_PRODUCTION_USER' : 'xxxxxxxxxxxxxxxxx'),
+            'build.db.user.password' => PES_DEVELOPMENT ? 'gr2_upgrader' : (PES_PRODUCTION ? 'UPGRADE_BUILD_PRODUCTION_HOST' : 'xxxxxxxxxxxxxxxxx'),
             #
             ###################################
 
@@ -103,12 +103,12 @@ class Configuration {
             #
             'build.config.createusers' =>
                 [
-                    'everyone_user' => 'oa_everyone',
-                    'everyone_password' => 'oa_everyone',
-                    'authenticated_user' => 'oa_authenticated',
-                    'authenticated_password' => 'oa_authenticated',
-                    'administrator_user' => 'oa_administrator',
-                    'administrator_password' => 'oa_administrator',
+                    'everyone_user' => 'gr2_everyone',
+                    'everyone_password' => 'gr2_everyone',
+                    'authenticated_user' => 'gr2_auth',
+                    'authenticated_password' => 'gr2_auth',
+                    'administrator_user' => 'gr2_admin',
+                    'administrator_password' => 'gr2_admin',
                 ],
             #
             ###################################
@@ -158,7 +158,7 @@ class Configuration {
             'dbold.db.collation' => 'utf8_general_ci',
 
             'dbold.db.connection.host' => PES_DEVELOPMENT ? 'localhost' : (PES_PRODUCTION ? 'OLD_PRODUCTION_NAME' : 'xxxxxxxxxxxxxxxxx'),
-            'dbold.db.connection.name' => PES_DEVELOPMENT ? 'otevreneatelierycz' : (PES_PRODUCTION ? 'OLD_PRODUCTION_HOST' : 'xxxxxxxxxxxxxxxxx'),
+            'dbold.db.connection.name' => PES_DEVELOPMENT ? 'grafiacz_20200916' : (PES_PRODUCTION ? 'OLD_PRODUCTION_HOST' : 'xxxxxxxxxxxxxxxxx'),
 
             'dbold.logs.directory' => 'Logs/DbOld',
             'dbold.logs.db.file' => 'Database.log',
@@ -181,7 +181,7 @@ class Configuration {
             'dbUpgrade.db.charset' => 'utf8',
             'dbUpgrade.db.collation' => 'utf8_general_ci',
             'dbUpgrade.db.connection.host' => PES_DEVELOPMENT ? 'localhost' : (PES_PRODUCTION ? 'UPGRADE_PRODUCTION_HOST' : 'xxxx'),
-            'dbUpgrade.db.connection.name' => PES_DEVELOPMENT ? 'oa_upgrade' : (PES_PRODUCTION ? 'UPGRADE_PRODUCTION_NAME' : 'xxxx'),
+            'dbUpgrade.db.connection.name' => PES_DEVELOPMENT ? 'gr2_upgrade' : (PES_PRODUCTION ? 'UPGRADE_PRODUCTION_NAME' : 'xxxx'),
             #
             #  Konec sekce konfigurace databáze
             ###################################
@@ -201,8 +201,8 @@ class Configuration {
             # Konfigurace databáze
             # Ostatní parametry konfigurace databáze v kontejneru dbUpgrade
             #
-            'dbUpgrade.db.user.name' => PES_DEVELOPMENT ? 'oa_upgrader' : (PES_PRODUCTION ? 'UPGRADE_PRODUCTION_USER_NAME' : 'xxxx'),
-            'dbUpgrade.db.user.password' => PES_DEVELOPMENT ? 'oa_upgrader' : (PES_PRODUCTION ? 'UPGRADE_PRODUCTION_USER_PASSWORD' : 'xxxx'),
+            'dbUpgrade.db.user.name' => PES_DEVELOPMENT ? 'gr2_upgrader' : (PES_PRODUCTION ? 'UPGRADE_PRODUCTION_USER_NAME' : 'xxxx'),
+            'dbUpgrade.db.user.password' => PES_DEVELOPMENT ? 'gr2_upgrader' : (PES_PRODUCTION ? 'UPGRADE_PRODUCTION_USER_PASSWORD' : 'xxxx'),
             #
             ###################################
             # Konfigurace hierarchy tabulek
@@ -228,8 +228,8 @@ class Configuration {
             # user s právem select k databázi s tabulkou uživatelských oprávnění
             # MySQL 5.6: délka jména max 16 znaků
 
-            'login.db.account.everyone.name' => 'oa_login',  // nelze použít jméno uživatele použité pro db upgrade - došlo by k duplicitě jmen v build create
-            'login.db.account.everyone.password' => 'oa_login',
+            'login.db.account.everyone.name' => 'gr2_login',  // nelze použít jméno uživatele použité pro db upgrade - došlo by k duplicitě jmen v build create
+            'login.db.account.everyone.password' => 'gr2_login',
 
             'login.logs.database.directory' => 'Logs/Login',
             'login.logs.database.file' => 'Database.log',
@@ -627,12 +627,12 @@ class Configuration {
             # kontejnerech se volají jako služby delegate kontejneru.
             #
             # Zde je konfigurace údajů uživatele pro připojení k databázi. Ta je pro každý middleware v jeho kontejneru.
-            'web.db.account.everyone.name' => 'oa_everyone',
-            'web.db.account.everyone.password' => 'oa_everyone',
-            'web.db.account.authenticated.name' => 'oa_authenticated',
-            'web.db.account.authenticated.password' => 'oa_authenticated',
-            'web.db.account.administrator.name' => 'oa_administrator',
-            'web.db.account.administrator.password' => 'oa_administrator',
+            'web.db.account.everyone.name' => 'gr2_everyone',
+            'web.db.account.everyone.password' => 'gr2_everyone',
+            'web.db.account.authenticated.name' => 'gr2_auth',
+            'web.db.account.authenticated.password' => 'gr2_auth',
+            'web.db.account.administrator.name' => 'gr2_admin',
+            'web.db.account.administrator.password' => 'gr2_admin',
             #
             ###################################
         ];
@@ -648,12 +648,12 @@ class Configuration {
             # kontejnerech se volají jako služby delegate kontejneru.
             #
             # Zde je konfigurace údajů uživatele pro připojení k databízi. Ta je pro každý middleware v jeho kontejneru.
-            'rs.db.account.everyone.name' => 'oa_everyone',
-            'rs.db.account.everyone.password' => 'oa_everyone',
-            'rs.db.account.authenticated.name' => 'oa_authenticated',
-            'rs.db.account.authenticated.password' => 'oa_authenticated',
-            'rs.db.account.administrator.name' => 'oa_administrator',
-            'rs.db.account.administrator.password' => 'oa_administrator',
+            'rs.db.account.everyone.name' => 'gr2_everyone',
+            'rs.db.account.everyone.password' => 'gr2_everyone',
+            'rs.db.account.authenticated.name' => 'gr2_auth',
+            'rs.db.account.authenticated.password' => 'gr2_auth',
+            'rs.db.account.administrator.name' => 'gr2_admin',
+            'rs.db.account.administrator.password' => 'gr2_admin',
             #
             ###################################
 
@@ -675,7 +675,7 @@ class Configuration {
             $commonPublicDir = \Middleware\Web\AppContext::getPublicDirectory();
             $tinyPublicDir = \Middleware\Web\AppContext::getTinyPublicDirectory();
 
-        $theme = 'oa';
+        $theme = 'old';
 
         switch ($theme) {
             case 'old':
@@ -775,7 +775,7 @@ class Configuration {
 
     public static function transformator() {
         return [
-            'filesDirectory' => '/_www_oa_files/',  // relativní cesta vzhledem k DOCUMENT_ROOT (htdocs)
+            'filesDirectory' => '/_www_gr2_files/',  // relativní cesta vzhledem k DOCUMENT_ROOT (htdocs)
         ];
     }
 }
