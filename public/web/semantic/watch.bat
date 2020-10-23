@@ -1,1 +1,2 @@
 gulp watch
+pause

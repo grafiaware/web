@@ -24,12 +24,12 @@ use Component\Renderer\Html\ClassMap\ClassMap;
  *
  * @author pes2704
  */
-class ConfigurationOa {
+class ConfigurationGr3_grafiacz {
     ### bootstrap ###
     #
     public static function bootstrap() {
         return [
-            'bootstrap_logs_base_path' => '/_www_oa_logs/',
+            'bootstrap_logs_base_path' => '/_www_gr3_logs/',
         ];
     }
 
@@ -41,12 +41,12 @@ class ConfigurationOa {
             # Sekce konfigurace účtů databáze pro api kontejner
             # Ostatní parametry konfigurace databáze v kontejneru dbUpgrade
             #
-            'api.db.everyone.name' => 'oa_everyone',
-            'api.db.everyone.password' => 'oa_everyone',
-            'api.db.authenticated.name' => 'oa_auth',
-            'api.db.authenticated.password' => 'oa_auth',
-            'api.db.administrator.name' => 'oa_admin',
-            'api.db.administrator.password' => 'oa_admin',
+            'api.db.everyone.name' => 'gr3_everyone',
+            'api.db.everyone.password' => 'gr3_everyone',
+            'api.db.authenticated.name' => 'gr3_auth',
+            'api.db.authenticated.password' => 'gr3_auth',
+            'api.db.administrator.name' => 'gr3_admin',
+            'api.db.administrator.password' => 'gr3_admin',
             #
             ###################################
             #
@@ -69,7 +69,7 @@ class ConfigurationOa {
             #################################
             # Konfigurace session
             #
-            WebAppFactory::SESSION_NAME_SERVICE => 'www_oa_session',
+            WebAppFactory::SESSION_NAME_SERVICE => 'www_gr3_session',
             'app.logs.session.file' => 'Session.log',
             #
             ##################################
@@ -93,8 +93,8 @@ class ConfigurationOa {
             #
             # user s právy drop a create database + crud práva + grant option k nové (upgrade) databázi
             # a také select k staré databázi - reálně nejlépe role DBA
-            'build.db.user.name' => PES_DEVELOPMENT ? 'oa_upgrader' : (PES_PRODUCTION ? 'UPGRADE_BUILD_PRODUCTION_USER' : 'xxxxxxxxxxxxxxxxx'),
-            'build.db.user.password' => PES_DEVELOPMENT ? 'oa_upgrader' : (PES_PRODUCTION ? 'UPGRADE_BUILD_PRODUCTION_HOST' : 'xxxxxxxxxxxxxxxxx'),
+            'build.db.user.name' => PES_DEVELOPMENT ? 'gr3_upgrader' : (PES_PRODUCTION ? 'UPGRADE_BUILD_PRODUCTION_USER' : 'xxxxxxxxxxxxxxxxx'),
+            'build.db.user.password' => PES_DEVELOPMENT ? 'gr3_upgrader' : (PES_PRODUCTION ? 'UPGRADE_BUILD_PRODUCTION_HOST' : 'xxxxxxxxxxxxxxxxx'),
             #
             ###################################
 
@@ -103,12 +103,12 @@ class ConfigurationOa {
             #
             'build.config.createusers' =>
                 [
-                    'everyone_user' => 'oa_everyone',
-                    'everyone_password' => 'oa_everyone',
-                    'authenticated_user' => 'oa_auth',
-                    'authenticated_password' => 'oa_auth',
-                    'administrator_user' => 'oa_admin',
-                    'administrator_password' => 'oa_admin',
+                    'everyone_user' => 'gr3_everyone',
+                    'everyone_password' => 'gr3_everyone',
+                    'authenticated_user' => 'gr3_auth',
+                    'authenticated_password' => 'gr3_auth',
+                    'administrator_user' => 'gr3_admin',
+                    'administrator_password' => 'gr3_admin',
                 ],
             #
             ###################################
@@ -158,7 +158,7 @@ class ConfigurationOa {
             'dbold.db.collation' => 'utf8_general_ci',
 
             'dbold.db.connection.host' => PES_DEVELOPMENT ? 'localhost' : (PES_PRODUCTION ? 'OLD_PRODUCTION_NAME' : 'xxxxxxxxxxxxxxxxx'),
-            'dbold.db.connection.name' => PES_DEVELOPMENT ? 'otevreneatelierycz' : (PES_PRODUCTION ? 'OLD_PRODUCTION_HOST' : 'xxxxxxxxxxxxxxxxx'),
+            'dbold.db.connection.name' => PES_DEVELOPMENT ? 'grafiacz' : (PES_PRODUCTION ? 'OLD_PRODUCTION_HOST' : 'xxxxxxxxxxxxxxxxx'),
 
             'dbold.logs.directory' => 'Logs/DbOld',
             'dbold.logs.db.file' => 'Database.log',
@@ -181,7 +181,7 @@ class ConfigurationOa {
             'dbUpgrade.db.charset' => 'utf8',
             'dbUpgrade.db.collation' => 'utf8_general_ci',
             'dbUpgrade.db.connection.host' => PES_DEVELOPMENT ? 'localhost' : (PES_PRODUCTION ? 'UPGRADE_PRODUCTION_HOST' : 'xxxx'),
-            'dbUpgrade.db.connection.name' => PES_DEVELOPMENT ? 'oa_upgrade' : (PES_PRODUCTION ? 'UPGRADE_PRODUCTION_NAME' : 'xxxx'),
+            'dbUpgrade.db.connection.name' => PES_DEVELOPMENT ? 'gr3_upgrade' : (PES_PRODUCTION ? 'UPGRADE_PRODUCTION_NAME' : 'xxxx'),
             #
             #  Konec sekce konfigurace databáze
             ###################################
@@ -201,8 +201,8 @@ class ConfigurationOa {
             # Konfigurace databáze
             # Ostatní parametry konfigurace databáze v kontejneru dbUpgrade
             #
-            'dbUpgrade.db.user.name' => PES_DEVELOPMENT ? 'oa_upgrader' : (PES_PRODUCTION ? 'UPGRADE_PRODUCTION_USER_NAME' : 'xxxx'),
-            'dbUpgrade.db.user.password' => PES_DEVELOPMENT ? 'oa_upgrader' : (PES_PRODUCTION ? 'UPGRADE_PRODUCTION_USER_PASSWORD' : 'xxxx'),
+            'dbUpgrade.db.user.name' => PES_DEVELOPMENT ? 'gr3_upgrader' : (PES_PRODUCTION ? 'UPGRADE_PRODUCTION_USER_NAME' : 'xxxx'),
+            'dbUpgrade.db.user.password' => PES_DEVELOPMENT ? 'gr3_upgrader' : (PES_PRODUCTION ? 'UPGRADE_PRODUCTION_USER_PASSWORD' : 'xxxx'),
             #
             ###################################
             # Konfigurace hierarchy tabulek
@@ -228,8 +228,8 @@ class ConfigurationOa {
             # user s právem select k databázi s tabulkou uživatelských oprávnění
             # MySQL 5.6: délka jména max 16 znaků
 
-            'login.db.account.everyone.name' => 'oa_login',  // nelze použít jméno uživatele použité pro db upgrade - došlo by k duplicitě jmen v build create
-            'login.db.account.everyone.password' => 'oa_login',
+            'login.db.account.everyone.name' => 'gr3_login',  // nelze použít jméno uživatele použité pro db upgrade - došlo by k duplicitě jmen v build create
+            'login.db.account.everyone.password' => 'gr3_login',
 
             'login.logs.database.directory' => 'Logs/Login',
             'login.logs.database.file' => 'Database.log',
@@ -627,12 +627,12 @@ class ConfigurationOa {
             # kontejnerech se volají jako služby delegate kontejneru.
             #
             # Zde je konfigurace údajů uživatele pro připojení k databázi. Ta je pro každý middleware v jeho kontejneru.
-            'web.db.account.everyone.name' => 'oa_everyone',
-            'web.db.account.everyone.password' => 'oa_everyone',
-            'web.db.account.authenticated.name' => 'oa_auth',
-            'web.db.account.authenticated.password' => 'oa_auth',
-            'web.db.account.administrator.name' => 'oa_admin',
-            'web.db.account.administrator.password' => 'oa_admin',
+            'web.db.account.everyone.name' => 'gr3_everyone',
+            'web.db.account.everyone.password' => 'gr3_everyone',
+            'web.db.account.authenticated.name' => 'gr3_auth',
+            'web.db.account.authenticated.password' => 'gr3_auth',
+            'web.db.account.administrator.name' => 'gr3_admin',
+            'web.db.account.administrator.password' => 'gr3_admin',
             #
             ###################################
         ];
@@ -648,12 +648,12 @@ class ConfigurationOa {
             # kontejnerech se volají jako služby delegate kontejneru.
             #
             # Zde je konfigurace údajů uživatele pro připojení k databízi. Ta je pro každý middleware v jeho kontejneru.
-            'rs.db.account.everyone.name' => 'oa_everyone',
-            'rs.db.account.everyone.password' => 'oa_everyone',
-            'rs.db.account.authenticated.name' => 'oa_auth',
-            'rs.db.account.authenticated.password' => 'oa_auth',
-            'rs.db.account.administrator.name' => 'oa_admin',
-            'rs.db.account.administrator.password' => 'oa_admin',
+            'rs.db.account.everyone.name' => 'gr3_everyone',
+            'rs.db.account.everyone.password' => 'gr3_everyone',
+            'rs.db.account.authenticated.name' => 'gr3_auth',
+            'rs.db.account.authenticated.password' => 'gr3_auth',
+            'rs.db.account.administrator.name' => 'gr3_admin',
+            'rs.db.account.administrator.password' => 'gr3_admin',
             #
             ###################################
 
@@ -675,7 +675,7 @@ class ConfigurationOa {
             $commonPublicDir = \Middleware\Web\AppContext::getPublicDirectory();
             $tinyPublicDir = \Middleware\Web\AppContext::getTinyPublicDirectory();
 
-        $theme = 'oa';
+        $theme = 'old';
 
         switch ($theme) {
             case 'old':
@@ -775,7 +775,7 @@ class ConfigurationOa {
 
     public static function transformator() {
         return [
-            'filesDirectory' => '/_www_oa_files/',  // relativní cesta vzhledem k DOCUMENT_ROOT (htdocs)
+            'filesDirectory' => '/_www_gr3_files/',  // relativní cesta vzhledem k DOCUMENT_ROOT (htdocs)
         ];
     }
 }
