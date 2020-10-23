@@ -1,14 +1,14 @@
 {
-  "base": "public\\web\\semantic\\",
+  "base": "local\\site\\oa\\semantic\\",
   "paths": {
     "source": {
       "config": "src/theme.config",
       "definitions": "src/definitions/",
-      "site": "../site/grafia/semantic-ui/",
+      "site": "src/site/",
       "themes": "src/themes/"
     },
     "output": {
-      "packaged": "dist\\",
+      "packaged": "../../../../public/site/oa/semantic-ui/",
       "uncompressed": "dist\\components\\",
       "compressed": "dist\\components\\",
       "themes": "dist/themes/"
