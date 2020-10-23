@@ -7,14 +7,18 @@
 
 namespace Site;
 
+include 'ConfigurationGr.php';
 include 'ConfigurationGr2.php';
+include 'ConfigurationOa.php';
 
 /**
  * Description of Configuration
  *
  * @author pes2704
  */
-class Configuration extends ConfigurationGr2 {
+class Configuration extends ConfigurationGr {
+//class Configuration extends ConfigurationGr2 {
+//class Configuration extends ConfigurationOa {
 
 
 }
