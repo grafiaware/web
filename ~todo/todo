@@ -1,5 +1,7 @@
 
+GET request vzniklý jinak, neý kliknutím do menu - odkaz na jinou stránku, externí odkaz na stránku - musí nastavit aktivní položku i v menu
+api - '/www/named/:langCode/:jmeno_component' (vedle '/www/item/:langCode/:uid') - vrací celou prezentaci (nejen obsah komponenty) a jako presented použije kompoent
 přesměrování starých adres (old) na nové (upgrade) - stačí pomocí transform
 friendly url's
 sitemap
-meta description <meta name="description" content="Get more vis... /> - požku description do paper? (jen pro "paper" generátor, pro ostatní stejně není kdo by to psal) (menu_item?), přidat pole do editace (zase asi jen pro paper) a tag <meta name="description" dávat do <head> 
+do head - meta description <meta name="description" content="Get more vis... /> - požku description do paper? (jen pro "paper" generátor, pro ostatní stejně není kdo by to psal) (menu_item?), přidat pole do editace (zase asi jen pro paper) a tag <meta name="description" dávat do <head>
