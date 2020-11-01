@@ -9,7 +9,7 @@
 namespace Middleware\Build\Controler;
 
 use Middleware\Build\Exception\HierarchyStepFailedException;
-use Model\Dao\Hierarchy\NodeEditDao;
+use Model\Dao\Hierarchy\HierarchyAggregateEditDao;
 
 use Pes\Database\Manipulator\Manipulator;
 
@@ -190,7 +190,7 @@ class DatabaseControler extends BuildControlerAbstract {
                 $adjList = $this->manipulator->findAllRows('menu_adjlist');
                 if (is_array($adjList) AND count($adjList)) {
                     $this->log[] = "Načteno ".count($adjList)." položek z tabulky 'menu_adjlist'.";
-                    $hierachy = $this->container->get(NodeEditDao::class);
+                    $hierachy = $this->container->get(HierarchyAggregateEditDao::class);
                     // $hierachy->newNestedSet() založí kořenovou položku nested setu a vrací její uid
                     $rootUid = $hierachy->newNestedSet();
                     try {

@@ -3,13 +3,13 @@ namespace Component\ViewModel\Authored\Menu;
 
 use Component\ViewModel\Authored\AuthoredViewModelAbstract;
 
-use Model\Entity\HierarchyNodeInterface;
+use Model\Entity\HierarchyAggregateInterface;
 use Model\Entity\MenuRootInterface;
 
 use Model\Repository\StatusSecurityRepo;
 use Model\Repository\StatusPresentationRepo;
 use Model\Repository\StatusFlashRepo;
-use Model\Repository\HierarchyNodeRepo;
+use Model\Repository\HierarchyAggregateRepo;
 use Model\Repository\MenuRootRepo;
 
 use Component\ViewModel\Authored\Menu\Item\ItemViewModel;
@@ -23,28 +23,28 @@ use Component\ViewModel\Authored\Menu\Item\ItemViewModelInterface;
 class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelInterface {
 
     private $menuRootRepo;
-    private $nodeRepo;
+    private $HierarchyRepo;
 
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusPresentationRepo $statusPresentationRepo,
             StatusFlashRepo $statusFlashRepo,
-            HierarchyNodeRepo $nodeRepo,
+            HierarchyAggregateRepo $hierarchyRepo,
             MenuRootRepo $menuRootRepo
             ) {
         parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo);
-        $this->nodeRepo = $nodeRepo;
+        $this->HierarchyRepo = $hierarchyRepo;
         $this->menuRootRepo = $menuRootRepo;
     }
 
     /**
      * Vrací prezentovanou položku menu. Řídí se hodnotami vlastností objektu PresentationStatus.
      *
-     * @return HierarchyNodeInterface
+     * @return HierarchyAggregateInterface
      */
     public function getPresentedMenuNode() {
         $presentationStatus = $this->statusPresentationRepo->get();
-        return $this->nodeRepo->get($presentationStatus->getLanguage()->getLangCode(), $presentationStatus->getMenuItem()->getUidFk());
+        return $this->HierarchyRepo->get($presentationStatus->getLanguage()->getLangCode(), $presentationStatus->getMenuItem()->getUidFk());
     }
 
     /**
@@ -57,23 +57,23 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
     }
 
     /**
-     *
+     * Vrací položku menu se zadaným uid a v presentovaném jazyce.
      * @param string $nodeUid
-     * @return HierarchyNodeInterface
+     * @return HierarchyAggregateInterface
      */
     public function getMenuNode($nodeUid) {
         $presentationStatus = $this->statusPresentationRepo->get();
-        return $this->nodeRepo->get($presentationStatus->getLanguage()->getLangCode(), $nodeUid);
+        return $this->HierarchyRepo->get($presentationStatus->getLanguage()->getLangCode(), $nodeUid);
     }
 
     /**
      *
      * @param string $parentUid
-     * @return HierarchyNodeInterface array af
+     * @return HierarchyAggregateInterface array af
      */
     public function getChildrenMenuNodes($parentUid) {
         $presentationStatus = $this->statusPresentationRepo->get();
-        return $this->nodeRepo->findChildren($presentationStatus->getLanguage()->getLangCode(), $parentUid);
+        return $this->HierarchyRepo->findChildren($presentationStatus->getLanguage()->getLangCode(), $parentUid);
     }
 
     /**
@@ -135,7 +135,7 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
         }
 
         $presentationStatus = $this->getStatusPresentation();
-        $items = $this->nodeRepo->getSubTree($presentationStatus->getLanguage()->getLangCode(), $rootUid, $maxDepth);
+        $items = $this->HierarchyRepo->getSubTree($presentationStatus->getLanguage()->getLangCode(), $rootUid, $maxDepth);
         $models = [];
         foreach ($items as $item) {
            if (isset($presentedItemLeftNode)) {

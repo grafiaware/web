@@ -19,6 +19,7 @@ class MenuItemDao extends DaoAbstract {
 
     private $sqlGet;
     private $sqlGetByList;
+    private $sqlFindAllLanguageVersions;
     private $sqlFindByContentFulltextSearch;
     private $sqlUpdate;
 
@@ -70,7 +71,14 @@ class MenuItemDao extends DaoAbstract {
         }
         return $this->selectOne($this->sqlGetByList, [':lang_code_fk'=>$langCodeFk, ':list' => $list], true);
     }
-
+    public function findAllLanguageVersions($uidFk) {
+        if(!isset($this->sqlFindAllLanguageVersions)) {
+            $this->sqlFindAllLanguageVersions = "SELECT lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active "
+                . "FROM menu_item "
+                . $this->where($this->and($this->getContextConditions(), ['menu_item.uid_fk=:uid_fk']));
+        }
+        return $this->selectMany($this->sqlFindAllLanguageVersions, [':uid_fk' => $uidFk]);
+    }
     /**
      * Vrací pole řádek tabulky paper. Vrací řádky, které obsahují v polích nazev nebo obsah v zadaném jazyce slova uvedená v textu zadaném jako parametr.
      * Slova v parametru textu musí být oddělená mezerou, nejkratší vyhledávané slovo má 3 znaky.

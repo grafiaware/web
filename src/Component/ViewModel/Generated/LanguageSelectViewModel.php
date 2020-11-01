@@ -8,23 +8,30 @@
 
 namespace Component\ViewModel\Generated;
 
-use Model\Repository\LanguageRepo;
+use Component\ViewModel\StatusViewModelAbstract;
+
+use Model\Repository\StatusSecurityRepo;
 use Model\Repository\StatusPresentationRepo;
+use Model\Repository\StatusFlashRepo;
+
+use Model\Repository\LanguageRepo;
 
 /**
  * Description of LanguageSelectViewModel
  *
  * @author pes2704
  */
-class LanguageSelectViewModel implements LanguageSelectViewModelInterface {
+class LanguageSelectViewModel extends StatusViewModelAbstract implements LanguageSelectViewModelInterface {
 
     private $languageRepo;
 
-    private $statusPresentationRepo;
-
-    public function __construct(LanguageRepo $languageRepo, StatusPresentationRepo $statusPresentationRepo) {
+    public function __construct(
+            StatusSecurityRepo $statusSecurityRepo,
+            StatusPresentationRepo $statusPresentationRepo,
+            StatusFlashRepo $statusFlashRepo,
+            LanguageRepo $languageRepo) {
+        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo);
         $this->languageRepo = $languageRepo;
-        $this->statusPresentationRepo = $statusPresentationRepo;
     }
 
     public function getLanguages() {

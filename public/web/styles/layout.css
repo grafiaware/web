@@ -333,7 +333,7 @@
   color: inherit;
 }
 .layout .primary.button:hover {
-  background-color: #c29100 !important;
+  background-color: #c4002e !important;
 }
 .layout headline,
 .layout content,
@@ -408,7 +408,7 @@
   height: 17px;
 }
 .layout .jazyky img.jazyk-on {
-  border: double #FBBD08 3px;
+  border: double #EB1B4C 3px;
   height: 20px;
   width: 33px;
 }
@@ -496,7 +496,7 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  font-size: 18px;
+  font-size: 15.42857143px;
   margin: 10px;
 }
 .layout .close-item:hover,
@@ -645,9 +645,9 @@
   margin: 5px 5px 5px 0;
 }
 .layout .vodorovne-menu .text.menu .onpath > a {
-  color: #FBBD08;
+  color: #EB1B4C;
   background-color: #FFFFFF;
-  box-shadow: 0 0 0 1px #FBBD08 inset;
+  box-shadow: 0 0 0 1px #EB1B4C inset;
 }
 .layout .vodorovne-menu .text.menu .onpath > a:hover {
   background-color: #FFFFFF !important;

@@ -20,6 +20,7 @@ use Container\HierarchyContainerConfigurator;
 
 use Model\Dao\MenuItemDao;
 use Model\Repository\StatusPresentationRepo;
+use Model\Repository\StatusFlashRepo;
 
 use Pes\Http\Body;
 
@@ -95,7 +96,7 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
         $langCode = $statusPresentationRepo->get()->getLanguage()->getLangCode();
         $transform = [];
         $end = 0;
-
+        $notFound = [];
         do {
             $begin = strpos($text, $prefix, $end);
             if ($begin !== false) {
@@ -111,13 +112,26 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
                             $transform[$url] = "www/item/$langCode/{$row['uid_fk']}";
                         } else {
                             $notFound[] = $url;
-                            user_error("Nenalezen odkaz $url v databázi.", E_USER_WARNING);
+
                         }
                     }
                 }
             }
 
         } while ($begin!==false);
+        if ($notFound) {
+            $requestUri = $this->getApp()->getServerRequest()->getUri()->getPath();
+            /** @var StatusFlashRepo $statusFlashRepo */
+            $statusFlashRepo = $this->container->get(StatusFlashRepo::class);
+            foreach ($notFound as $url) {
+                $statusFlashRepo->get()->appendMessage("Nenalezen odkaz $url v databázi.");
+//                user_error("Nenalezen odkaz $url v databázi.", E_USER_WARNING);
+                if ($this->hasLogger()) {
+                    $this->getLogger()->notice("Pro uri $requestUri nenalezen v obsahu stránky v databázi odkaz $url.");
+                }
+            }
+
+        }
         return $transform;
     }
 }

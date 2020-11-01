@@ -93,6 +93,7 @@ class ApiRegistrator {
 
         #### ComponentController ####
         $registry->register($this->getPrototype->withUrlPattern('/component/v1/papertemplate/:name'));
+        $registry->register($this->getPrototype->withUrlPattern('/component/v1/authortemplate/:name'));
         $registry->register($this->getPrototype->withUrlPattern('/component/v1/namedpaper/:name'));
         $registry->register($this->getPrototype->withUrlPattern('/component/v1/presentedpaper'));
         $registry->register($this->getPrototype->withUrlPattern('/component/v1/flash'));

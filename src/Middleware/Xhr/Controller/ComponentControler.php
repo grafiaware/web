@@ -8,9 +8,13 @@
 
 namespace Middleware\Xhr\Controller;
 
+use Site\Configuration;
+
 use Psr\Http\Message\ServerRequestInterface;
+use Pes\Http\Request\RequestParams;
 
 use Model\Entity\MenuItemInterface;
+use Model\Entity\ComponentAggregateInterface;
 
 // komponenty
 use Component\View\{
@@ -26,7 +30,7 @@ use \Middleware\Xhr\AppContext;
 ####################
 
 use Model\Repository\{
-    HierarchyNodeRepo, MenuRootRepo, MenuItemRepo
+    HierarchyAggregateRepo, MenuRootRepo, MenuItemRepo, ComponentAggregateRepo
 };
 
 use \StatusManager\StatusPresentationManager;
@@ -50,8 +54,6 @@ use \Pes\View\ViewFactory;
  */
 class ComponentControler extends XhrControlerAbstract {
 
-    const DEEAULT_HIERARCHY_ROOT_COMPONENT_NAME = 's';
-
     ### action metody ###############
     /**
      * NEPOUŽITO
@@ -64,7 +66,8 @@ class ComponentControler extends XhrControlerAbstract {
         $menuRootRepo = $this->container->get(MenuRootRepo::class);
         /** @var MenuItemRepo $menuItemRepo */
         $menuItemRepo = $this->container->get(MenuItemRepo::class);
-        $uidFk = $menuRootRepo->get(StatusPresentationManager::DEEAULT_HIERARCHY_ROOT_COMPONENT_NAME)->getUidFk();
+        $uidFk = $menuRootRepo->get(Configuration::statusPresentationManager()['default_hierarchy_root_component_name'])->getUidFk();
+
         $langCode = $statusPresentation->getLanguage()->getLangCode();
         $rootMenuItem = $menuItemRepo->get($langCode, $uidFk );    // kořen menu
         $statusPresentation->setMenuItem($rootMenuItem);
@@ -79,53 +82,75 @@ class ComponentControler extends XhrControlerAbstract {
     }
 
     public function namedPaper(ServerRequestInterface $request, $name) {
-        $view = $this->container->get('component.block')->setComponentName($name);
+
+        $view = $this->getNamedComponent($name);
         return $this->createResponseFromView($request, $view);
     }
 
     public function presentedPaper(ServerRequestInterface $request) {
-        // dočasně duplicitní s ComponentController a XhrControler
-        $menuItem = $this->statusPresentationRepo->get()->getMenuItem();
-        $template = (new RequestParams())->getParam($request, 'template');
-        $editable = $this->isEditableArticle();
+        // dočasně duplicitní s PageController a XhrControler
+        $view = $this->getPresentedComponent();
+        return $this->createResponseFromView($request, $view);
+    }
+
+    private function getNamedComponent($name) {
+        if ($this->isEditableLayout()) {
+            return $this->container->get('component.named.editable')->setComponentName($name);
+        } else {
+            return $this->container->get('component.named')->setComponentName($name);
+        }
+    }
+
+
+    private function getPresentedComponent() {
+        return $this->getMenuItemComponent($this->statusPresentationRepo->get()->getMenuItem());
+    }
+
+
+    /**
+     * Vrací view objekt pro zobrazení centrálního obsahu v prostoru pro "content"
+     * @return type
+     */
+    private function getMenuItemComponent(MenuItemInterface $menuItem) {
+        // dočasně duplicitní s ComponentControler
         $menuItemType = $menuItem->getTypeFk();
             switch ($menuItemType) {
                 case 'segment':
-                    if ($editable) {
-                        $view = $this->container->get('article.block.editable');
+                    if ($this->isEditableArticle()) {
+                        $content = $this->container->get('component.presented.editable');
                     } else {
-                        $view = $this->container->get('article.block');
+                        $content = $this->container->get('component.presented');
                     }
                     break;
                 case 'empty':
-                    if ($editable) {
-                        $view = $this->container->get(ItemTypeSelectComponent::class);
+                    if ($this->isEditableArticle()) {
+                        $content = $this->container->get(ItemTypeSelectComponent::class);
                     } else {
-                        $view = $this->container->get('article.headlined');
+                        $content = '';
                     }
                     break;
                 case 'paper':
-                    if ($editable) {
-                        $view = $this->container->get('article.headlined.editable');
+                    if ($this->isEditableArticle()) {
+                        $content = $this->container->get('component.presented.editable');
                     } else {
-                        $view = $this->container->get('article.headlined');
+                        $content = $this->container->get('component.presented');
                     }
                     break;
                 case 'redirect':
-                    $view = "No content for redirect type.";
+                    $content = "No content for redirect type.";
                     break;
                 case 'root':
-                        $view = $this->container->get('article.headlined');
+                        $content = $this->container->get('component.presented');
                     break;
                 case 'trash':
-                        $view = $this->container->get('article.headlined');
+                        $content = $this->container->get('component.presented');
                     break;
 
                 default:
-                        $view = $this->container->get('article.headlined');
+                        $content = $this->container->get('component.presented');
                     break;
             }
-        return $this->createResponseFromView($request, $view);
+        return $content;
     }
 
     /**
@@ -140,8 +165,8 @@ class ComponentControler extends XhrControlerAbstract {
         $menuItem = $componentAggregate->getMenuItem();  // může být null - neaktivní nebo nektuální item v komponentě
         $paperAggregate = isset($menuItem) ? $this->paperAggregateRepo->getByReference($menuItem->getId()) : null;
 
-        /** @var HierarchyNodeRepo $menuRepo */
-        $menuRepo = $this->container->get(HierarchyNodeRepo::class);
+        /** @var HierarchyAggregateRepo $menuRepo */
+        $menuRepo = $this->container->get(HierarchyAggregateRepo::class);
         $menuNode = $menuRepo->get($langCode, $uid);
         if ($menuNode) {
             $menuItem = $menuNode->getMenuItem();

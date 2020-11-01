@@ -31,10 +31,10 @@ use Pes\Logger\FileLogger;
 
 use Pes\Database\Manipulator\Manipulator;
 
-use Model\Dao\Hierarchy\NodeEditDao;
-use Model\Dao\Hierarchy\NodeAggregateReadonlyDao;
-use Model\Dao\Hierarchy\NodeEditDaoInterface;
-use Model\Dao\Hierarchy\NodeAggregateReadonlyDaoInterface;
+use Model\Dao\Hierarchy\HierarchyAggregateEditDao;
+use Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
+use Model\Dao\Hierarchy\HierarchyAggregateEditDaoInterface;
+use Model\Dao\Hierarchy\HierarchyAggregateReadonlyDaoInterface;
 
 use Model\HierarchyHooks\HookedMenuItemActor;
 use Model\HierarchyHooks\ArticleTitleUpdater;
@@ -97,8 +97,8 @@ class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
     public function getAliases() {
         return [
             RouterInterface::class => Router::class,
-            NodeAggregateReadonlyDaoInterface::class => NodeAggregateReadonlyDao::class,
-            NodeEditDaoInterface::class => NodeEditDao::class,
+            HierarchyAggregateReadonlyDaoInterface::class => HierarchyAggregateReadonlyDao::class,
+            HierarchyAggregateEditDaoInterface::class => HierarchyAggregateEditDao::class,
         ];
     }
 
@@ -155,12 +155,12 @@ class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
             },
 
             // hierarchny
-            NodeAggregateReadonlyDao::class => function(ContainerInterface $c) : NodeAggregateReadonlyDao {
-                return new NodeAggregateReadonlyDao($c->get(Handler::class), $c->get('build.hierarchy.view'));
+            HierarchyAggregateReadonlyDao::class => function(ContainerInterface $c) : HierarchyAggregateReadonlyDao {
+                return new HierarchyAggregateReadonlyDao($c->get(Handler::class), $c->get('build.hierarchy.view'));
             },
 
-            NodeEditDao::class => function(ContainerInterface $c) : NodeEditDao {
-                return new NodeEditDao($c->get(Handler::class), $c->get('build.hierarchy.table'));
+            HierarchyAggregateEditDao::class => function(ContainerInterface $c) : HierarchyAggregateEditDao {
+                return new HierarchyAggregateEditDao($c->get(Handler::class), $c->get('build.hierarchy.table'));
             },
 
 //            HookedMenuItemActor::class => function(ContainerInterface $c) {

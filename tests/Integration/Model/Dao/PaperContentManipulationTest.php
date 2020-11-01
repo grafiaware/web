@@ -16,7 +16,7 @@ use Application\WebAppFactory;
 use Pes\Container\Container;
 use Container\WebContainerConfigurator;
 use Container\HierarchyContainerConfigurator;
-use Model\Dao\Hierarchy\NodeAggregateReadonlyDao;
+use Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
 use Model\Repository\MenuItemAggregateRepo;
 use Model\Entity\MenuItemPaperAggregateInterface;
 
@@ -126,7 +126,7 @@ class PaperContentManipulationTest extends TestCase {
         $this->menuItemAggRepo = $this->container->get(MenuItemAggregateRepo::class);
 
         /** @var ReadHierarchy $hierarchy */
-        $hierarchy = $this->container->get(NodeAggregateReadonlyDao::class);
+        $hierarchy = $this->container->get(HierarchyAggregateReadonlyDao::class);
         $this->langCode = 'cs';
         $this->title = 'Test 2';
         $node = $hierarchy->getByTitleHelper($this->langCode, $this->title);

@@ -34,7 +34,7 @@ class EditItemController extends PresentationFrontControllerAbstract {
     }
 
     public function toggle(ServerRequestInterface $request, $uid) {
-        $menuItem = $this->getMenuItem($uid);
+        $menuItem = $this->findAllLanguageVersions($uid);
         $active = $menuItem->getActive() ? 0 : 1;  //active je integer
         $menuItem->setActive($active);
         $this->addFlashMessage("menuItem toggle(".($active?'true':'false').")");
@@ -51,12 +51,17 @@ class EditItemController extends PresentationFrontControllerAbstract {
     }
 
     public function type(ServerRequestInterface $request, $uid) {
-        $menuItem = $this->getMenuItem($uid);
         $type = (new RequestParams())->getParam($request, 'type');
-        $menuItem->setType($type);
+        foreach ($this->findAllLanguageVersions($uid) as $menuItem) {
+            $menuItem->setType($type);
+        }
         $this->addFlashMessage("menuItem type($type)");
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
         return $this->redirectSeeOther($request, "www/item/$langCode/$uid/");
+    }
+
+    private function findAllLanguageVersions($uid) {
+        return $this->menuItemRepo->findAllLanguageVersions($uid);
     }
 
     private function getMenuItem($uid) {

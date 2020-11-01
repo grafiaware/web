@@ -38,6 +38,13 @@ interface MenuItemRepoInterface extends RepoInterface, RepoAssotiatedOneInterfac
 
     /**
      *
+     * @param type $uidFk
+     * @return iterable
+     */
+    public function findAllLanguageVersions($uidFk): iterable;
+    
+    /**
+     *
      * @param string $langCodeFk
      * @param string $text
      * @return MenuItemInterface array of

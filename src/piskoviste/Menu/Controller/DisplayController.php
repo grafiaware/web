@@ -12,7 +12,7 @@ use Pes\Container\Container;
 use Menu\Psr\Http\Message\ServerRequestInterface;
 
 use Menu\Model\HierarchyHooks\MenuListStyles;
-use Menu\Model\Repository\HierarchyNodeRepo;
+use Menu\Model\Repository\HierarchyAggregateRepo;
 
 // propojení s middleware web
 use Menu\Component\ViewModel\Authored\Menu\MenuViewModel;
@@ -55,8 +55,8 @@ class DisplayController extends FrontControllerAbstract {
         $ulElementId = $this->container->get('menuUlElementId');
 
         $subDomain = "/www_grafia_development_v0_5/"; //$this->container->get(ServerRequestInterface::class)->getUri()->getPath();
-        /* @var $menuRepo HierarchyNodeRepo */
-        $menuRepo = $this->container->get(HierarchyNodeRepo::class);
+        /* @var $menuRepo HierarchyAggregateRepo */
+        $menuRepo = $this->container->get(HierarchyAggregateRepo::class);
 
         $mode = 2;
         $langCode = 'cs';

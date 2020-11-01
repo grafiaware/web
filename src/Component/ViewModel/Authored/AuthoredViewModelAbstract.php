@@ -8,6 +8,8 @@
 
 namespace Component\ViewModel\Authored;
 
+use Component\ViewModel\StatusViewModelAbstract;
+
 use Model\Repository\StatusSecurityRepo;
 use Model\Repository\StatusPresentationRepo;
 use Model\Repository\StatusFlashRepo;
@@ -17,32 +19,7 @@ use Model\Repository\StatusFlashRepo;
  *
  * @author pes2704
  */
-class AuthoredViewModelAbstract implements AuthoredViewModelInterface {
-
-    /**
-     * @var StatusSecurityRepo
-     */
-    protected $statusSecurityRepo;
-
-    /**
-     * @var StatusPresentationRepo
-     */
-    protected $statusPresentationRepo;
-
-    /**
-     * @var StatusFlashRepo
-     */
-    protected $statusFlashRepo;
-
-    public function __construct(
-            StatusSecurityRepo $statusSecurityRepo,
-            StatusPresentationRepo $statusPresentationRepo,
-            StatusFlashRepo $statusFlashRepo
-            ) {
-        $this->statusSecurityRepo = $statusSecurityRepo;
-        $this->statusPresentationRepo = $statusPresentationRepo;
-        $this->statusFlashRepo = $statusFlashRepo;
-    }
+class AuthoredViewModelAbstract extends StatusViewModelAbstract implements AuthoredViewModelInterface {
 
     /**
      *

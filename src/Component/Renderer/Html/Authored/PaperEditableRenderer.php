@@ -15,7 +15,7 @@ use Component\ViewModel\Authored\Paper\NamedPaperViewModelInterface;
 use Component\ViewModel\Authored\Paper\PresentedPaperViewModelInterface;
 use Pes\Text\Html;
 
-use Component\View\Authored\ButtonsForm\PaperTemplateButtonsForm;
+use Component\View\Authored\Paper\ButtonsForm\PaperTemplateButtonsForm;
 
 /**
  * Description of PaperRenderer
@@ -81,7 +81,7 @@ class PaperEditableRenderer  extends AuthoredEditableRendererAbstract {
     }
 
     private function renderSelectPaperTemplate(PresentedPaperViewModelInterface $viewModel) {
-        $menuItemId = $viewModel->getPresentedMenuItem()->getId();
+        $menuItemId = $viewModel->getMenuItem()->getId();
         return
             Html::tag('form', ['method' => 'POST', 'action' => 'api/v1/paper'],
                 Html::tag('input', ['name'=>'menu_item_id', 'value'=>$menuItemId, 'type'=>'hidden'])

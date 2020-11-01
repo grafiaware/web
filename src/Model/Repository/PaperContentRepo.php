@@ -42,6 +42,11 @@ class PaperContentRepo extends RepoAbstract implements PaperContentRepoInterface
         return $this->collection[$index] ?? NULL;
     }
 
+    /**
+     *
+     * @param type $paperIdFk
+     * @return iterable
+     */
     public function findByReference($paperIdFk): iterable {
         $selected = [];
         foreach ($this->dao->findAllByFk($paperIdFk) as $paperContentRow) {

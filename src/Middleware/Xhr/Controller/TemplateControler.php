@@ -11,6 +11,7 @@ namespace Middleware\Xhr\Controller;
 use Psr\Http\Message\ServerRequestInterface;
 
 use Model\Entity\MenuItemInterface;
+use Model\Entity\PaperAggregate;
 
 // komponenty
 use Component\View\{
@@ -26,7 +27,7 @@ use \Middleware\Xhr\AppContext;
 ####################
 
 use Model\Repository\{
-    HierarchyNodeRepo, MenuRootRepo, MenuItemRepo
+    HierarchyAggregateRepo, MenuRootRepo, MenuItemRepo
 };
 
 use \StatusManager\StatusPresentationManager;
@@ -54,17 +55,29 @@ class TemplateControler extends XhrControlerAbstract {
 
     ### action metody ###############
 
-    public function papertemplate(ServerRequestInterface $request, $templateName) {
+    public function papertemplate(ServerRequestInterface $request, $paperTemplateName) {
+        $paperAggregate = new PaperAggregate();
+        $paperAggregate->exchangePaperContentsArray([])   //  ['content'=> Message::t('Contents')]
+                ->setTemplate($paperTemplateName)
+                ->setHeadline(Message::t('Headline'))
+                ->setPerex(Message::t('Perex'))
+                ;
+
         $view = $this->container->get(View::class)
-                                ->setTemplate(new PhpTemplate(PROJECT_PATH."public/web/templates/paper/".$templateName."/template.php"))
+                                ->setTemplate(new PhpTemplate(PROJECT_PATH."public/web/templates/paper/".$paperTemplateName."/template.php"))
                                 ->setData([
-                                    'templateName' => $templateName,
-                                    'headline' => Message::t('Headline'),
-                                    'perex' => Message::t('Perex'),
-                                    'contents' => [ ['content'=> Message::t('Contents')]],
+                                    'paperAggregate' => $paperAggregate,
                                 ]);
         return $this->createResponseFromView($request, $view);
     }
 
-
+    public function authorTemplate(ServerRequestInterface $request, $authorTemplateName) {
+        $filename = PROJECT_PATH."public/web/templates/author/default/".$paperTemplateName.".html";
+        if (is_readable($filename)) {
+            $str = file_get_contents($filename);
+        } else {
+            $str = '';
+        }
+        return $str;
+    }
 }

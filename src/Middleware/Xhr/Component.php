@@ -68,6 +68,11 @@ class Component extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(TemplateControler::class);
             return $ctrl->papertemplate($request, $name);
             });
+        $routeGenerator->addRouteForAction('GET', '/component/v1/authortemplate/:name', function(ServerRequestInterface $request, $name) {
+            /** @var TemplateControler $ctrl */
+            $ctrl = $this->container->get(TemplateControler::class);
+            return $ctrl->authorTemplate($request, $name);
+            });
 
         #### ComponentControler ####
 

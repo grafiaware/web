@@ -121,22 +121,6 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
             'menu.kos.menuwraprenderer.editable' => function(ContainerInterface $c) {
                 return new MenuWrapEditableRenderer($c->get('menu.kos.classmap'));
             },
-        ###########################
-        # paper renderer
-        ###########################
-            'paper.headlined.renderer' => function(ContainerInterface $c) {
-                return new PaperRenderer($c->get('paper.classmap'));
-            },
-            'paper.headlined.renderer.editable' => function(ContainerInterface $c) {
-                return new PaperEditableRenderer($c->get('paper.editable.classmap'));
-            },
-            'paper.block.renderer' => function(ContainerInterface $c) {
-                return new PaperRenderer($c->get('block.classmap'));
-            },
-            'paper.block.renderer.editable' => function(ContainerInterface $c) {
-                return new PaperEditableRenderer($c->get('block.editable.classmap'));
-            },
-
 
         ];
     }
@@ -149,9 +133,18 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getServicesOverrideDefinitions() {
         return [
-        #
+        ###########################
+        # paper renderer
+        ###########################
+            PaperRenderer::class => function(ContainerInterface $c) {
+                return new PaperRenderer($c->get('paper.classmap'));
+            },
+            PaperEditableRenderer::class => function(ContainerInterface $c) {
+                return new PaperEditableRenderer($c->get('paper.editable.classmap'));
+            },
+        ###########################
         #  generated renderer
-        #
+        ###########################
             LanguageSelectRenderer::class => function(ContainerInterface $c) {
                 return new LanguageSelectRenderer($c->get('generated.languageselect.classmap'));
             },
@@ -164,9 +157,9 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
             ItemTypeRenderer::class => function(ContainerInterface $c) {
                 return new ItemTypeRenderer();
             },
-        #
+        ###########################
         #  default template renderer
-        #
+        ###########################
 //            PhpTemplateRenderer::class => function(ContainerInterface $c) {
 //                return new PhpTemplateRenderer();
 //            },
