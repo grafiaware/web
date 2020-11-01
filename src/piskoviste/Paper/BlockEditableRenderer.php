@@ -14,7 +14,7 @@ use Component\ViewModel\Authored\Paper\PaperViewModelInterface;
 use Component\ViewModel\Authored\Paper\NamedPaperViewModelInterface;
 use Pes\Text\Html;
 
-use Model\Entity\HierarchyNodeInterface;
+use Model\Entity\HierarchyAggregateInterface;
 use Model\Entity\MenuItemPaperAggregateInterface;
 
 /**
@@ -51,7 +51,7 @@ class BlockEditableRenderer extends HtmlRendererAbstract {
                );
     }
     
-    private function renderButtons(HierarchyNodeInterface $menuNode, MenuItemPaperAggregateInterface $paper) {
+    private function renderButtons(HierarchyAggregateInterface $menuNode, MenuItemPaperAggregateInterface $paper) {
         //TODO: atributy data-tooltip a data-position jsou pro semantic - zde jsou napevno zadané
             return
             Html::tag('div', ['class'=>$this->classMap->getClass('Buttons', 'div')],

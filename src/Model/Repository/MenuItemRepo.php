@@ -46,8 +46,31 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
         return $this->collection[$index] ?? null;
     }
 
+    /**
+     *
+     * @param array $id Asociativní pole atributů klíče
+     * @return EntityInterface|null
+     */
     public function getByReference($id): ?EntityInterface {
+        // TODO: SV dočasné řešení - kompozitní líč jako pole - dodělat Identity
         return $this->get($id['lang_code_fk'], $id['uid_fk']);
+    }
+
+    /**
+     *
+     * @param type $uidFk
+     * @return iterable
+     */
+    public function findAllLanguageVersions($uidFk): iterable {
+        $selected = [];
+        foreach ($this->dao->findAllLanguageVersions($uidFk) as $menuitemRow) {
+            $index = $this->indexFromRow($menuitemRow);
+            if (!isset($this->collection[$index])) {
+                $this->recreateEntity($index, $menuitemRow);
+            }
+            $selected[] = $this->collection[$index];
+        }
+        return $selected;
     }
 
     /**

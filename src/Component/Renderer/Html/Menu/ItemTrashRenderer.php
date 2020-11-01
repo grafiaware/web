@@ -3,7 +3,7 @@ namespace Component\Renderer\Html\Menu;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
 use Pes\Text\Html;
-use Model\Entity\HierarchyNodeInterface;
+use Model\Entity\HierarchyAggregateInterface;
 use Component\ViewModel\Authored\Menu\Item\ItemViewModel;
 
 use Pes\Utils\Directory;
@@ -49,7 +49,7 @@ class ItemTrashRenderer extends HtmlRendererAbstract {
         return $html;
     }
 
-    private function renderButtons(HierarchyNodeInterface $menuNode) {
+    private function renderButtons(HierarchyAggregateInterface $menuNode) {
 
         return
         Html::tag('div', ['class'=>$this->classMap->getClass('Buttons', 'div')],

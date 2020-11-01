@@ -1,6 +1,12 @@
 <?php
 namespace Component\ViewModel\Generated;
 
+use Component\ViewModel\StatusViewModelAbstract;
+
+use Model\Repository\StatusSecurityRepo;
+use Model\Repository\StatusPresentationRepo;
+use Model\Repository\StatusFlashRepo;
+
 use Model\Repository\StatusPresentationRepo;
 use Model\Repository\MenuItemRepo;
 
@@ -17,16 +23,18 @@ use Pes\Text\Message;
  *
  * @author pes2704
  */
-class SearchResultViewModel {
+class SearchResultViewModel extends StatusViewModelAbstract implements SearchResultViewModelInterface {
 
     private $query;
 
-    private $statusPresentationRepo;
-
     private $menuItemRepo;
 
-    public function __construct(StatusPresentationRepo $statusPresentationRepo, MenuItemRepo $menuItemRepo) {
-        $this->statusPresentationRepo = $statusPresentationRepo;
+    public function __construct(
+            StatusSecurityRepo $statusSecurityRepo,
+            StatusPresentationRepo $statusPresentationRepo,
+            StatusFlashRepo $statusFlashRepo,
+            MenuItemRepo $menuItemRepo) {
+        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo);
         $this->menuItemRepo = $menuItemRepo;
     }
 

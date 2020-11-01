@@ -8,23 +8,14 @@
 
 namespace Component\ViewModel\Status;
 
-use Model\Repository\StatusSecurityRepo;
-use Model\Repository\StatusPresentationRepo;
+use Component\ViewModel\StatusViewModelAbstract;
 
 /**
  * Description of StatusBoardViewModel
  *
  * @author pes2704
  */
-class StatusBoardViewModel implements StatusBoardViewModelInterface {
-
-    private $statusSecurityRepo;
-    private $statusPresentationRepo;
-
-    public function __construct(StatusSecurityRepo $statusSecurityRepo, StatusPresentationRepo $statusPresentationRepo) {
-        $this->statusSecurityRepo = $statusSecurityRepo;
-        $this->statusPresentationRepo = $statusPresentationRepo;
-    }
+class StatusBoardViewModel extends StatusViewModelAbstract implements StatusBoardViewModelInterface {
 
     public function getLanguageInfo() {
         $language = $this->statusPresentationRepo->get()->getLanguage();

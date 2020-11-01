@@ -8,8 +8,6 @@
 
 namespace Component\ViewModel\Authored\Paper;
 
-use Component\ViewModel\Authored\Paper\PaperViewModelInterface;
-
 use Model\Entity\PaperAggregateInterface;
 use Model\Entity\MenuItemInterface;
 

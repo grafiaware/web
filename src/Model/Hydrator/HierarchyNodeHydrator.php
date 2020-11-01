@@ -9,7 +9,7 @@
 namespace Model\Hydrator;
 
 use Model\Entity\EntityInterface;
-use Model\Entity\HierarchyNodeInterface;
+use Model\Entity\HierarchyAggregateInterface;
 
 /**
  * Description of MenuNodeHydrator
@@ -20,11 +20,11 @@ class HierarchyNodeHydrator implements HydratorInterface {
 
     /**
      *
-     * @param HierarchyNodeInterface $menuNode
+     * @param HierarchyAggregateInterface $menuNode
      * @param type $row
      */
     public function hydrate(EntityInterface $menuNode, &$row) {
-        /** @var HierarchyNodeInterface $menuNode */
+        /** @var HierarchyAggregateInterface $menuNode */
         $menuNode
             ->setUid($row['uid'])
             ->setDepth($row['depth'])
@@ -36,11 +36,11 @@ class HierarchyNodeHydrator implements HydratorInterface {
 
     /**
      *
-     * @param HierarchyNodeInterface $menuNode
+     * @param HierarchyAggregateInterface $menuNode
      * @param type $row
      */
     public function extract(EntityInterface $menuNode, &$row) {
-        /** @var HierarchyNodeInterface $menuNode */
+        /** @var HierarchyAggregateInterface $menuNode */
         $row['uid'] = $menuNode->getUid();
         $row['left_node'] = $menuNode->getLeftNode();
         $row['right_node'] = $menuNode->getRightNode();

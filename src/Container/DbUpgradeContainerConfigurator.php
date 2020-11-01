@@ -29,10 +29,10 @@ use Pes\Logger\FileLogger;
 // models
 
 //dao + hydrator + repo
-use Model\Dao\Hierarchy\NodeEditDao;
-use Model\Dao\Hierarchy\NodeAggregateReadonlyDao;
-use Model\Dao\Hierarchy\NodeEditDaoInterface;
-use Model\Dao\Hierarchy\NodeAggregateReadonlyDaoInterface;
+use Model\Dao\Hierarchy\HierarchyAggregateEditDao;
+use Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
+use Model\Dao\Hierarchy\HierarchyAggregateEditDaoInterface;
+use Model\Dao\Hierarchy\HierarchyAggregateReadonlyDaoInterface;
 
 
 /**
@@ -54,8 +54,8 @@ class DbUpgradeContainerConfigurator extends ContainerConfiguratorAbstract {
         return [
             HandlerInterface::class => Handler::class,
             RouterInterface::class => Router::class,
-            NodeAggregateReadonlyDaoInterface::class => NodeAggregateReadonlyDao::class,
-            NodeEditDaoInterface::class => NodeEditDao::class,
+            HierarchyAggregateReadonlyDaoInterface::class => HierarchyAggregateReadonlyDao::class,
+            HierarchyAggregateEditDaoInterface::class => HierarchyAggregateEditDao::class,
         ];
     }
 

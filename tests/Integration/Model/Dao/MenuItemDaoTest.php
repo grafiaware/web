@@ -16,7 +16,7 @@ use Application\WebAppFactory;
 use Pes\Container\Container;
 use Container\WebContainerConfigurator;
 use Container\HierarchyContainerConfigurator;
-use Model\Dao\Hierarchy\NodeAggregateReadonlyDao;
+use Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
 
 use Model\Dao\MenuItemDao;
 
@@ -109,8 +109,8 @@ class MenuItemDaoTest extends TestCase {
 
         $this->dao = $this->container->get(MenuItemDao::class);  // vždy nový objekt
 
-        /** @var NodeAggregateReadonlyDao $hierarchy */
-        $hierarchy = $this->container->get(NodeAggregateReadonlyDao::class);
+        /** @var HierarchyAggregateReadonlyDao $hierarchy */
+        $hierarchy = $this->container->get(HierarchyAggregateReadonlyDao::class);
         $this->langCode = 'cs';
         $this->title = 'Test 2';
         $node = $hierarchy->getByTitleHelper($this->langCode, $this->title);

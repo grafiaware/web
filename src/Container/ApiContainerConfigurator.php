@@ -29,7 +29,7 @@ use \Middleware\Api\ApiController\{
 };
 
 // dao
-use Model\Dao\Hierarchy\NodeEditDao;
+use Model\Dao\Hierarchy\HierarchyAggregateEditDao;
 
 // repo
 use Model\Repository\{
@@ -37,7 +37,7 @@ use Model\Repository\{
     StatusPresentationRepo,
     StatusFlashRepo,
     LanguageRepo,
-    HierarchyNodeRepo,
+    HierarchyAggregateRepo,
     MenuItemRepo,
     MenuItemTypeRepo,
     ComponentRepo,
@@ -100,7 +100,7 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
-                        $c->get(NodeEditDao::class),
+                        $c->get(HierarchyAggregateEditDao::class),
                         $c->get(MenuRootRepo::class));
             },
             EditItemController::class => function(ContainerInterface $c) {

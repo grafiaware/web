@@ -25,7 +25,7 @@ abstract class AuthoredComponentAbstract extends CompositeComponentAbstract impl
      */
     protected $editable;
 
-    public function seEditable($editable) {
+    public function setEditable($editable) {
         $this->editable = $editable;
     }
 }

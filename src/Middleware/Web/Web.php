@@ -19,7 +19,7 @@ use Container\DbUpgradeContainerConfigurator;
 use Container\HierarchyContainerConfigurator;
 use Container\ComponentContainerConfigurator;
 
-use Middleware\Web\Controller\ComponentController;
+use Middleware\Web\Controller\PageController;
 
 class Web extends AppMiddlewareAbstract implements MiddlewareInterface {
 
@@ -51,23 +51,23 @@ class Web extends AppMiddlewareAbstract implements MiddlewareInterface {
         $routeGenerator = $this->container->get(RouteSegmentGenerator::class);
 
         $routeGenerator->addRouteForAction('GET', '/www/last', function(ServerRequestInterface $request) {
-            /** @var ComponentController $ctrl */
-            $ctrl = $this->container->get(ComponentController::class);
+            /** @var PageController $ctrl */
+            $ctrl = $this->container->get(PageController::class);
             return $ctrl->last($request);
             });
         $routeGenerator->addRouteForAction('GET', '/www/item/:langCode/:uid', function(ServerRequestInterface $request, $langCode, $uid) {
-            /** @var ComponentController $ctrl */
-            $ctrl = $this->container->get(ComponentController::class);
+            /** @var PageController $ctrl */
+            $ctrl = $this->container->get(PageController::class);
             return $ctrl->item($request, $langCode, $uid);
             });
         $routeGenerator->addRouteForAction('GET', '/www/searchresult', function(ServerRequestInterface $request) {
-            /** @var ComponentController $ctrl */
-            $ctrl = $this->container->get(ComponentController::class);
+            /** @var PageController $ctrl */
+            $ctrl = $this->container->get(PageController::class);
             return $ctrl->searchResult($request);
             });
         $routeGenerator->addRouteForAction('GET', '/', function(ServerRequestInterface $request) {
-            /** @var ComponentController $ctrl */
-            $ctrl = $this->container->get(ComponentController::class);
+            /** @var PageController $ctrl */
+            $ctrl = $this->container->get(PageController::class);
             return $ctrl->home($request);
             });
 

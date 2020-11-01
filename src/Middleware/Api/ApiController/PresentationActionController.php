@@ -70,6 +70,7 @@ class PresentationActionController extends PresentationFrontControllerAbstract {
     public function setEditArticle(ServerRequestInterface $request) {
         $edit = (new RequestParams())->getParsedBodyParam($request, 'edit_article');
         $this->statusSecurityRepo->get()->getUserActions()->setEditableArticle($edit);
+        $this->statusSecurityRepo->get()->getUserActions()->setEditableLayout(false);
         $this->addFlashMessage("setEditableArticle($edit)");
         return $this->response($request);
     }
@@ -77,6 +78,7 @@ class PresentationActionController extends PresentationFrontControllerAbstract {
     public function setEditLayout(ServerRequestInterface $request) {
         $edit = (new RequestParams())->getParsedBodyParam($request, 'edit_layout');
         $this->statusSecurityRepo->get()->getUserActions()->setEditableLayout($edit);
+        $this->statusSecurityRepo->get()->getUserActions()->setEditableArticle(false);
         $this->addFlashMessage("setEditableLayout($edit)");
         return $this->response($request);
     }

@@ -36,12 +36,12 @@ use Model\Repository\{
     StatusPresentationRepo
 };
 //dao + hydrator + repo
-use Model\Dao\Hierarchy\NodeEditDao;
-use Model\Dao\Hierarchy\NodeAggregateReadonlyDao;
-use Model\Dao\Hierarchy\NodeEditDaoInterface;
-use Model\Dao\Hierarchy\NodeAggregateReadonlyDaoInterface;
+use Model\Dao\Hierarchy\HierarchyAggregateEditDao;
+use Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
+use Model\Dao\Hierarchy\HierarchyAggregateEditDaoInterface;
+use Model\Dao\Hierarchy\HierarchyAggregateReadonlyDaoInterface;
 use Model\Hydrator\HierarchyNodeHydrator;
-use Model\Repository\HierarchyNodeRepo;
+use Model\Repository\HierarchyAggregateRepo;
 
 use Model\Dao\MenuItemDao;
 use Model\Hydrator\MenuItemHydrator;
@@ -105,8 +105,8 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
         return [
             HandlerInterface::class => Handler::class,
             RouterInterface::class => Router::class,
-            NodeAggregateReadonlyDaoInterface::class => NodeAggregateReadonlyDao::class,
-            NodeEditDaoInterface::class => NodeEditDao::class,
+            HierarchyAggregateReadonlyDaoInterface::class => HierarchyAggregateReadonlyDao::class,
+            HierarchyAggregateEditDaoInterface::class => HierarchyAggregateEditDao::class,
             StatusPresentationManagerInterface::class => StatusPresentationManager::class,
         ];
     }
@@ -118,16 +118,16 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
                                 $c->get(StatusPresentationRepo::class));
             },
 
-            NodeAggregateReadonlyDao::class => function(ContainerInterface $c) : NodeAggregateReadonlyDao {
-                return new NodeAggregateReadonlyDao(
+            HierarchyAggregateReadonlyDao::class => function(ContainerInterface $c) : HierarchyAggregateReadonlyDao {
+                return new HierarchyAggregateReadonlyDao(
                         $c->get(Handler::class),
                         $c->get('hierarchy.table'),
                         $c->get('hierarchy.menu_item_table'),
                         $c->get(ContextFactory::class));
             },
-            NodeEditDao::class => function(ContainerInterface $c) : NodeEditDao {
-                /** @var NodeEditDao $editHierarchy */
-                $editHierarchy = (new NodeEditDao(
+            HierarchyAggregateEditDao::class => function(ContainerInterface $c) : HierarchyAggregateEditDao {
+                /** @var HierarchyAggregateEditDao $editHierarchy */
+                $editHierarchy = (new HierarchyAggregateEditDao(
                         $c->get(Handler::class),
                         $c->get('hierarchy.table'),
                         $c->get(ContextFactory::class))
@@ -158,8 +158,8 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
 //                        $c->get(MenuNodeHydrator::class)
                         );
             },
-            HierarchyNodeRepo::class => function(ContainerInterface $c) {
-                return new HierarchyNodeRepo($c->get(NodeAggregateReadonlyDao::class),
+            HierarchyAggregateRepo::class => function(ContainerInterface $c) {
+                return new HierarchyAggregateRepo($c->get(HierarchyAggregateReadonlyDao::class),
                         $c->get(HierarchyNodeHydrator::class), $c->get(MenuItemHydrator::class),
                         $c->get(MenuItemRepo::class));
             },

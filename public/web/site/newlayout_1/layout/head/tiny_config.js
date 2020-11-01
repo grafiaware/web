@@ -1,7 +1,7 @@
 var tinyConfig = {
     basePath: '{{basePath}}',
-    contentCss: ['{{urlStylesCss}}', '{{urlSemanticCss}}', '{{urlZkouskaCss}}'],
+    contentCss: ['{{urlStylesCss}}', '{{urlSemanticCss}}', '{{urlContentTemplatesCss}}'],
     paper_templates_uri : '{{paperTemplatesUri}}',
-    content_templates_path : '{{contentTemplatesPath}}',
+    author_templates_path : '{{authorTemplatesPath}}',
     toolbarsLang: '{{toolbarsLang}}'
 };

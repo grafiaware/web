@@ -7,7 +7,7 @@ use Menu\Psr\Http\Message\RequestInterface;
 use Pes\Http\Response\RedirectResponse;
 use Pes\Http\Response;
 
-use Menu\Model\Dao\Hierarchy\NodeEditDao;
+use Menu\Model\Dao\Hierarchy\HierarchyAggregateEditDao;
 use Menu\Model\HierarchyHooks\HookedMenuItemActor;
 
 use Menu\Model\HierarchyHooks\ArticleTitleUpdater;
@@ -22,23 +22,23 @@ class EditMenuController extends FrontControllerAbstract {
 /* non REST metody */
     public function add($id) {
 
-        /* @var $hierarchy NodeEditDao */
-        $hierarchy = $this->container->get(NodeEditDao::class);
+        /* @var $hierarchy HierarchyAggregateEditDao */
+        $hierarchy = $this->container->get(HierarchyAggregateEditDao::class);
         $hierarchy->getHookedActor()->
         $uid = $hierarchy->addNode($id);
         return new RedirectResponse('/', 303);
     }
 
     public function addchild($id) {
-        /* @var $hierarchy NodeEditDao */
-        $hierarchy = $this->container->get(NodeEditDao::class);
+        /* @var $hierarchy HierarchyAggregateEditDao */
+        $hierarchy = $this->container->get(HierarchyAggregateEditDao::class);
         $uid = $hierarchy->addChildNode($id);
          return new RedirectResponse('/', 303);
     }
 
     public function delete($id) {
-        /* @var $hierarchy NodeEditDao */
-        $hierarchy = $this->container->get(NodeEditDao::class);
+        /* @var $hierarchy HierarchyAggregateEditDao */
+        $hierarchy = $this->container->get(HierarchyAggregateEditDao::class);
         $hierarchy->registerHookedActor(new HookedMenuItemActor(['cs', 'en', 'de']));
         $hierarchy->deleteLeafNode($id);
         return new RedirectResponse('/', 307);

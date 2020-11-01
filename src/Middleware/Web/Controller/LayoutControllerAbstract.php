@@ -145,7 +145,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
                                     'urlSemanticCss' => Configuration::layoutControler()['urlSemanticCss'],
                                     'urlContentTemplatesCss' => Configuration::layoutControler()['urlContentTemplatesCss'],
                                     'paperTemplatesUri' =>  Configuration::layoutControler()['paperTemplatesUri'],  // URI pro Template controler
-                                    'contentTemplatesPath' => Configuration::layoutControler()['contentTemplatesPath'],
+                                    'authorTemplatesPath' => Configuration::layoutControler()['authorTemplatesPath'],
                                     'toolbarsLang' => $tinyToolsbarsLang
                                 ]),
 
@@ -219,23 +219,27 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
     }
 
     private function prettyDump($var) {
-        return htmlspecialchars(var_export($var, true), ENT_QUOTES, 'UTF-8', true);
+//        return htmlspecialchars(var_export($var, true), ENT_QUOTES, 'UTF-8', true);
 //        return htmlspecialchars(print_r($var, true), ENT_QUOTES, 'UTF-8', true);
-//        return $this->pp($var);
+        return $this->pp($var);
     }
 
     private function pp($arr){
-        if (is_object($arr))
+        if (is_object($arr)) {
+            $cls = get_class($arr);
             $arr = (array) $arr;
-        $retStr = '<ul>';
+        } else {
+            $cls = '';
+        }
+        $retStr = $cls ? "<p>$cls</p>" : "";
+        $retStr .= '<ul>';
         if (is_array($arr)){
             foreach ($arr as $key=>$val){
-                if (is_object($val))
-                    $val = (array) $val;
+                if (is_object($val)) $val = (array) $val;
                 if (is_array($val)){
-                    $retStr .= '<li>' . str_replace('\0', ':', $key) . ' => array(' . $this->pp($val) . ')</li>';
+                    $retStr .= '<li>' . str_replace('\0', ':', $key) . ' = array(' . $this->pp($val) . ')</li>';
                 }else{
-                    $retStr .= '<li>' . $key . ' => ' . ($val == '' ? '""' : $val) . '</li>';
+                    $retStr .= '<li>' . str_replace($cls, "", $key) . ' = ' . ($val == '' ? '""' : $val) . '</li>';
                 }
             }
         }

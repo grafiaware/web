@@ -684,12 +684,6 @@ class ConfigurationGr3_grafiacz {
                 $templatesLayout['linksCss'] = PROJECT_PATH.'public/web/site/grafia/layout/head/linkEditableCss.php';
                 $templatesLayout['tiny_config'] = PROJECT_PATH.'public/web/site/grafia/layout/head/tiny_config.js';
                 break;
-            case 'xhr':
-                $templatesLayout['layout'] = PROJECT_PATH.'public/web/site/grafia/layoutXhr/layout.php';
-                $templatesLayout['linksJs'] = PROJECT_PATH.'public/web/site/grafia/layoutXhr/head/linkEditableJs.php';
-                $templatesLayout['linksCss'] = PROJECT_PATH.'public/web/site/grafia/layoutXhr/head/linkEditableCss.php';
-                $templatesLayout['tiny_config'] = PROJECT_PATH.'public/web/site/grafia/layoutXhr/head/tiny_config.js';
-                break;
             case 'new':
                 $templatesLayout['layout'] = PROJECT_PATH.'public/web/site/newlayout/layout/layout.php';
                 $templatesLayout['linksJs'] = PROJECT_PATH.'public/web/site/newlayout/layout/head/linkEditableJs.php';
@@ -730,7 +724,8 @@ class ConfigurationGr3_grafiacz {
 
 
         return [
-          'templates.poznamky' => 'public/web/templates/info/poznamky.php',
+           'templates.poznamky' => $webPublicDir.'templates/info/poznamky.php',
+           'templates.loaderElement' => $webPublicDir.'templates/component-load/loaderElement.php',
 
            // Language packages tinyMce požívají krátké i dlouhé kódy, kód odpovídá jménu souboru např cs.js nebo en_US.js - proto mapování
             // pozn. - popisky šablon pro tiny jsou jen česky (TinyInit.js)
@@ -768,7 +763,7 @@ class ConfigurationGr3_grafiacz {
             'urlContentTemplatesCss' => $webPublicDir."templates/author/template.css",
             //
             'paperTemplatesUri' =>  $webPublicDir."templates/paper/",  // URI pro Template controler
-            'contentTemplatesPath' => $webPublicDir."templates/author/",
+            'authorTemplatesPath' => $webPublicDir."templates/author/",
 
         ];
     }

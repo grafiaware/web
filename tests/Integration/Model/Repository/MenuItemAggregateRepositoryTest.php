@@ -16,7 +16,7 @@ use Application\WebAppFactory;
 use Pes\Container\Container;
 use Container\WebContainerConfigurator;
 use Container\HierarchyContainerConfigurator;
-use Model\Dao\Hierarchy\NodeAggregateReadonlyDao;
+use Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
 use Model\Repository\MenuItemAggregateRepo;
 
 use Model\Entity\MenuItemPaperAggregate;
@@ -110,7 +110,7 @@ class MenuItemAggregateRepositoryTest extends TestCase {
         $this->repo = $this->container->get(MenuItemAggregateRepo::class);
 
         /** @var ReadHierarchy $hierarchy */
-        $hierarchy = $this->container->get(NodeAggregateReadonlyDao::class);
+        $hierarchy = $this->container->get(HierarchyAggregateReadonlyDao::class);
         $this->langCode = 'cs';
         $this->title = 'VZDĚLÁVÁNÍ';
         $node = $hierarchy->getByTitleHelper($this->langCode, $this->title, false, false);

@@ -15,5 +15,5 @@ use Component\View\ComponentInterface;
  * @author pes2704
  */
 interface AuthoredComponentInterface {
-    public function seEditable($editable);
+    public function setEditable($editable);
 }

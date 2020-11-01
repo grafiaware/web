@@ -3,7 +3,7 @@ namespace Component\Renderer\Html\Menu;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
 use Pes\Text\Html;
-use Model\Entity\HierarchyNodeInterface;
+use Model\Entity\HierarchyAggregateInterface;
 use Component\ViewModel\Authored\Menu\Item\ItemViewModel;
 
 use Pes\Utils\Directory;
@@ -80,7 +80,7 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
         return $html;
     }
 
-    private function renderButtons(HierarchyNodeInterface $menuNode) {
+    private function renderButtons(HierarchyAggregateInterface $menuNode) {
         $buttons[] = $this->getButtonActive($menuNode);
         $buttons[] = $this->getButtonAdd($menuNode);
         $buttons[] = $this->getButtonCut($menuNode);
@@ -90,7 +90,7 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
         return implode(PHP_EOL, $buttons);
     }
 
-    private function renderPasteButtons(HierarchyNodeInterface $menuNode, $pastedUid) {
+    private function renderPasteButtons(HierarchyAggregateInterface $menuNode, $pastedUid) {
         $buttons[] = $this->getButtonActive($menuNode);
         $buttons[] = $this->getButtonPaste($menuNode, $pastedUid);
         $buttons[] = $this->getButtonCut($menuNode);
@@ -115,7 +115,7 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
 //                Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button0 i')])
 //            )
 //     }
-    private function getButtonActive(HierarchyNodeInterface $menuNode) {
+    private function getButtonActive(HierarchyAggregateInterface $menuNode) {
         $active = $menuNode->getMenuItem()->getActive();
         return Html::tag('button',
                 ['class'=>$this->classMap->getClass('Buttons', 'div button'),
@@ -127,7 +127,7 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
                 Html::tag('i', ['class'=>$this->classMap->resolveClass($active, 'Buttons', 'div button2 i.on', 'div button2 i.off')])
             );
     }
-    private function getButtonAdd(HierarchyNodeInterface $menuNode) {
+    private function getButtonAdd(HierarchyAggregateInterface $menuNode) {
         return Html::tag('button', [
                 'class'=>$this->classMap->getClass('Buttons', 'div button'),
                 'data-tooltip'=>'Přidat sourozence',
@@ -148,7 +148,7 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
                 Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button4 i')])
             );
     }
-    private function getButtonPaste(HierarchyNodeInterface $menuNode, $pastedUid) {
+    private function getButtonPaste(HierarchyAggregateInterface $menuNode, $pastedUid) {
         return Html::tag('button', [
                 'class'=>$this->classMap->getClass('Buttons', 'div button.paste'),
                 'data-tooltip'=>'Vložit jako sourozence',
@@ -169,7 +169,7 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
                 Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button4 i')])
             );
     }
-    private function getButtonCut(HierarchyNodeInterface $menuNode) {
+    private function getButtonCut(HierarchyAggregateInterface $menuNode) {
         return  Html::tag('button', [
                 'class'=>$this->classMap->getClass('Buttons', 'div button'),
                 'data-tooltip'=>'Vybrat k přesunutí',
@@ -182,7 +182,7 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
                 Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button5 i')])
             );
     }
-    private function getButtonTrash(HierarchyNodeInterface $menuNode) {
+    private function getButtonTrash(HierarchyAggregateInterface $menuNode) {
         return Html::tag('button', [
                 'class'=>$this->classMap->getClass('Buttons', 'div button'),
                 'data-tooltip'=>'Odstranit položku',

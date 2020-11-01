@@ -58,7 +58,7 @@ class WebAppFactory extends AppFactory {
         if (PES_DEVELOPMENT) {
             Message::setLogger(FileLogger::getInstance("Logs/App", 'Messages.log', FileLogger::REWRITE_LOG));
 
-            $logger = FileLogger::getInstance('Logs/App', 'AppLogger.log', FileLogger::REWRITE_LOG);
+            $logger = FileLogger::getInstance('Logs/App', 'WebAppFactoryLogger.log', FileLogger::REWRITE_LOG);
             $logger->info((new RequestDumper())->dump($request));
             $pathLogger = FileLogger::getInstance('Logs/App', 'RequestPathLogger.log', FileLogger::APPEND_TO_LOG);
             $uri = $request->getUri();

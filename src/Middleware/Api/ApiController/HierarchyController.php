@@ -6,7 +6,7 @@ use Controller\PresentationFrontControllerAbstract;
 
 use Psr\Http\Message\ServerRequestInterface;
 
-use Model\Dao\Hierarchy\NodeEditDao;
+use Model\Dao\Hierarchy\HierarchyAggregateEditDao;
 
 use Model\Repository\{
     StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo, MenuRootRepo
@@ -34,7 +34,7 @@ class HierarchyController extends PresentationFrontControllerAbstract {
             StatusSecurityRepo $statusSecurityRepo,
             StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
-            NodeEditDao $editHierarchyDao,
+            HierarchyAggregateEditDao $editHierarchyDao,
             MenuRootRepo $menuRootRepo) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
         // TODO: vyměnit hierarchy Dao za Repo

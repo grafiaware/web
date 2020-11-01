@@ -17,7 +17,7 @@ use Model\Repository\{
 };
 
 use Model\Entity\{
-    HierarchyNodeInterface, StatusPresentationInterface, LanguageInterface
+    HierarchyAggregateInterface, StatusPresentationInterface, LanguageInterface
 };
 
 use Model\Entity\{
@@ -113,7 +113,7 @@ class StatusPresentationManager implements StatusPresentationManagerInterface {
 
     /**
      * Default menu item uid - kořenová položka menu určeného konstantou třídy DEEAULT_HIERARCHY_ROOT_COMPONENT_NAME
-     * @return HierarchyNodeInterface
+     * @return HierarchyAggregateInterface
      */
     private function getDefaulMenuItem($langCode) {
         $rootName = Configuration::statusPresentationManager()['default_hierarchy_root_component_name'];

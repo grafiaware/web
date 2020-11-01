@@ -8,6 +8,8 @@
 
 namespace Middleware\Xhr\Controller;
 
+use Site\Configuration;
+
 use Controller\PresentationFrontControllerAbstract;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -37,8 +39,9 @@ use Pes\View\Template\PhpTemplate;
 use Pes\View\Template\InterpolateTemplate;
 
 use Middleware\Login\Controller\LoginLogoutController;
-use Component\View\Status\{
-    LoginComponent, LogoutComponent, UserActionComponent
+use Component\View\{
+    Status\LoginComponent, Status\LogoutComponent, Status\UserActionComponent,
+    Flash\FlashComponent
 };
 
 /**
@@ -104,4 +107,5 @@ abstract class XhrControlerAbstract extends PresentationFrontControllerAbstract 
         $response = $response->withHeader('Cache-Control', 'public, max-age=180');
         return $response;
     }
+
 }

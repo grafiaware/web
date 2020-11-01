@@ -2,6 +2,9 @@
 
 namespace Middleware\Xhr;
 
+
+use Site\Configuration;
+
 use Pes\Middleware\AppMiddlewareAbstract;
 use Pes\Container\Container;
 
@@ -17,6 +20,7 @@ use Container\HierarchyContainerConfigurator;
 
 use Model\Dao\MenuItemDao;
 use Model\Repository\StatusPresentationRepo;
+use Model\Repository\StatusFlashRepo;
 
 use Pes\Http\Body;
 
@@ -37,8 +41,8 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
 
         $this->container =
                 (new HierarchyContainerConfigurator())->configure(
+                    (new WebContainerConfigurator())->configure(
                     (new DbUpgradeContainerConfigurator())->configure(
-                        (new WebContainerConfigurator())->configure(
                                 new Container($this->getApp()->getAppContainer())
                         )
                     )
@@ -63,7 +67,7 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
             'src="files/'               => 'src="'.$filesDirectory.'files/',   // změněna cesta ke složce files
             'src="../files/'            => 'src="'.$filesDirectory.'files/',   // změněna cesta ke složce files - pro chybně zadané obrázky (s tečkami)
             'href="files/'              => 'href="'.$filesDirectory.'files/',
-            'src="public/web/'=>'src="/web/'.AppContext::getAppPublicDirectory(),  // relativně k documentroot (localhost)
+            'src="public/web/'=>'src="'.AppContext::getAppPublicDirectory(),
         );
         $first = str_replace(array_keys($transform), array_values($transform), $text);
         $transformUrls = $this->transformUrls($first);
@@ -92,7 +96,7 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
         $langCode = $statusPresentationRepo->get()->getLanguage()->getLangCode();
         $transform = [];
         $end = 0;
-
+        $notFound = [];
         do {
             $begin = strpos($text, $prefix, $end);
             if ($begin !== false) {
@@ -108,13 +112,26 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
                             $transform[$url] = "www/item/$langCode/{$row['uid_fk']}";
                         } else {
                             $notFound[] = $url;
-                            user_error("Nenalezen odkaz $url v databázi.", E_USER_WARNING);
+
                         }
                     }
                 }
             }
 
         } while ($begin!==false);
+        if ($notFound) {
+            $requestUri = $this->getApp()->getServerRequest()->getUri()->getPath();
+            /** @var StatusFlashRepo $statusFlashRepo */
+            $statusFlashRepo = $this->container->get(StatusFlashRepo::class);
+            foreach ($notFound as $url) {
+                $statusFlashRepo->get()->appendMessage("Nenalezen odkaz $url v databázi.");
+//                user_error("Nenalezen odkaz $url v databázi.", E_USER_WARNING);
+                if ($this->hasLogger()) {
+                    $this->getLogger()->notice("Pro uri $requestUri nenalezen v obsahu stránky v databázi odkaz $url.");
+                }
+            }
+
+        }
         return $transform;
     }
 }

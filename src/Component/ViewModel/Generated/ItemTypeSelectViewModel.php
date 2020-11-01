@@ -8,7 +8,11 @@
 
 namespace Component\ViewModel\Generated;
 
-use Component\ViewModel\ComponentViewModelAbstract;
+use Component\ViewModel\StatusViewModelAbstract;
+
+use Model\Repository\StatusSecurityRepo;
+use Model\Repository\StatusPresentationRepo;
+use Model\Repository\StatusFlashRepo;
 
 use Model\Repository\StatusPresentationRepo;
 use Model\Repository\MenuItemTypeRepo;
@@ -20,12 +24,7 @@ use Model\Entity\MenuItemInterface;
  *
  * @author pes2704
  */
-class ItemTypeSelectViewModel implements ItemTypeSelectViewModelInterface {
-
-    /**
-     * @var StatusPresentationRepo
-     */
-    protected $statusPresentationRepo;
+class ItemTypeSelectViewModel extends StatusViewModelAbstract implements ItemTypeSelectViewModelInterface {
 
     /**
      * @var MenuItemTypeRepo
@@ -33,10 +32,12 @@ class ItemTypeSelectViewModel implements ItemTypeSelectViewModelInterface {
     private $menuItemTypeRepo;
 
     public function __construct(
+            StatusSecurityRepo $statusSecurityRepo,
             StatusPresentationRepo $statusPresentationRepo,
+            StatusFlashRepo $statusFlashRepo,
             MenuItemTypeRepo $menuItemTypeRepo
             ) {
-        $this->statusPresentationRepo = $statusPresentationRepo;
+        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo);
         $this->menuItemTypeRepo = $menuItemTypeRepo;
     }
 
