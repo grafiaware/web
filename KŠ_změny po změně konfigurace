@@ -1,5 +1,5 @@
-semantic.json
+generovat semantic.json s těmito cestami:
 "base": "local\\site\\oa\\semantic\\",
 "packaged": "../../../../public/site/oa/semantic-ui/",
 
-všechny cesty v layoutu (a v AppContext a v Config...)
+
