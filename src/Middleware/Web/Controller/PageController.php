@@ -116,17 +116,28 @@ class PageController extends LayoutControllerAbstract {
         // (odvozeným z id), ukládaný obsah editovatelné položky se neuloží - POST data obsahují prázdný řetězec a dojde potichu ke smazání obsahu v databázi.
         // Příklad: - bloky v editovatelném modu a současně editovatelné menu bloky - v menu bloky vybraný blok je zobrazen editovatelný duplicitně s blokem v layoutu
         //          - dva stené bloky v layoutu - mapa, kontakt v hlavičce i v patičce
+        if (false) {
+        // full page
         return array_merge(
                 $actionComponents,
                 $this->getGeneratedLayoutComponents(),
                 // full page
                 $this->getAuthoredLayoutComnponents(),
-//                // xhr components load
-//                $this->getXhrAuthoredLayoutComnponents(),
                 // for debug
 //                $this->getEmptyMenuComponents(),
                 $this->getMenuComponents()
                 );
+        } else {
+        // xhr components load
+        return array_merge(
+                $actionComponents,
+                $this->getGeneratedLayoutComponents(),
+                $this->getXhrAuthoredLayoutComnponents(),
+                // for debug
+//                $this->getEmptyMenuComponents(),
+                $this->getMenuComponents()
+                );
+        }
     }
 
     private function getNamedComponent($name) {
@@ -301,7 +312,7 @@ class PageController extends LayoutControllerAbstract {
                     ->setTemplate(new PhpTemplate(Configuration::layoutControler()['templates.loaderElement']))
                     ->setData([
                         'name' => $componentName,
-                        'apiUri' => "component/v1/namedpaper/$componentName/"
+                        'apiUri' => "component/v1/nameditem/$componentName/"
                         ]);
     }
 

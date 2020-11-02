@@ -94,9 +94,10 @@ class ApiRegistrator {
         #### ComponentController ####
         $registry->register($this->getPrototype->withUrlPattern('/component/v1/papertemplate/:name'));
         $registry->register($this->getPrototype->withUrlPattern('/component/v1/authortemplate/:name'));
-        $registry->register($this->getPrototype->withUrlPattern('/component/v1/namedpaper/:name'));
-        $registry->register($this->getPrototype->withUrlPattern('/component/v1/presentedpaper'));
+        $registry->register($this->getPrototype->withUrlPattern('/component/v1/nameditem/:name'));
+        $registry->register($this->getPrototype->withUrlPattern('/component/v1/presenteditem'));
         $registry->register($this->getPrototype->withUrlPattern('/component/v1/flash'));
+        $registry->register($this->getPrototype->withUrlPattern('/component/v1/service/:name'));
 
         #### BuildControler ####
         $registry->register($this->getPrototype->withUrlPattern('/build/dropdb'));

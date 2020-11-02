@@ -81,17 +81,27 @@ class ComponentControler extends XhrControlerAbstract {
         return $this->createResponseFromView($request, $view);
     }
 
-    public function namedPaper(ServerRequestInterface $request, $name) {
-
+    public function namedItem(ServerRequestInterface $request, $name) {
         $view = $this->getNamedComponent($name);
         return $this->createResponseFromView($request, $view);
     }
 
-    public function presentedPaper(ServerRequestInterface $request) {
+    public function presentedItem(ServerRequestInterface $request) {
         // dočasně duplicitní s PageController a XhrControler
         $view = $this->getPresentedComponent();
         return $this->createResponseFromView($request, $view);
     }
+
+    public function serviceComponent(ServerRequestInterface $request, $service) {
+        if ($this->container->has($service)) {
+            $view = $this->container->get($service);
+        } else {
+            $view = '';
+        }
+        return $this->createResponseFromView($request, $view);
+    }
+
+    ######################
 
     private function getNamedComponent($name) {
         if ($this->isEditableLayout()) {

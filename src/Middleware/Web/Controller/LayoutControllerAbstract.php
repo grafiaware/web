@@ -125,8 +125,6 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
 
     private function getEditJs(ServerRequestInterface $request) {
         if ($this->isEditableArticle() OR $this->isEditableLayout()) {
-            $webPublicDir = \Middleware\Web\AppContext::getAppPublicDirectory();
-            $commonPublicDir = \Middleware\Web\AppContext::getPublicDirectory();
             ## document base path - stejná hodnota se musí použiít i v nastavení tinyMCE
             $basepath = $this->getBasePath($request);
             $tinyLanguage = Configuration::layoutControler()['tinyLanguage'];

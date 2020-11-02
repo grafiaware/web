@@ -76,22 +76,26 @@ class Component extends AppMiddlewareAbstract implements MiddlewareInterface {
 
         #### ComponentControler ####
 
-        $routeGenerator->addRouteForAction('GET', '/component/v1/namedpaper/:name', function(ServerRequestInterface $request, $name) {
+        $routeGenerator->addRouteForAction('GET', '/component/v1/nameditem/:name', function(ServerRequestInterface $request, $name) {
             /** @var ComponentControler $ctrl */
             $ctrl = $this->container->get(ComponentControler::class);
-            return $ctrl->namedPaper($request, $name);
+            return $ctrl->namedItem($request, $name);
             });
-        $routeGenerator->addRouteForAction('GET', '/component/v1/presentedpaper', function(ServerRequestInterface $request) {
+        $routeGenerator->addRouteForAction('GET', '/component/v1/presenteditem', function(ServerRequestInterface $request) {
             /** @var ComponentControler $ctrl */
             $ctrl = $this->container->get(ComponentControler::class);
-            return $ctrl->presentedPaper($request);
+            return $ctrl->presentedItem($request);
             });
         $routeGenerator->addRouteForAction('GET', '/component/v1/flash', function(ServerRequestInterface $request) {
             /** @var ComponentControler $ctrl */
             $ctrl = $this->container->get(ComponentControler::class);
             return $ctrl->flash($request);
             });
-
+        $routeGenerator->addRouteForAction('GET', '/component/v1/service/:name', function(ServerRequestInterface $request, $name) {
+            /** @var ComponentControler $ctrl */
+            $ctrl = $this->container->get(ComponentControler::class);
+            return $ctrl->serviceComponent($request, $name);
+            });
 ####################################
         /** @var $router RouterInterface */
         $router = $this->container->get(RouterInterface::class);
