@@ -10,7 +10,7 @@
                         <p>Bavíme, vzděláváme, jsme užiteční.</p>
                         <p> Vyzkoušejte si nás</p>
                         <!--?=$banner?-->
-                        <img class="hlavicka" src="public/web/site/newlayout/img/hlavicka1.png" alt="vzdělávání" />
+                        <img class="hlavicka" src="img/hlavicka1.png" alt="vzdělávání" />
                     </div>
                     <div class="two wide column">
                         <div class="jazyky">
