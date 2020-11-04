@@ -93,13 +93,13 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
                     'basePath' => $this->getBasePath($request),
                     'title' => Configuration::layoutControler()['title'],
                     'langCode' => $this->statusPresentationRepo->get()->getLanguage()->getLangCode(),
-                    'webPublicDir' => Configuration::layoutControler()['webPublicDir'],
-                    'webSitePublicDir' => Configuration::layoutControler()['webSitePublicDir'],
+                    'linksCommon' => Configuration::layoutControler()['linksCommon'],
+                    'linksSite' => Configuration::layoutControler()['linksSite'],
                     'modalLoginLogout' => $this->getModalLoginLogout(),
                     'modalUserAction' => $this->getModalUserAction(),
                     'bodyContainerAttributes' => $this->getBodyContainerAttributes(),
                     'linkEditJs' => $this->getEditJs($request),
-                    'linkEditCss' => $this->getEditCss($request),
+                    'linkEditorCss' => $this->getEditorCss($request),
                     'poznamky' => $this->getPoznamky(),
                     'flash' => $this->getFlashComponent(),
                 ]);
@@ -122,7 +122,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
             $tinyToolsbarsLang = array_key_exists($langCode, $tinyLanguage) ? $tinyLanguage[$langCode] : Configuration::statusPresentationManager()['default_lang_code'];
             return
                 $this->container->get(View::class)
-                    ->setTemplate(new PhpTemplate(Configuration::layoutControler()['linksJs']))
+                    ->setTemplate(new PhpTemplate(Configuration::layoutControler()['linksEditorJs']))
                     ->setData([
                         'tinyMCEConfig' => $this->container->get(View::class)
                                 ->setTemplate(new InterpolateTemplate(Configuration::layoutControler()['tiny_config']))
@@ -147,13 +147,13 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
         }
     }
 
-    private function getEditCss(ServerRequestInterface $request) {
+    private function getEditorCss(ServerRequestInterface $request) {
         if ($this->isEditableArticle() OR $this->isEditableLayout()) {
             return $this->container->get(View::class)
-                    ->setTemplate(new PhpTemplate(Configuration::layoutControler()['linksCss']))
+                    ->setTemplate(new PhpTemplate(Configuration::layoutControler()['linkEditorCss']))
                     ->setData(
                             [
-                            'webPublicDir' => Configuration::layoutControler()['webPublicDir'],
+                            'linksCommon' => Configuration::layoutControler()['linksCommon'],
                             ]
                             );
         }

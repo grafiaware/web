@@ -8,19 +8,19 @@
 
 namespace Model\Repository;
 
-use Model\Entity\ComponentInterface;
+use Model\Entity\BlockInterface;
 
 /**
  *
  * @author pes2704
  */
-interface ComponentRepoInterface {
+interface BlockRepoInterface {
     /**
      *
      * @param type $name
-     * @return ComponentInterface|null
+     * @return BlockInterface|null
      */
-    public function get($name):?ComponentInterface;
+    public function get($name):?BlockInterface;
 
     public function add(EntityInterface $entity);
 

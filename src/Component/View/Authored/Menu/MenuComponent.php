@@ -31,7 +31,7 @@ class MenuComponent extends AuthoredComponentAbstract implements MenuComponentIn
     protected $presentedItemLeftNode;
     protected $presentedItemRightNode;
     protected $presentRenderer;
-    
+
     /**
      *
      * @param MenuViewModel $viewModel
@@ -87,7 +87,7 @@ class MenuComponent extends AuthoredComponentAbstract implements MenuComponentIn
         }
         $rootItem = $this->viewModel->getMenuRoot($this->componentName);
         if (!isset($rootItem)) {
-            user_error("Kořen menu se jménem komponety $this->componentName nebyl načten z tabulky kořenů menu.", E_USER_WARNING);
+            user_error("Kořen menu se zadaným jménem komponety '$this->componentName' nebyl načten z tabulky kořenů menu.", E_USER_WARNING);
         }
         $this->rootUid = $rootItem->getUidFk();
 

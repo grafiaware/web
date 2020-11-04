@@ -137,6 +137,20 @@ class Configuration extends ConfigurationGr_wwwgrafia {
         return self::$cache['layoutControler'];
     }
 
+    public static function pageControler() {
+        if(!isset(self::$cache['pageControler'])) {
+            self::$cache['pageControler'] = parent::pageControler();
+        }
+        return self::$cache['pageControler'];
+    }
+
+    public static function languageSelectRenderer() {
+        if(!isset(self::$cache['languageSelectRenderer'])) {
+            self::$cache['languageSelectRenderer'] = parent::languageSelectRenderer();
+        }
+        return self::$cache['languageSelectRenderer'];
+    }
+
     public static function transformator() {
         if(!isset(self::$cache['transformator'])) {
             self::$cache['transformator'] = parent::transformator();

@@ -12,11 +12,11 @@ namespace Model\Entity;
  *
  * @author pes2704
  */
-interface ComponentAggregateInterface {
+interface BlockAggregateInterface {
 
     public function getLangCode();
 
-    public function setLangCode($langCode): ComponentAggregateInterface;
+    public function setLangCode($langCode): BlockAggregateInterface;
 
     /**
      * Vrací MenuItemInterface nebo null - komponenta obsahuje item, kerý není aktivní nebo aktuální
@@ -24,5 +24,5 @@ interface ComponentAggregateInterface {
      */
     public function getMenuItem(): ?MenuItemInterface;
 
-    public function setMenuItem(MenuItemInterface $menuItem): ComponentAggregateInterface;
+    public function setMenuItem(MenuItemInterface $menuItem): BlockAggregateInterface;
 }

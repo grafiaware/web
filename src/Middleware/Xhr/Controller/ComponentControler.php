@@ -14,7 +14,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Pes\Http\Request\RequestParams;
 
 use Model\Entity\MenuItemInterface;
-use Model\Entity\ComponentAggregateInterface;
+use Model\Entity\BlockAggregateInterface;
 
 // komponenty
 use Component\View\{
@@ -30,7 +30,7 @@ use \Middleware\Xhr\AppContext;
 ####################
 
 use Model\Repository\{
-    HierarchyAggregateRepo, MenuRootRepo, MenuItemRepo, ComponentAggregateRepo
+    HierarchyAggregateRepo, MenuRootRepo, MenuItemRepo, BlockAggregateRepo
 };
 
 use \StatusManager\StatusPresentationManager;

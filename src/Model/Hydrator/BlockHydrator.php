@@ -9,7 +9,7 @@
 namespace Model\Hydrator;
 
 use Model\Entity\EntityInterface;
-use Model\Entity\ComponentInterface;
+use Model\Entity\BlockInterface;
 use Pes\Type\Date;
 
 /**
@@ -17,7 +17,7 @@ use Pes\Type\Date;
  *
  * @author pes2704
  */
-class ComponentHydrator implements HydratorInterface {
+class BlockHydrator implements HydratorInterface {
 
     /**
      *
@@ -25,7 +25,7 @@ class ComponentHydrator implements HydratorInterface {
      * @param type $row
      */
     public function hydrate(EntityInterface $component, &$row) {
-        /** @var ComponentInterface $component */
+        /** @var BlockInterface $component */
         $component
                 ->setName($row['name'])
                 ->setUidFk($row['uid_fk'])
@@ -38,7 +38,7 @@ class ComponentHydrator implements HydratorInterface {
      * @param type $row
      */
     public function extract(EntityInterface $component, &$row=[]) {
-        /** @var ComponentInterface $component */
+        /** @var BlockInterface $component */
         $row['name'] = $component->getName();
         $row['uid_fk'] = $component->getUidFk();
     }

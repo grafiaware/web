@@ -26,10 +26,10 @@ use Model\Repository\{
 };
 
 
-use Model\Repository\ComponentAggregateRepo;
+use Model\Repository\BlockAggregateRepo;
 
 use Model\Repository\PaperAggregateRepo;
-use Model\Entity\ComponentAggregateInterface;
+use Model\Entity\BlockAggregateInterface;
 use Model\Entity\PaperAggregateInterface;
 
 ####################
@@ -57,7 +57,7 @@ abstract class XhrControlerAbstract extends PresentationFrontControllerAbstract 
     protected $paperAggregateRepo;
 
     /**
-     * @var ComponentAggregateRepo
+     * @var BlockAggregateRepo
      */
     protected $componentAggregateRepo;
 
@@ -73,7 +73,7 @@ abstract class XhrControlerAbstract extends PresentationFrontControllerAbstract 
             StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
             PaperAggregateRepo $paperAggregateRepo,
-            ComponentAggregateRepo $componentAggregateRepo,
+            BlockAggregateRepo $componentAggregateRepo,
             ViewFactory $viewFactory) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
         $this->paperAggregateRepo = $paperAggregateRepo;

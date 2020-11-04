@@ -8,19 +8,19 @@
 
 namespace Model\Repository;
 
-use Model\Entity\Component;
-use Model\Entity\ComponentInterface;
-use Model\Dao\ComponentDao;
-use Model\Hydrator\ComponentHydrator;
+use Model\Entity\Block;
+use Model\Entity\BlockInterface;
+use Model\Dao\BlockDao;
+use Model\Hydrator\BlockHydrator;
 
 /**
  * Description of ComponentRepo
  *
  * @author pes2704
  */
-class ComponentRepo extends RepoAbstract implements ComponentRepoInterface, RepoReadonlyInterface {
+class BlockRepo extends RepoAbstract implements BlockRepoInterface, RepoReadonlyInterface {
 
-    public function __construct(ComponentDao $componentDao, ComponentHydrator $componentHydrator) {
+    public function __construct(BlockDao $componentDao, BlockHydrator $componentHydrator) {
         $this->dao = $componentDao;
         $this->registerHydrator($componentHydrator);
     }
@@ -28,9 +28,9 @@ class ComponentRepo extends RepoAbstract implements ComponentRepoInterface, Repo
     /**
      *
      * @param type $name
-     * @return ComponentInterface|null
+     * @return BlockInterface|null
      */
-    public function get($name):?ComponentInterface {
+    public function get($name):?BlockInterface {
         $index = $name;
         if (!isset($this->collection[$index])) {
             $this->recreateEntity($index, $this->dao->get($name));
@@ -39,7 +39,7 @@ class ComponentRepo extends RepoAbstract implements ComponentRepoInterface, Repo
     }
 
     protected function createEntity() {
-        return new Component();
+        return new Block();
     }
 
     public function add(EntityInterface $entity) {

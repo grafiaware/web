@@ -13,7 +13,7 @@ namespace Model\Entity;
  *
  * @author pes2704
  */
-class Component extends EntityAbstract implements ComponentInterface {
+class Block extends EntityAbstract implements BlockInterface {
 
     private $name;
     private $uidFk;
@@ -26,12 +26,12 @@ class Component extends EntityAbstract implements ComponentInterface {
         return $this->uidFk;
     }
 
-    public function setName($name): ComponentInterface {
+    public function setName($name): BlockInterface {
         $this->name = $name;
         return $this;
     }
 
-    public function setUidFk($uid_fk): ComponentInterface {
+    public function setUidFk($uid_fk): BlockInterface {
         $this->uidFk = $uid_fk;
         return $this;
     }

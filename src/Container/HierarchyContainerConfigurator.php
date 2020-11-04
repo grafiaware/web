@@ -57,9 +57,9 @@ use Model\Dao\MenuItemTypeDao;
 use Model\Hydrator\MenuItemTypeHydrator;
 use Model\Repository\MenuItemTypeRepo;
 
-use Model\Dao\ComponentDao;
-use Model\Hydrator\ComponentHydrator;
-use Model\Repository\ComponentRepo;
+use Model\Dao\BlockDao;
+use Model\Hydrator\BlockHydrator;
+use Model\Repository\BlockRepo;
 
 use Model\Dao\PaperDao;
 use Model\Hydrator\PaperHydrator;
@@ -74,8 +74,8 @@ use Model\Repository\MenuItemAggregateRepo;
 use Model\Hydrator\MenuItemChildHydrator;
 use Model\Repository\PaperAggregateRepo;
 use Model\Hydrator\PaperChildHydrator;
-use Model\Repository\ComponentAggregateRepo;
-use Model\Hydrator\ComponentChildHydrator;
+use Model\Repository\BlockAggregateRepo;
+use Model\Hydrator\BlockChildHydrator;
 
 // hierarchy hooks
 use Model\HierarchyHooks\HookedMenuItemActor;
@@ -211,21 +211,21 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
                         );
             },
 
-            ComponentDao::class => function(ContainerInterface $c) {
-                return new ComponentDao($c->get(HandlerInterface::class));
+            BlockDao::class => function(ContainerInterface $c) {
+                return new BlockDao($c->get(HandlerInterface::class));
             },
-            ComponentHydrator::class => function(ContainerInterface $c) {
-                return new ComponentHydrator($c->get(ComponentDao::class));
+            BlockHydrator::class => function(ContainerInterface $c) {
+                return new BlockHydrator($c->get(BlockDao::class));
             },
-            ComponentChildHydrator::class => function(ContainerInterface $c) {
-                return new ComponentChildHydrator();
+            BlockChildHydrator::class => function(ContainerInterface $c) {
+                return new BlockChildHydrator();
             },
-            ComponentAggregateRepo::class => function(ContainerInterface $c) {
-                return new ComponentAggregateRepo(
-                        $c->get(ComponentDao::class),
-                        $c->get(ComponentHydrator::class),
+            BlockAggregateRepo::class => function(ContainerInterface $c) {
+                return new BlockAggregateRepo(
+                        $c->get(BlockDao::class),
+                        $c->get(BlockHydrator::class),
                         $c->get(MenuItemRepo::class),
-                        $c->get(ComponentChildHydrator::class)
+                        $c->get(BlockChildHydrator::class)
                     );
             },
 

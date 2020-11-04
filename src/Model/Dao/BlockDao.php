@@ -14,7 +14,7 @@ use Pes\Database\Handler\HandlerInterface;
  *
  * @author pes2704
  */
-class ComponentDao {
+class BlockDao {
 
     protected $dbHandler;
 
@@ -29,7 +29,7 @@ class ComponentDao {
      * @return array|false
      */
     public function get($name) {
-        $sql = "SELECT name, uid_fk FROM component WHERE name=:name";
+        $sql = "SELECT name, uid_fk FROM block WHERE name=:name";
         $statement = $this->dbHandler->prepare($sql);
         $statement->bindParam(':name', $name);
         $statement->execute();
@@ -42,7 +42,7 @@ class ComponentDao {
      * @throws StatementFailureException
      */
     public function findAll() {
-        $sql = "SELECT name, uid_fk FROM component";
+        $sql = "SELECT name, uid_fk FROM block";
         $statement = $this->dbHandler->prepare($sql)->execute();
         return $statement->fetchAll(\PDO::FETCH_ASSOC);
     }

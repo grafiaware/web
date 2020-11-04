@@ -12,7 +12,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 use Site\Configuration;
 use Model\Entity\MenuItemInterface;
-use Model\Entity\ComponentAggregateInterface;
+use Model\Entity\BlockAggregateInterface;
 
 // komponenty
 use Component\View\{
@@ -30,7 +30,7 @@ use Middleware\Login\Controller\LoginLogoutController;
 ####################
 
 use Model\Repository\{
-    HierarchyAggregateRepo, MenuRootRepo, MenuItemRepo, ComponentAggregateRepo
+    HierarchyAggregateRepo, MenuRootRepo, MenuItemRepo, BlockAggregateRepo
 };
 
 ####################
@@ -145,10 +145,10 @@ class PageController extends LayoutControllerAbstract {
 
     private function getNamedComponent($name) {
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
-        /** @var ComponentAggregateRepo $componentAggRepo */
-        $componentAggRepo = $this->container->get(ComponentAggregateRepo::class);
+        /** @var BlockAggregateRepo $componentAggRepo */
+        $componentAggRepo = $this->container->get(BlockAggregateRepo::class);
         $componentAggregate = $componentAggRepo->getAggregate($langCode, $name);   // pozor - get() je metoda ComponentRepo
-        /** @var ComponentAggregateInterface $componentAggregate */
+        /** @var BlockAggregateInterface $componentAggregate */
         if (isset($componentAggregate)) {
             return $this->getMenuItemComponent($componentAggregate->getMenuItem());
         }
@@ -235,7 +235,7 @@ class PageController extends LayoutControllerAbstract {
 //                'menuSvisle' => $this->container->get('menu.svisle.editable')->setMenuRootName('root'),
                 ## var b
 //                'menuSvisle' => $this->container->get('menu.svisle.editable')->setMenuRootName('menu_vertical'),
-//                'bloky' => $this->container->get('menu.bloky.editable')->setMenuRootName('block'), //menu.svisle.editable  //bloky
+//                'bloky' => $this->container->get('menu.bloky.editable')->setMenuRootName('blocks'), //menu.svisle.editable  //bloky
 //                'kos' => $this->container->get('menu.kos')->setMenuRootName('trash'), //menu.svisle  //kos
 //                ];
 
@@ -245,7 +245,7 @@ class PageController extends LayoutControllerAbstract {
                 'menuVodorovne' => $this->container->get('menu.vodorovne.editable')->setMenuRootName('menu_horizontal'),
                 'menuSvisle' => $this->container->get('menu.svisle.editable')->setMenuRootName('menu_vertical'),
                 'kos' => $this->container->get('menu.kos.editable')->setMenuRootName('trash'), //menu.svisle  //kos
-                'bloky' => $this->container->get('menu.bloky.editable')->setMenuRootName('block'),
+                'bloky' => $this->container->get('menu.bloky.editable')->setMenuRootName('blocks'),
             ];
         } else {
             $componets = [

@@ -10,7 +10,7 @@ namespace Component\ViewModel\Authored\Paper;
 
 use Component\ViewModel\Authored\Paper\PaperViewModelInterface;
 
-use Model\Entity\ComponentAggregateInterface;
+use Model\Entity\BlockAggregateInterface;
 
 /**
  *
@@ -24,7 +24,7 @@ interface NamedPaperViewModelInterface extends PaperViewModelInterface {
 
     /**
      *
-     * @return ComponentAggregateInterface|null
+     * @return BlockAggregateInterface|null
      */
-    public function getComponentAggregate(): ?ComponentAggregateInterface;
+    public function getComponentAggregate(): ?BlockAggregateInterface;
 }

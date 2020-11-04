@@ -40,7 +40,7 @@ use Model\Repository\{
     HierarchyAggregateRepo,
     MenuItemRepo,
     MenuItemTypeRepo,
-    ComponentRepo,
+    BlockRepo,
     MenuRootRepo,
     MenuItemAggregateRepo,
     PaperRepo,

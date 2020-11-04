@@ -8,20 +8,20 @@
 
 namespace Model\Repository;
 
-use Model\Entity\ComponentAggregateInterface;
+use Model\Entity\BlockAggregateInterface;
 
 /**
  *
  * @author pes2704
  */
-interface ComponentAggregateRepoInterface extends ComponentRepoInterface {
+interface BlockAggregateRepoInterface extends BlockRepoInterface {
 
     /**
      * Vrací ComponentAggregate - agrugát Component a MenuItem. Parametr $langCode je pouze použit pro výběr MenuItem.
      * @param type $langCode
      * @param type $name
-     * @return ComponentAggregateInterface|null
+     * @return BlockAggregateInterface|null
      */
-    public function getAggregate($langCode, $name): ?ComponentAggregateInterface;
+    public function getAggregate($langCode, $name): ?BlockAggregateInterface;
 
 }

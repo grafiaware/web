@@ -67,10 +67,10 @@ use Model\Repository\{
     HierarchyAggregateRepo,
     MenuItemRepo,
     MenuItemTypeRepo,
-    ComponentRepo,
+    BlockRepo,
     MenuRootRepo,
     PaperAggregateRepo,
-    ComponentAggregateRepo
+    BlockAggregateRepo
 
 };
 
@@ -153,7 +153,7 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                             $c->get(StatusFlashRepo::class),
                             $c->get(StatusPresentationRepo::class),
                             $c->get(PaperAggregateRepo::class),
-                            $c->get(ComponentAggregateRepo::class),
+                            $c->get(BlockAggregateRepo::class),
                             $c->get(ViewFactory::class))
                         )->injectContainer($c);  // inject component kontejner
             },
@@ -163,7 +163,7 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                             $c->get(StatusFlashRepo::class),
                             $c->get(StatusPresentationRepo::class),
                             $c->get(PaperAggregateRepo::class),
-                            $c->get(ComponentAggregateRepo::class),
+                            $c->get(BlockAggregateRepo::class),
                             $c->get(ViewFactory::class))
                         )->injectContainer($c);  // inject component kontejner
             }
@@ -282,7 +282,7 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                                 $c->get(StatusPresentationRepo::class),
                                 $c->get(StatusFlashRepo::class),
                                 $c->get(PaperAggregateRepo::class),
-                                $c->get(ComponentAggregateRepo::class)
+                                $c->get(BlockAggregateRepo::class)
                             );
                 $itemComponent = new NamedPaperComponent($viewModel);
                 $itemComponent->setRendererContainer($c->get('rendererContainer'));

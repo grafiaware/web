@@ -13,7 +13,7 @@ namespace Model\Entity;
  *
  * @author pes2704
  */
-class ComponentAggregate extends Component implements ComponentAggregateInterface {
+class BlockAggregate extends Block implements BlockAggregateInterface {
 
     private $langCode;
 
@@ -26,7 +26,7 @@ class ComponentAggregate extends Component implements ComponentAggregateInterfac
         return $this->langCode;
     }
 
-    public function setLangCode($langCode): ComponentAggregateInterface {
+    public function setLangCode($langCode): BlockAggregateInterface {
         $this->langCode = $langCode;
         return $this;
     }
@@ -39,7 +39,7 @@ class ComponentAggregate extends Component implements ComponentAggregateInterfac
         return $this->menuItem;
     }
 
-    public function setMenuItem(MenuItemInterface $menuItem): ComponentAggregateInterface {
+    public function setMenuItem(MenuItemInterface $menuItem): BlockAggregateInterface {
         $this->menuItem = $menuItem;
         return $this;
     }

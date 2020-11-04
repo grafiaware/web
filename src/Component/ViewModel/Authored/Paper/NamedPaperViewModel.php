@@ -10,10 +10,10 @@ use Model\Repository\StatusSecurityRepo;
 use Model\Repository\StatusPresentationRepo;
 use Model\Repository\StatusFlashRepo;
 
-use Model\Repository\ComponentAggregateRepo;
+use Model\Repository\BlockAggregateRepo;
 
 use Model\Repository\PaperAggregateRepo;
-use Model\Entity\ComponentAggregateInterface;
+use Model\Entity\BlockAggregateInterface;
 use Model\Entity\PaperAggregateInterface;
 use Model\Entity\MenuItemInterface;
 
@@ -26,14 +26,14 @@ use Model\Entity\MenuItemInterface;
 class NamedPaperViewModel extends PaperViewModelAbstract implements NamedPaperViewModelInterface {
 
     /**
-     * @var ComponentAggregateRepo
+     * @var BlockAggregateRepo
      */
     protected $componentAggregateRepo;
 
     private $componentName;
 
     /**
-     * @var ComponentAggregateInterface
+     * @var BlockAggregateInterface
      */
     private $componentAggregate;
 
@@ -42,7 +42,7 @@ class NamedPaperViewModel extends PaperViewModelAbstract implements NamedPaperVi
             StatusPresentationRepo $statusPresentationRepo,
             StatusFlashRepo $statusFlashRepo,
             PaperAggregateRepo $paperAggregateRepo,
-            ComponentAggregateRepo $componentAggregateRepo
+            BlockAggregateRepo $componentAggregateRepo
     ) {
         parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo, $paperAggregateRepo);
         $this->componentAggregateRepo = $componentAggregateRepo;
@@ -64,10 +64,10 @@ class NamedPaperViewModel extends PaperViewModelAbstract implements NamedPaperVi
      * Vrací entitu ComponentAggregate se zadaným jménem a jazykem prezentace. Pokud je položka menu item použitá v komponentě neaktivní nebo neaktuální
      * nebo neexistujw component v db se jménem $this->componentName, vrací null.
      *
-     * @return ComponentAggregateInterface|null
+     * @return BlockAggregateInterface|null
      * @throws \LogicException Nebylo nstaveno jméno komponenty
      */
-    public function getComponentAggregate(): ?ComponentAggregateInterface {
+    public function getComponentAggregate(): ?BlockAggregateInterface {
         if (!isset($this->componentAggregate)) {
             if (!isset($this->componentName)) {
                 throw new \LogicException("Není zadáno jméno komponenty. Nelze načíst odpovídající položku menu.");

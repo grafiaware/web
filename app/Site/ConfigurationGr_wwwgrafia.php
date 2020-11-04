@@ -134,13 +134,15 @@ class ConfigurationGr_wwwgrafia {
     }
 
     public static function component() {
+        // local
+        $templatesCommon = 'local/site/common/templates/';
         return [
             'component.logs.view.directory' => 'Logs/App/Web',
             'component.logs.view.file' => 'Render.log',
-            'component.template.'.FlashComponent::class =>      PROJECT_PATH.'public/web/templates/info/flashMessage.php',
-            'component.template.'.LoginComponent::class =>      PROJECT_PATH.'public/web/templates/modal/login.php',
-            'component.template.'.LogoutComponent::class =>     PROJECT_PATH.'public/web/templates/modal/logout.php',
-            'component.template.'.UserActionComponent::class => PROJECT_PATH.'public/web/templates/modal/user_action.php',
+            'component.template.'.FlashComponent::class =>      $templatesCommon.'layout/info/flashMessage.php',
+            'component.template.'.LoginComponent::class =>      $templatesCommon.'layout/modal/login.php',
+            'component.template.'.LogoutComponent::class =>     $templatesCommon.'layout/modal/logout.php',
+            'component.template.'.UserActionComponent::class => $templatesCommon.'layout/modal/user_action.php',
         ];
     }
 
@@ -670,113 +672,133 @@ class ConfigurationGr_wwwgrafia {
     }
 
     public static function layoutControler() {
-            $webPublicDir = \Middleware\Web\AppContext::getAppPublicDirectory();
-            $webSitePublicDir = \Middleware\Web\AppContext::getAppSitePublicDirectory();
-            $commonPublicDir = \Middleware\Web\AppContext::getPublicDirectory();
-            $tinyPublicDir = \Middleware\Web\AppContext::getTinyPublicDirectory();
+//            $webPublicDir = \Middleware\Web\AppContext::getAppPublicDirectory();
+//            $webSitePublicDir = \Middleware\Web\AppContext::getAppSitePublicDirectory();
+//            $commonPublicDir = \Middleware\Web\AppContext::getPublicDirectory();
+//            $tinyPublicDir = \Middleware\Web\AppContext::getTinyPublicDirectory();
+//
+//        $theme = 'old';
+//
+//        switch ($theme) {
+//            case 'old':
+//                $templatesLayout['layout'] = PROJECT_PATH.'public/web/site/grafia/layout/layout.php';
+//                $templatesLayout['linksJs'] = PROJECT_PATH.'public/web/site/grafia/layout/head/linkEditableJs.php';
+//                $templatesLayout['linksCss'] = PROJECT_PATH.'public/web/site/grafia/layout/head/linkEditableCss.php';
+//                $templatesLayout['tiny_config'] = PROJECT_PATH.'public/web/site/grafia/layout/head/tiny_config.js';
+//                break;
+//            case 'new':
+//                $templatesLayout['layout'] = PROJECT_PATH.'public/web/site/newlayout/layout/layout.php';
+//                $templatesLayout['linksJs'] = PROJECT_PATH.'public/web/site/newlayout/layout/head/linkEditableJs.php';
+//                $templatesLayout['linksCss'] = PROJECT_PATH.'public/web/site/newlayout/layout/head/linkEditableCss.php';
+//                $templatesLayout['tiny_config'] = PROJECT_PATH.'public/web/site/newlayout/layout/head/tiny_config.js';
+//                break;
+//            case 'new1':
+//                $templatesLayout['layout'] = PROJECT_PATH.'public/web/site/newlayout_1/layout/layout.php';
+//                $templatesLayout['linksJs'] = PROJECT_PATH.'public/web/site/newlayout_1/layout/head/linkEditableJs.php';
+//                $templatesLayout['linksCss'] = PROJECT_PATH.'public/web/site/newlayout_1/layout/head/linkEditableCss.php';
+//                $templatesLayout['tiny_config'] = PROJECT_PATH.'public/web/site/newlayout_1/layout/head/tiny_config.js';
+//                break;
+//            case 'new2':
+//                $templatesLayout['layout'] = PROJECT_PATH.'public/web/site/newlayout_2/layout/layout.php';
+//                $templatesLayout['linksJs'] = PROJECT_PATH.'public/web/site/newlayout_2/layout/head/linkEditableJs.php';
+//                $templatesLayout['linksCss'] = PROJECT_PATH.'public/web/site/newlayout_2/layout/head/linkEditableCss.php';
+//                $templatesLayout['tiny_config'] = PROJECT_PATH.'public/web/site/newlayout_2/layout/head/tiny_config.js';
+//                break;
+//            case 'new3':
+//                $templatesLayout['layout'] = PROJECT_PATH.'public/web/site/newlayout_3/layout/layout.php';
+//                $templatesLayout['linksJs'] = PROJECT_PATH.'public/web/site/newlayout_3/layout/head/linkEditableJs.php';
+//                $templatesLayout['linksCss'] = PROJECT_PATH.'public/web/site/newlayout_3/layout/head/linkEditableCss.php';
+//                $templatesLayout['tiny_config'] = PROJECT_PATH.'public/web/site/newlayout_3/layout/head/tiny_config.js';
+//                break;
+//            case 'oa':
+//                $templatesLayout['layout'] = PROJECT_PATH.'public/web/site/oa/layout/layout.php';
+//                $templatesLayout['linksJs'] = PROJECT_PATH.'public/web/site/oa/layout/head/linkEditableJs.php';
+//                $templatesLayout['linksCss'] = PROJECT_PATH.'public/web/site/oa/layout/head/linkEditableCss.php';
+//                $templatesLayout['tiny_config'] = PROJECT_PATH.'public/web/site/oa/layout/head/tiny_config.js';
+//                break;
+//            default:
+//                $templatesLayout['layout'] = PROJECT_PATH.'public/web/site/grafia/layout/layout.php';
+//                $templatesLayout['linksJs'] = PROJECT_PATH.'public/web/site/grafia/layout/head/linkEditableJs.php';
+//                $templatesLayout['linksCss'] = PROJECT_PATH.'public/web/site/grafia/layout/head/linkEditableCss.php';
+//                $templatesLayout['tiny_config'] = PROJECT_PATH.'public/web/site/grafia/layout/head/tiny_config.js';
+//                break;
+//        }
 
-        $theme = 'old';
-
-        switch ($theme) {
-            case 'old':
-                $templatesLayout['layout'] = PROJECT_PATH.'public/web/site/grafia/layout/layout.php';
-                $templatesLayout['linksJs'] = PROJECT_PATH.'public/web/site/grafia/layout/head/linkEditableJs.php';
-                $templatesLayout['linksCss'] = PROJECT_PATH.'public/web/site/grafia/layout/head/linkEditableCss.php';
-                $templatesLayout['tiny_config'] = PROJECT_PATH.'public/web/site/grafia/layout/head/tiny_config.js';
-                break;
-            case 'new':
-                $templatesLayout['layout'] = PROJECT_PATH.'public/web/site/newlayout/layout/layout.php';
-                $templatesLayout['linksJs'] = PROJECT_PATH.'public/web/site/newlayout/layout/head/linkEditableJs.php';
-                $templatesLayout['linksCss'] = PROJECT_PATH.'public/web/site/newlayout/layout/head/linkEditableCss.php';
-                $templatesLayout['tiny_config'] = PROJECT_PATH.'public/web/site/newlayout/layout/head/tiny_config.js';
-                break;
-            case 'new1':
-                $templatesLayout['layout'] = PROJECT_PATH.'public/web/site/newlayout_1/layout/layout.php';
-                $templatesLayout['linksJs'] = PROJECT_PATH.'public/web/site/newlayout_1/layout/head/linkEditableJs.php';
-                $templatesLayout['linksCss'] = PROJECT_PATH.'public/web/site/newlayout_1/layout/head/linkEditableCss.php';
-                $templatesLayout['tiny_config'] = PROJECT_PATH.'public/web/site/newlayout_1/layout/head/tiny_config.js';
-                break;
-            case 'new2':
-                $templatesLayout['layout'] = PROJECT_PATH.'public/web/site/newlayout_2/layout/layout.php';
-                $templatesLayout['linksJs'] = PROJECT_PATH.'public/web/site/newlayout_2/layout/head/linkEditableJs.php';
-                $templatesLayout['linksCss'] = PROJECT_PATH.'public/web/site/newlayout_2/layout/head/linkEditableCss.php';
-                $templatesLayout['tiny_config'] = PROJECT_PATH.'public/web/site/newlayout_2/layout/head/tiny_config.js';
-                break;
-            case 'new3':
-                $templatesLayout['layout'] = PROJECT_PATH.'public/web/site/newlayout_3/layout/layout.php';
-                $templatesLayout['linksJs'] = PROJECT_PATH.'public/web/site/newlayout_3/layout/head/linkEditableJs.php';
-                $templatesLayout['linksCss'] = PROJECT_PATH.'public/web/site/newlayout_3/layout/head/linkEditableCss.php';
-                $templatesLayout['tiny_config'] = PROJECT_PATH.'public/web/site/newlayout_3/layout/head/tiny_config.js';
-                break;
-            case 'oa':
-                $templatesLayout['layout'] = PROJECT_PATH.'public/web/site/oa/layout/layout.php';
-                $templatesLayout['linksJs'] = PROJECT_PATH.'public/web/site/oa/layout/head/linkEditableJs.php';
-                $templatesLayout['linksCss'] = PROJECT_PATH.'public/web/site/oa/layout/head/linkEditableCss.php';
-                $templatesLayout['tiny_config'] = PROJECT_PATH.'public/web/site/oa/layout/head/tiny_config.js';
-                break;
-            default:
-                $templatesLayout['layout'] = PROJECT_PATH.'public/web/site/grafia/layout/layout.php';
-                $templatesLayout['linksJs'] = PROJECT_PATH.'public/web/site/grafia/layout/head/linkEditableJs.php';
-                $templatesLayout['linksCss'] = PROJECT_PATH.'public/web/site/grafia/layout/head/linkEditableCss.php';
-                $templatesLayout['tiny_config'] = PROJECT_PATH.'public/web/site/grafia/layout/head/tiny_config.js';
-                break;
-        }
-
+        // site definition
+        $sitePath = 'grafia/';
+        // local
+        $templatesCommon = 'local/site/common/templates/';
+        $templatesSite = 'local/site/'.$sitePath.'templates/';
+        // public
+        $assets = 'public/assets/';
+        $linksCommon = 'public/site/common/';
+        $linksSite = 'public/site/'.$sitePath;
 
         return [
-           'templates.poznamky' => $webPublicDir.'templates/info/poznamky.php',
-
-           // Language packages tinyMce požívají krátké i dlouhé kódy, kód odpovídá jménu souboru např cs.js nebo en_US.js - proto mapování
+           // Language packages tinyMce používají krátké i dlouhé kódy, kód odpovídá jménu souboru např cs.js nebo en_US.js - proto mapování
             // pozn. - popisky šablon pro tiny jsou jen česky (TinyInit.js)
             'tinyLanguage' => [
                     'cs' => 'cs',
                     'de' => 'de',
                     'en' => 'en_US'
                 ],
-            // title
-            'title' => \Middleware\Web\AppContext::getWebTitle(),
-            // folders
-            'webPublicDir' => $webPublicDir,
-            'webSitePublicDir' =>$webSitePublicDir,
-            // layout folder
-            'layout' => $templatesLayout['layout'],
-            'tiny_config' =>    $templatesLayout['tiny_config'],
-            // links do head
-            'linksJs' =>    $templatesLayout['linksJs'],
-            'linksCss' =>    $templatesLayout['linksCss'],
-            // js links
-           'urlTinyMCE' => $commonPublicDir.'tinymce5_3_1\js\tinymce\tinymce.min.js',
-            'urlJqueryTinyMCE' => $commonPublicDir.'tinymce5_3_1\js\tinymce\jquery.tinymce.min.js',
-//            'urlTinyMCE' => $commonPublicDir.'tinymce5_4_0\js\tinymce\tinymce.min.js',
-//            'urlJqueryTinyMCE' => $commonPublicDir.'tinymce5_4_0\js\tinymce\jquery.tinymce.min.js',
 
+            // title
+            'title' => "Grafia, s.r.o.",
+
+            // folders
+            'linksCommon' => $linksCommon,
+            'linksSite' => $linksSite,
+
+            // local templates paths
+            'layout' => $templatesSite.'layout/layout.php',
+            'tiny_config' => $templatesSite.'js/tiny_config.js',
+            'linksEditorJs' => $templatesCommon.'layout/links/linkEditorJs.php',
+            'linkEditorCss' => $templatesCommon.'layout/links/linkEditorCss.php',
+
+            // linksEditorJs links
+           'urlTinyMCE' => $assets.'tinymce5_3_1\js\tinymce\tinymce.min.js',
+            'urlJqueryTinyMCE' => $assets.'tinymce5_3_1\js\tinymce\jquery.tinymce.min.js',
+//            'urlTinyMCE' => $assets.'tinymce5_4_0\js\tinymce\tinymce.min.js',
+//            'urlJqueryTinyMCE' => $assets.'tinymce5_4_0\js\tinymce\jquery.tinymce.min.js',
 //    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 //    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 //    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/jquery.tinymce.min.js" referrerpolicy="origin"></script>
-            'urlTinyInit' => $webPublicDir.'js/TinyInit.js',
-            'editScript' => $webPublicDir . 'js/edit.js',
-            'kalendarScript' => $webPublicDir . 'js/kalendar.js',
-            // css links
-            'urlStylesCss' => $webPublicDir."styles/old/styles.css",
-            'urlSemanticCss' => $webPublicDir."semantic/dist/semantic.min.css",
-            'urlContentTemplatesCss' => $webPublicDir."templates/author/template.css",
+            'urlTinyInit' => $linksCommon.'js/TinyInit.js',
+            'editScript' => $linksCommon . 'js/edit.js',
+            'kalendarScript' => $linksCommon . 'js/kalendar.js',
+
+            // linkEditorCss links
+            'urlStylesCss' => $linksCommon."css/old/styles.css",
+            'urlSemanticCss' => $linksSite."semantic-ui/semantic.min.css",
+            'urlContentTemplatesCss' => $linksCommon."css/templates.css",   // KŠ ?????
             //
-            'paperTemplatesUri' =>  $webPublicDir."templates/paper/",  // URI pro Template controler
-            'authorTemplatesPath' => $webPublicDir."templates/author/",
+            'paperTemplatesUri' =>  $linksSite."templates/paper/",  // URI pro Template controler
+            'authorTemplatesPath' => $linksCommon."templates/author/",
 
         ];
     }
 
     public static function pageControler() {
+        // local
+        $templatesCommon = 'local/site/common/templates/';
         return [
-               'templates.poznamky' => $webPublicDir.'templates/info/poznamky.php',
-               'templates.loaderElement' => $webPublicDir.'templates/component-load/loaderElement.php',
+               'templates.poznamky' => $templatesCommon.'layout/info/poznamky.php',
+               'templates.loaderElement' => $templatesCommon.'layout/component-load/loaderElement.php',
             ];
+    }
+
+    public static function languageSelectRenderer() {
+        // public
+        $assets = 'public/assets/';
+        return [
+            'assets' => $assets.'flags-mini/'
+        ];
     }
 
     public static function transformator() {
         return [
-            'filesDirectory' => '/_www_gr_files/',  // relativní cesta vzhledem k DOCUMENT_ROOT (htdocs)
+            'filesDirectory' => '/_www_gr_files/',  // relativní cesta vzhledem k DOCUMENT_ROOT (htdocs) -začíná /
         ];
     }
 }

@@ -12,12 +12,12 @@ namespace Model\Entity;
  *
  * @author pes2704
  */
-interface ComponentInterface {
+interface BlockInterface {
     public function getName();
 
     public function getUidFk();
 
-    public function setName($name): ComponentInterface;
+    public function setName($name): BlockInterface;
 
-    public function setUidFk($uid_fk): ComponentInterface;
+    public function setUidFk($uid_fk): BlockInterface;
 }

@@ -8,23 +8,23 @@
 
 namespace Model\Repository;
 
-use Model\Dao\ComponentDao;
+use Model\Dao\BlockDao;
 use Model\Hydrator\HydratorInterface;
 
 use Model\Repository\MenuItemRepo;
-use Model\Entity\ComponentAggregateInterface;
-use Model\Entity\ComponentAggregate;
-use Model\Hydrator\ComponentChildHydrator;
+use Model\Entity\BlockAggregateInterface;
+use Model\Entity\BlockAggregate;
+use Model\Hydrator\BlockChildHydrator;
 
 /**
  * Description of Menu
  *
  * @author pes2704
  */
-class ComponentAggregateRepo extends ComponentRepo implements ComponentAggregateRepoInterface, RepoReadonlyInterface {
+class BlockAggregateRepo extends BlockRepo implements BlockAggregateRepoInterface, RepoReadonlyInterface {
 
-    public function __construct(ComponentDao $componentDao, HydratorInterface $componentHydrator,
-            MenuItemRepo $menuItemRepo, ComponentChildHydrator $componentMenuItemHydrator) {
+    public function __construct(BlockDao $componentDao, HydratorInterface $componentHydrator,
+            MenuItemRepo $menuItemRepo, BlockChildHydrator $componentMenuItemHydrator) {
         parent::__construct($componentDao, $componentHydrator);
         $this->registerOneToOneAssotiation('menuItem', ['lang_code_fk', 'uid_fk'], $menuItemRepo);
         $this->registerHydrator($componentMenuItemHydrator);
@@ -34,9 +34,9 @@ class ComponentAggregateRepo extends ComponentRepo implements ComponentAggregate
      * Vrací ComponentAggregate - agregát Component a MenuItem. Parametr $langCode je pouze použit pro výběr MenuItem.
      * @param type $langCode
      * @param type $name
-     * @return ComponentAggregateInterface|null
+     * @return BlockAggregateInterface|null
      */
-    public function getAggregate($langCode, $name): ?ComponentAggregateInterface {
+    public function getAggregate($langCode, $name): ?BlockAggregateInterface {
         $index = $name;
         if (!isset($this->collection[$index])) {
             $row = $this->dao->get($name);
@@ -49,6 +49,6 @@ class ComponentAggregateRepo extends ComponentRepo implements ComponentAggregate
     }
 
     protected function createEntity() {
-        return new ComponentAggregate();
+        return new BlockAggregate();
     }
 }
