@@ -18,7 +18,7 @@ SELECT  'de' AS lang_code_fk, stranky_innodb.list AS `list`, poradi AS `order`, 
 
 UPDATE menu_item
         INNER JOIN
-    (SELECT menu_item.lang_code_fk, menu_item.list, IF(menu_item.auto_generated!='0', 'segment', IF(SUBSTRING(menu_item.list,1,1)='a', 'segment', 'paper')) AS newtype
+    (SELECT menu_item.lang_code_fk, menu_item.list, IF(menu_item.auto_generated!='0', 'generated', 'paper') AS newtype
     FROM menu_item )  t  ON (menu_item.lang_code_fk=t.lang_code_fk AND menu_item.list=t.list)
 SET menu_item.type_fk = t.`newtype`
 WHERE ISNULL(menu_item.type_fk);
@@ -26,4 +26,4 @@ WHERE ISNULL(menu_item.type_fk);
 -- úprava - nově je active jen 0 nebo 1
 UPDATE menu_item
 SET active = 1
-WHERE active=2;
+WHERE active>0;

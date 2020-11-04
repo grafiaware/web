@@ -2,14 +2,14 @@
   -- kořeny jednotlivých menu
   -- kořen a je přejmenován na block
 INSERT INTO menu_root (uid_fk, name)
-SELECT uid_fk, IF(list='a', 'block', list) as name FROM
+SELECT uid_fk, list as name FROM
 menu_item
-WHERE list='l' OR  list='p' OR  list='s' OR  list='a' OR  list='trash' OR  list='$'
+WHERE list='root' OR  list='trash' OR  list='blocks' OR  list='menu_vertical' OR  list='menu_horizontal' OR  list='menu_redirect'
 GROUP BY uid_fk;
 
--- naplnění tabulky component
+-- naplnění tabulky block
   -- potomky kořenové položky 'a' (tj potomky a)
-INSERT INTO component (uid_fk, name)
+INSERT INTO block (uid_fk, name)
 SELECT menu_item.uid_fk, menu_item.list FROM
 menu_item
 INNER JOIN

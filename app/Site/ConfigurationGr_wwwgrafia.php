@@ -665,7 +665,7 @@ class ConfigurationGr_wwwgrafia {
     public static function statusPresentationManager() {
         return [
             'default_lang_code' => 'cs',
-            'default_hierarchy_root_component_name' => 's'
+            'default_hierarchy_root_component_name' => 'menu_vertical'
         ];
     }
 
@@ -725,15 +725,14 @@ class ConfigurationGr_wwwgrafia {
 
         return [
            'templates.poznamky' => $webPublicDir.'templates/info/poznamky.php',
-           'templates.loaderElement' => $webPublicDir.'templates/component-load/loaderElement.php',
 
            // Language packages tinyMce požívají krátké i dlouhé kódy, kód odpovídá jménu souboru např cs.js nebo en_US.js - proto mapování
             // pozn. - popisky šablon pro tiny jsou jen česky (TinyInit.js)
             'tinyLanguage' => [
-                'cs' => 'cs',
-                'de' => 'de',
-                'en' => 'en_US'
-            ],
+                    'cs' => 'cs',
+                    'de' => 'de',
+                    'en' => 'en_US'
+                ],
             // title
             'title' => \Middleware\Web\AppContext::getWebTitle(),
             // folders
@@ -766,6 +765,13 @@ class ConfigurationGr_wwwgrafia {
             'authorTemplatesPath' => $webPublicDir."templates/author/",
 
         ];
+    }
+
+    public static function pageControler() {
+        return [
+               'templates.poznamky' => $webPublicDir.'templates/info/poznamky.php',
+               'templates.loaderElement' => $webPublicDir.'templates/component-load/loaderElement.php',
+            ];
     }
 
     public static function transformator() {

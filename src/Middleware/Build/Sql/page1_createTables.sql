@@ -35,8 +35,8 @@ CREATE TABLE `menu_adjlist` (
   `child` varchar(45) NOT NULL,
   `parent` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY (`child`),
-  CONSTRAINT `menu_adjlist_child_fk1` FOREIGN KEY ( `parent`) REFERENCES `menu_adjlist` (`child`) ON UPDATE CASCADE   -- t.j. on delete restrict (default) a on update cascade - nelze smazat parent, pokud má child
+  UNIQUE KEY (`child`) -- ,
+--  CONSTRAINT `menu_adjlist_child_fk1` FOREIGN KEY ( `parent`) REFERENCES `menu_adjlist` (`child`) ON UPDATE CASCADE   -- t.j. on delete restrict (default) a on update cascade - nelze smazat parent, pokud má child
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `menu_item_type` (
@@ -95,7 +95,7 @@ CREATE TABLE `paper_content` (
   FULLTEXT KEY `searchcontent` (`content`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `component` (
+CREATE TABLE `block` (
   `name` varchar(128) NOT NULL,
   `uid_fk` varchar(45) NOT NULL,
   PRIMARY KEY (`name`),

@@ -15,11 +15,6 @@ use Psr\Http\Message\ServerRequestInterface;
 
 use Psr\Container\ContainerInterface;
 
-use StatusManager\{
-    StatusSecurityManagerInterface, StatusPresentationManagerInterface
-
-};
-
 use Model\Repository\{
     StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo
 };
@@ -30,11 +25,6 @@ use Pes\View\View;
 use Pes\View\Template\PhpTemplate;
 use Pes\View\Template\InterpolateTemplate;
 
-use Middleware\Login\Controller\LoginLogoutController;
-use Component\View\{
-    Status\LoginComponent, Status\LogoutComponent, Status\UserActionComponent,
-    Flash\FlashComponent
-};
 
 /**
  * Description of GetControler
@@ -168,86 +158,5 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
                             );
         }
     }
-    private function getModalLoginLogout() {
-        $user = $this->statusSecurityRepo->get()->getUser();
-        if (null != $user AND $user->getRole()) {   // libovolná role
-            /** @var LogoutComponent $logoutComponent */
-            $logoutComponent = $this->container->get(LogoutComponent::class);
-            //$logoutComponent nepoužívá viewModel, používá template definovanou v kontejneru - zadávám data pro template
-            $logoutComponent->setData(['userName' => $user->getUserName()]);
-            return $logoutComponent;
-        } else {
-            /** @var LoginComponent $loginComponent */
-            $loginComponent = $this->container->get(LoginComponent::class);
-            //$loginComponent nepoužívá viewModel, používá template definovanou v kontejneru - zadávám data pro template
-            $loginComponent->setData(["jmenoFieldName" => LoginLogoutController::JMENO_FIELD_NAME, "hesloFieldName" => LoginLogoutController::HESLO_FIELD_NAME]);
-            return $loginComponent;
-        }
-    }
 
-    private function getModalUserAction() {
-        $user = $this->statusSecurityRepo->get()->getUser();
-        if (null != $user AND $user->getRole()) {   // libovolná role
-            /** @var UserActionComponent $actionComponent */
-            $actionComponent = $this->container->get(UserActionComponent::class);
-            $actionComponent->setData(
-                    [
-                    'editArticle' => $this->isEditableArticle(),
-                    'editLayout' => $this->isEditableLayout(),
-                    'userName' => $user->getUserName()
-                    ]);
-            return $actionComponent;
-        } else {
-
-        }
-    }
-
-    private function getPoznamky() {
-        if ($this->isEditableLayout() OR $this->isEditableArticle()) {
-            return
-                $this->container->get(View::class)
-                    ->setTemplate(new PhpTemplate(Configuration::layoutControler()['templates.poznamky']))
-                    ->setData([
-                        'poznamka1'=>
-                        '<pre>'. $this->prettyDump($this->statusPresentationRepo->get()->getLanguage(), true).'</pre>'
-                        . '<pre>'. $this->prettyDump($this->statusSecurityRepo->get()->getUserActions(), true).'</pre>',
-                        //'flashMessage' => $this->getFlashMessage(),
-                        ]);
-        }
-    }
-
-    private function prettyDump($var) {
-//        return htmlspecialchars(var_export($var, true), ENT_QUOTES, 'UTF-8', true);
-//        return htmlspecialchars(print_r($var, true), ENT_QUOTES, 'UTF-8', true);
-        return $this->pp($var);
-    }
-
-    private function pp($arr){
-        if (is_object($arr)) {
-            $cls = get_class($arr);
-            $arr = (array) $arr;
-        } else {
-            $cls = '';
-        }
-        $retStr = $cls ? "<p>$cls</p>" : "";
-        $retStr .= '<ul>';
-        if (is_array($arr)){
-            foreach ($arr as $key=>$val){
-                if (is_object($val)) $val = (array) $val;
-                if (is_array($val)){
-                    $retStr .= '<li>' . str_replace('\0', ':', $key) . ' = array(' . $this->pp($val) . ')</li>';
-                }else{
-                    $retStr .= '<li>' . str_replace($cls, "", $key) . ' = ' . ($val == '' ? '""' : $val) . '</li>';
-                }
-            }
-        }
-        $retStr .= '</ul>';
-        return $retStr;
-    }
-
-    private function getFlashComponent() {
-        if ($this->isEditableLayout() OR $this->isEditableArticle()) {
-            return $this->container->get(FlashComponent::class);
-        }
-    }
 }

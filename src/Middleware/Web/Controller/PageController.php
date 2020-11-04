@@ -19,16 +19,19 @@ use Component\View\{
     Generated\LanguageSelectComponent,
     Generated\SearchPhraseComponent,
     Generated\SearchResultComponent,
-    Generated\ItemTypeSelectComponent
+    Generated\ItemTypeSelectComponent,
+    Status\LoginComponent, Status\LogoutComponent, Status\UserActionComponent,
+    Flash\FlashComponent
+
 };
+
+use Middleware\Login\Controller\LoginLogoutController;
 
 ####################
 
 use Model\Repository\{
     HierarchyAggregateRepo, MenuRootRepo, MenuItemRepo, ComponentAggregateRepo
 };
-
-use \StatusManager\StatusPresentationManager;
 
 ####################
 //use Pes\Debug\Timer;
@@ -221,34 +224,34 @@ class PageController extends LayoutControllerAbstract {
     private function getMenuComponents() {
         if ($this->isEditableLayout()) {
             $componets = [
-                'menuPresmerovani' => $this->container->get('menu.presmerovani')->setMenuRootName('l'),
-                'menuVodorovne' => $this->container->get('menu.vodorovne')->setMenuRootName('p'),
-                'menuSvisle' => $this->container->get('menu.svisle')->setMenuRootName('s'),
+                'menuPresmerovani' => $this->container->get('menu.presmerovani')->setMenuRootName('menu_redirect'),
+                'menuVodorovne' => $this->container->get('menu.vodorovne')->setMenuRootName('menu_horizontal'),
+                'menuSvisle' => $this->container->get('menu.svisle')->setMenuRootName('menu_vertical'),
             ];
 //                return [
-//                'menuPresmerovani' => $this->container->get('menu.presmerovani.editable')->setMenuRootName('l'),
-//                'menuVodorovne' => $this->container->get('menu.vodorovne.editable')->setMenuRootName('p'),
+//                'menuPresmerovani' => $this->container->get('menu.presmerovani.editable')->setMenuRootName('menu_redirect'),
+//                'menuVodorovne' => $this->container->get('menu.vodorovne.editable')->setMenuRootName('menu_horizontal'),
                 ## var a
-//                'menuSvisle' => $this->container->get('menu.svisle.editable')->setMenuRootName('$'),
+//                'menuSvisle' => $this->container->get('menu.svisle.editable')->setMenuRootName('root'),
                 ## var b
-//                'menuSvisle' => $this->container->get('menu.svisle.editable')->setMenuRootName('s'),
+//                'menuSvisle' => $this->container->get('menu.svisle.editable')->setMenuRootName('menu_vertical'),
 //                'bloky' => $this->container->get('menu.bloky.editable')->setMenuRootName('block'), //menu.svisle.editable  //bloky
 //                'kos' => $this->container->get('menu.kos')->setMenuRootName('trash'), //menu.svisle  //kos
 //                ];
 
         } elseif ($this->isEditableArticle()) {
             $componets = [
-                'menuPresmerovani' => $this->container->get('menu.presmerovani.editable')->setMenuRootName('l'),
-                'menuVodorovne' => $this->container->get('menu.vodorovne.editable')->setMenuRootName('p'),
-                'menuSvisle' => $this->container->get('menu.svisle.editable')->setMenuRootName('s'),
+                'menuPresmerovani' => $this->container->get('menu.presmerovani.editable')->setMenuRootName('menu_redirect'),
+                'menuVodorovne' => $this->container->get('menu.vodorovne.editable')->setMenuRootName('menu_horizontal'),
+                'menuSvisle' => $this->container->get('menu.svisle.editable')->setMenuRootName('menu_vertical'),
                 'kos' => $this->container->get('menu.kos.editable')->setMenuRootName('trash'), //menu.svisle  //kos
                 'bloky' => $this->container->get('menu.bloky.editable')->setMenuRootName('block'),
             ];
         } else {
             $componets = [
-                'menuPresmerovani' => $this->container->get('menu.presmerovani')->setMenuRootName('l'),
-                'menuVodorovne' => $this->container->get('menu.vodorovne')->setMenuRootName('p'),
-                'menuSvisle' => $this->container->get('menu.svisle')->setMenuRootName('s'),
+                'menuPresmerovani' => $this->container->get('menu.presmerovani')->setMenuRootName('menu_redirect'),
+                'menuVodorovne' => $this->container->get('menu.vodorovne')->setMenuRootName('menu_horizontal'),
+                'menuSvisle' => $this->container->get('menu.svisle')->setMenuRootName('menu_vertical'),
             ];
         }
         return $componets;
@@ -309,11 +312,95 @@ class PageController extends LayoutControllerAbstract {
 
     private function getComponentLoadScript($componentName) {
         return $this->container->get(View::class)
-                    ->setTemplate(new PhpTemplate(Configuration::layoutControler()['templates.loaderElement']))
+                    ->setTemplate(new PhpTemplate(Configuration::pageControler()['templates.loaderElement']))
                     ->setData([
                         'name' => $componentName,
                         'apiUri' => "component/v1/nameditem/$componentName/"
                         ]);
     }
 
+    #### komponenty, modal ######
+
+    protected function getPoznamky() {
+        if ($this->isEditableLayout() OR $this->isEditableArticle()) {
+            return
+                $this->container->get(View::class)
+                    ->setTemplate(new PhpTemplate(Configuration::pageControler()['templates.poznamky']))
+                    ->setData([
+                        'poznamka1'=>
+                        '<pre>'. $this->prettyDump($this->statusPresentationRepo->get()->getLanguage(), true).'</pre>'
+                        . '<pre>'. $this->prettyDump($this->statusSecurityRepo->get()->getUserActions(), true).'</pre>',
+                        //'flashMessage' => $this->getFlashMessage(),
+                        ]);
+        }
+    }
+
+    protected function getModalLoginLogout() {
+        $user = $this->statusSecurityRepo->get()->getUser();
+        if (null != $user AND $user->getRole()) {   // libovolná role
+            /** @var LogoutComponent $logoutComponent */
+            $logoutComponent = $this->container->get(LogoutComponent::class);
+            //$logoutComponent nepoužívá viewModel, používá template definovanou v kontejneru - zadávám data pro template
+            $logoutComponent->setData(['userName' => $user->getUserName()]);
+            return $logoutComponent;
+        } else {
+            /** @var LoginComponent $loginComponent */
+            $loginComponent = $this->container->get(LoginComponent::class);
+            //$loginComponent nepoužívá viewModel, používá template definovanou v kontejneru - zadávám data pro template
+            $loginComponent->setData(["jmenoFieldName" => LoginLogoutController::JMENO_FIELD_NAME, "hesloFieldName" => LoginLogoutController::HESLO_FIELD_NAME]);
+            return $loginComponent;
+        }
+    }
+
+    protected function getModalUserAction() {
+        $user = $this->statusSecurityRepo->get()->getUser();
+        if (null != $user AND $user->getRole()) {   // libovolná role
+            /** @var UserActionComponent $actionComponent */
+            $actionComponent = $this->container->get(UserActionComponent::class);
+            $actionComponent->setData(
+                    [
+                    'editArticle' => $this->isEditableArticle(),
+                    'editLayout' => $this->isEditableLayout(),
+                    'userName' => $user->getUserName()
+                    ]);
+            return $actionComponent;
+        } else {
+
+        }
+    }
+
+    private function prettyDump($var) {
+//        return htmlspecialchars(var_export($var, true), ENT_QUOTES, 'UTF-8', true);
+//        return htmlspecialchars(print_r($var, true), ENT_QUOTES, 'UTF-8', true);
+        return $this->pp($var);
+    }
+
+    private function pp($arr){
+        if (is_object($arr)) {
+            $cls = get_class($arr);
+            $arr = (array) $arr;
+        } else {
+            $cls = '';
+        }
+        $retStr = $cls ? "<p>$cls</p>" : "";
+        $retStr .= '<ul>';
+        if (is_array($arr)){
+            foreach ($arr as $key=>$val){
+                if (is_object($val)) $val = (array) $val;
+                if (is_array($val)){
+                    $retStr .= '<li>' . str_replace('\0', ':', $key) . ' = array(' . $this->pp($val) . ')</li>';
+                }else{
+                    $retStr .= '<li>' . str_replace($cls, "", $key) . ' = ' . ($val == '' ? '""' : $val) . '</li>';
+                }
+            }
+        }
+        $retStr .= '</ul>';
+        return $retStr;
+    }
+
+    protected function getFlashComponent() {
+        if ($this->isEditableLayout() OR $this->isEditableArticle()) {
+            return $this->container->get(FlashComponent::class);
+        }
+    }
 }

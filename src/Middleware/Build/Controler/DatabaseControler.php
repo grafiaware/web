@@ -143,6 +143,13 @@ class DatabaseControler extends BuildControlerAbstract {
             $configCopy = $this->container->get('build.config.copy');
             return $this->manipulator->copyTable($configCopy['source_table_name'], $configCopy['target_table_name']);
         };
+
+        // smazání chybné stránky v grafia databázích s list='s_01' - chybná syntax list způdobí chyby při vyztváření adjlist - původní stránka nemá žádný obsah
+        $conversionSteps[] = function() {
+            $configCopy = $this->container->get('build.config.copy');
+            return $this->executeFromString("DELETE FROM {$configCopy['target_table_name']} WHERE list = 's_01'");
+        };
+
         ##### convert db ####
 
         $conversionSteps[] = function() {
@@ -154,31 +161,36 @@ class DatabaseControler extends BuildControlerAbstract {
         $conversionSteps[] = function() {
             return $this->executeFromFile("page2_0_insertIntoLanguage&MenuItemType.sql");
         };
-        $conversionSteps[] = function() {
-            return $this->executeFromFile("page2_1_insertIntoMenuItemNewSystemMenuRoots.sql");
-        };
-        $conversionSteps[] = function() {
-            $menuDefinitions = [
-//                ['s', 'Menu s'],
-                ['l', 'Menu l'],
-                ['p', 'Menu p'],
-            ];
-            $executedSql = [];
-            foreach ($menuDefinitions as $menuDef) {
-                $executedSql[] .= $this->executeFromTemplate("page2_2_insertIntoMenuItemNewMenuRoot.sql", ['menu_root_name'=>$menuDef[0], 'menu_root_title'=>$menuDef[1]]);
-            }
-            return implode(PHP_EOL, $executedSql);
-        };
+//        $conversionSteps[] = function() {
+//            return $this->executeFromFile("page2_1_insertIntoMenuItemNewSystemMenuRoots.sql");
+//        };
         // -- v novém menu je titulní stránka kořenem menu 's' - přejmenuji list a0 na s
         $conversionSteps[] = function() {
             $oldRootsUpdateDefinitions = [
-                ['s', 'a0'],
+                ['menu_vertical', 'a0'],        // !! menu menu_vertical je s titulní stranou - kořen menu vznikne z existující stránky -> ve staré db změním stránku list=a0 na list=menu_vertical
             ];
             $executedSql = [];
             foreach ($oldRootsUpdateDefinitions as $oldDef) {
                 return $this->executeFromTemplate("page2_3_updateStrankyOldMenuRoots.sql", ['svisle_menu_root_name'=>$oldDef[0], 'old_svisle_menu_root_name'=>$oldDef[1]]);
             }
         };
+        $conversionSteps[] = function() {
+            // [type, list, title]
+            $menuDefinitions = [
+                ['root', 'root', 'ROOT'],
+                ['trash', 'trash', 'Trash'],
+                ['paper', 'blocks', 'Blocks'],
+//                ['paper', 'menu_vertical', 'Menu'],      // !! menu menu_vertical je s titulní stranou  -> ve staré db je stránka list=menu_vertical a má titulek
+                ['paper', 'menu_horizontal', 'Menu'],
+                ['paper', 'menu_redirect', 'Menu'],
+            ];
+            $executedSql = [];
+            foreach ($menuDefinitions as $menuDef) {
+                $executedSql[] .= $this->executeFromTemplate("page2_2_insertIntoMenuItemNewMenuRoot.sql", ['menu_root_type' => $menuDef[0], 'menu_root_list'=>$menuDef[1], 'menu_root_title'=>$menuDef[2]]);
+            }
+            return implode(PHP_EOL, $executedSql);
+        };
+
         $conversionSteps[] = function() {
             return $this->executeFromTemplate("page2_4_insertIntoMenuItemFromStranky.sql", );
         };

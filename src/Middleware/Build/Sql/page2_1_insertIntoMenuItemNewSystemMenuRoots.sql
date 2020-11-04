@@ -19,8 +19,8 @@ INSERT INTO `menu_item` ( `lang_code_fk`, `type_fk`, `list`, `order`,  `title`, 
 VALUES  ('de', 'trash', 'trash', 0, 'Müll', 1, 0);
 
 INSERT INTO `menu_item` ( `lang_code_fk`, `type_fk`, `list`, `order`,  `title`, `active`, `auto_generated`)
-VALUES  ('cs', 'segment', 'a', 0, 'Bloky', 1, 0);
+VALUES  ('cs', 'blocks', 'a', 0, 'Bloky', 1, 0);
 INSERT INTO `menu_item` ( `lang_code_fk`, `type_fk`, `list`, `order`,  `title`, `active`, `auto_generated`)
-VALUES  ('en', 'segment', 'a', 0, 'Blocks', 1, 0);
+VALUES  ('en', 'blocks', 'a', 0, 'Blocks', 1, 0);
 INSERT INTO `menu_item` ( `lang_code_fk`, `type_fk`, `list`, `order`,  `title`, `active`, `auto_generated`)
-VALUES  ('de', 'segment', 'a', 0, 'Blocken', 1, 0);
+VALUES  ('de', 'blocks', 'a', 0, 'Blocken', 1, 0);
