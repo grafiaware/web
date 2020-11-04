@@ -1,0 +1,62 @@
+https://prismjs.com/#examples
+
+Basic usage
+
+You will need to include the prism.css and prism.js files you downloaded in your page. Example:
+
+<!DOCTYPE html>
+<html>
+<head>
+	...
+	<link href="themes/prism.css" rel="stylesheet" />
+</head>
+<body>
+	...
+	<script src="prism.js"></script>
+</body>
+</html>
+
+Prism does its best to encourage good authoring practices. Therefore, it only works with <code> elements, since marking up code without a <code> element is semantically invalid. According to the HTML5 spec, the recommended way to define a code language is a language-xxxx class, which is what Prism uses. Alternatively, Prism also supports a shorter version: lang-xxxx.
+
+To make things easier however, Prism assumes that this language definition is inherited. Therefore, if multiple <code> elements have the same language, you can add the language-xxxx class on one of their common ancestors. This way, you can also define a document-wide default language, by adding a language-xxxx class on the <body> or <html> element.
+
+If you want to opt-out of highlighting for a <code> element that is a descendant of an element with a declared code language, you can add the class language-none to it (or any non-existing language, really).
+
+The recommended way to mark up a code block (both for semantics and for Prism) is a <pre> element with a <code> element inside, like so:
+
+<pre><code class="language-css">p { color: red }</code></pre>
+
+If you use that pattern, the <pre> will automatically get the language-xxxx class (if it doesn’t already have it) and will be styled as a code block.
+
+If you want to prevent any elements from being automatically highlighted and instead use the API, you can set Prism.manual to true before the DOMContentLoaded event is fired. By setting the data-manual attribute on the <script> element containing Prism core, this will be done automatically. Example:
+
+<script src="prism.js" data-manual></script>
+
+or
+
+<script>
+window.Prism = window.Prism || {};
+window.Prism.manual = true;
+</script>
+<script src="prism.js"></script>
+
+Usage with CDNs
+
+In combination with CDNs, we recommend using the Autoloader plugin which automatically loads languages when necessary.
+
+The setup of the Autoloader, will look like the following. You can also your own themes of course.
+
+<!DOCTYPE html>
+<html>
+<head>
+	...
+	<link href="https://myCDN.com/prism@v1.x/themes/prism.css" rel="stylesheet" />
+</head>
+<body>
+	...
+	<script src="https://myCDN.com/prism@v1.x/components/prism-core.min.js"></script>
+	<script src="https://myCDN.com/prism@v1.x/plugins/autoloader/prism-autoloader.min.js"></script>
+</body>
+</html>
+
+CDNs which provide PrismJS are e.g. cdnjs, jsDelivr, and UNPKG.
