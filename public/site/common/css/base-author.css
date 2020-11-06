@@ -1,0 +1,718 @@
+/*******************************
+         Site Settings
+*******************************/
+/***********************************************************
+  Central element variation compilation enablers
+***********************************************************/
+/* General */
+/*******************************
+           Elements
+*******************************/
+/* Button */
+/* Container */
+/* Divider */
+/* Header */
+/* Icon */
+/* Image */
+/* Input */
+/* Label */
+/* List */
+/* Loader */
+/* Placeholder */
+/* Rail */
+/* Reveal */
+/* Segment */
+/* Step */
+/* Text */
+/*******************************
+           Collections
+*******************************/
+/* Breadcrumb */
+/* Form */
+/* Grid */
+/* Menu */
+/* Message */
+/* Table */
+/*******************************
+             Views
+*******************************/
+/* Ad */
+/* Card */
+/* Comment */
+/* Feed */
+/* Item */
+/* Statistic */
+/*******************************
+            Modules
+*******************************/
+/* Accordion */
+/* Calendar */
+/* Checkbox */
+/* Dimmer */
+/* Dropdown */
+/* Embed */
+/* Modal */
+/* Popup */
+/* Progress */
+/* Rating */
+/* Search */
+/* Shape */
+/* Sidebar */
+/* Slider */
+/* Tab */
+/* Toast */
+/* Transition */
+/* Emojis */
+/*-------------------
+       Fonts
+--------------------*/
+/*-------------------
+      Base Sizes
+--------------------*/
+/* This is the single variable that controls them all */
+/* The size of page text  */
+/*-------------------
+    Border Radius
+--------------------*/
+/* See Power-user section below
+   for explanation of @px variables
+*/
+/*-------------------
+    Brand Colors
+--------------------*/
+/* Whenever a color needs to get calculated (screen()/multiply()) out of a base color */
+/*--------------
+  Page Heading
+---------------*/
+/*--------------
+   Form Input
+---------------*/
+/* This adjusts the default form input across all elements */
+/* Input Text Color */
+/* Line Height Default For Inputs in Browser (Descenders are 17px at 14px base em) */
+/*-------------------
+    Focused Input
+--------------------*/
+/* Used on inputs, textarea etc */
+/* Used on dropdowns, other larger blocks */
+/*-------------------
+        Sizes
+--------------------*/
+/*
+  Sizes are all expressed in terms of 14px/em (default em)
+  This ensures these "ratios" remain constant despite changes in EM
+*/
+/*-------------------
+        Page
+--------------------*/
+/*-------------------
+      Paragraph
+--------------------*/
+/*-------------------
+       Links
+--------------------*/
+/*-------------------
+    Scroll Bars
+--------------------*/
+/* Inverted */
+/*-------------------
+  Highlighted Text
+--------------------*/
+/*-------------------
+       Loader
+--------------------*/
+/*-------------------
+        Grid
+--------------------*/
+/*-------------------
+     Transitions
+--------------------*/
+/*-------------------
+     Breakpoints
+--------------------*/
+/*-------------------
+      Site Colors
+--------------------*/
+/*---  Colors  ---*/
+/*---  Light Colors  ---*/
+/*---   Neutrals  ---*/
+/*--- Colored Backgrounds ---*/
+/*--- Colored Headers ---*/
+/*--- Colored Text ---*/
+/*--- Light Colored Text ---*/
+/*--- Hovered Colored Text ---*/
+/*--- Colored Border ---*/
+/*--- Shadows ---*/
+/* Inverted */
+/* Box Shadows */
+/*-------------------
+     Alpha Colors
+--------------------*/
+/*-------------------
+       Accents
+--------------------*/
+/* Differentiating Neutrals */
+/* Differentiating Layers */
+/*******************************
+           Power-User
+*******************************/
+/*-------------------
+    Emotive Colors
+--------------------*/
+/* Positive */
+/* Negative */
+/* Info */
+/* Warning */
+/*-------------------
+        Paths
+--------------------*/
+/* For source only. Modified in gulp for dist */
+/*-------------------
+       Em Sizes
+--------------------*/
+/*
+  This rounds @size values to the closest pixel then expresses that value in (r)em.
+  This ensures all size values round to exact pixels
+*/
+/* em */
+/* rem */
+/*-------------------
+       Icons
+--------------------*/
+/* Maximum Glyph Width of Icon */
+/*-------------------
+     Neutral Text
+--------------------*/
+/*-------------------
+     Brand Colors
+--------------------*/
+/*-------------------
+      Borders
+--------------------*/
+/*-------------------
+    Derived Values
+--------------------*/
+/* Loaders Position Offset */
+/* Rendered Scrollbar Width */
+/* Maximum Single Character Glyph Width, aka Capital "W" */
+/* Used to match floats with text */
+/* Header Spacing */
+/* Minimum Mobile Width */
+/* Positive / Negative Dupes */
+/* Responsive */
+/*-------------------
+  Exact Pixel Values
+--------------------*/
+/*
+  These are used to specify exact pixel values in em
+  for things like borders that remain constantly
+  sized as emSize adjusts
+
+  Since there are many more sizes than names for sizes,
+  these are named by their original pixel values.
+
+*/
+/* Columns */
+/*******************************
+             States
+*******************************/
+/*-------------------
+      Disabled
+--------------------*/
+/*-------------------
+        Hover
+--------------------*/
+/*---  Shadows  ---*/
+/*---  Colors  ---*/
+/*---  Emotive  ---*/
+/*---  Brand   ---*/
+/*---  Dark Tones  ---*/
+/*---  Light Tones  ---*/
+/*-------------------
+        Focus
+--------------------*/
+/*---  Colors  ---*/
+/*---  Emotive  ---*/
+/*---  Brand   ---*/
+/*---  Dark Tones  ---*/
+/*---  Light Tones  ---*/
+/*-------------------
+    Down (:active)
+--------------------*/
+/*---  Colors  ---*/
+/*---  Emotive  ---*/
+/*---  Brand   ---*/
+/*---  Dark Tones  ---*/
+/*---  Light Tones  ---*/
+/*-------------------
+        Active
+--------------------*/
+/*---  Colors  ---*/
+/*---  Emotive  ---*/
+/*---  Brand   ---*/
+/*---  Dark Tones  ---*/
+/*---  Light Tones  ---*/
+/*---  Tertiary  ---*/
+/*---  Bright  ---*/
+/*******************************
+ States shared in Form-related components
+ *******************************/
+/* Form state*/
+/* Input state */
+/* AutoFill */
+/* Dropdown state */
+/* Focused state */
+/* Placeholder state */
+/*******************************
+     User Global Variables
+*******************************/
+/*-------------------
+       Links
+--------------------*/
+/*-------------------
+      Base Sizes
+--------------------*/
+/* This is the single variable that controls them all */
+/* The size of page text  */
+/*-------------------
+    Border Radius
+--------------------*/
+/*--------------
+  Page Heading
+---------------*/
+/*--------------
+  Segment
+--------------*/
+/* Header Spacing */
+/*-------------------
+        Grid
+--------------------*/
+/* Columns */
+/*-------------------
+     Breakpoints
+--------------------*/
+body {
+  /*popisky buttonů budou tučně - popisky jsou v atributu data-tooltip*/
+  /***MENU***/
+  /*pouzivane tridy u polozky menu (li):
+        .leaf - posledni polozka menu
+        .onpath - "na ceste"; pouziva se u kazde polozky, na kterou se klikne - potreba pro stylovani podmenu
+        .presented - pouziva se vzdy u posledni polozky, na kterou se klikne
+        .item je pouzita u (li) nebo (a) podle sady stylu semantic UI (semanticka trida)
+        .cut - třída se přidá, pokud se klikne na tlačítko vybrat k přesunutí*/
+  /*ZOBRAZENÍ SADY BUTTONU PRO OPERACE S POLOZKOU MENU*/
+  /*používané třídy u sady buttonů
+            .buttons - semantická třída, obalovací div pro všechna tlačítka
+            .button - semantická třída, jeden button ze sady
+            .paste - přidá se k třídě .button, když se přesouvá položka menu (button vybrat k přesunutí)*/
+  /*PRO VSECHNA MENU*/
+  /*SVISLE MENU*/
+  /*svislé menu má pevnou výšku, protože jsou v editačním režimu vidět i neaktivní stránky
+    (a je jich tam hodně). Aby obsah nepřetékal, přidána svislá rolovací lišta*/
+  /*PRESMEROVANI MENU*/
+  /*VODOROVNE MENU*/
+  /***SEMAFOR***/
+  /*ukazatelé stavu stránky u contentů a u položky menu*/
+  /*SPOLEČNÁ ČÁST*/
+  /*U POLOŽKY MENU*/
+  /*PRESMEROVANI MENU*/
+  /*VODOROVNÉ MENU*/
+  /*SVISLÉ MENU*/
+  /*PAPER*/
+  /*SECTION*/
+  /*SMAZANÝ CONTENT*/
+  /*BUTTONY PRO PAPER*/
+  /*používané třídy pro buttony k paperu
+        .editPage - všechny buttony týkající se operace s vnitřkem paperu (přidat obsah, seřadit obsahy)
+        .changePaperTemplate - div vypadající jako button na výměnu šablony stránky - funguje jako dropdown */
+  /*VYBER SABLONY*/
+  /*používané třídy pro div se selectem
+        .changePaperTemplate - div vypadající jako button na výměnu šablony stránky - funguje jako dropdown
+        .selectTemplate - obalovací div pro selection dropdown (select)*/
+  /*ROH U CONTENTU*/
+  /*BUTTONY PRO CONTENT*/
+  /*používané třídy pro buttony ke contentu
+        .contentButtons - obalovací div pro všechny .editContent
+        .editContent - třída u .buttons (aktivní/neaktivní, přidat obsah,...), slouží k nastavení contentu; označuje 1 řádků butonů*/
+  /*KALENDÁŘ*/
+  /*slouží k nastavení kalendáře contentu*/
+  /*používané třídy pro buttony ke kalendáři
+        .editDate - třída divu pro výběr data i .buttons (trvale, uložit,...)*/
+  /*BUTTONY*/
+  /*VÝBĚR DATA V KALENDÁŘI*/
+  /***PROSTŘEDÍ TINY***/
+  /*používané třídy pro práci s editovatelnou částí webu, třídy, které přidává Tiny
+        .mce-content-body - tuto třídu dá Tiny ke všem tagům, které mají být editovatelné
+        .mce-edit-focus - tato třída se přidá jen k tagu, který právě edituji*/
+  /*výběr šablony paperu .paper_template_select má jiné ohraničení*/
+}
+body .buttons [data-tooltip]::after {
+  font-weight: bold;
+}
+body .menu.edit {
+  /*styl pro položku menu, která je vybrána k přesunutí*/
+  /*buttony se zobrazí jen u vybrané položky menu*/
+  /*vložit vybranou položku jako sourozence, potomka - zvýraznění buttonů*/
+  /*nový název se ukládá pomocí entru - zároveň se vloží html <br>, které tam není žádoucí*/
+}
+body .menu.edit li.cut {
+  border: 1px solid #b5b7b9 !important;
+}
+body .menu.edit li.cut > a.item,
+body .menu.edit li.cut > p.item span {
+  color: #b5b7b9;
+}
+body .menu.edit li.cut > a.item:hover,
+body .menu.edit li.cut > p.item span:hover {
+  color: #b5b7b9;
+  background-color: transparent !important;
+}
+body .menu.edit li:not(.presented) .buttons {
+  display: none;
+}
+body .menu.edit li.presented > .buttons {
+  display: flex;
+  background-color: #FBFBE7;
+}
+body .menu.edit li.presented > .buttons > .button:last-child {
+  background-color: #F8F3FF;
+}
+body .menu.edit li.presented > .buttons > .button:last-child:hover {
+  background-color: #FFFFFF;
+}
+body .menu.edit .paste {
+  border: 1px solid #767676 !important;
+  background-color: #ebf3b9 !important;
+}
+body .menu.edit .paste:nth-of-type(3) {
+  border-left: 0 !important;
+}
+body .menu.edit br {
+  display: none;
+}
+body .svisle-menu {
+  /*pozice buttonů u svislého menu*/
+  /*SVISLÉ MENU KOŠ*/
+}
+body .svisle-menu .buttons {
+  position: absolute;
+  left: auto;
+  right: 0;
+  top: -25px;
+}
+body .svisle-menu.kos .buttons {
+  background-color: #F8F3FF;
+  /*button smazat trvale má iconu složenou ze dvou (koš a vykřičník - ten je zvýrazněný)*/
+}
+body .svisle-menu.kos .buttons .exclamation.icon {
+  font-size: 0.9em;
+  left: 7px;
+}
+body .presmerovani-menu {
+  /*pozice buttonů u presmerovani menu*/
+}
+body .presmerovani-menu .buttons {
+  margin: 0 0 0 5px;
+}
+body .presmerovani-menu,
+body .vodorovne-menu {
+  /*buttony velké jako položka menu*/
+  /*není to u .buttons protože to je jen obal - nastaví výšku celé sady, ale buttony nezmenší*/
+}
+body .presmerovani-menu .button,
+body .vodorovne-menu .button {
+  height: 28px;
+}
+body .vodorovne-menu {
+  /*pozice buttonů u vodorovného menu*/
+}
+body .vodorovne-menu .buttons {
+  position: relative;
+  margin: 0 5px 0 0;
+  top: 0;
+}
+body .semafor {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  left: -21px;
+}
+body .semafor i.icon {
+  margin-bottom: 2px;
+}
+body .menu.edit .semafor {
+  justify-content: center;
+  height: 100%;
+  left: -1px;
+}
+body .presmerovani-menu .menu.edit .semafor {
+  left: -12px;
+}
+body .vodorovne-menu .menu.edit .semafor {
+  left: -6px;
+  background-color: #FFFFFF;
+  border: 1px solid #EB1B4C;
+  border-radius: 5px 0 0 5px;
+}
+body .vodorovne-menu .menu.edit .semafor i {
+  padding-left: 3px;
+}
+body .vodorovne-menu .menu.edit .presented .semafor {
+  top: 4px;
+  height: 28px;
+  margin-left: 5px;
+}
+body .svisle-menu .menu.edit li > .semafor {
+  top: 10px;
+  left: 1px;
+  height: auto;
+}
+body section {
+  /*vytvoření nového omezujícího bloku - pro zanořené position: absolute*/
+  position: relative;
+}
+body section.trash .semafor {
+  left: -17px;
+}
+body section.trash .blue.corner.label {
+  right: 0;
+}
+body .editPage,
+body .dropdown.changePaperTemplate {
+  position: absolute;
+  top: -32px;
+}
+body .editPage {
+  right: -6px;
+  background-color: #FBFBE7;
+}
+body .segment .editPage {
+  right: 18px;
+}
+body .segment .dropdown.changePaperTemplate {
+  right: 48px;
+  height: 32px;
+}
+body .dropdown.changePaperTemplate {
+  right: 26px;
+  background-color: #EDF7FF !important;
+}
+body .dropdown.changePaperTemplate {
+  /*po najetí na vnořený div .selectTemplate se v edit.js přidá třída .nodatatooltip, aby nebyl vidět popisek divu .changePaperTemplate*/
+}
+body .dropdown.changePaperTemplate[data-tooltip]::after {
+  font-weight: bold;
+}
+body .dropdown.changePaperTemplate.nodatatooltip[data-tooltip]::after,
+body .dropdown.changePaperTemplate.nodatatooltip[data-tooltip]::before {
+  display: none;
+}
+body .dropdown.changePaperTemplate .menu.selectTemplate {
+  width: 200px;
+  top: 31px;
+  left: -162px;
+  background-color: #EDF7FF;
+  border: 1px solid #DCDDDE;
+  border-radius: 5px 0 5px 5px;
+  /* u .header zároveň třída .item pro funkčnost dropdownu*/
+  /*dropdown, který vypadá jako select*/
+}
+body .dropdown.changePaperTemplate .menu.selectTemplate .header {
+  cursor: auto;
+  background-color: transparent;
+}
+body .dropdown.changePaperTemplate .menu.selectTemplate .header:hover {
+  background-color: transparent;
+}
+body .dropdown.changePaperTemplate .menu.selectTemplate .selection.dropdown {
+  left: 50%;
+  transform: translateX(-50%) translateY(-20%);
+  /*rozbalená nabídka*/
+}
+body .dropdown.changePaperTemplate .menu.selectTemplate .selection.dropdown .scrollhint.menu {
+  left: 6px;
+  top: 37px;
+  /*jednotlivé položky*/
+}
+body .dropdown.changePaperTemplate .menu.selectTemplate .selection.dropdown .scrollhint.menu .item {
+  font-size: 0.95rem;
+}
+body .blue.corner.label {
+  width: 2em;
+  height: 2em;
+  font-size: 0.3em;
+  right: -5px;
+  border-color: #c7e2f6 !important;
+  /*icony, které jsou složené ze dvou, budou vycentrované jako ostatní*/
+}
+body .blue.corner.label .icon:not(.editDate) {
+  /*výchozí vlastnost polohy CSS - semantic má nastaveno position: absolute, což je zde nežádoucí*/
+  position: initial;
+}
+body .blue.corner.label .icons .icon {
+  transform: translateX(50%);
+}
+body .contentButtons {
+  display: none;
+  /*po najetí na "modrý roh" se v edit.js mění display na flex*/
+  flex-direction: column;
+  position: absolute;
+  width: 100px;
+  right: 6px;
+  top: 6px;
+}
+body .contentButtons.trash .editContent {
+  background-color: #F8F3FF;
+}
+body .contentButtons .editContent {
+  background-color: #FBFBE7;
+}
+body .contentButtons .editContent:last-child {
+  background-color: #F8F3FF;
+}
+body .corner.label .buttons.editDate {
+  position: absolute;
+  right: 0;
+  top: -32px;
+  background-color: #FFF1D5;
+}
+body .editDate,
+body .buttons.editDate {
+  display: none;
+  /*po kliknutí na iconu kalendáře se v edit.js mění display na flex*/
+}
+body .edit_kalendar {
+  position: absolute;
+  cursor: auto;
+  top: 0;
+  right: -0.15em;
+  font-size: 2.8em;
+  padding: 10px;
+  color: #1B1C1D;
+  background-color: #FFF1D5;
+  border: 1px solid #DCDDDE;
+  border-radius: 5px;
+  z-index: 1;
+  /*popisky inputů*/
+  /*obalující div inputu, semantická třída*/
+}
+body .edit_kalendar p {
+  text-align: left;
+  margin-bottom: 5px;
+}
+body .edit_kalendar .calendar {
+  margin-bottom: 10px;
+}
+body .mce-content-body {
+  padding: 5px;
+  margin: 0 -5px;
+  /*označení pro tagy, které jsou editovatelné, ale ještě nebyly vybrány pro editaci*/
+  /*rozdílné ohraničení pro editaci a pro výběr šablony*/
+  /*Při editaci odkazu ho Tiny obarvuje modře - podbarvení zůstává i při opuštění editovatelného tagu*/
+  /*změna podbarvení při opuštění editovatelného tagu na bílou - potřeba změnit, pokud bude nastavena editačním tagům background-color*/
+  /*při editaci buttonů lze vybírat text myší, semantic má nastaveno user-select: none*/
+}
+body .mce-content-body:not(.mce-edit-focus):not(.paper_template_select) {
+  outline: 1px dotted #DCDDDE;
+}
+body .mce-content-body:not(.mce-edit-focus).paper_template_select {
+  outline: 1px dashed #a1d5ff;
+}
+body .mce-content-body:not(mce-edit-focus) a[data-mce-selected] {
+  background-color: #FFFFFF !important;
+}
+body .mce-content-body.mce-edit-focus a[data-mce-selected] {
+  background-color: #b4d7ff !important;
+}
+body .mce-content-body.mce-edit-focus .button {
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  cursor: text;
+}
+body .mce-edit-focus {
+  /*.border-dance - obíhající border kolem editačního tagu, v edit.js ještě nastavena animation-duration podle výšky a šířky tagu*/
+  padding: 5px;
+  margin: 0 -5px;
+  height: max-content;
+  animation: border-dance 40s infinite linear;
+  /*označení pro tagy, které jsou editovatelné a byly vybrány pro editaci*/
+  /*rozdílné ohraničení pro editaci a pro výběr šablony*/
+}
+body .mce-edit-focus:not(.paper_template_select) {
+  background: linear-gradient(90deg, #21BA45 50%, transparent 50%), linear-gradient(90deg, #21BA45 50%, transparent 50%), linear-gradient(0deg, #21BA45 50%, transparent 50%), linear-gradient(0deg, #21BA45 50%, transparent 50%);
+  background-size: 12px 3px, 12px 3px, 3px 12px, 3px 12px;
+  background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+}
+body .mce-edit-focus.paper_template_select {
+  background: linear-gradient(90deg, #00B5AD 50%, transparent 50%), linear-gradient(90deg, #00B5AD 50%, transparent 50%), linear-gradient(0deg, #00B5AD 50%, transparent 50%), linear-gradient(0deg, #00B5AD 50%, transparent 50%);
+  background-size: 12px 3px, 12px 3px, 3px 12px, 3px 12px;
+  background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+}
+/*ke smazání - připraven styl pro práva - 1. nemá práva, 2. upravuje jiný uživatel*/
+.notpermitted {
+  cursor: no-drop !important;
+  color: #b5b7b9;
+}
+.notpermitted:hover {
+  outline: 2px dashed #EB1B4C;
+  color: #b5b7b9;
+}
+.notpermitted:hover::before {
+  content: 'Nemáte oprávnění k editaci';
+  width: 65%;
+  height: 75px;
+  padding: 10px;
+  color: black;
+  font-weight: bold;
+  position: absolute;
+  z-index: 10;
+  background-color: white;
+  top: 20px;
+  left: 50%;
+  transform: translate(-50%);
+  border: 1px dashed black;
+}
+.locked {
+  cursor: progress !important;
+  color: #b5b7b9;
+}
+.locked:hover {
+  outline: 2px dashed #FBBD08;
+  color: #b5b7b9;
+}
+.locked:hover::before {
+  content: 'Stránku edituje uživatel ' attr(data-editor);
+  width: 60%;
+  height: 90px;
+  padding: 10px;
+  color: black;
+  font-weight: bold;
+  position: absolute;
+  z-index: 10;
+  background-color: white;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 1px dashed black;
+}
+.segment.notpermitted headline,
+.segment.notpermitted content,
+.segment.locked headline,
+.segment.locked content,
+.segment.notpermitted i.settings,
+.segment.locked i.settings {
+  opacity: 0.35;
+}
+.segment.locked .icon.buttons,
+.segment.notpermitted .icon.buttons {
+  opacity: 0.45;
+  pointer-events: none !important;
+}
+.segment.locked a,
+.segment.notpermitted a {
+  pointer-events: none;
+}
+/*# sourceMappingURL=base-author.css.map */

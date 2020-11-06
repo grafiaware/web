@@ -1,4 +1,4 @@
-@import "../../site-definitions.less";
+@import "../../site-definitions.less";  
 @import "../../@{sitename}/semantic/src/themes/default/globals/site.variables";
 @import (optional) "../../@{sitename}/semantic/src/site/globals/site.variables";
 
@@ -21,7 +21,7 @@
 @menuLiCutBorder: @borderWidth @borderStyle @mediumGrey;
 @menuLiCutItemColor: @mediumGrey;
 @menuLiCutItemColorHover: @mediumGrey;
-@menuLiCutItemBackgroundColor: transparent;
+@menuLiCutItemBackgroundColor: transparent; 
 //Buttony pro menu
 @buttonyPasteMenuBorder: @borderWidth @borderStyle @grey;
 @buttonyPasteMenuBackgroundColor: lighten(@lightOlive, 15);
@@ -60,11 +60,11 @@
 //Buttony pro paper
 @buttonyPaperPositionTop: -32px;
 @button2PaperPositionRight: -6px; //.editPage
-@button2SegmentPaperPositionRight: 18px;
+@button2SegmentPaperPositionRight: 18px; 
 @button2PaperBackgroundColor: @barvaEditButtony;
 @button1PaperPositionRight: 26px; //.changePaperTemplate
-@button1SegmentPaperPositionRight: 48px;
-@button1SegmentPaperHeight: 32px;
+@button1SegmentPaperPositionRight: 48px; 
+@button1SegmentPaperHeight: 32px; 
 @button1PaperBackgroundColor: @barvaButtonSablony;
 //Zmena/Vyber sablony
 @divSelectWidth: 200px;
@@ -87,7 +87,7 @@
 @cornerWidth: 2em;
 @cornerHeight: 2em;
 @cornerSize: 0.3em;
-@cornerPositionRigth: -5px;
+@cornerPositionRigth: -5px; 
 @cornerColor: lighten(@blue,40);
 @cornerIconTransform: translateX(50%);
 @sectionTrashCornerPositionRight: 0;
@@ -107,7 +107,7 @@
 @divKalendarPadding: 10px;
 @divKalendarColor: @black;
 @divKalendarBackgroundColor: @barvaEditButtonyTmava;
-@divKalendarBorder: @borderWidth @borderStyle @lightGrey;
+@divKalendarBorder: @borderWidth @borderStyle @lightGrey; 
 @divKalendarBorderRadius: @borderRadius;
 @divKalendarParagraphTextAlign: left;
 @divKalendarParagraphMarginBottom: 5px;
@@ -130,7 +130,7 @@
 
 
 //import změněných proměnných stylu šablony (specifických pro projekt)
-@import (optional) "../../@{sitename}/@{siteStylesFolder}/site-author.less";
+@import (optional) "../../@{sitename}/@{siteStylesFolder}/site-author.less"; 
 
 .border-dance(@color){
     background: linear-gradient(90deg, @color 50%, transparent 50%),
@@ -142,19 +142,19 @@
 }
 .mceBodyLinkSelectedColor(@linkSelected, @colorNotFocus, @colorFocus) when (@linkSelected = true){
     &:not(mce-edit-focus) a[data-mce-selected]{
-        background-color: @colorNotFocus !important;
+        background-color: @colorNotFocus !important; 
     }
     &.mce-edit-focus a[data-mce-selected]{
-        background-color: @colorFocus !important; //Tiny modrá pro odkaz
+        background-color: @colorFocus !important; //Tiny modrá pro odkaz 
     }
 }
 
-body{
+body{  
     /*popisky buttonů budou tučně - popisky jsou v atributu data-tooltip*/
     .buttons [data-tooltip]::after{
         font-weight: @buttonDataTooltipFontWeight;
     }
-
+    
     /***MENU***/
     /*pouzivane tridy u polozky menu (li):
         .leaf - posledni polozka menu
@@ -179,7 +179,7 @@ body{
                     background-color: @menuLiCutItemBackgroundColor !important;
                 }
             }
-        }
+        }    
         /*buttony se zobrazí jen u vybrané položky menu*/
         li:not(.presented) .buttons{
             display: none;
@@ -193,9 +193,9 @@ body{
                     background-color: @lastButtonMenuBackgroundColorHover;
                 }
             }
-        }
+        } 
         /*vložit vybranou položku jako sourozence, potomka - zvýraznění buttonů*/
-        .paste{
+        .paste{ 
             border: @buttonyPasteMenuBorder !important;
             background-color: @buttonyPasteMenuBackgroundColor !important;
             &:nth-of-type(3){
@@ -203,10 +203,10 @@ body{
             }
         }
         /*nový název se ukládá pomocí entru - zároveň se vloží html <br>, které tam není žádoucí*/
-        br{
+        br{ 
             display: none;
         }
-    }
+    } 
     /*SVISLE MENU*/
     /*svislé menu má pevnou výšku, protože jsou v editačním režimu vidět i neaktivní stránky
     (a je jich tam hodně). Aby obsah nepřetékal, přidána svislá rolovací lišta*/
@@ -223,13 +223,13 @@ body{
             .buttons{
                 background-color: @buttonySvisleMenuKosBackgroundColor;
                 /*button smazat trvale má iconu složenou ze dvou (koš a vykřičník - ten je zvýrazněný)*/
-                .exclamation.icon{
+                .exclamation.icon{ 
                     font-size: @buttonSvisleMenuKosSecondIconSize;
                     left: @buttonSvisleMenuKosSecondIconPositionleft;
                 }
             }
-        }
-    }
+        } 
+    } 
     /*PRESMEROVANI MENU*/
     .presmerovani-menu{
         /*pozice buttonů u presmerovani menu*/
@@ -253,8 +253,8 @@ body{
             top: @buttonyVodorovneMenuPositionTop;
         }
     }
-
-
+    
+    
     /***SEMAFOR***/
     /*ukazatelé stavu stránky u contentů a u položky menu*/
     /*SPOLEČNÁ ČÁST*/
@@ -294,14 +294,14 @@ body{
         //ke smazání, až bude .semafor i v <p>
         .presented .semafor{
             top: 4px;
-            height: 28px;
+            height: 28px; 
             margin-left: 5px;
         }
     }
     /*SVISLÉ MENU*/ //ke smazání, až bude .semafor i v <p>
     .svisle-menu .menu.edit{
-        li {
-            > .semafor{
+        li { 
+            > .semafor{ 
                 top: 10px;
                 left: 1px;
                 height: auto;
@@ -312,7 +312,7 @@ body{
     /*SECTION*/
     section{
         /*vytvoření nového omezujícího bloku - pro zanořené position: absolute*/
-        position: relative;
+        position: relative; 
     }
     /*SMAZANÝ CONTENT*/
     section.trash{
@@ -331,20 +331,20 @@ body{
         position: absolute;
         top: @buttonyPaperPositionTop;
     }
-    .editPage{
+    .editPage{ 
         right: @button2PaperPositionRight;
         background-color: @button2PaperBackgroundColor;
     }
     .segment{
         .editPage{
-            right: @button2SegmentPaperPositionRight;
+            right: @button2SegmentPaperPositionRight; 
         }
-        .dropdown.changePaperTemplate{
+        .dropdown.changePaperTemplate{ 
             right: @button1SegmentPaperPositionRight;
             height: @button1SegmentPaperHeight;
         }
     }
-    .dropdown.changePaperTemplate{
+    .dropdown.changePaperTemplate{ 
         right: @button1PaperPositionRight;
         background-color: @button1PaperBackgroundColor !important;
     }
@@ -357,7 +357,7 @@ body{
             font-weight: @buttonDataTooltipFontWeight;
         }
         /*po najetí na vnořený div .selectTemplate se v edit.js přidá třída .nodatatooltip, aby nebyl vidět popisek divu .changePaperTemplate*/
-        &.nodatatooltip[data-tooltip]::after,
+        &.nodatatooltip[data-tooltip]::after, 
         &.nodatatooltip[data-tooltip]::before{
             display: none;
         }
@@ -392,7 +392,7 @@ body{
             }
         }
     }
-
+    
     /*ROH U CONTENTU*/
     .blue.corner.label{
         width: @cornerWidth;
@@ -438,7 +438,7 @@ body{
     .corner.label .buttons.editDate{
         position: absolute;
         right: @buttonyKalendarPositionRight;
-        top: @buttonyKalendarPositionTop;
+        top: @buttonyKalendarPositionTop; 
         background-color: @buttonyKalendarBackgroundColor;
     }
     .editDate, .buttons.editDate{
@@ -467,9 +467,9 @@ body{
             margin-bottom: 10px;
         }
     }
-
-
-    /***PROSTŘEDÍ TINY***/
+    
+    
+    /***PROSTŘEDÍ TINY***/  
     /*používané třídy pro práci s editovatelnou částí webu, třídy, které přidává Tiny
         .mce-content-body - tuto třídu dá Tiny ke všem tagům, které mají být editovatelné
         .mce-edit-focus - tato třída se přidá jen k tagu, který právě edituji*/
@@ -562,7 +562,7 @@ body{
             left: 50%;
             transform: translateX(-50%);
             border: 1px dashed black;
-        }
+        } 
     }
 }
 .segment.notpermitted headline, .segment.notpermitted content,
