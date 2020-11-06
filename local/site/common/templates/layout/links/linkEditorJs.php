@@ -12,11 +12,7 @@
     $().ready(function() {
 
 
-        tinymce.init(headlineConfig);
-        tinymce.init(contentConfig);
-        tinymce.init(perexConfig);
-        tinymce.init(headerFooterConfig);
-        tinymce.init(selectPaperTemplateConfig);
+
 
     }
 

@@ -33,7 +33,6 @@ class MenuItemTypeHydrator implements HydratorInterface {
      * @param array $row
      */
     public function extract(EntityInterface $menuItemType, &$row) {
-        /** @var MenuItemTypeInterface $menuItemType */
-        $row['type'] = $menuItemType->getType();
+        // type je primární klíč - "readonly"
     }
 }

@@ -87,7 +87,7 @@ class ComponentControler extends XhrControlerAbstract {
     }
 
     public function presentedItem(ServerRequestInterface $request) {
-        // dočasně duplicitní s PageController a XhrControler
+        // dočasně duplicitní s PageController 
         $view = $this->getPresentedComponent();
         return $this->createResponseFromView($request, $view);
     }
