@@ -1,0 +1,44 @@
+/*******************************
+         Site Overrides
+*******************************/
+.ui.vertical.icon.menu{
+    background-color: transparent;
+    width: 100%;
+    position: absolute;
+    bottom: 20%; 
+    .item > i.icon:not(.dropdown):hover{
+        opacity: 0.8;
+    }
+}
+.ui.vertical.menu{
+     .item{
+        overflow: hidden;
+        &:hover::before{
+            transform: scaleX(1);
+            background-color: @invertedTextColor; 
+        }
+        &::before{
+            background: none; 
+            position: absolute;
+            top: auto;
+            bottom: 15px;
+            right: 0;
+            width: 100%;
+            height: 3px;
+            background-color: @invertedTextColor; 
+            content: '';
+            transition: linear 0.4s;
+            backface-visibility: hidden;
+            transform: translateX(-100%);
+        }
+    }
+    &.massive{
+        padding: 0.7em 0;
+        .item{
+            font-weight: bold;
+            text-transform: uppercase;
+            padding: 0.6em 0;
+            line-height: 1.2;
+        }
+    }
+}

@@ -1,14 +1,14 @@
 {
-  "base": "public\\web\\semantic\\",
+  "base": "local\\site\\tydenzdravi\\semantic\\",
   "paths": {
     "source": {
       "config": "src/theme.config",
       "definitions": "src/definitions/",
-      "site": "src\\site\\",
+      "site": "src/site/",
       "themes": "src/themes/"
     },
     "output": {
-      "packaged": "dist\\",
+      "packaged": "../../../../public/site/tydenzdravi/semantic-ui/",
       "uncompressed": "dist\\components\\",
       "compressed": "dist\\components\\",
       "themes": "dist/themes/"

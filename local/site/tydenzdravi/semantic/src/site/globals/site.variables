@@ -1,0 +1,31 @@
+/*******************************
+     User Global Variables
+*******************************/
+@fontName          : 'Signika Negative';
+
+@headerFont        : @fontName;
+@pageFont          : @fontName;
+
+
+/*-------------------
+    Border Radius
+--------------------*/
+
+@relativeBorderRadius: 0;
+@absoluteBorderRadius: 0;
+
+/*-------------------
+    Brand Colors
+--------------------*/
+
+@primaryColor        : #CB0A1F;
+@secondaryColor      : #97BF0D;
+
+@textColor           : #000;
+@invertedTextColor   : #fff;
+
+/*-------------------
+       Links
+--------------------*/
+
+@linkColor           : #4183C4;
