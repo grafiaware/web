@@ -4,7 +4,6 @@
                         <p>
                         <?= $poznamka1 ?? ''?>
                         </p>
-<!--                        <div id='contents' class='odkaz_vtextu_kulaty_orange'><?= $this->nl2br($flashMessage) ?></div>-->
                     </div>
                 </div>
 
