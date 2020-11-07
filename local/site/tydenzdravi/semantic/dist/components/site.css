@@ -28,7 +28,7 @@ body {
   min-width: 320px;
   background: #FFFFFF;
   font-family: 'Signika Negative';
-  font-size: 14px;
+  font-size: 20px;
   line-height: 1.4285em;
   color: #000;
 }
@@ -199,6 +199,15 @@ body .ui.inverted:not(.dimmer)::-webkit-scrollbar-thumb:hover {
         Global Overrides
 *******************************/
 
+.obr-upoutavka .ui.grid > .column:not(.row) {
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+}
+.obr-upoutavka .ui.grid > .column:not(.row),
+.obr-upoutavka .ui.grid > .row > .column {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
 
 
 /*******************************

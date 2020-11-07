@@ -6,6 +6,9 @@
 @headerFont        : @fontName;
 @pageFont          : @fontName;
 
+/* The size of page text  */
+@fontSize : 20px;
+
 
 /*-------------------
     Border Radius

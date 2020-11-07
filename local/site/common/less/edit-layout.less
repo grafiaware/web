@@ -51,7 +51,7 @@
 @svisleMenuParagraphPadding: 10px 20px;
 @svisleMenuLiPadding: 3px;
 //Svislé menu bloky
-@svisleMenuBlokyHeight: 400px;
+@svisleMenuBlokyHeight: 400px; 
 @svisleMenuBlokyMargin: 20px auto 20px -8px;
 //Svislé menu koš
 //Vodorovné menu
@@ -60,7 +60,7 @@
 //Přesměrování menu
 @presmerovaniMenuItemMaginRight: 20px;
 
-//Paper
+//Paper 
 @paperMargin: @hodnota0 10px;
 @paperNotFirstMargin: 40px 0 0 0;
 //Headline
@@ -72,7 +72,7 @@
 @contentMinHeight: 45px;
 //Smazaný content
 @sectionTrashMargin: @hodnota0 -5px 5px -5px;
-@trashContentOpacity: 0.5;
+@trashContentOpacity: 0.5; 
 @trashContentPadding: 5px;
 @trashContentFilter: grayscale(1);
 
@@ -112,7 +112,7 @@ body{
             margin: @poznamkyLabelMargin !important;
             i{
                 width: @poznamkyLabelIconWidth !important;
-            }
+            }  
         }
         .content{ //obsah poznámek
             padding: @poznamkyContentPadding;
@@ -148,7 +148,7 @@ body{
         .leaf - posledni polozka menu
         .onpath - "na ceste"; pouziva se u kazde polozky, na kterou se klikne - potreba pro stylovani podmenu
         .presented - pouziva se vzdy u posledni polozky, na kterou se klikne
-        .item je pouzita u (li) nebo (a) podle sady stylu semantic UI (semanticka trida)
+        .item je pouzita u (li) nebo (a) podle sady stylu semantic UI (semanticka trida) 
         .cut - třída se přidá, pokud se klikne na tlačítko vybrat k přesunutí*/
     /*PRO VSECHNA MENU*/
     .menu.edit{
@@ -178,6 +178,9 @@ body{
                         padding: @svisleMenuParagraphPadding;
                     }
                 }
+            }
+            li{
+                position: relative;
             }
         }
         /*SVISLÉ MENU BLOKY*/
