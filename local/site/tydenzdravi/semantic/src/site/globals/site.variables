@@ -7,7 +7,9 @@
 @pageFont          : @fontName;
 
 /* The size of page text  */
-@fontSize : 20px;
+@fontSize : 27px;
+@smallFontSize : 20px;
+@bigFontSize: 37px;
 
 
 /*-------------------
@@ -32,3 +34,13 @@
 --------------------*/
 
 @linkColor           : #4183C4;
+
+/*--------------
+  Page Heading
+---------------*/
+
+@h2 : unit((58 / 14), rem);
+@h3 : unit((55 / 14), rem);
+@h4 : unit((48 / 14), rem);
+@h5 : unit((45 / 14), rem); 
+@h6 : unit((38 / 14), rem);

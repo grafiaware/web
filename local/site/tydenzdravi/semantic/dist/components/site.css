@@ -28,7 +28,7 @@ body {
   min-width: 320px;
   background: #FFFFFF;
   font-family: 'Signika Negative';
-  font-size: 20px;
+  font-size: 27px;
   line-height: 1.4285em;
   color: #000;
 }
@@ -54,16 +54,16 @@ h1 {
   font-size: 2rem;
 }
 h2 {
-  font-size: 1.71428571rem;
+  font-size: 4.14285714rem;
 }
 h3 {
-  font-size: 1.28571429rem;
+  font-size: 3.92857143rem;
 }
 h4 {
-  font-size: 1.07142857rem;
+  font-size: 3.42857143rem;
 }
 h5 {
-  font-size: 1rem;
+  font-size: 3.21428571rem;
 }
 h1:first-child,
 h2:first-child,
@@ -214,3 +214,15 @@ body .ui.inverted:not(.dimmer)::-webkit-scrollbar-thumb:hover {
          Site Overrides
 *******************************/
 
+.ui.grid > .column:not(.row),
+.ui.grid > .row > .column {
+  padding-left: 0.4rem;
+  padding-right: 0.4rem;
+}
+.obr-upoutavka .ui.grid > .column:not(.row) {
+  padding-top: 0.15rem;
+  padding-bottom: 0.15rem;
+}
+p {
+  margin: 0 0 0.55em;
+}

@@ -10,6 +10,9 @@
         opacity: 0.8;
     }
 }
+.ui.menu .item:before{
+    display: none;
+}
 .ui.vertical.menu:not(.icon){
     li:not(.presented){
         a.item{
@@ -31,9 +34,6 @@
                 transition: linear 0.4s;
                 backface-visibility: hidden;
                 transform: translateX(-100%);
-            }
-            &:first-child::before{
-                display: none;
             }
         }
     }

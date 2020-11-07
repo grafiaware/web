@@ -8,3 +8,12 @@
 <script type="text/javascript" src=" <?= $kalendarScript ?>" defer></script>
 
 
+<script type="text/javascript">
+    $().ready(function() {
+
+
+
+
+    }
+
+</script>
