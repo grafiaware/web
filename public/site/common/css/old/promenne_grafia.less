@@ -1,0 +1,45 @@
+@cerna :        black; 
+@bila :         white;
+@cervena :      red;
+@zelena:  green;
+
+@vice_seda: dimgray;    //  =#696969  105 41%
+@seda : gray;           // =#808080 128 50%
+@stribrna_tmavsi: #B0B0B0 ;
+@stribrna : silver;     // =#C0C0C0 192 75%
+@svetle_seda: #E6E6E6;  // =#E6E6E6 230 90%
+
+@cervena_grafia_tmavsi: #DC143C;
+@cervena_grafia:        #EB1B4C;
+
+//------------------web lay----------------------------------------------
+@web_barva_pozadi:     @bila;
+@web_barva_pisma:      @cerna;
+@web_velikost_pisma:   1em;
+@web_velikost_pisma_rs:  1em; 
+
+//----------------------web grafia-------------------------------
+@hlavni_barva:          @cervena_grafia;  //olive;  // navy;// @cervena_grafia; // green; darkviolet
+@hlavni_barva_tmavsi:   @cervena_grafia_tmavsi;  //@cerna;    //@cervena_grafia_tmavsi;
+@hlavni_barva_inverzni: @bila;  //  orange;  // @bila
+@sablony_pozadi : @bila; 
+
+@kulate_rohy: ano;
+@kulate_rohy_velikost: 1em; //12px;
+
+//---------------------------------------------
+@vodorovne-menu-polozka_a_color :                  @bila;
+@vodorovne-menu-polozka_a_color_hover :            @hlavni_barva;
+@vodorovne-menu-polozka_a_background-color :       @hlavni_barva;
+@vodorovne-menu-polozka_a_background-color_hover : @bila;
+
+///---------- mixi-----------------
+.kulate_rohy_1111 (ano, @velikost)
+{
+     border-radius : @velikost*@web_velikost_pisma  @velikost*@web_velikost_pisma
+                     @velikost*@web_velikost_pisma  @velikost*@web_velikost_pisma ;
+}
+.kulate_rohy_1111 (@a_ , @velikost)
+{
+}
+

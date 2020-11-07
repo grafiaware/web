@@ -64,7 +64,7 @@ class TemplateControler extends XhrControlerAbstract {
                 ;
 
         $view = $this->container->get(View::class)
-                                ->setTemplate(new PhpTemplate(PROJECT_PATH."public/web/templates/paper/".$paperTemplateName."/template.php"))
+                                ->setTemplate(new PhpTemplate("local/site/common/templates/paper/".$paperTemplateName."/template.php"))
                                 ->setData([
                                     'paperAggregate' => $paperAggregate,
                                 ]);

@@ -98,7 +98,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
                     'modalLoginLogout' => $this->getModalLoginLogout(),
                     'modalUserAction' => $this->getModalUserAction(),
                     'bodyContainerAttributes' => $this->getBodyContainerAttributes(),
-                    'linkEditJs' => $this->getEditJs($request),
+                    'linkEditorJs' => $this->getEditorJs($request),
                     'linkEditorCss' => $this->getEditorCss($request),
                     'poznamky' => $this->getPoznamky(),
                     'flash' => $this->getFlashComponent(),
@@ -113,7 +113,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
         }
     }
 
-    private function getEditJs(ServerRequestInterface $request) {
+    private function getEditorJs(ServerRequestInterface $request) {
         if ($this->isEditableArticle() OR $this->isEditableLayout()) {
             ## document base path - stejná hodnota se musí použiít i v nastavení tinyMCE
             $basepath = $this->getBasePath($request);
@@ -127,6 +127,14 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
                         'tinyMCEConfig' => $this->container->get(View::class)
                                 ->setTemplate(new InterpolateTemplate(Configuration::layoutControler()['tiny_config']))
                                 ->setData([
+//var tinyConfig = {
+//    basePath: '/web/',
+//    contentCss: ['public/site/common/css/old/styles.css', 'public/site/grafia/semantic-ui/semantic.min.css', '{{urlZkouskaCss}}'],
+//    paper_templates_uri : 'public/site/grafia/templates/paper/',
+//    content_templates_path : '{{contentTemplatesPath}}',
+//    toolbarsLang: 'cs'
+//};
+
                                     // pro tiny_config.js
                                     'basePath' => $basepath,
                                     'urlStylesCss' => Configuration::layoutControler()['urlStylesCss'],

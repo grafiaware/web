@@ -1,14 +1,4 @@
 /*******************************
         Global Overrides
 *******************************/
-.obr-upoutavka{
-    .ui.grid>.column:not(.row){
-        padding-top: 0.2rem;
-        padding-bottom: 0.2rem;
-    }
-    .ui.grid>.column:not(.row), .ui.grid>.row>.column{
-        padding-left: 0.5rem;
-        padding-right: 0.5rem;
-    }
-}
 

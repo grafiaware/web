@@ -1,6 +1,13 @@
+.layoutTZ{
 
-    .layoutTZ{
-        
+        /*VLASTNÍ HTML TAGY*/
+        headline, content, block, div[class=""], perex{
+            display: block;
+            position: relative;
+            span[class=""]{
+                display: inline-block;
+            }
+        }
         header{
             display: flex;
             align-items: center;
@@ -68,6 +75,9 @@
                     color: @invertedTextColor;
                     font-size: 2em;
                     opacity: 1;
+                    &:hover{
+                        opacity: 0.8 ;
+                    }
                 }
                 .dropdown .header.item{
                     font-size: 1.3em;
@@ -79,7 +89,6 @@
                     font-size: 1.8em ;
                     opacity: 1;
                     padding: 7px;
-                   
                 }
             }
             button:not(.fluid){
@@ -254,6 +263,18 @@
     }
     .nav-mobile:not(.active){
         display: none;
+    }
+    
+    /***PATIČKA***/
+    footer{
+        color: @invertedTextColor;
+        background-color: @primaryColor;
+        width: 90.8%;
+        padding-left: 21px;
+        padding-top: 30px;
+        height: 150px;
+        font-size: @smallFontSize; 
+        float: right;
     }
     
 }

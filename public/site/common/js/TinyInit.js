@@ -312,12 +312,11 @@ var selectPaperTemplateConfig = {
         { title: 'Test - namedpaper a8', description: 'rendered component',       url: 'component/nameditem/a8'},
        // { title: 'Publikace', description: 'Grafia web - publikace',   url: tinyConfig.paper_templates_path + 'block/'},
     ]
+
 };
 
-
-
-tinymce.init(headlineConfig);
-tinymce.init(contentConfig);
-tinymce.init(perexConfig);
-tinymce.init(headerFooterConfig);
-tinymce.init(selectPaperTemplateConfig);
+        tinymce.init(headlineConfig);
+        tinymce.init(contentConfig);
+        tinymce.init(perexConfig);
+        tinymce.init(headerFooterConfig);
+        tinymce.init(selectPaperTemplateConfig);

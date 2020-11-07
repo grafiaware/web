@@ -1,0 +1,109 @@
+@marginDefault: 50px;
+main > div{
+    margin: @marginDefault 0;
+}
+.zeleny{
+    &.podklad{
+        color: @invertedTextColor;
+        background-color: @secondaryColor;
+        padding: 17px 35px;
+    }
+    &:not(.podklad){
+        color: @secondaryColor;
+    }
+}
+.cerveny{
+    &.podklad{
+        color: @invertedTextColor;
+        background-color: @primaryColor;
+        padding: 17px 35px;
+    }
+    &:not(.podklad){
+        color: @primaryColor;
+    }
+}
+.nadpis{
+    font-size: @h2;
+    font-weight: 700;
+    &.vlevo{
+        width: 36%;
+        position: absolute;
+        position: absolute;
+        transform: translateX(-20%) translateY(-45px);
+        &.cerveny{
+            text-align: right;
+        }
+    }
+    &.vpravo{
+        width: 100%;
+        position: relative;
+    }
+}
+.podnadpis{
+    font-size: @h4;
+}
+.text{
+    font-size: @fontSize;
+    &.velky{
+        font-size: @bigFontSize;
+        padding: 30px 40px;  
+        &.vpravo{
+            text-align: right;
+            width: 90%;
+            float: right;
+            position: relative;
+        }
+        &.vlevo{
+            text-align: left;
+            width: 90%;
+            left: 0;
+            position: relative;
+        }
+    }
+}
+.obr-upoutavka{
+    margin-top: @marginDefault + 40px;
+    .nadpis.cerveny.vpravo{
+        width: 140%;
+        transform: translateX(-28.45%) translateY(-50px);
+        text-align: right;
+        font-size: 4.5rem;
+    }
+    .blok.text{
+        transform: translateY(-10%);
+        height: 390px;
+        margin-left: -15px;
+        text-align: right;
+        padding: 27px 50px;
+    }
+    
+}
+.blok-nadpis-obr-text{
+    .velky text{
+        text-align: right;
+    }
+}
+.zeleny-blok-obr-text{
+    position: relative;
+    margin-bottom: @marginDefault + 110px;
+    &::before{
+        content: '';
+        width: 95px;
+        background-color: @secondaryColor;
+        height: 100%;
+        position: absolute;
+        top: 40px;
+        left: -95px;
+    }
+    &::after{
+        content: '';
+        width: 60%;
+        background-color: @secondaryColor;
+        height: 95px;
+        position: absolute;
+        bottom: -95px;
+        left: -95px;
+    }
+}
+
+   

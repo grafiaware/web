@@ -465,7 +465,7 @@ body {
   min-width: 320px;
   background: #FFFFFF;
   font-family: 'Signika Negative';
-  font-size: 20px;
+  font-size: 27px;
   line-height: 1.4285em;
   color: #000;
 }
@@ -492,19 +492,19 @@ h1 {
 }
 
 h2 {
-  font-size: 1.71428571rem;
+  font-size: 4.14285714rem;
 }
 
 h3 {
-  font-size: 1.28571429rem;
+  font-size: 3.92857143rem;
 }
 
 h4 {
-  font-size: 1.07142857rem;
+  font-size: 3.42857143rem;
 }
 
 h5 {
-  font-size: 1rem;
+  font-size: 3.21428571rem;
 }
 
 h1:first-child,
@@ -656,20 +656,24 @@ body .ui.inverted:not(.dimmer)::-webkit-scrollbar-thumb:hover {
         Global Overrides
 *******************************/
 
-.obr-upoutavka .ui.grid > .column:not(.row) {
-  padding-top: 0.2rem;
-  padding-bottom: 0.2rem;
-}
-
-.obr-upoutavka .ui.grid > .column:not(.row),
-.obr-upoutavka .ui.grid > .row > .column {
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-}
-
 /*******************************
          Site Overrides
 *******************************/
+
+.ui.grid > .column:not(.row),
+.ui.grid > .row > .column {
+  padding-left: 0.4rem;
+  padding-right: 0.4rem;
+}
+
+.obr-upoutavka .ui.grid > .column:not(.row) {
+  padding-top: 0.15rem;
+  padding-bottom: 0.15rem;
+}
+
+p {
+  margin: 0 0 0.55em;
+}
 /*!
  * # Fomantic-UI - Button
  * http://github.com/fomantic/Fomantic-UI/
@@ -22918,7 +22922,7 @@ h1.ui.header .sub.header {
 }
 
 h2.ui.header {
-  font-size: 1.71428571rem;
+  font-size: 4.14285714rem;
 }
 
 h2.ui.header .sub.header {
@@ -22926,7 +22930,7 @@ h2.ui.header .sub.header {
 }
 
 h3.ui.header {
-  font-size: 1.28571429rem;
+  font-size: 3.92857143rem;
 }
 
 h3.ui.header .sub.header {
@@ -22934,7 +22938,7 @@ h3.ui.header .sub.header {
 }
 
 h4.ui.header {
-  font-size: 1.07142857rem;
+  font-size: 3.42857143rem;
 }
 
 h4.ui.header .sub.header {
@@ -22942,7 +22946,7 @@ h4.ui.header .sub.header {
 }
 
 h5.ui.header {
-  font-size: 1rem;
+  font-size: 3.21428571rem;
 }
 
 h5.ui.header .sub.header {
@@ -22950,7 +22954,7 @@ h5.ui.header .sub.header {
 }
 
 h6.ui.header {
-  font-size: 0.85714286rem;
+  font-size: 2.71428571rem;
 }
 
 h6.ui.header .sub.header {
@@ -22962,7 +22966,8 @@ h6.ui.header .sub.header {
 ---------------*/
 
 .ui.mini.header {
-  font-size: 0.85714286em;
+  font-size: 2.71428571em;
+  min-height: 1em;
 }
 
 .ui.mini.header .sub.header {
@@ -22974,7 +22979,8 @@ h6.ui.header .sub.header {
 }
 
 .ui.tiny.header {
-  font-size: 1em;
+  font-size: 3.21428571em;
+  min-height: 1em;
 }
 
 .ui.tiny.header .sub.header {
@@ -22986,7 +22992,8 @@ h6.ui.header .sub.header {
 }
 
 .ui.small.header {
-  font-size: 1.07142857em;
+  font-size: 3.42857143em;
+  min-height: 1em;
 }
 
 .ui.small.header .sub.header {
@@ -22998,7 +23005,8 @@ h6.ui.header .sub.header {
 }
 
 .ui.large.header {
-  font-size: 1.71428571em;
+  font-size: 4.14285714em;
+  min-height: 1em;
 }
 
 .ui.large.header .sub.header {
@@ -23712,7 +23720,7 @@ a.ui.inverted.black.header.header.header:hover {
 --------------------*/
 
 .ui.header:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6) {
-  font-size: 1.28571429em;
+  font-size: 3.92857143em;
 }
 
 /*******************************
@@ -47492,6 +47500,10 @@ Floated Menu / Item
   opacity: 0.8;
 }
 
+.ui.menu .item:before {
+  display: none;
+}
+
 .ui.vertical.menu:not(.icon) li:not(.presented) a.item {
   overflow: hidden;
 }
@@ -47518,10 +47530,6 @@ Floated Menu / Item
   backface-visibility: hidden;
   -webkit-transform: translateX(-100%);
   transform: translateX(-100%);
-}
-
-.ui.vertical.menu:not(.icon) li:not(.presented) a.item:first-child::before {
-  display: none;
 }
 
 .ui.vertical.menu.massive {

@@ -1,7 +1,19 @@
-
+/*******************************
+         layout.less: @import "../../site-definitions.less"
+*******************************/
 @import "../../site-definitions.less";  
 
+/*******************************
+         layout.less: @import "../../@{sitename}/semantic/src/themes/default/globals/site.variables"
+*******************************/
+@import "../../@{sitename}/semantic/src/themes/default/globals/site.variables";
 
+/*******************************
+         layout.less: @import (optional) "../../@{sitename}/semantic/src/site/globals/site.variables"
+*******************************/
+@import (optional) "../../@{sitename}/semantic/src/site/globals/site.variables";     
+
+ 
 &{  
 @templateType: "author";
 @templateName: "default";
@@ -33,16 +45,16 @@
 @siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templatePath}/site-template.less";
 @import (optional) "../templates/@{templatePath}/base-template.less";
 }
-
+    
 &{
 @templateType: "paper-content";
 @templateName: "default";
 @templatePath: "@{templateType}/@{templateName}";
-@siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templatePath}/site-template.less";
+@siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templatePath}/site-template.less";  
 @import (optional) "../templates/@{templatePath}/base-template.less";         
 }
 
-&{
+&{                                       
 @templateType: "paper-content";    
 @templateName: "default";
 @templatePath: "@{templateType}/@{templateName}";

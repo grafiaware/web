@@ -133,7 +133,9 @@ abstract class RepoAbstract implements RepoInterface {
                 $row = [];
                 $this->extract($entity, $row);
                 if ($entity->isPersisted()) {
-                    $this->dao->update($row);
+                    if ($row) {     // $row po extractu musí obsahovat nějaká data, která je možno updatovat - v extarctu musí být vynechány "readonly" sloupce
+                        $this->dao->update($row);
+                    }
                 } else {
                     throw new \LogicException("V collection je nepersistovaná entita.");
                 }

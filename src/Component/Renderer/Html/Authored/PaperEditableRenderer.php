@@ -22,7 +22,7 @@ use Component\View\Authored\Paper\ButtonsForm\PaperTemplateButtonsForm;
  *
  * @author pes2704
  */
-class PaperEditableRenderer  extends AuthoredEditableRendererAbstract {
+class PaperEditableRenderer  extends AuthoredRendererAbstract {
     public function render($data=NULL) {
         return $this->renderPrivate($data);
     }
