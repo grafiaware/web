@@ -15,7 +15,7 @@
         position: fixed;
         color: @invertedTextColor;
         background-color: @primaryColor;
-        z-index: 1;
+        z-index: 5;
         .prihlaseni{
             top: 17%;
             width: 100%;
@@ -24,11 +24,11 @@
             align-items: center;
             position: relative;
             z-index: 3;
-            .icon.button{
+            .icon.button:not(.labeled){
                 background-color: transparent;
                 > .user.icon{
                     color: @invertedTextColor;
-                    font-size: 2em;
+                    font-size: 1.45em;
                     opacity: 1;
                     &:hover{
                         opacity: 0.8 ;
@@ -44,44 +44,53 @@
                     &:hover{
                         background-color: @white;
                     }
+                    .icon{
+                        opacity: 1;
+                    }
                 }
                 .menu{
-                    padding: 0 8px;
+                    padding: 0 12px 20px 12px;
                 }
                 input{
                     border: 1px solid @lightGrey !important;
+                    font-size: 0.8em;
                 }
                 button.fluid{
                     margin: 5px 0;
+                    font-size: 0.8em;
                 }
                 .ui.labeled.icon.button > .icon::before{
                     top: -10px;
                 }
             } 
-            div.icon{
-                padding: 7px;
-            }
             .logout{
-                display: inline-block;
-                i.icon{
-                    font-size: 1.2em;
+                i.sign.out.icon{
                     color: @invertedTextColor;
+                    font-size: 2em;
+                    opacity: 1;
                 }
-
+                .dropdown .header.item{
+                    font-size: 1.3em;
+                }
             }
-            > form{ //obalit do divu - v tomhle formu je tlacitko Akce
-                float: right;
-                > .icon{
+            > form{ //v tomhle formu je tlacitko Akce
+                > div.icon{
                     color: @invertedTextColor;
+                    font-size: 1.8em ;
+                    opacity: 1;
+                    padding: 7px;
                    
                 }
             }
             button:not(.fluid){
                 position: relative;
-                left: 15%;
-                margin-bottom: 15px;
+                left: 10%;
+                font-size: 1.2em;
                 &.positive{
-                    left: 20%;
+                    left: 6%;
+                    font-size: 0.92em;
+                    padding-top: 0.6em;
+                    padding-bottom: 0.6em;
                 }
             }
         }
@@ -92,8 +101,22 @@
         padding: 0;
         list-style: none;
     }
-    .svisle-menu .vertical.menu{
+    .svisle-menu .vertical.menu:not(.edit){
         margin-left: 20px;
+    }
+    .svisle-menu .vertical.menu{
+        .presented > .item{
+            color: darken(@primaryColor, 15)
+        }
+        .onpath{
+            .menu{
+                left: 7%;
+                position: relative;
+                .item{
+                    color: @invertedTextColor;
+                }
+            }
+        }
     }
     //hamburger menu
     .close-item,

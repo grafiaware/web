@@ -19,3 +19,5 @@
 @huge: @18px;
 @massive: @33px;
 
+@massiveWidth: 30rem;
+

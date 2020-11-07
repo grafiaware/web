@@ -2182,7 +2182,7 @@ Floated Menu / Item
   font-size: 2.35714286rem;
 }
 .ui.massive.vertical.menu:not(.icon) {
-  width: 25rem;
+  width: 30rem;
 }
 
 /*-------------------
@@ -2236,15 +2236,15 @@ Floated Menu / Item
 .ui.vertical.icon.menu .item > i.icon:not(.dropdown):hover {
   opacity: 0.8;
 }
-.ui.vertical.menu .item {
+.ui.vertical.menu:not(.icon) li:not(.presented) a.item {
   overflow: hidden;
 }
-.ui.vertical.menu .item:hover::before {
+.ui.vertical.menu:not(.icon) li:not(.presented) a.item:hover::after {
   -webkit-transform: scaleX(1);
           transform: scaleX(1);
   background-color: #fff;
 }
-.ui.vertical.menu .item::before {
+.ui.vertical.menu:not(.icon) li:not(.presented) a.item::after {
   background: none;
   position: absolute;
   top: auto;
@@ -2261,12 +2261,29 @@ Floated Menu / Item
   -webkit-transform: translateX(-100%);
           transform: translateX(-100%);
 }
+.ui.vertical.menu:not(.icon) li:not(.presented) a.item:first-child::before {
+  display: none;
+}
 .ui.vertical.menu.massive {
   padding: 0.7em 0;
+}
+.ui.vertical.menu.massive .onpath ul {
+  width: 28rem;
 }
 .ui.vertical.menu.massive .item {
   font-weight: bold;
   text-transform: uppercase;
   padding: 0.6em 0;
   line-height: 1.2;
+}
+.ui.vertical.menu.massive.edit {
+  width: 35rem;
+}
+.ui.vertical.menu.massive.edit .onpath ul {
+  width: 33.5rem;
+}
+.ui.vertical.menu.massive.edit .item {
+  padding-left: 1.3em;
+  padding-top: 0.75em;
+  padding-bottom: 0.75em;
 }

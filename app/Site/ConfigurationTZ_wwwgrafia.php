@@ -256,18 +256,18 @@ class ConfigurationTZ_wwwgrafia {
                             'li.paste' => 'paste',
                             'li div'=>'semafor polozky_menu',
                             'li div i1.published' => 'circle icon green',
-                            'li div i1.notpublished' => 'circle icon red ',
+                            'li div i1.notpublished' => 'circle icon inverted red ',
                             'li div i2.published' => 'calendar check icon green',
                             'li div i2.notactive' => 'calendar plus icon grey',
                             'li div i2.notactual' => 'calendar minus icon orange',
                             'li div i2.notactivenotactual' => 'calendar times icon red',
-                              //check green icon, times red icon //ui mini green left corner label //vertical green line
+                              //check green icon, times red icon //ui small green left corner label //vertical green line
                             'li a' => 'item editable',   //nema_pravo //edituje_jiny
                             'li i' => '' //dropdown icon
                         ],
             'menu_edit_buttons' => [
-                            'div.name' => 'mini ui basic icon buttons editName',
-                            'div.menu' => 'mini ui basic icon buttons editMenu',
+                            'div.name' => 'small ui basic icon buttons editName',
+                            'div.menu' => 'small ui basic icon buttons editMenu',
                             'div button' => 'ui button',
                             'div button.paste' => 'ui button paste',
                             'div button.name' => 'ui button toolsName',
@@ -284,7 +284,7 @@ class ConfigurationTZ_wwwgrafia {
                             'div button8 i' => 'large times circle icon'
                         ],
             'block_edit_buttons' => [ //bloky
-                            'div' => 'mini ui basic icon buttons',
+                            'div' => 'small ui basic icon buttons',
                             'div button' => 'ui button',
                             'div button1 i' => 'large trash icon',
                             'div button2 i.on' => 'large green toggle on icon',
@@ -292,7 +292,7 @@ class ConfigurationTZ_wwwgrafia {
                             'div button3 i' => 'large add circle icon',
                         ],
             'trash_edit_buttons' => [
-                            'div' => 'mini ui basic icon buttons',
+                            'div' => 'small ui basic icon buttons',
                             'div button' => 'ui button',
                             'div button1 i' => 'large icons',
                             'div button1 i1' => 'trash icon',
@@ -300,7 +300,7 @@ class ConfigurationTZ_wwwgrafia {
                             'div button4 i' => 'large cut icon' //zmena na paste pri vkladani z vyberu (vybrat k presunuti)
                         ],
             'paper_template_edit_buttons' => [
-                            'div.paperTemplate' => 'ui mini basic icon dropdown button changePaperTemplate', //'mini ui basic icon buttons changePaperTemplate',
+                            'div.paperTemplate' => 'ui small basic icon dropdown button changePaperTemplate', //'small ui basic icon buttons changePaperTemplate',
                             'div button' => 'ui button',
                             'div button1 i' => 'large clone outline icon'
                         ],
@@ -315,17 +315,17 @@ class ConfigurationTZ_wwwgrafia {
                             'i.dropdown' => 'dropdown icon',
                         ],
             'paper_edit_buttons' => [
-                            'div.page' => 'mini ui basic icon buttons editPage',
+                            'div.page' => 'small ui basic icon buttons editPage',
                             'div button' => 'ui button',
                             'div button1 i.on' => 'large green toggle on icon',
                             'div button1 i.off' => 'large red toggle off icon',
                             'div button2 i' => 'large sort numeric up icon',
                         ],
             'content_edit_buttons' => [
-                            'div.date' => 'mini ui basic icon buttons editDate',
+                            'div.date' => 'small ui basic icon buttons editDate',
                             'div.date2' => 'editDate',
                             'div' => 'contentButtons',
-                            'div div.content' => 'mini ui basic icon buttons editContent',
+                            'div div.content' => 'small ui basic icon buttons editContent',
                             'div div' => 'ui button kalendar',
                             'div div button' => 'ui button',
                             'div div button.date' => 'ui button toolsDate',
@@ -349,7 +349,7 @@ class ConfigurationTZ_wwwgrafia {
                         ],
             'deleted_content_buttons' => [
                             'div' => 'contentButtons trash',
-                            'div div.content' => 'mini ui basic icon buttons editContent',
+                            'div div.content' => 'small ui basic icon buttons editContent',
                             'div button' => 'ui button',
                             'div button1 i' => 'large sync icon',
                             'div button2 i' => 'large trash icon',
@@ -402,7 +402,7 @@ class ConfigurationTZ_wwwgrafia {
                 return new ClassMap (
                     [
                         'MenuWrap' => [
-                            'ul' => 'ui mini text menu left floated',
+                            'ul' => 'ui small text menu left floated',
                             ],
                         'LevelWrap' => [
 
@@ -418,7 +418,7 @@ class ConfigurationTZ_wwwgrafia {
                 return new ClassMap (
                     [
                         'MenuWrap' => [
-                            'ul' => 'ui mini text menu edit left floated',
+                            'ul' => 'ui small text menu edit left floated',
                             ],
                         'LevelWrap' => [
                             'ul' => 'menu'
@@ -450,7 +450,7 @@ class ConfigurationTZ_wwwgrafia {
                 return new ClassMap (
                     [
                         'MenuWrap' => [
-                            'ul' => 'ui vertical menu edit'
+                            'ul' => 'ui vertical massive menu edit'
                         ],
                         'LevelWrap' => [
                             'ul' => 'menu'
@@ -491,7 +491,7 @@ class ConfigurationTZ_wwwgrafia {
             'paper.classmap' => function() {
                 return new ClassMap (
                     ['Segment' => [
-                        'div'=>'ui segment',
+                        'div'=>'ui basic segment',
                         ],
                      'Headline' => [
                         'div'=>'paper',
@@ -509,7 +509,7 @@ class ConfigurationTZ_wwwgrafia {
             'paper.editable.classmap' => function() {
                 return new ClassMap (
                     ['Segment' => [
-                        'div'=>'ui segment',
+                        'div'=>'ui basic segment',
                         'div.paper'=>'paper editable',
                         ],
                      'Headline' => [
