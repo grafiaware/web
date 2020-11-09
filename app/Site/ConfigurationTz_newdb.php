@@ -136,7 +136,7 @@ class ConfigurationTz_newdb {
                 ['root', 'root', 'ROOT'],
                 ['trash', 'trash', 'Trash'],
                 ['paper', 'blocks', 'Blocks'],
-//                ['paper', 'menu_vertical', 'Menu'],      // !! menu menu_vertical je s titulní stranou  -> ve staré db je stránka list=menu_vertical a má titulek
+                ['paper', 'menu_vertical', 'Menu'],
                 ['paper', 'menu_horizontal', 'Menu'],
                 ['paper', 'menu_redirect', 'Menu'],
             ],
@@ -201,7 +201,7 @@ class ConfigurationTz_newdb {
             'dbold.db.collation' => 'utf8_general_ci',
 
             'dbold.db.connection.host' => PES_DEVELOPMENT ? 'localhost' : (PES_PRODUCTION ? 'OLD_PRODUCTION_NAME' : 'xxxxxxxxxxxxxxxxx'),
-            'dbold.db.connection.name' => PES_DEVELOPMENT ? 'wwwgrafia' : (PES_PRODUCTION ? 'OLD_PRODUCTION_HOST' : 'xxxxxxxxxxxxxxxxx'),
+            'dbold.db.connection.name' => PES_DEVELOPMENT ? 'wwwgrafia' : (PES_PRODUCTION ? 'tydenzdravieu01' : 'xxxxxxxxxxxxxxxxx'),
 
             'dbold.logs.directory' => 'Logs/DbOld',
             'dbold.logs.db.file' => 'Database.log',
@@ -227,8 +227,8 @@ class ConfigurationTz_newdb {
             'dbUpgrade.db.port' => '3306',
             'dbUpgrade.db.charset' => 'utf8',
             'dbUpgrade.db.collation' => 'utf8_general_ci',
-            'dbUpgrade.db.connection.host' => PES_DEVELOPMENT ? 'tydenzdravieu' : (PES_PRODUCTION ? 'tydenzdravieu' : 'xxxx'),
-            'dbUpgrade.db.connection.name' => PES_DEVELOPMENT ? 'tydenzdravieu001' : (PES_PRODUCTION ? 'tydenzdravieu001' : 'xxxx'),
+            'dbUpgrade.db.connection.host' => PES_DEVELOPMENT ? 'localhost' : (PES_PRODUCTION ? '??????????????' : 'xxxx'),
+            'dbUpgrade.db.connection.name' => PES_DEVELOPMENT ? 'tydenzdravieu' : (PES_PRODUCTION ? 'tydenzdravieu' : 'xxxx'),
             #
             #  Konec sekce konfigurace databáze
             ###################################
@@ -252,8 +252,8 @@ class ConfigurationTz_newdb {
             # Konfigurace databáze
             # Ostatní parametry konfigurace databáze v kontejneru dbUpgrade
             #
-            'dbUpgrade.db.user.name' => PES_DEVELOPMENT ? 'gr_upgrader' : (PES_PRODUCTION ? 'UPGRADE_PRODUCTION_USER_NAME' : 'xxxx'),
-            'dbUpgrade.db.user.password' => PES_DEVELOPMENT ? 'gr_upgrader' : (PES_PRODUCTION ? 'UPGRADE_PRODUCTION_USER_PASSWORD' : 'xxxx'),
+            'dbUpgrade.db.user.name' => PES_DEVELOPMENT ? 'tydenzdravieu001' : (PES_PRODUCTION ? 'tydenzdravieu001' : 'xxxx'),
+            'dbUpgrade.db.user.password' => PES_DEVELOPMENT ? 'tz_upgrader' : (PES_PRODUCTION ? 'tz_upgrader' : 'xxxx'),
             #
             ###################################
             # Konfigurace hierarchy tabulek
@@ -283,8 +283,8 @@ class ConfigurationTz_newdb {
             # user s právem select k databázi s tabulkou uživatelských oprávnění
             # MySQL 5.6: délka jména max 16 znaků
 
-            'login.db.account.everyone.name' => 'gr_login',  // nelze použít jméno uživatele použité pro db upgrade - došlo by k duplicitě jmen v build create
-            'login.db.account.everyone.password' => 'gr_login',
+            'login.db.account.everyone.name' => 'tydenzdravieu002',  // nelze použít jméno uživatele použité pro db upgrade - došlo by k duplicitě jmen v build create
+            'login.db.account.everyone.password' => 'tz_opravneni',
 
             'login.logs.database.directory' => 'Logs/Login',
             'login.logs.database.file' => 'Database.log',
@@ -695,12 +695,12 @@ class ConfigurationTz_newdb {
             # kontejnerech se volají jako služby delegate kontejneru.
             #
             # Zde je konfigurace údajů uživatele pro připojení k databázi. Ta je pro každý middleware v jeho kontejneru.
-            'web.db.account.everyone.name' => 'gr_everyone',
-            'web.db.account.everyone.password' => 'gr_everyone',
-            'web.db.account.authenticated.name' => 'gr_auth',
-            'web.db.account.authenticated.password' => 'gr_auth',
-            'web.db.account.administrator.name' => 'gr_admin',
-            'web.db.account.administrator.password' => 'gr_admin',
+            'web.db.account.everyone.name' => 'tydenzdravieu001',
+            'web.db.account.everyone.password' => 'tz_upgrader',
+            'web.db.account.authenticated.name' => 'tydenzdravieu001',
+            'web.db.account.authenticated.password' => 'tz_upgrader',
+            'web.db.account.administrator.name' => 'tydenzdravieu001',
+            'web.db.account.administrator.password' => 'tz_upgrader',
             #
             ###################################
         ];
@@ -720,12 +720,12 @@ class ConfigurationTz_newdb {
             # kontejnerech se volají jako služby delegate kontejneru.
             #
             # Zde je konfigurace údajů uživatele pro připojení k databízi. Ta je pro každý middleware v jeho kontejneru.
-            'rs.db.account.everyone.name' => 'gr_everyone',
-            'rs.db.account.everyone.password' => 'gr_everyone',
-            'rs.db.account.authenticated.name' => 'gr_auth',
-            'rs.db.account.authenticated.password' => 'gr_auth',
-            'rs.db.account.administrator.name' => 'gr_admin',
-            'rs.db.account.administrator.password' => 'gr_admin',
+            'rs.db.account.everyone.name' => 'tydenzdravieu001',
+            'rs.db.account.everyone.password' => 'tz_upgrader',
+            'rs.db.account.authenticated.name' => 'tydenzdravieu001',
+            'rs.db.account.authenticated.password' => 'tz_upgrader',
+            'rs.db.account.administrator.name' => 'tydenzdravieu001',
+            'rs.db.account.administrator.password' => 'tz_upgrader',
             #
             ###################################
 

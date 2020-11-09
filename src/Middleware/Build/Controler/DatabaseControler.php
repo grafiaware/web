@@ -161,9 +161,6 @@ class DatabaseControler extends BuildControlerAbstract {
 
         $this->manipulator = $this->container->get(Manipulator::class);
 
-        if($convert) {
-
-        }
         ##### convert db ####
         if($convert) {
             ### copy old table stranky ###
@@ -219,50 +216,50 @@ class DatabaseControler extends BuildControlerAbstract {
                     return $this->executeFromTemplate("page2_5_updateMenuItemForOldMenuRootWithTitle.sql", [ 'old_menu_list'=>$oldDef[0], 'new_menu_list'=>$oldDef[1]]);
                 }
             };
-
-            $conversionSteps[] = function() {   // convert
-                $fileName = "page3_selectIntoAdjList.sql";
-                return $this->executeFromFile($fileName);
-            };
-            $conversionSteps[] = function() {   // convert
-                    $adjList = $this->manipulator->findAllRows('menu_adjlist');
-                    if (is_array($adjList) AND count($adjList)) {
-                        $this->log[] = "Načteno ".count($adjList)." položek z tabulky 'menu_adjlist'.";
-                        $hierachy = $this->container->get(HierarchyAggregateEditDao::class);
-                        // $hierachy->newNestedSet() založí kořenovou položku nested setu a vrací její uid
-                        $rootUid = $hierachy->newNestedSet();
-                        try {
-                            foreach ($adjList as $adjRow) {
-                                if (isset($adjRow['parent'])) {  // rodič není root
-                                    // najde menu_item pro všechny jazyky - použiji jen jeden (mají stejné nested_set uid_fk, liší se jen lang_code_fk)
-                                    $parentItems = $this->manipulator->find("menu_item", ["list"=>$adjRow['parent']]);
-                                    if (count($parentItems) > 0) { // pro rodiče existuje položka v menu_item -> není to jen prázdný uzel ve struktuře menu
-                                        $childItems = $this->manipulator->find("menu_item", ["list"=>$adjRow['child']]);
-                                        if ($childItems) {
-                                            $childUid = $hierachy->addChildNodeAsLast($parentItems[0]['uid_fk']);  //jen jeden parent
-                                            // UPDATE menu_item položky pro všechny jazyky (nested set je jeden pro všechny jazyky)
-                                            $this->manipulator->exec("UPDATE menu_item SET menu_item.uid_fk='$childUid'
-                                               WHERE menu_item.list='{$adjRow['child']}'");
-                                        }
-                                    } else {  // pro rodiče neexistuje položka v menu_item -> je to jen prázdný uzel ve struktuře menu
-                                        $childUid = $hierachy->addChildNodeAsLast($rootUid);   // ???
-                                    }
-                                } else {  // rodič je root
-                                    // UPDATE menu_item položky pro všechny jazyky (nested set je jeden pro všechny jazyky)
-                                    $this->manipulator->exec("UPDATE menu_item SET menu_item.uid_fk='$rootUid'
-                                       WHERE menu_item.list='{$adjRow['child']}'");
-                                }
-                            }
-                        } catch (\Exception $e) {
-                            throw new HierarchyStepFailedException("Chybný krok. Nedokončeny všechny akce v kroku. Chyba nastala při transformaci adjacency list na nested tree.", 0, $e);
-                        }
-                        $this->log[] = "Skriptem pomocí Hierarchy vygenerována tabulka 'menu_nested_set' z dat tabulky 'menu_adjlist'.";
-                        $this->log[] = $this->timer->interval();
-                        $this->log[] = "Vykonán krok.";
-                    }
-                return TRUE;
-            };
         }
+
+        $conversionSteps[] = function() {   // convert
+            $fileName = "page3_selectIntoAdjList.sql";
+            return $this->executeFromFile($fileName);
+        };
+        $conversionSteps[] = function() {   // convert
+                $adjList = $this->manipulator->findAllRows('menu_adjlist');
+                if (is_array($adjList) AND count($adjList)) {
+                    $this->log[] = "Načteno ".count($adjList)." položek z tabulky 'menu_adjlist'.";
+                    $hierachy = $this->container->get(HierarchyAggregateEditDao::class);
+                    // $hierachy->newNestedSet() založí kořenovou položku nested setu a vrací její uid
+                    $rootUid = $hierachy->newNestedSet();
+                    try {
+                        foreach ($adjList as $adjRow) {
+                            if (isset($adjRow['parent'])) {  // rodič není root
+                                // najde menu_item pro všechny jazyky - použiji jen jeden (mají stejné nested_set uid_fk, liší se jen lang_code_fk)
+                                $parentItems = $this->manipulator->find("menu_item", ["list"=>$adjRow['parent']]);
+                                if (count($parentItems) > 0) { // pro rodiče existuje položka v menu_item -> není to jen prázdný uzel ve struktuře menu
+                                    $childItems = $this->manipulator->find("menu_item", ["list"=>$adjRow['child']]);
+                                    if ($childItems) {
+                                        $childUid = $hierachy->addChildNodeAsLast($parentItems[0]['uid_fk']);  //jen jeden parent
+                                        // UPDATE menu_item položky pro všechny jazyky (nested set je jeden pro všechny jazyky)
+                                        $this->manipulator->exec("UPDATE menu_item SET menu_item.uid_fk='$childUid'
+                                           WHERE menu_item.list='{$adjRow['child']}'");
+                                    }
+                                } else {  // pro rodiče neexistuje položka v menu_item -> je to jen prázdný uzel ve struktuře menu
+                                    $childUid = $hierachy->addChildNodeAsLast($rootUid);   // ???
+                                }
+                            } else {  // rodič je root
+                                // UPDATE menu_item položky pro všechny jazyky (nested set je jeden pro všechny jazyky)
+                                $this->manipulator->exec("UPDATE menu_item SET menu_item.uid_fk='$rootUid'
+                                   WHERE menu_item.list='{$adjRow['child']}'");
+                            }
+                        }
+                    } catch (\Exception $e) {
+                        throw new HierarchyStepFailedException("Chybný krok. Nedokončeny všechny akce v kroku. Chyba nastala při transformaci adjacency list na nested tree.", 0, $e);
+                    }
+                    $this->log[] = "Skriptem pomocí Hierarchy vygenerována tabulka 'menu_nested_set' z dat tabulky 'menu_adjlist'.";
+                    $this->log[] = $this->timer->interval();
+                    $this->log[] = "Vykonán krok.";
+                }
+            return TRUE;
+        };
 
         $conversionSteps[] = function() {
             $fileName = "page4_alterMenuItem_fk.sql";
