@@ -179,7 +179,7 @@
 .ui.card > .content > .header:not(.ui) {
   font-weight: bold;
   font-size: 1.28571429em;
-  margin-top: -0.21425em;
+  margin-top: -0.125em;
   line-height: 1.28571429em;
 }
 .ui.cards > .card > .content > .meta + .description,
@@ -1106,7 +1106,7 @@ a.ui.card:hover,
 }
 
 /* Tablet Only */
-@media only screen and (min-width: 768px) and (max-width: 991.98px) {
+@media only screen and (min-width: 768px) and (max-width: 1199.98px) {
   .ui.two.doubling.cards {
     margin-left: 0;
     margin-right: 0;

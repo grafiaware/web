@@ -466,7 +466,7 @@ body {
   background: #FFFFFF;
   font-family: 'Signika Negative';
   font-size: 27px;
-  line-height: 1.4285em;
+  line-height: 1.25em;
   color: #000;
 }
 
@@ -529,7 +529,7 @@ h5:last-child {
 
 p {
   margin: 0 0 1em;
-  line-height: 1.4285em;
+  line-height: 1.25em;
 }
 
 p:first-child {
@@ -655,17 +655,6 @@ body .ui.inverted:not(.dimmer)::-webkit-scrollbar-thumb:hover {
 /*******************************
         Global Overrides
 *******************************/
-
-.obr-upoutavka .ui.grid > .column:not(.row) {
-  padding-top: 0.2rem;
-  padding-bottom: 0.2rem;
-}
-
-.obr-upoutavka .ui.grid > .column:not(.row),
-.obr-upoutavka .ui.grid > .row > .column {
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-}
 
 /*******************************
          Site Overrides
@@ -5713,7 +5702,7 @@ p {
 
 /* Tablet */
 
-@media only screen and (min-width: 768px) and (max-width: 991.98px) {
+@media only screen and (min-width: 768px) and (max-width: 1199.98px) {
   .ui.ui.ui.container:not(.fluid) {
     width: 723px;
     margin-left: auto;
@@ -5735,45 +5724,45 @@ p {
 
 /* Small Monitor */
 
-@media only screen and (min-width: 992px) and (max-width: 1199.98px) {
+@media only screen and (min-width: 1200px) and (max-width: 1599.98px) {
   .ui.ui.ui.container:not(.fluid) {
-    width: 933px;
+    width: 1141px;
     margin-left: auto;
     margin-right: auto;
   }
 
   .ui.ui.ui.grid.container {
-    width: calc(933px + 2rem);
+    width: calc(1141px + 2rem);
   }
 
   .ui.ui.ui.relaxed.grid.container {
-    width: calc(933px + 3rem);
+    width: calc(1141px + 3rem);
   }
 
   .ui.ui.ui.very.relaxed.grid.container {
-    width: calc(933px + 5rem);
+    width: calc(1141px + 5rem);
   }
 }
 
 /* Large Monitor */
 
-@media only screen and (min-width: 1200px) {
+@media only screen and (min-width: 1600px) {
   .ui.ui.ui.container:not(.fluid) {
-    width: 1127px;
+    width: 1527px;
     margin-left: auto;
     margin-right: auto;
   }
 
   .ui.ui.ui.grid.container {
-    width: calc(1127px + 2rem);
+    width: calc(1527px + 2rem);
   }
 
   .ui.ui.ui.relaxed.grid.container {
-    width: calc(1127px + 3rem);
+    width: calc(1527px + 3rem);
   }
 
   .ui.ui.ui.very.relaxed.grid.container {
-    width: calc(1127px + 5rem);
+    width: calc(1527px + 5rem);
   }
 }
 
@@ -40216,7 +40205,7 @@ ol.ui.suffixed.list li:before,
 
 /* Tablet Or Below */
 
-@media only screen and (max-width: 991.98px) {
+@media only screen and (max-width: 1199.98px) {
   .ui[class*="tablet stackable"].steps {
     display: -webkit-inline-box;
     display: -ms-inline-flexbox;
@@ -40529,7 +40518,7 @@ ol.ui.suffixed.list li:before,
 *******************************/
 
 .ui.breadcrumb {
-  line-height: 1.4285em;
+  line-height: 1.25em;
   display: inline-block;
   margin: 0 0;
   vertical-align: middle;
@@ -42803,7 +42792,7 @@ ol.ui.suffixed.list li:before,
   }
 }
 
-@media only screen and (min-width: 768px) and (max-width: 991.98px) {
+@media only screen and (min-width: 768px) and (max-width: 1199.98px) {
   .ui.page.grid {
     width: auto;
     margin-left: 0;
@@ -42813,7 +42802,7 @@ ol.ui.suffixed.list li:before,
   }
 }
 
-@media only screen and (min-width: 992px) and (max-width: 1199.98px) {
+@media only screen and (min-width: 1200px) and (max-width: 1599.98px) {
   .ui.page.grid {
     width: auto;
     margin-left: 0;
@@ -42823,7 +42812,7 @@ ol.ui.suffixed.list li:before,
   }
 }
 
-@media only screen and (min-width: 1200px) and (max-width: 1919.98px) {
+@media only screen and (min-width: 1600px) and (max-width: 1919.98px) {
   .ui.page.grid {
     width: auto;
     margin-left: 0;
@@ -43249,7 +43238,7 @@ ol.ui.suffixed.list li:before,
 
 /* Tablet Sizing Combinations */
 
-@media only screen and (min-width: 768px) and (max-width: 991.98px) {
+@media only screen and (min-width: 768px) and (max-width: 1199.98px) {
   .ui.grid > .row > [class*="one wide tablet"].column,
   .ui.grid > .column.row > [class*="one wide tablet"].column,
   .ui.grid > [class*="one wide tablet"].column,
@@ -43365,7 +43354,7 @@ ol.ui.suffixed.list li:before,
 
 /* Computer/Desktop Sizing Combinations */
 
-@media only screen and (min-width: 992px) {
+@media only screen and (min-width: 1200px) {
   .ui.grid > .row > [class*="one wide computer"].column,
   .ui.grid > .column.row > [class*="one wide computer"].column,
   .ui.grid > [class*="one wide computer"].column,
@@ -43481,7 +43470,7 @@ ol.ui.suffixed.list li:before,
 
 /* Large Monitor Sizing Combinations */
 
-@media only screen and (min-width: 1200px) and (max-width: 1919.98px) {
+@media only screen and (min-width: 1600px) and (max-width: 1919.98px) {
   .ui.grid > .row > [class*="one wide large screen"].column,
   .ui.grid > .column.row > [class*="one wide large screen"].column,
   .ui.grid > [class*="one wide large screen"].column,
@@ -44313,7 +44302,7 @@ ol.ui.suffixed.list li:before,
 
 /* Tablet */
 
-@media only screen and (min-width: 768px) and (max-width: 991.98px) {
+@media only screen and (min-width: 768px) and (max-width: 1199.98px) {
   .ui[class*="tablet reversed"].grid,
   .ui[class*="tablet reversed"].grid > .row,
   .ui.grid > [class*="tablet reversed"].row {
@@ -44371,7 +44360,7 @@ ol.ui.suffixed.list li:before,
 
 /* Computer */
 
-@media only screen and (min-width: 992px) {
+@media only screen and (min-width: 1200px) {
   .ui[class*="computer reversed"].grid,
   .ui[class*="computer reversed"].grid > .row,
   .ui.grid > [class*="computer reversed"].row {
@@ -44433,7 +44422,7 @@ ol.ui.suffixed.list li:before,
 
 /* Tablet Only */
 
-@media only screen and (min-width: 768px) and (max-width: 991.98px) {
+@media only screen and (min-width: 768px) and (max-width: 1199.98px) {
   .ui.doubling.grid {
     width: auto;
   }
@@ -44779,7 +44768,7 @@ ol.ui.suffixed.list li:before,
 
 /* Tablet Only Hide */
 
-@media only screen and (min-width: 768px) and (max-width: 991.98px) {
+@media only screen and (min-width: 768px) and (max-width: 1199.98px) {
   .ui[class*="mobile only"].grid.grid.grid:not(.tablet),
   .ui.grid.grid.grid > [class*="mobile only"].row:not(.tablet),
   .ui.grid.grid.grid > [class*="mobile only"].column:not(.tablet),
@@ -44811,7 +44800,7 @@ ol.ui.suffixed.list li:before,
 
 /* Computer Only Hide */
 
-@media only screen and (min-width: 992px) and (max-width: 1199.98px) {
+@media only screen and (min-width: 1200px) and (max-width: 1599.98px) {
   .ui[class*="mobile only"].grid.grid.grid:not(.computer),
   .ui.grid.grid.grid > [class*="mobile only"].row:not(.computer),
   .ui.grid.grid.grid > [class*="mobile only"].column:not(.computer),
@@ -44843,7 +44832,7 @@ ol.ui.suffixed.list li:before,
 
 /* Large Screen Only Hide */
 
-@media only screen and (min-width: 1200px) and (max-width: 1919.98px) {
+@media only screen and (min-width: 1600px) and (max-width: 1919.98px) {
   .ui[class*="mobile only"].grid.grid.grid:not(.computer),
   .ui.grid.grid.grid > [class*="mobile only"].row:not(.computer),
   .ui.grid.grid.grid > [class*="mobile only"].column:not(.computer),
@@ -47543,10 +47532,6 @@ Floated Menu / Item
   transform: translateX(-100%);
 }
 
-.ui.vertical.menu:not(.icon) li:not(.presented) a.item:first-child::before {
-  display: none;
-}
-
 .ui.vertical.menu.massive {
   padding: 0.7em 0;
 }
@@ -47595,7 +47580,7 @@ Floated Menu / Item
   margin: 1em 0;
   background: #F8F8F9;
   padding: 1em 1.5em;
-  line-height: 1.4285em;
+  line-height: 1.25em;
   color: #000;
   -webkit-transition: opacity 0.1s ease, color 0.1s ease, background 0.1s ease, -webkit-box-shadow 0.1s ease;
   transition: opacity 0.1s ease, color 0.1s ease, background 0.1s ease, -webkit-box-shadow 0.1s ease;
@@ -47701,7 +47686,7 @@ Floated Menu / Item
   cursor: pointer;
   position: absolute;
   margin: 0;
-  top: 0.78575em;
+  top: 0.875em;
   right: 0.5em;
   opacity: 0.7;
   -webkit-transition: opacity 0.1s ease;
@@ -49086,7 +49071,7 @@ Floated Menu / Item
       Stackable
   ---------------*/
 
-@media only screen and (max-width: 991.98px) {
+@media only screen and (max-width: 1199.98px) {
   .ui[class*="tablet stackable"].table,
   .ui[class*="tablet stackable"].table > thead,
   .ui[class*="tablet stackable"].table > thead > tr,
@@ -51392,7 +51377,7 @@ Floated Menu / Item
 .ui.card > .content > .header:not(.ui) {
   font-weight: bold;
   font-size: 1.28571429em;
-  margin-top: -0.21425em;
+  margin-top: -0.125em;
   line-height: 1.28571429em;
 }
 
@@ -52441,7 +52426,7 @@ a.ui.card:hover,
 
 /* Tablet Only */
 
-@media only screen and (min-width: 768px) and (max-width: 991.98px) {
+@media only screen and (min-width: 768px) and (max-width: 1199.98px) {
   .ui.two.doubling.cards {
     margin-left: 0;
     margin-right: 0;
@@ -53212,7 +53197,7 @@ a.inverted.ui.card:hover,
   border-left: none;
   font-size: 1em;
   max-width: 500px;
-  line-height: 1.4285em;
+  line-height: 1.25em;
 }
 
 /*--------------
@@ -53503,7 +53488,7 @@ a.inverted.ui.card:hover,
 
 .ui.items > .item > .content > .header {
   display: inline-block;
-  margin: -0.21425em 0 0;
+  margin: -0.125em 0 0;
   font-family: 'Signika Negative';
   font-weight: bold;
   color: rgba(0, 0, 0, 0.85);
@@ -53552,7 +53537,7 @@ a.inverted.ui.card:hover,
   margin-top: 0.6em;
   max-width: auto;
   font-size: 1em;
-  line-height: 1.4285em;
+  line-height: 1.25em;
   color: #000;
 }
 
@@ -53722,7 +53707,7 @@ a.inverted.ui.card:hover,
 
 /* Tablet Only */
 
-@media only screen and (min-width: 768px) and (max-width: 991.98px) {
+@media only screen and (min-width: 768px) and (max-width: 1199.98px) {
   .ui.items > .item {
     margin: 1em 0;
   }
@@ -54781,7 +54766,7 @@ a.inverted.ui.card:hover,
 
 .ui.accordion.menu .item .title > .dropdown.icon {
   float: right;
-  margin: 0.21425em 0 0 1em;
+  margin: 0.125em 0 0 1em;
   -webkit-transform: rotate(180deg);
   transform: rotate(180deg);
 }
@@ -57029,7 +57014,7 @@ select.ui.dropdown {
   }
 }
 
-@media only screen and (min-width: 992px) {
+@media only screen and (min-width: 1200px) {
   .ui.selection.dropdown.short .menu {
     max-height: 12.02142857rem;
   }
@@ -57337,7 +57322,7 @@ select.ui.dropdown {
   }
 }
 
-@media only screen and (min-width: 992px) {
+@media only screen and (min-width: 1200px) {
   .ui.search.dropdown .menu {
     max-height: 16.02857143rem;
   }
@@ -58047,7 +58032,7 @@ select.ui.dropdown {
   }
 }
 
-@media only screen and (min-width: 992px) {
+@media only screen and (min-width: 1200px) {
   .ui.scrolling.dropdown .menu,
   .ui.dropdown .scrolling.menu {
     max-height: 20.57142857rem;
@@ -59124,14 +59109,14 @@ select.ui.dropdown {
   }
 }
 
-@media only screen and (min-width: 992px) {
+@media only screen and (min-width: 1200px) {
   .ui.modal:not(.fullscreen) {
     width: 850px;
     margin: 0 0 0 0;
   }
 }
 
-@media only screen and (min-width: 1200px) {
+@media only screen and (min-width: 1600px) {
   .ui.modal:not(.fullscreen) {
     width: 900px;
     margin: 0 0 0 0;
@@ -59147,13 +59132,13 @@ select.ui.dropdown {
 
 /* Tablet and Mobile */
 
-@media only screen and (max-width: 991.98px) {
+@media only screen and (max-width: 1199.98px) {
   .ui.modal > .header {
     padding-right: 2.25rem;
   }
 
   .ui.modal > .close {
-    top: 1.0535rem;
+    top: 0.875rem;
     right: 1rem;
     color: #000;
   }
@@ -59430,7 +59415,7 @@ select.ui.dropdown {
 
 .ui.modal > .close.inside,
 .ui.fullscreen.modal > .close {
-  top: 1.0535rem;
+  top: 0.875rem;
   right: 1rem;
   color: #000;
 }
@@ -59465,14 +59450,14 @@ select.ui.dropdown {
   }
 }
 
-@media only screen and (min-width: 992px) {
+@media only screen and (min-width: 1200px) {
   .ui.mini.modal {
     width: 340px;
     margin: 0 0 0 0;
   }
 }
 
-@media only screen and (min-width: 1200px) {
+@media only screen and (min-width: 1600px) {
   .ui.mini.modal {
     width: 360px;
     margin: 0 0 0 0;
@@ -59504,14 +59489,14 @@ select.ui.dropdown {
   }
 }
 
-@media only screen and (min-width: 992px) {
+@media only screen and (min-width: 1200px) {
   .ui.tiny.modal {
     width: 510px;
     margin: 0 0 0 0;
   }
 }
 
-@media only screen and (min-width: 1200px) {
+@media only screen and (min-width: 1600px) {
   .ui.tiny.modal {
     width: 540px;
     margin: 0 0 0 0;
@@ -59543,14 +59528,14 @@ select.ui.dropdown {
   }
 }
 
-@media only screen and (min-width: 992px) {
+@media only screen and (min-width: 1200px) {
   .ui.small.modal {
     width: 680px;
     margin: 0 0 0 0;
   }
 }
 
-@media only screen and (min-width: 1200px) {
+@media only screen and (min-width: 1600px) {
   .ui.small.modal {
     width: 720px;
     margin: 0 0 0 0;
@@ -59582,14 +59567,14 @@ select.ui.dropdown {
   }
 }
 
-@media only screen and (min-width: 992px) {
+@media only screen and (min-width: 1200px) {
   .ui.large.modal {
     width: 1020px;
     margin: 0 0 0 0;
   }
 }
 
-@media only screen and (min-width: 1200px) {
+@media only screen and (min-width: 1600px) {
   .ui.large.modal {
     width: 1080px;
     margin: 0 0 0 0;
@@ -59621,14 +59606,14 @@ select.ui.dropdown {
   }
 }
 
-@media only screen and (min-width: 992px) {
+@media only screen and (min-width: 1200px) {
   .ui.big.modal {
     width: 1190px;
     margin: 0 0 0 0;
   }
 }
 
-@media only screen and (min-width: 1200px) {
+@media only screen and (min-width: 1600px) {
   .ui.big.modal {
     width: 1260px;
     margin: 0 0 0 0;
@@ -59660,14 +59645,14 @@ select.ui.dropdown {
   }
 }
 
-@media only screen and (min-width: 992px) {
+@media only screen and (min-width: 1200px) {
   .ui.huge.modal {
     width: 1360px;
     margin: 0 0 0 0;
   }
 }
 
-@media only screen and (min-width: 1200px) {
+@media only screen and (min-width: 1600px) {
   .ui.huge.modal {
     width: 1440px;
     margin: 0 0 0 0;
@@ -59699,14 +59684,14 @@ select.ui.dropdown {
   }
 }
 
-@media only screen and (min-width: 992px) {
+@media only screen and (min-width: 1200px) {
   .ui.massive.modal {
     width: 1530px;
     margin: 0 0 0 0;
   }
 }
 
-@media only screen and (min-width: 1200px) {
+@media only screen and (min-width: 1600px) {
   .ui.massive.modal {
     width: 1620px;
     margin: 0 0 0 0;
@@ -59744,7 +59729,7 @@ select.ui.dropdown {
   color: rgba(0, 0, 0, 0.85);
 }
 
-@media only screen and (max-width: 991.98px) {
+@media only screen and (max-width: 1199.98px) {
   .ui.dimmer .inverted.modal > .close {
     color: #FFFFFF;
   }
@@ -60220,7 +60205,7 @@ a.ui.nag {
   min-width: min-content;
   z-index: 1900;
   border: 1px solid #D4D4D5;
-  line-height: 1.4285em;
+  line-height: 1.25em;
   max-width: 250px;
   background: #FFFFFF;
   padding: 0.833em 1em;
@@ -60300,7 +60285,7 @@ a.ui.nag {
   white-space: nowrap;
   font-size: 1rem;
   border: 1px solid #D4D4D5;
-  line-height: 1.4285em;
+  line-height: 1.25em;
   max-width: none;
   background: #FFFFFF;
   padding: 0.833em 1em;
@@ -63992,7 +63977,7 @@ a.ui.nag {
   }
 }
 
-@media only screen and (min-width: 992px) {
+@media only screen and (min-width: 1200px) {
   .ui.scrolling.search > .results {
     max-height: 24.35428571em;
   }
@@ -64040,7 +64025,7 @@ a.ui.nag {
   }
 }
 
-@media only screen and (min-width: 992px) {
+@media only screen and (min-width: 1200px) {
   .ui.search.short > .results {
     max-height: 24.35428571em;
   }

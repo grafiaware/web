@@ -140,7 +140,7 @@
 }
 .ui.items > .item > .content > .header {
   display: inline-block;
-  margin: -0.21425em 0 0;
+  margin: -0.125em 0 0;
   font-family: 'Signika Negative';
   font-weight: bold;
   color: rgba(0, 0, 0, 0.85);
@@ -186,7 +186,7 @@
   margin-top: 0.6em;
   max-width: auto;
   font-size: 1em;
-  line-height: 1.4285em;
+  line-height: 1.25em;
   color: #000;
 }
 
@@ -341,7 +341,7 @@
 }
 
 /* Tablet Only */
-@media only screen and (min-width: 768px) and (max-width: 991.98px) {
+@media only screen and (min-width: 768px) and (max-width: 1199.98px) {
   .ui.items > .item {
     margin: 1em 0;
   }

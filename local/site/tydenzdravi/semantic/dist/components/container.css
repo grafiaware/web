@@ -39,7 +39,7 @@
 }
 
 /* Tablet */
-@media only screen and (min-width: 768px) and (max-width: 991.98px) {
+@media only screen and (min-width: 768px) and (max-width: 1199.98px) {
   .ui.ui.ui.container:not(.fluid) {
     width: 723px;
     margin-left: auto;
@@ -57,38 +57,38 @@
 }
 
 /* Small Monitor */
-@media only screen and (min-width: 992px) and (max-width: 1199.98px) {
+@media only screen and (min-width: 1200px) and (max-width: 1599.98px) {
   .ui.ui.ui.container:not(.fluid) {
-    width: 933px;
+    width: 1141px;
     margin-left: auto;
     margin-right: auto;
   }
   .ui.ui.ui.grid.container {
-    width: calc(933px + 2rem);
+    width: calc(1141px + 2rem);
   }
   .ui.ui.ui.relaxed.grid.container {
-    width: calc(933px + 3rem);
+    width: calc(1141px + 3rem);
   }
   .ui.ui.ui.very.relaxed.grid.container {
-    width: calc(933px + 5rem);
+    width: calc(1141px + 5rem);
   }
 }
 
 /* Large Monitor */
-@media only screen and (min-width: 1200px) {
+@media only screen and (min-width: 1600px) {
   .ui.ui.ui.container:not(.fluid) {
-    width: 1127px;
+    width: 1527px;
     margin-left: auto;
     margin-right: auto;
   }
   .ui.ui.ui.grid.container {
-    width: calc(1127px + 2rem);
+    width: calc(1527px + 2rem);
   }
   .ui.ui.ui.relaxed.grid.container {
-    width: calc(1127px + 3rem);
+    width: calc(1527px + 3rem);
   }
   .ui.ui.ui.very.relaxed.grid.container {
-    width: calc(1127px + 5rem);
+    width: calc(1527px + 5rem);
   }
 }
 

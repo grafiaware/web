@@ -2264,9 +2264,6 @@ Floated Menu / Item
   -webkit-transform: translateX(-100%);
           transform: translateX(-100%);
 }
-.ui.vertical.menu:not(.icon) li:not(.presented) a.item:first-child::before {
-  display: none;
-}
 .ui.vertical.menu.massive {
   padding: 0.7em 0;
 }

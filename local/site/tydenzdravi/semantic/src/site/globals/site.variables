@@ -6,6 +6,8 @@
 @headerFont        : @fontName;
 @pageFont          : @fontName;
 
+@lineHeight          : 1.25em;
+
 /* The size of page text  */
 @fontSize : 27px;
 @smallFontSize : 20px;
@@ -44,3 +46,13 @@
 @h4 : unit((48 / 14), rem);
 @h5 : unit((45 / 14), rem); 
 @h6 : unit((38 / 14), rem);
+
+/*-------------------
+     Breakpoints
+--------------------*/
+
+@mobileBreakpoint            : 320px;
+@tabletBreakpoint            : 768px;
+@computerBreakpoint          : 1200px;
+@largeMonitorBreakpoint      : 1600px;
+@widescreenMonitorBreakpoint : 1920px;
