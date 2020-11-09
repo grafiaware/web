@@ -24,12 +24,12 @@ use Component\Renderer\Html\ClassMap\ClassMap;
  *
  * @author pes2704
  */
-class ConfigurationGr_wwwgrafia {
+class ConfigurationTz_newdb {
     ### bootstrap ###
     #
     public static function bootstrap() {
         return [
-            'bootstrap_logs_base_path' => '/_www_gr_logs/',
+            'bootstrap_logs_base_path' => '/_www_tz_logs/',
         ];
     }
 
@@ -46,12 +46,12 @@ class ConfigurationGr_wwwgrafia {
             # Sekce konfigurace účtů databáze pro api kontejner
             # Ostatní parametry konfigurace databáze v kontejneru dbUpgrade
             #
-            'api.db.everyone.name' => 'gr_everyone',
-            'api.db.everyone.password' => 'gr_everyone',
-            'api.db.authenticated.name' => 'gr_auth',
-            'api.db.authenticated.password' => 'gr_auth',
-            'api.db.administrator.name' => 'gr_admin',
-            'api.db.administrator.password' => 'gr_admin',
+            'api.db.everyone.name' => 'tydenzdravieu001',
+            'api.db.everyone.password' => 'tz_upgrader',
+            'api.db.authenticated.name' => 'tydenzdravieu001',
+            'api.db.authenticated.password' => 'tz_upgrader',
+            'api.db.administrator.name' => 'tydenzdravieu001',
+            'api.db.administrator.password' => 'tz_upgrader',
             #
             ###################################
             #
@@ -78,7 +78,7 @@ class ConfigurationGr_wwwgrafia {
             #################################
             # Konfigurace session
             #
-            WebAppFactory::SESSION_NAME_SERVICE => 'www_gr_session',
+            WebAppFactory::SESSION_NAME_SERVICE => 'www_tz_session',
             'app.logs.session.file' => 'Session.log',
             #
             ##################################
@@ -106,8 +106,8 @@ class ConfigurationGr_wwwgrafia {
             #
             # user s právy drop a create database + crud práva + grant option k nové (upgrade) databázi
             # a také select k staré databázi - reálně nejlépe role DBA
-            'build.db.user.name' => PES_DEVELOPMENT ? 'gr_upgrader' : (PES_PRODUCTION ? 'UPGRADE_BUILD_PRODUCTION_USER' : 'xxxxxxxxxxxxxxxxx'),
-            'build.db.user.password' => PES_DEVELOPMENT ? 'gr_upgrader' : (PES_PRODUCTION ? 'UPGRADE_BUILD_PRODUCTION_HOST' : 'xxxxxxxxxxxxxxxxx'),
+            'build.db.user.name' => PES_DEVELOPMENT ? 'tydenzdravieu001' : (PES_PRODUCTION ? 'tydenzdravieu001' : 'xxxxxxxxxxxxxxxxx'),
+            'build.db.user.password' => PES_DEVELOPMENT ? 'tz_upgrader' : (PES_PRODUCTION ? 'tz_upgrader' : 'xxxxxxxxxxxxxxxxx'),
             #
             ###################################
 
@@ -116,15 +116,15 @@ class ConfigurationGr_wwwgrafia {
             #
             'build.config.users.everyone' =>
                 [
-                    'everyone_user' => 'gr_everyone',
-                    'everyone_password' => 'gr_everyone',
+                    'everyone_user' => 'tydenzdravieu001',
+                    'everyone_password' => 'tz_upgrader',
                 ],
             'build.config.users.granted' =>
                 [
-                    'authenticated_user' => 'gr_auth',
-                    'authenticated_password' => 'gr_auth',
-                    'administrator_user' => 'gr_admin',
-                    'administrator_password' => 'gr_admin',
+                    'authenticated_user' => 'tydenzdravieu001',
+                    'authenticated_password' => 'tz_upgrader',
+                    'administrator_user' => 'tydenzdravieu001',
+                    'administrator_password' => 'tz_upgrader',
                 ],
             #
             ###################################
@@ -140,18 +140,9 @@ class ConfigurationGr_wwwgrafia {
                 ['paper', 'menu_horizontal', 'Menu'],
                 ['paper', 'menu_redirect', 'Menu'],
             ],
-            'build.config.convert.copy' =>
-                [
-                    'source' => 'stranky',
-                    'target' => 'stranky'
-                ],
-            'build.config.convert.roots' => [
-                ['a0', 'menu_vertical'],        // !! menu menu_vertical je s titulní stranou - kořen menu vznikne z existující stránky -> ve staré db změním stránku list=a0 na list=menu_vertical
-            ],
-            'build.config.convert.repairs' => [
-                // smazání chybné stránky v grafia databázích s list='s_01' - chybná syntax list způdobí chyby při vyztváření adjlist - původní stránka nemá žádný obsah
-                "DELETE FROM stranky WHERE list = 's_01'",
-                ],
+            'build.config.convert.copy' => [],
+            'build.config.convert.roots' => [],
+            'build.config.convert.repairs' => [],
             #
             ###################################
 
@@ -236,8 +227,8 @@ class ConfigurationGr_wwwgrafia {
             'dbUpgrade.db.port' => '3306',
             'dbUpgrade.db.charset' => 'utf8',
             'dbUpgrade.db.collation' => 'utf8_general_ci',
-            'dbUpgrade.db.connection.host' => PES_DEVELOPMENT ? 'localhost' : (PES_PRODUCTION ? 'UPGRADE_PRODUCTION_HOST' : 'xxxx'),
-            'dbUpgrade.db.connection.name' => PES_DEVELOPMENT ? 'gr_upgrade' : (PES_PRODUCTION ? 'UPGRADE_PRODUCTION_NAME' : 'xxxx'),
+            'dbUpgrade.db.connection.host' => PES_DEVELOPMENT ? 'tydenzdravieu' : (PES_PRODUCTION ? 'tydenzdravieu' : 'xxxx'),
+            'dbUpgrade.db.connection.name' => PES_DEVELOPMENT ? 'tydenzdravieu001' : (PES_PRODUCTION ? 'tydenzdravieu001' : 'xxxx'),
             #
             #  Konec sekce konfigurace databáze
             ###################################
@@ -322,18 +313,18 @@ class ConfigurationGr_wwwgrafia {
                             'li.paste' => 'paste',
                             'li div'=>'semafor polozky_menu',
                             'li div i1.published' => 'circle icon green',
-                            'li div i1.notpublished' => 'circle icon red ',
+                            'li div i1.notpublished' => 'circle icon inverted red ',
                             'li div i2.published' => 'calendar check icon green',
                             'li div i2.notactive' => 'calendar plus icon grey',
                             'li div i2.notactual' => 'calendar minus icon orange',
                             'li div i2.notactivenotactual' => 'calendar times icon red',
-                              //check green icon, times red icon //ui mini green left corner label //vertical green line
+                              //check green icon, times red icon //ui small green left corner label //vertical green line
                             'li a' => 'item editable',   //nema_pravo //edituje_jiny
                             'li i' => '' //dropdown icon
                         ],
             'menu_edit_buttons' => [
-                            'div.name' => 'mini ui basic icon buttons editName',
-                            'div.menu' => 'mini ui basic icon buttons editMenu',
+                            'div.name' => 'small ui basic icon buttons editName',
+                            'div.menu' => 'small ui basic icon buttons editMenu',
                             'div button' => 'ui button',
                             'div button.paste' => 'ui button paste',
                             'div button.name' => 'ui button toolsName',
@@ -350,7 +341,7 @@ class ConfigurationGr_wwwgrafia {
                             'div button8 i' => 'large times circle icon'
                         ],
             'block_edit_buttons' => [ //bloky
-                            'div' => 'mini ui basic icon buttons',
+                            'div' => 'small ui basic icon buttons',
                             'div button' => 'ui button',
                             'div button1 i' => 'large trash icon',
                             'div button2 i.on' => 'large green toggle on icon',
@@ -358,7 +349,7 @@ class ConfigurationGr_wwwgrafia {
                             'div button3 i' => 'large add circle icon',
                         ],
             'trash_edit_buttons' => [
-                            'div' => 'mini ui basic icon buttons',
+                            'div' => 'small ui basic icon buttons',
                             'div button' => 'ui button',
                             'div button1 i' => 'large icons',
                             'div button1 i1' => 'trash icon',
@@ -366,7 +357,7 @@ class ConfigurationGr_wwwgrafia {
                             'div button4 i' => 'large cut icon' //zmena na paste pri vkladani z vyberu (vybrat k presunuti)
                         ],
             'paper_template_edit_buttons' => [
-                            'div.paperTemplate' => 'ui mini basic icon dropdown button changePaperTemplate', //'mini ui basic icon buttons changePaperTemplate',
+                            'div.paperTemplate' => 'ui small basic icon dropdown button changePaperTemplate', //'small ui basic icon buttons changePaperTemplate',
                             'div button' => 'ui button',
                             'div button1 i' => 'large clone outline icon'
                         ],
@@ -381,17 +372,17 @@ class ConfigurationGr_wwwgrafia {
                             'i.dropdown' => 'dropdown icon',
                         ],
             'paper_edit_buttons' => [
-                            'div.page' => 'mini ui basic icon buttons editPage',
+                            'div.page' => 'small ui basic icon buttons editPage',
                             'div button' => 'ui button',
                             'div button1 i.on' => 'large green toggle on icon',
                             'div button1 i.off' => 'large red toggle off icon',
                             'div button2 i' => 'large sort numeric up icon',
                         ],
             'content_edit_buttons' => [
-                            'div.date' => 'mini ui basic icon buttons editDate',
+                            'div.date' => 'small ui basic icon buttons editDate',
                             'div.date2' => 'editDate',
                             'div' => 'contentButtons',
-                            'div div.content' => 'mini ui basic icon buttons editContent',
+                            'div div.content' => 'small ui basic icon buttons editContent',
                             'div div' => 'ui button kalendar',
                             'div div button' => 'ui button',
                             'div div button.date' => 'ui button toolsDate',
@@ -415,7 +406,7 @@ class ConfigurationGr_wwwgrafia {
                         ],
             'deleted_content_buttons' => [
                             'div' => 'contentButtons trash',
-                            'div div.content' => 'mini ui basic icon buttons editContent',
+                            'div div.content' => 'small ui basic icon buttons editContent',
                             'div button' => 'ui button',
                             'div button1 i' => 'large sync icon',
                             'div button2 i' => 'large trash icon',
@@ -473,7 +464,7 @@ class ConfigurationGr_wwwgrafia {
                 return new ClassMap (
                     [
                         'MenuWrap' => [
-                            'ul' => 'ui mini text menu left floated',
+                            'ul' => 'ui small text menu left floated',
                             ],
                         'LevelWrap' => [
 
@@ -489,7 +480,7 @@ class ConfigurationGr_wwwgrafia {
                 return new ClassMap (
                     [
                         'MenuWrap' => [
-                            'ul' => 'ui mini text menu edit left floated',
+                            'ul' => 'ui small text menu edit left floated',
                             ],
                         'LevelWrap' => [
                             'ul' => 'menu'
@@ -509,7 +500,7 @@ class ConfigurationGr_wwwgrafia {
                 return new ClassMap (
                     [
                         'MenuWrap' => [
-                            'ul' => 'ui vertical menu'
+                            'ul' => 'ui vertical massive menu'
                         ],
                         'LevelWrap' => [
                             'ul' => 'menu',
@@ -521,7 +512,7 @@ class ConfigurationGr_wwwgrafia {
                 return new ClassMap (
                     [
                         'MenuWrap' => [
-                            'ul' => 'ui vertical menu edit'
+                            'ul' => 'ui vertical massive menu edit'
                         ],
                         'LevelWrap' => [
                             'ul' => 'menu'
@@ -562,7 +553,7 @@ class ConfigurationGr_wwwgrafia {
             'paper.classmap' => function() {
                 return new ClassMap (
                     ['Segment' => [
-                        'div'=>'ui segment',
+                        'div'=>'ui basic segment',
                         ],
                      'Headline' => [
                         'div'=>'paper',
@@ -580,7 +571,7 @@ class ConfigurationGr_wwwgrafia {
             'paper.editable.classmap' => function() {
                 return new ClassMap (
                     ['Segment' => [
-                        'div'=>'ui segment',
+                        'div'=>'ui basic segment',
                         'div.paper'=>'paper editable',
                         ],
                      'Headline' => [
@@ -761,7 +752,7 @@ class ConfigurationGr_wwwgrafia {
      */
     public static function layoutControler() {
         // site definition
-        $sitePath = 'grafia/';
+        $sitePath = 'tydenzdravi/';
         // local
         $templatesCommon = 'local/site/common/templates/';
         $templatesSite = 'local/site/'.$sitePath.'templates/';
@@ -780,7 +771,7 @@ class ConfigurationGr_wwwgrafia {
                 ],
 
             // title
-            'title' => "Grafia, s.r.o.",
+            'title' => "Týden zdraví",
 
             // folders
             'linksCommon' => $linksCommon,
@@ -846,7 +837,7 @@ class ConfigurationGr_wwwgrafia {
      */
     public static function transformator() {
         return [
-            'filesDirectory' => '/_www_gr_files/',  // relativní cesta vzhledem k DOCUMENT_ROOT (htdocs) -začíná /
+            'filesDirectory' => '/_www_tz_files/',  // relativní cesta vzhledem k DOCUMENT_ROOT (htdocs) -začíná /
         ];
     }
 }

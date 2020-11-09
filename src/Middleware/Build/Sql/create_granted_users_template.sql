@@ -5,16 +5,6 @@
 -- SET old_passwords = 0;
 -- SET PASSWORD FOR 'gr_upgrader'@'localhost' = PASSWORD('gr_upgrader');
 
-CREATE USER {{login_user}}@{{host}} IDENTIFIED WITH mysql_native_password;
-SET old_passwords = 0;
-SET PASSWORD FOR {{login_user}}@{{host}} = PASSWORD("{{login_password}}");
-GRANT SELECT ON {{login_database}}.* TO {{login_user}}@{{host}};
-
-CREATE USER {{everyone_user}}@{{host}} IDENTIFIED WITH mysql_native_password;
-SET old_passwords = 0;
-SET PASSWORD FOR {{everyone_user}}@{{host}} = PASSWORD("{{everyone_password}}");
-GRANT SELECT ON {{database}}.* TO {{everyone_user}}@{{host}};
-
 CREATE USER {{authenticated_user}}@{{host}} IDENTIFIED WITH mysql_native_password;
 SET old_passwords = 0;
 SET PASSWORD FOR {{authenticated_user}}@{{host}} = PASSWORD("{{authenticated_password}}");

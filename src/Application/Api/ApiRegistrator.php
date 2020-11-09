@@ -100,10 +100,12 @@ class ApiRegistrator {
         $registry->register($this->getPrototype->withUrlPattern('/component/v1/service/:name'));
 
         #### BuildControler ####
-        $registry->register($this->getPrototype->withUrlPattern('/build/dropdb'));
         $registry->register($this->getPrototype->withUrlPattern('/build/createdb'));
+        $registry->register($this->getPrototype->withUrlPattern('/build/dropdb'));
+        $registry->register($this->getPrototype->withUrlPattern('/build/createusers'));
+        $registry->register($this->getPrototype->withUrlPattern('/build/dropusers'));
         $registry->register($this->getPrototype->withUrlPattern('/build/drop'));
-        $registry->register($this->getPrototype->withUrlPattern('/build/create'));
         $registry->register($this->getPrototype->withUrlPattern('/build/convert'));
+        $registry->register($this->getPrototype->withUrlPattern('/build/make'));
     }
 }

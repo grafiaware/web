@@ -6,7 +6,7 @@
                 <?php include "container/hlavicka/prihlaseni.php"; ?>
                 <?php include "container/telo/iconmenu.php"; ?>
             </div>
-        </div> 
+        </div>
         <div class="twelve wide tablet ten wide computer column">
             <header>
                 <?php include "container/hlavicka.php"; ?>
@@ -14,7 +14,7 @@
             <main class="page-content">
                 <?= $flash ?? '' ?>
                 <?= $poznamky ?? '' ?>
-                <?php include "container/telo.php"; ?>
+                <?php include "container/telo_1.php"; ?>
             </main>
         </div>
     </div>

@@ -35,6 +35,11 @@ class ConfigurationGr2_grafiacz_20200916 {
 
     ### kontejner ###
     #
+
+    /**
+     * Konfigurace kontejneru - vrací parametry pro ApiContainerConfigurator
+     * @return array
+     */
     public static function api() {
         return [
             #################################
@@ -57,6 +62,10 @@ class ConfigurationGr2_grafiacz_20200916 {
         ];
     }
 
+    /**
+     * Konfigurace kontejneru - vrací parametry pro AppContainerConfigurator
+     * @return array
+     */
     public static function app() {
         return [
             #################################
@@ -83,6 +92,10 @@ class ConfigurationGr2_grafiacz_20200916 {
         ];
     }
 
+    /**
+     * Konfigurace kontejneru - vrací parametry pro BuildContainerConfigurator
+     * @return array
+     */
     public static function build() {
         return [
             #################################
@@ -99,16 +112,45 @@ class ConfigurationGr2_grafiacz_20200916 {
             ###################################
 
             ###################################
-            # Konfigurace konverze
+            # Konfigurace create users - ostatní parametry přidá kontejner
             #
-            'build.config.createusers' =>
+            'build.config.users.everyone' =>
                 [
                     'everyone_user' => 'gr2_everyone',
                     'everyone_password' => 'gr2_everyone',
+                ],
+            'build.config.users.granted' =>
+                [
                     'authenticated_user' => 'gr2_auth',
                     'authenticated_password' => 'gr2_auth',
                     'administrator_user' => 'gr2_admin',
                     'administrator_password' => 'gr2_admin',
+                ],
+            #
+            ###################################
+
+            ###################################
+            # Konfigurace make - ostatní parametry přidá kontejner
+            # pole build.config.make.roots: [type, list, title]
+            'build.config.make.roots' => [
+                ['root', 'root', 'ROOT'],
+                ['trash', 'trash', 'Trash'],
+                ['paper', 'blocks', 'Blocks'],
+//                ['paper', 'menu_vertical', 'Menu'],      // !! menu menu_vertical je s titulní stranou  -> ve staré db je stránka list=menu_vertical a má titulek
+                ['paper', 'menu_horizontal', 'Menu'],
+                ['paper', 'menu_redirect', 'Menu'],
+            ],
+            'build.config.convert.copy' =>
+                [
+                    'source' => 'stranky',
+                    'target' => 'stranky'
+                ],
+            'build.config.convert.roots' => [
+                ['a0', 'menu_vertical'],        // !! menu menu_vertical je s titulní stranou - kořen menu vznikne z existující stránky -> ve staré db změním stránku list=a0 na list=menu_vertical
+            ],
+            'build.config.convert.repairs' => [
+                // smazání chybné stránky v grafia databázích s list='s_01' - chybná syntax list způdobí chyby při vyztváření adjlist - původní stránka nemá žádný obsah
+                "DELETE FROM stranky WHERE list = 's_01'",
                 ],
             #
             ###################################
@@ -133,17 +175,27 @@ class ConfigurationGr2_grafiacz_20200916 {
         ];
     }
 
+    /**
+     * Konfigurace kontejneru - vrací parametry pro ComponentContainerConfigurator
+     * @return array
+     */
     public static function component() {
+        // local
+        $templatesCommon = 'local/site/common/templates/';
         return [
             'component.logs.view.directory' => 'Logs/App/Web',
             'component.logs.view.file' => 'Render.log',
-            'component.template.'.FlashComponent::class =>      PROJECT_PATH.'public/web/templates/info/flashMessage.php',
-            'component.template.'.LoginComponent::class =>      PROJECT_PATH.'public/web/templates/modal/login.php',
-            'component.template.'.LogoutComponent::class =>     PROJECT_PATH.'public/web/templates/modal/logout.php',
-            'component.template.'.UserActionComponent::class => PROJECT_PATH.'public/web/templates/modal/user_action.php',
+            'component.template.'.FlashComponent::class =>      $templatesCommon.'layout/info/flashMessage.php',
+            'component.template.'.LoginComponent::class =>      $templatesCommon.'layout/modal/login.php',
+            'component.template.'.LogoutComponent::class =>     $templatesCommon.'layout/modal/logout.php',
+            'component.template.'.UserActionComponent::class => $templatesCommon.'layout/modal/user_action.php',
         ];
     }
 
+    /**
+     * Konfigurace kontejneru - vrací parametry pro DbOldContainerConfigurator
+     * @return array
+     */
     public static function dbOld() {
         return [
             #################################
@@ -168,6 +220,10 @@ class ConfigurationGr2_grafiacz_20200916 {
         ];
     }
 
+    /**
+     * Konfigurace kontejneru - vrací parametry pro DbUpgradeContainerConfigurator
+     * @return array
+     */
     public static function dbUpgrade() {
         return [
             #####################################
@@ -195,6 +251,10 @@ class ConfigurationGr2_grafiacz_20200916 {
         ];
     }
 
+    /**
+     * Konfigurace kontejneru - vrací parametry pro HierarchyContainerConfigurator
+     * @return array
+     */
     public static function hierarchy() {
         return  [
             #################################
@@ -220,6 +280,10 @@ class ConfigurationGr2_grafiacz_20200916 {
         ];
     }
 
+    /**
+     * Konfigurace kontejneru - vrací parametry pro LoginContainerConfigurator
+     * @return array
+     */
     public static function login() {
         return  [
             #################################
@@ -239,6 +303,10 @@ class ConfigurationGr2_grafiacz_20200916 {
         ];
     }
 
+    /**
+     * Pomocná metoda pro konfiguraci renderer kontejneru - vrací default hodnoty pro metodu Configuration::renderer()
+     * @return array
+     */
     public static function rendererDefaults() {
         return [
             #
@@ -354,6 +422,11 @@ class ConfigurationGr2_grafiacz_20200916 {
                         ],
                     ];
     }
+
+    /**
+     * Konfigurace kontejneru - vrací parametry pro RendererContainerConfigurator
+     * @return array
+     */
     public static function renderer() {
         return [
         ###########################
@@ -618,6 +691,10 @@ class ConfigurationGr2_grafiacz_20200916 {
         ];
     }
 
+    /**
+     * Konfigurace kontejneru - vrací parametry pro WebContainerConfigurator
+     * @return array
+     */
     public static function web() {
         return [
             #################################
@@ -638,6 +715,10 @@ class ConfigurationGr2_grafiacz_20200916 {
         ];
     }
 
+    /**
+     * Konfigurace kontejneru - vrací parametry pro RsContainerConfigurator
+     * @return array
+     */
     public static function rs() {
         return [
 
@@ -662,71 +743,34 @@ class ConfigurationGr2_grafiacz_20200916 {
 
     ### presentation ###
     #
+
+    /**
+     * Konfigurace prezentačního objektu - vrací parametry pro statusPresentationManager
+     * @return array
+     */
     public static function statusPresentationManager() {
         return [
             'default_lang_code' => 'cs',
-            'default_hierarchy_root_component_name' => 's'
+            'default_hierarchy_root_component_name' => 'menu_vertical'
         ];
     }
 
+    /**
+     * Konfigurace prezentačního objektu - vrací parametry pro layoutControler
+     * @return array
+     */
     public static function layoutControler() {
-            $webPublicDir = \Middleware\Web\AppContext::getAppPublicDirectory();
-            $webSitePublicDir = \Middleware\Web\AppContext::getAppSitePublicDirectory();
-            $commonPublicDir = \Middleware\Web\AppContext::getPublicDirectory();
-            $tinyPublicDir = \Middleware\Web\AppContext::getTinyPublicDirectory();
-
-        $theme = 'old';
-
-        switch ($theme) {
-            case 'old':
-                $templatesLayout['layout'] = PROJECT_PATH.'public/web/site/grafia/layout/layout.php';
-                $templatesLayout['linksJs'] = PROJECT_PATH.'public/web/site/grafia/layout/head/linkEditableJs.php';
-                $templatesLayout['linksCss'] = PROJECT_PATH.'public/web/site/grafia/layout/head/linkEditableCss.php';
-                $templatesLayout['tiny_config'] = PROJECT_PATH.'public/web/site/grafia/layout/head/tiny_config.js';
-                break;
-            case 'new':
-                $templatesLayout['layout'] = PROJECT_PATH.'public/web/site/newlayout/layout/layout.php';
-                $templatesLayout['linksJs'] = PROJECT_PATH.'public/web/site/newlayout/layout/head/linkEditableJs.php';
-                $templatesLayout['linksCss'] = PROJECT_PATH.'public/web/site/newlayout/layout/head/linkEditableCss.php';
-                $templatesLayout['tiny_config'] = PROJECT_PATH.'public/web/site/newlayout/layout/head/tiny_config.js';
-                break;
-            case 'new1':
-                $templatesLayout['layout'] = PROJECT_PATH.'public/web/site/newlayout_1/layout/layout.php';
-                $templatesLayout['linksJs'] = PROJECT_PATH.'public/web/site/newlayout_1/layout/head/linkEditableJs.php';
-                $templatesLayout['linksCss'] = PROJECT_PATH.'public/web/site/newlayout_1/layout/head/linkEditableCss.php';
-                $templatesLayout['tiny_config'] = PROJECT_PATH.'public/web/site/newlayout_1/layout/head/tiny_config.js';
-                break;
-            case 'new2':
-                $templatesLayout['layout'] = PROJECT_PATH.'public/web/site/newlayout_2/layout/layout.php';
-                $templatesLayout['linksJs'] = PROJECT_PATH.'public/web/site/newlayout_2/layout/head/linkEditableJs.php';
-                $templatesLayout['linksCss'] = PROJECT_PATH.'public/web/site/newlayout_2/layout/head/linkEditableCss.php';
-                $templatesLayout['tiny_config'] = PROJECT_PATH.'public/web/site/newlayout_2/layout/head/tiny_config.js';
-                break;
-            case 'new3':
-                $templatesLayout['layout'] = PROJECT_PATH.'public/web/site/newlayout_3/layout/layout.php';
-                $templatesLayout['linksJs'] = PROJECT_PATH.'public/web/site/newlayout_3/layout/head/linkEditableJs.php';
-                $templatesLayout['linksCss'] = PROJECT_PATH.'public/web/site/newlayout_3/layout/head/linkEditableCss.php';
-                $templatesLayout['tiny_config'] = PROJECT_PATH.'public/web/site/newlayout_3/layout/head/tiny_config.js';
-                break;
-            case 'oa':
-                $templatesLayout['layout'] = PROJECT_PATH.'public/web/site/oa/layout/layout.php';
-                $templatesLayout['linksJs'] = PROJECT_PATH.'public/web/site/oa/layout/head/linkEditableJs.php';
-                $templatesLayout['linksCss'] = PROJECT_PATH.'public/web/site/oa/layout/head/linkEditableCss.php';
-                $templatesLayout['tiny_config'] = PROJECT_PATH.'public/web/site/oa/layout/head/tiny_config.js';
-                break;
-            default:
-                $templatesLayout['layout'] = PROJECT_PATH.'public/web/site/grafia/layout/layout.php';
-                $templatesLayout['linksJs'] = PROJECT_PATH.'public/web/site/grafia/layout/head/linkEditableJs.php';
-                $templatesLayout['linksCss'] = PROJECT_PATH.'public/web/site/grafia/layout/head/linkEditableCss.php';
-                $templatesLayout['tiny_config'] = PROJECT_PATH.'public/web/site/grafia/layout/head/tiny_config.js';
-                break;
-        }
-
+        // site definition
+        $sitePath = 'grafia/';
+        // local
+        $templatesCommon = 'local/site/common/templates/';
+        $templatesSite = 'local/site/'.$sitePath.'templates/';
+        // public
+        $assets = 'public/assets/';
+        $linksCommon = 'public/site/common/';
+        $linksSite = 'public/site/'.$sitePath;
 
         return [
-           'templates.poznamky' => $webPublicDir.'templates/info/poznamky.php',
-           'templates.loaderElement' => $webPublicDir.'templates/component-load/loaderElement.php',
-
            // Language packages tinyMce používají krátké i dlouhé kódy, kód odpovídá jménu souboru např cs.js nebo en_US.js - proto mapování
             // pozn. - popisky šablon pro tiny jsou jen česky (TinyInit.js)
             'tinyLanguage' => [
@@ -734,40 +778,72 @@ class ConfigurationGr2_grafiacz_20200916 {
                 'de' => 'de',
                 'en' => 'en_US'
             ],
-            // title
-            'title' => \Middleware\Web\AppContext::getWebTitle(),
-            // folders
-            'webPublicDir' => $webPublicDir,
-            'webSitePublicDir' =>$webSitePublicDir,
-            // layout folder
-            'layout' => $templatesLayout['layout'],
-            'tiny_config' =>    $templatesLayout['tiny_config'],
-            // links do head
-            'linksJs' =>    $templatesLayout['linksJs'],
-            'linksCss' =>    $templatesLayout['linksCss'],
-            // js links
-           'urlTinyMCE' => $commonPublicDir.'tinymce5_3_1\js\tinymce\tinymce.min.js',
-            'urlJqueryTinyMCE' => $commonPublicDir.'tinymce5_3_1\js\tinymce\jquery.tinymce.min.js',
-//            'urlTinyMCE' => $commonPublicDir.'tinymce5_4_0\js\tinymce\tinymce.min.js',
-//            'urlJqueryTinyMCE' => $commonPublicDir.'tinymce5_4_0\js\tinymce\jquery.tinymce.min.js',
 
+            // title
+            'title' => "Grafia, s.r.o.",
+
+            // folders
+            'linksCommon' => $linksCommon,
+            'linksSite' => $linksSite,
+
+            // local templates paths
+            'layout' => $templatesSite.'layout/layout.php',
+            'tiny_config' => $templatesSite.'js/tiny_config.js',
+            'linksEditorJs' => $templatesCommon.'layout/links/linkEditorJs.php',
+            'linkEditorCss' => $templatesCommon.'layout/links/linkEditorCss.php',
+
+            // linksEditorJs links
+           'urlTinyMCE' => $assets.'tinymce5_3_1\js\tinymce\tinymce.min.js',
+            'urlJqueryTinyMCE' => $assets.'tinymce5_3_1\js\tinymce\jquery.tinymce.min.js',
+//            'urlTinyMCE' => $assets.'tinymce5_4_0\js\tinymce\tinymce.min.js',
+//            'urlJqueryTinyMCE' => $assets.'tinymce5_4_0\js\tinymce\jquery.tinymce.min.js',
 //    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 //    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 //    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/jquery.tinymce.min.js" referrerpolicy="origin"></script>
-            'urlTinyInit' => $webPublicDir.'js/TinyInit.js',
-            'editScript' => $webPublicDir . 'js/edit.js',
-            'kalendarScript' => $webPublicDir . 'js/kalendar.js',
-            // css links
-            'urlStylesCss' => $webPublicDir."styles/old/styles.css",
-            'urlSemanticCss' => $webPublicDir."semantic/dist/semantic.min.css",
-            'urlContentTemplatesCss' => $webPublicDir."templates/author/template.css",
+            'urlTinyInit' => $linksCommon.'js/TinyInit.js',
+            'editScript' => $linksCommon . 'js/edit.js',
+            'kalendarScript' => $linksCommon . 'js/kalendar.js',
+
+            // linkEditorCss links
+            'urlStylesCss' => $linksCommon."css/old/styles.css",
+            'urlSemanticCss' => $linksSite."semantic-ui/semantic.min.css",
+            'urlContentTemplatesCss' => $linksCommon."css/templates.css",   // KŠ ?????
             //
-            'paperTemplatesUri' =>  $webPublicDir."templates/paper/",  // URI pro Template controler
-            'authorTemplatesPath' => $webPublicDir."templates/author/",
+            'paperTemplatesUri' =>  $linksSite."templates/paper/",  // URI pro Template controler
+            'authorTemplatesPath' => $linksCommon."templates/author/",
 
         ];
     }
 
+    /**
+     * Konfigurace prezentačního objektu - vrací parametry pro pageControler
+     * @return array
+     */
+    public static function pageControler() {
+        // local
+        $templatesCommon = 'local/site/common/templates/';
+        return [
+               'templates.poznamky' => $templatesCommon.'layout/info/poznamky.php',
+               'templates.loaderElement' => $templatesCommon.'layout/component-load/loaderElement.php',
+            ];
+    }
+
+    /**
+     * Konfigurace prezentačního objektu - vrací parametry pro languageSelectRenderer
+     * @return array
+     */
+    public static function languageSelectRenderer() {
+        // public
+        $assets = 'public/assets/';
+        return [
+            'assets' => $assets.'flags-mini/'
+        ];
+    }
+
+    /**
+     * Konfigurace prezentačního objektu - vrací parametry pro transformator
+     * @return array
+     */
     public static function transformator() {
         return [
             'filesDirectory' => '/_www_gr2_files/',  // relativní cesta vzhledem k DOCUMENT_ROOT (htdocs)

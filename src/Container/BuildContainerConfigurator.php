@@ -64,8 +64,7 @@ class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
         return [
                 'build.config.copy' => function(ContainerInterface $c) {
                     return [
-                        'source_table_name' =>  $c->get('dbold.db.connection.name').'.stranky',
-                        'target_table_name' => $c->get('dbUpgrade.db.connection.name').'.stranky',
+
                         ];
                     },
                 'build.config.drop' => function(ContainerInterface $c) {
@@ -73,14 +72,14 @@ class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
                         'database' => $c->get('dbUpgrade.db.connection.name'),  // template proměnná database - jen pro template, objekt ConnectionInfo používá své parametry
                         ];
                     },
-                'build.config.create' => function(ContainerInterface $c) {
+                'build.config.createdb' => function(ContainerInterface $c) {
                     return [
                         'database' => $c->get('dbUpgrade.db.connection.name'),  // template proměnná database - jen pro template, objekt ConnectionInfo používá své parametry
                         ];
                     },
-                'build.config.users' => function(ContainerInterface $c) {
+                'build.config.users.everyone' => function(ContainerInterface $c) {
                     return array_merge(
-                        Configuration::build()['build.config.createusers'],
+                        Configuration::build()['build.config.users.everyone'],
                         [
                         'host' => $c->get('dbUpgrade.db.connection.host'),
                         'database' => $c->get('dbUpgrade.db.connection.name'),
@@ -90,6 +89,32 @@ class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
                         'login_password' => $c->get('login.db.account.everyone.password'),
                         ]
                         );
+                    },
+                'build.config.users.granted' => function(ContainerInterface $c) {
+                    return array_merge(
+                        Configuration::build()['build.config.users.granted'],
+                        [
+                        'host' => $c->get('dbUpgrade.db.connection.host'),
+                        'database' => $c->get('dbUpgrade.db.connection.name'),
+                        'login_database' => $c->get('dbold.db.connection.name'),
+
+                        'login_user' => $c->get('login.db.account.everyone.name'),
+                        'login_password' => $c->get('login.db.account.everyone.password'),
+                        ]
+                        );
+                    },
+                'build.config.make' => function(ContainerInterface $c) {
+                    return [
+                        'roots' =>  Configuration::build()['build.config.make.roots'],
+                        ];
+                    },
+                'build.config.convert' => function(ContainerInterface $c) {
+                    return [
+                        'source_table_name' =>  $c->get('dbold.db.connection.name').'.'.Configuration::build()['build.config.convert.copy']['source'],
+                        'target_table_name' => $c->get('dbUpgrade.db.connection.name').'.'.Configuration::build()['build.config.convert.copy']['target'],
+                        'repairs' => Configuration::build()['build.config.convert.repairs'] ?? [],
+                        'roots' =>  Configuration::build()['build.config.convert.roots'],
+                        ];
                     },
                 ];
     }

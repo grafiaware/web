@@ -35,6 +35,11 @@ class ConfigurationTZ_wwwgrafia {
 
     ### kontejner ###
     #
+
+    /**
+     * Konfigurace kontejneru - vrací parametry pro ApiContainerConfigurator
+     * @return array
+     */
     public static function api() {
         return [
             #################################
@@ -57,6 +62,10 @@ class ConfigurationTZ_wwwgrafia {
         ];
     }
 
+    /**
+     * Konfigurace kontejneru - vrací parametry pro AppContainerConfigurator
+     * @return array
+     */
     public static function app() {
         return [
             #################################
@@ -83,6 +92,10 @@ class ConfigurationTZ_wwwgrafia {
         ];
     }
 
+    /**
+     * Konfigurace kontejneru - vrací parametry pro BuildContainerConfigurator
+     * @return array
+     */
     public static function build() {
         return [
             #################################
@@ -99,16 +112,45 @@ class ConfigurationTZ_wwwgrafia {
             ###################################
 
             ###################################
-            # Konfigurace konverze
+            # Konfigurace create users - ostatní parametry přidá kontejner
             #
-            'build.config.createusers' =>
+            'build.config.users.everyone' =>
                 [
                     'everyone_user' => 'gr_everyone',
                     'everyone_password' => 'gr_everyone',
+                ],
+            'build.config.users.granted' =>
+                [
                     'authenticated_user' => 'gr_auth',
                     'authenticated_password' => 'gr_auth',
                     'administrator_user' => 'gr_admin',
                     'administrator_password' => 'gr_admin',
+                ],
+            #
+            ###################################
+
+            ###################################
+            # Konfigurace make - ostatní parametry přidá kontejner
+            # pole build.config.make.roots: [type, list, title]
+            'build.config.make.roots' => [
+                ['root', 'root', 'ROOT'],
+                ['trash', 'trash', 'Trash'],
+                ['paper', 'blocks', 'Blocks'],
+//                ['paper', 'menu_vertical', 'Menu'],      // !! menu menu_vertical je s titulní stranou  -> ve staré db je stránka list=menu_vertical a má titulek
+                ['paper', 'menu_horizontal', 'Menu'],
+                ['paper', 'menu_redirect', 'Menu'],
+            ],
+            'build.config.convert.copy' =>
+                [
+                    'source' => 'stranky',
+                    'target' => 'stranky'
+                ],
+            'build.config.convert.roots' => [
+                ['a0', 'menu_vertical'],        // !! menu menu_vertical je s titulní stranou - kořen menu vznikne z existující stránky -> ve staré db změním stránku list=a0 na list=menu_vertical
+            ],
+            'build.config.convert.repairs' => [
+                // smazání chybné stránky v grafia databázích s list='s_01' - chybná syntax list způdobí chyby při vyztváření adjlist - původní stránka nemá žádný obsah
+                "DELETE FROM stranky WHERE list = 's_01'",
                 ],
             #
             ###################################
@@ -133,6 +175,10 @@ class ConfigurationTZ_wwwgrafia {
         ];
     }
 
+    /**
+     * Konfigurace kontejneru - vrací parametry pro ComponentContainerConfigurator
+     * @return array
+     */
     public static function component() {
         // local
         $templatesCommon = 'local/site/common/templates/';
@@ -146,6 +192,10 @@ class ConfigurationTZ_wwwgrafia {
         ];
     }
 
+    /**
+     * Konfigurace kontejneru - vrací parametry pro DbOldContainerConfigurator
+     * @return array
+     */
     public static function dbOld() {
         return [
             #################################
@@ -170,6 +220,10 @@ class ConfigurationTZ_wwwgrafia {
         ];
     }
 
+    /**
+     * Konfigurace kontejneru - vrací parametry pro DbUpgradeContainerConfigurator
+     * @return array
+     */
     public static function dbUpgrade() {
         return [
             #####################################
@@ -197,6 +251,10 @@ class ConfigurationTZ_wwwgrafia {
         ];
     }
 
+    /**
+     * Konfigurace kontejneru - vrací parametry pro HierarchyContainerConfigurator
+     * @return array
+     */
     public static function hierarchy() {
         return  [
             #################################
@@ -222,6 +280,10 @@ class ConfigurationTZ_wwwgrafia {
         ];
     }
 
+    /**
+     * Konfigurace kontejneru - vrací parametry pro LoginContainerConfigurator
+     * @return array
+     */
     public static function login() {
         return  [
             #################################
@@ -241,6 +303,10 @@ class ConfigurationTZ_wwwgrafia {
         ];
     }
 
+    /**
+     * Pomocná metoda pro konfiguraci renderer kontejneru - vrací default hodnoty pro metodu Configuration::renderer()
+     * @return array
+     */
     public static function rendererDefaults() {
         return [
             #
@@ -356,6 +422,11 @@ class ConfigurationTZ_wwwgrafia {
                         ],
                     ];
     }
+
+    /**
+     * Konfigurace kontejneru - vrací parametry pro RendererContainerConfigurator
+     * @return array
+     */
     public static function renderer() {
         return [
         ###########################
@@ -620,6 +691,10 @@ class ConfigurationTZ_wwwgrafia {
         ];
     }
 
+    /**
+     * Konfigurace kontejneru - vrací parametry pro WebContainerConfigurator
+     * @return array
+     */
     public static function web() {
         return [
             #################################
@@ -640,6 +715,10 @@ class ConfigurationTZ_wwwgrafia {
         ];
     }
 
+    /**
+     * Konfigurace kontejneru - vrací parametry pro RsContainerConfigurator
+     * @return array
+     */
     public static function rs() {
         return [
 
@@ -664,6 +743,11 @@ class ConfigurationTZ_wwwgrafia {
 
     ### presentation ###
     #
+
+    /**
+     * Konfigurace prezentačního objektu - vrací parametry pro statusPresentationManager
+     * @return array
+     */
     public static function statusPresentationManager() {
         return [
             'default_lang_code' => 'cs',
@@ -671,59 +755,11 @@ class ConfigurationTZ_wwwgrafia {
         ];
     }
 
+    /**
+     * Konfigurace prezentačního objektu - vrací parametry pro layoutControler
+     * @return array
+     */
     public static function layoutControler() {
-//            $webPublicDir = \Middleware\Web\AppContext::getAppPublicDirectory();
-//            $webSitePublicDir = \Middleware\Web\AppContext::getAppSitePublicDirectory();
-//            $commonPublicDir = \Middleware\Web\AppContext::getPublicDirectory();
-//            $tinyPublicDir = \Middleware\Web\AppContext::getTinyPublicDirectory();
-//
-//        $theme = 'old';
-//
-//        switch ($theme) {
-//            case 'old':
-//                $templatesLayout['layout'] = PROJECT_PATH.'public/web/site/grafia/layout/layout.php';
-//                $templatesLayout['linksJs'] = PROJECT_PATH.'public/web/site/grafia/layout/head/linkEditableJs.php';
-//                $templatesLayout['linksCss'] = PROJECT_PATH.'public/web/site/grafia/layout/head/linkEditableCss.php';
-//                $templatesLayout['tiny_config'] = PROJECT_PATH.'public/web/site/grafia/layout/head/tiny_config.js';
-//                break;
-//            case 'new':
-//                $templatesLayout['layout'] = PROJECT_PATH.'public/web/site/newlayout/layout/layout.php';
-//                $templatesLayout['linksJs'] = PROJECT_PATH.'public/web/site/newlayout/layout/head/linkEditableJs.php';
-//                $templatesLayout['linksCss'] = PROJECT_PATH.'public/web/site/newlayout/layout/head/linkEditableCss.php';
-//                $templatesLayout['tiny_config'] = PROJECT_PATH.'public/web/site/newlayout/layout/head/tiny_config.js';
-//                break;
-//            case 'new1':
-//                $templatesLayout['layout'] = PROJECT_PATH.'public/web/site/newlayout_1/layout/layout.php';
-//                $templatesLayout['linksJs'] = PROJECT_PATH.'public/web/site/newlayout_1/layout/head/linkEditableJs.php';
-//                $templatesLayout['linksCss'] = PROJECT_PATH.'public/web/site/newlayout_1/layout/head/linkEditableCss.php';
-//                $templatesLayout['tiny_config'] = PROJECT_PATH.'public/web/site/newlayout_1/layout/head/tiny_config.js';
-//                break;
-//            case 'new2':
-//                $templatesLayout['layout'] = PROJECT_PATH.'public/web/site/newlayout_2/layout/layout.php';
-//                $templatesLayout['linksJs'] = PROJECT_PATH.'public/web/site/newlayout_2/layout/head/linkEditableJs.php';
-//                $templatesLayout['linksCss'] = PROJECT_PATH.'public/web/site/newlayout_2/layout/head/linkEditableCss.php';
-//                $templatesLayout['tiny_config'] = PROJECT_PATH.'public/web/site/newlayout_2/layout/head/tiny_config.js';
-//                break;
-//            case 'new3':
-//                $templatesLayout['layout'] = PROJECT_PATH.'public/web/site/newlayout_3/layout/layout.php';
-//                $templatesLayout['linksJs'] = PROJECT_PATH.'public/web/site/newlayout_3/layout/head/linkEditableJs.php';
-//                $templatesLayout['linksCss'] = PROJECT_PATH.'public/web/site/newlayout_3/layout/head/linkEditableCss.php';
-//                $templatesLayout['tiny_config'] = PROJECT_PATH.'public/web/site/newlayout_3/layout/head/tiny_config.js';
-//                break;
-//            case 'oa':
-//                $templatesLayout['layout'] = PROJECT_PATH.'public/web/site/oa/layout/layout.php';
-//                $templatesLayout['linksJs'] = PROJECT_PATH.'public/web/site/oa/layout/head/linkEditableJs.php';
-//                $templatesLayout['linksCss'] = PROJECT_PATH.'public/web/site/oa/layout/head/linkEditableCss.php';
-//                $templatesLayout['tiny_config'] = PROJECT_PATH.'public/web/site/oa/layout/head/tiny_config.js';
-//                break;
-//            default:
-//                $templatesLayout['layout'] = PROJECT_PATH.'public/web/site/grafia/layout/layout.php';
-//                $templatesLayout['linksJs'] = PROJECT_PATH.'public/web/site/grafia/layout/head/linkEditableJs.php';
-//                $templatesLayout['linksCss'] = PROJECT_PATH.'public/web/site/grafia/layout/head/linkEditableCss.php';
-//                $templatesLayout['tiny_config'] = PROJECT_PATH.'public/web/site/grafia/layout/head/tiny_config.js';
-//                break;
-//        }
-
         // site definition
         $sitePath = 'tydenzdravi/';
         // local
@@ -779,6 +815,10 @@ class ConfigurationTZ_wwwgrafia {
         ];
     }
 
+    /**
+     * Konfigurace prezentačního objektu - vrací parametry pro pageControler
+     * @return array
+     */
     public static function pageControler() {
         // local
         $templatesCommon = 'local/site/common/templates/';
@@ -788,6 +828,10 @@ class ConfigurationTZ_wwwgrafia {
             ];
     }
 
+    /**
+     * Konfigurace prezentačního objektu - vrací parametry pro languageSelectRenderer
+     * @return array
+     */
     public static function languageSelectRenderer() {
         // public
         $assets = 'public/assets/';
@@ -796,6 +840,10 @@ class ConfigurationTZ_wwwgrafia {
         ];
     }
 
+    /**
+     * Konfigurace prezentačního objektu - vrací parametry pro transformator
+     * @return array
+     */
     public static function transformator() {
         return [
             'filesDirectory' => '/_www_tz_files/',  // relativní cesta vzhledem k DOCUMENT_ROOT (htdocs) -začíná /
