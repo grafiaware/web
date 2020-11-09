@@ -11,7 +11,7 @@
         </div>
         <div class="six wide column">
             <div class="cerveny podklad nadpis vpravo">
-                <p>21.—29. 11. 2020</p>
+                <p>21.—29. 11. 2020</p>  
             </div>
             <div class="zeleny podklad blok text">
                 <p class="podnadpis"><b>TÝDEN ZDRAVÍ</b><br/>Zdravá rodina</p>
@@ -24,7 +24,7 @@
     <div class="ui stackable centered grid">
         <div class="sixteen wide column">
             <div class="cerveny podklad nadpis vlevo">
-                <p>O akci</p>
+                <p>O akci </p> 
             </div>
             <img src="/_www_tz_files/files/pexels-photo-web-orez.jpg" width="100%" height="" />
             <div class="velky text vpravo">
