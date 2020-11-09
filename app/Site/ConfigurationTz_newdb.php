@@ -29,7 +29,9 @@ class ConfigurationTz_newdb {
     #
     public static function bootstrap() {
         return [
+//            'bootstrap_logs_base_path' => PES_DEVELOPMENT ? '/_www_tz_logs/' : (PES_PRODUCTION ? '_www_tz_logs/' : 'xxxxxxxxxxxxxxxxx'),
             'bootstrap_logs_base_path' => '/_www_tz_logs/',
+
         ];
     }
 
@@ -200,7 +202,7 @@ class ConfigurationTz_newdb {
             'dbold.db.charset' => 'utf8',
             'dbold.db.collation' => 'utf8_general_ci',
 
-            'dbold.db.connection.host' => PES_DEVELOPMENT ? 'localhost' : (PES_PRODUCTION ? 'OLD_PRODUCTION_NAME' : 'xxxxxxxxxxxxxxxxx'),
+            'dbold.db.connection.host' => PES_DEVELOPMENT ? 'localhost' : (PES_PRODUCTION ? '127.0.0.1' : 'xxxxxxxxxxxxxxxxx'),
             'dbold.db.connection.name' => PES_DEVELOPMENT ? 'wwwgrafia' : (PES_PRODUCTION ? 'tydenzdravieu01' : 'xxxxxxxxxxxxxxxxx'),
 
             'dbold.logs.directory' => 'Logs/DbOld',
@@ -227,7 +229,7 @@ class ConfigurationTz_newdb {
             'dbUpgrade.db.port' => '3306',
             'dbUpgrade.db.charset' => 'utf8',
             'dbUpgrade.db.collation' => 'utf8_general_ci',
-            'dbUpgrade.db.connection.host' => PES_DEVELOPMENT ? 'localhost' : (PES_PRODUCTION ? '??????????????' : 'xxxx'),
+            'dbUpgrade.db.connection.host' => PES_DEVELOPMENT ? 'localhost' : (PES_PRODUCTION ? '127.0.0.1' : 'xxxx'),
             'dbUpgrade.db.connection.name' => PES_DEVELOPMENT ? 'tydenzdravieu' : (PES_PRODUCTION ? 'tydenzdravieu' : 'xxxx'),
             #
             #  Konec sekce konfigurace databáze
@@ -837,7 +839,9 @@ class ConfigurationTz_newdb {
      */
     public static function transformator() {
         return [
-            'filesDirectory' => '/_www_tz_files/',  // relativní cesta vzhledem k DOCUMENT_ROOT (htdocs) -začíná /
+            // relativní cesta vzhledem k DOCUMENT_ROOT (htdocs) -začíná /
+            'filesDirectory' => PES_DEVELOPMENT ? '/_www_tz_files/' : (PES_PRODUCTION ? '_www_tz_files/' : 'xxxxxxxxxxxxxxxxx'),
+
         ];
     }
 }

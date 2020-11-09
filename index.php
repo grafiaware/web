@@ -20,12 +20,13 @@ use Pes\Middleware\UnprocessedRequestHandler;  //NoMatchSelectorItemRequestHandl
 use Pes\Http\ResponseSender;
 
 $environment = (new EnvironmentFactory())->createFromGlobals();
+
 $app = (new WebAppFactory())->createFromEnvironment($environment);
+
 // middleware selector
 $selector = (new SelectorFactory($app))->create();
 // registrace api do ResourceRegistry, ResourceRegistry se zaregistrovaným api je dostupný v kontejneru aplikace
 $app->getAppContainer()->get(ApiRegistrator::class)->registerApi($app->getAppContainer()->get(ResourceRegistry::class));
-
 $response = $app->run($selector, new UnprocessedRequestHandler());
 
 (new ResponseSender())->send($response);
