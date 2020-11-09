@@ -12,7 +12,7 @@
         </div>
         <div class="six wide column">
             <div class="cerveny podklad nadpis vpravo">
-                <p>21.—27. 11. 2020</p>
+                <p>21.—29. 11. 2020</p>
             </div>
             <div class="zeleny podklad blok text">
                 <p class="podnadpis"><b>TÝDEN ZDRAVÍ</b><br/>Zdravá rodina</p>

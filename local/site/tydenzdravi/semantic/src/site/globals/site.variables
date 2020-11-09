@@ -48,11 +48,11 @@
 @h6 : unit((38 / 14), rem);
 
 /*-------------------
-     Breakpoints
+     Breakpoints 
 --------------------*/
 
 @mobileBreakpoint            : 320px;
-@tabletBreakpoint            : 768px;
+@tabletBreakpoint            : 1000px;
 @computerBreakpoint          : 1200px;
 @largeMonitorBreakpoint      : 1600px;
 @widescreenMonitorBreakpoint : 1920px;
