@@ -7,6 +7,7 @@
 @pageFont          : @fontName;
 
 @lineHeight          : 1.25em;
+@linkColor           : #2aa411; 
 
 /* The size of page text  */
 @fontSize : 27px;
