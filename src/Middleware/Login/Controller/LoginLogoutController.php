@@ -70,7 +70,8 @@ class LoginLogoutController extends StatusFrontControllerAbstract {
                 }
             }
         }
-        return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other
+        $uriInfo = $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME);
+        return RedirectResponse::withPostRedirectGet(new Response(), $uriInfo->getSubdomainPath().'www/last'); // 303 See Other
     }
 
     public function logout(ServerRequestInterface $request) {
@@ -78,7 +79,8 @@ class LoginLogoutController extends StatusFrontControllerAbstract {
         if ($logout) {
             $this->removeLoggedUser();  // bez parametru User
         }
-        return RedirectResponse::withPostRedirectGet(new Response(), $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().'www/last/'); // 303 See Other
+        $uriInfo = $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME);
+        return RedirectResponse::withPostRedirectGet(new Response(), $uriInfo->getSubdomainPath().'www/last'); // 303 See Other
     }
 
     /**

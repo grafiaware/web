@@ -19,6 +19,10 @@ use Pes\Session\SaveHandler\PhpLoggingSaveHandler;
 // application
 use Application\WebAppFactory;
 
+// selector
+use Application\SelectorFactory;
+use Pes\Middleware\Selector;
+
 // security context - použit v security status
 use StatusManager\Observer\SecurityContextObjectsRemover;
 
@@ -141,6 +145,10 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             UrlPatternValidator::class => function(ContainerInterface $c) {
                 return new UrlPatternValidator();
+            },
+            Selector::class => function(ContainerInterface $c) {
+                // middleware selector
+                return (new SelectorFactory())->create();
             },
             Router::class => function(ContainerInterface $c) {
                 $router = new Router();

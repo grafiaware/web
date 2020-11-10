@@ -384,17 +384,17 @@
           backface-visibility: hidden;
   -webkit-overflow-scrolling: touch;
 }
-@media only screen and (max-width: 767.98px) {
+@media only screen and (max-width: 999.98px) {
   .ui.scrolling.search > .results {
     max-height: 12.17714286em;
   }
 }
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 1000px) {
   .ui.scrolling.search > .results {
     max-height: 18.26571429em;
   }
 }
-@media only screen and (min-width: 992px) {
+@media only screen and (min-width: 1200px) {
   .ui.scrolling.search > .results {
     max-height: 24.35428571em;
   }
@@ -404,7 +404,7 @@
     max-height: 36.53142857em;
   }
 }
-@media only screen and (max-width: 767.98px) {
+@media only screen and (max-width: 999.98px) {
   .ui.search.short > .results {
     max-height: 12.17714286em;
   }
@@ -418,7 +418,7 @@
     max-height: 36.53142857em;
   }
 }
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 1000px) {
   .ui.search.short > .results {
     max-height: 18.26571429em;
   }
@@ -432,7 +432,7 @@
     max-height: 54.79714286em;
   }
 }
-@media only screen and (min-width: 992px) {
+@media only screen and (min-width: 1200px) {
   .ui.search.short > .results {
     max-height: 24.35428571em;
   }
@@ -515,7 +515,7 @@
       Mobile
 ---------------*/
 
-@media only screen and (max-width: 767.98px) {
+@media only screen and (max-width: 999.98px) {
   .ui.search .results {
     max-width: calc(100vw - 2rem);
   }

@@ -29,8 +29,7 @@ class ConfigurationTz_newdb {
     #
     public static function bootstrap() {
         return [
-//            'bootstrap_logs_base_path' => PES_DEVELOPMENT ? '/_www_tz_logs/' : (PES_PRODUCTION ? '_www_tz_logs/' : 'xxxxxxxxxxxxxxxxx'),
-            'bootstrap_logs_base_path' => '/_www_tz_logs/',
+            'bootstrap_logs_base_path' => "/_www_tz_logs/",
 
         ];
     }
@@ -108,8 +107,8 @@ class ConfigurationTz_newdb {
             #
             # user s právy drop a create database + crud práva + grant option k nové (upgrade) databázi
             # a také select k staré databázi - reálně nejlépe role DBA
-            'build.db.user.name' => PES_DEVELOPMENT ? 'tydenzdravieu001' : (PES_PRODUCTION ? 'tydenzdravieu001' : 'xxxxxxxxxxxxxxxxx'),
-            'build.db.user.password' => PES_DEVELOPMENT ? 'tz_upgrader' : (PES_PRODUCTION ? 'tz_upgrader' : 'xxxxxxxxxxxxxxxxx'),
+            'build.db.user.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tydenzdravieu001' : 'tydenzdravieu001',
+            'build.db.user.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tz_upgrader' : 'tz_upgrader',
             #
             ###################################
 
@@ -202,8 +201,8 @@ class ConfigurationTz_newdb {
             'dbold.db.charset' => 'utf8',
             'dbold.db.collation' => 'utf8_general_ci',
 
-            'dbold.db.connection.host' => PES_DEVELOPMENT ? 'localhost' : (PES_PRODUCTION ? '127.0.0.1' : 'xxxxxxxxxxxxxxxxx'),
-            'dbold.db.connection.name' => PES_DEVELOPMENT ? 'wwwgrafia' : (PES_PRODUCTION ? 'tydenzdravieu01' : 'xxxxxxxxxxxxxxxxx'),
+            'dbold.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? '127.0.0.1' : 'localhost',
+            'dbold.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tydenzdravieu01' : 'wwwgrafia',
 
             'dbold.logs.directory' => 'Logs/DbOld',
             'dbold.logs.db.file' => 'Database.log',
@@ -229,8 +228,8 @@ class ConfigurationTz_newdb {
             'dbUpgrade.db.port' => '3306',
             'dbUpgrade.db.charset' => 'utf8',
             'dbUpgrade.db.collation' => 'utf8_general_ci',
-            'dbUpgrade.db.connection.host' => PES_DEVELOPMENT ? 'localhost' : (PES_PRODUCTION ? '127.0.0.1' : 'xxxx'),
-            'dbUpgrade.db.connection.name' => PES_DEVELOPMENT ? 'tydenzdravieu' : (PES_PRODUCTION ? 'tydenzdravieu' : 'xxxx'),
+            'dbUpgrade.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? '127.0.0.1' : 'localhost',
+            'dbUpgrade.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tydenzdravieu' : 'tydenzdravieu',
             #
             #  Konec sekce konfigurace databáze
             ###################################
@@ -254,8 +253,8 @@ class ConfigurationTz_newdb {
             # Konfigurace databáze
             # Ostatní parametry konfigurace databáze v kontejneru dbUpgrade
             #
-            'dbUpgrade.db.user.name' => PES_DEVELOPMENT ? 'tydenzdravieu001' : (PES_PRODUCTION ? 'tydenzdravieu001' : 'xxxx'),
-            'dbUpgrade.db.user.password' => PES_DEVELOPMENT ? 'tz_upgrader' : (PES_PRODUCTION ? 'tz_upgrader' : 'xxxx'),
+            'dbUpgrade.db.user.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tydenzdravieu001' : 'tydenzdravieu001',
+            'dbUpgrade.db.user.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tz_upgrader' : 'tz_upgrader',
             #
             ###################################
             # Konfigurace hierarchy tabulek
@@ -840,7 +839,7 @@ class ConfigurationTz_newdb {
     public static function transformator() {
         return [
             // relativní cesta vzhledem k DOCUMENT_ROOT (htdocs) -začíná /
-            'filesDirectory' => PES_DEVELOPMENT ? '/_www_tz_files/' : (PES_PRODUCTION ? '_www_tz_files/' : 'xxxxxxxxxxxxxxxxx'),
+            'filesDirectory' => PES_RUNNING_ON_PRODUCTION_HOST ? '_www_tz_files/' : '/_www_tz_files/',
 
         ];
     }

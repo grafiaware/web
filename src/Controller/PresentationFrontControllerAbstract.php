@@ -152,6 +152,7 @@ abstract class PresentationFrontControllerAbstract extends StatusFrontController
      * @return Response
      */
     protected function redirectSeeOther($request, $relativePath) {
-        return RedirectResponse::withPostRedirectGet(new Response(), $this->getRequestUriInfo($request)->getSubdomainPath().$relativePath); // 303 See Other
+        $subPath = $this->getRequestUriInfo($request)->getSubdomainPath();
+        return RedirectResponse::withPostRedirectGet(new Response(), $subPath.$relativePath); // 303 See Other
     }
 }

@@ -128,11 +128,6 @@ class SelectorFactory {
         ## selector middleware
         $selector = new Selector();
 
-        // Selector aplikaci pouze předává jako parametr middleware stacku (Closure) vybraného SelectorItem
-        if ($this->app) {
-            $selector = $selector->setApp($this->app);
-        }
-
         foreach ($this->items as $prefix=>$stack) {
                 $selector->addItem($prefix, $stack);
         }

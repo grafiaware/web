@@ -29,7 +29,7 @@ body {
   background: #FFFFFF;
   font-family: 'Signika Negative';
   font-size: 27px;
-  line-height: 1.4285em;
+  line-height: 1.25em;
   color: #000;
 }
 
@@ -87,7 +87,7 @@ h5:last-child {
 
 p {
   margin: 0 0 1em;
-  line-height: 1.4285em;
+  line-height: 1.25em;
 }
 p:first-child {
   margin-top: 0;
@@ -199,15 +199,6 @@ body .ui.inverted:not(.dimmer)::-webkit-scrollbar-thumb:hover {
         Global Overrides
 *******************************/
 
-.obr-upoutavka .ui.grid > .column:not(.row) {
-  padding-top: 0.2rem;
-  padding-bottom: 0.2rem;
-}
-.obr-upoutavka .ui.grid > .column:not(.row),
-.obr-upoutavka .ui.grid > .row > .column {
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-}
 
 
 /*******************************

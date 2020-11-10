@@ -35,11 +35,6 @@ class WebAppFactory extends AppFactory {
     const INITIAL_APP_LANGCODE = 'cs';
     const REQUESTED_LANGUAGE_ATTRIBUTE_NAME = 'requestedLanguage';
 
-    public function __construct() {
-        parent::__construct((new AppContainerConfigurator())->configure(new Container()));
-//        parent::__construct((new AppContainerConfigurator())->configure(new Container(new AutowiringContainer())));
-    }
-
     /**
      *
      * @return AppInterface
@@ -55,7 +50,7 @@ class WebAppFactory extends AppFactory {
         Message::setAppLocale(self::INITIAL_APP_LANGCODE);
         require_once __DIR__.'/Messages/addTranslations.php';
 
-        if (PES_DEVELOPMENT) {
+        if (true OR PES_DEVELOPMENT) {
             Message::setLogger(FileLogger::getInstance("Logs/App", 'Messages.log', FileLogger::REWRITE_LOG));
 
             $logger = FileLogger::getInstance('Logs/App', 'WebAppFactoryLogger.log', FileLogger::REWRITE_LOG);
