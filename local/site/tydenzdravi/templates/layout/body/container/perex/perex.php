@@ -4,7 +4,7 @@ use Model\Entity\PaperAggregateInterface;
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregateInterface $paperAggregate */
 ?>
-        <div class="obr-upoutavka">
+        <div class="obr-upoutavka"> 
             <div class="ui two column stackable centered grid">
                 <div class="sixteen wide column">
                     <div class="zeleny podklad nadpis vlevo">
@@ -21,7 +21,9 @@ use Model\Entity\PaperAggregateInterface;
                     </div>
                     <div class="zeleny podklad blok text">
                         <p class="podnadpis"><b>TÝDEN ZDRAVÍ</b><br/>Zdravá rodina</p>
-                        <p><b>Zúčastněte se nové osvětové akce na podporu prevence a udržení dobrého zdravotního stavu všech generací!</b></p>
+                        <p>
+                             <?= $this->mono('<b>Zúčastněte se nové osvětové akce na podporu prevence a udržení dobrého zdravotního stavu všech generací!</b>') ?>
+                        </p>
                     </div>
                 </div>
             </div>
