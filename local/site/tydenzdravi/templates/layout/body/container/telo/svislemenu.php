@@ -8,23 +8,23 @@
                 <li class="onpath leaf presented">
                 <i class="">
 
-                </i><a class="item editable" href="www/item/cs/uvod">Úvod</a><i class="no-class-selected-in-classmap">
+                </i><a class="item editable" href="www/item/static/uvod">Úvod</a><i class="no-class-selected-in-classmap">
 
                 </i>
                 </li><li class="">
                 <i class="">
 
-                </i><a class="item editable" href="www/item/cs/prednasky">Přednášky</a><i class="no-class-selected-in-classmap">
+                </i><a class="item editable" href="www/item/static/prednasky">Přednášky</a><i class="no-class-selected-in-classmap">
 
                 </i>
                 </li>
-            </ul>            
+            </ul>
             <?=
                 '';//$menuSvisle
             ?>
         </nav>
         <div id="myOverlay" onclick="hamburger_close()"></div>
         <div class="nav-mobile active" onclick="hamburger_open()"><span><i class="bars big icon"></i><p>Menu</p></span></div>
-        
+
         <!--?php include "telo/bloky.php"; ?>
         <!--?php include "telo/kos.php"; ?-->

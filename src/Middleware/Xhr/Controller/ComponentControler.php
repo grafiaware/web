@@ -102,9 +102,12 @@ class ComponentControler extends XhrControlerAbstract {
     }
 
     public function static(ServerRequestInterface $request, $staticName) {
-
+        $view = new View();
+        $view->setRenderer(new \Pes\View\Renderer\PhpTemplateRenderer());
+        $view->setTemplate(new PhpTemplate(Configuration::layoutControler()['static'].$staticName.".php"));
+        return $this->createResponseFromView($request, $view);
     }
-    
+
     ######################
 
     private function getNamedComponent($name) {

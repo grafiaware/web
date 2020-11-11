@@ -75,6 +75,10 @@ class PageController extends LayoutControllerAbstract {
             return $this->redirectSeeOther($request, ""); // SeeOther - ->home
         }
     }
+    public function static(ServerRequestInterface $request, $name) {
+            $actionComponents = ["content" => $this->getStaticLoadScript($name)];
+            return $this->createResponseFromView($request, $this->createView($request, $this->getComponentViews($actionComponents)));
+    }
 
     public function last(ServerRequestInterface $request) {
         $actionComponents = ["content" => $this->getPresentedComponent()];
@@ -319,6 +323,14 @@ class PageController extends LayoutControllerAbstract {
                         ]);
     }
 
+    private function getStaticLoadScript($name) {
+        return $this->container->get(View::class)
+                    ->setTemplate(new PhpTemplate(Configuration::pageControler()['templates.loaderElement']))
+                    ->setData([
+                        'name' => $name,
+                        'apiUri' => "component/v1/static/$name"
+                        ]);
+    }
     #### komponenty, modal ######
 
     protected function getPoznamky() {

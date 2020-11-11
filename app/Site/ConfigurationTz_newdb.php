@@ -793,6 +793,8 @@ class ConfigurationTz_newdb {
             'linksCommon' => self::RED_LINKS_COMMON,
             'linksSite' => self::RED_LINKS_SITE,
 
+            'static' => self::RED_TEMPLATES_SITE.'layout/body/container/',
+
             // local templates paths
             'layout' => self::RED_TEMPLATES_SITE.'layout/layout.php',
             'tiny_config' => self::RED_TEMPLATES_SITE.'js/tiny_config.js',
