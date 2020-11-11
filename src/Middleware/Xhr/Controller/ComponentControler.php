@@ -87,7 +87,7 @@ class ComponentControler extends XhrControlerAbstract {
     }
 
     public function presentedItem(ServerRequestInterface $request) {
-        // dočasně duplicitní s PageController 
+        // dočasně duplicitní s PageController
         $view = $this->getPresentedComponent();
         return $this->createResponseFromView($request, $view);
     }
@@ -101,6 +101,10 @@ class ComponentControler extends XhrControlerAbstract {
         return $this->createResponseFromView($request, $view);
     }
 
+    public function static(ServerRequestInterface $request, $staticName) {
+
+    }
+    
     ######################
 
     private function getNamedComponent($name) {

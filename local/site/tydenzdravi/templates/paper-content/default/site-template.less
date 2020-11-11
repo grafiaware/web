@@ -1,24 +1,24 @@
-@marginDefault: 50px;
-main > div{
+@marginDefault: 70px;
+main > div, main > perex, main > content{
     margin: @marginDefault 0;
 }
-.zeleny{
+.sekundarni-barva{
     &.podklad{
         color: @invertedTextColor;
         background-color: @secondaryColor;
         padding: 30px;
     }
-    &:not(.podklad){
+    &:not(.podklad).text, &:not(.podklad).nadpis{
         color: @secondaryColor;
     }
 }
-.cerveny{
+.primarni-barva{
     &.podklad{
         color: @invertedTextColor;
         background-color: @primaryColor;
         padding: 30px;
     }
-    &:not(.podklad){
+    &:not(.podklad).text, &:not(.podklad).nadpis{
         color: @primaryColor;
     }
 }
@@ -30,7 +30,7 @@ main > div{
         position: absolute;
         position: absolute;
         transform: translateX(-20%) translateY(-45px);
-        &.cerveny{
+        &.primarni-barva{
             text-align: right;
         }
     }
@@ -48,26 +48,26 @@ main > div{
 }
 .text{
     font-size: @fontSize;
+    padding: 30px 40px;  
     &.velky{
         font-size: @bigFontSize;
-        padding: 30px 40px;  
-        &.vpravo{
-            text-align: right;
-            width: 90%;
-            float: right;
-            position: relative;
-        }
-        &.vlevo{
-            text-align: left;
-            width: 90%;
-            left: 0;
-            position: relative;
-        }
+    }
+    &.vpravo{
+        text-align: right;
+        width: 90%;
+        float: right;
+        position: relative;
+    }
+    &.vlevo{
+        text-align: left;
+        width: 90%;
+        left: 0;
+        position: relative;
     }
 }
 .obr-upoutavka{
     margin-top: @marginDefault + 40px;
-    .nadpis.cerveny.vpravo{
+    .nadpis.primarni-barva.vpravo{
         width: 140%;
         transform: translateX(-28.45%) translateY(-50px);
         text-align: right;
@@ -82,30 +82,54 @@ main > div{
     
 }
 .blok-nadpis-obr-text{
-    .velky text{
-        text-align: right;
+    &.program{
+        .text{
+            padding-top: 10px; 
+        }
     }
 }
-.zeleny-blok-obr-text{
+.blok-nadpis-loga{
+    .text{
+        margin-top: @marginDefault + 20px;
+    }
+    .stretched.row{
+        padding-left: 40px;
+        padding-right: 40px;
+        .column:first-child img{
+            max-width: 100%;
+        }
+        .column:nth-child(2) img{
+            height: 200px;
+        } 
+        .column:last-child img{
+            height: 150px;
+        }
+    }
+}
+.blokEL-obr-text{
     position: relative;
-    margin-bottom: @marginDefault + 110px;
+    margin-bottom: @marginDefault * 3.3;
+    &.sekundarni-barva::before,&.sekundarni-barva::after{
+        background-color: @secondaryColor;
+    } 
+    &.primarni-barva::before,&.primarni-barva::after{
+        background-color: @primaryColor;
+    } 
     &::before{
         content: '';
-        width: 95px;
-        background-color: @secondaryColor;
+        width: 97px;
         height: 100%;
         position: absolute;
         top: 40px;
-        left: -95px;
+        left: -97px;
     }
     &::after{
         content: '';
         width: 60%;
-        background-color: @secondaryColor;
-        height: 95px;
+        height: 97px;
         position: absolute;
-        bottom: -95px;
-        left: -95px;
+        bottom: -97px;
+        left: -97px;
     }
 }
 

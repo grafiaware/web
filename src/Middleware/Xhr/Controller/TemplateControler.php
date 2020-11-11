@@ -80,4 +80,5 @@ class TemplateControler extends XhrControlerAbstract {
         }
         return $str;
     }
+
 }

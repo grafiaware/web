@@ -20,7 +20,8 @@ footer a{
         color: @invertedTextColor !important;
     }
 }
- main a:not(.item), footer a:not(.item){
+main a:not(.item):not(.button):not(.link-img):not(.image), 
+footer a:not(.item):not(.button):not(.link-img):not(.image){
     overflow: hidden;
     position: relative;
     display: inline-block;

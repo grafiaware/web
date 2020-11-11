@@ -1,7 +1,7 @@
 <div class="obr-upoutavka">
     <div class="ui two column stackable centered grid">
         <div class="sixteen wide column">
-            <div class="zeleny podklad nadpis vlevo">
+            <div class="sekundarni-barva podklad nadpis vlevo">
                 <p>Věnujte týden svému zdraví!</p>
             </div>
             <img src="/_www_tz_files/files/pexels-photo-863977-web-orez.jpg" width="100%" height="" />
@@ -10,10 +10,10 @@
             <img src="/_www_tz_files/files/pexels-cemal-taskiran-web-orez.jpg" width="100%" height="" />
         </div>
         <div class="six wide column">
-            <div class="cerveny podklad nadpis vpravo">
+            <div class="primarni-barva podklad nadpis vpravo">
                 <p>21.—29. 11. 2020</p>  
             </div>
-            <div class="zeleny podklad blok text">
+            <div class="sekundarni-barva podklad blok text">
                 <p class="podnadpis"><b>TÝDEN ZDRAVÍ</b><br/>Zdravá rodina</p>
                 <p><b>Zúčastněte se nové osvětové akce na podporu prevence a udržení dobrého zdravotního stavu všech generací!</b></p>
             </div>
@@ -23,7 +23,7 @@
 <div class="blok-nadpis-obr-text">
     <div class="ui stackable centered grid">
         <div class="sixteen wide column">
-            <div class="cerveny podklad nadpis vlevo">
+            <div class="primarni-barva podklad nadpis vlevo">
                 <p>O akci </p> 
             </div>
             <img src="/_www_tz_files/files/pexels-photo-web-orez.jpg" width="100%" height="" />
@@ -34,7 +34,7 @@
     </div>
     
 </div>
-<div class="zeleny-blok-obr-text">
+<div class="sekundarni-barva blokEL-obr-text">
     <div class="ui stackable centered grid">
         <div class="sixteen wide column">
             <img src="/_www_tz_files/files/pexels-andrea-piacquadio-web-orez.jpg" width="100%" height="" />
@@ -50,7 +50,7 @@
             <img src="/_www_tz_files/files/LogoGrafia.jpg" width="300" height="" />
         </div>
         <div class="ten wide column">
-            <div class="cerveny podklad nadpis vpravo">
+            <div class="primarni-barva podklad nadpis vpravo">
                 <p>Organizátor</p>
             </div>
             <div class="velky text">
