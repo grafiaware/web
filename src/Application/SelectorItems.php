@@ -9,7 +9,7 @@
 namespace Application;
 
 use Pes\Application\AppInterface;
-use Pes\Middleware\Selector;
+use Pes\Middleware\SelectorInterface;
 
 use Middleware\Logged\Service\LoggedAccessor;
 
@@ -18,7 +18,7 @@ use Middleware\Logged\Service\LoggedAccessor;
  *
  * @author pes2704
  */
-class SelectorFactory {
+class SelectorItems {
 
     /**
      *
@@ -35,7 +35,7 @@ class SelectorFactory {
      */
     public function __construct(AppInterface $app=NULL) {
         $this->app = $app;
-        $default = function(AppInterface $app) {
+        $default = function() {
                 return [
                     new \Middleware\Status\SecurityStatus(),
                     new \Middleware\Login\Login(),
@@ -50,7 +50,7 @@ class SelectorFactory {
         $this->items = [
             '/www/' => $default,
             '/api/'=>
-            function(AppInterface $app) {
+            function() {
                 return [
                     new \Middleware\Status\SecurityStatus(),
                     new \Middleware\Status\FlashStatus(),
@@ -58,53 +58,53 @@ class SelectorFactory {
                     new \Middleware\Api\Api()
                 ];},
             '/auth/'=>
-            function(AppInterface $app) {
+            function() {
                 return [
                     new \Middleware\Status\SecurityStatus(),
                     new \Middleware\Login\Login()
                 ];},
             '/component/'=>
-            function(AppInterface $app) {
+            function() {
                 return [
                     new \Middleware\Status\SecurityStatus(),
                     new \Middleware\Xhr\Transformator(),
                     new \Middleware\Xhr\Component()
                 ];},
             '/rs'=>
-            function(AppInterface $app) {
+            function() {
                 return [
                     new \Middleware\Status\SecurityStatus(),
-                    new \Middleware\Logged\LoggedAccess(new LoggedAccessor($app)),
+                    new \Middleware\Logged\LoggedAccess(new LoggedAccessor($this->app)),
                     new \Middleware\Rs\Transformator(),
                     new \Middleware\Rs\Rs()
                 ];},
             '/edun'=>
-            function(AppInterface $app) {
+            function() {
                 return [
                     new \Middleware\Status\SecurityStatus(),
-                    new \Middleware\Logged\LoggedAccess(new LoggedAccessor($app)),
+                    new \Middleware\Logged\LoggedAccess(new LoggedAccessor($this->app)),
                     new \Middleware\Edun\Transformator(),
                     new \Middleware\Edun\Edun()
                 ];},
             '/staffer'=>
-            function(AppInterface $app) {
+            function() {
                 return [
                     new \Middleware\Status\SecurityStatus(),
-                    new \Middleware\Logged\LoggedAccess(new LoggedAccessor($app)),
+                    new \Middleware\Logged\LoggedAccess(new LoggedAccessor($this->app)),
                     new \Middleware\Staffer\Transformator(),
                     new \Middleware\Staffer\Staffer()
                 ];},
 //            '/menu/'=>
-//            function(AppInterface $app) {
+//            function() {
 //                return [
-//                    new \Middleware\Logged\LoggedAccess(new LoggedAccessor($app)),
+//                    new \Middleware\Logged\LoggedAccess(new LoggedAccessor($this->app)),
 //                    (new \Middleware\Menu\Menu())
 //                ];},
             '/build/'=>
-            function(AppInterface $app) {
+            function() {
                 return [
 //                    new \Middleware\Status\SecurityStatus(),
-//                    new \Middleware\Logged\LoggedAccess(new LoggedAccessor($app)),
+//                    new \Middleware\Logged\LoggedAccess(new LoggedAccessor($this->app)),
                     new \Middleware\Build\Build()
                 ];},
 
@@ -123,14 +123,10 @@ class SelectorFactory {
      *
      * @return Selector
      */
-    public function create() {
+    public function addItems(SelectorInterface $selector) {
 
         ## selector middleware
-        $selector = new Selector();
-
-        foreach ($this->items as $prefix=>$stack) {
-                $selector->addItem($prefix, $stack);
-        }
+        $selector->addItemsArray($this->items);
         return $selector;
     }
 }

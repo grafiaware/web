@@ -20,7 +20,7 @@ use Pes\Session\SaveHandler\PhpLoggingSaveHandler;
 use Application\WebAppFactory;
 
 // selector
-use Application\SelectorFactory;
+use Application\SelectorItems;
 use Pes\Middleware\Selector;
 
 // security context - použit v security status
@@ -148,12 +148,16 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             Selector::class => function(ContainerInterface $c) {
                 // middleware selector
-                return (new SelectorFactory())->create();
+                $selector = new Selector();
+                if (PES_DEVELOPMENT) {
+                    $selector->setLogger(FileLogger::getInstance($c->get('app.logs.directory'), $c->get('app.logs.selector.file'), FileLogger::APPEND_TO_LOG));
+                }
+                return $selector;
             },
             Router::class => function(ContainerInterface $c) {
                 $router = new Router();
                 if (PES_DEVELOPMENT) {
-                    $router->setLogger(FileLogger::getInstance($c->get('app.logs.directory'), $c->get('app.logs.router.file'), FileLogger::REWRITE_LOG));
+                    $router->setLogger(FileLogger::getInstance($c->get('app.logs.directory'), $c->get('app.logs.router.file'), FileLogger::APPEND_TO_LOG));
                 }
                 return $router;
             },

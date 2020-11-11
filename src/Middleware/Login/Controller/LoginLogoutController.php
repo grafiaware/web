@@ -24,6 +24,7 @@ use Model\Entity\StatusSecurityInterface;
 use Model\Repository\UserRepo;
 
 use Pes\Application\AppFactory;
+use Pes\Application\UriInfoInterface;
 use Pes\Http\Response;
 use Pes\Http\Response\RedirectResponse;
 
@@ -70,8 +71,9 @@ class LoginLogoutController extends StatusFrontControllerAbstract {
                 }
             }
         }
+        /** @var UriInfoInterface $uriInfo */
         $uriInfo = $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME);
-        return RedirectResponse::withPostRedirectGet(new Response(), $uriInfo->getSubdomainPath().'www/last'); // 303 See Other
+        return RedirectResponse::withPostRedirectGet(new Response(), $uriInfo->getRootRelativePath().'www/last'); // 303 See Other
     }
 
     public function logout(ServerRequestInterface $request) {
@@ -79,8 +81,9 @@ class LoginLogoutController extends StatusFrontControllerAbstract {
         if ($logout) {
             $this->removeLoggedUser();  // bez parametru User
         }
+        /** @var UriInfoInterface $uriInfo */
         $uriInfo = $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME);
-        return RedirectResponse::withPostRedirectGet(new Response(), $uriInfo->getSubdomainPath().'www/last'); // 303 See Other
+        return RedirectResponse::withPostRedirectGet(new Response(), $uriInfo->getRootRelativePath().'www/last'); // 303 See Other
     }
 
     /**

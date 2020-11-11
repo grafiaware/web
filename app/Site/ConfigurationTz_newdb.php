@@ -25,12 +25,20 @@ use Component\Renderer\Html\ClassMap\ClassMap;
  * @author pes2704
  */
 class ConfigurationTz_newdb {
+
+    const RED_SITE_PATH = 'tydenzdravi/';
+    const RED_TEMPLATES_COMMON = 'local/site/common/templates/';
+    const RED_TEMPLATES_SITE = 'local/site/'.self::RED_SITE_PATH.'templates/';
+        // public
+    const RED_ASSETS = 'public/assets/';
+    const RED_LINKS_COMMON = 'public/site/common/';
+    const RED_LINKS_SITE = 'public/site/'.self::RED_SITE_PATH;
+
     ### bootstrap ###
     #
     public static function bootstrap() {
         return [
             'bootstrap_logs_base_path' => "/_www_tz_logs/",
-
         ];
     }
 
@@ -77,7 +85,7 @@ class ConfigurationTz_newdb {
             #################################
 
             #################################
-            # Konfigurace session
+            # Konfigurace session loggeru
             #
             WebAppFactory::SESSION_NAME_SERVICE => 'www_tz_session',
             'app.logs.session.file' => 'Session.log',
@@ -85,9 +93,16 @@ class ConfigurationTz_newdb {
             ##################################
 
             ##################################
-            # Konfigurace session
+            # Konfigurace router loggeru
             #
             'app.logs.router.file' => 'Router.log',
+            #
+            ##################################
+
+            ##################################
+            # Konfigurace selector loggeru
+            #
+            'app.logs.selector.file' => 'Selector.log',
             #
             ##################################
         ];
@@ -753,7 +768,7 @@ class ConfigurationTz_newdb {
      */
     public static function layoutControler() {
         // site definition
-        $sitePath = 'tydenzdravi/';
+        $sitePath = 'sitePath';
         // local
         $templatesCommon = 'local/site/common/templates/';
         $templatesSite = 'local/site/'.$sitePath.'templates/';
@@ -775,34 +790,34 @@ class ConfigurationTz_newdb {
             'title' => "Týden zdraví",
 
             // folders
-            'linksCommon' => $linksCommon,
-            'linksSite' => $linksSite,
+            'linksCommon' => self::RED_LINKS_COMMON,
+            'linksSite' => self::RED_LINKS_SITE,
 
             // local templates paths
-            'layout' => $templatesSite.'layout/layout.php',
-            'tiny_config' => $templatesSite.'js/tiny_config.js',
-            'linksEditorJs' => $templatesCommon.'layout/links/linkEditorJs.php',
-            'linkEditorCss' => $templatesCommon.'layout/links/linkEditorCss.php',
+            'layout' => self::RED_TEMPLATES_SITE.'layout/layout.php',
+            'tiny_config' => self::RED_TEMPLATES_SITE.'js/tiny_config.js',
+            'linksEditorJs' => self::RED_TEMPLATES_COMMON.'layout/links/linkEditorJs.php',
+            'linkEditorCss' => self::RED_TEMPLATES_COMMON.'layout/links/linkEditorCss.php',
 
             // linksEditorJs links
-           'urlTinyMCE' => $assets.'tinymce5_3_1\js\tinymce\tinymce.min.js',
-            'urlJqueryTinyMCE' => $assets.'tinymce5_3_1\js\tinymce\jquery.tinymce.min.js',
-//            'urlTinyMCE' => $assets.'tinymce5_4_0\js\tinymce\tinymce.min.js',
-//            'urlJqueryTinyMCE' => $assets.'tinymce5_4_0\js\tinymce\jquery.tinymce.min.js',
+           'urlTinyMCE' => self::RED_ASSETS.'tinymce5_3_1\js\tinymce\tinymce.min.js',
+            'urlJqueryTinyMCE' => self::RED_ASSETS.'tinymce5_3_1\js\tinymce\jquery.tinymce.min.js',
+//            'urlTinyMCE' => self::RED_ASSETS.'tinymce5_4_0\js\tinymce\tinymce.min.js',
+//            'urlJqueryTinyMCE' => self::RED_ASSETS.'tinymce5_4_0\js\tinymce\jquery.tinymce.min.js',
 //    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 //    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 //    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/jquery.tinymce.min.js" referrerpolicy="origin"></script>
-            'urlTinyInit' => $linksCommon.'js/TinyInit.js',
-            'editScript' => $linksCommon . 'js/edit.js',
-            'kalendarScript' => $linksCommon . 'js/kalendar.js',
+            'urlTinyInit' => self::RED_LINKS_COMMON.'js/TinyInit.js',
+            'editScript' => self::RED_LINKS_COMMON . 'js/edit.js',
+            'kalendarScript' => self::RED_LINKS_COMMON . 'js/kalendar.js',
 
             // linkEditorCss links
-            'urlStylesCss' => $linksCommon."css/old/styles.css",
-            'urlSemanticCss' => $linksSite."semantic-ui/semantic.min.css",
-            'urlContentTemplatesCss' => $linksCommon."css/templates.css",   // KŠ ?????
+            'urlStylesCss' => self::RED_LINKS_COMMON."css/old/styles.css",
+            'urlSemanticCss' => self::RED_LINKS_SITE."semantic-ui/semantic.min.css",
+            'urlContentTemplatesCss' => self::RED_LINKS_COMMON."css/templates.css",   // KŠ ?????
             //
-            'paperTemplatesUri' =>  $linksSite."templates/paper/",  // URI pro Template controler
-            'authorTemplatesPath' => $linksCommon."templates/author/",
+            'paperTemplatesUri' =>  self::RED_LINKS_SITE."templates/paper/",  // URI pro Template controler
+            'authorTemplatesPath' => self::RED_LINKS_COMMON."templates/author/",
 
         ];
     }
@@ -813,10 +828,10 @@ class ConfigurationTz_newdb {
      */
     public static function pageControler() {
         // local
-        $templatesCommon = 'local/site/common/templates/';
+
         return [
-               'templates.poznamky' => $templatesCommon.'layout/info/poznamky.php',
-               'templates.loaderElement' => $templatesCommon.'layout/component-load/loaderElement.php',
+               'templates.poznamky' => self::RED_TEMPLATES_COMMON.'layout/info/poznamky.php',
+               'templates.loaderElement' => self::RED_TEMPLATES_COMMON.'layout/component-load/loaderElement.php',
             ];
     }
 
@@ -825,10 +840,8 @@ class ConfigurationTz_newdb {
      * @return array
      */
     public static function languageSelectRenderer() {
-        // public
-        $assets = 'public/assets/';
         return [
-            'assets' => $assets.'flags-mini/'
+            'assets' => self::RED_ASSETS.'flags-mini/'
         ];
     }
 
@@ -840,7 +853,7 @@ class ConfigurationTz_newdb {
         return [
             // relativní cesta vzhledem k DOCUMENT_ROOT (htdocs) -začíná /
             'filesDirectory' => PES_RUNNING_ON_PRODUCTION_HOST ? '_www_tz_files/' : '/_www_tz_files/',
-
+            'public' => self::RED_LINKS_COMMON,
         ];
     }
 }

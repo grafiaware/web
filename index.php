@@ -18,6 +18,7 @@ use Pes\Container\Container;
 use Pes\Container\AutowiringContainer;
 
 use Pes\Middleware\Selector;
+use Application\SelectorItems;
 
 use Pes\Http\Factory\EnvironmentFactory;
 use Pes\Middleware\UnprocessedRequestHandler;  //NoMatchSelectorItemRequestHandler;
@@ -26,11 +27,12 @@ use Pes\Http\ResponseSender;
 //echo "<pre>".print_r($bootstrapLoggerArray, true)."</pre>";
 
 $environment = (new EnvironmentFactory())->createFromGlobals();
-$appContainer =(new AppContainerConfigurator())->configure(new Container());
-//(new AppContainerConfigurator())->configure(new Container(new AutowiringContainer()));
-$app = (new WebAppFactory())->createFromEnvironment($environment)->setAppContainer($appContainer);
+$app = (new WebAppFactory())->createFromEnvironment($environment);
+$appContainer =(new AppContainerConfigurator())->configure(new Container());  //(new AppContainerConfigurator())->configure(new Container(new AutowiringContainer()));
+$app->setAppContainer($appContainer);
+
 $selector = $appContainer->get(Selector::class);
-$selector->setApp($app);    // pro předávání $app closurám selector itemů - změnit
+(new SelectorItems($app))->addItems($selector);
 
 // registrace api do ResourceRegistry, ResourceRegistry se zaregistrovaným api je dostupný v kontejneru aplikace
 $app->getAppContainer()->get(ApiRegistrator::class)->registerApi($app->getAppContainer()->get(ResourceRegistry::class));

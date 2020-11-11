@@ -106,8 +106,8 @@ class ConfigurationGr2_grafiacz_20200916 {
             #
             # user s právy drop a create database + crud práva + grant option k nové (upgrade) databázi
             # a také select k staré databázi - reálně nejlépe role DBA
-            'build.db.user.name' => PES_DEVELOPMENT ? 'gr2_upgrader' : (PES_PRODUCTION ? 'UPGRADE_BUILD_PRODUCTION_USER' : 'xxxxxxxxxxxxxxxxx'),
-            'build.db.user.password' => PES_DEVELOPMENT ? 'gr2_upgrader' : (PES_PRODUCTION ? 'UPGRADE_BUILD_PRODUCTION_HOST' : 'xxxxxxxxxxxxxxxxx'),
+            'build.db.user.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'gr2_upgrader' : 'UPGRADE_BUILD_PRODUCTION_USER',
+            'build.db.user.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'gr2_upgrader' : 'UPGRADE_BUILD_PRODUCTION_HOST',
             #
             ###################################
 
@@ -209,8 +209,8 @@ class ConfigurationGr2_grafiacz_20200916 {
             'dbold.db.charset' => 'utf8',
             'dbold.db.collation' => 'utf8_general_ci',
 
-            'dbold.db.connection.host' => PES_DEVELOPMENT ? 'localhost' : (PES_PRODUCTION ? 'OLD_PRODUCTION_NAME' : 'xxxxxxxxxxxxxxxxx'),
-            'dbold.db.connection.name' => PES_DEVELOPMENT ? 'grafiacz_20200916' : (PES_PRODUCTION ? 'OLD_PRODUCTION_HOST' : 'xxxxxxxxxxxxxxxxx'),
+            'dbold.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? 'localhost' : 'OLD_PRODUCTION_NAME',
+            'dbold.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'wwwgrafia' : 'OLD_PRODUCTION_HOST',
 
             'dbold.logs.directory' => 'Logs/DbOld',
             'dbold.logs.db.file' => 'Database.log',
@@ -236,8 +236,8 @@ class ConfigurationGr2_grafiacz_20200916 {
             'dbUpgrade.db.port' => '3306',
             'dbUpgrade.db.charset' => 'utf8',
             'dbUpgrade.db.collation' => 'utf8_general_ci',
-            'dbUpgrade.db.connection.host' => PES_DEVELOPMENT ? 'localhost' : (PES_PRODUCTION ? 'UPGRADE_PRODUCTION_HOST' : 'xxxx'),
-            'dbUpgrade.db.connection.name' => PES_DEVELOPMENT ? 'gr2_upgrade' : (PES_PRODUCTION ? 'UPGRADE_PRODUCTION_NAME' : 'xxxx'),
+            'dbUpgrade.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? 'localhost' : 'UPGRADE_PRODUCTION_HOST',
+            'dbUpgrade.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'gr2_upgrade' : 'UPGRADE_PRODUCTION_NAME',
             #
             #  Konec sekce konfigurace databáze
             ###################################
@@ -261,8 +261,8 @@ class ConfigurationGr2_grafiacz_20200916 {
             # Konfigurace databáze
             # Ostatní parametry konfigurace databáze v kontejneru dbUpgrade
             #
-            'dbUpgrade.db.user.name' => PES_DEVELOPMENT ? 'gr2_upgrader' : (PES_PRODUCTION ? 'UPGRADE_PRODUCTION_USER_NAME' : 'xxxx'),
-            'dbUpgrade.db.user.password' => PES_DEVELOPMENT ? 'gr2_upgrader' : (PES_PRODUCTION ? 'UPGRADE_PRODUCTION_USER_PASSWORD' : 'xxxx'),
+            'dbUpgrade.db.user.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'gr2_upgrader' : 'UPGRADE_PRODUCTION_USER_NAME',
+            'dbUpgrade.db.user.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'gr2_upgrader' : 'UPGRADE_PRODUCTION_USER_PASSWORD',
             #
             ###################################
             # Konfigurace hierarchy tabulek
@@ -846,7 +846,7 @@ class ConfigurationGr2_grafiacz_20200916 {
      */
     public static function transformator() {
         return [
-            'filesDirectory' => '/_www_gr2_files/',  // relativní cesta vzhledem k DOCUMENT_ROOT (htdocs)
+            'filesDirectory' => PES_RUNNING_ON_PRODUCTION_HOST ? '_www_gr2_files/' :  '/_www_gr2_files/',  // relativní cesta vzhledem k DOCUMENT_ROOT (htdocs) -začíná /
         ];
     }
 }

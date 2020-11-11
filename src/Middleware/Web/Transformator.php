@@ -67,7 +67,7 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
             'src="files/'               => 'src="'.$filesDirectory.'files/',   // změněna cesta ke složce files
             'src="../files/'            => 'src="'.$filesDirectory.'files/',   // změněna cesta ke složce files - pro chybně zadané obrázky (s tečkami)
             'href="files/'              => 'href="'.$filesDirectory.'files/',
-            'src="public/web/'=>'src="'.AppContext::getAppPublicDirectory(),
+            'src="public/web/'=>'src="'.Configuration::transformator()['public'],
         );
         $first = str_replace(array_keys($transform), array_values($transform), $text);
         $transformUrls = $this->transformUrls($first);

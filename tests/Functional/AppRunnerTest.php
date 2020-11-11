@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Pes\Http\Factory\EnvironmentFactory;
 
 use Application\WebAppFactory;
-use Application\SelectorFactory;
+use Application\SelectorItems;
 
 use Pes\Middleware\NoMatchSelectorItemRequestHandler;
 use Pes\Http\ResponseSender;
@@ -103,7 +103,7 @@ class AppRunner extends TestCase {
 
                 );
         $app = (new WebAppFactory())->createFromEnvironment($environment);
-        $selector = (new SelectorFactory($app))->create();
+        $selector = (new SelectorItems($app))->create();
 
         $response = $app->run($selector, new NoMatchSelectorItemRequestHandler());
         $this->assertInstanceOf(\Pes\Http\Response::class, $response);
