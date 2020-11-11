@@ -14,7 +14,7 @@
             <main class="page-content">
                 <?= $flash ?? '' ?>
                 <?= $poznamky ?? '' ?>
-                <?php include "container/uvod.php"; ?>
+                <?php include "container/prednasky.php"; ?>
             </main>
         </div>
     </div>
