@@ -6,5 +6,5 @@ use Model\Entity\PaperAggregateInterface;
 ?>
 
 <p class="velky text">
-    <?= $this->mono('V průběhu 1 týdne budou probíhat přednášky a rozhovory s odborníky z různých oborů. Termíny zveřejníme nejpozději týden před konáním akce. Už teď si ale rezervujte dobu mezi 17 - 20. hodinou!')?>
+    <?= $this->mono('V průběhu 1 týdne budou probíhat přednášky a rozhovory s odborníky z různých oborů. Termíny zveřejníme nejpozději týden před konáním akce. Už teď si ale rezervujte dobu mezi 17 - 20. hodinou! <br/> Všechny přednášky jsou <b>on-line</b> a pro účastníky <b>zdarma</b>. Zájemcům bude zaslán link na konkrétní přednášku')?>
 </p>
