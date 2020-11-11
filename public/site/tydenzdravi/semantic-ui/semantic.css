@@ -683,23 +683,23 @@ footer a:hover {
   color: #fff !important;
 }
 
-main a:not(.item),
-footer a:not(.item) {
+main a:not(.item):not(.button):not(.link-img):not(.image),
+footer a:not(.item):not(.button):not(.link-img):not(.image) {
   overflow: hidden;
   position: relative;
   display: inline-block;
   vertical-align: top;
 }
 
-main a:not(.item):hover::after,
-footer a:not(.item):hover::after {
+main a:not(.item):not(.button):not(.link-img):not(.image):hover::after,
+footer a:not(.item):not(.button):not(.link-img):not(.image):hover::after {
   -webkit-transform: scaleX(1);
   transform: scaleX(1);
   background-color: #2aa411;
 }
 
-main a:not(.item)::after,
-footer a:not(.item)::after {
+main a:not(.item):not(.button):not(.link-img):not(.image)::after,
+footer a:not(.item):not(.button):not(.link-img):not(.image)::after {
   background: none;
   position: absolute;
   top: auto;

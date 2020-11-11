@@ -14,10 +14,10 @@
             <main class="page-content">
                 <?= $flash ?? '' ?>
                 <?= $poznamky ?? '' ?>
-                <?php include "container/telo_tiny.php"; ?>
+                <?php include "container/uvod.php"; ?>
             </main>
         </div>
     </div>
-    <footer>
+    <footer id="kontakt">
         <?php include "container/paticka.php"; ?>
     </footer>

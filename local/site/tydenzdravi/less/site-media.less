@@ -46,7 +46,7 @@
                 top: 61px;
             }
         }
-        .nadpis.cerveny.vpravo{
+        .nadpis.primarni-barva.vpravo{
             width: 150%;
             transform: translateX(-33.4%) translateY(-60px);
         }
@@ -65,6 +65,24 @@
     font-size: @fontSize;
         &.velky{
             font-size: 30px;
+        }
+    }
+    .blok-nadpis-loga{
+        .text{
+            margin-top: 70px;
+        }
+    }
+    .blok-nadpis-loga{
+        .stretched.row{
+            .column:first-child img{
+                max-width: 100%;
+            }
+            .column:nth-child(2) img{
+                height: 150px;
+            }
+            .column:last-child img{
+                height: 110px;
+            }
         }
     }
     
@@ -107,6 +125,19 @@
     .layoutTZ footer{
         width: 90.8%;
     }
+    .blok-nadpis-loga{
+        .stretched.row{
+            .column:first-child img{
+                max-width: 110%;
+            }
+            .column:nth-child(2) img{
+                height: 130px;
+            }
+            .column:last-child img{
+                height: 95px;
+            }
+        }
+    }
 }
 @media screen and (max-width: 1000px) and (min-width: 769px){ 
     .layoutTZ .fix-bar{
@@ -135,10 +166,10 @@
         }
     }
     .podklad{
-        &.zeleny{
+        &.sekundarni-barva{
             padding: 23px 15px;
         }
-        &.cerveny{
+        &.primarni-barva{
             padding: 23px 15px;
         }
     }
@@ -147,12 +178,12 @@
     }
     .text{
         font-size: 20px;
+        padding: 26px 17px;  
         &.velky{
             font-size: 23px;
-            padding: 26px 17px;  
-            &.vpravo, &.vlevo{
-                width: 100%
-            }
+        }
+        &.vpravo, &.vlevo{
+            width: 100%
         }
     }
     body{
@@ -175,7 +206,7 @@
                 height: 215px;
             }
         }
-        .nadpis.cerveny.vpravo{
+        .nadpis.primarni-barva.vpravo{
             width: 40%;
             display: inline-flex;
             height: 100%;
@@ -200,7 +231,7 @@
         height: auto;
         max-width: 60%;
     }
-    .zeleny-blok-obr-text{
+    .blokEL-obr-text{
         margin-bottom: 100px;
         &::before{
             width: 10px;
@@ -229,6 +260,22 @@
     .layoutTZ footer{
         height: auto;
         padding-bottom: 30px;
+    }
+    .blok-nadpis-loga{
+        .text{
+            margin-top: 0;
+        }
+        .stretched.row{
+            .column:first-child img{
+                max-width: 350px;
+            }
+            .column:nth-child(2) img{
+                height: 150px;
+            }
+            .column:last-child img{
+                height: 100px;
+            }
+        }
     }
 }
 @media screen and (max-width: 768px){
@@ -261,10 +308,10 @@
         }
     }
     .podklad{
-        &.zeleny{
+        &.sekundarni-barva{
             padding: 23px 15px;
         }
-        &.cerveny{
+        &.primarni-barva{
             padding: 23px 15px;
         }
     }
@@ -273,12 +320,12 @@
     }
     .text{
         font-size: 20px;
+        padding: 26px 17px;  
         &.velky{
             font-size: 20px; 
-            padding: 26px 17px;  
-            &.vpravo, &.vlevo{
-                width: 100%
-            }
+        }
+        &.vpravo, &.vlevo{
+            width: 100%
         }
     }
     body{
@@ -294,7 +341,7 @@
                 top:-25px;
             }
         }
-        .nadpis.cerveny.vpravo{
+        .nadpis.primarni-barva.vpravo{
             width: 100%;
             transform: translateX(0) translateY(-50px);
         }
@@ -314,7 +361,7 @@
         height: auto;
         width: 80%;
     }
-    .zeleny-blok-obr-text{
+    .blokEL-obr-text{
         margin-bottom: 100px;
         &::before{
             width: 10px;
@@ -355,12 +402,28 @@
             padding-bottom: 30px;
         }
     } 
-    .zeleny-blok-obr-text{
+    .blokEL-obr-text{
         &::after{
             width: 75%;
             height: 50px;
             bottom: -50px;
             left: -10px;
+        }
+    }
+    .blok-nadpis-loga{
+        .text{
+            margin-top: 0;
+        }
+        .stretched.row{
+            .column:first-child img{
+                max-width: 220px;
+            }
+            .column:nth-child(2) img{
+                height: 100px;
+            }
+            .column:last-child img{
+                height: 60px;
+            }
         }
     }
     
