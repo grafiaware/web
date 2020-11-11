@@ -4,16 +4,16 @@ use Model\Entity\PaperAggregateInterface;
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregateInterface $paperAggregate */
 ?>
-        <div class="obr-upoutavka"> 
+        <div class="obr-upoutavka">
             <div class="ui two column stackable centered grid">
                 <div class="sixteen wide column">
                     <div class="sekundarni-barva podklad nadpis vlevo">
                         <p>Věnujte týden svému zdraví!</p>
                     </div>
-                    <img src="/_www_tz_files/files/pexels-photo-863977-web-orez.jpg" width="100%" alt="Obrázek"/>
+                    <img src="files/pexels-photo-863977-web-orez.jpg" width="100%" alt="Obrázek"/>
                 </div>
                 <div class="ten wide column">
-                    <img src="/_www_tz_files/files/pexels-cemal-taskiran-web-orez.jpg" width="100%" alt="Obrázek"/>
+                    <img src="files/pexels-cemal-taskiran-web-orez.jpg" width="100%" alt="Obrázek"/>
                 </div>
                 <div class="six wide column">
                     <div class="primarni-barva podklad nadpis vpravo">

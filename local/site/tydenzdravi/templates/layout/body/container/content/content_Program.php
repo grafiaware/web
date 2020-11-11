@@ -11,9 +11,9 @@ use Model\Entity\PaperAggregateInterface;
             <div class="primarni-barva podklad nadpis vlevo">
                 <p>Program</p>
             </div>
-            <img src="/_www_tz_files/files/pexels-polina-web.jpg" width="100%" height="" alt="Obrázek"/>
+            <img src="files/pexels-polina-web.jpg" width="100%" height="" alt="Obrázek"/>
         </div>
-        <div class="sixteen wide column"><a href="/component/v1/static/prednasky" class="ui secondary fluid massive button">Zobrazit přednášky</a></div> <!-- eight wide column -->
+        <div class="sixteen wide column"><a href="/www/item/static/prednasky" class="ui secondary fluid massive button">Zobrazit přednášky</a></div> <!-- eight wide column -->
         <!--<div class="eight wide column"><a class="ui secondary fluid massive button">Zobrazit místa</a></div>-->
         <div class="sixteen wide column">
             <div class="velky text vlevo">

@@ -46,6 +46,7 @@ class PageController extends LayoutControllerAbstract {
     ### action metody ###############
 
     public function home(ServerRequestInterface $request) {
+        return $this->static($request, 'uvod');
         $statusPresentation = $this->statusPresentationRepo->get();
         /** @var MenuRootRepo $menuRootRepo */
         $menuRootRepo = $this->container->get(MenuRootRepo::class);

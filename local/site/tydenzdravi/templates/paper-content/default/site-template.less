@@ -1,5 +1,5 @@
 @marginDefault: 70px;
-main > div, main > perex, main > content{
+main perex, main content{
     margin: @marginDefault 0;
 }
 main > headline{
@@ -51,7 +51,7 @@ main > headline{
 }
 .text{
     font-size: @fontSize;
-    padding: 30px 40px;  
+    padding: 30px 40px;
     &.velky{
         font-size: @bigFontSize;
     }
@@ -82,12 +82,12 @@ main > headline{
         text-align: right;
         padding: 35px 40px 20px 10px;
     }
-    
+
 }
 .blok-nadpis-obr-text{
     &.program{
         .text{
-            padding-top: 10px; 
+            padding-top: 10px;
         }
     }
 }
@@ -103,7 +103,7 @@ main > headline{
         }
         .column:nth-child(2) img{
             height: 200px;
-        } 
+        }
         .column:last-child img{
             height: 150px;
         }
@@ -111,21 +111,21 @@ main > headline{
 }
 .prednasejici{
     .velky.text{
-        padding: 30px 0px; 
+        padding: 30px 0px;
     }
 }
 .prednasky perex .velky.text{
-    padding: 30px 0px;  
+    padding: 30px 0px;
 }
 .blokEL-obr-text{
     position: relative;
     margin-bottom: @marginDefault * 3.3;
     &.sekundarni-barva::before,&.sekundarni-barva::after{
         background-color: @secondaryColor;
-    } 
+    }
     &.primarni-barva::before,&.primarni-barva::after{
         background-color: @primaryColor;
-    } 
+    }
     &::before{
         content: '';
         width: 97px;
@@ -144,4 +144,4 @@ main > headline{
     }
 }
 
-   
+

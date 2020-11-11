@@ -17,13 +17,13 @@ use Model\Entity\PaperAggregateInterface;
         </div>
         <div class="stretched row equal width">
             <div class="column bottom aligned">
-                <a class="link-img" href="https://umo1.plzen.eu/" target="_blank"><img src="/_www_tz_files/files/logo_umo1_web.jpg" alt="Logo UMO1 Plzeň"/></a>
+                <a class="link-img" href="https://umo1.plzen.eu/" target="_blank"><img src="files/logo_umo1_web.jpg" alt="Logo UMO1 Plzeň"/></a>
             </div>
             <div class="column bottom aligned">
-                <a class="link-img" href="https://umo3.plzen.eu/" target="_blank"><img src="/_www_tz_files/files/logo_umo3_web.jpg" alt="Logo UMO3 Plzeň"/></a>
+                <a class="link-img" href="https://umo3.plzen.eu/" target="_blank"><img src="files/logo_umo3_web.jpg" alt="Logo UMO3 Plzeň"/></a>
             </div>
             <div class="column bottom aligned">
-                <a class="link-img" href="https://www.fnplzen.cz/" target="_blank"><img src="/_www_tz_files/files/logo_FN_web.jpg" alt="Logo FN Plzeň"/></a>
+                <a class="link-img" href="https://www.fnplzen.cz/" target="_blank"><img src="files/logo_FN_web.jpg" alt="Logo FN Plzeň"/></a>
             </div>
         </div>
     </div>
