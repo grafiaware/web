@@ -15,7 +15,6 @@
                 <?= $flash ?? '' ?>
                 <?= $poznamky ?? '' ?>
                 <?= $content ?? '' ?>
-                <?php '';//include "container/prednasky.php"; ?>
             </main>
         </div>
     </div>

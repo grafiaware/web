@@ -4,21 +4,6 @@
                 <a href="index.php"><img src="/_www_tz_files/files/LogoCtyrlistekInvert.png" width="65" height="65" /></a>
                 <a onclick="hamburger_close()" href="javascript:void(0)"><i class="close slim-icon"></i></a>
             </div>
-            <ul class="ui vertical massive menu">
-                <li class="onpath leaf presented">
-                <i class="">
-
-                </i><a class="item editable" href="www/item/static/uvod">Úvod</a><i class="no-class-selected-in-classmap">
-
-                </i>
-                </li><li class="">
-                <i class="">
-
-                </i><a class="item editable" href="www/item/static/prednasky">Přednášky</a><i class="no-class-selected-in-classmap">
-
-                </i>
-                </li>
-            </ul>
             <?=
                 $menuSvisle ?? '';
             ?>
