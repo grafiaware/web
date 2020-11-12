@@ -20,7 +20,7 @@
                 </li>
             </ul>
             <?=
-                '';//$menuSvisle
+                $menuSvisle ?? '';
             ?>
         </nav>
         <div id="myOverlay" onclick="hamburger_close()"></div>
