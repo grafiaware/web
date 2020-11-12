@@ -11,7 +11,7 @@
             <header>
                 <?php include "container/hlavicka.php"; ?>
             </header>
-            <main class="page-content">
+            <main class="page-content" > <!--style="position: relative; height: 0; padding-bottom: 100%"-->
                 <?= $flash ?? '' ?>
                 <?= $poznamky ?? '' ?>
                 <?= $content ?? '' ?>
