@@ -14,4 +14,11 @@ use Model\Entity\PaperAggregateInterface;
     <content> 
         <?php include "content/content_Prednasky.php" ?> 
     </content>
+    <content>
+        <div class="velky text do-kraju">
+            <p>
+                <?= $this->mono('Další jména přednášejících budou postupně přibývat, sledujte tuto stránku!')?>
+            </p>
+        </div>
+    </content>
 </div>

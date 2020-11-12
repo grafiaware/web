@@ -1,19 +1,19 @@
 .layoutTZ{
 
-        /*VLASTNÍ HTML TAGY*/
-        headline, content, block, div[class=""], perex{
-            display: block;
-            position: relative;
-            span[class=""]{
-                display: inline-block;
-            }
+    /*VLASTNÍ HTML TAGY*/
+    headline, content, block, div[class=""], perex{
+        display: block;
+        position: relative;
+        span[class=""]{
+            display: inline-block;
         }
-        header{
-            display: flex;
-            align-items: center;
-            flex-direction: column;
-            margin: 40px 0;
-        }
+    }
+    header{
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        margin: 40px 0;
+    }
     
     /***FIXNÍ LIŠTA***/
     .fix-bar{
@@ -270,12 +270,13 @@
     footer{
         color: @invertedTextColor;
         background-color: @primaryColor;
-        width: 90.8%;
+        width: 100%;
         padding-left: 21px;
         padding-top: 30px;
         height: 150px;
         font-size: @smallFontSize; 
-        float: right;
+        position: relative;
+        left: 9%;
         footer a{
             color: @invertedTextColor !important; 
             &:hover{
