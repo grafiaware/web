@@ -33,10 +33,10 @@ use Model\Entity\PaperAggregateInterface;
         </div>
         <div class="stretched row">
             <div class="eight wide column"><p><b>Jindra Švarcová</b></p><p><?= $this->mono('oční optik a prezidentka Lions Clubu Plzeň Bohemia')?></p></div>
-            <div class="eight wide column"><p><?= $this->mono('Nezanedbávejte své oči!')?></p></div>
+            <div class="eight wide column"><p><?= $this->mono('Nezanedbávejte své oči! A prevence očních vad u předškolních dětí')?></p></div>
         </div>
         <div class="stretched row">
-            <div class="eight wide column"><p><b>Otužilci Plzeň</b></p></div>
+            <div class="eight wide column"><p><b>Klub sportovních otužilců Plzeň</b></p></div>
             <div class="eight wide column"><p><?= $this->mono('Jak se začít otužovat')?></p></div>
         </div>
         <div class="stretched row">
@@ -52,7 +52,7 @@ use Model\Entity\PaperAggregateInterface;
             <div class="eight wide column"><p><?= $this->mono('Sebeobranou ke zdraví')?></p></div>
         </div>
         <div class="stretched row">
-            <div class="eight wide column"><p><b>Vlastimila Faiferlíková</b></p></div>
+            <div class="eight wide column"><p><b>Vlastimila Faiferlíková</b></p><p><?= $this->mono('Předsedkyně Správní rady, ředitelka organizace, garant a koordinátorka dobrovolnických projektů')?></p></div>
             <div class="eight wide column"><p><?= $this->mono('Rodinné vztahy a péče o seniory v dnešním světě')?></p></div>
         </div>
     </div>
