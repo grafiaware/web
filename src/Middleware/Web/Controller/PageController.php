@@ -186,6 +186,9 @@ class PageController extends LayoutControllerAbstract {
                         $content = '';
                     }
                     break;
+                case 'static':
+                        $content = $this->getStaticLoadScript($this->friendly_url($menuItem->getTitle()));
+                    break;
                 case 'paper':
                     if ($this->isEditableArticle()) {
                         $content = $this->container->get('component.presented.editable');
@@ -380,6 +383,16 @@ class PageController extends LayoutControllerAbstract {
         } else {
 
         }
+    }
+
+    private function friendly_url($nadpis) {
+        $url = $nadpis;
+        $url = preg_replace('~[^\\pL0-9_]+~u', '-', $url);
+        $url = trim($url, "-");
+        $url = iconv("utf-8", "us-ascii//TRANSLIT", $url);
+        $url = strtolower($url);
+        $url = preg_replace('~[^-a-z0-9_]+~', '', $url);
+        return $url;
     }
 
     private function prettyDump($var) {
