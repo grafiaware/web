@@ -34,7 +34,7 @@ class EditItemController extends PresentationFrontControllerAbstract {
     }
 
     public function toggle(ServerRequestInterface $request, $uid) {
-        $menuItem = $this->findAllLanguageVersions($uid);
+        $menuItem = $this->getMenuItem($uid);
         $active = $menuItem->getActive() ? 0 : 1;  //active je integer
         $menuItem->setActive($active);
         $this->addFlashMessage("menuItem toggle(".($active?'true':'false').")");

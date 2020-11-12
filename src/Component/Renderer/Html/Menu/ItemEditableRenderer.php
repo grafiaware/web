@@ -61,7 +61,7 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
                     [
                     'class'=>$this->classMap->resolveClass($itemViewModel->getInnerHtml(), 'Item', 'li i')
                     ]);
-        if ($presentedEditable) {
+        if ($itemViewModel->isPresented()) {
             $innerHtml[] = Html::tag('div', ['class'=>$this->classMap->getClass('Buttons', 'div.menu')],
                 $pasteMode ? $this->renderPasteButtons($menuNode, $pastedUid) : $this->renderButtons($menuNode)
             );

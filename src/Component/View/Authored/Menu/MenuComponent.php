@@ -102,9 +102,9 @@ class MenuComponent extends AuthoredComponentAbstract implements MenuComponentIn
             $rootMenuNode = $this->viewModel->getMenuNode($this->rootUid);
             if (isset($rootMenuNode)) {
                 $titleItemHtml = $this->itemRenderer->render(
-            //TODO: ($menuNode, $isOnPath, $isPresented, $isRestored, $readonly, $innerHtml='')
-                        new ItemViewModel($this->viewModel->getMenuNode($this->rootUid), TRUE, $this->presentedUid==$this->rootUid, false, true)
-                        );
+            // (HierarchyAggregateInterface $menuNode, $isOnPath, $isPresented, $isCutted, $readonly)
+                    new ItemViewModel($this->viewModel->getMenuNode($this->rootUid), TRUE, $this->presentedUid==$this->rootUid, false, true)
+                    );
             } else {
                 $titleItemHtml = '';  // root menu item nená publikovaný
             }
