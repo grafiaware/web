@@ -2,7 +2,7 @@
 main perex, main content{
     margin: @marginDefault 0;
 }
-main > headline{
+main headline{
     margin: 70px 0 -20px
 }
 .sekundarni-barva{
@@ -51,7 +51,12 @@ main > headline{
 }
 .text{
     font-size: @fontSize;
-    padding: 30px 40px;
+    &:not(do-kraju){
+        padding: 30px 40px;
+    }
+    &.do-kraju{
+        padding: 30px 0px;
+    }
     &.velky{
         font-size: @bigFontSize;
     }
@@ -109,13 +114,12 @@ main > headline{
         }
     }
 }
-.prednasejici{
-    .velky.text{
-        padding: 30px 0px;
+.prednasky{
+    .prednasejici{
+        .velky.text{
+           // padding: 30px 0px;
+        }
     }
-}
-.prednasky perex .velky.text{
-    padding: 30px 0px;
 }
 .blokEL-obr-text{
     position: relative;
