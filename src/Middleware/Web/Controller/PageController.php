@@ -234,7 +234,7 @@ class PageController extends LayoutControllerAbstract {
             $componets = [
                 'menuPresmerovani' => $this->container->get('menu.presmerovani')->setMenuRootName('menu_redirect'),
                 'menuVodorovne' => $this->container->get('menu.vodorovne')->setMenuRootName('menu_horizontal'),
-                'menuSvisle' => $this->container->get('menu.svisle')->setMenuRootName('menu_vertical'),
+                'menuSvisle' => $this->container->get('menu.svisle')->setMenuRootName('menu_vertical'), //->withTitleItem(true),
             ];
 //                return [
 //                'menuPresmerovani' => $this->container->get('menu.presmerovani.editable')->setMenuRootName('menu_redirect'),
@@ -251,15 +251,15 @@ class PageController extends LayoutControllerAbstract {
             $componets = [
                 'menuPresmerovani' => $this->container->get('menu.presmerovani.editable')->setMenuRootName('menu_redirect'),
                 'menuVodorovne' => $this->container->get('menu.vodorovne.editable')->setMenuRootName('menu_horizontal'),
-                'menuSvisle' => $this->container->get('menu.svisle.editable')->setMenuRootName('menu_vertical'),
-                'kos' => $this->container->get('menu.kos.editable')->setMenuRootName('trash'), //menu.svisle  //kos
-                'bloky' => $this->container->get('menu.bloky.editable')->setMenuRootName('blocks'),
+                'menuSvisle' => $this->container->get('menu.svisle.editable')->setMenuRootName('menu_vertical'), //->withTitleItem(true),
+                'kos' => $this->container->get('menu.kos.editable')->setMenuRootName('trash')->withTitleItem(true),
+                'bloky' => $this->container->get('menu.bloky.editable')->setMenuRootName('blocks')->withTitleItem(true),
             ];
         } else {
             $componets = [
                 'menuPresmerovani' => $this->container->get('menu.presmerovani')->setMenuRootName('menu_redirect'),
                 'menuVodorovne' => $this->container->get('menu.vodorovne')->setMenuRootName('menu_horizontal'),
-                'menuSvisle' => $this->container->get('menu.svisle')->setMenuRootName('menu_vertical'),
+                'menuSvisle' => $this->container->get('menu.svisle')->setMenuRootName('menu_vertical'), //->withTitleItem(true),
             ];
         }
         return $componets;

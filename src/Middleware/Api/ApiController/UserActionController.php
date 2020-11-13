@@ -27,7 +27,7 @@ class UserActionController extends PresentationFrontControllerAbstract {
     public function app(ServerRequestInterface $request, $app) {
         return RedirectResponse::withRedirect(
             new Response(),
-            $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().$app.'/'); // 302
+            $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME)->getSubdomainPath().$app.''); // 302
     }
 
 

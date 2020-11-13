@@ -68,7 +68,7 @@ class ContentController extends PresentationFrontControllerAbstract {
             $this->addFlashMessage('updateContent');
 
         }
-        return $this->redirectSeeOther($request,'www/last/'); // 303 See Other
+        return $this->redirectSeeOther($request,'www/last'); // 303 See Other
     }
 
     public function toggleContent($request, $paperId, $contentId) {
@@ -78,7 +78,7 @@ class ContentController extends PresentationFrontControllerAbstract {
             $content->setActive($active);
             $this->addFlashMessage("content toggle(".($active?'true':'false').")");
         }
-        return $this->redirectSeeOther($request,'www/last/'); // 303 See Other
+        return $this->redirectSeeOther($request,'www/last'); // 303 See Other
 
     }
 
@@ -104,7 +104,7 @@ class ContentController extends PresentationFrontControllerAbstract {
                     break;
             }
         }
-        return $this->redirectSeeOther($request,'www/last/'); // 303 See Other
+        return $this->redirectSeeOther($request,'www/last'); // 303 See Other
     }
 
     public function up($request, $paperId, $contentId) {
@@ -119,7 +119,7 @@ class ContentController extends PresentationFrontControllerAbstract {
                 $this->addFlashMessage("content down - priority $selectedContentPriority -> ".($selectedContentPriority+1));
             }
         }
-        return $this->redirectSeeOther($request,'www/last/'); // 303 See Other
+        return $this->redirectSeeOther($request,'www/last'); // 303 See Other
     }
 
     public function down($request, $paperId, $contentId) {
@@ -134,7 +134,7 @@ class ContentController extends PresentationFrontControllerAbstract {
                 $this->addFlashMessage("content down - priority $selectedContentPriority -> ".($selectedContentPriority-1));
             }
         }
-        return $this->redirectSeeOther($request,'www/last/'); // 303 See Other
+        return $this->redirectSeeOther($request,'www/last'); // 303 See Other
     }
 
     public function add($request, $paperId) {
@@ -149,7 +149,7 @@ class ContentController extends PresentationFrontControllerAbstract {
         }
         $this->paperContentRepo->add($this->createNewContent($paperId, $priority));
         $this->addFlashMessage("add - Nový obsah, priorita $priority");
-        return $this->redirectSeeOther($request,'www/last/'); // 303 See Other
+        return $this->redirectSeeOther($request,'www/last'); // 303 See Other
     }
 
     public function addAbove($request, $paperId, $contentId) {
@@ -165,7 +165,7 @@ class ContentController extends PresentationFrontControllerAbstract {
         }
         $this->paperContentRepo->add($this->createNewContent($paperId, $priority+1));
         $this->addFlashMessage("addBelow - Nový obsah, priorita $priority");
-        return $this->redirectSeeOther($request,'www/last/'); // 303 See Other
+        return $this->redirectSeeOther($request,'www/last'); // 303 See Other
     }
 
     public function addBelow($request, $paperId, $contentId) {
@@ -181,7 +181,7 @@ class ContentController extends PresentationFrontControllerAbstract {
         }
         $this->paperContentRepo->add($this->createNewContent($paperId, $priority));
         $this->addFlashMessage("addBelow - Nový obsah, priorita $priority");
-        return $this->redirectSeeOther($request,'www/last/'); // 303 See Other
+        return $this->redirectSeeOther($request,'www/last'); // 303 See Other
     }
 
     private function createNewContent($paperId, $priority) {
@@ -206,7 +206,7 @@ class ContentController extends PresentationFrontControllerAbstract {
             }
         }
         $this->addFlashMessage("trash - content zahozen do koše.");
-        return $this->redirectSeeOther($request,'www/last/'); // 303 See Other
+        return $this->redirectSeeOther($request,'www/last'); // 303 See Other
 
     }
 
@@ -223,7 +223,7 @@ class ContentController extends PresentationFrontControllerAbstract {
         }
         $content->setPriority(1);   // z "koše" - obnoveno vždy s prioritou 1, zůstává neaktivní
         $this->addFlashMessage("restore - obnoven content z koše.");
-        return $this->redirectSeeOther($request,'www/last/'); // 303 See Other
+        return $this->redirectSeeOther($request,'www/last'); // 303 See Other
     }
 
     public function delete($request, $paperId, $contentId) {
@@ -239,7 +239,7 @@ class ContentController extends PresentationFrontControllerAbstract {
             }
         }
         $this->addFlashMessage("delete - smazán content.");
-        return $this->redirectSeeOther($request,'www/last/'); // 303 See Other
+        return $this->redirectSeeOther($request,'www/last'); // 303 See Other
     }
 
 //    $paper = $this->paperRepo->get($menuItemId) ?? $this->createPaper($menuItemId);

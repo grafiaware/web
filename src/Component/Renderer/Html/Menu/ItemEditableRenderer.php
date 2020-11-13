@@ -85,7 +85,6 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
         $buttons[] = $this->getButtonAdd($menuNode);
         $buttons[] = $this->getButtonCut($menuNode);
         $buttons[] = $this->getButtonTrash($menuNode);
-//        $buttons[] = $this->getButtonsDiv2($menuNode);
 
         return implode(PHP_EOL, $buttons);
     }
@@ -95,7 +94,6 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
         $buttons[] = $this->getButtonPaste($menuNode, $pastedUid);
         $buttons[] = $this->getButtonCut($menuNode);
         $buttons[] = $this->getButtonTrash($menuNode);
-//        $buttons[] = $this->getButtonsDiv2($menuNode);
 
         return implode(PHP_EOL, $buttons);
     }

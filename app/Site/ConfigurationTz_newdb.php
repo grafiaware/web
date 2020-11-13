@@ -187,15 +187,13 @@ class ConfigurationTz_newdb {
      * @return array
      */
     public static function component() {
-        // local
-        $templatesCommon = 'local/site/common/templates/';
         return [
             'component.logs.view.directory' => 'Logs/App/Web',
             'component.logs.view.file' => 'Render.log',
-            'component.template.'.FlashComponent::class =>      $templatesCommon.'layout/info/flashMessage.php',
-            'component.template.'.LoginComponent::class =>      $templatesCommon.'layout/modal/login.php',
-            'component.template.'.LogoutComponent::class =>     $templatesCommon.'layout/modal/logout.php',
-            'component.template.'.UserActionComponent::class => $templatesCommon.'layout/modal/user_action.php',
+            'component.template.'.FlashComponent::class => self::RED_TEMPLATES_COMMON.'layout/info/flashMessage.php',
+            'component.template.'.LoginComponent::class => self::RED_TEMPLATES_COMMON.'layout/modal/login.php',
+            'component.template.'.LogoutComponent::class => self::RED_TEMPLATES_COMMON.'layout/modal/logout.php',
+            'component.template.'.UserActionComponent::class => self::RED_TEMPLATES_COMMON.'layout/modal/user_action.php',
         ];
     }
 
@@ -767,16 +765,6 @@ class ConfigurationTz_newdb {
      * @return array
      */
     public static function layoutControler() {
-        // site definition
-        $sitePath = 'sitePath';
-        // local
-        $templatesCommon = 'local/site/common/templates/';
-        $templatesSite = 'local/site/'.$sitePath.'templates/';
-        // public
-        $assets = 'public/assets/';
-        $linksCommon = 'public/site/common/';
-        $linksSite = 'public/site/'.$sitePath;
-
         return [
            // Language packages tinyMce používají krátké i dlouhé kódy, kód odpovídá jménu souboru např cs.js nebo en_US.js - proto mapování
             // pozn. - popisky šablon pro tiny jsou jen česky (TinyInit.js)

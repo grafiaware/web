@@ -44,7 +44,20 @@ class WebAppFactory extends AppFactory {
 
         // přidá do requestu atribut s jazykem požadovaným hlavičkou Accept-Language
         $request = $app->getServerRequest();
-        $request = $request->withAttribute(self::REQUESTED_LANGUAGE_ATTRIBUTE_NAME, $this->getAcceptedLangCode($request));
+        $requestLocale = $this->getRequestLocale($request);
+        $requestLangCode = $this->getRequestLangCode($requestLocale);
+        $request = $request->withAttribute(self::REQUESTED_LANGUAGE_ATTRIBUTE_NAME, $requestLangCode);
+
+        $localeLangCode = [
+                'cs' => 'cs_CZ',
+                'de' => 'de_DE',
+                'en' => 'en_US'
+            ];
+        $appCodeset = "UTF8";  // bez pomlčky! (ne UTF-8)
+
+        $appLocale = $localeLangCode[$requestLangCode].".".$appCodeset;
+        $acceptedLocale = setlocale(LC_ALL, $appLocale);
+
         $app->setServerRequest($request);
 
         Message::setAppLocale(self::INITIAL_APP_LANGCODE);
@@ -55,6 +68,12 @@ class WebAppFactory extends AppFactory {
 
             $logger = FileLogger::getInstance('Logs/App', 'WebAppFactoryLogger.log', FileLogger::REWRITE_LOG);
             $logger->info((new RequestDumper())->dump($request));
+
+            $logger->info("Locale code from http request: '$requestLocale'.");
+            $logger->info("Short lang code from http request: '$requestLangCode'.");
+            $logger->info("Try to set application locale from http request: '$appLocale'.");
+            $logger->info("Accepted locale by setlocale() function: '$acceptedLocale'.");
+
             $pathLogger = FileLogger::getInstance('Logs/App', 'RequestPathLogger.log', FileLogger::APPEND_TO_LOG);
             $uri = $request->getUri();
             $pathLogger->info((string) $uri);
@@ -66,15 +85,15 @@ class WebAppFactory extends AppFactory {
         return $app;
     }
 
-    /**
-     * Default langCode podle konstanty třídy DEFAULT_LANG_CODE
-     * @return string
-     */
-    private function getAcceptedLangCode(ServerRequestInterface $request) {
+
+    private function getRequestLocale(ServerRequestInterface $request) {
         $acceptLanguageHeader = $request->getHeaderLine('Accept-Language');
         // \Locale potřebuje mít poveleno rozšíření intl (php.ini)
-        $requestLocale = \Locale::acceptFromHttp($acceptLanguageHeader);  // když chybí hlavička vrací NULL
-        $langCode = $requestLocale ? \Locale::getPrimaryLanguage($requestLocale) : '';
-        return $langCode;
+        return \Locale::acceptFromHttp($acceptLanguageHeader);  // když chybí hlavička vrací NULL
+    }
+
+    private function getRequestLangCode($requestLocale) {
+        // \Locale potřebuje mít poveleno rozšíření intl (php.ini)
+        return $requestLocale ? \Locale::getPrimaryLanguage($requestLocale) : '';
     }
 }
