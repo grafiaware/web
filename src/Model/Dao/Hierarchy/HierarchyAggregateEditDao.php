@@ -2,7 +2,7 @@
 
 namespace Model\Dao\Hierarchy;
 
-use Model\Dao\DaoAbstract;
+use Model\Dao\DaoContextualAbstract;
 
 use Pes\Database\Handler\HandlerInterface;
 use Model\Context\ContextFactoryInterface;
@@ -14,7 +14,7 @@ use Model\Dao\Hierarchy\HookedMenuItemActorInterface;
  * Podle tutoriálu na https://www.phpro.org/tutorials/Managing-Hierarchical-Data-with-PHP-and-MySQL.html - pozor jsou tam chyby
  * V tutoriálu jsou přepracované sql skripty, které zveřejnil http://mikehillyer.com/articles/managing-hierarchical-data-in-mysql/ - a od té doby je všichni kopíruji.
  */
-class HierarchyAggregateEditDao extends DaoAbstract implements HierarchyAggregateEditDaoInterface {
+class HierarchyAggregateEditDao extends DaoContextualAbstract implements HierarchyAggregateEditDaoInterface {
 
     protected $nestedSetTableName;
 

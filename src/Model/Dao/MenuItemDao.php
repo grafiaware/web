@@ -8,14 +8,13 @@
 
 namespace Model\Dao;
 
-use Model\Context\PublishedContextInterface;
 
 /**
  * Description of RsDao
  *
  * @author pes2704
  */
-class MenuItemDao extends DaoAbstract {
+class MenuItemDao extends DaoContextualAbstract {
 
     private $sqlGet;
     private $sqlGetByList;
@@ -23,13 +22,14 @@ class MenuItemDao extends DaoAbstract {
     private $sqlFindByContentFulltextSearch;
     private $sqlUpdate;
 
-
     protected function getContextConditions() {
         $contextConditions = [];
-        $publishedContext = $this->contextFactory->createPublishedContext();
-        if ($publishedContext) {
-            if ($publishedContext->getActive()) {
-                $contextConditions['active'] = "menu_item.active = 1";
+        if (isset($this->contextFactory)) {
+            $publishedContext = $this->contextFactory->createPublishedContext();
+            if ($publishedContext) {
+                if ($publishedContext->getActive()) {
+                    $contextConditions['active'] = "menu_item.active = 1";
+                }
             }
         }
         return $contextConditions;

@@ -25,13 +25,15 @@ class PaperContentDao extends DaoAbstract {
 
     protected function getContextConditions() {
         $contextConditions = [];
-        $publishedContext = $this->contextFactory->createPublishedContext();
-        if ($publishedContext) {
-            if ($publishedContext->getActive()) {
-                $contextConditions['active'] = "paper_content.active = 1";
-            }
-            if ($publishedContext->getActual()) {
-                $contextConditions['actual'] = "(ISNULL(paper_content.show_time) OR paper_content.show_time<=CURDATE()) AND (ISNULL(paper_content.hide_time) OR CURDATE()<=paper_content.hide_time)";
+        if (isset($this->contextFactory)) {
+            $publishedContext = $this->contextFactory->createPublishedContext();
+            if ($publishedContext) {
+                if ($publishedContext->getActive()) {
+                    $contextConditions['active'] = "paper_content.active = 1";
+                }
+                if ($publishedContext->getActual()) {
+                    $contextConditions['actual'] = "(ISNULL(paper_content.show_time) OR paper_content.show_time<=CURDATE()) AND (ISNULL(paper_content.hide_time) OR CURDATE()<=paper_content.hide_time)";
+                }
             }
         }
         return $contextConditions;

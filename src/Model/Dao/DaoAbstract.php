@@ -10,20 +10,12 @@ namespace Model\Dao;
 
 use Pes\Database\Handler\HandlerInterface;
 
-use Model\Context\ContextFactoryInterface;
-
 /**
  * Description of DaoAbstract
  *
  * @author pes2704
  */
-class DaoAbstract {
-
-    /**
-     *
-     * @var ContextFactoryInterface
-     */
-    protected $contextFactory;
+abstract class DaoAbstract {
 
     /**
      *
@@ -38,13 +30,8 @@ class DaoAbstract {
      */
     private $preparedStatements = [];
 
-    public function __construct(HandlerInterface $dbHandler, ContextFactoryInterface $context=null) {
+    public function __construct(HandlerInterface $dbHandler) {
         $this->dbHandler = $dbHandler;
-        $this->contextFactory = $context;
-    }
-
-    protected function getContextConditions() {
-        return [];
     }
 
     protected function where($condition = "") {

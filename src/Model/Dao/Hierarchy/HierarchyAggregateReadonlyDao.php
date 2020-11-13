@@ -51,10 +51,12 @@ class HierarchyAggregateReadonlyDao extends HierarchyAggregateEditDao implements
 #
     protected function getContextConditions() {
         $contextConditions = [];
-        $publishedContext = $this->contextFactory->createPublishedContext();
-        if ($publishedContext) {
-            if ($publishedContext->getActive()) {
-                $contextConditions['active'] = "menu_item.active = 1";
+        if (isset($this->contextFactory)) {
+            $publishedContext = $this->contextFactory->createPublishedContext();
+            if ($publishedContext) {
+                if ($publishedContext->getActive()) {
+                    $contextConditions['active'] = "menu_item.active = 1";
+                }
             }
         }
         return $contextConditions;
