@@ -8,7 +8,7 @@ use Model\Entity\PaperAggregateInterface;
 <div class="dva-sloupce-nadpis">
     <div class="ui two column stackable centered mobile reversed grid">
         <div class="six wide column middle aligned">
-            <a class="link-img" href="http://www.grafia.cz" target="_blank"><img src="files/LogoGrafia.jpg" width="300" height="207" alt="Logo Grafia, s.r.o."/></a>
+            <a class="link-img" href="http://www.grafia.cz" target="_blank"><img src="images/LogoGrafia.jpg" width="300" height="207" alt="Logo Grafia, s.r.o."/></a>
         </div>
         <div class="ten wide column">
             <div class="primarni-barva podklad nadpis vpravo">

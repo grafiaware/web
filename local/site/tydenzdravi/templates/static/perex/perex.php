@@ -10,10 +10,10 @@ use Model\Entity\PaperAggregateInterface;
                     <div class="sekundarni-barva podklad nadpis vlevo">
                         <p>Věnujte týden svému zdraví!</p>
                     </div>
-                    <img src="files/pexels-photo-863977-web-orez.jpg" width="1178" height="518" alt="Obrázek"/>
+                    <img src="images/pexels-photo-863977-web-orez.jpg" width="1178" height="518" alt="Obrázek"/>
                 </div>
                 <div class="ten wide column">
-                    <img src="files/pexels-cemal-taskiran-web-orez.jpg" width="727" height="474" alt="Obrázek"/>
+                    <img src="images/pexels-cemal-taskiran-web-orez.jpg" width="727" height="474" alt="Obrázek"/>
                 </div>
                 <div class="six wide column">
                     <div class="primarni-barva podklad nadpis vpravo">

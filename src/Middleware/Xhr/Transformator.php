@@ -64,7 +64,8 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
 // <img width="234" height="167" alt="soubor plat.gif" src="files/1096212.gif" style="color: #ffffff; float: right;">
         $filesDirectory = Configuration::transformator()['filesDirectory'];
         $transform = array(
-            'src="files/'               => 'src="'.$filesDirectory.'files/',   // změněna cesta ke složce files
+            'src="images/'               => 'src="'.$filesDirectory.'images/',   // změněna cesta ke složce files
+            'src="video/'               => 'src="'.$filesDirectory.'video/',   // změněna cesta ke složce files
             'src="../files/'            => 'src="'.$filesDirectory.'files/',   // změněna cesta ke složce files - pro chybně zadané obrázky (s tečkami)
             'href="files/'              => 'href="'.$filesDirectory.'files/',
             'src="public/web/'=>'src="'.Configuration::transformator()['public'],

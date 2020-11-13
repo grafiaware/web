@@ -11,10 +11,10 @@ use Model\Entity\PaperAggregateInterface;
             <div class="primarni-barva podklad nadpis vlevo">
                 <p>Program</p>
             </div>
-            <img src="files/pexels-polina-web.jpg" width="1178" height="457" alt="Obrázek"/>
+            <img src="images/pexels-polina-web.jpg" width="1178" height="457" alt="Obrázek"/>
         </div>
-        <div class="sixteen wide column"><a href="/www/item/static/prednasky" class="ui secondary fluid massive button">Zobrazit přednášky</a></div> <!-- eight wide column -->
-        <!--<div class="eight wide column"><a class="ui secondary fluid massive button">Zobrazit místa</a></div>-->
+        <div class="eight wide column"><a href="www/item/static/prednasky" class="ui secondary fluid massive button">Zobrazit přednášky</a></div>
+        <div class="eight wide column"><a href="www/item/static/body-pro-zdravi" class="ui secondary fluid massive button">Zobrazit místa</a></div>
         <div class="sixteen wide column">
             <div class="velky text vlevo">
                 <p>

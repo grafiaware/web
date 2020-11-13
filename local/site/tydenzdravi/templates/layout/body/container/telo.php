@@ -4,10 +4,10 @@
             <div class="sekundarni-barva podklad nadpis vlevo">
                 <p>Věnujte týden svému zdraví!</p>
             </div>
-            <img src="/_www_tz_files/files/pexels-photo-863977-web-orez.jpg" width="100%" height="" />
+            <img src="images/pexels-photo-863977-web-orez.jpg" width="100%" height="" />
         </div>
         <div class="ten wide column">
-            <img src="/_www_tz_files/files/pexels-cemal-taskiran-web-orez.jpg" width="100%" height="" />
+            <img src="images/pexels-cemal-taskiran-web-orez.jpg" width="100%" height="" />
         </div>
         <div class="six wide column">
             <div class="primarni-barva podklad nadpis vpravo">
@@ -26,7 +26,7 @@
             <div class="primarni-barva podklad nadpis vlevo">
                 <p>O akci </p> 
             </div>
-            <img src="/_www_tz_files/files/pexels-photo-web-orez.jpg" width="100%" height="" />
+            <img src="images/pexels-photo-web-orez.jpg" width="100%" height="" />
             <div class="velky text vpravo">
                 <p>V poslední době pod vlivem Covidu-19 lidé zanedbávali preventivní návštěvy lékařů, odsouvali i nutná ošetření a kontroly. Vlivem médií došlo u řady lidí k úzkostným a iracionálním reakcím, vedoucím až ke škodám na zdraví.</p>
             </div>
@@ -37,7 +37,7 @@
 <div class="sekundarni-barva blokEL-obr-text">
     <div class="ui stackable centered grid">
         <div class="sixteen wide column">
-            <img src="/_www_tz_files/files/pexels-andrea-piacquadio-web-orez.jpg" width="100%" height="" />
+            <img src="images/pexels-andrea-piacquadio-web-orez.jpg" width="100%" height="" />
             <div class="velky text vlevo">
                 <p>Ve spolupráci s <b>odborníky</b> proto společnost <b>Grafia</b> pořádá akci, jejímž cílem je <b>zvýšit povědomí veřejnosti o zdravém životním stylu, podpoře vlastní imunity a rozumném přístupu k vlastnímu zdraví.</b></p>
             </div>
@@ -47,7 +47,7 @@
 <div class="dva-sloupce-nadpis">
     <div class="ui two column stackable centered grid">
         <div class="six wide column middle aligned">
-            <img src="/_www_tz_files/files/LogoGrafia.jpg" width="300" height="" />
+            <img src="images/LogoGrafia.jpg" width="300" height="" />
         </div>
         <div class="ten wide column">
             <div class="primarni-barva podklad nadpis vpravo">

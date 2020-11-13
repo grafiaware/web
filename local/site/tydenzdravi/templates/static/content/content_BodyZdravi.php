@@ -9,47 +9,47 @@ use Model\Entity\PaperAggregateInterface;
         <div class="row equal width">
             <div class="column middle aligned">
                 <a class="link-img" href="https://www.foractiv-plzen.cz/" target="_blank">
-                    <img class="logo-siroke" src="files/logo-FA.jpg" alt="Logo For activ" width="344" height="108"/>
+                    <img class="logo-siroke" src="images/logo-FA.jpg" alt="Logo For activ" width="335" height="105"/>
                 </a>
             </div>
             <div class="column middle aligned">
                 <a class="link-img" href="https://www.obchodulidusky.cz/" target="_blank">
-                    <img class="logo-ctverec" src="files/logo_U_Lidusky.jpg" alt="Logo U Lidušky" width="185" height="200"/>
+                    <img class="logo-ctverec" src="images/logo_U_Lidusky.jpg" alt="Logo U Lidušky" width="185" height="200"/>
                 </a>
             </div>
             <div class="column middle aligned">
                 <a class="link-img" href="https://www.ledovec.cz/" target="_blank">
-                    <img class="logo-vysoke" src="files/logo-Ledovec.png" alt="Logo Ledovec" width="120" height="200"/>
+                    <img class="logo-vysoke" src="images/logo-Ledovec.png" alt="Logo Ledovec" width="120" height="200"/>
                 </a>
             </div>
         </div>
         <div class="row equal width">
             <div class="column middle aligned">
                 <a class="link-img" href="https://www.optiksvarc.cz/" target="_blank">
-                    <img class="logo-siroke" src="files/logo-optiksvarc.jpg" alt="Logo Optik Švarc" width="344" height="152"/>
+                    <img class="logo-siroke" src="images/logo-optiksvarc.jpg" alt="Logo Optik Švarc" width="335" height="148"/>
                 </a>
             </div>
             <div class="column middle aligned">
                 <a class="link-img" href="http://www.krasovska.cz/" target="_blank">
-                    <img class="logo-siroke" src="files/logo_Krasovska.jpg" alt="Logo Krašovská" width="344" height="118"/>
+                    <img class="logo-siroke" src="images/logo_Krasovska.jpg" alt="Logo Krašovská" width="335" height="115"/>
                 </a>
             </div>
             <div class="column middle aligned">
                 <a class="link-img" href="http://www.grafia.cz/" target="_blank">
-                    <img class="logo-ctverec" src="files/LogoGrafia.jpg" alt="Logo Grafia" width="230" height="159"/>
+                    <img class="logo-ctverec" src="images/LogoGrafia.jpg" alt="Logo Grafia" width="230" height="159"/>
                 </a>
             </div>
         </div>
         <div class="row equal width">
             <div class="column middle aligned">
                 <a class="link-img" href="https://lekarnavbezovce.cz/" target="_blank">
-                    <img class="logo-ctverec" src="files/logo-lekarnaBezovka.jpg" alt="Logo Lékárna V Bezovce" width="200" height="200"/>
+                    <img class="logo-siroke" src="images/logo-lekarna-bezovka.png" alt="Logo Lékárna V Bezovce" width="335" height="80"/>
                 </a>
             </div>
         </div>
         <div class="row equal width">
             <div class="column middle aligned">
-                <a class="ui massive secondary basic fluid button" href="https://www.fnplzen.cz/cs/node/7538" target="_blank">Krizová linka pomoci pro blízké pacientů</a>
+                <a class="ui massive secondary basic fluid button" href="https://www.mvcr.cz/clanek/telefonni-psychologicke-linky-pro-seniory-deti-a-dospele.aspx" target="_blank">Krizové linky - kam zavolat?</a>
             </div>
             <div class="column middle aligned">
                 <a class="ui massive secondary basic fluid button" href="http://otuzilci-plzen.cz/" target="_blank">Klub sportovních otužilců Plzeň</a>
@@ -63,7 +63,9 @@ use Model\Entity\PaperAggregateInterface;
             <div class="column middle aligned">
                 <a class="ui massive secondary basic fluid button" href="https://www.totemplzen.cz/bolevec/projekt-mosty/" target="_blank">TOTEM - PROJEKT MOSTY</a>
             </div>
-            <div class="column middle aligned"></div>
+            <div class="column middle aligned">
+                 <a class="ui massive secondary basic fluid button" href="https://www.facebook.com/Farnost-u-katedr%C3%A1ly-v-Plzni-109920727303535" target="_blank">Duchovní útěcha</a>
+            </div>
             <div class="column middle aligned"></div>
         </div>
     </div>

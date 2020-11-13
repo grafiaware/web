@@ -1,7 +1,7 @@
         <nav id="mySidenav" class="svisle-menu">
             <div class="close-item">
                 <span class="hamburger-icon"><i class="bars big icon"></i><p>Menu</p></span>
-                <a href="index.php"><img src="/_www_tz_files/files/LogoCtyrlistekInvert.png" width="65" height="65" /></a>
+                <a href="index.php"><img src="images/LogoCtyrlistekInvert.png" width="65" height="65" /></a>
                 <a onclick="hamburger_close()" href="javascript:void(0)"><i class="close slim-icon"></i></a>
             </div>
             <?=
