@@ -241,33 +241,28 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             'menu.svisle' => function(ContainerInterface $c) {
                 return $c->get(MenuComponent::class)
-                        ->withTitleItem(true)
                         ->setRendererName('menu.svisle.menuwraprenderer')
                         ->setRenderersNames('menu.svisle.levelwraprenderer', 'menu.svisle.itemrenderer');
             },
             'menu.svisle.editable' => function(ContainerInterface $c) {
                 return $c->get(MenuComponent::class)
-                        ->withTitleItem(true)
                         ->setRendererName('menu.svisle.menuwraprenderer.editable')
                         ->setRenderersNames('menu.svisle.levelwraprenderer.editable', 'menu.svisle.itemrenderer.editable');
             },
                     //bloky
             'menu.bloky' => function(ContainerInterface $c) {
                 return $c->get(MenuComponent::class)
-                        ->withTitleItem(true)
                         ->setRendererName('menu.bloky.menuwraprenderer')
                         ->setRenderersNames('menu.bloky.levelwraprenderer', 'menu.bloky.itemrenderer');
             },
             'menu.bloky.editable' => function(ContainerInterface $c) {
                 return $c->get(MenuComponent::class)
-                        ->withTitleItem(true)
                         ->setRendererName('menu.bloky.menuwraprenderer.editable')
                         ->setRenderersNames('menu.bloky.levelwraprenderer.editable', 'menu.bloky.itemrenderer.editable');
             },
                     //kos
             'menu.kos.editable' => function(ContainerInterface $c) {
                 return $c->get(MenuComponent::class)
-                        ->withTitleItem(true)
                         ->setRendererName('menu.kos.menuwraprenderer.editable')
                         ->setRenderersNames('menu.kos.levelwraprenderer', 'menu.kos.itemrenderer');
             },

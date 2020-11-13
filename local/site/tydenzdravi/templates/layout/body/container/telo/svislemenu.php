@@ -10,6 +10,13 @@
         </nav>
         <div id="myOverlay" onclick="hamburger_close()"></div>
         <div class="nav-mobile active" onclick="hamburger_open()"><span><i class="bars big icon"></i><p>Menu</p></span></div>
-
-        <!--?php include "telo/bloky.php"; ?>
-        <!--?php include "telo/kos.php"; ?-->
+<!--        <nav class="svisle-menu kos">
+            <?=
+                $kos ?? '';
+            ?>
+        </nav>
+        <nav class="svisle-menu bloky">
+            <?=
+                $bloky ?? '';
+            ?>
+        </nav>-->

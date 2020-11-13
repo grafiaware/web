@@ -38,7 +38,7 @@ class EditItemController extends PresentationFrontControllerAbstract {
         $active = $menuItem->getActive() ? 0 : 1;  //active je integer
         $menuItem->setActive($active);
         $this->addFlashMessage("menuItem toggle(".($active?'true':'false').")");
-        return $this->redirectSeeOther($request,'www/last/'); // 303 See Other
+        return $this->redirectSeeOther($request,'www/last'); // 303 See Other
      }
 
     public function title(ServerRequestInterface $request, $uid) {
@@ -57,7 +57,7 @@ class EditItemController extends PresentationFrontControllerAbstract {
         }
         $this->addFlashMessage("menuItem type($type)");
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
-        return $this->redirectSeeOther($request, "www/item/$langCode/$uid/");
+        return $this->redirectSeeOther($request, "www/item/$langCode/$uid");
     }
 
     private function findAllLanguageVersions($uid) {

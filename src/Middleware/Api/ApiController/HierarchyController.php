@@ -47,14 +47,14 @@ class HierarchyController extends PresentationFrontControllerAbstract {
         $siblingUid = $this->editHierarchyDao->addNode($uid);
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
         $this->addFlashMessage('add');
-        return $this->redirectSeeOther($request, "www/item/$langCode/$siblingUid/");
+        return $this->redirectSeeOther($request, "www/item/$langCode/$siblingUid");
     }
 
     public function addchild(ServerRequestInterface $request, $uid) {
         $childUid = $this->editHierarchyDao->addChildNode($uid);
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
         $this->addFlashMessage('addchild');
-        return $this->redirectSeeOther($request, "www/item/$langCode/$childUid/");
+        return $this->redirectSeeOther($request, "www/item/$langCode/$childUid");
     }
 
     public function cut(ServerRequestInterface $request, $uid) {
@@ -62,7 +62,7 @@ class HierarchyController extends PresentationFrontControllerAbstract {
         $statusFlash->setPostCommand(['cut'=>$uid]);  // command s životností do dalšího POST requestu
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
         $statusFlash->appendMessage("cut - vybrán k přesunutí: $langCode/$uid");
-        return $this->redirectSeeOther($request,'www/last/'); // 303 See Other
+        return $this->redirectSeeOther($request,'www/last'); // 303 See Other
     }
 
     public function paste(ServerRequestInterface $request, $uid, $pasteduid) {
@@ -74,7 +74,7 @@ class HierarchyController extends PresentationFrontControllerAbstract {
         } else {
             $this->addFlashMessage('unable to paste, item has no parent');
         }
-        return $this->redirectSeeOther($request, "www/item/$langCode/$pasteduid/");
+        return $this->redirectSeeOther($request, "www/item/$langCode/$pasteduid");
     }
 
     public function pastechild(ServerRequestInterface $request, $uid, $pasteduid) {
@@ -90,13 +90,13 @@ class HierarchyController extends PresentationFrontControllerAbstract {
         $parentUid = $this->editHierarchyDao->deleteSubTree($uid);
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
         $this->addFlashMessage('delete');
-        return $this->redirectSeeOther($request, "www/item/$langCode/$parentUid/");
+        return $this->redirectSeeOther($request, "www/item/$langCode/$parentUid");
     }
 
     // odloženo!!
     public function nonPermittedDelete(ServerRequestInterface $request, $uid) {
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
-        return $this->redirectSeeOther($request, "www/item/$langCode/$uid/");
+        return $this->redirectSeeOther($request, "www/item/$langCode/$uid");
     }
 
 
@@ -104,7 +104,7 @@ class HierarchyController extends PresentationFrontControllerAbstract {
         $trashUid = $this->menuRootRepo->get(self::TRASH_MENU_ROOT)->getUidFk();
         $this->editHierarchyDao->moveSubTree($uid, $trashUid);
         $this->addFlashMessage('trash');
-        return $this->redirectSeeOther($request, 'www/last/');
+        return $this->redirectSeeOther($request, 'www/last');
     }
 
 }
