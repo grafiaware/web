@@ -12,7 +12,6 @@ use Model\Entity\MenuItem;
 use Model\Entity\MenuItemInterface;
 
 use Model\Dao\MenuItemDao;
-use Model\ContextPublishedInterface;
 
 use Model\Hydrator\HydratorInterface;
 use Model\Entity\EntityInterface;

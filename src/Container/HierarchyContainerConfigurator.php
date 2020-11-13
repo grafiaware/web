@@ -135,6 +135,10 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
                 $editHierarchy->registerHookedActor($c->get(HookedMenuItemActor::class));
                 return $editHierarchy;
             },
+            'MenuItemAllDao' => function(ContainerInterface $c) {
+                return new MenuItemDao(
+                        $c->get(HandlerInterface::class));
+            },
             MenuItemDao::class => function(ContainerInterface $c) {
                 return new MenuItemDao(
                         $c->get(HandlerInterface::class),
@@ -155,8 +159,12 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
             MenuItemRepo::class => function(ContainerInterface $c) {
                 return new MenuItemRepo($c->get(MenuItemDao::class),
                         $c->get(MenuItemHydrator::class),
-//                        $c->get(MenuNodeHydrator::class)
-                        );
+                );
+            },
+            'MenuItemAllRepo' => function(ContainerInterface $c) {
+                return new MenuItemRepo($c->get('MenuItemAllDao'),
+                        $c->get(MenuItemHydrator::class),
+                );
             },
             HierarchyAggregateRepo::class => function(ContainerInterface $c) {
                 return new HierarchyAggregateRepo($c->get(HierarchyAggregateReadonlyDao::class),
@@ -246,7 +254,7 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
                 return (new StatusPresentationManager(
                                 $c->get(LanguageRepo::class),
                                 $c->get(MenuRootRepo::class),
-                                $c->get(MenuItemRepo::class),
+                                $c->get('MenuItemAllRepo'),
                         ));
             },
 

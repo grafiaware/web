@@ -251,7 +251,7 @@ class PageController extends LayoutControllerAbstract {
             $componets = [
                 'menuPresmerovani' => $this->container->get('menu.presmerovani.editable')->setMenuRootName('menu_redirect'),
                 'menuVodorovne' => $this->container->get('menu.vodorovne.editable')->setMenuRootName('menu_horizontal'),
-                'menuSvisle' => $this->container->get('menu.svisle.editable')->setMenuRootName('menu_vertical'), //->withTitleItem(true),
+                'menuSvisle' => $this->container->get('menu.svisle.editable')->setMenuRootName('menu_vertical')->withTitleItem(true),
                 'kos' => $this->container->get('menu.kos.editable')->setMenuRootName('trash')->withTitleItem(true),
                 'bloky' => $this->container->get('menu.bloky.editable')->setMenuRootName('blocks')->withTitleItem(true),
             ];
