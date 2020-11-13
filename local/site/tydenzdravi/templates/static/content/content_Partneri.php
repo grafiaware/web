@@ -16,14 +16,25 @@ use Model\Entity\PaperAggregateInterface;
             </div>
         </div>
         <div class="stretched row equal width">
-            <div class="column bottom aligned">
+            <div class="column middle aligned">
                 <a class="link-img" href="https://umo1.plzen.eu/" target="_blank"><img src="files/logo_umo1_web.jpg" alt="Logo UMO1 Plzeň" width="348" height="84"/></a>
             </div>
-            <div class="column bottom aligned">
+            <div class="column middle aligned">
                 <a class="link-img" href="https://umo3.plzen.eu/" target="_blank"><img src="files/logo_umo3_web.jpg" alt="Logo UMO3 Plzeň" width="200" height="200"/></a>
             </div>
-            <div class="column bottom aligned">
-                <a class="link-img" href="https://www.fnplzen.cz/" target="_blank"><img src="files/logo_FN_web.jpg" alt="Logo FN Plzeň" width="280" height="150"/></a>
+            <div class="column middle aligned">
+                <a class="link-img" href="https://www.fnplzen.cz/" target="_blank"><img src="files/logo_FN_web.jpg" alt="Logo FN Plzeň" width="224" height="120"/></a>
+            </div>
+        </div>
+        <div class="stretched row equal width">
+            <div class="column middle aligned">
+                  <a class="link-img" href="https://plzensky.denik.cz/" target="_blank"><img src="files/logo-plzenskydenik.jpg" alt="Logo Deník" width="276" height="85"/></a>
+            </div>
+            <div class="column middle aligned">
+                <a class="link-img" href="https://czv.zcu.cz/" target="_blank"><img src="files/logo-univerzita.jpg" alt="Logo CZV ZČU" width="348" height="129"/></a>
+            </div>
+            <div class="column middle aligned">
+                <a class="link-img" href="https://plzen.rozhlas.cz/" target="_blank"><img src="files/logo-CRo.jpg" alt="Logo Rozhlas" width="227" height="110"/></a>
             </div>
         </div>
     </div>

@@ -49,7 +49,7 @@ use Model\Entity\PaperAggregateInterface;
         </div>
         <div class="row equal width">
             <div class="column middle aligned">
-                <a class="ui massive secondary basic fluid button" href="https://www.fnplzen.cz/cs/node/7538" target="_blank">Krizová linka pomoci pro blízké pacientů</a>
+                <a class="ui massive secondary basic fluid button" href="https://www.mvcr.cz/clanek/telefonni-psychologicke-linky-pro-seniory-deti-a-dospele.aspx" target="_blank">Krizové linky - kam zavolat?</a>
             </div>
             <div class="column middle aligned">
                 <a class="ui massive secondary basic fluid button" href="http://otuzilci-plzen.cz/" target="_blank">Klub sportovních otužilců Plzeň</a>
@@ -63,7 +63,9 @@ use Model\Entity\PaperAggregateInterface;
             <div class="column middle aligned">
                 <a class="ui massive secondary basic fluid button" href="https://www.totemplzen.cz/bolevec/projekt-mosty/" target="_blank">TOTEM - PROJEKT MOSTY</a>
             </div>
-            <div class="column middle aligned"></div>
+            <div class="column middle aligned">
+                 <a class="ui massive secondary basic fluid button" href="https://www.facebook.com/Farnost-u-katedr%C3%A1ly-v-Plzni-109920727303535" target="_blank">Duchovní útěcha</a>
+            </div>
             <div class="column middle aligned"></div>
         </div>
     </div>
