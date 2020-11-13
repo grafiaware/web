@@ -11,13 +11,14 @@
             <header>
                 <?php include "container/hlavicka.php"; ?>
             </header>
-            <main class="page-content" > <!--style="position: relative; height: 0; padding-bottom: 100%"-->
+            <main class="page-content">
                 <?= $flash ?? '' ?>
                 <?= $poznamky ?? '' ?>
                 <?= $content ?? '' ?>
             </main>
         </div>
     </div>
-    <footer id="kontakt">
+    <footer>
+        <span id="kontakty"></span>
         <?php include "container/paticka.php"; ?>
     </footer>
