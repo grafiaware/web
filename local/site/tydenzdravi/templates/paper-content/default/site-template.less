@@ -51,11 +51,17 @@ main headline{
 }
 .text{
     font-size: @fontSize;
-    &:not(do-kraju){
+    &:not(do-kraju):not(do-kraju-uzky):not(kraje-uzky){
         padding: 30px 40px;
     }
     &.do-kraju{
         padding: 30px 0px;
+    }
+    &.do-kraju-uzky{
+        padding: 10px 0;
+    }
+    &.kraje-uzky{
+        padding: 0 40px;
     }
     &.velky{
         font-size: @bigFontSize;
