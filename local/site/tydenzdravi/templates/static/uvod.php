@@ -6,20 +6,20 @@ use Model\Entity\PaperAggregateInterface;
 ?>
 
 <perex>
-    <?php include "perex/perex.php" ?>
+    <?php include "uvod/perex.php" ?>
 </perex>
 <content>
-    <?php include "content/content_Program.php" ?>
+    <?php include "uvod/content/content_Program.php" ?>
 </content>
 <content>
-    <?php include "content/content_1.php" ?>
+    <?php include "uvod/content/content_1.php" ?>
 </content>
 <content>
-    <?php include "content/content_2.php" ?>
+    <?php include "uvod/content/content_2.php" ?>
 </content>
 <content>
-    <?php include "content/content_Partneri.php" ?>
+    <?php include "uvod/content/content_Partneri.php" ?>
 </content>
 <content>
-    <?php include "content/content_3.php" ?>
+    <?php include "uvod/content/content_3.php" ?>
 </content>

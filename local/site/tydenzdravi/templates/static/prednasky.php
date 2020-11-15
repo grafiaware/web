@@ -5,14 +5,14 @@ use Model\Entity\PaperAggregateInterface;
 /** @var PaperAggregateInterface $paperAggregate */
 ?>
 <div class="prednasky">
-    <headline>  
-        <?php include "headline/headlinePrednasky.php" ?> 
+    <headline>
+        <?php include "prednasky/headline.php" ?>
     </headline>
-    <perex>  
-        <?php include "perex/perexPrednasky.php" ?> 
+    <perex>
+        <?php include "prednasky/perex.php" ?>
     </perex>
-    <content> 
-        <?php include "content/content_Prednasky.php" ?> 
+    <content>
+        <?php include "prednasky/content/content_Prednasky.php" ?>
     </content>
     <content>
         <div class="velky text do-kraju">
