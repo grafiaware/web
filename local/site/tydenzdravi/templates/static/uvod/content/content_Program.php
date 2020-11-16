@@ -18,7 +18,7 @@ use Model\Entity\PaperAggregateInterface;
         <div class="sixteen wide column">
             <div class="velky text vlevo">
                 <p>
-                    <?= $this->mono('V průběhu 1 týdne vám nabídneme <b>přednášky a rozhovory s odborníky</b> z různých oborů a místa, která nabízejí <b>zdravé produkty či služby</b> na podporu zdravého životního stylu. <br/> <b>S kupóny</b> od nás navíc <b>se slevou!</b>') ?>
+                    <?= $this->mono('V průběhu sedmi dnů vám nabídneme ZDARMA <b>online přednášky a rozhovory s odborníky</b> z různých oborů a také "body pro zdraví", kde najdete <b>produkty či služby</b> na podporu zdravého životního stylu.') ?>
                 </p>
             </div>
         </div>

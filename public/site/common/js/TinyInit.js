@@ -12,33 +12,6 @@
 
 // line 25436
 
-var headlineConfig = {
-    selector: 'form headline',
-    schema : 'html5',
-    placeholder: 'Nadpis',
-    relative_urls : true,
-    extended_valid_elements : ['i[*]', 'headline'],
-    custom_elements: 'headline',
-    language : tinyConfig.toolbarsLang,
-    document_base_url : tinyConfig.basePath,
-    content_css: tinyConfig.contentCss,
-
-    menubar: false,
-    inline: true,
-    plugins: [
-    'lists',
-    'paste',
-    'autolink',
-    'quickbars',
-    'link',
-    'save'
-    ],
-    toolbar: false,
-    quickbars_insert_toolbar: '',
-    quickbars_selection_toolbar: 'save | undo redo | removeformat italic | link ',
-//    toolbar: 'undo redo | bold italic underline | save'
-};
-
 var editorFunction = function (editor) {
 
     editor.ui.registry.addContextToolbar('vyberSablony', {
@@ -125,7 +98,34 @@ var editorFunction = function (editor) {
     //        }
     });
 
-    };
+};
+
+var headlineConfig = {
+    selector: 'form headline',
+    schema : 'html5',
+    placeholder: 'Nadpis',
+    relative_urls : true,
+    extended_valid_elements : ['i[*]', 'headline'],
+    custom_elements: 'headline',
+    language : tinyConfig.toolbarsLang,
+    document_base_url : tinyConfig.basePath,
+    content_css: tinyConfig.contentCss,
+
+    menubar: false,
+    inline: true,
+    plugins: [
+    'lists',
+    'paste',
+    'autolink',
+    'quickbars',
+    'link',
+    'save'
+    ],
+    toolbar: false,
+    quickbars_insert_toolbar: '',
+    quickbars_selection_toolbar: 'save | undo redo | removeformat italic | link ',
+//    toolbar: 'undo redo | bold italic underline | save'
+};
 
 var contentConfig = {
     selector: 'form content', //.segment:not(.locked):not(.notpermitted) .grafia.segment...
@@ -294,10 +294,11 @@ var selectPaperTemplateConfig = {
     ],
     toolbar: 'template | save code',
     templates: [
-        { title: 'template default', description: 'Grafia web - článek',       url: 'component/v1/papertemplate/default/'},
-        { title: 'template contact', description: 'Grafia web - kontakty',       url: 'component/v1/papertemplate/contact/'},
-        { title: 'template test', description: 'paper_test',       url: 'component/v1/papertemplate/test/'},
-        { title: 'template course', description: 'Grafia web - kurz',       url: 'component/v1/papertemplate/course/'},
+        { title: 'template default', description: 'Grafia web - článek',       url: 'component/v1/papertemplate/default'},
+        { title: 'template contact', description: 'Grafia web - kontakty',       url: 'component/v1/papertemplate/contact'},
+        { title: 'template test', description: 'paper_test',       url: 'component/v1/papertemplate/test'},
+        { title: 'template course', description: 'Grafia web - kurz',       url: 'component/v1/papertemplate/course'},
+        { title: 'Vzor - Úvod', description: 'Vzor - Úvod',       url: 'component/v1/static/uvod'},
         { title: 'Test - presentedpaper s šablonou default', description: 'rendered component',       url: 'component/v1/presenteditem?template=default'},
         { title: 'Test - presentedpaper s šablonou contact', description: 'rendered component',       url: 'component/v1/presenteditem?template=contact'},
         { title: 'Test - presentedpaper s šablonou test', description: 'rendered component',       url: 'component/v1/presenteditem?template=test'},
@@ -305,18 +306,14 @@ var selectPaperTemplateConfig = {
         { title: 'Test - namedpaper a1', description: 'rendered component',       url: 'component/v1/nameditem/a1'},
         { title: 'Test - namedpaper a2', description: 'rendered component',       url: 'component/v1/nameditem/a2'},
         { title: 'Test - namedpaper a3', description: 'rendered component',       url: 'component/v1/nameditem/a3'},
-        { title: 'Test - namedpaper a4', description: 'rendered component',       url: 'component/v1/nameditem/a4'},
-        { title: 'Test - namedpaper a5', description: 'rendered component',       url: 'component/v1/nameditem/a5'},
-        { title: 'Test - namedpaper a6', description: 'rendered component',       url: 'component/v1/nameditem/a6'},
-        { title: 'Test - namedpaper a7', description: 'rendered component',       url: 'component/nameditem/a7'},
-        { title: 'Test - namedpaper a8', description: 'rendered component',       url: 'component/nameditem/a8'},
+
        // { title: 'Publikace', description: 'Grafia web - publikace',   url: tinyConfig.paper_templates_path + 'block/'},
     ]
 
 };
 
-        tinymce.init(headlineConfig);
-        tinymce.init(contentConfig);
-        tinymce.init(perexConfig);
-        tinymce.init(headerFooterConfig);
+//        tinymce.init(headlineConfig);
+//        tinymce.init(contentConfig);
+//        tinymce.init(perexConfig);
+//        tinymce.init(headerFooterConfig);
         tinymce.init(selectPaperTemplateConfig);
