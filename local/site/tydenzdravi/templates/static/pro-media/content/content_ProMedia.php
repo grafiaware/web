@@ -36,4 +36,3 @@ Akce se koná za podpory plzeňských obvodů ÚMO1 a ÚMO3.
 
 </div>
 
-

@@ -24,4 +24,3 @@ use Model\Entity\PaperAggregateInterface;
         </div>
     </div>
 </div>
-

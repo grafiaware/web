@@ -6,10 +6,20 @@ use Model\Entity\PaperAggregateInterface;
 ?>
 <div class="body-zdravi">
     <div class="ui stackable centered grid">
-        <div class="row equal width">
-            <div class="column middle aligned">
+        <div class="row equal width padding-vertical">
+            <div class="five wide column middle aligned">
                 <a class="link-img" href="https://www.foractiv-plzen.cz/" target="_blank">
                     <img class="logo-siroke" src="images/logo-FA.jpg" alt="Logo For activ" width="335" height="105"/>
+                </a>
+            </div>
+            <div class="eleven wide column">
+                <p><?= $this->mono('Jsme firma zabývající se prodejem zdravé a sportovní výživy s maximální funkčností , ale také vysokou kvalitou. Produktům dobře rozumíme a umíme vybrat takové, které se nejlépe hodí pro daný účel. V oblasti zdraví jsme hrdým dovozcem prémiových značek Viridian a EkoLife.')?></p>
+            </div>
+        </div>
+        <div class="row equal width">
+            <div class="column middle aligned">
+                <a class="link-img" href="https://lekarnavbezovce.cz/" target="_blank">
+                    <img class="logo-siroke" src="images/logo-lekarna-bezovka.png" alt="Logo Lékárna V Bezovce" width="335" height="80"/>
                 </a>
             </div>
             <div class="column middle aligned">
@@ -42,19 +52,12 @@ use Model\Entity\PaperAggregateInterface;
         </div>
         <div class="row equal width">
             <div class="column middle aligned">
-                <a class="link-img" href="https://lekarnavbezovce.cz/" target="_blank">
-                    <img class="logo-siroke" src="images/logo-lekarna-bezovka.png" alt="Logo Lékárna V Bezovce" width="335" height="80"/>
-                </a>
-            </div>
-        </div>
-        <div class="row equal width">
-            <div class="column middle aligned">
                 <a class="ui massive secondary basic fluid button" href="https://www.mvcr.cz/clanek/telefonni-psychologicke-linky-pro-seniory-deti-a-dospele.aspx" target="_blank">Krizové linky - kam zavolat?</a>
             </div>
             <div class="column middle aligned">
                 <a class="ui massive secondary basic fluid button" href="http://otuzilci-plzen.cz/" target="_blank">Klub sportovních otužilců Plzeň</a>
             </div>
-            
+
             <div class="column middle aligned">
                 <a class="ui massive secondary basic fluid button" href="https://koronavirus.plzen.eu/" target="_blank">Co dělat v různých životních situacích</a>
             </div>
