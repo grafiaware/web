@@ -1,0 +1,292 @@
+.layoutTZ{
+
+    /*VLASTNÍ HTML TAGY*/
+    headline, content, block, div[class=""], perex{
+        display: block;
+        position: relative;
+        span[class=""]{
+            display: inline-block;
+        }
+    }
+    header{
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        margin: 40px 0;
+    }
+    
+    /***FIXNÍ LIŠTA***/
+    .fix-bar{
+        width: 10%;
+        height: 100%;
+        position: fixed;
+        color: @invertedTextColor;
+        background-color: @primaryColor;
+        z-index: 5;
+        .prihlaseni{
+            top: 17%;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 3;
+            .icon.button:not(.labeled){
+                background-color: transparent;
+                > .user.icon{
+                    color: @invertedTextColor;
+                    font-size: 1.45em;
+                    opacity: 1;
+                    &:hover{
+                        opacity: 0.8 ;
+                        transition: 0.2s all;
+                    }
+                }
+            }
+            .dropdown{
+                .header.item{
+                    background-color: @white;
+                    cursor: default;
+                    text-align: center;
+                    &:hover{
+                        background-color: @white;
+                    }
+                    .icon{
+                        opacity: 1;
+                    }
+                }
+                .menu{
+                    padding: 0 12px 20px 12px;
+                }
+                input{
+                    border: 1px solid @lightGrey !important;
+                    font-size: 0.8em;
+                }
+                button.fluid{
+                    margin: 5px 0;
+                    font-size: 0.8em;
+                }
+                .ui.labeled.icon.button > .icon::before{
+                    top: -10px;
+                }
+            } 
+            .logout{
+                i.sign.out.icon{
+                    color: @invertedTextColor;
+                    font-size: 2em;
+                    opacity: 1;
+                    &:hover{
+                        opacity: 0.8 ;
+                    }
+                }
+                .dropdown .header.item{
+                    font-size: 1.3em;
+                }
+            }
+            > form{ //v tomhle formu je tlacitko Akce
+                > div.icon{
+                    color: @invertedTextColor;
+                    font-size: 1.8em ;
+                    opacity: 1;
+                    padding: 7px;
+
+                }
+            }
+            button:not(.fluid){
+                position: relative;
+                left: 10%;
+                font-size: 1.2em;
+                &.positive{
+                    left: 6%;
+                    font-size: 0.92em;
+                    padding-top: 0.6em;
+                    padding-bottom: 0.6em;
+                }
+            }
+        }
+    }
+    
+    /***SVISLE MENU***/
+    nav ul{
+        padding: 0;
+        list-style: none;
+    }
+    .svisle-menu .vertical.menu:not(.edit){
+        margin-left: 20px;
+    }
+    .svisle-menu .vertical.menu{
+        .presented > .item{
+            color: darken(@primaryColor, 15)
+        }
+        .onpath{
+            .menu{
+                left: 7%;
+                position: relative;
+                .item{
+                    color: @invertedTextColor;
+                }
+            }
+        }
+    }
+    //hamburger menu
+    .close-item,
+    .nav-mobile{
+      font-size: @bigSize * @emSize;
+      margin: 5px 0;
+      &:hover{
+          cursor: pointer;
+      }
+    }
+    .close-item > a > i.times.circle.icon,
+    .nav-mobile > i.bars.icon{
+        margin: 0;
+    }
+    .nav-mobile{
+        font-size: @bigSize * @emSize;
+    }
+    .close-item{
+        text-align: right; 
+        font-size: @hugeSize * @emSize;
+        border-bottom: 3px solid @invertedTextColor;
+        margin: 50px 0;
+        padding: 20px 20px 40px 0;
+        .hamburger-icon{
+            position: absolute;
+            top: 45px;
+            left: 20px;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            align-items: center;
+            cursor: auto;
+        }
+        img{
+            position: absolute;
+            top: 45px;
+            left: 120px;
+        }
+        .close.slim-icon{
+            content: "";
+            position: absolute;
+            width: 63px;
+            height: 63px;
+            right: 20px;
+            top: 45px;
+            &:hover{
+                opacity: 0.8;
+                transition: 0.2s all;
+            }
+            &::before, &::after{
+                position: absolute;
+                left: 30px;
+                top: -4px;
+                content: ' ';
+                height: 70px;
+                width: 3px;
+                background-color: @invertedTextColor
+                
+            }
+            &::before{
+                transform: rotate(45deg);
+            }
+            &::after{
+                transform: rotate(-45deg);
+            }
+        }
+    }
+    .svisle-menu:first-child {
+       // display: none;
+    }
+    #mySidenav {
+        display: none;
+        height: 100%;
+        width: 30%;
+        background-color: @primaryColor;
+        position: fixed!important;
+        top: 0;
+        left: 0;
+        z-index: 100;
+        overflow: auto;
+        -webkit-animation: animateleft 0.4s;
+        animation: animateleft 0.4s;
+        padding: 40px 20px 20px;
+    }
+    #myOverlay{
+        position: fixed;
+        display: none;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5); //@transparentBlack
+        z-index: 1;
+    }
+    @-webkit-keyframes animateleft {
+      from {
+        left: -300px;
+        opacity: 0;
+      }
+      to {
+        left: 0;
+        opacity: 1;
+      }
+    }
+    @keyframes animateleft {
+      from {
+        left: -300px;
+        opacity: 0;
+      }
+      to {
+        left: 0;
+        opacity: 1;
+      }
+    }
+    .nav-mobile{
+       z-index: 1;
+    }
+    .nav-mobile{
+        align-items: center;
+        position: relative;
+        padding: 5px;
+        height: 70px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        top: 15%;
+        &:hover{
+            transition: 0.2s all;
+        }
+        > span:hover{
+            opacity: 0.8;
+        }
+    }
+    .nav-mobile:not(.active){
+        display: none;
+    }
+    
+    main{
+        min-height: 850px;
+    }
+    
+    /***PATIČKA***/
+    footer{
+        color: @invertedTextColor;
+        background-color: @primaryColor;
+        width: 100%;
+        padding-left: 21px;
+        padding-top: 30px;
+        height: 150px;
+        font-size: @smallFontSize; 
+        position: relative;
+        left: 9%;
+        footer a{
+            color: @invertedTextColor !important; 
+            &:hover{
+                color: @invertedTextColor !important;
+            }
+        }
+    }
+    
+}

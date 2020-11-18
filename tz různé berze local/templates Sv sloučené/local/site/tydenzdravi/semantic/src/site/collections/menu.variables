@@ -1,0 +1,23 @@
+/*******************************
+    User Variable Overrides
+*******************************/
+@background: transparent;
+@borderWidth: 0;
+@boxShadow: none;
+
+@verticalBackground: transparent;
+
+/* Menu Item */
+@itemTextColor: @invertedTextColor;
+@itemHorizontalPadding: 0;
+
+/* Hovered Item */
+@hoverItemBackground: transparent;
+@hoverItemTextColor: @invertedTextColor;
+
+/* Resize large sizes */
+@huge: @18px;
+@massive: @33px;
+
+@massiveWidth: 30rem;
+

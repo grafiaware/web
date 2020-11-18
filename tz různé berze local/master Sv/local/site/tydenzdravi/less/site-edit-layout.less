@@ -1,0 +1,90 @@
+@borderWidth: 1px;
+@borderStyle: solid;
+@borderRadius: 0;
+@mediumGrey: darken(@lightGrey, 15);
+@barvaEditButtony: #FBFBE7; //pro prvni polozku ve svislem menu Bloky
+@barvaKos: #F8F3FF; //pro smazany content a prvni polozku ve svislem menu Kos
+
+//Container
+@containerPositionRight: 0;
+@containerMargin: @hodnota0 10px @hodnota0 @hodnotaAuto;
+@formMargin: 0;
+
+//Poznamky a flash
+@poznamkyPositionLeft: -260px;
+@poznamkyPositionRight: @hodnotaAuto;
+@poznamkyPositionTop: 170px;
+@flashPositionTop: 10px;
+@poznamkyPositionBottom: @hodnotaAuto;
+@poznamkyFontSize: 15px;
+@poznamkyWidth: 250px;
+@poznamkyContentPadding: 10px;
+@poznamkyParagraphMarginBottom: 0.7em;
+@poznamkyLastParagraphMarginBottom: 0;
+@flashContentHeight: 110px;
+@poznamkyLabelMargin: @hodnota0;
+@poznamkyLabelIconWidth: 100%;
+@poznamkyBorderShadow: 1px 1px 10px 1px @mediumGrey;
+@poznamkyBorderRadius: @borderRadius;
+@poznamkyBackground: @white;
+@poznamkyTransition: 0.7s linear;
+@poznamkyZIndex: 0;
+@poznamkyBreakPre: true;
+
+//Header
+@headerMargin: 50px @hodnota0 35px @hodnota0;
+
+//Menu
+@menuParagraphSpanCursor: text;
+@menuParagraphMarginBottom: 0;
+
+//Svislé menu
+@svisleMenuWidth: 100%;
+@svisleMenuHeight: auto; //pro overflow
+@svisleMenuMargin: @hodnota0 @hodnota0 @hodnota0 -8px;
+@svisleMenuOverflow: auto;
+@svisleMenuParagraphPadding: 10px 20px;
+@svisleMenuLiPadding: 3px;
+//Svislé menu bloky
+@svisleMenuBlokyHeight: 400px;
+@svisleMenuBlokyMargin: 20px auto 20px -8px;
+//Svislé menu koš
+//Vodorovné menu
+@vodorovneMenuItemPaddingLeft: 5px;
+@vodorovneMenuItemButtonPadding: 9px 12px;
+//Přesměrování menu
+@presmerovaniMenuItemMaginRight: 20px;
+
+//Paper
+@paperMargin: @hodnota0 10px;
+@paperNotFirstMargin: 40px 0 0 0;
+//Headline
+@headlineHorizontalMargin: -0.4em;
+//Section
+@sectionMargin: 0 0 5px 0;
+@sectionTrashOutline: @borderWidth dotted darken(@barvaKos,20);
+//Content
+@contentMinHeight: 45px;
+//Smazaný content
+@sectionTrashMargin: @hodnota0 -5px 5px -5px;
+@trashContentOpacity: 0.5;
+@trashContentPadding: 5px;
+@trashContentFilter: grayscale(1);
+
+
+.svisle-menu .menu.edit{
+    p{
+        outline: 3px solid;
+    }
+    p:not(.item){
+        display: none;
+    }
+        //ke smazání, až bude .semafor i v <p>
+    li {
+        > .semafor{
+            top: 30px !important;
+            left: 1px;
+            height: auto;
+        }
+    }
+}
