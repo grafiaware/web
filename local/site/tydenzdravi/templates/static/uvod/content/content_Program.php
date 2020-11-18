@@ -16,7 +16,7 @@ use Model\Entity\PaperAggregateInterface;
         <div class="eight wide column"><a href="www/item/static/prednasky" class="ui secondary fluid massive button">Zobrazit přednášky</a></div>
         <div class="eight wide column"><a href="www/item/static/body-pro-zdravi" class="ui secondary fluid massive button">Zobrazit místa</a></div>
         <div class="sixteen wide column">
-            <div class="velky text vlevo">
+            <div class="velky text vlevo okraje">
                 <p>
                     <?= $this->mono('V průběhu sedmi dnů vám nabídneme ZDARMA <b>online přednášky a rozhovory s odborníky</b> z různých oborů a také "body pro zdraví", kde najdete <b>produkty či služby</b> na podporu zdravého životního stylu.') ?>
                 </p>

@@ -1,6 +1,11 @@
 @marginDefault: 70px;
-main perex, main content{
-    margin: @marginDefault 0;
+main{
+    :not(.paper) perex, :not(.paper) content{
+        margin: @marginDefault 0;
+    }
+    .paper perex, .paper content{
+         margin: 50px 0;
+    }
 }
 main headline{
     margin: 70px 0 -20px
@@ -51,16 +56,16 @@ main headline{
 }
 .text{
     font-size: @fontSize;
-    &:not(do-kraju):not(do-kraju-uzky):not(kraje-uzky){
-        padding: 30px 40px;
-    }
-    &.do-kraju{
-        padding: 30px 0px;
-    }
-    &.do-kraju-uzky{
+    &:not(.okraje):not(.okraje-vertical):not(.okraje-horizontal){
         padding: 10px 0;
     }
-    &.kraje-uzky{
+    &.okraje{
+        padding: 30px 40px;
+    }
+    &.okraje-vertical{ 
+        padding: 30px 0px;
+    }
+    &.okraje-horizontal{
         padding: 0 40px;
     }
     &.velky{
@@ -77,6 +82,20 @@ main headline{
         width: 90%;
         left: 0;
         position: relative;
+    }
+}
+.row.padding-vertical{
+    padding: 2em 0 !important;
+}
+.column.padding-vertical{
+    padding: 2em 1rem !important;
+}
+.paper{
+    headline{
+        
+    }
+    perex{
+        
     }
 }
 .obr-upoutavka{
@@ -131,10 +150,8 @@ main headline{
         }
     }
 }
-.prednasky{
-    .prednasejici{
-        margin-bottom: 70px;
-    }
+.prednasejici{
+    margin-bottom: 70px;
 }
 .blokEL-obr-text{
     position: relative;

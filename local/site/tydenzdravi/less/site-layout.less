@@ -114,7 +114,10 @@
     .svisle-menu .vertical.menu:not(.edit){
         margin-left: 20px;
     }
-    .svisle-menu .vertical.menu{
+    .svisle-menu .vertical.menu .item{
+        color: @invertedTextColor;
+    }
+    .svisle-menu .menu{
         .presented > .item{
             color: darken(@primaryColor, 15)
         }
@@ -122,8 +125,11 @@
             .menu{
                 left: 7%;
                 position: relative;
-                .item{
+                &:not(.presented).item{
                     color: @invertedTextColor;
+                }
+                &.presented > .item{
+                    color: darken(@primaryColor, 15);
                 }
             }
         }

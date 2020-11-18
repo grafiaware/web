@@ -19,7 +19,7 @@ use Model\Entity\PaperAggregateInterface;
                     <div class="primarni-barva podklad nadpis vpravo">
                         <p>21.—27. 11. 2020</p>
                     </div>
-                    <div class="sekundarni-barva podklad blok text">
+                    <div class="sekundarni-barva podklad blok text okraje">
                         <p class="podnadpis"><b>TÝDEN ZDRAVÍ</b><br/>Zdravá rodina</p>
                         <p>
                              <?= $this->mono('<b>Zúčastněte se nové osvětové akce na podporu prevence a udržení dobrého zdravotního stavu všech generací!</b>') ?>

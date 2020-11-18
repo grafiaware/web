@@ -15,7 +15,7 @@
 }
 .ui.vertical.menu:not(.icon){
     li:not(.presented){
-        a.item{
+        > a.item{
             overflow: hidden;
             &:hover::after{
                 transform: scaleX(1);

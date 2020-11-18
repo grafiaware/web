@@ -14,7 +14,7 @@ use Model\Entity\PaperAggregateInterface;
             <div class="primarni-barva podklad nadpis vpravo">
                 <p>Organizátor</p>
             </div>
-            <div class="velky text">
+            <div class="velky text okraje">
                 <p>Autorem myšlenky Týdne zdraví a organizátorem akce je <b>Grafia, s.r.o.</b></p>
                 <p>
                     <?= $this->mono('Umíme efektivně komunikovat akce našich zákazníků i ty vlastní, vzděláváme a zkoušíme dospělé, organizujeme eventy na klíč, vydáváme knihy... <br/> Děláme to už od roku 1993 – rádi a dobře!') ?>

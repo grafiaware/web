@@ -26,7 +26,7 @@ use Model\Entity\PaperAggregateInterface;
                             <div class="cerveny podklad vpravo nadpis">
                                 <p>21.—27. 11. 2020</p>
                             </div>
-                            <div class="zeleny podklad blok text">
+                            <div class="zeleny podklad blok text okraje">
                                 <p class="podnadpis"><b>TÝDEN ZDRAVÍ</b><br/>Zdravá rodina</p>
                                 <p><b>Zúčastněte se nové osvětové akce na podporu prevence a udržení dobrého zdravotního stavu všech generací!</b></p>
                             </div>
@@ -42,7 +42,7 @@ use Model\Entity\PaperAggregateInterface;
                                 <p>O akci</p>
                             </div>
                             <img src="/_www_tz_files/files/pexels-photo-web-orez.jpg" width="100%" height="" />
-                            <div class="velky text vpravo">
+                            <div class="velky text okraje vpravo">
                                 <p>V poslední době pod vlivem Covidu-19 lidé zanedbávali preventivní návštěvy lékařů, odsouvali i nutná ošetření a kontroly. Vlivem médií došlo u řady lidí k úzkostným a iracionálním reakcím, vedoucím až ke škodám na zdraví.</p>
                             </div>
                         </div>
@@ -55,7 +55,7 @@ use Model\Entity\PaperAggregateInterface;
                     <div class="ui stackable centered grid">
                         <div class="sixteen wide column">
                             <img src="/_www_tz_files/files/pexels-andrea-piacquadio-web-orez.jpg" width="100%" height="" />
-                            <div class="velky text vlevo">
+                            <div class="velky text okraje vlevo">
                                 <p>Ve spolupráci s <b>odborníky</b> proto společnost <b>Grafia</b> pořádá akci, jejímž cílem je <b>zvýšit povědomí veřejnosti o zdravém životním stylu, podpoře vlastní imunity a rozumném přístupu k vlastnímu zdraví.</b></p>
                             </div>
                         </div>
@@ -72,7 +72,7 @@ use Model\Entity\PaperAggregateInterface;
                             <div class="cerveny podklad nadpis vpravo">
                                 <p>Organizátor</p>
                             </div>
-                            <div class="velky text">
+                            <div class="velky text okraje">
                                 <p>Autorem myšlenky Týdne zdraví a organizátorem akce je <b>Grafia, s.r.o.</b></p>
                                 <p>Umíme efektivně komunikovat akce našich zákazníků i ty vlastní, vzděláváme a zkoušíme dospělé, organizujeme eventy na klíč, vydáváme knihy... Děláme to už od roku 1993 – rádi a dobře! Budeme rádi za Vaše reakce ci připomínky ke zlepšení: pište na <b>slukova@grafia.cz nebo volejte 774 484 855</b></p>
                             </div>

@@ -47554,17 +47554,17 @@ Floated Menu / Item
   display: none;
 }
 
-.ui.vertical.menu:not(.icon) li:not(.presented) a.item {
+.ui.vertical.menu:not(.icon) li:not(.presented) > a.item {
   overflow: hidden;
 }
 
-.ui.vertical.menu:not(.icon) li:not(.presented) a.item:hover::after {
+.ui.vertical.menu:not(.icon) li:not(.presented) > a.item:hover::after {
   -webkit-transform: scaleX(1);
   transform: scaleX(1);
   background-color: #fff;
 }
 
-.ui.vertical.menu:not(.icon) li:not(.presented) a.item::after {
+.ui.vertical.menu:not(.icon) li:not(.presented) > a.item::after {
   background: none;
   position: absolute;
   top: auto;

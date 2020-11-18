@@ -11,7 +11,7 @@ use Model\Entity\PaperAggregateInterface;
             <div class="primarni-barva podklad nadpis vlevo">
                 <p>Partneři</p>
             </div>
-            <div class="velky text vlevo">
+            <div class="velky text vlevo okraje">
                 <p>Děkujeme za podporu partnerům:</p>
             </div>
         </div>

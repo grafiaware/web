@@ -122,6 +122,16 @@
             height: auto;
         }
     }
+    .kupony{
+        .kupon-img{
+            height: 250px;
+            width: 375px;
+        }
+        .kupon-siroky-img{
+            height: 180px;
+            width: 428px;
+        }
+    }
     
 }
 @media screen and (max-width: 1200px){
@@ -232,10 +242,10 @@
     }
     .text{
         font-size: 20px;
-        &:not(do-kraju){
-             padding: 26px 17px;
+        &:not(okraje-vertical){
+            padding: 26px 17px; 
         }
-        &.do-kraju{
+        &.okraje-vertical{
             padding: 20px 0px;
         }
         &.velky{
@@ -282,9 +292,13 @@
             margin-left: 0;
         }
     }
-    main perex, main content{
-        @marginDefault: 30px;
-        margin: @marginDefault 0;
+    main{
+        :not(.paper) perex, :not(.paper) content{
+            margin: 30px 0;
+        }
+        .paper perex, .paper content{
+             margin: 20px 0;
+        }
     }
     main headline{
         margin-top: 50px;
@@ -415,10 +429,10 @@
     }
     .text{
         font-size: 20px;
-        &:not(do-kraju){
+        &:not(okraje-vertical){
              padding: 26px 17px;  
         }
-        &.do-kraju{
+        &.okraje-vertical{
             padding: 20px 0px;
         }
         &.velky{
@@ -453,9 +467,13 @@
             margin-left: 0;
         }
     }
-    main perex, main content{
-        @marginDefault: 20px;
-        margin: @marginDefault 0;
+    main{
+        :not(.paper) perex, :not(.paper) content{
+            margin: 20px 0;
+        }
+        .paper perex, .paper content{
+             margin: 20px 0;
+        }
     }
     main headline{
         margin-top: 40px;
@@ -547,7 +565,7 @@
             }
         }
     }
-    .prednasky .prednasejici{
+    .prednasejici{
         margin-left: -15px;
         margin-right: -15px;
     }
@@ -592,6 +610,16 @@
                 height: 145px;
                 width: auto;
             }
+        }
+    }
+    .kupony{
+        .kupon-img{
+            height: 180px;
+            width: 270px;
+        }
+        .kupon-siroky-img{
+            height: 115px;
+            width: 270px;
         }
     }
 }

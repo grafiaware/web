@@ -4,7 +4,7 @@ use Model\Entity\PaperAggregateInterface;
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregateInterface $paperAggregate */
 ?>
-<div class="prednasky">
+<div class="paper">
     <headline>
         <?php include "body-pro-zdravi/headline.php" ?>
     </headline>
@@ -15,7 +15,7 @@ use Model\Entity\PaperAggregateInterface;
         <?php include "body-pro-zdravi/content/content_BodyZdravi.php" ?>
     </content>
     <content>
-        <div class="velky text do-kraju">
+        <div class="velky text okraje-vertical">
             <p>
                 <?= $this->mono('Další body pro vaše zdraví budou postupně přibývat, sledujte tuto stránku!')?>
             </p>
