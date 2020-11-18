@@ -60,6 +60,10 @@ use Model\Entity\PaperAggregateInterface;
             <div class="eight wide column"><p><?= $this->mono('<b>Rodinné vztahy a péče o seniory v dnešním světě</b>')?></p><p>23.11.2020, 18:00</p><p><a class="ui large secondary button" href="https://forms.gle/aUoufuqLyaSjm6rE8" target="_blank">Přihlásit se / Položit dotaz</a></p></div>
         </div>
         <div class="stretched row">
+            <div class="eight wide column"><p><b>JUDr. Jana Lexová</b></p><p><?= $this->mono('Seniorka, která se dobrovolně věnuje sociálně právnímu poradenství pro seniory a dlouhodobě se podílí  na jejich vzdělávání')?></p></div>
+            <div class="eight wide column"><p><?= $this->mono('<b>Jak dospět ve stáří k jedinečnému poznání, pochopení souvislostí a k moudrosti</b>')?></p><p>22.11.2020, 17:00</p><p><a class="ui large secondary button" href="https://forms.gle/aUoufuqLyaSjm6rE8" target="_blank">Přihlásit se / Položit dotaz</a></p></div>
+        </div>
+        <div class="stretched row">
             <div class="eight wide column"><p><b>Anna a Eva Vopalecké</b></p><p><?= $this->mono('lektorky ve studiu Fitness KA')?></p></div>
             <div class="eight wide column"><p><?= $this->mono('<b>Tančete s námi</b>')?></p><p><a class="ui large secondary button" href="https://forms.gle/aUoufuqLyaSjm6rE8" target="_blank">Přihlásit se / Položit dotaz</a></p></div>
         </div>
