@@ -114,5 +114,4 @@ class Configuration extends ConfigurationTz_newdb {
     public static function transformator() {
         return self::getConfigModule('transformator');
     }
-
 }

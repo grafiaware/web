@@ -88,11 +88,11 @@ class StatusPresentationManager implements StatusPresentationManagerInterface {
             $statusPresentation->setLanguage($language);
         }
         // defaultní node item pro jazyk prezentace
-        $menuItem = $statusPresentation->getMenuItem();
-        if (!$menuItem) {
-            $menuItem = $this->getDefaulMenuItem($language->getLangCode());
-            $statusPresentation->setMenuItem($menuItem);
-        }
+//        $menuItem = $statusPresentation->getMenuItem();
+//        if (!$menuItem) {
+//            $menuItem = $this->getDefaulMenuItem($language->getLangCode());
+//            $statusPresentation->setMenuItem($menuItem);
+//        }
     }
 
     /**
@@ -116,7 +116,7 @@ class StatusPresentationManager implements StatusPresentationManagerInterface {
      * @return HierarchyAggregateInterface
      */
     private function getDefaulMenuItem($langCode) {
-        $rootName = Configuration::statusPresentationManager()['default_hierarchy_root_component_name'];
+        $rootName = Configuration::statusPresentationManager()['default_menu_item_component_name'];
         $menuRootItem = $this->menuRootRepo->get($rootName);
         if (!isset($menuRootItem)) {
             throw new \UnexpectedValueException("Nenalezen default kořen menu se jménem '$rootName' načteným z konfigurace.");

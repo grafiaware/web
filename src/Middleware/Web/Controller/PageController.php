@@ -30,7 +30,7 @@ use Middleware\Login\Controller\LoginLogoutController;
 ####################
 
 use Model\Repository\{
-    HierarchyAggregateRepo, MenuRootRepo, MenuItemRepo, BlockAggregateRepo
+    HierarchyAggregateRepo, MenuItemRepo, BlockAggregateRepo
 };
 
 ####################
@@ -46,20 +46,25 @@ class PageController extends LayoutControllerAbstract {
     ### action metody ###############
 
     public function home(ServerRequestInterface $request) {
-        return $this->static($request, 'uvod');
+//        return $this->static($request, 'uvod');
         $statusPresentation = $this->statusPresentationRepo->get();
-        /** @var MenuRootRepo $menuRootRepo */
-        $menuRootRepo = $this->container->get(MenuRootRepo::class);
+        /** @var BlockAggregateRepo $componentAggregateRepo */
+        $componentAggregateRepo = $this->container->get(BlockAggregateRepo::class);
         /** @var MenuItemRepo $menuItemRepo */
         $menuItemRepo = $this->container->get(MenuItemRepo::class);
-        // uid default kořenové položky (z konfigurace)
-        $rootName = Configuration::statusPresentationManager()['default_hierarchy_root_component_name'];
-        $uidFk = $menuRootRepo->get($rootName)->getUidFk();
+        // jméno default komponenty (z konfigurace)
+        $homeComponentName = Configuration::statusPresentationManager()['default_menu_item_component_name'];
         $langCode = $statusPresentation->getLanguage()->getLangCode();
-        $rootMenuItem = $menuItemRepo->get($langCode, $uidFk );    // kořen menu
-        $statusPresentation->setMenuItem($rootMenuItem);
+        $homeComponent = $componentAggregateRepo->getAggregate($langCode, $homeComponentName);
+        if (isset($homeComponent)) {
+            $homeMenuItem = $homeComponent->getMenuItem();
+            $statusPresentation->setMenuItem($homeMenuItem);
+            $actionComponents = ["content" => $this->getMenuItemComponent($homeMenuItem)];
+        } else {
+            $actionComponents = ["content" => ''];
+            user_error("Undefined default (home) component for name '$homeComponentName'.", E_USER_WARNING);
+        }
 
-        $actionComponents = ["content" => $this->getMenuItemComponent($rootMenuItem)];
         return $this->createResponseFromView($request, $this->createView($request, $this->getComponentViews($actionComponents)));    }
 
     public function item(ServerRequestInterface $request, $langCode, $uid) {
@@ -234,7 +239,7 @@ class PageController extends LayoutControllerAbstract {
             $componets = [
                 'menuPresmerovani' => $this->container->get('menu.presmerovani')->setMenuRootName('menu_redirect'),
                 'menuVodorovne' => $this->container->get('menu.vodorovne')->setMenuRootName('menu_horizontal'),
-                'menuSvisle' => $this->container->get('menu.svisle')->setMenuRootName('menu_vertical'), //->withTitleItem(true),
+                'menuSvisle' => $this->container->get('menu.svisle')->setMenuRootName('menu_vertical')->withTitleItem(true),
             ];
 //                return [
 //                'menuPresmerovani' => $this->container->get('menu.presmerovani.editable')->setMenuRootName('menu_redirect'),

@@ -279,9 +279,10 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                                 $c->get(PaperAggregateRepo::class),
                                 $c->get(BlockAggregateRepo::class)
                             );
-                $itemComponent = new NamedPaperComponent($viewModel);
-                $itemComponent->setRendererContainer($c->get('rendererContainer'));
-                return $itemComponent;
+                $component = new NamedPaperComponent($viewModel);
+                $component->setRendererContainer($c->get('rendererContainer'));
+                $component->setTemplatesPath($c->get('component.templatePath.paper'));
+                return $component;
                 },
 
             PresentedPaperComponent::class => function(ContainerInterface $c) {
@@ -291,9 +292,10 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                                 $c->get(StatusFlashRepo::class),
                                 $c->get(PaperAggregateRepo::class)
                         );
-                $itemComponent = new PresentedPaperComponent($viewModel);
-                $itemComponent->setRendererContainer($c->get('rendererContainer'));
-                return $itemComponent;
+                $component = new PresentedPaperComponent($viewModel);
+                $component->setRendererContainer($c->get('rendererContainer'));
+                $component->setTemplatesPath($c->get('component.templatePath.paper'));
+                return $component;
                 },
 
             #### komponenty s připojeným fallback rendererem - pro paper s šablonou je šablona připojena později
@@ -367,7 +369,7 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
 //                return (new FlashComponent($viewModel))->setRendererContainer($c->get('rendererContainer'))->setRendererName(FlashRenderer::class);
 //            },
 
-            // komponenty s template - cesty k souboru šablony jsou definovány v konfiguraci - předány do kontejneru jako parametry setParams()
+            // komponenty s PHP template - cesty k souboru template jsou definovány v konfiguraci - předány do kontejneru jako parametry setParams()
             FlashComponent::class => function(ContainerInterface $c) {
                 $viewModel = new FlashViewModel($c->get(StatusFlashRepo::class));
                 return (new FlashComponent($viewModel))->setRendererContainer($c->get('rendererContainer'))->setTemplate(new PhpTemplate($c->get('component.template.'.FlashComponent::class)));

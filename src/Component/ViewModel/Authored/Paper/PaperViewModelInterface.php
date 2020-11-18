@@ -25,10 +25,16 @@ interface PaperViewModelInterface extends AuthoredViewModelInterface {
     public function getMenuItem(): ?MenuItemInterface;
 
     /**
-     * Metoda nemá parametr. Vrací menuItemAggregate odpovídající položce menu, zapsané v databázi jako komponenta se se jménem komponenty zadaným metodou setComponentName($componentName).
+     * Vrací informaci o komponentě pro vložení informativního textu do výsledného html.
+     * @return string
+     */
+    public function getInfo();
+
+    /**
+     * Vrací PaperAggregate příslušný k menuItem. MenuItem poskytuje metoda konponenty getMenuItem().
+     * Pokud PaperAggregate dosud neexistuje (není persitován, není vrácen z repository) vytvoří nový objekt PaperAggregate.
      *
      * @return PaperAggregateInterface|null
      */
     public function getPaperAggregate(): ?PaperAggregateInterface;
-
 }

@@ -6,9 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Component\View\Authored;
-
-use Component\View\ComponentInterface;
+namespace Component\View\Authored\Paper;
 
 /**
  *
@@ -16,4 +14,5 @@ use Component\View\ComponentInterface;
  */
 interface AuthoredComponentInterface {
     public function setEditable($editable);
+    public function setTemplatesPath($path);
 }

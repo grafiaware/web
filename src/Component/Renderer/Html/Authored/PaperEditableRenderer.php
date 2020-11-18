@@ -28,7 +28,8 @@ class PaperEditableRenderer  extends AuthoredRendererAbstract {
     }
 
     private function renderPrivate(PaperViewModelInterface $viewModel) {
-        $viewModel->isArticleEditable();
+        $menuItemType = $viewModel->getMenuItem();
+
         $paperAggregate = $viewModel->getPaperAggregate();
 
         // select render
@@ -43,24 +44,11 @@ class PaperEditableRenderer  extends AuthoredRendererAbstract {
         }
 
         // atribut data-component je jen pro info v html
-        return Html::tag('div', ['data-componentinfo'=>$this->getComponentinfo($viewModel), 'class'=>$this->classMap->getClass('Segment', 'div')],
+        return Html::tag('div', ['data-componentinfo'=>$viewModel->getInfo(), 'class'=>$this->classMap->getClass('Segment', 'div')],
                 Html::tag('div', ['class'=>$this->classMap->getClass('Segment', 'div.paper')], $innerHtml)
             );
     }
 
-    private function getComponentinfo(PaperViewModelInterface $viewModel) {
-        if ($viewModel instanceof NamedPaperViewModelInterface) {
-            $componentAggregate = $viewModel->getComponentAggregate();
-            if (isset($componentAggregate)) {
-                $componentinfo = "named: ".$componentAggregate->getName();
-            } else {
-                $componentinfo = "undefined component named: ".$viewModel->getComponentName();
-            }
-        } else {
-            $componentinfo = "presented";
-        }
-        return $componentinfo;
-    }
 
     private function renderPaper(PaperAggregateInterface $paperAggregate) {
 

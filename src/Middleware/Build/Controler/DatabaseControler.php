@@ -27,16 +27,12 @@ class DatabaseControler extends BuildControlerAbstract {
         #
         #   Před spuštením tohoto kroku:
         #   - musí existovat databáze
-        #   - musí existovat uživatelé: prefix_everyone, prefix_authenticated, prefix_administrator
         #   - uživatel pod kterým je vytvořeno spojení k databázovámu stroji
         #     musí mít práva mazat databáze a uživatele- nejlépe tedy role DBA
         #
         ####
         $dropSteps[] = function() {
             return $this->executeFromTemplate("drop_database_template.sql", $this->container->get('build.config.drop'));
-        };
-        $dropSteps[] = function() {
-            return $this->executeFromTemplate("drop_users_template.sql", $this->container->get('build.config.users'));
         };
 
         $this->manipulator = $this->container->get('manipulator_for_drop_database');

@@ -8,13 +8,11 @@
 
 namespace Component\View\Authored\Menu;
 
-use Component\View\Authored\AuthoredComponentInterface;
-
 /**
  *
  * @author pes2704
  */
-interface MenuComponentInterface extends AuthoredComponentInterface {
+interface MenuComponentInterface  {
     public function setRenderersNames($levelWrapRendererName, $itemRendererName): MenuComponentInterface;
     public function setMenuRootName($menuRootName): MenuComponentInterface;
     public function withTitleItem($withTitle=false): MenuComponentInterface;

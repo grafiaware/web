@@ -7,6 +7,6 @@ use Model\Entity\PaperAggregateInterface;
 
 <div class="pro-media">
     <content>
-        <?php include "pro-media/content/content_ProMedia.php" ?> 
+        <?php include "content/content_LogoKeStazeni.php" ?>
     </content>
 </div>

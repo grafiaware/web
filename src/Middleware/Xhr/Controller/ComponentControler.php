@@ -104,7 +104,7 @@ class ComponentControler extends XhrControlerAbstract {
     public function static(ServerRequestInterface $request, $staticName) {
         $view = new View();
         $view->setRenderer(new \Pes\View\Renderer\PhpTemplateRenderer());
-        $view->setTemplate(new PhpTemplate(Configuration::layoutControler()['static'].$staticName.".php"));
+        $view->setTemplate(new PhpTemplate(Configuration::layoutControler()['static'].$staticName."/template.php"));
         return $this->createResponseFromView($request, $view);
     }
 

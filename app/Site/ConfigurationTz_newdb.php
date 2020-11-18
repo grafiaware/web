@@ -26,10 +26,13 @@ use Component\Renderer\Html\ClassMap\ClassMap;
  */
 class ConfigurationTz_newdb {
 
+    // site
     const RED_SITE_PATH = 'tydenzdravi/';
+
+    // local
     const RED_TEMPLATES_COMMON = 'local/site/common/templates/';
     const RED_TEMPLATES_SITE = 'local/site/'.self::RED_SITE_PATH.'templates/';
-        // public
+    // public
     const RED_ASSETS = 'public/assets/';
     const RED_LINKS_COMMON = 'public/site/common/';
     const RED_LINKS_SITE = 'public/site/'.self::RED_SITE_PATH;
@@ -190,6 +193,7 @@ class ConfigurationTz_newdb {
         return [
             'component.logs.view.directory' => 'Logs/App/Web',
             'component.logs.view.file' => 'Render.log',
+            'component.templatePath.paper' => self::RED_TEMPLATES_COMMON.'paper/',
             'component.template.'.FlashComponent::class => self::RED_TEMPLATES_COMMON.'layout/info/flashMessage.php',
             'component.template.'.LoginComponent::class => self::RED_TEMPLATES_COMMON.'layout/modal/login.php',
             'component.template.'.LogoutComponent::class => self::RED_TEMPLATES_COMMON.'layout/modal/logout.php',
@@ -756,7 +760,7 @@ class ConfigurationTz_newdb {
     public static function statusPresentationManager() {
         return [
             'default_lang_code' => 'cs',
-            'default_hierarchy_root_component_name' => 'menu_vertical'
+            'default_menu_item_component_name' => 'home'
         ];
     }
 

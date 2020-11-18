@@ -14,4 +14,8 @@ class PresentedPaperViewModel extends PaperViewModelAbstract implements Presente
         return $this->statusPresentationRepo->get()->getMenuItem();
     }
 
+    public function getInfo(): string {
+        return "presented";
+    }
+
 }

@@ -25,16 +25,7 @@ class PaperRenderer extends AuthoredRendererAbstract {
 
     private function renderPrivate(PaperViewModelInterface $viewModel) {
         $paperAggregate = $viewModel->getPaperAggregate();
-        if ($viewModel instanceof NamedPaperViewModelInterface) {
-            $componentAggregate = $viewModel->getComponentAggregate();
-            if (isset($componentAggregate)) {
-                $name = "named: ".$componentAggregate->getName();
-            } else {
-                $name = "undefined component named: ".$viewModel->getComponentName();
-            }
-        } else {
-            $name = "presented";
-        }
+
 
         if (isset($paperAggregate)) {
             $innerHtml = $this->renderPaper($paperAggregate);
@@ -43,7 +34,7 @@ class PaperRenderer extends AuthoredRendererAbstract {
             $innerHtml = Html::tag('div', [], 'No paper for rendering.');
             $style = "display: none;";
         }
-        return Html::tag('div', ['data-component'=>$name, 'class'=>$this->classMap->getClass('Segment', 'div'), 'style'=>$style], $innerHtml);
+        return Html::tag('div', ['data-component'=> $viewModel->getInfo(), 'class'=>$this->classMap->getClass('Segment', 'div'), 'style'=>$style], $innerHtml);
     }
 
     private function renderPaper(PaperAggregateInterface $paperAggregate) {

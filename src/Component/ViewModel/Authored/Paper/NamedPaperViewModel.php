@@ -60,6 +60,16 @@ class NamedPaperViewModel extends PaperViewModelAbstract implements NamedPaperVi
         $this->componentName = $componentName;
     }
 
+    public function getInfo() {
+        $componentAggregate = $this->getComponentAggregate();
+        if (isset($componentAggregate)) {
+            $info = "named: ".$componentAggregate->getName();
+        } else {
+            $info = "undefined component named: ".$this->getComponentName();
+        }
+        return $info;
+    }
+
     /**
      * Vrací entitu ComponentAggregate se zadaným jménem a jazykem prezentace. Pokud je položka menu item použitá v komponentě neaktivní nebo neaktuální
      * nebo neexistujw component v db se jménem $this->componentName, vrací null.

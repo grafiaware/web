@@ -2,7 +2,7 @@
 
 namespace Component\View\Authored\Menu;
 
-use Component\View\Authored\AuthoredComponentAbstract;
+use Component\View\CompositeComponentAbstract;
 use Component\ViewModel\Authored\Menu\MenuViewModel;
 use Component\ViewModel\Authored\Menu\Item\ItemViewModel;
 
@@ -11,7 +11,7 @@ use Component\ViewModel\Authored\Menu\Item\ItemViewModel;
  *
  * @author pes2704
  */
-class MenuComponent extends AuthoredComponentAbstract implements MenuComponentInterface {
+class MenuComponent extends CompositeComponentAbstract implements MenuComponentInterface {
 
     protected $viewModel;
 
