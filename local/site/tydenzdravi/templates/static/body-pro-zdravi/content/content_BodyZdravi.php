@@ -45,11 +45,20 @@ use Model\Entity\PaperAggregateInterface;
                 </a>
             </div>
             <div class="column middle aligned">
+                <a class="link-img" href="http://www.studiofitnesska.cz/" target="_blank">
+                    <img class="logo-siroke" src="images/logo-fitnesska.png" alt="Logo FITNESSKA" width="335" height="68"/>
+                </a>
+            </div>
+        </div>
+        <div class="row equal width">
+            <div class="column middle aligned"></div>
+            <div class="column middle aligned">
                 <a class="link-img" href="http://www.grafia.cz/" target="_blank">
                     <img class="logo-ctverec" src="images/LogoGrafia.jpg" alt="Logo Grafia" width="230" height="159"/>
                 </a>
             </div>
-        </div>
+            <div class="column middle aligned"></div>
+         </div>
         <div class="row equal width">
             <div class="column middle aligned">
                 <a class="ui massive secondary basic fluid button" href="https://www.mvcr.cz/clanek/telefonni-psychologicke-linky-pro-seniory-deti-a-dospele.aspx" target="_blank">Krizové linky - kam zavolat?</a>
