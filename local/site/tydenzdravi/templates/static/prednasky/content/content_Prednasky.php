@@ -1,4 +1,3 @@
-
 <?php
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Model\Entity\PaperAggregateInterface;
@@ -33,8 +32,8 @@ use Model\Entity\PaperAggregateInterface;
             <div class="eight wide column"><p><?= $this->mono('<b>Schüsslerovy soli na podporu imunity</b>')?></p><p>22.11.2020, 18:00</p><p><a class="ui large secondary button" href="https://forms.gle/aUoufuqLyaSjm6rE8" target="_blank">Přihlásit se / Položit dotaz</a></p></div>
         </div>
         <div class="stretched row">
-            <div class="eight wide column"><p><b>Alena Vrbová</b></p><p><?= $this->mono('krizový intervent a sociální pracovnice Ledovec')?></p></div>
-            <div class="eight wide column"><p><?= $this->mono('<b>Nezblázni se z covidu</b>')?></p><p>27.11.2020, 19:30</p><p><a class="ui large secondary button" href="https://forms.gle/aUoufuqLyaSjm6rE8" target="_blank">Přihlásit se / Položit dotaz</a></p></div>
+            <div class="eight wide column"><p><b>Alena Vrbová,  Marek Rubricius</b></p><p><?= $this->mono('krizový interventi a sociální pracovníci Ledovec')?></p></div>
+            <div class="eight wide column"><p><?= $this->mono('<b>Nezblázni se z covidu</b>')?></p><p>23.11.2020, 19:30</p><p><a class="ui large secondary button" href="https://forms.gle/aUoufuqLyaSjm6rE8" target="_blank">Přihlásit se / Položit dotaz</a></p></div>
         </div>
         <div class="stretched row">
             <div class="eight wide column"><p><b>Jindra Švarcová</b></p><p><?= $this->mono('oční optik a prezidentka Lions Clubu Plzeň Bohemia, garant projektu Lví očko')?></p></div>
@@ -83,4 +82,3 @@ use Model\Entity\PaperAggregateInterface;
         </div>
     </div>
 </div>
-
