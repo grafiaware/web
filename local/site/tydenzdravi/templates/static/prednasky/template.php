@@ -6,19 +6,15 @@ use Model\Entity\PaperAggregateInterface;
 ?>
 <div class="paper">
     <headline>
-        <?php include "prednasky/headline.php" ?>
+        <?php include "headline.php" ?>
     </headline>
     <perex>
-        <?php include "prednasky/perex.php" ?>
+        <?php include "perex.php" ?>
     </perex>
     <content>
-        <?php include "prednasky/content/content_Prednasky.php" ?>
+        <?php include "content/content_Prednasky.php" ?>
     </content>
     <content>
-        <div class="velky text okraje-vertical">
-            <p>
-                <?= $this->mono('Další jména přednášejících budou postupně přibývat, sledujte tuto stránku!')?>
-            </p>
-        </div>
+        <?php include "content/paticka.php" ?>
     </content>
 </div>

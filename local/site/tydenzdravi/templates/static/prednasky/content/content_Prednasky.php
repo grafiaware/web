@@ -1,3 +1,4 @@
+
 <?php
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Model\Entity\PaperAggregateInterface;
@@ -82,3 +83,4 @@ use Model\Entity\PaperAggregateInterface;
         </div>
     </div>
 </div>
+

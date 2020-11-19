@@ -11,3 +11,4 @@ use Model\Entity\PaperAggregateInterface;
 <p class="velky text">
     <?= $this->mono('<a href="https://forms.gle/aUoufuqLyaSjm6rE8" target="_blank">Přihlaste se zdarma</a> na vybranou přednášku. Přihlášeným bude zaslán link na e-mail uvedený v přihlašovacím formuláři. <br/> Máte pro přednášející <a href="https://forms.gle/aUoufuqLyaSjm6rE8" target="_blank">dotazy?</a> Napište je předem, ať máte jistotu, že se na ně dostane.')?>
 </p>
+

@@ -6,19 +6,15 @@ use Model\Entity\PaperAggregateInterface;
 ?>
 <div class="paper">
     <headline>
-        <?php include "body-pro-zdravi/headline.php" ?>
+        <?php include "headline.php" ?>
     </headline>
     <perex>
-        <?php include "body-pro-zdravi/perex.php" ?>
+        <?php include "perex.php" ?>
     </perex>
     <content>
-        <?php include "body-pro-zdravi/content/content_BodyZdravi.php" ?>
+        <?php include "content/content_BodyZdravi.php" ?>
     </content>
     <content>
-        <div class="velky text okraje-vertical">
-            <p>
-                <?= $this->mono('Další body pro vaše zdraví budou postupně přibývat, sledujte tuto stránku!')?>
-            </p>
-        </div>
+
     </content>
 </div>

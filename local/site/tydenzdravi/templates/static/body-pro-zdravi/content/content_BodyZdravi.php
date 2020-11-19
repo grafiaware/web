@@ -57,7 +57,7 @@ use Model\Entity\PaperAggregateInterface;
             <div class="column middle aligned">
                 <a class="ui massive secondary basic fluid button" href="http://otuzilci-plzen.cz/" target="_blank">Klub sportovních otužilců Plzeň</a>
             </div>
-            
+
             <div class="column middle aligned">
                 <a class="ui massive secondary basic fluid button" href="https://koronavirus.plzen.eu/" target="_blank">Co dělat v různých životních situacích</a>
             </div>

@@ -7,12 +7,12 @@ use Model\Entity\PaperAggregateInterface;
 
 <div class="paper">
     <headline>
-         <?php include "pro-media/headline.php" ?>
+         <?php include "headline.php" ?>
     </headline>
     <perex>
-        <?php include "pro-media/perex.php" ?>
+        <?php include "perex.php" ?>
     </perex>
     <content>
-        <?php include "pro-media/content/content_ProMedia.php" ?> 
+        <?php include "content/content_ProMedia.php" ?>
     </content>
 </div>
