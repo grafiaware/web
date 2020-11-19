@@ -9,6 +9,7 @@
 namespace Component\ViewModel\Authored\Paper;
 
 use Model\Entity\PaperAggregateInterface;
+use Model\Entity\PaperAggregate;
 
 use Component\ViewModel\Authored\AuthoredViewModelAbstract;
 
@@ -40,12 +41,19 @@ abstract class PaperViewModelAbstract extends AuthoredViewModelAbstract implemen
 
     /**
      * Vrací PaperAggregate příslušný k menuItem. MenuItem poskytuje metoda konponenty getMenuItem().
+     * Pokud PaperAggregate dosud neexistuje (není persitován, není vrácen z repository) vytvoří nový objekt PaperAggregate.
      *
      * @return PaperAggregateInterface|null
      */
     public function getPaperAggregate(): ?PaperAggregateInterface {
         $menuItem = $this->getMenuItem();
-        return isset($menuItem) ? $this->paperAggregateRepo->getByReference($menuItem->getId()) : null;
+        if (isset($menuItem)) {
+            $paperAggregate = $this->paperAggregateRepo->getByReference($menuItem->getId());
+        } elseif ($this->isArticleEditable()) {
+            $paperAggregate = new PaperAggregate();
+            $paperAggregate->setEditor($this->statusSecurityRepo->get()->getUser()->getUserName());
+        }
+        return $paperAggregate ?? null;
     }
 
     public function getIterator() {

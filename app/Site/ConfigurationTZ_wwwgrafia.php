@@ -751,7 +751,7 @@ class ConfigurationTZ_wwwgrafia {
     public static function statusPresentationManager() {
         return [
             'default_lang_code' => 'cs',
-            'default_hierarchy_root_component_name' => 'menu_vertical'
+            'default_hierarchy_root_component_name' => 'home'
         ];
     }
 

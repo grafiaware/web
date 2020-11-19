@@ -22,9 +22,6 @@ use Pes\Text\Html;
  */
 abstract class AuthoredRendererAbstract extends HtmlRendererAbstract {
 
-    #######################
-    # not editable
-    #
 
     protected function renderHeadline(PaperAggregateInterface $headline) {
         $headline = $headline->getHeadline();
@@ -80,9 +77,7 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract {
         return $innerHtml;
     }
 
-    #######################
-    # editable
-    #
+    #### editable ###################
 
     protected function renderPaperTemplateButtonsForm(PaperAggregateInterface $paperAggregate) {
         $paperId = $paperAggregate->getId();

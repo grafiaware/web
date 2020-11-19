@@ -8,7 +8,7 @@
 
 namespace Component\View\Authored\Paper;
 
-use Component\View\Authored\AuthoredComponentInterface;
+use Component\View\Authored\Paper\AuthoredComponentInterface;
 
 /**
  *

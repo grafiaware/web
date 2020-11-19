@@ -1,7 +1,7 @@
 <?php
 namespace Component\View\Authored\Paper;
 
-use Component\View\Authored\AuthoredComponentAbstract;
+use Component\View\Authored\Paper\AuthoredComponentAbstract;
 
 use Component\ViewModel\Authored\Paper\NamedPaperViewModelInterface;
 
@@ -13,9 +13,11 @@ use Component\ViewModel\Authored\Paper\NamedPaperViewModelInterface;
 class NamedPaperComponent extends AuthoredComponentAbstract implements NamedComponentInterface {
 
     /**
+     *
      * @var NamedPaperViewModelInterface
      */
     protected $viewModel;
+
 
     public function __construct(NamedPaperViewModelInterface $viewModel) {
         $this->viewModel = $viewModel;

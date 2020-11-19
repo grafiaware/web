@@ -50,33 +50,30 @@ class PaperController extends PresentationFrontControllerAbstract {
         $this->loadHtml($layoutDocument, $text);
 
         $articleElement = $layoutDocument->getElementsByTagName('article')->item(0);
+        $dataTemplateAttribute = $articleElement->attributes->getNamedItem("data-template");
+        $template = $dataTemplateAttribute->textContent ?? "defaulttemplate";
         $headlineElement = $layoutDocument->getElementsByTagName('headline')->item(0);
         $perexElement = $layoutDocument->getElementsByTagName('perex')->item(0);
-        $contentElements = $layoutDocument->getElementsByTagName('perex');
+        if($this->paperRepo->getByReference($menuItemId)){
+            user_error("Zadaná položka menu již ma připojen článek (paper).", E_USER_WARNING);
+            $this->addFlashMessage("Zadaná položka menu již ma připojen článek (paper).");
+        } else {
+            if ($headlineElement AND $perexElement) {
+                $paper = new Paper();
+                $editor = $this->statusSecurityRepo->get()->getUser()->getUserName();
+                $paper
+                    ->setEditor($editor)
+                    ->setHeadline($this->getInnerHtml($layoutDocument, $headlineElement->childNodes))
+                    ->setMenuItemIdFk($menuItemId)
+                    ->setPerex($this->getInnerHtml($layoutDocument, $perexElement->childNodes))
+                    ->setTemplate($template)
+                    ;
 
-//        $dataTemplateAttribute = $articleElement ? $articleElement->attributes->getNamedItem("data-template") : "no article element";
-//        $template = $dataTemplateAttribute->textContent ?? "defaulttemplate";
-//
-//        if($this->paperRepo->getByReference($menuItemId)){
-//            user_error("Zadaná položka menu již ma připojen článek (paper).", E_USER_WARNING);
-//            $this->addFlashMessage("Zadaná položka menu již ma připojen článek (paper).");
-//        } else {
-//            if ($headlineElement AND $perexElement) {
-//                $paper = new Paper();
-//                $editor = $this->statusSecurityRepo->get()->getUser()->getUserName();
-//                $paper
-//                    ->setEditor($editor)
-//                    ->setHeadline($this->getInnerHtml($layoutDocument, $headlineElement->childNodes))
-//                    ->setMenuItemIdFk($menuItemId)
-//                    ->setPerex($this->getInnerHtml($layoutDocument, $perexElement->childNodes))
-//                    ->setTemplate($template)
-//                    ;
-//
-//                $this->paperRepo->add($paper);
-//            } else {
-//                $this->addFlashMessage("Paper creating failed. No healine or perex element detected.");
-//            }
-//        }
+                $this->paperRepo->add($paper);
+            } else {
+                $this->addFlashMessage("Paper creating failed. No healine or perex element detected.");
+            }
+        }
 
         return $this->redirectSeeOther($request,'www/last'); // 303 See Other
 

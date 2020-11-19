@@ -25,6 +25,18 @@ use Component\Renderer\Html\ClassMap\ClassMap;
  * @author pes2704
  */
 class ConfigurationGr_wwwgrafia {
+
+    // site
+    const RED_SITE_PATH = 'grafia/';
+
+    // local
+    const RED_TEMPLATES_COMMON = 'local/site/common/templates/';
+    const RED_TEMPLATES_SITE = 'local/site/'.self::RED_SITE_PATH.'templates/';
+    // public
+    const RED_ASSETS = 'public/assets/';
+    const RED_LINKS_COMMON = 'public/site/common/';
+    const RED_LINKS_SITE = 'public/site/'.self::RED_SITE_PATH;
+
     ### bootstrap ###
     #
     public static function bootstrap() {
@@ -76,7 +88,7 @@ class ConfigurationGr_wwwgrafia {
             #################################
 
             #################################
-            # Konfigurace session
+            # Konfigurace session loggeru
             #
             WebAppFactory::SESSION_NAME_SERVICE => 'www_gr_session',
             'app.logs.session.file' => 'Session.log',
@@ -84,9 +96,16 @@ class ConfigurationGr_wwwgrafia {
             ##################################
 
             ##################################
-            # Konfigurace session
+            # Konfigurace router loggeru
             #
             'app.logs.router.file' => 'Router.log',
+            #
+            ##################################
+
+            ##################################
+            # Konfigurace selector loggeru
+            #
+            'app.logs.selector.file' => 'Selector.log',
             #
             ##################################
         ];
@@ -106,8 +125,8 @@ class ConfigurationGr_wwwgrafia {
             #
             # user s právy drop a create database + crud práva + grant option k nové (upgrade) databázi
             # a také select k staré databázi - reálně nejlépe role DBA
-            'build.db.user.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'gr_upgrader' : 'UPGRADE_BUILD_PRODUCTION_USER',
-            'build.db.user.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'gr_upgrader' : 'UPGRADE_BUILD_PRODUCTION_HOST',
+            'build.db.user.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_BUILD_PRODUCTION_USER' : 'gr_upgrader',
+            'build.db.user.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_BUILD_PRODUCTION_HOST' : 'gr_upgrader',
             #
             ###################################
 
@@ -180,15 +199,14 @@ class ConfigurationGr_wwwgrafia {
      * @return array
      */
     public static function component() {
-        // local
-        $templatesCommon = 'local/site/common/templates/';
         return [
             'component.logs.view.directory' => 'Logs/App/Web',
             'component.logs.view.file' => 'Render.log',
-            'component.template.'.FlashComponent::class =>      $templatesCommon.'layout/info/flashMessage.php',
-            'component.template.'.LoginComponent::class =>      $templatesCommon.'layout/modal/login.php',
-            'component.template.'.LogoutComponent::class =>     $templatesCommon.'layout/modal/logout.php',
-            'component.template.'.UserActionComponent::class => $templatesCommon.'layout/modal/user_action.php',
+            'component.templatePath.paper' => self::RED_TEMPLATES_COMMON.'paper/',
+            'component.template.'.FlashComponent::class => self::RED_TEMPLATES_COMMON.'layout/info/flashMessage.php',
+            'component.template.'.LoginComponent::class => self::RED_TEMPLATES_COMMON.'layout/modal/login.php',
+            'component.template.'.LogoutComponent::class => self::RED_TEMPLATES_COMMON.'layout/modal/logout.php',
+            'component.template.'.UserActionComponent::class => self::RED_TEMPLATES_COMMON.'layout/modal/user_action.php',
         ];
     }
 
@@ -209,8 +227,8 @@ class ConfigurationGr_wwwgrafia {
             'dbold.db.charset' => 'utf8',
             'dbold.db.collation' => 'utf8_general_ci',
 
-            'dbold.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? 'localhost' : 'OLD_PRODUCTION_NAME',
-            'dbold.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'wwwgrafia' : 'OLD_PRODUCTION_HOST',
+            'dbold.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? 'OLD_PRODUCTION_NAME' : 'localhost',
+            'dbold.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'OLD_PRODUCTION_HOST' : 'wwwgrafia',
 
             'dbold.logs.directory' => 'Logs/DbOld',
             'dbold.logs.db.file' => 'Database.log',
@@ -236,8 +254,8 @@ class ConfigurationGr_wwwgrafia {
             'dbUpgrade.db.port' => '3306',
             'dbUpgrade.db.charset' => 'utf8',
             'dbUpgrade.db.collation' => 'utf8_general_ci',
-            'dbUpgrade.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? 'localhost' : 'UPGRADE_PRODUCTION_HOST',
-            'dbUpgrade.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'gr_upgrade' : 'UPGRADE_PRODUCTION_NAME',
+            'dbUpgrade.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_PRODUCTION_HOST' : 'localhost',
+            'dbUpgrade.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_PRODUCTION_NAME' : 'gr_upgrade',
             #
             #  Konec sekce konfigurace databáze
             ###################################
@@ -261,8 +279,8 @@ class ConfigurationGr_wwwgrafia {
             # Konfigurace databáze
             # Ostatní parametry konfigurace databáze v kontejneru dbUpgrade
             #
-            'dbUpgrade.db.user.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'gr_upgrader' : 'UPGRADE_PRODUCTION_USER_NAME',
-            'dbUpgrade.db.user.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'gr_upgrader' : 'UPGRADE_PRODUCTION_USER_PASSWORD',
+            'dbUpgrade.db.user.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_PRODUCTION_USER_NAME' : 'gr_upgrader',
+            'dbUpgrade.db.user.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_PRODUCTION_USER_PASSWORD' : 'gr_upgrader',
             #
             ###################################
             # Konfigurace hierarchy tabulek
@@ -751,7 +769,7 @@ class ConfigurationGr_wwwgrafia {
     public static function statusPresentationManager() {
         return [
             'default_lang_code' => 'cs',
-            'default_hierarchy_root_component_name' => 'menu_vertical'
+            'default_menu_item_component_name' => 'home'
         ];
     }
 
@@ -760,16 +778,6 @@ class ConfigurationGr_wwwgrafia {
      * @return array
      */
     public static function layoutControler() {
-        // site definition
-        $sitePath = 'grafia/';
-        // local
-        $templatesCommon = 'local/site/common/templates/';
-        $templatesSite = 'local/site/'.$sitePath.'templates/';
-        // public
-        $assets = 'public/assets/';
-        $linksCommon = 'public/site/common/';
-        $linksSite = 'public/site/'.$sitePath;
-
         return [
            // Language packages tinyMce používají krátké i dlouhé kódy, kód odpovídá jménu souboru např cs.js nebo en_US.js - proto mapování
             // pozn. - popisky šablon pro tiny jsou jen česky (TinyInit.js)
@@ -783,34 +791,36 @@ class ConfigurationGr_wwwgrafia {
             'title' => "Grafia, s.r.o.",
 
             // folders
-            'linksCommon' => $linksCommon,
-            'linksSite' => $linksSite,
+            'linksCommon' => self::RED_LINKS_COMMON,
+            'linksSite' => self::RED_LINKS_SITE,
+
+            'static' => self::RED_TEMPLATES_SITE.'static/',
 
             // local templates paths
-            'layout' => $templatesSite.'layout/layout.php',
-            'tiny_config' => $templatesSite.'js/tiny_config.js',
-            'linksEditorJs' => $templatesCommon.'layout/links/linkEditorJs.php',
-            'linkEditorCss' => $templatesCommon.'layout/links/linkEditorCss.php',
+            'layout' => self::RED_TEMPLATES_SITE.'layout/layout.php',
+            'tiny_config' => self::RED_TEMPLATES_SITE.'js/tiny_config.js',
+            'linksEditorJs' => self::RED_TEMPLATES_COMMON.'layout/links/linkEditorJs.php',
+            'linkEditorCss' => self::RED_TEMPLATES_COMMON.'layout/links/linkEditorCss.php',
 
             // linksEditorJs links
-           'urlTinyMCE' => $assets.'tinymce5_3_1\js\tinymce\tinymce.min.js',
-            'urlJqueryTinyMCE' => $assets.'tinymce5_3_1\js\tinymce\jquery.tinymce.min.js',
-//            'urlTinyMCE' => $assets.'tinymce5_4_0\js\tinymce\tinymce.min.js',
-//            'urlJqueryTinyMCE' => $assets.'tinymce5_4_0\js\tinymce\jquery.tinymce.min.js',
+           'urlTinyMCE' => self::RED_ASSETS.'tinymce5_3_1\js\tinymce\tinymce.min.js',
+            'urlJqueryTinyMCE' => self::RED_ASSETS.'tinymce5_3_1\js\tinymce\jquery.tinymce.min.js',
+//            'urlTinyMCE' => self::RED_ASSETS.'tinymce5_4_0\js\tinymce\tinymce.min.js',
+//            'urlJqueryTinyMCE' => self::RED_ASSETS.'tinymce5_4_0\js\tinymce\jquery.tinymce.min.js',
 //    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 //    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 //    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/jquery.tinymce.min.js" referrerpolicy="origin"></script>
-            'urlTinyInit' => $linksCommon.'js/TinyInit.js',
-            'editScript' => $linksCommon . 'js/edit.js',
-            'kalendarScript' => $linksCommon . 'js/kalendar.js',
+            'urlTinyInit' => self::RED_LINKS_COMMON.'js/TinyInit.js',
+            'editScript' => self::RED_LINKS_COMMON . 'js/edit.js',
+            'kalendarScript' => self::RED_LINKS_COMMON . 'js/kalendar.js',
 
             // linkEditorCss links
-            'urlStylesCss' => $linksCommon."css/old/styles.css",
-            'urlSemanticCss' => $linksSite."semantic-ui/semantic.min.css",
-            'urlContentTemplatesCss' => $linksCommon."css/templates.css",   // KŠ ?????
+            'urlStylesCss' => self::RED_LINKS_COMMON."css/old/styles.css",
+            'urlSemanticCss' => self::RED_LINKS_SITE."semantic-ui/semantic.min.css",
+            'urlContentTemplatesCss' => self::RED_LINKS_COMMON."css/templates.css",   // KŠ ?????
             //
-            'paperTemplatesUri' =>  $linksSite."templates/paper/",  // URI pro Template controler
-            'authorTemplatesPath' => $linksCommon."templates/author/",
+            'paperTemplatesUri' =>  self::RED_LINKS_SITE."templates/paper/",  // URI pro Template controler
+            'authorTemplatesPath' => self::RED_LINKS_COMMON."templates/author/",
 
         ];
     }
@@ -821,10 +831,10 @@ class ConfigurationGr_wwwgrafia {
      */
     public static function pageControler() {
         // local
-        $templatesCommon = 'local/site/common/templates/';
+
         return [
-               'templates.poznamky' => $templatesCommon.'layout/info/poznamky.php',
-               'templates.loaderElement' => $templatesCommon.'layout/component-load/loaderElement.php',
+               'templates.poznamky' => self::RED_TEMPLATES_COMMON.'layout/info/poznamky.php',
+               'templates.loaderElement' => self::RED_TEMPLATES_COMMON.'layout/component-load/loaderElement.php',
             ];
     }
 
@@ -833,10 +843,8 @@ class ConfigurationGr_wwwgrafia {
      * @return array
      */
     public static function languageSelectRenderer() {
-        // public
-        $assets = 'public/assets/';
         return [
-            'assets' => $assets.'flags-mini/'
+            'assets' => self::RED_ASSETS.'flags-mini/'
         ];
     }
 
@@ -846,7 +854,9 @@ class ConfigurationGr_wwwgrafia {
      */
     public static function transformator() {
         return [
-            'filesDirectory' => PES_RUNNING_ON_PRODUCTION_HOST ? '_www_gr_files/' :  '/_www_gr_files/',  // relativní cesta vzhledem k DOCUMENT_ROOT (htdocs) -začíná /
+            // relativní cesta vzhledem k DOCUMENT_ROOT (htdocs) -začíná /
+            'filesDirectory' => PES_RUNNING_ON_PRODUCTION_HOST ? '_www_tz_files/' : '/_www_tz_files/',
+            'public' => self::RED_LINKS_COMMON,
         ];
     }
 }
