@@ -46,14 +46,13 @@ class PageController extends LayoutControllerAbstract {
     ### action metody ###############
 
     public function home(ServerRequestInterface $request) {
-//        return $this->static($request, 'uvod');
         $statusPresentation = $this->statusPresentationRepo->get();
         /** @var BlockAggregateRepo $componentAggregateRepo */
         $componentAggregateRepo = $this->container->get(BlockAggregateRepo::class);
         /** @var MenuItemRepo $menuItemRepo */
         $menuItemRepo = $this->container->get(MenuItemRepo::class);
         // jméno default komponenty (z konfigurace)
-        $homeComponentName = Configuration::statusPresentationManager()['default_menu_item_component_name'];
+        $homeComponentName = Configuration::pageControler()['home_page_component_name'];
         $langCode = $statusPresentation->getLanguage()->getLangCode();
         $homeComponent = $componentAggregateRepo->getAggregate($langCode, $homeComponentName);
         if (isset($homeComponent)) {
@@ -62,7 +61,7 @@ class PageController extends LayoutControllerAbstract {
             $actionComponents = ["content" => $this->getMenuItemComponent($homeMenuItem)];
         } else {
             $actionComponents = ["content" => ''];
-            user_error("Undefined default (home) component for name '$homeComponentName'.", E_USER_WARNING);
+            user_error("Undefined default (home page) component for name '$homeComponentName'.", E_USER_WARNING);
         }
 
         return $this->createResponseFromView($request, $this->createView($request, $this->getComponentViews($actionComponents)));    }

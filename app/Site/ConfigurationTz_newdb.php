@@ -760,7 +760,6 @@ class ConfigurationTz_newdb {
     public static function statusPresentationManager() {
         return [
             'default_lang_code' => 'cs',
-            'default_menu_item_component_name' => 'home'
         ];
     }
 
@@ -824,6 +823,7 @@ class ConfigurationTz_newdb {
         // local
 
         return [
+               'home_page_component_name' => 'home',
                'templates.poznamky' => self::RED_TEMPLATES_COMMON.'layout/info/poznamky.php',
                'templates.loaderElement' => self::RED_TEMPLATES_COMMON.'layout/component-load/loaderElement.php',
             ];

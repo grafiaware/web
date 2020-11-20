@@ -110,18 +110,4 @@ class StatusPresentationManager implements StatusPresentationManagerInterface {
         }
         return $language;
     }
-
-    /**
-     * Default menu item uid - kořenová položka menu určeného konstantou třídy DEEAULT_HIERARCHY_ROOT_COMPONENT_NAME
-     * @return HierarchyAggregateInterface
-     */
-    private function getDefaulMenuItem($langCode) {
-        $rootName = Configuration::statusPresentationManager()['default_menu_item_component_name'];
-        $menuRootItem = $this->menuRootRepo->get($rootName);
-        if (!isset($menuRootItem)) {
-            throw new \UnexpectedValueException("Nenalezen default kořen menu se jménem '$rootName' načteným z konfigurace.");
-        }
-        $uidFk = $menuRootItem->getUidFk();
-        return $this->menuItemRepo->get($langCode, $uidFk );    // kořen menu
-    }
 }

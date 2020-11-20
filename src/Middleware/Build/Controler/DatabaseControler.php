@@ -190,7 +190,7 @@ class DatabaseControler extends BuildControlerAbstract {
 
         $conversionSteps[] = function() {
             // [type, list, title]
-            $rootsDefinitions = $this->container->get('build.config.make')['roots'];
+            $rootsDefinitions = $this->container->get('build.config.make.roots');
             $executedSql = [];
             foreach ($rootsDefinitions as $rootDef) {
                 $executedSql[] .= $this->executeFromTemplate("page2_2_insertIntoMenuItemNewMenuRoot.sql", ['menu_root_type' => $rootDef[0], 'menu_root_list'=>$rootDef[1], 'menu_root_title'=>$rootDef[2]]);
@@ -262,13 +262,22 @@ class DatabaseControler extends BuildControlerAbstract {
             return $this->executeFromFile($fileName);
         };
         $conversionSteps[] = function() {
-            $fileName = "page5_insertIntoMenuRootTable.sql";
-            return $this->executeFromFile($fileName);
+            // [type, list, title]
+            $rootsDefinitions = $this->container->get('build.config.make.roots');
+            $executedSql = [];
+            foreach ($rootsDefinitions as $rootDef) {
+                $executedSql[] .= $this->executeFromTemplate("page5_1_insertIntoMenuRootTable.sql", ['root' => $rootDef[1]]);
+            }
+            return implode(PHP_EOL, $executedSql);
         };
-        $conversionSteps[] = function() {  // convert
-            $fileName = "page5_insertIntoBlockTable.sql";
-            return $this->executeFromFile($fileName);
-        };
+
+        if($convert) {
+            $conversionSteps[] = function() {  // convert
+                $fileName = "page5_3_insertIntoBlockTable.sql";
+                return $this->executeFromFile($fileName);
+            };
+        }
+
         $conversionSteps[] = function() {
             $fileName = "page6_createHierarchy_view.sql";
             return $this->executeFromFile($fileName);

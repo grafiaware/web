@@ -4,5 +4,5 @@
 INSERT INTO menu_root (uid_fk, name)
 SELECT uid_fk, list as name FROM
 menu_item
-WHERE list='root' OR  list='trash' OR  list='blocks' OR  list='menu_vertical' OR  list='menu_horizontal' OR  list='menu_redirect'
+WHERE list='{{root}}'
 GROUP BY uid_fk;
