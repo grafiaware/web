@@ -6,5 +6,5 @@ use Model\Entity\PaperAggregateInterface;
 ?>
 
 <p class="primarni-barva nadpis">
-    Objevte body pro vaše zdraví a životní pohodu
+    <?= $this->mono('Objevte body pro vaše zdraví a životní pohodu')?>
 </p>

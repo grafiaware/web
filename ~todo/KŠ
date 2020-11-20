@@ -14,3 +14,5 @@
                 <span class="hamburger-icon"><i class="bars big icon"></i><p>Menu</p></span>
 změnit na
                 <div class="hamburger-icon"><i class="bars big icon"></i><p>Menu</p></div>
+
+SPAN změněn na DIV

@@ -9,7 +9,7 @@ use Model\Entity\PaperAggregateInterface;
             <div class="ui two column stackable centered grid">
                 <div class="sixteen wide column">
                     <div class="sekundarni-barva podklad nadpis vlevo">
-                        <p>Věnujte týden svému zdraví!</p>
+                        <p><?= $this->mono('Věnujte týden svému zdraví!')?></p>
                     </div>
                     <img src="images/pexels-photo-863977-web-orez.jpg" width="1178" height="518" alt="Obrázek"/>
                 </div>

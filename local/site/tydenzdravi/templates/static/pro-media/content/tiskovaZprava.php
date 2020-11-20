@@ -3,17 +3,8 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Model\Entity\PaperAggregateInterface;
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregateInterface $paperAggregate */
-?>
 
-<div class="pro-media">
-    <p class="primarni-barva nadpis"> <?= $this->mono('Pro média')?></p>
-    <p class="text do-kraju-uzky">
-        Tisková zpráva
-    </p>
-    <p class="sekundarni-barva nadpis"> <?= $this->mono('Duševně i fyzicky vás podpoří akce Týden zdraví - zdravá rodina')?></p>
-
-    <?php
-        $text =
+$text =
 '
 <em>Už za týden se spustí <b>akce Týden zdraví - zdravá rodina</b>, která se zaměřuje na to nejdůležitější, co můžeme sami v boji proti chorobám dělat: podporu imunity, prevenci a zdravý životní styl.
 V průběhu listopadového týdne <b>od soboty 21. do pátku 27. 11. 2020</b> můžete poprvé shlédnout přednášky a rozhovory s odborníky a inspirovat se produkty a službami na podporu a posílení vlastního zdraví.
@@ -32,8 +23,16 @@ Akci pro své seniory doporučí i Mezigenerační a dobrovolnické centrum TOTE
 <b>Na webu zájemci najdou také zdravé produkty či dárkové kupóny a odkazy na různé pomáhající instituce.</b> <br/>
 Akce se koná za podpory plzeňských obvodů ÚMO1 a ÚMO3.
 ';
-      echo  $this->p($this->mono($text), ["class"=>"text do-kraju-uzky"]) ?>
+?>
 
+<div class="pro-media">
+    <div class="ui grid">
+        <div class="sixteen wide column">
+            <p class="text">
+                <?= $this->mono('Tisková zpráva č. 1')?>
+            </p>
+            <p class="sekundarni-barva nadpis"> <?= $this->mono('Duševně i fyzicky vás podpoří akce Týden zdraví - zdravá rodina')?></p>
+            <?=  $this->p($this->mono($text), ["class"=>"text"]) ?>
+        </div>
+    </div>
 </div>
-
-

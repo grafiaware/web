@@ -9,17 +9,17 @@ use Model\Entity\PaperAggregateInterface;
     <?php include "perex.php" ?>
 </perex>
 <content>
-    <?php include "content/content_Program.php" ?>
+    <?php include "content/program.php" ?>
 </content>
 <content>
-    <?php include "content/content_1.php" ?>
+    <?php include "content/oAkci.php" ?>
 </content>
 <content>
-    <?php include "content/content_2.php" ?>
+    <?php include "content/oAkci2.php" ?>
 </content>
 <content>
-    <?php include "content/content_Partneri.php" ?>
+    <?php include "content/partneri.php" ?>
 </content>
 <content>
-    <?php include "content/content_3.php" ?>
+    <?php include "content/organizator.php" ?>
 </content>

@@ -6,5 +6,5 @@ use Model\Entity\PaperAggregateInterface;
 ?>
 
 <p class="primarni-barva nadpis">
-    Můžete se těšit na tyto přednášky
+    <?= $this->mono('Můžete se těšit na tyto přednášky')?>
 </p>

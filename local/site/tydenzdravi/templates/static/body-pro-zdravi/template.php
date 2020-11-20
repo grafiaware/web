@@ -12,9 +12,6 @@ use Model\Entity\PaperAggregateInterface;
         <?php include "perex.php" ?>
     </perex>
     <content>
-        <?php include "content/content_BodyZdravi.php" ?>
-    </content>
-    <content>
-
+        <?php include "content/bodyZdravi.php" ?>
     </content>
 </div>

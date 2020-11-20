@@ -3,6 +3,15 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Model\Entity\PaperAggregateInterface;
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregateInterface $paperAggregate */
+
+    $text = 
+'
+Autorem myšlenky Týdne zdraví a organizátorem akce je <br/><b>Grafia, s.r.o.</b>
+ 
+Umíme efektivně komunikovat akce našich zákazníků i ty vlastní, vzděláváme a zkoušíme dospělé, organizujeme eventy na klíč, vydáváme knihy... <br/> Děláme to už od roku 1993 – rádi a dobře!
+';
+            
+
 ?>
 
 <div class="dva-sloupce-nadpis">
@@ -15,10 +24,7 @@ use Model\Entity\PaperAggregateInterface;
                 <p>Organizátor</p>
             </div>
             <div class="velky text okraje">
-                <p>Autorem myšlenky Týdne zdraví a organizátorem akce je <b>Grafia, s.r.o.</b></p>
-                <p>
-                    <?= $this->mono('Umíme efektivně komunikovat akce našich zákazníků i ty vlastní, vzděláváme a zkoušíme dospělé, organizujeme eventy na klíč, vydáváme knihy... <br/> Děláme to už od roku 1993 – rádi a dobře!') ?>
-                </p>
+                <?= $this->p($this->mono($text), ["class"=>""]) ?> 
             </div>
 
         </div>
