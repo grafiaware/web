@@ -73,7 +73,7 @@ use Model\Entity\PaperAggregateInterface;
             'kupon' => [
                 [
                     'imgKuponuAttributes' => [
-                        'class' => 'kupon-siroky',
+                        'class' => 'kupon-siroky-img',
                         'src' => 'images/kupon-Grafia.jpg',
                         'alt' => 'Kupón Grafia',
                         'width' => '590',

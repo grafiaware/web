@@ -7,7 +7,7 @@
             <div class="eight wide column">
                 <p><b><?= $this->mono($nazevPrednasky)?></b></p>
                 <p><?= $datumCas ?></p>
-                <p><a class="ui large secondary button" href="https://forms.gle/aUoufuqLyaSjm6rE8" target="_blank">Přihlásit se / Položit dotaz</a></p>
+                <p><a <?= $this->attributes($odkazPrednaskyAttributes) ?>> <?= $odkazPrednaskyText ?> </a></p>
             </div>
         </div>
 

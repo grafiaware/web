@@ -4,9 +4,9 @@ use Model\Entity\PaperAggregateInterface;
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregateInterface $paperAggregate */
 
-    $radekParneru = [
+    $parneri = [
         [
-            'partner' => [
+            'radekPartneru' => [
                 [
                     'wwwPartnera' => 'https://umo1.plzen.eu/',
                     'imgPartneraAttributes' => [
@@ -37,7 +37,7 @@ use Model\Entity\PaperAggregateInterface;
             ]
         ],
         [
-            'partner' => [
+            'radekPartneru' => [
                 [
                     'wwwPartnera' => 'https://plzensky.denik.cz/',
                     'imgPartneraAttributes' => [
@@ -80,6 +80,6 @@ use Model\Entity\PaperAggregateInterface;
                 <p>Děkujeme za podporu partnerům:</p>
             </div>
         </div>
-        <?= $this->repeat(__DIR__.'/partneri/rozvrzeniPartneru.php', $radekParneru) ?>
+        <?= $this->repeat(__DIR__.'/partneri/rozvrzeniPartneru.php', $parneri) ?>
     </div>
 </div>

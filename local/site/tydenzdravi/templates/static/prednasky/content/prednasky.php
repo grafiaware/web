@@ -11,84 +11,168 @@ use Model\Entity\PaperAggregateInterface;
             'funkce' => 'lektorka jógy smíchu',
             'nazevPrednasky' => 'Směje se celá rodina',
             'datumCas' => '21.11.2020, 18:00',
+            'odkazPrednaskyAttributes' => [
+                'class' => 'ui large secondary button',
+                'href' => 'https://www.youtube.com/watch?v=ZMsy1JSXGNM',
+                'target' => '_blank'
+            ],
+            'odkazPrednaskyText' => 'Zhlédnout záznam'
         ],
         [
             'jmeno' => 'JUDr. Jana Lexová',
             'funkce' => 'seniorka, která se dobrovolně věnuje sociálně právnímu poradenství pro seniory a dlouhodobě se podílí  na jejich vzdělávání',
             'nazevPrednasky' => 'Jak dospět ve stáří k jedinečnému poznání, pochopení souvislostí a k moudrosti',
             'datumCas' => '22.11.2020, 17:00',
+            'odkazPrednaskyAttributes' => [
+                'class' => 'ui large secondary button',
+                'href' => 'https://www.youtube.com/watch?v=j51qncvBQ2M',
+                'target' => '_blank'
+            ],
+            'odkazPrednaskyText' => 'Zhlédnout záznam'
         ],
         [
             'jmeno' => 'Renata Kurková',
             'funkce' => 'lékárnice, homeopatička',
             'nazevPrednasky' => 'Schüsslerovy soli na podporu imunity',
             'datumCas' => '22.11.2020, 18:00',
+            'odkazPrednaskyAttributes' => [
+                'class' => 'ui large secondary button',
+                'href' => 'https://www.youtube.com/watch?v=MhsHyekfg0I',
+                'target' => '_blank'
+            ],
+            'odkazPrednaskyText' => 'Zhlédnout záznam'
         ],
         [
             'jmeno' => 'Konstantin Wiesner',
             'funkce' => 'běžec, ultramaratonec',
             'nazevPrednasky' => 'Běhání pro zdraví',
             'datumCas' => '22.11.2020, 19:00',
+            'odkazPrednaskyAttributes' => [
+                'class' => 'ui large secondary button',
+                'href' => 'https://www.youtube.com/watch?v=qqwjsTFjsdk',
+                'target' => '_blank'
+            ],
+            'odkazPrednaskyText' => 'Zhlédnout záznam'
         ],
         [
             'jmeno' => 'Vlastimila Faiferlíková',
             'funkce' => 'předsedkyně Správní rady a ředitelka TOTEM, garant a koordinátorka dobrovolnických projektů',
             'nazevPrednasky' => 'Rodinné vztahy a péče o seniory v dnešním světě',
             'datumCas' => '23.11.2020, 18:00',
+            'odkazPrednaskyAttributes' => [
+                'class' => 'ui large secondary button',
+                'href' => 'https://forms.gle/aUoufuqLyaSjm6rE8',
+                'target' => '_blank'
+            ],
+            'odkazPrednaskyText' => 'Přihlásit se / Položit dotaz'
         ],
         [
             'jmeno' => 'Alena Vrbová,  Marek Rubricius',
             'funkce' => 'krizoví interventi a sociální pracovníci Ledovec',
             'nazevPrednasky' => 'Nezblázni se z covidu',
             'datumCas' => '23.11.2020, 19:30',
+            'odkazPrednaskyAttributes' => [
+                'class' => 'ui large secondary button',
+                'href' => 'https://forms.gle/aUoufuqLyaSjm6rE8',
+                'target' => '_blank'
+            ],
+            'odkazPrednaskyText' => 'Přihlásit se / Položit dotaz'
         ],
         [
             'jmeno' => 'MUDr. Pavel Tomeš',
             'funkce' => 'sexuolog',
             'nazevPrednasky' => 'Odpovídá na vaše dotazy',
             'datumCas' => '24.11.2020, 18:00',
+            'odkazPrednaskyAttributes' => [
+                'class' => 'ui large secondary button',
+                'href' => 'https://forms.gle/aUoufuqLyaSjm6rE8',
+                'target' => '_blank'
+            ],
+            'odkazPrednaskyText' => 'Přihlásit se / Položit dotaz'
         ],
         [
             'jmeno' => 'David Brabec',
             'funkce' => 'instruktor sebeobrany, moderátor a konzultant',
             'nazevPrednasky' => 'Sebeobranou ke zdraví',
             'datumCas' => '24.11.2020, 19:30',
+            'odkazPrednaskyAttributes' => [
+                'class' => 'ui large secondary button',
+                'href' => 'https://forms.gle/aUoufuqLyaSjm6rE8',
+                'target' => '_blank'
+            ],
+            'odkazPrednaskyText' => 'Přihlásit se / Položit dotaz'
         ],
         [
             'jmeno' => 'prof. MUDr. Miloš Pešek, CSc.',
             'funkce' => 'přednosta plicní kliniky FN Plzeň',
             'nazevPrednasky' => 'Odpovídá na dotazy',
             'datumCas' => '25.11.2020, 18:00',
+            'odkazPrednaskyAttributes' => [
+                'class' => 'ui large secondary button',
+                'href' => 'https://forms.gle/aUoufuqLyaSjm6rE8',
+                'target' => '_blank'
+            ],
+            'odkazPrednaskyText' => 'Přihlásit se / Položit dotaz'
         ],
         [
             'jmeno' => 'Ing. Tomáš Kocánek',
             'funkce' => 'Klub sportovních otužilců Plzeň',
             'nazevPrednasky' => 'Jak se začít otužovat',
             'datumCas' => '25.11.2020, 19:00',
+            'odkazPrednaskyAttributes' => [
+                'class' => 'ui large secondary button',
+                'href' => 'https://forms.gle/aUoufuqLyaSjm6rE8',
+                'target' => '_blank'
+            ],
+            'odkazPrednaskyText' => 'Přihlásit se / Položit dotaz'
         ],
         [
             'jmeno' => 'Iveta Churavá',
             'funkce' => 'propagátorka regionálních potravin U Lidušky',
             'nazevPrednasky' => 'Opravdové jídlo z regionu',
             'datumCas' => '26.11.2020, 17:00',
+            'odkazPrednaskyAttributes' => [
+                'class' => 'ui large secondary button',
+                'href' => 'https://forms.gle/aUoufuqLyaSjm6rE8',
+                'target' => '_blank'
+            ],
+            'odkazPrednaskyText' => 'Přihlásit se / Položit dotaz'
         ],
         [
             'jmeno' => 'Jindra Švarcová',
             'funkce' => 'oční optik a prezidentka Lions Clubu Plzeň Bohemia, garant projektu Lví očko',
             'nazevPrednasky' => 'Nezanedbávejte své oči! A prevence očních vad u předškolních dětí',
             'datumCas' => '26.11.2020, 18:30',
+            'odkazPrednaskyAttributes' => [
+                'class' => 'ui large secondary button',
+                'href' => 'https://forms.gle/aUoufuqLyaSjm6rE8',
+                'target' => '_blank'
+            ],
+            'odkazPrednaskyText' => 'Přihlásit se / Položit dotaz'
         ],
         [
             'jmeno' => 'prof. MUDr. Ondřej Topolčan, CSc.',
             'funkce' => 'náměstek ředitele FN Plzeň pro vědu a výzkum, primář odd. Imunochemické diagnostiky',
             'nazevPrednasky' => 'Vitamínem D proti covidu? Přednáška a odpovědi na otázky',
             'datumCas' => '27.11.2020, 18:00',
+            'odkazPrednaskyAttributes' => [
+                'class' => 'ui large secondary button',
+                'href' => 'https://forms.gle/aUoufuqLyaSjm6rE8',
+                'target' => '_blank'
+            ],
+            'odkazPrednaskyText' => 'Přihlásit se / Položit dotaz'
         ],
         [
             'jmeno' => 'Anna a Eva Vopalecké',
             'funkce' => 'lektorky a choreografky Studio FITNESSKA',
             'nazevPrednasky' => 'Tančete s námi',
             'datumCas' => '27.11.2020, 19:15',
+            'odkazPrednaskyAttributes' => [
+                'class' => 'ui large secondary button',
+                'href' => 'https://forms.gle/aUoufuqLyaSjm6rE8',
+                'target' => '_blank'
+            ],
+            'odkazPrednaskyText' => 'Přihlásit se / Položit dotaz'
         ]
     ]
 ?>
