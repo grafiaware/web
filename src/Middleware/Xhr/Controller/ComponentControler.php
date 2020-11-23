@@ -81,14 +81,13 @@ class ComponentControler extends XhrControlerAbstract {
         return $this->createResponseFromView($request, $view);
     }
 
-    public function namedItem(ServerRequestInterface $request, $name) {
+    public function componentItem(ServerRequestInterface $request, $name) {
         $view = $this->getNamedComponent($name);
         return $this->createResponseFromView($request, $view);
     }
 
-    public function presentedItem(ServerRequestInterface $request) {
-        // dočasně duplicitní s PageController
-        $view = $this->getPresentedComponent();
+    public function item(ServerRequestInterface $request, $langCode, $uid) {
+        $view = $this->getPresentedComponent($langCode, $uid);
         return $this->createResponseFromView($request, $view);
     }
 
@@ -118,9 +117,12 @@ class ComponentControler extends XhrControlerAbstract {
         }
     }
 
-
-    private function getPresentedComponent() {
-        return $this->getMenuItemComponent($this->statusPresentationRepo->get()->getMenuItem());
+    private function getPresentedComponent($langCode, $uid) {
+        if ($this->isEditableArticle()) {
+            return $this->container->get('component.item.editable');
+        } else {
+            return $this->container->get('component.item');
+        }
     }
 
 

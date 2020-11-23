@@ -40,6 +40,12 @@ interface StatusPresentationInterface {
 
     /**
      *
+     * @return string
+     */
+    public function getLastResourcePath();
+
+    /**
+     *
      * @param LanguageInterface $language
      * @return StatusPresentationInterface
      */
@@ -58,4 +64,11 @@ interface StatusPresentationInterface {
      * @return StatusPresentationInterface
      */
     public function setMenuItem(MenuItemInterface $menuItem): StatusPresentationInterface;
+
+    /**
+     *
+     * @param type $lastResourcePath
+     * @return $this
+     */
+    public function setLastResourcePath($lastResourcePath): StatusPresentationInterface;
 }

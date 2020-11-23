@@ -33,6 +33,8 @@ class StatusPresentation implements StatusPresentationInterface {
      */
     private $menuItem;
 
+    private $lastResourcePath;
+
     /**
      *
      * @return LanguageInterface|null
@@ -55,6 +57,14 @@ class StatusPresentation implements StatusPresentationInterface {
      */
     public function getMenuItem(): ?MenuItemInterface {
         return $this->menuItem;
+    }
+
+    /**
+     *
+     * @return string
+     */
+    public function getLastResourcePath() {
+        return $this->lastResourcePath;
     }
 
     /**
@@ -86,4 +96,15 @@ class StatusPresentation implements StatusPresentationInterface {
         $this->menuItem = $menuItem;
         return $this;
     }
+
+    /**
+     *
+     * @param type $lastResourcePath
+     * @return $this
+     */
+    public function setLastResourcePath($lastResourcePath): StatusPresentationInterface {
+        $this->lastResourcePath = $lastResourcePath;
+        return $this;
+    }
+
 }

@@ -46,35 +46,46 @@ class PaperController extends PresentationFrontControllerAbstract {
         $menuItemId = (new RequestParams())->getParam($request, 'menu_item_id');  // jméno POST proměnné je vytvořeno v paper rendereru
         $html = (new RequestParams())->getParam($request, 'paper_template_html');  // jméno POST proměnné je vytvořeno v paper rendereru
         $text = html_entity_decode($html, ENT_HTML5);
-        $layoutDocument = new \DOMDocument('1.0', 'utf-8');
-        $this->loadHtml($layoutDocument, $text);
+        if ($text) {
+            $layoutDocument = new \DOMDocument('1.0', 'utf-8');
+            $this->loadHtml($layoutDocument, $text);
 
-        $articleElement = $layoutDocument->getElementsByTagName('article')->item(0);
-        $dataTemplateAttribute = $articleElement->attributes->getNamedItem("data-template");
-        $template = $dataTemplateAttribute->textContent ?? "defaulttemplate";
-        $headlineElement = $layoutDocument->getElementsByTagName('headline')->item(0);
-        $perexElement = $layoutDocument->getElementsByTagName('perex')->item(0);
-        if($this->paperRepo->getByReference($menuItemId)){
-            user_error("Zadaná položka menu již ma připojen článek (paper).", E_USER_WARNING);
-            $this->addFlashMessage("Zadaná položka menu již ma připojen článek (paper).");
-        } else {
-            if ($headlineElement AND $perexElement) {
-                $paper = new Paper();
-                $editor = $this->statusSecurityRepo->get()->getUser()->getUserName();
-                $paper
-                    ->setEditor($editor)
-                    ->setHeadline($this->getInnerHtml($layoutDocument, $headlineElement->childNodes))
-                    ->setMenuItemIdFk($menuItemId)
-                    ->setPerex($this->getInnerHtml($layoutDocument, $perexElement->childNodes))
-                    ->setTemplate($template)
-                    ;
-
-                $this->paperRepo->add($paper);
+            $articleElement = $layoutDocument->getElementsByTagName('article')->item(0);
+            $dataTemplateAttribute = $articleElement->attributes->getNamedItem("data-template");
+            $template = $dataTemplateAttribute->textContent ?? "defaulttemplate";
+            $headlineElement = $layoutDocument->getElementsByTagName('headline')->item(0);
+            $perexElement = $layoutDocument->getElementsByTagName('perex')->item(0);
+            if($this->paperRepo->getByReference($menuItemId)){
+                user_error("Zadaná položka menu již ma připojen článek (paper).", E_USER_WARNING);
+                $this->addFlashMessage("Zadaná položka menu již ma připojen článek (paper).");
             } else {
-                $this->addFlashMessage("Paper creating failed. No healine or perex element detected.");
-            }
-        }
+                if ($headlineElement AND $perexElement) {
+                    $paper = new Paper();
+                    $editor = $this->statusSecurityRepo->get()->getUser()->getUserName();
+                    $paper
+                        ->setEditor($editor)
+                        ->setHeadline($this->getInnerHtml($layoutDocument, $headlineElement->childNodes))
+                        ->setMenuItemIdFk($menuItemId)
+                        ->setPerex($this->getInnerHtml($layoutDocument, $perexElement->childNodes))
+                        ->setTemplate($template)
+                        ;
 
+                    $this->paperRepo->add($paper);
+                } else {
+                    $this->addFlashMessage("Selhalo vyvoření článku z šablony. Nenalezen headline a perex element."); //"Paper creating failed. No healine or perex element detected.");
+                }
+            }
+        } else {
+                                $paper = new Paper();
+                    $editor = $this->statusSecurityRepo->get()->getUser()->getUserName();
+                    $paper
+                        ->setEditor($editor)
+                        ->setMenuItemIdFk($menuItemId)
+                        ;
+
+                    $this->paperRepo->add($paper);
+                    $this->addFlashMessage("Nebyl přijat žádný obsah šablony. Vytvořen nový prázdný článek.");
+        }
         return $this->redirectSeeOther($request,'www/last'); // 303 See Other
 
     }

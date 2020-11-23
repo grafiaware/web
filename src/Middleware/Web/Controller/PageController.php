@@ -47,24 +47,51 @@ class PageController extends LayoutControllerAbstract {
 
     public function home(ServerRequestInterface $request) {
         $statusPresentation = $this->statusPresentationRepo->get();
-        /** @var BlockAggregateRepo $componentAggregateRepo */
-        $componentAggregateRepo = $this->container->get(BlockAggregateRepo::class);
-        /** @var MenuItemRepo $menuItemRepo */
-        $menuItemRepo = $this->container->get(MenuItemRepo::class);
-        // jméno default komponenty (z konfigurace)
-        $homeComponentName = Configuration::pageControler()['home_page_component_name'];
-        $langCode = $statusPresentation->getLanguage()->getLangCode();
-        $homeComponent = $componentAggregateRepo->getAggregate($langCode, $homeComponentName);
-        if (isset($homeComponent)) {
-            $homeMenuItem = $homeComponent->getMenuItem();
-            $statusPresentation->setMenuItem($homeMenuItem);
-            $actionComponents = ["content" => $this->getMenuItemComponent($homeMenuItem)];
-        } else {
-            $actionComponents = ["content" => ''];
-            user_error("Undefined default (home page) component for name '$homeComponentName'.", E_USER_WARNING);
+
+        $homePage = Configuration::pageControler()['home_page'];
+        switch ($homePage[0]) {
+            case 'component':
+                /** @var BlockAggregateRepo $componentAggregateRepo */
+                $componentAggregateRepo = $this->container->get(BlockAggregateRepo::class);
+                /** @var MenuItemRepo $menuItemRepo */
+                $menuItemRepo = $this->container->get(MenuItemRepo::class);
+                // jméno default komponenty (z konfigurace)
+                $langCode = $statusPresentation->getLanguage()->getLangCode();
+                $homeComponent = $componentAggregateRepo->getAggregate($langCode, $homePage[1]);
+                if (!isset($homeComponent)) {
+                    throw new UnexpectedValueException("Undefined default page (home page) defined as component with name '$homePage[1]'.");
+                }
+                $homeMneuItemUid = $homeComponent->getMenuItem()->getUidFk();
+                $resourcePath = "www/item/$langCode/$homeMneuItemUid";
+                $statusPresentation->setLastResourcePath($resourcePath);
+                break;
+            case 'static':
+                $resourcePath = "/www/item/static/$homePage[1]";
+                break;
+            case 'item':
+                /** @var MenuItemRepo $menuItemRepo */
+                $menuItemRepo = $this->container->get(MenuItemRepo::class);
+                // jméno default komponenty (z konfigurace)
+                $langCode = $statusPresentation->getLanguage()->getLangCode();
+                $homeItem = $menuItemRepo->get($langCode, $homePage[1]);
+                if (!isset($homeItem)) {
+                    throw new UnexpectedValueException("Undefined default page (home page) defined as static with name '$homePage[1]'.");
+                }
+//                    $statusPresentation->setMenuItem($homeItem);
+                $homeMneuItemUid = $homeItem->getUidFk();
+                $resourcePath = "www/item/$langCode/$homeMneuItemUid";
+                $statusPresentation->setLastResourcePath($resourcePath);
+                break;
+            default:
+                throw new UnexpectedValueException("Unknown home page type in configuration. Type: '$homePage[0]'.");
+                break;
         }
 
-        return $this->createResponseFromView($request, $this->createView($request, $this->getComponentViews($actionComponents)));    }
+//        return $this->createResponseFromView($request, $this->createView($request, $this->getComponentViews($actionComponents)));
+        return $this->redirectSeeOther($request, $resourcePath); // 303 See Other
+
+
+        }
 
     public function item(ServerRequestInterface $request, $langCode, $uid) {
         /** @var HierarchyAggregateRepo $menuRepo */
@@ -72,7 +99,8 @@ class PageController extends LayoutControllerAbstract {
         $menuNode = $menuRepo->get($langCode, $uid);
         if ($menuNode) {
             $menuItem = $menuNode->getMenuItem();
-            $this->statusPresentationRepo->get()->setMenuItem($menuItem);
+//            $this->statusPresentationRepo->get()->setMenuItem($menuItem);
+            $this->statusPresentationRepo->get()->setLastResourcePath($request->getUri()->getPath());
             $actionComponents = ["content" => $this->getMenuItemComponent($menuItem)];
             return $this->createResponseFromView($request, $this->createView($request, $this->getComponentViews($actionComponents)));
         } else {
@@ -86,8 +114,11 @@ class PageController extends LayoutControllerAbstract {
     }
 
     public function last(ServerRequestInterface $request) {
-        $actionComponents = ["content" => $this->getPresentedComponent()];
-        return $this->createResponseFromView($request, $this->createView($request, $this->getComponentViews($actionComponents)));
+
+        return $this->redirectSeeOther($request, $this->statusPresentationRepo->get()->getLastResourcePath()); // 303 See Other
+
+//        $actionComponents = ["content" => $this->getPresentedComponent()];
+//        return $this->createResponseFromView($request, $this->createView($request, $this->getComponentViews($actionComponents)));
     }
 
     public function searchResult(ServerRequestInterface $request) {
@@ -152,20 +183,20 @@ class PageController extends LayoutControllerAbstract {
         }
     }
 
-    private function getNamedComponent($name) {
-        $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
-        /** @var BlockAggregateRepo $componentAggRepo */
-        $componentAggRepo = $this->container->get(BlockAggregateRepo::class);
-        $componentAggregate = $componentAggRepo->getAggregate($langCode, $name);   // pozor - get() je metoda ComponentRepo
-        /** @var BlockAggregateInterface $componentAggregate */
-        if (isset($componentAggregate)) {
-            return $this->getMenuItemComponent($componentAggregate->getMenuItem());
-        }
-    }
-
-    private function getPresentedComponent() {
-        return $this->getMenuItemComponent($this->statusPresentationRepo->get()->getMenuItem());
-    }
+//    private function getNamedComponent($name) {
+//        $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
+//        /** @var BlockAggregateRepo $componentAggRepo */
+//        $componentAggRepo = $this->container->get(BlockAggregateRepo::class);
+//        $componentAggregate = $componentAggRepo->getAggregate($langCode, $name);   // pozor - get() je metoda ComponentRepo
+//        /** @var BlockAggregateInterface $componentAggregate */
+//        if (isset($componentAggregate)) {
+//            return $this->getMenuItemComponent($componentAggregate->getMenuItem());
+//        }
+//    }
+//
+//    private function getPresentedComponent() {
+//        return $this->getMenuItemComponent($this->statusPresentationRepo->get()->getMenuItem());
+//    }
 
 
     /**
@@ -195,9 +226,11 @@ class PageController extends LayoutControllerAbstract {
                     break;
                 case 'paper':
                     if ($this->isEditableArticle()) {
-                        $content = $this->container->get('component.presented.editable');
+//                        $content = $this->container->get('component.presented.editable');
+                        $content = $this->getPresentedComponentLoadScript($menuItem->getLangCodeFk(), $menuItem->getUidFk());
                     } else {
-                        $content = $this->container->get('component.presented');
+//                        $content = $this->container->get('component.presented');
+                        $content = $this->getPresentedComponentLoadScript($menuItem->getLangCodeFk(), $menuItem->getUidFk());
                     }
                     break;
                 case 'redirect':
@@ -309,20 +342,29 @@ class PageController extends LayoutControllerAbstract {
 //                ];
 //        } else {
             $componets = [
-                    'aktuality' => $this->getComponentLoadScript('a1'),
-                    'nejblizsiAkce' => $this->getComponentLoadScript('a2'),
-                    'rychleOdkazy' => $this->getComponentLoadScript('a3'),
-                    'razitko' => $this->getComponentLoadScript('a4'),
-                    'socialniSite' => $this->getComponentLoadScript('a5'),
-                    'mapa' => $this->getComponentLoadScript('a6'),
-                    'logo' => $this->getComponentLoadScript('a7'),
-                    'banner' => $this->getComponentLoadScript('a8'),
+                    'aktuality' => $this->getNamedComponentLoadScript('a1'),
+                    'nejblizsiAkce' => $this->getNamedComponentLoadScript('a2'),
+                    'rychleOdkazy' => $this->getNamedComponentLoadScript('a3'),
+                    'razitko' => $this->getNamedComponentLoadScript('a4'),
+                    'socialniSite' => $this->getNamedComponentLoadScript('a5'),
+                    'mapa' => $this->getNamedComponentLoadScript('a6'),
+                    'logo' => $this->getNamedComponentLoadScript('a7'),
+                    'banner' => $this->getNamedComponentLoadScript('a8'),
                 ];
 //        }
         return $componets;
     }
 
-    private function getComponentLoadScript($componentName) {
+    private function getPresentedComponentLoadScript($langCode, $uid) {
+        return $this->container->get(View::class)
+                    ->setTemplate(new PhpTemplate(Configuration::pageControler()['templates.loaderElement']))
+                    ->setData([
+                        'name' => 'presented',
+                        'apiUri' => "component/v1/item/$langCode/$uid/"
+                        ]);
+    }
+
+    private function getNamedComponentLoadScript($componentName) {
         return $this->container->get(View::class)
                     ->setTemplate(new PhpTemplate(Configuration::pageControler()['templates.loaderElement']))
                     ->setData([

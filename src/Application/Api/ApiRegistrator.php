@@ -97,7 +97,7 @@ class ApiRegistrator {
         $registry->register($this->getPrototype->withUrlPattern('/component/v1/papertemplate/:name'));
         $registry->register($this->getPrototype->withUrlPattern('/component/v1/authortemplate/:name'));
         $registry->register($this->getPrototype->withUrlPattern('/component/v1/nameditem/:name'));
-        $registry->register($this->getPrototype->withUrlPattern('/component/v1/presenteditem'));
+        $registry->register($this->getPrototype->withUrlPattern('/component/v1/item/:langCode/:uid'));
         $registry->register($this->getPrototype->withUrlPattern('/component/v1/flash'));
         $registry->register($this->getPrototype->withUrlPattern('/component/v1/service/:name'));
         $registry->register($this->getPrototype->withUrlPattern('/component/v1/static/:name'));

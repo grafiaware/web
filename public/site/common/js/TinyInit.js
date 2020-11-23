@@ -124,7 +124,7 @@ var headlineConfig = {
     toolbar: false,
     quickbars_insert_toolbar: '',
     quickbars_selection_toolbar: 'save | undo redo | removeformat italic | link ',
-//    toolbar: 'undo redo | bold italic underline | save'
+    toolbar: 'undo redo | bold italic underline | save'
 };
 
 var contentConfig = {

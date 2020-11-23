@@ -820,10 +820,11 @@ class ConfigurationTz_newdb {
      * @return array
      */
     public static function pageControler() {
-        // local
 
         return [
-               'home_page_component_name' => 'home',
+               'home_page' => ['component', 'home'],
+//               'home_page' => ['static', 'body-pro-zdravi'],
+//               'home_page' => ['item', '5fad34398df10'],  // přednášky - pro test
                'templates.poznamky' => self::RED_TEMPLATES_COMMON.'layout/info/poznamky.php',
                'templates.loaderElement' => self::RED_TEMPLATES_COMMON.'layout/component-load/loaderElement.php',
             ];
