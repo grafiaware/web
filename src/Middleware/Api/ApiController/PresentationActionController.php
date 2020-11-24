@@ -62,7 +62,7 @@ class PresentationActionController extends PresentationFrontControllerAbstract {
         $statusPresentation = $this->statusPresentationRepo->get();
         $langCodeFk = $statusPresentation->getLanguage()->getLangCode();
         $menuItem = $this->menuItemRepo->get($langCodeFk, $requestedUid);
-        $statusPresentation->setMenuItem($menuItem);  // bez kontroly
+        $statusPresentation->setHierarchyAggregate($menuItem);  // bez kontroly
         $this->addFlashMessage("setMenuItem({$menuItem->getTitle()})");
         return $this->response($request);
     }

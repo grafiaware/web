@@ -12,6 +12,8 @@ use Psr\Http\Message\ServerRequestInterface;
 use Application\WebAppFactory;
 use Site\Configuration;
 
+use Pes\Application\UriInfoInterface;
+
 use Model\Repository\{
     LanguageRepo, MenuRootRepo, MenuItemRepo
 };
@@ -22,8 +24,8 @@ use Model\Entity\{
 
 use Model\Entity\{
     StatusPresentation
-
 };
+
 
 /**
  * Description of PresentationController
@@ -87,12 +89,11 @@ class StatusPresentationManager implements StatusPresentationManagerInterface {
             $language = $this->getRequestedLanguage($request);
             $statusPresentation->setLanguage($language);
         }
-        // defaultní node item pro jazyk prezentace
-//        $menuItem = $statusPresentation->getMenuItem();
-//        if (!$menuItem) {
-//            $menuItem = $this->getDefaulMenuItem($language->getLangCode());
-//            $statusPresentation->setMenuItem($menuItem);
-//        }
+        if ($request->getMethod()=='GET') {
+            /** @var UriInfoInterface $uriInfo */
+            $uriInfo = $request->getAttribute(WebAppFactory::URI_INFO_ATTRIBUTE_NAME);
+            $statusPresentation->setLastGetResourcePath($uriInfo->getRestUri());
+        }
     }
 
     /**

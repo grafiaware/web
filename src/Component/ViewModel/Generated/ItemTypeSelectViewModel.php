@@ -55,6 +55,6 @@ class ItemTypeSelectViewModel extends StatusViewModelAbstract implements ItemTyp
      * @return MenuItemInterface|null
      */
     public function getMenuItem(): ?MenuItemInterface {
-        return $this->statusPresentationRepo->get()->getMenuItem();
+        return $this->statusPresentationRepo->get()->getHierarchyAggregate();
     }
 }

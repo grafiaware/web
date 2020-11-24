@@ -63,7 +63,7 @@ class StatusPresentation implements StatusPresentationInterface {
      *
      * @return string
      */
-    public function getLastResourcePath() {
+    public function getLastGetResourcePath() {
         return $this->lastResourcePath;
     }
 
@@ -102,7 +102,7 @@ class StatusPresentation implements StatusPresentationInterface {
      * @param type $lastResourcePath
      * @return $this
      */
-    public function setLastResourcePath($lastResourcePath): StatusPresentationInterface {
+    public function setLastGetResourcePath($lastResourcePath): StatusPresentationInterface {
         $this->lastResourcePath = $lastResourcePath;
         return $this;
     }

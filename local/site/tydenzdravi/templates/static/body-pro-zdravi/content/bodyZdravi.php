@@ -21,7 +21,7 @@ use Model\Entity\PaperAggregateInterface;
             'textFirmy' => 'Jsme firma zabývající se prodejem zdravé a sportovní výživy s maximální funkčností , ale také vysokou kvalitou. Produktům dobře rozumíme a umíme vybrat takové, které se nejlépe hodí pro daný účel. V oblasti zdraví jsme hrdým dovozcem prémiových značek Viridian a EkoLife.'
         ]
     ];
-            
+
     $logaSProklikem = [
         [
             'radekLog' => [
@@ -162,7 +162,7 @@ use Model\Entity\PaperAggregateInterface;
             ]
         ],
     ];
-    
+
     $odkazyBezLog = [
         [
             'radekOdkazu' => [
@@ -276,14 +276,14 @@ use Model\Entity\PaperAggregateInterface;
                 ]
             ]
         ]
-        
+
     ];
 ?>
 
 <div class="body-zdravi">
     <div class="ui stackable centered grid">
        <?= $this->repeat(__DIR__.'/bodyZdravi/logoSTextem.php', $logaSTextem) ?>
-       <?= $this->repeat(__DIR__.'/bodyZdravi/rozvrzeniLogSproklikem.php', $logaSProklikem) ?> 
-       <?= $this->repeat(__DIR__.'/bodyZdravi/rozvrzeniOdkazuBezLog.php', $odkazyBezLog) ?> 
+       <?= $this->repeat(__DIR__.'/bodyZdravi/rozvrzeniLogSProklikem.php', $logaSProklikem) ?>
+       <?= $this->repeat(__DIR__.'/bodyZdravi/rozvrzeniOdkazuBezLog.php', $odkazyBezLog) ?>
     </div>
 </div>

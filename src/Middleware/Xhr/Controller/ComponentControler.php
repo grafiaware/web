@@ -22,7 +22,9 @@ use Component\View\{
     Generated\SearchPhraseComponent,
     Generated\SearchResultComponent,
     Generated\ItemTypeSelectComponent,
-    Flash\FlashComponent
+    Flash\FlashComponent,
+    Authored\Paper\ItemComponentInterface,
+    Authored\Paper\NamedComponentInterface
 };
 
 use \Middleware\Xhr\AppContext;
@@ -70,7 +72,7 @@ class ComponentControler extends XhrControlerAbstract {
 
         $langCode = $statusPresentation->getLanguage()->getLangCode();
         $rootMenuItem = $menuItemRepo->get($langCode, $uidFk );    // kořen menu
-        $statusPresentation->setMenuItem($rootMenuItem);
+        $statusPresentation->setHierarchyAggregate($rootMenuItem);
 
         $this->getMenuItemComponent($rootMenuItem);
         return $this->createResponseFromView($request, $this->createView($request));
@@ -111,18 +113,24 @@ class ComponentControler extends XhrControlerAbstract {
 
     private function getNamedComponent($name) {
         if ($this->isEditableLayout()) {
-            return $this->container->get('component.named.editable')->setComponentName($name);
+            $component = $this->container->get('component.named.editable');
         } else {
-            return $this->container->get('component.named')->setComponentName($name);
+            $component = $this->container->get('component.named');
         }
+        /** @var NamedComponentInterface $component */
+        $component->setComponentName($name);
+        return $component;
     }
 
-    private function getPresentedComponent($langCode, $uid) {
+    private function getPresentedComponent($langCodeFk, $uidFk) {
         if ($this->isEditableArticle()) {
-            return $this->container->get('component.item.editable');
+            $component = $this->container->get('component.item.editable');
         } else {
-            return $this->container->get('component.item');
+            $component = $this->container->get('component.item');
         }
+        /** @var ItemComponentInterface $component */
+        $component->setItemParams($langCodeFk, $uidFk);
+        return $component;
     }
 
 
@@ -189,7 +197,7 @@ class ComponentControler extends XhrControlerAbstract {
         $menuNode = $menuRepo->get($langCode, $uid);
         if ($menuNode) {
             $menuItem = $menuNode->getMenuItem();
-            $this->statusPresentationRepo->get()->setMenuItem($menuItem);
+            $this->statusPresentationRepo->get()->setHierarchyAggregate($menuItem);
             $this->getMenuItemComponent($menuItem);
             return $this->createResponseFromView($request, $this->createView($request));
         } else {

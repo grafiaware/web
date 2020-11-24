@@ -42,7 +42,7 @@ interface StatusPresentationInterface {
      *
      * @return string
      */
-    public function getLastResourcePath();
+    public function getLastGetResourcePath();
 
     /**
      *
@@ -70,5 +70,5 @@ interface StatusPresentationInterface {
      * @param type $lastResourcePath
      * @return $this
      */
-    public function setLastResourcePath($lastResourcePath): StatusPresentationInterface;
+    public function setLastGetResourcePath($lastResourcePath): StatusPresentationInterface;
 }

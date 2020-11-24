@@ -45,7 +45,7 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
     public function getPresentedMenuNode() {
         $presentationStatus = $this->statusPresentationRepo->get();
         $presentedMenuItem = $presentationStatus->getMenuItem();
-        return isset($presentedMenuItem) ? $this->getMenuNode($presentationStatus->getMenuItem()->getUidFk()) : null;
+        return isset($presentedMenuItem) ? $this->getMenuNode($presentedMenuItem->getUidFk()) : null;
     }
 
     /**

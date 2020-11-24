@@ -53,40 +53,43 @@ class PageController extends LayoutControllerAbstract {
             case 'component':
                 /** @var BlockAggregateRepo $componentAggregateRepo */
                 $componentAggregateRepo = $this->container->get(BlockAggregateRepo::class);
-                /** @var MenuItemRepo $menuItemRepo */
-                $menuItemRepo = $this->container->get(MenuItemRepo::class);
                 // jméno default komponenty (z konfigurace)
                 $langCode = $statusPresentation->getLanguage()->getLangCode();
-                $homeComponent = $componentAggregateRepo->getAggregate($langCode, $homePage[1]);
-                if (!isset($homeComponent)) {
+                $homeComponentAggregate = $componentAggregateRepo->getAggregate($langCode, $homePage[1]);
+                if (!isset($homeComponentAggregate)) {
                     throw new UnexpectedValueException("Undefined default page (home page) defined as component with name '$homePage[1]'.");
                 }
-                $homeMneuItemUid = $homeComponent->getMenuItem()->getUidFk();
-                $resourcePath = "www/item/$langCode/$homeMneuItemUid";
-                $statusPresentation->setLastResourcePath($resourcePath);
+
+                /** @var MenuItemRepo $menuItemRepo */
+                $menuItemRepo = $this->container->get(MenuItemRepo::class);
+
+                $homeMenuItem = $homeComponentAggregate->getMenuItem();
+                $homeMenuItemUid = $homeMenuItem->getUidFk();
+                $resourcePath = "www/item/$langCode/$homeMenuItemUid";
                 break;
             case 'static':
-                $resourcePath = "/www/item/static/$homePage[1]";
+                $resourcePath = "www/item/static/$homePage[1]";
                 break;
             case 'item':
                 /** @var MenuItemRepo $menuItemRepo */
                 $menuItemRepo = $this->container->get(MenuItemRepo::class);
                 // jméno default komponenty (z konfigurace)
                 $langCode = $statusPresentation->getLanguage()->getLangCode();
-                $homeItem = $menuItemRepo->get($langCode, $homePage[1]);
-                if (!isset($homeItem)) {
+                $homeMenuItem = $menuItemRepo->get($langCode, $homePage[1]);
+                if (!isset($homeMenuItem)) {
                     throw new UnexpectedValueException("Undefined default page (home page) defined as static with name '$homePage[1]'.");
                 }
 //                    $statusPresentation->setMenuItem($homeItem);
-                $homeMneuItemUid = $homeItem->getUidFk();
-                $resourcePath = "www/item/$langCode/$homeMneuItemUid";
-                $statusPresentation->setLastResourcePath($resourcePath);
+                $homeMenuItemUid = $homeMenuItem->getUidFk();
+                $resourcePath = "www/item/$langCode/$homeMenuItemUid";
                 break;
             default:
                 throw new UnexpectedValueException("Unknown home page type in configuration. Type: '$homePage[0]'.");
                 break;
         }
-
+        
+        $statusPresentation->setLastGetResourcePath($resourcePath);
+        $statusPresentation->setMenuItem($homeMenuItem);
 //        return $this->createResponseFromView($request, $this->createView($request, $this->getComponentViews($actionComponents)));
         return $this->redirectSeeOther($request, $resourcePath); // 303 See Other
 
@@ -94,13 +97,12 @@ class PageController extends LayoutControllerAbstract {
         }
 
     public function item(ServerRequestInterface $request, $langCode, $uid) {
-        /** @var HierarchyAggregateRepo $menuRepo */
-        $menuRepo = $this->container->get(HierarchyAggregateRepo::class);
-        $menuNode = $menuRepo->get($langCode, $uid);
-        if ($menuNode) {
-            $menuItem = $menuNode->getMenuItem();
-//            $this->statusPresentationRepo->get()->setMenuItem($menuItem);
-            $this->statusPresentationRepo->get()->setLastResourcePath($request->getUri()->getPath());
+        /** @var MenuItemRepo $menuItemRepo */
+        $menuItemRepo = $this->container->get(MenuItemRepo::class);
+        $menuItem = $menuItemRepo->get($langCode, $uid);
+        if ($menuItem) {
+            $statusPresentation = $this->statusPresentationRepo->get();
+            $statusPresentation->setMenuItem($menuItem);
             $actionComponents = ["content" => $this->getMenuItemComponent($menuItem)];
             return $this->createResponseFromView($request, $this->createView($request, $this->getComponentViews($actionComponents)));
         } else {
@@ -109,16 +111,12 @@ class PageController extends LayoutControllerAbstract {
         }
     }
     public function static(ServerRequestInterface $request, $name) {
-            $actionComponents = ["content" => $this->getStaticLoadScript($name)];
-            return $this->createResponseFromView($request, $this->createView($request, $this->getComponentViews($actionComponents)));
+        $actionComponents = ["content" => $this->getStaticLoadScript($name)];
+        return $this->createResponseFromView($request, $this->createView($request, $this->getComponentViews($actionComponents)));
     }
 
     public function last(ServerRequestInterface $request) {
-
-        return $this->redirectSeeOther($request, $this->statusPresentationRepo->get()->getLastResourcePath()); // 303 See Other
-
-//        $actionComponents = ["content" => $this->getPresentedComponent()];
-//        return $this->createResponseFromView($request, $this->createView($request, $this->getComponentViews($actionComponents)));
+        return $this->redirectSeeOther($request, $this->statusPresentationRepo->get()->getLastGetResourcePath()); // 303 See Other
     }
 
     public function searchResult(ServerRequestInterface $request) {
