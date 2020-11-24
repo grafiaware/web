@@ -54,7 +54,7 @@ class PresentationActionController extends PresentationFrontControllerAbstract {
             throw new UnexpectedLanguageException("Požadavek a nastavení neznámého jazyka aplikace s kódem $requestedLangCode.");
         }
         $this->addFlashMessage("setLanguage({$language->getLangCode()})");
-        return $this->response($request);
+        return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
     public function setPresentedItem(ServerRequestInterface $request) {
@@ -64,7 +64,7 @@ class PresentationActionController extends PresentationFrontControllerAbstract {
         $menuItem = $this->menuItemRepo->get($langCodeFk, $requestedUid);
         $statusPresentation->setHierarchyAggregate($menuItem);  // bez kontroly
         $this->addFlashMessage("setMenuItem({$menuItem->getTitle()})");
-        return $this->response($request);
+        return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
     public function setEditArticle(ServerRequestInterface $request) {
@@ -72,7 +72,7 @@ class PresentationActionController extends PresentationFrontControllerAbstract {
         $this->statusSecurityRepo->get()->getUserActions()->setEditableArticle($edit);
         $this->statusSecurityRepo->get()->getUserActions()->setEditableLayout(false);
         $this->addFlashMessage("setEditableArticle($edit)");
-        return $this->response($request);
+        return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
     public function setEditLayout(ServerRequestInterface $request) {
@@ -80,13 +80,13 @@ class PresentationActionController extends PresentationFrontControllerAbstract {
         $this->statusSecurityRepo->get()->getUserActions()->setEditableLayout($edit);
         $this->statusSecurityRepo->get()->getUserActions()->setEditableArticle(false);
         $this->addFlashMessage("setEditableLayout($edit)");
-        return $this->response($request);
+        return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
     private function response($request) {
         $uidFk = $this->statusPresentationRepo->get()->getMenuItem()->getUidFk();
         $langCodeFk = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
-        return $this->redirectSeeOther($request,"www/item/$langCodeFk/$uidFk"); // 303 See Other
+        return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
 }

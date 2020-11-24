@@ -86,8 +86,7 @@ class PaperController extends PresentationFrontControllerAbstract {
                     $this->paperRepo->add($paper);
                     $this->addFlashMessage("Nebyl přijat žádný obsah šablony. Vytvořen nový prázdný článek.");
         }
-        return $this->redirectSeeOther($request,'www/last'); // 303 See Other
-
+        return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
     private function loadHtml($layoutDocument, $text) {
@@ -171,7 +170,7 @@ class PaperController extends PresentationFrontControllerAbstract {
             $postHeadline = (new RequestParams())->getParam($request, 'headline_'.$paperId);
             $paper->setHeadline($postHeadline);
         }
-        return $this->redirectSeeOther($request,'www/last'); // 303 See Other
+        return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
     /**
@@ -188,7 +187,7 @@ class PaperController extends PresentationFrontControllerAbstract {
             $postPerex = (new RequestParams())->getParam($request, 'perex_'.$paperId);
             $paper->setPerex($postPerex);
         }
-        return $this->redirectSeeOther($request,'www/last'); // 303 See Other
+        return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
     /**
@@ -205,14 +204,6 @@ class PaperController extends PresentationFrontControllerAbstract {
             $postTemplate = (new RequestParams())->getParam($request, 'template_'.$paperId);
             $paper->setTemplate($postTemplate);
         }
-        return $this->redirectSeeOther($request,'www/last'); // 303 See Other
+        return $this->redirectSeeLastGet($request); // 303 See Other
     }
-
-//    $paper = $this->paperRepo->get($menuItemId) ?? $this->createPaper($menuItemId);
-
-//    private function createPaper($menuItemId) {
-//        $paper = (new Paper())->setMenuItemIdFk($menuItemId)->setLangCode($this->statusPresentation->getLanguage()->getLangCode());
-//        $this->paperRepo->add($paper);
-//        return $paper;
-//    }
 }

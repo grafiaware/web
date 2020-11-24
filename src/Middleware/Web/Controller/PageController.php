@@ -87,7 +87,7 @@ class PageController extends LayoutControllerAbstract {
                 throw new UnexpectedValueException("Unknown home page type in configuration. Type: '$homePage[0]'.");
                 break;
         }
-        
+
         $statusPresentation->setLastGetResourcePath($resourcePath);
         $statusPresentation->setMenuItem($homeMenuItem);
 //        return $this->createResponseFromView($request, $this->createView($request, $this->getComponentViews($actionComponents)));
@@ -354,30 +354,41 @@ class PageController extends LayoutControllerAbstract {
     }
 
     private function getPresentedComponentLoadScript($langCode, $uid) {
-        return $this->container->get(View::class)
-                    ->setTemplate(new PhpTemplate(Configuration::pageControler()['templates.loaderElement']))
+        $view = $this->container->get(View::class)
                     ->setData([
                         'name' => 'presented',
                         'apiUri' => "component/v1/item/$langCode/$uid/"
                         ]);
+        $this->setLoadedScriptTemplate($view);
+        return $view;
     }
 
     private function getNamedComponentLoadScript($componentName) {
-        return $this->container->get(View::class)
-                    ->setTemplate(new PhpTemplate(Configuration::pageControler()['templates.loaderElement']))
+        $view = $this->container->get(View::class)
                     ->setData([
                         'name' => $componentName,
                         'apiUri' => "component/v1/nameditem/$componentName/"
                         ]);
+        $this->setLoadedScriptTemplate($view);
+        return $view;
     }
 
     private function getStaticLoadScript($name) {
-        return $this->container->get(View::class)
-                    ->setTemplate(new PhpTemplate(Configuration::pageControler()['templates.loaderElement']))
+        $view = $this->container->get(View::class)
                     ->setData([
                         'name' => $name,
                         'apiUri' => "component/v1/static/$name"
                         ]);
+        $this->setLoadedScriptTemplate($view);
+        return $view;
+    }
+
+    private function setLoadedScriptTemplate($view) {
+        if ($this->isEditableArticle() OR $this->isEditableLayout()) {
+            $view->setTemplate(new PhpTemplate(Configuration::pageControler()['templates.loaderElementEditable']));
+        } else {
+            $view->setTemplate(new PhpTemplate(Configuration::pageControler()['templates.loaderElement']));
+        }
     }
     #### komponenty, modal ######
 

@@ -62,7 +62,7 @@ class HierarchyController extends PresentationFrontControllerAbstract {
         $statusFlash->setPostCommand(['cut'=>$uid]);  // command s životností do dalšího POST requestu
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
         $statusFlash->appendMessage("cut - vybrán k přesunutí: $langCode/$uid");
-        return $this->redirectSeeOther($request,'www/last'); // 303 See Other
+        return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
     public function paste(ServerRequestInterface $request, $uid, $pasteduid) {
@@ -104,7 +104,7 @@ class HierarchyController extends PresentationFrontControllerAbstract {
         $trashUid = $this->menuRootRepo->get(self::TRASH_MENU_ROOT)->getUidFk();
         $this->editHierarchyDao->moveSubTree($uid, $trashUid);
         $this->addFlashMessage('trash');
-        return $this->redirectSeeOther($request, 'www/last');
+        return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
 }

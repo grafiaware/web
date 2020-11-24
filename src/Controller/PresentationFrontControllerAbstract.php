@@ -125,7 +125,7 @@ abstract class PresentationFrontControllerAbstract extends StatusFrontController
      * @return string
      */
     protected function getBasePath(ServerRequestInterface $request) {
-        return $this->getRequestUriInfo($request)->getRootRelativePath();
+        return $this->getUriInfo($request)->getRootRelativePath();
     }
 
     /**
@@ -134,7 +134,7 @@ abstract class PresentationFrontControllerAbstract extends StatusFrontController
      * @return type
      */
     protected function getRedirectPath(ServerRequestInterface $request) {
-        return $this->getRequestUriInfo($request)->getSubdomainPath();
+        return $this->getUriInfo($request)->getSubdomainPath();
     }
 
     /**
@@ -142,7 +142,7 @@ abstract class PresentationFrontControllerAbstract extends StatusFrontController
      *
      * @return UriInfoInterface
      */
-    private function getRequestUriInfo(ServerRequestInterface $request) {
+    private function getUriInfo(ServerRequestInterface $request) {
         return $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME);
     }
 
@@ -151,8 +151,19 @@ abstract class PresentationFrontControllerAbstract extends StatusFrontController
      * @param string $relativePath
      * @return Response
      */
-    protected function redirectSeeOther($request, $relativePath) {
-        $subPath = $this->getRequestUriInfo($request)->getRootRelativePath();
+    protected function redirectSeeOther(ServerRequestInterface $request, $relativePath) {
+        $subPath = $this->getUriInfo($request)->getRootRelativePath();
         return RedirectResponse::withPostRedirectGet(new Response(), $subPath.$relativePath); // 303 See Other
+    }
+
+    protected function redirectSeeLastGet(ServerRequestInterface $request) {
+        return $this->redirectSeeOther($request, $this->statusPresentationRepo->get()->getLastGetResourcePath()); // 303 See Other
+    }
+
+    protected function okMessageResponse($messageText) {
+        // vracím 200 OK - použití 204 NoContent způsobí, že v jQuery kódu .done(function(data, textStatus, jqXHR) je proměnná data undefined a ani jqXhr objekt neobsahuje vrácený text - jQuery předpoklákládá, že NoContent znamená NoContent
+        $response = new Response();
+        $response->getBody()->write($messageText);
+        return $response;
     }
 }

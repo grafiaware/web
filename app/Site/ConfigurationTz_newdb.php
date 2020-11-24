@@ -827,6 +827,7 @@ class ConfigurationTz_newdb {
 //               'home_page' => ['item', '5fad34398df10'],  // přednášky - pro test
                'templates.poznamky' => self::RED_TEMPLATES_COMMON.'layout/info/poznamky.php',
                'templates.loaderElement' => self::RED_TEMPLATES_COMMON.'layout/component-load/loaderElement.php',
+               'templates.loaderElementEditable' => self::RED_TEMPLATES_COMMON.'layout/component-load/loaderElementEditable.php',
             ];
     }
 
