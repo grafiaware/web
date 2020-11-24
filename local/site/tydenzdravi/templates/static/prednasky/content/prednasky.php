@@ -61,10 +61,10 @@ use Model\Entity\PaperAggregateInterface;
             'datumCas' => '23.11.2020, 18:00',
             'odkazPrednaskyAttributes' => [
                 'class' => 'ui large secondary button',
-                'href' => 'https://forms.gle/aUoufuqLyaSjm6rE8',
+                'href' => 'https://www.youtube.com/watch?v=DqXlW0ceNfk',
                 'target' => '_blank'
             ],
-            'odkazPrednaskyText' => 'Přihlásit se / Položit dotaz'
+            'odkazPrednaskyText' => 'Zhlédnout záznam'
         ],
         [
             'jmeno' => 'Alena Vrbová,  Marek Rubricius',
@@ -73,10 +73,10 @@ use Model\Entity\PaperAggregateInterface;
             'datumCas' => '23.11.2020, 19:30',
             'odkazPrednaskyAttributes' => [
                 'class' => 'ui large secondary button',
-                'href' => 'https://forms.gle/aUoufuqLyaSjm6rE8',
+                'href' => 'https://www.youtube.com/watch?v=x3GbQ0GsKac',
                 'target' => '_blank'
             ],
-            'odkazPrednaskyText' => 'Přihlásit se / Položit dotaz'
+            'odkazPrednaskyText' => 'Zhlédnout záznam'
         ],
         [
             'jmeno' => 'MUDr. Pavel Tomeš',

@@ -582,7 +582,8 @@
         }
     }
 }
-@media screen and (max-width: 530px){
+
+@media screen and (min-height: 431px) and (max-width: 530px){
     .layoutTZ .fix-bar{
         .prihlaseni{
             form > div.button{
@@ -619,4 +620,97 @@
             width: 270px;
         }
     }
+}
+@media only screen and (max-height: 630px) {
+    .layoutTZ{
+        .nav-mobile{
+            top: 4%;
+        }
+        .fix-bar .prihlaseni{
+            top: 5%;
+        }
+        .icon-menu{
+            top: 50%; 
+            position: relative;
+        }
+    } 
+}
+@media only screen and (max-height: 430px) and (min-width: 1600px) {
+    .layoutTZ{
+        .nav-mobile{
+            
+        }
+        .prihlaseni{
+            
+        }
+        .icon-menu{
+            top: 27%;
+            ul.vertical.menu{
+                display: inline-flex;
+                flex-direction: row;
+                justify-content: center;    
+            }
+        }
+    } 
+}
+@media only screen and (max-height: 430px) and (max-width: 1599px) {
+    .layoutTZ{
+        .icon-menu{
+            top: 27%;
+            ul.vertical.menu{ 
+                display: inline-flex;
+                flex-direction: row;
+                justify-content: center; 
+                li{
+                    font-size: 0.8em;
+                }
+            }
+            
+        }
+    } 
+}
+@media only screen and (max-height: 430px) and (max-width: 768px) {
+    .layoutTZ{
+        .nav-mobile{
+            top: 4%;
+            font-size: 0.8em;
+        }
+        .fix-bar{
+            height: 130%;
+            .prihlaseni{
+                top: 0;
+                .icon.button:not(.labeled){
+                    padding: 0.3em;
+                    > .user.icon{
+                        //font-size: 1em;
+                    }
+                }
+                .logout{
+                    .dropdown .header.item{
+                        font-size: 1em;
+                    }
+                }
+                > form{ //v tomhle formu je tlacitko Akce
+                    > div.icon{
+                        font-size: 1.4em;
+                    }
+                    > div.button{
+                        right: -10%;
+                    }
+                }
+            }
+        }
+        .icon-menu{
+            top: 38%;
+            ul.vertical.menu{
+                display: block;
+                li{
+                    font-size: 0.8em;
+                    .item{
+                        padding: 0.3em;
+                    }
+                }
+            }
+        }
+    } 
 }
