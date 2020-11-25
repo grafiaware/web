@@ -10,6 +10,7 @@
 /* Menu Item */
 @itemTextColor: @invertedTextColor;
 @itemHorizontalPadding: 0;
+@subMenuTextColor: @invertedTextColor;
 
 /* Hovered Item */
 @hoverItemBackground: transparent;

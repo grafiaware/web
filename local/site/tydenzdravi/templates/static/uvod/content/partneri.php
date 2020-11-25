@@ -80,6 +80,6 @@ use Model\Entity\PaperAggregateInterface;
                 <p>Děkujeme za podporu partnerům:</p>
             </div>
         </div>
-        <?= $this->repeat(__DIR__.'/partneri/rozvrzeniPartneru.php', $parneri) ?>
+        <?= $this->repeat(__DIR__.'/partneri/rozvrzeni-partneru.php', $parneri) ?>
     </div>
 </div>

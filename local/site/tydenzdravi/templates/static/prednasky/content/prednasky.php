@@ -85,10 +85,10 @@ use Model\Entity\PaperAggregateInterface;
             'datumCas' => '24.11.2020, 18:00',
             'odkazPrednaskyAttributes' => [
                 'class' => 'ui large secondary button',
-                'href' => 'https://forms.gle/aUoufuqLyaSjm6rE8',
+                'href' => 'https://www.youtube.com/watch?v=eDktwkP6QlU',
                 'target' => '_blank'
             ],
-            'odkazPrednaskyText' => 'Přihlásit se / Položit dotaz'
+            'odkazPrednaskyText' => 'Zhlédnout záznam'
         ],
         [
             'jmeno' => 'David Brabec',
@@ -97,10 +97,10 @@ use Model\Entity\PaperAggregateInterface;
             'datumCas' => '24.11.2020, 19:30',
             'odkazPrednaskyAttributes' => [
                 'class' => 'ui large secondary button',
-                'href' => 'https://forms.gle/aUoufuqLyaSjm6rE8',
+                'href' => 'https://www.youtube.com/watch?v=AZ5oWT_WeBU',
                 'target' => '_blank'
             ],
-            'odkazPrednaskyText' => 'Přihlásit se / Položit dotaz'
+            'odkazPrednaskyText' => 'Zhlédnout záznam'
         ],
         [
             'jmeno' => 'prof. MUDr. Miloš Pešek, CSc.',

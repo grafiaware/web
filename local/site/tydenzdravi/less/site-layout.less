@@ -118,10 +118,28 @@
         color: @invertedTextColor;
     }
     .svisle-menu .menu{
-        .presented > .item{
-            color: darken(@primaryColor, 15)
+        li:not(.leaf) > .item > .chevron-icon::before{
+            content: "\f078";
+            height: 1em;
+            width: 1.18em;
+            font-family: Icons;
+            font-weight: 400;
+            font-style: normal;
+            font-size: 1em;
+            text-align: center;
+            margin: 0 0 0 .5em;
+            position: absolute;
+            right: 5px;
+            color: @invertedTextColor;
+            backface-visibility: hidden;
         }
-        .onpath{
+        li.presented > .item{
+            color: darken(@primaryColor, 15);
+            > .chevron-icon::before{
+                    color: darken(@primaryColor, 15);
+                }
+        }
+        li.onpath{
             .menu{
                 left: 7%;
                 position: relative;

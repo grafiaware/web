@@ -13,6 +13,6 @@ use Model\Entity\PaperAggregateInterface;
         <?php include "perex.php" ?>
     </perex>
     <content>
-        <?php include "content/logoKeStazeni.php" ?>
+        <?php include "content/logo.php" ?>
     </content>
 </div>

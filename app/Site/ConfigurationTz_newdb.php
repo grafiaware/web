@@ -338,7 +338,7 @@ class ConfigurationTz_newdb {
                             'li div i2.notactivenotactual' => 'calendar times icon red',
                               //check green icon, times red icon //ui small green left corner label //vertical green line
                             'li a' => 'item editable',   //nema_pravo //edituje_jiny
-                            'li i' => '' //dropdown icon
+                            'li i' => 'chevron-icon' //dropdown icon
                         ],
             'menu_edit_buttons' => [
                             'div.name' => 'small ui basic icon buttons editName',

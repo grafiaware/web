@@ -282,8 +282,8 @@ use Model\Entity\PaperAggregateInterface;
 
 <div class="body-zdravi">
     <div class="ui stackable centered grid">
-       <?= $this->repeat(__DIR__.'/bodyZdravi/logoSTextem.php', $logaSTextem) ?>
-       <?= $this->repeat(__DIR__.'/bodyZdravi/rozvrzeniLogSProklikem.php', $logaSProklikem) ?>
-       <?= $this->repeat(__DIR__.'/bodyZdravi/rozvrzeniOdkazuBezLog.php', $odkazyBezLog) ?>
+       <?= $this->repeat(__DIR__.'/body-zdravi/logo-s-textem.php', $logaSTextem) ?>
+       <?= $this->repeat(__DIR__.'/body-zdravi/rozvrzeni-log-s-proklikem.php', $logaSProklikem) ?>
+       <?= $this->repeat(__DIR__.'/body-zdravi/rozvrzeni-odkazu-bez-log.php', $odkazyBezLog) ?>
     </div>
 </div>

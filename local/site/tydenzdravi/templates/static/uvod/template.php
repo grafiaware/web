@@ -12,10 +12,10 @@ use Model\Entity\PaperAggregateInterface;
     <?php include "content/program.php" ?>
 </content>
 <content>
-    <?php include "content/oAkci.php" ?>
+    <?php include "content/o-akci.php" ?>
 </content>
 <content>
-    <?php include "content/oAkci2.php" ?>
+    <?php include "content/o-akci2.php" ?>
 </content>
 <content>
     <?php include "content/partneri.php" ?>

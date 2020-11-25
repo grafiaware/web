@@ -94,7 +94,7 @@ use Model\Entity\PaperAggregateInterface;
 
 <div class="kupony">
     <div class="ui stackable centered grid">
-        <?= $this->repeat(__DIR__.'/kupony/rozvrzeniKuponu.php', $radekKuponu) ?>
+        <?= $this->repeat(__DIR__.'/kupony/rozvrzeni-kuponu.php', $radekKuponu) ?>
     </div>
 </div>
 

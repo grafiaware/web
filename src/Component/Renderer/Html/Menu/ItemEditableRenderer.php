@@ -41,11 +41,14 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
                 'href'=>"www/item/{$menuNode->getMenuItem()->getLangCodeFk()}/{$menuNode->getUid()}",
                 'tabindex'=>0,
                 ],
+                Html::tag('i',[
+                    'class'=>$this->classMap->getClass('Item', 'li i')
+                ])
 
                 // POZOR: závislost na edit.js
                 // ve skriptu edit.js je element k editaci textu položky vybírán pravidlem (selektorem) acceptedElement = targetElement.nodeName === 'SPAN' && targetElement.parentNode.nodeName === 'P',
                 // vyvírá <span>, který má rodiče <p>
-                Html::tag('span', [
+                .Html::tag('span', [
                     'contenteditable'=> ($presentedEditable ? "true" : "false"),
                     'data-original-title'=>$menuItem->getTitle(),
                     'data-uid'=>$menuNode->getUid(),
@@ -56,11 +59,12 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
                         'title'=> $active ? "published" :  "not published"
                         ])
                 )
+                
             );
-        $innerHtml[] = Html::tag('i',
-                    [
-                    'class'=>$this->classMap->resolveClass($itemViewModel->getInnerHtml(), 'Item', 'li i')
-                    ]);
+//        $innerHtml[] = Html::tag('i',
+//                    [
+//                    'class'=>$this->classMap->resolveClass($itemViewModel->getInnerHtml(), 'Item', 'li i')
+//                    ]);
         if ($itemViewModel->isPresented()) {
             $innerHtml[] = Html::tag('div', ['class'=>$this->classMap->getClass('Buttons', 'div.menu')],
                 $pasteMode ? $this->renderPasteButtons($menuNode, $pastedUid) : $this->renderButtons($menuNode)

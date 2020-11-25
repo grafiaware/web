@@ -45671,7 +45671,7 @@ Floated Menu / Item
   background: none;
   padding: 0.5em 0;
   font-size: 0.85714286em;
-  color: rgba(0, 0, 0, 0.5);
+  color: #fff;
 }
 
 .ui.vertical.menu .item .menu a.item:hover,
@@ -47593,7 +47593,7 @@ Floated Menu / Item
 .ui.vertical.menu.massive .item {
   font-weight: bold;
   text-transform: uppercase;
-  padding: 0.6em 0;
+  padding: 0.6em 1.3em 0.6em 0;
   line-height: 1.2;
 }
 
@@ -47606,9 +47606,7 @@ Floated Menu / Item
 }
 
 .ui.vertical.menu.massive.edit .item {
-  padding-left: 1.3em;
-  padding-top: 0.75em;
-  padding-bottom: 0.75em;
+  padding: 0.75em 1.3em;
 }
 /*!
  * # Fomantic-UI - Message

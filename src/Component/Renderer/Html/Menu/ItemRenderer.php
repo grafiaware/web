@@ -27,8 +27,8 @@ class ItemRenderer extends HtmlRendererAbstract {
         $innerHtml = Html::tag('i', ['class'=> $this->classMap->getClass('Item', 'li i1')])
                     .Html::tag('a', ['class'=>$this->classMap->getClass('Item', 'li a'), 'href'=> "www/item/{$menuNode->getMenuItem()->getLangCodeFk()}/{$menuNode->getUid()}" ],
                         $menuNode->getMenuItem()->getTitle()
+                        .Html::tag('i', ['class'=>$this->classMap->getClass('Item', 'li i')])
                     )
-                    .Html::tag('i', ['class'=>$this->classMap->resolveClass($itemViewModel->getInnerHtml(), 'Item', 'li i')])
                     .$itemViewModel->getInnerHtml();
         $html = Html::tag('li',
                 ['class'=>[

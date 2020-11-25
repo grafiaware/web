@@ -47,18 +47,16 @@
         .item{
             font-weight: bold;
             text-transform: uppercase;
-            padding: 0.6em 0;
+            padding: 0.6em 1.3em 0.6em 0;
             line-height: 1.2;
         }
-        &.edit{
+        &.edit{ 
             width: 35rem;
             .onpath ul{
                 width: 33.5rem;
             }
             .item{
-                padding-left: 1.3em;
-                padding-top: 0.75em;
-                padding-bottom: 0.75em;
+                padding: 0.75em 1.3em;
             }
         }
     }

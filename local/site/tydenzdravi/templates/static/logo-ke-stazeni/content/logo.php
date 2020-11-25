@@ -82,6 +82,6 @@ use Model\Entity\PaperAggregateInterface;
 
 <div class="logo-ke-stazeni">
     <div class="ui centered grid">
-        <?= $this->repeat(__DIR__.'/logoKeStazeni/rozvrzeniVariant.php', $logoKeStazeni) ?>
+        <?= $this->repeat(__DIR__.'/logo/rozvrzeni-variant.php', $logoKeStazeni) ?>
     </div>
 </div>
