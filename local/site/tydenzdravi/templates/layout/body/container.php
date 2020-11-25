@@ -12,11 +12,11 @@
                 <?php include "container/hlavicka.php"; ?>
             </header>
             <main class="page-content">
-                <?= $flash ?? '' ?>
-                <?= $poznamky ?? '' ?>
                 <?= $content ?? '' ?>
             </main>
         </div>
+        <?= $flash ?? '' ?>
+        <?= $poznamky ?? '' ?>
     </div>
     <footer>
         <span id="kontakty"></span>

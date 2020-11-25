@@ -27,6 +27,10 @@ use Component\View\{
     Authored\Paper\NamedComponentInterface
 };
 
+// view pro kompilované static obsahy
+use Pes\View\Renderer\PhpTemplateRenderer;
+use Pes\View\Renderer\StringRenderer;
+
 use \Middleware\Xhr\AppContext;
 
 ####################
@@ -104,15 +108,27 @@ class ComponentControler extends XhrControlerAbstract {
 
     public function static(ServerRequestInterface $request, $staticName) {
         $view = new View();
-        $view->setRenderer(new \Pes\View\Renderer\PhpTemplateRenderer());
-        $view->setTemplate(new PhpTemplate(Configuration::layoutControler()['static'].$staticName."/template.php"));
-        $tpHandler = fopen(Configuration::layoutControler()['static']."__compiled/".$staticName.".html", 'w+');
-        fwrite($tpHandler, $view->getString());
-        fclose($tpHandler);
+        $view->setRenderer(new StringRenderer());
+        $view->setData($this->getCompiledContent($staticName));
         return $this->createResponseFromView($request, $view);
     }
 
     ######################
+
+    private function getCompiledContent($staticName) {
+
+        $compiledFileName = Configuration::layoutControler()['static']."__compiled/".$staticName.".html";
+        if (false AND is_readable($compiledFileName)) {
+            $compiledContent = file_get_contents($compiledFileName);
+        } else {
+            $view = new View();
+            $view->setRenderer(new PhpTemplateRenderer());
+            $view->setTemplate(new PhpTemplate(Configuration::layoutControler()['static'].$staticName."/template.php"));
+            $compiledContent = $view->getString();
+            file_put_contents($compiledFileName, $compiledContent);
+        }
+        return $compiledContent;
+    }
 
     private function getNamedComponent($name) {
         if ($this->isEditableLayout()) {
