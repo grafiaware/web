@@ -53,7 +53,7 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
                     'data-original-title'=>$menuItem->getTitle(),
                     'data-uid'=>$menuNode->getUid(),
                     ], $menuItem->getTitle())
-                .Html::tag('div', ['class'=>$this->classMap->getClass('Item', 'li div')],
+                .Html::tag('span', ['class'=>$this->classMap->getClass('Item', 'li div')],
                     Html::tag('i', [
                         'class'=> $this->classMap->resolveClass($active, 'Item', 'li div i1.published', 'li div i1.notpublished'),
                         'title'=> $active ? "published" :  "not published"
