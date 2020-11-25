@@ -89,7 +89,7 @@ class ComponentControler extends XhrControlerAbstract {
     }
 
     public function item(ServerRequestInterface $request, $langCode, $uid) {
-        $view = $this->getPresentedComponent($langCode, $uid);
+        $view = $this->getItemComponent($langCode, $uid);
         return $this->createResponseFromView($request, $view);
     }
 
@@ -106,6 +106,9 @@ class ComponentControler extends XhrControlerAbstract {
         $view = new View();
         $view->setRenderer(new \Pes\View\Renderer\PhpTemplateRenderer());
         $view->setTemplate(new PhpTemplate(Configuration::layoutControler()['static'].$staticName."/template.php"));
+        $tpHandler = fopen(Configuration::layoutControler()['static']."__compiled/".$staticName.".html", 'w+');
+        fwrite($tpHandler, $view->getString());
+        fclose($tpHandler);
         return $this->createResponseFromView($request, $view);
     }
 
@@ -122,7 +125,7 @@ class ComponentControler extends XhrControlerAbstract {
         return $component;
     }
 
-    private function getPresentedComponent($langCodeFk, $uidFk) {
+    private function getItemComponent($langCodeFk, $uidFk) {
         if ($this->isEditableArticle()) {
             $component = $this->container->get('component.item.editable');
         } else {
