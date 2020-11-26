@@ -4,7 +4,7 @@
 
 @hodnotaAuto: auto;
 @hodnota0: 0; 
-@borderWidth: 1px;  
+@borderWidth: 1px;   
 @borderStyle: solid;
 @borderRadius: 5px;
 @mediumGrey: darken(@lightGrey, 15);
@@ -189,30 +189,9 @@ body{
         &.bloky{
             height: @svisleMenuBlokyHeight;
             margin: @svisleMenuBlokyMargin;
-            /*první položka menu bloky je pouze nadpis - vycentrovaná a podbarvená, bez semaforu, ale odkaz je tam pořád*/
-            .vertical.menu > li:first-child{
-                text-align: center;
-                > .item{
-                    background-color: @barvaEditButtony !important;
-                    > i{
-                        display: none;
-                    }
-                    .semafor{
-                        display: none;
-                    }
-                }
-            }
+                  
         }
-        /*SVISLÉ MENU KOŠ*/
-        &.kos{
-            /*první položka menu kos je pouze nadpis - vycentrovaná a podbarvená, ale odkaz je tam pořád*/
-            .vertical.menu > li:first-child{
-                text-align: center;
-                > .item{
-                    background-color: @barvaKos !important;
-                }
-            }
-        } 
+                
     } 
     /*PRESMEROVANI MENU*/
     .presmerovani-menu{

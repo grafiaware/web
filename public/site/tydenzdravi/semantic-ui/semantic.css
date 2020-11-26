@@ -47488,7 +47488,7 @@ Floated Menu / Item
 .ui.massive.menu,
 .ui.massive.menu .dropdown,
 .ui.massive.menu .dropdown .menu > .item {
-  font-size: 2.35714286rem;
+  font-size: 2.14285714rem;
 }
 
 .ui.massive.vertical.menu:not(.icon) {
@@ -47605,8 +47605,19 @@ Floated Menu / Item
   width: 33.5rem;
 }
 
-.ui.vertical.menu.massive.edit .item {
-  padding: 0.75em 1.3em;
+.ui.vertical.menu.massive.edit a.item {
+  padding: 0.6em 1.3em;
+  font-size: 1.8rem !important;
+}
+
+.ui.vertical.menu.massive.edit p.item {
+  padding: 0.8em 1.3em;
+  font-size: 1.8rem !important;
+  margin-top: 0.7em;
+}
+
+.kos .ui.vertical.menu.massive .item {
+  font-size: 1.8rem !important;
 }
 /*!
  * # Fomantic-UI - Message

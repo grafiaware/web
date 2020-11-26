@@ -109,10 +109,10 @@ use Model\Entity\PaperAggregateInterface;
             'datumCas' => '25.11.2020, 18:00',
             'odkazPrednaskyAttributes' => [
                 'class' => 'ui large secondary button',
-                'href' => 'https://forms.gle/aUoufuqLyaSjm6rE8',
+                'href' => 'https://www.youtube.com/watch?v=FkwRhmQyoB4',
                 'target' => '_blank'
             ],
-            'odkazPrednaskyText' => 'Přihlásit se / Položit dotaz'
+            'odkazPrednaskyText' => 'Zhlédnout záznam'
         ],
         [
             'jmeno' => 'Ing. Tomáš Kocánek',
@@ -121,10 +121,10 @@ use Model\Entity\PaperAggregateInterface;
             'datumCas' => '25.11.2020, 19:00',
             'odkazPrednaskyAttributes' => [
                 'class' => 'ui large secondary button',
-                'href' => 'https://forms.gle/aUoufuqLyaSjm6rE8',
+                'href' => 'https://www.youtube.com/watch?v=Zhl5HFH-GAw',
                 'target' => '_blank'
             ],
-            'odkazPrednaskyText' => 'Přihlásit se / Položit dotaz'
+            'odkazPrednaskyText' => 'Zhlédnout záznam'
         ],
         [
             'jmeno' => 'Iveta Churavá',

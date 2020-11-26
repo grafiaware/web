@@ -42,7 +42,7 @@
 @svisleMenuWidth: 100%;
 @svisleMenuHeight: auto; //pro overflow
 @svisleMenuMargin: @hodnota0 @hodnota0 @hodnota0 -8px;
-@svisleMenuOverflow: auto;
+@svisleMenuOverflow: hidden auto;
 @svisleMenuParagraphPadding: 0.8em 1.3em;
 @svisleMenuLiPadding: 3px;
 //Svislé menu bloky
@@ -72,19 +72,24 @@
 @trashContentFilter: grayscale(1);
 
 
-.svisle-menu .menu.edit{
+.svisle-menu .menu.edit{ 
     p{
         outline: 3px solid;
+        border-left: 3px solid;
     }
     p:not(.item){
         display: none;
     }
-        //ke smazání, až bude .semafor i v <p>
-    li {
-        > .semafor{
-            top: 30px !important;
-            left: 1px;
-            height: auto;
+}
+.svisle-menu.kos{
+    outline: 2px solid darken(@barvaKos,20); 
+    
+    .menu{
+        .presented > a{
+            outline: 3px solid;
+        }
+        .item{
+            color: darken(@barvaKos,20);
         }
     }
-}
+} 

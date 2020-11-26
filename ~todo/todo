@@ -5,3 +5,7 @@ přesměrování starých adres (old) na nové (upgrade) - stačí pomocí trans
 friendly url's
 sitemap
 do head - meta description <meta name="description" content="Get more vis... /> - požku description do paper? (jen pro "paper" generátor, pro ostatní stejně není kdo by to psal) (menu_item?), přidat pole do editace (zase asi jen pro paper) a tag <meta name="description" dávat do <head>
+
+Notice: Undefined index: in /home/www/tydenzdravi.eu/www/tydenzdravi.eu/src/Application/WebAppFactory.php on line 58
+
+Notice: Podle hlavičky requestu Accept-Language je požadován kód jazyka . Takový kód jazyka nebyl nalezen mezi jazyky aplikace. Nastaven default jazyk aplikace. in /home/www/tydenzdravi.eu/www/tydenzdravi.eu/src/StatusManager/StatusPresentationManager.php on line 108

@@ -55,9 +55,22 @@
             .onpath ul{
                 width: 33.5rem;
             }
-            .item{
-                padding: 0.75em 1.3em;
+            a.item{
+                padding: 0.6em 1.3em;
+                font-size: 1.8rem !important;
             }
+            p.item{
+                padding: 0.8em 1.3em;
+                font-size: 1.8rem !important;
+                margin-top: 0.7em;  
+            }
+        }
+    }
+}
+.kos .ui.vertical.menu{
+    &.massive{
+        .item{
+            font-size: 1.8rem !important; 
         }
     }
 }
