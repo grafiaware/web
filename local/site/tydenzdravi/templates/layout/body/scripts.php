@@ -1,6 +1,7 @@
 <?= $linkEditorJs ?? '' ?>
 
 <script>
+    // pro modal elementy
     $('.ui.dropdown')
       .dropdown()
     ;
