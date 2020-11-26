@@ -153,11 +153,17 @@
         }
     }
     //hamburger menu
-    .close-item,
     .nav-mobile{
       font-size: @bigSize * @emSize;
       margin: 5px 0;
       &:hover{
+          cursor: pointer;
+      }
+    }
+    .close-item{
+      font-size: @bigSize * @emSize;
+      margin: 5px 0;
+      i:hover, .hamburger_dontclose:hover{
           cursor: pointer;
       }
     }
@@ -172,7 +178,7 @@
         text-align: right; 
         font-size: @hugeSize * @emSize;
         border-bottom: 3px solid @invertedTextColor;
-        margin: 50px 0;
+        margin: 50px 0 15px;
         padding: 20px 20px 40px 0;
         .hamburger-icon{
             position: absolute;
@@ -218,6 +224,11 @@
             }
         }
     }
+    .svisle-menu.kos{
+        li{
+            position: relative; 
+        }
+    }
     .svisle-menu:first-child {
        // display: none;
     }
@@ -234,6 +245,9 @@
         -webkit-animation: animateleft 0.4s;
         animation: animateleft 0.4s;
         padding: 40px 20px 20px;
+        &.open{
+            display: block;
+        }
     }
     #myOverlay{
         position: fixed;

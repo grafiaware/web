@@ -543,7 +543,7 @@ class ConfigurationTz_newdb {
                 return new ClassMap (
                     [
                         'MenuWrap' => [
-                            'ul' => 'ui vertical menu edit'
+                            'ul' => 'ui vertical massive menu edit'
                         ],
                         'LevelWrap' => [
                             'ul' => 'menu'
@@ -556,7 +556,7 @@ class ConfigurationTz_newdb {
                 return new ClassMap (
                     [
                         'MenuWrap' => [
-                            'ul' => 'ui vertical menu'
+                            'ul' => 'ui vertical massive menu'
                         ],
                         'LevelWrap' => [
                             'ul' => 'menu'
