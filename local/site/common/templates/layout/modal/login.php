@@ -1,5 +1,5 @@
     <form class="ui inverted form centered" method="POST" action="auth/v1/login">
-        <div class="ui icon top left pointing dropdown button">
+        <div class="ui icon top left pointing dropdown button loginEnterKey">
             <i class="user icon"></i>
             <div class="menu">
                 <div class="item header"><p><i class="user icon"></i>Přihlásit se</p></div>
@@ -13,17 +13,3 @@
           </div>
         </div>
     </form>
-
-    <script>
-        $('.ui.dropdown').dropdown(
-//                    {
-//                        action: 'select'
-//                    }
-        );
-           
-        $('.dropdown').keyup(function(event){
-            if(event.keyCode === 13){
-                $('.positive.button').click();
-            }
-        });
-    </script>

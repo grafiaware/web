@@ -133,10 +133,10 @@ use Model\Entity\PaperAggregateInterface;
             'datumCas' => '26.11.2020, 17:00',
             'odkazPrednaskyAttributes' => [
                 'class' => 'ui large secondary button',
-                'href' => 'https://forms.gle/aUoufuqLyaSjm6rE8',
+                'href' => 'https://www.youtube.com/watch?v=7kxxnn7_x-o',
                 'target' => '_blank'
             ],
-            'odkazPrednaskyText' => 'Přihlásit se / Položit dotaz'
+            'odkazPrednaskyText' => 'Zhlédnout záznam'
         ],
         [
             'jmeno' => 'Jindra Švarcová',
@@ -145,10 +145,10 @@ use Model\Entity\PaperAggregateInterface;
             'datumCas' => '26.11.2020, 18:30',
             'odkazPrednaskyAttributes' => [
                 'class' => 'ui large secondary button',
-                'href' => 'https://forms.gle/aUoufuqLyaSjm6rE8',
+                'href' => 'https://www.youtube.com/watch?v=ako7UOkyFRY',
                 'target' => '_blank'
             ],
-            'odkazPrednaskyText' => 'Přihlásit se / Položit dotaz'
+            'odkazPrednaskyText' => 'Zhlédnout záznam'
         ],
         [
             'jmeno' => 'prof. MUDr. Ondřej Topolčan, CSc.',

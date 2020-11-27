@@ -585,11 +585,11 @@ class ConfigurationOa_otevreneatelierycz {
                         ],
                      'Headline' => [
                         'section'=>'',
-                        'headline'=>'ui header',
+                        'headline'=>'ui header borderDance',
                         ],
                      'Perex' => [
                         'section'=>'',
-                        'perex'=>'',
+                        'perex'=>'borderDance',
                         ],
                      'Content' => [
                         'section'=>'',
@@ -609,7 +609,7 @@ class ConfigurationOa_otevreneatelierycz {
                         'i2.invalid' => 'calendar times icon red',
 
                         'i.trash' => 'trash icon purple',
-                        'content'=>'',
+                        'content'=>'borderDance',
                         'div.trash_content'=>'trash_content'
                         ],
                      'PaperTemplateButtons' => Configuration::rendererDefaults()['paper_template_edit_buttons'],
@@ -646,11 +646,11 @@ class ConfigurationOa_otevreneatelierycz {
                         ],
                      'Headline' => [
                         'section'=>'',
-                        'headline'=>'',
+                        'headline'=>'borderDance',
                         ],
                     'Perex' => [
                         'section'=>'',
-                        'perex'=>'',
+                        'perex'=>'borderDance',
                         ],
                     'Content' => [
                         'section'=>'',
@@ -664,7 +664,7 @@ class ConfigurationOa_otevreneatelierycz {
                         'i2.notactual' => 'calendar minus icon orange',
                         'i2.notactivenotactual' => 'calendar times icon red',
                         'i.trash' => 'trash icon purple',
-                        'content'=>'',
+                        'content'=>'borderDance',
                         'div.trash_content'=>'trash_content'
                         ],
                     'PaperTemplateButtons' => Configuration::rendererDefaults()['paper_template_edit_buttons'],

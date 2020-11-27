@@ -2264,6 +2264,17 @@ Floated Menu / Item
   -webkit-transform: translateX(-100%);
           transform: translateX(-100%);
 }
+.ui.vertical.menu:not(.icon) li.cut a.item::after {
+  background-color: 0;
+  -webkit-transform: none;
+          transform: none;
+  height: 0;
+}
+.ui.vertical.menu:not(.icon) li.cut a.item:hover::after {
+  background-color: 0;
+  -webkit-transform: none;
+          transform: none;
+}
 .ui.vertical.menu.massive {
   padding: 0.7em 0;
 }
@@ -2289,6 +2300,8 @@ Floated Menu / Item
 .ui.vertical.menu.massive.edit p.item {
   padding: 0.8em 1.3em;
   font-size: 1.8rem !important;
+}
+.ui.vertical.menu.massive.edit .presented:not(.cut) p.item {
   margin-top: 0.7em;
 }
 .kos .ui.vertical.menu.massive .item {

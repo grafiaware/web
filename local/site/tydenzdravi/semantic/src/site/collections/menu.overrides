@@ -14,7 +14,7 @@
     display: none;
 }
 .ui.vertical.menu:not(.icon){
-    li:not(.presented){
+    li:not(.presented){ 
         > a.item{
             overflow: hidden;
             &:hover::after{
@@ -35,6 +35,17 @@
                 backface-visibility: hidden;
                 transform: translateX(-100%);
             }
+        }
+    }
+    li.cut a.item{
+        &::after{
+            background-color: 0;
+            transform: none;
+            height: 0;
+        }
+        &:hover::after{
+            background-color: 0;
+            transform: none;
         }
     }
 } 
@@ -62,6 +73,8 @@
             p.item{
                 padding: 0.8em 1.3em;
                 font-size: 1.8rem !important;
+            }
+            .presented:not(.cut) p.item{
                 margin-top: 0.7em;  
             }
         }
