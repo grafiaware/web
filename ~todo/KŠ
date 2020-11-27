@@ -1,18 +1,2 @@
-        <nav id="mySidenav" class="svisle-menu">
-            <div class="close-item">
-                <span class="hamburger-icon"><i class="bars big icon"></i><p>Menu</p></span>
-                <a href=""><img src="images/LogoCtyrlistekInvert.png" width="65" height="65" /></a>
-                <a onclick="hamburger_close()" href="javascript:void(0)"><i class="close slim-icon"></i></a>
-            </div>
-            <?=
-                $menuSvisle ?? '';
-            ?>
-        </nav>
-        <div id="myOverlay" onclick="hamburger_close()"></div>
-        <div class="nav-mobile active" onclick="hamburger_open()"><span><i class="bars big icon"></i><p>Menu</p></span></div>
-
-                <span class="hamburger-icon"><i class="bars big icon"></i><p>Menu</p></span>
-změnit na
-                <div class="hamburger-icon"><i class="bars big icon"></i><p>Menu</p></div>
-
-SPAN změněn na DIV
+::1 - - [27/Nov/2020:18:24:20 +0100] "GET /web/local/site/tydenzdravi/semantic/dist/themes/default/assets/fonts/icons.woff2 HTTP/1.1" 200 79444 "http://localhost/web/public/site/tydenzdravi/semantic-ui/semantic.min.css" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:83.0) Gecko/20100101 Firefox/83.0"
+::1 - - [27/Nov/2020:18:24:20 +0100] "GET /web/local/site/tydenzdravi/semantic/dist/themes/default/assets/fonts/brand-icons.woff2 HTTP/1.1" 200 76612 "http://localhost/web/public/site/tydenzdravi/semantic-ui/semantic.min.css" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:83.0) Gecko/20100101 Firefox/83.0"
