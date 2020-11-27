@@ -16,7 +16,7 @@ use Model\Entity\MenuItemInterface;
  */
 interface ItemTypeSelectViewModelInterface {
 
-    public function getTypes();
+    public function getTypeTransitions();
 
     /**
      * Vrací menuItem odpovídající prezentované položce menu. Řídí se hodnotami vlastností objektu PresentationStatus.

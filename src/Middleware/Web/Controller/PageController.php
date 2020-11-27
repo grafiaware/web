@@ -22,7 +22,6 @@ use Component\View\{
     Generated\ItemTypeSelectComponent,
     Status\LoginComponent, Status\LogoutComponent, Status\UserActionComponent,
     Flash\FlashComponent
-
 };
 
 use Middleware\Login\Controller\LoginLogoutController;
@@ -30,7 +29,7 @@ use Middleware\Login\Controller\LoginLogoutController;
 ####################
 
 use Model\Repository\{
-    HierarchyAggregateRepo, MenuItemRepo, BlockAggregateRepo
+    MenuItemRepo, BlockAggregateRepo
 };
 
 ####################
@@ -79,7 +78,6 @@ class PageController extends LayoutControllerAbstract {
                 if (!isset($homeMenuItem)) {
                     throw new UnexpectedValueException("Undefined default page (home page) defined as static with name '$homePage[1]'.");
                 }
-//                    $statusPresentation->setMenuItem($homeItem);
                 $homeMenuItemUid = $homeMenuItem->getUidFk();
                 $resourcePath = "www/item/$langCode/$homeMenuItemUid";
                 break;
@@ -90,7 +88,6 @@ class PageController extends LayoutControllerAbstract {
 
         $statusPresentation->setLastGetResourcePath($resourcePath);
         $statusPresentation->setMenuItem($homeMenuItem);
-//        return $this->createResponseFromView($request, $this->createView($request, $this->getComponentViews($actionComponents)));
         return $this->redirectSeeOther($request, $resourcePath); // 303 See Other
 
 
@@ -180,22 +177,6 @@ class PageController extends LayoutControllerAbstract {
                 );
         }
     }
-
-//    private function getNamedComponent($name) {
-//        $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
-//        /** @var BlockAggregateRepo $componentAggRepo */
-//        $componentAggRepo = $this->container->get(BlockAggregateRepo::class);
-//        $componentAggregate = $componentAggRepo->getAggregate($langCode, $name);   // pozor - get() je metoda ComponentRepo
-//        /** @var BlockAggregateInterface $componentAggregate */
-//        if (isset($componentAggregate)) {
-//            return $this->getMenuItemComponent($componentAggregate->getMenuItem());
-//        }
-//    }
-//
-//    private function getPresentedComponent() {
-//        return $this->getMenuItemComponent($this->statusPresentationRepo->get()->getMenuItem());
-//    }
-
 
     /**
      * Vrací view objekt pro zobrazení centrálního obsahu v prostoru pro "content"

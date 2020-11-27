@@ -44,8 +44,18 @@ class ItemTypeSelectViewModel extends StatusViewModelAbstract implements ItemTyp
      *
      * @return MenuItemTypeInterface array of
      */
-    public function getTypes() {
-        return $this->menuItemTypeRepo->findAll();
+    public function getTypeTransitions() {
+        $typeTransitions = [
+            'root' => '',
+            'empty' => ['static', 'paper'],
+            'redirect' => '',
+            'static' => '',
+            'paper' => '',
+            'trash' => '',
+            'generated' => ''
+        ];
+        return $typeTransitions;
+//        return $this->menuItemTypeRepo->findAll();
     }
 
 
@@ -55,6 +65,6 @@ class ItemTypeSelectViewModel extends StatusViewModelAbstract implements ItemTyp
      * @return MenuItemInterface|null
      */
     public function getMenuItem(): ?MenuItemInterface {
-        return $this->statusPresentationRepo->get()->getHierarchyAggregate();
+        return $this->statusPresentationRepo->get()->getMenuItem();
     }
 }

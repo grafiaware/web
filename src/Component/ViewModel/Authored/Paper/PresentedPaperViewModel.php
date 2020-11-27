@@ -11,7 +11,7 @@ use Model\Entity\MenuItemInterface;
 class PresentedPaperViewModel extends PaperViewModelAbstract implements PresentedPaperViewModelInterface {
 
     public function getMenuItem(): ?MenuItemInterface {
-        return $this->statusPresentationRepo->get()->getHierarchyAggregate();
+        return $this->statusPresentationRepo->get()->getMenuItem();
     }
 
     public function getInfo(): string {

@@ -103,9 +103,9 @@ abstract class XhrControlerAbstract extends PresentationFrontControllerAbstract 
      * @param ResponseInterface $response
      * @return ResponseInterface
      */
-    public function addHeaders(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
-        $response = $response->withHeader('Cache-Control', 'public, max-age=180');
-        return $response;
-    }
+//    public function addHeaders(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
+//        $response = $response->withHeader('Cache-Control', 'public, max-age=180');
+//        return $response;
+//    }
 
 }

@@ -112,6 +112,8 @@ abstract class PresentationFrontControllerAbstract extends StatusFrontController
         } else {
             $response = $response->withHeader('Cache-Control', 'public, max-age=180');
         }
+        $cls = (new \ReflectionClass($this))->getShortName();
+        $response = $response->withHeader('X-RED-Controlled', "$cls");
         return $response;
     }
 
