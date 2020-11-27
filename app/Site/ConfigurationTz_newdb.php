@@ -594,17 +594,17 @@ class ConfigurationTz_newdb {
                         ],
                      'Headline' => [
                         'section'=>'',
-                        'headline'=>'ui header',
+                        'headline'=>'ui header borderDance',
                         ],
                      'Perex' => [
                         'section'=>'',
-                        'perex'=>'',
+                        'perex'=>'borderDance',
                         ],
                      'Content' => [
                         'section'=>'',
                         'section.trash'=>'trash',
                         'div.semafor'=>'semafor',
-                        'div.corner'=>'ui right tiny corner blue label',
+                        'div.corner'=>'ui right tiny corner blue label cornerWithTools',
                         'i1.published' => 'circle icon green',
                         'i1.notpublished' => 'circle icon red ',
                         'i2.published' => 'calendar check icon green',
@@ -618,7 +618,7 @@ class ConfigurationTz_newdb {
                         'i2.invalid' => 'calendar times icon red',
 
                         'i.trash' => 'trash icon purple',
-                        'content'=>'',
+                        'content'=>'borderDance',
                         'div.trash_content'=>'trash_content'
                         ],
                      'PaperTemplateButtons' => Configuration::rendererDefaults()['paper_template_edit_buttons'],
@@ -655,17 +655,17 @@ class ConfigurationTz_newdb {
                         ],
                      'Headline' => [
                         'section'=>'',
-                        'headline'=>'',
+                        'headline'=>'borderDance',
                         ],
                     'Perex' => [
                         'section'=>'',
-                        'perex'=>'',
+                        'perex'=>'borderDance',
                         ],
                     'Content' => [
                         'section'=>'',
                         'div.semafor'=>'semafor',
                         'section.trash'=>'trash',
-                        'div.corner'=>'ui right tiny corner blue label',
+                        'div.corner'=>'ui right tiny corner blue label cornerWithTools',
                         'i1.published' => 'circle icon green',
                         'i1.notpublished' => 'circle icon red ',
                         'i2.published' => 'calendar check icon green',
@@ -673,7 +673,7 @@ class ConfigurationTz_newdb {
                         'i2.notactual' => 'calendar minus icon orange',
                         'i2.notactivenotactual' => 'calendar times icon red',
                         'i.trash' => 'trash icon purple',
-                        'content'=>'',
+                        'content'=>'borderDance',
                         'div.trash_content'=>'trash_content'
                         ],
                     'PaperTemplateButtons' => Configuration::rendererDefaults()['paper_template_edit_buttons'],

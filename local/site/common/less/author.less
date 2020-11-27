@@ -163,7 +163,7 @@ body{
         .item je pouzita u (li) nebo (a) podle sady stylu semantic UI (semanticka trida)
         .cut - třída se přidá, pokud se klikne na tlačítko vybrat k přesunutí*/
     /*ZOBRAZENÍ SADY BUTTONU PRO OPERACE S POLOZKOU MENU*/
-        /*používané třídy u sady buttonů
+        /*používané třídy u sady buttonů 
             .buttons - semantická třída, obalovací div pro všechna tlačítka
             .button - semantická třída, jeden button ze sady
             .paste - přidá se k třídě .button, když se přesouvá položka menu (button vybrat k přesunutí)*/
@@ -172,8 +172,8 @@ body{
         /*styl pro položku menu, která je vybrána k přesunutí*/
         li.cut{
             border: @menuLiCutBorder !important ;
-            > a.item, > p.item span{
-                color: @menuLiCutItemColor;
+            a.item, > p.item span{
+                color: @menuLiCutItemColor !important;
                 &:hover{
                     color: @menuLiCutItemColorHover;
                     background-color: @menuLiCutItemBackgroundColor !important;
