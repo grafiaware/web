@@ -8,8 +8,6 @@
 
 namespace Controller;
 
-use Pes\Application\AppFactory;
-use Pes\Application\UriInfoInterface;
 
 use Model\Repository\{
     StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo
@@ -26,8 +24,6 @@ use Pes\Http\Factory\ResponseFactory;
 
 use Pes\View\ViewInterface;
 
-// pro redirect response
-use Pes\Http\Response\RedirectResponse;
 use Pes\Http\Response;
 
 /**
@@ -35,12 +31,7 @@ use Pes\Http\Response;
  *
  * @author pes2704
  */
-abstract class PresentationFrontControllerAbstract extends StatusFrontControllerAbstract {
-
-    /**
-     * @var StatusPresentationRepo
-     */
-    protected $statusPresentationRepo;
+abstract class PresentationFrontControllerAbstract extends StatusFrontControllerAbstract implements PresentationFrontControllerInterface {
 
     /**
      * @var ResourceRegistryInterface
@@ -53,8 +44,7 @@ abstract class PresentationFrontControllerAbstract extends StatusFrontController
             StatusPresentationRepo $statusPresentationRepo,
             ResourceRegistryInterface $resourceRegistry=null
             ) {
-        parent::__construct($statusSecurityRepo, $statusFlashRepo);
-        $this->statusPresentationRepo = $statusPresentationRepo;
+        parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
         $this->resourceRegistry = $resourceRegistry;
     }
 
@@ -77,6 +67,7 @@ abstract class PresentationFrontControllerAbstract extends StatusFrontController
         $response->getBody()->rewind();
         return $response;
     }
+
     /**
      *
      * @param ServerRequestInterface $request
@@ -94,72 +85,6 @@ abstract class PresentationFrontControllerAbstract extends StatusFrontController
         $size = $response->getBody()->write($stringContent);
         $response->getBody()->rewind();
         return $response;
-    }
-
-    /**
-     * Přetěžuje addHeaders() z FrontControllerAbstract
-     * @param ServerRequestInterface $request
-     * @param ResponseInterface $response
-     * @return ResponseInterface
-     */
-    public function addHeaders(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
-        $language = $this->statusPresentationRepo->get()->getLanguage();
-        $response = $response->withHeader('Content-Language', $language->getLocale());
-
-        $userActions = $this->statusSecurityRepo->get()->getUserActions();
-        if ($userActions AND $userActions->isEditableArticle()) {
-            $response = $response->withHeader('Cache-Control', 'no-cache');
-        } else {
-            $response = $response->withHeader('Cache-Control', 'public, max-age=180');
-        }
-        $cls = (new \ReflectionClass($this))->getShortName();
-        $response = $response->withHeader('X-RED-Controlled', "$cls");
-        return $response;
-    }
-
-    public function addFlashMessage($message) {
-        $this->statusFlashRepo->get()->appendMessage($message);
-    }
-
-    /**
-     * Vrací base path pro nastavení html base path
-     * @param ServerRequestInterface $request
-     * @return string
-     */
-    protected function getBasePath(ServerRequestInterface $request) {
-        return $this->getUriInfo($request)->getRootRelativePath();
-    }
-
-    /**
-     * Vrací relativní path pro redirect url
-     * @param ServerRequestInterface $request
-     * @return type
-     */
-    protected function getRedirectPath(ServerRequestInterface $request) {
-        return $this->getUriInfo($request)->getSubdomainPath();
-    }
-
-    /**
-     * Pomocná metoda - získá base path z objektu UriInfo, který byl vložen do requestu jako atribut s jménem AppFactory::URI_INFO_ATTRIBUTE_NAME v AppFactory.
-     *
-     * @return UriInfoInterface
-     */
-    private function getUriInfo(ServerRequestInterface $request) {
-        return $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME);
-    }
-
-    /**
-     *
-     * @param string $relativePath
-     * @return Response
-     */
-    protected function redirectSeeOther(ServerRequestInterface $request, $relativePath) {
-        $subPath = $this->getUriInfo($request)->getRootRelativePath();
-        return RedirectResponse::withPostRedirectGet(new Response(), $subPath.$relativePath); // 303 See Other
-    }
-
-    protected function redirectSeeLastGet(ServerRequestInterface $request) {
-        return $this->redirectSeeOther($request, $this->statusPresentationRepo->get()->getLastGetResourcePath()); // 303 See Other
     }
 
     protected function okMessageResponse($messageText) {

@@ -17,6 +17,7 @@ use Security\Auth\NamePasswordAuthenticatorInterface;
 use Controller\StatusFrontControllerAbstract;
 
 // model
+use Model\Repository\StatusPresentationRepo;
 use Model\Repository\StatusSecurityRepo;
 use Model\Repository\StatusFlashRepo;
 use Model\Entity\StatusSecurity;
@@ -50,9 +51,10 @@ class LoginLogoutController extends StatusFrontControllerAbstract {
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusFlashRepo $statusFlashRepo,
+            StatusPresentationRepo $statusPresentationRepo,
             UserRepo $userRepo,
             NamePasswordAuthenticatorInterface $authenticator) {
-        parent::__construct($statusSecurityRepo, $statusFlashRepo);
+        parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
         $this->userRepo = $userRepo;
         $this->authenticator = $authenticator;
     }
@@ -71,9 +73,7 @@ class LoginLogoutController extends StatusFrontControllerAbstract {
                 }
             }
         }
-        /** @var UriInfoInterface $uriInfo */
-        $uriInfo = $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME);
-        return RedirectResponse::withPostRedirectGet(new Response(), $uriInfo->getRootRelativePath().'www/last'); // 303 See Other
+        return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
     public function logout(ServerRequestInterface $request) {
@@ -81,9 +81,8 @@ class LoginLogoutController extends StatusFrontControllerAbstract {
         if ($logout) {
             $this->removeLoggedUser();  // bez parametru User
         }
-        /** @var UriInfoInterface $uriInfo */
-        $uriInfo = $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME);
-        return RedirectResponse::withPostRedirectGet(new Response(), $uriInfo->getRootRelativePath().'www/last'); // 303 See Other
+        return $this->redirectSeeLastGet($request); // 303 See Other
+
     }
 
     /**

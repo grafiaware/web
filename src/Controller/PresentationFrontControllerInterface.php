@@ -26,13 +26,11 @@ interface PresentationFrontControllerInterface {
      * @return ResponseInterface
      */
     public function createResponseFromView(ServerRequestInterface $request, ViewInterface $view): ResponseInterface;
-
     /**
      *
-     * @param \Controller\ServerRequestInterface $request
-     * @param ResponseInterface $response
+     * @param ServerRequestInterface $request
+     * @param ViewInterface $view
      * @return ResponseInterface
      */
-    public function addHeaders(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface;
-
+    public function createResponseFromString(ServerRequestInterface $request, $stringContent): ResponseInterface;
 }
