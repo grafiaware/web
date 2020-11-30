@@ -95,10 +95,10 @@ class StatusFlash implements StatusFlashInterface {
     public function renew(ServerRequestInterface $request): void {
         $this->oldFlashMessage = $this->newFlashMessage;
         $this->oldFlashCommand = $this->newFlashCommand;
-        $this->oldPostFlashCommand = $this->newPostFlashCommand;
         $this->newFlashMessage = null;
         $this->newFlashCommand = null;
         if ($request->getMethod() == 'POST') {
+            $this->oldPostFlashCommand = $this->newPostFlashCommand;
             $this->newPostFlashCommand = null;
         }
     }

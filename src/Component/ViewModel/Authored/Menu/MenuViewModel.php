@@ -24,6 +24,7 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
 
     private $menuRootRepo;
     private $HierarchyRepo;
+    private $presentedMenuNode;
 
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
@@ -43,9 +44,12 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
      * @return HierarchyAggregateInterface
      */
     public function getPresentedMenuNode() {
-        $presentationStatus = $this->statusPresentationRepo->get();
-        $presentedMenuItem = $presentationStatus->getMenuItem();
-        return isset($presentedMenuItem) ? $this->getMenuNode($presentedMenuItem->getUidFk()) : null;
+        if(!isset($this->presentedMenuNode)) {
+            $presentationStatus = $this->statusPresentationRepo->get();
+            $presentedMenuItem = $presentationStatus->getMenuItem();
+            $this->presentedMenuNode = isset($presentedMenuItem) ? $this->getMenuNode($presentedMenuItem->getUidFk()) : '';
+        }
+        return $this->presentedMenuNode ? $this->presentedMenuNode : null;
     }
 
     /**
@@ -91,11 +95,12 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
             $presentedItemLeftNode = $presentedItem->getLeftNode();
             $presentedItemRightNode = $presentedItem->getRightNode();
         }
-        // command
-        $pastedUid = $this->getPostFlashCommand('cut');
-        if ($pastedUid) {
-            $modeCommand = ['paste' => $pastedUid];
-        }
+
+            // command
+            $pastedUid = $this->getPostFlashCommand('cut');
+            if ($pastedUid) {
+                $modeCommand = ['paste' => $pastedUid];
+            }
 
         $nodes = $this->getChildrenMenuNodes($parentUid);
         $models = [];

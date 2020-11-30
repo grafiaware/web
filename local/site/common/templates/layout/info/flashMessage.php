@@ -4,5 +4,8 @@
                         <p>
                         <?= $this->nl2br($flashMessage ?? '') ?>
                         </p>
+                        <p>
+                        <?= $postCommand ?? '' ?>
+                        </p>
                     </div>
                 </div>

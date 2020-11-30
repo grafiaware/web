@@ -10,6 +10,8 @@ namespace Component\ViewModel\Flash;
 
 use Model\Repository\StatusFlashRepo;
 
+use Model\Entity\StatusFlashInterface;
+
 /**
  * Description of FlashVieModel
  *
@@ -27,8 +29,17 @@ class FlashViewModel implements FlashViewModelInterface {
         $statusFlash = $this->statusFlashRepo->get();
         return new \ArrayObject(
                 [
-                    'flashMessage' => $statusFlash ? $statusFlash->getMessage() ?? 'no flash' : 'no flash message'
+                    'flashMessage' => $statusFlash ? $statusFlash->getMessage() : '',
+                    'postCommand' => $this->formatCommad($statusFlash->getPostCommand())
                 ]
             );
+    }
+
+    private function formatCommad($command) {
+        $msg = '';
+        foreach ($command as $key => $value) {
+            $msg .=$key." => ".$value.PHP_EOL;
+        }
+        return $msg;
     }
 }
