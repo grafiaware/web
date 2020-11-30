@@ -157,10 +157,10 @@ use Model\Entity\PaperAggregateInterface;
             'datumCas' => '27.11.2020, 18:00',
             'odkazPrednaskyAttributes' => [
                 'class' => 'ui large secondary button',
-                'href' => 'https://forms.gle/aUoufuqLyaSjm6rE8',
+                'href' => 'https://www.youtube.com/watch?v=Tt-9i3HaaKM',
                 'target' => '_blank'
             ],
-            'odkazPrednaskyText' => 'Přihlásit se / Položit dotaz'
+            'odkazPrednaskyText' => 'Zhlédnout záznam'
         ],
         [
             'jmeno' => 'Anna a Eva Vopalecké',
@@ -169,10 +169,10 @@ use Model\Entity\PaperAggregateInterface;
             'datumCas' => '27.11.2020, 19:15',
             'odkazPrednaskyAttributes' => [
                 'class' => 'ui large secondary button',
-                'href' => 'https://forms.gle/aUoufuqLyaSjm6rE8',
+                'href' => 'https://www.youtube.com/watch?v=4_T0CvnqMsM',
                 'target' => '_blank'
             ],
-            'odkazPrednaskyText' => 'Přihlásit se / Položit dotaz'
+            'odkazPrednaskyText' => 'Zhlédnout záznam'
         ]
     ]
 ?>
