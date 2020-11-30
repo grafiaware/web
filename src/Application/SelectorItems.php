@@ -67,6 +67,8 @@ class SelectorItems {
             function() {
                 return [
                     new \Middleware\Status\SecurityStatus(),
+                    new \Middleware\Status\FlashStatus(),
+                    new \Middleware\Status\PresentationStatus(),  // request language
                     new \Middleware\Xhr\Transformator(),
                     new \Middleware\Xhr\Component()
                 ];},
@@ -103,6 +105,7 @@ class SelectorItems {
             '/build/'=>
             function() {
                 return [
+                    //TODO: doplnit basic autentifikaci pro případ něpřihlášeného uživatele.
 //                    new \Middleware\Status\SecurityStatus(),
 //                    new \Middleware\Logged\LoggedAccess(new LoggedAccessor($this->app)),
                     new \Middleware\Build\Build()
@@ -116,7 +119,7 @@ class SelectorItems {
      * Vytvoří objekt Pes\Middleware\Selector a nastaví mu potřebné položky SelectorItem. Objekt Selector je middleware a implementuje Pes\Middleware\ContainerMiddlewareInterface.
      * Proto je schopen přijímat middleware kontejner (metodou setMwContainer rozhraní Pes\Middleware\ContainerMiddlewareInterface).
      * Pokud byl při volání konstruktoru této SelectorFactory nastaven kontejner, je tento kontejner nastaven jako middleware kontejner objektu Selector.
-     * Selector svůj middleware kontejnersám nepoužívá, pouze ho předává jako parametr middleware stacku (Closure) vybraného SelectorItem.
+     * Selector svůj middleware kontejner sám nepoužívá, pouze ho předává jako parametr middleware stacku (Closure) vybraného SelectorItem.
      * Pokud je stack při volíní metody addItem() selektoru definován jako anonymní funkce (Closure), kterí jako parametr přijímá kontejner typu Psr\Container\AppInterface,
      * pak této anonymní funkci předán middleware kontejner selektoru. Injektováním aplikačního kontekneru do konstruktoru selektoru a definováním stacků jednotlivých SelectorItem jako anonymní funkce
      * příjímající kontejner typu Psr\Container\AppInterface lze zajistit automatické předávání (propagaci) aplikačního kontejneru do všech SelectorItem a tedy do všech selektovaných middleware stacků.
