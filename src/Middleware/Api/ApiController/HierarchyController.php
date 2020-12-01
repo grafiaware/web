@@ -59,7 +59,11 @@ class HierarchyController extends PresentationFrontControllerAbstract {
 
     public function cut(ServerRequestInterface $request, $uid) {
         $statusFlash = $this->statusFlashRepo->get();
-        $statusFlash->setPostCommand(['cut'=>$uid]);  // command s životností do dalšího POST requestu
+        if ($statusFlash->getPostCommand()['cut']) {
+            $statusFlash->setPostCommand(null);  // zrušení výběru položky "cut"
+        } else {
+            $statusFlash->setPostCommand(['cut'=>$uid]);  // command s životností do dalšího POST requestu
+        }
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
         $statusFlash->appendMessage("cut - vybrán k přesunutí: $langCode/$uid");
         return $this->redirectSeeLastGet($request); // 303 See Other

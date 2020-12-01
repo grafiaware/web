@@ -59,7 +59,7 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
                         'title'=> $active ? "published" :  "not published"
                         ])
                 )
-                
+
             );
 //        $innerHtml[] = Html::tag('i',
 //                    [
@@ -94,10 +94,10 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
     }
 
     private function renderPasteButtons(HierarchyAggregateInterface $menuNode, $pastedUid) {
-        $buttons[] = $this->getButtonActive($menuNode);
+//        $buttons[] = $this->getButtonActive($menuNode);
         $buttons[] = $this->getButtonPaste($menuNode, $pastedUid);
-        $buttons[] = $this->getButtonCut($menuNode);
-        $buttons[] = $this->getButtonTrash($menuNode);
+//        $buttons[] = $this->getButtonCut($menuNode);
+//        $buttons[] = $this->getButtonTrash($menuNode);
 
         return implode(PHP_EOL, $buttons);
     }

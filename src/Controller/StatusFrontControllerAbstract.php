@@ -93,7 +93,7 @@ abstract class StatusFrontControllerAbstract extends FrontControllerAbstract imp
      * @return string
      */
     protected function getBasePath(ServerRequestInterface $request) {
-        return $this->getUriInfo($request)->getRootRelativePath();
+        return $this->getUriInfo($request)->getRootAbsolutePath();
     }
 
     /**
@@ -120,7 +120,7 @@ abstract class StatusFrontControllerAbstract extends FrontControllerAbstract imp
      * @return Response
      */
     protected function redirectSeeOther(ServerRequestInterface $request, $relativePath) {
-        $subPath = $this->getUriInfo($request)->getRootRelativePath();
+        $subPath = $this->getUriInfo($request)->getRootAbsolutePath();
         return RedirectResponse::withPostRedirectGet(new Response(), $subPath.$relativePath); // 303 See Other
     }
 

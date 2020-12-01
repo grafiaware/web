@@ -48,8 +48,8 @@ class SelectorItems {
         // všechny položky selektoru dostávají jako stack anonymní funkci, která přijímá AppInterface,
         // ve vzniklých položkách bude dostupná proměnná $app
         $this->items = [
-            '/www/' => $default,
-            '/api/'=>
+            '/www' => $default,
+            '/api'=>
             function() {
                 return [
                     new \Middleware\Status\SecurityStatus(),
@@ -57,18 +57,18 @@ class SelectorItems {
                     new \Middleware\Status\PresentationStatus(),
                     new \Middleware\Api\Api()
                 ];},
-            '/auth/'=>
+            '/auth'=>
             function() {
                 return [
                     new \Middleware\Status\SecurityStatus(),
                     new \Middleware\Login\Login()
                 ];},
-            '/component/'=>
+            '/component'=>
             function() {
                 return [
                     new \Middleware\Status\SecurityStatus(),
                     new \Middleware\Status\FlashStatus(),
-                    new \Middleware\Status\PresentationStatus(),  // request language
+//                    new \Middleware\Status\PresentationStatus(),  // request language
                     new \Middleware\Xhr\Transformator(),
                     new \Middleware\Xhr\Component()
                 ];},
@@ -102,7 +102,7 @@ class SelectorItems {
 //                    new \Middleware\Logged\LoggedAccess(new LoggedAccessor($this->app)),
 //                    (new \Middleware\Menu\Menu())
 //                ];},
-            '/build/'=>
+            '/build'=>
             function() {
                 return [
                     //TODO: doplnit basic autentifikaci pro případ něpřihlášeného uživatele.

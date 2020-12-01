@@ -82,16 +82,17 @@ class StatusPresentationManager implements StatusPresentationManagerInterface {
     public function regenerateStatusPresentation(StatusPresentationInterface $statusPresentation, ServerRequestInterface $request): void {
 
         ## defaultní hodnoty parametrů status presentation
+        // jazyk prezentace
+        $language = $statusPresentation->getLanguage();
+        if (!isset($language)) {
+            $language = $this->getRequestedLanguage($request);
+            $statusPresentation->setLanguage($language);
+        }
         if ($request->getMethod()=='GET') {
-            // jazyk prezentace
-            $language = $statusPresentation->getLanguage();
-            if (!isset($language)) {
-                $language = $this->getRequestedLanguage($request);
-                $statusPresentation->setLanguage($language);
-            }
+
             /** @var UriInfoInterface $uriInfo */
             $restUri = $request->getAttribute(WebAppFactory::URI_INFO_ATTRIBUTE_NAME)->getRestUri();
-            if (strpos($restUri, "/www/last") === false ) {
+            if (strpos($restUri, "www/last") === false ) {
                 $statusPresentation->setLastGetResourcePath($restUri);
             }
         }
