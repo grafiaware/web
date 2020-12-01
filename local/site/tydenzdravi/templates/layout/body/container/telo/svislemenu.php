@@ -4,7 +4,7 @@
                 <a href=""><img src="images/LogoCtyrlistekInvert.png" width="65" height="65" /></a>
                 <a onclick="hamburger_close()" href="javascript:void(0)"><i class="close slim-icon"></i></a>
                 <!--jenom v editačním režimu ↓-->
-                <span class="hamburger_dontclose"><i class="circle outline icon"></i>Nezavírat menu</span>
+                <!--<span class="hamburger_dontclose"><i class="circle outline icon"></i>Nezavírat menu</span>-->
                 <!---->
             </div>
             <nav class="svisle-menu">
