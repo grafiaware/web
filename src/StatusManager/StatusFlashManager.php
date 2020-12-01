@@ -22,7 +22,7 @@ class StatusFlashManager implements StatusFlashManagerInterface {
         return new StatusFlash();
     }
 
-    public function renewStatusFlash(StatusFlashInterface $statusFlash, ServerRequestInterface $request): void {
-        $statusFlash->renew($request);
+    public function revolveStatusFlash(StatusFlashInterface $statusFlash, ServerRequestInterface $request): void {
+        $statusFlash->revolve($request);
     }
 }

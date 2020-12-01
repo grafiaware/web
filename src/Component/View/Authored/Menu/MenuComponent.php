@@ -85,11 +85,11 @@ class MenuComponent extends CompositeComponentAbstract implements MenuComponentI
             $this->presentedItemLeftNode = $presentedItem->getLeftNode();
             $this->presentedItemRightNode = $presentedItem->getRightNode();
         }
-        $rootItem = $this->viewModel->getMenuRoot($this->componentName);
-        if (!isset($rootItem)) {
+        $menuRoot = $this->viewModel->getMenuRoot($this->componentName);
+        if (!isset($menuRoot)) {
             user_error("Kořen menu se zadaným jménem komponety '$this->componentName' nebyl načten z tabulky kořenů menu.", E_USER_WARNING);
         }
-        $this->rootUid = $rootItem->getUidFk();
+        $this->rootUid = $menuRoot->getUidFk();
 
 
         if (!isset($this->rendererContainer)) {
@@ -101,10 +101,15 @@ class MenuComponent extends CompositeComponentAbstract implements MenuComponentI
         if ($this->withTitle) {
             $rootMenuNode = $this->viewModel->getMenuNode($this->rootUid);
             if (isset($rootMenuNode)) {
-                $titleItemHtml = $this->itemRenderer->render(
-            // (HierarchyAggregateInterface $menuNode, $isOnPath, $isPresented, $isCutted, $readonly)
-                    new ItemViewModel($this->viewModel->getMenuNode($this->rootUid), TRUE, $this->presentedUid==$this->rootUid, false, true)
-                    );
+                // command
+                $pasteUid = $this->viewModel->getPostFlashCommand('cut');
+                $pasteMode = $pasteUid ? true : false;
+                $itemViewModel = new ItemViewModel($this->viewModel->getMenuNode($this->rootUid), TRUE, $this->presentedUid==$this->rootUid, $pasteMode, false, true);
+
+                if ($pasteMode) {
+                    $itemViewModel->setPasteUid($pasteUid);
+                }
+                $titleItemHtml = $this->itemRenderer->render($itemViewModel);
             } else {
                 $titleItemHtml = '';  // root menu item nená publikovaný
             }

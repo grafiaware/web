@@ -96,28 +96,25 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
             $presentedItemRightNode = $presentedItem->getRightNode();
         }
 
-            // command
-            $pastedUid = $this->getPostFlashCommand('cut');
-            if ($pastedUid) {
-                $modeCommand = ['paste' => $pastedUid];
-            }
+        // command
+        $pasteUid = $this->getPostFlashCommand('cut');
+        $pasteMode = $pasteUid ? true : false;
 
         $nodes = $this->getChildrenMenuNodes($parentUid);
         $models = [];
         foreach ($nodes as $node) {
-           if (isset($presentedItemLeftNode)) {
+            if (isset($presentedItemLeftNode)) {
                 $isOnPath = ($presentedItemLeftNode >= $node->getLeftNode()) && ($presentedItemRightNode <= $node->getRightNode());
             } else {
                 $isOnPath = FALSE;
             }
             $nodeUid = $node->getUid();
             $isPresented = isset($presentedUid) ? ($presentedUid == $nodeUid) : FALSE;
-            //TODO: ($menuNode, $isOnPath, $isPresented, $isRestored, $readonly, $innerHtml='')
-            $isCutted = $pastedUid == $nodeUid;
+            $isCutted = $pasteUid == $nodeUid;
 //            $readonly = $node->getUid()==$this->rootUid;
-            $itemViewModel = new ItemViewModel($node, $isOnPath, $isPresented, $isCutted, false);
-            if (isset($modeCommand)) {
-                $itemViewModel->setModeCommand($modeCommand);
+            $itemViewModel = new ItemViewModel($node, $isOnPath, $isPresented, $pasteMode, $isCutted, false);
+            if ($pasteMode) {
+                $itemViewModel->setPasteUid($pasteUid);
             }
             $models[] = $itemViewModel;
         }

@@ -36,9 +36,9 @@ class FlashStatus extends AppMiddlewareAbstract implements MiddlewareInterface {
             $statusFlash = $statusFlashManager->createStatusFlash();
             $statusFlashRepo->add($statusFlash);
         }
+        $response = $handler->handle($request);
+        $statusFlashManager->revolveStatusFlash($statusFlash, $request);
 
-        $statusFlashManager->renewStatusFlash($statusFlash, $request);
-
-        return $handler->handle($request);
+        return $response;
     }
 }

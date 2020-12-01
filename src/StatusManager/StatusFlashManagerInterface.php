@@ -19,5 +19,5 @@ interface StatusFlashManagerInterface {
 
     public function createStatusFlash(): StatusFlashInterface;
 
-    public function renewStatusFlash(StatusFlashInterface $statusFlash, ServerRequestInterface $request): void;
+    public function revolveStatusFlash(StatusFlashInterface $statusFlash, ServerRequestInterface $request): void;
 }

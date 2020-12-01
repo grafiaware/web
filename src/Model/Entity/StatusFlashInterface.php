@@ -67,5 +67,5 @@ interface StatusFlashInterface {
      * @param ServerRequestInterface $request
      * @return void
      */
-    public function renew(ServerRequestInterface $request): void;
+    public function revolve(ServerRequestInterface $request): void;
 }

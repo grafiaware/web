@@ -92,7 +92,7 @@ class StatusFlash implements StatusFlashInterface {
      * @param ServerRequestInterface $request
      * @return void
      */
-    public function renew(ServerRequestInterface $request): void {
+    public function revolve(ServerRequestInterface $request): void {
         $this->oldFlashMessage = $this->newFlashMessage;
         $this->oldFlashCommand = $this->newFlashCommand;
         $this->newFlashMessage = null;
