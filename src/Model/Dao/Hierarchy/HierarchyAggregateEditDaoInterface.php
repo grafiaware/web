@@ -90,7 +90,16 @@ interface HierarchyAggregateEditDaoInterface {
      * @param type $targetUid
      * @throws Exception
      */
-    public function moveSubTree($sourceUid, $targetUid): void;
+    public function moveSubTreeAsChild($sourceUid, $targetUid): void;
+    
+    /**
+     * Přesune podstrom (zdrojový uzel a všechny jeho potomky) jako sourozence cílového uzlu. Vloží podstrom vpravo od cílového uzlu.
+     *
+     * @param string $sourceUid uid zdrojového uzlu
+     * @param string $targetUid uid cílového uzlu
+     * @throws Exception
+     */
+    public function moveSubTreeAsSiebling($sourceUid, $targetUid): void;
 
     public function replaceNodeWithChild($nodeUid);
 

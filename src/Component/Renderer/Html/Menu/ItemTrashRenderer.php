@@ -27,16 +27,41 @@ class ItemTrashRenderer extends HtmlRendererAbstract {
 
     private function privateRender(ItemViewModel $itemViewModel=NULL) {
         $menuNode = $itemViewModel->getMenuNode();
-        $innerHtml = Html::tag('i', ['class'=> $this->classMap->getClass('Item', 'li i1')])
-                    .Html::tag('a', [
+
+        $presentedEditable = ($itemViewModel->isPresented() AND !$itemViewModel->isReadonly());
+        $pasteMode = $itemViewModel->isPasteMode();
+        $cutted = $itemViewModel->isCutted();
+
+        $innerHtml[] = Html::tag('i', ['class'=> $this->classMap->getClass('Item', 'li i1')]);
+        $innerHtml[] = Html::tag('a', [
                         'class'=>$this->classMap->getClass('Item', 'li a'),
                         'href'=>"www/item/{$menuNode->getMenuItem()->getLangCodeFk()}/{$menuNode->getUid()}",
                          ],
                         $menuNode->getMenuItem()->getTitle()
-                    )
-                    .Html::tag('i', ['class'=>$this->classMap->resolveClass($itemViewModel->getInnerHtml(), 'Item', 'li i')])
-                    .(($itemViewModel->isPresented() AND !$itemViewModel->isReadonly()) ? $this->renderButtons($menuNode) : '')
-                    .$itemViewModel->getInnerHtml();
+                    );
+        $innerHtml[] = Html::tag('i', ['class'=>$this->classMap->resolveClass($itemViewModel->getInnerHtml(), 'Item', 'li i')]);
+
+        if ($presentedEditable) {
+            if ($pasteMode) {
+                if($cutted) {
+                    $buttonsHtml = $this->renderCuttedItemButtons($menuNode);
+                } else {
+                    $buttonsHtml = '';
+                }
+            } else {
+                $buttonsHtml = $this->renderButtons($menuNode);
+            }
+        } else {
+            if ($pasteMode AND $cutted) {
+                $buttonsHtml = $this->renderCuttedItemButtons($menuNode);
+            } else {
+                $buttonsHtml = '';
+            }
+        }
+
+        $innerHtml[] = Html::tag('div', ['class'=>$this->classMap->getClass('Buttons', 'div')], $buttonsHtml);
+        $innerHtml[] = $itemViewModel->getInnerHtml();
+
         $html = Html::tag('li',
                 ['class'=>[
                     $this->classMap->resolveClass($itemViewModel->isOnPath(), 'Item', 'li.onpath', 'li'),
@@ -50,9 +75,18 @@ class ItemTrashRenderer extends HtmlRendererAbstract {
     }
 
     private function renderButtons(HierarchyAggregateInterface $menuNode) {
+        $buttons[] = $this->getButtonCut($menuNode);
+        $buttons[] = $this->getButtonDelete($menuNode);
+        return $buttons;
+    }
 
+    private function renderCuttedItemButtons(HierarchyAggregateInterface $menuNode) {
+        $buttons[] = $this->getButtonCut($menuNode);
+        return $buttons;
+    }
+
+    private function getButtonDelete(HierarchyAggregateInterface $menuNode) {
         return
-        Html::tag('div', ['class'=>$this->classMap->getClass('Buttons', 'div')],
             Html::tag('button', [
                 'class'=>$this->classMap->getClass('Buttons', 'div button'),
                 'data-tooltip'=>'Trvale odstranit',
@@ -66,17 +100,22 @@ class ItemTrashRenderer extends HtmlRendererAbstract {
                         Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button1 i1'),])
                         .Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button1 i2'),])
                 )
-            )
-            .Html::tag('button', [
+            );
+    }
+
+    private function getButtonCut(HierarchyAggregateInterface $menuNode) {
+        return
+            Html::tag('button', [
                 'class'=>$this->classMap->getClass('Buttons', 'div button'),
                 'data-tooltip'=>'Vybrat k přesunutí',
                 'data-position'=>'top right',
                 'type'=>'submit',
                 'formmethod'=>'post',
-                'formaction'=>"api/v1/menu/{$menuNode->getUid()}/cut",
+                'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/cut",
+
                     ],
                 Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button4 i')])
-            )
-        );
+            );
     }
+
 }
