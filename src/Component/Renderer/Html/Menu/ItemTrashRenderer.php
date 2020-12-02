@@ -59,7 +59,7 @@ class ItemTrashRenderer extends HtmlRendererAbstract {
             }
         }
 
-        $innerHtml[] = Html::tag('div', ['class'=>$this->classMap->getClass('Buttons', 'div')], $buttonsHtml);
+        $innerHtml[] = $buttonsHtml ? Html::tag('div', ['class'=>$this->classMap->getClass('Buttons', 'div')], $buttonsHtml) : '';
         $innerHtml[] = $itemViewModel->getInnerHtml();
 
         $html = Html::tag('li',

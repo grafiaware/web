@@ -84,7 +84,7 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
                 $buttonsHtml = '';
             }
         }
-        $innerHtml[] = Html::tag('div', ['class'=>$this->classMap->getClass('Buttons', 'div.menu')], $buttonsHtml);
+        $innerHtml[] = $buttonsHtml ? Html::tag('div', ['class'=>$this->classMap->getClass('Buttons', 'div.menu')], $buttonsHtml) : '';
 
         $innerHtml[] = $itemViewModel->getInnerHtml();
 
