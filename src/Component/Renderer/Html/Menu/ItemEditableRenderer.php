@@ -63,10 +63,8 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
                 )
 
             );
-//        $innerHtml[] = Html::tag('i',
-//                    [
-//                    'class'=>$this->classMap->resolveClass($itemViewModel->getInnerHtml(), 'Item', 'li i')
-//                    ]);
+
+        $buttonsHtml = '';
         if ($presentedEditable) {
             if ($pasteMode) {
                 if($cutted) {
@@ -80,8 +78,6 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
         } else {
             if ($pasteMode AND $cutted) {
                 $buttonsHtml = $this->renderCuttedItemButtons($menuNode);
-            } else {
-                $buttonsHtml = '';
             }
         }
         $innerHtml[] = $buttonsHtml ? Html::tag('div', ['class'=>$this->classMap->getClass('Buttons', 'div.menu')], $buttonsHtml) : '';

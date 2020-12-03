@@ -41,12 +41,11 @@ class ItemTrashRenderer extends HtmlRendererAbstract {
                     );
         $innerHtml[] = Html::tag('i', ['class'=>$this->classMap->resolveClass($itemViewModel->getInnerHtml(), 'Item', 'li i')]);
 
+        $buttonsHtml = '';
         if ($presentedEditable) {
             if ($pasteMode) {
                 if($cutted) {
                     $buttonsHtml = $this->renderCuttedItemButtons($menuNode);
-                } else {
-                    $buttonsHtml = '';
                 }
             } else {
                 $buttonsHtml = $this->renderButtons($menuNode);
@@ -54,8 +53,6 @@ class ItemTrashRenderer extends HtmlRendererAbstract {
         } else {
             if ($pasteMode AND $cutted) {
                 $buttonsHtml = $this->renderCuttedItemButtons($menuNode);
-            } else {
-                $buttonsHtml = '';
             }
         }
 
