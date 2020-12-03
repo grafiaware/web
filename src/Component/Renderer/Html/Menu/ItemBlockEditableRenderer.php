@@ -39,11 +39,11 @@ class ItemBlockEditableRenderer extends HtmlRendererAbstract {
                 'data-uid'=>$menuNode->getUid(),
                 ],
                 $menuItem->getTitle()
-                .Html::tag('div', ['class'=>$this->classMap->getClass('Item', 'li div')],
-                    Html::tag('i', ['class'=> $this->classMap->resolveClass($active, 'Item', 'li div i1.published', 'li div i1.notpublished')])
+                .Html::tag('span', ['class'=>$this->classMap->getClass('Item', 'semafor')],
+                    Html::tag('i', ['class'=> $this->classMap->resolveClass($active, 'Item', 'semafor.published', 'semafor.notpublished')])
                 )
             )
-            .Html::tag('i', ['class'=>$this->classMap->resolveClass($itemViewModel->getInnerHtml(), 'Item', 'li i')])
+            .Html::tag('i', ['class'=>$this->classMap->resolveClass($itemViewModel->getInnerHtml(), 'Item', 'li.isnotleaf icon')])
             .(($itemViewModel->isPresented() AND !$itemViewModel->isReadonly()) ? $this->renderButtons($menuNode) : '')
             .$itemViewModel->getInnerHtml();
         $html = Html::tag('li',
@@ -60,9 +60,9 @@ class ItemBlockEditableRenderer extends HtmlRendererAbstract {
     private function renderButtons(HierarchyAggregateInterface $menuNode) {
 
         return
-        Html::tag('div', ['class'=>$this->classMap->getClass('Buttons', 'div')],
+        Html::tag('div', ['class'=>$this->classMap->getClass('Buttons', 'div.buttons')],
             Html::tag('button', [
-                'class'=>$this->classMap->getClass('Buttons', 'div button'),
+                'class'=>$this->classMap->getClass('Buttons', 'button'),
                 'data-tooltip'=>'Odstranit položku',
                 'data-position'=>'top right',
                 'type'=>'submit',
@@ -71,10 +71,10 @@ class ItemBlockEditableRenderer extends HtmlRendererAbstract {
                 'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/trash",
                 'onclick'=>"return confirm('Jste si jisti?');"
                     ],
-                Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button1 i'),])
+                Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'button.movetotrash'),])
             )
             .Html::tag('button',
-                ['class'=>$this->classMap->getClass('Buttons', 'div button'),
+                ['class'=>$this->classMap->getClass('Buttons', 'button'),
                 'data-tooltip'=>'Aktivní/neaktivní položka',
                 'type'=>'submit',
                 'name'=>'button',
@@ -82,10 +82,10 @@ class ItemBlockEditableRenderer extends HtmlRendererAbstract {
                 'formmethod'=>'post',
                 'formaction'=>"api/v1/menu/{$menuNode->getUid()}/toggle",
                 ],
-                Html::tag('i', ['class'=>$this->classMap->resolveClass($menuNode->getMenuItem()->getActive(), 'Buttons', 'div button2 i.on', 'div button2 i.off')])
+                Html::tag('i', ['class'=>$this->classMap->resolveClass($menuNode->getMenuItem()->getActive(), 'Buttons', 'button.notpublish', 'button.publish')])
             )
             .Html::tag('button', [
-                'class'=>$this->classMap->getClass('Buttons', 'div button'),
+                'class'=>$this->classMap->getClass('Buttons', 'button'),
                 'data-tooltip'=>'Přidat sourozence',
                 'data-position'=>'top right',
                 'type'=>'submit',
@@ -93,7 +93,7 @@ class ItemBlockEditableRenderer extends HtmlRendererAbstract {
                 'formmethod'=>'post',
                 'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/add",
                     ],
-                Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button3 i')])
+                Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'button.addsiblings')])
             )
         );
     }

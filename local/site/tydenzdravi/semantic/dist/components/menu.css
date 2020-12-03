@@ -2306,4 +2306,5 @@ Floated Menu / Item
 }
 .kos .ui.vertical.menu.massive .item {
   font-size: 1.8rem !important;
+  padding: 0.6em 1.3em;
 }

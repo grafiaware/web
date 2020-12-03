@@ -24,10 +24,9 @@ class ItemRenderer extends HtmlRendererAbstract {
 
     private function privateRender(ItemViewModel $itemViewModel=NULL) {
         $menuNode = $itemViewModel->getMenuNode();
-        $innerHtml = Html::tag('i', ['class'=> $this->classMap->getClass('Item', 'li i1')])
-                    .Html::tag('a', ['class'=>$this->classMap->getClass('Item', 'li a'), 'href'=> "www/item/{$menuNode->getMenuItem()->getLangCodeFk()}/{$menuNode->getUid()}" ],
+        $innerHtml = Html::tag('a', ['class'=>$this->classMap->getClass('Item', 'li a'), 'href'=> "www/item/{$menuNode->getMenuItem()->getLangCodeFk()}/{$menuNode->getUid()}" ],
                         $menuNode->getMenuItem()->getTitle()
-                        .Html::tag('i', ['class'=>$this->classMap->getClass('Item', 'li i')])
+                        .Html::tag('i', ['class'=>$this->classMap->getClass('Item', 'li.isnotleaf icon')])
                     )
                     .$itemViewModel->getInnerHtml();
         $html = Html::tag('li',
