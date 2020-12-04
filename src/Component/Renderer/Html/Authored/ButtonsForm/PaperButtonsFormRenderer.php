@@ -28,7 +28,7 @@ class PaperButtonsFormRenderer extends HtmlRendererAbstract {
             Html::tag('form', ['method'=>'POST', 'action'=>""],
                 Html::tag('div', ['class'=>$this->classMap->getClass('PaperTemplateButtons', 'div.paperTemplate')],
                     Html::tag('button', [
-                        'class'=>$this->classMap->getClass('PaperTemplateButtons', 'div button'),
+                        'class'=>$this->classMap->getClass('PaperTemplateButtons', 'button'),
                         'data-tooltip'=>'Výběr šablony stránky',
                         'data-position'=>'top right',
                         'type'=>'submit',
@@ -36,7 +36,7 @@ class PaperButtonsFormRenderer extends HtmlRendererAbstract {
                         'formmethod'=>'post',
                         'formaction'=>"api/v1/paper/$paperId/template/",
                     ],
-                    Html::tag('i', ['class'=>$this->classMap->getClass('PaperTemplateButtons', 'div button1 i')])
+                    Html::tag('i', ['class'=>$this->classMap->getClass('PaperTemplateButtons', 'button.templateSelect')])
                     )
                 )
             );
