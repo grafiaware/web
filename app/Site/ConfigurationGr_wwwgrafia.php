@@ -360,7 +360,7 @@ class ConfigurationGr_wwwgrafia {
                             'div.buttons' => 'mini ui basic icon buttons editMenu',
                             'button' => 'ui button',
                             'button.paste' => 'ui button paste',
-                            'button.cut' => 'large cut icon', 
+                            'button.cut' => 'large cut icon',
                             'button.cutted' => 'large red cut icon',
                             'button.notpublish' => 'large green toggle on icon',
                             'button.publish' => 'large red toggle off icon',
@@ -830,12 +830,14 @@ class ConfigurationGr_wwwgrafia {
      * @return array
      */
     public static function pageControler() {
-        // local
 
         return [
-               'home_page_component_name' => 'home',
+               'home_page' => ['component', 'home'],
+//               'home_page' => ['static', 'body-pro-zdravi'],
+//               'home_page' => ['item', '5fad34398df10'],  // přednášky - pro test
                'templates.poznamky' => self::RED_TEMPLATES_COMMON.'layout/info/poznamky.php',
                'templates.loaderElement' => self::RED_TEMPLATES_COMMON.'layout/component-load/loaderElement.php',
+               'templates.loaderElementEditable' => self::RED_TEMPLATES_COMMON.'layout/component-load/loaderElementEditable.php',
             ];
     }
 
