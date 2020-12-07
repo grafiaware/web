@@ -12,7 +12,7 @@ $('.selectTemplate').hover(
 //pri najeti na tag s tridou .cornerWithTools se zobrazi sada buttonu s tridou .contentButtons
 //sada buttonu obsahuje nastroje pro praci s contentem paperu, mimo jine i nastaveni kalendare - odkdy dokdy ma byt content zobrazen
 //kalendar ma vlastni sadu buttonu, proto pomoci trid .toolsDate a .toolsContent menim zobrazeni pozadovane sady buttonu
-$('.cornerWithTools').hover(
+$('.cornerWithTools').hover( 
     function(){
         $(this).parent('section').find('.contentButtons').css("display", "flex");
         $(this).css("z-index", "10");
