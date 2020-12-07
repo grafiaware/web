@@ -19,6 +19,18 @@ use Model\Repository\{
     StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo
 };
 
+// komponenty
+use Component\View\{
+    Generated\LanguageSelectComponent,
+    Generated\SearchPhraseComponent,
+    Generated\SearchResultComponent,
+    Generated\ItemTypeSelectComponent,
+    Status\LoginComponent, Status\LogoutComponent, Status\UserActionComponent,
+    Flash\FlashComponent
+};
+
+use Middleware\Login\Controller\LoginLogoutController;
+
 ####################
 use Pes\View\ViewFactory;
 use Pes\View\View;
@@ -74,7 +86,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
 //        $timer = new Timer();
 //        $timer->start();
 
-        $layoutView = $this->getLayoutView($request);
+        $layoutView = $this->getCompositeView($request);
         foreach ($componentViews as $name => $componentView) {
             $layoutView->appendComponentView($componentView, $name);
         }
@@ -87,7 +99,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
      *
      * @return CompositeView
      */
-    private function getLayoutView(ServerRequestInterface $request) {
+    private function getCompositeView(ServerRequestInterface $request) {
         return $this->viewFactory->phpTemplateCompositeView(Configuration::layoutControler()['layout'],
                 [
                     'basePath' => $this->getBasePath($request),
@@ -95,12 +107,13 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
                     'langCode' => $this->statusPresentationRepo->get()->getLanguage()->getLangCode(),
                     'linksCommon' => Configuration::layoutControler()['linksCommon'],
                     'linksSite' => Configuration::layoutControler()['linksSite'],
-                    'modalLoginLogout' => $this->getModalLoginLogout(),
-                    'modalUserAction' => $this->getModalUserAction(),
                     'bodyContainerAttributes' => $this->getBodyContainerAttributes(),
-                    'linkEditorJs' => $this->getEditorJs($request),
-                    'linkEditorCss' => $this->getEditorCss($request),
-                    'poznamky' => $this->getPoznamky(),
+                    #### komponenty ######
+                    'modalLoginLogout' => $this->getLoginLogoutComponent(),
+                    'modalUserAction' => $this->getUserActionComponent(),
+                    'linkEditorJs' => $this->getEditorJsComponentView($request),
+                    'linkEditorCss' => $this->getEditorCssComponentView($request),
+                    'poznamky' => $this->getPoznamkyComponentView(),
                     'flash' => $this->getFlashComponent(),
                 ]);
     }
@@ -112,8 +125,43 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
             return ["class" => "ui container"];
         }
     }
+    #### komponenty ######
 
-    private function getEditorJs(ServerRequestInterface $request) {
+    protected function getLoginLogoutComponent() {
+        $user = $this->statusSecurityRepo->get()->getUser();
+        if (null != $user AND $user->getRole()) {   // libovolná role
+            /** @var LogoutComponent $logoutComponent */
+            $logoutComponent = $this->container->get(LogoutComponent::class);
+            //$logoutComponent nepoužívá viewModel, používá template definovanou v kontejneru - zadávám data pro template
+            $logoutComponent->setData(['userName' => $user->getUserName()]);
+            return $logoutComponent;
+        } else {
+            /** @var LoginComponent $loginComponent */
+            $loginComponent = $this->container->get(LoginComponent::class);
+            //$loginComponent nepoužívá viewModel, používá template definovanou v kontejneru - zadávám data pro template
+            $loginComponent->setData(["jmenoFieldName" => LoginLogoutController::JMENO_FIELD_NAME, "hesloFieldName" => LoginLogoutController::HESLO_FIELD_NAME]);
+            return $loginComponent;
+        }
+    }
+
+    protected function getUserActionComponent() {
+        $user = $this->statusSecurityRepo->get()->getUser();
+        if (null != $user AND $user->getRole()) {   // libovolná role
+            /** @var UserActionComponent $actionComponent */
+            $actionComponent = $this->container->get(UserActionComponent::class);
+            $actionComponent->setData(
+                    [
+                    'editArticle' => $this->isEditableArticle(),
+                    'editLayout' => $this->isEditableLayout(),
+                    'userName' => $user->getUserName()
+                    ]);
+            return $actionComponent;
+        } else {
+
+        }
+    }
+
+    private function getEditorJsComponentView(ServerRequestInterface $request) {
         if ($this->isEditableArticle() OR $this->isEditableLayout()) {
             ## document base path - stejná hodnota se musí použiít i v nastavení tinyMCE
             $basepath = $this->getBasePath($request);
@@ -155,7 +203,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
         }
     }
 
-    private function getEditorCss(ServerRequestInterface $request) {
+    private function getEditorCssComponentView(ServerRequestInterface $request) {
         if ($this->isEditableArticle() OR $this->isEditableLayout()) {
             return $this->container->get(View::class)
                     ->setTemplate(new PhpTemplate(Configuration::layoutControler()['linkEditorCss']))
@@ -167,4 +215,52 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
         }
     }
 
+    protected function getPoznamkyComponentView() {
+        if ($this->isEditableLayout() OR $this->isEditableArticle()) {
+            return
+                $this->container->get(View::class)
+                    ->setTemplate(new PhpTemplate(Configuration::pageControler()['templates.poznamky']))
+                    ->setData([
+                        'poznamka1'=>
+                        '<pre>'. $this->prettyDump($this->statusPresentationRepo->get()->getLanguage(), true).'</pre>'
+                        . '<pre>'. $this->prettyDump($this->statusSecurityRepo->get()->getUserActions(), true).'</pre>',
+                        //'flashMessage' => $this->getFlashMessage(),
+                        ]);
+}
+    }
+
+    private function prettyDump($var) {
+//        return htmlspecialchars(var_export($var, true), ENT_QUOTES, 'UTF-8', true);
+//        return htmlspecialchars(print_r($var, true), ENT_QUOTES, 'UTF-8', true);
+        return $this->pp($var);
+    }
+
+    private function pp($arr){
+        if (is_object($arr)) {
+            $cls = get_class($arr);
+            $arr = (array) $arr;
+        } else {
+            $cls = '';
+        }
+        $retStr = $cls ? "<p>$cls</p>" : "";
+        $retStr .= '<ul>';
+        if (is_array($arr)){
+            foreach ($arr as $key=>$val){
+                if (is_object($val)) $val = (array) $val;
+                if (is_array($val)){
+                    $retStr .= '<li>' . str_replace('\0', ':', $key) . ' = array(' . $this->pp($val) . ')</li>';
+                }else{
+                    $retStr .= '<li>' . str_replace($cls, "", $key) . ' = ' . ($val == '' ? '""' : $val) . '</li>';
+                }
+            }
+        }
+        $retStr .= '</ul>';
+        return $retStr;
+    }
+
+    protected function getFlashComponent() {
+        if ($this->isEditableLayout() OR $this->isEditableArticle()) {
+            return $this->container->get(FlashComponent::class);
+        }
+    }
 }
