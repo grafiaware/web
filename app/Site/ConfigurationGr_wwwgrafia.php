@@ -858,7 +858,7 @@ class ConfigurationGr_wwwgrafia {
     public static function transformator() {
         return [
             // relativní cesta vzhledem k DOCUMENT_ROOT (htdocs) -začíná /
-            'filesDirectory' => PES_RUNNING_ON_PRODUCTION_HOST ? '_www_tz_files/' : '/_www_tz_files/',
+            'filesDirectory' => PES_RUNNING_ON_PRODUCTION_HOST ? '_www_gr_files/' : '/_www_gr_files/',
             'public' => self::RED_LINKS_COMMON,
         ];
     }

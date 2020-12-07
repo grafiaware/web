@@ -54,7 +54,7 @@ class PageController extends LayoutControllerAbstract {
                 $langCode = $statusPresentation->getLanguage()->getLangCode();
                 $homeComponentAggregate = $componentAggregateRepo->getAggregate($langCode, $homePage[1]);
                 if (!isset($homeComponentAggregate)) {
-                    throw new UnexpectedValueException("Undefined default page (home page) defined as component with name '$homePage[1]'.");
+                    throw new \UnexpectedValueException("Undefined default page (home page) defined as component with name '$homePage[1]'.");
                 }
 
                 /** @var MenuItemRepo $menuItemRepo */
