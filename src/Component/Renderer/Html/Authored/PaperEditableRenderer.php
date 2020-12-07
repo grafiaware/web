@@ -82,7 +82,8 @@ class PaperEditableRenderer  extends AuthoredRendererAbstract {
     }
 
     private function renderNoPaperContent(PaperViewModelInterface $viewModel) {
-        return Html::tag('div', [], "No paper for rendering. Component - '{$viewModel->getInfo()}'.");
+        $uid = $viewModel->getMenuItem()->getUidFk();
+        return Html::tag('div', [], "No paper for rendering. Component - '{$viewModel->getInfo()}'. MenuiItem uid '$uid'.");
     }
 }
 

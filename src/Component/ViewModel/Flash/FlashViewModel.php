@@ -37,8 +37,10 @@ class FlashViewModel implements FlashViewModelInterface {
 
     private function formatCommad($command) {
         $msg = '';
-        foreach ($command as $key => $value) {
-            $msg .=$key." => ".$value.PHP_EOL;
+        if (isset($command)) {
+            foreach ($command as $key => $value) {
+                $msg .=$key." => ".$value.PHP_EOL;
+            }
         }
         return $msg;
     }
