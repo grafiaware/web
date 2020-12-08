@@ -13,6 +13,6 @@ namespace Model\Context;
  * @author pes2704
  */
 interface PublishedContextInterface {
-    public function getActive(): bool;
-    public function getActual():bool;
+    public function selectActive(): bool;
+    public function selectActual():bool;
 }

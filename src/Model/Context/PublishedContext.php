@@ -22,11 +22,11 @@ class PublishedContext implements PublishedContextInterface {
         $this->actual = (bool) $actual;
     }
 
-    public function getActive(): bool {
+    public function selectActive(): bool {
         return $this->active;
     }
 
-    public function getActual():bool {
+    public function selectActual():bool {
         return $this->actual;
     }
 

@@ -69,19 +69,28 @@ class PresentationActionController extends PresentationFrontControllerAbstract {
 
     public function setEditArticle(ServerRequestInterface $request) {
         $edit = (new RequestParams())->getParsedBodyParam($request, 'edit_article');
+        $oldEditableLayoutStatus = $this->statusSecurityRepo->get()->getUserActions()->isEditableLayout();
         $this->statusSecurityRepo->get()->getUserActions()->setEditableArticle($edit);
         $this->statusSecurityRepo->get()->getUserActions()->setEditableLayout(false);
         $this->addFlashMessage("setEditableArticle($edit)");
-        return $this->redirectSeeLastGet($request); // 303 See Other
+        if ($edit AND $oldEditableLayoutStatus) {
+            return $this->redirectSeeOther($request, '/'); // 303 See Other -> home - jinak zůstane prezentovaný poslední segment layoutu, který nyl editován v režimu edit layout
+        } else {
+            return $this->redirectSeeLastGet($request); // 303 See Other
+        }
     }
 
     public function setEditLayout(ServerRequestInterface $request) {
         $edit = (new RequestParams())->getParsedBodyParam($request, 'edit_layout');
+        $oldEditableArticleStatus = $this->statusSecurityRepo->get()->getUserActions()->isEditableArticle();
         $this->statusSecurityRepo->get()->getUserActions()->setEditableLayout($edit);
         $this->statusSecurityRepo->get()->getUserActions()->setEditableArticle(false);
         $this->addFlashMessage("setEditableLayout($edit)");
-        return $this->redirectSeeLastGet($request); // 303 See Other
-    }
+        if ($edit AND $oldEditableArticleStatus) {
+            return $this->redirectSeeOther($request, '/'); // 303 See Other -> home - jinak zůstane prezentovaný poslední articele, který nyl editován v režimu edit article
+        } else {
+            return $this->redirectSeeLastGet($request); // 303 See Other
+        }    }
 
     private function response($request) {
         $uidFk = $this->statusPresentationRepo->get()->getMenuItem()->getUidFk();

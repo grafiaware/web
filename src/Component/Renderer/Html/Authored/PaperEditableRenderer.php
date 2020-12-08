@@ -28,12 +28,12 @@ class PaperEditableRenderer  extends AuthoredRendererAbstract {
     }
 
     private function renderPrivate(PaperViewModelInterface $viewModel) {
-        $menuItemType = $viewModel->getMenuItem();
+        $menuItem = $viewModel->getMenuItem();
 
         $paperAggregate = $viewModel->getPaperAggregate();
 
         // select render
-        if (isset($paperAggregate)) {
+        if (isset($paperAggregate)) {  // ještě neexistuje paper k menuItem nebo režim není article editable a item není aktivní
             $innerHtml = $this->renderPaper($paperAggregate);
         } else {
             if ($viewModel instanceof PresentedPaperViewModelInterface) {
@@ -82,8 +82,13 @@ class PaperEditableRenderer  extends AuthoredRendererAbstract {
     }
 
     private function renderNoPaperContent(PaperViewModelInterface $viewModel) {
-        $uid = $viewModel->getMenuItem()->getUidFk();
-        return Html::tag('div', [], "No paper for rendering. Component - '{$viewModel->getInfo()}'. MenuiItem uid '$uid'.");
+        if ($viewModel->getMenuItem()) {
+            $uid = $viewModel->getMenuItem()->getUidFk();
+            $message = "No paper for rendering. Component - '{$viewModel->getInfo()}'. MenuiItem uid '$uid'.";
+        } else {
+            $message = "No paper for rendering. Component - '{$viewModel->getInfo()}'.";
+        }
+        return Html::tag('div', [], $message);
     }
 }
 

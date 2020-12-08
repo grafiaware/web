@@ -179,13 +179,7 @@ class PageController extends LayoutControllerAbstract {
         $menuItemType = $menuItem->getTypeFk();
             switch ($menuItemType) {
                 case 'segment':
-                    if ($this->isEditableArticle()) {
-//                        $content = $this->container->get('component.presented.editable');
-                        $content = $this->getPresentedComponentLoadScript($menuItem->getLangCodeFk(), $menuItem->getUidFk());
-                    } else {
-//                        $content = $this->container->get('component.presented');
-                        $content = $this->getPresentedComponentLoadScript($menuItem->getLangCodeFk(), $menuItem->getUidFk());
-                    }
+                    $content = $this->getPresentedComponentLoadScript($menuItem->getLangCodeFk(), $menuItem->getUidFk());
                     break;
                 case 'empty':
                     if ($this->isEditableArticle()) {
@@ -198,13 +192,7 @@ class PageController extends LayoutControllerAbstract {
                         $content = $this->getStaticLoadScript($this->friendlyUrl($menuItem->getTitle()));
                     break;
                 case 'paper':
-                    if ($this->isEditableArticle()) {
-//                        $content = $this->container->get('component.presented.editable');
-                        $content = $this->getPresentedComponentLoadScript($menuItem->getLangCodeFk(), $menuItem->getUidFk());
-                    } else {
-//                        $content = $this->container->get('component.presented');
-                        $content = $this->getPresentedComponentLoadScript($menuItem->getLangCodeFk(), $menuItem->getUidFk());
-                    }
+                    $content = $this->getPresentedComponentLoadScript($menuItem->getLangCodeFk(), $menuItem->getUidFk());
                     break;
                 case 'redirect':
                     $content = "No content for redirect type.";
@@ -245,6 +233,8 @@ class PageController extends LayoutControllerAbstract {
                 'menuPresmerovani' => $this->container->get('menu.presmerovani')->setMenuRootName('menu_redirect'),
                 'menuVodorovne' => $this->container->get('menu.vodorovne')->setMenuRootName('menu_horizontal'),
                 'menuSvisle' => $this->container->get('menu.svisle')->setMenuRootName('menu_vertical')->withTitleItem(true),
+                'kos' => $this->container->get('menu.kos.editable')->setMenuRootName('trash')->withTitleItem(true),
+                'bloky' => $this->container->get('menu.bloky.editable')->setMenuRootName('blocks')->withTitleItem(true),
             ];
 //                return [
 //                'menuPresmerovani' => $this->container->get('menu.presmerovani.editable')->setMenuRootName('menu_redirect'),
@@ -263,13 +253,12 @@ class PageController extends LayoutControllerAbstract {
                 'menuVodorovne' => $this->container->get('menu.vodorovne.editable')->setMenuRootName('menu_horizontal'),
                 'menuSvisle' => $this->container->get('menu.svisle.editable')->setMenuRootName('menu_vertical')->withTitleItem(true),
                 'kos' => $this->container->get('menu.kos.editable')->setMenuRootName('trash')->withTitleItem(true),
-                'bloky' => $this->container->get('menu.bloky.editable')->setMenuRootName('blocks')->withTitleItem(true),
             ];
         } else {
             $componets = [
                 'menuPresmerovani' => $this->container->get('menu.presmerovani')->setMenuRootName('menu_redirect'),
                 'menuVodorovne' => $this->container->get('menu.vodorovne')->setMenuRootName('menu_horizontal'),
-                'menuSvisle' => $this->container->get('menu.svisle')->setMenuRootName('menu_vertical'), //->withTitleItem(true),
+                'menuSvisle' => $this->container->get('menu.svisle')->setMenuRootName('menu_vertical')->withTitleItem(true),
             ];
         }
         return $componets;

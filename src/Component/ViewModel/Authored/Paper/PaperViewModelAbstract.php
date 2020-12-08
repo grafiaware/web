@@ -40,8 +40,10 @@ abstract class PaperViewModelAbstract extends AuthoredViewModelAbstract implemen
     }
 
     /**
-     * Vrací PaperAggregate příslušný k menuItem. MenuItem poskytuje metoda konponenty getMenuItem().
-     * Pokud PaperAggregate dosud neexistuje (není persitován, není vrácen z repository) vytvoří nový objekt PaperAggregate.
+     * Vrací PaperAggregate příslušný k menuItem nebo null.
+     * MenuItem musí být aktivní nebo prezentace musí být v reřimu article editable - jinak repository nevrací menuItem a nevznikne PaperAggregate, metoda vrací null.
+     *
+     * Pokud PaperAggregate dosud neexistuje (není persitován, není vrácen z repository v režimu article editable) vytvoří nový objekt PaperAggregate.
      *
      * @return PaperAggregateInterface|null
      */

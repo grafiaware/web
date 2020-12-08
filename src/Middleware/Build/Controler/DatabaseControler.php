@@ -184,13 +184,20 @@ class DatabaseControler extends BuildControlerAbstract {
         $conversionSteps[] = function() {
             return $this->executeFromFile("page2_0_insertIntoLanguage&MenuItemType.sql");
         };
-//        $conversionSteps[] = function() {
-//            return $this->executeFromFile("page2_1_insertIntoMenuItemNewSystemMenuRoots.sql");
-//        };
+
+        if($convert) {
+            $conversionSteps[] = function() {   // convert - pro případ, kdy kořen svislého menu je a0
+                $oldRootsUpdateDefinitions = $this->container->get('build.config.convert')['roots'];
+                $executedSql = [];
+                foreach ($oldRootsUpdateDefinitions as $oldDef) {
+                    return $this->executeFromTemplate("page2_1_updateStrankyInnodbForOldMenuRoot.sql", [ 'old_menu_list'=>$oldDef[0], 'new_menu_list'=>$oldDef[1]]);
+                }
+            };
+        }
 
         $conversionSteps[] = function() {
             // [type, list, title]
-            $rootsDefinitions = $this->container->get('build.config.make.roots');
+            $rootsDefinitions = $this->container->get('build.config.make')['items'];
             $executedSql = [];
             foreach ($rootsDefinitions as $rootDef) {
                 $executedSql[] .= $this->executeFromTemplate("page2_2_insertIntoMenuItemNewMenuRoot.sql", ['menu_root_type' => $rootDef[0], 'menu_root_list'=>$rootDef[1], 'menu_root_title'=>$rootDef[2]]);
@@ -204,13 +211,6 @@ class DatabaseControler extends BuildControlerAbstract {
             };
             $conversionSteps[] = function() {   // convert
                 return $this->executeFromFile("page2_4_updateMenuItemTypes&Active.sql", );
-            };
-            $conversionSteps[] = function() {   // convert - pro případ, kdy kořen svislého menu je a0
-                $oldRootsUpdateDefinitions = $this->container->get('build.config.convert')['roots'];
-                $executedSql = [];
-                foreach ($oldRootsUpdateDefinitions as $oldDef) {
-                    return $this->executeFromTemplate("page2_5_updateMenuItemForOldMenuRootWithTitle.sql", [ 'old_menu_list'=>$oldDef[0], 'new_menu_list'=>$oldDef[1]]);
-                }
             };
         }
 
@@ -263,15 +263,19 @@ class DatabaseControler extends BuildControlerAbstract {
         };
         $conversionSteps[] = function() {
             // [type, list, title]
-            $rootsDefinitions = $this->container->get('build.config.make.roots');
+            $rootsListNames = $this->container->get('build.config.make.roots');
             $executedSql = [];
-            foreach ($rootsDefinitions as $rootDef) {
-                $executedSql[] .= $this->executeFromTemplate("page5_1_insertIntoMenuRootTable.sql", ['root' => $rootDef[1]]);
+            foreach ($rootsListNames as $rootName) {
+                $executedSql[] .= $this->executeFromTemplate("page5_1_insertIntoMenuRootTable.sql", ['root' => $rootName]);
             }
             return implode(PHP_EOL, $executedSql);
         };
 
         if($convert) {
+            $conversionSteps[] = function() {   // convert - pro případ, kdy konvertovaný "starý" kořen menu je home page
+                $homeList = $this->container->get('build.config.convert')['home'];
+                return $this->executeFromTemplate("page5_2_insertHomeIntoBlockTable.sql", [ 'home_name'=>$homeList[0], 'home_list'=>$homeList[1]]);
+            };
             $conversionSteps[] = function() {  // convert
                 $fileName = "page5_3_insertIntoBlockTable.sql";
                 return $this->executeFromFile($fileName);
@@ -289,6 +293,7 @@ class DatabaseControler extends BuildControlerAbstract {
                 return $this->executeFromFile($fileName);
             };
         }
+
         $this->manipulator = $this->container->get(Manipulator::class);
         $this->setTimeLimit();
         $this->log[] = "Záznam o vytvoření a konverzi databáze ".(new \DateTime("now"))->format("d.m.Y H:i:s");
