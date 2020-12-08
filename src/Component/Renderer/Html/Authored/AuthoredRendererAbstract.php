@@ -201,9 +201,9 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract {
         return implode(PHP_EOL, $form);
     }
 
-    private function getContentForm($paperContent, $paperAggregate) {
-        $active = $paperContent->selectActive();
-        $actual = $paperContent->selectActual();
+    private function getContentForm(PaperContentInterface $paperContent, PaperAggregateInterface $paperAggregate) {
+        $active = $paperContent->getActive();
+        $actual = $paperContent->getActual();
         $now =  new \DateTime("now");
         $future = $paperContent->getShowTime() > $now;
         $past = $paperContent->getHideTime() < $now;  // pro zobrszeno trvale - null je vždy menší a $passed je true - vyhodnucuji nejprve $actual, nevadí to

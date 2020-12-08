@@ -8,6 +8,13 @@
       .dropdown()
     ;
     
+    //odeslani prihlasovaciho formulare pri stisku klavesy Enter
+    $('.loginEnterKey').keyup(function(event){
+        if(event.keyCode === 13){
+            $('.positive.button').click();
+        }
+    });
+    
     //Vyuziti lokalniho uloziste pro menu
     //ulozeni pozice vertikalni rolovaci listy u menu v editacnim rezimu
     $(".vertical.menu.edit li").click(function(){
