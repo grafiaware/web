@@ -2,7 +2,7 @@
   --  položka home page
 INSERT INTO block (uid_fk, name)
 SELECT
-menu_item.uid_fk, menu_item.list
+menu_item.uid_fk, '{{home_name}}'
 FROM menu_item
-WHERE SUBSTR(menu_item.list, 1, 1)='a'
+WHERE menu_item.list='{{home_list}}'
 GROUP BY uid_fk

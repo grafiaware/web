@@ -50,12 +50,12 @@ class HeadlinedEditableRenderer extends HtmlRendererAbstract {
                         Html::tag('headline', ['id'=>"headline_{$paper->getMenuItemIdFk()}", 'class'=>$this->classMap->getClass('Component', 'div div div headline')],
                             $paper->getPaper()
                         )
-                        .Html::tag('i', ['class'=> $this->classMap->resolveClass(($menuNode->getHierarchyAggregate()->getActive() AND $menuNode->getHierarchyAggregate()->getActual()), 'Component',
+                        .Html::tag('i', ['class'=> $this->classMap->resolveClass(($menuNode->getHierarchyAggregate()->selectActive() AND $menuNode->getHierarchyAggregate()->selectActual()), 'Component',
                                 'div div div i1.published', 'div div div i1.notpublished')]
                         )
-                        .Html::tag('i', ['class'=> $this->classMap->resolveClass($menuNode->getHierarchyAggregate()->getActive(), 'Component',
-                                $menuNode->getHierarchyAggregate()->getActual() ? 'div div div i2.published' : 'div div div i2.notactual',
-                                $menuNode->getHierarchyAggregate()->getActual() ?  'div div div i2.notactive' : 'div div div i2.notactivenotactual'
+                        .Html::tag('i', ['class'=> $this->classMap->resolveClass($menuNode->getHierarchyAggregate()->selectActive(), 'Component',
+                                $menuNode->getHierarchyAggregate()->selectActual() ? 'div div div i2.published' : 'div div div i2.notactual',
+                                $menuNode->getHierarchyAggregate()->selectActual() ?  'div div div i2.notactive' : 'div div div i2.notactivenotactual'
                                 )]
                         )
                         //.Html::tag('i', ['class'=>$this->classMap->getClass('Component', 'div div div i3')])

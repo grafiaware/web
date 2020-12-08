@@ -151,13 +151,21 @@ class ConfigurationGr_wwwgrafia {
             ###################################
             # Konfigurace make - ostatní parametry přidá kontejner
             # pole build.config.make.roots: [type, list, title]
-            'build.config.make.roots' => [
+            'build.config.make.items' => [
                 ['root', 'root', 'ROOT'],
                 ['trash', 'trash', 'Trash'],
                 ['paper', 'blocks', 'Blocks'],
 //                ['paper', 'menu_vertical', 'Menu'],      // !! menu menu_vertical je s titulní stranou  -> ve staré db je stránka list=menu_vertical a má titulek
                 ['paper', 'menu_horizontal', 'Menu'],
                 ['paper', 'menu_redirect', 'Menu'],
+            ],
+            'build.config.make.roots' => [
+                'root',
+                'trash',
+                'blocks',
+                'menu_vertical', 
+                'menu_horizontal',
+                'menu_redirect',
             ],
             'build.config.convert.copy' =>
                 [
@@ -166,6 +174,9 @@ class ConfigurationGr_wwwgrafia {
                 ],
             'build.config.convert.roots' => [
                 ['a0', 'menu_vertical'],        // !! menu menu_vertical je s titulní stranou - kořen menu vznikne z existující stránky -> ve staré db změním stránku list=a0 na list=menu_vertical
+            ],
+            'build.config.convert.home' => [
+                'home', 'menu_vertical',        // kořen menu menu_vertical je home page
             ],
             'build.config.convert.repairs' => [
                 // smazání chybné stránky v grafia databázích s list='s_01' - chybná syntax list způdobí chyby při vyztváření adjlist - původní stránka nemá žádný obsah

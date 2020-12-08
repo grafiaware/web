@@ -162,7 +162,7 @@ class ComponentControler extends XhrControlerAbstract {
         $menuItemType = $menuItem->getTypeFk();
             switch ($menuItemType) {
                 case 'segment':
-                    if ($this->isEditableArticle()) {
+                    if ($this->isEditableLayout()) {
                         $content = $this->container->get('component.presented.editable');
                     } else {
                         $content = $this->container->get('component.presented');

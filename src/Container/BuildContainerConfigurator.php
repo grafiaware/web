@@ -105,6 +105,7 @@ class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
                     },
                 'build.config.make' => function(ContainerInterface $c) {
                     return [
+                        'items' =>  Configuration::build()['build.config.make.items'],
                         'roots' =>  Configuration::build()['build.config.make.roots'],
                         ];
                     },
@@ -114,6 +115,7 @@ class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
                         'target_table_name' => $c->get('dbUpgrade.db.connection.name').'.'.Configuration::build()['build.config.convert.copy']['target'],
                         'repairs' => Configuration::build()['build.config.convert.repairs'] ?? [],
                         'roots' =>  Configuration::build()['build.config.convert.roots'],
+                        'home' =>  Configuration::build()['build.config.convert.home'],
                         ];
                     },
                 ];

@@ -202,8 +202,8 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract {
     }
 
     private function getContentForm($paperContent, $paperAggregate) {
-        $active = $paperContent->getActive();
-        $actual = $paperContent->getActual();
+        $active = $paperContent->selectActive();
+        $actual = $paperContent->selectActual();
         $now =  new \DateTime("now");
         $future = $paperContent->getShowTime() > $now;
         $past = $paperContent->getHideTime() < $now;  // pro zobrszeno trvale - null je vždy menší a $passed je true - vyhodnucuji nejprve $actual, nevadí to

@@ -54,7 +54,7 @@ class HierarchyAggregateReadonlyDao extends HierarchyAggregateEditDao implements
         if (isset($this->contextFactory)) {
             $publishedContext = $this->contextFactory->createPublishedContext();
             if ($publishedContext) {
-                if ($publishedContext->getActive()) {
+                if ($publishedContext->selectActive()) {
                     $contextConditions['active'] = "menu_item.active = 1";
                 }
             }
