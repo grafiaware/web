@@ -117,13 +117,13 @@ class ComponentControler extends XhrControlerAbstract {
 
     private function getCompiledContent($staticName) {
 
-        $compiledFileName = Configuration::layoutControler()['static']."__compiled/".$staticName.".html";
+        $compiledFileName = Configuration::componentControler()['static']."__compiled/".$staticName.".html";
         if (false AND is_readable($compiledFileName)) {
             $compiledContent = file_get_contents($compiledFileName);
         } else {
             $view = new View();
             $view->setRenderer(new PhpTemplateRenderer());
-            $view->setTemplate(new PhpTemplate(Configuration::layoutControler()['static'].$staticName."/template.php"));
+            $view->setTemplate(new PhpTemplate(Configuration::componentControler()['static'].$staticName."/template.php"));
             $compiledContent = $view->getString();
             file_put_contents($compiledFileName, $compiledContent);
         }

@@ -74,7 +74,7 @@ class PresentationActionController extends PresentationFrontControllerAbstract {
         $this->statusSecurityRepo->get()->getUserActions()->setEditableLayout(false);
         $this->addFlashMessage("setEditableArticle($edit)");
         if ($edit AND $oldEditableLayoutStatus) {
-            return $this->redirectSeeOther($request, '/'); // 303 See Other -> home - jinak zůstane prezentovaný poslední segment layoutu, který nyl editován v režimu edit layout
+            return $this->redirectSeeOther($request, ''); // 303 See Other -> home - jinak zůstane prezentovaný poslední segment layoutu, který nyl editován v režimu edit layout
         } else {
             return $this->redirectSeeLastGet($request); // 303 See Other
         }
@@ -87,7 +87,7 @@ class PresentationActionController extends PresentationFrontControllerAbstract {
         $this->statusSecurityRepo->get()->getUserActions()->setEditableArticle(false);
         $this->addFlashMessage("setEditableLayout($edit)");
         if ($edit AND $oldEditableArticleStatus) {
-            return $this->redirectSeeOther($request, '/'); // 303 See Other -> home - jinak zůstane prezentovaný poslední articele, který nyl editován v režimu edit article
+            return $this->redirectSeeOther($request, ''); // 303 See Other -> home - jinak zůstane prezentovaný poslední articele, který nyl editován v režimu edit article
         } else {
             return $this->redirectSeeLastGet($request); // 303 See Other
         }    }

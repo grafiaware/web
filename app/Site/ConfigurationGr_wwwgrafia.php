@@ -163,7 +163,7 @@ class ConfigurationGr_wwwgrafia {
                 'root',
                 'trash',
                 'blocks',
-                'menu_vertical', 
+                'menu_vertical',
                 'menu_horizontal',
                 'menu_redirect',
             ],
@@ -775,7 +775,7 @@ class ConfigurationGr_wwwgrafia {
     #
 
     /**
-     * Konfigurace prezentačního objektu - vrací parametry pro statusPresentationManager
+     * Konfigurace prezentace - vrací parametry pro statusPresentationManager
      * @return array
      */
     public static function statusPresentationManager() {
@@ -785,7 +785,7 @@ class ConfigurationGr_wwwgrafia {
     }
 
     /**
-     * Konfigurace prezentačního objektu - vrací parametry pro layoutControler
+     * Konfigurace prezentace - vrací parametry pro layoutControler
      * @return array
      */
     public static function layoutControler() {
@@ -805,8 +805,6 @@ class ConfigurationGr_wwwgrafia {
             'linksCommon' => self::RED_LINKS_COMMON,
             'linksSite' => self::RED_LINKS_SITE,
 
-            'static' => self::RED_TEMPLATES_SITE.'static/',
-
             // local templates paths
             'layout' => self::RED_TEMPLATES_SITE.'layout/layout.php',
             'tiny_config' => self::RED_TEMPLATES_SITE.'js/tiny_config.js',
@@ -822,7 +820,7 @@ class ConfigurationGr_wwwgrafia {
 //    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 //    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/jquery.tinymce.min.js" referrerpolicy="origin"></script>
             'urlTinyInit' => self::RED_LINKS_COMMON.'js/TinyInit.js',
-            'editScript' => self::RED_LINKS_COMMON . 'js/edit.js',
+            'editScript' => self::RED_LINKS_COMMON . 'js/editDelegated.js',
             'kalendarScript' => self::RED_LINKS_COMMON . 'js/kalendar.js',
 
             // linkEditorCss links
@@ -837,7 +835,7 @@ class ConfigurationGr_wwwgrafia {
     }
 
     /**
-     * Konfigurace prezentačního objektu - vrací parametry pro pageControler
+     * Konfigurace prezentace - vrací parametry pro pageControler
      * @return array
      */
     public static function pageControler() {
@@ -846,9 +844,36 @@ class ConfigurationGr_wwwgrafia {
                'home_page' => ['component', 'home'],
 //               'home_page' => ['static', 'body-pro-zdravi'],
 //               'home_page' => ['item', '5fad34398df10'],  // přednášky - pro test
+
                'templates.poznamky' => self::RED_TEMPLATES_COMMON.'layout/info/poznamky.php',
                'templates.loaderElement' => self::RED_TEMPLATES_COMMON.'layout/component-load/loaderElement.php',
                'templates.loaderElementEditable' => self::RED_TEMPLATES_COMMON.'layout/component-load/loaderElementEditable.php',
+            ];
+    }
+
+    /**
+     * Konfigurace prezentace - vrací parametry pro ComponentControler
+     * @return array
+     */
+    public static function componentControler() {
+
+        return [
+               'static' => self::RED_TEMPLATES_SITE.'static/',
+
+            ];
+    }
+
+    /**
+     * Konfigurace prezentace - vrací parametry pro templateControler
+     * @return array
+     */
+    public static function templateControler() {
+
+        return [
+               'templates.authorFolder' => self::RED_TEMPLATES_COMMON.'author/',
+               'templates.paperFolder' => self::RED_TEMPLATES_COMMON.'paper/',
+               'templates.paperContentFolder' => self::RED_TEMPLATES_COMMON.'paper-content/',
+
             ];
     }
 

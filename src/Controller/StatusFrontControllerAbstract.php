@@ -116,12 +116,12 @@ abstract class StatusFrontControllerAbstract extends FrontControllerAbstract imp
 
     /**
      *
-     * @param string $relativePath
+     * @param string $relativeUri
      * @return Response
      */
-    protected function redirectSeeOther(ServerRequestInterface $request, $relativePath) {
+    protected function redirectSeeOther(ServerRequestInterface $request, $relativeUri) {
         $subPath = $this->getUriInfo($request)->getRootAbsolutePath();
-        return RedirectResponse::withPostRedirectGet(new Response(), $subPath.$relativePath); // 303 See Other
+        return RedirectResponse::withPostRedirectGet(new Response(), $subPath.$relativeUri); // 303 See Other
     }
 
     protected function redirectSeeLastGet(ServerRequestInterface $request) {

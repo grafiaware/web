@@ -62,10 +62,10 @@ class PageController extends LayoutControllerAbstract {
 
                 $homeMenuItem = $homeComponentAggregate->getMenuItem();
                 $homeMenuItemUid = $homeMenuItem->getUidFk();
-                $resourcePath = "www/item/$langCode/$homeMenuItemUid";
+                $resourceUri = "www/item/$langCode/$homeMenuItemUid";
                 break;
             case 'static':
-                $resourcePath = "www/item/static/$homePage[1]";
+                $resourceUri = "www/item/static/$homePage[1]";
                 break;
             case 'item':
                 /** @var MenuItemRepo $menuItemRepo */
@@ -77,16 +77,16 @@ class PageController extends LayoutControllerAbstract {
                     throw new UnexpectedValueException("Undefined default page (home page) defined as static with name '$homePage[1]'.");
                 }
                 $homeMenuItemUid = $homeMenuItem->getUidFk();
-                $resourcePath = "www/item/$langCode/$homeMenuItemUid";
+                $resourceUri = "www/item/$langCode/$homeMenuItemUid";
                 break;
             default:
                 throw new UnexpectedValueException("Unknown home page type in configuration. Type: '$homePage[0]'.");
                 break;
         }
 
-        $statusPresentation->setLastGetResourcePath($resourcePath);
+        $statusPresentation->setLastGetResourcePath($resourceUri);
         $statusPresentation->setMenuItem($homeMenuItem);
-        return $this->redirectSeeOther($request, $resourcePath); // 303 See Other
+        return $this->redirectSeeOther($request, $resourceUri); // 303 See Other
         }
 
     public function item(ServerRequestInterface $request, $langCode, $uid) {

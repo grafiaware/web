@@ -117,19 +117,19 @@ var plugins_paper = [
     ];
 
 var templates_paper = [
-        { title: 'Kontakt', description: 'Grafia web - kontakt',       url: 'component/v1/authortemplate/kontakt/'}, //vztaženo k rootu RS, tam kde je index redakčního s.
-        { title: 'Publikace', description: 'Grafia web - publikace',   url: 'component/v1/authortemplate/publikace/'},
-        { title: 'Obrázek vlevo a text', description: 'Bez obtékání. Dva sloupce', url: 'component/v1/authortemplate/obrazekVlevo_blok/'},
-        { title: 'Publikace - 2', description: 'Vložení publikací na stránku', url: 'component/v1/authortemplate/eshop_radka/'},
-        { title: 'Menu - 1 položka', description: 'Vložení položky menu na stránku', url: 'component/v1/authortemplate/menu_1polozka/'},
-        { title: 'Menu - 2 položky', description: 'Vložení 2 položek menu na stránku', url: 'component/v1/authortemplate/menu_2polozky/'},
-        { title: 'Menu - 3 položky', description: 'Vložení 3 položek menu na stránku', url: 'component/v1/authortemplate/menu_3polozky/'},
+        { title: 'Kontakt', description: 'Grafia web - kontakt',       url: 'component/v1/authortemplate/default/kontakt'}, //vztaženo k rootu RS, tam kde je index redakčního s.
+        { title: 'Publikace', description: 'Grafia web - publikace',   url: 'component/v1/authortemplate/default/publikace'},
+        { title: 'Obrázek vlevo a text', description: 'Bez obtékání. Dva sloupce', url: 'component/v1/authortemplate/default/obrazekVlevo_blok'},
+        { title: 'Publikace - 2', description: 'Vložení publikací na stránku', url: 'component/v1/authortemplate/default/eshop_radka'},
+        { title: 'Menu - 1 položka', description: 'Vložení položky menu na stránku', url: 'component/v1/authortemplate/default/menu_1polozka'},
+        { title: 'Menu - 2 položky', description: 'Vložení 2 položek menu na stránku', url: 'component/v1/authortemplate/default/menu_2polozky'},
+        { title: 'Menu - 3 položky', description: 'Vložení 3 položek menu na stránku', url: 'component/v1/authortemplate/default/menu_3polozky'},
         { title: '---Tvorba šablon---',    description: 'oddelovac',  url: '' },
-        { title: 'Nutné k vytvoření šablon', description: 'Vložte nejprve tuto šablonu a do ní vkládejte ostatní prvky této sekce' , url: 'component/v1/authortemplate/grid/' },
-        { title: 'Menu - 1 položka (bez gridu) verze 1', description: 'Vložení položky menu na stránku', url: 'component/v1/authortemplate/menu_1polozka_1/'},
-        { title: 'Menu - 1 položka (bez gridu) dlouha', description: 'Vložení položky menu na stránku', url: 'component/v1/authortemplate/menu_1polozka_1_delsi/'},
-        { title: 'Menu - 1 položka (bez gridu) dalsi', description: 'Vložení položky menu na stránku', url: 'component/v1/authortemplate/menu_1polozka_1_delsi_1/'},
-        { title: 'Menu - 1 položka (bez gridu) verze 2', description: 'Vložení položky menu na stránku', url: 'component/v1/authortemplate/menu_1polozka_2/'}
+        { title: 'Nutné k vytvoření šablon', description: 'Vložte nejprve tuto šablonu a do ní vkládejte ostatní prvky této sekce' , url: 'component/v1/authortemplate/default/grid' },
+        { title: 'Menu - 1 položka (bez gridu) verze 1', description: 'Vložení položky menu na stránku', url: 'component/v1/authortemplate/default/menu_1polozka_1'},
+        { title: 'Menu - 1 položka (bez gridu) dlouha', description: 'Vložení položky menu na stránku', url: 'component/v1/authortemplate/default/menu_1polozka_1_delsi'},
+        { title: 'Menu - 1 položka (bez gridu) dalsi', description: 'Vložení položky menu na stránku', url: 'component/v1/authortemplate/default/menu_1polozka_1_delsi_1'},
+        { title: 'Menu - 1 položka (bez gridu) verze 2', description: 'Vložení položky menu na stránku', url: 'component/v1/authortemplate/default/menu_1polozka_2'}
     ];
 
 var toolbar = 'save cancel | undo redo | fontstyle fontweight | aligment | list | template | link image | code';

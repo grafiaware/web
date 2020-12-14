@@ -90,7 +90,7 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract {
 //
 //        }
         return
-            Html::tag('form', ['method'=>'POST', 'action'=>"api/v1/paper/$paperId/template/"],
+            Html::tag('form', ['method'=>'POST', 'action'=>"api/v1/paper/$paperId/template"],
                 Html::tag('div', ['class'=>$this->classMap->getClass('PaperTemplateButtons', 'div.paperTemplate'), 'data-tooltip'=>'Výběr šablony stránky'],
                     Html::tag('i', ['class'=>$this->classMap->getClass('PaperTemplateButtons', 'button.templateSelect')])
                     .Html::tag('div', ['class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.menu')],
@@ -155,7 +155,7 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract {
     protected function renderHeadlineForm(PaperAggregateInterface $paperAggregate) {
         return
             Html::tag('section', ['class'=>$this->classMap->getClass('Headline', 'section')],
-                    Html::tag('form', ['method'=>'POST', 'action'=>"api/v1/paper/{$paperAggregate->getId()}/headline/"],
+                    Html::tag('form', ['method'=>'POST', 'action'=>"api/v1/paper/{$paperAggregate->getId()}/headline"],
                     Html::tag(
                         'headline',
                         [
@@ -172,7 +172,7 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract {
         $form =
             Html::tag('section', ['class'=>$this->classMap->getClass('Perex', 'section')],
                 Html::tag('form',
-                    ['method'=>'POST', 'action'=>"api/v1/paper/{$paperAggregate->getId()}/perex/"],
+                    ['method'=>'POST', 'action'=>"api/v1/paper/{$paperAggregate->getId()}/perex"],
                     Html::tag('perex',
                         [
                             'id' => "perex_{$paperAggregate->getId()}",  // id musí být na stránce unikátní - skládám ze slova perex_ a paper id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
@@ -238,7 +238,7 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract {
                 .Html::tag('form',
                     [
                     'method'=>'POST',
-                    'action'=>"api/v1/paper/{$paperContent->getPaperIdFk()}/contents/{$paperContent->getId()}/"
+                    'action'=>"api/v1/paper/{$paperContent->getPaperIdFk()}/contents/{$paperContent->getId()}"
                     ],
                      Html::tag('content',
                         [

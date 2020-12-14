@@ -1,62 +1,85 @@
 //trida .selectTemplate se pouziva u buttonu, ktery slouzi pro vyber sablony paperu
 //popisek buttonu je napsany v atributu data-tooltip a je viditelny i pri vyberu sablony z rozeviraciho seznamu
 //pomoci tridy .nodatatooltip specifikovanou v author.less atribut skryvam, protoze text v atributu je stejny jako nadpis rozevirajiciho seznamu
-$('.selectTemplate').hover(
-    function(){
-        $(this).parent('.changePaperTemplate').addClass('nodatatooltip');
-    },
-    function(){
-        $(this).parent('.changePaperTemplate').removeClass('nodatatooltip');
-    }
-);
+$("container.selectTemplate").on(
+        {
+            mouseenter: function() {
+                $(this).parent('.changePaperTemplate').addClass('nodatatooltip');
+            },
+            mouseleave: function(){
+                $(this).parent('.changePaperTemplate').removeClass('nodatatooltip');
+            }
+        }
+    );
+
 //pri najeti na tag s tridou .cornerWithTools se zobrazi sada buttonu s tridou .contentButtons
 //sada buttonu obsahuje nastroje pro praci s contentem paperu, mimo jine i nastaveni kalendare - odkdy dokdy ma byt content zobrazen
 //kalendar ma vlastni sadu buttonu, proto pomoci trid .toolsDate a .toolsContent menim zobrazeni pozadovane sady buttonu
-$('.cornerWithTools').hover(
-    function(){
-        $(this).parent('section').find('.contentButtons').css("display", "flex");
-        $(this).css("z-index", "10");
-    },
-    function(){
-        $(this).parent('section').find('.contentButtons').css("display", "none");
-        $(this).css("z-index", "1");
-    }
-);
+//$("container").on(
+//        {
+//            mouseenter: function(){
+//                $(this).parent('section').find('.contentButtons').css("display", "flex");
+//                $(this).css("z-index", "10");
+//            },
+//            mouseleave: function(){
+//                $(this).parent('section').find('.contentButtons').css("display", "none");
+//                $(this).css("z-index", "1");
+//            }
+//        },
+//        ".cornerWithTools"
+//    );
+$("container").on("click", "section",
+            function() {
+           $( this ).fadeOut( 100 );
+           $( this ).fadeIn( 500 );
+       });
+
+
 //trida .toolsDate je pouzita u talcitka s ikonou kalendare v sade buttonu .contentButtons
 //na tuto tridu je pripojena take onclick udalost v rendereru
 //pri nastavovani kalendare zobrazuji pouze buttony tykajici se kalendare
-$('.toolsDate').click(function(){
-    $('.cornerWithTools').hover(
-        function(){
-            $(this).parent('section').find('.contentButtons').css("display", "none");
+$("container.toolsDate").on(
+        {
+            click: function(){
+                $('.cornerWithTools').hover(
+                    function(){
+                        $(this).parent('section').find('.contentButtons').css("display", "none");
+                    }
+                );
+            }
         }
     );
-});
 //trida .toolsContent je pripojena u tlacitka kalendare s popisem zrusit upravy
 //na tuto tridu je pripojena take onclick udalost v rendereru
 //kdyz dokoncim nastaveni kalendare, zobrazuji opet sadu buttonu pro praci s contentem paperu
-$('.toolsContent').click(function(){
-    $('.cornerWithTools').hover(
-        function(){
-            $(this).parent('section').find('.contentButtons').css("display", "flex");
-            $(this).css("z-index", "10");
-        },
-        function(){
-            $(this).parent('section').find('.contentButtons').css("display", "none");
-            $(this).css("z-index", "1");
+$("container.toolsContent").on(
+        {
+            mouseenter: function(){
+                $(this).parent('section').find('.contentButtons').css("display", "flex");
+                $(this).css("z-index", "10");
+            },
+            mouseleave: function(){
+                $(this).parent('section').find('.contentButtons').css("display", "none");
+                $(this).css("z-index", "1");
+            }
         }
     );
-});
-
 //.borderDance - obihajici border kolem editacniho tagu, animace nastavena v author.less
 //zde prepisuji vlastnost animation-duration podle vysky a sirky tagu
 function showHeight(height, width) {
-    $('.mce-edit-focus').css("animation-duration", (height+width)/20+"s");
-};
-$(".borderDance").click(function() {
-    showHeight( $( ".mce-edit-focus" ).height(), $( ".mce-edit-focus" ).width() );
-});
+        $('.mce-edit-focus').css("animation-duration", (height+width)/20+"s");
+    };
+$("container").on(
+            "click",
+        ".borderDance",
+        function() {
+                showHeight( $( ".mce-edit-focus" ).height(), $( ".mce-edit-focus" ).width() );
+            }
+    );
 
+
+
+// EDIT MENU
 
 function sendOnEnter(event) {
     var escPressed = event.which === 27,

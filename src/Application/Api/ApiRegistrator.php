@@ -93,8 +93,8 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/hierarchy/:uid/trash'));
 
         #### ComponentController ####
-        $registry->register($this->getPrototype->withUrlPattern('/component/v1/papertemplate/:name'));
-        $registry->register($this->getPrototype->withUrlPattern('/component/v1/authortemplate/:name'));
+        $registry->register($this->getPrototype->withUrlPattern('/component/v1/papertemplate/:folder'));
+        $registry->register($this->getPrototype->withUrlPattern('/component/v1/authortemplate/:folder/:name'));
         $registry->register($this->getPrototype->withUrlPattern('/component/v1/nameditem/:name'));
         $registry->register($this->getPrototype->withUrlPattern('/component/v1/item/:langCode/:uid'));
         $registry->register($this->getPrototype->withUrlPattern('/component/v1/flash'));

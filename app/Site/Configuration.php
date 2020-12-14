@@ -16,7 +16,7 @@ include 'ConfigurationGr_wwwgrafia.php';
 //include 'ConfigurationOa_otevreneatelierycz.php';
 
 /**
- * Description of Configuration
+ * Cache konfigurace
  *
  * @author pes2704
  */
@@ -105,6 +105,14 @@ class Configuration extends ConfigurationGr_wwwgrafia {
 
     public static function pageControler() {
         return self::getConfigModule('pageControler');
+    }
+
+    public static function componentControler() {
+        return self::getConfigModule('componentControler');
+    }
+
+    public static function templateControler() {
+        return self::getConfigModule('templateControler');
     }
 
     public static function languageSelectRenderer() {

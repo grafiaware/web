@@ -10,6 +10,8 @@ namespace Middleware\Xhr\Controller;
 
 use Psr\Http\Message\ServerRequestInterface;
 
+use Site\Configuration;
+
 use Model\Entity\MenuItemInterface;
 use Model\Entity\PaperAggregate;
 
@@ -55,30 +57,30 @@ class TemplateControler extends XhrControlerAbstract {
 
     ### action metody ###############
 
-    public function papertemplate(ServerRequestInterface $request, $paperTemplateName) {
+    public function papertemplate(ServerRequestInterface $request, $folder) {
         $paperAggregate = new PaperAggregate();
         $paperAggregate->exchangePaperContentsArray([])   //  ['content'=> Message::t('Contents')]
-                ->setTemplate($paperTemplateName)
+                ->setTemplate($folder)
                 ->setHeadline(Message::t('Headline'))
                 ->setPerex(Message::t('Perex'))
                 ;
 
         $view = $this->container->get(View::class)
-                                ->setTemplate(new PhpTemplate("local/site/common/templates/paper/".$paperTemplateName."/template.php"))
+                                ->setTemplate(new PhpTemplate(Configuration::templateControler()['templates.paperFolder']."$folder/template.php"))
                                 ->setData([
                                     'paperAggregate' => $paperAggregate,
                                 ]);
         return $this->createResponseFromView($request, $view);
     }
 
-    public function authorTemplate(ServerRequestInterface $request, $authorTemplateName) {
-        $filename = PROJECT_PATH."public/web/templates/author/default/".$paperTemplateName.".html";
+    public function authorTemplate(ServerRequestInterface $request, $folder, $name) {
+        $filename = Configuration::templateControler()['templates.authorFolder']."$folder/$name.html";
         if (is_readable($filename)) {
             $str = file_get_contents($filename);
         } else {
             $str = '';
         }
-        return $str;
+        return $this->createResponseFromString($request, $str);
     }
 
 }
