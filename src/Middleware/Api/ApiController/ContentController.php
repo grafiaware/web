@@ -222,7 +222,7 @@ class ContentController extends PresentationFrontControllerAbstract {
         }
         $content->setPriority(1);   // z "koše" - obnoveno vždy s prioritou 1, zůstává neaktivní
         $this->addFlashMessage("restore - obnoven content z koše.");
-        return $this->redirectSeeOther($request,'www/last'); // 303 See Other
+        return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
     public function delete($request, $paperId, $contentId) {
@@ -238,7 +238,7 @@ class ContentController extends PresentationFrontControllerAbstract {
             }
         }
         $this->addFlashMessage("delete - smazán content.");
-        return $this->redirectSeeOther($request,'www/last'); // 303 See Other
+        return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
 //    $paper = $this->paperRepo->get($menuItemId) ?? $this->createPaper($menuItemId);

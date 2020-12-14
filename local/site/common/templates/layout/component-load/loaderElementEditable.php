@@ -11,7 +11,12 @@
         tinymce.init(contentConfig);
         tinymce.init(perexConfig);
         tinymce.init(headerFooterConfig);
-
+    $('.ui.dropdown')
+      .dropdown()
+    ;
+    $('.ui.selection.dropdown')
+      .dropdown()
+    ;
      }
     };
     xhr.open("GET", "<?= $apiUri?>", true);

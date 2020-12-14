@@ -9,47 +9,37 @@ $('.selectTemplate').hover(
         $(this).parent('.changePaperTemplate').removeClass('nodatatooltip');
     }
 );
-//pri najeti na tag s tridou .cornerWithTools se zobrazi sada buttonu s tridou .contentButtons
-//sada buttonu obsahuje nastroje pro praci s contentem paperu, mimo jine i nastaveni kalendare - odkdy dokdy ma byt content zobrazen
-//kalendar ma vlastni sadu buttonu, proto pomoci trid .toolsDate a .toolsContent menim zobrazeni pozadovane sady buttonu
-$('.cornerWithTools').hover(
-    function(){
+//zobrazi sadu buttonu s tridou .contentButtons
+var showContentButtons =     function(){
         $(this).parent('section').find('.contentButtons').css("display", "flex");
         $(this).css("z-index", "10");
-    },
-    function(){
+    };
+//skryje sadu buttonu s tridou .contentButtons    
+var hideContentButtons =     function(){
         $(this).parent('section').find('.contentButtons').css("display", "none");
         $(this).css("z-index", "1");
-    }
-);
-//trida .toolsDate je pouzita u talcitka s ikonou kalendare v sade buttonu .contentButtons
-//na tuto tridu je pripojena take onclick udalost v rendereru
-//pri nastavovani kalendare zobrazuji pouze buttony tykajici se kalendare
+    };
+    
+//sada buttonu obsahuje nastroje pro praci s contentem paperu, mimo jine i nastaveni kalendare - odkdy dokdy ma byt content zobrazen
+//kalendar ma vlastni sadu buttonu, proto pomoci trid .toolsDate a .toolsContent menim zobrazeni pozadovane sady buttonu
+$('.cornerWithTools').hover(showContentButtons,hideContentButtons);
+
+//trida .toolsDate je pouzita u tlacitka s ikonou kalendare v sade buttonu .contentButtons
+//na tridu .toolsDate je pripojena take onclick udalost v rendereru
+//pri nastavovani polozek kalendare zobrazuji pouze buttony tykajici se kalendare, zabraňuji zobrazení ostatních tlačítek
 $('.toolsDate').click(function(){
-    $('.cornerWithTools').hover(
-        function(){
-            $(this).parent('section').find('.contentButtons').css("display", "none");
-        }
-    );
-});
-//trida .toolsContent je pripojena u tlacitka kalendare s popisem zrusit upravy
-//na tuto tridu je pripojena take onclick udalost v rendereru
-//kdyz dokoncim nastaveni kalendare, zobrazuji opet sadu buttonu pro praci s contentem paperu
-$('.toolsContent').click(function(){
-    $('.cornerWithTools').hover(
-        function(){
-            $(this).parent('section').find('.contentButtons').css("display", "flex");
-            $(this).css("z-index", "10");
-        },
-        function(){
-            $(this).parent('section').find('.contentButtons').css("display", "none");
-            $(this).css("z-index", "1");
-        }
-    );
+    $('.cornerWithTools').hover(hideContentButtons);
 });
 
-//.borderDance - obihajici border kolem editacniho tagu, animace nastavena v author.less
-//zde prepisuji vlastnost animation-duration podle vysky a sirky tagu
+//trida .toolsContent je pripojena u tlacitka kalendare s popisem zrusit upravy
+//na tridu .toolsContent je pripojena take onclick udalost v rendereru
+//kdyz dokoncim nastaveni kalendare, zobrazuji opet sadu buttonu pro praci s contentem paperu
+$('.toolsContent').click(function(){
+    $('.cornerWithTools').hover(showContentButtons,hideContentButtons);
+});
+
+//.borderDance - obihajici border kolem editacniho tagu, animace je vytvořena v author.less
+//zde prepisuji pouze hodnotu animation-duration podle vysky a sirky tagu
 function showHeight(height, width) {
     $('.mce-edit-focus').css("animation-duration", (height+width)/20+"s");
 };
