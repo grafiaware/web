@@ -112,13 +112,13 @@ var plugins_paper = [
        'paste advlist autolink lists link  charmap  preview hr anchor pagebreak image code', // codesample print  //
        'searchreplace wordcount visualblocks visualchars code fullscreen',
        'insertdatetime  nonbreaking noneditable save autosave table directionality',
-       'template textpattern searchreplace image imagetools save formatpainter cancel'
+       'template textpattern searchreplace image imagetools save formatpainter cancel example'
 //       'template textpattern searchreplace image imagetools save example'
     ];
 
 var templates_paper = [
         { title: 'Kontakt', description: 'Grafia web - kontakt',       url: 'component/v1/authortemplate/default/kontakt'}, //vztaženo k rootu RS, tam kde je index redakčního s.
-        { title: 'Publikace', description: 'Grafia web - publikace',   url: 'component/v1/authortemplate/default/publikace'},
+        { title: 'Publikace - novinka', description: 'Grafia web - publikace',   url: 'component/v1/authortemplate/default/eshop_nove'},
         { title: 'Obrázek vlevo a text', description: 'Bez obtékání. Dva sloupce', url: 'component/v1/authortemplate/default/obrazekVlevo_blok'},
         { title: 'Publikace - 2', description: 'Vložení publikací na stránku', url: 'component/v1/authortemplate/default/eshop_radka'},
         { title: 'Menu - 1 položka', description: 'Vložení položky menu na stránku', url: 'component/v1/authortemplate/default/menu_1polozka'},
@@ -137,7 +137,7 @@ var toolbar = 'save cancel | undo redo | fontstyle fontweight | aligment | list 
 //            + ' | hr | nonbreaking | forecolor backcolor ' + ' | fontsizeselect | code | searchreplace template | link image | save'
 //            + ' | example vlozitNadpis vlozitOdstavec'
 var toolbar1 = 'save cancel | undo redo | formatpainter removeformat | bold italic underline strikethrough nonbreaking | alignleft aligncenter alignright alignjustify | link image ';
-var toolbar2 = 'styleselect fontsizeselect forecolor | bullist numlist outdent indent | template | code';
+var toolbar2 = 'styleselect fontsizeselect forecolor | bullist numlist outdent indent | template | code | example';
 
 var toolbar_groups = {
         fontstyle: {
