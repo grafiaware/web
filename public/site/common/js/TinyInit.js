@@ -112,7 +112,7 @@ var plugins_paper = [
        'paste advlist autolink lists link  charmap  preview hr anchor pagebreak image code', // codesample print  //
        'searchreplace wordcount visualblocks visualchars code fullscreen',
        'insertdatetime  nonbreaking noneditable save autosave table directionality',
-       'template textpattern searchreplace image imagetools save formatpainter cancel example'
+       'template textpattern searchreplace image imagetools save example'
 //       'template textpattern searchreplace image imagetools save example'
     ];
 
@@ -136,14 +136,21 @@ var toolbar = 'save cancel | undo redo | fontstyle fontweight | aligment | list 
 //    toolbar1: 'undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent'
 //            + ' | hr | nonbreaking | forecolor backcolor ' + ' | fontsizeselect | code | searchreplace template | link image | save'
 //            + ' | example vlozitNadpis vlozitOdstavec'
-var toolbar1 = 'save cancel | undo redo | formatpainter removeformat | bold italic underline strikethrough nonbreaking | alignleft aligncenter alignright alignjustify | link image ';
+var toolbar1 = 'save cancel | undo redo | removeformat | bold italic underline strikethrough nonbreaking | alignleft aligncenter alignright alignjustify | link image ';
 var toolbar2 = 'styleselect fontsizeselect forecolor | bullist numlist outdent indent | template | code | example';
+var linkClassList = [
+        {title: 'Vyberte styl odkazu', value: ''},
+        {title: 'Výchozí odkaz', value: ''},
+        {title: 'Primární tlačítko', value: 'ui primary button'},
+        {title: 'Sekundární tlačítko', value: 'ui secondary button'},
+        {title: 'Šedé tlačítko', value: 'ui button'}
+    ];
 
 var toolbar_groups = {
         fontstyle: {
           icon: 'format',
           tooltip: 'Písmo',
-          items: 'styleselect fontsizeselect forecolor | formatpainter removeformat'
+          items: 'styleselect fontsizeselect forecolor | removeformat'
         },
         fontweight: {
           icon: 'bold',
@@ -219,6 +226,7 @@ var contentConfig = {
     templates: templates_paper,
     toolbar: toolbar,
     imagetools_toolbar: imagetools_toolbar,
+    link_class_list: linkClassList,
     setup: editorFunction
 };
 
@@ -245,6 +253,7 @@ var perexConfig = {
     toolbar1: toolbar1,
     toolbar2: toolbar2,
     imagetools_toolbar: imagetools_toolbar,
+    link_class_list: linkClassList,
 
     setup: editorFunction
 };
