@@ -15,40 +15,21 @@ $("container.selectTemplate").on(
 //pri najeti na tag s tridou .cornerWithTools se zobrazi sada buttonu s tridou .contentButtons
 //sada buttonu obsahuje nastroje pro praci s contentem paperu, mimo jine i nastaveni kalendare - odkdy dokdy ma byt content zobrazen
 //kalendar ma vlastni sadu buttonu, proto pomoci trid .toolsDate a .toolsContent menim zobrazeni pozadovane sady buttonu
-//$("container").on(
-//        {
-//            mouseenter: function(){
-//                $(this).parent('section').find('.contentButtons').css("display", "flex");
-//                $(this).css("z-index", "10");
-//            },
-//            mouseleave: function(){
-//                $(this).parent('section').find('.contentButtons').css("display", "none");
-//                $(this).css("z-index", "1");
-//            }
-//        },
-//        ".cornerWithTools"
-//    );
-$("container").on("click", "section",
-            function() {
-           $( this ).fadeOut( 100 );
-           $( this ).fadeIn( 500 );
-       });
 
+//zobrazi sadu buttonu s tridou .contentButtons
+var showContentButtons =     function(){
+        $(this).parent('section').find('.contentButtons').css("display", "flex");
+        $(this).css("z-index", "10");
+    };
+//skryje sadu buttonu s tridou .contentButtons
+var hideContentButtons =     function(){
+        $(this).parent('section').find('.contentButtons').css("display", "none");
+        $(this).css("z-index", "1");
+    };
 
-//trida .toolsDate je pouzita u talcitka s ikonou kalendare v sade buttonu .contentButtons
-//na tuto tridu je pripojena take onclick udalost v rendereru
-//pri nastavovani kalendare zobrazuji pouze buttony tykajici se kalendare
-$("container.toolsDate").on(
-        {
-            click: function(){
-                $('.cornerWithTools').hover(
-                    function(){
-                        $(this).parent('section').find('.contentButtons').css("display", "none");
-                    }
-                );
-            }
-        }
-    );
+$("body").on("mouseenter", ".cornerWithTools", showContentButtons);
+$("body").on("mouseleave", ".cornerWithTools", hideContentButtons);
+
 //trida .toolsContent je pripojena u tlacitka kalendare s popisem zrusit upravy
 //na tuto tridu je pripojena take onclick udalost v rendereru
 //kdyz dokoncim nastaveni kalendare, zobrazuji opet sadu buttonu pro praci s contentem paperu
@@ -64,20 +45,58 @@ $("container.toolsContent").on(
             }
         }
     );
+
+//trida .toolsDate je pouzita u talcitka s ikonou kalendare v sade buttonu .contentButtons
+//na tuto tridu je pripojena take onclick udalost v rendereru
+//pri nastavovani kalendare zobrazuji pouze buttony tykajici se kalendare
+$("body").on("click", ".toolsDate", function(){
+                $('.cornerWithTools').hover(hideContentButtons);
+            }
+    );
+
 //.borderDance - obihajici border kolem editacniho tagu, animace nastavena v author.less
 //zde prepisuji vlastnost animation-duration podle vysky a sirky tagu
 function showHeight(height, width) {
         $('.mce-edit-focus').css("animation-duration", (height+width)/20+"s");
     };
-$("container").on(
-            "click",
-        ".borderDance",
+$("body").on("click", ".borderDance",
         function() {
                 showHeight( $( ".mce-edit-focus" ).height(), $( ".mce-edit-focus" ).width() );
             }
     );
 
+$("body").on("click", '.editDate .button.toolsContent',
+        function(){
+            $(this).parent(".editDate").siblings(".contentButtons").css("display", "block");
+            $(this).parent(".editDate").css("display", "none");
+            $(this).parent(".editDate").siblings(".editDate").css("display", "none");
+        }
+    );
+$("body").on("click", '.contentButtons .button.toolsDate',
+        function(){
+            $(this).parent(".editContent").parent(".contentButtons").siblings(".editDate").css("display", "flex");
+            $(this).parent(".editContent").parent(".contentButtons").css("display", "none");
+        }
+    );
 
+$('.edit_kalendar .ui.calendar').calendar({
+    type: 'date',
+    today: true,
+    firstDayOfWeek: 1,
+    text: {
+        days: ['Ne', 'Po', 'Út', 'St', 'Čt', 'Pá', 'So'],
+        months: ['Leden', 'Únor', 'Březen', 'Duben', 'Květen', 'Červen', 'Červenec', 'Srpen', 'Září', 'Říjen', 'Listopad', 'Prosinec'],
+        today: 'Dnes'
+    },
+    formatter: {
+      date: function (date, settings) {
+        if (!date) return '';
+        var day = date.getDate();
+        var month = date.getMonth() + 1;
+        var year = date.getFullYear();
+        return day + '. ' + month + '. ' + year;}
+    }
+});
 
 // EDIT MENU
 
@@ -124,6 +143,7 @@ function sendOnEnter(event) {
         }
     }
 }
+
 var navigations = document.getElementsByTagName('nav');
 for (var i = 0, len = navigations.length; i < len; i++) {
     navigations[i].addEventListener('keydown', sendOnEnter, true);;

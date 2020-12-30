@@ -11,12 +11,26 @@
         tinymce.init(contentConfig);
         tinymce.init(perexConfig);
         tinymce.init(headerFooterConfig);
-    $('.ui.dropdown')
-      .dropdown()
-    ;
-    $('.ui.selection.dropdown')
-      .dropdown()
-    ;
+        $('.ui.dropdown').dropdown();
+        $('.ui.selection.dropdown').dropdown();
+        $('.edit_kalendar .ui.calendar').calendar({
+            type: 'date',
+            today: true,
+            firstDayOfWeek: 1,
+            text: {
+                days: ['Ne', 'Po', 'Út', 'St', 'Čt', 'Pá', 'So'],
+                months: ['Leden', 'Únor', 'Březen', 'Duben', 'Květen', 'Červen', 'Červenec', 'Srpen', 'Září', 'Říjen', 'Listopad', 'Prosinec'],
+                today: 'Dnes'
+            },
+            formatter: {
+              date: function (date, settings) {
+                if (!date) return '';
+                var day = date.getDate();
+                var month = date.getMonth() + 1;
+                var year = date.getFullYear();
+                return day + '. ' + month + '. ' + year;}
+            }
+        });
      }
     };
     xhr.open("GET", "<?= $apiUri?>", true);

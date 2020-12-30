@@ -155,7 +155,7 @@ class ConfigurationGr_wwwgrafia {
                 ['root', 'root', 'ROOT'],
                 ['trash', 'trash', 'Trash'],
                 ['paper', 'blocks', 'Blocks'],
-//                ['paper', 'menu_vertical', 'Menu'],      // !! menu menu_vertical je s titulní stranou  -> ve staré db je stránka list=menu_vertical a má titulek
+                ['paper', 'menu_vertical', 'Menu'],
                 ['paper', 'menu_horizontal', 'Menu'],
                 ['paper', 'menu_redirect', 'Menu'],
             ],
@@ -172,11 +172,11 @@ class ConfigurationGr_wwwgrafia {
                     'source' => 'stranky',
                     'target' => 'stranky'
                 ],
-            'build.config.convert.roots' => [
-                ['a0', 'menu_vertical'],        // !! menu menu_vertical je s titulní stranou - kořen menu vznikne z existující stránky -> ve staré db změním stránku list=a0 na list=menu_vertical
+            'build.config.convert.updatestranky' => [
+                ['a0', 's00', -1],        // !! menu menu_vertical je s titulní stranou list=a0 - existující stránku list=a0 ve staré db změním na list='s00', poradi=-1
             ],
             'build.config.convert.home' => [
-                'home', 'menu_vertical',        // kořen menu menu_vertical je home page
+                'home', 's00',        // titulní stránka s00 (změněná a0) je home page
             ],
             'build.config.convert.repairs' => [
                 // smazání chybné stránky v grafia databázích s list='s_01' - chybná syntax list způdobí chyby při vyztváření adjlist - původní stránka nemá žádný obsah
@@ -821,7 +821,6 @@ class ConfigurationGr_wwwgrafia {
 //    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/jquery.tinymce.min.js" referrerpolicy="origin"></script>
             'urlTinyInit' => self::RED_LINKS_COMMON.'js/TinyInit.js',
             'editScript' => self::RED_LINKS_COMMON . 'js/editDelegated.js',
-            'kalendarScript' => self::RED_LINKS_COMMON . 'js/kalendar.js',
 
             // linkEditorCss links
             'urlStylesCss' => self::RED_LINKS_COMMON."css/old/styles.css",

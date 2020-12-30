@@ -14,12 +14,12 @@ var showContentButtons =     function(){
         $(this).parent('section').find('.contentButtons').css("display", "flex");
         $(this).css("z-index", "10");
     };
-//skryje sadu buttonu s tridou .contentButtons    
+//skryje sadu buttonu s tridou .contentButtons
 var hideContentButtons =     function(){
         $(this).parent('section').find('.contentButtons').css("display", "none");
         $(this).css("z-index", "1");
     };
-    
+
 //sada buttonu obsahuje nastroje pro praci s contentem paperu, mimo jine i nastaveni kalendare - odkdy dokdy ma byt content zobrazen
 //kalendar ma vlastni sadu buttonu, proto pomoci trid .toolsDate a .toolsContent menim zobrazeni pozadovane sady buttonu
 $('.cornerWithTools').hover(showContentButtons,hideContentButtons);
@@ -47,7 +47,38 @@ $(".borderDance").click(function() {
     showHeight( $( ".mce-edit-focus" ).height(), $( ".mce-edit-focus" ).width() );
 });
 
+$('.editDate .button.toolsContent').click(function(){
+    $(this).parent(".editDate").siblings(".contentButtons").css("display", "block");
+    $(this).parent(".editDate").css("display", "none");
+    $(this).parent(".editDate").siblings(".editDate").css("display", "none");
+});
+$('.contentButtons .button.toolsDate').click(function(){
+    $(this).parent(".editContent").parent(".contentButtons").siblings(".editDate").css("display", "flex");
+    $(this).parent(".editContent").parent(".contentButtons").css("display", "none");
+});
 
+$('.edit_kalendar .ui.calendar').calendar({
+    type: 'date',
+    today: true,
+    firstDayOfWeek: 1,
+    text: {
+        days: ['Ne', 'Po', 'Út', 'St', 'Čt', 'Pá', 'So'],
+        months: ['Leden', 'Únor', 'Březen', 'Duben', 'Květen', 'Červen', 'Červenec', 'Srpen', 'Září', 'Říjen', 'Listopad', 'Prosinec'],
+        today: 'Dnes'
+    },
+    formatter: {
+      date: function (date, settings) {
+        if (!date) return '';
+        var day = date.getDate();
+        var month = date.getMonth() + 1;
+        var year = date.getFullYear();
+        return day + '. ' + month + '. ' + year;}
+    }
+});
+
+////////////////////
+// edit menu items
+////////////////////
 function sendOnEnter(event) {
     var escPressed = event.which === 27,
     nlPressed = event.which === 13,

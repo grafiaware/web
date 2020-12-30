@@ -114,7 +114,7 @@ class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
                         'source_table_name' =>  $c->get('dbold.db.connection.name').'.'.Configuration::build()['build.config.convert.copy']['source'],
                         'target_table_name' => $c->get('dbUpgrade.db.connection.name').'.'.Configuration::build()['build.config.convert.copy']['target'],
                         'repairs' => Configuration::build()['build.config.convert.repairs'] ?? [],
-                        'roots' =>  Configuration::build()['build.config.convert.roots'],
+                        'updatestranky' =>  Configuration::build()['build.config.convert.updatestranky'],
                         'home' =>  Configuration::build()['build.config.convert.home'],
                         ];
                     },

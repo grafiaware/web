@@ -232,33 +232,22 @@ class PageController extends LayoutControllerAbstract {
             $componets = [
                 'menuPresmerovani' => $this->container->get('menu.presmerovani')->setMenuRootName('menu_redirect'),
                 'menuVodorovne' => $this->container->get('menu.vodorovne')->setMenuRootName('menu_horizontal'),
-                'menuSvisle' => $this->container->get('menu.svisle')->setMenuRootName('menu_vertical')->withTitleItem(true),
+                'menuSvisle' => $this->container->get('menu.svisle')->setMenuRootName('menu_vertical'),
                 'kos' => $this->container->get('menu.kos.editable')->setMenuRootName('trash')->withTitleItem(true),
                 'bloky' => $this->container->get('menu.bloky.editable')->setMenuRootName('blocks')->withTitleItem(true),
             ];
-//                return [
-//                'menuPresmerovani' => $this->container->get('menu.presmerovani.editable')->setMenuRootName('menu_redirect'),
-//                'menuVodorovne' => $this->container->get('menu.vodorovne.editable')->setMenuRootName('menu_horizontal'),
-                ## var a
-//                'menuSvisle' => $this->container->get('menu.svisle.editable')->setMenuRootName('root'),
-                ## var b
-//                'menuSvisle' => $this->container->get('menu.svisle.editable')->setMenuRootName('menu_vertical'),
-//                'bloky' => $this->container->get('menu.bloky.editable')->setMenuRootName('blocks'), //menu.svisle.editable  //bloky
-//                'kos' => $this->container->get('menu.kos')->setMenuRootName('trash'), //menu.svisle  //kos
-//                ];
-
         } elseif ($this->isEditableArticle()) {
             $componets = [
                 'menuPresmerovani' => $this->container->get('menu.presmerovani.editable')->setMenuRootName('menu_redirect'),
                 'menuVodorovne' => $this->container->get('menu.vodorovne.editable')->setMenuRootName('menu_horizontal'),
-                'menuSvisle' => $this->container->get('menu.svisle.editable')->setMenuRootName('menu_vertical')->withTitleItem(true),
+                'menuSvisle' => $this->container->get('menu.svisle.editable')->setMenuRootName('menu_vertical'),
                 'kos' => $this->container->get('menu.kos.editable')->setMenuRootName('trash')->withTitleItem(true),
             ];
         } else {
             $componets = [
                 'menuPresmerovani' => $this->container->get('menu.presmerovani')->setMenuRootName('menu_redirect'),
                 'menuVodorovne' => $this->container->get('menu.vodorovne')->setMenuRootName('menu_horizontal'),
-                'menuSvisle' => $this->container->get('menu.svisle')->setMenuRootName('menu_vertical')->withTitleItem(true),
+                'menuSvisle' => $this->container->get('menu.svisle')->setMenuRootName('menu_vertical'),
             ];
         }
         return $componets;

@@ -198,7 +198,6 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
 
                         'urlTinyInit' => Configuration::layoutControler()['urlTinyInit'],
                         'editScript' => Configuration::layoutControler()['editScript'],
-                        'kalendarScript' => Configuration::layoutControler()['kalendarScript'],
                     ]);
         }
     }

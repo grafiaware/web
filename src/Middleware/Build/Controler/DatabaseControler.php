@@ -187,10 +187,10 @@ class DatabaseControler extends BuildControlerAbstract {
 
         if($convert) {
             $conversionSteps[] = function() {   // convert - pro případ, kdy kořen svislého menu je a0
-                $oldRootsUpdateDefinitions = $this->container->get('build.config.convert')['roots'];
+                $oldRootsUpdateDefinitions = $this->container->get('build.config.convert')['updatestranky'];
                 $executedSql = [];
                 foreach ($oldRootsUpdateDefinitions as $oldDef) {
-                    return $this->executeFromTemplate("page2_1_updateStrankyInnodbForOldMenuRoot.sql", [ 'old_menu_list'=>$oldDef[0], 'new_menu_list'=>$oldDef[1]]);
+                    return $this->executeFromTemplate("page2_1_updateStrankyInnodb.sql", [ 'old_menu_list'=>$oldDef[0], 'new_menu_list'=>$oldDef[1], 'new_menu_poradi'=>$oldDef[2]]);
                 }
             };
         }
