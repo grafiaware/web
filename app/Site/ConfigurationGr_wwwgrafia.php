@@ -835,6 +835,9 @@ class ConfigurationGr_wwwgrafia {
 
     /**
      * Konfigurace prezentace - vrací parametry pro pageControler
+     *
+     * Home stránka může být definována jménem komponenty nebo jménem statické stránky nebo identifikátorem uid položky menu (položky hierarchie).
+     * 
      * @return array
      */
     public static function pageControler() {

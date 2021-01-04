@@ -76,8 +76,15 @@ class WebAppFactory extends AppFactory {
 
             $pathLogger = FileLogger::getInstance('Logs/App', 'RequestPathLogger.log', FileLogger::APPEND_TO_LOG);
             $uri = $request->getUri();
+            $xPoweredByHeader = $request->getHeaderLine('x-powered-by');
+            $refererHeader = $request->getHeaderLine('referer');
             $pathLogger->info((string) $uri);
-
+            if ($xPoweredByHeader) {
+                $pathLogger->info("x-powered-by $xPoweredByHeader");
+            }
+            if ($refererHeader) {
+                $pathLogger->info("referer $refererHeader");
+            }
         } else {
             Message::setLogger(FileLogger::getInstance("Logs/App", 'Messages.log', FileLogger::REWRITE_LOG));
         }

@@ -2,6 +2,7 @@
 namespace Component\ViewModel\Authored\Paper;
 
 use Model\Entity\MenuItemInterface;
+use Model\Entity\PaperAggregateInterface;
 
 use Model\Repository\StatusSecurityRepo;
 use Model\Repository\StatusPresentationRepo;
@@ -14,10 +15,9 @@ use Model\Repository\MenuItemRepo;
  *
  * @author pes2704
  */
-class ItemPaperViewModel extends PaperViewModelAbstract implements ItemPaperViewModelInterface {
+class ItemPaperViewModel extends PaperViewModel implements ItemPaperViewModelInterface {
 
-    private $uidFk;
-    private $langCodeFk;
+    private $menuItemId;
     protected $menuItemRepo;
 
     public function __construct(
@@ -31,17 +31,23 @@ class ItemPaperViewModel extends PaperViewModelAbstract implements ItemPaperView
         $this->menuItemRepo = $menuItemRepo;
     }
 
-    public function setItemParams($langCodeFk, $uidFk) {
-        $this->langCodeFk = $langCodeFk;
-        $this->uidFk = $uidFk;
+    public function setItemId($menuItemId) {
+        $this->menuItemId = $menuItemId;
     }
-
+    public function getPaperAggregate(): ?PaperAggregateInterface {
+            $paperAggregate = $this->paperAggregateRepo->getByReference($this->menuItemId);
+            if (!isset($paperAggregate) AND $this->isArticleEditable()) {
+                $paperAggregate = new PaperAggregate();
+                $paperAggregate->setEditor($this->statusSecurityRepo->get()->getUser()->getUserName());
+            }
+        return $paperAggregate ?? null;
+    }
     public function getMenuItem(): ?MenuItemInterface {
-        return $this->menuItemRepo->get($this->langCodeFk, $this->uidFk);
+        return $this->menuItemRepo->getByReference($this->menuItemId);
     }
 
     public function getInfo(): string {
-        return "presented";
+        return "item";
     }
 
 }

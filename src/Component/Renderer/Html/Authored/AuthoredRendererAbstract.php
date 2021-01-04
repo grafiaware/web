@@ -23,8 +23,8 @@ use Pes\Text\Html;
 abstract class AuthoredRendererAbstract extends HtmlRendererAbstract {
 
 
-    protected function renderHeadline(PaperAggregateInterface $headline) {
-        $headline = $headline->getHeadline();
+    protected function renderHeadline(PaperAggregateInterface $paperAggregate) {
+        $headline = $paperAggregate->getHeadline();
         return  $headline
                 ?
                 Html::tag('div',
@@ -39,8 +39,8 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract {
             ;
     }
 
-    protected function renderPerex(PaperAggregateInterface $paper) {
-        $perex = $paper->getPerex();
+    protected function renderPerex(PaperAggregateInterface $paperAggregate) {
+        $perex = $paperAggregate->getPerex();
         return  $perex
                 ?
                 Html::tag('perex',

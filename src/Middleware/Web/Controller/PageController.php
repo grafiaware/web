@@ -28,6 +28,7 @@ use Component\View\{
 
 use Model\Repository\{
     MenuItemRepo, BlockAggregateRepo
+
 };
 
 ####################
@@ -42,17 +43,26 @@ use Pes\View\Template\PhpTemplate;
 class PageController extends LayoutControllerAbstract {
     ### action metody ###############
 
+    /**
+     * Přesměruje na home stránku. Řídí se konfigurací. Home stránka může být definována jménem komponenty nebo jménem statické stránky nebo
+     * identifikátorem uid položky menu (položky hierarchie).
+     *
+     * @param ServerRequestInterface $request
+     * @return type
+     * @throws \UnexpectedValueException
+     * @throws UnexpectedValueException
+     */
     public function home(ServerRequestInterface $request) {
         $statusPresentation = $this->statusPresentationRepo->get();
 
         $homePage = Configuration::pageControler()['home_page'];
         switch ($homePage[0]) {
             case 'component':
-                /** @var BlockAggregateRepo $componentAggregateRepo */
-                $componentAggregateRepo = $this->container->get(BlockAggregateRepo::class);
+                /** @var BlockAggregateRepo $blockAggregateRepo */
+                $blockAggregateRepo = $this->container->get(BlockAggregateRepo::class);
                 // jméno default komponenty (z konfigurace)
                 $langCode = $statusPresentation->getLanguage()->getLangCode();
-                $homeComponentAggregate = $componentAggregateRepo->getAggregate($langCode, $homePage[1]);
+                $homeComponentAggregate = $blockAggregateRepo->getAggregate($langCode, $homePage[1]);
                 if (!isset($homeComponentAggregate)) {
                     throw new \UnexpectedValueException("Undefined default page (home page) defined as component with name '$homePage[1]'.");
                 }
@@ -146,28 +156,16 @@ class PageController extends LayoutControllerAbstract {
         // (odvozeným z id), ukládaný obsah editovatelné položky se neuloží - POST data obsahují prázdný řetězec a dojde potichu ke smazání obsahu v databázi.
         // Příklad: - bloky v editovatelném modu a současně editovatelné menu bloky - v menu bloky vybraný blok je zobrazen editovatelný duplicitně s blokem v layoutu
         //          - dva stené bloky v layoutu - mapa, kontakt v hlavičce i v patičce
-        if (false) {
-        // full page
+
         return array_merge(
                 $actionComponents,
                 $this->getGeneratedLayoutComponents(),
                 // full page
-                $this->getAuthoredLayoutComnponents(),
+                $this->getAuthoredLayoutComponents(),
                 // for debug
 //                $this->getEmptyMenuComponents(),
                 $this->getMenuComponents()
                 );
-        } else {
-        // xhr components load
-        return array_merge(
-                $actionComponents,
-                $this->getGeneratedLayoutComponents(),
-                $this->getXhrAuthoredLayoutComponents(),
-                // for debug
-//                $this->getEmptyMenuComponents(),
-                $this->getMenuComponents()
-                );
-        }
     }
 
     /**
@@ -178,24 +176,26 @@ class PageController extends LayoutControllerAbstract {
         // dočasně duplicitní s ComponentControler
         $menuItemType = $menuItem->getTypeFk();
             switch ($menuItemType) {
-                case 'segment':
-                    $content = $this->getPresentedComponentLoadScript($menuItem->getLangCodeFk(), $menuItem->getUidFk());
-                    break;
                 case 'empty':
                     if ($this->isEditableArticle()) {
                         $content = $this->container->get(ItemTypeSelectComponent::class);
                     } else {
-                        $content = '';
+                        $content = $this->container->get(View::class);
                     }
                     break;
+                case 'generated':
+                    $content = $view = $this->container->get(View::class)->setData( "No content for generated type.");
+                    break;
                 case 'static':
-                        $content = $this->getStaticLoadScript($this->friendlyUrl($menuItem->getTitle()));
+                    $content = $this->getStaticLoadScript($menuItem);
                     break;
                 case 'paper':
-                    $content = $this->getPresentedComponentLoadScript($menuItem->getLangCodeFk(), $menuItem->getUidFk());
+                    $content = $this->getPaperLoadScript($menuItem);
+
+//                    $content = $this->getPresentedComponentLoadScript($menuItem);
                     break;
                 case 'redirect':
-                    $content = "No content for redirect type.";
+                    $content = $view = $this->container->get(View::class)->setData( "No content for redirect type.");
                     break;
                 case 'root':
                         $content = $this->container->get('component.presented');
@@ -232,9 +232,10 @@ class PageController extends LayoutControllerAbstract {
             $componets = [
                 'menuPresmerovani' => $this->container->get('menu.presmerovani')->setMenuRootName('menu_redirect'),
                 'menuVodorovne' => $this->container->get('menu.vodorovne')->setMenuRootName('menu_horizontal'),
+                'bloky' => $this->container->get('menu.bloky.editable')->setMenuRootName('blocks')->withTitleItem(true),
                 'menuSvisle' => $this->container->get('menu.svisle')->setMenuRootName('menu_vertical'),
                 'kos' => $this->container->get('menu.kos.editable')->setMenuRootName('trash')->withTitleItem(true),
-                'bloky' => $this->container->get('menu.bloky.editable')->setMenuRootName('blocks')->withTitleItem(true),
+
             ];
         } elseif ($this->isEditableArticle()) {
             $componets = [
@@ -253,7 +254,7 @@ class PageController extends LayoutControllerAbstract {
         return $componets;
     }
 
-    private function getAuthoredLayoutComnponents() {
+    private function getAuthoredLayoutComponents() {
         if ($this->isEditableLayout()) {
             $componentService = 'component.named.editable';
         } else {
@@ -266,88 +267,49 @@ class PageController extends LayoutControllerAbstract {
                     'rychleOdkazy' => 'a3',
                     'razitko' => 'a4',
                     'socialniSite' => 'a5',
-                    'mapa' => 'a6',
-                    'logo' => 'a7',
-                    'banner' => 'a8',
-                ];
-        $components = [];
-        foreach ($map as $variableName => $blockName) {
-            $components[$variableName] = $this->container->get($componentService)->setComponentName($blockName);
-        }
-//            $componets = [
-//                    'aktuality' => $this->container->get('component.named.editable')->setComponentName('a1'),
-//                    'nejblizsiAkce' => $this->container->get('component.named.editable')->setComponentName('a2'),
-//                    'rychleOdkazy' => $this->container->get('component.named.editable')->setComponentName('a3'),
-//                    'razitko' => $this->container->get('component.named.editable')->setComponentName('a4'),
-//                    'socialniSite' => $this->container->get('component.named.editable')->setComponentName('a5'),
-//                    'mapa' => $this->container->get('component.named.editable')->setComponentName('a6'),
-//                    'logo' => $this->container->get('component.named.editable')->setComponentName('a7'),
-//                    'banner' => $this->container->get('component.named.editable')->setComponentName('a8'),
-//                ];
-//        } else {
-//            $componets = [
-//                    'aktuality' => $this->container->get('component.named')->setComponentName('a1'),
-//                    'nejblizsiAkce' => $this->container->get('component.named')->setComponentName('a2'),
-//                    'rychleOdkazy' => $this->container->get('component.named')->setComponentName('a3'),
-//                    'razitko' => $this->container->get('component.named')->setComponentName('a4'),
-//                    'socialniSite' => $this->container->get('component.named')->setComponentName('a5'),
-//                    'mapa' => $this->container->get('component.named')->setComponentName('a6'),
-//                    'logo' => $this->container->get('component.named')->setComponentName('a7'),
-//                    'banner' => $this->container->get('component.named')->setComponentName('a8'),
-//                ];
-//        }
-        return $componets;
-    }
-
-    private function getXhrAuthoredLayoutComponents() {
-        if ($this->isEditableLayout()) {
-            $componentService = 'component.named.editable';
-        } else {
-            $componentService = 'component.named';
-        }
-
-        $map = [
-                    'aktuality' => 'a1',
-                    'nejblizsiAkce' => 'a2',
-                    'rychleOdkazy' => 'a3',
-                    'razitko' => 'a4',
-                    'socialniSite' => 'a5',
-                    'mapa' => 'a6',
-                    'logo' => 'a7',
-                    'banner' => 'a8',
+//                    'mapa' => 'a6',
+//                    'logo' => 'a7',
+//                    'banner' => 'a8',
                 ];
         $componets = [];
-        foreach ($map as $variableName => $blockName) {
-            $componets[$variableName] = $this->container->get($componentService)->setComponentName($blockName);
-        }
+        $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
 
-//        if ($this->isEditableLayout()) {
-//            $componets = [
-//                    'aktuality' => $this->container->get('component.named.editable')->setComponentName('a1'),
-//                    'nejblizsiAkce' => $this->container->get('component.named.editable')->setComponentName('a2'),
-//                    'rychleOdkazy' => $this->container->get('component.named.editable')->setComponentName('a3'),
-//                    'razitko' => $this->container->get('component.named.editable')->setComponentName('a4'),
-//                    'socialniSite' => $this->container->get('component.named.editable')->setComponentName('a5'),
-//                    'mapa' => $this->container->get('component.named.editable')->setComponentName('a6'),
-//                    'logo' => $this->container->get('component.named.editable')->setComponentName('a7'),
-//                    'banner' => $this->container->get('component.named.editable')->setComponentName('a8'),
-//                ];
-//        } else {
-//            $componets = [
-//                    'aktuality' => $this->getNamedComponentLoadScript('a1'),
-//                    'nejblizsiAkce' => $this->getNamedComponentLoadScript('a2'),
-//                    'rychleOdkazy' => $this->getNamedComponentLoadScript('a3'),
-//                    'razitko' => $this->getNamedComponentLoadScript('a4'),
-//                    'socialniSite' => $this->getNamedComponentLoadScript('a5'),
-//                    'mapa' => $this->getNamedComponentLoadScript('a6'),
-//                    'logo' => $this->getNamedComponentLoadScript('a7'),
-//                    'banner' => $this->getNamedComponentLoadScript('a8'),
-//                ];
-//        }
+        foreach ($map as $variableName => $blockName) {
+            $menuItem = $this->getBlockMenuItem($langCode, $blockName);
+            $componets[$variableName] = isset($menuItem) ? $this->getMenuItemComponent($menuItem) : $this->container->get(View::class);  // například neaktivní, neaktuální menu item
+//            $componets[$variableName] = $this->container->get($componentService)->setComponentName($blockName);
+//            $componets[$variableName] = $this->getNamedComponentLoadScript($blockName);  // záhadně nefunkční (debug) a nesmyslná varianta - opakované requesty load element pro všechny segmenty
+        }
         return $componets;
     }
 
-    private function getPresentedComponentLoadScript($langCode, $uid) {
+    private function getBlockMenuItem($langCode, $name) {
+        /** @var BlockAggregateRepo $blockAggregateRepo */
+        $blockAggregateRepo = $this->container->get(BlockAggregateRepo::class);
+        // jméno default komponenty (z konfigurace)
+        $blockAggregate = $blockAggregateRepo->getAggregate($langCode, $name);
+        if (!isset($blockAggregate)) {
+            throw new \UnexpectedValueException("Undefined component with name '$name'.");
+        }
+
+        return $blockAggregate->getMenuItem();
+    }
+    private function getPaperLoadScript($menuItem) {
+        $menuItemId = $menuItem->getId();
+
+        // prvek data 'name' musí být unikátní - z jeho hodnoty se generuje id načítaného elementu - a id musí být unikátní jinak dojde k opakovanému přepsání obsahu elemntu v DOM 
+        $view = $this->container->get(View::class)
+                    ->setData([
+                        'name' => "paper_for_item_$menuItemId",
+                        'apiUri' => "component/v1/paperbyreference/$menuItemId"
+                        ]);
+        $this->setLoadScriptViewTemplate($view);
+        return $view;
+    }
+
+    private function getPresentedComponentLoadScript(MenuItemInterface $menuItem) {
+        $langCode = $menuItem->getLangCodeFk();
+        $uid = $menuItem->getUidFk();
         $view = $this->container->get(View::class)
                     ->setData([
                         'name' => 'presented',
@@ -367,7 +329,8 @@ class PageController extends LayoutControllerAbstract {
         return $view;
     }
 
-    private function getStaticLoadScript($name) {
+    private function getStaticLoadScript(MenuItemInterface $menuItem) {
+        $name = $this->friendlyUrl($menuItem->getTitle());
         $view = $this->container->get(View::class)
                     ->setData([
                         'name' => $name,

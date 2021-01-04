@@ -18,17 +18,13 @@ use Model\Entity\MenuItemInterface;
  */
 interface PaperViewModelInterface extends AuthoredViewModelInterface {
 
-    /**
-     *
-     * @return MenuItemInterface
-     */
-    public function getMenuItem(): ?MenuItemInterface;
+    public function setItemId($menuItemId);
 
     /**
      * Vrací informaci o komponentě pro vložení informativního textu do výsledného html.
      * @return string
      */
-    public function getInfo();
+    public function getInfo(): string;
 
     /**
      * Vrací PaperAggregate příslušný k menuItem. MenuItem poskytuje metoda konponenty getMenuItem().

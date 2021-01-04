@@ -23,7 +23,7 @@ use Model\Entity\MenuItemInterface;
  *
  * @author pes2704
  */
-class NamedPaperViewModel extends PaperViewModelAbstract implements NamedPaperViewModelInterface {
+class NamedPaperViewModel extends PaperViewModel implements NamedPaperViewModelInterface {
 
     /**
      * @var BlockAggregateRepo
@@ -60,7 +60,7 @@ class NamedPaperViewModel extends PaperViewModelAbstract implements NamedPaperVi
         $this->componentName = $componentName;
     }
 
-    public function getInfo() {
+    public function getInfo(): string {
         $componentAggregate = $this->getComponentAggregate();
         if (isset($componentAggregate)) {
             $info = "named: ".$componentAggregate->getName();

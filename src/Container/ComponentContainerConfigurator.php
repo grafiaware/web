@@ -27,7 +27,7 @@ use Component\ViewModel\Authored\Menu\MenuViewModel;
 use Component\View\Authored\Paper\{
     NamedPaperComponent,
     PresentedPaperComponent,
-    ItemPaperComponent,
+    PaperComponent,
     ButtonsForm\PaperTemplateButtonsForm
 };
 
@@ -50,7 +50,7 @@ use Component\ViewModel\{
     ComponentViewModelAbstract,
     Authored\Paper\NamedPaperViewModel,
     Authored\Paper\PresentedPaperViewModel,
-    Authored\Paper\ItemPaperViewModel,
+    Authored\Paper\PaperViewModel,
     Generated\LanguageSelectViewModel,
     Generated\SearchPhraseViewModel,
     Generated\SearchResultViewModel,
@@ -300,15 +300,15 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                 return $component;
                 },
 
-            ItemPaperComponent::class => function(ContainerInterface $c) {
-                $viewModel = new ItemPaperViewModel(
+            PaperComponent::class => function(ContainerInterface $c) {
+                $viewModel = new PaperViewModel(
                                 $c->get(StatusSecurityRepo::class),
                                 $c->get(StatusPresentationRepo::class),
                                 $c->get(StatusFlashRepo::class),
                                 $c->get(PaperAggregateRepo::class),
                                 $c->get(MenuItemRepo::class)
                         );
-                $component = new ItemPaperComponent($viewModel);
+                $component = new PaperComponent($viewModel);
                 $component->setRendererContainer($c->get('rendererContainer'));
                 $component->setTemplatesPath($c->get('component.templatePath.paper'));
                 return $component;
@@ -328,11 +328,11 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
             'component.presented.editable' => function(ContainerInterface $c) {
                 return $c->get(PresentedPaperComponent::class)->setFallbackRendererName(PaperEditableRenderer::class);
             },
-            'component.item' => function(ContainerInterface $c) {
-                return $c->get(ItemPaperComponent::class)->setFallbackRendererName(PaperRenderer::class);
+            'component.paper' => function(ContainerInterface $c) {
+                return $c->get(PaperComponent::class)->setFallbackRendererName(PaperRenderer::class);
             },
-            'component.item.editable' => function(ContainerInterface $c) {
-                return $c->get(ItemPaperComponent::class)->setFallbackRendererName(PaperEditableRenderer::class);
+            'component.paper.editable' => function(ContainerInterface $c) {
+                return $c->get(PaperComponent::class)->setFallbackRendererName(PaperEditableRenderer::class);
             },
             #### button form komponenty - pro editační režim paper, komponenty bez nastaveného viewmodelu
             #

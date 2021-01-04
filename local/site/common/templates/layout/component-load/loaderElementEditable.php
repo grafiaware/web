@@ -34,6 +34,7 @@
      }
     };
     xhr.open("GET", "<?= $apiUri?>", true);
+    xhr.setRequestHeader("X-Powered-By", "RED Loader");
     xhr.send();
     </script>
 </div>

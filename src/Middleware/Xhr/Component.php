@@ -101,6 +101,11 @@ class Component extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(ComponentControler::class);
             return $ctrl->static($request, $staticName);
             });
+        $routeGenerator->addRouteForAction('GET', '/component/v1/paperbyreference/:menuItemId', function(ServerRequestInterface $request, $menuItemId) {
+            /** @var ComponentControler $ctrl */
+            $ctrl = $this->container->get(ComponentControler::class);
+            return $ctrl->paper($request, $menuItemId);
+            });
 ####################################
         /** @var $router RouterInterface */
         $router = $this->container->get(RouterInterface::class);

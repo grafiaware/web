@@ -23,7 +23,7 @@ use Model\Repository\PaperAggregateRepo;
  *
  * @author pes2704
  */
-abstract class PaperViewModelAbstract extends AuthoredViewModelAbstract implements PaperViewModelInterface, \IteratorAggregate {
+class PaperViewModel extends AuthoredViewModelAbstract implements PaperViewModelInterface, \IteratorAggregate {
     /**
      * @var PaperAggregateRepo
      */
@@ -39,6 +39,14 @@ abstract class PaperViewModelAbstract extends AuthoredViewModelAbstract implemen
         $this->paperAggregateRepo = $paperAggregateRepo;
     }
 
+    public function setItemId($menuItemId) {
+        $this->menuItemId = $menuItemId;
+    }
+
+    public function getInfo(): string {
+        return "paperByReference";
+    }
+
     /**
      * Vrací PaperAggregate příslušný k menuItem nebo null.
      * MenuItem musí být aktivní nebo prezentace musí být v reřimu article editable - jinak repository nevrací menuItem a nevznikne PaperAggregate, metoda vrací null.
@@ -48,13 +56,11 @@ abstract class PaperViewModelAbstract extends AuthoredViewModelAbstract implemen
      * @return PaperAggregateInterface|null
      */
     public function getPaperAggregate(): ?PaperAggregateInterface {
-        $menuItem = $this->getMenuItem();
-        if (isset($menuItem)) {
-            $paperAggregate = $this->paperAggregateRepo->getByReference($menuItem->getId());
-        } elseif ($this->isArticleEditable()) {
-            $paperAggregate = new PaperAggregate();
-            $paperAggregate->setEditor($this->statusSecurityRepo->get()->getUser()->getUserName());
-        }
+            $paperAggregate = $this->paperAggregateRepo->getByReference($this->menuItemId);
+            if (!isset($paperAggregate) AND $this->isArticleEditable()) {
+                $paperAggregate = new PaperAggregate();
+                $paperAggregate->setEditor($this->statusSecurityRepo->get()->getUser()->getUserName());
+            }
         return $paperAggregate ?? null;
     }
 

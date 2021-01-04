@@ -25,8 +25,6 @@ class PaperRenderer extends AuthoredRendererAbstract {
 
     private function renderPrivate(PaperViewModelInterface $viewModel) {
         $paperAggregate = $viewModel->getPaperAggregate();
-
-
         if (isset($paperAggregate)) {
             $innerHtml = $this->renderPaper($paperAggregate);
             $style = "display: block;";

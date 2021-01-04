@@ -14,7 +14,7 @@ use Component\View\Authored\Paper\AuthoredComponentInterface;
  *
  * @author pes2704
  */
-interface ItemComponentInterface extends AuthoredComponentInterface {
+interface PaperComponentInterface extends AuthoredComponentInterface {
 
-    public function setItemParams($langCodeFk, $uidFk): ItemComponentInterface;
+    public function setItemId($menuItemId): PaperComponentInterface;
 }

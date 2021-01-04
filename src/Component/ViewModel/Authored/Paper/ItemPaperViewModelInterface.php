@@ -18,7 +18,7 @@ use Model\Entity\MenuItemInterface;
  */
 interface ItemPaperViewModelInterface extends PaperViewModelInterface {
 
-    public function setItemParams($langCodeFk, $uidFk);
+    public function setItemId($menuItemId);
 
     /**
      * Vrací paper odpovídajíví prezentované položce menu. Řídí se hodnotami vlastností objektu PresentationStatus.

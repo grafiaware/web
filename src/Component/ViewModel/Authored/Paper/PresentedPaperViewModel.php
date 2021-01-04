@@ -8,7 +8,7 @@ use Model\Entity\MenuItemInterface;
  *
  * @author pes2704
  */
-class PresentedPaperViewModel extends PaperViewModelAbstract implements PresentedPaperViewModelInterface {
+class PresentedPaperViewModel extends PaperViewModel implements PresentedPaperViewModelInterface {
 
     public function getMenuItem(): ?MenuItemInterface {
         return $this->statusPresentationRepo->get()->getMenuItem();

@@ -23,7 +23,7 @@ use Component\View\{
     Generated\SearchResultComponent,
     Generated\ItemTypeSelectComponent,
     Flash\FlashComponent,
-    Authored\Paper\ItemComponentInterface,
+    Authored\Paper\PaperComponentInterface,
     Authored\Paper\NamedComponentInterface
 };
 
@@ -61,26 +61,6 @@ use \Pes\View\ViewFactory;
 class ComponentControler extends XhrControlerAbstract {
 
     ### action metody ###############
-    /**
-     * NEPOUŽITO
-     * @param ServerRequestInterface $request
-     * @return type
-     */
-    public function home(ServerRequestInterface $request) {
-        $statusPresentation = $this->statusPresentationRepo->get();
-        /** @var MenuRootRepo $menuRootRepo */
-        $menuRootRepo = $this->container->get(MenuRootRepo::class);
-        /** @var MenuItemRepo $menuItemRepo */
-        $menuItemRepo = $this->container->get(MenuItemRepo::class);
-        $uidFk = $menuRootRepo->get(Configuration::statusPresentationManager()['default_hierarchy_root_component_name'])->getUidFk();
-
-        $langCode = $statusPresentation->getLanguage()->getLangCode();
-        $rootMenuItem = $menuItemRepo->get($langCode, $uidFk );    // kořen menu
-        $statusPresentation->setHierarchyAggregate($rootMenuItem);
-
-        $this->getMenuItemComponent($rootMenuItem);
-        return $this->createResponseFromView($request, $this->createView($request));
-    }
 
     public function flash(ServerRequestInterface $request) {
         $view = $this->container->get(FlashComponent::class);
@@ -107,14 +87,22 @@ class ComponentControler extends XhrControlerAbstract {
     }
 
     public function static(ServerRequestInterface $request, $staticName) {
-        $view = new View();
-        $view->setRenderer(new StringRenderer());
-        $view->setData($this->getCompiledContent($staticName));
-        return $this->createResponseFromView($request, $view);
+        $compiledContent=$this->getCompiledContent($staticName);
+        return $this->createResponseFromString($request, $compiledContent);
     }
 
+    public function paper(ServerRequestInterface $request, $menuItemId) {
+        $view = $this->getPaperComponent($menuItemId);
+        return $this->createResponseFromView($request, $view);
+    }
     ######################
 
+    /**
+     * Vrací přeložený obsah statické šablony. Pokud přeložený obsah neexistuje, přeloží ho, t.j. renderuje statickou šablonu a uloží obsah do složky s přeloženými obsahy.
+     *
+     * @param type $staticName
+     * @return string
+     */
     private function getCompiledContent($staticName) {
 
         $compiledFileName = Configuration::componentControler()['static']."__compiled/".$staticName.".html";
@@ -147,11 +135,21 @@ class ComponentControler extends XhrControlerAbstract {
         } else {
             $component = $this->container->get('component.item');
         }
-        /** @var ItemComponentInterface $component */
-        $component->setItemParams($langCodeFk, $uidFk);
+        /** @var PaperComponentInterface $component */
+        $component->setItemId($langCodeFk, $uidFk);
         return $component;
     }
 
+    private function getPaperComponent($menuItemId) {
+        if ($this->isEditableArticle()) {
+            $component = $this->container->get('component.paper.editable');
+        } else {
+            $component = $this->container->get('component.paper');
+        }
+        /** @var PaperComponentInterface $component */
+        $component->setItemId($menuItemId);
+        return $component;
+    }
 
     /**
      * Vrací view objekt pro zobrazení centrálního obsahu v prostoru pro "content"
