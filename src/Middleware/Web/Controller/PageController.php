@@ -35,6 +35,8 @@ use Model\Repository\{
 //use Pes\Debug\Timer;
 use Pes\View\View;
 use Pes\View\Template\PhpTemplate;
+use \Pes\View\Renderer\StringRenderer;
+
 /**
  * Description of GetControler
  *
@@ -106,7 +108,7 @@ class PageController extends LayoutControllerAbstract {
         if ($menuItem) {
             $statusPresentation = $this->statusPresentationRepo->get();
             $statusPresentation->setMenuItem($menuItem);
-            $actionComponents = ["content" => $this->getMenuItemComponent($menuItem)];
+            $actionComponents = ["content" => $this->getMenuItemContent($menuItem, $this->isEditableArticle())];
             return $this->createResponseFromView($request, $this->createView($request, $this->getComponentViews($actionComponents)));
         } else {
             // neexistující stránka
@@ -172,30 +174,30 @@ class PageController extends LayoutControllerAbstract {
      * Vrací view objekt pro zobrazení centrálního obsahu v prostoru pro "content"
      * @return type
      */
-    private function getMenuItemComponent(MenuItemInterface $menuItem) {
+    private function getMenuItemContent(MenuItemInterface $menuItem, $editable) {
         // dočasně duplicitní s ComponentControler
         $menuItemType = $menuItem->getTypeFk();
             switch ($menuItemType) {
                 case 'empty':
-                    if ($this->isEditableArticle()) {
+                    if ($editable) {
                         $content = $this->container->get(ItemTypeSelectComponent::class);
                     } else {
-                        $content = $this->container->get(View::class);
+                        $content = $this->container->get(View::class)->setData( "Empty item.")->setRenderer(new StringRenderer());
                     }
                     break;
                 case 'generated':
-                    $content = $view = $this->container->get(View::class)->setData( "No content for generated type.");
+                    $content = $view = $this->container->get(View::class)->setData( "No content for generated type.")->setRenderer(new StringRenderer());
                     break;
                 case 'static':
                     $content = $this->getStaticLoadScript($menuItem);
                     break;
                 case 'paper':
-                    $content = $this->getPaperLoadScript($menuItem);
+                    $content = $this->getPaperLoadScript($menuItem, $editable);
 
 //                    $content = $this->getPresentedComponentLoadScript($menuItem);
                     break;
                 case 'redirect':
-                    $content = $view = $this->container->get(View::class)->setData( "No content for redirect type.");
+                    $content = $view = $this->container->get(View::class)->setData( "No content for redirect type.")->setRenderer(new StringRenderer());
                     break;
                 case 'root':
                         $content = $this->container->get('component.presented');
@@ -262,21 +264,21 @@ class PageController extends LayoutControllerAbstract {
         }
 
         $map = [
-                    'aktuality' => 'a1',
-                    'nejblizsiAkce' => 'a2',
                     'rychleOdkazy' => 'a3',
+                    'nejblizsiAkce' => 'a2',
+                    'aktuality' => 'a1',
                     'razitko' => 'a4',
                     'socialniSite' => 'a5',
-//                    'mapa' => 'a6',
-//                    'logo' => 'a7',
-//                    'banner' => 'a8',
+                    'mapa' => 'a6',
+                    'logo' => 'a7',
+                    'banner' => 'a8',
                 ];
         $componets = [];
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
-
+        $editable = $this->isEditableLayout();
         foreach ($map as $variableName => $blockName) {
             $menuItem = $this->getBlockMenuItem($langCode, $blockName);
-            $componets[$variableName] = isset($menuItem) ? $this->getMenuItemComponent($menuItem) : $this->container->get(View::class);  // například neaktivní, neaktuální menu item
+            $componets[$variableName] = isset($menuItem) ? $this->getMenuItemContent($menuItem, $editable) : $this->container->get(View::class)->setRenderer(new StringRenderer());  // například neaktivní, neaktuální menu item
 //            $componets[$variableName] = $this->container->get($componentService)->setComponentName($blockName);
 //            $componets[$variableName] = $this->getNamedComponentLoadScript($blockName);  // záhadně nefunkční (debug) a nesmyslná varianta - opakované requesty load element pro všechny segmenty
         }
@@ -286,24 +288,33 @@ class PageController extends LayoutControllerAbstract {
     private function getBlockMenuItem($langCode, $name) {
         /** @var BlockAggregateRepo $blockAggregateRepo */
         $blockAggregateRepo = $this->container->get(BlockAggregateRepo::class);
-        // jméno default komponenty (z konfigurace)
         $blockAggregate = $blockAggregateRepo->getAggregate($langCode, $name);
-        if (!isset($blockAggregate)) {
-            throw new \UnexpectedValueException("Undefined component with name '$name'.");
-        }
-
-        return $blockAggregate->getMenuItem();
+        return $blockAggregate ? $blockAggregate->getMenuItem() : null;
     }
-    private function getPaperLoadScript($menuItem) {
+
+    /**
+     * Vrací view s šablonou obsahující skript pro načtení paperu na základě reference menuItemId pomocí lazy load requestu a záměnu obsahu elementu v html stránky.
+     * Parametr uri je id menuItem, aby nebylo třeba načítat paper zde v kontroleru.
+     * Lazy načítaný paper musí být v modu editable, pokud je nastaven uri query parametr editable=1.
+     *
+     * @param type $menuItem
+     * @param bool $editable Pokud je true, přidá k uri query parametr editable=1
+     * @return type
+     */
+    private function getPaperLoadScript($menuItem, $editable) {
         $menuItemId = $menuItem->getId();
 
-        // prvek data 'name' musí být unikátní - z jeho hodnoty se generuje id načítaného elementu - a id musí být unikátní jinak dojde k opakovanému přepsání obsahu elemntu v DOM 
+        // prvek data 'name' musí být unikátní - z jeho hodnoty se generuje id načítaného elementu - a id musí být unikátní jinak dojde k opakovanému přepsání obsahu elemntu v DOM
         $view = $this->container->get(View::class)
                     ->setData([
                         'name' => "paper_for_item_$menuItemId",
-                        'apiUri' => "component/v1/paperbyreference/$menuItemId"
+                        'apiUri' => "component/v1/paperbyreference/$menuItemId?editable=$editable"
                         ]);
-        $this->setLoadScriptViewTemplate($view);
+        if ($editable) {
+            $this->setLoadEditableScriptViewTemplate($view);
+        } else {
+            $this->setLoadScriptViewTemplate($view);
+        }
         return $view;
     }
 
@@ -341,11 +352,11 @@ class PageController extends LayoutControllerAbstract {
     }
 
     private function setLoadScriptViewTemplate($view) {
-        if ($this->isEditableArticle() OR $this->isEditableLayout()) {
-            $view->setTemplate(new PhpTemplate(Configuration::pageControler()['templates.loaderElementEditable']));
-        } else {
-            $view->setTemplate(new PhpTemplate(Configuration::pageControler()['templates.loaderElement']));
-        }
+        $view->setTemplate(new PhpTemplate(Configuration::pageControler()['templates.loaderElement']));
+    }
+
+    private function setLoadEditableScriptViewTemplate($view) {
+        $view->setTemplate(new PhpTemplate(Configuration::pageControler()['templates.loaderElementEditable']));
     }
 
     private function friendlyUrl($nadpis) {

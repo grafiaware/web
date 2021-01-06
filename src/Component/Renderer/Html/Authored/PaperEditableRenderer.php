@@ -28,8 +28,6 @@ class PaperEditableRenderer  extends AuthoredRendererAbstract {
     }
 
     private function renderPrivate(PaperViewModelInterface $viewModel) {
-        $menuItem = $viewModel->getMenuItem();
-
         $paperAggregate = $viewModel->getPaperAggregate();
 
         // select render

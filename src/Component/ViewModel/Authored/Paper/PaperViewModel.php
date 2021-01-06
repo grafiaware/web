@@ -44,7 +44,7 @@ class PaperViewModel extends AuthoredViewModelAbstract implements PaperViewModel
     }
 
     public function getInfo(): string {
-        return "paperByReference";
+        return "paperByReference{$this->menuItemId}";
     }
 
     /**
