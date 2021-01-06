@@ -132,27 +132,6 @@ class PageController extends LayoutControllerAbstract {
 ##### private methods ##############################################################
 #
 
-
-    private function createSpeedInfoHtml($duration) {
-        ## proměnné pro html
-//        $duration['Získání dat z modelu'] = $timer->interval();
-//        $duration['Vytvoření view s template'] = $timer->interval();
-//        $html = $view->getString();   // vynutí renderování už zde
-//        $duration['Renderování template'] = $timer->interval();
-//        $this->container->get(RecordsLogger::class)
-//                ->logRecords($this->container->get(RecorderProvider::class));
-//        $duration['Zápis recordu do logu'] = $timer->interval();
-//        $duration['Celkem web middleware: '] = $timer->runtime();
-//        #### speed test výsledky jsou viditelné ve firebugu ####
-//        $html .= $this->createSpeedInfoHtml($duration);
-        $testHtml[] = '<div style="display: none;">';
-        foreach ($duration as $message => $interval) {
-            $testHtml[] = "<p>$message:$interval</p>";
-        }
-        $testHtml[] = '</div>';
-        return implode(PHP_EOL, $testHtml);
-    }
-
     protected function getComponentViews(array $actionComponents) {
         // POZOR! Nesmí se na stránce vyskytovat dva paper se stejným id v editovatelném režimu. TinyMCE vyrobí dvě hidden proměnné se stejným jménem
         // (odvozeným z id), ukládaný obsah editovatelné položky se neuloží - POST data obsahují prázdný řetězec a dojde potichu ke smazání obsahu v databázi.
@@ -220,16 +199,13 @@ class PageController extends LayoutControllerAbstract {
         ];
     }
 
-    // pro debug
-    private function getEmptyMenuComponents() {
-        return [
-            'menuPresmerovani' => $this->container->get(View::class),
-            'menuVodorovne' => $this->container->get(View::class),
-            'menuSvisle' => $this->container->get(View::class),
-         ];
-    }
-
     private function getMenuComponents() {
+    // pro debug
+//        return [
+//            'menuPresmerovani' => $this->container->get(View::class),
+//            'menuVodorovne' => $this->container->get(View::class),
+//            'menuSvisle' => $this->container->get(View::class),
+//         ];
         if ($this->isEditableLayout()) {
             $componets = [
                 'menuPresmerovani' => $this->container->get('menu.presmerovani')->setMenuRootName('menu_redirect'),
@@ -280,7 +256,6 @@ class PageController extends LayoutControllerAbstract {
             $menuItem = $this->getBlockMenuItem($langCode, $blockName);
             $componets[$variableName] = isset($menuItem) ? $this->getMenuItemContent($menuItem, $editable) : $this->container->get(View::class)->setRenderer(new StringRenderer());  // například neaktivní, neaktuální menu item
 //            $componets[$variableName] = $this->container->get($componentService)->setComponentName($blockName);
-//            $componets[$variableName] = $this->getNamedComponentLoadScript($blockName);  // záhadně nefunkční (debug) a nesmyslná varianta - opakované requesty load element pro všechny segmenty
         }
         return $componets;
     }
@@ -311,32 +286,10 @@ class PageController extends LayoutControllerAbstract {
                         'apiUri' => "component/v1/paperbyreference/$menuItemId?editable=$editable"
                         ]);
         if ($editable) {
-            $this->setLoadEditableScriptViewTemplate($view);
+            $this->setLoadEditableScriptTemplate($view);
         } else {
-            $this->setLoadScriptViewTemplate($view);
+            $this->setLoadScriptTemplate($view);
         }
-        return $view;
-    }
-
-    private function getPresentedComponentLoadScript(MenuItemInterface $menuItem) {
-        $langCode = $menuItem->getLangCodeFk();
-        $uid = $menuItem->getUidFk();
-        $view = $this->container->get(View::class)
-                    ->setData([
-                        'name' => 'presented',
-                        'apiUri' => "component/v1/item/$langCode/$uid"
-                        ]);
-        $this->setLoadScriptViewTemplate($view);
-        return $view;
-    }
-
-    private function getNamedComponentLoadScript($componentName) {
-        $view = $this->container->get(View::class)
-                    ->setData([
-                        'name' => $componentName,
-                        'apiUri' => "component/v1/nameditem/$componentName"
-                        ]);
-        $this->setLoadScriptViewTemplate($view);
         return $view;
     }
 
@@ -347,15 +300,15 @@ class PageController extends LayoutControllerAbstract {
                         'name' => $name,
                         'apiUri' => "component/v1/static/$name"
                         ]);
-        $this->setLoadScriptViewTemplate($view);
+        $this->setLoadScriptTemplate($view);
         return $view;
     }
 
-    private function setLoadScriptViewTemplate($view) {
+    private function setLoadScriptTemplate($view) {
         $view->setTemplate(new PhpTemplate(Configuration::pageControler()['templates.loaderElement']));
     }
 
-    private function setLoadEditableScriptViewTemplate($view) {
+    private function setLoadEditableScriptTemplate($view) {
         $view->setTemplate(new PhpTemplate(Configuration::pageControler()['templates.loaderElementEditable']));
     }
 
@@ -369,5 +322,26 @@ class PageController extends LayoutControllerAbstract {
         return $url;
     }
 
+    ## nepoužito
+
+    private function createSpeedInfoHtml($duration) {
+        ## proměnné pro html
+//        $duration['Získání dat z modelu'] = $timer->interval();
+//        $duration['Vytvoření view s template'] = $timer->interval();
+//        $html = $view->getString();   // vynutí renderování už zde
+//        $duration['Renderování template'] = $timer->interval();
+//        $this->container->get(RecordsLogger::class)
+//                ->logRecords($this->container->get(RecorderProvider::class));
+//        $duration['Zápis recordu do logu'] = $timer->interval();
+//        $duration['Celkem web middleware: '] = $timer->runtime();
+//        #### speed test výsledky jsou viditelné ve firebugu ####
+//        $html .= $this->createSpeedInfoHtml($duration);
+        $testHtml[] = '<div style="display: none;">';
+        foreach ($duration as $message => $interval) {
+            $testHtml[] = "<p>$message:$interval</p>";
+        }
+        $testHtml[] = '</div>';
+        return implode(PHP_EOL, $testHtml);
+    }
 
         }

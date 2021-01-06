@@ -67,16 +67,6 @@ class ComponentControler extends XhrControlerAbstract {
         return $this->createResponseFromView($request, $view);
     }
 
-    public function componentItem(ServerRequestInterface $request, $name) {
-        $view = $this->getNamedComponent($name);
-        return $this->createResponseFromView($request, $view);
-    }
-
-    public function item(ServerRequestInterface $request, $langCode, $uid) {
-        $view = $this->getItemComponent($langCode, $uid);
-        return $this->createResponseFromView($request, $view);
-    }
-
     public function serviceComponent(ServerRequestInterface $request, $service) {
         if ($this->container->has($service)) {
             $view = $this->container->get($service);
@@ -120,28 +110,6 @@ class ComponentControler extends XhrControlerAbstract {
         return $compiledContent;
     }
 
-    private function getNamedComponent($name) {
-        if ($this->isEditableLayout()) {
-            $component = $this->container->get('component.named.editable');
-        } else {
-            $component = $this->container->get('component.named');
-        }
-        /** @var NamedComponentInterface $component */
-        $component->setComponentName($name);
-        return $component;
-    }
-
-    private function getItemComponent($langCodeFk, $uidFk) {
-        if ($this->isEditableArticle()) {
-            $component = $this->container->get('component.item.editable');
-        } else {
-            $component = $this->container->get('component.item');
-        }
-        /** @var PaperComponentInterface $component */
-        $component->setItemId($langCodeFk, $uidFk);
-        return $component;
-    }
-
     private function getPaperComponent($menuItemId, $editable) {
         if ($editable) {
             $component = $this->container->get('component.paper.editable');
@@ -151,78 +119,6 @@ class ComponentControler extends XhrControlerAbstract {
         /** @var PaperComponentInterface $component */
         $component->setItemId($menuItemId);
         return $component;
-    }
-
-    /**
-     * Vrací view objekt pro zobrazení centrálního obsahu v prostoru pro "content"
-     * @return type
-     */
-    private function getMenuItemComponent(MenuItemInterface $menuItem) {
-        // dočasně duplicitní s ComponentControler
-        $menuItemType = $menuItem->getTypeFk();
-            switch ($menuItemType) {
-                case 'segment':
-                    if ($this->isEditableLayout()) {
-                        $content = $this->container->get('component.presented.editable');
-                    } else {
-                        $content = $this->container->get('component.presented');
-                    }
-                    break;
-                case 'empty':
-                    if ($this->isEditableArticle()) {
-                        $content = $this->container->get(ItemTypeSelectComponent::class);
-                    } else {
-                        $content = '';
-                    }
-                    break;
-                case 'paper':
-                    if ($this->isEditableArticle()) {
-                        $content = $this->container->get('component.presented.editable');
-                    } else {
-                        $content = $this->container->get('component.presented');
-                    }
-                    break;
-                case 'redirect':
-                    $content = "No content for redirect type.";
-                    break;
-                case 'root':
-                        $content = $this->container->get('component.presented');
-                    break;
-                case 'trash':
-                        $content = $this->container->get('component.presented');
-                    break;
-
-                default:
-                        $content = $this->container->get('component.presented');
-                    break;
-            }
-        return $content;
-    }
-
-    /**
-     * NEPOUŽITO
-     * @param type $param
-     * @return type
-     */
-    public function zasobnik($param) {
-
-        $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
-        $componentAggregate = $this->componentAggregateRepo->getAggregate($langCode, $this->componentName);
-        $menuItem = $componentAggregate->getMenuItem();  // může být null - neaktivní nebo nektuální item v komponentě
-        $paperAggregate = isset($menuItem) ? $this->paperAggregateRepo->getByReference($menuItem->getId()) : null;
-
-        /** @var HierarchyAggregateRepo $menuRepo */
-        $menuRepo = $this->container->get(HierarchyAggregateRepo::class);
-        $menuNode = $menuRepo->get($langCode, $uid);
-        if ($menuNode) {
-            $menuItem = $menuNode->getMenuItem();
-            $this->statusPresentationRepo->get()->setHierarchyAggregate($menuItem);
-            $this->getMenuItemComponent($menuItem);
-            return $this->createResponseFromView($request, $this->createView($request));
-        } else {
-            // neexistující stránka
-            return $this->redirectSeeOther($request, ""); // SeeOther - ->home
-        }
     }
 
 }

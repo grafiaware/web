@@ -75,17 +75,6 @@ class Component extends AppMiddlewareAbstract implements MiddlewareInterface {
             });
 
         #### ComponentControler ####
-
-        $routeGenerator->addRouteForAction('GET', '/component/v1/nameditem/:name', function(ServerRequestInterface $request, $name) {
-            /** @var ComponentControler $ctrl */
-            $ctrl = $this->container->get(ComponentControler::class);
-            return $ctrl->componentItem($request, $name);
-            });
-        $routeGenerator->addRouteForAction('GET', '/component/v1/item/:langCode/:uid', function(ServerRequestInterface $request, $langCode, $uid) {
-            /** @var ComponentControler $ctrl */
-            $ctrl = $this->container->get(ComponentControler::class);
-            return $ctrl->item($request, $langCode, $uid);
-            });
         $routeGenerator->addRouteForAction('GET', '/component/v1/flash', function(ServerRequestInterface $request) {
             /** @var ComponentControler $ctrl */
             $ctrl = $this->container->get(ComponentControler::class);

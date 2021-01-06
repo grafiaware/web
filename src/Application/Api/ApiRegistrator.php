@@ -92,15 +92,16 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/hierarchy/:uid/delete'));
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/hierarchy/:uid/trash'));
 
-        #### ComponentController ####
+        #### TemplateController ####
         $registry->register($this->getPrototype->withUrlPattern('/component/v1/papertemplate/:folder'));
         $registry->register($this->getPrototype->withUrlPattern('/component/v1/authortemplate/:folder/:name'));
-        $registry->register($this->getPrototype->withUrlPattern('/component/v1/nameditem/:name'));
-        $registry->register($this->getPrototype->withUrlPattern('/component/v1/item/:langCode/:uid'));
+        
+        #### ComponentController ####
         $registry->register($this->getPrototype->withUrlPattern('/component/v1/flash'));
         $registry->register($this->getPrototype->withUrlPattern('/component/v1/service/:name'));
         $registry->register($this->getPrototype->withUrlPattern('/component/v1/static/:name'));
         $registry->register($this->getPrototype->withUrlPattern('/component/v1/paperbyreference/:menuItemId'));
+
         #### BuildControler ####
         $registry->register($this->getPrototype->withUrlPattern('/build/createdb'));
         $registry->register($this->getPrototype->withUrlPattern('/build/dropdb'));
