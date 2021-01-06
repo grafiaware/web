@@ -95,12 +95,13 @@ class ApiRegistrator {
         #### TemplateController ####
         $registry->register($this->getPrototype->withUrlPattern('/component/v1/papertemplate/:folder'));
         $registry->register($this->getPrototype->withUrlPattern('/component/v1/authortemplate/:folder/:name'));
-        
+
         #### ComponentController ####
         $registry->register($this->getPrototype->withUrlPattern('/component/v1/flash'));
         $registry->register($this->getPrototype->withUrlPattern('/component/v1/service/:name'));
         $registry->register($this->getPrototype->withUrlPattern('/component/v1/static/:name'));
-        $registry->register($this->getPrototype->withUrlPattern('/component/v1/paperbyreference/:menuItemId'));
+        $registry->register($this->getPrototype->withUrlPattern('/component/v1/itempaper/:menuItemId'));
+        $registry->register($this->getPrototype->withUrlPattern('/component/v1/itempapereditable/:menuItemId'));
 
         #### BuildControler ####
         $registry->register($this->getPrototype->withUrlPattern('/build/createdb'));

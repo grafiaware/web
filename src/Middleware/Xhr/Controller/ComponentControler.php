@@ -82,11 +82,19 @@ class ComponentControler extends XhrControlerAbstract {
     }
 
     public function paper(ServerRequestInterface $request, $menuItemId) {
-        $queryParams = $request->getQueryParams();
-        $editable = array_key_exists('editable', $queryParams) ? (bool) $queryParams['editable'] : false;
-        $view = $this->getPaperComponent($menuItemId, $editable);
-        return $this->createResponseFromView($request, $view);
+        $component = $this->container->get('component.paper');
+        /** @var PaperComponentInterface $component */
+        $component->setItemId($menuItemId);
+        return $this->createResponseFromView($request, $component);
     }
+
+    public function paperEditable(ServerRequestInterface $request, $menuItemId) {
+        $component = $this->container->get('component.paper.editable');
+        /** @var PaperComponentInterface $component */
+        $component->setItemId($menuItemId);
+        return $this->createResponseFromView($request, $component);
+    }
+
     ######################
 
     /**
@@ -109,16 +117,4 @@ class ComponentControler extends XhrControlerAbstract {
         }
         return $compiledContent;
     }
-
-    private function getPaperComponent($menuItemId, $editable) {
-        if ($editable) {
-            $component = $this->container->get('component.paper.editable');
-        } else {
-            $component = $this->container->get('component.paper');
-        }
-        /** @var PaperComponentInterface $component */
-        $component->setItemId($menuItemId);
-        return $component;
-    }
-
 }

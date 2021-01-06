@@ -171,7 +171,11 @@ class PageController extends LayoutControllerAbstract {
                     $content = $this->getStaticLoadScript($menuItem);
                     break;
                 case 'paper':
-                    $content = $this->getPaperLoadScript($menuItem, $editable);
+                    if ($editable) {
+                        $content = $this->getPaperEditableLoadScript($menuItem);
+                    } else {
+                        $content = $this->getPaperLoadScript($menuItem);
+                    }
 
 //                    $content = $this->getPresentedComponentLoadScript($menuItem);
                     break;
@@ -276,20 +280,26 @@ class PageController extends LayoutControllerAbstract {
      * @param bool $editable Pokud je true, přidá k uri query parametr editable=1
      * @return type
      */
-    private function getPaperLoadScript($menuItem, $editable) {
+    private function getPaperLoadScript($menuItem) {
         $menuItemId = $menuItem->getId();
-
         // prvek data 'name' musí být unikátní - z jeho hodnoty se generuje id načítaného elementu - a id musí být unikátní jinak dojde k opakovanému přepsání obsahu elemntu v DOM
         $view = $this->container->get(View::class)
                     ->setData([
                         'name' => "paper_for_item_$menuItemId",
-                        'apiUri' => "component/v1/paperbyreference/$menuItemId?editable=$editable"
+                        'apiUri' => "component/v1/itempaper/$menuItemId"
                         ]);
-        if ($editable) {
-            $this->setLoadEditableScriptTemplate($view);
-        } else {
-            $this->setLoadScriptTemplate($view);
-        }
+        $this->setLoadScriptTemplate($view);
+        return $view;
+    }
+    private function getPaperEditableLoadScript($menuItem) {
+        $menuItemId = $menuItem->getId();
+        // prvek data 'name' musí být unikátní - z jeho hodnoty se generuje id načítaného elementu - a id musí být unikátní jinak dojde k opakovanému přepsání obsahu elemntu v DOM
+        $view = $this->container->get(View::class)
+                    ->setData([
+                        'name' => "paper_for_item_$menuItemId",
+                        'apiUri' => "component/v1/itempapereditable/$menuItemId"
+                        ]);
+        $this->setLoadEditableScriptTemplate($view);
         return $view;
     }
 
