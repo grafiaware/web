@@ -218,6 +218,20 @@
     .nav-mobile > i.bars.icon, .nav-vyberove > i.bars.icon{
         margin: 0;
     }
+    //menu dropdown
+    ul.hlavni-menu{
+        padding: 0;
+        .ui.icon.dropdown{
+            padding: 5px;
+            border: 1px solid @lightGrey;
+            border-top: 0;
+            border-radius: 2px;
+            display: block;
+            &:first-child{
+                border-top: 1px solid @lightGrey;
+            }
+        }
+    } 
     //
     .svisle-menu .menu{  //ohraniceni semantic
         padding: 0;

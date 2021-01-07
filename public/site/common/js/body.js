@@ -1,6 +1,12 @@
     $('.ui.dropdown')
       .dropdown()
     ;
+    
+    $('.hlavni-menu > li').removeClass('item').addClass('ui icon dropdown');
+    $('.svisle-menu .ui.dropdown').dropdown({
+       on: 'hover'
+    });
+    
     $('.ui.selection.dropdown')
       .dropdown()
     ;
