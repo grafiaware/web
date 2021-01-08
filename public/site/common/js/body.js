@@ -6,6 +6,9 @@
     $('.svisle-menu .ui.dropdown').dropdown({
        on: 'hover'
     });
+//    $('.hlavni-menu > .ui.dropdown, .menu > .item:not(.leaf)').dropdown('show',{
+//        on: 'hover'
+//    });
     
     $('.ui.selection.dropdown')
       .dropdown()
