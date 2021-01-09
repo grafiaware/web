@@ -128,7 +128,7 @@
 @mceTemplateSelectBorderDanceColor: @teal;
 
 
-
+ 
 //import změněných proměnných stylu šablony (specifických pro projekt)
 @import (optional) "../../@{sitename}/@{siteStylesFolder}/site-author.less";
 
@@ -149,7 +149,7 @@
     }
 }
 
-body{
+body{ 
     /*popisky buttonů budou tučně - popisky jsou v atributu data-tooltip*/
     .buttons [data-tooltip]::after{
         font-weight: @buttonDataTooltipFontWeight;
@@ -272,11 +272,14 @@ body{
             margin-bottom: @semaforIconMarginBottom;
         }
     }
-    /*U POLOŽKY MENU*/
-    .menu .semafor{
+    /*U POLOŽKY MENU*/  
+    nav .semafor{
         justify-content: center;
         height: @semaforMenuHeight;
         left: @semaforSvisleMenuPositionLeft;
+    }
+    nav li{
+        padding-left: 15px !important;
     }
     /*PRESMEROVANI MENU*/
     .presmerovani-menu .menu.edit{ //větší váha selektorů kvůli speciálnímu zobrazení pro přesměrování menu

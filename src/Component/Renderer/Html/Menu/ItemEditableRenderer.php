@@ -43,18 +43,18 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
                 'href'=>"www/item/{$menuNode->getMenuItem()->getLangCodeFk()}/{$menuNode->getUid()}",
                 'tabindex'=>0,
                 ],
-                Html::tag('i',[
-                    'class'=>$this->classMap->getClass('Item', 'li.isnotleaf icon')
-                ])
 
                 // POZOR: závislost na edit.js
                 // ve skriptu edit.js je element k editaci textu položky vybírán pravidlem (selektorem) acceptedElement = targetElement.nodeName === 'SPAN' && targetElement.parentNode.nodeName === 'P',
                 // vyvírá <span>, který má rodiče <p>
-                .Html::tag('span', [
+                Html::tag('span', [
                     'contenteditable'=> ($presentedEditable ? "true" : "false"),
                     'data-original-title'=>$menuItem->getTitle(),
                     'data-uid'=>$menuNode->getUid(),
-                    ], $menuItem->getTitle())
+                    ], 
+                    $menuItem->getTitle()
+                    .Html::tag('i', ['class'=>$this->classMap->resolveClass($itemViewModel->isLeaf(), 'Item', 'li i', 'li i.dropdown')])    
+                )
                 .Html::tag('span', ['class'=>$this->classMap->getClass('Item', 'semafor')],
                     Html::tag('i', [
                         'class'=> $this->classMap->resolveClass($active, 'Item', 'semafor.published', 'semafor.notpublished'),
@@ -87,7 +87,7 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
         $html = Html::tag(     'li',
                 ['class'=>[
                     $this->classMap->resolveClass($itemViewModel->isOnPath(), 'Item', 'li.onpath', 'li'),
-                    $this->classMap->resolveClass($itemViewModel->isLeaf(), 'Item', 'li.leaf', 'li'),
+                    $this->classMap->resolveClass($itemViewModel->isLeaf(), 'Item', 'li.leaf', 'li.dropdown'),
                     $this->classMap->resolveClass($itemViewModel->isPresented(), 'Item', 'li.presented', 'li'),
                     $this->classMap->resolveClass($itemViewModel->isCutted(), 'Item', 'li.cut', 'li')
                     ],

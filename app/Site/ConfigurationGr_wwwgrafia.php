@@ -344,15 +344,26 @@ class ConfigurationGr_wwwgrafia {
             #  menu classmap
             #
             // default hodnoty
+            'menu_items' => [
+                            'li' => '',
+                            'li.dropdown' => 'item',
+                            'li.onpath' => 'onpath',
+                            'li.leaf' => 'item ',
+                            'li.presented' => '',
+                            'li a span' => 'text',  
+                            'li i.dropdown' => 'dropdown icon',
+                            'li i' => '',
+                        ],
             'menu_edit_items' => [
                             'li' => '',
+                            'li.dropdown' => 'item',
                             'li.onpath' => 'onpath',
-                            'li.leaf' => 'leaf',
+                            'li.leaf' => 'item',
                             'li.presented' => 'presented',
                             'li.cut' => 'cut',
                             'li.paste' => 'paste',
-                            'li a' => 'item editable',   //nema_pravo //edituje_jiny
-                            'li.isnotleaf icon' => '', //dropdown icon
+                            'li a' => 'editable',   //nema_pravo //edituje_jiny
+                            'li i.dropdown' => 'dropdown icon',
                             'semafor'=> 'semafor',
                             'semafor.published' => 'circle icon green',
                             'semafor.notpublished' => 'circle icon red ',
@@ -541,22 +552,22 @@ class ConfigurationGr_wwwgrafia {
                 return new ClassMap (
                     [
                         'MenuWrap' => [
-                            'ul' => 'ui vertical menu'
+                            'ul' => 'hlavni-menu'
                         ],
                         'LevelWrap' => [
-                            'ul' => 'menu',
+                            'ul' => 'right menu',
                             ],
-                        'Item' => Configuration::rendererDefaults()['menu_edit_items'],
+                        'Item' => Configuration::rendererDefaults()['menu_items'],
                     ]);
             },
             'menu.svisle.classmap.editable' => function() {
                 return new ClassMap (
                     [
                         'MenuWrap' => [
-                            'ul' => 'ui vertical menu edit'
+                            'ul' => 'hlavni-menu'
                         ],
                         'LevelWrap' => [
-                            'ul' => 'menu'
+                            'ul' => 'right menu'
                         ],
                         'Item' => Configuration::rendererDefaults()['menu_edit_items'],
                         'Buttons' => Configuration::rendererDefaults()['menu_edit_buttons'],
