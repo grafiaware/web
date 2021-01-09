@@ -36,6 +36,8 @@ class ConfigurationGr_wwwgrafia {
     const RED_ASSETS = 'public/assets/';
     const RED_LINKS_COMMON = 'public/site/common/';
     const RED_LINKS_SITE = 'public/site/'.self::RED_SITE_PATH;
+    // files
+    const RED_FILES = '_www_gr_files/';
 
     ### bootstrap ###
     #
@@ -812,7 +814,7 @@ class ConfigurationGr_wwwgrafia {
             'linkEditorCss' => self::RED_TEMPLATES_COMMON.'layout/links/linkEditorCss.php',
 
             // linksEditorJs links
-           'urlTinyMCE' => self::RED_ASSETS.'tinymce5_3_1\js\tinymce\tinymce.min.js',
+            'urlTinyMCE' => self::RED_ASSETS.'tinymce5_3_1\js\tinymce\tinymce.min.js',
             'urlJqueryTinyMCE' => self::RED_ASSETS.'tinymce5_3_1\js\tinymce\jquery.tinymce.min.js',
 //            'urlTinyMCE' => self::RED_ASSETS.'tinymce5_4_0\js\tinymce\tinymce.min.js',
 //            'urlJqueryTinyMCE' => self::RED_ASSETS.'tinymce5_4_0\js\tinymce\jquery.tinymce.min.js',
@@ -820,7 +822,7 @@ class ConfigurationGr_wwwgrafia {
 //    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 //    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/jquery.tinymce.min.js" referrerpolicy="origin"></script>
             'urlTinyInit' => self::RED_LINKS_COMMON.'js/TinyInit.js',
-            'editScript' => self::RED_LINKS_COMMON . 'js/editDelegated.js',
+            'urlEditScript' => self::RED_LINKS_COMMON . 'js/editDelegated.js',
 
             // linkEditorCss links
             'urlStylesCss' => self::RED_LINKS_COMMON."css/old/styles.css",
@@ -837,7 +839,7 @@ class ConfigurationGr_wwwgrafia {
      * Konfigurace prezentace - vrací parametry pro pageControler
      *
      * Home stránka může být definována jménem komponenty nebo jménem statické stránky nebo identifikátorem uid položky menu (položky hierarchie).
-     * 
+     *
      * @return array
      */
     public static function pageControler() {
@@ -880,6 +882,18 @@ class ConfigurationGr_wwwgrafia {
     }
 
     /**
+     * Konfigurace upload files - vrací parametry pro FilesUploadControler
+     * @return array
+     */
+    public static function filesUploadControler() {
+
+        return [
+            'filesDirectory' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES : self::RED_FILES,
+
+            ];
+    }
+
+    /**
      * Konfigurace prezentačního objektu - vrací parametry pro languageSelectRenderer
      * @return array
      */
@@ -896,7 +910,7 @@ class ConfigurationGr_wwwgrafia {
     public static function transformator() {
         return [
             // relativní cesta vzhledem k DOCUMENT_ROOT (htdocs) -začíná /
-            'filesDirectory' => PES_RUNNING_ON_PRODUCTION_HOST ? '_www_gr_files/' : '/_www_gr_files/',
+            'filesDirectory' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES : '/'.self::RED_FILES,
             'public' => self::RED_LINKS_COMMON,
         ];
     }

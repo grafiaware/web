@@ -25,7 +25,8 @@ use Pes\Database\Handler\{
 
 // controller
 use \Middleware\Api\ApiController\{
-    UserActionController, HierarchyController, EditItemController, PresentationActionController, PaperController, ContentController
+    UserActionController, HierarchyController, EditItemController, PresentationActionController, PaperController, ContentController,
+    FilesUploadControler
 };
 
 // dao
@@ -123,6 +124,12 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
                         $c->get(PaperContentRepo::class));
+            },
+            FilesUploadControler::class => function(ContainerInterface $c) {
+                return new FilesUploadControler(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class));
             },
             // view
             'renderLogger' => function(ContainerInterface $c) {

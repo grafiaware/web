@@ -197,7 +197,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
                         'urlJqueryTinyMCE' => Configuration::layoutControler()['urlJqueryTinyMCE'],
 
                         'urlTinyInit' => Configuration::layoutControler()['urlTinyInit'],
-                        'editScript' => Configuration::layoutControler()['editScript'],
+                        'editScript' => Configuration::layoutControler()['urlEditScript'],
                     ]);
         }
     }

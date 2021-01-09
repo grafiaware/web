@@ -339,7 +339,7 @@ class ConfigurationTz_newdb {
 //                            'li div i2.notactive' => 'calendar plus icon grey',
 //                            'li div i2.notactual' => 'calendar minus icon orange',
 //                            'li div i2.notactivenotactual' => 'calendar times icon red',
-                            
+
                         ],
             'menu_edit_buttons' => [
 //                            'div.name' => 'small ui basic icon buttons editName',
@@ -360,7 +360,7 @@ class ConfigurationTz_newdb {
                             'button.addchildren' => 'large arrow circle right icon',
                             'button.movetotrash' => 'large trash icon',
                         ],
-            'block_edit_buttons' => [ 
+            'block_edit_buttons' => [
                             'div.buttons' => 'small ui basic icon buttons',
                             'button' => 'ui button',
                             'button.notpublish' => 'large green toggle on icon',
@@ -795,7 +795,7 @@ class ConfigurationTz_newdb {
             'linkEditorCss' => self::RED_TEMPLATES_COMMON.'layout/links/linkEditorCss.php',
 
             // linksEditorJs links
-           'urlTinyMCE' => self::RED_ASSETS.'tinymce5_3_1\js\tinymce\tinymce.min.js',
+            'urlTinyMCE' => self::RED_ASSETS.'tinymce5_3_1\js\tinymce\tinymce.min.js',
             'urlJqueryTinyMCE' => self::RED_ASSETS.'tinymce5_3_1\js\tinymce\jquery.tinymce.min.js',
 //            'urlTinyMCE' => self::RED_ASSETS.'tinymce5_4_0\js\tinymce\tinymce.min.js',
 //            'urlJqueryTinyMCE' => self::RED_ASSETS.'tinymce5_4_0\js\tinymce\jquery.tinymce.min.js',
@@ -803,7 +803,7 @@ class ConfigurationTz_newdb {
 //    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 //    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/jquery.tinymce.min.js" referrerpolicy="origin"></script>
             'urlTinyInit' => self::RED_LINKS_COMMON.'js/TinyInit.js',
-            'editScript' => self::RED_LINKS_COMMON . 'js/edit.js',
+            'urlEditScript' => self::RED_LINKS_COMMON . 'js/edit.js',
             'kalendarScript' => self::RED_LINKS_COMMON . 'js/kalendar.js',
 
             // linkEditorCss links

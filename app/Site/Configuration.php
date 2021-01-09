@@ -114,6 +114,10 @@ class Configuration extends ConfigurationGr_wwwgrafia {
     public static function templateControler() {
         return self::getConfigModule('templateControler');
     }
+    
+    public static function filesUploadControler() {
+        return self::getConfigModule('filesUploadControler');
+    }
 
     public static function languageSelectRenderer() {
         return self::getConfigModule('languageSelectRenderer');

@@ -17,7 +17,8 @@ use Container\{
 };
 
 use Middleware\Api\ApiController\{
-    UserActionController, HierarchyController, EditItemController, PresentationActionController, PaperController, ContentController
+    UserActionController, HierarchyController, EditItemController, PresentationActionController, PaperController, ContentController,
+    FilesUploadControler
 };
 
 class Api extends AppMiddlewareAbstract implements MiddlewareInterface {
@@ -229,6 +230,12 @@ class Api extends AppMiddlewareAbstract implements MiddlewareInterface {
             return $ctrl->trash($request, $uid);
         });
 
+
+        $routeGenerator->addRouteForAction('POST', '/api/v1/upload', function(ServerRequestInterface $request) {
+            /** @var FilesUploadControler $ctrl */
+            $ctrl = $this->container->get(FilesUploadControler::class);
+            return $ctrl->upload($request);
+        });
 ####################################
         /** @var $router RouterInterface */
         $router = $this->container->get(RouterInterface::class);
