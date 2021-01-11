@@ -168,7 +168,11 @@ class PageController extends LayoutControllerAbstract {
                     $content = $view = $this->container->get(View::class)->setData( "No content for generated type.")->setRenderer(new StringRenderer());
                     break;
                 case 'static':
-                    $content = $this->getStaticLoadScript($menuItem);
+                    if ($editable) {
+                        $content = $this->getStaticEditableLoadScript($menuItem);
+                    } else {
+                        $content = $this->getStaticLoadScript($menuItem);
+                    }
                     break;
                 case 'paper':
                     if ($editable) {
@@ -313,7 +317,17 @@ class PageController extends LayoutControllerAbstract {
         $this->setLoadScriptTemplate($view);
         return $view;
     }
-
+    
+    private function getStaticEditableLoadScript(MenuItemInterface $menuItem) {
+        $name = $this->friendlyUrl($menuItem->getTitle());
+        $view = $this->container->get(View::class)
+                    ->setData([
+                        'name' => $name,
+                        'apiUri' => "component/v1/static/$name"
+                        ]);
+        $this->setLoadEditableScriptTemplate($view);
+        return $view;
+    }
     private function setLoadScriptTemplate($view) {
         $view->setTemplate(new PhpTemplate(Configuration::pageControler()['templates.loaderElement']));
     }

@@ -2,10 +2,10 @@
       .dropdown()
     ;
     
-    $('.hlavni-menu > li').removeClass('item').addClass('ui icon dropdown');
-    $('.svisle-menu .ui.dropdown').dropdown({
-       on: 'hover'
-    });
+//    $('.hlavni-menu > li').removeClass('item').addClass('ui icon dropdown');
+//    $('.svisle-menu .ui.dropdown').dropdown({
+//       on: 'hover'
+//    });
 //    $('.hlavni-menu > .ui.dropdown, .menu > .item:not(.leaf)').dropdown('show',{
 //        on: 'hover'
 //    });
