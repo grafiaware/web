@@ -150,27 +150,30 @@ class MenuComponent extends CompositeComponentAbstract implements MenuComponentI
         $itemTags = [];
 
         $subtreeItemModels = $this->viewModel->getSubTreeItemModels($parentUid, null);
-        $currDepth = 0;
         $first = true;
         foreach ($subtreeItemModels as $itemModel) {
             /** @var ItemViewModel $itemModel */
             $itemDepth = $itemModel->getMenuNode()->getDepth();
             if ($first) {
                 $rootDepth = $itemDepth;
+                $currDepth = $itemDepth;
                 $first = false;
             }
             if ($itemDepth>$currDepth) {
                 $currDepth = $itemDepth;
                 $itemStack[$currDepth][] = $itemModel;
             } elseif ($itemDepth<$currDepth) {
-                $level[$currDepth] = [];
-                foreach ($itemStack[$currDepth] as $stackedItemModel) {
-                    $level[$currDepth][] = $this->itemRenderer->render($stackedItemModel);
+                for ($i=$currDepth; $i>$itemDepth; $i--) {
+                    $level = [];
+                    foreach ($itemStack[$i] as $stackedItemModel) {
+                        $level[] = $this->itemRenderer->render($stackedItemModel);
+                    }
+                    $wrap = $this->levelWrapRenderer->render(implode(PHP_EOL, $level));
+                    unset($itemStack[$i]);
+                    end($itemStack[$i-1])->setInnerHtml($wrap);
                 }
-                $wrap = $this->levelWrapRenderer->render(implode(PHP_EOL, $level[$currDepth]));
-                unset($itemStack[$currDepth]);
                 $currDepth = $itemDepth;
-                end($itemStack[$currDepth])->setInnerHtml($wrap);
+                $itemStack[$currDepth][] = $itemModel;
             } else {
                 $itemStack[$currDepth][] = $itemModel;
             }
@@ -181,9 +184,9 @@ class MenuComponent extends CompositeComponentAbstract implements MenuComponentI
                 $level[$i][] = $this->itemRenderer->render($stackedItemModel);
             }
             if ($i-$rootDepth==1) {
-                $wrap = implode(PHP_EOL, $level[$currDepth]);                // nejvyšší úroveň stromu je renderována je do "li", "ul" pak udělá menuWrapRenderer, který je nastaven jako renderer celé komponenty ($this->renderer)
+                $wrap = implode(PHP_EOL, $level[$i]);                // nejvyšší úroveň stromu je renderována je do "li", "ul" pak udělá menuWrapRenderer, který je nastaven jako renderer celé komponenty ($this->renderer)
             } else {
-                $wrap = $this->levelWrapRenderer->render(implode(PHP_EOL, $level[$currDepth]));
+                $wrap = $this->levelWrapRenderer->render(implode(PHP_EOL, $level[$i]));
             }
             unset($itemStack[$i]);
             end($itemStack[$i-1])->setInnerHtml($wrap);
