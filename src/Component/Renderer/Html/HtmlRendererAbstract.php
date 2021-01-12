@@ -3,7 +3,7 @@ namespace Component\Renderer\Html;
 
 use Pes\View\Renderer\RendererInterface;
 
-use Component\Renderer\Html\ClassMap\ClassMapInterface;
+use Pes\View\Renderer\ClassMap\ClassMapInterface;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

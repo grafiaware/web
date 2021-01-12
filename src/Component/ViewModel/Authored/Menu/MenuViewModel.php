@@ -137,20 +137,30 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
             $presentedItemRightNode = $presentedItem->getRightNode();
         }
 
-        $presentationStatus = $this->getStatusPresentation();
-        $items = $this->HierarchyRepo->getSubTree($presentationStatus->getLanguage()->getLangCode(), $rootUid, $maxDepth);
+        // command
+        $pasteUid = $this->getPostFlashCommand('cut');
+        $pasteMode = $pasteUid ? true : false;
+
+        $presentationStatus = $this->statusPresentationRepo->get();
+        $langCode = $presentationStatus->getLanguage()->getLangCode();
+        $nodes = $this->HierarchyRepo->getSubTree($langCode, $rootUid, $maxDepth);
         $models = [];
-        foreach ($items as $item) {
+        foreach ($nodes as $node) {
            if (isset($presentedItemLeftNode)) {
-                $isOnPath = ($presentedItemLeftNode >= $item->getLeftNode()) && ($presentedItemRightNode <= $item->getRightNode());
+                $isOnPath = ($presentedItemLeftNode >= $node->getLeftNode()) && ($presentedItemRightNode <= $node->getRightNode());
             } else {
                 $isOnPath = FALSE;
             }
-            $isPresented = isset($presentedUid) ? ($presentedUid == $item->getHierarchyUid()) : FALSE;
-            //TODO: ($menuNode, $isOnPath, $isPresented, $isRestored, $readonly, $innerHtml='')
-            $isRestored = false;
+            $nodeUid = $node->getUid();
+            $isPresented = isset($presentedUid) ? ($presentedUid == $nodeUid) : FALSE;
+            $isCutted = $pasteUid == $nodeUid;
+
             $readonly = false;
-            $models[] = new ItemViewModel($item, $isOnPath, $isPresented, $isRestored, $readonly);
+//            $models[] = new ItemViewModel($node, $isOnPath, $isPresented, $isRestored, $readonly);
+            $models[] = new ItemViewModel($node, $isOnPath, $isPresented, $pasteMode, $isCutted, $readonly);
+            if ($pasteMode) {
+                $itemViewModel->setPasteUid($pasteUid);
+            }
         }
         return $models;
     }

@@ -17,7 +17,7 @@ use Component\View\Status\{
     LogoutComponent,
     UserActionComponent
 };
-use Component\Renderer\Html\ClassMap\ClassMap;
+use \Pes\View\Renderer\ClassMap\ClassMap;
 
 /**
  * Description of Configuration
@@ -350,7 +350,7 @@ class ConfigurationGr_wwwgrafia {
                             'li.onpath' => 'onpath',
                             'li.leaf' => 'item ',
                             'li.presented' => '',
-                            'li a span' => 'text',  
+                            'li a span' => 'text',
                             'li i.dropdown' => 'dropdown icon',
                             'li i' => '',
                         ],
