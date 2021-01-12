@@ -27,6 +27,8 @@ interface ItemViewModelInterface {
     public function isReadonly();
     public function getInnerHtml();
     public function getPasteUid();
+    public function getRealDepth();
+
     /**
      * @return HierarchyAggregateInterface
      */

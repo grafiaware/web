@@ -346,7 +346,8 @@ class ConfigurationGr_wwwgrafia {
             // default hodnoty
             'menu_items' => [
                             'li' => '',
-                            'li.dropdown' => 'item',
+                            'li.item' => 'item',
+                            'li.dropdown' => 'ui icon dropdown',
                             'li.onpath' => 'onpath',
                             'li.leaf' => 'item ',
                             'li.presented' => '',
@@ -356,7 +357,8 @@ class ConfigurationGr_wwwgrafia {
                         ],
             'menu_edit_items' => [
                             'li' => '',
-                            'li.dropdown' => 'item',
+                            'li.item' => 'item',
+                            'li.dropdown' => 'ui icon dropdown',
                             'li.onpath' => 'onpath',
                             'li.leaf' => 'item',
                             'li.presented' => 'presented',

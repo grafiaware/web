@@ -23,7 +23,7 @@ use Component\ViewModel\Authored\Menu\Item\ItemViewModelInterface;
 class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelInterface {
 
     private $menuRootRepo;
-    private $HierarchyRepo;
+    private $hierarchyRepo;
     private $presentedMenuNode;
 
     public function __construct(
@@ -34,7 +34,7 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
             MenuRootRepo $menuRootRepo
             ) {
         parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo);
-        $this->HierarchyRepo = $hierarchyRepo;
+        $this->hierarchyRepo = $hierarchyRepo;
         $this->menuRootRepo = $menuRootRepo;
     }
 
@@ -68,7 +68,7 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
      */
     public function getMenuNode($nodeUid) {
         $presentationStatus = $this->statusPresentationRepo->get();
-        return $this->HierarchyRepo->get($presentationStatus->getLanguage()->getLangCode(), $nodeUid);
+        return $this->hierarchyRepo->get($presentationStatus->getLanguage()->getLangCode(), $nodeUid);
     }
 
     /**
@@ -78,7 +78,7 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
      */
     public function getChildrenMenuNodes($parentUid) {
         $presentationStatus = $this->statusPresentationRepo->get();
-        return $this->HierarchyRepo->findChildren($presentationStatus->getLanguage()->getLangCode(), $parentUid);
+        return $this->hierarchyRepo->findChildren($presentationStatus->getLanguage()->getLangCode(), $parentUid);
     }
 
     /**
@@ -143,7 +143,8 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
 
         $presentationStatus = $this->statusPresentationRepo->get();
         $langCode = $presentationStatus->getLanguage()->getLangCode();
-        $nodes = $this->HierarchyRepo->getSubTree($langCode, $rootUid, $maxDepth);
+        $nodes = $this->hierarchyRepo->getSubTree($langCode, $rootUid, $maxDepth);
+        $rootDepth = $nodes[0]->getDepth();
         $models = [];
         foreach ($nodes as $node) {
            if (isset($presentedItemLeftNode)) {
@@ -151,13 +152,11 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
             } else {
                 $isOnPath = FALSE;
             }
+            $realDepth = $node->getDepth() - $rootDepth + 1;
             $nodeUid = $node->getUid();
             $isPresented = isset($presentedUid) ? ($presentedUid == $nodeUid) : FALSE;
             $isCutted = $pasteUid == $nodeUid;
-
-            $readonly = false;
-//            $models[] = new ItemViewModel($node, $isOnPath, $isPresented, $isRestored, $readonly);
-            $models[] = new ItemViewModel($node, $isOnPath, $isPresented, $pasteMode, $isCutted, $readonly);
+            $models[] = new ItemViewModel($node, $realDepth, $isOnPath, $isPresented, $pasteMode, $isCutted, false);
             if ($pasteMode) {
                 $itemViewModel->setPasteUid($pasteUid);
             }

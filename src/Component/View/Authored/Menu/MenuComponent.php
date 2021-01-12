@@ -126,27 +126,10 @@ class MenuComponent extends CompositeComponentAbstract implements MenuComponentI
         } else {
             $titleItemHtml = '';
         }
-        return parent::getString($data ? $data : $titleItemHtml . $this->getMenuLevelHtml2($this->rootUid));
+        return parent::getString($data ? $data : $titleItemHtml . $this->getMenuLevelHtml($this->rootUid));
     }
 
-    // to do menu level rendereru ($this->presented... si bude brát z view modelu
     protected function getMenuLevelHtml($parentUid) {
-        $itemTags = [];
-
-//        $subtreeItemModels = $this->viewModel->getChildrenItemModels($parentUid);
-        $subtreeItemModels = $this->viewModel->getSubTreeItemModels($parentUid, null);
-        foreach ($subtreeItemModels as $itemViewModel) {    // , $maxDepth
-            if($itemViewModel->isOnPath()) {
-                $innerHtml = $this->levelWrapRenderer->render($this->getMenuLevelHtml($itemViewModel->getMenuNode()->getUid()));
-                $itemViewModel->setInnerHtml($innerHtml);
-            }
-            $itemTags[] = $this->itemRenderer->render($itemViewModel);
-
-        }
-        return $itemTags ? \implode(PHP_EOL, $itemTags) : '';
-    }
-
-    protected function getMenuLevelHtml2($parentUid) {
         $itemTags = [];
 
         $subtreeItemModels = $this->viewModel->getSubTreeItemModels($parentUid, null);
@@ -179,12 +162,12 @@ class MenuComponent extends CompositeComponentAbstract implements MenuComponentI
             }
         }
         for ($i=$currDepth; $i>$rootDepth; $i--) {
-            $level[$i] = [];
+            $level = [];
             foreach ($itemStack[$i] as $stackedItemModel) {
-                $level[$i][] = $this->itemRenderer->render($stackedItemModel);
+                $level[] = $this->itemRenderer->render($stackedItemModel);
             }
             if ($i-$rootDepth==1) {
-                $wrap = implode(PHP_EOL, $level[$i]);                // nejvyšší úroveň stromu je renderována je do "li", "ul" pak udělá menuWrapRenderer, který je nastaven jako renderer celé komponenty ($this->renderer)
+                $wrap = implode(PHP_EOL, $level);                // nejvyšší úroveň stromu je renderována je do "li", "ul" pak udělá menuWrapRenderer, který je nastaven jako renderer celé komponenty ($this->renderer)
             } else {
                 $wrap = $this->levelWrapRenderer->render(implode(PHP_EOL, $level[$i]));
             }
@@ -194,77 +177,21 @@ class MenuComponent extends CompositeComponentAbstract implements MenuComponentI
         return end($itemStack[$rootDepth])->getInnerHtml();
     }
 
-    /**
-     *
-     * Render a nested set into a HTML list
-     *
-     * @param       array   $flatenedTree
-     * @return      string  the formated tree
-     *
-     */
-    public function render($subtreeItemModels) {
-        $elementId = 'elementId';
+    // to do menu level rendereru ($this->presented... si bude brát z view modelu
+    protected function getMenuLevelHtml_OLD($parentUid) {
+        $itemTags = [];
 
-        $itemView = new ItemView();
-        $currDepth = self::ROOT_DEPTH-1;
-        $firstItem = TRUE;
-        foreach( $flatenedTree as $item ) {
-            $itemDepth = $item['depth'];
-                if($itemDepth > $currDepth) {
-                    if ($firstItem) {
-                        $result[] = "<ul id=\"$elementId\" class=\"{$styles->getStyle($itemDepth, 'ul')}\" data-depth=\"{$itemDepth}\">";
-                        $firstItem = FALSE;
-                    } else {
-                        $result[] = "<ul class=\"{$styles->getStyle($itemDepth, 'ul')}\" data-depth=\"{$itemDepth}\">";
-                    }
-                    $currDepth = $itemDepth;
-                } elseif ($itemDepth < $currDepth) {
-                    for ($i = 1; $i <= $currDepth-$itemDepth; $i++) {
-                        $result[] = "</li>";
-                        $result[] = '</ul>';
-                    }
-                    $currDepth = $itemDepth;
-                }
-
-            $result[] = "<li class=\"{$styles->getStyle($itemDepth, 'li')}\" data-depth=\"{$itemDepth}\">";
-            $result[] = $itemView->render(NULL, $item);
-
-        }
-        for ($i = 1; $i <= $currDepth; $i++) {
-            $result[] = "</li>";
-            $result[] = '</ul>';
-        }
-        return implode(PHP_EOL, $result);
-    }
-    private function kuk($param) {
-        foreach( $flattenedTree as $itemViewModel ) {
-            /** @var ItemViewModelInterface $itemViewModel */
-            $itemDepth = $itemViewModel->getMenuNode()->getDepth();
-            if (!isset($currDepth)) {
-                $currDepth = $itemDepth-1;
+//        $subtreeItemModels = $this->viewModel->getChildrenItemModels($parentUid);
+        $subtreeItemModels = $this->viewModel->getSubTreeItemModels($parentUid, null);
+        foreach ($subtreeItemModels as $itemViewModel) {    // , $maxDepth
+            if($itemViewModel->isOnPath()) {
+                $innerHtml = $this->levelWrapRenderer->render($this->getMenuLevelHtml_OLD($itemViewModel->getMenuNode()->getUid()));
+                $itemViewModel->setInnerHtml($innerHtml);
             }
-            if ($itemDepth <= $currDepth+1) {
-                if($itemDepth > $currDepth) {
-                    if (!isset($currentLevelTag)) {
-                        $currentLevelTag = $rootTag;
-                    } else {
-                        $currentLevelTag = $this->getLevelWrapNode();
-                        $currenItemTag->addChild($currentLevelTag);
-                    }
-                } elseif ($itemDepth < $currDepth) {
-                    for ($i = 1; $i <= $currDepth-$itemDepth; $i++) {
-                        $currentLevelTag = $currentLevelTag->getParent()->getParent();    // pro jednu úroveň stromu vznikne <ul> a v něm <li>
-                    }
-                }
-                $currenItemTag = $this->getItemNodeNew($itemViewModel);
-                $currentLevelTag->addChild($currenItemTag);
-                $currDepth = $itemDepth;
-            } else {
-                user_error("Struktura stromu menu není spojitá, větev neobsahuje uzly všech úrovní (hloubky). Uzel s titulkem {$itemViewModel['title']} je v hloubce {$itemViewModel['depth']} a jeho předchůdce je v hloubce $currDepth. Pravděpodobně "
-                        . "jsou ve stromu menu nepublikované uzly v úrovni nad uzlem publikovaným a ten tak není přístupný.", E_USER_NOTICE);
-            }
-        }
+            $itemTags[] = $this->itemRenderer->render($itemViewModel);
 
-        return $rootTag;
+        }
+        return $itemTags ? \implode(PHP_EOL, $itemTags) : '';
     }
+
 }

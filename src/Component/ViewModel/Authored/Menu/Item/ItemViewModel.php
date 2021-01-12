@@ -30,9 +30,11 @@ class ItemViewModel implements ItemViewModelInterface {
     private $readonly;
     private $innerHtml;
     private $pasteUid;
+    private $realDepth;
 
-    public function __construct(HierarchyAggregateInterface $menuNode, $isOnPath, $isPresented, $pasteMode, $isCutted, $readonly) {
+    public function __construct(HierarchyAggregateInterface $menuNode, $realDepth, $isOnPath, $isPresented, $pasteMode, $isCutted, $readonly) {
         $this->menuNode = $menuNode;
+        $this->realDepth = $realDepth;
         $this->isOnPath = $isOnPath;
         $this->isPresented = $isPresented;
         $this->pasteMode = $pasteMode;
@@ -56,6 +58,9 @@ class ItemViewModel implements ItemViewModelInterface {
      */
     public function getMenuNode() {
         return $this->menuNode;
+    }
+    public function getRealDepth() {
+        return $this->realDepth;
     }
 
     public function isOnPath() {
