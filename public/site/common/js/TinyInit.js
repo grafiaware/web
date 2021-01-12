@@ -113,7 +113,7 @@ var plugins_paper = [
        'paste advlist autolink lists link  charmap  preview hr anchor pagebreak image code', // codesample print  //
        'searchreplace wordcount visualblocks visualchars code fullscreen',
        'insertdatetime  nonbreaking noneditable save autosave table directionality',
-       'template textpattern searchreplace image imagetools save example'
+       'template textpattern searchreplace image imagetools save example media'
 //       'template textpattern searchreplace image imagetools save example'
     ];
 
@@ -133,7 +133,7 @@ var templates_paper = [
         { title: 'Menu - 1 položka (bez gridu) verze 2', description: 'Vložení položky menu na stránku', url: 'component/v1/authortemplate/default/menu_1polozka_2'}
     ];
 
-var toolbar = 'save cancel | undo redo | fontstyle fontweight | aligment | list | template | link image | code';
+var toolbar = 'save cancel | undo redo | fontstyle fontweight | aligment | list | template | link image media | code';
 //    toolbar1: 'undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent'
 //            + ' | hr | nonbreaking | forecolor backcolor ' + ' | fontsizeselect | code | searchreplace template | link image | save'
 //            + ' | example vlozitNadpis vlozitOdstavec'
@@ -182,7 +182,16 @@ var imagetools_toolbar = 'editimage | rotateleft rotateright | flipv fliph | ima
 var file_picker_callback_function = function (cb, value, meta) {
     var input = document.createElement('input');
     input.setAttribute('type', 'file');
-    input.setAttribute('accept', 'image/*');
+    
+    // For the image dialog
+    if (meta.filetype === 'image') {
+      input.setAttribute('accept', 'image/*');
+    }
+
+    // For the media dialog
+    if (meta.filetype === 'media') {
+      input.setAttribute('accept', 'video/*');
+    }
 
     /*
       Note: In modern browsers input[type="file"] is functional without
@@ -216,7 +225,7 @@ var file_picker_callback_function = function (cb, value, meta) {
 
     input.click();
   };
-
+  
 /////////////////////////////////////////
 
 var headlineConfig = {
@@ -269,6 +278,17 @@ var contentConfig = {
     toolbar: toolbar,
     imagetools_toolbar: imagetools_toolbar,
     link_class_list: linkClassList,
+    /* enable title field in the Image dialog*/
+    image_title: true,
+    /* enable automatic uploads of images represented by blob or data URIs*/
+    automatic_uploads: true,
+    /* URL of our upload handler (for more details check: https://www.tiny.cloud/docs/configure/file-image-upload/#images_upload_url) */
+    images_upload_url: 'api/v1/upload',
+    images_reuse_filename: true,
+    /* here we add custom filepicker only to Image dialog */
+    file_picker_types: 'image media',
+    /* and here's our custom image picker*/
+    file_picker_callback: file_picker_callback_function,
     setup: editorFunction
 };
 

@@ -9,7 +9,13 @@
 //    $('.hlavni-menu > .ui.dropdown, .menu > .item:not(.leaf)').dropdown('show',{
 //        on: 'hover'
 //    });
-    
+    $('.right.sidebar').first()
+      .sidebar('attach events', '.toggle.button')
+    ;
+    $('.toggle.button')
+      .removeClass('disabled')
+    ;
+
     $('.ui.selection.dropdown')
       .dropdown()
     ;
