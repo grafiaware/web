@@ -108,31 +108,26 @@ class MenuComponent extends CompositeComponentAbstract implements MenuComponentI
         $this->setRenderer($this->rendererContainer->get($this->rendererName));
         $this->levelWrapRenderer = $this->rendererContainer->get($this->levelWrapRendererName);
         $this->itemRenderer = $this->rendererContainer->get($this->itemRendererName);
-        if ($this->withTitle) {
-            $rootMenuNode = $this->viewModel->getMenuNode($this->rootUid);
-            if (isset($rootMenuNode)) {
-                // command
-                $pasteUid = $this->viewModel->getPostFlashCommand('cut');
-                $pasteMode = $pasteUid ? true : false;
-                $itemViewModel = new ItemViewModel($this->viewModel->getMenuNode($this->rootUid), TRUE, $this->presentedUid==$this->rootUid, $pasteMode, false, true);
 
-                if ($pasteMode) {
-                    $itemViewModel->setPasteUid($pasteUid);
-                }
-                $titleItemHtml = $this->itemRenderer->render($itemViewModel);
+        $subtreeItemModels = $this->viewModel->getSubTreeItemModels($this->rootUid, null);
+
+        if ($this->withTitle) {
+            $rootItemModel = $subtreeItemModels[0];
+            if (isset($rootItemModel)) {
+                $titleItemHtml = $this->itemRenderer->render($rootItemModel);
             } else {
                 $titleItemHtml = '';  // root menu item nená publikovaný
             }
         } else {
             $titleItemHtml = '';
         }
-        return parent::getString($data ? $data : $titleItemHtml . $this->getMenuLevelHtml($this->rootUid));
+        return parent::getString($data ? $data : $titleItemHtml . $this->getMenuLevelHtml($subtreeItemModels));
     }
 
-    protected function getMenuLevelHtml($parentUid) {
+    protected function getMenuLevelHtml($subtreeItemModels) {
         $itemTags = [];
 
-        $subtreeItemModels = $this->viewModel->getSubTreeItemModels($parentUid, null);
+//        $subtreeItemModels = $this->viewModel->getSubTreeItemModels($parentUid, null);
         $first = true;
         foreach ($subtreeItemModels as $itemModel) {
             /** @var ItemViewModel $itemModel */
