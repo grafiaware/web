@@ -87,7 +87,7 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
         $html = Html::tag(     'li',
                 ['class'=>[
                     $this->classMap->resolveClass($itemViewModel->isOnPath(), 'Item', 'li.onpath', 'li'),
-                    $this->classMap->resolveClass($itemViewModel->isLeaf(), 'Item', 'li.leaf', 'li.dropdown'),
+                    $this->classMap->resolveClass($itemViewModel->isLeaf(), 'Item', 'li.leaf', ($itemViewModel->getRealDepth() >= 3) ? 'li.item' : 'li.dropdown'),
                     $this->classMap->resolveClass($itemViewModel->isPresented(), 'Item', 'li.presented', 'li'),
                     $this->classMap->resolveClass($itemViewModel->isCutted(), 'Item', 'li.cut', 'li')
                     ],

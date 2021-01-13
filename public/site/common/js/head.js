@@ -36,7 +36,11 @@ function replaceElementEditable(id, apiUri){
         tinymce.init(contentConfig);
         tinymce.init(perexConfig);
         tinymce.init(headerFooterConfig);
+        //semantic-ui dropdown (použitý např. pro přihlašování)
         $('.ui.dropdown').dropdown();
+        //menu semantic-ui dropdown reaguje na událost hover
+        $('.svisle-menu .ui.dropdown').dropdown({on: 'hover'});
+        //výběr šablony pro stránku - vlastní dropdown, protože jsou dva vnořený
         $('.ui.selection.dropdown').dropdown();
         $('.edit_kalendar .ui.calendar').calendar({
             type: 'date',

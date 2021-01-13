@@ -1,23 +1,19 @@
+    //semantic-ui dropdown (použitý např. pro přihlašování)
     $('.ui.dropdown')
       .dropdown()
     ;
 
-//    $('.hlavni-menu > li').removeClass('item').addClass('ui icon dropdown');
+    //menu semantic-ui dropdown reaguje na událost hover
     $('.svisle-menu .ui.dropdown').dropdown({
        on: 'hover'
     });
-    $('.hlavni-menu > .ui.dropdown, .menu > .item:not(.leaf)').dropdown('show',{
-        on: 'hover'
-    });
+    
+    //semantic-ui sidebar - zkouška pro veletržní virtuální stánek
     $('.right.sidebar').first()
       .sidebar('attach events', '.toggle.button')
     ;
     $('.toggle.button')
       .removeClass('disabled')
-    ;
-
-    $('.ui.selection.dropdown')
-      .dropdown()
     ;
 
     //odeslani prihlasovaciho formulare pri stisku klavesy Enter
