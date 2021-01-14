@@ -32,6 +32,7 @@
 @buttonySvisleMenuPositionTop: -25px;
 @buttonySvisleMenuPositionLeft: auto; 
 @buttonySvisleMenuPositionRight: @hodnota0;
+@buttonySvisleMenuZIndex: 15;
 @buttonySvisleMenuKosBackgroundColor: @barvaKos; 
 @buttonSvisleMenuKosSecondIconSize: 0.9em;
 @buttonSvisleMenuKosSecondIconPositionleft: 7px;
@@ -168,7 +169,7 @@ body{
             .button - semantická třída, jeden button ze sady
             .paste - přidá se k třídě .button, když se přesouvá položka menu (button vybrat k přesunutí)*/
     /*PRO VSECHNA MENU*/
-    .menu{
+    .menu, .hlavni-menu{
         /*styl pro položku menu, která je vybrána k přesunutí*/
         li.cut{
             border: @menuLiCutBorder !important ;
@@ -186,7 +187,7 @@ body{
         }
         li.presented > .buttons{
             display: flex !important;
-            background-color: @buttonyMenuBackgroundColor;
+            background-color: @buttonyMenuBackgroundColor ;
             > .button:last-child{
                 background-color: @lastButtonMenuBackgroundColor;
                 &:hover{
@@ -221,6 +222,7 @@ body{
             left: @buttonySvisleMenuPositionLeft;
             right: @buttonySvisleMenuPositionRight;
             top: @buttonySvisleMenuPositionTop;
+            z-index: @buttonySvisleMenuZIndex;
         }
         /*SVISLÉ MENU KOŠ*/
         &.kos{
