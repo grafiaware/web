@@ -51,9 +51,9 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
                     'contenteditable'=> ($presentedEditable ? "true" : "false"),
                     'data-original-title'=>$menuItem->getTitle(),
                     'data-uid'=>$menuNode->getUid(),
-                    ], 
+                    ],
                     $menuItem->getTitle()
-                    .Html::tag('i', ['class'=>$this->classMap->resolveClass($itemViewModel->isLeaf(), 'Item', 'li i', 'li i.dropdown')])    
+                    .Html::tag('i', ['class'=>$this->classMap->resolveClass($itemViewModel->isLeaf(), 'Item', 'li i', 'li i.dropdown')])
                 )
                 .Html::tag('span', ['class'=>$this->classMap->getClass('Item', 'semafor')],
                     Html::tag('i', [
@@ -87,10 +87,11 @@ class ItemEditableRenderer extends HtmlRendererAbstract {
         $html = Html::tag(     'li',
                 ['class'=>[
                     $this->classMap->resolveClass($itemViewModel->isOnPath(), 'Item', 'li.onpath', 'li'),
-                    $this->classMap->resolveClass($itemViewModel->isLeaf(), 'Item', 'li.leaf', ($itemViewModel->getRealDepth() >= 3) ? 'li.item' : 'li.dropdown'),
+                    $this->classMap->resolveClass($itemViewModel->isLeaf(), 'Item', 'li.leaf', ($itemViewModel->getRealDepth() > 1) ? 'li.item' : 'li.dropdown'),
                     $this->classMap->resolveClass($itemViewModel->isPresented(), 'Item', 'li.presented', 'li'),
                     $this->classMap->resolveClass($itemViewModel->isCutted(), 'Item', 'li.cut', 'li')
                     ],
+                 'data-red-depth'=>$itemViewModel->getRealDepth()
                 ],
                 $innerHtml);
         return $html;

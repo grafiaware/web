@@ -152,7 +152,7 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
             } else {
                 $isOnPath = FALSE;
             }
-            $realDepth = $node->getDepth() - $rootDepth + 1;
+            $realDepth = $node->getDepth() - $rootDepth;
             $nodeUid = $node->getUid();
             $isPresented = isset($presentedUid) ? ($presentedUid == $nodeUid) : FALSE;
             $isCutted = $pasteUid == $nodeUid;
