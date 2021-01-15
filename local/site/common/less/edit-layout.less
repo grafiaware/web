@@ -76,7 +76,7 @@
 @trashContentOpacity: 0.5; 
 @trashContentPadding: 5px;
 @trashContentFilter: grayscale(1);
-
+ 
 //import změněných proměnných stylu šablony (specifických pro projekt)
 @import (optional) "../../@{sitename}/@{siteStylesFolder}/site-edit-layout.less";
 
@@ -125,7 +125,7 @@ body{
                 }
             }
             pre{ //aby se předformátovaný text vešel do šířky divu poznámek a nepřetékal
-                .breakPre(@poznamkyBreakPre)
+                .breakPre(@poznamkyBreakPre);
             }
         }
         &:not(.flash){ //pozice pro poznámky
