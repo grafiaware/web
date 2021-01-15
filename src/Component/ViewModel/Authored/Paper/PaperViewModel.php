@@ -29,6 +29,8 @@ class PaperViewModel extends AuthoredViewModelAbstract implements PaperViewModel
      */
     protected $paperAggregateRepo;
 
+    private $menuItemId;
+
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusPresentationRepo $statusPresentationRepo,
@@ -56,11 +58,16 @@ class PaperViewModel extends AuthoredViewModelAbstract implements PaperViewModel
      * @return PaperAggregateInterface|null
      */
     public function getPaperAggregate(): ?PaperAggregateInterface {
-            $paperAggregate = $this->paperAggregateRepo->getByReference($this->menuItemId);
-            if (!isset($paperAggregate) AND $this->isArticleEditable()) {
-                $paperAggregate = new PaperAggregate();
-                $paperAggregate->setEditor($this->statusSecurityRepo->get()->getUser()->getUserName());
-            }
+        if (!isset($this->menuItemId)) {
+            throw new LogicException("No menu item id.");
+        }
+        $paperAggregate = $this->paperAggregateRepo->getByReference($this->menuItemId);
+        return $paperAggregate ?? null;
+    }
+
+    public function createPaperAggregate(): ?PaperAggregateInterface {
+        $paperAggregate = new PaperAggregate();
+        $paperAggregate->setEditor($this->statusSecurityRepo->get()->getUser()->getUserName());
         return $paperAggregate ?? null;
     }
 

@@ -129,25 +129,29 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
      * @return ItemViewModelInterface array af
      */
     public function getSubTreeItemModels($rootUid, $maxDepth=NULL) {
+        $presentationStatus = $this->statusPresentationRepo->get();
+        $langCode = $presentationStatus->getLanguage()->getLangCode();
+        $nodes = $this->hierarchyRepo->getSubTree($langCode, $rootUid, $maxDepth);
 
-        $presentedItem = $this->getPresentedMenuNode();
-        if (isset($presentedItem)) {
-            $presentedUid = $presentedItem->getUid();
-            $presentedItemLeftNode = $presentedItem->getLeftNode();
-            $presentedItemRightNode = $presentedItem->getRightNode();
+        return $this->createItemModels($nodes);
+    }
+
+    private function createItemModels($nodes) {
+        $presentedNode = $this->getPresentedMenuNode();
+        if (isset($presentedNode)) {
+            $presentedUid = $presentedNode->getUid();
+            $presentedItemLeftNode = $presentedNode->getLeftNode();
+            $presentedItemRightNode = $presentedNode->getRightNode();
         }
 
         // command
         $pasteUid = $this->getPostFlashCommand('cut');
         $pasteMode = $pasteUid ? true : false;
 
-        $presentationStatus = $this->statusPresentationRepo->get();
-        $langCode = $presentationStatus->getLanguage()->getLangCode();
-        $nodes = $this->hierarchyRepo->getSubTree($langCode, $rootUid, $maxDepth);
         $rootDepth = $nodes[0]->getDepth();
         $models = [];
         foreach ($nodes as $node) {
-           if (isset($presentedItemLeftNode)) {
+           if (isset($presentedNode)) {
                 $isOnPath = ($presentedItemLeftNode >= $node->getLeftNode()) && ($presentedItemRightNode <= $node->getRightNode());
             } else {
                 $isOnPath = FALSE;
@@ -156,10 +160,11 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
             $nodeUid = $node->getUid();
             $isPresented = isset($presentedUid) ? ($presentedUid == $nodeUid) : FALSE;
             $isCutted = $pasteUid == $nodeUid;
-            $models[] = new ItemViewModel($node, $realDepth, $isOnPath, $isPresented, $pasteMode, $isCutted, false);
+            $itemViewModel = new ItemViewModel($node, $realDepth, $isOnPath, $isPresented, $pasteMode, $isCutted, false);
             if ($pasteMode) {
                 $itemViewModel->setPasteUid($pasteUid);
             }
+            $models[] = $itemViewModel;
         }
         return $models;
     }
