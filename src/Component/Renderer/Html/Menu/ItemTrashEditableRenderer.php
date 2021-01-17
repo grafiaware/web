@@ -19,7 +19,8 @@ use Pes\Utils\Directory;
  *
  * @author pes2704
  */
-class ItemTrashRenderer extends HtmlRendererAbstract {
+class ItemTrashEditableRenderer extends HtmlRendererAbstract {
+
 
     public function render($data=NULL) {
         return $this->privateRender($data);
@@ -27,8 +28,10 @@ class ItemTrashRenderer extends HtmlRendererAbstract {
 
     private function privateRender(ItemViewModel $itemViewModel=NULL) {
         $menuNode = $itemViewModel->getMenuNode();
+        $menuItem = $menuNode->getMenuItem();
 
         $presentedEditable = ($itemViewModel->isPresented() AND !$itemViewModel->isReadonly());
+        $active = $menuItem->getActive();
         $pasteMode = $itemViewModel->isPasteMode();
         $cutted = $itemViewModel->isCutted();
 
