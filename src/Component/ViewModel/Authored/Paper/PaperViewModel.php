@@ -59,7 +59,7 @@ class PaperViewModel extends AuthoredViewModelAbstract implements PaperViewModel
      */
     public function getPaperAggregate(): ?PaperAggregateInterface {
         if (!isset($this->menuItemId)) {
-            throw new LogicException("No menu item id.");
+            throw new \LogicException("Unknown menu item id '$this->menuItemId'.");
         }
         $paperAggregate = $this->paperAggregateRepo->getByReference($this->menuItemId);
         return $paperAggregate ?? null;
