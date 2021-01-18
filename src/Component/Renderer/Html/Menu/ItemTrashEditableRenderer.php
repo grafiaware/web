@@ -35,6 +35,7 @@ class ItemTrashEditableRenderer extends HtmlRendererAbstract {
         $pasteMode = $itemViewModel->isPasteMode();
         $cutted = $itemViewModel->isCutted();
 
+        // element a s potomkem span - needitovalný titulek
         $innerHtml[] = Html::tag('a', [
                         'class'=>$this->classMap->getClass('Item', 'li a'),
                         'href'=>"www/item/{$menuNode->getMenuItem()->getLangCodeFk()}/{$menuNode->getUid()}",
