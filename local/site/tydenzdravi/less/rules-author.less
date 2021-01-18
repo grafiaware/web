@@ -1,0 +1,22 @@
+.svisle-menu .menu.edit{ 
+    .presented:not(.cut){
+        p{
+            outline: 3px solid;
+            border-left: 3px solid;
+        }
+    }
+    p:not(.item){
+        display: none;
+    }
+}
+.svisle-menu.kos{
+    .menu{
+        .presented:not(.cut) > a{
+            outline: 3px solid;
+            border-left: 3px solid; 
+        }
+        .item{
+            color: darken(@barvaKos,20);
+        }
+    }
+}
