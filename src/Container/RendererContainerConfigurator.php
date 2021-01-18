@@ -8,7 +8,7 @@ use Pes\Container\ContainerConfiguratorAbstract;
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
 
 use Component\Renderer\Html\Menu\{
-    MenuWrapRenderer, MenuWrapEditableRenderer, LevelWrapRenderer, ItemRenderer, ItemEditableRenderer, ItemBlockEditableRenderer, ItemTrashRenderer
+    MenuWrapRenderer, MenuWrapEditableRenderer, LevelWrapRenderer, ItemRenderer, ItemEditableRenderer, ItemBlockEditableRenderer, ItemTrashEditableRenderer
 };
 
 use Component\Renderer\Html\Authored\{
@@ -116,7 +116,7 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new LevelWrapRenderer($c->get('menu.kos.classmap'));
             },
             'menu.kos.itemrenderer' => function(ContainerInterface $c) {
-                return new ItemTrashRenderer($c->get('menu.kos.classmap'));
+                return new ItemTrashEditableRenderer($c->get('menu.kos.classmap'));
             },
             'menu.kos.menuwraprenderer.editable' => function(ContainerInterface $c) {
                 return new MenuWrapEditableRenderer($c->get('menu.kos.classmap'));

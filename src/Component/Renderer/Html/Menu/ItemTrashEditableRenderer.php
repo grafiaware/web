@@ -4,7 +4,7 @@ namespace Component\Renderer\Html\Menu;
 use Component\Renderer\Html\HtmlRendererAbstract;
 use Pes\Text\Html;
 use Model\Entity\HierarchyAggregateInterface;
-use Component\ViewModel\Authored\Menu\Item\ItemViewModel;
+use Component\ViewModel\Authored\Menu\Item\ItemViewModelInterface;
 
 use Pes\Utils\Directory;
 
@@ -19,16 +19,19 @@ use Pes\Utils\Directory;
  *
  * @author pes2704
  */
-class ItemTrashRenderer extends HtmlRendererAbstract {
+class ItemTrashEditableRenderer extends HtmlRendererAbstract {
+
 
     public function render($data=NULL) {
         return $this->privateRender($data);
     }
 
-    private function privateRender(ItemViewModel $itemViewModel=NULL) {
+    private function privateRender(ItemViewModelInterface $itemViewModel=NULL) {
         $menuNode = $itemViewModel->getMenuNode();
+        $menuItem = $menuNode->getMenuItem();
 
         $presentedEditable = ($itemViewModel->isPresented() AND !$itemViewModel->isReadonly());
+        $active = $menuItem->getActive();
         $pasteMode = $itemViewModel->isPasteMode();
         $cutted = $itemViewModel->isCutted();
 

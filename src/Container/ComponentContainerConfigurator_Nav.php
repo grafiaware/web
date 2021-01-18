@@ -101,7 +101,7 @@ use Component\Renderer\Html\{
     Generated\LanguageSelectRenderer,
     Generated\SearchPhraseRenderer, Generated\SearchResultRenderer, Generated\ItemTypeRenderer,
     Flash\FlashRenderer,
-    Menu\ItemRenderer, Menu\ItemEditableRenderer, Menu\ItemBlockEditableRenderer, Menu\ItemTrashRenderer
+    Menu\ItemRenderer, Menu\ItemEditableRenderer, Menu\ItemBlockEditableRenderer, Menu\ItemTrashEditableRenderer
 };
 
 // view

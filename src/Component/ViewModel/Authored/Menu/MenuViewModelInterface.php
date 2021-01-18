@@ -21,9 +21,30 @@ interface MenuViewModelInterface extends AuthoredViewModelInterface {
 
     /**
      *
-     * @return HierarchyAggregateInterface
+     * @param string $componentName
+     * @return void
      */
-    public function getPresentedMenuNode();
+    public function setMenuRootName($componentName): void;
+
+    /**
+     *
+     * @param bool $withTitle
+     * @return void
+     */
+    public function withTitleItem($withTitle=false): void;
+
+    /**
+     *
+     * @param int $maxDepth
+     * @return void
+     */
+    public function setMaxDepth($maxDepth): void;
+    /**
+     * Vrací prezentovanou položku hierarchie, pokud je položkou tohoto modelu menu. Řídí se hodnotami status presentation.
+     *
+     * @return HierarchyAggregateInterface|null
+     */
+    public function getPresentedMenuNode(HierarchyAggregateInterface $rootNode): ?HierarchyAggregateInterface;
 
     /**
      *
@@ -34,17 +55,17 @@ interface MenuViewModelInterface extends AuthoredViewModelInterface {
 
     /**
      *
-     * @param string $nodeUid
-     * @return HierarchyAggregateInterface
+     * @param type $nodeUid
+     * @return HierarchyAggregateInterface|null
      */
-    public function getMenuNode($nodeUid) ;
+    public function getMenuNode($nodeUid): ?HierarchyAggregateInterface ;
 
     /**
      *
      * @param string $parentUid
      * @return HierarchyAggregateInterface array af
      */
-    public function getChildrenMenuNodes($parentUid);
+//    public function getChildrenMenuNodes($parentUid);
 
     /**
      *
@@ -52,13 +73,11 @@ interface MenuViewModelInterface extends AuthoredViewModelInterface {
      * @param type $maxDepth
      * @return ItemViewModelInterface array of
      */
-    public function getChildrenItemModels($parentUid);
+//    public function getChildrenItemModels($parentUid);
 
     /**
      *
-     * @param type $rootUid
-     * @param type $maxDepth
      * @return ItemViewModelInterface array af
      */
-    public function getSubTreeItemModels($rootUid, $maxDepth=NULL);
+    public function getSubTreeItemModels();
 }

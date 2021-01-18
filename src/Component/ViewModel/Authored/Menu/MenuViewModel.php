@@ -25,6 +25,9 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
     private $menuRootRepo;
     private $hierarchyRepo;
     private $presentedMenuNode;
+    private $withRoot = false;
+    private $componentName;
+    private $maxDepth;
 
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
@@ -39,17 +42,49 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
     }
 
     /**
-     * Vrací prezentovanou položku menu. Řídí se hodnotami vlastností objektu PresentationStatus.
      *
-     * @return HierarchyAggregateInterface
+     * @param string $componentName
+     * @return void
      */
-    public function getPresentedMenuNode() {
+    public function setMenuRootName($componentName): void {
+        $this->componentName = $componentName;
+    }
+
+    /**
+     *
+     * @param bool $withTitle
+     * @return void
+     */
+    public function withTitleItem($withTitle=false): void {
+        $this->withRoot = $withTitle;
+    }
+
+    /**
+     *
+     * @param int $maxDepth
+     * @return void
+     */
+    public function setMaxDepth($maxDepth): void {
+        $this->maxDepth = $maxDepth;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return HierarchyAggregateInterface|null
+     */
+    public function getPresentedMenuNode(HierarchyAggregateInterface $rootNode): ?HierarchyAggregateInterface { // jen mezi left a rifht - uprav
         if(!isset($this->presentedMenuNode)) {
             $presentationStatus = $this->statusPresentationRepo->get();
             $presentedMenuItem = $presentationStatus->getMenuItem();
-            $this->presentedMenuNode = isset($presentedMenuItem) ? $this->getMenuNode($presentedMenuItem->getUidFk()) : '';
+            if ($presentedMenuItem) {
+                $presented = $this->getMenuNode($presentedMenuItem->getUidFk());
+                if ($presented->getLeftNode() >= $rootNode->getLeftNode() AND $presented->getLeftNode() < $rootNode->getRightNode()) {
+                    $this->presentedMenuNode = $presented;
+                }
+            }
         }
-        return $this->presentedMenuNode ? $this->presentedMenuNode : null;
+        return $this->presentedMenuNode;
     }
 
     /**
@@ -63,10 +98,11 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
 
     /**
      * Vrací položku menu se zadaným uid a v presentovaném jazyce.
+     *
      * @param string $nodeUid
      * @return HierarchyAggregateInterface
      */
-    public function getMenuNode($nodeUid) {
+    public function getMenuNode($nodeUid): ?HierarchyAggregateInterface {
         $presentationStatus = $this->statusPresentationRepo->get();
         return $this->hierarchyRepo->get($presentationStatus->getLanguage()->getLangCode(), $nodeUid);
     }
@@ -76,10 +112,10 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
      * @param string $parentUid
      * @return HierarchyAggregateInterface array af
      */
-    public function getChildrenMenuNodes($parentUid) {
-        $presentationStatus = $this->statusPresentationRepo->get();
-        return $this->hierarchyRepo->findChildren($presentationStatus->getLanguage()->getLangCode(), $parentUid);
-    }
+//    public function getChildrenMenuNodes($parentUid) {
+//        $presentationStatus = $this->statusPresentationRepo->get();
+//        return $this->hierarchyRepo->findChildren($presentationStatus->getLanguage()->getLangCode(), $parentUid);
+//    }
 
     /**
      *
@@ -87,57 +123,74 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
      * @param type $maxDepth
      * @return ItemViewModelInterface array of
      */
-    public function getChildrenItemModels($parentUid) {
-
-        $presentedItem = $this->getPresentedMenuNode();
-        if (isset($presentedItem)) {
-            $presentedUid = $presentedItem->getUid();
-            $presentedItemLeftNode = $presentedItem->getLeftNode();
-            $presentedItemRightNode = $presentedItem->getRightNode();
-        }
-
-        // command
-        $pasteUid = $this->getPostFlashCommand('cut');
-        $pasteMode = $pasteUid ? true : false;
-
-        $nodes = $this->getChildrenMenuNodes($parentUid);
-        $models = [];
-        foreach ($nodes as $node) {
-            if (isset($presentedItemLeftNode)) {
-                $isOnPath = ($presentedItemLeftNode >= $node->getLeftNode()) && ($presentedItemRightNode <= $node->getRightNode());
-            } else {
-                $isOnPath = FALSE;
-            }
-            $nodeUid = $node->getUid();
-            $isPresented = isset($presentedUid) ? ($presentedUid == $nodeUid) : FALSE;
-            $isCutted = $pasteUid == $nodeUid;
-//            $readonly = $node->getUid()==$this->rootUid;
-            $itemViewModel = new ItemViewModel($node, $isOnPath, $isPresented, $pasteMode, $isCutted, false);
-            if ($pasteMode) {
-                $itemViewModel->setPasteUid($pasteUid);
-            }
-            $models[] = $itemViewModel;
-        }
-        return $models;
-    }
+//    public function getChildrenItemModels($parentUid) {
+//
+//        $nodes = $this->getChildrenMenuNodes($parentUid);
+//        $rootNode = reset($nodes);
+//        $presentedNode = $this->getPresentedMenuNode($rootNode);
+//        if (isset($presentedNode)) {
+//            $presentedUid = $presentedNode->getUid();
+//            $presentedItemLeftNode = $presentedNode->getLeftNode();
+//            $presentedItemRightNode = $presentedNode->getRightNode();
+//        }
+//
+//        // command
+//        $pasteUid = $this->getPostFlashCommand('cut');
+//        $pasteMode = $pasteUid ? true : false;
+//
+//        $models = [];
+//        foreach ($nodes as $node) {
+//            if (isset($presentedItemLeftNode)) {
+//                $isOnPath = ($presentedItemLeftNode >= $node->getLeftNode()) && ($presentedItemRightNode <= $node->getRightNode());
+//            } else {
+//                $isOnPath = false;
+//            }
+//            $nodeUid = $node->getUid();
+//            $isPresented = isset($presentedUid) ? ($presentedUid == $nodeUid) : false;
+//            $isCutted = $pasteUid == $nodeUid;
+//            $readonly = false;
+//            $itemViewModel = new ItemViewModel($node, $isOnPath, $isPresented, $pasteMode, $isCutted, $readonly);
+//                        $itemViewModel = new ItemViewModel($node, $realDepth, $isOnPath, $isLeaf, $isPresented, $pasteMode, $isCutted, $readonly);
+//
+//            if ($pasteMode) {
+//                $itemViewModel->setPasteUid($pasteUid);
+//            }
+//            $models[] = $itemViewModel;
+//        }
+//        return $models;
+//    }
 
     /**
      * Původní metoda getSubtreeItemModel pro Menu Display controler
      *
-     * @param type $rootUid
-     * @param type $maxDepth
      * @return ItemViewModelInterface array af
      */
-    public function getSubTreeItemModels($rootUid, $maxDepth=NULL) {
+    public function getSubTreeItemModels() {
+        // root uid z jména komponenty
+        $menuRoot = $this->getMenuRoot($this->componentName);
+        if (!isset($menuRoot)) {
+            user_error("Kořen menu se zadaným jménem komponety '$this->componentName' nebyl načten z tabulky kořenů menu.", E_USER_WARNING);
+        }
+        $rootUid = $menuRoot->getUidFk();
+        // nodes
         $presentationStatus = $this->statusPresentationRepo->get();
         $langCode = $presentationStatus->getLanguage()->getLangCode();
-        $nodes = $this->hierarchyRepo->getSubTree($langCode, $rootUid, $maxDepth);
+        $nodes = $this->hierarchyRepo->getSubTree($langCode, $rootUid, $this->maxDepth);
 
-        return $this->createItemModels($nodes);
+        // presented node
+        $rootNode = reset($nodes);
+        $presentedNode = $this->getPresentedMenuNode($rootNode);
+
+        // remove root
+//        since PHP 7.3 the first value of $array may be accessed with $array[array_key_first($array)];
+        if (!$this->withRoot) {
+            $removed = array_shift($nodes);   //odstraní první prvek s indexem [0] a výsledné pole opět začína prvkem s indexem [0]
+        }
+        return $this->createItemModels($nodes, $presentedNode);
     }
 
-    private function createItemModels($nodes) {
-        $presentedNode = $this->getPresentedMenuNode();
+    private function createItemModels($nodes, $presentedNode=null) {
+
         if (isset($presentedNode)) {
             $presentedUid = $presentedNode->getUid();
             $presentedItemLeftNode = $presentedNode->getLeftNode();
@@ -148,19 +201,38 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
         $pasteUid = $this->getPostFlashCommand('cut');
         $pasteMode = $pasteUid ? true : false;
 
-        $rootDepth = $nodes[0]->getDepth();
+//        since PHP 7.3 the first value of $array may be accessed with $array[array_key_first($array)];
+        $rootDepth = reset($nodes)->getDepth();  //jako side efekt resetuje pointer
         $models = [];
-        foreach ($nodes as $node) {
-           if (isset($presentedNode)) {
+        foreach ($nodes as $key => $node) {
+            $realDepth = $node->getDepth() - $rootDepth + 1;  // první úroveň má realDepth=1
+            if (isset($presentedNode)) {
                 $isOnPath = ($presentedItemLeftNode >= $node->getLeftNode()) && ($presentedItemRightNode <= $node->getRightNode());
             } else {
                 $isOnPath = FALSE;
             }
-            $realDepth = $node->getDepth() - $rootDepth;
+            $isLeaf = (
+                        (($node->getRightNode() - $node->getLeftNode()) == 1)   //žádný potomek
+                        OR
+                        (!array_key_exists($key+1, $nodes))  // žádný aktivní (zobrazený) potomek - je poslední v poli $nodes
+                        OR
+                        ($nodes[$key+1]->getDepth() <= $node->getDepth())  // žádný aktivní (zobrazený) potomek - další prvek $nodes nemá větší hloubku
+                    );
+//            $isLeaf1 = $isLeaf2 = $isLeaf3 = false;
+//            $isLeaf1 = ($node->getRightNode() - $node->getLeftNode()) == 1;   //žádný potomek
+//            if(!$isLeaf1) {
+//                $isLeaf2 = !array_key_exists($key+1, $nodes);  // žádný aktivní (zobrazený) potomek - je poslední v poli $nodes
+//            }
+//            if(!$isLeaf1 AND !$isLeaf2) {
+//                $isLeaf3 = $nodes[$key+1]->getDepth() <= $node->getDepth();  // žádný aktivní (zobrazený) potomek - další prvek $nodes nemá větší hloubku
+//            }
+//            $isLeaf = ($isLeaf1 OR $isLeaf2 OR $isLeaf3);
             $nodeUid = $node->getUid();
             $isPresented = isset($presentedUid) ? ($presentedUid == $nodeUid) : FALSE;
             $isCutted = $pasteUid == $nodeUid;
-            $itemViewModel = new ItemViewModel($node, $realDepth, $isOnPath, $isPresented, $pasteMode, $isCutted, false);
+            $readonly = false;
+
+            $itemViewModel = new ItemViewModel($node, $realDepth, $isOnPath, $isLeaf, $isPresented, $pasteMode, $isCutted, $readonly);
             if ($pasteMode) {
                 $itemViewModel->setPasteUid($pasteUid);
             }

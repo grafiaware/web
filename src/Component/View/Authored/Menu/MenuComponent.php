@@ -7,6 +7,7 @@ use Component\ViewModel\Authored\Menu\MenuViewModel;
 use Component\ViewModel\Authored\Menu\Item\ItemViewModel;
 
 use Pes\View\Renderer\RendererInterface;
+use Component\Renderer\Html\Menu\MenuWrapRendererInterface;
 
 /**
  * Description of MenuComponent
@@ -34,7 +35,7 @@ class MenuComponent extends CompositeComponentAbstract implements MenuComponentI
     protected $actual = TRUE;
     protected $langCode;
     protected $rootUid;
-    protected $withTitle;
+    protected $withTitle = false;
 
     protected $componentName;
     protected $presentedUid;
@@ -86,113 +87,76 @@ class MenuComponent extends CompositeComponentAbstract implements MenuComponentI
      * Renderuje menu a vrací string. Jazyk, uid aktuální položky menu, stav edit použije z presentation status.
      * @return string
      */
+//    public function getString($data=null) {
     public function getString($data=null) {
-
-        // toto do view modelu
-        $presentedItem = $this->viewModel->getPresentedMenuNode();
-        if (isset($presentedItem)) {
-            $this->presentedUid = $presentedItem->getUid();
-            $this->presentedItemLeftNode = $presentedItem->getLeftNode();
-            $this->presentedItemRightNode = $presentedItem->getRightNode();
-        }
-        $menuRoot = $this->viewModel->getMenuRoot($this->componentName);
-        if (!isset($menuRoot)) {
-            user_error("Kořen menu se zadaným jménem komponety '$this->componentName' nebyl načten z tabulky kořenů menu.", E_USER_WARNING);
-        }
-        $this->rootUid = $menuRoot->getUidFk();
-
-
+        // set renderer
         if (!isset($this->rendererContainer)) {
             throw new \LogicException("Komponent ".get_called_class()." nemá nastaven renderer kontejner metodou setRendererContainer().");
         }
-        $this->setRenderer($this->rendererContainer->get($this->rendererName));
-        $this->levelWrapRenderer = $this->rendererContainer->get($this->levelWrapRendererName);
-        $this->itemRenderer = $this->rendererContainer->get($this->itemRendererName);
+        /** @var MenuWrapRendererInterface $renderer */
+        $renderer = $this->rendererContainer->get($this->rendererName);
+        $renderer->setLevelWrapRenderer($this->rendererContainer->get($this->levelWrapRendererName));
+        $renderer->setItemRenderer($this->rendererContainer->get($this->itemRendererName));
+        $this->setRenderer($renderer);
 
-        $subtreeItemModels = $this->viewModel->getSubTreeItemModels($this->rootUid, null);
+        $this->viewModel->setMenuRootName($this->componentName);
+        $this->viewModel->withTitleItem($this->withTitle);
+        $this->viewModel->setMaxDepth(null);
 
-        if (!$this->withTitle) {
-            unset($subtreeItemModels[0]);
-        }
-        return parent::getString($data ? $data : $this->getMenuLevelHtml($subtreeItemModels));
 
-//        if ($this->withTitle) {
-//            $rootItemModel = $subtreeItemModels[0];
-//            if (isset($rootItemModel)) {
-//                $titleItemHtml = $this->itemRenderer->render($rootItemModel);
-//            } else {
-//                $titleItemHtml = '';  // root menu item nená publikovaný
-//            }
-//        } else {
-//            $titleItemHtml = '';
-//        }
-//        return parent::getString($data ? $data : $titleItemHtml . $this->getMenuLevelHtml($subtreeItemModels));
+//        $subtreeItemModels = $this->viewModel->getSubTreeItemModels($this->componentName, $this->withTitle, null);
+
+        return parent::getString();
     }
 
-    protected function getMenuLevelHtml($subtreeItemModels) {
-        $itemTags = [];
-
-//        $subtreeItemModels = $this->viewModel->getSubTreeItemModels($parentUid, null);
-        $first = true;
-        foreach ($subtreeItemModels as $itemModel) {
-            /** @var ItemViewModel $itemModel */
-            $itemDepth = $itemModel->getMenuNode()->getDepth();
-            if ($first) {
-                $rootDepth = $itemDepth;
-                $currDepth = $itemDepth;
-                $first = false;
-            }
-            if ($itemDepth>$currDepth) {
-                $currDepth = $itemDepth;
-                $itemStack[$currDepth][] = $itemModel;
-            } elseif ($itemDepth<$currDepth) {
-                for ($i=$currDepth; $i>$itemDepth; $i--) {
-                    $level = [];
-                    foreach ($itemStack[$i] as $stackedItemModel) {
-                        $level[] = $this->itemRenderer->render($stackedItemModel);
-                    }
-                    $wrap = $this->levelWrapRenderer->render(implode(PHP_EOL, $level));
-                    unset($itemStack[$i]);
-                    end($itemStack[$i-1])->setInnerHtml($wrap);
-                }
-                $currDepth = $itemDepth;
-                $itemStack[$currDepth][] = $itemModel;
-            } else {
-                $itemStack[$currDepth][] = $itemModel;
-            }
-        }
-        for ($i=$currDepth; $i>=$rootDepth; $i--) {
-            $level = [];
-            foreach ($itemStack[$i] as $stackedItemModel) {
-                $level[] = $this->itemRenderer->render($stackedItemModel);
-            }
-            if ($i==$rootDepth) {
-                $wrap = implode(PHP_EOL, $level);                // nejvyšší úroveň stromu je renderována je do "li", "ul" pak udělá menuWrapRenderer, který je nastaven jako renderer celé komponenty ($this->renderer)
-            } else {
-                $wrap = $this->levelWrapRenderer->render(implode(PHP_EOL, $level));
-            }
+//    private function getMenuLevelHtml($subtreeItemModels) {
+//        $itemTags = [];
+//        $first = true;
+//        foreach ($subtreeItemModels as $itemModel) {
+//            /** @var ItemViewModel $itemModel */
+//            $itemDepth = $itemModel->getRealDepth();
+//            if ($first) {
+//                $rootDepth = $itemDepth;
+//                $currDepth = $itemDepth;
+//                $first = false;
+//            }
+//            if ($itemDepth>$currDepth) {
+//                $itemStack[$itemDepth][] = $itemModel;
+//                $currDepth = $itemDepth;
+//            } elseif ($itemDepth<$currDepth) {
+//                $this->renderStackedItems($currDepth, $itemDepth, $itemStack);
+//                $itemStack[$itemDepth][] = $itemModel;
+//                $currDepth = $itemDepth;
+//            } else {
+//                $itemStack[$currDepth][] = $itemModel;
+//            }
+//        }
+//        $this->renderStackedItems($currDepth, $rootDepth, $itemStack);
+//        $wrap = $this->renderLastLevel($itemStack[$rootDepth]);
+//        return $wrap;
+//    }
+//
+//    private function renderStackedItems($currDepth, $targetDepth, &$itemStack) {
+//        for ($i=$currDepth; $i>$targetDepth; $i--) {
+//            $level = [];
+//            foreach ($itemStack[$i] as $stackedItemModel) {
+//                /** @var ItemViewModel $stackedItemModel */
+//                $level[] = $this->itemRenderer->render($stackedItemModel);
+//            }
+//            $wrap = $this->levelWrapRenderer->render(implode(PHP_EOL, $level));
 //            unset($itemStack[$i]);
 //            end($itemStack[$i-1])->setInnerHtml($wrap);
-            end($itemStack[$i])->setInnerHtml($wrap);
-        }
-        return end($itemStack[$rootDepth])->getInnerHtml();
-    }
-
-    // to do menu level rendereru ($this->presented... si bude brát z view modelu
-    protected function getMenuLevelHtml_OLD($parentUid) {
-        $itemTags = [];
-
-//        $subtreeItemModels = $this->viewModel->getChildrenItemModels($parentUid);
-        $subtreeItemModels = $this->viewModel->getSubTreeItemModels($parentUid, null);
-        foreach ($subtreeItemModels as $itemViewModel) {    // , $maxDepth
-            if($itemViewModel->isOnPath()) {
-                $innerHtml = $this->levelWrapRenderer->render($this->getMenuLevelHtml_OLD($itemViewModel->getMenuNode()->getUid()));
-                $itemViewModel->setInnerHtml($innerHtml);
-            }
-            $itemTags[] = $this->itemRenderer->render($itemViewModel);
-
-        }
-        return $itemTags ? \implode(PHP_EOL, $itemTags) : '';
-    }
+//        }
+//    }
+//
+//    private function renderLastLevel($itemStack) {
+//        $level = [];
+//        foreach ($itemStack as $stackedItemModel) {
+//            /** @var ItemViewModel $stackedItemModel */
+//            $level[] = $this->itemRenderer->render($stackedItemModel);
+//        }
+//        $wrap = implode(PHP_EOL, $level);                // nejvyšší úroveň stromu je renderována je do "li", "ul" pak udělá menuWrapRenderer, který je nastaven jako renderer celé komponenty ($this->renderer)
+//        return $wrap;
+//    }
 
 }
