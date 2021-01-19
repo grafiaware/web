@@ -53,8 +53,6 @@ use \Pes\View\ViewFactory;
  */
 class TemplateControler extends XhrControlerAbstract {
 
-    const DEEAULT_HIERARCHY_ROOT_COMPONENT_NAME = 's';
-
     ### action metody ###############
 
     public function papertemplate(ServerRequestInterface $request, $folder) {

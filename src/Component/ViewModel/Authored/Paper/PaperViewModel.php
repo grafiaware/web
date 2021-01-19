@@ -58,17 +58,18 @@ class PaperViewModel extends AuthoredViewModelAbstract implements PaperViewModel
      * @return PaperAggregateInterface|null
      */
     public function getPaperAggregate(): ?PaperAggregateInterface {
-        if (!isset($this->menuItemId)) {
-            throw new \LogicException("Unknown menu item id '$this->menuItemId'.");
+        if (isset($this->menuItemId)) {
+            $paperAggregate = $this->paperAggregateRepo->getByReference($this->menuItemId);
         }
-        $paperAggregate = $this->paperAggregateRepo->getByReference($this->menuItemId);
         return $paperAggregate ?? null;
     }
 
     public function createPaperAggregate(): ?PaperAggregateInterface {
         $paperAggregate = new PaperAggregate();
         $paperAggregate->setEditor($this->statusSecurityRepo->get()->getUser()->getUserName());
-        return $paperAggregate ?? null;
+        $paperAggregate->setMenuItemIdFk($this->menuItemId);
+        $this->paperAggregateRepo->add($paperAggregate);
+        return $paperAggregate;
     }
 
     public function getIterator() {

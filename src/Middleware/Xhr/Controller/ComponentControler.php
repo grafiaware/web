@@ -15,6 +15,7 @@ use Pes\Http\Request\RequestParams;
 
 use Model\Entity\MenuItemInterface;
 use Model\Entity\BlockAggregateInterface;
+use Model\Entity\PaperInterface;
 
 // komponenty
 use Component\View\{
@@ -36,7 +37,7 @@ use \Middleware\Xhr\AppContext;
 ####################
 
 use Model\Repository\{
-    HierarchyAggregateRepo, MenuRootRepo, MenuItemRepo, BlockAggregateRepo
+    HierarchyAggregateRepo, MenuRootRepo, MenuItemRepo, BlockAggregateRepo, PaperRepo
 };
 
 use \StatusManager\StatusPresentationManager;
@@ -82,15 +83,15 @@ class ComponentControler extends XhrControlerAbstract {
     }
 
     public function paper(ServerRequestInterface $request, $menuItemId) {
-        $component = $this->container->get('component.paper');
         /** @var PaperComponentInterface $component */
+        $component = $this->container->get('component.paper');
         $component->setItemId($menuItemId);
         return $this->createResponseFromView($request, $component);
     }
 
     public function paperEditable(ServerRequestInterface $request, $menuItemId) {
-        $component = $this->container->get('component.paper.editable');
         /** @var PaperComponentInterface $component */
+        $component = $this->container->get('component.paper.editable');
         $component->setItemId($menuItemId);
         return $this->createResponseFromView($request, $component);
     }

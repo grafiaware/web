@@ -9,10 +9,9 @@
 namespace Component\Renderer\Html\Authored;
 
 use Model\Entity\PaperAggregateInterface;
+use Model\Entity\PaperInterface;
 
 use Component\ViewModel\Authored\Paper\PaperViewModelInterface;
-use Component\ViewModel\Authored\Paper\NamedPaperViewModelInterface;
-use Component\ViewModel\Authored\Paper\PresentedPaperViewModelInterface;
 use Pes\Text\Html;
 
 use Component\View\Authored\Paper\ButtonsForm\PaperTemplateButtonsForm;
@@ -30,17 +29,11 @@ class PaperEditableRenderer  extends AuthoredRendererAbstract {
     private function renderPrivate(PaperViewModelInterface $viewModel) {
         $paperAggregate = $viewModel->getPaperAggregate();
 
-        // select render
-        if (isset($paperAggregate)) {  // ještě neexistuje paper k menuItem nebo režim není article editable a item není aktivní
-            $innerHtml = $this->renderPaper($paperAggregate);
-        } else {
-            if ($viewModel instanceof PresentedPaperViewModelInterface) {
-                $innerHtml = $this->renderSelectPaperTemplate($viewModel);
-            } else {
-                $innerHtml = $this->renderNoPaperContent($viewModel);
-            }
+        $innerHtml = $this->renderPaper($paperAggregate);
+        if ($paper instanceof PaperAggregateInterface) {
+            $paper->
+                    $contents = $paperAggregate->getPaperContentsArraySorted(PaperAggregateInterface::BY_PRIORITY);
         }
-
         // atribut data-component je jen pro info v html
         return Html::tag('div', ['data-componentinfo'=>$viewModel->getInfo(), 'class'=>$this->classMap->getClass('Segment', 'div')],
                 Html::tag('div', ['class'=>$this->classMap->getClass('Segment', 'div.paper')], $innerHtml)
@@ -48,7 +41,7 @@ class PaperEditableRenderer  extends AuthoredRendererAbstract {
     }
 
 
-    private function renderPaper(PaperAggregateInterface $paperAggregate) {
+    private function renderPaper(PaperInterface $paper) {
 
             // TinyMCE v inline režimu pojmenovává proměnné v POSTu mce_XX, kde XX je asi pořadové číslo selected elementu na celé stránce, pokud editovaný element má id, pak TinyMCE použije toto id.
             // Použije ho tak, že přidá tag <input type=hidden name=id_editovaného_elementu> a této proměnné přiřadí hodnotu.
@@ -57,36 +50,11 @@ class PaperEditableRenderer  extends AuthoredRendererAbstract {
 //                'onblur'=>'var throw=confirm("Chcete zahodit změny v obsahu headline?"); if (throw==false) {document.getElementByName("headline").focus(); }'
 
         return
-                $this->renderPaperTemplateButtonsForm($paperAggregate).
-        $this->renderPaperButtonsForm($paperAggregate).
-                $this->renderHeadlineForm($paperAggregate).
-                $this->renderPerexForm($paperAggregate).
-                $this->renderContentsDivs($paperAggregate).
+                $this->renderPaperTemplateButtonsForm($paper).
+        $this->renderPaperButtonsForm($paper).
+                $this->renderHeadlineForm($paper).
+                $this->renderPerexForm($paper).
                     ""
                 ;
     }
-
-    private function renderSelectPaperTemplate(PresentedPaperViewModelInterface $viewModel) {
-        $menuItemId = $viewModel->getMenuItem()->getId();
-        return
-            Html::tag('form', ['method' => 'POST', 'action' => 'api/v1/paper'],
-                Html::tag('input', ['name'=>'menu_item_id', 'value'=>$menuItemId, 'type'=>'hidden'])
-                .
-                // 'paper_template_select' class je selektor v TinyInit.js
-                Html::tag('div', ['id'=>'paper_template_html', 'class'=>'paper_template_select'],
-                        Html::tag('p', [], '')
-                    )
-                );
-    }
-
-    private function renderNoPaperContent(PaperViewModelInterface $viewModel) {
-        if ($viewModel->getMenuItem()) {
-            $uid = $viewModel->getMenuItem()->getUidFk();
-            $message = "No paper for rendering. Component - '{$viewModel->getInfo()}'. MenuiItem uid '$uid'.";
-        } else {
-            $message = "No paper for rendering. Component - '{$viewModel->getInfo()}'.";
-        }
-        return Html::tag('div', [], $message);
-    }
 }
-

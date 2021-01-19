@@ -188,7 +188,7 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract {
     }
 
     protected function renderContentsDivs(PaperAggregateInterface $paperAggregate) {
-        $contents = $paperAggregate->getPaperContentsArraySorted(PaperAggregateInterface::BY_PRIORITY);
+        
         $form = [];
         foreach ($contents as $paperContent) {
             /** @var PaperContentInterface $paperContent */
