@@ -173,7 +173,7 @@ body{
         width: @svisleMenuWidth;
         margin: @svisleMenuMargin;
         padding-left: 8px; 
-        .menu.edit{
+        .menu.edit{ 
             .menu {
                 > li:not(.presented){ //pro lepší čitelnost položek menu vzhledem k dalším editačním prvkům pložky (semafor)
                     padding: @svisleMenuLiPadding; //není zvětšený padding pro <a>, protože to zajišťuje semantic
@@ -185,7 +185,7 @@ body{
                 } 
             }
             li{
-                position: relative;
+                position: relative; 
             }
         }
         /*SVISLÉ MENU BLOKY*/
@@ -193,21 +193,21 @@ body{
             height: @svisleMenuBlokyHeight;
             /*margin: @svisleMenuBlokyMargin;*/
                   
-        }
+        }  
                 
     } 
     nav{
         &:first-of-type{
             margin: 0 auto;
-            margin-left: -8px;
+            margin-left: -15px;
         }
         &:nth-of-type(2){
             margin: 30px auto;
-            margin-left: -8px;
+            margin-left: -15px;
         }
         &:last-of-type{
-            margin: 0 auto;
-            margin-left: -8px;
+            margin: 0 auto 30px auto; 
+            margin-left: -15px; 
         }
     }
     /*PRESMEROVANI MENU*/
@@ -261,7 +261,7 @@ body{
     }
     
     //import pravidel specifických pro projekt
-    @import (optional) "../../@{sitename}/@{siteStylesFolder}/rules-author.less";
+    @import (optional) "../../@{sitename}/@{siteStylesFolder}/rules-edit-layout.less";
     
 }
 

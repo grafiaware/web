@@ -2,6 +2,11 @@
     $('.ui.dropdown')
       .dropdown()
     ;
+    
+    
+    $('.ui.modal')
+      .modal('attach events', '.btn-form', 'show')
+    ;
 
     //menu semantic-ui dropdown reaguje na událost hover
     $('.svisle-menu .ui.dropdown').dropdown({

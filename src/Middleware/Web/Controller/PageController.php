@@ -187,10 +187,10 @@ class PageController extends LayoutControllerAbstract {
                     $content = $view = $this->container->get(View::class)->setData( "No content for redirect type.")->setRenderer(new StringRenderer());
                     break;
                 case 'root':
-                        $content = $this->container->get('component.presented');
+                        $content = $this->container->get(View::class)->setData( "root")->setRenderer(new StringRenderer());
                     break;
                 case 'trash':
-                        $content = $this->container->get('component.presented');
+                        $content = $this->container->get(View::class)->setData( "trash")->setRenderer(new StringRenderer());
                     break;
 
                 default:
@@ -218,9 +218,9 @@ class PageController extends LayoutControllerAbstract {
             $componets = [
                 'menuPresmerovani' => $this->container->get('menu.presmerovani')->setMenuRootName('menu_redirect'),
                 'menuVodorovne' => $this->container->get('menu.vodorovne')->setMenuRootName('menu_horizontal'),
-                'bloky' => $this->container->get('menu.bloky.editable')->setMenuRootName('blocks')->withTitleItem(true),
+                'bloky' => $this->container->get('menu.bloky.editable')->setMenuRootName('blocks'), //->withTitleItem(true),
                 'menuSvisle' => $this->container->get('menu.svisle')->setMenuRootName('menu_vertical'),
-                'kos' => $this->container->get('menu.kos.editable')->setMenuRootName('trash')->withTitleItem(true),
+                'kos' => $this->container->get('menu.kos.editable')->setMenuRootName('trash'), //->withTitleItem(true),
 
             ];
         } elseif ($this->isEditableArticle()) {
@@ -228,7 +228,7 @@ class PageController extends LayoutControllerAbstract {
                 'menuPresmerovani' => $this->container->get('menu.presmerovani.editable')->setMenuRootName('menu_redirect'),
                 'menuVodorovne' => $this->container->get('menu.vodorovne.editable')->setMenuRootName('menu_horizontal'),
                 'menuSvisle' => $this->container->get('menu.svisle.editable')->setMenuRootName('menu_vertical'),
-                'kos' => $this->container->get('menu.kos.editable')->setMenuRootName('trash')->withTitleItem(true),
+                'kos' => $this->container->get('menu.kos.editable')->setMenuRootName('trash'), //->withTitleItem(true),
             ];
         } else {
             $componets = [

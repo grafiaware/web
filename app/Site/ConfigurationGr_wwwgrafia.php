@@ -579,7 +579,7 @@ class ConfigurationGr_wwwgrafia {
                 return new ClassMap (
                     [
                         'MenuWrap' => [
-                            'ul' => 'ui vertical menu edit'
+                            'ul' => 'hlavni-menu edit'
                         ],
                         'LevelWrap' => [
                             'ul' => 'menu'
@@ -592,7 +592,7 @@ class ConfigurationGr_wwwgrafia {
                 return new ClassMap (
                     [
                         'MenuWrap' => [
-                            'ul' => 'ui vertical menu'
+                            'ul' => 'hlavni-menu menu'
                         ],
                         'LevelWrap' => [
                             'ul' => 'menu'
