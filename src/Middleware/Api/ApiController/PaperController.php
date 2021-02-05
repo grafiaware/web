@@ -201,7 +201,7 @@ class PaperController extends PresentationFrontControllerAbstract {
         if (!isset($paper)) {
             user_error("Neexistuje paper se zadaným id.$paperId");
         } else {
-            $postTemplate = (new RequestParams())->getParam($request, 'template_'.$paperId);
+            $postTemplate = (new RequestParams())->getParam($request, 'folder_'.$paperId, 'default');
             $paper->setTemplate($postTemplate);
         }
         return $this->redirectSeeLastGet($request); // 303 See Other

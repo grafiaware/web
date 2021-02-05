@@ -12,6 +12,11 @@ use Component\ViewModel\Generated\LanguageSelectViewModel;
  */
 class LanguageSelectComponent extends ComponentAbstract {
 
+    /**
+     * @var LanguageSelectViewModel
+     */
+    protected $viewModel;
+
     public function __construct(LanguageSelectViewModel $viewModel) {
         $this->viewModel = $viewModel;
     }

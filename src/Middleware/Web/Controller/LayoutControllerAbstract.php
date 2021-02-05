@@ -111,8 +111,8 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
                     #### komponenty ######
                     'modalLoginLogout' => $this->getLoginLogoutComponent(),
                     'modalUserAction' => $this->getUserActionComponent(),
-                    'linkEditorJs' => $this->getEditorJsComponentView($request),
-                    'linkEditorCss' => $this->getEditorCssComponentView($request),
+                    'linkEditorJs' => $this->getLinkEditorJsView($request),
+                    'linkEditorCss' => $this->getLinkEditorCssView($request),
                     'poznamky' => $this->getPoznamkyComponentView(),
                     'flash' => $this->getFlashComponent(),
                 ]);
@@ -161,7 +161,13 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
         }
     }
 
-    private function getEditorJsComponentView(ServerRequestInterface $request) {
+    /**
+     * Generuje html obsahující definice tagů <script> vkládaných do stránku pouze v editačním módu
+     *
+     * @param ServerRequestInterface $request
+     * @return type
+     */
+    private function getLinkEditorJsView(ServerRequestInterface $request) {
         if ($this->isEditableArticle() OR $this->isEditableLayout()) {
             ## document base path - stejná hodnota se musí použiít i v nastavení tinyMCE
             $basepath = $this->getBasePath($request);
@@ -202,7 +208,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
         }
     }
 
-    private function getEditorCssComponentView(ServerRequestInterface $request) {
+    private function getLinkEditorCssView(ServerRequestInterface $request) {
         if ($this->isEditableArticle() OR $this->isEditableLayout()) {
             return $this->container->get(View::class)
                     ->setTemplate(new PhpTemplate(Configuration::layoutControler()['linkEditorCss']))

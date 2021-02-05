@@ -10,16 +10,12 @@ namespace Component\ViewModel\Authored;
 
 use Component\ViewModel\StatusViewModelAbstract;
 
-use Model\Repository\StatusSecurityRepo;
-use Model\Repository\StatusPresentationRepo;
-use Model\Repository\StatusFlashRepo;
-
 /**
  * Description of AuthoredViewModelAbstract
  *
  * @author pes2704
  */
-class AuthoredViewModelAbstract extends StatusViewModelAbstract implements AuthoredViewModelInterface {
+abstract class AuthoredViewModelAbstract extends StatusViewModelAbstract implements AuthoredViewModelInterface {
 
     /**
      *

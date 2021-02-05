@@ -12,7 +12,7 @@ use Component\Renderer\Html\Menu\{
 };
 
 use Component\Renderer\Html\Authored\{
-    PaperRenderer, PaperEditableRenderer
+    PaperWrapRenderer, PaperWrapEditableRenderer
 };
 
 use Component\Renderer\Html\Generated\{
@@ -171,11 +171,11 @@ class RendererContainerConfigurator_Nav extends ContainerConfiguratorAbstract {
         ###########################
         # paper renderer
         ###########################
-            PaperRenderer::class => function(ContainerInterface $c) {
-                return new PaperRenderer($c->get('paper.classmap'));
+            PaperWrapRenderer::class => function(ContainerInterface $c) {
+                return new PaperWrapRenderer($c->get('paper.classmap'));
             },
-            PaperEditableRenderer::class => function(ContainerInterface $c) {
-                return new PaperEditableRenderer($c->get('paper.editable.classmap'));
+            PaperWrapEditableRenderer::class => function(ContainerInterface $c) {
+                return new PaperWrapEditableRenderer($c->get('paper.editable.classmap'));
             },
         ###########################
         #  generated renderer

@@ -8,7 +8,8 @@
 
 namespace Component\Renderer\Html\Authored;
 
-use Component\Renderer\Html\HtmlRendererAbstract;
+use Pes\View\Renderer\ClassMap\ClassMapInterface;
+
 use Model\Entity\PaperAggregateInterface;
 use Model\Entity\PaperInterface;
 use Model\Entity\PaperContentInterface;
@@ -20,188 +21,76 @@ use Pes\Text\Html;
  *
  * @author pes2704
  */
-abstract class AuthoredRendererAbstract extends HtmlRendererAbstract {
-
-
-    protected function renderHeadline(PaperAggregateInterface $paperAggregate) {
-        $headline = $paperAggregate->getHeadline();
-        return  $headline
-                ?
-                Html::tag('div',
-                    ['class'=>$this->classMap->getClass('Headline', 'div')],
-                    Html::tag('headline',
-                            ['class'=>$this->classMap->getClass('Headline', 'headline')],
-                            $headline
-                    )
-                )
-                :
-                ""
-            ;
-    }
-
-    protected function renderPerex(PaperAggregateInterface $paperAggregate) {
-        $perex = $paperAggregate->getPerex();
-        return  $perex
-                ?
-                Html::tag('perex',
-                    ['class'=>$this->classMap->getClass('Perex', 'perex')],
-                    $perex
-                )
-                :
-                ""
-                ;
-    }
-
+class ElementEditableWrapper {
 
     /**
-     * Renderuje bloky s atributem id pro TinyMCE jméno proměnné ve formuláři
      *
-     * @param MenuItemPaperAggregateInterface $paperAggregate
-     * @param type $class
-     * @return type
+     * @var ClassMapInterface
      */
-    protected function renderContents(PaperAggregateInterface $paperAggregate) {
-        $contents = $paperAggregate->getPaperContentsArraySorted(PaperAggregateInterface::BY_PRIORITY);
-        $innerHtml = '';
-        foreach ($contents as $paperContent) {
-            /** @var PaperContentInterface $paperContent */
-            $innerHtml .=
-                Html::tag('content', [
-                            'id' => "content_{$paperContent->getId()}",
-                            'class'=>$this->classMap->getClass('Content', 'content'),
-                            'data-owner'=>$paperContent->getEditor()
-                        ],
-                    $paperContent->getContent()
-                );
-        }
-        return $innerHtml;
+    protected $classMap;
+
+    /**
+     *
+     * @param ClassMapInterface $menuClassMap
+     */
+    public function __construct(ClassMapInterface $menuClassMap=NULL) {
+        $this->classMap = $menuClassMap;
     }
 
     #### editable ###################
 
-    protected function renderPaperTemplateButtonsForm(PaperAggregateInterface $paperAggregate) {
-        $paperId = $paperAggregate->getId();
-        $paperTemplatesName = $paperAggregate->getTemplate();
-        $selectHtml = '';
-//        foreach ($paperTemplatesName as $type) {
-//            $selectHtml .=  Html::tag('div', ['value'=>$type->getType(), 'class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.item')],
-//                                $type->getType()
-//                            );
-//
-//        }
-        return
-            Html::tag('form', ['method'=>'POST', 'action'=>"api/v1/paper/$paperId/template"],
-                Html::tag('div', ['class'=>$this->classMap->getClass('PaperTemplateButtons', 'div.paperTemplate'), 'data-tooltip'=>'Výběr šablony stránky'],
-                    Html::tag('i', ['class'=>$this->classMap->getClass('PaperTemplateButtons', 'button.templateSelect')])
-                    .Html::tag('div', ['class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.menu')],
-                        Html::tag('div', ['class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.header')], 'Vyberte šablonu stránky')
-                        .Html::tag('div', ['class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.selection')],
-                            Html::tag('input', ['class'=>$this->classMap->getClass('PaperTemplateSelect', 'input'), 'type'=>'hidden', 'name'=>'select', 'onchange'=>'this.form.submit()'] )
-                            .Html::tag('i', ['class'=>$this->classMap->getClass('PaperTemplateSelect', 'i.dropdown')])
-                            .Html::tag('div', ['class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.text')], 'Šablona')
-                            .Html::tag('div', ['class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.scrollmenu')],
-                                    Html::tag('div', ['class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.item'), 'value'=>'course'], 'Course')
-                                    .Html::tag('div', ['class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.item'), 'value'=>'contact'], 'Contact')
-                                    .Html::tag('div', ['class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.item'), 'value'=>'default'], 'Výchozí')
-                            )
-                        )
-                    )
-                )
-            );
-    }
-
-    protected function renderPaperButtonsForm(PaperAggregateInterface $paperAggregate) {
-        $paperId = $paperAggregate->getId();
-
-        $buttons = [];
-        if ($paperAggregate->getPaperContentsArray()) {
-            $buttons[] = Html::tag('button', [
-                    'class'=>$this->classMap->getClass('PaperButtons', 'button'),
-                    'data-tooltip'=> 'Seřadit podle data',
-                    'data-position'=>'top right',
-                    'formmethod'=>'post',
-                    'formaction'=>"",
-                    ],
-                    Html::tag('i', ['class'=>$this->classMap->getClass('PaperButtons', 'button.arrange')])
-                );
-        } else {
-            $buttons[] =  Html::tag('button',
-                        ['class'=>$this->classMap->getClass('ContentButtons', 'button'),
-                        'data-tooltip'=>'Přidat obsah',
-                        'type'=>'submit',
-                        'name'=>'button',
-                        'value' => '',
-                        'formmethod'=>'post',
-                        'formaction'=>"api/v1/paper/$paperId/contents",
-                        ],
-                        Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.icons')],
-                            Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.addcontent')])
-                            .Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.arrowdown')])
-                        )
-                    );
-        }
-        return Html::tag('form', ['method'=>'POST', 'action'=>""],
-            Html::tag('div', ['class'=>$this->classMap->getClass('PaperButtons', 'div.buttonsPage')],
-                    implode('', $buttons)
-            )
-        );
-    }
     /**
      * headline semafor a form
      *
-     * @param MenuItemPaperAggregateInterface $paperAggregate
+     * @param MenuItemPaperAggregateInterface $paper
      * @return type
      */
-    protected function renderHeadlineForm(PaperAggregateInterface $paperAggregate) {
+    public function wrapHeadline(PaperInterface $paper) {
         return
             Html::tag('section', ['class'=>$this->classMap->getClass('Headline', 'section')],
-                    Html::tag('form', ['method'=>'POST', 'action'=>"api/v1/paper/{$paperAggregate->getId()}/headline"],
+                    Html::tag('form', ['method'=>'POST', 'action'=>"api/v1/paper/{$paper->getId()}/headline"],
                     Html::tag(
                         'headline',
                         [
-                            'id'=>"headline_{$paperAggregate->getId()}",  // id musí být na stránce unikátní - skládám ze slova headline_ a paper id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
+                            'id'=>"headline_{$paper->getId()}",  // id musí být na stránce unikátní - skládám ze slova headline_ a paper id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
                             'class'=>$this->classMap->getClass('Headline', 'headline'),
                         ],
-                        $paperAggregate->getHeadline() ?? ""
+                        $paper->getHeadline() ?? ""
                     )
                 )
             );
     }
 
-    protected function renderPerexForm(PaperAggregateInterface $paperAggregate) {
+    public function wrapPerex(PaperInterface $paper) {
         $form =
             Html::tag('section', ['class'=>$this->classMap->getClass('Perex', 'section')],
                 Html::tag('form',
-                    ['method'=>'POST', 'action'=>"api/v1/paper/{$paperAggregate->getId()}/perex"],
+                    ['method'=>'POST', 'action'=>"api/v1/paper/{$paper->getId()}/perex"],
                     Html::tag('perex',
                         [
-                            'id' => "perex_{$paperAggregate->getId()}",  // id musí být na stránce unikátní - skládám ze slova perex_ a paper id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
+                            'id' => "perex_{$paper->getId()}",  // id musí být na stránce unikátní - skládám ze slova perex_ a paper id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
                             'class'=>$this->classMap->getClass('Perex', 'perex'),
-                            'data-owner'=>$paperAggregate->getEditor(),
+                            'data-owner'=>$paper->getEditor(),
                             'data-text'=>'prázdný'
                         ],
-                        $paperAggregate->getPerex() ?? ""
+                        $paper->getPerex() ?? ""
                         )
                 )
             );
         return $form;
     }
 
-    protected function renderContentsDivs(PaperAggregateInterface $paperAggregate) {
-        
-        $form = [];
-        foreach ($contents as $paperContent) {
-            /** @var PaperContentInterface $paperContent */
-            if ($paperContent->getPriority() > 0) {  // není v koši
-                $form[] = $this->getContentForm($paperContent, $paperAggregate);
-            } else {  // je v koši
-                $form[] = $this->getTrashContentForm($paperContent, $paperAggregate);
-            }
+    public function wrapContent(PaperContentInterface $paperContent) {
+        /** @var PaperContentInterface $paperContent */
+        if ($paperContent->getPriority() > 0) {  // není v koši
+            $form = $this->getContentForm($paperContent);
+        } else {  // je v koši
+            $form = $this->getTrashContentForm($paperContent);
         }
-        return implode(PHP_EOL, $form);
+        return $form;
     }
 
-    private function getContentForm(PaperContentInterface $paperContent, PaperAggregateInterface $paperAggregate) {
+    private function getContentForm(PaperContentInterface $paperContent) {
         $active = $paperContent->getActive();
         $actual = $paperContent->getActual();
         $now =  new \DateTime("now");
@@ -244,7 +133,6 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract {
                         [
                         'id' => "content_{$paperContent->getId()}",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
                         'class'=>$this->classMap->getClass('Content', 'content'),
-                        'data-paperowner'=>$paperAggregate->getEditor(),
                         'data-owner'=>$paperContent->getEditor()
                         ],
                         $paperContent->getContent()
@@ -253,7 +141,7 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract {
             );
     }
 
-    private function getTrashContentForm($paperContent, $paperAggregate) {
+    private function getTrashContentForm($paperContent) {
         return
             Html::tag('section', ['class'=>$this->classMap->getClass('Content', 'section.trash')],
                 Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.corner')],
@@ -266,7 +154,6 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract {
                     [
                         'id' => "content_{$paperContent->getId()}",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
                         'class'=>$this->classMap->getClass('Content', 'div.trash_content'),
-                        'data-paperowner'=>$paperAggregate->getEditor(),
                         'data-owner'=>$paperContent->getEditor()
                     ],
                     $paperContent->getContent()
@@ -274,7 +161,29 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract {
             );
     }
 
-    private function getContentButtonsForm(PaperContentInterface $paperContent) {
+    protected function renderNewContent(PaperAggregateInterface $paperAggregate) {
+        $paperId = $paperAggregate->getId();
+
+        return
+        Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div div.corner')],
+            $this->getNewContentButtonsForm($paperAggregate)
+        )
+        .Html::tag('form',
+            ['method'=>'POST', 'action'=>"api/v1/paper/$paperId/contents"],
+            Html::tag('content',
+                [
+                    'id' => "new content_for_paper_$paperId",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
+                    'class'=>$this->classMap->getClass('Content', 'form content'),
+                    'data-paperowner'=>$paperAggregate->getEditor()
+                ],
+                "Nový obsah"
+            )
+        )
+        ;
+    }
+
+
+    public function getContentButtonsForm(PaperContentInterface $paperContent) {
         //TODO: atributy data-tooltip a data-position jsou pro semantic - zde jsou napevno zadané
         $show = $paperContent->getShowTime();
         $hide = $paperContent->getHideTime();
@@ -460,7 +369,7 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract {
         );
     }
 
-    private function getTrashButtonsForm(PaperContentInterface $paperContent) {
+    public function getTrashButtonsForm(PaperContentInterface $paperContent) {
         //TODO: atributy data-tooltip a data-position jsou pro semantic - zde jsou napevno zadané
         $paperIdFk = $paperContent->getPaperIdFk();
         $paperContentId = $paperContent->getId();
@@ -501,28 +410,7 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract {
 
     }
 
-    protected function renderNewContent(PaperAggregateInterface $paperAggregate) {
-        $paperId = $paperAggregate->getId();
-
-        return
-        Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div div.corner')],
-            $this->getNewContentButtonsForm($paperAggregate)
-        )
-        .Html::tag('form',
-            ['method'=>'POST', 'action'=>"api/v1/paper/$paperId/contents"],
-            Html::tag('content',
-                [
-                    'id' => "new content_for_paper_$paperId",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
-                    'class'=>$this->classMap->getClass('Content', 'form content'),
-                    'data-paperowner'=>$paperAggregate->getEditor()
-                ],
-                "Nový obsah"
-            )
-        )
-        ;
-    }
-
-    private function getNewContentButtonsForm(PaperAggregateInterface $paperAggregate) {
+    public function getNewContentButtonsForm(PaperAggregateInterface $paperAggregate) {
         $paperId = $paperAggregate->getId();
 
         return

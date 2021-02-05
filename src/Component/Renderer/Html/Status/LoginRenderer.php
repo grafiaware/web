@@ -8,21 +8,21 @@
 
 namespace Component\Renderer\Html\Status;
 
-use Component\Renderer\Html\HtmlRendererAbstract;
+use Component\Renderer\Html\HtmlModelRendererAbstract;
 use Component\ViewModel\Status\FlashVieModel;
+
+use Pes\View\Renderer\RendererModelAwareInterface;
 
 /**
  * Description of LoginRenderer
  *
  * @author pes2704
  */
-class LoginRenderer extends HtmlRendererAbstract {
+class LoginRenderer extends HtmlModelRendererAbstract implements RendererModelAwareInterface {
 
+    // NEPOUŽITO - NESMYSLNÝ VIEWMODEL
     public function render(iterable $data = NULL) {
-        $this->renderPrivate($data);
-    }
-
-    private function renderPrivate(FlashVieModel $viewModel) {
+        /** @var FlashVieModel $viewModel */
         return $viewModel->getMessage();
     }
 }

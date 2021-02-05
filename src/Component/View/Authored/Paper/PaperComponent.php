@@ -2,6 +2,7 @@
 namespace Component\View\Authored\Paper;
 
 use Component\View\Authored\Paper\AuthoredComponentAbstract;
+use Component\View\Authored\Paper\Article\ArticleComponentInterface;
 
 use Component\ViewModel\Authored\Paper\PaperViewModelInterface;
 
@@ -12,19 +13,11 @@ use Component\ViewModel\Authored\Paper\PaperViewModelInterface;
  */
 class PaperComponent extends AuthoredComponentAbstract implements PaperComponentInterface {
 
-    /**
-     *
-     * @var PaperViewModelInterface
-     */
-    protected $viewModel;
-
-
-    public function __construct(PaperViewModelInterface $viewModel) {
-        $this->viewModel = $viewModel;
-    }
+    protected $articleComponent;
 
     public function setItemId($menuItemId): PaperComponentInterface {
         $this->viewModel->setItemId($menuItemId);
         return $this;
     }
+
 }

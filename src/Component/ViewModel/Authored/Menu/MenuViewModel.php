@@ -240,4 +240,12 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
         }
         return $models;
     }
+
+    public function getIterator(): \Traversable {
+        return new \ArrayObject(
+                [
+                    'subTreeItemModels' => $this->getSubTreeItemModels(),
+                ]
+                );
+    }
 }

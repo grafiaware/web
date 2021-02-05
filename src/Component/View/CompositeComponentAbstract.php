@@ -9,7 +9,6 @@
 namespace Component\View;
 
 use Pes\View\CompositeView;
-use Pes\View\Renderer\RendererInterface;
 
 /**
  * Description of ComponentAbstract
@@ -18,7 +17,4 @@ use Pes\View\Renderer\RendererInterface;
  */
 abstract class CompositeComponentAbstract extends CompositeView {
 
-    public function getString($data=null) {
-        return parent::getString(isset($data) ? $data : ($this->data ? $this->data : $this->viewModel));  // jakýkoli parametr má přednost před $this->viewModel - i prázdný string
-    }
 }

@@ -32,8 +32,7 @@ class StatusBoardViewModel extends StatusViewModelAbstract implements StatusBoar
         return [
             'article' => $userActions->isEditableArticle(),
             'layout' => $userActions->isEditableLayout(),
-        ];
-
+            ];
     }
 
     public function getSecurityInfo() {
@@ -43,4 +42,13 @@ class StatusBoardViewModel extends StatusViewModelAbstract implements StatusBoar
             ];
     }
 
+    public function getIterator(): \Traversable {
+        return new \ArrayObject(
+                [
+                'languageInfo' => $this->getLanguageInfo(),
+                'editableInfo' => $this->getEditableInfo(),
+                'securityInfo' => $this->getSecurityInfo()
+                ]
+            );
+    }
 }

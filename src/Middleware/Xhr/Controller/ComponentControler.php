@@ -40,6 +40,8 @@ use Model\Repository\{
     HierarchyAggregateRepo, MenuRootRepo, MenuItemRepo, BlockAggregateRepo, PaperRepo
 };
 
+use \GeneratorService\Paper\PaperService;
+
 use \StatusManager\StatusPresentationManager;
 
 use Pes\Text\Message;

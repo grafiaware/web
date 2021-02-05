@@ -8,9 +8,11 @@
 
 namespace Component\Renderer\Html\Generated;
 
-use Component\Renderer\Html\HtmlRendererAbstract;
+use Component\Renderer\Html\HtmlModelRendererAbstract;
 use Component\ViewModel\Generated\SearchResultViewModel;
 use Model\Entity\MenuItemInterface;
+
+use Pes\View\Renderer\RendererModelAwareInterface;
 use Pes\Text\Html;
 use Pes\Text\Message;
 
@@ -19,13 +21,11 @@ use Pes\Text\Message;
  *
  * @author pes2704
  */
-class SearchResultRenderer extends HtmlRendererAbstract {
+class SearchResultRenderer extends HtmlModelRendererAbstract implements RendererModelAwareInterface {
 
     public function render($data=NULL) {
-        return $this->renderPrivate($data);
-    }
-
-    private function renderPrivate(SearchResultViewModel $viewModel) {
+        /** @var SearchResultViewModel $viewModel */
+        $viewModel = $this->viewModel;
         $html = '';
         $n = 0;
         foreach($viewModel->getSearchedMenuItems() as $menuItem) {

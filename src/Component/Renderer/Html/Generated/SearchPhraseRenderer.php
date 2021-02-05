@@ -19,11 +19,7 @@ use Pes\Text\Message;
  * @author pes2704
  */
 class SearchPhraseRenderer extends HtmlRendererAbstract {
-    public function render($data=NULL) {
-        return $this->renderPrivate($data);
-    }
-
-    private function renderPrivate() {  // bez parametru - nepoužívá viewModel
+    public function render($data=NULL) {  // bez parametru - nepoužívá viewModel
         // input - musí být required, jinak se při nulové délce neprovádí validace a pošle se dotaz s prázdným řetězcem
         return '
             <form action="www/searchresult" method="GET">

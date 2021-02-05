@@ -23,7 +23,7 @@ class FlashComponent extends ComponentAbstract {
      * @param FlashViewModelInterface $viewModel
      */
     public function __construct(FlashViewModelInterface $viewModel) {
-        $this->viewModel = $viewModel;
+        $this->setData($viewModel);
     }
 
 }

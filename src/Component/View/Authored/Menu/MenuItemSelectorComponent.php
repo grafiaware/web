@@ -3,7 +3,7 @@
 namespace Component\View\Authored\Menu;
 
 use Component\View\Authored\AuthoredComponentAbstract;
-use Component\ViewModel\Authored\Menu\MenuViewModel;
+use Component\ViewModel\Authored\Menu\MenuViewModelInterface;
 
 /**
  * Description of MenuItemComponentSwitch
@@ -13,16 +13,15 @@ use Component\ViewModel\Authored\Menu\MenuViewModel;
 class MenuItemSelectorComponent extends AuthoredComponentAbstract {
 
     /**
-     *
-     * @var MenuViewModel
+     * @var MenuViewModelInterface
      */
     protected $viewModel;
 
     /**
      *
-     * @param MenuViewModel $viewModel
+     * @param MenuViewModelInterface $viewModel
      */
-    public function __construct(MenuViewModel $viewModel) {
+    public function __construct(MenuViewModelInterface $viewModel) {
         $this->viewModel = $viewModel;
     }
 

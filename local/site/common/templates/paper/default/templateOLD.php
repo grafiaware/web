@@ -1,14 +1,19 @@
-<template data-templatepath="<?= $templatePath ?>" class="editable">
-     <div class="ui segment mceNonEditable">
-        <article class="paper">
-            <headline class="ui header">
-                <?= $headline ?>
-            </headline>
-            <perex>
-                <?= $perex ?>
-            </perex>
-            <?= $this->repeat("public/web/templates/paper_content/$name/template.php", $contents) ?>
+<div data-component="presented" data-template="<?= $paperAggregate->getTemplate() ?>" class="ui segment mceNonEditable">
+    <div class="grafia segment headlined editable">
+        <article class="" >
+            <section>
+                <headline class="ui header">
+                    <?= $headline ?>
+                </headline>
+                <perex>
+                    <?= $perex ?>
+                </perex>
+            </section>
+            <content>
+                <?=
+        $this->repeat(PROJECT_PATH."public/web/templates/paper-content/default/template.php", $contents, 'paperContent'); ?>
+            </content>
         </article>
     </div>
-</template>
+</div>
 

@@ -3,10 +3,11 @@
 namespace Component\View\Authored\Menu;
 
 use Component\View\CompositeComponentAbstract;
-use Component\ViewModel\Authored\Menu\MenuViewModel;
+use Component\ViewModel\Authored\Menu\MenuViewModelInterface;
 use Component\ViewModel\Authored\Menu\Item\ItemViewModel;
 
 use Pes\View\Renderer\RendererInterface;
+
 use Component\Renderer\Html\Menu\MenuWrapRendererInterface;
 
 /**
@@ -16,6 +17,9 @@ use Component\Renderer\Html\Menu\MenuWrapRendererInterface;
  */
 class MenuComponent extends CompositeComponentAbstract implements MenuComponentInterface {
 
+    /**
+     * @var MenuViewModelInterface
+     */
     protected $viewModel;
 
     protected $levelWrapRendererName;
@@ -45,9 +49,9 @@ class MenuComponent extends CompositeComponentAbstract implements MenuComponentI
 
     /**
      *
-     * @param MenuViewModel $viewModel
+     * @param MenuViewModelInterface $viewModel
      */
-    public function __construct(MenuViewModel $viewModel) {
+    public function __construct(MenuViewModelInterface $viewModel) {
         $this->viewModel = $viewModel;
     }
 
@@ -87,8 +91,7 @@ class MenuComponent extends CompositeComponentAbstract implements MenuComponentI
      * Renderuje menu a vrací string. Jazyk, uid aktuální položky menu, stav edit použije z presentation status.
      * @return string
      */
-//    public function getString($data=null) {
-    public function getString($data=null) {
+    public function getString() {
         // set renderer
         if (!isset($this->rendererContainer)) {
             throw new \LogicException("Komponent ".get_called_class()." nemá nastaven renderer kontejner metodou setRendererContainer().");

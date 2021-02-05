@@ -26,23 +26,13 @@ use Model\Repository\{
 };
 
 
-use Model\Repository\BlockAggregateRepo;
+use Model\Repository\BlockRepo;
+use Model\Repository\PaperRepo;
 
-use Model\Repository\PaperAggregateRepo;
-use Model\Entity\BlockAggregateInterface;
-use Model\Entity\PaperAggregateInterface;
+use \GeneratorService\Paper\PaperServiceInterface;
 
 ####################
 use Pes\View\ViewFactory;
-use Pes\View\View;
-use Pes\View\Template\PhpTemplate;
-use Pes\View\Template\InterpolateTemplate;
-
-use Middleware\Login\Controller\LoginLogoutController;
-use Component\View\{
-    Status\LoginComponent, Status\LogoutComponent, Status\UserActionComponent,
-    Flash\FlashComponent
-};
 
 /**
  * Description of GetControler
@@ -52,34 +42,9 @@ use Component\View\{
 abstract class XhrControlerAbstract extends PresentationFrontControllerAbstract  implements XhrControlerInterface {
 
     /**
-     * @var PaperAggregateRepo
-     */
-    protected $paperAggregateRepo;
-
-    /**
-     * @var BlockAggregateRepo
-     */
-    protected $componentAggregateRepo;
-
-    private $viewFactory;
-
-    /**
      * @var ContainerInterface
      */
     protected $container;
-
-    public function __construct(
-            StatusSecurityRepo $statusSecurityRepo,
-            StatusFlashRepo $statusFlashRepo,
-            StatusPresentationRepo $statusPresentationRepo,
-            PaperAggregateRepo $paperAggregateRepo,
-            BlockAggregateRepo $componentAggregateRepo,
-            ViewFactory $viewFactory) {
-        parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
-        $this->paperAggregateRepo = $paperAggregateRepo;
-        $this->componentAggregateRepo = $componentAggregateRepo;
-        $this->viewFactory = $viewFactory;
-    }
 
     public function injectContainer(ContainerInterface $componentContainer): XhrControlerInterface {
         $this->container = $componentContainer;

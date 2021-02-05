@@ -9,15 +9,26 @@
 namespace Component\Renderer\Html\Menu;
 
 use Pes\View\Renderer\RendererInterface;
-use Component\Renderer\Html\HtmlRendererAbstract;
+use Component\Renderer\Html\HtmlModelRendererAbstract;
+use Component\Renderer\Html\Menu\LevelWrapRenderer;
+use Component\Renderer\Html\Menu\ItemRenderer;
+
+use Pes\View\Renderer\RendererModelAwareInterface;
 
 /**
  * Description of MenuWrapRndererAbstract
  *
  * @author pes2704
  */
-abstract class MenuWrapRendererAbstract extends HtmlRendererAbstract implements MenuWrapRendererInterface {
+abstract class MenuWrapRendererAbstract extends HtmlModelRendererAbstract implements MenuWrapRendererInterface, RendererModelAwareInterface {
+    /**
+     * @var LevelWrapRenderer
+     */
     private $levelWrapRenderer;
+
+    /**
+     * @var ItemRenderer
+     */
     private $itemRenderer;
 
     public function setLevelWrapRenderer(RendererInterface $levelWrapRenderer): void {
@@ -60,7 +71,8 @@ abstract class MenuWrapRendererAbstract extends HtmlRendererAbstract implements 
             $level = [];
             foreach ($itemStack[$i] as $stackedItemModel) {
                 /** @var ItemViewModel $stackedItemModel */
-                $level[] = $this->itemRenderer->render($stackedItemModel);
+                $this->itemRenderer->setViewModel($stackedItemModel);
+                $level[] = $this->itemRenderer->render();
             }
             $wrap = $this->levelWrapRenderer->render(implode(PHP_EOL, $level));
             unset($itemStack[$i]);
@@ -72,7 +84,8 @@ abstract class MenuWrapRendererAbstract extends HtmlRendererAbstract implements 
         $level = [];
         foreach ($itemStack as $stackedItemModel) {
             /** @var ItemViewModel $stackedItemModel */
-            $level[] = $this->itemRenderer->render($stackedItemModel);
+            $this->itemRenderer->setViewModel($stackedItemModel);
+            $level[] = $this->itemRenderer->render();
         }
         $wrap = implode(PHP_EOL, $level);                // nejvyšší úroveň stromu je renderována je do "li", "ul" pak udělá menuWrapRenderer, který je nastaven jako renderer celé komponenty ($this->renderer)
         return $wrap;

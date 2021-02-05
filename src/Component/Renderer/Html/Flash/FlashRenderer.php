@@ -8,21 +8,21 @@
 
 namespace Component\Renderer\Html\Flash;
 
-use Component\Renderer\Html\HtmlRendererAbstract;
+use Component\Renderer\Html\HtmlModelRendererAbstract;
 use Component\ViewModel\Flash\FlashViewModelForRendererInterface;
+
+use Pes\View\Renderer\RendererModelAwareInterface;
 
 /**
  * Description of FlashRenderer
  *
  * @author pes2704
  */
-class FlashRenderer extends HtmlRendererAbstract {
+class FlashRenderer extends HtmlModelRendererAbstract implements RendererModelAwareInterface {
 
     public function render(iterable $data = NULL) {
-        $this->renderPrivate($data);
-    }
-
-    private function renderPrivate(FlashViewModelForRendererInterface $viewModel) {
+        /** @var FlashViewModelForRendererInterface $viewModel */
+        $viewModel = $this->viewModel;
         return $viewModel->getMessage();
     }
 }

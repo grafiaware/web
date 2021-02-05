@@ -9,7 +9,7 @@
 namespace Component\View\Authored\Paper;
 
 use Component\View\Authored\Paper\AuthoredComponentInterface;
-
+use Component\View\Authored\Paper\Article\ArticleComponentInterface;
 /**
  *
  * @author pes2704

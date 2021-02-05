@@ -228,6 +228,12 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
             BlockChildHydrator::class => function(ContainerInterface $c) {
                 return new BlockChildHydrator();
             },
+            BlockRepo::class => function(ContainerInterface $c) {
+                return new BlockRepo(
+                        $c->get(BlockDao::class),
+                        $c->get(BlockHydrator::class)
+                    );
+            },
             BlockAggregateRepo::class => function(ContainerInterface $c) {
                 return new BlockAggregateRepo(
                         $c->get(BlockDao::class),

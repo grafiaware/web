@@ -10,11 +10,12 @@ namespace Component\Renderer\Html\Generated;
 
 use Site\Configuration;
 
-use Component\Renderer\Html\HtmlRendererAbstract;
+use Component\Renderer\Html\HtmlModelRendererAbstract;
 use Component\ViewModel\Generated\LanguageSelectViewModel;
 
 use Model\Entity\LanguageInterface;
 
+use Pes\View\Renderer\RendererModelAwareInterface;
 use Pes\Text\Html;
 
 /**
@@ -22,15 +23,11 @@ use Pes\Text\Html;
  *
  * @author pes2704
  */
-class LanguageSelectRenderer extends HtmlRendererAbstract {
-
-    private $flagsPath = "flags-mini/";
+class LanguageSelectRenderer extends HtmlModelRendererAbstract implements RendererModelAwareInterface {
 
     public function render($data=NULL) {
-        return $this->renderPrivate($data);
-    }
-
-    private function renderPrivate(LanguageSelectViewModel $viewModel) {
+        /** @var LanguageSelectViewModel $viewModel */
+        $viewModel = $this->viewModel;
         $presentedLangCode = $viewModel->getPresentedLangCode();
         $path = Configuration::languageSelectRenderer()['assets'];
         foreach ($viewModel->getLanguages() as $language) {

@@ -8,11 +8,12 @@
 
 namespace Component\Renderer\Html\Generated;
 
-use Component\Renderer\Html\HtmlRendererAbstract;
+use Component\Renderer\Html\HtmlModelRendererAbstract;
 use Component\ViewModel\Generated\ItemTypeSelectViewModel;
 
-use Pes\Text\Message;
+use Pes\View\Renderer\RendererModelAwareInterface;
 
+use Pes\Text\Message;
 use Pes\Text\Html;
 
 /**
@@ -20,13 +21,11 @@ use Pes\Text\Html;
  *
  * @author pes2704
  */
-class ItemTypeRenderer extends HtmlRendererAbstract {
+class ItemTypeRenderer extends HtmlModelRendererAbstract implements RendererModelAwareInterface {
 
     public function render($data=NULL) {
-        return $this->renderPrivate($data);
-    }
-
-    private function renderPrivate(ItemTypeSelectViewModel $viewModel) {
+        /** @var ItemTypeSelectViewModel $viewModel */
+        $viewModel = $this->viewModel;
         $typeFk = $viewModel->getMenuItem()->getTypeFk();
         $menuItemUidFk = $viewModel->getMenuItem()->getUidFk();
         $radioHtml = '';

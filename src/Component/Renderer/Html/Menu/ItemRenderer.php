@@ -1,9 +1,11 @@
 <?php
 namespace Component\Renderer\Html\Menu;
 
-use Component\Renderer\Html\HtmlRendererAbstract;
+use Component\Renderer\Html\HtmlModelRendererAbstract;
 use Pes\Text\Html;
 use Component\ViewModel\Authored\Menu\Item\ItemViewModel;
+
+use Pes\View\Renderer\RendererModelAwareInterface;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -16,13 +18,11 @@ use Component\ViewModel\Authored\Menu\Item\ItemViewModel;
  *
  * @author pes2704
  */
-class ItemRenderer extends HtmlRendererAbstract {
+class ItemRenderer extends HtmlModelRendererAbstract implements RendererModelAwareInterface {
 
     public function render($data=NULL) {
-        return $this->privateRender($data);
-    }
-
-    private function privateRender(ItemViewModel $itemViewModel=NULL) {
+        /** @var ItemViewModel $itemViewModel */
+        $itemViewModel = $this->viewModel;
         $menuNode = $itemViewModel->getMenuNode();
         $innerHtml = Html::tag('a', ['class'=>$this->classMap->getClass('Item', 'li a'), 'href'=> "www/item/{$menuNode->getMenuItem()->getLangCodeFk()}/{$menuNode->getUid()}" ],
                         Html::tag('span', ['class'=>$this->classMap->getClass('Item', 'li a span')],
