@@ -11,6 +11,8 @@ namespace Component\View\Authored\Paper\Article;
 use Component\View\Authored\Paper\AuthoredComponentAbstract;
 use Pes\View\Renderer\RendererInterface;
 
+use Pes\View\Renderer\RendererModelAwareInterface;
+
 /**
  * Description of ArticleComponent
  *
@@ -24,9 +26,17 @@ class ArticleComponent extends AuthoredComponentAbstract implements ArticleCompo
         $paperAggregate = $this->viewModel->getPaper();
         if (isset($paperAggregate)) {
             $paperTemplateName = $paperAggregate->getTemplate();
-            $this->resolveTemplate($paperTemplateName);
+            $template = $this->resolveTemplate($paperTemplateName);
+            $this->setTemplate($template);
+        }
+        $renderer = parent::resolveRenderer();
+        if (!($renderer instanceof RendererModelAwareInterface)) {
+            if (!is_iterable($this->viewModel)) {
+                throw new LogicException("ViewModel ". get_class($this->viewModel)." není iterable. Komponent má nastaven PHP template renderer a vyžaduje iterable view model.");
+            }
+            $this->data = $this->viewModel;
         }
 
-        return parent::resolveRenderer();
+        return $renderer;
     }
 }

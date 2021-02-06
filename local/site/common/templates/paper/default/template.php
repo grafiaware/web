@@ -9,8 +9,8 @@ use Model\Entity\PaperAggregateInterface;
 /** @var PaperAggregateInterface $paperAggregate */
 
 ?>
-    <?= $buttons->getPaperTemplateButtonsForm($paperAggregate)  ?>
-    <?= $buttons->getPaperButtonsForm($paperAggregate)  ?>
+    <?= isset($buttons) ? $buttons->getPaperTemplateButtonsForm($paperAggregate) : "" ?>
+    <?= isset($buttons) ? $buttons->getPaperButtonsForm($paperAggregate) : "" ?>
         <article class="" data-template="<?=$paperAggregate->getTemplate()?>">
             <section>
                     <?= $elementWrapper->wrapHeadline($paperAggregate) ?>

@@ -93,7 +93,7 @@ abstract class StatusFrontControllerAbstract extends FrontControllerAbstract imp
      * @return string
      */
     protected function getBasePath(ServerRequestInterface $request) {
-        return $this->getUriInfo($request)->getRootAbsolutePath();
+        return $this->getUriInfo($request)->getSubdomainPath();
     }
 
     /**
@@ -116,12 +116,12 @@ abstract class StatusFrontControllerAbstract extends FrontControllerAbstract imp
 
     /**
      *
-     * @param string $relativeUri
+     * @param string $restUri Relativní adresa - resource uri
      * @return Response
      */
-    protected function redirectSeeOther(ServerRequestInterface $request, $relativeUri) {
+    protected function redirectSeeOther(ServerRequestInterface $request, $restUri) {
         $subPath = $this->getUriInfo($request)->getRootAbsolutePath();
-        return RedirectResponse::withPostRedirectGet(new Response(), $subPath.$relativeUri); // 303 See Other
+        return RedirectResponse::withPostRedirectGet(new Response(), $subPath.ltrim($restUri, '/')); // 303 See Other
     }
 
     protected function redirectSeeLastGet(ServerRequestInterface $request) {

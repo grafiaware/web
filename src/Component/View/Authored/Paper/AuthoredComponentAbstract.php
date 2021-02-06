@@ -75,11 +75,10 @@ abstract class AuthoredComponentAbstract extends CompositeComponentAbstract impl
                     }
                 }
                 $template->setSharedData($sharedData);
-                $this->setTemplate($template);
             } catch (NoTemplateFileException $noTemplExc) {
                 user_error("Neexistuje soubor šablony $templatePath", E_USER_WARNING);
-                $this->setTemplate(null);
             }
         }
+        return $template ?? null;
     }
 }
