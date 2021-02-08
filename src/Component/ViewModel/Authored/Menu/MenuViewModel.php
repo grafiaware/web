@@ -186,7 +186,7 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
         if (!$this->withRoot) {
             $removed = array_shift($nodes);   //odstraní první prvek s indexem [0] a výsledné pole opět začína prvkem s indexem [0]
         }
-        return $this->createItemModels($nodes, $presentedNode);
+        return $nodes ? $this->createItemModels($nodes, $presentedNode) : [];
     }
 
     private function createItemModels($nodes, $presentedNode=null) {

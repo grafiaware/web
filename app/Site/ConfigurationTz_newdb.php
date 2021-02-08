@@ -17,7 +17,7 @@ use Component\View\Status\{
     LogoutComponent,
     UserActionComponent
 };
-use Component\Renderer\Html\ClassMap\ClassMap;
+use \Pes\View\Renderer\ClassMap\ClassMap;
 
 /**
  * Description of Configuration
@@ -36,6 +36,8 @@ class ConfigurationTz_newdb {
     const RED_ASSETS = 'public/assets/';
     const RED_LINKS_COMMON = 'public/site/common/';
     const RED_LINKS_SITE = 'public/site/'.self::RED_SITE_PATH;
+    // files
+    const RED_FILES = '_www_tz_files/';
 
     ### bootstrap ###
     #
@@ -151,7 +153,7 @@ class ConfigurationTz_newdb {
             ###################################
             # Konfigurace make - ostatní parametry přidá kontejner
             # pole build.config.make.roots: [type, list, title]
-            'build.config.make.roots' => [
+            'build.config.make.items' => [
                 ['root', 'root', 'ROOT'],
                 ['trash', 'trash', 'Trash'],
                 ['paper', 'blocks', 'Blocks'],
@@ -159,8 +161,17 @@ class ConfigurationTz_newdb {
                 ['paper', 'menu_horizontal', 'Menu'],
                 ['paper', 'menu_redirect', 'Menu'],
             ],
+            'build.config.make.roots' => [
+                'root',
+                'trash',
+                'blocks',
+                'menu_vertical',
+                'menu_horizontal',
+                'menu_redirect',
+            ],
             'build.config.convert.copy' => [],
-            'build.config.convert.roots' => [],
+            'build.config.convert.updatestranky' => [],
+            'build.config.convert.home' => [],
             'build.config.convert.repairs' => [],
             #
             ###################################
@@ -756,7 +767,7 @@ class ConfigurationTz_newdb {
     #
 
     /**
-     * Konfigurace prezentačního objektu - vrací parametry pro statusPresentationManager
+     * Konfigurace prezentace - vrací parametry pro statusPresentationManager
      * @return array
      */
     public static function statusPresentationManager() {
@@ -766,7 +777,7 @@ class ConfigurationTz_newdb {
     }
 
     /**
-     * Konfigurace prezentačního objektu - vrací parametry pro layoutControler
+     * Konfigurace prezentace - vrací parametry pro layoutControler
      * @return array
      */
     public static function layoutControler() {
@@ -786,8 +797,6 @@ class ConfigurationTz_newdb {
             'linksCommon' => self::RED_LINKS_COMMON,
             'linksSite' => self::RED_LINKS_SITE,
 
-            'static' => self::RED_TEMPLATES_SITE.'static/',
-
             // local templates paths
             'layout' => self::RED_TEMPLATES_SITE.'layout/layout.php',
             'tiny_config' => self::RED_TEMPLATES_SITE.'js/tiny_config.js',
@@ -803,8 +812,7 @@ class ConfigurationTz_newdb {
 //    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 //    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/jquery.tinymce.min.js" referrerpolicy="origin"></script>
             'urlTinyInit' => self::RED_LINKS_COMMON.'js/TinyInit.js',
-            'urlEditScript' => self::RED_LINKS_COMMON . 'js/edit.js',
-            'kalendarScript' => self::RED_LINKS_COMMON . 'js/kalendar.js',
+            'urlEditScript' => self::RED_LINKS_COMMON . 'js/editDelegated.js',
 
             // linkEditorCss links
             'urlStylesCss' => self::RED_LINKS_COMMON."css/old/styles.css",
@@ -818,7 +826,10 @@ class ConfigurationTz_newdb {
     }
 
     /**
-     * Konfigurace prezentačního objektu - vrací parametry pro pageControler
+     * Konfigurace prezentace - vrací parametry pro pageControler
+     *
+     * Home stránka může být definována jménem komponenty nebo jménem statické stránky nebo identifikátorem uid položky menu (položky hierarchie).
+     *
      * @return array
      */
     public static function pageControler() {
@@ -827,9 +838,48 @@ class ConfigurationTz_newdb {
                'home_page' => ['component', 'home'],
 //               'home_page' => ['static', 'body-pro-zdravi'],
 //               'home_page' => ['item', '5fad34398df10'],  // přednášky - pro test
+
                'templates.poznamky' => self::RED_TEMPLATES_COMMON.'layout/info/poznamky.php',
                'templates.loaderElement' => self::RED_TEMPLATES_COMMON.'layout/component-load/loaderElement.php',
                'templates.loaderElementEditable' => self::RED_TEMPLATES_COMMON.'layout/component-load/loaderElementEditable.php',
+            ];
+    }
+
+    /**
+     * Konfigurace prezentace - vrací parametry pro ComponentControler
+     * @return array
+     */
+    public static function componentControler() {
+
+        return [
+               'static' => self::RED_TEMPLATES_SITE.'static/',
+
+            ];
+    }
+
+    /**
+     * Konfigurace prezentace - vrací parametry pro templateControler
+     * @return array
+     */
+    public static function templateControler() {
+
+        return [
+               'templates.authorFolder' => self::RED_TEMPLATES_COMMON.'author/',
+               'templates.paperFolder' => self::RED_TEMPLATES_COMMON.'paper/',
+               'templates.paperContentFolder' => self::RED_TEMPLATES_COMMON.'paper-content/',
+
+            ];
+    }
+
+    /**
+     * Konfigurace upload files - vrací parametry pro FilesUploadControler
+     * @return array
+     */
+    public static function filesUploadControler() {
+
+        return [
+            'filesDirectory' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES : self::RED_FILES,
+
             ];
     }
 
@@ -850,7 +900,7 @@ class ConfigurationTz_newdb {
     public static function transformator() {
         return [
             // relativní cesta vzhledem k DOCUMENT_ROOT (htdocs) -začíná /
-            'filesDirectory' => PES_RUNNING_ON_PRODUCTION_HOST ? '_www_tz_files/' : '/_www_tz_files/',
+            'filesDirectory' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES : '/'.self::RED_FILES,
             'public' => self::RED_LINKS_COMMON,
         ];
     }

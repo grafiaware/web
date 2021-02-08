@@ -40,29 +40,33 @@ abstract class MenuWrapRendererAbstract extends HtmlModelRendererAbstract implem
     }
 
     protected function getMenuLevelHtml($subtreeItemModels) {
-        $itemTags = [];
-        $first = true;
-        foreach ($subtreeItemModels as $itemModel) {
-            /** @var ItemViewModel $itemModel */
-            $itemDepth = $itemModel->getRealDepth();
-            if ($first) {
-                $rootDepth = $itemDepth;
-                $currDepth = $itemDepth;
-                $first = false;
+        if (!$subtreeItemModels) {
+            $wrap = '';
+        } else {
+            $itemTags = [];
+            $first = true;
+            foreach ($subtreeItemModels as $itemModel) {
+                /** @var ItemViewModel $itemModel */
+                $itemDepth = $itemModel->getRealDepth();
+                if ($first) {
+                    $rootDepth = $itemDepth;
+                    $currDepth = $itemDepth;
+                    $first = false;
+                }
+                if ($itemDepth>$currDepth) {
+                    $itemStack[$itemDepth][] = $itemModel;
+                    $currDepth = $itemDepth;
+                } elseif ($itemDepth<$currDepth) {
+                    $this->renderStackedItems($currDepth, $itemDepth, $itemStack);
+                    $itemStack[$itemDepth][] = $itemModel;
+                    $currDepth = $itemDepth;
+                } else {
+                    $itemStack[$currDepth][] = $itemModel;
+                }
             }
-            if ($itemDepth>$currDepth) {
-                $itemStack[$itemDepth][] = $itemModel;
-                $currDepth = $itemDepth;
-            } elseif ($itemDepth<$currDepth) {
-                $this->renderStackedItems($currDepth, $itemDepth, $itemStack);
-                $itemStack[$itemDepth][] = $itemModel;
-                $currDepth = $itemDepth;
-            } else {
-                $itemStack[$currDepth][] = $itemModel;
-            }
+            $this->renderStackedItems($currDepth, $rootDepth, $itemStack);
+            $wrap = $this->renderLastLevel($itemStack[$rootDepth]);
         }
-        $this->renderStackedItems($currDepth, $rootDepth, $itemStack);
-        $wrap = $this->renderLastLevel($itemStack[$rootDepth]);
         return $wrap;
     }
 

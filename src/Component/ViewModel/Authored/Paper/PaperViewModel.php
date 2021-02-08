@@ -67,7 +67,7 @@ class PaperViewModel extends AuthoredViewModelAbstract implements PaperViewModel
      */
     public function getPaper(): ?PaperInterface {
         if (isset($this->menuItemId)) {
-            $paper = $this->paperAggregateRepo->getByReference($this->menuItemId);
+                $paper = $this->paperAggregateRepo->getByReference($this->menuItemId);
             if (!isset($paper)) {
                 $paper = $this->paperService->create($this->menuItemId);
             }
