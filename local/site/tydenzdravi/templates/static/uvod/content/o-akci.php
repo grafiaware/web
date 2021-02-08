@@ -1,6 +1,8 @@
 <?php
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Model\Entity\PaperAggregateInterface;
+use Pes\Text\Text;
+
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregateInterface $paperAggregate */
 ?>
@@ -14,7 +16,7 @@ use Model\Entity\PaperAggregateInterface;
             <img src="images/pexels-photo-web-orez.jpg" width="1178" height="502" alt="Obrázek"/>
             <div class="velky text vpravo okraje">
                 <p>
-                    <?= $this->mono('V poslední době pod vlivem Covidu-19 lidé zanedbávali preventivní návštěvy lékařů, odsouvali i nutná ošetření a kontroly. Vlivem médií došlo u řady lidí k úzkostným a iracionálním reakcím, vedoucím až ke škodám na zdraví.') ?>
+                    <?= Text::mono('V poslední době pod vlivem Covidu-19 lidé zanedbávali preventivní návštěvy lékařů, odsouvali i nutná ošetření a kontroly. Vlivem médií došlo u řady lidí k úzkostným a iracionálním reakcím, vedoucím až ke škodám na zdraví.') ?>
                 </p>
             </div>
         </div>

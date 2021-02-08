@@ -1,11 +1,14 @@
-
+<?php
+use Pes\Text\Text;
+use Pes\Text\Html;
+?>
         <div class="row equal width padding-vertical">
             <div class="five wide column middle aligned">
-                <a <?= $this->attributes($odkazBodyAttributes) ?>>
-                    <img <?= $this->attributes($imagesBodyAttributes) ?> />
+                <a <?= Html::attributes($odkazBodyAttributes) ?>>
+                    <img <?= Html::attributes($imagesBodyAttributes) ?> />
                 </a>
             </div>
             <div class="eleven wide column">
-                <?=  $this->p($this->mono($textFirmy), ["class"=>""]) ?>
+                <?= Html::p(Text::mono($textFirmy), ["class"=>""]) ?>
             </div>
         </div>

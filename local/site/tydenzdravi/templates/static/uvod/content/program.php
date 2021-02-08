@@ -1,6 +1,8 @@
 <?php
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Model\Entity\PaperAggregateInterface;
+use Pes\Text\Text;
+
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregateInterface $paperAggregate */
 ?>
@@ -18,7 +20,7 @@ use Model\Entity\PaperAggregateInterface;
         <div class="sixteen wide column">
             <div class="velky text vlevo okraje">
                 <p>
-                    <?= $this->mono('V průběhu sedmi dnů vám nabídneme ZDARMA <b>online přednášky a rozhovory s odborníky</b> z různých oborů a také „body pro zdraví“, kde najdete <b>produkty či služby</b> na podporu zdravého životního stylu.') ?>
+                    <?= Text::mono('V průběhu sedmi dnů vám nabídneme ZDARMA <b>online přednášky a rozhovory s odborníky</b> z různých oborů a také „body pro zdraví“, kde najdete <b>produkty či služby</b> na podporu zdravého životního stylu.') ?>
                 </p>
             </div>
         </div>

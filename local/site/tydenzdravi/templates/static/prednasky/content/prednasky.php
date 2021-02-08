@@ -1,6 +1,7 @@
 <?php
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Model\Entity\PaperAggregateInterface;
+use Pes\Text\Text;
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregateInterface $paperAggregate */
 
@@ -188,7 +189,7 @@ use Model\Entity\PaperAggregateInterface;
     <div class="ui grid centered">
         <div class="sixteen wide column center aligned">
             <p>
-                <?= $this->mono('Anna a Eva Vopalecké ze Studia FITNESSKA pro dobrou náladu posílají antikoronavirový tanec! Zatančete si s nimi!')?>
+                <?= Text::mono('Anna a Eva Vopalecké ze Studia FITNESSKA pro dobrou náladu posílají antikoronavirový tanec! Zatančete si s nimi!')?>
             </p>
             <video width="500" height="500" controls playsinline> <!--   autoplay muted>-->
                 <source src="video/video-fitneska1-500x500-H264.m4v">

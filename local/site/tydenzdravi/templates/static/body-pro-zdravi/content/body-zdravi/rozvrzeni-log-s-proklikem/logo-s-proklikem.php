@@ -1,6 +1,10 @@
+<?php
+use Pes\Text\Text;
+use Pes\Text\Html;
 
+?>
             <div class="column middle aligned">
-                <a <?= $this->attributes($odkazBodyAttributes) ?>>
-                    <img <?= $this->attributes($imagesBodyAttributes) ?> />
+                <a <?= Html::attributes($odkazBodyAttributes) ?>>
+                    <img <?= Html::attributes($imagesBodyAttributes) ?> />
                 </a>
             </div>

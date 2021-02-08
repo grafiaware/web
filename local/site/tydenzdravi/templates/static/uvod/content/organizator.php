@@ -1,6 +1,9 @@
 <?php
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Model\Entity\PaperAggregateInterface;
+use Pes\Text\Text;
+use Pes\Text\Html;
+
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregateInterface $paperAggregate */
 
@@ -24,7 +27,7 @@ Umíme efektivně komunikovat akce našich zákazníků i ty vlastní, vzděláv
                 <p>Organizátor</p>
             </div>
             <div class="velky text okraje">
-                <?= $this->p($this->mono($text), ["class"=>""]) ?> 
+                <?= Html::p(Text::mono($text), ["class"=>""]) ?> 
             </div>
 
         </div>

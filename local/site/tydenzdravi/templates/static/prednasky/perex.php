@@ -1,6 +1,9 @@
 <?php
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Model\Entity\PaperAggregateInterface;
+use Pes\Text\Text;
+use Pes\Text\Html;
+
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregateInterface $paperAggregate */
 
@@ -11,6 +14,6 @@ use Model\Entity\PaperAggregateInterface;
     <a href="https://forms.gle/aUoufuqLyaSjm6rE8" target="_blank">Přihlaste se zdarma</a> na vybranou přednášku. Přihlášeným bude zaslán link na e-mail uvedený v přihlašovacím formuláři. <br/> Máte pro přednášející <a href="https://forms.gle/aUoufuqLyaSjm6rE8" target="_blank">dotazy?</a> Napište je předem, ať máte jistotu, že se na ně dostane.
     ';
 
-    echo  $this->p($this->mono($text), ["class"=>"velky text"]) 
+    echo Html::p(Text::mono($text), ["class"=>"velky text"]) 
 ?>
 
