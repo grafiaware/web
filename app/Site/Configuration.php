@@ -18,6 +18,9 @@ include 'ConfigurationGr_wwwgrafia.php';
 /**
  * Cache konfigurace
  *
+ * změny při změně site:
+ * - local/site/site-definitions.less - odkomentovat a zakomentovat definici site-definitions @sitename
+ *
  * @author pes2704
  */
 class Configuration extends ConfigurationTz_newdb {
