@@ -13,7 +13,7 @@ include 'ConfigurationGr_wwwgrafia.php';
 //include 'ConfigurationGr2_grafiacz_20200916.php';
 //include 'ConfigurationGr3_grafiacz.php';
 //include 'ConfigurationGr4_grafiacz_a8.php';
-//include 'ConfigurationOa_otevreneatelierycz.php';
+include 'ConfigurationOa_otevreneatelierycz.php';
 
 /**
  * Cache konfigurace
@@ -23,9 +23,9 @@ include 'ConfigurationGr_wwwgrafia.php';
  *
  * @author pes2704
  */
-class Configuration extends ConfigurationTz_newdb {
+//class Configuration extends ConfigurationTz_newdb {
 //class Configuration extends ConfigurationTZ_wwwgrafia {
-//class Configuration extends ConfigurationGr_wwwgrafia {
+class Configuration extends ConfigurationGr_wwwgrafia {
 //class Configuration extends ConfigurationGr2_grafiacz_20200916 {
 //class Configuration extends ConfigurationGr3_grafiacz {
 //class Configuration extends ConfigurationGr4_grafiacz_a8 {

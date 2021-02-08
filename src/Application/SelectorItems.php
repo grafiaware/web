@@ -69,7 +69,7 @@ class SelectorItems {
                     new \Middleware\Status\SecurityStatus(),
                     new \Middleware\Status\FlashStatus(),
 //                    new \Middleware\Status\PresentationStatus(),  // request language
-                    new \Middleware\Xhr\Transformator(),
+                    new \Middleware\Web\Transformator(),
                     new \Middleware\Xhr\Component()
                 ];},
             '/rs'=>

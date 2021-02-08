@@ -17,7 +17,7 @@ use Component\View\Status\{
     LogoutComponent,
     UserActionComponent
 };
-use Component\Renderer\Html\ClassMap\ClassMap;
+use \Pes\View\Renderer\ClassMap\ClassMap;
 
 /**
  * Description of Configuration
@@ -25,6 +25,20 @@ use Component\Renderer\Html\ClassMap\ClassMap;
  * @author pes2704
  */
 class ConfigurationOa_otevreneatelierycz {
+
+    // site
+    const RED_SITE_PATH = 'oa/';
+
+    // local
+    const RED_TEMPLATES_COMMON = 'local/site/common/templates/';
+    const RED_TEMPLATES_SITE = 'local/site/'.self::RED_SITE_PATH.'templates/';
+    // public
+    const RED_ASSETS = 'public/assets/';
+    const RED_LINKS_COMMON = 'public/site/common/';
+    const RED_LINKS_SITE = 'public/site/'.self::RED_SITE_PATH;
+    // files
+    const RED_FILES = '_www_oa_files/';
+
     ### bootstrap ###
     #
     public static function bootstrap() {
@@ -76,7 +90,7 @@ class ConfigurationOa_otevreneatelierycz {
             #################################
 
             #################################
-            # Konfigurace session
+            # Konfigurace session loggeru
             #
             WebAppFactory::SESSION_NAME_SERVICE => 'www_oa_session',
             'app.logs.session.file' => 'Session.log',
@@ -84,9 +98,16 @@ class ConfigurationOa_otevreneatelierycz {
             ##################################
 
             ##################################
-            # Konfigurace session
+            # Konfigurace router loggeru
             #
             'app.logs.router.file' => 'Router.log',
+            #
+            ##################################
+
+            ##################################
+            # Konfigurace selector loggeru
+            #
+            'app.logs.selector.file' => 'Selector.log',
             #
             ##################################
         ];
@@ -140,13 +161,24 @@ class ConfigurationOa_otevreneatelierycz {
                 ['paper', 'menu_horizontal', 'Menu'],
                 ['paper', 'menu_redirect', 'Menu'],
             ],
+            'build.config.make.roots' => [
+                'root',
+                'trash',
+                'blocks',
+                'menu_vertical',
+                'menu_horizontal',
+                'menu_redirect',
+            ],
             'build.config.convert.copy' =>
                 [
                     'source' => 'stranky',
                     'target' => 'stranky'
                 ],
-            'build.config.convert.roots' => [
-                ['a0', 'menu_vertical'],        // !! menu menu_vertical je s titulní stranou - kořen menu vznikne z existující stránky -> ve staré db změním stránku list=a0 na list=menu_vertical
+            'build.config.convert.updatestranky' => [
+                ['a0', 's00', -1],        // !! menu menu_vertical je s titulní stranou list=a0 - existující stránku list=a0 ve staré db změním na list='s00', poradi=-1
+            ],
+            'build.config.convert.home' => [
+                'home', 's00',        // titulní stránka s00 (změněná a0) je home page
             ],
             'build.config.convert.repairs' => [
                 // smazání chybné stránky v grafia databázích s list='s_01' - chybná syntax list způdobí chyby při vyztváření adjlist - původní stránka nemá žádný obsah
@@ -180,15 +212,14 @@ class ConfigurationOa_otevreneatelierycz {
      * @return array
      */
     public static function component() {
-        // local
-        $templatesCommon = 'local/site/common/templates/';
         return [
             'component.logs.view.directory' => 'Logs/App/Web',
             'component.logs.view.file' => 'Render.log',
-            'component.template.'.FlashComponent::class =>      $templatesCommon.'layout/info/flashMessage.php',
-            'component.template.'.LoginComponent::class =>      $templatesCommon.'layout/modal/login.php',
-            'component.template.'.LogoutComponent::class =>     $templatesCommon.'layout/modal/logout.php',
-            'component.template.'.UserActionComponent::class => $templatesCommon.'layout/modal/user_action.php',
+            'component.templatePath.paper' => self::RED_TEMPLATES_COMMON.'paper/',
+            'component.template.'.FlashComponent::class => self::RED_TEMPLATES_COMMON.'layout/info/flashMessage.php',
+            'component.template.'.LoginComponent::class => self::RED_TEMPLATES_COMMON.'layout/modal/login.php',
+            'component.template.'.LogoutComponent::class => self::RED_TEMPLATES_COMMON.'layout/modal/logout.php',
+            'component.template.'.UserActionComponent::class => self::RED_TEMPLATES_COMMON.'layout/modal/user_action.php',
         ];
     }
 
@@ -209,8 +240,8 @@ class ConfigurationOa_otevreneatelierycz {
             'dbold.db.charset' => 'utf8',
             'dbold.db.collation' => 'utf8_general_ci',
 
-            'dbold.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? 'localhost' : 'OLD_PRODUCTION_NAME',
-            'dbold.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'wwwgrafia' : 'OLD_PRODUCTION_HOST',
+            'dbold.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? 'OLD_PRODUCTION_NAME' : 'localhost',
+            'dbold.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'OLD_PRODUCTION_HOST' : 'wwwgrafia',
 
             'dbold.logs.directory' => 'Logs/DbOld',
             'dbold.logs.db.file' => 'Database.log',
@@ -236,8 +267,8 @@ class ConfigurationOa_otevreneatelierycz {
             'dbUpgrade.db.port' => '3306',
             'dbUpgrade.db.charset' => 'utf8',
             'dbUpgrade.db.collation' => 'utf8_general_ci',
-            'dbUpgrade.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? 'localhost' : 'UPGRADE_PRODUCTION_HOST',
-            'dbUpgrade.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'oa_upgrade' : 'UPGRADE_PRODUCTION_NAME',
+            'dbUpgrade.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_PRODUCTION_HOST' : 'localhost',
+            'dbUpgrade.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_PRODUCTION_NAME' : 'oa_upgrade',
             #
             #  Konec sekce konfigurace databáze
             ###################################
@@ -261,8 +292,8 @@ class ConfigurationOa_otevreneatelierycz {
             # Konfigurace databáze
             # Ostatní parametry konfigurace databáze v kontejneru dbUpgrade
             #
-            'dbUpgrade.db.user.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'oa_upgrader' : 'UPGRADE_PRODUCTION_USER_NAME',
-            'dbUpgrade.db.user.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'oa_upgrader' : 'UPGRADE_PRODUCTION_USER_PASSWORD',
+            'dbUpgrade.db.user.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_PRODUCTION_USER_NAME' : 'oa_upgrader',
+            'dbUpgrade.db.user.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_PRODUCTION_USER_PASSWORD' : 'oa_upgrader',
             #
             ###################################
             # Konfigurace hierarchy tabulek
@@ -752,7 +783,6 @@ class ConfigurationOa_otevreneatelierycz {
     public static function statusPresentationManager() {
         return [
             'default_lang_code' => 'cs',
-            'default_hierarchy_root_component_name' => 'menu_vertical'
         ];
     }
 
@@ -761,16 +791,6 @@ class ConfigurationOa_otevreneatelierycz {
      * @return array
      */
     public static function layoutControler() {
-        // site definition
-        $sitePath = 'grafia/';
-        // local
-        $templatesCommon = 'local/site/common/templates/';
-        $templatesSite = 'local/site/'.$sitePath.'templates/';
-        // public
-        $assets = 'public/assets/';
-        $linksCommon = 'public/site/common/';
-        $linksSite = 'public/site/'.$sitePath;
-
         return [
            // Language packages tinyMce používají krátké i dlouhé kódy, kód odpovídá jménu souboru např cs.js nebo en_US.js - proto mapování
             // pozn. - popisky šablon pro tiny jsou jen česky (TinyInit.js)
@@ -784,48 +804,92 @@ class ConfigurationOa_otevreneatelierycz {
             'title' => "Grafia, s.r.o.",
 
             // folders
-            'linksCommon' => $linksCommon,
-            'linksSite' => $linksSite,
+            'linksCommon' => self::RED_LINKS_COMMON,
+            'linksSite' => self::RED_LINKS_SITE,
 
             // local templates paths
-            'layout' => $templatesSite.'layout/layout.php',
-            'tiny_config' => $templatesSite.'js/tiny_config.js',
-            'linksEditorJs' => $templatesCommon.'layout/links/linkEditorJs.php',
-            'linkEditorCss' => $templatesCommon.'layout/links/linkEditorCss.php',
+            'layout' => self::RED_TEMPLATES_SITE.'layout/layout.php',
+            'tiny_config' => self::RED_TEMPLATES_SITE.'js/tiny_config.js',
+            'linksEditorJs' => self::RED_TEMPLATES_COMMON.'layout/links/linkEditorJs.php',
+            'linkEditorCss' => self::RED_TEMPLATES_COMMON.'layout/links/linkEditorCss.php',
 
             // linksEditorJs links
-           'urlTinyMCE' => $assets.'tinymce5_3_1\js\tinymce\tinymce.min.js',
-            'urlJqueryTinyMCE' => $assets.'tinymce5_3_1\js\tinymce\jquery.tinymce.min.js',
-//            'urlTinyMCE' => $assets.'tinymce5_4_0\js\tinymce\tinymce.min.js',
-//            'urlJqueryTinyMCE' => $assets.'tinymce5_4_0\js\tinymce\jquery.tinymce.min.js',
+            'urlTinyMCE' => self::RED_ASSETS.'tinymce5_3_1\js\tinymce\tinymce.min.js',
+            'urlJqueryTinyMCE' => self::RED_ASSETS.'tinymce5_3_1\js\tinymce\jquery.tinymce.min.js',
+//            'urlTinyMCE' => self::RED_ASSETS.'tinymce5_4_0\js\tinymce\tinymce.min.js',
+//            'urlJqueryTinyMCE' => self::RED_ASSETS.'tinymce5_4_0\js\tinymce\jquery.tinymce.min.js',
 //    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 //    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 //    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/jquery.tinymce.min.js" referrerpolicy="origin"></script>
-            'urlTinyInit' => $linksCommon.'js/TinyInit.js',
-            'editScript' => $linksCommon . 'js/edit.js',
-            'kalendarScript' => $linksCommon . 'js/kalendar.js',
+            'urlTinyInit' => self::RED_LINKS_COMMON.'js/TinyInit.js',
+            'urlEditScript' => self::RED_LINKS_COMMON . 'js/editDelegated.js',
 
             // linkEditorCss links
-            'urlStylesCss' => $linksCommon."css/old/styles.css",
-            'urlSemanticCss' => $linksSite."semantic-ui/semantic.min.css",
-            'urlContentTemplatesCss' => $linksCommon."css/templates.css",   // KŠ ?????
+            'urlStylesCss' => self::RED_LINKS_COMMON."css/old/styles.css",
+            'urlSemanticCss' => self::RED_LINKS_SITE."semantic-ui/semantic.min.css",
+            'urlContentTemplatesCss' => self::RED_LINKS_COMMON."css/templates.css",   // KŠ ?????
             //
-            'paperTemplatesUri' =>  $linksSite."templates/paper/",  // URI pro Template controler
-            'authorTemplatesPath' => $linksCommon."templates/author/",
+            'paperTemplatesUri' =>  self::RED_LINKS_SITE."templates/paper/",  // URI pro Template controler
+            'authorTemplatesPath' => self::RED_LINKS_COMMON."templates/author/",
 
         ];
     }
 
     /**
-     * Konfigurace prezentačního objektu - vrací parametry pro pageControler
+     * Konfigurace prezentace - vrací parametry pro pageControler
+     *
+     * Home stránka může být definována jménem komponenty nebo jménem statické stránky nebo identifikátorem uid položky menu (položky hierarchie).
+     *
      * @return array
      */
     public static function pageControler() {
-        // local
-        $templatesCommon = 'local/site/common/templates/';
+
         return [
-               'templates.poznamky' => $templatesCommon.'layout/info/poznamky.php',
-               'templates.loaderElement' => $templatesCommon.'layout/component-load/loaderElement.php',
+               'home_page' => ['component', 'home'],
+//               'home_page' => ['static', 'body-pro-zdravi'],
+//               'home_page' => ['item', '5fad34398df10'],  // přednášky - pro test
+
+               'templates.poznamky' => self::RED_TEMPLATES_COMMON.'layout/info/poznamky.php',
+               'templates.loaderElement' => self::RED_TEMPLATES_COMMON.'layout/component-load/loaderElement.php',
+               'templates.loaderElementEditable' => self::RED_TEMPLATES_COMMON.'layout/component-load/loaderElementEditable.php',
+            ];
+    }
+
+    /**
+     * Konfigurace prezentace - vrací parametry pro ComponentControler
+     * @return array
+     */
+    public static function componentControler() {
+
+        return [
+               'static' => self::RED_TEMPLATES_SITE.'static/',
+
+            ];
+    }
+
+    /**
+     * Konfigurace prezentace - vrací parametry pro templateControler
+     * @return array
+     */
+    public static function templateControler() {
+
+        return [
+               'templates.authorFolder' => self::RED_TEMPLATES_COMMON.'author/',
+               'templates.paperFolder' => self::RED_TEMPLATES_COMMON.'paper/',
+               'templates.paperContentFolder' => self::RED_TEMPLATES_COMMON.'paper-content/',
+
+            ];
+    }
+
+    /**
+     * Konfigurace upload files - vrací parametry pro FilesUploadControler
+     * @return array
+     */
+    public static function filesUploadControler() {
+
+        return [
+            'filesDirectory' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES : self::RED_FILES,
+
             ];
     }
 
@@ -834,10 +898,8 @@ class ConfigurationOa_otevreneatelierycz {
      * @return array
      */
     public static function languageSelectRenderer() {
-        // public
-        $assets = 'public/assets/';
         return [
-            'assets' => $assets.'flags-mini/'
+            'assets' => self::RED_ASSETS.'flags-mini/'
         ];
     }
 
@@ -847,7 +909,9 @@ class ConfigurationOa_otevreneatelierycz {
      */
     public static function transformator() {
         return [
-            'filesDirectory' => PES_RUNNING_ON_PRODUCTION_HOST ? '_www_oa_files/' :  '/_www_oa_files/',  // relativní cesta vzhledem k DOCUMENT_ROOT (htdocs) -začíná /
+            // relativní cesta vzhledem k DOCUMENT_ROOT (htdocs) -začíná /
+            'filesDirectory' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES : '/'.self::RED_FILES,
+            'public' => self::RED_LINKS_COMMON,
         ];
     }
 }
