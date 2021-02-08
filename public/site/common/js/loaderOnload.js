@@ -14,7 +14,23 @@ function replaceElement(id, apiUri){
      if (this.readyState == 4 && this.status == 200) {
         // náhrada innerHtml:
         document.getElementById(id).innerHTML = xhr.responseText;
-     }
+        
+        $('#modal_12')
+          .modal('attach events', '.btn-12', 'show')
+        ;
+        $('#modal_15')
+          .modal('attach events', '.btn-fb', 'show')
+        ;
+        $('#modal_16')
+          .modal('attach events', '.btn-16', 'show')
+        ;
+        $('#modal_56')
+          .modal('attach events', '.btn-56', 'show')
+        ;
+        $('#modal_333')
+          .modal('attach events', '.btn-333', 'show')
+        ;    
+        }
      if (this.readyState == 4 && this.status != 200) {
          console.log("Loader failed for id: "+id+",this.readyState:"+this.readyState+", this.status:"+this.status);
      }
