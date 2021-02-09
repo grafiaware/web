@@ -1,0 +1,219 @@
+@marginDefault: 70px;
+main{
+    :not(.paper) perex, :not(.paper) content{
+        margin: @marginDefault 0;
+    }
+    .paper perex, .paper content{
+         margin: 50px 0;
+    }
+}
+main headline{
+    margin: 70px 0 -20px
+}
+.sekundarni-barva{
+    &.podklad{
+        color: @invertedTextColor;
+        background-color: @secondaryColor;
+        padding: 30px;
+    }
+    &:not(.podklad).text, &:not(.podklad).nadpis{
+        color: @secondaryColor;
+    }
+}
+.primarni-barva{
+    &.podklad{
+        color: @invertedTextColor;
+        background-color: @primaryColor;
+        padding: 30px;
+    }
+    &:not(.podklad).text{
+        color: @primaryColor;
+        &.tucne{
+            font-weight: @bold;
+        }
+    }
+    &:not(.podklad).nadpis{
+        color: @textColor;
+    }
+}
+.pruhledna-barva.podklad{
+    color: @textColor;
+    background-color: #FFFFFF96;
+    padding: 30px;
+}
+.nadpis{
+    font-size: @h2;
+    font-weight: 300;
+    z-index: 1;
+    position: relative;
+/*    &.vlevo{
+        width: 42%;
+        position: absolute;
+        position: absolute;
+        transform: translateX(-20%) translateY(-45px);
+        &.primarni-barva{
+            text-align: right;
+        }
+    }
+    &.vpravo{
+        width: 100%;
+        position: relative;
+    }*/
+    p{
+        line-height: 1.15;
+    }
+}
+.podnadpis{
+    font-size: @h4;
+    line-height: 1;
+}
+.text{
+    font-size: @fontSize;
+    &:not(.okraje):not(.okraje-vertical):not(.okraje-horizontal){
+        padding: 10px 0;
+    }
+    &.okraje{
+        padding: 30px 40px;
+    }
+    &.okraje-vertical{ 
+        padding: 30px 0px;
+    }
+    &.okraje-horizontal{
+        padding: 0 40px;
+    }
+    &.velky{
+        font-size: @bigFontSize;
+    }
+    &.maly{
+        font-size: @smallFontSize + 10;
+    }
+    &.vpravo{
+        text-align: right;
+        width: 90%;
+        float: right;
+        position: relative;
+    }
+    &.vlevo{
+        text-align: left;
+        width: 90%;
+        left: 0;
+        position: relative;
+    }
+}
+.row.padding-vertical{
+    padding: 2em 0 !important;
+}
+.column.padding-vertical{
+    padding: 2em 1rem !important;
+}
+.paper{
+    headline{
+        
+    }
+    perex{
+        
+    }
+}
+.obr-upoutavka{
+    margin-top: -60px;
+    .nadpis:not(.presah){
+        font-weight: 300;
+        font-size: @h4;
+        margin-bottom: 20px;
+    }
+    .nadpis.primarni-barva.presah{
+        width: 130%; 
+        text-align: right;
+        position: absolute;
+        bottom: 15px;
+        font-weight: 500;
+    }
+    .blok.text{
+        width: 45%;
+        text-align: left;
+        padding: 20px 40px !important;
+        position: absolute;
+        transform: translateY(50%);
+        top: 50%;
+        right: 25px;
+        &.velky{
+            font-size: @bigFontSize + 2;
+        }
+    }
+    img{
+        width: 100%;
+        height: auto;
+        margin-bottom: 5px;
+        &.sirsi-obr{
+            width: 103%;
+        }
+    }
+
+}
+.blok-nadpis-obr-text{
+    &.program{
+        .text{
+            padding-top: 10px;
+        }
+    }
+    img{
+        width: 100%;
+        height: auto;
+    }
+}
+.blok-nadpis-loga{
+    .text{
+        margin-top: @marginDefault + 20px;
+    }
+    .stretched.row:first-child{
+        padding-left: 40px;
+        padding-right: 40px;
+        .column:first-child img{
+            max-width: 100%;
+            height: auto;
+        }
+        .column:nth-child(2) img{
+            height: 200px;
+            width: auto;
+        }
+        .column:last-child img{
+            height: 120px;
+            width: auto;
+        }
+    }
+}
+.prednasejici{
+    margin-bottom: 70px;
+}
+.blokEL-obr-text{
+    position: relative;
+    margin-bottom: @marginDefault * 3.3;
+    &.sekundarni-barva::before,&.sekundarni-barva::after{
+        background-color: @secondaryColor;
+    }
+    &.primarni-barva::before,&.primarni-barva::after{
+        background-color: @primaryColor;
+    }
+    &::before{
+        content: '';
+        width: 97px;
+        height: 100%;
+        position: absolute;
+        top: 40px;
+        left: -97px;
+    }
+    &::after{
+        content: '';
+        width: 60%;
+        height: 97px;
+        position: absolute;
+        bottom: -97px;
+        left: -97px;
+    }
+    img{
+        width: 100%;
+        height: auto;
+    }
+}
+
+

@@ -7,11 +7,11 @@
 
 namespace Site;
 
-use Site\Grafia as Siteconfig;
-include 'app/Site/Grafia/ConfigurationConstants.php';
-include 'app/Site/Grafia/ConfigurationDb.php';
-include 'app/Site/Grafia/ConfigurationRed.php';
-include 'app/Site/Grafia/ConfigurationStyles.php';
+//use Site\Grafia as Siteconfig;
+//include 'app/Site/Grafia/ConfigurationConstants.php';
+//include 'app/Site/Grafia/ConfigurationDb.php';
+//include 'app/Site/Grafia/ConfigurationRed.php';
+//include 'app/Site/Grafia/ConfigurationStyles.php';
 
 //use Site\TydenZdravi as Siteconfig;
 //include 'app/Site/TydenZdravi/ConfigurationConstants.php';
@@ -19,11 +19,11 @@ include 'app/Site/Grafia/ConfigurationStyles.php';
 //include 'app/Site/TydenZdravi/ConfigurationRed.php';
 //include 'app/Site/TydenZdravi/ConfigurationStyles.php';
 
-//use Site\Veletrh as Siteconfig;
-//include 'app/Site/Veletrh/ConfigurationConstants.php';
-//include 'app/Site/Veletrh/ConfigurationDb.php';
-//include 'app/Site/Veletrh/ConfigurationRed.php';
-//include 'app/Site/Veletrh/ConfigurationStyles.php';
+use Site\VeletrhPrace as Siteconfig;
+include 'app/Site/VeletrhPrace/ConfigurationConstants.php';
+include 'app/Site/VeletrhPrace/ConfigurationDb.php';
+include 'app/Site/VeletrhPrace/ConfigurationRed.php';
+include 'app/Site/VeletrhPrace/ConfigurationStyles.php';
 
 //use Site\Grafia as Siteconfig;
 //use Site\Grafia as Siteconfig;
