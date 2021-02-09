@@ -135,23 +135,6 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
             'renderLogger' => function(ContainerInterface $c) {
                 return FileLogger::getInstance($c->get('api.logs.view.directory'), $c->get('api.logs.view.file'), FileLogger::REWRITE_LOG);
             },
-            // Nastaveno logování průběhu renderování
-            //
-            // V této aplikaci jsou všechny template renderery vytvářeny automaticky - pro vytváření Rendererů použit RendererContainer.
-                                                    // RecorderProvider je nastaven RendereContaineru statickou metodou setRecorderProvider a
-            // je předán do konstruktoru rendereru vždy, když RendererContainer vytváří nový Renderer. Každý renderer tak může provádět záznam.
-            // Po skončení renderování se RecorderProvider předá do RecordsLoggeru pro logování užití proměnných v šablonách. V RecordsLoggeru
-            // jsou všechny RecorderProviderem poskytnuté a zaregistrované Rekordery přečteny a je pořízen log.
-            RecorderProvider::class => function(ContainerInterface $c) {
-                return new RecorderProvider(VariablesUsageRecorder::RECORD_LEVEL_FULL);
-            },
-            View::class => function(ContainerInterface $c) {
-                TemplateRendererContainer::setRecorderProvider($c->get(RecorderProvider::class));
-                return new View();
-            },
-            RecordsLogger::class => function(ContainerInterface $c) {
-                return new RecordsLogger($c->get('renderLogger'));
-            },
         ];
     }
 

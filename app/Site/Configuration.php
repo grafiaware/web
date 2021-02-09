@@ -7,14 +7,26 @@
 
 namespace Site;
 
-include 'ConfigurationTz_newdb.php';
-include 'ConfigurationTZ_wwwgrafia.php';
-include 'ConfigurationGr_wwwgrafia.php';
-//include 'ConfigurationGr2_grafiacz_20200916.php';
-//include 'ConfigurationGr3_grafiacz.php';
-//include 'ConfigurationGr4_grafiacz_a8.php';
-include 'ConfigurationOa_otevreneatelierycz.php';
+use Site\Grafia as Siteconfig;
+include 'app/Site/Grafia/ConfigurationConstants.php';
+include 'app/Site/Grafia/ConfigurationDb.php';
+include 'app/Site/Grafia/ConfigurationRed.php';
+include 'app/Site/Grafia/ConfigurationStyles.php';
 
+//use Site\TydenZdravi as Siteconfig;
+//include 'app/Site/TydenZdravi/ConfigurationConstants.php';
+//include 'app/Site/TydenZdravi/ConfigurationDb.php';
+//include 'app/Site/TydenZdravi/ConfigurationRed.php';
+//include 'app/Site/TydenZdravi/ConfigurationStyles.php';
+
+//use Site\Veletrh as Siteconfig;
+//include 'app/Site/Veletrh/ConfigurationConstants.php';
+//include 'app/Site/Veletrh/ConfigurationDb.php';
+//include 'app/Site/Veletrh/ConfigurationRed.php';
+//include 'app/Site/Veletrh/ConfigurationStyles.php';
+
+//use Site\Grafia as Siteconfig;
+//use Site\Grafia as Siteconfig;
 /**
  * Cache konfigurace
  *
@@ -23,19 +35,88 @@ include 'ConfigurationOa_otevreneatelierycz.php';
  *
  * @author pes2704
  */
-class Configuration extends ConfigurationTz_newdb {
-//class Configuration extends ConfigurationTZ_wwwgrafia {
-//class Configuration extends ConfigurationGr_wwwgrafia {
-//class Configuration extends ConfigurationGr2_grafiacz_20200916 {
-//class Configuration extends ConfigurationGr3_grafiacz {
-//class Configuration extends ConfigurationGr4_grafiacz_a8 {
-//class Configuration extends ConfigurationOa_otevreneatelierycz {
+class Configuration {
 
     private static $cache;
 
     public static function getConfigModule($name) {
         if(!isset(self::$cache[$name])) {
-            self::$cache[$name] = parent::$name();
+            switch ($name) {
+                ###############################
+                # configutation red
+                #
+                case 'bootstrap':
+                    self::$cache[$name] = Siteconfig\ConfigurationRed::bootstrap();
+                    break;
+                case 'app':
+                    self::$cache[$name] = Siteconfig\ConfigurationRed::app();
+                    break;
+                case 'component':
+                    self::$cache[$name] = Siteconfig\ConfigurationRed::component();
+                    break;
+                case 'statusPresentationManager':
+                    self::$cache[$name] = Siteconfig\ConfigurationRed::statusPresentationManager();
+                    break;
+                case 'layoutControler':
+                    self::$cache[$name] = Siteconfig\ConfigurationRed::layoutControler();
+                    break;
+                case 'pageControler':
+                    self::$cache[$name] = Siteconfig\ConfigurationRed::pageControler();
+                    break;
+                case 'componentControler':
+                    self::$cache[$name] = Siteconfig\ConfigurationRed::componentControler();
+                    break;
+                case 'templateControler':
+                    self::$cache[$name] = Siteconfig\ConfigurationRed::templateControler();
+                    break;
+                case 'filesUploadControler':
+                    self::$cache[$name] = Siteconfig\ConfigurationRed::filesUploadControler();
+                    break;
+                case 'transformator':
+                    self::$cache[$name] = Siteconfig\ConfigurationRed::transformator();
+                    break;
+
+                ###############################
+                # configutation db
+                #
+                case 'api':
+                    self::$cache[$name] = Siteconfig\ConfigurationDb::api();
+                    break;
+                case 'build':
+                    self::$cache[$name] = Siteconfig\ConfigurationDb::build();
+                    break;
+                case 'dbOld':
+                    self::$cache[$name] = Siteconfig\ConfigurationDb::dbOld();
+                    break;
+                case 'dbUpgrade':
+                    self::$cache[$name] = Siteconfig\ConfigurationDb::dbUpgrade();
+                    break;
+                case 'hierarchy':
+                    self::$cache[$name] = Siteconfig\ConfigurationDb::hierarchy();
+                    break;
+                case 'login':
+                    self::$cache[$name] = Siteconfig\ConfigurationDb::login();
+                    break;
+                case 'web':
+                    self::$cache[$name] = Siteconfig\ConfigurationDb::web();
+                    break;
+                case 'rs':
+                    self::$cache[$name] = Siteconfig\ConfigurationDb::rs();
+                    break;
+
+                ###############################
+                # configutation styles
+                #
+                case 'rendererDefaults':
+                    self::$cache[$name] = Siteconfig\ConfigurationStyles::rendererDefaults();
+                    break;
+                case 'renderer':
+                    self::$cache[$name] = Siteconfig\ConfigurationStyles::renderer();
+                    break;
+                case 'languageSelectRenderer':
+                    self::$cache[$name] = Siteconfig\ConfigurationStyles::languageSelectRenderer();
+                    break;
+            }
         }
         return self::$cache[$name];
     }
