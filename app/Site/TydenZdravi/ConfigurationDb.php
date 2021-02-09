@@ -148,7 +148,7 @@ class ConfigurationDb extends ConfigurationConstants {
             'dbold.db.collation' => 'utf8_general_ci',
 
             'dbold.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? '127.0.0.1' : 'localhost',
-            'dbold.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tydenzdravieu01' : 'tydenzdravieu',
+            'dbold.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tydenzdravieu01' : 'wwwgrafia',
 
             'dbold.logs.directory' => 'Logs/DbOld',
             'dbold.logs.db.file' => 'Database.log',
