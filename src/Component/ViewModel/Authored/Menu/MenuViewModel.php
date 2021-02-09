@@ -26,7 +26,7 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
     private $hierarchyRepo;
     private $presentedMenuNode;
     private $withRoot = false;
-    private $componentName;
+    private $menuRootBlockName;
     private $maxDepth;
 
     public function __construct(
@@ -42,12 +42,12 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
     }
 
     /**
-     *
-     * @param string $componentName
+     * Nstaví jméni bloku, jehož ko
+     * @param string $blockName
      * @return void
      */
-    public function setMenuRootName($componentName): void {
-        $this->componentName = $componentName;
+    public function setMenuRootName($blockName): void {
+        $this->menuRootBlockName = $blockName;
     }
 
     /**
@@ -108,68 +108,15 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
     }
 
     /**
-     *
-     * @param string $parentUid
-     * @return HierarchyAggregateInterface array af
-     */
-//    public function getChildrenMenuNodes($parentUid) {
-//        $presentationStatus = $this->statusPresentationRepo->get();
-//        return $this->hierarchyRepo->findChildren($presentationStatus->getLanguage()->getLangCode(), $parentUid);
-//    }
-
-    /**
-     *
-     * @param type $parentUid
-     * @param type $maxDepth
-     * @return ItemViewModelInterface array of
-     */
-//    public function getChildrenItemModels($parentUid) {
-//
-//        $nodes = $this->getChildrenMenuNodes($parentUid);
-//        $rootNode = reset($nodes);
-//        $presentedNode = $this->getPresentedMenuNode($rootNode);
-//        if (isset($presentedNode)) {
-//            $presentedUid = $presentedNode->getUid();
-//            $presentedItemLeftNode = $presentedNode->getLeftNode();
-//            $presentedItemRightNode = $presentedNode->getRightNode();
-//        }
-//
-//        // command
-//        $pasteUid = $this->getPostFlashCommand('cut');
-//        $pasteMode = $pasteUid ? true : false;
-//
-//        $models = [];
-//        foreach ($nodes as $node) {
-//            if (isset($presentedItemLeftNode)) {
-//                $isOnPath = ($presentedItemLeftNode >= $node->getLeftNode()) && ($presentedItemRightNode <= $node->getRightNode());
-//            } else {
-//                $isOnPath = false;
-//            }
-//            $nodeUid = $node->getUid();
-//            $isPresented = isset($presentedUid) ? ($presentedUid == $nodeUid) : false;
-//            $isCutted = $pasteUid == $nodeUid;
-//            $readonly = false;
-//            $itemViewModel = new ItemViewModel($node, $isOnPath, $isPresented, $pasteMode, $isCutted, $readonly);
-//                        $itemViewModel = new ItemViewModel($node, $realDepth, $isOnPath, $isLeaf, $isPresented, $pasteMode, $isCutted, $readonly);
-//
-//            if ($pasteMode) {
-//                $itemViewModel->setPasteUid($pasteUid);
-//            }
-//            $models[] = $itemViewModel;
-//        }
-//        return $models;
-//    }
-
-    /**
-     * Původní metoda getSubtreeItemModel pro Menu Display controler
+     * Původní metoda getSubtreeItemModel pro Menu Display controler. Načte podstrom uzlů menu, potomkků
      *
      * @return ItemViewModelInterface array af
      */
     public function getSubTreeItemModels() {
         // root uid z jména komponenty
-        $menuRoot = $this->getMenuRoot($this->componentName);
+        $menuRoot = $this->getMenuRoot($this->menuRootBlockName);
         if (!isset($menuRoot)) {
-            user_error("Kořen menu se zadaným jménem komponety '$this->componentName' nebyl načten z tabulky kořenů menu.", E_USER_WARNING);
+            user_error("Kořen menu se zadaným jménem komponety '$this->menuRootBlockName' nebyl načten z tabulky kořenů menu.", E_USER_WARNING);
         }
         $rootUid = $menuRoot->getUidFk();
         // nodes
