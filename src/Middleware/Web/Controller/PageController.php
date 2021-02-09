@@ -217,7 +217,7 @@ class PageController extends LayoutControllerAbstract {
         $componets = [
             'menuPresmerovani' => $this->container->get('menu.presmerovani')->setMenuRootName('menu_redirect'),
             'menuVodorovne' => $this->container->get('menu.vodorovne')->setMenuRootName('menu_horizontal'),
-            'menuSvisle' => $this->container->get('menu.svisle')->setMenuRootName('menu_vertical')->withTitleItem(true),
+            'menuSvisle' => $this->container->get('menu.svisle')->setMenuRootName('menu_vertical'), //->withTitleItem(true),
         ];
         if ($this->isEditableLayout()) {
             $componets['bloky'] = $this->container->get('menu.bloky.editable')->setMenuRootName('blocks'); //->withTitleItem(true);
