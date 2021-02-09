@@ -7,6 +7,7 @@
 
 namespace Site;
 
+include 'ConfigurationVpO_dbTz.php';
 include 'ConfigurationTz_newdb.php';
 include 'ConfigurationTZ_wwwgrafia.php';
 include 'ConfigurationGr_wwwgrafia.php';
@@ -24,8 +25,9 @@ include 'ConfigurationOa_otevreneatelierycz.php';
  * @author pes2704
  */
 //class Configuration extends ConfigurationTz_newdb {
+class Configuration extends ConfigurationVpO_dbTz {
 //class Configuration extends ConfigurationTZ_wwwgrafia {
-class Configuration extends ConfigurationGr_wwwgrafia {
+//class Configuration extends ConfigurationGr_wwwgrafia {
 //class Configuration extends ConfigurationGr2_grafiacz_20200916 {
 //class Configuration extends ConfigurationGr3_grafiacz {
 //class Configuration extends ConfigurationGr4_grafiacz_a8 {
