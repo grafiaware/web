@@ -110,8 +110,8 @@ class ConfigurationRed extends ConfigurationDb {
             // pozn. - popisky šablon pro tiny jsou jen česky (TinyInit.js)
             'tinyLanguage' => [
                     'cs' => 'cs',
-                    'de' => 'de',
-                    'en' => 'en_US'
+//                    'de' => 'de',
+//                    'en' => 'en_US'
                 ],
 
             // title
