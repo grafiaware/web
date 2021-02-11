@@ -31,8 +31,8 @@ class CredentialsDao {
      */
     public function get($loginName) {
         //TODO: Svpboda Provizorní řešení get podle name - není unikátní -> nutno předělat opravneni na nové tabulky a user repo a dao
-        $sql = "SELECT user AS login_name, role FROM opravneni WHERE user=:login_name";
-//        $sql = "SELECT login_name, role FROM credentials WHERE login_name=:login_name";
+//        $sql = "SELECT user AS login_name, role FROM opravneni WHERE user=:login_name";
+        $sql = "SELECT login_name, role FROM credentials WHERE login_name=:login_name";
         $statement = $this->dbHandler->prepare($sql);
 //        $statement = $this->dbHandler->query($sql);
         if ($statement == FALSE) {
@@ -62,8 +62,8 @@ class CredentialsDao {
      * @throws StatementFailureException
      */
     public function getByAuthentication($loginName, $password) {
-        $sql = "SELECT user AS login_name, role FROM opravneni WHERE user=:login_name AND password=:password";
-//        $sql = "SELECT login_name, role FROM credentials WHERE login_name=:login_name AND password=:password";
+//        $sql = "SELECT user AS login_name, role FROM opravneni WHERE user=:login_name AND password=:password";
+        $sql = "SELECT login_name, role FROM credentials WHERE login_name=:login_name AND password_hash=:password_hash";
         $statement = $this->dbHandler->prepare($sql);
 //        $statement = $this->dbHandler->query($sql);
         if ($statement == FALSE) {
@@ -71,7 +71,7 @@ class CredentialsDao {
             throw new StatementFailureException($einfo[2].PHP_EOL.". Nevznikl PDO statement z sql příkazu: $sql", $einfo[1]);
         }
         $statement->bindParam(':login_name', $loginName);
-        $statement->bindParam(':password', $password);
+        $statement->bindParam(':password_hash', $password);
         $success = $statement->execute();
         if (!$success) {
             $einfo = $this->dbHandler->errorInfo();
