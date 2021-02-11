@@ -139,7 +139,10 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
             /** @var LoginComponent $loginComponent */
             $loginComponent = $this->container->get(LoginComponent::class);
             //$loginComponent nepoužívá viewModel, používá template definovanou v kontejneru - zadávám data pro template
-            $loginComponent->setData(["jmenoFieldName" => LoginLogoutController::JMENO_FIELD_NAME, "hesloFieldName" => LoginLogoutController::HESLO_FIELD_NAME]);
+            $loginComponent->setData([
+                'fieldNameJmeno' => Configuration::loginLogoutControler()['fieldNameJmeno'],
+                'fieldNameHeslo' => Configuration::loginLogoutControler()['fieldNameHeslo'],
+                ]);
             return $loginComponent;
         }
     }

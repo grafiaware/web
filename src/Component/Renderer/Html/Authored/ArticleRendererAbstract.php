@@ -25,15 +25,16 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract impleme
 
     public function renderHeadline(PaperInterface $paper) {
         $headline = $paper->getHeadline();
-        return  $headline
-                ?
-                    Html::tag('headline',
+        return  
+            Html::tag('div',
+                        ['class'=>$this->classMap->getClass('Headline', 'div'),
+                         'style' => "display: block;"
+                        ],
+                        Html::tag('headline',
                             ['class'=>$this->classMap->getClass('Headline', 'headline')],
                             $headline
-                    )
-                :
-                ""
-            ;
+                        )
+                    );
     }
 
     public function renderPerex(PaperInterface $paper) {

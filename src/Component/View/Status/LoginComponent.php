@@ -16,5 +16,5 @@ use Component\View\ComponentAbstract;
  * @author pes2704
  */
 class LoginComponent extends ComponentAbstract {
-    //nepoužívá viewModel, renderuje template, definováno v component kontejneru
+    //nepoužívá viewModel, renderuje template, definováno v component kontejneru a konfiguraci component kontejneru
 }

@@ -8,6 +8,8 @@
 
 namespace Middleware\Login\Controller;
 
+use Site\Configuration;
+
 use Psr\Http\Message\ServerRequestInterface;
 
 use Pes\Http\Request\RequestParams;
@@ -64,9 +66,11 @@ class LoginLogoutController extends StatusFrontControllerAbstract {
         $login = $requestParams->getParsedBodyParam($request, 'login', FALSE);
 
         if ($login) {
-            // používá konstanty třídy pro omezení množství našeptávaných jmen při vypl%nování formuláře v prohlížečích
-            $loginJmeno = $requestParams->getParsedBodyParam($request, self::JMENO_FIELD_NAME, FALSE);
-            $loginHeslo = $requestParams->getParsedBodyParam($request, self::HESLO_FIELD_NAME, FALSE);
+            // používá názvy z konfigurace pro omezení množství našeptávaných jmen při vypl%nování formuláře v prohlížečích
+            $fieldNameJmeno = Configuration::loginLogoutControler()['fieldNameJmeno'];
+            $fieldNameHeslo = Configuration::loginLogoutControler()['fieldNameHeslo'];
+            $loginJmeno = $requestParams->getParsedBodyParam($request, $fieldNameJmeno, FALSE);
+            $loginHeslo = $requestParams->getParsedBodyParam($request, $fieldNameHeslo, FALSE);
             if ($loginJmeno AND $loginHeslo) {
                 if ($this->authenticator->authenticate($loginJmeno, $loginHeslo)) {  // z databáze
                     $this->setLoggedUser($loginJmeno);

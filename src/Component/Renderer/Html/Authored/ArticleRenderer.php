@@ -22,18 +22,19 @@ class ArticleRenderer extends ArticleRendererAbstract {
     public function render($data=NULL) {
         /** @var PaperViewModelInterface $viewModel */
         $viewModel = $this->viewModel;
-        $paperAggregate = $viewModel->getPaper();
+        $paperAggregate = $viewModel->getPaper();  // vrací Paper nebo PaperAggregate
         if (isset($paperAggregate)) {
-            $html =
-                Html::tag('article', ['data-renderer'=>'PaperEditable'],
-                    Html::tag('div',
+            $headline = Html::tag('div',
                         ['class'=>$this->classMap->getClass('Headline', 'div'),
                          'style' => "display: block;"
                         ],
                         $this->renderHeadline($paperAggregate)
-                    ).
-                    $this->renderPerex($paperAggregate).
-                    $this->renderContents($paperAggregate)
+                    );
+            $perex = $this->renderPerex($paperAggregate);
+            $contents = ($paperAggregate instanceof PaperAggregateInterface) ? $this->renderContents($paperAggregate) : "";
+            $html =
+                Html::tag('article', ['data-renderer'=>'PaperEditable'],
+                        $headline.$perex.$contents
                 );
         } else {
             $html = Html::tag('div', ['style' => "display: none;"], 'No paper for rendering.');
