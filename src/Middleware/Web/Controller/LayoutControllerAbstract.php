@@ -128,12 +128,12 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
     #### komponenty ######
 
     protected function getLoginLogoutComponent() {
-        $user = $this->statusSecurityRepo->get()->getUser();
+        $user = $this->statusSecurityRepo->get()->getCredential();
         if (null != $user AND $user->getRole()) {   // libovolná role
             /** @var LogoutComponent $logoutComponent */
             $logoutComponent = $this->container->get(LogoutComponent::class);
             //$logoutComponent nepoužívá viewModel, používá template definovanou v kontejneru - zadávám data pro template
-            $logoutComponent->setData(['userName' => $user->getUserName()]);
+            $logoutComponent->setData(['userName' => $user->getLoginName()]);
             return $logoutComponent;
         } else {
             /** @var LoginComponent $loginComponent */
@@ -148,7 +148,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
     }
 
     protected function getUserActionComponent() {
-        $user = $this->statusSecurityRepo->get()->getUser();
+        $user = $this->statusSecurityRepo->get()->getCredential();
         if (null != $user AND $user->getRole()) {   // libovolná role
             /** @var UserActionComponent $actionComponent */
             $actionComponent = $this->container->get(UserActionComponent::class);
@@ -156,7 +156,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
                     [
                     'editArticle' => $this->isEditableArticle(),
                     'editLayout' => $this->isEditableLayout(),
-                    'userName' => $user->getUserName()
+                    'userName' => $user->getLoginName()
                     ]);
             return $actionComponent;
         } else {

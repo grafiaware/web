@@ -11,12 +11,12 @@ use Psr\Container\ContainerInterface;   // pro parametr closure function(Contain
 use Pes\Logger\FileLogger;
 
 // user - ze session
-use Model\Entity\User;
+use Model\Entity\Credentials;
 
 //user - db
-use Model\Dao\UserOpravneniDao;
-use Model\Hydrator\UserHydrator;
-use Model\Repository\UserRepo;
+use Model\Dao\CredentialsDao;
+use Model\Hydrator\CredentialsHydrator;
+use Model\Repository\CredentialsRepo;
 
 // database
 use Pes\Database\Handler\Account;
@@ -109,18 +109,18 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get('loginDbLogger'));
             },
             // db userRepo
-            UserRepo::class => function(ContainerInterface $c) {
-                return new UserRepo(new UserOpravneniDao($c->get(Handler::class)), new UserHydrator());
+            CredentialsRepo::class => function(ContainerInterface $c) {
+                return new CredentialsRepo(new CredentialsDao($c->get(Handler::class)), new CredentialsHydrator());
             },
             DbAuthenticator::class => function(ContainerInterface $c) {
-                return new DbAuthenticator(new UserOpravneniDao($c->get(Handler::class)));
+                return new DbAuthenticator(new CredentialsDao($c->get(Handler::class)));
             },
             LoginLogoutController::class => function(ContainerInterface $c) {
                 return new LoginLogoutController(
                     $c->get(StatusSecurityRepo::class),
                     $c->get(StatusFlashRepo::class),
                     $c->get(StatusPresentationRepo::class),
-                    $c->get(UserRepo::class),
+                    $c->get(CredentialsRepo::class),
                     $c->get(NamePasswordAuthenticatorInterface::class));
             }
         ];

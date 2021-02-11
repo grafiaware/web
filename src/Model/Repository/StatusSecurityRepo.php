@@ -11,7 +11,7 @@ namespace Model\Repository;
 use Model\Entity\StatusSecurityInterface;
 
 use Model\Dao\StatusDao;
-use Model\Repository\UserRepo;
+use Model\Repository\CredentialsRepo;
 
 /**
  * Description of StausLoginRepo

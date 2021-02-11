@@ -8,10 +8,10 @@
 
 namespace Security\Auth;
 
-use Model\Entity\UserInterface;
-use Model\Entity\User;
+use Model\Entity\CredentialsInterface;
+use Model\Entity\Credentials;
 
-use Model\Dao\UserOpravneniDao;
+use Model\Dao\CredentialsDao;
 
 use Pes\Type\Date;
 
@@ -23,33 +23,35 @@ use Pes\Type\Date;
 class DbAuthenticator implements NamePasswordAuthenticatorInterface {
 
     const MANDATORY_ATTRIBUTES = [
-        'name'
+        'login_name'
     ];
 
-    private $userOpravneniDao;
+    private $credentialsDao;
 
-    public function __construct(UserOpravneniDao $userDao) {
-        $this->userOpravneniDao = $userDao;
+    public function __construct(CredentialsDao $userDao) {
+        $this->credentialsDao = $userDao;
     }
 
     /**
-     * 
      *
-     * @param string $user
+     *
+     * @param string $loginName
      * @param string $password
      * @return bool
      */
-    public function authenticate($user, $password): bool {
-        $authenticated = true;
-        $row = $this->userOpravneniDao->getByAuthentication($user, $password);
+    public function authenticate($loginName, $password): bool {
+        $authenticated = false;
+        $row = $this->credentialsDao->getByAuthentication($loginName, $password);
         if (isset($row) AND $row) {
+            $mandatory = true;
             foreach (self::MANDATORY_ATTRIBUTES as $attribute) {
-                if (!isset($attribute) OR !$attribute) {
-                    $authenticated = false;
+                if (!isset($row[$attribute]) OR !$row[$attribute]) {
+                    $mandatory = $mandatory AND false;
                 }
             }
-        } else {
-            $authenticated = false;
+            if ($mandatory) {
+                $authenticated = true;
+            }
         }
         return $authenticated;
     }

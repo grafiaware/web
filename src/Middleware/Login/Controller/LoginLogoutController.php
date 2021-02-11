@@ -24,7 +24,7 @@ use Model\Repository\StatusSecurityRepo;
 use Model\Repository\StatusFlashRepo;
 use Model\Entity\StatusSecurity;
 use Model\Entity\StatusSecurityInterface;
-use Model\Repository\UserRepo;
+use Model\Repository\CredentialsRepo;
 
 use Pes\Application\AppFactory;
 use Pes\Application\UriInfoInterface;
@@ -54,7 +54,7 @@ class LoginLogoutController extends StatusFrontControllerAbstract {
             StatusSecurityRepo $statusSecurityRepo,
             StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
-            UserRepo $userRepo,
+            CredentialsRepo $userRepo,
             NamePasswordAuthenticatorInterface $authenticator) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
         $this->userRepo = $userRepo;

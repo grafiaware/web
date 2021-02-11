@@ -38,7 +38,7 @@ class SelectorItems {
         $default = function() {
                 return [
                     new \Middleware\Status\SecurityStatus(),
-                    new \Middleware\Login\Login(),
+//                    new \Middleware\Login\Login(),
                     new \Middleware\Status\FlashStatus(),
                     new \Middleware\Status\PresentationStatus(),
                     new \Middleware\Web\Transformator(),
@@ -106,8 +106,8 @@ class SelectorItems {
             function() {
                 return [
                     //TODO: doplnit basic autentifikaci pro případ něpřihlášeného uživatele.
-//                    new \Middleware\Status\SecurityStatus(),
-//                    new \Middleware\Logged\LoggedAccess(new LoggedAccessor($this->app)),
+                    new \Middleware\Status\SecurityStatus(),
+                    new \Middleware\Logged\LoggedAccess(new LoggedAccessor($this->app)),
                     new \Middleware\Build\Build()
                 ];},
 

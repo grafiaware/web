@@ -8,7 +8,7 @@
 
 namespace Model\Entity;
 
-use Model\Entity\UserInterface;
+use Model\Entity\CredentialsInterface;
 use Model\Entity\UserActionsInterface;
 
 /**
@@ -19,7 +19,7 @@ use Model\Entity\UserActionsInterface;
 class StatusSecurity implements StatusSecurityInterface {
 
     /**
-     * @var UserInterface
+     * @var CredentialsInterface
      */
     private $user;
 
@@ -28,9 +28,9 @@ class StatusSecurity implements StatusSecurityInterface {
     /**
      * Vrací jméno
      *
-     * @return \Model\Entity\UserInterface|null
+     * @return \Model\Entity\CredentialsInterface|null
      */
-    public function getUser(): ?UserInterface {
+    public function getCredential(): ?CredentialsInterface {
         return $this->user;
     }
 
@@ -54,10 +54,10 @@ class StatusSecurity implements StatusSecurityInterface {
 
     /**
      * {@inheritdoc}
-     * @param UserInterface $user
+     * @param CredentialsInterface $user
      * @return void
      */
-    public function renewSecurityStatus(UserInterface $user=null): void {
+    public function renewSecurityStatus(CredentialsInterface $user=null): void {
         $this->user = $user;
         $this->userActions = new UserActions();  // má default hodnoty
 

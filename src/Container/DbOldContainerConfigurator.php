@@ -23,8 +23,8 @@ use Application\WebAppFactory;
 use StatusManager\Observer\SecurityContextObjectsRemover;
 
 //user - session
-use Model\Entity\User;
-use Model\Entity\UserInterface;
+use Model\Entity\Credentials;
+use Model\Entity\CredentialsInterface;
 
 // database
 // account a handler v middleware kontejnerech
@@ -79,7 +79,7 @@ class DbOldContainerConfigurator extends ContainerConfiguratorAbstract {
             SessionStatusHandlerInterface::class => SessionStatusHandler::class,
             StatusSecurityManagerInterface::class => StatusSecurityManager::class,
             StatusPresentationManagerInterface::class => StatusPresentationManager::class,
-            UserInterface::class => User::class,
+            CredentialsInterface::class => Credentials::class,
             RouterInterface::class => Router::class,
             ResourceRegistryInterface::class => ResourceRegistry::class,
         ];
