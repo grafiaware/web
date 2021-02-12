@@ -23,7 +23,22 @@ class Credentials extends EntityAbstract implements CredentialsInterface {
     /**
      * @var string
      */
+    private $password_hash;
+
+    /**
+     * @var string
+     */
     private $role;
+
+    /**
+     * @var \DateTime
+     */
+    private $created;
+
+    /**
+     * @var \DateTime
+     */
+    private $updated;
 
     public function __construct() {
         $this->securityObservers = new \SplObjectStorage();
@@ -35,6 +50,33 @@ class Credentials extends EntityAbstract implements CredentialsInterface {
 
     public function setLoginName($loginName): CredentialsInterface {
         $this->loginName = $loginName;
+        return $this;
+    }
+
+    public function getPassword_hash(): string {
+        return $this->password_hash;
+    }
+
+    public function getCreated(): \DateTime {
+        return $this->created;
+    }
+
+    public function getUpdated(): \DateTime {
+        return $this->updated;
+    }
+
+    public function setPassword_hash(string $password_hash): CredentialsInterface {
+        $this->password_hash = $password_hash;
+        return $this;
+    }
+
+    public function setCreated(\DateTime $created): CredentialsInterface {
+        $this->created = $created;
+        return $this;
+    }
+
+    public function setUpdated(\DateTime $updated): CredentialsInterface {
+        $this->updated = $updated;
         return $this;
     }
 

@@ -7,7 +7,6 @@
  */
 
 namespace Model\Dao;
-use Pes\Database\Handler\HandlerInterface;
 
 /**
  * Description of RsDao

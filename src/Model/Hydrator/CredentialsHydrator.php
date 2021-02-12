@@ -27,7 +27,11 @@ class CredentialsHydrator implements HydratorInterface {
         /** @var CredentialsInterface $user */
         $user
             ->setLoginName($row['login_name'])
-            ->setRole($row['role']);
+            ->setRole($row['password_hash'])
+            ->setRole($row['role'])
+            ->setRole($row['created'] ? \DateTime::createFromFormat('Y-m-d H:i:s', $row['created']) : NULL)
+            ->setRole($row['updated'] ? \DateTime::createFromFormat('Y-m-d H:i:s', $row['updated']) : NULL);
+                ;
     }
 
     /**
@@ -37,8 +41,10 @@ class CredentialsHydrator implements HydratorInterface {
      */
     public function extract(EntityInterface $user, &$row) {
         /** @var CredentialsInterface $user */
-        $row['login_name'] = $user->getLoginName();
+        $row['login_name'] = $user->getLoginName(); // hodnota pro where
+        $row['password_hash'] = $user->getPassword_hash();
         $row['role'] = $user->getRole();
+        // created a updated jsou timestamp - readonly
     }
 
 }

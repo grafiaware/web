@@ -56,7 +56,7 @@ class Paper extends EntityAbstract implements PaperInterface {
         return $this->editor;
     }
 
-    public function getUpdated() {
+    public function getUpdated(): \DateTime {
         return $this->updated;
     }
 
@@ -100,7 +100,7 @@ class Paper extends EntityAbstract implements PaperInterface {
         return $this;
     }
 
-    public function setUpdated($updated): PaperInterface {
+    public function setUpdated(\DateTime $updated): PaperInterface {
         $this->updated = $updated;
         return $this;
     }
