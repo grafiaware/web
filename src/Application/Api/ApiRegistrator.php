@@ -110,7 +110,7 @@ class ApiRegistrator {
         $registry->register($this->getPrototype->withUrlPattern('/build/dropdb'));
         $registry->register($this->getPrototype->withUrlPattern('/build/createusers'));
         $registry->register($this->getPrototype->withUrlPattern('/build/dropusers'));
-        $registry->register($this->getPrototype->withUrlPattern('/build/drop'));
+        $registry->register($this->getPrototype->withUrlPattern('/build/droptables'));
         $registry->register($this->getPrototype->withUrlPattern('/build/convert'));
         $registry->register($this->getPrototype->withUrlPattern('/build/make'));
     }

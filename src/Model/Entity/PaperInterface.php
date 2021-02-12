@@ -31,7 +31,7 @@ interface PaperInterface extends EntityInterface {
 
     public function getEditor();
 
-    public function getUpdated();
+    public function getUpdated(): \DateTime;
 
     public function setId($id): PaperInterface;
 
@@ -42,13 +42,13 @@ interface PaperInterface extends EntityInterface {
     public function setHeadline($headline): PaperInterface;
 
     public function setPerex($perex): PaperInterface;
-    
+
     public function setTemplate($template): PaperInterface;
 
     public function setKeywords($keywords): PaperInterface;
 
     public function setEditor($editor): PaperInterface;
 
-    public function setUpdated($updated): PaperInterface;
+    public function setUpdated(\DateTime $updated): PaperInterface;
 
 }

@@ -16,10 +16,10 @@ interface NamePasswordAuthenticatorInterface {
 
     /**
      *
-     * @param string $name
+     * @param string $loginName
      * @param string $password
      * @return bool
      */
-    public function authenticate($name, $password): bool;
+    public function authenticate($loginName, $password): bool;
 
 }

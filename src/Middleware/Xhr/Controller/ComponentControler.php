@@ -109,12 +109,28 @@ class ComponentControler extends XhrControlerAbstract {
     private function getCompiledContent($staticName) {
 
         $compiledFileName = Configuration::componentControler()['static']."__compiled/".$staticName.".html";
-        if (false AND is_readable($compiledFileName)) {
-            $compiledContent = file_get_contents($compiledFileName);
+        $templateFilename = Configuration::componentControler()['static'].$staticName."/template.php";
+        if (is_readable($compiledFileName)) {
+            $compiledFileTimestamp = filemtime($compiledFileName);  // Unix timestamp -> date ("d. F Y H:i:s.", $compiledFileTimestamp);
+            $templateFileTimestamp = filemtime($templateFilename);
+            if ($compiledFileTimestamp > $templateFileTimestamp) {  // timestamp je s vteřinovou přesností
+                $compiledContent = file_get_contents($compiledFileName);
+            } else {
+                $compiledContent = $this->compileContent($templateFilename, $compiledFileName);
+            }
+        } else {
+            $compiledContent = $this->compileContent($templateFilename, $compiledFileName);
+        }
+        return $compiledContent;
+    }
+
+    private function compileContent($templateFilename, $compiledFileName) {
+        if(!is_readable($templateFilename)) {
+            $compiledContent = Message::t("Není čitený soubor statické stránky {file}.", ['file'=>$templateFilename]);
         } else {
             $view = new View();
             $view->setRenderer(new PhpTemplateRenderer());
-            $view->setTemplate(new PhpTemplate(Configuration::componentControler()['static'].$staticName."/template.php"));
+            $view->setTemplate(new PhpTemplate($templateFilename));
             $compiledContent = $view->getString();
             file_put_contents($compiledFileName, $compiledContent);
         }

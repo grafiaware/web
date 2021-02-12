@@ -56,7 +56,11 @@ Message::addTranslations(
         ],
 
 
-
+// component controler
+    "Není čitený soubor statické stránky {file}." =>
+        [
+            'cs' => "Není čitený soubor statické stránky {file}."
+        ]
 
 
     ]

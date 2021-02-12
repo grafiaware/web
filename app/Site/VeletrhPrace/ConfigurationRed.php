@@ -73,6 +73,9 @@ class ConfigurationRed extends ConfigurationDb {
 
     /**
      * Konfigurace kontejneru - vrací parametry pro ComponentContainerConfigurator
+     *
+     * Konfiguruje logování a šablony pro komponenty, které renderují šablony
+     *
      * @return array
      */
     public static function component() {
@@ -92,6 +95,9 @@ class ConfigurationRed extends ConfigurationDb {
 
     /**
      * Konfigurace prezentace - vrací parametry pro statusPresentationManager
+     *
+     * Konfiguruje výchozí jazyk webu.
+     *
      * @return array
      */
     public static function statusPresentationManager() {
@@ -110,12 +116,12 @@ class ConfigurationRed extends ConfigurationDb {
             // pozn. - popisky šablon pro tiny jsou jen česky (TinyInit.js)
             'tinyLanguage' => [
                     'cs' => 'cs',
-                    'de' => 'de',
-                    'en' => 'en_US'
+//                    'de' => 'de',
+//                    'en' => 'en_US'
                 ],
 
             // title
-            'title' => "Týden zdraví",
+            'title' => "Veletrh práce online",
 
             // folders
             'linksCommon' => self::RED_LINKS_COMMON,
@@ -152,6 +158,7 @@ class ConfigurationRed extends ConfigurationDb {
     /**
      * Konfigurace prezentace - vrací parametry pro pageControler
      *
+     * Definuje domácí (home) stránku webu.
      * Home stránka může být definována jménem komponenty nebo jménem statické stránky nebo identifikátorem uid položky menu (položky hierarchie).
      *
      * @return array
@@ -167,6 +174,13 @@ class ConfigurationRed extends ConfigurationDb {
                'templates.loaderElement' => self::RED_TEMPLATES_COMMON.'layout/component-load/loaderElement.php',
                'templates.loaderElementEditable' => self::RED_TEMPLATES_COMMON.'layout/component-load/loaderElementEditable.php',
             ];
+    }
+
+    public static function loginLogoutControler() {
+        return [
+                'fieldNameJmeno' => 'jmeno'.str_replace('/', '', self::RED_SITE_PATH),
+                'fieldNameHeslo' => 'heslo'.str_replace('/', '', self::RED_SITE_PATH)
+        ];
     }
 
     /**
@@ -214,7 +228,7 @@ class ConfigurationRed extends ConfigurationDb {
     public static function transformator() {
         return [
             // relativní cesta vzhledem k DOCUMENT_ROOT (htdocs) -začíná /
-            'filesDirectory' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES : '/'.self::RED_FILES,
+            'filesDirectory' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES : self::RED_FILES,
             'public' => self::RED_LINKS_COMMON,
         ];
     }

@@ -63,7 +63,9 @@ class FilesUploadControler extends PresentationFrontControllerAbstract {
         /* @var $file UploadedFileInterface */
         $file = $request->getUploadedFiles()[self::UPLOADED_KEY];
         $size = 0;
-        $targetFilename = Configuration::filesUploadControler()['filesDirectory'].self::UPLOADED_FOLDER.$time."-".$file->getClientFilename();
+        $item = $this->statusPresentationRepo->get()->getMenuItem();
+
+        $targetFilename = Configuration::filesUploadControler()['filesDirectory'].self::UPLOADED_FOLDER.$item->getLangCodeFk()."_".$item->getId()."-".$file->getClientFilename();
         $file->moveTo($targetFilename);
         $json = json_encode(array('location' => $targetFilename));  // toto jméno použije timyMCE pro změnu url obrázku ve výsledném html
         return $this->createResponseFromString($request, $json);

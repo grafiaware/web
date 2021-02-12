@@ -70,10 +70,10 @@ class Build extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(DatabaseControler::class);
             return $ctrl->dropUsers();
             });
-        $routeGenerator->addRouteForAction('GET', '/build/drop', function(ServerRequestInterface $request) {
+        $routeGenerator->addRouteForAction('GET', '/build/droptables', function(ServerRequestInterface $request) {
             /** @var DatabaseControler $ctrl */
             $ctrl = $this->container->get(DatabaseControler::class);
-            return $ctrl->drop();
+            return $ctrl->dropTables();
             });
         $routeGenerator->addRouteForAction('GET', '/build/make', function(ServerRequestInterface $request) {
             /** @var DatabaseControler $ctrl */

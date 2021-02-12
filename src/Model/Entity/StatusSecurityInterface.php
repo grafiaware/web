@@ -8,7 +8,7 @@
 
 namespace Model\Entity;
 
-use Model\Entity\UserInterface;
+use Model\Entity\CredentialsInterface;
 use Model\Entity\UserActionsInterface;
 
 /**
@@ -26,9 +26,9 @@ interface StatusSecurityInterface {
 
     /**
      *
-     * @return UserInterface|null
+     * @return CredentialsInterface|null
      */
-    public function getUser(): ?UserInterface;
+    public function getCredential(): ?CredentialsInterface;
 
     /**
      *
@@ -45,8 +45,8 @@ interface StatusSecurityInterface {
 
     /**
      *
-     * @param UserInterface $user
+     * @param CredentialsInterface $user
      * @return void
      */
-    public function renewSecurityStatus(UserInterface $user=null): void;
+    public function renewSecurityStatus(CredentialsInterface $user=null): void;
 }

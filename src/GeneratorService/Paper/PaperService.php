@@ -42,7 +42,7 @@ class PaperService extends ContentServiceAbstract implements PaperServiceInterfa
 
     public function create($menuItemIdFk): PaperInterface {
         $paper = new Paper();
-        $paper->setEditor($this->statusSecurityRepo->get()->getUser()->getUserName());
+        $paper->setEditor($this->statusSecurityRepo->get()->getCredential()->getLoginName());
         $paper->setMenuItemIdFk($menuItemIdFk);
         $this->paperRepo->add($paper);
         return $paper;
