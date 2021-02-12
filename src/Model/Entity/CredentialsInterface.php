@@ -1,0 +1,26 @@
+<?php
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+namespace Model\Entity;
+
+/**
+ *
+ * @author pes2704
+ */
+interface CredentialsInterface {
+    public function getLoginName();
+    public function getPassword_hash(): string;
+    public function getRole();
+    public function getCreated(): \DateTime;
+    public function getUpdated(): \DateTime;
+    public function setLoginName($userName): CredentialsInterface;
+    public function setPassword_hash(string $password_hash): CredentialsInterface;
+    public function setCreated(\DateTime $created): CredentialsInterface;
+    public function setUpdated(\DateTime $updated): CredentialsInterface;
+    public function setRole($role): CredentialsInterface;
+}

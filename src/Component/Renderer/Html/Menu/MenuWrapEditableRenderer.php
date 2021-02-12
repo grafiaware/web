@@ -20,10 +20,8 @@ use Pes\Text\Html;
 class MenuWrapEditableRenderer extends MenuWrapRendererAbstract {
 
     public function render($data = NULL) {
-        return $this->renderPrivate($data);
-    }
-
-    private function renderPrivate(MenuViewModelInterface $viewModel) {
+        /** @var MenuViewModelInterface $viewModel */
+        $viewModel = $this->viewModel;
         $menuLevelHtml = $this->getMenuLevelHtml($viewModel->getSubTreeItemModels());
 
         return

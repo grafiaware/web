@@ -1,5 +1,8 @@
-    <!--<div class="ui container editable">-->
-    <div <?= $this->attributes($bodyContainerAttributes) ?> >
+<?php
+use Pes\Text\Html;
+?>
+<!--<div class="ui container editable">-->
+<div <?= Html::attributes($bodyContainerAttributes) ?> >
         <div class="column">
             <header>
                 <?php include "container/hlavicka.php"; ?>

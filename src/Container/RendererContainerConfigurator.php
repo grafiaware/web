@@ -12,7 +12,8 @@ use Component\Renderer\Html\Menu\{
 };
 
 use Component\Renderer\Html\Authored\{
-    PaperRenderer, PaperEditableRenderer
+    PaperWrapRenderer, PaperWrapEditableRenderer, ArticleRenderer, ArticleEditableRenderer,
+    ElementWrapper, ElementEditableWrapper, Buttons
 };
 
 use Component\Renderer\Html\Generated\{
@@ -136,12 +137,28 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
         ###########################
         # paper renderer
         ###########################
-            PaperRenderer::class => function(ContainerInterface $c) {
-                return new PaperRenderer($c->get('paper.classmap'));
+            PaperWrapRenderer::class => function(ContainerInterface $c) {
+                return new PaperWrapRenderer($c->get('paper.classmap'));
             },
-            PaperEditableRenderer::class => function(ContainerInterface $c) {
-                return new PaperEditableRenderer($c->get('paper.editable.classmap'));
+            PaperWrapEditableRenderer::class => function(ContainerInterface $c) {
+                return new PaperWrapEditableRenderer($c->get('paper.editable.classmap'));
             },
+            ArticleRenderer::class => function(ContainerInterface $c) {
+                return new ArticleRenderer($c->get('paper.classmap'));
+            },
+            ArticleEditableRenderer::class => function(ContainerInterface $c) {
+                return new ArticleEditableRenderer($c->get('paper.editable.classmap'));
+            },
+            ElementWrapper::class => function(ContainerInterface $c) {
+                return new ElementWrapper($c->get('paper.classmap'));
+            },
+            ElementEditableWrapper::class => function(ContainerInterface $c) {
+                return new ElementEditableWrapper($c->get('paper.editable.classmap'));
+            },
+            Buttons::class => function(ContainerInterface $c) {
+                return new Buttons($c->get('paper.editable.classmap'));
+            },
+
         ###########################
         #  generated renderer
         ###########################

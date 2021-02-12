@@ -34,11 +34,11 @@ class ItemPaperViewModel extends PaperViewModel implements ItemPaperViewModelInt
     public function setItemId($menuItemId) {
         $this->menuItemId = $menuItemId;
     }
-    public function getPaperAggregate(): ?PaperAggregateInterface {
+    public function getPaper(): ?PaperAggregateInterface {
             $paperAggregate = $this->paperAggregateRepo->getByReference($this->menuItemId);
             if (!isset($paperAggregate) AND $this->isArticleEditable()) {
                 $paperAggregate = new PaperAggregate();
-                $paperAggregate->setEditor($this->statusSecurityRepo->get()->getUser()->getUserName());
+                $paperAggregate->setEditor($this->statusSecurityRepo->get()->getCredential()->getLoginName());
             }
         return $paperAggregate ?? null;
     }

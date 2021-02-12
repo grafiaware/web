@@ -61,7 +61,7 @@ class PaperController extends PresentationFrontControllerAbstract {
             } else {
                 if ($headlineElement AND $perexElement) {
                     $paper = new Paper();
-                    $editor = $this->statusSecurityRepo->get()->getUser()->getUserName();
+                    $editor = $this->statusSecurityRepo->get()->getCredential()->getLoginName();
                     $paper
                         ->setEditor($editor)
                         ->setHeadline($this->getInnerHtml($layoutDocument, $headlineElement->childNodes))
@@ -77,7 +77,7 @@ class PaperController extends PresentationFrontControllerAbstract {
             }
         } else {
                                 $paper = new Paper();
-                    $editor = $this->statusSecurityRepo->get()->getUser()->getUserName();
+                    $editor = $this->statusSecurityRepo->get()->getCredential()->getLoginName();
                     $paper
                         ->setEditor($editor)
                         ->setMenuItemIdFk($menuItemId)
@@ -201,7 +201,7 @@ class PaperController extends PresentationFrontControllerAbstract {
         if (!isset($paper)) {
             user_error("Neexistuje paper se zadaným id.$paperId");
         } else {
-            $postTemplate = (new RequestParams())->getParam($request, 'template_'.$paperId);
+            $postTemplate = (new RequestParams())->getParam($request, 'folder_'.$paperId, 'default');
             $paper->setTemplate($postTemplate);
         }
         return $this->redirectSeeLastGet($request); // 303 See Other

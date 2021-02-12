@@ -27,8 +27,8 @@ use Pes\Middleware\Selector;
 use StatusManager\Observer\SecurityContextObjectsRemover;
 
 //user - session
-use Model\Entity\User;
-use Model\Entity\UserInterface;
+use Model\Entity\Credentials;
+use Model\Entity\CredentialsInterface;
 
 // dao
 use Model\Dao\StatusDao;
@@ -78,7 +78,7 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
             StatusSecurityManagerInterface::class => StatusSecurityManager::class,
             StatusPresentationManagerInterface::class => StatusPresentationManager::class,
             StatusFlashManagerInterface::class => StatusFlashManager::class,
-            UserInterface::class => User::class,
+            CredentialsInterface::class => Credentials::class,
             RouterInterface::class => Router::class,
             ResourceRegistryInterface::class => ResourceRegistry::class,
         ];

@@ -11,8 +11,8 @@ use Psr\Container\ContainerInterface;   // pro parametr closure function(Contain
 use Pes\Logger\FileLogger;
 
 //user
-use Model\Entity\User;
-use Model\Entity\UserInterface;
+use Model\Entity\Credentials;
+use Model\Entity\CredentialsInterface;
 
 // database
 use Pes\Database\Handler\{
@@ -74,7 +74,7 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
     public function getAliases() {
         return [
             RouterInterface::class => Router::class,
-            UserInterface::class => User::class,
+            CredentialsInterface::class => Credentials::class,
             AccountInterface::class => Account::class,
             HandlerInterface::class => Handler::class,
         ];
@@ -135,23 +135,6 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
             'renderLogger' => function(ContainerInterface $c) {
                 return FileLogger::getInstance($c->get('api.logs.view.directory'), $c->get('api.logs.view.file'), FileLogger::REWRITE_LOG);
             },
-            // Nastaveno logování průběhu renderování
-            //
-            // V této aplikaci jsou všechny template renderery vytvářeny automaticky - pro vytváření Rendererů použit RendererContainer.
-                                                    // RecorderProvider je nastaven RendereContaineru statickou metodou setRecorderProvider a
-            // je předán do konstruktoru rendereru vždy, když RendererContainer vytváří nový Renderer. Každý renderer tak může provádět záznam.
-            // Po skončení renderování se RecorderProvider předá do RecordsLoggeru pro logování užití proměnných v šablonách. V RecordsLoggeru
-            // jsou všechny RecorderProviderem poskytnuté a zaregistrované Rekordery přečteny a je pořízen log.
-            RecorderProvider::class => function(ContainerInterface $c) {
-                return new RecorderProvider(VariablesUsageRecorder::RECORD_LEVEL_FULL);
-            },
-            View::class => function(ContainerInterface $c) {
-                TemplateRendererContainer::setRecorderProvider($c->get(RecorderProvider::class));
-                return new View();
-            },
-            RecordsLogger::class => function(ContainerInterface $c) {
-                return new RecordsLogger($c->get('renderLogger'));
-            },
         ];
     }
 
@@ -160,10 +143,10 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
             //  má AppContainer jako delegáta
             //
             // session user - tato služba se používá pro vytvoření objetu Account a tedy pro připojení k databázi
-            User::class => function(ContainerInterface $c) {
+            Credentials::class => function(ContainerInterface $c) {
                 /** @var StatusSecurityRepo $securityStatusRepo */
                 $securityStatusRepo = $c->get(StatusSecurityRepo::class);
-                return $securityStatusRepo->get()->getUser();
+                return $securityStatusRepo->get()->getCredential();
             },
             ## !!!!!! Objekty Account a Handler musí být v kontejneru vždy definovány jako service (tedy vytvářeny jako singleton) a nikoli
             #         jako factory. Pokud definuji jako factory, může vzniknou řada objektů Account a Handler, které vznikly s použití
@@ -174,7 +157,7 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
             // database account - podle role přihlášebého uživatele - User ze session
             Account::class => function(ContainerInterface $c) {
                 /* @var $user UserInterface::class */
-                $user = $c->get(User::class);
+                $user = $c->get(Credentials::class);
                 if (isset($user)) {
                     switch ($user->getRole()) {
                         case 'administrator':

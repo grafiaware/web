@@ -67,4 +67,12 @@ class ItemTypeSelectViewModel extends StatusViewModelAbstract implements ItemTyp
     public function getMenuItem(): ?MenuItemInterface {
         return $this->statusPresentationRepo->get()->getMenuItem();
     }
+
+    public function getIterator(): \Traversable {
+        return new \ArrayObject(
+                [
+                    'menuItem' => $this->getMenuItem()
+                ]
+                );
+    }
 }

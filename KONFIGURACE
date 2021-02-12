@@ -1,33 +1,3 @@
 .htaccess :
 RewriteBase "/webOA"
 
-AppContext v kořenovém adresáři:
-    public static function getTextFirma() {
-        return 'Grafia, s.r.o.';
-    }
-
-AppContext v Web middleware:
-    public static function getFilesDirectory() {
-        return '/_www_oa_files/';  // relativní cesta vzhledem k DOCUMENT_ROOT (htdocs)
-    }
-
-    ##### TITLE ############
-    public static function getWebTitle() {
-        return "Orevřené ateliery";
-    }
-
-Bootstrap/SetBootstrap.php:
-define("PES_BOOTSTRAP_LOGS_BASE_PATH", $_SERVER['DOCUMENT_ROOT'].'/_www_oa_logs/');  // absolutní cesta k podsložce document root
-
-composer.json :
-    "name": "grafiaware/oa",
-    "description": "oa",
-    "license": "MIT",
-    "keywords": ["grafia"],
-    "authors": [
-        {
-            "name": "Petr Svoboda",
-            "email": "svoboda@grafia.cz"
-        }
-    ],
-    "version": "0.6",

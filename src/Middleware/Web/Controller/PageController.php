@@ -12,7 +12,6 @@ use Psr\Http\Message\ServerRequestInterface;
 
 use Site\Configuration;
 use Model\Entity\MenuItemInterface;
-use Model\Entity\BlockAggregateInterface;
 
 // komponenty
 use Component\View\{
@@ -36,6 +35,7 @@ use Model\Repository\{
 use Pes\View\View;
 use Pes\View\Template\PhpTemplate;
 use \Pes\View\Renderer\StringRenderer;
+use \Pes\View\Renderer\ImplodeRenderer;
 
 /**
  * Description of GetControler
@@ -161,7 +161,7 @@ class PageController extends LayoutControllerAbstract {
                     if ($editable) {
                         $content = $this->container->get(ItemTypeSelectComponent::class);
                     } else {
-                        $content = $this->container->get(View::class)->setData( "Empty item.")->setRenderer(new StringRenderer());
+                        $content = $this->container->get(View::class)->setData(["Empty item."])->setRenderer(new ImplodeRenderer());
                     }
                     break;
                 case 'generated':
@@ -214,28 +214,23 @@ class PageController extends LayoutControllerAbstract {
 //            'menuVodorovne' => $this->container->get(View::class),
 //            'menuSvisle' => $this->container->get(View::class),
 //         ];
-        if ($this->isEditableLayout()) {
-            $componets = [
-                'menuPresmerovani' => $this->container->get('menu.presmerovani')->setMenuRootName('menu_redirect'),
-                'menuVodorovne' => $this->container->get('menu.vodorovne')->setMenuRootName('menu_horizontal'),
-                'bloky' => $this->container->get('menu.bloky.editable')->setMenuRootName('blocks'), //->withTitleItem(true),
-                'menuSvisle' => $this->container->get('menu.svisle')->setMenuRootName('menu_vertical'),
-                'kos' => $this->container->get('menu.kos.editable')->setMenuRootName('trash'), //->withTitleItem(true),
 
-            ];
+
+        if ($this->isEditableLayout()) {
+//            $componets['menuPresmerovani'] = $this->container->get('menu.presmerovani')->setMenuRootName('menu_redirect');
+//            $componets['menuVodorovne'] = $this->container->get('menu.vodorovne')->setMenuRootName('menu_horizontal');
+            $componets['menuSvisle'] = $this->container->get('menu.svisle')->setMenuRootName('menu_vertical')->withTitleItem(true);
+            $componets['bloky'] = $this->container->get('menu.bloky.editable')->setMenuRootName('blocks'); //->withTitleItem(true);
+            $componets['kos'] = $this->container->get('menu.kos.editable')->setMenuRootName('trash'); //->withTitleItem(true);
         } elseif ($this->isEditableArticle()) {
-            $componets = [
-                'menuPresmerovani' => $this->container->get('menu.presmerovani.editable')->setMenuRootName('menu_redirect'),
-                'menuVodorovne' => $this->container->get('menu.vodorovne.editable')->setMenuRootName('menu_horizontal'),
-                'menuSvisle' => $this->container->get('menu.svisle.editable')->setMenuRootName('menu_vertical'),
-                'kos' => $this->container->get('menu.kos.editable')->setMenuRootName('trash'), //->withTitleItem(true),
-            ];
+//            $componets['menuPresmerovani'] = $this->container->get('menu.presmerovani.editable')->setMenuRootName('menu_redirect');
+//            $componets['menuVodorovne'] = $this->container->get('menu.vodorovne.editable')->setMenuRootName('menu_horizontal');
+            $componets['menuSvisle'] = $this->container->get('menu.svisle.editable')->setMenuRootName('menu_vertical')->withTitleItem(true);
+            $componets['kos'] = $this->container->get('menu.kos.editable')->setMenuRootName('trash'); //->withTitleItem(true);
         } else {
-            $componets = [
-                'menuPresmerovani' => $this->container->get('menu.presmerovani')->setMenuRootName('menu_redirect'),
-                'menuVodorovne' => $this->container->get('menu.vodorovne')->setMenuRootName('menu_horizontal'),
-                'menuSvisle' => $this->container->get('menu.svisle')->setMenuRootName('menu_vertical'),
-            ];
+//            $componets['menuPresmerovani'] = $this->container->get('menu.presmerovani')->setMenuRootName('menu_redirect');
+//            $componets['menuVodorovne'] = $this->container->get('menu.vodorovne')->setMenuRootName('menu_horizontal');
+            $componets['menuSvisle'] = $this->container->get('menu.svisle')->setMenuRootName('menu_vertical')->withTitleItem(true);
         }
         return $componets;
     }
@@ -317,7 +312,7 @@ class PageController extends LayoutControllerAbstract {
         $this->setLoadScriptTemplate($view);
         return $view;
     }
-    
+
     private function getStaticEditableLoadScript(MenuItemInterface $menuItem) {
         $name = $this->friendlyUrl($menuItem->getTitle());
         $view = $this->container->get(View::class)

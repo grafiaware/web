@@ -97,7 +97,7 @@ use Middleware\Xhr\Controller\TemplateControler;
 
 // renderery - pro volání služeb renderer kontejneru renderer::class
 use Component\Renderer\Html\{
-    Authored\PaperRenderer, Authored\PaperEditableRenderer,
+    Authored\PaperWrapRenderer, Authored\PaperWrapEditableRenderer,
     Generated\LanguageSelectRenderer,
     Generated\SearchPhraseRenderer, Generated\SearchResultRenderer, Generated\ItemTypeRenderer,
     Flash\FlashRenderer,
@@ -368,7 +368,7 @@ class ComponentContainerConfigurator_Nav extends ContainerConfiguratorAbstract {
                             );
                 $component = new NamedPaperComponent($viewModel);
                 $component->setRendererContainer($c->get('rendererContainer'));
-                $component->setTemplatesPath($c->get('component.templatePath.paper'));
+                $component->setPaperTemplatesPath($c->get('component.templatePath.paper'));
                 return $component;
                 },
 
@@ -381,7 +381,7 @@ class ComponentContainerConfigurator_Nav extends ContainerConfiguratorAbstract {
                         );
                 $component = new PresentedPaperComponent($viewModel);
                 $component->setRendererContainer($c->get('rendererContainer'));
-                $component->setTemplatesPath($c->get('component.templatePath.paper'));
+                $component->setPaperTemplatesPath($c->get('component.templatePath.paper'));
                 return $component;
                 },
 
@@ -395,29 +395,29 @@ class ComponentContainerConfigurator_Nav extends ContainerConfiguratorAbstract {
                         );
                 $component = new PaperComponent($viewModel);
                 $component->setRendererContainer($c->get('rendererContainer'));
-                $component->setTemplatesPath($c->get('component.templatePath.paper'));
+                $component->setPaperTemplatesPath($c->get('component.templatePath.paper'));
                 return $component;
                 },
 
             #### komponenty s připojeným fallback rendererem - pro paper s šablonou je šablona připojena později
             #
             'component.named' => function(ContainerInterface $c) {
-                return $c->get(NamedPaperComponent::class)->setFallbackRendererName(PaperRenderer::class);
+                return $c->get(NamedPaperComponent::class)->setFallbackRendererName(PaperWrapRenderer::class);
             },
             'component.named.editable' => function(ContainerInterface $c) {
-                return $c->get(NamedPaperComponent::class)->setFallbackRendererName(PaperEditableRenderer::class);
+                return $c->get(NamedPaperComponent::class)->setFallbackRendererName(PaperWrapEditableRenderer::class);
             },
             'component.presented' => function(ContainerInterface $c) {
-                return $c->get(PresentedPaperComponent::class)->setFallbackRendererName(PaperRenderer::class);
+                return $c->get(PresentedPaperComponent::class)->setFallbackRendererName(PaperWrapRenderer::class);
             },
             'component.presented.editable' => function(ContainerInterface $c) {
-                return $c->get(PresentedPaperComponent::class)->setFallbackRendererName(PaperEditableRenderer::class);
+                return $c->get(PresentedPaperComponent::class)->setFallbackRendererName(PaperWrapEditableRenderer::class);
             },
             'component.paper' => function(ContainerInterface $c) {
-                return $c->get(PaperComponent::class)->setFallbackRendererName(PaperRenderer::class);
+                return $c->get(PaperComponent::class)->setFallbackRendererName(PaperWrapRenderer::class);
             },
             'component.paper.editable' => function(ContainerInterface $c) {
-                return $c->get(PaperComponent::class)->setFallbackRendererName(PaperEditableRenderer::class);
+                return $c->get(PaperComponent::class)->setFallbackRendererName(PaperWrapEditableRenderer::class);
             },
             #### button form komponenty - pro editační režim paper, komponenty bez nastaveného viewmodelu
             #

@@ -8,10 +8,12 @@
 
 namespace Component\ViewModel\Flash;
 
+use Component\ViewModel\ViewModelInterface;
+
 /**
  *
  * @author pes2704
  */
-interface FlashViewModelInterface extends \IteratorAggregate {
+interface FlashViewModelInterface extends ViewModelInterface {
 
 }

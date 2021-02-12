@@ -13,6 +13,7 @@ namespace Component\View\Authored\Paper;
  * @author pes2704
  */
 interface AuthoredComponentInterface {
-    public function setEditable($editable);
-    public function setTemplatesPath($path);
+//    public function setEditable($editable);
+    public function setPaperTemplatesPath($templatesPath);
+    public function addTemplateGlobals($variableName, $rendererName);
 }

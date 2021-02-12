@@ -8,11 +8,13 @@
 
 namespace Component\ViewModel\Generated;
 
+use Component\ViewModel\ViewModelInterface;
+
 /**
  *
  * @author pes2704
  */
-interface SearchResultViewModelInterface {
+interface SearchResultViewModelInterface extends ViewModelInterface {
 /**
      * Text pro hledání metodou getSearchedMenuItems(). Info v dokumntaci getSearchedMenuItems().
      * @param string $text
@@ -38,5 +40,5 @@ interface SearchResultViewModelInterface {
     public function getSearchedMenuItems();
 
     public function getString();
-    
+
 }

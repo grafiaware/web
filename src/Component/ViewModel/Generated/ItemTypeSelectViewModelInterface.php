@@ -8,13 +8,15 @@
 
 namespace Component\ViewModel\Generated;
 
+use Component\ViewModel\ViewModelInterface;
+
 use Model\Entity\MenuItemInterface;
 
 /**
  *
  * @author pes2704
  */
-interface ItemTypeSelectViewModelInterface {
+interface ItemTypeSelectViewModelInterface extends ViewModelInterface {
 
     public function getTypeTransitions();
 

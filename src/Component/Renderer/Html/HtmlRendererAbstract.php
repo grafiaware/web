@@ -1,8 +1,6 @@
 <?php
 namespace Component\Renderer\Html;
 
-use Pes\View\Renderer\RendererInterface;
-
 use Pes\View\Renderer\ClassMap\ClassMapInterface;
 
 /*
@@ -16,12 +14,14 @@ use Pes\View\Renderer\ClassMap\ClassMapInterface;
  *
  * @author pes2704
  */
-abstract class HtmlRendererAbstract implements RendererInterface {
+abstract class HtmlRendererAbstract implements HtmlRendererInterface {
+
     /**
-     *
      * @var ClassMapInterface
      */
     protected $classMap;
+
+    protected $viewModel;
 
     /**
      *
@@ -29,5 +29,9 @@ abstract class HtmlRendererAbstract implements RendererInterface {
      */
     public function __construct(ClassMapInterface $menuClassMap=NULL) {
         $this->classMap = $menuClassMap;
+    }
+
+    public function getClassMap(): ClassMapInterface {
+        return $this->classMap;
     }
 }

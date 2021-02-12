@@ -12,8 +12,8 @@ use Pes\Router\RouterInterface;
 use Pes\Router\Router;
 
 // user - ze session
-use Model\Entity\User;
-use Model\Entity\UserInterface;
+use Model\Entity\Credentials;
+use Model\Entity\CredentialsInterface;
 
 // security context - použit v security status
 use StatusManager\Observer\SecurityContextObjectsRemover;
@@ -48,7 +48,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getAliases() {
         return [
-            UserInterface::class => User::class,
+            CredentialsInterface::class => Credentials::class,
             AccountInterface::class => Account::class,
             HandlerInterface::class => Handler::class,
         ];
@@ -67,10 +67,10 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
             //
 
             // session user - tato služba se používá pro vytvoření objetu Account a tedy pro připojení k databázi
-            User::class => function(ContainerInterface $c) {
+            Credentials::class => function(ContainerInterface $c) {
                 /** @var StatusSecurityRepo $securityStatusRepo */
                 $securityStatusRepo = $c->get(StatusSecurityRepo::class);
-                return $securityStatusRepo->get()->getUser();
+                return $securityStatusRepo->get()->getCredential();
             },
             ## !!!!!! Objekty Account a Handler musí být v kontejneru vždy definovány jako service (tedy vytvářeny jako singleton) a nikoli
             #         jako factory. Pokud definuji jako factory, múže vzniknout řada objektů Account a Handler, které vznikly s použitím
@@ -81,7 +81,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
             // database account
             Account::class => function(ContainerInterface $c) {
                 /* @var $user UserInterface::class */
-                $user = $c->get(User::class);
+                $user = $c->get(Credentials::class);
                 if (isset($user)) {
                     $role = $user ? $user->getRole() : "";
                     switch ($role) {

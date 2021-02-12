@@ -36,4 +36,6 @@ class StatusViewModelAbstract {
         $this->statusSecurityRepo = $statusSecurityRepo;
         $this->statusPresentationRepo = $statusPresentationRepo;
         $this->statusFlashRepo = $statusFlashRepo;
-    }}
+    }
+
+}

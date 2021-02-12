@@ -10,6 +10,7 @@ namespace Component\ViewModel\Authored\Paper;
 
 use Component\ViewModel\Authored\AuthoredViewModelInterface;
 use Model\Entity\PaperAggregateInterface;
+use Model\Entity\PaperInterface;
 use Model\Entity\MenuItemInterface;
 
 /**
@@ -21,16 +22,12 @@ interface PaperViewModelInterface extends AuthoredViewModelInterface {
     public function setItemId($menuItemId);
 
     /**
-     * Vrací informaci o komponentě pro vložení informativního textu do výsledného html.
-     * @return string
-     */
-    public function getInfo(): string;
-
-    /**
-     * Vrací PaperAggregate příslušný k menuItem. MenuItem poskytuje metoda konponenty getMenuItem().
-     * Pokud PaperAggregate dosud neexistuje (není persitován, není vrácen z repository) vytvoří nový objekt PaperAggregate.
+     * Pro existující paper vrací PaperAggregate, pokud paper neexistuje vrací vově vytvořený Paper.
+     * <ul><li>
+     * Pokud byla zadána hodnota setMenuItemId() a zadaný menu item obsahuje Paper vrací PaperAggregate (potomek Paper) příslušný k menuItem.</li><li>
+     * Pokud byla zadána hodnota setMenuItemId() a zadaný menu item neobsahuje Paper vrací nově vytvořený Paper k menuItem.</li><li>
      *
-     * @return PaperAggregateInterface|null
+     * @return PaperInterface|null
      */
-    public function getPaperAggregate(): ?PaperAggregateInterface;
+    public function getPaper(): ?PaperInterface;
 }

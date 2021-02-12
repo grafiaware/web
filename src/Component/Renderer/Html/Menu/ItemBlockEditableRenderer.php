@@ -1,10 +1,12 @@
 <?php
 namespace Component\Renderer\Html\Menu;
 
-use Component\Renderer\Html\HtmlRendererAbstract;
+use Component\Renderer\Html\HtmlModelRendererAbstract;
 use Pes\Text\Html;
 use Model\Entity\HierarchyAggregateInterface;
 use Component\ViewModel\Authored\Menu\Item\ItemViewModel;
+
+use Pes\View\Renderer\RendererModelAwareInterface;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -17,14 +19,11 @@ use Component\ViewModel\Authored\Menu\Item\ItemViewModel;
  *
  * @author pes2704
  */
-class ItemBlockEditableRenderer extends HtmlRendererAbstract {
-
+class ItemBlockEditableRenderer extends HtmlModelRendererAbstract implements RendererModelAwareInterface {
 
     public function render($data=NULL) {
-        return $this->privateRender($data);
-    }
-
-    private function privateRender(ItemViewModel $itemViewModel=NULL) {
+        /** @var ItemViewModel $itemViewModel */
+        $itemViewModel = $this->viewModel;
         $menuNode = $itemViewModel->getMenuNode();
         $menuItem = $menuNode->getMenuItem();
         $active = $menuItem->getActive();

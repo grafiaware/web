@@ -91,7 +91,8 @@ class StatusPresentationManager implements StatusPresentationManagerInterface {
         if ($request->getMethod()=='GET') {
 
             /** @var UriInfoInterface $uriInfo */
-            $restUri = $request->getAttribute(WebAppFactory::URI_INFO_ATTRIBUTE_NAME)->getRestUri();
+            $uriInfo = $request->getAttribute(WebAppFactory::URI_INFO_ATTRIBUTE_NAME);
+            $restUri = $uriInfo->getRestUri();
             if (strpos($restUri, "www/last") === false ) {
                 $statusPresentation->setLastGetResourcePath($restUri);
             }

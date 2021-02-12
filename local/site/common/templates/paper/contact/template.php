@@ -1,4 +1,4 @@
-<div data-templates="paper-contact" data-component="presented" class="ui segment mceNonEditable">
+<div data-template="paper-contact" data-component="presented" class="ui segment mceNonEditable">
     <div class="grafia segment headlined editable">
         <section class="">
             <headline class="ui header"><p>Nadpis</p></headline>

@@ -111,8 +111,8 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
                     #### komponenty ######
                     'modalLoginLogout' => $this->getLoginLogoutComponent(),
                     'modalUserAction' => $this->getUserActionComponent(),
-                    'linkEditorJs' => $this->getEditorJsComponentView($request),
-                    'linkEditorCss' => $this->getEditorCssComponentView($request),
+                    'linkEditorJs' => $this->getLinkEditorJsView($request),
+                    'linkEditorCss' => $this->getLinkEditorCssView($request),
                     'poznamky' => $this->getPoznamkyComponentView(),
                     'flash' => $this->getFlashComponent(),
                 ]);
@@ -128,24 +128,27 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
     #### komponenty ######
 
     protected function getLoginLogoutComponent() {
-        $user = $this->statusSecurityRepo->get()->getUser();
+        $user = $this->statusSecurityRepo->get()->getCredential();
         if (null != $user AND $user->getRole()) {   // libovolná role
             /** @var LogoutComponent $logoutComponent */
             $logoutComponent = $this->container->get(LogoutComponent::class);
             //$logoutComponent nepoužívá viewModel, používá template definovanou v kontejneru - zadávám data pro template
-            $logoutComponent->setData(['userName' => $user->getUserName()]);
+            $logoutComponent->setData(['userName' => $user->getLoginName()]);
             return $logoutComponent;
         } else {
             /** @var LoginComponent $loginComponent */
             $loginComponent = $this->container->get(LoginComponent::class);
             //$loginComponent nepoužívá viewModel, používá template definovanou v kontejneru - zadávám data pro template
-            $loginComponent->setData(["jmenoFieldName" => LoginLogoutController::JMENO_FIELD_NAME, "hesloFieldName" => LoginLogoutController::HESLO_FIELD_NAME]);
+            $loginComponent->setData([
+                'fieldNameJmeno' => Configuration::loginLogoutControler()['fieldNameJmeno'],
+                'fieldNameHeslo' => Configuration::loginLogoutControler()['fieldNameHeslo'],
+                ]);
             return $loginComponent;
         }
     }
 
     protected function getUserActionComponent() {
-        $user = $this->statusSecurityRepo->get()->getUser();
+        $user = $this->statusSecurityRepo->get()->getCredential();
         if (null != $user AND $user->getRole()) {   // libovolná role
             /** @var UserActionComponent $actionComponent */
             $actionComponent = $this->container->get(UserActionComponent::class);
@@ -153,7 +156,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
                     [
                     'editArticle' => $this->isEditableArticle(),
                     'editLayout' => $this->isEditableLayout(),
-                    'userName' => $user->getUserName()
+                    'userName' => $user->getLoginName()
                     ]);
             return $actionComponent;
         } else {
@@ -161,7 +164,13 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
         }
     }
 
-    private function getEditorJsComponentView(ServerRequestInterface $request) {
+    /**
+     * Generuje html obsahující definice tagů <script> vkládaných do stránku pouze v editačním módu
+     *
+     * @param ServerRequestInterface $request
+     * @return type
+     */
+    private function getLinkEditorJsView(ServerRequestInterface $request) {
         if ($this->isEditableArticle() OR $this->isEditableLayout()) {
             ## document base path - stejná hodnota se musí použiít i v nastavení tinyMCE
             $basepath = $this->getBasePath($request);
@@ -202,7 +211,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
         }
     }
 
-    private function getEditorCssComponentView(ServerRequestInterface $request) {
+    private function getLinkEditorCssView(ServerRequestInterface $request) {
         if ($this->isEditableArticle() OR $this->isEditableLayout()) {
             return $this->container->get(View::class)
                     ->setTemplate(new PhpTemplate(Configuration::layoutControler()['linkEditorCss']))

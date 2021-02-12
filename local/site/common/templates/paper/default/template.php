@@ -1,24 +1,23 @@
 <?php
 use Pes\View\Renderer\PhpTemplateRendererInterface;
+use Component\Renderer\Html\Authored\ElementWrapper;
+use Component\Renderer\Html\Authored\Buttons;
 use Model\Entity\PaperAggregateInterface;
 /** @var PhpTemplateRendererInterface $this */
+/** @var ElementWrapper $elementWrapper */
+/** @var Buttons $buttons */
 /** @var PaperAggregateInterface $paperAggregate */
+
 ?>
-<div data-component="presented" data-template="<?= $paperAggregate->getTemplate() ?>" class="ui segment mceNonEditable">
-    <div class="grafia segment headlined editable">
-        <article class="" >
+    <?= isset($buttons) ? $buttons->getPaperTemplateButtonsForm($paperAggregate) : "" ?>
+    <?= isset($buttons) ? $buttons->getPaperButtonsForm($paperAggregate) : "" ?>
+        <article class="" data-template="<?=$paperAggregate->getTemplate()?>">
             <section>
-                <headline class="ui header">
-                    <?= $paperAggregate->getHeadline() ?>
-                </headline>
-                <perex>
-                    <p><?= $paperAggregate->getPerex() ?></p>
-                </perex>
+                    <?= $elementWrapper->wrapHeadline($paperAggregate) ?>
+                    <?= $elementWrapper->wrapPerex($paperAggregate) ?>
             </section>
-            <content>
+            <section>
                 <?=
-        $this->repeat(PROJECT_PATH."public/web/templates/paper-content/default/template.php", $paperAggregate->getPaperContentsArray(), 'paperContent'); ?>
-            </content>
+        $this->repeat(PROJECT_PATH."local/site/common/templates/paper-content/default/template.php", $paperAggregate->getPaperContentsArraySorted(PaperAggregateInterface::BY_PRIORITY), 'paperContent'); ?>
+            </section>
         </article>
-    </div>
-</div>

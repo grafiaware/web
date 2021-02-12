@@ -32,15 +32,23 @@ class StatusBoardViewModel extends StatusViewModelAbstract implements StatusBoar
         return [
             'article' => $userActions->isEditableArticle(),
             'layout' => $userActions->isEditableLayout(),
-        ];
-
+            ];
     }
 
     public function getSecurityInfo() {
         return [
-            'userName' => $this->statusSecurityRepo->get()->getUser()->getUserName(),
-            'role' => $this->statusSecurityRepo->get()->getUser()->getRole(),
+            'userName' => $this->statusSecurityRepo->get()->getCredential()->getLoginName(),
+            'role' => $this->statusSecurityRepo->get()->getCredential()->getRole(),
             ];
     }
 
+    public function getIterator(): \Traversable {
+        return new \ArrayObject(
+                [
+                'languageInfo' => $this->getLanguageInfo(),
+                'editableInfo' => $this->getEditableInfo(),
+                'securityInfo' => $this->getSecurityInfo()
+                ]
+            );
+    }
 }

@@ -41,4 +41,13 @@ class LanguageSelectViewModel extends StatusViewModelAbstract implements Languag
     public function getPresentedLangCode() {
         return $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
     }
+
+    public function getIterator(): \Traversable {
+        return new \ArrayObject(
+                [
+                    'languages' => $this->getLanguages(),
+                    'presentedLangCode' => $this->getPresentedLangCode()
+                ]
+                );
+    }
 }

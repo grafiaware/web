@@ -8,11 +8,13 @@
 
 namespace Component\ViewModel\Generated;
 
+use Component\ViewModel\ViewModelInterface;
+
 /**
  *
  * @author pes2704
  */
-interface LanguageSelectViewModelInterface {
+interface LanguageSelectViewModelInterface extends ViewModelInterface {
     public function getLanguages();
     public function getPresentedLangCode();
 }

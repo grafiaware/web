@@ -9,7 +9,7 @@
 namespace StatusManager;
 
 use Model\Entity\StatusSecurityInterface;
-use Model\Entity\UserInterface;
+use Model\Entity\CredentialsInterface;
 
 /**
  *
@@ -31,8 +31,8 @@ interface StatusSecurityManagerInterface {
      * Musí smazat všechny informace v security statusu odvozené z bezpečnostního kontextu,
      * typicky např. ty, vytvořené s použitím přihlášeného uživatele.
      *
-     * @param UserInterface $user
+     * @param CredentialsInterface $user
      * @return void
      */
-    public function renewSecurityStatus(UserInterface $user=null): void;
+    public function renewSecurityStatus(CredentialsInterface $user=null): void;
 }

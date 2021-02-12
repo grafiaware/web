@@ -52,12 +52,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/box4pes/pes.git",
-                "reference": "0d7bb1d53efc9a86dace6c8e6fd06dc14fd9003e"
+                "reference": "63c67131ea60444e8b5a98e93dda73444fc9dfa4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/box4pes/pes/zipball/0d7bb1d53efc9a86dace6c8e6fd06dc14fd9003e",
-                "reference": "0d7bb1d53efc9a86dace6c8e6fd06dc14fd9003e",
+                "url": "https://api.github.com/repos/box4pes/pes/zipball/63c67131ea60444e8b5a98e93dda73444fc9dfa4",
+                "reference": "63c67131ea60444e8b5a98e93dda73444fc9dfa4",
                 "shasum": ""
             },
             "require": {
@@ -94,7 +94,7 @@
                 "framework",
                 "pes"
             ],
-            "time": "2021-01-11T17:30:04+00:00"
+            "time": "2021-02-08T13:46:27+00:00"
         },
         {
             "name": "psr/container",
@@ -448,6 +448,5 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
-    "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "platform-dev": []
 }
