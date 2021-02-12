@@ -82,7 +82,7 @@ class DatabaseControler extends BuildControlerAbstract {
         return $this->createResponseFromReport();
     }
 
-    public function drop() {
+    public function dropTables() {
         ####
         #
         #   Před spuštením tohoto kroku:
