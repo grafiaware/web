@@ -1,3 +1,6 @@
 /*******************************
     User Variable Overrides
 *******************************/
+
+@borderRadius: @defaultBorderRadius;
+@boxShadow: 7px 7px 5px 0 darken(@borderColor,5);

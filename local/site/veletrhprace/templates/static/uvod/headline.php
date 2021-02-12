@@ -1,0 +1,11 @@
+<?php
+use Pes\View\Renderer\PhpTemplateRendererInterface;
+use Model\Entity\PaperAggregateInterface;
+use Pes\Text\Text;
+
+/** @var PhpTemplateRendererInterface $this */
+/** @var PaperAggregateInterface $paperAggregate */
+?>
+
+<p class="nadpis uvod"><?= Text::mono('Klíč k příležitostem<sup class="text maly">&reg;</sup>') ?></p>
+

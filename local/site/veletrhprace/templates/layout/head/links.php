@@ -5,4 +5,4 @@
     <link rel="stylesheet" type="text/css" href="<?= $linksCommon ?>css/templates.css">
     <link rel="stylesheet" type="text/css" href="<?= $linksCommon.'css/media.css'?>" />
     <link rel="stylesheet" type="text/css" href="<?= $linksCommon.'css/old/styles.css'?>" />
-    <?= $linkEditorCss ?? '' ?>
+    <?= (($linkEditorCss ?? '') ? "$linkEditorCss" : "<link rel='stylesheet' type='text/css' href='$linksCommon/css/animace.css'' />") ?>

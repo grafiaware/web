@@ -11,25 +11,20 @@ use Pes\Text\Html;
 '
 Autorem myšlenky Veletrhu práce a vzdělávání - Klíč k příležitostem a organizátorem akce je <br/><b>Grafia, s.r.o.</b>
  
-Umíme efektivně komunikovat akce našich zákazníků i ty vlastní, vzděláváme a zkoušíme dospělé, organizujeme eventy na klíč, vydáváme knihy... <br/> Děláme to už od roku 1993 – rádi a dobře!
+Umíme efektivně komunikovat akce našich zákazníků i ty vlastní, vzděláváme a zkoušíme dospělé, organizujeme eventy na klíč, vydáváme knihy... <br/> Děláme to už od roku 1993 — rádi a dobře!
 ';
             
 
 ?>
 
 <div class="dva-sloupce-nadpis">
+    <p class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll">Organizátor</p>
     <div class="ui two column stackable centered mobile reversed grid">
         <div class="six wide column middle aligned">
-            <a class="link-img" href="http://www.grafia.cz" target="_blank"><img src="images/logo_grafia.jpg" width="300" height="207" alt="Logo Grafia, s.r.o."/></a>
+            <a class="link-img photo-scroll show-on-scroll" href="http://www.grafia.cz" target="_blank"><img src="images/logo_grafia.png" width="250" height="210" alt="Logo Grafia, s.r.o."/></a>
         </div>
         <div class="ten wide column">
-            <div class="primarni-barva podklad nadpis vpravo">
-                <p>Organizátor</p>
-            </div>
-            <div class="velky text okraje">
-                <?= Html::p(Text::mono($text), ["class"=>""]) ?> 
-            </div>
-
+            <?= Html::p(Text::mono($text), ["class"=>"text tucne"]) ?> 
         </div>
     </div>
 </div>
