@@ -23,7 +23,7 @@ class Credentials extends EntityAbstract implements CredentialsInterface {
     /**
      * @var string
      */
-    private $password_hash;
+    private $passwordHash;
 
     /**
      * @var string
@@ -44,47 +44,92 @@ class Credentials extends EntityAbstract implements CredentialsInterface {
         $this->securityObservers = new \SplObjectStorage();
     }
 
-    public function getLoginName() {
+    /**
+     * 
+     * @return string|null
+     */
+    public function getLoginName(): ?string {
         return $this->loginName;
     }
 
-    public function setLoginName($loginName): CredentialsInterface {
+    /**
+     * 
+     * @param string $loginName
+     * @return \Model\Entity\CredentialsInterface
+     */
+    public function setLoginName(string $loginName): CredentialsInterface {
         $this->loginName = $loginName;
         return $this;
     }
 
-    public function getPassword_hash(): string {
-        return $this->password_hash;
+    /**
+     * 
+     * @return string|null
+     */
+    public function getPasswordHash(): ?string {
+        return $this->passwordHash;
     }
 
-    public function getCreated(): \DateTime {
+    /**
+     * 
+     * @return \DateTime|null
+     */
+    public function getCreated(): ?\DateTime {
         return $this->created;
     }
 
-    public function getUpdated(): \DateTime {
+    /**
+     * 
+     * @return \DateTime|null
+     */
+    public function getUpdated(): ?\DateTime {
         return $this->updated;
     }
 
-    public function setPassword_hash(string $password_hash): CredentialsInterface {
-        $this->password_hash = $password_hash;
+    /**
+     * 
+     * @param string $passwordHash
+     * @return \Model\Entity\CredentialsInterface
+     */
+    public function setPasswordHash(string $passwordHash): CredentialsInterface {
+        $this->passwordHash = $passwordHash;
         return $this;
     }
 
+    /**
+     * 
+     * @param \DateTime $created
+     * @return \Model\Entity\CredentialsInterface
+     */
     public function setCreated(\DateTime $created): CredentialsInterface {
         $this->created = $created;
         return $this;
     }
 
+    /**
+     * 
+     * @param \DateTime $updated
+     * @return \Model\Entity\CredentialsInterface
+     */
     public function setUpdated(\DateTime $updated): CredentialsInterface {
         $this->updated = $updated;
         return $this;
     }
 
-    public function getRole() {
+    /**
+     * 
+     * @return string|null
+     */
+    public function getRole(): ?string {
         return $this->role;
     }
 
-    public function setRole($role): CredentialsInterface {
+    /**
+     * 
+     * @param string $role
+     * @return \Model\Entity\CredentialsInterface
+     */
+    public function setRole(string $role): CredentialsInterface {
         $this->role = $role;
         return $this;
     }

@@ -13,7 +13,7 @@ use Site\Configuration;
 use Psr\Http\Message\ServerRequestInterface;
 
 use Pes\Http\Request\RequestParams;
-use Security\Auth\NamePasswordAuthenticatorInterface;
+use Security\Auth\AuthenticatorInterface;
 
 // controller
 use Controller\StatusFrontControllerAbstract;
@@ -22,15 +22,7 @@ use Controller\StatusFrontControllerAbstract;
 use Model\Repository\StatusPresentationRepo;
 use Model\Repository\StatusSecurityRepo;
 use Model\Repository\StatusFlashRepo;
-use Model\Entity\StatusSecurity;
-use Model\Entity\StatusSecurityInterface;
 use Model\Repository\CredentialsRepo;
-
-use Pes\Application\AppFactory;
-use Pes\Application\UriInfoInterface;
-use Pes\Http\Response;
-use Pes\Http\Response\RedirectResponse;
-
 
 /**
  * Description of PostController
@@ -45,7 +37,7 @@ class LoginLogoutController extends StatusFrontControllerAbstract {
 
     private $authenticator;
 
-    private $userRepo;
+    private $credentialsRepo;
 
     /**
      *
@@ -54,10 +46,10 @@ class LoginLogoutController extends StatusFrontControllerAbstract {
             StatusSecurityRepo $statusSecurityRepo,
             StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
-            CredentialsRepo $userRepo,
-            NamePasswordAuthenticatorInterface $authenticator) {
+            CredentialsRepo $credentialsRepo,
+            AuthenticatorInterface $authenticator) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
-        $this->userRepo = $userRepo;
+        $this->credentialsRepo = $credentialsRepo;
         $this->authenticator = $authenticator;
     }
 
@@ -72,8 +64,9 @@ class LoginLogoutController extends StatusFrontControllerAbstract {
             $loginJmeno = $requestParams->getParsedBodyParam($request, $fieldNameJmeno, FALSE);
             $loginHeslo = $requestParams->getParsedBodyParam($request, $fieldNameHeslo, FALSE);
             if ($loginJmeno AND $loginHeslo) {
-                if ($this->authenticator->authenticate($loginJmeno, $loginHeslo)) {  // z databáze
-                    $this->setLoggedUser($loginJmeno);
+                $credentialsEntity = $this->credentialsRepo->get($loginJmeno);
+                if (isset($credentialsEntity) AND $this->authenticator->authenticate($credentialsEntity, $loginHeslo)) {  // z databáze
+                    $this->statusSecurityRepo->get()->renewSecurityStatus($credentialsEntity);
                 }
             }
         }
@@ -87,21 +80,6 @@ class LoginLogoutController extends StatusFrontControllerAbstract {
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
 
-    }
-
-    /**
-     * Při změně bezpečnostního kontextu je nutné odstranit údaje bezpečnostního kontextu a objekty vzniklé s použitím bezpečnostního kontextu
-     *
-     * @throws \LogicException
-     */
-    private function setLoggedUser($loginJmeno) {
-        $dbUser = $this->userRepo->get($loginJmeno);
-        if ($dbUser) {
-            $this->statusSecurityRepo->get()->renewSecurityStatus($dbUser);
-        } else {
-            $this->removeLoggedUser();
-            user_error("Pro ověřené login jméno nebyl následně načten user z databáze.", E_USER_WARNING);
-        }
     }
 
     private function removeLoggedUser() {

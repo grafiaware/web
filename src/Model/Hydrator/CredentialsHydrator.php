@@ -23,27 +23,27 @@ class CredentialsHydrator implements HydratorInterface {
      * @param PaperInterface $$user
      * @param type $row
      */
-    public function hydrate(EntityInterface $user, &$row) {
-        /** @var CredentialsInterface $user */
-        $user
+    public function hydrate(EntityInterface $credentials, &$row) {
+        /** @var CredentialsInterface $credentials */
+        $credentials
             ->setLoginName($row['login_name'])
-            ->setRole($row['password_hash'])
+            ->setPasswordHash($row['password_hash'])
             ->setRole($row['role'])
-            ->setRole($row['created'] ? \DateTime::createFromFormat('Y-m-d H:i:s', $row['created']) : NULL)
-            ->setRole($row['updated'] ? \DateTime::createFromFormat('Y-m-d H:i:s', $row['updated']) : NULL);
+            ->setCreated($row['created'] ? \DateTime::createFromFormat('Y-m-d H:i:s', $row['created']) : NULL)
+            ->setUpdated($row['updated'] ? \DateTime::createFromFormat('Y-m-d H:i:s', $row['updated']) : NULL);
                 ;
     }
 
     /**
      *
-     * @param PaperInterface $user
+     * @param PaperInterface $credentials
      * @param type $row
      */
-    public function extract(EntityInterface $user, &$row) {
-        /** @var CredentialsInterface $user */
-        $row['login_name'] = $user->getLoginName(); // hodnota pro where
-        $row['password_hash'] = $user->getPassword_hash();
-        $row['role'] = $user->getRole();
+    public function extract(EntityInterface $credentials, &$row) {
+        /** @var CredentialsInterface $credentials */
+        $row['login_name'] = $credentials->getLoginName(); // hodnota pro where
+        $row['password_hash'] = $credentials->getPasswordHash();
+        $row['role'] = $credentials->getRole();
         // created a updated jsou timestamp - readonly
     }
 

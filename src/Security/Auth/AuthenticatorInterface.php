@@ -8,18 +8,20 @@
 
 namespace Security\Auth;
 
+use Model\Entity\CredentialsInterface;
+
 /**
  *
  * @author pes2704
  */
-interface NamePasswordAuthenticatorInterface {
+interface AuthenticatorInterface {
 
     /**
-     *
-     * @param string $loginName
+     * 
+     * @param CredentialsInterface $credentialsEntity
      * @param string $password
      * @return bool
      */
-    public function authenticate($loginName, $password): bool;
+    public function authenticate(CredentialsInterface $credentialsEntity, $password): bool;
 
 }
