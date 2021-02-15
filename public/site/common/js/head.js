@@ -13,7 +13,7 @@ function replaceElement(id, apiUri){
     xhr.onreadystatechange = function() {
      if (this.readyState == 4 && this.status == 200) {
         // náhrada innerHtml:
-        document.getElementById(id).innerHTML = xhr.responseText;
+        document.getElementById(id).innerHTML = xhr.responseText;          
      }
      if (this.readyState == 4 && this.status != 200) {
          console.log("Loader failed for id: "+id+",this.readyState:"+this.readyState+", this.status:"+this.status);

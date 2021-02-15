@@ -6,15 +6,15 @@ use Pes\Text\Text;
 /** @var PaperAggregateInterface $paperAggregate */
 ?>
 
-<div class="sekundarni-barva blokEL-obr-text">
+<div class="blok-obr-text">
     <div class="ui stackable centered grid">
         <div class="sixteen wide column">
-            <img src="images/pexels-andrea-piacquadio-web-orez.jpg" width="1178" height="393" alt="Obrázek"/>
-            <div class="velky text vlevo okraje">
-                <p>
-                    <?= Text::mono('Ve spolupráci s <b>odborníky</b> proto společnost <b>Grafia</b> pořádá akci, jejímž cílem je <b>zvýšit povědomí veřejnosti o zdravém životním stylu, podpoře vlastní imunity a rozumném přístupu k vlastnímu zdraví.</b>') ?>
-                </p>
-            </div>
+            <img src="images/veletrh_fyzicky_foto1.jpg" width="" height="" alt="Obrázek"/>
+            <p class="text tucne vpravo">
+                <?= Text::mono('VELETRH PRÁCE A VZDĚLÁVÁNÍ – Klíč k příležitostem<sup>&reg;</sup> <br/>je určen všem, kdo má zájem získat či změnit zaměstnání. Na své si příjdou i zájemci o brigády 
+                    a stáže. Veletrh je také otevřen všem studentům i absolventům středních škol, odborných
+                    škol, učilišť a univerzit.') ?>
+            </p>
         </div>
     </div>
 </div>

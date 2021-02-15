@@ -10,19 +10,17 @@ use Pes\Text\Text;
 <div class="blok-nadpis-obr-text program">
     <div class="ui stackable centered grid">
         <div class="sixteen wide column">
-            <div class="primarni-barva nadpis nastred">
-                <p>Program</p>
-            </div>
-            <img src="images/pexels-polina-web.jpg" width="1178" height="457" alt="Obrázek"/>
+            <p class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll">Program</p>
+            <img src="images/klic_foto.jpg" width="" height="" alt="Obrázek k programu"/>
         </div>
-        <div class="eight wide column"><a href="www/item/static/prednasky" class="ui secondary fluid massive button">Zobrazit přednášky</a></div>
-        <div class="eight wide column"><a href="www/item/static/body-pro-zdravi" class="ui secondary fluid massive button">Zobrazit místa</a></div>
-        <div class="sixteen wide column">
-            <div class="velky text vlevo okraje">
-                <p>
-                    <?= Text::mono('V průběhu sedmi dnů vám nabídneme ZDARMA <b>online přednášky a rozhovory s odborníky</b> z různých oborů a také „body pro zdraví“, kde najdete <b>produkty či služby</b> na podporu zdravého životního stylu.') ?>
+        <div class="eight wide column"><a href="www/item/static/prednasky" class="ui primary fluid massive button">Seznam vystavujících firem</a></div>
+        <div class="eight wide column"><a href="www/item/static/body-pro-zdravi" class="ui primary fluid massive button">Seznam pracovních míst</a></div>
+<!--        <div class="sixteen wide column">
+                <p class="text tucne">
+                    <?
+                    Text::mono('V průběhu sedmi dnů vám nabídneme ZDARMA <b>online přednášky a rozhovory s odborníky</b> z různých oborů a také „body pro zdraví“, kde najdete <b>produkty či služby</b> na podporu zdravého životního stylu.') 
+                    ?>
                 </p>
-            </div>
-        </div>
+        </div>-->
     </div>
 </div>

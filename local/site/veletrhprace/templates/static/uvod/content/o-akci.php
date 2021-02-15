@@ -2,22 +2,35 @@
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Model\Entity\PaperAggregateInterface;
 use Pes\Text\Text;
+use Pes\Text\Html;
 
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregateInterface $paperAggregate */
-?>
 
-<div class="blok-nadpis-obr-text">
-    <div class="ui stackable centered grid">
+$text = 
+        'Hledáte práci?
+            
+        Poohlížíte se po lepším místě?
+
+        Vítejte na <span class="primarni-barva text">online veletrhu</span>,
+
+        kde to žije vzděláváním
+
+        a pracovními nabídkami!'
+?>
+<div class="blok-sedy-nadpis-obr-text">
+    <div class="ui two column grid">
         <div class="sixteen wide column">
-            <div class="primarni-barva podklad nadpis vlevo">
-                <p>O akci</p>
+            <p class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll">O akci</p>
+        </div>
+        <div class="six wide column">
+            <div class="blok-sedy-nahore">
+                <?= Html::p(Text::mono($text), ["class"=>"text tucne okraje-horizontal"]) ?>
             </div>
-            <img src="images/pexels-photo-web-orez.jpg" width="1178" height="502" alt="Obrázek"/>
-            <div class="velky text vpravo okraje">
-                <p>
-                    <?= Text::mono('V poslední době pod vlivem Covidu-19 lidé zanedbávali preventivní návštěvy lékařů, odsouvali i nutná ošetření a kontroly. Vlivem médií došlo u řady lidí k úzkostným a iracionálním reakcím, vedoucím až ke škodám na zdraví.') ?>
-                </p>
+        </div>
+        <div class="ten wide column">
+            <div class="blokEL-dolni-img photo-scroll show-on-scroll">
+                <img src="images/delnik_na_stroji.jpg" width="670" height="500" alt="Obrázek"/>
             </div>
         </div>
     </div>

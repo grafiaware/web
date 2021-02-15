@@ -7,7 +7,7 @@
 @headerFont        : @fontName;
 @pageFont          : @fontName;
 
-@lineHeight        : 1.25em;
+@lineHeight        : 1.4em;
 @bold              : 500;
 @normal            : 300;
 
@@ -21,8 +21,10 @@
     Border Radius
 --------------------*/
 
-@relativeBorderRadius: 0;
-@absoluteBorderRadius: 0;
+@relativeBorderRadius: @relative6px;
+@absoluteBorderRadius: @6px;
+
+@defaultBorderRadius: @absoluteBorderRadius; 
 
 /*-------------------
     Brand Colors
@@ -38,7 +40,7 @@
        Links
 --------------------*/
 
-@linkColor           : #2aa411;
+@linkColor           : #3e9aec; 
 
 /*--------------
   Page Heading

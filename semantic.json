@@ -1,5 +1,5 @@
 {
-  "base": "local\\site\\veletrhonline\\semantic\\",
+  "base": "local\\site\\veletrhprace\\semantic\\",
   "paths": {
     "source": {
       "config": "src/theme.config",
@@ -8,7 +8,7 @@
       "themes": "src/themes/"
     },
     "output": {
-      "packaged": "../../../../public/site/veletrhonline/semantic-ui/",
+      "packaged": "../../../../public/site/veletrhprace/semantic-ui/",
       "uncompressed": "dist\\components\\",
       "compressed": "dist\\components\\",
       "themes": "../../../../public/site/common/semantic-ui/themes/"
