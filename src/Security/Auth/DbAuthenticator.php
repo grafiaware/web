@@ -20,38 +20,28 @@ use Pes\Type\Date;
  *
  * @author pes2704
  */
-class DbAuthenticator implements NamePasswordAuthenticatorInterface {
+class DbAuthenticator implements AuthenticatorInterface {
 
     const MANDATORY_ATTRIBUTES = [
         'login_name'
     ];
 
-    private $credentialsDao;
-
-    public function __construct(CredentialsDao $userDao) {
-        $this->credentialsDao = $userDao;
-    }
-
     /**
-     *
-     *
-     * @param string $loginName
-     * @param string $password
+     * Předpokládá, že v databázi je přímo uloženo nehashované heslo (plain text). Vlastnost Credentials entity paswordHash obsahuje nehashované heslo.
+     * @param CredentialsInterface $credentialsEntity
+     * @param type $password
      * @return bool
      */
-    public function authenticate($loginName, $password): bool {
-        $authenticated = false;
-        $row = $this->credentialsDao->getByAuthentication($loginName, $password);
-        if (isset($row) AND $row) {
-            $mandatory = true;
-            foreach (self::MANDATORY_ATTRIBUTES as $attribute) {
-                if (!isset($row[$attribute]) OR !$row[$attribute]) {
-                    $mandatory = $mandatory AND false;
-                }
+    public function authenticate(CredentialsInterface $credentialsEntity, $password): bool {
+        $mandatory = true;
+        foreach (self::MANDATORY_ATTRIBUTES as $attribute) {
+            if (!$credentialsEntity->$attribute()) {
+                $mandatory = $mandatory AND false;
             }
-            if ($mandatory) {
-                $authenticated = true;
-            }
+        }
+        if ($mandatory) {
+            if ($credentialsEntity->getPasswordHash()==$password)
+            $authenticated = true;
         }
         return $authenticated;
     }
