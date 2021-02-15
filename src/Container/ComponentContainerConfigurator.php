@@ -78,6 +78,7 @@ use Model\Repository\{
 
 // generator service
 use \GeneratorService\Paper\PaperService;
+use \GeneratorService\ContentGeneratorFactory;
 
 // controller
 use Middleware\Web\Controller\PageController;
@@ -171,6 +172,16 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                             $c->get(StatusFlashRepo::class),
                             $c->get(StatusPresentationRepo::class))
                         )->injectContainer($c);  // inject component kontejner
+            },
+            ContentGeneratorFactory::class => function(ContainerInterface $c) {
+                $factory = new ContentGeneratorFactory(
+                            $c->get(StatusSecurityRepo::class),
+                            $c->get(StatusPresentationRepo::class),
+                            $c->get(StatusFlashRepo::class),
+                            $c->get(MenuItemTypeRepo::class)
+                        );
+                $factory->registerGeneratorService('paper', $c->get(PaperService::class));
+                return $factory;
             },
             PaperService::class => function(ContainerInterface $c) {
                 return new PaperService(

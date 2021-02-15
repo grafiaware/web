@@ -15,12 +15,17 @@ use Model\Repository\{
     StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo, MenuItemRepo
 };
 
+use Model\Entity\MenuItemInterface;
+
+use gene
 /**
  * Description of Controller
  *
  * @author pes2704
  */
 class EditItemController extends PresentationFrontControllerAbstract {
+
+    const EMPTY_MENU_ITEM_TYPE = 'empty';
 
     private $menuItemRepo;
 
@@ -52,16 +57,26 @@ class EditItemController extends PresentationFrontControllerAbstract {
 
     public function type(ServerRequestInterface $request, $uid) {
         $type = (new RequestParams())->getParam($request, 'type');
-        foreach ($this->findAllLanguageVersions($uid) as $menuItem) {
-            $menuItem->setType($type);
+        $menuItems = $this->menuItemRepo->findAllLanguageVersions($uid);
+        /** @var MenuItemInterface $menuItem */
+        $isEmpty = false;
+        foreach ($menuItems as $menuItem) {
+            if ($menuItem->getTypeFk() != self::EMPTY_MENU_ITEM_TYPE) {
+                $isEmpty = false;
+                $hasType = $menuItem->getTypeFk();
+            }
         }
-        $this->addFlashMessage("menuItem type($type)");
-        $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
-        return $this->redirectSeeLastGet($request); // 303 See Other
-    }
+        if (isEmpty()) {
 
-    private function findAllLanguageVersions($uid) {
-        return $this->menuItemRepo->findAllLanguageVersions($uid);
+            foreach ($menuItems as $menuItem) {
+                $menuItem->setType($type);
+            }
+            $this->addFlashMessage("menuItem type($type)");
+        } else {
+            user_error("Pokus o nastavení typu položce menu, která již má typ. Položka $uid je typu $hasType.");
+
+        }
+        return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
     private function getMenuItem($uid) {
