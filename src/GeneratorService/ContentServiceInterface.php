@@ -14,5 +14,5 @@ namespace GeneratorService;
  * @author pes2704
  */
 interface ContentServiceInterface {
-
+    public function initialize($menuItemIdFk): void;
 }

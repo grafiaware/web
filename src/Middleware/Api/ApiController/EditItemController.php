@@ -6,18 +6,17 @@ use Controller\PresentationFrontControllerAbstract;
 
 use Psr\Http\Message\ServerRequestInterface;
 
-use Pes\Application\AppFactory;
 use Pes\Http\Request\RequestParams;
-use Pes\Http\Response\RedirectResponse;
 use Pes\Http\Response;
+
+use \Model\Entity\MenuItemInterface;
+use GeneratorService\ContentGeneratorRegistryInterface;
 
 use Model\Repository\{
     StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo, MenuItemRepo
 };
 
-use Model\Entity\MenuItemInterface;
 
-use gene
 /**
  * Description of Controller
  *
@@ -25,17 +24,26 @@ use gene
  */
 class EditItemController extends PresentationFrontControllerAbstract {
 
-    const EMPTY_MENU_ITEM_TYPE = 'empty';
-
+    /**
+     *
+     * @var MenuItemRepo
+     */
     private $menuItemRepo;
+
+    /**
+     * @var ContentGeneratorRegistryInterface
+     */
+    private $contentGeneratorRegistry;
 
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
-            MenuItemRepo $menuItemRepo) {
+            MenuItemRepo $menuItemRepo,
+            ContentGeneratorRegistryInterface $contentGeneratorFactory) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);;
         $this->menuItemRepo = $menuItemRepo;
+        $this->contentGeneratorRegistry = $contentGeneratorFactory;
     }
 
     public function toggle(ServerRequestInterface $request, $uid) {
@@ -57,23 +65,24 @@ class EditItemController extends PresentationFrontControllerAbstract {
 
     public function type(ServerRequestInterface $request, $uid) {
         $type = (new RequestParams())->getParam($request, 'type');
-        $menuItems = $this->menuItemRepo->findAllLanguageVersions($uid);
-        /** @var MenuItemInterface $menuItem */
-        $isEmpty = false;
-        foreach ($menuItems as $menuItem) {
-            if ($menuItem->getTypeFk() != self::EMPTY_MENU_ITEM_TYPE) {
+        $allLangVersionsMenuItems = $this->menuItemRepo->findAllLanguageVersions($uid);
+        /** @var MenuItemInterface $langMenuItem */
+        $isEmpty = true;
+        foreach ($allLangVersionsMenuItems as $langMenuItem) {
+            if ($langMenuItem->getTypeFk() != ContentGeneratorRegistryInterface::EMPTY_MENU_ITEM_TYPE) {
                 $isEmpty = false;
-                $hasType = $menuItem->getTypeFk();
+                user_error("Pokus o nastavení typu položce menu, která již má typ. Položka '{$langMenuItem->getLangCodeFk()}/{$uid}' je typu {$langMenuItem->getTypeFk()}.");
             }
         }
-        if (isEmpty()) {
-
-            foreach ($menuItems as $menuItem) {
-                $menuItem->setType($type);
+        if ($isEmpty) {
+            $contentGenerator = $this->contentGeneratorRegistry->getGenerator($type);
+            foreach ($allLangVersionsMenuItems as $langMenuItem) {
+                $contentGenerator->initialize($langMenuItem->getId());
+                $langMenuItem->setType($type);
             }
             $this->addFlashMessage("menuItem type($type)");
         } else {
-            user_error("Pokus o nastavení typu položce menu, která již má typ. Položka $uid je typu $hasType.");
+
 
         }
         return $this->redirectSeeLastGet($request); // 303 See Other

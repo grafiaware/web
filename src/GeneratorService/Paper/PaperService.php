@@ -23,7 +23,7 @@ use Model\Entity\Paper;
  *
  * @author pes2704
  */
-class PaperService extends ContentServiceAbstract implements PaperServiceInterface {
+class PaperService extends ContentServiceAbstract {
 
     /**
      * @var PaperRepo
@@ -40,15 +40,16 @@ class PaperService extends ContentServiceAbstract implements PaperServiceInterfa
         $this->paperRepo = $paperRepo;
     }
 
-    public function create($menuItemIdFk): PaperInterface {
+    /**
+     * Vytvoří nový Paper pro zadané menu item id. Nastaví jako editora právě přihlášeného uživatele. Ostatní vlastnosti entity Paper ponechá prázdné.
+     * 
+     * @param type $menuItemIdFk
+     * @return void
+     */
+    public function initialize($menuItemIdFk): void {
         $paper = new Paper();
         $paper->setEditor($this->statusSecurityRepo->get()->getCredential()->getLoginName());
         $paper->setMenuItemIdFk($menuItemIdFk);
         $this->paperRepo->add($paper);
-        return $paper;
-    }
-
-    public function remove(PaperInterface $paperAggregate) {
-        ;
     }
 }

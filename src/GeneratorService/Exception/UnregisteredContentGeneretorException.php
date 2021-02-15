@@ -6,15 +6,13 @@
  * and open the template in the editor.
  */
 
-namespace GeneratorService\Paper;
-
-use Model\Entity\PaperInterface;
+namespace GeneratorService\Exception;
 
 /**
+ * Description of UnknownMenuItemTypeException
  *
  * @author pes2704
  */
-interface PaperServiceInterface {
-    public function create($menuItemIdFk): PaperInterface;
-    public function remove(PaperInterface $paperAggregate);
+class UnregisteredContentGeneretorException extends \LogicException implements GeneratorServiceExceptionInterface {
+
 }

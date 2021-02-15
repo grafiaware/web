@@ -29,6 +29,10 @@ use \Middleware\Api\ApiController\{
     FilesUploadControler
 };
 
+// generator service
+use \GeneratorService\Paper\PaperService;
+use \GeneratorService\ContentGeneratorRegistry;
+
 // dao
 use Model\Dao\Hierarchy\HierarchyAggregateEditDao;
 
@@ -109,7 +113,8 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
-                        $c->get(MenuItemRepo::class));
+                        $c->get(MenuItemRepo::class),
+                        $c->get(ContentGeneratorRegistry::class));
             },
             PaperController::class => function(ContainerInterface $c) {
                 return new PaperController(
@@ -130,6 +135,21 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class));
+            },
+            ContentGeneratorRegistry::class => function(ContainerInterface $c) {
+                $factory = new ContentGeneratorRegistry(
+                        $c->get(MenuItemTypeRepo::class)
+                    );
+                $factory->registerGeneratorService('paper', function() use ($c) {return $c->get(PaperService::class);});
+                return $factory;
+            },
+            PaperService::class => function(ContainerInterface $c) {
+                return new PaperService(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(PaperRepo::class)
+                    );
             },
             // view
             'renderLogger' => function(ContainerInterface $c) {

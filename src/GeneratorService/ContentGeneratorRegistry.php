@@ -17,7 +17,7 @@ use Model\Repository\MenuItemTypeRepo;
  *
  * @author pes2704
  */
-class ContentGeneratorFactory extends ContentServiceAbstract implements ContentGeneratorFactoryInterface {
+class ContentGeneratorRegistry implements ContentGeneratorRegistryInterface {
 
     /**
      * @var MenuItemTypeRepo
@@ -31,34 +31,39 @@ class ContentGeneratorFactory extends ContentServiceAbstract implements ContentG
     private $serviceRegister;
 
     public function __construct(
-            StatusSecurityRepo $statusSecurityRepo,
-            StatusPresentationRepo $statusPresentationRepo,
-            StatusFlashRepo $statusFlashRepo,
             MenuItemTypeRepo $menuItemRepo
             ) {
-        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo);
         $this->menuItemTypeRepo = $menuItemRepo;
     }
 
     /**
      *
-     * @param type $name
+     * @param string $menuItemType
      * @param callable $service
+     * @return void
      */
-    public function registerGeneratorService($name, callable $service) {
-        $this->serviceRegister[$name] = $service;
+    public function registerGeneratorService(string $menuItemType, callable $service): void {
+        $this->serviceRegister[$menuItemType] = $service;
     }
 
     /**
      *
-     * @param string $menuItemType
+     * @param type $menuItemType
+     * @return ContentServiceInterface
+     * @throws Exception\UnknownMenuItemTypeException
+     * @throws UnregisteredContentGeneretorException
      */
-    public function create($menuItemType) {
+    public function getGenerator(string $menuItemType): ContentServiceInterface {
         $type = $this->menuItemTypeRepo->get($menuItemType);
         if (!isset($type)) {
             throw new Exception\UnknownMenuItemTypeException("Neznámý typ menu item $menuItemType. Nelze vytvořit generátor obsahu.");
         }
-
+        if (array_key_exists($menuItemType, $this->serviceRegister)) {
+            $serviceFactoryCallable = $this->serviceRegister[$menuItemType];
+            return $serviceFactoryCallable();
+        } else {
+            throw new UnregisteredContentGeneretorException("Není zaregistrovaný generátor pro typ menu item '$menuItemType'");
+        }
 
     }
 }

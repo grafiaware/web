@@ -33,7 +33,7 @@ class PaperViewModel extends AuthoredViewModelAbstract implements PaperViewModel
     /**
      * @var PaperServiceInterface
      */
-    protected $paperService;
+//    protected $paperService;
 
 
     private $menuItemId;
@@ -44,12 +44,11 @@ class PaperViewModel extends AuthoredViewModelAbstract implements PaperViewModel
             StatusSecurityRepo $statusSecurityRepo,
             StatusPresentationRepo $statusPresentationRepo,
             StatusFlashRepo $statusFlashRepo,
-            PaperAggregateRepo $paperAggregateRepo,
-            PaperServiceInterface $paperService
+            PaperAggregateRepo $paperAggregateRepo
             ) {
         parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo);
         $this->paperAggregateRepo = $paperAggregateRepo;
-        $this->paperService = $paperService;
+//        $this->paperService = $paperService;
     }
 
     public function setItemId($menuItemId) {
@@ -68,9 +67,9 @@ class PaperViewModel extends AuthoredViewModelAbstract implements PaperViewModel
     public function getPaper(): ?PaperInterface {
         if (isset($this->menuItemId)) {
                 $paper = $this->paperAggregateRepo->getByReference($this->menuItemId);
-            if (!isset($paper)) {
-                $paper = $this->paperService->create($this->menuItemId);
-            }
+//            if (!isset($paper)) {
+//                $paper = $this->paperService->initialize($this->menuItemId);
+//            }
         }
 
         return $paper ?? null;
