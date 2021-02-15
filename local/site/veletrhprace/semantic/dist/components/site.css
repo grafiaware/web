@@ -29,7 +29,7 @@ body {
   background: #FFFFFF;
   font-family: 'Rubik';
   font-size: 27px;
-  line-height: 1.25em;
+  line-height: 1.4em;
   color: #000;
 }
 
@@ -87,7 +87,7 @@ h5:last-child {
 
 p {
   margin: 0 0 1em;
-  line-height: 1.25em;
+  line-height: 1.4em;
 }
 p:first-child {
   margin-top: 0;
@@ -101,11 +101,11 @@ p:last-child {
 --------------------*/
 
 a {
-  color: #2aa411;
+  color: #3e9aec;
   text-decoration: none;
 }
 a:hover {
-  color: #1a9a00;
+  color: #0086fd;
   text-decoration: none;
 }
 
@@ -234,7 +234,7 @@ main a:not(.item):not(.button):not(.link-img):not(.image):hover::after,
 footer a:not(.item):not(.button):not(.link-img):not(.image):hover::after {
   -webkit-transform: scaleX(1);
           transform: scaleX(1);
-  background-color: #2aa411;
+  background-color: #3e9aec;
 }
 main a:not(.item):not(.button):not(.link-img):not(.image)::after,
 footer a:not(.item):not(.button):not(.link-img):not(.image)::after {
@@ -245,7 +245,7 @@ footer a:not(.item):not(.button):not(.link-img):not(.image)::after {
   right: 0;
   width: 100%;
   height: 2px;
-  background-color: #2aa411;
+  background-color: #3e9aec;
   content: '';
   -webkit-transition: linear 0.2s;
   transition: linear 0.2s;

@@ -110,7 +110,7 @@ var editorFunction = function (editor) {
 /////////////////////////////////
 
 var plugins_paper = [
-       'paste advlist autolink lists link  charmap  preview hr anchor pagebreak image code', // codesample print  //
+       'paste advlist autolink lists link anchor charmap  preview hr anchor pagebreak image code', // codesample print  //
        'searchreplace wordcount visualblocks visualchars code fullscreen',
        'insertdatetime  nonbreaking noneditable save autosave table directionality',
        'template textpattern searchreplace image imagetools save example media'
@@ -133,7 +133,7 @@ var templates_paper = [
         { title: 'Menu - 1 položka (bez gridu) verze 2', description: 'Vložení položky menu na stránku', url: 'component/v1/authortemplate/default/menu_1polozka_2'}
     ];
 
-var toolbar = 'save cancel | undo redo | fontstyle fontweight | aligment | list | template | link image media | code';
+var toolbar = 'save cancel | undo redo | fontstyle fontweight | aligment | list | template | anchor link image media | code';
 //    toolbar1: 'undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent'
 //            + ' | hr | nonbreaking | forecolor backcolor ' + ' | fontsizeselect | code | searchreplace template | link image | save'
 //            + ' | example vlozitNadpis vlozitOdstavec'

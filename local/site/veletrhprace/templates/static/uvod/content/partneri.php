@@ -10,62 +10,118 @@ use Pes\Text\Text;
         [
             'radekPartneru' => [
                 [
-                    'wwwPartnera' => 'https://umo1.plzen.eu/',
+                    'wwwPartnera' => 'https://www.uradprace.cz/',
                     'imgPartneraAttributes' => [
-                        'src' => 'images/logo_umo1_web.jpg',
-                        'alt' => 'Logo UMO1 Plzeň',
-                        'width' => '348',
-                        'height' => '84',
+                        'src' => 'images/urad_prace.png',
+                        'alt' => 'Logo ÚP ČR',
+                        'width' => '',
+                        'height' => '100',
                     ]
                 ],
                 [
-                    'wwwPartnera' => 'https://umo3.plzen.eu/',
+                    'wwwPartnera' => 'https://www.zcu.cz/cs/index.html',
                     'imgPartneraAttributes' => [
-                        'src' => 'images/logo_umo3_web.jpg',
-                        'alt' => 'Logo UMO3 Plzeň',
-                        'width' => '200',
-                        'height' => '200',
+                        'src' => 'images/zcu.png',
+                        'alt' => 'Logo Západočeská univerzita',
+                        'width' => '',
+                        'height' => '100',
                     ]
                 ],
+                
                 [
-                    'wwwPartnera' => 'https://www.fnplzen.cz/',
+                    'wwwPartnera' => 'http://www.suip.cz/',
                     'imgPartneraAttributes' => [
-                        'src' => 'images/logo_FN_web.jpg',
-                        'alt' => 'Logo FN Plzeň',
-                        'width' => '224',
-                        'height' => '120',
+                        'src' => 'images/suip.png',
+                        'alt' => 'Logo Státní úřad inspekce práce',
+                        'width' => '',
+                        'height' => '60',
                     ]
-                ]
+                ],
+                
             ]
         ],
         [
             'radekPartneru' => [
                 [
-                    'wwwPartnera' => 'https://plzensky.denik.cz/',
+                    'wwwPartnera' => 'https://www.pzpk.cz/',
                     'imgPartneraAttributes' => [
-                        'src' => 'images/logo-plzenskydenik.jpg',
-                        'alt' => 'Logo Deník',
-                        'width' => '276',
+                        'src' => 'images/pakt_namestnanosti.png',
+                        'alt' => 'Logo Pakt zaměstnanosti',
+                        'width' => '',
                         'height' => '85',
                     ],
                 ],
                 [
-                    'wwwPartnera' => 'https://czv.zcu.cz/',
+                    'wwwPartnera' => 'https://www.aivd.cz/',
                     'imgPartneraAttributes' => [
-                        'src' => 'images/logo-univerzita.jpg',
-                        'alt' => 'Logo CZV ZČU',
-                        'width' => '348',
-                        'height' => '129',
+                        'src' => 'images/aivd.png',
+                        'alt' => 'Logo AIVD',
+                        'width' => '',
+                        'height' => '100',
+                    ]
+                ],
+                [
+                    'wwwPartnera' => 'http://www.grafia.cz/',
+                    'imgPartneraAttributes' => [
+                        'src' => 'images/logo_grafia.png',
+                        'alt' => 'Logo Grafia',
+                        'width' => '',
+                        'height' => '110',
+                    ],
+                ],
+                
+            ]
+        ],
+        [
+            'radekPartneru' => [
+                [
+                    'wwwPartnera' => 'https://www.ledovec.cz/',
+                    'imgPartneraAttributes' => [
+                        'src' => 'images/ledovec.png',
+                        'alt' => 'Logo Ledovec',
+                        'width' => '',
+                        'height' => '130',
                     ],
                 ],
                 [
-                    'wwwPartnera' => 'https://plzen.rozhlas.cz/',
+                    'wwwPartnera' => 'https://www.komora.cz/',
                     'imgPartneraAttributes' => [
-                        'src' => 'images/logo-CRo.jpg',
-                        'alt' => 'Logo Rozhlas',
-                        'width' => '227',
-                        'height' => '110',
+                        'src' => 'images/hk_cr.png',
+                        'alt' => 'Logo Hospodářská komora',
+                        'width' => '',
+                        'height' => '75',
                     ]
+                ],
+                [
+                    'wwwPartnera' => 'https://www.dzklatovy.cz/',
+                    'imgPartneraAttributes' => [
+                        'src' => 'images/dzk.png',
+                        'alt' => 'Logo Drůbežářský závod Klatovy',
+                        'width' => '',
+                        'height' => '130',
+                    ],
+                ],
+            ]
+        ],
+        [
+            'radekPartneru' => [
+                [
+                    'wwwPartnera' => 'https://plzen.eurocentra.cz/',
+                    'imgPartneraAttributes' => [
+                        'src' => 'images/eurocentrum.png',
+                        'alt' => 'Logo Eurocentrum',
+                        'width' => '',
+                        'height' => '60',
+                    ],
+                ],
+                [
+                    'wwwPartnera' => 'https://plzensky.denik.cz/',
+                    'imgPartneraAttributes' => [
+                        'src' => 'images/plzen_denik.png',
+                        'alt' => 'Logo Plzeňský deník',
+                        'width' => '',
+                        'height' => '85',
+                    ],
                 ]
             ]
         ]
@@ -73,15 +129,10 @@ use Pes\Text\Text;
 ?>
 
 <div class="blok-nadpis-loga">
-    <div class="ui stackable centered grid">
-        <div class="sixteen wide column">
-            <div class="primarni-barva podklad nadpis vlevo">
-                <p>Partneři</p>
-            </div>
-            <div class="velky text vlevo okraje">
-                <p>Děkujeme za podporu partnerům:</p>
-            </div>
+    <p class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll">Partneři</p>
+    <div class="partneri-pozadi">
+        <div class="ui stackable centered grid">
+            <?= $this->repeat(__DIR__.'/partneri/rozvrzeni-partneru.php', $parneri) ?>
         </div>
-        <?= $this->repeat(__DIR__.'/partneri/rozvrzeni-partneru.php', $parneri) ?>
     </div>
 </div>

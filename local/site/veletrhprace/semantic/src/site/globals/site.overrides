@@ -39,7 +39,7 @@ footer a:not(.item):not(.button):not(.link-img):not(.image){
         width: 100%;
         height: 2px;
         background-color: @linkColor; 
-        content: '';
+        content: ''; 
         transition: linear 0.2s;
         backface-visibility: hidden;
         transform: translateX(-100%);

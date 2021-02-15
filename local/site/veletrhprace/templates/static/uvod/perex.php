@@ -9,9 +9,6 @@ use Pes\Text\Text;
 ?>
         <div class="obr-upoutavka">
             <div class="ui two column stackable centered grid">
-                <div class="sixteen wide column">
-                    <p class="nadpis"><?= Text::mono('Klíč k příležitostem<sup class="text maly">&reg;</sup>') ?></p>
-                </div>
                 <div class="six wide column">
                     <img class="sirsi-obr" src="images/pan_s_tabletem.jpg" width="" height="" alt="Obrázek"/>
                     <div class="primarni-barva podklad nadpis presah">
@@ -21,7 +18,7 @@ use Pes\Text\Text;
                 <div class="ten wide column">
                     <img src="images/mama.jpg" width="" height="" alt="Obrázek"/>
                     <img src="images/delnik_jupi.jpg" width="" height="" alt="Obrázek"/>
-                    <div class="pruhledna-barva podklad blok text velky">
+                    <div class="pruhledna-barva podklad blok text velky photo-scroll show-on-scroll">
                         <p><?= Text::mono('Najděte si lepší práci <span class="primarni-barva text velky tucne">odkudkoli!</span>') ?></p>
                     </div>
                 </div>

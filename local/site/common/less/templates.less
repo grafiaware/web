@@ -11,9 +11,9 @@
 /*******************************
          layout.less: @import (optional) "../../@{sitename}/semantic/src/site/globals/site.variables"
 *******************************/
-@import (optional) "../../@{sitename}/semantic/src/site/globals/site.variables";     
+@import (optional) "../../@{sitename}/semantic/src/site/globals/site.variables";                            
 
- 
+                                                              
 &{  
 @templateType: "author";                                         
 @templateName: "default";
@@ -21,7 +21,7 @@
 @siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templatePath}/site-template.less";
 //@import (optional) "../templates/@{templatePath}/base-template.less";   
 }
-                
+                   
 &{
 @templateType: "paper";                         
 @templateName: "contact"; 
@@ -32,7 +32,7 @@
 
 &{
 @templateType: "paper";
-@templateName: "course";    
+@templateName: "course";                          
 @templatePath: "@{templateType}/@{templateName}";
 @siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templatePath}/site-template.less";  
 @import (optional) "../templates/@{templatePath}/base-template.less";   
