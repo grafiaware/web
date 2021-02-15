@@ -32,7 +32,9 @@ class DbHashAuthenticator implements AuthenticatorInterface {
         $authenticated = $passwordOverovaciObjekt->verifyPassword( $password,  $credentialsEntity->getPasswordHash()); 
 
         if ($authenticated) {
-            $credentialsEntity->setPasswordHash($reHash);
+            if ($reHash) {
+                $credentialsEntity->setPasswordHash($reHash);
+            }
         }
         return $authenticated;
     }
