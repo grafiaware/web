@@ -25,7 +25,7 @@ use Component\View\{
     Generated\SearchPhraseComponent,
     Generated\SearchResultComponent,
     Generated\ItemTypeSelectComponent,
-    Status\LoginComponent, Status\LogoutComponent, Status\UserActionComponent,
+    Status\LoginAndRegisterComponent, Status\LogoutComponent, Status\UserActionComponent,
     Flash\FlashComponent
 };
 
@@ -109,7 +109,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
                     'linksSite' => Configuration::layoutControler()['linksSite'],
                     'bodyContainerAttributes' => $this->getBodyContainerAttributes(),
                     #### komponenty ######
-                    'modalLoginLogout' => $this->getLoginLogoutComponent(),
+                    'modalLoginAndRegister' => $this->getLoginLogoutComponent(),
                     'modalUserAction' => $this->getUserActionComponent(),
                     'linkEditorJs' => $this->getLinkEditorJsView($request),
                     'linkEditorCss' => $this->getLinkEditorCssView($request),
@@ -137,11 +137,12 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
             return $logoutComponent;
         } else {
             /** @var LoginComponent $loginComponent */
-            $loginComponent = $this->container->get(LoginComponent::class);
+            $loginComponent = $this->container->get(LoginAndRegisterComponent::class);
             //$loginComponent nepoužívá viewModel, používá template definovanou v kontejneru - zadávám data pro template
             $loginComponent->setData([
                 'fieldNameJmeno' => Configuration::loginLogoutControler()['fieldNameJmeno'],
                 'fieldNameHeslo' => Configuration::loginLogoutControler()['fieldNameHeslo'],
+                'fieldNameEmail' => Configuration::loginLogoutControler()['fieldNameEmail'],
                 ]);
             return $loginComponent;
         }

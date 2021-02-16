@@ -39,6 +39,7 @@ use Component\View\Generated\{
 use Component\View\Flash\FlashComponent;
 use Component\View\Status\{
     LoginComponent,
+    LoginAndRegisterComponent,
     LogoutComponent,
     UserActionComponent,
     StatusBoardComponent
@@ -360,6 +361,9 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             LoginComponent::class => function(ContainerInterface $c) {
                 return (new LoginComponent())->setRendererContainer($c->get('rendererContainer'))->setTemplate(new PhpTemplate($c->get('component.template.'.LoginComponent::class)));
+            },
+            LoginAndRegisterComponent::class => function(ContainerInterface $c) {
+                return (new LoginAndRegisterComponent())->setRendererContainer($c->get('rendererContainer'))->setTemplate(new PhpTemplate($c->get('component.template.'.LoginAndRegisterComponent::class)));
             },
             LogoutComponent::class => function(ContainerInterface $c) {
                 return (new LogoutComponent())->setRendererContainer($c->get('rendererContainer'))->setTemplate(new PhpTemplate($c->get('component.template.'.LogoutComponent::class)));

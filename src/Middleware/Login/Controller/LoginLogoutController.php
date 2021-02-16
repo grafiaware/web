@@ -72,6 +72,46 @@ class LoginLogoutController extends StatusFrontControllerAbstract {
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
+    
+    
+    public function register(ServerRequestInterface $request) {
+        $requestParams = new RequestParams();
+        $register = $requestParams->getParsedBodyParam($request, 'register', FALSE);                  
+        
+        
+        if ($register) {
+            $fieldNameJmeno = Configuration::loginLogoutControler()['fieldNameJmeno'];
+            $fieldNameHeslo = Configuration::loginLogoutControler()['fieldNameHeslo'];
+            $fieldNameEmail = Configuration::loginLogoutControler()['fieldNameEmail'];
+            
+            $registerJmeno = $requestParams->getParsedBodyParam($request, $fieldNameJmeno, FALSE);
+            $registerHeslo = $requestParams->getParsedBodyParam($request, $fieldNameHeslo, FALSE);
+            $registerEmail = $requestParams->getParsedBodyParam($request, $fieldNameEmail, FALSE);
+            
+            if ($registerJmeno AND $registerHeslo AND  $registerEmail ) {
+                 $credentialsEntity = $this->credentialsRepo->get($registerJmeno);
+                 if ( $credentialsEntity ) {
+                     //  zaznam se jmenem jiz existuje, zmente jmeno---
+                     
+                 }else {
+                     // ulozit udaje do tabulky, do ktere???
+                     //  a taky do credentials? -  nekde musi byt rezervace jmena nez potvrdi
+                     // 
+                     // zobrazit "Dekujeme za Vasi registraci. Na vas email jsme vam odeslali odkaz, kterym registraci dokoncite. Odkaz je aktivni x hodin."
+                     // poslat email s jmeno, heslo { "do x hodin potvrdte"}
+                     
+                 }
+                 
+                 
+            }
+            
+            
+        }
+        
+        return $this->redirectSeeLastGet($request); // 303 See Other
+
+    }    
+    
 
     public function logout(ServerRequestInterface $request) {
         $logout = (new RequestParams())->getParsedBodyParam($request, 'logout', FALSE);
@@ -82,6 +122,8 @@ class LoginLogoutController extends StatusFrontControllerAbstract {
 
     }
 
+    
+    
     private function removeLoggedUser() {
         $this->statusSecurityRepo->get()->renewSecurityStatus(null);
     }

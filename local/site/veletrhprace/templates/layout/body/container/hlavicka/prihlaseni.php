@@ -1,6 +1,6 @@
         <div class="prihlaseni">
             <?=
-                $modalLoginLogout
+                $modalLoginAndRegister
             ?>
             <?=
                 $modalUserAction

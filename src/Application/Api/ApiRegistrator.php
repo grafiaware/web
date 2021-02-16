@@ -39,6 +39,7 @@ class ApiRegistrator {
 
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/logout'));
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/login'));
+        $registry->register($this->postPrototype->withUrlPattern('/auth/v1/register'));
 
         ### www ###
 

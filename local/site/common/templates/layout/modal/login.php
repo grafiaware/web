@@ -5,6 +5,7 @@ use Site\Configuration;
         <div class="ui icon top left pointing dropdown button loginEnterKey">
             <i class="user icon"></i>
             <div class="menu">
+
                 <div class="item header"><p><i class="user icon"></i>Přihlásit se</p></div>
                 <div class="ui input">
                     <input type="text" name="<?=Configuration::loginLogoutControler()['fieldNameJmeno']?>" placeholder="Jméno" required>
@@ -12,7 +13,7 @@ use Site\Configuration;
                 <div class="ui input">
                     <input type="password" name="<?=Configuration::loginLogoutControler()['fieldNameHeslo']?>" placeholder="Heslo" required>
                 </div>
-                <button class="ui positive button" type="submit" name="login" value=1>Přihlásit</button>
+                <button class="ui positive button" type="submit" name="login" value=1>Přihlásit</button>                
           </div>
         </div>
     </form>
