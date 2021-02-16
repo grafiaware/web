@@ -15,7 +15,6 @@ use Model\Repository\StatusPresentationRepo;
 use Model\Repository\StatusFlashRepo;
 use Model\Repository\PaperRepo;
 
-use Model\Entity\PaperInterface;
 use Model\Entity\Paper;
 
 /**
@@ -42,7 +41,7 @@ class PaperService extends ContentServiceAbstract {
 
     /**
      * Vytvoří nový Paper pro zadané menu item id. Nastaví jako editora právě přihlášeného uživatele. Ostatní vlastnosti entity Paper ponechá prázdné.
-     * 
+     *
      * @param type $menuItemIdFk
      * @return void
      */

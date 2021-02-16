@@ -62,7 +62,7 @@ class ContentGeneratorRegistry implements ContentGeneratorRegistryInterface {
             $serviceFactoryCallable = $this->serviceRegister[$menuItemType];
             return $serviceFactoryCallable();
         } else {
-            throw new UnregisteredContentGeneretorException("Není zaregistrovaný generátor pro typ menu item '$menuItemType'");
+            throw new Exception\UnregisteredContentGeneretorException("Není zaregistrovaný generátor pro typ menu item '$menuItemType'");
         }
 
     }

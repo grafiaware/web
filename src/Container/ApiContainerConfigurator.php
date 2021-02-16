@@ -30,8 +30,9 @@ use \Middleware\Api\ApiController\{
 };
 
 // generator service
-use \GeneratorService\Paper\PaperService;
 use \GeneratorService\ContentGeneratorRegistry;
+use \GeneratorService\Paper\PaperService;
+use \GeneratorService\StaticTemplate\StaticService;
 
 // dao
 use Model\Dao\Hierarchy\HierarchyAggregateEditDao;
@@ -140,7 +141,9 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                 $factory = new ContentGeneratorRegistry(
                         $c->get(MenuItemTypeRepo::class)
                     );
+                // lazy volání služby kontejneru
                 $factory->registerGeneratorService('paper', function() use ($c) {return $c->get(PaperService::class);});
+                $factory->registerGeneratorService('static', function() use ($c) {return $c->get(StaticService::class);});
                 return $factory;
             },
             PaperService::class => function(ContainerInterface $c) {
@@ -149,6 +152,13 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusPresentationRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(PaperRepo::class)
+                    );
+            },
+            StaticService::class => function(ContainerInterface $c) {
+                return new StaticService(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(StatusFlashRepo::class)
                     );
             },
             // view
