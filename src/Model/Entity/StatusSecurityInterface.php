@@ -48,5 +48,5 @@ interface StatusSecurityInterface {
      * @param CredentialsInterface $user
      * @return void
      */
-    public function renewSecurityStatus(CredentialsInterface $user=null): void;
+    public function renewSecurityStatus(CredentialsInterface $user=null): StatusSecurityInterface;
 }

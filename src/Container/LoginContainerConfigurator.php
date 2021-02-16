@@ -46,8 +46,9 @@ use StatusManager\StatusSecurityManager;
 use StatusManager\StatusSecurityManagerInterface;
 
 // authenticator
-use Security\Auth\NamePasswordAuthenticatorInterface;
+use Security\Auth\AuthenticatorInterface;
 use Security\Auth\DbAuthenticator;
+use Security\Auth\DbHashAuthenticator;
 
 // security context - použit v security status
 use StatusManager\Observer\SecurityContextObjectsRemover;
@@ -72,7 +73,7 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
             AccountInterface::class => Account::class,
             HandlerInterface::class => Handler::class,
 
-            NamePasswordAuthenticatorInterface::class => DbAuthenticator::class,
+            AuthenticatorInterface::class => DbHashAuthenticator::class,
         ];
     }
 
@@ -115,13 +116,16 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
             DbAuthenticator::class => function(ContainerInterface $c) {
                 return new DbAuthenticator(new CredentialsDao($c->get(Handler::class)));
             },
+            DbHashAuthenticator::class => function(ContainerInterface $c) {
+                return new DbHashAuthenticator(new CredentialsDao($c->get(Handler::class)));
+            },
             LoginLogoutController::class => function(ContainerInterface $c) {
                 return new LoginLogoutController(
                     $c->get(StatusSecurityRepo::class),
                     $c->get(StatusFlashRepo::class),
                     $c->get(StatusPresentationRepo::class),
                     $c->get(CredentialsRepo::class),
-                    $c->get(NamePasswordAuthenticatorInterface::class));
+                    $c->get(AuthenticatorInterface::class));
             }
         ];
     }

@@ -21,8 +21,11 @@ class StatusSecurity implements StatusSecurityInterface {
     /**
      * @var CredentialsInterface
      */
-    private $user;
+    private $credentials;
 
+    /**
+     * @var UserActionsInterface 
+     */
     private $userActions;
 
     /**
@@ -31,7 +34,7 @@ class StatusSecurity implements StatusSecurityInterface {
      * @return \Model\Entity\CredentialsInterface|null
      */
     public function getCredential(): ?CredentialsInterface {
-        return $this->user;
+        return $this->credentials;
     }
 
     /**
@@ -54,12 +57,12 @@ class StatusSecurity implements StatusSecurityInterface {
 
     /**
      * {@inheritdoc}
-     * @param CredentialsInterface $user
+     * @param CredentialsInterface $credentials
      * @return void
      */
-    public function renewSecurityStatus(CredentialsInterface $user=null): void {
-        $this->user = $user;
+    public function renewSecurityStatus(CredentialsInterface $credentials=null): StatusSecurityInterface {
+        $this->credentials = $credentials;
         $this->userActions = new UserActions();  // má default hodnoty
-
+        return $this;
     }
 }

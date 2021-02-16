@@ -13,14 +13,14 @@ namespace Model\Entity;
  * @author pes2704
  */
 interface CredentialsInterface {
-    public function getLoginName();
-    public function getPassword_hash(): string;
-    public function getRole();
-    public function getCreated(): \DateTime;
-    public function getUpdated(): \DateTime;
-    public function setLoginName($userName): CredentialsInterface;
-    public function setPassword_hash(string $password_hash): CredentialsInterface;
+    public function getLoginName(): ?string;
+    public function getPasswordHash(): ?string;
+    public function getRole(): ?string;
+    public function getCreated(): ?\DateTime;
+    public function getUpdated(): ?\DateTime;
+    public function setLoginName(string $userName): CredentialsInterface;
+    public function setPasswordHash(string $password_hash): CredentialsInterface;
     public function setCreated(\DateTime $created): CredentialsInterface;
     public function setUpdated(\DateTime $updated): CredentialsInterface;
-    public function setRole($role): CredentialsInterface;
+    public function setRole(string $role): CredentialsInterface;
 }

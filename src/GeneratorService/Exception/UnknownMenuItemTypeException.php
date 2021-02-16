@@ -6,13 +6,13 @@
  * and open the template in the editor.
  */
 
-namespace GeneratorService;
-
+namespace GeneratorService\Exception;
 
 /**
+ * Description of UnknownMenuItemTypeException
  *
  * @author pes2704
  */
-interface ContentServiceInterface {
-    public function initialize($menuItemIdFk): void;
+class UnknownMenuItemTypeException extends \LogicException implements GeneratorServiceExceptionInterface {
+    
 }

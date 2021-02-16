@@ -29,6 +29,11 @@ use \Middleware\Api\ApiController\{
     FilesUploadControler
 };
 
+// generator service
+use \GeneratorService\ContentGeneratorRegistry;
+use \GeneratorService\Paper\PaperService;
+use \GeneratorService\StaticTemplate\StaticService;
+
 // dao
 use Model\Dao\Hierarchy\HierarchyAggregateEditDao;
 
@@ -109,7 +114,8 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
-                        $c->get(MenuItemRepo::class));
+                        $c->get(MenuItemRepo::class),
+                        $c->get(ContentGeneratorRegistry::class));
             },
             PaperController::class => function(ContainerInterface $c) {
                 return new PaperController(
@@ -130,6 +136,30 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class));
+            },
+            ContentGeneratorRegistry::class => function(ContainerInterface $c) {
+                $factory = new ContentGeneratorRegistry(
+                        $c->get(MenuItemTypeRepo::class)
+                    );
+                // lazy volání služby kontejneru
+                $factory->registerGeneratorService('paper', function() use ($c) {return $c->get(PaperService::class);});
+                $factory->registerGeneratorService('static', function() use ($c) {return $c->get(StaticService::class);});
+                return $factory;
+            },
+            PaperService::class => function(ContainerInterface $c) {
+                return new PaperService(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(PaperRepo::class)
+                    );
+            },
+            StaticService::class => function(ContainerInterface $c) {
+                return new StaticService(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(StatusFlashRepo::class)
+                    );
             },
             // view
             'renderLogger' => function(ContainerInterface $c) {

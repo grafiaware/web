@@ -108,11 +108,13 @@ class ComponentControler extends XhrControlerAbstract {
      */
     private function getCompiledContent($staticName) {
 
-        $compiledFileName = Configuration::componentControler()['static']."__compiled/".$staticName.".html";
-        $templateFilename = Configuration::componentControler()['static'].$staticName."/template.php";
+        $compiledPath = Configuration::componentControler()['static']."__compiled/";
+        $compiledFileName = $compiledPath.$staticName.".html";
+        $templatePath = Configuration::componentControler()['static'].$staticName;
+        $templateFilename = $templatePath."/template.php";
         if (is_readable($compiledFileName)) {
             $compiledFileTimestamp = filemtime($compiledFileName);  // Unix timestamp -> date ("d. F Y H:i:s.", $compiledFileTimestamp);
-            $templateFileTimestamp = filemtime($templateFilename);
+            $templateFileTimestamp = filemtime($templatePath);
             if ($compiledFileTimestamp > $templateFileTimestamp) {  // timestamp je s vteřinovou přesností
                 $compiledContent = file_get_contents($compiledFileName);
             } else {
