@@ -39,7 +39,7 @@ use Component\View\Generated\{
 use Component\View\Flash\FlashComponent;
 use Component\View\Status\{
     LoginComponent,
-    LoginAndRegisterComponent,
+    RegisterComponent,
     LogoutComponent,
     UserActionComponent,
     StatusBoardComponent
@@ -354,7 +354,8 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
 //                return (new FlashComponent($viewModel))->setRendererContainer($c->get('rendererContainer'))->setRendererName(FlashRenderer::class);
 //            },
 
-            // komponenty s PHP template - cesty k souboru template jsou definovány v konfiguraci - předány do kontejneru jako parametry setParams()
+            // komponenty s PHP template
+            // - cesty k souboru template jsou definovány v konfiguraci - předány do kontejneru jako parametry setParams()
             FlashComponent::class => function(ContainerInterface $c) {
                 $viewModel = new FlashViewModel($c->get(StatusFlashRepo::class));
                 return (new FlashComponent($viewModel))->setRendererContainer($c->get('rendererContainer'))->setTemplate(new PhpTemplate($c->get('component.template.'.FlashComponent::class)));
@@ -362,8 +363,8 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
             LoginComponent::class => function(ContainerInterface $c) {
                 return (new LoginComponent())->setRendererContainer($c->get('rendererContainer'))->setTemplate(new PhpTemplate($c->get('component.template.'.LoginComponent::class)));
             },
-            LoginAndRegisterComponent::class => function(ContainerInterface $c) {
-                return (new LoginAndRegisterComponent())->setRendererContainer($c->get('rendererContainer'))->setTemplate(new PhpTemplate($c->get('component.template.'.LoginAndRegisterComponent::class)));
+            RegisterComponent::class => function(ContainerInterface $c) {
+                return (new RegisterComponent())->setRendererContainer($c->get('rendererContainer'))->setTemplate(new PhpTemplate($c->get('component.template.'.RegisterComponent::class)));
             },
             LogoutComponent::class => function(ContainerInterface $c) {
                 return (new LogoutComponent())->setRendererContainer($c->get('rendererContainer'))->setTemplate(new PhpTemplate($c->get('component.template.'.LogoutComponent::class)));

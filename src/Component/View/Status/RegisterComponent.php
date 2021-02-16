@@ -15,6 +15,6 @@ use Component\View\ComponentAbstract;
  *
  * @author pes2704
  */
-class LoginAndRegisterComponent extends ComponentAbstract {
+class RegisterComponent extends ComponentAbstract {
     //nepoužívá viewModel, renderuje template, definováno v component kontejneru a konfiguraci component kontejneru
 }

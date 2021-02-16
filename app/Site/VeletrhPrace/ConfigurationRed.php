@@ -12,7 +12,7 @@ use Application\WebAppFactory;
 use Component\View\Flash\FlashComponent;
 use Component\View\Status\{
     LoginComponent,
-    LoginAndRegisterComponent,
+    RegisterComponent,
     LogoutComponent,
     UserActionComponent
 };
@@ -85,10 +85,11 @@ class ConfigurationRed extends ConfigurationDb {
             'component.logs.view.file' => 'Render.log',
             'component.templatePath.paper' => self::RED_TEMPLATES_COMMON.'paper/',
             'component.template.'.FlashComponent::class => self::RED_TEMPLATES_COMMON.'layout/info/flashMessage.php',
-            'component.template.'.LoginAndRegisterComponent::class => self::RED_TEMPLATES_COMMON.'layout/modal/login_and_register.php',
+            'component.template.'.LoginComponent::class => self::RED_TEMPLATES_COMMON.'layout/modal/login.php',
+            'component.template.'.RegisterComponent::class => self::RED_TEMPLATES_COMMON.'layout/modal/register.php',
             'component.template.'.LogoutComponent::class => self::RED_TEMPLATES_COMMON.'layout/modal/logout.php',
             'component.template.'.UserActionComponent::class => self::RED_TEMPLATES_COMMON.'layout/modal/user_action.php',
-            
+
         ];
     }
 

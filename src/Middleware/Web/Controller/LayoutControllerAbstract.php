@@ -25,7 +25,7 @@ use Component\View\{
     Generated\SearchPhraseComponent,
     Generated\SearchResultComponent,
     Generated\ItemTypeSelectComponent,
-    Status\LoginAndRegisterComponent, Status\LogoutComponent, Status\UserActionComponent,
+    Status\LoginComponent, Status\RegisterComponent, Status\LogoutComponent, Status\UserActionComponent,
     Flash\FlashComponent
 };
 
@@ -109,7 +109,8 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
                     'linksSite' => Configuration::layoutControler()['linksSite'],
                     'bodyContainerAttributes' => $this->getBodyContainerAttributes(),
                     #### komponenty ######
-                    'modalLoginAndRegister' => $this->getLoginLogoutComponent(),
+                    'modalLoginLogout' => $this->getLoginLogoutComponent(),
+                    'modalRegister' => $this->getRegisterComponent(),
                     'modalUserAction' => $this->getUserActionComponent(),
                     'linkEditorJs' => $this->getLinkEditorJsView($request),
                     'linkEditorCss' => $this->getLinkEditorCssView($request),
@@ -128,16 +129,16 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
     #### komponenty ######
 
     protected function getLoginLogoutComponent() {
-        $user = $this->statusSecurityRepo->get()->getCredential();
-        if (null != $user AND $user->getRole()) {   // libovolná role
+        $credentials = $this->statusSecurityRepo->get()->getCredential();
+        if (isset($credentials)) {
             /** @var LogoutComponent $logoutComponent */
             $logoutComponent = $this->container->get(LogoutComponent::class);
             //$logoutComponent nepoužívá viewModel, používá template definovanou v kontejneru - zadávám data pro template
-            $logoutComponent->setData(['userName' => $user->getLoginName()]);
+            $logoutComponent->setData(['loginName' => $credentials->getLoginName()]);
             return $logoutComponent;
         } else {
             /** @var LoginComponent $loginComponent */
-            $loginComponent = $this->container->get(LoginAndRegisterComponent::class);
+            $loginComponent = $this->container->get(LoginComponent::class);
             //$loginComponent nepoužívá viewModel, používá template definovanou v kontejneru - zadávám data pro template
             $loginComponent->setData([
                 'fieldNameJmeno' => Configuration::loginLogoutControler()['fieldNameJmeno'],
@@ -145,6 +146,21 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
                 'fieldNameEmail' => Configuration::loginLogoutControler()['fieldNameEmail'],
                 ]);
             return $loginComponent;
+        }
+    }
+
+    protected function getRegisterComponent() {
+        $user = $this->statusSecurityRepo->get()->getCredential();
+        if (!isset($credentials)) {
+            /** @var RegisterComponent $registerComponent */
+            $registerComponent = $this->container->get(RegisterComponent::class);
+            //$registerComponent nepoužívá viewModel, používá template definovanou v kontejneru - zadávám data pro template
+            $registerComponent->setData([
+                'fieldNameJmeno' => Configuration::loginLogoutControler()['fieldNameJmeno'],
+                'fieldNameHeslo' => Configuration::loginLogoutControler()['fieldNameHeslo'],
+                'fieldNameEmail' => Configuration::loginLogoutControler()['fieldNameEmail'],
+                ]);
+            return $registerComponent;
         }
     }
 
