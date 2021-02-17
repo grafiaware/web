@@ -59,8 +59,5 @@ class CredentialsRepo extends RepoAbstract implements RepoInterface {
     protected function indexFromRow($row) {
         return $row['login_name'];
     }
-    public function flush(): void {
-        parent::flush();
-    }
 }
 

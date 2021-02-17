@@ -257,11 +257,11 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new LanguageRepo($c->get(LanguageDao::class));
             },
             StatusPresentationManager::class => function(ContainerInterface $c) {
-                return (new StatusPresentationManager(
-                                $c->get(LanguageRepo::class),
-                                $c->get(MenuRootRepo::class),
-                                $c->get('MenuItemAllRepo'),
-                        ));
+            return (new StatusPresentationManager(
+                        $c->get(LanguageRepo::class),
+                        $c->get(MenuRootRepo::class),
+                        $c->get('MenuItemAllRepo'),
+                    ));
             },
 
 ########################
@@ -277,10 +277,9 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
         return [
             // db objekty
             Account::class => function(ContainerInterface $c) {
-                // account NENÍ vytvářen s použitím User - není třeba přidávat do SecurityContextObjectsRemover
-                    return new Account(
-                            $c->get('dbUpgrade.db.user.name'),
-                            $c->get('dbUpgrade.db.user.password'));
+                return new Account(
+                        $c->get('dbUpgrade.db.user.name'),
+                        $c->get('dbUpgrade.db.user.password'));
             },
             Handler::class => function(ContainerInterface $c) : HandlerInterface {
                 // povinný logger do kostruktoru = pro logování exception při intancování Handleru a PDO
