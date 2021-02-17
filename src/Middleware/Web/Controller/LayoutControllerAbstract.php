@@ -165,15 +165,15 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
     }
 
     protected function getUserActionComponent() {
-        $user = $this->statusSecurityRepo->get()->getCredential();
-        if (null != $user AND $user->getRole()) {   // libovolná role
+        $credentials = $this->statusSecurityRepo->get()->getCredential();
+        if (isset($credentials)) {
             /** @var UserActionComponent $actionComponent */
             $actionComponent = $this->container->get(UserActionComponent::class);
             $actionComponent->setData(
                     [
                     'editArticle' => $this->isEditableArticle(),
                     'editLayout' => $this->isEditableLayout(),
-                    'userName' => $user->getLoginName()
+                    'userName' => $credentials->getLoginName()
                     ]);
             return $actionComponent;
         } else {

@@ -29,6 +29,11 @@ class Credentials extends EntityAbstract implements CredentialsInterface {
      * @var string
      */
     private $role;
+    
+    /**
+     * @var string
+     */
+    private $email;
 
     /**
      * @var \DateTime
@@ -129,8 +134,26 @@ class Credentials extends EntityAbstract implements CredentialsInterface {
      * @param string $role
      * @return \Model\Entity\CredentialsInterface
      */
-    public function setRole(string $role): CredentialsInterface {
+    public function setRole(string $role=null): CredentialsInterface {
         $this->role = $role;
+        return $this;
+    }
+    
+    /**
+     * 
+     * @return string|null
+     */
+    public function getEmail(): ?string {
+        return $this->email;
+    }
+
+    /**
+     * 
+     * @param string $email
+     * @return \Model\Entity\CredentialsInterface
+     */
+    public function setEmail(string $email=null): CredentialsInterface {
+        $this->email = $email;
         return $this;
     }
 }

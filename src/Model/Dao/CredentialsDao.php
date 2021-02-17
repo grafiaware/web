@@ -34,6 +34,7 @@ class CredentialsDao extends DaoAbstract {
             SELECT `credentials`.`login_name`,
                 `credentials`.`password_hash`,
                 `credentials`.`role`,
+                `credentials`.`email`,
                 `credentials`.`created`,
                 `credentials`.`updated`
             FROM
@@ -45,16 +46,17 @@ class CredentialsDao extends DaoAbstract {
     }
 
     public function insert($row) {
-        $sql = "INSERT INTO credentials (login_name, password_hash, role)
-                VALUES (:login_name, :password_hash, :role)";
-        return $this->execInsert($sql, [':login_name'=>$row['login_name'], ':password_hash'=>$row['password_hash'], ':role'=>$row['role']  ]);
+        $sql = "INSERT INTO credentials (login_name, password_hash, role, email)
+                VALUES (:login_name, :password_hash, :role, :email)";
+        return $this->execInsert($sql, [':login_name'=>$row['login_name'], ':password_hash'=>$row['password_hash'], ':role'=>$row['role'],
+                                        ':email'=>$row['email'] ]);
     }
 
     public function update($row) {
-        $sql = "UPDATE credentials SET password_hash = :password_hash, role = :role
+        $sql = "UPDATE credentials SET password_hash = :password_hash, role = :role, email = :email
                 WHERE `login_name` = :login_name";
-        return $this->execUpdate($sql, [':password_hash'=>$row['password_hash'], ':role'=>$row['role'],
-             ':login_name'=>$row['login_name']]);
+        return $this->execUpdate($sql, [':password_hash'=>$row['password_hash'], ':role'=>$row['role'], ':email'=>$row['email'],
+                                        ':login_name'=>$row['login_name']]);
     }
 
     public function delete($row) {

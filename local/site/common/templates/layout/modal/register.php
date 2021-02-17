@@ -18,7 +18,7 @@ use Site\Configuration;
                 <div class="ui input">
                     <input type="email" name="<?=Configuration::loginLogoutControler()['fieldNameEmail']?>" placeholder="Email" required>
                 </div>
-                <button class="ui positive button" type="submit" name="login" value=1 >Registrovat</button>
+                <button class="ui positive button" type="submit" name="register" value=1 >Registrovat</button>
             </div>
         </div>
     </form>

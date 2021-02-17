@@ -21,9 +21,9 @@ use Model\Repository\Exception\UnableRecreateEntityException;
  */
 class CredentialsRepo extends RepoAbstract implements RepoInterface {
 
-    public function __construct(CredentialsDao $credentialdDao, HydratorInterface $userHydrator) {
+    public function __construct(CredentialsDao $credentialdDao, HydratorInterface $credentialsHydrator) {
         $this->dao = $credentialdDao;
-        $this->registerHydrator($userHydrator);
+        $this->registerHydrator($credentialsHydrator);
     }
 
     /**
@@ -40,7 +40,7 @@ class CredentialsRepo extends RepoAbstract implements RepoInterface {
     }
 
     public function add(CredentialsInterface $credentials) {
-        $this->collection[$this->indexFromEntity($credentials)] = $credentials;
+        $this->addEntity($credentials, $this->indexFromEntity($credentials));
     }
 
     public function remove(CredentialsInterface $credentials) {
