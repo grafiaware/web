@@ -10,14 +10,22 @@ use Pes\Text\Text;
         <div class="obr-upoutavka">
             <div class="ui two column stackable centered grid">
                 <div class="six wide column">
-                    <img class="sirsi-obr" src="images/pan_s_tabletem.jpg" width="" height="" alt="Obrázek"/>
+                    <img class="sirsi-obr"
+                         src="images/pan_s_tabletem.jpg" 
+                         srcset=" 
+                          _www_vp_files/images/pan_s_tabletem.jpg , 
+                          _www_vp_files/images/pan_s_tabletem_mobile.jpg 2x"
+                          sizes="
+                            (min-width: 768px) 100vw, 
+                            480px"
+                         width="476" height="671" alt="Pracovník s tabletem"/>
                     <div class="primarni-barva podklad nadpis presah">
                         <p>17—19/3/2021</p>
                     </div>
                 </div>
                 <div class="ten wide column">
-                    <img src="images/mama.jpg" width="" height="" alt="Obrázek"/>
-                    <img src="images/delnik_jupi.jpg" width="" height="" alt="Obrázek"/>
+                    <img src="images/mama.jpg" width="790" height="394" alt="Home office"/>
+                    <img src="images/delnik_jupi.jpg" width="790" height="402" alt="Dělník na stavbě"/>
                     <div class="pruhledna-barva podklad blok text velky photo-scroll show-on-scroll">
                         <p><?= Text::mono('Najděte si lepší práci <span class="primarni-barva text velky tucne">odkudkoli!</span>') ?></p>
                     </div>

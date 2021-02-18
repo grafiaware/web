@@ -177,6 +177,12 @@ main headline{
     }
 }
 
+.blok-obr-text{
+    img{
+        width: 100%;
+        height: auto;
+    }
+}
 .blok-nadpis-obr-text{
     &.program{
         .text{
@@ -192,8 +198,8 @@ main headline{
     .blok-sedy-nahore{
         position: relative;
         height: 470px;
-        width: 177%;
-        padding-right: 55%;
+        width: 176%;
+        padding-right: 60%;
         background-color: darken(@greyBackground,5) ;
         margin-top: -35px;
         padding-left: 60px;
@@ -227,6 +233,10 @@ main headline{
             right: -5px;
             background-color: @primaryColor;
         }
+        img{
+            width: 100%;
+            height: auto;
+        }
     }
 }
 .blok-sedy-obr-text{
@@ -246,7 +256,7 @@ main headline{
         }
     }
     .blokEL-horni-img{
-        width: 670px;
+        width: 670px; 
         position: relative;
         float: left;
         margin-left: 30px;
@@ -269,6 +279,10 @@ main headline{
             top: -30px;
             left: -5px;
             background-color: @primaryColor;
+        }
+        img{
+            width: 100%;
+            height: auto;
         }
     }
 }
@@ -302,8 +316,8 @@ main headline{
         }
     }
     .partneri-pozadi{
-        padding: 80px 350px;
-        margin: 80px -350px 0 -350px;
+        padding: 80px 15%;
+        margin: 80px -15% 0 -19%;
         background-color: @greyBackground ;
     }
 }
@@ -349,8 +363,9 @@ content .online-stanky{
     }
 }
 .nadpis-obrazkove-sloupce{
-    .pozadi-stanek, .pozadi-prednasky, .pozadi-letak{
+    .pozadi-img{
         height: 480px;
+        height: 300px;
         background-position: top;
         background-repeat: no-repeat;
         margin-bottom: 30px;

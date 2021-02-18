@@ -1,7 +1,7 @@
     <!--<div class="ui container editable">--> <!--$this->attributes($bodyContainerAttributes) -->
     <div class="ui grid"> 
         <span class="ui grid stackable centered ui float middle aligned line-height normal"></span>
-        <div class="two wide mobile three wide tablet three wide computer two wide large screen two wide widescreen column">
+        <div class="two wide mobile two wide tablet two wide computer two wide large screen two wide widescreen column">
             <div class="fix-bar">
                 <?php include "container/telo/svislemenu.php"; ?>
                 <?php include "container/hlavicka/prihlaseni.php"; ?>

@@ -13,7 +13,7 @@ use Model\Entity\PaperAggregateInterface;
             <?php include "perex.php" ?>
         </perex>
     </section>
-    <section>
+    <section>    
         <content>
             <?php include "content/program.php" ?>
         </content>

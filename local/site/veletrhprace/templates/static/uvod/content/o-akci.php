@@ -19,7 +19,7 @@ $text =
         a pracovními nabídkami!'
 ?>
 <div class="blok-sedy-nadpis-obr-text">
-    <div class="ui two column grid">
+    <div class="ui two column grid ">
         <div class="sixteen wide column">
             <p class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll">O akci</p>
         </div>

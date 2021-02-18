@@ -16,6 +16,7 @@ use Pes\Text\Text;
                         'alt' => 'Logo ÚP ČR',
                         'width' => '',
                         'height' => '100',
+                        'class' => 'logo-ctverec'
                     ]
                 ],
                 [
@@ -25,6 +26,7 @@ use Pes\Text\Text;
                         'alt' => 'Logo Západočeská univerzita',
                         'width' => '',
                         'height' => '100',
+                        'class' => 'logo-ctverec'
                     ]
                 ],
                 
@@ -35,6 +37,7 @@ use Pes\Text\Text;
                         'alt' => 'Logo Státní úřad inspekce práce',
                         'width' => '',
                         'height' => '60',
+                        'class' => 'logo-siroke'
                     ]
                 ],
                 
@@ -49,6 +52,7 @@ use Pes\Text\Text;
                         'alt' => 'Logo Pakt zaměstnanosti',
                         'width' => '',
                         'height' => '85',
+                        'class' => 'logo-obdelnik'
                     ],
                 ],
                 [
@@ -58,6 +62,7 @@ use Pes\Text\Text;
                         'alt' => 'Logo AIVD',
                         'width' => '',
                         'height' => '100',
+                        'class' => 'logo-ctverec'
                     ]
                 ],
                 [
@@ -67,6 +72,7 @@ use Pes\Text\Text;
                         'alt' => 'Logo Grafia',
                         'width' => '',
                         'height' => '110',
+                        'class' => 'logo-ctverec'
                     ],
                 ],
                 
@@ -81,6 +87,7 @@ use Pes\Text\Text;
                         'alt' => 'Logo Ledovec',
                         'width' => '',
                         'height' => '130',
+                        'class' => 'logo-vysoke'
                     ],
                 ],
                 [
@@ -90,6 +97,7 @@ use Pes\Text\Text;
                         'alt' => 'Logo Hospodářská komora',
                         'width' => '',
                         'height' => '75',
+                        'class' => 'logo-obdelnik'
                     ]
                 ],
                 [
@@ -99,6 +107,7 @@ use Pes\Text\Text;
                         'alt' => 'Logo Drůbežářský závod Klatovy',
                         'width' => '',
                         'height' => '130',
+                        'class' => 'logo-vysoke'
                     ],
                 ],
             ]
@@ -112,6 +121,7 @@ use Pes\Text\Text;
                         'alt' => 'Logo Eurocentrum',
                         'width' => '',
                         'height' => '60',
+                        'class' => 'logo-siroke'
                     ],
                 ],
                 [
@@ -121,6 +131,7 @@ use Pes\Text\Text;
                         'alt' => 'Logo Plzeňský deník',
                         'width' => '',
                         'height' => '85',
+                        'class' => 'logo-obdelnik'
                     ],
                 ]
             ]
