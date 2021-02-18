@@ -15,7 +15,7 @@
 @containerPositionRight: 0;
 @containerMargin: @hodnota0 10px @hodnota0 @hodnotaAuto;
 @formMargin: 0;
-
+      
 //Poznamky a flash 
 @poznamkyPositionLeft: -260px;
 @poznamkyPositionRight: @hodnotaAuto;
@@ -130,6 +130,7 @@ body{
         }
         &:not(.flash){ //pozice pro poznámky
             top: @poznamkyPositionTop;
+            position: fixed;
         }
         &.flash{ //pozice pro flash
             top: @flashPositionTop;
@@ -263,5 +264,5 @@ body{
     //import pravidel specifických pro projekt
     @import (optional) "../../@{sitename}/@{siteStylesFolder}/rules-edit-layout.less";
     
-}
+}      
 

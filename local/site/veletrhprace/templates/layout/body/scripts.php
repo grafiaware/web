@@ -9,6 +9,18 @@
       .dropdown()
     ;
     
+    //flash message
+    $('#domtoast')
+        .toast({
+            displayTime: 0 //je zobrazen, dokud se na něj neklikne
+        })
+    ;
+    
+    //semantic-ui accordion (použitý pro nastavení menu)
+    $('.accordion.border')
+        .accordion()
+    ;
+    
     //odeslani prihlasovaciho formulare pri stisku klavesy Enter
     $('.loginEnterKey').keyup(function(event){
         if(event.keyCode === 13){

@@ -189,7 +189,6 @@
         font-size: @bigSize * @emSize;
     }
     .close-item{
-        text-align: right; 
         font-size: @hugeSize * @emSize;
         border-bottom: 3px solid @invertedTextColor;
         margin: 50px 0 15px;
@@ -341,5 +340,17 @@
             }
         }
     }
-    
+    //smazat až bude accordion v menu jen v editacnim rezimu
+    .accordion.border{
+        border: 1px solid #FFFFFF96;
+        margin: 30px auto 0;
+        padding: 10px 20px;
+        a{
+            color: @invertedTextColor;
+            &:hover{
+                text-decoration: underline;
+                transition: 0.3s all;
+            }
+        }
+    }
 }

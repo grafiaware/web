@@ -6,6 +6,7 @@
                 <!--jenom v editačním režimu ↓-->
                 <!--<span class="hamburger_dontclose"><i class="circle outline icon"></i>Nezavírat menu</span>-->
                 <!---->
+                <?php include "ovladaci-prvky-menu.php" ?>
             </div>
             <nav class="svisle-menu">
                 <?=
