@@ -114,14 +114,15 @@ class ComponentControler extends XhrControlerAbstract {
         $templateFilename = $templatePath."/template.php";
         if (is_readable($compiledFileName)) {
             $compiledFileTimestamp = filemtime($compiledFileName);  // Unix timestamp -> date ("d. F Y H:i:s.", $compiledFileTimestamp);
-            $templateFolderTimestamp = $this->templateFolderModificationTime($templatePath);  //(new \SplFileInfo($templatePath))->getMTime();
+            $templateFolderTimestamp = $this->templateFolderModificationTime($templatePath);  // 7ms
+            //(new \SplFileInfo($templatePath))->getMTime();
             $timeCompiled = date ("d. F Y H:i:s.", $compiledFileTimestamp);
             $timeTemlate = date ("d. F Y H:i:s.", $templateFolderTimestamp);
             $timeDiff = $compiledFileTimestamp - $templateFolderTimestamp;
             if ($templateFolderTimestamp < $compiledFileTimestamp ) {  // timestamp je s vteřinovou přesností
-                $compiledContent = file_get_contents($compiledFileName);
+                $compiledContent = file_get_contents($compiledFileName);   // 100mikrosec
             } else {
-                $compiledContent = $this->compileContent($templateFilename, $compiledFileName);
+                $compiledContent = $this->compileContent($templateFilename, $compiledFileName);   // 35ms
             }
         } else {
             $compiledContent = $this->compileContent($templateFilename, $compiledFileName);

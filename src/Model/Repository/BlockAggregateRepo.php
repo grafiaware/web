@@ -37,12 +37,12 @@ class BlockAggregateRepo extends BlockRepo implements BlockAggregateRepoInterfac
      * @return BlockAggregateInterface|null
      */
     public function getAggregate($langCode, $name): ?BlockAggregateInterface {
-        $index = $name;
+        $index = $this->indexFromKeyParams($name);
         if (!isset($this->collection[$index])) {
             $row = $this->dao->get($name);
             if ($row) {
                 $row['lang_code_fk'] = $langCode;
-                $this->recreateEntity($index, $row);
+                $this->recreateEntity($row);
             }
         }
         return $this->collection[$index] ?? null;
@@ -50,5 +50,9 @@ class BlockAggregateRepo extends BlockRepo implements BlockAggregateRepoInterfac
 
     protected function createEntity() {
         return new BlockAggregate();
+    }
+
+    protected function indexFromKeyParams($name) {
+        return $name;
     }
 }

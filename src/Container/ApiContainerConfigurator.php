@@ -172,7 +172,7 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
         return [
             //  má AppContainer jako delegáta
             //
-            // session user - tato služba se používá pro vytvoření objetu Account a tedy pro připojení k databázi
+            // session Credetials - vyzvedává Credentials entitu z session - tato služba se používá pro vytvoření objetu Account a tedy pro připojení k databázi
             Credentials::class => function(ContainerInterface $c) {
                 /** @var StatusSecurityRepo $securityStatusRepo */
                 $securityStatusRepo = $c->get(StatusSecurityRepo::class);
@@ -186,15 +186,15 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
             ##
             // database account - podle role přihlášebého uživatele - User ze session
             Account::class => function(ContainerInterface $c) {
-                /* @var $user UserInterface::class */
-                $user = $c->get(Credentials::class);
-                if (isset($user)) {
-                    switch ($user->getRole()) {
+                /** @var Credentials $sessionCredentials */
+                $sessionCredentials = $c->get(Credentials::class);
+                if (isset($sessionCredentials)) {
+                    switch ($sessionCredentials->getRole()) {
                         case 'administrator':
                             $account = new Account($c->get('api.db.administrator.name'), $c->get('api.db.administrator.password'));
                             break;
                         default:
-                            if ($user->getRole()) {
+                            if ($sessionCredentials->getRole()) {
                                 $account = new Account($c->get('api.db.authenticated.name'), $c->get('api.db.authenticated.password'));
                             } else {
                                 $account = new Account($c->get('api.db.everyone.name'), $c->get('api.db.everyone.password'));

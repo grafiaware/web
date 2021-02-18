@@ -105,17 +105,17 @@ abstract class RepoAbstract implements RepoInterface {
         }
     }
 
-    protected function addEntity(EntityInterface $entity): void {
-        if ($entity->isPersisted()) {
-            $this->collection[$this->indexFromEntity($entity)] = $entity;
+    protected function addEntity(EntityInterface $entity, $index=null): void {
+        if ($index) {
+            $this->collection[$index] = $entity;
         } else {
             $this->new[] = $entity;
         }
     }
 
-    protected function removeEntity(EntityInterface $entity): void {
-        if ($entity->isPersisted()) {
-            $this->removed[$this->indexFromEntity($entity)] = $entity;
+    protected function removeEntity(EntityInterface $entity, $index=null): void {
+        if ($index) {
+            $this->removed[] = $entity;
         } else {   // smazání před uložením do db
             foreach ($this->new as $key => $new) {
                 if ($new === $entity) {

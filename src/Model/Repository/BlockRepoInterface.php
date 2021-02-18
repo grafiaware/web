@@ -17,13 +17,13 @@ use Model\Entity\BlockInterface;
 interface BlockRepoInterface {
     /**
      *
-     * @param type $name
+     * @param string $name
      * @return BlockInterface|null
      */
     public function get($name):?BlockInterface;
 
-    public function add(EntityInterface $entity);
+    public function add(BlockInterface $block);
 
-    public function remove(EntityInterface $entity);
+    public function remove(BlockInterface $block);
 
 }

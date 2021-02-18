@@ -28,7 +28,10 @@ class ConfigurationDb extends ConfigurationConstants {
         return [
             #################################
             # Sekce konfigurace účtů databáze pro api kontejner
-            # Ostatní parametry konfigurace databáze v kontejneru dbUpgrade
+            # - konfigurováni dva uživatelé - jeden pro vývoj a druhý pro běh na produkčním stroji
+            #
+            # Konfigurace připojení k databázi je v delegate kontejneru.
+            # Konfigurace připojení k databázi může být v aplikačním kontejneru nebo různá v jednotlivých middleware kontejnerech.
             #
             'api.db.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'veletrhpraceonline001' : 'vp_everyone',
             'api.db.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'vp_upgrader' : 'vp_everyone',
@@ -38,6 +41,7 @@ class ConfigurationDb extends ConfigurationConstants {
             'api.db.administrator.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'vp_upgrader' : 'vp_admin',
             #
             ###################################
+            # Konfigurace logu databáze
             #
             'api.logs.view.directory' => 'Logs/App/Web',
             'api.logs.view.file' => 'Render.log',
@@ -53,20 +57,25 @@ class ConfigurationDb extends ConfigurationConstants {
     public static function build() {
         return [
             #################################
-            # Sekce konfigurace databáze
-            # Konfigurace databáze může být v aplikačním kontejneru nebo různá v jednotlivých middleware kontejnerech.
+            # Sekce konfigurace uživatele databáze
+            # - konfigurováni dva uživatelé - jeden pro vývoj a druhý pro běh na produkčním stroji
+            # - uživatelé musí mít
+            #      - práva drop a create database
+            #      - crud práva + grant option k nové (upgrade) databázi redakčního sytému
+            #      - crud práva + grant option k nové databázi zabezpečení
+            #      - select k staré databázi redakního systému
+            # - reálně nejlépe role DBA
             #
-            ## konfigurována dvě připojení k databázi - jedno pro vývoj a druhé pro běh na produkčním stroji
+            # Konfigurace připojení k databázi je v delegate kontejneru.
+            # Konfigurace připojení k databázi může být v aplikačním kontejneru nebo různá v jednotlivých middleware kontejnerech.
             #
-            # user s právy drop a create database + crud práva + grant option k nové (upgrade) databázi
-            # a také select k staré databázi - reálně nejlépe role DBA
             'build.db.user.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'veletrhpraceonline001' : 'vp_upgrader',
             'build.db.user.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'vp_upgrader' : 'vp_upgrader',
             #
             ###################################
 
             ###################################
-            # Konfigurace create users - ostatní parametry přidá kontejner
+            # Konfigurace vytvářených uživatelů - příkaz createusers - ostatní parametry přidá kontejner
             #
             'build.config.users.everyone' =>
                 [
@@ -133,23 +142,23 @@ class ConfigurationDb extends ConfigurationConstants {
     public static function dbOld() {
         return [
             #################################
-            # Sekce konfigurace databáze
-            # Konfigurace databáze může být v aplikačním kontejneru nebo různá v jednotlivých middleware kontejnerech.
-            # Služby, které vrací objekty jsou v aplikačním kontejneru a v jednotlivých middleware kontejnerech musí být
-            # stejná sada služeb, které vracejí hodnoty konfigurace.
+            # Konfigurace připojení k databázi starého redakčního systému
+            #
+            # Konfigurována jsou dvě připojení k databázi - jedno pro vývoj a druhé pro běh na produkčním stroji
             #
             'dbold.db.type' => DbTypeEnum::MySQL,
             'dbold.db.port' => '3306',
             'dbold.db.charset' => 'utf8',
             'dbold.db.collation' => 'utf8_general_ci',
-
             'dbold.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? '127.0.0.1' : 'localhost',
             'dbold.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'veletrhpraceonline01' : 'gr_pracovni',
-
+            #
+            ###################################
+            # Konfigurace logu databáze
+            #
             'dbold.logs.directory' => 'Logs/DbOld',
             'dbold.logs.db.file' => 'Database.log',
             #
-            # Konec sekce konfigurace databáze
             ###################################
         ];
     }
@@ -161,10 +170,9 @@ class ConfigurationDb extends ConfigurationConstants {
     public static function dbUpgrade() {
         return [
             #####################################
-            # Konfigurace databáze
+            # Konfigurace připojení k databázi nového redakčního systému
             #
-            # konfigurovány dvě databáze pro Hierarchy a Konverze kontejnery
-            # - jedna pro vývoj a druhá pro běh na produkčním stroji
+            # Konfigurována jsou dvě připojení k databázi - jedno pro vývoj a druhé pro běh na produkčním stroji
             #
             'dbUpgrade.db.type' => DbTypeEnum::MySQL,
             'dbUpgrade.db.port' => '3306',
@@ -173,7 +181,6 @@ class ConfigurationDb extends ConfigurationConstants {
             'dbUpgrade.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? '127.0.0.1' : 'localhost',
             'dbUpgrade.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'veletrhpraceonline01' : 'veletrhprace',
             #
-            #  Konec sekce konfigurace databáze
             ###################################
             # Konfigurace logu databáze
             #
@@ -192,8 +199,9 @@ class ConfigurationDb extends ConfigurationConstants {
     public static function hierarchy() {
         return  [
             #################################
-            # Konfigurace databáze
-            # Ostatní parametry konfigurace databáze v kontejneru dbUpgrade
+            # Konfigurace uživatele databáze
+            #
+            # - konfigurováni dva uživatelé - jeden pro vývoj a druhý pro běh na produkčním stroji
             #
             'dbUpgrade.db.user.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'veletrhpraceonline001' : 'vp_upgrader',
             'dbUpgrade.db.user.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'vp_upgrader' : 'vp_upgrader',
@@ -221,9 +229,10 @@ class ConfigurationDb extends ConfigurationConstants {
     public static function login() {
         return  [
             #################################
-            # Sekce konfigurace účtů databáze
+            # Sekce konfigurace uživatele databáze
             #
-            # user s právem select k databázi s tabulkou uživatelských oprávnění
+            # - konfigurováni dva uživatelé - jeden pro vývoj a druhý pro běh na produkčním stroji
+            # - uživatelé musí mít právo select k databázi s tabulkou uživatelských oprávnění
             # MySQL 5.6: délka jména max 16 znaků
 
             'login.db.account.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'veletrhpraceonline002' : 'vp_login',  // nelze použít jméno uživatele použité pro db upgrade - došlo by k duplicitě jmen v build create
@@ -244,12 +253,13 @@ class ConfigurationDb extends ConfigurationConstants {
     public static function web() {
         return [
             #################################
-            # Sekce konfigurace účtů databáze
-            # Konfigurace připojení k databázi je v aplikačním kontejneru, je pro celou aplikaci stejná.
-            # Služby, které vrací objekty s informacemi pro připojení k databázi jsou také v aplikačním kontejneru a v jednotlivých middleware
-            # kontejnerech se volají jako služby delegate kontejneru.
+            # Sekce konfigurace uživatelů databáze nového redakčního systému
             #
-            # Zde je konfigurace údajů uživatele pro připojení k databázi. Ta je pro každý middleware v jeho kontejneru.
+            # Zde je konfigurace údajů uživatele pro připojení k databázi.
+            #
+            # Konfigurace připojení k databázi je v delegate kontejneru.
+            # Konfigurace připojení k databázi může být v aplikačním kontejneru nebo různá v jednotlivých middleware kontejnerech.
+            #
             'web.db.account.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'veletrhpraceonline001' : 'vp_everyone',
             'web.db.account.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'vp_upgrader' : 'vp_everyone',
             'web.db.account.authenticated.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'veletrhpraceonline001' : 'vp_auth',
