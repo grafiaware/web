@@ -13,8 +13,8 @@ use Pes\Text\Text;
                     <img class="sirsi-obr"
                          src="images/pan_s_tabletem.jpg" 
                          srcset=" 
-                          _www_vp_files/images/pan_s_tabletem.jpg , 
-                          _www_vp_files/images/pan_s_tabletem_mobile.jpg 2x"
+                          images/pan_s_tabletem.jpg , 
+                          images/pan_s_tabletem_mobile.jpg 2x"
                           sizes="
                             (min-width: 768px) 100vw, 
                             480px"

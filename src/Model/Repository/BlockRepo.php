@@ -42,11 +42,23 @@ class BlockRepo extends RepoAbstract implements BlockRepoInterface, RepoReadonly
         return new Block();
     }
 
-    public function add(EntityInterface $entity) {
-        ;
+    public function add(BlockInterface $block) {
+        $this->addEntity($block);
     }
 
-    public function remove(EntityInterface $entity) {
-        ;
+    public function remove(BlockInterface $block) {
+        $this->removeEntity($block);
+    }
+
+    protected function indexFromKeyParams($name) {
+        return $name;
+    }
+
+    protected function indexFromEntity(BlockInterface $block) {
+        return $block->getName();
+    }
+
+    protected function indexFromRow($row) {
+        return $row['name'];
     }
 }

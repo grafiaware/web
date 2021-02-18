@@ -114,16 +114,41 @@ class ComponentControler extends XhrControlerAbstract {
         $templateFilename = $templatePath."/template.php";
         if (is_readable($compiledFileName)) {
             $compiledFileTimestamp = filemtime($compiledFileName);  // Unix timestamp -> date ("d. F Y H:i:s.", $compiledFileTimestamp);
-            $templateFileTimestamp = filemtime($templatePath);
-            if ($compiledFileTimestamp > $templateFileTimestamp) {  // timestamp je s vteřinovou přesností
-                $compiledContent = file_get_contents($compiledFileName);
+            $templateFolderTimestamp = $this->templateFolderModificationTime($templatePath);  // 7ms
+            //(new \SplFileInfo($templatePath))->getMTime();
+            $timeCompiled = date ("d. F Y H:i:s.", $compiledFileTimestamp);
+            $timeTemlate = date ("d. F Y H:i:s.", $templateFolderTimestamp);
+            $timeDiff = $compiledFileTimestamp - $templateFolderTimestamp;
+            if ($templateFolderTimestamp < $compiledFileTimestamp ) {  // timestamp je s vteřinovou přesností
+                $compiledContent = file_get_contents($compiledFileName);   // 100mikrosec
             } else {
-                $compiledContent = $this->compileContent($templateFilename, $compiledFileName);
+                $compiledContent = $this->compileContent($templateFilename, $compiledFileName);   // 35ms
             }
         } else {
             $compiledContent = $this->compileContent($templateFilename, $compiledFileName);
         }
         return $compiledContent;
+    }
+
+    /**
+     *
+     * @param string $folderPath
+     * @return int|bool UNIX time (v sekundách) nebo false pro prázdný adresář.
+     */
+    private function templateFolderModificationTime($folderPath) {
+        $directory = new \RecursiveDirectoryIterator($folderPath);
+        $iterator = new \RecursiveIteratorIterator($directory);
+        $modTime = false;
+        $file;
+        foreach ($iterator as $fileinfo) {
+            if ($fileinfo->isFile()) {
+                $fileModTime = $fileinfo->getMTime();
+                if ($fileModTime > $modTime) {
+                    $modTime = $fileModTime;
+                }
+            }
+        }
+        return $modTime;
     }
 
     private function compileContent($templateFilename, $compiledFileName) {

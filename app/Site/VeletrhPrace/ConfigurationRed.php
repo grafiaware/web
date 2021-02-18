@@ -12,6 +12,7 @@ use Application\WebAppFactory;
 use Component\View\Flash\FlashComponent;
 use Component\View\Status\{
     LoginComponent,
+    RegisterComponent,
     LogoutComponent,
     UserActionComponent
 };
@@ -85,8 +86,10 @@ class ConfigurationRed extends ConfigurationDb {
             'component.templatePath.paper' => self::RED_TEMPLATES_COMMON.'paper/',
             'component.template.'.FlashComponent::class => self::RED_TEMPLATES_COMMON.'layout/info/flashMessage.php',
             'component.template.'.LoginComponent::class => self::RED_TEMPLATES_COMMON.'layout/modal/login.php',
+            'component.template.'.RegisterComponent::class => self::RED_TEMPLATES_COMMON.'layout/modal/register.php',
             'component.template.'.LogoutComponent::class => self::RED_TEMPLATES_COMMON.'layout/modal/logout.php',
             'component.template.'.UserActionComponent::class => self::RED_TEMPLATES_COMMON.'layout/modal/user_action.php',
+
         ];
     }
 
@@ -179,7 +182,8 @@ class ConfigurationRed extends ConfigurationDb {
     public static function loginLogoutControler() {
         return [
                 'fieldNameJmeno' => 'jmeno'.str_replace('/', '', self::RED_SITE_PATH),
-                'fieldNameHeslo' => 'heslo'.str_replace('/', '', self::RED_SITE_PATH)
+                'fieldNameHeslo' => 'heslo'.str_replace('/', '', self::RED_SITE_PATH),
+                'fieldNameEmail' => 'email'.str_replace('/', '', self::RED_SITE_PATH)
         ];
     }
 
@@ -229,7 +233,8 @@ class ConfigurationRed extends ConfigurationDb {
         return [
             // relativní cesta vzhledem k DOCUMENT_ROOT (htdocs) -začíná /
             'filesDirectory' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES : self::RED_FILES,
-            'public' => self::RED_LINKS_COMMON,
+            'publicDirectory' => self::RED_LINKS_COMMON,            
+            'siteDirectory' => self::RED_LINKS_SITE,
         ];
     }
 }

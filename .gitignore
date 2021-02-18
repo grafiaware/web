@@ -4,3 +4,5 @@
 /node_modules/
 /_www_gr_files/
 /_www_vp_files/
+/local/site/veletrhprace/templates/static/__compiled/
+/local/site/tydenzdravi/templates/static/__compiled/
