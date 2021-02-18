@@ -61,7 +61,7 @@ class PaperController extends PresentationFrontControllerAbstract {
             } else {
                 if ($headlineElement AND $perexElement) {
                     $paper = new Paper();
-                    $editor = $this->statusSecurityRepo->get()->getCredential()->getLoginName();
+                    $editor = $this->statusSecurityRepo->get()->getCredentials()->getLoginName();
                     $paper
                         ->setEditor($editor)
                         ->setHeadline($this->getInnerHtml($layoutDocument, $headlineElement->childNodes))
@@ -77,7 +77,7 @@ class PaperController extends PresentationFrontControllerAbstract {
             }
         } else {
                                 $paper = new Paper();
-                    $editor = $this->statusSecurityRepo->get()->getCredential()->getLoginName();
+                    $editor = $this->statusSecurityRepo->get()->getCredentials()->getLoginName();
                     $paper
                         ->setEditor($editor)
                         ->setMenuItemIdFk($menuItemId)
