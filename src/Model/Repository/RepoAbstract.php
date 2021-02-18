@@ -19,6 +19,8 @@ use Model\Repository\Association\AssociationOneToOneFactory;
 use Model\Repository\Association\AssociationOneToManyFactory;
 use Model\Repository\Exception\UnableToCreateAssotiatedChildEntity;
 use Model\Repository\Exception\UnableRecreateEntityException;
+use Model\Repository\Exception\BadImplemntastionOfChildRepository;
+
 /**
  * Description of RepoAbstract
  *
@@ -86,36 +88,55 @@ abstract class RepoAbstract implements RepoInterface {
         }
     }
 
+//    protected function createEntity() {
+//        throw new BadImplemntastionOfChildRepository("Child repository must implement method createEntity().");
+//    }
+//
+//    protected function indexFromKeyParams() {
+//        throw new BadImplemntastionOfChildRepository("Child repository must implement method indexFromKeyParams().");
+//    }
+//
+//    protected function indexFromEntity() {
+//        throw new BadImplemntastionOfChildRepository("Child repository must implement method indexFromEntity().");
+//    }
+//
+//    protected function indexFromRow() {
+//        throw new BadImplemntastionOfChildRepository("Child repository must implement method indexFromRow().");
+//    }
+
     /**
      *
      * @param array $row
      * @return string index
      */
-    protected function recreateEntity($index, $row): void {
+    protected function recreateEntity($row): ?string {
         if ($row) {
+            $index = $this->indexFromRow($row);
             try {
                 $this->addCreatedAssociations($row);
             } catch (UnableToCreateAssotiatedChildEntity $unex) {
-                throw new UnableRecreateEntityException("Nelze obnovit agregovanou entitu v repository ". get_called_class()." s indexem $index.", 0, $unex);
+                throw new UnableRecreateEntityException("Nelze obnovit agregovanou (vnořenou) entitu v repository ". get_called_class()." s indexem $index.", 0, $unex);
             }
             $entity = $this->createEntity();  // definována v konkrétní třídě - adept na entity managera
             $this->hydrate($entity, $row);
             $entity->setPersisted();
             $this->collection[$index] = $entity;
         }
+        return $index ?? null;
     }
 
-    protected function addEntity(EntityInterface $entity, $index=null): void {
-        if ($index) {
-            $this->collection[$index] = $entity;
+    protected function addEntity(EntityInterface $entity): void {
+        if ($entity->isPersisted()) {
+            $this->collection[$this->indexFromEntity()] = $entity;
         } else {
             $this->new[] = $entity;
         }
     }
 
-    protected function removeEntity(EntityInterface $entity, $index=null): void {
-        if ($index) {
-            $this->removed[] = $entity;
+    protected function removeEntity(EntityInterface $entity): void {
+        if ($entity->isPersisted()) {
+            $this->removed[$this->indexFromEntity()] = $entity;
+            unset($this->collection[$index]);
         } else {   // smazání před uložením do db
             foreach ($this->new as $key => $new) {
                 if ($new === $entity) {
@@ -123,7 +144,6 @@ abstract class RepoAbstract implements RepoInterface {
                 }
             }
         }
-        unset($this->collection[$index]);
     }
 
     public function flush(): void {
