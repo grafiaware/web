@@ -32,24 +32,26 @@ class CredentialsRepo extends RepoAbstract implements RepoInterface {
      * @return PaperInterface|null
      */
     public function get($loginName): ?CredentialsInterface {
-        $index = $loginName;
-        if (!isset($this->collection[$index])) {
-            $this->recreateEntity($index, $this->dao->get($loginName));
+        if (!isset($this->collection[$this->indexFromKeyParams($loginName)])) {
+            $this->recreateEntity($this->dao->get($loginName));
         }
         return $this->collection[$index] ?? NULL;
     }
 
     public function add(CredentialsInterface $credentials) {
-        $this->collection[$this->indexFromEntity($credentials)] = $credentials;
+        $this->addEntity($credentials);
     }
 
     public function remove(CredentialsInterface $credentials) {
-        $this->removed[] = $credentials;
-        unset($this->collection[$this->indexFromEntity($credentials)]);
+        $this->removeEntity($credentials);
     }
 
     protected function createEntity() {
         return new Credentials();
+    }
+
+    protected function indexFromKeyParams($loginName) {
+        return $loginName;
     }
 
     protected function indexFromEntity(CredentialsInterface $credentials) {
@@ -59,8 +61,5 @@ class CredentialsRepo extends RepoAbstract implements RepoInterface {
     protected function indexFromRow($row) {
         return $row['login_name'];
     }
-    public function flush(): void {
-        parent::flush();
     }
-}
 
