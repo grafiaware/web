@@ -67,6 +67,7 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
         // změněna cesta ke složce files
         $transform = array(
             'src="images/'               => 'src="'.$publicDirectory.'images/',   // <img>
+            'srcset="images/'               => 'srcset="'.$publicDirectory.'images/',   // <img>
             'src="video/'               => 'src="'.$filesDirectory.'video/',   // <video>
             'href="video/'               => 'href="'.$filesDirectory.'video/',   // video fallback pro stžení <a href=... >
             'src="files/'            => 'src="'.$filesDirectory.'files/',   //
