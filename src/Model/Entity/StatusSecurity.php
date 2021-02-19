@@ -33,7 +33,7 @@ class StatusSecurity implements StatusSecurityInterface {
      *
      * @return \Model\Entity\CredentialsInterface|null
      */
-    public function getCredential(): ?CredentialsInterface {
+    public function getCredentials(): ?CredentialsInterface {
         return $this->credentials;
     }
 

@@ -28,7 +28,7 @@ interface StatusSecurityInterface {
      *
      * @return CredentialsInterface|null
      */
-    public function getCredential(): ?CredentialsInterface;
+    public function getCredentials(): ?CredentialsInterface;
 
     /**
      *
