@@ -318,22 +318,20 @@
     }
     
     main{
-        min-height: 850px;
+        min-height: 1000px;
         padding: 0 10px;
     }
     
     /***PATIČKA***/
+    > .ui.grid > .row{
+        padding-bottom: 0;
+    }
     footer{
         color: @invertedTextColor;
         background-color: @primaryColor;
-        width: 100%;
-        padding-left: 21px;
-        padding-top: 30px;
-        height: 150px;
+        padding: 50px 10px 50px 13%;
         font-size: @smallFontSize; 
-        position: relative;
-        left: 9%;
-        footer a{
+        footer a{ 
             color: @invertedTextColor !important; 
             &:hover{
                 color: @invertedTextColor !important;
