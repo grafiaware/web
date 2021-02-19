@@ -13,7 +13,7 @@ class Credentials extends EntityAbstract implements CredentialsInterface {
     /**
      * @var string
      */
-    private $loginNameFK;
+    private $loginName;
 
     /**
      * @var string
@@ -25,7 +25,11 @@ class Credentials extends EntityAbstract implements CredentialsInterface {
      */
     private $role;
     
-   
+    /**
+     * @var string
+     */
+    private $email;
+
     /**
      * @var \DateTime
      */
@@ -37,15 +41,15 @@ class Credentials extends EntityAbstract implements CredentialsInterface {
     private $updated;
 
     public function __construct() {
-       $this->securityObservers = new \SplObjectStorage();
+        $this->securityObservers = new \SplObjectStorage();
     }
 
     /**
      * 
      * @return string|null
      */
-    public function getLoginNameFK(): ?string {
-        return $this->loginNameFK;
+    public function getLoginName(): ?string {
+        return $this->loginName;
     }
 
     /**
@@ -53,8 +57,8 @@ class Credentials extends EntityAbstract implements CredentialsInterface {
      * @param string $loginName
      * @return \Model\Entity\CredentialsInterface
      */
-    public function setLoginName(string $loginNameFK): CredentialsInterface {
-        $this->loginNameFK = $loginNameFK;
+    public function setLoginName(string $loginName): CredentialsInterface {
+        $this->loginName = $loginName;
         return $this;
     }
 
