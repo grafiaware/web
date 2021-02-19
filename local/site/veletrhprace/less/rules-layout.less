@@ -189,7 +189,6 @@
         font-size: @bigSize * @emSize;
     }
     .close-item{
-        text-align: right; 
         font-size: @hugeSize * @emSize;
         border-bottom: 3px solid @invertedTextColor;
         margin: 50px 0 15px;
@@ -319,27 +318,37 @@
     }
     
     main{
-        min-height: 850px;
+        min-height: 1000px;
         padding: 0 10px;
     }
     
     /***PATIČKA***/
+    > .ui.grid > .row{
+        padding-bottom: 0;
+    }
     footer{
         color: @invertedTextColor;
         background-color: @primaryColor;
-        width: 100%;
-        padding-left: 21px;
-        padding-top: 30px;
-        height: 150px;
+        padding: 50px 10px 50px 13%;
         font-size: @smallFontSize; 
-        position: relative;
-        left: 9%;
-        footer a{
+        footer a{ 
             color: @invertedTextColor !important; 
             &:hover{
                 color: @invertedTextColor !important;
             }
         }
     }
-    
+    //smazat až bude accordion v menu jen v editacnim rezimu
+    .accordion.border{
+        border: 1px solid #FFFFFF96;
+        margin: 30px auto 0;
+        padding: 10px 20px;
+        a{
+            color: @invertedTextColor;
+            &:hover{
+                text-decoration: underline;
+                transition: 0.3s all;
+            }
+        }
+    }
 }

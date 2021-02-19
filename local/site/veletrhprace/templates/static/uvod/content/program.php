@@ -11,7 +11,7 @@ use Pes\Text\Text;
     <div class="ui stackable centered grid">
         <div class="sixteen wide column">
             <p class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll">Program</p>
-            <img src="images/klic_foto.jpg" width="" height="" alt="Obrázek k programu"/>
+            <img src="images/klic_foto.jpg" width="1280" height="420" alt="Obrázek k programu"/>
         </div>
         <div class="eight wide column"><a href="www/item/static/prednasky" class="ui primary fluid massive button">Seznam vystavujících firem</a></div>
         <div class="eight wide column"><a href="www/item/static/body-pro-zdravi" class="ui primary fluid massive button">Seznam pracovních míst</a></div>

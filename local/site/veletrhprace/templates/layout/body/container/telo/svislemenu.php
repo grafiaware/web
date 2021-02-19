@@ -6,21 +6,17 @@
                 <!--jenom v editačním režimu ↓-->
                 <!--<span class="hamburger_dontclose"><i class="circle outline icon"></i>Nezavírat menu</span>-->
                 <!---->
+                <?php include "ovladaci-prvky-menu.php" ?>
             </div>
             <nav class="svisle-menu">
-                <?=
-                    $menuSvisle ?? '';
-                ?>
+                <?= $menuSvisle ?? ''; ?>
             </nav>
             <nav class="svisle-menu kos">
-                <?=
-                    $kos ?? '';
-                ?>
+                <?= $kos ?? ''; ?>
             </nav>
             <nav class="svisle-menu bloky">
-                <?=
-                $bloky ?? '';
-                ?>
-            </nav>        </div>
+                <?= $bloky ?? ''; ?>
+            </nav>
+        </div>
         <div id="myOverlay" onclick="hamburger_close()"></div>
         <div class="nav-mobile active" onclick="hamburger_open()"><div><i class="bars big icon"></i><p>Menu</p></div></div>

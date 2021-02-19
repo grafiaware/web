@@ -13,14 +13,14 @@ use Pes\Text\Text;
                     <img class="sirsi-obr"
                          src="images/pan_s_tabletem.jpg" 
                          srcset=" 
-                          images/pan_s_tabletem.jpg , 
-                          images/pan_s_tabletem_mobile.jpg 2x"
+                          public/site/veletrhprace/images/pan_s_tabletem.jpg , 
+                          public/site/veletrhprace/images/pan_s_tabletem_mobile.jpg 2x"
                           sizes="
                             (min-width: 768px) 100vw, 
                             480px"
                          width="476" height="671" alt="Pracovník s tabletem"/>
                     <div class="primarni-barva podklad nadpis presah">
-                        <p>17—19/3/2021</p>
+                        <p>30. 3.—1. 4. 2021</p>
                     </div>
                 </div>
                 <div class="ten wide column">

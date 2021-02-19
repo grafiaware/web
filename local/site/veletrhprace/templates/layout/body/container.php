@@ -1,6 +1,5 @@
     <!--<div class="ui container editable">--> <!--$this->attributes($bodyContainerAttributes) -->
     <div class="ui grid"> 
-        <span class="ui grid stackable centered ui float middle aligned line-height normal"></span>
         <div class="two wide mobile two wide tablet two wide computer two wide large screen two wide widescreen column">
             <div class="fix-bar">
                 <?php include "container/telo/svislemenu.php"; ?>
@@ -18,8 +17,14 @@
         </div>
         <?= $flash ?? '' ?>
         <?= $poznamky ?? '' ?>
+        
+        <div class="row">
+            <div class="sixteen wide column">
+                <footer>
+                    <span id="kontakty"></span>
+                    <?php include "container/paticka.php"; ?>
+                </footer>
+            </div>
+        </div>
     </div>
-    <footer>
-        <span id="kontakty"></span>
-        <?php include "container/paticka.php"; ?>
-    </footer>
+    

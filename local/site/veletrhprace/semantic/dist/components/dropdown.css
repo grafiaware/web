@@ -173,7 +173,7 @@
   margin: 1rem 0 0.75rem;
   padding: 0 1.14285714rem;
   font-weight: 500;
-  text-transform: uppercase;
+  text-transform: none;
 }
 .ui.dropdown .menu > .header:not(.ui) {
   color: rgba(0, 0, 0, 0.85);

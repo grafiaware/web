@@ -129,17 +129,17 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
     #### komponenty ######
 
     protected function getLoginLogoutComponent() {
-        $credentials = $this->statusSecurityRepo->get()->getCredential();
+        $credentials = $this->statusSecurityRepo->get()->getCredentials();
         if (isset($credentials)) {
             /** @var LogoutComponent $logoutComponent */
             $logoutComponent = $this->container->get(LogoutComponent::class);
-            //$logoutComponent nepoužívá viewModel, používá template definovanou v kontejneru - zadávám data pro template
+            //$logoutComponent nepoužívá viewModel, používá template a rendererContainer definované v kontejneru - zadávám jen data pro template
             $logoutComponent->setData(['loginName' => $credentials->getLoginName()]);
             return $logoutComponent;
         } else {
             /** @var LoginComponent $loginComponent */
             $loginComponent = $this->container->get(LoginComponent::class);
-            //$loginComponent nepoužívá viewModel, používá template definovanou v kontejneru - zadávám data pro template
+            //$loginComponent nepoužívá viewModel, používá template a rendererContainer definované v kontejneru - zadávám jen data pro template
             $loginComponent->setData([
                 'fieldNameJmeno' => Configuration::loginLogoutControler()['fieldNameJmeno'],
                 'fieldNameHeslo' => Configuration::loginLogoutControler()['fieldNameHeslo'],
@@ -150,11 +150,11 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
     }
 
     protected function getRegisterComponent() {
-        $user = $this->statusSecurityRepo->get()->getCredential();
+        $credentials = $this->statusSecurityRepo->get()->getCredentials();
         if (!isset($credentials)) {
             /** @var RegisterComponent $registerComponent */
             $registerComponent = $this->container->get(RegisterComponent::class);
-            //$registerComponent nepoužívá viewModel, používá template definovanou v kontejneru - zadávám data pro template
+            //$registerComponent nepoužívá viewModel, používá template a rendererContainer definované v kontejneru - zadávám jen data pro template
             $registerComponent->setData([
                 'fieldNameJmeno' => Configuration::loginLogoutControler()['fieldNameJmeno'],
                 'fieldNameHeslo' => Configuration::loginLogoutControler()['fieldNameHeslo'],
@@ -165,7 +165,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
     }
 
     protected function getUserActionComponent() {
-        $credentials = $this->statusSecurityRepo->get()->getCredential();
+        $credentials = $this->statusSecurityRepo->get()->getCredentials();
         if (isset($credentials)) {
             /** @var UserActionComponent $actionComponent */
             $actionComponent = $this->container->get(UserActionComponent::class);
@@ -201,14 +201,6 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
                         'tinyMCEConfig' => $this->container->get(View::class)
                                 ->setTemplate(new InterpolateTemplate(Configuration::layoutControler()['tiny_config']))
                                 ->setData([
-//var tinyConfig = {
-//    basePath: '/web/',
-//    contentCss: ['public/site/common/css/old/styles.css', 'public/site/grafia/semantic-ui/semantic.min.css', '{{urlZkouskaCss}}'],
-//    paper_templates_uri : 'public/site/grafia/templates/paper/',
-//    content_templates_path : '{{contentTemplatesPath}}',
-//    toolbarsLang: 'cs'
-//};
-
                                     // pro tiny_config.js
                                     'basePath' => $basepath,
                                     'urlStylesCss' => Configuration::layoutControler()['urlStylesCss'],

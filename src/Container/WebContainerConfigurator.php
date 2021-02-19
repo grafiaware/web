@@ -70,7 +70,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
             Credentials::class => function(ContainerInterface $c) {
                 /** @var StatusSecurityRepo $securityStatusRepo */
                 $securityStatusRepo = $c->get(StatusSecurityRepo::class);
-                return $securityStatusRepo->get()->getCredential();
+                return $securityStatusRepo->get()->getCredentials();
             },
             ## !!!!!! Objekty Account a Handler musí být v kontejneru vždy definovány jako service (tedy vytvářeny jako singleton) a nikoli
             #         jako factory. Pokud definuji jako factory, múže vzniknout řada objektů Account a Handler, které vznikly s použitím
