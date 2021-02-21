@@ -42,7 +42,7 @@ class BlockAggregateRepo extends BlockRepo implements BlockAggregateRepoInterfac
             $row = $this->dao->get($name);
             if ($row) {
                 $row['lang_code_fk'] = $langCode;
-                $this->recreateEntity($row);
+                $this->recreateEntity($index, $row);
             }
         }
         return $this->collection[$index] ?? null;

@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+namespace Test\Functional;
 
 use PHPUnit\Framework\TestCase;
 
@@ -50,7 +51,7 @@ class AppRunner extends TestCase {
             'HTTP_ACCEPT'          => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
             'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.8',
             'HTTP_ACCEPT_CHARSET'  => 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
-            'HTTP_USER_AGENT'      => 'Slim Framework',
+            'HTTP_USER_AGENT'      => 'PES',
             'REMOTE_ADDR'          => '127.0.0.1',
             'REQUEST_TIME'         => time(),
             'REQUEST_TIME_FLOAT'   => microtime(true),
@@ -65,7 +66,7 @@ class AppRunner extends TestCase {
             //// nebo
             //define('PES_FORCE_PRODUCTION', 'force_production');
 
-            define('PROJECT_PATH', 'c:/ApacheRoot/www_grafia_development_v0_6/');
+            define('PROJECT_PATH', 'c:/ApacheRoot/web/');
 
             include '../vendor/pes/pes/src/Bootstrap/Bootstrap.php';
         }
@@ -85,7 +86,9 @@ class AppRunner extends TestCase {
 
     /**
      * PHPUnit v průběhu testů posílá znaky na stdout. Při volání funkcí v testu, které posílají hlavičky (header(), session_start() atd.)
-     * Pak nastane chyba "headers already sent...". Je nutné použít anotaci @runInSeparateProcess, ta zajistí spuštění testu v samostatném procesu, který ještě nic
+     * Pak nastane chyba "headers already sent...". Při použití Session z PES frameworku chyba "nelze nastartovat session...".
+     *
+     * Je nutné použít anotaci @runInSeparateProcess, ta zajistí spuštění testu v samostatném procesu, který ještě nic
      * neposlal. Alternativou je v phpunit.xml konfiguraci přida atribut to tagu <phpunit>:
      * <phpunit
      *  processIsolation="true"

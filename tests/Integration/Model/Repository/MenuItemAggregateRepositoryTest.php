@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+namespace Test\Integration\Repository;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -14,8 +15,11 @@ use Pes\Http\Factory\EnvironmentFactory;
 use Application\WebAppFactory;
 
 use Pes\Container\Container;
-use Container\WebContainerConfigurator;
+
+use Container\DbUpgradeContainerConfigurator;
 use Container\HierarchyContainerConfigurator;
+use Test\Integration\Model\Container\TestModelContainerConfigurator;
+
 use Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
 use Model\Repository\MenuItemAggregateRepo;
 
@@ -37,7 +41,7 @@ class MenuItemAggregateRepositoryTest extends TestCase {
      *
      * @var MenuItemAggregateRepo
      */
-    private $repo;
+    private $menuItemAggRepo;
 
     private $title;
     private $langCode;
@@ -68,7 +72,7 @@ class MenuItemAggregateRepositoryTest extends TestCase {
             'HTTP_ACCEPT'          => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
             'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.8',
             'HTTP_ACCEPT_CHARSET'  => 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
-            'HTTP_USER_AGENT'      => 'Slim Framework',
+            'HTTP_USER_AGENT'      => 'PES',
             'REMOTE_ADDR'          => '127.0.0.1',
             'REQUEST_TIME'         => time(),
             'REQUEST_TIME_FLOAT'   => microtime(true),
@@ -83,7 +87,7 @@ class MenuItemAggregateRepositoryTest extends TestCase {
             //// nebo
             //define('PES_FORCE_PRODUCTION', 'force_production');
 
-            define('PROJECT_PATH', 'c:/ApacheRoot/www_grafia_development_v0_6/');
+            define('PROJECT_PATH', 'c:/ApacheRoot/web/');
 
             include '../vendor/pes/pes/src/Bootstrap/Bootstrap.php';
         }
@@ -99,21 +103,29 @@ class MenuItemAggregateRepositoryTest extends TestCase {
                 );
         $this->app = (new WebAppFactory())->createFromEnvironment($environment);
 
-        $this->container = (new HierarchyContainerConfigurator())->configure(
-                    new Container(
-                        (new WebContainerConfigurator())->configure(
-                                new Container($this->app->getAppContainer())
+        $this->container =
+                (new TestModelContainerConfigurator())->configure(  // přepisuje ContextFactory
+                    (new HierarchyContainerConfigurator())->configure(
+                       (new DbUpgradeContainerConfigurator())->configure(
+                            (new Container(
+//                                        new Container($this->app->getAppContainer())
+                                )
+                            )
                         )
                     )
                 );
 
-        $this->repo = $this->container->get(MenuItemAggregateRepo::class);
 
-        /** @var ReadHierarchy $hierarchy */
+        $this->menuItemAggRepo = $this->container->get(MenuItemAggregateRepo::class);
+
+        /** @var HierarchyAggregateReadonlyDao $hierarchy */
         $hierarchy = $this->container->get(HierarchyAggregateReadonlyDao::class);
         $this->langCode = 'cs';
-        $this->title = 'VZDĚLÁVÁNÍ';
-        $node = $hierarchy->getByTitleHelper($this->langCode, $this->title, false, false);
+        $this->title = 'Tests Integration';
+        $node = $hierarchy->getByTitleHelper($this->langCode, $this->title);
+        if (!isset($node)) {
+            throw new \LogicException("Error in setUp: Nelze spouštět integrační testy - v databázi projektu není položka menu v jazyce '$this->langCode' s názvem '$this->title'");
+        }
         //  node.uid, (COUNT(parent.uid) - 1) AS depth, node.left_node, node.right_node, node.parent_uid
         $this->uid = $node['uid'];
     }
@@ -121,11 +133,11 @@ class MenuItemAggregateRepositoryTest extends TestCase {
     public function testSetUp() {
         $this->assertIsString($this->langCode);
         $this->assertIsString($this->uid);
-        $this->assertInstanceOf(MenuItemAggregateRepo::class, $this->repo);
+        $this->assertInstanceOf(MenuItemAggregateRepo::class, $this->menuItemAggRepo);
     }
 
     public function testRepoGet() {
-        $entity = $this->repo->get($this->langCode, $this->uid);
+        $entity = $this->menuItemAggRepo->get($this->langCode, $this->uid);
         $this->assertInstanceOf(MenuItemPaperAggregate::class, $entity);
         $this->assertEquals($this->title, $entity->getTitle());
         /** @var PaperAggregate $paper */      // není interface
@@ -138,7 +150,12 @@ class MenuItemAggregateRepositoryTest extends TestCase {
     }
 
     public function testRepoFindByPaperFulltextSearch() {
-        $items = $this->repo->findByPaperFulltextSearch($this->langCode, "Grafia", false, false);
+        // Stop here and mark this test as incomplete.
+        $this->markTestIncomplete(
+          'This test has not been implemented yet.'
+        );
+
+        $items = $this->menuItemAggRepo->findByPaperFulltextSearch($this->langCode, "Grafia", false, false);
         $this->assertIsArray($items);
         $this->assertTrue(count($items) > 0, 'Nebyl nalezen alespoň jeden výskyt řetězce.');
     }

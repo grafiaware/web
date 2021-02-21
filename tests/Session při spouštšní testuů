@@ -1,0 +1,15 @@
+    /**
+     * PHPUnit v průběhu testů posílá znaky na stdout. Při volání funkcí v testu, které posílají hlavičky (header(), session_start() atd.)
+     * Pak nastane chyba "headers already sent...". Při použití Session z PES frameworku chyba "nelze nastartovat session...".
+     *
+     * Je nutné použít anotaci @runInSeparateProcess, ta zajistí spuštění testu v samostatném procesu, který ještě nic
+     * neposlal. Alternativou je v phpunit.xml konfiguraci přida atribut to tagu <phpunit>:
+     * <phpunit
+     *  processIsolation="true"
+     *  ...
+     * >
+     * Pak jsou všechny testy spouštěny izolovaně, ale běží pomaleji.
+     *
+     * @depends testEnvironment
+     * @runInSeparateProcess
+     */

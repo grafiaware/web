@@ -109,9 +109,8 @@ abstract class RepoAbstract implements RepoInterface {
      * @param array $row
      * @return string index
      */
-    protected function recreateEntity($row): ?string {
+    protected function recreateEntity($index, $row): ?string {
         if ($row) {
-            $index = $this->indexFromRow($row);
             try {
                 $this->addCreatedAssociations($row);
             } catch (UnableToCreateAssotiatedChildEntity $unex) {

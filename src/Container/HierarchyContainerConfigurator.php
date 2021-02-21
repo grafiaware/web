@@ -105,6 +105,7 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
         return [
             HandlerInterface::class => Handler::class,
             RouterInterface::class => Router::class,
+            ContextFactoryInterface::class => ContextFactory::class,
             HierarchyAggregateReadonlyDaoInterface::class => HierarchyAggregateReadonlyDao::class,
             HierarchyAggregateEditDaoInterface::class => HierarchyAggregateEditDao::class,
             StatusPresentationManagerInterface::class => StatusPresentationManager::class,
@@ -123,14 +124,14 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(Handler::class),
                         $c->get('hierarchy.table'),
                         $c->get('hierarchy.menu_item_table'),
-                        $c->get(ContextFactory::class));
+                        $c->get(ContextFactoryInterface::class));
             },
             HierarchyAggregateEditDao::class => function(ContainerInterface $c) : HierarchyAggregateEditDao {
                 /** @var HierarchyAggregateEditDao $editHierarchy */
                 $editHierarchy = (new HierarchyAggregateEditDao(
                         $c->get(Handler::class),
                         $c->get('hierarchy.table'),
-                        $c->get(ContextFactory::class))
+                        $c->get(ContextFactoryInterface::class))
                         );
                 $editHierarchy->registerHookedActor($c->get(HookedMenuItemActor::class));
                 return $editHierarchy;
@@ -142,7 +143,7 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
             MenuItemDao::class => function(ContainerInterface $c) {
                 return new MenuItemDao(
                         $c->get(HandlerInterface::class),
-                        $c->get(ContextFactory::class));
+                        $c->get(ContextFactoryInterface::class));
             },
             HookedMenuItemActor::class => function(ContainerInterface $c) {
                 return new HookedMenuItemActor($c->get('hierarchy.menu_item_table'), $c->get('hierarchy.new_title'));
@@ -192,7 +193,7 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
             PaperContentDao::class => function(ContainerInterface $c) {
                 return new PaperContentDao(
                         $c->get(HandlerInterface::class),
-                        $c->get(ContextFactory::class));
+                        $c->get(ContextFactoryInterface::class));
             },
             PaperContentHydrator::class => function(ContainerInterface $c) {
                 return new PaperContentHydrator();

@@ -1,12 +1,12 @@
-[info] [2020-07-01 11:36:02] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/Hierarchy/Database.log. Mode 'w+'.
-[debug] Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=localhost;port=3306;dbname=grafia_upgrade
+[debug] [2021-02-21 21:45:50] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/Hierarchy/Database.log. Mode 'w+'.
+[debug] Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=localhost;port=3306;dbname=veletrhprace
 [debug] Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
     (
         [1005] => 1
         [1002] => SET NAMES utf8 COLLATE utf8_general_ci
     )
     
-[debug] Vytvořen database handler Handler grafia_upgrade (1), name grafia_upgrade, host localhost.
+[debug] Vytvořen database handler Handler veletrhprace (1), name veletrhprace, host localhost.
 [info] Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
     (
         [3] => 2
@@ -23,10 +23,9 @@
         [20] => 
     )
     
-[debug] Handler grafia_upgrade (1) prepare(SELECT 
+[debug] Handler veletrhprace (1) prepare(SELECT 
     	nested_set.uid, nested_set.depth, nested_set.left_node, nested_set.right_node, nested_set.parent_uid,
-            menu_item.lang_code_fk, menu_item.uid_fk, menu_item.type_fk, menu_item.id, menu_item.title, menu_item.active, menu_item.show_time, menu_item.hide_time,
-    	(ISNULL(menu_item.show_time) OR menu_item.show_time<=CURDATE()) AND (ISNULL(menu_item.hide_time) OR CURDATE()<=menu_item.hide_time) AS actual
+            menu_item.lang_code_fk, menu_item.uid_fk, menu_item.type_fk, menu_item.id, menu_item.title, menu_item.prettyuri, menu_item.active
             FROM
                     (SELECT
                         node.uid, (COUNT(parent.uid) - 1) AS depth, node.left_node, node.right_node, node.parent_uid
@@ -37,63 +36,26 @@
                     GROUP BY node.uid
                     ) AS nested_set
                         INNER JOIN
-                    menu_item AS menu_item ON (nested_set.uid = menu_item.uid_fk)
-                WHERE menu_item.lang_code_fk = :lang_code AND menu_item.title = :title, ). Vytvořen Statement (1).
-[debug] Statement (1) bindParam(:title, Test 2, 2, , )
+                    menu_item AS menu_item ON (nested_set.uid = menu_item.uid_fk) WHERE menu_item.lang_code_fk = :lang_code AND menu_item.title = :title , ). Vytvořen Statement (1).
+[debug] Statement (1) bindParam(:title, Tests Integration, 2, , )
 [debug] Statement (1) bindParam(:lang_code, cs, 2, , )
 [debug] Statement (1) execute().
 [debug] Statement (1) execute()
 [debug] Statement (1) fetch(2, 0, 0)
-[debug] Handler grafia_upgrade (1) prepare(SELECT lang_code_fk, uid_fk, type_fk, id, title, active, show_time, hide_time,
-    	(ISNULL(show_time) OR show_time<=CURDATE()) AND (ISNULL(hide_time) OR CURDATE()<=hide_time) AS actual FROM menu_item WHERE menu_item.lang_code_fk = :lang_code_fk AND menu_item.uid_fk=:uid_fk, ). Vytvořen Statement (2).
+[debug] Handler veletrhprace (1) prepare(SELECT lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active FROM menu_item  WHERE menu_item.lang_code_fk = :lang_code_fk AND menu_item.uid_fk=:uid_fk , ). Vytvořen Statement (2).
 [debug] Statement (2) bindValue(:lang_code_fk, cs, 2)
-[debug] Statement (2) bindValue(:uid_fk, 5eea26a1dfa66, 2)
+[debug] Statement (2) bindValue(:uid_fk, 60262f3e906e4, 2)
 [debug] Statement (2) execute().
 [debug] Statement (2) execute()
 [debug] Statement (2) fetch(2, 0, 0)
-[debug] Handler grafia_upgrade (1) prepare(SELECT
-            `paper`.`id` AS `id`,
-            `paper`.`menu_item_id_fk` AS `menu_item_id_fk`,
-            `paper`.`headline` AS `headline`,
-            `paper`.`keywords` AS `keywords`,
-            `paper`.`editor` AS `editor`,
-            `paper`.`updated` AS `updated`
-        FROM
-            `paper`
-        WHERE
-            `paper`.`menu_item_id_fk` = :menu_item_id_fk, ). Vytvořen Statement (3).
-[debug] Statement (3) bindValue(:menu_item_id_fk, 679, 2)
-[debug] Statement (3) execute().
-[debug] Statement (3) execute()
-[debug] Statement (3) fetch(2, 0, 0)
-[debug] Handler grafia_upgrade (1) prepare(SELECT
-                `paper_content`.`id` AS `id`,
-                `paper_content`.`paper_id_fk` AS `paper_id_fk`,
-                `paper_content`.`content` AS `content`,
-                `paper_content`.`active` AS `active`,
-                `paper_content`.`priority` AS `priority`,
-                `paper_content`.`show_time` AS `show_time`,
-                `paper_content`.`hide_time` AS `hide_time`,
-                `paper_content`.`event_time` AS `event_time`,
-                `paper_content`.`editor` AS `editor`,
-                `paper_content`.`updated` AS `updated`,
-                 (ISNULL(show_time) OR show_time<=CURDATE()) AND (ISNULL(hide_time) OR CURDATE()<=hide_time) AS actual
-            FROM
-                `paper_content`
-            WHERE `paper_content`.`paper_id_fk` = :paper_id_fk, ). Vytvořen Statement (4).
-[debug] Statement (4) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (4) execute().
-[debug] Statement (4) execute()
-[debug] Statement (4) fetchAll(2)
-[debug] Result má 15 prvků.
-[debug] Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=localhost;port=3306;dbname=grafia_upgrade
+[debug] Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=localhost;port=3306;dbname=veletrhprace
 [debug] Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
     (
         [1005] => 1
         [1002] => SET NAMES utf8 COLLATE utf8_general_ci
     )
     
-[debug] Vytvořen database handler Handler grafia_upgrade (2), name grafia_upgrade, host localhost.
+[debug] Vytvořen database handler Handler veletrhprace (2), name veletrhprace, host localhost.
 [info] Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
     (
         [3] => 2
@@ -110,10 +72,9 @@
         [20] => 
     )
     
-[debug] Handler grafia_upgrade (2) prepare(SELECT 
+[debug] Handler veletrhprace (2) prepare(SELECT 
     	nested_set.uid, nested_set.depth, nested_set.left_node, nested_set.right_node, nested_set.parent_uid,
-            menu_item.lang_code_fk, menu_item.uid_fk, menu_item.type_fk, menu_item.id, menu_item.title, menu_item.active, menu_item.show_time, menu_item.hide_time,
-    	(ISNULL(menu_item.show_time) OR menu_item.show_time<=CURDATE()) AND (ISNULL(menu_item.hide_time) OR CURDATE()<=menu_item.hide_time) AS actual
+            menu_item.lang_code_fk, menu_item.uid_fk, menu_item.type_fk, menu_item.id, menu_item.title, menu_item.prettyuri, menu_item.active
             FROM
                     (SELECT
                         node.uid, (COUNT(parent.uid) - 1) AS depth, node.left_node, node.right_node, node.parent_uid
@@ -124,63 +85,75 @@
                     GROUP BY node.uid
                     ) AS nested_set
                         INNER JOIN
-                    menu_item AS menu_item ON (nested_set.uid = menu_item.uid_fk)
-                WHERE menu_item.lang_code_fk = :lang_code AND menu_item.title = :title, ). Vytvořen Statement (5).
-[debug] Statement (5) bindParam(:title, Test 2, 2, , )
+                    menu_item AS menu_item ON (nested_set.uid = menu_item.uid_fk) WHERE menu_item.lang_code_fk = :lang_code AND menu_item.title = :title , ). Vytvořen Statement (3).
+[debug] Statement (3) bindParam(:title, Tests Integration, 2, , )
+[debug] Statement (3) bindParam(:lang_code, cs, 2, , )
+[debug] Statement (3) execute().
+[debug] Statement (3) execute()
+[debug] Statement (3) fetch(2, 0, 0)
+[debug] Handler veletrhprace (2) prepare(SELECT lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active FROM menu_item  WHERE menu_item.lang_code_fk = :lang_code_fk AND menu_item.uid_fk=:uid_fk , ). Vytvořen Statement (4).
+[debug] Statement (4) bindValue(:lang_code_fk, cs, 2)
+[debug] Statement (4) bindValue(:uid_fk, 60262f3e906e4, 2)
+[debug] Statement (4) execute().
+[debug] Statement (4) execute()
+[debug] Statement (4) fetch(2, 0, 0)
+[debug] Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=localhost;port=3306;dbname=veletrhprace
+[debug] Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+    
+[debug] Vytvořen database handler Handler veletrhprace (3), name veletrhprace, host localhost.
+[info] Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+    
+[debug] Handler veletrhprace (3) prepare(SELECT 
+    	nested_set.uid, nested_set.depth, nested_set.left_node, nested_set.right_node, nested_set.parent_uid,
+            menu_item.lang_code_fk, menu_item.uid_fk, menu_item.type_fk, menu_item.id, menu_item.title, menu_item.prettyuri, menu_item.active
+            FROM
+                    (SELECT
+                        node.uid, (COUNT(parent.uid) - 1) AS depth, node.left_node, node.right_node, node.parent_uid
+                    FROM
+                        hierarchy AS node
+                        CROSS JOIN
+                        hierarchy AS parent ON node.left_node BETWEEN parent.left_node AND parent.right_node
+                    GROUP BY node.uid
+                    ) AS nested_set
+                        INNER JOIN
+                    menu_item AS menu_item ON (nested_set.uid = menu_item.uid_fk) WHERE menu_item.lang_code_fk = :lang_code AND menu_item.title = :title , ). Vytvořen Statement (5).
+[debug] Statement (5) bindParam(:title, Tests Integration, 2, , )
 [debug] Statement (5) bindParam(:lang_code, cs, 2, , )
 [debug] Statement (5) execute().
 [debug] Statement (5) execute()
 [debug] Statement (5) fetch(2, 0, 0)
-[debug] Handler grafia_upgrade (2) prepare(SELECT lang_code_fk, uid_fk, type_fk, id, title, active, show_time, hide_time,
-    	(ISNULL(show_time) OR show_time<=CURDATE()) AND (ISNULL(hide_time) OR CURDATE()<=hide_time) AS actual FROM menu_item WHERE menu_item.lang_code_fk = :lang_code_fk AND menu_item.uid_fk=:uid_fk, ). Vytvořen Statement (6).
+[debug] Handler veletrhprace (3) prepare(SELECT lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active FROM menu_item  WHERE menu_item.lang_code_fk = :lang_code_fk AND menu_item.uid_fk=:uid_fk , ). Vytvořen Statement (6).
 [debug] Statement (6) bindValue(:lang_code_fk, cs, 2)
-[debug] Statement (6) bindValue(:uid_fk, 5eea26a1dfa66, 2)
+[debug] Statement (6) bindValue(:uid_fk, 60262f3e906e4, 2)
 [debug] Statement (6) execute().
 [debug] Statement (6) execute()
 [debug] Statement (6) fetch(2, 0, 0)
-[debug] Handler grafia_upgrade (2) prepare(SELECT
-            `paper`.`id` AS `id`,
-            `paper`.`menu_item_id_fk` AS `menu_item_id_fk`,
-            `paper`.`headline` AS `headline`,
-            `paper`.`keywords` AS `keywords`,
-            `paper`.`editor` AS `editor`,
-            `paper`.`updated` AS `updated`
-        FROM
-            `paper`
-        WHERE
-            `paper`.`menu_item_id_fk` = :menu_item_id_fk, ). Vytvořen Statement (7).
-[debug] Statement (7) bindValue(:menu_item_id_fk, 679, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Handler grafia_upgrade (2) prepare(SELECT
-                `paper_content`.`id` AS `id`,
-                `paper_content`.`paper_id_fk` AS `paper_id_fk`,
-                `paper_content`.`content` AS `content`,
-                `paper_content`.`active` AS `active`,
-                `paper_content`.`priority` AS `priority`,
-                `paper_content`.`show_time` AS `show_time`,
-                `paper_content`.`hide_time` AS `hide_time`,
-                `paper_content`.`event_time` AS `event_time`,
-                `paper_content`.`editor` AS `editor`,
-                `paper_content`.`updated` AS `updated`,
-                 (ISNULL(show_time) OR show_time<=CURDATE()) AND (ISNULL(hide_time) OR CURDATE()<=hide_time) AS actual
-            FROM
-                `paper_content`
-            WHERE `paper_content`.`paper_id_fk` = :paper_id_fk, ). Vytvořen Statement (8).
-[debug] Statement (8) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (8) execute().
-[debug] Statement (8) execute()
-[debug] Statement (8) fetchAll(2)
-[debug] Result má 15 prvků.
-[debug] Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=localhost;port=3306;dbname=grafia_upgrade
+[debug] Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=localhost;port=3306;dbname=veletrhprace
 [debug] Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
     (
         [1005] => 1
         [1002] => SET NAMES utf8 COLLATE utf8_general_ci
     )
     
-[debug] Vytvořen database handler Handler grafia_upgrade (3), name grafia_upgrade, host localhost.
+[debug] Vytvořen database handler Handler veletrhprace (4), name veletrhprace, host localhost.
 [info] Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
     (
         [3] => 2
@@ -197,10 +170,9 @@
         [20] => 
     )
     
-[debug] Handler grafia_upgrade (3) prepare(SELECT 
+[debug] Handler veletrhprace (4) prepare(SELECT 
     	nested_set.uid, nested_set.depth, nested_set.left_node, nested_set.right_node, nested_set.parent_uid,
-            menu_item.lang_code_fk, menu_item.uid_fk, menu_item.type_fk, menu_item.id, menu_item.title, menu_item.active, menu_item.show_time, menu_item.hide_time,
-    	(ISNULL(menu_item.show_time) OR menu_item.show_time<=CURDATE()) AND (ISNULL(menu_item.hide_time) OR CURDATE()<=menu_item.hide_time) AS actual
+            menu_item.lang_code_fk, menu_item.uid_fk, menu_item.type_fk, menu_item.id, menu_item.title, menu_item.prettyuri, menu_item.active
             FROM
                     (SELECT
                         node.uid, (COUNT(parent.uid) - 1) AS depth, node.left_node, node.right_node, node.parent_uid
@@ -211,672 +183,1515 @@
                     GROUP BY node.uid
                     ) AS nested_set
                         INNER JOIN
-                    menu_item AS menu_item ON (nested_set.uid = menu_item.uid_fk)
-                WHERE menu_item.lang_code_fk = :lang_code AND menu_item.title = :title, ). Vytvořen Statement (9).
-[debug] Statement (9) bindParam(:title, Test 2, 2, , )
+                    menu_item AS menu_item ON (nested_set.uid = menu_item.uid_fk) WHERE menu_item.lang_code_fk = :lang_code AND menu_item.title = :title , ). Vytvořen Statement (7).
+[debug] Statement (7) bindParam(:title, Tests Integration, 2, , )
+[debug] Statement (7) bindParam(:lang_code, cs, 2, , )
+[debug] Statement (7) execute().
+[debug] Statement (7) execute()
+[debug] Statement (7) fetch(2, 0, 0)
+[debug] Handler veletrhprace (4) prepare(UPDATE menu_item SET type_fk=:type_fk, title=:title, prettyuri=:prettyuri, active=:active  WHERE lang_code_fk=:lang_code_fk AND uid_fk=:uid_fk , ). Vytvořen Statement (8).
+[debug] Statement (8) bindValue(:type_fk, paper, 2)
+[debug] Statement (8) bindValue(:title, Tests Integration, 2)
+[debug] Statement (8) bindValue(:prettyuri, cs60262f3e906e4, 2)
+[debug] Statement (8) bindValue(:active, 1, 2)
+[debug] Statement (8) bindValue(:lang_code_fk, cs, 2)
+[debug] Statement (8) bindValue(:uid_fk, 60262f3e906e4, 2)
+[debug] Statement (8) execute().
+[debug] Statement (8) execute()
+[debug] Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=localhost;port=3306;dbname=veletrhprace
+[debug] Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+    
+[debug] Vytvořen database handler Handler veletrhprace (5), name veletrhprace, host localhost.
+[info] Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+    
+[debug] Handler veletrhprace (5) prepare(SELECT 
+    	nested_set.uid, nested_set.depth, nested_set.left_node, nested_set.right_node, nested_set.parent_uid,
+            menu_item.lang_code_fk, menu_item.uid_fk, menu_item.type_fk, menu_item.id, menu_item.title, menu_item.prettyuri, menu_item.active
+            FROM
+                    (SELECT
+                        node.uid, (COUNT(parent.uid) - 1) AS depth, node.left_node, node.right_node, node.parent_uid
+                    FROM
+                        hierarchy AS node
+                        CROSS JOIN
+                        hierarchy AS parent ON node.left_node BETWEEN parent.left_node AND parent.right_node
+                    GROUP BY node.uid
+                    ) AS nested_set
+                        INNER JOIN
+                    menu_item AS menu_item ON (nested_set.uid = menu_item.uid_fk) WHERE menu_item.lang_code_fk = :lang_code AND menu_item.title = :title , ). Vytvořen Statement (9).
+[debug] Statement (9) bindParam(:title, Tests Integration, 2, , )
 [debug] Statement (9) bindParam(:lang_code, cs, 2, , )
 [debug] Statement (9) execute().
 [debug] Statement (9) execute()
 [debug] Statement (9) fetch(2, 0, 0)
-[debug] Handler grafia_upgrade (3) prepare(SELECT lang_code_fk, uid_fk, type_fk, id, title, active, show_time, hide_time,
-    	(ISNULL(show_time) OR show_time<=CURDATE()) AND (ISNULL(hide_time) OR CURDATE()<=hide_time) AS actual FROM menu_item WHERE menu_item.lang_code_fk = :lang_code_fk AND menu_item.uid_fk=:uid_fk, ). Vytvořen Statement (10).
+[debug] Handler veletrhprace (5) prepare(SELECT lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active FROM menu_item  WHERE menu_item.lang_code_fk = :lang_code_fk AND menu_item.uid_fk=:uid_fk , ). Vytvořen Statement (10).
 [debug] Statement (10) bindValue(:lang_code_fk, cs, 2)
-[debug] Statement (10) bindValue(:uid_fk, 5eea26a1dfa66, 2)
+[debug] Statement (10) bindValue(:uid_fk, 60262f3e906e4, 2)
 [debug] Statement (10) execute().
 [debug] Statement (10) execute()
 [debug] Statement (10) fetch(2, 0, 0)
-[debug] Handler grafia_upgrade (3) prepare(SELECT
+[debug] Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=localhost;port=3306;dbname=veletrhprace
+[debug] Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+    
+[debug] Vytvořen database handler Handler veletrhprace (6), name veletrhprace, host localhost.
+[info] Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+    
+[debug] Handler veletrhprace (6) prepare(SELECT 
+    	nested_set.uid, nested_set.depth, nested_set.left_node, nested_set.right_node, nested_set.parent_uid,
+            menu_item.lang_code_fk, menu_item.uid_fk, menu_item.type_fk, menu_item.id, menu_item.title, menu_item.prettyuri, menu_item.active
+            FROM
+                    (SELECT
+                        node.uid, (COUNT(parent.uid) - 1) AS depth, node.left_node, node.right_node, node.parent_uid
+                    FROM
+                        hierarchy AS node
+                        CROSS JOIN
+                        hierarchy AS parent ON node.left_node BETWEEN parent.left_node AND parent.right_node
+                    GROUP BY node.uid
+                    ) AS nested_set
+                        INNER JOIN
+                    menu_item AS menu_item ON (nested_set.uid = menu_item.uid_fk) WHERE menu_item.lang_code_fk = :lang_code AND menu_item.title = :title , ). Vytvořen Statement (11).
+[debug] Statement (11) bindParam(:title, Tests Integration, 2, , )
+[debug] Statement (11) bindParam(:lang_code, cs, 2, , )
+[debug] Statement (11) execute().
+[debug] Statement (11) execute()
+[debug] Statement (11) fetch(2, 0, 0)
+[debug] Handler veletrhprace (6) prepare(UPDATE menu_item SET type_fk=:type_fk, title=:title, prettyuri=:prettyuri, active=:active  WHERE lang_code_fk=:lang_code_fk AND uid_fk=:uid_fk , ). Vytvořen Statement (12).
+[debug] Statement (12) bindValue(:type_fk, paper, 2)
+[debug] Statement (12) bindValue(:title, Tests Integration, 2)
+[debug] Statement (12) bindValue(:prettyuri, cs60262f3e906e4, 2)
+[debug] Statement (12) bindValue(:active, 0, 2)
+[debug] Statement (12) bindValue(:lang_code_fk, cs, 2)
+[debug] Statement (12) bindValue(:uid_fk, 60262f3e906e4, 2)
+[debug] Statement (12) execute().
+[debug] Statement (12) execute()
+[debug] Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=localhost;port=3306;dbname=veletrhprace
+[debug] Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+    
+[debug] Vytvořen database handler Handler veletrhprace (7), name veletrhprace, host localhost.
+[info] Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+    
+[debug] Handler veletrhprace (7) prepare(SELECT 
+    	nested_set.uid, nested_set.depth, nested_set.left_node, nested_set.right_node, nested_set.parent_uid,
+            menu_item.lang_code_fk, menu_item.uid_fk, menu_item.type_fk, menu_item.id, menu_item.title, menu_item.prettyuri, menu_item.active
+            FROM
+                    (SELECT
+                        node.uid, (COUNT(parent.uid) - 1) AS depth, node.left_node, node.right_node, node.parent_uid
+                    FROM
+                        hierarchy AS node
+                        CROSS JOIN
+                        hierarchy AS parent ON node.left_node BETWEEN parent.left_node AND parent.right_node
+                    GROUP BY node.uid
+                    ) AS nested_set
+                        INNER JOIN
+                    menu_item AS menu_item ON (nested_set.uid = menu_item.uid_fk) WHERE menu_item.lang_code_fk = :lang_code AND menu_item.title = :title , ). Vytvořen Statement (13).
+[debug] Statement (13) bindParam(:title, Tests Integration, 2, , )
+[debug] Statement (13) bindParam(:lang_code, cs, 2, , )
+[debug] Statement (13) execute().
+[debug] Statement (13) execute()
+[debug] Statement (13) fetch(2, 0, 0)
+[debug] Handler veletrhprace (7) prepare(SELECT lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active FROM menu_item  WHERE menu_item.lang_code_fk = :lang_code_fk AND menu_item.uid_fk=:uid_fk , ). Vytvořen Statement (14).
+[debug] Statement (14) bindValue(:lang_code_fk, cs, 2)
+[debug] Statement (14) bindValue(:uid_fk, 60262f3e906e4, 2)
+[debug] Statement (14) execute().
+[debug] Statement (14) execute()
+[debug] Statement (14) fetch(2, 0, 0)
+[debug] Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=localhost;port=3306;dbname=veletrhprace
+[debug] Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+    
+[debug] Vytvořen database handler Handler veletrhprace (8), name veletrhprace, host localhost.
+[info] Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+    
+[debug] Handler veletrhprace (8) prepare(SELECT 
+    	nested_set.uid, nested_set.depth, nested_set.left_node, nested_set.right_node, nested_set.parent_uid,
+            menu_item.lang_code_fk, menu_item.uid_fk, menu_item.type_fk, menu_item.id, menu_item.title, menu_item.prettyuri, menu_item.active
+            FROM
+                    (SELECT
+                        node.uid, (COUNT(parent.uid) - 1) AS depth, node.left_node, node.right_node, node.parent_uid
+                    FROM
+                        hierarchy AS node
+                        CROSS JOIN
+                        hierarchy AS parent ON node.left_node BETWEEN parent.left_node AND parent.right_node
+                    GROUP BY node.uid
+                    ) AS nested_set
+                        INNER JOIN
+                    menu_item AS menu_item ON (nested_set.uid = menu_item.uid_fk) WHERE menu_item.lang_code_fk = :lang_code AND menu_item.title = :title , ). Vytvořen Statement (15).
+[debug] Statement (15) bindParam(:title, Tests Integration, 2, , )
+[debug] Statement (15) bindParam(:lang_code, cs, 2, , )
+[debug] Statement (15) execute().
+[debug] Statement (15) execute()
+[debug] Statement (15) fetch(2, 0, 0)
+[debug] Handler veletrhprace (8) prepare(UPDATE menu_item SET type_fk=:type_fk, title=:title, prettyuri=:prettyuri, active=:active  WHERE lang_code_fk=:lang_code_fk AND uid_fk=:uid_fk , ). Vytvořen Statement (16).
+[debug] Statement (16) bindValue(:type_fk, paper, 2)
+[debug] Statement (16) bindValue(:title, Tests Integration, 2)
+[debug] Statement (16) bindValue(:prettyuri, cs60262f3e906e4, 2)
+[debug] Statement (16) bindValue(:active, 1, 2)
+[debug] Statement (16) bindValue(:lang_code_fk, cs, 2)
+[debug] Statement (16) bindValue(:uid_fk, 60262f3e906e4, 2)
+[debug] Statement (16) execute().
+[debug] Statement (16) execute()
+[debug] Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=localhost;port=3306;dbname=veletrhprace
+[debug] Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+    
+[debug] Vytvořen database handler Handler veletrhprace (9), name veletrhprace, host localhost.
+[info] Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+    
+[debug] Handler veletrhprace (9) prepare(SELECT 
+    	nested_set.uid, nested_set.depth, nested_set.left_node, nested_set.right_node, nested_set.parent_uid,
+            menu_item.lang_code_fk, menu_item.uid_fk, menu_item.type_fk, menu_item.id, menu_item.title, menu_item.prettyuri, menu_item.active
+            FROM
+                    (SELECT
+                        node.uid, (COUNT(parent.uid) - 1) AS depth, node.left_node, node.right_node, node.parent_uid
+                    FROM
+                        hierarchy AS node
+                        CROSS JOIN
+                        hierarchy AS parent ON node.left_node BETWEEN parent.left_node AND parent.right_node
+                    GROUP BY node.uid
+                    ) AS nested_set
+                        INNER JOIN
+                    menu_item AS menu_item ON (nested_set.uid = menu_item.uid_fk) WHERE menu_item.lang_code_fk = :lang_code AND menu_item.title = :title , ). Vytvořen Statement (17).
+[debug] Statement (17) bindParam(:title, Tests Integration, 2, , )
+[debug] Statement (17) bindParam(:lang_code, cs, 2, , )
+[debug] Statement (17) execute().
+[debug] Statement (17) execute()
+[debug] Statement (17) fetch(2, 0, 0)
+[debug] Handler veletrhprace (9) prepare(SELECT lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active FROM menu_item  WHERE menu_item.lang_code_fk = :lang_code_fk AND menu_item.uid_fk=:uid_fk , ). Vytvořen Statement (18).
+[debug] Statement (18) bindValue(:lang_code_fk, cs, 2)
+[debug] Statement (18) bindValue(:uid_fk, 60262f3e906e4, 2)
+[debug] Statement (18) execute().
+[debug] Statement (18) execute()
+[debug] Statement (18) fetch(2, 0, 0)
+[debug] Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=localhost;port=3306;dbname=veletrhprace
+[debug] Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+    
+[debug] Vytvořen database handler Handler veletrhprace (10), name veletrhprace, host localhost.
+[info] Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+    
+[debug] Handler veletrhprace (10) prepare(SELECT 
+    	nested_set.uid, nested_set.depth, nested_set.left_node, nested_set.right_node, nested_set.parent_uid,
+            menu_item.lang_code_fk, menu_item.uid_fk, menu_item.type_fk, menu_item.id, menu_item.title, menu_item.prettyuri, menu_item.active
+            FROM
+                    (SELECT
+                        node.uid, (COUNT(parent.uid) - 1) AS depth, node.left_node, node.right_node, node.parent_uid
+                    FROM
+                        hierarchy AS node
+                        CROSS JOIN
+                        hierarchy AS parent ON node.left_node BETWEEN parent.left_node AND parent.right_node
+                    GROUP BY node.uid
+                    ) AS nested_set
+                        INNER JOIN
+                    menu_item AS menu_item ON (nested_set.uid = menu_item.uid_fk) WHERE menu_item.lang_code_fk = :lang_code AND menu_item.title = :title , ). Vytvořen Statement (19).
+[debug] Statement (19) bindParam(:title, Tests Integration, 2, , )
+[debug] Statement (19) bindParam(:lang_code, cs, 2, , )
+[debug] Statement (19) execute().
+[debug] Statement (19) execute()
+[debug] Statement (19) fetch(2, 0, 0)
+[debug] Handler veletrhprace (10) prepare(SELECT lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active FROM menu_item  WHERE menu_item.lang_code_fk = :lang_code_fk AND menu_item.uid_fk=:uid_fk , ). Vytvořen Statement (20).
+[debug] Statement (20) bindValue(:lang_code_fk, cs, 2)
+[debug] Statement (20) bindValue(:uid_fk, 60262f3e906e4, 2)
+[debug] Statement (20) execute().
+[debug] Statement (20) execute()
+[debug] Statement (20) fetch(2, 0, 0)
+[debug] Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=localhost;port=3306;dbname=veletrhprace
+[debug] Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+    
+[debug] Vytvořen database handler Handler veletrhprace (11), name veletrhprace, host localhost.
+[info] Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+    
+[debug] Handler veletrhprace (11) prepare(SELECT 
+    	nested_set.uid, nested_set.depth, nested_set.left_node, nested_set.right_node, nested_set.parent_uid,
+            menu_item.lang_code_fk, menu_item.uid_fk, menu_item.type_fk, menu_item.id, menu_item.title, menu_item.prettyuri, menu_item.active
+            FROM
+                    (SELECT
+                        node.uid, (COUNT(parent.uid) - 1) AS depth, node.left_node, node.right_node, node.parent_uid
+                    FROM
+                        hierarchy AS node
+                        CROSS JOIN
+                        hierarchy AS parent ON node.left_node BETWEEN parent.left_node AND parent.right_node
+                    GROUP BY node.uid
+                    ) AS nested_set
+                        INNER JOIN
+                    menu_item AS menu_item ON (nested_set.uid = menu_item.uid_fk) WHERE menu_item.lang_code_fk = :lang_code AND menu_item.title = :title , ). Vytvořen Statement (21).
+[debug] Statement (21) bindParam(:title, Tests Integration, 2, , )
+[debug] Statement (21) bindParam(:lang_code, cs, 2, , )
+[debug] Statement (21) execute().
+[debug] Statement (21) execute()
+[debug] Statement (21) fetch(2, 0, 0)
+[debug] Handler veletrhprace (11) prepare(SELECT lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active FROM menu_item  WHERE menu_item.lang_code_fk = :lang_code_fk AND menu_item.uid_fk=:uid_fk , ). Vytvořen Statement (22).
+[debug] Statement (22) bindValue(:lang_code_fk, cs, 2)
+[debug] Statement (22) bindValue(:uid_fk, 60262f3e906e4, 2)
+[debug] Statement (22) execute().
+[debug] Statement (22) execute()
+[debug] Statement (22) fetch(2, 0, 0)
+[debug] Handler veletrhprace (11) prepare(SELECT
             `paper`.`id` AS `id`,
             `paper`.`menu_item_id_fk` AS `menu_item_id_fk`,
             `paper`.`headline` AS `headline`,
+            `paper`.`perex` AS `perex`,
+            `paper`.`template` AS `template`,
             `paper`.`keywords` AS `keywords`,
             `paper`.`editor` AS `editor`,
             `paper`.`updated` AS `updated`
         FROM
             `paper`
         WHERE
-            `paper`.`menu_item_id_fk` = :menu_item_id_fk, ). Vytvořen Statement (11).
-[debug] Statement (11) bindValue(:menu_item_id_fk, 679, 2)
-[debug] Statement (11) execute().
-[debug] Statement (11) execute()
-[debug] Statement (11) fetch(2, 0, 0)
-[debug] Handler grafia_upgrade (3) prepare(SELECT
-                `paper_content`.`id` AS `id`,
-                `paper_content`.`paper_id_fk` AS `paper_id_fk`,
-                `paper_content`.`content` AS `content`,
-                `paper_content`.`active` AS `active`,
-                `paper_content`.`priority` AS `priority`,
-                `paper_content`.`show_time` AS `show_time`,
-                `paper_content`.`hide_time` AS `hide_time`,
-                `paper_content`.`event_time` AS `event_time`,
-                `paper_content`.`editor` AS `editor`,
-                `paper_content`.`updated` AS `updated`,
-                 (ISNULL(show_time) OR show_time<=CURDATE()) AND (ISNULL(hide_time) OR CURDATE()<=hide_time) AS actual
+            `paper`.`menu_item_id_fk` = :menu_item_id_fk, ). Vytvořen Statement (23).
+[debug] Statement (23) bindValue(:menu_item_id_fk, 19, 2)
+[debug] Statement (23) execute().
+[debug] Statement (23) execute()
+[debug] Statement (23) fetch(2, 0, 0)
+[debug] Handler veletrhprace (11) prepare(SELECT
+                    `paper_content`.`id` AS `id`,
+                    `paper_content`.`paper_id_fk` AS `paper_id_fk`,
+                    `paper_content`.`content` AS `content`,
+                    `paper_content`.`template` AS `template`,
+                    `paper_content`.`active` AS `active`,
+                    `paper_content`.`priority` AS `priority`,
+                    `paper_content`.`show_time` AS `show_time`,
+                    `paper_content`.`hide_time` AS `hide_time`,
+                    `paper_content`.`event_time` AS `event_time`,
+                    `paper_content`.`editor` AS `editor`,
+                    `paper_content`.`updated` AS `updated`,
+                     (ISNULL(show_time) OR show_time<=CURDATE()) AND (ISNULL(hide_time) OR CURDATE()<=hide_time) AS actual
+                FROM
+                    `paper_content` WHERE `paper_content`.`paper_id_fk` = :paper_id_fk , ). Vytvořen Statement (24).
+[debug] Statement (24) bindValue(:paper_id_fk, 3, 2)
+[debug] Statement (24) execute().
+[debug] Statement (24) execute()
+[debug] Statement (24) fetchAll(2)
+[debug] Result má 12 prvků.
+[debug] Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=localhost;port=3306;dbname=veletrhprace
+[debug] Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+    
+[debug] Vytvořen database handler Handler veletrhprace (12), name veletrhprace, host localhost.
+[info] Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+    
+[debug] Handler veletrhprace (12) prepare(SELECT 
+    	nested_set.uid, nested_set.depth, nested_set.left_node, nested_set.right_node, nested_set.parent_uid,
+            menu_item.lang_code_fk, menu_item.uid_fk, menu_item.type_fk, menu_item.id, menu_item.title, menu_item.prettyuri, menu_item.active
             FROM
-                `paper_content`
-            WHERE `paper_content`.`paper_id_fk` = :paper_id_fk, ). Vytvořen Statement (12).
-[debug] Statement (12) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (12) execute().
-[debug] Statement (12) execute()
-[debug] Statement (12) fetchAll(2)
-[debug] Result má 15 prvků.
-[debug] Handler grafia_upgrade (3) prepare(UPDATE paper_content SET paper_id_fk = :paper_id_fk, content = :content, active = :active, priority = :priority, show_time = :show_time, hide_time = :hide_time, editor = :editor
-                    WHERE  id = :id, ). Vytvořen Statement (13).
-[debug] Statement (13) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (13) bindValue(:content, --%a0%--, 2)
-[debug] Statement (13) bindValue(:active, 1, 2)
-[debug] Statement (13) bindValue(:priority, 1, 2)
-[debug] Statement (13) bindValue(:show_time, , 1)
-[debug] Statement (13) bindValue(:hide_time, , 1)
-[debug] Statement (13) bindValue(:editor, kasl2405, 2)
-[debug] Statement (13) bindValue(:id, 664, 2)
-[debug] Statement (13) execute().
-[debug] Statement (13) execute()
-[debug] Statement (13) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (13) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (13) bindValue(:active, 0, 2)
-[debug] Statement (13) bindValue(:priority, 1, 2)
-[debug] Statement (13) bindValue(:show_time, , 1)
-[debug] Statement (13) bindValue(:hide_time, , 1)
-[debug] Statement (13) bindValue(:editor, , 1)
-[debug] Statement (13) bindValue(:id, 676, 2)
-[debug] Statement (13) execute().
-[debug] Statement (13) execute()
-[debug] Statement (13) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (13) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (13) bindValue(:active, 0, 2)
-[debug] Statement (13) bindValue(:priority, 1, 2)
-[debug] Statement (13) bindValue(:show_time, , 1)
-[debug] Statement (13) bindValue(:hide_time, , 1)
-[debug] Statement (13) bindValue(:editor, , 1)
-[debug] Statement (13) bindValue(:id, 677, 2)
-[debug] Statement (13) execute().
-[debug] Statement (13) execute()
-[debug] Statement (13) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (13) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (13) bindValue(:active, 0, 2)
-[debug] Statement (13) bindValue(:priority, 1, 2)
-[debug] Statement (13) bindValue(:show_time, , 1)
-[debug] Statement (13) bindValue(:hide_time, , 1)
-[debug] Statement (13) bindValue(:editor, , 1)
-[debug] Statement (13) bindValue(:id, 678, 2)
-[debug] Statement (13) execute().
-[debug] Statement (13) execute()
-[debug] Statement (13) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (13) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (13) bindValue(:active, 0, 2)
-[debug] Statement (13) bindValue(:priority, 1, 2)
-[debug] Statement (13) bindValue(:show_time, , 1)
-[debug] Statement (13) bindValue(:hide_time, , 1)
-[debug] Statement (13) bindValue(:editor, , 1)
-[debug] Statement (13) bindValue(:id, 679, 2)
-[debug] Statement (13) execute().
-[debug] Statement (13) execute()
-[debug] Statement (13) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (13) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (13) bindValue(:active, 0, 2)
-[debug] Statement (13) bindValue(:priority, 1, 2)
-[debug] Statement (13) bindValue(:show_time, , 1)
-[debug] Statement (13) bindValue(:hide_time, , 1)
-[debug] Statement (13) bindValue(:editor, , 1)
-[debug] Statement (13) bindValue(:id, 680, 2)
-[debug] Statement (13) execute().
-[debug] Statement (13) execute()
-[debug] Statement (13) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (13) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (13) bindValue(:active, 0, 2)
-[debug] Statement (13) bindValue(:priority, 1, 2)
-[debug] Statement (13) bindValue(:show_time, , 1)
-[debug] Statement (13) bindValue(:hide_time, , 1)
-[debug] Statement (13) bindValue(:editor, , 1)
-[debug] Statement (13) bindValue(:id, 681, 2)
-[debug] Statement (13) execute().
-[debug] Statement (13) execute()
-[debug] Statement (13) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (13) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (13) bindValue(:active, 0, 2)
-[debug] Statement (13) bindValue(:priority, 1, 2)
-[debug] Statement (13) bindValue(:show_time, , 1)
-[debug] Statement (13) bindValue(:hide_time, , 1)
-[debug] Statement (13) bindValue(:editor, , 1)
-[debug] Statement (13) bindValue(:id, 682, 2)
-[debug] Statement (13) execute().
-[debug] Statement (13) execute()
-[debug] Statement (13) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (13) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (13) bindValue(:active, 0, 2)
-[debug] Statement (13) bindValue(:priority, 1, 2)
-[debug] Statement (13) bindValue(:show_time, , 1)
-[debug] Statement (13) bindValue(:hide_time, , 1)
-[debug] Statement (13) bindValue(:editor, , 1)
-[debug] Statement (13) bindValue(:id, 683, 2)
-[debug] Statement (13) execute().
-[debug] Statement (13) execute()
-[debug] Statement (13) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (13) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (13) bindValue(:active, 0, 2)
-[debug] Statement (13) bindValue(:priority, 1, 2)
-[debug] Statement (13) bindValue(:show_time, , 1)
-[debug] Statement (13) bindValue(:hide_time, , 1)
-[debug] Statement (13) bindValue(:editor, , 1)
-[debug] Statement (13) bindValue(:id, 684, 2)
-[debug] Statement (13) execute().
-[debug] Statement (13) execute()
-[debug] Statement (13) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (13) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (13) bindValue(:active, 0, 2)
-[debug] Statement (13) bindValue(:priority, 1, 2)
-[debug] Statement (13) bindValue(:show_time, , 1)
-[debug] Statement (13) bindValue(:hide_time, , 1)
-[debug] Statement (13) bindValue(:editor, , 1)
-[debug] Statement (13) bindValue(:id, 685, 2)
-[debug] Statement (13) execute().
-[debug] Statement (13) execute()
-[debug] Statement (13) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (13) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (13) bindValue(:active, 0, 2)
-[debug] Statement (13) bindValue(:priority, 1, 2)
-[debug] Statement (13) bindValue(:show_time, , 1)
-[debug] Statement (13) bindValue(:hide_time, , 1)
-[debug] Statement (13) bindValue(:editor, , 1)
-[debug] Statement (13) bindValue(:id, 686, 2)
-[debug] Statement (13) execute().
-[debug] Statement (13) execute()
-[debug] Statement (13) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (13) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (13) bindValue(:active, 0, 2)
-[debug] Statement (13) bindValue(:priority, 1, 2)
-[debug] Statement (13) bindValue(:show_time, , 1)
-[debug] Statement (13) bindValue(:hide_time, , 1)
-[debug] Statement (13) bindValue(:editor, , 1)
-[debug] Statement (13) bindValue(:id, 687, 2)
-[debug] Statement (13) execute().
-[debug] Statement (13) execute()
-[debug] Statement (13) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (13) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (13) bindValue(:active, 0, 2)
-[debug] Statement (13) bindValue(:priority, 1, 2)
-[debug] Statement (13) bindValue(:show_time, , 1)
-[debug] Statement (13) bindValue(:hide_time, , 1)
-[debug] Statement (13) bindValue(:editor, , 1)
-[debug] Statement (13) bindValue(:id, 688, 2)
-[debug] Statement (13) execute().
-[debug] Statement (13) execute()
-[debug] Statement (13) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (13) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (13) bindValue(:active, 0, 2)
-[debug] Statement (13) bindValue(:priority, 1, 2)
-[debug] Statement (13) bindValue(:show_time, , 1)
-[debug] Statement (13) bindValue(:hide_time, , 1)
-[debug] Statement (13) bindValue(:editor, , 1)
-[debug] Statement (13) bindValue(:id, 689, 2)
-[debug] Statement (13) execute().
-[debug] Statement (13) execute()
-[debug] Handler grafia_upgrade (3) prepare(INSERT INTO paper_content (paper_id_fk, content) VALUES (:paper_id_fk, :content), ). Vytvořen Statement (14).
-[debug] Statement (14) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (14) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (14) execute().
-[debug] Statement (14) execute()
-[debug] Statement (14) bindValue(:lang_code_fk, cs, 2)
-[debug] Statement (14) bindValue(:uid_fk, 5eea26a1dfa66, 2)
-[debug] Statement (14) execute().
-[debug] Statement (14) execute()
-[debug] Statement (14) fetch(2, 0, 0)
-[debug] Statement (14) bindValue(:menu_item_id_fk, 679, 2)
-[debug] Statement (14) execute().
-[debug] Statement (14) execute()
-[debug] Statement (14) fetch(2, 0, 0)
-[debug] Handler grafia_upgrade (3) prepare(UPDATE paper_content SET paper_id_fk = :paper_id_fk, content = :content, active = :active, priority = :priority, show_time = :show_time, hide_time = :hide_time, editor = :editor
-                    WHERE  id = :id, ). Vytvořen Statement (15).
-[debug] Statement (15) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (15) bindValue(:content, --%a0%--, 2)
-[debug] Statement (15) bindValue(:active, 1, 2)
-[debug] Statement (15) bindValue(:priority, 1, 2)
-[debug] Statement (15) bindValue(:show_time, , 1)
-[debug] Statement (15) bindValue(:hide_time, , 1)
-[debug] Statement (15) bindValue(:editor, kasl2405, 2)
-[debug] Statement (15) bindValue(:id, 664, 2)
-[debug] Statement (15) execute().
-[debug] Statement (15) execute()
-[debug] Statement (15) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (15) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (15) bindValue(:active, 0, 2)
-[debug] Statement (15) bindValue(:priority, 1, 2)
-[debug] Statement (15) bindValue(:show_time, , 1)
-[debug] Statement (15) bindValue(:hide_time, , 1)
-[debug] Statement (15) bindValue(:editor, , 1)
-[debug] Statement (15) bindValue(:id, 676, 2)
-[debug] Statement (15) execute().
-[debug] Statement (15) execute()
-[debug] Statement (15) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (15) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (15) bindValue(:active, 0, 2)
-[debug] Statement (15) bindValue(:priority, 1, 2)
-[debug] Statement (15) bindValue(:show_time, , 1)
-[debug] Statement (15) bindValue(:hide_time, , 1)
-[debug] Statement (15) bindValue(:editor, , 1)
-[debug] Statement (15) bindValue(:id, 677, 2)
-[debug] Statement (15) execute().
-[debug] Statement (15) execute()
-[debug] Statement (15) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (15) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (15) bindValue(:active, 0, 2)
-[debug] Statement (15) bindValue(:priority, 1, 2)
-[debug] Statement (15) bindValue(:show_time, , 1)
-[debug] Statement (15) bindValue(:hide_time, , 1)
-[debug] Statement (15) bindValue(:editor, , 1)
-[debug] Statement (15) bindValue(:id, 678, 2)
-[debug] Statement (15) execute().
-[debug] Statement (15) execute()
-[debug] Statement (15) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (15) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (15) bindValue(:active, 0, 2)
-[debug] Statement (15) bindValue(:priority, 1, 2)
-[debug] Statement (15) bindValue(:show_time, , 1)
-[debug] Statement (15) bindValue(:hide_time, , 1)
-[debug] Statement (15) bindValue(:editor, , 1)
-[debug] Statement (15) bindValue(:id, 679, 2)
-[debug] Statement (15) execute().
-[debug] Statement (15) execute()
-[debug] Statement (15) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (15) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (15) bindValue(:active, 0, 2)
-[debug] Statement (15) bindValue(:priority, 1, 2)
-[debug] Statement (15) bindValue(:show_time, , 1)
-[debug] Statement (15) bindValue(:hide_time, , 1)
-[debug] Statement (15) bindValue(:editor, , 1)
-[debug] Statement (15) bindValue(:id, 680, 2)
-[debug] Statement (15) execute().
-[debug] Statement (15) execute()
-[debug] Statement (15) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (15) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (15) bindValue(:active, 0, 2)
-[debug] Statement (15) bindValue(:priority, 1, 2)
-[debug] Statement (15) bindValue(:show_time, , 1)
-[debug] Statement (15) bindValue(:hide_time, , 1)
-[debug] Statement (15) bindValue(:editor, , 1)
-[debug] Statement (15) bindValue(:id, 681, 2)
-[debug] Statement (15) execute().
-[debug] Statement (15) execute()
-[debug] Statement (15) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (15) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (15) bindValue(:active, 0, 2)
-[debug] Statement (15) bindValue(:priority, 1, 2)
-[debug] Statement (15) bindValue(:show_time, , 1)
-[debug] Statement (15) bindValue(:hide_time, , 1)
-[debug] Statement (15) bindValue(:editor, , 1)
-[debug] Statement (15) bindValue(:id, 682, 2)
-[debug] Statement (15) execute().
-[debug] Statement (15) execute()
-[debug] Statement (15) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (15) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (15) bindValue(:active, 0, 2)
-[debug] Statement (15) bindValue(:priority, 1, 2)
-[debug] Statement (15) bindValue(:show_time, , 1)
-[debug] Statement (15) bindValue(:hide_time, , 1)
-[debug] Statement (15) bindValue(:editor, , 1)
-[debug] Statement (15) bindValue(:id, 683, 2)
-[debug] Statement (15) execute().
-[debug] Statement (15) execute()
-[debug] Statement (15) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (15) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (15) bindValue(:active, 0, 2)
-[debug] Statement (15) bindValue(:priority, 1, 2)
-[debug] Statement (15) bindValue(:show_time, , 1)
-[debug] Statement (15) bindValue(:hide_time, , 1)
-[debug] Statement (15) bindValue(:editor, , 1)
-[debug] Statement (15) bindValue(:id, 684, 2)
-[debug] Statement (15) execute().
-[debug] Statement (15) execute()
-[debug] Statement (15) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (15) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (15) bindValue(:active, 0, 2)
-[debug] Statement (15) bindValue(:priority, 1, 2)
-[debug] Statement (15) bindValue(:show_time, , 1)
-[debug] Statement (15) bindValue(:hide_time, , 1)
-[debug] Statement (15) bindValue(:editor, , 1)
-[debug] Statement (15) bindValue(:id, 685, 2)
-[debug] Statement (15) execute().
-[debug] Statement (15) execute()
-[debug] Statement (15) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (15) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (15) bindValue(:active, 0, 2)
-[debug] Statement (15) bindValue(:priority, 1, 2)
-[debug] Statement (15) bindValue(:show_time, , 1)
-[debug] Statement (15) bindValue(:hide_time, , 1)
-[debug] Statement (15) bindValue(:editor, , 1)
-[debug] Statement (15) bindValue(:id, 686, 2)
-[debug] Statement (15) execute().
-[debug] Statement (15) execute()
-[debug] Statement (15) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (15) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (15) bindValue(:active, 0, 2)
-[debug] Statement (15) bindValue(:priority, 1, 2)
-[debug] Statement (15) bindValue(:show_time, , 1)
-[debug] Statement (15) bindValue(:hide_time, , 1)
-[debug] Statement (15) bindValue(:editor, , 1)
-[debug] Statement (15) bindValue(:id, 687, 2)
-[debug] Statement (15) execute().
-[debug] Statement (15) execute()
-[debug] Statement (15) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (15) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (15) bindValue(:active, 0, 2)
-[debug] Statement (15) bindValue(:priority, 1, 2)
-[debug] Statement (15) bindValue(:show_time, , 1)
-[debug] Statement (15) bindValue(:hide_time, , 1)
-[debug] Statement (15) bindValue(:editor, , 1)
-[debug] Statement (15) bindValue(:id, 688, 2)
-[debug] Statement (15) execute().
-[debug] Statement (15) execute()
-[debug] Statement (15) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (15) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (15) bindValue(:active, 0, 2)
-[debug] Statement (15) bindValue(:priority, 1, 2)
-[debug] Statement (15) bindValue(:show_time, , 1)
-[debug] Statement (15) bindValue(:hide_time, , 1)
-[debug] Statement (15) bindValue(:editor, , 1)
-[debug] Statement (15) bindValue(:id, 689, 2)
-[debug] Statement (15) execute().
-[debug] Statement (15) execute()
-[debug] Handler grafia_upgrade (3) prepare(UPDATE paper_content SET paper_id_fk = :paper_id_fk, content = :content, active = :active, priority = :priority, show_time = :show_time, hide_time = :hide_time, editor = :editor
-                    WHERE  id = :id, ). Vytvořen Statement (16).
-[debug] Statement (16) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (16) bindValue(:content, --%a0%--, 2)
-[debug] Statement (16) bindValue(:active, 1, 2)
-[debug] Statement (16) bindValue(:priority, 1, 2)
-[debug] Statement (16) bindValue(:show_time, , 1)
-[debug] Statement (16) bindValue(:hide_time, , 1)
-[debug] Statement (16) bindValue(:editor, kasl2405, 2)
-[debug] Statement (16) bindValue(:id, 664, 2)
-[debug] Statement (16) execute().
-[debug] Statement (16) execute()
-[debug] Statement (16) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (16) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (16) bindValue(:active, 0, 2)
-[debug] Statement (16) bindValue(:priority, 1, 2)
-[debug] Statement (16) bindValue(:show_time, , 1)
-[debug] Statement (16) bindValue(:hide_time, , 1)
-[debug] Statement (16) bindValue(:editor, , 1)
-[debug] Statement (16) bindValue(:id, 676, 2)
-[debug] Statement (16) execute().
-[debug] Statement (16) execute()
-[debug] Statement (16) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (16) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (16) bindValue(:active, 0, 2)
-[debug] Statement (16) bindValue(:priority, 1, 2)
-[debug] Statement (16) bindValue(:show_time, , 1)
-[debug] Statement (16) bindValue(:hide_time, , 1)
-[debug] Statement (16) bindValue(:editor, , 1)
-[debug] Statement (16) bindValue(:id, 677, 2)
-[debug] Statement (16) execute().
-[debug] Statement (16) execute()
-[debug] Statement (16) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (16) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (16) bindValue(:active, 0, 2)
-[debug] Statement (16) bindValue(:priority, 1, 2)
-[debug] Statement (16) bindValue(:show_time, , 1)
-[debug] Statement (16) bindValue(:hide_time, , 1)
-[debug] Statement (16) bindValue(:editor, , 1)
-[debug] Statement (16) bindValue(:id, 678, 2)
-[debug] Statement (16) execute().
-[debug] Statement (16) execute()
-[debug] Statement (16) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (16) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (16) bindValue(:active, 0, 2)
-[debug] Statement (16) bindValue(:priority, 1, 2)
-[debug] Statement (16) bindValue(:show_time, , 1)
-[debug] Statement (16) bindValue(:hide_time, , 1)
-[debug] Statement (16) bindValue(:editor, , 1)
-[debug] Statement (16) bindValue(:id, 679, 2)
-[debug] Statement (16) execute().
-[debug] Statement (16) execute()
-[debug] Statement (16) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (16) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (16) bindValue(:active, 0, 2)
-[debug] Statement (16) bindValue(:priority, 1, 2)
-[debug] Statement (16) bindValue(:show_time, , 1)
-[debug] Statement (16) bindValue(:hide_time, , 1)
-[debug] Statement (16) bindValue(:editor, , 1)
-[debug] Statement (16) bindValue(:id, 680, 2)
-[debug] Statement (16) execute().
-[debug] Statement (16) execute()
-[debug] Statement (16) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (16) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (16) bindValue(:active, 0, 2)
-[debug] Statement (16) bindValue(:priority, 1, 2)
-[debug] Statement (16) bindValue(:show_time, , 1)
-[debug] Statement (16) bindValue(:hide_time, , 1)
-[debug] Statement (16) bindValue(:editor, , 1)
-[debug] Statement (16) bindValue(:id, 681, 2)
-[debug] Statement (16) execute().
-[debug] Statement (16) execute()
-[debug] Statement (16) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (16) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (16) bindValue(:active, 0, 2)
-[debug] Statement (16) bindValue(:priority, 1, 2)
-[debug] Statement (16) bindValue(:show_time, , 1)
-[debug] Statement (16) bindValue(:hide_time, , 1)
-[debug] Statement (16) bindValue(:editor, , 1)
-[debug] Statement (16) bindValue(:id, 682, 2)
-[debug] Statement (16) execute().
-[debug] Statement (16) execute()
-[debug] Statement (16) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (16) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (16) bindValue(:active, 0, 2)
-[debug] Statement (16) bindValue(:priority, 1, 2)
-[debug] Statement (16) bindValue(:show_time, , 1)
-[debug] Statement (16) bindValue(:hide_time, , 1)
-[debug] Statement (16) bindValue(:editor, , 1)
-[debug] Statement (16) bindValue(:id, 683, 2)
-[debug] Statement (16) execute().
-[debug] Statement (16) execute()
-[debug] Statement (16) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (16) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (16) bindValue(:active, 0, 2)
-[debug] Statement (16) bindValue(:priority, 1, 2)
-[debug] Statement (16) bindValue(:show_time, , 1)
-[debug] Statement (16) bindValue(:hide_time, , 1)
-[debug] Statement (16) bindValue(:editor, , 1)
-[debug] Statement (16) bindValue(:id, 684, 2)
-[debug] Statement (16) execute().
-[debug] Statement (16) execute()
-[debug] Statement (16) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (16) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (16) bindValue(:active, 0, 2)
-[debug] Statement (16) bindValue(:priority, 1, 2)
-[debug] Statement (16) bindValue(:show_time, , 1)
-[debug] Statement (16) bindValue(:hide_time, , 1)
-[debug] Statement (16) bindValue(:editor, , 1)
-[debug] Statement (16) bindValue(:id, 685, 2)
-[debug] Statement (16) execute().
-[debug] Statement (16) execute()
-[debug] Statement (16) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (16) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (16) bindValue(:active, 0, 2)
-[debug] Statement (16) bindValue(:priority, 1, 2)
-[debug] Statement (16) bindValue(:show_time, , 1)
-[debug] Statement (16) bindValue(:hide_time, , 1)
-[debug] Statement (16) bindValue(:editor, , 1)
-[debug] Statement (16) bindValue(:id, 686, 2)
-[debug] Statement (16) execute().
-[debug] Statement (16) execute()
-[debug] Statement (16) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (16) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (16) bindValue(:active, 0, 2)
-[debug] Statement (16) bindValue(:priority, 1, 2)
-[debug] Statement (16) bindValue(:show_time, , 1)
-[debug] Statement (16) bindValue(:hide_time, , 1)
-[debug] Statement (16) bindValue(:editor, , 1)
-[debug] Statement (16) bindValue(:id, 687, 2)
-[debug] Statement (16) execute().
-[debug] Statement (16) execute()
-[debug] Statement (16) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (16) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (16) bindValue(:active, 0, 2)
-[debug] Statement (16) bindValue(:priority, 1, 2)
-[debug] Statement (16) bindValue(:show_time, , 1)
-[debug] Statement (16) bindValue(:hide_time, , 1)
-[debug] Statement (16) bindValue(:editor, , 1)
-[debug] Statement (16) bindValue(:id, 688, 2)
-[debug] Statement (16) execute().
-[debug] Statement (16) execute()
-[debug] Statement (16) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (16) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (16) bindValue(:active, 0, 2)
-[debug] Statement (16) bindValue(:priority, 1, 2)
-[debug] Statement (16) bindValue(:show_time, , 1)
-[debug] Statement (16) bindValue(:hide_time, , 1)
-[debug] Statement (16) bindValue(:editor, , 1)
-[debug] Statement (16) bindValue(:id, 689, 2)
-[debug] Statement (16) execute().
-[debug] Statement (16) execute()
-[debug] Statement (16) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (16) bindValue(:content, --%a0%--, 2)
-[debug] Statement (16) bindValue(:active, 1, 2)
-[debug] Statement (16) bindValue(:priority, 1, 2)
-[debug] Statement (16) bindValue(:show_time, , 1)
-[debug] Statement (16) bindValue(:hide_time, , 1)
-[debug] Statement (16) bindValue(:editor, kasl2405, 2)
-[debug] Statement (16) bindValue(:id, 664, 2)
-[debug] Statement (16) execute().
-[debug] Statement (16) execute()
-[debug] Statement (16) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (16) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (16) bindValue(:active, 0, 2)
-[debug] Statement (16) bindValue(:priority, 1, 2)
-[debug] Statement (16) bindValue(:show_time, , 1)
-[debug] Statement (16) bindValue(:hide_time, , 1)
-[debug] Statement (16) bindValue(:editor, , 1)
-[debug] Statement (16) bindValue(:id, 676, 2)
-[debug] Statement (16) execute().
-[debug] Statement (16) execute()
-[debug] Statement (16) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (16) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (16) bindValue(:active, 0, 2)
-[debug] Statement (16) bindValue(:priority, 1, 2)
-[debug] Statement (16) bindValue(:show_time, , 1)
-[debug] Statement (16) bindValue(:hide_time, , 1)
-[debug] Statement (16) bindValue(:editor, , 1)
-[debug] Statement (16) bindValue(:id, 677, 2)
-[debug] Statement (16) execute().
-[debug] Statement (16) execute()
-[debug] Statement (16) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (16) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (16) bindValue(:active, 0, 2)
-[debug] Statement (16) bindValue(:priority, 1, 2)
-[debug] Statement (16) bindValue(:show_time, , 1)
-[debug] Statement (16) bindValue(:hide_time, , 1)
-[debug] Statement (16) bindValue(:editor, , 1)
-[debug] Statement (16) bindValue(:id, 678, 2)
-[debug] Statement (16) execute().
-[debug] Statement (16) execute()
-[debug] Statement (16) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (16) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (16) bindValue(:active, 0, 2)
-[debug] Statement (16) bindValue(:priority, 1, 2)
-[debug] Statement (16) bindValue(:show_time, , 1)
-[debug] Statement (16) bindValue(:hide_time, , 1)
-[debug] Statement (16) bindValue(:editor, , 1)
-[debug] Statement (16) bindValue(:id, 679, 2)
-[debug] Statement (16) execute().
-[debug] Statement (16) execute()
-[debug] Statement (16) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (16) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (16) bindValue(:active, 0, 2)
-[debug] Statement (16) bindValue(:priority, 1, 2)
-[debug] Statement (16) bindValue(:show_time, , 1)
-[debug] Statement (16) bindValue(:hide_time, , 1)
-[debug] Statement (16) bindValue(:editor, , 1)
-[debug] Statement (16) bindValue(:id, 680, 2)
-[debug] Statement (16) execute().
-[debug] Statement (16) execute()
-[debug] Statement (16) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (16) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (16) bindValue(:active, 0, 2)
-[debug] Statement (16) bindValue(:priority, 1, 2)
-[debug] Statement (16) bindValue(:show_time, , 1)
-[debug] Statement (16) bindValue(:hide_time, , 1)
-[debug] Statement (16) bindValue(:editor, , 1)
-[debug] Statement (16) bindValue(:id, 681, 2)
-[debug] Statement (16) execute().
-[debug] Statement (16) execute()
-[debug] Statement (16) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (16) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (16) bindValue(:active, 0, 2)
-[debug] Statement (16) bindValue(:priority, 1, 2)
-[debug] Statement (16) bindValue(:show_time, , 1)
-[debug] Statement (16) bindValue(:hide_time, , 1)
-[debug] Statement (16) bindValue(:editor, , 1)
-[debug] Statement (16) bindValue(:id, 682, 2)
-[debug] Statement (16) execute().
-[debug] Statement (16) execute()
-[debug] Statement (16) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (16) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (16) bindValue(:active, 0, 2)
-[debug] Statement (16) bindValue(:priority, 1, 2)
-[debug] Statement (16) bindValue(:show_time, , 1)
-[debug] Statement (16) bindValue(:hide_time, , 1)
-[debug] Statement (16) bindValue(:editor, , 1)
-[debug] Statement (16) bindValue(:id, 683, 2)
-[debug] Statement (16) execute().
-[debug] Statement (16) execute()
-[debug] Statement (16) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (16) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (16) bindValue(:active, 0, 2)
-[debug] Statement (16) bindValue(:priority, 1, 2)
-[debug] Statement (16) bindValue(:show_time, , 1)
-[debug] Statement (16) bindValue(:hide_time, , 1)
-[debug] Statement (16) bindValue(:editor, , 1)
-[debug] Statement (16) bindValue(:id, 684, 2)
-[debug] Statement (16) execute().
-[debug] Statement (16) execute()
-[debug] Statement (16) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (16) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (16) bindValue(:active, 0, 2)
-[debug] Statement (16) bindValue(:priority, 1, 2)
-[debug] Statement (16) bindValue(:show_time, , 1)
-[debug] Statement (16) bindValue(:hide_time, , 1)
-[debug] Statement (16) bindValue(:editor, , 1)
-[debug] Statement (16) bindValue(:id, 685, 2)
-[debug] Statement (16) execute().
-[debug] Statement (16) execute()
-[debug] Statement (16) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (16) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (16) bindValue(:active, 0, 2)
-[debug] Statement (16) bindValue(:priority, 1, 2)
-[debug] Statement (16) bindValue(:show_time, , 1)
-[debug] Statement (16) bindValue(:hide_time, , 1)
-[debug] Statement (16) bindValue(:editor, , 1)
-[debug] Statement (16) bindValue(:id, 686, 2)
-[debug] Statement (16) execute().
-[debug] Statement (16) execute()
-[debug] Statement (16) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (16) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (16) bindValue(:active, 0, 2)
-[debug] Statement (16) bindValue(:priority, 1, 2)
-[debug] Statement (16) bindValue(:show_time, , 1)
-[debug] Statement (16) bindValue(:hide_time, , 1)
-[debug] Statement (16) bindValue(:editor, , 1)
-[debug] Statement (16) bindValue(:id, 687, 2)
-[debug] Statement (16) execute().
-[debug] Statement (16) execute()
-[debug] Statement (16) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (16) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (16) bindValue(:active, 0, 2)
-[debug] Statement (16) bindValue(:priority, 1, 2)
-[debug] Statement (16) bindValue(:show_time, , 1)
-[debug] Statement (16) bindValue(:hide_time, , 1)
-[debug] Statement (16) bindValue(:editor, , 1)
-[debug] Statement (16) bindValue(:id, 688, 2)
-[debug] Statement (16) execute().
-[debug] Statement (16) execute()
-[debug] Statement (16) bindValue(:paper_id_fk, 664, 2)
-[debug] Statement (16) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (16) bindValue(:active, 0, 2)
-[debug] Statement (16) bindValue(:priority, 1, 2)
-[debug] Statement (16) bindValue(:show_time, , 1)
-[debug] Statement (16) bindValue(:hide_time, , 1)
-[debug] Statement (16) bindValue(:editor, , 1)
-[debug] Statement (16) bindValue(:id, 689, 2)
-[debug] Statement (16) execute().
-[debug] Statement (16) execute()
+                    (SELECT
+                        node.uid, (COUNT(parent.uid) - 1) AS depth, node.left_node, node.right_node, node.parent_uid
+                    FROM
+                        hierarchy AS node
+                        CROSS JOIN
+                        hierarchy AS parent ON node.left_node BETWEEN parent.left_node AND parent.right_node
+                    GROUP BY node.uid
+                    ) AS nested_set
+                        INNER JOIN
+                    menu_item AS menu_item ON (nested_set.uid = menu_item.uid_fk) WHERE menu_item.lang_code_fk = :lang_code AND menu_item.title = :title , ). Vytvořen Statement (25).
+[debug] Statement (25) bindParam(:title, Tests Integration, 2, , )
+[debug] Statement (25) bindParam(:lang_code, cs, 2, , )
+[debug] Statement (25) execute().
+[debug] Statement (25) execute()
+[debug] Statement (25) fetch(2, 0, 0)
+[debug] Handler veletrhprace (12) prepare(SELECT lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active FROM menu_item  WHERE menu_item.lang_code_fk = :lang_code_fk AND menu_item.uid_fk=:uid_fk , ). Vytvořen Statement (26).
+[debug] Statement (26) bindValue(:lang_code_fk, cs, 2)
+[debug] Statement (26) bindValue(:uid_fk, 60262f3e906e4, 2)
+[debug] Statement (26) execute().
+[debug] Statement (26) execute()
+[debug] Statement (26) fetch(2, 0, 0)
+[debug] Handler veletrhprace (12) prepare(SELECT
+            `paper`.`id` AS `id`,
+            `paper`.`menu_item_id_fk` AS `menu_item_id_fk`,
+            `paper`.`headline` AS `headline`,
+            `paper`.`perex` AS `perex`,
+            `paper`.`template` AS `template`,
+            `paper`.`keywords` AS `keywords`,
+            `paper`.`editor` AS `editor`,
+            `paper`.`updated` AS `updated`
+        FROM
+            `paper`
+        WHERE
+            `paper`.`menu_item_id_fk` = :menu_item_id_fk, ). Vytvořen Statement (27).
+[debug] Statement (27) bindValue(:menu_item_id_fk, 19, 2)
+[debug] Statement (27) execute().
+[debug] Statement (27) execute()
+[debug] Statement (27) fetch(2, 0, 0)
+[debug] Handler veletrhprace (12) prepare(SELECT
+                    `paper_content`.`id` AS `id`,
+                    `paper_content`.`paper_id_fk` AS `paper_id_fk`,
+                    `paper_content`.`content` AS `content`,
+                    `paper_content`.`template` AS `template`,
+                    `paper_content`.`active` AS `active`,
+                    `paper_content`.`priority` AS `priority`,
+                    `paper_content`.`show_time` AS `show_time`,
+                    `paper_content`.`hide_time` AS `hide_time`,
+                    `paper_content`.`event_time` AS `event_time`,
+                    `paper_content`.`editor` AS `editor`,
+                    `paper_content`.`updated` AS `updated`,
+                     (ISNULL(show_time) OR show_time<=CURDATE()) AND (ISNULL(hide_time) OR CURDATE()<=hide_time) AS actual
+                FROM
+                    `paper_content` WHERE `paper_content`.`paper_id_fk` = :paper_id_fk , ). Vytvořen Statement (28).
+[debug] Statement (28) bindValue(:paper_id_fk, 3, 2)
+[debug] Statement (28) execute().
+[debug] Statement (28) execute()
+[debug] Statement (28) fetchAll(2)
+[debug] Result má 12 prvků.
+[debug] Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=localhost;port=3306;dbname=veletrhprace
+[debug] Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+    
+[debug] Vytvořen database handler Handler veletrhprace (13), name veletrhprace, host localhost.
+[info] Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+    
+[debug] Handler veletrhprace (13) prepare(SELECT 
+    	nested_set.uid, nested_set.depth, nested_set.left_node, nested_set.right_node, nested_set.parent_uid,
+            menu_item.lang_code_fk, menu_item.uid_fk, menu_item.type_fk, menu_item.id, menu_item.title, menu_item.prettyuri, menu_item.active
+            FROM
+                    (SELECT
+                        node.uid, (COUNT(parent.uid) - 1) AS depth, node.left_node, node.right_node, node.parent_uid
+                    FROM
+                        hierarchy AS node
+                        CROSS JOIN
+                        hierarchy AS parent ON node.left_node BETWEEN parent.left_node AND parent.right_node
+                    GROUP BY node.uid
+                    ) AS nested_set
+                        INNER JOIN
+                    menu_item AS menu_item ON (nested_set.uid = menu_item.uid_fk) WHERE menu_item.lang_code_fk = :lang_code AND menu_item.title = :title , ). Vytvořen Statement (29).
+[debug] Statement (29) bindParam(:title, Tests Integration, 2, , )
+[debug] Statement (29) bindParam(:lang_code, cs, 2, , )
+[debug] Statement (29) execute().
+[debug] Statement (29) execute()
+[debug] Statement (29) fetch(2, 0, 0)
+[debug] Handler veletrhprace (13) prepare(SELECT lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active FROM menu_item  WHERE menu_item.lang_code_fk = :lang_code_fk AND menu_item.uid_fk=:uid_fk , ). Vytvořen Statement (30).
+[debug] Statement (30) bindValue(:lang_code_fk, cs, 2)
+[debug] Statement (30) bindValue(:uid_fk, 60262f3e906e4, 2)
+[debug] Statement (30) execute().
+[debug] Statement (30) execute()
+[debug] Statement (30) fetch(2, 0, 0)
+[debug] Handler veletrhprace (13) prepare(SELECT
+            `paper`.`id` AS `id`,
+            `paper`.`menu_item_id_fk` AS `menu_item_id_fk`,
+            `paper`.`headline` AS `headline`,
+            `paper`.`perex` AS `perex`,
+            `paper`.`template` AS `template`,
+            `paper`.`keywords` AS `keywords`,
+            `paper`.`editor` AS `editor`,
+            `paper`.`updated` AS `updated`
+        FROM
+            `paper`
+        WHERE
+            `paper`.`menu_item_id_fk` = :menu_item_id_fk, ). Vytvořen Statement (31).
+[debug] Statement (31) bindValue(:menu_item_id_fk, 19, 2)
+[debug] Statement (31) execute().
+[debug] Statement (31) execute()
+[debug] Statement (31) fetch(2, 0, 0)
+[debug] Handler veletrhprace (13) prepare(SELECT
+                    `paper_content`.`id` AS `id`,
+                    `paper_content`.`paper_id_fk` AS `paper_id_fk`,
+                    `paper_content`.`content` AS `content`,
+                    `paper_content`.`template` AS `template`,
+                    `paper_content`.`active` AS `active`,
+                    `paper_content`.`priority` AS `priority`,
+                    `paper_content`.`show_time` AS `show_time`,
+                    `paper_content`.`hide_time` AS `hide_time`,
+                    `paper_content`.`event_time` AS `event_time`,
+                    `paper_content`.`editor` AS `editor`,
+                    `paper_content`.`updated` AS `updated`,
+                     (ISNULL(show_time) OR show_time<=CURDATE()) AND (ISNULL(hide_time) OR CURDATE()<=hide_time) AS actual
+                FROM
+                    `paper_content` WHERE `paper_content`.`paper_id_fk` = :paper_id_fk , ). Vytvořen Statement (32).
+[debug] Statement (32) bindValue(:paper_id_fk, 3, 2)
+[debug] Statement (32) execute().
+[debug] Statement (32) execute()
+[debug] Statement (32) fetchAll(2)
+[debug] Result má 12 prvků.
+[debug] Handler veletrhprace (13) prepare(UPDATE paper_content SET content = :content, template = :template, active = :active, priority = :priority, show_time = :show_time, hide_time = :hide_time, editor = :editor
+                    WHERE  id = :id, ). Vytvořen Statement (33).
+[debug] Statement (33) bindValue(:content, bflmpsvz, 2)
+[debug] Statement (33) bindValue(:template, , 2)
+[debug] Statement (33) bindValue(:active, 0, 2)
+[debug] Statement (33) bindValue(:priority, 1, 2)
+[debug] Statement (33) bindValue(:show_time, , 1)
+[debug] Statement (33) bindValue(:hide_time, , 1)
+[debug] Statement (33) bindValue(:editor, , 1)
+[debug] Statement (33) bindValue(:id, 1, 2)
+[debug] Statement (33) execute().
+[debug] Statement (33) execute()
+[debug] Statement (33) bindValue(:content, bflmpsvz, 2)
+[debug] Statement (33) bindValue(:template, , 2)
+[debug] Statement (33) bindValue(:active, 0, 2)
+[debug] Statement (33) bindValue(:priority, 1, 2)
+[debug] Statement (33) bindValue(:show_time, , 1)
+[debug] Statement (33) bindValue(:hide_time, , 1)
+[debug] Statement (33) bindValue(:editor, , 1)
+[debug] Statement (33) bindValue(:id, 2, 2)
+[debug] Statement (33) execute().
+[debug] Statement (33) execute()
+[debug] Statement (33) bindValue(:content, bflmpsvz, 2)
+[debug] Statement (33) bindValue(:template, , 2)
+[debug] Statement (33) bindValue(:active, 0, 2)
+[debug] Statement (33) bindValue(:priority, 1, 2)
+[debug] Statement (33) bindValue(:show_time, , 1)
+[debug] Statement (33) bindValue(:hide_time, , 1)
+[debug] Statement (33) bindValue(:editor, , 1)
+[debug] Statement (33) bindValue(:id, 3, 2)
+[debug] Statement (33) execute().
+[debug] Statement (33) execute()
+[debug] Statement (33) bindValue(:content, bflmpsvz, 2)
+[debug] Statement (33) bindValue(:template, , 2)
+[debug] Statement (33) bindValue(:active, 0, 2)
+[debug] Statement (33) bindValue(:priority, 1, 2)
+[debug] Statement (33) bindValue(:show_time, , 1)
+[debug] Statement (33) bindValue(:hide_time, , 1)
+[debug] Statement (33) bindValue(:editor, , 1)
+[debug] Statement (33) bindValue(:id, 4, 2)
+[debug] Statement (33) execute().
+[debug] Statement (33) execute()
+[debug] Statement (33) bindValue(:content, bflmpsvz, 2)
+[debug] Statement (33) bindValue(:template, , 2)
+[debug] Statement (33) bindValue(:active, 0, 2)
+[debug] Statement (33) bindValue(:priority, 1, 2)
+[debug] Statement (33) bindValue(:show_time, , 1)
+[debug] Statement (33) bindValue(:hide_time, , 1)
+[debug] Statement (33) bindValue(:editor, , 1)
+[debug] Statement (33) bindValue(:id, 5, 2)
+[debug] Statement (33) execute().
+[debug] Statement (33) execute()
+[debug] Statement (33) bindValue(:content, bflmpsvz 6, 2)
+[debug] Statement (33) bindValue(:template, , 2)
+[debug] Statement (33) bindValue(:active, 0, 2)
+[debug] Statement (33) bindValue(:priority, 1, 2)
+[debug] Statement (33) bindValue(:show_time, , 1)
+[debug] Statement (33) bindValue(:hide_time, , 1)
+[debug] Statement (33) bindValue(:editor, , 1)
+[debug] Statement (33) bindValue(:id, 6, 2)
+[debug] Statement (33) execute().
+[debug] Statement (33) execute()
+[debug] Statement (33) bindValue(:content, bflmpsvz 7, 2)
+[debug] Statement (33) bindValue(:template, , 2)
+[debug] Statement (33) bindValue(:active, 0, 2)
+[debug] Statement (33) bindValue(:priority, 1, 2)
+[debug] Statement (33) bindValue(:show_time, , 1)
+[debug] Statement (33) bindValue(:hide_time, , 1)
+[debug] Statement (33) bindValue(:editor, , 1)
+[debug] Statement (33) bindValue(:id, 7, 2)
+[debug] Statement (33) execute().
+[debug] Statement (33) execute()
+[debug] Statement (33) bindValue(:content, bflmpsvz 8, 2)
+[debug] Statement (33) bindValue(:template, , 2)
+[debug] Statement (33) bindValue(:active, 0, 2)
+[debug] Statement (33) bindValue(:priority, 1, 2)
+[debug] Statement (33) bindValue(:show_time, , 1)
+[debug] Statement (33) bindValue(:hide_time, , 1)
+[debug] Statement (33) bindValue(:editor, , 1)
+[debug] Statement (33) bindValue(:id, 8, 2)
+[debug] Statement (33) execute().
+[debug] Statement (33) execute()
+[debug] Statement (33) bindValue(:content, bflmpsvz 9, 2)
+[debug] Statement (33) bindValue(:template, , 2)
+[debug] Statement (33) bindValue(:active, 0, 2)
+[debug] Statement (33) bindValue(:priority, 1, 2)
+[debug] Statement (33) bindValue(:show_time, , 1)
+[debug] Statement (33) bindValue(:hide_time, , 1)
+[debug] Statement (33) bindValue(:editor, , 1)
+[debug] Statement (33) bindValue(:id, 9, 2)
+[debug] Statement (33) execute().
+[debug] Statement (33) execute()
+[debug] Statement (33) bindValue(:content, bflmpsvz 10, 2)
+[debug] Statement (33) bindValue(:template, , 2)
+[debug] Statement (33) bindValue(:active, 0, 2)
+[debug] Statement (33) bindValue(:priority, 1, 2)
+[debug] Statement (33) bindValue(:show_time, , 1)
+[debug] Statement (33) bindValue(:hide_time, , 1)
+[debug] Statement (33) bindValue(:editor, , 1)
+[debug] Statement (33) bindValue(:id, 10, 2)
+[debug] Statement (33) execute().
+[debug] Statement (33) execute()
+[debug] Statement (33) bindValue(:content, bflmpsvz 11, 2)
+[debug] Statement (33) bindValue(:template, , 2)
+[debug] Statement (33) bindValue(:active, 0, 2)
+[debug] Statement (33) bindValue(:priority, 1, 2)
+[debug] Statement (33) bindValue(:show_time, , 1)
+[debug] Statement (33) bindValue(:hide_time, , 1)
+[debug] Statement (33) bindValue(:editor, , 1)
+[debug] Statement (33) bindValue(:id, 11, 2)
+[debug] Statement (33) execute().
+[debug] Statement (33) execute()
+[debug] Statement (33) bindValue(:content, bflmpsvz 12, 2)
+[debug] Statement (33) bindValue(:template, , 2)
+[debug] Statement (33) bindValue(:active, 0, 2)
+[debug] Statement (33) bindValue(:priority, 1, 2)
+[debug] Statement (33) bindValue(:show_time, , 1)
+[debug] Statement (33) bindValue(:hide_time, , 1)
+[debug] Statement (33) bindValue(:editor, , 1)
+[debug] Statement (33) bindValue(:id, 12, 2)
+[debug] Statement (33) execute().
+[debug] Statement (33) execute()
+[debug] Handler veletrhprace (13) prepare(INSERT INTO paper_content (paper_id_fk, content) VALUES (:paper_id_fk, :content), ). Vytvořen Statement (34).
+[debug] Statement (34) bindValue(:paper_id_fk, 3, 2)
+[debug] Statement (34) bindValue(:content, bflmpsvz 13, 2)
+[debug] Statement (34) execute().
+[debug] Statement (34) execute()
+[debug] Statement (34) bindValue(:lang_code_fk, cs, 2)
+[debug] Statement (34) bindValue(:uid_fk, 60262f3e906e4, 2)
+[debug] Statement (34) execute().
+[debug] Statement (34) execute()
+[debug] Statement (34) fetch(2, 0, 0)
+[debug] Statement (34) bindValue(:menu_item_id_fk, 19, 2)
+[debug] Statement (34) execute().
+[debug] Statement (34) execute()
+[debug] Statement (34) fetch(2, 0, 0)
+[debug] Statement (34) bindValue(:paper_id_fk, 3, 2)
+[debug] Statement (34) execute().
+[debug] Statement (34) execute()
+[debug] Statement (34) fetchAll(2)
+[debug] Result má 13 prvků.
+[debug] Statement (34) bindValue(:content, bflmpsvz, 2)
+[debug] Statement (34) bindValue(:template, , 2)
+[debug] Statement (34) bindValue(:active, 0, 2)
+[debug] Statement (34) bindValue(:priority, 1, 2)
+[debug] Statement (34) bindValue(:show_time, , 1)
+[debug] Statement (34) bindValue(:hide_time, , 1)
+[debug] Statement (34) bindValue(:editor, , 1)
+[debug] Statement (34) bindValue(:id, 1, 2)
+[debug] Statement (34) execute().
+[debug] Statement (34) execute()
+[debug] Statement (34) bindValue(:content, bflmpsvz, 2)
+[debug] Statement (34) bindValue(:template, , 2)
+[debug] Statement (34) bindValue(:active, 0, 2)
+[debug] Statement (34) bindValue(:priority, 1, 2)
+[debug] Statement (34) bindValue(:show_time, , 1)
+[debug] Statement (34) bindValue(:hide_time, , 1)
+[debug] Statement (34) bindValue(:editor, , 1)
+[debug] Statement (34) bindValue(:id, 2, 2)
+[debug] Statement (34) execute().
+[debug] Statement (34) execute()
+[debug] Statement (34) bindValue(:content, bflmpsvz, 2)
+[debug] Statement (34) bindValue(:template, , 2)
+[debug] Statement (34) bindValue(:active, 0, 2)
+[debug] Statement (34) bindValue(:priority, 1, 2)
+[debug] Statement (34) bindValue(:show_time, , 1)
+[debug] Statement (34) bindValue(:hide_time, , 1)
+[debug] Statement (34) bindValue(:editor, , 1)
+[debug] Statement (34) bindValue(:id, 3, 2)
+[debug] Statement (34) execute().
+[debug] Statement (34) execute()
+[debug] Statement (34) bindValue(:content, bflmpsvz, 2)
+[debug] Statement (34) bindValue(:template, , 2)
+[debug] Statement (34) bindValue(:active, 0, 2)
+[debug] Statement (34) bindValue(:priority, 1, 2)
+[debug] Statement (34) bindValue(:show_time, , 1)
+[debug] Statement (34) bindValue(:hide_time, , 1)
+[debug] Statement (34) bindValue(:editor, , 1)
+[debug] Statement (34) bindValue(:id, 4, 2)
+[debug] Statement (34) execute().
+[debug] Statement (34) execute()
+[debug] Statement (34) bindValue(:content, bflmpsvz, 2)
+[debug] Statement (34) bindValue(:template, , 2)
+[debug] Statement (34) bindValue(:active, 0, 2)
+[debug] Statement (34) bindValue(:priority, 1, 2)
+[debug] Statement (34) bindValue(:show_time, , 1)
+[debug] Statement (34) bindValue(:hide_time, , 1)
+[debug] Statement (34) bindValue(:editor, , 1)
+[debug] Statement (34) bindValue(:id, 5, 2)
+[debug] Statement (34) execute().
+[debug] Statement (34) execute()
+[debug] Statement (34) bindValue(:content, bflmpsvz 6, 2)
+[debug] Statement (34) bindValue(:template, , 2)
+[debug] Statement (34) bindValue(:active, 0, 2)
+[debug] Statement (34) bindValue(:priority, 1, 2)
+[debug] Statement (34) bindValue(:show_time, , 1)
+[debug] Statement (34) bindValue(:hide_time, , 1)
+[debug] Statement (34) bindValue(:editor, , 1)
+[debug] Statement (34) bindValue(:id, 6, 2)
+[debug] Statement (34) execute().
+[debug] Statement (34) execute()
+[debug] Statement (34) bindValue(:content, bflmpsvz 7, 2)
+[debug] Statement (34) bindValue(:template, , 2)
+[debug] Statement (34) bindValue(:active, 0, 2)
+[debug] Statement (34) bindValue(:priority, 1, 2)
+[debug] Statement (34) bindValue(:show_time, , 1)
+[debug] Statement (34) bindValue(:hide_time, , 1)
+[debug] Statement (34) bindValue(:editor, , 1)
+[debug] Statement (34) bindValue(:id, 7, 2)
+[debug] Statement (34) execute().
+[debug] Statement (34) execute()
+[debug] Statement (34) bindValue(:content, bflmpsvz 8, 2)
+[debug] Statement (34) bindValue(:template, , 2)
+[debug] Statement (34) bindValue(:active, 0, 2)
+[debug] Statement (34) bindValue(:priority, 1, 2)
+[debug] Statement (34) bindValue(:show_time, , 1)
+[debug] Statement (34) bindValue(:hide_time, , 1)
+[debug] Statement (34) bindValue(:editor, , 1)
+[debug] Statement (34) bindValue(:id, 8, 2)
+[debug] Statement (34) execute().
+[debug] Statement (34) execute()
+[debug] Statement (34) bindValue(:content, bflmpsvz 9, 2)
+[debug] Statement (34) bindValue(:template, , 2)
+[debug] Statement (34) bindValue(:active, 0, 2)
+[debug] Statement (34) bindValue(:priority, 1, 2)
+[debug] Statement (34) bindValue(:show_time, , 1)
+[debug] Statement (34) bindValue(:hide_time, , 1)
+[debug] Statement (34) bindValue(:editor, , 1)
+[debug] Statement (34) bindValue(:id, 9, 2)
+[debug] Statement (34) execute().
+[debug] Statement (34) execute()
+[debug] Statement (34) bindValue(:content, bflmpsvz 10, 2)
+[debug] Statement (34) bindValue(:template, , 2)
+[debug] Statement (34) bindValue(:active, 0, 2)
+[debug] Statement (34) bindValue(:priority, 1, 2)
+[debug] Statement (34) bindValue(:show_time, , 1)
+[debug] Statement (34) bindValue(:hide_time, , 1)
+[debug] Statement (34) bindValue(:editor, , 1)
+[debug] Statement (34) bindValue(:id, 10, 2)
+[debug] Statement (34) execute().
+[debug] Statement (34) execute()
+[debug] Statement (34) bindValue(:content, bflmpsvz 11, 2)
+[debug] Statement (34) bindValue(:template, , 2)
+[debug] Statement (34) bindValue(:active, 0, 2)
+[debug] Statement (34) bindValue(:priority, 1, 2)
+[debug] Statement (34) bindValue(:show_time, , 1)
+[debug] Statement (34) bindValue(:hide_time, , 1)
+[debug] Statement (34) bindValue(:editor, , 1)
+[debug] Statement (34) bindValue(:id, 11, 2)
+[debug] Statement (34) execute().
+[debug] Statement (34) execute()
+[debug] Statement (34) bindValue(:content, bflmpsvz 12, 2)
+[debug] Statement (34) bindValue(:template, , 2)
+[debug] Statement (34) bindValue(:active, 0, 2)
+[debug] Statement (34) bindValue(:priority, 1, 2)
+[debug] Statement (34) bindValue(:show_time, , 1)
+[debug] Statement (34) bindValue(:hide_time, , 1)
+[debug] Statement (34) bindValue(:editor, , 1)
+[debug] Statement (34) bindValue(:id, 12, 2)
+[debug] Statement (34) execute().
+[debug] Statement (34) execute()
+[debug] Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=localhost;port=3306;dbname=veletrhprace
+[debug] Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+    
+[debug] Vytvořen database handler Handler veletrhprace (14), name veletrhprace, host localhost.
+[info] Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+    
+[debug] Handler veletrhprace (14) prepare(SELECT 
+    	nested_set.uid, nested_set.depth, nested_set.left_node, nested_set.right_node, nested_set.parent_uid,
+            menu_item.lang_code_fk, menu_item.uid_fk, menu_item.type_fk, menu_item.id, menu_item.title, menu_item.prettyuri, menu_item.active
+            FROM
+                    (SELECT
+                        node.uid, (COUNT(parent.uid) - 1) AS depth, node.left_node, node.right_node, node.parent_uid
+                    FROM
+                        hierarchy AS node
+                        CROSS JOIN
+                        hierarchy AS parent ON node.left_node BETWEEN parent.left_node AND parent.right_node
+                    GROUP BY node.uid
+                    ) AS nested_set
+                        INNER JOIN
+                    menu_item AS menu_item ON (nested_set.uid = menu_item.uid_fk) WHERE menu_item.lang_code_fk = :lang_code AND menu_item.title = :title , ). Vytvořen Statement (35).
+[debug] Statement (35) bindParam(:title, Tests Integration, 2, , )
+[debug] Statement (35) bindParam(:lang_code, cs, 2, , )
+[debug] Statement (35) execute().
+[debug] Statement (35) execute()
+[debug] Statement (35) fetch(2, 0, 0)
+[debug] Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=localhost;port=3306;dbname=veletrhprace
+[debug] Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+    
+[debug] Vytvořen database handler Handler veletrhprace (15), name veletrhprace, host localhost.
+[info] Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+    
+[debug] Handler veletrhprace (15) prepare(SELECT 
+    	nested_set.uid, nested_set.depth, nested_set.left_node, nested_set.right_node, nested_set.parent_uid,
+            menu_item.lang_code_fk, menu_item.uid_fk, menu_item.type_fk, menu_item.id, menu_item.title, menu_item.prettyuri, menu_item.active
+            FROM
+                    (SELECT
+                        node.uid, (COUNT(parent.uid) - 1) AS depth, node.left_node, node.right_node, node.parent_uid
+                    FROM
+                        hierarchy AS node
+                        CROSS JOIN
+                        hierarchy AS parent ON node.left_node BETWEEN parent.left_node AND parent.right_node
+                    GROUP BY node.uid
+                    ) AS nested_set
+                        INNER JOIN
+                    menu_item AS menu_item ON (nested_set.uid = menu_item.uid_fk) WHERE menu_item.lang_code_fk = :lang_code AND menu_item.title = :title , ). Vytvořen Statement (36).
+[debug] Statement (36) bindParam(:title, Tests Integration, 2, , )
+[debug] Statement (36) bindParam(:lang_code, cs, 2, , )
+[debug] Statement (36) execute().
+[debug] Statement (36) execute()
+[debug] Statement (36) fetch(2, 0, 0)
+[debug] Handler veletrhprace (15) prepare(SELECT lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active FROM menu_item  WHERE menu_item.lang_code_fk = :lang_code_fk AND menu_item.uid_fk=:uid_fk , ). Vytvořen Statement (37).
+[debug] Statement (37) bindValue(:lang_code_fk, cs, 2)
+[debug] Statement (37) bindValue(:uid_fk, 60262f3e906e4, 2)
+[debug] Statement (37) execute().
+[debug] Statement (37) execute()
+[debug] Statement (37) fetch(2, 0, 0)
+[debug] Handler veletrhprace (15) prepare(SELECT
+            `paper`.`id` AS `id`,
+            `paper`.`menu_item_id_fk` AS `menu_item_id_fk`,
+            `paper`.`headline` AS `headline`,
+            `paper`.`perex` AS `perex`,
+            `paper`.`template` AS `template`,
+            `paper`.`keywords` AS `keywords`,
+            `paper`.`editor` AS `editor`,
+            `paper`.`updated` AS `updated`
+        FROM
+            `paper`
+        WHERE
+            `paper`.`menu_item_id_fk` = :menu_item_id_fk, ). Vytvořen Statement (38).
+[debug] Statement (38) bindValue(:menu_item_id_fk, 19, 2)
+[debug] Statement (38) execute().
+[debug] Statement (38) execute()
+[debug] Statement (38) fetch(2, 0, 0)
+[debug] Handler veletrhprace (15) prepare(SELECT
+                    `paper_content`.`id` AS `id`,
+                    `paper_content`.`paper_id_fk` AS `paper_id_fk`,
+                    `paper_content`.`content` AS `content`,
+                    `paper_content`.`template` AS `template`,
+                    `paper_content`.`active` AS `active`,
+                    `paper_content`.`priority` AS `priority`,
+                    `paper_content`.`show_time` AS `show_time`,
+                    `paper_content`.`hide_time` AS `hide_time`,
+                    `paper_content`.`event_time` AS `event_time`,
+                    `paper_content`.`editor` AS `editor`,
+                    `paper_content`.`updated` AS `updated`,
+                     (ISNULL(show_time) OR show_time<=CURDATE()) AND (ISNULL(hide_time) OR CURDATE()<=hide_time) AS actual
+                FROM
+                    `paper_content` WHERE `paper_content`.`paper_id_fk` = :paper_id_fk , ). Vytvořen Statement (39).
+[debug] Statement (39) bindValue(:paper_id_fk, 3, 2)
+[debug] Statement (39) execute().
+[debug] Statement (39) execute()
+[debug] Statement (39) fetchAll(2)
+[debug] Result má 13 prvků.
+[debug] Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=localhost;port=3306;dbname=veletrhprace
+[debug] Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+    
+[debug] Vytvořen database handler Handler veletrhprace (16), name veletrhprace, host localhost.
+[info] Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+    
+[debug] Handler veletrhprace (16) prepare(SELECT 
+    	nested_set.uid, nested_set.depth, nested_set.left_node, nested_set.right_node, nested_set.parent_uid,
+            menu_item.lang_code_fk, menu_item.uid_fk, menu_item.type_fk, menu_item.id, menu_item.title, menu_item.prettyuri, menu_item.active
+            FROM
+                    (SELECT
+                        node.uid, (COUNT(parent.uid) - 1) AS depth, node.left_node, node.right_node, node.parent_uid
+                    FROM
+                        hierarchy AS node
+                        CROSS JOIN
+                        hierarchy AS parent ON node.left_node BETWEEN parent.left_node AND parent.right_node
+                    GROUP BY node.uid
+                    ) AS nested_set
+                        INNER JOIN
+                    menu_item AS menu_item ON (nested_set.uid = menu_item.uid_fk) WHERE menu_item.lang_code_fk = :lang_code AND menu_item.title = :title , ). Vytvořen Statement (40).
+[debug] Statement (40) bindParam(:title, Tests Integration, 2, , )
+[debug] Statement (40) bindParam(:lang_code, cs, 2, , )
+[debug] Statement (40) execute().
+[debug] Statement (40) execute()
+[debug] Statement (40) fetch(2, 0, 0)
+[debug] Handler veletrhprace (16) prepare(UPDATE paper_content SET content = :content, template = :template, active = :active, priority = :priority, show_time = :show_time, hide_time = :hide_time, editor = :editor
+                    WHERE  id = :id, ). Vytvořen Statement (41).
+[debug] Statement (41) bindValue(:content, bflmpsvz, 2)
+[debug] Statement (41) bindValue(:template, , 2)
+[debug] Statement (41) bindValue(:active, 0, 2)
+[debug] Statement (41) bindValue(:priority, 1, 2)
+[debug] Statement (41) bindValue(:show_time, , 1)
+[debug] Statement (41) bindValue(:hide_time, , 1)
+[debug] Statement (41) bindValue(:editor, , 1)
+[debug] Statement (41) bindValue(:id, 1, 2)
+[debug] Statement (41) execute().
+[debug] Statement (41) execute()
+[debug] Statement (41) bindValue(:content, bflmpsvz, 2)
+[debug] Statement (41) bindValue(:template, , 2)
+[debug] Statement (41) bindValue(:active, 0, 2)
+[debug] Statement (41) bindValue(:priority, 1, 2)
+[debug] Statement (41) bindValue(:show_time, , 1)
+[debug] Statement (41) bindValue(:hide_time, , 1)
+[debug] Statement (41) bindValue(:editor, , 1)
+[debug] Statement (41) bindValue(:id, 2, 2)
+[debug] Statement (41) execute().
+[debug] Statement (41) execute()
+[debug] Statement (41) bindValue(:content, bflmpsvz, 2)
+[debug] Statement (41) bindValue(:template, , 2)
+[debug] Statement (41) bindValue(:active, 0, 2)
+[debug] Statement (41) bindValue(:priority, 1, 2)
+[debug] Statement (41) bindValue(:show_time, , 1)
+[debug] Statement (41) bindValue(:hide_time, , 1)
+[debug] Statement (41) bindValue(:editor, , 1)
+[debug] Statement (41) bindValue(:id, 3, 2)
+[debug] Statement (41) execute().
+[debug] Statement (41) execute()
+[debug] Statement (41) bindValue(:content, bflmpsvz, 2)
+[debug] Statement (41) bindValue(:template, , 2)
+[debug] Statement (41) bindValue(:active, 0, 2)
+[debug] Statement (41) bindValue(:priority, 1, 2)
+[debug] Statement (41) bindValue(:show_time, , 1)
+[debug] Statement (41) bindValue(:hide_time, , 1)
+[debug] Statement (41) bindValue(:editor, , 1)
+[debug] Statement (41) bindValue(:id, 4, 2)
+[debug] Statement (41) execute().
+[debug] Statement (41) execute()
+[debug] Statement (41) bindValue(:content, bflmpsvz, 2)
+[debug] Statement (41) bindValue(:template, , 2)
+[debug] Statement (41) bindValue(:active, 0, 2)
+[debug] Statement (41) bindValue(:priority, 1, 2)
+[debug] Statement (41) bindValue(:show_time, , 1)
+[debug] Statement (41) bindValue(:hide_time, , 1)
+[debug] Statement (41) bindValue(:editor, , 1)
+[debug] Statement (41) bindValue(:id, 5, 2)
+[debug] Statement (41) execute().
+[debug] Statement (41) execute()
+[debug] Statement (41) bindValue(:content, bflmpsvz 6, 2)
+[debug] Statement (41) bindValue(:template, , 2)
+[debug] Statement (41) bindValue(:active, 0, 2)
+[debug] Statement (41) bindValue(:priority, 1, 2)
+[debug] Statement (41) bindValue(:show_time, , 1)
+[debug] Statement (41) bindValue(:hide_time, , 1)
+[debug] Statement (41) bindValue(:editor, , 1)
+[debug] Statement (41) bindValue(:id, 6, 2)
+[debug] Statement (41) execute().
+[debug] Statement (41) execute()
+[debug] Statement (41) bindValue(:content, bflmpsvz 7, 2)
+[debug] Statement (41) bindValue(:template, , 2)
+[debug] Statement (41) bindValue(:active, 0, 2)
+[debug] Statement (41) bindValue(:priority, 1, 2)
+[debug] Statement (41) bindValue(:show_time, , 1)
+[debug] Statement (41) bindValue(:hide_time, , 1)
+[debug] Statement (41) bindValue(:editor, , 1)
+[debug] Statement (41) bindValue(:id, 7, 2)
+[debug] Statement (41) execute().
+[debug] Statement (41) execute()
+[debug] Statement (41) bindValue(:content, bflmpsvz 8, 2)
+[debug] Statement (41) bindValue(:template, , 2)
+[debug] Statement (41) bindValue(:active, 0, 2)
+[debug] Statement (41) bindValue(:priority, 1, 2)
+[debug] Statement (41) bindValue(:show_time, , 1)
+[debug] Statement (41) bindValue(:hide_time, , 1)
+[debug] Statement (41) bindValue(:editor, , 1)
+[debug] Statement (41) bindValue(:id, 8, 2)
+[debug] Statement (41) execute().
+[debug] Statement (41) execute()
+[debug] Statement (41) bindValue(:content, bflmpsvz 9, 2)
+[debug] Statement (41) bindValue(:template, , 2)
+[debug] Statement (41) bindValue(:active, 0, 2)
+[debug] Statement (41) bindValue(:priority, 1, 2)
+[debug] Statement (41) bindValue(:show_time, , 1)
+[debug] Statement (41) bindValue(:hide_time, , 1)
+[debug] Statement (41) bindValue(:editor, , 1)
+[debug] Statement (41) bindValue(:id, 9, 2)
+[debug] Statement (41) execute().
+[debug] Statement (41) execute()
+[debug] Statement (41) bindValue(:content, bflmpsvz 10, 2)
+[debug] Statement (41) bindValue(:template, , 2)
+[debug] Statement (41) bindValue(:active, 0, 2)
+[debug] Statement (41) bindValue(:priority, 1, 2)
+[debug] Statement (41) bindValue(:show_time, , 1)
+[debug] Statement (41) bindValue(:hide_time, , 1)
+[debug] Statement (41) bindValue(:editor, , 1)
+[debug] Statement (41) bindValue(:id, 10, 2)
+[debug] Statement (41) execute().
+[debug] Statement (41) execute()
+[debug] Statement (41) bindValue(:content, bflmpsvz 11, 2)
+[debug] Statement (41) bindValue(:template, , 2)
+[debug] Statement (41) bindValue(:active, 0, 2)
+[debug] Statement (41) bindValue(:priority, 1, 2)
+[debug] Statement (41) bindValue(:show_time, , 1)
+[debug] Statement (41) bindValue(:hide_time, , 1)
+[debug] Statement (41) bindValue(:editor, , 1)
+[debug] Statement (41) bindValue(:id, 11, 2)
+[debug] Statement (41) execute().
+[debug] Statement (41) execute()
+[debug] Statement (41) bindValue(:content, bflmpsvz 12, 2)
+[debug] Statement (41) bindValue(:template, , 2)
+[debug] Statement (41) bindValue(:active, 0, 2)
+[debug] Statement (41) bindValue(:priority, 1, 2)
+[debug] Statement (41) bindValue(:show_time, , 1)
+[debug] Statement (41) bindValue(:hide_time, , 1)
+[debug] Statement (41) bindValue(:editor, , 1)
+[debug] Statement (41) bindValue(:id, 12, 2)
+[debug] Statement (41) execute().
+[debug] Statement (41) execute()
+[debug] Handler veletrhprace (16) prepare(UPDATE paper_content SET content = :content, template = :template, active = :active, priority = :priority, show_time = :show_time, hide_time = :hide_time, editor = :editor
+                    WHERE  id = :id, ). Vytvořen Statement (42).
+[debug] Statement (42) bindValue(:content, bflmpsvz, 2)
+[debug] Statement (42) bindValue(:template, , 2)
+[debug] Statement (42) bindValue(:active, 0, 2)
+[debug] Statement (42) bindValue(:priority, 1, 2)
+[debug] Statement (42) bindValue(:show_time, , 1)
+[debug] Statement (42) bindValue(:hide_time, , 1)
+[debug] Statement (42) bindValue(:editor, , 1)
+[debug] Statement (42) bindValue(:id, 1, 2)
+[debug] Statement (42) execute().
+[debug] Statement (42) execute()
+[debug] Statement (42) bindValue(:content, bflmpsvz, 2)
+[debug] Statement (42) bindValue(:template, , 2)
+[debug] Statement (42) bindValue(:active, 0, 2)
+[debug] Statement (42) bindValue(:priority, 1, 2)
+[debug] Statement (42) bindValue(:show_time, , 1)
+[debug] Statement (42) bindValue(:hide_time, , 1)
+[debug] Statement (42) bindValue(:editor, , 1)
+[debug] Statement (42) bindValue(:id, 2, 2)
+[debug] Statement (42) execute().
+[debug] Statement (42) execute()
+[debug] Statement (42) bindValue(:content, bflmpsvz, 2)
+[debug] Statement (42) bindValue(:template, , 2)
+[debug] Statement (42) bindValue(:active, 0, 2)
+[debug] Statement (42) bindValue(:priority, 1, 2)
+[debug] Statement (42) bindValue(:show_time, , 1)
+[debug] Statement (42) bindValue(:hide_time, , 1)
+[debug] Statement (42) bindValue(:editor, , 1)
+[debug] Statement (42) bindValue(:id, 3, 2)
+[debug] Statement (42) execute().
+[debug] Statement (42) execute()
+[debug] Statement (42) bindValue(:content, bflmpsvz, 2)
+[debug] Statement (42) bindValue(:template, , 2)
+[debug] Statement (42) bindValue(:active, 0, 2)
+[debug] Statement (42) bindValue(:priority, 1, 2)
+[debug] Statement (42) bindValue(:show_time, , 1)
+[debug] Statement (42) bindValue(:hide_time, , 1)
+[debug] Statement (42) bindValue(:editor, , 1)
+[debug] Statement (42) bindValue(:id, 4, 2)
+[debug] Statement (42) execute().
+[debug] Statement (42) execute()
+[debug] Statement (42) bindValue(:content, bflmpsvz, 2)
+[debug] Statement (42) bindValue(:template, , 2)
+[debug] Statement (42) bindValue(:active, 0, 2)
+[debug] Statement (42) bindValue(:priority, 1, 2)
+[debug] Statement (42) bindValue(:show_time, , 1)
+[debug] Statement (42) bindValue(:hide_time, , 1)
+[debug] Statement (42) bindValue(:editor, , 1)
+[debug] Statement (42) bindValue(:id, 5, 2)
+[debug] Statement (42) execute().
+[debug] Statement (42) execute()
+[debug] Statement (42) bindValue(:content, bflmpsvz 6, 2)
+[debug] Statement (42) bindValue(:template, , 2)
+[debug] Statement (42) bindValue(:active, 0, 2)
+[debug] Statement (42) bindValue(:priority, 1, 2)
+[debug] Statement (42) bindValue(:show_time, , 1)
+[debug] Statement (42) bindValue(:hide_time, , 1)
+[debug] Statement (42) bindValue(:editor, , 1)
+[debug] Statement (42) bindValue(:id, 6, 2)
+[debug] Statement (42) execute().
+[debug] Statement (42) execute()
+[debug] Statement (42) bindValue(:content, bflmpsvz 7, 2)
+[debug] Statement (42) bindValue(:template, , 2)
+[debug] Statement (42) bindValue(:active, 0, 2)
+[debug] Statement (42) bindValue(:priority, 1, 2)
+[debug] Statement (42) bindValue(:show_time, , 1)
+[debug] Statement (42) bindValue(:hide_time, , 1)
+[debug] Statement (42) bindValue(:editor, , 1)
+[debug] Statement (42) bindValue(:id, 7, 2)
+[debug] Statement (42) execute().
+[debug] Statement (42) execute()
+[debug] Statement (42) bindValue(:content, bflmpsvz 8, 2)
+[debug] Statement (42) bindValue(:template, , 2)
+[debug] Statement (42) bindValue(:active, 0, 2)
+[debug] Statement (42) bindValue(:priority, 1, 2)
+[debug] Statement (42) bindValue(:show_time, , 1)
+[debug] Statement (42) bindValue(:hide_time, , 1)
+[debug] Statement (42) bindValue(:editor, , 1)
+[debug] Statement (42) bindValue(:id, 8, 2)
+[debug] Statement (42) execute().
+[debug] Statement (42) execute()
+[debug] Statement (42) bindValue(:content, bflmpsvz 9, 2)
+[debug] Statement (42) bindValue(:template, , 2)
+[debug] Statement (42) bindValue(:active, 0, 2)
+[debug] Statement (42) bindValue(:priority, 1, 2)
+[debug] Statement (42) bindValue(:show_time, , 1)
+[debug] Statement (42) bindValue(:hide_time, , 1)
+[debug] Statement (42) bindValue(:editor, , 1)
+[debug] Statement (42) bindValue(:id, 9, 2)
+[debug] Statement (42) execute().
+[debug] Statement (42) execute()
+[debug] Statement (42) bindValue(:content, bflmpsvz 10, 2)
+[debug] Statement (42) bindValue(:template, , 2)
+[debug] Statement (42) bindValue(:active, 0, 2)
+[debug] Statement (42) bindValue(:priority, 1, 2)
+[debug] Statement (42) bindValue(:show_time, , 1)
+[debug] Statement (42) bindValue(:hide_time, , 1)
+[debug] Statement (42) bindValue(:editor, , 1)
+[debug] Statement (42) bindValue(:id, 10, 2)
+[debug] Statement (42) execute().
+[debug] Statement (42) execute()
+[debug] Statement (42) bindValue(:content, bflmpsvz 11, 2)
+[debug] Statement (42) bindValue(:template, , 2)
+[debug] Statement (42) bindValue(:active, 0, 2)
+[debug] Statement (42) bindValue(:priority, 1, 2)
+[debug] Statement (42) bindValue(:show_time, , 1)
+[debug] Statement (42) bindValue(:hide_time, , 1)
+[debug] Statement (42) bindValue(:editor, , 1)
+[debug] Statement (42) bindValue(:id, 11, 2)
+[debug] Statement (42) execute().
+[debug] Statement (42) execute()
+[debug] Statement (42) bindValue(:content, bflmpsvz 12, 2)
+[debug] Statement (42) bindValue(:template, , 2)
+[debug] Statement (42) bindValue(:active, 0, 2)
+[debug] Statement (42) bindValue(:priority, 1, 2)
+[debug] Statement (42) bindValue(:show_time, , 1)
+[debug] Statement (42) bindValue(:hide_time, , 1)
+[debug] Statement (42) bindValue(:editor, , 1)
+[debug] Statement (42) bindValue(:id, 12, 2)
+[debug] Statement (42) execute().
+[debug] Statement (42) execute()
+[debug] Handler veletrhprace (16) prepare(UPDATE paper_content SET content = :content, template = :template, active = :active, priority = :priority, show_time = :show_time, hide_time = :hide_time, editor = :editor
+                    WHERE  id = :id, ). Vytvořen Statement (43).
+[debug] Statement (43) bindValue(:content, bflmpsvz, 2)
+[debug] Statement (43) bindValue(:template, , 2)
+[debug] Statement (43) bindValue(:active, 0, 2)
+[debug] Statement (43) bindValue(:priority, 1, 2)
+[debug] Statement (43) bindValue(:show_time, , 1)
+[debug] Statement (43) bindValue(:hide_time, , 1)
+[debug] Statement (43) bindValue(:editor, , 1)
+[debug] Statement (43) bindValue(:id, 1, 2)
+[debug] Statement (43) execute().
+[debug] Statement (43) execute()
+[debug] Statement (43) bindValue(:content, bflmpsvz, 2)
+[debug] Statement (43) bindValue(:template, , 2)
+[debug] Statement (43) bindValue(:active, 0, 2)
+[debug] Statement (43) bindValue(:priority, 1, 2)
+[debug] Statement (43) bindValue(:show_time, , 1)
+[debug] Statement (43) bindValue(:hide_time, , 1)
+[debug] Statement (43) bindValue(:editor, , 1)
+[debug] Statement (43) bindValue(:id, 2, 2)
+[debug] Statement (43) execute().
+[debug] Statement (43) execute()
+[debug] Statement (43) bindValue(:content, bflmpsvz, 2)
+[debug] Statement (43) bindValue(:template, , 2)
+[debug] Statement (43) bindValue(:active, 0, 2)
+[debug] Statement (43) bindValue(:priority, 1, 2)
+[debug] Statement (43) bindValue(:show_time, , 1)
+[debug] Statement (43) bindValue(:hide_time, , 1)
+[debug] Statement (43) bindValue(:editor, , 1)
+[debug] Statement (43) bindValue(:id, 3, 2)
+[debug] Statement (43) execute().
+[debug] Statement (43) execute()
+[debug] Statement (43) bindValue(:content, bflmpsvz, 2)
+[debug] Statement (43) bindValue(:template, , 2)
+[debug] Statement (43) bindValue(:active, 0, 2)
+[debug] Statement (43) bindValue(:priority, 1, 2)
+[debug] Statement (43) bindValue(:show_time, , 1)
+[debug] Statement (43) bindValue(:hide_time, , 1)
+[debug] Statement (43) bindValue(:editor, , 1)
+[debug] Statement (43) bindValue(:id, 4, 2)
+[debug] Statement (43) execute().
+[debug] Statement (43) execute()
+[debug] Statement (43) bindValue(:content, bflmpsvz, 2)
+[debug] Statement (43) bindValue(:template, , 2)
+[debug] Statement (43) bindValue(:active, 0, 2)
+[debug] Statement (43) bindValue(:priority, 1, 2)
+[debug] Statement (43) bindValue(:show_time, , 1)
+[debug] Statement (43) bindValue(:hide_time, , 1)
+[debug] Statement (43) bindValue(:editor, , 1)
+[debug] Statement (43) bindValue(:id, 5, 2)
+[debug] Statement (43) execute().
+[debug] Statement (43) execute()
+[debug] Statement (43) bindValue(:content, bflmpsvz 6, 2)
+[debug] Statement (43) bindValue(:template, , 2)
+[debug] Statement (43) bindValue(:active, 0, 2)
+[debug] Statement (43) bindValue(:priority, 1, 2)
+[debug] Statement (43) bindValue(:show_time, , 1)
+[debug] Statement (43) bindValue(:hide_time, , 1)
+[debug] Statement (43) bindValue(:editor, , 1)
+[debug] Statement (43) bindValue(:id, 6, 2)
+[debug] Statement (43) execute().
+[debug] Statement (43) execute()
+[debug] Statement (43) bindValue(:content, bflmpsvz 7, 2)
+[debug] Statement (43) bindValue(:template, , 2)
+[debug] Statement (43) bindValue(:active, 0, 2)
+[debug] Statement (43) bindValue(:priority, 1, 2)
+[debug] Statement (43) bindValue(:show_time, , 1)
+[debug] Statement (43) bindValue(:hide_time, , 1)
+[debug] Statement (43) bindValue(:editor, , 1)
+[debug] Statement (43) bindValue(:id, 7, 2)
+[debug] Statement (43) execute().
+[debug] Statement (43) execute()
+[debug] Statement (43) bindValue(:content, bflmpsvz 8, 2)
+[debug] Statement (43) bindValue(:template, , 2)
+[debug] Statement (43) bindValue(:active, 0, 2)
+[debug] Statement (43) bindValue(:priority, 1, 2)
+[debug] Statement (43) bindValue(:show_time, , 1)
+[debug] Statement (43) bindValue(:hide_time, , 1)
+[debug] Statement (43) bindValue(:editor, , 1)
+[debug] Statement (43) bindValue(:id, 8, 2)
+[debug] Statement (43) execute().
+[debug] Statement (43) execute()
+[debug] Statement (43) bindValue(:content, bflmpsvz 9, 2)
+[debug] Statement (43) bindValue(:template, , 2)
+[debug] Statement (43) bindValue(:active, 0, 2)
+[debug] Statement (43) bindValue(:priority, 1, 2)
+[debug] Statement (43) bindValue(:show_time, , 1)
+[debug] Statement (43) bindValue(:hide_time, , 1)
+[debug] Statement (43) bindValue(:editor, , 1)
+[debug] Statement (43) bindValue(:id, 9, 2)
+[debug] Statement (43) execute().
+[debug] Statement (43) execute()
+[debug] Statement (43) bindValue(:content, bflmpsvz 10, 2)
+[debug] Statement (43) bindValue(:template, , 2)
+[debug] Statement (43) bindValue(:active, 0, 2)
+[debug] Statement (43) bindValue(:priority, 1, 2)
+[debug] Statement (43) bindValue(:show_time, , 1)
+[debug] Statement (43) bindValue(:hide_time, , 1)
+[debug] Statement (43) bindValue(:editor, , 1)
+[debug] Statement (43) bindValue(:id, 10, 2)
+[debug] Statement (43) execute().
+[debug] Statement (43) execute()
+[debug] Statement (43) bindValue(:content, bflmpsvz 11, 2)
+[debug] Statement (43) bindValue(:template, , 2)
+[debug] Statement (43) bindValue(:active, 0, 2)
+[debug] Statement (43) bindValue(:priority, 1, 2)
+[debug] Statement (43) bindValue(:show_time, , 1)
+[debug] Statement (43) bindValue(:hide_time, , 1)
+[debug] Statement (43) bindValue(:editor, , 1)
+[debug] Statement (43) bindValue(:id, 11, 2)
+[debug] Statement (43) execute().
+[debug] Statement (43) execute()
+[debug] Statement (43) bindValue(:content, bflmpsvz 12, 2)
+[debug] Statement (43) bindValue(:template, , 2)
+[debug] Statement (43) bindValue(:active, 0, 2)
+[debug] Statement (43) bindValue(:priority, 1, 2)
+[debug] Statement (43) bindValue(:show_time, , 1)
+[debug] Statement (43) bindValue(:hide_time, , 1)
+[debug] Statement (43) bindValue(:editor, , 1)
+[debug] Statement (43) bindValue(:id, 12, 2)
+[debug] Statement (43) execute().
+[debug] Statement (43) execute()
+[debug] Statement (43) bindValue(:content, bflmpsvz 13, 2)
+[debug] Statement (43) bindValue(:template, , 2)
+[debug] Statement (43) bindValue(:active, 0, 2)
+[debug] Statement (43) bindValue(:priority, 1, 2)
+[debug] Statement (43) bindValue(:show_time, , 1)
+[debug] Statement (43) bindValue(:hide_time, , 1)
+[debug] Statement (43) bindValue(:editor, , 1)
+[debug] Statement (43) bindValue(:id, 13, 2)
+[debug] Statement (43) execute().
+[debug] Statement (43) execute()
+[debug] Statement (43) bindValue(:content, bflmpsvz, 2)
+[debug] Statement (43) bindValue(:template, , 2)
+[debug] Statement (43) bindValue(:active, 0, 2)
+[debug] Statement (43) bindValue(:priority, 1, 2)
+[debug] Statement (43) bindValue(:show_time, , 1)
+[debug] Statement (43) bindValue(:hide_time, , 1)
+[debug] Statement (43) bindValue(:editor, , 1)
+[debug] Statement (43) bindValue(:id, 1, 2)
+[debug] Statement (43) execute().
+[debug] Statement (43) execute()
+[debug] Statement (43) bindValue(:content, bflmpsvz, 2)
+[debug] Statement (43) bindValue(:template, , 2)
+[debug] Statement (43) bindValue(:active, 0, 2)
+[debug] Statement (43) bindValue(:priority, 1, 2)
+[debug] Statement (43) bindValue(:show_time, , 1)
+[debug] Statement (43) bindValue(:hide_time, , 1)
+[debug] Statement (43) bindValue(:editor, , 1)
+[debug] Statement (43) bindValue(:id, 2, 2)
+[debug] Statement (43) execute().
+[debug] Statement (43) execute()
+[debug] Statement (43) bindValue(:content, bflmpsvz, 2)
+[debug] Statement (43) bindValue(:template, , 2)
+[debug] Statement (43) bindValue(:active, 0, 2)
+[debug] Statement (43) bindValue(:priority, 1, 2)
+[debug] Statement (43) bindValue(:show_time, , 1)
+[debug] Statement (43) bindValue(:hide_time, , 1)
+[debug] Statement (43) bindValue(:editor, , 1)
+[debug] Statement (43) bindValue(:id, 3, 2)
+[debug] Statement (43) execute().
+[debug] Statement (43) execute()
+[debug] Statement (43) bindValue(:content, bflmpsvz, 2)
+[debug] Statement (43) bindValue(:template, , 2)
+[debug] Statement (43) bindValue(:active, 0, 2)
+[debug] Statement (43) bindValue(:priority, 1, 2)
+[debug] Statement (43) bindValue(:show_time, , 1)
+[debug] Statement (43) bindValue(:hide_time, , 1)
+[debug] Statement (43) bindValue(:editor, , 1)
+[debug] Statement (43) bindValue(:id, 4, 2)
+[debug] Statement (43) execute().
+[debug] Statement (43) execute()
+[debug] Statement (43) bindValue(:content, bflmpsvz, 2)
+[debug] Statement (43) bindValue(:template, , 2)
+[debug] Statement (43) bindValue(:active, 0, 2)
+[debug] Statement (43) bindValue(:priority, 1, 2)
+[debug] Statement (43) bindValue(:show_time, , 1)
+[debug] Statement (43) bindValue(:hide_time, , 1)
+[debug] Statement (43) bindValue(:editor, , 1)
+[debug] Statement (43) bindValue(:id, 5, 2)
+[debug] Statement (43) execute().
+[debug] Statement (43) execute()
+[debug] Statement (43) bindValue(:content, bflmpsvz 6, 2)
+[debug] Statement (43) bindValue(:template, , 2)
+[debug] Statement (43) bindValue(:active, 0, 2)
+[debug] Statement (43) bindValue(:priority, 1, 2)
+[debug] Statement (43) bindValue(:show_time, , 1)
+[debug] Statement (43) bindValue(:hide_time, , 1)
+[debug] Statement (43) bindValue(:editor, , 1)
+[debug] Statement (43) bindValue(:id, 6, 2)
+[debug] Statement (43) execute().
+[debug] Statement (43) execute()
+[debug] Statement (43) bindValue(:content, bflmpsvz 7, 2)
+[debug] Statement (43) bindValue(:template, , 2)
+[debug] Statement (43) bindValue(:active, 0, 2)
+[debug] Statement (43) bindValue(:priority, 1, 2)
+[debug] Statement (43) bindValue(:show_time, , 1)
+[debug] Statement (43) bindValue(:hide_time, , 1)
+[debug] Statement (43) bindValue(:editor, , 1)
+[debug] Statement (43) bindValue(:id, 7, 2)
+[debug] Statement (43) execute().
+[debug] Statement (43) execute()
+[debug] Statement (43) bindValue(:content, bflmpsvz 8, 2)
+[debug] Statement (43) bindValue(:template, , 2)
+[debug] Statement (43) bindValue(:active, 0, 2)
+[debug] Statement (43) bindValue(:priority, 1, 2)
+[debug] Statement (43) bindValue(:show_time, , 1)
+[debug] Statement (43) bindValue(:hide_time, , 1)
+[debug] Statement (43) bindValue(:editor, , 1)
+[debug] Statement (43) bindValue(:id, 8, 2)
+[debug] Statement (43) execute().
+[debug] Statement (43) execute()
+[debug] Statement (43) bindValue(:content, bflmpsvz 9, 2)
+[debug] Statement (43) bindValue(:template, , 2)
+[debug] Statement (43) bindValue(:active, 0, 2)
+[debug] Statement (43) bindValue(:priority, 1, 2)
+[debug] Statement (43) bindValue(:show_time, , 1)
+[debug] Statement (43) bindValue(:hide_time, , 1)
+[debug] Statement (43) bindValue(:editor, , 1)
+[debug] Statement (43) bindValue(:id, 9, 2)
+[debug] Statement (43) execute().
+[debug] Statement (43) execute()
+[debug] Statement (43) bindValue(:content, bflmpsvz 10, 2)
+[debug] Statement (43) bindValue(:template, , 2)
+[debug] Statement (43) bindValue(:active, 0, 2)
+[debug] Statement (43) bindValue(:priority, 1, 2)
+[debug] Statement (43) bindValue(:show_time, , 1)
+[debug] Statement (43) bindValue(:hide_time, , 1)
+[debug] Statement (43) bindValue(:editor, , 1)
+[debug] Statement (43) bindValue(:id, 10, 2)
+[debug] Statement (43) execute().
+[debug] Statement (43) execute()
+[debug] Statement (43) bindValue(:content, bflmpsvz 11, 2)
+[debug] Statement (43) bindValue(:template, , 2)
+[debug] Statement (43) bindValue(:active, 0, 2)
+[debug] Statement (43) bindValue(:priority, 1, 2)
+[debug] Statement (43) bindValue(:show_time, , 1)
+[debug] Statement (43) bindValue(:hide_time, , 1)
+[debug] Statement (43) bindValue(:editor, , 1)
+[debug] Statement (43) bindValue(:id, 11, 2)
+[debug] Statement (43) execute().
+[debug] Statement (43) execute()
+[debug] Statement (43) bindValue(:content, bflmpsvz 12, 2)
+[debug] Statement (43) bindValue(:template, , 2)
+[debug] Statement (43) bindValue(:active, 0, 2)
+[debug] Statement (43) bindValue(:priority, 1, 2)
+[debug] Statement (43) bindValue(:show_time, , 1)
+[debug] Statement (43) bindValue(:hide_time, , 1)
+[debug] Statement (43) bindValue(:editor, , 1)
+[debug] Statement (43) bindValue(:id, 12, 2)
+[debug] Statement (43) execute().
+[debug] Statement (43) execute()
+[debug] Statement (43) bindValue(:content, bflmpsvz 13, 2)
+[debug] Statement (43) bindValue(:template, , 2)
+[debug] Statement (43) bindValue(:active, 0, 2)
+[debug] Statement (43) bindValue(:priority, 1, 2)
+[debug] Statement (43) bindValue(:show_time, , 1)
+[debug] Statement (43) bindValue(:hide_time, , 1)
+[debug] Statement (43) bindValue(:editor, , 1)
+[debug] Statement (43) bindValue(:id, 13, 2)
+[debug] Statement (43) execute().
+[debug] Statement (43) execute()

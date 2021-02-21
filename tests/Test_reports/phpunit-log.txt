@@ -1,19 +1,19 @@
-AppRunner
+Functional\AppRunner
  [ ] Run
 
-MenuItemDao
- [ ] Get existing row
- [ ]  9 columns
- [ ] Update
- [ ] Delete
+Integration\Dao\MenuItemDao
+ [x] Get existing row
+ [x]  7 columns
+ [x] Update
+ [x] Delete
 
-PaperContentManipulation
- [ ] Existing row
- [ ]  11 columns
- [ ] Insert
+Integration\Dao\PaperContentManipulation
+ [x] Paper has contents
+ [x]  11 columns
+ [x] Insert
 
-MenuItemAggregateRepository
- [ ] Set up
- [ ] Repo get
+Integration\Repository\MenuItemAggregateRepository
+ [x] Set up
+ [x] Repo get
  [ ] Repo find by paper fulltext search
 

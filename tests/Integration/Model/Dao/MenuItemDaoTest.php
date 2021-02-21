@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-
+namespace Test\Integration\Dao;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -14,8 +14,11 @@ use Pes\Http\Factory\EnvironmentFactory;
 use Application\WebAppFactory;
 
 use Pes\Container\Container;
-use Container\WebContainerConfigurator;
+
+use Container\DbUpgradeContainerConfigurator;
 use Container\HierarchyContainerConfigurator;
+use Test\Integration\Model\Container\TestModelContainerConfigurator;
+
 use Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
 
 use Model\Dao\MenuItemDao;
@@ -68,7 +71,7 @@ class MenuItemDaoTest extends TestCase {
             'HTTP_ACCEPT'          => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
             'HTTP_ACCEPT_LANGUAGE' => 'en-US,en;q=0.8',
             'HTTP_ACCEPT_CHARSET'  => 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
-            'HTTP_USER_AGENT'      => 'Slim Framework',
+            'HTTP_USER_AGENT'      => 'PES',
             'REMOTE_ADDR'          => '127.0.0.1',
             'REQUEST_TIME'         => time(),
             'REQUEST_TIME_FLOAT'   => microtime(true),
@@ -83,7 +86,7 @@ class MenuItemDaoTest extends TestCase {
             //// nebo
             //define('PES_FORCE_PRODUCTION', 'force_production');
 
-            define('PROJECT_PATH', 'c:/ApacheRoot/www_grafia_development_v0_6/');
+            define('PROJECT_PATH', 'c:/ApacheRoot/web/');
 
             include '../vendor/pes/pes/src/Bootstrap/Bootstrap.php';
         }
@@ -98,22 +101,31 @@ class MenuItemDaoTest extends TestCase {
 
                 );
         $this->app = (new WebAppFactory())->createFromEnvironment($environment);
+//        $appContainer =(new AppContainerConfigurator())->configure(new Container());
+//        $this->app->setAppContainer($appContainer);
 
-        $this->container = (new HierarchyContainerConfigurator())->configure(
-                    new Container(
-                        (new WebContainerConfigurator())->configure(
-                                new Container($this->app->getAppContainer())
+        $this->container =
+                (new TestModelContainerConfigurator())->configure(  // přepisuje ContextFactory
+                    (new HierarchyContainerConfigurator())->configure(
+                       (new DbUpgradeContainerConfigurator())->configure(
+                            (new Container(
+//                                        new Container($this->app->getAppContainer())
+                                )
+                            )
                         )
                     )
                 );
-
         $this->dao = $this->container->get(MenuItemDao::class);  // vždy nový objekt
 
         /** @var HierarchyAggregateReadonlyDao $hierarchy */
         $hierarchy = $this->container->get(HierarchyAggregateReadonlyDao::class);
         $this->langCode = 'cs';
-        $this->title = 'Test 2';
+        $this->title = 'Tests Integration';
         $node = $hierarchy->getByTitleHelper($this->langCode, $this->title);
+        if (!isset($node)) {
+            throw new \LogicException("Nelte spoušrět integrační testy - v databázi projektu není položka menu v jazyce '$this->langCode' s názvem '$this->title'");
+        }
+
         //  node.uid, (COUNT(parent.uid) - 1) AS depth, node.left_node, node.right_node, node.parent_uid
         $this->uid = $node['uid'];
     }
@@ -123,9 +135,9 @@ class MenuItemDaoTest extends TestCase {
         $this->assertIsArray($menuItemRow);
     }
 
-    public function test9Columns() {
+    public function test7Columns() {
         $menuItemRow = $this->dao->get($this->langCode, $this->uid);
-        $this->assertCount(9, $menuItemRow);
+        $this->assertCount(7, $menuItemRow);
     }
 
     public function testUpdate() {
