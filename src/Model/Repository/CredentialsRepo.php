@@ -34,7 +34,7 @@ class CredentialsRepo extends RepoAbstract implements RepoInterface {
     public function get($loginName): ?CredentialsInterface {
         $index = $this->indexFromKeyParams($loginName);
         if (!isset($this->collection[$index])) {
-            $this->recreateEntity($this->dao->get($loginName));
+            $this->recreateEntity($index, $this->dao->get($loginName));
         }
         return $this->collection[$index] ?? NULL;
     }

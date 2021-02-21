@@ -8,7 +8,7 @@
 
 namespace Model\Entity;
 
-use Model\Entity\CredentialsInterface;
+use Model\Entity\LoginAggregateInterface;
 use Model\Entity\UserActionsInterface;
 
 /**
@@ -26,9 +26,9 @@ interface StatusSecurityInterface {
 
     /**
      *
-     * @return CredentialsInterface|null
+     * @return LoginAggregateInterface|null
      */
-    public function getCredentials(): ?CredentialsInterface;
+    public function getCredentials(): ?LoginAggregateInterface;
 
     /**
      *
@@ -45,8 +45,8 @@ interface StatusSecurityInterface {
 
     /**
      *
-     * @param CredentialsInterface $user
+     * @param LoginAggregateInterface $loginAggregate
      * @return void
      */
-    public function renewSecurityStatus(CredentialsInterface $user=null): StatusSecurityInterface;
+    public function renewSecurityStatus(LoginAggregateInterface $loginAggregate=null): StatusSecurityInterface;
 }

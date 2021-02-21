@@ -8,7 +8,7 @@
 
 namespace Model\Entity;
 
-use Model\Entity\CredentialsInterface;
+use Model\Entity\LoginAggregateInterface;
 use Model\Entity\UserActionsInterface;
 
 /**
@@ -19,22 +19,22 @@ use Model\Entity\UserActionsInterface;
 class StatusSecurity implements StatusSecurityInterface {
 
     /**
-     * @var CredentialsInterface
+     * @var LoginAggregateInterface
      */
-    private $credentials;
+    private $loginAggregate;
 
     /**
-     * @var UserActionsInterface 
+     * @var UserActionsInterface
      */
     private $userActions;
 
     /**
      * Vrací jméno
      *
-     * @return \Model\Entity\CredentialsInterface|null
+     * @return \Model\Entity\LoginAggregateInterface|null
      */
-    public function getCredentials(): ?CredentialsInterface {
-        return $this->credentials;
+    public function getCredentials(): ?LoginAggregateInterface {
+        return $this->loginAggregate;
     }
 
     /**
@@ -57,11 +57,11 @@ class StatusSecurity implements StatusSecurityInterface {
 
     /**
      * {@inheritdoc}
-     * @param CredentialsInterface $credentials
+     * @param LoginAggregateInterface $loginAggregate
      * @return void
      */
-    public function renewSecurityStatus(CredentialsInterface $credentials=null): StatusSecurityInterface {
-        $this->credentials = $credentials;
+    public function renewSecurityStatus(LoginAggregateInterface $loginAggregate=null): StatusSecurityInterface {
+        $this->loginAggregate = $loginAggregate;
         $this->userActions = new UserActions();  // má default hodnoty
         return $this;
     }

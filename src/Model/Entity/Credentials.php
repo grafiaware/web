@@ -24,8 +24,8 @@ class Credentials extends EntityAbstract implements CredentialsInterface {
      * @var string
      */
     private $role;
-    
-   
+
+
     /**
      * @var \DateTime
      */
@@ -36,30 +36,26 @@ class Credentials extends EntityAbstract implements CredentialsInterface {
      */
     private $updated;
 
-    public function __construct() {
-       $this->securityObservers = new \SplObjectStorage();
-    }
-
     /**
-     * 
+     *
      * @return string|null
      */
-    public function getLoginNameFK(): ?string {
+    public function getLoginNameFk(): ?string {
         return $this->loginNameFK;
     }
 
     /**
-     * 
+     *
      * @param string $loginName
      * @return \Model\Entity\CredentialsInterface
      */
-    public function setLoginName(string $loginNameFK): CredentialsInterface {
+    public function setLoginNameFk(string $loginNameFK): CredentialsInterface {
         $this->loginNameFK = $loginNameFK;
         return $this;
     }
 
     /**
-     * 
+     *
      * @return string|null
      */
     public function getPasswordHash(): ?string {
@@ -67,7 +63,7 @@ class Credentials extends EntityAbstract implements CredentialsInterface {
     }
 
     /**
-     * 
+     *
      * @return \DateTime|null
      */
     public function getCreated(): ?\DateTime {
@@ -75,7 +71,7 @@ class Credentials extends EntityAbstract implements CredentialsInterface {
     }
 
     /**
-     * 
+     *
      * @return \DateTime|null
      */
     public function getUpdated(): ?\DateTime {
@@ -83,7 +79,7 @@ class Credentials extends EntityAbstract implements CredentialsInterface {
     }
 
     /**
-     * 
+     *
      * @param string $passwordHash
      * @return \Model\Entity\CredentialsInterface
      */
@@ -93,7 +89,7 @@ class Credentials extends EntityAbstract implements CredentialsInterface {
     }
 
     /**
-     * 
+     *
      * @param \DateTime $created
      * @return \Model\Entity\CredentialsInterface
      */
@@ -103,7 +99,7 @@ class Credentials extends EntityAbstract implements CredentialsInterface {
     }
 
     /**
-     * 
+     *
      * @param \DateTime $updated
      * @return \Model\Entity\CredentialsInterface
      */
@@ -113,7 +109,7 @@ class Credentials extends EntityAbstract implements CredentialsInterface {
     }
 
     /**
-     * 
+     *
      * @return string|null
      */
     public function getRole(): ?string {
@@ -121,30 +117,12 @@ class Credentials extends EntityAbstract implements CredentialsInterface {
     }
 
     /**
-     * 
+     *
      * @param string $role
      * @return \Model\Entity\CredentialsInterface
      */
     public function setRole(string $role=null): CredentialsInterface {
         $this->role = $role;
-        return $this;
-    }
-    
-    /**
-     * 
-     * @return string|null
-     */
-    public function getEmail(): ?string {
-        return $this->email;
-    }
-
-    /**
-     * 
-     * @param string $email
-     * @return \Model\Entity\CredentialsInterface
-     */
-    public function setEmail(string $email=null): CredentialsInterface {
-        $this->email = $email;
         return $this;
     }
 }

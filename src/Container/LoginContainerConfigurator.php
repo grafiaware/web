@@ -13,10 +13,13 @@ use Pes\Logger\FileLogger;
 // user - ze session
 use Model\Entity\Credentials;
 
-//user - db
+//login & credentials - db
 use Model\Dao\CredentialsDao;
 use Model\Hydrator\CredentialsHydrator;
 use Model\Repository\CredentialsRepo;
+use Model\Dao\LoginAggregateDao;
+use Model\Hydrator\LoginAggregateHydrator;
+use Model\Repository\LoginAggregateReadonlyRepo;
 
 // database
 use Pes\Database\Handler\Account;
@@ -109,7 +112,14 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(AttributesProvider::class),
                         $c->get('loginDbLogger'));
             },
-            // db userRepo
+            // db login & credentials repo
+            LoginAggregateReadonlyRepo::class => function(ContainerInterface $c) {
+                return new LoginAggregateReadonlyRepo(
+                        new LoginAggregateDao($c->get(Handler::class)),
+                        new LoginAggregateHydrator(),
+                        new CredentialsHydrator()
+                        );
+            },
             CredentialsRepo::class => function(ContainerInterface $c) {
                 return new CredentialsRepo(new CredentialsDao($c->get(Handler::class)), new CredentialsHydrator());
             },
@@ -124,7 +134,7 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
                     $c->get(StatusSecurityRepo::class),
                     $c->get(StatusFlashRepo::class),
                     $c->get(StatusPresentationRepo::class),
-                    $c->get(CredentialsRepo::class),
+                    $c->get(LoginAggregateReadonlyRepo::class),
                     $c->get(AuthenticatorInterface::class));
             }
         ];

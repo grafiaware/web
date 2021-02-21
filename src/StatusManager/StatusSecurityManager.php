@@ -10,7 +10,7 @@ namespace StatusManager;
 
 use Model\Entity\StatusSecurity;
 use Model\Entity\StatusSecurityInterface;
-use Model\Entity\CredentialsInterface;
+use Model\Entity\LoginAggregateInterface;
 
 /**
  * Description of SecurityStatusManager
@@ -36,11 +36,11 @@ class StatusSecurityManager implements StatusSecurityManagerInterface {
 
     /**
      * {@inheritdoc}
-     * @param CredentialsInterface $user
+     * @param LoginAggregateInterface $loginAggregate
      * @return void
      */
-    public function renewSecurityStatus(CredentialsInterface $user=null): void {
-        $this->statusSecurity->setUser($user);
+    public function renewSecurityStatus(LoginAggregateInterface $loginAggregate=null): void {
+        $this->statusSecurity->setUser($loginAggregate);
         $this->statusSecurity->setUserActions(new UserActions());  // má default hodnoty
 
     }

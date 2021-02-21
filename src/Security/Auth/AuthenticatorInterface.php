@@ -8,7 +8,7 @@
 
 namespace Security\Auth;
 
-use Model\Entity\CredentialsInterface;
+use Model\Entity\LoginAggregateInterface;
 
 /**
  *
@@ -17,11 +17,11 @@ use Model\Entity\CredentialsInterface;
 interface AuthenticatorInterface {
 
     /**
-     * 
-     * @param CredentialsInterface $credentialsEntity
+     *
+     * @param LoginAggregateInterface $loginAggregateEntity
      * @param string $password
      * @return bool
      */
-    public function authenticate(CredentialsInterface $credentialsEntity, $password): bool;
+    public function authenticate(LoginAggregateInterface $loginAggregateEntity, $password): bool;
 
 }

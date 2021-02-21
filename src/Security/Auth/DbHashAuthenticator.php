@@ -3,7 +3,7 @@
 namespace Security\Auth;
 
 use Pes\Security\Password\Password;
-use Model\Entity\CredentialsInterface;
+use Model\Entity\LoginAggregateInterface;
 
 /**
  * Description of Menu
@@ -18,22 +18,23 @@ class DbHashAuthenticator implements AuthenticatorInterface {
 
     /**
      * Parametry jsou získány z přihlašovacího  formuláře.
-     * 
-     * @param CredentialsInterface $credentialsEntity
-     * @param type $password
+     *
+     * @param LoginAggregateInterface $loginAggregateEntity
+     * @param string $password
      * @return bool
      */
-    public function authenticate(CredentialsInterface $credentialsEntity, $password): bool {
-        $verifier = function($password, $hash) { return $password===$hash; };  
+    public function authenticate(LoginAggregateInterface $loginAggregateEntity, $password): bool {
+        $verifier = function($password, $hash) { return $password===$hash; };
              //  ukládadlo - "ukládá" nový hash do proměnné zdejší - $reHash  //$reHash - tj. vyzdvihovatel
         $reHashSaver = function($newHash) use (&$reHash) { $reHash =  $newHash ; return TRUE; };
 
         $passwordOverovaciObjekt = new Password( $reHashSaver, $verifier );
-        $authenticated = $passwordOverovaciObjekt->verifyPassword( $password,  $credentialsEntity->getPasswordHash()); 
+        $credentials = $loginAggregateEntity->getCredentials();
+        $authenticated = $passwordOverovaciObjekt->verifyPassword( $password, $credentials->getPasswordHash());
 
         if ($authenticated) {
             if ($reHash) {
-                $credentialsEntity->setPasswordHash($reHash);
+                $credentials->setPasswordHash($reHash);
             }
         }
         return $authenticated;
