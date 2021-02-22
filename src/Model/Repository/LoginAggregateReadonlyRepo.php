@@ -49,8 +49,10 @@ class LoginAggregateReadonlyRepo extends RepoAbstract implements RepoInterface {
         $index = $this->indexFromKeyParams($loginName);
         if (!isset($this->collection[$index])) {
             $joinedRow = $this->dao->get($loginName);
-            $credentials = $this->createChildEntity($joinedRow);
-            $this->recreateEntity($index, ['login_name'=>$joinedRow['login_name'], 'credentials'=>$credentials]);
+            if ($joinedRow) {
+                $credentials = $this->createChildEntity($joinedRow);
+                $this->recreateEntity($index, ['login_name'=>$joinedRow['login_name'], 'credentials'=>$credentials]);
+            }
         }
         return $this->collection[$index] ?? NULL;
     }
