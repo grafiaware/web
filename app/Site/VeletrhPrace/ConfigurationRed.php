@@ -180,10 +180,21 @@ class ConfigurationRed extends ConfigurationDb {
     }
 
     public static function loginLogoutControler() {
+        // HESLO - malé velké písmeno, číslice, min. 8 znaků
+//        $emailPattern = "(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}";
+//        $emailInfo = "Heslo musí obsahovat nejméně jedno velké písmeno, jedno malé písmeno a jednu číslici. Jiné znaky než písmena a číslice nejsou povoleny. Délka musí být nejméně 8 znaků.";
+
+        // HESLO - malé velké písmeno, číslice, min. 3 znaky
+        $emailPattern = "(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{3,}";
+        $emailInfo = "Heslo musí obsahovat nejméně jedno velké písmeno, jedno malé písmeno a jednu číslici. Jiné znaky než písmena a číslice nejsou povoleny. Délka musí být nejméně 3 znaky.";
+
+        $siteSpecificToken = str_replace('/', '', self::RED_SITE_PATH);
         return [
-                'fieldNameJmeno' => 'jmeno'.str_replace('/', '', self::RED_SITE_PATH),
-                'fieldNameHeslo' => 'heslo'.str_replace('/', '', self::RED_SITE_PATH),
-                'fieldNameEmail' => 'email'.str_replace('/', '', self::RED_SITE_PATH)
+                'fieldNameJmeno' => 'jmeno'.$siteSpecificToken,
+                'fieldNameHeslo' => 'heslo'.$siteSpecificToken,
+                'fieldNameEmail' => 'email'.$siteSpecificToken,
+                'emailPattern' => $emailPattern,
+                'emailInfo' => $emailInfo
         ];
     }
 
@@ -233,7 +244,7 @@ class ConfigurationRed extends ConfigurationDb {
         return [
             // relativní cesta vzhledem k DOCUMENT_ROOT (htdocs) -začíná /
             'filesDirectory' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES : self::RED_FILES,
-            'publicDirectory' => self::RED_LINKS_COMMON,            
+            'publicDirectory' => self::RED_LINKS_COMMON,
             'siteDirectory' => self::RED_LINKS_SITE,
         ];
     }

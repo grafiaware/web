@@ -10,7 +10,7 @@ namespace Model\Repository;
 
 use Model\Repository\LoginRepo;
 
-use Model\Dao\MenuItemDao;
+use Model\Dao\LoginDao;
 use Model\Hydrator\HydratorInterface;
 
 use Model\Repository\CredentialsRepo;
@@ -24,9 +24,9 @@ use Model\Hydrator\LoginChildHydrator;
  */
 class LoginAggregateRepo extends LoginRepo implements LoginRepoInterface {
 
-    public function __construct(MenuItemDao $menuItemDao, HydratorInterface $loginHydrator,
+    public function __construct(LoginDao $loginDao, HydratorInterface $loginHydrator,
             CredentialsRepo $credentialsRepo, LoginChildHydrator $loginCredentialsHydrator) {
-        parent::__construct($menuItemDao, $loginHydrator);
+        parent::__construct($loginDao, $loginHydrator);
         $this->registerOneToOneAssotiation('credentials', 'login_name', $credentialsRepo);
         $this->registerHydrator($loginCredentialsHydrator);
     }

@@ -16,10 +16,11 @@ class LoginDao extends DaoAbstract {
         $this->dbHandler = $dbHandler;
     }
 
-    
+
     public function get($loginName) {
         $sql = "
-            SELECT `login`.`login_name`,                
+            SELECT
+                `login`.`login_name`
             FROM
                 `login`
             WHERE
@@ -29,7 +30,7 @@ class LoginDao extends DaoAbstract {
     }
 
     public function insert($row) {
-        $sql = "INSERT INTO login (login_name) 
+        $sql = "INSERT INTO login (login_name)
                 VALUES (:login_name )";
         return $this->execInsert($sql, [':login_name'=>$row['login_name'] ]);
     }

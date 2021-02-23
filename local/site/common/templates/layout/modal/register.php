@@ -11,8 +11,8 @@ use Site\Configuration;
                 </div>
                 <div class="ui input">
                     <input type="password" name="<?=Configuration::loginLogoutControler()['fieldNameHeslo']?>" placeholder="Heslo"
-                           pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                           title = "Heslo musí obsahovat nejméně jedno velké písmeno, jedno malé písmeno a jednu číslici. Jiné znaky než písmena a číslice nejsou povoleny. Délka musí být nejméně 8 znaků."
+                           pattern="<?=Configuration::loginLogoutControler()['emailPattern']?>"
+                           title ="<?=Configuration::loginLogoutControler()['emailInfo']?>"
                            required >
                 </div>
                 <div class="ui input">

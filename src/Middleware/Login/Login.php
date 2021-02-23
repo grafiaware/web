@@ -2,6 +2,7 @@
 namespace Middleware\Login;
 
 use Middleware\Login\Controller\LoginLogoutController;
+use Middleware\Login\Controller\RegistrationController;
 
 use Pes\Middleware\AppMiddlewareAbstract;
 use Pes\Container\Container;
@@ -44,6 +45,7 @@ class Login extends AppMiddlewareAbstract implements MiddlewareInterface {
         /** @var RouteSegmentGenerator $routeGenerator */
         $routeGenerator = $this->container->get(RouteSegmentGenerator::class);
 
+        // LoginLogoutController
         $routeGenerator->addRouteForAction('POST', '/auth/v1/logout', function(ServerRequestInterface $request) {
             /** @var LoginLogoutController $ctrl */
             $ctrl = $this->container->get(LoginLogoutController::class);
@@ -54,12 +56,14 @@ class Login extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(LoginLogoutController::class);
             return $ctrl->login($request);
             });
+
+        // RegistrationController
         $routeGenerator->addRouteForAction('POST', '/auth/v1/register', function(ServerRequestInterface $request) {
-            /** @var LoginLogoutController $ctrl */
-            $ctrl = $this->container->get(LoginLogoutController::class);
+            /** @var RegistrationController $ctrl */
+            $ctrl = $this->container->get(RegistrationController::class);
             return $ctrl->register($request);
             });
-            
+
         /** @var $router RouterInterface */
         $router = $this->container->get(RouterInterface::class);
         $router->exchangeRoutes($routeGenerator);

@@ -17,6 +17,13 @@ use Model\Entity\Credentials;
 use Model\Dao\CredentialsDao;
 use Model\Hydrator\CredentialsHydrator;
 use Model\Repository\CredentialsRepo;
+
+use Model\Dao\LoginDao;
+use Model\Hydrator\LoginHydrator;
+use Model\Repository\LoginRepo;
+use Model\Hydrator\LoginChildHydrator;
+use Model\Repository\LoginAggregateRepo;
+
 use Model\Dao\LoginAggregateReadonlyDao;
 use Model\Hydrator\LoginAggregateHydrator;
 use Model\Repository\LoginAggregateReadonlyRepo;
@@ -43,6 +50,7 @@ use Pes\Router\Router;
 
 // controller
 use Middleware\Login\Controller\LoginLogoutController;
+use Middleware\Login\Controller\RegistrationController;
 
 // status
 use StatusManager\StatusSecurityManager;
@@ -113,21 +121,37 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get('loginDbLogger'));
             },
             // db login & credentials repo
+            LoginAggregateReadonlyDao::class => function(ContainerInterface $c) {
+                return new LoginAggregateReadonlyDao($c->get(Handler::class));
+            },
             LoginAggregateReadonlyRepo::class => function(ContainerInterface $c) {
                 return new LoginAggregateReadonlyRepo(
-                        new LoginAggregateReadonlyDao($c->get(Handler::class)),
+                        $c->get(LoginAggregateReadonlyDao::class),
                         new LoginAggregateHydrator(),
                         new CredentialsHydrator()
                         );
             },
-            CredentialsRepo::class => function(ContainerInterface $c) {
-                return new CredentialsRepo(new CredentialsDao($c->get(Handler::class)), new CredentialsHydrator());
+            CredentialsDao::class => function(ContainerInterface $c) {
+                return new CredentialsDao($c->get(Handler::class));
             },
+            CredentialsRepo::class => function(ContainerInterface $c) {
+                return new CredentialsRepo($c->get(CredentialsDao::class), new CredentialsHydrator());
+            },
+            LoginAggregateRepo::class => function(ContainerInterface $c) {
+                return new LoginAggregateRepo(
+                        new LoginDao($c->get(Handler::class)),
+                        new LoginHydrator(),
+                        $c->get(CredentialsRepo::class),
+                        new LoginChildHydrator()
+                        );
+            },
+
+
             DbAuthenticator::class => function(ContainerInterface $c) {
-                return new DbAuthenticator(new CredentialsDao($c->get(Handler::class)));
+                return new DbAuthenticator($c->get(CredentialsDao::class));
             },
             DbHashAuthenticator::class => function(ContainerInterface $c) {
-                return new DbHashAuthenticator(new CredentialsDao($c->get(Handler::class)));
+                return new DbHashAuthenticator($c->get(CredentialsDao::class));
             },
             LoginLogoutController::class => function(ContainerInterface $c) {
                 return new LoginLogoutController(
@@ -135,6 +159,14 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
                     $c->get(StatusFlashRepo::class),
                     $c->get(StatusPresentationRepo::class),
                     $c->get(LoginAggregateReadonlyRepo::class),
+                    $c->get(AuthenticatorInterface::class));
+            },
+            RegistrationController::class => function(ContainerInterface $c) {
+                return new RegistrationController(
+                    $c->get(StatusSecurityRepo::class),
+                    $c->get(StatusFlashRepo::class),
+                    $c->get(StatusPresentationRepo::class),
+                    $c->get(LoginAggregateRepo::class),
                     $c->get(AuthenticatorInterface::class));
             }
         ];

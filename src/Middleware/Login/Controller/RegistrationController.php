@@ -24,7 +24,7 @@ use Model\Repository\StatusPresentationRepo;
 use Model\Repository\StatusSecurityRepo;
 use Model\Repository\StatusFlashRepo;
 use Model\Repository\CredentialsRepo;
-use Model\Repository\LoginAggregateReadonlyRepo;
+use Model\Repository\LoginAggregateRepo;
 
 use Model\Entity\Credentials;
 use Model\Entity\LoginAggregate;
@@ -34,7 +34,7 @@ use Model\Entity\LoginAggregate;
  *
  * @author pes2704
  */
-class LoginLogoutController extends StatusFrontControllerAbstract {
+class RegistrationController extends StatusFrontControllerAbstract {
 
     private $authenticator;
 
@@ -47,33 +47,12 @@ class LoginLogoutController extends StatusFrontControllerAbstract {
             StatusSecurityRepo $statusSecurityRepo,
             StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
-            LoginAggregateReadonlyRepo $loginAggregateRepo,
+            LoginAggregateRepo $loginAggregateRepo,
             AuthenticatorInterface $authenticator) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
         $this->loginAggregateRepo = $loginAggregateRepo;
         $this->authenticator = $authenticator;
     }
-
-    public function login(ServerRequestInterface $request) {
-        $requestParams = new RequestParams();
-        $login = $requestParams->getParsedBodyParam($request, 'login', FALSE);
-
-        if ($login) {
-            // používá názvy z konfigurace pro omezení množství našeptávaných jmen při vypl%nování formuláře v prohlížečích
-            $fieldNameJmeno = Configuration::loginLogoutControler()['fieldNameJmeno'];
-            $fieldNameHeslo = Configuration::loginLogoutControler()['fieldNameHeslo'];
-            $loginJmeno = $requestParams->getParsedBodyParam($request, $fieldNameJmeno, FALSE);
-            $loginHeslo = $requestParams->getParsedBodyParam($request, $fieldNameHeslo, FALSE);
-            if ($loginJmeno AND $loginHeslo) {
-                $loginAggregateEntity = $this->loginAggregateRepo->get($loginJmeno);
-                if (isset($loginAggregateEntity) AND $this->authenticator->authenticate($loginAggregateEntity, $loginHeslo)) {  // z databáze
-                    $this->statusSecurityRepo->get()->renewSecurityStatus($loginAggregateEntity);
-                }
-            }
-        }
-        return $this->redirectSeeLastGet($request); // 303 See Other
-    }
-
 
     public function register(ServerRequestInterface $request) {
         $requestParams = new RequestParams();
@@ -124,21 +103,5 @@ class LoginLogoutController extends StatusFrontControllerAbstract {
 
         return $this->redirectSeeLastGet($request); // 303 See Other
 
-    }
-
-
-    public function logout(ServerRequestInterface $request) {
-        $logout = (new RequestParams())->getParsedBodyParam($request, 'logout', FALSE);
-        if ($logout) {
-            $this->removeLoggedUser();  // bez parametru User
-        }
-        return $this->redirectSeeLastGet($request); // 303 See Other
-
-    }
-
-
-
-    private function removeLoggedUser() {
-        $this->statusSecurityRepo->get()->renewSecurityStatus(null);
     }
 }

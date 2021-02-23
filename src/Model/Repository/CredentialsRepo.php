@@ -7,6 +7,8 @@
  */
 
 namespace Model\Repository;
+
+use Model\Entity\EntityInterface;
 use Model\Entity\CredentialsInterface;
 use Model\Entity\Credentials;
 use Model\Dao\CredentialsDao;
@@ -19,7 +21,7 @@ use Model\Repository\Exception\UnableRecreateEntityException;
  *
  * @author pes2704
  */
-class CredentialsRepo extends RepoAbstract implements RepoInterface {
+class CredentialsRepo extends RepoAbstract implements CredentialsRepoInterface {
 
     public function __construct(CredentialsDao $credentialdDao, HydratorInterface $userHydrator) {
         $this->dao = $credentialdDao;
@@ -28,15 +30,19 @@ class CredentialsRepo extends RepoAbstract implements RepoInterface {
 
     /**
      *
-     * @param type $loginName
+     * @param type $loginNameFk
      * @return PaperInterface|null
      */
-    public function get($loginName): ?CredentialsInterface {
-        $index = $this->indexFromKeyParams($loginName);
+    public function get($loginNameFk): ?CredentialsInterface {
+        $index = $this->indexFromKeyParams($loginNameFk);
         if (!isset($this->collection[$index])) {
-            $this->recreateEntity($index, $this->dao->get($loginName));
+            $this->recreateEntity($index, $this->dao->get($loginNameFk));
         }
         return $this->collection[$index] ?? NULL;
+    }
+
+    public function getByReference($id): ?EntityInterface {
+        return $this->get($loginNameFk);
     }
 
     public function add(CredentialsInterface $credentials) {
