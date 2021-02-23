@@ -34,4 +34,5 @@ class LoginAggregateRepo extends LoginRepo implements LoginRepoInterface {
     protected function createEntity() {
         return new LoginAggregate();
     }
+
 }

@@ -8,35 +8,13 @@ namespace Model\Entity;
  *
  * @author pes2704
  */
-class LoginAggregate extends EntityAbstract implements LoginAggregateInterface {
-
-    /**
-     * @var string
-     */
-    private $loginName;
+class LoginAggregate extends Login implements LoginAggregateInterface {
 
     /**
      *
      * @var CredetialsInterface
      */
     private $credentials;
-    /**
-     *
-     * @return string|null
-     */
-    public function getLoginName(): ?string {
-        return $this->loginName;
-    }
-
-    /**
-     *
-     * @param string $loginName
-     * @return \Model\Entity\LoginAggregateInterface
-     */
-    public function setLoginName(string $loginName): LoginAggregateInterface {
-        $this->loginName = $loginName;
-        return $this;
-    }
 
     /**
      *
@@ -55,6 +33,4 @@ class LoginAggregate extends EntityAbstract implements LoginAggregateInterface {
         $this->credentials = $credentials;
         return $this;
     }
-
-
 }

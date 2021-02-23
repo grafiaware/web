@@ -34,14 +34,4 @@ class PaperAggregateRepo extends PaperRepo implements RepoInterface, PaperRepoIn
     protected function createEntity() {
         return new PaperAggregate();
     }
-
-    protected function indexFromEntity(PaperInterface $paper) {
-        return $paper->getId();
-    }
-
-    protected function indexFromRow($row) {
-        return $row['id'];
-    }
-
-
 }

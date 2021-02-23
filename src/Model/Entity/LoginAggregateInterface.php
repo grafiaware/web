@@ -12,20 +12,7 @@ namespace Model\Entity;
  *
  * @author pes2704
  */
-interface LoginAggregateInterface {
-
-    /**
-     *
-     * @return string|null
-     */
-    public function getLoginName(): ?string;
-
-    /**
-     *
-     * @param string $loginName
-     * @return LoginAggregateInterface
-     */
-    public function setLoginName(string $loginName): LoginAggregateInterface;
+interface LoginAggregateInterface extends LoginInterface {
 
     /**
      *
