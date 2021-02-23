@@ -11,7 +11,7 @@ namespace Security\Auth;
 use Model\Entity\LoginAggregateInterface;
 use Model\Entity\LoginAggregate;
 
-use Model\Dao\LoginAggregateDao;
+use Model\Dao\LoginAggregateReadonlyDao;
 
 use Pes\Type\Date;
 

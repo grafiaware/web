@@ -10,7 +10,8 @@ namespace Model\Repository;
 use Model\Entity\LoginAggregateInterface;
 use Model\Entity\LoginAggregate;
 use Model\Entity\Credentials;
-use Model\Dao\LoginAggregateDao;
+use Model\Dao\LoginAggregateReadonlyDao;
+use Model\Hydrator\HydratorReadonlyInterface;
 use Model\Hydrator\HydratorInterface;
 
 use Model\Repository\Exception\UnableRecreateEntityException;
@@ -20,7 +21,7 @@ use Model\Repository\Exception\UnableRecreateEntityException;
  *
  * @author pes2704
  */
-class LoginAggregateReadonlyRepo extends RepoAbstract implements RepoInterface {
+class LoginAggregateReadonlyRepo extends RepoAbstract implements LoginAggregateReadonlyRepoInterface {
 
     /**
      *
@@ -31,7 +32,7 @@ class LoginAggregateReadonlyRepo extends RepoAbstract implements RepoInterface {
 
 
     public function __construct(
-            LoginAggregateDao $loginAggregateDao,
+            LoginAggregateReadonlyDao $loginAggregateDao,
             HydratorInterface $loginAggregateHydrator,
             HydratorInterface $credentialsHydrator
             ) {

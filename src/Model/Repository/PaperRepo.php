@@ -67,7 +67,7 @@ class PaperRepo extends RepoAbstract implements PaperRepoInterface {
 
     public function remove(PaperInterface $paper) {
         $index = $this->indexFromEntity($paper);
-        $this->removeEntity($entity, $index);
+        $this->removeEntity($paper, $index);
     }
 
     protected function createEntity() {

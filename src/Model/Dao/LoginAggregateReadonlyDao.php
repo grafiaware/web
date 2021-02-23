@@ -8,7 +8,7 @@ use Pes\Database\Handler\HandlerInterface;
  *
  * @author pes2704
  */
-class LoginAggregateDao extends DaoAbstract {
+class LoginAggregateReadonlyDao extends DaoAbstract {
 
     protected $dbHandler;
 

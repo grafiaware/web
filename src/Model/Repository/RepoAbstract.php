@@ -26,7 +26,7 @@ use Model\Repository\Exception\BadImplemntastionOfChildRepository;
  *
  * @author pes2704
  */
-abstract class RepoAbstract implements RepoInterface {
+abstract class RepoAbstract {
 
     public static $counter;
     protected $count;

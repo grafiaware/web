@@ -17,7 +17,7 @@ use Model\Entity\Credentials;
 use Model\Dao\CredentialsDao;
 use Model\Hydrator\CredentialsHydrator;
 use Model\Repository\CredentialsRepo;
-use Model\Dao\LoginAggregateDao;
+use Model\Dao\LoginAggregateReadonlyDao;
 use Model\Hydrator\LoginAggregateHydrator;
 use Model\Repository\LoginAggregateReadonlyRepo;
 
@@ -115,7 +115,7 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
             // db login & credentials repo
             LoginAggregateReadonlyRepo::class => function(ContainerInterface $c) {
                 return new LoginAggregateReadonlyRepo(
-                        new LoginAggregateDao($c->get(Handler::class)),
+                        new LoginAggregateReadonlyDao($c->get(Handler::class)),
                         new LoginAggregateHydrator(),
                         new CredentialsHydrator()
                         );

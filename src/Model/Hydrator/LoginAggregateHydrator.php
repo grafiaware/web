@@ -29,13 +29,7 @@ class LoginAggregateHydrator implements HydratorInterface {
         $loginAggregate->setCredentials($row['credentials']);
     }
 
-    /**
-     *
-     * @param EntityInterface $login
-     * @param array $row
-     */
-    public function extract(EntityInterface $login, &$row) {
-        throw new \ogicException("LoginAggregateHydrator neimplementuje extract - je určen pro read only repository.");
+    public function extract(EntityInterface $entity, &$row) {
+        ;
     }
-
 }
