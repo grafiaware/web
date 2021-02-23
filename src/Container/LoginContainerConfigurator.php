@@ -158,7 +158,7 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
                     $c->get(StatusSecurityRepo::class),
                     $c->get(StatusFlashRepo::class),
                     $c->get(StatusPresentationRepo::class),
-                    $c->get(LoginAggregateReadonlyRepo::class),
+                    $c->get(LoginAggregateRepo::class),
                     $c->get(AuthenticatorInterface::class));
             },
             RegistrationController::class => function(ContainerInterface $c) {

@@ -41,7 +41,7 @@ class CredentialsRepo extends RepoAbstract implements CredentialsRepoInterface {
         return $this->collection[$index] ?? NULL;
     }
 
-    public function getByReference($id): ?EntityInterface {
+    public function getByReference($loginNameFk): ?EntityInterface {
         return $this->get($loginNameFk);
     }
 

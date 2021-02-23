@@ -19,7 +19,6 @@ use Model\Entity\EntityInterface;
  */
 interface CredentialsRepoInterface extends RepoAssotiatedOneInterface {
     public function get($loginNameFk): ?CredentialsInterface;
-    public function getByReference($id): ?EntityInterface;
     public function add(CredentialsInterface $credentials);
     public function remove(CredentialsInterface $credentials);
 }
