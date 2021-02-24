@@ -65,18 +65,26 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
         $filesDirectory = Configuration::transformator()['filesDirectory'];
         $publicDirectory = Configuration::transformator()['publicDirectory'];
         $siteDirectory = Configuration::transformator()['siteDirectory'];
-        // změněna cesta ke složce files
+//        $transform = array(
+//            'src="images/'               => 'src="'.$siteDirectory.'images/',   // <img>
+//            'srcset="images/'               => 'srcset="'.$siteDirectory.'images/',   // <img>
+//
+//            'src="video/'               => 'src="'.$filesDirectory.'video/',   // <video>
+//            'href="video/'               => 'href="'.$filesDirectory.'video/',   // video fallback pro stžení <a href=... >
+//            'src="files/'            => 'src="'.$filesDirectory.'files/',   //
+//            'src="../files/'            => 'src="'.$filesDirectory.'files/',   // pro chybně zadané obrázky (s tečkami)
+//            'href="files/'              => 'href="'.$filesDirectory.'files/',  // pro download
+//
+//            'src="public/web/'=>'src="'.$publicDirectory,
+//        );
         $transform = array(
-            'src="images/'               => 'src="'.$siteDirectory.'images/',   // <img>
-            'srcset="images/'               => 'srcset="'.$siteDirectory.'images/',   // <img>
-            
-            'src="video/'               => 'src="'.$filesDirectory.'video/',   // <video>
-            'href="video/'               => 'href="'.$filesDirectory.'video/',   // video fallback pro stžení <a href=... >
-            'src="files/'            => 'src="'.$filesDirectory.'files/',   //
-            'src="../files/'            => 'src="'.$filesDirectory.'files/',   // pro chybně zadané obrázky (s tečkami)
-            'href="files/'              => 'href="'.$filesDirectory.'files/',  // pro download
-            
-            'src="public/web/'=>'src="'.$publicDirectory,
+            '"images/'               => '"'.$siteDirectory.'images/',   // <img>
+
+            '"video/'               => '"'.$filesDirectory.'video/',   // <video>
+            '"files/'            => '"'.$filesDirectory.'files/',   //
+            '"../files/'            => '"'.$filesDirectory.'files/',   // pro chybně zadané obrázky (s tečkami)
+
+            '"public/web/'=>'"'.$publicDirectory,
         );
         $first = str_replace(array_keys($transform), array_values($transform), $text);
         $transformUrls = $this->transformUrls($first);
