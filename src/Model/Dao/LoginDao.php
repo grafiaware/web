@@ -36,9 +36,9 @@ class LoginDao extends DaoAbstract {
     }
 
     public function update($row) {
-        $sql = "UPDATE login SET login_name = :login_name
-                WHERE `login_name` = :login_name";
-        return $this->execUpdate($sql, [ ':login_name'=>$row['login_name'] ]);
+        return ;
+        // TODO: Svoboda : upravir na readonly.
+        throw new \LogicException("Nelze měnit unikátní identifikátor login name.");
     }
 
     public function delete($row) {
