@@ -1,17 +1,13 @@
 <?php
 namespace Model\Entity;
 
-/**
- * Description of User
- *
- * @author pes2704
- */
+
 class Registration extends EntityAbstract implements RegistrationInterface {
 
     /**
      * @var string
      */
-    private $loginNameFK;
+    private $loginNameFk;
 
   
     /**
@@ -22,7 +18,7 @@ class Registration extends EntityAbstract implements RegistrationInterface {
     /**
      * @var \DateTime
      */
-    private $emailTimestamp;
+    private $emailTime;
 
   
     
@@ -38,13 +34,13 @@ class Registration extends EntityAbstract implements RegistrationInterface {
      * 
      * @return string|null
      */
-    public function getLoginNameFK(): ?string {
-        return $this->loginNameFK;
+    public function getLoginNameFk(): ?string {
+        return $this->loginNameFk;
     }
 
    
-    public function setLoginNameFK(string $loginNameFK): RegistrationInterface {
-        $this->loginName = $loginName;
+    public function setLoginNameFk(string $loginNameFk): RegistrationInterface {
+        $this->loginNameFk = $loginNameFk;
         return $this;
     }
 
@@ -54,12 +50,12 @@ class Registration extends EntityAbstract implements RegistrationInterface {
      * 
      * @return \DateTime|null
      */
-    public function getEmailTimestamp(): ?\DateTime {
-        return $this->emailTimestamp;
+    public function getEmailTime(): ?\DateTime {
+        return $this->emailTime;
     }
     
-    public function setEmailTimestamp(\DateTime $emailTimestamp): RegistrationInterface {
-        $this->emailTimestamp = $emailTimestamp;
+    public function setEmailTime(\DateTime $emailTime): RegistrationInterface {
+        $this->emailTime = $emailTime;
         return $this;
     }
 

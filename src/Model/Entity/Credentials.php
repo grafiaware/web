@@ -13,7 +13,7 @@ class Credentials extends EntityAbstract implements CredentialsInterface {
     /**
      * @var string
      */
-    private $loginNameFK;
+    private $loginNameFk;
 
     /**
      * @var string
@@ -41,7 +41,7 @@ class Credentials extends EntityAbstract implements CredentialsInterface {
      * @return string|null
      */
     public function getLoginNameFk(): ?string {
-        return $this->loginNameFK;
+        return $this->loginNameFk;
     }
 
     /**
@@ -49,8 +49,8 @@ class Credentials extends EntityAbstract implements CredentialsInterface {
      * @param string $loginName
      * @return \Model\Entity\CredentialsInterface
      */
-    public function setLoginNameFk(string $loginNameFK): CredentialsInterface {
-        $this->loginNameFK = $loginNameFK;
+    public function setLoginNameFk(string $loginNameFk): CredentialsInterface {
+        $this->loginNameFk = $loginNameFk;
         return $this;
     }
 

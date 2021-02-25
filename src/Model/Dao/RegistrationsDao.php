@@ -21,7 +21,7 @@ class RegistrationDao extends DaoAbstract {
         $sql = "
             SELECT `registration`.`login_name_FK`,                          
                    `registration`.`email`,         
-                   `registration`.`email_timestamp`
+                   `registration`.`email_time`
             FROM
                 `registration`
             WHERE
@@ -31,18 +31,18 @@ class RegistrationDao extends DaoAbstract {
     }
 
     public function insert($row) {
-        $sql = "INSERT INTO registration (login_name_FK, email, email_timestamp )
-                VALUES (:login_name_FK, :email, :email_timestamp )";
+        $sql = "INSERT INTO registration (login_name_FK, email, email_time )
+                VALUES (:login_name_FK, :email, :email_time )";
         return $this->execInsert($sql, [':login_name_FK'=>$row['login_name_FK'], 
                                         ':email'=>$row['email'], 
-                                        ':email_timestamp'=>$row['email_timestamp'] ]);
+                                        ':email_time'=>$row['email_time'] ]);
     }
 
     public function update($row) {
-        $sql = "UPDATE registration SET  email = :email, email_timestamp = :email_timestamp
+        $sql = "UPDATE registration SET  email = :email, email_time = :email_time
                 WHERE `login_name_FK` = :login_name_FK";
         return $this->execUpdate($sql, [ ':email'=>$row['email'], 
-                                         ':email_timestamp'=>$row['email_timestamp'],
+                                         ':email_time'=>$row['email_time'],
                                          ':login_name_FK'=>$row['login_name_FK']   ]);
     }
 

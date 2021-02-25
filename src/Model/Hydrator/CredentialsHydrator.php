@@ -11,16 +11,13 @@ namespace Model\Hydrator;
 use Model\Entity\EntityInterface;
 use Model\Entity\CredentialsInterface;
 
-/**
- * Description of PaperHydrator
- *
- * @author pes2704
- */
-class CredentialsHydrator implements HydratorInterface {
 
+class CredentialsHydrator implements HydratorInterface {
+           
+   
     /**
-     *
-     * @param PaperInterface $$user
+     * 
+     * @param EntityInterface $credentials
      * @param type $row
      */
     public function hydrate(EntityInterface $credentials, &$row) {
@@ -30,13 +27,13 @@ class CredentialsHydrator implements HydratorInterface {
             ->setPasswordHash($row['password_hash'])
             ->setRole($row['role'])
             ->setCreated($row['created'] ? \DateTime::createFromFormat('Y-m-d H:i:s', $row['created']) : NULL)
-            ->setUpdated($row['updated'] ? \DateTime::createFromFormat('Y-m-d H:i:s', $row['updated']) : NULL);
-                ;
+            ->setUpdated($row['updated'] ? \DateTime::createFromFormat('Y-m-d H:i:s', $row['updated']) : NULL);                
     }
 
+    
     /**
-     *
-     * @param PaperInterface $credentials
+     * 
+     * @param EntityInterface $credentials
      * @param type $row
      */
     public function extract(EntityInterface $credentials, &$row) {
