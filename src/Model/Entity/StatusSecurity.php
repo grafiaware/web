@@ -33,7 +33,7 @@ class StatusSecurity implements StatusSecurityInterface {
      *
      * @return \Model\Entity\LoginAggregateInterface|null
      */
-    public function getCredentials(): ?LoginAggregateInterface {
+    public function getLoginAggregate(): ?LoginAggregateInterface {
         return $this->loginAggregate;
     }
 

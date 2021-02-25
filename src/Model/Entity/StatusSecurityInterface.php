@@ -28,7 +28,7 @@ interface StatusSecurityInterface {
      *
      * @return LoginAggregateInterface|null
      */
-    public function getCredentials(): ?LoginAggregateInterface;
+    public function getLoginAggregate(): ?LoginAggregateInterface;
 
     /**
      *

@@ -129,7 +129,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
     #### komponenty ######
 
     protected function getLoginLogoutComponent() {
-        $credentials = $this->statusSecurityRepo->get()->getCredentials();
+        $credentials = $this->statusSecurityRepo->get()->getLoginAggregate();
         if (isset($credentials)) {
             /** @var LogoutComponent $logoutComponent */
             $logoutComponent = $this->container->get(LogoutComponent::class);
@@ -150,7 +150,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
     }
 
     protected function getRegisterComponent() {
-        $credentials = $this->statusSecurityRepo->get()->getCredentials();
+        $credentials = $this->statusSecurityRepo->get()->getLoginAggregate();
         if (!isset($credentials)) {
             /** @var RegisterComponent $registerComponent */
             $registerComponent = $this->container->get(RegisterComponent::class);
@@ -165,7 +165,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
     }
 
     protected function getUserActionComponent() {
-        $credentials = $this->statusSecurityRepo->get()->getCredentials();
+        $credentials = $this->statusSecurityRepo->get()->getLoginAggregate();
         if (isset($credentials)) {
             /** @var UserActionComponent $actionComponent */
             $actionComponent = $this->container->get(UserActionComponent::class);

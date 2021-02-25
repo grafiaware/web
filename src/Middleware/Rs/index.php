@@ -60,7 +60,7 @@ $max_pocet_urovni_menu=5;  /*max pocet urovni menu - nelze vytvorit dalsi uroven
 //if ((session_is_registered ("sess_user")) and ($logout == 0)) {$pristupOK = 1;}
 if (isset ($_SESSION['security']['user'])) {
     $pristupOK = 1;
-    $user = $_SESSION['security']['user']->getCredentials();
+    $user = $_SESSION['security']['user']->getLoginAggregate();
 }
 if (isset($app) AND $app) {     // zvolena nová app - proměnná app v GET requestu - v nastroje.php vytvoren GET request - nastroje.php se volaly v cody/hlavicka.php - zakomentováno
     $_SESSION ["sess_app"] = $app;

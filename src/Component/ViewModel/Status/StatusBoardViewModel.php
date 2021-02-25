@@ -37,8 +37,8 @@ class StatusBoardViewModel extends StatusViewModelAbstract implements StatusBoar
 
     public function getSecurityInfo() {
         return [
-            'userName' => $this->statusSecurityRepo->get()->getCredentials()->getLoginName(),
-            'role' => $this->statusSecurityRepo->get()->getCredentials()->getRole(),
+            'userName' => $this->statusSecurityRepo->get()->getLoginAggregate()->getLoginName(),
+            'role' => $this->statusSecurityRepo->get()->getLoginAggregate()->getRole(),
             ];
     }
 

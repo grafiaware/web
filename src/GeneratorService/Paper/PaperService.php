@@ -47,7 +47,7 @@ class PaperService extends ContentServiceAbstract {
      */
     public function initialize($menuItemIdFk): void {
         $paper = new Paper();
-        $paper->setEditor($this->statusSecurityRepo->get()->getCredentials()->getLoginName());
+        $paper->setEditor($this->statusSecurityRepo->get()->getLoginAggregate()->getLoginName());
         $paper->setMenuItemIdFk($menuItemIdFk);
         $this->paperRepo->add($paper);
     }

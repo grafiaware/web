@@ -70,7 +70,7 @@ class RsContainerConfigurator extends ContainerConfiguratorAbstract {
             Credentials::class => function(ContainerInterface $c) {
                 /** @var StatusSecurityRepo $securityStatusRepo */
                 $securityStatusRepo = $c->get(StatusSecurityRepo::class);
-                return $securityStatusRepo->get()->getCredentials();
+                return $securityStatusRepo->get()->getLoginAggregate();
             },
             // database account
             Account::class => function(ContainerInterface $c) {

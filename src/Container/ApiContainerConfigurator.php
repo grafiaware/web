@@ -11,8 +11,8 @@ use Psr\Container\ContainerInterface;   // pro parametr closure function(Contain
 use Pes\Logger\FileLogger;
 
 //user
-use Model\Entity\Credentials;
-use Model\Entity\CredentialsInterface;
+use Model\Entity\LoginAggregate;
+use Model\Entity\LoginAggregateInterface;
 
 // database
 use Pes\Database\Handler\{
@@ -79,7 +79,7 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
     public function getAliases() {
         return [
             RouterInterface::class => Router::class,
-            CredentialsInterface::class => Credentials::class,
+            LoginAggregateInterface::class => LoginAggregate::class,
             AccountInterface::class => Account::class,
             HandlerInterface::class => Handler::class,
         ];
@@ -172,11 +172,11 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
         return [
             //  má AppContainer jako delegáta
             //
-            // session Credetials - vyzvedává Credentials entitu z session - tato služba se používá pro vytvoření objetu Account a tedy pro připojení k databázi
-            Credentials::class => function(ContainerInterface $c) {
+            // session LoginAggregate - vyzvedává LoginAggregate entitu z session - tato služba se používá pro vytvoření objetu Account a tedy pro připojení k databázi
+            LoginAggregate::class => function(ContainerInterface $c) {
                 /** @var StatusSecurityRepo $securityStatusRepo */
                 $securityStatusRepo = $c->get(StatusSecurityRepo::class);
-                return $securityStatusRepo->get()->getCredentials();
+                return $securityStatusRepo->get()->getLoginAggregate();
             },
             ## !!!!!! Objekty Account a Handler musí být v kontejneru vždy definovány jako service (tedy vytvářeny jako singleton) a nikoli
             #         jako factory. Pokud definuji jako factory, může vzniknou řada objektů Account a Handler, které vznikly s použití
@@ -186,15 +186,16 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
             ##
             // database account - podle role přihlášebého uživatele - User ze session
             Account::class => function(ContainerInterface $c) {
-                /** @var Credentials $sessionCredentials */
-                $sessionCredentials = $c->get(Credentials::class);
-                if (isset($sessionCredentials)) {
-                    switch ($sessionCredentials->getRole()) {
+                /** @var LoginAggregate $sessionLoginAggregate */
+                $sessionLoginAggregate = $c->get(LoginAggregate::class);
+                if (isset($sessionLoginAggregate)) {
+                    $role = $sessionLoginAggregate->getCredentials()->getRole();
+                    switch ($role) {
                         case 'administrator':
                             $account = new Account($c->get('api.db.administrator.name'), $c->get('api.db.administrator.password'));
                             break;
                         default:
-                            if ($sessionCredentials->getRole()) {
+                            if ($role) {
                                 $account = new Account($c->get('api.db.authenticated.name'), $c->get('api.db.authenticated.password'));
                             } else {
                                 $account = new Account($c->get('api.db.everyone.name'), $c->get('api.db.everyone.password'));

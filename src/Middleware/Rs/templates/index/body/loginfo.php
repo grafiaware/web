@@ -24,7 +24,7 @@ if ($sess_prava['chpass']) {
 </div>
 <div class="fifteen wide mobile five wide tablet three wide computer column right aligned">
     <?php
-        $sess_user = $_SESSION['security']['user']->getCredentials();
+        $sess_user = $_SESSION['security']['user']->getLoginAggregate();
         echo "<p><i class='user icon'></i> <b>" . $sess_user."</b> | ";
         if ($sess_prava['chpass']) {
             echo '<a href="index.php?list=chpass">Změnit heslo</a></p>';
