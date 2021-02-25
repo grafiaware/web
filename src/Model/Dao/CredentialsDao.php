@@ -46,7 +46,7 @@ class CredentialsDao extends DaoAbstract {
     }
 
     public function update($row) {
-        $sql = "UPDATE credentials SET password_hash = :password_hash, role = :role, email = :email
+        $sql = "UPDATE credentials SET password_hash = :password_hash, role = :role
                 WHERE `login_name_fk` = :login_name_fk";
         return $this->execUpdate($sql, [':password_hash'=>$row['password_hash'],
                                         ':role'=>$row['role'],

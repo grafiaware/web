@@ -1,40 +1,33 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Model\Repository;
 
 use Model\Entity\EntityInterface;
-use Model\Entity\CredentialsInterface;
-use Model\Entity\Credentials;
-use Model\Dao\CredentialsDao;
+use Model\Entity\RegistrationInterface;
+use Model\Entity\Registration;
+use Model\Dao\RegistrationDao;
 use Model\Hydrator\HydratorInterface;
 
 use Model\Repository\Exception\UnableRecreateEntityException;
 
-/**
- * Description of Menu
- *
- * @author pes2704
- */
-class CredentialsRepo extends RepoAbstract implements CredentialsRepoInterface {
 
-    public function __construct(CredentialsDao $credentialsDao, HydratorInterface $credentialsHydrator) {
-        $this->dao = $credentialsDao;
-        $this->registerHydrator($credentialsHydrator);
+/**
+ * Description of RegistrationRepo
+ *
+ * @author vlse2610
+ */
+class RegistrationRepo extends RepoAbstract implements RegistrationRepoInterface {
+
+
+
+
+    public function __construct(RegistrationDao $registrationDao, HydratorInterface $registrationHydrator) {
+        $this->dao = $registrationDao;
+        $this->registerHydrator($registrationHydrator);
     }
 
     
-    /**
-     * 
-     * @param type $loginNameFk
-     * @return CredentialsInterface|null
-     */
-    public function get($loginNameFk): ?CredentialsInterface {
+    
+    public function get($loginNameFk): ?RegistrationInterface {
         $index = $this->indexFromKeyParams($loginNameFk);
         if (!isset($this->collection[$index])) {
             $this->recreateEntity($index, $this->dao->get($loginNameFk));
@@ -46,11 +39,11 @@ class CredentialsRepo extends RepoAbstract implements CredentialsRepoInterface {
         return $this->get($loginNameFk);
     }
 
-    public function add(CredentialsInterface $credentials) {
+    public function add(RegistrationInterface $registration) {
         $this->addEntity($credentials);
     }
 
-    public function remove(CredentialsInterface $credentials) {
+    public function remove(RegistrationInterface $registration) {
         $this->removeEntity($credentials);
     }
 
@@ -62,7 +55,7 @@ class CredentialsRepo extends RepoAbstract implements CredentialsRepoInterface {
         return $loginName;
     }
 
-    protected function indexFromEntity(CredentialsInterface $credentials) {
+    protected function indexFromEntity(RegistrationInterface $registration) {
         return $credentials->getLoginName();
     }
 
@@ -70,4 +63,3 @@ class CredentialsRepo extends RepoAbstract implements CredentialsRepoInterface {
         return $row['login_name'];
     }
     }
-

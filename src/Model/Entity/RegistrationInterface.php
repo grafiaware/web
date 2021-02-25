@@ -9,11 +9,11 @@ namespace Model\Entity;
 interface RegistrationInterface {
     public function getLoginNameFK(): ?string;    
     public function getEmail(): ?string;
-    public function getEmailTimestamp(): ?\DateTime;
+    public function getEmailTime(): ?\DateTime;
   
     
     public function setLoginNameFK(string $loginNameFK): RegistrationInterface;          
     public function setEmail(string $email=null): RegistrationInterface;
-    public function setEmailTimestamp(\DateTime $created): RegistrationInterface;
+    public function setEmailTime(\DateTime $created): RegistrationInterface;
     
 }
