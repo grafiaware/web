@@ -8,6 +8,8 @@
 
 namespace Model\Repository\Association;
 
+use Model\Repository\Exception\UnableToCreateAssotiatedChildEntity;
+
 /**
  * Description of AssotiationAbstract
  *
@@ -28,7 +30,7 @@ class AssociationAbstract {
         if (is_array($parentKeyAttribute)) {
             foreach ($parentKeyAttribute as $field) {
                 if( ! array_key_exists($field, $row)) {
-                    throw new UnableToCreateAssotiatedChildEntity("Nelze vytvořit asociovanou entitu pro vlastnost rodiče {$this->parentPropertyName}. Atribut referenčního klíče obsahuje pole $field a pole řádku dat pro vytvoření potomkovské entity neobsahuje takový prvek.");
+                    throw new UnableToCreateAssotiatedChildEntity("Nelze vytvořit asociovanou entitu pro vlastnost rodiče {$this->parentPropertyName}. Atribut referenčního klíče obsahuje pole $field a pole řádku dat pro vytvoření potomkovské entity neobsahuje prvek s takovým kménem.");
                 }
                 $childKey[$field] = $row[$field];
             }
