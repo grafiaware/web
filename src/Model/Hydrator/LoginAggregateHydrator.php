@@ -9,7 +9,7 @@
 namespace Model\Hydrator;
 
 use Model\Entity\EntityInterface;
-use Model\Entity\LoginAggregateInterface;
+use Model\Entity\LoginAggregateCredentialsInterface;
 
 /**
  * Description of PaperHydrator
@@ -24,7 +24,7 @@ class LoginAggregateHydrator implements HydratorInterface {
      * @param type $row
      */
     public function hydrate(EntityInterface $loginAggregate, &$row) {
-        /** @var LoginAggregateInterface $loginAggregate */
+        /** @var LoginAggregateCredentialsInterface $loginAggregate */
         $loginAggregate->setLoginName($row['login_name']);
         $loginAggregate->setCredentials($row['credentials']);
     }

@@ -8,13 +8,13 @@
 
 namespace Model\Repository;
 
-use Model\Entity\LoginAggregateInterface;
+use Model\Entity\LoginAggregateCredentialsInterface;
 
 /**
  *
  * @author pes2704
  */
 interface LoginAggregateReadonlyRepoInterface  extends RepoReadonlyInterface {
-    public function get($loginName): ?LoginAggregateInterface;
+    public function get($loginName): ?LoginAggregateCredentialsInterface;
 
 }

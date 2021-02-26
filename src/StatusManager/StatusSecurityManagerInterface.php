@@ -9,7 +9,7 @@
 namespace StatusManager;
 
 use Model\Entity\StatusSecurityInterface;
-use Model\Entity\LoginAggregateInterface;
+use Model\Entity\LoginAggregateCredentialsInterface;
 
 /**
  *
@@ -31,8 +31,8 @@ interface StatusSecurityManagerInterface {
      * Musí smazat všechny informace v security statusu odvozené z bezpečnostního kontextu,
      * typicky např. ty, vytvořené s použitím přihlášeného uživatele.
      *
-     * @param LoginAggregateInterface $loginAggregate
+     * @param LoginAggregateCredentialsInterface $loginAggregate
      * @return void
      */
-    public function renewSecurityStatus(LoginAggregateInterface $loginAggregate=null): void;
+    public function renewSecurityStatus(LoginAggregateCredentialsInterface $loginAggregate=null): void;
 }

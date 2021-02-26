@@ -7,7 +7,7 @@
  */
 
 namespace Model\Repository;
-use Model\Entity\LoginAggregateInterface;
+use Model\Entity\LoginAggregateCredentialsInterface;
 use Model\Entity\LoginAggregate;
 use Model\Entity\Credentials;
 use Model\Dao\LoginAggregateReadonlyDao;
@@ -29,8 +29,6 @@ class LoginAggregateReadonlyRepo extends RepoAbstract implements LoginAggregateR
      */
     private $childHydrator;
 
-
-
     public function __construct(
             LoginAggregateReadonlyDao $loginAggregateDao,
             HydratorInterface $loginAggregateHydrator,
@@ -44,9 +42,9 @@ class LoginAggregateReadonlyRepo extends RepoAbstract implements LoginAggregateR
     /**
      *
      * @param string $loginName
-     * @return LoginAggregateInterface|null
+     * @return LoginAggregateCredentialsInterface|null
      */
-    public function get($loginName): ?LoginAggregateInterface {
+    public function get($loginName): ?LoginAggregateCredentialsInterface {
         $index = $this->indexFromKeyParams($loginName);
         if (!isset($this->collection[$index])) {
             $joinedRow = $this->dao->get($loginName);
@@ -72,7 +70,7 @@ class LoginAggregateReadonlyRepo extends RepoAbstract implements LoginAggregateR
         return $loginName;
     }
 
-    protected function indexFromEntity(LoginAggregateInterface $loginAggregate) {
+    protected function indexFromEntity(LoginAggregateCredentialsInterface $loginAggregate) {
         return $loginAggregate->getLoginName();
     }
 

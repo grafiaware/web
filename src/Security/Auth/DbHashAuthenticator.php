@@ -3,7 +3,7 @@
 namespace Security\Auth;
 
 use Pes\Security\Password\Password;
-use Model\Entity\LoginAggregateInterface;
+use Model\Entity\LoginAggregateCredentialsInterface;
 
 /**
  * Description of Menu
@@ -19,11 +19,11 @@ class DbHashAuthenticator implements AuthenticatorInterface {
     /**
      * Parametry jsou získány z přihlašovacího  formuláře.
      *
-     * @param LoginAggregateInterface $loginAggregateEntity
+     * @param LoginAggregateCredentialsInterface $loginAggregateEntity
      * @param string $password
      * @return bool
      */
-    public function authenticate(LoginAggregateInterface $loginAggregateEntity, $password): bool {
+    public function authenticate(LoginAggregateCredentialsInterface $loginAggregateEntity, $password): bool {
         $verifier = function($password, $hash) { return $password===$hash; };
              //  ukládadlo - "ukládá" nový hash do proměnné zdejší - $reHash  //$reHash - tj. vyzdvihovatel
         $reHashSaver = function($newHash) use (&$reHash) { $reHash =  $newHash ; return TRUE; };

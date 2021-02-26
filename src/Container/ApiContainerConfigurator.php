@@ -12,7 +12,7 @@ use Pes\Logger\FileLogger;
 
 //user
 use Model\Entity\LoginAggregate;
-use Model\Entity\LoginAggregateInterface;
+use Model\Entity\LoginAggregateCredentialsInterface;
 
 // database
 use Pes\Database\Handler\{
@@ -79,7 +79,7 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
     public function getAliases() {
         return [
             RouterInterface::class => Router::class,
-            LoginAggregateInterface::class => LoginAggregate::class,
+            LoginAggregateCredentialsInterface::class => LoginAggregate::class,
             AccountInterface::class => Account::class,
             HandlerInterface::class => Handler::class,
         ];
