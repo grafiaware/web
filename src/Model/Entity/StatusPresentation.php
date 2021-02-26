@@ -19,7 +19,7 @@ use Model\Entity\{
  *
  * @author pes2704
  */
-class StatusPresentation implements StatusPresentationInterface {
+class StatusPresentation extends EntityAbstract implements StatusPresentationInterface {
 
     /**
      * @var LanguageInterface

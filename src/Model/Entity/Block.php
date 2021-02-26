@@ -18,6 +18,13 @@ class Block extends EntityAbstract implements BlockInterface {
     private $name;
     private $uidFk;
 
+
+    private $keyAttribute = 'name';
+
+    public function getKeyAttribute() {
+        return $this->keyAttribute;
+    }
+
     public function getName() {
         return $this->name;
     }

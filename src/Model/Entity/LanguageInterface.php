@@ -12,7 +12,7 @@ namespace Model\Entity;
  *
  * @author pes2704
  */
-interface LanguageInterface {
+interface LanguageInterface extends EntityInterface {
     public function getLangCode();
     public function getLocale();
     public function getName();

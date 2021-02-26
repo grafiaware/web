@@ -14,7 +14,7 @@ use Model\Entity\MenuItemInterface;
  *
  * @author pes2704
  */
-interface HierarchyAggregateInterface {
+interface HierarchyAggregateInterface extends EntityInterface {
     public function getUid();
     public function getDepth();
     public function getLeftNode();

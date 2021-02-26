@@ -13,13 +13,19 @@ namespace Model\Entity;
  *
  * @author pes2704
  */
-class Language implements LanguageInterface {
+class Language extends EntityAbstract implements LanguageInterface {
 
     private $langCode;
     private $locale;
     private $name;
     private $collation;
     private $state;
+
+    private $keyAttribute = 'lang_code';
+
+    public function getKeyAttribute() {
+        return $this->keyAttribute;
+    }
 
     public function getLangCode() {
         return $this->langCode;
@@ -60,7 +66,7 @@ class Language implements LanguageInterface {
         $this->collation = $collation;
         return $this;
     }
-    
+
     public function setState($state) {
         $this->state = $state;
         return $this;

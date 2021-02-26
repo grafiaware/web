@@ -14,9 +14,9 @@ use Model\Repository\RepoInterface;
  *
  * @author pes2704
  */
-interface AssociationFactoryInterface {
-    public function createAssociated(&$row);
+interface AssociationInterface {
+    public function getAssociated(&$row);
     public function getChildRepo(): RepoInterface;
-    public function getParentPropertyName();
-    public function getParentIdName();
+//    public function getParentPropertyName();
+//    public function getParentReferenceKeyAttribute();
 }

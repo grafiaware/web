@@ -16,7 +16,7 @@ use Model\Entity\UserActionsInterface;
  *
  * @author pes2704
  */
-class StatusSecurity implements StatusSecurityInterface {
+class StatusSecurity extends EntityAbstract implements StatusSecurityInterface {
 
     /**
      * @var LoginAggregateInterface

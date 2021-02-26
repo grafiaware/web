@@ -22,7 +22,7 @@ use Model\Entity\UserActionsInterface;
  *
  * @author pes2704
  */
-interface StatusSecurityInterface {
+interface StatusSecurityInterface extends EntitySingletorInterface {
 
     /**
      *

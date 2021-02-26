@@ -12,7 +12,7 @@ namespace Model\Entity;
  *
  * @author pes2704
  */
-interface BlockInterface {
+interface BlockInterface extends EntityInterface {
     public function getName();
 
     public function getUidFk();

@@ -13,7 +13,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Site\Configuration;
 
 use Model\Entity\MenuItemInterface;
-use Model\Entity\PaperAggregate;
+use Model\Entity\PaperAggregatePaperContent;
 
 // komponenty
 use Component\View\{
@@ -56,7 +56,7 @@ class TemplateControler extends XhrControlerAbstract {
     ### action metody ###############
 
     public function papertemplate(ServerRequestInterface $request, $folder) {
-        $paperAggregate = new PaperAggregate();
+        $paperAggregate = new PaperAggregatePaperContent();
         $paperAggregate->exchangePaperContentsArray([])   //  ['content'=> Message::t('Contents')]
                 ->setTemplate($folder)
                 ->setHeadline(Message::t('Headline'))

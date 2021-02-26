@@ -8,13 +8,13 @@
 
 namespace Model\Repository;
 
-use Model\Entity\MenuItemPaperAggregateInterface;
+use Model\Entity\MenuItemAggregatePaperInterface;
 
 /**
  *
  * @author pes2704
  */
 interface MenuItemAggregateRepoInterface  extends MenuItemRepoInterface {
-    public function get($langCodeFk, $uidFk): ?MenuItemPaperAggregateInterface;
+    public function get($langCodeFk, $uidFk): ?MenuItemAggregatePaperInterface;
 
 }

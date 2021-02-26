@@ -13,7 +13,7 @@ namespace Model\Entity;
  *
  * @author pes2704
  */
-class EntityAbstract implements EntityInterface {
+abstract class EntityAbstract {
 
     private $persisted = FALSE;
 

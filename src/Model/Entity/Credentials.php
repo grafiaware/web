@@ -36,6 +36,12 @@ class Credentials extends EntityAbstract implements CredentialsInterface {
      */
     private $updated;
 
+    private $keyAttribute = 'login_name_fk';
+
+    public function getKeyAttribute() {
+        return $this->keyAttribute;
+    }
+
     /**
      *
      * @return string|null

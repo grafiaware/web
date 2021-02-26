@@ -8,7 +8,7 @@
 
 namespace Model\Entity;
 
-use Model\Entity\MenuItemPaperAggregateInterface;
+use Model\Entity\MenuItemAggregatePaperInterface;
 use Model\Entity\MenuItem;
 use Model\Entity\Paper;
 use Model\Entity\PaperContent;
@@ -18,7 +18,7 @@ use Model\Entity\PaperContent;
  *
  * @author pes2704
  */
-class MenuItemPaperAggregate extends MenuItem implements MenuItemPaperAggregateInterface {
+class MenuItemAggregatePaper extends MenuItem implements MenuItemAggregatePaperInterface {
 
     /**
      * @var PaperAggregateInterface
@@ -36,9 +36,9 @@ class MenuItemPaperAggregate extends MenuItem implements MenuItemPaperAggregateI
     /**
      *
      * @param Paper $paperAggregate
-     * @return \Model\Entity\MenuItemPaperAggregateInterface
+     * @return \Model\Entity\MenuItemAggregatePaperInterface
      */
-    public function setPaper(PaperAggregateInterface $paperAggregate): MenuItemPaperAggregateInterface {
+    public function setPaper(PaperAggregateInterface $paperAggregate): MenuItemAggregatePaperInterface {
         $this->paper = $paperAggregate;
         return $this;
     }

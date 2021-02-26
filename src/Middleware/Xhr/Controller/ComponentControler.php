@@ -14,7 +14,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Pes\Http\Request\RequestParams;
 
 use Model\Entity\MenuItemInterface;
-use Model\Entity\BlockAggregateInterface;
+use Model\Entity\BlockAggregateMenuItemInterface;
 use Model\Entity\PaperInterface;
 
 // komponenty

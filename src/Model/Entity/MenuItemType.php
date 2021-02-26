@@ -17,6 +17,12 @@ class MenuItemType extends EntityAbstract implements MenuItemTypeInterface {
 
     private $type;
 
+    private $keyAttribute = 'type';
+
+    public function getKeyAttribute() {
+        return $this->keyAttribute;
+    }
+
     public function getType() {
         return $this->type;
     }

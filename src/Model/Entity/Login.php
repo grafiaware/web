@@ -10,10 +10,16 @@ namespace Model\Entity;
  */
 class Login extends EntityAbstract implements LoginInterface {
 
+    private $keyAttribute = 'login_name';
+
     /**
      * @var string
      */
     private $loginName;
+
+    public function getKeyAttribute() {
+        return $this->keyAttribute;
+    }
 
     /**
      *

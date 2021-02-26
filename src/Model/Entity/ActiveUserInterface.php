@@ -12,7 +12,7 @@ namespace Model\Entity;
  *
  * @author pes2704
  */
-interface ActiveUserInterface {
+interface ActiveUserInterface extends EntityInterface {
     public function getUser();
     public function getItemId();
     public function getEditStartTime();

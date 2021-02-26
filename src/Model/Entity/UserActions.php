@@ -13,7 +13,7 @@ namespace Model\Entity;
  *
  * @author pes2704
  */
-class UserActions implements UserActionsInterface {
+class UserActions extends EntityAbstract implements UserActionsInterface {
 
     private $editLayout = FALSE;
     private $editPaper = FALSE;

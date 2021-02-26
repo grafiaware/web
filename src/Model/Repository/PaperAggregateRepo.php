@@ -8,7 +8,7 @@
 
 namespace Model\Repository;
 use Model\Entity\PaperInterface;
-use Model\Entity\PaperAggregate;
+use Model\Entity\PaperAggregatePaperContent;
 use Model\Dao\PaperDao;
 use Model\Dao\DaoChildInterface;
 use Model\Hydrator\PaperHydrator;
@@ -32,6 +32,6 @@ class PaperAggregateRepo extends PaperRepo implements RepoInterface, PaperRepoIn
     }
 
     protected function createEntity() {
-        return new PaperAggregate();
+        return new PaperAggregatePaperContent();
     }
 }

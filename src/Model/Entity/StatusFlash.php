@@ -15,7 +15,7 @@ use Psr\Http\Message\ServerRequestInterface;
  *
  * @author pes2704
  */
-class StatusFlash implements StatusFlashInterface {
+class StatusFlash extends EntityAbstract implements StatusFlashInterface {
 
     private $oldFlashMessage='';
     private $oldFlashCommand;

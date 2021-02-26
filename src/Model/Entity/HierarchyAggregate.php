@@ -28,6 +28,12 @@ class HierarchyAggregate extends EntityAbstract implements HierarchyAggregateInt
      * @var MenuItemInterface
      */
     private $menuItem;
+    
+    private $keyAttribute = 'uid';
+
+    public function getKeyAttribute() {
+        return $this->keyAttribute;
+    }
 
     public function getLeftNode() {
         return $this->leftNode;

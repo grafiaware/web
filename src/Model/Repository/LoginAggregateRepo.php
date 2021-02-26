@@ -14,8 +14,12 @@ use Model\Dao\LoginDao;
 use Model\Hydrator\HydratorInterface;
 
 use Model\Repository\CredentialsRepo;
-use Model\Entity\LoginAggregate;
+
 use Model\Hydrator\LoginChildHydrator;
+
+use Model\Entity\LoginAggregate;
+use Model\Entity\LoginAggregateInterface;
+use Model\Entity\LoginInterface;
 
 /**
  * Description of Menu
@@ -33,6 +37,12 @@ class LoginAggregateRepo extends LoginRepo implements LoginRepoInterface {
 
     protected function createEntity() {
         return new LoginAggregate();
+    }
+
+    public function add(LoginInterface $loginAggregate) {
+        /** @var LoginAggregateInterface $loginAggregate */
+        $loginAggregate = $loginAggregate;
+        parent::add($login);
     }
 
 }

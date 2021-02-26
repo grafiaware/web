@@ -14,9 +14,9 @@ use Model\Entity\EntityInterface;
 
 use Model\Repository\RepoPublishedOnlyModeInterface;
 
-use Model\Repository\Association\AssociationFactoryInterface;
-use Model\Repository\Association\AssociationOneToOneFactory;
-use Model\Repository\Association\AssociationOneToManyFactory;
+use Model\Repository\Association\AssociationInterface;
+use Model\Repository\Association\AssociationOneToOne;
+use Model\Repository\Association\AssociationOneToMany;
 use Model\Repository\Exception\UnableToCreateAssotiatedChildEntity;
 use Model\Repository\Exception\UnableRecreateEntityException;
 use Model\Repository\Exception\BadImplemntastionOfChildRepository;
@@ -57,16 +57,16 @@ abstract class RepoAbstract {
      * @param \Model\Repository\RepoAssotiatedOneInterface $repo
      */
     protected function registerOneToOneAssotiation($parentPropertyName, $parentIdName, RepoAssotiatedOneInterface $repo) {
-        $this->associations[$parentPropertyName] = new AssociationOneToOneFactory($parentPropertyName, $parentIdName, $repo);
+        $this->associations[$parentPropertyName] = new AssociationOneToOne($parentPropertyName, $parentIdName, $repo);
     }
 
     protected function registerOneToManyAssotiation($parentPropertyName, $parentIdName, RepoAssotiatedManyInterface $repo) {
-        $this->associations[$parentPropertyName] = new AssociationOneToManyFactory($parentPropertyName, $parentIdName, $repo);
+        $this->associations[$parentPropertyName] = new AssociationOneToMany($parentPropertyName, $parentIdName, $repo);
     }
 
     protected function addCreatedAssociations(&$row): void {
         foreach ($this->associations as $association) {
-            $association->createAssociated($row);
+            $association->getAssociated($row);
         }
     }
 
@@ -122,6 +122,29 @@ abstract class RepoAbstract {
             $this->collection[$index] = $entity;
         }
         return $index ?? null;
+    }
+
+    protected function getKey($row) {
+        $keyAttribute = $this->getKeyAttribute();
+        if (is_array($keyAttribute)) {
+            foreach ($keyAttribute as $field) {
+                if( ! array_key_exists($field, $row)) {
+                    throw new UnableToCreateAssotiatedChildEntity("Nelze vytvořit entitu pro vlastnost rodiče {$this->parentPropertyName}. Atribut referenčního klíče obsahuje pole $field a pole řádku dat pro vytvoření potomkovské entity neobsahuje takový prvek.");
+                }
+                $key[$field] = $row[$field];
+            }
+        } else {
+            $key = $row[$keyAttribute];
+        }
+        return $key;
+    }
+
+    protected function indexFromKey($key) {
+        if (is_array($key)) {
+            return implode(array_values($key));
+        } else{
+            return $key;
+        }
     }
 
     protected function addEntity(EntityInterface $entity): void {

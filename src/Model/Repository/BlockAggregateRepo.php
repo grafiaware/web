@@ -12,8 +12,8 @@ use Model\Dao\BlockDao;
 use Model\Hydrator\HydratorInterface;
 
 use Model\Repository\MenuItemRepo;
-use Model\Entity\BlockAggregateInterface;
-use Model\Entity\BlockAggregate;
+use Model\Entity\BlockAggregateMenuItemInterface;
+use Model\Entity\BlockAggregateMenuItem;
 use Model\Hydrator\BlockChildHydrator;
 
 /**
@@ -34,9 +34,9 @@ class BlockAggregateRepo extends BlockRepo implements BlockAggregateRepoInterfac
      * Vrací ComponentAggregate - agregát Component a MenuItem. Parametr $langCode je pouze použit pro výběr MenuItem.
      * @param type $langCode
      * @param type $name
-     * @return BlockAggregateInterface|null
+     * @return BlockAggregateMenuItemInterface|null
      */
-    public function getAggregate($langCode, $name): ?BlockAggregateInterface {
+    public function getAggregate($langCode, $name): ?BlockAggregateMenuItemInterface {
         $index = $this->indexFromKeyParams($name);
         if (!isset($this->collection[$index])) {
             $row = $this->dao->get($name);
@@ -49,7 +49,7 @@ class BlockAggregateRepo extends BlockRepo implements BlockAggregateRepoInterfac
     }
 
     protected function createEntity() {
-        return new BlockAggregate();
+        return new BlockAggregateMenuItem();
     }
 
     protected function indexFromKeyParams($name) {

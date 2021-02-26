@@ -25,7 +25,7 @@ use Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
 use Model\Repository\MenuItemAggregateRepo;
 use Model\Repository\PaperAggregateRepo;
 
-use Model\Entity\MenuItemPaperAggregateInterface;
+use Model\Entity\MenuItemAggregatePaperInterface;
 
 // pro contents repo
 use Pes\Database\Handler\HandlerInterface;
@@ -59,7 +59,7 @@ class PaperContentManipulationTest extends TestCase {
     private $menuItemAggRepo;
 
     /**
-     * @var MenuItemPaperAggregateInterface
+     * @var MenuItemAggregatePaperInterface
      */
     private $menuItemAgg;
     private $paper;

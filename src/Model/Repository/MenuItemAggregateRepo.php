@@ -14,11 +14,11 @@ use Model\Dao\MenuItemDao;
 use Model\Hydrator\HydratorInterface;
 
 use Model\Repository\PaperAggregateRepo;
-use Model\Entity\MenuItemPaperAggregate;
+use Model\Entity\MenuItemAggregatePaper;
 use Model\Hydrator\MenuItemChildHydrator;
 use Model\Repository\Association\AssotiationOneToOneFactory;
 
-use Model\Repository\Association\AssociationFactoryInterface;
+use Model\Repository\Association\AssociationInterface;
 
 use Model\Repository\Exception\UnableRecreateEntityException;
 
@@ -37,6 +37,6 @@ class MenuItemAggregateRepo extends MenuItemRepo implements MenuItemRepoInterfac
     }
 
     protected function createEntity() {
-        return new MenuItemPaperAggregate();
+        return new MenuItemAggregatePaper();
     }
 }

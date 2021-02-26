@@ -25,6 +25,12 @@ class MenuItem extends EntityAbstract implements MenuItemInterface {
     private $prettyuri;
     private $active;  //aktiv
 
+    private $keyAttribute = ['uid_fk', 'lang_code_fk'];
+
+    public function getKeyAttribute() {
+        return $this->keyAttribute;
+    }
+
     public function getUidFk() {
         return $this->uidFk;
     }

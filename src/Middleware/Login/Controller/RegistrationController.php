@@ -68,10 +68,10 @@ class RegistrationController extends StatusFrontControllerAbstract {
             $registerEmail = $requestParams->getParsedBodyParam($request, $fieldNameEmail, FALSE);
 
             if ($registerJmeno AND $registerHeslo AND  $registerEmail ) {
-                /** @var  Credentials $credentialsEntity  */
-                $credentialsEntity = $this->loginAggregateRepo->get($registerJmeno);
+                /** @var  Credentials $loginAggregateEntity  */
+                $loginAggregateEntity = $this->loginAggregateRepo->get($registerJmeno);
                  // !!!! jeste hledat v tabulce registration, zda neni jmeno uz rezervovane
-                if ( $credentialsEntity ) {
+                if ( $loginAggregateEntity ) {
                      //  zaznam se jmenem jiz existuje, zmente jmeno---
                 }else {
                      //verze 2
@@ -83,18 +83,18 @@ class RegistrationController extends StatusFrontControllerAbstract {
                      // jeste jeden mail "Registrace dokoncena."
 
                     //verze 1
-                    /** @var  Credentials $credentialsEntity  */
-                    $credentialsEntity = new Credentials();
-                    $credentialsEntity->setLoginNameFk($registerJmeno);
-                    $credentialsEntity->setEmail($registerEmail);
+                    /** @var  LoginAggregate $loginAggregateEntity  */
+                    $loginAggregateEntity = new LoginAggregate();
+                    $loginAggregateEntity->setLoginName($registerJmeno);
+//                    $credentialsEntity->setEmail($registerEmail);
 
                     $passwordObjekt = new Password();
                     $registerHesloHash = $passwordObjekt->getPasswordHash($registerHeslo);
-                    $credentialsEntity->setPasswordHash($registerHesloHash);
+                    $loginAggregateEntity->setCredentials((new Credentials())->setPasswordHash($registerHesloHash));
 
                     //$credentialsEntity->setPersisted();
 
-                    $this->loginAggregateRepo->add($credentialsEntity);
+                    $this->loginAggregateRepo->add($loginAggregateEntity);
                  }
 
             }

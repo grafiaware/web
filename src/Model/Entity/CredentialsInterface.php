@@ -12,17 +12,17 @@ namespace Model\Entity;
  *
  * @author pes2704
  */
-interface CredentialsInterface {
+interface CredentialsInterface extends EntityInterface {
     public function getLoginNameFk(): ?string;
     public function getPasswordHash(): ?string;
-    public function getRole(): ?string;   
+    public function getRole(): ?string;
     public function getCreated(): ?\DateTime;
     public function getUpdated(): ?\DateTime;
-    
+
     public function setLoginNameFk(string $loginNameFK): CredentialsInterface;
     public function setPasswordHash(string $password_hash): CredentialsInterface;
     public function setCreated(\DateTime $created): CredentialsInterface;
     public function setUpdated(\DateTime $updated): CredentialsInterface;
     public function setRole(string $role=null): CredentialsInterface;
-    
+
 }

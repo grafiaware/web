@@ -12,7 +12,7 @@ namespace Model\Entity;
  *
  * @author pes2704
  */
-interface MenuItemTypeInterface {
+interface MenuItemTypeInterface extends EntityInterface {
     public function getType();
     public function setType($type);
 }

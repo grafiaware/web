@@ -13,7 +13,7 @@ use Component\ViewModel\Authored\Paper\PaperViewModelInterface;
 use Component\ViewModel\Authored\Paper\NamedPaperViewModelInterface;
 
 use Model\Entity\HierarchyAggregateInterface;
-use Model\Entity\MenuItemPaperAggregateInterface;
+use Model\Entity\MenuItemAggregatePaperInterface;
 use Pes\Text\Html;
 
 /**
@@ -71,7 +71,7 @@ class HeadlinedEditableRenderer extends HtmlRendererAbstract {
             );
     }
 
-    private function renderButtons(HierarchyAggregateInterface $menuNode, MenuItemPaperAggregateInterface $paper) {
+    private function renderButtons(HierarchyAggregateInterface $menuNode, MenuItemAggregatePaperInterface $paper) {
         //TODO: atributy data-tooltip a data-position jsou pro semantic - zde jsou napevno zadané
             return
             Html::tag('div', ['class'=>$this->classMap->getClass('Buttons', 'div')],
