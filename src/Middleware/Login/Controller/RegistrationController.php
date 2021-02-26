@@ -27,7 +27,7 @@ use Model\Repository\CredentialsRepo;
 use Model\Repository\LoginAggregateCredentialsRepo;
 
 use Model\Entity\Credentials;
-use Model\Entity\LoginAggregate;
+use Model\Entity\LoginAggregateCredentials;
 
 /**
  * Description of PostController
@@ -84,7 +84,7 @@ class RegistrationController extends StatusFrontControllerAbstract {
 
                     //verze 1
                     /** @var  LoginAggregate $loginAggregateEntity  */
-                    $loginAggregateEntity = new LoginAggregate();
+                    $loginAggregateEntity = new LoginAggregateCredentials();
                     $loginAggregateEntity->setLoginName($registerJmeno);
 //                    $credentialsEntity->setEmail($registerEmail);
 
