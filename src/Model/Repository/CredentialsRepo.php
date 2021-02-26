@@ -16,11 +16,8 @@ use Model\Hydrator\HydratorInterface;
 
 use Model\Repository\Exception\UnableRecreateEntityException;
 
-/**
- * Description of Menu
- *
- * @author pes2704
- */
+
+
 class CredentialsRepo extends RepoAbstract implements CredentialsRepoInterface {
 
     public function __construct(CredentialsDao $credentialsDao, HydratorInterface $credentialsHydrator) {
@@ -58,16 +55,16 @@ class CredentialsRepo extends RepoAbstract implements CredentialsRepoInterface {
         return new Credentials();
     }
 
-    protected function indexFromKeyParams($loginName) {
-        return $loginName;
+    protected function indexFromKeyParams($loginNameFk) {
+        return $loginNameFk;
     }
 
     protected function indexFromEntity(CredentialsInterface $credentials) {
-        return $credentials->getLoginName();
+        return $credentials->getLoginNameFk(); 
     }
 
     protected function indexFromRow($row) {
-        return $row['login_name'];
+        return $row['login_name_fk'];     
     }
     }
 
