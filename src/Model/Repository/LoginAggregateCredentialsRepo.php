@@ -17,7 +17,7 @@ use Model\Repository\CredentialsRepo;
 
 use Model\Hydrator\LoginChildHydrator;
 
-use Model\Entity\LoginAggregate;
+use Model\Entity\LoginAggregateCredentials;
 use Model\Entity\LoginAggregateCredentialsInterface;
 use Model\Entity\LoginInterface;
 
@@ -36,7 +36,7 @@ class LoginAggregateCredentialsRepo extends LoginRepo implements LoginRepoInterf
     }
 
     protected function createEntity() {
-        return new LoginAggregate();
+        return new LoginAggregateCredentials();
     }
 
     public function add(LoginInterface $loginAggregate) {
