@@ -22,7 +22,7 @@ use Model\Dao\LoginDao;
 use Model\Hydrator\LoginHydrator;
 use Model\Repository\LoginRepo;
 use Model\Hydrator\LoginChildHydrator;
-use Model\Repository\LoginAggregateRepo;
+use Model\Repository\LoginAggregateCredentialsRepo;
 
 use Model\Dao\LoginAggregateReadonlyDao;
 use Model\Hydrator\LoginAggregateHydrator;
@@ -137,8 +137,8 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
             CredentialsRepo::class => function(ContainerInterface $c) {
                 return new CredentialsRepo($c->get(CredentialsDao::class), new CredentialsHydrator());
             },
-            LoginAggregateRepo::class => function(ContainerInterface $c) {
-                return new LoginAggregateRepo(
+            LoginAggregateCredentialsRepo::class => function(ContainerInterface $c) {
+                return new LoginAggregateCredentialsRepo(
                         new LoginDao($c->get(Handler::class)),
                         new LoginHydrator(),
                         $c->get(CredentialsRepo::class),
@@ -158,7 +158,7 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
                     $c->get(StatusSecurityRepo::class),
                     $c->get(StatusFlashRepo::class),
                     $c->get(StatusPresentationRepo::class),
-                    $c->get(LoginAggregateRepo::class),
+                    $c->get(LoginAggregateCredentialsRepo::class),
                     $c->get(AuthenticatorInterface::class));
             },
             RegistrationController::class => function(ContainerInterface $c) {
@@ -166,7 +166,7 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
                     $c->get(StatusSecurityRepo::class),
                     $c->get(StatusFlashRepo::class),
                     $c->get(StatusPresentationRepo::class),
-                    $c->get(LoginAggregateRepo::class),
+                    $c->get(LoginAggregateCredentialsRepo::class),
                     $c->get(AuthenticatorInterface::class));
             }
         ];

@@ -18,7 +18,7 @@ use Model\Repository\CredentialsRepo;
 use Model\Hydrator\LoginChildHydrator;
 
 use Model\Entity\LoginAggregate;
-use Model\Entity\LoginAggregateInterface;
+use Model\Entity\LoginAggregateCredentialsInterface;
 use Model\Entity\LoginInterface;
 
 /**
@@ -26,7 +26,7 @@ use Model\Entity\LoginInterface;
  *
  * @author pes2704
  */
-class LoginAggregateRepo extends LoginRepo implements LoginRepoInterface {
+class LoginAggregateCredentialsRepo extends LoginRepo implements LoginRepoInterface {
 
     public function __construct(LoginDao $loginDao, HydratorInterface $loginHydrator,
             CredentialsRepo $credentialsRepo, LoginChildHydrator $loginCredentialsHydrator) {
@@ -40,7 +40,7 @@ class LoginAggregateRepo extends LoginRepo implements LoginRepoInterface {
     }
 
     public function add(LoginInterface $loginAggregate) {
-        /** @var LoginAggregateInterface $loginAggregate */
+        /** @var LoginAggregateCredentialsInterface $loginAggregate */
         $loginAggregate = $loginAggregate;
         parent::add($loginAggregate);
     }

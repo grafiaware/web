@@ -24,7 +24,7 @@ use Model\Repository\StatusPresentationRepo;
 use Model\Repository\StatusSecurityRepo;
 use Model\Repository\StatusFlashRepo;
 use Model\Repository\CredentialsRepo;
-use Model\Repository\LoginAggregateRepo;
+use Model\Repository\LoginAggregateCredentialsRepo;
 
 use Model\Entity\Credentials;
 use Model\Entity\LoginAggregate;
@@ -47,7 +47,7 @@ class LoginLogoutController extends StatusFrontControllerAbstract {
             StatusSecurityRepo $statusSecurityRepo,
             StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
-            LoginAggregateRepo $loginAggregateRepo,
+            LoginAggregateCredentialsRepo $loginAggregateRepo,
             AuthenticatorInterface $authenticator) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
         $this->loginAggregateRepo = $loginAggregateRepo;

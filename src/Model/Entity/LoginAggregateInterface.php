@@ -12,7 +12,7 @@ namespace Model\Entity;
  *
  * @author pes2704
  */
-interface LoginAggregateInterface extends LoginInterface {
+interface LoginAggregateCredentialsInterface extends LoginInterface {
 
     /**
      *
@@ -23,7 +23,7 @@ interface LoginAggregateInterface extends LoginInterface {
     /**
      *
      * @param CredentialsInterface $credentials
-     * @return LoginAggregateInterface
+     * @return LoginAggregateCredentialsInterface
      */
-    public function setCredentials(CredentialsInterface $credentials): LoginAggregateInterface;
+    public function setCredentials(CredentialsInterface $credentials): LoginAggregateCredentialsInterface;
 }

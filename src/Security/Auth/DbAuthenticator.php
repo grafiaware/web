@@ -8,7 +8,7 @@
 
 namespace Security\Auth;
 
-use Model\Entity\LoginAggregateInterface;
+use Model\Entity\LoginAggregateCredentialsInterface;
 use Model\Entity\LoginAggregate;
 
 use Model\Dao\LoginAggregateReadonlyDao;
@@ -28,11 +28,11 @@ class DbAuthenticator implements AuthenticatorInterface {
 
     /**
      * Předpokládá, že v databázi je přímo uloženo nehashované heslo (plain text). Vlastnost Credentials entity paswordHash obsahuje nehashované heslo.
-     * @param LoginAggregateInterface $loginAggregateEntity
+     * @param LoginAggregateCredentialsInterface $loginAggregateEntity
      * @param type $password
      * @return bool
      */
-    public function authenticate(LoginAggregateInterface $loginAggregateEntity, $password): bool {
+    public function authenticate(LoginAggregateCredentialsInterface $loginAggregateEntity, $password): bool {
         $mandatory = true;
         foreach (self::MANDATORY_ATTRIBUTES as $attribute) {
             if (!$loginAggregateEntity->$attribute()) {
