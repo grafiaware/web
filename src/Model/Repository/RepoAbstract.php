@@ -129,7 +129,7 @@ abstract class RepoAbstract {
         if (is_array($keyAttribute)) {
             foreach ($keyAttribute as $field) {
                 if( ! array_key_exists($field, $row)) {
-                    throw new UnableToCreateAssotiatedChildEntity("Nelze vytvořit entitu pro vlastnost rodiče {$this->parentPropertyName}. Atribut referenčního klíče obsahuje pole $field a pole řádku dat pro vytvoření potomkovské entity neobsahuje takový prvek.");
+                    throw new UnableRecreateEntityException("Nelze vytvořit klíč entity. Atribut klíče obsahuje pole $field a pole řádku dat pro vytvoření entity neobsahuje prvek s takovým kménem.");
                 }
                 $key[$field] = $row[$field];
             }

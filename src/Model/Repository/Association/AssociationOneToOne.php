@@ -41,7 +41,11 @@ class AssociationOneToOne extends AssociationAbstract implements AssociationInte
         $childKey = $this->getChildKey($row);
         $index = $this->indexFromKey($childKey);
         if (!isset($this->entities[$index])) {
-            $this->entities[$index] = $this->childRepo->getByReference($childKey);
+            $child = $this->childRepo->getByReference($childKey);
+            if (is_null($child)) {
+                throw new UnableToCreateAssotiatedChildEntity("Nelze vytvořit asociovanou entitu pro vlastnost rodiče '$this->parentPropertyName'. Nebyla načtena entita.");
+            }
+            $this->entities[$index] = $child;
         }
         $row[$this->parentPropertyName] = $this->entities[$index];
     }

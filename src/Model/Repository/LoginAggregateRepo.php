@@ -42,7 +42,7 @@ class LoginAggregateRepo extends LoginRepo implements LoginRepoInterface {
     public function add(LoginInterface $loginAggregate) {
         /** @var LoginAggregateInterface $loginAggregate */
         $loginAggregate = $loginAggregate;
-        parent::add($login);
+        parent::add($loginAggregate);
     }
 
 }
