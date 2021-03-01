@@ -10,6 +10,7 @@ namespace Model\Hydrator;
 
 use Model\Entity\EntityInterface;
 use Model\Entity\BlockAggregateMenuItemInterface;
+use Model\Entity\MenuItemInterface;
 
 /**
  * Description of ComponentChildHydrator
@@ -26,9 +27,9 @@ class BlockChildHydrator implements HydratorInterface {
      */
     public function hydrate(EntityInterface $componentAggregate, &$row) {
         /** @var BlockAggregateMenuItemInterface $componentAggregate */
-        if (isset($row['menuItem'])) {
+        if (isset($row[MenuItemInterface::class])) {
         $componentAggregate
-            ->setMenuItem($row['menuItem']);
+            ->setMenuItem($row[MenuItemInterface::class]);
         }
     }
 
@@ -39,7 +40,7 @@ class BlockChildHydrator implements HydratorInterface {
      */
     public function extract(EntityInterface $componentAggregate, &$row) {
         /** @var BlockAggregateMenuItemInterface $componentAggregate */
-        $row['menuItem'] = $componentAggregate->getMenuItem();
+        $row[MenuItemInterface::class] = $componentAggregate->getMenuItem();
     }
 
 }

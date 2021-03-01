@@ -36,7 +36,12 @@ abstract class RepoAbstract {
     protected $new = [];
     protected $removed = [];
 
+    /**
+     *
+     * @var AssociationOneToOne []
+     */
     private $associations = [];
+    private $children = [];
 
     private $hydrators = [];
 
@@ -52,22 +57,36 @@ abstract class RepoAbstract {
 
     /**
      *
-     * @param type $parentPropertyName
-     * @param type $parentIdName
+     * @param string $entityInterfaceName Jméno interface asociované entity
+     * @param array $parentReferenceKeyAttribute Atribut klíče, který je referencí na data rodiče v úložišti dat. V databázi jde o referenční cizí klíč.
      * @param \Model\Repository\RepoAssotiatedOneInterface $repo
      */
-    protected function registerOneToOneAssotiation($parentPropertyName, $parentIdName, RepoAssotiatedOneInterface $repo) {
-        $this->associations[$parentPropertyName] = new AssociationOneToOne($parentPropertyName, $parentIdName, $repo);
+    protected function registerOneToOneAssotiation($entityInterfaceName, $parentReferenceKeyAttribute, RepoAssotiatedOneInterface $repo) {
+        $this->associations[$entityInterfaceName] = new AssociationOneToOne($parentReferenceKeyAttribute, $repo);
     }
 
-    protected function registerOneToManyAssotiation($parentPropertyName, $parentIdName, RepoAssotiatedManyInterface $repo) {
-        $this->associations[$parentPropertyName] = new AssociationOneToMany($parentPropertyName, $parentIdName, $repo);
+    /**
+     *
+     * @param string $entityClassName Interface asociované entity
+     * @param array $parentReferenceKeyAttribute Atribut klíče, který je referencí na data rodiče v úložišti dat. V databázi jde o referenční cizí klíč.
+     * @param \Model\Repository\RepoAssotiatedOneInterface $repo
+     */
+    protected function registerOneToManyAssotiation($entityClassName, $parentReferenceKeyAttribute, RepoAssotiatedOneInterface $repo) {
+        $this->associations[$entityClassName] = new AssociationOneToMany($parentReferenceKeyAttribute, $repo);
     }
 
-    protected function addCreatedAssociations(&$row): void {
-        foreach ($this->associations as $association) {
-            $association->getAssociated($row);
+    protected function addAssociationsToRow(&$row): void {
+        foreach ($this->associations as $className => $association) {
+            $row[$className] = $association->getAssociated($row);
         }
+    }
+
+    protected function addAssociated($entityInterfaceName, $entity) {
+        $this->associations[$entityInterfaceName]->addAssociated($entity);
+    }
+
+    protected function removeAssociated($entityInterfaceName, $entty) {
+        $this->associations[$entityInterfaceName]->removeAssociated($entity);
     }
 
     protected function registerHydrator(HydratorInterface $hydrator) {
@@ -112,7 +131,7 @@ abstract class RepoAbstract {
     protected function recreateEntity($index, $row): ?string {
         if ($row) {
             try {
-                $this->addCreatedAssociations($row);
+                $this->addAssociationsToRow($row);
             } catch (UnableToCreateAssotiatedChildEntity $unex) {
                 throw new UnableRecreateEntityException("Nelze obnovit agregovanou (vnořenou) entitu v repository ". get_called_class()." s indexem $index.", 0, $unex);
             }
@@ -170,6 +189,10 @@ abstract class RepoAbstract {
 
     public function flush(): void {
         if ( !($this instanceof RepoReadonlyInterface)) {
+            foreach ($this->children as $child) {
+
+            }
+
             /** @var \Model\Entity\EntityAbstract $entity */
             foreach ($this->collection as $entity) {
                 $row = [];

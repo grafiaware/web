@@ -27,8 +27,8 @@ use Component\View\{
 
 use Model\Repository\{
     MenuItemRepo, BlockAggregateRepo
-
 };
+use Model\Entity\BlockAggregateMenuItemInterface;
 
 ####################
 //use Pes\Debug\Timer;
@@ -68,11 +68,13 @@ class PageController extends LayoutControllerAbstract {
                 if (!isset($homeComponentAggregate)) {
                     throw new \UnexpectedValueException("Undefined default page (home page) defined as component with name '$homePage[1]'.");
                 }
-
+                $homeMenuItem = $homeComponentAggregate->getMenuItem();
+                if (!isset($homeMenuItem)) {
+                    throw new \UnexpectedValueException("Undefined menu item with uid: '{$homeComponentAggregate->getUidFk()}'for default page (home page) defined as component with name '$homePage[1]'.");
+                }
                 /** @var MenuItemRepo $menuItemRepo */
                 $menuItemRepo = $this->container->get(MenuItemRepo::class);
 
-                $homeMenuItem = $homeComponentAggregate->getMenuItem();
                 $homeMenuItemUid = $homeMenuItem->getUidFk();
                 $resourceUri = "www/item/$langCode/$homeMenuItemUid";
                 break;

@@ -24,42 +24,29 @@ class AssociationOneToOne extends AssociationAbstract implements AssociationInte
      */
     private $childRepo;
 
-    private $entities;
-
     /**
      *
-     * @param string $parentPropertyName Jméno vlastnosti rodičovské enity, která bude obsahovat asociovanou potomkovskou entitu
-     * @param array $parentReferenceKeyAttribute Jméno vlatnosti rodičovské enzity, která obsahuje referenční cizí klíč
-     * @param RepoAssotiatedOneInterface $childRepo Repo pro získání asociovaných entit
+     * @param array $parentReferenceKeyAttribute Atribut klíče, který je referencí na data rodiče v úložišti dat. V databázi jde o referenční cizí klíč.
+     * @param RepoAssotiatedOneInterface $childRepo Repo pro získání, ukládání a mazání asociovaných entit
      */
-    public function __construct($parentPropertyName, $parentReferenceKeyAttribute, RepoAssotiatedOneInterface $childRepo) {
-        parent::__construct($parentPropertyName, $parentReferenceKeyAttribute);
+    public function __construct($referenceKeyAttribute, RepoAssotiatedOneInterface $childRepo) {
+        parent::__construct($referenceKeyAttribute);
         $this->childRepo = $childRepo;
     }
 
     public function getAssociated(&$row) {
         $childKey = $this->getChildKey($row);
-        $index = $this->indexFromKey($childKey);
-        if (!isset($this->entities[$index])) {
-            $child = $this->childRepo->getByReference($childKey);
-            if (is_null($child)) {
-                throw new UnableToCreateAssotiatedChildEntity("Nelze vytvořit asociovanou entitu pro vlastnost rodiče '$this->parentPropertyName'. Nebyla načtena entita.");
-            }
-            $this->entities[$index] = $child;
+        $child = $this->childRepo->getByReference($childKey);
+        if (is_null($child)) {
+            throw new UnableToCreateAssotiatedChildEntity("Nelze vytvořit asociovanou entitu pro vlastnost rodiče '$this->parentPropertyName'. Nebyla načtena entita.");
         }
-        $row[$this->parentPropertyName] = $this->entities[$index];
+        return $child;
+    }
+    public function addAssociated($entity) {
+        $this->childRepo->add($entity);   //TODO: repo interface - add, remove
     }
 
-    public function getChildRepo(): RepoInterface {
-        return $this->childRepo;
+    public function removeAssociated($entty) {
+        $this->childRepo->remove($entty);
     }
-
-//    public function getParentReferenceKeyAttribute() {
-//        return $this->parentReferenceKeyAttribute;
-//    }
-
-//    public function getParentPropertyName() {
-//        return $this->parentPropertyName;
-//    }
-
 }

@@ -17,12 +17,14 @@ use Model\Repository\Exception\UnableToCreateAssotiatedChildEntity;
  */
 class AssociationAbstract {
 
-    protected $parentPropertyName;
     protected $parentReferenceKeyAttribute;
 
-    public function __construct($parentPropertyName, $parentReferenceKeyAttribute) {
-        $this->parentPropertyName = $parentPropertyName;
-        $this->parentReferenceKeyAttribute = $parentReferenceKeyAttribute;
+    /**
+     *
+     * @param array $referenceKeyAttribute Atribut klíče, který je referencí na data rodiče v úložišti dat. V databázi jde o referenční cizí klíč.
+     */
+    public function __construct($referenceKeyAttribute) {
+        $this->parentReferenceKeyAttribute = $referenceKeyAttribute;
     }
 
     protected function getChildKey($row) {
@@ -30,7 +32,7 @@ class AssociationAbstract {
         if (is_array($parentKeyAttribute)) {
             foreach ($parentKeyAttribute as $field) {
                 if( ! array_key_exists($field, $row)) {
-                    throw new UnableToCreateAssotiatedChildEntity("Nelze vytvořit asociovanou entitu pro vlastnost rodiče {$this->parentPropertyName}. Atribut referenčního klíče obsahuje pole $field a pole řádku dat pro vytvoření potomkovské entity neobsahuje prvek s takovým kménem.");
+                    throw new UnableToCreateAssotiatedChildEntity("Nelze vytvořit asociovanou entitu.. Atribut referenčního klíče obsahuje pole $field a pole řádku dat pro vytvoření potomkovské entity neobsahuje prvek s takovým jménem.");
                 }
                 $childKey[$field] = $row[$field];
             }

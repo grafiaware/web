@@ -16,11 +16,7 @@ use Model\Hydrator\HydratorInterface;
 use Model\Repository\PaperAggregateRepo;
 use Model\Entity\MenuItemAggregatePaper;
 use Model\Hydrator\MenuItemChildHydrator;
-use Model\Repository\Association\AssotiationOneToOneFactory;
-
-use Model\Repository\Association\AssociationInterface;
-
-use Model\Repository\Exception\UnableRecreateEntityException;
+use Model\Entity\PaperInterface;
 
 /**
  * Description of Menu
@@ -32,7 +28,7 @@ class MenuItemAggregateRepo extends MenuItemRepo implements MenuItemRepoInterfac
     public function __construct(MenuItemDao $menuItemDao, HydratorInterface $menuItemHydrator,
             PaperAggregateRepo $paperAggregateRepo, MenuItemChildHydrator $menuItemPaperHydrator) {
         parent::__construct($menuItemDao, $menuItemHydrator);
-        $this->registerOneToOneAssotiation('paper', 'id', $paperAggregateRepo);
+        $this->registerOneToOneAssotiation(PaperInterface::class, 'id', $paperAggregateRepo);
         $this->registerHydrator($menuItemPaperHydrator);
     }
 

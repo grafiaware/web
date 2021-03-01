@@ -14,8 +14,8 @@ use Model\Dao\DaoChildInterface;
 use Model\Hydrator\PaperHydrator;
 use Model\Repository\PaperContentRepo;
 use Model\Hydrator\PaperChildHydrator;
+use Model\Entity\PaperContentInterface;
 
-use Model\Repository\Exception\UnableRecreateEntityException;
 
 /**
  * Description of Menu
@@ -27,7 +27,7 @@ class PaperAggregateRepo extends PaperRepo implements RepoInterface, PaperRepoIn
     public function __construct(PaperDao $paperDao, PaperHydrator $paperHydrator,
             PaperContentRepo $paperContentRepo, PaperChildHydrator $paperChildHydrator) {
         parent::__construct($paperDao, $paperHydrator);
-        $this->registerOneToManyAssotiation('contents', 'id', $paperContentRepo);
+        $this->registerOneToManyAssotiation(PaperContentInterface::class, 'id', $paperContentRepo);
         $this->registerHydrator($paperChildHydrator);
     }
 

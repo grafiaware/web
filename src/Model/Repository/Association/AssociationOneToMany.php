@@ -23,33 +23,30 @@ class AssociationOneToMany extends AssociationAbstract implements AssociationInt
      */
     private $childRepo;
 
-    public function __construct($parentPropertyName, $parentIdName, RepoAssotiatedManyInterface $childRepo) {
-        parent::__construct($parentPropertyName, $parentReferenceKeyAttribute);
+    /**
+     *
+     * @param type $parentReferenceKeyAttribute
+     * @param RepoAssotiatedManyInterface $childRepo
+     */
+    public function __construct($parentReferenceKeyAttribute, RepoAssotiatedManyInterface $childRepo) {
+        parent::__construct($parentReferenceKeyAttribute);
         $this->childRepo = $childRepo;
     }
 
-//    public function getParentPropertyName() {
-//        return $this->parentPropertyName;
-//    }
-
-    public function getChildRepo(): RepoInterface {
-        return $this->childRepo;
-    }
-
-//    public function getParentReferenceKeyAttribute() {
-//        return $this->parentReferenceKeyAttribute;
-//    }
-
     public function getAssociated(&$row) {
         $childKey = $this->getChildKey($row);
-        $index = $this->indexFromKey($childKey);
-        if (!isset($this->entities[$index])) {
-            $children = $this->childRepo->findByReference($row[$this->parentReferenceKeyAttribute]);
-            if (!$children) {
-                throw new UnableToCreateAssotiatedChildEntity("Nelze vytvořit asociované entity pro vlastnost rodiče '$this->parentPropertyName'. Nebyla načtena entita.");
-            }
-            $this->entities[$index] = $children;
+        $children = $this->childRepo->findByReference($childKey);
+        if (!$children) {
+            throw new UnableToCreateAssotiatedChildEntity("Nelze vytvořit asociované entity pro vlastnost rodiče '$this->parentPropertyName'. Nebyla načtena entita.");
         }
-        $row[$this->parentPropertyName] = $this->entities[$index];
+        return $children;
+    }
+
+    public function addAssociated($entity) {
+        $this->childRepo->add($entity);
+    }
+
+    public function removeAssociated($entty) {
+        $this->childRepo->remove($entty);
     }
 }

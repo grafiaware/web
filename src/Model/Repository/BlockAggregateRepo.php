@@ -15,7 +15,7 @@ use Model\Repository\MenuItemRepo;
 use Model\Entity\BlockAggregateMenuItemInterface;
 use Model\Entity\BlockAggregateMenuItem;
 use Model\Hydrator\BlockChildHydrator;
-
+use Model\Entity\MenuItemInterface;
 /**
  * Description of Menu
  *
@@ -26,7 +26,7 @@ class BlockAggregateRepo extends BlockRepo implements BlockAggregateRepoInterfac
     public function __construct(BlockDao $componentDao, HydratorInterface $componentHydrator,
             MenuItemRepo $menuItemRepo, BlockChildHydrator $componentMenuItemHydrator) {
         parent::__construct($componentDao, $componentHydrator);
-        $this->registerOneToOneAssotiation('menuItem', ['lang_code_fk', 'uid_fk'], $menuItemRepo);
+        $this->registerOneToOneAssotiation(MenuItemInterface::class, ['lang_code_fk', 'uid_fk'], $menuItemRepo);
         $this->registerHydrator($componentMenuItemHydrator);
     }
 

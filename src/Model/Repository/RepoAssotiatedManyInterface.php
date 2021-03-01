@@ -8,8 +8,6 @@
 
 namespace Model\Repository;
 
-use Model\Entity\EntityInterface;
-
 /**
  *
  * @author pes2704

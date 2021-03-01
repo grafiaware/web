@@ -16,7 +16,10 @@ use Model\Repository\RepoInterface;
  */
 interface AssociationInterface {
     public function getAssociated(&$row);
-    public function getChildRepo(): RepoInterface;
+    public function addAssociated($entity);
+    public function removeAssociated($entty);
+
+//    public function getChildRepo(): RepoInterface;
 //    public function getParentPropertyName();
 //    public function getParentReferenceKeyAttribute();
 }

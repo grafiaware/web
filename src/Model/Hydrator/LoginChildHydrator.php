@@ -10,6 +10,7 @@ namespace Model\Hydrator;
 
 use Model\Entity\EntityInterface;
 use Model\Entity\LoginAggregateCredentialsInterface;
+use Model\Entity\CredentialsInterface;
 
 /**
  * Description of CredentialsChildHydrator
@@ -26,7 +27,7 @@ class LoginChildHydrator implements HydratorInterface {
     public function hydrate(EntityInterface $loginAggregate, &$row) {
         /** @var LoginAggregateCredentialsInterface $loginAggregate */
         $loginAggregate
-            ->setCredentials($row['credentials']);
+            ->setCredentials($row[CredentialsInterface::class]);
     }
 
     /**
@@ -36,7 +37,7 @@ class LoginChildHydrator implements HydratorInterface {
      */
     public function extract(EntityInterface $loginAgregate, &$row) {
         /** @var LoginAggregateCredentialsInterface $loginAgregate */
-        $row['credentials'] = $loginAgregate->getCredentials();
+        $row[CredentialsInterface::class] = $loginAgregate->getCredentials();
     }
 
 }
