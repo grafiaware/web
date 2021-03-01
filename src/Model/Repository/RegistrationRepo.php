@@ -40,26 +40,26 @@ class RegistrationRepo extends RepoAbstract implements RegistrationRepoInterface
     }
 
     public function add(RegistrationInterface $registration) {
-        $this->addEntity($credentials);
+        $this->addEntity($registration);
     }
 
     public function remove(RegistrationInterface $registration) {
-        $this->removeEntity($credentials);
+        $this->removeEntity($registration);
     }
 
     protected function createEntity() {
-        return new Credentials();
+        return new Registration();
     }
 
-    protected function indexFromKeyParams($loginName) {
-        return $loginName;
+    protected function indexFromKeyParams($loginNameFk) {
+        return $loginNameFk;
     }
 
     protected function indexFromEntity(RegistrationInterface $registration) {
-        return $credentials->getLoginName();
+        return $registration->getLoginNameFK();
     }
 
     protected function indexFromRow($row) {
-        return $row['login_name'];
+        return $row['login_name_fk'];
     }
     }
