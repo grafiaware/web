@@ -88,6 +88,7 @@ class RegistrationController extends StatusFrontControllerAbstract {
                     $registerHesloHash = $passwordObjekt->getPasswordHash($registerHeslo);
                     $credentials = new Credentials();
                     $credentials->setPasswordHash($registerHesloHash);
+                    $credentials->setLoginNameFk($registerJmeno);
 
                     /** @var  LoginAggregate $loginAggregateEntity  */
                     $loginAggregateEntity = new LoginAggregateCredentials();

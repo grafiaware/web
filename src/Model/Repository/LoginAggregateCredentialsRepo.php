@@ -32,7 +32,7 @@ class LoginAggregateCredentialsRepo extends LoginRepo implements LoginRepoInterf
     public function __construct(LoginDao $loginDao, HydratorInterface $loginHydrator,
             CredentialsRepo $credentialsRepo, LoginChildHydrator $loginCredentialsHydrator) {
         parent::__construct($loginDao, $loginHydrator);
-        $this->registerOneToOneAssotiation(CredentialsInterface::class, 'login_name', $credentialsRepo);
+        $this->registerOneToOneAssociation(CredentialsInterface::class, 'login_name', $credentialsRepo);
         $this->registerHydrator($loginCredentialsHydrator);
     }
 
@@ -42,8 +42,10 @@ class LoginAggregateCredentialsRepo extends LoginRepo implements LoginRepoInterf
 
     public function add(LoginInterface $loginAggregate) {
         /** @var LoginAggregateCredentialsInterface $loginAggregate */
-        $this->addAssociated(CredentialsInterface::class, $loginAggregate); //add($loginAggregate->getCredentials()); <- do repo abstract
         parent::add($loginAggregate);
+        parent::flush();
+        $this->extract($loginAggregate, $row);
+        $this->addAssociated(CredentialsInterface::class, $row[CredentialsInterface::class]); //add($loginAggregate->getCredentials()); <- do repo abstract
     }
     public function remove(LoginInterface $loginAggregate) {
         /** @var LoginAggregateCredentialsInterface $loginAggregate */
