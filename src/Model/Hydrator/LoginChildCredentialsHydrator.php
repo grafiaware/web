@@ -17,7 +17,7 @@ use Model\Entity\CredentialsInterface;
  *
  * @author pes2704
  */
-class LoginChildHydrator implements HydratorInterface {
+class LoginChildCredentialsHydrator implements HydratorInterface {
 
     /**
      *

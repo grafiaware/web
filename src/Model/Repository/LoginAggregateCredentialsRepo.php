@@ -15,7 +15,7 @@ use Model\Hydrator\HydratorInterface;
 
 use Model\Repository\CredentialsRepo;
 
-use Model\Hydrator\LoginChildHydrator;
+use Model\Hydrator\LoginChildCredentialsHydrator;
 
 use Model\Entity\LoginAggregateCredentials;
 use Model\Entity\LoginAggregateCredentialsInterface;
@@ -30,7 +30,7 @@ use Model\Entity\CredentialsInterface;
 class LoginAggregateCredentialsRepo extends LoginRepo implements LoginRepoInterface {
 
     public function __construct(LoginDao $loginDao, HydratorInterface $loginHydrator,
-            CredentialsRepo $credentialsRepo, LoginChildHydrator $loginCredentialsHydrator) {
+            CredentialsRepo $credentialsRepo, LoginChildCredentialsHydrator $loginCredentialsHydrator) {
         parent::__construct($loginDao, $loginHydrator);
         $this->registerOneToOneAssociation(CredentialsInterface::class, 'login_name', $credentialsRepo);
         $this->registerHydrator($loginCredentialsHydrator);

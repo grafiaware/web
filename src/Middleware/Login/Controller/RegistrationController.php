@@ -35,11 +35,13 @@ use Model\Entity\LoginAggregateCredentials;
  *
  * @author pes2704
  */
-class RegistrationController extends StatusFrontControllerAbstract {
+class RegistrationController extends StatusFrontControllerAbstract
+{
 
     private $authenticator;
 
     private $loginAggregateRegistrationRepo;
+    private $loginAggregateCredentialsRepo;
 
     /**
      *
@@ -48,14 +50,18 @@ class RegistrationController extends StatusFrontControllerAbstract {
                 StatusSecurityRepo $statusSecurityRepo,
                    StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
+     LoginAggregateCredentialsRepo $loginAggregateCredentialsRepo,
     LoginAggregateRegistrationRepo $loginAggregateRegistrationRepo,
-            AuthenticatorInterface $authenticator) {
+            AuthenticatorInterface $authenticator)
+    {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
+        $this->loginAggregateCredentialsRepo = $loginAggregateCredentialsRepo;
         $this->loginAggregateRegistrationRepo = $loginAggregateRegistrationRepo;
         $this->authenticator = $authenticator;
     }
 
-    public function register(ServerRequestInterface $request) {
+    public function register(ServerRequestInterface $request)
+    {
         $requestParams = new RequestParams();
         $register = $requestParams->getParsedBodyParam($request, 'register', FALSE);
 
@@ -70,11 +76,11 @@ class RegistrationController extends StatusFrontControllerAbstract {
 
             if ($registerJmeno AND $registerHeslo AND  $registerEmail ) {
                 /** @var  Credentials $loginAggregateEntity  */
-                $loginAggregateEntity = $this->loginAggregateRepo->get($registerJmeno);
+                $loginAggregateEntity = $this->loginAggregateRegistrationRepo->get($registerJmeno);
                  // !!!! jeste hledat v tabulce registration, zda neni jmeno uz rezervovane
                 if ( isset($loginAggregateEntity) ) {
                      //  zaznam se jmenem jiz existuje, zmente jmeno---
-                }else {
+                } else {
                      //verze 2
                      // ulozit udaje do tabulky, do ktere - registration??? + cas: do kdy je cekano na potvrzeni registrace
                      // protoze musi byt rezervace jmena nez potvrdi
@@ -104,6 +110,53 @@ class RegistrationController extends StatusFrontControllerAbstract {
         }
 
         return $this->redirectSeeLastGet($request); // 303 See Other
+
+    }
+
+    /**
+     *
+     * ###############
+     * ### verze 1 ###
+     * ###############
+     *
+     * @param ServerRequestInterface $request
+     * @return type
+     */
+    public function register1(ServerRequestInterface $request)
+    {
+        $requestParams = new RequestParams();
+        $register = $requestParams->getParsedBodyParam($request, 'register', FALSE);
+
+        if ($register) {
+            $fieldNameJmeno = Configuration::loginLogoutControler()['fieldNameJmeno'];
+            $fieldNameHeslo = Configuration::loginLogoutControler()['fieldNameHeslo'];
+            $fieldNameEmail = Configuration::loginLogoutControler()['fieldNameEmail'];
+
+            $registerJmeno = $requestParams->getParsedBodyParam($request, $fieldNameJmeno, FALSE);
+            $registerHeslo = $requestParams->getParsedBodyParam($request, $fieldNameHeslo, FALSE);
+            $registerEmail = $requestParams->getParsedBodyParam($request, $fieldNameEmail, FALSE);
+
+            if ($registerJmeno AND $registerHeslo AND  $registerEmail ) {
+                /** @var  LoginAggregateCredentials $loginAggregateEntity  */
+                $loginAggregateEntity = $this->loginAggregateCredentialsRepo->get($registerJmeno);
+                if (! isset($loginAggregateEntity) ) {
+                    $registerHesloHash = (new Password())->getPasswordHash($registerHeslo);
+                    $credentials = new Credentials();
+                    $credentials->setPasswordHash($registerHesloHash);
+                    $credentials->setLoginNameFk($registerJmeno);
+
+                    /** @var  LoginAggregate $loginAggregateEntity  */
+                    $loginAggregateEntity = new LoginAggregateCredentials();
+                    $loginAggregateEntity->setLoginName($registerJmeno);
+                    $loginAggregateEntity->setCredentials($credentials);
+                    $this->loginAggregateRepo->add($loginAggregateEntity);
+                 }
+            }
+        }
+        return $this->redirectSeeLastGet($request); // 303 See Other
+    }
+    
+    public function confirm(ServerRequestInterface $request) {
 
     }
 }
