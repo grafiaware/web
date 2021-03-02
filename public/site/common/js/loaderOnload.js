@@ -24,6 +24,12 @@ function replaceElement(id, apiUri){
         //semantic-ui popup (použitý např. ikony v online-stáncích)
         $('.popup.icon').popup();
         
+        //semantic-ui accordion (použitý např. pro výpis informací v profilu přihlášeného uživatele)
+        $('.styled.accordion').accordion();
+        
+        //a tab is a hidden section of content activated by a menu 
+        $('.tabular.menu .item').tab(); 
+        
          // Detect request animation frame
         var scroll = window.requestAnimationFrame ||
         // IE Fallback

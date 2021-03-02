@@ -8,7 +8,7 @@ use Pes\Text\Html;
 /** @var PaperAggregateInterface $paperAggregate */
 ?>
 
-        <div class="stretched row equal width">
-            <?= $this->repeat(__DIR__.'/rozvrzeni-vystavovatelu/vystavovatel.php', $radekVystavovatelu) ?>
-        </div>
-
+                        
+                            <div class="content">
+                                <p><?= $nazevPrednasky ?></p>
+                            </div>

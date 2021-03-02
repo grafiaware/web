@@ -8,4 +8,6 @@ use Pes\Text\Html;
 /** @var PaperAggregateInterface $paperAggregate */
 ?>
 
-<i class="<?= $ikona ?> big popup icon link" data-content="<?= $dataContent ?>" data-variation="small"></i>
+                            <div class="content">
+                                <p><?= $firma ?></p>
+                            </div>

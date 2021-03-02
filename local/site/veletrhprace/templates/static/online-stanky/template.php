@@ -14,10 +14,8 @@ use Model\Entity\PaperAggregateInterface;
         </perex>
     </section>
     <section>
-        <form>
-            <content>
-                <?php include "content/hala.php" ?>
-            </content>
-        </form>
+        <content>
+            <?php include "content/profil.php" ?>
+        </content>
     </section>
 </article>
