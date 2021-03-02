@@ -15,7 +15,7 @@ use Model\Hydrator\HydratorInterface;
 
 use Model\Repository\CredentialsRepo;
 
-use Model\Hydrator\LoginChildHydrator;
+use Model\Hydrator\LoginChildCredentialsHydrator;
 
 use Model\Entity\LoginAggregateCredentials;
 use Model\Entity\LoginAggregateCredentialsInterface;
@@ -30,9 +30,9 @@ use Model\Entity\CredentialsInterface;
 class LoginAggregateCredentialsRepo extends LoginRepo implements LoginRepoInterface {
 
     public function __construct(LoginDao $loginDao, HydratorInterface $loginHydrator,
-            CredentialsRepo $credentialsRepo, LoginChildHydrator $loginCredentialsHydrator) {
+            CredentialsRepo $credentialsRepo, LoginChildCredentialsHydrator $loginCredentialsHydrator) {
         parent::__construct($loginDao, $loginHydrator);
-        $this->registerOneToOneAssotiation(CredentialsInterface::class, 'login_name', $credentialsRepo);
+        $this->registerOneToOneAssociation(CredentialsInterface::class, 'login_name', $credentialsRepo);
         $this->registerHydrator($loginCredentialsHydrator);
     }
 
@@ -42,8 +42,10 @@ class LoginAggregateCredentialsRepo extends LoginRepo implements LoginRepoInterf
 
     public function add(LoginInterface $loginAggregate) {
         /** @var LoginAggregateCredentialsInterface $loginAggregate */
-        $this->addAssociated(CredentialsInterface::class, $loginAggregate); //add($loginAggregate->getCredentials()); <- do repo abstract
         parent::add($loginAggregate);
+        parent::flush();
+        $this->extract($loginAggregate, $row);
+        $this->addAssociated(CredentialsInterface::class, $row[CredentialsInterface::class]); //add($loginAggregate->getCredentials()); <- do repo abstract
     }
     public function remove(LoginInterface $loginAggregate) {
         /** @var LoginAggregateCredentialsInterface $loginAggregate */

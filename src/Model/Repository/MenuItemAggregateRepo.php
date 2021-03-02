@@ -28,7 +28,7 @@ class MenuItemAggregateRepo extends MenuItemRepo implements MenuItemRepoInterfac
     public function __construct(MenuItemDao $menuItemDao, HydratorInterface $menuItemHydrator,
             PaperAggregateRepo $paperAggregateRepo, MenuItemChildHydrator $menuItemPaperHydrator) {
         parent::__construct($menuItemDao, $menuItemHydrator);
-        $this->registerOneToOneAssotiation(PaperInterface::class, 'id', $paperAggregateRepo);
+        $this->registerOneToOneAssociation(PaperInterface::class, 'id', $paperAggregateRepo);
         $this->registerHydrator($menuItemPaperHydrator);
     }
 

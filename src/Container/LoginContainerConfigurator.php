@@ -21,8 +21,14 @@ use Model\Repository\CredentialsRepo;
 use Model\Dao\LoginDao;
 use Model\Hydrator\LoginHydrator;
 use Model\Repository\LoginRepo;
-use Model\Hydrator\LoginChildHydrator;
+use Model\Hydrator\LoginChildCredentialsHydrator;
 use Model\Repository\LoginAggregateCredentialsRepo;
+
+use Model\Dao\RegistrationDao;
+use Model\Hydrator\RegistrationHydrator;
+use Model\Repository\RegistrationRepo;
+use Model\Hydrator\LoginChildRegistrationHydrator;
+use Model\Repository\LoginAggregateRegistrationRepo;
 
 use Model\Dao\LoginAggregateReadonlyDao;
 use Model\Hydrator\LoginAggregateHydrator;
@@ -142,10 +148,23 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
                         new LoginDao($c->get(Handler::class)),
                         new LoginHydrator(),
                         $c->get(CredentialsRepo::class),
-                        new LoginChildHydrator()
+                        new LoginChildCredentialsHydrator()
                         );
             },
-
+            RegistrationDao::class => function(ContainerInterface $c) {
+                return new RegistrationDao($c->get(Handler::class));
+            },
+            RegistrationRepo::class => function(ContainerInterface $c) {
+                return new RegistrationRepo($c->get(RegistrationDao::class), new RegistrationHydrator());
+            },
+            LoginAggregateRegistrationRepo::class => function(ContainerInterface $c) {
+                return new LoginAggregateRegistrationRepo(
+                        new LoginDao($c->get(Handler::class)),
+                        new LoginHydrator(),
+                        $c->get(RegistrationRepo::class),
+                        new LoginChildRegistrationHydrator()
+                        );
+            },
 
             DbAuthenticator::class => function(ContainerInterface $c) {
                 return new DbAuthenticator($c->get(CredentialsDao::class));
@@ -167,6 +186,7 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
                     $c->get(StatusFlashRepo::class),
                     $c->get(StatusPresentationRepo::class),
                     $c->get(LoginAggregateCredentialsRepo::class),
+                    $c->get(LoginAggregateRegistrationRepo::class),
                     $c->get(AuthenticatorInterface::class));
             }
         ];

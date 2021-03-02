@@ -26,7 +26,7 @@ class BlockAggregateRepo extends BlockRepo implements BlockAggregateRepoInterfac
     public function __construct(BlockDao $componentDao, HydratorInterface $componentHydrator,
             MenuItemRepo $menuItemRepo, BlockChildHydrator $componentMenuItemHydrator) {
         parent::__construct($componentDao, $componentHydrator);
-        $this->registerOneToOneAssotiation(MenuItemInterface::class, ['lang_code_fk', 'uid_fk'], $menuItemRepo);
+        $this->registerOneToOneAssociation(MenuItemInterface::class, ['lang_code_fk', 'uid_fk'], $menuItemRepo);
         $this->registerHydrator($componentMenuItemHydrator);
     }
 

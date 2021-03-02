@@ -45,13 +45,11 @@ class LoginRepo extends RepoAbstract implements LoginRepoInterface {
     }
 
     public function add(LoginInterface $login) {
-        $index = $this->indexFromEntity($login);
-        $this->addEntity($login, $index);
+        $this->addEntity($login);
     }
 
     public function remove(LoginInterface $login) {
-        $index = $this->indexFromEntity($login);
-        $this->removeEntity($login, $index);
+        $this->removeEntity($login);
     }
 
     protected function createEntity() {

@@ -8,7 +8,7 @@ use Model\Hydrator\HydratorInterface;
 
 use Model\Repository\RegistrationRepo;
 
-use Model\Hydrator\LoginChildHydrator;
+use Model\Hydrator\LoginChildCredentialsHydrator;
 
 use Model\Entity\LoginAggregateRegistration;
 use Model\Entity\LoginAggregateRegistrationInterface;
@@ -25,7 +25,7 @@ class LoginAggregateRegistrationRepo extends LoginRepo implements LoginRepoInter
     
     
     public function __construct(LoginDao $loginDao,      HydratorInterface $loginHydrator,
-                                RegistrationRepo $registrationRepo,    LoginChildHydrator $loginRegistrationHydrator) {
+                                RegistrationRepo $registrationRepo,    LoginChildCredentialsHydrator $loginRegistrationHydrator) {
         parent::__construct($loginDao, $loginHydrator);
         $this->registerOneToOneAssotiation(RegistrationInterface::class, 'login_name', $registrationRepo);
         $this->registerHydrator($loginRegistrationHydrator);

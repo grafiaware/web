@@ -61,7 +61,7 @@ abstract class RepoAbstract {
      * @param array $parentReferenceKeyAttribute Atribut klíče, který je referencí na data rodiče v úložišti dat. V databázi jde o referenční cizí klíč.
      * @param \Model\Repository\RepoAssotiatedOneInterface $repo
      */
-    protected function registerOneToOneAssotiation($entityInterfaceName, $parentReferenceKeyAttribute, RepoAssotiatedOneInterface $repo) {
+    protected function registerOneToOneAssociation($entityInterfaceName, $parentReferenceKeyAttribute, RepoAssotiatedOneInterface $repo) {
         $this->associations[$entityInterfaceName] = new AssociationOneToOne($parentReferenceKeyAttribute, $repo);
     }
 
@@ -189,10 +189,6 @@ abstract class RepoAbstract {
 
     public function flush(): void {
         if ( !($this instanceof RepoReadonlyInterface)) {
-            foreach ($this->children as $child) {
-
-            }
-
             /** @var \Model\Entity\EntityAbstract $entity */
             foreach ($this->collection as $entity) {
                 $row = [];
