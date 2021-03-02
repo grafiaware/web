@@ -23,6 +23,7 @@ use Controller\StatusFrontControllerAbstract;
 use Model\Repository\StatusPresentationRepo;
 use Model\Repository\StatusSecurityRepo;
 use Model\Repository\StatusFlashRepo;
+use Model\Repository\LoginAggregateRegistrationRepo;
 use Model\Repository\CredentialsRepo;
 use Model\Repository\LoginAggregateCredentialsRepo;
 
@@ -38,19 +39,19 @@ class RegistrationController extends StatusFrontControllerAbstract {
 
     private $authenticator;
 
-    private $loginAggregateRepo;
+    private $loginAggregateRegistrationRepo;
 
     /**
      *
      */
     public function __construct(
-            StatusSecurityRepo $statusSecurityRepo,
-            StatusFlashRepo $statusFlashRepo,
+                StatusSecurityRepo $statusSecurityRepo,
+                   StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
-            LoginAggregateCredentialsRepo $loginAggregateRepo,
+    LoginAggregateRegistrationRepo $loginAggregateRegistrationRepo,
             AuthenticatorInterface $authenticator) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
-        $this->loginAggregateRepo = $loginAggregateRepo;
+        $this->loginAggregateRegistrationRepo = $loginAggregateRegistrationRepo;
         $this->authenticator = $authenticator;
     }
 
