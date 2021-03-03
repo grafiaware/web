@@ -29,6 +29,8 @@ use Model\Repository\LoginAggregateCredentialsRepo;
 
 use Model\Entity\Credentials;
 use Model\Entity\LoginAggregateCredentials;
+use Model\Entity\Registration;
+use Model\Entity\LoginAggregateRegistration;
 
 /**
  * Description of PostController
@@ -40,7 +42,15 @@ class RegistrationController extends StatusFrontControllerAbstract
 
     private $authenticator;
 
+    /**
+     *
+     * @var LoginAggregateRegistrationRepo
+     */
     private $loginAggregateRegistrationRepo;
+    /**
+     *
+     * @var LoginAggregateCredentialsRepo
+     */
     private $loginAggregateCredentialsRepo;
 
     /**
@@ -75,34 +85,25 @@ class RegistrationController extends StatusFrontControllerAbstract
             $registerEmail = $requestParams->getParsedBodyParam($request, $fieldNameEmail, FALSE);
 
             if ($registerJmeno AND $registerHeslo AND  $registerEmail ) {
-                /** @var  Credentials $loginAggregateEntity  */
-                $loginAggregateEntity = $this->loginAggregateRegistrationRepo->get($registerJmeno);
+                /** @var  LoginAggregateRegistration $loginAggregateEntity  */
+    /*??*/            $loginAggregateEntity = $this->loginAggregateRegistrationRepo->get($registerJmeno);
                  // !!!! jeste hledat v tabulce registration, zda neni jmeno uz rezervovane
                 if ( isset($loginAggregateEntity) ) {
                      //  zaznam se jmenem jiz existuje, zmente jmeno---
                 } else {
-                     //verze 2
-                     // ulozit udaje do tabulky, do ktere - registration??? + cas: do kdy je cekano na potvrzeni registrace
-                     // protoze musi byt rezervace jmena nez potvrdi
-                     //
-                     // zobrazit "Dekujeme za Vasi registraci. Na vas email jsme vam odeslali odkaz, kterym registraci dokoncite. Odkaz je aktivni x hodin."
-                     // poslat email s jmeno, heslo , +  "do x hodin potvrdte"
-                     // jeste jeden mail "Registrace dokoncena."
-
-                    //verze 1
-
+                    
                     $passwordObjekt = new Password();
                     $registerHesloHash = $passwordObjekt->getPasswordHash($registerHeslo);
-                    $credentials = new Credentials();
-                    $credentials->setPasswordHash($registerHesloHash);
-                    $credentials->setLoginNameFk($registerJmeno);
+                    $registration = new Registration();
+                    $registration->setPasswordHash($registerHesloHash);
+                    $registration->setLoginNameFk($registerJmeno);
 
-                    /** @var  LoginAggregate $loginAggregateEntity  */
-                    $loginAggregateEntity = new LoginAggregateCredentials();
-                    $loginAggregateEntity->setLoginName($registerJmeno);
-                    $loginAggregateEntity->setCredentials($credentials);
+                    /** @var  LoginAggregate $loginAggregateRegistrationEntity  */
+                    $loginAggregateRegistrationEntity = new LoginAggregateRegistration();
+                    $loginAggregateRegistrationEntity->setLoginName($registerJmeno);
+                    $loginAggregateRegistrationEntity->setRegistration($registration);
 
-                    $this->loginAggregateRepo->add($loginAggregateEntity);
+                    $this->loginAggregateRegistrationRepo->add($loginAggregateRegistrationEntity);
                  }
 
             }
@@ -160,3 +161,12 @@ class RegistrationController extends StatusFrontControllerAbstract
 
     }
 }
+ //verze 2
+                     // ulozit udaje do tabulky, do ktere - registration??? + cas: do kdy je cekano na potvrzeni registrace
+                     // protoze musi byt rezervace jmena nez potvrdi
+                     //
+                     // zobrazit "Dekujeme za Vasi registraci. Na vas email jsme vam odeslali odkaz, kterym registraci dokoncite. Odkaz je aktivni x hodin."
+                     // poslat email s jmeno, heslo , +  "do x hodin potvrdte"
+                     // jeste jeden mail "Registrace dokoncena."
+
+                    //verze 1
