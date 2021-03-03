@@ -22,6 +22,7 @@ CREATE TABLE `credentials` (
 
 CREATE TABLE `registration` (
   `login_name_fk` varchar(50) NOT NULL,
+  `password` varchar(100) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
   `email_time` datetime NOT NULL,
   PRIMARY KEY (`login_name_fk`),

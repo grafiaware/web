@@ -24,12 +24,12 @@ use Model\Repository\StatusPresentationRepo;
 use Model\Repository\StatusSecurityRepo;
 use Model\Repository\StatusFlashRepo;
 use Model\Repository\LoginAggregateRegistrationRepo;
-use Model\Repository\CredentialsRepo;
 use Model\Repository\LoginAggregateCredentialsRepo;
 
 use Model\Entity\Credentials;
 use Model\Entity\LoginAggregateCredentials;
-
+use Model\Entity\Registration;
+use Model\Entity\LoginAggregateRegistration;
 /**
  * Description of PostController
  *
@@ -75,10 +75,10 @@ class RegistrationController extends StatusFrontControllerAbstract
             $registerEmail = $requestParams->getParsedBodyParam($request, $fieldNameEmail, FALSE);
 
             if ($registerJmeno AND $registerHeslo AND  $registerEmail ) {
-                /** @var  Credentials $loginAggregateEntity  */
-                $loginAggregateEntity = $this->loginAggregateRegistrationRepo->get($registerJmeno);
+                /** @var  Credentials $loginAggregateRegistrationEntity  */
+                $loginAggregateRegistrationEntity = $this->loginAggregateRegistrationRepo->get($registerJmeno);
                  // !!!! jeste hledat v tabulce registration, zda neni jmeno uz rezervovane
-                if ( isset($loginAggregateEntity) ) {
+                if ( isset($loginAggregateRegistrationEntity) ) {
                      //  zaznam se jmenem jiz existuje, zmente jmeno---
                 } else {
                      //verze 2
@@ -91,18 +91,16 @@ class RegistrationController extends StatusFrontControllerAbstract
 
                     //verze 1
 
-                    $passwordObjekt = new Password();
-                    $registerHesloHash = $passwordObjekt->getPasswordHash($registerHeslo);
-                    $credentials = new Credentials();
-                    $credentials->setPasswordHash($registerHesloHash);
-                    $credentials->setLoginNameFk($registerJmeno);
+                    $registration = new Registration();
+                    $registration->setLoginNameFk($registerJmeno);
+                    $registration->setPassword($registerHeslo);
+                    $registration->setEmail($registerEmail);
+                    /** @var  LoginAggregate $loginAggregateRegistrationEntity  */
+                    $loginAggregateRegistrationEntity = new LoginAggregateRegistration();
+                    $loginAggregateRegistrationEntity->setLoginName($registerJmeno);
+                    $loginAggregateRegistrationEntity->setRegistration($registration);
 
-                    /** @var  LoginAggregate $loginAggregateEntity  */
-                    $loginAggregateEntity = new LoginAggregateCredentials();
-                    $loginAggregateEntity->setLoginName($registerJmeno);
-                    $loginAggregateEntity->setCredentials($credentials);
-
-                    $this->loginAggregateRepo->add($loginAggregateEntity);
+                    $this->loginAggregateRegistrationRepo->add($loginAggregateRegistrationEntity);
                  }
 
             }
@@ -149,13 +147,13 @@ class RegistrationController extends StatusFrontControllerAbstract
                     $loginAggregateEntity = new LoginAggregateCredentials();
                     $loginAggregateEntity->setLoginName($registerJmeno);
                     $loginAggregateEntity->setCredentials($credentials);
-                    $this->loginAggregateRepo->add($loginAggregateEntity);
+                    $this->loginAggregateCredentialsRepo->add($loginAggregateEntity);
                  }
             }
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
-    
+
     public function confirm(ServerRequestInterface $request) {
 
     }

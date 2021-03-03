@@ -49,5 +49,6 @@ class AssociationOneToOne extends AssociationAbstract implements AssociationInte
 
     public function removeAssociated($entty) {
         $this->childRepo->remove($entty);
+        $this->childRepo->flush();   //smazat referencující objekt s fk
     }
 }
