@@ -81,8 +81,15 @@ abstract class RepoAbstract {
         }
     }
 
-    protected function addAssociated($entityInterfaceName, $entity) {
-        $this->associations[$entityInterfaceName]->addAssociated($entity);
+    /**
+     *
+     * @param type $entityInterfaceName Entita nebo null. Asociovaná entita (vátaná pomocí cizího klíče) nemusí existovat.
+     * @param type $entity
+     */
+    protected function addAssociated($entityInterfaceName, $entity = null) {
+        if (isset($entity)) {
+            $this->associations[$entityInterfaceName]->addAssociated($entity);
+        }
     }
 
     protected function removeAssociated($entityInterfaceName, $entty) {

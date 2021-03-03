@@ -93,7 +93,7 @@ class RegistrationController extends StatusFrontControllerAbstract
 
                     $registration = new Registration();
                     $registration->setLoginNameFk($registerJmeno);
-                    $registration->setPassword($registerHeslo);
+                    $registration->setPasswordHash($registerHeslo);  // nezahashované
                     $registration->setEmail($registerEmail);
                     /** @var  LoginAggregate $loginAggregateRegistrationEntity  */
                     $loginAggregateRegistrationEntity = new LoginAggregateRegistration();

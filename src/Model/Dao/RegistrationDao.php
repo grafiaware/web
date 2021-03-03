@@ -20,7 +20,7 @@ class RegistrationDao extends DaoAbstract {
     public function get($loginNameFK) {
         $sql = "
             SELECT `registration`.`login_name_FK`,
-                   `registration`.`password`,
+                   `registration`.`password_hash`,
                    `registration`.`email`,
                    `registration`.`email_time`
             FROM
@@ -32,18 +32,18 @@ class RegistrationDao extends DaoAbstract {
     }
 
     public function insert($row) {
-        $sql = "INSERT INTO registration (login_name_FK, password, email, email_time )
-                VALUES (:login_name_FK, :email, :email_time )";
+        $sql = "INSERT INTO registration (login_name_FK, password_hash, email, email_time )
+                VALUES (:login_name_FK, :password_hash, :email, :email_time )";
         return $this->execInsert($sql, [':login_name_FK'=>$row['login_name_FK'],
-                                        `:password`=>$row[`password`],
+                                        ':password_hash'=>$row['password_hash'],
                                         ':email'=>$row['email'],
                                         ':email_time'=>$row['email_time'] ]);
     }
 
     public function update($row) {
-        $sql = "UPDATE registration SET  password = :password, email = :email, email_time = :email_time
+        $sql = "UPDATE registration SET  password_hash = :password_hash, email = :email, email_time = :email_time
                 WHERE `login_name_FK` = :login_name_FK";
-        return $this->execUpdate($sql, [ `:password`=>$row[`password`],
+        return $this->execUpdate($sql, [ ':password_hash'=>$row['password_hash'],
                                          ':email'=>$row['email'],
                                          ':email_time'=>$row['email_time'],
                                          ':login_name_FK'=>$row['login_name_FK']   ]);

@@ -53,17 +53,17 @@ class Registration extends EntityAbstract implements RegistrationInterface {
      *
      * @return string
      */
-    public function getPassword(): ?string {
+    public function getPasswordHash(): ?string {
         return $this->password;
     }
 
     /**
      *
-     * @param string $password
+     * @param string $passwordHash
      * @return RegistrationInterface
      */
-    public function setPassword(string $password): RegistrationInterface {
-        $this->password = $password;
+    public function setPasswordHash(string $passwordHash): RegistrationInterface {
+        $this->password = $passwordHash;
         return $this;
     }
 

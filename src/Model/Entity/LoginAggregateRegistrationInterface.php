@@ -15,8 +15,8 @@ interface LoginAggregateRegistrationInterface  extends LoginInterface{
 
     /**
      *
-     * @param RegistrationInterface $registration
+     * @param RegistrationInterface $registration Registration entita nebo null.
      * @return LoginAggregateRegistrationInterface
      */
-    public function setRegistration(RegistrationInterface $registration): LoginAggregateRegistrationInterface;
+    public function setRegistration(RegistrationInterface $registration = null): LoginAggregateRegistrationInterface;
 }
