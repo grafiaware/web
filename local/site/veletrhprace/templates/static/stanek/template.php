@@ -1,58 +1,40 @@
-        <article class="ui basic segment">
-            <div class=""> <!--paper-->
-                <section>
-                    <headline class="">
-                        <p class="jmeno-stanku" style="font-size: 2.35em; position: absolute; right: 10px; top: -10px;">First Company, a. s.</p>
-                    </headline>
-                    <perex>
+<?php
+use Pes\View\Renderer\PhpTemplateRendererInterface;
+use Model\Entity\PaperAggregateInterface;
+use Pes\Text\Html;
+/** @var PhpTemplateRendererInterface $this */
+/** @var PaperAggregateInterface $paperAggregate */
+$modalAtributy = [
+    "id" => "modal_12",
+    "class"=> ["ui tiny longer", "modal"]
+    
+]
 
-                    </perex>
-                </section>
-                <section>
-                    <content>
-                        <div class="video-na-stanku" style="position: absolute; z-index:10;">
-                            <video width="230" height="130" poster="/_www_gr_files/images/monitor1play.jpg" controls> <!-- u atributu poster nestacilo images/nazev.pripona -->
-                                <source src="video/video-OA2018.mp4" type="video/mp4">
-                                <source src="video/stanek-video.mp4" type="video/mp4">
-                            </video>
-                        </div>
-                    </content>
-                    <content>
-                        <div class="ui grid">
-                            <div class="ten wide column">
-                                <div class="pani-na-stanku" style="margin-top: 50px;">
-                                    <div class="ui large button btn-16" style="position: absolute; z-index: 10; top: 39%; left: 8%;">Stáhněte si leták</div>
-                                    <a class="ui large button" href="" style="position: absolute; z-index: 10; top: 50%; left: 8%; width: 161px;">Kupóny / dárky</a>
-                                    <img src="images/stanek.jpg" alt="stánek First Company" />
-                                </div>
-                            </div>
-                            <div class="five wide column middle aligned">
-                                <div class="soc-site-stanku" style="margin-bottom: 15px;">
-                                    <span class="btn-fb" data-red-modal-content-id="12"><i class=" facebook circle grey icon" style="font-size: 3.2em;"></i></span>
-                                    <a href=""><i class=" linkedin circle grey icon" style="font-size: 3.2em;"></i></a>
-                                    <a href=""><i class=" instagram circle grey icon" style="font-size: 3.2em;"></i></a>
-                                    <a href=""><i class=" chat circle grey icon" style="font-size: 3.2em;"></i></a>
-                                </div>
-                                <div class="buttony-na-stanku">
-                                    <p><a class="ui large fluid button" href="www/item/cs/6012ba2fcb683#qqq">Pracovní pozice</a></p>
-                                    <p><a class="ui large fluid button" href="">Náš program</a></p>
-                                    <p class="btn-12"><span class="ui large fluid button">Chci na živou prezentaci</span></p>
-                                    <p><a class="ui large fluid button" href="">Chci na online pohovor</a></p>
-                                    <p><a class="ui large fluid button" href="">Chatujte s námi</a></p>
-                                    <p><a class="ui large fluid button" href="">Kontaktujte nás</a></p>
-                                </div>
-                            </div>
-                        </div>
-                    </content>
-                    <form>
-                        <content>
-                            <a id="qqq" href=""></a>
-                            kjklj
-                        </content>
-                    </form>
+?>
+
+<article class="paper">
+    <section>
+        <headline>
+            <?php include "headline.php" ?>
+        </headline>
+        <perex>
+            <?php include "perex.php" ?>
+        </perex>
+    </section>
+    <section>    
+        <content>
+            <?php include "content/video.php" ?>
+        </content>
+        <content>
+            <?php include "content/stanek.php" ?>
+        </content>
+    </section>
+</article>
+
+                
                     <!--<form>-->
                     <content id="content_12"> 
-                        <div id="modal_12" class="ui tiny longer modal">                                 
+                        <div <?= Html::attributes($modalAtributy)?>>                                 
                             <i class="close icon"></i>
                             <div class="header">
                                 <p>Přednášky</p>
@@ -64,7 +46,7 @@
                             <div class="scrolling content">
                                 <div class="prednaska-stanku">
                                     <div class="prednasejici">
-                                        <img class="img-prednasejici" src="images/woman.jpg" alt="člověk" width="120" height="120" style="height: 110px !important;border-radius: 100%;"/>
+                                        <img class="img-prednasejici" src="images/woman.jpg" alt="člověk" width="120" height="120"/>
                                         <p class="">Jméno příjmení</p>
                                         <p>pozice</p>
                                     </div>
@@ -143,7 +125,3 @@
                         </div>
                     </content>
                     <!--</form>-->
-                </section>
-            </div>
-        </article>
-
