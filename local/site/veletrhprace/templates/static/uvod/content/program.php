@@ -1,10 +1,10 @@
 <?php
 use Pes\View\Renderer\PhpTemplateRendererInterface;
-use Model\Entity\PaperAggregateInterface;
+use Model\Entity\PaperAggregatePaperContentInterface;
 use Pes\Text\Text;
 
 /** @var PhpTemplateRendererInterface $this */
-/** @var PaperAggregateInterface $paperAggregate */
+/** @var PaperAggregatePaperContentInterface $paperAggregate */
 ?>
 
 <div class="blok-nadpis-obr-text program">
@@ -13,8 +13,8 @@ use Pes\Text\Text;
             <p class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll">Program</p>
             <img src="images/klic_foto.jpg" width="1280" height="420" alt="Obrázek k programu"/>
         </div>
-        <div class="eight wide column"><a href="www/item/static/prednasky" class="ui primary fluid massive button">Seznam vystavujících firem</a></div>
-        <div class="eight wide column"><a href="www/item/static/body-pro-zdravi" class="ui primary fluid massive button">Seznam pracovních míst</a></div>
+        <div class="eight wide column"><a href="" class="ui primary fluid massive button">Seznam vystavujících firem</a></div>
+        <div class="eight wide column"><a href="" class="ui primary fluid massive button">Seznam pracovních míst</a></div>
 <!--        <div class="sixteen wide column">
                 <p class="text tucne">
                     <?

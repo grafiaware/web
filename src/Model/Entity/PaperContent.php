@@ -29,6 +29,12 @@ class PaperContent extends EntityAbstract implements PaperContentInterface {
     private $updated;
     private $actual;
 
+    private $keyAttribute = ['id'];
+
+    public function getKeyAttribute() {
+        return $this->keyAttribute;
+    }
+
     public function getId() {
         return $this->id;
     }

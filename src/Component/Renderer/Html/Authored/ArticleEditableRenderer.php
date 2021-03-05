@@ -8,7 +8,7 @@
 
 namespace Component\Renderer\Html\Authored;
 
-use Model\Entity\PaperAggregateInterface;
+use Model\Entity\PaperAggregatePaperContentInterface;
 use Model\Entity\PaperInterface;
 
 use Component\ViewModel\Authored\Paper\PaperViewModelInterface;

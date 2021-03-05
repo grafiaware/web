@@ -12,7 +12,7 @@ namespace Model\Entity;
  *
  * @author pes2704
  */
-interface PaperAggregateInterface extends PaperInterface {
+interface PaperAggregatePaperContentInterface extends PaperInterface {
 
     const BY_PRIORITY = 'sort descending by content priority (highest on top)';
 
@@ -35,5 +35,5 @@ interface PaperAggregateInterface extends PaperInterface {
      */
     public function getPaperContentsArraySorted($sortType): array;
 
-    public function exchangePaperContentsArray(array $contents=[]): PaperAggregateInterface;
+    public function exchangePaperContentsArray(array $contents=[]): PaperAggregatePaperContentInterface;
 }
