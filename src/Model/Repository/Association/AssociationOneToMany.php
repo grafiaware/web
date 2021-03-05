@@ -36,9 +36,9 @@ class AssociationOneToMany extends AssociationAbstract implements AssociationInt
     public function getAssociated(&$row) {
         $childKey = $this->getChildKey($row);
         $children = $this->childRepo->findByReference($childKey);
-        if (!$children) {
-            throw new UnableToCreateAssotiatedChildEntity("Nelze vytvořit asociované entity pro vlastnost rodiče '$this->parentPropertyName'. Nebyla načtena entita.");
-        }
+//        if (!$children) {
+//            throw new UnableToCreateAssotiatedChildEntity("Nelze vytvořit asociované entity pro vlastnost rodiče '$this->parentPropertyName'. Nebyla načtena entita.");
+//        }
         return $children;
     }
 

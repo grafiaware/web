@@ -24,10 +24,10 @@ class LoginAggregateRegistration  extends Login implements LoginAggregateRegistr
 
     /**
      *
-     * @param RegistrationInterface $registration
+     * @param RegistrationInterface $registration  Registration entita nebo null. Regiszrace přiřazená k lofin name nemusí existovat.
      * @return LoginAggregateRegistrationInterface
      */
-    public function setRegistration(RegistrationInterface $registration): LoginAggregateRegistrationInterface {
+    public function setRegistration(RegistrationInterface $registration = null): LoginAggregateRegistrationInterface {
         $this->registration = $registration;
         return $this;
     }

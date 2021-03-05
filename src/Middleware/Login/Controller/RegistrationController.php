@@ -24,14 +24,12 @@ use Model\Repository\StatusPresentationRepo;
 use Model\Repository\StatusSecurityRepo;
 use Model\Repository\StatusFlashRepo;
 use Model\Repository\LoginAggregateRegistrationRepo;
-use Model\Repository\CredentialsRepo;
 use Model\Repository\LoginAggregateCredentialsRepo;
 
 use Model\Entity\Credentials;
 use Model\Entity\LoginAggregateCredentials;
 use Model\Entity\Registration;
 use Model\Entity\LoginAggregateRegistration;
-
 /**
  * Description of PostController
  *
@@ -85,24 +83,30 @@ class RegistrationController extends StatusFrontControllerAbstract
             $registerEmail = $requestParams->getParsedBodyParam($request, $fieldNameEmail, FALSE);
 
             if ($registerJmeno AND $registerHeslo AND  $registerEmail ) {
-                /** @var  LoginAggregateRegistration $loginAggregateEntity  */
-    /*??*/            $loginAggregateEntity = $this->loginAggregateRegistrationRepo->get($registerJmeno);
+                /** @var  LoginAggregateRegistration $loginAggregateRegistrationEntity  */
+                $loginAggregateRegistrationEntity = $this->loginAggregateRegistrationRepo->get($registerJmeno);
                  // !!!! jeste hledat v tabulce registration, zda neni jmeno uz rezervovane
-                if ( isset($loginAggregateEntity) ) {
+                if ( isset($loginAggregateRegistrationEntity) ) {
                      //  zaznam se jmenem jiz existuje, zmente jmeno---
                 } else {
-                    
-                    $passwordObjekt = new Password();
-                    $registerHesloHash = $passwordObjekt->getPasswordHash($registerHeslo);
-                    $registration = new Registration();
-                    $registration->setPasswordHash($registerHesloHash);
-                    $registration->setLoginNameFk($registerJmeno);
+                     //verze 2
+                     // ulozit udaje do tabulky, do ktere - registration + cas: do kdy je cekano na potvrzeni registrace
+                     // protoze musi byt rezervace jmena nez potvrdi
+                     //
+                     // zobrazit "Dekujeme za Vasi registraci. Na vas email jsme vam odeslali odkaz, kterym registraci dokoncite. Odkaz je aktivni x hodin."
+                     // poslat email s jmeno, heslo , +  "do x hodin potvrdte"
+                     // jeste jeden mail "Registrace dokoncena."
 
+                    //verze 1
+
+                    $registration = new Registration();
+                    $registration->setLoginNameFk($registerJmeno);
+                    $registration->setPasswordHash( (new Password())->getPasswordHash($registerHeslo) );  // zahashované
+                    $registration->setEmail($registerEmail);
                     /** @var  LoginAggregate $loginAggregateRegistrationEntity  */
                     $loginAggregateRegistrationEntity = new LoginAggregateRegistration();
                     $loginAggregateRegistrationEntity->setLoginName($registerJmeno);
                     $loginAggregateRegistrationEntity->setRegistration($registration);
-
                     $this->loginAggregateRegistrationRepo->add($loginAggregateRegistrationEntity);
                  }
 
@@ -111,7 +115,6 @@ class RegistrationController extends StatusFrontControllerAbstract
         }
 
         return $this->redirectSeeLastGet($request); // 303 See Other
-
     }
 
     /**
@@ -150,23 +153,47 @@ class RegistrationController extends StatusFrontControllerAbstract
                     $loginAggregateEntity = new LoginAggregateCredentials();
                     $loginAggregateEntity->setLoginName($registerJmeno);
                     $loginAggregateEntity->setCredentials($credentials);
-                    $this->loginAggregateRepo->add($loginAggregateEntity);
+                    $this->loginAggregateCredentialsRepo->add($loginAggregateEntity);
                  }
             }
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
+
     
-    public function confirm(ServerRequestInterface $request) {
+    
+    public function confirm(ServerRequestInterface $request) {        
+        $requestParams = new RequestParams();
+        $confirm = $requestParams->getParsedBodyParam($request, 'confirm', FALSE);
+        
+        if ($confirm) {            
+            $logJmeno = $requestParams->getParsedBodyParam($request, 'LOGNAME', FALSE);
+          
+            if ($logJmeno ) {
+                /** @var  LoginAggregateRegistration $loginAggregateRegistrationEntity  */
+                $loginAggregateRegistrationEntity = $this->loginAggregateRegistrationRepo->get($logJmeno);
+                if ( isset($loginAggregateRegistrationEntity) ) {
+                    
+                    $passwordHash = $loginAggregateRegistrationEntity->getRegistration()->getPasswordHash();
+                    $loginNameFk = $loginAggregateRegistrationEntity->getRegistration()->getLoginNameFk();
+                                                             
+                    $credentials = new Credentials();
+                    $credentials->setPasswordHash($passwordHash);
+                    $credentials->setLoginNameFk($loginNameFk);
+
+                    /** @var  LoginAggregate $loginAggregateEntity  */
+                    $loginAggregateEntity = new LoginAggregateCredentials();
+                    $loginAggregateEntity->setLoginName($loginNameFk);
+                    $loginAggregateEntity->setCredentials($credentials);
+                      
+                    $this->loginAggregateCredentialsRepo->add($loginAggregateEntity);
+                 } 
+                 else {
+                     //chyba Takovy registracni pozadavek nebyl pozadovan/zaznamenan.
+                 }
+            }
+        }
+        return $this->redirectSeeLastGet($request); // 303 See Other
 
     }
 }
- //verze 2
-                     // ulozit udaje do tabulky, do ktere - registration??? + cas: do kdy je cekano na potvrzeni registrace
-                     // protoze musi byt rezervace jmena nez potvrdi
-                     //
-                     // zobrazit "Dekujeme za Vasi registraci. Na vas email jsme vam odeslali odkaz, kterym registraci dokoncite. Odkaz je aktivni x hodin."
-                     // poslat email s jmeno, heslo , +  "do x hodin potvrdte"
-                     // jeste jeden mail "Registrace dokoncena."
-
-                    //verze 1

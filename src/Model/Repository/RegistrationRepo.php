@@ -25,8 +25,8 @@ class RegistrationRepo extends RepoAbstract implements RegistrationRepoInterface
         $this->registerHydrator($registrationHydrator);
     }
 
-    
-    
+
+
     public function get($loginNameFk): ?RegistrationInterface {
         $index = $this->indexFromKeyParams($loginNameFk);
         if (!isset($this->collection[$index])) {
@@ -56,10 +56,14 @@ class RegistrationRepo extends RepoAbstract implements RegistrationRepoInterface
     }
 
     protected function indexFromEntity(RegistrationInterface $registration) {
-        return $registration->getLoginNameFK();
+        return $registration->getLoginNameFk();
     }
 
     protected function indexFromRow($row) {
         return $row['login_name_fk'];
     }
+
+    public function flush(): void {
+        parent::flush();
     }
+}

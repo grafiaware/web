@@ -25,5 +25,5 @@ interface LoginAggregateCredentialsInterface extends LoginInterface {
      * @param CredentialsInterface $credentials
      * @return LoginAggregateCredentialsInterface
      */
-    public function setCredentials(CredentialsInterface $credentials): LoginAggregateCredentialsInterface;
+    public function setCredentials(CredentialsInterface $credentials = null): LoginAggregateCredentialsInterface;
 }

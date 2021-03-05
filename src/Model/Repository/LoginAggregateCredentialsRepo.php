@@ -43,13 +43,14 @@ class LoginAggregateCredentialsRepo extends LoginRepo implements LoginRepoInterf
     public function add(LoginInterface $loginAggregate) {
         /** @var LoginAggregateCredentialsInterface $loginAggregate */
         parent::add($loginAggregate);
-        parent::flush();
+        parent::flush();  // vytvořik referencovaný objekt - s vlastním klíčem
+        $row = [];
         $this->extract($loginAggregate, $row);
         $this->addAssociated(CredentialsInterface::class, $row[CredentialsInterface::class]); //add($loginAggregate->getCredentials()); <- do repo abstract
     }
     public function remove(LoginInterface $loginAggregate) {
         /** @var LoginAggregateCredentialsInterface $loginAggregate */
         $this->removeAssociated(CredentialsInterface::class, $loginAggregate); //add($loginAggregate->getCredentials()); <- do repo abstract
-        parent::add($loginAggregate);
+        parent::remove($loginAggregate);
     }
 }
