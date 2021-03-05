@@ -3,7 +3,7 @@ use Site\Configuration;
 ?>
 <form class="ui inverted form centered" method="POST" action="auth/v1/register">
         <div class="ui icon top left pointing dropdown button loginEnterKey">
-            <i class="user icon"></i>
+            <i class="address card icon"></i>
             <div class="menu">
                 <div class="item header"><p><i class="user icon"></i>Registrovat se</p></div>
                 <div class="ui input">
