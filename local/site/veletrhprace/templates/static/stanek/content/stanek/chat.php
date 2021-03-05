@@ -6,4 +6,7 @@ use Pes\Text\Html;
 
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregateInterface $paperAggregate */
+
 ?>
+
+                <span><i class="big <?= $ikonaChatu ?> grey icon"></i></span>

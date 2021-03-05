@@ -8,4 +8,4 @@ use Pes\Text\Text;
 ?>
 
 
-<p class="jmeno-stanku nadpis podtrzeny show-on-scroll nadpis-scroll">First Company, a. s.</p>
+<p class="jmeno-stanku nadpis podtrzeny show-on-scroll nadpis-scroll"><?= $nazev ?></p> 
