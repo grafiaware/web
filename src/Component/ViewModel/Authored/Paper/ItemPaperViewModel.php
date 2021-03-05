@@ -2,7 +2,7 @@
 namespace Component\ViewModel\Authored\Paper;
 
 use Model\Entity\MenuItemInterface;
-use Model\Entity\PaperAggregateInterface;
+use Model\Entity\PaperAggregatePaperContentInterface;
 
 use Model\Repository\StatusSecurityRepo;
 use Model\Repository\StatusPresentationRepo;
@@ -34,7 +34,7 @@ class ItemPaperViewModel extends PaperViewModel implements ItemPaperViewModelInt
     public function setItemId($menuItemId) {
         $this->menuItemId = $menuItemId;
     }
-    public function getPaper(): ?PaperAggregateInterface {
+    public function getPaper(): ?PaperAggregatePaperContentInterface {
             $paperAggregate = $this->paperAggregateRepo->getByReference($this->menuItemId);
             if (!isset($paperAggregate) AND $this->isArticleEditable()) {
                 $paperAggregate = new PaperAggregate();

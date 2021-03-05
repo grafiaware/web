@@ -2,11 +2,11 @@
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Component\Renderer\Html\Authored\ElementWrapper;
 use Component\Renderer\Html\Authored\Buttons;
-use Model\Entity\PaperAggregateInterface;
+use Model\Entity\PaperAggregatePaperContentInterface;
 /** @var PhpTemplateRendererInterface $this */
 /** @var ElementWrapper $elementWrapper */
 /** @var Buttons $buttons */
-/** @var PaperAggregateInterface $paperAggregate */
+/** @var PaperAggregatePaperContentInterface $paperAggregate */
 
 ?>
     <?= isset($buttons) ? $buttons->getPaperTemplateButtonsForm($paperAggregate) : "" ?>
@@ -18,6 +18,6 @@ use Model\Entity\PaperAggregateInterface;
             </section>
             <section>
                 <?=
-        $this->repeat(PROJECT_PATH."local/site/common/templates/paper-content/default/template.php", $paperAggregate->getPaperContentsArraySorted(PaperAggregateInterface::BY_PRIORITY), 'paperContent'); ?>
+        $this->repeat(PROJECT_PATH."local/site/common/templates/paper-content/default/template.php", $paperAggregate->getPaperContentsArraySorted(PaperAggregatePaperContentInterface::BY_PRIORITY), 'paperContent'); ?>
             </section>
         </article>

@@ -10,7 +10,7 @@ namespace Component\Renderer\Html\Authored;
 
 use Pes\View\Renderer\ClassMap\ClassMapInterface;
 
-use Model\Entity\PaperAggregateInterface;
+use Model\Entity\PaperAggregatePaperContentInterface;
 use Model\Entity\PaperInterface;
 use Model\Entity\PaperContentInterface;
 
@@ -161,7 +161,7 @@ class ElementEditableWrapper {
             );
     }
 
-    protected function renderNewContent(PaperAggregateInterface $paperAggregate) {
+    protected function renderNewContent(PaperAggregatePaperContentInterface $paperAggregate) {
         $paperId = $paperAggregate->getId();
 
         return
@@ -410,7 +410,7 @@ class ElementEditableWrapper {
 
     }
 
-    public function getNewContentButtonsForm(PaperAggregateInterface $paperAggregate) {
+    public function getNewContentButtonsForm(PaperAggregatePaperContentInterface $paperAggregate) {
         $paperId = $paperAggregate->getId();
 
         return

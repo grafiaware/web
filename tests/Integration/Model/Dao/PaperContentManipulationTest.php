@@ -35,7 +35,7 @@ use Model\Repository\PaperContentRepo;
 
 use Model\Entity\PaperContentInterface;
 use Model\Entity\PaperContent;
-use Model\Entity\PaperAggregateInterface;
+use Model\Entity\PaperAggregatePaperContentInterface;
 
 
 /**

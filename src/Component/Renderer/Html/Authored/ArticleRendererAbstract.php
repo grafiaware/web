@@ -9,7 +9,7 @@
 namespace Component\Renderer\Html\Authored;
 
 use Component\Renderer\Html\HtmlModelRendererAbstract;
-use Model\Entity\PaperAggregateInterface;
+use Model\Entity\PaperAggregatePaperContentInterface;
 use Model\Entity\PaperInterface;
 use Model\Entity\PaperContentInterface;
 
@@ -58,8 +58,8 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract impleme
      * @param type $class
      * @return type
      */
-    public function renderContents(PaperAggregateInterface $paperAggregate) {
-        $contents = $paperAggregate->getPaperContentsArraySorted(PaperAggregateInterface::BY_PRIORITY);
+    public function renderContents(PaperAggregatePaperContentInterface $paperAggregate) {
+        $contents = $paperAggregate->getPaperContentsArraySorted(PaperAggregatePaperContentInterface::BY_PRIORITY);
         $innerHtml = '';
         foreach ($contents as $paperContent) {
             /** @var PaperContentInterface $paperContent */
@@ -191,8 +191,8 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract impleme
         return $form;
     }
 
-    public function renderContentsDivs(PaperAggregateInterface $paperAggregate) {
-        $contents = $paperAggregate->getPaperContentsArraySorted(PaperAggregateInterface::BY_PRIORITY);
+    public function renderContentsDivs(PaperAggregatePaperContentInterface $paperAggregate) {
+        $contents = $paperAggregate->getPaperContentsArraySorted(PaperAggregatePaperContentInterface::BY_PRIORITY);
         $form = [];
         foreach ($contents as $paperContent) {
             /** @var PaperContentInterface $paperContent */
@@ -503,7 +503,7 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract impleme
 
     }
 
-    protected function renderNewContent(PaperAggregateInterface $paperAggregate) {
+    protected function renderNewContent(PaperAggregatePaperContentInterface $paperAggregate) {
         $paperId = $paperAggregate->getId();
 
         return
@@ -524,7 +524,7 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract impleme
         ;
     }
 
-    private function getNewContentButtonsForm(PaperAggregateInterface $paperAggregate) {
+    private function getNewContentButtonsForm(PaperAggregatePaperContentInterface $paperAggregate) {
         $paperId = $paperAggregate->getId();
 
         return
