@@ -33,11 +33,11 @@ class ConfigurationDb extends ConfigurationConstants {
             # Konfigurace připojení k databázi je v delegate kontejneru.
             # Konfigurace připojení k databázi může být v aplikačním kontejneru nebo různá v jednotlivých middleware kontejnerech.
             #
-            'api.db.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'veletrhpraceonline001' : 'vp_everyone',
+            'api.db.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'veletrhpraceo001' : 'vp_everyone',
             'api.db.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'vp_upgrader' : 'vp_everyone',
-            'api.db.authenticated.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'veletrhpraceonline001' : 'vp_auth',
+            'api.db.authenticated.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'veletrhpraceo001' : 'vp_auth',
             'api.db.authenticated.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'vp_upgrader' : 'vp_auth',
-            'api.db.administrator.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'veletrhpraceonline001' : 'vp_admin',
+            'api.db.administrator.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'veletrhpraceo001' : 'vp_admin',
             'api.db.administrator.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'vp_upgrader' : 'vp_admin',
             #
             ###################################
@@ -69,7 +69,7 @@ class ConfigurationDb extends ConfigurationConstants {
             # Konfigurace připojení k databázi je v delegate kontejneru.
             # Konfigurace připojení k databázi může být v aplikačním kontejneru nebo různá v jednotlivých middleware kontejnerech.
             #
-            'build.db.user.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'veletrhpraceonline001' : 'vp_upgrader',
+            'build.db.user.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'veletrhpraceo001' : 'vp_upgrader',
             'build.db.user.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'vp_upgrader' : 'vp_upgrader',
             #
             ###################################
@@ -79,14 +79,14 @@ class ConfigurationDb extends ConfigurationConstants {
             #
             'build.config.users.everyone' =>
                 [
-                    'everyone_user' => PES_RUNNING_ON_PRODUCTION_HOST ? 'veletrhpraceonline001' : 'vp_everyone',
+                    'everyone_user' => PES_RUNNING_ON_PRODUCTION_HOST ? 'veletrhpraceo001' : 'vp_everyone',
                     'everyone_password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'vp_upgrader' : 'vp_everyone',
                 ],
             'build.config.users.granted' =>
                 [
-                    'authenticated_user' => PES_RUNNING_ON_PRODUCTION_HOST ? 'veletrhpraceonline001' : 'vp_auth',
+                    'authenticated_user' => PES_RUNNING_ON_PRODUCTION_HOST ? 'veletrhpraceo001' : 'vp_auth',
                     'authenticated_password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'vp_upgrader' : 'vp_auth',
-                    'administrator_user' => PES_RUNNING_ON_PRODUCTION_HOST ? 'veletrhpraceonline001' : 'vp_admin',
+                    'administrator_user' => PES_RUNNING_ON_PRODUCTION_HOST ? 'veletrhpraceo001' : 'vp_admin',
                     'administrator_password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'vp_upgrader' : 'vp_admin',
                 ],
             #
@@ -179,7 +179,7 @@ class ConfigurationDb extends ConfigurationConstants {
             'dbUpgrade.db.charset' => 'utf8',
             'dbUpgrade.db.collation' => 'utf8_general_ci',
             'dbUpgrade.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? '127.0.0.1' : 'localhost',
-            'dbUpgrade.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'veletrhpraceonline01' : 'veletrhprace',
+            'dbUpgrade.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'veletrhpraceonline' : 'veletrhprace',
             #
             ###################################
             # Konfigurace logu databáze
@@ -203,7 +203,7 @@ class ConfigurationDb extends ConfigurationConstants {
             #
             # - konfigurováni dva uživatelé - jeden pro vývoj a druhý pro běh na produkčním stroji
             #
-            'dbUpgrade.db.user.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'veletrhpraceonline001' : 'vp_upgrader',
+            'dbUpgrade.db.user.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'veletrhpraceo001' : 'vp_upgrader',
             'dbUpgrade.db.user.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'vp_upgrader' : 'vp_upgrader',
             #
             ###################################
@@ -235,7 +235,7 @@ class ConfigurationDb extends ConfigurationConstants {
             # - uživatelé musí mít právo select k databázi s tabulkou uživatelských oprávnění
             # MySQL 5.6: délka jména max 16 znaků
 
-            'login.db.account.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'veletrhpraceonline002' : 'vp_login',  // nelze použít jméno uživatele použité pro db upgrade - došlo by k duplicitě jmen v build create
+            'login.db.account.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'veletrhpraceo002' : 'vp_login',  // nelze použít jméno uživatele použité pro db upgrade - došlo by k duplicitě jmen v build create
             'login.db.account.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'vp_login' : 'vp_login',
 
             'login.logs.database.directory' => 'Logs/Login',
@@ -260,11 +260,11 @@ class ConfigurationDb extends ConfigurationConstants {
             # Konfigurace připojení k databázi je v delegate kontejneru.
             # Konfigurace připojení k databázi může být v aplikačním kontejneru nebo různá v jednotlivých middleware kontejnerech.
             #
-            'web.db.account.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'veletrhpraceonline001' : 'vp_everyone',
+            'web.db.account.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'veletrhpraceo001' : 'vp_everyone',
             'web.db.account.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'vp_upgrader' : 'vp_everyone',
-            'web.db.account.authenticated.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'veletrhpraceonline001' : 'vp_auth',
+            'web.db.account.authenticated.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'veletrhpraceo001' : 'vp_auth',
             'web.db.account.authenticated.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'vp_upgrader' : 'vp_auth',
-            'web.db.account.administrator.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'veletrhpraceonline001' : 'vp_admin',
+            'web.db.account.administrator.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'veletrhpraceo001' : 'vp_admin',
             'web.db.account.administrator.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'vp_upgrader' : 'vp_admin',
             #
             ###################################

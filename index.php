@@ -7,6 +7,8 @@ define('PES_FORCE_DEVELOPMENT', 'force_development');
 define('PROJECT_PATH', str_replace("\\", "/", preg_replace('/^' . preg_quote($_SERVER['DOCUMENT_ROOT'], '/') . '/', '', __DIR__))."/");
 
 include 'vendor/pes/pes/src/Bootstrap/Bootstrap.php';
+//echo PES_RUNNING_ON_PRODUCTION_HOST ? "<p>Production host</p>" : "<p>No production host</p>";
+//echo "<pre>".print_r($bootstrapLoggerArray, true)."</pre>";
 
 use Application\WebAppFactory;
 
@@ -23,8 +25,6 @@ use Application\SelectorItems;
 use Pes\Http\Factory\EnvironmentFactory;
 use Pes\Middleware\UnprocessedRequestHandler;  //NoMatchSelectorItemRequestHandler;
 use Pes\Http\ResponseSender;
-
-//echo "<pre>".print_r($bootstrapLoggerArray, true)."</pre>";
 
 $environment = (new EnvironmentFactory())->createFromGlobals();
 $app = (new WebAppFactory())->createFromEnvironment($environment);
