@@ -15,9 +15,6 @@ use Site\Configuration;
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-echo "<p>site SetBootstrap</p>";
-
-
 // Cesta ke složce, ve které budou ukládány jednotlivé logy třídou Pes\Logger\Filelogger.
 // Cesta nastavená zde je použita pro nastavení base path loggeru v Bootsstrap skriptu ještě pře logování průběhu bootstrapu a tak i logy Bootstrapu budou uloženy do této cesty.
 define("PES_BOOTSTRAP_LOGS_BASE_PATH", $_SERVER['DOCUMENT_ROOT'].Configuration::bootstrap()['bootstrap_logs_base_path']);  // absolutní cesta k podsložce document root
