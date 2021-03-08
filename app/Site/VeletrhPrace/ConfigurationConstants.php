@@ -26,6 +26,6 @@ class ConfigurationConstants {
     const RED_LINKS_COMMON = 'public/site/common/';
     const RED_LINKS_SITE = 'public/site/'.self::RED_SITE_PATH;
     // files
-    const RED_FILES = '_www_vp_files/';
+    const RED_FILES = '/_www_vp_files/';
     const RED_BOOTSTRAP_LOGS = '/_www_vp_logs/';
 }
