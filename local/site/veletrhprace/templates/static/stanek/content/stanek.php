@@ -25,25 +25,24 @@ use Pes\Text\Html;
                             </div>
                             <div class="five wide column middle aligned">
                                 <div class="soc-site-stanku">
-                                    <?= $this->repeat(__DIR__.'/stanek/socialni-site.php', $socialniSiteIframe)?>
-                                    <?= $this->insert(__DIR__.'/stanek/chat.php', $chat) ?>
+                                    <?= $this->repeat(__DIR__.'/sluzby/socialni-site.php', $socialniSiteIframe)?>
+                                    <?= $this->insert(__DIR__.'/sluzby/chat.php', $chat) ?>
                                 </div>
                                 <div class="buttony-mimo-stanek">
                                     <content>
-                                        <p><a class="ui big fluid button" href="www/item/cs/6012ba2fcb683#qqq">Pracovní pozice</a></p>
-                                        <p><a class="ui big fluid button" href="">Náš program</a></p>
-                                        <p class="btn-12"><span class="ui big fluid button">Chci na živou prezentaci</span></p>
-                                        <p><a class="ui big fluid button" href="">Chci na online pohovor</a></p>
-                                        <p><a class="ui big fluid button" href="">Chatujte s námi</a></p>
-                                        <p><a class="ui big fluid button" href="">Kontaktujte nás</a></p>
+                                        <?php include "sluzby/pracovni-pozice.php" ?> 
+                                        <?php include "sluzby/prezentace.php" ?> 
+                                        <?php include "sluzby/pohovor.php" ?> 
+                                        <?php include "sluzby/chatujte.php" ?> 
+                                        <?php include "sluzby/kontakt.php" ?> 
                                     </content>
                                 </div>
-                            </div> 
+                            </div>
                             <div class="sixteen wide column">
                                 <div class="buttony-na-stanku">
                                     <content>
-                                        <div class="ui big button btn-16" >Stáhněte si leták</div>
-                                        <a class="ui big button" href="" >Kupóny / dárky</a>
+                                         <?php include "sluzby/letaky.php" ?> 
+                                         <?php include "sluzby/kupony.php" ?> 
                                     </content>
                                 </div>
                             </div>

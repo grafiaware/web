@@ -31,11 +31,11 @@
 }
 
 &{
-@templateType: "paper";
+@templateType: "paper";       
 @templateName: "course";                          
 @templatePath: "@{templateType}/@{templateName}";
 @siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templatePath}/site-template.less";  
-@import (optional) "../templates/@{templatePath}/base-template.less";   
+@import (optional) "../templates/@{templatePath}/base-template.less";      
 }
 
 &{
@@ -46,7 +46,7 @@
 @import (optional) "../templates/@{templatePath}/base-template.less";
 }
     
-&{
+&{          
 @templateType: "paper-content";
 @templateName: "default";
 @templatePath: "@{templateType}/@{templateName}";
