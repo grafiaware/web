@@ -8,7 +8,7 @@ use Model\Hydrator\HydratorInterface;
 
 use Model\Repository\RegistrationRepo;
 
-use Model\Hydrator\LoginChildCredentialsHydrator;
+use Model\Hydrator\LoginChildRegistrationHydrator;
 
 use Model\Entity\LoginAggregateRegistration;
 use Model\Entity\LoginAggregateRegistrationInterface;
@@ -21,13 +21,17 @@ use Model\Entity\RegistrationInterface;
  * @author vlse2610
  */
 class LoginAggregateRegistrationRepo extends LoginRepo implements LoginRepoInterface {
-   
-    
-    
-    public function __construct(LoginDao $loginDao,      HydratorInterface $loginHydrator,
-                                RegistrationRepo $registrationRepo,    LoginChildCredentialsHydrator $loginRegistrationHydrator) {
+
+
+
+    public function __construct(
+            LoginDao $loginDao,
+            HydratorInterface $loginHydrator,
+            RegistrationRepo $registrationRepo,
+            LoginChildRegistrationHydrator $loginRegistrationHydrator)
+    {
         parent::__construct($loginDao, $loginHydrator);
-        $this->registerOneToOneAssotiation(RegistrationInterface::class, 'login_name', $registrationRepo);
+        $this->registerOneToOneAssociation(RegistrationInterface::class, 'login_name', $registrationRepo);
         $this->registerHydrator($loginRegistrationHydrator);
     }
 
@@ -37,13 +41,15 @@ class LoginAggregateRegistrationRepo extends LoginRepo implements LoginRepoInter
 
     public function add(LoginInterface $loginAggregate) {
         /** @var LoginAggregateRegistrationInterface $loginAggregate */
-        $this->addAssociated(RegistrationInterface::class, $loginAggregate); //add($loginAggregate->getRegistration()); <- do repo abstract
         parent::add($loginAggregate);
+        parent::flush();
+        $this->extract($loginAggregate, $row);
+        $this->addAssociated(RegistrationInterface::class, $row[RegistrationInterface::class]); //add($loginAggregate->getCredentials()); <- do repo abstract
     }
     public function remove(LoginInterface $loginAggregate) {
         /** @var LoginAggregateRegistrationInterface $loginAggregate */
         $this->removeAssociated(RegistrationInterface::class, $loginAggregate); //add($loginAggregate->getRegistration()); <- do repo abstract
-        parent::add($loginAggregate);
+        parent::remove($loginAggregate);
     }
-    
+
 }

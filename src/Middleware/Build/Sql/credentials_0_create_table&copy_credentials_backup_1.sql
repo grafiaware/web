@@ -22,8 +22,9 @@ CREATE TABLE `credentials` (
 
 CREATE TABLE `registration` (
   `login_name_fk` varchar(50) NOT NULL,
+  `password_hash` varchar(255) NOT NULL,
   `email` varchar(100) DEFAULT NULL,
-  `email_time` datetime NOT NULL,
+  `email_time` datetime DEFAULT NULL,
   PRIMARY KEY (`login_name_fk`),
   UNIQUE KEY `login_name_fk` (`login_name_fk`),
   CONSTRAINT `registration_ibfk_1` FOREIGN KEY (`login_name_fk`) REFERENCES `login` (`login_name`)

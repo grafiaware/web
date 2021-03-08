@@ -27,7 +27,7 @@ class LoginChildRegistrationHydrator implements HydratorInterface {
     public function hydrate(EntityInterface $loginAggregateRegistration, &$row) {
         /** @var LoginAggregateRegistrationInterface $loginAggregateRegistration */
         $loginAggregateRegistration
-            ->setRegistration($row[RegistrationInterface::lass]);
+            ->setRegistration($row[RegistrationInterface::class]);
     }
 
     /**

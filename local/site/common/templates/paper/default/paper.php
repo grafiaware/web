@@ -1,6 +1,6 @@
 <?php
-use Model\Entity\PaperAggregateInterface;
-/** @var PaperAggregateInterface $paperAggregate */
+use Model\Entity\PaperAggregatePaperContentInterface;
+/** @var PaperAggregatePaperContentInterface $paperAggregate */
 ?>
 <div data-component="presented" data-template="<?= $paperAggregate->getTemplate() ?>" class="ui segment mceNonEditable">
     <div class="grafia segment headlined editable">

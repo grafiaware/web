@@ -17,6 +17,8 @@ use Model\Repository\RepoPublishedOnlyModeInterface;
 use Model\Repository\Association\AssociationInterface;
 use Model\Repository\Association\AssociationOneToOne;
 use Model\Repository\Association\AssociationOneToMany;
+use Model\Repository\RepoAssotiatedOneInterface;
+use Model\Repository\RepoAssotiatedManyInterface;
 use Model\Repository\Exception\UnableToCreateAssotiatedChildEntity;
 use Model\Repository\Exception\UnableRecreateEntityException;
 use Model\Repository\Exception\BadImplemntastionOfChildRepository;
@@ -71,7 +73,7 @@ abstract class RepoAbstract {
      * @param array $parentReferenceKeyAttribute Atribut klíče, který je referencí na data rodiče v úložišti dat. V databázi jde o referenční cizí klíč.
      * @param \Model\Repository\RepoAssotiatedOneInterface $repo
      */
-    protected function registerOneToManyAssotiation($entityClassName, $parentReferenceKeyAttribute, RepoAssotiatedOneInterface $repo) {
+    protected function registerOneToManyAssotiation($entityClassName, $parentReferenceKeyAttribute, RepoAssotiatedManyInterface $repo) {
         $this->associations[$entityClassName] = new AssociationOneToMany($parentReferenceKeyAttribute, $repo);
     }
 
@@ -81,8 +83,15 @@ abstract class RepoAbstract {
         }
     }
 
-    protected function addAssociated($entityInterfaceName, $entity) {
-        $this->associations[$entityInterfaceName]->addAssociated($entity);
+    /**
+     *
+     * @param type $entityInterfaceName Entita nebo null. Asociovaná entita (vátaná pomocí cizího klíče) nemusí existovat.
+     * @param type $entity
+     */
+    protected function addAssociated($entityInterfaceName, $entity = null) {
+        if (isset($entity)) {
+            $this->associations[$entityInterfaceName]->addAssociated($entity);
+        }
     }
 
     protected function removeAssociated($entityInterfaceName, $entty) {

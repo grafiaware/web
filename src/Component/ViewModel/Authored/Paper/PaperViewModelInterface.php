@@ -9,7 +9,7 @@
 namespace Component\ViewModel\Authored\Paper;
 
 use Component\ViewModel\Authored\AuthoredViewModelInterface;
-use Model\Entity\PaperAggregateInterface;
+use Model\Entity\PaperAggregatePaperContentInterface;
 use Model\Entity\PaperInterface;
 use Model\Entity\MenuItemInterface;
 

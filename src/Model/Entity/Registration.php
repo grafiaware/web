@@ -12,6 +12,11 @@ class Registration extends EntityAbstract implements RegistrationInterface {
     /**
      * @var string
      */
+    private $password;
+
+    /**
+     * @var string
+     */
     private $email;
 
     /**
@@ -29,13 +34,49 @@ class Registration extends EntityAbstract implements RegistrationInterface {
      *
      * @return string|null
      */
-    public function getLoginNameFk(): ?string {
+    public function getLoginNameFk(): string {
         return $this->loginNameFk;
     }
 
 
+    /**
+     *
+     * @param string $loginNameFk
+     * @return RegistrationInterface
+     */
     public function setLoginNameFk(string $loginNameFk): RegistrationInterface {
         $this->loginNameFk = $loginNameFk;
+        return $this;
+    }
+
+    /**
+     *
+     * @return string
+     */
+    public function getPasswordHash(): ?string {
+        return $this->password;
+    }
+
+    /**
+     *
+     * @param string $passwordHash
+     * @return RegistrationInterface
+     */
+    public function setPasswordHash(string $passwordHash): RegistrationInterface {
+        $this->password = $passwordHash;
+        return $this;
+    }
+
+    /**
+     *
+     * @return string|null
+     */
+    public function getEmail(): ?string {
+        return $this->email;
+    }
+
+    public function setEmail(string $email):RegistrationInterface {
+        $this->email = $email;
         return $this;
     }
 
@@ -47,22 +88,14 @@ class Registration extends EntityAbstract implements RegistrationInterface {
         return $this->emailTime;
     }
 
+    /**
+     *
+     * @param \DateTime $emailTime
+     * @return RegistrationInterface
+     */
     public function setEmailTime(\DateTime $emailTime): RegistrationInterface {
         $this->emailTime = $emailTime;
         return $this;
     }
 
-
-    /**
-     *
-     * @return string|null
-     */
-    public function getEmail(): ?string {
-        return $this->email;
-    }
-
-    public function setEmail(string $email=null):RegistrationInterface {
-        $this->email = $email;
-        return $this;
-    }
 }

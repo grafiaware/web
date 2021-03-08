@@ -9,7 +9,7 @@
 namespace Model\Hydrator;
 
 use Model\Entity\EntityInterface;
-use Model\Entity\PaperAggregateInterface;
+use Model\Entity\PaperAggregatePaperContentInterface;
 use Model\Entity\PaperContentInterface;
 
 /**
@@ -22,21 +22,21 @@ class PaperChildHydrator implements HydratorInterface {
     /**
      * Nastaví do agregátu contents, pokud existuje. Contents jsou závislé na kontextu a tedy mohou být null (neaktivní nebo neaktuální content) a pole může být prázdné
      *
-     * @param PaperAggregateInterface $menuItemPaperAggregate
+     * @param PaperAggregatePaperContentInterface $menuItemPaperAggregate
      * @param type $row
      */
     public function hydrate(EntityInterface $paperPaperContentsAggregate, &$row) {
-        /** @var PaperAggregateInterface $menuItemPaperAggregate */
+        /** @var PaperAggregatePaperContentInterface $menuItemPaperAggregate */
         $paperPaperContentsAggregate
             ->exchangePaperContentsArray($row[PaperContentInterface::class]);
     }
 
     /**
      *
-     * @param PaperAggregateInterface $paperAggregate
+     * @param PaperAggregatePaperContentInterface $paperAggregate
      * @param type $row
      */
     public function extract(EntityInterface $paperAggregate, &$row) {
-        /** @var PaperAggregateInterface $paperAggregate */
+        /** @var PaperAggregatePaperContentInterface $paperAggregate */
         $row[PaperContentInterface::class] = $paperAggregate->getPaperContentsArray();
     }}
