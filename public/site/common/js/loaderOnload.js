@@ -17,7 +17,7 @@ function replaceElement(id, apiUri){
         
         $('#modal_12').modal('attach events', '.btn-12', 'show');
         $('#modal_15').modal('attach events', '.btn-fb', 'show');
-        $('#modal_16').modal('attach events', '.btn-16', 'show');
+        $('#modal_16').modal('attach events', '.btn-ig', 'show');
         $('#modal_56').modal('attach events', '.btn-56', 'show');
         $('#modal_333').modal('attach events', '.btn-333', 'show');    
         

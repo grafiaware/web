@@ -7,7 +7,7 @@ use Pes\Text\Html;
 
 
 <div class="nadpis-obrazkove-sloupce">
-    <p class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll">Organizátor</p>
+    <p class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll">Veletrh nabízí...</p>
     <div class="ui three column stackable centered grid equal width">
         <div class="column">
             <a class="link-img" href="">
