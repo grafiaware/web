@@ -12,7 +12,7 @@ namespace Model\Entity;
  *
  * @author pes2704
  */
-interface LoginInterface extends EntityInterface {
+interface LoginInterface extends EntityGeneratedKeyInterface {
     public function getLoginName(): ?string;
     public function setLoginName(string $loginName): LoginInterface;
 }

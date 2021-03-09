@@ -13,6 +13,6 @@ namespace Model\Dao\Exception;
  *
  * @author pes2704
  */
-class DaoException extends RuntimeException {
+class DaoException extends RuntimeException implements DaoExceptionInterface {
     //put your code here
 }
