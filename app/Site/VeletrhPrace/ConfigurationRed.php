@@ -170,7 +170,7 @@ class ConfigurationRed extends ConfigurationDb {
 
         return [
                'home_page' => ['component', 'home'],
-//               'home_page' => ['static', 'body-pro-zdravi'],
+//               'home_page' => ['static', 'uvod'],
 //               'home_page' => ['item', '5fad34398df10'],  // přednášky - pro test
 
                'templates.poznamky' => self::RED_TEMPLATES_COMMON.'layout/info/poznamky.php',

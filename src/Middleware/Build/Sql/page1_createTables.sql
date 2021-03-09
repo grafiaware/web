@@ -55,6 +55,7 @@ CREATE TABLE `menu_item` (
   `prettyuri` varchar(100) DEFAULT NULL,
   `active` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `auto_generated` varchar(6) NOT NULL DEFAULT '0',
+  `multipage` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY (`prettyuri`),
   CONSTRAINT `type_menu_item_type_fk1` FOREIGN KEY ( `type_fk`) REFERENCES `menu_item_type` (`type`)

@@ -9,8 +9,12 @@
 namespace Model\Repository;
 
 use Model\Dao\DaoInterface;
+use Model\Dao\DaoKeyDbVerifiedInterface;
+use Model\Dao\Exception\DaoKeyVerificationFailedException;
+
 use Model\Hydrator\HydratorInterface;
 use Model\Entity\EntityInterface;
+use Model\Entity\EntityGeneratedKeyInterface;
 
 use Model\Repository\RepoPublishedOnlyModeInterface;
 
@@ -22,6 +26,8 @@ use Model\Repository\RepoAssotiatedManyInterface;
 use Model\Repository\Exception\UnableToCreateAssotiatedChildEntity;
 use Model\Repository\Exception\UnableRecreateEntityException;
 use Model\Repository\Exception\BadImplemntastionOfChildRepository;
+
+use Model\Repository\Exception\UnableAddEntityException;
 
 /**
  * Description of RepoAbstract
@@ -179,7 +185,21 @@ abstract class RepoAbstract {
         if ($entity->isPersisted()) {
             $this->collection[$this->indexFromEntity()] = $entity;
         } else {
-            $this->new[] = $entity;
+            if ($entity instanceof EntityGeneratedKeyInterface) {
+                if ($this->dao instanceof DaoKeyDbVerifiedInterface) {
+                    $row = [];
+                    $this->extract($entity, $row);
+                    try {
+                        $this->dao->insertWithKeyVerification();
+                        $entity->setPersisted();
+                        $this->collection[$this->indexFromEntity()] = $entity;
+                    } catch (DaoKeyVerificationFailedException $vefificationFailedExc) {
+                        throw new UnableAddEntityException('Entitu s nastavenou hodnotou klíče nelze zapsad do databáze.');
+                    }
+                }
+            } else {
+                $this->new[] = $entity;
+            }
         }
     }
 

@@ -1,9 +1,31 @@
+deploy:
 
-GET request vzniklý jinak, neý kliknutím do menu - odkaz na jinou stránku, externí odkaz na stránku - musí nastavit aktivní položku i v menu
+změna .htaccess RewriteBase
+
+
+bootstrap:
+
+SetBootstrap - konstanta PES_PRODUCTION_MACHINE_HOST_NAME musí být přesunuta do konfigurace - různé weby jsou na různých produkčních strojích
+define('PES_PRODUCTION_MACHINE_HOST_NAME', 'mcintyre');
+define('PES_PRODUCTION_MACHINE_HOST_NAME', 'replikant2871')
+- v SetBootstrap už řádek s include Configuration
+
+pageControler
+- nefunguje home page static - neí proměnná $homeMenuItem        $statusPresentation->setMenuItem($homeMenuItem);
+
+nastavení menu
+- přidat volbu: aktuální stránku nastavit jako výchozí
+
+GET request vzniklý jinak, než kliknutím do menu - odkaz na jinou stránku, externí odkaz na stránku - musí nastavit aktivní položku i v menu
+
 api - '/www/named/:langCode/:jmeno_component' (vedle '/www/item/:langCode/:uid') - vrací celou prezentaci (nejen obsah komponenty) a jako presented použije kompoent
+
 přesměrování starých adres (old) na nové (upgrade) - stačí pomocí transform
+
 friendly url's
+
 sitemap
+
 do head - meta description <meta name="description" content="Get more vis... /> - požku description do paper? (jen pro "paper" generátor, pro ostatní stejně není kdo by to psal) (menu_item?), přidat pole do editace (zase asi jen pro paper) a tag <meta name="description" dávat do <head>
 
 Notice: Undefined index: in /home/www/tydenzdravi.eu/www/tydenzdravi.eu/src/Application/WebAppFactory.php on line 58

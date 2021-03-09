@@ -14,7 +14,7 @@ use Psr\Http\Message\ServerRequestInterface;
  *
  * @author pes2704
  */
-interface StatusFlashInterface extends EntitySingletorInterface {
+interface StatusFlashInterface extends EntitySingletonInterface {
 
     /**
      * Vrací message

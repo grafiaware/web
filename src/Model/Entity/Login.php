@@ -3,6 +3,8 @@
 
 namespace Model\Entity;
 
+use Model\Entity\EntityGeneratedKeyInterface;
+
 /**
  * Description of Login
  *
@@ -19,6 +21,14 @@ class Login extends EntityAbstract implements LoginInterface {
 
     public function getKeyAttribute() {
         return $this->keyAttribute;
+    }
+
+    public function hasGeneratedKey(): bool {
+        return true;
+    }
+
+    public function getGeneratedKeyType(): string {
+        return EntityGeneratedKeyInterface::MANUAL_DB_VERIFIED;
     }
 
     /**
