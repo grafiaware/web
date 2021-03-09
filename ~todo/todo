@@ -1,3 +1,7 @@
+deploy:
+
+změna .htaccess RewriteBase
+
 
 bootstrap:
 
