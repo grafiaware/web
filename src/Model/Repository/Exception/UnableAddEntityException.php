@@ -6,15 +6,13 @@
  * and open the template in the editor.
  */
 
-namespace Model\Entity;
+namespace Model\Repository\Exception;
 
 /**
+ * Description of UnableAddEntityException
  *
  * @author pes2704
  */
-interface EntitySingletorInterface {
-    public function setPersisted(): EntityInterface;
-    public function setUnpersisted(): EntityInterface;
-    public function isPersisted();
-    
+class UnableAddEntityException extends \UnexpectedValueException implements RepositoryExceptionInterface {
+    //put your code here
 }

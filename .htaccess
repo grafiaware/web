@@ -11,11 +11,9 @@ Options +FollowSymLinks
 
 RewriteEngine On
 
-RewriteBase "/web"
+RewriteBase "/web/"
 #RewriteCond $1 !^(index\.php|public|robots\.txt)
 
-#RewriteCond %{REQUEST_FILENAME} !-f
-#RewriteCond %{REQUEST_FILENAME} !-d
 #RewriteRule ^(.*)\\.(gif|png|jpg|jpeg|css|js|swf|ico|bmp|less)$ /public/$1.$2 [L,NC]
 
 RewriteRule ^public/ - [L]
