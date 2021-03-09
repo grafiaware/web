@@ -10,6 +10,6 @@ namespace Model\Entity;
  *
  * @author pes2704
  */
-interface EntityInterface extends EntitySingletorInterface {
+interface EntityInterface extends EntitySingletonInterface {
     public function getKeyAttribute();
 }

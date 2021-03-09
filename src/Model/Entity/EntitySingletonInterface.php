@@ -9,12 +9,13 @@
 namespace Model\Entity;
 
 /**
- *
+ * Interface entity, která se musí vždy vyskytovat jen v jedné instanci - singletor. Singleton entita nemá identitu (klíč).
+ * 
  * @author pes2704
  */
-interface EntitySingletorInterface {
+interface EntitySingletonInterface {
     public function setPersisted(): EntityInterface;
     public function setUnpersisted(): EntityInterface;
     public function isPersisted();
-    
+
 }

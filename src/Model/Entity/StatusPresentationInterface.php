@@ -18,7 +18,7 @@ use Model\Entity\{
  *
  * @author pes2704
  */
-interface StatusPresentationInterface extends EntitySingletorInterface {
+interface StatusPresentationInterface extends EntitySingletonInterface {
 
     /**
      *

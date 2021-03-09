@@ -12,7 +12,7 @@ namespace Model\Entity;
  *
  * @author pes2704
  */
-interface UserActionsInterface extends EntitySingletorInterface {
+interface UserActionsInterface extends EntitySingletonInterface {
 
     /**
      * @return bool
