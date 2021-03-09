@@ -16,9 +16,9 @@ $firma = [
     ],
     'videoSourceSrc' => 'video/video-OA2018.mp4',
     'imgStankuAttributes' => [
-        'src' => 'images/stanek-logo.png', 
+        'src' => 'images/stanek-s-pozadim.png', 
         'alt' => 'stánek First Company',
-        'width' => '90%'
+        'width' => '100%'
     ],
     'socialniSiteIframe' => [
         [
@@ -54,7 +54,7 @@ $firma = [
             <?php include "perex.php" ?> 
         </perex>
     </section>
-    <section class="pozadi-na-stanku">    
+    <section>    
         <?= $this->insert(__DIR__.'/content/stanek.php', $firma)?>
     </section>
 </article>

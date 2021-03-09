@@ -13,11 +13,11 @@ use Pes\Text\Text;
                     <img class="sirsi-obr"
                          src="images/pan_s_tabletem.jpg" 
                          srcset=" 
-                          public/site/veletrhprace/images/pan_s_tabletem.jpg , 
-                          public/site/veletrhprace/images/pan_s_tabletem_mobile.jpg 2x"
+                          public/site/veletrhprace/images/pan_s_tabletem.jpg 480w,  
+                          public/site/veletrhprace/images/pan_s_tabletem_mobile.jpg 820w"
                           sizes="
-                            (min-width: 768px) 100vw, 
-                            480px"
+                            (max-width: 768px) 100vw,
+                            (min-width: 769px) 480px"
                          width="476" height="671" alt="Pracovník s tabletem"/>
                     <div class="primarni-barva podklad nadpis presah">
                         <p>30. 3.—1. 4. 2021</p>

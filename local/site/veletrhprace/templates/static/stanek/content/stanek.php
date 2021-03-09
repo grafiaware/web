@@ -42,7 +42,6 @@ use Pes\Text\Html;
                                 <div class="buttony-na-stanku">
                                     <content> 
                                          <?php include "sluzby/letaky.php" ?> 
-                                         <?php include "sluzby/kupony.php" ?> 
                                     </content>
                                 </div>
                             </div>

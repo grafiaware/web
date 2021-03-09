@@ -2,7 +2,7 @@
 
 
 
-<div class="ui big button btn-16" >Stáhněte si leták</div>
+<div class="ui big button red basic btn-16" style="background-color: white">Stáhněte si leták</div>
 
 <div id="modal_16" class="ui modal">
     <i class="close icon"></i>

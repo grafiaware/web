@@ -397,40 +397,47 @@ content .online-stanky{
 .jmeno-stanku{
     position: absolute;
     width: auto !important;
-    text-align: right;
-    right: 60px;
-    top: 80px;
+    left: 60px;
+    top: 50px; 
 }
 .video-na-stanku{
     position: relative; 
-    top: 100px; 
+    top: 70px; 
+    left: 68%;
     z-index: 10;
 }
 .pozadi-na-stanku{
-    background-image: url('@{imgForSite}stanek-pozadi.png');
-    background-size: 70%;
+/*    background-image: url('@{imgForSite}stanek-pozadi.png');
+    background-size: 63%;
     background-repeat: no-repeat;
-    background-position: left center;
+    background-position: left center;*/
 }
 .pani-na-stanku{
-    margin-top: 50px;
+    //margin-top: 50px;
     content{
         margin: 10px auto;
     }
 }
 .soc-site-stanku{
     margin-bottom: 15px;
+    text-align: right;
     content{
         display: inline-block;
         margin: 10px auto;
     }
 }
 .buttony-mimo-stanek{
+    .basic.button{
+        font-weight: 500;
+    }
     content{ 
         margin: 10px auto;
     }
 }
 .buttony-na-stanku{
+    .basic.button{
+        font-weight: 500;
+    }
     .button:first-child{
         position: absolute; 
         z-index: 10; 
