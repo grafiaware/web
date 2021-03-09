@@ -16,7 +16,7 @@ $firma = [
     ],
     'videoSourceSrc' => 'video/video-OA2018.mp4',
     'imgStankuAttributes' => [
-        'src' => 'images/stánek_upr_pruhl.png', 
+        'src' => 'images/stanek-logo.png', 
         'alt' => 'stánek First Company',
         'width' => '90%'
     ],
