@@ -25,6 +25,7 @@ use Model\Repository\StatusSecurityRepo;
 use Model\Repository\StatusFlashRepo;
 use Model\Repository\LoginAggregateRegistrationRepo;
 use Model\Repository\LoginAggregateCredentialsRepo;
+use Model\Repository\Exception\UnableAddEntityException;
 
 use Model\Entity\Credentials;
 use Model\Entity\LoginAggregateCredentials;
@@ -85,12 +86,12 @@ class RegistrationController extends StatusFrontControllerAbstract
             if ($registerJmeno AND $registerHeslo AND  $registerEmail ) {
                 /** @var  LoginAggregateRegistration $loginAggregateRegistrationEntity  */
                 $loginAggregateRegistrationEntity = $this->loginAggregateRegistrationRepo->get($registerJmeno);
-                 // !!!! jeste hledat v tabulce registration, zda neni jmeno uz rezervovane
+                 
                 if ( isset($loginAggregateRegistrationEntity) ) {
                      //  zaznam se jmenem jiz existuje, zmente jmeno---
                 } else {
                      //verze 2
-                     // ulozit udaje do tabulky, do ktere - registration + cas: do kdy je cekano na potvrzeni registrace
+                     // ulozit udaje do tabulky, do registration + cas: do kdy je cekano na potvrzeni registrace
                      // protoze musi byt rezervace jmena nez potvrdi
                      //
                      // zobrazit "Dekujeme za Vasi registraci. Na vas email jsme vam odeslali odkaz, kterym registraci dokoncite. Odkaz je aktivni x hodin."
@@ -107,7 +108,11 @@ class RegistrationController extends StatusFrontControllerAbstract
                     $loginAggregateRegistrationEntity = new LoginAggregateRegistration();
                     $loginAggregateRegistrationEntity->setLoginName($registerJmeno);
                     $loginAggregateRegistrationEntity->setRegistration($registration);
-                    $this->loginAggregateRegistrationRepo->add($loginAggregateRegistrationEntity);
+                    try {
+                        $this->loginAggregateRegistrationRepo->add($loginAggregateRegistrationEntity);
+                    } catch (UnableAddEntityException $unableExc){
+                        //dej nové jméno.
+                    }                    
                  }
 
             }

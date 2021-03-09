@@ -44,11 +44,11 @@ class LoginLogoutController extends StatusFrontControllerAbstract {
      *
      */
     public function __construct(
-            StatusSecurityRepo $statusSecurityRepo,
-            StatusFlashRepo $statusFlashRepo,
-            StatusPresentationRepo $statusPresentationRepo,
-            LoginAggregateCredentialsRepo $loginAggregateRepo,
-            AuthenticatorInterface $authenticator) {
+                        StatusSecurityRepo $statusSecurityRepo,
+                           StatusFlashRepo $statusFlashRepo,
+                    StatusPresentationRepo $statusPresentationRepo,
+             LoginAggregateCredentialsRepo $loginAggregateRepo,
+                    AuthenticatorInterface $authenticator) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
         $this->loginAggregateRepo = $loginAggregateRepo;
         $this->authenticator = $authenticator;

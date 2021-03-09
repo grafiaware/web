@@ -23,14 +23,6 @@ class Login extends EntityAbstract implements LoginInterface {
         return $this->keyAttribute;
     }
 
-    public function hasGeneratedKey(): bool {
-        return true;
-    }
-
-    public function getGeneratedKeyType(): string {
-        return EntityGeneratedKeyInterface::MANUAL_DB_VERIFIED;
-    }
-
     /**
      *
      * @return string|null
