@@ -21,9 +21,10 @@ class MenuItem extends EntityAbstract implements MenuItemInterface {
     private $langCodeFk;
     private $type;
     private $id;
-    private $title;  //nazev
+    private $title;
     private $prettyuri;
-    private $active;  //aktiv
+    private $active;
+    private $multipage;
 
     private $keyAttribute = ['uid_fk', 'lang_code_fk'];
 
@@ -56,6 +57,10 @@ class MenuItem extends EntityAbstract implements MenuItemInterface {
 
     public function getActive() {
         return $this->active;
+    }
+
+    public function getMultipage() {
+        return $this->multipage;
     }
 
     public function setUidFk($uidFk): MenuItemInterface {
@@ -93,4 +98,8 @@ class MenuItem extends EntityAbstract implements MenuItemInterface {
         return $this;
     }
 
+    public function setMultipage($multipage): MenuItemInterface {
+        $this->multipage = $multipage;
+        return $this;
+    }
 }

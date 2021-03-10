@@ -55,12 +55,12 @@ abstract class AuthoredComponentAbstract extends CompositeComponentAbstract impl
         $this->templatesPath = $templatesPath;
     }
 
-    protected function getPaperTemplatePath($paperTemplateName) {
-        return $this->templatesPath.$paperTemplateName."/template.php";
-    }
-
     public function addTemplateGlobals($variableName, $rendererName) {
         $this->templateGlobals[$variableName] = $rendererName;
+    }
+
+    protected function getPaperTemplatePath($paperTemplateName) {
+        return $this->templatesPath.$paperTemplateName."/template.php";
     }
 
     protected function resolveTemplate($templateName) {
