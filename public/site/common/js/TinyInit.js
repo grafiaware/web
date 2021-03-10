@@ -182,7 +182,7 @@ var imagetools_toolbar = 'editimage | rotateleft rotateright | flipv fliph | ima
 var file_picker_callback_function = function (cb, value, meta) {
     var input = document.createElement('input');
     input.setAttribute('type', 'file');
-    
+
     // For the image dialog
     if (meta.filetype === 'image') {
       input.setAttribute('accept', 'image/*');
@@ -225,7 +225,7 @@ var file_picker_callback_function = function (cb, value, meta) {
 
     input.click();
   };
-  
+
 /////////////////////////////////////////
 
 var headlineConfig = {
@@ -299,6 +299,41 @@ var perexConfig = {
     relative_urls: true,
     extended_valid_elements: 'perex',
     custom_elements: 'perex',
+    valid_children: '+a[div]',
+    link_title: false,
+    noneditable_editable_class: 'mceEditable',
+    noneditable_noneditable_class: 'mceNonEditable',
+    language : tinyConfig.toolbarsLang,
+    document_base_url : tinyConfig.basePath,
+    content_css: tinyConfig.contentCss,
+
+    menubar: false,
+    inline: true,
+
+    plugins: plugins_paper,
+    templates: templates_paper,
+    toolbar1: toolbar1,
+    toolbar2: toolbar2,
+    imagetools_toolbar: imagetools_toolbar,
+    link_class_list: linkClassList,
+    /* enable title field in the Image dialog*/
+    image_title: true,
+    /* enable automatic uploads of images represented by blob or data URIs*/
+    automatic_uploads: true,
+    /* URL of our upload handler (for more details check: https://www.tiny.cloud/docs/configure/file-image-upload/#images_upload_url) */
+    images_upload_url: 'api/v1/upload',
+    images_reuse_filename: true,
+    /* here we add custom filepicker only to Image dialog */
+    file_picker_types: 'image',
+    /* and here's our custom image picker*/
+    file_picker_callback: file_picker_callback_function,
+    setup: editorFunction
+};
+var divConfig = {
+    selector: 'form div', //libovolný div
+    schema : 'html5',
+    placeholder: 'Vyplňte obsah',
+    relative_urls: true,
     valid_children: '+a[div]',
     link_title: false,
     noneditable_editable_class: 'mceEditable',

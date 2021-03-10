@@ -110,7 +110,7 @@ class PageController extends LayoutControllerAbstract {
         if ($menuItem) {
             $statusPresentation = $this->statusPresentationRepo->get();
             $statusPresentation->setMenuItem($menuItem);
-            $actionComponents = ["content" => $this->getMenuItemContent($menuItem, $this->isEditableArticle())];
+            $actionComponents = ["content" => $this->resolveMenuItemView($menuItem, $this->isEditableArticle())];
             return $this->createResponseFromView($request, $this->createView($request, $this->getComponentViews($actionComponents)));
         } else {
             // neexistující stránka
@@ -118,7 +118,9 @@ class PageController extends LayoutControllerAbstract {
         }
     }
     public function static(ServerRequestInterface $request, $name) {
-        $actionComponents = ["content" => $this->getStaticLoadScript($name)];
+//        $actionComponents = ["content" => $this->getStaticLoadScript($name)];
+        $actionComponents = ["content" => $this->resolveMenuItemView($menuItem, $this->isEditableArticle())];
+
         return $this->createResponseFromView($request, $this->createView($request, $this->getComponentViews($actionComponents)));
     }
 
@@ -149,57 +151,6 @@ class PageController extends LayoutControllerAbstract {
 //                $this->getEmptyMenuComponents(),
                 $this->getMenuComponents()
                 );
-    }
-
-    /**
-     * Vrací view objekt pro zobrazení centrálního obsahu v prostoru pro "content"
-     * @return type
-     */
-    private function getMenuItemContent(MenuItemInterface $menuItem, $editable) {
-        // dočasně duplicitní s ComponentControler
-        $menuItemType = $menuItem->getTypeFk();
-            switch ($menuItemType) {
-                case 'empty':
-                    if ($editable) {
-                        $content = $this->container->get(ItemTypeSelectComponent::class);
-                    } else {
-                        $content = $this->container->get(View::class)->setData(["Empty item."])->setRenderer(new ImplodeRenderer());
-                    }
-                    break;
-                case 'generated':
-                    $content = $view = $this->container->get(View::class)->setData( "No content for generated type.")->setRenderer(new StringRenderer());
-                    break;
-                case 'static':
-                    if ($editable) {
-                        $content = $this->getStaticEditableLoadScript($menuItem);
-                    } else {
-                        $content = $this->getStaticLoadScript($menuItem);
-                    }
-                    break;
-                case 'paper':
-                    if ($editable) {
-                        $content = $this->getPaperEditableLoadScript($menuItem);
-                    } else {
-                        $content = $this->getPaperLoadScript($menuItem);
-                    }
-
-//                    $content = $this->getPresentedComponentLoadScript($menuItem);
-                    break;
-                case 'redirect':
-                    $content = $view = $this->container->get(View::class)->setData( "No content for redirect type.")->setRenderer(new StringRenderer());
-                    break;
-                case 'root':
-                        $content = $this->container->get(View::class)->setData( "root")->setRenderer(new StringRenderer());
-                    break;
-                case 'trash':
-                        $content = $this->container->get(View::class)->setData( "trash")->setRenderer(new StringRenderer());
-                    break;
-
-                default:
-                        $content = $this->container->get('component.presented');
-                    break;
-            }
-        return $content;
     }
 
     private function getGeneratedLayoutComponents() {
@@ -259,7 +210,7 @@ class PageController extends LayoutControllerAbstract {
         $editable = $this->isEditableLayout();
         foreach ($map as $variableName => $blockName) {
             $menuItem = $this->getBlockMenuItem($langCode, $blockName);
-            $componets[$variableName] = isset($menuItem) ? $this->getMenuItemContent($menuItem, $editable) : $this->container->get(View::class)->setRenderer(new StringRenderer());  // například neaktivní, neaktuální menu item
+            $componets[$variableName] = $this->resolveMenuItemView($menuItem, $editable);
 //            $componets[$variableName] = $this->container->get($componentService)->setComponentName($blockName);
         }
         return $componets;
@@ -270,6 +221,62 @@ class PageController extends LayoutControllerAbstract {
         $blockAggregateRepo = $this->container->get(BlockAggregateRepo::class);
         $blockAggregate = $blockAggregateRepo->getAggregate($langCode, $name);
         return $blockAggregate ? $blockAggregate->getMenuItem() : null;
+    }
+
+    /**
+     * Vrací view objekt pro zobrazení centrálního obsahu v prostoru pro "content"
+     * @return type
+     */
+    private function resolveMenuItemView(MenuItemInterface $menuItem = null, $editable) {
+        if (isset($menuItem)) {
+            // dočasně duplicitní s ComponentControler
+            $menuItemType = $menuItem->getTypeFk();
+            switch ($menuItemType) {
+                case 'empty':
+                    if ($editable) {
+                        $content = $this->container->get(ItemTypeSelectComponent::class);
+                    } else {
+                        $content = $this->container->get(View::class)->setData(["Empty item."])->setRenderer(new ImplodeRenderer());
+                    }
+                    break;
+                case 'generated':
+                    $content = $view = $this->container->get(View::class)->setData( "No content for generated type.")->setRenderer(new StringRenderer());
+                    break;
+                case 'static':
+                    if ($editable) {
+                        $content = $this->getStaticEditableLoadScript($menuItem);
+                    } else {
+                        $content = $this->getStaticLoadScript($menuItem);
+                    }
+                    break;
+                case 'paper':
+                    if ($editable) {
+                        $content = $this->getPaperEditableLoadScript($menuItem);
+                    } else {
+                        $content = $this->getPaperLoadScript($menuItem);
+                    }
+
+//                    $content = $this->getPresentedComponentLoadScript($menuItem);
+                    break;
+                case 'redirect':
+                    $content = $view = $this->container->get(View::class)->setData( "No content for redirect type.")->setRenderer(new StringRenderer());
+                    break;
+                case 'root':
+                        $content = $this->container->get(View::class)->setData( "root")->setRenderer(new StringRenderer());
+                    break;
+                case 'trash':
+                        $content = $this->container->get(View::class)->setData( "trash")->setRenderer(new StringRenderer());
+                    break;
+
+                default:
+                        $content = $this->container->get('component.presented');
+                    break;
+            }
+        } else {
+            // například neaktivní, neaktuální menu item
+            $content = $this->container->get(View::class)->setRenderer(new StringRenderer());
+        }
+        return $content;
     }
 
     /**
@@ -325,6 +332,7 @@ class PageController extends LayoutControllerAbstract {
         $this->setLoadEditableScriptTemplate($view);
         return $view;
     }
+
     private function setLoadScriptTemplate($view) {
         $view->setTemplate(new PhpTemplate(Configuration::pageControler()['templates.loaderElement']));
     }
