@@ -460,3 +460,114 @@ content .online-stanky{
 }
 
 
+.timeline{
+    margin-top:20px;
+    position:relative;
+}
+.timeline:before{
+    position:absolute;
+    content:'';
+    width:4px;
+    height:calc(100% + 50px);
+    background: rgb(138,145,150);
+    left:14px;
+    top:5px;
+    border-radius:4px;
+}
+.timeline-section{
+    padding-left:35px;
+    display:block;
+    position:relative;
+    margin-bottom:30px;
+}
+.timeline-date{
+    margin-bottom:15px;
+    padding:2px 15px;
+    background: #CB0A1F;
+    position:relative;
+    display:inline-block;
+    border-radius:20px;
+    border:1px solid #17191B;
+    color:#fff;
+    text-shadow:1px 1px 1px rgba(0,0,0,0.3);
+}
+.timeline-section:before{
+    content:'';
+    position:absolute;
+    width:30px;
+    height:1px;
+    background-color:#444950;
+    top:12px;
+    left:20px;
+}
+.timeline-section:after{
+    content:'';
+    position:absolute;
+    width:10px;
+    height:10px;
+    background:linear-gradient(to bottom, rgba(138,145,150,1) 0%,rgba(122,130,136,1) 60%,rgba(112,120,125,1) 100%);
+    top:7px;
+    left:11px;
+    border:1px solid #17191B;
+    border-radius:100%;
+}
+.timeline-section .col-sm-4{
+    margin-bottom:15px;
+}
+.timeline-box{
+    position:relative;
+    background-color: @white;
+    border-radius:15px;
+    border-top-left-radius:0px;
+    border-bottom-right-radius:0px;
+    border:1px solid #17191B;
+    transition:all 0.3s ease;
+    overflow:hidden;
+}
+.box-icon{
+    position:absolute;
+    right:5px;
+    top:0px;
+}
+.box-title{
+    padding:5px 15px;
+    border-bottom: 1px solid #17191B;
+}
+.box-title i{
+    margin-right:5px;
+}
+.box-content{
+    padding:5px 15px;
+    background-color: @white;
+}
+.box-content strong{
+    color:#666;
+    font-style:italic;
+    margin-right:5px;
+}
+.box-item{
+    margin-bottom:5px;
+}
+.box-footer{
+    padding:5px 15px;
+    border-top: 1px solid #17191B;
+    background-color: @white;
+    text-align:right;
+    font-style:italic;
+}
+
+
+.casova-osa p{
+    margin: 110px 10px;
+    &:first-child{
+        margin-top: 0;
+    }
+}
+.aktivity{
+    .ui.raised.segment{
+        width: 30%;
+        float: left;
+        margin: 10px;
+    }
+}
+
