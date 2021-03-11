@@ -6,7 +6,17 @@ use Pes\Text\Text;
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregatePaperContentInterface $paperAggregate */
 
-    $parneri = [
+    $placeneLogoValeo = [
+        'wwwPartnera' => 'https://www.valeo.com/cs/ceska-republika/',
+        'imgPartneraAttributes' => [
+            'src' => 'images/valeo_logo_web.png',
+            'alt' => 'Logo Valeo',
+            'width' => '',
+            'height' => '130',
+            'class' => 'logo-vysoke'
+        ]
+    ];
+    $partneri = [
         [
             'radekPartneru' => [
                 [
@@ -29,15 +39,14 @@ use Pes\Text\Text;
                         'class' => 'logo-ctverec'
                     ]
                 ],
-                
                 [
-                    'wwwPartnera' => 'http://www.suip.cz/',
+                    'wwwPartnera' => 'https://www.komora.cz/',
                     'imgPartneraAttributes' => [
-                        'src' => 'images/suip.png',
-                        'alt' => 'Logo Státní úřad inspekce práce',
+                        'src' => 'images/komora_logo_web.png',
+                        'alt' => 'Logo Hospodářská komora',
                         'width' => '',
-                        'height' => '60',
-                        'class' => 'logo-siroke'
+                        'height' => '100',
+                        'class' => 'logo-ctverec'
                     ]
                 ],
                 
@@ -45,16 +54,6 @@ use Pes\Text\Text;
         ],
         [
             'radekPartneru' => [
-                [
-                    'wwwPartnera' => 'https://www.pzpk.cz/',
-                    'imgPartneraAttributes' => [
-                        'src' => 'images/pakt_namestnanosti.png',
-                        'alt' => 'Logo Pakt zaměstnanosti',
-                        'width' => '',
-                        'height' => '85',
-                        'class' => 'logo-obdelnik'
-                    ],
-                ],
                 [
                     'wwwPartnera' => 'https://www.aivd.cz/',
                     'imgPartneraAttributes' => [
@@ -66,16 +65,25 @@ use Pes\Text\Text;
                     ]
                 ],
                 [
-                    'wwwPartnera' => 'http://www.grafia.cz/',
+                    'wwwPartnera' => 'https://www.pzpk.cz/',
                     'imgPartneraAttributes' => [
-                        'src' => 'images/logo_grafia.png',
-                        'alt' => 'Logo Grafia',
+                        'src' => 'images/pakt_namestnanosti.png',
+                        'alt' => 'Logo Pakt zaměstnanosti',
+                        'width' => '',
+                        'height' => '85',
+                        'class' => 'logo-obdelnik'
+                    ],
+                ],
+                [
+                    'wwwPartnera' => 'https://umo3.plzen.eu/',
+                    'imgPartneraAttributes' => [
+                        'src' => 'images/logo_umo3.png',
+                        'alt' => 'Logo UMO3 Plzeň',
                         'width' => '',
                         'height' => '110',
                         'class' => 'logo-ctverec'
                     ],
                 ],
-                
             ]
         ],
         [
@@ -91,40 +99,6 @@ use Pes\Text\Text;
                     ],
                 ],
                 [
-                    'wwwPartnera' => 'https://www.komora.cz/',
-                    'imgPartneraAttributes' => [
-                        'src' => 'images/hk_cr.png',
-                        'alt' => 'Logo Hospodářská komora',
-                        'width' => '',
-                        'height' => '75',
-                        'class' => 'logo-obdelnik'
-                    ]
-                ],
-                [
-                    'wwwPartnera' => 'https://www.dzklatovy.cz/',
-                    'imgPartneraAttributes' => [
-                        'src' => 'images/dzk.png',
-                        'alt' => 'Logo Drůbežářský závod Klatovy',
-                        'width' => '',
-                        'height' => '130',
-                        'class' => 'logo-vysoke'
-                    ],
-                ],
-            ]
-        ],
-        [
-            'radekPartneru' => [
-                [
-                    'wwwPartnera' => 'https://plzen.eurocentra.cz/',
-                    'imgPartneraAttributes' => [
-                        'src' => 'images/eurocentrum.png',
-                        'alt' => 'Logo Eurocentrum',
-                        'width' => '',
-                        'height' => '60',
-                        'class' => 'logo-siroke'
-                    ],
-                ],
-                [
                     'wwwPartnera' => 'https://plzensky.denik.cz/',
                     'imgPartneraAttributes' => [
                         'src' => 'images/plzen_denik.png',
@@ -133,8 +107,18 @@ use Pes\Text\Text;
                         'height' => '85',
                         'class' => 'logo-obdelnik'
                     ],
-                ]
-            ]
+                ],
+                [
+                    'wwwPartnera' => 'https://plzen.rozhlas.cz/',
+                    'imgPartneraAttributes' => [
+                        'src' => 'images/CRo_Plzen.png',
+                        'alt' => 'Logo Český rozhlas Plzeň',
+                        'width' => '',
+                        'height' => '75',
+                        'class' => 'logo-obdelnik'
+                    ],
+                ],
+            ],
         ]
     ]
 ?>
@@ -143,7 +127,8 @@ use Pes\Text\Text;
     <p class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll">Partneři</p>
     <div class="partneri-pozadi">
         <div class="ui stackable centered grid">
-            <?= $this->repeat(__DIR__.'/partneri/rozvrzeni-partneru.php', $parneri) ?>
+            <?= $this->insert(__DIR__.'/partneri/placeneLogo.php', $placeneLogoValeo) ?>
+            <?= $this->repeat(__DIR__.'/partneri/rozvrzeni-partneru.php', $partneri) ?>
         </div>
     </div>
 </div>
