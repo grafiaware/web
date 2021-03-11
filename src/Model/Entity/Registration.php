@@ -93,7 +93,7 @@ class Registration extends EntityAbstract implements RegistrationInterface {
      * @param \DateTime $emailTime
      * @return RegistrationInterface
      */
-    public function setEmailTime(\DateTime $emailTime): RegistrationInterface {
+    public function setEmailTime(\DateTime $emailTime = null): RegistrationInterface {
         $this->emailTime = $emailTime;
         return $this;
     }
