@@ -9,6 +9,7 @@
 namespace Model\Repository;
 
 use Model\Dao\StatusDao;
+use StatusManager\StatusManagerInterface;
 
 /**
  * StatusRepositoryAbstract má metody pro zápis (aktualizaci) dat v session a destruktor, který zajišťuje automatické uložení (aktualizaci)
@@ -23,12 +24,15 @@ class StatusRepositoryAbstract extends RepoAbstract {
      */
     protected $statusDao;
 
+    private $statusManager;
+
     private $loaded=FALSE;
 
     protected $entity;
 
-    public function __construct(StatusDao $statusDao) {
+    public function __construct(StatusDao $statusDao, StatusManagerInterface $statusManager) {
         $this->statusDao = $statusDao;
+        $this->statusManager = $statusManager;
     }
 
     protected function load() {

@@ -17,7 +17,7 @@ use Model\Entity\LoginAggregateCredentialsInterface;
  *
  * @author pes2704
  */
-class StatusSecurityManager implements StatusSecurityManagerInterface {
+class StatusSecurityManager implements StatusManagerInterface {
 
     /**
      * @var StatusSecurityInterface
@@ -25,21 +25,25 @@ class StatusSecurityManager implements StatusSecurityManagerInterface {
     protected $statusSecurity;
 
     /**
-     * {@inheritdoc}
+     * Určeno pro vytvoření bezpečnostního kontextu aplikace.
      *
-     * @return void
+     * @return EntitySingletonInterface
      */
-    public function createSecurityStatus(): StatusSecurityInterface {
+    public function createStatus(): StatusSecurityInterface {
         $this->statusSecurity = new StatusSecurity();
         return $this->statusSecurity;
     }
 
     /**
-     * {@inheritdoc}
+     * Určeno pro změnu bezpečnostního statusu. Je nutné volat vždy při změně bezpečnostního kontextu, typicky při přihlášení, odhlášení uživatele.
+     *
+     * Musí smazat všechny informace v security statusu odvozené z bezpečnostního kontextu,
+     * typicky např. ty, vytvořené s použitím přihlášeného uživatele.
+     *
      * @param LoginAggregateCredentialsInterface $loginAggregate
      * @return void
      */
-    public function renewSecurityStatus(LoginAggregateCredentialsInterface $loginAggregate=null): void {
+    public function renewStatus(LoginAggregateCredentialsInterface $loginAggregate=null): void {
         $this->statusSecurity->setUser($loginAggregate);
         $this->statusSecurity->setUserActions(new UserActions());  // má default hodnoty
 

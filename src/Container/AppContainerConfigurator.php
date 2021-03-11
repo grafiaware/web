@@ -40,7 +40,7 @@ use Model\Repository\StatusFlashRepo;
 
 // statusModel
 use StatusManager\StatusSecurityManager;
-use StatusManager\StatusSecurityManagerInterface;
+use StatusManager\StatusManagerInterface;
 use StatusManager\StatusPresentationManager;
 use StatusManager\StatusPresentationManagerInterface;
 use StatusManager\StatusFlashManager;
@@ -75,7 +75,7 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
     public function getAliases() {
         return [
             SessionStatusHandlerInterface::class => SessionStatusHandler::class,
-            StatusSecurityManagerInterface::class => StatusSecurityManager::class,
+            StatusManagerInterface::class => StatusSecurityManager::class,
             StatusPresentationManagerInterface::class => StatusPresentationManager::class,
             StatusFlashManagerInterface::class => StatusFlashManager::class,
             CredentialsInterface::class => Credentials::class,

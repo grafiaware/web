@@ -19,7 +19,7 @@ use Model\Repository\{
 };
 
 use Model\Entity\{
-    HierarchyAggregateInterface, StatusPresentationInterface, LanguageInterface
+    HierarchyAggregateInterface, LanguageInterface, EntitySingletonInterface
 };
 
 use Model\Entity\{
@@ -32,7 +32,7 @@ use Model\Entity\{
  *
  * @author pes2704
  */
-class StatusPresentationManager implements StatusPresentationManagerInterface {
+class StatusPresentationManager implements StatusManagerInterface {
 
     /**
      * @var LanguageRepo
@@ -68,7 +68,7 @@ class StatusPresentationManager implements StatusPresentationManagerInterface {
      *
      * @return StatusPresentationInterface
      */
-    public function createPresentationStatus(): StatusPresentationInterface {
+    public function createStatus(): EntitySingletonInterface {
         return new StatusPresentation();
     }
 
@@ -79,7 +79,7 @@ class StatusPresentationManager implements StatusPresentationManagerInterface {
      * @param ServerRequestInterface $request
      * @return void
      */
-    public function regenerateStatusPresentation(StatusPresentationInterface $statusPresentation, ServerRequestInterface $request): void {
+    public function renewStatus(EntitySingletonInterface $statusPresentation, ServerRequestInterface $request): void {
 
         ## defaultní hodnoty parametrů status presentation
         // jazyk prezentace

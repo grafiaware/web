@@ -15,7 +15,7 @@ use Psr\Http\Message\ResponseInterface;
 use Pes\Middleware\AppMiddlewareAbstract;
 
 use Model\Repository\StatusSecurityRepo;
-use StatusManager\StatusSecurityManagerInterface;
+use StatusManager\StatusManagerInterface;
 
 /**
  * Description of Status
@@ -28,10 +28,10 @@ class SecurityStatus extends AppMiddlewareAbstract implements MiddlewareInterfac
 
         /** @var StatusSecurityRepo $statusSecurityRepo */
         $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
-        /** @var StatusSecurityManagerInterface $statusSecurityManager */
-        $statusSecurityManager = $container->get(StatusSecurityManagerInterface::class);
+        /** @var StatusManagerInterface $statusSecurityManager */
+        $statusSecurityManager = $container->get(StatusManagerInterface::class);
         if (!$statusSecurityRepo->get()) {
-            $statusSecurityRepo->add($statusSecurityManager->createSecurityStatus());
+            $statusSecurityRepo->add($statusSecurityManager->createStatus());
         }
 
 

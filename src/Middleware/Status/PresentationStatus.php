@@ -41,10 +41,10 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
         $statusPresentationManager = $container->get(StatusPresentationManagerInterface::class);
         $statusPresentation = $statusPresentationRepo->get();
         if (!isset($statusPresentation)) {
-            $statusPresentation = $statusPresentationManager->createPresentationStatus($request);
+            $statusPresentation = $statusPresentationManager->createStatus($request);
             $statusPresentationRepo->add($statusPresentation);
         }
-        $statusPresentationManager->regenerateStatusPresentation($statusPresentation, $request);
+        $statusPresentationManager->renewStatus($statusPresentation, $request);
 
         return $handler->handle($request);
     }

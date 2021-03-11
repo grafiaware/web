@@ -8,7 +8,7 @@
 
 namespace StatusManager;
 
-use Model\Entity\StatusFlashInterface;
+use Model\Entity\EntitySingletonInterface;
 use Model\Entity\StatusFlash;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -17,12 +17,13 @@ use Psr\Http\Message\ServerRequestInterface;
  *
  * @author pes2704
  */
-class StatusFlashManager implements StatusFlashManagerInterface {
-    public function createStatusFlash(): StatusFlashInterface {
+class StatusFlashManager implements StatusManagerInterface {
+    
+    public function createStatus(): EntitySingletonInterface {
         return new StatusFlash();
     }
 
-    public function revolveStatusFlash(StatusFlashInterface $statusFlash, ServerRequestInterface $request): void {
+    public function renewStatus(EntitySingletonInterface $statusFlash, ServerRequestInterface $request): void {
         $statusFlash->revolve($request);
     }
 }
