@@ -229,7 +229,7 @@ var file_picker_callback_function = function (cb, value, meta) {
 /////////////////////////////////////////
 
 var headlineConfig = {
-    selector: 'form headline',
+    selector: 'main form headline',
     schema : 'html5',
     placeholder: 'Nadpis',
     relative_urls : true,
@@ -256,11 +256,11 @@ var headlineConfig = {
 };
 
 var contentConfig = {
-    selector: 'form content', //.segment:not(.locked):not(.notpermitted) .grafia.segment...
+    selector: 'main form content', //.segment:not(.locked):not(.notpermitted) .grafia.segment...
     schema : 'html5',
     placeholder: 'Nový obsah',
     relative_urls: true,
-    extended_valid_elements: 'content',
+    extended_valid_elements: ['i[*]', 'content'],
     custom_elements: 'content',
     valid_children: '+a[div]',
     link_title: false,
@@ -293,11 +293,11 @@ var contentConfig = {
 };
 
 var perexConfig = {
-    selector: 'form perex', //.segment:not(.locked):not(.notpermitted) .grafia.segment...
+    selector: 'main form perex', //.segment:not(.locked):not(.notpermitted) .grafia.segment...
     schema : 'html5',
     placeholder: 'Vyplňte perex',
     relative_urls: true,
-    extended_valid_elements: 'perex',
+    extended_valid_elements: ['i[*]', 'perex'],
     custom_elements: 'perex',
     valid_children: '+a[div]',
     link_title: false,
@@ -330,11 +330,12 @@ var perexConfig = {
     setup: editorFunction
 };
 var divConfig = {
-    selector: 'form div', //libovolný div
+    selector: 'main form div', //libovolný div
     schema : 'html5',
     placeholder: 'Vyplňte obsah',
     relative_urls: true,
     valid_children: '+a[div]',
+    extended_valid_elements: '+i[*]',
     link_title: false,
     noneditable_editable_class: 'mceEditable',
     noneditable_noneditable_class: 'mceNonEditable',
@@ -383,7 +384,7 @@ var headerFooterConfig = {
 };
 
 var selectPaperTemplateConfig = {
-    selector: '.paper_template_select',
+    selector: 'main .paper_template_select',
     schema : 'html5',
     placeholder: 'Výběr šablony stránky',
     relative_urls : true,
