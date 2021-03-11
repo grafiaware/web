@@ -5,7 +5,8 @@ use Site\Configuration;
         <div class="ui icon top left pointing dropdown button loginEnterKey">
             <i class="address card icon"></i>
             <div class="menu">
-                <div class="item header"><p><i class="user icon"></i>Registrovat se</p></div>
+<!--                <div class="item header"><p><i class="user icon"></i>Registrace se <br/> připravuje</p></div>
+                <p style="text-align: center;" class="item ui small button">Zavřít</p>-->
                 <div class="ui input">
                     <input type="text" name="<?=Configuration::loginLogoutControler()['fieldNameJmeno']?>" placeholder="Jméno" required>
                 </div>

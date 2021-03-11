@@ -47,7 +47,7 @@ class MenuItemDao extends DaoContextualAbstract {
      */
     public function get($langCodeFk, $uidFk) {
         if(!isset($this->sqlGet)) {
-            $this->sqlGet = "SELECT lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active "
+            $this->sqlGet = "SELECT lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active, multipage "
                 . "FROM menu_item "
                 . $this->where($this->and($this->getContextConditions(), ['menu_item.lang_code_fk = :lang_code_fk', 'menu_item.uid_fk=:uid_fk']));
         }
@@ -65,20 +65,22 @@ class MenuItemDao extends DaoContextualAbstract {
      */
     public function getByList($langCodeFk, $list, $active=true, $actual=true) {
         if (!isset($this->sqlGetByList)) {
-            $this->sqlGetByList = "SELECT lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active "
+            $this->sqlGetByList = "SELECT lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active, multipage "
                 . "FROM menu_item "
                 . $this->where($this->and(['menu_item.lang_code_fk = :lang_code_fk', 'menu_item.list=:list']));
         }
         return $this->selectOne($this->sqlGetByList, [':lang_code_fk'=>$langCodeFk, ':list' => $list], true);
     }
+
     public function findAllLanguageVersions($uidFk) {
         if(!isset($this->sqlFindAllLanguageVersions)) {
-            $this->sqlFindAllLanguageVersions = "SELECT lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active "
+            $this->sqlFindAllLanguageVersions = "SELECT lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active, multipage "
                 . "FROM menu_item "
                 . $this->where($this->and($this->getContextConditions(), ['menu_item.uid_fk=:uid_fk']));
         }
         return $this->selectMany($this->sqlFindAllLanguageVersions, [':uid_fk' => $uidFk]);
     }
+
     /**
      * Vrací pole řádek tabulky paper. Vrací řádky, které obsahují v polích nazev nebo obsah v zadaném jazyce slova uvedená v textu zadaném jako parametr.
      * Slova v parametru textu musí být oddělená mezerou, nejkratší vyhledávané slovo má 3 znaky.
@@ -113,14 +115,14 @@ class MenuItemDao extends DaoContextualAbstract {
             $scoreLimitHeadline = '1';  // musí být string - císlo 0.2 se převede na string 0,2
             $scoreLimitContent = '0.2';  // musí být string - císlo 0.2 se převede na string 0,2
             $this->sqlFindByContentFulltextSearch =
-            "SELECT lang_code_fk, uid_fk, type_fk, active_menu_item.id AS id, title, prettyuri
+            "SELECT lang_code_fk, uid_fk, type_fk, active_menu_item.id AS id, title, prettyuri, active, multipage
                 , searched_paper.headline, searched_paper.perex
                 , active_content.content
                 , active_menu_item.active AS active,
                 score_h,
                 score_c
             FROM
-                (SELECT lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active,
+                (SELECT lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active, multipage
                     FROM menu_item "
                         .$this->where($this->and(['menu_item.lang_code_fk = :lang_code_fk', "menu_item.type_fk = 'paper'"]))
                         ."
@@ -159,10 +161,10 @@ class MenuItemDao extends DaoContextualAbstract {
      */
     public function update($row) {
         if (!$this->sqlUpdate) {
-            $this->sqlUpdate = "UPDATE menu_item SET type_fk=:type_fk, title=:title, prettyuri=:prettyuri, active=:active "
+            $this->sqlUpdate = "UPDATE menu_item SET type_fk=:type_fk, title=:title, prettyuri=:prettyuri, active=:active, multipage=:multipage "
                 . $this->where($this->and(['lang_code_fk=:lang_code_fk AND uid_fk=:uid_fk']));
         }
-        return $this->execUpdate($this->sqlUpdate, [':type_fk'=>$row['type_fk'], ':title'=>$row['title'], ':prettyuri'=>$row['prettyuri'], ':active'=>$row['active'],
+        return $this->execUpdate($this->sqlUpdate, [':type_fk'=>$row['type_fk'], ':title'=>$row['title'], ':prettyuri'=>$row['prettyuri'], ':active'=>$row['active'], ':multipage'=>$row['multipage'],
             ':lang_code_fk' => $row['lang_code_fk'], ':uid_fk'=> $row['uid_fk']]);
     }
 

@@ -1,4 +1,4 @@
 
 
 
-<p><a class="ui big fluid button" href="">Chatujte s námi</a></p>
+<p><a class="ui big fluid red basic button" href="">Chatujte s námi</a></p>

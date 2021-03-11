@@ -16,7 +16,7 @@ use Pes\Text\Html;
                 <p class="text tucne okraje-horizontal">
                     <?= Text::mono('Navštivte bezpečně z pohodlí
                                     domova online stánky s nabídkami
-                                    vystavujících firem') ?> 
+                                    vystavujících firem.') ?> 
                 </p>
             </a>
         </div>

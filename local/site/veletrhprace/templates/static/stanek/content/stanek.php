@@ -20,7 +20,7 @@ use Pes\Text\Html;
                                 <div class="pani-na-stanku">
                                     <content>
                                         <img <?=Html::attributes($imgStankuAttributes)?> />
-                                    <content>
+                                    </content>
                                 </div>
                             </div>
                             <div class="five wide column middle aligned">
@@ -40,9 +40,8 @@ use Pes\Text\Html;
                             </div>
                             <div class="sixteen wide column">
                                 <div class="buttony-na-stanku">
-                                    <content>
+                                    <content> 
                                          <?php include "sluzby/letaky.php" ?> 
-                                         <?php include "sluzby/kupony.php" ?> 
                                     </content>
                                 </div>
                             </div>
