@@ -14,14 +14,14 @@ function replaceElement(id, apiUri){
     if (this.readyState == 4 && this.status == 200) {
         // náhrada innerHtml:
         document.getElementById(id).innerHTML = xhr.responseText;
-        
+
         $('#modal_12').modal('attach events', '.btn-12', 'show');
         $('#modal_15').modal('attach events', '.btn-fb', 'show');
         $('#modal_16').modal('attach events', '.btn-ig', 'show');
         $('#modal_17').modal('attach events', '.btn-17', 'show');
         $('#modal_56').modal('attach events', '.btn-56', 'show');
-        $('#modal_333').modal('attach events', '.btn-333', 'show');    
-        
+        $('#modal_333').modal('attach events', '.btn-333', 'show');
+
         //semantic-ui popup (použitý např. ikony v online-stáncích)
         $('.popup.icon').popup();
         
@@ -35,7 +35,7 @@ function replaceElement(id, apiUri){
         var scroll = window.requestAnimationFrame ||
         // IE Fallback
         function(callback){ window.setTimeout(callback, 1000/60)};
-        var elementsToShow = document.querySelectorAll('.show-on-scroll'); 
+        var elementsToShow = document.querySelectorAll('.show-on-scroll');
 
         function loop() {
 
@@ -70,8 +70,8 @@ function replaceElement(id, apiUri){
               rect.bottom <= (window.innerHeight || document.documentElement.clientHeight))
           );
         }
-        
-        
+
+
     }
      if (this.readyState == 4 && this.status != 200) {
          console.log("Loader failed for id: "+id+",this.readyState:"+this.readyState+", this.status:"+this.status);
@@ -92,6 +92,7 @@ function replaceElementEditable(id, apiUri){
         tinymce.remove();
         tinymce.init(headlineConfig);
         tinymce.init(contentConfig);
+        tinymce.init(divConfig);
         tinymce.init(perexConfig);
         tinymce.init(headerFooterConfig);
         //semantic-ui dropdown (použitý např. pro přihlašování)

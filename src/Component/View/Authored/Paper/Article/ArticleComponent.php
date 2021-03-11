@@ -20,7 +20,8 @@ use Pes\View\Renderer\RendererModelAwareInterface;
  */
 class ArticleComponent extends AuthoredComponentAbstract implements ArticleComponentInterface {
     /**
-     * Přetěžuje metodu View. Generuje PHP template z názvu template objektu Paper a použije ji.
+     * Přetěžuje metodu View. Pokud PaperAggregate má nasteven nátev template, metoda generuje PHP template z názvu Paper->getTemplate(),
+     * nastaví ji jako template pro component (view). Následně metoda resolveRenderer automaticky zvolí jako renderer PHP template renderer.
      */
     protected function resolveRenderer(): RendererInterface {
         $paperAggregate = $this->viewModel->getPaper();
