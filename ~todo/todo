@@ -1,3 +1,7 @@
+build
+
+!! přidat autentizaci!
+
 deploy:
 
 změna .htaccess RewriteBase

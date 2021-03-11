@@ -20,15 +20,13 @@ use Pes\View\Renderer\RendererModelAwareInterface;
  */
 class ArticleComponent extends AuthoredComponentAbstract implements ArticleComponentInterface {
     /**
-     * Přetěžuje metodu View. Pokud PaperAggregate má nasteven nátev template, metoda generuje PHP template z názvu Paper->getTemplate(),
-     * nastaví ji jako template pro component (view). Následně metoda resolveRenderer automaticky zvolí jako renderer PHP template renderer.
+     * Přetěžuje metodu View->resolveRenderer(). Pokud entita PaperAggregate má nastaven název template, metoda generuje PHP template z názvu Paper->getTemplate(),
+     * nastaví ji jako template pro component (view). Následně metoda rodičovského view resolveRenderer automaticky zvolí jako renderer PHP template renderer.
      */
     protected function resolveRenderer(): RendererInterface {
         $paperAggregate = $this->viewModel->getPaper();
         if (isset($paperAggregate)) {
-            $paperTemplateName = $paperAggregate->getTemplate();
-            $template = $this->resolveTemplate($paperTemplateName);
-            $this->setTemplate($template);
+            $this->resolveTemplate($paperAggregate->getTemplate());
         }
         $renderer = parent::resolveRenderer();
         if (!($renderer instanceof RendererModelAwareInterface)) {
