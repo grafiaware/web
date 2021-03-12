@@ -14,11 +14,7 @@ use Model\Dao\Exception\DaoKeyVerificationFailedException;
 
 use Model\Hydrator\HydratorInterface;
 use Model\Entity\EntityInterface;
-use Model\Entity\EntityGeneratedKeyInterface;
 
-use Model\Repository\RepoPublishedOnlyModeInterface;
-
-use Model\Repository\Association\AssociationInterface;
 use Model\Repository\Association\AssociationOneToOne;
 use Model\Repository\Association\AssociationOneToMany;
 use Model\Repository\RepoAssotiatedOneInterface;
@@ -54,7 +50,8 @@ abstract class RepoAbstract {
     private $hydrators = [];
 
     /**
-     * @var DaoInterface
+     * @var DaoInterface | DaoKeyDbVerifiedInterface
+     * @var  DaoKeyDbVerifiedInterface
      */
     protected $dao;
 
@@ -183,19 +180,17 @@ abstract class RepoAbstract {
 
     protected function addEntity(EntityInterface $entity): void {
         if ($entity->isPersisted()) {
-            $this->collection[$this->indexFromEntity()] = $entity;
+            $this->collection[$this->indexFromEntity($entity)] = $entity;
         } else {
-            if ($entity instanceof EntityGeneratedKeyInterface) {
-                if ($this->dao instanceof DaoKeyDbVerifiedInterface) {
-                    $row = [];
-                    $this->extract($entity, $row);
-                    try {
-                        $this->dao->insertWithKeyVerification();
-                        $entity->setPersisted();
-                        $this->collection[$this->indexFromEntity()] = $entity;
-                    } catch (DaoKeyVerificationFailedException $vefificationFailedExc) {
-                        throw new UnableAddEntityException('Entitu s nastavenou hodnotou klíče nelze zapsad do databáze.');
-                    }
+            if ( $this->dao instanceof DaoKeyDbVerifiedInterface ) {
+                $row = [];
+                $this->extract($entity, $row);
+                try {
+                    $this->dao->insertWithKeyVerification($row);
+                    $entity->setPersisted();
+                    $this->collection[$this->indexFromEntity($entity)] = $entity;
+                } catch ( DaoKeyVerificationFailedException $verificationFailedExc) {
+                    throw new UnableAddEntityException('Entitu s nastavenou hodnotou klíče nelze zapsad do databáze.', 0, $verificationFailedExc);
                 }
             } else {
                 $this->new[] = $entity;
@@ -229,7 +224,7 @@ abstract class RepoAbstract {
                 } else {
                     throw new \LogicException("V collection je nepersistovaná entita.");
                 }
-            }
+            }          
             foreach ($this->new as $entity) {
                 $row = [];
                 $this->extract($entity, $row);

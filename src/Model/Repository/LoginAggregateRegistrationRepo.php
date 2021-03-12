@@ -41,14 +41,12 @@ class LoginAggregateRegistrationRepo extends LoginRepo implements LoginRepoInter
 
     public function add(LoginInterface $loginAggregate) {
         /** @var LoginAggregateRegistrationInterface $loginAggregate */
-        parent::add($loginAggregate);
-        parent::flush();
-        $this->extract($loginAggregate, $row);
-        $this->addAssociated(RegistrationInterface::class, $row[RegistrationInterface::class]); //add($loginAggregate->getCredentials()); <- do repo abstract
+        parent::add($loginAggregate);    //zapise jen  Login
+       $this->addAssociated(RegistrationInterface::class, $loginAggregate->getRegistration());  
     }
     public function remove(LoginInterface $loginAggregate) {
         /** @var LoginAggregateRegistrationInterface $loginAggregate */
-        $this->removeAssociated(RegistrationInterface::class, $loginAggregate); //add($loginAggregate->getRegistration()); <- do repo abstract
+        $this->removeAssociated(RegistrationInterface::class, $loginAggregate->getRegistration()); 
         parent::remove($loginAggregate);
     }
 
