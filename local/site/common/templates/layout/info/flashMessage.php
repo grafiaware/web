@@ -1,27 +1,20 @@
 <?php
 use Pes\Text\Text;
+use Pes\Text\Html;
+
+$toastAtrributes = [
+        'id'=>($flashMessage ?? '') ? "domtoast" : "", 
+        'class'=>["ui small toast", $severity ?? 'info']  // "warning", "info", "success"
+    ];
+
+
 ?>
-
-<!--                <div class="poznamky flash">
-                    <div class="ui fluid pointing below red basic label"><i class="large yellow bolt icon"></i></div>
-                    <div class="content">
-                        <p>
-                        <?= Text::nl2br($flashMessage ?? '') ?>
-                        </p>
-                        <p>
-                        <?= $postCommand ?? '' ?>
-                        </p>
-                    </div>
-                </div>-->
-
-            <div class="ui small blue toast" id="<?= (($flashMessage ?? '') ? "domtoast" : "") ?>">
+<!--['red','orange','yellow','olive','green','teal','blue','violet','purple','pink','brown','grey','black'],-->
+            <div <?= Html::attributes($toastAtrributes) ?>>
                 <div class="content">
                     <p><i class="circle times icon"></i>Notice</p>
                     <p>
                         <?= Text::nl2br($flashMessage ?? '') ?>
-                    </p>
-                    <p>
-                        <?= $postCommand ?? '' ?>
                     </p>
                 </div>
             </div>
