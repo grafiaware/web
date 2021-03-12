@@ -239,8 +239,8 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
                     ->setTemplate(new PhpTemplate(Configuration::pageControler()['templates.poznamky']))
                     ->setData([
                         'poznamka1'=>
-                        '<pre>'. $this->prettyDump($this->statusPresentationRepo->get()->getLanguage(), true).'</pre>'
-                        . '<pre>'. $this->prettyDump($this->statusSecurityRepo->get()->getUserActions(), true).'</pre>',
+                        $this->prettyDump($this->statusPresentationRepo->get()->getLanguage(), true)
+                        . $this->prettyDump($this->statusSecurityRepo->get()->getUserActions(), true),
                         //'flashMessage' => $this->getFlashMessage(),
                         ]);
 }

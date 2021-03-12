@@ -99,13 +99,31 @@ class StatusFlash extends EntityAbstract implements StatusFlashInterface {
      * @return void
      */
     public function revolveAfterProcess(ServerRequestInterface $request): void {
+        $isRedirected = $request->getServerParams()['REDIRECT_STATUS'] ?? false;
+        $method = $request->getMethod();
+        switch ($method) {
+            case 'GET':
+                if (!$isRedirected) {
+                    $this->switchGetFlash();
+                }
+                break;
+            case 'POST':
+                $this->switchPostFlash();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private function switchGetFlash() {
         $this->oldFlashMessage = $this->newFlashMessage;
         $this->oldFlashCommand = $this->newFlashCommand;
         $this->newFlashMessage = null;
         $this->newFlashCommand = null;
-        if ($request->getMethod() == 'POST') {
+    }
+
+    private function switchPostFlash() {
             $this->oldPostFlashCommand = $this->newPostFlashCommand;
             $this->newPostFlashCommand = null;
-        }
     }
 }
