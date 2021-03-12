@@ -37,6 +37,7 @@ class SelectorItems {
         $this->app = $app;
         $default = function() {
                 return [
+                    new \Middleware\ResponseTime\ResponseTime(),
                     new \Middleware\Status\SecurityStatus(),
                     new \Middleware\Login\Login(),
                     new \Middleware\Status\FlashStatus(),
@@ -66,6 +67,7 @@ class SelectorItems {
             '/component'=>
             function() {
                 return [
+                    new \Middleware\ResponseTime\ResponseTime(),
                     new \Middleware\Status\SecurityStatus(),
                     new \Middleware\Status\FlashStatus(),
 //                    new \Middleware\Status\PresentationStatus(),  // request language
