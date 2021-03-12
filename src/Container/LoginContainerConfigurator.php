@@ -60,7 +60,7 @@ use Middleware\Login\Controller\RegistrationController;
 
 // status
 use StatusManager\StatusSecurityManager;
-use StatusManager\StatusSecurityManagerInterface;
+use StatusManager\StatusManagerInterface;
 
 // authenticator
 use Security\Auth\AuthenticatorInterface;

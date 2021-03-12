@@ -44,7 +44,7 @@ use Model\Repository\StatusFlashRepo;
 
 // statusModel
 use StatusManager\StatusSecurityManager;
-use StatusManager\StatusSecurityManagerInterface;
+use StatusManager\StatusManagerInterface;
 use StatusManager\StatusPresentationManager;
 use StatusManager\StatusPresentationManagerInterface;
 
@@ -77,7 +77,7 @@ class DbOldContainerConfigurator extends ContainerConfiguratorAbstract {
     public function getAliases() {
         return [
             SessionStatusHandlerInterface::class => SessionStatusHandler::class,
-            StatusSecurityManagerInterface::class => StatusSecurityManager::class,
+            StatusManagerInterface::class => StatusSecurityManager::class,
             StatusPresentationManagerInterface::class => StatusPresentationManager::class,
             CredentialsInterface::class => Credentials::class,
             RouterInterface::class => Router::class,

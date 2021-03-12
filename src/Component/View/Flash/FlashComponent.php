@@ -26,4 +26,8 @@ class FlashComponent extends ComponentAbstract {
         $this->setData($viewModel);
     }
 
+    public function getString() {
+        parent::getString();
+    }
+
 }

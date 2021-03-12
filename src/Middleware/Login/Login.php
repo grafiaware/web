@@ -12,7 +12,7 @@ use Container\DbOldContainerConfigurator;
 
 use Model\Repository\StatusSecurityRepo;
 
-use StatusManager\StatusSecurityManagerInterface;
+use StatusManager\StatusManagerInterface;
 
 use Pes\Router\RouteSegmentGenerator;
 use Pes\Router\RouterInterface;
