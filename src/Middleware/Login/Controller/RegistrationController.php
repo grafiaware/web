@@ -186,15 +186,15 @@ class RegistrationController extends StatusFrontControllerAbstract
                 if ( isset($loginAggregateRegistrationEntity) ) {                    
                     $passwordHash = $loginAggregateRegistrationEntity->getRegistration()->getPasswordHash();
                     $loginNameFk = $loginAggregateRegistrationEntity->getRegistration()->getLoginNameFk();                                                             
+                    
                     $credentials = new Credentials();
                     $credentials->setPasswordHash($passwordHash);
                     $credentials->setLoginNameFk($loginNameFk);
+                     
                     /** @var  LoginAggregateCredentials $loginAggregateCredentialsEntity  */
-                    $loginAggregateCredentialsEntity = new LoginAggregateCredentials();
-                    $loginAggregateCredentialsEntity->setLoginName($loginNameFk);
-                    $loginAggregateCredentialsEntity->setCredentials($credentials);
-                      
-                    $this->loginAggregateCredentialsRepo->add($loginAggregateCredentialsEntity);
+                    $loginAggregateCredentialsEntity = $this->loginAggregateCredentialsRepo->get($logJmeno);                                                    
+                    $loginAggregateCredentialsEntity->setCredentials($credentials);                                          
+                    
                  } 
                  else {
                      //chyba Takovy registracni pozadavek nebyl pozadovan/zaznamenan.
