@@ -12,7 +12,7 @@ interface RegistrationInterface extends EntityInterface {
     public function getEmail(): ?string;
     public function getEmailTime(): ?\DateTime;
     public function getCreated(): ?\DateTime;
-    public function getUid(): string;
+    public function getUid(): ?string;
 
     public function setLoginNameFk(string $loginNameFK): RegistrationInterface;
     public function setPasswordHash(string $passwordHash): RegistrationInterface;

@@ -24,7 +24,7 @@ class RegistrationDao extends DaoAbstract  implements DaoKeyDbVerifiedInterface{
                    `registration`.`email`,
                    `registration`.`email_time`,
                    `registration`.`uid`,
-                   `registration`.`created`,
+                   `registration`.`created`
             FROM
                 `registration`
             WHERE

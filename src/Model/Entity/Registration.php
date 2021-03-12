@@ -130,9 +130,9 @@ class Registration extends EntityAbstract implements RegistrationInterface {
            
     /**
      *
-     * @return string
+     * @return string|null
      */
-    public function getUid(): string {
+    public function getUid(): ?string {
         return $this->uid;
     }    
     /**
