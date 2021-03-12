@@ -49,7 +49,7 @@ class StatusFlash extends EntityAbstract implements StatusFlashInterface {
         return $this->oldPostFlashCommand;
     }
     /**
-     * Nastaví flash message.
+     * Nastaví novou flash message.
      * @param string $message
      * @return $this
      */
@@ -58,8 +58,14 @@ class StatusFlash extends EntityAbstract implements StatusFlashInterface {
         return $this;
     }
 
+    /**
+     * Připojí zadaný řerěze na konec flash message oddělený zalomením řádku.
+     *
+     * @param string $message
+     * @return StatusFlashInterface
+     */
     public function appendMessage(string $message): StatusFlashInterface {
-        $this->newFlashMessage .= PHP_EOL.$message;
+        $this->newFlashMessage = (isset($message) AND $message) ? $this->newFlashMessage.PHP_EOL.$message : $message;
         return $this;
     }
 
@@ -92,14 +98,32 @@ class StatusFlash extends EntityAbstract implements StatusFlashInterface {
      * @param ServerRequestInterface $request
      * @return void
      */
-    public function revolve(ServerRequestInterface $request): void {
+    public function revolveAfterProcess(ServerRequestInterface $request): void {
+        $isRedirected = $request->getServerParams()['REDIRECT_STATUS'] ?? false;
+        $method = $request->getMethod();
+        switch ($method) {
+            case 'GET':
+                if (!$isRedirected) {
+                    $this->switchGetFlash();
+                }
+                break;
+            case 'POST':
+                $this->switchPostFlash();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private function switchGetFlash() {
         $this->oldFlashMessage = $this->newFlashMessage;
         $this->oldFlashCommand = $this->newFlashCommand;
         $this->newFlashMessage = null;
         $this->newFlashCommand = null;
-        if ($request->getMethod() == 'POST') {
+    }
+
+    private function switchPostFlash() {
             $this->oldPostFlashCommand = $this->newPostFlashCommand;
             $this->newPostFlashCommand = null;
-        }
     }
 }

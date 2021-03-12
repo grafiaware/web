@@ -2,7 +2,7 @@
 
 
 
-<p class="btn-12"><span class="ui big fluid red basic button">Chci na živou prezentaci</span></p>
+<p class="btn-12"><span class="ui big fluid red basic button">Prezentace firmy živě</span></p>
 
 <div id="modal_12" class="ui tiny longer modal">                                 
     <i class="close icon"></i>
