@@ -14,6 +14,7 @@ use Psr\Http\Message\ResponseInterface;
 
 use Pes\Middleware\AppMiddlewareAbstract;
 
+use Model\Entity\StatusFlash;
 use Model\Repository\StatusFlashRepo;
 use StatusManager\StatusFlashManagerInterface;
 
@@ -28,16 +29,14 @@ class FlashStatus extends AppMiddlewareAbstract implements MiddlewareInterface {
 
         /** @var StatusFlashRepo $statusFlashRepo */
         $statusFlashRepo = $container->get(StatusFlashRepo::class);
-        /** @var StatusFlashManagerInterface $statusFlashManager */
-        $statusFlashManager = $container->get(StatusFlashManagerInterface::class);
 
         $statusFlash = $statusFlashRepo->get();
         if (!isset($statusFlash)) {
-            $statusFlash = $statusFlashManager->createStatus();
+            $statusFlash = new StatusFlash();
             $statusFlashRepo->add($statusFlash);
         }
         $response = $handler->handle($request);
-        $statusFlashManager->renewStatus($statusFlash, $request);
+        $statusFlash->revolveAfterProcess($request);
 
         return $response;
     }

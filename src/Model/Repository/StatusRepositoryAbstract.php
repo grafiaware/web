@@ -24,15 +24,12 @@ class StatusRepositoryAbstract extends RepoAbstract {
      */
     protected $statusDao;
 
-    private $statusManager;
-
     private $loaded=FALSE;
 
     protected $entity;
 
-    public function __construct(StatusDao $statusDao, StatusManagerInterface $statusManager) {
+    public function __construct(StatusDao $statusDao) {
         $this->statusDao = $statusDao;
-        $this->statusManager = $statusManager;
     }
 
     protected function load() {

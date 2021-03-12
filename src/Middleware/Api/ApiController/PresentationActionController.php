@@ -53,7 +53,7 @@ class PresentationActionController extends PresentationFrontControllerAbstract {
         } else{
             throw new UnexpectedLanguageException("Požadavek a nastavení neznámého jazyka aplikace s kódem $requestedLangCode.");
         }
-        $this->addFlashMessage("setLanguage({$language->getLangCode()})");
+        $this->addFlashMessage("setLangCode({$language->getLangCode()})");
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
@@ -63,7 +63,7 @@ class PresentationActionController extends PresentationFrontControllerAbstract {
         $langCodeFk = $statusPresentation->getLanguage()->getLangCode();
         $menuItem = $this->menuItemRepo->get($langCodeFk, $requestedUid);
         $statusPresentation->setHierarchyAggregate($menuItem);  // bez kontroly
-        $this->addFlashMessage("setMenuItem({$menuItem->getTitle()})");
+        $this->addFlashMessage("setPresentedItem({$menuItem->getTitle()})");
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
@@ -72,7 +72,7 @@ class PresentationActionController extends PresentationFrontControllerAbstract {
         $oldEditableLayoutStatus = $this->statusSecurityRepo->get()->getUserActions()->isEditableLayout();
         $this->statusSecurityRepo->get()->getUserActions()->setEditableArticle($edit);
         $this->statusSecurityRepo->get()->getUserActions()->setEditableLayout(false);
-        $this->addFlashMessage("setEditableArticle($edit)");
+        $this->addFlashMessage("setEditArticle($edit)");
         if ($edit AND $oldEditableLayoutStatus) {
             return $this->redirectSeeOther($request, ''); // 303 See Other -> home - jinak zůstane prezentovaný poslední segment layoutu, který nyl editován v režimu edit layout
         } else {
@@ -85,17 +85,11 @@ class PresentationActionController extends PresentationFrontControllerAbstract {
         $oldEditableArticleStatus = $this->statusSecurityRepo->get()->getUserActions()->isEditableArticle();
         $this->statusSecurityRepo->get()->getUserActions()->setEditableLayout($edit);
         $this->statusSecurityRepo->get()->getUserActions()->setEditableArticle(false);
-        $this->addFlashMessage("setEditableLayout($edit)");
+        $this->addFlashMessage("setEditLayout($edit)");
         if ($edit AND $oldEditableArticleStatus) {
             return $this->redirectSeeOther($request, ''); // 303 See Other -> home - jinak zůstane prezentovaný poslední articele, který nyl editován v režimu edit article
         } else {
             return $this->redirectSeeLastGet($request); // 303 See Other
-        }    }
-
-    private function response($request) {
-        $uidFk = $this->statusPresentationRepo->get()->getMenuItem()->getUidFk();
-        $langCodeFk = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
-        return $this->redirectSeeLastGet($request); // 303 See Other
+        }
     }
-
 }

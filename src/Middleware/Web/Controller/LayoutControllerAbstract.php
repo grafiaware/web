@@ -276,8 +276,6 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
     }
 
     protected function getFlashComponent() {
-        if ($this->isEditableLayout() OR $this->isEditableArticle()) {
-            return $this->container->get(FlashComponent::class);
-        }
+        return $this->container->get(FlashComponent::class);
     }
 }
