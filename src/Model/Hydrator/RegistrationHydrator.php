@@ -19,7 +19,7 @@ class RegistrationHydrator implements HydratorInterface {
             ->setLoginNameFk($row['login_name_fk'])
             ->setPasswordHash($row['password_hash'])
             ->setEmail($row['email'] )
-            ->setEmailTime($row['email_time'] ? \DateTime::createFromFormat('Y-m-d H:i:s', $row['email_time']) : NULL);
+            ->setEmailTime( isset($row['email_time']) ? \DateTime::createFromFormat('Y-m-d H:i:s', $row['email_time']) : NULL);
                 ;
     }
 

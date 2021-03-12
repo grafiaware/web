@@ -88,14 +88,15 @@ class RegistrationController extends StatusFrontControllerAbstract
                 $loginAggregateRegistrationEntity = $this->loginAggregateRegistrationRepo->get($registerJmeno);
                  
                 if ( isset($loginAggregateRegistrationEntity) ) {
-                     //  zaznam se jmenem jiz existuje, zmente jmeno---
+                    $this->addFlashMessage("Záznam se zadaným jménem jiz existuje. Zadejte jiné jméno!");
                 } else {
                      //verze 2
                      // ulozit udaje do tabulky, do registration + cas: do kdy je cekano na potvrzeni registrace
-                     // protoze musi byt rezervace jmena nez potvrdi
+                     // protoze musi byt rezervace jmena nez potvrdi v mailu
                      //
                      // zobrazit "Dekujeme za Vasi registraci. Na vas email jsme vam odeslali odkaz, kterym registraci dokoncite. Odkaz je aktivni x hodin."
                      // poslat email s jmeno, heslo , +  "do x hodin potvrdte"
+                     // potvrzenim = klikem na odkaz v mailu  se provede confirm()
                      // jeste jeden mail "Registrace dokoncena."
 
                     //verze 1
@@ -104,6 +105,7 @@ class RegistrationController extends StatusFrontControllerAbstract
                     $registration->setLoginNameFk($registerJmeno);
                     $registration->setPasswordHash( (new Password())->getPasswordHash($registerHeslo) );  // zahashované
                     $registration->setEmail($registerEmail);
+                          //$registration->setEmailTime( new \DateTime() ); //ted ne
                     /** @var  LoginAggregate $loginAggregateRegistrationEntity  */
                     $loginAggregateRegistrationEntity = new LoginAggregateRegistration();
                     $loginAggregateRegistrationEntity->setLoginName($registerJmeno);
@@ -112,6 +114,7 @@ class RegistrationController extends StatusFrontControllerAbstract
                         $this->loginAggregateRegistrationRepo->add($loginAggregateRegistrationEntity);
                     } catch (UnableAddEntityException $unableExc){
                         //dej nové jméno.
+                        $this->addFlashMessage("Záznam se zadaným jménem jiz existuje. Zadejte jiné jméno!");
                     }                    
                  }
 
@@ -146,19 +149,21 @@ class RegistrationController extends StatusFrontControllerAbstract
             $registerEmail = $requestParams->getParsedBodyParam($request, $fieldNameEmail, FALSE);
 
             if ($registerJmeno AND $registerHeslo AND  $registerEmail ) {
-                /** @var  LoginAggregateCredentials $loginAggregateEntity  */
-                $loginAggregateEntity = $this->loginAggregateCredentialsRepo->get($registerJmeno);
-                if (! isset($loginAggregateEntity) ) {
+                /** @var  LoginAggregateCredentials $loginAggregateCeredentialsEntity  */
+                $loginAggregateCeredentialsEntity = $this->loginAggregateCredentialsRepo->get($registerJmeno);
+                if (! isset($loginAggregateCeredentialsEntity) ) {
                     $registerHesloHash = (new Password())->getPasswordHash($registerHeslo);
                     $credentials = new Credentials();
                     $credentials->setPasswordHash($registerHesloHash);
                     $credentials->setLoginNameFk($registerJmeno);
 
-                    /** @var  LoginAggregate $loginAggregateEntity  */
-                    $loginAggregateEntity = new LoginAggregateCredentials();
-                    $loginAggregateEntity->setLoginName($registerJmeno);
-                    $loginAggregateEntity->setCredentials($credentials);
-                    $this->loginAggregateCredentialsRepo->add($loginAggregateEntity);
+                    /** @var  LoginAggregate $loginAggregateCeredentialsEntity  */
+                    $loginAggregateCeredentialsEntity = new LoginAggregateCredentials();
+                    $loginAggregateCeredentialsEntity->setLoginName($registerJmeno);
+                    $loginAggregateCeredentialsEntity->setCredentials($credentials);
+                    $this->loginAggregateCredentialsRepo->add($loginAggregateCeredentialsEntity);
+                 } else {
+                     $this->addFlashMessage("Záznam se zadaným jménem jiz existuje. Zadejte jiné jméno!");
                  }
             }
         }
@@ -169,35 +174,33 @@ class RegistrationController extends StatusFrontControllerAbstract
     
     public function confirm(ServerRequestInterface $request) {        
         $requestParams = new RequestParams();
-        $confirm = $requestParams->getParsedBodyParam($request, 'confirm', FALSE);
-        
-        if ($confirm) {            
-            $logJmeno = $requestParams->getParsedBodyParam($request, 'LOGNAME', FALSE);
+        //$confirm = $requestParams->getParsedBodyParam($request, 'confirm', FALSE);
+        //$confirm = $requestParams->getParam($request, 'LOGNAME', FALSE);
+        $logJmeno = $requestParams->getParam($request, 'LOGNAME', FALSE);
+                  
+        //$logJmeno = $requestParams->getParsedBodyParam($request, 'LOGNAME', FALSE);
           
             if ($logJmeno ) {
                 /** @var  LoginAggregateRegistration $loginAggregateRegistrationEntity  */
                 $loginAggregateRegistrationEntity = $this->loginAggregateRegistrationRepo->get($logJmeno);
-                if ( isset($loginAggregateRegistrationEntity) ) {
-                    
+                if ( isset($loginAggregateRegistrationEntity) ) {                    
                     $passwordHash = $loginAggregateRegistrationEntity->getRegistration()->getPasswordHash();
-                    $loginNameFk = $loginAggregateRegistrationEntity->getRegistration()->getLoginNameFk();
-                                                             
+                    $loginNameFk = $loginAggregateRegistrationEntity->getRegistration()->getLoginNameFk();                                                             
                     $credentials = new Credentials();
                     $credentials->setPasswordHash($passwordHash);
                     $credentials->setLoginNameFk($loginNameFk);
-
-                    /** @var  LoginAggregate $loginAggregateEntity  */
-                    $loginAggregateEntity = new LoginAggregateCredentials();
-                    $loginAggregateEntity->setLoginName($loginNameFk);
-                    $loginAggregateEntity->setCredentials($credentials);
+                    /** @var  LoginAggregateCredentials $loginAggregateCredentialsEntity  */
+                    $loginAggregateCredentialsEntity = new LoginAggregateCredentials();
+                    $loginAggregateCredentialsEntity->setLoginName($loginNameFk);
+                    $loginAggregateCredentialsEntity->setCredentials($credentials);
                       
-                    $this->loginAggregateCredentialsRepo->add($loginAggregateEntity);
+                    $this->loginAggregateCredentialsRepo->add($loginAggregateCredentialsEntity);
                  } 
                  else {
                      //chyba Takovy registracni pozadavek nebyl pozadovan/zaznamenan.
                  }
             }
-        }
+        
         return $this->redirectSeeLastGet($request); // 303 See Other
 
     }
