@@ -1,0 +1,173 @@
+@media print{
+    .layoutVP > .grid > .two.column{
+        display: none;
+    }
+    .layoutVP > .grid > .thirteen.column{
+        width: 90%;
+    }
+    .nadpis-scroll{
+        opacity: 1;
+        transform: rotateZ(0deg);
+    }
+    .photo-scroll{
+        opacity: 1;
+    }
+    .layoutVP header{
+        h1{
+            font-size: 2.5rem;
+            span{
+                margin: auto 0px;
+            }
+        }
+        .logo{
+            width: 90px;
+            height: auto;
+        }
+    }
+    body{
+        font-size: 24px;
+    }
+    .text{
+        font-size: 1.4rem;
+    }
+    .nadpis.uvod{
+        font-size: 2.3rem;
+        margin-bottom: 40px;
+    }
+    .nadpis.nastred{
+        margin-bottom: 60px;
+    }
+    .logo{
+        height: auto;
+        max-width: 60%;
+    }
+}
+
+
+
+@media print and (orientation: portrait){
+    
+    main .paper .content{
+        margin-top: 70px;
+    }
+    main headline{
+        margin-top: 50px;
+    }
+    
+    .obr-upoutavka{
+        margin-bottom: 150px;
+        img{
+            margin-bottom: 12px;
+        }
+        img.sirsi-obr{
+            width: 38.5%;
+            position: absolute;
+            bottom: 0;
+            top: 316%;
+        }
+        .nadpis.primarni-barva.presah{
+            bottom: auto;
+            top: 7px;
+            width: 96%;
+        }
+        .column:nth-of-type(2){
+            img{
+                width: 58%;
+                height: 40.7%;
+                float: right;
+                &:first-child{
+                    margin-top: 43px;
+                }
+            }
+            .blok.text{
+                width: 96%;
+                padding: 20px 20px !important;
+                top: 83%;
+                right: 2%;
+                background-color: #DDDDDD96;
+            }
+            .velky.text{
+                font-size: 2rem;
+            }
+        }
+    }
+    .blok-sedy-nadpis-obr-text{
+        .blok-sedy-nahore{
+            height: 325px;
+            margin-top: -30px;
+            padding-right: 40%;
+            p{
+                top: 2%;
+            }
+        }
+        .blokEL-dolni-img{
+            width: 470px;
+            &::after{
+                bottom: -30px;
+                right: -30px;
+            }
+            img{
+                height: 340px;
+                width: 286px;
+                object-fit: cover;
+                object-position: center;
+                float: right;
+            }
+        }
+    }
+    .blok-sedy-obr-text{
+        .blok-sedy-dole{
+            height: 325px;
+            margin-top: 15px;
+            padding-left: 45%;
+            p{
+                top: 2%;
+            }
+        }
+        .blokEL-horni-img{
+            width: 420px;   
+            &::after{
+                bottom: -30px;
+                right: -30px;
+            }
+            img{
+                height: 340px;
+                width: 286px;
+                object-fit: cover;
+                object-position: center;
+                float: left;
+            }
+       }
+    }
+    .nadpis-obrazkove-sloupce{
+        p{
+            width: 60%;
+            left: 50%;
+            position: relative;
+            transform: translateX(-50%);
+        }
+        .ui.three.column.grid{
+            .column:first-child, .column:nth-child(2){
+                width: 100% !important;
+            }
+            .column:last-child{
+                width: 100% !important;
+            }
+        }
+    }
+    .blok-nadpis-loga .partneri-pozadi{
+        padding: 80px 6%;
+        margin: 80px -6% 0 -5%;
+    }
+    .dva-sloupce-nadpis{
+        img{
+            width: 35%;
+            height: auto;
+        }
+    }
+}
+
+
+@media print and (orientation: landscape){
+
+}
