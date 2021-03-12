@@ -1,7 +1,8 @@
 <?php
 
-
 namespace Model\Entity;
+
+use Model\Entity\CredentialsInterface;
 
 /**
  * Description of User
@@ -53,7 +54,7 @@ class Credentials extends EntityAbstract implements CredentialsInterface {
     /**
      *
      * @param string $loginName
-     * @return \Model\Entity\CredentialsInterface
+     * @return CredentialsInterface
      */
     public function setLoginNameFk(string $loginNameFk): CredentialsInterface {
         $this->loginNameFk = $loginNameFk;
@@ -87,7 +88,7 @@ class Credentials extends EntityAbstract implements CredentialsInterface {
     /**
      *
      * @param string $passwordHash
-     * @return \Model\Entity\CredentialsInterface
+     * @return CredentialsInterface
      */
     public function setPasswordHash(string $passwordHash): CredentialsInterface {
         $this->passwordHash = $passwordHash;
@@ -97,7 +98,7 @@ class Credentials extends EntityAbstract implements CredentialsInterface {
     /**
      *
      * @param \DateTime $created
-     * @return \Model\Entity\CredentialsInterface
+     * @return CredentialsInterface
      */
     public function setCreated(\DateTime $created): CredentialsInterface {
         $this->created = $created;
@@ -107,7 +108,7 @@ class Credentials extends EntityAbstract implements CredentialsInterface {
     /**
      *
      * @param \DateTime $updated
-     * @return \Model\Entity\CredentialsInterface
+     * @return CredentialsInterface
      */
     public function setUpdated(\DateTime $updated): CredentialsInterface {
         $this->updated = $updated;
@@ -125,7 +126,7 @@ class Credentials extends EntityAbstract implements CredentialsInterface {
     /**
      *
      * @param string $role
-     * @return \Model\Entity\CredentialsInterface
+     * @return CredentialsInterface
      */
     public function setRole(string $role=null): CredentialsInterface {
         $this->role = $role;

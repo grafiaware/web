@@ -19,8 +19,9 @@ class RegistrationHydrator implements HydratorInterface {
             ->setLoginNameFk($row['login_name_fk'])
             ->setPasswordHash($row['password_hash'])
             ->setEmail($row['email'] )
-            ->setEmailTime( isset($row['email_time']) ? \DateTime::createFromFormat('Y-m-d H:i:s', $row['email_time']) : NULL);
-                ;
+            ->setEmailTime( isset($row['email_time']) ? \DateTime::createFromFormat('Y-m-d H:i:s', $row['email_time']) : NULL)
+            ->setUid($row['uid'] )
+            ->setCreated($row['created'] ? \DateTime::createFromFormat('Y-m-d H:i:s', $row['created']) : NULL) ;               
     }
 
 
@@ -35,7 +36,8 @@ class RegistrationHydrator implements HydratorInterface {
         $row['password_hash'] = $registration->getPasswordHash();
         $row['email'] = $registration->getEmail();
         $row['email_time'] = $registration->getEmailTime() ? $registration->getEmailTime()->format('Y-m-d H:i:s') : NULL ;
-
+        $row['uid'] = $registration->getUid();
+        // created je timestamp - readonly
     }
 
 }
