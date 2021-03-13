@@ -92,20 +92,17 @@ class StatusFlash extends EntityAbstract implements StatusFlashInterface {
     }
 
     /**
-     * Metoda slouží peo nastavení stavu vlastností objektu poté, kdy byl obnoven z uložených dat v dalším requestu,
+     * Metoda slouží pro nastavení stavu vlastností objektu poté, kdy byl obnoven z uložených dat v dalším requestu,
      * např. deserilizován ze session. Objekt je v takovém okamžiku v identickém stavu, v jakém byl uložen v předcházejícím requestu.
      *
      * @param ServerRequestInterface $request
      * @return void
      */
-    public function revolveAfterProcess(ServerRequestInterface $request): void {
-        $isRedirected = $request->getServerParams()['REDIRECT_STATUS'] ?? false;
+    public function beforeHandle(ServerRequestInterface $request): void {
         $method = $request->getMethod();
         switch ($method) {
             case 'GET':
-                if (!$isRedirected) {
-                    $this->switchGetFlash();
-                }
+                $this->switchGetFlash();
                 break;
             case 'POST':
                 $this->switchPostFlash();
@@ -113,6 +110,16 @@ class StatusFlash extends EntityAbstract implements StatusFlashInterface {
             default:
                 break;
         }
+    }
+
+    /**
+     *
+     *
+     * @param ServerRequestInterface $request
+     * @return void
+     */
+    public function afterHandle(ServerRequestInterface $request): void {
+
     }
 
     private function switchGetFlash() {

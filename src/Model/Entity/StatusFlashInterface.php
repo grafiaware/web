@@ -67,5 +67,12 @@ interface StatusFlashInterface extends EntitySingletonInterface {
      * @param ServerRequestInterface $request
      * @return void
      */
-    public function revolveAfterProcess(ServerRequestInterface $request): void;
+    public function beforeHandle(ServerRequestInterface $request): void;
+    
+    /**
+     *
+     * @param ServerRequestInterface $request
+     * @return void
+     */
+    public function afterHandle(ServerRequestInterface $request): void;
 }
