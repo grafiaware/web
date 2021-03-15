@@ -13,8 +13,8 @@ use Pes\Text\Text;
             <p class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll">Program</p>
             <img src="images/klic_foto.jpg" width="1280" height="420" alt="Obrázek k programu"/>
         </div>
-        <div class="eight wide column"><a href="" class="ui primary fluid massive button">Seznam vystavujících firem</a></div>
-        <div class="eight wide column"><a href="" class="ui primary fluid massive button">Seznam pracovních míst</a></div>
+        <div class="eight wide column"><a href="www/item/cs/604bcc5b3c5d7" class="ui primary fluid massive button">Zobrazit přednášky</a></div>
+        <div class="eight wide column"><a href="www/item/cs/604bd0e2e440d" class="ui primary fluid massive button">Zobrazit poradny</a></div>
 <!--        <div class="sixteen wide column">
                 <p class="text tucne">
                     <?
