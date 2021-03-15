@@ -14,12 +14,10 @@ use Model\Repository\RepoInterface;
  *
  * @author pes2704
  */
-interface AssociationInterface {
-    public function getAssociated(&$row);
-    public function addAssociated($entity);
-    public function removeAssociated($entty);
+interface AssociationOneToManyInterface {
+    public function getAssociated(&$row): iterable;
+    public function addAssociated(iterable $entities);
+    public function removeAssociated(iterable $entities);
+    public function flushChildRepo(): void;
 
-//    public function getChildRepo(): RepoInterface;
-//    public function getParentPropertyName();
-//    public function getParentReferenceKeyAttribute();
 }

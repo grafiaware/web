@@ -1493,3 +1493,168 @@
 [info] http://localhost/
 [info] http://localhost/
 [info] http://localhost/
+[debug] [2021-03-14 10:00:40] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/App/RequestPathLogger.log. Mode 'a+'.
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[debug] [2021-03-14 10:12:42] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/App/RequestPathLogger.log. Mode 'a+'.
+[info] http://localhost/
+[info] http://localhost/
+[debug] [2021-03-14 10:14:44] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/App/RequestPathLogger.log. Mode 'a+'.
+[info] http://localhost/
+[info] http://localhost/
+[debug] [2021-03-14 10:21:48] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/App/RequestPathLogger.log. Mode 'a+'.
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[debug] [2021-03-14 10:23:08] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/App/RequestPathLogger.log. Mode 'a+'.
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[debug] [2021-03-14 10:27:18] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/App/RequestPathLogger.log. Mode 'a+'.
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[debug] [2021-03-14 10:32:30] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/App/RequestPathLogger.log. Mode 'a+'.
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[debug] [2021-03-14 10:32:54] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/App/RequestPathLogger.log. Mode 'a+'.
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[debug] [2021-03-14 10:33:28] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/App/RequestPathLogger.log. Mode 'a+'.
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[debug] [2021-03-14 10:35:41] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/App/RequestPathLogger.log. Mode 'a+'.
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[debug] [2021-03-14 10:41:11] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/App/RequestPathLogger.log. Mode 'a+'.
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[debug] [2021-03-14 10:44:46] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/App/RequestPathLogger.log. Mode 'a+'.
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[debug] [2021-03-14 10:45:19] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/App/RequestPathLogger.log. Mode 'a+'.
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[debug] [2021-03-14 10:47:39] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/App/RequestPathLogger.log. Mode 'a+'.
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[debug] [2021-03-14 10:47:43] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/App/RequestPathLogger.log. Mode 'a+'.
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[debug] [2021-03-14 10:47:46] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/App/RequestPathLogger.log. Mode 'a+'.
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[debug] [2021-03-14 10:49:56] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/App/RequestPathLogger.log. Mode 'a+'.
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[debug] [2021-03-14 10:50:36] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/App/RequestPathLogger.log. Mode 'a+'.
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[debug] [2021-03-14 11:10:19] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/App/RequestPathLogger.log. Mode 'a+'.
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[debug] [2021-03-14 11:10:39] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/App/RequestPathLogger.log. Mode 'a+'.
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[debug] [2021-03-14 11:23:31] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/App/RequestPathLogger.log. Mode 'a+'.
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[debug] [2021-03-14 11:28:03] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/App/RequestPathLogger.log. Mode 'a+'.
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[debug] [2021-03-14 11:28:33] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/App/RequestPathLogger.log. Mode 'a+'.
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[debug] [2021-03-14 11:28:51] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/App/RequestPathLogger.log. Mode 'a+'.
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[debug] [2021-03-14 11:29:42] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/App/RequestPathLogger.log. Mode 'a+'.
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[debug] [2021-03-14 11:31:11] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/App/RequestPathLogger.log. Mode 'a+'.
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[debug] [2021-03-14 11:32:55] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/App/RequestPathLogger.log. Mode 'a+'.
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[debug] [2021-03-14 11:33:56] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/App/RequestPathLogger.log. Mode 'a+'.
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/

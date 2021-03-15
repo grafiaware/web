@@ -8,8 +8,9 @@
 
 namespace Model\Repository\Association;
 
+use Model\Entity\EntityInterface;
+
 use Model\Repository\RepoAssotiatedOneInterface;
-use Model\Repository\RepoInterface;
 use Model\Repository\Exception\UnableToCreateAssotiatedChildEntity;
 
 /**
@@ -17,7 +18,7 @@ use Model\Repository\Exception\UnableToCreateAssotiatedChildEntity;
  *
  * @author pes2704
  */
-class AssociationOneToOne extends AssociationAbstract implements AssociationInterface {
+class AssociationOneToOne extends AssociationAbstract implements AssociationOneToOneInterface {
 
     /**
      * @var RepoAssotiatedOneInterface
@@ -34,7 +35,7 @@ class AssociationOneToOne extends AssociationAbstract implements AssociationInte
         $this->childRepo = $childRepo;
     }
 
-    public function getAssociated(&$row) {
+    public function getAssociated(&$row): ?EntityInterface {
         $childKey = $this->getChildKey($row);
         $child = $this->childRepo->getByReference($childKey);
 //        if (is_null($child)) {
@@ -43,12 +44,16 @@ class AssociationOneToOne extends AssociationAbstract implements AssociationInte
 //        }
         return $child;
     }
-    public function addAssociated($entity) {
-        $this->childRepo->add($entity);   //TODO: repo interface - add, remove
+
+    public function addAssociated(EntityInterface $entity = null) {
+        $this->childRepo->add($entity);
     }
 
-    public function removeAssociated($entty) {
-        $this->childRepo->remove($entty);
-        $this->childRepo->flush();   //smazat referencující objekt s fk
+    public function removeAssociated(EntityInterface $entity = null) {
+        $this->childRepo->remove($entity);
+    }
+
+    public function flushChildRepo(): void {
+        $this->childRepo->flush();
     }
 }

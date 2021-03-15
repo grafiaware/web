@@ -1,19 +1,10 @@
-Functional\AppRunner
- [ ] Run
-
-Integration\Dao\MenuItemDao
- [x] Get existing row
- [x]  7 columns
- [x] Update
- [x] Delete
-
-Integration\Dao\PaperContentManipulation
- [x] Paper has contents
- [x]  11 columns
- [x] Insert
-
-Integration\Repository\MenuItemAggregateRepository
+Integration\Repository\LoginAggregateCredentialsRepository
  [x] Set up
- [x] Repo get
- [ ] Repo find by paper fulltext search
+ [x] Get
+ [x] Add complete
+ [x] Get after add complete
+ [x] Add uncomplete
+ [x] Get after add uncomplete
+ [x] Set new credentials uncomplete
+ [x] Get after set new credentials uncomplete
 

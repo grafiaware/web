@@ -27,7 +27,7 @@ class PaperAggregateRepo extends PaperRepo implements RepoInterface, PaperRepoIn
     public function __construct(PaperDao $paperDao, PaperHydrator $paperHydrator,
             PaperContentRepo $paperContentRepo, PaperChildHydrator $paperChildHydrator) {
         parent::__construct($paperDao, $paperHydrator);
-        $this->registerOneToManyAssotiation(PaperContentInterface::class, 'id', $paperContentRepo);
+        $this->registerOneToManyAssociation(PaperContentInterface::class, 'id', $paperContentRepo);
         $this->registerHydrator($paperChildHydrator);
     }
 

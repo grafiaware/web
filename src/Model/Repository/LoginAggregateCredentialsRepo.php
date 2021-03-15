@@ -27,7 +27,7 @@ use Model\Entity\CredentialsInterface;
  *
  * @author pes2704
  */
-class LoginAggregateCredentialsRepo extends LoginRepo implements LoginRepoInterface {
+class LoginAggregateCredentialsRepo extends LoginRepo implements RepoAggregateInterface {
 
     public function __construct(LoginDao $loginDao, HydratorInterface $loginHydrator,
             CredentialsRepo $credentialsRepo, LoginChildCredentialsHydrator $loginCredentialsHydrator) {
@@ -42,12 +42,12 @@ class LoginAggregateCredentialsRepo extends LoginRepo implements LoginRepoInterf
 
     public function add(LoginInterface $loginAggregate) {
         /** @var LoginAggregateCredentialsInterface $loginAggregate */
-        parent::add($loginAggregate);
-        $this->addAssociated(CredentialsInterface::class, $loginAggregate->getCredentials()); //add($loginAggregate->getCredentials()); <- do repo abstract
+        $this->addEntity($loginAggregate);
+//        $this->addAssociated($loginAggregate); //add($loginAggregate->getCredentials()); <- do repo abstract
     }
     public function remove(LoginInterface $loginAggregate) {
         /** @var LoginAggregateCredentialsInterface $loginAggregate */
-        $this->removeAssociated(CredentialsInterface::class, $loginAggregate->getCredentials()); //add($loginAggregate->getCredentials()); <- do repo abstract
-        parent::remove($loginAggregate);
+//        $this->removeAssociated($loginAggregate); //add($loginAggregate->getCredentials()); <- do repo abstract
+        $this->removeEntity($loginAggregate);
     }
 }
