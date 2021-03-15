@@ -26,7 +26,7 @@ use Pes\Text\Text;
                 <div class="ten wide column">
                     <img src="images/mama.jpg" width="790" height="394" alt="Home office"/>
                     <img src="images/delnik_jupi.jpg" width="790" height="402" alt="Dělník na stavbě"/>
-                    <div class="pruhledna-barva podklad blok text velky photo-scroll show-on-scroll">
+                    <div class="pruhledna-barva podklad blok podnadpis photo-scroll show-on-scroll">
                         <p><?= Text::mono('Najděte si lepší práci <span class="primarni-barva text velky tucne">odkudkoli!</span>') ?></p>
                     </div>
                 </div>
