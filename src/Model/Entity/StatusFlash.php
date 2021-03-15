@@ -49,7 +49,7 @@ class StatusFlash extends EntityAbstract implements StatusFlashInterface {
         return $this->oldPostFlashCommand;
     }
     /**
-     * Nastaví flash message.
+     * Nastaví novou flash message.
      * @param string $message
      * @return $this
      */
@@ -58,8 +58,14 @@ class StatusFlash extends EntityAbstract implements StatusFlashInterface {
         return $this;
     }
 
+    /**
+     * Připojí zadaný řerěze na konec flash message oddělený zalomením řádku.
+     *
+     * @param string $message
+     * @return StatusFlashInterface
+     */
     public function appendMessage(string $message): StatusFlashInterface {
-        $this->newFlashMessage .= PHP_EOL.$message;
+        $this->newFlashMessage = (isset($message) AND $message) ? $this->newFlashMessage.PHP_EOL.$message : $message;
         return $this;
     }
 
@@ -86,20 +92,45 @@ class StatusFlash extends EntityAbstract implements StatusFlashInterface {
     }
 
     /**
-     * Metoda slouží peo nastavení stavu vlastností objektu poté, kdy byl obnoven z uložených dat v dalším requestu,
+     * Metoda slouží pro nastavení stavu vlastností objektu poté, kdy byl obnoven z uložených dat v dalším requestu,
      * např. deserilizován ze session. Objekt je v takovém okamžiku v identickém stavu, v jakém byl uložen v předcházejícím requestu.
      *
      * @param ServerRequestInterface $request
      * @return void
      */
-    public function revolve(ServerRequestInterface $request): void {
+    public function beforeHandle(ServerRequestInterface $request): void {
+        $method = $request->getMethod();
+        switch ($method) {
+            case 'GET':
+                $this->switchGetFlash();
+                break;
+            case 'POST':
+                $this->switchPostFlash();
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     *
+     *
+     * @param ServerRequestInterface $request
+     * @return void
+     */
+    public function afterHandle(ServerRequestInterface $request): void {
+
+    }
+
+    private function switchGetFlash() {
         $this->oldFlashMessage = $this->newFlashMessage;
         $this->oldFlashCommand = $this->newFlashCommand;
         $this->newFlashMessage = null;
         $this->newFlashCommand = null;
-        if ($request->getMethod() == 'POST') {
+    }
+
+    private function switchPostFlash() {
             $this->oldPostFlashCommand = $this->newPostFlashCommand;
             $this->newPostFlashCommand = null;
-        }
     }
 }

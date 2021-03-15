@@ -8,10 +8,10 @@ namespace Model\Entity;
  */
 interface LoginAggregateRegistrationInterface  extends LoginInterface{
      /**
-     *
-     * @return RegistrationInterface
-     */
-    public function getRegistration(): RegistrationInterface;
+      * 
+      * @return \Model\Entity\RegistrationInterface|null
+      */
+    public function getRegistration(): ?RegistrationInterface;
 
     /**
      *

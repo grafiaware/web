@@ -34,6 +34,7 @@ $app->setAppContainer($appContainer);
 $selector = $appContainer->get(Selector::class);
 (new SelectorItems($app))->addItems($selector);
 
+//TODO ApiRegistrator dp pes, volání ->registerApi do AppFactory - APPFactory musí dostat app kontejner do konstruktoru
 // registrace api do ResourceRegistry, ResourceRegistry se zaregistrovaným api je dostupný v kontejneru aplikace
 $app->getAppContainer()->get(ApiRegistrator::class)->registerApi($app->getAppContainer()->get(ResourceRegistry::class));
 $response = $app->run($selector, new UnprocessedRequestHandler());

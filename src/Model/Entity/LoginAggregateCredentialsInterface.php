@@ -15,15 +15,15 @@ namespace Model\Entity;
 interface LoginAggregateCredentialsInterface extends LoginInterface {
 
     /**
-     *
-     * @return CredentialsInterface
+     * 
+     * @return \Model\Entity\CredentialsInterface|null
      */
-    public function getCredentials(): CredentialsInterface;
+    public function getCredentials(): ?CredentialsInterface;
 
     /**
      *
      * @param CredentialsInterface $credentials
      * @return LoginAggregateCredentialsInterface
      */
-    public function setCredentials(CredentialsInterface $credentials): LoginAggregateCredentialsInterface;
+    public function setCredentials(CredentialsInterface $credentials = null): LoginAggregateCredentialsInterface;
 }

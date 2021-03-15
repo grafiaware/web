@@ -1,6 +1,7 @@
 <?php
 namespace Model\Entity;
 
+use Model\Entity\RegistrationInterface;
 
 class Registration extends EntityAbstract implements RegistrationInterface {
 
@@ -23,6 +24,18 @@ class Registration extends EntityAbstract implements RegistrationInterface {
      * @var \DateTime
      */
     private $emailTime;
+    
+    /**
+     *
+     * @var string
+     */
+    private $uid;
+    
+     /**
+     * @var \DateTime
+     */
+    private $created;
+
 
     private $keyAttribute = 'login_name_fk';
 
@@ -87,15 +100,49 @@ class Registration extends EntityAbstract implements RegistrationInterface {
     public function getEmailTime(): ?\DateTime {
         return $this->emailTime;
     }
-
     /**
      *
      * @param \DateTime $emailTime
      * @return RegistrationInterface
      */
-    public function setEmailTime(\DateTime $emailTime): RegistrationInterface {
+    public function setEmailTime(\DateTime $emailTime = null): RegistrationInterface {
         $this->emailTime = $emailTime;
         return $this;
     }
 
+    /**
+     *
+     * @return \DateTime|null
+     */
+    public function getCreated(): ?\DateTime {
+        return $this->created;
+    }
+    /**
+     *
+     * @param \DateTime $created
+     * @return RegistrationInterface
+     */
+    public function setCreated(\DateTime $created): RegistrationInterface {
+        $this->created = $created;
+        return $this;
+    }
+    
+           
+    /**
+     *
+     * @return string|null
+     */
+    public function getUid(): ?string {
+        return $this->uid;
+    }    
+    /**
+     * 
+     * @param string $uid
+     * @return RegistrationInterface
+     */
+    public function setUid( string $uid ) : RegistrationInterface {
+        $this->uid = $uid;
+        return $this;
+    }
+    
 }

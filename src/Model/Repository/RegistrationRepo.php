@@ -56,7 +56,7 @@ class RegistrationRepo extends RepoAbstract implements RegistrationRepoInterface
     }
 
     protected function indexFromEntity(RegistrationInterface $registration) {
-        return $registration->getLoginNameFK();
+        return $registration->getLoginNameFk();
     }
 
     protected function indexFromRow($row) {

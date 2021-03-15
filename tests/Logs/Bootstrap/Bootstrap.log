@@ -1,4 +1,4 @@
-[debug] [2021-02-21 21:45:50] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/Bootstrap/Bootstrap.log. Mode 'w+'.
+[debug] [2021-03-15 01:09:01] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/Bootstrap/Bootstrap.log. Mode 'w+'.
 [info] Bootstrap: include "SetBootstrapSettingsPath.php" define("PES_BOOTSTRAP_SETINGS_PATH";bootstrap/)
 [info] Bootstrap: include SetBootstrapDefaults.php
 [info] SetBootstrapDefaults: define("PES_BOOTSTRAP_LOGS_BASE_PATH";C:\ApacheRoot\web\tests/)

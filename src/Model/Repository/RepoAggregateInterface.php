@@ -6,15 +6,12 @@
  * and open the template in the editor.
  */
 
-namespace StatusManager\Observer;
+namespace Model\Repository;
 
 /**
  *
  * @author pes2704
  */
-interface SucurityContextObjectsRemoverInterface extends \SplObserver {
-    public function attachContextObject($object);
-    public function detachContextObject($object);
-
-
+interface RepoAggregateInterface extends RepoInterface {
+    //put your code here
 }

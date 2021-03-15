@@ -1,4 +1,4 @@
-[debug] [2021-02-21 21:45:50] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/App/WebAppFactoryLogger.log. Mode 'w+'.
+[debug] [2021-03-14 11:33:56] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/App/WebAppFactoryLogger.log. Mode 'w+'.
 [info] REQUEST DUMP - GET request
     URI Scheme: http
     URI Authority: localhost
@@ -54,7 +54,7 @@
     
     Body: Pes\Http\Body Object
     (
-        [stream:protected] => Resource id #129
+        [stream:protected] => Resource id #90
         [meta:protected] => 
         [readable:protected] => 
         [writable:protected] => 
@@ -85,9 +85,9 @@
         [HTTP_ACCEPT_CHARSET] => ISO-8859-1,utf-8;q=0.7,*;q=0.3
         [HTTP_USER_AGENT] => AppRunner
         [REMOTE_ADDR] => 127.0.0.1
-        [REQUEST_TIME] => 1613940350
-        [REQUEST_TIME_FLOAT] => 1613940350,4076
-        [INPUT_STREAM] => Resource id #129
+        [REQUEST_TIME] => 1615718036
+        [REQUEST_TIME_FLOAT] => 1615718036,6286
+        [INPUT_STREAM] => Resource id #90
     )
     
     Uploaded files: Array
@@ -153,7 +153,7 @@
     
     Body: Pes\Http\Body Object
     (
-        [stream:protected] => Resource id #129
+        [stream:protected] => Resource id #90
         [meta:protected] => 
         [readable:protected] => 
         [writable:protected] => 
@@ -184,9 +184,9 @@
         [HTTP_ACCEPT_CHARSET] => ISO-8859-1,utf-8;q=0.7,*;q=0.3
         [HTTP_USER_AGENT] => AppRunner
         [REMOTE_ADDR] => 127.0.0.1
-        [REQUEST_TIME] => 1613940350
-        [REQUEST_TIME_FLOAT] => 1613940350,4785
-        [INPUT_STREAM] => Resource id #129
+        [REQUEST_TIME] => 1615718078
+        [REQUEST_TIME_FLOAT] => 1615718078,4471
+        [INPUT_STREAM] => Resource id #90
     )
     
     Uploaded files: Array
@@ -252,7 +252,7 @@
     
     Body: Pes\Http\Body Object
     (
-        [stream:protected] => Resource id #129
+        [stream:protected] => Resource id #90
         [meta:protected] => 
         [readable:protected] => 
         [writable:protected] => 
@@ -283,9 +283,9 @@
         [HTTP_ACCEPT_CHARSET] => ISO-8859-1,utf-8;q=0.7,*;q=0.3
         [HTTP_USER_AGENT] => AppRunner
         [REMOTE_ADDR] => 127.0.0.1
-        [REQUEST_TIME] => 1613940350
-        [REQUEST_TIME_FLOAT] => 1613940350,4879
-        [INPUT_STREAM] => Resource id #129
+        [REQUEST_TIME] => 1615718088
+        [REQUEST_TIME_FLOAT] => 1615718088,4865
+        [INPUT_STREAM] => Resource id #90
     )
     
     Uploaded files: Array
@@ -351,7 +351,7 @@
     
     Body: Pes\Http\Body Object
     (
-        [stream:protected] => Resource id #129
+        [stream:protected] => Resource id #90
         [meta:protected] => 
         [readable:protected] => 
         [writable:protected] => 
@@ -382,9 +382,9 @@
         [HTTP_ACCEPT_CHARSET] => ISO-8859-1,utf-8;q=0.7,*;q=0.3
         [HTTP_USER_AGENT] => AppRunner
         [REMOTE_ADDR] => 127.0.0.1
-        [REQUEST_TIME] => 1613940350
-        [REQUEST_TIME_FLOAT] => 1613940350,4957
-        [INPUT_STREAM] => Resource id #129
+        [REQUEST_TIME] => 1615718088
+        [REQUEST_TIME_FLOAT] => 1615718088,5162
+        [INPUT_STREAM] => Resource id #90
     )
     
     Uploaded files: Array
@@ -450,7 +450,7 @@
     
     Body: Pes\Http\Body Object
     (
-        [stream:protected] => Resource id #129
+        [stream:protected] => Resource id #90
         [meta:protected] => 
         [readable:protected] => 
         [writable:protected] => 
@@ -481,9 +481,9 @@
         [HTTP_ACCEPT_CHARSET] => ISO-8859-1,utf-8;q=0.7,*;q=0.3
         [HTTP_USER_AGENT] => AppRunner
         [REMOTE_ADDR] => 127.0.0.1
-        [REQUEST_TIME] => 1613940350
-        [REQUEST_TIME_FLOAT] => 1613940350,5117
-        [INPUT_STREAM] => Resource id #129
+        [REQUEST_TIME] => 1615718088
+        [REQUEST_TIME_FLOAT] => 1615718088,5842
+        [INPUT_STREAM] => Resource id #90
     )
     
     Uploaded files: Array
@@ -549,7 +549,7 @@
     
     Body: Pes\Http\Body Object
     (
-        [stream:protected] => Resource id #129
+        [stream:protected] => Resource id #90
         [meta:protected] => 
         [readable:protected] => 
         [writable:protected] => 
@@ -580,999 +580,9 @@
         [HTTP_ACCEPT_CHARSET] => ISO-8859-1,utf-8;q=0.7,*;q=0.3
         [HTTP_USER_AGENT] => AppRunner
         [REMOTE_ADDR] => 127.0.0.1
-        [REQUEST_TIME] => 1613940350
-        [REQUEST_TIME_FLOAT] => 1613940350,5204
-        [INPUT_STREAM] => Resource id #129
-    )
-    
-    Uploaded files: Array
-    (
-    )
-    
-[info] Locale code from http request: 'en_US'.
-[info] Short lang code from http request: 'en'.
-[info] Try to set application locale from http request: 'en_US.UTF8'.
-[info] Accepted locale by setlocale() function: ''.
-[info] REQUEST DUMP - GET request
-    URI Scheme: http
-    URI Authority: localhost
-    URI Path: /
-    URI Query: 
-    URI Fragment: 
-    Headers: Array
-    (
-        [Host] => Array
-            (
-                [0] => localhost
-            )
-    
-        [HTTP_ACCEPT] => Array
-            (
-                [0] => text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
-            )
-    
-        [accept-language] => Array
-            (
-                [0] => en-US,en;q=0.8
-            )
-    
-        [HTTP_ACCEPT_CHARSET] => Array
-            (
-                [0] => ISO-8859-1,utf-8;q=0.7,*;q=0.3
-            )
-    
-        [HTTP_USER_AGENT] => Array
-            (
-                [0] => AppRunner
-            )
-    
-    )
-    
-    Cookies: Array
-    (
-    )
-    
-    Attributes: Array
-    (
-        [uriInfo] => Pes\Application\UrlInfo Object
-            (
-                [subdomainUri:protected] => 
-                [subdomainPath:protected] => /
-                [restUri:protected] => /
-                [rootAbsolutePath:protected] => /
-                [workingPath:protected] => C:/ApacheRoot/web/tests/
-            )
-    
-        [requestedLanguage] => en
-    )
-    
-    Body: Pes\Http\Body Object
-    (
-        [stream:protected] => Resource id #129
-        [meta:protected] => 
-        [readable:protected] => 
-        [writable:protected] => 
-        [seekable:protected] => 
-        [size:protected] => 
-        [isPipe:protected] => 
-    )
-    Body size: 0.
-    POST parsed body: 
-    Query params: Array
-    (
-    )
-    
-    Request target: /
-    Server params: Array
-    (
-        [SERVER_PROTOCOL] => HTTP/1.1
-        [REQUEST_METHOD] => GET
-        [REQUEST_SCHEME] => http
-        [SCRIPT_NAME] => 
-        [REQUEST_URI] => 
-        [QUERY_STRING] => 
-        [SERVER_NAME] => localhost
-        [SERVER_PORT] => 80
-        [HTTP_HOST] => localhost
-        [HTTP_ACCEPT] => text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
-        [HTTP_ACCEPT_LANGUAGE] => en-US,en;q=0.8
-        [HTTP_ACCEPT_CHARSET] => ISO-8859-1,utf-8;q=0.7,*;q=0.3
-        [HTTP_USER_AGENT] => AppRunner
-        [REMOTE_ADDR] => 127.0.0.1
-        [REQUEST_TIME] => 1613940350
-        [REQUEST_TIME_FLOAT] => 1613940350,5368
-        [INPUT_STREAM] => Resource id #129
-    )
-    
-    Uploaded files: Array
-    (
-    )
-    
-[info] Locale code from http request: 'en_US'.
-[info] Short lang code from http request: 'en'.
-[info] Try to set application locale from http request: 'en_US.UTF8'.
-[info] Accepted locale by setlocale() function: ''.
-[info] REQUEST DUMP - GET request
-    URI Scheme: http
-    URI Authority: localhost
-    URI Path: /
-    URI Query: 
-    URI Fragment: 
-    Headers: Array
-    (
-        [Host] => Array
-            (
-                [0] => localhost
-            )
-    
-        [HTTP_ACCEPT] => Array
-            (
-                [0] => text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
-            )
-    
-        [accept-language] => Array
-            (
-                [0] => en-US,en;q=0.8
-            )
-    
-        [HTTP_ACCEPT_CHARSET] => Array
-            (
-                [0] => ISO-8859-1,utf-8;q=0.7,*;q=0.3
-            )
-    
-        [HTTP_USER_AGENT] => Array
-            (
-                [0] => AppRunner
-            )
-    
-    )
-    
-    Cookies: Array
-    (
-    )
-    
-    Attributes: Array
-    (
-        [uriInfo] => Pes\Application\UrlInfo Object
-            (
-                [subdomainUri:protected] => 
-                [subdomainPath:protected] => /
-                [restUri:protected] => /
-                [rootAbsolutePath:protected] => /
-                [workingPath:protected] => C:/ApacheRoot/web/tests/
-            )
-    
-        [requestedLanguage] => en
-    )
-    
-    Body: Pes\Http\Body Object
-    (
-        [stream:protected] => Resource id #129
-        [meta:protected] => 
-        [readable:protected] => 
-        [writable:protected] => 
-        [seekable:protected] => 
-        [size:protected] => 
-        [isPipe:protected] => 
-    )
-    Body size: 0.
-    POST parsed body: 
-    Query params: Array
-    (
-    )
-    
-    Request target: /
-    Server params: Array
-    (
-        [SERVER_PROTOCOL] => HTTP/1.1
-        [REQUEST_METHOD] => GET
-        [REQUEST_SCHEME] => http
-        [SCRIPT_NAME] => 
-        [REQUEST_URI] => 
-        [QUERY_STRING] => 
-        [SERVER_NAME] => localhost
-        [SERVER_PORT] => 80
-        [HTTP_HOST] => localhost
-        [HTTP_ACCEPT] => text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
-        [HTTP_ACCEPT_LANGUAGE] => en-US,en;q=0.8
-        [HTTP_ACCEPT_CHARSET] => ISO-8859-1,utf-8;q=0.7,*;q=0.3
-        [HTTP_USER_AGENT] => AppRunner
-        [REMOTE_ADDR] => 127.0.0.1
-        [REQUEST_TIME] => 1613940350
-        [REQUEST_TIME_FLOAT] => 1613940350,5477
-        [INPUT_STREAM] => Resource id #129
-    )
-    
-    Uploaded files: Array
-    (
-    )
-    
-[info] Locale code from http request: 'en_US'.
-[info] Short lang code from http request: 'en'.
-[info] Try to set application locale from http request: 'en_US.UTF8'.
-[info] Accepted locale by setlocale() function: ''.
-[info] REQUEST DUMP - GET request
-    URI Scheme: http
-    URI Authority: localhost
-    URI Path: /
-    URI Query: 
-    URI Fragment: 
-    Headers: Array
-    (
-        [Host] => Array
-            (
-                [0] => localhost
-            )
-    
-        [HTTP_ACCEPT] => Array
-            (
-                [0] => text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
-            )
-    
-        [accept-language] => Array
-            (
-                [0] => en-US,en;q=0.8
-            )
-    
-        [HTTP_ACCEPT_CHARSET] => Array
-            (
-                [0] => ISO-8859-1,utf-8;q=0.7,*;q=0.3
-            )
-    
-        [HTTP_USER_AGENT] => Array
-            (
-                [0] => AppRunner
-            )
-    
-    )
-    
-    Cookies: Array
-    (
-    )
-    
-    Attributes: Array
-    (
-        [uriInfo] => Pes\Application\UrlInfo Object
-            (
-                [subdomainUri:protected] => 
-                [subdomainPath:protected] => /
-                [restUri:protected] => /
-                [rootAbsolutePath:protected] => /
-                [workingPath:protected] => C:/ApacheRoot/web/tests/
-            )
-    
-        [requestedLanguage] => en
-    )
-    
-    Body: Pes\Http\Body Object
-    (
-        [stream:protected] => Resource id #129
-        [meta:protected] => 
-        [readable:protected] => 
-        [writable:protected] => 
-        [seekable:protected] => 
-        [size:protected] => 
-        [isPipe:protected] => 
-    )
-    Body size: 0.
-    POST parsed body: 
-    Query params: Array
-    (
-    )
-    
-    Request target: /
-    Server params: Array
-    (
-        [SERVER_PROTOCOL] => HTTP/1.1
-        [REQUEST_METHOD] => GET
-        [REQUEST_SCHEME] => http
-        [SCRIPT_NAME] => 
-        [REQUEST_URI] => 
-        [QUERY_STRING] => 
-        [SERVER_NAME] => localhost
-        [SERVER_PORT] => 80
-        [HTTP_HOST] => localhost
-        [HTTP_ACCEPT] => text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
-        [HTTP_ACCEPT_LANGUAGE] => en-US,en;q=0.8
-        [HTTP_ACCEPT_CHARSET] => ISO-8859-1,utf-8;q=0.7,*;q=0.3
-        [HTTP_USER_AGENT] => AppRunner
-        [REMOTE_ADDR] => 127.0.0.1
-        [REQUEST_TIME] => 1613940350
-        [REQUEST_TIME_FLOAT] => 1613940350,5642
-        [INPUT_STREAM] => Resource id #129
-    )
-    
-    Uploaded files: Array
-    (
-    )
-    
-[info] Locale code from http request: 'en_US'.
-[info] Short lang code from http request: 'en'.
-[info] Try to set application locale from http request: 'en_US.UTF8'.
-[info] Accepted locale by setlocale() function: ''.
-[info] REQUEST DUMP - GET request
-    URI Scheme: http
-    URI Authority: localhost
-    URI Path: /
-    URI Query: 
-    URI Fragment: 
-    Headers: Array
-    (
-        [Host] => Array
-            (
-                [0] => localhost
-            )
-    
-        [HTTP_ACCEPT] => Array
-            (
-                [0] => text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
-            )
-    
-        [accept-language] => Array
-            (
-                [0] => en-US,en;q=0.8
-            )
-    
-        [HTTP_ACCEPT_CHARSET] => Array
-            (
-                [0] => ISO-8859-1,utf-8;q=0.7,*;q=0.3
-            )
-    
-        [HTTP_USER_AGENT] => Array
-            (
-                [0] => AppRunner
-            )
-    
-    )
-    
-    Cookies: Array
-    (
-    )
-    
-    Attributes: Array
-    (
-        [uriInfo] => Pes\Application\UrlInfo Object
-            (
-                [subdomainUri:protected] => 
-                [subdomainPath:protected] => /
-                [restUri:protected] => /
-                [rootAbsolutePath:protected] => /
-                [workingPath:protected] => C:/ApacheRoot/web/tests/
-            )
-    
-        [requestedLanguage] => en
-    )
-    
-    Body: Pes\Http\Body Object
-    (
-        [stream:protected] => Resource id #129
-        [meta:protected] => 
-        [readable:protected] => 
-        [writable:protected] => 
-        [seekable:protected] => 
-        [size:protected] => 
-        [isPipe:protected] => 
-    )
-    Body size: 0.
-    POST parsed body: 
-    Query params: Array
-    (
-    )
-    
-    Request target: /
-    Server params: Array
-    (
-        [SERVER_PROTOCOL] => HTTP/1.1
-        [REQUEST_METHOD] => GET
-        [REQUEST_SCHEME] => http
-        [SCRIPT_NAME] => 
-        [REQUEST_URI] => 
-        [QUERY_STRING] => 
-        [SERVER_NAME] => localhost
-        [SERVER_PORT] => 80
-        [HTTP_HOST] => localhost
-        [HTTP_ACCEPT] => text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
-        [HTTP_ACCEPT_LANGUAGE] => en-US,en;q=0.8
-        [HTTP_ACCEPT_CHARSET] => ISO-8859-1,utf-8;q=0.7,*;q=0.3
-        [HTTP_USER_AGENT] => AppRunner
-        [REMOTE_ADDR] => 127.0.0.1
-        [REQUEST_TIME] => 1613940350
-        [REQUEST_TIME_FLOAT] => 1613940350,5745
-        [INPUT_STREAM] => Resource id #129
-    )
-    
-    Uploaded files: Array
-    (
-    )
-    
-[info] Locale code from http request: 'en_US'.
-[info] Short lang code from http request: 'en'.
-[info] Try to set application locale from http request: 'en_US.UTF8'.
-[info] Accepted locale by setlocale() function: ''.
-[info] REQUEST DUMP - GET request
-    URI Scheme: http
-    URI Authority: localhost
-    URI Path: /
-    URI Query: 
-    URI Fragment: 
-    Headers: Array
-    (
-        [Host] => Array
-            (
-                [0] => localhost
-            )
-    
-        [HTTP_ACCEPT] => Array
-            (
-                [0] => text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
-            )
-    
-        [accept-language] => Array
-            (
-                [0] => en-US,en;q=0.8
-            )
-    
-        [HTTP_ACCEPT_CHARSET] => Array
-            (
-                [0] => ISO-8859-1,utf-8;q=0.7,*;q=0.3
-            )
-    
-        [HTTP_USER_AGENT] => Array
-            (
-                [0] => AppRunner
-            )
-    
-    )
-    
-    Cookies: Array
-    (
-    )
-    
-    Attributes: Array
-    (
-        [uriInfo] => Pes\Application\UrlInfo Object
-            (
-                [subdomainUri:protected] => 
-                [subdomainPath:protected] => /
-                [restUri:protected] => /
-                [rootAbsolutePath:protected] => /
-                [workingPath:protected] => C:/ApacheRoot/web/tests/
-            )
-    
-        [requestedLanguage] => en
-    )
-    
-    Body: Pes\Http\Body Object
-    (
-        [stream:protected] => Resource id #259
-        [meta:protected] => 
-        [readable:protected] => 
-        [writable:protected] => 
-        [seekable:protected] => 
-        [size:protected] => 
-        [isPipe:protected] => 
-    )
-    Body size: 0.
-    POST parsed body: 
-    Query params: Array
-    (
-    )
-    
-    Request target: /
-    Server params: Array
-    (
-        [SERVER_PROTOCOL] => HTTP/1.1
-        [REQUEST_METHOD] => GET
-        [REQUEST_SCHEME] => http
-        [SCRIPT_NAME] => 
-        [REQUEST_URI] => 
-        [QUERY_STRING] => 
-        [SERVER_NAME] => localhost
-        [SERVER_PORT] => 80
-        [HTTP_HOST] => localhost
-        [HTTP_ACCEPT] => text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
-        [HTTP_ACCEPT_LANGUAGE] => en-US,en;q=0.8
-        [HTTP_ACCEPT_CHARSET] => ISO-8859-1,utf-8;q=0.7,*;q=0.3
-        [HTTP_USER_AGENT] => AppRunner
-        [REMOTE_ADDR] => 127.0.0.1
-        [REQUEST_TIME] => 1613940350
-        [REQUEST_TIME_FLOAT] => 1613940350,5932
-        [INPUT_STREAM] => Resource id #259
-    )
-    
-    Uploaded files: Array
-    (
-    )
-    
-[info] Locale code from http request: 'en_US'.
-[info] Short lang code from http request: 'en'.
-[info] Try to set application locale from http request: 'en_US.UTF8'.
-[info] Accepted locale by setlocale() function: ''.
-[info] REQUEST DUMP - GET request
-    URI Scheme: http
-    URI Authority: localhost
-    URI Path: /
-    URI Query: 
-    URI Fragment: 
-    Headers: Array
-    (
-        [Host] => Array
-            (
-                [0] => localhost
-            )
-    
-        [HTTP_ACCEPT] => Array
-            (
-                [0] => text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
-            )
-    
-        [accept-language] => Array
-            (
-                [0] => en-US,en;q=0.8
-            )
-    
-        [HTTP_ACCEPT_CHARSET] => Array
-            (
-                [0] => ISO-8859-1,utf-8;q=0.7,*;q=0.3
-            )
-    
-        [HTTP_USER_AGENT] => Array
-            (
-                [0] => AppRunner
-            )
-    
-    )
-    
-    Cookies: Array
-    (
-    )
-    
-    Attributes: Array
-    (
-        [uriInfo] => Pes\Application\UrlInfo Object
-            (
-                [subdomainUri:protected] => 
-                [subdomainPath:protected] => /
-                [restUri:protected] => /
-                [rootAbsolutePath:protected] => /
-                [workingPath:protected] => C:/ApacheRoot/web/tests/
-            )
-    
-        [requestedLanguage] => en
-    )
-    
-    Body: Pes\Http\Body Object
-    (
-        [stream:protected] => Resource id #259
-        [meta:protected] => 
-        [readable:protected] => 
-        [writable:protected] => 
-        [seekable:protected] => 
-        [size:protected] => 
-        [isPipe:protected] => 
-    )
-    Body size: 0.
-    POST parsed body: 
-    Query params: Array
-    (
-    )
-    
-    Request target: /
-    Server params: Array
-    (
-        [SERVER_PROTOCOL] => HTTP/1.1
-        [REQUEST_METHOD] => GET
-        [REQUEST_SCHEME] => http
-        [SCRIPT_NAME] => 
-        [REQUEST_URI] => 
-        [QUERY_STRING] => 
-        [SERVER_NAME] => localhost
-        [SERVER_PORT] => 80
-        [HTTP_HOST] => localhost
-        [HTTP_ACCEPT] => text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
-        [HTTP_ACCEPT_LANGUAGE] => en-US,en;q=0.8
-        [HTTP_ACCEPT_CHARSET] => ISO-8859-1,utf-8;q=0.7,*;q=0.3
-        [HTTP_USER_AGENT] => AppRunner
-        [REMOTE_ADDR] => 127.0.0.1
-        [REQUEST_TIME] => 1613940350
-        [REQUEST_TIME_FLOAT] => 1613940350,6267
-        [INPUT_STREAM] => Resource id #259
-    )
-    
-    Uploaded files: Array
-    (
-    )
-    
-[info] Locale code from http request: 'en_US'.
-[info] Short lang code from http request: 'en'.
-[info] Try to set application locale from http request: 'en_US.UTF8'.
-[info] Accepted locale by setlocale() function: ''.
-[info] REQUEST DUMP - GET request
-    URI Scheme: http
-    URI Authority: localhost
-    URI Path: /
-    URI Query: 
-    URI Fragment: 
-    Headers: Array
-    (
-        [Host] => Array
-            (
-                [0] => localhost
-            )
-    
-        [HTTP_ACCEPT] => Array
-            (
-                [0] => text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
-            )
-    
-        [accept-language] => Array
-            (
-                [0] => en-US,en;q=0.8
-            )
-    
-        [HTTP_ACCEPT_CHARSET] => Array
-            (
-                [0] => ISO-8859-1,utf-8;q=0.7,*;q=0.3
-            )
-    
-        [HTTP_USER_AGENT] => Array
-            (
-                [0] => AppRunner
-            )
-    
-    )
-    
-    Cookies: Array
-    (
-    )
-    
-    Attributes: Array
-    (
-        [uriInfo] => Pes\Application\UrlInfo Object
-            (
-                [subdomainUri:protected] => 
-                [subdomainPath:protected] => /
-                [restUri:protected] => /
-                [rootAbsolutePath:protected] => /
-                [workingPath:protected] => C:/ApacheRoot/web/tests/
-            )
-    
-        [requestedLanguage] => en
-    )
-    
-    Body: Pes\Http\Body Object
-    (
-        [stream:protected] => Resource id #259
-        [meta:protected] => 
-        [readable:protected] => 
-        [writable:protected] => 
-        [seekable:protected] => 
-        [size:protected] => 
-        [isPipe:protected] => 
-    )
-    Body size: 0.
-    POST parsed body: 
-    Query params: Array
-    (
-    )
-    
-    Request target: /
-    Server params: Array
-    (
-        [SERVER_PROTOCOL] => HTTP/1.1
-        [REQUEST_METHOD] => GET
-        [REQUEST_SCHEME] => http
-        [SCRIPT_NAME] => 
-        [REQUEST_URI] => 
-        [QUERY_STRING] => 
-        [SERVER_NAME] => localhost
-        [SERVER_PORT] => 80
-        [HTTP_HOST] => localhost
-        [HTTP_ACCEPT] => text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
-        [HTTP_ACCEPT_LANGUAGE] => en-US,en;q=0.8
-        [HTTP_ACCEPT_CHARSET] => ISO-8859-1,utf-8;q=0.7,*;q=0.3
-        [HTTP_USER_AGENT] => AppRunner
-        [REMOTE_ADDR] => 127.0.0.1
-        [REQUEST_TIME] => 1613940350
-        [REQUEST_TIME_FLOAT] => 1613940350,6398
-        [INPUT_STREAM] => Resource id #259
-    )
-    
-    Uploaded files: Array
-    (
-    )
-    
-[info] Locale code from http request: 'en_US'.
-[info] Short lang code from http request: 'en'.
-[info] Try to set application locale from http request: 'en_US.UTF8'.
-[info] Accepted locale by setlocale() function: ''.
-[info] REQUEST DUMP - GET request
-    URI Scheme: http
-    URI Authority: localhost
-    URI Path: /
-    URI Query: 
-    URI Fragment: 
-    Headers: Array
-    (
-        [Host] => Array
-            (
-                [0] => localhost
-            )
-    
-        [HTTP_ACCEPT] => Array
-            (
-                [0] => text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
-            )
-    
-        [accept-language] => Array
-            (
-                [0] => en-US,en;q=0.8
-            )
-    
-        [HTTP_ACCEPT_CHARSET] => Array
-            (
-                [0] => ISO-8859-1,utf-8;q=0.7,*;q=0.3
-            )
-    
-        [HTTP_USER_AGENT] => Array
-            (
-                [0] => AppRunner
-            )
-    
-    )
-    
-    Cookies: Array
-    (
-    )
-    
-    Attributes: Array
-    (
-        [uriInfo] => Pes\Application\UrlInfo Object
-            (
-                [subdomainUri:protected] => 
-                [subdomainPath:protected] => /
-                [restUri:protected] => /
-                [rootAbsolutePath:protected] => /
-                [workingPath:protected] => C:/ApacheRoot/web/tests/
-            )
-    
-        [requestedLanguage] => en
-    )
-    
-    Body: Pes\Http\Body Object
-    (
-        [stream:protected] => Resource id #302
-        [meta:protected] => 
-        [readable:protected] => 
-        [writable:protected] => 
-        [seekable:protected] => 
-        [size:protected] => 
-        [isPipe:protected] => 
-    )
-    Body size: 0.
-    POST parsed body: 
-    Query params: Array
-    (
-    )
-    
-    Request target: /
-    Server params: Array
-    (
-        [SERVER_PROTOCOL] => HTTP/1.1
-        [REQUEST_METHOD] => GET
-        [REQUEST_SCHEME] => http
-        [SCRIPT_NAME] => 
-        [REQUEST_URI] => 
-        [QUERY_STRING] => 
-        [SERVER_NAME] => localhost
-        [SERVER_PORT] => 80
-        [HTTP_HOST] => localhost
-        [HTTP_ACCEPT] => text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
-        [HTTP_ACCEPT_LANGUAGE] => en-US,en;q=0.8
-        [HTTP_ACCEPT_CHARSET] => ISO-8859-1,utf-8;q=0.7,*;q=0.3
-        [HTTP_USER_AGENT] => AppRunner
-        [REMOTE_ADDR] => 127.0.0.1
-        [REQUEST_TIME] => 1613940350
-        [REQUEST_TIME_FLOAT] => 1613940350,6811
-        [INPUT_STREAM] => Resource id #302
-    )
-    
-    Uploaded files: Array
-    (
-    )
-    
-[info] Locale code from http request: 'en_US'.
-[info] Short lang code from http request: 'en'.
-[info] Try to set application locale from http request: 'en_US.UTF8'.
-[info] Accepted locale by setlocale() function: ''.
-[info] REQUEST DUMP - GET request
-    URI Scheme: http
-    URI Authority: localhost
-    URI Path: /
-    URI Query: 
-    URI Fragment: 
-    Headers: Array
-    (
-        [Host] => Array
-            (
-                [0] => localhost
-            )
-    
-        [HTTP_ACCEPT] => Array
-            (
-                [0] => text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
-            )
-    
-        [accept-language] => Array
-            (
-                [0] => en-US,en;q=0.8
-            )
-    
-        [HTTP_ACCEPT_CHARSET] => Array
-            (
-                [0] => ISO-8859-1,utf-8;q=0.7,*;q=0.3
-            )
-    
-        [HTTP_USER_AGENT] => Array
-            (
-                [0] => AppRunner
-            )
-    
-    )
-    
-    Cookies: Array
-    (
-    )
-    
-    Attributes: Array
-    (
-        [uriInfo] => Pes\Application\UrlInfo Object
-            (
-                [subdomainUri:protected] => 
-                [subdomainPath:protected] => /
-                [restUri:protected] => /
-                [rootAbsolutePath:protected] => /
-                [workingPath:protected] => C:/ApacheRoot/web/tests/
-            )
-    
-        [requestedLanguage] => en
-    )
-    
-    Body: Pes\Http\Body Object
-    (
-        [stream:protected] => Resource id #302
-        [meta:protected] => 
-        [readable:protected] => 
-        [writable:protected] => 
-        [seekable:protected] => 
-        [size:protected] => 
-        [isPipe:protected] => 
-    )
-    Body size: 0.
-    POST parsed body: 
-    Query params: Array
-    (
-    )
-    
-    Request target: /
-    Server params: Array
-    (
-        [SERVER_PROTOCOL] => HTTP/1.1
-        [REQUEST_METHOD] => GET
-        [REQUEST_SCHEME] => http
-        [SCRIPT_NAME] => 
-        [REQUEST_URI] => 
-        [QUERY_STRING] => 
-        [SERVER_NAME] => localhost
-        [SERVER_PORT] => 80
-        [HTTP_HOST] => localhost
-        [HTTP_ACCEPT] => text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
-        [HTTP_ACCEPT_LANGUAGE] => en-US,en;q=0.8
-        [HTTP_ACCEPT_CHARSET] => ISO-8859-1,utf-8;q=0.7,*;q=0.3
-        [HTTP_USER_AGENT] => AppRunner
-        [REMOTE_ADDR] => 127.0.0.1
-        [REQUEST_TIME] => 1613940350
-        [REQUEST_TIME_FLOAT] => 1613940350,6912
-        [INPUT_STREAM] => Resource id #302
-    )
-    
-    Uploaded files: Array
-    (
-    )
-    
-[info] Locale code from http request: 'en_US'.
-[info] Short lang code from http request: 'en'.
-[info] Try to set application locale from http request: 'en_US.UTF8'.
-[info] Accepted locale by setlocale() function: ''.
-[info] REQUEST DUMP - GET request
-    URI Scheme: http
-    URI Authority: localhost
-    URI Path: /
-    URI Query: 
-    URI Fragment: 
-    Headers: Array
-    (
-        [Host] => Array
-            (
-                [0] => localhost
-            )
-    
-        [HTTP_ACCEPT] => Array
-            (
-                [0] => text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
-            )
-    
-        [accept-language] => Array
-            (
-                [0] => en-US,en;q=0.8
-            )
-    
-        [HTTP_ACCEPT_CHARSET] => Array
-            (
-                [0] => ISO-8859-1,utf-8;q=0.7,*;q=0.3
-            )
-    
-        [HTTP_USER_AGENT] => Array
-            (
-                [0] => AppRunner
-            )
-    
-    )
-    
-    Cookies: Array
-    (
-    )
-    
-    Attributes: Array
-    (
-        [uriInfo] => Pes\Application\UrlInfo Object
-            (
-                [subdomainUri:protected] => 
-                [subdomainPath:protected] => /
-                [restUri:protected] => /
-                [rootAbsolutePath:protected] => /
-                [workingPath:protected] => C:/ApacheRoot/web/tests/
-            )
-    
-        [requestedLanguage] => en
-    )
-    
-    Body: Pes\Http\Body Object
-    (
-        [stream:protected] => Resource id #302
-        [meta:protected] => 
-        [readable:protected] => 
-        [writable:protected] => 
-        [seekable:protected] => 
-        [size:protected] => 
-        [isPipe:protected] => 
-    )
-    Body size: 0.
-    POST parsed body: 
-    Query params: Array
-    (
-    )
-    
-    Request target: /
-    Server params: Array
-    (
-        [SERVER_PROTOCOL] => HTTP/1.1
-        [REQUEST_METHOD] => GET
-        [REQUEST_SCHEME] => http
-        [SCRIPT_NAME] => 
-        [REQUEST_URI] => 
-        [QUERY_STRING] => 
-        [SERVER_NAME] => localhost
-        [SERVER_PORT] => 80
-        [HTTP_HOST] => localhost
-        [HTTP_ACCEPT] => text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
-        [HTTP_ACCEPT_LANGUAGE] => en-US,en;q=0.8
-        [HTTP_ACCEPT_CHARSET] => ISO-8859-1,utf-8;q=0.7,*;q=0.3
-        [HTTP_USER_AGENT] => AppRunner
-        [REMOTE_ADDR] => 127.0.0.1
-        [REQUEST_TIME] => 1613940350
-        [REQUEST_TIME_FLOAT] => 1613940350,704
-        [INPUT_STREAM] => Resource id #302
+        [REQUEST_TIME] => 1615718088
+        [REQUEST_TIME_FLOAT] => 1615718088,6124
+        [INPUT_STREAM] => Resource id #90
     )
     
     Uploaded files: Array

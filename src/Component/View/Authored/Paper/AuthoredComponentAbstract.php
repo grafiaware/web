@@ -59,11 +59,11 @@ abstract class AuthoredComponentAbstract extends CompositeComponentAbstract impl
         $this->templateGlobals[$variableName] = $rendererName;
     }
 
-    protected function getPaperTemplatePath($paperTemplateName) {
-        return $this->templatesPath.$paperTemplateName."/template.php";
-    }
-
-    protected function resolveTemplate($templateName) {
+    /**
+     * Pro zadané jméno template se pokusí nalézt soubor s PHP template a vytvořit PhpTemplate objekt. Pokud uspěje
+     * @param string $templateName
+     */
+    protected function resolveTemplate($templateName=null) {
         if (isset($templateName) AND $templateName) {
             $templatePath = $this->getPaperTemplatePath($templateName);
             try {
@@ -75,10 +75,15 @@ abstract class AuthoredComponentAbstract extends CompositeComponentAbstract impl
                     }
                 }
                 $template->setSharedData($sharedData);
+                $this->setTemplate($template);
             } catch (NoTemplateFileException $noTemplExc) {
                 user_error("Neexistuje soubor šablony $templatePath", E_USER_WARNING);
             }
         }
-        return $template ?? null;
     }
+
+    private function getPaperTemplatePath($templateName) {
+        return $this->templatesPath.$templateName."/template.php";
+    }
+
 }

@@ -4,7 +4,7 @@
 namespace Model\Entity;
 
 /**
- * Description of Login
+ * Description of LoginAggregateCredentials
  *
  * @author pes2704
  */
@@ -12,15 +12,15 @@ class LoginAggregateCredentials extends Login implements LoginAggregateCredentia
 
     /**
      *
-     * @var CredetialsInterface
+     * @var CredentialsInterface
      */
     private $credentials;
 
     /**
-     *
-     * @return CredentialsInterface
+     * 
+     * @return \Model\Entity\CredentialsInterface|null
      */
-    public function getCredentials(): CredentialsInterface {
+    public function getCredentials(): ?CredentialsInterface {
         return $this->credentials;
     }
 
@@ -29,7 +29,7 @@ class LoginAggregateCredentials extends Login implements LoginAggregateCredentia
      * @param CredentialsInterface $credentials
      * @return LoginAggregateCredentialsInterface
      */
-    public function setCredentials(CredentialsInterface $credentials): LoginAggregateCredentialsInterface {
+    public function setCredentials(CredentialsInterface $credentials = null): LoginAggregateCredentialsInterface {
         $this->credentials = $credentials;
         return $this;
     }

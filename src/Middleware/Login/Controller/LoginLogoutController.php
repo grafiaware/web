@@ -5,7 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
+                  
 namespace Middleware\Login\Controller;
 
 use Site\Configuration;
@@ -44,11 +44,11 @@ class LoginLogoutController extends StatusFrontControllerAbstract {
      *
      */
     public function __construct(
-            StatusSecurityRepo $statusSecurityRepo,
-            StatusFlashRepo $statusFlashRepo,
-            StatusPresentationRepo $statusPresentationRepo,
-            LoginAggregateCredentialsRepo $loginAggregateRepo,
-            AuthenticatorInterface $authenticator) {
+                        StatusSecurityRepo $statusSecurityRepo,
+                           StatusFlashRepo $statusFlashRepo,
+                    StatusPresentationRepo $statusPresentationRepo,
+             LoginAggregateCredentialsRepo $loginAggregateRepo,
+                    AuthenticatorInterface $authenticator) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
         $this->loginAggregateRepo = $loginAggregateRepo;
         $this->authenticator = $authenticator;
@@ -58,7 +58,7 @@ class LoginLogoutController extends StatusFrontControllerAbstract {
         $requestParams = new RequestParams();
         $login = $requestParams->getParsedBodyParam($request, 'login', FALSE);
 
-        if ($login) {
+        if ($login) {           
             // používá názvy z konfigurace pro omezení množství našeptávaných jmen při vypl%nování formuláře v prohlížečích
             $fieldNameJmeno = Configuration::loginLogoutControler()['fieldNameJmeno'];
             $fieldNameHeslo = Configuration::loginLogoutControler()['fieldNameHeslo'];
@@ -68,6 +68,10 @@ class LoginLogoutController extends StatusFrontControllerAbstract {
                 $loginAggregateEntity = $this->loginAggregateRepo->get($loginJmeno);
                 if (isset($loginAggregateEntity) AND $this->authenticator->authenticate($loginAggregateEntity, $loginHeslo)) {  // z databáze
                     $this->statusSecurityRepo->get()->renewSecurityStatus($loginAggregateEntity);
+                    $this->addFlashMessage("Hurá! - Jste přihlášeni.");
+                }
+                else {
+                    $this->addFlashMessage("Neplatné přihlášení!");
                 }
             }
         }
@@ -78,6 +82,7 @@ class LoginLogoutController extends StatusFrontControllerAbstract {
         $logout = (new RequestParams())->getParsedBodyParam($request, 'logout', FALSE);
         if ($logout) {
             $this->removeLoggedUser();  // bez parametru User
+            $this->addFlashMessage("Pápá...");           
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
 

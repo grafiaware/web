@@ -63,7 +63,7 @@ class WebAppFactory extends AppFactory {
         Message::setAppLocale(self::INITIAL_APP_LANGCODE);
         require_once __DIR__.'/Messages/addTranslations.php';
 
-        if (true OR PES_DEVELOPMENT) {
+        if (PES_DEVELOPMENT) {
             Message::setLogger(FileLogger::getInstance("Logs/App", 'Messages.log', FileLogger::REWRITE_LOG));
 
             $logger = FileLogger::getInstance('Logs/App', 'WebAppFactoryLogger.log', FileLogger::REWRITE_LOG);

@@ -15,10 +15,10 @@ class LoginAggregateRegistration  extends Login implements LoginAggregateRegistr
     private $registration;
 
     /**
-     *
-     * @return RegistrationInterface
+     * 
+     * @return \Model\Entity\RegistrationInterface|null
      */
-    public function getRegistration(): RegistrationInterface {
+    public function getRegistration(): ?RegistrationInterface {
         return $this->registration;
     }
 

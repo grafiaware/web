@@ -16,7 +16,7 @@ use Model\Repository\RepoInterface;
  *
  * @author pes2704
  */
-class AssociationOneToMany extends AssociationAbstract implements AssociationInterface {
+class AssociationOneToMany extends AssociationAbstract implements AssociationOneToManyInterface {
 
     /**
      * @var RepoAssotiatedManyInterface
@@ -33,7 +33,7 @@ class AssociationOneToMany extends AssociationAbstract implements AssociationInt
         $this->childRepo = $childRepo;
     }
 
-    public function getAssociated(&$row) {
+    public function getAssociated(&$row): iterable {
         $childKey = $this->getChildKey($row);
         $children = $this->childRepo->findByReference($childKey);
 //        if (!$children) {
@@ -42,11 +42,15 @@ class AssociationOneToMany extends AssociationAbstract implements AssociationInt
         return $children;
     }
 
-    public function addAssociated($entity) {
+    public function addAssociated(iterable $entity) {
         $this->childRepo->add($entity);
     }
 
-    public function removeAssociated($entty) {
-        $this->childRepo->remove($entty);
+    public function removeAssociated(iterable $entity) {
+        $this->childRepo->remove($entity);
+    }
+
+    public function flushChildRepo(): void {
+        $this->childRepo->flush();
     }
 }

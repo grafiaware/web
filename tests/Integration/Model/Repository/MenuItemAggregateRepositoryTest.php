@@ -136,7 +136,7 @@ class MenuItemAggregateRepositoryTest extends TestCase {
         $this->assertInstanceOf(MenuItemAggregateRepo::class, $this->menuItemAggRepo);
     }
 
-    public function testRepoGet() {
+    public function testGet() {
         $entity = $this->menuItemAggRepo->get($this->langCode, $this->uid);
         $this->assertInstanceOf(MenuItemAggregatePaper::class, $entity);
         $this->assertEquals($this->title, $entity->getTitle());
@@ -149,7 +149,7 @@ class MenuItemAggregateRepositoryTest extends TestCase {
 
     }
 
-    public function testRepoFindByPaperFulltextSearch() {
+    public function testFindByPaperFulltextSearch() {
         // Stop here and mark this test as incomplete.
         $this->markTestIncomplete(
           'This test has not been implemented yet.'

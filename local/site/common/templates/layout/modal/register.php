@@ -8,7 +8,7 @@ use Site\Configuration;
 <!--                <div class="item header"><p><i class="user icon"></i>Registrace se <br/> připravuje</p></div>
                 <p style="text-align: center;" class="item ui small button">Zavřít</p>-->
             <div class="item header"><p><i class="user icon"></i>Registrovat se</p></div>
-                
+
                 <div class="ui input">
                     <input type="text" name="<?=Configuration::loginLogoutControler()['fieldNameJmeno']?>" placeholder="Jméno" required>
                 </div>

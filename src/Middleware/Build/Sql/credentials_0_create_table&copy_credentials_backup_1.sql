@@ -25,8 +25,11 @@ CREATE TABLE `registration` (
   `password_hash` varchar(255) NOT NULL,
   `email` varchar(100) DEFAULT NULL,
   `email_time` datetime DEFAULT NULL,
+  `uid` VARCHAR(20) NOT NULL,
+  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`login_name_fk`),
   UNIQUE KEY `login_name_fk` (`login_name_fk`),
+  UNIQUE INDEX `uid_UNIQUE` (`uid` ASC),
   CONSTRAINT `registration_ibfk_1` FOREIGN KEY (`login_name_fk`) REFERENCES `login` (`login_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

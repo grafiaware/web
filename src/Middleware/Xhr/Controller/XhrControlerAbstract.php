@@ -17,7 +17,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Container\ContainerInterface;
 
 use StatusManager\{
-    StatusSecurityManagerInterface, StatusPresentationManagerInterface
+    StatusManagerInterface, StatusPresentationManagerInterface
 
 };
 

@@ -12,7 +12,7 @@ use Container\DbOldContainerConfigurator;
 
 use Model\Repository\StatusSecurityRepo;
 
-use StatusManager\StatusSecurityManagerInterface;
+use StatusManager\StatusManagerInterface;
 
 use Pes\Router\RouteSegmentGenerator;
 use Pes\Router\RouterInterface;
@@ -68,7 +68,7 @@ class Login extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(RegistrationController::class);
             return $ctrl->register1($request);
             });
-        $routeGenerator->addRouteForAction('POST', '/auth/v1/confirm', function(ServerRequestInterface $request) {
+        $routeGenerator->addRouteForAction('GET', '/auth/v1/confirm', function(ServerRequestInterface $request) {
             /** @var RegistrationController $ctrl */
             $ctrl = $this->container->get(RegistrationController::class);
             return $ctrl->confirm($request);

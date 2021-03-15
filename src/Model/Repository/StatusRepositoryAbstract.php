@@ -9,6 +9,7 @@
 namespace Model\Repository;
 
 use Model\Dao\StatusDao;
+use StatusManager\StatusManagerInterface;
 
 /**
  * StatusRepositoryAbstract má metody pro zápis (aktualizaci) dat v session a destruktor, který zajišťuje automatické uložení (aktualizaci)
