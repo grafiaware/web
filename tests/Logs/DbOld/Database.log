@@ -1,4 +1,4 @@
-[debug] [2021-03-16 11:03:55] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/DbOld/Database.log. Mode 'w+'.
+[debug] [2021-03-16 11:15:14] Logger start. Log file: D:/ApacheRoot/web/tests/Logs/DbOld/Database.log. Mode 'w+'.
 [debug] Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=localhost;port=3306;dbname=gr_pracovni
 [debug] Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
     (

@@ -1,11 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Middleware\Login\Controller;
 
 use Site\Configuration;
@@ -38,9 +32,6 @@ use Model\Entity\LoginAggregateRegistration;
  */
 class ConfirmController extends StatusFrontControllerAbstract
 {
-
-    private $authenticator;
-
     /**
      *
      * @var RegistrationRepo
@@ -60,44 +51,44 @@ class ConfirmController extends StatusFrontControllerAbstract
                    StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
      LoginAggregateCredentialsRepo $loginAggregateCredentialsRepo,
-    RegistrationRepo $registrationRepo)
+                  RegistrationRepo $registrationRepo)
     {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
         $this->loginAggregateCredentialsRepo = $loginAggregateCredentialsRepo;
         $this->registrationRepo = $registrationRepo;
     }
 
-    public function confirm(ServerRequestInterface $request, $uid) {              
-          
+    public function confirm(ServerRequestInterface $request, $uid) {
             if ($uid ) {
                 /** @var  LoginAggregateRegistration $loginAggregateRegistrationEntity  */
-                $loginAggregateRegistrationEntity = $this->registrationRepo->getByUid($uid);
+                $registrationEntity = $this->registrationRepo->getByUid($uid);                
                 
-                
-                
-                if ( isset($loginAggregateRegistrationEntity) ) {                    
-                    $passwordHash = $loginAggregateRegistrationEntity->getRegistration()->getPasswordHash();
-                    $loginNameFk = $loginAggregateRegistrationEntity->getRegistration()->getLoginNameFk();   
+                if ( isset($registrationEntity) ) {                    
+                    $passwordHash = $registrationEntity->getPasswordHash();
+                    $loginNameFk = $registrationEntity->getLoginNameFk();   
                    // $uidRegistration = $loginAggregateRegistrationEntity->getRegistration()->getUid();  //nepotrebuji
                     
                     $credentials = new Credentials();
                     $credentials->setPasswordHash($passwordHash);
-                    $credentials->setLoginNameFk($loginNameFk);                    
-                     
+                    $credentials->setLoginNameFk($loginNameFk);                                         
                     /** @var  LoginAggregateCredentials $loginAggregateCredentialsEntity  */
                     $loginAggregateCredentialsEntity = $this->loginAggregateCredentialsRepo->get($loginNameFk);                      
                     if ( $loginAggregateCredentialsEntity->getCredentials() === \NULL  ) {
-                        $loginAggregateCredentialsEntity->setCredentials($credentials);                                          
+                        $loginAggregateCredentialsEntity->setCredentials($credentials); 
+                        
+                        $this->addFlashMessage( "Potvrzeno, Vaše registrace byla dokončena.");
+                        // **mail** !!!!
                     }
                     else {
-                        // chyba Již bylo zaregistrováno a potvrzeno, nebudu to dělat znovu.
-                        $this->addFlashMessage( "*confirm* chyba \n Již bylo zaregistrováno a potvrzeno, nebudu to dělat znovu.");
-                    }
-                    
+                        // chyba Již bylo zaregistrováno a potvrzeno.
+                        // nehlasit nic, nebo az po 10sec  poslat               **mail** ???!!!!
+                        // $this->addFlashMessage( "Byli jste zaregistrováni.");
+                    }                    
                  } 
                  else {
-                     //chyba Takový registrační požadavek nebyl požadovan/zaznamenán.
-                     $this->addFlashMessage( "*confirm* chyba \n Takový registrační požadavek nebyl požadovan/zaznamenán.");
+                     // chyba Takový registrační požadavek nebyl požadovan/zaznamenán.
+                     // zapsat do logu, tj. nějak dát vědět autorům systému                     
+                     // $this->addFlashMessage( "Takový registrační požadavek nebyl požadován/zaznamenán.");
                  }
             }
         

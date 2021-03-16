@@ -1,4 +1,4 @@
-[debug] [2021-03-16 11:03:55] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/Login/Database.log. Mode 'w+'.
+[debug] [2021-03-16 11:15:14] Logger start. Log file: D:/ApacheRoot/web/tests/Logs/Login/Database.log. Mode 'w+'.
 [debug] Vytvořen database handler Handler gr_pracovni (1), name gr_pracovni, host localhost.
 [debug] Handler gr_pracovni (1) prepare(DELETE FROM registration WHERE `login_name_fk` = :login_name_fk, ). Vytvořen Statement (1).
 [debug] Statement (1) bindValue(:login_name_fk, testRegistration, 2)
@@ -21,7 +21,7 @@
 [debug] Handler gr_pracovni (1) prepare(SELECT uid
                             FROM registration
                             WHERE uid = :uid LOCK IN SHARE MODE, ). Vytvořen Statement (5).
-[debug] Statement (5) bindParam(:uid, 6050828b5d1d6, 2, , )
+[debug] Statement (5) bindParam(:uid, 60508532449a1, 2, , )
 [debug] Statement (5) execute().
 [debug] Statement (5) execute()
 [debug] Handler gr_pracovni (1) prepare(INSERT INTO registration (login_name_fk, password_hash, email, email_time, uid )
@@ -30,7 +30,7 @@
 [debug] Statement (6) bindParam(:password_hash, testHeslo, 2, , )
 [debug] Statement (6) bindParam(:email, , 2, , )
 [debug] Statement (6) bindParam(:email_time, , 2, , )
-[debug] Statement (6) bindParam(:uid, 6050828b5d1d6, 2, , )
+[debug] Statement (6) bindParam(:uid, 60508532449a1, 2, , )
 [debug] Statement (6) execute().
 [debug] Statement (6) execute()
 [debug] Vytvořen database handler Handler gr_pracovni (2), name gr_pracovni, host localhost.
@@ -80,7 +80,7 @@
 [debug] Handler gr_pracovni (5) prepare(SELECT uid
                             FROM registration
                             WHERE uid = :uid LOCK IN SHARE MODE, ). Vytvořen Statement (10).
-[debug] Statement (10) bindParam(:uid, 6050828b73005, 2, , )
+[debug] Statement (10) bindParam(:uid, 605085325e67a, 2, , )
 [debug] Statement (10) execute().
 [debug] Statement (10) execute()
 [debug] Handler gr_pracovni (5) prepare(INSERT INTO registration (login_name_fk, password_hash, email, email_time, uid )
@@ -89,7 +89,7 @@
 [debug] Statement (11) bindParam(:password_hash, testHeslo, 2, , )
 [debug] Statement (11) bindParam(:email, test.email@mejl.cz, 2, , )
 [debug] Statement (11) bindParam(:email_time, , 2, , )
-[debug] Statement (11) bindParam(:uid, 6050828b73005, 2, , )
+[debug] Statement (11) bindParam(:uid, 605085325e67a, 2, , )
 [debug] Statement (11) execute().
 [debug] Statement (11) execute()
 [debug] Vytvořen database handler Handler gr_pracovni (6), name gr_pracovni, host localhost.
@@ -128,7 +128,7 @@
                     `registration`
                 WHERE
                     `registration`.`uid` = :uid, ). Vytvořen Statement (14).
-[debug] Statement (14) bindValue(:uid, 6050828b73005, 2)
+[debug] Statement (14) bindValue(:uid, 605085325e67a, 2)
 [debug] Statement (14) execute().
 [debug] Statement (14) execute()
 [debug] Statement (14) fetch(2, 0, 0)
