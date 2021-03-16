@@ -40,14 +40,10 @@ class LoginAggregateRegistrationRepo extends LoginRepo implements LoginRepoInter
     }
 
     public function add(LoginInterface $loginAggregate) {
-        /** @var LoginAggregateRegistrationInterface $loginAggregate */
-        parent::add($loginAggregate);    //zapise jen  Login
-       $this->addAssociated(RegistrationInterface::class, $loginAggregate->getRegistration());  
+        $this->addEntity($loginAggregate);
     }
     public function remove(LoginInterface $loginAggregate) {
-        /** @var LoginAggregateRegistrationInterface $loginAggregate */
-        $this->removeAssociated(RegistrationInterface::class, $loginAggregate->getRegistration()); 
-        parent::remove($loginAggregate);
+        $this->removeEntity($loginAggregate);
     }
 
 }

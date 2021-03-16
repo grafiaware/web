@@ -17,15 +17,10 @@ use Model\Repository\Exception\UnableRecreateEntityException;
  */
 class RegistrationRepo extends RepoAbstract implements RegistrationRepoInterface {
 
-
-
-
     public function __construct(RegistrationDao $registrationDao, HydratorInterface $registrationHydrator) {
         $this->dao = $registrationDao;
         $this->registerHydrator($registrationHydrator);
     }
-
-
 
     public function get($loginNameFk): ?RegistrationInterface {
         $index = $this->indexFromKeyParams($loginNameFk);
@@ -37,6 +32,15 @@ class RegistrationRepo extends RepoAbstract implements RegistrationRepoInterface
 
     public function getByReference($loginNameFk): ?EntityInterface {
         return $this->get($loginNameFk);
+    }
+
+    public function getByUid($uid): ?RegistrationInterface {
+        $row = $this->dao->getByUid($uid);
+        $index = $this->indexFromRow($row);
+        if (!isset($this->collection[$index])) {
+            $this->recreateEntity($index, $row);
+        }
+        return $this->collection[$index] ?? NULL;
     }
 
     public function add(RegistrationInterface $registration) {

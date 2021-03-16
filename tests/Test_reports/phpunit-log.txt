@@ -1,10 +1,8 @@
-Integration\Repository\LoginAggregateCredentialsRepository
+Integration\Repository\LoginAggregateRegistrationRepository
  [x] Set up
  [x] Get
+ [x] Get after remove
  [x] Add complete
  [x] Get after add complete
- [x] Add uncomplete
- [x] Get after add uncomplete
- [x] Set new credentials uncomplete
- [x] Get after set new credentials uncomplete
+ [x] Get by uid
 

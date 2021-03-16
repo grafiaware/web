@@ -1,4 +1,4 @@
-[debug] [2021-03-14 10:00:40] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/Hierarchy/Database.log. Mode 'w+'.
+[debug] [2021-03-15 23:12:11] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/Hierarchy/Database.log. Mode 'w+'.
 [debug] Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=localhost;port=3306;dbname=veletrhprace
 [debug] Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
     (

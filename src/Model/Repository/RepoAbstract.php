@@ -201,7 +201,8 @@ abstract class RepoAbstract {
 
     protected function removeEntity(EntityInterface $entity): void {
         if ($entity->isPersisted()) {
-            $this->removed[$this->indexFromEntity()] = $entity;
+            $index = $this->indexFromEntity($entity);
+            $this->removed[$index] = $entity;
             unset($this->collection[$index]);
         } else {   // smazání před uložením do db
             foreach ($this->new as $key => $new) {
