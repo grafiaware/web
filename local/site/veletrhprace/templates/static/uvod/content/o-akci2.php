@@ -16,5 +16,5 @@ use Pes\Text\Text;
                     škol, učilišť a univerzit.') ?>
             </p>
         </div>
-    </div>
+    </div> 
 </div>

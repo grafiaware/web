@@ -16,7 +16,7 @@ $text =
 
         kde to žije vzděláváním
 
-        a pracovními nabídkami!'
+        a pracovními nabídkami!' 
 ?>
 <div class="blok-sedy-nadpis-obr-text">
     <div class="ui two column grid ">

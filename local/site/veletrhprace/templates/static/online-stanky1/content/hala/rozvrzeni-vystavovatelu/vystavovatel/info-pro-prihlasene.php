@@ -8,4 +8,4 @@ use Pes\Text\Html;
 /** @var PaperAggregatePaperContentInterface $paperAggregate */
 ?>
 
-<i class="<?= $ikona ?> big popup icon link" data-content="<?= $dataContent ?>" data-variation="small"></i>
+<p class="text maly zadne-okraje"><i class="<?= $ikona ?> icon link"></i> <?= $popis ?> </p>

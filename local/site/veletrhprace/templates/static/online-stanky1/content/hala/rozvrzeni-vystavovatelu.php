@@ -8,7 +8,7 @@ use Pes\Text\Html;
 /** @var PaperAggregatePaperContentInterface $paperAggregate */
 ?>
 
-        <div class="stretched row equal width">
+        <div class="three column stretched row">
             <?= $this->repeat(__DIR__.'/rozvrzeni-vystavovatelu/vystavovatel.php', $radekVystavovatelu) ?>
         </div>
 

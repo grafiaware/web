@@ -14,7 +14,7 @@ use Pes\Text\Html;
             <div class="blokEL-horni-img photo-scroll show-on-scroll">
                 <img src="images/pan_s_pocitacem.jpg" width="670" height="500" alt="Obrázek"/>
             </div>
-        </div>
+        </div> 
         <div class="six wide column">
             <div class="blok-sedy-dole">
                 <p class="text tucne">
