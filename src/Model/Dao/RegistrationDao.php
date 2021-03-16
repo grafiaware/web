@@ -8,7 +8,7 @@ use Pes\Database\Handler\HandlerInterface;
  *
  * @author pes2704
  */
-class RegistrationDao extends DaoAbstract  implements DaoKeyDbVerifiedInterface{
+class RegistrationDao extends DaoAbstract {
 
     protected $dbHandler;
 
@@ -33,31 +33,37 @@ class RegistrationDao extends DaoAbstract  implements DaoKeyDbVerifiedInterface{
         return $this->selectOne($sql, [':login_name_fk' => $loginNameFK], TRUE);
     }
 
-//    public function insert($row) {
-//        $sql = "INSERT INTO registration (login_name_fk, password_hash, email, email_time, uid )
-//                VALUES (:login_name_fk, :password_hash, :email, :email_time, :uid  )";
-//        return $this->execInsert($sql, [':login_name_fk'=>$row['login_name_fk'],
-//                                        ':password_hash'=>$row['password_hash'],
-//                                        ':email'=>$row['email'],
-//                                        ':email_time'=>$row['email_time'],
-//                                        ':uid'=>$row['uid']    ]);
-//    }
-        
-    public function insertWithKeyVerification /*Unique*/ ($row) {      
+    public function getByUid($uid) {
+        $sql = "
+            SELECT `registration`.`login_name_fk`,
+                   `registration`.`password_hash`,
+                   `registration`.`email`,
+                   `registration`.`email_time`,
+                   `registration`.`uid`,
+                   `registration`.`created`
+            FROM
+                `registration`
+            WHERE
+                `registration`.`uid` = :uid";
+
+        return $this->selectOne($sql, [':uid' => $uid], TRUE);
+    }
+
+    public function insert /*Unique*/ ($row) {
         $dbhTransact = $this->dbHandler;
         try {
             $dbhTransact->beginTransaction();
             $uid = $this->getNewUidWithinTransaction($dbhTransact);
-           
+
             $stmt = $dbhTransact->prepare(
                         "INSERT INTO registration (login_name_fk, password_hash, email, email_time, uid )
                         VALUES (:login_name_fk, :password_hash, :email, :email_time, :uid  )" );
-            $stmt->bindParam(':login_name_fk', $row['login_name_fk'] ); 
-            $stmt->bindParam(':password_hash', $row['password_hash'] ); 
-            $stmt->bindParam(':email', $row['email'] );    
-            $stmt->bindParam(':email_time', $row['email_time'] );  
-            $stmt->bindParam(':uid', $uid);            
-            $stmt->execute();                  
+            $stmt->bindParam(':login_name_fk', $row['login_name_fk'] );
+            $stmt->bindParam(':password_hash', $row['password_hash'] );
+            $stmt->bindParam(':email', $row['email'] );
+            $stmt->bindParam(':email_time', $row['email_time'] );
+            $stmt->bindParam(':uid', $uid);
+            $stmt->execute();
                 /*** commit the transaction ***/
             $dbhTransact->commit();
         } catch(Exception $e) {
@@ -65,9 +71,9 @@ class RegistrationDao extends DaoAbstract  implements DaoKeyDbVerifiedInterface{
             throw new Exception($e);
         }
         return $uid;
-    }    
-        
-    /**     
+    }
+
+    /**
      * @param HandlerInterface $dbhTransact
      * @return type
      * @throws \LogicException Tuto metodu lze volat pouze v průběhu spuštěné databázové transakce.
@@ -78,7 +84,7 @@ class RegistrationDao extends DaoAbstract  implements DaoKeyDbVerifiedInterface{
                 $uid = uniqid();
                 $stmt = $dbhTransact->prepare(
                         "SELECT uid
-                        FROM registration 
+                        FROM registration
                         WHERE uid = :uid LOCK IN SHARE MODE");   //nelze použít LOCK TABLES - to commitne aktuální transakci!
                 $stmt->bindParam(':uid', $uid);
                 $stmt->execute();
@@ -89,17 +95,20 @@ class RegistrationDao extends DaoAbstract  implements DaoKeyDbVerifiedInterface{
         }
 
     }
-        
-         
-    
 
+    /**
+     * Update registration.
+     * login_name_fk, uid, created jsou readonly
+     *
+     * @param type $row
+     * @return type
+     */
     public function update($row) {
-        $sql = "UPDATE registration SET  password_hash = :password_hash, email = :email, email_time = :email_time, uid = :uid 
+        $sql = "UPDATE registration SET  password_hash = :password_hash, email = :email, email_time = :email_time
                 WHERE `login_name_fk` = :login_name_fk";
         return $this->execUpdate($sql, [ ':password_hash'=>$row['password_hash'],
                                          ':email'=>$row['email'],
                                          ':email_time'=>$row['email_time'],
-                                         ':uid'=>$row['uid'],
                                          ':login_name_fk'=>$row['login_name_fk']   ]);
     }
 

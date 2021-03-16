@@ -24,13 +24,13 @@ class Registration extends EntityAbstract implements RegistrationInterface {
      * @var \DateTime
      */
     private $emailTime;
-    
+
     /**
      *
      * @var string
      */
     private $uid;
-    
+
      /**
      * @var \DateTime
      */
@@ -88,7 +88,7 @@ class Registration extends EntityAbstract implements RegistrationInterface {
         return $this->email;
     }
 
-    public function setEmail(string $email):RegistrationInterface {
+    public function setEmail(string $email = null):RegistrationInterface {
         $this->email = $email;
         return $this;
     }
@@ -126,17 +126,17 @@ class Registration extends EntityAbstract implements RegistrationInterface {
         $this->created = $created;
         return $this;
     }
-    
-           
+
+
     /**
      *
      * @return string|null
      */
     public function getUid(): ?string {
         return $this->uid;
-    }    
+    }
     /**
-     * 
+     *
      * @param string $uid
      * @return RegistrationInterface
      */
@@ -144,5 +144,5 @@ class Registration extends EntityAbstract implements RegistrationInterface {
         $this->uid = $uid;
         return $this;
     }
-    
+
 }

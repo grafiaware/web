@@ -57,6 +57,7 @@ use Pes\Router\Router;
 // controller
 use Middleware\Login\Controller\LoginLogoutController;
 use Middleware\Login\Controller\RegistrationController;
+use Middleware\Login\Controller\ConfirmController;
 
 // status
 use StatusManager\StatusSecurityManager;
@@ -191,7 +192,15 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
                     $c->get(LoginAggregateCredentialsRepo::class),
                     $c->get(LoginAggregateRegistrationRepo::class),
                     $c->get(AuthenticatorInterface::class));
-            }
+            },
+            ConfirmController::class => function(ContainerInterface $c) {
+                return new ConfirmController(
+                    $c->get(StatusSecurityRepo::class),
+                    $c->get(StatusFlashRepo::class),
+                    $c->get(StatusPresentationRepo::class),
+                    $c->get(LoginAggregateCredentialsRepo::class),
+                    $c->get(RegistrationRepo::class));
+            }            
         ];
     }
 

@@ -1658,3 +1658,7 @@
 [info] http://localhost/
 [info] http://localhost/
 [info] http://localhost/
+[debug] [2021-03-15 23:12:11] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/App/RequestPathLogger.log. Mode 'a+'.
+[info] http://localhost/
+[info] http://localhost/
+[info] http://localhost/

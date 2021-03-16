@@ -41,7 +41,7 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/login'));
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/register'));
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/register1'));
-        $registry->register($this->getPrototype->withUrlPattern('/auth/v1/confirm'));
+        $registry->register($this->getPrototype->withUrlPattern('/auth/v1/confirm/:uid'));
         ### www ###
 
         $registry->register($this->getPrototype->withUrlPattern('/www/item/:langCode/:uid'));

@@ -21,20 +21,19 @@ use Container\DbOldContainerConfigurator;
 
 
 use Model\Dao\LoginDao;
-use Model\Dao\CredentialsDao;
-use Model\Repository\LoginAggregateCredentialsRepo;
+use Model\Dao\RegistrationDao;
+use Model\Repository\LoginAggregateRegistrationRepo;
 
-use Model\Entity\LoginAggregateCredentials;
-use Model\Entity\Credentials;
+use Model\Entity\LoginAggregateRegistration;
+use Model\Entity\Registration;
 
 use Model\Repository\Exception\UnableAddEntityException;
 
 /**
- * Description of MenuItemPaperRepositoryTest
  *
  * @author pes2704
  */
-class LoginAggregateCredentialsRepositoryTest extends TestCase {
+class LoginAggregateRegistrationRepositoryTest extends TestCase {
 
     private static $inputStream;
 
@@ -43,10 +42,11 @@ class LoginAggregateCredentialsRepositoryTest extends TestCase {
 
     /**
      *
-     * @var LoginAggregateCredentialsRepo
+     * @var LoginAggregateRegistrationRepo
      */
-    private $loginAggCredRepo;
+    private $loginAggRegRepo;
 
+    private $emailedUid;
 
     public static function mock(array $userData = []) {
         //Validates if default protocol is HTTPS to set default port 443
@@ -104,12 +104,11 @@ class LoginAggregateCredentialsRepositoryTest extends TestCase {
                     )
                 )
             );
-
+        /** @var RegistrationDao $registrationDao */
+        $registrationDao = $container->get(RegistrationDao::class);
         /** @var LoginDao $loginDao */
         $loginDao = $container->get(LoginDao::class);
-        $loginDao->insertWithKeyVerification(['login_name'=>"testLoginAggregate1"]);
-
-
+        $loginDao->insertWithKeyVerification(['login_name'=>"testLoginAggregateRegistration1"]);
     }
 
     protected function setUp(): void {
@@ -129,13 +128,12 @@ class LoginAggregateCredentialsRepositoryTest extends TestCase {
                 )
             );
 
-        $this->loginAggCredRepo = $this->container->get(LoginAggregateCredentialsRepo::class);
+        $this->loginAggRegRepo = $this->container->get(LoginAggregateRegistrationRepo::class);
     }
 
     protected function tearDown(): void {
-        $this->loginAggCredRepo->flush();
+        $this->loginAggRegRepo->flush();
     }
-
     public static function tearDownAfterClass(): void {
         $container =
             (new LoginContainerConfigurator())->configure(
@@ -146,58 +144,59 @@ class LoginAggregateCredentialsRepositoryTest extends TestCase {
                     )
                 )
             );
-        /** @var CredentialsDao $credentialsDao */
-        $credentialsDao = $container->get(CredentialsDao::class);
+        /** @var RegistrationDao $registrationDao */
+        $registrationDao = $container->get(RegistrationDao::class);
         /** @var LoginDao $loginDao */
         $loginDao = $container->get(LoginDao::class);
-        $credentialsDao->delete(['login_name_fk'=>"testLoginAggregate1"]);
+        $registrationDao->delete(['login_name_fk'=>"testLoginAggregate1"]);
         $loginDao->delete(['login_name'=>"testLoginAggregate1"]);
-        $credentialsDao->delete(['login_name_fk'=>"testLoginAggregate2"]);
+        $registrationDao->delete(['login_name_fk'=>"testLoginAggregate2"]);
         $loginDao->delete(['login_name'=>"testLoginAggregate2"]);
     }
 
     public function testSetUp() {
-        $this->assertInstanceOf(LoginAggregateCredentialsRepo::class, $this->loginAggCredRepo);
+        $this->assertInstanceOf(LoginAggregateRegistrationRepo::class, $this->loginAggRegRepo);
     }
 
     public function testGet() {
-        $loginAgg = $this->loginAggCredRepo->get("QWER45T6U7I89OPOLKJHGFD");
+        $loginAgg = $this->loginAggRegRepo->get("QWER45T6U7I89OPOLKJHGFD");
         $this->assertNull($loginAgg);
-        $loginAgg = $this->loginAggCredRepo->get("pes2704");
-        $this->assertInstanceOf(LoginAggregateCredentials::class, $loginAgg);
+        $loginAgg = $this->loginAggRegRepo->get("testLoginAggregate1");
+        $this->assertInstanceOf(LoginAggregateRegistration::class, $loginAgg);
     }
 
     ###### complete aggregate ################
 
     public function testAddComplete() {
-        $loginAgg = new LoginAggregateCredentials();
-        $loginAgg->setLoginName("testLoginAggregate1");
-        $credentials = new Credentials();
-        $credentials->setLoginNameFk("testLoginAggregate1");
-        $credentials->setPasswordHash("testHeslo");
-        $loginAgg->setCredentials($credentials);
-        $this->loginAggCredRepo->add($loginAgg);
-        $this->loginAggCredRepo->flush();
+        $loginAgg = new LoginAggregateRegistration();
+        $loginAgg->setLoginName("testLoginAggregateRegistration1");
+        $registration = new Registration();
+        $registration->setLoginNameFk("testLoginAggregateRegistration1");
+        $registration->setPasswordHash("testHeslo");
+        $registration->setEmail("test.email@mejl.cz");
+        $loginAgg->setRegistration($registration);
+        $this->loginAggRegRepo->add($loginAgg);
+        $this->loginAggRegRepo->flush();
         $this->assertTrue($loginAgg->isPersisted(), 'LoginAggregate není persistován.');
-        $this->assertTrue($credentials->isPersisted(), 'Credentials není persistován.');
+        $this->assertTrue($registration->isPersisted(), 'Registration není persistován.');
     }
 
     public function testGetAfterAddComplete() {
-        $loginAgg = $this->loginAggCredRepo->get("testLoginAggregate1");
-        $this->assertInstanceOf(LoginAggregateCredentials::class, $loginAgg);
+        $loginAgg = $this->loginAggRegRepo->get("testLoginAggregateRegistration1");
+        $this->assertInstanceOf(LoginAggregateRegistration::class, $loginAgg);
     }
 
     ###### uncomplete aggregate ################
 
     public function testAddUncomplete() {
-        $loginAgg = new LoginAggregateCredentials();
-        $loginAgg->setLoginName("testLoginAggregate2");
-        $this->loginAggCredRepo->add($loginAgg);
+        $loginAgg = new LoginAggregateRegistration();
+        $loginAgg->setLoginName("testLoginAggregateRegistration2");
+        $this->loginAggRegRepo->add($loginAgg);
         $this->assertTrue($loginAgg->isPersisted());
     }
 
 //    public function testAddDuplicateAfterAdd() {
-//        $loginAgg = new LoginAggregateCredentials();
+//        $loginAgg = new LoginAggregateRegistration();
 //
 //        $this->expectException(UnableAddEntityException::class);
 //        $this->loginAggCredRepo->add($loginAgg);
@@ -205,26 +204,34 @@ class LoginAggregateCredentialsRepositoryTest extends TestCase {
 //    }
 
     public function testGetAfterAddUncomplete() {
-        $loginAgg = $this->loginAggCredRepo->get("testLoginAggregate2");
-        $this->assertInstanceOf(LoginAggregateCredentials::class, $loginAgg);
+        $loginAgg = $this->loginAggRegRepo->get("testLoginAggregateRegistration2");
+        $this->assertInstanceOf(LoginAggregateRegistration::class, $loginAgg);
     }
 
-    public function testSetNewCredentialsUncomplete() {
-        /** @var LoginAggregateCredentials $loginAgg */
-        $loginAgg = $this->loginAggCredRepo->get("testLoginAggregate2");
-        $credentials = new Credentials();
-        $credentials->setLoginNameFk($loginAgg->getLoginName());
-        $credentials->setPasswordHash("testHeslo");
-        $loginAgg->setCredentials($credentials);
+    public function testSetNewRegistrationUncomplete() {
+        /** @var LoginAggregateRegistration $loginAgg */
+        $loginAgg = $this->loginAggRegRepo->get("testLoginAggregateRegistration2");
+        $registration = new Registration();
+        $registration->setLoginNameFk($loginAgg->getLoginName());
+        $registration->setPasswordHash("testHeslo");
+        $registration->setEmail("test.email@mejl.cz");
+        $loginAgg->setRegistration($registration);
         // nesmyslný assert - jen proto, aby test nebyl risky. Potřebné operace proběhnou až při volání flush (v tearDown())
-        $this->assertInstanceOf(Credentials::class, $loginAgg->getCredentials());
+        $this->assertInstanceOf(Registration::class, $loginAgg->getRegistration());
     }
 
-    public function testGetAfterSetNewCredentialsUncomplete() {
-        /** @var LoginAggregateCredentials $loginAgg */
-        $loginAgg = $this->loginAggCredRepo->get("testLoginAggregate2");
-        $this->assertInstanceOf(LoginAggregateCredentials::class, $loginAgg);
-        $this->assertInstanceOf(Credentials::class, $loginAgg->getCredentials());
+    public function testGetAfterSetNewRegistrationUncomplete() {
+        /** @var LoginAggregateRegistration $loginAgg */
+        $loginAgg = $this->loginAggRegRepo->get("testLoginAggregateRegistration2");
+        $this->assertInstanceOf(LoginAggregateRegistration::class, $loginAgg);
+        $this->assertInstanceOf(Registration::class, $loginAgg->getRegistration());
+        $this->emailedUid = $loginAgg->getRegistration()->getUid();
+        $this->assertTrue(is_string($this->emailedUid));
+    }
 
+    public function testGetByUid() {
+        $loginAgg = $this->loginAggRegRepo->getByUid($this->emailedUid);
+        $this->assertInstanceOf(LoginAggregateRegistration::class, $loginAgg);
+        $this->assertInstanceOf(Registration::class, $loginAgg->getRegistration());
     }
 }

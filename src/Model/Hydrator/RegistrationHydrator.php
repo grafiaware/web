@@ -5,7 +5,6 @@ namespace Model\Hydrator;
 use Model\Entity\EntityInterface;
 use Model\Entity\RegistrationInterface;
 
-
 class RegistrationHydrator implements HydratorInterface {
 
     /**
@@ -21,9 +20,8 @@ class RegistrationHydrator implements HydratorInterface {
             ->setEmail($row['email'] )
             ->setEmailTime( isset($row['email_time']) ? \DateTime::createFromFormat('Y-m-d H:i:s', $row['email_time']) : NULL)
             ->setUid($row['uid'] )
-            ->setCreated($row['created'] ? \DateTime::createFromFormat('Y-m-d H:i:s', $row['created']) : NULL) ;               
+            ->setCreated($row['created'] ? \DateTime::createFromFormat('Y-m-d H:i:s', $row['created']) : NULL) ;
     }
-
 
     /**
      *
@@ -36,8 +34,7 @@ class RegistrationHydrator implements HydratorInterface {
         $row['password_hash'] = $registration->getPasswordHash();
         $row['email'] = $registration->getEmail();
         $row['email_time'] = $registration->getEmailTime() ? $registration->getEmailTime()->format('Y-m-d H:i:s') : NULL ;
-        $row['uid'] = $registration->getUid();
-        // created je timestamp - readonly
+        // uid generován dao při insert, created je timestamp - readonly
     }
 
 }

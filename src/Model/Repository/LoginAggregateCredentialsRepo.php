@@ -41,13 +41,9 @@ class LoginAggregateCredentialsRepo extends LoginRepo implements RepoAggregateIn
     }
 
     public function add(LoginInterface $loginAggregate) {
-        /** @var LoginAggregateCredentialsInterface $loginAggregate */
         $this->addEntity($loginAggregate);
-//        $this->addAssociated($loginAggregate); //add($loginAggregate->getCredentials()); <- do repo abstract
     }
     public function remove(LoginInterface $loginAggregate) {
-        /** @var LoginAggregateCredentialsInterface $loginAggregate */
-//        $this->removeAssociated($loginAggregate); //add($loginAggregate->getCredentials()); <- do repo abstract
         $this->removeEntity($loginAggregate);
     }
 }

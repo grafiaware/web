@@ -3,6 +3,7 @@ namespace Middleware\Login;
 
 use Middleware\Login\Controller\LoginLogoutController;
 use Middleware\Login\Controller\RegistrationController;
+use Middleware\Login\Controller\ConfirmController;
 
 use Pes\Middleware\AppMiddlewareAbstract;
 use Pes\Container\Container;
@@ -68,10 +69,10 @@ class Login extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(RegistrationController::class);
             return $ctrl->register1($request);
             });
-        $routeGenerator->addRouteForAction('GET', '/auth/v1/confirm', function(ServerRequestInterface $request) {
-            /** @var RegistrationController $ctrl */
-            $ctrl = $this->container->get(RegistrationController::class);
-            return $ctrl->confirm($request);
+        $routeGenerator->addRouteForAction('GET', '/auth/v1/confirm/:uid', function(ServerRequestInterface $request, $uid) {
+            /** @var ConfirmController $ctrl */
+            $ctrl = $this->container->get(ConfirmController::class);
+            return $ctrl->confirm($request, $uid);
             });
 
         /** @var $router RouterInterface */
