@@ -94,9 +94,7 @@ class RegistrationController extends StatusFrontControllerAbstract
                      // ulozit udaje do tabulky, do registration + cas: do kdy je cekano na potvrzeni registrace
                      // protoze musi byt rezervace jmena nez potvrdi v mailu
                      //
-                     // zobrazit "Dekujeme za Vasi registraci. Na vas email jsme vam odeslali odkaz, kterym registraci dokoncite. Odkaz je aktivni x hodin."
-                     // poslat email s jmeno, heslo , +  "do x hodin potvrdte"
-                     // potvrzenim = klikem na odkaz v mailu  se provede confirm()
+                     // zobrazit "Dekujeme za Vasi registraci. Na vas email jsme vam odeslali odkaz, kterym registraci dokoncite. Odkaz je aktivni x hodin."      
                      // jeste jeden mail "Registrace dokoncena."
 
                     //verze 1
@@ -114,12 +112,13 @@ class RegistrationController extends StatusFrontControllerAbstract
                         $this->loginAggregateRegistrationRepo->add($loginAggregateRegistrationEntity);
                     } catch (UnableAddEntityException $unableExc){
                         //dej nové jméno.
-                        $this->addFlashMessage("Záznam se zadaným jménem jiz existuje. Zadejte jiné jméno!");
+                        $this->addFlashMessage("Záznam se zadaným jménem již existuje. Zadejte jiné jméno!");
                     }  
                     
                     
-                    //poslat mail ????
-                    $this->addFlashMessage("Děkujeme za Vaši registraci. Na Vámi zadanou adresu jsme odeslali e-mail. \n Klikněte, prosím, na potvrzovací odkaz v mailové zprávě a registraci dokončete. Odkaz je aktivní následující 3 hodiny.");
+                    //poslat **mail** 
+                    $this->addFlashMessage("Děkujeme za Vaši registraci. Na Vámi zadanou adresu jsme odeslali e-mail s potvrzovacím odkazem. \n"
+                              . "Klikněte, prosím, na potvrzovací odkaz v mailové zprávě a registraci dokončete. (Odkaz je aktivní následující 3 hodiny.)");
                  }
 
             }
