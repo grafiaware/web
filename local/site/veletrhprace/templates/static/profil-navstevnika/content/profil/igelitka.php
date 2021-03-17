@@ -16,17 +16,6 @@ use Pes\Text\Html;
             </div>
             <div class="content">
                 <div class="ui three column grid centered">
-                    <div class="column center aligned">
-                        <div class="letak-stanku">
-                            <img src="images/letak-na-prednasku.jpg" alt="leták" width="" height="300" />
-                            <p style="text-align: center;"><a href="download/letak-na-prednasku.pdf" download="Leták1"> Stáhnout leták</a></p>
-                        </div>
-                    </div>
-                    <div class="column center aligned">
-                        <div class="letak-stanku">
-                            <img src="images/moje-budoucnost-letakA5.jpg" alt="leták" width="" height="300" />
-                            <p style="text-align: center;"><a href="download/moje-budoucnost-letakA5.pdf" download="Leták2"> Stáhnout leták</a></p>
-                        </div>
-                    </div>
+                    <?= $this->repeat(__DIR__.'/igelitka/letak.php', $letak) ?>
                 </div>
             </div>

@@ -15,6 +15,8 @@ use Pes\Text\Text;
         </div>
         <div class="eight wide column"><a href="www/item/cs/604bcc5b3c5d7" class="ui primary fluid massive button">Zobrazit přednášky</a></div>
         <div class="eight wide column"><a href="www/item/cs/604bd0e2e440d" class="ui primary fluid massive button">Zobrazit poradny</a></div>
+        <div class="eight wide column"><a href="" class="ui primary fluid massive button disabled">Online stánky podniků (až&nbsp;od&nbsp;29.&nbsp;3.)</a></div>
+        <div class="eight wide column"><a href="" class="ui primary fluid massive button disabled">Seznam nabízených pozic (až&nbsp;od&nbsp;29.&nbsp;3.)</a></div>
 <!--        <div class="sixteen wide column">
                 <p class="text tucne">
                     <?
