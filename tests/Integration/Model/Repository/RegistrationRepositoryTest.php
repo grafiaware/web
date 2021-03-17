@@ -43,7 +43,7 @@ class LoginAggregateRegistrationRepositoryTest extends TestCase {
      */
     private $registrationRepo;
 
-    static $emailedUid;
+    static $uidForEmail;
 
     public static function mock(array $userData = []) {
         //Validates if default protocol is HTTPS to set default port 443
@@ -166,13 +166,17 @@ class LoginAggregateRegistrationRepositoryTest extends TestCase {
         $this->assertInstanceOf(RegistrationRepo::class, $this->registrationRepo);
     }
 
-    public function testGet() {
-        $loginAgg = $this->registrationRepo->get("QWER45T6U7I89OPOLKJHGFD");
-        $this->assertNull($loginAgg);
-        $loginAgg = $this->registrationRepo->get("testRegistration");
-        $this->assertInstanceOf(Registration::class, $loginAgg);
+    public function testGetNonExisted() {
+        $registration = $this->registrationRepo->get("QWER45T6U7I89OPOLKJHGFD");
+        $this->assertNull($registration);
+    }
 
-        $loginAgg = $this->registrationRepo->remove($loginAgg);
+    public function testGetAndRemoveAfterSetup() {
+        $registration = $this->registrationRepo->get("testRegistration");
+        $this->assertInstanceOf(Registration::class, $registration);
+
+        $registration = $this->registrationRepo->remove($registration);
+        $this->assertNull($registration);
     }
 
     public function testGetAfterRemove() {
@@ -180,25 +184,46 @@ class LoginAggregateRegistrationRepositoryTest extends TestCase {
         $this->assertNull($loginAgg);
     }
 
-    public function testAddComplete() {
+    public function testAdd() {
+        $registration = new Registration();
+        $registration->setLoginNameFk("testRegistration");
+        $registration->setPasswordHash("testHeslo");
+        $registration->setEmail("test.email@mejl.cz");
+        $this->registrationRepo->add($registration);
+        $this->assertTrue($registration->isLocked(), 'Registration není zamčena po add.');
+    }
+
+    public function testGetAfterAdd() {
+        $registration = $this->registrationRepo->get("testRegistration");
+        $this->assertInstanceOf(Registration::class, $registration);
+        $this->assertTrue(is_string($registration->getUid()));
+        $this->assertInstanceOf(\DateTime::class, $registration->getCreated());
+        self::$uidForEmail = $registration->getUid();
+        $this->assertTrue(is_string(self::$uidForEmail));
+    }
+
+    public function testGetByUid() {
+        $registration = $this->registrationRepo->getByUid(self::$uidForEmail);
+        $this->assertInstanceOf(Registration::class, $registration);
+    }
+
+    public function testGetAndRemoveAfterAdd() {
+        $registration = $this->registrationRepo->get("testRegistration");
+        $this->registrationRepo->remove($registration);
+        $this->assertTrue($registration->isLocked(), 'Registration není zamčena po remove.');
+    }
+
+    public function testAddAndReread() {
         $registration = new Registration();
         $registration->setLoginNameFk("testRegistration");
         $registration->setPasswordHash("testHeslo");
         $registration->setEmail("test.email@mejl.cz");
         $this->registrationRepo->add($registration);
         $this->registrationRepo->flush();
+        $registration = $this->registrationRepo->get($registration->getLoginNameFk());
         $this->assertTrue($registration->isPersisted(), 'Registration není persistován.');
+        $this->assertTrue(is_string($registration->getUid()));
+        $this->assertInstanceOf(\DateTime::class, $registration->getCreated());
     }
 
-    public function testGetAfterAddComplete() {
-        $registration = $this->registrationRepo->get("testRegistration");
-        $this->assertInstanceOf(Registration::class, $registration);
-        self::$emailedUid = $registration->getUid();
-        $this->assertTrue(is_string(self::$emailedUid));
-    }
-
-    public function testGetByUid() {
-        $registration = $this->registrationRepo->getByUid(self::$emailedUid);
-        $this->assertInstanceOf(Registration::class, $registration);
-    }
 }

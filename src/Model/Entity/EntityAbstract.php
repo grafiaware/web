@@ -15,8 +15,9 @@ namespace Model\Entity;
  */
 abstract class EntityAbstract {
 
-    private $persisted = FALSE;
+    private $persisted = false;
 
+    private $locked = false;
     /**
      *
      * @return \Model\Entity\EntityInterface
@@ -39,7 +40,16 @@ abstract class EntityAbstract {
      *
      * @return bool
      */
-    public function isPersisted() {
+    public function isPersisted(): bool {
         return $this->persisted;
+    }
+
+    public function lock(): EntityInterface {
+        $this->locked = true;
+        return $this;
+    }
+
+    public function isLocked(): bool {
+        return $this->locked;
     }
 }

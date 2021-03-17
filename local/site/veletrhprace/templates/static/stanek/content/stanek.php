@@ -11,7 +11,7 @@ use Pes\Text\Html;
                         <div class="video-na-stanku">
                             <content>
                                 <video width="380" height="" <?= Html::attributes($videoAttributes) ?> controls> <!-- u atributu poster nestacilo images/nazev.pripona -->
-                                    <source src="<?= $videoSourceSrc?>" type="video/mp4">
+                                    <source src="<?= $videoSourceSrc?>" type="movie/mp4">
                                 </video>
                             </content>
                         </div>
@@ -30,18 +30,18 @@ use Pes\Text\Html;
                                 </div>
                                 <div class="buttony-mimo-stanek">
                                     <content>
-                                        <?php include "sluzby/pracovni-pozice.php" ?> 
-                                        <?php include "sluzby/prezentace.php" ?> 
-                                        <?php include "sluzby/pohovor.php" ?> 
-                                        <?php include "sluzby/chatujte.php" ?> 
-                                        <?php include "sluzby/kontakt.php" ?> 
+                                        <?php include "sluzby/pracovni-pozice.php" ?>
+                                        <?php include "sluzby/prezentace.php" ?>
+                                        <?php include "sluzby/pohovor.php" ?>
+                                        <?php include "sluzby/chatujte.php" ?>
+                                        <?php include "sluzby/kontakt.php" ?>
                                     </content>
                                 </div>
                             </div>
                             <div class="sixteen wide column">
                                 <div class="buttony-na-stanku">
-                                    <content> 
-                                         <?php include "sluzby/letaky.php" ?> 
+                                    <content>
+                                         <?php include "sluzby/letaky.php" ?>
                                     </content>
                                 </div>
                             </div>
