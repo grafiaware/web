@@ -3,11 +3,11 @@
 namespace Middleware\Login\Controller;
 
 use Site\Configuration;
+use Mail\Mail;
 
 use Psr\Http\Message\ServerRequestInterface;
 
 use Pes\Http\Request\RequestParams;
-use Security\Auth\AuthenticatorInterface;
 use Pes\Security\Password\Password;
 
 use Controller\StatusFrontControllerAbstract;
@@ -58,15 +58,20 @@ class PasswordController extends StatusFrontControllerAbstract {
                 $loginAggregateCredentialsEntity = $this->loginAggregateCredentialsRepo->get($loginJmeno);
                 
                 if (isset ($loginAggregateCredentialsEntity) ) {
-                    $generatedPassword = 'bflm';
+                    $generatedPassword = $this->generatePassword();
                     $hashedGeneratedPassword = ( new Password())->getPasswordHash($generatedPassword);
-                    $credentials = $loginAggregateCredentialsEntity->getCredentials()->setPasswordHash( $hashedGeneratedPassword);
+                    $credentials = $loginAggregateCredentialsEntity->getCredentials()->setPasswordHash( $hashedGeneratedPassword );
                     $loginAggregateCredentialsEntity->setCredentials($credentials);
 
                     //**mail**
                     // Děkujeme za zaslaný požadavek na vygenerování nového hesla.
                     // Vaše nové přihlašovací údaje jsou:
-                    // Jméno :  $loginJmeno     Heslo: $generatedPassword
+                    // Jméno :  $loginJmeno     Heslo: $generatedPassword          
+                    $mail = new Mail();
+                    $mail->mail('body_forgottenPassword');
+
+                    
+                    $this->addFlashMessage("Na Váš email.adresu jsme odeslali nové přihlašovací údaje.");
                     /*nebude*/    $this->addFlashMessage("Vaše nové přihlašovací údaje jsou:\n Jméno :  $loginJmeno \n    Heslo: $generatedPassword ");
                 }
                 else {
@@ -81,6 +86,24 @@ class PasswordController extends StatusFrontControllerAbstract {
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
     
+    
+    
+    
+    private function generatePassword () {
+        $length = 8;
+        $emailPattern = "(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{".$length.",}";
+        //Heslo musí obsahovat nejméně jedno velké písmeno, jedno malé písmeno a jednu číslici. Jiné znaky než písmena a číslice nejsou povoleny. Délka musí být nejméně 8 znaků.";
+
+        $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789';  // bez nuly
+        $count = 0;
+        do {
+            $psw = substr(str_shuffle(str_repeat($chars,$length)),0,$length);
+            $ok = preg_match("/$emailPattern/", $psw);
+            $count++;
+        } while (!$ok);
+        
+        return $psw;
+    }
 
 
     public function changePassword(ServerRequestInterface $request) {
@@ -95,7 +118,16 @@ class PasswordController extends StatusFrontControllerAbstract {
 
             $loginAggregateCredentialsEntity = $this->loginAggregateCredentialsRepo->get($loginJmeno);
             if (  (isset ($loginAggregateCredentialsEntity) )  AND $changedPassword ) {
-                $loginAggregateCredentialsEntity
+                
+                $hashedChangedPassword = ( new Password())->getPasswordHash( $changeHeslo );
+                $credentials = $loginAggregateCredentialsEntity->getCredentials()->setPasswordHash( $hashedChangedPassword );
+                $loginAggregateCredentialsEntity->setCredentials($credentials);
+                                
+                // Vaše Heslo bylo změněno.
+                $this->addFlashMessage("Vaše heslo bylo změněno.");   
+            }
+            else {
+                 $this->addFlashMessage("Neplatné jméno!");
             }
             
         }

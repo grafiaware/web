@@ -3,6 +3,7 @@
 namespace Middleware\Login\Controller;
 
 use Site\Configuration;
+use Mail\Mail;
 
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -77,7 +78,9 @@ class ConfirmController extends StatusFrontControllerAbstract
                         $loginAggregateCredentialsEntity->setCredentials($credentials);                         
                         /* nebude */$this->addFlashMessage( "* nebude * \n Potvrzeno, Vaše registrace byla dokončena.");
                         // **mail** !!!!
-                        //Vaše registrace byla dokončena. Vaši registraci. Děkujeme Vám za spolupráci.
+                        //Vaše registrace byla dokončena. Děkujeme Vám za spolupráci.
+                        $mail = new Mail();
+                        $mail->mail('body_confirm');
                     }
                     else {
                         // chyba Již bylo zaregistrováno a potvrzeno.
