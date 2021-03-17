@@ -14,8 +14,8 @@ use Site\Configuration;
                 </div>
                 <div class="ui input">
                     <input type="password" name="<?=Configuration::loginLogoutControler()['fieldNameHeslo']?>" placeholder="Heslo"
-                           pattern="<?=Configuration::loginLogoutControler()['emailPattern']?>"
-                           title ="<?=Configuration::loginLogoutControler()['emailInfo']?>"
+                           pattern="<?=Configuration::loginLogoutControler()['passwordPattern']?>"
+                           title ="<?=Configuration::loginLogoutControler()['passwordInfo']?>"
                            required >
                 </div>
                 <div class="ui input">

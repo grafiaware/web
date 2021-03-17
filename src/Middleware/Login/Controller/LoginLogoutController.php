@@ -64,15 +64,18 @@ class LoginLogoutController extends StatusFrontControllerAbstract {
             $fieldNameHeslo = Configuration::loginLogoutControler()['fieldNameHeslo'];
             $loginJmeno = $requestParams->getParsedBodyParam($request, $fieldNameJmeno, FALSE);
             $loginHeslo = $requestParams->getParsedBodyParam($request, $fieldNameHeslo, FALSE);
+           
             if ($loginJmeno AND $loginHeslo) {
                 $loginAggregateEntity = $this->loginAggregateRepo->get($loginJmeno);
-                if (isset($loginAggregateEntity) AND $this->authenticator->authenticate($loginAggregateEntity, $loginHeslo)) {  // z databáze
-                    $this->statusSecurityRepo->get()->renewSecurityStatus($loginAggregateEntity);
-                    $this->addFlashMessage("Hurá! - Jste přihlášeni.");
-                }
-                else {
-                    $this->addFlashMessage("Neplatné přihlášení!");
-                }
+                
+                    if (isset($loginAggregateEntity) AND $this->authenticator->authenticate($loginAggregateEntity, $loginHeslo)) {  // z databáze
+                        $this->statusSecurityRepo->get()->renewSecurityStatus($loginAggregateEntity);
+                        $this->addFlashMessage("Jste přihlášeni.");
+                    }
+                    else {
+                        $this->addFlashMessage("Neplatné přihlášení!");
+                    }
+                
             }
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
@@ -82,7 +85,7 @@ class LoginLogoutController extends StatusFrontControllerAbstract {
         $logout = (new RequestParams())->getParsedBodyParam($request, 'logout', FALSE);
         if ($logout) {
             $this->removeLoggedUser();  // bez parametru User
-            $this->addFlashMessage("Pápá...");           
+            $this->addFlashMessage("Jste odhlášeni.");           
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
 

@@ -1,11 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Middleware\Login\Controller;
 
 use Site\Configuration;
@@ -89,15 +83,11 @@ class RegistrationController extends StatusFrontControllerAbstract
                  
                 if ( isset($loginAggregateRegistrationEntity) ) {
                     $this->addFlashMessage("Záznam se zadaným jménem jiz existuje. Zadejte jiné jméno!");
-                } else {
-                     //verze 2
+                } else {                    
                      // ulozit udaje do tabulky, do registration + cas: do kdy je cekano na potvrzeni registrace
-                     // protoze musi byt rezervace jmena nez potvrdi v mailu
-                     //
+                     // protoze musi byt rezervace jmena nez potvrdi v mailu                    
                      // zobrazit "Dekujeme za Vasi registraci. Na vas email jsme vam odeslali odkaz, kterym registraci dokoncite. Odkaz je aktivni x hodin."      
-                     // jeste jeden mail "Registrace dokoncena."
-
-                    //verze 1
+                     // jeste jeden mail v Confirm()  "Registrace dokoncena."                 
 
                     $registration = new Registration();
                     $registration->setLoginNameFk($registerJmeno);
@@ -113,10 +103,11 @@ class RegistrationController extends StatusFrontControllerAbstract
                     } catch (UnableAddEntityException $unableExc){
                         //dej nové jméno.
                         $this->addFlashMessage("Záznam se zadaným jménem již existuje. Zadejte jiné jméno!");
-                    }  
-                    
+                    }                      
                     
                     //poslat **mail** 
+                    // "Děkujeme za Vaši registraci. Na tento mail neodpovídejte.
+                    // "Kliknutím na níže uvedený odkaz dokončíte svoji registraci. Odkaz je aktivní po dobu následujících 3 hodin."
                     $this->addFlashMessage("Děkujeme za Vaši registraci. Na Vámi zadanou adresu jsme odeslali e-mail s potvrzovacím odkazem. \n"
                               . "Klikněte, prosím, na potvrzovací odkaz v mailové zprávě a registraci dokončete. (Odkaz je aktivní následující 3 hodiny.)");
                  }
