@@ -7,5 +7,5 @@ use Pes\Text\Text;
 /** @var PaperAggregatePaperContentInterface $paperAggregate */
 ?>
 
-<p class=""><?= Text::mono('Poznejte svého budoucího zaměstnavatele na našich online stáncích.') ?></p>
+<p class=""><?= Text::mono($perex) ?></p>
 

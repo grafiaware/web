@@ -9,4 +9,4 @@ use Pes\Text\Html;
 
 ?>
 
-                <span><i class="big <?= $ikonaChatu ?> grey icon"></i></span>
+                <span class="btn-56"><i class="big <?= $ikonaChatu ?> grey icon"></i></span>

@@ -13,14 +13,8 @@
         <div class="ui three column grid centered">
             <div class="column center aligned">
                 <div class="letak-stanku">
-                    <img src="images/letak-na-prednasku.jpg" alt="leták" width="" height="200" />
-                    <p style="text-align: center;"><a href="download/letak-na-prednasku.pdf" download="Leták1"> Stáhnout leták</a></p>
-                </div>
-            </div>
-            <div class="column center aligned">
-                <div class="letak-stanku">
-                    <img src="images/moje-budoucnost-letakA5.jpg" alt="leták" width="" height="200" />
-                    <p style="text-align: center;"><a href="download/moje-budoucnost-letakA5.pdf" download="Leták1"> Stáhnout leták</a></p>
+                    <img src="_www_vp_files/static/konplan/poster/letak1-obr.jpg" alt="leták" width="" height="200" />
+                    <p style="text-align: center;" class="text maly"><a href="_www_vp_files/static/konplan/poster/letak1-pdf.pdf" download="Leták Konplan"> Stáhnout leták</a></p>
                 </div>
             </div>
         </div>

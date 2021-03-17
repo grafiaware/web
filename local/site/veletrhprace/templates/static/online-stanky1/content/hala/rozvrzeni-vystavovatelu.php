@@ -11,4 +11,7 @@ use Pes\Text\Html;
         <div class="three column stretched row">
             <?= $this->repeat(__DIR__.'/rozvrzeni-vystavovatelu/vystavovatel.php', $radekVystavovatelu) ?>
         </div>
+        <div class="three column stretched row">
+            <?= $this->repeat(__DIR__.'/rozvrzeni-vystavovatelu/vystavovatel1.php', $radekVystavovatelu) ?>
+        </div>
 

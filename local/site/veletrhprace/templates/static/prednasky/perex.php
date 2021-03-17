@@ -11,7 +11,7 @@ use Pes\Text\Html;
     '
 Další přednášky průběžně doplňujeme, koukněte sem za pár dnů!
 
-Přednášky můžete i opakovaně shlédnout na našem youtube kanálu. Odkaz a konkrétní čas najdete zde po 20. 3. 2021
+Přednášky můžete i opakovaně zhlédnout na našem youtube kanálu. Odkaz a konkrétní čas najdete zde po 20. 3. 2021
 ';
 
     echo Html::p(Text::mono($text), ["class"=>"velky text"])

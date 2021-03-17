@@ -3,6 +3,81 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Model\Entity\PaperAggregatePaperContentInterface;
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregatePaperContentInterface $paperAggregate */
+
+
+$pracovniPozice = [
+    [
+        'nazev' => 'Operátor výroby',
+        'kategorie1' => 'výroba/dělnická',
+        'kategorie2' => '',
+        'mistoVykonu' => 'Rakovník',
+        'vzdelani' => 'Bez omezení',
+        'popisPozice' => 'Práce v čistém a nehlučném prostředí. Montáž klimatizačních jednotek a kontrolních panelú do aut.',
+        'pozadujeme' => [
+            'základní vzdělání',
+            'manuální zručnost',
+            'ochotu učit se novým věcem',
+            'spolehlivost',
+        ],
+        'nabizime' => [
+            'nástupní mzdu 23500 Kč, průměrnou mzdu s příplatky za směny až 30000 Kč měsíčně',
+            '6 týdnů dovolené',
+            'Měsíční a pololetní bonus',
+            'Podporu mobility (náhrada výdajů na dojíždění)',
+            'Příspěvek na penzijní připojištění 5 % z hrubé mzdy',
+            'Dotovanou kantýnu',
+            'Příspěvek na volnočasové aktivity ve formě poukázek FlexiPass',
+            'Svozovou dopravu zdarma',
+        ]
+    ],
+    [
+        'nazev' => 'Operátor výroby',
+        'kategorie1' => 'výroba/dělnická',
+        'kategorie2' => 'technická',
+        'mistoVykonu' => 'Humpolec',
+        'vzdelani' => 'Bez omezení',
+        'popisPozice' => 'Práce v čistém a nehlučném prostředí. Montáž kompresorů klimatizace do aut.',
+        'pozadujeme' => [
+            'základní vzdělání',
+            'manuální zručnost',
+            'ochotu učit se novým věcem',
+            'spolehlivost',
+        ],
+        'nabizime' => [
+            'nástupní mzdu 20500 Kč, průměrnou mzdu s příplatky za směny až 25500 Kč měsíčně',
+            '6 týdnů dovolené',
+            'Měsíční a pololetní bonus',
+            'Příspěvek na penzijní připojištění 5 % z hrubé mzdy',
+            'Dotovanou kantýnu',
+            'Příspěvek na volnočasové aktivity ve formě poukázek FlexiPass',
+            'Svozovou dopravu zdarma',
+        ]
+    ],
+    [
+        'nazev' => 'Systémový inženýr - produkty pro elektromobily',
+        'kategorie1' => 'technická',
+        'kategorie2' => '',
+        'mistoVykonu' => 'Praha',
+        'vzdelani' => 'VŠ',
+        'popisPozice' => 'Ve vývojovém centru Valeo v Praze navrhujeme klimatizační jednotky do aut již od roku 2002.
+                          V roce 2020 vznikl v Praze nový vývojový tým zabývající se vysokonapěťovými komponenty do klimatizací elektromobilů a do systému chlazení jejich baterií. Tito mechaničtí, testovací a systémoví inženýři posílají své vyvinuté díly do 28 výrobních závodů po celém světě. Blíže pak spolupracují s vývojovým centrem ve francouzském La Verrière. Své projekty si řídí sami a vzhledem k inovativnosti jejich produktů jsou průkopníky na trhu elektromobility.',
+        'pozadujeme' => [
+            'vysokoškolské vzdělání v oblasti elektroniky',
+            'zkušenost se systémovým inženýrstvím nebo s vývojem elektronických součástek',
+            'angličtinu na komunikativní úrovni',
+        ],
+        'nabizime' => [
+            '6 týdnů dovolené',
+            'Možnost home-office',
+            'Bonusy závislé na výsledcích týmu',
+            'Podporu mobility (náhrada výdajů na dojíždění, stěhování, dočasné ubytování)',
+            'Příspěvek na penzijní připojištění 5 % z hrubé mzdy',
+            'Stravenky a výbornou kantýnu',
+            'Příspěvek na volnočasové aktivity ve formě poukázek FlexiPass nebo Multisport karty',
+            'Technická a jazyková školení',
+        ]
+    ]
+]
 ?>
 
 <article class="paper">

@@ -9,22 +9,21 @@ use Pes\Text\Html;
 ?>
 
             <div class="column">
-                <div class="ui segment">
+                <div class="ui violet segment">
                     <section>
                         <form>
                             <content>
-                                <p class="text velky vlevo"><a class="" href="<?= $stanekVystavovateleOdkaz ?>" target="_blank"><?= $nazevVystavovatele ?></a></p>
+                                <div style="text-align: center;">
+                                    <a class="logo-vystavovatele" href="<?= $stanekVystavovateleOdkaz ?>" target="_blank">
+                                        <img <?= Html::attributes($imgVystavovateleAttributes)?> style="vertical-align:middle; margin-right: 10px;"/>
+                                        <i class="linkify large blue icon"></i>
+                                    </a>
+                                </div>
                                 <div class="info-pro-prihlasene">
                                     <?= $this->repeat(__DIR__.'/vystavovatel/info-pro-prihlasene.php', $infoProPrihlasene) ?>
-                                </div>
-                                <div style="text-align: right;">
-                                    <a class="link-img logo-vystavovatele" href="<?= $stanekVystavovateleOdkaz ?>" target="_blank">
-                                        <img <?= Html::attributes($imgVystavovateleAttributes)?>/>
-                                    </a>
                                 </div>
                             </content>
                         </form>
                     </section>
                 </div>
             </div>
-

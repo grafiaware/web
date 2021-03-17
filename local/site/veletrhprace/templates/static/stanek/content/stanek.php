@@ -10,7 +10,7 @@ use Pes\Text\Html;
 ?>
                         <div class="video-na-stanku">
                             <content>
-                                <video width="330" height="200" <?= Html::attributes($videoAttributes) ?> controls> <!-- u atributu poster nestacilo images/nazev.pripona -->
+                                <video width="380" height="" <?= Html::attributes($videoAttributes) ?> controls> <!-- u atributu poster nestacilo images/nazev.pripona -->
                                     <source src="<?= $videoSourceSrc?>" type="video/mp4">
                                 </video>
                             </content>
