@@ -55,15 +55,15 @@ class Mail {
         ;
     }
 
-    public function mail() {
-        $configuration = Configuration::params('najdisi');
+    public function mail($configName) {
+        $configuration = Configuration::params($configName);
 
         //Instantiation and passing `true` enables exceptions
         $mail = new PHPMailer(true);
 
         try {
             //Server settings
-            $mail->SMTPDebug = SMTP::DEBUG_LOWLEVEL;                      //Enable verbose debug output
+            $mail->SMTPDebug = SMTP::DEBUG_OFF;                      //Enable verbose debug output
             $mail->isSMTP();                                            //Send using SMTP
 
             $mail->Host = $configuration->getHost()->getHost();                      //Set the SMTP server to send through
