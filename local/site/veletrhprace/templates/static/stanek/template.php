@@ -14,7 +14,7 @@ $firma = [
     'videoAttributes' => [
         'poster' => 'public/site/veletrhprace/images/monitor-1.png',
     ],
-    'videoSourceSrc' => 'video/video-OA2018.mp4',
+    'videoSourceSrc' => '/_www_vp_files/static/konplan/movie/konplan_video.mp4',
     'imgStankuAttributes' => [
         'src' => 'images/stanek-s-pozadim.png', 
         'alt' => 'stánek First Company',

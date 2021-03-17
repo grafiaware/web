@@ -6,6 +6,6 @@ use Pes\Text\Text;
 /** @var PaperAggregatePaperContentInterface $paperAggregate */
 ?>
 
-<p class="primarni-barva nadpis">
+<p class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll">
     <?= Text::mono('Můžete se těšit na tyto přednášky')?>
 </p>

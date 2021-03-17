@@ -12,6 +12,7 @@
     "version": "0.6",
     "require": {
         "pes/pes": "@dev",
+        "phpmailer/phpmailer": "^6.2",
         "pes/monorm": "@dev",
         "samshal/acl": "@dev"
     },

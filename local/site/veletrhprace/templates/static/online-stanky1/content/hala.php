@@ -6,72 +6,248 @@ use Pes\Text\Html;
 
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregatePaperContentInterface $paperAggregate */
+$static_ref = '_www_vp_files/static/';
+$logo_ref = '/assets/logo.png';
 
 $vystavovatele = [
         [
             'radekVystavovatelu' => [
                 [
-                    'nazevVystavovatele' => 'Firma s. r. o.',
+                    'nazevVystavovatele' => 'Grafia s. r. o.',
                     'stanekVystavovateleOdkaz' => '',
-                    'vyhodyProZamestnance' => [
+                    'infoProPrihlasene' => [
                         [
-                            'dataContent' => 'Pět týdnů dovolené',
+                            'popis' => 'Tuto firmu jste si již prohlédli',
+                            'ikona' => 'history',
+                        ],
+                        [
+                            'popis' => 'Individuální pohovor <br/> <b>ve čtvrtek 18. 3. v 10:00</b>',
                             'ikona' => 'calendar alternate',
                         ],
                         [
-                            'dataContent' => 'Flexibilní pracovní doba',
-                            'ikona' => 'clock',
+                            'popis' => 'Leták v igelitce!',
+                            'ikona' => 'file alternate',
                         ],
                     ],
                     'imgVystavovateleAttributes' => [
-                        'src' => 'images/logo_grafia.png',
-                        'alt' => 'Firma XY',
+                        'src' => $static_ref.'grafia'.$logo_ref,
+                        'alt' => 'Firma Grafia',
                         'width' => '',
                         'height' => '100',
                     ]
                 ],
                 [
-                    'nazevVystavovatele' => '',
+                    'nazevVystavovatele' => 'Daikin',
                     'stanekVystavovateleOdkaz' => '',
-                    'vyhodyProZamestnance' => [
+                    'infoProPrihlasene' => [
                         [
-                            'dataContent' => '',
+                            'popis' => '',
                             'ikona' => '',
                         ],
                         [
-                            'dataContent' => '',
+                            'popis' => '',
                             'ikona' => '',
                         ],
                     ],
                     'imgVystavovateleAttributes' => [
-                        'src' => '',
-                        'alt' => '',
+                        'src' => $static_ref.'daikin'.$logo_ref,
+                        'alt' => 'Firma Daikin',
                         'width' => '',
-                        'height' => '',
+                        'height' => '75',
                     ]
                 ],
-                
+            ]
+        ],
+        [
+            'radekVystavovatelu' => [
                 [
-                    'nazevVystavovatele' => '',
+                    'nazevVystavovatele' => 'Konplan',
                     'stanekVystavovateleOdkaz' => '',
-                    'vyhodyProZamestnance' => [
+                    'infoProPrihlasene' => [
                         [
-                            'dataContent' => '',
+                            'popis' => 'Tuto firmu jste si již prohlédli',
+                            'ikona' => 'history',
+                        ],
+                        [
+                            'popis' => 'Individuální pohovor <br/> <b>ve čtvrtek 18. 3. v 10:00</b>',
+                            'ikona' => 'calendar alternate',
+                        ],
+                        [
+                            'popis' => 'Leták v igelitce!',
+                            'ikona' => 'file alternate',
+                        ],
+                    ],
+                    'imgVystavovateleAttributes' => [
+                        'src' => $static_ref.'konplan'.$logo_ref,
+                        'alt' => 'Firma Konplan',
+                        'width' => '',
+                        'height' => '100',
+                    ]
+                ],
+                [
+                    'nazevVystavovatele' => 'MD Elektronik',
+                    'stanekVystavovateleOdkaz' => '',
+                    'infoProPrihlasene' => [
+                        [
+                            'popis' => '',
                             'ikona' => '',
                         ],
                         [
-                            'dataContent' => '',
+                            'popis' => '',
                             'ikona' => '',
                         ],
                     ],
                     'imgVystavovateleAttributes' => [
-                        'src' => '',
+                        'src' => $static_ref.'mdelektronik'.$logo_ref,
                         'alt' => '',
                         'width' => '',
                         'height' => '',
                     ]
                 ],
-                
+            ]
+        ],
+        [
+            'radekVystavovatelu' => [
+                [
+                    'nazevVystavovatele' => 'Úřad práce',
+                    'stanekVystavovateleOdkaz' => '',
+                    'infoProPrihlasene' => [
+                        [
+                            'popis' => 'Tuto firmu jste si již prohlédli',
+                            'ikona' => 'history',
+                        ],
+                        [
+                            'popis' => 'Individuální pohovor <br/> <b>ve čtvrtek 18. 3. v 10:00</b>',
+                            'ikona' => 'calendar alternate',
+                        ],
+                        [
+                            'popis' => 'Leták v igelitce!',
+                            'ikona' => 'file alternate',
+                        ],
+                    ],
+                    'imgVystavovateleAttributes' => [
+                        'src' => $static_ref.'up'.$logo_ref,
+                        'alt' => 'ÚP',
+                        'width' => '',
+                        'height' => '100',
+                    ]
+                ],
+                [
+                    'nazevVystavovatele' => 'Stoezle',
+                    'stanekVystavovateleOdkaz' => '',
+                    'infoProPrihlasene' => [
+                        [
+                            'popis' => '',
+                            'ikona' => '',
+                        ],
+                        [
+                            'popis' => '',
+                            'ikona' => '',
+                        ],
+                    ],
+                    'imgVystavovateleAttributes' => [
+                        'src' => $static_ref.'stoezle'.$logo_ref,
+                        'alt' => '',
+                        'width' => '',
+                        'height' => '100',
+                    ]
+                ],
+            ]
+        ],
+        [
+            'radekVystavovatelu' => [
+                [
+                    'nazevVystavovatele' => 'Wienerberger',
+                    'stanekVystavovateleOdkaz' => '',
+                    'infoProPrihlasene' => [
+                        [
+                            'popis' => 'Tuto firmu jste si již prohlédli',
+                            'ikona' => 'history',
+                        ],
+                        [
+                            'popis' => 'Individuální pohovor <br/> <b>ve čtvrtek 18. 3. v 10:00</b>',
+                            'ikona' => 'calendar alternate',
+                        ],
+                        [
+                            'popis' => 'Leták v igelitce!',
+                            'ikona' => 'file alternate',
+                        ],
+                    ],
+                    'imgVystavovateleAttributes' => [
+                        'src' => $static_ref.'wienerberger'.$logo_ref,
+                        'alt' => 'Firma Kermi',
+                        'width' => '',
+                        'height' => '100',
+                    ]
+                ],
+                [
+                    'nazevVystavovatele' => 'Akka',
+                    'stanekVystavovateleOdkaz' => '',
+                    'infoProPrihlasene' => [
+                        [
+                            'popis' => '',
+                            'ikona' => '',
+                        ],
+                        [
+                            'popis' => '',
+                            'ikona' => '',
+                        ],
+                    ],
+                    'imgVystavovateleAttributes' => [
+                        'src' => $static_ref.'akka'.$logo_ref,
+                        'alt' => '',
+                        'width' => '',
+                        'height' => '',
+                    ]
+                ],
+            ]
+        ],
+        [
+            'radekVystavovatelu' => [
+                [
+                    'nazevVystavovatele' => 'Kermi',
+                    'stanekVystavovateleOdkaz' => '',
+                    'infoProPrihlasene' => [
+                        [
+                            'popis' => 'Tuto firmu jste si již prohlédli',
+                            'ikona' => 'history',
+                        ],
+                        [
+                            'popis' => 'Individuální pohovor <br/> <b>ve čtvrtek 18. 3. v 10:00</b>',
+                            'ikona' => 'calendar alternate',
+                        ],
+                        [
+                            'popis' => 'Leták v igelitce!',
+                            'ikona' => 'file alternate',
+                        ],
+                    ],
+                    'imgVystavovateleAttributes' => [
+                        'src' => $static_ref.'kermi'.$logo_ref,
+                        'alt' => 'Firma Kermi',
+                        'width' => '',
+                        'height' => '100',
+                    ]
+                ],
+                [
+                    'nazevVystavovatele' => 'Drůběžářský závod Klatovy',
+                    'stanekVystavovateleOdkaz' => '',
+                    'infoProPrihlasene' => [
+                        [
+                            'popis' => '',
+                            'ikona' => '',
+                        ],
+                        [
+                            'popis' => '',
+                            'ikona' => '',
+                        ],
+                    ],
+                    'imgVystavovateleAttributes' => [
+                        'src' => $static_ref.'dzk'.$logo_ref,
+                        'alt' => '',
+                        'width' => '',
+                        'height' => '100',
+                    ]
+                ],
             ]
         ]
     ]

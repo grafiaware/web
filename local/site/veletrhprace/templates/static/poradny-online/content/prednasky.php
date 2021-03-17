@@ -5,7 +5,7 @@ use Pes\Text\Text;
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregatePaperContentInterface $paperAggregate */
 
-    $odkazPrednaskyAttributes = ['class' => 'ui large secondary button'];
+    $odkazPrednaskyAttributes = ['class' => 'ui large blue button'];
     $odkazPrednaskyTextPrihlasitSe = 'Zde se budete moci přihlásit';
     $odkazPrednaskyTextZhlednout = 'Zhlédnout záznam';
 
