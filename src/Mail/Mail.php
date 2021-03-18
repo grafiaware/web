@@ -30,7 +30,7 @@ class Mail {
      * @param string $extra
      *
      */
-    public function actionOnSend(bool $result, array   $to, array   $cc, array   $bcc, string  $subject, string  $body, string  $from, string  $extra) {
+    public static function actionOnSend(bool $result, array   $to, array   $cc, array   $bcc, string  $subject, string  $body, string  $from, string  $extra) {
         /**
          * Callback Action function name.
          *
@@ -52,7 +52,7 @@ class Mail {
          *
          * @var string
          */
-        ;
+        $a = 1;
     }
 
     public function mail() {
@@ -95,6 +95,9 @@ class Mail {
             $mail->Subject = $configuration->getContent()->getSubject();
             $mail->Body    = $configuration->getContent()->getBody();
             $mail->AltBody = $configuration->getContent()->getAltBody();
+
+            $mail->action_function =[Mail::class, 'actionOnSend'];
+
 
             $mail->send();
             $message =  'Message has been sent';

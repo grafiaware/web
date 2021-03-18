@@ -246,7 +246,7 @@ abstract class RepoAbstract {
                 $this->extract($entity, $row);
                 $this->dao->insert($row);
                 $this->addAssociated($row, $entity);
-                $this->flushChildRepos();
+                $this->flushChildRepos();  //pokud je vnořená agregovaná entita - musí se provést její insert
                 $entity->setPersisted();
             }
             $this->new = []; // při dalším pokusu o find se bude volat recteateEntity, entita se zpětně načte z db (včetně případného autoincrement id a dalších generovaných sloupců)
@@ -255,7 +255,7 @@ abstract class RepoAbstract {
                 $row = [];
                 $this->extract($entity, $row);
                 $this->addAssociated($row, $entity);
-                $this->flushChildRepos();
+                $this->flushChildRepos();  //pokud je vnořená agregovaná entita přidána později - musí se provést její insert teď
                 if ($entity->isPersisted()) {
                     if ($row) {     // $row po extractu musí obsahovat nějaká data, která je možno updatovat - v extarctu musí být vynechány "readonly" sloupce
                         $this->dao->update($row);
