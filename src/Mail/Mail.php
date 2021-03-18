@@ -6,6 +6,8 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
+use Psr\Log\LoggerInterface;
+
 use Mail\Params;
 use Mail\Params\Attachment;
 
@@ -21,9 +23,11 @@ class Mail {
      * @var Params
      */
     private $params;
+    private $logger;
 
-    public function __construct(Params $params = null) {
+    public function __construct(Params $params = null, LoggerInterface $logger = null) {
         $this->params = $params;
+        $this->logger = $logger;
     }
 
     /**
@@ -62,8 +66,13 @@ class Mail {
          *
          * @var string
          */
-        echo '!action!';
-        $a = 1;
+        if ($this->logger) {
+            if ($result) {
+                $this->logger->info("Odeslán mail '{subject}' na adresy {to}.", ['subject'=>$subject, 'to'=>implode(', ', $to)]);
+            } else {
+                $this->logger->warning("Nepodařilo se odeslat mail '{subject}' na adresy {to}.", ['subject'=>$subject, 'to'=>implode(', ', $to)]);
+            }
+        }
     }
 
     public function mail(Params $params = null) {

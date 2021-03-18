@@ -20,10 +20,10 @@ namespace Site;
 //include PROJECT_PATH.'app/Site/TydenZdravi/ConfigurationStyles.php';
 
 use Site\VeletrhPrace as Siteconfig;
-include 'app/Site/VeletrhPrace/ConfigurationConstants.php';
-include 'app/Site/VeletrhPrace/ConfigurationDb.php';
-include 'app/Site/VeletrhPrace/ConfigurationRed.php';
-include 'app/Site/VeletrhPrace/ConfigurationStyles.php';
+include PROJECT_PATH.'app/Site/VeletrhPrace/ConfigurationConstants.php';
+include PROJECT_PATH.'app/Site/VeletrhPrace/ConfigurationDb.php';
+include PROJECT_PATH.'app/Site/VeletrhPrace/ConfigurationRed.php';
+include PROJECT_PATH.'app/Site/VeletrhPrace/ConfigurationStyles.php';
 
 //use Site\Grafia as Siteconfig;
 //use Site\Grafia as Siteconfig;

@@ -18,6 +18,7 @@ use Model\Repository\Exception\UnableToCreateAssotiatedChildEntity;
 class AssociationAbstract {
 
     protected $parentReferenceKeyAttribute;
+    protected $childRepo;
 
     /**
      *
@@ -25,6 +26,10 @@ class AssociationAbstract {
      */
     public function __construct($referenceKeyAttribute) {
         $this->parentReferenceKeyAttribute = $referenceKeyAttribute;
+    }
+
+    public function flushChildRepo(): void {
+        $this->childRepo->flush();
     }
 
     protected function getChildKey($row) {

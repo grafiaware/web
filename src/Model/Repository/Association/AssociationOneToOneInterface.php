@@ -14,9 +14,8 @@ use Model\Entity\EntityInterface;
  *
  * @author pes2704
  */
-interface AssociationOneToOneInterface {
+interface AssociationOneToOneInterface extends AssociationInterface {
     public function getAssociated(&$row): ?EntityInterface;
     public function addAssociated(EntityInterface $entity = null);
     public function removeAssociated(EntityInterface $entity = null);
-    public function flushChildRepo(): void;
 }

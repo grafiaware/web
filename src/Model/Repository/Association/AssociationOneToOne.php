@@ -23,7 +23,7 @@ class AssociationOneToOne extends AssociationAbstract implements AssociationOneT
     /**
      * @var RepoAssotiatedOneInterface
      */
-    private $childRepo;
+    protected $childRepo;
 
     /**
      *
@@ -51,9 +51,5 @@ class AssociationOneToOne extends AssociationAbstract implements AssociationOneT
 
     public function removeAssociated(EntityInterface $entity = null) {
         $this->childRepo->remove($entity);
-    }
-
-    public function flushChildRepo(): void {
-        $this->childRepo->flush();
     }
 }

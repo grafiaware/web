@@ -123,18 +123,30 @@ abstract class RepoAbstract {
      */
     protected function recreateEntity($index, $row): ?string {
         if ($row) {
+            $entity = $this->createEntity();  // definována v konkrétní třídě - adept na entity managera
             try {
                 $this->recreateAssociations($row);
             } catch (UnableToCreateAssotiatedChildEntity $unex) {
                 throw new UnableRecreateEntityException("Nelze obnovit agregovanou (vnořenou) entitu v repository ". get_called_class()." s indexem $index.", 0, $unex);
             }
-            $entity = $this->createEntity();  // definována v konkrétní třídě - adept na entity managera
             $this->hydrate($entity, $row);
             $entity->setPersisted();
             $this->collection[$index] = $entity;
             $this->flushed = false;
         }
         return $index ?? null;
+    }
+
+    private function reread($index, $row, $entity) {
+        try {
+            $this->recreateAssociations($row);
+        } catch (UnableToCreateAssotiatedChildEntity $unex) {
+            throw new UnableRecreateEntityException("Nelze obnovit agregovanou (vnořenou) entitu v repository ". get_called_class()." s indexem $index.", 0, $unex);
+        }
+        $this->hydrate($entity, $row);
+        $entity->setPersisted();
+        $this->collection[$index] = $entity;
+        $this->flushed = false;
     }
 
     protected function recreateAssociations(&$row): void {
@@ -264,6 +276,7 @@ abstract class RepoAbstract {
                     throw new \LogicException("V collection je nepersistovaná entita.");
                 }
             }
+            $this->collection = [];
 
             foreach ($this->removed as $entity) {
                 $row = [];
@@ -274,6 +287,7 @@ abstract class RepoAbstract {
                 $entity->setUnpersisted();
             }
             $this->removed = [];
+
         } else {
             if ($this->new OR $this->removed) {
                 throw new \LogicException("Repo je read only a byly do něj přidány nebo z něj smazány entity.");

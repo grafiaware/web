@@ -14,10 +14,9 @@ use Model\Repository\RepoInterface;
  *
  * @author pes2704
  */
-interface AssociationOneToManyInterface {
+interface AssociationOneToManyInterface extends AssociationInterface {
     public function getAssociated(&$row): iterable;
     public function addAssociated(iterable $entities);
     public function removeAssociated(iterable $entities);
-    public function flushChildRepo(): void;
 
 }

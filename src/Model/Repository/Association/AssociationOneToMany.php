@@ -21,7 +21,7 @@ class AssociationOneToMany extends AssociationAbstract implements AssociationOne
     /**
      * @var RepoAssotiatedManyInterface
      */
-    private $childRepo;
+    protected $childRepo;
 
     /**
      *
@@ -50,7 +50,4 @@ class AssociationOneToMany extends AssociationAbstract implements AssociationOne
         $this->childRepo->remove($entity);
     }
 
-    public function flushChildRepo(): void {
-        $this->childRepo->flush();
-    }
 }

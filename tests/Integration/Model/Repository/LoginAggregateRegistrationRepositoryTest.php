@@ -183,6 +183,7 @@ class LoginAggregateRegistrationRepositoryTest extends TestCase {
     ###### complete aggregate ################
 
     public function testAddCompleteAndReread() {
+        /** @var LoginAggregateRegistration $loginAgg */
         $loginAgg = new LoginAggregateRegistration();
         $loginAgg->setLoginName("testLoginAggregateRegistration1");
         $registration = new Registration();
@@ -192,13 +193,17 @@ class LoginAggregateRegistrationRepositoryTest extends TestCase {
         $loginAgg->setRegistration($registration);
         $this->loginAggRegRepo->add($loginAgg);
         $this->loginAggRegRepo->flush();
+
         $this->assertTrue($loginAgg->isPersisted(), 'LoginAggregate není persistován.');
         $this->assertTrue($registration->isPersisted(), 'Registration není persistován.');
+        // nověnačtený agregát (po flush)
         $loginAgg = $this->loginAggRegRepo->get($loginAgg->getLoginName());
+        $this->assertInstanceOf(LoginAggregateRegistration::class, $loginAgg);
         $this->assertTrue($loginAgg->isPersisted(), 'Login není persistován.');
-        $this->assertTrue($registration->isPersisted(), 'Vnořený Registration není persistován.');
-        $this->assertTrue(is_string($registration->getUid()));
-        $this->assertInstanceOf(\DateTime::class, $registration->getCreated());
+        $this->assertInstanceOf(Registration::class, $loginAgg->getRegistration());
+        $this->assertTrue($loginAgg->getRegistration()->isPersisted(), 'Vnořený Registration není persistován.');
+        $this->assertTrue(is_string($loginAgg->getRegistration()->getUid()));
+        $this->assertInstanceOf(\DateTime::class, $loginAgg->getRegistration()->getCreated());
     }
 
     public function testGetAfterAddComplete() {
@@ -247,11 +252,5 @@ class LoginAggregateRegistrationRepositoryTest extends TestCase {
         $this->assertInstanceOf(Registration::class, $loginAgg->getRegistration());
         $this->emailedUid = $loginAgg->getRegistration()->getUid();
         $this->assertTrue(is_string($this->emailedUid));
-    }
-
-    public function testGetByUid() {
-        $loginAgg = $this->loginAggRegRepo->getByUid($this->emailedUid);
-        $this->assertInstanceOf(LoginAggregateRegistration::class, $loginAgg);
-        $this->assertInstanceOf(Registration::class, $loginAgg->getRegistration());
     }
 }
