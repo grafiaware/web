@@ -4,6 +4,7 @@ namespace Middleware\Login;
 use Middleware\Login\Controller\LoginLogoutController;
 use Middleware\Login\Controller\RegistrationController;
 use Middleware\Login\Controller\ConfirmController;
+use Middleware\Login\Controller\PasswordController;
 
 use Pes\Middleware\AppMiddlewareAbstract;
 use Pes\Container\Container;
@@ -74,7 +75,16 @@ class Login extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(ConfirmController::class);
             return $ctrl->confirm($request, $uid);
             });
-
+        $routeGenerator->addRouteForAction('POST', '/auth/v1/forgottenpassword', function(ServerRequestInterface $request) {
+            /** @var PasswordController $ctrl */
+            $ctrl = $this->container->get(PasswordController::class);
+            return $ctrl->forgottenPassword($request);
+            });
+        $routeGenerator->addRouteForAction('POST', '/auth/v1/changepassword', function(ServerRequestInterface $request) {
+            /** @var PasswordController $ctrl */
+            $ctrl = $this->container->get(PasswordController::class);
+            return $ctrl->changePassword($request);
+            });    
         /** @var $router RouterInterface */
         $router = $this->container->get(RouterInterface::class);
         $router->exchangeRoutes($routeGenerator);

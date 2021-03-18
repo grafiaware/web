@@ -3,6 +3,7 @@
 namespace Middleware\Login\Controller;
 
 use Site\Configuration;
+use Mail\Mail;
 
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -74,21 +75,23 @@ class ConfirmController extends StatusFrontControllerAbstract
                     /** @var  LoginAggregateCredentials $loginAggregateCredentialsEntity  */
                     $loginAggregateCredentialsEntity = $this->loginAggregateCredentialsRepo->get($loginNameFk);                      
                     if ( $loginAggregateCredentialsEntity->getCredentials() === \NULL  ) {
-                        $loginAggregateCredentialsEntity->setCredentials($credentials); 
-                        
-                        $this->addFlashMessage( "Potvrzeno, Vaše registrace byla dokončena.");
+                        $loginAggregateCredentialsEntity->setCredentials($credentials);                         
+                        /* nebude */$this->addFlashMessage( "* nebude * \n Potvrzeno, Vaše registrace byla dokončena.");
                         // **mail** !!!!
+                        //Vaše registrace byla dokončena. Děkujeme Vám za spolupráci.
+                        $mail = new Mail();
+                        $mail->mail('body_confirm');
                     }
                     else {
                         // chyba Již bylo zaregistrováno a potvrzeno.
-                        // nehlasit nic, nebo az po 10sec  poslat               **mail** ???!!!!
-                        // $this->addFlashMessage( "Byli jste zaregistrováni.");
+                        // nehlasit nic,        ?? nebo az po 10sec  poslat    **mail** ??? ??
+                        /* nebude */ $this->addFlashMessage( " * nwebude * \n Byli jste zaregistrováni.");
                     }                    
                  } 
                  else {
                      // chyba Takový registrační požadavek nebyl požadovan/zaznamenán.
                      // zapsat do logu, tj. nějak dát vědět autorům systému                     
-                     // $this->addFlashMessage( "Takový registrační požadavek nebyl požadován/zaznamenán.");
+                      /* nebude */$this->addFlashMessage( " *nebude* \n Takový registrační požadavek nebyl požadován/zaznamenán.");
                  }
             }
         
