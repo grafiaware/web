@@ -22,7 +22,7 @@ use Mail\ParamsContainer;
 class MailContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getParams() {
-        return Configuration::login();
+        return Configuration::mail();
     }
 
     public function getFactoriesDefinitions() {
@@ -37,8 +37,6 @@ class MailContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getServicesDefinitions() {
         return [
-            // LoginContainer musí mít DbOld kontejner jako delegáta
-            //
             'mailLogger' => function(ContainerInterface $c) {
                 return FileLogger::getInstance($c->get('mail.logs.directory'), $c->get('mail.logs.file'), FileLogger::APPEND_TO_LOG); //new NullLogger();
             },
