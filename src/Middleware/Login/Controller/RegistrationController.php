@@ -11,7 +11,7 @@ use Pes\Http\Request\RequestParams;
 use Pes\Security\Password\Password;
 
 // controller
-use Controller\StatusFrontControllerAbstract;
+use Controller\PresentationFrontControllerAbstract;
 
 // model
 use Model\Repository\StatusPresentationRepo;
@@ -30,7 +30,7 @@ use Model\Entity\LoginAggregateRegistration;
  *
  * @author pes2704
  */
-class RegistrationController extends StatusFrontControllerAbstract
+class RegistrationController extends PresentationFrontControllerAbstract
 {
 
     //private $authenticator;
@@ -53,6 +53,7 @@ class RegistrationController extends StatusFrontControllerAbstract
                 StatusSecurityRepo $statusSecurityRepo,
                    StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
+            ResourceRegistryInterface $resourceRegistry=null,            
      LoginAggregateCredentialsRepo $loginAggregateCredentialsRepo,
     LoginAggregateRegistrationRepo $loginAggregateRegistrationRepo
             /*AuthenticatorInterface $authenticator*/)
@@ -122,7 +123,7 @@ class RegistrationController extends StatusFrontControllerAbstract
         //poslat **mail** 
         // "Děkujeme za Vaši registraci. Na tento mail neodpovídejte.
         // "Kliknutím na níže uvedený odkaz dokončíte svoji registraci. Odkaz je aktivní po dobu následujících 3 hodin."
-        $mail = new Mail();
+        $mail = $this->container->get(Mail::class);
         $mail->mail('body_register');
         
         //zapsat cas mailu do registration

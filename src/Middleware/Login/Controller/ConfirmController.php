@@ -12,7 +12,7 @@ use Security\Auth\AuthenticatorInterface;
 use Pes\Security\Password\Password;
 
 // controller
-use Controller\StatusFrontControllerAbstract;
+use Controller\PresentationFrontControllerAbstract;
 
 // model
 use Model\Repository\StatusPresentationRepo;
@@ -31,7 +31,7 @@ use Model\Entity\LoginAggregateRegistration;
  *
  * @author pes2704
  */
-class ConfirmController extends StatusFrontControllerAbstract
+class ConfirmController extends PresentationFrontControllerAbstract
 {
     /**
      *
@@ -51,6 +51,7 @@ class ConfirmController extends StatusFrontControllerAbstract
                 StatusSecurityRepo $statusSecurityRepo,
                    StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
+            ResourceRegistryInterface $resourceRegistry=null,
      LoginAggregateCredentialsRepo $loginAggregateCredentialsRepo,
                   RegistrationRepo $registrationRepo)
     {

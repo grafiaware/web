@@ -178,37 +178,48 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new DbHashAuthenticator($c->get(CredentialsDao::class));
             },
             LoginLogoutController::class => function(ContainerInterface $c) {
-                return new LoginLogoutController(
+                return (new LoginLogoutController(
                     $c->get(StatusSecurityRepo::class),
                     $c->get(StatusFlashRepo::class),
                     $c->get(StatusPresentationRepo::class),
+                        null,
                     $c->get(LoginAggregateCredentialsRepo::class),
-                    $c->get(AuthenticatorInterface::class));
+                    $c->get(AuthenticatorInterface::class))
+                    )->injectContainer($c);  // inject component kontejner
+                    ;
             },
             RegistrationController::class => function(ContainerInterface $c) {
-                return new RegistrationController(
+                return (new RegistrationController(
                     $c->get(StatusSecurityRepo::class),
                     $c->get(StatusFlashRepo::class),
                     $c->get(StatusPresentationRepo::class),
+                        null,
                     $c->get(LoginAggregateCredentialsRepo::class),
                     $c->get(LoginAggregateRegistrationRepo::class),
-                    $c->get(AuthenticatorInterface::class));
+                    $c->get(AuthenticatorInterface::class))
+                    )->injectContainer($c);  // inject component kontejner
+                    ;
             },
             ConfirmController::class => function(ContainerInterface $c) {
-                return new ConfirmController(
+                return (new ConfirmController(
                     $c->get(StatusSecurityRepo::class),
                     $c->get(StatusFlashRepo::class),
                     $c->get(StatusPresentationRepo::class),
+                        null,
                     $c->get(LoginAggregateCredentialsRepo::class),
-                    $c->get(RegistrationRepo::class));
+                    $c->get(RegistrationRepo::class))
+                    )->injectContainer($c);  // inject component kontejner
+                    ;
             },
             PasswordController::class => function(ContainerInterface $c) {
-                return new PasswordController(
+                return (new PasswordController(
                     $c->get(StatusSecurityRepo::class),
                     $c->get(StatusFlashRepo::class),
                     $c->get(StatusPresentationRepo::class),
                     $c->get(LoginAggregateCredentialsRepo::class)
-                    );                        
+                    )
+                    )->injectContainer($c);  // inject component kontejner
+                    ;                        
             }
         ];
     }

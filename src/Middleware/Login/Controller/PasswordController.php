@@ -10,7 +10,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Pes\Http\Request\RequestParams;
 use Pes\Security\Password\Password;
 
-use Controller\StatusFrontControllerAbstract;
+use Controller\PresentationFrontControllerAbstract;
 
 // model
 use Model\Repository\StatusPresentationRepo;
@@ -26,7 +26,7 @@ use Model\Entity\LoginAggregateCredentials;
  *
  * @author vlse2610
  */
-class PasswordController extends StatusFrontControllerAbstract { 
+class PasswordController extends PresentationFrontControllerAbstract { 
     private $loginAggregateCredentialsRepo;
     
     
@@ -34,7 +34,7 @@ class PasswordController extends StatusFrontControllerAbstract {
                         StatusSecurityRepo $statusSecurityRepo,
                            StatusFlashRepo $statusFlashRepo,
                     StatusPresentationRepo $statusPresentationRepo,
-            
+            ResourceRegistryInterface $resourceRegistry=null,            
              LoginAggregateCredentialsRepo $loginAggregateCredentialRepo
             ) {
         

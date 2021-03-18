@@ -17,7 +17,7 @@ use Security\Auth\AuthenticatorInterface;
 use Pes\Security\Password\Password;
 
 // controller
-use Controller\StatusFrontControllerAbstract;
+use Controller\PresentationFrontControllerAbstract;
 
 // model
 use Model\Repository\StatusPresentationRepo;
@@ -34,7 +34,7 @@ use Model\Entity\LoginAggregate;
  *
  * @author pes2704
  */
-class LoginLogoutController extends StatusFrontControllerAbstract {
+class LoginLogoutController extends PresentationFrontControllerAbstract {
 
     private $authenticator;
 
@@ -47,6 +47,7 @@ class LoginLogoutController extends StatusFrontControllerAbstract {
                         StatusSecurityRepo $statusSecurityRepo,
                            StatusFlashRepo $statusFlashRepo,
                     StatusPresentationRepo $statusPresentationRepo,
+            ResourceRegistryInterface $resourceRegistry=null,            
              LoginAggregateCredentialsRepo $loginAggregateRepo,
                     AuthenticatorInterface $authenticator) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);

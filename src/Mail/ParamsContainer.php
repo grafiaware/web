@@ -38,10 +38,9 @@ class ParamsContainer {
     private static function body_register() {
         $subject =  'mail pro registraci';
         $body  =
-        "Děkujeme za Vaši registraci. Na tento mail neodpovídejte.
-         Kliknutím na níže uvedený odkaz dokončíte svoji registraci. Odkaz je aktivní po dobu následujících 3 hodin.
+       "<p>Děkujeme za Vaši registraci. <br/>Na tento mail neodpovídejte.</p>
+        <p> Kliknutím na níže uvedený odkaz dokončíte svoji registraci. Odkaz je aktivní po dobu následujících 3 hodin.</p>
 
-         <a href='auth//v1/confirm/60509d23986fe'> registrace uid  pro ccc</a>
          <a href='auth//v1/confirm/ uid '> registrace uid  pro uid</a>
          " ;
 
@@ -74,7 +73,7 @@ class ParamsContainer {
                     (new Party())
                         ->setFrom('info@najdisi.cz', 'veletrhprace.online')
                         ->addReplyTo('svoboda@grafia.cz', 'veletrhprace.online')
-                        ->addTo('svoboda@grafia.cz', 'Pes')
+                  //      ->addTo('svoboda@grafia.cz', 'Pes')
                         ->addTo('selnerova@grafia.cz', 'vlse')
 //                        ->addCc($ccAddress, $ccName)
 //                        ->addBcc($bccAddress, $bccName)
@@ -125,7 +124,7 @@ class ParamsContainer {
                     (new Party())
                         ->setFrom('info@najdisi.cz', 'veletrhprace.online')
                         ->addReplyTo('svoboda@grafia.cz', 'veletrhprace.online')
-                        ->addTo('svoboda@grafia.cz', 'Pes')
+                      //  ->addTo('svoboda@grafia.cz', 'Pes')
                         ->addTo('selnerova@grafia.cz', 'vlse')
 //                        ->addCc($ccAddress, $ccName)
 //                        ->addBcc($bccAddress, $bccName)
@@ -177,7 +176,7 @@ class ParamsContainer {
                     (new Party())
                         ->setFrom('info@najdisi.cz', 'veletrhprace.online')
                         ->addReplyTo('svoboda@grafia.cz', 'veletrhprace.online')
-                        ->addTo('svoboda@grafia.cz', 'Pes')
+                     //   ->addTo('svoboda@grafia.cz', 'Pes')
                         ->addTo('selnerova@grafia.cz', 'vlse')
 //                        ->addCc($ccAddress, $ccName)
 //                        ->addBcc($bccAddress, $bccName)
@@ -297,7 +296,7 @@ class ParamsContainer {
                         ->setFrom('info@najdisi.cz', 'veletrhprace.online')
                         ->addReplyTo('svoboda@grafia.cz', 'veletrhprace.online')
                         ->addTo('svoboda@grafia.cz', 'Pes')
-//                        ->addTo('selnerova@grafia.cz', 'vlse')
+                        ->addTo('selnerova@grafia.cz', 'vlse')
 //                        ->addCc($ccAddress, $ccName)
 //                        ->addBcc($bccAddress, $bccName)
                     )
