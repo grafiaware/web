@@ -62,6 +62,8 @@ class SelectorItems {
             function() {
                 return [
                     new \Middleware\Status\SecurityStatus(),
+                    new \Middleware\Status\FlashStatus(),
+                    new \Middleware\Status\PresentationStatus(),                    
                     new \Middleware\Login\Login()
                 ];},
             '/component'=>

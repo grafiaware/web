@@ -61,21 +61,25 @@ class ConfirmController extends StatusFrontControllerAbstract
 
     public function confirm(ServerRequestInterface $request, $uid) {
             if ($uid ) {
-                /** @var  LoginAggregateRegistration $loginAggregateRegistrationEntity  */
+                        // /* @var  LoginAggregateRegistration $loginAggregateRegistrationEntity  */
+                /** @var  LoginAggregateRegistration $registrationEntity  */
                 $registrationEntity = $this->registrationRepo->getByUid($uid);                
                 
                 if ( isset($registrationEntity) ) {                    
-                    $passwordHash = $registrationEntity->getPasswordHash();
+                    $password = $registrationEntity->getPasswordHash();  // v registration je nezahash. heslo
                     $loginNameFk = $registrationEntity->getLoginNameFk();   
-                   // $uidRegistration = $loginAggregateRegistrationEntity->getRegistration()->getUid();  //nepotrebuji
+                    // $uidRegistration = $loginAggregateRegistrationEntity->getRegistration()->getUid();  //nepotrebuji
                     
                     $credentials = new Credentials();
-                    $credentials->setPasswordHash($passwordHash);
+                    $credentials->setPasswordHash( (new Password())->getPasswordHash($password) );
                     $credentials->setLoginNameFk($loginNameFk);                                         
                     /** @var  LoginAggregateCredentials $loginAggregateCredentialsEntity  */
                     $loginAggregateCredentialsEntity = $this->loginAggregateCredentialsRepo->get($loginNameFk);                      
                     if ( $loginAggregateCredentialsEntity->getCredentials() === \NULL  ) {
-                        $loginAggregateCredentialsEntity->setCredentials($credentials);                         
+                        $loginAggregateCredentialsEntity->setCredentials($credentials);   
+                        
+                        $registrationEntity->setPasswordHash('');
+                        
                         /* nebude */$this->addFlashMessage( "* nebude * \n Potvrzeno, Vaše registrace byla dokončena.");
                         // **mail** !!!!
                         //Vaše registrace byla dokončena. Děkujeme Vám za spolupráci.

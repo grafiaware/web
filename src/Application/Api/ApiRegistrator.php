@@ -40,6 +40,7 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/logout'));
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/login'));
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/register'));
+        $registry->register($this->getPrototype->withUrlPattern('/auth/v1/registerapplication/:loginname'));
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/register1'));
         $registry->register($this->getPrototype->withUrlPattern('/auth/v1/confirm/:uid'));
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/forgottenpassword'));
