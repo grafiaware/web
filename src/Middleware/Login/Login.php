@@ -11,6 +11,7 @@ use Pes\Container\Container;
 
 use Container\LoginContainerConfigurator;
 use Container\DbOldContainerConfigurator;
+use Container\MailContainerConfigurator;
 
 use Model\Repository\StatusSecurityRepo;
 
@@ -40,7 +41,9 @@ class Login extends AppMiddlewareAbstract implements MiddlewareInterface {
         $this->container =
             (new LoginContainerConfigurator())->configure(
                 (new DbOldContainerConfigurator())->configure(
-                    (new Container($this->getApp()->getAppContainer()))
+                    (new MailContainerConfigurator())->configure(
+                        (new Container($this->getApp()->getAppContainer()))
+                    )
                 )
             );
 
@@ -84,7 +87,7 @@ class Login extends AppMiddlewareAbstract implements MiddlewareInterface {
             /** @var PasswordController $ctrl */
             $ctrl = $this->container->get(PasswordController::class);
             return $ctrl->changePassword($request);
-            });    
+            });
         /** @var $router RouterInterface */
         $router = $this->container->get(RouterInterface::class);
         $router->exchangeRoutes($routeGenerator);

@@ -6,4 +6,4 @@ use Mail\Mail;
 
 $mail = new Mail();
 
-$mail->mail('najdisi');
+$mail->mail('test');

@@ -50,6 +50,28 @@ class Params {
      */
     private $headers;
 
+    public function adotpConfugurationParams(Params $params) {
+        if ($params->getContent()) {
+            $this->setContent($params->getContent());
+        }
+        if ($params->getEncryption()) {
+            $this->setEncryption($params->getEncryption());
+        }
+        if ($params->getHeaders()) {
+            $this->setHeaders($params->getHeaders());
+        }
+        if ($params->getHost()) {
+            $this->setHost($params->getHost());
+        }
+        if ($params->getParty()) {
+            $this->setParty($params->getParty());
+        }
+        if ($params->getSmtpAuth()) {
+            $this->setSmtpAuth($params->getSmtpAuth());
+        }
+
+    }
+
     public function getHost(): Host {
         return $this->host;
     }
@@ -57,7 +79,7 @@ class Params {
     public function getSmtpAuth(): SmtpAuth {
         return $this->smtpAuth;
     }
-    
+
     public function getEncryption(): Encryption {
         return $this->encryption;
     }
