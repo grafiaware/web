@@ -1,8 +1,11 @@
 Integration\Repository\LoginAggregateRegistrationRepository
  [x] Set up
- [x] Get
+ [x] Get non existed
+ [x] Get and remove after setup
  [x] Get after remove
- [x] Add complete
- [x] Get after add complete
+ [x] Add
+ [x] Get after add
  [x] Get by uid
+ [x] Get and remove after add
+ [x] Add and reread
 

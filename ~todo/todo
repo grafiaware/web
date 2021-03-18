@@ -1,3 +1,18 @@
+aktuálně:
+publikovat 3 stránky  + styly
+data v templetách
+změnit složky files/video na movie - transformator
+
+mail
+měnit/přidávat hodnoty do konfigurace před odesláním mailu
+přidat logování
+
+
+repo
+addEntity - přidat interface dao pro entity s auto generovanými hodnotami (uid, timestamp apod) + v addEntity obdobu toho, co se děje s DaoKeyDbVerifiedInterface - navíc ještě se zpětným načtením z db
+
+
+
 build
 
 !! přidat autentizaci!

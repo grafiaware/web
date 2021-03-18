@@ -80,7 +80,7 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
         $transform = array(
             '"images/'               => '"'.$siteDirectory.'images/',   // <img>
 
-            '"video/'               => '"'.$filesDirectory.'video/',   // <video>
+            '"movie/'               => '"'.$filesDirectory.'movie/',   // <video>
             '"files/'            => '"'.$filesDirectory.'files/',   //
             '"../files/'            => '"'.$filesDirectory.'files/',   // pro chybně zadané obrázky (s tečkami)
 

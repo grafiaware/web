@@ -3,6 +3,9 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Model\Entity\PaperAggregatePaperContentInterface;
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregatePaperContentInterface $paperAggregate */
+
+$headline = 'Klíč k příležitostem<sup class="text maly">&reg;</sup>';
+
 ?>
 <article class="paper">
     <section>

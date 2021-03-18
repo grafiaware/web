@@ -24,6 +24,7 @@ use Model\Repository\Exception\UnableRecreateEntityException;
 use Model\Repository\Exception\BadImplemntastionOfChildRepository;
 
 use Model\Repository\Exception\UnableAddEntityException;
+use Model\Repository\Exception\OperationWithLockedEntityException;
 
 /**
  * Description of RepoAbstract
@@ -166,7 +167,9 @@ abstract class RepoAbstract {
     }
 
     protected function addEntity(EntityInterface $entity): void {
-
+        if ($entity->isLocked()) {
+            throw new OperationWithLockedEntityException("Nelze přidávat přidanou nebo smazanou entitu.");
+        }
         if ($entity->isPersisted()) {
             $this->collection[$this->indexFromEntity($entity)] = $entity;
         } else {
@@ -182,6 +185,7 @@ abstract class RepoAbstract {
                 }
             } else {
                 $this->new[] = $entity;
+                $entity->lock();
             }
         }
         $this->flushed = false;
@@ -200,10 +204,14 @@ abstract class RepoAbstract {
     }
 
     protected function removeEntity(EntityInterface $entity): void {
+        if ($entity->isLocked()) {
+            throw new OperationWithLockedEntityException("Nelze mazat přidanou nebo smazanou entitu.");
+        }
         if ($entity->isPersisted()) {
             $index = $this->indexFromEntity($entity);
             $this->removed[$index] = $entity;
             unset($this->collection[$index]);
+            $entity->lock();
         } else {   // smazání před uložením do db
             foreach ($this->new as $key => $new) {
                 if ($new === $entity) {
@@ -232,18 +240,17 @@ abstract class RepoAbstract {
             return;
         }
         if ( !($this instanceof RepoReadonlyInterface)) {
-
-
-
             /** @var \Model\Entity\EntityAbstract $entity */
             foreach ($this->new as $entity) {
                 $row = [];
                 $this->extract($entity, $row);
+                $this->dao->insert($row);
                 $this->addAssociated($row, $entity);
                 $this->flushChildRepos();
-                $this->dao->insert($row);
                 $entity->setPersisted();
             }
+            $this->new = []; // při dalším pokusu o find se bude volat recteateEntity, entita se zpětně načte z db (včetně případného autoincrement id a dalších generovaných sloupců)
+
             foreach ($this->collection as $entity) {
                 $row = [];
                 $this->extract($entity, $row);
@@ -258,7 +265,6 @@ abstract class RepoAbstract {
                 }
             }
 
-            $this->new = []; // při dalším pokusu o find se bude volat recteateEntity, entita se zpětně načte z db (včetně případného autoincrement id a dalších generovaných sloupců)
             foreach ($this->removed as $entity) {
                 $row = [];
                 $this->extract($entity, $row);

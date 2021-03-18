@@ -7,5 +7,5 @@ use Pes\Text\Text;
 /** @var PaperAggregatePaperContentInterface $paperAggregate */
 ?>
 
-<p class="nadpis uvod"><?= Text::mono('Klíč k příležitostem<sup class="text maly">&reg;</sup>') ?></p>
+<p class="nadpis uvod"><?= Text::mono($headline) ?></p>
 

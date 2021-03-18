@@ -11,6 +11,24 @@ namespace Model\Entity;
  * @author pes2704
  */
 interface EntityInterface extends EntitySingletonInterface {
+    
+    public function setPersisted(): EntityInterface;
+
+    /**
+     *
+     * @return \Model\Entity\EntityInterface
+     */
+    public function setUnpersisted(): EntityInterface;
+
+    /**
+     *
+     * @return bool
+     */
+    public function isPersisted():bool;
+
+    public function lock(): EntityInterface;
+
+    public function isLocked(): bool;
 
     public function getKeyAttribute();
 }

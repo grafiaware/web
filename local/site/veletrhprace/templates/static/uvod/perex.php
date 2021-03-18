@@ -17,7 +17,7 @@ use Pes\Text\Text;
                           public/site/veletrhprace/images/pan_s_tabletem_mobile.jpg 820w"
                           sizes="
                             (max-width: 768px) 100vw,
-                            (min-width: 769px) 480px"
+                            120px"
                          width="476" height="671" alt="Pracovník s tabletem"/>
                     <div class="primarni-barva podklad nadpis presah">
                         <p>30. 3.—1. 4. 2021</p>

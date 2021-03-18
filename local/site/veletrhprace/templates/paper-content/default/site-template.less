@@ -330,10 +330,20 @@ content .online-stanky{
     margin: 0 -50px 0 -50px;
     background-image: url('@{imgForSite}pozadi-hala.png');
     background-size: contain;
-    .logo-vystavovatele{
-        max-height: 80%;
-        max-width: 80%;
+    .logo-vystavovatele img{
+        max-height: 100px;
+        max-width: 260px; 
     }
+}
+.letak-stanku{
+    img{
+        width: 280px;
+        object-fit: cover;
+        object-position: top;
+    }
+}
+.letak-v-igelitce{
+    height: 300px;
 }
 .prednasejici{
     margin-bottom: 70px;
@@ -409,7 +419,8 @@ content .online-stanky{
 .video-na-stanku{
     position: relative; 
     top: 70px; 
-    left: 68%;
+    text-align: right;
+    margin-right: 80px;
 }
 .pozadi-na-stanku{
 /*    background-image: url('@{imgForSite}stanek-pozadi.png');
@@ -445,7 +456,7 @@ content .online-stanky{
     }
     .button:first-child{
         position: absolute; 
-        top: -340px; 
+        top: -370px;  
         left: 8%;
     }
 }
