@@ -110,8 +110,8 @@ class SelectorItems {
             function() {
                 return [
                     //TODO: doplnit basic autentifikaci pro případ něpřihlášeného uživatele.
-//                    new \Middleware\Status\SecurityStatus(),
-//                    new \Middleware\Logged\LoggedAccess(new LoggedAccessor($this->app)),
+                    new \Middleware\Status\SecurityStatus(),
+                    new \Middleware\Logged\LoggedAccess(new LoggedAccessor($this->app)),
                     new \Middleware\Build\Build()
                 ];},
 

@@ -6,7 +6,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-use Mail\Configuration;
+use Mail\Params;
 use Mail\Params\Attachment;
 
 /**
@@ -15,6 +15,16 @@ use Mail\Params\Attachment;
  * @author pes2704
  */
 class Mail {
+
+    /**
+     *
+     * @var Params
+     */
+    private $params;
+
+    public function __construct(Params $params = null) {
+        $this->params = $params;
+    }
 
     /**
      * Use: [MyClass::class, 'myStaticCallback']
@@ -30,7 +40,7 @@ class Mail {
      * @param string $extra
      *
      */
-    public function actionOnSend(bool $result, array   $to, array   $cc, array   $bcc, string  $subject, string  $body, string  $from, string  $extra) {
+    public static function actionOnSend(bool $result, array $to, array $cc, array $bcc, string $subject, string $body, string $from, array $extra) {
         /**
          * Callback Action function name.
          *
@@ -47,16 +57,20 @@ class Mail {
          *   string  $subject       the subject
          *   string  $body          the email body
          *   string  $from          email address of sender
-         *   string  $extra         extra information of possible use
+         *   array  $extra         extra information of possible use
          *                          "smtp_transaction_id' => last smtp transaction id
          *
          * @var string
          */
-        ;
+        echo '!action!';
+        $a = 1;
     }
 
-    public function mail($configName) {
-        $configuration = Configuration::params($configName);
+    public function mail(Params $params = null) {
+        $actualParams = $this->params ;
+        if (isset($params)) {
+            $actualParams->adotpConfugurationParams($params);
+        }
 
         //Instantiation and passing `true` enables exceptions
         $mail = new PHPMailer(true);
@@ -66,35 +80,38 @@ class Mail {
             $mail->SMTPDebug = SMTP::DEBUG_OFF;                      //Enable verbose debug output
             $mail->isSMTP();                                            //Send using SMTP
 
-            $mail->Host = $configuration->getHost()->getHost();                      //Set the SMTP server to send through
-            $mail->SMTPSecure = $configuration->getEncryption()->getSmtpSecure();
-            $mail->Port = $configuration->getEncryption()->getPort();
+            $mail->Host = $actualParams->getHost()->getHost();                      //Set the SMTP server to send through
+            $mail->SMTPSecure = $actualParams->getEncryption()->getSmtpSecure();
+            $mail->Port = $actualParams->getEncryption()->getPort();
 
             //Whether to use SMTP authentication
-            $mail->SMTPAuth = $configuration->getSmtpAuth()->getSmtpAuth();
+            $mail->SMTPAuth = $actualParams->getSmtpAuth()->getSmtpAuth();
             //Username to use for SMTP authentication
-            $mail->Username = $configuration->getSmtpAuth()->getUserName();
+            $mail->Username = $actualParams->getSmtpAuth()->getUserName();
             //Password to use for SMTP authentication
-            $mail->Password = $configuration->getSmtpAuth()->getPassword();
+            $mail->Password = $actualParams->getSmtpAuth()->getPassword();
 
             //Recipients
-            $from = $configuration->getParty()->getFrom();
+            $from = $actualParams->getParty()->getFrom();
             $mail->setFrom($from[0], $from[1]);
-            foreach ($configuration->getParty()->getToArray() as $to) {
+            foreach ($actualParams->getParty()->getToArray() as $to) {
                 $mail->addAddress($to[0], $to[1]);     //Add a recipient            //Name is optional
             };
 
             //Attachments
-            foreach ($configuration->getContent()->getAttachments() as $attachment) {
+            foreach ($actualParams->getContent()->getAttachments() as $attachment) {
                 /** @var Attachment $attachment */
                 $mail->addAttachment($attachment->getFileName(), $attachment->getAltText());      //Add attachments  //Optional name
             }
 
             //Content
             $mail->isHTML(true);                                  //Set email format to HTML
-            $mail->Subject = $configuration->getContent()->getSubject();
-            $mail->Body    = $configuration->getContent()->getBody();
-            $mail->AltBody = $configuration->getContent()->getAltBody();
+            $mail->Subject = $actualParams->getContent()->getSubject();
+            $mail->Body    = $actualParams->getContent()->getBody();
+            $mail->AltBody = $actualParams->getContent()->getAltBody();
+
+            $mail->action_function = Mail::class.'::actionOnSend';
+
 
             $mail->send();
             $message =  'Message has been sent';

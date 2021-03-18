@@ -80,6 +80,16 @@ class LoginAggregateRegistrationRepositoryTest extends TestCase {
 
          return (new EnvironmentFactory())->create($data, self::$inputStream);
     }
+    private static function deleteRecords(Container $container) {
+        /** @var RegistrationDao $registrationDao */
+        $registrationDao = $container->get(RegistrationDao::class);
+        /** @var LoginDao $loginDao */
+        $loginDao = $container->get(LoginDao::class);
+        $registrationDao->delete(['login_name_fk'=>"testLoginAggregateRegistration1"]);
+        $loginDao->delete(['login_name'=>"testLoginAggregateRegistration1"]);
+        $registrationDao->delete(['login_name_fk'=>"testLoginAggregateRegistration2"]);
+        $loginDao->delete(['login_name'=>"testLoginAggregateRegistration2"]);
+    }
 
     public static function setUpBeforeClass(): void {
         if ( !defined('PES_DEVELOPMENT') AND !defined('PES_PRODUCTION') ) {
@@ -104,6 +114,9 @@ class LoginAggregateRegistrationRepositoryTest extends TestCase {
                     )
                 )
             );
+        // mazání - zde jen pro případ, že minulý test nebyl dokončen
+        self::deleteRecords($container);
+
         /** @var RegistrationDao $registrationDao */
         $registrationDao = $container->get(RegistrationDao::class);
         /** @var LoginDao $loginDao */
@@ -144,30 +157,32 @@ class LoginAggregateRegistrationRepositoryTest extends TestCase {
                     )
                 )
             );
-        /** @var RegistrationDao $registrationDao */
-        $registrationDao = $container->get(RegistrationDao::class);
-        /** @var LoginDao $loginDao */
-        $loginDao = $container->get(LoginDao::class);
-        $registrationDao->delete(['login_name_fk'=>"testLoginAggregate1"]);
-        $loginDao->delete(['login_name'=>"testLoginAggregate1"]);
-        $registrationDao->delete(['login_name_fk'=>"testLoginAggregate2"]);
-        $loginDao->delete(['login_name'=>"testLoginAggregate2"]);
+        self::deleteRecords($container);
     }
 
     public function testSetUp() {
         $this->assertInstanceOf(LoginAggregateRegistrationRepo::class, $this->loginAggRegRepo);
     }
 
-    public function testGet() {
+    public function testGetNonExisted() {
         $loginAgg = $this->loginAggRegRepo->get("QWER45T6U7I89OPOLKJHGFD");
         $this->assertNull($loginAgg);
-        $loginAgg = $this->loginAggRegRepo->get("testLoginAggregate1");
+    }
+
+    public function testGetAndRemoveAfterSetup() {
+        $loginAgg = $this->loginAggRegRepo->get("testLoginAggregateRegistration1");
         $this->assertInstanceOf(LoginAggregateRegistration::class, $loginAgg);
+        $this->loginAggRegRepo->remove($loginAgg);
+    }
+
+    public function testGetAfterRemove() {
+        $loginAgg = $this->loginAggRegRepo->get("testLoginAggregateRegistration1");
+        $this->assertNull($loginAgg);
     }
 
     ###### complete aggregate ################
 
-    public function testAddComplete() {
+    public function testAddCompleteAndReread() {
         $loginAgg = new LoginAggregateRegistration();
         $loginAgg->setLoginName("testLoginAggregateRegistration1");
         $registration = new Registration();
@@ -179,6 +194,11 @@ class LoginAggregateRegistrationRepositoryTest extends TestCase {
         $this->loginAggRegRepo->flush();
         $this->assertTrue($loginAgg->isPersisted(), 'LoginAggregate není persistován.');
         $this->assertTrue($registration->isPersisted(), 'Registration není persistován.');
+        $loginAgg = $this->loginAggRegRepo->get($loginAgg->getLoginName());
+        $this->assertTrue($loginAgg->isPersisted(), 'Login není persistován.');
+        $this->assertTrue($registration->isPersisted(), 'Vnořený Registration není persistován.');
+        $this->assertTrue(is_string($registration->getUid()));
+        $this->assertInstanceOf(\DateTime::class, $registration->getCreated());
     }
 
     public function testGetAfterAddComplete() {

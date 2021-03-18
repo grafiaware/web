@@ -248,4 +248,12 @@ class ConfigurationRed extends ConfigurationDb {
             'siteDirectory' => self::RED_LINKS_SITE,
         ];
     }
+
+    public static function mail() {
+        return [
+            'mail.logs.directory' => 'Logs/Mail',
+            'mail.logs.file' => 'Mail.log',
+            'configuration.name' => 'test'
+        ];
+    }
 }

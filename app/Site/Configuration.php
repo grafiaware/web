@@ -78,6 +78,9 @@ class Configuration {
                 case 'transformator':
                     self::$cache[$name] = Siteconfig\ConfigurationRed::transformator();
                     break;
+                case 'mail':
+                    self::$cache[$name] = Siteconfig\ConfigurationRed::mail();
+                    break;
 
                 ###############################
                 # configutation db
@@ -217,4 +220,11 @@ class Configuration {
     public static function transformator() {
         return self::getConfigModule('transformator');
     }
+
+    public static function mail() {
+        return self::getConfigModule('mail');
+    }
+
+
+
 }
