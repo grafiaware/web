@@ -72,27 +72,27 @@ class Params {
 
     }
 
-    public function getHost(): Host {
+    public function getHost(): ?Host {
         return $this->host;
     }
 
-    public function getSmtpAuth(): SmtpAuth {
+    public function getSmtpAuth(): ?SmtpAuth {
         return $this->smtpAuth;
     }
 
-    public function getEncryption(): Encryption {
+    public function getEncryption(): ?Encryption {
         return $this->encryption;
     }
 
-    public function getParty(): Party {
+    public function getParty(): ?Party {
         return $this->party;
     }
 
-    public function getContent(): Content {
+    public function getContent(): ?Content {
         return $this->content;
     }
 
-    public function getHeaders(): Headers {
+    public function getHeaders(): ?Headers {
         return $this->headers;
     }
 

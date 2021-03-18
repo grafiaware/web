@@ -301,13 +301,6 @@ class ParamsContainer {
 //                        ->addCc($ccAddress, $ccName)
 //                        ->addBcc($bccAddress, $bccName)
                     )
-            ->setContent(
-                    (new Content())
-                        ->setSubject($subject)
-                        ->setBody($body)
-                        ->setAttachments($attachments)
-
-                    )
             ;
 
         return $params;

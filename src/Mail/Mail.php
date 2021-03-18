@@ -22,7 +22,7 @@ class Mail {
      */
     private $params;
 
-    public function __construct(Params $params) {
+    public function __construct(Params $params = null) {
         $this->params = $params;
     }
 
@@ -67,7 +67,6 @@ class Mail {
     }
 
     public function mail(Params $params = null) {
-//        $configuration = Configuration::params($configName);
         $actualParams = $this->params ;
         if (isset($params)) {
             $actualParams->adotpConfugurationParams($params);
