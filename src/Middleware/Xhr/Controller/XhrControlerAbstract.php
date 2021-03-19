@@ -14,8 +14,6 @@ use Controller\PresentationFrontControllerAbstract;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-use Psr\Container\ContainerInterface;
-
 use StatusManager\{
     StatusManagerInterface, StatusPresentationManagerInterface
 
@@ -39,17 +37,7 @@ use Pes\View\ViewFactory;
  *
  * @author pes2704
  */
-abstract class XhrControlerAbstract extends PresentationFrontControllerAbstract  implements XhrControlerInterface {
-
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
-
-    public function injectContainer(ContainerInterface $componentContainer): XhrControlerInterface {
-        $this->container = $componentContainer;
-        return $this;
-    }
+abstract class XhrControlerAbstract extends PresentationFrontControllerAbstract {
 
     protected function isEditableLayout() {
         $userActions = $this->statusSecurityRepo->get()->getUserActions();

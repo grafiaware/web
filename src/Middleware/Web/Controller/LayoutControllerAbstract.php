@@ -13,8 +13,6 @@ use Site\Configuration;
 use Controller\PresentationFrontControllerAbstract;
 use Psr\Http\Message\ServerRequestInterface;
 
-use Psr\Container\ContainerInterface;
-
 use Model\Repository\{
     StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo
 };
@@ -43,14 +41,9 @@ use Pes\View\Template\InterpolateTemplate;
  *
  * @author pes2704
  */
-abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstract  implements LayoutControllerInterface  {
+abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstract {
 
     private $viewFactory;
-
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
 
     protected $componentViews = [];
 
@@ -62,11 +55,6 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
             ViewFactory $viewFactory) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
         $this->viewFactory = $viewFactory;
-    }
-
-    public function injectContainer(ContainerInterface $componentContainer): LayoutControllerInterface {
-        $this->container = $componentContainer;
-        return $this;
     }
 
     protected function isEditableLayout() {

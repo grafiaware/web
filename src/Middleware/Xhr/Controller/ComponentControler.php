@@ -108,7 +108,7 @@ class ComponentControler extends XhrControlerAbstract {
      */
     private function getCompiledContent($staticName) {
 
-        $compiledPath = Configuration::componentControler()['static']."__compiled/";
+        $compiledPath = Configuration::componentControler()['compiled'];
         $compiledFileName = $compiledPath.$staticName.".html";
         $templatePath = Configuration::componentControler()['static'].$staticName;
         $templateFilename = $templatePath."/template.php";
