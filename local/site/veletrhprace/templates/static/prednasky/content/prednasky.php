@@ -8,11 +8,12 @@ use Pes\Text\Text;
 ?>
 
 <div class="prednasejici">
+    <p class="text velky primarni-barva nastred"><?= $datum ?></p>
     <div class="ui two column internally celled grid centered">
         <div class="stretched row">
             <div class="eight wide column"><p><b>Název přednášky</b></p></div>
-            <div class="eight wide column"><p><b>Téma</b></p></div>
+            <div class="eight wide column"><p><b>Téma, přednášející</b></p></div>
         </div>
-        <?= $this->repeat(__DIR__.'/prednasky/prednaska.php', $prednaska) ?>
+        <?= $this->repeat(__DIR__.'/prednasky/prednaska.php', $prednasky) ?>
     </div>
 </div>

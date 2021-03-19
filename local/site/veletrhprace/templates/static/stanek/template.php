@@ -14,7 +14,7 @@ $static_ref = '_www_vp_files/static/';
 $firma = [
     'nazev' => 'Konplan s.r.o.',
     'videoAttributes' => [
-        'poster' => $static_ref.'konplan/assets/monitor-na-stanek.jpg',
+        'poster' => $static_ref.'konplan/assets/monitor-na-stanek1.jpg',
     ],
     'videoSourceSrc' => $static_ref.'konplan/movie/konplan_video.mp4',
     'imgStankuAttributes' => [
