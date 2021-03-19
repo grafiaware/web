@@ -41,7 +41,7 @@ class MailContainerConfigurator extends ContainerConfiguratorAbstract {
                 return FileLogger::getInstance($c->get('mail.logs.directory'), $c->get('mail.logs.file'), FileLogger::APPEND_TO_LOG); //new NullLogger();
             },
             Mail::class => function(ContainerInterface $c) {
-                return new Mail(ParamsContainer::params('mail.paramsname'), $c->get('mailLogger'));
+                return new Mail(ParamsContainer::params($c->get('mail.paramsname')), $c->get('mailLogger'));
             }
 
         ];

@@ -35,19 +35,11 @@ use Model\Entity\LoginAggregateRegistration;
  */
 class RegistrationController extends PresentationFrontControllerAbstract
 {
-
-    //private $authenticator;
-
     /**
      *
      * @var LoginAggregateRegistrationRepo
      */
     private $loginAggregateRegistrationRepo;
-    /**
-     *
-     * @var LoginAggregateCredentialsRepo
-     */
-    private $loginAggregateCredentialsRepo;
 
     /**
      *
@@ -57,11 +49,9 @@ class RegistrationController extends PresentationFrontControllerAbstract
                    StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
          ResourceRegistryInterface $resourceRegistry=null,
-     LoginAggregateCredentialsRepo $loginAggregateCredentialsRepo,
     LoginAggregateRegistrationRepo $loginAggregateRegistrationRepo )
     {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
-        $this->loginAggregateCredentialsRepo = $loginAggregateCredentialsRepo;
         $this->loginAggregateRegistrationRepo = $loginAggregateRegistrationRepo;
     }
 
@@ -95,16 +85,17 @@ class RegistrationController extends PresentationFrontControllerAbstract
                     $registration->setPasswordHash( $registerHeslo );  // nezahashované
                     $registration->setEmail($registerEmail);
 
-                    /** @var  LoginAggregate $loginAggregateRegistrationEntity  */
+                    /** @var  LoginAggregateRegistration $loginAggregateRegistrationEntity  */
                     $loginAggregateRegistrationEntity = new LoginAggregateRegistration();
                     $loginAggregateRegistrationEntity->setLoginName($registerJmeno);
-                    $loginAggregateRegistrationEntity->setRegistration($registration);
+                    $loginAggregateRegistrationEntity->setRegistration($registration); // <--
                     try {
                         $this->loginAggregateRegistrationRepo->add($loginAggregateRegistrationEntity);
                     } catch (UnableAddEntityException $unableExc){
                         //zadej nové jméno.
                         $this->addFlashMessage("Záznam se zadaným jménem již existuje. Zadejte jiné jméno!");
-                    }                    
+                    }  
+                    //---------------------------------------------
                     $this->loginAggregateRegistrationRepo->flush();
                     //---------------------------------------------                   
                     
@@ -115,11 +106,14 @@ class RegistrationController extends PresentationFrontControllerAbstract
                     #########################--------- poslat mail -------------------                   
                     /** @var Mail $mail */
                     $mail = $this->container->get(Mail::class);
-                    $subject =  'Registrace.';
+                    $subject =  'Veletrh práce a vzdělávání - Registrace.';
                     $body  =
-                    "<p>Děkujeme za Vaši registraci. <br/>Na tento mail neodpovídejte.</p>
-                     <p> Kliknutím na níže uvedený odkaz dokončíte svoji registraci. Odkaz je aktivní po dobu následujících 3 hodin.</p>
-                     <br/><a href='auth//v1/confirm/$uid'> Potvzení registrace </a>" ;
+                    "<h3> Veletrh práce a vzdělávání </h3>"                        
+                    ."<p>Děkujeme za Vaši registraci. <br/>Na tento mail, prosím, neodpovídejte.</p>
+                    <br/>
+                    <p> Kliknutím na níže uvedený odkaz dokončíte svoji registraci. Odkaz je aktivní následující 24 hodiny.</p>
+                    <br/><p><a href='http://localhost/web/auth/v1/confirm/$uid'>   -->> Potvrďte registraci! <<--   </a></p>"
+                    ."<br/><p>S pozdravem <br/> tým realizátora Grafia,s.r.o.</p>" ;
 
                     $attachments = [ (new Attachment())
                                     ->setFileName(Configuration::mail()['mail.files.directory'].'logo_grafia.png')  // /_www_vp_files/attachments/
@@ -127,29 +121,34 @@ class RegistrationController extends PresentationFrontControllerAbstract
                                    ];
                     $params = (new Params()) 
                                 ->setContent(  (new Content())
-                                             ->setSubject($subject)
-                                             ->setBody($body)
-                                             ->setAttachments($attachments)
-                                ->setParty  (  (new Party())
-                                             ->setFrom('info@najdisi.cz', 'veletrhprace.online')
-                                             ->addReplyTo('svoboda@grafia.cz', 'reply veletrhprace.online')
-                                             ->addTo( $registerEmail, $registerJmeno)
-                                      //->addTo('selnerova@grafia.cz', 'vlse')  // ->addCc($ccAddress, $ccName)   // ->addBcc($bccAddress, $bccName)
+                                                 ->setSubject($subject)
+                                                 ->setBody($body)
+//                                                 ->setAttachments($attachments)
                                             )
+                                ->setParty  (  (new Party())
+                                                 ->setFrom('info@najdisi.cz', 'veletrhprace.online')
+                                                 ->addReplyTo('svoboda@grafia.cz', 'reply veletrhprace.online')
+                                                 ->addTo( $registerEmail, $registerJmeno)
+                                                  //->addTo('selnerova@grafia.cz', 'vlse')  // ->addCc($ccAddress, $ccName)   // ->addBcc($bccAddress, $bccName)
                                             );
                     $mail->mail($params); // posle mail
                     #########################-----------------------------
                    
                     //zapsat cas mailu do registration
-                    $loginAggregateRegistrationEntity->getRegistration()->setEmailTime( new \DateTime() );
-
-                    $this->addFlashMessage("Děkujeme za Vaši registraci. Na Vámi zadanou adresu jsme odeslali e-mail s potvrzovacím odkazem. \n"
-                          . "Klikněte, prosím, na potvrzovací odkaz v mailové zprávě a registraci dokončete. (Odkaz je aktivní následující 3 hodiny.)");
+                    // toto nefungovalo  $loginAggregateRegistrationEntity->getRegistration()->setEmailTime( new \DateTime() )
+                    
+                    /**  @var Registration $registration1 */
+                    $registration1 = $loginAggregateRegistrationEntity1->getRegistration();
+                    $registration1->setEmailTime( new \DateTime() );
+                    //$loginAggregateRegistrationEntity1->setRegistration($r); //asi není třeba
+                    
+                    $this->addFlashMessage("Děkujeme za Vaši registraci. \n\n Na Vámi zadanou adresu jsme odeslali e-mail s potvrzovacím odkazem. \n\n"
+                          . "Klikněte, prosím, na potvrzovací odkaz v mailové zprávě a registraci dokončete. \n (Odkaz je aktivní následující 24 hodiny.)");
                 }
             }
         }
 
-        return $this->redirectSeeOther($request, "www/item/cs/602d38fa73c8d"); // 303 See Other
+        return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
 

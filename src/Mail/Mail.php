@@ -23,11 +23,11 @@ class Mail {
      * @var Params
      */
     private $params;
-    private $logger;
+    private static $logger;
 
-    public function __construct(Params $params = null, LoggerInterface $logger = null) {
+    public function __construct(Params $params = null, LoggerInterface $logger) {
         $this->params = $params;
-        $this->logger = $logger;
+        self::$logger = $logger;
     }
 
     /**
@@ -66,11 +66,11 @@ class Mail {
          *
          * @var string
          */
-        if ($this->logger) {
+        if (self::$logger) {
             if ($result) {
-                $this->logger->info("Odeslán mail '{subject}' na adresy {to}.", ['subject'=>$subject, 'to'=>implode(', ', $to)]);
+                self::$logger->info("Odeslán mail '{subject}' na adresy {to}.", ['subject'=>$subject, 'to'=>implode(', ', $to)]);
             } else {
-                $this->logger->warning("Nepodařilo se odeslat mail '{subject}' na adresy {to}.", ['subject'=>$subject, 'to'=>implode(', ', $to)]);
+                self::$logger->warning("Nepodařilo se odeslat mail '{subject}' na adresy {to}.", ['subject'=>$subject, 'to'=>implode(', ', $to)]);
             }
         }
     }
@@ -123,10 +123,8 @@ class Mail {
 
 
             $mail->send();
-            $message =  'Message has been sent';
         } catch (Exception $e) {
-            $message =  "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+            throw $e;
         }
-        return $message;
         }
 }

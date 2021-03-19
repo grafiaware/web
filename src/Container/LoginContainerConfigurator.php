@@ -194,9 +194,7 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
                     $c->get(StatusFlashRepo::class),
                     $c->get(StatusPresentationRepo::class),
                         null,
-                    $c->get(LoginAggregateCredentialsRepo::class),
-                    $c->get(LoginAggregateRegistrationRepo::class),
-                    $c->get(AuthenticatorInterface::class))
+                    $c->get(LoginAggregateRegistrationRepo::class))                    
                     )->injectContainer($c);  // inject component kontejner
                     ;
             },
@@ -216,9 +214,9 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
                     $c->get(StatusSecurityRepo::class),
                     $c->get(StatusFlashRepo::class),
                     $c->get(StatusPresentationRepo::class),
+                        null,
                     $c->get(LoginAggregateCredentialsRepo::class),
-                    $c->get(LoginAggregateRegistrationRepo::class)
-                    )
+                    $c->get(LoginAggregateRegistrationRepo::class))                    
                     )->injectContainer($c);  // inject component kontejner
                     ;                        
             }
