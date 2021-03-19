@@ -5,6 +5,9 @@ namespace Middleware\Login\Controller;
 use Site\Configuration;
 use Mail\Mail;
 
+use Mail\Params;
+use Mail\Params\{Content, Attachment, Party};
+
 use Psr\Http\Message\ServerRequestInterface;
 
 use Pes\Http\Request\RequestParams;
@@ -32,17 +35,18 @@ use Model\Entity\LoginAggregateRegistration;
  * @author pes2704
  */
 class ConfirmController extends PresentationFrontControllerAbstract
-{
-    /**
-     *
-     * @var RegistrationRepo
-     */
-    private $registrationRepo;
+{    
     /**
      *
      * @var LoginAggregateCredentialsRepo
      */
     private $loginAggregateCredentialsRepo;
+    /**
+     *
+     * @var RegistrationRepo
+     */
+    private $registrationRepo;    
+    
 
     /**
      *
@@ -51,9 +55,9 @@ class ConfirmController extends PresentationFrontControllerAbstract
                 StatusSecurityRepo $statusSecurityRepo,
                    StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
-            ResourceRegistryInterface $resourceRegistry=null,
+         ResourceRegistryInterface $resourceRegistry=null,
      LoginAggregateCredentialsRepo $loginAggregateCredentialsRepo,
-                  RegistrationRepo $registrationRepo)
+                  RegistrationRepo $registrationRepo )
     {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
         $this->loginAggregateCredentialsRepo = $loginAggregateCredentialsRepo;
@@ -63,13 +67,14 @@ class ConfirmController extends PresentationFrontControllerAbstract
     public function confirm(ServerRequestInterface $request, $uid) {
             if ($uid ) {
                         // /* @var  LoginAggregateRegistration $loginAggregateRegistrationEntity  */
-                /** @var  LoginAggregateRegistration $registrationEntity  */
+                
+                /** @var  Registration $registrationEntity  */
                 $registrationEntity = $this->registrationRepo->getByUid($uid);                
                 
                 if ( isset($registrationEntity) ) {                    
                     $password = $registrationEntity->getPasswordHash();  // v registration je nezahash. heslo
                     $loginNameFk = $registrationEntity->getLoginNameFk();   
-                    // $uidRegistration = $loginAggregateRegistrationEntity->getRegistration()->getUid();  //nepotrebuji
+                    $registerEmail = $registrationEntity->getEmail();
                     
                     $credentials = new Credentials();
                     $credentials->setPasswordHash( (new Password())->getPasswordHash($password) );
@@ -81,22 +86,45 @@ class ConfirmController extends PresentationFrontControllerAbstract
                         
                         $registrationEntity->setPasswordHash('');
                         
-                        /* nebude */$this->addFlashMessage( "* nebude * \n Potvrzeno, Vaše registrace byla dokončena.");
-                        // **mail** !!!!
-                        //Vaše registrace byla dokončena. Děkujeme Vám za spolupráci.
-                        $mail = new Mail();
-                        $mail->mail('body_confirm');
+                        /* nebude */$this->addFlashMessage( "* nebude * \n Potvrzeno, Vaše registrace byla dokončena.");                                                                                          
+                   
+                        #########################--------- poslat mail -------------------                   
+                        /** @var Mail $mail */
+                        $mail = $this->container->get(Mail::class);
+                        $subject =  'Registrace dokončena.';
+                        $body  =
+                        "<p> Vaše registrace byla dokončena. Děkujeme Vám za spolupráci.  </p> " ;
+
+                        $attachments = [ (new Attachment())
+                                        ->setFileName(Configuration::mail()['mail.files.directory'].'logo_grafia.png')  // /_www_vp_files/attachments/
+                                        ->setAltText('Logo Grafia')
+                                       ];
+                        $params = (new Params()) 
+                                    ->setContent(  (new Content())
+                                                 ->setSubject($subject)
+                                                 ->setBody($body)
+                                                 ->setAttachments($attachments)
+                                    ->setParty  (  (new Party())
+                                                 ->setFrom('info@najdisi.cz', 'veletrhprace.online')
+                                                 ->addReplyTo('svoboda@grafia.cz', 'reply veletrhprace.online')
+                                                 ->addTo( $registerEmail, $loginNameFk)
+                                          //->addTo('selnerova@grafia.cz', 'vlse')  // ->addCc($ccAddress, $ccName)   // ->addBcc($bccAddress, $bccName)
+                                                )
+                                                );
+                        $mail->mail($params); // posle mail
+                        #########################-----------------------------
+                                                                    
                     }
                     else {
                         // chyba Již bylo zaregistrováno a potvrzeno.
                         // nehlasit nic,        ?? nebo az po 10sec  poslat    **mail** ??? ??
-                        /* nebude */ $this->addFlashMessage( " * nwebude * \n Byli jste zaregistrováni.");
+                        /* nebude */ $this->addFlashMessage( " * nebude * \n Byli jste zaregistrováni.");
                     }                    
                  } 
                  else {
                      // chyba Takový registrační požadavek nebyl požadovan/zaznamenán.
                      // zapsat do logu, tj. nějak dát vědět autorům systému                     
-                      /* nebude */$this->addFlashMessage( " *nebude* \n Takový registrační požadavek nebyl požadován/zaznamenán.");
+                     /* nebude */$this->addFlashMessage( " *nebude* \n Takový registrační požadavek nebyl požadován/zaznamenán.");
                  }
             }
         

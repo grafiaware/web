@@ -216,7 +216,8 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
                     $c->get(StatusSecurityRepo::class),
                     $c->get(StatusFlashRepo::class),
                     $c->get(StatusPresentationRepo::class),
-                    $c->get(LoginAggregateCredentialsRepo::class)
+                    $c->get(LoginAggregateCredentialsRepo::class),
+                    $c->get(LoginAggregateRegistrationRepo::class)
                     )
                     )->injectContainer($c);  // inject component kontejner
                     ;                        

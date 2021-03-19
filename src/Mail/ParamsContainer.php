@@ -35,7 +35,7 @@ class ParamsContainer {
         }
     }
     //------------------------------------------------------------------------------------------------------------
-    private static function body_register() {
+   /* private static function body_register() {
         $subject =  'mail pro registraci';
         $body  =
        "<p>Děkujeme za Vaši registraci. <br/>Na tento mail neodpovídejte.</p>
@@ -192,14 +192,14 @@ class ParamsContainer {
 
         return $params;
     }
-
+*/
     //-----------------------------------------------------------------------------------------------------------------------
 
     /**
      * Parametry pro odesílání prostřednictvím smtp.cesky-hosting.cz
      * Pro přihlášení k SMTP serveru se používají údaje emailového účtu 'info@najdisi.cz' zřízeného na doméně najdisi.cz
      *
-     * Parametry neobsahují: Content a Party, tyto porametry usí být doplněy.
+     * Parametry neobsahují: Content a Party, tyto porametry musí být doplněy.
      *
      * @return Params
      */

@@ -5,6 +5,9 @@ namespace Middleware\Login\Controller;
 use Site\Configuration;
 use Mail\Mail;
 
+use Mail\Params;
+use Mail\Params\{Content, Attachment, Party};
+
 use Psr\Http\Message\ServerRequestInterface;
 
 use Pes\Http\Request\RequestParams;
@@ -19,6 +22,8 @@ use Model\Repository\StatusFlashRepo;
 
 use Model\Repository\LoginAggregateCredentialsRepo;
 use Model\Entity\LoginAggregateCredentials;
+use Model\Repository\LoginAggregateRegistrationRepo;
+use Model\Entity\LoginAggregateRegistration;
 
 
 /**
@@ -28,18 +33,20 @@ use Model\Entity\LoginAggregateCredentials;
  */
 class PasswordController extends PresentationFrontControllerAbstract { 
     private $loginAggregateCredentialsRepo;
+    private $loginAggregateRegistrationRepo;
     
     
     public function __construct(
                         StatusSecurityRepo $statusSecurityRepo,
                            StatusFlashRepo $statusFlashRepo,
                     StatusPresentationRepo $statusPresentationRepo,
-            ResourceRegistryInterface $resourceRegistry=null,            
-             LoginAggregateCredentialsRepo $loginAggregateCredentialRepo
-            ) {
-        
+                 ResourceRegistryInterface $resourceRegistry=null,            
+             LoginAggregateCredentialsRepo $loginAggregateCredentialRepo,
+            LoginAggregateRegistrationRepo $loginAggregateRegistrationRepo)
+    {        
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
         $this->loginAggregateCredentialsRepo = $loginAggregateCredentialRepo;
+        $this->loginAggregateRegistrationRepo = $loginAggregateRegistrationRepo;
     }
     
     
@@ -56,22 +63,47 @@ class PasswordController extends PresentationFrontControllerAbstract {
                 // heslo je zahashovane v Credentials - posleme mailem náhradní vygenerované, a zahashujeme do Credentials
                 /** @var  LoginAggregateCredentials $loginAggregateCredentialsEntity  */
                 $loginAggregateCredentialsEntity = $this->loginAggregateCredentialsRepo->get($loginJmeno);
+                /** @var  LoginAggregateRegistration $loginAggregateRegistrationEntity  */
+                $loginAggregateRegistrationEntity = $this->loginAggregateRegistrationRepo->get($loginJmeno);                
                 
-                if (isset ($loginAggregateCredentialsEntity) ) {
+                if ( (isset ($loginAggregateCredentialsEntity)) AND (isset ($loginAggregateRegistrationEntity) ) ) {
                     $generatedPassword = $this->generatePassword();
                     $hashedGeneratedPassword = ( new Password())->getPasswordHash($generatedPassword);
                     $credentials = $loginAggregateCredentialsEntity->getCredentials()->setPasswordHash( $hashedGeneratedPassword );
                     $loginAggregateCredentialsEntity->setCredentials($credentials);
+                    
+                    $registerEmail = $loginAggregateRegistrationEntity->getRegistration()->getEmail();
+                    
+                    #########################--------- poslat mail -------------------                   
+                    /** @var Mail $mail */
+                    $mail = $this->container->get(Mail::class);
+                    $subject =  'Heslo bylo změněno.';
+                    $body  =
+                    " <p>Děkujeme za zaslaný požadavek na vygenerování nového hesla.</p>
+                      <p> Vaše nové přihlašovací údaje jsou:</p>
+                      Jméno :  $loginJmeno     Heslo: $generatedPassword ";                     
 
-                    //**mail**
-                    // Děkujeme za zaslaný požadavek na vygenerování nového hesla.
-                    // Vaše nové přihlašovací údaje jsou:
-                    // Jméno :  $loginJmeno     Heslo: $generatedPassword          
-                    $mail = new Mail();
-                    $mail->mail('body_forgottenPassword');
-
+                    $attachments = [ (new Attachment())
+                                    ->setFileName(Configuration::mail()['mail.files.directory'].'logo_grafia.png')  // /_www_vp_files/attachments/
+                                    ->setAltText('Logo Grafia')
+                                   ];
+                    $params = (new Params()) 
+                                ->setContent(  (new Content())
+                                             ->setSubject($subject)
+                                             ->setBody($body)
+                                             ->setAttachments($attachments)
+                                ->setParty  (  (new Party())
+                                             ->setFrom('info@najdisi.cz', 'veletrhprace.online')
+                                             ->addReplyTo('svoboda@grafia.cz', 'reply veletrhprace.online')
+                                             ->addTo( $registerEmail, $loginJmeno )
+                                      //->addTo('selnerova@grafia.cz', 'vlse')  // ->addCc($ccAddress, $ccName)   // ->addBcc($bccAddress, $bccName)
+                                            )
+                                            );
+                    $mail->mail($params); // posle mail
+                    #########################-----------------------------
                     
                     $this->addFlashMessage("Na Váš email.adresu jsme odeslali nové přihlašovací údaje.");
+
                     /*nebude*/    $this->addFlashMessage("Vaše nové přihlašovací údaje jsou:\n Jméno :  $loginJmeno \n    Heslo: $generatedPassword ");
                 }
                 else {

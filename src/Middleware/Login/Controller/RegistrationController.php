@@ -4,6 +4,9 @@ namespace Middleware\Login\Controller;
 use Site\Configuration;
 use Mail\Mail;
 
+use Mail\Params;
+use Mail\Params\{Content, Attachment, Party};
+
 use Psr\Http\Message\ServerRequestInterface;
 
 use Pes\Http\Request\RequestParams;
@@ -53,15 +56,13 @@ class RegistrationController extends PresentationFrontControllerAbstract
                 StatusSecurityRepo $statusSecurityRepo,
                    StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
-            ResourceRegistryInterface $resourceRegistry=null,
+         ResourceRegistryInterface $resourceRegistry=null,
      LoginAggregateCredentialsRepo $loginAggregateCredentialsRepo,
-    LoginAggregateRegistrationRepo $loginAggregateRegistrationRepo
-            /*AuthenticatorInterface $authenticator*/)
+    LoginAggregateRegistrationRepo $loginAggregateRegistrationRepo )
     {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
         $this->loginAggregateCredentialsRepo = $loginAggregateCredentialsRepo;
         $this->loginAggregateRegistrationRepo = $loginAggregateRegistrationRepo;
-       /* $this->authenticator = $authenticator;*/
     }
 
     public function register(ServerRequestInterface $request)
@@ -88,7 +89,7 @@ class RegistrationController extends PresentationFrontControllerAbstract
                      // ulozit udaje do tabulky, do registration + cas: do kdy je cekano na potvrzeni registrace
                      // protoze musi byt rezervace jmena nez potvrdi v mailu
                      // zobrazit "Dekujeme za Vasi registraci. Na vas email jsme vam odeslali odkaz, kterym registraci dokoncite. Odkaz je aktivni x hodin."
-                     // jeste jeden mail v Confirm()  "Registrace dokoncena."
+                     // pak jeste jeden mail v Confirm()  "Registrace dokoncena."
                     $registration = new Registration();
                     $registration->setLoginNameFk($registerJmeno);
                     $registration->setPasswordHash( $registerHeslo );  // nezahashované
@@ -103,62 +104,50 @@ class RegistrationController extends PresentationFrontControllerAbstract
                     } catch (UnableAddEntityException $unableExc){
                         //zadej nové jméno.
                         $this->addFlashMessage("Záznam se zadaným jménem již existuje. Zadejte jiné jméno!");
-                    }
-                    //--------------------------
-                    //$this->loginAggregateRegistrationRepo->flush();
-                    //--------------------------------
+                    }                    
+                    $this->loginAggregateRegistrationRepo->flush();
+                    //---------------------------------------------                   
+                    
+                    /** @var  LoginAggregateRegistration $loginAggregateRegistrationEntity1  */
+                    $loginAggregateRegistrationEntity1 = $this->loginAggregateRegistrationRepo->get($registerJmeno);
+                    $uid = $loginAggregateRegistrationEntity1->getRegistration()->getUid();    //do mailu potrebuji vygenerovane uid z tabulky registration
+
+                    #########################--------- poslat mail -------------------                   
+                    /** @var Mail $mail */
+                    $mail = $this->container->get(Mail::class);
+                    $subject =  'Registrace.';
+                    $body  =
+                    "<p>Děkujeme za Vaši registraci. <br/>Na tento mail neodpovídejte.</p>
+                     <p> Kliknutím na níže uvedený odkaz dokončíte svoji registraci. Odkaz je aktivní po dobu následujících 3 hodin.</p>
+                     <br/><a href='auth//v1/confirm/$uid'> Potvzení registrace </a>" ;
+
+                    $attachments = [ (new Attachment())
+                                    ->setFileName(Configuration::mail()['mail.files.directory'].'logo_grafia.png')  // /_www_vp_files/attachments/
+                                    ->setAltText('Logo Grafia')
+                                   ];
+                    $params = (new Params()) 
+                                ->setContent(  (new Content())
+                                             ->setSubject($subject)
+                                             ->setBody($body)
+                                             ->setAttachments($attachments)
+                                ->setParty  (  (new Party())
+                                             ->setFrom('info@najdisi.cz', 'veletrhprace.online')
+                                             ->addReplyTo('svoboda@grafia.cz', 'reply veletrhprace.online')
+                                             ->addTo( $registerEmail, $registerJmeno)
+                                      //->addTo('selnerova@grafia.cz', 'vlse')  // ->addCc($ccAddress, $ccName)   // ->addBcc($bccAddress, $bccName)
+                                            )
+                                            );
+                    $mail->mail($params); // posle mail
+                    #########################-----------------------------
+                   
+                    //zapsat cas mailu do registration
+                    $loginAggregateRegistrationEntity->getRegistration()->setEmailTime( new \DateTime() );
+
+                    $this->addFlashMessage("Děkujeme za Vaši registraci. Na Vámi zadanou adresu jsme odeslali e-mail s potvrzovacím odkazem. \n"
+                          . "Klikněte, prosím, na potvrzovací odkaz v mailové zprávě a registraci dokončete. (Odkaz je aktivní následující 3 hodiny.)");
                 }
             }
         }
-
-        /** @var  LoginAggregateRegistration $loginAggregateRegistrationEntity  */
-        $loginAggregateRegistrationEntity = $this->loginAggregateRegistrationRepo->get($registerJmeno);
-        $uid = $loginAggregateRegistrationEntity->getRegistration()->getUid();    //do mailu potrebuji vygenerovane uid z tabulky registration
-
-        //poslat **mail**
-        // "Děkujeme za Vaši registraci. Na tento mail neodpovídejte.
-        // "Kliknutím na níže uvedený odkaz dokončíte svoji registraci. Odkaz je aktivní po dobu následujících 3 hodin."
-
-        /** @var Mail $mail */
-        $mail = $this->container->get(Mail::class);
-
-        $subject =  'mail pro registraci';
-        $body  =
-       "<p>Děkujeme za Vaši registraci. <br/>Na tento mail neodpovídejte.</p>
-        <p> Kliknutím na níže uvedený odkaz dokončíte svoji registraci. Odkaz je aktivní po dobu následujících 3 hodin.</p>
-
-         <a href='auth//v1/confirm/ uid '> registrace uid  pro uid</a>
-         " ;
-
-        $attachments = [
-            (new Attachment())
-                    ->setFileName(Configuration::mail()['mail.files.directory'].'logo_grafia.png')  // /_www_vp_files/attachments/
-                    ->setAltText('Logo Grafia')
-        ];
-
-        $params = (new Params())
-                        ->setContent(
-                            (new Content())
-                                ->setSubject($subject)
-                                ->setBody($body)
-                                ->setAttachments($attachments)
-                        ->setParty(
-                            (new Party())
-                                ->setFrom('info@najdisi.cz', 'veletrhprace.online')
-                                ->addReplyTo('svoboda@grafia.cz', 'reply veletrhprace.online')
-                                ->addTo('svoboda@grafia.cz', 'Pes')
-        //                        ->addCc($ccAddress, $ccName)
-        //                        ->addBcc($bccAddress, $bccName)
-                            )
-                );
-
-        $mail->mail($params);
-
-        //zapsat cas mailu do registration
-        $loginAggregateRegistrationEntity->getRegistration()->setEmailTime( new \DateTime() );
-
-        $this->addFlashMessage("Děkujeme za Vaši registraci. Na Vámi zadanou adresu jsme odeslali e-mail s potvrzovacím odkazem. \n"
-                  . "Klikněte, prosím, na potvrzovací odkaz v mailové zprávě a registraci dokončete. (Odkaz je aktivní následující 3 hodiny.)");
 
         return $this->redirectSeeOther($request, "www/item/cs/602d38fa73c8d"); // 303 See Other
     }
