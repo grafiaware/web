@@ -1,4 +1,20 @@
-lacal vs hosting
+registrace!!!
+
+v registration kontroleru - register() - do mailu řádek 115 se dává oskaz - musí vést na správnou adresu - na hostingu "veletrhprace.online"
+
+v confirm kontroleru - přesměrování na stránku - dokončili jste registraci, to je odkaz www/item/static/:name - v metodě PageControler ->static() je
+chyba - není proměnná $menuItem - není divu nevytváří se, kus tam chybí. Musím zajistit, aby příslušná statická stránka se zabrazoval (asi jako "Nová statická stránka" i když
+není v menu.
+
+přesunout kompletace mailů na jedno místo nebo aspoň do private metod + asi změnit replyTo ze svobody na něco jiného
+
+časem - odmazávat záznamy v registration, které nebyly využity - nebyla dokončena registrace - te%d se poznají podle nesmazaného hesla (to není moc bezpečné, lze rozbít, lepší by by sloupec "registrace dokončena" a možná i das dokončení
+
+
+flash
+přidat typy - notice, warning, error
+
+local vs hosting
 PROJECT_PATH - například v konfiguraci
 
 mail
