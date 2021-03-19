@@ -10,6 +10,7 @@ namespace Controller;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Container\ContainerInterface;
 
 use Pes\View\ViewInterface;
 /**
@@ -26,4 +27,6 @@ interface FrontControllerInterface {
      * @return ResponseInterface
      */
     public function addHeaders(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface;
+
+    public function injectContainer(ContainerInterface $componentContainer): FrontControllerInterface;
 }

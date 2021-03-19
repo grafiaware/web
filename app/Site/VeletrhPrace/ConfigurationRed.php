@@ -206,7 +206,7 @@ class ConfigurationRed extends ConfigurationDb {
 
         return [
                'static' => self::RED_TEMPLATES_SITE.'static/',
-
+               'compiled' => self::RED_TEMPLATES_SITE.'static/__compiled/',
             ];
     }
 
@@ -258,4 +258,6 @@ class ConfigurationRed extends ConfigurationDb {
 
         ];
     }
+
+
 }

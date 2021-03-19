@@ -10,6 +10,7 @@ namespace Controller;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Container\ContainerInterface;
 
 /**
  * Description of ControllerAbstract
@@ -17,6 +18,13 @@ use Psr\Http\Message\ResponseInterface;
  * @author pes2704
  */
 abstract class FrontControllerAbstract implements FrontControllerInterface {
+
+
+    /**
+     * @var ContainerInterface
+     */
+    protected $container;
+
     /**
      *
      * @param ServerRequestInterface $request
@@ -24,9 +32,14 @@ abstract class FrontControllerAbstract implements FrontControllerInterface {
      * @return ResponseInterface
      */
     public function addHeaders(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
-        
+
         $response = $response->withHeader('Cache-Control', 'no-cache');
 
         return $response;
+    }
+
+    public function injectContainer(ContainerInterface $componentContainer): FrontControllerInterface {
+        $this->container = $componentContainer;
+        return $this;
     }
 }
