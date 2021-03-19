@@ -5,11 +5,10 @@ require '../../../vendor/autoload.php';
 use Mail\Mail;
 use Mail\ParamsContainer;
 use Mail\Params;
-use Mail\Params\Content;
-use Mail\Params\Attachment;
+use Mail\Params\{Content, Attachment, Party};
 
 
-$configuration = ParamsContainer::params('test');
+$configuration = ParamsContainer::params('najdisi');
 
 $mail = new Mail($configuration);
 
@@ -30,13 +29,22 @@ $attachments = [
     (new Attachment())
             ->setFileName('logo_grafia.png')
             ->setAltText('Logo Grafia')
-];
+    ];
 
-$params = (new Params())->setContent(
-                (new Content())
-                        ->setSubject($subject)
-                        ->setBody($body)
-                        ->setAttachments($attachments)
-        );
+$content = (new Content())
+            ->setSubject($subject)
+            ->setBody($body)
+            ->setAttachments($attachments);
+
+$party = (new Party())
+            ->setFrom('info@najdisi.cz', 'veletrhprace.online')
+            ->addReplyTo('svoboda@grafia.cz', 'veletrhprace.online')
+            ->addTo('svoboda@grafia.cz', 'návštěvník')
+//            ->addTo('selnerova@grafia.cz', 'vlse')
+//            ->addCc($ccAddress, $ccName)
+//            ->addBcc($bccAddress, $bccName)
+        ;
+
+$params = (new Params())->setContent($content)->setParty($party);
 
 $mail->mail($params);

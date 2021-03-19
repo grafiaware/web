@@ -195,8 +195,15 @@ class ParamsContainer {
 
     //-----------------------------------------------------------------------------------------------------------------------
 
-        private static function najdisi() {
-        // tyto parametry neobsahují: Content a Party
+    /**
+     * Parametry pro odesílání prostřednictvím smtp.cesky-hosting.cz
+     * Pro přihlášení k SMTP serveru se používají údaje emailového účtu 'info@najdisi.cz' zřízeného na doméně najdisi.cz
+     *
+     * Parametry neobsahují: Content a Party, tyto porametry usí být doplněy.
+     *
+     * @return Params
+     */
+    private static function najdisi() {
 
         $params = new Params();
         $params
