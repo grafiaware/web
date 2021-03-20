@@ -6,6 +6,9 @@ v confirm kontroleru - přesměrování na stránku - dokončili jste registraci
 chyba - není proměnná $menuItem - není divu nevytváří se, kus tam chybí. Musím zajistit, aby příslušná statická stránka se zabrazoval (asi jako "Nová statická stránka" i když
 není v menu.
 
+přidat přihlášení jako vystavovatel!!
+    - check box "registuji se jako zátupce vystavovatele"  - možná kontrola mailové domény??, ruční schválení pracovníkem Grafia??
+
 přesunout kompletace mailů na jedno místo nebo aspoň do private metod + asi změnit replyTo ze svobody na něco jiného
 
 časem - odmazávat záznamy v registration, které nebyly využity - nebyla dokončena registrace - te%d se poznají podle nesmazaného hesla (to není moc bezpečné, lze rozbít, lepší by by sloupec "registrace dokončena" a možná i das dokončení

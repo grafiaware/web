@@ -11,11 +11,11 @@ use Pes\Text\Html;
 
                         <div class="timeline-section">
                             <div class="timeline-date">
-                                <?= $casoveZarazeni ?>
-                            </div> 
+                                <?= $timelinePoint ?>
+                            </div>
                             <div class="ui grid">
                                 <div class="row">
-                                    <?= $this->repeat(__DIR__.'/casove-zarazeni/box.php', $box) ?>
+                                    <?= $this->repeat(__DIR__.'/timeline-point/box.php', $box) ?>
                                 </div>
                             </div>
                         </div>

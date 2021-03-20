@@ -1,10 +1,8 @@
 <?php
 use Pes\View\Renderer\PhpTemplateRendererInterface;
+use Pes\Text\Text;
 /** @var PhpTemplateRendererInterface $this */
 
-include 'data.php';
-include "timecolumn/template.php";
-//include "timeline-boxes/template.php";
-
-
 ?>
+
+                        <?= $this->repeat(__DIR__.'/timecolumn/timerow.php', $event) ?>

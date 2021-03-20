@@ -52,12 +52,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/box4pes/pes.git",
-                "reference": "400072830ea4568a318831a39d4f89aa06f58730"
+                "reference": "d82dcdcdec4546179ffd0bc863d9adc94fe8b3d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/box4pes/pes/zipball/400072830ea4568a318831a39d4f89aa06f58730",
-                "reference": "400072830ea4568a318831a39d4f89aa06f58730",
+                "url": "https://api.github.com/repos/box4pes/pes/zipball/d82dcdcdec4546179ffd0bc863d9adc94fe8b3d3",
+                "reference": "d82dcdcdec4546179ffd0bc863d9adc94fe8b3d3",
                 "shasum": ""
             },
             "require": {
@@ -94,7 +94,7 @@
                 "framework",
                 "pes"
             ],
-            "time": "2021-03-11T15:23:38+00:00"
+            "time": "2021-03-20T11:29:51+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
@@ -160,6 +160,12 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
+            "funding": [
+                {
+                    "url": "https://github.com/Synchro",
+                    "type": "github"
+                }
+            ],
             "time": "2021-02-19T15:28:08+00:00"
         },
         {
@@ -509,5 +515,6 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "1.1.0"
 }

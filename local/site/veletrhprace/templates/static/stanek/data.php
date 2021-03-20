@@ -9,7 +9,6 @@ use Site\Configuration;
 
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Model\Entity\PaperAggregateInterface;
-use Pes\Text\Html;
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregateInterface $paperAggregate */
 
@@ -23,6 +22,7 @@ $firma = [
     'nazev' => 'Konplan s.r.o.',
     'videoAttributes' => [
         'poster' => $static_ref.'konplan/assets/monitor-na-stanek.jpg',
+//        'poster' => $static_ref.'konplan/assets/monitor-na-stanek1.jpg',   // nemám obrázek - opravit
     ],
     'videoSourceSrc' => $static_ref.'konplan/movie/konplan_video.mp4',
     'imgStankuAttributes' => [

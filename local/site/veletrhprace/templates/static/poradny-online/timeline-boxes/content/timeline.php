@@ -9,5 +9,5 @@ use Pes\Text\Html;
 ?>
 
                     <div class="timeline">
-                        <?= $this->repeat(__DIR__.'/harmonogram3/casove-zarazeni.php', $timeline3) ?>
+                        <?= $this->repeat(__DIR__.'/timeline/timeline-point.php', $event) ?>
                     </div>

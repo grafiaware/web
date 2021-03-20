@@ -2,7 +2,7 @@
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 /** @var PhpTemplateRendererInterface $this */
 
-include 'data.php';
+
 ?>
 <div class="paper">
     <headline>
@@ -12,7 +12,7 @@ include 'data.php';
         <?php include "perex.php" ?>
     </perex>
     <content>
-         <?= $this->repeat(__DIR__.'/content/timecolumn.php', $event) ?>
+         <?= include'content/timecolumn.php' ?>
+
     </content>
-    <?php include "content/footer.php" ?>
 </div>

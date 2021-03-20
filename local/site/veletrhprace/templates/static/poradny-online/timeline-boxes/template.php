@@ -1,24 +1,22 @@
 <?php
 use Pes\View\Renderer\PhpTemplateRendererInterface;
-use Model\Entity\PaperAggregateInterface;
-use Pes\Text\Html;
+use Model\Entity\PaperAggregatePaperContentInterface;
 /** @var PhpTemplateRendererInterface $this */
-/** @var PaperAggregateInterface $paperAggregate */
+/** @var PaperAggregatePaperContentInterface $paperAggregate */
 
-
-include 'data.php';
 ?>
 
 <article class="paper">
     <section>
         <headline>
-            <?= $this->insert(__DIR__.'/headline.php', $firma)?>
+            <?php include "headline.php" ?>
         </headline>
         <perex>
             <?php include "perex.php" ?>
         </perex>
     </section>
     <section>
-        <?= $this->insert(__DIR__.'/content/stanek.php', $firma)?>
+        <content>
+         <?= include 'content/timeline.php' ?>        </content>
     </section>
 </article>
