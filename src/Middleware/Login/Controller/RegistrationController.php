@@ -94,32 +94,34 @@ class RegistrationController extends PresentationFrontControllerAbstract
                     } catch (UnableAddEntityException $unableExc){
                         //zadej nové jméno.
                         $this->addFlashMessage("Záznam se zadaným jménem již existuje. Zadejte jiné jméno!");
-                    }  
+                    }
                     //---------------------------------------------
                     $this->loginAggregateRegistrationRepo->flush();
-                    //---------------------------------------------                   
-                    
+                    //---------------------------------------------
+
                     /** @var  LoginAggregateRegistration $loginAggregateRegistrationEntity1  */
                     $loginAggregateRegistrationEntity1 = $this->loginAggregateRegistrationRepo->get($registerJmeno);
                     $uid = $loginAggregateRegistrationEntity1->getRegistration()->getUid();    //do mailu potrebuji vygenerovane uid z tabulky registration
+                    $confirmationUrl = "http://$httpHost/auth/v1/confirm/$uid";
 
-                    #########################--------- poslat mail -------------------                   
+                    #########################--------- poslat mail -------------------
                     /** @var Mail $mail */
                     $mail = $this->container->get(Mail::class);
+                    $httpHost = $request->getServerParams()['HTTP_HOST'];
                     $subject =  'Veletrh práce a vzdělávání - Registrace.';
                     $body  =
-                    "<h3> Veletrh práce a vzdělávání </h3>"                        
+                    "<h3> Veletrh práce a vzdělávání </h3>"
                     ."<p>Děkujeme za Vaši registraci. <br/>Na tento mail, prosím, neodpovídejte.</p>
                     <br/>
                     <p> Kliknutím na níže uvedený odkaz dokončíte svoji registraci. Odkaz je aktivní následující 24 hodiny.</p>
-                    <br/><p><a href='http://localhost/web/auth/v1/confirm/$uid'>   -->> Potvrďte registraci! <<--   </a></p>"
+                    <br/><p><a href=>$confirmationUrl   -->> Potvrďte registraci! <<--   </a></p>"
                     ."<br/><p>S pozdravem <br/> tým realizátora Grafia,s.r.o.</p>" ;
 
                     $attachments = [ (new Attachment())
                                     ->setFileName(Configuration::mail()['mail.files.directory'].'logo_grafia.png')  // /_www_vp_files/attachments/
                                     ->setAltText('Logo Grafia')
                                    ];
-                    $params = (new Params()) 
+                    $params = (new Params())
                                 ->setContent(  (new Content())
                                                  ->setSubject($subject)
                                                  ->setBody($body)
@@ -133,15 +135,15 @@ class RegistrationController extends PresentationFrontControllerAbstract
                                             );
                     $mail->mail($params); // posle mail
                     #########################-----------------------------
-                   
+
                     //zapsat cas mailu do registration
                     // toto nefungovalo  $loginAggregateRegistrationEntity->getRegistration()->setEmailTime( new \DateTime() )
-                    
+
                     /**  @var Registration $registration1 */
                     $registration1 = $loginAggregateRegistrationEntity1->getRegistration();
                     $registration1->setEmailTime( new \DateTime() );
                     //$loginAggregateRegistrationEntity1->setRegistration($r); //asi není třeba
-                    
+
                     $this->addFlashMessage("Děkujeme za Vaši registraci. \n\n Na Vámi zadanou adresu jsme odeslali e-mail s potvrzovacím odkazem. \n\n"
                           . "Klikněte, prosím, na potvrzovací odkaz v mailové zprávě a registraci dokončete. \n (Odkaz je aktivní následující 24 hodiny.)");
                 }
