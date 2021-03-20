@@ -17,6 +17,7 @@ use Model\Entity\PaperAggregatePaperContentInterface;
     </section>
     <section>
         <content>
-         <?= include 'content/timeline.php' ?>        </content>
+         <?php include 'content/timeline.php' ?>
+        </content>
     </section>
 </article>

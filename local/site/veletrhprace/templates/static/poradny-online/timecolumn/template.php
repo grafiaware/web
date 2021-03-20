@@ -12,7 +12,6 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
         <?php include "perex.php" ?>
     </perex>
     <content>
-         <?= include'content/timecolumn.php' ?>
-
+        <?php include'content/timecolumn.php' ?>
     </content>
 </div>
