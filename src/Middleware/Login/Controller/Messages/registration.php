@@ -43,10 +43,10 @@
                     </td>
                 </tr>
                 <tr>
-                    <td”>Po doknčení registrace dostanete potvrzovací mail. Pak se budete moci přohlašovat na web veletrprace.online.</td>
+                    <td>Po dokončení registrace dostanete potvrzovací mail. Pak se budete moci přihlašovat na web veletrprace.online.</td>
                 </tr>
                 <tr>
-                    <td”>S pozdravem <br/> tým realizátora Grafia,s.r.o.</td>
+                    <td>S pozdravem <br/> tým realizátora Grafia,s.r.o.</td>
                 </tr>
 
             </tbody>
