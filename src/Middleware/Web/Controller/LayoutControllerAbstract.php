@@ -153,19 +153,24 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
     }
 
     protected function getUserActionComponent() {
-        $credentials = $this->statusSecurityRepo->get()->getLoginAggregate();
-        if (isset($credentials)) {
-            /** @var UserActionComponent $actionComponent */
-            $actionComponent = $this->container->get(UserActionComponent::class);
-            $actionComponent->setData(
-                    [
-                    'editArticle' => $this->isEditableArticle(),
-                    'editLayout' => $this->isEditableLayout(),
-                    'userName' => $credentials->getLoginName()
-                    ]);
-            return $actionComponent;
-        } else {
-
+        $loginAggregateCredentials = $this->statusSecurityRepo->get()->getLoginAggregate();
+        if (isset($loginAggregateCredentials)) {
+            $role = $loginAggregateCredentials->getCredentials()->getRole();
+            $permission = [
+                'sup' => true,
+                'editor' => true
+            ];
+            if (array_key_exists($role, $permission) AND $permission[$role]) {
+                /** @var UserActionComponent $actionComponent */
+                $actionComponent = $this->container->get(UserActionComponent::class);
+                $actionComponent->setData(
+                        [
+                        'editArticle' => $this->isEditableArticle(),
+                        'editLayout' => $this->isEditableLayout(),
+                        'userName' => $loginAggregateCredentials->getLoginName()
+                        ]);
+                return $actionComponent;
+            }
         }
     }
 
