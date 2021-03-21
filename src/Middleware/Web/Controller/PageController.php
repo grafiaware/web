@@ -101,7 +101,7 @@ class PageController extends LayoutControllerAbstract {
         $statusPresentation->setLastGetResourcePath($resourceUri);
         $statusPresentation->setMenuItem($homeMenuItem);
         return $this->redirectSeeOther($request, $resourceUri); // 303 See Other
-        }
+    }
 
     public function item(ServerRequestInterface $request, $langCode, $uid) {
         /** @var MenuItemRepo $menuItemRepo */
@@ -117,14 +117,17 @@ class PageController extends LayoutControllerAbstract {
             return $this->redirectSeeOther($request, ""); // SeeOther - ->home
         }
     }
-    public function static(ServerRequestInterface $request, $name) {
-        /** @var MenuItemRepo $menuItemRepo */
-        $menuItemRepo = $this->container->get(MenuItemRepo::class);
-        $menuItem = $menuItemRepo->getByPrettyUri($langCodeFk, $name);
-//        $actionComponents = ["content" => $this->getStaticLoadScript($name)];
-        $actionComponents = ["content" => $this->resolveMenuItemView($menuItem, $this->isEditableArticle())];
 
-        return $this->createResponseFromView($request, $this->createView($request, $this->getComponentViews($actionComponents)));
+    public function block(ServerRequestInterface $request, $name) {
+        $menuItem = $this->getBlockMenuItem($name);
+        if ($menuItem) {
+            $statusPresentation = $this->statusPresentationRepo->get();
+            $statusPresentation->setMenuItem($menuItem);
+            $actionComponents = ["content" => $this->resolveMenuItemView($menuItem, $this->isEditableArticle())];
+            return $this->createResponseFromView($request, $this->createView($request, $this->getComponentViews($actionComponents)));
+        }
+        // neexistující stránka
+        return $this->redirectSeeOther($request, ""); // SeeOther - ->home
     }
 
     public function searchResult(ServerRequestInterface $request) {
@@ -175,8 +178,8 @@ class PageController extends LayoutControllerAbstract {
         if ($this->isEditableLayout()) {
 //            $componets['menuPresmerovani'] = $this->container->get('menu.presmerovani')->setMenuRootName('menu_redirect');
 //            $componets['menuVodorovne'] = $this->container->get('menu.vodorovne')->setMenuRootName('menu_horizontal');
-            $componets['menuSvisle'] = $this->container->get('menu.svisle')->setMenuRootName('menu_vertical')->withTitleItem(true);
-            $componets['bloky'] = $this->container->get('menu.bloky.editable')->setMenuRootName('blocks'); //->withTitleItem(true);
+            //$componets['menuSvisle'] = $this->container->get('menu.svisle')->setMenuRootName('menu_vertical')->withTitleItem(true);
+            $componets['bloky'] = $this->container->get('menu.bloky.editable')->setMenuRootName('blocks')->withTitleItem(true);
             $componets['kos'] = $this->container->get('menu.kos.editable')->setMenuRootName('trash'); //->withTitleItem(true);
         } elseif ($this->isEditableArticle()) {
 //            $componets['menuPresmerovani'] = $this->container->get('menu.presmerovani.editable')->setMenuRootName('menu_redirect');
@@ -209,17 +212,18 @@ class PageController extends LayoutControllerAbstract {
                     'banner' => 'a8',
                 ];
         $componets = [];
-        $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
         $editable = $this->isEditableLayout();
         foreach ($map as $variableName => $blockName) {
-            $menuItem = $this->getBlockMenuItem($langCode, $blockName);
+            $menuItem = $this->getBlockMenuItem($blockName);
             $componets[$variableName] = $this->resolveMenuItemView($menuItem, $editable);
 //            $componets[$variableName] = $this->container->get($componentService)->setComponentName($blockName);
         }
         return $componets;
     }
 
-    private function getBlockMenuItem($langCode, $name) {
+    private function getBlockMenuItem($name) {
+        $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
+
         /** @var BlockAggregateRepo $blockAggregateRepo */
         $blockAggregateRepo = $this->container->get(BlockAggregateRepo::class);
         $blockAggregate = $blockAggregateRepo->getAggregate($langCode, $name);

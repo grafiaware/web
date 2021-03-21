@@ -49,8 +49,7 @@ class ApiRegistrator {
         ### www ###
 
         $registry->register($this->getPrototype->withUrlPattern('/www/item/:langCode/:uid'));
-        $registry->register($this->getPrototype->withUrlPattern('/www/item/static/:name'));
-
+        $registry->register($this->getPrototype->withUrlPattern('/www/block/:name'));
         $registry->register($this->getPrototype->withUrlPattern('/www/searchresult'));
         $registry->register($this->getPrototype->withUrlPattern('/'));
 
