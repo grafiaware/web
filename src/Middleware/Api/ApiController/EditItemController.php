@@ -59,8 +59,19 @@ class EditItemController extends PresentationFrontControllerAbstract {
         $postTitle = (new RequestParams())->getParam($request, 'title');
         $postOriginalTitle = (new RequestParams())->getParam($request, 'original-title');
         $menuItem->setTitle($postTitle);
+        $menuItem->setPrettyuri($this->friendlyUrl($postTitle));
         $this->addFlashMessage("menuItem title($postTitle)");
         return $this->okMessageResponse("Uložen nový text položky menu:".PHP_EOL.$postTitle);
+    }
+
+    private function friendlyUrl($nadpis) {
+        $url = $nadpis;
+        $url = preg_replace('~[^\\pL0-9_]+~u', '-', $url);
+        $url = trim($url, "-");
+        $url = iconv("utf-8", "us-ascii//TRANSLIT", $url);
+        $url = strtolower($url);
+        $url = preg_replace('~[^-a-z0-9_]+~', '', $url);
+        return $url;
     }
 
     public function type(ServerRequestInterface $request, $uid) {

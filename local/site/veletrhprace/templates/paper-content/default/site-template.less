@@ -91,7 +91,7 @@ main headline{
 .text{
     font-size: @fontSize;
     color: @textColor;
-    &:not(.okraje):not(.okraje-vertical):not(.okraje-horizontal):not(.zadne-okraje){
+    &:not(.okraje):not(.okraje-vertical):not(.okraje-horizontal){
         padding: 10px 0;
     }
     &.okraje{
@@ -104,15 +104,11 @@ main headline{
         padding: 0 30px;
         margin-bottom: 0.15em !important;
     }
-    &.zadne-okraje{
-        padding: 5px 0;
-        margin: 0;
-    }
     &.velky{
-        font-size: @bigFontSize; 
+        font-size: @bigFontSize;
     }
     &.maly{
-        font-size: @smallFontSize;
+        font-size: @smallFontSize + 10;
     }
     &.vpravo{
         text-align: right;
@@ -123,9 +119,6 @@ main headline{
         text-align: left;
         left: 0;
         position: relative;
-    }
-    &.nastred{
-        text-align: center;
     }
     &.tucne{
         font-weight: @bold;
@@ -149,7 +142,8 @@ main headline{
 .nadpis.uvod{
     font-weight: 300;
     font-size: @h4;
-    margin-top: -40px; 
+    margin-top: -40px;
+    padding-left: 10px;
     text-transform: none;
 }
 .obr-upoutavka{
@@ -161,7 +155,7 @@ main headline{
         bottom: 15px;
         font-weight: 500;
     }
-    .blok.podnadpis{
+    .blok.text{
         width: 45%;
         text-align: left;
         padding: 20px 40px !important;
@@ -169,7 +163,9 @@ main headline{
         transform: translateY(50%);
         top: 50%;
         right: 25px;
-        font-size: @bigFontSize + 2;
+        &.velky{
+            font-size: @bigFontSize + 2;
+        }
     }
     img{
         width: 100%;
@@ -331,28 +327,10 @@ content .online-stanky{
 .online-stanky{
     padding: 70px 50px;
     margin: 0 -50px 0 -50px;
-    background-image: url('@{imgForSite}pozadi-hala.png');
-    background-size: contain;
-    .logo-vystavovatele img{
-        max-height: 100px;
-        max-width: 260px; 
-    }
-}
-.letak-stanku{
-    img{
-        width: 280px;
-        object-fit: cover;
-        object-position: top;
-    }
-}
-.letak-v-igelitce{
-    height: 300px;
+    background-color: @greyBackground ;
 }
 .prednasejici{
     margin-bottom: 70px;
-    border: 1px solid @borderColor;
-    border-radius: 5px;
-    font-size: 25px;
 }
 .blokEL-obr-text{
     position: relative;
@@ -419,45 +397,54 @@ content .online-stanky{
 .jmeno-stanku{
     position: absolute;
     width: auto !important;
-    left: 60px;
-    top: 50px; 
+    text-align: right;
+    right: 60px;
+    top: 80px;
 }
 .video-na-stanku{
     position: relative; 
-    top: 70px; 
-    text-align: right;
-    margin-right: 80px;
+    top: 100px; 
+    z-index: 10;
+}
+.pozadi-na-stanku{
+    background-image: url('@{imgForSite}1030careerfair.png');
+    background-size: 70%;
+    background-repeat: no-repeat;
+    background-position: left center;
+    height: 100%;
+    max-width: 100%;
 }
 .pani-na-stanku{
-    //margin-top: 50px;
+    margin-top: 50px;
     content{
         margin: 10px auto;
     }
 }
 .soc-site-stanku{
     margin-bottom: 15px;
-    text-align: right;
     content{
         display: inline-block;
         margin: 10px auto;
     }
 }
 .buttony-mimo-stanek{
-    .basic.button{
-        font-weight: 500;
-    }
     content{ 
         margin: 10px auto;
     }
 }
 .buttony-na-stanku{
-    .basic.button{
-        font-weight: 500;
-    }
     .button:first-child{
         position: absolute; 
-        top: -340px;  
+        z-index: 10; 
+        top: -340px; 
         left: 8%;
+    }
+    .button:last-child{
+        position: absolute; 
+        z-index: 10; 
+        top: -290px; 
+        left: 8%; 
+        width: 200px;
     }
 }
 .prednaska-stanku{
@@ -466,255 +453,5 @@ content .online-stanky{
         border-radius: 100%; 
     }
 }
-.vypis-prac-pozic{
-    .podnadpis{
-        font-size: 2rem; 
-    }
-    font-size: 1.6rem;
-    .podnadpis .tag{
-        vertical-align: middle;
-    }
-    .podnadpis .pointing{
-        //display: block;;
-    }
-}
-
-/*časová osa3*/
-.timeline{
-    margin-top:20px;
-    position:relative;
-    .box-item{
-        font-size: 18px
-    }
-}
-.timeline:before{
-    position:absolute;
-    content:'';
-    width:4px;
-    height:calc(100% + 50px);
-    background: rgb(138,145,150);
-    left:14px;
-    top:5px;
-    border-radius:4px;
-}
-.timeline-section{
-    padding-left:35px;
-    display:block;
-    position:relative;
-    margin-bottom:30px;
-}
-.timeline-date{
-    margin-bottom:15px;
-    padding:2px 15px;
-    background: #CB0A1F;
-    position:relative;
-    display:inline-block;
-    border-radius:20px;
-    border:1px solid #17191B;
-    color:#fff;
-    text-shadow:1px 1px 1px rgba(0,0,0,0.3);
-}
-.timeline-section:before{
-    content:'';
-    position:absolute;
-    width:30px;
-    height:1px;
-    background-color:#444950;
-    top:12px;
-    left:20px;
-}
-.timeline-section:after{
-    content:'';
-    position:absolute;
-    width:10px;
-    height:10px;
-    background:linear-gradient(to bottom, rgba(138,145,150,1) 0%,rgba(122,130,136,1) 60%,rgba(112,120,125,1) 100%);
-    top:7px;
-    left:11px;
-    border:1px solid #17191B;
-    border-radius:100%;
-}
-.timeline-section .col-sm-4{
-    margin-bottom:15px;
-}
-.timeline-box{
-    position:relative;
-    background-color: @white;
-    border-radius:15px;
-    border-top-left-radius:0px;
-    border-bottom-right-radius:0px;
-    border:1px solid #17191B;
-    transition:all 0.3s ease;
-    overflow:hidden;
-}
-.box-icon{
-    position:absolute;
-    right:5px;
-    top:0px;
-}
-.box-title{
-    padding:5px 15px;
-    border-bottom: 1px solid #17191B;
-}
-.box-title i{
-    margin-right:5px;
-}
-.box-content{
-    padding:5px 15px;
-    background-color: @white;
-}
-.box-content strong{
-    color:#666;
-    font-style:italic;
-    margin-right:5px;
-}
-.box-item{
-    margin-bottom:5px;
-}
-.box-footer{
-    padding:5px 15px;
-    border-top: 1px solid #17191B;
-    background-color: @white;
-    text-align:right;
-    font-style:italic;
-}
 
 
-.casova-osa p{
-    margin: 110px 10px;
-    &:first-child{
-        margin-top: 0;
-    }
-}
-.aktivity{
-    .ui.raised.segment{
-        width: 30%;
-        float: left;
-        margin: 10px;
-    }
-}
-
-/*časová osa1**/
-.timeline-1{
-    position: relative;
-    width: 100%;
-    max-width: 1140px;
-    margin: 0 auto;
-    padding: 15px 0;
-    &::after {
-        content: '';
-        position: absolute;
-        width: 2px;
-        background: @primaryColor;
-        top: 0;
-        bottom: 0;
-        left: 50%;
-        margin-left: -1px;
-    }
-    .box-left, .box-right{
-        padding: 15px 30px;
-        position: relative;
-        background: inherit;
-        width: 50%;
-        .time{
-            position: absolute;
-            display: inline-block;
-            top: calc(50% - 35px);
-            text-align: center;
-            font-size: 14px;
-            font-weight: 500;
-            color: @primaryColor;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            z-index: 1;
-        }
-        .icon{
-            position: absolute;
-            display: inline-block;
-            width: 50px;
-            height: 50px;
-            padding: 13px 0;
-            top: calc(50% - 25px);
-            background: @greyBackground;
-            border: 2px solid @primaryColor;
-            border-radius: 40px;
-            text-align: center;
-            font-size: 20px;
-            color: @primaryColor;
-            z-index: 1;
-        }
-        .summary{
-            padding: 30px 90px 30px 30px;
-            background: @greyBackground;
-            position: relative;
-            border-radius: 0 500px 500px 0;
-        }
-    }
-    .box-left::after, .box-right::after{
-        content: '';
-        position: absolute;
-        width: 16px;
-        height: 16px;
-        top: calc(50% - 8px);
-        right: -8px;
-        background: @white;
-        border: 2px solid @primaryColor;
-        border-radius: 16px;
-        z-index: 1;
-    }
-    .box-left::before, .box-right::before {
-        content: '';
-        position: absolute;
-        width: 50px;
-        height: 2px;
-        top: calc(50% - 1px);
-        right: 8px;
-        background: @primaryColor;
-        z-index: 1;
-    }
-    .box-left{
-        left: 0;
-        .time{
-            right: -75px;
-        }
-        .icon{
-            right: 56px;
-        }
-    }
-    .box-right{
-        left: 50%;
-        &::after {
-            left: -8px;
-        }
-        &::before {
-            left: 8px;
-        }
-        .time{
-            left: -75px;
-        }
-        .icon{
-            left: 56px;
-        }
-        .summary{
-            padding: 30px 30px 30px 90px;
-            border-radius: 500px 0 0 500px;
-        }
-    }
-    h2{
-        margin: 0 0 10px 0;
-        font-size: 20px;
-        font-weight: normal;
-        color: @primaryColor;
-    }
-    p{
-        margin: 7px 0;
-        font-size: 18px;
-        line-height: 22px;
-        color: #textColor;
-    }
-}
-
-.definition.table{
-    font-size: 20px;
-    margin: 200px auto 200px auto;
-}

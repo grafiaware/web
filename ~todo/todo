@@ -26,7 +26,9 @@ přidat logování
 
 
 repo
-addEntity - přidat interface dao pro entity s auto generovanými hodnotami (uid, timestamp apod) + v addEntity obdobu toho, co se děje s DaoKeyDbVerifiedInterface - navíc ještě se zpětným načtením z db
+- inspirace:     public function getByPrettyUri($langCodeFk, $prettyUri): ?MenuItemInterface - nejdříve číst row pomocí dao a z row počítat index - tak to může být ve všech Repo
+
+??addEntity - přidat interface dao pro entity s auto generovanými hodnotami (uid, timestamp apod) + v addEntity obdobu toho, co se děje s DaoKeyDbVerifiedInterface - navíc ještě se zpětným načtením z db
 
 
 
@@ -48,6 +50,11 @@ define('PES_PRODUCTION_MACHINE_HOST_NAME', 'replikant2871')
 
 pageControler
 - nefunguje home page static - neí proměnná $homeMenuItem        $statusPresentation->setMenuItem($homeMenuItem);
+
+PageControler a EditItemControler
+    metoda: private function friendlyUrl($nadpis) {) je použita duplictně na těchto dvou místech - jednou pro loadScript static a podruhé pro update menuItem při změně title
+    - musí se dát finam (service?) a také dodělat volání běžných item podle prettyUri - zaké dodělat unikátnost prettyUri - dokud je jen pro static stránky tak se to dá risknout
+
 
 nastavení menu
 - přidat volbu: aktuální stránku nastavit jako výchozí

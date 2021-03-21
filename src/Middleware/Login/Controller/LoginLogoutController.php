@@ -5,7 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-                  
+
 namespace Middleware\Login\Controller;
 
 use Site\Configuration;
@@ -15,9 +15,6 @@ use Psr\Http\Message\ServerRequestInterface;
 use Pes\Http\Request\RequestParams;
 use Security\Auth\AuthenticatorInterface;
 use Pes\Security\Password\Password;
-
-// controller
-use Controller\PresentationFrontControllerAbstract;
 
 // model
 use Model\Repository\StatusPresentationRepo;
@@ -34,7 +31,7 @@ use Model\Entity\LoginAggregate;
  *
  * @author pes2704
  */
-class LoginLogoutController extends PresentationFrontControllerAbstract {
+class LoginLogoutController extends LoginControlerAbstract {
 
     private $authenticator;
 
@@ -47,7 +44,7 @@ class LoginLogoutController extends PresentationFrontControllerAbstract {
                         StatusSecurityRepo $statusSecurityRepo,
                            StatusFlashRepo $statusFlashRepo,
                     StatusPresentationRepo $statusPresentationRepo,
-            ResourceRegistryInterface $resourceRegistry=null,            
+            ResourceRegistryInterface $resourceRegistry=null,
              LoginAggregateCredentialsRepo $loginAggregateRepo,
                     AuthenticatorInterface $authenticator) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
@@ -59,16 +56,16 @@ class LoginLogoutController extends PresentationFrontControllerAbstract {
         $requestParams = new RequestParams();
         $login = $requestParams->getParsedBodyParam($request, 'login', FALSE);
 
-        if ($login) {           
+        if ($login) {
             // používá názvy z konfigurace pro omezení množství našeptávaných jmen při vypl%nování formuláře v prohlížečích
             $fieldNameJmeno = Configuration::loginLogoutControler()['fieldNameJmeno'];
             $fieldNameHeslo = Configuration::loginLogoutControler()['fieldNameHeslo'];
             $loginJmeno = $requestParams->getParsedBodyParam($request, $fieldNameJmeno, FALSE);
             $loginHeslo = $requestParams->getParsedBodyParam($request, $fieldNameHeslo, FALSE);
-           
+
             if ($loginJmeno AND $loginHeslo) {
                 $loginAggregateEntity = $this->loginAggregateRepo->get($loginJmeno);
-                
+
                     if (isset($loginAggregateEntity) AND $this->authenticator->authenticate($loginAggregateEntity, $loginHeslo)) {  // z databáze
                         $this->statusSecurityRepo->get()->renewSecurityStatus($loginAggregateEntity);
                         $this->addFlashMessage("Jste přihlášeni.");
@@ -76,7 +73,7 @@ class LoginLogoutController extends PresentationFrontControllerAbstract {
                     else {
                         $this->addFlashMessage("Neplatné přihlášení!");
                     }
-                
+
             }
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
@@ -86,7 +83,7 @@ class LoginLogoutController extends PresentationFrontControllerAbstract {
         $logout = (new RequestParams())->getParsedBodyParam($request, 'logout', FALSE);
         if ($logout) {
             $this->removeLoggedUser();  // bez parametru User
-            $this->addFlashMessage("Jste odhlášeni.");           
+            $this->addFlashMessage("Jste odhlášeni.");
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
 

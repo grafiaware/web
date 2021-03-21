@@ -13,7 +13,7 @@ class Content {
 
     private $subject;
 
-    private $body;
+    private $html;
 
     private $attachments = [];
 
@@ -21,13 +21,13 @@ class Content {
         return '=?utf-8?B?'.base64_encode($this->subject).'?=';
     }
 
-    public function getBody(): string {
-        return $this->body;
+    public function getHtml(): string {
+        return $this->html;
     }
 
     public function getAltBody() {
         // In case any of our lines are larger than 70 characters, we should use wordwrap()
-        return wordwrap(strip_tags($this->body), 70, PHP_EOL);
+        return wordwrap(strip_tags($this->html), 70, PHP_EOL);
     }
 
     /**
@@ -43,8 +43,8 @@ class Content {
         return $this;
     }
 
-    public function setBody(string $body) {
-        $this->body = $body;
+    public function setHtml(string $html) {
+        $this->html = $html;
         return $this;
     }
 

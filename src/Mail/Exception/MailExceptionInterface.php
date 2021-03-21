@@ -6,9 +6,12 @@
  * and open the template in the editor.
  */
 
-    $text =
-    '
-Přihlašte se na konkrétní čas v poradnách! (po 21. 3. 2021)
-';
+namespace Mail\Exception;
 
-    echo Html::p(Text::mono($text), ["class"=>"velky text"]);
+/**
+ *
+ * @author pes2704
+ */
+interface MailExceptionInterface {
+    //put your code here
+}

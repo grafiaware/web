@@ -15,7 +15,6 @@
     //flash message
     $('#domtoast')
         .toast({
-            message: "qqqqq",
             displayTime: 0 //je zobrazen, dokud se na něj neklikne
         })
     ;

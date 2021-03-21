@@ -33,7 +33,7 @@ $attachments = [
 
 $content = (new Content())
             ->setSubject($subject)
-            ->setBody($body)
+            ->setHtml($body)
             ->setAttachments($attachments);
 
 $party = (new Party())

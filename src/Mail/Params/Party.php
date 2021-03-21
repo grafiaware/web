@@ -15,23 +15,23 @@ class Party {
     private $replyTo;
 
     public function getFrom() {
-        return $this->from;
+        return $this->encodeNames($this->from);
     }
 
     public function getToArray() {
-        return $this->to;
+        return $this->encodeNames($this->to);
     }
 
     public function getCcArray() {
-        return $this->cc;
+        return $this->encodeNames($this->cc);
     }
 
     public function getBccArray() {
-        return $this->bcc;
+        return $this->encodeNames($this->bcc);
     }
 
     public function getReplyTo() {
-        return $this->replyTo;
+        return $this->encodeNames($this->replyTo);
     }
 
     public function setFrom($fromAddress, $fromName) {
@@ -57,5 +57,13 @@ class Party {
     public function addReplyTo($replyToAddress, $replyToName) {
         $this->replyTo[] = [$replyToAddress, $replyToName];
         return $this;
+    }
+
+    private function encodeNames($addressArray) {
+        return $addressArray;
+        $addr = [];
+        foreach ($addressArray as $address) {
+            $addr[] = [$address[0], '=?utf-8?B?'.base64_encode($address[1])];
+        }
     }
 }

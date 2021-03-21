@@ -45,6 +45,17 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
         return $this->collection[$index] ?? null;
     }
 
+    public function getByPrettyUri($langCodeFk, $prettyUri): ?MenuItemInterface {
+        $row = $this->dao->getByPrettyUri($langCodeFk, $prettyUri);
+        if ($row) {
+            $index = $this->indexFromRow($row);
+            if (!isset($this->collection[$index])) {
+                $this->recreateEntity($index, );
+            }
+            return $this->collection[$index] ?? null;
+        }
+    }
+
     /**
      *
      * @param array $id Asociativní pole atributů klíče

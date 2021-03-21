@@ -2,16 +2,11 @@
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Model\Entity\PaperAggregatePaperContentInterface;
 use Pes\Text\Text;
-use Pes\Text\Html;
-
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregatePaperContentInterface $paperAggregate */
-
-    $text =
-    '
-Přihlašte se na konkrétní čas v poradnách! (po 20. 3. 2021)
-';
-
-    echo Html::p(Text::mono($text), ["class"=>"velky text"])
 ?>
-
+        <div class="velky text okraje-vertical">
+            <p>
+                <?= Text::mono('Další jména přednášejících budou postupně přibývat, sledujte tuto stránku!')?>
+            </p>
+        </div>

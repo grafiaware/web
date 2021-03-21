@@ -13,8 +13,6 @@ use Psr\Http\Message\ServerRequestInterface;
 use Pes\Http\Request\RequestParams;
 use Pes\Security\Password\Password;
 
-use Controller\PresentationFrontControllerAbstract;
-
 // model
 use Model\Repository\StatusPresentationRepo;
 use Model\Repository\StatusSecurityRepo;
@@ -31,32 +29,32 @@ use Model\Entity\LoginAggregateRegistration;
  *
  * @author vlse2610
  */
-class PasswordController extends PresentationFrontControllerAbstract { 
+class PasswordController extends LoginControlerAbstract {
     private $loginAggregateCredentialsRepo;
     private $loginAggregateRegistrationRepo;
-    
-    
+
+
     public function __construct(
                         StatusSecurityRepo $statusSecurityRepo,
                            StatusFlashRepo $statusFlashRepo,
                     StatusPresentationRepo $statusPresentationRepo,
-                 ResourceRegistryInterface $resourceRegistry=null,            
+                 ResourceRegistryInterface $resourceRegistry=null,
              LoginAggregateCredentialsRepo $loginAggregateCredentialRepo,
             LoginAggregateRegistrationRepo $loginAggregateRegistrationRepo)
-    {        
+    {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
         $this->loginAggregateCredentialsRepo = $loginAggregateCredentialRepo;
         $this->loginAggregateRegistrationRepo = $loginAggregateRegistrationRepo;
     }
-    
-    
+
+
     public function forgottenPassword(ServerRequestInterface $request) {
         $requestParams = new RequestParams();
         $forgottenpassword = $requestParams->getParsedBodyParam($request, 'forgottenpassword', FALSE);
 
-        if ($forgottenpassword) {           
+        if ($forgottenpassword) {
             // používá názvy z konfigurace pro omezení množství našeptávaných jmen při vypl%nování formuláře v prohlížečích
-            $fieldNameJmeno = Configuration::loginLogoutControler()['fieldNameJmeno'];            
+            $fieldNameJmeno = Configuration::loginLogoutControler()['fieldNameJmeno'];
             $loginJmeno = $requestParams->getParsedBodyParam($request, $fieldNameJmeno, FALSE);
 
             if ($loginJmeno ) {
@@ -64,15 +62,15 @@ class PasswordController extends PresentationFrontControllerAbstract {
                 /** @var  LoginAggregateCredentials $loginAggregateCredentialsEntity  */
                 $loginAggregateCredentialsEntity = $this->loginAggregateCredentialsRepo->get($loginJmeno);
                 /** @var  LoginAggregateRegistration $loginAggregateRegistrationEntity  */
-                $loginAggregateRegistrationEntity = $this->loginAggregateRegistrationRepo->get($loginJmeno);                
-                
-                
-                if ( ($loginAggregateCredentialsEntity !== \NULL )  AND 
-                     ($loginAggregateRegistrationEntity !== \NULL ) ) 
+                $loginAggregateRegistrationEntity = $this->loginAggregateRegistrationRepo->get($loginJmeno);
+
+
+                if ( ($loginAggregateCredentialsEntity !== \NULL )  AND
+                     ($loginAggregateRegistrationEntity !== \NULL ) )
                 {
-                    if  ( ($loginAggregateCredentialsEntity->getCredentials()!== \NULL )  AND 
-                          ($loginAggregateRegistrationEntity->getRegistration()!== \NULL  ) 
-                        ) 
+                    if  ( ($loginAggregateCredentialsEntity->getCredentials()!== \NULL )  AND
+                          ($loginAggregateRegistrationEntity->getRegistration()!== \NULL  )
+                        )
                     {
                         $generatedPassword = $this->generatePassword();
                         $hashedGeneratedPassword = ( new Password())->getPasswordHash($generatedPassword);
@@ -81,32 +79,32 @@ class PasswordController extends PresentationFrontControllerAbstract {
 
                         $registerEmail = $loginAggregateRegistrationEntity->getRegistration()->getEmail();
 
-                        #########################--------- poslat mail -------------------                   
+                        #########################--------- poslat mail -------------------
                         /** @var Mail $mail */
                         $mail = $this->container->get(Mail::class);
                         $subject =  'Veletrh práce a vzdělávání - Nové heslo.';
                         $body  =
-                        "<h3> Veletrh práce a vzdělávání </h3>"             
+                        "<h3> Veletrh práce a vzdělávání </h3>"
                         ."<p>Děkujeme za zaslaný požadavek na vygenerování nového hesla.</p>
                          <br/> <p> Vaše nové přihlašovací údaje jsou:</p>
                          <p>Jméno:&nbsp;&nbsp; $loginJmeno &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Heslo:&nbsp;&nbsp; $generatedPassword</p>"
-                        ."<br/><p>S pozdravem <br/> tým realizátora Grafia,s.r.o.</p>" ;                     
+                        ."<br/><p>S pozdravem <br/> tým realizátora Grafia,s.r.o.</p>" ;
 
                         $attachments = [ (new Attachment())
                                         ->setFileName(Configuration::mail()['mail.files.directory'].'logo_grafia.png')  // /_www_vp_files/attachments/
                                         ->setAltText('Logo Grafia')
                                        ];
-                        $params = (new Params()) 
+                        $params = (new Params())
                                     ->setContent(  (new Content())
                                                  ->setSubject($subject)
-                                                 ->setBody($body)
+                                                 ->setHtml($body)
               //                                   ->setAttachments($attachments)
                                                 )
                                     ->setParty  (  (new Party())
                                                  ->setFrom('info@najdisi.cz', 'veletrhprace.online')
                                                  ->addReplyTo('svoboda@grafia.cz', 'reply veletrhprace.online')
                                                  ->addTo( $registerEmail, $loginJmeno )
-                                          //->addTo('selnerova@grafia.cz', 'vlse')  // ->addCc($ccAddress, $ccName)   // ->addBcc($bccAddress, $bccName)                                            
+                                          //->addTo('selnerova@grafia.cz', 'vlse')  // ->addCc($ccAddress, $ccName)   // ->addBcc($bccAddress, $bccName)
                                                 );
                         $mail->mail($params); // posle mail
                         #########################-----------------------------
@@ -122,13 +120,13 @@ class PasswordController extends PresentationFrontControllerAbstract {
                     $this->addFlashMessage("Neplatné jméno!");
             }
         }
-       
+
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
-    
-    
-    
-    
+
+
+
+
     private function generatePassword () : string {
         $length = 8;
         $emailPattern = "(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{".$length.",}";
@@ -141,7 +139,7 @@ class PasswordController extends PresentationFrontControllerAbstract {
             $ok = preg_match("/$emailPattern/", $psw);
             $count++;
         } while (!$ok);
-        
+
         return $psw;
     }
 
@@ -149,8 +147,8 @@ class PasswordController extends PresentationFrontControllerAbstract {
     public function changePassword(ServerRequestInterface $request) {
         $requestParams = new RequestParams();
         $changedPassword = $requestParams->getParsedBodyParam($request, 'changepassword', FALSE);
-        
-        if ($changedPassword ) {    
+
+        if ($changedPassword ) {
             $fieldNameJmeno = Configuration::loginLogoutControler()['fieldNameJmeno'];
             $fieldNameHeslo = Configuration::loginLogoutControler()['fieldNameHeslo'];
             $loginJmeno = $requestParams->getParsedBodyParam($request, $fieldNameJmeno, FALSE);
@@ -158,24 +156,23 @@ class PasswordController extends PresentationFrontControllerAbstract {
 
             /** @var  LoginAggregateCredentials $loginAggregateCredentialsEntity  */
             $loginAggregateCredentialsEntity = $this->loginAggregateCredentialsRepo->get($loginJmeno);
-            if  ($loginAggregateCredentialsEntity !== \NULL  ) 
+            if  ($loginAggregateCredentialsEntity !== \NULL  )
             {
                 if (  ($loginAggregateCredentialsEntity->getCredentials() !== \NULL )   AND $changeHeslo ) {
                     $hashedChangedPassword = ( new Password())->getPasswordHash( $changeHeslo );
                     $credentials = $loginAggregateCredentialsEntity->getCredentials()->setPasswordHash( $hashedChangedPassword );
                     $loginAggregateCredentialsEntity->setCredentials($credentials);
-                    
-                    $this->addFlashMessage("Vaše heslo bylo změněno.");   
+
+                    $this->addFlashMessage("Vaše heslo bylo změněno.");
                 }
             }
             else {
                  $this->addFlashMessage("Neplatné jméno!");
             }
-            
+
         }
-       
+
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
-    
+
 }
-       

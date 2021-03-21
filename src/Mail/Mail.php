@@ -10,6 +10,7 @@ use Psr\Log\LoggerInterface;
 
 use Mail\Params;
 use Mail\Params\Attachment;
+use Mail\Exception\MailException;
 
 /**
  * Description of Mail
@@ -68,7 +69,9 @@ class Mail {
          */
         if (self::$logger) {
             if ($result) {
-                self::$logger->info("Odeslán mail '{subject}' na adresy {to}.", ['subject'=>$subject, 'to'=>implode(', ', $to)]);
+                $decodedSubject = base64_decode(str_replace("=?utf-8?B?", "", $subject));
+                self::$logger->info("Result: '{result}'.", ['result'=>$result]);
+                self::$logger->info("Odeslán mail '{subject}' na adresy {to}.", ['subject'=>$decodedSubject, 'to'=>implode(', ', $to)]);
             } else {
                 self::$logger->warning("Nepodařilo se odeslat mail '{subject}' na adresy {to}.", ['subject'=>$subject, 'to'=>implode(', ', $to)]);
             }
@@ -86,6 +89,7 @@ class Mail {
 
         try {
             //Server settings
+//            $mail->SMTPDebug = SMTP::DEBUG_CONNECTION;                      //Enable verbose debug output
             $mail->SMTPDebug = SMTP::DEBUG_OFF;                      //Enable verbose debug output
             $mail->isSMTP();                                            //Send using SMTP
 
@@ -99,6 +103,8 @@ class Mail {
             $mail->Username = $actualParams->getSmtpAuth()->getUserName();
             //Password to use for SMTP authentication
             $mail->Password = $actualParams->getSmtpAuth()->getPassword();
+
+            $mail->Encoding = "quoted-printable";
 
             //Recipients
             $from = $actualParams->getParty()->getFrom();
@@ -116,15 +122,21 @@ class Mail {
             //Content
             $mail->isHTML(true);                                  //Set email format to HTML
             $mail->Subject = $actualParams->getContent()->getSubject();
-            $mail->Body    = $actualParams->getContent()->getBody();
+            $mail->msgHTML($actualParams->getContent()->getHtml(), __DIR__);
             $mail->AltBody = $actualParams->getContent()->getAltBody();
-
+            $mail->CharSet = "UTF8";
             $mail->action_function = Mail::class.'::actionOnSend';
 
-
             $mail->send();
+
         } catch (Exception $e) {
-            throw $e;
+            if (self::$logger) {
+                self::$logger->error("Nepodařilo se odeslat mail '{subject}' na adresy {to}.", ['subject'=>$actualParams->getContent()->getSubject(), 'to'=>implode(', ', $actualParams->getParty()->getToArray())]);
+                self::$logger->error("PHPmail error info:: '{info}'.", ['info'=>$mail->ErrorInfo]);
+                self::$logger->error("PHPmail exception message: '{message}'.", ['message'=>$e->errorMessage()]);
+                echo $mail->ErrorInfo;
+            }
+            throw new MailException("Nepodařilo se odeslat mail", 0, $e);
         }
-        }
+    }
 }

@@ -12,6 +12,9 @@ Options +FollowSymLinks
 RewriteEngine On
 
 RewriteBase "/web/"
+
+#RewriteRule ^(.*) indexunderreconstuction.html [QSA,L]
+
 #RewriteCond $1 !^(index\.php|public|robots\.txt)
 
 #RewriteRule ^(.*)\\.(gif|png|jpg|jpeg|css|js|swf|ico|bmp|less)$ /public/$1.$2 [L,NC]

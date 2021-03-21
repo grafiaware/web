@@ -24,6 +24,8 @@ interface MenuItemRepoInterface extends RepoInterface, RepoAssotiatedOneInterfac
      */
     public function get($langCodeFk, $uidFk): ?MenuItemInterface;
 
+    public function getByPrettyUri($langCodeFk, $prettyUri): ?MenuItemInterface;
+    
     /**
      *
      * @param MenuItemInterface $menuItem
@@ -42,7 +44,7 @@ interface MenuItemRepoInterface extends RepoInterface, RepoAssotiatedOneInterfac
      * @return iterable
      */
     public function findAllLanguageVersions($uidFk): iterable;
-    
+
     /**
      *
      * @param string $langCodeFk

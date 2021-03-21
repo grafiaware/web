@@ -35,6 +35,40 @@ class ParamsContainer {
         }
     }
     //-----------------------------------------------------------------------------------------------------------------------
+    /**
+     * Parametry pro odesílání prostřednictvím smtp.cesky-hosting.cz
+     * Pro přihlášení k SMTP serveru se používají údaje emailového účtu 'info@najdisi.cz' zřízeného na doméně najdisi.cz
+     *
+     * Parametry neobsahují: Content a Party, tyto porametry musí být doplněy.
+     *
+     * @return Params
+     */
+    private static function itGrafiaGmail() {
+
+        $params = new Params();
+        $params
+            ->setHost(
+                    (new Host())
+                        ->setHost('smtp.gmail.com')
+                    )
+            ->setSmtpAuth(
+                    (new SmtpAuth())
+                        ->setSmtpAuth(true)
+                        ->setUserName('it.grafia@gmail.com')
+                        ->setPassword('ItDiskAdmin')
+                    )
+            ->setEncryption(
+                    (new Encryption())->setEncryption(Encryption::STARTTLS)
+                    )
+            ->setHeaders(
+                    (new Headers())
+                        ->setHeaders(['X-Mailer' => 'veletrhprace.online'])
+                    )
+            ;
+
+        return $params;
+    }
+    //-----------------------------------------------------------------------------------------------------------------------
 
     /**
      * Parametry pro odesílání prostřednictvím smtp.cesky-hosting.cz
@@ -155,7 +189,7 @@ class ParamsContainer {
             ->setContent(
                     (new Content())
                         ->setSubject($subject)
-                        ->setBody($body)
+                        ->setHtml($body)
                         ->setAttachments(
                             (new Attachment())
                                 ->setFileName($filaName)

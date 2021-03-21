@@ -55,6 +55,22 @@ class MenuItemDao extends DaoContextualAbstract {
     }
 
     /**
+     * Vrací řádek menu_item vyhledaný podle lang_code_fk a prettyuri - pro statické stránky
+     *
+     * @param type $langCodeFk
+     * @param type $prettyUri
+     * @return type
+     */
+    public function getByPrettyUri($langCodeFk, $prettyUri) {
+        if(!isset($this->sqlGet)) {
+            $this->sqlGet = "SELECT lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active, multipage "
+                . "FROM menu_item "
+                . $this->where($this->and($this->getContextConditions(), ['menu_item.lang_code_fk = :lang_code_fk', 'menu_item.uid_fk=:uid_fk']));
+        }
+        return $this->selectOne($this->sqlGet, [':lang_code_fk' => $langCodeFk, ':prettyuri'=> $prettyUri], true);
+    }
+
+    /**
      * Vrací řádek menu_item vyhledaný podle lang_code_fk a list - pro transformaci starého obsahu.
      *
      * @param string $langCodeFk

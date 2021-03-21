@@ -13,7 +13,7 @@ use Pes\Text\Html;
                     <p class="text velky primarni-barva nastred"><?= $timelinePoint ?></p>
                     <div class="ui two column internally celled grid centered">
                         <div class="stretched row">
-                            <div class="eight wide column"><p><b>Název přednášky</b></p><p>Čas</p></div>
+                            <div class="eight wide column"><p><b>Název poradny</b></p><p>Čas</p></div>
                             <div class="eight wide column"><p><b>Poradí vám</b></p><p>Téma</p></div>
                         </div>
                         <?= $this->repeat(__DIR__.'/timerow/stretched-row.php', $box) ?>

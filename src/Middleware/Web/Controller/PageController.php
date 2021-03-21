@@ -118,6 +118,9 @@ class PageController extends LayoutControllerAbstract {
         }
     }
     public function static(ServerRequestInterface $request, $name) {
+        /** @var MenuItemRepo $menuItemRepo */
+        $menuItemRepo = $this->container->get(MenuItemRepo::class);
+        $menuItem = $menuItemRepo->getByPrettyUri($langCodeFk, $name);
 //        $actionComponents = ["content" => $this->getStaticLoadScript($name)];
         $actionComponents = ["content" => $this->resolveMenuItemView($menuItem, $this->isEditableArticle())];
 

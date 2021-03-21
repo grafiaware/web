@@ -9,9 +9,9 @@ use Pes\Text\Html;
 
     $text =
     '
-Přihlašte se na konkrétní čas v poradnách! (po 20. 3. 2021)
+Přihlašte se na konkrétní čas v poradnách! (po 21. 3. 2021)
 ';
 
-    echo Html::p(Text::mono($text), ["class"=>"velky text"])
+    echo Html::p(Text::mono($text), ["class"=>"velky text"]);
 ?>
 

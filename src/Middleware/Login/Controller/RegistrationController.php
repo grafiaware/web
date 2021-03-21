@@ -13,9 +13,6 @@ use Pes\Http\Request\RequestParams;
 //use Security\Auth\AuthenticatorInterface;
 use Pes\Security\Password\Password;
 
-// controller
-use Controller\PresentationFrontControllerAbstract;
-
 // model
 use Model\Repository\StatusPresentationRepo;
 use Model\Repository\StatusSecurityRepo;
@@ -33,7 +30,7 @@ use Model\Entity\LoginAggregateRegistration;
  *
  * @author pes2704
  */
-class RegistrationController extends PresentationFrontControllerAbstract
+class RegistrationController extends LoginControlerAbstract
 {
     /**
      *
@@ -102,20 +99,23 @@ class RegistrationController extends PresentationFrontControllerAbstract
                     /** @var  LoginAggregateRegistration $loginAggregateRegistrationEntity1  */
                     $loginAggregateRegistrationEntity1 = $this->loginAggregateRegistrationRepo->get($registerJmeno);
                     $uid = $loginAggregateRegistrationEntity1->getRegistration()->getUid();    //do mailu potrebuji vygenerovane uid z tabulky registration
-                    $confirmationUrl = "http://$httpHost/auth/v1/confirm/$uid";
+
+                    $confirmDomainName = $request->getServerParams()['HTTP_HOST'].$this->getBasePath($request);  // getBasePath - končí /
+                    $confirmationUrl = "http://{$confirmDomainName}auth/v1/confirm/$uid";
 
                     #########################--------- poslat mail -------------------
                     /** @var Mail $mail */
                     $mail = $this->container->get(Mail::class);
-                    $httpHost = $request->getServerParams()['HTTP_HOST'];
                     $subject =  'Veletrh práce a vzdělávání - Registrace.';
-                    $body  =
-                    "<h3> Veletrh práce a vzdělávání </h3>"
-                    ."<p>Děkujeme za Vaši registraci. <br/>Na tento mail, prosím, neodpovídejte.</p>
-                    <br/>
-                    <p> Kliknutím na níže uvedený odkaz dokončíte svoji registraci. Odkaz je aktivní následující 24 hodiny.</p>
-                    <br/><p><a href=>$confirmationUrl   -->> Potvrďte registraci! <<--   </a></p>"
-                    ."<br/><p>S pozdravem <br/> tým realizátora Grafia,s.r.o.</p>" ;
+//                    $body  =
+//                    "<h3> Veletrh práce a vzdělávání </h3>"
+//                    ."<p>Děkujeme za Vaši registraci. <br/>Na tento mail, prosím, neodpovídejte.</p>
+//                    <br/>
+//                    <p> Kliknutím na níže uvedený odkaz dokončíte svoji registraci. Odkaz je aktivní následující 24 hodiny.</p>
+//                    <br/><p><a href='http://localhost/web/auth/v1/confirm/$uid'>   -->> Potvrďte registraci! <<--   </a></p>"
+//                    ."<br/><p>S pozdravem <br/> tým realizátora Grafia,s.r.o.</p>" ;
+
+                    $body = $this->createMailHtmlMessage(__DIR__."/Messages/registration.php", ['confirmationUrl'=>$confirmationUrl]);
 
                     $attachments = [ (new Attachment())
                                     ->setFileName(Configuration::mail()['mail.files.directory'].'logo_grafia.png')  // /_www_vp_files/attachments/
@@ -124,11 +124,11 @@ class RegistrationController extends PresentationFrontControllerAbstract
                     $params = (new Params())
                                 ->setContent(  (new Content())
                                                  ->setSubject($subject)
-                                                 ->setBody($body)
+                                                 ->setHtml($body)
 //                                                 ->setAttachments($attachments)
                                             )
                                 ->setParty  (  (new Party())
-                                                 ->setFrom('info@najdisi.cz', 'veletrhprace.online')
+                                                 ->setFrom('it.grafia@gmail.com', 'veletrhprace.online')
                                                  ->addReplyTo('svoboda@grafia.cz', 'reply veletrhprace.online')
                                                  ->addTo( $registerEmail, $registerJmeno)
                                                   //->addTo('selnerova@grafia.cz', 'vlse')  // ->addCc($ccAddress, $ccName)   // ->addBcc($bccAddress, $bccName)
@@ -152,7 +152,6 @@ class RegistrationController extends PresentationFrontControllerAbstract
 
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
-
 
 
     /**
