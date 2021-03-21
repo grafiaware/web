@@ -180,13 +180,13 @@ class ConfigurationRed extends ConfigurationDb {
     }
 
     public static function loginLogoutControler() {
-        // HESLO - malé velké písmeno, číslice, min. 8 znaků
-//        $passwordPattern = "(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}";
-//        $passwordInfo = "Heslo musí obsahovat nejméně jedno velké písmeno, jedno malé písmeno a jednu číslici. Jiné znaky než písmena a číslice nejsou povoleny. Délka musí být nejméně 8 znaků.";
+        ## HESLO - malé velké písmeno, číslice, min. 5 znaků
+        $passwordPattern = "(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}";
+        $passwordInfo = "Heslo musí obsahovat nejméně jedno velké písmeno, jedno malé písmeno a jednu číslici. Jiné znaky než písmena a číslice nejsou povoleny. Délka musí být nejméně 5 znaků.";
 
-        // HESLO - malé velké písmeno, číslice, min. 3 znaky
-        $passwordPattern = "(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{3,}";
-        $passwordInfo = "Heslo musí obsahovat nejméně jedno velké písmeno, jedno malé písmeno a jednu číslici. Jiné znaky než písmena a číslice nejsou povoleny. Délka musí být nejméně 3 znaky.";
+        ## HESLO - malé velké písmeno, číslice, min. 3 znaky
+//        $passwordPattern = "(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{3,}";
+//        $passwordInfo = "Heslo musí obsahovat nejméně jedno velké písmeno, jedno malé písmeno a jednu číslici. Jiné znaky než písmena a číslice nejsou povoleny. Délka musí být nejméně 3 znaky.";
 
         $siteSpecificToken = str_replace('/', '', self::RED_SITE_PATH);
         return [
