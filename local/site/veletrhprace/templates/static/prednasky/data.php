@@ -42,7 +42,7 @@ $event = [
                 'published' => 1,
                 'boxClass' => 'box-left',
                 'eventType' => $eventType['Přednáška'],
-                'title' => 'Wienersberger',
+                'title' => 'Wienerberger',
                 'perex' => 'firemní prezentace',
                 'startTime' => '10:45',
                 'endTime' => '11:00',
@@ -55,7 +55,7 @@ $event = [
                                     ],
                                 'linkButtonText' => $linkButtonTextPrihlasitSe
                                 ],
-                'institution' => ['type'=>'', 'name'=>'Wienersberger'],
+                'institution' => ['type'=>'', 'name'=>'Wienerberger'],
                 'party' => ''
             ],
             [
@@ -95,7 +95,7 @@ $event = [
                                     ],
                                 'linkButtonText' => $linkButtonTextPrihlasitSe
                                 ],
-                'institution' => ['type'=>'', 'name'=>'Grafia a UMO3 Plzeň'],
+                'institution' => ['type'=>'', 'name'=>'Grafia a ÚMO 3 Plzeň'],
                 'party' => ''
             ],
             [
@@ -235,7 +235,7 @@ $event = [
                                     ],
                                 'linkButtonText' => $linkButtonTextPrihlasitSe
                                 ],
-                'institution' => ['type'=>'', 'name'=>'UMO3 Plzeň'],
+                'institution' => ['type'=>'', 'name'=>'ÚMO 3 Plzeň'],
                 'party' => 'Stanislav Šec'
             ],
             [
@@ -320,7 +320,7 @@ $event = [
                                     ],
                                 'linkButtonText' => $linkButtonTextPrihlasitSe
                                 ],
-                'institution' => ['type'=>'', 'name'=>'UMO 3 Plzeň'],
+                'institution' => ['type'=>'', 'name'=>'ÚMO 3 Plzeň'],
                 'party' => 'Ondřej Ženíšek'
             ],
             [
@@ -380,7 +380,7 @@ $event = [
                                     ],
                                 'linkButtonText' => $linkButtonTextPrihlasitSe
                                 ],
-                'institution' => ['type'=>'', 'name'=>'UMO 1 Plzeň'],
+                'institution' => ['type'=>'', 'name'=>'ÚMO 1 Plzeň'],
                 'party' => 'Ilona Jehličková'
             ],
             [
@@ -440,7 +440,7 @@ $event = [
                                     ],
                                 'linkButtonText' => $linkButtonTextPrihlasitSe
                                 ],
-                'institution' => ['type'=>'', 'name'=>'UMO 3 Plzeň'],
+                'institution' => ['type'=>'', 'name'=>'ÚMO 3 Plzeň'],
                 'party' => ' Petr Baloun'
             ],
             [

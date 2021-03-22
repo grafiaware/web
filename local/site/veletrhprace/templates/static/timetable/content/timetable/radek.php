@@ -12,9 +12,9 @@ use Pes\Text\Html;
 
         <tr>
             <td><?= $eventType ?></td>
-            <td><?= $casOD ?></td>
-            <td><?= $casDO ?></td>
-            <td><?= $nazev ?></td>
-            <td><?= $firma ?></td>
+            <td><?= $startTime ?></td>
+            <td><?= $endTime ?></td>
+            <td><?= $name ?></td>
+            <td><?= $institution ?></td>
         </tr>
 

@@ -18,6 +18,6 @@ use Pes\Text\Html;
             <th>Firma</th>
         </tr></thead>
     <tbody>
-         <?= $this->repeat(__DIR__.'/harmonogram2/radek.php', $timeline1a2) ?>
+         <?= $this->repeat(__DIR__.'/timetable/radek.php', $timeline1a2) ?>
     </tbody>
 </table>
