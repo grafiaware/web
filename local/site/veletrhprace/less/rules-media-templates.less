@@ -4,11 +4,11 @@
     }
     header .logo{
         width: auto;
-        height: 200px;
+        height: 200px; 
     }
     .nadpis{
         font-size: 13rem;
-        &.vlevo{
+        &.vlevo{ 
             width: 52%;
             transform: translateX(-20%) translateY(-150px); 
         }
@@ -78,15 +78,13 @@
         .nadpis.primarni-barva.presah{
             bottom: 30px;
         }
-        .blok.text{
+        .blok.podnadpis{
             transform: translateY(30%);
             height: 25%;
             width: 35%;
             float: right;
             margin-right: 250px; 
-            &.velky{
-                font-size: 10rem;
-            }
+            font-size: 10rem;
         }
     }
     .blok-sedy-nadpis-obr-text{
@@ -245,15 +243,13 @@
             align-items: center;
             transform: translateX(0) translateY(20px);
         }
-        .blok.text{
+        .blok.podnadpis{
             transform: translateY(30%);
             height: 25%;
             width: 35%;
             float: right;
             margin-right: 160px; 
-            &.velky{
-                font-size: 5.4rem;
-            }
+            font-size: 5.4rem;
         }
     }
     .blok-sedy-nadpis-obr-text{
@@ -403,15 +399,13 @@
                 height: auto;
             }
         }
-        .blok.text{
+        .blok.podnadpis{
             transform: translateY(30%);
             height: 25%;
             width: 35%;
             float: right;
             margin-right: 160px; 
-            &.velky{
-                font-size: 4rem;
-            }
+            font-size: 4rem;
         }
     }
     .blok-sedy-nadpis-obr-text{
@@ -504,7 +498,7 @@
             img{
                 
             }
-            .blok.text{
+            .blok.podnadpis{
                 width: 46%;
                 padding: 20px 30px !important;
             }
@@ -524,16 +518,14 @@
             img{
                 
             }
-            .blok.text{
+            .blok.podnadpis{
                 padding: 20px 20px !important;
-                &.velky{
-                    font-size: 2.6rem;
-                }
+                font-size: 2.6rem;
             }
         }
     }
     .blok-sedy-nadpis-obr-text{
-        .blok-sedy-nahore{
+        .blok-sedy-nahore{ 
             height: 400px;
             p{
                 top: 15%;
@@ -556,6 +548,24 @@
             margin-left: 30px;              
        }
     }
+    .video-na-stanku{
+        video{
+            width: 350px;
+        }
+    }
+    .pani-na-stanku{
+        img{
+            width: 95%;
+        }
+    }
+    .buttony-mimo-stanek{
+        margin-left: -30px;
+    }
+    .buttony-na-stanku{
+        .button:first-child{
+            top: -275px;
+        }
+    }
     .text{
         font-size: 1.8rem;
     }
@@ -570,11 +580,9 @@
             font-size: 3.3rem;
         }
         .column:nth-of-type(2){
-            .blok.text{
+            .blok.podnadpis{
                 width: 45%;
-                &.velky{
-                    font-size: 2.3rem;
-                }
+                font-size: 2.3rem;
             }
         }
     }
@@ -599,6 +607,24 @@
     .velky.text{
         font-size: 2.3rem;
     }
+    .video-na-stanku{
+        margin-right: 0;
+        video{
+            width: 380px;
+        }
+    }
+    .soc-site-stanku{
+        margin: 50px -65px 30px 0;
+    }
+    .buttony-mimo-stanek{
+        margin-left: 0;
+        margin-right: -65px;
+    }
+    .buttony-na-stanku{
+        .button:first-child{
+            top: -270px;
+        }
+    }
     
 }
 @media screen and (max-width: 1340px){
@@ -613,10 +639,8 @@
             font-size: 3rem;
         }
         .column:nth-of-type(2){
-            .blok.text{
-                &.velky{
-                    font-size: 2rem;
-                }
+            .blok.podnadpis{
+                font-size: 2rem;
             }
         }
     }
@@ -658,6 +682,11 @@
             }
         }
     }
+    .video-na-stanku{
+        video{
+            width: 350px;
+        }
+    }
     .text{
         font-size: 1.6rem;
     }
@@ -670,7 +699,7 @@
     .ui.massive.button{
         font-size: 1.5rem !important;
     }
-    main .paper content{
+    main section > content{
         margin: 100px 0;
     }
 }
@@ -688,7 +717,7 @@
             font-size: 2.7rem;
         }
         .column:nth-of-type(2){
-            .blok.text{
+            .blok.podnadpis{
                 width: 42%;
                 padding: 10px 20px !important;
                 top: 40%;
@@ -735,6 +764,42 @@
             height: 115px;
         }
     }
+    .jmeno-stanku{
+        position: relative;
+        top: auto;
+        left: auto;
+        text-align: center;
+    }
+    .video-na-stanku{
+        position: relative;
+        text-align: center;
+        margin-bottom: 50px;
+        top: auto;
+        video{
+            width: 450px;
+        }
+    }
+    .soc-site-stanku{
+        margin: 0 -70px 10px 0;
+    }
+    .buttony-mimo-stanek{
+        margin-right: -70px;
+        margin-bottom: 15px;
+    }
+    .buttony-na-stanku{
+        float: right;
+        margin-right: -24px;
+        width: 38.5%;
+        margin-top: -2%;
+        .basic.button{
+            width: 100%;
+        }
+        .button:first-child{
+            position: relative;
+            top: auto;
+            left: auto;
+        }
+    }
 
 }
 @media screen and (max-width: 1000px) and (min-width: 769px){ 
@@ -779,14 +844,14 @@
                     margin-top: 43px;
                 }
             }
-            .blok.text{
+            .blok.podnadpis{
                 width: 96%;
                 padding: 20px 20px !important;
                 top: 83%;
                 right: 2%;
                 background-color: #DDDDDD96;
             }
-            .velky.text{
+            .text.velky{
                 font-size: 2rem;
             }
         }
@@ -868,6 +933,36 @@
             height: auto;
         }
     }
+    .pani-na-stanku{
+        text-align: center;
+        img{
+            width: 80%;
+        }
+    }
+    .soc-site-stanku{
+        margin: 0 0 35px 0;
+        
+    }
+    .buttony-mimo-stanek{
+        margin: auto;
+        margin-top: -1.3em;
+        .basic.button{
+            
+        }
+        content{
+            
+        }
+    }
+    .buttony-na-stanku{
+        width: 100%;
+        margin: -1.3em 0 0 0;
+        .basic.button{
+            
+        }
+        .button:first-child{
+            
+        }
+    }
 }
 @media screen and (max-width: 768px){
     img{
@@ -881,7 +976,7 @@
         }
     }
     .text{
-        font-size: 20px;
+        font-size: 1.4rem;
         &:not(okraje-vertical){
              padding: 26px 17px;  
         }
@@ -907,9 +1002,9 @@
         .nadpis.primarni-barva.presah{
             bottom: auto;
             top: 25px;
-            width: 95.5%;
+            width: 93%;
             right: 2.5%;
-            font-size: 2.5rem;
+            font-size: 2.2rem;
         }
         .column:nth-of-type(2){
             img{
@@ -919,7 +1014,7 @@
                     margin-top: -28px;
                 }
             }
-            .blok.text{
+            .blok.podnadpis{
                 width: 95.5%;
                 height: 103px;
                 padding: 15px 10px !important;
@@ -927,11 +1022,9 @@
                 top: auto;
                 bottom: -40px;
                 background-color: #DDDDDD96;
-                &.velky{
-                    font-size: 1.7rem;
-                }
+                font-size: 1.7rem;
             }
-            .velky.text{
+            .text-velky{
                 font-size: 1.7rem;
             }
         }
@@ -960,13 +1053,13 @@
         }
     }
     main{
-        :not(.paper) perex, :not(.paper) content{
+/*        :not(.paper) perex, :not(.paper) content{
             margin: 20px 0;
-        }
+        }*/
         .paper perex{
             margin: 50px 0;
         }
-        .paper content{
+        section > content{
             margin: 50px 0;
         }
     }
@@ -1050,8 +1143,73 @@
         padding: 80px 6%;
         margin: 80px -6% 0 -5%;
     }
-    .text{
-        font-size: 1.4rem;
+    .prednasejici{
+        margin-left: -15px;
+        margin-right: -15px;
+    } 
+    .video-na-stanku{
+        video{
+            width: 350px;
+        }
+    }
+    .pani-na-stanku{
+        text-align: center;
+        img{
+            width: 80%;
+        }
+    }
+    .soc-site-stanku{
+        margin: 0 0 35px 0;
+        
+    }
+    .buttony-mimo-stanek{
+        margin: auto;
+        margin-top: -1.3em;
+    }
+    .buttony-na-stanku{
+        width: 100%;
+        margin: -1.3em 0 0 0;
+    }
+    
+    /*casove osa1*/
+    .timeline-1{
+        &::after{
+            left: 90px;
+        }
+        .box-left,.box-right {
+            width: 100%;
+            padding-left: 120px;
+            padding-right: 30px;
+        }
+        .box-right {
+            left: 0%;
+        }
+        .box-left::after, 
+        .box-right::after {
+            left: 82px;
+        }
+        .box-left::before,
+        .box-right::before {
+            left: 100px;
+            border-color: transparent #006E51 transparent transparent;
+        }
+        .box-left .time,
+        .box-right .time {
+            right: auto;
+            left: 15px;
+        }
+        .box-left .icon,
+        .box-right .icon {
+            right: auto;
+            left: 146px;
+        }
+        .box-left .summary,
+        .box-right .summary {
+            padding: 30px 30px 30px 90px;
+            border-radius: 500px 0 0 500px;
+        }
+    
+
     }
 }
 
@@ -1095,6 +1253,17 @@
         margin: 80px -8% 0 -7%;
         .logo-obdelnik{
             height: 62px;
+        }
+    }
+    .video-na-stanku{
+        video{
+            width: 250px;
+        }
+    }
+    .pani-na-stanku{
+        margin-top: -25px;
+        img{
+            width: 100%;
         }
     }
     .text.okraje-horizontal{
