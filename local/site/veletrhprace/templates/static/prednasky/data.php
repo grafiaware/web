@@ -182,7 +182,7 @@ $event = [
                 'published' => 1,
                 'boxClass' => 'box-left',
                 'eventType' => $eventType['Přednáška'],
-                'title' => 'POSSEHL',
+                'title' => 'Possehl Electronics Czech Republic',
                 'perex' => 'firemní prezentace',
                 'startTime' => '15:00',
                 'endTime' => '15:15',
@@ -195,7 +195,7 @@ $event = [
                                     ],
                                 'linkButtonText' => $linkButtonTextPrihlasitSe
                                 ],
-                'institution' => ['type'=>'', 'name'=>'POSSEHL'],
+                'institution' => ['type'=>'', 'name'=>'Possehl Electronics Czech Republic'],
                 'party' => ''
             ],
             [
@@ -235,7 +235,7 @@ $event = [
                                     ],
                                 'linkButtonText' => $linkButtonTextPrihlasitSe
                                 ],
-                'institution' => ['type'=>'', 'name'=>'Konplan, s.r.o.'],
+                'institution' => ['type'=>'', 'name'=>'Konplan'],
                 'party' => 'Vendula Linková, Martin Junek'
             ],
             [
@@ -327,7 +327,7 @@ $event = [
                 'published' => 1,
                 'boxClass' => 'box-left',
                 'eventType' => $eventType['Přednáška'],
-                'title' => 'AKKA',
+                'title' => 'AKKA Czech Republic',
                 'perex' => 'firemní prezentace',
                 'startTime' => '10:30',
                 'endTime' => '10:45',
@@ -340,7 +340,7 @@ $event = [
                                     ],
                                 'linkButtonText' => $linkButtonTextPrihlasitSe
                                 ],
-                'institution' => ['type'=>'', 'name'=>'AKKA'],
+                'institution' => ['type'=>'', 'name'=>'AKKA Czech Republic'],
                 'party' => ''
             ],
             [
