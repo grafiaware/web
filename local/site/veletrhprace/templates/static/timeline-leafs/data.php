@@ -21,7 +21,6 @@ $event=  [
         'box' => [
             [
                 'published' => '1',
-                'boxClass' => 'box-left',
                 'eventType' => $eventType['Přednáška'],
                 'startTime' => '8:15',
                 'endTime' => '9:00',
@@ -47,7 +46,6 @@ $event=  [
         'box' => [
             [
                 'published' => '1',
-                'boxClass' => 'box-left',
                 'eventType' => $eventType['Pohovor'],
                 'startTime' => '10:00',
                 'endTime' => '10:20',
@@ -67,7 +65,6 @@ $event=  [
             ],
             [
                 'published' => '1',
-                'boxClass' => 'box-right',
                 'eventType' => $eventType['Pohovor'],
                 'startTime' => '10:30',
                 'endTime' => '11:00',
@@ -92,7 +89,6 @@ $event=  [
         'box' => [
             [
                 'published' => '1',
-                'boxClass' => 'box-left',
                 'eventType' => $eventType['Přednáška'],
                 'startTime' => '13:15',
                 'endTime' => '14:15',
@@ -112,7 +108,6 @@ $event=  [
             ],
             [
                 'published' => '1',
-                'boxClass' => 'box-right',
                 'eventType' => $eventType['Poradna'],
                 'startTime' => '13:15',
                 'endTime' => '14:15',
@@ -137,7 +132,6 @@ $event=  [
         'box' => [
             [
                 'published' => '1',
-                'boxClass' => 'box-left',
                 'eventType' => $eventType['Přednáška'],
                 'startTime' => '14:20',
                 'endTime' => '15:00',

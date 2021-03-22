@@ -1176,40 +1176,33 @@
         &::after{
             left: 90px;
         }
-        .box-left,.box-right {
+        .box-direction {
             width: 100%;
             padding-left: 120px;
             padding-right: 30px;
+            .time{
+                right: auto;
+                left: 15px;
+            }
+            .icon{
+                right: auto;
+                left: 146px;
+            }
+            .summary{
+                padding: 30px 30px 30px 90px;
+                border-radius: 500px 0 0 500px;
+            }
+            &::after{ 
+                left: 82px;
+            }
+            &::before{
+                left: 100px;
+                border-color: transparent #006E51 transparent transparent;
+            }
         }
-        .box-right {
-            left: 0%;
+        .row:nth-child(2n) .box-direction{
+            left: 0;
         }
-        .box-left::after, 
-        .box-right::after {
-            left: 82px;
-        }
-        .box-left::before,
-        .box-right::before {
-            left: 100px;
-            border-color: transparent #006E51 transparent transparent;
-        }
-        .box-left .time,
-        .box-right .time {
-            right: auto;
-            left: 15px;
-        }
-        .box-left .icon,
-        .box-right .icon {
-            right: auto;
-            left: 146px;
-        }
-        .box-left .summary,
-        .box-right .summary {
-            padding: 30px 30px 30px 90px;
-            border-radius: 500px 0 0 500px;
-        }
-    
-
     }
 }
 

@@ -8,7 +8,7 @@ use Pes\Text\Html;
 if ($published) {
 ?>
 <div class="row">
-    <div class="<?= $boxClass ?>">
+    <div class="box-direction">
         <div class="time">
             <p> <?= $startTime ?> </p>
             <p> <?= $endTime ?> </p>

@@ -9,6 +9,8 @@ use Pes\Text\Html;
 /** @var PaperAggregatePaperContentInterface $paperAggregate */
 ?>
 
-<div class="timeline-1">
+                <div class="timeline-1">
+                    <div class="ui grid">
                         <?= $this->repeat(__DIR__.'/timeline/timeline-point.php', $event) ?>
-</div>
+                    </div>
+                </div>

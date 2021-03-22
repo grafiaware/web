@@ -13,14 +13,15 @@ use Pes\Text\Html;
             <div class="column">
                 <div class="ui styled fluid accordion">
                     <?= $this->insert(__DIR__.'/profil/osobni-udaje.php', $osobniUdaje) ?>
-                    <?= $this->insert(__DIR__.'/profil/harmonogram.php', $harmonogram) ?>
                     <?= $this->insert(__DIR__.'/profil/igelitka.php', $igelitka) ?>
                 </div>
                 <br/>
             </div>
         </div>
-        <p class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll">Harmonogram</p>
-        <div class="ui centered grid">
+        <p class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll">Můj harmonogram</p>
+        <?= $this->insert(__DIR__.'/profil/harmonogram.php', $harmonogram) ?>
+        
+<!--        <div class="ui centered grid">
             <div class="two wide column">
                 <div class="casova-osa">
                     <p>8</p>
@@ -50,5 +51,5 @@ use Pes\Text\Html;
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
     </div>
