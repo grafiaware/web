@@ -144,8 +144,8 @@ class RegistrationController extends LoginControlerAbstract
                     $registration1->setEmailTime( new \DateTime() );
                     //$loginAggregateRegistrationEntity1->setRegistration($r); //asi není třeba
 
-                    $this->addFlashMessage("Děkujeme za Vaši registraci. \n\n Na Vámi zadanou adresu jsme odeslali e-mail s potvrzovacím odkazem. \n\n"
-                          . "Klikněte, prosím, na potvrzovací odkaz v mailové zprávě a registraci dokončete. \n (Odkaz je aktivní následující 24 hodiny.)");
+                    $this->addFlashMessage("Děkujeme za Vaši registraci. \n Na Vaši adresu jsme odeslali potvrzovací mail.\n"
+                          . "V mailu registraci dokončete.");
                 }
             }
         }
