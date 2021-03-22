@@ -65,6 +65,7 @@ class RegistrationController extends LoginControlerAbstract
             $registerJmeno = $requestParams->getParsedBodyParam($request, $fieldNameJmeno, FALSE);
             $registerHeslo = $requestParams->getParsedBodyParam($request, $fieldNameHeslo, FALSE);
             $registerEmail = $requestParams->getParsedBodyParam($request, $fieldNameEmail, FALSE);
+            $registerExhibitor = $requestParams->getParsedBodyParam($request, 'fieldNameExhibitor', FALSE);
 
             if ($registerJmeno AND $registerHeslo AND  $registerEmail ) {
                 /** @var  LoginAggregateRegistration $loginAggregateRegistrationEntity  */
@@ -103,18 +104,10 @@ class RegistrationController extends LoginControlerAbstract
                     $confirmDomainName = $request->getServerParams()['HTTP_HOST'].$this->getBasePath($request);  // getBasePath - končí /
                     $confirmationUrl = "http://{$confirmDomainName}auth/v1/confirm/$uid";
 
-                    #########################--------- poslat mail -------------------
+                    #########################--------- poslat mail uzivateli-------------------
                     /** @var Mail $mail */
                     $mail = $this->container->get(Mail::class);
                     $subject =  'Veletrh práce a vzdělávání - Registrace.';
-//                    $body  =
-//                    "<h3> Veletrh práce a vzdělávání </h3>"
-//                    ."<p>Děkujeme za Vaši registraci. <br/>Na tento mail, prosím, neodpovídejte.</p>
-//                    <br/>
-//                    <p> Kliknutím na níže uvedený odkaz dokončíte svoji registraci. Odkaz je aktivní následující 24 hodiny.</p>
-//                    <br/><p><a href='http://localhost/web/auth/v1/confirm/$uid'>   -->> Potvrďte registraci! <<--   </a></p>"
-//                    ."<br/><p>S pozdravem <br/> tým realizátora Grafia,s.r.o.</p>" ;
-
                     $body = $this->createMailHtmlMessage(__DIR__."/Messages/registration.php", ['confirmationUrl'=>$confirmationUrl]);
 
                     $attachments = [ (new Attachment())
@@ -144,8 +137,66 @@ class RegistrationController extends LoginControlerAbstract
                     $registration1->setEmailTime( new \DateTime() );
                     //$loginAggregateRegistrationEntity1->setRegistration($r); //asi není třeba
 
-                    $this->addFlashMessage("Děkujeme za Vaši registraci. \n\n Na Vámi zadanou adresu jsme odeslali e-mail s potvrzovacím odkazem. \n\n"
-                          . "Klikněte, prosím, na potvrzovací odkaz v mailové zprávě a registraci dokončete. \n (Odkaz je aktivní následující 24 hodiny.)");
+                    $this->addFlashMessage("Děkujeme za Vaši registraci. \n Na Vaši adresu jsme odeslali potvrzovací mail.\n"
+                          . "V mailu registraci dokončete.");
+                               
+                    #########################--------- poslat mail uzivateli-------------------
+                    /** @var Mail $mail */
+                    $mail = $this->container->get(Mail::class);
+                    $subject =  'Veletrh práce a vzdělávání - Registrace.';
+                    $body = $this->createMailHtmlMessage(__DIR__."/Messages/registration.php", ['confirmationUrl'=>$confirmationUrl]);
+
+                    $attachments = [ (new Attachment())
+                                    ->setFileName(Configuration::mail()['mail.files.directory'].'logo_grafia.png')  // /_www_vp_files/attachments/
+                                    ->setAltText('Logo Grafia')
+                                   ];
+                    $params = (new Params())
+                                ->setContent(  (new Content())
+                                                 ->setSubject($subject)
+                                                 ->setHtml($body)
+//                                                 ->setAttachments($attachments)
+                                            )
+                                ->setParty  (  (new Party())
+                                                 ->setFrom('it.grafia@gmail.com', 'veletrhprace.online')
+                                                 ->addReplyTo('svoboda@grafia.cz', 'reply veletrhprace.online')
+                                                 ->addTo( $registerEmail, $registerJmeno)
+                                                  //->addTo('selnerova@grafia.cz', 'vlse')  // ->addCc($ccAddress, $ccName)   // ->addBcc($bccAddress, $bccName)
+                                            );
+                    $mail->mail($params); // posle mail
+                    #########################-----------------------------
+                    
+                    if ($registerExhibitor) {
+                        //zde zapsat do databaze - KAM??
+                        
+                        ##########################--------- poslat mail do Grafie - registrujici se  je  vystavovatel -------------------
+                        /** @var Mail $mail */
+                        $mail = $this->container->get(Mail::class);
+                        $subject =  'Veletrh práce a vzdělávání - Registrace vystavovatele.';
+                        $body = $this->createMailHtmlMessage(__DIR__."/Messages/registrationexhib.php", 
+                                                            ['registerJmeno'=>$registerJmeno,
+                                                             'registerHeslo'=>$registerHeslo,
+                                                             'registerEmail'=>$registerEmail   
+                                                            ]);
+                        $attachments = [ (new Attachment())
+                                        ->setFileName(Configuration::mail()['mail.files.directory'].'logo_grafia.png')  // /_www_vp_files/attachments/
+                                        ->setAltText('Logo Grafia')
+                                       ];
+                        $params = (new Params())
+                                    ->setContent(  (new Content())
+                                                     ->setSubject($subject)
+                                                     ->setHtml($body)
+    //                                                 ->setAttachments($attachments)
+                                                )
+                                    ->setParty  (  (new Party())
+                                                     ->setFrom('it.grafia@gmail.com', 'veletrhprace.online')
+                                                     ->addReplyTo('svoboda@grafia.cz', 'reply veletrhprace.online')
+                                                    // ->addTo( 'svoboda@grafia.cz', 'administrator Veletrhu')
+                                                     ->addTo('selnerova@grafia.cz', 'vl se')  // ->addCc($ccAddress, $ccName)   // ->addBcc($bccAddress, $bccName)
+                                                );
+                        $mail->mail($params); // posle mail
+                        #########################-----------------------------
+                    }
+                    
                 }
             }
         }

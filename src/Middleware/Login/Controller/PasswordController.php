@@ -83,13 +83,10 @@ class PasswordController extends LoginControlerAbstract {
                         /** @var Mail $mail */
                         $mail = $this->container->get(Mail::class);
                         $subject =  'Veletrh práce a vzdělávání - Nové heslo.';
-                        $body  =
-                        "<h3> Veletrh práce a vzdělávání </h3>"
-                        ."<p>Děkujeme za zaslaný požadavek na vygenerování nového hesla.</p>
-                         <br/> <p> Vaše nové přihlašovací údaje jsou:</p>
-                         <p>Jméno:&nbsp;&nbsp; $loginJmeno &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Heslo:&nbsp;&nbsp; $generatedPassword</p>"
-                        ."<br/><p>S pozdravem <br/> tým realizátora Grafia,s.r.o.</p>" ;
-
+                        $body = $this->createMailHtmlMessage(__DIR__."/Messages/forgottenpassword.php",
+                                                            ['loginJmeno'=>$loginJmeno,
+                                                             'generatedPassword'=>$generatedPassword
+                                                            ]);
                         $attachments = [ (new Attachment())
                                         ->setFileName(Configuration::mail()['mail.files.directory'].'logo_grafia.png')  // /_www_vp_files/attachments/
                                         ->setAltText('Logo Grafia')
