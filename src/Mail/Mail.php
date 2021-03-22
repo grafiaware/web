@@ -104,7 +104,7 @@ class Mail {
             //Password to use for SMTP authentication
             $mail->Password = $actualParams->getSmtpAuth()->getPassword();
 
-            $mail->Encoding = "quoted-printable";
+            $mail->Encoding = '8bit'; 
 
             //Recipients
             $from = $actualParams->getParty()->getFrom();
@@ -124,7 +124,7 @@ class Mail {
             $mail->Subject = $actualParams->getContent()->getSubject();
             $mail->msgHTML($actualParams->getContent()->getHtml(), __DIR__);
             $mail->AltBody = $actualParams->getContent()->getAltBody();
-            $mail->CharSet = "UTF8";
+            $mail->CharSet = "UTF-8";
             $mail->action_function = Mail::class.'::actionOnSend';
 
             $mail->send();
