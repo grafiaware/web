@@ -21,22 +21,17 @@ use Site\Configuration;
                 <div class="ui input">
                     <input type="email" name="<?=Configuration::loginLogoutControler()['fieldNameEmail']?>" placeholder="Email" required>
                 </div>  
-                
                 <div class="field">
-                    <div class="ui checkbox">
+                    <div class="ui checkbox exhibitor">
                       <input type="checkbox" 
-                             name="fieldNameExhibitor"
-                             value="1">
-                      <label>Přeji si být zaregistrován <br/> jako vystavovatel</label>
+                                 name="fieldNameExhibitor"
+                                 value="1">
+                      <label>Zastupuji vystavovatele</label>
                     </div>
+                    <input class="input-company" type="text" name="" placeholder="Název společnosti" maxlength="50"> 
                 </div>
                 
-            <div class="field">
-                <div class="ui checkbox">
-                  <input type="checkbox" name="example">
-                  <label>Zastupuji vystavovatele</label>
-                </div>
-            </div>
+                
                 <button class="ui positive button" type="submit" name="register" value=1 >Registrovat</button>
             </div>
         </div>

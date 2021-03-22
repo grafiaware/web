@@ -5,12 +5,24 @@
 <script async src="//www.instagram.com/embed.js"></script>
 <script>
     // pro modal elementy
-    $('.ui.dropdown')
-      .dropdown()
-    ;
-    $('.ui.selection.dropdown')
-      .dropdown()
-    ;
+    $('.ui.dropdown').dropdown();
+    
+    $('.ui.selection.dropdown').dropdown();
+    
+    //checkbox v registraci (zastupuji vystavovatele)
+    $('.exhibitor.checkbox')
+        .checkbox()
+        .first().checkbox({
+            onChecked: function() {
+                $('.input-company').addClass('show'); //objeví se input pro vyplnění názvu společnosti
+                $('.input-company').attr("required", true); //pole s názvem musí být vyplněno
+            },
+            onUnchecked: function() {
+                $('.input-company').removeClass('show');
+                $('.input-company').attr("required", false);
+              ;
+            }
+        });
     
     //flash message
     $('#domtoast')

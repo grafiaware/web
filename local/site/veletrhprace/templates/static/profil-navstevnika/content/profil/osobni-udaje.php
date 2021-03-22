@@ -63,8 +63,8 @@ use Pes\Text\Html;
                             <button class="ui massive primary button" type="submit">Uložit</button>
                         </div>
                     </div>
+                    <label><b>Nahrané soubory</b></label>
                     <div class="fields">
-                        <label>Nahrané soubory</label>
                         <div class="field">
                             <p>Životopis_Malá.pdf </p>
                         </div>
