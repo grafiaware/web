@@ -116,6 +116,9 @@ main headline{
     }
     &.maly{
         font-size: @smallFontSize;
+        &.primarni-barva{
+            color: @primaryColor;
+        }
     }
     &.vpravo{
         text-align: right;
@@ -614,7 +617,7 @@ content .online-stanky{
         left: 50%;
         margin-left: -1px;
     }
-    .box-left, .box-right{
+    .box-direction{
         padding: 15px 30px;
         position: relative;
         background: inherit;
@@ -652,55 +655,59 @@ content .online-stanky{
             position: relative;
             border-radius: 0 500px 500px 0;
         }
-    }
-    .box-left::after, .box-right::after{
-        content: '';
-        position: absolute;
-        width: 16px;
-        height: 16px;
-        top: calc(50% - 8px);
-        right: -8px;
-        background: @white;
-        border: 2px solid @primaryColor;
-        border-radius: 16px;
-        z-index: 1;
-    }
-    .box-left::before, .box-right::before {
-        content: '';
-        position: absolute;
-        width: 50px;
-        height: 2px;
-        top: calc(50% - 1px);
-        right: 8px;
-        background: @primaryColor;
-        z-index: 1;
-    }
-    .box-left{
-        left: 0;
-        .time{
-            right: -75px;
+        &::after{
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            top: calc(50% - 8px);
+            right: -8px;
+            background: @white;
+            border: 2px solid @primaryColor;
+            border-radius: 16px;
+            z-index: 1;
         }
-        .icon{
-            right: 56px;
+        &::before{
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 2px;
+            top: calc(50% - 1px);
+            right: 8px;
+            background: @primaryColor;
+            z-index: 1;
         }
     }
-    .box-right{
-        left: 50%;
-        &::after {
-            left: -8px;
+    .row:nth-child(2n+1){
+        .box-direction{
+            left: 0;
+            .time{
+                right: -75px;
+            }
+            .icon{
+                right: 56px;
+            }
         }
-        &::before {
-            left: 8px;
-        }
-        .time{
-            left: -75px;
-        }
-        .icon{
-            left: 56px;
-        }
-        .summary{
-            padding: 30px 30px 30px 90px;
-            border-radius: 500px 0 0 500px;
+    }
+    .row:nth-child(2n){
+        .box-direction{
+            left: 50%;
+            &::after {
+                left: -8px;
+            }
+            &::before {
+                left: 8px;
+            }
+            .time{
+                left: -75px;
+            }
+            .icon{
+                left: 56px;
+            }
+            .summary{
+                padding: 30px 30px 30px 90px;
+                border-radius: 500px 0 0 500px;
+            }
         }
     }
     h2{

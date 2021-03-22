@@ -6,13 +6,13 @@ use Model\Entity\PaperAggregatePaperContentInterface;
 
 $headline = 'Pro média';
 
-$perex = 'Tiskovou zprávu k Veletrhu práce a vzdělávání můžete uveřejnit v tisku nebo na webových stránkách. Akce se koná on-line a je pro návštěvníky zdarma.';
+$perex = 'Budeme rádi za zveřejnění tiskových zpráv k Veletrhu práce a vzdělávání ve vašich médiích. Akce se koná on-line a je pro návštěvníky zdarma.';
 
 
 $tiskovaZprava = [
     [
         'idZpravy' => '<b>Tisková zpráva č. 2</b><br/> 20. 3. 2021',
-        'nazev' => 'Pracovní místa, přednášky i poradny, to ve online Veletrh práce a vzdělávání',
+        'nazev' => 'Pracovní místa, přednášky i poradny, to je online Veletrh práce a vzdělávání - Klíč k příležitostem<sup class="text maly primarni-barva">&reg;</sup>',
         'text' => 
         '
 <em>Už za pár dní se spustí první online Veletrh práce a vzdělávání Klíč k příležitostem, který je tentokrát třídenní a koná se 30.3.-1.4. 2021. 

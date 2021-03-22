@@ -41,6 +41,13 @@ $eventContent = [
         'institution' => ['type'=>'', 'name'=>'EURES'],
         'party' => '',
         ],
+    "Jak se nespálit v zahraničí (telefonicky)" => [
+        'eventType' => $eventType['Poradna'],
+        'title' => "Jak se nespálit v zahraničí",
+        'perex' => "Potřebujete poradit se všemi náležitostmi práce mimo ČR? <b>Telefonicky</b> - čísla na poradce <a href=\"https://www.uradprace.cz/web/cz/kontakty-na-eures-poradce\" target=\"_blank\">zde</a>",
+        'institution' => ['type'=>'', 'name'=>'EURES'],
+        'party' => '',
+        ],
     "Poradna pro cizince pracující v ČR" => [
         'eventType' => $eventType['Poradna'],
         'title' => "Poradna pro cizince pracující v ČR",
@@ -65,7 +72,7 @@ $eventContent = [
     ];
 
 $event = [
-    [
+    [ 
         'timelinePoint' => '30. 3. 2021',
         'box' => [
             [
@@ -96,6 +103,20 @@ $event = [
                                 'linkButtonText' => $linkButtonTextPrihlasitSe
                                 ],
             ] + $eventContent["Kariérové poradenství"],
+            [
+                'published' => '1',
+                'startTime' => '12:00',
+                'endTime' => '14:00',
+                'linkButton' => [
+                                'show' => 0,
+                                'linkButtonAttributes' => $linkButtonAttributes +
+                                    [
+                                        'href' => '',
+                                        'target' => ''
+                                    ],
+                                'linkButtonText' => $linkButtonTextPrihlasitSe
+                                ],
+            ] + $eventContent["Jak se nespálit v zahraničí"],
             [
                 'published' => '1',
                 'startTime' => '14:00',
@@ -239,7 +260,7 @@ $event = [
                                     ],
                                 'linkButtonText' => $linkButtonTextPrihlasitSe
                                 ],
-            ] + $eventContent["Jak se nespálit v zahraničí"],
+            ] + $eventContent["Jak se nespálit v zahraničí (telefonicky)"],
             [
                 'published' => '1',
                 'startTime' => '9:00',
@@ -342,7 +363,7 @@ $event = [
                                     ],
                                 'linkButtonText' => $linkButtonTextPrihlasitSe
                                 ],
-            ] + $eventContent["Jak se nespálit v zahraničí"],
+            ] + $eventContent["Jak se nespálit v zahraničí (telefonicky)"],
             [
                 'published' => '1',
                 'startTime' => '9:00',

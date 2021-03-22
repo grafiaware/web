@@ -15,7 +15,7 @@ $eventType = [
 ];
 
 $event = [
-    [
+    [ 
         'timelinePoint' => '30. 3. 2021',
         'box' => [
             [
@@ -36,7 +36,7 @@ $event = [
                                 'linkButtonText' => $linkButtonTextPrihlasitSe
                                 ],
                 'institution' => ['type'=>'', 'name'=>'Státní úřad inspekce práce'],
-                'party' => ''
+                'party' => 'Otto Slabý'
             ],
             [
                 'published' => 1,
@@ -56,6 +56,26 @@ $event = [
                                 'linkButtonText' => $linkButtonTextPrihlasitSe
                                 ],
                 'institution' => ['type'=>'', 'name'=>'Wienerberger'],
+                'party' => ''
+            ],
+            [
+                'published' => 1,
+                'boxClass' => 'box-left',
+                'eventType' => $eventType['Přednáška'],
+                'title' => 'Daikin',
+                'perex' => 'firemní prezentace',
+                'startTime' => '11:00',
+                'endTime' => '11:15',
+                'linkButton' => [
+                                'show' => 0,
+                                'linkButtonAttributes' => $linkButtonAttributes +
+                                    [
+                                        'href' => '',
+                                        'target' => ''
+                                    ],
+                                'linkButtonText' => $linkButtonTextPrihlasitSe
+                                ],
+                'institution' => ['type'=>'', 'name'=>'Daikin'],
                 'party' => ''
             ],
             [
@@ -157,6 +177,26 @@ $event = [
                                 ],
                 'institution' => ['type'=>'', 'name'=>'EURES'],
                 'party' => 'Markéta Vondrová'
+            ],
+            [
+                'published' => 1,
+                'boxClass' => 'box-left',
+                'eventType' => $eventType['Přednáška'],
+                'title' => 'POSSEHL',
+                'perex' => 'firemní prezentace',
+                'startTime' => '15:00',
+                'endTime' => '15:15',
+                'linkButton' => [
+                                'show' => 0,
+                                'linkButtonAttributes' => $linkButtonAttributes +
+                                    [
+                                        'href' => '',
+                                        'target' => ''
+                                    ],
+                                'linkButtonText' => $linkButtonTextPrihlasitSe
+                                ],
+                'institution' => ['type'=>'', 'name'=>'POSSEHL'],
+                'party' => ''
             ],
             [
                 'published' => 1,
@@ -287,6 +327,26 @@ $event = [
                 'published' => 1,
                 'boxClass' => 'box-left',
                 'eventType' => $eventType['Přednáška'],
+                'title' => 'AKKA',
+                'perex' => 'firemní prezentace',
+                'startTime' => '10:30',
+                'endTime' => '10:45',
+                'linkButton' => [
+                                'show' => 0,
+                                'linkButtonAttributes' => $linkButtonAttributes +
+                                    [
+                                        'href' => '',
+                                        'target' => ''
+                                    ],
+                                'linkButtonText' => $linkButtonTextPrihlasitSe
+                                ],
+                'institution' => ['type'=>'', 'name'=>'AKKA'],
+                'party' => ''
+            ],
+            [
+                'published' => 1,
+                'boxClass' => 'box-left',
+                'eventType' => $eventType['Přednáška'],
                 'title' => 'Jakou VŠ zvolit, aby se o vás personalisté prali?',
                 'perex' => 'Přednáška děkana FST ZČU ',
                 'startTime' => '10:45',
@@ -361,7 +421,7 @@ $event = [
                                 'linkButtonText' => $linkButtonTextPrihlasitSe
                                 ],
                 'institution' => ['type'=>'', 'name'=>'Regionální dobrovolnické centrum Plzeňského kraje Totem'],
-                'party' => 'Bc. Vlasta Faiferlíková'
+                'party' => 'Vlasta Faiferlíková'
             ],
             [
                 'published' => 1,
@@ -464,7 +524,7 @@ $event = [
                 'party' => ' Martin Fojtíček'
             ],
             [
-                'published' => 1,
+                'published' => 0,
                 'boxClass' => 'box-left',
                 'eventType' => $eventType['Přednáška'],
                 'title' => 'Brýle – doplněk osobnosti i pracovní nástroj',
