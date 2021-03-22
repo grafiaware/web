@@ -119,6 +119,20 @@ use Pes\Text\Text;
                     ],
                 ],
             ],
+        ],
+        [
+            'radekPartneru' => [
+                [
+                    'wwwPartnera' => 'https://www.diakoniezapad.cz/',
+                    'imgPartneraAttributes' => [
+                        'src' => 'images/diakonie-logo.png',
+                        'alt' => 'Logo Diakonie',
+                        'width' => '',
+                        'height' => '75',
+                        'class' => 'logo-obdelnik'
+                    ],
+                ]
+            ],
         ]
     ]
 ?>

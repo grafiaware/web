@@ -9,13 +9,13 @@ use Pes\Text\Html;
 /** @var PaperAggregatePaperContentInterface $paperAggregate */
 ?>
 
-                        <div class="timeline-section">
-                            <div class="timeline-date">
+<!--                        <div class="timeline-section">-->
+<!--                            <div class="timeline-date">
                                 <?= $timelinePoint ?>
-                            </div>
+                            </div>-->
                             <div class="ui grid">
                                 <div class="row">
                                     <?= $this->repeat(__DIR__.'/timeline-point/box.php', $box) ?>
                                 </div>
                             </div>
-                        </div>
+                        <!--</div>-->
