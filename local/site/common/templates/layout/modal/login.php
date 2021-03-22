@@ -14,6 +14,7 @@ use Site\Configuration;
                     <input type="password" name="<?=Configuration::loginLogoutControler()['fieldNameHeslo']?>" placeholder="Heslo" required>
                 </div>
                 <button class="ui positive button" type="submit" name="login" value=1>Přihlásit</button>                
+                <button class="ui fluid tertiary grey button" type="submit" name="login" value=1>Zapomněl jsem <br/> heslo</button>                
           </div>
         </div>
     </form>

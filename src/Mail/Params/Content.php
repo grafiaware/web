@@ -27,7 +27,7 @@ class Content {
 
     public function getAltBody() {
         // In case any of our lines are larger than 70 characters, we should use wordwrap()
-        return wordwrap(strip_tags($this->html), 70, PHP_EOL);
+        return "Content without HTML: ".wordwrap(strip_tags($this->html), 70, PHP_EOL);
     }
 
     /**
