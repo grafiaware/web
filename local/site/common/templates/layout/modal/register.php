@@ -24,10 +24,9 @@ use Site\Configuration;
             <div class="field">
                 <div class="ui checkbox">
                   <input type="checkbox" name="example">
-                  <label>Přeji si být zaregistrován <br/> jako vystavovatel</label>
+                  <label>Zastupuji vystavovatele</label>
                 </div>
             </div>
-                
                 <button class="ui positive button" type="submit" name="register" value=1 >Registrovat</button>
             </div>
         </div>

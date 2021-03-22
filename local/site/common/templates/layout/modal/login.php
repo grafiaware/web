@@ -13,8 +13,10 @@ use Site\Configuration;
                 <div class="ui input">
                     <input type="password" name="<?=Configuration::loginLogoutControler()['fieldNameHeslo']?>" placeholder="Heslo" required>
                 </div>
-                <button class="ui positive button" type="submit" name="login" value=1>Přihlásit</button>                
-                <button class="ui fluid tertiary grey button" type="submit" name="login" value=1>Zapomněl jsem <br/> heslo</button>                
+                <button class="ui positive button" type="submit" name="login" value=1>Přihlásit</button>
           </div>
         </div>
     </form>
+<form class="ui inverted form centered" method="POST" action="auth/v1/login">
+    <button class="ui fluid tertiary grey button" type="submit" name="login" value=1>Zapomněl jsem <br/> heslo</button>
+</form>
