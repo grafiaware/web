@@ -14,8 +14,6 @@ use Pes\Text\Html;
                                 <?= $timelinePoint ?>
                             </div>-->
                             <div class="ui grid">
-                                <div class="row">
                                     <?= $this->repeat(__DIR__.'/timeline-point/box.php', $box) ?>
-                                </div>
                             </div>
                         <!--</div>-->
