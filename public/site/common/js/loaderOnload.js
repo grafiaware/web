@@ -14,7 +14,7 @@ function replaceElement(id, apiUri){
     if (this.readyState == 4 && this.status == 200) {
         // náhrada innerHtml:
         document.getElementById(id).innerHTML = xhr.responseText;
-
+        
         $('#modal_12').modal('attach events', '.btn-12', 'show');
         $('#modal_15').modal('attach events', '.btn-fb', 'show');
         $('#modal_16').modal('attach events', '.btn-ig', 'show');
@@ -30,6 +30,12 @@ function replaceElement(id, apiUri){
         
         //a tab is a hidden section of content activated by a menu 
         $('.tabular.menu .item').tab(); 
+        
+        //rozbalení formuláře osobních údajů pro "chci nazávat kontakt"
+        $('.profil-visible').on('click', function(){
+            $('.profil.hidden').css('display', 'block');
+        });
+        
         
          // Detect request animation frame
         var scroll = window.requestAnimationFrame ||
@@ -92,9 +98,17 @@ function replaceElementEditable(id, apiUri){
         tinymce.remove();
         tinymce.init(headlineConfig);
         tinymce.init(contentConfig);
-        tinymce.init(divConfig);
+//        tinymce.init(divConfig);
         tinymce.init(perexConfig);
         tinymce.init(headerFooterConfig);
+        
+        //pro editaci pracovního popisu pro přihlášené uživatele
+        tinymce.init(editWorkDataConfig);
+        //rozbalení formuláře osobních údajů pro "chci nazávat kontakt"
+        $('.profil-visible').on('click', function(){
+            $('.profil.hidden').css('display', 'block');
+        });
+        
         //semantic-ui dropdown (použitý např. pro přihlašování)
         $('.ui.dropdown').dropdown();
         //menu semantic-ui dropdown reaguje na událost hover
