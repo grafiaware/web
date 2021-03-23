@@ -1,10 +1,7 @@
 <?php
 use Pes\View\Renderer\PhpTemplateRendererInterface;
-use Model\Entity\PaperAggregatePaperContentInterface;
 /** @var PhpTemplateRendererInterface $this */
-/** @var PaperAggregatePaperContentInterface $paperAggregate */
 
-include 'data.php';
 
 ?>
 <div class="paper">
@@ -15,8 +12,6 @@ include 'data.php';
         <?php include "perex.php" ?>
     </perex>
     <content>
-         <?=
-        $this->repeat(__DIR__.'/content/prednasky.php', $prednaska) ?>
-
+        <?php include'content/timecolumn.php' ?>
     </content>
 </div>

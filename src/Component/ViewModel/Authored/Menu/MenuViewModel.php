@@ -153,11 +153,7 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
         $models = [];
         foreach ($nodes as $key => $node) {
             $realDepth = $node->getDepth() - $rootDepth + 1;  // první úroveň má realDepth=1
-            if (isset($presentedNode)) {
-                $isOnPath = ($presentedItemLeftNode >= $node->getLeftNode()) && ($presentedItemRightNode <= $node->getRightNode());
-            } else {
-                $isOnPath = FALSE;
-            }
+            $isOnPath = isset($presentedNode) ? ($presentedItemLeftNode >= $node->getLeftNode()) && ($presentedItemRightNode <= $node->getRightNode()) : FALSE;
             $isLeaf = (
                         (($node->getRightNode() - $node->getLeftNode()) == 1)   //žádný potomek
                         OR
@@ -165,15 +161,6 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
                         OR
                         ($nodes[$key+1]->getDepth() <= $node->getDepth())  // žádný aktivní (zobrazený) potomek - další prvek $nodes nemá větší hloubku
                     );
-//            $isLeaf1 = $isLeaf2 = $isLeaf3 = false;
-//            $isLeaf1 = ($node->getRightNode() - $node->getLeftNode()) == 1;   //žádný potomek
-//            if(!$isLeaf1) {
-//                $isLeaf2 = !array_key_exists($key+1, $nodes);  // žádný aktivní (zobrazený) potomek - je poslední v poli $nodes
-//            }
-//            if(!$isLeaf1 AND !$isLeaf2) {
-//                $isLeaf3 = $nodes[$key+1]->getDepth() <= $node->getDepth();  // žádný aktivní (zobrazený) potomek - další prvek $nodes nemá větší hloubku
-//            }
-//            $isLeaf = ($isLeaf1 OR $isLeaf2 OR $isLeaf3);
             $nodeUid = $node->getUid();
             $isPresented = isset($presentedUid) ? ($presentedUid == $nodeUid) : FALSE;
             $isCutted = $pasteUid == $nodeUid;

@@ -1,3 +1,18 @@
+Hala
+- responsive, loga nahoru
+
+složka static
+- podsložka exhibitor
+       - podsložka s short název firmy
+
+v menu neviditelné podsložky pod "hale" s titulkem short název firmy
+
+
+v profilu - tinymce na texaareách, životopis jeden soubor  (další soubory možná někdy příště)
+    - totéž html se bude zobrazovat ve stánku pod tlačítkem Chci navázat kontakt.
+
+====================================================
+
 registrace!!!
 
 v confirm kontroleru - přesměrování na stránku - dokončili jste registraci, to je odkaz www/item/static/:name - v metodě PageControler ->static() je

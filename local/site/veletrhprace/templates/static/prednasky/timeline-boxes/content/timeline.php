@@ -6,12 +6,8 @@ use Pes\Text\Html;
 
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregatePaperContentInterface $paperAggregate */
-
-    $text =
-    '
-Přihlašte se na konkrétní čas v poradnách! (po 20. 3. 2021)
-';
-
-    echo Html::p(Text::mono($text), ["class"=>"velky text"])
 ?>
 
+                    <div class="timeline">
+                        <?= $this->repeat(__DIR__.'/timeline/timeline-point.php', $event) ?>
+                    </div>
