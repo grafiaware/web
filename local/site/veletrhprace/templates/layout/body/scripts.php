@@ -23,6 +23,11 @@
               ;
             }
         });
+
+    //odebrání atributu required u hesla, pokud uživatel klikne na "zapomněl jsem heslo"    
+    $('.tertiary.button').on('click', function(){
+        $('.notRequired').attr("required", false);
+    });
     
     //flash message
     $('#domtoast')
