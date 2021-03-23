@@ -1,3 +1,5 @@
+kš        tinymce.init(headerFooterConfig); -> do replaceElement aby edivala textarea i v needitačním - teď nefunguje
+
 Hala
 - responsive, loga nahoru
 
