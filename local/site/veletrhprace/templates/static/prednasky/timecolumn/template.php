@@ -14,4 +14,7 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
     <content>
         <?php include'content/timecolumn.php' ?>
     </content>
+    <content>
+        <?php include "footer.php" ?>
+    </content>
 </div>

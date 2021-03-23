@@ -60,7 +60,7 @@ $eventContent = [
     "Poradna pro cizince pracující v ČR" => [
         'eventType' => $eventType['Poradna'],
         'title' => "Poradna pro cizince pracující v ČR",
-        'perex' => "",
+        'perex' => "Špatné pracovní podmínky, nevyplacená  mzda, kontakt s českými úřady, aj.",
         'institution' => ['type'=>'', 'name'=>'Diakonie Západ'],
         'party' => '',
         ],
@@ -74,7 +74,7 @@ $eventContent = [
     "Poradna v těžkých životních situacích (občanská poradna)" => [
         'eventType' => $eventType['Poradna'],
         'title' => "Poradna v těžkých životních situacích (občanská poradna)",
-        'perex' => "",
+        'perex' => "Práva zaměstnance, evidence na ÚP, sociální dávky, finanční problematika (včetně oddlužení) a mnohé další.",
         'institution' => ['type'=>'', 'name'=>'Diakonie Západ'],
         'party' => '',
         ],

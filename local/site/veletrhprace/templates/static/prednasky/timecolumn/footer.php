@@ -7,6 +7,6 @@ use Pes\Text\Text;
 ?>
         <div class="velky text okraje-vertical">
             <p>
-                <?= Text::mono('Další jména přednášejících budou postupně přibývat, sledujte tuto stránku!')?>
+                <?= Text::mono($footer)?>
             </p>
         </div>

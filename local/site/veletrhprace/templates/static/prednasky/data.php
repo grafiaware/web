@@ -2,12 +2,13 @@
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 /** @var PhpTemplateRendererInterface $this */
 
-$headline = 'Poradny online zdarma';
+$headline = 'Můžete se těšit na tyto přednášky';
 $perex =
     '
 Další přednášky průběžně doplňujeme, koukněte sem za pár dnů!
 
 Přednášky můžete i opakovaně zhlédnout na našem youtube kanálu. Odkaz na youtube kanál zde najdete po 28. 3. 2021';
+$footer = 'Další přednášky budou postupně přibývat, sledujte tuto stránku!';
 
 
 $linkButtonAttributes = ['class' => 'ui large red button'];
@@ -32,16 +33,16 @@ $eventContent =
     'Wienerberger' => [
         'eventType' => $eventType['Přednáška'],
                 'title' => 'Wienerberger',
-                'perex' => 'firemní prezentace',
+                'perex' => 'Firemní prezentace',
                 'institution' => ['type'=>'', 'name'=>'Wienerberger'],
-                'party' => ''
+                'party' => 'Barbora Krejčová'
         ],
     'Daikin' => [
         'eventType' => $eventType['Přednáška'],
                 'title' => 'Daikin',
-                'perex' => 'firemní prezentace',
+                'perex' => 'Firemní prezentace',
                 'institution' => ['type'=>'', 'name'=>'Daikin'],
-                'party' => ''
+                'party' => 'Tomáš Matoušek'
         ],
     'Jak oslovit zaměstnavatele a jak se připravit na pracovní pohovor' => [
         'eventType' => $eventType['Přednáška'],
@@ -54,7 +55,7 @@ $eventContent =
         'eventType' => $eventType['Přednáška'],
                 'title' => 'Vyhlášení cen Mamma Parent Friendly',
                 'perex' => 'Ocenění pro podniky přátelské rodině za rok 2020',
-                'institution' => ['type'=>'', 'name'=>'Grafia a ÚMO 3 Plzeň'],
+                'institution' => ['type'=>'', 'name'=>'Grafia a MO Plzeň 3'],
                 'party' => ''
         ],
     'Zvolená rekvalifikace zdarma – cesta k nové profesi' => [
@@ -82,21 +83,21 @@ $eventContent =
     'Possehl Electronics Czech Republic' => [
         'eventType' => $eventType['Přednáška'],
                 'title' => 'Possehl Electronics Czech Republic',
-                'perex' => 'firemní prezentace',
+                'perex' => 'Firemní prezentace',
                 'institution' => ['type'=>'', 'name'=>'Possehl Electronics Czech Republic'],
-                'party' => ''
+                'party' => 'Michail Rais'
         ],
     'Jaká je budoucnost absolventů VŠ?' => [
         'eventType' => $eventType['Přednáška'],
             'title' => 'Jaká je budoucnost absolventů VŠ?',
-            'perex' => 'rozhovor s děkanem FST ZČU o perspektivách studijních oborů',
+            'perex' => 'Rozhovor s děkanem FST ZČU o perspektivách studijních oborů.',
             'institution' => ['type'=>'', 'name'=>'ZČU v Plzni'],
             'party' => 'Milan Edl'
         ],
     'Konplan – firma budoucnosti' => [
         'eventType' => $eventType['Přednáška'],
             'title' => 'Konplan – firma budoucnosti',
-            'perex' => 'prezentace společnosti',
+            'perex' => 'Firemní prezentace',
             'institution' => ['type'=>'', 'name'=>'Konplan'],
             'party' => 'Vendula Linková, Martin Junek'
         ],
@@ -111,7 +112,7 @@ $eventContent =
         'eventType' => $eventType['Přednáška'],
             'title' => 'Vzdělávací, rodinné a sociální programy pro občany v Plzni',
             'perex' => 'Co dělat v těžkých životních událostech? Jak být úspěšným rodičem? Poradenství pro rodiny, samoživitele a odborné sociální služby',
-            'institution' => ['type'=>'', 'name'=>'ÚMO 3 Plzeň'],
+            'institution' => ['type'=>'', 'name'=>'MO Plzeň 3'],
             'party' => 'Stanislav Šec'
         ],
     'Jak se nezbláznit z covidu?' => [
@@ -131,9 +132,9 @@ $eventContent =
     'AKKA Czech Republic' => [
         'eventType' => $eventType['Přednáška'],
             'title' => 'AKKA Czech Republic',
-            'perex' => 'firemní prezentace',
+            'perex' => 'Firemní prezentace: Nahlédněte s námi do Prototypového centra v Plzni',
             'institution' => ['type'=>'', 'name'=>'AKKA Czech Republic'],
-            'party' => ''
+            'party' => 'Štefan Bárta'
         ],
     'Jakou VŠ zvolit, aby se o vás personalisté prali?' => [
         'eventType' => $eventType['Přednáška'],
@@ -146,7 +147,7 @@ $eventContent =
         'eventType' => $eventType['Přednáška'],
             'title' => 'Péče o válečného veterána byl skvělý jazykový kurz',
             'perex' => 'Interview s místostarostou',
-            'institution' => ['type'=>'', 'name'=>'ÚMO 3 Plzeň'],
+            'institution' => ['type'=>'', 'name'=>'MO Plzeň 3'],
             'party' => 'Ondřej Ženíšek'
         ],
     'Domluvte se ve své profesi anglicky/německy a učte se za peníze EU! ' => [
@@ -167,7 +168,7 @@ $eventContent =
         'eventType' => $eventType['Přednáška'],
             'title' => 'Dobrovolníkem na vlastní kůži',
             'perex' => 'Jak skloubit dobrovolnictví s prací místostarostky? Co nového jsem se o sobě i o druhých naučila…',
-            'institution' => ['type'=>'', 'name'=>'ÚMO 1 Plzeň'],
+            'institution' => ['type'=>'', 'name'=>'MO Plzeň 1'],
             'party' => 'Ilona Jehličková'
         ],
     'Diecézní charita' => [
@@ -188,7 +189,7 @@ $eventContent =
         'eventType' => $eventType['Přednáška'],
             'title' => 'Nespalte se při koupi a prodeji nemovitosti',
             'perex' => 'Jaká úskalí vás čekají, čeho se vyvarovat, co zjistit předem?',
-            'institution' => ['type'=>'', 'name'=>'ÚMO 3 Plzeň'],
+            'institution' => ['type'=>'', 'name'=>'MO Plzeň 3'],
             'party' => ' Petr Baloun'
         ],
 
@@ -255,7 +256,6 @@ $eventList =
             'timelinePoint' => '30. 3. 2021',
                 'startTime' => '10:45',
                 'endTime' => '11:00',
-            'endTime' => '18:00',
             'linkButton' => [
                             'show' => 0,
                             'linkButtonAttributes' => $linkButtonAttributes +

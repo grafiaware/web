@@ -5,7 +5,8 @@ use Pes\Text\Text;
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregatePaperContentInterface $paperAggregate */
 ?>
-
-<p class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll">
-    <?= Text::mono($headline) ?>
-</p>
+        <div class="velky text okraje-vertical">
+            <p>
+                <?= Text::mono($footer)?>
+            </p>
+        </div>

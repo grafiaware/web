@@ -19,5 +19,8 @@ use Model\Entity\PaperAggregatePaperContentInterface;
         <content>
          <?php include 'content/timeline.php' ?>
         </content>
+        <content>
+            <?php include "footer.php" ?>
+        </content>
     </section>
 </article>
