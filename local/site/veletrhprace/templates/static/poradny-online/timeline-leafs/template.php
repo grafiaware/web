@@ -4,6 +4,8 @@ use Model\Entity\PaperAggregatePaperContentInterface;
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregatePaperContentInterface $paperAggregate */
 
+include 'data.php';
+
 ?>
 
 <article class="paper">
@@ -17,7 +19,7 @@ use Model\Entity\PaperAggregatePaperContentInterface;
     </section>
     <section>
         <content>
-         <?php include 'content/timeline.php' ?>
+            <?php include "content/timeline.php" ?>
         </content>
     </section>
 </article>

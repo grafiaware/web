@@ -107,26 +107,26 @@ class ComponentControler extends XhrControlerAbstract {
      * @return string
      */
     private function getCompiledContent($staticName) {
-
-        $compiledPath = Configuration::componentControler()['compiled'];
-        $compiledFileName = $compiledPath.$staticName.".html";
         $templatePath = Configuration::componentControler()['static'].$staticName;
         $templateFilename = $templatePath."/template.php";
-        if (is_readable($compiledFileName)) {
-            $compiledFileTimestamp = filemtime($compiledFileName);  // Unix timestamp -> date ("d. F Y H:i:s.", $compiledFileTimestamp);
-            $templateFolderTimestamp = $this->templateFolderModificationTime($templatePath);  // 7ms
-            //(new \SplFileInfo($templatePath))->getMTime();
-            $timeCompiled = date ("d. F Y H:i:s.", $compiledFileTimestamp);
-            $timeTemlate = date ("d. F Y H:i:s.", $templateFolderTimestamp);
-            $timeDiff = $compiledFileTimestamp - $templateFolderTimestamp;
-            if ($templateFolderTimestamp < $compiledFileTimestamp ) {  // timestamp je s vteřinovou přesností
-                $compiledContent = file_get_contents($compiledFileName);   // 100mikrosec
-            } else {
-                $compiledContent = $this->compileContent($templateFilename, $compiledFileName);   // 35ms
-            }
-        } else {
-            $compiledContent = $this->compileContent($templateFilename, $compiledFileName);
-        }
+        $compiledPath = Configuration::componentControler()['compiled'];
+        $compiledFileName = $compiledPath.$staticName.".html";
+
+//        if (is_readable($compiledFileName)) {
+//            $compiledFileTimestamp = filemtime($compiledFileName);  // Unix timestamp -> date ("d. F Y H:i:s.", $compiledFileTimestamp);
+//            $templateFolderTimestamp = $this->templateFolderModificationTime($templatePath);  // 7ms
+//            //(new \SplFileInfo($templatePath))->getMTime();
+//            $timeCompiled = date ("d. F Y H:i:s.", $compiledFileTimestamp);
+//            $timeTemlate = date ("d. F Y H:i:s.", $templateFolderTimestamp);
+//            $timeDiff = $compiledFileTimestamp - $templateFolderTimestamp;
+//            if ($templateFolderTimestamp < $compiledFileTimestamp ) {  // timestamp je s vteřinovou přesností
+//                $compiledContent = file_get_contents($compiledFileName);   // 100mikrosec
+//            } else {
+//                $compiledContent = $this->compileContent($templateFilename, $compiledFileName);   // 35ms
+//            }
+//        } else {
+            $compiledContent = $this->compileContent($templateFilename, $compiledFileName);   // ZAKOMENTOVÁNO UKLÁDÁNÍ
+//        }
         return $compiledContent;
     }
 
@@ -159,7 +159,7 @@ class ComponentControler extends XhrControlerAbstract {
             $view->setRenderer(new PhpTemplateRenderer());
             $view->setTemplate(new PhpTemplate($templateFilename));
             $compiledContent = $view->getString();
-            file_put_contents($compiledFileName, $compiledContent);
+//            file_put_contents($compiledFileName, $compiledContent);   // !! VYPNUTO
         }
         return $compiledContent;
     }

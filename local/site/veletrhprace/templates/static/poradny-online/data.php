@@ -71,17 +71,13 @@ $eventContent = [
         ],
     ];
 
-$event = [
-
-        ];
-
 $timelinePoint = [
         1 => '30. 3. 2021',
         2 => '31. 3. 2021',
         3 => '1. 4. 2021',
 ];
 
-$boxList =
+$eventList =
     [
         [
             'published' => '1',
@@ -418,13 +414,23 @@ $boxList =
 
     ];
 
-    $index = 1;
-    foreach ($boxList as $boxItem) {
+    $compareByStartTime = function ($boxA, $boxB) {
+        return (str_replace(':', '', $boxA['startTime']) < str_replace(':', '', $boxB['startTime'])) ? -1 : 1;
+    };
+
+    $event = [];
+    foreach ($timelinePoint as $tlPoint) {
+        $boxItems = [];
+        foreach ($eventList as $boxItem) {
+            if ($boxItem['timelinePoint']==$tlPoint) {
+                $boxItems[] = $boxItem;
+            }
+        }
+
+        uasort($boxItems, $compareByStartTime);
+
         $event[] = [
-                    'timelinePoint' => $timelinePoint[$index],
-                    'box' => $boxItem
+                    'timelinePoint' => $tlPoint,
+                    'box' => $boxItems
                 ];
     }
-    $a = 1;
-
-;
