@@ -1,8 +1,13 @@
 <?php
+use Pes\View\Renderer\PhpTemplateRendererInterface;
+use Model\Entity\PaperAggregatePaperContentInterface;
+use Pes\Text\Text;
+use Pes\Text\Html;
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+/** @var PhpTemplateRendererInterface $this */
+/** @var PaperAggregatePaperContentInterface $paperAggregate */
 
+
+
+    echo Html::p(Text::mono($perex), ["class"=>"velky text"]);
+?>

@@ -2,6 +2,15 @@
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 /** @var PhpTemplateRendererInterface $this */
 
+$headline = 'Poradny online zdarma';
+$perex =
+    '
+Přihlaste se na konkrétní čas v poradnách! (po 23. 3. 2021)
+';
+
+
+
+
 $linkButtonAttributes = ['class' => 'ui large red button'];
 $linkButtonTextPrihlasitSe = 'Zde se budete moci přihlásit';
 $linkButtonTextZhlednout = 'Zhlédnout záznam';

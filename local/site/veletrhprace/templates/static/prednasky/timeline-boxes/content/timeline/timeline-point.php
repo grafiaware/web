@@ -12,7 +12,10 @@ use Pes\Text\Html;
                         <div class="timeline-section">
                             <div class="timeline-date">
                                 <?= $timelinePoint ?>
+                            </div>
+                            <div class="ui grid stackable">
+                                <div class="row">
+                                    <?= $this->repeat(__DIR__.'/timeline-point/box.php', $box) ?>
                                 </div>
                             </div>
-
-                                    <?= $this->repeat(__DIR__.'/timeline-point/box.php', $box) ?>
+                        </div>
