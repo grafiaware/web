@@ -125,13 +125,47 @@ use Pes\Text\Text;
                 [
                     'wwwPartnera' => 'https://www.diakoniezapad.cz/',
                     'imgPartneraAttributes' => [
-                        'src' => 'images/diakonie-logo.png',
-                        'alt' => 'Logo Diakonie',
+                        'src' => 'images/czechinvest-logo.png',
+                        'alt' => 'Logo CzechInvest',
                         'width' => '',
                         'height' => '75',
                         'class' => 'logo-obdelnik'
                     ],
+                ],
+                [
+                    'wwwPartnera' => 'https://www.diakoniezapad.cz/',
+                    'imgPartneraAttributes' => [
+                        'src' => 'images/suip.png',
+                        'alt' => 'Logo SUIP',
+                        'width' => '',
+                        'height' => '55',
+                        'class' => 'logo-siroke'
+                    ],
+                ],
+                [
+                    'wwwPartnera' => 'https://www.diakoniezapad.cz/',
+                    'imgPartneraAttributes' => [
+                        'src' => 'images/cesnet-logo.png',
+                        'alt' => 'Logo Cesnet',
+                        'width' => '',
+                        'height' => '65',
+                        'class' => 'logo-siroke'
+                    ],
                 ]
+            ],
+        ],
+        [
+            'radekPartneru' => [
+                [
+                    'wwwPartnera' => 'https://www.diakoniezapad.cz/',
+                    'imgPartneraAttributes' => [
+                        'src' => 'images/diakonie-logo.png',
+                        'alt' => 'Logo Diakonie',
+                        'width' => '',
+                        'height' => '70',
+                        'class' => 'logo-siroke'
+                    ],
+                ],
             ],
         ]
     ]

@@ -12,14 +12,14 @@ use Pes\Text\Html;
         <div class="ui stackable centered grid">
             <div class="column">
                 <div class="ui styled fluid accordion">
-                    <?= $this->insert(__DIR__.'/profil/osobni-udaje.php', $osobniUdaje) ?>
+                    <?= $this->insert(__DIR__.'/profil/osobni-udaje.php', $personalData) ?>
                     <?= $this->insert(__DIR__.'/profil/igelitka.php', $igelitka) ?>
                 </div>
                 <br/>
             </div>
         </div>
         <p class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll">Můj harmonogram</p>
-        <?= $this->insert(__DIR__.'/profil/harmonogram.php', $harmonogram) ?>
+        <?= $this->insert(__DIR__.'/profil/harmonogram.php', $timeline) ?>
         
 <!--        <div class="ui centered grid">
             <div class="two wide column">

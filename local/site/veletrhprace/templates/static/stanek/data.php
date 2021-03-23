@@ -18,17 +18,27 @@ $modalAtributy = [
 ];
 
 $static_ref = '_www_vp_files/static/';
+$monitor_ref = '/assets/monitor-stanek.jpg';
+$video_ref = '/movie/video-stanek.mp4';
+$stanek_ref = '/assets/stanek.png';
+
+//rozlišení více letáků? čísla (letak1.pdf, letak2.pdf,...)
+$letakJPG_ref = '/poster/letak.png';
+$letakPDF_ref = '/poster/letak.pdf';
+
+$shortName = 'konplan';
+$letakAttributesClass = ['class' => 'letak-v-igelitce'];
+
 $firma = [
     'nazev' => 'Konplan s.r.o.',
     'videoAttributes' => [
-        'poster' => $static_ref.'konplan/assets/monitor-na-stanek.jpg',
+        'poster' => $static_ref.$shortName.$monitor_ref,
 //        'poster' => $static_ref.'konplan/assets/monitor-na-stanek1.jpg',   // nemám obrázek - opravit
     ],
-    'videoSourceSrc' => $static_ref.'konplan/movie/konplan_video.mp4',
+    'videoSourceSrc' => $static_ref.$shortName.$video_ref,
     'imgStankuAttributes' => [
-        'src' => 'images/stanek-bily.png',
-        'alt' => 'stánek First Company',
-        'width' => '100%'
+        'src' => $static_ref.$shortName.$video_ref,
+        'alt' => 'stánek firmy',
     ],
     'socialniSiteIframe' => [
         [
@@ -50,5 +60,48 @@ $firma = [
     ],
     'chat' => [
         'ikonaChatu' => 'chat circle',
-    ]
+    ],
+    'buttony' => [
+        [
+            'text' => 'Pracovní pozice',
+            'odkaz' => ''
+        ],
+        [
+            'text' => 'Náš program',
+            'odkaz' => ''
+        ],
+        [
+            'text' => 'Chci na online pohovor',
+            'odkaz' => ''
+        ],
+        [
+            'text' => 'Chci navázat kontakt',
+            'odkaz' => ''
+        ],
+    ],
+    'letak' => [
+        [
+            'nazev' => '',
+            'letakAttributes' => $letakAttributesClass +
+            [
+                'src' => 'images/letak-na-prednasku.jpg',
+                'alt' => 'leták1',
+            ],
+            'downloadAttributes' => [
+                'href' => 'download/letak-na-prednasku.pdf',
+                'download' => 'leták 1',
+            ]
+        ],
+        [
+            'letakAttributes' => $letakAttributesClass +
+            [
+                'src' => 'images/moje-budoucnost-letakA5.jpg',
+                'alt' => 'leták2',
+            ],
+            'downloadAttributes' => [
+                'href' => 'download/moje-budoucnost-letakA5.pdf',
+                'download' => 'leták 2',
+            ]
+        ]
+    ],
 ];

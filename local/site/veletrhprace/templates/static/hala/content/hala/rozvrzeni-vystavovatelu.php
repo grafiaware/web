@@ -8,9 +8,8 @@ use Pes\Text\Html;
 /** @var PaperAggregatePaperContentInterface $paperAggregate */
 ?>
 
-    <div class="online-stanky">
-        <div class="ui stackable centered grid">
-            <?= $this->repeat(__DIR__.'/hala/rozvrzeni-vystavovatelu.php', $vystavovatele) ?>
+
+        <div class="three column stretched row">
+            <?= $this->repeat(__DIR__.'/rozvrzeni-vystavovatelu/vystavovatel.php', $row) ?>
         </div>
-    </div>
 

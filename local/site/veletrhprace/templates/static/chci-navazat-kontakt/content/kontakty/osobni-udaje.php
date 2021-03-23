@@ -10,10 +10,11 @@ use Pes\Text\Html;
 ?>
 
 
+<!--   ZMĚNA OPROTI OSOBNI-UDAJE.PHP V PROFILU         
             <div class="active title">
                 <i class="dropdown icon"></i>
                 Balíček pracovních údajů
-            </div>
+            </div>-->
             <div class="active content">
                 <form class="ui huge form" action="" method="">
                     <!--                        <div class="five wide field">
@@ -55,7 +56,11 @@ use Pes\Text\Html;
                             <input type="file" name="priloha" size="1">
                         </div>
                         <div class="field margin">
+                            <!--   ZMĚNA OPROTI OSOBNI-UDAJE.PHP V PROFILU -->
+                            <button class="ui massive primary button" type="submit">Odeslat</button>
+                            <!--    
                             <button class="ui massive primary button" type="submit">Uložit</button>
+                            -->
                         </div>
                     </div>
                     <label><b>Nahrané soubory</b></label>

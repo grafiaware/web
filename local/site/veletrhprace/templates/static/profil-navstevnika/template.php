@@ -4,7 +4,7 @@ use Model\Entity\PaperAggregateInterface;
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregateInterface $paperAggregate */
 
-$osobniUdaje = [
+$personalData = [
     [
         'fotografie' => [
             'src' => 'images/moje-krasna-fotka.jpg',
@@ -21,7 +21,7 @@ $osobniUdaje = [
         ],
     ]
 ];
-$harmonogram = [
+$timeline = [
     'denKonani' => [
         [
             'datum' => '30. 3. 2021',
@@ -138,8 +138,8 @@ $igelitka = [
         </perex>
     </section>
     <section>
-        <content>
-            <?php include "content/profil.php" ?>
-        </content>
+        <!--<content>-->
+            <?php include "content/profil.php" ?> <!-- Tiny pro .working-data -->
+        <!--</content>-->
     </section>
 </article>
