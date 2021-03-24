@@ -625,6 +625,13 @@
             top: -270px;
         }
     }
+    .online-stanky{
+        padding: 70px 0;
+        .logo-vystavovatele img{
+            max-height: 95px;
+            max-width: 250px; 
+        }
+    }
     
 }
 @media screen and (max-width: 1340px){
@@ -698,6 +705,25 @@
     }
     .ui.massive.button{
         font-size: 1.5rem !important;
+    }
+    /*timeline boxes*/
+    .timeline{
+        .box-title, .box-content{
+            padding:5px;
+        }
+        .box-item{
+            margin: 0 0 10px 0;
+        }
+        .timeline-box{
+            margin: 0 -7px 30px;
+        }
+    }
+    .online-stanky{
+        margin: 0 -70px 0 -80px;
+        .logo-vystavovatele img{
+            max-height: 90px;
+            max-width: 235px; 
+        }
     }
     main section > content{
         margin: 100px 0;
@@ -798,6 +824,29 @@
             position: relative;
             top: auto;
             left: auto;
+        }
+    }
+    /*timeline boxes*/
+    .timeline{
+        .box-title, .box-content{
+            padding:5px 15px;
+        }
+        .box-item{
+            margin: 10px;
+        }
+        .timeline-box{
+            margin: 0 0 30px;
+        }
+    }
+    .online-stanky{
+        margin: 0 -60px 0 -80px;
+        .logo-vystavovatele img{
+            max-height: 95px;
+            max-width: 250px;
+        }
+        .logo-vystavovatele i{
+            display: block;
+            margin: 5px auto 10px;
         }
     }
 
@@ -961,6 +1010,90 @@
         }
         .button:first-child{
             
+        }
+    }
+    /*timeline leaf*/
+    .timeline-1{
+        &::after{
+            left: 5px;
+        }
+        .box-direction{
+            width: 100%;
+            padding: 0 0 0 20px;
+            .time{
+                top: calc(50% - 32px);
+            }
+            .icon{
+                width: 33px;
+                height: 33px;
+                padding: 6px 2px;
+                top: calc(50% - 15px);
+                font-size: 17px;
+            }
+            h2{
+                font-size: 18px;
+            }
+            p{
+                font-size: 16px;
+            }
+        }
+        .timeline-date{
+            left: 60px;
+        }
+        .row:nth-child(2n+1) .box-direction{
+            left: 0;
+        }
+        .row:nth-child(2n) .box-direction, .row:nth-child(2n+1) .box-direction{
+            .time{
+                right: auto;
+                left: 33px;
+            }
+            .icon{
+                right: auto;
+                left: 83px;
+            }
+            .summary{
+                padding: 20px 5px 20px 100px;
+                border-radius: 500px 0 0 500px;
+            }
+            &::after{ 
+                left: 11px;
+            }
+            &::before{
+                left: 27px;
+                border-color: transparent #006E51 transparent transparent;
+                width: 58px;
+            }
+        }
+    }
+    
+    /*timeline boxes*/
+    .timeline{
+        &::before{
+            top: 0;
+        }
+        .timeline-box{
+            margin: 0 0 10px;
+        }
+        .timeline-section{
+            &::before{
+                top:14px;
+            }
+            &::after{
+                top:7px;
+            }
+        }
+    }
+    .online-stanky{
+        padding: 20px 115px;
+        margin: 0;
+        .logo-vystavovatele img{
+            max-height: 95px;
+            max-width: 250px; 
+        }
+        .logo-vystavovatele i{
+            display: inline-block;
+            margin: auto;
         }
     }
 }
@@ -1171,37 +1304,89 @@
         margin: -1.3em 0 0 0;
     }
     
-    /*casove osa1*/
+    /*timeline leaf*/
     .timeline-1{
         &::after{
-            left: 90px;
+            left: 5px;
         }
-        .box-direction {
+        .box-direction{
             width: 100%;
-            padding-left: 120px;
-            padding-right: 30px;
+            padding: 0 0 0 20px;
+            .time{
+                top: calc(50% - 32px);
+            }
+            .icon{
+                width: 33px;
+                height: 33px;
+                padding: 6px 2px;
+                top: calc(50% - 15px);
+                font-size: 17px;
+            }
+            h2{
+                font-size: 18px;
+            }
+            p{
+                font-size: 16px;
+            }
+        }
+        .timeline-date{
+            left: 60px;
+        }
+        .row:nth-child(2n+1) .box-direction{
+            left: 0;
+        }
+        .row:nth-child(2n) .box-direction, .row:nth-child(2n+1) .box-direction{
             .time{
                 right: auto;
-                left: 15px;
+                left: 33px;
             }
             .icon{
                 right: auto;
-                left: 146px;
+                left: 83px;
             }
             .summary{
-                padding: 30px 30px 30px 90px;
+                padding: 20px 5px 20px 100px;
                 border-radius: 500px 0 0 500px;
             }
             &::after{ 
-                left: 82px;
+                left: 11px;
             }
             &::before{
-                left: 100px;
+                left: 27px;
                 border-color: transparent #006E51 transparent transparent;
+                width: 58px;
             }
         }
-        .row:nth-child(2n) .box-direction{
-            left: 0;
+    }
+    .timeline{
+        &::before{
+            top: 0;
+            height: calc(100% + 20px);
+        }
+        .timeline-box{
+            margin: 0 0 10px;
+        }
+        .timeline-section{
+            padding-left: 25px;
+            &::before{
+                top:14px;
+            }
+            &::after{
+                top:7px;
+            }
+        }
+    }
+    .online-stanky{
+        padding: 20px 50px;
+        margin: 0 -10px;
+        background-size: 120% auto;
+        background-position: center;
+        .logo-vystavovatele img{
+            max-height: 85px;
+        }
+        .logo-vystavovatele i{
+            display: block;
+            margin: 5px auto 10px;
         }
     }
 }
@@ -1261,6 +1446,12 @@
     }
     .text.okraje-horizontal{
         padding: 0 20px;
+    }
+    .online-stanky{
+        padding: 45px;
+        .logo-vystavovatele img{
+            max-height: 70px;
+        }
     }
     
 }
