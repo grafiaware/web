@@ -123,6 +123,16 @@ use Pes\Text\Text;
         [
             'radekPartneru' => [
                 [
+                    'wwwPartnera' => 'http://www.krasovska.cz/',
+                    'imgPartneraAttributes' => [
+                        'src' => 'images/krasovska-logo.png',
+                        'alt' => 'Logo Krašovská',
+                        'width' => '',
+                        'height' => '110',
+                        'class' => 'logo-ctverec'
+                    ],
+                ],
+                [
                     'wwwPartnera' => 'https://www.diakoniezapad.cz/',
                     'imgPartneraAttributes' => [
                         'src' => 'images/czechinvest-logo.png',
@@ -130,16 +140,6 @@ use Pes\Text\Text;
                         'width' => '',
                         'height' => '75',
                         'class' => 'logo-obdelnik'
-                    ],
-                ],
-                [
-                    'wwwPartnera' => 'https://www.diakoniezapad.cz/',
-                    'imgPartneraAttributes' => [
-                        'src' => 'images/suip.png',
-                        'alt' => 'Logo SUIP',
-                        'width' => '',
-                        'height' => '55',
-                        'class' => 'logo-siroke'
                     ],
                 ],
                 [
@@ -156,6 +156,16 @@ use Pes\Text\Text;
         ],
         [
             'radekPartneru' => [
+                [
+                    'wwwPartnera' => 'https://www.diakoniezapad.cz/',
+                    'imgPartneraAttributes' => [
+                        'src' => 'images/suip.png',
+                        'alt' => 'Logo SUIP',
+                        'width' => '',
+                        'height' => '55',
+                        'class' => 'logo-siroke'
+                    ],
+                ],
                 [
                     'wwwPartnera' => 'https://www.diakoniezapad.cz/',
                     'imgPartneraAttributes' => [

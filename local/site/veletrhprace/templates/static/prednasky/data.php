@@ -65,6 +65,13 @@ $eventContent =
                 'institution' => ['type'=>'', 'name'=>'ÚP ČR, Krajská pobočka v Plzni'],
                 'party' => 'Světlana Skalová'
         ],
+    'Kermi' => [
+        'eventType' => $eventType['Přednáška'],
+                'title' => 'Kermi',
+                'perex' => 'Firemní prezentace',
+                'institution' => ['type'=>'', 'name'=>'Kermi'],
+                'party' => 'Jana Čedíková'
+        ],
    'Nástup do práce po rodičovské dovolené? Bomba!' => [
         'eventType' => $eventType['Přednáška'],
                 'title' => 'Nástup do práce po rodičovské dovolené? Bomba!',
@@ -326,6 +333,21 @@ $eventList =
                             'linkButtonText' => $linkButtonTextPrihlasitSe
                             ],
         ] + $eventContent['Zvolená rekvalifikace zdarma – cesta k nové profesi'],
+        [
+            'published' => '1',
+            'timelinePoint' => '30. 3. 2021',
+                'startTime' => '13:55',
+                'endTime' => '14:10',
+            'linkButton' => [
+                            'show' => 0,
+                            'linkButtonAttributes' => $linkButtonAttributes +
+                                [
+                                    'href' => '',
+                                    'target' => ''
+                                ],
+                            'linkButtonText' => $linkButtonTextPrihlasitSe
+                            ],
+        ] + $eventContent['Kermi'],
         [
             'published' => '1',
             'timelinePoint' => '30. 3. 2021',
