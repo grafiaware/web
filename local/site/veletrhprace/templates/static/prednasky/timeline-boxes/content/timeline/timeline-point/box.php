@@ -8,16 +8,18 @@ use Pes\Text\Html;
 if ($published) {
 ?>
 
-                                    <div class="four wide column">
+                                    <div class="sixteen wide mobile eight wide tablet four wide computer column">
                                         <div class="timeline-box">
                                             <div class="box-title">
-                                                <i class="large <?= $eventType['icon'] ?>"></i> <?= $eventType['name'] ?>
+                                                <i class="<?= $eventType['icon'] ?>"></i> <?= $eventType['name'] ?>
                                             </div>
                                             <div class="box-content">
-                                                <div class="box-item"> <?= $title ?></div>
-                                                <div class="box-item"></q><small> <?= $perex ?> </small></q></div>
-                                                <div class="box-item"><p><b><?= $party ?></b></p></div>
-                                                <div class="box-item"><strong><?= Text::resolve($institution['type'], $institution['type'].": ", '') ?></strong> <?= $institution['name'] ?> </div>
+                                                <div class="box-item"><p class="box-name"> <?= $title ?></p></div>
+                                                <div class="box-item"><p class="box-description"> <?= $perex ?> </p></div>
+                                                <div class="box-item">
+                                                    <p class="box-name"><?= $party ?></p>
+                                                    <p class="box-description bold"><strong><?= Text::resolve($institution['type'], $institution['type'].": ", '') ?></strong> <?= $institution['name'] ?> </p>
+                                                </div>
                                             </div>
                                             <div class="box-footer"><?= $startTime ?> - <?= $endTime ?></div>
                                             <?php if ($linkButton['show']) {?>
