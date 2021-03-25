@@ -1,16 +1,24 @@
 <?php
 
-namespace Model\Dao;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+namespace Events\Model\Dao;
+
 use Pes\Database\Handler\HandlerInterface;
+
+use Model\Dao\DaoAbstract;
 use Model\Dao\DaoKeyDbVerifiedInterface;
-use Model\Dao\Exception\DaoKeyVerificationFailedException;
 
 /**
- * Description of UserDao
+ * Description of LoginDao
  *
  * @author pes2704
  */
-class LoginDao extends DaoAbstract implements DaoKeyDbVerifiedInterface {
+class LoginDao extends DaoAbstract  implements DaoKeyDbVerifiedInterface {
 
     public function get($loginName) {
         $sql = "
@@ -24,11 +32,13 @@ class LoginDao extends DaoAbstract implements DaoKeyDbVerifiedInterface {
         return $this->selectOne($sql, [':login_name' => $loginName], TRUE);
     }
 
+
     public function insert($row) {
         throw new \LogicException('Object LoginDao neumožňuje insertovat bez ověření duplicity klíče!');
     }
 
-    private function getWithinTransaction(HandlerInterface $dbhTransact, $loginName) {
+
+     private function getWithinTransaction(HandlerInterface $dbhTransact, $loginName) {
         if ($dbhTransact->inTransaction()) {
                 $stmt = $dbhTransact->prepare(
                         "SELECT  `login`.`login_name`
@@ -44,7 +54,15 @@ class LoginDao extends DaoAbstract implements DaoKeyDbVerifiedInterface {
         }
     }
 
+
+
+
     public function insertWithKeyVerification($row) {
+        //--------------- puvodni -----------
+        //        $sql = "INSERT INTO login (login_name)
+        //                VALUES (:login_name )";
+        //        return $this->execInsert($sql, [':login_name'=>$row['login_name'] ]);
+        //-------------------------------------
         $dbhTransact = $this->dbHandler;
         try {
             $dbhTransact->beginTransaction();
@@ -64,6 +82,9 @@ class LoginDao extends DaoAbstract implements DaoKeyDbVerifiedInterface {
             throw new Exception($e);
         }
     }
+
+
+
 
     public function update($row) {
         return ;
