@@ -3,12 +3,17 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Model\Entity\PaperAggregatePaperContentInterface;
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregatePaperContentInterface $paperAggregate */
-
-
+$kategorie = [
+    1 => 'výroba/dělnická',
+];
+//template:
+//    $kategorie[$pracovniPozice['kategorie1']]
+        
+        
 $pracovniPozice = [
     [
         'nazev' => 'Operátor výroby',
-        'kategorie1' => 'výroba/dělnická',
+        'kategorie1' => 1,
         'kategorie2' => '',
         'mistoVykonu' => 'Rakovník',
         'vzdelani' => 'Bez omezení',
