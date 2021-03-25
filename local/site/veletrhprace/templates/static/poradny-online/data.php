@@ -53,7 +53,7 @@ $eventContent = [
     "Jak se nespálit v zahraničí (telefonicky)" => [
         'eventType' => $eventType['Poradna'],
         'title' => "Jak se nespálit v zahraničí",
-        'perex' => "Potřebujete poradit se všemi náležitostmi práce mimo ČR? <b>Telefonicky</b> - čísla na poradce <a href=\"https://www.uradprace.cz/web/cz/kontakty-na-eures-poradce\" target=\"_blank\">zde</a>",
+        'perex' => "Potřebujete poradit se všemi náležitostmi práce mimo ČR? <b>Telefonicky</b> - čísla na poradce: <br/> +420 950 166 317,<br/> +420 950 148 320,<br/> +420 950 148 430",
         'institution' => ['type'=>'', 'name'=>'EURES'],
         'party' => '',
         ],
@@ -76,6 +76,13 @@ $eventContent = [
         'title' => "Poradna v těžkých životních situacích (občanská poradna)",
         'perex' => "Práva zaměstnance, evidence na ÚP, sociální dávky, finanční problematika (včetně oddlužení) a mnohé další.",
         'institution' => ['type'=>'', 'name'=>'Diakonie Západ'],
+        'party' => '',
+        ],
+    "Psychoporadna pro rodiče" => [
+        'eventType' => $eventType['Poradna'],
+        'title' => "Psychoporadna pro rodiče",
+        'perex' => "Návrat do práce, rodinné vztahy, jak najít čas a motivaci pro svůj rozvoj?",
+        'institution' => ['type'=>'', 'name'=>'Grafia'],
         'party' => '',
         ],
     ];
@@ -223,6 +230,21 @@ $eventList =
                             'linkButtonText' => $linkButtonTextPrihlasitSe
                             ],
         ] + $eventContent["Poradna v těžkých životních situacích (občanská poradna)"],
+        [
+            'published' => '1',
+            'timelinePoint' => '30. 3. 2021',
+            'startTime' => '16:00',
+            'endTime' => '18:00',
+            'linkButton' => [
+                            'show' => 0,
+                            'linkButtonAttributes' => $linkButtonAttributes +
+                                [
+                                    'href' => '',
+                                    'target' => ''
+                                ],
+                            'linkButtonText' => $linkButtonTextPrihlasitSe
+                            ],
+        ] + $eventContent["Psychoporadna pro rodiče"],
 
         [
             'published' => '1',
