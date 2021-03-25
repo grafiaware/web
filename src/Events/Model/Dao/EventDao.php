@@ -11,6 +11,7 @@ namespace Events\Model\Dao;
 use Pes\Database\Handler\HandlerInterface;
 
 use Model\Dao\DaoAbstract;
+use Model\Dao\DaoAutoincrementKey;
 
 /**
  * Description of LoginDao
@@ -84,9 +85,18 @@ class EventDao extends DaoAbstract {
                 ':published'=>$row['published'],
                 ':start'=>$row['start'],
                 ':end'=>$row['end'],
-                ':event_type_id_fk'=>$row['event_type_id_fk'],
-                ':event_content_id_fk'=>$row['event_content_id_fk'],
+                ':event_type_id_fk'=>$row['event_type_id_fk'] ?? null,   // m§že býz null
+                ':event_content_id_fk'=>$row['event_content_id_fk'] ?? null,   // m§že býz null
             ]);
+    }
+
+    /**
+     * Pro tabulky s auto increment id.
+     *
+     * @return type
+     */
+    public function getLastInsertedId() {
+        return $this->getLastInsertedIdForOneRowInsert();
     }
 
     public function update($row) {
@@ -104,8 +114,8 @@ class EventDao extends DaoAbstract {
                 ':published'=>$row['published'],
                 ':start'=>$row['start'],
                 ':end'=>$row['end'],
-                ':event_type_id_fk'=>$row['event_type_id_fk'],
-                ':event_content_id_fk'=>$row['event_content_id_fk'],
+                ':event_type_id_fk'=>$row['event_type_id_fk'] ?? null,   // m§že býz null
+                ':event_content_id_fk'=>$row['event_content_id_fk'] ?? null,   // m§že býz null
                 ':id'=>$row['id']
             ]);
     }

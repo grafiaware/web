@@ -14,6 +14,9 @@ use Events\Model\Dao\LoginDao;
 use Events\Model\Hydrator\LoginHydrator;
 use Events\Model\Repository\LoginRepo;
 
+use Events\Model\Dao\EventDao;
+use Events\Model\Hydrator\EventHydrator;
+use Events\Model\Repository\EventRepo;
 
 // database
 use Pes\Database\Handler\Account;
@@ -46,7 +49,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             'events.db.account.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'xxxxxx' : 'vp_events',  // nelze použít jméno uživatele použité pro db upgrade - došlo by k duplicitě jmen v build create
             'events.db.account.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'xxxxx' : 'vp_events',
 
-            'events.logs.database.directory' => 'Logs/Login',
+            'events.logs.database.directory' => 'Logs/Evemts',
             'events.logs.database.file' => 'Database.log',
             #
             ###################################
@@ -109,6 +112,17 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             LoginRepo::class => function(ContainerInterface $c) {
                 return new LoginRepo($c->get(LoginDao::class), $c->get(LoginHydrator::class));
             },
+            // event
+            EventDao::class => function(ContainerInterface $c) {
+                return new EventDao($c->get(Handler::class));
+            },
+            EventHydrator::class => function(ContainerInterface $c) {
+                return new EventHydrator();
+            },
+            EventRepo::class => function(ContainerInterface $c) {
+                return new EventRepo($c->get(EventDao::class), $c->get(EventHydrator::class));
+            },
+
         ];
     }
 

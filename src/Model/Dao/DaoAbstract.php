@@ -9,6 +9,7 @@
 namespace Model\Dao;
 
 use Pes\Database\Handler\HandlerInterface;
+use Pes\Database\Statement\StatementInterface;
 
 /**
  * Description of DaoAbstract
@@ -23,8 +24,12 @@ abstract class DaoAbstract {
      */
     protected $dbHandler;
 
+    private $lastInsertRowCount;
+
+    private $rowCount;
+
     /**
-     * Prepares stamentes cache
+     * Prepared statements cache
      *
      * @var array
      */
@@ -108,7 +113,7 @@ abstract class DaoAbstract {
      *
      * @param string $sql SQL příkaz s případnými placeholdery.
      * @param array $touplesToBind Pole parametrů pro bind, nepovinný parametr, default prázdné pole.
-     * @return aray
+     * @return array
      */
     protected function selectMany($sql, $touplesToBind=[]) {
         $statement = $this->getPreparedStatement($sql);
@@ -136,7 +141,18 @@ abstract class DaoAbstract {
         if ($touplesToBind) {
             $this->bindParams($statement, $touplesToBind);
         }
-        return $statement->execute();
+        $success = $statement->execute();
+        $this->lastInsertRowCount = $statement->rowCount();
+        $this->rowCount = $this->lastInsertRowCount;
+        return $success;
+    }
+
+    protected function getLastInsertedIdForOneRowInsert() {
+        if ($this->lastInsertRowCount == 1) {
+            return $this->dbHandler->lastInsertId();
+        } else {
+            user_error("Metoda getLastInsertedIdForOneRowInsert vrací platnou hodnotu jen při vložení právě jedho řádku. Poslední insert vložil řádky: $this->lastInsertRowCount.");
+        }
     }
 
     /**
@@ -156,7 +172,9 @@ abstract class DaoAbstract {
         if ($touplesToBind) {
             $this->bindParams($statement, $touplesToBind);
         }
-        return $statement->execute();
+        $success = $statement->execute();
+        $this->rowCount = $statement->rowCount();
+        return $success;
     }
 
     /**
@@ -176,11 +194,22 @@ abstract class DaoAbstract {
         if ($touplesToBind) {
             $this->bindParams($statement, $touplesToBind);
         }
-        $statement->execute();
-        return ;
+        $success = $statement->execute();
+        $this->rowCount = $statement->rowCount();
+        return $success;
     }
 
-    protected function getPreparedStatement($sql) {
+    /**
+     * Vrací počet řádek dotčených posledním příkazem delete, insert nebo update
+     *
+     * Správná funkce předpokládá nastavení atributu handleru PDO::MYSQL_ATTR_FOUND_ROWS = true
+     * @param type $param
+     */
+    protected function getRowCount($param) {
+        return $this->lastInsertRowCount;
+    }
+    
+    protected function getPreparedStatement($sql): StatementInterface {
         if (!isset($this->preparedStatements[$sql])) {
             $statement =$this->dbHandler->prepare($sql);
             $this->preparedStatements[$sql] = $statement;

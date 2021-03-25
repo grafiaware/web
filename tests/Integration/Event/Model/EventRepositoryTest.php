@@ -10,10 +10,6 @@ namespace Test\Integration\Repository;
 
 use PHPUnit\Framework\TestCase;
 
-use Pes\Http\Factory\EnvironmentFactory;
-
-use Application\WebAppFactory;
-
 use Pes\Container\Container;
 
 use Test\Integration\Event\Container\EventsContainerConfigurator;
@@ -22,7 +18,7 @@ use Test\Integration\Event\Container\DbEventsContainerConfigurator;
 use Events\Model\Dao\EventDao;
 use Events\Model\Repository\EventRepo;
 
-use Events\Model\Entity\Login;
+use Events\Model\Entity\Event;
 
 
 /**
@@ -39,6 +35,7 @@ class EventRepositoryTest extends TestCase {
      */
     private $eventRepo;
 
+    private static $id;
 
     public static function setUpBeforeClass(): void {
         if ( !defined('PES_DEVELOPMENT') AND !defined('PES_PRODUCTION') ) {
@@ -66,8 +63,19 @@ class EventRepositoryTest extends TestCase {
         // toto je příprava testu
         /** @var EventDao $eventDao */
         $eventDao = $container->get(EventDao::class);
+//            id,
+//            published,
+//            start,
+//            end,
+//            event_type_id_fk,
+//            event_content_id_fk
 
-        $eventDao->insertWithKeyVerification(['login_name'=>"testEvent"]);
+        $eventDao->insert([
+            'published' => true,
+            'start' => (new \DateTime())->format('Y-m-d H:i:s'),
+            'end' => (new \DateTime())->modify("+24 hours")->format('Y-m-d H:i:s'),
+        ]);
+        self::$id = $eventDao->getLastInsertedId();
     }
 
     private static function deleteRecords(Container $container) {
@@ -111,42 +119,40 @@ class EventRepositoryTest extends TestCase {
     }
 
     public function testGetAndRemoveAfterSetup() {
-        $event = $this->eventRepo->get("testEvent");
-        $this->assertInstanceOf(Login::class, $event);
+        $event = $this->eventRepo->get(self::$id);    // !!!! jenom po insertu v setUp - hodnotu vrací dao
+        $this->assertInstanceOf(Event::class, $event);
 
         $event = $this->eventRepo->remove($event);
         $this->assertNull($event);
     }
 
     public function testGetAfterRemove() {
-        $event = $this->eventRepo->get("testEvent");
+        $event = $this->eventRepo->get(self::$id);
         $this->assertNull($event);
     }
 
     public function testAdd() {
-        $event = new Login();
-        $event->setLoginName("testEvent");
+        $event = new Event();
+        $event->setPublished(true);
         $this->eventRepo->add($event);
-        $this->assertTrue($event->isPersisted());
-        // Login není zamčena po add. protože EventDao je typu Model\Dao\DaoKeyDbVerifiedInterface
-        // naopak je isPersisted hned po ->add() protože je typu Model\Dao\DaoKeyDbVerifiedInterface
+        $this->assertTrue($event->isLocked());
     }
 
     public function testGetAfterAdd() {
-        $event = $this->eventRepo->get("testEvent");
-        $this->assertInstanceOf(Login::class, $event);
-        $this->assertTrue(is_string($event->getLoginName()));
+        $event = $this->eventRepo->get("XXXXXX");
+        $this->assertInstanceOf(Event::class, $event);
+        $this->assertTrue($event->getPublished());
     }
 
     public function testGetAndRemoveAfterAdd() {
-        $event = $this->eventRepo->get("testEvent");
+        $event = $this->eventRepo->get("XXXXXX");
         $this->eventRepo->remove($event);
         $this->assertTrue($event->isLocked(), 'Event není zamčena po remove.');
     }
 
     public function testAddAndReread() {
-        $event = new Login();
-        $event->setLoginName("testEvent");
+        $event = new Event();
+        $event->setLoginName("XXXXXX");
         $this->eventRepo->add($event);
         $this->eventRepo->flush();
         $event = $this->eventRepo->get($event->getLoginName());
