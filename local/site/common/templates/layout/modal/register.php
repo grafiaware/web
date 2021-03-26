@@ -28,7 +28,7 @@ use Site\Configuration;
                                  value="1">
                       <label>Zastupuji vystavovatele</label>
                     </div>
-                    <input class="input-company" type="text" name="info" placeholder="Název společnosti" maxlength="80">
+                    <input class="input-company" type="text" name="info" placeholder="Název společnosti" maxlength="50">
                 </div>
 
 
