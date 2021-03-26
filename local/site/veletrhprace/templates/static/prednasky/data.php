@@ -40,7 +40,7 @@ $eventContent =
     'Daikin' => [
         'eventType' => $eventType['Přednáška'],
                 'title' => 'Daikin',
-                'perex' => 'Firemní prezentace',
+                'perex' => 'Firemní prezentace: Svěží vzduch pro tvojí kariéru! ',
                 'institution' => ['type'=>'', 'name'=>'Daikin'],
                 'party' => 'Tomáš Matoušek'
         ],
@@ -68,7 +68,7 @@ $eventContent =
     'Kermi' => [
         'eventType' => $eventType['Přednáška'],
                 'title' => 'Kermi',
-                'perex' => 'Firemní prezentace',
+                'perex' => 'Firemní prezentace: „Jsme tu s vámi, již 25 let, přidejte se do našeho týmu“',
                 'institution' => ['type'=>'', 'name'=>'Kermi'],
                 'party' => 'Jana Čedíková'
         ],
@@ -164,6 +164,13 @@ $eventContent =
             'institution' => ['type'=>'', 'name'=>'Grafia'],
             'party' => ''
         ],
+    'Valeo Autoklimatizace' => [
+        'eventType' => $eventType['Přednáška'],
+            'title' => 'Valeo Autoklimatizace',
+            'perex' => 'Firemní prezentace',
+            'institution' => ['type'=>'', 'name'=>'Valeo Autoklimatizace'],
+            'party' => ''
+        ],
     'Chcete se stát dobrovolníkem?' => [
         'eventType' => $eventType['Přednáška'],
             'title' => 'Chcete se stát dobrovolníkem?',
@@ -213,6 +220,48 @@ $eventContent =
             'perex' => 'Jak brýle ovlivní pracovní výkon i akceptaci okolím? Srozumitelně od optika',
             'institution' => ['type'=>'', 'name'=>'Optika Klatovy'],
             'party' => ' Pavlína Stoklásková'
+        ],
+     'Jak si uhlídat své peníze?' => [
+        'eventType' => $eventType['Přednáška'],
+            'title' => 'Jak si uhlídat své peníze?',
+            'perex' => 'Finanční gramotnost pro každého',
+            'institution' => ['type'=>'', 'name'=>'Grafia'],
+            'party' => ''
+        ],
+     'Home office – dobrý pomocník, ale zlý pán' => [
+        'eventType' => $eventType['Přednáška'],
+            'title' => 'Home office – dobrý pomocník, ale zlý pán',
+            'perex' => 'Jsme na home office výkonnější? Jak se podílí home office na naší náladě? Co potřebují zaměstnanci, aby se nezbláznili?',
+            'institution' => ['type'=>'', 'name'=>'Grafia a Konplan'],
+            'party' => 'Jana Brabcová, Vendula Linková'
+        ],
+     'K čemu je nám národní soustava kvalifikací?' => [
+        'eventType' => $eventType['Přednáška'],
+            'title' => 'K čemu je nám národní soustava kvalifikací?',
+            'perex' => 'Víte, že můžete získat kvalifikaci, aniž byste léta studovali ve škole? Umíte svůj obor, jen na to nemáte „papír“? Pak jste tu správně!',
+            'institution' => ['type'=>'', 'name'=>'NPI'],
+            'party' => 'Veronika Menčíková, Robert Gamba'
+        ],
+     'Ke kariérovému poradci na preventivní prohlídku' => [
+        'eventType' => $eventType['Přednáška'],
+            'title' => 'Ke kariérovému poradci na preventivní prohlídku',
+            'perex' => 'Co je kariérové poradenství a proč navštěvovat kariérového poradce, i když práci právě nehledám?',
+            'institution' => ['type'=>'', 'name'=>'Grafia'],
+            'party' => 'Štěpánka Pirnosová'
+        ],
+     'Jak uvažuje personalista - náborář?' => [
+        'eventType' => $eventType['Přednáška'],
+            'title' => 'Jak uvažuje personalista - náborář?',
+            'perex' => 'Nahlédněte do tajů výběrových řízení a zjistěte, co rozhoduje o (ne)přijetí na pracovní pozici! Diskuse s náborovými pracovníky ČEZ a Assa Abloy',
+            'institution' => ['type'=>'', 'name'=>'Grafia'],
+            'party' => ''
+        ],
+     'Zacvičte si s Krašovskou!' => [
+        'eventType' => $eventType['Přednáška'],
+            'title' => 'Zacvičte si s Krašovskou!',
+            'perex' => '',
+            'institution' => ['type'=>'', 'name'=>'Krašovská Aktivity centrum'],
+            'party' => ''
         ],
 
     // not published
@@ -471,6 +520,21 @@ $eventList =
         ] + $eventContent['Jak se nezbláznit z covidu?'],
         [
             'published' => '1',
+            'timelinePoint' => '30. 3. 2021',
+                'startTime' => '17:55',
+                'endTime' => '18:15',
+            'linkButton' => [
+                            'show' => 0,
+                            'linkButtonAttributes' => $linkButtonAttributes +
+                                [
+                                    'href' => '',
+                                    'target' => ''
+                                ],
+                            'linkButtonText' => $linkButtonTextPrihlasitSe
+                            ],
+        ] + $eventContent['Zacvičte si s Krašovskou!'],
+        [
+            'published' => '1',
             'timelinePoint' => '31. 3. 2021',
                 'startTime' => '10:05',
                 'endTime' => '10:25',
@@ -545,6 +609,21 @@ $eventList =
                             'linkButtonText' => $linkButtonTextPrihlasitSe
                             ],
         ] + $eventContent['Domluvte se ve své profesi anglicky/německy a učte se za peníze EU! '],
+        [
+            'published' => '1',
+            'timelinePoint' => '31. 3. 2021',
+                'startTime' => '11:45',
+                'endTime' => '12:00',
+            'linkButton' => [
+                            'show' => 0,
+                            'linkButtonAttributes' => $linkButtonAttributes +
+                                [
+                                    'href' => '',
+                                    'target' => ''
+                                ],
+                            'linkButtonText' => $linkButtonTextPrihlasitSe
+                            ],
+        ] + $eventContent['Valeo Autoklimatizace'],
         [
             'published' => '1',
             'timelinePoint' => '31. 3. 2021',
@@ -649,10 +728,114 @@ $eventList =
                                 ],
                             'linkButtonText' => $linkButtonTextPrihlasitSe
                             ],
-        ] + $eventContent['Brýle – doplněk osobnosti i pracovní nástroj'],
+        ] + $eventContent['Zacvičte si s Krašovskou!'],
+        [
+            'published' => '1',
+            'timelinePoint' => '1. 4. 2021',
+                'startTime' => '10:05',
+                'endTime' => '10:35',
+            'linkButton' => [
+                            'show' => 0,
+                            'linkButtonAttributes' => $linkButtonAttributes +
+                                [
+                                    'href' => '',
+                                    'target' => ''
+                                ],
+                            'linkButtonText' => $linkButtonTextPrihlasitSe
+                            ],
+        ] + $eventContent['Jak si uhlídat své peníze?'],
+        [
+            'published' => '1',
+            'timelinePoint' => '1. 4. 2021',
+                'startTime' => '10:40',
+                'endTime' => '11:10',
+            'linkButton' => [
+                            'show' => 0,
+                            'linkButtonAttributes' => $linkButtonAttributes +
+                                [
+                                    'href' => '',
+                                    'target' => ''
+                                ],
+                            'linkButtonText' => $linkButtonTextPrihlasitSe
+                            ],
+        ] + $eventContent['Home office – dobrý pomocník, ale zlý pán'],
+        [
+            'published' => '1',
+            'timelinePoint' => '1. 4. 2021',
+                'startTime' => '11:15',
+                'endTime' => '11:35',
+            'linkButton' => [
+                            'show' => 0,
+                            'linkButtonAttributes' => $linkButtonAttributes +
+                                [
+                                    'href' => '',
+                                    'target' => ''
+                                ],
+                            'linkButtonText' => $linkButtonTextPrihlasitSe
+                            ],
+        ] + $eventContent['K čemu je nám národní soustava kvalifikací?'],
+        [
+            'published' => '1',
+            'timelinePoint' => '1. 4. 2021',
+                'startTime' => '11:40',
+                'endTime' => '12:05',
+            'linkButton' => [
+                            'show' => 0,
+                            'linkButtonAttributes' => $linkButtonAttributes +
+                                [
+                                    'href' => '',
+                                    'target' => ''
+                                ],
+                            'linkButtonText' => $linkButtonTextPrihlasitSe
+                            ],
+        ] + $eventContent['Ke kariérovému poradci na preventivní prohlídku'],
+        [
+            'published' => '1',
+            'timelinePoint' => '1. 4. 2021',
+                'startTime' => '13:00',
+                'endTime' => '13:30',
+            'linkButton' => [
+                            'show' => 0,
+                            'linkButtonAttributes' => $linkButtonAttributes +
+                                [
+                                    'href' => '',
+                                    'target' => ''
+                                ],
+                            'linkButtonText' => $linkButtonTextPrihlasitSe
+                            ],
+        ] + $eventContent['Jak uvažuje personalista - náborář?'],
+        [
+            'published' => '1',
+            'timelinePoint' => '1. 4. 2021',
+                'startTime' => '13:35',
+                'endTime' => '13:55',
+            'linkButton' => [
+                            'show' => 0,
+                            'linkButtonAttributes' => $linkButtonAttributes +
+                                [
+                                    'href' => '',
+                                    'target' => ''
+                                ],
+                            'linkButtonText' => $linkButtonTextPrihlasitSe
+                            ],
+        ] + $eventContent['Zacvičte si s Krašovskou!'],
 
 ########################
-
+        [
+            'published' => '0',
+            'timelinePoint' => '31. 3. 2021',
+                'startTime' => '15:35',
+                'endTime' => '15:55',
+            'linkButton' => [
+                            'show' => 0,
+                            'linkButtonAttributes' => $linkButtonAttributes +
+                                [
+                                    'href' => '',
+                                    'target' => ''
+                                ],
+                            'linkButtonText' => $linkButtonTextPrihlasitSe
+                            ],
+        ] + $eventContent['Brýle – doplněk osobnosti i pracovní nástroj'],
         [
             'published' => '0',
             'timelinePoint' => '1. 4. 2021',

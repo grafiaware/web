@@ -37,7 +37,7 @@ $firma = [
     ],
     'videoSourceSrc' => $static_ref.$shortName.$video_ref,
     'imgStankuAttributes' => [
-        'src' => $static_ref.$shortName.$video_ref,
+        'src' => $static_ref.$shortName.$stanek_ref,
         'alt' => 'stánek firmy',
     ],
     'socialniSiteIframe' => [

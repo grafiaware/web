@@ -103,33 +103,6 @@ $timeline = [
         ]
     ]
 ];
-$igelitkaLetakAttributes = ['class' => 'letak-v-igelitce'];
-$igelitka = [
-    'letak' => [
-        [
-            'letakAttributes' => $igelitkaLetakAttributes +
-            [
-                'src' => 'images/letak-na-prednasku.jpg',
-                'alt' => 'leták1',
-            ],
-            'downloadAttributes' => [
-                'href' => 'download/letak-na-prednasku.pdf',
-                'download' => 'leták 1',
-            ]
-        ],
-        [
-            'letakAttributes' => $igelitkaLetakAttributes +
-            [
-                'src' => 'images/moje-budoucnost-letakA5.jpg',
-                'alt' => 'leták2',
-            ],
-            'downloadAttributes' => [
-                'href' => 'download/moje-budoucnost-letakA5.pdf',
-                'download' => 'leták 2',
-            ]
-        ]
-    ],
-];
 ?>
 <article class="paper">
     <section>
