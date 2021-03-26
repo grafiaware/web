@@ -204,8 +204,18 @@ class ConfigurationRed extends ConfigurationDb {
     public static function componentControler() {
 
         return [
-               'static' => self::RED_TEMPLATES_SITE.'static/',
-               'compiled' => self::RED_TEMPLATES_SITE.'static/__compiled/',
+                'static' => self::RED_TEMPLATES_SITE.'static/',            
+                'presenterFiles' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES_PATH."presenter/" : self::RED_FILES_PATH."presenter/",
+                'compiled' => self::RED_TEMPLATES_SITE.'static/__compiled/',
+                'prettyUrlCallable' => function($nadpis) {
+                        $url = $nadpis;
+                        $url = preg_replace('~[^\\pL0-9_]+~u', '-', $url);
+                        $url = trim($url, "-");
+                        $url = iconv("utf-8", "us-ascii//TRANSLIT", $url);
+                        $url = strtolower($url);
+                        $url = preg_replace('~[^-a-z0-9_]+~', '', $url);
+                        return $url;
+                    }
             ];
     }
 
