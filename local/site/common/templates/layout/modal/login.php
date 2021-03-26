@@ -2,7 +2,7 @@
 use Site\Configuration;
 ?>
     <form class="ui inverted form centered" method="POST" action="auth/v1/login">
-        <div class="ui icon top left pointing dropdown button loginEnterKey">
+        <div class="ui icon left pointing dropdown button loginEnterKey">
             <i class="user icon"></i>
             <div class="menu">
 
