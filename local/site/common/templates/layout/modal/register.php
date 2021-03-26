@@ -19,19 +19,19 @@ use Site\Configuration;
                            required >
                 </div>
                 <div class="ui input">
-                    <input type="email" name="<?=Configuration::loginLogoutControler()['fieldNameEmail']?>" placeholder="Email" required>
-                </div>  
+                    <input type="email" name="email" placeholder="Email" required>
+                </div>
                 <div class="field">
                     <div class="ui checkbox exhibitor">
-                      <input type="checkbox" 
+                      <input type="checkbox"
                                  name="fieldNameExhibitor"
                                  value="1">
                       <label>Zastupuji vystavovatele</label>
                     </div>
-                    <input class="input-company" type="text" name="" placeholder="Název společnosti" maxlength="50"> 
+                    <input class="input-company" type="text" name="info" placeholder="Název společnosti" maxlength="80">
                 </div>
-                
-                
+
+
                 <button class="ui positive button" type="submit" name="register" value=1 >Registrovat</button>
             </div>
         </div>

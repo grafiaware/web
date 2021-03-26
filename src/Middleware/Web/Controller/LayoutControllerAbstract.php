@@ -128,11 +128,10 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
             /** @var LoginComponent $loginComponent */
             $loginComponent = $this->container->get(LoginComponent::class);
             //$loginComponent nepoužívá viewModel, používá template a rendererContainer definované v kontejneru - zadávám jen data pro template
-            $loginComponent->setData([
-                'fieldNameJmeno' => Configuration::loginLogoutControler()['fieldNameJmeno'],
-                'fieldNameHeslo' => Configuration::loginLogoutControler()['fieldNameHeslo'],
-                'fieldNameEmail' => Configuration::loginLogoutControler()['fieldNameEmail'],
-                ]);
+//            $loginComponent->setData([
+//                'fieldNameJmeno' => Configuration::loginLogoutControler()['fieldNameJmeno'],
+//                'fieldNameHeslo' => Configuration::loginLogoutControler()['fieldNameHeslo'],
+//                ]);
             return $loginComponent;
         }
     }
@@ -143,11 +142,10 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
             /** @var RegisterComponent $registerComponent */
             $registerComponent = $this->container->get(RegisterComponent::class);
             //$registerComponent nepoužívá viewModel, používá template a rendererContainer definované v kontejneru - zadávám jen data pro template
-            $registerComponent->setData([
-                'fieldNameJmeno' => Configuration::loginLogoutControler()['fieldNameJmeno'],
-                'fieldNameHeslo' => Configuration::loginLogoutControler()['fieldNameHeslo'],
-                'fieldNameEmail' => Configuration::loginLogoutControler()['fieldNameEmail'],
-                ]);
+//            $registerComponent->setData([
+//                'fieldNameJmeno' => Configuration::loginLogoutControler()['fieldNameJmeno'],
+//                'fieldNameHeslo' => Configuration::loginLogoutControler()['fieldNameHeslo'],
+//                ]);
             return $registerComponent;
         }
     }

@@ -24,17 +24,18 @@
                 </tr>
                 <tr>
                     <td>
-                        <p> Jméno:&nbsp;&nbsp; <b><?= $registerJmeno ?></b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-                            Heslo:&nbsp;&nbsp; <b><?= $registerHeslo ?></b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-                            E-mail:&nbsp;&nbsp; <b><?= $registerEmail ?></b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                            
+                        <p> Jméno:&nbsp;&nbsp; <b><?= $registerJmeno ?></b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            Heslo:&nbsp;&nbsp; <b><?= $registerHeslo ?></b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            E-mail:&nbsp;&nbsp; <b><?= $registerEmail ?></b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            Firma:&nbsp;&nbsp; <b><?= $registerInfo ?></b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         </p>
                     </td>
-                </tr>                                       
-                <tr>  
-                    <td>Tak ho pěkně založte!</td>
-                </tr>             
+                </tr>
                 <tr>
-                    <td>S pozdravem <br/> tým realizátora Grafia,s.r.o.</td>
+                    <td>Tak ho pěkně založte!</td>
+                </tr>
+                <tr>
+                    <td>S pozdravem <br/> web veletrhprace.online</td>
                 </tr>
 
             </tbody>

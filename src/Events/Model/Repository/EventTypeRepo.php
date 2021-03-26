@@ -11,31 +11,31 @@ namespace Events\Model\Repository;
 use Model\Repository\RepoAbstract;
 use Model\Hydrator\HydratorInterface;
 
-use Events\Model\Entity\Event;
-use Events\Model\Entity\EventInterface;
+use Events\Model\Entity\EventType;
+use Events\Model\Entity\EventTypeInterface;
 
-use Events\Model\Dao\EventDao;
+use Events\Model\Dao\EventTypeDao;
 
 /**
- * Description of MenuItemRepo
+ * Description of EventTypeTypeRepo
  *
  * @author pes2704
  */
-class EventRepo extends RepoAbstract implements EventRepoInterface {
+class EventTypeRepo extends RepoAbstract implements EventTypeRepoInterface {
 
     protected $dao;
 
-    public function __construct(EventDao $eventDao, HydratorInterface $eventHydrator) {
-        $this->dao = $eventDao;
-        $this->registerHydrator($eventHydrator);
+    public function __construct(EventTypeDao $eventTypeDao, HydratorInterface $eventTypeHydrator) {
+        $this->dao = $eventTypeDao;
+        $this->registerHydrator($eventTypeHydrator);
     }
 
     /**
      *
      * @param type $id
-     * @return LoginInterface|null
+     * @return EventTypeInterface|null
      */
-    public function get($id): ?EventInterface {
+    public function get($id): ?EventTypeInterface {
         $index = $this->indexFromKey($id);
         if (!isset($this->collection[$index])) {
             $this->recreateEntity($index, $this->dao->get($id));
@@ -55,19 +55,19 @@ class EventRepo extends RepoAbstract implements EventRepoInterface {
         return $selected;
     }
 
-    public function add(EventInterface $event) {
+    public function add(EventTypeInterface $event) {
         $this->addEntity($event);
     }
 
-    public function remove(EventInterface $event) {
+    public function remove(EventTypeInterface $event) {
         $this->removeEntity($event);
     }
 
     protected function createEntity() {
-        return new Event();
+        return new EventType();
     }
 
-    protected function indexFromEntity(EventInterface $event) {
+    protected function indexFromEntity(EventTypeInterface $event) {
         return $event->getId();
     }
 

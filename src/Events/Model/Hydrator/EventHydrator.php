@@ -35,8 +35,8 @@ class EventHydrator implements HydratorInterface {
         $event
             ->setId($row['id'])
             ->setPublished($row['published'])
-            ->setStart($row['start'])
-            ->setEnd($row['end'])
+            ->setStart( isset($row['start']) ? \DateTime::createFromFormat('Y-m-d H:i:s', $row['start']) : NULL)
+            ->setEnd( isset($row['end']) ? \DateTime::createFromFormat('Y-m-d H:i:s', $row['end']) : NULL)
             ->setEventTypeIdFk($row['event_type_id_fk'])
             ->setEventContentIdFk($row['event_content_id_fk']);
     }
@@ -50,8 +50,8 @@ class EventHydrator implements HydratorInterface {
         /** @var EventInterface $event */
         $row['id'] = $event->getId(); // id je autoincrement - readonly, hodnota pro where
         $row['published'] = $event->getPublished();
-        $row['start'] = $event->getStart();
-        $row['end'] = $event->getEnd();
+        $row['start'] = $event->getStart() ? $event->getStart()->format('Y-m-d H:i:s') : NULL ;
+        $row['end'] = $event->getEnd() ? $event->getEnd()->format('Y-m-d H:i:s') : NULL ;
         $row['event_type_id_fk'] = $event->getEventTypeIdFk();
         $row['event_content_id_fk'] = $event->getEventContentIdFk();
     }

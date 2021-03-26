@@ -18,13 +18,13 @@ interface EventInterface extends EntityInterface {
 
     public function getKeyAttribute();
 
-    public function getId();
+    public function getId(): ?int;
 
     public function getPublished();
 
-    public function getStart();
+    public function getStart(): ?\DateTime;
 
-    public function getEnd();
+    public function getEnd():  ?\DateTime;
 
     public function getEventTypeIdFk();
 
@@ -34,9 +34,9 @@ interface EventInterface extends EntityInterface {
 
     public function setPublished($published): EventInterface;
 
-    public function setStart($start): EventInterface;
+    public function setStart(\DateTime $start = null): EventInterface;
 
-    public function setEnd($end): EventInterface;
+    public function setEnd(\DateTime $end = null): EventInterface;
 
     public function setEventTypeIdFk($eventTypeIdFk): EventInterface;
 

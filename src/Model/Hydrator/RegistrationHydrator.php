@@ -20,6 +20,7 @@ class RegistrationHydrator implements HydratorInterface {
             ->setEmail($row['email'] )
             ->setEmailTime( isset($row['email_time']) ? \DateTime::createFromFormat('Y-m-d H:i:s', $row['email_time']) : NULL)
             ->setUid($row['uid'] )
+            ->setInfo($row['info'] )
             ->setCreated($row['created'] ? \DateTime::createFromFormat('Y-m-d H:i:s', $row['created']) : NULL) ;
     }
 
@@ -33,6 +34,7 @@ class RegistrationHydrator implements HydratorInterface {
         $row['login_name_fk'] = $registration->getLoginNameFk(); // hodnota pro where
         $row['password_hash'] = $registration->getPasswordHash();
         $row['email'] = $registration->getEmail();
+        $row['info'] = $registration->getInfo();
         $row['email_time'] = $registration->getEmailTime() ? $registration->getEmailTime()->format('Y-m-d H:i:s') : NULL ;
         // uid generován dao při insert, created je timestamp - readonly
     }

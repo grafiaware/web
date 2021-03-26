@@ -18,7 +18,7 @@ use Model\Dao\DaoKeyDbVerifiedInterface;
  *
  * @author pes2704
  */
-class LoginDao extends DaoAbstract  implements DaoKeyDbVerifiedInterface {
+class LoginDao extends DaoAbstract implements DaoKeyDbVerifiedInterface {
 
     public function get($loginName) {
         $sql = "

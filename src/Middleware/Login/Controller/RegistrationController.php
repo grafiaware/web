@@ -60,12 +60,11 @@ class RegistrationController extends LoginControlerAbstract
         if ($register) {
             $fieldNameJmeno = Configuration::loginLogoutControler()['fieldNameJmeno'];
             $fieldNameHeslo = Configuration::loginLogoutControler()['fieldNameHeslo'];
-            $fieldNameEmail = Configuration::loginLogoutControler()['fieldNameEmail'];
 
             $registerJmeno = $requestParams->getParsedBodyParam($request, $fieldNameJmeno, FALSE);
             $registerHeslo = $requestParams->getParsedBodyParam($request, $fieldNameHeslo, FALSE);
-            $registerEmail = $requestParams->getParsedBodyParam($request, $fieldNameEmail, FALSE);
-            $registerExhibitor = $requestParams->getParsedBodyParam($request, 'fieldNameExhibitor', FALSE);
+            $registerEmail = $requestParams->getParsedBodyParam($request, 'email', FALSE);
+            $registerInfo = $requestParams->getParsedBodyParam($request, 'info', FALSE);
 
             if ($registerJmeno AND $registerHeslo AND  $registerEmail ) {
                 /** @var  LoginAggregateRegistration $loginAggregateRegistrationEntity  */
@@ -82,6 +81,7 @@ class RegistrationController extends LoginControlerAbstract
                     $registration->setLoginNameFk($registerJmeno);
                     $registration->setPasswordHash( $registerHeslo );  // nezahashované
                     $registration->setEmail($registerEmail);
+                    $registration->setInfo($registerInfo);
 
                     /** @var  LoginAggregateRegistration $loginAggregateRegistrationEntity  */
                     $loginAggregateRegistrationEntity = new LoginAggregateRegistration();
@@ -139,11 +139,11 @@ class RegistrationController extends LoginControlerAbstract
 
                     $this->addFlashMessage("Děkujeme za Vaši registraci. \n Na Vaši adresu jsme odeslali potvrzovací mail.\n"
                           . "V mailu registraci dokončete.");
-                               
-                    #########################--------- poslat mail uzivateli-------------------
+
+                    #########################---------  kopie -------------------
                     /** @var Mail $mail */
                     $mail = $this->container->get(Mail::class);
-                    $subject =  'Veletrh práce a vzdělávání - Registrace.';
+                    $subject =  "veletrhprace.online - Kopie zaslaného mailu - Registrace: '$registerJmeno'";
                     $body = $this->createMailHtmlMessage(__DIR__."/Messages/registration.php", ['confirmationUrl'=>$confirmationUrl]);
 
                     $attachments = [ (new Attachment())
@@ -158,24 +158,24 @@ class RegistrationController extends LoginControlerAbstract
                                             )
                                 ->setParty  (  (new Party())
                                                  ->setFrom('it.grafia@gmail.com', 'veletrhprace.online')
-                                                 ->addReplyTo('svoboda@grafia.cz', 'reply veletrhprace.online')
-                                                 ->addTo( $registerEmail, $registerJmeno)
+                                                 ->addTo('svoboda@grafia.cz', 'copy registration veletrhprace.online')
                                                   //->addTo('selnerova@grafia.cz', 'vlse')  // ->addCc($ccAddress, $ccName)   // ->addBcc($bccAddress, $bccName)
                                             );
                     $mail->mail($params); // posle mail
                     #########################-----------------------------
-                    
-                    if ($registerExhibitor) {
+
+                    if ($registerInfo) {
                         //zde zapsat do databaze - KAM??
-                        
+
                         ##########################--------- poslat mail do Grafie - registrujici se  je  vystavovatel -------------------
                         /** @var Mail $mail */
                         $mail = $this->container->get(Mail::class);
-                        $subject =  'Veletrh práce a vzdělávání - Registrace vystavovatele.';
-                        $body = $this->createMailHtmlMessage(__DIR__."/Messages/registrationexhib.php", 
-                                                            ['registerJmeno'=>$registerJmeno,
-                                                             'registerHeslo'=>$registerHeslo,
-                                                             'registerEmail'=>$registerEmail   
+                        $subject =  'Veletrh práce a vzdělávání - Registrace zástupce vystavovatele.';
+                        $body = $this->createMailHtmlMessage(__DIR__."/Messages/registrationexhib.php",
+                                                            ['registerJmeno' => $registerJmeno,
+                                                             'registerHeslo' => $registerHeslo,
+                                                             'registerEmail' => $registerEmail,
+                                                             'registerInfo' => $registerInfo,
                                                             ]);
                         $attachments = [ (new Attachment())
                                         ->setFileName(Configuration::mail()['mail.files.directory'].'logo_grafia.png')  // /_www_vp_files/attachments/
@@ -189,14 +189,13 @@ class RegistrationController extends LoginControlerAbstract
                                                 )
                                     ->setParty  (  (new Party())
                                                      ->setFrom('it.grafia@gmail.com', 'veletrhprace.online')
-                                                     ->addReplyTo('svoboda@grafia.cz', 'reply veletrhprace.online')
-                                                    // ->addTo( 'svoboda@grafia.cz', 'administrator Veletrhu')
-                                                     ->addTo('selnerova@grafia.cz', 'vl se')  // ->addCc($ccAddress, $ccName)   // ->addBcc($bccAddress, $bccName)
+                                                     ->addTo('svoboda@grafia.cz', 'Registace vystavovatele veletrhprace.online')
+                                                     ->addTo('pirnosova@grafia.cz', 'Registace vystavovatele veletrhprace.online')
                                                 );
                         $mail->mail($params); // posle mail
                         #########################-----------------------------
                     }
-                    
+
                 }
             }
         }

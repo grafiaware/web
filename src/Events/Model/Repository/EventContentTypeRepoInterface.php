@@ -6,12 +6,17 @@
  * and open the template in the editor.
  */
 
-namespace Model\Context;
+namespace Events\Model\Repository;
+
+use Model\Repository\RepoInterface;
+
+use Events\Model\Entity\EventInterface;
 
 /**
  *
  * @author pes2704
  */
-interface PublishedContextInterface {
-    public function selectPublished(): bool;
+interface EventContentTypeRepoInterface extends RepoInterface  {
+
+
 }

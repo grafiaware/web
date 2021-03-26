@@ -10,7 +10,7 @@ namespace Events\Model\Dao;
 
 use Pes\Database\Handler\HandlerInterface;
 
-use Model\Dao\DaoAbstract;
+use Model\Dao\DaoContextualAbstract;
 use Model\Dao\DaoAutoincrementKey;
 
 /**
@@ -18,7 +18,21 @@ use Model\Dao\DaoAutoincrementKey;
  *
  * @author pes2704
  */
-class EventDao extends DaoAbstract {
+class EventDao extends DaoContextualAbstract implements DaoAutoincrementKey {
+
+    protected function getContextConditions() {
+        $contextConditions = [];
+        if (isset($this->contextFactory)) {
+            $publishedContext = $this->contextFactory->createPublishedContext();
+            if ($publishedContext) {
+                if ($publishedContext->selectPublished()) {
+                    $contextConditions['published'] = "event.published = 1";
+                }
+            }
+        }
+
+        return $contextConditions;
+    }
 
     /**
      * Vrací jednu řádku tabulky 'event' ve formě asociativního pole podle primárního klíče.
@@ -59,10 +73,37 @@ class EventDao extends DaoAbstract {
             `event`.`end`,
             `event`.`event_type_id_fk`,
             `event`.`event_content_id_fk`
-        FROM `events`.`event`
-    WHERE
-        `paper`.`event_type_id_fk` = :event_type_id_fk";
+        FROM `events`.`event` "
+        . $this->where($this->and($this->getContextConditions(), ["`paper`.`event_type_id_fk` = :event_type_id_fk"]));
         return $this->selectOne($sql, [':event_type_id_fk' => $eventTypeFk], TRUE);
+    }
+
+    public function findAll() {
+        $sql = "
+        SELECT
+            `event`.`id`,
+            `event`.`published`,
+            `event`.`start`,
+            `event`.`end`,
+            `event`.`event_type_id_fk`,
+            `event`.`event_content_id_fk`
+        FROM `events`.`event` "
+        . $this->where($this->and($this->getContextConditions()));
+        return $this->selectMany($sql, []);
+    }
+
+    public function find() {
+        $sql = "
+        SELECT
+            `event`.`id`,
+            `event`.`published`,
+            `event`.`start`,
+            `event`.`end`,
+            `event`.`event_type_id_fk`,
+            `event`.`event_content_id_fk`
+        FROM `events`.`event`";
+
+        return $this->selectMany($sql, []);
     }
 
     public function insert($row) {
@@ -107,7 +148,7 @@ class EventDao extends DaoAbstract {
             `start` = :start,
             `end` = :end,
             `event_type_id_fk` = :event_type_id_fk,
-            `event_content_id_fk` = event_content_id_fk,
+            `event_content_id_fk` = :event_content_id_fk
             WHERE `id` = :id";
         return $this->execUpdate($sql,
             [
@@ -121,7 +162,6 @@ class EventDao extends DaoAbstract {
     }
 
     public function delete($row) {
-        $sql = "DELETE FROM paper WHERE id = :id";
         $sql = "
             DELETE FROM `events`.`event`
             WHERE `id` = :id";

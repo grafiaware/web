@@ -27,7 +27,7 @@ class MenuItemDao extends DaoContextualAbstract {
         if (isset($this->contextFactory)) {
             $publishedContext = $this->contextFactory->createPublishedContext();
             if ($publishedContext) {
-                if ($publishedContext->selectActive()) {
+                if ($publishedContext->selectPublished()) {
                     $contextConditions['active'] = "menu_item.active = 1";
                 }
             }

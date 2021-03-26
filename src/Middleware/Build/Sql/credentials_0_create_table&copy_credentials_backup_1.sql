@@ -33,5 +33,9 @@ CREATE TABLE `registration` (
   CONSTRAINT `registration_ibfk_1` FOREIGN KEY (`login_name_fk`) REFERENCES `login` (`login_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+ALTER TABLE `gr_pracovni`.`registration`
+ADD COLUMN `info` VARCHAR(250) NULL AFTER `uid`;
+
+
 -- INSERT `login`(login_name ) SELECT user AS login_name  FROM `wwwgrafia`.`opravneni`;
 -- INSERT `credentials`(login_name_fk, password_hash, role) SELECT user AS login_name_fk,  `password` AS password_hash, role FROM `wwwgrafia`.`opravneni`;

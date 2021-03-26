@@ -26,7 +26,7 @@ class Event extends EntityAbstract implements EventInterface {
         return $this->keyAttribute;
     }
 
-    public function getId() {
+    public function getId(): ?int {
         return $this->id;
     }
 
@@ -34,11 +34,11 @@ class Event extends EntityAbstract implements EventInterface {
         return $this->published;
     }
 
-    public function getStart() {
+    public function getStart(): ?\DateTime {
         return $this->start;
     }
 
-    public function getEnd() {
+    public function getEnd(): ?\DateTime {
         return $this->end;
     }
 
@@ -60,12 +60,12 @@ class Event extends EntityAbstract implements EventInterface {
         return $this;
     }
 
-    public function setStart($start): EventInterface {
+    public function setStart(\DateTime $start = null): EventInterface {
         $this->start = $start;
         return $this;
     }
 
-    public function setEnd($end): EventInterface {
+    public function setEnd(\DateTime $end = null): EventInterface {
         $this->end = $end;
         return $this;
     }
@@ -79,7 +79,5 @@ class Event extends EntityAbstract implements EventInterface {
         $this->eventContentIdFk = $event_content_id_fk;
         return $this;
     }
-
-
 
 }

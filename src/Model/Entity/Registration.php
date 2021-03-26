@@ -13,7 +13,7 @@ class Registration extends EntityAbstract implements RegistrationInterface {
     /**
      * @var string
      */
-    private $password;
+    private $passwordHash;
 
     /**
      * @var string
@@ -30,6 +30,12 @@ class Registration extends EntityAbstract implements RegistrationInterface {
      * @var string
      */
     private $uid;
+
+    /**
+     *
+     * @var string
+     */
+    private $info;
 
      /**
      * @var \DateTime
@@ -67,7 +73,7 @@ class Registration extends EntityAbstract implements RegistrationInterface {
      * @return string
      */
     public function getPasswordHash(): ?string {
-        return $this->password;
+        return $this->passwordHash;
     }
 
     /**
@@ -76,7 +82,7 @@ class Registration extends EntityAbstract implements RegistrationInterface {
      * @return RegistrationInterface
      */
     public function setPasswordHash(string $passwordHash): RegistrationInterface {
-        $this->password = $passwordHash;
+        $this->passwordHash = $passwordHash;
         return $this;
     }
 
@@ -110,22 +116,6 @@ class Registration extends EntityAbstract implements RegistrationInterface {
         return $this;
     }
 
-    /**
-     *
-     * @return \DateTime|null
-     */
-    public function getCreated(): ?\DateTime {
-        return $this->created;
-    }
-    /**
-     *
-     * @param \DateTime $created
-     * @return RegistrationInterface
-     */
-    public function setCreated(\DateTime $created): RegistrationInterface {
-        $this->created = $created;
-        return $this;
-    }
 
 
     /**
@@ -145,4 +135,30 @@ class Registration extends EntityAbstract implements RegistrationInterface {
         return $this;
     }
 
+    public function getInfo(): ?string {
+        return $this->info;
+    }
+
+
+    public function setInfo(string $info=null): RegistrationInterface {
+        $this->info = $info;
+        return $this;
+    }
+
+        /**
+     *
+     * @return \DateTime|null
+     */
+    public function getCreated(): ?\DateTime {
+        return $this->created;
+    }
+    /**
+     *
+     * @param \DateTime $created
+     * @return RegistrationInterface
+     */
+    public function setCreated(\DateTime $created): RegistrationInterface {
+        $this->created = $created;
+        return $this;
+    }
 }

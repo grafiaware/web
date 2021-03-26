@@ -14,7 +14,7 @@ namespace Model\Dao;
  *
  * @author pes2704
  */
-class PaperContentDao extends DaoAbstract {
+class PaperContentDao extends DaoContextualAbstract {
 
     private $sqlGet;
     private $sqlFindAllByFk;
@@ -28,10 +28,8 @@ class PaperContentDao extends DaoAbstract {
         if (isset($this->contextFactory)) {
             $publishedContext = $this->contextFactory->createPublishedContext();
             if ($publishedContext) {
-                if ($publishedContext->selectActive()) {
+                if ($publishedContext->selectPublished()) {
                     $contextConditions['active'] = "paper_content.active = 1";
-                }
-                if ($publishedContext->selectActual()) {
                     $contextConditions['actual'] = "(ISNULL(paper_content.show_time) OR paper_content.show_time<=CURDATE()) AND (ISNULL(paper_content.hide_time) OR CURDATE()<=paper_content.hide_time)";
                 }
             }

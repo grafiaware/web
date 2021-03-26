@@ -192,7 +192,6 @@ class ConfigurationRed extends ConfigurationDb {
         return [
                 'fieldNameJmeno' => 'jmeno'.$siteSpecificToken,
                 'fieldNameHeslo' => 'heslo'.$siteSpecificToken,
-                'fieldNameEmail' => 'email'.$siteSpecificToken,
                 'passwordPattern' => $passwordPattern,
                 'passwordInfo' => $passwordInfo
         ];

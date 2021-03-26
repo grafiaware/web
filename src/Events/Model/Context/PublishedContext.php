@@ -6,7 +6,9 @@
  * and open the template in the editor.
  */
 
-namespace Model\Context;
+namespace Events\Model\Context;
+
+use Model\Context\PublishedContextInterface;
 
 /**
  * Description of PublishedContext
@@ -14,15 +16,15 @@ namespace Model\Context;
  * @author pes2704
  */
 class PublishedContext implements PublishedContextInterface {
+
     private $published;
 
-    public function __construct($onlyPublished) {
-        $this->published = (bool) $onlyPublished;
+    public function __construct($published) {
+        $this->published = (bool) $published;
     }
 
     public function selectPublished(): bool {
         return $this->published;
     }
-
 
 }

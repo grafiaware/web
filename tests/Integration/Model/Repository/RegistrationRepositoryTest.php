@@ -189,6 +189,7 @@ class LoginAggregateRegistrationRepositoryTest extends TestCase {
         $registration->setLoginNameFk("testRegistration");
         $registration->setPasswordHash("testHeslo");
         $registration->setEmail("test.email@mejl.cz");
+        $registration->setInfo("testInfo jhedhgdjgjwdgdj  io ipfpf ");
         $this->registrationRepo->add($registration);
         $this->assertTrue($registration->isLocked(), 'Registration není zamčena po add.');
     }
@@ -218,6 +219,7 @@ class LoginAggregateRegistrationRepositoryTest extends TestCase {
         $registration->setLoginNameFk("testRegistration");
         $registration->setPasswordHash("testHeslo");
         $registration->setEmail("test.email@mejl.cz");
+        $registration->setInfo("testInfo2 jhedhgdjgjwdgdj  io ipfpf ");
         $this->registrationRepo->add($registration);
         $this->registrationRepo->flush();
         $registration = $this->registrationRepo->get($registration->getLoginNameFk());

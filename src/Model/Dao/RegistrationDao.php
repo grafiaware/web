@@ -24,6 +24,7 @@ class RegistrationDao extends DaoAbstract {
                    `registration`.`email`,
                    `registration`.`email_time`,
                    `registration`.`uid`,
+                   `registration`.`info`,
                    `registration`.`created`
             FROM
                 `registration`
@@ -40,6 +41,7 @@ class RegistrationDao extends DaoAbstract {
                    `registration`.`email`,
                    `registration`.`email_time`,
                    `registration`.`uid`,
+                   `registration`.`info`,
                    `registration`.`created`
             FROM
                 `registration`
@@ -56,13 +58,14 @@ class RegistrationDao extends DaoAbstract {
             $uid = $this->getNewUidWithinTransaction($dbhTransact);
 
             $stmt = $dbhTransact->prepare(
-                        "INSERT INTO registration (login_name_fk, password_hash, email, email_time, uid )
-                        VALUES (:login_name_fk, :password_hash, :email, :email_time, :uid  )" );
+                        "INSERT INTO registration (login_name_fk, password_hash, email, email_time, uid, info )
+                        VALUES (:login_name_fk, :password_hash, :email, :email_time, :uid, :info  )" );
             $stmt->bindParam(':login_name_fk', $row['login_name_fk'] );
             $stmt->bindParam(':password_hash', $row['password_hash'] );
             $stmt->bindParam(':email', $row['email'] );
             $stmt->bindParam(':email_time', $row['email_time'] );
             $stmt->bindParam(':uid', $uid);
+            $stmt->bindParam(':info', $info);
             $stmt->execute();
                 /*** commit the transaction ***/
             $dbhTransact->commit();
@@ -104,11 +107,12 @@ class RegistrationDao extends DaoAbstract {
      * @return type
      */
     public function update($row) {
-        $sql = "UPDATE registration SET  password_hash = :password_hash, email = :email, email_time = :email_time
+        $sql = "UPDATE registration SET  password_hash = :password_hash, email = :email, email_time = :email_time, info = :info
                 WHERE `login_name_fk` = :login_name_fk";
         return $this->execUpdate($sql, [ ':password_hash'=>$row['password_hash'],
                                          ':email'=>$row['email'],
                                          ':email_time'=>$row['email_time'],
+                                         ':info'=>$row['info'],
                                          ':login_name_fk'=>$row['login_name_fk']   ]);
     }
 
