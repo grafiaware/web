@@ -158,7 +158,9 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new EventList();
             },
 
+            // generator service
 
+            // volání nastavených služeb GeneratorService ->initialize() probíhá při nastevení typu menuItem - teď v ApiControler/EditItemControler->type()
 
             ContentGeneratorRegistry::class => function(ContainerInterface $c) {
                 $factory = new ContentGeneratorRegistry(

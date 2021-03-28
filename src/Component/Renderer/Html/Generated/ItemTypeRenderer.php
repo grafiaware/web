@@ -42,6 +42,7 @@ class ItemTypeRenderer extends HtmlModelRendererAbstract implements RendererMode
                         .Html::tag('div', [],
                                 $radioHtml
                             )
+                        .Html::tag('label', [], "static path:" . Html::tag('input', ['type'=>"text", 'name'=>"folded", 'value'=>""]))
                         .Html::tag("div", [],
                         Html::tag("button", [], Message::t("Odeslat"))
                         )

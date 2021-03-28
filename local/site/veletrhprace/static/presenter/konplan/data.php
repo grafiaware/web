@@ -30,7 +30,7 @@ $posters = [
         'Leták na soustružníka',
         'Inzerát na nic',
         'Jak nás nenajdete',
-        
+
     ];
 $letak = [];
 foreach ($posters as $poster) {
@@ -57,10 +57,10 @@ $buttonTitle = [
 foreach ($buttonTitle as $title) {
     $buttony[] = [
         'text' => $title,
-        'odkaz' => "#".Configuration::componentControler()['prettyUrlCallable']($title)        
+        'odkaz' => 'javascript: document.getElementById("#'.Configuration::componentControler()['prettyUrlCallable']($title).').scrollIntoView();"',
     ];
 };
-    
+
 $firma = [
     'nazev' => 'Konplan s.r.o.',
     'videoAttributes' => [

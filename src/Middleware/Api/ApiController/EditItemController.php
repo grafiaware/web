@@ -61,7 +61,7 @@ class EditItemController extends PresentationFrontControllerAbstract {
         $menuItem->setTitle($postTitle);
         $menuItem->setPrettyuri($this->friendlyUrl($postTitle));
         $this->addFlashMessage("menuItem title($postTitle)");
-        return $this->okMessageResponse("Uložen nový text položky menu:".PHP_EOL.$postTitle);
+        return $this->okMessageResponse("Uložen nový titulek položky menu:".PHP_EOL.$postTitle);
     }
 
     private function friendlyUrl($nadpis) {
@@ -76,6 +76,7 @@ class EditItemController extends PresentationFrontControllerAbstract {
 
     public function type(ServerRequestInterface $request, $uid) {
         $type = (new RequestParams())->getParam($request, 'type');
+        $folded = (new RequestParams())->getParam($request, 'folded', false);   //TODO:  dočasně pro static path!!!!
         $allLangVersionsMenuItems = $this->menuItemRepo->findAllLanguageVersions($uid);
         /** @var MenuItemInterface $langMenuItem */
         $isEmpty = true;
@@ -88,8 +89,9 @@ class EditItemController extends PresentationFrontControllerAbstract {
         if ($isEmpty) {
             $contentGenerator = $this->contentGeneratorRegistry->getGenerator($type);
             foreach ($allLangVersionsMenuItems as $langMenuItem) {
-                $contentGenerator->initialize($langMenuItem->getId());
                 $langMenuItem->setType($type);
+                $langMenuItem->setPrettyuri('folded:'.$folded);   //TODO:  dočasně pro static path!!!!
+                $contentGenerator->initialize($langMenuItem->getId());
             }
             $this->addFlashMessage("menuItem type($type)");
         } else {

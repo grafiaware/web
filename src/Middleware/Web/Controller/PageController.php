@@ -331,7 +331,7 @@ class PageController extends LayoutControllerAbstract {
     }
 
     private function getStaticLoadScript(MenuItemInterface $menuItem) {
-        $name = $this->friendlyUrl($menuItem->getTitle());
+        $name = $this->getNameForStaticPage($menuItem);
         $view = $this->container->get(View::class)
                     ->setData([
                         'name' => $name,
@@ -342,7 +342,7 @@ class PageController extends LayoutControllerAbstract {
     }
 
     private function getStaticEditableLoadScript(MenuItemInterface $menuItem) {
-        $name = $this->friendlyUrl($menuItem->getTitle());
+        $name = $this->getNameForStaticPage($menuItem);
         $view = $this->container->get(View::class)
                     ->setData([
                         'name' => $name,
@@ -358,6 +358,16 @@ class PageController extends LayoutControllerAbstract {
 
     private function setLoadEditableScriptTemplate($view) {
         $view->setTemplate(new PhpTemplate(Configuration::pageControler()['templates.loaderElementEditable']));
+    }
+
+    private function getNameForStaticPage(MenuItemInterface $menuItem) {
+        $menuItemPrettyUri = $menuItem->getPrettyuri();
+        if (isset($menuItemPrettyUri) AND $menuItemPrettyUri AND strpos($menuItemPrettyUri, "folded:")===0) {      // EditItemController - line 93
+            $name = str_replace('/', '_', str_replace("folded:", "", $menuItemPrettyUri));  // zahodí prefix a nahradí '/' za '_' - recopročně
+        } else {
+            $name = $this->friendlyUrl($menuItem->getTitle());
+        }
+        return $name;
     }
 
     private function friendlyUrl($nadpis) {

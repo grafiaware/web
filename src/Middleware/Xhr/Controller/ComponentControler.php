@@ -80,7 +80,8 @@ class ComponentControler extends XhrControlerAbstract {
     }
 
     public function static(ServerRequestInterface $request, $staticName) {
-         $compiledContent=$this->getCompiledContent($staticName);
+        $realName = str_replace('_', '/', $staticName);
+         $compiledContent=$this->getCompiledContent($request, $realName);
         return $this->createResponseFromString($request, $compiledContent);
     }
 
@@ -106,7 +107,7 @@ class ComponentControler extends XhrControlerAbstract {
      * @param type $staticName
      * @return string
      */
-    private function getCompiledContent($staticName) {
+    private function getCompiledContent(ServerRequestInterface $request, $staticName) {
         $templatePath = Configuration::componentControler()['static'].$staticName;
         $templateFilename = $templatePath."/template.php";
         $compiledPath = Configuration::componentControler()['compiled'];
@@ -125,7 +126,8 @@ class ComponentControler extends XhrControlerAbstract {
 //                $compiledContent = $this->compileContent($templateFilename, $compiledFileName);   // 35ms
 //            }
 //        } else {
-            $compiledContent = $this->compileContent($templateFilename, $compiledFileName);   // ZAKOMENTOVÁNO UKLÁDÁNÍ
+            $referrerPageUri = $request->getUri()->getPath();
+            $compiledContent = $this->compileContent($templateFilename, ['referrerPageUri' => $referrerPageUri], $compiledFileName);   // ZAKOMENTOVÁNO UKLÁDÁNÍ
 //        }
         return $compiledContent;
     }
@@ -151,13 +153,16 @@ class ComponentControler extends XhrControlerAbstract {
         return $modTime;
     }
 
-    private function compileContent($templateFilename, $compiledFileName) {
+    private function compileContent($templateFilename, $context=[], $compiledFileName) {
         if(!is_readable($templateFilename)) {
             $compiledContent = Message::t("Není čitený soubor statické stránky {file}.", ['file'=>$templateFilename]);
         } else {
             $view = new View();
             $view->setRenderer(new PhpTemplateRenderer());
             $view->setTemplate(new PhpTemplate($templateFilename));
+            if ($context) {
+                $view->setData($context);
+            }
             $compiledContent = $view->getString();
 //            file_put_contents($compiledFileName, $compiledContent);   // !! VYPNUTO
         }
