@@ -8,4 +8,10 @@ use Pes\Text\Html;
 /** @var PaperAggregateInterface $paperAggregate */
 
 ?>
-<p><a class="ui big fluid red basic button" href="<?= $odkaz ?>" ><?= $text ?></a></p>
+<div class="vypis-prac-pozic">
+    <div class="ui styled fluid accordion">
+        <?= $this->repeat(__DIR__.'/vypis-pozic/pozice.php', $pracovniPozice)?>
+    </div>
+</div>
+
+

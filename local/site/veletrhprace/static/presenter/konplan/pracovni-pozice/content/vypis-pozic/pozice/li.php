@@ -8,4 +8,6 @@ use Pes\Text\Html;
 /** @var PaperAggregateInterface $paperAggregate */
 
 ?>
-<p><a class="ui big fluid red basic button" href="<?= $odkaz ?>" ><?= $text ?></a></p>
+
+<li><?= $seznam ?></li>
+

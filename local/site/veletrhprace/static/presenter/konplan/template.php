@@ -1,4 +1,5 @@
 <?php
+
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Model\Entity\PaperAggregateInterface;
 use Pes\Text\Html;
@@ -22,3 +23,7 @@ include 'data.php';
         <?= $this->insert(__DIR__.'/content/stanek.php', $firma)?>
     </section>
 </article>
+<?php include "pracovni-pozice/template.php" ?>
+<?php include "nas-program/template.php" ?>
+<?php include "chci-na-online-pohovor/template.php" ?>
+<?php include "chci-navazat-kontakt/template.php" ?> 

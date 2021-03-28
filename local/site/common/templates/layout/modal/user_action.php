@@ -1,6 +1,6 @@
 
         <form class="ui form" method="POST" action="">
-            <div class="ui icon top left pointing dropdown button">
+            <div class="ui icon left pointing dropdown button">
               Akce
               <div class="menu">
                 <div class="item header"><p><i class="user icon"></i><?= $userName ?></p></div>
