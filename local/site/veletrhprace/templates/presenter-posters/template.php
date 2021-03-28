@@ -1,10 +1,14 @@
+<?php
+use Pes\View\Renderer\PhpTemplateRendererInterface;
+use Model\Entity\PaperAggregatePaperContentInterface;
+/** @var PhpTemplateRendererInterface $this */
+/** @var PaperAggregatePaperContentInterface $paperAggregate */
+
+?>
 
 
 
-
-<div class="ui big button red basic btn-17" style="background-color: white">Stáhněte si leták</div>
-
-<div id="modal_17" class="ui modal">
+<div id="modal_letaky" class="ui modal">
     <i class="close icon"></i>
     <div class="header">
         Letáky ke stažení

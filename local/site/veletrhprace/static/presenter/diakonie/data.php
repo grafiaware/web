@@ -18,7 +18,8 @@ $modalAtributy = [
 ];
 
 $monitor_ref = '/assets/monitor-stanek.jpg';
-$video_ref = '/movie/video-stanek.mp4';
+$video_MP4_ref = '/movie/video-stanek-MP4.mp4';
+$video_WEBM_ref = '/movie/video-stanek-WEBM.mp4';
 $stanek_ref = '/assets/stanek.png';
 
 
@@ -54,7 +55,7 @@ $buttonTitle = [
 foreach ($buttonTitle as $title) {
     $buttony[] = [
         'text' => $title,
-        'odkaz' => "#".Configuration::componentControler()['prettyUrlCallable']($title)        
+        'odkaz' => 'javascript: document.getElementById(\''.Configuration::componentControler()['prettyUrlCallable']($title).'\').scrollIntoView();',
     ];
 };
     
@@ -63,7 +64,10 @@ $firma = [
     'videoAttributes' => [
         'poster' => Configuration::componentControler()['presenterFiles'].$shortName.$monitor_ref,
     ],
-    'videoSourceSrc' => Configuration::componentControler()['presenterFiles'].$shortName.$video_ref,
+    'videoSourceSrc' => [
+        ['src' => Configuration::componentControler()['presenterFiles'].$shortName.$video_MP4_ref, 'type' => 'video/mp4'],
+        ['src' => Configuration::componentControler()['presenterFiles'].$shortName.$video_WEBM_ref, 'type' => 'video/webm'],
+    ],
     'imgStankuAttributes' => [
         'src' => Configuration::componentControler()['presenterFiles'].$shortName.$stanek_ref,
         'alt' => 'stánek firmy',

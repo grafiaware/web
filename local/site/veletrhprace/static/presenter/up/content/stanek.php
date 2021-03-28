@@ -15,7 +15,7 @@ use Pes\Text\Html;
                                     <div class="video-na-stanku">
                                         <content>
                                             <video width="380" height="" <?= Html::attributes($videoAttributes) ?> controls> <!-- u atributu poster nestacilo images/nazev.pripona -->
-                                                <source src="<?= $videoSourceSrc?>" type="video/mp4">
+                                                <?= $this->repeat(__DIR__.'/video/source.php', $videoSourceSrc)?>
                                             </video>
                                         </content>
                                     </div>
@@ -32,7 +32,7 @@ use Pes\Text\Html;
                                 <div class="five wide column middle aligned">
                                     <div class="soc-site-stanku">
                                         <?= $this->repeat(__DIR__.'/sluzby/socialni-site.php', $socialniSiteIframe)?>
-                                        <?= $this->insert(__DIR__.'/sluzby/chat.php', $chat) ?>
+                                        <!--<?= $this->insert(__DIR__.'/sluzby/chat.php', $chat) ?>-->
                                     </div>
                                     <div class="buttony-mimo-stanek">
                                         <content>
@@ -43,7 +43,7 @@ use Pes\Text\Html;
                                 <div class="sixteen wide column">
                                     <div class="buttony-na-stanku">
                                         <content>
-                                             <?php include "sluzby/letaky.php" ?>
+                                             <?php // include "sluzby/letaky.php" ?>
                                         </content>
                                     </div>
                                 </div>

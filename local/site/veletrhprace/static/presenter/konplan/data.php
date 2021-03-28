@@ -18,7 +18,8 @@ $modalAtributy = [
 ];
 
 $monitor_ref = '/assets/monitor-stanek.jpg';
-$video_ref = '/movie/video-stanek.mp4';
+$video_MP4_ref = '/movie/video-stanek-MP4.mp4';
+$video_WEBM_ref = '/movie/video-stanek-WEBM.mp4';
 $stanek_ref = '/assets/stanek.png';
 
 
@@ -66,7 +67,10 @@ $firma = [
     'videoAttributes' => [
         'poster' => Configuration::componentControler()['presenterFiles'].$shortName.$monitor_ref,
     ],
-    'videoSourceSrc' => Configuration::componentControler()['presenterFiles'].$shortName.$video_ref,
+    'videoSourceSrc' => [
+        ['src' => Configuration::componentControler()['presenterFiles'].$shortName.$video_MP4_ref, 'type' => 'video/mp4'],
+        ['src' => Configuration::componentControler()['presenterFiles'].$shortName.$video_WEBM_ref, 'type' => 'video/webm'],
+    ],
     'imgStankuAttributes' => [
         'src' => Configuration::componentControler()['presenterFiles'].$shortName.$stanek_ref,
         'alt' => 'stánek firmy',
@@ -74,10 +78,10 @@ $firma = [
     'socialniSiteIframe' => [
         [
             'ikonaSocialniSite' => 'facebook circle',
-            'nazevSocialniSite' => 'facebook',
+            'nazevSocialniSite' => 'Facebook',
             'btnClass' => 'btn-fb',
             'modalID' => 'modal_15',
-            'iframe' => '<div class="fb-page" data-href="https://www.facebook.com/KonplanCZ/" data-tabs="timeline" data-width="" data-height="500" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/veletrhprace/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/veletrhprace/">Veletrh práce a vzdělávání Plzeň - Klíč k příležitostem</a></blockquote></div>',
+            'iframe' => '<div class="fb-page" data-href="https://www.facebook.com/KonplanCZ" data-tabs="timeline" data-width="" data-height="" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/KonplanCZ" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/KonplanCZ">Konplan</a></blockquote></div>',
             'odkazNaProfil' => 'https://www.facebook.com/KonplanCZ/'
         ],
         [
@@ -91,6 +95,9 @@ $firma = [
     ],
     'chat' => [
         'ikonaChatu' => 'chat circle',
+        'text' => '<p>Chatovat s námi můžete přes Facebook Messenger</p>
+                   <p>na adrese: <a href="http://m.me/KonplanCZ" target="_blank">http://m.me/KonplanCZ</a></p>',
+        'odkaz' => '<a class="ui button" href="http://m.me/KonplanCZ" target="_blank">Přejít na Facebook Messenger</a>'
     ],
     'buttony' => $buttony,
     'letak' => $letak

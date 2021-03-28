@@ -18,7 +18,8 @@ $modalAtributy = [
 ];
 
 $monitor_ref = '/assets/monitor-stanek.jpg';
-$video_ref = '/movie/video-stanek.mp4';
+$video_MP4_ref = '/movie/video-stanek-MP4.mp4';
+$video_WEBM_ref = '/movie/video-stanek-WEBM.mp4';
 $stanek_ref = '/assets/stanek.png';
 
 
@@ -26,10 +27,6 @@ $shortName = 'czechinvest';
 $letakAttributesClass = ['class' => 'letak-v-igelitce'];
 
 $posters = [
-        'Leták na přednášku',
-        'Leták na soustružníka',
-        'Inzerát na nic',
-        'Jak nás nenajdete',
         
     ];
 $letak = [];
@@ -54,16 +51,19 @@ $buttonTitle = [
 foreach ($buttonTitle as $title) {
     $buttony[] = [
         'text' => $title,
-        'odkaz' => "#".Configuration::componentControler()['prettyUrlCallable']($title)        
+        'odkaz' => 'javascript: document.getElementById(\''.Configuration::componentControler()['prettyUrlCallable']($title).'\').scrollIntoView();',
     ];
 };
     
 $firma = [
-    'nazev' => 'Konplan s.r.o.',
+    'nazev' => 'CzechInvest',
     'videoAttributes' => [
         'poster' => Configuration::componentControler()['presenterFiles'].$shortName.$monitor_ref,
     ],
-    'videoSourceSrc' => Configuration::componentControler()['presenterFiles'].$shortName.$video_ref,
+    'videoSourceSrc' => [
+        ['src' => Configuration::componentControler()['presenterFiles'].$shortName.$video_MP4_ref, 'type' => 'video/mp4'],
+        ['src' => Configuration::componentControler()['presenterFiles'].$shortName.$video_WEBM_ref, 'type' => 'video/webm'],
+    ],
     'imgStankuAttributes' => [
         'src' => Configuration::componentControler()['presenterFiles'].$shortName.$stanek_ref,
         'alt' => 'stánek firmy',
@@ -80,14 +80,17 @@ $firma = [
         [
             'ikonaSocialniSite' => 'linkedin circle',
             'nazevSocialniSite' => 'LinkedIn',
-            'btnClass' => 'btn-ig',
-            'modalID' => 'modal_16',
+            'btnClass' => 'btn-in',
+            'modalID' => 'modal_18',
             'iframe' => '<a href="https://www.linkedin.com/company/konplancz" target="_blank"><img src="'.Configuration::componentControler()['presenterFiles'].$shortName.'/assets/linkedin.png" alt="profil LinkednIn" height="" width="100%"/></a>',
             'odkazNaProfil' => 'https://www.linkedin.com/company/konplancz'
         ]
     ],
     'chat' => [
         'ikonaChatu' => 'chat circle',
+        'text' => '<p>Chatovat s námi můžete přes Facebook Messenger</p>
+                   <p>na adrese: <a href="http://m.me/KonplanCZ" target="_blank">http://m.me/KonplanCZ</a></p>',
+        'odkaz' => '<a class="ui button" href="http://m.me/KonplanCZ" target="_blank">Přejít na Facebook Messenger</a>'
     ],
     'buttony' => $buttony,
     'letak' => $letak

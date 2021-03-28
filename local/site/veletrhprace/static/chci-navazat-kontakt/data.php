@@ -4,7 +4,7 @@ use Model\Entity\PaperAggregatePaperContentInterface;
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregatePaperContentInterface $paperAggregate */
 
-$headline = 'Chci nazávat kontakt';
+$headline = 'Chci navázat kontakt';
 
 $corporateData = [
     [

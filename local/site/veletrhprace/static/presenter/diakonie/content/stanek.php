@@ -15,7 +15,7 @@ use Pes\Text\Html;
                                     <div class="video-na-stanku">
                                         <content>
                                             <video width="380" height="" <?= Html::attributes($videoAttributes) ?> controls> <!-- u atributu poster nestacilo images/nazev.pripona -->
-                                                <source src="<?= $videoSourceSrc?>" type="video/mp4">
+                                                <?= $this->repeat(__DIR__.'/video/source.php', $videoSourceSrc)?>
                                             </video>
                                         </content>
                                     </div>

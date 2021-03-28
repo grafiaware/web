@@ -18,7 +18,8 @@ $modalAtributy = [
 ];
 
 $monitor_ref = '/assets/monitor-stanek.jpg';
-$video_ref = '/movie/video-stanek.mp4';
+$video_MP4_ref = '/movie/video-stanek-MP4.mp4';
+$video_WEBM_ref = '/movie/video-stanek-WEBM.mp4';
 $stanek_ref = '/assets/stanek.png';
 
 
@@ -56,16 +57,19 @@ $buttonTitle = [
 foreach ($buttonTitle as $title) {
     $buttony[] = [
         'text' => $title,
-        'odkaz' => "#".Configuration::componentControler()['prettyUrlCallable']($title)        
+        'odkaz' => 'javascript: document.getElementById(\''.Configuration::componentControler()['prettyUrlCallable']($title).'\').scrollIntoView();',
     ];
 };
     
 $firma = [
-    'nazev' => 'Konplan s.r.o.',
+    'nazev' => 'Kermi, s.r.o.',
     'videoAttributes' => [
         'poster' => Configuration::componentControler()['presenterFiles'].$shortName.$monitor_ref,
     ],
-    'videoSourceSrc' => Configuration::componentControler()['presenterFiles'].$shortName.$video_ref,
+    'videoSourceSrc' => [
+        ['src' => Configuration::componentControler()['presenterFiles'].$shortName.$video_MP4_ref, 'type' => 'video/mp4'],
+        ['src' => Configuration::componentControler()['presenterFiles'].$shortName.$video_WEBM_ref, 'type' => 'video/webm'],
+    ],
     'imgStankuAttributes' => [
         'src' => Configuration::componentControler()['presenterFiles'].$shortName.$stanek_ref,
         'alt' => 'stánek firmy',
@@ -73,23 +77,25 @@ $firma = [
     'socialniSiteIframe' => [
         [
             'ikonaSocialniSite' => 'facebook circle',
-            'nazevSocialniSite' => 'facebook',
+            'nazevSocialniSite' => 'Facebook',
             'btnClass' => 'btn-fb',
             'modalID' => 'modal_15',
-            'iframe' => '<div class="fb-page" data-href="https://www.facebook.com/KonplanCZ/" data-tabs="timeline" data-width="" data-height="500" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/veletrhprace/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/veletrhprace/">Veletrh práce a vzdělávání Plzeň - Klíč k příležitostem</a></blockquote></div>',
-            'odkazNaProfil' => 'https://www.facebook.com/KonplanCZ/'
+            'iframe' => '<div class="fb-page" data-href="https://www.facebook.com/kermi.cz/" data-tabs="timeline" data-width="" data-height="" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/kermi.cz/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/kermi.cz/">Kermi - sprchové kouty, otopná tělesa</a></blockquote></div>',
+            'odkazNaProfil' => 'https://www.facebook.com/kermi.cz/'
         ],
         [
             'ikonaSocialniSite' => 'linkedin circle',
             'nazevSocialniSite' => 'LinkedIn',
-            'btnClass' => 'btn-ig',
-            'modalID' => 'modal_16',
-            'iframe' => '<a href="https://www.linkedin.com/company/konplancz" target="_blank"><img src="'.Configuration::componentControler()['presenterFiles'].$shortName.'/assets/linkedin.png" alt="profil LinkednIn" height="" width="100%"/></a>',
-            'odkazNaProfil' => 'https://www.linkedin.com/company/konplancz'
+            'btnClass' => 'btn-in',
+            'modalID' => 'modal_18',
+            'iframe' => '<a href="https://cz.linkedin.com/company/kermi-s-r-o-/" target="_blank"><img src="'.Configuration::componentControler()['presenterFiles'].$shortName.'/assets/linkedin.png" alt="profil LinkednIn" height="" width="100%"/></a>',
+            'odkazNaProfil' => 'https://cz.linkedin.com/company/kermi-s-r-o-/'
         ]
     ],
     'chat' => [
         'ikonaChatu' => 'chat circle',
+        'text' => '',
+        'odkaz' => ''
     ],
     'buttony' => $buttony,
     'letak' => $letak

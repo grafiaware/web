@@ -14,7 +14,7 @@ use Pes\Text\Html;
                         <div id="<?= $modalID ?>" class="ui tiny modal">
                             <i class="close icon"></i>
                             <div class="header">
-                                Jsme na <?= $nazevSocialniSite?>u!
+                                Jsme na sociální síti <?= $nazevSocialniSite?>!
                             </div>
                             <div class="content">
                                 <div class="ui grid centered">

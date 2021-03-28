@@ -22,3 +22,4 @@ include 'data.php';
         <?= $this->insert(__DIR__.'/content/stanek.php', $firma)?>
     </section>
 </article>
+<?php include "stahnout-letak/template.php" ?>

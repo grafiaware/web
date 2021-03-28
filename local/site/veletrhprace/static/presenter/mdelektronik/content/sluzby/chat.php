@@ -19,12 +19,11 @@ use Pes\Text\Html;
                     <div class="ui centered grid">
                         <div class="eleven wide column">
                             <div class="text">
-                                <p>Chatovat s námi můžete přes Facebook Messenger</p>
-                                <p>na adrese: <a href="http://m.me/KonplanCZ" target="_blank">http://m.me/KonplanCZ</a></p>
+                                <?= $text ?>
                             </div>
                         </div>
                     </div>
                     <div class="actions">
-                        <a class="ui button" href="http://m.me/KonplanCZ" target="_blank">Přejít na Facebook Messenger</a>
+                        <?= $odkaz ?>
                     </div>
                 </div>
