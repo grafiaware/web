@@ -10,14 +10,14 @@ namespace Events\Model\Dao;
 
 
 use Model\Dao\DaoAbstract;
-use Model\Dao\DaoAutoincrementKey;
+use Model\Dao\DaoAutoincrementKeyInterface;
 
 /**
  * Description of LoginDao
  *
  * @author pes2704
  */
-class EventContentDao extends DaoAbstract implements DaoAutoincrementKey {
+class EventContentDao extends DaoAbstract implements DaoAutoincrementKeyInterface {
 
     /**
      * Vrací jednu řádku tabulky 'event' ve formě asociativního pole podle primárního klíče.
@@ -34,7 +34,7 @@ class EventContentDao extends DaoAbstract implements DaoAutoincrementKey {
             `event_content`.`party`,
             `event_content`.`event_content_type_type_fk`,
             `event_content`.`institution_id_fk`
-        FROM `events`.`event_content`
+        FROM `event_content`
         WHERE
             `event_content`.`id` = :id";
         return $this->selectOne($sql, [':id' => $id], TRUE);
@@ -48,14 +48,14 @@ class EventContentDao extends DaoAbstract implements DaoAutoincrementKey {
             `event_content`.`party`,
             `event_content`.`event_content_type_type_fk`,
             `event_content`.`institution_id_fk`
-        FROM `events`.`event_content` ";
+        FROM `event_content` ";
         return $this->selectMany($sql, []);
     }
 
     public function insert($row) {
         // autoincrement id
         $sql = "
-            INSERT INTO `events`.`event_content`
+            INSERT INTO `event_content`
             (
             `title`,
             `perex`,
@@ -91,7 +91,7 @@ class EventContentDao extends DaoAbstract implements DaoAutoincrementKey {
 
     public function update($row) {
         $sql = "
-            UPDATE `events`.`event`
+            UPDATE `event`
             SET
             `published` = :published,
             `start` = :start,
@@ -112,7 +112,7 @@ class EventContentDao extends DaoAbstract implements DaoAutoincrementKey {
 
     public function delete($row) {
         $sql = "
-            DELETE FROM `events`.`event_content`
+            DELETE FROM `event_content`
             WHERE `id` = :id";
         return $this->execDelete($sql, [':id'=>$row['id']]);
     }

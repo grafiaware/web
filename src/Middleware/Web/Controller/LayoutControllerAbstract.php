@@ -57,16 +57,6 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
         $this->viewFactory = $viewFactory;
     }
 
-    protected function isEditableLayout() {
-        $userActions = $this->statusSecurityRepo->get()->getUserActions();
-        return $userActions ? $userActions->isEditableLayout() : false;
-    }
-
-    protected function isEditableArticle() {
-        $userActions = $this->statusSecurityRepo->get()->getUserActions();
-        return $userActions ? $userActions->isEditableArticle() : false;
-    }
-
     ### prezentace - view
 
     protected function createView(ServerRequestInterface $request, array $componentViews) {
@@ -108,7 +98,9 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
     }
 
     private function getBodyContainerAttributes() {
-        if ($this->isEditableArticle() OR $this->isEditableLayout()) {
+        $userActions = $this->statusSecurityRepo->get()->getUserActions();
+        $isEditableContent = $userActions->isEditableArticle() OR $userActions->isEditableLayout();
+        if ($isEditableContent) {
             return ["class" => "ui container editable"];
         } else {
             return ["class" => "ui container"];
@@ -159,12 +151,14 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
                 'editor' => true
             ];
             if (array_key_exists($role, $permission) AND $permission[$role]) {
+                $userActions = $this->statusSecurityRepo->get()->getUserActions();
                 /** @var UserActionComponent $actionComponent */
                 $actionComponent = $this->container->get(UserActionComponent::class);
                 $actionComponent->setData(
                         [
-                        'editArticle' => $this->isEditableArticle(),
-                        'editLayout' => $this->isEditableLayout(),
+                        'editArticle' => $userActions->isEditableArticle(),
+                        'editLayout' => $userActions->isEditableLayout(),
+                        'editMenu' => $userActions->isEditableMenu(),
                         'userName' => $loginAggregateCredentials->getLoginName()
                         ]);
                 return $actionComponent;
@@ -179,7 +173,9 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
      * @return type
      */
     private function getLinkEditorJsView(ServerRequestInterface $request) {
-        if ($this->isEditableArticle() OR $this->isEditableLayout()) {
+        $userActions = $this->statusSecurityRepo->get()->getUserActions();
+        $isEditableContent = $userActions->isEditableArticle() OR $userActions->isEditableLayout();
+        if ($isEditableContent) {
             ## document base path - stejná hodnota se musí použiít i v nastavení tinyMCE
             $basepath = $this->getBasePath($request);
             $tinyLanguage = Configuration::layoutControler()['tinyLanguage'];
@@ -212,7 +208,9 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
     }
 
     private function getLinkEditorCssView(ServerRequestInterface $request) {
-        if ($this->isEditableArticle() OR $this->isEditableLayout()) {
+        $userActions = $this->statusSecurityRepo->get()->getUserActions();
+        $isEditableContent = $userActions->isEditableArticle() OR $userActions->isEditableLayout();
+        if ($isEditableContent) {
             return $this->container->get(View::class)
                     ->setTemplate(new PhpTemplate(Configuration::layoutControler()['linkEditorCss']))
                     ->setData(
@@ -224,7 +222,9 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
     }
 
     protected function getPoznamkyComponentView() {
-        if ($this->isEditableLayout() OR $this->isEditableArticle()) {
+        $userActions = $this->statusSecurityRepo->get()->getUserActions();
+        $isEditableContent = $userActions->isEditableArticle() OR $userActions->isEditableLayout();
+        if ($isEditableContent) {
             return
                 $this->container->get(View::class)
                     ->setTemplate(new PhpTemplate(Configuration::pageControler()['templates.poznamky']))

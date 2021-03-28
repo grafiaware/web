@@ -1,6 +1,7 @@
 <?php
 namespace Container;
 
+
 use Site\Configuration;
 
 // kontejner
@@ -25,7 +26,7 @@ use Pes\Database\Handler\{
 
 // controller
 use \Middleware\Api\ApiController\{
-    UserActionController, HierarchyController, EditItemController, PresentationActionController, PaperController, ContentController,
+    UserActionController, HierarchyController, EditItemController, PresentationActionController, PaperController, ContentController, EventController,
     FilesUploadControler
 };
 
@@ -33,6 +34,12 @@ use \Middleware\Api\ApiController\{
 use \GeneratorService\ContentGeneratorRegistry;
 use \GeneratorService\Paper\PaperService;
 use \GeneratorService\StaticTemplate\StaticService;
+
+// array model
+use Model\Arraymodel\EventList;
+
+// events
+use \Model\Repository\EnrollRepo;
 
 // dao
 use Model\Dao\Hierarchy\HierarchyAggregateEditDao;
@@ -137,6 +144,22 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class));
             },
+            EventController::class => function(ContainerInterface $c) {
+                return (new EventController(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(EnrollRepo::class),
+                        $c->get(EventList::class))
+                        )->injectContainer($c);
+            },
+
+            EventList::class => function(ContainerInterface $c) {
+                return new EventList();
+            },
+
+
+
             ContentGeneratorRegistry::class => function(ContainerInterface $c) {
                 $factory = new ContentGeneratorRegistry(
                         $c->get(MenuItemTypeRepo::class)

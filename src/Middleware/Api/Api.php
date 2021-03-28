@@ -17,7 +17,7 @@ use Container\{
 };
 
 use Middleware\Api\ApiController\{
-    UserActionController, HierarchyController, EditItemController, PresentationActionController, PaperController, ContentController,
+    UserActionController, HierarchyController, EditItemController, PresentationActionController, PaperController, ContentController, EventController,
     FilesUploadControler
 };
 
@@ -89,6 +89,11 @@ class Api extends AppMiddlewareAbstract implements MiddlewareInterface {
                 /** @var PresentationActionController $ctrl */
                 $ctrl = $this->container->get(PresentationActionController::class);
                 return $ctrl->setEditArticle($request);
+        });
+        $routeGenerator->addRouteForAction('POST', '/api/v1/presentation/edit_menu', function(ServerRequestInterface $request) {
+                /** @var PresentationActionController $ctrl */
+                $ctrl = $this->container->get(PresentationActionController::class);
+                return $ctrl->setEditMenu($request);
         });
 
         #### PaperController ####
@@ -230,11 +235,16 @@ class Api extends AppMiddlewareAbstract implements MiddlewareInterface {
             return $ctrl->trash($request, $uid);
         });
 
-
         $routeGenerator->addRouteForAction('POST', '/api/v1/upload', function(ServerRequestInterface $request) {
             /** @var FilesUploadControler $ctrl */
             $ctrl = $this->container->get(FilesUploadControler::class);
             return $ctrl->upload($request);
+        });
+
+        $routeGenerator->addRouteForAction('POST', "/api/v1/event/enroll", function(ServerRequestInterface $request) {
+            /** @var EventController $ctrl */
+            $ctrl = $this->container->get(EventController::class);
+            return $ctrl->enroll($request);
         });
 ####################################
         /** @var $router RouterInterface */

@@ -147,34 +147,6 @@ class EventContentRepositoryTest extends TestCase {
         $this->assertTrue(is_array($eventContents));
     }
 
-    public function testUpdateEventsWithEventContents() {
-        $eventContents = $this->eventContentRepo->findAll();
-        $this->assertTrue(is_array($eventContents));
-
-        $eventRepo = $this->container->get(EventRepo::class);
-        $events = $eventRepo->findAll();
-        $co = 0;
-        $evContentsCount = count($eventContents);
-
-        $eventTypeRepo = $this->container->get(EventTypeRepo::class);
-        $eventTypes = $eventTypeRepo->findAll();
-        $ty = 0;
-        $evTypesCount = count($eventTypes);
-
-        foreach ($events as $event) {
-            /** @var EventContent $evContent */
-            $evContent = $eventContents[($co % $evContentsCount)];
-            $co++;
-            /** @var EventType $evType */
-            $evType = $eventTypes[($ty % $evTypesCount)];
-            $ty++;
-            /** @var EventInterface $event */
-            $event->setEventContentIdFk($evContent->getId());
-            $event->setEventTypeIdFk($evType->getId());
-        }
-        $this->assertTrue($co>2);
-    }
-
 //    public function testGetAfterAdd() {
 //        $event = $this->eventTypeRepo->get("XXXXXX");
 //        $this->assertInstanceOf(EventContent::class, $event);

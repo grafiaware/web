@@ -15,27 +15,39 @@ namespace Model\Entity;
  */
 class UserActions extends EntityAbstract implements UserActionsInterface {
 
-    private $editLayout = FALSE;
-    private $editPaper = FALSE;
+    private $editLayout = false;
+    private $editPaper = false;
+    private $editMenu = false;
 
     /**
      * Informuje, zda prezentace je přepnuta do modu editace layoutu.
+     *
      * @return bool
      */
-    public function isEditableLayout() {
+    public function isEditableLayout(): bool {
         return $this->editLayout;
     }
 
     /**
      * Informuje, zda prezentace je přepnuta do modu editace článku.
+     *
      * @return bool
      */
-    public function isEditableArticle() {
+    public function isEditableArticle(): bool {
         return $this->editPaper;
     }
 
     /**
-     * Nastaví informaci, že prentace je přepnuta do modu editace layoutu.
+     * Informuje, zda prezentace je přepnuta do modu editace menu.
+     * 
+     * @return bool
+     */
+    public function isEditableMenu(): bool {
+        return $this->editMenu;
+    }
+
+    /**
+     * Nastaví informaci, že prezentace je přepnuta do modu editace layoutu.
      *
      * @param mixed $editLayout Metoda převede zadanou hodnotu na boolen hodnotu.
      * @return UserActionsInterface
@@ -46,7 +58,7 @@ class UserActions extends EntityAbstract implements UserActionsInterface {
     }
 
     /**
-     * Nastaví informaci, že prentace je přepnuta do modu editace článku
+     * Nastaví informaci, že prezentace je přepnuta do modu editace článku
      *
      * @param mixed $editPaper Metoda převede zadanou hodnotu na boolen hodnotu.
      * @return UserActionsInterface
@@ -55,4 +67,17 @@ class UserActions extends EntityAbstract implements UserActionsInterface {
         $this->editPaper = boolval($editPaper);
         return $this;
     }
+
+    /**
+     * Nastaví informaci, že pretentace je přepnuta do modu editace menu
+     *
+     * @param mixed $editableMenu Metoda převede zadanou hodnotu na boolen hodnotu.
+     * @return UserActionsInterface
+     */
+    public function setEditableMenu($editableMenu): UserActionsInterface {
+        $this->editMenu = boolval($editableMenu);
+        return $this;
+    }
+
+
 }

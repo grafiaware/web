@@ -204,9 +204,10 @@ class ConfigurationRed extends ConfigurationDb {
     public static function componentControler() {
 
         return [
-                'static' => self::RED_TEMPLATES_SITE.'static/',            
+                'templates' => self::RED_TEMPLATES_SITE,
+                'static' => self::RED_STATIC,
+                'compiled' => self::RED_STATIC.'__compiled/',
                 'presenterFiles' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES_PATH."presenter/" : self::RED_FILES_PATH."presenter/",
-                'compiled' => self::RED_TEMPLATES_SITE.'static/__compiled/',
                 'prettyUrlCallable' => function($nadpis) {
                         $url = $nadpis;
                         $url = preg_replace('~[^\\pL0-9_]+~u', '-', $url);

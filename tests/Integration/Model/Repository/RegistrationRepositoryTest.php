@@ -30,7 +30,7 @@ use Model\Entity\Registration;
  *
  * @author pes2704
  */
-class LoginAggregateRegistrationRepositoryTest extends TestCase {
+class RegistrationRepositoryTest extends TestCase {
 
     private static $inputStream;
 

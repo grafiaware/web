@@ -80,7 +80,7 @@ class ComponentControler extends XhrControlerAbstract {
     }
 
     public function static(ServerRequestInterface $request, $staticName) {
-        $compiledContent=$this->getCompiledContent($staticName);
+         $compiledContent=$this->getCompiledContent($staticName);
         return $this->createResponseFromString($request, $compiledContent);
     }
 

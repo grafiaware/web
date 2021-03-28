@@ -73,7 +73,6 @@ class LoginLogoutController extends LoginControlerAbstract {
                     else {
                         $this->addFlashMessage("Neplatné přihlášení!");
                     }
-
             }
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
@@ -82,14 +81,11 @@ class LoginLogoutController extends LoginControlerAbstract {
     public function logout(ServerRequestInterface $request) {
         $logout = (new RequestParams())->getParsedBodyParam($request, 'logout', FALSE);
         if ($logout) {
-            $this->removeLoggedUser();  // bez parametru User
+            $this->statusSecurityRepo->get()->renewSecurityStatus(null);  // bez parametru loginAggregateEntity
             $this->addFlashMessage("Jste odhlášeni.");
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
 
     }
 
-    private function removeLoggedUser() {
-        $this->statusSecurityRepo->get()->renewSecurityStatus(null);
-    }
 }

@@ -37,6 +37,8 @@ class EventRepositoryTest extends TestCase {
 
     private static $id;
 
+    private static $startTimestamp;
+
     public static function setUpBeforeClass(): void {
         if ( !defined('PES_DEVELOPMENT') AND !defined('PES_PRODUCTION') ) {
             define('PES_FORCE_DEVELOPMENT', 'force_development');
@@ -69,10 +71,11 @@ class EventRepositoryTest extends TestCase {
 //            end,
 //            event_type_id_fk,
 //            event_content_id_fk
-
+        
+        self::$startTimestamp = (new \DateTime())->format('Y-m-d H:i:s');
         $eventDao->insert([
             'published' => true,
-            'start' => (new \DateTime())->format('Y-m-d H:i:s'),
+            'start' => self::$startTimestamp,
             'end' => (new \DateTime())->modify("+24 hours")->format('Y-m-d H:i:s'),
         ]);
         self::$id = $eventDao->getLastInsertedId();
@@ -145,26 +148,28 @@ class EventRepositoryTest extends TestCase {
         $this->assertTrue(is_array($events));
     }
 
-    public function testGetAfterAdd() {
-        $event = $this->eventRepo->get("XXXXXX");
-        $this->assertInstanceOf(Event::class, $event);
-        $this->assertTrue($event->getPublished());
-    }
 
-    public function testGetAndRemoveAfterAdd() {
-        $event = $this->eventRepo->get("XXXXXX");
-        $this->eventRepo->remove($event);
-        $this->assertTrue($event->isLocked(), 'Event není zamčena po remove.');
-    }
 
-    public function testAddAndReread() {
-        $event = new Event();
-        $event->setLoginName("XXXXXX");
-        $this->eventRepo->add($event);
-        $this->eventRepo->flush();
-        $event = $this->eventRepo->get($event->getLoginName());
-        $this->assertTrue($event->isPersisted(), 'Event není persistován.');
-        $this->assertTrue(is_string($event->getLoginName()));
-    }
+//    public function testGetAfterAdd() {
+//        $event = $this->eventRepo->get("XXXXXX");
+//        $this->assertInstanceOf(Event::class, $event);
+//        $this->assertTrue($event->getPublished());
+//    }
+//
+//    public function testGetAndRemoveAfterAdd() {
+//        $event = $this->eventRepo->get("XXXXXX");
+//        $this->eventRepo->remove($event);
+//        $this->assertTrue($event->isLocked(), 'Event není zamčena po remove.');
+//    }
+//
+//    public function testAddAndReread() {
+//        $event = new Event();
+//        $event->setLoginName("XXXXXX");
+//        $this->eventRepo->add($event);
+//        $this->eventRepo->flush();
+//        $event = $this->eventRepo->get($event->getLoginName());
+//        $this->assertTrue($event->isPersisted(), 'Event není persistován.');
+//        $this->assertTrue(is_string($event->getLoginName()));
+//    }
 
 }

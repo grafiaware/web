@@ -31,7 +31,7 @@ class EventContentTypeDao extends DaoAbstract implements DaoKeyDbVerifiedInterfa
         $sql = "
             SELECT `event_content_type`.`type`,
                 `event_content_type`.`name`
-            FROM `events`.`event_content_type`
+            FROM `event_content_type`
             WHERE
                 `event_content_type`.`type` = :type";
         return $this->selectOne($sql, [':type' => $type], TRUE);
@@ -41,7 +41,7 @@ class EventContentTypeDao extends DaoAbstract implements DaoKeyDbVerifiedInterfa
         $sql = "
             SELECT `event_content_type`.`type`,
                 `event_content_type`.`name`
-            FROM `events`.`event_content_type`";
+            FROM `event_content_type`";
         return $this->selectMany($sql, []);
     }
 
@@ -54,7 +54,7 @@ class EventContentTypeDao extends DaoAbstract implements DaoKeyDbVerifiedInterfa
                 $stmt = $dbhTransact->prepare(
                         "SELECT `event_content_type`.`type`,
                         `event_content_type`.`name`
-                        FROM `events`.`event_content_type`
+                        FROM `event_content_type`
                         WHERE `event_content_type`.`type` = :type LOCK IN SHARE MODE");   //nelze použít LOCK TABLES - to commitne aktuální transakci!
                 $stmt->bindParam( ':type' , $type );
                 $stmt->execute();
@@ -72,7 +72,7 @@ class EventContentTypeDao extends DaoAbstract implements DaoKeyDbVerifiedInterfa
             $found = $this->getWithinTransaction($dbhTransact,$row['type']);
             if  (! $found)   {
                 $stmt = $dbhTransact->prepare(
-                        "INSERT INTO `events`.`event_content_type`
+                        "INSERT INTO `event_content_type`
                         (`type`,
                         `name`)
                         VALUES
@@ -96,7 +96,7 @@ class EventContentTypeDao extends DaoAbstract implements DaoKeyDbVerifiedInterfa
 
     public function update($row) {
         $sql = "
-            UPDATE `events`.`event_content_type`
+            UPDATE `event_content_type`
             SET
             `name` = :name
             WHERE `type` = :type";
@@ -105,7 +105,7 @@ class EventContentTypeDao extends DaoAbstract implements DaoKeyDbVerifiedInterfa
 
     public function delete($row) {
         $sql = "
-            DELETE FROM `events`.`event_content_type`
+            DELETE FROM `event_content_type`
             WHERE `type` = :type";
         return $this->execDelete($sql, [':type'=>$row['type']]);
     }

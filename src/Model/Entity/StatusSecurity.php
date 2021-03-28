@@ -65,4 +65,8 @@ class StatusSecurity extends EntityAbstract implements StatusSecurityInterface {
         $this->userActions = new UserActions();  // má default hodnoty
         return $this;
     }
+
+    public function hasSecurityContext(): bool {
+        return isset($this->loginAggregate) AND $this->loginAggregate->isPersisted();
+    }
 }

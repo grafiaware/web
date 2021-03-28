@@ -62,6 +62,7 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/presentation/uid'));
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/presentation/edit_layout'));
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/presentation/edit_article'));
+        $registry->register($this->postPrototype->withUrlPattern('/api/v1/presentation/edit_menu'));
 
         #### PaperController ####
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/paper'));
@@ -98,6 +99,8 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/hierarchy/:uid/trash'));
 
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/upload'));
+
+        $registry->register($this->postPrototype->withUrlPattern('/api/v1/event/enroll'));
 
         #### TemplateController ####
         $registry->register($this->getPrototype->withUrlPattern('/component/v1/papertemplate/:folder'));

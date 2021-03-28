@@ -11,14 +11,14 @@ namespace Events\Model\Dao;
 use Pes\Database\Handler\HandlerInterface;
 
 use Model\Dao\DaoAbstract;
-use Model\Dao\DaoAutoincrementKey;
+use Model\Dao\DaoAutoincrementKeyInterface;
 
 /**
  * Description of LoginDao
  *
  * @author pes2704
  */
-class EventTypeDao extends DaoAbstract implements DaoAutoincrementKey {
+class EventTypeDao extends DaoAbstract implements DaoAutoincrementKeyInterface {
 
     /**
      * Vrací jednu řádku tabulky 'event' ve formě asociativního pole podle primárního klíče.
@@ -31,7 +31,7 @@ class EventTypeDao extends DaoAbstract implements DaoAutoincrementKey {
         $sql = "
         SELECT `event_type`.`id`,
             `event_type`.`value`
-        FROM `events`.`event_type`
+        FROM `event_type`
         WHERE
             `event_type`.`id` = :id";
         return $this->selectOne($sql, [':id' => $id], TRUE);
@@ -41,14 +41,14 @@ class EventTypeDao extends DaoAbstract implements DaoAutoincrementKey {
         $sql = "
         SELECT `event_type`.`id`,
             `event_type`.`value`
-        FROM `events`.`event_type`";
+        FROM `event_type`";
         return $this->selectMany($sql, []);
     }
 
     public function insert($row) {
         // autoincrement id
         $sql = "
-        INSERT INTO `events`.`event_type`
+        INSERT INTO `event_type`
         (`value`)
         VALUES
         (:value)";
@@ -67,7 +67,7 @@ class EventTypeDao extends DaoAbstract implements DaoAutoincrementKey {
 
     public function update($row) {
         $sql = "
-            UPDATE `events`.`event_type`
+            UPDATE `event_type`
             SET
             `value` = :value
             WHERE `id` = :id";
@@ -76,7 +76,7 @@ class EventTypeDao extends DaoAbstract implements DaoAutoincrementKey {
 
     public function delete($row) {
         $sql = "
-            DELETE FROM `events`.`event_type`
+            DELETE FROM `event_type`
             WHERE `id` = :id";
         return $this->execDelete($sql, [':id'=>$row['id']]);
     }

@@ -21,6 +21,7 @@ class ConfigurationConstants {
     // local
     const RED_TEMPLATES_COMMON = 'local/site/common/templates/';
     const RED_TEMPLATES_SITE = 'local/site/'.self::RED_SITE_PATH.'templates/';
+    const RED_STATIC = 'local/site/'.self::RED_SITE_PATH.'static/';
     // public
     const RED_ASSETS = 'public/assets/';
     const RED_LINKS_COMMON = 'public/site/common/';

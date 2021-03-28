@@ -49,4 +49,6 @@ interface StatusSecurityInterface extends EntitySingletonInterface {
      * @return void
      */
     public function renewSecurityStatus(LoginAggregateCredentialsInterface $loginAggregate=null): StatusSecurityInterface;
+
+    public function hasSecurityContext(): bool;
 }

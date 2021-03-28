@@ -69,6 +69,10 @@ use Model\Dao\PaperContentDao;
 use Model\Hydrator\PaperContentHydrator;
 use Model\Repository\PaperContentRepo;
 
+use \Model\Dao\EnrollDao;
+use \Model\Hydrator\EnrollHydrator;
+use Model\Repository\EnrollRepo;
+
 //aggregate
 use Model\Repository\MenuItemAggregateRepo;
 use Model\Hydrator\MenuItemChildHydrator;
@@ -257,6 +261,20 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
             LanguageRepo::class => function(ContainerInterface $c) {
                 return new LanguageRepo($c->get(LanguageDao::class));
             },
+
+            EnrollDao::class => function(ContainerInterface $c) {
+                return new EnrollDao($c->get(HandlerInterface::class));
+            },
+            EnrollHydrator::class => function(ContainerInterface $c) {
+                return new EnrollHydrator($c->get(EnrollDao::class));
+            },
+            EnrollRepo::class => function(ContainerInterface $c) {
+                return new EnrollRepo(
+                        $c->get(EnrollDao::class),
+                        $c->get(EnrollHydrator::class)
+                    );
+            },
+
             StatusPresentationManager::class => function(ContainerInterface $c) {
             return (new StatusPresentationManager(
                         $c->get(LanguageRepo::class),

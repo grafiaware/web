@@ -11,12 +11,6 @@ use Pes\Database\Handler\HandlerInterface;
  */
 class CredentialsDao extends DaoAbstract {
 
-    protected $dbHandler;
-
-    public function __construct(HandlerInterface $dbHandler) {
-        $this->dbHandler = $dbHandler;
-    }
-
     /**
      *
      *

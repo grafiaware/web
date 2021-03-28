@@ -11,14 +11,14 @@ namespace Events\Model\Dao;
 use Pes\Database\Handler\HandlerInterface;
 
 use Model\Dao\DaoContextualAbstract;
-use Model\Dao\DaoAutoincrementKey;
+use Model\Dao\DaoAutoincrementKeyInterface;
 
 /**
  * Description of LoginDao
  *
  * @author pes2704
  */
-class EventDao extends DaoContextualAbstract implements DaoAutoincrementKey {
+class EventDao extends DaoContextualAbstract implements DaoAutoincrementKeyInterface {
 
     protected function getContextConditions() {
         $contextConditions = [];
@@ -50,7 +50,7 @@ class EventDao extends DaoContextualAbstract implements DaoAutoincrementKey {
             `event`.`end`,
             `event`.`event_type_id_fk`,
             `event`.`event_content_id_fk`
-        FROM `events`.`event`
+        FROM `event`
         WHERE
             `event`.`id` = :id";
 
@@ -73,7 +73,7 @@ class EventDao extends DaoContextualAbstract implements DaoAutoincrementKey {
             `event`.`end`,
             `event`.`event_type_id_fk`,
             `event`.`event_content_id_fk`
-        FROM `events`.`event` "
+        FROM `event` "
         . $this->where($this->and($this->getContextConditions(), ["`paper`.`event_type_id_fk` = :event_type_id_fk"]));
         return $this->selectOne($sql, [':event_type_id_fk' => $eventTypeFk], TRUE);
     }
@@ -87,7 +87,7 @@ class EventDao extends DaoContextualAbstract implements DaoAutoincrementKey {
             `event`.`end`,
             `event`.`event_type_id_fk`,
             `event`.`event_content_id_fk`
-        FROM `events`.`event` "
+        FROM `event` "
         . $this->where($this->and($this->getContextConditions()));
         return $this->selectMany($sql, []);
     }
@@ -101,7 +101,7 @@ class EventDao extends DaoContextualAbstract implements DaoAutoincrementKey {
             `event`.`end`,
             `event`.`event_type_id_fk`,
             `event`.`event_content_id_fk`
-        FROM `events`.`event`";
+        FROM `event`";
 
         return $this->selectMany($sql, []);
     }
@@ -109,7 +109,7 @@ class EventDao extends DaoContextualAbstract implements DaoAutoincrementKey {
     public function insert($row) {
         // autoincrement id
         $sql = "
-            INSERT INTO `events`.`event`
+            INSERT INTO `event`
             (`published`,
             `start`,
             `end`,
@@ -142,7 +142,7 @@ class EventDao extends DaoContextualAbstract implements DaoAutoincrementKey {
 
     public function update($row) {
         $sql = "
-            UPDATE `events`.`event`
+            UPDATE `event`
             SET
             `published` = :published,
             `start` = :start,
@@ -163,7 +163,7 @@ class EventDao extends DaoContextualAbstract implements DaoAutoincrementKey {
 
     public function delete($row) {
         $sql = "
-            DELETE FROM `events`.`event`
+            DELETE FROM `event`
             WHERE `id` = :id";
         return $this->execDelete($sql, [':id'=>$row['id']]);
     }

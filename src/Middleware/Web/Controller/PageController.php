@@ -110,7 +110,7 @@ class PageController extends LayoutControllerAbstract {
         if ($menuItem) {
             $statusPresentation = $this->statusPresentationRepo->get();
             $statusPresentation->setMenuItem($menuItem);
-            $actionComponents = ["content" => $this->resolveMenuItemView($menuItem, $this->isEditableArticle())];
+            $actionComponents = ["content" => $this->resolveMenuItemView($menuItem)];
             return $this->createResponseFromView($request, $this->createView($request, $this->getComponentViews($actionComponents)));
         } else {
             // neexistující stránka
@@ -123,7 +123,7 @@ class PageController extends LayoutControllerAbstract {
         if ($menuItem) {
             $statusPresentation = $this->statusPresentationRepo->get();
             $statusPresentation->setMenuItem($menuItem);
-            $actionComponents = ["content" => $this->resolveMenuItemView($menuItem, $this->isEditableArticle())];
+            $actionComponents = ["content" => $this->resolveMenuItemView($menuItem)];
             return $this->createResponseFromView($request, $this->createView($request, $this->getComponentViews($actionComponents)));
         }
         // neexistující stránka
@@ -174,18 +174,25 @@ class PageController extends LayoutControllerAbstract {
 //            'menuSvisle' => $this->container->get(View::class),
 //         ];
 
+        $userActions = $this->statusSecurityRepo->get()->getUserActions();
 
-        if ($this->isEditableLayout()) {
+        if ($userActions->isEditableLayout()) {
 //            $componets['menuPresmerovani'] = $this->container->get('menu.presmerovani')->setMenuRootName('menu_redirect');
 //            $componets['menuVodorovne'] = $this->container->get('menu.vodorovne')->setMenuRootName('menu_horizontal');
             //$componets['menuSvisle'] = $this->container->get('menu.svisle')->setMenuRootName('menu_vertical')->withTitleItem(true);
             $componets['bloky'] = $this->container->get('menu.bloky.editable')->setMenuRootName('blocks')->withTitleItem(true);
             $componets['kos'] = $this->container->get('menu.kos.editable')->setMenuRootName('trash'); //->withTitleItem(true);
-        } elseif ($this->isEditableArticle()) {
+        } elseif ($userActions->isEditableArticle()) {
 //            $componets['menuPresmerovani'] = $this->container->get('menu.presmerovani.editable')->setMenuRootName('menu_redirect');
 //            $componets['menuVodorovne'] = $this->container->get('menu.vodorovne.editable')->setMenuRootName('menu_horizontal');
             $componets['menuSvisle'] = $this->container->get('menu.svisle.editable')->setMenuRootName('menu_vertical')->withTitleItem(true);
             $componets['kos'] = $this->container->get('menu.kos.editable')->setMenuRootName('trash'); //->withTitleItem(true);
+        } elseif ($userActions->isEditableMenu()) {
+//            $componets['menuPresmerovani'] = $this->container->get('menu.presmerovani.editable')->setMenuRootName('menu_redirect');
+//            $componets['menuVodorovne'] = $this->container->get('menu.vodorovne.editable')->setMenuRootName('menu_horizontal');
+            $componets['menuSvisle'] = $this->container->get('menu.svisle.editable')->setMenuRootName('menu_vertical')->withTitleItem(true);
+            $componets['bloky'] = $this->container->get('menu.bloky.editable')->setMenuRootName('blocks')->withTitleItem(true);
+            $componets['kos'] = $this->container->get('menu.kos.editable')->setMenuRootName('trash')->withTitleItem(true);
         } else {
 //            $componets['menuPresmerovani'] = $this->container->get('menu.presmerovani')->setMenuRootName('menu_redirect');
 //            $componets['menuVodorovne'] = $this->container->get('menu.vodorovne')->setMenuRootName('menu_horizontal');
@@ -195,7 +202,10 @@ class PageController extends LayoutControllerAbstract {
     }
 
     private function getAuthoredLayoutComponents() {
-        if ($this->isEditableLayout()) {
+        $userActions = $this->statusSecurityRepo->get()->getUserActions();
+        $isEditableContent = $userActions->isEditableArticle() OR $userActions->isEditableLayout();
+
+        if ($isEditableContent) {
             $componentService = 'component.named.editable';
         } else {
             $componentService = 'component.named';
@@ -212,10 +222,9 @@ class PageController extends LayoutControllerAbstract {
                     'banner' => 'a8',
                 ];
         $componets = [];
-        $editable = $this->isEditableLayout();
         foreach ($map as $variableName => $blockName) {
             $menuItem = $this->getBlockMenuItem($blockName);
-            $componets[$variableName] = $this->resolveMenuItemView($menuItem, $editable);
+            $componets[$variableName] = $this->resolveMenuItemView($menuItem);
 //            $componets[$variableName] = $this->container->get($componentService)->setComponentName($blockName);
         }
         return $componets;
@@ -234,13 +243,16 @@ class PageController extends LayoutControllerAbstract {
      * Vrací view objekt pro zobrazení centrálního obsahu v prostoru pro "content"
      * @return type
      */
-    private function resolveMenuItemView(MenuItemInterface $menuItem = null, $editable) {
+    private function resolveMenuItemView(MenuItemInterface $menuItem = null) {
         if (isset($menuItem)) {
             // dočasně duplicitní s ComponentControler
+            $userActions = $this->statusSecurityRepo->get()->getUserActions();
+            $isEditableContent = $userActions->isEditableArticle() OR $userActions->isEditableLayout();
             $menuItemType = $menuItem->getTypeFk();
+
             switch ($menuItemType) {
                 case 'empty':
-                    if ($editable) {
+                    if ($isEditableContent) {
                         $content = $this->container->get(ItemTypeSelectComponent::class);
                     } else {
                         $content = $this->container->get(View::class)->setData(["Empty item."])->setRenderer(new ImplodeRenderer());
@@ -250,14 +262,14 @@ class PageController extends LayoutControllerAbstract {
                     $content = $view = $this->container->get(View::class)->setData( "No content for generated type.")->setRenderer(new StringRenderer());
                     break;
                 case 'static':
-                    if ($editable) {
+                    if ($isEditableContent) {
                         $content = $this->getStaticEditableLoadScript($menuItem);
                     } else {
                         $content = $this->getStaticLoadScript($menuItem);
                     }
                     break;
                 case 'paper':
-                    if ($editable) {
+                    if ($isEditableContent) {
                         $content = $this->getPaperEditableLoadScript($menuItem);
                     } else {
                         $content = $this->getPaperLoadScript($menuItem);

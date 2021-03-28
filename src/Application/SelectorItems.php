@@ -54,6 +54,7 @@ class SelectorItems {
             function() {
                 return [
                     new \Middleware\Status\SecurityStatus(),
+                    new \Middleware\Login\Login(),
                     new \Middleware\Status\FlashStatus(),
                     new \Middleware\Status\PresentationStatus(),
                     new \Middleware\Api\Api()
@@ -63,7 +64,7 @@ class SelectorItems {
                 return [
                     new \Middleware\Status\SecurityStatus(),
                     new \Middleware\Status\FlashStatus(),
-                    new \Middleware\Status\PresentationStatus(),                    
+                    new \Middleware\Status\PresentationStatus(),
                     new \Middleware\Login\Login()
                 ];},
             '/component'=>
@@ -71,6 +72,7 @@ class SelectorItems {
                 return [
                     new \Middleware\ResponseTime\ResponseTime(),
                     new \Middleware\Status\SecurityStatus(),
+                    new \Middleware\Login\Login(),
                     new \Middleware\Status\FlashStatus(),
 //                    new \Middleware\Status\PresentationStatus(),  // request language
                     new \Middleware\Web\Transformator(),
@@ -111,6 +113,7 @@ class SelectorItems {
                 return [
                     //TODO: doplnit basic autentifikaci pro případ něpřihlášeného uživatele.
                     new \Middleware\Status\SecurityStatus(),
+                    new \Middleware\Login\Login(),
                     new \Middleware\Logged\LoggedAccess(new LoggedAccessor($this->app)),
                     new \Middleware\Build\Build()
                 ];},

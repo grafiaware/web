@@ -69,27 +69,58 @@ class PresentationActionController extends PresentationFrontControllerAbstract {
 
     public function setEditArticle(ServerRequestInterface $request) {
         $edit = (new RequestParams())->getParsedBodyParam($request, 'edit_article');
-        $oldEditableLayoutStatus = $this->statusSecurityRepo->get()->getUserActions()->isEditableLayout();
-        $this->statusSecurityRepo->get()->getUserActions()->setEditableArticle($edit);
-        $this->statusSecurityRepo->get()->getUserActions()->setEditableLayout(false);
-        $this->addFlashMessage("setEditArticle($edit)");
-        if ($edit AND $oldEditableLayoutStatus) {
+//        $oldEditableLayoutStatus = $this->statusSecurityRepo->get()->getUserActions()->isEditableLayout();
+        $this->switchEditable('article', $edit);
+        $this->addFlashMessage("set editable article");
+//        if ($edit AND $oldEditableLayoutStatus) {
             return $this->redirectSeeOther($request, ''); // 303 See Other -> home - jinak zůstane prezentovaný poslední segment layoutu, který nyl editován v režimu edit layout
-        } else {
-            return $this->redirectSeeLastGet($request); // 303 See Other
-        }
+//        } else {
+//            return $this->redirectSeeLastGet($request); // 303 See Other
+//        }
     }
 
     public function setEditLayout(ServerRequestInterface $request) {
         $edit = (new RequestParams())->getParsedBodyParam($request, 'edit_layout');
-        $oldEditableArticleStatus = $this->statusSecurityRepo->get()->getUserActions()->isEditableArticle();
-        $this->statusSecurityRepo->get()->getUserActions()->setEditableLayout($edit);
-        $this->statusSecurityRepo->get()->getUserActions()->setEditableArticle(false);
-        $this->addFlashMessage("setEditLayout($edit)");
-        if ($edit AND $oldEditableArticleStatus) {
+//        $oldEditableArticleStatus = $this->statusSecurityRepo->get()->getUserActions()->isEditableArticle();
+        $this->switchEditable('layout', $edit);
+        $this->addFlashMessage("set editable layout");
+//        if ($edit AND $oldEditableArticleStatus) {
             return $this->redirectSeeOther($request, ''); // 303 See Other -> home - jinak zůstane prezentovaný poslední articele, který nyl editován v režimu edit article
-        } else {
-            return $this->redirectSeeLastGet($request); // 303 See Other
+//        } else {
+//            return $this->redirectSeeLastGet($request); // 303 See Other
+//        }
+    }
+
+    public function setEditMenu(ServerRequestInterface $request) {
+        $edit = (new RequestParams())->getParsedBodyParam($request, 'edit_menu');
+//        $oldEditableArticleStatus = $this->statusSecurityRepo->get()->getUserActions()->isEditableMenu();
+        $this->switchEditable('menu', $edit);
+        $this->addFlashMessage("set editable menu");
+//        if ($edit AND $oldEditableArticleStatus) {
+            return $this->redirectSeeOther($request, ''); // 303 See Other -> home - jinak zůstane prezentovaný poslední articele, který nyl editován v režimu edit article
+//        } else {
+//            return $this->redirectSeeLastGet($request); // 303 See Other
+//        }
+    }
+
+    protected function switchEditable($name, $value) {
+        $userAction = $this->statusSecurityRepo->get()->getUserActions();
+//        $isAnyOldAction = $userAction->isEditableArticle() OR $userAction->isEditableLayout() OR $userAction->isEditableMenu();
+                $userAction->setEditableArticle(false);
+                $userAction->setEditableLayout(false);
+                $userAction->setEditableMenu(false);
+        switch ($name) {
+            case 'article':
+                $userAction->setEditableArticle($value);
+                break;
+            case 'layout':
+                $userAction->setEditableLayout($value);
+                break;
+            case 'menu':
+                $userAction->setEditableMenu($value);
+                break;
+            default:
+                break;
         }
     }
 }
