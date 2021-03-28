@@ -16,7 +16,7 @@ $footer = '';
 $eventTypeName = "Poradna";  // viz Model\Arraymodel\EventType
 $institutionName = "";
 
-$event = (new EventList())->getEventList($eventTypeName, $institutionName);
+$event = (new EventList())->getEventList($eventTypeName, $institutionName, [], true);   // enrolling = true
 
 //include Configuration::componentControler()['templates']."timecolumn/template.php";
 include Configuration::componentControler()['templates']."timeline-boxes/template.php";

@@ -5,6 +5,8 @@ use Model\Arraymodel\EventList;
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 /** @var PhpTemplateRendererInterface $this */
 
+use Model\Entity\EnrollInterface;  // pro vdoc
+
 //include 'data.php';
 
 $headline = 'Můžete se těšit na tyto přednášky';
@@ -19,7 +21,15 @@ $footer = 'Další přednášky budou postupně přibývat, sledujte tuto strán
 $eventTypeName = "Přednáška";  // viz Model\Arraymodel\EventType
 $institutionName = "";
 
-$event = (new EventList())->getEventList($eventTypeName, $institutionName);
+$event = [];
+$eventList = new EventList();
+
+foreach ($enrolls as $enroll) {
+    $eventIds[] = $enroll->getEventid();
+}
+
+$event = $eventList->getEventList(null, null, $eventIds, false);   // enrolling = false
+
 
 //include Configuration::componentControler()['templates']."timecolumn/template.php";
 //include Configuration::componentControler()['templates']."timeline-boxes/template.php";

@@ -47,8 +47,8 @@ class EventList {
                 'timelinePoint' => '30. 3. 2021',
                     'startTime' => '10:05',
                     'endTime' => '10:40',
-                'linkButton' => [
-                                'show' => 1,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -63,14 +63,14 @@ class EventList {
                 'timelinePoint' => '30. 3. 2021',
                     'startTime' => '10:45',
                     'endTime' => '11:00',
-                'linkButton' => [
-                                'show' => 1,
-                                'linkButtonAttributes' => $this->linkButtonAttributesZhlednout +
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
+                                'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
 
                                     ],
-                                'linkButtonText' => $this->linkButtonTextZhlednout
+                                'linkButtonText' => $this->linkButtonTextPrihlasit
                                 ],
             ] + $this->eventContent->getEventContent('Wienerberger'),
             [
@@ -79,8 +79,8 @@ class EventList {
                 'timelinePoint' => '30. 3. 2021',
                     'startTime' => '11:00',
                     'endTime' => '11:15',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -95,8 +95,8 @@ class EventList {
                 'timelinePoint' => '30. 3. 2021',
                     'startTime' => '11:15',
                     'endTime' => '11:45',
-                'linkButton' => [
-                                'show' => 1,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -111,8 +111,8 @@ class EventList {
                 'timelinePoint' => '30. 3. 2021',
                     'startTime' => '13:00',
                     'endTime' => '13:30',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -127,8 +127,8 @@ class EventList {
                 'timelinePoint' => '30. 3. 2021',
                     'startTime' => '13:30',
                     'endTime' => '13:55',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -143,8 +143,8 @@ class EventList {
                 'timelinePoint' => '30. 3. 2021',
                     'startTime' => '13:55',
                     'endTime' => '14:10',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -159,8 +159,8 @@ class EventList {
                 'timelinePoint' => '30. 3. 2021',
                     'startTime' => '14:10',
                     'endTime' => '14:30',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -175,8 +175,8 @@ class EventList {
                 'timelinePoint' => '30. 3. 2021',
                     'startTime' => '14:35',
                     'endTime' => '15:00',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -192,8 +192,8 @@ class EventList {
                 'timelinePoint' => '30. 3. 2021',
                     'startTime' => '15:00',
                     'endTime' => '15:15',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -208,8 +208,8 @@ class EventList {
                 'timelinePoint' => '30. 3. 2021',
                     'startTime' => '15:15',
                     'endTime' => '15:35',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -224,8 +224,8 @@ class EventList {
                 'timelinePoint' => '30. 3. 2021',
                     'startTime' => '15:40',
                     'endTime' => '15:55',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -240,8 +240,8 @@ class EventList {
                 'timelinePoint' => '30. 3. 2021',
                     'startTime' => '15:55',
                     'endTime' => '16:30',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -256,8 +256,8 @@ class EventList {
                 'timelinePoint' => '30. 3. 2021',
                     'startTime' => '16:45',
                     'endTime' => '17:05',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -272,8 +272,8 @@ class EventList {
                 'timelinePoint' => '30. 3. 2021',
                     'startTime' => '17:10',
                     'endTime' => '17:55',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -288,8 +288,8 @@ class EventList {
                 'timelinePoint' => '30. 3. 2021',
                     'startTime' => '17:55',
                     'endTime' => '18:15',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -304,8 +304,8 @@ class EventList {
                 'timelinePoint' => '31. 3. 2021',
                     'startTime' => '10:05',
                     'endTime' => '10:25',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -321,8 +321,8 @@ class EventList {
                 'timelinePoint' => '31. 3. 2021',
                     'startTime' => '10:30',
                     'endTime' => '10:45',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -337,8 +337,8 @@ class EventList {
                 'timelinePoint' => '31. 3. 2021',
                     'startTime' => '10:45',
                     'endTime' => '11:10',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -353,8 +353,8 @@ class EventList {
                 'timelinePoint' => '31. 3. 2021',
                     'startTime' => '11:10',
                     'endTime' => '11:30',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -369,8 +369,8 @@ class EventList {
                 'timelinePoint' => '31. 3. 2021',
                     'startTime' => '11:30',
                     'endTime' => '11:45',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -385,8 +385,8 @@ class EventList {
                 'timelinePoint' => '31. 3. 2021',
                     'startTime' => '11:45',
                     'endTime' => '12:00',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -401,8 +401,8 @@ class EventList {
                 'timelinePoint' => '31. 3. 2021',
                     'startTime' => '13:00',
                     'endTime' => '13:20',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -417,8 +417,8 @@ class EventList {
                 'timelinePoint' => '31. 3. 2021',
                     'startTime' => '13:20',
                     'endTime' => '13:30',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -433,8 +433,8 @@ class EventList {
                 'timelinePoint' => '31. 3. 2021',
                     'startTime' => '13:30',
                     'endTime' => '13:35',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -449,8 +449,8 @@ class EventList {
                 'timelinePoint' => '31. 3. 2021',
                     'startTime' => '13:55',
                     'endTime' => '14:35',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -465,8 +465,8 @@ class EventList {
                 'timelinePoint' => '31. 3. 2021',
                     'startTime' => '14:35',
                     'endTime' => '14:55',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -481,8 +481,8 @@ class EventList {
                 'timelinePoint' => '31. 3. 2021',
                     'startTime' => '14:55',
                     'endTime' => '15:35',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -497,8 +497,8 @@ class EventList {
                 'timelinePoint' => '31. 3. 2021',
                     'startTime' => '15:35',
                     'endTime' => '15:55',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -513,8 +513,8 @@ class EventList {
                 'timelinePoint' => '1. 4. 2021',
                     'startTime' => '10:05',
                     'endTime' => '10:35',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -529,8 +529,8 @@ class EventList {
                 'timelinePoint' => '1. 4. 2021',
                     'startTime' => '10:40',
                     'endTime' => '11:10',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -545,8 +545,8 @@ class EventList {
                 'timelinePoint' => '1. 4. 2021',
                     'startTime' => '11:15',
                     'endTime' => '11:35',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -561,8 +561,8 @@ class EventList {
                 'timelinePoint' => '1. 4. 2021',
                     'startTime' => '11:40',
                     'endTime' => '12:05',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -577,8 +577,8 @@ class EventList {
                 'timelinePoint' => '1. 4. 2021',
                     'startTime' => '13:00',
                     'endTime' => '13:30',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -593,8 +593,8 @@ class EventList {
                 'timelinePoint' => '1. 4. 2021',
                     'startTime' => '13:35',
                     'endTime' => '13:55',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -611,8 +611,8 @@ class EventList {
                 'timelinePoint' => '31. 3. 2021',
                     'startTime' => '15:35',
                     'endTime' => '15:55',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -627,8 +627,8 @@ class EventList {
                 'timelinePoint' => '1. 4. 2021',
                     'startTime' => '',
                     'endTime' => '',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -643,8 +643,8 @@ class EventList {
                 'timelinePoint' => '1. 4. 2021',
                 'startTime' => '',
                 'endTime' => '',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -662,8 +662,8 @@ class EventList {
                 'timelinePoint' => '30. 3. 2021',
                 'startTime' => '10:00',
                 'endTime' => '12:00',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -678,8 +678,8 @@ class EventList {
                 'timelinePoint' => '30. 3. 2021',
                 'startTime' => '12:30',
                 'endTime' => '18:00',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -694,8 +694,8 @@ class EventList {
                 'timelinePoint' => '30. 3. 2021',
                 'startTime' => '12:00',
                 'endTime' => '14:00',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -710,8 +710,8 @@ class EventList {
                 'timelinePoint' => '30. 3. 2021',
                 'startTime' => '14:00',
                 'endTime' => '15:50',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -726,8 +726,8 @@ class EventList {
                 'timelinePoint' => '30. 3. 2021',
                 'startTime' => '10:00',
                 'endTime' => '12:00',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -742,8 +742,8 @@ class EventList {
                 'timelinePoint' => '30. 3. 2021',
                 'startTime' => '9:00',
                 'endTime' => '12:00',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -758,8 +758,8 @@ class EventList {
                 'timelinePoint' => '30. 3. 2021',
                 'startTime' => '13:00',
                 'endTime' => '17:00',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -774,8 +774,8 @@ class EventList {
                 'timelinePoint' => '30. 3. 2021',
                 'startTime' => '9:00',
                 'endTime' => '12:00',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -790,8 +790,8 @@ class EventList {
                 'timelinePoint' => '30. 3. 2021',
                 'startTime' => '13:00',
                 'endTime' => '16:00',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -806,8 +806,8 @@ class EventList {
                 'timelinePoint' => '30. 3. 2021',
                 'startTime' => '16:00',
                 'endTime' => '18:00',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -823,8 +823,8 @@ class EventList {
                 'timelinePoint' => '31. 3. 2021',
                 'startTime' => '10:00',
                 'endTime' => '14:00',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -839,8 +839,8 @@ class EventList {
                 'timelinePoint' => '31. 3. 2021',
                 'startTime' => '14:00',
                 'endTime' => '16:50',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -855,8 +855,8 @@ class EventList {
                 'timelinePoint' => '31. 3. 2021',
                 'startTime' => '13:00',
                 'endTime' => '14:45',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -871,8 +871,8 @@ class EventList {
                 'timelinePoint' => '31. 3. 2021',
                 'startTime' => '15:00',
                 'endTime' => '17:00',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -887,8 +887,8 @@ class EventList {
                 'timelinePoint' => '31. 3. 2021',
                 'startTime' => '9:00',
                 'endTime' => '16:00',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -903,8 +903,8 @@ class EventList {
                 'timelinePoint' => '31. 3. 2021',
                 'startTime' => '9:00',
                 'endTime' => '12:00',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -919,8 +919,8 @@ class EventList {
                 'timelinePoint' => '31. 3. 2021',
                 'startTime' => '13:00',
                 'endTime' => '16:00',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -936,8 +936,8 @@ class EventList {
                 'timelinePoint' => '1. 4. 2021',
                 'startTime' => '10:00',
                 'endTime' => '12:00',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -952,8 +952,8 @@ class EventList {
                 'timelinePoint' => '1. 4. 2021',
                 'startTime' => '12:30',
                 'endTime' => '16:00',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -968,8 +968,8 @@ class EventList {
                 'timelinePoint' => '1. 4. 2021',
                 'startTime' => '14:00',
                 'endTime' => '15:50',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -984,8 +984,8 @@ class EventList {
                 'timelinePoint' => '1. 4. 2021',
                 'startTime' => '10:00',
                 'endTime' => '12:00',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -1000,8 +1000,8 @@ class EventList {
                 'timelinePoint' => '1. 4. 2021',
                 'startTime' => '9:00',
                 'endTime' => '13:00',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -1016,8 +1016,8 @@ class EventList {
                 'timelinePoint' => '1. 4. 2021',
                 'startTime' => '9:00',
                 'endTime' => '12:00',
-                'linkButton' => [
-                                'show' => 0,
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
 
@@ -1033,7 +1033,7 @@ class EventList {
 
     }
 
-    public function getEventList($eventTypeName = null, $institutionName = null, array $eventIdList = []) {
+    public function getEventList($eventTypeName = null, $institutionName = null, array $eventIdList = [], $enrolling=false) {
         $compareByStartTime = function ($boxA, $boxB) {
             return (str_replace(':', '', $boxA['startTime']) < str_replace(':', '', $boxB['startTime'])) ? -1 : 1;
         };
@@ -1057,6 +1057,9 @@ class EventList {
                     AND
                     ((isset($eventIdList) AND $eventIdList) ? (array_search($boxItem['eventId'], $eventIdList)!==false) : true)
                     ) {
+                    if (!$enrolling) {
+                        $boxItem['linkButtonEnroll']['show'] = 0;
+                    }
                     $boxItems[] = $boxItem;
                 }
             }
@@ -1071,13 +1074,23 @@ class EventList {
         return $event;
     }
 
-    public function getEventBoxItem($eventId=null) {
-        if (isset($eventId)) {
-            foreach ($this->getList() as $boxItem) {
-                if ($boxItem['eventId'] == $eventId) {
-                    return $boxItem;
-                }
-            }
-        }
-    }
+//    public function getEventBoxItem($eventId=null) {
+//        if (isset($eventId)) {
+//            foreach ($this->getList() as $boxItem) {
+//                if ($boxItem['eventId'] == $eventId) {
+//                    $boxes[$boxItem['timelinePoint']][] = $boxItem;
+//
+//
+//                }
+//            }
+//            foreach ($boxes as $tlPoint => $boxItems) {
+//                $event[] = [
+//                        'timelinePoint' => $tlPoint,
+//                        'box' => $boxItems
+//                    ];
+//            }
+//            return $event;
+//
+//        }
+//    }
 }

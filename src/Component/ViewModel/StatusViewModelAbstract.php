@@ -38,4 +38,14 @@ class StatusViewModelAbstract {
         $this->statusFlashRepo = $statusFlashRepo;
     }
 
+    public function getFlashCommand($key) {
+        $flashCommand = $this->statusFlashRepo->get()->getCommand();
+        return $flashCommand[$key] ?? '';
+    }
+
+
+    public function getPostFlashCommand($key) {
+        $flashCommand = $this->statusFlashRepo->get()->getPostCommand();
+        return $flashCommand[$key] ?? '';
+    }
 }

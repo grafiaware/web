@@ -22,11 +22,11 @@ if ($published) {
                                                 </div>
                                             </div>
                                             <div class="box-footer"><?= $startTime ?> - <?= $endTime ?></div>
-                                            <?php if ($linkButton['show']) {?>
+                                            <?php if ($linkButtonEnroll['showEnroll']) {?>
                                                 <div>
-                                                    <button type="submit" <?= Html::attributes($linkButton['linkButtonAttributes']) ?> name="event_enroll"
+                                                    <button type="submit" <?= Html::attributes($linkButtonEnroll['linkButtonAttributes']) ?> name="event_enroll"
                                                         value="<?= $eventId ?>" formtarget="_self"
-                                                        formaction="api/v1/event/enroll"> <?= $linkButton['linkButtonText'] ?>  </button>
+                                                        formaction="api/v1/event/enroll"> <?= $linkButtonEnroll['linkButtonText'] ?>  </button>
                                                 </div>
                                             <?php } ?>
                                         </div>

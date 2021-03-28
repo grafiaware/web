@@ -66,7 +66,7 @@ class EnrollRepositoryTest extends TestCase {
 
         $enrollDao->insert([
             'login_name' => "testEnroll login name",
-            'eventid' => "test_eventid_999",
+            'eventid' => "test_eventid_" . (string) (1000+random_int(0, 999)),
         ]);
         self::$id = $enrollDao->getLastInsertedId();
     }
@@ -138,4 +138,8 @@ class EnrollRepositoryTest extends TestCase {
         $this->assertTrue(is_array($enroll));
     }
 
+    public function testFindByLoginName() {
+        $enrolls = $this->enrollRepo->findByLoginName("testEnroll login name");
+        $this->assertTrue(is_array($enrolls));
+    }
 }

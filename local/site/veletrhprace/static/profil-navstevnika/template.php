@@ -4,6 +4,9 @@ use Model\Entity\PaperAggregateInterface;
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregateInterface $paperAggregate */
 
+use Model\Repository\EnrollRepo;
+use Model\Repository\StatusSecurityRepo;
+
 $personalData = [
     [
         'fotografie' => [
@@ -52,6 +55,13 @@ $igelitka = [
         ]
     ],
 ];
+
+$statusSecurityRepo = $container->get(StatusSecurityRepo::class);
+/** @var StatusSecurityRepo $statusSecurityRepo */
+$loginName = $statusSecurityRepo->get()->getLoginAggregate()->getLoginName();
+$enrollRepo = $container->get(EnrollRepo::class);
+$enrolls = $enrollRepo->findByLoginName($loginName);
+
 ?>
 <article class="paper">
     <section>

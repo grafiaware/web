@@ -43,7 +43,7 @@ class EnrollRepo extends RepoAbstract implements EnrollRepoInterface {
 
     public function findByLoginName($loginName) {
         $selected = [];
-        foreach ($this->dao->findAll("login_name = $loginName") as $enrollRow) {
+        foreach ($this->dao->find("login_name = :login_name", [":login_name"=>$loginName]) as $enrollRow) {
             $index = $this->indexFromRow($enrollRow);
             if (!isset($this->collection[$index])) {
                 $this->recreateEntity($index, $enrollRow);
