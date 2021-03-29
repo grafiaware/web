@@ -41,8 +41,6 @@ foreach($glob as $file) {
     $posters[] = explode(".", str_replace($pathToFolder, "", $file))[0];
 }
 
-
-
 //$posters = [
 //        'Leták AKKA'
 //
