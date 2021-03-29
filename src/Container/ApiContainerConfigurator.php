@@ -44,6 +44,8 @@ use \Model\Repository\EnrollRepo;
 // dao
 use Model\Dao\Hierarchy\HierarchyAggregateEditDao;
 
+use Model\Entity\StatusSecurityInterface;
+
 // repo
 use Model\Repository\{
     StatusSecurityRepo,
@@ -155,7 +157,9 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
             },
 
             EventList::class => function(ContainerInterface $c) {
-                return new EventList();
+                /** @var StatusSecurityRepo $statusSecurityRepo */
+                $statusSecurityRepo = $c->get(StatusSecurityRepo::class);
+                return new EventList($statusSecurityRepo->get());
             },
 
             // generator service

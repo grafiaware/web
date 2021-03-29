@@ -5,21 +5,26 @@ use Model\Arraymodel\EventList;
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Model\Entity\PaperAggregatePaperContentInterface;
 
-?>
+use Model\Repository\StatusSecurityRepo;
 
-    <div id="chci-na-online-pohovor">
-        <?php
+    $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
+    /** @var StatusSecurityRepo $statusSecurityRepo */
+    $statusSecurity = $statusSecurityRepo->get();
+    $eventTypeName = "";  // viz Model\Arraymodel\EventType
+    $institutionName = "Konplan";
+    $event = (new EventList($statusSecurity))->getEventList($eventTypeName, $institutionName, [], true);   // enrolling = true
+
+    
+    
         $headline = 'Online pohovor';
         $perex =
             '
             ';
         $footer = '';
+?>
 
-        $eventTypeName = "";  // viz Model\Arraymodel\EventType
-        $institutionName = "Konplan";
-
-        $event = (new EventList())->getEventList($eventTypeName, $institutionName);
-
+    <div id="chci-na-online-pohovor">
+        <?php
         //include Configuration::componentControler()['templates']."timecolumn/template.php";
         include Configuration::componentControler()['templates']."timeline-boxes/template.php";
         ?>

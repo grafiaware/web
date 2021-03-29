@@ -231,12 +231,18 @@ class PageController extends LayoutControllerAbstract {
     }
 
     private function getBlockMenuItem($name) {
-        $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
+        $statusPresentation = $this->statusPresentationRepo->get();
 
         /** @var BlockAggregateRepo $blockAggregateRepo */
         $blockAggregateRepo = $this->container->get(BlockAggregateRepo::class);
+        // jméno default komponenty (z konfigurace)
+        $langCode = $statusPresentation->getLanguage()->getLangCode();
         $blockAggregate = $blockAggregateRepo->getAggregate($langCode, $name);
-        return $blockAggregate ? $blockAggregate->getMenuItem() : null;
+//        if (!isset($blockAggregate)) {
+//            throw new \UnexpectedValueException("Undefined block defined as component with name '$name'.");
+//        }
+        $menuItem = $blockAggregate ? $blockAggregate->getMenuItem() :null;
+        return $menuItem;
     }
 
     /**

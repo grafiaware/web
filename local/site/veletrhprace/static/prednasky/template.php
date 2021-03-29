@@ -5,6 +5,9 @@ use Model\Arraymodel\EventList;
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 /** @var PhpTemplateRendererInterface $this */
 
+use Model\Repository\StatusSecurityRepo;
+
+
 //include 'data.php';
 
 $headline = 'Můžete se těšit na tyto přednášky';
@@ -19,7 +22,12 @@ $footer = 'Další přednášky budou postupně přibývat, sledujte tuto strán
 $eventTypeName = "Přednáška";  // viz Model\Arraymodel\EventType
 $institutionName = "";
 
-$event = (new EventList())->getEventList($eventTypeName, $institutionName, [], true);   // enrolling = true
+
+$statusSecurityRepo = $container->get(StatusSecurityRepo::class);
+/** @var StatusSecurityRepo $statusSecurityRepo */
+$statusSecurity = $statusSecurityRepo->get();
+
+$event = (new EventList($statusSecurity))->getEventList($eventTypeName, $institutionName, [], true);   // enrolling = true
 
 //include Configuration::componentControler()['templates']."timecolumn/template.php";
 include Configuration::componentControler()['templates']."timeline-boxes/template.php";

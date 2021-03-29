@@ -5,6 +5,7 @@ use Model\Arraymodel\EventList;
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 /** @var PhpTemplateRendererInterface $this */
 
+use Model\Repository\StatusSecurityRepo;
 
 $headline = 'Poradny online zdarma';
 $perex =
@@ -16,7 +17,11 @@ $footer = '';
 $eventTypeName = "Poradna";  // viz Model\Arraymodel\EventType
 $institutionName = "";
 
-$event = (new EventList())->getEventList($eventTypeName, $institutionName, [], true);   // enrolling = true
+$statusSecurityRepo = $container->get(StatusSecurityRepo::class);
+/** @var StatusSecurityRepo $statusSecurityRepo */
+$statusSecurity = $statusSecurityRepo->get();
+
+$event = (new EventList($statusSecurity))->getEventList($eventTypeName, $institutionName, [], true);   // enrolling = true
 
 //include Configuration::componentControler()['templates']."timecolumn/template.php";
 include Configuration::componentControler()['templates']."timeline-boxes/template.php";

@@ -22,7 +22,7 @@ $eventTypeName = "Přednáška";  // viz Model\Arraymodel\EventType
 $institutionName = "";
 
 $event = [];
-$eventList = new EventList();
+$eventList = new EventList($statusSecurity);
 
 foreach ($enrolls as $enroll) {
     $eventIds[] = $enroll->getEventid();

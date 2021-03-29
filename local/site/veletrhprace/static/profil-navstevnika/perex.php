@@ -7,5 +7,5 @@ use Pes\Text\Text;
 /** @var PaperAggregateInterface $paperAggregate */
 ?>
 
-<p class=""><?= Text::mono('') ?></p>
+<p class=""><?= Text::mono($perex ?? '') ?></p>
 
