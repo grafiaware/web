@@ -324,13 +324,13 @@ class EventContent {
         "Poradna pro cizince pracující v ČR" => [
             'eventType' => $this->eventType->getEventType('Poradna'),
             'title' => "Poradna pro cizince pracující v ČR",
-            'perex' => "Špatné pracovní podmínky, nevyplacená  mzda, kontakt s českými úřady, aj.",
+            'perex' => "Špatné pracovní podmínky, nevyplacená  mzda, kontakt s českými úřady, aj. Poradna také telefonicky na čísle +420 737 651 641",
             'institution' => ['id' => '', 'type'=>'', 'name'=>'Diakonie Západ'],
             'party' => '',
             ],
         "Poradna první  psychologické pomoci" => [
             'eventType' => $this->eventType->getEventType('Poradna'),
-            'title' => "Poradna první  psychologické pomoci",
+            'title' => "Poradna první  psychologické pomoci. Poradna také telefonicky na čísle +420 733 414 421",
             'perex' => "",
             'institution' => ['id' => '', 'type'=>'', 'name'=>'Diakonie Západ'],
             'party' => '',
@@ -338,7 +338,7 @@ class EventContent {
         "Poradna v těžkých životních situacích (občanská poradna)" => [
             'eventType' => $this->eventType->getEventType('Poradna'),
             'title' => "Poradna v těžkých životních situacích (občanská poradna)",
-            'perex' => "Práva zaměstnance, evidence na ÚP, sociální dávky, finanční problematika (včetně oddlužení) a mnohé další.",
+            'perex' => "Práva zaměstnance, evidence na ÚP, sociální dávky, finanční problematika (včetně oddlužení) a mnohé další. Poradna také telefonicky na čísle +420 775 720 492",
             'institution' => ['id' => '', 'type'=>'', 'name'=>'Diakonie Západ'],
             'party' => '',
             ],

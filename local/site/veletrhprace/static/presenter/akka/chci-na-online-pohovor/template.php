@@ -1,21 +1,31 @@
 <?php
+use Site\Configuration;
+use Model\Arraymodel\EventList;
+
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Model\Entity\PaperAggregatePaperContentInterface;
 
+use Model\Repository\StatusSecurityRepo;
+
+    $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
+    /** @var StatusSecurityRepo $statusSecurityRepo */
+    $statusSecurity = $statusSecurityRepo->get();
+    $eventTypeName = "Pohovor";  // viz Model\Arraymodel\EventType
+    $institutionName = "AKKA Czech Republic";
+    $event = (new EventList($statusSecurity))->getEventList($eventTypeName, $institutionName, [], true);   // enrolling = true
+
+    
+    
+        $headline = 'Online pohovor';
+        $perex =
+            '
+            ';
+        $footer = '';
 ?>
 
-<article class="paper">
-    <section>
-        <headline>
-            <?php // include "headline.php" ?>
-        </headline>
-        <perex>
-            <?php // include "perex.php" ?>
-        </perex>
-    </section>
-    <section>    
-        <content>
-            <?php // include "content/stanek.php" ?>
-        </content>
-    </section>
-</article>
+    <div id="chci-na-online-pohovor">
+        <?php
+        //include Configuration::componentControler()['templates']."timecolumn/template.php";
+        include Configuration::componentControler()['templates']."timeline-boxes/template.php";
+        ?>
+    </div>

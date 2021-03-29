@@ -9,7 +9,7 @@ use Model\Repository\StatusSecurityRepo;
     $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
     /** @var StatusSecurityRepo $statusSecurityRepo */
     $statusSecurity = $statusSecurityRepo->get();
-    $eventTypeName = "";  // viz Model\Arraymodel\EventType
+    $eventTypeName = "Prezentace, Přednáška";  // viz Model\Arraymodel\EventType
     $institutionName = "Konplan";
     $event = (new EventList($statusSecurity))->getEventList($eventTypeName, $institutionName, [], true);   // enrolling = true
 
