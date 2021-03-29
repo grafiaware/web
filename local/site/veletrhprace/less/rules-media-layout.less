@@ -364,6 +364,7 @@
         padding-left: 20%;
     }
     .layoutVP .fix-bar{
+        width: 50px;
         .prihlaseni{
             > form:not(.inverted){ //v tomhle formu je tlacitko Akce
                 > div.icon{
@@ -373,6 +374,9 @@
                 }
             }
         }
+    }
+    .ui.vertical.menu:not(.icon) li:not(.presented) > a.item::after{
+        bottom: 10px !important;
     }
 }
 
