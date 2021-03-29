@@ -9,22 +9,12 @@ use Pes\Text\Html;
 
 ?>
 
-    <p class="text velky tucne nastred">Firemní údaje</p>
-    <div class="ui grid equal width">
+   
         <div class="row">
-            <div class="one wide column middle aligned"><i class="id badge outline icon"></i></div>
-            <div class="column"><p><?= $kontaktniOsoba ?>, <br/> <?= $funkce ?></p></div>
+            <div class="six wide column middle aligned"><p> <i class="id badge outline icon"></i><?= $kontaktniOsoba ?> <br/> <?= $funkce ?></p></div>
+            <div class="eight wide column middle aligned">
+                <p><i class="phone icon"></i><?= $telefon ?></p>
+                <p><i class="mail icon"></i><a href="mailto:<?= $email ?>"><?= $email ?></a></p>
+            </div>
         </div>
-        <div class="row">
-            <div class="one wide column middle aligned"><i class="phone icon"></i></div>
-            <div class="column"><p><?= $telefon ?></p></div>
-        </div>
-        <div class="row">
-            <div class="one wide column middle aligned"><i class="mail icon"></i></div>
-            <div class="column"><p><?= $email ?></p></div>
-        </div>
-        <div class="row">
-            <div class="one wide column middle aligned"><i class="map outline icon"></i></div>
-            <div class="column"><p><?= $pobockaFirmyUlice ?> <br/> <?= $pobockaFirmyMesto ?></p></div>
-        </div>
-    </div>
+        

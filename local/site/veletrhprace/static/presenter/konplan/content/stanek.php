@@ -36,14 +36,14 @@ use Pes\Text\Html;
                                     </div>
                                     <div class="buttony-mimo-stanek">
                                         <content>
-                                             <?= $this->repeat(__DIR__.'/sluzby/buttony.php', $buttony)?>
+                                             <?= '';//$this->repeat(__DIR__.'/sluzby/buttony.php', $buttony)?>
                                         </content>
                                     </div>
                                 </div>
                                 <div class="sixteen wide column">
                                     <div class="buttony-na-stanku">
                                         <content>
-                                             <?php include "sluzby/letaky.php" ?>
+                                            <div class="ui big button red basic btn-letaky" style="background-color: white">Stáhněte si leták</div>
                                         </content>
                                     </div>
                                 </div>

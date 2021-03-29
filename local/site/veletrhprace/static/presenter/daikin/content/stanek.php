@@ -32,11 +32,11 @@ use Pes\Text\Html;
                                 <div class="five wide column middle aligned">
                                     <div class="soc-site-stanku">
                                         <?= $this->repeat(__DIR__.'/sluzby/socialni-site.php', $socialniSiteIframe)?>
-                                        <!--<?= $this->insert(__DIR__.'/sluzby/chat.php', $chat) ?>-->
+                                        <?= '';//$this->insert(__DIR__.'/sluzby/chat.php', $chat) ?>
                                     </div>
                                     <div class="buttony-mimo-stanek">
                                         <content>
-                                             <?= $this->repeat(__DIR__.'/sluzby/buttony.php', $buttony)?>
+                                             <?= '';// $this->repeat(__DIR__.'/sluzby/buttony.php', $buttony)?>
                                         </content>
                                     </div>
                                 </div>

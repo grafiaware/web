@@ -11,7 +11,7 @@ use Pes\Text\Html;
 
             <div class="column center aligned">
                 <div class="letak-stanku">
-                    <img <?= Html::attributes($letakAttributes) ?>/>
+                    <a <?= Html::attributes($downloadAttributes) ?>><img <?= Html::attributes($letakAttributes) ?>/></a>
                     <p style="text-align: center;" class="text maly"><a <?= Html::attributes($downloadAttributes) ?>> Stáhnout leták</a></p>
                 </div>
             </div>

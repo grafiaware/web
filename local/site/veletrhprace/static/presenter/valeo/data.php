@@ -12,41 +12,20 @@ use Model\Entity\PaperAggregateInterface;
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregateInterface $paperAggregate */
 
-$modalAtributy = [
-    "id" => "modal_12",
-    "class"=> ["ui tiny longer", "modal"]
-];
+############################
+$shortName = 'valeo';
+############################
 
-$monitor_ref = '/assets/monitor-stanek.jpg';
-$video_MP4_ref = '/movie/video-stanek-MP4.mp4';
-$video_WEBM_ref = '/movie/video-stanek-WEBM.mp4';
+
+$monitorFilename = Configuration::componentControler()['presenterFiles'].$shortName.'/assets/monitor-stanek.jpg';
+$monitorIsReadable = is_readable($monitorFilename);
+$videoMp4Filename = Configuration::componentControler()['presenterFiles'].$shortName.'/movie/video-stanek-MP4.mp4';
+$videoMp4IsReadable = is_readable($videoMp4Filename);
+$videoWebmFilename = Configuration::componentControler()['presenterFiles'].$shortName.'/movie/video-stanek-WEBM.mp4';
+$videoWebmIsReadable = is_readable($videoWebmFilename);
 $stanek_ref = '/assets/stanek.png';
 
 
-$shortName = 'valeo';
-$letakAttributesClass = ['class' => 'letak-v-igelitce'];
-
-$posters = [
-        'Leták na přednášku',
-        'Leták na soustružníka',
-        'Inzerát na nic',
-        'Jak nás nenajdete',
-        
-    ];
-$letak = [];
-foreach ($posters as $poster) {
-    $letak[] = [
-        'letakAttributes' => $letakAttributesClass +
-        [
-            'src' => Configuration::componentControler()['presenterFiles']."poster/$poster.jpg",
-            'alt' => "$poster",
-        ],
-        'downloadAttributes' => [
-            'href' => Configuration::componentControler()['presenterFiles']."poster/$poster.pdf",
-            'download' => "$poster",
-        ]
-    ];
-};
 
 $buttonTitle = [
     'Pracovní pozice',
@@ -63,13 +42,13 @@ foreach ($buttonTitle as $title) {
 };
     
 $firma = [
-    'nazev' => 'Valeo Autoklimatizace k.s.',
+    'nazev' => 'Valeo Autoklimatizace&nbsp;k.s.',
     'videoAttributes' => [
-        'poster' => Configuration::componentControler()['presenterFiles'].$shortName.$monitor_ref,
+        'poster' => $monitorIsReadable ? $monitorFilename : "",
     ],
     'videoSourceSrc' => [
-        ['src' => Configuration::componentControler()['presenterFiles'].$shortName.$video_MP4_ref, 'type' => 'video/mp4'],
-        ['src' => Configuration::componentControler()['presenterFiles'].$shortName.$video_WEBM_ref, 'type' => 'video/webm'],
+        $videoMp4IsReadable ? ['src' => $videoMp4Filename, 'type' => 'video/mp4'] : null,
+        $videoWebmIsReadable ? ['src' => $videoWebmFilename, 'type' => 'video/webm'] : null,
     ],
     'imgStankuAttributes' => [
         'src' => Configuration::componentControler()['presenterFiles'].$shortName.$stanek_ref,
@@ -101,5 +80,4 @@ $firma = [
         'odkaz' => '<a class="ui button" href="meet.google.com/isr-uuma-axh" target="_blank">Jít na odkaz Google Meet</a>'
     ],
     'buttony' => $buttony,
-    'letak' => $letak
 ];

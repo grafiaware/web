@@ -20,7 +20,7 @@ use Pes\Text\Html;
                                     </a>
                                 </div>
                                 <div class="info-pro-prihlasene">
-                                    <? ''    //$this->repeat(__DIR__.'/vystavovatel/info-pro-prihlasene.php', $infoForRegistered); ?>
+                                    <?= '';  //$this->repeat(__DIR__.'/vystavovatel/info-pro-prihlasene.php', $infoForRegistered); ?>
                                 </div>
                             </content>
                         </form>

@@ -38,7 +38,7 @@ $exhibitor = [
                 ],
                 [
                     'name' => 'Daikin',
-                    'urlStand' => '',
+                    'urlStand' => 'www/block/daikin',
                     'logoAttributes' => [
                         'src' => $static_ref.'daikin'.$logo_ref,
                         'alt' => 'Firma Daikin',

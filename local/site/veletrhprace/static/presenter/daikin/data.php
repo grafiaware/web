@@ -12,19 +12,19 @@ use Model\Entity\PaperAggregateInterface;
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregateInterface $paperAggregate */
 
-$modalAtributy = [
-    "id" => "modal_12",
-    "class"=> ["ui tiny longer", "modal"]
-];
+############################
+$shortName = 'daikin';
+############################
 
-$monitor_ref = '/assets/monitor-stanek.jpg';
-$video_MP4_ref = '/movie/video-stanek-MP4.mp4';
-$video_WEBM_ref = '/movie/video-stanek-WEBM.mp4';
+$monitorFilename = Configuration::componentControler()['presenterFiles'].$shortName.'/assets/monitor-stanek.jpg';
+$monitorIsReadable = is_readable($monitorFilename);
+$videoMp4Filename = Configuration::componentControler()['presenterFiles'].$shortName.'/movie/video-stanek-MP4.mp4';
+$videoMp4IsReadable = is_readable($videoMp4Filename);
+$videoWebmFilename = Configuration::componentControler()['presenterFiles'].$shortName.'/movie/video-stanek-WEBM.mp4';
+$videoWebmIsReadable = is_readable($videoWebmFilename);
 $stanek_ref = '/assets/stanek.png';
 
 
-$shortName = 'daikin';
-$letakAttributesClass = ['class' => 'letak-v-igelitce'];
 
 $buttonTitle = [
     'Pracovní pozice',
@@ -41,13 +41,13 @@ foreach ($buttonTitle as $title) {
 };
     
 $firma = [
-    'nazev' => 'Daikin Industries s.r.o.',
+    'nazev' => 'Daikin Industries&nbsp;s.r.o.',
     'videoAttributes' => [
-        'poster' => Configuration::componentControler()['presenterFiles'].$shortName.$monitor_ref,
+        'poster' => $monitorIsReadable ? $monitorFilename : "",
     ],
     'videoSourceSrc' => [
-        ['src' => Configuration::componentControler()['presenterFiles'].$shortName.$video_MP4_ref, 'type' => 'video/mp4'],
-        ['src' => Configuration::componentControler()['presenterFiles'].$shortName.$video_WEBM_ref, 'type' => 'video/webm'],
+        $videoMp4IsReadable ? ['src' => $videoMp4Filename, 'type' => 'video/mp4'] : null,
+        $videoWebmIsReadable ? ['src' => $videoWebmFilename, 'type' => 'video/webm'] : null,
     ],
     'imgStankuAttributes' => [
         'src' => Configuration::componentControler()['presenterFiles'].$shortName.$stanek_ref,
@@ -75,8 +75,8 @@ $firma = [
             'nazevSocialniSite' => 'LinkedIn',
             'btnClass' => 'btn-in',
             'modalID' => 'modal_18',
-            'iframe' => '<a href="https://www.linkedin.com/company/11219898/admin/" target="_blank"><img src="'.Configuration::componentControler()['presenterFiles'].$shortName.'/assets/linkedin.png" alt="profil LinkednIn" height="" width="100%"/></a>',
-            'odkazNaProfil' => 'https://www.linkedin.com/company/11219898/admin/'
+            'iframe' => '<a href="https://cz.linkedin.com/company/daikin-czech-republic" target="_blank"><img src="'.Configuration::componentControler()['presenterFiles'].$shortName.'/assets/linkedin.png" alt="profil LinkednIn" height="" width="100%"/></a>',
+            'odkazNaProfil' => 'https://cz.linkedin.com/company/daikin-czech-republic'
         ],
     ],
     'chat' => [

@@ -1,21 +1,32 @@
 <?php
+use Site\Configuration;
+use Model\Arraymodel\EventList;
+
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Model\Entity\PaperAggregatePaperContentInterface;
 
+$headline = 'Chci navázat kontakt';
+
+$corporateContacts = [
+    [
+        'kontaktniOsoba' => 'Petra Filipová',
+        'funkce' => '',
+        'telefon' => '+420 727 818 230',
+        'email' => 'Petra.Filipova@possehlelectronics.com',
+    ]
+];
+$corporateAddress = [
+    'pobockaFirmyUlice' => 'Dýšina 297',
+    'pobockaFirmyMesto' => '330 02 Dýšina',
+    
+]
+
 ?>
 
-<article class="paper">
-    <section>
-        <headline>
-            <?php // include "headline.php" ?>
-        </headline>
-        <perex>
-            <?php // include "perex.php" ?>
-        </perex>
-    </section>
-    <section>    
-        <content>
-            <?php // include "content/stanek.php" ?>
-        </content>
-    </section>
-</article>
+    <div id="chci-navazat-kontakt">
+       <?php
+       
+        
+        include Configuration::componentControler()['templates']."presenter-contacts/template.php";
+        ?>
+    </div>

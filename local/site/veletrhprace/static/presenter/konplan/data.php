@@ -18,11 +18,6 @@ $shortName = 'konplan';
 ############################
 
 
-$modalAtributy = [
-    "id" => "modal_12",
-    "class"=> ["ui tiny longer", "modal"]
-];
-
 $monitorFilename = Configuration::componentControler()['presenterFiles'].$shortName.'/assets/monitor-stanek.jpg';
 $monitorIsReadable = is_readable($monitorFilename);
 $videoMp4Filename = Configuration::componentControler()['presenterFiles'].$shortName.'/movie/video-stanek-MP4.mp4';
@@ -31,32 +26,6 @@ $videoWebmFilename = Configuration::componentControler()['presenterFiles'].$shor
 $videoWebmIsReadable = is_readable($videoWebmFilename);
 $stanek_ref = '/assets/stanek.png';
 
-
-
-
-$letakAttributesClass = ['class' => 'letak-v-igelitce'];
-
-$posters = [
-        'Leták na přednášku',
-        'Leták na soustružníka',
-        'Inzerát na nic',
-        'Jak nás nenajdete',
-
-    ];
-$letak = [];
-foreach ($posters as $poster) {
-    $letak[] = [
-        'letakAttributes' => $letakAttributesClass +
-        [
-            'src' => Configuration::componentControler()['presenterFiles']."poster/$poster.jpg",
-            'alt' => "$poster",
-        ],
-        'downloadAttributes' => [
-            'href' => Configuration::componentControler()['presenterFiles']."poster/$poster.pdf",
-            'download' => "$poster",
-        ]
-    ];
-};
 
 $buttonTitle = [
     'Pracovní pozice',
@@ -73,7 +42,7 @@ foreach ($buttonTitle as $title) {
 };
 
 $firma = [
-    'nazev' => 'Konplan s.r.o.',
+    'nazev' => 'Konplan&nbsp;s.r.o.',
     'videoAttributes' => [
         'poster' => $monitorIsReadable ? $monitorFilename : "",
     ],
@@ -110,5 +79,4 @@ $firma = [
         'odkaz' => '<a class="ui button" href="http://m.me/KonplanCZ" target="_blank">Přejít na Facebook Messenger</a>'
     ],
     'buttony' => $buttony,
-    'letak' => $letak
 ];

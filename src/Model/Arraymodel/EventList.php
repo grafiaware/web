@@ -1030,6 +1030,22 @@ class EventList {
                                 'linkButtonText' => $this->linkButtonTextPrihlasit
                                 ],
             ] + $this->eventContent->getEventContent("Poradna v těžkých životních situacích (občanská poradna)"),
+            [
+                'eventId' => 'event_id_062',
+                'published' => '1',
+                'timelinePoint' => '31. 3. 2021',
+                'startTime' => '15:00',
+                'endTime' => '17:00',
+                'linkButtonEnroll' => [
+                                'showEnroll' => 1,
+                                'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
+                                    [
+
+
+                                    ],
+                                'linkButtonText' => $this->linkButtonTextPrihlasit
+                                ],
+            ] + $this->eventContent->getEventContent("Kariérové poradenství"),
 
         ];
 
