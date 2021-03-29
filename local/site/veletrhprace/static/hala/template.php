@@ -4,8 +4,8 @@ use Model\Entity\PaperAggregatePaperContentInterface;
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregatePaperContentInterface $paperAggregate */
 
-$static_ref = '_www_vp_files/static/';
-$logo_ref = '/assets/logo.png'; 
+$static_ref = '_www_vp_files/presenter/';
+$logo_ref = '/assets/logo.png';
 
 $headline = 'Online stánky';
 $perex = 'Poznejte svého budoucího zaměstnavatele na našich online stáncích.';
@@ -98,7 +98,7 @@ $exhibitor = [
                 ],
                 [
                     'name' => 'Akka',
-                    'urlStand' => '',
+                    'urlStand' => 'www/block/akka',
                     'logoAttributes' => [
                         'src' => $static_ref.'akka'.$logo_ref,
                         'alt' => 'Firma Akka',

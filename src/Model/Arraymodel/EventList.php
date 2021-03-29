@@ -8,6 +8,8 @@
 
 namespace Model\Arraymodel;
 
+use Model\Entity\StatusSecurityInterface;
+
 /**
  * Description of EventList
  *
@@ -15,8 +17,9 @@ namespace Model\Arraymodel;
  */
 class EventList {
 
-    private $eventContent;
+    private $statusSecurity;
 
+    private $eventContent;
 
     private $linkButtonAttributesPrihlasit = ['class' => 'ui large red button'];
     private $linkButtonTextPrihlasit = 'Zde se můžete přihlásit';
@@ -30,7 +33,8 @@ class EventList {
             3 => '1. 4. 2021',
     ];
 
-    public function __construct() {
+    public function __construct(StatusSecurityInterface $statusSecurity) {
+        $this->statusSecurity = $statusSecurity;
         $this->eventContent = new EventContent();
     }
 
@@ -1033,6 +1037,11 @@ class EventList {
 
     }
 
+    private function isLogged() {
+        $loginAggregate = $this->statusSecurity->getLoginAggregate();
+        return isset($loginAggregate);
+    }
+
     public function getEventList($eventTypeName = null, $institutionName = null, array $eventIdList = [], $enrolling=false) {
         $compareByStartTime = function ($boxA, $boxB) {
             return (str_replace(':', '', $boxA['startTime']) < str_replace(':', '', $boxB['startTime'])) ? -1 : 1;
@@ -1057,8 +1066,10 @@ class EventList {
                     AND
                     ((isset($eventIdList) AND $eventIdList) ? (array_search($boxItem['eventId'], $eventIdList)!==false) : true)
                     ) {
-                    if (!$enrolling) {
-                        $boxItem['linkButtonEnroll']['show'] = 0;
+
+
+                    if (!$enrolling OR !$this->isLogged()) {
+                        $boxItem['linkButtonEnroll']['showEnroll'] = 0;
                     }
                     $boxItems[] = $boxItem;
                 }

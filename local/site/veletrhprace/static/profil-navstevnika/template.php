@@ -58,10 +58,16 @@ $igelitka = [
 
 $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
 /** @var StatusSecurityRepo $statusSecurityRepo */
-$loginName = $statusSecurityRepo->get()->getLoginAggregate()->getLoginName();
-$enrollRepo = $container->get(EnrollRepo::class);
-$enrolls = $enrollRepo->findByLoginName($loginName);
+$statusSecurity = $statusSecurityRepo->get();
+$loginAggregate = $statusSecurity->getLoginAggregate();
 
+if (isset($loginAggregate)) {
+    $loginName = $loginAggregate->getLoginName();
+    $enrollRepo = $container->get(EnrollRepo::class);
+    $enrolls = $enrollRepo->findByLoginName($loginName);
+
+    $headline = "Můj profil";
+    $perex = '';
 ?>
 <article class="paper">
     <section>
@@ -78,3 +84,26 @@ $enrolls = $enrollRepo->findByLoginName($loginName);
         <!--</content>-->
     </section>
 </article>
+
+<?php
+} else {
+    $headline = "Profil návštěvníka";
+    $perex = 'Zaregistrovaní návštěvníci zde po přihlášení naleznou možnosti zaslání údajů o sobě zaměstnavatelům a přístupy k akcím, na které se přihlásili.';
+
+?>
+
+<article class="paper">
+    <section>
+        <headline>
+            <?php include "headline.php" ?>
+        </headline>
+        <perex>
+            <?php include "perex.php" ?>
+        </perex>
+    </section>
+</article>
+
+<?php
+
+}
+?>
