@@ -51,7 +51,7 @@ class EventContent {
                     'title' => 'Jak oslovit zaměstnavatele a jak se připravit na pracovní pohovor',
                     'perex' => 'Co má a nemá obsahovat životopis, co psát do motivačního dopisu, abyste zaujali. Nejčastější chyby při pracovním pohovoru a jak se jich vyvarovat.',
                     'institution' => ['id' => '', 'type'=>'', 'name'=>'Grafia'],
-                    'party' => 'Petra Součková'
+                    'party' => 'Štěpánka Pirnosová'
             ],
         'Vyhlášení cen Mamma Parent Friendly' => [
             'eventType' => $this->eventType->getEventType('Přednáška'),
@@ -164,7 +164,7 @@ class EventContent {
                 'title' => 'Domluvte se ve své profesi anglicky/německy a učte se za peníze EU! ',
                 'perex' => 'Chcete studovat jazyky a kurzy jsou drahé? Poradíme, kde studovat bezplatně!',
                 'institution' => ['id' => '', 'type'=>'', 'name'=>'Grafia'],
-                'party' => ''
+                'party' => 'David Brabec'
             ],
         'Valeo Autoklimatizace' => [
             'eventType' => $this->eventType->getEventType('Přednáška'),
@@ -228,7 +228,7 @@ class EventContent {
                 'title' => 'Jak si uhlídat své peníze?',
                 'perex' => 'Finanční gramotnost pro každého',
                 'institution' => ['id' => '', 'type'=>'', 'name'=>'Grafia'],
-                'party' => ''
+                'party' => 'Irena Šímová'
             ],
          'Home office – dobrý pomocník, ale zlý pán' => [
             'eventType' => $this->eventType->getEventType('Přednáška'),
