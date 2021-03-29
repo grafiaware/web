@@ -11,7 +11,7 @@ $corporateContacts = [
     [
         'kontaktniOsoba' => 'Drůběžářský závod Klatovy',
         'funkce' => '',
-        'telefon' => '+420 376 353 311',
+        'telefon' => '376 353 382, 376 353 332',
         'email' => 'personalni@dzklatovy.cz',
     ]
 ];

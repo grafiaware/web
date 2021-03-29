@@ -9,15 +9,15 @@ $headline = 'Chci navázat kontakt';
 
 $corporateContacts = [
     [
-        'kontaktniOsoba' => 'Radka Novotná',
-        'funkce' => 'asistentka',
-        'telefon' => '+420 758 659 855',
-        'email' => 'firma@firmovata.cz',
+        'kontaktniOsoba' => 'Akka',
+        'funkce' => 'personální oddělení',
+        'telefon' => ' - ',
+        'email' => 'personalcz@akka.eu',
     ]
 ];
 $corporateAddress = [
-    'pobockaFirmyUlice' => 'U velkého poníka 417',
-    'pobockaFirmyMesto' => '800 45 Poníkov',
+    'pobockaFirmyUlice' => 'Daimlerova 1161/6',
+    'pobockaFirmyMesto' => '301 00 Plzeň – Skvrňany',
     
 ]
 

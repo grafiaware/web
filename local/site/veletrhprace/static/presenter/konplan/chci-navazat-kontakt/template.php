@@ -9,15 +9,15 @@ $headline = 'Chci navázat kontakt';
 
 $corporateContacts = [
     [
-        'kontaktniOsoba' => 'Radka Novotná',
-        'funkce' => 'asistentka',
-        'telefon' => '+420 758 659 855',
-        'email' => 'firma@firmovata.cz',
+        'kontaktniOsoba' => 'Konplan',
+        'funkce' => '',
+        'telefon' => '377 918 109',
+        'email' => 'kariera@konplan.cz',
     ]
 ];
 $corporateAddress = [
-    'pobockaFirmyUlice' => 'U velkého poníka 417',
-    'pobockaFirmyMesto' => '800 45 Poníkov',
+    'pobockaFirmyUlice' => 'Technická 3017/1',
+    'pobockaFirmyMesto' => '301 00 Plzeň-město',
     
 ]
 

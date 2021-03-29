@@ -9,15 +9,15 @@ $headline = 'Chci navázat kontakt';
 
 $corporateContacts = [
     [
-        'kontaktniOsoba' => 'Radka Novotná',
-        'funkce' => 'asistentka',
-        'telefon' => '+420 758 659 855',
-        'email' => 'firma@firmovata.cz',
+        'kontaktniOsoba' => 'Romana Presslová',
+        'funkce' => 'personální péče a nábor',
+        'telefon' => '374 611 275',
+        'email' => 'Presslova.Romana@kermi.cz',
     ]
 ];
 $corporateAddress = [
-    'pobockaFirmyUlice' => 'U velkého poníka 417',
-    'pobockaFirmyMesto' => '800 45 Poníkov',
+    'pobockaFirmyUlice' => 'Dukelská 1427',
+    'pobockaFirmyMesto' => '349 01 Stříbro',
     
 ]
 

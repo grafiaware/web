@@ -9,10 +9,10 @@ $headline = 'Chci navázat kontakt';
 
 $corporateContacts = [
     [
-        'kontaktniOsoba' => 'Wienerberger',
-        'funkce' => 'centrála',
-        'telefon' => '+420 727 326 111',
-        'email' => 'info@wienerberger.cz',
+        'kontaktniOsoba' => 'Barbora Krejčová',
+        'funkce' => 'HR Specialista',
+        'telefon' => '383 826 440',
+        'email' => 'barbora.krejcova@wienerberger.com',
     ]
 ];
 $corporateAddress = [

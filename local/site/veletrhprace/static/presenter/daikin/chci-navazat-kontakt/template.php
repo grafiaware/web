@@ -9,15 +9,15 @@ $headline = 'Chci navázat kontakt';
 
 $corporateContacts = [
     [
-        'kontaktniOsoba' => 'Radka Novotná',
-        'funkce' => 'asistentka',
-        'telefon' => '+420 758 659 855',
-        'email' => 'firma@firmovata.cz',
+        'kontaktniOsoba' => 'Daikin',
+        'funkce' => '',
+        'telefon' => '378 773 111',
+        'email' => 'kariera@daikinczech.cz',
     ]
 ];
 $corporateAddress = [
-    'pobockaFirmyUlice' => 'U velkého poníka 417',
-    'pobockaFirmyMesto' => '800 45 Poníkov',
+    'pobockaFirmyUlice' => 'U Nové Hospody 1',
+    'pobockaFirmyMesto' => '301 00 Plzeň',
     
 ]
 
