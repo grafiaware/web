@@ -19,9 +19,9 @@ use Pes\Text\Html;
                                         <i class="external alternate large blue icon"></i>
                                     </a>
                                 </div>
-<!--                                <div class="info-pro-prihlasene">
-                                    <? $this->repeat(__DIR__.'/vystavovatel/info-pro-prihlasene.php', $infoForRegistered) ?>
-                                </div>-->
+                                <div class="info-pro-prihlasene">
+                                    <?= '';  //$this->repeat(__DIR__.'/vystavovatel/info-pro-prihlasene.php', $infoForRegistered); ?>
+                                </div>
                             </content>
                         </form>
                     </section>
