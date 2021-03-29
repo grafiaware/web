@@ -31,19 +31,19 @@ use Pes\Text\Html;
                                 </div>
                                 <div class="five wide column middle aligned">
                                     <div class="soc-site-stanku">
-                                        <!--<?= $this->repeat(__DIR__.'/sluzby/socialni-site.php', $socialniSiteIframe)?>
-                                        <?= $this->insert(__DIR__.'/sluzby/chat.php', $chat) ?>-->
+                                        <?= '';// $this->repeat(__DIR__.'/sluzby/socialni-site.php', $socialniSiteIframe)?>
+                                        <?= '';//$this->insert(__DIR__.'/sluzby/chat.php', $chat) ?>
                                     </div>
                                     <div class="buttony-mimo-stanek">
                                         <content>
-                                             <?= $this->repeat(__DIR__.'/sluzby/buttony.php', $buttony)?>
+                                             <?= '';// $this->repeat(__DIR__.'/sluzby/buttony.php', $buttony)?>
                                         </content>
                                     </div>
                                 </div>
                                 <div class="sixteen wide column">
                                     <div class="buttony-na-stanku">
                                         <content>
-                                             <?php include "sluzby/letaky.php" ?>
+                                            <!--<div class="ui big button red basic btn-letaky" style="background-color: white">Stáhněte si leták</div>-->
                                         </content>
                                     </div>
                                 </div>

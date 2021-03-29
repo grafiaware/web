@@ -41,7 +41,7 @@ foreach ($buttonTitle as $title) {
 };
     
 $firma = [
-    'nazev' => 'Daikin Industries s.r.o.',
+    'nazev' => 'Daikin Industries&nbsp;s.r.o.',
     'videoAttributes' => [
         'poster' => Configuration::componentControler()['presenterFiles'].$shortName.$monitor_ref,
     ],
@@ -75,8 +75,8 @@ $firma = [
             'nazevSocialniSite' => 'LinkedIn',
             'btnClass' => 'btn-in',
             'modalID' => 'modal_18',
-            'iframe' => '<a href="https://www.linkedin.com/company/11219898/admin/" target="_blank"><img src="'.Configuration::componentControler()['presenterFiles'].$shortName.'/assets/linkedin.png" alt="profil LinkednIn" height="" width="100%"/></a>',
-            'odkazNaProfil' => 'https://www.linkedin.com/company/11219898/admin/'
+            'iframe' => '<a href="https://cz.linkedin.com/company/daikin-czech-republic" target="_blank"><img src="'.Configuration::componentControler()['presenterFiles'].$shortName.'/assets/linkedin.png" alt="profil LinkednIn" height="" width="100%"/></a>',
+            'odkazNaProfil' => 'https://cz.linkedin.com/company/daikin-czech-republic'
         ],
     ],
     'chat' => [

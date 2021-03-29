@@ -67,7 +67,7 @@ foreach ($buttonTitle as $title) {
 };
 
 $firma = [
-    'nazev' => 'AKKA s.r.o.',
+    'nazev' => 'AKKA&nbsp;s.r.o.',
     'videoAttributes' => [
         'poster' => $monitorIsReadable ? $monitorFilename : "",
     ],

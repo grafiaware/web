@@ -23,7 +23,7 @@ if ($published) {
                                             </div>
                                             <div class="box-footer"><?= $startTime ?> - <?= $endTime ?></div>
                                             <?php if ($linkButtonEnroll['showEnroll']) {?>
-                                                <div>
+                                                <div class="text vpravo">
                                                     <button type="submit" <?= Html::attributes($linkButtonEnroll['linkButtonAttributes']) ?> name="event_enroll"
                                                         value="<?= $eventId ?>" formtarget="_self"
                                                         formaction="api/v1/event/enroll"> <?= $linkButtonEnroll['linkButtonText'] ?>  </button>

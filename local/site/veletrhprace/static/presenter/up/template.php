@@ -22,3 +22,7 @@ include 'data.php';
         <?= $this->insert(__DIR__.'/content/stanek.php', $firma)?>
     </section>
 </article>
+<?php // include "pracovni-pozice/template.php" ?>
+<?php // include "program/template.php" ?>
+<?php //include "chatujte-s-nami-(Eures)/template.php" ?>
+<?php // include "kontakty/template.php" ?> 

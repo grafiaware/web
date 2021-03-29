@@ -59,7 +59,7 @@ foreach ($buttonTitle as $title) {
 };
     
 $firma = [
-    'nazev' => 'Drůbežářský závod Klatovy a.s.',
+    'nazev' => 'Drůbežářský závod Klatovy&nbsp;a.s.',
     'videoAttributes' => [
         'poster' => Configuration::componentControler()['presenterFiles'].$shortName.$monitor_ref,
     ],
