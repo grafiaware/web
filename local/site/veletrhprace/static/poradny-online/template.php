@@ -10,7 +10,7 @@ use Model\Repository\StatusSecurityRepo;
 $headline = 'Poradny online zdarma';
 $perex =
     '
-Přihlaste se na konkrétní čas v poradnách! (po 23. 3. 2021)
+Přihlaste se do vybrané poradny! Vstoupit mohou pouze registrovaní návštěvníci. Přihlašovací tlačítko u každé poradny uvidíte teprve po registraci či přihlášení do vašeho účtu na tomto webu. 
 ';
 $footer = '';
 
