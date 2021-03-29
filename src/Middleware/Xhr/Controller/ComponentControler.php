@@ -127,7 +127,7 @@ class ComponentControler extends XhrControlerAbstract {
 //            }
 //        } else {
             $referrerPageUri = $request->getUri()->getPath();
-            $compiledContent = $this->compileContent($templateFilename, ['referrerPageUri' => $referrerPageUri], $compiledFileName);   // ZAKOMENTOVÁNO UKLÁDÁNÍ
+            $compiledContent = $this->compileContent($templateFilename, ['container'=> $this->container, 'referrerPageUri' => $referrerPageUri], $compiledFileName);   // ZAKOMENTOVÁNO UKLÁDÁNÍ
 //        }
         return $compiledContent;
     }

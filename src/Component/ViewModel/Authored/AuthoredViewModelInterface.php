@@ -8,13 +8,13 @@
 
 namespace Component\ViewModel\Authored;
 
-use Component\ViewModel\ViewModelInterface;
+use Component\ViewModel\StatusViewModelInterface;
 
 /**
  *
  * @author pes2704
  */
-interface AuthoredViewModelInterface extends ViewModelInterface {
+interface AuthoredViewModelInterface extends StatusViewModelInterface {
     /**
      * Prezentuj položky v editovatelné podobě
      * @return bool
@@ -27,7 +27,4 @@ interface AuthoredViewModelInterface extends ViewModelInterface {
      */
     public function presentOnlyPublished();
 
-    public function getFlashCommand($key);
-
-    public function getPostFlashCommand($key);
 }

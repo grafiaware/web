@@ -18,9 +18,13 @@ if ($published) {
             <h2><?= $eventType['name'] ?></h2>
             <p><b><?= $title ?></b></p>
             <p> <?= $perex ?> </p>
-            <?php if ($linkButton['show']) {?>
-            <p><a <?= Html::attributes($linkButton['linkButtonAttributes']) ?>> <?= $linkButton['linkButtonText'] ?> </a></p>
-            <?php } ?>
+                                            <?php if ($linkButtonEnroll['showEnroll']) {?>
+                                                <div>
+                                                    <button type="submit" <?= Html::attributes($linkButtonEnroll['linkButtonAttributes']) ?> name="event_enroll"
+                                                        value="<?= $eventId ?>" formtarget="_self"
+                                                        formaction="api/v1/event/enroll"> <?= $linkButtonEnroll['linkButtonText'] ?>  </button>
+                                                </div>
+                                            <?php } ?>
         </div>
     </div>
 </div>

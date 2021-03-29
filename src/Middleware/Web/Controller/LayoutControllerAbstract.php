@@ -230,8 +230,9 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
                     ->setTemplate(new PhpTemplate(Configuration::pageControler()['templates.poznamky']))
                     ->setData([
                         'poznamka1'=>
-                        $this->prettyDump($this->statusPresentationRepo->get()->getLanguage(), true)
-                        . $this->prettyDump($this->statusSecurityRepo->get()->getUserActions(), true),
+                        $this->prettyDump($this->statusPresentationRepo->get()->getMenuItem(), true)
+//                        .$this->prettyDump($this->statusPresentationRepo->get()->getLanguage(), true)
+//                        . $this->prettyDump($this->statusSecurityRepo->get()->getUserActions(), true),
                         //'flashMessage' => $this->getFlashMessage(),
                         ]);
 }
@@ -251,14 +252,14 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
             $cls = '';
         }
         $retStr = $cls ? "<p>$cls</p>" : "";
-        $retStr .= '<ul>';
+        $retStr .= '<ul style="margin:0px;">';
         if (is_array($arr)){
             foreach ($arr as $key=>$val){
                 if (is_object($val)) $val = (array) $val;
                 if (is_array($val)){
-                    $retStr .= '<li>' . str_replace('\0', ':', $key) . ' = array(' . $this->pp($val) . ')</li>';
+                    $retStr .= '<li style="padding:0px; background: #cce5ff">' . str_replace('\0', ':', $key) . ' = array(' . $this->pp($val) . ')</li>';
                 }else{
-                    $retStr .= '<li>' . str_replace($cls, "", $key) . ' = ' . ($val == '' ? '""' : $val) . '</li>';
+                    $retStr .= '<li style="padding:0px; background: #ffe5cc">' . str_replace($cls, "", $key) . ' = ' . ($val == '' ? '""' : $val) . '</li>';
                 }
             }
         }

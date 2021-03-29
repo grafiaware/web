@@ -19,7 +19,7 @@ $footer = 'Další přednášky budou postupně přibývat, sledujte tuto strán
 $eventTypeName = "Přednáška";  // viz Model\Arraymodel\EventType
 $institutionName = "";
 
-$event = (new EventList())->getEventList($eventTypeName, $institutionName);
+$event = (new EventList())->getEventList($eventTypeName, $institutionName, [], true);   // enrolling = true
 
 //include Configuration::componentControler()['templates']."timecolumn/template.php";
 include Configuration::componentControler()['templates']."timeline-boxes/template.php";

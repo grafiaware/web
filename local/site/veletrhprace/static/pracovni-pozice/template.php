@@ -4,9 +4,9 @@ use Model\Entity\PaperAggregatePaperContentInterface;
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregatePaperContentInterface $paperAggregate */
 
-$static_ref = '_www_vp_files/static/';
-//$pozice_ref = '/assets/pracovni-pozice.xhtml';
-$pozice_ref = '/assets/pracovni-pozice - kopie.xhtml';
+$static_ref = '_www_vp_files/presenter/';
+$pozice_ref = '/assets/pracovni-pozice.xhtml';
+//$pozice_ref = '/assets/pracovni-pozice - kopie.xhtml';
 
 ?>
 
@@ -19,7 +19,7 @@ $pozice_ref = '/assets/pracovni-pozice - kopie.xhtml';
             <?php include "perex.php" ?>
         </perex>
     </section>
-    <section>    
+    <section>
         <content>
             <div class="prac-pozice-tab">
                 <?php include $static_ref.'akka'.$pozice_ref ?>
