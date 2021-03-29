@@ -1084,6 +1084,16 @@ class EventList {
         }
         return $event;
     }
+    
+    public function getEventBoxItem($eventId=null) {
+        if (isset($eventId)) {
+            foreach ($this->getList() as $boxItem) {
+                if ($boxItem['eventId'] == $eventId) {
+                    return $boxItem;
+                }
+            }
+        }
+    }
 
 //    public function getEventBoxItem($eventId=null) {
 //        if (isset($eventId)) {
