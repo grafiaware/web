@@ -26,7 +26,7 @@ use Component\View\{
 ####################
 
 use Model\Repository\{
-    MenuItemRepo, BlockAggregateRepo
+    MenuItemRepo, BlockAggregateRepo, BlockRepo
 };
 use Model\Entity\BlockAggregateMenuItemInterface;
 
@@ -128,6 +128,21 @@ class PageController extends LayoutControllerAbstract {
         }
         // neexistující stránka
         return $this->redirectSeeOther($request, ""); // SeeOther - ->home
+    }
+
+    public function subitem(ServerRequestInterface $request, $langCode, $uid) {
+        /** @var MenuItemRepo $menuItemRepo */
+        $menuItemRepo = $this->container->get(MenuItemRepo::class);
+        $menuItem = $menuItemRepo->getOutOfContext($langCode, $uid);
+        if ($menuItem) {
+            $statusPresentation = $this->statusPresentationRepo->get();
+            $statusPresentation->setMenuItem($menuItem);
+            $actionComponents = ["content" => $this->resolveMenuItemView($menuItem)];
+            return $this->createResponseFromView($request, $this->createView($request, $this->getComponentViews($actionComponents)));
+        } else {
+            // neexistující stránka
+            return $this->redirectSeeOther($request, ""); // SeeOther - ->home
+        }
     }
 
     public function searchResult(ServerRequestInterface $request) {
