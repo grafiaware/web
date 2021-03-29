@@ -24,6 +24,7 @@ use Pes\Text\Html;
         <div class="sixteen wide column">
             <content>
                 <div class="kontaktni-udaje-firmy">
+                    <p class="text velky tucne nastred">Firemní údaje</p>
                     <?= $this->repeat(__DIR__.'/kontakty/firemni-udaje.php', $corporateData) ?>
                 </div>
             </content>

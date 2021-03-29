@@ -5,7 +5,7 @@ use Model\Arraymodel\EventList;
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Model\Entity\PaperAggregatePaperContentInterface;
 
-$headline = 'Chci nazávat kontakt';
+$headline = 'Chci navázat kontakt';
 
 $corporateData = [
     [

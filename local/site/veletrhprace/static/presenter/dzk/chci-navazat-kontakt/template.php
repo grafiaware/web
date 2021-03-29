@@ -1,21 +1,29 @@
 <?php
+use Site\Configuration;
+use Model\Arraymodel\EventList;
+
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Model\Entity\PaperAggregatePaperContentInterface;
 
+$headline = 'Chci navázat kontakt';
+
+$corporateData = [
+    [
+        'kontaktniOsoba' => 'Drůběžářský závod Klatovy',
+        'funkce' => '',
+        'telefon' => '+420 376 353 311',
+        'email' => 'personalni@dzklatovy.cz',
+        'pobockaFirmyUlice' => '5. května 112',
+        'pobockaFirmyMesto' => '33901 Klatovy',
+    ]
+];
+
 ?>
 
-<article class="paper">
-    <section>
-        <headline>
-            <?php // include "headline.php" ?>
-        </headline>
-        <perex>
-            <?php // include "perex.php" ?>
-        </perex>
-    </section>
-    <section>    
-        <content>
-            <?php // include "content/stanek.php" ?>
-        </content>
-    </section>
-</article>
+    <div id="chci-navazat-kontakt">
+       <?php
+       
+        
+        include Configuration::componentControler()['templates']."presenter-contacts/template.php";
+        ?>
+    </div>
