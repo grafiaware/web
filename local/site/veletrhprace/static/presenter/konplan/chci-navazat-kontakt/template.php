@@ -5,22 +5,24 @@ use Model\Arraymodel\EventList;
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Model\Entity\PaperAggregatePaperContentInterface;
 
-include 'data.php';
 
 ?>
 
     <div id="chci-navazat-kontakt">
-        <article class="paper">
-            <section>
-                <headline>
-                    <?php include "headline.php" ?>
-                </headline>
-                <perex>
-                    <?php include "perex.php" ?>
-                </perex>
-            </section>
-            <section>
-                <?php include "content/kontakty.php" ?>
-            </section>
-        </article>
+       <?php
+       $headline = 'Chci nazávat kontakt';
+
+        $corporateData = [
+            [
+                'kontaktniOsoba' => 'Radka Novotná',
+                'funkce' => 'asistentka',
+                'telefon' => '+420 758 659 855',
+                'email' => 'firma@firmovata.cz',
+                'pobockaFirmyUlice' => 'U velkého poníka 417',
+                'pobockaFirmyMesto' => '800 45 Poníkov',
+            ]
+        ];
+        
+        include Configuration::componentControler()['templates']."presenter-contacts/template.php";
+        ?>
     </div>
