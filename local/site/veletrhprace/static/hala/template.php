@@ -146,7 +146,8 @@ $exhibitor = [
                 ],
             ]
         ]
-    ]
+    ];
+//            echo    "<pre>".var_dump($exhibitor)."</pre>";
 ?>
 
 <article class="paper">

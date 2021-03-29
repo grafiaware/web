@@ -6,11 +6,15 @@ use Pes\Text\Html;
 
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregatePaperContentInterface $paperAggregate */
+
+
 ?>
 
     <div class="online-stanky">
         <div class="ui stackable centered grid">
-            <?= $this->repeat(__DIR__.'/hala/rozvrzeni-vystavovatelu.php', $exhibitor) ?>
+            <?=
+
+$this->repeat(__DIR__.'/hala/rozvrzeni-vystavovatelu.php', $exhibitor) ?>
         </div>
     </div>
 
