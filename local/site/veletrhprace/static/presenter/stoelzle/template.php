@@ -24,4 +24,5 @@ include 'data.php';
 </article>
 <?php // include "pracovni-pozice/template.php" ?>
 <?php // include "nas-program/template.php" ?>
-<?php include "chci-navazat-kontakt/template.php" ?> 
+<?php // include "chci-navazat-kontakt/template.php" ?> 
+<?php // include "stahnout-letak/template.php" ?> 

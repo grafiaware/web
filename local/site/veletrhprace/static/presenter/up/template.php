@@ -26,3 +26,4 @@ include 'data.php';
 <?php // include "program/template.php" ?>
 <?php //include "chatujte-s-nami-(Eures)/template.php" ?>
 <?php // include "kontakty/template.php" ?> 
+<?php // include "stahnout-letak/template.php" ?> 
