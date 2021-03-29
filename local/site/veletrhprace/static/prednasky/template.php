@@ -13,9 +13,8 @@ use Model\Repository\StatusSecurityRepo;
 $headline = 'Můžete se těšit na tyto přednášky';
 $perex =
     '
-Další přednášky průběžně doplňujeme, koukněte sem za pár dnů!
 
-Přednášky můžete i opakovaně zhlédnout na našem youtube kanálu. Odkaz na youtube kanál zde najdete po 28. 3. 2021';
+Přednášky můžete i opakovaně zhlédnout na našem <a href="https://www.youtube.com/channel/UC-Di-88rpUfBZUHHVf7tntQ" target="_blank">youtube kanálu</a>.';
 $footer = 'Další přednášky budou postupně přibývat, sledujte tuto stránku!';
 
 

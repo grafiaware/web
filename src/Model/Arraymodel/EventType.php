@@ -16,6 +16,7 @@ namespace Model\Arraymodel;
 class EventType {
 
     private $eventType = [
+        'Prezentace' => ['name'=>'Prezentace', 'icon'=>'chalkboard teacher icon'],
         'Přednáška' => ['name'=>'Přednáška', 'icon'=>'chalkboard teacher icon'],
         'Pohovor'=> ['name'=>'Pohovor', 'icon'=> 'microphone icon'],
         'Poradna' => ['name'=>'Poradna', 'icon'=> 'user friends icon'],
