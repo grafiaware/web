@@ -45,6 +45,21 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
         return $this->collection[$index] ?? null;
     }
 
+    /**
+     * Čte i neaktivní a nektuální položky
+     * 
+     * @param type $langCodeFk
+     * @param type $uidFk
+     * @return MenuItemInterface|null
+     */
+    public function getOutOfContext($langCodeFk, $uidFk): ?MenuItemInterface {
+        $index = $this->indexFromKeyParams($langCodeFk, $uidFk);
+        if (!isset($this->collection[$index])) {
+            $this->recreateEntity($index, $this->dao->getOutOfContext($langCodeFk, $uidFk));
+        }
+        return $this->collection[$index] ?? null;
+    }
+
     public function getByPrettyUri($langCodeFk, $prettyUri): ?MenuItemInterface {
         $row = $this->dao->getByPrettyUri($langCodeFk, $prettyUri);
         if ($row) {
