@@ -7,17 +7,19 @@ use Model\Entity\PaperAggregatePaperContentInterface;
 
 $headline = 'Chci navázat kontakt';
 
-$corporateData = [
+$corporateContacts = [
     [
         'kontaktniOsoba' => 'Drůběžářský závod Klatovy',
         'funkce' => '',
         'telefon' => '+420 376 353 311',
         'email' => 'personalni@dzklatovy.cz',
-        'pobockaFirmyUlice' => '5. května 112',
-        'pobockaFirmyMesto' => '33901 Klatovy',
     ]
 ];
-
+$corporateAddress = [
+    'pobockaFirmyUlice' => '5. května 112',
+    'pobockaFirmyMesto' => '33901 Klatovy',
+    
+]
 ?>
 
     <div id="chci-navazat-kontakt">

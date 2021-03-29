@@ -7,16 +7,19 @@ use Model\Entity\PaperAggregatePaperContentInterface;
 
 $headline = 'Chci navázat kontakt';
 
-$corporateData = [
+$corporateContacts = [
     [
         'kontaktniOsoba' => 'Radka Novotná',
         'funkce' => 'asistentka',
         'telefon' => '+420 758 659 855',
         'email' => 'firma@firmovata.cz',
-        'pobockaFirmyUlice' => 'U velkého poníka 417',
-        'pobockaFirmyMesto' => '800 45 Poníkov',
     ]
 ];
+$corporateAddress = [
+    'pobockaFirmyUlice' => 'U velkého poníka 417',
+    'pobockaFirmyMesto' => '800 45 Poníkov',
+    
+]
 
 ?>
 

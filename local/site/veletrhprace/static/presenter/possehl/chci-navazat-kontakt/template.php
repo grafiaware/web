@@ -7,16 +7,19 @@ use Model\Entity\PaperAggregatePaperContentInterface;
 
 $headline = 'Chci navázat kontakt';
 
-$corporateData = [
+$corporateContacts = [
     [
         'kontaktniOsoba' => 'Petra Filipová',
         'funkce' => '',
         'telefon' => '+420 727 818 230',
         'email' => 'Petra.Filipova@possehlelectronics.com',
-        'pobockaFirmyUlice' => 'Dýšina 297',
-        'pobockaFirmyMesto' => '330 02 Dýšina',
     ]
 ];
+$corporateAddress = [
+    'pobockaFirmyUlice' => 'Dýšina 297',
+    'pobockaFirmyMesto' => '330 02 Dýšina',
+    
+]
 
 ?>
 

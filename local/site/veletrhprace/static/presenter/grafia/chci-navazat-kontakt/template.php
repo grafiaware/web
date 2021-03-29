@@ -7,16 +7,25 @@ use Model\Entity\PaperAggregatePaperContentInterface;
 
 $headline = 'Chci navázat kontakt';
 
-$corporateData = [
+$corporateContacts = [
     [
         'kontaktniOsoba' => 'Grafia',
         'funkce' => 'sekretariát',
         'telefon' => '+420 377 227 701',
         'email' => 'sekretariat@grafia.cz',
-        'pobockaFirmyUlice' => 'Budilova 4',
-        'pobockaFirmyMesto' => '301 00 Plzeň',
+    ],
+    [
+        'kontaktniOsoba' => 'Grafia',
+        'funkce' => 'rekvalifikace',
+        'telefon' => '+420 378 771 222',
+        'email' => 'rekvalifikace@grafia.cz',
     ]
-];
+]; 
+$corporateAddress = [
+    'pobockaFirmyUlice' => 'Budilova 4',
+    'pobockaFirmyMesto' => '301 00 Plzeň',
+    
+]
 
 ?>
 
