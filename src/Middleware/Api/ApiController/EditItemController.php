@@ -90,7 +90,11 @@ class EditItemController extends PresentationFrontControllerAbstract {
             $contentGenerator = $this->contentGeneratorRegistry->getGenerator($type);
             foreach ($allLangVersionsMenuItems as $langMenuItem) {
                 $langMenuItem->setType($type);
-                $langMenuItem->setPrettyuri('folded:'.$folded);   //TODO:  dočasně pro static path!!!!
+                if ($folded) {
+                    $langMenuItem->setPrettyuri('folded:'.$folded);   //TODO:  dočasně pro static path!!!!
+                } else {
+                    $langMenuItem->setPrettyuri($langMenuItem->getLangCodeFk().$langMenuItem->getUidFk());
+                }
                 $contentGenerator->initialize($langMenuItem->getId());
             }
             $this->addFlashMessage("menuItem type($type)");

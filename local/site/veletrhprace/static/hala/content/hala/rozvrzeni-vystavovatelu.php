@@ -6,10 +6,14 @@ use Pes\Text\Html;
 
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregatePaperContentInterface $paperAggregate */
+
+
 ?>
 
 
         <div class="three column stretched row">
-            <?= $this->repeat(__DIR__.'/rozvrzeni-vystavovatelu/vystavovatel.php', $row) ?>
+            <?=
+            $this->repeat(__DIR__.'/rozvrzeni-vystavovatelu/vystavovatel.php', $row);
+        ?>
         </div>
 

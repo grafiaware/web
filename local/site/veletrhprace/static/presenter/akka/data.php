@@ -33,10 +33,18 @@ $stanek_ref = '/assets/stanek.png';
 
 $letakAttributesClass = ['class' => 'letak-v-igelitce'];
 
-$posters = [
-        'Leták AKKA'
+$posters = [];
+$pathToFolder = Configuration::componentControler()['presenterFiles'].$shortName."/poster/";
+$globFolder = $pathToFolder."*.pdf";
+$glob = glob($globFolder);
+foreach($glob as $file) {
+    $posters[] = explode(".", str_replace($pathToFolder, "", $file))[0];
+}
 
-    ];
+//$posters = [
+//        'Leták AKKA'
+//
+//    ];
 $letak = [];
 foreach ($posters as $poster) {
     $letak[] = [
