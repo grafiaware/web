@@ -43,7 +43,7 @@ use Pes\Text\Html;
                                 <div class="sixteen wide column">
                                     <div class="buttony-na-stanku">
                                         <content>
-                                             <!--<div class="ui big button red basic btn-letaky" style="background-color: white">Stáhněte si leták</div>-->
+                                            <div class="ui big button red basic btn-letaky" style="background-color: white">Stáhněte si leták</div>
                                         </content>
                                     </div>
                                 </div>

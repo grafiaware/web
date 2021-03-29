@@ -171,7 +171,7 @@ class EventContent {
                 'title' => 'Valeo Autoklimatizace',
                 'perex' => 'Firemní prezentace',
                 'institution' => ['id' => '', 'type'=>'', 'name'=>'Valeo Autoklimatizace'],
-                'party' => ''
+                'party' => 'Gábor Ifland'
             ],
         'Chcete se stát dobrovolníkem?' => [
             'eventType' => $this->eventType->getEventType('Přednáška'),
