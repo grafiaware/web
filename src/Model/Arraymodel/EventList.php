@@ -1076,9 +1076,9 @@ class EventList {
                 if (
                     ($boxItem['timelinePoint']==$tlPoint)
                     AND
-                    ((isset($eventTypeName) AND $eventTypeName) ? $boxItem['eventType']['name']==$eventTypeName : true)
+                    ((isset($eventTypeName) AND $eventTypeName) ? strpos($eventTypeName, $boxItem['eventType']['name'])!==false : true)
                     AND
-                    ((isset($institutionName) AND $institutionName) ? $boxItem['institution']['name']==$institutionName : true)
+                    ((isset($institutionName) AND $institutionName) ? strpos($institutionName, $boxItem['institution']['name'])!==false : true)
                     AND
                     ((isset($eventIdList) AND $eventIdList) ? (array_search($boxItem['eventId'], $eventIdList)!==false) : true)
                     ) {
@@ -1100,7 +1100,7 @@ class EventList {
         }
         return $event;
     }
-    
+
     public function getEventBoxItem($eventId=null) {
         if (isset($eventId)) {
             foreach ($this->getList() as $boxItem) {
