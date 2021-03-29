@@ -352,7 +352,13 @@ class EventContent {
         ]
         +
 [
-"Konzultujte pracovní příležitosti. Těší se na Vás Elizabeth Franková" => ['eventType' => $this->eventType->getEventType('Prezentace'),'title' => "Konzultujte pracovní příležitosti. Těší se na Vás Elizabeth Franková",'perex' => "",'institution' => ['id' => '', 'type'=>'', 'name'=>'Konplan'],'party' => '',],
+"Konzultujte pracovní příležitosti. Těší se na Vás Elizabeth Franková" => [
+    'eventType' => $this->eventType->getEventType('Prezentace'),
+    'title' => "Konzultujte pracovní příležitosti. Těší se na Vás Elizabeth Franková",
+    'perex' => "",
+    'institution' => ['id' => '', 'type'=>'', 'name'=>'Konplan'],
+    'party' => '',
+    ],
 "Konzultujte pracovní příležitosti. Těší se na Vás Vanda Štěrbová a Kateřina Janků" => ['eventType' => $this->eventType->getEventType('Prezentace'),'title' => "Konzultujte pracovní příležitosti. Těší se na Vás Vanda Štěrbová a Kateřina Janků",'perex' => "",'institution' => ['id' => '', 'type'=>'', 'name'=>'Konplan'],'party' => '',],
 "Konzultujte pracovní příležitosti. Těší se na Vás Vanda Štěrbová" => ['eventType' => $this->eventType->getEventType('Prezentace'),'title' => "Konzultujte pracovní příležitosti. Těší se na Vás Vanda Štěrbová",'perex' => "",'institution' => ['id' => '', 'type'=>'', 'name'=>'Konplan'],'party' => '',],
 "Individuální kariérové poradenství. Těší se na Vás Vanda Štěrbová" => ['eventType' => $this->eventType->getEventType('Pohovor'),'title' => "Individuální kariérové poradenství. Těší se na Vás Vanda Štěrbová",'perex' => "",'institution' => ['id' => '', 'type'=>'', 'name'=>'Konplan'],'party' => '',],
@@ -430,7 +436,7 @@ class EventContent {
 "Valeo Rakovník – nábor do výroby – operátor výroby, skladník, údržbář" => ['eventType' => $this->eventType->getEventType('Prezentace'),'title' => "Valeo Rakovník – nábor do výroby – operátor výroby, skladník, údržbář",'perex' => "",'institution' => ['id' => '', 'type'=>'', 'name'=>'Valeo Autoklimatizace'],'party' => '',],
 "Valeo – pracovní příležitosti pro techniky, inženýry a vývojáře" => ['eventType' => $this->eventType->getEventType('Prezentace'),'title' => "Valeo – pracovní příležitosti pro techniky, inženýry a vývojáře",'perex' => "",'institution' => ['id' => '', 'type'=>'', 'name'=>'Valeo Autoklimatizace'],'party' => '',],
 ];
-
+$a=1;
         return $eventContent[$id];
     }
 
