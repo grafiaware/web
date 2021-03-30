@@ -1166,14 +1166,14 @@ class EventList {
                 'startTime' => '13:00',
                 'endTime' => '14:45',
                 'linkButtonEnroll' => [
-                                'showEnroll' => 0,
+                                'showEnroll' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
                                     ],
                                 'linkButtonText' => $this->linkButtonTextPrihlasit
                                 ],
                 'linkButtonEnter' => [
-                    'showEnter' => 1,
+                    'showEnter' => 0,
                                 'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +
                                     [
                                         'href' => "https://cesnet.zoom.us/j/96463837441"
