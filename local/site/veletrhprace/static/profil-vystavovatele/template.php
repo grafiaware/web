@@ -62,6 +62,10 @@ $enrollRepo = $container->get(EnrollRepo::class);
 $enrolls = $enrollRepo->findAll();
 
 
+$eventCountById = [];
+foreach ($enrolls as $enroll) {
+    $eventCountById[$enroll->getEventid()]++;
+}
 
 
 
