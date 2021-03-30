@@ -9,15 +9,21 @@ $headline = 'Chci navázat kontakt';
 
 $corporateContacts = [
     [
-        'kontaktniOsoba' => 'Radka Novotná',
-        'funkce' => 'asistentka',
-        'telefon' => '+420 758 659 855',
-        'email' => 'firma@firmovata.cz',
+        'kontaktniOsoba' => 'Lucie Černá',
+        'funkce' => 'dělnické pozice',
+        'telefon' => '377 198 857',
+        'email' => 'lucie.cerna@md-elektronik.cz',
+    ],
+    [
+        'kontaktniOsoba' => 'Kristýna Křížová',
+        'funkce' => 'odborné & administrativní pozice',
+        'telefon' => '377 198 435',
+        'email' => 'kristyna.krizova@md-elektronik.cz',
     ]
 ];
 $corporateAddress = [
-    'pobockaFirmyUlice' => 'U velkého poníka 417',
-    'pobockaFirmyMesto' => '800 45 Poníkov',
+    'pobockaFirmyUlice' => 'Dobřanská 629',
+    'pobockaFirmyMesto' => '332 14 Chotěšov',
     
 ]
 

@@ -9,15 +9,15 @@ $headline = 'Chci navázat kontakt';
 
 $corporateContacts = [
     [
-        'kontaktniOsoba' => 'Radka Novotná',
-        'funkce' => 'asistentka',
-        'telefon' => '+420 758 659 855',
-        'email' => 'firma@firmovata.cz',
+        'kontaktniOsoba' => 'Martina Pochová',
+        'funkce' => '',
+        'telefon' => '319 800 113',
+        'email' => 'martina.pochova@valeo.com',
     ]
 ];
 $corporateAddress = [
-    'pobockaFirmyUlice' => 'U velkého poníka 417',
-    'pobockaFirmyMesto' => '800 45 Poníkov',
+    'pobockaFirmyUlice' => 'Sazečská 247/2',
+    'pobockaFirmyMesto' => '108 00 Praha',
     
 ]
 

@@ -11,7 +11,7 @@ $corporateContacts = [
     [
         'kontaktniOsoba' => 'Petra Filipová',
         'funkce' => '',
-        'telefon' => '+420 727 818 230',
+        'telefon' => '373 731 162,  373 731 124',
         'email' => 'Petra.Filipova@possehlelectronics.com',
     ]
 ];
