@@ -11,12 +11,12 @@ use Model\Entity\EntityGeneratedKeyInterface;
  *
  * @author pes2704
  */
-class EventType extends EntityAbstract implements VisitorInterface {
+class Visitor extends EntityAbstract implements VisitorInterface {
 
     private $keyAttribute = 'id';
 
     private $id;
-    private $value;
+    private $loginName;
 
     public function getKeyAttribute() {
         return $this->keyAttribute;
@@ -26,8 +26,8 @@ class EventType extends EntityAbstract implements VisitorInterface {
         return $this->id;
     }
 
-    public function getValue(): ?string {
-        return $this->value;
+    public function getLoginName() {
+        return $this->loginName;
     }
 
     public function setId($id): VisitorInterface {
@@ -35,8 +35,8 @@ class EventType extends EntityAbstract implements VisitorInterface {
         return $this;
     }
 
-    public function setValue(string $value=null): VisitorInterface {
-        $this->value = $value;
+    public function setLoginName($loginName): VisitorInterface {
+        $this->loginName = $loginName;
         return $this;
     }
 

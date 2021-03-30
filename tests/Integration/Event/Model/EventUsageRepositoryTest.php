@@ -23,7 +23,7 @@ use Events\Model\Repository\EventRepo;
 use Events\Model\Entity\EventInterface;
 // event type repo
 use Events\Model\Repository\EventTypeRepo;
-use Events\Model\Entity\EventTypeInterface;
+use Events\Model\Entity\VisitorInterface;
 // event content repo
 use Events\Model\Repository\EventContentRepo;
 use Events\Model\Entity\EventContentInterface;
@@ -170,7 +170,7 @@ class EventUsageRepositoryTest extends TestCase {
             /** @var EventContentInterface $evContent */
             $evContent = $eventContents[($evContentCounter % $evContentsCount)];
             $evContentCounter++;
-            /** @var EventTypeInterface $evType */
+            /** @var VisitorInterface $evType */
             $evType = $eventTypes[($evtypeCounter % $evTypesCount)];
             $evtypeCounter++;
             /** @var EventInterface $event */

@@ -15,12 +15,14 @@ use Model\Entity\EntityInterface;
  * @author pes2704
  */
 interface VisitorInterface extends EntityInterface {
+
     public function getId();
 
-    public function getValue(): ?string;
+    public function getLoginName();
 
     public function setId($id): VisitorInterface;
 
-    public function setValue(string $value=null): VisitorInterface;
+    public function setLoginName($loginName): VisitorInterface;
 
-    }
+
+}

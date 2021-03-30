@@ -18,18 +18,18 @@ use Events\Model\Entity\VisitorInterface;
  *
  * @author pes2704
  */
-class EventTypeHydrator implements HydratorInterface {
+class VisitorHydrator implements HydratorInterface {
 
     /**
      *
-     * @param EntityInterface $eventType
+     * @param EntityInterface $visitor
      * @param type $row
      */
-    public function hydrate(EntityInterface $eventType, &$row) {
-        /** @var VisitorInterface $eventType */
-        $eventType
+    public function hydrate(EntityInterface $visitor, &$row) {
+        /** @var VisitorInterface $visitor */
+        $visitor
             ->setId($row['id'])
-            ->setValue($row['value']);
+            ->setLoginName($row['login_login_name']);
     }
 
     /**
@@ -40,7 +40,7 @@ class EventTypeHydrator implements HydratorInterface {
     public function extract(EntityInterface $eventType, &$row) {
         /** @var VisitorInterface $eventType */
         $row['id'] = $eventType->getId(); // id je autoincrement - readonly, hodnota pro where
-        $row['value'] = $eventType->getValue();
+        $row['login_login_name'] = $eventType->getLoginName();
     }
 
 }

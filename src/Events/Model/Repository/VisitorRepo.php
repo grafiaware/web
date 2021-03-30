@@ -21,7 +21,7 @@ use Events\Model\Dao\EventTypeDao;
  *
  * @author pes2704
  */
-class EventTypeRepo extends RepoAbstract implements EventTypeRepoInterface {
+class VisitorRepo extends RepoAbstract implements EventTypeRepoInterface {
 
     protected $dao;
 
