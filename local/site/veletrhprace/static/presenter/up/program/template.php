@@ -18,15 +18,18 @@ use Model\Repository\StatusSecurityRepo;
     $headline = 'Náš program';
     $perex =
         '
+            <p>Podívejte se také na užitečné videonávody: 
+            <a href="https://www.uradprace.cz/web/cz/zamestnanost-videa" target="_blank">zaměstnanost</a> 
+            a <a href="https://www.uradprace.cz/web/cz/-/rekvalifik-14" target="_blank">zvolená rekvalifikace</a></p>
         ';
     $footer = '';
 ?>
 
 
     <div id="nas-program">
-        <p>Podívejte se také na naše videonávody.</p>
         <?php
         //include Configuration::componentControler()['templates']."timecolumn/template.php";
         include Configuration::componentControler()['templates']."timeline-boxes/template.php";
         ?>
+        
     </div>
