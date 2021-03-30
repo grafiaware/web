@@ -36,7 +36,7 @@ use Pes\Text\Html;
                                     </div>
                                     <div class="buttony-mimo-stanek">
                                         <content>
-                                             <?= '';// $this->repeat(__DIR__.'/sluzby/buttony.php', $buttony)?>
+                                             <?= $this->repeat(__DIR__.'/sluzby/buttony.php', $buttony)?>
                                         </content>
                                     </div>
                                 </div>

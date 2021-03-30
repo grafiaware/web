@@ -29,7 +29,7 @@ $stanek_ref = '/assets/stanek.png';
 
 $buttonTitle = [
     'Pracovní pozice',
-    'Náš program',
+//    'Náš program',
     'Chci navázat kontakt'
 ];
 

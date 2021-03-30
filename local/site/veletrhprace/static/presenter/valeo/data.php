@@ -30,7 +30,7 @@ $stanek_ref = '/assets/stanek.png';
 $buttonTitle = [
     'Pracovní pozice',
     'Náš program',
-    'Chci na online pohovor',
+//    'Chci na online pohovor',
     'Chci navázat kontakt'
 ];
 
