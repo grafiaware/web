@@ -29,6 +29,13 @@ if ($published) {
                                                         formaction="api/v1/event/enroll"> <?= $linkButtonEnroll['linkButtonText'] ?>  </button>
                                                 </div>
                                             <?php } ?>
+                                            <?php if ($linkButtonEnter['showEnter']) {?>
+                                                <div class="text vpravo">
+                                                    <button type="submit" <?= Html::attributes($linkButtonEnter['linkButtonAttributes']) ?> name="event_enter"
+                                                        value="<?= $eventId ?>" formtarget="_self"
+                                                        formaction="api/v1/event/enter"> <?= $linkButtonEnter['linkButtonText'] ?>  </button>
+                                                </div>
+                                            <?php } ?>
                                         </div>
                                     </div>
 <?php

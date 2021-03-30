@@ -65,7 +65,7 @@ class EventList {
                                 'linkButtonText' => $this->linkButtonTextPlan
                                 ],
                 'linkButtonEnter' => [
-                    'showEnter' => 0,
+                    'showEnter' => 0,           // !!! timeline boxes a leaf - upravit druhý button na anchor
                                 'linkButtonAttributes' => $this->linkButtonAttributesZhlednout +
                                     [
                                         'href' => ""

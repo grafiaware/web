@@ -1,9 +1,8 @@
 <?php
 use Pes\View\Renderer\PhpTemplateRendererInterface;
-use Model\Entity\PaperAggregateInterface;
 /** @var PhpTemplateRendererInterface $this */
-/** @var PaperAggregateInterface $paperAggregate */
 
+use Model\Entity\LoginAggregateCredentialsInterface;;
 use Model\Repository\EnrollRepo;
 use Model\Repository\StatusSecurityRepo;
 
@@ -59,6 +58,7 @@ $igelitka = [
 $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
 /** @var StatusSecurityRepo $statusSecurityRepo */
 $statusSecurity = $statusSecurityRepo->get();
+/** @var LoginAggregateCredentialsInterface $loginAggregate */
 $loginAggregate = $statusSecurity->getLoginAggregate();
 
 if (isset($loginAggregate)) {
@@ -67,7 +67,7 @@ if (isset($loginAggregate)) {
     $enrolls = $enrollRepo->findByLoginName($loginName);
 
     $headline = "Můj profil";
-    $perex = '';
+    $perex = $loginAggregate->getLoginName();
 ?>
 <article class="paper">
     <section>
@@ -88,7 +88,7 @@ if (isset($loginAggregate)) {
 <?php
 } else {
     $headline = "Profil návštěvníka";
-    $perex = 'Zaregistrovaní návštěvníci zde po přihlášení naleznou možnosti zaslání údajů o sobě zaměstnavatelům a přístupy k akcím, na které se přihlásili.';
+    $perex = 'Zaregistrovaní návštěvníci zde po přihlášení naleznou přístupy k akcím, na které se přihlásili a které chtějí shlédnout.';
 
 ?>
 

@@ -1,8 +1,10 @@
 <?php
 use Pes\View\Renderer\PhpTemplateRendererInterface;
-use Model\Entity\PaperAggregateInterface;
 /** @var PhpTemplateRendererInterface $this */
-/** @var PaperAggregateInterface $paperAggregate */
+
+use Model\Entity\LoginAggregateCredentialsInterface;;
+use Model\Repository\EnrollRepo;
+use Model\Repository\StatusSecurityRepo;
 
 $personalData = [
     [
@@ -47,7 +49,7 @@ $timeline = [
                 [
                     'cas' => '10:30',
                     'firma' => 'Firma s. r. o.',
-                    'odkazNaPohovor' => '' 
+                    'odkazNaPohovor' => ''
                 ],
             ]
         ],
@@ -72,7 +74,7 @@ $timeline = [
                 [
                     'cas' => '15:00',
                     'firma' => 'Firma XY s. r. o.',
-                    'odkazNaPohovor' => '' 
+                    'odkazNaPohovor' => ''
                 ],
             ]
         ],
@@ -97,12 +99,30 @@ $timeline = [
                 [
                     'cas' => '11:15',
                     'firma' => 'Firma AB s. r. o.',
-                    'odkazNaPohovor' => '' 
+                    'odkazNaPohovor' => ''
                 ],
             ]
         ]
     ]
 ];
+
+
+$statusSecurityRepo = $container->get(StatusSecurityRepo::class);
+/** @var StatusSecurityRepo $statusSecurityRepo */
+$statusSecurity = $statusSecurityRepo->get();
+/** @var LoginAggregateCredentialsInterface $loginAggregate */
+$loginAggregate = $statusSecurity->getLoginAggregate();
+
+if (isset($loginAggregate)) {
+    $loginName = $loginAggregate->getLoginName();
+    $enrollRepo = $container->get(EnrollRepo::class);
+    $enrolls = $enrollRepo->findByLoginName($loginName);
+
+    $headline = "Můj profil";
+    $perex = $loginAggregate->getLoginName();
+
+
+
 ?>
 <article class="paper">
     <section>

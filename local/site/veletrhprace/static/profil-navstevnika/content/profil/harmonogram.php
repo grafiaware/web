@@ -18,7 +18,7 @@ Přednášky můžete i opakovaně zhlédnout na našem youtube kanálu. Odkaz n
 $footer = 'Další přednášky budou postupně přibývat, sledujte tuto stránku!';
 
 
-$eventTypeName = "Přednáška";  // viz Model\Arraymodel\EventType
+$eventTypeName = "";  // viz Model\Arraymodel\EventType
 $institutionName = "";
 
 $event = [];
