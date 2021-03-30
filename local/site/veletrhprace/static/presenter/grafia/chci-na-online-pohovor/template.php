@@ -10,13 +10,13 @@ use Model\Repository\StatusSecurityRepo;
     $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
     /** @var StatusSecurityRepo $statusSecurityRepo */
     $statusSecurity = $statusSecurityRepo->get();
-    $eventTypeName = "Pohovor";  // viz Model\Arraymodel\EventType
+    $eventTypeName = "Poradna";  // viz Model\Arraymodel\EventType
     $institutionName = "Grafia";
     $event = (new EventList($statusSecurity))->getEventList($eventTypeName, $institutionName, [], true);   // enrolling = true
 
     
     
-        $headline = 'Online pohovor';
+        $headline = 'Naše poradny';
         $perex =
             '
             ';

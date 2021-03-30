@@ -7,12 +7,21 @@ use Pes\Text\Html;
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregateInterface $paperAggregate */
 
+$kvalifikace = [
+    1 => 'Bez omezení',
+    2 => 'ZŠ',
+    3 => 'SOU bez maturity',
+    4 => 'SOU s maturitou',
+    5 => 'SŠ',
+    6 => 'VOŠ / Bc.',
+    7 => 'VŠ',
+];
+
 ?>
 
         <div class="title">
             <p class="podnadpis"><i class="dropdown icon"></i><?= $nazev ?>, <?= $mistoVykonu ?>  
-                <span class="ui big red tag label"><?= $kategorie1 ?></span>
-                <?= (($kategorie2 ?? '') ? '<span class="ui big red tag label">'.$kategorie2.'</span>' : '') ?>
+                <?= $this->repeat(__DIR__.'/pozice/tag.php', $kategorie, 'cislo') ?>
             </p>
         </div>
         <div class="content">
@@ -23,26 +32,26 @@ use Pes\Text\Html;
                 </div>
                 <div class="row">
                     <div class="four wide column"><b>Požadované vzdělání:</b></div>
-                    <div class="six wide column"><?= $vzdelani ?></div>
+                    <div class="six wide column"><?= $kvalifikace[$vzdelani] ?></div>
                 </div>
                 <div class="row">
                     <div class="four wide column">
                         <p><b>Popis pracovní pozice:</b></p>
                     </div>
-                    <div class="twelve wide column"><p><?= $popisPozice ?></p></div>
+                    <div class="twelve wide column"><div><?= $popisPozice ?></div></div>
                 </div>
                 <div class="row">
                     <div class="eight wide column">
                         <p><b>Požadujeme:</b></p>
-                        <ul>
+                        <div>
                             <?= $this->repeat(__DIR__.'/pozice/li.php', $pozadujeme, 'seznam') ?>
-                        </ul>
+                        </div>
                     </div>
                     <div class="eight wide column">
                         <p><b>Nabízíme:</b></p>
-                        <ul>
+                        <div>
                             <?= $this->repeat(__DIR__.'/pozice/li.php', $nabizime, 'seznam') ?>
-                        </ul>
+                        </div>
                     </div>
                 </div>
             </div>

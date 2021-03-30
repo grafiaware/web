@@ -9,5 +9,5 @@ use Pes\Text\Html;
 
 ?>
 
-<li><?= $seznam ?></li>
+<?= $seznam ?>
 
