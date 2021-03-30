@@ -17,6 +17,7 @@ $company = [
   4 => ["name" => "MD ELEKTRONIK spol. s r.o.", "eventInstitutionName"=>"MD Elektronik"],
   5 => ["name" => "", "eventInstitutionName"=>"Konplan"],
   5 => ["name" => "", "eventInstitutionName"=>"Valeo Autoklimatizace"],
+  6 => ["name" => "", "eventInstitutionName"=>"Stoelzle Union s.r.o."],
 
 ];
 
@@ -30,6 +31,8 @@ $presenterArray =
     'VERONIKA' => ['regname' => "VERONIKA", 'regmail' => "Veronika.Simbartlova@md-elektronik.cz", 'regcompany' => "MD ELEKTRONIK sro", 'idCompany'=>4],
     'Zdeňka Obertíková' => ['regname' => "Zdeňka Obertíková", 'regmail' => "Zdenka.Obertikova@md-elektronik.cz", 'regcompany' => "MD ELEKTRONIK s.r.o.", 'idCompany'=>4],
     'Kristýna Křížová' => ['regname' => "Kristýna Křížová", 'regmail' => "kristyna.krizova@md-elektronik.cz", 'regcompany' => "MD ELEKTRONIK spol. s r.o.", 'idCompany'=>4],
+    'Michaela Šebová' => ['regname' => "Michaela Šebová", 'regmail' => "michaela.sebova@stoelzle.com", 'regcompany' => "Stoelzle Union s.r.o.", 'idCompany'=>6],  // nemá žádný event v EventListu
+
 ];
 
 
