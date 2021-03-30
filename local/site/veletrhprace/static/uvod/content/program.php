@@ -15,11 +15,11 @@ use Pes\Text\Text;
         </div>
         <div class="eight wide column"><a href="www/item/cs/604bcc5b3c5d7" class="ui primary fluid massive button">Zobrazit přednášky</a></div>
         <div class="eight wide column"><a href="www/item/cs/604bd0e2e440d" class="ui primary fluid massive button">Zobrazit poradny</a></div>
-        <div class="sixteen wide column"><a href="" class="ui primary fluid massive button">Online stánky podniků</a></div>
+        <div class="sixteen wide column"><a href="www/item/cs/60619d3247985" class="ui primary fluid massive button">Online stánky podniků</a></div>
 <!--        <div class="sixteen wide column">
                 <p class="text tucne">
                     <?
-                    Text::mono('V průběhu sedmi dnů vám nabídneme ZDARMA <b>online přednášky a rozhovory s odborníky</b> z různých oborů a také „body pro zdraví“, kde najdete <b>produkty či služby</b> na podporu zdravého životního stylu.') 
+                    Text::mono('V průběhu sedmi dnů vám nabídneme ZDARMA <b>online přednášky a rozhovory s odborníky</b> z různých oborů a také „body pro zdraví“, kde najdete <b>produkty či služby</b> na podporu zdravého životního stylu.')
                     ?>
                 </p>
         </div>-->
