@@ -32,7 +32,8 @@ $presenterArray =
     'Zdeňka Obertíková' => ['regname' => "Zdeňka Obertíková", 'regmail' => "Zdenka.Obertikova@md-elektronik.cz", 'regcompany' => "MD ELEKTRONIK s.r.o.", 'idCompany'=>4],
     'Kristýna Křížová' => ['regname' => "Kristýna Křížová", 'regmail' => "kristyna.krizova@md-elektronik.cz", 'regcompany' => "MD ELEKTRONIK spol. s r.o.", 'idCompany'=>4],
     'Michaela Šebová' => ['regname' => "Michaela Šebová", 'regmail' => "michaela.sebova@stoelzle.com", 'regcompany' => "Stoelzle Union s.r.o.", 'idCompany'=>6],  // nemá žádný event v EventListu
-
+    'Vanda Štěrbová' => ['regname' => "Vanda Štěrbová", 'regmail' => " vanda.sterbova@akka.eu", 'regcompany' => "AKKA Czech Republic s.r.o.", 'idCompany'=>3],
+// maji nastevenu roli "presenter" v credentials
 ];
 
 
@@ -64,7 +65,11 @@ $enrolls = $enrollRepo->findAll();
 
 $eventCountById = [];
 foreach ($enrolls as $enroll) {
-    $eventCountById[$enroll->getEventid()]++;
+    if (array_key_exists($enroll->getEventid(), $eventCountById)) {
+        $eventCountById[$enroll->getEventid()]++;
+    } else {
+        $eventCountById[$enroll->getEventid()] = 1;
+    }
 }
 
 
