@@ -29,19 +29,19 @@ class EnrollDao extends DaoAbstract implements DaoAutoincrementKeyInterface {
             SELECT `enrolled`.`id`,
                 `enrolled`.`login_name`,
                 `enrolled`.`eventid`
-            FROM `veletrhprace`.`enrolled`
+            FROM `enrolled`
             WHERE
                 `enrolled`.`id` = :id";
 
         return $this->selectOne($sql, [':id' => $id], TRUE);
     }
-    
+
     public function findAll() {
         $sql = "
             SELECT `enrolled`.`id`,
                 `enrolled`.`login_name`,
                 `enrolled`.`eventid`
-            FROM `veletrhprace`.`enrolled`";
+            FROM `enrolled`";
         return $this->selectMany($sql, []);
     }
 
@@ -50,14 +50,14 @@ class EnrollDao extends DaoAbstract implements DaoAutoincrementKeyInterface {
             SELECT `enrolled`.`id`,
                 `enrolled`.`login_name`,
                 `enrolled`.`eventid`
-            FROM `veletrhprace`.`enrolled`"
+            FROM `enrolled`"
             .$this->where($whereClause);
         return $this->selectMany($sql, $touplesToBind);
     }
 
     public function insert($row) {
         $sql = "
-            INSERT INTO `veletrhprace`.`enrolled`
+            INSERT INTO .`enrolled`
             (
             `login_name`,
             `eventid`)
@@ -73,7 +73,7 @@ class EnrollDao extends DaoAbstract implements DaoAutoincrementKeyInterface {
         $sql = "UPDATE credentials SET password_hash = :password_hash, role = :role
                 WHERE `login_name_fk` = :login_name_fk";
         $sql = "
-        UPDATE `veletrhprace`.`enrolled`
+        UPDATE .`enrolled`
         SET
         `login_name` = :login_name,
         `eventid` = :eventid
@@ -85,7 +85,7 @@ class EnrollDao extends DaoAbstract implements DaoAutoincrementKeyInterface {
     public function delete($row) {
         $sql = "DELETE FROM credentials WHERE `login_name_fk` = :login_name_fk";
         $sql = "
-            DELETE FROM `veletrhprace`.`enrolled`
+            DELETE FROM .`enrolled`
             WHERE `id` = :id";
 
         return $this->execDelete($sql, [':id' => $row['id']] );

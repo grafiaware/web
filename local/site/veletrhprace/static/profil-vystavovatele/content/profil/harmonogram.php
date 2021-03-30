@@ -24,9 +24,6 @@ $institutionName = "";
 $event = [];
 $eventList = new EventList($statusSecurity);
 
-foreach ($enrolls as $enroll) {
-    $eventIds[] = $enroll->getEventid();
-}
 
 $institutionName = $presenterItem["eventInstitutionName"];
 

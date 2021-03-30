@@ -46,10 +46,7 @@ if (isset($loginAggregate)) {
 
     $loginName = $loginAggregate->getLoginName();
 
-    ###############
-    $loginName = "VERONIKA";
-
-    $presenterItem = $presenterArray[$loginName];
+    $presenterItem = array_key_exists($loginName, $presenterArray) ? $presenterArray[$loginName] : null;
     if (isset($presenterItem)) {
         $presenterItem = array_merge($presenterItem, $company[$presenterItem['idCompany']]);
     }

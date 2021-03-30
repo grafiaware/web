@@ -24,6 +24,7 @@ $institutionName = "";
 $event = [];
 $eventList = new EventList($statusSecurity);
 
+$eventIds = [];
 foreach ($enrolls as $enroll) {
     $eventIds[] = $enroll->getEventid();
 }
