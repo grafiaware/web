@@ -911,7 +911,7 @@ class EventList {
                     'showEnter' => 0,
                                 'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +
                                     [
-                                        'href' => ""
+                                        'href' => "https://cesnet.zoom.us/j/95620272138?pwd=N3BkbkxzWkZmUExzdlNzRlVXUG02dz09"
                                     ],
                                 'linkButtonText' => $this->linkButtonTextVstoupit
                                 ],
@@ -933,7 +933,7 @@ class EventList {
                     'showEnter' => 0,
                                 'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +
                                     [
-                                        'href' => ""
+                                        'href' => "https://cesnet.zoom.us/j/95620272138?pwd=N3BkbkxzWkZmUExzdlNzRlVXUG02dz09"
                                     ],
                                 'linkButtonText' => $this->linkButtonTextVstoupit
                                 ],
@@ -955,7 +955,7 @@ class EventList {
                     'showEnter' => 0,
                                 'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +
                                     [
-                                        'href' => ""
+                                        'href' => "https://cesnet.zoom.us/j/96860823819"
                                     ],
                                 'linkButtonText' => $this->linkButtonTextVstoupit
                                 ],
@@ -977,7 +977,7 @@ class EventList {
                     'showEnter' => 0,
                                 'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +
                                     [
-                                        'href' => ""
+                                        'href' => "https://cesnet.zoom.us/j/96947664198"
                                     ],
                                 'linkButtonText' => $this->linkButtonTextVstoupit
                                 ],
@@ -999,7 +999,7 @@ class EventList {
                     'showEnter' => 0,
                                 'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +
                                     [
-                                        'href' => ""
+                                        'href' => "https://cesnet.zoom.us/j/92891446260"
                                     ],
                                 'linkButtonText' => $this->linkButtonTextVstoupit
                                 ],
@@ -1011,17 +1011,17 @@ class EventList {
                 'startTime' => '9:00',
                 'endTime' => '12:00',
                 'linkButtonEnroll' => [
-                                'showEnroll' => 1,
+                                'showEnroll' => 0,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
                                     ],
                                 'linkButtonText' => $this->linkButtonTextPrihlasit
                                 ],
                 'linkButtonEnter' => [
-                    'showEnter' => 0,
+                    'showEnter' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +
                                     [
-                                        'href' => ""
+                                        'href' => "https://cesnet.zoom.us/j/97849197559"
                                     ],
                                 'linkButtonText' => $this->linkButtonTextVstoupit
                                 ],
@@ -1043,7 +1043,7 @@ class EventList {
                     'showEnter' => 0,
                                 'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +
                                     [
-                                        'href' => ""
+                                        'href' => "https://cesnet.zoom.us/j/97849197559"
                                     ],
                                 'linkButtonText' => $this->linkButtonTextVstoupit
                                 ],
@@ -1055,17 +1055,17 @@ class EventList {
                 'startTime' => '9:00',
                 'endTime' => '12:00',
                 'linkButtonEnroll' => [
-                                'showEnroll' => 1,
+                                'showEnroll' => 0,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
                                     ],
                                 'linkButtonText' => $this->linkButtonTextPrihlasit
                                 ],
                 'linkButtonEnter' => [
-                    'showEnter' => 0,
+                    'showEnter' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +
                                     [
-                                        'href' => ""
+                                        'href' => "https://cesnet.zoom.us/j/99353023722?pwd=V0xLMjJLYkkyei96MUVLZ05QWlVmQT09"
                                     ],
                                 'linkButtonText' => $this->linkButtonTextVstoupit
                                 ],
@@ -1087,7 +1087,7 @@ class EventList {
                     'showEnter' => 0,
                                 'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +
                                     [
-                                        'href' => ""
+                                        'href' => "https://cesnet.zoom.us/j/99353023722?pwd=V0xLMjJLYkkyei96MUVLZ05QWlVmQT09"
                                     ],
                                 'linkButtonText' => $this->linkButtonTextVstoupit
                                 ],
@@ -1109,7 +1109,7 @@ class EventList {
                     'showEnter' => 0,
                                 'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +
                                     [
-                                        'href' => ""
+                                        'href' => "https://cesnet.zoom.us/j/99550743023"
                                     ],
                                 'linkButtonText' => $this->linkButtonTextVstoupit
                                 ],
@@ -1132,7 +1132,7 @@ class EventList {
                     'showEnter' => 0,
                                 'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +
                                     [
-                                        'href' => ""
+                                        'href' => "https://cesnet.zoom.us/j/96797977877?pwd=T0g5M1FweVM2NHZBV0NLbEZQaDM5QT09"
                                     ],
                                 'linkButtonText' => $this->linkButtonTextVstoupit
                                 ],
@@ -1154,7 +1154,7 @@ class EventList {
                     'showEnter' => 0,
                                 'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +
                                     [
-                                        'href' => ""
+                                        'href' => "https://cesnet.zoom.us/j/94733969159"
                                     ],
                                 'linkButtonText' => $this->linkButtonTextVstoupit
                                 ],
@@ -1176,7 +1176,7 @@ class EventList {
                     'showEnter' => 0,
                                 'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +
                                     [
-                                        'href' => ""
+                                        'href' => "https://cesnet.zoom.us/j/96463837441"
                                     ],
                                 'linkButtonText' => $this->linkButtonTextVstoupit
                                 ],
@@ -1220,7 +1220,7 @@ class EventList {
                     'showEnter' => 0,
                                 'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +
                                     [
-                                        'href' => ""
+                                        'href' => "https://cesnet.zoom.us/j/96689590788"
                                     ],
                                 'linkButtonText' => $this->linkButtonTextVstoupit
                                 ],
@@ -1242,7 +1242,7 @@ class EventList {
                     'showEnter' => 0,
                                 'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +
                                     [
-                                        'href' => ""
+                                        'href' => "https://cesnet.zoom.us/j/97528096426?pwd=c3krOXh1dG4rd1BPVHJ6Mlh4SlNmUT09"
                                     ],
                                 'linkButtonText' => $this->linkButtonTextVstoupit
                                 ],
@@ -1264,7 +1264,7 @@ class EventList {
                     'showEnter' => 0,
                                 'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +
                                     [
-                                        'href' => ""
+                                        'href' => "https://cesnet.zoom.us/j/97528096426?pwd=c3krOXh1dG4rd1BPVHJ6Mlh4SlNmUT09"
                                     ],
                                 'linkButtonText' => $this->linkButtonTextVstoupit
                                 ],
@@ -1287,7 +1287,7 @@ class EventList {
                     'showEnter' => 0,
                                 'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +
                                     [
-                                        'href' => ""
+                                        'href' => "https://cesnet.zoom.us/j/95620272138?pwd=N3BkbkxzWkZmUExzdlNzRlVXUG02dz09"
                                     ],
                                 'linkButtonText' => $this->linkButtonTextVstoupit
                                 ],
@@ -1309,7 +1309,7 @@ class EventList {
                     'showEnter' => 0,
                                 'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +
                                     [
-                                        'href' => ""
+                                        'href' => "https://cesnet.zoom.us/j/95620272138?pwd=N3BkbkxzWkZmUExzdlNzRlVXUG02dz09"
                                     ],
                                 'linkButtonText' => $this->linkButtonTextVstoupit
                                 ],
@@ -1331,7 +1331,7 @@ class EventList {
                     'showEnter' => 0,
                                 'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +
                                     [
-                                        'href' => ""
+                                        'href' => "https://cesnet.zoom.us/j/96154680240"
                                     ],
                                 'linkButtonText' => $this->linkButtonTextVstoupit
                                 ],
@@ -1375,7 +1375,7 @@ class EventList {
                     'showEnter' => 0,
                                 'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +
                                     [
-                                        'href' => ""
+                                        'href' => "https://cesnet.zoom.us/j/96311880467"
                                     ],
                                 'linkButtonText' => $this->linkButtonTextVstoupit
                                 ],
@@ -1397,7 +1397,7 @@ class EventList {
                     'showEnter' => 0,
                                 'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +
                                     [
-                                        'href' => ""
+                                        'href' => "https://cesnet.zoom.us/j/96583526827?pwd=dFF0eE56ZnlSbk82cmFXNHRLV2RyUT09"
                                     ],
                                 'linkButtonText' => $this->linkButtonTextVstoupit
                                 ],
@@ -1419,7 +1419,7 @@ class EventList {
                     'showEnter' => 0,
                                 'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +
                                     [
-                                        'href' => ""
+                                        'href' => "https://cesnet.zoom.us/j/99827389212?pwd=cDNXdjlHOFRZNkJrdFVRUDhyMndlUT09"
                                     ],
                                 'linkButtonText' => $this->linkButtonTextVstoupit
                                 ],
