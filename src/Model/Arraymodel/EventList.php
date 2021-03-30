@@ -1458,14 +1458,14 @@ class EventList {
                 'startTime' => '14:00',
                 'endTime' => '16:30',
                 'linkButtonEnroll' => [
-                    'showEnroll' => 1,
+                    'showEnroll' => 0,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
                                     ],
                                 'linkButtonText' => $this->linkButtonTextPrihlasit
                                 ],
                 'linkButtonEnter' => [
-                    'showEnter' => 0,
+                    'showEnter' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +
                                     [
                                         'href' => "https://zoom.us/j/98801845717?pwd=SDBTSHVUeXBCNStselNWNW9pM3JJUT09"
