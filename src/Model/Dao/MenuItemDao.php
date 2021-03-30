@@ -54,6 +54,15 @@ class MenuItemDao extends DaoContextualAbstract {
         return $this->selectOne($this->sqlGet, [':lang_code_fk' => $langCodeFk, ':uid_fk'=> $uidFk], true);
     }
 
+    public function getOutOfContext($langCodeFk, $uidFk) {
+        if(!isset($this->sqlGet)) {
+            $this->sqlGet = "SELECT lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active, multipage "
+                . "FROM menu_item "
+                . $this->where($this->and( ['menu_item.lang_code_fk = :lang_code_fk', 'menu_item.uid_fk=:uid_fk']));
+        }
+        return $this->selectOne($this->sqlGet, [':lang_code_fk' => $langCodeFk, ':uid_fk'=> $uidFk], true);
+    }
+
     /**
      * Vrací řádek menu_item vyhledaný podle lang_code_fk a prettyuri - pro statické stránky
      *

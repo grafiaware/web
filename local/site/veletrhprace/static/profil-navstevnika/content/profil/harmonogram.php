@@ -18,17 +18,18 @@ Přednášky můžete i opakovaně zhlédnout na našem youtube kanálu. Odkaz n
 $footer = 'Další přednášky budou postupně přibývat, sledujte tuto stránku!';
 
 
-$eventTypeName = "Přednáška";  // viz Model\Arraymodel\EventType
+$eventTypeName = "";  // viz Model\Arraymodel\EventType
 $institutionName = "";
 
 $event = [];
 $eventList = new EventList($statusSecurity);
 
+$eventIds = [];
 foreach ($enrolls as $enroll) {
     $eventIds[] = $enroll->getEventid();
 }
 
-$event = $eventList->getEventList(null, null, $eventIds, false);   // enrolling = false
+$event = $eventList->getEventList(null, $institutionName, $eventIds, false);   // enrolling = false
 
 
 //include Configuration::componentControler()['templates']."timecolumn/template.php";

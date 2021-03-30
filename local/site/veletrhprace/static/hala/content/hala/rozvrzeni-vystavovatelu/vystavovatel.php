@@ -14,7 +14,7 @@ use Pes\Text\Html;
                         <form>
                             <content>
                                 <div style="text-align: center;">
-                                    <a class="logo-vystavovatele" href="<?= $urlStand ?>" target="_blank">
+                                    <a class="logo-vystavovatele" href="<?= $urlStand ?>">
                                         <img <?= Html::attributes($logoAttributes)?> style="vertical-align:middle; margin-right: 10px;"/>
                                         <i class="external alternate large blue icon"></i>
                                     </a>

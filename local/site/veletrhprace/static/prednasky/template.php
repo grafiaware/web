@@ -17,7 +17,6 @@ $perex =
 Přednášky můžete i opakovaně zhlédnout na našem <a href="https://www.youtube.com/channel/UC-Di-88rpUfBZUHHVf7tntQ" target="_blank">youtube kanálu</a>.';
 $footer = 'Další přednášky budou postupně přibývat, sledujte tuto stránku!';
 
-
 $eventTypeName = "Přednáška";  // viz Model\Arraymodel\EventType
 $institutionName = "";
 

@@ -30,7 +30,7 @@ $exhibitor = [
             'row' => [
                 [
                     'name' => 'Grafia',
-                    'urlStand' => '',
+                    'urlStand' => 'www/block/grafia',
                     'logoAttributes' => [
                         'src' => $static_ref.'grafia'.$logo_ref,
                         'alt' => 'Firma Grafia',
@@ -50,7 +50,7 @@ $exhibitor = [
             'row' => [
                 [
                     'name' => 'Konplan',
-                    'urlStand' => '',
+                    'urlStand' => 'www/block/konplan',
                     'logoAttributes' => [
                         'src' => $static_ref.'konplan'.$logo_ref,
                         'alt' => 'Firma Konplan',
@@ -58,7 +58,7 @@ $exhibitor = [
                 ],
                 [
                     'name' => 'MD Elektronik',
-                    'urlStand' => '',
+                    'urlStand' => 'www/block/mdelektronik',
                     'logoAttributes' => [
                         'src' => $static_ref.'mdelektronik'.$logo_ref,
                         'alt' => 'Firma MD Elektronik',
@@ -70,7 +70,7 @@ $exhibitor = [
             'row' => [
                 [
                     'name' => 'Úřad práce',
-                    'urlStand' => '',
+                    'urlStand' => 'www/block/up',
                     'logoAttributes' => [
                         'src' => $static_ref.'up'.$logo_ref,
                         'alt' => 'Firma ÚP',
@@ -78,7 +78,7 @@ $exhibitor = [
                 ],
                 [
                     'name' => 'Stoelzle',
-                    'urlStand' => '',
+                    'urlStand' => 'www/block/stoelzle',
                     'logoAttributes' => [
                         'src' => $static_ref.'stoelzle'.$logo_ref,
                         'alt' => 'Firma Stoelzle',
@@ -90,7 +90,7 @@ $exhibitor = [
             'row' => [
                 [
                     'name' => 'Wienerberger',
-                    'urlStand' => '',
+                    'urlStand' => 'www/block/wienerberger',
                     'logoAttributes' => [
                         'src' => $static_ref.'wienerberger'.$logo_ref,
                         'alt' => 'Firma Wienerberger',
@@ -110,7 +110,7 @@ $exhibitor = [
             'row' => [
                 [
                     'name' => 'Kermi',
-                    'urlStand' => '',
+                    'urlStand' => 'www/block/kermi',
                     'logoAttributes' => [
                         'src' => $static_ref.'kermi'.$logo_ref,
                         'alt' => 'Firma Kermi',
@@ -118,7 +118,7 @@ $exhibitor = [
                 ],
                 [
                     'name' => 'Drůběžářský závod Klatovy',
-                    'urlStand' => '',
+                    'urlStand' => 'www/block/dzk',
                     'logoAttributes' => [
                         'src' => $static_ref.'dzk'.$logo_ref,
                         'alt' => 'Firma DZK',
@@ -130,7 +130,7 @@ $exhibitor = [
             'row' => [
                 [
                     'name' => 'Possehl',
-                    'urlStand' => '',
+                    'urlStand' => 'www/block/possehl',
                     'logoAttributes' => [
                         'src' => $static_ref.'possehl'.$logo_ref,
                         'alt' => 'Firma Possehl',
@@ -138,7 +138,7 @@ $exhibitor = [
                 ],
                 [
                     'name' => 'Valeo',
-                    'urlStand' => '',
+                    'urlStand' => 'www/block/valeo',
                     'logoAttributes' => [
                         'src' => $static_ref.'valeo'.$logo_ref,
                         'alt' => 'Firma Valeo',

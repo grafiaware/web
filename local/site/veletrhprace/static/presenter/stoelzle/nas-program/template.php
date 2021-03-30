@@ -9,12 +9,12 @@ use Model\Repository\StatusSecurityRepo;
     $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
     /** @var StatusSecurityRepo $statusSecurityRepo */
     $statusSecurity = $statusSecurityRepo->get();
-    $eventTypeName = "Prezentace, Přednáška";  // viz Model\Arraymodel\EventType
-    $institutionName = "Stoelzle Union";
-    $event = (new EventList($statusSecurity))->getEventList($eventTypeName, $institutionName, [], true);   // enrolling = true
 
-    
-    
+    $institutionName = "Stoelzle Union";
+    $event = (new EventList($statusSecurity))->getEventList('', $institutionName, [], true);   // enrolling = true
+
+
+
     $headline = 'Náš program';
     $perex =
         '
@@ -22,7 +22,7 @@ use Model\Repository\StatusSecurityRepo;
     $footer = '';
 ?>
 
- 
+
     <div id="nas-program">
         <?php
         //include Configuration::componentControler()['templates']."timecolumn/template.php";

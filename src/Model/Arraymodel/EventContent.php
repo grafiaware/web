@@ -430,7 +430,7 @@ class EventContent {
 "Valeo Rakovník – nábor do výroby – operátor výroby, skladník, údržbář" => ['eventType' => $this->eventType->getEventType('Prezentace'),'title' => "Valeo Rakovník – nábor do výroby – operátor výroby, skladník, údržbář",'perex' => "",'institution' => ['id' => '', 'type'=>'', 'name'=>'Valeo Autoklimatizace'],'party' => '',],
 "Valeo – pracovní příležitosti pro techniky, inženýry a vývojáře" => ['eventType' => $this->eventType->getEventType('Prezentace'),'title' => "Valeo – pracovní příležitosti pro techniky, inženýry a vývojáře",'perex' => "",'institution' => ['id' => '', 'type'=>'', 'name'=>'Valeo Autoklimatizace'],'party' => '',],
 ];
-
+$a=1;
         return $eventContent[$id];
     }
 

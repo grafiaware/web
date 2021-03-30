@@ -60,7 +60,12 @@ class Web extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(PageController::class);
             return $ctrl->item($request, $langCode, $uid);
             });
-        $routeGenerator->addRouteForAction('GET', '/www/searchresult', function(ServerRequestInterface $request) {
+            $routeGenerator->addRouteForAction('GET', '/www/subitem/:langCode/:uid', function(ServerRequestInterface $request, $langCode, $uid) {
+            /** @var PageController $ctrl */
+            $ctrl = $this->container->get(PageController::class);
+            return $ctrl->subitem($request, $langCode, $uid);
+            });
+            $routeGenerator->addRouteForAction('GET', '/www/searchresult', function(ServerRequestInterface $request) {
             /** @var PageController $ctrl */
             $ctrl = $this->container->get(PageController::class);
             return $ctrl->searchResult($request);

@@ -13,8 +13,8 @@ use Model\Repository\StatusSecurityRepo;
     $institutionName = "EURES";
     $event = (new EventList($statusSecurity))->getEventList($eventTypeName, $institutionName, [], true);   // enrolling = true
 
-    
-    
+
+
     $headline = 'Náš program';
     $perex =
         '
@@ -22,7 +22,7 @@ use Model\Repository\StatusSecurityRepo;
     $footer = '';
 ?>
 
- 
+
     <div id="nas-program">
         <p>Podívejte se také na naše videonávody.</p>
         <?php

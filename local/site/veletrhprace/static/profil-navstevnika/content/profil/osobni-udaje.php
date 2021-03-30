@@ -7,6 +7,7 @@ use Pes\Text\Html;
 
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregateInterface $paperAggregate */
+
 ?>
 
 
@@ -22,29 +23,29 @@ use Pes\Text\Html;
                     <div class="four fields">
                         <div class="three wide field">
                             <label>Titul před jménem</label>
-                            <input type="text" name="titul1" placeholder="Mgr." maxlength="45">
+                            <input type="text" name="titul1" placeholder="" maxlength="45">
                         </div>
                         <div class="five wide field">
                             <label>Jméno</label>
-                            <input type="text" name="first-name" placeholder="Jan" maxlength="90">
+                            <input type="text" name="first-name" placeholder="Jméno" maxlength="90">
                         </div>
                         <div class="five wide field">
                             <label>Příjmení</label>
-                            <input type="text" name="last-name" placeholder="Vonásek" maxlength="90">
+                            <input type="text" name="last-name" placeholder="Příjmení" maxlength="90">
                         </div>
                         <div class="three wide field">
                             <label>Titul za jménem</label>
-                            <input type="text" name="titul2" placeholder="DiS." maxlength="45">
+                            <input type="text" name="titul2" placeholder="" maxlength="45">
                         </div>
                     </div>
                     <div class="two fields">
                         <div class="field">
                             <label>E-mail</label>
-                            <input type="email" name="email" placeholder="vonasek@seznam.cz" maxlength="90">
+                            <input type="email" name="email" placeholder="mail@example.cz" maxlength="90">
                         </div>
                         <div class="field">
                             <label>Telefon</label>
-                            <input type="tel" name="phone" placeholder="+420 725 896 569" pattern="(\+420)\s[1-9]\d{2}\s\d{3}\s\d{3}" maxlength="45">
+                            <input type="tel" name="phone" placeholder="+420 777 8888 555" pattern="(\+420)\s[1-9]\d{2}\s\d{3}\s\d{3}" maxlength="45">
                         </div>
                     </div>
                     <div class="two fields">
@@ -78,7 +79,7 @@ use Pes\Text\Html;
                                 <span class="text maly okraje-horizontal"><a><i class="eye outline icon"></i>Zobrazit soubor</a></span>
                                 <span class="text maly okraje-horizontal"><a><i class="trash icon"></i>Smazat</a></span>
                         </div>
-                        
+
                     </div>
                 </form>
             </div>
