@@ -1,4 +1,4 @@
-[debug] [2021-03-15 23:12:11] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/Hierarchy/Database.log. Mode 'w+'.
+[debug] [2021-03-28 19:49:29] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/Hierarchy/Database.log. Mode 'w+'.
 [debug] Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=localhost;port=3306;dbname=veletrhprace
 [debug] Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
     (
@@ -23,25 +23,25 @@
         [20] => 
     )
     
-[debug] Handler veletrhprace (1) prepare(SELECT 
-    	nested_set.uid, nested_set.depth, nested_set.left_node, nested_set.right_node, nested_set.parent_uid,
-            menu_item.lang_code_fk, menu_item.uid_fk, menu_item.type_fk, menu_item.id, menu_item.title, menu_item.prettyuri, menu_item.active, menu_item.multipage
-            FROM
-                    (SELECT
-                        node.uid, (COUNT(parent.uid) - 1) AS depth, node.left_node, node.right_node, node.parent_uid
-                    FROM
-                        hierarchy AS node
-                        CROSS JOIN
-                        hierarchy AS parent ON node.left_node BETWEEN parent.left_node AND parent.right_node
-                    GROUP BY node.uid
-                    ) AS nested_set
-                        INNER JOIN
-                    menu_item AS menu_item ON (nested_set.uid = menu_item.uid_fk) WHERE menu_item.lang_code_fk = :lang_code AND menu_item.title = :title , ). Vytvořen Statement (1).
-[debug] Statement (1) bindParam(:title, Tests Integration, 2, , )
-[debug] Statement (1) bindParam(:lang_code, cs, 2, , )
+[debug] Handler veletrhprace (1) prepare(
+                DELETE FROM `veletrhprace`.`enrolled`
+                WHERE `id` = :id, ). Vytvořen Statement (1).
+[debug] Statement (1) bindValue(:id, 0, 2)
 [debug] Statement (1) execute().
 [debug] Statement (1) execute()
-[debug] Statement (1) fetch(2, 0, 0)
+[debug] Handler veletrhprace (1) prepare(
+                INSERT INTO `veletrhprace`.`enrolled`
+                (
+                `login_name`,
+                `eventid`)
+                VALUES
+                (
+                :login_name,
+                :eventid), ). Vytvořen Statement (2).
+[debug] Statement (2) bindValue(:login_name, testEnroll login name, 2)
+[debug] Statement (2) bindValue(:eventid, test_eventid_1510, 2)
+[debug] Statement (2) execute().
+[debug] Statement (2) execute()
 [debug] Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=localhost;port=3306;dbname=veletrhprace
 [debug] Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
     (
@@ -66,68 +66,6 @@
         [20] => 
     )
     
-[debug] Handler veletrhprace (2) prepare(SELECT 
-    	nested_set.uid, nested_set.depth, nested_set.left_node, nested_set.right_node, nested_set.parent_uid,
-            menu_item.lang_code_fk, menu_item.uid_fk, menu_item.type_fk, menu_item.id, menu_item.title, menu_item.prettyuri, menu_item.active, menu_item.multipage
-            FROM
-                    (SELECT
-                        node.uid, (COUNT(parent.uid) - 1) AS depth, node.left_node, node.right_node, node.parent_uid
-                    FROM
-                        hierarchy AS node
-                        CROSS JOIN
-                        hierarchy AS parent ON node.left_node BETWEEN parent.left_node AND parent.right_node
-                    GROUP BY node.uid
-                    ) AS nested_set
-                        INNER JOIN
-                    menu_item AS menu_item ON (nested_set.uid = menu_item.uid_fk) WHERE menu_item.lang_code_fk = :lang_code AND menu_item.title = :title , ). Vytvořen Statement (2).
-[debug] Statement (2) bindParam(:title, Tests Integration, 2, , )
-[debug] Statement (2) bindParam(:lang_code, cs, 2, , )
-[debug] Statement (2) execute().
-[debug] Statement (2) execute()
-[debug] Statement (2) fetch(2, 0, 0)
-[debug] Handler veletrhprace (2) prepare(SELECT lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active, multipage FROM menu_item  WHERE menu_item.lang_code_fk = :lang_code_fk AND menu_item.uid_fk=:uid_fk , ). Vytvořen Statement (3).
-[debug] Statement (3) bindValue(:lang_code_fk, cs, 2)
-[debug] Statement (3) bindValue(:uid_fk, 60262f3e906e4, 2)
-[debug] Statement (3) execute().
-[debug] Statement (3) execute()
-[debug] Statement (3) fetch(2, 0, 0)
-[debug] Handler veletrhprace (2) prepare(SELECT
-            `paper`.`id` AS `id`,
-            `paper`.`menu_item_id_fk` AS `menu_item_id_fk`,
-            `paper`.`headline` AS `headline`,
-            `paper`.`perex` AS `perex`,
-            `paper`.`template` AS `template`,
-            `paper`.`keywords` AS `keywords`,
-            `paper`.`editor` AS `editor`,
-            `paper`.`updated` AS `updated`
-        FROM
-            `paper`
-        WHERE
-            `paper`.`menu_item_id_fk` = :menu_item_id_fk, ). Vytvořen Statement (4).
-[debug] Statement (4) bindValue(:menu_item_id_fk, 19, 2)
-[debug] Statement (4) execute().
-[debug] Statement (4) execute()
-[debug] Statement (4) fetch(2, 0, 0)
-[debug] Handler veletrhprace (2) prepare(SELECT
-                    `paper_content`.`id` AS `id`,
-                    `paper_content`.`paper_id_fk` AS `paper_id_fk`,
-                    `paper_content`.`content` AS `content`,
-                    `paper_content`.`template` AS `template`,
-                    `paper_content`.`active` AS `active`,
-                    `paper_content`.`priority` AS `priority`,
-                    `paper_content`.`show_time` AS `show_time`,
-                    `paper_content`.`hide_time` AS `hide_time`,
-                    `paper_content`.`event_time` AS `event_time`,
-                    `paper_content`.`editor` AS `editor`,
-                    `paper_content`.`updated` AS `updated`,
-                     (ISNULL(show_time) OR show_time<=CURDATE()) AND (ISNULL(hide_time) OR CURDATE()<=hide_time) AS actual
-                FROM
-                    `paper_content` WHERE `paper_content`.`paper_id_fk` = :paper_id_fk , ). Vytvořen Statement (5).
-[debug] Statement (5) bindValue(:paper_id_fk, 3, 2)
-[debug] Statement (5) execute().
-[debug] Statement (5) execute()
-[debug] Statement (5) fetchAll(2)
-[debug] Result má 13 prvků.
 [debug] Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=localhost;port=3306;dbname=veletrhprace
 [debug] Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
     (
@@ -152,154 +90,288 @@
         [20] => 
     )
     
-[debug] Handler veletrhprace (3) prepare(SELECT 
-    	nested_set.uid, nested_set.depth, nested_set.left_node, nested_set.right_node, nested_set.parent_uid,
-            menu_item.lang_code_fk, menu_item.uid_fk, menu_item.type_fk, menu_item.id, menu_item.title, menu_item.prettyuri, menu_item.active, menu_item.multipage
-            FROM
-                    (SELECT
-                        node.uid, (COUNT(parent.uid) - 1) AS depth, node.left_node, node.right_node, node.parent_uid
-                    FROM
-                        hierarchy AS node
-                        CROSS JOIN
-                        hierarchy AS parent ON node.left_node BETWEEN parent.left_node AND parent.right_node
-                    GROUP BY node.uid
-                    ) AS nested_set
-                        INNER JOIN
-                    menu_item AS menu_item ON (nested_set.uid = menu_item.uid_fk) WHERE menu_item.lang_code_fk = :lang_code AND menu_item.title = :title , ). Vytvořen Statement (6).
-[debug] Statement (6) bindParam(:title, Tests Integration, 2, , )
-[debug] Statement (6) bindParam(:lang_code, cs, 2, , )
+[debug] Handler veletrhprace (3) prepare(
+                SELECT `enrolled`.`id`,
+                    `enrolled`.`login_name`,
+                    `enrolled`.`eventid`
+                FROM `veletrhprace`.`enrolled`
+                WHERE
+                    `enrolled`.`id` = :id, ). Vytvořen Statement (3).
+[debug] Statement (3) bindValue(:id, 0, 2)
+[debug] Statement (3) execute().
+[debug] Statement (3) execute()
+[debug] Statement (3) fetch(2, 0, 0)
+[warning]  Metoda Pes\Database\Statement\Statement::fetch nevrátila žádná data.
+[debug] Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=localhost;port=3306;dbname=veletrhprace
+[debug] Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+    
+[debug] Vytvořen database handler Handler veletrhprace (4), name veletrhprace, host localhost.
+[info] Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+    
+[debug] Handler veletrhprace (4) prepare(
+                SELECT `enrolled`.`id`,
+                    `enrolled`.`login_name`,
+                    `enrolled`.`eventid`
+                FROM `veletrhprace`.`enrolled`
+                WHERE
+                    `enrolled`.`id` = :id, ). Vytvořen Statement (4).
+[debug] Statement (4) bindValue(:id, 24, 2)
+[debug] Statement (4) execute().
+[debug] Statement (4) execute()
+[debug] Statement (4) fetch(2, 0, 0)
+[debug] Handler veletrhprace (4) prepare(
+                DELETE FROM `veletrhprace`.`enrolled`
+                WHERE `id` = :id, ). Vytvořen Statement (5).
+[debug] Statement (5) bindValue(:id, 24, 2)
+[debug] Statement (5) execute().
+[debug] Statement (5) execute()
+[debug] Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=localhost;port=3306;dbname=veletrhprace
+[debug] Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+    
+[debug] Vytvořen database handler Handler veletrhprace (5), name veletrhprace, host localhost.
+[info] Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+    
+[debug] Handler veletrhprace (5) prepare(
+                SELECT `enrolled`.`id`,
+                    `enrolled`.`login_name`,
+                    `enrolled`.`eventid`
+                FROM `veletrhprace`.`enrolled`
+                WHERE
+                    `enrolled`.`id` = :id, ). Vytvořen Statement (6).
+[debug] Statement (6) bindValue(:id, 24, 2)
 [debug] Statement (6) execute().
 [debug] Statement (6) execute()
 [debug] Statement (6) fetch(2, 0, 0)
-[debug] Handler veletrhprace (3) prepare(UPDATE paper_content SET content = :content, template = :template, active = :active, priority = :priority, show_time = :show_time, hide_time = :hide_time, editor = :editor
-                    WHERE  id = :id, ). Vytvořen Statement (7).
-[debug] Statement (7) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (7) bindValue(:template, , 2)
-[debug] Statement (7) bindValue(:active, 0, 2)
-[debug] Statement (7) bindValue(:priority, 1, 2)
-[debug] Statement (7) bindValue(:show_time, , 1)
-[debug] Statement (7) bindValue(:hide_time, , 1)
-[debug] Statement (7) bindValue(:editor, , 1)
-[debug] Statement (7) bindValue(:id, 1, 2)
+[warning]  Metoda Pes\Database\Statement\Statement::fetch nevrátila žádná data.
+[debug] Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=localhost;port=3306;dbname=veletrhprace
+[debug] Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+    
+[debug] Vytvořen database handler Handler veletrhprace (6), name veletrhprace, host localhost.
+[info] Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+    
+[debug] Handler veletrhprace (6) prepare(
+                INSERT INTO `veletrhprace`.`enrolled`
+                (
+                `login_name`,
+                `eventid`)
+                VALUES
+                (
+                :login_name,
+                :eventid), ). Vytvořen Statement (7).
+[debug] Statement (7) bindValue(:login_name, testEnroll login name, 2)
+[debug] Statement (7) bindValue(:eventid, test_eventid_999, 2)
 [debug] Statement (7) execute().
 [debug] Statement (7) execute()
-[debug] Statement (7) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (7) bindValue(:template, , 2)
-[debug] Statement (7) bindValue(:active, 0, 2)
-[debug] Statement (7) bindValue(:priority, 1, 2)
-[debug] Statement (7) bindValue(:show_time, , 1)
-[debug] Statement (7) bindValue(:hide_time, , 1)
-[debug] Statement (7) bindValue(:editor, , 1)
-[debug] Statement (7) bindValue(:id, 2, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (7) bindValue(:template, , 2)
-[debug] Statement (7) bindValue(:active, 0, 2)
-[debug] Statement (7) bindValue(:priority, 1, 2)
-[debug] Statement (7) bindValue(:show_time, , 1)
-[debug] Statement (7) bindValue(:hide_time, , 1)
-[debug] Statement (7) bindValue(:editor, , 1)
-[debug] Statement (7) bindValue(:id, 3, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (7) bindValue(:template, , 2)
-[debug] Statement (7) bindValue(:active, 0, 2)
-[debug] Statement (7) bindValue(:priority, 1, 2)
-[debug] Statement (7) bindValue(:show_time, , 1)
-[debug] Statement (7) bindValue(:hide_time, , 1)
-[debug] Statement (7) bindValue(:editor, , 1)
-[debug] Statement (7) bindValue(:id, 4, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) bindValue(:content, bflmpsvz, 2)
-[debug] Statement (7) bindValue(:template, , 2)
-[debug] Statement (7) bindValue(:active, 0, 2)
-[debug] Statement (7) bindValue(:priority, 1, 2)
-[debug] Statement (7) bindValue(:show_time, , 1)
-[debug] Statement (7) bindValue(:hide_time, , 1)
-[debug] Statement (7) bindValue(:editor, , 1)
-[debug] Statement (7) bindValue(:id, 5, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) bindValue(:content, bflmpsvz 6, 2)
-[debug] Statement (7) bindValue(:template, , 2)
-[debug] Statement (7) bindValue(:active, 0, 2)
-[debug] Statement (7) bindValue(:priority, 1, 2)
-[debug] Statement (7) bindValue(:show_time, , 1)
-[debug] Statement (7) bindValue(:hide_time, , 1)
-[debug] Statement (7) bindValue(:editor, , 1)
-[debug] Statement (7) bindValue(:id, 6, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) bindValue(:content, bflmpsvz 7, 2)
-[debug] Statement (7) bindValue(:template, , 2)
-[debug] Statement (7) bindValue(:active, 0, 2)
-[debug] Statement (7) bindValue(:priority, 1, 2)
-[debug] Statement (7) bindValue(:show_time, , 1)
-[debug] Statement (7) bindValue(:hide_time, , 1)
-[debug] Statement (7) bindValue(:editor, , 1)
-[debug] Statement (7) bindValue(:id, 7, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) bindValue(:content, bflmpsvz 8, 2)
-[debug] Statement (7) bindValue(:template, , 2)
-[debug] Statement (7) bindValue(:active, 0, 2)
-[debug] Statement (7) bindValue(:priority, 1, 2)
-[debug] Statement (7) bindValue(:show_time, , 1)
-[debug] Statement (7) bindValue(:hide_time, , 1)
-[debug] Statement (7) bindValue(:editor, , 1)
-[debug] Statement (7) bindValue(:id, 8, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) bindValue(:content, bflmpsvz 9, 2)
-[debug] Statement (7) bindValue(:template, , 2)
-[debug] Statement (7) bindValue(:active, 0, 2)
-[debug] Statement (7) bindValue(:priority, 1, 2)
-[debug] Statement (7) bindValue(:show_time, , 1)
-[debug] Statement (7) bindValue(:hide_time, , 1)
-[debug] Statement (7) bindValue(:editor, , 1)
-[debug] Statement (7) bindValue(:id, 9, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) bindValue(:content, bflmpsvz 10, 2)
-[debug] Statement (7) bindValue(:template, , 2)
-[debug] Statement (7) bindValue(:active, 0, 2)
-[debug] Statement (7) bindValue(:priority, 1, 2)
-[debug] Statement (7) bindValue(:show_time, , 1)
-[debug] Statement (7) bindValue(:hide_time, , 1)
-[debug] Statement (7) bindValue(:editor, , 1)
-[debug] Statement (7) bindValue(:id, 10, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) bindValue(:content, bflmpsvz 11, 2)
-[debug] Statement (7) bindValue(:template, , 2)
-[debug] Statement (7) bindValue(:active, 0, 2)
-[debug] Statement (7) bindValue(:priority, 1, 2)
-[debug] Statement (7) bindValue(:show_time, , 1)
-[debug] Statement (7) bindValue(:hide_time, , 1)
-[debug] Statement (7) bindValue(:editor, , 1)
-[debug] Statement (7) bindValue(:id, 11, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) bindValue(:content, bflmpsvz 12, 2)
-[debug] Statement (7) bindValue(:template, , 2)
-[debug] Statement (7) bindValue(:active, 0, 2)
-[debug] Statement (7) bindValue(:priority, 1, 2)
-[debug] Statement (7) bindValue(:show_time, , 1)
-[debug] Statement (7) bindValue(:hide_time, , 1)
-[debug] Statement (7) bindValue(:editor, , 1)
-[debug] Statement (7) bindValue(:id, 12, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) bindValue(:content, bflmpsvz 13, 2)
-[debug] Statement (7) bindValue(:template, , 2)
-[debug] Statement (7) bindValue(:active, 0, 2)
-[debug] Statement (7) bindValue(:priority, 1, 2)
-[debug] Statement (7) bindValue(:show_time, , 1)
-[debug] Statement (7) bindValue(:hide_time, , 1)
-[debug] Statement (7) bindValue(:editor, , 1)
-[debug] Statement (7) bindValue(:id, 13, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
+[debug] Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=localhost;port=3306;dbname=veletrhprace
+[debug] Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+    
+[debug] Vytvořen database handler Handler veletrhprace (7), name veletrhprace, host localhost.
+[info] Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+    
+[debug] Handler veletrhprace (7) prepare(
+                SELECT `enrolled`.`id`,
+                    `enrolled`.`login_name`,
+                    `enrolled`.`eventid`
+                FROM `veletrhprace`.`enrolled`, ). Vytvořen Statement (8).
+[debug] Statement (8) execute().
+[debug] Statement (8) execute()
+[debug] Statement (8) fetchAll(2)
+[debug] Result má 6 prvků.
+[debug] Handler veletrhprace (7) prepare(
+            UPDATE `veletrhprace`.`enrolled`
+            SET
+            `login_name` = :login_name,
+            `eventid` = :eventid
+            WHERE `id` = :id, ). Vytvořen Statement (9).
+[debug] Statement (9) bindValue(:login_name, pes2704, 2)
+[debug] Statement (9) bindValue(:eventid, event_id_001, 2)
+[debug] Statement (9) bindValue(:id, 16, 2)
+[debug] Statement (9) execute().
+[debug] Statement (9) execute()
+[debug] Statement (9) bindValue(:login_name, pes2704, 2)
+[debug] Statement (9) bindValue(:eventid, event_id_004, 2)
+[debug] Statement (9) bindValue(:id, 17, 2)
+[debug] Statement (9) execute().
+[debug] Statement (9) execute()
+[debug] Statement (9) bindValue(:login_name, testEnroll login name, 2)
+[debug] Statement (9) bindValue(:eventid, test_eventid_999, 2)
+[debug] Statement (9) bindValue(:id, 19, 2)
+[debug] Statement (9) execute().
+[debug] Statement (9) execute()
+[debug] Statement (9) bindValue(:login_name, testEnroll login name, 2)
+[debug] Statement (9) bindValue(:eventid, test_eventid_999, 2)
+[debug] Statement (9) bindValue(:id, 21, 2)
+[debug] Statement (9) execute().
+[debug] Statement (9) execute()
+[debug] Statement (9) bindValue(:login_name, testEnroll login name, 2)
+[debug] Statement (9) bindValue(:eventid, test_eventid_999, 2)
+[debug] Statement (9) bindValue(:id, 23, 2)
+[debug] Statement (9) execute().
+[debug] Statement (9) execute()
+[debug] Statement (9) bindValue(:login_name, testEnroll login name, 2)
+[debug] Statement (9) bindValue(:eventid, test_eventid_999, 2)
+[debug] Statement (9) bindValue(:id, 25, 2)
+[debug] Statement (9) execute().
+[debug] Statement (9) execute()
+[debug] Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=localhost;port=3306;dbname=veletrhprace
+[debug] Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+    
+[debug] Vytvořen database handler Handler veletrhprace (8), name veletrhprace, host localhost.
+[info] Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+    
+[debug] Handler veletrhprace (8) prepare(
+                SELECT `enrolled`.`id`,
+                    `enrolled`.`login_name`,
+                    `enrolled`.`eventid`
+                FROM `veletrhprace`.`enrolled` WHERE login_name = :login_name , ). Vytvořen Statement (10).
+[debug] Statement (10) bindValue(:login_name, testEnroll login name, 2)
+[debug] Statement (10) execute().
+[debug] Statement (10) execute()
+[debug] Statement (10) fetchAll(2)
+[debug] Result má 4 prvků.
+[debug] Handler veletrhprace (8) prepare(
+            UPDATE `veletrhprace`.`enrolled`
+            SET
+            `login_name` = :login_name,
+            `eventid` = :eventid
+            WHERE `id` = :id, ). Vytvořen Statement (11).
+[debug] Statement (11) bindValue(:login_name, testEnroll login name, 2)
+[debug] Statement (11) bindValue(:eventid, test_eventid_999, 2)
+[debug] Statement (11) bindValue(:id, 19, 2)
+[debug] Statement (11) execute().
+[debug] Statement (11) execute()
+[debug] Statement (11) bindValue(:login_name, testEnroll login name, 2)
+[debug] Statement (11) bindValue(:eventid, test_eventid_999, 2)
+[debug] Statement (11) bindValue(:id, 21, 2)
+[debug] Statement (11) execute().
+[debug] Statement (11) execute()
+[debug] Statement (11) bindValue(:login_name, testEnroll login name, 2)
+[debug] Statement (11) bindValue(:eventid, test_eventid_999, 2)
+[debug] Statement (11) bindValue(:id, 23, 2)
+[debug] Statement (11) execute().
+[debug] Statement (11) execute()
+[debug] Statement (11) bindValue(:login_name, testEnroll login name, 2)
+[debug] Statement (11) bindValue(:eventid, test_eventid_999, 2)
+[debug] Statement (11) bindValue(:id, 25, 2)
+[debug] Statement (11) execute().
+[debug] Statement (11) execute()
+[debug] Pes\Database\Handler\DsnProvider\DsnProviderMysql Vytvořeno dsn: mysql:host=localhost;port=3306;dbname=veletrhprace
+[debug] Pes\Database\Handler\OptionsProvider\OptionsProviderMysql: Vytvořeny options - Array
+    (
+        [1005] => 1
+        [1002] => SET NAMES utf8 COLLATE utf8_general_ci
+    )
+    
+[debug] Vytvořen database handler Handler veletrhprace (9), name veletrhprace, host localhost.
+[info] Pes\Database\Handler\AttributesProvider\AttributesProviderAbstract Nastaveny hodnoty atributů handleru (PDO): Array
+    (
+        [3] => 2
+        [13] => Array
+            (
+                [0] => Pes\Database\Statement\Statement
+                [1] => Array
+                    (
+                        [0] => 
+                    )
+    
+            )
+    
+        [20] => 
+    )
+    
+[debug] Handler veletrhprace (9) prepare(
+                DELETE FROM `veletrhprace`.`enrolled`
+                WHERE `id` = :id, ). Vytvořen Statement (12).
+[debug] Statement (12) bindValue(:id, 0, 2)
+[debug] Statement (12) execute().
+[debug] Statement (12) execute()

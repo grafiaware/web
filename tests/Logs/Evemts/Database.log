@@ -1,0 +1,1726 @@
+[debug] [2021-03-27 22:30:59] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/Evemts/Database.log. Mode 'w+'.
+[debug] Vytvořen database handler Handler events (1), name events, host localhost.
+[debug] Handler events (1) prepare(
+                DELETE FROM `event_content`
+                WHERE `id` = :id, ). Vytvořen Statement (1).
+[debug] Statement (1) bindValue(:id, 0, 2)
+[debug] Statement (1) execute().
+[debug] Statement (1) execute()
+[debug] Handler events (1) prepare(
+                INSERT INTO `event_content`
+                (
+                `title`,
+                `perex`,
+                `party`,
+                `event_content_type_type_fk`,
+                `institution_id_fk`)
+                VALUES
+                (
+                :title,
+                :perex,
+                :party,
+                :event_content_type_type_fk,
+                :institution_id_fk), ). Vytvořen Statement (2).
+[debug] Statement (2) bindValue(:title, testEventContentPřednáška, 2)
+[debug] Statement (2) bindValue(:perex, testEventContent Přednáška kjrhrkjh rkh rktjh erůjkhlkjhlkjhg welkfh ůh ů§h §h ů§fh lůfjkhů fkjh fůsdjefhů fhsůjh ksjh ůjh ůsdhdůfh sůheůrjheů, 2)
+[debug] Statement (2) bindValue(:party, testEventContentKluk, Ťuk, Muk, Kuk, Buk, Guk, 2)
+[debug] Statement (2) bindValue(:event_content_type_type_fk, , 1)
+[debug] Statement (2) bindValue(:institution_id_fk, , 1)
+[debug] Statement (2) execute().
+[debug] Statement (2) execute()
+[debug] Vytvořen database handler Handler events (2), name events, host localhost.
+[debug] Vytvořen database handler Handler events (3), name events, host localhost.
+[debug] Handler events (3) prepare(
+            SELECT `event_content`.`id`,
+                `event_content`.`title`,
+                `event_content`.`perex`,
+                `event_content`.`party`,
+                `event_content`.`event_content_type_type_fk`,
+                `event_content`.`institution_id_fk`
+            FROM `event_content`
+            WHERE
+                `event_content`.`id` = :id, ). Vytvořen Statement (3).
+[debug] Statement (3) bindValue(:id, 0, 2)
+[debug] Statement (3) execute().
+[debug] Statement (3) execute()
+[debug] Statement (3) fetch(2, 0, 0)
+[warning]  Metoda Pes\Database\Statement\Statement::fetch nevrátila žádná data.
+[debug] Vytvořen database handler Handler events (4), name events, host localhost.
+[debug] Handler events (4) prepare(
+            SELECT `event_content`.`id`,
+                `event_content`.`title`,
+                `event_content`.`perex`,
+                `event_content`.`party`,
+                `event_content`.`event_content_type_type_fk`,
+                `event_content`.`institution_id_fk`
+            FROM `event_content`
+            WHERE
+                `event_content`.`id` = :id, ). Vytvořen Statement (4).
+[debug] Statement (4) bindValue(:id, 53, 2)
+[debug] Statement (4) execute().
+[debug] Statement (4) execute()
+[debug] Statement (4) fetch(2, 0, 0)
+[debug] Handler events (4) prepare(
+                DELETE FROM `event_content`
+                WHERE `id` = :id, ). Vytvořen Statement (5).
+[debug] Statement (5) bindValue(:id, 53, 2)
+[debug] Statement (5) execute().
+[debug] Statement (5) execute()
+[debug] Vytvořen database handler Handler events (5), name events, host localhost.
+[debug] Handler events (5) prepare(
+            SELECT `event_content`.`id`,
+                `event_content`.`title`,
+                `event_content`.`perex`,
+                `event_content`.`party`,
+                `event_content`.`event_content_type_type_fk`,
+                `event_content`.`institution_id_fk`
+            FROM `event_content`
+            WHERE
+                `event_content`.`id` = :id, ). Vytvořen Statement (6).
+[debug] Statement (6) bindValue(:id, 53, 2)
+[debug] Statement (6) execute().
+[debug] Statement (6) execute()
+[debug] Statement (6) fetch(2, 0, 0)
+[warning]  Metoda Pes\Database\Statement\Statement::fetch nevrátila žádná data.
+[debug] Vytvořen database handler Handler events (6), name events, host localhost.
+[debug] Handler events (6) prepare(
+                INSERT INTO `event_content`
+                (
+                `title`,
+                `perex`,
+                `party`,
+                `event_content_type_type_fk`,
+                `institution_id_fk`)
+                VALUES
+                (
+                :title,
+                :perex,
+                :party,
+                :event_content_type_type_fk,
+                :institution_id_fk), ). Vytvořen Statement (7).
+[debug] Statement (7) bindValue(:title, testEventContentPřednáška, 2)
+[debug] Statement (7) bindValue(:perex, testEventContent Přednáška kjrhrkjh rkh rktjh erůjkhlkjhlkjhg welkfh ůh ů§h §h ů§fh lůfjkhů fkjh fůsdjefhů fhsůjh ksjh ůjh ůsdhdůfh sůheůrjheů, 2)
+[debug] Statement (7) bindValue(:party, testEventContentKluk, Ťuk, Muk, Kuk, Buk, Guk, 2)
+[debug] Statement (7) bindValue(:event_content_type_type_fk, , 1)
+[debug] Statement (7) bindValue(:institution_id_fk, , 1)
+[debug] Statement (7) execute().
+[debug] Statement (7) execute()
+[debug] Vytvořen database handler Handler events (7), name events, host localhost.
+[debug] Handler events (7) prepare(
+            SELECT `event_content`.`id`,
+                `event_content`.`title`,
+                `event_content`.`perex`,
+                `event_content`.`party`,
+                `event_content`.`event_content_type_type_fk`,
+                `event_content`.`institution_id_fk`
+            FROM `event_content` , ). Vytvořen Statement (8).
+[debug] Statement (8) execute().
+[debug] Statement (8) execute()
+[debug] Statement (8) fetchAll(2)
+[debug] Result má 26 prvků.
+[debug] Handler events (7) prepare(
+                UPDATE `event`
+                SET
+                `published` = :published,
+                `start` = :start,
+                `end` = :end,
+                `event_type_id_fk` = :event_type_id_fk,
+                `event_content_id_fk` = event_content_id_fk
+                WHERE `id` = :id, ). Vytvořen Statement (9).
+[debug] Statement (9) bindValue(:published, , 1)
+[debug] Statement (9) bindValue(:start, , 1)
+[debug] Statement (9) bindValue(:end, , 1)
+[debug] Statement (9) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (9) bindValue(:id, 1, 2)
+[debug] Statement (9) execute().
+[debug] Statement (9) execute()
+[debug] Statement (9) bindValue(:published, , 1)
+[debug] Statement (9) bindValue(:start, , 1)
+[debug] Statement (9) bindValue(:end, , 1)
+[debug] Statement (9) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (9) bindValue(:id, 6, 2)
+[debug] Statement (9) execute().
+[debug] Statement (9) execute()
+[debug] Statement (9) bindValue(:published, , 1)
+[debug] Statement (9) bindValue(:start, , 1)
+[debug] Statement (9) bindValue(:end, , 1)
+[debug] Statement (9) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (9) bindValue(:id, 8, 2)
+[debug] Statement (9) execute().
+[debug] Statement (9) execute()
+[debug] Statement (9) bindValue(:published, , 1)
+[debug] Statement (9) bindValue(:start, , 1)
+[debug] Statement (9) bindValue(:end, , 1)
+[debug] Statement (9) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (9) bindValue(:id, 10, 2)
+[debug] Statement (9) execute().
+[debug] Statement (9) execute()
+[debug] Statement (9) bindValue(:published, , 1)
+[debug] Statement (9) bindValue(:start, , 1)
+[debug] Statement (9) bindValue(:end, , 1)
+[debug] Statement (9) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (9) bindValue(:id, 12, 2)
+[debug] Statement (9) execute().
+[debug] Statement (9) execute()
+[debug] Statement (9) bindValue(:published, , 1)
+[debug] Statement (9) bindValue(:start, , 1)
+[debug] Statement (9) bindValue(:end, , 1)
+[debug] Statement (9) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (9) bindValue(:id, 14, 2)
+[debug] Statement (9) execute().
+[debug] Statement (9) execute()
+[debug] Statement (9) bindValue(:published, , 1)
+[debug] Statement (9) bindValue(:start, , 1)
+[debug] Statement (9) bindValue(:end, , 1)
+[debug] Statement (9) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (9) bindValue(:id, 16, 2)
+[debug] Statement (9) execute().
+[debug] Statement (9) execute()
+[debug] Statement (9) bindValue(:published, , 1)
+[debug] Statement (9) bindValue(:start, , 1)
+[debug] Statement (9) bindValue(:end, , 1)
+[debug] Statement (9) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (9) bindValue(:id, 18, 2)
+[debug] Statement (9) execute().
+[debug] Statement (9) execute()
+[debug] Statement (9) bindValue(:published, , 1)
+[debug] Statement (9) bindValue(:start, , 1)
+[debug] Statement (9) bindValue(:end, , 1)
+[debug] Statement (9) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (9) bindValue(:id, 20, 2)
+[debug] Statement (9) execute().
+[debug] Statement (9) execute()
+[debug] Statement (9) bindValue(:published, , 1)
+[debug] Statement (9) bindValue(:start, , 1)
+[debug] Statement (9) bindValue(:end, , 1)
+[debug] Statement (9) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (9) bindValue(:id, 22, 2)
+[debug] Statement (9) execute().
+[debug] Statement (9) execute()
+[debug] Statement (9) bindValue(:published, , 1)
+[debug] Statement (9) bindValue(:start, , 1)
+[debug] Statement (9) bindValue(:end, , 1)
+[debug] Statement (9) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (9) bindValue(:id, 24, 2)
+[debug] Statement (9) execute().
+[debug] Statement (9) execute()
+[debug] Statement (9) bindValue(:published, , 1)
+[debug] Statement (9) bindValue(:start, , 1)
+[debug] Statement (9) bindValue(:end, , 1)
+[debug] Statement (9) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (9) bindValue(:id, 26, 2)
+[debug] Statement (9) execute().
+[debug] Statement (9) execute()
+[debug] Statement (9) bindValue(:published, , 1)
+[debug] Statement (9) bindValue(:start, , 1)
+[debug] Statement (9) bindValue(:end, , 1)
+[debug] Statement (9) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (9) bindValue(:id, 28, 2)
+[debug] Statement (9) execute().
+[debug] Statement (9) execute()
+[debug] Statement (9) bindValue(:published, , 1)
+[debug] Statement (9) bindValue(:start, , 1)
+[debug] Statement (9) bindValue(:end, , 1)
+[debug] Statement (9) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (9) bindValue(:id, 30, 2)
+[debug] Statement (9) execute().
+[debug] Statement (9) execute()
+[debug] Statement (9) bindValue(:published, , 1)
+[debug] Statement (9) bindValue(:start, , 1)
+[debug] Statement (9) bindValue(:end, , 1)
+[debug] Statement (9) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (9) bindValue(:id, 32, 2)
+[debug] Statement (9) execute().
+[debug] Statement (9) execute()
+[debug] Statement (9) bindValue(:published, , 1)
+[debug] Statement (9) bindValue(:start, , 1)
+[debug] Statement (9) bindValue(:end, , 1)
+[debug] Statement (9) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (9) bindValue(:id, 34, 2)
+[debug] Statement (9) execute().
+[debug] Statement (9) execute()
+[debug] Statement (9) bindValue(:published, , 1)
+[debug] Statement (9) bindValue(:start, , 1)
+[debug] Statement (9) bindValue(:end, , 1)
+[debug] Statement (9) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (9) bindValue(:id, 36, 2)
+[debug] Statement (9) execute().
+[debug] Statement (9) execute()
+[debug] Statement (9) bindValue(:published, , 1)
+[debug] Statement (9) bindValue(:start, , 1)
+[debug] Statement (9) bindValue(:end, , 1)
+[debug] Statement (9) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (9) bindValue(:id, 38, 2)
+[debug] Statement (9) execute().
+[debug] Statement (9) execute()
+[debug] Statement (9) bindValue(:published, , 1)
+[debug] Statement (9) bindValue(:start, , 1)
+[debug] Statement (9) bindValue(:end, , 1)
+[debug] Statement (9) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (9) bindValue(:id, 40, 2)
+[debug] Statement (9) execute().
+[debug] Statement (9) execute()
+[debug] Statement (9) bindValue(:published, , 1)
+[debug] Statement (9) bindValue(:start, , 1)
+[debug] Statement (9) bindValue(:end, , 1)
+[debug] Statement (9) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (9) bindValue(:id, 42, 2)
+[debug] Statement (9) execute().
+[debug] Statement (9) execute()
+[debug] Statement (9) bindValue(:published, , 1)
+[debug] Statement (9) bindValue(:start, , 1)
+[debug] Statement (9) bindValue(:end, , 1)
+[debug] Statement (9) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (9) bindValue(:id, 44, 2)
+[debug] Statement (9) execute().
+[debug] Statement (9) execute()
+[debug] Statement (9) bindValue(:published, , 1)
+[debug] Statement (9) bindValue(:start, , 1)
+[debug] Statement (9) bindValue(:end, , 1)
+[debug] Statement (9) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (9) bindValue(:id, 46, 2)
+[debug] Statement (9) execute().
+[debug] Statement (9) execute()
+[debug] Statement (9) bindValue(:published, , 1)
+[debug] Statement (9) bindValue(:start, , 1)
+[debug] Statement (9) bindValue(:end, , 1)
+[debug] Statement (9) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (9) bindValue(:id, 48, 2)
+[debug] Statement (9) execute().
+[debug] Statement (9) execute()
+[debug] Statement (9) bindValue(:published, , 1)
+[debug] Statement (9) bindValue(:start, , 1)
+[debug] Statement (9) bindValue(:end, , 1)
+[debug] Statement (9) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (9) bindValue(:id, 50, 2)
+[debug] Statement (9) execute().
+[debug] Statement (9) execute()
+[debug] Statement (9) bindValue(:published, , 1)
+[debug] Statement (9) bindValue(:start, , 1)
+[debug] Statement (9) bindValue(:end, , 1)
+[debug] Statement (9) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (9) bindValue(:id, 52, 2)
+[debug] Statement (9) execute().
+[debug] Statement (9) execute()
+[debug] Statement (9) bindValue(:published, , 1)
+[debug] Statement (9) bindValue(:start, , 1)
+[debug] Statement (9) bindValue(:end, , 1)
+[debug] Statement (9) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (9) bindValue(:id, 54, 2)
+[debug] Statement (9) execute().
+[debug] Statement (9) execute()
+[debug] Vytvořen database handler Handler events (8), name events, host localhost.
+[debug] Handler events (8) prepare(
+                DELETE FROM `event_content`
+                WHERE `id` = :id, ). Vytvořen Statement (10).
+[debug] Statement (10) bindValue(:id, 0, 2)
+[debug] Statement (10) execute().
+[debug] Statement (10) execute()
+[debug] Vytvořen database handler Handler events (9), name events, host localhost.
+[debug] Handler events (9) prepare(
+                DELETE FROM `event_content_type`
+                WHERE `type` = :type, ). Vytvořen Statement (11).
+[debug] Statement (11) bindValue(:type, testEvCtTypeType, 2)
+[debug] Statement (11) execute().
+[debug] Statement (11) execute()
+[debug] Handler events (9) prepare(SELECT `event_content_type`.`type`,
+                            `event_content_type`.`name`
+                            FROM `event_content_type`
+                            WHERE `event_content_type`.`type` = :type LOCK IN SHARE MODE, ). Vytvořen Statement (12).
+[debug] Statement (12) bindParam(:type, testEvCtTypeType, 2, , )
+[debug] Statement (12) execute().
+[debug] Statement (12) execute()
+[debug] Handler events (9) prepare(INSERT INTO `event_content_type`
+                            (`type`,
+                            `name`)
+                            VALUES
+                            (:type,
+                            :name), ). Vytvořen Statement (13).
+[debug] Statement (13) bindParam(:type, testEvCtTypeType, 2, , )
+[debug] Statement (13) bindParam(:name, testEventContentTypeName, 2, , )
+[debug] Statement (13) execute().
+[debug] Statement (13) execute()
+[debug] Vytvořen database handler Handler events (10), name events, host localhost.
+[debug] Vytvořen database handler Handler events (11), name events, host localhost.
+[debug] Handler events (11) prepare(
+                SELECT `event_content_type`.`type`,
+                    `event_content_type`.`name`
+                FROM `event_content_type`
+                WHERE
+                    `event_content_type`.`type` = :type, ). Vytvořen Statement (14).
+[debug] Statement (14) bindValue(:type, QQfffg  ghghgh, 2)
+[debug] Statement (14) execute().
+[debug] Statement (14) execute()
+[debug] Statement (14) fetch(2, 0, 0)
+[warning]  Metoda Pes\Database\Statement\Statement::fetch nevrátila žádná data.
+[debug] Vytvořen database handler Handler events (12), name events, host localhost.
+[debug] Handler events (12) prepare(
+                SELECT `event_content_type`.`type`,
+                    `event_content_type`.`name`
+                FROM `event_content_type`
+                WHERE
+                    `event_content_type`.`type` = :type, ). Vytvořen Statement (15).
+[debug] Statement (15) bindValue(:type, testEvCtTypeType, 2)
+[debug] Statement (15) execute().
+[debug] Statement (15) execute()
+[debug] Statement (15) fetch(2, 0, 0)
+[debug] Handler events (12) prepare(
+                DELETE FROM `event_content_type`
+                WHERE `type` = :type, ). Vytvořen Statement (16).
+[debug] Statement (16) bindValue(:type, testEvCtTypeType, 2)
+[debug] Statement (16) execute().
+[debug] Statement (16) execute()
+[debug] Vytvořen database handler Handler events (13), name events, host localhost.
+[debug] Handler events (13) prepare(
+                SELECT `event_content_type`.`type`,
+                    `event_content_type`.`name`
+                FROM `event_content_type`
+                WHERE
+                    `event_content_type`.`type` = :type, ). Vytvořen Statement (17).
+[debug] Statement (17) bindValue(:type, testEvCtTypeType, 2)
+[debug] Statement (17) execute().
+[debug] Statement (17) execute()
+[debug] Statement (17) fetch(2, 0, 0)
+[warning]  Metoda Pes\Database\Statement\Statement::fetch nevrátila žádná data.
+[debug] Vytvořen database handler Handler events (14), name events, host localhost.
+[debug] Handler events (14) prepare(SELECT `event_content_type`.`type`,
+                            `event_content_type`.`name`
+                            FROM `event_content_type`
+                            WHERE `event_content_type`.`type` = :type LOCK IN SHARE MODE, ). Vytvořen Statement (18).
+[debug] Statement (18) bindParam(:type, testEvCtTypeType, 2, , )
+[debug] Statement (18) execute().
+[debug] Statement (18) execute()
+[debug] Handler events (14) prepare(INSERT INTO `event_content_type`
+                            (`type`,
+                            `name`)
+                            VALUES
+                            (:type,
+                            :name), ). Vytvořen Statement (19).
+[debug] Statement (19) bindParam(:type, testEvCtTypeType, 2, , )
+[debug] Statement (19) bindParam(:name, testEventContentTypeName, 2, , )
+[debug] Statement (19) execute().
+[debug] Statement (19) execute()
+[debug] Handler events (14) prepare(
+                UPDATE `event_content_type`
+                SET
+                `name` = :name
+                WHERE `type` = :type, ). Vytvořen Statement (20).
+[debug] Statement (20) bindValue(:name, testEventContentTypeName, 2)
+[debug] Statement (20) bindValue(:type, testEvCtTypeType, 2)
+[debug] Statement (20) execute().
+[debug] Statement (20) execute()
+[debug] Vytvořen database handler Handler events (15), name events, host localhost.
+[debug] Handler events (15) prepare(
+                SELECT `event_content_type`.`type`,
+                    `event_content_type`.`name`
+                FROM `event_content_type`, ). Vytvořen Statement (21).
+[debug] Statement (21) execute().
+[debug] Statement (21) execute()
+[debug] Statement (21) fetchAll(2)
+[debug] Result má 1 prvků.
+[debug] Handler events (15) prepare(
+                UPDATE `event_content_type`
+                SET
+                `name` = :name
+                WHERE `type` = :type, ). Vytvořen Statement (22).
+[debug] Statement (22) bindValue(:name, testEventContentTypeName, 2)
+[debug] Statement (22) bindValue(:type, testEvCtTypeType, 2)
+[debug] Statement (22) execute().
+[debug] Statement (22) execute()
+[debug] Vytvořen database handler Handler events (16), name events, host localhost.
+[debug] Handler events (16) prepare(
+                DELETE FROM `event_content_type`
+                WHERE `type` = :type, ). Vytvořen Statement (23).
+[debug] Statement (23) bindValue(:type, testEvCtTypeType, 2)
+[debug] Statement (23) execute().
+[debug] Statement (23) execute()
+[debug] Vytvořen database handler Handler events (17), name events, host localhost.
+[debug] Handler events (17) prepare(
+                DELETE FROM `event_presentation`
+                WHERE `id` = :id, ). Vytvořen Statement (24).
+[debug] Statement (24) bindValue(:id, 0, 2)
+[debug] Statement (24) execute().
+[debug] Statement (24) execute()
+[debug] Handler events (17) prepare(
+                INSERT INTO `event_presentation`
+                (
+                `show`,
+                `platform`,
+                `url`,
+                `event_id_fk`)
+                VALUES
+                (
+                :show,
+                :platform,
+                :url,
+                :event_id_fk);, ). Vytvořen Statement (25).
+[debug] Statement (25) bindValue(:show, 1, 2)
+[debug] Statement (25) bindValue(:platform, testEventPresentation Platform, 2)
+[debug] Statement (25) bindValue(:url, https://tqwrqwztrrwqz.zu?44654s6d5f46sd54f6s54f654sdf654sd65f4, 2)
+[debug] Statement (25) bindValue(:event_id_fk, , 1)
+[debug] Statement (25) execute().
+[debug] Statement (25) execute()
+[debug] Vytvořen database handler Handler events (18), name events, host localhost.
+[debug] Vytvořen database handler Handler events (19), name events, host localhost.
+[debug] Handler events (19) prepare(
+            SELECT `event_presentation`.`id`,
+                `event_presentation`.`show`,
+                `event_presentation`.`platform`,
+                `event_presentation`.`url`,
+                `event_presentation`.`event_id_fk`
+            FROM `event_presentation`
+            WHERE
+                `event_presentation`.`id` = :id, ). Vytvořen Statement (26).
+[debug] Statement (26) bindValue(:id, 0, 2)
+[debug] Statement (26) execute().
+[debug] Statement (26) execute()
+[debug] Statement (26) fetch(2, 0, 0)
+[warning]  Metoda Pes\Database\Statement\Statement::fetch nevrátila žádná data.
+[debug] Vytvořen database handler Handler events (20), name events, host localhost.
+[debug] Handler events (20) prepare(
+            SELECT `event_presentation`.`id`,
+                `event_presentation`.`show`,
+                `event_presentation`.`platform`,
+                `event_presentation`.`url`,
+                `event_presentation`.`event_id_fk`
+            FROM `event_presentation`
+            WHERE
+                `event_presentation`.`id` = :id, ). Vytvořen Statement (27).
+[debug] Statement (27) bindValue(:id, 17, 2)
+[debug] Statement (27) execute().
+[debug] Statement (27) execute()
+[debug] Statement (27) fetch(2, 0, 0)
+[debug] Handler events (20) prepare(
+                DELETE FROM `event_presentation`
+                WHERE `id` = :id, ). Vytvořen Statement (28).
+[debug] Statement (28) bindValue(:id, 17, 2)
+[debug] Statement (28) execute().
+[debug] Statement (28) execute()
+[debug] Vytvořen database handler Handler events (21), name events, host localhost.
+[debug] Handler events (21) prepare(
+            SELECT `event_presentation`.`id`,
+                `event_presentation`.`show`,
+                `event_presentation`.`platform`,
+                `event_presentation`.`url`,
+                `event_presentation`.`event_id_fk`
+            FROM `event_presentation`
+            WHERE
+                `event_presentation`.`id` = :id, ). Vytvořen Statement (29).
+[debug] Statement (29) bindValue(:id, 17, 2)
+[debug] Statement (29) execute().
+[debug] Statement (29) execute()
+[debug] Statement (29) fetch(2, 0, 0)
+[warning]  Metoda Pes\Database\Statement\Statement::fetch nevrátila žádná data.
+[debug] Vytvořen database handler Handler events (22), name events, host localhost.
+[debug] Handler events (22) prepare(
+                INSERT INTO `event_presentation`
+                (
+                `show`,
+                `platform`,
+                `url`,
+                `event_id_fk`)
+                VALUES
+                (
+                :show,
+                :platform,
+                :url,
+                :event_id_fk);, ). Vytvořen Statement (30).
+[debug] Statement (30) bindValue(:show, 0, 2)
+[debug] Statement (30) bindValue(:platform, testEventPresentation Platform test add, 2)
+[debug] Statement (30) bindValue(:url, https://tqwrqwztrrwqz.zu?aaaa=555@ddd=6546546, 2)
+[debug] Statement (30) bindValue(:event_id_fk, , 1)
+[debug] Statement (30) execute().
+[debug] Statement (30) execute()
+[debug] Vytvořen database handler Handler events (23), name events, host localhost.
+[debug] Handler events (23) prepare(
+            SELECT `event_presentation`.`id`,
+                `event_presentation`.`show`,
+                `event_presentation`.`platform`,
+                `event_presentation`.`url`,
+                `event_presentation`.`event_id_fk`
+            FROM `event_presentation` , ). Vytvořen Statement (31).
+[debug] Statement (31) execute().
+[debug] Statement (31) execute()
+[debug] Statement (31) fetchAll(2)
+[debug] Result má 11 prvků.
+[debug] Handler events (23) prepare(
+                UPDATE `event_presentation`
+                SET
+                `show` = :show,
+                `platform` = :platform,
+                `url` = :url,
+                `event_id_fk` = :event_id_fk
+                WHERE `id` = :id, ). Vytvořen Statement (32).
+[debug] Statement (32) bindValue(:show, 1, 2)
+[debug] Statement (32) bindValue(:platform, testEventPresentation Platform, 2)
+[debug] Statement (32) bindValue(:url, https://tqwrqwztrrwqz.zu?44654s6d5f46sd54f6s54f654sdf654sd65f4, 2)
+[debug] Statement (32) bindValue(:event_id_fk, , 1)
+[debug] Statement (32) bindValue(:id, 1, 2)
+[debug] Statement (32) execute().
+[debug] Statement (32) execute()
+[debug] Statement (32) bindValue(:show, 1, 2)
+[debug] Statement (32) bindValue(:platform, testEventPresentation Platform, 2)
+[debug] Statement (32) bindValue(:url, https://tqwrqwztrrwqz.zu?44654s6d5f46sd54f6s54f654sdf654sd65f4, 2)
+[debug] Statement (32) bindValue(:event_id_fk, , 1)
+[debug] Statement (32) bindValue(:id, 2, 2)
+[debug] Statement (32) execute().
+[debug] Statement (32) execute()
+[debug] Statement (32) bindValue(:show, 1, 2)
+[debug] Statement (32) bindValue(:platform, testEventPresentation Platform, 2)
+[debug] Statement (32) bindValue(:url, https://tqwrqwztrrwqz.zu?44654s6d5f46sd54f6s54f654sdf654sd65f4, 2)
+[debug] Statement (32) bindValue(:event_id_fk, , 1)
+[debug] Statement (32) bindValue(:id, 3, 2)
+[debug] Statement (32) execute().
+[debug] Statement (32) execute()
+[debug] Statement (32) bindValue(:show, 1, 2)
+[debug] Statement (32) bindValue(:platform, testEventPresentation Platform, 2)
+[debug] Statement (32) bindValue(:url, https://tqwrqwztrrwqz.zu?44654s6d5f46sd54f6s54f654sdf654sd65f4, 2)
+[debug] Statement (32) bindValue(:event_id_fk, , 1)
+[debug] Statement (32) bindValue(:id, 4, 2)
+[debug] Statement (32) execute().
+[debug] Statement (32) execute()
+[debug] Statement (32) bindValue(:show, 1, 2)
+[debug] Statement (32) bindValue(:platform, testEventPresentation Platform, 2)
+[debug] Statement (32) bindValue(:url, https://tqwrqwztrrwqz.zu?44654s6d5f46sd54f6s54f654sdf654sd65f4, 2)
+[debug] Statement (32) bindValue(:event_id_fk, , 1)
+[debug] Statement (32) bindValue(:id, 5, 2)
+[debug] Statement (32) execute().
+[debug] Statement (32) execute()
+[debug] Statement (32) bindValue(:show, 1, 2)
+[debug] Statement (32) bindValue(:platform, testEventPresentation Platform, 2)
+[debug] Statement (32) bindValue(:url, https://tqwrqwztrrwqz.zu?44654s6d5f46sd54f6s54f654sdf654sd65f4, 2)
+[debug] Statement (32) bindValue(:event_id_fk, , 1)
+[debug] Statement (32) bindValue(:id, 6, 2)
+[debug] Statement (32) execute().
+[debug] Statement (32) execute()
+[debug] Statement (32) bindValue(:show, 1, 2)
+[debug] Statement (32) bindValue(:platform, testEventPresentation Platform, 2)
+[debug] Statement (32) bindValue(:url, https://tqwrqwztrrwqz.zu?44654s6d5f46sd54f6s54f654sdf654sd65f4, 2)
+[debug] Statement (32) bindValue(:event_id_fk, , 1)
+[debug] Statement (32) bindValue(:id, 7, 2)
+[debug] Statement (32) execute().
+[debug] Statement (32) execute()
+[debug] Statement (32) bindValue(:show, 1, 2)
+[debug] Statement (32) bindValue(:platform, testEventPresentation Platform, 2)
+[debug] Statement (32) bindValue(:url, https://tqwrqwztrrwqz.zu?44654s6d5f46sd54f6s54f654sdf654sd65f4, 2)
+[debug] Statement (32) bindValue(:event_id_fk, , 1)
+[debug] Statement (32) bindValue(:id, 9, 2)
+[debug] Statement (32) execute().
+[debug] Statement (32) execute()
+[debug] Statement (32) bindValue(:show, 1, 2)
+[debug] Statement (32) bindValue(:platform, testEventPresentation Platform, 2)
+[debug] Statement (32) bindValue(:url, https://tqwrqwztrrwqz.zu?44654s6d5f46sd54f6s54f654sdf654sd65f4, 2)
+[debug] Statement (32) bindValue(:event_id_fk, , 1)
+[debug] Statement (32) bindValue(:id, 12, 2)
+[debug] Statement (32) execute().
+[debug] Statement (32) execute()
+[debug] Statement (32) bindValue(:show, 0, 2)
+[debug] Statement (32) bindValue(:platform, testEventPresentation Platform test add, 2)
+[debug] Statement (32) bindValue(:url, https://tqwrqwztrrwqz.zu?aaaa=555@ddd=6546546, 2)
+[debug] Statement (32) bindValue(:event_id_fk, , 1)
+[debug] Statement (32) bindValue(:id, 16, 2)
+[debug] Statement (32) execute().
+[debug] Statement (32) execute()
+[debug] Statement (32) bindValue(:show, 0, 2)
+[debug] Statement (32) bindValue(:platform, testEventPresentation Platform test add, 2)
+[debug] Statement (32) bindValue(:url, https://tqwrqwztrrwqz.zu?aaaa=555@ddd=6546546, 2)
+[debug] Statement (32) bindValue(:event_id_fk, , 1)
+[debug] Statement (32) bindValue(:id, 18, 2)
+[debug] Statement (32) execute().
+[debug] Statement (32) execute()
+[debug] Vytvořen database handler Handler events (24), name events, host localhost.
+[debug] Handler events (24) prepare(
+                DELETE FROM `event_presentation`
+                WHERE `id` = :id, ). Vytvořen Statement (33).
+[debug] Statement (33) bindValue(:id, 0, 2)
+[debug] Statement (33) execute().
+[debug] Statement (33) execute()
+[debug] Vytvořen database handler Handler events (25), name events, host localhost.
+[debug] Handler events (25) prepare(
+                DELETE FROM `event`
+                WHERE `id` = :id, ). Vytvořen Statement (34).
+[debug] Statement (34) bindValue(:id, , 1)
+[debug] Statement (34) execute().
+[debug] Statement (34) execute()
+[debug] Handler events (25) prepare(
+                INSERT INTO `event`
+                (`published`,
+                `start`,
+                `end`,
+                `event_type_id_fk`,
+                `event_content_id_fk`)
+                VALUES
+                (:published,
+                :start,
+                :end,
+                :event_type_id_fk,
+                :event_content_id_fk), ). Vytvořen Statement (35).
+[debug] Statement (35) bindValue(:published, 1, 2)
+[debug] Statement (35) bindValue(:start, 2021-03-27 22:31:02, 2)
+[debug] Statement (35) bindValue(:end, 2021-03-28 22:31:02, 2)
+[debug] Statement (35) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (35) bindValue(:event_content_id_fk, , 1)
+[debug] Statement (35) execute().
+[debug] Statement (35) execute()
+[debug] Vytvořen database handler Handler events (26), name events, host localhost.
+[debug] Vytvořen database handler Handler events (27), name events, host localhost.
+[debug] Handler events (27) prepare(
+            SELECT
+                `event`.`id`,
+                `event`.`published`,
+                `event`.`start`,
+                `event`.`end`,
+                `event`.`event_type_id_fk`,
+                `event`.`event_content_id_fk`
+            FROM `event`
+            WHERE
+                `event`.`id` = :id, ). Vytvořen Statement (36).
+[debug] Statement (36) bindValue(:id, QWER45T6U7I89OPOLKJHGFD, 2)
+[debug] Statement (36) execute().
+[debug] Statement (36) execute()
+[debug] Statement (36) fetch(2, 0, 0)
+[warning]  Metoda Pes\Database\Statement\Statement::fetch nevrátila žádná data.
+[debug] Vytvořen database handler Handler events (28), name events, host localhost.
+[debug] Handler events (28) prepare(
+            SELECT
+                `event`.`id`,
+                `event`.`published`,
+                `event`.`start`,
+                `event`.`end`,
+                `event`.`event_type_id_fk`,
+                `event`.`event_content_id_fk`
+            FROM `event`
+            WHERE
+                `event`.`id` = :id, ). Vytvořen Statement (37).
+[debug] Statement (37) bindValue(:id, 78, 2)
+[debug] Statement (37) execute().
+[debug] Statement (37) execute()
+[debug] Statement (37) fetch(2, 0, 0)
+[debug] Handler events (28) prepare(
+                DELETE FROM `event`
+                WHERE `id` = :id, ). Vytvořen Statement (38).
+[debug] Statement (38) bindValue(:id, 78, 2)
+[debug] Statement (38) execute().
+[debug] Statement (38) execute()
+[debug] Vytvořen database handler Handler events (29), name events, host localhost.
+[debug] Handler events (29) prepare(
+            SELECT
+                `event`.`id`,
+                `event`.`published`,
+                `event`.`start`,
+                `event`.`end`,
+                `event`.`event_type_id_fk`,
+                `event`.`event_content_id_fk`
+            FROM `event`
+            WHERE
+                `event`.`id` = :id, ). Vytvořen Statement (39).
+[debug] Statement (39) bindValue(:id, 78, 2)
+[debug] Statement (39) execute().
+[debug] Statement (39) execute()
+[debug] Statement (39) fetch(2, 0, 0)
+[warning]  Metoda Pes\Database\Statement\Statement::fetch nevrátila žádná data.
+[debug] Vytvořen database handler Handler events (30), name events, host localhost.
+[debug] Handler events (30) prepare(
+                INSERT INTO `event`
+                (`published`,
+                `start`,
+                `end`,
+                `event_type_id_fk`,
+                `event_content_id_fk`)
+                VALUES
+                (:published,
+                :start,
+                :end,
+                :event_type_id_fk,
+                :event_content_id_fk), ). Vytvořen Statement (40).
+[debug] Statement (40) bindValue(:published, 1, 2)
+[debug] Statement (40) bindValue(:start, 1999-07-11 14:55:00, 2)
+[debug] Statement (40) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (40) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (40) bindValue(:event_content_id_fk, , 1)
+[debug] Statement (40) execute().
+[debug] Statement (40) execute()
+[debug] Vytvořen database handler Handler events (31), name events, host localhost.
+[debug] Handler events (31) prepare(
+            SELECT
+                `event`.`id`,
+                `event`.`published`,
+                `event`.`start`,
+                `event`.`end`,
+                `event`.`event_type_id_fk`,
+                `event`.`event_content_id_fk`
+            FROM `event`  WHERE event.published = 1 , ). Vytvořen Statement (41).
+[debug] Statement (41) execute().
+[debug] Statement (41) execute()
+[debug] Statement (41) fetchAll(2)
+[debug] Result má 25 prvků.
+[debug] Handler events (31) prepare(
+                UPDATE `event`
+                SET
+                `published` = :published,
+                `start` = :start,
+                `end` = :end,
+                `event_type_id_fk` = :event_type_id_fk,
+                `event_content_id_fk` = :event_content_id_fk
+                WHERE `id` = :id, ). Vytvořen Statement (42).
+[debug] Statement (42) bindValue(:published, 1, 2)
+[debug] Statement (42) bindValue(:start, 2021-03-25 07:41:44, 2)
+[debug] Statement (42) bindValue(:end, 2021-03-26 07:41:44, 2)
+[debug] Statement (42) bindValue(:event_type_id_fk, 1, 2)
+[debug] Statement (42) bindValue(:event_content_id_fk, 1, 2)
+[debug] Statement (42) bindValue(:id, 31, 2)
+[debug] Statement (42) execute().
+[debug] Statement (42) execute()
+[debug] Statement (42) bindValue(:published, 1, 2)
+[debug] Statement (42) bindValue(:start, 1999-07-11 15:55:00, 2)
+[debug] Statement (42) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (42) bindValue(:event_type_id_fk, 2, 2)
+[debug] Statement (42) bindValue(:event_content_id_fk, 6, 2)
+[debug] Statement (42) bindValue(:id, 33, 2)
+[debug] Statement (42) execute().
+[debug] Statement (42) execute()
+[debug] Statement (42) bindValue(:published, 1, 2)
+[debug] Statement (42) bindValue(:start, 1999-07-11 15:55:00, 2)
+[debug] Statement (42) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (42) bindValue(:event_type_id_fk, 3, 2)
+[debug] Statement (42) bindValue(:event_content_id_fk, 8, 2)
+[debug] Statement (42) bindValue(:id, 35, 2)
+[debug] Statement (42) execute().
+[debug] Statement (42) execute()
+[debug] Statement (42) bindValue(:published, 1, 2)
+[debug] Statement (42) bindValue(:start, 1999-07-11 14:55:00, 2)
+[debug] Statement (42) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (42) bindValue(:event_type_id_fk, 4, 2)
+[debug] Statement (42) bindValue(:event_content_id_fk, 10, 2)
+[debug] Statement (42) bindValue(:id, 37, 2)
+[debug] Statement (42) execute().
+[debug] Statement (42) execute()
+[debug] Statement (42) bindValue(:published, 1, 2)
+[debug] Statement (42) bindValue(:start, 1999-07-11 14:55:00, 2)
+[debug] Statement (42) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (42) bindValue(:event_type_id_fk, 5, 2)
+[debug] Statement (42) bindValue(:event_content_id_fk, 12, 2)
+[debug] Statement (42) bindValue(:id, 39, 2)
+[debug] Statement (42) execute().
+[debug] Statement (42) execute()
+[debug] Statement (42) bindValue(:published, 1, 2)
+[debug] Statement (42) bindValue(:start, 1999-07-11 14:55:00, 2)
+[debug] Statement (42) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (42) bindValue(:event_type_id_fk, 6, 2)
+[debug] Statement (42) bindValue(:event_content_id_fk, 14, 2)
+[debug] Statement (42) bindValue(:id, 41, 2)
+[debug] Statement (42) execute().
+[debug] Statement (42) execute()
+[debug] Statement (42) bindValue(:published, 1, 2)
+[debug] Statement (42) bindValue(:start, 1999-07-11 14:55:00, 2)
+[debug] Statement (42) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (42) bindValue(:event_type_id_fk, 7, 2)
+[debug] Statement (42) bindValue(:event_content_id_fk, 16, 2)
+[debug] Statement (42) bindValue(:id, 43, 2)
+[debug] Statement (42) execute().
+[debug] Statement (42) execute()
+[debug] Statement (42) bindValue(:published, 1, 2)
+[debug] Statement (42) bindValue(:start, 1999-07-11 14:55:00, 2)
+[debug] Statement (42) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (42) bindValue(:event_type_id_fk, 8, 2)
+[debug] Statement (42) bindValue(:event_content_id_fk, 18, 2)
+[debug] Statement (42) bindValue(:id, 45, 2)
+[debug] Statement (42) execute().
+[debug] Statement (42) execute()
+[debug] Statement (42) bindValue(:published, 1, 2)
+[debug] Statement (42) bindValue(:start, 1999-07-11 14:55:00, 2)
+[debug] Statement (42) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (42) bindValue(:event_type_id_fk, 11, 2)
+[debug] Statement (42) bindValue(:event_content_id_fk, 20, 2)
+[debug] Statement (42) bindValue(:id, 47, 2)
+[debug] Statement (42) execute().
+[debug] Statement (42) execute()
+[debug] Statement (42) bindValue(:published, 1, 2)
+[debug] Statement (42) bindValue(:start, 1999-07-11 14:55:00, 2)
+[debug] Statement (42) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (42) bindValue(:event_type_id_fk, 13, 2)
+[debug] Statement (42) bindValue(:event_content_id_fk, 22, 2)
+[debug] Statement (42) bindValue(:id, 49, 2)
+[debug] Statement (42) execute().
+[debug] Statement (42) execute()
+[debug] Statement (42) bindValue(:published, 1, 2)
+[debug] Statement (42) bindValue(:start, 1999-07-11 14:55:00, 2)
+[debug] Statement (42) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (42) bindValue(:event_type_id_fk, 15, 2)
+[debug] Statement (42) bindValue(:event_content_id_fk, 24, 2)
+[debug] Statement (42) bindValue(:id, 51, 2)
+[debug] Statement (42) execute().
+[debug] Statement (42) execute()
+[debug] Statement (42) bindValue(:published, 1, 2)
+[debug] Statement (42) bindValue(:start, 1999-07-11 14:55:00, 2)
+[debug] Statement (42) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (42) bindValue(:event_type_id_fk, 1, 2)
+[debug] Statement (42) bindValue(:event_content_id_fk, 26, 2)
+[debug] Statement (42) bindValue(:id, 53, 2)
+[debug] Statement (42) execute().
+[debug] Statement (42) execute()
+[debug] Statement (42) bindValue(:published, 1, 2)
+[debug] Statement (42) bindValue(:start, 1999-07-11 14:55:00, 2)
+[debug] Statement (42) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (42) bindValue(:event_type_id_fk, 2, 2)
+[debug] Statement (42) bindValue(:event_content_id_fk, 28, 2)
+[debug] Statement (42) bindValue(:id, 55, 2)
+[debug] Statement (42) execute().
+[debug] Statement (42) execute()
+[debug] Statement (42) bindValue(:published, 1, 2)
+[debug] Statement (42) bindValue(:start, 1999-07-11 14:55:00, 2)
+[debug] Statement (42) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (42) bindValue(:event_type_id_fk, 3, 2)
+[debug] Statement (42) bindValue(:event_content_id_fk, 30, 2)
+[debug] Statement (42) bindValue(:id, 57, 2)
+[debug] Statement (42) execute().
+[debug] Statement (42) execute()
+[debug] Statement (42) bindValue(:published, 1, 2)
+[debug] Statement (42) bindValue(:start, 1999-07-11 14:55:00, 2)
+[debug] Statement (42) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (42) bindValue(:event_type_id_fk, 4, 2)
+[debug] Statement (42) bindValue(:event_content_id_fk, 32, 2)
+[debug] Statement (42) bindValue(:id, 59, 2)
+[debug] Statement (42) execute().
+[debug] Statement (42) execute()
+[debug] Statement (42) bindValue(:published, 1, 2)
+[debug] Statement (42) bindValue(:start, 1999-07-11 14:55:00, 2)
+[debug] Statement (42) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (42) bindValue(:event_type_id_fk, 5, 2)
+[debug] Statement (42) bindValue(:event_content_id_fk, 34, 2)
+[debug] Statement (42) bindValue(:id, 61, 2)
+[debug] Statement (42) execute().
+[debug] Statement (42) execute()
+[debug] Statement (42) bindValue(:published, 1, 2)
+[debug] Statement (42) bindValue(:start, 1999-07-11 14:55:00, 2)
+[debug] Statement (42) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (42) bindValue(:event_type_id_fk, 6, 2)
+[debug] Statement (42) bindValue(:event_content_id_fk, 36, 2)
+[debug] Statement (42) bindValue(:id, 63, 2)
+[debug] Statement (42) execute().
+[debug] Statement (42) execute()
+[debug] Statement (42) bindValue(:published, 1, 2)
+[debug] Statement (42) bindValue(:start, 1999-07-11 14:55:00, 2)
+[debug] Statement (42) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (42) bindValue(:event_type_id_fk, 7, 2)
+[debug] Statement (42) bindValue(:event_content_id_fk, 38, 2)
+[debug] Statement (42) bindValue(:id, 65, 2)
+[debug] Statement (42) execute().
+[debug] Statement (42) execute()
+[debug] Statement (42) bindValue(:published, 1, 2)
+[debug] Statement (42) bindValue(:start, 1999-07-11 14:55:00, 2)
+[debug] Statement (42) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (42) bindValue(:event_type_id_fk, 8, 2)
+[debug] Statement (42) bindValue(:event_content_id_fk, 40, 2)
+[debug] Statement (42) bindValue(:id, 67, 2)
+[debug] Statement (42) execute().
+[debug] Statement (42) execute()
+[debug] Statement (42) bindValue(:published, 1, 2)
+[debug] Statement (42) bindValue(:start, 1999-07-11 14:55:00, 2)
+[debug] Statement (42) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (42) bindValue(:event_type_id_fk, 11, 2)
+[debug] Statement (42) bindValue(:event_content_id_fk, 42, 2)
+[debug] Statement (42) bindValue(:id, 69, 2)
+[debug] Statement (42) execute().
+[debug] Statement (42) execute()
+[debug] Statement (42) bindValue(:published, 1, 2)
+[debug] Statement (42) bindValue(:start, 1999-07-11 14:55:00, 2)
+[debug] Statement (42) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (42) bindValue(:event_type_id_fk, 13, 2)
+[debug] Statement (42) bindValue(:event_content_id_fk, 44, 2)
+[debug] Statement (42) bindValue(:id, 71, 2)
+[debug] Statement (42) execute().
+[debug] Statement (42) execute()
+[debug] Statement (42) bindValue(:published, 1, 2)
+[debug] Statement (42) bindValue(:start, 1999-07-11 14:55:00, 2)
+[debug] Statement (42) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (42) bindValue(:event_type_id_fk, 15, 2)
+[debug] Statement (42) bindValue(:event_content_id_fk, 46, 2)
+[debug] Statement (42) bindValue(:id, 73, 2)
+[debug] Statement (42) execute().
+[debug] Statement (42) execute()
+[debug] Statement (42) bindValue(:published, 1, 2)
+[debug] Statement (42) bindValue(:start, 1999-07-11 14:55:00, 2)
+[debug] Statement (42) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (42) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (42) bindValue(:event_content_id_fk, , 1)
+[debug] Statement (42) bindValue(:id, 75, 2)
+[debug] Statement (42) execute().
+[debug] Statement (42) execute()
+[debug] Statement (42) bindValue(:published, 1, 2)
+[debug] Statement (42) bindValue(:start, 1999-07-11 14:55:00, 2)
+[debug] Statement (42) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (42) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (42) bindValue(:event_content_id_fk, , 1)
+[debug] Statement (42) bindValue(:id, 77, 2)
+[debug] Statement (42) execute().
+[debug] Statement (42) execute()
+[debug] Statement (42) bindValue(:published, 1, 2)
+[debug] Statement (42) bindValue(:start, 1999-07-11 14:55:00, 2)
+[debug] Statement (42) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (42) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (42) bindValue(:event_content_id_fk, , 1)
+[debug] Statement (42) bindValue(:id, 79, 2)
+[debug] Statement (42) execute().
+[debug] Statement (42) execute()
+[debug] Vytvořen database handler Handler events (32), name events, host localhost.
+[debug] Handler events (32) prepare(
+                DELETE FROM `event`
+                WHERE `id` = :id, ). Vytvořen Statement (43).
+[debug] Statement (43) bindValue(:id, , 1)
+[debug] Statement (43) execute().
+[debug] Statement (43) execute()
+[debug] Vytvořen database handler Handler events (33), name events, host localhost.
+[debug] Handler events (33) prepare(
+                DELETE FROM `event_type`
+                WHERE `id` = :id, ). Vytvořen Statement (44).
+[debug] Statement (44) bindValue(:id, 0, 2)
+[debug] Statement (44) execute().
+[debug] Statement (44) execute()
+[debug] Handler events (33) prepare(
+            INSERT INTO `event_type`
+            (`value`)
+            VALUES
+            (:value), ). Vytvořen Statement (45).
+[debug] Statement (45) bindValue(:value, testEventType, 2)
+[debug] Statement (45) execute().
+[debug] Statement (45) execute()
+[debug] Vytvořen database handler Handler events (34), name events, host localhost.
+[debug] Vytvořen database handler Handler events (35), name events, host localhost.
+[debug] Handler events (35) prepare(
+            SELECT `event_type`.`id`,
+                `event_type`.`value`
+            FROM `event_type`
+            WHERE
+                `event_type`.`id` = :id, ). Vytvořen Statement (46).
+[debug] Statement (46) bindValue(:id, 0, 2)
+[debug] Statement (46) execute().
+[debug] Statement (46) execute()
+[debug] Statement (46) fetch(2, 0, 0)
+[warning]  Metoda Pes\Database\Statement\Statement::fetch nevrátila žádná data.
+[debug] Vytvořen database handler Handler events (36), name events, host localhost.
+[debug] Handler events (36) prepare(
+            SELECT `event_type`.`id`,
+                `event_type`.`value`
+            FROM `event_type`
+            WHERE
+                `event_type`.`id` = :id, ). Vytvořen Statement (47).
+[debug] Statement (47) bindValue(:id, 16, 2)
+[debug] Statement (47) execute().
+[debug] Statement (47) execute()
+[debug] Statement (47) fetch(2, 0, 0)
+[debug] Handler events (36) prepare(
+                DELETE FROM `event_type`
+                WHERE `id` = :id, ). Vytvořen Statement (48).
+[debug] Statement (48) bindValue(:id, 16, 2)
+[debug] Statement (48) execute().
+[debug] Statement (48) execute()
+[debug] Vytvořen database handler Handler events (37), name events, host localhost.
+[debug] Handler events (37) prepare(
+            SELECT `event_type`.`id`,
+                `event_type`.`value`
+            FROM `event_type`
+            WHERE
+                `event_type`.`id` = :id, ). Vytvořen Statement (49).
+[debug] Statement (49) bindValue(:id, 16, 2)
+[debug] Statement (49) execute().
+[debug] Statement (49) execute()
+[debug] Statement (49) fetch(2, 0, 0)
+[warning]  Metoda Pes\Database\Statement\Statement::fetch nevrátila žádná data.
+[debug] Vytvořen database handler Handler events (38), name events, host localhost.
+[debug] Handler events (38) prepare(
+            INSERT INTO `event_type`
+            (`value`)
+            VALUES
+            (:value), ). Vytvořen Statement (50).
+[debug] Statement (50) bindValue(:value, testEventTypePřednáška, 2)
+[debug] Statement (50) execute().
+[debug] Statement (50) execute()
+[debug] Vytvořen database handler Handler events (39), name events, host localhost.
+[debug] Handler events (39) prepare(
+            SELECT `event_type`.`id`,
+                `event_type`.`value`
+            FROM `event_type`, ). Vytvořen Statement (51).
+[debug] Statement (51) execute().
+[debug] Statement (51) execute()
+[debug] Statement (51) fetchAll(2)
+[debug] Result má 12 prvků.
+[debug] Handler events (39) prepare(
+                UPDATE `event_type`
+                SET
+                `value` = :value
+                WHERE `id` = :id, ). Vytvořen Statement (52).
+[debug] Statement (52) bindValue(:value, Přednáška, 2)
+[debug] Statement (52) bindValue(:id, 1, 2)
+[debug] Statement (52) execute().
+[debug] Statement (52) execute()
+[debug] Statement (52) bindValue(:value, Poradna, 2)
+[debug] Statement (52) bindValue(:id, 2, 2)
+[debug] Statement (52) execute().
+[debug] Statement (52) execute()
+[debug] Statement (52) bindValue(:value, Pohovor, 2)
+[debug] Statement (52) bindValue(:id, 3, 2)
+[debug] Statement (52) execute().
+[debug] Statement (52) execute()
+[debug] Statement (52) bindValue(:value, testEventType, 2)
+[debug] Statement (52) bindValue(:id, 4, 2)
+[debug] Statement (52) execute().
+[debug] Statement (52) execute()
+[debug] Statement (52) bindValue(:value, testEventType, 2)
+[debug] Statement (52) bindValue(:id, 5, 2)
+[debug] Statement (52) execute().
+[debug] Statement (52) execute()
+[debug] Statement (52) bindValue(:value, testEventType, 2)
+[debug] Statement (52) bindValue(:id, 6, 2)
+[debug] Statement (52) execute().
+[debug] Statement (52) execute()
+[debug] Statement (52) bindValue(:value, testEventType, 2)
+[debug] Statement (52) bindValue(:id, 7, 2)
+[debug] Statement (52) execute().
+[debug] Statement (52) execute()
+[debug] Statement (52) bindValue(:value, testEventType, 2)
+[debug] Statement (52) bindValue(:id, 8, 2)
+[debug] Statement (52) execute().
+[debug] Statement (52) execute()
+[debug] Statement (52) bindValue(:value, testEventTypePřednáška, 2)
+[debug] Statement (52) bindValue(:id, 11, 2)
+[debug] Statement (52) execute().
+[debug] Statement (52) execute()
+[debug] Statement (52) bindValue(:value, testEventTypePřednáška, 2)
+[debug] Statement (52) bindValue(:id, 13, 2)
+[debug] Statement (52) execute().
+[debug] Statement (52) execute()
+[debug] Statement (52) bindValue(:value, testEventTypePřednáška, 2)
+[debug] Statement (52) bindValue(:id, 15, 2)
+[debug] Statement (52) execute().
+[debug] Statement (52) execute()
+[debug] Statement (52) bindValue(:value, testEventTypePřednáška, 2)
+[debug] Statement (52) bindValue(:id, 17, 2)
+[debug] Statement (52) execute().
+[debug] Statement (52) execute()
+[debug] Vytvořen database handler Handler events (40), name events, host localhost.
+[debug] Handler events (40) prepare(
+                DELETE FROM `event_type`
+                WHERE `id` = :id, ). Vytvořen Statement (53).
+[debug] Statement (53) bindValue(:id, 0, 2)
+[debug] Statement (53) execute().
+[debug] Statement (53) execute()
+[debug] Vytvořen database handler Handler events (41), name events, host localhost.
+[debug] Handler events (41) prepare(
+            SELECT
+                `event`.`id`,
+                `event`.`published`,
+                `event`.`start`,
+                `event`.`end`,
+                `event`.`event_type_id_fk`,
+                `event`.`event_content_id_fk`
+            FROM `event`  WHERE event.published = 1 , ). Vytvořen Statement (54).
+[debug] Statement (54) execute().
+[debug] Statement (54) execute()
+[debug] Statement (54) fetchAll(2)
+[debug] Result má 25 prvků.
+[debug] Handler events (41) prepare(
+            SELECT `event_content`.`id`,
+                `event_content`.`title`,
+                `event_content`.`perex`,
+                `event_content`.`party`,
+                `event_content`.`event_content_type_type_fk`,
+                `event_content`.`institution_id_fk`
+            FROM `event_content` , ). Vytvořen Statement (55).
+[debug] Statement (55) execute().
+[debug] Statement (55) execute()
+[debug] Statement (55) fetchAll(2)
+[debug] Result má 26 prvků.
+[debug] Handler events (41) prepare(
+            SELECT `event_type`.`id`,
+                `event_type`.`value`
+            FROM `event_type`, ). Vytvořen Statement (56).
+[debug] Statement (56) execute().
+[debug] Statement (56) execute()
+[debug] Statement (56) fetchAll(2)
+[debug] Result má 12 prvků.
+[debug] Handler events (41) prepare(
+                SELECT `event_content_type`.`type`,
+                    `event_content_type`.`name`
+                FROM `event_content_type`, ). Vytvořen Statement (57).
+[debug] Statement (57) execute().
+[debug] Statement (57) execute()
+[debug] Statement (57) fetchAll(2)
+[debug] Result má 0 prvků.
+[debug] Handler events (41) prepare(
+                UPDATE `event`
+                SET
+                `published` = :published,
+                `start` = :start,
+                `end` = :end,
+                `event_type_id_fk` = :event_type_id_fk,
+                `event_content_id_fk` = event_content_id_fk
+                WHERE `id` = :id, ). Vytvořen Statement (58).
+[debug] Statement (58) bindValue(:published, , 1)
+[debug] Statement (58) bindValue(:start, , 1)
+[debug] Statement (58) bindValue(:end, , 1)
+[debug] Statement (58) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (58) bindValue(:id, 1, 2)
+[debug] Statement (58) execute().
+[debug] Statement (58) execute()
+[debug] Statement (58) bindValue(:published, , 1)
+[debug] Statement (58) bindValue(:start, , 1)
+[debug] Statement (58) bindValue(:end, , 1)
+[debug] Statement (58) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (58) bindValue(:id, 6, 2)
+[debug] Statement (58) execute().
+[debug] Statement (58) execute()
+[debug] Statement (58) bindValue(:published, , 1)
+[debug] Statement (58) bindValue(:start, , 1)
+[debug] Statement (58) bindValue(:end, , 1)
+[debug] Statement (58) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (58) bindValue(:id, 8, 2)
+[debug] Statement (58) execute().
+[debug] Statement (58) execute()
+[debug] Statement (58) bindValue(:published, , 1)
+[debug] Statement (58) bindValue(:start, , 1)
+[debug] Statement (58) bindValue(:end, , 1)
+[debug] Statement (58) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (58) bindValue(:id, 10, 2)
+[debug] Statement (58) execute().
+[debug] Statement (58) execute()
+[debug] Statement (58) bindValue(:published, , 1)
+[debug] Statement (58) bindValue(:start, , 1)
+[debug] Statement (58) bindValue(:end, , 1)
+[debug] Statement (58) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (58) bindValue(:id, 12, 2)
+[debug] Statement (58) execute().
+[debug] Statement (58) execute()
+[debug] Statement (58) bindValue(:published, , 1)
+[debug] Statement (58) bindValue(:start, , 1)
+[debug] Statement (58) bindValue(:end, , 1)
+[debug] Statement (58) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (58) bindValue(:id, 14, 2)
+[debug] Statement (58) execute().
+[debug] Statement (58) execute()
+[debug] Statement (58) bindValue(:published, , 1)
+[debug] Statement (58) bindValue(:start, , 1)
+[debug] Statement (58) bindValue(:end, , 1)
+[debug] Statement (58) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (58) bindValue(:id, 16, 2)
+[debug] Statement (58) execute().
+[debug] Statement (58) execute()
+[debug] Statement (58) bindValue(:published, , 1)
+[debug] Statement (58) bindValue(:start, , 1)
+[debug] Statement (58) bindValue(:end, , 1)
+[debug] Statement (58) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (58) bindValue(:id, 18, 2)
+[debug] Statement (58) execute().
+[debug] Statement (58) execute()
+[debug] Statement (58) bindValue(:published, , 1)
+[debug] Statement (58) bindValue(:start, , 1)
+[debug] Statement (58) bindValue(:end, , 1)
+[debug] Statement (58) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (58) bindValue(:id, 20, 2)
+[debug] Statement (58) execute().
+[debug] Statement (58) execute()
+[debug] Statement (58) bindValue(:published, , 1)
+[debug] Statement (58) bindValue(:start, , 1)
+[debug] Statement (58) bindValue(:end, , 1)
+[debug] Statement (58) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (58) bindValue(:id, 22, 2)
+[debug] Statement (58) execute().
+[debug] Statement (58) execute()
+[debug] Statement (58) bindValue(:published, , 1)
+[debug] Statement (58) bindValue(:start, , 1)
+[debug] Statement (58) bindValue(:end, , 1)
+[debug] Statement (58) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (58) bindValue(:id, 24, 2)
+[debug] Statement (58) execute().
+[debug] Statement (58) execute()
+[debug] Statement (58) bindValue(:published, , 1)
+[debug] Statement (58) bindValue(:start, , 1)
+[debug] Statement (58) bindValue(:end, , 1)
+[debug] Statement (58) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (58) bindValue(:id, 26, 2)
+[debug] Statement (58) execute().
+[debug] Statement (58) execute()
+[debug] Statement (58) bindValue(:published, , 1)
+[debug] Statement (58) bindValue(:start, , 1)
+[debug] Statement (58) bindValue(:end, , 1)
+[debug] Statement (58) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (58) bindValue(:id, 28, 2)
+[debug] Statement (58) execute().
+[debug] Statement (58) execute()
+[debug] Statement (58) bindValue(:published, , 1)
+[debug] Statement (58) bindValue(:start, , 1)
+[debug] Statement (58) bindValue(:end, , 1)
+[debug] Statement (58) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (58) bindValue(:id, 30, 2)
+[debug] Statement (58) execute().
+[debug] Statement (58) execute()
+[debug] Statement (58) bindValue(:published, , 1)
+[debug] Statement (58) bindValue(:start, , 1)
+[debug] Statement (58) bindValue(:end, , 1)
+[debug] Statement (58) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (58) bindValue(:id, 32, 2)
+[debug] Statement (58) execute().
+[debug] Statement (58) execute()
+[debug] Statement (58) bindValue(:published, , 1)
+[debug] Statement (58) bindValue(:start, , 1)
+[debug] Statement (58) bindValue(:end, , 1)
+[debug] Statement (58) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (58) bindValue(:id, 34, 2)
+[debug] Statement (58) execute().
+[debug] Statement (58) execute()
+[debug] Statement (58) bindValue(:published, , 1)
+[debug] Statement (58) bindValue(:start, , 1)
+[debug] Statement (58) bindValue(:end, , 1)
+[debug] Statement (58) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (58) bindValue(:id, 36, 2)
+[debug] Statement (58) execute().
+[debug] Statement (58) execute()
+[debug] Statement (58) bindValue(:published, , 1)
+[debug] Statement (58) bindValue(:start, , 1)
+[debug] Statement (58) bindValue(:end, , 1)
+[debug] Statement (58) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (58) bindValue(:id, 38, 2)
+[debug] Statement (58) execute().
+[debug] Statement (58) execute()
+[debug] Statement (58) bindValue(:published, , 1)
+[debug] Statement (58) bindValue(:start, , 1)
+[debug] Statement (58) bindValue(:end, , 1)
+[debug] Statement (58) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (58) bindValue(:id, 40, 2)
+[debug] Statement (58) execute().
+[debug] Statement (58) execute()
+[debug] Statement (58) bindValue(:published, , 1)
+[debug] Statement (58) bindValue(:start, , 1)
+[debug] Statement (58) bindValue(:end, , 1)
+[debug] Statement (58) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (58) bindValue(:id, 42, 2)
+[debug] Statement (58) execute().
+[debug] Statement (58) execute()
+[debug] Statement (58) bindValue(:published, , 1)
+[debug] Statement (58) bindValue(:start, , 1)
+[debug] Statement (58) bindValue(:end, , 1)
+[debug] Statement (58) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (58) bindValue(:id, 44, 2)
+[debug] Statement (58) execute().
+[debug] Statement (58) execute()
+[debug] Statement (58) bindValue(:published, , 1)
+[debug] Statement (58) bindValue(:start, , 1)
+[debug] Statement (58) bindValue(:end, , 1)
+[debug] Statement (58) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (58) bindValue(:id, 46, 2)
+[debug] Statement (58) execute().
+[debug] Statement (58) execute()
+[debug] Statement (58) bindValue(:published, , 1)
+[debug] Statement (58) bindValue(:start, , 1)
+[debug] Statement (58) bindValue(:end, , 1)
+[debug] Statement (58) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (58) bindValue(:id, 48, 2)
+[debug] Statement (58) execute().
+[debug] Statement (58) execute()
+[debug] Statement (58) bindValue(:published, , 1)
+[debug] Statement (58) bindValue(:start, , 1)
+[debug] Statement (58) bindValue(:end, , 1)
+[debug] Statement (58) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (58) bindValue(:id, 50, 2)
+[debug] Statement (58) execute().
+[debug] Statement (58) execute()
+[debug] Statement (58) bindValue(:published, , 1)
+[debug] Statement (58) bindValue(:start, , 1)
+[debug] Statement (58) bindValue(:end, , 1)
+[debug] Statement (58) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (58) bindValue(:id, 52, 2)
+[debug] Statement (58) execute().
+[debug] Statement (58) execute()
+[debug] Statement (58) bindValue(:published, , 1)
+[debug] Statement (58) bindValue(:start, , 1)
+[debug] Statement (58) bindValue(:end, , 1)
+[debug] Statement (58) bindValue(:event_type_id_fk, , 1)
+[debug] Statement (58) bindValue(:id, 54, 2)
+[debug] Statement (58) execute().
+[debug] Statement (58) execute()
+[debug] Vytvořen database handler Handler events (42), name events, host localhost.
+[debug] Handler events (42) prepare(DELETE FROM login WHERE `login_name` = :login_name, ). Vytvořen Statement (59).
+[debug] Statement (59) bindValue(:login_name, testLogin, 2)
+[debug] Statement (59) execute().
+[debug] Statement (59) execute()
+[debug] Handler events (42) prepare(SELECT  `login`.`login_name`
+                            FROM  `login`
+                            WHERE `login`.`login_name` = :login_name LOCK IN SHARE MODE, ). Vytvořen Statement (60).
+[debug] Statement (60) bindParam(:login_name, testLogin, 2, , )
+[debug] Statement (60) execute().
+[debug] Statement (60) execute()
+[debug] Handler events (42) prepare(INSERT INTO login (login_name)  VALUES (:login_name ), ). Vytvořen Statement (61).
+[debug] Statement (61) bindParam(:login_name, testLogin, 2, , )
+[debug] Statement (61) execute().
+[debug] Statement (61) execute()
+[debug] Vytvořen database handler Handler events (43), name events, host localhost.
+[debug] Vytvořen database handler Handler events (44), name events, host localhost.
+[debug] Handler events (44) prepare(
+                SELECT
+                    `login`.`login_name`
+                FROM
+                    `login`
+                WHERE
+                    `login`.`login_name` = :login_name, ). Vytvořen Statement (62).
+[debug] Statement (62) bindValue(:login_name, QWER45T6U7I89OPOLKJHGFD, 2)
+[debug] Statement (62) execute().
+[debug] Statement (62) execute()
+[debug] Statement (62) fetch(2, 0, 0)
+[warning]  Metoda Pes\Database\Statement\Statement::fetch nevrátila žádná data.
+[debug] Vytvořen database handler Handler events (45), name events, host localhost.
+[debug] Handler events (45) prepare(
+                SELECT
+                    `login`.`login_name`
+                FROM
+                    `login`
+                WHERE
+                    `login`.`login_name` = :login_name, ). Vytvořen Statement (63).
+[debug] Statement (63) bindValue(:login_name, testLogin, 2)
+[debug] Statement (63) execute().
+[debug] Statement (63) execute()
+[debug] Statement (63) fetch(2, 0, 0)
+[debug] Handler events (45) prepare(DELETE FROM login WHERE `login_name` = :login_name, ). Vytvořen Statement (64).
+[debug] Statement (64) bindValue(:login_name, testLogin, 2)
+[debug] Statement (64) execute().
+[debug] Statement (64) execute()
+[debug] Vytvořen database handler Handler events (46), name events, host localhost.
+[debug] Handler events (46) prepare(
+                SELECT
+                    `login`.`login_name`
+                FROM
+                    `login`
+                WHERE
+                    `login`.`login_name` = :login_name, ). Vytvořen Statement (65).
+[debug] Statement (65) bindValue(:login_name, testLogin, 2)
+[debug] Statement (65) execute().
+[debug] Statement (65) execute()
+[debug] Statement (65) fetch(2, 0, 0)
+[warning]  Metoda Pes\Database\Statement\Statement::fetch nevrátila žádná data.
+[debug] Vytvořen database handler Handler events (47), name events, host localhost.
+[debug] Handler events (47) prepare(SELECT  `login`.`login_name`
+                            FROM  `login`
+                            WHERE `login`.`login_name` = :login_name LOCK IN SHARE MODE, ). Vytvořen Statement (66).
+[debug] Statement (66) bindParam(:login_name, testLogin, 2, , )
+[debug] Statement (66) execute().
+[debug] Statement (66) execute()
+[debug] Handler events (47) prepare(INSERT INTO login (login_name)  VALUES (:login_name ), ). Vytvořen Statement (67).
+[debug] Statement (67) bindParam(:login_name, testLogin, 2, , )
+[debug] Statement (67) execute().
+[debug] Statement (67) execute()
+[debug] Vytvořen database handler Handler events (48), name events, host localhost.
+[debug] Handler events (48) prepare(
+                SELECT
+                    `login`.`login_name`
+                FROM
+                    `login`
+                WHERE
+                    `login`.`login_name` = :login_name, ). Vytvořen Statement (68).
+[debug] Statement (68) bindValue(:login_name, testLogin, 2)
+[debug] Statement (68) execute().
+[debug] Statement (68) execute()
+[debug] Statement (68) fetch(2, 0, 0)
+[debug] Vytvořen database handler Handler events (49), name events, host localhost.
+[debug] Handler events (49) prepare(
+                SELECT
+                    `login`.`login_name`
+                FROM
+                    `login`
+                WHERE
+                    `login`.`login_name` = :login_name, ). Vytvořen Statement (69).
+[debug] Statement (69) bindValue(:login_name, testLogin, 2)
+[debug] Statement (69) execute().
+[debug] Statement (69) execute()
+[debug] Statement (69) fetch(2, 0, 0)
+[debug] Handler events (49) prepare(DELETE FROM login WHERE `login_name` = :login_name, ). Vytvořen Statement (70).
+[debug] Statement (70) bindValue(:login_name, testLogin, 2)
+[debug] Statement (70) execute().
+[debug] Statement (70) execute()
+[debug] Vytvořen database handler Handler events (50), name events, host localhost.
+[debug] Handler events (50) prepare(SELECT  `login`.`login_name`
+                            FROM  `login`
+                            WHERE `login`.`login_name` = :login_name LOCK IN SHARE MODE, ). Vytvořen Statement (71).
+[debug] Statement (71) bindParam(:login_name, testLogin, 2, , )
+[debug] Statement (71) execute().
+[debug] Statement (71) execute()
+[debug] Handler events (50) prepare(INSERT INTO login (login_name)  VALUES (:login_name ), ). Vytvořen Statement (72).
+[debug] Statement (72) bindParam(:login_name, testLogin, 2, , )
+[debug] Statement (72) execute().
+[debug] Statement (72) execute()
+[debug] Handler events (50) prepare(
+                SELECT
+                    `login`.`login_name`
+                FROM
+                    `login`
+                WHERE
+                    `login`.`login_name` = :login_name, ). Vytvořen Statement (73).
+[debug] Statement (73) bindValue(:login_name, testLogin, 2)
+[debug] Statement (73) execute().
+[debug] Statement (73) execute()
+[debug] Statement (73) fetch(2, 0, 0)
+[debug] Vytvořen database handler Handler events (51), name events, host localhost.
+[debug] Handler events (51) prepare(DELETE FROM login WHERE `login_name` = :login_name, ). Vytvořen Statement (74).
+[debug] Statement (74) bindValue(:login_name, testLogin, 2)
+[debug] Statement (74) execute().
+[debug] Statement (74) execute()
+[debug] Handler events (108) prepare(
+                UPDATE `event_type`
+                SET
+                `value` = :value
+                WHERE `id` = :id, ). Vytvořen Statement (199).
+[debug] Statement (199) bindValue(:value, Přednáška, 2)
+[debug] Statement (199) bindValue(:id, 1, 2)
+[debug] Statement (199) execute().
+[debug] Statement (199) execute()
+[debug] Statement (199) bindValue(:value, Poradna, 2)
+[debug] Statement (199) bindValue(:id, 2, 2)
+[debug] Statement (199) execute().
+[debug] Statement (199) execute()
+[debug] Statement (199) bindValue(:value, Pohovor, 2)
+[debug] Statement (199) bindValue(:id, 3, 2)
+[debug] Statement (199) execute().
+[debug] Statement (199) execute()
+[debug] Statement (199) bindValue(:value, testEventType, 2)
+[debug] Statement (199) bindValue(:id, 4, 2)
+[debug] Statement (199) execute().
+[debug] Statement (199) execute()
+[debug] Statement (199) bindValue(:value, testEventType, 2)
+[debug] Statement (199) bindValue(:id, 5, 2)
+[debug] Statement (199) execute().
+[debug] Statement (199) execute()
+[debug] Statement (199) bindValue(:value, testEventType, 2)
+[debug] Statement (199) bindValue(:id, 6, 2)
+[debug] Statement (199) execute().
+[debug] Statement (199) execute()
+[debug] Statement (199) bindValue(:value, testEventType, 2)
+[debug] Statement (199) bindValue(:id, 7, 2)
+[debug] Statement (199) execute().
+[debug] Statement (199) execute()
+[debug] Statement (199) bindValue(:value, testEventType, 2)
+[debug] Statement (199) bindValue(:id, 8, 2)
+[debug] Statement (199) execute().
+[debug] Statement (199) execute()
+[debug] Statement (199) bindValue(:value, testEventTypePřednáška, 2)
+[debug] Statement (199) bindValue(:id, 11, 2)
+[debug] Statement (199) execute().
+[debug] Statement (199) execute()
+[debug] Statement (199) bindValue(:value, testEventTypePřednáška, 2)
+[debug] Statement (199) bindValue(:id, 13, 2)
+[debug] Statement (199) execute().
+[debug] Statement (199) execute()
+[debug] Statement (199) bindValue(:value, testEventTypePřednáška, 2)
+[debug] Statement (199) bindValue(:id, 15, 2)
+[debug] Statement (199) execute().
+[debug] Statement (199) execute()
+[debug] Statement (199) bindValue(:value, testEventTypePřednáška, 2)
+[debug] Statement (199) bindValue(:id, 17, 2)
+[debug] Statement (199) execute().
+[debug] Statement (199) execute()
+[debug] Handler events (108) prepare(
+                UPDATE `event`
+                SET
+                `published` = :published,
+                `start` = :start,
+                `end` = :end,
+                `event_type_id_fk` = :event_type_id_fk,
+                `event_content_id_fk` = :event_content_id_fk
+                WHERE `id` = :id, ). Vytvořen Statement (200).
+[debug] Statement (200) bindValue(:published, 1, 2)
+[debug] Statement (200) bindValue(:start, 2021-03-25 07:41:44, 2)
+[debug] Statement (200) bindValue(:end, 2021-03-26 07:41:44, 2)
+[debug] Statement (200) bindValue(:event_type_id_fk, 1, 2)
+[debug] Statement (200) bindValue(:event_content_id_fk, 1, 2)
+[debug] Statement (200) bindValue(:id, 31, 2)
+[debug] Statement (200) execute().
+[debug] Statement (200) execute()
+[debug] Statement (200) bindValue(:published, 1, 2)
+[debug] Statement (200) bindValue(:start, 1999-07-11 15:55:00, 2)
+[debug] Statement (200) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (200) bindValue(:event_type_id_fk, 2, 2)
+[debug] Statement (200) bindValue(:event_content_id_fk, 6, 2)
+[debug] Statement (200) bindValue(:id, 33, 2)
+[debug] Statement (200) execute().
+[debug] Statement (200) execute()
+[debug] Statement (200) bindValue(:published, 1, 2)
+[debug] Statement (200) bindValue(:start, 1999-07-11 15:55:00, 2)
+[debug] Statement (200) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (200) bindValue(:event_type_id_fk, 3, 2)
+[debug] Statement (200) bindValue(:event_content_id_fk, 8, 2)
+[debug] Statement (200) bindValue(:id, 35, 2)
+[debug] Statement (200) execute().
+[debug] Statement (200) execute()
+[debug] Statement (200) bindValue(:published, 1, 2)
+[debug] Statement (200) bindValue(:start, 1999-07-11 14:55:00, 2)
+[debug] Statement (200) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (200) bindValue(:event_type_id_fk, 4, 2)
+[debug] Statement (200) bindValue(:event_content_id_fk, 10, 2)
+[debug] Statement (200) bindValue(:id, 37, 2)
+[debug] Statement (200) execute().
+[debug] Statement (200) execute()
+[debug] Statement (200) bindValue(:published, 1, 2)
+[debug] Statement (200) bindValue(:start, 1999-07-11 14:55:00, 2)
+[debug] Statement (200) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (200) bindValue(:event_type_id_fk, 5, 2)
+[debug] Statement (200) bindValue(:event_content_id_fk, 12, 2)
+[debug] Statement (200) bindValue(:id, 39, 2)
+[debug] Statement (200) execute().
+[debug] Statement (200) execute()
+[debug] Statement (200) bindValue(:published, 1, 2)
+[debug] Statement (200) bindValue(:start, 1999-07-11 14:55:00, 2)
+[debug] Statement (200) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (200) bindValue(:event_type_id_fk, 6, 2)
+[debug] Statement (200) bindValue(:event_content_id_fk, 14, 2)
+[debug] Statement (200) bindValue(:id, 41, 2)
+[debug] Statement (200) execute().
+[debug] Statement (200) execute()
+[debug] Statement (200) bindValue(:published, 1, 2)
+[debug] Statement (200) bindValue(:start, 1999-07-11 14:55:00, 2)
+[debug] Statement (200) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (200) bindValue(:event_type_id_fk, 7, 2)
+[debug] Statement (200) bindValue(:event_content_id_fk, 16, 2)
+[debug] Statement (200) bindValue(:id, 43, 2)
+[debug] Statement (200) execute().
+[debug] Statement (200) execute()
+[debug] Statement (200) bindValue(:published, 1, 2)
+[debug] Statement (200) bindValue(:start, 1999-07-11 14:55:00, 2)
+[debug] Statement (200) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (200) bindValue(:event_type_id_fk, 8, 2)
+[debug] Statement (200) bindValue(:event_content_id_fk, 18, 2)
+[debug] Statement (200) bindValue(:id, 45, 2)
+[debug] Statement (200) execute().
+[debug] Statement (200) execute()
+[debug] Statement (200) bindValue(:published, 1, 2)
+[debug] Statement (200) bindValue(:start, 1999-07-11 14:55:00, 2)
+[debug] Statement (200) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (200) bindValue(:event_type_id_fk, 11, 2)
+[debug] Statement (200) bindValue(:event_content_id_fk, 20, 2)
+[debug] Statement (200) bindValue(:id, 47, 2)
+[debug] Statement (200) execute().
+[debug] Statement (200) execute()
+[debug] Statement (200) bindValue(:published, 1, 2)
+[debug] Statement (200) bindValue(:start, 1999-07-11 14:55:00, 2)
+[debug] Statement (200) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (200) bindValue(:event_type_id_fk, 13, 2)
+[debug] Statement (200) bindValue(:event_content_id_fk, 22, 2)
+[debug] Statement (200) bindValue(:id, 49, 2)
+[debug] Statement (200) execute().
+[debug] Statement (200) execute()
+[debug] Statement (200) bindValue(:published, 1, 2)
+[debug] Statement (200) bindValue(:start, 1999-07-11 14:55:00, 2)
+[debug] Statement (200) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (200) bindValue(:event_type_id_fk, 15, 2)
+[debug] Statement (200) bindValue(:event_content_id_fk, 24, 2)
+[debug] Statement (200) bindValue(:id, 51, 2)
+[debug] Statement (200) execute().
+[debug] Statement (200) execute()
+[debug] Statement (200) bindValue(:published, 1, 2)
+[debug] Statement (200) bindValue(:start, 1999-07-11 14:55:00, 2)
+[debug] Statement (200) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (200) bindValue(:event_type_id_fk, 17, 2)
+[debug] Statement (200) bindValue(:event_content_id_fk, 26, 2)
+[debug] Statement (200) bindValue(:id, 53, 2)
+[debug] Statement (200) execute().
+[debug] Statement (200) execute()
+[debug] Statement (200) bindValue(:published, 1, 2)
+[debug] Statement (200) bindValue(:start, 1999-07-11 14:55:00, 2)
+[debug] Statement (200) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (200) bindValue(:event_type_id_fk, 1, 2)
+[debug] Statement (200) bindValue(:event_content_id_fk, 28, 2)
+[debug] Statement (200) bindValue(:id, 55, 2)
+[debug] Statement (200) execute().
+[debug] Statement (200) execute()
+[debug] Statement (200) bindValue(:published, 1, 2)
+[debug] Statement (200) bindValue(:start, 1999-07-11 14:55:00, 2)
+[debug] Statement (200) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (200) bindValue(:event_type_id_fk, 2, 2)
+[debug] Statement (200) bindValue(:event_content_id_fk, 30, 2)
+[debug] Statement (200) bindValue(:id, 57, 2)
+[debug] Statement (200) execute().
+[debug] Statement (200) execute()
+[debug] Statement (200) bindValue(:published, 1, 2)
+[debug] Statement (200) bindValue(:start, 1999-07-11 14:55:00, 2)
+[debug] Statement (200) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (200) bindValue(:event_type_id_fk, 3, 2)
+[debug] Statement (200) bindValue(:event_content_id_fk, 32, 2)
+[debug] Statement (200) bindValue(:id, 59, 2)
+[debug] Statement (200) execute().
+[debug] Statement (200) execute()
+[debug] Statement (200) bindValue(:published, 1, 2)
+[debug] Statement (200) bindValue(:start, 1999-07-11 14:55:00, 2)
+[debug] Statement (200) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (200) bindValue(:event_type_id_fk, 4, 2)
+[debug] Statement (200) bindValue(:event_content_id_fk, 34, 2)
+[debug] Statement (200) bindValue(:id, 61, 2)
+[debug] Statement (200) execute().
+[debug] Statement (200) execute()
+[debug] Statement (200) bindValue(:published, 1, 2)
+[debug] Statement (200) bindValue(:start, 1999-07-11 14:55:00, 2)
+[debug] Statement (200) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (200) bindValue(:event_type_id_fk, 5, 2)
+[debug] Statement (200) bindValue(:event_content_id_fk, 36, 2)
+[debug] Statement (200) bindValue(:id, 63, 2)
+[debug] Statement (200) execute().
+[debug] Statement (200) execute()
+[debug] Statement (200) bindValue(:published, 1, 2)
+[debug] Statement (200) bindValue(:start, 1999-07-11 14:55:00, 2)
+[debug] Statement (200) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (200) bindValue(:event_type_id_fk, 6, 2)
+[debug] Statement (200) bindValue(:event_content_id_fk, 38, 2)
+[debug] Statement (200) bindValue(:id, 65, 2)
+[debug] Statement (200) execute().
+[debug] Statement (200) execute()
+[debug] Statement (200) bindValue(:published, 1, 2)
+[debug] Statement (200) bindValue(:start, 1999-07-11 14:55:00, 2)
+[debug] Statement (200) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (200) bindValue(:event_type_id_fk, 7, 2)
+[debug] Statement (200) bindValue(:event_content_id_fk, 40, 2)
+[debug] Statement (200) bindValue(:id, 67, 2)
+[debug] Statement (200) execute().
+[debug] Statement (200) execute()
+[debug] Statement (200) bindValue(:published, 1, 2)
+[debug] Statement (200) bindValue(:start, 1999-07-11 14:55:00, 2)
+[debug] Statement (200) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (200) bindValue(:event_type_id_fk, 8, 2)
+[debug] Statement (200) bindValue(:event_content_id_fk, 42, 2)
+[debug] Statement (200) bindValue(:id, 69, 2)
+[debug] Statement (200) execute().
+[debug] Statement (200) execute()
+[debug] Statement (200) bindValue(:published, 1, 2)
+[debug] Statement (200) bindValue(:start, 1999-07-11 14:55:00, 2)
+[debug] Statement (200) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (200) bindValue(:event_type_id_fk, 11, 2)
+[debug] Statement (200) bindValue(:event_content_id_fk, 44, 2)
+[debug] Statement (200) bindValue(:id, 71, 2)
+[debug] Statement (200) execute().
+[debug] Statement (200) execute()
+[debug] Statement (200) bindValue(:published, 1, 2)
+[debug] Statement (200) bindValue(:start, 1999-07-11 14:55:00, 2)
+[debug] Statement (200) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (200) bindValue(:event_type_id_fk, 13, 2)
+[debug] Statement (200) bindValue(:event_content_id_fk, 46, 2)
+[debug] Statement (200) bindValue(:id, 73, 2)
+[debug] Statement (200) execute().
+[debug] Statement (200) execute()
+[debug] Statement (200) bindValue(:published, 1, 2)
+[debug] Statement (200) bindValue(:start, 1999-07-11 14:55:00, 2)
+[debug] Statement (200) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (200) bindValue(:event_type_id_fk, 15, 2)
+[debug] Statement (200) bindValue(:event_content_id_fk, 48, 2)
+[debug] Statement (200) bindValue(:id, 75, 2)
+[debug] Statement (200) execute().
+[debug] Statement (200) execute()
+[debug] Statement (200) bindValue(:published, 1, 2)
+[debug] Statement (200) bindValue(:start, 1999-07-11 14:55:00, 2)
+[debug] Statement (200) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (200) bindValue(:event_type_id_fk, 17, 2)
+[debug] Statement (200) bindValue(:event_content_id_fk, 50, 2)
+[debug] Statement (200) bindValue(:id, 77, 2)
+[debug] Statement (200) execute().
+[debug] Statement (200) execute()
+[debug] Statement (200) bindValue(:published, 1, 2)
+[debug] Statement (200) bindValue(:start, 1999-07-11 14:55:00, 2)
+[debug] Statement (200) bindValue(:end, 1999-07-11 15:55:00, 2)
+[debug] Statement (200) bindValue(:event_type_id_fk, 1, 2)
+[debug] Statement (200) bindValue(:event_content_id_fk, 52, 2)
+[debug] Statement (200) bindValue(:id, 79, 2)
+[debug] Statement (200) execute().
+[debug] Statement (200) execute()

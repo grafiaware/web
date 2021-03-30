@@ -1,151 +1,756 @@
-[debug] [2021-03-16 11:15:14] Logger start. Log file: D:/ApacheRoot/web/tests/Logs/Login/Database.log. Mode 'w+'.
-[debug] Vytvořen database handler Handler gr_pracovni (1), name gr_pracovni, host localhost.
-[debug] Handler gr_pracovni (1) prepare(DELETE FROM registration WHERE `login_name_fk` = :login_name_fk, ). Vytvořen Statement (1).
-[debug] Statement (1) bindValue(:login_name_fk, testRegistration, 2)
-[debug] Statement (1) execute().
-[debug] Statement (1) execute()
-[debug] Handler gr_pracovni (1) prepare(DELETE FROM login WHERE `login_name` = :login_name, ). Vytvořen Statement (2).
-[debug] Statement (2) bindValue(:login_name, testRegistration, 2)
-[debug] Statement (2) execute().
-[debug] Statement (2) execute()
-[debug] Handler gr_pracovni (1) prepare(SELECT  `login`.`login_name`
-                            FROM  `login` 
-                            WHERE `login`.`login_name` = :login_name LOCK IN SHARE MODE, ). Vytvořen Statement (3).
-[debug] Statement (3) bindParam(:login_name, testRegistration, 2, , )
-[debug] Statement (3) execute().
-[debug] Statement (3) execute()
-[debug] Handler gr_pracovni (1) prepare(INSERT INTO login (login_name)  VALUES (:login_name ), ). Vytvořen Statement (4).
-[debug] Statement (4) bindParam(:login_name, testRegistration, 2, , )
-[debug] Statement (4) execute().
-[debug] Statement (4) execute()
-[debug] Handler gr_pracovni (1) prepare(SELECT uid
-                            FROM registration
-                            WHERE uid = :uid LOCK IN SHARE MODE, ). Vytvořen Statement (5).
-[debug] Statement (5) bindParam(:uid, 60508532449a1, 2, , )
-[debug] Statement (5) execute().
-[debug] Statement (5) execute()
-[debug] Handler gr_pracovni (1) prepare(INSERT INTO registration (login_name_fk, password_hash, email, email_time, uid )
-                            VALUES (:login_name_fk, :password_hash, :email, :email_time, :uid  ), ). Vytvořen Statement (6).
-[debug] Statement (6) bindParam(:login_name_fk, testRegistration, 2, , )
-[debug] Statement (6) bindParam(:password_hash, testHeslo, 2, , )
-[debug] Statement (6) bindParam(:email, , 2, , )
-[debug] Statement (6) bindParam(:email_time, , 2, , )
-[debug] Statement (6) bindParam(:uid, 60508532449a1, 2, , )
-[debug] Statement (6) execute().
-[debug] Statement (6) execute()
-[debug] Vytvořen database handler Handler gr_pracovni (2), name gr_pracovni, host localhost.
-[debug] Vytvořen database handler Handler gr_pracovni (3), name gr_pracovni, host localhost.
-[debug] Handler gr_pracovni (3) prepare(
-                SELECT `registration`.`login_name_fk`,
-                       `registration`.`password_hash`,
-                       `registration`.`email`,
-                       `registration`.`email_time`,
-                       `registration`.`uid`,
-                       `registration`.`created`
+[debug] [2021-03-27 22:31:06] Logger start. Log file: C:/ApacheRoot/web/tests/Logs/Login/Database.log. Mode 'w+'.
+[debug] Vytvořen database handler Handler gr_pracovni (73), name gr_pracovni, host localhost.
+[debug] Handler gr_pracovni (73) prepare(SELECT  `login`.`login_name`
+                            FROM  `login`
+                            WHERE `login`.`login_name` = :login_name LOCK IN SHARE MODE, ). Vytvořen Statement (117).
+[debug] Statement (117) bindParam(:login_name, testLoginAggregate1, 2, , )
+[debug] Statement (117) execute().
+[debug] Statement (117) execute()
+[debug] Handler gr_pracovni (73) prepare(INSERT INTO login (login_name)  VALUES (:login_name ), ). Vytvořen Statement (118).
+[debug] Statement (118) bindParam(:login_name, testLoginAggregate1, 2, , )
+[debug] Statement (118) execute().
+[debug] Statement (118) execute()
+[debug] Vytvořen database handler Handler gr_pracovni (74), name gr_pracovni, host localhost.
+[debug] Vytvořen database handler Handler gr_pracovni (75), name gr_pracovni, host localhost.
+[debug] Handler gr_pracovni (75) prepare(
+                SELECT
+                    `login`.`login_name`
                 FROM
-                    `registration`
+                    `login`
                 WHERE
-                    `registration`.`login_name_fk` = :login_name_fk, ). Vytvořen Statement (7).
-[debug] Statement (7) bindValue(:login_name_fk, QWER45T6U7I89OPOLKJHGFD, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
+                    `login`.`login_name` = :login_name, ). Vytvořen Statement (119).
+[debug] Statement (119) bindValue(:login_name, QWER45T6U7I89OPOLKJHGFD, 2)
+[debug] Statement (119) execute().
+[debug] Statement (119) execute()
+[debug] Statement (119) fetch(2, 0, 0)
 [warning]  Metoda Pes\Database\Statement\Statement::fetch nevrátila žádná data.
-[debug] Statement (7) bindValue(:login_name_fk, testRegistration, 2)
-[debug] Statement (7) execute().
-[debug] Statement (7) execute()
-[debug] Statement (7) fetch(2, 0, 0)
-[debug] Handler gr_pracovni (3) prepare(DELETE FROM registration WHERE `login_name_fk` = :login_name_fk, ). Vytvořen Statement (8).
-[debug] Statement (8) bindValue(:login_name_fk, testRegistration, 2)
-[debug] Statement (8) execute().
-[debug] Statement (8) execute()
-[debug] Vytvořen database handler Handler gr_pracovni (4), name gr_pracovni, host localhost.
-[debug] Handler gr_pracovni (4) prepare(
-                SELECT `registration`.`login_name_fk`,
-                       `registration`.`password_hash`,
-                       `registration`.`email`,
-                       `registration`.`email_time`,
-                       `registration`.`uid`,
-                       `registration`.`created`
+[debug] Statement (119) bindValue(:login_name, pes2704, 2)
+[debug] Statement (119) execute().
+[debug] Statement (119) execute()
+[debug] Statement (119) fetch(2, 0, 0)
+[debug] Handler gr_pracovni (75) prepare(
+                SELECT `credentials`.`login_name_fk`,
+                    `credentials`.`password_hash`,
+                    `credentials`.`role`,
+                    `credentials`.`created`,
+                    `credentials`.`updated`
                 FROM
-                    `registration`
+                    `credentials`
                 WHERE
-                    `registration`.`login_name_fk` = :login_name_fk, ). Vytvořen Statement (9).
-[debug] Statement (9) bindValue(:login_name_fk, testRegistration, 2)
-[debug] Statement (9) execute().
-[debug] Statement (9) execute()
-[debug] Statement (9) fetch(2, 0, 0)
+                    `credentials`.`login_name_fk` = :login_name_fk, ). Vytvořen Statement (120).
+[debug] Statement (120) bindValue(:login_name_fk, pes2704, 2)
+[debug] Statement (120) execute().
+[debug] Statement (120) execute()
+[debug] Statement (120) fetch(2, 0, 0)
+[debug] Handler gr_pracovni (75) prepare(UPDATE credentials SET password_hash = :password_hash, role = :role
+                    WHERE `login_name_fk` = :login_name_fk, ). Vytvořen Statement (121).
+[debug] Statement (121) bindValue(:password_hash, $2y$12$.pryVpFu7qBrGgBAZDbcx.6./VNXDRYVw85KvsVk3BlJtTcxLb4E2, 2)
+[debug] Statement (121) bindValue(:role, sup, 2)
+[debug] Statement (121) bindValue(:login_name_fk, pes2704, 2)
+[debug] Statement (121) execute().
+[debug] Statement (121) execute()
+[debug] Vytvořen database handler Handler gr_pracovni (76), name gr_pracovni, host localhost.
+[debug] Handler gr_pracovni (76) prepare(SELECT  `login`.`login_name`
+                            FROM  `login`
+                            WHERE `login`.`login_name` = :login_name LOCK IN SHARE MODE, ). Vytvořen Statement (122).
+[debug] Statement (122) bindParam(:login_name, testLoginAggregate1, 2, , )
+[debug] Statement (122) execute().
+[debug] Statement (122) execute()
+[debug] Vytvořen database handler Handler gr_pracovni (77), name gr_pracovni, host localhost.
+[debug] Handler gr_pracovni (77) prepare(
+                SELECT
+                    `login`.`login_name`
+                FROM
+                    `login`
+                WHERE
+                    `login`.`login_name` = :login_name, ). Vytvořen Statement (123).
+[debug] Statement (123) bindValue(:login_name, testLoginAggregate1, 2)
+[debug] Statement (123) execute().
+[debug] Statement (123) execute()
+[debug] Statement (123) fetch(2, 0, 0)
+[debug] Handler gr_pracovni (77) prepare(
+                SELECT `credentials`.`login_name_fk`,
+                    `credentials`.`password_hash`,
+                    `credentials`.`role`,
+                    `credentials`.`created`,
+                    `credentials`.`updated`
+                FROM
+                    `credentials`
+                WHERE
+                    `credentials`.`login_name_fk` = :login_name_fk, ). Vytvořen Statement (124).
+[debug] Statement (124) bindValue(:login_name_fk, testLoginAggregate1, 2)
+[debug] Statement (124) execute().
+[debug] Statement (124) execute()
+[debug] Statement (124) fetch(2, 0, 0)
 [warning]  Metoda Pes\Database\Statement\Statement::fetch nevrátila žádná data.
-[debug] Vytvořen database handler Handler gr_pracovni (5), name gr_pracovni, host localhost.
-[debug] Handler gr_pracovni (5) prepare(SELECT uid
+[debug] Vytvořen database handler Handler gr_pracovni (78), name gr_pracovni, host localhost.
+[debug] Handler gr_pracovni (78) prepare(SELECT  `login`.`login_name`
+                            FROM  `login`
+                            WHERE `login`.`login_name` = :login_name LOCK IN SHARE MODE, ). Vytvořen Statement (125).
+[debug] Statement (125) bindParam(:login_name, testLoginAggregate2, 2, , )
+[debug] Statement (125) execute().
+[debug] Statement (125) execute()
+[debug] Handler gr_pracovni (78) prepare(INSERT INTO login (login_name)  VALUES (:login_name ), ). Vytvořen Statement (126).
+[debug] Statement (126) bindParam(:login_name, testLoginAggregate2, 2, , )
+[debug] Statement (126) execute().
+[debug] Statement (126) execute()
+[debug] Vytvořen database handler Handler gr_pracovni (79), name gr_pracovni, host localhost.
+[debug] Handler gr_pracovni (79) prepare(
+                SELECT
+                    `login`.`login_name`
+                FROM
+                    `login`
+                WHERE
+                    `login`.`login_name` = :login_name, ). Vytvořen Statement (127).
+[debug] Statement (127) bindValue(:login_name, testLoginAggregate2, 2)
+[debug] Statement (127) execute().
+[debug] Statement (127) execute()
+[debug] Statement (127) fetch(2, 0, 0)
+[debug] Handler gr_pracovni (79) prepare(
+                SELECT `credentials`.`login_name_fk`,
+                    `credentials`.`password_hash`,
+                    `credentials`.`role`,
+                    `credentials`.`created`,
+                    `credentials`.`updated`
+                FROM
+                    `credentials`
+                WHERE
+                    `credentials`.`login_name_fk` = :login_name_fk, ). Vytvořen Statement (128).
+[debug] Statement (128) bindValue(:login_name_fk, testLoginAggregate2, 2)
+[debug] Statement (128) execute().
+[debug] Statement (128) execute()
+[debug] Statement (128) fetch(2, 0, 0)
+[warning]  Metoda Pes\Database\Statement\Statement::fetch nevrátila žádná data.
+[debug] Vytvořen database handler Handler gr_pracovni (80), name gr_pracovni, host localhost.
+[debug] Handler gr_pracovni (80) prepare(
+                SELECT
+                    `login`.`login_name`
+                FROM
+                    `login`
+                WHERE
+                    `login`.`login_name` = :login_name, ). Vytvořen Statement (129).
+[debug] Statement (129) bindValue(:login_name, testLoginAggregate2, 2)
+[debug] Statement (129) execute().
+[debug] Statement (129) execute()
+[debug] Statement (129) fetch(2, 0, 0)
+[debug] Handler gr_pracovni (80) prepare(
+                SELECT `credentials`.`login_name_fk`,
+                    `credentials`.`password_hash`,
+                    `credentials`.`role`,
+                    `credentials`.`created`,
+                    `credentials`.`updated`
+                FROM
+                    `credentials`
+                WHERE
+                    `credentials`.`login_name_fk` = :login_name_fk, ). Vytvořen Statement (130).
+[debug] Statement (130) bindValue(:login_name_fk, testLoginAggregate2, 2)
+[debug] Statement (130) execute().
+[debug] Statement (130) execute()
+[debug] Statement (130) fetch(2, 0, 0)
+[warning]  Metoda Pes\Database\Statement\Statement::fetch nevrátila žádná data.
+[debug] Handler gr_pracovni (80) prepare(INSERT INTO credentials (login_name_fk, password_hash, role )
+                    VALUES (:login_name_fk, :password_hash, :role ), ). Vytvořen Statement (131).
+[debug] Statement (131) bindValue(:login_name_fk, testLoginAggregate2, 2)
+[debug] Statement (131) bindValue(:password_hash, testHeslo, 2)
+[debug] Statement (131) bindValue(:role, , 1)
+[debug] Statement (131) execute().
+[debug] Statement (131) execute()
+[debug] Vytvořen database handler Handler gr_pracovni (81), name gr_pracovni, host localhost.
+[debug] Handler gr_pracovni (81) prepare(
+                SELECT
+                    `login`.`login_name`
+                FROM
+                    `login`
+                WHERE
+                    `login`.`login_name` = :login_name, ). Vytvořen Statement (132).
+[debug] Statement (132) bindValue(:login_name, testLoginAggregate2, 2)
+[debug] Statement (132) execute().
+[debug] Statement (132) execute()
+[debug] Statement (132) fetch(2, 0, 0)
+[debug] Handler gr_pracovni (81) prepare(
+                SELECT `credentials`.`login_name_fk`,
+                    `credentials`.`password_hash`,
+                    `credentials`.`role`,
+                    `credentials`.`created`,
+                    `credentials`.`updated`
+                FROM
+                    `credentials`
+                WHERE
+                    `credentials`.`login_name_fk` = :login_name_fk, ). Vytvořen Statement (133).
+[debug] Statement (133) bindValue(:login_name_fk, testLoginAggregate2, 2)
+[debug] Statement (133) execute().
+[debug] Statement (133) execute()
+[debug] Statement (133) fetch(2, 0, 0)
+[debug] Handler gr_pracovni (81) prepare(UPDATE credentials SET password_hash = :password_hash, role = :role
+                    WHERE `login_name_fk` = :login_name_fk, ). Vytvořen Statement (134).
+[debug] Statement (134) bindValue(:password_hash, testHeslo, 2)
+[debug] Statement (134) bindValue(:role, , 1)
+[debug] Statement (134) bindValue(:login_name_fk, testLoginAggregate2, 2)
+[debug] Statement (134) execute().
+[debug] Statement (134) execute()
+[debug] Vytvořen database handler Handler gr_pracovni (82), name gr_pracovni, host localhost.
+[debug] Handler gr_pracovni (82) prepare(DELETE FROM credentials WHERE `login_name_fk` = :login_name_fk, ). Vytvořen Statement (135).
+[debug] Statement (135) bindValue(:login_name_fk, testLoginAggregate1, 2)
+[debug] Statement (135) execute().
+[debug] Statement (135) execute()
+[debug] Handler gr_pracovni (82) prepare(DELETE FROM login WHERE `login_name` = :login_name, ). Vytvořen Statement (136).
+[debug] Statement (136) bindValue(:login_name, testLoginAggregate1, 2)
+[error] Statement (136) selhal execute().
+[error]  Metoda Pes\Database\Statement\Statement::execute selhala. Vyhozena výjimka \PDOException: SQLSTATE[HY000]: General error: 1205 Lock wait timeout exceeded; try restarting transaction.
+[debug] Statement (136) execute().
+[debug] Vytvořen database handler Handler gr_pracovni (83), name gr_pracovni, host localhost.
+[debug] Handler gr_pracovni (83) prepare(DELETE FROM registration WHERE `login_name_fk` = :login_name_fk, ). Vytvořen Statement (137).
+[debug] Statement (137) bindValue(:login_name_fk, testLoginAggregateRegistration1, 2)
+[debug] Statement (137) execute().
+[debug] Statement (137) execute()
+[debug] Handler gr_pracovni (83) prepare(DELETE FROM login WHERE `login_name` = :login_name, ). Vytvořen Statement (138).
+[debug] Statement (138) bindValue(:login_name, testLoginAggregateRegistration1, 2)
+[debug] Statement (138) execute().
+[debug] Statement (138) execute()
+[debug] Statement (138) bindValue(:login_name_fk, testLoginAggregateRegistration2, 2)
+[debug] Statement (138) execute().
+[debug] Statement (138) execute()
+[debug] Statement (138) bindValue(:login_name, testLoginAggregateRegistration2, 2)
+[debug] Statement (138) execute().
+[debug] Statement (138) execute()
+[debug] Handler gr_pracovni (83) prepare(SELECT  `login`.`login_name`
+                            FROM  `login`
+                            WHERE `login`.`login_name` = :login_name LOCK IN SHARE MODE, ). Vytvořen Statement (139).
+[debug] Statement (139) bindParam(:login_name, testLoginAggregateRegistration1, 2, , )
+[debug] Statement (139) execute().
+[debug] Statement (139) execute()
+[debug] Handler gr_pracovni (83) prepare(INSERT INTO login (login_name)  VALUES (:login_name ), ). Vytvořen Statement (140).
+[debug] Statement (140) bindParam(:login_name, testLoginAggregateRegistration1, 2, , )
+[debug] Statement (140) execute().
+[debug] Statement (140) execute()
+[debug] Vytvořen database handler Handler gr_pracovni (84), name gr_pracovni, host localhost.
+[debug] Vytvořen database handler Handler gr_pracovni (85), name gr_pracovni, host localhost.
+[debug] Handler gr_pracovni (85) prepare(
+                SELECT
+                    `login`.`login_name`
+                FROM
+                    `login`
+                WHERE
+                    `login`.`login_name` = :login_name, ). Vytvořen Statement (141).
+[debug] Statement (141) bindValue(:login_name, QWER45T6U7I89OPOLKJHGFD, 2)
+[debug] Statement (141) execute().
+[debug] Statement (141) execute()
+[debug] Statement (141) fetch(2, 0, 0)
+[warning]  Metoda Pes\Database\Statement\Statement::fetch nevrátila žádná data.
+[debug] Vytvořen database handler Handler gr_pracovni (86), name gr_pracovni, host localhost.
+[debug] Handler gr_pracovni (86) prepare(
+                SELECT
+                    `login`.`login_name`
+                FROM
+                    `login`
+                WHERE
+                    `login`.`login_name` = :login_name, ). Vytvořen Statement (142).
+[debug] Statement (142) bindValue(:login_name, testLoginAggregateRegistration1, 2)
+[debug] Statement (142) execute().
+[debug] Statement (142) execute()
+[debug] Statement (142) fetch(2, 0, 0)
+[debug] Handler gr_pracovni (86) prepare(
+                SELECT `registration`.`login_name_fk`,
+                       `registration`.`password_hash`,
+                       `registration`.`email`,
+                       `registration`.`email_time`,
+                       `registration`.`uid`,
+                       `registration`.`info`,
+                       `registration`.`created`
+                FROM
+                    `registration`
+                WHERE
+                    `registration`.`login_name_fk` = :login_name_fk, ). Vytvořen Statement (143).
+[debug] Statement (143) bindValue(:login_name_fk, testLoginAggregateRegistration1, 2)
+[debug] Statement (143) execute().
+[debug] Statement (143) execute()
+[debug] Statement (143) fetch(2, 0, 0)
+[warning]  Metoda Pes\Database\Statement\Statement::fetch nevrátila žádná data.
+[debug] Handler gr_pracovni (86) prepare(DELETE FROM login WHERE `login_name` = :login_name, ). Vytvořen Statement (144).
+[debug] Statement (144) bindValue(:login_name, testLoginAggregateRegistration1, 2)
+[debug] Statement (144) execute().
+[debug] Statement (144) execute()
+[debug] Vytvořen database handler Handler gr_pracovni (87), name gr_pracovni, host localhost.
+[debug] Handler gr_pracovni (87) prepare(
+                SELECT
+                    `login`.`login_name`
+                FROM
+                    `login`
+                WHERE
+                    `login`.`login_name` = :login_name, ). Vytvořen Statement (145).
+[debug] Statement (145) bindValue(:login_name, testLoginAggregateRegistration1, 2)
+[debug] Statement (145) execute().
+[debug] Statement (145) execute()
+[debug] Statement (145) fetch(2, 0, 0)
+[warning]  Metoda Pes\Database\Statement\Statement::fetch nevrátila žádná data.
+[debug] Vytvořen database handler Handler gr_pracovni (88), name gr_pracovni, host localhost.
+[debug] Handler gr_pracovni (88) prepare(SELECT  `login`.`login_name`
+                            FROM  `login`
+                            WHERE `login`.`login_name` = :login_name LOCK IN SHARE MODE, ). Vytvořen Statement (146).
+[debug] Statement (146) bindParam(:login_name, testLoginAggregateRegistration1, 2, , )
+[debug] Statement (146) execute().
+[debug] Statement (146) execute()
+[debug] Handler gr_pracovni (88) prepare(INSERT INTO login (login_name)  VALUES (:login_name ), ). Vytvořen Statement (147).
+[debug] Statement (147) bindParam(:login_name, testLoginAggregateRegistration1, 2, , )
+[debug] Statement (147) execute().
+[debug] Statement (147) execute()
+[debug] Handler gr_pracovni (88) prepare(SELECT uid
                             FROM registration
-                            WHERE uid = :uid LOCK IN SHARE MODE, ). Vytvořen Statement (10).
-[debug] Statement (10) bindParam(:uid, 605085325e67a, 2, , )
-[debug] Statement (10) execute().
-[debug] Statement (10) execute()
-[debug] Handler gr_pracovni (5) prepare(INSERT INTO registration (login_name_fk, password_hash, email, email_time, uid )
-                            VALUES (:login_name_fk, :password_hash, :email, :email_time, :uid  ), ). Vytvořen Statement (11).
-[debug] Statement (11) bindParam(:login_name_fk, testRegistration, 2, , )
-[debug] Statement (11) bindParam(:password_hash, testHeslo, 2, , )
-[debug] Statement (11) bindParam(:email, test.email@mejl.cz, 2, , )
-[debug] Statement (11) bindParam(:email_time, , 2, , )
-[debug] Statement (11) bindParam(:uid, 605085325e67a, 2, , )
-[debug] Statement (11) execute().
-[debug] Statement (11) execute()
-[debug] Vytvořen database handler Handler gr_pracovni (6), name gr_pracovni, host localhost.
-[debug] Handler gr_pracovni (6) prepare(
+                            WHERE uid = :uid LOCK IN SHARE MODE, ). Vytvořen Statement (148).
+[debug] Statement (148) bindParam(:uid, 605fa44e57cb1, 2, , )
+[debug] Statement (148) execute().
+[debug] Statement (148) execute()
+[debug] Handler gr_pracovni (88) prepare(INSERT INTO registration (login_name_fk, password_hash, email, email_time, uid, info )
+                            VALUES (:login_name_fk, :password_hash, :email, :email_time, :uid, :info  ), ). Vytvořen Statement (149).
+[debug] Statement (149) bindParam(:login_name_fk, testLoginAggregateRegistration1, 2, , )
+[debug] Statement (149) bindParam(:password_hash, testHeslo, 2, , )
+[debug] Statement (149) bindParam(:email, test.email@mejl.cz, 2, , )
+[debug] Statement (149) bindParam(:email_time, , 2, , )
+[debug] Statement (149) bindParam(:uid, 605fa44e57cb1, 2, , )
+[debug] Statement (149) bindParam(:info, , 2, , )
+[debug] Statement (149) execute().
+[debug] Statement (149) execute()
+[debug] Handler gr_pracovni (88) prepare(
+                SELECT
+                    `login`.`login_name`
+                FROM
+                    `login`
+                WHERE
+                    `login`.`login_name` = :login_name, ). Vytvořen Statement (150).
+[debug] Statement (150) bindValue(:login_name, testLoginAggregateRegistration1, 2)
+[debug] Statement (150) execute().
+[debug] Statement (150) execute()
+[debug] Statement (150) fetch(2, 0, 0)
+[debug] Handler gr_pracovni (88) prepare(
                 SELECT `registration`.`login_name_fk`,
                        `registration`.`password_hash`,
                        `registration`.`email`,
                        `registration`.`email_time`,
                        `registration`.`uid`,
+                       `registration`.`info`,
                        `registration`.`created`
                 FROM
                     `registration`
                 WHERE
-                    `registration`.`login_name_fk` = :login_name_fk, ). Vytvořen Statement (12).
-[debug] Statement (12) bindValue(:login_name_fk, testRegistration, 2)
-[debug] Statement (12) execute().
-[debug] Statement (12) execute()
-[debug] Statement (12) fetch(2, 0, 0)
-[debug] Handler gr_pracovni (6) prepare(UPDATE registration SET  password_hash = :password_hash, email = :email, email_time = :email_time
-                    WHERE `login_name_fk` = :login_name_fk, ). Vytvořen Statement (13).
-[debug] Statement (13) bindValue(:password_hash, testHeslo, 2)
-[debug] Statement (13) bindValue(:email, test.email@mejl.cz, 2)
-[debug] Statement (13) bindValue(:email_time, , 1)
-[debug] Statement (13) bindValue(:login_name_fk, testRegistration, 2)
-[debug] Statement (13) execute().
-[debug] Statement (13) execute()
-[debug] Vytvořen database handler Handler gr_pracovni (7), name gr_pracovni, host localhost.
-[debug] Handler gr_pracovni (7) prepare(
+                    `registration`.`login_name_fk` = :login_name_fk, ). Vytvořen Statement (151).
+[debug] Statement (151) bindValue(:login_name_fk, testLoginAggregateRegistration1, 2)
+[debug] Statement (151) execute().
+[debug] Statement (151) execute()
+[debug] Statement (151) fetch(2, 0, 0)
+[debug] Handler gr_pracovni (88) prepare(UPDATE registration SET  password_hash = :password_hash, email = :email, email_time = :email_time, info = :info
+                    WHERE `login_name_fk` = :login_name_fk, ). Vytvořen Statement (152).
+[debug] Statement (152) bindValue(:password_hash, testHeslo, 2)
+[debug] Statement (152) bindValue(:email, test.email@mejl.cz, 2)
+[debug] Statement (152) bindValue(:email_time, , 1)
+[debug] Statement (152) bindValue(:info, , 1)
+[debug] Statement (152) bindValue(:login_name_fk, testLoginAggregateRegistration1, 2)
+[debug] Statement (152) execute().
+[debug] Statement (152) execute()
+[debug] Vytvořen database handler Handler gr_pracovni (89), name gr_pracovni, host localhost.
+[debug] Handler gr_pracovni (89) prepare(
+                SELECT
+                    `login`.`login_name`
+                FROM
+                    `login`
+                WHERE
+                    `login`.`login_name` = :login_name, ). Vytvořen Statement (153).
+[debug] Statement (153) bindValue(:login_name, testLoginAggregateRegistration1, 2)
+[debug] Statement (153) execute().
+[debug] Statement (153) execute()
+[debug] Statement (153) fetch(2, 0, 0)
+[debug] Handler gr_pracovni (89) prepare(
                 SELECT `registration`.`login_name_fk`,
                        `registration`.`password_hash`,
                        `registration`.`email`,
                        `registration`.`email_time`,
                        `registration`.`uid`,
+                       `registration`.`info`,
                        `registration`.`created`
                 FROM
                     `registration`
                 WHERE
-                    `registration`.`uid` = :uid, ). Vytvořen Statement (14).
-[debug] Statement (14) bindValue(:uid, 605085325e67a, 2)
-[debug] Statement (14) execute().
-[debug] Statement (14) execute()
-[debug] Statement (14) fetch(2, 0, 0)
-[debug] Handler gr_pracovni (7) prepare(UPDATE registration SET  password_hash = :password_hash, email = :email, email_time = :email_time
-                    WHERE `login_name_fk` = :login_name_fk, ). Vytvořen Statement (15).
-[debug] Statement (15) bindValue(:password_hash, testHeslo, 2)
-[debug] Statement (15) bindValue(:email, test.email@mejl.cz, 2)
-[debug] Statement (15) bindValue(:email_time, , 1)
-[debug] Statement (15) bindValue(:login_name_fk, testRegistration, 2)
-[debug] Statement (15) execute().
-[debug] Statement (15) execute()
-[debug] Vytvořen database handler Handler gr_pracovni (8), name gr_pracovni, host localhost.
-[debug] Handler gr_pracovni (8) prepare(DELETE FROM registration WHERE `login_name_fk` = :login_name_fk, ). Vytvořen Statement (16).
-[debug] Statement (16) bindValue(:login_name_fk, testRegistration, 2)
-[debug] Statement (16) execute().
-[debug] Statement (16) execute()
-[debug] Handler gr_pracovni (8) prepare(DELETE FROM login WHERE `login_name` = :login_name, ). Vytvořen Statement (17).
-[debug] Statement (17) bindValue(:login_name, testRegistration, 2)
-[debug] Statement (17) execute().
-[debug] Statement (17) execute()
+                    `registration`.`login_name_fk` = :login_name_fk, ). Vytvořen Statement (154).
+[debug] Statement (154) bindValue(:login_name_fk, testLoginAggregateRegistration1, 2)
+[debug] Statement (154) execute().
+[debug] Statement (154) execute()
+[debug] Statement (154) fetch(2, 0, 0)
+[debug] Handler gr_pracovni (89) prepare(UPDATE registration SET  password_hash = :password_hash, email = :email, email_time = :email_time, info = :info
+                    WHERE `login_name_fk` = :login_name_fk, ). Vytvořen Statement (155).
+[debug] Statement (155) bindValue(:password_hash, testHeslo, 2)
+[debug] Statement (155) bindValue(:email, test.email@mejl.cz, 2)
+[debug] Statement (155) bindValue(:email_time, , 1)
+[debug] Statement (155) bindValue(:info, , 1)
+[debug] Statement (155) bindValue(:login_name_fk, testLoginAggregateRegistration1, 2)
+[debug] Statement (155) execute().
+[debug] Statement (155) execute()
+[debug] Vytvořen database handler Handler gr_pracovni (90), name gr_pracovni, host localhost.
+[debug] Handler gr_pracovni (90) prepare(SELECT  `login`.`login_name`
+                            FROM  `login`
+                            WHERE `login`.`login_name` = :login_name LOCK IN SHARE MODE, ). Vytvořen Statement (156).
+[debug] Statement (156) bindParam(:login_name, testLoginAggregateRegistration2, 2, , )
+[debug] Statement (156) execute().
+[debug] Statement (156) execute()
+[debug] Handler gr_pracovni (90) prepare(INSERT INTO login (login_name)  VALUES (:login_name ), ). Vytvořen Statement (157).
+[debug] Statement (157) bindParam(:login_name, testLoginAggregateRegistration2, 2, , )
+[debug] Statement (157) execute().
+[debug] Statement (157) execute()
+[debug] Vytvořen database handler Handler gr_pracovni (91), name gr_pracovni, host localhost.
+[debug] Handler gr_pracovni (91) prepare(
+                SELECT
+                    `login`.`login_name`
+                FROM
+                    `login`
+                WHERE
+                    `login`.`login_name` = :login_name, ). Vytvořen Statement (158).
+[debug] Statement (158) bindValue(:login_name, testLoginAggregateRegistration2, 2)
+[debug] Statement (158) execute().
+[debug] Statement (158) execute()
+[debug] Statement (158) fetch(2, 0, 0)
+[debug] Handler gr_pracovni (91) prepare(
+                SELECT `registration`.`login_name_fk`,
+                       `registration`.`password_hash`,
+                       `registration`.`email`,
+                       `registration`.`email_time`,
+                       `registration`.`uid`,
+                       `registration`.`info`,
+                       `registration`.`created`
+                FROM
+                    `registration`
+                WHERE
+                    `registration`.`login_name_fk` = :login_name_fk, ). Vytvořen Statement (159).
+[debug] Statement (159) bindValue(:login_name_fk, testLoginAggregateRegistration2, 2)
+[debug] Statement (159) execute().
+[debug] Statement (159) execute()
+[debug] Statement (159) fetch(2, 0, 0)
+[warning]  Metoda Pes\Database\Statement\Statement::fetch nevrátila žádná data.
+[debug] Vytvořen database handler Handler gr_pracovni (92), name gr_pracovni, host localhost.
+[debug] Handler gr_pracovni (92) prepare(
+                SELECT
+                    `login`.`login_name`
+                FROM
+                    `login`
+                WHERE
+                    `login`.`login_name` = :login_name, ). Vytvořen Statement (160).
+[debug] Statement (160) bindValue(:login_name, testLoginAggregateRegistration2, 2)
+[debug] Statement (160) execute().
+[debug] Statement (160) execute()
+[debug] Statement (160) fetch(2, 0, 0)
+[debug] Handler gr_pracovni (92) prepare(
+                SELECT `registration`.`login_name_fk`,
+                       `registration`.`password_hash`,
+                       `registration`.`email`,
+                       `registration`.`email_time`,
+                       `registration`.`uid`,
+                       `registration`.`info`,
+                       `registration`.`created`
+                FROM
+                    `registration`
+                WHERE
+                    `registration`.`login_name_fk` = :login_name_fk, ). Vytvořen Statement (161).
+[debug] Statement (161) bindValue(:login_name_fk, testLoginAggregateRegistration2, 2)
+[debug] Statement (161) execute().
+[debug] Statement (161) execute()
+[debug] Statement (161) fetch(2, 0, 0)
+[warning]  Metoda Pes\Database\Statement\Statement::fetch nevrátila žádná data.
+[debug] Handler gr_pracovni (92) prepare(SELECT uid
+                            FROM registration
+                            WHERE uid = :uid LOCK IN SHARE MODE, ). Vytvořen Statement (162).
+[debug] Statement (162) bindParam(:uid, 605fa44e6511d, 2, , )
+[debug] Statement (162) execute().
+[debug] Statement (162) execute()
+[debug] Handler gr_pracovni (92) prepare(INSERT INTO registration (login_name_fk, password_hash, email, email_time, uid, info )
+                            VALUES (:login_name_fk, :password_hash, :email, :email_time, :uid, :info  ), ). Vytvořen Statement (163).
+[debug] Statement (163) bindParam(:login_name_fk, testLoginAggregateRegistration2, 2, , )
+[debug] Statement (163) bindParam(:password_hash, testHeslo, 2, , )
+[debug] Statement (163) bindParam(:email, test.email@mejl.cz, 2, , )
+[debug] Statement (163) bindParam(:email_time, , 2, , )
+[debug] Statement (163) bindParam(:uid, 605fa44e6511d, 2, , )
+[debug] Statement (163) bindParam(:info, , 2, , )
+[debug] Statement (163) execute().
+[debug] Statement (163) execute()
+[debug] Vytvořen database handler Handler gr_pracovni (93), name gr_pracovni, host localhost.
+[debug] Handler gr_pracovni (93) prepare(
+                SELECT
+                    `login`.`login_name`
+                FROM
+                    `login`
+                WHERE
+                    `login`.`login_name` = :login_name, ). Vytvořen Statement (164).
+[debug] Statement (164) bindValue(:login_name, testLoginAggregateRegistration2, 2)
+[debug] Statement (164) execute().
+[debug] Statement (164) execute()
+[debug] Statement (164) fetch(2, 0, 0)
+[debug] Handler gr_pracovni (93) prepare(
+                SELECT `registration`.`login_name_fk`,
+                       `registration`.`password_hash`,
+                       `registration`.`email`,
+                       `registration`.`email_time`,
+                       `registration`.`uid`,
+                       `registration`.`info`,
+                       `registration`.`created`
+                FROM
+                    `registration`
+                WHERE
+                    `registration`.`login_name_fk` = :login_name_fk, ). Vytvořen Statement (165).
+[debug] Statement (165) bindValue(:login_name_fk, testLoginAggregateRegistration2, 2)
+[debug] Statement (165) execute().
+[debug] Statement (165) execute()
+[debug] Statement (165) fetch(2, 0, 0)
+[debug] Handler gr_pracovni (93) prepare(UPDATE registration SET  password_hash = :password_hash, email = :email, email_time = :email_time, info = :info
+                    WHERE `login_name_fk` = :login_name_fk, ). Vytvořen Statement (166).
+[debug] Statement (166) bindValue(:password_hash, testHeslo, 2)
+[debug] Statement (166) bindValue(:email, test.email@mejl.cz, 2)
+[debug] Statement (166) bindValue(:email_time, , 1)
+[debug] Statement (166) bindValue(:info, , 1)
+[debug] Statement (166) bindValue(:login_name_fk, testLoginAggregateRegistration2, 2)
+[debug] Statement (166) execute().
+[debug] Statement (166) execute()
+[debug] Vytvořen database handler Handler gr_pracovni (94), name gr_pracovni, host localhost.
+[debug] Handler gr_pracovni (94) prepare(DELETE FROM registration WHERE `login_name_fk` = :login_name_fk, ). Vytvořen Statement (167).
+[debug] Statement (167) bindValue(:login_name_fk, testLoginAggregateRegistration1, 2)
+[debug] Statement (167) execute().
+[debug] Statement (167) execute()
+[debug] Handler gr_pracovni (94) prepare(DELETE FROM login WHERE `login_name` = :login_name, ). Vytvořen Statement (168).
+[debug] Statement (168) bindValue(:login_name, testLoginAggregateRegistration1, 2)
+[debug] Statement (168) execute().
+[debug] Statement (168) execute()
+[debug] Statement (168) bindValue(:login_name_fk, testLoginAggregateRegistration2, 2)
+[debug] Statement (168) execute().
+[debug] Statement (168) execute()
+[debug] Statement (168) bindValue(:login_name, testLoginAggregateRegistration2, 2)
+[debug] Statement (168) execute().
+[debug] Statement (168) execute()
+[debug] Vytvořen database handler Handler gr_pracovni (98), name gr_pracovni, host localhost.
+[debug] Handler gr_pracovni (98) prepare(DELETE FROM registration WHERE `login_name_fk` = :login_name_fk, ). Vytvořen Statement (175).
+[debug] Statement (175) bindValue(:login_name_fk, testRegistration, 2)
+[debug] Statement (175) execute().
+[debug] Statement (175) execute()
+[debug] Handler gr_pracovni (98) prepare(DELETE FROM login WHERE `login_name` = :login_name, ). Vytvořen Statement (176).
+[debug] Statement (176) bindValue(:login_name, testRegistration, 2)
+[debug] Statement (176) execute().
+[debug] Statement (176) execute()
+[debug] Handler gr_pracovni (98) prepare(SELECT  `login`.`login_name`
+                            FROM  `login`
+                            WHERE `login`.`login_name` = :login_name LOCK IN SHARE MODE, ). Vytvořen Statement (177).
+[debug] Statement (177) bindParam(:login_name, testRegistration, 2, , )
+[debug] Statement (177) execute().
+[debug] Statement (177) execute()
+[debug] Handler gr_pracovni (98) prepare(INSERT INTO login (login_name)  VALUES (:login_name ), ). Vytvořen Statement (178).
+[debug] Statement (178) bindParam(:login_name, testRegistration, 2, , )
+[debug] Statement (178) execute().
+[debug] Statement (178) execute()
+[debug] Handler gr_pracovni (98) prepare(SELECT uid
+                            FROM registration
+                            WHERE uid = :uid LOCK IN SHARE MODE, ). Vytvořen Statement (179).
+[debug] Statement (179) bindParam(:uid, 605fa44e825a1, 2, , )
+[debug] Statement (179) execute().
+[debug] Statement (179) execute()
+[debug] Handler gr_pracovni (98) prepare(INSERT INTO registration (login_name_fk, password_hash, email, email_time, uid, info )
+                            VALUES (:login_name_fk, :password_hash, :email, :email_time, :uid, :info  ), ). Vytvořen Statement (180).
+[debug] Statement (180) bindParam(:login_name_fk, testRegistration, 2, , )
+[debug] Statement (180) bindParam(:password_hash, testHeslo, 2, , )
+[debug] Statement (180) bindParam(:email, , 2, , )
+[debug] Statement (180) bindParam(:email_time, , 2, , )
+[debug] Statement (180) bindParam(:uid, 605fa44e825a1, 2, , )
+[debug] Statement (180) bindParam(:info, , 2, , )
+[debug] Statement (180) execute().
+[debug] Statement (180) execute()
+[debug] Vytvořen database handler Handler gr_pracovni (99), name gr_pracovni, host localhost.
+[debug] Vytvořen database handler Handler gr_pracovni (100), name gr_pracovni, host localhost.
+[debug] Handler gr_pracovni (100) prepare(
+                SELECT `registration`.`login_name_fk`,
+                       `registration`.`password_hash`,
+                       `registration`.`email`,
+                       `registration`.`email_time`,
+                       `registration`.`uid`,
+                       `registration`.`info`,
+                       `registration`.`created`
+                FROM
+                    `registration`
+                WHERE
+                    `registration`.`login_name_fk` = :login_name_fk, ). Vytvořen Statement (181).
+[debug] Statement (181) bindValue(:login_name_fk, QWER45T6U7I89OPOLKJHGFD, 2)
+[debug] Statement (181) execute().
+[debug] Statement (181) execute()
+[debug] Statement (181) fetch(2, 0, 0)
+[warning]  Metoda Pes\Database\Statement\Statement::fetch nevrátila žádná data.
+[debug] Vytvořen database handler Handler gr_pracovni (101), name gr_pracovni, host localhost.
+[debug] Handler gr_pracovni (101) prepare(
+                SELECT `registration`.`login_name_fk`,
+                       `registration`.`password_hash`,
+                       `registration`.`email`,
+                       `registration`.`email_time`,
+                       `registration`.`uid`,
+                       `registration`.`info`,
+                       `registration`.`created`
+                FROM
+                    `registration`
+                WHERE
+                    `registration`.`login_name_fk` = :login_name_fk, ). Vytvořen Statement (182).
+[debug] Statement (182) bindValue(:login_name_fk, testRegistration, 2)
+[debug] Statement (182) execute().
+[debug] Statement (182) execute()
+[debug] Statement (182) fetch(2, 0, 0)
+[debug] Handler gr_pracovni (101) prepare(DELETE FROM registration WHERE `login_name_fk` = :login_name_fk, ). Vytvořen Statement (183).
+[debug] Statement (183) bindValue(:login_name_fk, testRegistration, 2)
+[debug] Statement (183) execute().
+[debug] Statement (183) execute()
+[debug] Vytvořen database handler Handler gr_pracovni (102), name gr_pracovni, host localhost.
+[debug] Handler gr_pracovni (102) prepare(
+                SELECT `registration`.`login_name_fk`,
+                       `registration`.`password_hash`,
+                       `registration`.`email`,
+                       `registration`.`email_time`,
+                       `registration`.`uid`,
+                       `registration`.`info`,
+                       `registration`.`created`
+                FROM
+                    `registration`
+                WHERE
+                    `registration`.`login_name_fk` = :login_name_fk, ). Vytvořen Statement (184).
+[debug] Statement (184) bindValue(:login_name_fk, testRegistration, 2)
+[debug] Statement (184) execute().
+[debug] Statement (184) execute()
+[debug] Statement (184) fetch(2, 0, 0)
+[warning]  Metoda Pes\Database\Statement\Statement::fetch nevrátila žádná data.
+[debug] Vytvořen database handler Handler gr_pracovni (103), name gr_pracovni, host localhost.
+[debug] Handler gr_pracovni (103) prepare(SELECT uid
+                            FROM registration
+                            WHERE uid = :uid LOCK IN SHARE MODE, ). Vytvořen Statement (185).
+[debug] Statement (185) bindParam(:uid, 605fa44e8c4fd, 2, , )
+[debug] Statement (185) execute().
+[debug] Statement (185) execute()
+[debug] Handler gr_pracovni (103) prepare(INSERT INTO registration (login_name_fk, password_hash, email, email_time, uid, info )
+                            VALUES (:login_name_fk, :password_hash, :email, :email_time, :uid, :info  ), ). Vytvořen Statement (186).
+[debug] Statement (186) bindParam(:login_name_fk, testRegistration, 2, , )
+[debug] Statement (186) bindParam(:password_hash, testHeslo, 2, , )
+[debug] Statement (186) bindParam(:email, test.email@mejl.cz, 2, , )
+[debug] Statement (186) bindParam(:email_time, , 2, , )
+[debug] Statement (186) bindParam(:uid, 605fa44e8c4fd, 2, , )
+[debug] Statement (186) bindParam(:info, , 2, , )
+[debug] Statement (186) execute().
+[debug] Statement (186) execute()
+[debug] Vytvořen database handler Handler gr_pracovni (104), name gr_pracovni, host localhost.
+[debug] Handler gr_pracovni (104) prepare(
+                SELECT `registration`.`login_name_fk`,
+                       `registration`.`password_hash`,
+                       `registration`.`email`,
+                       `registration`.`email_time`,
+                       `registration`.`uid`,
+                       `registration`.`info`,
+                       `registration`.`created`
+                FROM
+                    `registration`
+                WHERE
+                    `registration`.`login_name_fk` = :login_name_fk, ). Vytvořen Statement (187).
+[debug] Statement (187) bindValue(:login_name_fk, testRegistration, 2)
+[debug] Statement (187) execute().
+[debug] Statement (187) execute()
+[debug] Statement (187) fetch(2, 0, 0)
+[debug] Handler gr_pracovni (104) prepare(UPDATE registration SET  password_hash = :password_hash, email = :email, email_time = :email_time, info = :info
+                    WHERE `login_name_fk` = :login_name_fk, ). Vytvořen Statement (188).
+[debug] Statement (188) bindValue(:password_hash, testHeslo, 2)
+[debug] Statement (188) bindValue(:email, test.email@mejl.cz, 2)
+[debug] Statement (188) bindValue(:email_time, , 1)
+[debug] Statement (188) bindValue(:info, , 1)
+[debug] Statement (188) bindValue(:login_name_fk, testRegistration, 2)
+[debug] Statement (188) execute().
+[debug] Statement (188) execute()
+[debug] Vytvořen database handler Handler gr_pracovni (105), name gr_pracovni, host localhost.
+[debug] Handler gr_pracovni (105) prepare(
+                SELECT `registration`.`login_name_fk`,
+                       `registration`.`password_hash`,
+                       `registration`.`email`,
+                       `registration`.`email_time`,
+                       `registration`.`uid`,
+                       `registration`.`info`,
+                       `registration`.`created`
+                FROM
+                    `registration`
+                WHERE
+                    `registration`.`uid` = :uid, ). Vytvořen Statement (189).
+[debug] Statement (189) bindValue(:uid, 605fa44e8c4fd, 2)
+[debug] Statement (189) execute().
+[debug] Statement (189) execute()
+[debug] Statement (189) fetch(2, 0, 0)
+[debug] Handler gr_pracovni (105) prepare(UPDATE registration SET  password_hash = :password_hash, email = :email, email_time = :email_time, info = :info
+                    WHERE `login_name_fk` = :login_name_fk, ). Vytvořen Statement (190).
+[debug] Statement (190) bindValue(:password_hash, testHeslo, 2)
+[debug] Statement (190) bindValue(:email, test.email@mejl.cz, 2)
+[debug] Statement (190) bindValue(:email_time, , 1)
+[debug] Statement (190) bindValue(:info, , 1)
+[debug] Statement (190) bindValue(:login_name_fk, testRegistration, 2)
+[debug] Statement (190) execute().
+[debug] Statement (190) execute()
+[debug] Vytvořen database handler Handler gr_pracovni (106), name gr_pracovni, host localhost.
+[debug] Handler gr_pracovni (106) prepare(
+                SELECT `registration`.`login_name_fk`,
+                       `registration`.`password_hash`,
+                       `registration`.`email`,
+                       `registration`.`email_time`,
+                       `registration`.`uid`,
+                       `registration`.`info`,
+                       `registration`.`created`
+                FROM
+                    `registration`
+                WHERE
+                    `registration`.`login_name_fk` = :login_name_fk, ). Vytvořen Statement (191).
+[debug] Statement (191) bindValue(:login_name_fk, testRegistration, 2)
+[debug] Statement (191) execute().
+[debug] Statement (191) execute()
+[debug] Statement (191) fetch(2, 0, 0)
+[debug] Handler gr_pracovni (106) prepare(DELETE FROM registration WHERE `login_name_fk` = :login_name_fk, ). Vytvořen Statement (192).
+[debug] Statement (192) bindValue(:login_name_fk, testRegistration, 2)
+[debug] Statement (192) execute().
+[debug] Statement (192) execute()
+[debug] Vytvořen database handler Handler gr_pracovni (107), name gr_pracovni, host localhost.
+[debug] Handler gr_pracovni (107) prepare(SELECT uid
+                            FROM registration
+                            WHERE uid = :uid LOCK IN SHARE MODE, ). Vytvořen Statement (193).
+[debug] Statement (193) bindParam(:uid, 605fa44e97d95, 2, , )
+[debug] Statement (193) execute().
+[debug] Statement (193) execute()
+[debug] Handler gr_pracovni (107) prepare(INSERT INTO registration (login_name_fk, password_hash, email, email_time, uid, info )
+                            VALUES (:login_name_fk, :password_hash, :email, :email_time, :uid, :info  ), ). Vytvořen Statement (194).
+[debug] Statement (194) bindParam(:login_name_fk, testRegistration, 2, , )
+[debug] Statement (194) bindParam(:password_hash, testHeslo, 2, , )
+[debug] Statement (194) bindParam(:email, test.email@mejl.cz, 2, , )
+[debug] Statement (194) bindParam(:email_time, , 2, , )
+[debug] Statement (194) bindParam(:uid, 605fa44e97d95, 2, , )
+[debug] Statement (194) bindParam(:info, , 2, , )
+[debug] Statement (194) execute().
+[debug] Statement (194) execute()
+[debug] Handler gr_pracovni (107) prepare(
+                SELECT `registration`.`login_name_fk`,
+                       `registration`.`password_hash`,
+                       `registration`.`email`,
+                       `registration`.`email_time`,
+                       `registration`.`uid`,
+                       `registration`.`info`,
+                       `registration`.`created`
+                FROM
+                    `registration`
+                WHERE
+                    `registration`.`login_name_fk` = :login_name_fk, ). Vytvořen Statement (195).
+[debug] Statement (195) bindValue(:login_name_fk, testRegistration, 2)
+[debug] Statement (195) execute().
+[debug] Statement (195) execute()
+[debug] Statement (195) fetch(2, 0, 0)
+[debug] Handler gr_pracovni (107) prepare(UPDATE registration SET  password_hash = :password_hash, email = :email, email_time = :email_time, info = :info
+                    WHERE `login_name_fk` = :login_name_fk, ). Vytvořen Statement (196).
+[debug] Statement (196) bindValue(:password_hash, testHeslo, 2)
+[debug] Statement (196) bindValue(:email, test.email@mejl.cz, 2)
+[debug] Statement (196) bindValue(:email_time, , 1)
+[debug] Statement (196) bindValue(:info, , 1)
+[debug] Statement (196) bindValue(:login_name_fk, testRegistration, 2)
+[debug] Statement (196) execute().
+[debug] Statement (196) execute()
+[debug] Vytvořen database handler Handler gr_pracovni (108), name gr_pracovni, host localhost.
+[debug] Handler gr_pracovni (108) prepare(DELETE FROM registration WHERE `login_name_fk` = :login_name_fk, ). Vytvořen Statement (197).
+[debug] Statement (197) bindValue(:login_name_fk, testRegistration, 2)
+[debug] Statement (197) execute().
+[debug] Statement (197) execute()
+[debug] Handler gr_pracovni (108) prepare(DELETE FROM login WHERE `login_name` = :login_name, ). Vytvořen Statement (198).
+[debug] Statement (198) bindValue(:login_name, testRegistration, 2)
+[debug] Statement (198) execute().
+[debug] Statement (198) execute()
