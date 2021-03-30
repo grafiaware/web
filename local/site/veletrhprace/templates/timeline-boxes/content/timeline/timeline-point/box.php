@@ -31,9 +31,7 @@ if ($published) {
                                             <?php } ?>
                                             <?php if ($linkButtonEnter['showEnter']) {?>
                                                 <div class="text vpravo">
-                                                    <button type="submit" <?= Html::attributes($linkButtonEnter['linkButtonAttributes']) ?> name="event_enter"
-                                                        value="<?= $eventId ?>" formtarget="_self"
-                                                        formaction="api/v1/event/enter"> <?= $linkButtonEnter['linkButtonText'] ?>  </button>
+                                                    <a <?= Html::attributes($linkButtonEnter['linkButtonAttributes']) ?> > <?= $linkButtonEnter['linkButtonText'] ?>  </a>
                                                 </div>
                                             <?php } ?>
                                         </div>

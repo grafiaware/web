@@ -19,17 +19,15 @@ if ($published) {
             <p><b><?= $title ?></b></p>
             <p> <?= $perex ?> </p>
                                             <?php if ($linkButtonEnroll['showEnroll']) {?>
-                                                <div>
+                                                <div class="text vlevo">
                                                     <button type="submit" <?= Html::attributes($linkButtonEnroll['linkButtonAttributes']) ?> name="event_enroll"
                                                         value="<?= $eventId ?>" formtarget="_self"
                                                         formaction="api/v1/event/enroll"> <?= $linkButtonEnroll['linkButtonText'] ?>  </button>
                                                 </div>
                                             <?php } ?>
                                             <?php if ($linkButtonEnter['showEnter']) {?>
-                                                <div>
-                                                    <button type="submit" <?= Html::attributes($linkButtonEnter['linkButtonAttributes']) ?> name="event_enter"
-                                                        value="<?= $eventId ?>" formtarget="_self"
-                                                        formaction="api/v1/event/enter"> <?= $linkButtonEnter['linkButtonText'] ?>  </button>
+                                                <div class="text vlevo">
+                                                    <a <?= Html::attributes($linkButtonEnter['linkButtonAttributes']) ?>> <?= $linkButtonEnter['linkButtonText'] ?>  </a>
                                                 </div>
                                             <?php } ?>
 
