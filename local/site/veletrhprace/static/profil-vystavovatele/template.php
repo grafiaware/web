@@ -2,108 +2,34 @@
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 /** @var PhpTemplateRendererInterface $this */
 
-use Model\Entity\LoginAggregateCredentialsInterface;;
-use Model\Repository\EnrollRepo;
 use Model\Repository\StatusSecurityRepo;
+use Model\Entity\LoginAggregateCredentialsInterface;;
+use Model\Entity\CredentialsInterface;
 
-$personalData = [
-    [
-        'fotografie' => [
-            'src' => 'images/moje-krasna-fotka.jpg',
-            'alt' => 'Profilový obrázek',
-            'width' => '',
-            'height' => '',
-        ],
-        'titulPred' => '',
-        'titulPO' => '',
-        'jmeno' => 'Novák',
-        'prijmeni' => 'Novák',
-        'email' => 'novak@nereknu.cz',
-        'telefon' => '+420 123 456 789',
-        'pracPopis' => 'Momentálně bez práce',
-        'nahraneSoubory' => [
-            'zivotopis' => 'cesta k souboru',
-        ],
-    ]
+use Model\Repository\EnrollRepo;
+
+
+
+$company = [
+  1 => ["name" => "Wienerberger s.r.o.", "eventInstitutionName"=>"'Wienerberger'"],
+  2 => ["name" =>"Daikin Industries Czech Republic s.r.o.", "eventInstitutionName"=>"'Daikin'"],
+  3 => ["name" => "AKKA Czech Republic s.r.o.", "eventInstitutionName"=>"AKKA Czech Republic"],
+  4 => ["name" => "MD ELEKTRONIK spol. s r.o.", "eventInstitutionName"=>"MD Elektronik"],
+  5 => ["name" => "", "eventInstitutionName"=>"Konplan"],
+  5 => ["name" => "", "eventInstitutionName"=>"Valeo Autoklimatizace"],
+
 ];
-$timeline = [
-    'denKonani' => [
-        [
-            'datum' => '30. 3. 2021',
-            'prednasky' => [
-                [
-                    'cas' => '10:30',
-                    'nazevPrednasky' => 'Naše nejlepší přednáška',
-                    'firma' => 'Firma s. r. o.',
-                    'odkazNaPrednasku' => ''
-                ],
-                [
-                    'cas' => '12:45',
-                    'nazevPrednasky' => 'Nejlepší přednáška na světě',
-                    'firma' => 'Firma a. s.',
-                    'odkazNaPrednasku' => ''
-                ]
 
-            ],
-            'pohovory' => [
-                [
-                    'cas' => '10:30',
-                    'firma' => 'Firma s. r. o.',
-                    'odkazNaPohovor' => ''
-                ],
-            ]
-        ],
-        [
-            'datum' => '31. 3. 2021',
-            'prednasky' => [
-                [
-                    'cas' => '13:00',
-                    'nazevPrednasky' => 'Naše nejlepší přednáška',
-                    'firma' => 'Firma XY s. r. o.',
-                    'odkazNaPrednasku' => ''
-                ],
-                [
-                    'cas' => '13:45',
-                    'nazevPrednasky' => 'Nejlepší přednáška na světě',
-                    'firma' => 'Firma XY a. s.',
-                    'odkazNaPrednasku' => ''
-                ]
-
-            ],
-            'pohovory' => [
-                [
-                    'cas' => '15:00',
-                    'firma' => 'Firma XY s. r. o.',
-                    'odkazNaPohovor' => ''
-                ],
-            ]
-        ],
-        [
-            'datum' => '1. 4. 2021',
-            'prednasky' => [
-                [
-                    'cas' => '13:00',
-                    'nazevPrednasky' => 'Naše nejlepší přednáška',
-                    'firma' => 'Firma AB s. r. o.',
-                    'odkazNaPrednasku' => ''
-                ],
-                [
-                    'cas' => '13:45',
-                    'nazevPrednasky' => 'Nejlepší přednáška na světě',
-                    'firma' => 'Firma AB a. s.',
-                    'odkazNaPrednasku' => ''
-                ]
-
-            ],
-            'pohovory' => [
-                [
-                    'cas' => '11:15',
-                    'firma' => 'Firma AB s. r. o.',
-                    'odkazNaPohovor' => ''
-                ],
-            ]
-        ]
-    ]
+$presenterArray =
+[
+    'Krejčová' => ['regname' => "Krejčová", 'regmail' => "barbora.krejcova@wienerberger.com", 'regcompany' => "Wienerberger s.r.o.", 'idCompany'=>1],
+    'Tomáš Matoušek' => ['regname' => "Tomáš Matoušek", 'regmail' => "matousek.t@daikinczech.cz", 'regcompany' => "Daikin Industries Czech Republic s.r.o.", 'idCompany'=>2],
+    'Elizabeth Franková' => ['regname' => "Elizabeth Franková", 'regmail' => "Elizabeth.frankova@akka.eu", 'regcompany' => "Akka Czech Republice s.r.o.", 'idCompany'=>3],
+    'KaterinaJanku' => ['regname' => "KaterinaJanku", 'regmail' => "katerina.janku@akka.eu", 'regcompany' => "AKKA Czech Republic", 'idCompany'=>3],
+    'Šárka Bilíková' => ['regname' => "Šárka Bilíková", 'regmail' => "sarka.bilikova@akka.eu", 'regcompany' => "AKKA Czech Republic s.r.o.", 'idCompany'=>3],
+    'VERONIKA' => ['regname' => "VERONIKA", 'regmail' => "Veronika.Simbartlova@md-elektronik.cz", 'regcompany' => "MD ELEKTRONIK sro", 'idCompany'=>4],
+    'Zdeňka Obertíková' => ['regname' => "Zdeňka Obertíková", 'regmail' => "Zdenka.Obertikova@md-elektronik.cz", 'regcompany' => "MD ELEKTRONIK s.r.o.", 'idCompany'=>4],
+    'Kristýna Křížová' => ['regname' => "Kristýna Křížová", 'regmail' => "kristyna.krizova@md-elektronik.cz", 'regcompany' => "MD ELEKTRONIK spol. s r.o.", 'idCompany'=>4],
 ];
 
 
@@ -113,16 +39,36 @@ $statusSecurity = $statusSecurityRepo->get();
 /** @var LoginAggregateCredentialsInterface $loginAggregate */
 $loginAggregate = $statusSecurity->getLoginAggregate();
 
+
 if (isset($loginAggregate)) {
+    $credentials = $loginAggregate->getCredentials();
+    $role = $credentials->getRole();
+
     $loginName = $loginAggregate->getLoginName();
-    $enrollRepo = $container->get(EnrollRepo::class);
-    $enrolls = $enrollRepo->findByLoginName($loginName);
 
-    $headline = "Můj profil";
+    ###############
+    $loginName = "VERONIKA";
+
+    $presenterItem = $presenterArray[$loginName];
+    if (isset($presenterItem)) {
+        $presenterItem = array_merge($presenterItem, $company[$presenterItem['idCompany']]);
+    }
+
+
+}
+
+/** @var EnrollRepo $enrollRepo */
+$enrollRepo = $container->get(EnrollRepo::class);
+$enrolls = $enrollRepo->findAll();
+
+
+
+
+
+
+if(isset($role) AND ($role=='presenter' OR $role=='sup')) {
+    $headline = "Profil vystavovatele";
     $perex = $loginAggregate->getLoginName();
-
-
-
 ?>
 <article class="paper">
     <section>
@@ -139,3 +85,27 @@ if (isset($loginAggregate)) {
         <!--</content>-->
     </section>
 </article>
+
+<?php
+} else {
+
+    $headline = "Profil vystavovatele";
+    $perex = "Přihlášený vystavovatel zde uvidí své aktivity.";
+
+
+
+?>
+<article class="paper">
+    <section>
+        <headline>
+            <?php include "headline.php" ?>
+        </headline>
+        <perex>
+            <?php include "perex.php" ?>
+        </perex>
+    </section>
+</article>
+
+
+<?php
+}

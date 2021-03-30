@@ -19,7 +19,7 @@ $footer = 'Další přednášky budou postupně přibývat, sledujte tuto strán
 
 
 $eventTypeName = "";  // viz Model\Arraymodel\EventType
-$institutionName = "";
+$institutionName = $presenterItem['eventInstitutionName'];
 
 $event = [];
 $eventList = new EventList($statusSecurity);
@@ -28,7 +28,7 @@ foreach ($enrolls as $enroll) {
     $eventIds[] = $enroll->getEventid();
 }
 
-$event = $eventList->getEventList(null, null, $eventIds, false);   // enrolling = false
+$event = $eventList->getEventList(null, $institutionName, $eventIds, false);   // enrolling = false
 
 
 //include Configuration::componentControler()['templates']."timecolumn/template.php";
