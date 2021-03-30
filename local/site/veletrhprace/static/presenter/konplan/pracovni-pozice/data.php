@@ -6,7 +6,7 @@ use Model\Entity\PaperAggregatePaperContentInterface;
 $headline = 'Pracovní pozice';
 $perex = '';
 
-$kategorie = [
+$tag = [
     1 => 'výroba/dělnická',
     2 => 'administrativa/THP',
     3 => 'technická',
@@ -22,7 +22,7 @@ $vzdelani = [
     5 => 'VŠ',
 ];
 //template:
-//    $kategorie[$pracovniPozice['kategorie1']]
+//    repeat('vnitřek', $kategorie]
         
         
 $pracovniPozice = [
@@ -52,6 +52,7 @@ $pracovniPozice = [
     ],
     [
         'nazev' => 'Operátor výroby',
+        'kategorie'=>[1,3],
         'kategorie1' => $kategorie[1],
         'kategorie2' => $kategorie[3],
         'mistoVykonu' => 'Humpolec',
