@@ -19,7 +19,7 @@ $footer = 'Další přednášky budou postupně přibývat, sledujte tuto strán
 
 
 $eventTypeName = "";  // viz Model\Arraymodel\EventType
-$institutionName = $presenterItem['eventInstitutionName'];
+$institutionName = "";
 
 $event = [];
 $eventList = new EventList($statusSecurity);
