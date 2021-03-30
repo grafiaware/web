@@ -26,27 +26,6 @@ $stanek_ref = '/assets/stanek.png';
 $shortName = 'up';
 $letakAttributesClass = ['class' => 'letak-v-igelitce'];
 
-$posters = [
-        'Leták na přednášku',
-        'Leták na soustružníka',
-        'Inzerát na nic',
-        'Jak nás nenajdete',
-        
-    ];
-$letak = [];
-foreach ($posters as $poster) {
-    $letak[] = [
-        'letakAttributes' => $letakAttributesClass +
-        [
-            'src' => Configuration::componentControler()['presenterFiles']."poster/$poster.jpg",
-            'alt' => "$poster",
-        ],
-        'downloadAttributes' => [
-            'href' => Configuration::componentControler()['presenterFiles']."poster/$poster.pdf",
-            'download' => "$poster",
-        ]
-    ];
-};
 
 $buttonTitle = [
     'Pracovní pozice',
@@ -91,5 +70,4 @@ $firma = [
         'odkaz' => ''
     ],
     'buttony' => $buttony,
-    'letak' => $letak
 ];

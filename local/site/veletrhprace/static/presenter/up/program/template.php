@@ -9,8 +9,8 @@ use Model\Repository\StatusSecurityRepo;
     $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
     /** @var StatusSecurityRepo $statusSecurityRepo */
     $statusSecurity = $statusSecurityRepo->get();
-    $eventTypeName = "Prezentace, Přednáška";  // viz Model\Arraymodel\EventType
-    $institutionName = "Eures";
+    $eventTypeName = "";  // viz Model\Arraymodel\EventType
+    $institutionName = "EURES";
     $event = (new EventList($statusSecurity))->getEventList($eventTypeName, $institutionName, [], true);   // enrolling = true
 
     
@@ -24,6 +24,7 @@ use Model\Repository\StatusSecurityRepo;
 
  
     <div id="nas-program">
+        <p>Podívejte se také na naše videonávody.</p>
         <?php
         //include Configuration::componentControler()['templates']."timecolumn/template.php";
         include Configuration::componentControler()['templates']."timeline-boxes/template.php";
