@@ -1442,7 +1442,7 @@ class EventList {
                                 'linkButtonText' => $this->linkButtonTextPrihlasit
                                 ],
                 'linkButtonEnter' => [
-                    'showEnter' => 1,
+                    'showEnter' => 0,
                                 'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +
                                     [
                                         'href' => "https://zoom.us/j/96068767501?pwd=YktaZ24venRtaThnelNDTHZvUkUzUT09"
@@ -1465,7 +1465,7 @@ class EventList {
                                 'linkButtonText' => $this->linkButtonTextPrihlasit
                                 ],
                 'linkButtonEnter' => [
-                    'showEnter' => 1,
+                    'showEnter' => 0,
                                 'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +
                                     [
                                         'href' => "https://zoom.us/j/98801845717?pwd=SDBTSHVUeXBCNStselNWNW9pM3JJUT09"
