@@ -19,6 +19,8 @@ use Model\Repository\StatusSecurityRepo;
         $headline = 'Naše poradny';
         $perex =
             '
+                <p class="text ">Vstoupit mohou pouze registrovaní návštěvníci. Přihlašovací tlačítko uvidíte teprve po registraci či přihlášení do vašeho účtu na tomto webu. 
+            Před zahájením akce zde uvidíte barevný odkaz pro vstup na akci nebo odkaz pro zhlédnutí vybraného videa. </p>
             ';
         $footer = '';
 ?>
