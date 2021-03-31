@@ -60,7 +60,7 @@ class VisitorRepositoryTest extends TestCase {
             );
 
         // mazání - zde jen pro případ, že minulý test nebyl dokončen
-        self::deleteRecords($container);
+//        self::deleteRecords($container);
 
         // toto je příprava testu
         /** @var LoginDao $loginDao */
@@ -69,7 +69,7 @@ class VisitorRepositoryTest extends TestCase {
         $visitorDao = $container->get(VisitorDao::class);
 
         try {
-        $loginDao->insertWithKeyVerification(['login_name'=>'testVisitor']);
+            $loginDao->insertWithKeyVerification(['login_name'=>'testVisitor']);
         } catch(DaoKeyVerificationFailedException $e) {
 
         }
