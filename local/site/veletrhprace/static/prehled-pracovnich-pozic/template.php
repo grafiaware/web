@@ -225,7 +225,7 @@ $wienerberger = [
                 $pracovniPozice = $valeo;
                 include Configuration::componentControler()['templates']."presenter-job/content/vypis-pozic.php"; ?>
             </div>
-            <div id="Wienerberger">
+            <div id="wienerberger">
                 <p class="velky text primarni-barva tucne">Wienerberger</p>
                 <?php 
                 $pracovniPozice = $wienerberger;
