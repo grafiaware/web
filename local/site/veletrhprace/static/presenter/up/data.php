@@ -30,7 +30,7 @@ $letakAttributesClass = ['class' => 'letak-v-igelitce'];
 $buttonTitle = [
     'Pracovní pozice',
     'Náš program',
-    'Chatujte s námi (Eures)',
+//    'Chatujte s námi (Eures)',
     'Kontakty'
 ];
 
