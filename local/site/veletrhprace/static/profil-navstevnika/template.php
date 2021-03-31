@@ -67,7 +67,13 @@ if (isset($loginAggregate)) {
     $enrolls = $enrollRepo->findByLoginName($loginName);
 
     $headline = "Můj profil";
-    $perex = $loginAggregate->getLoginName();
+    $perex = "Vítejte ".$loginAggregate->getLoginName().
+            "
+
+V harmonogramu najdete akce, ke kterým jste se přihlásili.
+
+Před zahájením akce zde uvidíte barevný odkaz pro vstup na akci nebo odkaz pro zhlédnutí vybraného videa.
+";
 ?>
 <article class="paper">
     <section>
