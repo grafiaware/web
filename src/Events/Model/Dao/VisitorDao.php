@@ -42,19 +42,19 @@ class VisitorDao extends DaoAbstract implements DaoAutoincrementKeyInterface {
         $sql = "
         SELECT `visitor`.`id`,
             `visitor`.`login_login_name`
-        FROM `events`.`visitor`";
+        FROM `visitor`";
         return $this->selectMany($sql, []);
     }
 
     public function insert($row) {
         // autoincrement id
         $sql = "
-        INSERT INTO `event_type`
-        (`value`)
+        INSERT INTO `visitor`
+        (`login_login_name`)
         VALUES
-        (:value)";
+        (:login_login_name)";
 
-        return $this->execInsert($sql,[':value'=>$row['value']]);
+        return $this->execInsert($sql,[':login_login_name'=>$row['login_login_name']]);
     }
 
     /**
@@ -68,25 +68,22 @@ class VisitorDao extends DaoAbstract implements DaoAutoincrementKeyInterface {
 
     public function update($row) {
         $sql = "
-            UPDATE `event_type`
-            SET
-            `value` = :value
-            WHERE `id` = :id";
-        $sql = "
-            INSERT INTO `events`.`visitor`
+            INSERT INTO `visitor`
             (
             `login_login_name`)
             VALUES
             (
-            :login_login_name)";
+            :login_login_name)`
+        WHERE
+            `visitor`.`id` = :id";
 
         return $this->execUpdate($sql, [':id'=>$row['id']]);
     }
 
     public function delete($row) {
         $sql = "
-            DELETE FROM `events`.`visitor`
-            WHERE WHERE `id` = :id";
+            DELETE FROM `visitor`
+            WHERE `id` = :id";
 
         return $this->execDelete($sql, [':id'=>$row['id']]);
     }

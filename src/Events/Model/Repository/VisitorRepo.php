@@ -11,23 +11,23 @@ namespace Events\Model\Repository;
 use Model\Repository\RepoAbstract;
 use Model\Hydrator\HydratorInterface;
 
-use Events\Model\Entity\EventType;
+use Events\Model\Entity\Visitor;
 use Events\Model\Entity\VisitorInterface;
 
-use Events\Model\Dao\EventTypeDao;
+use Events\Model\Dao\VisitorDao;
 
 /**
  * Description of EventTypeTypeRepo
  *
  * @author pes2704
  */
-class VisitorRepo extends RepoAbstract implements EventTypeRepoInterface {
+class VisitorRepo extends RepoAbstract implements VisitorRepoInterface {
 
     protected $dao;
 
-    public function __construct(EventTypeDao $eventTypeDao, HydratorInterface $eventTypeHydrator) {
-        $this->dao = $eventTypeDao;
-        $this->registerHydrator($eventTypeHydrator);
+    public function __construct(VisitorDao $visitorDao, HydratorInterface $visitorHydrator) {
+        $this->dao = $visitorDao;
+        $this->registerHydrator($visitorHydrator);
     }
 
     /**
@@ -64,7 +64,7 @@ class VisitorRepo extends RepoAbstract implements EventTypeRepoInterface {
     }
 
     protected function createEntity() {
-        return new EventType();
+        return new Visitor();
     }
 
     protected function indexFromEntity(VisitorInterface $event) {

@@ -14,13 +14,13 @@ use Model\Entity\EntityInterface;
  *
  * @author pes2704
  */
-interface VisitorInterface extends EntityInterface {
+interface EventTypeInterface extends EntityInterface {
     public function getId();
 
     public function getValue(): ?string;
 
-    public function setId($id): VisitorInterface;
+    public function setId($id): EventTypeInterface;
 
-    public function setValue(string $value=null): VisitorInterface;
+    public function setValue(string $value=null): EventTypeInterface;
 
     }

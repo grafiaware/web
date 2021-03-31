@@ -35,6 +35,10 @@ use Events\Model\Dao\EventPresentationDao;
 use Events\Model\Hydrator\EventPresentationHydrator;
 use Events\Model\Repository\EventPresentationRepo;
 
+use Events\Model\Dao\VisitorDao;
+use Events\Model\Hydrator\VisitorHydrator;
+use Events\Model\Repository\VisitorRepo;
+
 // database
 use Pes\Database\Handler\Account;
 use Pes\Database\Handler\AccountInterface;
@@ -191,6 +195,16 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new EventPresentationRepo($c->get(EventPresentationDao::class), $c->get(EventPresentationHydrator::class));
             },
 
+            // EventPresentation
+            VisitorDao::class => function(ContainerInterface $c) {
+                return new VisitorDao($c->get(Handler::class));
+            },
+            VisitorHydrator::class => function(ContainerInterface $c) {
+                return new VisitorHydrator();
+            },
+            VisitorRepo::class => function(ContainerInterface $c) {
+                return new VisitorRepo($c->get(VisitorDao::class), $c->get(VisitorHydrator::class));
+            },
         ];
     }
 

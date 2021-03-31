@@ -11,7 +11,7 @@ use Model\Entity\EntityGeneratedKeyInterface;
  *
  * @author pes2704
  */
-class EventType extends EntityAbstract implements VisitorInterface {
+class EventType extends EntityAbstract implements EventTypeInterface {
 
     private $keyAttribute = 'id';
 
