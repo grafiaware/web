@@ -99,9 +99,10 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/hierarchy/:uid/delete'));
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/hierarchy/:uid/trash'));
 
-        $registry->register($this->postPrototype->withUrlPattern('/api/v1/upload'));
+        $registry->register($this->postPrototype->withUrlPattern('/api/v1/upload/editorimages'));
 
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/event/enroll'));
+        $registry->register($this->postPrototype->withUrlPattern('/api/v1/event/uploadvisitorfile'));
 
         #### TemplateController ####
         $registry->register($this->getPrototype->withUrlPattern('/component/v1/papertemplate/:folder'));

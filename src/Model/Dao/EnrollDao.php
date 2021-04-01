@@ -70,8 +70,6 @@ class EnrollDao extends DaoAbstract implements DaoAutoincrementKeyInterface {
     }
 
     public function update($row) {
-        $sql = "UPDATE credentials SET password_hash = :password_hash, role = :role
-                WHERE `login_name_fk` = :login_name_fk";
         $sql = "
         UPDATE .`enrolled`
         SET

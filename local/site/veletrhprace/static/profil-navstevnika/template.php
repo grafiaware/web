@@ -63,6 +63,9 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
 
 if (isset($loginAggregate)) {
     $loginName = $loginAggregate->getLoginName();
+
+    $personalData['userHash'] = $loginAggregate->getLoginNameHash();
+    
     $enrollRepo = $container->get(EnrollRepo::class);
     $enrolls = $enrollRepo->findByLoginName($loginName);
 

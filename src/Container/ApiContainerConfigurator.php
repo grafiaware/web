@@ -27,7 +27,7 @@ use Pes\Database\Handler\{
 // controller
 use \Middleware\Api\ApiController\{
     UserActionController, HierarchyController, EditItemController, PresentationActionController, PaperController, ContentController, EventController,
-    FilesUploadControler
+    FilesUploadControler, VisitorDataUploadControler
 };
 
 // generator service
@@ -155,13 +155,18 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(EventList::class))
                         )->injectContainer($c);
             },
-
             EventList::class => function(ContainerInterface $c) {
                 /** @var StatusSecurityRepo $statusSecurityRepo */
                 $statusSecurityRepo = $c->get(StatusSecurityRepo::class);
                 return new EventList($statusSecurityRepo->get());
             },
 
+            VisitorDataUploadControler::class => function(ContainerInterface $c) {
+                return new VisitorDataUploadControler(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class));
+            },
             // generator service
 
             // volání nastavených služeb GeneratorService ->initialize() probíhá při nastevení typu menuItem - teď v ApiControler/EditItemControler->type()

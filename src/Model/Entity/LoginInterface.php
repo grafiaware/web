@@ -15,4 +15,6 @@ namespace Model\Entity;
 interface LoginInterface extends EntityInterface {
     public function getLoginName(): ?string;
     public function setLoginName(string $loginName): LoginInterface;
+
+    public function getLoginNameHash();
 }

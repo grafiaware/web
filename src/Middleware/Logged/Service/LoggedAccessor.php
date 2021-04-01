@@ -27,8 +27,8 @@ class LoggedAccessor implements AccessorInterface {
         $securityStatusRepo = $this->app->getAppContainer()->get(StatusSecurityRepo::class);
         $securityStatus = $securityStatusRepo->get();
         if (isset($securityStatus)) {
-            $user = $securityStatus->getLoginAggregate();
-            return (isset($user) AND $user->getRole()) ? TRUE : FALSE;
+            $loginAggregate = $securityStatus->getLoginAggregate();
+            return (isset($loginAggregate) AND $loginAggregate->getCredentials()) ? TRUE : FALSE;
         }
         return FALSE;
     }
