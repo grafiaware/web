@@ -12,7 +12,7 @@ use Pes\Text\Html;
         <div class="ui stackable centered grid">
             <div class="column">
                 <div class="ui styled fluid accordion">
-                    <?= '';//$this->insert(__DIR__.'/profil/osobni-udaje.php', $personalData); ?>
+                    <?php include 'profil/osobni-udaje.php'; ?>
                     <?= '';//$this->insert(__DIR__.'/profil/igelitka.php', $igelitka); ?>
                     <?php include 'profil/harmonogram.php' ?>
                 </div>

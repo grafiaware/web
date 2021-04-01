@@ -5,27 +5,9 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Model\Entity\LoginAggregateCredentialsInterface;;
 use Model\Repository\EnrollRepo;
 use Model\Repository\StatusSecurityRepo;
+use Model\Repository\VisitorDataRepo;
 
-$personalData = [
-    [
-        'fotografie' => [
-            'src' => 'images/moje-krasna-fotka.jpg',
-            'alt' => 'Profilový obrázek',
-            'width' => '',
-            'height' => '',
-        ],
-        'titulPred' => '',
-        'titulPO' => '',
-        'jmeno' => 'Novák',
-        'prijmeni' => 'Novák',
-        'email' => 'novak@nereknu.cz',
-        'telefon' => '+420 123 456 789',
-        'pracPopis' => 'Momentálně bez práce',
-        'nahraneSoubory' => [
-            'zivotopis' => 'cesta k souboru',
-        ],
-    ]
-];
+
 
 $igelitkaLetakAttributes = ['class' => 'letak-v-igelitce'];
 $igelitka = [
@@ -65,7 +47,9 @@ if (isset($loginAggregate)) {
     $loginName = $loginAggregate->getLoginName();
 
     $personalData['userHash'] = $loginAggregate->getLoginNameHash();
-    
+    $visitorDataRepo = $container->get(VisitorDataRepo::class);
+    $visitorData = $visitorDataRepo->get($loginName);
+
     $enrollRepo = $container->get(EnrollRepo::class);
     $enrolls = $enrollRepo->findByLoginName($loginName);
 

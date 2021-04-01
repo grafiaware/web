@@ -8,10 +8,12 @@ use Site\Configuration;
 use Model\Repository\StatusSecurityRepo;
 
 use Middleware\Api\ApiController\VisitorDataUploadControler;
+use Model\Entity\VisitorData;
 
 /** @var PhpTemplateRendererInterface $this */
-/** @var PaperAggregateInterface $paperAggregate */
+/** @var VisitorData $visitorData */
 
+$userHash = $loginAggregate->getLoginNameHash();
 $accept = implode(", ", Configuration::filesUploadControler()['uploads.acceptedextensions']);
 $nameCv = VisitorDataUploadControler::UPLOADED_KEY_CV.$userHash;
 $nameLetter = VisitorDataUploadControler::UPLOADED_KEY_LETTER.$userHash;
@@ -30,43 +32,45 @@ $nameLetter = VisitorDataUploadControler::UPLOADED_KEY_LETTER.$userHash;
                     <div class="four fields">
                         <div class="three wide field">
                             <label>Titul před jménem</label>
-                            <input type="text" name="prefix" placeholder="" maxlength="45">
+                            <input type="text" name="prefix" placeholder="" maxlength="45" value="<?= $visitorData->getPrefix(); ?>">
                         </div>
                         <div class="five wide field">
                             <label>Jméno</label>
-                            <input type="text" name="name" placeholder="Jméno" maxlength="90">
+                            <input type="text" name="name" placeholder="Jméno" maxlength="90" value="<?= $visitorData->getName(); ?>">
                         </div>
                         <div class="five wide field">
                             <label>Příjmení</label>
-                            <input type="text" name="surname" placeholder="Příjmení" maxlength="90">
+                            <input type="text" name="surname" placeholder="Příjmení" maxlength="90" value="<?= $visitorData->getSurname(); ?>">
                         </div>
                         <div class="three wide field">
                             <label>Titul za jménem</label>
-                            <input type="text" name="postfix" placeholder="" maxlength="45">
+                            <input type="text" name="postfix" placeholder="" maxlength="45" value="<?= $visitorData->getPostfix(); ?>">
                         </div>
                     </div>
                     <div class="two fields">
                         <div class="field">
                             <label>E-mail</label>
-                            <input type="email" name="email" placeholder="mail@example.cz" maxlength="90">
+                            <input type="email" name="email" placeholder="mail@example.cz" maxlength="90" value="<?= $visitorData->getEmail(); ?>">
                         </div>
                         <div class="field">
                             <label>Telefon</label>
-                            <input type="tel" name="phone" placeholder="+420 777 8888 555" pattern="(\+420)\s[1-9]\d{2}\s\d{3}\s\d{3}" maxlength="45">
+                            <input type="tel" name="phone" placeholder="+420 777 8888 555" pattern="(\+420)\s[1-9]\d{2}\s\d{3}\s\d{3}" maxlength="45" value="<?= $visitorData->getPhone(); ?>">
                         </div>
                     </div>
                     <div class="two fields">
                         <div class="field">
                             <label>Vzdělání, kurzy</label>
-                            <textarea name="cv-education-text" class="working-data"></textarea>
+                            <textarea name="cv-education-text" class="working-data"><?= $visitorData->getCvEducationText(); ?></textarea>
                         </div>
                         <div class="field">
                             <label>Pracovní zkušenosti, dovednosti</label>
-                            <textarea name="cv-skills-text" class="working-data"></textarea>
+                            <textarea name="cv-skills-text" class="working-data"><?= $visitorData->getCvSkillsText(); ?></textarea>
                         </div>
                     </div>
-
-                    <label><b>Nahrané soubory</b></label>
+                    <div class="field margin">
+                        <button class="ui massive primary button" type="submit">Uložit údaje</button>
+                    </div>
+<!--                    <label><b>Nahrané soubory</b></label>
                     <div class="fields">
                         <div class="field">
                             <p>Životopis_Malá.pdf </p>
@@ -76,7 +80,7 @@ $nameLetter = VisitorDataUploadControler::UPLOADED_KEY_LETTER.$userHash;
                                 <span class="text maly okraje-horizontal"><a><i class="trash icon"></i>Smazat</a></span>
                         </div>
 
-                    </div>
+                    </div>-->
                 </form>
                 <form class="ui huge form" action="api/v1/event/uploadvisitorfile" method="POST" enctype="multipart/form-data">
                      <div class="two fields">
@@ -85,7 +89,7 @@ $nameLetter = VisitorDataUploadControler::UPLOADED_KEY_LETTER.$userHash;
                             <input type="file" name="<?= $nameCv ?>" accept="<?= $accept ?>"  "multiple"=0 size="1">
                         </div>
                         <div class="field margin">
-                            <button class="ui massive primary button" type="submit">Uložit</button>
+                            <button class="ui massive primary button" type="submit">Uložit životopis</button>
                         </div>
                      </div>
                 </form>
@@ -96,7 +100,7 @@ $nameLetter = VisitorDataUploadControler::UPLOADED_KEY_LETTER.$userHash;
                             <input type="file" name="<?= $nameLetter ?>" accept="<?= $accept ?>"  "multiple"=0 size="1">
                         </div>
                         <div class="field margin">
-                            <button class="ui massive primary button" type="submit">Uložit</button>
+                            <button class="ui massive primary button" type="submit">Uložit dopis</button>
                         </div>
                      </div>
                 </form>

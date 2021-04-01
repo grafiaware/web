@@ -246,6 +246,11 @@ class Api extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(EventController::class);
             return $ctrl->enroll($request);
         });
+        $routeGenerator->addRouteForAction('POST', '/api/v1/event/visitor', function(ServerRequestInterface $request) {
+            /** @var VisitorDataUploadControler $ctrl */
+            $ctrl = $this->container->get(VisitorDataUploadControler::class);
+            return $ctrl->saveData($request);
+        });
         $routeGenerator->addRouteForAction('POST', '/api/v1/event/uploadvisitorfile', function(ServerRequestInterface $request) {
             /** @var VisitorDataUploadControler $ctrl */
             $ctrl = $this->container->get(VisitorDataUploadControler::class);
