@@ -45,7 +45,7 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
 
 if (isset($loginAggregate)) {
     $loginName = $loginAggregate->getLoginName();
-
+    $role = $loginAggregate->getCredentials()->getRole() ?? '';
     $personalData['userHash'] = $loginAggregate->getLoginNameHash();
     $visitorDataRepo = $container->get(VisitorDataRepo::class);
     $visitorData = $visitorDataRepo->get($loginName);

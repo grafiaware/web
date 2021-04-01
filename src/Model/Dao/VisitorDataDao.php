@@ -183,7 +183,7 @@ FROM `visitor_data`"
     public function update($row) {
 
         $sql = "
-UPDATE `veletrhprace`.`visitor_data`
+UPDATE `visitor_data`
 SET
 `prefix` = :prefix,
 `name` = :name,

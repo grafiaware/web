@@ -97,7 +97,7 @@ class VisitorDataUploadControler extends PresentationFrontControllerAbstract {
             $visitorData->setCvEducationText((new RequestParams())->getParsedBodyParam($request, 'cv-education-text'));
             $visitorData->setCvSkillsText((new RequestParams())->getParsedBodyParam($request, 'cv-skills-text'));
 
-//            $this->addFlashMessage("Data uložena");
+//            $this->addFlashMessage(" Data uložena");
             return $this->redirectSeeLastGet($request);
         }
     }
@@ -268,13 +268,14 @@ class VisitorDataUploadControler extends PresentationFrontControllerAbstract {
         $this->addFlashMessage($clientFileName);
 
         // Sanitize input // Remove anything which isn't a word, whitespace, number or any of the following caracters -_~,;[]().
-        $fileNameError = preg_match("/([^\w\s\d\-_~,;:\[\]\(\).])|([\.]{2,})/", $clientFileName);
-        if ($fileNameError) {
-            $response = (new ResponseFactory())->createResponse();
-            $response = $response->withStatus(400, "Bad Request. Invalid file name.");
-            $this->addFlashMessage("Chybné kméno souboru.");
-//                header("HTTP/1.1 400 Invalid file name.");
-        } elseif (array_search(pathinfo($clientFileName,  PATHINFO_EXTENSION ), Configuration::filesUploadControler()['uploads.acceptedextensions'])) {
+//        $fileNameError = preg_match("/([^\w\s\d\-_~,;:\[\]\(\).])|([\.]{2,})/", $clientFileName);
+//        if ($fileNameError) {
+//            $response = (new ResponseFactory())->createResponse();
+//            $response = $response->withStatus(400, "Bad Request. Invalid file name.");
+//            $this->addFlashMessage("Chybné kméno souboru.");
+////                header("HTTP/1.1 400 Invalid file name.");
+//        } else
+            if (array_search(pathinfo($clientFileName,  PATHINFO_EXTENSION ), Configuration::filesUploadControler()['uploads.acceptedextensions'])) {
             $response = (new ResponseFactory())->createResponse();
             $response = $response->withStatus(400, "Bad Request. Invalid file extesion.");
             $this->addFlashMessage("Chybná přípona souboru.");
