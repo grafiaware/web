@@ -6,13 +6,21 @@ use Site\Configuration;
 
 use Controller\PresentationFrontControllerAbstract;
 
+use Model\Repository\{
+    StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo, VisitorDataRepo
+};
+
+use Model\Entity\VisitorData;
+
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UploadedFileInterface;
 
 use Pes\Http\Helper\RequestStatus;
+use Pes\Http\Request\RequestParams;
+
+
 use Pes\Http\Factory\ResponseFactory;
 use Pes\Http\Response;
-use Pes\Text\Html;
 
 /**
  * Description of NestedFilesUpload
@@ -28,6 +36,19 @@ class VisitorDataUploadControler extends PresentationFrontControllerAbstract {
 //
 //    private $accept;
 
+    private $visitorDataRepo;
+
+    private $menuItemRepo;
+
+    public function __construct(
+            StatusSecurityRepo $statusSecurityRepo,
+            StatusFlashRepo $statusFlashRepo,
+            StatusPresentationRepo $statusPresentationRepo,
+            VisitorDataRepo $visitorDataRepo
+            ) {
+        parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
+        $this->visitorDataRepo = $visitorDataRepo;
+    }
     /**
      * Nastaví, zda bude možné vybrat k uploadu více souborů současně.
      *
@@ -50,6 +71,141 @@ class VisitorDataUploadControler extends PresentationFrontControllerAbstract {
 //        $this->accept = implode(", ", $accepted);
 //    }
 
+    public function saveData(ServerRequestInterface $request) {
+        $statusSecurity = $this->statusSecurityRepo->get();
+        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();
+
+        if (!isset($loginAggregateCredentials)) {
+            $response = (new ResponseFactory())->createResponse();
+            $response = $response->withStatus(401);  // Unaathorized
+        } else {
+            $loginName = $loginAggregateCredentials->getLoginName();
+
+            $visitorData = $this->visitorDataRepo->get($loginName);
+            if (!isset($visitorData)) {
+                $visitorData = new VisitorData();
+                $visitorData->setLoginName($loginName);
+                $this->visitorDataRepo->add($visitorData);
+            }
+            // POST data
+            $visitorData->setPrefix((new RequestParams())->getParsedBodyParam($request, 'prefix'));
+            $visitorData->setName((new RequestParams())->getParsedBodyParam($request, 'name'));
+            $visitorData->setSurname((new RequestParams())->getParsedBodyParam($request, 'surname'));
+            $visitorData->setPostfix((new RequestParams())->getParsedBodyParam($request, 'postfix'));
+            $visitorData->setEmail((new RequestParams())->getParsedBodyParam($request, 'email'));
+            $visitorData->setPhone((new RequestParams())->getParsedBodyParam($request, 'phone'));
+            $visitorData->setCvEducationText((new RequestParams())->getParsedBodyParam($request, 'cv-education-text'));
+            $visitorData->setCvSkillsText((new RequestParams())->getParsedBodyParam($request, 'cv-skills-text'));
+
+//            $this->addFlashMessage(" Data uložena");
+            return $this->redirectSeeLastGet($request);
+        }
+    }
+
+    /**
+     *
+     * @param ServerRequestInterface $request
+     * @return type
+     */
+    public function uploadTxtDocuments(ServerRequestInterface $request) {
+
+        //TODO: self::UPLOADED_KEY -rozlišit uploady z jednotlivých metod
+
+//".doc", ".docx", ".dot", ".odt", "pages", ".xls", ."xlsx", ".ods", ".txt", ".pdf"
+
+        $statusSecurity = $this->statusSecurityRepo->get();
+        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();
+
+        if (!isset($loginAggregateCredentials)) {
+            $response = (new ResponseFactory())->createResponse();
+            $response = $response->withStatus(401);  // Unaathorized
+        } else {
+            $userHash = $loginAggregateCredentials->getLoginNameHash();
+
+            // z konfigurace
+            $files = $request->getUploadedFiles();
+            // POST - jeden soubor
+            /* @var $file UploadedFileInterface */
+            if(isset($files) AND $files) {
+                if (array_key_exists(self::UPLOADED_KEY_CV.$userHash, $files)) {
+                    $fileForSave = $files[self::UPLOADED_KEY_CV.$userHash];
+                    $type = self::UPLOADED_KEY_CV;
+                } elseif (array_key_exists(self::UPLOADED_KEY_LETTER.$userHash, $files)) {
+                    $fileForSave = $files[self::UPLOADED_KEY_LETTER.$userHash];
+                    $type = self::UPLOADED_KEY_LETTER;
+                }
+                $response = $this->createResponeIfError($fileForSave);
+            } else {
+                $this->addFlashMessage("neodeslán žádný soubor. Soubor neuložen.");
+                $response = $this->redirectSeeLastGet($request);
+            }
+        }
+
+        ###### SAVE
+
+        if (!isset($response) AND isset($type)) {
+
+
+    //        $time = str_replace(",", "-", $request->getServerParams()["REQUEST_TIME_FLOAT"]); // stovky mikrosekund
+    //        $timestamp = (new \DateTime("now"))->getTimestamp();  // sekundy
+
+            // file move to temp
+            $clientFileName = $fileForSave->getClientFilename();
+            $clientMime = $fileForSave->getClientMediaType();
+            $size = $fileForSave->getSize();  // v bytech
+            $ext = pathinfo($clientFileName,  PATHINFO_EXTENSION );
+            $uploadedFileTemp = tempnam(sys_get_temp_dir(), hash('sha256', $clientFileName)).'.'.$ext;
+            $fileForSave->moveTo($uploadedFileTemp);
+
+            // if login - save data
+            if (isset($loginAggregateCredentials)) {
+                $loginName = $loginAggregateCredentials->getLoginName();
+
+                $visitorData = $this->visitorDataRepo->get($loginName);
+                if (!isset($visitorData)) {
+                    $visitorData = new VisitorData();
+                    $visitorData->setLoginName($loginName);
+                    $this->visitorDataRepo->add($visitorData);
+                }
+
+                switch ($type) {
+                    case self::UPLOADED_KEY_CV:
+                        $visitorData->setCvDocument(file_get_contents($uploadedFileTemp));
+                        $visitorData->setCvDocumentMimetype($clientMime);
+                        $visitorData->setCvDocumentFilename($clientFileName);
+                        $this->addFlashMessage("Uložen váš životopis.");
+                        break;
+                    case self::UPLOADED_KEY_LETTER:
+                        $visitorData->setLetterDocument(file_get_contents($uploadedFileTemp));
+                        $visitorData->setLetterDocumentMimetype($clientMime);
+                        $visitorData->setLetterDocumentFilename($clientFileName);
+                        $this->addFlashMessage("Uložen váš motivační dopis.");
+                        break;
+                    default:
+                        break;
+                }
+                $flashMessage = "Uloženo $size bytů.";
+                $this->addFlashMessage($flashMessage);
+
+//            $targetFilename = Configuration::filesUploadControler()['uploads.events.visitor'].self::UPLOADED_FOLDER.$item->getLangCodeFk()."_".$item->getId()."-".$file->getClientFilename();
+//            $file->moveTo($targetFilename);
+                $response = $this->redirectSeeLastGet($request);
+            } else {
+                $this->addFlashMessage("Chyba oprávnění.");
+                $this->addFlashMessage("Soubor neuložen!");
+                $this->redirectSeeLastGet($request);
+            }
+        } else {
+            if (isset($clientFileName)) {
+                $this->addFlashMessage($clientFileName);
+            }
+            $this->addFlashMessage("Soubor neuložen!");
+            return $response;
+        }
+
+        return $response;
+
+    }
     protected function uploadErrorMessage($error) {
 
         switch ($error) {
@@ -69,13 +225,13 @@ class VisitorDataUploadControler extends PresentationFrontControllerAbstract {
                 $response = 'No file was uploaded.';
                 break;
             case UPLOAD_ERR_NO_TMP_DIR:
-                $response = 'Missing a temporary folder. Introduced in PHP 4.3.10 and PHP 5.0.3.';
+                $response = 'Missing a temporary folder.';
                 break;
             case UPLOAD_ERR_CANT_WRITE:
-                $response = 'Failed to write file to disk. Introduced in PHP 5.1.0.';
+                $response = 'Failed to write file to disk.';
                 break;
             case UPLOAD_ERR_EXTENSION:
-                $response = 'File upload stopped by extension. Introduced in PHP 5.2.0.';
+                $response = 'File upload stopped by extension.';
                 break;
             default:
                 $response = 'Unknown upload error';
@@ -84,75 +240,24 @@ class VisitorDataUploadControler extends PresentationFrontControllerAbstract {
         return $response;
     }
 
-    /**
-     *
-     * @param ServerRequestInterface $request
-     * @return type
-     */
-    public function uploadTxtDocuments(ServerRequestInterface $request) {
+    private function saveUploadedFile($param) {
+        $cvFilepathName = __DIR__."/".$cvFilename;
+        $finfo = finfo_open(FILEINFO_MIME_TYPE); // return mime type ala mimetype extension
+        $mime = finfo_file($finfo, $cvFilepathName);
+        $content = file_get_contents($cvFilepathName);
+        $visitorData->setCvDocument($content);
+        $visitorData->setCvDocumentMimetype($mime);
+        $visitorData->setCvDocumentFilename($cvFilepathName);
 
-        //TODO: self::UPLOADED_KEY -rozlišit uploady z jednotlivých metod
+        $letterFilepathName = __DIR__."/".$letterFilename;
+        $finfo = finfo_open(FILEINFO_MIME_TYPE); // return mime type ala mimetype extension
+        $mime = finfo_file($finfo, $letterFilepathName);
+        $content = file_get_contents($letterFilepathName);
+        $visitorData->setLetterDocument($content);
+        $visitorData->setLetterDocumentMimetype($mime);
+        $visitorData->setLetterDocumentFilename($letterFilepathName);
 
-//".doc", ".docx", ".dot", ".odt", "pages", ".xls", ."xlsx", ".ods", ".txt", ".pdf"
-
-        $statusSecurity = $this->statusSecurityRepo->get();
-        $loginAggregate = $statusSecurity->getLoginAggregate();
-
-        if (!isset($loginAggregate)) {
-            $response = (new ResponseFactory())->createResponse();
-            $response->withHeader($name, $value);
-        } else {
-            $userHash = $loginAggregate->getLoginNameHash();
-
-            // z konfigurace
-            $files = $request->getUploadedFiles();
-            // POST - jeden soubor
-            /* @var $file UploadedFileInterface */
-            if(isset($files) AND $files) {
-                if (array_key_exists(self::UPLOADED_KEY_CV.$userHash, $files)) {
-                    $fileForSave = $files[self::UPLOADED_KEY_CV.$userHash];
-                    $type = 'cv';
-                } elseif (array_key_exists(self::UPLOADED_KEY_LETTER.$userHash, $files)) {
-                    $fileForSave = $files[self::UPLOADED_KEY_LETTER.$userHash];
-                    $type = 'letter';
-                }
-                $response = $this->createResponeIfError($fileForSave);
-            } else {
-                $this->addFlashMessage("neodeslán žádný soubor. Soubor neuložen.");
-                $response = $this->redirectSeeLastGet($request);
-            }
-        }
-        if (!isset($response)) {
-
-
-    //        $time = str_replace(",", "-", $request->getServerParams()["REQUEST_TIME_FLOAT"]); // stovky mikrosekund
-    //        $timestamp = (new \DateTime("now"))->getTimestamp();  // sekundy
-            $clientFileName = $fileForSave->getClientFilename();
-            $clientMime = $fileForSave->getClientMediaType();
-            $size = $fileForSave->getSize();  // v bytech
-
-            $ext = pathinfo($clientFileName,  PATHINFO_EXTENSION );
-            $uploadedFileTemp = tempnam(sys_get_temp_dir(), hash('sha256', $clientFileName)).'.'.$ext;
-            $fileForSave->moveTo($uploadedFileTemp);
-//            $uploadedFile->moveTo($this->uploadedFolderPath.$file->getClientFilename());
-
-            $flashMessage = "Uloženo $size bytů.";
-            $this->addFlashMessage($flashMessage);
-
-//            $targetFilename = Configuration::filesUploadControler()['uploads.events.visitor'].self::UPLOADED_FOLDER.$item->getLangCodeFk()."_".$item->getId()."-".$file->getClientFilename();
-//            $file->moveTo($targetFilename);
-            $response = $this->redirectSeeLastGet($request);
-
-        } else {
-            if (isset($clientFileName)) {
-                $this->addFlashMessage($clientFileName);
-            }
-            $this->addFlashMessage("Soubor neuložen!");
-            return $response;
-        }
-
-        return $response;
-
+        $this->visitorDataRepo->add($visitorData);
     }
 
     private function createResponeIfError(UploadedFileInterface $uploadfile) {
@@ -163,12 +268,14 @@ class VisitorDataUploadControler extends PresentationFrontControllerAbstract {
         $this->addFlashMessage($clientFileName);
 
         // Sanitize input // Remove anything which isn't a word, whitespace, number or any of the following caracters -_~,;[]().
-        if (preg_match("/([^\w\s\d\-_~,;:\[\]\(\).])|([\.]{2,})/", $clientFileName)) {
-            $response = (new ResponseFactory())->createResponse();
-            $response = $response->withStatus(400, "Bad Request. Invalid file name.");
-            $this->addFlashMessage("Chybné kméno souboru.");
-//                header("HTTP/1.1 400 Invalid file name.");
-        } elseif (array_search(pathinfo($clientFileName,  PATHINFO_EXTENSION ), Configuration::filesUploadControler()['uploads.acceptedextensions'])) {
+//        $fileNameError = preg_match("/([^\w\s\d\-_~,;:\[\]\(\).])|([\.]{2,})/", $clientFileName);
+//        if ($fileNameError) {
+//            $response = (new ResponseFactory())->createResponse();
+//            $response = $response->withStatus(400, "Bad Request. Invalid file name.");
+//            $this->addFlashMessage("Chybné kméno souboru.");
+////                header("HTTP/1.1 400 Invalid file name.");
+//        } else
+            if (array_search(pathinfo($clientFileName,  PATHINFO_EXTENSION ), Configuration::filesUploadControler()['uploads.acceptedextensions'])) {
             $response = (new ResponseFactory())->createResponse();
             $response = $response->withStatus(400, "Bad Request. Invalid file extesion.");
             $this->addFlashMessage("Chybná přípona souboru.");

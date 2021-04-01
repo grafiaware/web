@@ -40,6 +40,7 @@ use Model\Arraymodel\EventList;
 
 // events
 use \Model\Repository\EnrollRepo;
+use \Model\Repository\VisitorDataRepo;
 
 // dao
 use Model\Dao\Hierarchy\HierarchyAggregateEditDao;
@@ -165,7 +166,9 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new VisitorDataUploadControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
-                        $c->get(StatusPresentationRepo::class));
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(VisitorDataRepo::class)
+                        );
             },
             // generator service
 
