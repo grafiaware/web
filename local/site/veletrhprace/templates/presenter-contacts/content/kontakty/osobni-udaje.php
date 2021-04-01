@@ -70,7 +70,7 @@ $shortName;
                         </div>
                         <div class="field">
                             <label>Telefon</label>
-                            <input type="tel" name="phone" placeholder="+420 777 8888 555" pattern="(\+420)\s[1-9]\d{2}\s\d{3}\s\d{3}" maxlength="45" value="<?= isset($visitorData) ? $visitorData->getPhone() : ''; ?>">
+                            <input type="tel" name="phone" placeholder="+420 777 888 555" pattern="(\+420)\s[1-9]\d{2}\s\d{3}\s\d{3}" maxlength="45" value="<?= isset($visitorData) ? $visitorData->getPhone() : ''; ?>">
                         </div>
                     </div>
                     <div class="two fields">
@@ -78,7 +78,7 @@ $shortName;
                             <label>Vzdělání, kurzy</label>
                             <textarea name="cv-education-text" class="working-data"><?= isset($visitorData) ? $visitorData->getCvEducationText() : ''; ?></textarea>
                         </div>
-                        <div class="field">
+                        <div class="field margin">
                             <label>Pracovní zkušenosti, dovednosti</label>
                             <textarea name="cv-skills-text" class="working-data"><?= isset($visitorData) ? $visitorData->getCvSkillsText() : ''; ?></textarea>
                         </div>
