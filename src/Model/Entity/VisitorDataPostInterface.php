@@ -46,36 +46,36 @@ interface VisitorDataPostInterface extends EntityInterface {
 
     public function getLetterDocumentMimetype();
 
-    public function setLoginName($loginName): VisitorDataInterface;
+    public function setLoginName($loginName): VisitorDataPostInterface;
 
-    public function setShortName($shortName): VisitorDataInterface;
+    public function setShortName($shortName): VisitorDataPostInterface;
 
-    public function setPrefix($prefix): VisitorDataInterface;
+    public function setPrefix($prefix): VisitorDataPostInterface;
 
-    public function setName($name): VisitorDataInterface;
+    public function setName($name): VisitorDataPostInterface;
 
-    public function setSurname($surname): VisitorDataInterface;
+    public function setSurname($surname): VisitorDataPostInterface;
 
-    public function setPostfix($postfix): VisitorDataInterface;
+    public function setPostfix($postfix): VisitorDataPostInterface;
 
-    public function setEmail($email): VisitorDataInterface;
+    public function setEmail($email): VisitorDataPostInterface;
 
-    public function setPhone($phone): VisitorDataInterface;
+    public function setPhone($phone): VisitorDataPostInterface;
 
-    public function setCvEducationText($cvEducationText): VisitorDataInterface;
+    public function setCvEducationText($cvEducationText): VisitorDataPostInterface;
 
-    public function setCvSkillsText($cvSkillsText): VisitorDataInterface;
+    public function setCvSkillsText($cvSkillsText): VisitorDataPostInterface;
 
-    public function setCvDocument($cvDocument): VisitorDataInterface;
+    public function setCvDocument($cvDocument): VisitorDataPostInterface;
 
-    public function setCvDocumentFilename($cvDocumentFilename): VisitorDataInterface;
+    public function setCvDocumentFilename($cvDocumentFilename): VisitorDataPostInterface;
 
-    public function setCvDocumentMimetype($cvDocumentMimetype): VisitorDataInterface;
+    public function setCvDocumentMimetype($cvDocumentMimetype): VisitorDataPostInterface;
 
-    public function setLetterDocument($letterDocument): VisitorDataInterface;
+    public function setLetterDocument($letterDocument): VisitorDataPostInterface;
 
-    public function setLetterDocumentFilename($letterDocumentFilename): VisitorDataInterface;
+    public function setLetterDocumentFilename($letterDocumentFilename): VisitorDataPostInterface;
 
-    public function setLetterDocumentMimetype($letterDocumentMimetype): VisitorDataInterface;
+    public function setLetterDocumentMimetype($letterDocumentMimetype): VisitorDataPostInterface;
 
 }

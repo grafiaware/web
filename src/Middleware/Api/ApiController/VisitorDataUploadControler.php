@@ -7,10 +7,12 @@ use Site\Configuration;
 use Controller\PresentationFrontControllerAbstract;
 
 use Model\Repository\{
-    StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo, VisitorDataRepo
+    StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo, VisitorDataRepo, VisitorDataPostRepo
 };
 
+
 use Model\Entity\VisitorData;
+use Model\Entity\VisitorDataPost;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UploadedFileInterface;
@@ -38,16 +40,18 @@ class VisitorDataUploadControler extends PresentationFrontControllerAbstract {
 
     private $visitorDataRepo;
 
-    private $menuItemRepo;
+    private $visitorDataPostRepo;
 
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
-            VisitorDataRepo $visitorDataRepo
+            VisitorDataRepo $visitorDataRepo,
+            VisitorDataPostRepo $visitorDataPostRepo
             ) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
         $this->visitorDataRepo = $visitorDataRepo;
+        $this->visitorDataPostRepo = $visitorDataPostRepo;
     }
     /**
      * Nastaví, zda bude možné vybrat k uploadu více souborů současně.
@@ -77,7 +81,7 @@ class VisitorDataUploadControler extends PresentationFrontControllerAbstract {
 
         if (!isset($loginAggregateCredentials)) {
             $response = (new ResponseFactory())->createResponse();
-            $response = $response->withStatus(401);  // Unaathorized
+            $response = $response->withStatus(401);  // Unathorized
         } else {
             $loginName = $loginAggregateCredentials->getLoginName();
 
@@ -96,6 +100,52 @@ class VisitorDataUploadControler extends PresentationFrontControllerAbstract {
             $visitorData->setPhone((new RequestParams())->getParsedBodyParam($request, 'phone'));
             $visitorData->setCvEducationText((new RequestParams())->getParsedBodyParam($request, 'cv-education-text'));
             $visitorData->setCvSkillsText((new RequestParams())->getParsedBodyParam($request, 'cv-skills-text'));
+
+//            $this->addFlashMessage(" Data uložena");
+            return $this->redirectSeeLastGet($request);
+        }
+    }
+
+    public function postVisitorData(ServerRequestInterface $request) {
+        $statusSecurity = $this->statusSecurityRepo->get();
+        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();
+
+        if (!isset($loginAggregateCredentials)) {
+            $response = (new ResponseFactory())->createResponse();
+            $response = $response->withStatus(401);  // Unaathorized
+        } else {
+            $loginName = $loginAggregateCredentials->getLoginName();
+
+            // POST data
+            $shortName = (new RequestParams())->getParsedBodyParam($request, 'short-name');
+
+            $visitorData = $this->visitorDataRepo->get($loginName);
+            $visitorDataPost = $this->visitorDataPostRepo->get($loginName, $shortName);
+            if (!isset($visitorData)) {
+                $this->addFlashMessage("Data nelze poslat. Nemáte ve svém profilu uložena žádná data.");
+                return $this->redirectSeeLastGet($request);
+            }
+            if (!isset($visitorDataPost)) {
+                $visitorDataPost = new VisitorDataPost();
+                $visitorDataPost->setLoginName($loginName);
+                $visitorDataPost->setShortName($shortName);
+                $this->visitorDataPostRepo->add($visitorDataPost);
+            }
+
+            $visitorDataPost->setPrefix($visitorData->getPrefix());
+            $visitorDataPost->setName($visitorData->getName());
+            $visitorDataPost->setSurname($visitorData->getSurname());
+            $visitorDataPost->setPostfix($visitorData->getPostfix());
+            $visitorDataPost->setEmail($visitorData->getEmail());
+            $visitorDataPost->setPhone($visitorData->getPhone());
+            $visitorDataPost->setCvEducationText($visitorData->getCvEducationText());
+            $visitorDataPost->setCvSkillsText($visitorData->getCvSkillsText());
+            $visitorDataPost->setCvDocument($visitorData->getCvDocument());
+            $visitorDataPost->setCvDocumentFilename($visitorData->getCvDocumentFilename());
+            $visitorDataPost->setCvDocumentMimetype($visitorDataPost->getCvDocumentMimetype());
+            $visitorDataPost->setLetterDocument($visitorData->getLetterDocument());
+            $visitorDataPost->setLetterDocumentFilename($visitorData->getLetterDocumentFilename());
+            $visitorDataPost->setLetterDocumentMimetype($visitorDataPost->getLetterDocumentMimetype());
 
 //            $this->addFlashMessage(" Data uložena");
             return $this->redirectSeeLastGet($request);

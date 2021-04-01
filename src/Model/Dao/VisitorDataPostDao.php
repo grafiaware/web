@@ -119,7 +119,7 @@ FROM `visitor_data_post`"
         $dbhTransact = $this->dbHandler;
         try {
             $dbhTransact->beginTransaction();
-            $found = $this->getWithinTransaction($dbhTransact,$row['login_name']);
+            $found = $this->getWithinTransaction($dbhTransact,$row['login_name'],$row['short_name']);
             if  (! $found)   {
                     $sql = "
             INSERT INTO `visitor_data_post`

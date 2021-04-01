@@ -13,9 +13,10 @@ namespace Model\Entity;
  *
  * @author pes2704
  */
-class VisitorPostData extends EntityAbstract implements VisitorDataInterface {
+class VisitorDataPost extends EntityAbstract implements VisitorDataPostInterface {
 
     private $loginName;
+    private $shortName;
     private $prefix;
     private $name;
     private $surname;
@@ -39,6 +40,9 @@ class VisitorPostData extends EntityAbstract implements VisitorDataInterface {
 
     public function getLoginName() {
         return $this->loginName;
+    }
+    public function getShortName() {
+        return $this->shortName;
     }
 
     public function getPrefix() {
@@ -97,77 +101,82 @@ class VisitorPostData extends EntityAbstract implements VisitorDataInterface {
         return $this->letterDocumentMimetype;
     }
 
-    public function setLoginName($loginName): VisitorDataInterface {
+    public function setLoginName($loginName): VisitorDataPostInterface {
         $this->loginName = $loginName;
         return $this;
     }
 
-    public function setPrefix($prefix): VisitorDataInterface {
+    public function setShortName($shortName): VisitorDataPostInterface {
+        $this->shortName = $shortName;
+        return $this;
+    }
+
+    public function setPrefix($prefix): VisitorDataPostInterface {
         $this->prefix = $prefix;
         return $this;
     }
 
-    public function setName($name): VisitorDataInterface {
+    public function setName($name): VisitorDataPostInterface {
         $this->name = $name;
         return $this;
     }
 
-    public function setSurname($surname): VisitorDataInterface {
+    public function setSurname($surname): VisitorDataPostInterface {
         $this->surname = $surname;
         return $this;
     }
 
-    public function setPostfix($postfix): VisitorDataInterface {
+    public function setPostfix($postfix): VisitorDataPostInterface {
         $this->postfix = $postfix;
         return $this;
     }
 
-    public function setEmail($email): VisitorDataInterface {
+    public function setEmail($email): VisitorDataPostInterface {
         $this->email = $email;
         return $this;
     }
 
-    public function setPhone($phone): VisitorDataInterface {
+    public function setPhone($phone): VisitorDataPostInterface {
         $this->phone = $phone;
         return $this;
     }
 
-    public function setCvEducationText($cvEducationText): VisitorDataInterface {
+    public function setCvEducationText($cvEducationText): VisitorDataPostInterface {
         $this->cvEducationText = $cvEducationText;
         return $this;
     }
 
-    public function setCvSkillsText($cvSkillsText): VisitorDataInterface {
+    public function setCvSkillsText($cvSkillsText): VisitorDataPostInterface {
         $this->cvSkillsText = $cvSkillsText;
         return $this;
     }
 
-    public function setCvDocument($cvDocument): VisitorDataInterface {
+    public function setCvDocument($cvDocument): VisitorDataPostInterface {
         $this->cvDocument = $cvDocument;
         return $this;
     }
 
-    public function setCvDocumentFilename($cvDocumentFilename): VisitorDataInterface {
+    public function setCvDocumentFilename($cvDocumentFilename): VisitorDataPostInterface {
         $this->cvDocumentFilename = $cvDocumentFilename;
         return $this;
     }
 
-    public function setCvDocumentMimetype($cvDocumentMimetype): VisitorDataInterface {
+    public function setCvDocumentMimetype($cvDocumentMimetype): VisitorDataPostInterface {
         $this->cvDocumentMimetype = $cvDocumentMimetype;
         return $this;
     }
 
-    public function setLetterDocument($letterDocument): VisitorDataInterface {
+    public function setLetterDocument($letterDocument): VisitorDataPostInterface {
         $this->letterDocument = $letterDocument;
         return $this;
     }
 
-    public function setLetterDocumentFilename($letterDocumentFilename): VisitorDataInterface {
+    public function setLetterDocumentFilename($letterDocumentFilename): VisitorDataPostInterface {
         $this->letterDocumentFilename = $letterDocumentFilename;
         return $this;
     }
 
-    public function setLetterDocumentMimetype($letterDocumentMimetype): VisitorDataInterface {
+    public function setLetterDocumentMimetype($letterDocumentMimetype): VisitorDataPostInterface {
         $this->letterDocumentMimetype = $letterDocumentMimetype;
         return $this;
     }
