@@ -47,8 +47,8 @@ Na veletrhu jako každoročně byly také vyhlášeny ceny pro podniky přátels
 
 <div class="ui three column grid stackable">
 <div class="column"><a href="images/printscreen1.jpg" download="Foto z veletrhu"><img src="images/printscreen1.jpg" alt="Foto z akce" height="" width="100%"/>Stáhnout</a><p class="text maly okraje-vertical">Firemní prezentace Konplan</p></div>
-<div class="column"><a href="images/printscreen1.jpg" download="Foto z veletrhu"><img src="images/printscreen2.jpg" alt="Foto z akce" height="" width="100%"/>Stáhnout</a><p class="text maly okraje-vertical">Jak přemýšlí personalista náborář - interview se zástupci ČEZ a ASSA ABLOY</p></div>
-<div class="column"><a href="images/printscreen1.jpg" download="Foto z veletrhu"><img src="images/printscreen3.jpg" alt="Foto z akce" height="" width="100%"/>Stáhnout</a><p class="text maly okraje-vertical">Firmy BOHEMIA SEKT, RSF Elektronik a Sony DADC Czech Republic získaly Mamma / Parent Friendly</p></div>
+<div class="column"><a href="images/printscreen2.jpg" download="Foto z veletrhu"><img src="images/printscreen2.jpg" alt="Foto z akce" height="" width="100%"/>Stáhnout</a><p class="text maly okraje-vertical">Jak přemýšlí personalista náborář - interview se zástupci ČEZ a ASSA ABLOY</p></div>
+<div class="column"><a href="images/printscreen3.jpg" download="Foto z veletrhu"><img src="images/printscreen3.jpg" alt="Foto z akce" height="" width="100%"/>Stáhnout</a><p class="text maly okraje-vertical">Firmy BOHEMIA SEKT, RSF Elektronik a Sony DADC Czech Republic získaly Mamma / Parent Friendly</p></div>
 </div>
 
 
