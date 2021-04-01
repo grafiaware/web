@@ -8,4 +8,4 @@ use Pes\Text\Html;
 /** @var PaperAggregateInterface $paperAggregate */
 
 ?>
-<p class="text velky"><?= Text::mono($perex) ?></p>
+<p class="nadpis nastred podtrzeny show-on-scroll nadpis-scroll"><?= Text::mono($headline) ?></p>
