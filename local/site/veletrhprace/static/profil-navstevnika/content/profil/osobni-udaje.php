@@ -17,6 +17,7 @@ $userHash = $loginAggregate->getLoginNameHash();
 $accept = implode(", ", Configuration::filesUploadControler()['uploads.acceptedextensions']);
 $nameCv = VisitorDataUploadControler::UPLOADED_KEY_CV.$userHash;
 $nameLetter = VisitorDataUploadControler::UPLOADED_KEY_LETTER.$userHash;
+
 ?>
 
 
