@@ -54,8 +54,8 @@ class FilesUploadControler extends PresentationFrontControllerAbstract {
      *
      * @return Response
      */
-    public function upload(ServerRequestInterface $request) {
-        $uploadedFolderPath = "uploaded/";
+    public function uploadEditorImages(ServerRequestInterface $request) {
+        $uploadedFolderPath = "uploaded/editor-images/";
         $this->setAcceptedExtensions([".png", ".jpg", ".gif"]);
         $time = str_replace(",", "-", $request->getServerParams()["REQUEST_TIME_FLOAT"]); // stovky mikrosekund
 //        $timestamp = (new \DateTime("now"))->getTimestamp();  // sekundy
@@ -65,7 +65,37 @@ class FilesUploadControler extends PresentationFrontControllerAbstract {
         $size = 0;
         $item = $this->statusPresentationRepo->get()->getMenuItem();
 
-        $targetFilename = Configuration::filesUploadControler()['filesDirectory'].self::UPLOADED_FOLDER.$item->getLangCodeFk()."_".$item->getId()."-".$file->getClientFilename();
+        $targetFilename = Configuration::filesUploadControler()['uploads.editor'].self::UPLOADED_FOLDER.$item->getLangCodeFk()."_".$item->getId()."-".$file->getClientFilename();
+        $file->moveTo($targetFilename);
+        $json = json_encode(array('location' => $targetFilename));  // toto jméno použije timyMCE pro změnu url obrázku ve výsledném html
+        return $this->createResponseFromString($request, $json);
+
+    }
+
+    /**
+     *
+     * @param ServerRequestInterface $request
+     * @return type
+     */
+    public function uploadTxtDocuments(ServerRequestInterface $request) {
+
+        //TODO: self::UPLOADED_KEY -rozlišit uploady z jednotlivých metod
+
+//".doc", ".docx", ".dot", ".odt", "pages", ".xls", ."xlsx", ".ods", ".txt", ".pdf"
+
+        $statusSecurity = $this->statusSecurityRepo->get();
+
+        $uploadedFolderPath = "uploaded/editor-images/";
+        $this->setAcceptedExtensions([".doc", ".docx", ".dot", ".odt", "pages", ".xls", ".xlsx", ".ods", ".txt", ".pdf"]);
+        $time = str_replace(",", "-", $request->getServerParams()["REQUEST_TIME_FLOAT"]); // stovky mikrosekund
+//        $timestamp = (new \DateTime("now"))->getTimestamp();  // sekundy
+        // POST - jeden soubor
+        /* @var $file UploadedFileInterface */
+        $file = $request->getUploadedFiles()[self::UPLOADED_KEY];
+        $size = 0;
+        $item = $this->statusPresentationRepo->get()->getMenuItem();
+
+        $targetFilename = Configuration::filesUploadControler()['uploads.events.visitor'].self::UPLOADED_FOLDER.$item->getLangCodeFk()."_".$item->getId()."-".$file->getClientFilename();
         $file->moveTo($targetFilename);
         $json = json_encode(array('location' => $targetFilename));  // toto jméno použije timyMCE pro změnu url obrázku ve výsledném html
         return $this->createResponseFromString($request, $json);

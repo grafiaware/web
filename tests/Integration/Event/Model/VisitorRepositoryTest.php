@@ -81,8 +81,8 @@ class VisitorRepositoryTest extends TestCase {
 
     private static function deleteRecords(Container $container) {
         /** @var VisitorDao $visitorDao */
-        $visitorDao = $container->get(VisitorDao::class);
-        $visitorDao->delete(['id'=>0]);
+//        $visitorDao = $container->get(VisitorDao::class);
+//        $visitorDao->delete(['id'=>0]);
     }
 
     protected function setUp(): void {

@@ -73,6 +73,10 @@ use \Model\Dao\EnrollDao;
 use \Model\Hydrator\EnrollHydrator;
 use Model\Repository\EnrollRepo;
 
+use \Model\Dao\VisitorDataDao;
+use \Model\Hydrator\VisitorDataHydrator;
+use Model\Repository\VisitorDataRepo;
+
 //aggregate
 use Model\Repository\MenuItemAggregateRepo;
 use Model\Hydrator\MenuItemChildHydrator;
@@ -266,12 +270,25 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new EnrollDao($c->get(HandlerInterface::class));
             },
             EnrollHydrator::class => function(ContainerInterface $c) {
-                return new EnrollHydrator($c->get(EnrollDao::class));
+                return new EnrollHydrator();
             },
             EnrollRepo::class => function(ContainerInterface $c) {
                 return new EnrollRepo(
                         $c->get(EnrollDao::class),
                         $c->get(EnrollHydrator::class)
+                    );
+            },
+
+            VisitorDataDao::class => function(ContainerInterface $c) {
+                return new VisitorDataDao($c->get(HandlerInterface::class));
+            },
+            VisitorDataHydrator::class => function(ContainerInterface $c) {
+                return new VisitorDataHydrator();
+            },
+            VisitorDataRepo::class => function(ContainerInterface $c) {
+                return new VisitorDataRepo(
+                        $c->get(VisitorDataDao::class),
+                        $c->get(VisitorDataHydrator::class)
                     );
             },
 

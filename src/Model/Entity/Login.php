@@ -24,6 +24,14 @@ class Login extends EntityAbstract implements LoginInterface {
     }
 
     /**
+     * Metoda vrací hash logiName pro účely generování tokenu uživatele. Neukládá v sobě token (není pak součástí serializovaných dat).
+     */
+    public function getLoginNameHash() {
+        return hash('ripemd160', $this->loginName);
+    }
+
+
+    /**
      *
      * @return string|null
      */

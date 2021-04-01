@@ -76,7 +76,7 @@ class EventController extends PresentationFrontControllerAbstract {
                     $enroll->setLoginName($loginName)->setEventid($requestedEventId);
                     $this->enrollRepo->add($enroll);
                     $title = $boxItem['title'];
-                    $this->addFlashMessage("Přihlášeno! ".PHP_EOL.$title);
+                    $this->addFlashMessage("Přihlášeno! ".PHP_EOL.$title.PHP_EOL."Ve svém návštěvnickém profilu v menu najdete odkaz.");
                 }
             }
         }

@@ -223,6 +223,7 @@ abstract class RepoAbstract {
             $index = $this->indexFromEntity($entity);
             $this->removed[$index] = $entity;
             unset($this->collection[$index]);
+            $entity->setUnpersisted();
             $entity->lock();
         } else {   // smazání před uložením do db
             foreach ($this->new as $key => $new) {
@@ -253,13 +254,15 @@ abstract class RepoAbstract {
         }
         if ( !($this instanceof RepoReadonlyInterface)) {
             /** @var \Model\Entity\EntityAbstract $entity */
-            foreach ($this->new as $entity) {
-                $row = [];
-                $this->extract($entity, $row);
-                $this->dao->insert($row);
-                $this->addAssociated($row, $entity);
-                $this->flushChildRepos();  //pokud je vnořená agregovaná entita - musí se provést její insert
-                $entity->setPersisted();
+            if ( ! ($this->dao instanceof DaoKeyDbVerifiedInterface)) {
+                foreach ($this->new as $entity) {
+                    $row = [];
+                    $this->extract($entity, $row);
+                    $this->dao->insert($row);
+                    $this->addAssociated($row, $entity);
+                    $this->flushChildRepos();  //pokud je vnořená agregovaná entita - musí se provést její insert
+                    $entity->setPersisted();
+                }
             }
             $this->new = []; // při dalším pokusu o find se bude volat recteateEntity, entita se zpětně načte z db (včetně případného autoincrement id a dalších generovaných sloupců)
 
@@ -269,7 +272,7 @@ abstract class RepoAbstract {
                 $this->addAssociated($row, $entity);
                 $this->flushChildRepos();  //pokud je vnořená agregovaná entita přidána později - musí se provést její insert teď
                 if ($entity->isPersisted()) {
-                    if ($row) {     // $row po extractu musí obsahovat nějaká data, která je možno updatovat - v extarctu musí být vynechány "readonly" sloupce
+                    if ($row) {     // $row po extractu musí obsahovat nějaká data, která je možno updatovat - v extractu musí být vynechány "readonly" sloupce
                         $this->dao->update($row);
                     }
                 } else {

@@ -241,8 +241,9 @@ class ConfigurationRed extends ConfigurationDb {
     public static function filesUploadControler() {
 
         return [
-            'filesDirectory' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES : self::RED_FILES,
-
+            'uploads.editor' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES.'uploads/editor/' : self::RED_FILES.'uploads/editor/',
+            'uploads.events.visitor' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES.'uploads/events/visitor' : self::RED_FILES.'uploads/events/visitor',
+            'uploads.acceptedextensions' => [".doc", ".docx", ".dot", ".odt", "pages", ".xls", ".xlsx", ".ods", ".txt", ".pdf"],
             ];
     }
 

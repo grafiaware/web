@@ -109,7 +109,7 @@ var editorFunction = function (editor) {
 };  // editorFunction
 /////////////////////////////////
     //maxCharsFunction
-    var maxCharsFunction = function (ed) {                              
+    var maxCharsFunction = function (ed) {
         var allowedKeys = [8, 13, 16, 17, 18, 20, 33, 34, 35, 36, 37, 38, 39, 40, 46];
         ed.on('keydown', function (e) {
             if (allowedKeys.indexOf(e.keyCode) != -1) return true;
@@ -122,24 +122,24 @@ var editorFunction = function (editor) {
         });
         ed.on('keyup', function (e) {
             tinymce_updateCharCounter(this, tinymce_getContentLength());
-        }); 
+        });
     };
-        
+
     var init_instance_callback_function = function () { // initialize counter div
         $('#' + this.id).prev().append('<div class="char_count" style="text-align:right; float: right"></div>');
         tinymce_updateCharCounter(this, tinymce_getContentLength());
     };
-    
-    var paste_preprocess_function = function (plugin, args) {                             
+
+    var paste_preprocess_function = function (plugin, args) {
         var editor = tinymce.get(tinymce.activeEditor.id);
-        var len = editor.contentDocument.body.innerText.length;                             
+        var len = editor.contentDocument.body.innerText.length;
         if (len + args.content.length > editor.settings.max_chars) {
             alert('Pasting this exceeds the maximum allowed number of ' + editor.settings.max_chars + ' characters for the input.');
             args.content = '';
-        }                                   
-        tinymce_updateCharCounter(editor, len + args.content.length);                               
+        }
+        tinymce_updateCharCounter(editor, len + args.content.length);
     };
-    
+
     function tinymce_updateCharCounter(el, len) {
         $('#' + el.id).prev().find('.char_count').text(len + '/' + el.settings.max_chars);
     }
@@ -325,7 +325,7 @@ var contentConfig = {
     /* enable automatic uploads of images represented by blob or data URIs*/
     automatic_uploads: true,
     /* URL of our upload handler (for more details check: https://www.tiny.cloud/docs/configure/file-image-upload/#images_upload_url) */
-    images_upload_url: 'api/v1/upload',
+    images_upload_url: 'api/v1/upload/editorimages',
     images_reuse_filename: true,
     /* here we add custom filepicker only to Image dialog */
     file_picker_types: 'image media',
@@ -363,7 +363,7 @@ var perexConfig = {
     /* enable automatic uploads of images represented by blob or data URIs*/
     automatic_uploads: true,
     /* URL of our upload handler (for more details check: https://www.tiny.cloud/docs/configure/file-image-upload/#images_upload_url) */
-    images_upload_url: 'api/v1/upload',
+    images_upload_url: 'api/v1/upload/editorimages',
     images_reuse_filename: true,
     /* here we add custom filepicker only to Image dialog */
     file_picker_types: 'image',
@@ -399,7 +399,7 @@ var divConfig = {
     /* enable automatic uploads of images represented by blob or data URIs*/
     automatic_uploads: true,
     /* URL of our upload handler (for more details check: https://www.tiny.cloud/docs/configure/file-image-upload/#images_upload_url) */
-    images_upload_url: 'api/v1/upload',
+    images_upload_url: 'api/v1/upload/editorimages',
     images_reuse_filename: true,
     /* here we add custom filepicker only to Image dialog */
     file_picker_types: 'image',
@@ -482,8 +482,8 @@ var editWorkDataConfig = {
     init_instance_callback: init_instance_callback_function,
     paste_preprocess: paste_preprocess_function
 };
-        
-        
+
+
 //        tinymce.init(headlineConfig);
 //        tinymce.init(contentConfig);
 //        tinymce.init(perexConfig);
