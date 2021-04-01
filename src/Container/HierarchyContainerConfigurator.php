@@ -77,6 +77,10 @@ use \Model\Dao\VisitorDataDao;
 use \Model\Hydrator\VisitorDataHydrator;
 use Model\Repository\VisitorDataRepo;
 
+use \Model\Dao\VisitorDataPostDao;
+use \Model\Hydrator\VisitorDataPostHydrator;
+use Model\Repository\VisitorDataPostRepo;
+
 //aggregate
 use Model\Repository\MenuItemAggregateRepo;
 use Model\Hydrator\MenuItemChildHydrator;
@@ -292,6 +296,18 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
                     );
             },
 
+            VisitorDataPostDao::class => function(ContainerInterface $c) {
+                return new VisitorDataPostDao($c->get(HandlerInterface::class));
+            },
+            VisitorDataPostHydrator::class => function(ContainerInterface $c) {
+                return new VisitorDataPostHydrator();
+            },
+            VisitorDataPostRepo::class => function(ContainerInterface $c) {
+                return new VisitorDataPostRepo(
+                        $c->get(VisitorDataPostDao::class),
+                        $c->get(VisitorDataPostHydrator::class)
+                    );
+            },
             StatusPresentationManager::class => function(ContainerInterface $c) {
             return (new StatusPresentationManager(
                         $c->get(LanguageRepo::class),

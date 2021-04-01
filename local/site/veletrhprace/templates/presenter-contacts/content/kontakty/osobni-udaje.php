@@ -44,82 +44,59 @@ $shortName;
                 Balíček pracovních údajů
             </div>
             <div class="active content">
-                <form class="ui huge form" action="api/v1/event/visitor" method="POST">
+                <form class="ui huge form" action="api/v1/event/visitorpost" method="POST">
+                    <input type='hidden' name="short-name" value="<?= $shortName ?>">
                     <div class="four fields">
                         <div class="three wide field">
                             <label>Titul před jménem</label>
-                            <input type="text" name="prefix" placeholder="" maxlength="45" value="<?= isset($visitorData) ? $visitorData->getPrefix() : ''; ?>">
+                            <input readonly type="text" name="prefix" placeholder="" maxlength="45" value="<?= isset($visitorData) ? $visitorData->getPrefix() : ''; ?>">
                         </div>
                         <div class="five wide field">
                             <label>Jméno</label>
-                            <input type="text" name="name" placeholder="Jméno" maxlength="90" value="<?= isset($visitorData) ? $visitorData->getName() : ''; ?>">
+                            <input readonly type="text" name="name" placeholder="Jméno" maxlength="90" value="<?= isset($visitorData) ? $visitorData->getName() : ''; ?>">
                         </div>
                         <div class="five wide field">
                             <label>Příjmení</label>
-                            <input type="text" name="surname" placeholder="Příjmení" maxlength="90" value="<?= isset($visitorData) ? $visitorData->getSurname() : ''; ?>">
+                            <input readonly type="text" name="surname" placeholder="Příjmení" maxlength="90" value="<?= isset($visitorData) ? $visitorData->getSurname() : ''; ?>">
                         </div>
                         <div class="three wide field">
                             <label>Titul za jménem</label>
-                            <input type="text" name="postfix" placeholder="" maxlength="45" value="<?= isset($visitorData) ? $visitorData->getPostfix() : ''; ?>">
+                            <input readonly type="text" name="postfix" placeholder="" maxlength="45" value="<?= isset($visitorData) ? $visitorData->getPostfix() : ''; ?>">
                         </div>
                     </div>
                     <div class="two fields">
                         <div class="field">
                             <label>E-mail</label>
-                            <input type="email" name="email" placeholder="mail@example.cz" maxlength="90" value="<?= isset($visitorData) ? $visitorData->getEmail() : ''; ?>">
+                            <input readonly type="email" name="email" placeholder="mail@example.cz" maxlength="90" value="<?= isset($visitorData) ? $visitorData->getEmail() : ''; ?>">
                         </div>
                         <div class="field">
                             <label>Telefon</label>
-                            <input type="tel" name="phone" placeholder="+420 777 8888 555" pattern="(\+420)\s[1-9]\d{2}\s\d{3}\s\d{3}" maxlength="45" value="<?= isset($visitorData) ? $visitorData->getPhone() : ''; ?>">
+                            <input readonly type="tel" name="phone" placeholder="+420 777 8888 555" pattern="(\+420)\s[1-9]\d{2}\s\d{3}\s\d{3}" maxlength="45" value="<?= isset($visitorData) ? $visitorData->getPhone() : ''; ?>">
                         </div>
                     </div>
                     <div class="two fields">
                         <div class="field">
                             <label>Vzdělání, kurzy</label>
-                            <textarea name="cv-education-text" class="working-data"><?= isset($visitorData) ? $visitorData->getCvEducationText() : ''; ?></textarea>
+                            <textarea disabled name="cv-education-text" class="working-data"><?= isset($visitorData) ? $visitorData->getCvEducationText() : ''; ?></textarea>
                         </div>
                         <div class="field">
                             <label>Pracovní zkušenosti, dovednosti</label>
-                            <textarea name="cv-skills-text" class="working-data"><?= isset($visitorData) ? $visitorData->getCvSkillsText() : ''; ?></textarea>
+                            <textarea disabled name="cv-skills-text" class="working-data"><?= isset($visitorData) ? $visitorData->getCvSkillsText() : ''; ?></textarea>
                         </div>
                     </div>
-                    <div class="field margin">
-                        <button class="ui massive primary button" type="submit">Uložit údaje</button>
-                    </div>
+
                     <label><b>Nahrané soubory</b></label>
                     <div class="fields">
                         <div class="field">
                             <p>Životopis: <?= isset($visitorData) ? $visitorData->getCvDocumentFilename() : ''; ?></p>
                             <p>Motivační dopis: <?= isset($visitorData) ? $visitorData->getLetterDocumentFilename() : ''; ?></p>
                         </div>
-<!--                        <div class="field">
-                                <span class="text maly okraje-horizontal"><a><i class="eye outline icon"></i>Zobrazit soubor</a></span>
-                                <span class="text maly okraje-horizontal"><a><i class="trash icon"></i>Smazat</a></span>
-                        </div>-->
-
                     </div>
-                </form>
-                <form class="ui huge form" action="api/v1/event/uploadvisitorfile" method="POST" enctype="multipart/form-data">
-                     <div class="two fields">
+                    <div class="fields">
                         <div class="field margin">
-                            <label>Příloha - životopis</label>
-                            <input type="file" name="<?= $nameCv ?>" accept="<?= $accept ?>"  "multiple"=0 size="1">
+                            <button class="ui massive primary button" type="submit">Odeslat</button>
                         </div>
-                        <div class="field margin">
-                            <button class="ui massive primary button" type="submit">Uložit životopis</button>
-                        </div>
-                     </div>
-                </form>
-                <form class="ui huge form" action="api/v1/event/uploadvisitorfile" method="POST" enctype="multipart/form-data">
-                     <div class="two fields">
-                        <div class="field margin">
-                            <label>Příloha - motivační dopis</label>
-                            <input type="file" name="<?= $nameLetter ?>" accept="<?= $accept ?>"  "multiple"=0 size="1">
-                        </div>
-                        <div class="field margin">
-                            <button class="ui massive primary button" type="submit">Uložit dopis</button>
-                        </div>
-                     </div>
+                    </div>
                 </form>
             </div>
 <?php

@@ -104,6 +104,7 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/event/enroll'));
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/event/visitor'));
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/event/uploadvisitorfile'));
+        $registry->register($this->postPrototype->withUrlPattern('/api/v1/event/visitorpost'));
 
 
         #### TemplateController ####
