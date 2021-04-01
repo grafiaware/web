@@ -30,10 +30,10 @@ class EventList {
     private $linkButtonAttributesVstoupit = ['class' => 'ui large green button', 'target' => '_blank'];
     private $linkButtonTextVstoupit = 'Vstupte do místnosti';
 
-    private $linkButtonAttributesStream = ['class' => 'ui large yellow button'];
+    private $linkButtonAttributesStream = ['class' => 'ui large yellow button', 'target' => '_blank'];
     private $linkButtonTextStream = 'Zhlédněte živý stream';
 
-    private $linkButtonAttributesZhlednout = ['class' => 'ui large yellow button'];
+    private $linkButtonAttributesZhlednout = ['class' => 'ui large yellow button', 'target' => '_blank'];
     private $linkButtonTextZhlednout = 'Zhlédněte záznam';
 
     private $timelinePoint = [
