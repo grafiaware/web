@@ -559,7 +559,7 @@ class EventList {
                                     [
                                         'href' => "https://youtu.be/LVPM2nDTl38"
                                     ],
-                                'linkButtonText' => $this->linkButtonTextStream
+                                'linkButtonText' => $this->linkButtonTextZhlednout
                                 ],
             ] + $this->eventContent->getEventContent('Chcete se stát dobrovolníkem?'),
             [
