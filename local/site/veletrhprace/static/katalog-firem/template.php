@@ -22,9 +22,9 @@ $perex = '';
         <content>
             <div class="ui grid centered">
                 <div class="sixteen wide column center aligned">
-                    <a href="" download="">
-                        <img src="" alt="katalog" heigh="" width="100%" />
-                        <p>Stáhnout katalog</p>
+                    <p><a  href="_www_vp_files/files/katalog.pdf" download="Katalog firem">Stáhnout katalog</a></p>
+                    <a class="link-img" href="_www_vp_files/files/katalog.pdf" download="Katalog firem">
+                        <img  src="images/katalog.jpg" alt="katalog" heigh="" width="60%" />
                     </a>
                 </div>
             </div>

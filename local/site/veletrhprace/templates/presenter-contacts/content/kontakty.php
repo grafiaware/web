@@ -14,7 +14,7 @@ use Pes\Text\Html;
             <?='';// $this->insert(__DIR__.'/kontakty/profilove-udaje.php') ?>
         </div>
         <div class="sixteen wide column center aligned">
-            <div class="ui large button profil-visible">Přeji si vyplnit své osobní údaje</div>
+            <div class="ui large button profil-visible">Odeslat údaje se svého profilu</div>
         </div>
         <div class="sixteen wide column">
             <div class="profil hidden">
