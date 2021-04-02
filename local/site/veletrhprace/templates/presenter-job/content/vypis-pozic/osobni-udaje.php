@@ -86,18 +86,27 @@ $shortName;
                     </div>
 
                     <label><b>Nahrané soubory</b></label>
-                    <div class="fields">
+                    <div class="two fields">
                         <div class="field">
                             <p>Životopis: <?= isset($visitorData) ? $visitorData->getCvDocumentFilename() : ''; ?></p>
                             <p>Motivační dopis: <?= isset($visitorData) ? $visitorData->getLetterDocumentFilename() : ''; ?></p>
                         </div>
-                    </div>
-                    <div class="fields">
-                        <div class="field margin">
+                        <div class="field">
                             <button class="ui massive primary button" type="submit">Odeslat</button>
                         </div>
                     </div>
+
                 </form>
+            </div>
+<?php
+
+} else {
+
+?>
+                <div class="active title">
+                <i class="exclamation icon"></i>
+                Přihlašte se. Údaje ze svého profilu mohou posílat přihlášení uživatelé.
+                
             </div>
 <?php
 
