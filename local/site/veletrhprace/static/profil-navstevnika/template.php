@@ -74,7 +74,7 @@ if (isset($loginAggregate)) {
 
             V harmonogramu najdete akce, ke kterým jste se přihlásili.
 
-            Stále si zde můžete na stránce přednášek a na stránkách zaměstnavatelů prohlédnout všechna dostupná videa na YouTube. 
+            Stále si zde můžete na stránce přednášek a na stránkách zaměstnavatelů prohlédnout všechna dostupná videa na YouTube.
                 "
             ],[
 
@@ -114,7 +114,7 @@ if (isset($loginAggregate)) {
                 'idZpravy' => '',
                 'nazev' => 'Stále zde naleznete pracovní místa, přednášky i poradny',
                 'text' =>
-                "I když online veletrh s živou účastí skončil, stále ještě máte možnost se přihlásit. Nahrajte svůj životopis a motivační dopis a u vybraných firem rovnou
+                "Stále ještě máte možnost se přihlásit. Nahrajte svůj životopis a motivační dopis a u vybraných firem rovnou
                 vložte jako odpověď zájemce o pozici.
 
                 Prohlédněte si videa z přednášek a z prezentací zaměstnavatelů, na které jste se přihlásili a které chcete shlédnout.
