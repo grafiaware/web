@@ -9,10 +9,8 @@ use Pes\Text\Html;
 ?>
 
         <div class="sixteen wide column">
-            <p class="text">
-                <?= Text::mono($idZpravy)?>
-            </p>
-            <p class="podnadpis primarni-barva"> <?= Text::mono($nazev)?></p>
+            <?=  Html::p(Text::mono($idZpravy), ["class"=>"text"])?>
+            <?=  Html::p(Text::mono($nazev), ["class"=>"podnadpis primarni-barva"])?>
             <?=  Html::p(Text::mono($text), ["class"=>"text"]) ?>
             <hr/>
         </div>

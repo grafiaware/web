@@ -9,5 +9,4 @@ use Pes\Text\Text;
 /** @var PaperAggregateInterface $paperAggregate */
 ?>
 
-<p class=""><?= "";//Text::mono($perex ?? '') ?></p>
 <?= Html::p(Text::mono($perex), ["class"=>"text"]) ?>
