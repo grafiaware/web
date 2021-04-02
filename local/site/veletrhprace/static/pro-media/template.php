@@ -1,8 +1,8 @@
 <?php
 use Pes\View\Renderer\PhpTemplateRendererInterface;
-use Model\Entity\PaperAggregatePaperContentInterface;
 /** @var PhpTemplateRendererInterface $this */
-/** @var PaperAggregatePaperContentInterface $paperAggregate */
+
+use Site\Configuration;
 
 include 'data.php';
 ?>
@@ -15,6 +15,6 @@ include 'data.php';
         <?php include "perex.php" ?>
     </perex>
     <content>
-        <?php include "content/tiskova-zprava.php" ?>
+        <?= $this->insert(Configuration::componentControler()['templates']."zprava"."/template.php", $tiskovaZprava) ?>
     </content>
 </div>

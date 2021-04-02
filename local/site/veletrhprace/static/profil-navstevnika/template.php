@@ -7,6 +7,8 @@ use Model\Repository\EnrollRepo;
 use Model\Repository\StatusSecurityRepo;
 use Model\Repository\VisitorDataRepo;
 
+use Pes\Text\Html;
+use Pes\Text\Text;
 
 
 $igelitkaLetakAttributes = ['class' => 'letak-v-igelitce'];
@@ -82,7 +84,15 @@ Před zahájením akce zde uvidíte barevný odkaz pro vstup na akci nebo odkaz 
 } else {
     $headline = "Profil návštěvníka";
     $perex = 'Zaregistrovaní návštěvníci zde po přihlášení naleznou přístupy k akcím, na které se přihlásili a které chtějí shlédnout.';
+    $perex =
+            "
+            I když online veletrh s živou účastí skončil stále ještě máte možnost se přihlásit. Nahrajte svůj životopis a motivační dopis a u vybraných firem rovnou
+            vložte jako odpověď zájemce o pozici.
 
+            Stále zde naleznete videa z přednášek a z prezentací zaměstnavatelů, na které se přihlásili a které chcete shlédnout.
+
+            Můžete se také i nově zaregistrovat a získat výhody registrovaného návštěvníka.
+            ";
 ?>
 
 <article class="paper">
