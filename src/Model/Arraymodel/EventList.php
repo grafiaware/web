@@ -711,7 +711,7 @@ class EventList {
                     'showEnter' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesZhlednout +
                                     [
-                                        'href' => "https://www.youtube.com/channel/UC-Di-88rpUfBZUHHVf7tntQ"
+                                        'href' => "https://youtu.be/Ri_bgRzO9Qo"
                                     ],
                                 'linkButtonText' => $this->linkButtonTextZhlednout
                                 ],
@@ -733,7 +733,7 @@ class EventList {
                     'showEnter' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesZhlednout +
                                     [
-                                        'href' => "https://www.youtube.com/channel/UC-Di-88rpUfBZUHHVf7tntQ"
+                                        'href' => "https://youtu.be/xVmsNC6LlJQ"
                                     ],
                                 'linkButtonText' => $this->linkButtonTextZhlednout
                                 ],
@@ -755,7 +755,7 @@ class EventList {
                     'showEnter' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesZhlednout +
                                     [
-                                        'href' => "https://www.youtube.com/channel/UC-Di-88rpUfBZUHHVf7tntQ"
+                                        'href' => "https://youtu.be/xvYvyCOO5OQ"
                                     ],
                                 'linkButtonText' => $this->linkButtonTextZhlednout
                                 ],
@@ -777,7 +777,7 @@ class EventList {
                     'showEnter' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesZhlednout +
                                     [
-                                        'href' => "https://www.youtube.com/channel/UC-Di-88rpUfBZUHHVf7tntQ"
+                                        'href' => "https://youtu.be/jYxOf2jmY5M"
                                     ],
                                 'linkButtonText' => $this->linkButtonTextZhlednout
                                 ],
@@ -799,7 +799,7 @@ class EventList {
                     'showEnter' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesZhlednout +
                                     [
-                                        'href' => "https://www.youtube.com/channel/UC-Di-88rpUfBZUHHVf7tntQ"
+                                        'href' => "https://youtu.be/OlvnTWKvVy0"
                                     ],
                                 'linkButtonText' => $this->linkButtonTextZhlednout
                                 ],
@@ -821,7 +821,7 @@ class EventList {
                     'showEnter' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesZhlednout +
                                     [
-                                        'href' => "https://www.youtube.com/channel/UC-Di-88rpUfBZUHHVf7tntQ"
+                                        'href' => "https://youtu.be/Osi-TXgSI9Q"
                                     ],
                                 'linkButtonText' => $this->linkButtonTextZhlednout
                                 ],

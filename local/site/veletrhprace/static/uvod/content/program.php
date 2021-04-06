@@ -10,6 +10,13 @@ use Pes\Text\Text;
 <div class="blok-nadpis-obr-text program">
     <div class="ui stackable centered grid">
         <div class="sixteen wide column">
+            <?= Text::mono('
+            <p class="text">Vážení návštěvníci, děkujeme vám za zájem o virtuální veletrh práce. Za 3 dny ho navštívilo přes 2.000 návštěvníků, kteří v průměru viděli 14 stránek (dle statistik webu). Asi polovina z nich se opakovaně vracela. Přednášky a prezentace na youtube kanálu zhlédlo přes 1.300 diváků. Další informace naleznete v sekci <a href="www/item/cs/605885f092f1f" target="_blank">pro média</a>. </p>
+            <p class="text">I když veletrh skončil, stále se můžete <b>registrovat</b> či <b>přihlásit</b> jako již registrovaný návštěvník a <span class="primarni-barva text">do konce dubna</span> odpovědět na některou z <a href="www/item/cs/6064397e726a1" target="_blank">nabízených pozic</a> (vložit životopis a motivační dopis ze svého profilu). U každého firemního stánku naleznete také kontakty na náborové pracovníky.</p>
+            <p class="text">Stále ještě můžete ze záznamu zhlédnout přednášky a prezentace na našem <a href="https://www.youtube.com/channel/UC-Di-88rpUfBZUHHVf7tntQ" target="_blank">youtube kanálu</a>.<br/>
+            Využijte svou šanci, získejte informace a kontakty!</p>
+            <p class="text okraje-vertical"></p>
+            ')?>
             <p class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll">Program</p>
             <img src="images/klic_foto.jpg" width="1280" height="420" alt="Obrázek k programu"/>
         </div>
