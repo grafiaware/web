@@ -147,7 +147,7 @@ class VisitorDataUploadControler extends PresentationFrontControllerAbstract {
             $visitorDataPost->setLetterDocumentFilename($visitorData->getLetterDocumentFilename());
             $visitorDataPost->setLetterDocumentMimetype($visitorDataPost->getLetterDocumentMimetype());
 
-//            $this->addFlashMessage(" Data uložena");
+            $this->addFlashMessage(" Data odeslána.");
             return $this->redirectSeeLastGet($request);
         }
     }
