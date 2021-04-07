@@ -18,6 +18,8 @@ interface VisitorDataPostInterface extends EntityInterface {
 
     public function getShortName();
 
+    public function getPositionName();
+
     public function getPrefix();
 
     public function getName();
@@ -49,6 +51,8 @@ interface VisitorDataPostInterface extends EntityInterface {
     public function setLoginName($loginName): VisitorDataPostInterface;
 
     public function setShortName($shortName): VisitorDataPostInterface;
+
+    public function setPositionName($positionName): VisitorDataPostInterface;
 
     public function setPrefix($prefix): VisitorDataPostInterface;
 

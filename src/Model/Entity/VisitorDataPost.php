@@ -17,6 +17,7 @@ class VisitorDataPost extends EntityAbstract implements VisitorDataPostInterface
 
     private $loginName;
     private $shortName;
+    private $positionName;
     private $prefix;
     private $name;
     private $surname;
@@ -43,6 +44,9 @@ class VisitorDataPost extends EntityAbstract implements VisitorDataPostInterface
     }
     public function getShortName() {
         return $this->shortName;
+    }
+    public function getPositionName() {
+        return $this->positionName;
     }
 
     public function getPrefix() {
@@ -108,6 +112,11 @@ class VisitorDataPost extends EntityAbstract implements VisitorDataPostInterface
 
     public function setShortName($shortName): VisitorDataPostInterface {
         $this->shortName = $shortName;
+        return $this;
+    }
+
+    public function setPositionName($positionName): VisitorDataPostInterface {
+        $this->positionName = $positionName;
         return $this;
     }
 

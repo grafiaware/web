@@ -30,13 +30,15 @@ class VisitorDataPostRepo extends RepoAbstract implements VisitorDataPostRepoInt
 
     /**
      *
-     * @param type $loginName, $shortName
+     * @param string $loginName
+     * @param string $shortName
+     * @param string $positionName
      * @return VisitorDataPostInterface|null
      */
-    public function get($loginName, $shortName): ?VisitorDataPostInterface {
-        $index = $loginName.$shortName;
+    public function get($loginName, $shortName, $positionName): ?VisitorDataPostInterface {
+        $index = $loginName.$shortName.$positionName;
         if (!isset($this->collection[$index])) {
-            $this->recreateEntity($index, $this->dao->get($loginName, $shortName));
+            $this->recreateEntity($index, $this->dao->get($loginName, $shortName, $positionName));
         }
         return $this->collection[$index] ?? NULL;
     }

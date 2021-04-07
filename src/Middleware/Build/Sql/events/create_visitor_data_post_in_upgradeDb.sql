@@ -27,3 +27,9 @@ CREATE TABLE `visitor_data_post` (
   `letter_document_mimetype` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`login_name`,`short_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- musí být prázdná tabulka - nesmí být NULL hodnota 
+ALTER TABLE `veletrhprace`.`visitor_data_post`
+CHANGE COLUMN `position_name` `position_name` VARCHAR(200) NOT NULL ,
+DROP PRIMARY KEY,
+ADD PRIMARY KEY (`login_name`, `short_name`, `position_name`);

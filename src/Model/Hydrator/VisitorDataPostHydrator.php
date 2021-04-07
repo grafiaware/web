@@ -40,9 +40,10 @@ class VisitorDataPostHydrator implements HydratorInterface {
             ->setLetterDocument($row['letter_document'])
             ->setLetterDocumentFilename($row['letter_document_filename'])
             ->setLetterDocumentMimetype($row['letter_document_mimetype'])
-
+            // primary key
             ->setLoginName($row['login_name'])
-            ->setShortName($row['short_name']);
+            ->setShortName($row['short_name'])
+            ->setPositionName($row['position_name']);
     }
 
     /**
@@ -66,9 +67,10 @@ class VisitorDataPostHydrator implements HydratorInterface {
             $row['letter_document'] = $visitorDataPost->getLetterDocument();
             $row['letter_document_filename'] = $visitorDataPost->getLetterDocumentFilename();
             $row['letter_document_mimetype'] = $visitorDataPost->getLetterDocumentMimetype();
-
+            // primary key
             $row['login_name'] = $visitorDataPost->getLoginName();
             $row['short_name'] = $visitorDataPost->getShortName();
+            $row['position_name'] = $visitorDataPost->getPositionName();
     }
 
 }

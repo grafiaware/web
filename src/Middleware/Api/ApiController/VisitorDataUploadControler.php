@@ -118,17 +118,20 @@ class VisitorDataUploadControler extends PresentationFrontControllerAbstract {
 
             // POST data
             $shortName = (new RequestParams())->getParsedBodyParam($request, 'short-name');
+            $positionName = (new RequestParams())->getParsedBodyParam($request, 'position-name');
 
             $visitorData = $this->visitorDataRepo->get($loginName);
-            $visitorDataPost = $this->visitorDataPostRepo->get($loginName, $shortName);
             if (!isset($visitorData)) {
                 $this->addFlashMessage("Data nelze poslat. Nemáte ve svém profilu uložena žádná data.");
                 return $this->redirectSeeLastGet($request);
             }
+
+            $visitorDataPost = $this->visitorDataPostRepo->get($loginName, $shortName, $positionName);
             if (!isset($visitorDataPost)) {
                 $visitorDataPost = new VisitorDataPost();
                 $visitorDataPost->setLoginName($loginName);
                 $visitorDataPost->setShortName($shortName);
+                $visitorDataPost->setPositionName($positionName);
                 $this->visitorDataPostRepo->add($visitorDataPost);
             }
 
@@ -147,7 +150,7 @@ class VisitorDataUploadControler extends PresentationFrontControllerAbstract {
             $visitorDataPost->setLetterDocumentFilename($visitorData->getLetterDocumentFilename());
             $visitorDataPost->setLetterDocumentMimetype($visitorDataPost->getLetterDocumentMimetype());
 
-            $this->addFlashMessage(" Data odeslána.");
+            $this->addFlashMessage("Pracovní údahe odeslány pro pozici $positionName.");
             return $this->redirectSeeLastGet($request);
         }
     }

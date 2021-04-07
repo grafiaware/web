@@ -20,7 +20,7 @@ $kvalifikace = [
 ?>
 
         <div class="title">
-            <p class="podnadpis"><i class="dropdown icon"></i><?= $nazev ?>, <?= $mistoVykonu ?>  
+            <p class="podnadpis"><i class="dropdown icon"></i><?= $nazev ?>, <?= $mistoVykonu ?>
                 <?= $this->repeat(__DIR__.'/pozice/tag.php', $kategorie, 'cislo') ?>
             </p>
         </div>
@@ -60,14 +60,14 @@ $kvalifikace = [
                             <div class="ui grid">
                                 <div class="sixteen wide column center aligned">
                                     <div class="ui large button blue profil-visible">
-                                        <i class="play icon"></i> 
+                                        <i class="play icon"></i>
                                         <span>Mám zájem o tuto pozici, chci vložit mé údaje z profilu návštěvníka &nbsp;</span>
-                                        <i class="play flipped icon"></i> 
+                                        <i class="play flipped icon"></i>
                                     </div>
                                 </div>
                                 <div class="sixteen wide column">
                                     <div class="profil hidden">
-                                        <?= $this->insert(__DIR__.'/pozice/osobni-udaje.php', ['container' => $container, 'shortName'=>$shortName]) ?>
+                                        <?= $this->insert(__DIR__.'/pozice/osobni-udaje.php', ['container' => $container, 'shortName'=>$shortName, 'positionName'=> $nazev]) ?>
                                     </div>
                                 </div>
                             </div>

@@ -18,19 +18,11 @@ use Model\Dao\Exception\DaoKeyVerificationFailedException;
  */
 class VisitorDataPostDao extends DaoAbstract implements DaoKeyDbVerifiedInterface {
 
-    /**
-     * Pro tabulky s auto increment id.
-     *
-     * @return type
-     */
-    public function getLastInsertedId() {
-        return $this->getLastInsertedIdForOneRowInsert();
-    }
-
-    public function get($id) {
+    public function get($loginName, $shortName, $positionName) {
         $sql = "
 SELECT `visitor_data_post`.`login_name`,
     `visitor_data_post`.`short_name`,
+    `visitor_data_post`.`position_name`,
     `visitor_data_post`.`prefix`,
     `visitor_data_post`.`name`,
     `visitor_data_post`.`surname`,
@@ -46,16 +38,16 @@ SELECT `visitor_data_post`.`login_name`,
     `visitor_data_post`.`letter_document_filename`,
     `visitor_data_post`.`letter_document_mimetype`
 FROM `visitor_data_post`
-WHERE
-                `visitor_data_post`.`login_name` = :login_name";
+WHERE `login_name` = :login_name AND `short_name` = :short_name AND `position_name` = :position_name";
 
-        return $this->selectOne($sql, [':login_name' => $id], TRUE);
+        return $this->selectOne($sql, [':login_name' => $loginName, ':short_name' => $shortName, ':position_name' => $positionName], TRUE);
     }
 
     public function findAll() {
         $sql = "
 SELECT `visitor_data_post`.`login_name`,
     `visitor_data_post`.`short_name`,
+    `visitor_data_post`.`position_name`,
     `visitor_data_post`.`prefix`,
     `visitor_data_post`.`name`,
     `visitor_data_post`.`surname`,
@@ -79,6 +71,7 @@ FROM `visitor_data_post`";
         $sql = "
 SELECT `visitor_data_post`.`login_name`,
     `visitor_data_post`.`short_name`,
+    `visitor_data_post`.`position_name`,
     `visitor_data_post`.`prefix`,
     `visitor_data_post`.`name`,
     `visitor_data_post`.`surname`,
@@ -98,14 +91,18 @@ FROM `visitor_data_post`"
         return $this->selectMany($sql, $touplesToBind);
     }
 
-    private function getWithinTransaction(HandlerInterface $dbhTransact, $loginName, $shortName) {
+    private function getWithinTransaction(HandlerInterface $dbhTransact, $loginName, $shortName, $positionName) {
         if ($dbhTransact->inTransaction()) {
                 $stmt = $dbhTransact->prepare(
-                        "SELECT `visitor_data_post`.`login_name`,  `visitor_data_post`.`short_name`
+                        "SELECT `visitor_data_post`.`login_name`,  `visitor_data_post`.`short_name`, `visitor_data_post`.`position_name`
                         FROM  `visitor_data_post`
-                        WHERE `visitor_data_post`.`login_name` = :login_name AND  `visitor_data_post`.`short_name` = :short_name LOCK IN SHARE MODE");   //nelze použít LOCK TABLES - to commitne aktuální transakci!
+                        WHERE `visitor_data_post`.`login_name` = :login_name
+                        AND  `visitor_data_post`.`short_name` = :short_name
+                        AND  `visitor_data_post`.`position_name` = :position_name
+                        LOCK IN SHARE MODE");   //nelze použít LOCK TABLES - to commitne aktuální transakci!
                 $stmt->bindParam( ':login_name' , $loginName );
                 $stmt->bindParam( ':short_name' , $shortName );
+                $stmt->bindParam( ':position_name' , $positionName );
                 $o = $stmt->execute();   //false - kdyz chyba,   i kdyz nenejde je to ok vysledek, cili true
 
                 $count = $stmt->rowCount();
@@ -119,12 +116,13 @@ FROM `visitor_data_post`"
         $dbhTransact = $this->dbHandler;
         try {
             $dbhTransact->beginTransaction();
-            $found = $this->getWithinTransaction($dbhTransact,$row['login_name'],$row['short_name']);
+            $found = $this->getWithinTransaction($dbhTransact,$row['login_name'],$row['short_name'],$row['position_name']);
             if  (! $found)   {
                     $sql = "
             INSERT INTO `visitor_data_post`
             (`login_name`,
             `short_name`,
+            `position_name`,
             `prefix`,
             `name`,
             `surname`,
@@ -142,6 +140,7 @@ FROM `visitor_data_post`"
             VALUES
             (:login_name,
             :short_name,
+            :position_name,
             :prefix,
             :name,
             :surname,
@@ -159,6 +158,7 @@ FROM `visitor_data_post`"
                 $stmt = $dbhTransact->prepare($sql);
                 $stmt->bindParam(':login_name', $row['login_name'] );
                 $stmt->bindParam(':short_name', $row['short_name'] );
+                $stmt->bindParam(':position_name', $row['position_name'] );
 
                 $stmt->bindParam(':prefix', $row['prefix']);
                 $stmt->bindParam(':name', $row['name']);
@@ -177,7 +177,7 @@ FROM `visitor_data_post`"
 
                 $stmt->execute();
             } else {
-                throw new DaoKeyVerificationFailedException("Přihlašovací jméno (login name) již existuje.");
+                throw new DaoKeyVerificationFailedException("Hodnota primárního klíče - kombinace login name + short_name + position_name již existuje.");
             }
             /*** commit the transaction ***/
             $dbhTransact->commit();
@@ -206,7 +206,7 @@ SET
 `letter_document` = :letter_document,
 `letter_document_filename` = :letter_document_filename,
 `letter_document_mimetype` = :letter_document_mimetype
-WHERE `login_name` = :login_name AND `short_name` = :short_name";
+WHERE `login_name` = :login_name AND `short_name` = :short_name AND `position_name` = :position_name";
 
         return $this->execUpdate($sql, [
             ':prefix'=>$row['prefix'],
@@ -225,7 +225,8 @@ WHERE `login_name` = :login_name AND `short_name` = :short_name";
             ':letter_document_mimetype'=>$row['letter_document_mimetype'],
 
             ':login_name'=>$row['login_name'],
-            ':short_name'=>$row['short_name']
+            ':short_name'=>$row['short_name'],
+            ':position_name'=>$row['position_name']
                 ]
             );
     }
@@ -233,10 +234,10 @@ WHERE `login_name` = :login_name AND `short_name` = :short_name";
     public function delete($row) {
         $sql = "
 DELETE FROM `veletrhprace`.`visitor_data_post`
-WHERE `login_name` = :login_name AND `short_name` = :short_name";
+WHERE `login_name` = :login_name AND `short_name` = :short_name AND `position_name` = :position_name";
 
 
-        return $this->execDelete($sql, [':login_name'=>$row['login_name'], ':short_name'=>$row['short_name']]);
+        return $this->execDelete($sql, [':login_name'=>$row['login_name'], ':short_name'=>$row['short_name'], ':position_name'=>$row['position_name']]);
     }
 
 }

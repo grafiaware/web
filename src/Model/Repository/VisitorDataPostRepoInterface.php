@@ -15,7 +15,16 @@ use Model\Entity\VisitorDataPostInterface;
  * @author pes2704
  */
 interface VisitorDataPostRepoInterface extends RepoInterface {
-    public function get($loginName, $shortName): ?VisitorDataPostInterface;
-    public function add(VisitorDataPostInterface $enroll);
-    public function remove(VisitorDataPostInterface $enroll);
+    /**
+     *
+     * @param string $loginName
+     * @param string $shortName
+     * @param string $positionName
+     * @return VisitorDataPostInterface|null
+     */
+    public function get($loginName, $shortName, $positionName): ?VisitorDataPostInterface;
+
+    public function add(VisitorDataPostInterface $visitorDataPost);
+
+    public function remove(VisitorDataPostInterface $visitorDataPost);
 }

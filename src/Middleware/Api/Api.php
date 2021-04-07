@@ -13,7 +13,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 use Container\{
-    ApiContainerConfigurator, HierarchyContainerConfigurator, DbUpgradeContainerConfigurator, LoginContainerConfigurator
+    ApiContainerConfigurator, HierarchyContainerConfigurator, DbUpgradeContainerConfigurator, LoginContainerConfigurator, MailContainerConfigurator
 };
 
 use Middleware\Api\ApiController\{
@@ -259,12 +259,6 @@ class Api extends AppMiddlewareAbstract implements MiddlewareInterface {
             return $ctrl->uploadTxtDocuments($request);
         });
         $routeGenerator->addRouteForAction('POST', '/api/v1/event/visitorpost', function(ServerRequestInterface $request) {
-            /** @var VisitorDataUploadControler $ctrl */
-            $ctrl = $this->container->get(VisitorDataUploadControler::class);
-            return $ctrl->postVisitorData($request);
-        });
-
-        $routeGenerator->addRouteForAction('POST', '/api/v1/sendmail/:campaign', function(ServerRequestInterface $request) {
             /** @var VisitorDataUploadControler $ctrl */
             $ctrl = $this->container->get(VisitorDataUploadControler::class);
             return $ctrl->postVisitorData($request);

@@ -9,10 +9,10 @@ use Model\Repository\StatusSecurityRepo;
 
 use Middleware\Api\ApiController\VisitorDataUploadControler;
 use Model\Repository\VisitorDataRepo;
-use Model\Entity\VisitorData;
-
+use Model\Entity\VisitorDataInterface;
+use Model\Repository\VisitorDataPostRepo;
+use Model\Entity\VisitorDataPost;
 /** @var PhpTemplateRendererInterface $this */
-/** @var VisitorData $visitorData */
 
 #####
 $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
@@ -25,17 +25,16 @@ if (isset($loginAggregate)) {
     $loginName = $loginAggregate->getLoginName();
     $role = $loginAggregate->getCredentials()->getRole() ?? '';
     $personalData['userHash'] = $loginAggregate->getLoginNameHash();
+    /** @var VisitorDataRepo $visitorDataRepo */
     $visitorDataRepo = $container->get(VisitorDataRepo::class);
+    /** @var VisitorDataInterface $visitorData */
     $visitorData = $visitorDataRepo->get($loginName);
 
-
-######################
-
-$userHash = $loginAggregate->getLoginNameHash();
-$accept = implode(", ", Configuration::filesUploadControler()['uploads.acceptedextensions']);
-$nameCv = VisitorDataUploadControler::UPLOADED_KEY_CV.$userHash;
-$nameLetter = VisitorDataUploadControler::UPLOADED_KEY_LETTER.$userHash;
-$shortName;
+    $userHash = $loginAggregate->getLoginNameHash();
+    $accept = implode(", ", Configuration::filesUploadControler()['uploads.acceptedextensions']);
+    $nameCv = VisitorDataUploadControler::UPLOADED_KEY_CV.$userHash;
+    $nameLetter = VisitorDataUploadControler::UPLOADED_KEY_LETTER.$userHash;
+    $shortName;
 ?>
 
 
@@ -46,6 +45,7 @@ $shortName;
             <div class="active content">
                 <form class="ui huge form" action="api/v1/event/visitorpost" method="POST">
                     <input type='hidden' name="short-name" value="<?= $shortName ?>">
+                    <input type='hidden' name="position-name" value="<?= $positionName ?>">
                     <div class="four fields">
                         <div class="three wide field">
                             <label>Titul před jménem</label>
@@ -106,7 +106,7 @@ $shortName;
                 <div class="active title">
                 <i class="exclamation icon"></i>
                 Přihlašte se. Údaje ze svého profilu mohou posílat přihlášení uživatelé.
-                
+
             </div>
 <?php
 

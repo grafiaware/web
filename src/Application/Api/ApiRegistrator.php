@@ -107,7 +107,7 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/event/visitorpost'));
 
         #### MailControler ######
-        $registry->register($this->getPrototype->withUrlPattern('/sendmail/v1/campaign/:campaign'));
+        $registry->register($this->getPrototype->withUrlPattern('/api/v1/sendmail/:campaign'));
 
         #### TemplateController ####
         $registry->register($this->getPrototype->withUrlPattern('/component/v1/papertemplate/:folder'));
