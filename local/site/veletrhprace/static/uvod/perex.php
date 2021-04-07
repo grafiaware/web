@@ -20,7 +20,7 @@ use Pes\Text\Text;
                             120px"
                          width="476" height="671" alt="Pracovník s tabletem"/>
                     <div class="primarni-barva podklad nadpis presah">
-                        <p>30. 3.—1. 4. 2021</p>
+                        <p>kontaktujte firmy do konce dubna</p>
                     </div>
                 </div>
                 <div class="ten wide column">

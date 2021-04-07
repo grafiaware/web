@@ -5,6 +5,10 @@ use Model\Entity\PaperAggregatePaperContentInterface;
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregatePaperContentInterface $paperAggregate */
 
+
+$shortName = "NEDEFINOVANO";
+
+
 $headline = 'Pracovní pozice';
 $perex = '';
 $akka = [
@@ -154,81 +158,82 @@ $wienerberger = [
     </section>
     <section>
         <content class='prehled-pozic'>
-            <p><a href="javascript: document.getElementById('akka').scrollIntoView();">AKKA</a></p>
-            <p><a href="javascript: document.getElementById('daikin').scrollIntoView();">Daikin Industries</a></p>
-            <p><a href="javascript: document.getElementById('dzk').scrollIntoView();">Drůbežářský závod Klatovy</a></p>
-            <p><a href="javascript: document.getElementById('grafia').scrollIntoView();">Grafia</a></p>
-            <p><a href="javascript: document.getElementById('kermi').scrollIntoView();">Kermi</a></p>
-            <p><a href="javascript: document.getElementById('konplan').scrollIntoView();">Konplan</a></p>
-            <p><a href="javascript: document.getElementById('mdelektronik').scrollIntoView();">MD Elektronik</a></p>
-            <p><a href="javascript: document.getElementById('possehl').scrollIntoView();">Possehl Electronics</a></p>
-            <p><a href="javascript: document.getElementById('stoelzle').scrollIntoView();">STOELZLE UNION</a></p>
-            <p><a href="javascript: document.getElementById('valeo').scrollIntoView();">Valeo Autoklimatizace</a></p>
-            <p><a href="javascript: document.getElementById('wienerberger').scrollIntoView();">Wienerberger</a></p>
+            
             <div id="akka">
                 <p class="velky text primarni-barva tucne">AKKA</p>
                 <?php 
                 $pracovniPozice = $akka;
+                $shortName = "akka";
                 include Configuration::componentControler()['templates']."presenter-job/content/vypis-pozic.php"; ?>
             </div>
             <div id="daikin">
                 <p class="velky text primarni-barva tucne">Daikin Industries</p>
                 <?php 
                 $pracovniPozice = $daikin;
+                $shortName = "daikin";
                 include Configuration::componentControler()['templates']."presenter-job/content/vypis-pozic.php"; ?>
             </div>
             <div id="dzk">
                 <p class="velky text primarni-barva tucne">Drůbežářský závod Klatovy</p>
                 <?php 
                 $pracovniPozice = $dzk;
+                $shortName = "dzk";
                 include Configuration::componentControler()['templates']."presenter-job/content/vypis-pozic.php"; ?>
             </div>
             <div id="grafia">
                 <p class="velky text primarni-barva tucne">Grafia</p>
                 <?php 
                 $pracovniPozice = $grafia;
+                $shortName = "grafia";
                 include Configuration::componentControler()['templates']."presenter-job/content/vypis-pozic.php"; ?>
             </div>
             <div id="kermi">
                 <p class="velky text primarni-barva tucne">Kermi</p>
                 <?php 
                 $pracovniPozice = $kermi;
+                $shortName = "kermi";
                 include Configuration::componentControler()['templates']."presenter-job/content/vypis-pozic.php"; ?>
             </div>
             <div id="konplan">
                 <p class="velky text primarni-barva tucne">Konplan</p>
                 <?php 
                 $pracovniPozice = $konplan;
+                $shortName = "konplan";
                 include Configuration::componentControler()['templates']."presenter-job/content/vypis-pozic.php"; ?>
             </div>
             <div id="mdelektronik">
                 <p class="velky text primarni-barva tucne">MD Elektronik</p>
                 <?php 
                 $pracovniPozice = $mdelektronik;
+                $shortName = "mdelektronik";
                 include Configuration::componentControler()['templates']."presenter-job/content/vypis-pozic.php"; ?>
             </div>
             <div id="possehl">
                 <p class="velky text primarni-barva tucne">Possehl Electronics</p>
                 <?php 
                 $pracovniPozice = $possehl;
+                $shortName = "possehl";
                 include Configuration::componentControler()['templates']."presenter-job/content/vypis-pozic.php"; ?>
             </div>
             <div id="stoelzle">
                 <p class="velky text primarni-barva tucne">STOELZLE UNION</p>
                 <?php 
                 $pracovniPozice = $stoelzle;
+                $shortName = "stoelzle";
                 include Configuration::componentControler()['templates']."presenter-job/content/vypis-pozic.php"; ?>
             </div>
             <div id="valeo">
                 <p class="velky text primarni-barva tucne">Valeo Autoklimatizace</p>
                 <?php 
                 $pracovniPozice = $valeo;
+                $shortName = "valeo";
                 include Configuration::componentControler()['templates']."presenter-job/content/vypis-pozic.php"; ?>
             </div>
             <div id="wienerberger">
                 <p class="velky text primarni-barva tucne">Wienerberger</p>
                 <?php 
                 $pracovniPozice = $wienerberger;
+                $shortName = "wienerberger";
                 include Configuration::componentControler()['templates']."presenter-job/content/vypis-pozic.php"; ?>
             </div>
         </content>

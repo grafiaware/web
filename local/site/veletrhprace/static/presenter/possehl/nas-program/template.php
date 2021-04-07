@@ -18,6 +18,7 @@ use Model\Repository\StatusSecurityRepo;
     $headline = 'Náš program';
     $perex =
         '
+            <p class="text ">I když online veletrh s živou účastí skončil, stále zde naleznete přístupy k záznamům přednášek, které můžete zhlédnout. </p>
         ';
     $footer = '';
 ?>

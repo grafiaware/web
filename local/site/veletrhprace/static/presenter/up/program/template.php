@@ -17,7 +17,7 @@ use Model\Repository\StatusSecurityRepo;
 
     $headline = 'Náš program';
     $perex =
-        '
+        ' <p>I když online veletrh s živou účastí skončil, stále zde naleznete přístupy k záznamům přednášek, které můžete zhlédnout.</p> 
             <p>Podívejte se také na užitečné videonávody: 
             <a href="https://www.uradprace.cz/web/cz/zamestnanost-videa" target="_blank">zaměstnanost</a> 
             a <a href="https://www.uradprace.cz/web/cz/-/rekvalifik-14" target="_blank">zvolená rekvalifikace</a></p>
