@@ -10,17 +10,6 @@ use Pes\Text\Html;
 ?>
 <div class="navazat-kontakt">
     <div class="ui grid">
-        <div class="sixteen wide column center aligned">
-            <?='';// $this->insert(__DIR__.'/kontakty/profilove-udaje.php') ?>
-        </div>
-        <div class="sixteen wide column center aligned">
-            <div class="ui large button profil-visible">Odeslat údaje se svého profilu</div>
-        </div>
-        <div class="sixteen wide column">
-            <div class="profil hidden">
-                <?= $this->insert(__DIR__.'/kontakty/osobni-udaje.php', ['container' => $container, 'shortName'=>$shortName]) ?>
-            </div>
-        </div>
         <div class="sixteen wide column">
             <content>
                 <div class="kontaktni-udaje-firmy">
