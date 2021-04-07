@@ -84,7 +84,7 @@ $nameLetter = VisitorDataUploadControler::UPLOADED_KEY_LETTER.$userHash;
                 <form class="ui huge form" action="api/v1/event/uploadvisitorfile" method="POST" enctype="multipart/form-data">
                      <div class="two fields">
                         <div class="field margin">
-                            <label>Příloha - životopis</label>
+                            <label><?= (isset($visitorData) AND $visitorData->getCvDocumentFilename()) ? 'Příloha - můžete nahrát jiný životopis' : 'Příloha - životopis'; ?></label>
                             <input type="file" name="<?= $nameCv ?>" accept="<?= $accept ?>"  "multiple"=0 size="1">
                         </div>
                         <div class="field margin">
@@ -95,7 +95,7 @@ $nameLetter = VisitorDataUploadControler::UPLOADED_KEY_LETTER.$userHash;
                 <form class="ui huge form" action="api/v1/event/uploadvisitorfile" method="POST" enctype="multipart/form-data">
                      <div class="two fields">
                         <div class="field margin">
-                            <label>Příloha - motivační dopis</label>
+                            <label><?= (isset($visitorData) AND $visitorData->getCvDocumentFilename()) ? 'Příloha - můžete nahrát jiný motivační dopis' : 'Příloha - motivační dopis'; ?></label>
                             <input type="file" name="<?= $nameLetter ?>" accept="<?= $accept ?>"  "multiple"=0 size="1">
                         </div>
                         <div class="field margin">
@@ -103,7 +103,7 @@ $nameLetter = VisitorDataUploadControler::UPLOADED_KEY_LETTER.$userHash;
                         </div>
                      </div>
                 </form>
-                <form class="ui huge form" action="" method="POST" >
+<!--                <form class="ui huge form" action="" method="POST" >
                     <div class="two fields">
                         <div class="field margin">
                             <label>Zaškrtněte, jaké firmě si přejete zaslat uložené údaje a přílohy (můžete zaškrtnout více firem)</label>
@@ -123,5 +123,5 @@ $nameLetter = VisitorDataUploadControler::UPLOADED_KEY_LETTER.$userHash;
                             <button class="ui massive primary button" type="submit">Odeslat</button>
                         </div>
                      </div>
-                </form>
+                </form>-->
             </div>
