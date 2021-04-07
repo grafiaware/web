@@ -12,9 +12,8 @@ use Pes\Text\Html;
 
     <div class="online-stanky">
         <div class="ui stackable centered grid">
-            <?=
-
-$this->repeat(__DIR__.'/hala/rozvrzeni-vystavovatelu.php', $exhibitor) ?>
+            <?=$this->insert(__DIR__.'/hala/video-firem.php', $promoVideo) ?>
+            <?=$this->repeat(__DIR__.'/hala/rozvrzeni-vystavovatelu.php', $exhibitor) ?>
         </div>
     </div>
 
