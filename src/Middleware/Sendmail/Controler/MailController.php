@@ -26,7 +26,7 @@ use Mail\Params;
 use Mail\Params\{Content, Attachment, Party};
 
 use Model\Repository\{
-    StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo, EnrollRepo, LoginAggregateCredentialsRepo
+    StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo, EnrollRepo, LoginAggregateCredentialsRepo, RegistrationRepo
 };
 
 
@@ -38,16 +38,18 @@ use Model\Repository\{
 class MailController extends PresentationFrontControllerAbstract {
 
     private $loginAggregateCredentialsRepo;
-
+    private $registrationRepo;
 
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
-            LoginAggregateCredentialsRepo $loginAggregateCredentialsRepo
+            LoginAggregateCredentialsRepo $loginAggregateCredentialsRepo,
+            RegistrationRepo $registrationRepo
             ) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
         $this->loginAggregateCredentialsRepo = $loginAggregateCredentialsRepo;
+        $this->registrationRepo = $registrationRepo;
     }
 
 
@@ -56,51 +58,69 @@ class MailController extends PresentationFrontControllerAbstract {
         return $visitorsLoginAgg;
     }
 
-    public function send(ServerRequestInterface $request, $campaign) {
+    public function send(ServerRequestInterface $request, int $campaign=-1000) {
+        $count = 10;
+        $min = ($campaign-1)*$count+1;
+        $max = $min + $count-1;
+
+        $counter = 0;
+        $sended = 0;
         $visitorsLoginAgg = $this->getLogins();
         foreach ($visitorsLoginAgg as $visitorLoginAgg) {
             $credentials = $visitorLoginAgg->getCredentials();
             if (isset($credentials) AND ($credentials->getRole() === "visitor")) {
-                /** @var Mail $mail */
-                $mail = $this->container->get(Mail::class);
-                /** @var HtmlMessage $mailMessageFactory */
-                $mailMessageFactory = $this->container->get(HtmlMessage::class);
-                $subject =  'Veletrh práce - Poděkování, odkazy a "virtuální igelitka"';
-                $body = $mailMessageFactory->create(__DIR__."/Messages/podekovani-odkazy-igelitka2.php",
-                                                    ['registerJmeno' => $credentials->getLoginNameFk(),
+                $counter++;
+                if ($counter>=$min AND $counter<=$max ) {
+                    $registration = $this->registrationRepo->get($visitorLoginAgg->getLoginName());
+                    if (isset($registration) AND $registration->getEmail()) {
+                        /** @var Mail $mail */
+                        $mail = $this->container->get(Mail::class);
+                        /** @var HtmlMessage $mailMessageFactory */
+                        $mailMessageFactory = $this->container->get(HtmlMessage::class);
+                        $subject =  'Veletrh práce - Poděkování, odkazy a "virtuální igelitka"';
+                        $body = $mailMessageFactory->create(__DIR__."/Messages/podekovani-odkazy-igelitka2.php",
+                                                            ['registerJmeno' => $credentials->getLoginNameFk(),
 
-                                                    ]);
-                $attachments = [
-//                                (new Attachment())
-//                                ->setFileName(Configuration::mail()['mail.attachments'].'logo_grafia.png')  // /_www_vp_files/attachments/
-//                                ->setAltText('Logo Grafia'),
-                                (new Attachment())
-                                ->setFileName(Configuration::mail()['mail.attachments'].'Katalog veletrhPRACE.online 2021.pdf')  // /_www_vp_files/attachments/
-                                ->setAltText('Katalog veletrhPRACE.online 2021'),
-                                (new Attachment())
-                                ->setFileName(Configuration::mail()['mail.attachments'].'Letak nabor studenti POSSEHL.pdf')  // /_www_vp_files/attachments/
-                                ->setAltText('Leták nábor studenti_POSSEHL'),
-                                (new Attachment())
-                                ->setFileName(Configuration::mail()['mail.attachments'].'MD ELEKTRONIK Serizovac.pdf')  // /_www_vp_files/attachments/
-                                ->setAltText('Leták MD ELEKTRONIK Seřizovač'),
+                                                            ]);
+                        $attachments = [
 
-                               ];
-                $params = (new Params())
-                            ->setContent(  (new Content())
-                                             ->setSubject($subject)
-                                             ->setHtml($body)
-                                             ->setAttachments($attachments)
-                                        )
-                            ->setParty  (  (new Party())
-                                             ->setFrom('it.grafia@gmail.com', 'veletrhprace.online')
-                                             ->addTo('svoboda@grafia.cz', 'Registace vystavovatele veletrhprace.online')
-                                             ->addTo('ingpetrsvoboda@seznam.cz', 'Registace vystavovatele veletrhprace.online')
-                                        );
-                $mail->mail($params); // posle mail
+                                        (new Attachment())
+                                        ->setFileName(Configuration::mail()['mail.attachments'].'Katalog veletrhPRACE.online 2021.pdf')  // /_www_vp_files/attachments/
+                                        ->setAltText('Katalog veletrhPRACE.online 2021'),
+                                        (new Attachment())
+                                        ->setFileName(Configuration::mail()['mail.attachments'].'Letak nabor studenti POSSEHL.pdf')  // /_www_vp_files/attachments/
+                                        ->setAltText('Leták nábor studenti_POSSEHL'),
+                                        (new Attachment())
+                                        ->setFileName(Configuration::mail()['mail.attachments'].'MD ELEKTRONIK Serizovac min.pdf')  // /_www_vp_files/attachments/
+                                        ->setAltText('Leták MD ELEKTRONIK Seřizovač'),
+                                        (new Attachment())
+                                        ->setFileName(Configuration::mail()['mail.attachments'].'GRAFIA letaky.pdf')  // /_www_vp_files/attachments/
+                                        ->setAltText('Letáky Grafia'),
+                                        (new Attachment())
+                                        ->setFileName(Configuration::mail()['mail.attachments'].'logo_grafia.png')  // /_www_vp_files/attachments/
+                                        ->setAltText('Logo Grafia'),
+
+
+                                       ];
+                        $params = (new Params())
+                                    ->setContent(  (new Content())
+                                                     ->setSubject($subject)
+                                                     ->setHtml($body)
+                                                     ->setAttachments($attachments)
+                                                )
+                                    ->setParty  (  (new Party())
+                                                     ->setFrom('it.grafia@gmail.com', 'veletrhprace.online')
+                                                     ->addTo('svoboda@grafia.cz', $credentials->getLoginNameFk().' veletrhprace.online')
+                                                     ->addTo($registration->getEmail(), $credentials->getLoginNameFk().' veletrhprace.online')
+                                                );
+                        $mail->mail($params); // posle mail
+                        $sended++;
+                    }
+                }
             }
         }
 
-        return $this->createResponseFromString($request, "Mail");
+        return $this->createResponseFromString($request, "Mail: campaign: $campaign, min= $min, max=$max, odesláno $sended.");
     }
 
 }

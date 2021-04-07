@@ -132,7 +132,8 @@ class Mail {
 
         } catch (Exception $e) {
             if (self::$logger) {
-                self::$logger->error("Nepodařilo se odeslat mail '{subject}' na adresy {to}.", ['subject'=>$actualParams->getContent()->getSubject(), 'to'=>implode(', ', $actualParams->getParty()->getToArray())]);
+                $time = (new \DateTime())->format("Y-m-d H:i:s");
+                self::$logger->error("[$time] Nepodařilo se odeslat mail '{subject}'.", ['subject'=>$actualParams->getContent()->getSubject()]);
                 self::$logger->error("PHPmail error info:: '{info}'.", ['info'=>$mail->ErrorInfo]);
                 self::$logger->error("PHPmail exception message: '{message}'.", ['message'=>$e->errorMessage()]);
                 echo $mail->ErrorInfo;

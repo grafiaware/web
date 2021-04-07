@@ -23,6 +23,7 @@ use Model\Repository\StatusPresentationRepo;
 use Model\Repository\StatusFlashRepo;
 
 use Model\Repository\LoginAggregateCredentialsRepo;
+use Model\Repository\RegistrationRepo;
 
 /**
  *
@@ -61,7 +62,8 @@ class MailContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
-                        $c->get(LoginAggregateCredentialsRepo::class)
+                        $c->get(LoginAggregateCredentialsRepo::class),
+                        $c->get(RegistrationRepo::class)
 
                     ))->injectContainer($c);  // inject component kontejner
             },
