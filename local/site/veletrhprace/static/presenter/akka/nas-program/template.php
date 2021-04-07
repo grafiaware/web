@@ -19,8 +19,7 @@ use Model\Repository\StatusSecurityRepo;
     $headline = 'Náš program';
     $perex =
         '
-        <p class="text ">Přihlaste se na náš program! Vstoupit mohou pouze registrovaní návštěvníci. Přihlašovací tlačítko uvidíte teprve po registraci či přihlášení do vašeho účtu na tomto webu. 
-            Před zahájením akce zde uvidíte barevný odkaz pro vstup na akci nebo odkaz pro zhlédnutí vybraného videa. </p>
+        <p class="text ">I když online veletrh s živou účastí skončil, stále zde naleznete přístupy k záznamům přednášek, které můžete zhlédnout. </p>
         ';
     $footer = '';
 ?>

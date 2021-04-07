@@ -424,7 +424,7 @@ class EventList {
                     'showEnter' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesZhlednout +
                                     [
-                                        'href' => "https://www.youtube.com/channel/UC-Di-88rpUfBZUHHVf7tntQ"
+                                        'href' => "https://youtu.be/V2fuYHZDx20"
                                     ],
                                 'linkButtonText' => $this->linkButtonTextZhlednout
                                 ],
@@ -447,7 +447,7 @@ class EventList {
                     'showEnter' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesZhlednout +
                                     [
-                                        'href' => "https://www.youtube.com/channel/UC-Di-88rpUfBZUHHVf7tntQ"
+                                        'href' => "https://youtu.be/3tjawlINkp0"
                                     ],
                                 'linkButtonText' => $this->linkButtonTextZhlednout
                                 ],
@@ -469,7 +469,7 @@ class EventList {
                     'showEnter' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesZhlednout +
                                     [
-                                        'href' => "https://www.youtube.com/channel/UC-Di-88rpUfBZUHHVf7tntQ"
+                                        'href' => "https://youtu.be/X9_cRXdqZGk"
                                     ],
                                 'linkButtonText' => $this->linkButtonTextZhlednout
                                 ],
@@ -491,7 +491,7 @@ class EventList {
                     'showEnter' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesZhlednout +
                                     [
-                                        'href' => "https://www.youtube.com/channel/UC-Di-88rpUfBZUHHVf7tntQ"
+                                        'href' => "https://youtu.be/2wI6lgCKqcw"
                                     ],
                                 'linkButtonText' => $this->linkButtonTextZhlednout
                                 ],
@@ -513,7 +513,7 @@ class EventList {
                     'showEnter' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesZhlednout +
                                     [
-                                        'href' => "https://www.youtube.com/channel/UC-Di-88rpUfBZUHHVf7tntQ"
+                                        'href' => "https://youtu.be/vHnDbYqBPUo"
                                     ],
                                 'linkButtonText' => $this->linkButtonTextZhlednout
                                 ],
@@ -535,7 +535,7 @@ class EventList {
                     'showEnter' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesZhlednout +
                                     [
-                                        'href' => "https://www.youtube.com/channel/UC-Di-88rpUfBZUHHVf7tntQ"
+                                        'href' => "https://youtu.be/PAAC5cF5PwA"
                                     ],
                                 'linkButtonText' => $this->linkButtonTextZhlednout
                                 ],
@@ -557,9 +557,9 @@ class EventList {
                     'showEnter' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesZhlednout +
                                     [
-                                        'href' => "https://www.youtube.com/channel/UC-Di-88rpUfBZUHHVf7tntQ"
+                                        'href' => "https://youtu.be/LVPM2nDTl38"
                                     ],
-                                'linkButtonText' => $this->linkButtonTextStream
+                                'linkButtonText' => $this->linkButtonTextZhlednout
                                 ],
             ] + $this->eventContent->getEventContent('Chcete se stát dobrovolníkem?'),
             [
@@ -579,7 +579,7 @@ class EventList {
                     'showEnter' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesZhlednout +
                                     [
-                                        'href' => "https://www.youtube.com/channel/UC-Di-88rpUfBZUHHVf7tntQ"
+                                        'href' => "https://youtu.be/LVPM2nDTl38"
                                     ],
                                 'linkButtonText' => $this->linkButtonTextZhlednout
                                 ],
@@ -601,7 +601,7 @@ class EventList {
                     'showEnter' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesZhlednout +
                                     [
-                                        'href' => "https://www.youtube.com/channel/UC-Di-88rpUfBZUHHVf7tntQ"
+                                        'href' => "https://youtu.be/8AYt2VgTLrU"
                                     ],
                                 'linkButtonText' => $this->linkButtonTextZhlednout
                                 ],
@@ -623,7 +623,7 @@ class EventList {
                     'showEnter' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesZhlednout +
                                     [
-                                        'href' => "https://www.youtube.com/channel/UC-Di-88rpUfBZUHHVf7tntQ"
+                                        'href' => "https://youtu.be/Z7gCXhIO7Cw"
                                     ],
                                 'linkButtonText' => $this->linkButtonTextZhlednout
                                 ],
@@ -645,7 +645,7 @@ class EventList {
                     'showEnter' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesZhlednout +
                                     [
-                                        'href' => "https://www.youtube.com/channel/UC-Di-88rpUfBZUHHVf7tntQ"
+                                        'href' => "https://youtu.be/KtnAwAIPOx0"
                                     ],
                                 'linkButtonText' => $this->linkButtonTextZhlednout
                                 ],
@@ -667,7 +667,7 @@ class EventList {
                     'showEnter' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesZhlednout +
                                     [
-                                        'href' => "https://www.youtube.com/channel/UC-Di-88rpUfBZUHHVf7tntQ"
+                                        'href' => "https://youtu.be/o5Z6GJYm3Yg"
                                     ],
                                 'linkButtonText' => $this->linkButtonTextZhlednout
                                 ],
@@ -689,7 +689,7 @@ class EventList {
                     'showEnter' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesZhlednout +
                                     [
-                                        'href' => "https://www.youtube.com/channel/UC-Di-88rpUfBZUHHVf7tntQ"
+                                        'href' => "https://youtu.be/h8WrIKuUidc"
                                     ],
                                 'linkButtonText' => $this->linkButtonTextZhlednout
                                 ],
@@ -701,17 +701,17 @@ class EventList {
                     'startTime' => '10:05',
                     'endTime' => '10:35',
                 'linkButtonEnroll' => [
-                                'showEnroll' => 1,
+                                'showEnroll' => 0,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPlan +
                                     [
                                     ],
                                 'linkButtonText' => $this->linkButtonTextPlan
                                 ],
                 'linkButtonEnter' => [
-                    'showEnter' => 0,
+                    'showEnter' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesZhlednout +
                                     [
-                                        'href' => "https://www.youtube.com/channel/UC-Di-88rpUfBZUHHVf7tntQ"
+                                        'href' => "https://youtu.be/Ri_bgRzO9Qo"
                                     ],
                                 'linkButtonText' => $this->linkButtonTextZhlednout
                                 ],
@@ -723,17 +723,17 @@ class EventList {
                     'startTime' => '10:40',
                     'endTime' => '11:10',
                 'linkButtonEnroll' => [
-                                'showEnroll' => 1,
+                                'showEnroll' => 0,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPlan +
                                     [
                                     ],
                                 'linkButtonText' => $this->linkButtonTextPlan
                                 ],
                 'linkButtonEnter' => [
-                    'showEnter' => 0,
+                    'showEnter' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesZhlednout +
                                     [
-                                        'href' => "https://www.youtube.com/channel/UC-Di-88rpUfBZUHHVf7tntQ"
+                                        'href' => "https://youtu.be/xVmsNC6LlJQ"
                                     ],
                                 'linkButtonText' => $this->linkButtonTextZhlednout
                                 ],
@@ -745,17 +745,17 @@ class EventList {
                     'startTime' => '11:15',
                     'endTime' => '11:35',
                 'linkButtonEnroll' => [
-                                'showEnroll' => 1,
+                                'showEnroll' => 0,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPlan +
                                     [
                                     ],
                                 'linkButtonText' => $this->linkButtonTextPlan
                                 ],
                 'linkButtonEnter' => [
-                    'showEnter' => 0,
+                    'showEnter' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesZhlednout +
                                     [
-                                        'href' => "https://www.youtube.com/channel/UC-Di-88rpUfBZUHHVf7tntQ"
+                                        'href' => "https://youtu.be/xvYvyCOO5OQ"
                                     ],
                                 'linkButtonText' => $this->linkButtonTextZhlednout
                                 ],
@@ -767,17 +767,17 @@ class EventList {
                     'startTime' => '11:40',
                     'endTime' => '12:05',
                 'linkButtonEnroll' => [
-                                'showEnroll' => 1,
+                                'showEnroll' => 0,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPlan +
                                     [
                                     ],
                                 'linkButtonText' => $this->linkButtonTextPlan
                                 ],
                 'linkButtonEnter' => [
-                    'showEnter' => 0,
+                    'showEnter' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesZhlednout +
                                     [
-                                        'href' => "https://www.youtube.com/channel/UC-Di-88rpUfBZUHHVf7tntQ"
+                                        'href' => "https://youtu.be/jYxOf2jmY5M"
                                     ],
                                 'linkButtonText' => $this->linkButtonTextZhlednout
                                 ],
@@ -789,17 +789,17 @@ class EventList {
                     'startTime' => '13:00',
                     'endTime' => '13:30',
                 'linkButtonEnroll' => [
-                                'showEnroll' => 1,
+                                'showEnroll' => 0,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPlan +
                                     [
                                     ],
                                 'linkButtonText' => $this->linkButtonTextPlan
                                 ],
                 'linkButtonEnter' => [
-                    'showEnter' => 0,
+                    'showEnter' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesZhlednout +
                                     [
-                                        'href' => "https://www.youtube.com/channel/UC-Di-88rpUfBZUHHVf7tntQ"
+                                        'href' => "https://youtu.be/OlvnTWKvVy0"
                                     ],
                                 'linkButtonText' => $this->linkButtonTextZhlednout
                                 ],
@@ -811,17 +811,17 @@ class EventList {
                     'startTime' => '13:35',
                     'endTime' => '13:55',
                 'linkButtonEnroll' => [
-                                'showEnroll' => 1,
+                                'showEnroll' => 0,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPlan +
                                     [
                                     ],
                                 'linkButtonText' => $this->linkButtonTextPlan
                                 ],
                 'linkButtonEnter' => [
-                    'showEnter' => 0,
+                    'showEnter' => 1,
                                 'linkButtonAttributes' => $this->linkButtonAttributesZhlednout +
                                     [
-                                        'href' => "https://www.youtube.com/channel/UC-Di-88rpUfBZUHHVf7tntQ"
+                                        'href' => "https://youtu.be/Osi-TXgSI9Q"
                                     ],
                                 'linkButtonText' => $this->linkButtonTextZhlednout
                                 ],
@@ -1280,7 +1280,7 @@ class EventList {
                 'startTime' => '10:00',
                 'endTime' => '12:00',
                 'linkButtonEnroll' => [
-                                'showEnroll' => 1,
+                                'showEnroll' => 0,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
                                     ],
@@ -1302,7 +1302,7 @@ class EventList {
                 'startTime' => '12:30',
                 'endTime' => '16:00',
                 'linkButtonEnroll' => [
-                                'showEnroll' => 1,
+                                'showEnroll' => 0,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
                                     ],
@@ -1324,7 +1324,7 @@ class EventList {
                 'startTime' => '14:00',
                 'endTime' => '15:50',
                 'linkButtonEnroll' => [
-                                'showEnroll' => 1,
+                                'showEnroll' => 0,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
                                     ],
@@ -1368,7 +1368,7 @@ class EventList {
                 'startTime' => '9:00',
                 'endTime' => '13:00',
                 'linkButtonEnroll' => [
-                                'showEnroll' => 1,
+                                'showEnroll' => 0,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
                                     ],
@@ -1390,7 +1390,7 @@ class EventList {
                 'startTime' => '9:00',
                 'endTime' => '12:00',
                 'linkButtonEnroll' => [
-                                'showEnroll' => 1,
+                                'showEnroll' => 0,
                                 'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +
                                     [
                                     ],
@@ -1482,9 +1482,9 @@ class EventList {
             ['eventId' => 'event_id_065','published' => '1','timelinePoint' => '31. 3. 2021','startTime' => '10:00','endTime' => '12:00','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/99546974113?pwd=M2RZdlpEaWdkTUtLQ1lNdlpqV0puUT09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Konzultujte pracovní příležitosti. Těší se na Vás Vanda Štěrbová"),
             ['eventId' => 'event_id_066','published' => '1','timelinePoint' => '31. 3. 2021','startTime' => '14:00','endTime' => '15:00','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/99407064825?pwd=WEU4dGZHNUdDSDRtWDlHeEZ0N2NDQT09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Individuální kariérové poradenství. Těší se na Vás Vanda Štěrbová"),
             ['eventId' => 'event_id_067','published' => '1','timelinePoint' => '31. 3. 2021','startTime' => '15:00','endTime' => '17:00','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/92921752521?pwd=UFd5S0VvMW40Vk4rZWt2SzlXbzcvZz09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Konzultujte pracovní příležitosti. Těší se na Vás Kateřina Janků"),
-            ['eventId' => 'event_id_068','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '10:00','endTime' => '12:00','linkButtonEnroll' => ['showEnroll' => 1,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/94000782413?pwd=VEd1MUxWdmcyWHFlWXJoSUhvOTBpZz09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Konzultujte pracovní příležitosti. Těší se na Vás Elizabeth Franková"),
-            ['eventId' => 'event_id_069','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '14:00','endTime' => '15:00','linkButtonEnroll' => ['showEnroll' => 1,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/96009804919?pwd=Tm1jT2I3cm9lMllBMHJUOGUxN0pFdz09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Individuální kariérové poradenství. Těší se na Vás Vanda Štěrbová"),
-            ['eventId' => 'event_id_070','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '15:00','endTime' => '17:00','linkButtonEnroll' => ['showEnroll' => 1,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/94525283912?pwd=cVFWZzNBOEhRNG1ieUxhb3NNYzRHQT09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Konzultujte pracovní příležitosti. Těší se na Vás Kateřina Janků"),
+            ['eventId' => 'event_id_068','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '10:00','endTime' => '12:00','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/94000782413?pwd=VEd1MUxWdmcyWHFlWXJoSUhvOTBpZz09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Konzultujte pracovní příležitosti. Těší se na Vás Elizabeth Franková"),
+            ['eventId' => 'event_id_069','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '14:00','endTime' => '15:00','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/96009804919?pwd=Tm1jT2I3cm9lMllBMHJUOGUxN0pFdz09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Individuální kariérové poradenství. Těší se na Vás Vanda Štěrbová"),
+            ['eventId' => 'event_id_070','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '15:00','endTime' => '17:00','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/94525283912?pwd=cVFWZzNBOEhRNG1ieUxhb3NNYzRHQT09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Konzultujte pracovní příležitosti. Těší se na Vás Kateřina Janků"),
             ['eventId' => 'event_id_071','published' => '1','timelinePoint' => '30. 3. 2021','startTime' => '10:00','endTime' => '12:00','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/91429766125?pwd=djlQbVlpdzFPV0lMY3lRTWRxU3NoQT09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Prezentace společnosti. Daikin Industries Czech Republic"),
             ['eventId' => 'event_id_072','published' => '1','timelinePoint' => '30. 3. 2021','startTime' => '13:00','endTime' => '15:00','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/93962619978?pwd=elo5VEEzYit3RWFDWk5SaG5qTWE3QT09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Prezentace společnosti."),
             ['eventId' => 'event_id_073','published' => '1','timelinePoint' => '30. 3. 2021','startTime' => '15:00','endTime' => '16:30','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/93962619978?pwd=elo5VEEzYit3RWFDWk5SaG5qTWE3QT09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Kariérní příležitost ve vývojovém oddělení"),
@@ -1493,9 +1493,9 @@ class EventList {
             ['eventId' => 'event_id_076','published' => '1','timelinePoint' => '31. 3. 2021','startTime' => '13:00','endTime' => '15:00','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/94691697163?pwd=MkNBbVRKVFFCTTdySUoyaGVoYTZ6QT09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Prezentace společnosti."),
             ['eventId' => 'event_id_077','published' => '1','timelinePoint' => '31. 3. 2021','startTime' => '15:00','endTime' => '16:30','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/94691697163?pwd=MkNBbVRKVFFCTTdySUoyaGVoYTZ6QT09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Kariérní příležitost ve výrobním inženýringu"),
             ['eventId' => 'event_id_078','published' => '1','timelinePoint' => '31. 3. 2021','startTime' => '16:30','endTime' => '18:00','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/94691697163?pwd=MkNBbVRKVFFCTTdySUoyaGVoYTZ6QT09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Prezentace společnosti."),
-            ['eventId' => 'event_id_079','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '10:00','endTime' => '10:30','linkButtonEnroll' => ['showEnroll' => 1,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/96702867622?pwd=YTMxeGRlbjhjKzRRV0o5L3pLOXdPdz09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Otevřené pracovní pozice s vyšší kvalifikací."),
-            ['eventId' => 'event_id_080','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '10:30','endTime' => '12:00','linkButtonEnroll' => ['showEnroll' => 1,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/96702867622?pwd=YTMxeGRlbjhjKzRRV0o5L3pLOXdPdz09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Prezentace společnosti."),
-            ['eventId' => 'event_id_081','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '13:00','endTime' => '17:00','linkButtonEnroll' => ['showEnroll' => 1,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/96190474866?pwd=a09Ya3N6MlhoeHc1T2NjakVhT3FZUT09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Prezentace společnosti. Daikin Industries Czech Republic."),
+            ['eventId' => 'event_id_079','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '10:00','endTime' => '10:30','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/96702867622?pwd=YTMxeGRlbjhjKzRRV0o5L3pLOXdPdz09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Otevřené pracovní pozice s vyšší kvalifikací."),
+            ['eventId' => 'event_id_080','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '10:30','endTime' => '12:00','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/96702867622?pwd=YTMxeGRlbjhjKzRRV0o5L3pLOXdPdz09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Prezentace společnosti."),
+            ['eventId' => 'event_id_081','published' => '0','timelinePoint' => '1. 4. 2021','startTime' => '13:00','endTime' => '17:00','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/96190474866?pwd=a09Ya3N6MlhoeHc1T2NjakVhT3FZUT09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Prezentace společnosti. Daikin Industries Czech Republic."),
             ['eventId' => 'event_id_082','published' => '1','timelinePoint' => '30. 3. 2021','startTime' => '10:00','endTime' => '10:30','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/94243501239?pwd=ak1SRTdqZDRtczlBTWsyRGtuK0Fjdz09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Konplan – digitalizace nápojového průmyslu"),
             ['eventId' => 'event_id_083','published' => '1','timelinePoint' => '30. 3. 2021','startTime' => '10:30','endTime' => '11:30','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/99786446722?pwd=YjVEbWdHcytYTFM0Z3JPVU5yNEl1UT09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Individuální – zeptejte se na cokoliv našeho HR."),
             ['eventId' => 'event_id_084','published' => '1','timelinePoint' => '30. 3. 2021','startTime' => '11:30','endTime' => '12:00','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/97728686928?pwd=UVFuVWtjZUlNWE1VNEFpNUZTM2lPUT09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Elektrokonstrukce a softwarová hi-tech řešení v nápojovém průmyslu"),
@@ -1518,20 +1518,20 @@ class EventList {
             ['eventId' => 'event_id_101','published' => '1','timelinePoint' => '31. 3. 2021','startTime' => '15:30','endTime' => '16:00','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/93032194928?pwd=VXNOUnhuUVM1bkc2L05oWnduYklHUT09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Elektrokonstrukce a softwarová hi-tech řešení v nápojovém průmyslu"),
             ['eventId' => 'event_id_102','published' => '1','timelinePoint' => '31. 3. 2021','startTime' => '16:00','endTime' => '17:00','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/91688765654?pwd=Z1YwTzU4Nmk2Ukx5YnJpUnFQNG56QT09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Pobavte se se zástupci elektro projektování a HR"),
             ['eventId' => 'event_id_103','published' => '1','timelinePoint' => '31. 3. 2021','startTime' => '17:00','endTime' => '18:00','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/91688765654?pwd=Z1YwTzU4Nmk2Ukx5YnJpUnFQNG56QT09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Zeptejte se na cokoliv našeho HR"),
-            ['eventId' => 'event_id_104','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '10:00','endTime' => '10:30','linkButtonEnroll' => ['showEnroll' => 1,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/99659532600?pwd=d3JiT3lmN09oU3VHRmZUL29OM0hHdz09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Konplan – digitalizace nápojového průmyslu"),
-            ['eventId' => 'event_id_105','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '10:30','endTime' => '11:30','linkButtonEnroll' => ['showEnroll' => 1,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/91432145472?pwd=dGVVOTJlS0ZDNGlxTWZ2V3FOcVBEZz09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Individuální – zeptejte se na cokoliv našeho HR."),
-            ['eventId' => 'event_id_106','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '11:30','endTime' => '12:00','linkButtonEnroll' => ['showEnroll' => 1,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/93892547469?pwd=VFJtRm1UVGt3QW9SMUdMODdTK3l1UT09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Administrativní engineering v nápojovém průmyslu"),
-            ['eventId' => 'event_id_107','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '12:00','endTime' => '13:00','linkButtonEnroll' => ['showEnroll' => 1,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/99301592176?pwd=NWMzYWVTdHUvV2Y0bWR6Q3NqNkcyUT09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Pobavte se se zástupci administrativní části a HR"),
-            ['eventId' => 'event_id_108','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '13:00','endTime' => '13:30','linkButtonEnroll' => ['showEnroll' => 1,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/99301592176?pwd=NWMzYWVTdHUvV2Y0bWR6Q3NqNkcyUT09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Zeptejte se na cokoliv našeho HR"),
-            ['eventId' => 'event_id_109','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '13:30','endTime' => '14:00','linkButtonEnroll' => ['showEnroll' => 1,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/96399405297?pwd=N3k5djF4VzRCLzFUV0U3M0R5UzZrUT09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Elektrokonstrukce a softwarová hi-tech řešení v nápojovém průmyslu"),
-            ['eventId' => 'event_id_110','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '14:00','endTime' => '15:00','linkButtonEnroll' => ['showEnroll' => 1,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/92879612649?pwd=WkdMUnZ3YW5hYUZ4UUdFM09QbjJCdz09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Pobavte se se zástupci elektro projektování a HR"),
-            ['eventId' => 'event_id_111','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '15:00','endTime' => '15:30','linkButtonEnroll' => ['showEnroll' => 1,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/92879612649?pwd=WkdMUnZ3YW5hYUZ4UUdFM09QbjJCdz09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Zeptejte se na cokoliv našeho HR"),
-            ['eventId' => 'event_id_112','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '15:30','endTime' => '16:00','linkButtonEnroll' => ['showEnroll' => 1,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/96786347397?pwd=Y011WHdHS2JOTXdWTWhSNC9pdkhRZz09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Strojní konstrukce – tradiční odvětví v digitální době"),
-            ['eventId' => 'event_id_113','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '16:00','endTime' => '17:00','linkButtonEnroll' => ['showEnroll' => 1,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/99430160201?pwd=Q2VkWTRKU2VyU05LSFgyQTBLLy9Ldz09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Pobavte se se zástupci strojní konstrukce a HR"),
-            ['eventId' => 'event_id_114','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '17:00','endTime' => '18:00','linkButtonEnroll' => ['showEnroll' => 1,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/99430160201?pwd=Q2VkWTRKU2VyU05LSFgyQTBLLy9Ldz09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Zeptejte se na cokoliv našeho HR"),
+            ['eventId' => 'event_id_104','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '10:00','endTime' => '10:30','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/99659532600?pwd=d3JiT3lmN09oU3VHRmZUL29OM0hHdz09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Konplan – digitalizace nápojového průmyslu"),
+            ['eventId' => 'event_id_105','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '10:30','endTime' => '11:30','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/91432145472?pwd=dGVVOTJlS0ZDNGlxTWZ2V3FOcVBEZz09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Individuální – zeptejte se na cokoliv našeho HR."),
+            ['eventId' => 'event_id_106','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '11:30','endTime' => '12:00','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/93892547469?pwd=VFJtRm1UVGt3QW9SMUdMODdTK3l1UT09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Administrativní engineering v nápojovém průmyslu"),
+            ['eventId' => 'event_id_107','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '12:00','endTime' => '13:00','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/99301592176?pwd=NWMzYWVTdHUvV2Y0bWR6Q3NqNkcyUT09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Pobavte se se zástupci administrativní části a HR"),
+            ['eventId' => 'event_id_108','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '13:00','endTime' => '13:30','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/99301592176?pwd=NWMzYWVTdHUvV2Y0bWR6Q3NqNkcyUT09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Zeptejte se na cokoliv našeho HR"),
+            ['eventId' => 'event_id_109','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '13:30','endTime' => '14:00','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/96399405297?pwd=N3k5djF4VzRCLzFUV0U3M0R5UzZrUT09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Elektrokonstrukce a softwarová hi-tech řešení v nápojovém průmyslu"),
+            ['eventId' => 'event_id_110','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '14:00','endTime' => '15:00','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/92879612649?pwd=WkdMUnZ3YW5hYUZ4UUdFM09QbjJCdz09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Pobavte se se zástupci elektro projektování a HR"),
+            ['eventId' => 'event_id_111','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '15:00','endTime' => '15:30','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/92879612649?pwd=WkdMUnZ3YW5hYUZ4UUdFM09QbjJCdz09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Zeptejte se na cokoliv našeho HR"),
+            ['eventId' => 'event_id_112','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '15:30','endTime' => '16:00','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/96786347397?pwd=Y011WHdHS2JOTXdWTWhSNC9pdkhRZz09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Strojní konstrukce – tradiční odvětví v digitální době"),
+            ['eventId' => 'event_id_113','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '16:00','endTime' => '17:00','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/99430160201?pwd=Q2VkWTRKU2VyU05LSFgyQTBLLy9Ldz09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Pobavte se se zástupci strojní konstrukce a HR"),
+            ['eventId' => 'event_id_114','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '17:00','endTime' => '18:00','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/99430160201?pwd=Q2VkWTRKU2VyU05LSFgyQTBLLy9Ldz09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Zeptejte se na cokoliv našeho HR"),
             ['eventId' => 'event_id_115','published' => '1','timelinePoint' => '30. 3. 2021','startTime' => '10:00','endTime' => '18:00','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/92767182030?pwd=ckJSN0RmMjRkV2phQm5IQWpVR0tnQT09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Prezentace společnosti.  Vstupte, rádi poskytneme aktuální informace o pracovních příležitostech v MD Elektronik"),
             ['eventId' => 'event_id_116','published' => '1','timelinePoint' => '31. 3. 2021','startTime' => '10:00','endTime' => '18:00','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/91481458749?pwd=SHgwVElZeituZlhaSERMWjFVb2dmQT09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Prezentace společnosti.  Vstupte, rádi poskytneme aktuální informace o pracovních příležitostech v MD Elektronik"),
-            ['eventId' => 'event_id_117','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '10:00','endTime' => '18:00','linkButtonEnroll' => ['showEnroll' => 1,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/93196667433?pwd=WmJVRTBPNWdhdzIrZmFWTk43Y1l1dz09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Prezentace společnosti.  Vstupte, rádi poskytneme aktuální informace o pracovních příležitostech v MD Elektronik"),
+            ['eventId' => 'event_id_117','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '10:00','endTime' => '18:00','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/93196667433?pwd=WmJVRTBPNWdhdzIrZmFWTk43Y1l1dz09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Prezentace společnosti.  Vstupte, rádi poskytneme aktuální informace o pracovních příležitostech v MD Elektronik"),
             ['eventId' => 'event_id_118','published' => '1','timelinePoint' => '30. 3. 2021','startTime' => '10:00','endTime' => '11:00','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/98912695684?pwd=MUl1N1RnQU9PcXdCdjgrZ214RHdEUT09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Valeo – pracovní příležitosti pro techniky, inženýry a vývojáře"),
             ['eventId' => 'event_id_119','published' => '1','timelinePoint' => '30. 3. 2021','startTime' => '11:00','endTime' => '12:00','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/98912695684?pwd=MUl1N1RnQU9PcXdCdjgrZ214RHdEUT09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Valeo Rakovník – nábor do výroby – operátor výroby, skladník, údržbář"),
             ['eventId' => 'event_id_120','published' => '1','timelinePoint' => '30. 3. 2021','startTime' => '12:00','endTime' => '13:00','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/98912695684?pwd=MUl1N1RnQU9PcXdCdjgrZ214RHdEUT09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Valeo – pracovní příležitosti pro techniky, inženýry a vývojáře"),
@@ -1547,13 +1547,13 @@ class EventList {
             ['eventId' => 'event_id_130','published' => '1','timelinePoint' => '31. 3. 2021','startTime' => '14:00','endTime' => '15:00','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/91006896216?pwd=VmNYQW92NHhhb0VWenBaQUFLczFVZz09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Valeo – pracovní příležitosti pro techniky, inženýry a vývojáře"),
             ['eventId' => 'event_id_131','published' => '1','timelinePoint' => '31. 3. 2021','startTime' => '15:00','endTime' => '16:00','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/91006896216?pwd=VmNYQW92NHhhb0VWenBaQUFLczFVZz09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Prezentace – Valeo v ČR"),
             ['eventId' => 'event_id_132','published' => '1','timelinePoint' => '31. 3. 2021','startTime' => '16:00','endTime' => '17:00','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/91006896216?pwd=VmNYQW92NHhhb0VWenBaQUFLczFVZz09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Valeo – pracovní příležitosti pro techniky, inženýry a vývojáře"),
-            ['eventId' => 'event_id_133','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '10:00','endTime' => '11:00','linkButtonEnroll' => ['showEnroll' => 1,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/97695093145?pwd=OEM5MUd6d3h6VmkwOFZwNnZpZ3prdz09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Prezentace – Valeo v ČR"),
-            ['eventId' => 'event_id_134','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '11:00','endTime' => '12:00','linkButtonEnroll' => ['showEnroll' => 1,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/97695093145?pwd=OEM5MUd6d3h6VmkwOFZwNnZpZ3prdz09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Valeo Žebrák – nábor do výroby – operátor výroby, skladník, údržbář"),
-            ['eventId' => 'event_id_135','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '12:00','endTime' => '13:00','linkButtonEnroll' => ['showEnroll' => 1,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/97695093145?pwd=OEM5MUd6d3h6VmkwOFZwNnZpZ3prdz09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Valeo – pracovní příležitosti pro techniky, inženýry a vývojáře"),
-            ['eventId' => 'event_id_136','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '13:00','endTime' => '14:00','linkButtonEnroll' => ['showEnroll' => 1,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/97695093145?pwd=OEM5MUd6d3h6VmkwOFZwNnZpZ3prdz09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Valeo Žebrák – nábor do výroby – operátor výroby, skladník, údržbář"),
-            ['eventId' => 'event_id_137','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '14:00','endTime' => '15:00','linkButtonEnroll' => ['showEnroll' => 1,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/97695093145?pwd=OEM5MUd6d3h6VmkwOFZwNnZpZ3prdz09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Valeo – pracovní příležitosti pro techniky, inženýry a vývojáře"),
-            ['eventId' => 'event_id_138','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '15:00','endTime' => '16:00','linkButtonEnroll' => ['showEnroll' => 1,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/97695093145?pwd=OEM5MUd6d3h6VmkwOFZwNnZpZ3prdz09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Valeo Rakovník – nábor do výroby – operátor výroby, skladník, údržbář"),
-            ['eventId' => 'event_id_139','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '16:00','endTime' => '17:00','linkButtonEnroll' => ['showEnroll' => 1,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/97695093145?pwd=OEM5MUd6d3h6VmkwOFZwNnZpZ3prdz09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Valeo – pracovní příležitosti pro techniky, inženýry a vývojáře"),
+            ['eventId' => 'event_id_133','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '10:00','endTime' => '11:00','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/97695093145?pwd=OEM5MUd6d3h6VmkwOFZwNnZpZ3prdz09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Prezentace – Valeo v ČR"),
+            ['eventId' => 'event_id_134','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '11:00','endTime' => '12:00','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/97695093145?pwd=OEM5MUd6d3h6VmkwOFZwNnZpZ3prdz09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Valeo Žebrák – nábor do výroby – operátor výroby, skladník, údržbář"),
+            ['eventId' => 'event_id_135','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '12:00','endTime' => '13:00','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/97695093145?pwd=OEM5MUd6d3h6VmkwOFZwNnZpZ3prdz09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Valeo – pracovní příležitosti pro techniky, inženýry a vývojáře"),
+            ['eventId' => 'event_id_136','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '13:00','endTime' => '14:00','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/97695093145?pwd=OEM5MUd6d3h6VmkwOFZwNnZpZ3prdz09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Valeo Žebrák – nábor do výroby – operátor výroby, skladník, údržbář"),
+            ['eventId' => 'event_id_137','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '14:00','endTime' => '15:00','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/97695093145?pwd=OEM5MUd6d3h6VmkwOFZwNnZpZ3prdz09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Valeo – pracovní příležitosti pro techniky, inženýry a vývojáře"),
+            ['eventId' => 'event_id_138','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '15:00','endTime' => '16:00','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/97695093145?pwd=OEM5MUd6d3h6VmkwOFZwNnZpZ3prdz09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Valeo Rakovník – nábor do výroby – operátor výroby, skladník, údržbář"),
+            ['eventId' => 'event_id_139','published' => '1','timelinePoint' => '1. 4. 2021','startTime' => '16:00','endTime' => '17:00','linkButtonEnroll' => ['showEnroll' => 0,'linkButtonAttributes' => $this->linkButtonAttributesPrihlasit +[],'linkButtonText' => $this->linkButtonTextPrihlasit],'linkButtonEnter' => ['showEnter' => 0,'linkButtonAttributes' => $this->linkButtonAttributesVstoupit +['href' => "https://zoom.us/j/97695093145?pwd=OEM5MUd6d3h6VmkwOFZwNnZpZ3prdz09"],'linkButtonText' => $this->linkButtonTextVstoupit],] + $this->eventContent->getEventContent("Valeo – pracovní příležitosti pro techniky, inženýry a vývojáře"),
         ];
 
         return $eventList;

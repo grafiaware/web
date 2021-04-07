@@ -10,7 +10,6 @@ use Pes\Text\Html;
 ?>
 <div class="navazat-kontakt">
     <div class="ui grid">
-
         <div class="sixteen wide column">
             <content>
                 <div class="kontaktni-udaje-firmy">

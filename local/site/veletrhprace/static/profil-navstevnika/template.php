@@ -68,9 +68,9 @@ if (isset($loginAggregate)) {
         [
             [
                 'idZpravy' => '',
-                'nazev' => 'Stále zde naleznete pracovní místa, přednášky i poradny',
+                'nazev' => 'Stále zde naleznete pracovní místa a odkazy na přednášky',
                 'text' =>
-                "I když online veletrh s živou účastí skončil, stále zde naleznete přístupy záznamům přednášek a prezentací, na které se přihlásili a které chcete shlédnout.
+                "I když online veletrh s živou účastí skončil, stále zde naleznete přístupy k záznamům přednášek a prezentací, které chcete zhlédnout.
 
             V harmonogramu najdete akce, ke kterým jste se přihlásili.
 
@@ -79,7 +79,7 @@ if (isset($loginAggregate)) {
             ],[
 
                 'idZpravy' => '',
-                'nazev' => 'Stále se můžete registrovat a získat příležitost',
+                'nazev' => '',
                 'text' => "Nahrajte svůj životopis a motivační dopis a u vybraných firem rovnou vložte jako odpověď zájemce o pozici.
 "
             ]
@@ -107,24 +107,19 @@ if (isset($loginAggregate)) {
 <?php
 } else {
     $headline = "Profil návštěvníka";
-    $perex = 'I když online veletrh s živou účastí skončil stále zde návštěvníci naleznou přístupy záznamům, na které se přihlásili a které chtějí shlédnout.';
+    $perex = 'I když online veletrh s živou účastí skončil, stále zde návštěvníci naleznou odkazy k záznamům přednášek a prezentací, které chtějí zhlédnout.';
     $zprava =
         [
             [
                 'idZpravy' => '',
-                'nazev' => 'Stále zde naleznete pracovní místa, přednášky i poradny',
+                'nazev' => 'Stále zde naleznete pracovní místa a odkazy na přednášky',
                 'text' =>
-                "Stále ještě máte možnost se přihlásit. Nahrajte svůj životopis a motivační dopis a u vybraných firem rovnou
-                vložte jako odpověď zájemce o pozici.
-
-                Prohlédněte si videa z přednášek a z prezentací zaměstnavatelů, na které jste se přihlásili a které chcete shlédnout.
-                "
+                "Přihlášení návštěvníka bude fungovat po celý duben. Můžete se přihlásit, nahrát svůj životopis a motivační dopis a u vybraných firem je rovnou vložit jako odpověď zájemce o pozici."
             ],[
 
                 'idZpravy' => '',
-                'nazev' => 'Stále se můžete registrovat a získat příležitost',
-                'text' => "Můžete se také i nově zaregistrovat a získat výhody registrovaného návštěvníka. I nově registrovaní mohou nahrát svůj životopis a motivační dopis a u vybraných firem rovnou
-                            vložit jako odpověď zájemce o pozici. "
+                'nazev' => '',
+                'text' => "I po ukončení veletrhu se můžete nově registrovat a získat výhody registrovaného návštěvníka. I nově registrovaní mohou nahrát svůj životopis a motivační dopis a u vybraných firem je rovnou vložit jako odpověď zájemce o pozici."
             ]
         ];
 ?>

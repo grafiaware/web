@@ -15,6 +15,11 @@ $perex =
     '
 
 Přednášky můžete i opakovaně zhlédnout na našem <a href="https://www.youtube.com/channel/UC-Di-88rpUfBZUHHVf7tntQ" target="_blank">youtube kanálu</a>.
+';
+$perex1 =
+    '
+
+Přednášky můžete i opakovaně zhlédnout na našem <a href="https://www.youtube.com/channel/UC-Di-88rpUfBZUHHVf7tntQ" target="_blank">youtube kanálu</a>.
 Přihlaste se na náš program! Přihlašovací tlačítko uvidíte teprve po registraci či přihlášení do vašeho účtu na tomto webu. 
 Před zahájením akce zde uvidíte barevný odkaz pro vstup na akci nebo odkaz pro zhlédnutí vybraného videa. '     
         ;

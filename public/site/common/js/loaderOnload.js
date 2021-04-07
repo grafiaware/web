@@ -36,7 +36,7 @@ function replaceElement(id, apiUri){
         
         //rozbalení formuláře osobních údajů pro "chci nazávat kontakt"
         $('.profil-visible').on('click', function(){
-            $('.profil.hidden').css('display', 'block');
+            $(this).closest('.navazat-kontakt').find('.profil.hidden').toggle();
         });
         
         
