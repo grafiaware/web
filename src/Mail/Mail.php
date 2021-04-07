@@ -69,11 +69,12 @@ class Mail {
          */
         if (self::$logger) {
             if ($result) {
+                $time = (new \DateTime())->format("Y-m-d H:i:s");
                 $decodedSubject = base64_decode(str_replace("=?utf-8?B?", "", $subject));
-                self::$logger->info("Result: '{result}'.", ['result'=>$result]);
-                self::$logger->info("Odeslán mail '{subject}' na adresy {to}.", ['subject'=>$decodedSubject, 'to'=>implode(', ', $to)]);
+                self::$logger->info("[$time] Result: '{result}'.", ['result'=>$result]);
+                self::$logger->info("[$time] Odeslán mail '{subject}' na adresy {to}.", ['subject'=>$decodedSubject, 'to'=>implode(', ', $to)]);
             } else {
-                self::$logger->warning("Nepodařilo se odeslat mail '{subject}' na adresy {to}.", ['subject'=>$subject, 'to'=>implode(', ', $to)]);
+                self::$logger->warning("[$time] Nepodařilo se odeslat mail '{subject}' na adresy {to}.", ['subject'=>$subject, 'to'=>implode(', ', $to)]);
             }
         }
     }
@@ -104,7 +105,7 @@ class Mail {
             //Password to use for SMTP authentication
             $mail->Password = $actualParams->getSmtpAuth()->getPassword();
 
-            $mail->Encoding = '8bit'; 
+            $mail->Encoding = '8bit';
 
             //Recipients
             $from = $actualParams->getParty()->getFrom();

@@ -90,7 +90,7 @@ class ConfirmController extends LoginControlerAbstract
                         $body = $this->createMailHtmlMessage(__DIR__."/Messages/confirm.php", []);
 
                         $attachments = [ (new Attachment())
-                                        ->setFileName(Configuration::mail()['mail.files.directory'].'logo_grafia.png')  // /_www_vp_files/attachments/
+                                        ->setFileName(Configuration::mail()['mail.attachments'].'logo_grafia.png')  // /_www_vp_files/attachments/
                                         ->setAltText('Logo Grafia')
                                        ];
                         $params = (new Params())

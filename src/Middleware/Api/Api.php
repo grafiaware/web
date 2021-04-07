@@ -50,7 +50,9 @@ class Api extends AppMiddlewareAbstract implements MiddlewareInterface {
                        (new DbUpgradeContainerConfigurator())->configure(
                             (new Container(
                                     (new LoginContainerConfigurator())->configure(
-                                        new Container($this->getApp()->getAppContainer())
+                                        (new MailContainerConfigurator())->configure(
+                                            new Container($this->getApp()->getAppContainer())
+                                        )
                                     )
                                 )
                             )
@@ -262,6 +264,11 @@ class Api extends AppMiddlewareAbstract implements MiddlewareInterface {
             return $ctrl->postVisitorData($request);
         });
 
+        $routeGenerator->addRouteForAction('POST', '/api/v1/sendmail/:campaign', function(ServerRequestInterface $request) {
+            /** @var VisitorDataUploadControler $ctrl */
+            $ctrl = $this->container->get(VisitorDataUploadControler::class);
+            return $ctrl->postVisitorData($request);
+        });
 ####################################
         /** @var $router RouterInterface */
         $router = $this->container->get(RouterInterface::class);

@@ -24,6 +24,16 @@ class LoginDao extends DaoAbstract implements DaoKeyDbVerifiedInterface {
         return $this->selectOne($sql, [':login_name' => $loginName], TRUE);
     }
 
+    public function findAll() {
+        $sql = "
+            SELECT
+                `login`.`login_name`
+            FROM
+                `login`";
+        return $this->selectMany($sql, []);
+    }
+
+
     public function insert($row) {
         throw new \LogicException('Object LoginDao neumožňuje insertovat bez ověření duplicity klíče!');
     }

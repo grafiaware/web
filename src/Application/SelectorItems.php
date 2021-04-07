@@ -108,6 +108,15 @@ class SelectorItems {
 //                    new \Middleware\Logged\LoggedAccess(new LoggedAccessor($this->app)),
 //                    (new \Middleware\Menu\Menu())
 //                ];},
+            '/sendmail'=>
+            function() {
+                return [
+                    //TODO: doplnit basic autentifikaci pro případ něpřihlášeného uživatele.
+                    new \Middleware\Status\SecurityStatus(),
+                    new \Middleware\Login\Login(),
+                    new \Middleware\Logged\LoggedAccess(new LoggedAccessor($this->app)),
+                    new \Middleware\Sendmail\Sendmail()
+                ];},
             '/build'=>
             function() {
                 return [

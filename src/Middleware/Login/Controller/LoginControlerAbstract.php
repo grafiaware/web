@@ -19,9 +19,7 @@ use \Pes\View\Renderer\PhpTemplateRenderer;
  * @author pes2704
  */
 class LoginControlerAbstract extends PresentationFrontControllerAbstract {
-    protected function createMailHtmlMessage($templateFilePath, $context) {
-        return (string) (new ViewFactory())->phpTemplateView($templateFilePath, $context)->setRenderer(new PhpTemplateRenderer());
-    }
+
 
 
 }

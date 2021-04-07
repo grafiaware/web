@@ -40,6 +40,17 @@ class LoginAggregateCredentialsRepo extends LoginRepo implements RepoAggregateIn
         return new LoginAggregateCredentials();
     }
 
+    public function findAll() {
+        $selected = [];
+        foreach ($this->dao->findAll() as $loginRow) {
+            $index = $this->indexFromRow($loginRow);
+            if (!isset($this->collection[$index])) {
+                $this->recreateEntity($index, $loginRow);
+            }
+            $selected[] = $this->collection[$index];
+        }
+        return $selected;
+    }
     public function add(LoginInterface $loginAggregate) {
         $this->addEntity($loginAggregate);
     }

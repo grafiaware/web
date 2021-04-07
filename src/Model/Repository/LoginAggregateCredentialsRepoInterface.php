@@ -16,5 +16,5 @@ use Model\Entity\LoginAggregateCredentialsInterface;
  */
 interface LoginAggregateCredentialsRepoInterface  extends LoginRepoInterface {
     public function get($loginName): ?LoginAggregateCredentialsInterface;
-
+    public function findByRole($role);
 }

@@ -3,6 +3,7 @@ namespace Middleware\Login\Controller;
 
 use Site\Configuration;
 use Mail\Mail;
+use Mail\MessageFactory\HtmlMessage;
 
 use Mail\Params;
 use Mail\Params\{Content, Attachment, Party};
@@ -111,7 +112,7 @@ class RegistrationController extends LoginControlerAbstract
                     $body = $this->createMailHtmlMessage(__DIR__."/Messages/registration.php", ['confirmationUrl'=>$confirmationUrl]);
 
                     $attachments = [ (new Attachment())
-                                    ->setFileName(Configuration::mail()['mail.files.directory'].'logo_grafia.png')  // /_www_vp_files/attachments/
+                                    ->setFileName(Configuration::mail()['mail.attachments'].'logo_grafia.png')  // /_www_vp_files/attachments/
                                     ->setAltText('Logo Grafia')
                                    ];
                     $params = (new Params())
@@ -147,7 +148,7 @@ class RegistrationController extends LoginControlerAbstract
                     $body = $this->createMailHtmlMessage(__DIR__."/Messages/registration.php", ['confirmationUrl'=>$confirmationUrl]);
 
                     $attachments = [ (new Attachment())
-                                    ->setFileName(Configuration::mail()['mail.files.directory'].'logo_grafia.png')  // /_www_vp_files/attachments/
+                                    ->setFileName(Configuration::mail()['mail.attachments'].'logo_grafia.png')  // /_www_vp_files/attachments/
                                     ->setAltText('Logo Grafia')
                                    ];
                     $params = (new Params())
@@ -170,15 +171,17 @@ class RegistrationController extends LoginControlerAbstract
                         ##########################--------- poslat mail do Grafie - registrujici se  je  vystavovatel -------------------
                         /** @var Mail $mail */
                         $mail = $this->container->get(Mail::class);
+                        /** @var HtmlMessage $mailMessageFactory */
+                        $mailMessageFactory = $this->container->get(HtmlMessage::class);
                         $subject =  'Veletrh práce a vzdělávání - Registrace zástupce vystavovatele.';
-                        $body = $this->createMailHtmlMessage(__DIR__."/Messages/registrationexhib.php",
+                        $body = $mailMessageFactory->create(__DIR__."/Messages/registrationexhib.php",
                                                             ['registerJmeno' => $registerJmeno,
                                                              'registerHeslo' => $registerHeslo,
                                                              'registerEmail' => $registerEmail,
                                                              'registerInfo' => $registerInfo,
                                                             ]);
                         $attachments = [ (new Attachment())
-                                        ->setFileName(Configuration::mail()['mail.files.directory'].'logo_grafia.png')  // /_www_vp_files/attachments/
+                                        ->setFileName(Configuration::mail()['mail.attachments'].'logo_grafia.png')  // /_www_vp_files/attachments/
                                         ->setAltText('Logo Grafia')
                                        ];
                         $params = (new Params())
