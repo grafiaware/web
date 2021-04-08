@@ -103,25 +103,4 @@ $nameLetter = VisitorDataUploadControler::UPLOADED_KEY_LETTER.$userHash;
                         </div>
                      </div>
                 </form>
-<!--                <form class="ui huge form" action="" method="POST" >
-                    <div class="two fields">
-                        <div class="field margin">
-                            <label>Zaškrtněte, jaké firmě si přejete zaslat uložené údaje a přílohy (můžete zaškrtnout více firem)</label>
-                            <p><label><input type="checkbox" name="firma" value="akka"> AKKA</label></p>
-                            <p><label><input type="checkbox" name="firma" value="daikin"> Daikin Industries</label></p>
-                            <p><label><input type="checkbox" name="firma" value="dzk"> Drůbežářský závod Klatovy</label></p>
-                            <p><label><input type="checkbox" name="firma" value="grafia"> Grafia</label></p>
-                            <p><label><input type="checkbox" name="firma" value="kermi"> Kermi</label></p>
-                            <p><label><input type="checkbox" name="firma" value="konplan"> Konplan</label></p>
-                            <p><label><input type="checkbox" name="firma" value="mdelektronik"> MD Elektronik</label></p>
-                            <p><label><input type="checkbox" name="firma" value="possehl"> Possehl Electronics</label></p>
-                            <p><label><input type="checkbox" name="firma" value="stoelzle"> STOELZLE UNION</label></p>
-                            <p><label><input type="checkbox" name="firma" value="valeo"> Valeo Autoklimatizace</label></p>
-                            <p><label><input type="checkbox" name="firma" value="wienerberger"> Wienerberger</label></p>
-                        </div>
-                        <div class="field margin">
-                            <button class="ui massive primary button" type="submit">Odeslat</button>
-                        </div>
-                     </div>
-                </form>-->
             </div>
