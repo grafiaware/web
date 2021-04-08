@@ -3,8 +3,9 @@
 namespace Middleware\Login\Controller;
 
 use Site\Configuration;
-use Mail\Mail;
 
+use Mail\Mail;
+use Mail\MessageFactory\HtmlMessage;
 use Mail\Params;
 use Mail\Params\{Content, Attachment, Party};
 
@@ -86,8 +87,11 @@ class ConfirmController extends LoginControlerAbstract
                         #########################--------- poslat mail -------------------
                         /** @var Mail $mail */
                         $mail = $this->container->get(Mail::class);
+                        /** @var HtmlMessage $mailMessageFactory */
+                        $mailMessageFactory = $this->container->get(HtmlMessage::class);
+
                         $subject =  'Veletrh práce a vzdělávání - Registrace dokončena.';
-                        $body = $this->createMailHtmlMessage(__DIR__."/Messages/confirm.php", []);
+                        $body = $mailMessageFactory->create(__DIR__."/Messages/confirm.php", []);
 
                         $attachments = [ (new Attachment())
                                         ->setFileName(Configuration::mail()['mail.attachments'].'logo_grafia.png')  // /_www_vp_files/attachments/

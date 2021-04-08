@@ -3,8 +3,9 @@
 namespace Middleware\Login\Controller;
 
 use Site\Configuration;
-use Mail\Mail;
 
+use Mail\Mail;
+use Mail\MessageFactory\HtmlMessage;
 use Mail\Params;
 use Mail\Params\{Content, Attachment, Party};
 
@@ -61,32 +62,33 @@ class PasswordController extends LoginControlerAbstract {
                 // heslo je zahashovane v Credentials - posleme mailem náhradní vygenerované, a zahashujeme do Credentials
                 /** @var  LoginAggregateCredentials $loginAggregateCredentialsEntity  */
                 $loginAggregateCredentialsEntity = $this->loginAggregateCredentialsRepo->get($loginJmeno);
-                /** @var  LoginAggregateRegistration $loginAggregateRegistrationEntity  */
-                $loginAggregateRegistrationEntity = $this->loginAggregateRegistrationRepo->get($loginJmeno);
 
-
-                if ( ($loginAggregateCredentialsEntity !== \NULL )  AND
-                     ($loginAggregateRegistrationEntity !== \NULL ) )
+                if ( isset($loginAggregateCredentialsEntity)  AND isset($loginAggregateRegistrationEntity) )
                 {
-                    if  ( ($loginAggregateCredentialsEntity->getCredentials()!== \NULL )  AND
-                          ($loginAggregateRegistrationEntity->getRegistration()!== \NULL  )
-                        )
+                    $credentials = $loginAggregateCredentialsEntity->getCredentials();
+                    $registration = $loginAggregateRegistrationEntity->getRegistration();
+                    if  (isset($credentials) AND isset($registration))
                     {
                         $generatedPassword = $this->generatePassword();
                         $hashedGeneratedPassword = ( new Password())->getPasswordHash($generatedPassword);
-                        $credentials = $loginAggregateCredentialsEntity->getCredentials()->setPasswordHash( $hashedGeneratedPassword );
-                        $loginAggregateCredentialsEntity->setCredentials($credentials);
 
-                        $registerEmail = $loginAggregateRegistrationEntity->getRegistration()->getEmail();
+                        $credentials->setPasswordHash( $hashedGeneratedPassword );
+//                        $loginAggregateCredentialsEntity->setCredentials($credentials);
+
+                        $registerEmail = $registration->getEmail();
 
                         #########################--------- poslat mail -------------------
                         /** @var Mail $mail */
                         $mail = $this->container->get(Mail::class);
+                        /** @var HtmlMessage $mailMessageFactory */
+                        $mailMessageFactory = $this->container->get(HtmlMessage::class);
+                        
                         $subject =  'Veletrh práce a vzdělávání - Nové heslo.';
-                        $body = $this->createMailHtmlMessage(__DIR__."/Messages/forgottenpassword.php",
+                        $body = $mailMessageFactory->create(__DIR__."/Messages/forgottenpassword.php",
                                                             ['loginJmeno'=>$loginJmeno,
                                                              'generatedPassword'=>$generatedPassword
                                                             ]);
+
                         $attachments = [ (new Attachment())
                                         ->setFileName(Configuration::mail()['mail.attachments'].'logo_grafia.png')  // /_www_vp_files/attachments/
                                         ->setAltText('Logo Grafia')
@@ -107,14 +109,14 @@ class PasswordController extends LoginControlerAbstract {
                         #########################-----------------------------
 
                         $this->addFlashMessage("Na Vaši email.adresu jsme odeslali nové přihlašovací údaje.");
+                    } else {
+                        $this->addFlashMessage("Váš účet nebyl založen registrací, neznáme Vaši email adresu. Nelze vám zaslat nové přihlašovací údaje.");
                     }
-                }
-                else {
-                        $this->addFlashMessage("Neplatné jméno!");
-                }
-            }
-            else {
+                } else {
                     $this->addFlashMessage("Neplatné jméno!");
+                }
+            } else {
+                $this->addFlashMessage("Neplatné jméno!");
             }
         }
 

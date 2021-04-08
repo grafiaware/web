@@ -14,7 +14,7 @@ use Site\Configuration;
                     <input class="notRequired" type="password" name="<?=Configuration::loginLogoutControler()['fieldNameHeslo']?>" placeholder="Heslo" required>
                 </div>
                 <button class="ui positive button" type="submit" name="login" value=1>Přihlásit</button>
-                <button class="ui fluid tertiary button" type="submit" name="forgottenpassword" value=1>Zapomněl jsem<br/>heslo</button>
+                <button class="ui fluid tertiary button" type="submit" name="forgottenpassword" value=1 formaction="auth/v1/forgottenpassword">Zapomněl jsem<br/>heslo</button>
           </div>
         </div>
     </form>
