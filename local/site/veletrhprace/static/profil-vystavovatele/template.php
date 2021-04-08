@@ -18,6 +18,7 @@ $company = [
   5 => ["name" => "", "eventInstitutionName"=>"Konplan"],
   5 => ["name" => "", "eventInstitutionName"=>"Valeo Autoklimatizace"],
   6 => ["name" => "", "eventInstitutionName"=>"Stoelzle Union s.r.o."],
+  7 => ["name" => "Grafia s.r.o.", "eventInstitutionName"=>"Grafia"],
 
 ];
 
@@ -32,7 +33,10 @@ $presenterArray =
     'Zdeňka Obertíková' => ['regname' => "Zdeňka Obertíková", 'regmail' => "Zdenka.Obertikova@md-elektronik.cz", 'regcompany' => "MD ELEKTRONIK s.r.o.", 'idCompany'=>4],
     'Kristýna Křížová' => ['regname' => "Kristýna Křížová", 'regmail' => "kristyna.krizova@md-elektronik.cz", 'regcompany' => "MD ELEKTRONIK spol. s r.o.", 'idCompany'=>4],
     'Michaela Šebová' => ['regname' => "Michaela Šebová", 'regmail' => "michaela.sebova@stoelzle.com", 'regcompany' => "Stoelzle Union s.r.o.", 'idCompany'=>6],  // nemá žádný event v EventListu
-    'Vanda Štěrbová' => ['regname' => "Vanda Štěrbová", 'regmail' => " vanda.sterbova@akka.eu", 'regcompany' => "AKKA Czech Republic s.r.o.", 'idCompany'=>3],
+    'Vanda Štěrbová' => ['regname' => "Vanda Štěrbová", 'regmail' => "vanda.sterbova@akka.eu", 'regcompany' => "AKKA Czech Republic s.r.o.", 'idCompany'=>3],
+    'Jana Brabcová' => ['regname' => "Jana Brabcová", 'regmail' => "brabcova@grafia.cz", 'regcompany' => "Grafia s.r.o.", 'idCompany'=>7],
+    'Jana Brabcová Grafia OK' => ['regname' => "Jana Brabcová Grafia OK", 'regmail' => "brabcova@grafia.cz", 'regcompany' => "Grafia s.r.o.", 'idCompany'=>7],
+    'User5' => ['regname' => "User5", 'regmail' => "svoboda@grafia.cz", 'regcompany' => "TEST", 'idCompany'=>3],
 // maji nastevenu roli "presenter" v credentials
 ];
 
