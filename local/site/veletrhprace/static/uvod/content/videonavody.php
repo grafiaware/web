@@ -9,21 +9,21 @@ use Pes\Text\Html;
 
 $text = 
 '
-
+Podívejte se, jak se registrovat, přihlásit nebo jak vložit životopis k pracovní pozici u vybrané firmy
 ';
 ?>
 
-<div class="dva-sloupce-nadpis">
+<div class="">
     <p class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll">Jak na to?</p>
-    <div class="ui two column stackable centered mobile reversed grid">
-        <div class="six wide column middle aligned">
+    <div class="ui two column stackable centered grid">
+        <div class="nine wide tablet seven wide computer column middle aligned">
             <a class="link-img" href="www/item/cs/606eb31a5fc6c" target="_blank">
-                <img src="images/videonavody.png" width="" height="300" alt="Videonávody"/>
+                <img src="images/videonavod-foto.jpg" alt="videonávod" />
             </a>
         </div>
-        <div class="ten wide column">
+        <div class="seven wide tablet nine wide computer column">
             <?= Html::p(Text::mono($text), ["class"=>"text tucne"]) ?> 
-            <a class="ui primary massive button" href="www/item/cs/606eb31a5fc6c" target="_blank">Zhlédnout videonávody</a>
+            <a class="ui primary massive button" href="www/item/cs/606eb31a5fc6c" target="_blank">Zhlédnout videonávod</a>
         </div>
     </div>
 </div>
