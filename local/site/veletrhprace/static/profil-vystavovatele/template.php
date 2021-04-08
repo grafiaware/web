@@ -137,7 +137,7 @@ if(isset($role) AND ($role=='presenter' OR $role=='sup')) {
 } else {
 
     $headline = "Profil vystavovatele";
-    $perex = "Přihlášený vystavovatel zde uvidí své aktivity.";
+    $perex = "Profil vystavovatele je dostupný pouze přihlášenému vystavovateli.";
 
 
 

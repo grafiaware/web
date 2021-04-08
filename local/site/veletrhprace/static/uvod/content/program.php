@@ -17,6 +17,11 @@ use Pes\Text\Text;
             Využijte svou šanci, získejte informace a kontakty!</p>
             <p class="text okraje-vertical"></p>
             ')?>
+            <p class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll">Anketa a slosování</p>
+            <?= Text::mono('
+            <p class="text">Vyplňte <a href="https://forms.gle/w5NTnXbxEg6GGRLp7" target="_blank">ANKETU NÁVŠTĚVNÍKA</a> a zařaďte se do slosování o ceny, které proběhne 28. dubna!</p>
+            <p class="text okraje-vertical"></p>
+            ')?>
             <p class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll">Program</p>
             <img src="images/klic_foto.jpg" width="1280" height="420" alt="Obrázek k programu"/>
         </div>
