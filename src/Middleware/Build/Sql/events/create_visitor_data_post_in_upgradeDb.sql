@@ -11,6 +11,7 @@
 CREATE TABLE `visitor_data_post` (
   `login_name` varchar(45) NOT NULL,
   `short_name` varchar(45) NOT NULL,
+  `position_name` varchar(200) NOT NULL,
   `prefix` varchar(45) DEFAULT NULL,
   `name` varchar(90) DEFAULT NULL,
   `surname` varchar(90) DEFAULT NULL,
@@ -28,8 +29,8 @@ CREATE TABLE `visitor_data_post` (
   PRIMARY KEY (`login_name`,`short_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- musí být prázdná tabulka - nesmí být NULL hodnota 
-ALTER TABLE `veletrhprace`.`visitor_data_post`
+-- musí být prázdná tabulka - nesmí být NULL hodnota
+ALTER TABLE `visitor_data_post`
 CHANGE COLUMN `position_name` `position_name` VARCHAR(200) NOT NULL ,
 DROP PRIMARY KEY,
 ADD PRIMARY KEY (`login_name`, `short_name`, `position_name`);
