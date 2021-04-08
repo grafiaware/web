@@ -18,6 +18,9 @@ $headline = 'Klíč k příležitostem<sup class="text maly">&reg;</sup>';
     </section>
     <section>    
         <content>
+            <?php include "content/videonavody.php" ?>
+        </content>
+        <content>
             <?php include "content/program.php" ?>
         </content>
         <content>
