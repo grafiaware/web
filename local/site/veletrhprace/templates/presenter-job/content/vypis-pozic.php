@@ -11,11 +11,12 @@ use Pes\Text\Html;
 <div class="vypis-prac-pozic">
     <div class="ui styled fluid accordion">
         <?php
+        $vsechnyPozice = array();
         foreach ($pracovniPozice as $pozice) {            
             $pozice = array_merge($pozice, ['container' => $container, 'shortName' => $shortName]);
             $vsechnyPozice[] = $pozice;
-            
         }
+        //print_r($vsechnyPozice);
         ?>
         <?= $this->repeat(__DIR__.'/vypis-pozic/pozice.php', $vsechnyPozice)?>
     </div>
