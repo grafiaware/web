@@ -11,7 +11,7 @@ use Middleware\Api\ApiController\VisitorDataUploadControler;
 use Model\Repository\VisitorDataRepo;
 use Model\Entity\VisitorDataInterface;
 use Model\Repository\VisitorDataPostRepo;
-use Model\Entity\VisitorDataPost;
+use Model\Entity\VisitorDataPostInterface;
 /** @var PhpTemplateRendererInterface $this */
 
 #####
@@ -30,11 +30,27 @@ if (isset($loginAggregate)) {
     /** @var VisitorDataInterface $visitorData */
     $visitorData = $visitorDataRepo->get($loginName);
 
+    /** @var VisitorDataPostRepo $visitorDataPostRepo */
+    $visitorDataPostRepo = $container->get(VisitorDataPostRepo::class);
+    /** @var VisitorDataPostInterface $visitorDataPost */
+    $visitorDataPost = $visitorDataPostRepo->get($loginName, $shortName, $positionName);
+
     $userHash = $loginAggregate->getLoginNameHash();
     $accept = implode(", ", Configuration::filesUploadControler()['uploads.acceptedextensions']);
     $nameCv = VisitorDataUploadControler::UPLOADED_KEY_CV.$userHash;
     $nameLetter = VisitorDataUploadControler::UPLOADED_KEY_LETTER.$userHash;
-    $shortName;
+
+    
+    
+    if (isset($visitorDataPost)) {
+        $readonly = 'readonly="1"'
+        $disabled = 'disabled="1"';
+        $prefix = isset($visitorDataPost) ? $visitorDataPost->getPrefix() : '';
+    } else {
+        $readonly = ''
+        $disabled = '';
+        $prefix = isset($visitorData) ? $visitorData->getPrefix() : '';        
+    }
 ?>
 
 
@@ -49,19 +65,19 @@ if (isset($loginAggregate)) {
                     <div class="four fields">
                         <div class="three wide field">
                             <label>Titul před jménem</label>
-                            <input readonly type="text" name="prefix" placeholder="" maxlength="45" value="<?= isset($visitorData) ? $visitorData->getPrefix() : ''; ?>">
+                            <input <?= $readonly ?> type="text" name="prefix" placeholder="" maxlength="45" value="<?= $prefix ?>">
                         </div>
                         <div class="five wide field">
                             <label>Jméno</label>
-                            <input readonly type="text" name="name" placeholder="Jméno" maxlength="90" value="<?= isset($visitorData) ? $visitorData->getName() : ''; ?>">
+                            <input <?= $readonly ?> type="text" name="name" placeholder="Jméno" maxlength="90" value="<?= isset($visitorData) ? $visitorData->getName() : ''; ?>">
                         </div>
                         <div class="five wide field">
                             <label>Příjmení</label>
-                            <input readonly type="text" name="surname" placeholder="Příjmení" maxlength="90" value="<?= isset($visitorData) ? $visitorData->getSurname() : ''; ?>">
+                            <input <?= $readonly ?> type="text" name="surname" placeholder="Příjmení" maxlength="90" value="<?= isset($visitorData) ? $visitorData->getSurname() : ''; ?>">
                         </div>
                         <div class="three wide field">
                             <label>Titul za jménem</label>
-                            <input readonly type="text" name="postfix" placeholder="" maxlength="45" value="<?= isset($visitorData) ? $visitorData->getPostfix() : ''; ?>">
+                            <input <?= $readonly ?> type="text" name="postfix" placeholder="" maxlength="45" value="<?= isset($visitorData) ? $visitorData->getPostfix() : ''; ?>">
                         </div>
                     </div>
                     <div class="two fields">
@@ -91,9 +107,15 @@ if (isset($loginAggregate)) {
                             <p>Životopis: <?= isset($visitorData) ? $visitorData->getCvDocumentFilename() : ''; ?></p>
                             <p>Motivační dopis: <?= isset($visitorData) ? $visitorData->getLetterDocumentFilename() : ''; ?></p>
                         </div>
+                        <?php
+                        if($readonly) {
+                        ?>
                         <div class="field">
                             <button class="ui massive primary button" type="submit">Odeslat</button>
                         </div>
+                        <?php
+                        }
+                        ?>
                     </div>
 
                 </form>
