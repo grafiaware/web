@@ -43,7 +43,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Po dokončení registrace dostanete potvrzovací mail. Pak se budete moci přihlašovat na web veletrprace.online.</td>
+                    <td>Po dokončení registrace dostanete potvrzovací mail. Pak se budete moci přihlašovat na web veletrhprace.online.</td>
                 </tr>
                 <tr>
                     <td>S pozdravem <br/> tým realizátora Grafia,s.r.o.</td>
