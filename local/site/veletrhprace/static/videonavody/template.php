@@ -20,7 +20,7 @@ $videonavody = [
         'poster' => 'images/videonavod-foto-velke.jpg',
     ],
     'videoSourceSrc' => [
-        $videoMp4IsReadable ? ['src' => $videoMp4Filename, 'type' => 'video/mp4'] : null,
+        $videoMp4IsReadable ? ['src' => $videoMp4Filename, 'type' => 'video/m4v'] : null,
         $videoWebmIsReadable ? ['src' => $videoWebmFilename, 'type' => 'video/webm'] : null,
     ],
 ]
