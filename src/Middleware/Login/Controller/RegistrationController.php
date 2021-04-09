@@ -2,9 +2,9 @@
 namespace Middleware\Login\Controller;
 
 use Site\Configuration;
+
 use Mail\Mail;
 use Mail\MessageFactory\HtmlMessage;
-
 use Mail\Params;
 use Mail\Params\{Content, Attachment, Party};
 
@@ -108,8 +108,11 @@ class RegistrationController extends LoginControlerAbstract
                     #########################--------- poslat mail uzivateli-------------------
                     /** @var Mail $mail */
                     $mail = $this->container->get(Mail::class);
+                    /** @var HtmlMessage $mailMessageFactory */
+                    $mailMessageFactory = $this->container->get(HtmlMessage::class);
+
                     $subject =  'Veletrh práce a vzdělávání - Registrace.';
-                    $body = $this->createMailHtmlMessage(__DIR__."/Messages/registration.php", ['confirmationUrl'=>$confirmationUrl]);
+                    $body = $mailMessageFactory->create(__DIR__."/Messages/registration.php", ['confirmationUrl'=>$confirmationUrl ]);
 
                     $attachments = [ (new Attachment())
                                     ->setFileName(Configuration::mail()['mail.attachments'].'logo_grafia.png')  // /_www_vp_files/attachments/
@@ -131,12 +134,7 @@ class RegistrationController extends LoginControlerAbstract
                     #########################-----------------------------
 
                     //zapsat cas mailu do registration
-                    // toto nefungovalo  $loginAggregateRegistrationEntity->getRegistration()->setEmailTime( new \DateTime() )
-
-                    /**  @var Registration $registration1 */
-                    $registration1 = $loginAggregateRegistrationEntity1->getRegistration();
-                    $registration1->setEmailTime( new \DateTime() );
-                    //$loginAggregateRegistrationEntity1->setRegistration($r); //asi není třeba
+                    $loginAggregateRegistrationEntity1->getRegistration()->setEmailTime( new \DateTime() );
 
                     $this->addFlashMessage("Děkujeme za Vaši registraci. \n Na Vaši adresu jsme odeslali potvrzovací mail.\n"
                           . "V mailu registraci dokončete.");
@@ -144,8 +142,11 @@ class RegistrationController extends LoginControlerAbstract
                     #########################---------  kopie -------------------
                     /** @var Mail $mail */
                     $mail = $this->container->get(Mail::class);
+                    /** @var HtmlMessage $mailMessageFactory */
+                    $mailMessageFactory = $this->container->get(HtmlMessage::class);
+
                     $subject =  "veletrhprace.online - Kopie zaslaného mailu - Registrace: '$registerJmeno'";
-                    $body = $this->createMailHtmlMessage(__DIR__."/Messages/registration.php", ['confirmationUrl'=>$confirmationUrl]);
+                    $body = $mailMessageFactory->create(__DIR__."/Messages/registration.php", ['confirmationUrl'=>$confirmationUrl ]);
 
                     $attachments = [ (new Attachment())
                                     ->setFileName(Configuration::mail()['mail.attachments'].'logo_grafia.png')  // /_www_vp_files/attachments/
@@ -173,6 +174,7 @@ class RegistrationController extends LoginControlerAbstract
                         $mail = $this->container->get(Mail::class);
                         /** @var HtmlMessage $mailMessageFactory */
                         $mailMessageFactory = $this->container->get(HtmlMessage::class);
+                        
                         $subject =  'Veletrh práce a vzdělávání - Registrace zástupce vystavovatele.';
                         $body = $mailMessageFactory->create(__DIR__."/Messages/registrationexhib.php",
                                                             ['registerJmeno' => $registerJmeno,

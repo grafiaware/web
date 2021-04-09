@@ -26,7 +26,7 @@ CREATE TABLE `visitor_data_post` (
   `letter_document` mediumblob,
   `letter_document_filename` varchar(200) DEFAULT NULL,
   `letter_document_mimetype` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`login_name`,`short_name`)
+  PRIMARY KEY (`login_name`, `short_name`, `position_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- musí být prázdná tabulka - nesmí být NULL hodnota

@@ -11,7 +11,7 @@ use Middleware\Api\ApiController\VisitorDataUploadControler;
 use Model\Repository\VisitorDataRepo;
 use Model\Entity\VisitorDataInterface;
 use Model\Repository\VisitorDataPostRepo;
-use Model\Entity\VisitorDataPost;
+use Model\Entity\VisitorDataPostInterface;
 /** @var PhpTemplateRendererInterface $this */
 
 #####
@@ -30,11 +30,44 @@ if (isset($loginAggregate)) {
     /** @var VisitorDataInterface $visitorData */
     $visitorData = $visitorDataRepo->get($loginName);
 
+    /** @var VisitorDataPostRepo $visitorDataPostRepo */
+    $visitorDataPostRepo = $container->get(VisitorDataPostRepo::class);
+    /** @var VisitorDataPostInterface $visitorDataPost */
+    $visitorDataPost = $visitorDataPostRepo->get($loginName, $shortName, $positionName);
+
     $userHash = $loginAggregate->getLoginNameHash();
     $accept = implode(", ", Configuration::filesUploadControler()['uploads.acceptedextensions']);
     $nameCv = VisitorDataUploadControler::UPLOADED_KEY_CV.$userHash;
     $nameLetter = VisitorDataUploadControler::UPLOADED_KEY_LETTER.$userHash;
-    $shortName;
+
+    
+    
+    if (isset($visitorDataPost)) {
+        $readonly = 'readonly="1"';
+        $disabled = 'disabled="1"';
+        $prefix = isset($visitorDataPost) ? $visitorDataPost->getPrefix() : '';
+        $firstName = isset($visitorDataPost) ? $visitorDataPost->getName() : '';
+        $surname = isset($visitorDataPost) ? $visitorDataPost->getSurname() : ''; 
+        $postfix = isset($visitorDataPost) ? $visitorDataPost->getPostfix() : '';
+        $email = isset($visitorDataPost) ? $visitorDataPost->getEmail() : ''; 
+        $phone = isset($visitorDataPost) ? $visitorDataPost->getPhone() : '';
+        $cvEducationText = isset($visitorDataPost) ? $visitorDataPost->getCvEducationText() : '';
+        $cvSkillsText = isset($visitorDataPost) ? $visitorDataPost->getCvSkillsText() : '';
+        
+    } else {
+        $readonly = '';
+        $disabled = '';
+        $prefix = isset($visitorData) ? $visitorData->getPrefix() : '';  
+        $firstName = isset($visitorData) ? $visitorData->getName() : '';
+        $surname = isset($visitorData) ? $visitorData->getSurname() : ''; 
+        $postfix = isset($visitorData) ? $visitorData->getPostfix() : '';
+        $email = isset($visitorData) ? $visitorData->getEmail() : ''; 
+        $phone = isset($visitorData) ? $visitorData->getPhone() : '';
+        $cvEducationText = isset($visitorData) ? $visitorData->getCvEducationText() : '';
+        $cvSkillsText = isset($visitorData) ? $visitorData->getCvSkillsText(): '';
+    }
+    
+    
 ?>
 
 
@@ -49,39 +82,39 @@ if (isset($loginAggregate)) {
                     <div class="four fields">
                         <div class="three wide field">
                             <label>Titul před jménem</label>
-                            <input readonly type="text" name="prefix" placeholder="" maxlength="45" value="<?= isset($visitorData) ? $visitorData->getPrefix() : ''; ?>">
+                            <input <?= $readonly ?> type="text" name="prefix" placeholder="" maxlength="45" value="<?= $prefix ?>">
                         </div>
                         <div class="five wide field">
                             <label>Jméno</label>
-                            <input readonly type="text" name="name" placeholder="Jméno" maxlength="90" value="<?= isset($visitorData) ? $visitorData->getName() : ''; ?>">
+                            <input <?= $readonly ?> type="text" name="name" placeholder="Jméno" maxlength="90" value="<?= $firstName ?>">
                         </div>
                         <div class="five wide field">
                             <label>Příjmení</label>
-                            <input readonly type="text" name="surname" placeholder="Příjmení" maxlength="90" value="<?= isset($visitorData) ? $visitorData->getSurname() : ''; ?>">
+                            <input <?= $readonly ?> type="text" name="surname" placeholder="Příjmení" maxlength="90" value="<?= $surname ?>">
                         </div>
                         <div class="three wide field">
                             <label>Titul za jménem</label>
-                            <input readonly type="text" name="postfix" placeholder="" maxlength="45" value="<?= isset($visitorData) ? $visitorData->getPostfix() : ''; ?>">
+                            <input <?= $readonly ?> type="text" name="postfix" placeholder="" maxlength="45" value="<?= $postfix ?>">
                         </div>
                     </div>
                     <div class="two fields">
                         <div class="field">
                             <label>E-mail</label>
-                            <input readonly type="email" name="email" placeholder="mail@example.cz" maxlength="90" value="<?= isset($visitorData) ? $visitorData->getEmail() : ''; ?>">
+                            <input <?= $readonly ?> type="email" name="email" placeholder="mail@example.cz" maxlength="90" value="<?= $email ?>">
                         </div>
                         <div class="field">
                             <label>Telefon</label>
-                            <input readonly type="tel" name="phone" placeholder="+420 777 8888 555" pattern="(\+420)\s[1-9]\d{2}\s\d{3}\s\d{3}" maxlength="45" value="<?= isset($visitorData) ? $visitorData->getPhone() : ''; ?>">
+                            <input <?= $readonly ?> type="tel" name="phone" placeholder="+420 777 8888 555" pattern="(\+420)\s[1-9]\d{2}\s\d{3}\s\d{3}" maxlength="45" value="<?= $phone ?>">
                         </div>
                     </div>
                     <div class="two fields">
                         <div class="field">
                             <label>Vzdělání, kurzy</label>
-                            <textarea disabled name="cv-education-text" class="working-data"><?= isset($visitorData) ? $visitorData->getCvEducationText() : ''; ?></textarea>
+                            <textarea <?= $disabled ?> name="cv-education-text" class="working-data"><?= $cvEducationText ?></textarea>
                         </div>
                         <div class="field">
                             <label>Pracovní zkušenosti, dovednosti</label>
-                            <textarea disabled name="cv-skills-text" class="working-data"><?= isset($visitorData) ? $visitorData->getCvSkillsText() : ''; ?></textarea>
+                            <textarea <?= $disabled ?> name="cv-skills-text" class="working-data"><?= $cvSkillsText ?></textarea>
                         </div>
                     </div>
 
@@ -91,9 +124,15 @@ if (isset($loginAggregate)) {
                             <p>Životopis: <?= isset($visitorData) ? $visitorData->getCvDocumentFilename() : ''; ?></p>
                             <p>Motivační dopis: <?= isset($visitorData) ? $visitorData->getLetterDocumentFilename() : ''; ?></p>
                         </div>
+                        <?php
+                        if($readonly === '') {
+                        ?>
                         <div class="field">
                             <button class="ui massive primary button" type="submit">Odeslat</button>
                         </div>
+                        <?php
+                        }
+                        ?>
                     </div>
 
                 </form>
@@ -104,10 +143,10 @@ if (isset($loginAggregate)) {
 
 ?>
                 <div class="active title">
-                <i class="exclamation icon"></i>
-                Přihlašte se. Údaje ze svého profilu mohou posílat přihlášení uživatelé.
+                    <i class="exclamation icon"></i>
+                    Přihlašte se. Údaje ze svého profilu mohou posílat přihlášení uživatelé.
+                </div>
 
-            </div>
 <?php
 
 }
