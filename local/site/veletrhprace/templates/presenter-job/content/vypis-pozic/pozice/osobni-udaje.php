@@ -1,79 +1,17 @@
-<?php
-
-use Pes\View\Renderer\PhpTemplateRendererInterface;
-use Pes\Text\Text;
-use Pes\Text\Html;
-
-use Site\Configuration;
-use Model\Repository\StatusSecurityRepo;
-
-use Middleware\Api\ApiController\VisitorDataUploadControler;
-use Model\Repository\VisitorDataRepo;
-use Model\Entity\VisitorDataInterface;
-use Model\Repository\VisitorDataPostRepo;
-use Model\Entity\VisitorDataPostInterface;
-/** @var PhpTemplateRendererInterface $this */
-
-#####
-$statusSecurityRepo = $container->get(StatusSecurityRepo::class);
-/** @var StatusSecurityRepo $statusSecurityRepo */
-$statusSecurity = $statusSecurityRepo->get();
-/** @var LoginAggregateCredentialsInterface $loginAggregate */
-$loginAggregate = $statusSecurity->getLoginAggregate();
-
-if (isset($loginAggregate)) {
-    $loginName = $loginAggregate->getLoginName();
-    $role = $loginAggregate->getCredentials()->getRole() ?? '';
-    $personalData['userHash'] = $loginAggregate->getLoginNameHash();
-    /** @var VisitorDataRepo $visitorDataRepo */
-    $visitorDataRepo = $container->get(VisitorDataRepo::class);
-    /** @var VisitorDataInterface $visitorData */
-    $visitorData = $visitorDataRepo->get($loginName);
-
-    /** @var VisitorDataPostRepo $visitorDataPostRepo */
-    $visitorDataPostRepo = $container->get(VisitorDataPostRepo::class);
-    /** @var VisitorDataPostInterface $visitorDataPost */
-    $visitorDataPost = $visitorDataPostRepo->get($loginName, $shortName, $positionName);
-
-    $userHash = $loginAggregate->getLoginNameHash();
-    $accept = implode(", ", Configuration::filesUploadControler()['uploads.acceptedextensions']);
-    $nameCv = VisitorDataUploadControler::UPLOADED_KEY_CV.$userHash;
-    $nameLetter = VisitorDataUploadControler::UPLOADED_KEY_LETTER.$userHash;
-
-    
-    
-    if (isset($visitorDataPost)) {
-        $readonly = 'readonly="1"';
-        $disabled = 'disabled="1"';
-        $prefix = isset($visitorDataPost) ? $visitorDataPost->getPrefix() : '';
-        $firstName = isset($visitorDataPost) ? $visitorDataPost->getName() : '';
-        $surname = isset($visitorDataPost) ? $visitorDataPost->getSurname() : ''; 
-        $postfix = isset($visitorDataPost) ? $visitorDataPost->getPostfix() : '';
-        $email = isset($visitorDataPost) ? $visitorDataPost->getEmail() : ''; 
-        $phone = isset($visitorDataPost) ? $visitorDataPost->getPhone() : '';
-        $cvEducationText = isset($visitorDataPost) ? $visitorDataPost->getCvEducationText() : '';
-        $cvSkillsText = isset($visitorDataPost) ? $visitorDataPost->getCvSkillsText() : '';
-        
-    } else {
-        $readonly = '';
-        $disabled = '';
-        $prefix = isset($visitorData) ? $visitorData->getPrefix() : '';  
-        $firstName = isset($visitorData) ? $visitorData->getName() : '';
-        $surname = isset($visitorData) ? $visitorData->getSurname() : ''; 
-        $postfix = isset($visitorData) ? $visitorData->getPostfix() : '';
-        $email = isset($visitorData) ? $visitorData->getEmail() : ''; 
-        $phone = isset($visitorData) ? $visitorData->getPhone() : '';
-        $cvEducationText = isset($visitorData) ? $visitorData->getCvEducationText() : '';
-        $cvSkillsText = isset($visitorData) ? $visitorData->getCvSkillsText(): '';
-    }
-    
-    
-?>
-
 
             <div class="active title">
                 <i class="dropdown icon"></i>
                 Balíček pracovních údajů
+                <?php
+                if($readonly === '') {
+                ?>
+                <p class="text maly primarni-barva okraje-vertical">
+                    <i class="info red icon"></i>
+                    Údaje jsou předvyplněné z profilu návštěvníka, ale můžete je před odesláním upravit
+                </p>
+                <?php
+                }
+                ?>
             </div>
             <div class="active content">
                 <form class="ui huge form" action="api/v1/event/visitorpost" method="POST">
@@ -119,36 +57,62 @@ if (isset($loginAggregate)) {
                     </div>
 
                     <label><b>Nahrané soubory</b></label>
+                    <div class="field margin">
+                        <p>
+                            <i class="file alternate icon"></i><b>Životopis: <?= $cvDocumentFilename ?></b>
+                            <?php
+                            if(isset($cvDocumentFilename)){
+                            ?>
+                                <span class="text maly okraje-horizontal"><a><i class="eye outline icon"></i>Zobrazit soubor</a>
+                                    <?php
+                                    if($readonly === '') {
+                                    ?>
+                                    <span class="text maly okraje-horizontal"><a><i class="trash icon"></i>Smazat</a></span>
+                                    <?php
+                                    }
+                                    ?>
+                             <?php   
+                            }
+                            ?>
+                        </p>
+                        <p><i class="file alternate icon"></i><b>Motivační dopis: <?= $letterDocumentFilename ?></b>
+                            <?php
+                            if(isset($letterDocumentFilename)){
+                            ?>
+                                <span class="text maly okraje-horizontal"><a><i class="eye outline icon"></i>Zobrazit soubor</a>
+                                <?php
+                                if($readonly === '') {
+                                ?>
+                                <span class="text maly okraje-horizontal"><a><i class="trash icon"></i>Smazat</a></span>
+                                <?php
+                                }
+                                ?>
+                             <?php    
+                            }
+                            ?>
+                        </p>
+                    </div>
+                    <?php
+                    if($readonly === '') {
+                    ?>
+                    <div class="field">
+                        <label><?= (isset($visitorData) AND $visitorData->getCvDocumentFilename()) ? 'Příloha - můžete nahrát jiný životopis' : 'Příloha - životopis'; ?></label>
+                        <input type="file" name="<?= $nameCv ?>" accept="<?= $accept ?>"  "multiple"=0 size="1">
+                    </div>
+                    <div class="field margin">
+                        <label><?= (isset($visitorData) AND $visitorData->getLetterDocumentFilename()) ? 'Příloha - můžete nahrát jiný motivační dopis' : 'Příloha - motivační dopis'; ?></label>
+                        <input type="file" name="<?= $nameLetter ?>" accept="<?= $accept ?>"  "multiple"=0 size="1">
+                    </div>
                     <div class="two fields">
-                        <div class="field">
-                            <p>Životopis: <?= isset($visitorData) ? $visitorData->getCvDocumentFilename() : ''; ?></p>
-                            <p>Motivační dopis: <?= isset($visitorData) ? $visitorData->getLetterDocumentFilename() : ''; ?></p>
-                        </div>
-                        <?php
-                        if($readonly === '') {
-                        ?>
+                        <div class="field margin"></div>
+                        
                         <div class="field">
                             <button class="ui massive primary button" type="submit">Odeslat</button>
                         </div>
-                        <?php
-                        }
-                        ?>
                     </div>
+                    <?php
+                    }
+                    ?>
 
                 </form>
             </div>
-<?php
-
-} else {
-
-?>
-                <div class="active title">
-                    <i class="exclamation icon"></i>
-                    Přihlašte se. Údaje ze svého profilu mohou posílat přihlášení uživatelé.
-                </div>
-
-<?php
-
-}
-
-?>

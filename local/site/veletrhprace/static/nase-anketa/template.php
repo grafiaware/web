@@ -32,7 +32,7 @@ $formUid = "1FAIpQLSdupUpxH5KBKVaQoZzLWlzeX0jdp2OX25aRc5ar53CEfZTzcg";
                 <div class="ui grid">
                     <div class="row">
                         <div class="sixteen wide column">
-                            <iframe src="https://docs.google.com/forms/d/e/<?= $formUid ?>/viewform?embedded=true" frameborder="0" id="googleform" width=100% height="1000" frameborder="0" marginheight="0" marginwidth="0">Načítání…</iframe>
+                            <iframe src="https://docs.google.com/forms/d/e/<?= $formUid ?>/viewform?embedded=true" frameborder="0" id="googleformQQ" width=100% height="10000" frameborder="0" marginheight="0" marginwidth="0">Načítání…</iframe>
                         </div>
                     </div>
                 </div>
