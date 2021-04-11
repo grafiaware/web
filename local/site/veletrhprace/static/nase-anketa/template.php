@@ -92,7 +92,6 @@ use Model\Repository\VisitorDataRepo;
                     <div class="row">
                         <div class="sixteen wide column">
                             <iframe src="<?= $src ?>" frameborder="0" id="gformQQQ" width=100% height="4000" frameborder="0" marginheight="0" marginwidth="0">Načítání…</iframe>
-
                         </div>
                     </div>
                 </div>
