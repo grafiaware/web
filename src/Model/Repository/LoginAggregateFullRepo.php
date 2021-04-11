@@ -14,30 +14,36 @@ use Model\Dao\LoginDao;
 use Model\Hydrator\HydratorInterface;
 
 use Model\Repository\CredentialsRepo;
+use Model\Repository\RegistrationRepo;
 
 use Model\Hydrator\LoginChildCredentialsHydrator;
+use Model\Hydrator\LoginChildRegistrationHydrator;
 
-use Model\Entity\LoginAggregateCredentials;
-use Model\Entity\LoginAggregateCredentialsInterface;
-use Model\Entity\LoginInterface;
+use Model\Entity\LoginAggregateFull;
+use Model\Entity\LoginAggregateFullInterface;
 use Model\Entity\CredentialsInterface;
+use Model\Entity\RegistrationInterface;
 
 /**
  * Description of Menu
  *
  * @author pes2704
  */
-class LoginAggregateCredentialsRepo extends LoginRepo implements RepoAggregateInterface {
+class LoginAggregateFullRepo extends LoginRepo implements RepoAggregateInterface {
 
     public function __construct(LoginDao $loginDao, HydratorInterface $loginHydrator,
-            CredentialsRepo $credentialsRepo, LoginChildCredentialsHydrator $loginCredentialsHydrator) {
+            CredentialsRepo $credentialsRepo, LoginChildCredentialsHydrator $loginCredentialsHydrator,
+            RegistrationRepo $registrationRepo, LoginChildRegistrationHydrator $loginRegistrationHydrator
+            ) {
         parent::__construct($loginDao, $loginHydrator);
         $this->registerOneToOneAssociation(CredentialsInterface::class, 'login_name', $credentialsRepo);
+        $this->registerOneToOneAssociation(RegistrationInterface::class, 'login_name', $registrationRepo);
         $this->registerHydrator($loginCredentialsHydrator);
+        $this->registerHydrator($loginRegistrationHydrator);
     }
 
     protected function createEntity() {
-        return new LoginAggregateCredentials();
+        return new LoginAggregateFull();
     }
 
     public function findAll() {

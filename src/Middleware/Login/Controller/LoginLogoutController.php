@@ -21,10 +21,10 @@ use Model\Repository\StatusPresentationRepo;
 use Model\Repository\StatusSecurityRepo;
 use Model\Repository\StatusFlashRepo;
 use Model\Repository\CredentialsRepo;
-use Model\Repository\LoginAggregateCredentialsRepo;
+use Model\Repository\LoginAggregateFullRepo;
 
 use Model\Entity\Credentials;
-use Model\Entity\LoginAggregate;
+use Model\Entity\LoginAggregateFull;
 
 /**
  * Description of PostController
@@ -35,7 +35,7 @@ class LoginLogoutController extends LoginControlerAbstract {
 
     private $authenticator;
 
-    private $loginAggregateRepo;
+    private $loginAggregateFullRepo;
 
     /**
      *
@@ -45,10 +45,10 @@ class LoginLogoutController extends LoginControlerAbstract {
                            StatusFlashRepo $statusFlashRepo,
                     StatusPresentationRepo $statusPresentationRepo,
             ResourceRegistryInterface $resourceRegistry=null,
-             LoginAggregateCredentialsRepo $loginAggregateRepo,
+            LoginAggregateFullRepo $loginAggregateFullRepo,
                     AuthenticatorInterface $authenticator) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
-        $this->loginAggregateRepo = $loginAggregateRepo;
+        $this->loginAggregateFullRepo = $loginAggregateFullRepo;
         $this->authenticator = $authenticator;
     }
 
@@ -64,10 +64,11 @@ class LoginLogoutController extends LoginControlerAbstract {
             $loginHeslo = $requestParams->getParsedBodyParam($request, $fieldNameHeslo, FALSE);
 
             if ($loginJmeno AND $loginHeslo) {
-                $loginAggregateEntity = $this->loginAggregateRepo->get($loginJmeno);
+                /** @var LoginAggregateFull $loginAggregateFull */
+                $loginAggregateFull = $this->loginAggregateFullRepo->get($loginJmeno);
 
-                    if (isset($loginAggregateEntity) AND $this->authenticator->authenticate($loginAggregateEntity, $loginHeslo)) {  // z databáze
-                        $this->statusSecurityRepo->get()->renewSecurityStatus($loginAggregateEntity);
+                    if (isset($loginAggregateFull) AND $this->authenticator->authenticate($loginAggregateFull, $loginHeslo)) {  // z databáze
+                        $this->statusSecurityRepo->get()->renewSecurityStatus($loginAggregateFull);
                         $this->addFlashMessage("Jste přihlášeni.");
                     }
                     else {

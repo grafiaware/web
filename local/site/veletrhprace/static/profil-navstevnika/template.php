@@ -4,7 +4,7 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 
 use Site\Configuration;
 
-use Model\Entity\LoginAggregateCredentialsInterface;;
+use Model\Entity\LoginAggregateFullInterface;
 use Model\Repository\EnrollRepo;
 use Model\Repository\StatusSecurityRepo;
 use Model\Repository\VisitorDataRepo;
@@ -13,44 +13,48 @@ use Pes\Text\Html;
 use Pes\Text\Text;
 
 
-$igelitkaLetakAttributes = ['class' => 'letak-v-igelitce'];
-$igelitka = [
-    'letak' => [
-        [
-            'letakAttributes' => $igelitkaLetakAttributes +
-            [
-                'src' => 'images/letak-na-prednasku.jpg',
-                'alt' => 'leták1',
-            ],
-            'downloadAttributes' => [
-                'href' => 'download/letak-na-prednasku.pdf',
-                'download' => 'leták 1',
-            ]
-        ],
-        [
-            'letakAttributes' => $igelitkaLetakAttributes +
-            [
-                'src' => 'images/moje-budoucnost-letakA5.jpg',
-                'alt' => 'leták2',
-            ],
-            'downloadAttributes' => [
-                'href' => 'download/moje-budoucnost-letakA5.pdf',
-                'download' => 'leták 2',
-            ]
-        ]
-    ],
-];
+//$igelitkaLetakAttributes = ['class' => 'letak-v-igelitce'];
+//$igelitka = [
+//    'letak' => [
+//        [
+//            'letakAttributes' => $igelitkaLetakAttributes +
+//            [
+//                'src' => 'images/letak-na-prednasku.jpg',
+//                'alt' => 'leták1',
+//            ],
+//            'downloadAttributes' => [
+//                'href' => 'download/letak-na-prednasku.pdf',
+//                'download' => 'leták 1',
+//            ]
+//        ],
+//        [
+//            'letakAttributes' => $igelitkaLetakAttributes +
+//            [
+//                'src' => 'images/moje-budoucnost-letakA5.jpg',
+//                'alt' => 'leták2',
+//            ],
+//            'downloadAttributes' => [
+//                'href' => 'download/moje-budoucnost-letakA5.pdf',
+//                'download' => 'leták 2',
+//            ]
+//        ]
+//    ],
+//];
 
 $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
 /** @var StatusSecurityRepo $statusSecurityRepo */
 $statusSecurity = $statusSecurityRepo->get();
-/** @var LoginAggregateCredentialsInterface $loginAggregate */
+/** @var LoginAggregateFullInterface $loginAggregate */
 $loginAggregate = $statusSecurity->getLoginAggregate();
 
 if (isset($loginAggregate)) {
     $loginName = $loginAggregate->getLoginName();
     $role = $loginAggregate->getCredentials()->getRole() ?? '';
-    $personalData['userHash'] = $loginAggregate->getLoginNameHash();
+}
+
+// poue pro default roli 'visitor'
+if (isset($role) AND $role==(Configuration::loginLogoutControler()['defaultRole'])) {
+
     $visitorDataRepo = $container->get(VisitorDataRepo::class);
     $visitorData = $visitorDataRepo->get($loginName);
 
@@ -58,53 +62,44 @@ if (isset($loginAggregate)) {
     $enrolls = $enrollRepo->findByLoginName($loginName);
 
     $headline = "Můj profil";
-    $perex = "Vítejte {$loginAggregate->getLoginName()}
-
-
-
-            ";
-
+    $perex = "Vítejte $loginName ";
     $zprava =
         [
             [
                 'idZpravy' => '',
                 'nazev' => 'Stále zde naleznete pracovní místa a odkazy na přednášky',
-                'text' =>
-                "I když online veletrh s živou účastí skončil, stále zde naleznete přístupy k záznamům přednášek a prezentací, které chcete zhlédnout.
+                'text' => "I když online veletrh s živou účastí skončil, stále zde naleznete přístupy k záznamům přednášek a prezentací, které chcete zhlédnout.
 
             V harmonogramu najdete akce, ke kterým jste se přihlásili.
 
-            Stále si zde můžete na stránce přednášek a na stránkách zaměstnavatelů prohlédnout všechna dostupná videa na YouTube.
-                "
+            Stále si zde můžete na stránce přednášek a na stránkách zaměstnavatelů prohlédnout všechna dostupná videa na YouTube."
             ],[
-
                 'idZpravy' => '',
                 'nazev' => '',
-                'text' => "Nahrajte svůj životopis a motivační dopis a u vybraných firem rovnou vložte jako odpověď zájemce o pozici.
-"
+                'text' => "Nahrajte svůj životopis a motivační dopis a u vybraných firem rovnou vložte jako odpověď zájemce o pozici."
             ]
         ];
-?>
-<article class="paper">
-    <section>
-        <headline>
-            <?php include "headline.php" ?>
-        </headline>
-        <perex>
-            <?php include "perex.php" ?>
-        </perex>
-    </section>
-    <section>
-        <content>
-            <?= $this->insert(Configuration::componentControler()['templates']."zprava"."/template.php", $zprava) ?>
-        </content>
-        <content>
-            <?php include "content/profil.php" ?> <!-- Tiny pro .working-data -->
-        </content>
-    </section>
-</article>
+    ?>
+    <article class="paper">
+        <section>
+            <headline>
+                <?php include "headline.php" ?>
+            </headline>
+            <perex>
+                <?php include "perex.php" ?>
+            </perex>
+        </section>
+        <section>
+            <content>
+                <?= $this->insert(Configuration::componentControler()['templates']."zprava"."/template.php", $zprava) ?>
+            </content>
+            <content>
+                <?php include "content/profil.php" ?> <!-- Tiny pro .working-data -->
+            </content>
+        </section>
+    </article>
 
-<?php
+    <?php
 } else {
     $headline = "Profil návštěvníka";
     $perex = 'I když online veletrh s živou účastí skončil, stále zde návštěvníci naleznou odkazy k záznamům přednášek a prezentací, které chtějí zhlédnout.';
@@ -122,23 +117,20 @@ if (isset($loginAggregate)) {
                 'text' => "I po ukončení veletrhu se můžete nově registrovat a získat výhody registrovaného návštěvníka. I nově registrovaní mohou nahrát svůj životopis a motivační dopis a u vybraných firem je rovnou vložit jako odpověď zájemce o pozici."
             ]
         ];
-?>
-
-<article class="paper">
-    <section>
-        <headline>
-            <?php include "headline.php" ?>
-        </headline>
-        <perex>
-            <?php include "perex.php" ?>
-        </perex>
-        <content>
-            <?= $this->insert(Configuration::componentControler()['templates']."zprava"."/template.php", $zprava) ?>
-        </content>
-    </section>
-</article>
-
-<?php
-
+    ?>
+    <article class="paper">
+        <section>
+            <headline>
+                <?php include "headline.php" ?>
+            </headline>
+            <perex>
+                <?php include "perex.php" ?>
+            </perex>
+            <content>
+                <?= $this->insert(Configuration::componentControler()['templates']."zprava"."/template.php", $zprava) ?>
+            </content>
+        </section>
+    </article>
+    <?php
 }
 ?>

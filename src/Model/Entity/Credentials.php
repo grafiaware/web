@@ -87,6 +87,14 @@ class Credentials extends EntityAbstract implements CredentialsInterface {
 
     /**
      *
+     * @return string|null
+     */
+    public function getRole(): ?string {
+        return $this->role;
+    }
+    
+    /**
+     *
      * @param string $passwordHash
      * @return CredentialsInterface
      */
@@ -113,14 +121,6 @@ class Credentials extends EntityAbstract implements CredentialsInterface {
     public function setUpdated(\DateTime $updated): CredentialsInterface {
         $this->updated = $updated;
         return $this;
-    }
-
-    /**
-     *
-     * @return string|null
-     */
-    public function getRole(): ?string {
-        return $this->role;
     }
 
     /**

@@ -193,7 +193,8 @@ class ConfigurationRed extends ConfigurationDb {
                 'fieldNameJmeno' => 'jmeno'.$siteSpecificToken,
                 'fieldNameHeslo' => 'heslo'.$siteSpecificToken,
                 'passwordPattern' => $passwordPattern,
-                'passwordInfo' => $passwordInfo
+                'passwordInfo' => $passwordInfo,
+                'defaultRole' => 'visitor',
         ];
     }
 
@@ -208,7 +209,6 @@ class ConfigurationRed extends ConfigurationDb {
                 'static' => self::RED_STATIC,
                 'compiled' => self::RED_STATIC.'__compiled/',
                 'presenterFiles' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES_PATH."presenter/" : self::RED_FILES_PATH."presenter/",
-                'movieFiles' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES_PATH."movie/" : self::RED_FILES_PATH."movie/",
                 'prettyUrlCallable' => function($nadpis) {
                         $url = $nadpis;
                         $url = preg_replace('~[^\\pL0-9_]+~u', '-', $url);

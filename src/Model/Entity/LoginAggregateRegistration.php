@@ -15,7 +15,7 @@ class LoginAggregateRegistration  extends Login implements LoginAggregateRegistr
     private $registration;
 
     /**
-     * 
+     *
      * @return \Model\Entity\RegistrationInterface|null
      */
     public function getRegistration(): ?RegistrationInterface {
@@ -25,11 +25,10 @@ class LoginAggregateRegistration  extends Login implements LoginAggregateRegistr
     /**
      *
      * @param RegistrationInterface $registration  Registration entita nebo null. Regiszrace přiřazená k lofin name nemusí existovat.
-     * @return LoginAggregateRegistrationInterface
+     * @return void
      */
-    public function setRegistration(RegistrationInterface $registration = null): LoginAggregateRegistrationInterface {
+    public function setRegistration(RegistrationInterface $registration = null): void {
         $this->registration = $registration;
-        return $this;
     }
 }
 

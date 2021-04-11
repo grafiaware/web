@@ -8,7 +8,7 @@
 
 namespace Model\Entity;
 
-use Model\Entity\LoginAggregateCredentialsInterface;
+use Model\Entity\LoginAggregateFullInterface;
 use Model\Entity\UserActionsInterface;
 
 /**
@@ -26,9 +26,9 @@ interface StatusSecurityInterface extends EntitySingletonInterface {
 
     /**
      *
-     * @return LoginAggregateCredentialsInterface|null
+     * @return LoginAggregateFullInterface|null
      */
-    public function getLoginAggregate(): ?LoginAggregateCredentialsInterface;
+    public function getLoginAggregate(): ?LoginAggregateFullInterface;
 
     /**
      *
@@ -45,10 +45,10 @@ interface StatusSecurityInterface extends EntitySingletonInterface {
 
     /**
      *
-     * @param LoginAggregateCredentialsInterface $loginAggregate
+     * @param LoginAggregateFullInterface $loginAggregate
      * @return void
      */
-    public function renewSecurityStatus(LoginAggregateCredentialsInterface $loginAggregate=null): StatusSecurityInterface;
+    public function renewSecurityStatus(LoginAggregateFullInterface $loginAggregate=null): StatusSecurityInterface;
 
     public function hasSecurityContext(): bool;
 }

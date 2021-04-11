@@ -17,7 +17,7 @@ class LoginAggregateCredentials extends Login implements LoginAggregateCredentia
     private $credentials;
 
     /**
-     * 
+     *
      * @return \Model\Entity\CredentialsInterface|null
      */
     public function getCredentials(): ?CredentialsInterface {
@@ -27,10 +27,9 @@ class LoginAggregateCredentials extends Login implements LoginAggregateCredentia
     /**
      *
      * @param CredentialsInterface $credentials
-     * @return LoginAggregateCredentialsInterface
+     * @return void
      */
-    public function setCredentials(CredentialsInterface $credentials = null): LoginAggregateCredentialsInterface {
+    public function setCredentials(CredentialsInterface $credentials = null): void {
         $this->credentials = $credentials;
-        return $this;
     }
 }

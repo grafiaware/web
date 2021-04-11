@@ -75,14 +75,18 @@ class ConfirmController extends LoginControlerAbstract
                     /** @var  LoginAggregateCredentials $loginAggregateCredentialsEntity  */
                     $loginAggregateCredentialsEntity = $this->loginAggregateCredentialsRepo->get($loginNameFk);
                     if ( $loginAggregateCredentialsEntity->getCredentials() === \NULL  ) {
+
+                        // nové Credentials - se zahashovaným heslem, default rolí z konfigurace
                         $credentials = new Credentials();
                         $credentials->setPasswordHash( (new Password())->getPasswordHash($password) );
                         $credentials->setLoginNameFk($loginNameFk);
+                        $credentials->setRole(Configuration::loginLogoutControler()['defaultRole']);
                         $loginAggregateCredentialsEntity->setCredentials($credentials);
 
+                        // vymazání hesla z registrace
                         $registrationEntity->setPasswordHash('');
 
-/* nebude */$this->addFlashMessage( "Potvrzeno, Vaše registrace byla dokončena.");
+                        $this->addFlashMessage( "Potvrzeno, Vaše registrace byla dokončena.");
 
                         #########################--------- poslat mail -------------------
                         /** @var Mail $mail */
@@ -107,7 +111,6 @@ class ConfirmController extends LoginControlerAbstract
                                                  ->setFrom('it.grafia@gmail.com', 'veletrhprace.online')
                                                  ->addReplyTo('svoboda@grafia.cz', 'reply veletrhprace.online')
                                                  ->addTo( $registerEmail, $loginNameFk)
-                                          //->addTo('selnerova@grafia.cz', 'vlse')  // ->addCc($ccAddress, $ccName)   // ->addBcc($bccAddress, $bccName)
                                                 );
                         $mail->mail($params); // posle mail
                     }

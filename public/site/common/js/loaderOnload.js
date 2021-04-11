@@ -79,14 +79,21 @@ function replaceElement(id, apiUri){
               rect.bottom <= (window.innerHeight || document.documentElement.clientHeight))
           );
         }
+
         ////////////////////////////////
         var ram = document.getElementById("googleform");
         ram.scrolling =  "no";
+        var loadCounter = 0;
         ram.onload = function() {
-            var ramDokument = ram.contentDocument || ram.contentWindow.document;
-            ram.style.height = ramDokument.documentElement.scrollHeight + "px";
+            loadCounter += 1;
+
+            if (loadCounter === 2) {
+                var ramDokument = ram.contentDocument || ram.contentWindow.document;
+                ram.style.height = ramDokument.documentElement.scrollHeight + "px";
+            }
         };
         /////////////////////////////
+
 
     }
      if (this.readyState == 4 && this.status != 200) {

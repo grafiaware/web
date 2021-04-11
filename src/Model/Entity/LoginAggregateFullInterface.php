@@ -12,13 +12,27 @@ namespace Model\Entity;
  *
  * @author pes2704
  */
-interface LoginAggregateCredentialsInterface extends LoginInterface {
+interface LoginAggregateFullInterface extends LoginAggregateCredentialsInterface, LoginAggregateRegistrationInterface {
 
     /**
      *
-     * @return \Model\Entity\CredentialsInterface|null
+     * @return CredentialsInterface|null
      */
     public function getCredentials(): ?CredentialsInterface;
+
+
+    /**
+     *
+     * @return RegistrationInterface|null
+     */
+    public function getRegistration(): ?RegistrationInterface;
+
+    /**
+     *
+     * @param RegistrationInterface $registration
+     * @return void
+     */
+    public function setRegistration(RegistrationInterface $registration=null): void;
 
     /**
      *
@@ -26,4 +40,5 @@ interface LoginAggregateCredentialsInterface extends LoginInterface {
      * @return void
      */
     public function setCredentials(CredentialsInterface $credentials = null): void;
+
 }

@@ -5,22 +5,25 @@ use Pes\Text\Text;
 use Pes\Text\Html;
 
 use Site\Configuration;
-use Model\Repository\StatusSecurityRepo;
+use Model\Entity\LoginAggregateFullInterface;
 
 use Middleware\Api\ApiController\VisitorDataUploadControler;
 use Model\Entity\VisitorData;
 
 /** @var PhpTemplateRendererInterface $this */
 /** @var VisitorData $visitorData */
+/** @var LoginAggregateFullInterface $loginAggregate */
 
 $userHash = $loginAggregate->getLoginNameHash();
 $accept = implode(", ", Configuration::filesUploadControler()['uploads.acceptedextensions']);
 $nameCv = VisitorDataUploadControler::UPLOADED_KEY_CV.$userHash;
 $nameLetter = VisitorDataUploadControler::UPLOADED_KEY_LETTER.$userHash;
 
+// formulář
+// - pokud existuje registrace (loginAggregate má registration) defaultně nastaví jako email hodnotu z registrace $registration->getEmail(), pak input pro email je readonly
+// - předvyplňuje se z $visitorData
+$email = isset($visitorData) ? $visitorData->getEmail() : ($loginAggregate->getRegistration() ? $loginAggregate->getRegistration()->getEmail() : '');
 ?>
-
-
             <div class="active title">
                 <i class="dropdown icon"></i>
                 Balíček pracovních údajů
@@ -48,7 +51,7 @@ $nameLetter = VisitorDataUploadControler::UPLOADED_KEY_LETTER.$userHash;
                     <div class="two fields">
                         <div class="field">
                             <label>E-mail</label>
-                            <input type="email" name="email" placeholder="mail@example.cz" maxlength="90" value="<?= isset($visitorData) ? $visitorData->getEmail() : ''; ?>">
+                            <input <?= $email ? "readonly" : '' ?> type="email" name="email" placeholder="mail@example.cz" maxlength="90" value="<?= $email ?>">
                         </div>
                         <div class="field">
                             <label>Telefon</label>
