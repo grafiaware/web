@@ -76,7 +76,12 @@ if (isset($role) AND $role==(Configuration::loginLogoutControler()['roleVisitor'
             ],[
                 'idZpravy' => '',
                 'nazev' => '',
-                'text' => "Nahrajte svůj životopis a motivační dopis a u vybraných firem rovnou vložte jako odpověď zájemce o pozici."
+                'text' => "Stále můžete oslovit zaměstnavatele. Nahrajte svůj životopis a motivační dopis a u vybraných firem rovnou vložte jako odpověď zájemce o pozici."
+            ],
+            [
+                'idZpravy' => '',
+                'nazev' => 'Anketa a slosování',
+                'text' => 'Vyplňte <a href="www/item/cs/607400995acdd" target="_blank">ANKETU NÁVŠTĚVNÍKA</a> a zařaďte se do slosování o ceny, které proběhne 28. dubna!'
             ]
         ];
     ?>

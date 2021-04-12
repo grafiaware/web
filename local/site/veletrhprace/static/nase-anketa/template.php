@@ -80,7 +80,7 @@ use Model\Repository\VisitorDataRepo;
             <form>
                 <perex class="borderDance">
             <?= Text::mono('<p class="text">Vyplňte ANKETU NÁVŠTĚVNÍKA</a> a zařaďte se do slosování o ceny, které proběhne 28. dubna!</p>'
-            .(isset($visitorData) ? '' : Text::mono('<p class="text">Pokud jste zaregistrovaní návštěvníci veletrhu, nezapoměňte se předtím přihlásit!!</p>'))
+            .(isset($visitorData) ? '' : Text::mono('<p class="text">Pokud jste zaregistrovaní návštěvníci veletrhu, nezapomeňte se předtím <b>přihlásit!!</b></p>'))
             .'<p class="text okraje-vertical"></p>');
             ?>
                 </perex>

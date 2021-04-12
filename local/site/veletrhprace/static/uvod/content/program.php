@@ -16,8 +16,10 @@ use Pes\Text\Text;
             <p class="text okraje-vertical"></p>
             ')?>
             <p class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll">Anketa a slosování</p>
-            <?= Text::mono('
-            <p class="text">Vyplňte <a href="https://forms.gle/w5NTnXbxEg6GGRLp7" target="_blank">ANKETU NÁVŠTĚVNÍKA</a> a zařaďte se do slosování o ceny, které proběhne 28. dubna!</p>
+            <?=
+                //<p class="text">Vyplňte <a href="https://forms.gle/w5NTnXbxEg6GGRLp7" target="_blank">ANKETU NÁVŠTĚVNÍKA</a> a zařaďte se do slosování o ceny, které proběhne 28. dubna!</p>
+            Text::mono('
+            <p class="text">Vyplňte <a href="www/item/cs/607400995acdd" target="_blank">ANKETU NÁVŠTĚVNÍKA</a> a zařaďte se do slosování o ceny, které proběhne 28. dubna!</p>
             <p class="text okraje-vertical"></p>
             ')?>
             <p class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll">Program</p>
