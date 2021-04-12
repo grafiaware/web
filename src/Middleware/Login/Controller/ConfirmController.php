@@ -80,7 +80,7 @@ class ConfirmController extends LoginControlerAbstract
                         $credentials = new Credentials();
                         $credentials->setPasswordHash( (new Password())->getPasswordHash($password) );
                         $credentials->setLoginNameFk($loginNameFk);
-                        $credentials->setRole(Configuration::loginLogoutControler()['defaultRole']);
+                        $credentials->setRole(Configuration::loginLogoutControler()['roleVisitor']);
                         $loginAggregateCredentialsEntity->setCredentials($credentials);
 
                         // vymazání hesla z registrace

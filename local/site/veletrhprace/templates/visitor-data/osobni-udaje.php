@@ -14,7 +14,7 @@
                 ?>
             </div>
             <div class="active content">
-                <form class="ui huge form" action="api/v1/event/visitorpost" method="POST">
+                <form class="ui huge form" action="api/v1/event/visitorpost" method="POST" enctype="multipart/form-data">
                     <input type='hidden' name="short-name" value="<?= $shortName ?>">
                     <input type='hidden' name="position-name" value="<?= $positionName ?>">
                     <div class="four fields">
@@ -63,7 +63,7 @@
                             <?php
                             if(isset($cvDocumentFilename)){
                             ?>
-                                <span class="text maly okraje-horizontal"><a><i class="eye outline icon"></i>Zobrazit soubor</a>
+                                <!--<span class="text maly okraje-horizontal"><a><i class="eye outline icon"></i>Zobrazit soubor</a>-->
                                     <?php
                                     if($readonly === '') {
                                     ?>
@@ -71,7 +71,7 @@
                                     <?php
                                     }
                                     ?>
-                             <?php   
+                             <?php
                             }
                             ?>
                         </p>
@@ -79,7 +79,7 @@
                             <?php
                             if(isset($letterDocumentFilename)){
                             ?>
-                                <span class="text maly okraje-horizontal"><a><i class="eye outline icon"></i>Zobrazit soubor</a>
+                                <!--<span class="text maly okraje-horizontal"><a><i class="eye outline icon"></i>Zobrazit soubor</a>-->
                                 <?php
                                 if($readonly === '') {
                                 ?>
@@ -87,7 +87,7 @@
                                 <?php
                                 }
                                 ?>
-                             <?php    
+                             <?php
                             }
                             ?>
                         </p>
@@ -96,16 +96,16 @@
                     if($readonly === '') {
                     ?>
                     <div class="field">
-                        <label><?= (isset($visitorData) AND $visitorData->getCvDocumentFilename()) ? 'Příloha - můžete nahrát jiný životopis' : 'Příloha - životopis'; ?></label>
-                        <input type="file" name="<?= $nameCv ?>" accept="<?= $accept ?>"  "multiple"=0 size="1">
+                        <label><?= $cvDocumentFilename ? 'Příloha - můžete nahrát jiný životopis' : 'Příloha - životopis'; ?></label>
+                        <input type="file" name="<?= $uploadedCvFilename ?>" accept="<?= $accept ?>"  "multiple"=0 size="1">
                     </div>
                     <div class="field margin">
-                        <label><?= (isset($visitorData) AND $visitorData->getLetterDocumentFilename()) ? 'Příloha - můžete nahrát jiný motivační dopis' : 'Příloha - motivační dopis'; ?></label>
-                        <input type="file" name="<?= $nameLetter ?>" accept="<?= $accept ?>"  "multiple"=0 size="1">
+                        <label><?= $letterDocumentFilename ? 'Příloha - můžete nahrát jiný motivační dopis' : 'Příloha - motivační dopis'; ?></label>
+                        <input type="file" name="<?= $uploadedLetterFilename ?>" accept="<?= $accept ?>"  "multiple"=0 size="1">
                     </div>
                     <div class="two fields">
                         <div class="field margin"></div>
-                        
+
                         <div class="field">
                             <button class="ui massive primary button" type="submit">Odeslat</button>
                         </div>

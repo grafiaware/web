@@ -53,7 +53,7 @@ if (isset($loginAggregate)) {
 }
 
 // poue pro default roli 'visitor'
-if (isset($role) AND $role==(Configuration::loginLogoutControler()['defaultRole'])) {
+if (isset($role) AND $role==(Configuration::loginLogoutControler()['roleVisitor'])) {
 
     $visitorDataRepo = $container->get(VisitorDataRepo::class);
     $visitorData = $visitorDataRepo->get($loginName);

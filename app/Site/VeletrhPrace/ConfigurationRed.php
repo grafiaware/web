@@ -194,7 +194,8 @@ class ConfigurationRed extends ConfigurationDb {
                 'fieldNameHeslo' => 'heslo'.$siteSpecificToken,
                 'passwordPattern' => $passwordPattern,
                 'passwordInfo' => $passwordInfo,
-                'defaultRole' => 'visitor',
+                'roleVisitor' => 'visitor',
+                'rolePresenter' => 'presenter',
         ];
     }
 

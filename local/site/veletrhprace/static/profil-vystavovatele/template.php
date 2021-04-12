@@ -58,7 +58,7 @@ $presenterArray =
 
     'Jana Brabcová' => ['regname' => "Jana Brabcová", 'regmail' => "brabcova@grafia.cz", 'regcompany' => "Grafia s.r.o.", 'idCompany'=>7],
     'Jana Brabcová Grafia OK' => ['regname' => "Jana Brabcová Grafia OK", 'regmail' => "brabcova@grafia.cz", 'regcompany' => "Grafia s.r.o.", 'idCompany'=>7],
-    'User5' => ['regname' => "User5", 'regmail' => "svoboda@grafia.cz", 'regcompany' => "TEST", 'idCompany'=>3],
+    'presenter' => ['regname' => "presenter", 'regmail' => "svoboda@grafia.cz", 'regcompany' => "TEST", 'idCompany'=>3],
 // maji nastavenu roli "presenter" v credentials
 ];
 

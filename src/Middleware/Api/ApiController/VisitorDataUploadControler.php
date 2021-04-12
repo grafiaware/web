@@ -75,7 +75,7 @@ class VisitorDataUploadControler extends PresentationFrontControllerAbstract {
 //        $this->accept = implode(", ", $accepted);
 //    }
 
-    public function saveData(ServerRequestInterface $request) {
+    public function visitor(ServerRequestInterface $request) {
         $statusSecurity = $this->statusSecurityRepo->get();
         $loginAggregateCredentials = $statusSecurity->getLoginAggregate();
 
@@ -135,25 +135,121 @@ class VisitorDataUploadControler extends PresentationFrontControllerAbstract {
                 $this->visitorDataPostRepo->add($visitorDataPost);
             }
 
-            $visitorDataPost->setPrefix($visitorData->getPrefix());
-            $visitorDataPost->setName($visitorData->getName());
-            $visitorDataPost->setSurname($visitorData->getSurname());
-            $visitorDataPost->setPostfix($visitorData->getPostfix());
-            $visitorDataPost->setEmail($visitorData->getEmail());
-            $visitorDataPost->setPhone($visitorData->getPhone());
-            $visitorDataPost->setCvEducationText($visitorData->getCvEducationText());
-            $visitorDataPost->setCvSkillsText($visitorData->getCvSkillsText());
-            $visitorDataPost->setCvDocument($visitorData->getCvDocument());
-            $visitorDataPost->setCvDocumentFilename($visitorData->getCvDocumentFilename());
-            $visitorDataPost->setCvDocumentMimetype($visitorDataPost->getCvDocumentMimetype());
-            $visitorDataPost->setLetterDocument($visitorData->getLetterDocument());
-            $visitorDataPost->setLetterDocumentFilename($visitorData->getLetterDocumentFilename());
-            $visitorDataPost->setLetterDocumentMimetype($visitorDataPost->getLetterDocumentMimetype());
+//            $visitorDataPost->setPrefix($visitorData->getPrefix());
+//            $visitorDataPost->setName($visitorData->getName());
+//            $visitorDataPost->setSurname($visitorData->getSurname());
+//            $visitorDataPost->setPostfix($visitorData->getPostfix());
+//            $visitorDataPost->setEmail($visitorData->getEmail());
+//            $visitorDataPost->setPhone($visitorData->getPhone());
+//            $visitorDataPost->setCvEducationText($visitorData->getCvEducationText());
+//            $visitorDataPost->setCvSkillsText($visitorData->getCvSkillsText());
+//            $visitorDataPost->setCvDocument($visitorData->getCvDocument());
+//            $visitorDataPost->setCvDocumentFilename($visitorData->getCvDocumentFilename());
+//            $visitorDataPost->setCvDocumentMimetype($visitorDataPost->getCvDocumentMimetype());
+//            $visitorDataPost->setLetterDocument($visitorData->getLetterDocument());
+//            $visitorDataPost->setLetterDocumentFilename($visitorData->getLetterDocumentFilename());
+//            $visitorDataPost->setLetterDocumentMimetype($visitorDataPost->getLetterDocumentMimetype());
 
-            $this->addFlashMessage("Pracovní údahe odeslány pro pozici $positionName.");
+            // POST data
+            $visitorDataPost->setPrefix((new RequestParams())->getParsedBodyParam($request, 'prefix'));
+            $visitorDataPost->setName((new RequestParams())->getParsedBodyParam($request, 'name'));
+            $visitorDataPost->setSurname((new RequestParams())->getParsedBodyParam($request, 'surname'));
+            $visitorDataPost->setPostfix((new RequestParams())->getParsedBodyParam($request, 'postfix'));
+            $visitorDataPost->setEmail((new RequestParams())->getParsedBodyParam($request, 'email'));
+            $visitorDataPost->setPhone((new RequestParams())->getParsedBodyParam($request, 'phone'));
+            $visitorDataPost->setCvEducationText((new RequestParams())->getParsedBodyParam($request, 'cv-education-text'));
+            $visitorDataPost->setCvSkillsText((new RequestParams())->getParsedBodyParam($request, 'cv-skills-text'));
+            $this->uploadDocs($request, $visitorDataPost);
+
+            $this->addFlashMessage("Pracovní údaje odeslány pro pozici $positionName.");
             return $this->redirectSeeLastGet($request);
         }
     }
+    /**
+     * Nic nehlídá - chyby při uploadu NEHLÁSÍ - pokud nevyvolají výjimku, výjimky nejsou ošetřeny!
+     *
+     *
+     * @param ServerRequestInterface $request
+     * @return type
+     */
+    private function uploadDocs(ServerRequestInterface $request, VisitorDataPost $visitorDataPost) {
+
+        //TODO: self::UPLOADED_KEY -rozlišit uploady z jednotlivých metod
+
+//".doc", ".docx", ".dot", ".odt", "pages", ".xls", ."xlsx", ".ods", ".txt", ".pdf"
+
+        $statusSecurity = $this->statusSecurityRepo->get();
+        $loginAggregateCredentials = $statusSecurity->getLoginAggregate();
+            if (isset($loginAggregateCredentials)) {
+                $userHash = $loginAggregateCredentials->getLoginNameHash();
+
+                $uploadError = '';
+
+                // z konfigurace
+                $files = $request->getUploadedFiles();
+
+                // POST - jeden soubor
+                /* @var $file UploadedFileInterface */
+                if(isset($files) AND $files) {
+                    foreach ($files as $uploadedFileName => $file) {
+                        if ($file->getError()==UPLOAD_ERR_OK) {
+                        switch ($uploadedFileName) {
+                            case self::UPLOADED_KEY_CV.$userHash:
+                                $this->hydrateVisitorDataByFile($file, self::UPLOADED_KEY_CV, $visitorDataPost);
+                                break;
+                            case self::UPLOADED_KEY_LETTER.$userHash:
+                                $this->hydrateVisitorDataByFile($file, self::UPLOADED_KEY_LETTER, $visitorDataPost);
+                                break;
+                            default:
+                                $uploadError = "Neznámé jméno souboru, neodpovídá žádnému očekávanému jménu. Soubor {$file->getClientFilename()} neuložen.";
+                                break;
+                        }
+                        } else {
+                            $uploadError = $this->uploadErrorMessage($file->getError());
+                        }
+                    }
+                } else {
+                    $uploadError = "neodeslán žádný soubor. Soubor neuložen.";
+                }
+            } else {
+                $uploadError = "Chyba oprávnění, nejste přihlášeni. Údaje nebyly uloženy!";
+            }
+            if ($uploadError) {
+                $this->addFlashMessage($uploadError);
+            }
+        return  $this->redirectSeeLastGet($request);
+    }
+
+    private function hydrateVisitorDataByFile($fileForSave, $type, VisitorDataPost $visitorDataPost) {
+
+    //        $time = str_replace(",", "-", $request->getServerParams()["REQUEST_TIME_FLOAT"]); // stovky mikrosekund
+    //        $timestamp = (new \DateTime("now"))->getTimestamp();  // sekundy
+
+            // file move to temp
+            $clientFileName = $fileForSave->getClientFilename();
+            $clientMime = $fileForSave->getClientMediaType();
+            $size = $fileForSave->getSize();  // v bytech
+            $ext = pathinfo($clientFileName,  PATHINFO_EXTENSION );
+            $uploadedFileTemp = tempnam(sys_get_temp_dir(), hash('sha256', $clientFileName)).'.'.$ext;
+            $fileForSave->moveTo($uploadedFileTemp);
+
+            switch ($type) {
+                case self::UPLOADED_KEY_CV:
+                    $visitorDataPost->setCvDocument(file_get_contents($uploadedFileTemp));
+                    $visitorDataPost->setCvDocumentMimetype($clientMime);
+                    $visitorDataPost->setCvDocumentFilename($clientFileName);
+                    break;
+                case self::UPLOADED_KEY_LETTER:
+                    $visitorDataPost->setLetterDocument(file_get_contents($uploadedFileTemp));
+                    $visitorDataPost->setLetterDocumentMimetype($clientMime);
+                    $visitorDataPost->setLetterDocumentFilename($clientFileName);
+                    break;
+                default:
+                    break;
+            }
+            $flashMessage = "Uloženo $size bytů.";
+            $this->addFlashMessage($flashMessage);
+}
 
     /**
      *
@@ -177,6 +273,7 @@ class VisitorDataUploadControler extends PresentationFrontControllerAbstract {
 
             // z konfigurace
             $files = $request->getUploadedFiles();
+
             // POST - jeden soubor
             /* @var $file UploadedFileInterface */
             if(isset($files) AND $files) {

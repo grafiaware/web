@@ -5,6 +5,7 @@ use Pes\Text\Html;
 
 use Site\Configuration;
 use Model\Repository\StatusSecurityRepo;
+use Model\Entity\LoginAggregateFullInterface;
 
 use Middleware\Api\ApiController\VisitorDataUploadControler;
 use Model\Repository\VisitorDataRepo;
@@ -12,7 +13,6 @@ use Model\Entity\VisitorDataInterface;
 use Model\Repository\VisitorDataPostRepo;
 use Model\Entity\VisitorDataPostInterface;
 /** @var PhpTemplateRendererInterface $this */
-/** @var PaperAggregateInterface $paperAggregate */
 
 $kvalifikace = [
     1 => 'Bez omezení',
@@ -28,62 +28,70 @@ $kvalifikace = [
 $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
 /** @var StatusSecurityRepo $statusSecurityRepo */
 $statusSecurity = $statusSecurityRepo->get();
-/** @var LoginAggregateCredentialsInterface $loginAggregate */
+/** @var LoginAggregateFullInterface $loginAggregate */
 $loginAggregate = $statusSecurity->getLoginAggregate();
 
 $positionName = $nazev;
-$readonly = '';
-$disabled = '';
+$isVisitor = false;
+$visitorDataPosted = false;
 
 if (isset($loginAggregate)) {
     $loginName = $loginAggregate->getLoginName();
     $role = $loginAggregate->getCredentials()->getRole() ?? '';
-    $personalData['userHash'] = $loginAggregate->getLoginNameHash();
-    /** @var VisitorDataRepo $visitorDataRepo */
-    $visitorDataRepo = $container->get(VisitorDataRepo::class);
-    /** @var VisitorDataInterface $visitorData */
-    $visitorData = $visitorDataRepo->get($loginName);
+    if ($role==Configuration::loginLogoutControler()['roleVisitor']) {
+        $isVisitor = true;
+        $personalData['userHash'] = $loginAggregate->getLoginNameHash();
+        /** @var VisitorDataRepo $visitorDataRepo */
+        $visitorDataRepo = $container->get(VisitorDataRepo::class);
+        /** @var VisitorDataInterface $visitorData */
+        $visitorData = $visitorDataRepo->get($loginName);
 
-    /** @var VisitorDataPostRepo $visitorDataPostRepo */
-    $visitorDataPostRepo = $container->get(VisitorDataPostRepo::class);
-    /** @var VisitorDataPostInterface $visitorDataPost */
-    $visitorDataPost = $visitorDataPostRepo->get($loginName, $shortName, $positionName);
+        /** @var VisitorDataPostRepo $visitorDataPostRepo */
+        $visitorDataPostRepo = $container->get(VisitorDataPostRepo::class);
+        /** @var VisitorDataPostInterface $visitorDataPost */
+        $visitorDataPost = $visitorDataPostRepo->get($loginName, $shortName, $positionName);
 
-    $userHash = $loginAggregate->getLoginNameHash();
-    $accept = implode(", ", Configuration::filesUploadControler()['uploads.acceptedextensions']);
-    $nameCv = VisitorDataUploadControler::UPLOADED_KEY_CV.$userHash;
-    $nameLetter = VisitorDataUploadControler::UPLOADED_KEY_LETTER.$userHash;
-    
+        // formulář
+        // unikátní jména souborů pro upload
+        $userHash = $loginAggregate->getLoginNameHash();
+        $accept = implode(", ", Configuration::filesUploadControler()['uploads.acceptedextensions']);
+        $uploadedCvFilename = VisitorDataUploadControler::UPLOADED_KEY_CV.$userHash;
+        $uploadedLetterFilename = VisitorDataUploadControler::UPLOADED_KEY_LETTER.$userHash;
 
-    
-    
-    if (isset($visitorDataPost)) {
-        $readonly = 'readonly="1"';
-        $disabled = 'disabled="1"';
-        $prefix = isset($visitorDataPost) ? $visitorDataPost->getPrefix() : '';
-        $firstName = isset($visitorDataPost) ? $visitorDataPost->getName() : '';
-        $surname = isset($visitorDataPost) ? $visitorDataPost->getSurname() : ''; 
-        $postfix = isset($visitorDataPost) ? $visitorDataPost->getPostfix() : '';
-        $email = isset($visitorDataPost) ? $visitorDataPost->getEmail() : ''; 
-        $phone = isset($visitorDataPost) ? $visitorDataPost->getPhone() : '';
-        $cvEducationText = isset($visitorDataPost) ? $visitorDataPost->getCvEducationText() : '';
-        $cvSkillsText = isset($visitorDataPost) ? $visitorDataPost->getCvSkillsText() : '';
-        $cvDocumentFilename = isset($visitorDataPost) ? $visitorDataPost->getCvDocumentFilename() : '';
-        $letterDocumentFilename = isset($visitorData) ? $visitorData->getLetterDocumentFilename() : '';
-        
-    } else {
-        $readonly = '';
-        $disabled = '';
-        $prefix = isset($visitorData) ? $visitorData->getPrefix() : '';  
-        $firstName = isset($visitorData) ? $visitorData->getName() : '';
-        $surname = isset($visitorData) ? $visitorData->getSurname() : ''; 
-        $postfix = isset($visitorData) ? $visitorData->getPostfix() : '';
-        $email = isset($visitorData) ? $visitorData->getEmail() : ''; 
-        $phone = isset($visitorData) ? $visitorData->getPhone() : '';
-        $cvEducationText = isset($visitorData) ? $visitorData->getCvEducationText() : '';
-        $cvSkillsText = isset($visitorData) ? $visitorData->getCvSkillsText(): '';
-        $cvDocumentFilename = isset($visitorData) ? $visitorData->getCvDocumentFilename() : '';
-        $letterDocumentFilename = isset($visitorData) ? $visitorData->getLetterDocumentFilename() : '';
+        // email z registrace
+        // - pokud existuje registrace (loginAggregate má registration) defaultně nastaví jako email hodnotu z registrace $registration->getEmail(), pak input pro email je readonly
+        // - předvyplňuje se z $visitorData
+        $email = isset($visitorData) ? $visitorData->getEmail() : ($loginAggregate->getRegistration() ? $loginAggregate->getRegistration()->getEmail() : '');
+
+        // hodnoty do formuláře z visitorDataPost (odeslaná data - zájem o pozici), pokud ještě nevznikl z visitorData (z profilu)
+        if (isset($visitorDataPost)) {
+            $visitorDataPosted = true;
+            $readonly = 'readonly="1"';
+            $disabled = 'disabled="1"';
+            $prefix = isset($visitorDataPost) ? $visitorDataPost->getPrefix() : '';
+            $firstName = isset($visitorDataPost) ? $visitorDataPost->getName() : '';
+            $surname = isset($visitorDataPost) ? $visitorDataPost->getSurname() : '';
+            $postfix = isset($visitorDataPost) ? $visitorDataPost->getPostfix() : '';
+            $email = isset($visitorDataPost) ? $visitorDataPost->getEmail() : '';
+            $phone = isset($visitorDataPost) ? $visitorDataPost->getPhone() : '';
+            $cvEducationText = isset($visitorDataPost) ? $visitorDataPost->getCvEducationText() : '';
+            $cvSkillsText = isset($visitorDataPost) ? $visitorDataPost->getCvSkillsText() : '';
+            $cvDocumentFilename = isset($visitorDataPost) ? $visitorDataPost->getCvDocumentFilename() : '';
+            $letterDocumentFilename = isset($visitorData) ? $visitorData->getLetterDocumentFilename() : '';
+        } else {
+            $readonly = '';
+            $disabled = '';
+            $prefix = isset($visitorData) ? $visitorData->getPrefix() : '';
+            $firstName = isset($visitorData) ? $visitorData->getName() : '';
+            $surname = isset($visitorData) ? $visitorData->getSurname() : '';
+            $postfix = isset($visitorData) ? $visitorData->getPostfix() : '';
+            $email = isset($visitorData) ? $visitorData->getEmail() : '';
+            $phone = isset($visitorData) ? $visitorData->getPhone() : '';
+            $cvEducationText = isset($visitorData) ? $visitorData->getCvEducationText() : '';
+            $cvSkillsText = isset($visitorData) ? $visitorData->getCvSkillsText(): '';
+            $cvDocumentFilename = isset($visitorData) ? $visitorData->getCvDocumentFilename() : '';
+            $letterDocumentFilename = isset($visitorData) ? $visitorData->getLetterDocumentFilename() : '';
+        }
     }
 }
 ?>
@@ -92,10 +100,10 @@ if (isset($loginAggregate)) {
             <p class="podnadpis"><i class="dropdown icon"></i><?= $nazev ?>, <?= $mistoVykonu ?>
                 <?= $this->repeat(__DIR__.'/pozice/tag.php', $kategorie, 'cislo') ?>
                 <?php
-                if($readonly === 'readonly="1"') {
-                ?>
+                if($visitorDataPosted) {
+                    ?>
                     <span class="ui big green label">Životopis odeslán</span>
-                <?php
+                    <?php
                 }
                 ?>
             </p>
@@ -136,40 +144,36 @@ if (isset($loginAggregate)) {
                             <div class="ui grid">
                                 <div class="sixteen wide column center aligned">
                                     <?php
-                                    if($readonly === 'readonly="1"') {
-                                    ?>
-                                    <div class="ui large button green profil-visible">
-                                        <i class="play icon"></i>
-                                        <span>Chci si prohlédnout údaje, které jsem odeslal/a  &nbsp;</span>
-                                        <i class="play flipped icon"></i>
-                                    </div>
-                                    <?php
-                                    } 
-                                    else {
-                                    ?>
-                                    <div class="ui large button blue profil-visible">
-                                        <i class="play icon"></i>
-                                        <span>Mám zájem o tuto pozici, chci odeslat mé údaje zaměstnavateli &nbsp;</span>
-                                        <i class="play flipped icon"></i>
-                                    </div>
-                                    <?php
-                                    } 
+                                    if($visitorDataPosted) {
+                                        ?>
+                                        <div class="ui large button green profil-visible">
+                                            <i class="play icon"></i>
+                                            <span>Chci si prohlédnout údaje, které jsem odeslal/a  &nbsp;</span>
+                                            <i class="play flipped icon"></i>
+                                        </div>
+                                        <?php
+                                    } else {
+                                        ?>
+                                        <div class="ui large button blue profil-visible">
+                                            <i class="play icon"></i>
+                                            <span>Mám zájem o tuto pozici, chci odeslat mé údaje zaměstnavateli &nbsp;</span>
+                                            <i class="play flipped icon"></i>
+                                        </div>
+                                        <?php
+                                    }
                                     ?>
                                 </div>
                                 <div class="sixteen wide column">
                                     <div class="profil hidden">
-                                        <?php 
-                                        if (isset($loginAggregate)) {
-                                            include 'pozice/osobni-udaje.php';
-                                        }
-                                        else {
-                                        ?>
-                                        <div class="active title">
-                                            <i class="exclamation icon"></i>
-                                            Přihlašte se. Údaje ze svého profilu mohou posílat přihlášení uživatelé.
-                                        </div>
-
                                         <?php
+                                        if ($isVisitor) {
+                                            include Configuration::componentControler()['templates'].'visitor-data//osobni-udaje.php';
+                                        } else {
+                                            ?>
+                                            <div class="active title">
+                                                <i class="exclamation icon"></i>Přihlašte se jako návštěvník. Údaje ze svého profilu mohou posílat přihlášení návštěvníci.
+                                            </div>
+                                            <?php
                                         }
                                         ?>
                                     </div>
