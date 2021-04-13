@@ -130,7 +130,7 @@ if (isset($loginAggregate)) {
                 }
                 if($isPresenter AND $visitorDataCount) {
                     ?>
-                    <span class="ui big orange label">Pracovní údaje odeslány. Počet: <?= $visitorDataCount ?></span>
+                    <span class="ui big orange label">Hlásí se zájemci na pozici. Počet: <?= $visitorDataCount ?></span>
                     <?php
                 }
                 ?>
