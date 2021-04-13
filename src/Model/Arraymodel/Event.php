@@ -267,7 +267,7 @@ class Event {
                                 'linkButtonText' => $this->linkButtonTextPlan
                                 ],
                 'linkButtonEnter' => [
-                    'showEnter' => 1,
+                    'showEnter' => 0,
                                 'linkButtonAttributes' => $this->linkButtonAttributesZhlednout +
                                     [
                                         'href' => "https://youtu.be/U_H5847hNrU"

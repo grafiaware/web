@@ -206,10 +206,15 @@ if (isset($loginAggregate)) {
 
                                     } else {
                                         ?>
-                                        <div class="sixteen wide column">
+                                        <div class="sixteen wide column center aligned">
+                                            <div class="ui large button blue profil-visible">
+                                                <i class="play icon"></i>
+                                                <span>Mám zájem o tuto pozici, chci odeslat mé údaje zaměstnavateli &nbsp;</span>
+                                                <i class="play flipped icon"></i>
+                                            </div>
                                             <div class="profil hidden">
                                                 <div class="active title">
-                                                    <i class="exclamation icon"></i>Přihlašte se jako návštěvník. Údaje ze svého profilu mohou posílat přihlášení návštěvníci.
+                                                    <i class="exclamation icon"></i>Přihlašte se jako návštěvník. <i class="user icon"></i> Údaje mohou posílat přihlášení návštěvníci. Pokud ještě nejste zaregistrování, nejprve se registrujte. <i class="address card icon"></i>
                                                 </div>
                                             </div>
                                         </div>
