@@ -15,9 +15,8 @@ use Model\Entity\VisitorDataPostInterface;
 /** @var PhpTemplateRendererInterface $this */
 
 ###### kontext #######
+// jobs expand -> $nazev; $mistoVykonu; $vzdelani; $popisPozice; $pozadujeme; $nabizime; + přidané $nazev, $container
 $positionName = $nazev;
-
-$nazev; $mistoVykonu; $vzdelani; $popisPozice; $pozadujeme; $nabizime;
 #######################
 
 
@@ -46,6 +45,11 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
 
 /** @var VisitorDataPostRepo $visitorDataPostRepo */
 $visitorDataPostRepo = $container->get(VisitorDataPostRepo::class);
+
+// count of visitirData Posts - zde se volá vždy - varianta pro zobrazování počtu zájemců vždy
+/** @var VisitorDataPostInterface $visitorDataPost */
+$visitorDataPosts = $visitorDataPostRepo->findAllForPosition($shortName, $positionName);
+$visitorDataCount = count($visitorDataPosts);
 
 if (isset($loginAggregate)) {
     $loginName = $loginAggregate->getLoginName();
@@ -111,10 +115,9 @@ if (isset($loginAggregate)) {
             $letterDocumentFilename = isset($visitorData) ? $visitorData->getLetterDocumentFilename() : '';
         }
     }
+
     if ($isPresenter) {
-        /** @var VisitorDataPostInterface $visitorDataPost */
-        $visitorDataPosts = $visitorDataPostRepo->findAllForPosition($shortName, $positionName);
-        $visitorDataCount = count($visitorDataPosts);
+
     }
 }
 ?>
@@ -128,7 +131,7 @@ if (isset($loginAggregate)) {
                     <span class="ui big green label">Pracovní údaje odeslány</span>
                     <?php
                 }
-                if($isPresenter AND $visitorDataCount) {
+                if($visitorDataCount) {
                     ?>
                     <span class="ui big orange label">Hlásí se zájemci na pozici. Počet: <?= $visitorDataCount ?></span>
                     <?php

@@ -18,7 +18,7 @@ foreach ($jobModel->getShortNamesList() as $shortName) {
     $presenterJobs = $jobModel->getCompanyJobList($shortName);
     $jobs = [];
     foreach ($presenterJobs as $job) {
-        $jobs[] = array_merge($job, ['container' => $container, 'shortName' => $shortName]);
+        $jobs[] = array_merge($job, ['container' => $container, 'shortName' => $shortName]);  // přidání $container a $shortNamepro template pozice
     }
     $allJobs[] = [
                 'shortName' => $shortName,
