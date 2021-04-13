@@ -18,12 +18,13 @@ foreach ($jobModel->getShortNamesList() as $shortName) {
     $presenterJobs = $jobModel->getCompanyJobList($shortName);
     $jobs = [];
     foreach ($presenterJobs as $job) {
-        $jobs[] = array_merge($job, ['container' => $container, 'shortName' => $shortName]);  // přidání $container a $shortNamepro template pozice
+        $jobs[] = array_merge($job, ['container' => $container, 'shortName' => $shortName]);  // přidání $container a $shortName pro template pozice
     }
     $allJobs[] = [
                 'shortName' => $shortName,
                 'presenterName' => $presenterModel->getCompany($shortName)['name'],
-                'presenterJobs' => ['jobs' => $jobs]
+                'presenterJobs' => ['jobs' => $jobs],
+                'container' => $container
             ];
 }
 
@@ -41,7 +42,6 @@ foreach ($jobModel->getShortNamesList() as $shortName) {
     <section>
         <content class='prehled-pozic'>
             <?=  $this->repeat(__DIR__.'/content/presenter-jobs.php', $allJobs);  ?>
-
         </content>
     </section>
 </article>

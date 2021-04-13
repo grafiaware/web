@@ -12,6 +12,9 @@ use Model\Repository\VisitorDataRepo;
 use Model\Entity\VisitorDataInterface;
 use Model\Repository\VisitorDataPostRepo;
 use Model\Entity\VisitorDataPostInterface;
+
+use Model\Repository\BlockRepo;
+
 /** @var PhpTemplateRendererInterface $this */
 
 ###### kontext #######
@@ -50,6 +53,7 @@ $visitorDataPostRepo = $container->get(VisitorDataPostRepo::class);
 /** @var VisitorDataPostInterface $visitorDataPost */
 $visitorDataPosts = $visitorDataPostRepo->findAllForPosition($shortName, $positionName);
 $visitorDataCount = count($visitorDataPosts);
+
 
 if (isset($loginAggregate)) {
     $loginName = $loginAggregate->getLoginName();
@@ -119,6 +123,13 @@ if (isset($loginAggregate)) {
     if ($isPresenter) {
 
     }
+} else {
+
+    // odkaz na stánek - v tabulce blok musí existovat položka s názvem==$shortName
+    /** @var BlockRepo $blockRepo */
+    $blockRepo = $container->get(BlockRepo::class);
+    $block = $blockRepo->get($shortName);
+    //$presenterItemUid = isset($block) ? $block->getUidFk() : '';
 }
 ?>
 
@@ -219,6 +230,17 @@ if (isset($loginAggregate)) {
                                                 <div class="active title">
                                                     <i class="exclamation icon"></i>Přihlašte se jako návštěvník. <i class="user icon"></i> Údaje mohou posílat přihlášení návštěvníci. Pokud ještě nejste zaregistrování, nejprve se registrujte. <i class="address card icon"></i>
                                                 </div>
+                                                <?php
+                                                if (isset($block)) {
+                                                    ?>
+                                                    <a href="<?= "www/block/".$block->getName()."#chci-navazat-kontakt" ?>">
+                                                        <div class="ui large button grey profil-visible">
+                                                            Chci jít na stánek pro kontaktní údaje
+                                                        </div>
+                                                    </a>
+                                                    <?php
+                                                }
+                                                ?>
                                             </div>
                                         </div>
                                         <?php
