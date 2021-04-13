@@ -14,6 +14,18 @@ use Model\Repository\VisitorDataPostRepo;
 use Model\Entity\VisitorDataPostInterface;
 /** @var PhpTemplateRendererInterface $this */
 
+###### kontext #######
+$positionName = $nazev;
+
+$nazev; $mistoVykonu; $vzdelani; $popisPozice; $pozadujeme; $nabizime;
+#######################
+
+
+$isPresenter = false;
+$isVisitor = false;
+$visitorDataPosted = false;
+
+// používá se: $kvalifikace[$vzdelani]
 $kvalifikace = [
     1 => 'Bez omezení',
     2 => 'ZŠ',
@@ -30,24 +42,23 @@ $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
 $statusSecurity = $statusSecurityRepo->get();
 /** @var LoginAggregateFullInterface $loginAggregate */
 $loginAggregate = $statusSecurity->getLoginAggregate();
+####
 
-$positionName = $nazev;
-$isVisitor = false;
-$visitorDataPosted = false;
+/** @var VisitorDataPostRepo $visitorDataPostRepo */
+$visitorDataPostRepo = $container->get(VisitorDataPostRepo::class);
 
 if (isset($loginAggregate)) {
     $loginName = $loginAggregate->getLoginName();
     $role = $loginAggregate->getCredentials()->getRole() ?? '';
-    if ($role==Configuration::loginLogoutControler()['roleVisitor']) {
-        $isVisitor = true;
-        $personalData['userHash'] = $loginAggregate->getLoginNameHash();
+    $isVisitor = $role==Configuration::loginLogoutControler()['roleVisitor'];
+    $isPresenter = $role==Configuration::loginLogoutControler()['rolePresenter'];
+
+    if ($isVisitor) {
         /** @var VisitorDataRepo $visitorDataRepo */
         $visitorDataRepo = $container->get(VisitorDataRepo::class);
         /** @var VisitorDataInterface $visitorData */
         $visitorData = $visitorDataRepo->get($loginName);
 
-        /** @var VisitorDataPostRepo $visitorDataPostRepo */
-        $visitorDataPostRepo = $container->get(VisitorDataPostRepo::class);
         /** @var VisitorDataPostInterface $visitorDataPost */
         $visitorDataPost = $visitorDataPostRepo->get($loginName, $shortName, $positionName);
 
@@ -69,29 +80,41 @@ if (isset($loginAggregate)) {
             $readonly = 'readonly="1"';
             $disabled = 'disabled="1"';
             $prefix = isset($visitorDataPost) ? $visitorDataPost->getPrefix() : '';
+            $email = isset($visitorDataPost) ? $visitorDataPost->getEmail() : '';
+            $readonlyEmail = $email ? 'readonly="1"' : '';  // proměnná pro input email
+
             $firstName = isset($visitorDataPost) ? $visitorDataPost->getName() : '';
             $surname = isset($visitorDataPost) ? $visitorDataPost->getSurname() : '';
             $postfix = isset($visitorDataPost) ? $visitorDataPost->getPostfix() : '';
-            $email = isset($visitorDataPost) ? $visitorDataPost->getEmail() : '';
             $phone = isset($visitorDataPost) ? $visitorDataPost->getPhone() : '';
             $cvEducationText = isset($visitorDataPost) ? $visitorDataPost->getCvEducationText() : '';
             $cvSkillsText = isset($visitorDataPost) ? $visitorDataPost->getCvSkillsText() : '';
             $cvDocumentFilename = isset($visitorDataPost) ? $visitorDataPost->getCvDocumentFilename() : '';
             $letterDocumentFilename = isset($visitorData) ? $visitorData->getLetterDocumentFilename() : '';
         } else {
+            $visitorDataPosted = false;
             $readonly = '';
             $disabled = '';
+            // - pokud existuje registrace (loginAggregate má registration) defaultně nastaví jako email hodnotu z registrace $registration->getEmail(), pak input pro email je readonly
+            // - předvyplňuje se z $visitorData
+            $email = isset($visitorData) ? $visitorData->getEmail() : ($loginAggregate->getRegistration() ? $loginAggregate->getRegistration()->getEmail() : '');
+            $readonlyEmail = $email ? 'readonly="1"' : '';  // proměnná pro input email
+
             $prefix = isset($visitorData) ? $visitorData->getPrefix() : '';
             $firstName = isset($visitorData) ? $visitorData->getName() : '';
             $surname = isset($visitorData) ? $visitorData->getSurname() : '';
             $postfix = isset($visitorData) ? $visitorData->getPostfix() : '';
-            $email = isset($visitorData) ? $visitorData->getEmail() : '';
             $phone = isset($visitorData) ? $visitorData->getPhone() : '';
             $cvEducationText = isset($visitorData) ? $visitorData->getCvEducationText() : '';
             $cvSkillsText = isset($visitorData) ? $visitorData->getCvSkillsText(): '';
             $cvDocumentFilename = isset($visitorData) ? $visitorData->getCvDocumentFilename() : '';
             $letterDocumentFilename = isset($visitorData) ? $visitorData->getLetterDocumentFilename() : '';
         }
+    }
+    if ($isPresenter) {
+        /** @var VisitorDataPostInterface $visitorDataPost */
+        $visitorDataPosts = $visitorDataPostRepo->findAllForPosition($shortName, $positionName);
+        $visitorDataCount = count($visitorDataPosts);
     }
 }
 ?>
@@ -102,7 +125,12 @@ if (isset($loginAggregate)) {
                 <?php
                 if($visitorDataPosted) {
                     ?>
-                    <span class="ui big green label">Životopis odeslán</span>
+                    <span class="ui big green label">Pracovní údaje odeslány</span>
+                    <?php
+                }
+                if($isPresenter AND $visitorDataCount) {
+                    ?>
+                    <span class="ui big orange label">Pracovní údaje odeslány. Počet: <?= $visitorDataCount ?></span>
                     <?php
                 }
                 ?>
@@ -142,42 +170,52 @@ if (isset($loginAggregate)) {
                     <div class="sixteen wide column">
                         <div  class="navazat-kontakt">
                             <div class="ui grid">
-                                <div class="sixteen wide column center aligned">
                                     <?php
-                                    if($visitorDataPosted) {
+                                    if ($isVisitor) {
                                         ?>
-                                        <div class="ui large button green profil-visible">
-                                            <i class="play icon"></i>
-                                            <span>Chci si prohlédnout údaje, které jsem odeslal/a  &nbsp;</span>
-                                            <i class="play flipped icon"></i>
-                                        </div>
+                                        <div class="sixteen wide column center aligned">
                                         <?php
-                                    } else {
-                                        ?>
-                                        <div class="ui large button blue profil-visible">
-                                            <i class="play icon"></i>
-                                            <span>Mám zájem o tuto pozici, chci odeslat mé údaje zaměstnavateli &nbsp;</span>
-                                            <i class="play flipped icon"></i>
-                                        </div>
-                                        <?php
-                                    }
-                                    ?>
-                                </div>
-                                <div class="sixteen wide column">
-                                    <div class="profil hidden">
-                                        <?php
-                                        if ($isVisitor) {
-                                            include Configuration::componentControler()['templates'].'visitor-data//osobni-udaje.php';
+                                        if($visitorDataPosted) {
+                                            ?>
+                                            <div class="ui large button green profil-visible">
+                                                <i class="play icon"></i>
+                                                <span>Chci si prohlédnout údaje, které jsem odeslal/a  &nbsp;</span>
+                                                <i class="play flipped icon"></i>
+                                            </div>
+                                            <?php
                                         } else {
                                             ?>
-                                            <div class="active title">
-                                                <i class="exclamation icon"></i>Přihlašte se jako návštěvník. Údaje ze svého profilu mohou posílat přihlášení návštěvníci.
+                                            <div class="ui large button blue profil-visible">
+                                                <i class="play icon"></i>
+                                                <span>Mám zájem o tuto pozici, chci odeslat mé údaje zaměstnavateli &nbsp;</span>
+                                                <i class="play flipped icon"></i>
                                             </div>
                                             <?php
                                         }
                                         ?>
-                                    </div>
-                                </div>
+                                        </div>
+                                        <div class="sixteen wide column">
+                                            <div class="profil hidden">
+                                                <?php
+                                                    // pokud je $visitorDataPosted je nastaveno readonly
+                                                    include Configuration::componentControler()['templates'].'visitor-data//osobni-udaje.php'; ?>
+                                            </div>
+                                        </div>
+                                        <?php
+                                    } elseif ($isPresenter) {
+
+                                    } else {
+                                        ?>
+                                        <div class="sixteen wide column">
+                                            <div class="profil hidden">
+                                                <div class="active title">
+                                                    <i class="exclamation icon"></i>Přihlašte se jako návštěvník. Údaje ze svého profilu mohou posílat přihlášení návštěvníci.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <?php
+                                    }
+                                    ?>
                             </div>
                         </div>
                     </div>

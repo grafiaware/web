@@ -38,7 +38,7 @@
                     <div class="two fields">
                         <div class="field">
                             <label>E-mail</label>
-                            <input <?= $readonly ?> type="email" name="email" placeholder="mail@example.cz" maxlength="90" value="<?= $email ?>">
+                            <input <?= $readonlyEmail ?> type="email" name="email" placeholder="mail@example.cz" maxlength="90" value="<?= $email ?>">
                         </div>
                         <div class="field">
                             <label>Telefon</label>
@@ -67,7 +67,7 @@
                                     <?php
                                     if($readonly === '') {
                                     ?>
-                                    <span class="text maly okraje-horizontal"><a><i class="trash icon"></i>Smazat</a></span>
+                                    <!--<span class="text maly okraje-horizontal"><a><i class="trash icon"></i>Smazat</a></span>-->
                                     <?php
                                     }
                                     ?>
@@ -83,7 +83,7 @@
                                 <?php
                                 if($readonly === '') {
                                 ?>
-                                <span class="text maly okraje-horizontal"><a><i class="trash icon"></i>Smazat</a></span>
+                                <!--<span class="text maly okraje-horizontal"><a><i class="trash icon"></i>Smazat</a></span>-->
                                 <?php
                                 }
                                 ?>

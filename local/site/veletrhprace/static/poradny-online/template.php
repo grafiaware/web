@@ -1,6 +1,6 @@
 <?php
 use Site\Configuration;
-use Model\Arraymodel\EventList;
+use Model\Arraymodel\Event;
 
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 /** @var PhpTemplateRendererInterface $this */
@@ -25,7 +25,7 @@ $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
 /** @var StatusSecurityRepo $statusSecurityRepo */
 $statusSecurity = $statusSecurityRepo->get();
 
-$event = (new EventList($statusSecurity))->getEventList($eventTypeName, $institutionName, [], true);   // enrolling = true
+$event = (new Event($statusSecurity))->getEventList($eventTypeName, $institutionName, [], true);   // enrolling = true
 
 //include Configuration::componentControler()['templates']."timecolumn/template.php";
 include Configuration::componentControler()['templates']."timeline-boxes/template.php";

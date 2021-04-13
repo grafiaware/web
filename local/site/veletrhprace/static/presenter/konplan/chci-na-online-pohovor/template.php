@@ -1,6 +1,6 @@
 <?php
 use Site\Configuration;
-use Model\Arraymodel\EventList;
+use Model\Arraymodel\Event;
 
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Model\Entity\PaperAggregatePaperContentInterface;
@@ -12,7 +12,7 @@ use Model\Repository\StatusSecurityRepo;
     $statusSecurity = $statusSecurityRepo->get();
     $eventTypeName = "Pohovor";  // viz Model\Arraymodel\EventType
     $institutionName = "Konplan";
-    $event = (new EventList($statusSecurity))->getEventList($eventTypeName, $institutionName, [], true);   // enrolling = true
+    $event = (new Event($statusSecurity))->getEventList($eventTypeName, $institutionName, [], true);   // enrolling = true
 
     
     

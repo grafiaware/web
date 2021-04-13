@@ -36,7 +36,7 @@ use \GeneratorService\Paper\PaperService;
 use \GeneratorService\StaticTemplate\StaticService;
 
 // array model
-use Model\Arraymodel\EventList;
+use Model\Arraymodel\Event;
 
 // events
 use \Model\Repository\EnrollRepo;
@@ -154,13 +154,13 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
                         $c->get(EnrollRepo::class),
-                        $c->get(EventList::class))
+                        $c->get(Event::class))
                         )->injectContainer($c);
             },
-            EventList::class => function(ContainerInterface $c) {
+            Event::class => function(ContainerInterface $c) {
                 /** @var StatusSecurityRepo $statusSecurityRepo */
                 $statusSecurityRepo = $c->get(StatusSecurityRepo::class);
-                return new EventList($statusSecurityRepo->get());
+                return new Event($statusSecurityRepo->get());
             },
 
             VisitorDataUploadControler::class => function(ContainerInterface $c) {

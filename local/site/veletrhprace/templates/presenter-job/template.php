@@ -1,9 +1,8 @@
 <?php
 use Site\Configuration;
-use Model\Arraymodel\EventList; 
+use Model\Arraymodel\Event;
 
 use Pes\View\Renderer\PhpTemplateRendererInterface;
-use Model\Entity\PaperAggregatePaperContentInterface;
 
 ?>
 
@@ -17,7 +16,7 @@ use Model\Entity\PaperAggregatePaperContentInterface;
                     <?php include "perex.php" ?>
                 </perex>
             </section>
-            <section>    
+            <section>
                 <content>
                     <?php include "content/vypis-pozic.php" ?>
                 </content>

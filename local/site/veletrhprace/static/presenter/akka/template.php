@@ -1,12 +1,16 @@
 <?php
 use Pes\View\Renderer\PhpTemplateRendererInterface;
-use Model\Entity\PaperAggregateInterface;
 use Pes\Text\Html;
 /** @var PhpTemplateRendererInterface $this */
-/** @var PaperAggregateInterface $paperAggregate */
-
+use Model\Arraymodel\Job;
 
 include 'data.php';
+
+$jobModel = new Job();
+foreach ($jobModel->getCompanyJobList($shortName) as $job) {
+    $jobs[] = array_merge($job, ['container' => $container, 'shortName' => $shortName]);
+}
+
 ?>
 
 <article class="paper">
@@ -25,5 +29,5 @@ include 'data.php';
 <?php include "pracovni-pozice/template.php" ?>
 <?php include "nas-program/template.php" ?>
 <?php include "chci-na-online-pohovor/template.php" ?>
-<?php include "chci-navazat-kontakt/template.php" ?> 
-<?php include "stahnout-letak/template.php" ?> 
+<?php include "chci-navazat-kontakt/template.php" ?>
+<?php include "stahnout-letak/template.php" ?>

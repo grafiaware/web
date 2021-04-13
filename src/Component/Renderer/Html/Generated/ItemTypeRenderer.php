@@ -33,7 +33,7 @@ class ItemTypeRenderer extends HtmlModelRendererAbstract implements RendererMode
         if (isset($transitions)) {
             foreach ($transitions as $type ) {
                 $radioHtml .=Html::tag('label', [],
-                                    Html::tag('input', ['type'=>"radio", 'name'=>"type", 'value'=>$type])
+                                    Html::tag('input', ['type'=>"radio", 'name'=>"type", 'value'=>$type, 'required'=>'1'])
                                     .$type
                                 );
             }

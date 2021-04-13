@@ -45,10 +45,10 @@ class VisitorDataPostRepo extends RepoAbstract implements VisitorDataPostRepoInt
 
     public function find($whereClause=null, $touplesToBind=[]) {
         $selected = [];
-        foreach ($this->dao->find($whereClause, $touplesToBind) as $enrollRow) {
-            $index = $this->indexFromRow($enrollRow);
+        foreach ($this->dao->find($whereClause, $touplesToBind) as $row) {
+            $index = $this->indexFromRow($row);
             if (!isset($this->collection[$index])) {
-                $this->recreateEntity($index, $enrollRow);
+                $this->recreateEntity($index, $row);
             }
             $selected[] = $this->collection[$index];
         }
@@ -57,10 +57,24 @@ class VisitorDataPostRepo extends RepoAbstract implements VisitorDataPostRepoInt
 
     public function findAll() {
         $selected = [];
-        foreach ($this->dao->findAll() as $enrollRow) {
-            $index = $this->indexFromRow($enrollRow);
+        foreach ($this->dao->findAll() as $rpw) {
+            $index = $this->indexFromRow($rpw);
             if (!isset($this->collection[$index])) {
-                $this->recreateEntity($index, $enrollRow);
+                $this->recreateEntity($index, $rpw);
+            }
+            $selected[] = $this->collection[$index];
+        }
+        return $selected;
+    }
+
+    public function findAllForPosition($shortName, $positionName) {
+        $selected = [];
+        $whereClause = "`short_name` = :short_name AND `position_name` = :position_name";
+        $touplesToBind = [':short_name' => $shortName, ':position_name' => $positionName];
+        foreach ($this->dao->find($whereClause, $touplesToBind) as $row) {
+            $index = $this->indexFromRow($row);
+            if (!isset($this->collection[$index])) {
+                $this->recreateEntity($index, $row);
             }
             $selected[] = $this->collection[$index];
         }
@@ -80,11 +94,11 @@ class VisitorDataPostRepo extends RepoAbstract implements VisitorDataPostRepoInt
     }
 
     protected function indexFromEntity(VisitorDataPostInterface $visitorDataPost) {
-        return $visitorDataPost->getLoginName().$visitorDataPost->getShortName();
+        return $visitorDataPost->getLoginName().$visitorDataPost->getShortName().$visitorDataPost->getPositionName();
     }
 
     protected function indexFromRow($row) {
-        return $row['login_name'].$row['short_name'];
+        return $row['login_name'].$row['short_name'].$row['position_name'];
     }
 
 

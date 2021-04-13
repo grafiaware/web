@@ -5,8 +5,15 @@ use Pes\Text\Html;
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregateInterface $paperAggregate */
 
+use Model\Arraymodel\Job;
 
 include 'data.php';
+
+$jobModel = new Job();
+foreach ($jobModel->getCompanyJobList($shortName) as $job) {
+    $jobs[] = array_merge($job, ['container' => $container, 'shortName' => $shortName]);
+}
+
 ?>
 
 <article class="paper">
