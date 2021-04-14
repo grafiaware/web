@@ -18,7 +18,7 @@ use Container\{
 
 use Middleware\Api\ApiController\{
     UserActionController, HierarchyController, EditItemController, PresentationActionController, PaperController, ContentController, EventController,
-    FilesUploadControler, VisitorDataUploadControler
+    FilesUploadControler, VisitorDataControler
 };
 
 class Api extends AppMiddlewareAbstract implements MiddlewareInterface {
@@ -249,19 +249,24 @@ class Api extends AppMiddlewareAbstract implements MiddlewareInterface {
             return $ctrl->enroll($request);
         });
         $routeGenerator->addRouteForAction('POST', '/api/v1/event/visitor', function(ServerRequestInterface $request) {
-            /** @var VisitorDataUploadControler $ctrl */
-            $ctrl = $this->container->get(VisitorDataUploadControler::class);
+            /** @var VisitorDataControler $ctrl */
+            $ctrl = $this->container->get(VisitorDataControler::class);
             return $ctrl->visitor($request);
         });
         $routeGenerator->addRouteForAction('POST', '/api/v1/event/uploadvisitorfile', function(ServerRequestInterface $request) {
-            /** @var VisitorDataUploadControler $ctrl */
-            $ctrl = $this->container->get(VisitorDataUploadControler::class);
+            /** @var VisitorDataControler $ctrl */
+            $ctrl = $this->container->get(VisitorDataControler::class);
             return $ctrl->uploadTxtDocuments($request);
         });
         $routeGenerator->addRouteForAction('POST', '/api/v1/event/visitorpost', function(ServerRequestInterface $request) {
-            /** @var VisitorDataUploadControler $ctrl */
-            $ctrl = $this->container->get(VisitorDataUploadControler::class);
+            /** @var VisitorDataControler $ctrl */
+            $ctrl = $this->container->get(VisitorDataControler::class);
             return $ctrl->postVisitorData($request);
+        });
+        $routeGenerator->addRouteForAction('POST', '/api/v1/event/sendvisitorpost', function(ServerRequestInterface $request) {
+            /** @var VisitorDataControler $ctrl */
+            $ctrl = $this->container->get(VisitorDataControler::class);
+            return $ctrl->sendVisitorDataPost($request);
         });
 ####################################
         /** @var $router RouterInterface */

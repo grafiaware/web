@@ -27,7 +27,7 @@ use Pes\Database\Handler\{
 // controller
 use \Middleware\Api\ApiController\{
     UserActionController, HierarchyController, EditItemController, PresentationActionController, PaperController, ContentController, EventController,
-    FilesUploadControler, VisitorDataUploadControler
+    FilesUploadControler, VisitorDataControler
 };
 
 // generator service
@@ -163,15 +163,14 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new Event($statusSecurityRepo->get());
             },
 
-            VisitorDataUploadControler::class => function(ContainerInterface $c) {
-                return new VisitorDataUploadControler(
+            VisitorDataControler::class => function(ContainerInterface $c) {
+                return (new VisitorDataControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
                         $c->get(VisitorDataRepo::class),
-                        $c->get(VisitorDataPostRepo::class)
-
-                        );
+                        $c->get(VisitorDataPostRepo::class))
+                        )->injectContainer($c);
             },
             // generator service
 

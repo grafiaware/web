@@ -7,14 +7,13 @@ use Site\Configuration;
 use Model\Repository\StatusSecurityRepo;
 use Model\Entity\LoginAggregateFullInterface;
 
-use Middleware\Api\ApiController\VisitorDataUploadControler;
+use Middleware\Api\ApiController\VisitorDataControler;
 use Model\Repository\VisitorDataRepo;
 use Model\Entity\VisitorDataInterface;
 use Model\Repository\VisitorDataPostRepo;
 use Model\Entity\VisitorDataPostInterface;
 
-use Model\Repository\BlockRepo;
-
+use Model\Arraymodel\Presenter;
 /** @var PhpTemplateRendererInterface $this */
 
 ###### kontext #######
@@ -25,7 +24,7 @@ $positionName = $nazev;
 
 $isPresenter = false;
 $isVisitor = false;
-$visitorDataPosted = false;
+$isVisitorDataPost = false;
 
 // používá se: $kvalifikace[$vzdelani]
 $kvalifikace = [
@@ -46,20 +45,20 @@ $statusSecurity = $statusSecurityRepo->get();
 $loginAggregate = $statusSecurity->getLoginAggregate();
 ####
 
+$presenterModel = new Presenter();
+
+
 /** @var VisitorDataPostRepo $visitorDataPostRepo */
 $visitorDataPostRepo = $container->get(VisitorDataPostRepo::class);
-
-// count of visitirData Posts - zde se volá vždy - varianta pro zobrazování počtu zájemců vždy
-/** @var VisitorDataPostInterface $visitorDataPost */
-$visitorDataPosts = $visitorDataPostRepo->findAllForPosition($shortName, $positionName);
-$visitorDataCount = count($visitorDataPosts);
 
 
 if (isset($loginAggregate)) {
     $loginName = $loginAggregate->getLoginName();
     $role = $loginAggregate->getCredentials()->getRole() ?? '';
+    $presenterPerson = $presenterModel->getPerson($loginName);
+
     $isVisitor = $role==Configuration::loginLogoutControler()['roleVisitor'];
-    $isPresenter = $role==Configuration::loginLogoutControler()['rolePresenter'];
+    $isPresenter = (($role==Configuration::loginLogoutControler()['rolePresenter']) AND ($presenterPerson['shortName']==$shortName));
 
     if ($isVisitor) {
         /** @var VisitorDataRepo $visitorDataRepo */
@@ -74,17 +73,19 @@ if (isset($loginAggregate)) {
         // unikátní jména souborů pro upload
         $userHash = $loginAggregate->getLoginNameHash();
         $accept = implode(", ", Configuration::filesUploadControler()['uploads.acceptedextensions']);
-        $uploadedCvFilename = VisitorDataUploadControler::UPLOADED_KEY_CV.$userHash;
-        $uploadedLetterFilename = VisitorDataUploadControler::UPLOADED_KEY_LETTER.$userHash;
+        $uploadedCvFilename = VisitorDataControler::UPLOADED_KEY_CV.$userHash;
+        $uploadedLetterFilename = VisitorDataControler::UPLOADED_KEY_LETTER.$userHash;
 
         // email z registrace
         // - pokud existuje registrace (loginAggregate má registration) defaultně nastaví jako email hodnotu z registrace $registration->getEmail(), pak input pro email je readonly
         // - předvyplňuje se z $visitorData
         $email = isset($visitorData) ? $visitorData->getEmail() : ($loginAggregate->getRegistration() ? $loginAggregate->getRegistration()->getEmail() : '');
 
+        $visitorLoginName = $loginName;
+
         // hodnoty do formuláře z visitorDataPost (odeslaná data - zájem o pozici), pokud ještě nevznikl z visitorData (z profilu)
         if (isset($visitorDataPost)) {
-            $visitorDataPosted = true;
+            $isVisitorDataPost = true;
             $readonly = 'readonly="1"';
             $disabled = 'disabled="1"';
             $prefix = isset($visitorDataPost) ? $visitorDataPost->getPrefix() : '';
@@ -100,7 +101,7 @@ if (isset($loginAggregate)) {
             $cvDocumentFilename = isset($visitorDataPost) ? $visitorDataPost->getCvDocumentFilename() : '';
             $letterDocumentFilename = isset($visitorData) ? $visitorData->getLetterDocumentFilename() : '';
         } else {
-            $visitorDataPosted = false;
+            $isVisitorDataPost = false;
             $readonly = '';
             $disabled = '';
             // - pokud existuje registrace (loginAggregate má registration) defaultně nastaví jako email hodnotu z registrace $registration->getEmail(), pak input pro email je readonly
@@ -121,15 +122,38 @@ if (isset($loginAggregate)) {
     }
 
     if ($isPresenter) {
+        /** @var VisitorDataPostInterface $visitorDataPost */
+        $visitorDataPosts = $visitorDataPostRepo->findAllForPosition($shortName, $positionName);
+        $visitorDataCount = count($visitorDataPosts);
+        $allFormVisitorDataPost = [];
 
+        if ($visitorDataPosts) {
+            $isVisitorDataPost = true;
+            $visitorFormData['readonly'] = 'readonly="1"';
+            $visitorFormData['disabled'] = 'disabled="1"';
+            $visitorFormData['shortName'] = $shortName;
+            $visitorFormData['positionName'] = $positionName;
+            $visitorFormData['isPresenter'] = $isPresenter;
+            $visitorFormData['isVisitor'] = $isVisitor;
+            $visitorFormData['presenterEmail'] = $loginAggregate->getRegistration() ? $loginAggregate->getRegistration()->getEmail() : 'Nezadána mail adresa!';
+            foreach ($visitorDataPosts as $visitorDataPost) {
+                $visitorFormData['visitorLoginName'] = $visitorDataPost->getLoginName();  // pro hidden pole
+                $visitorFormData['prefix'] = $visitorDataPost->getPrefix();
+                $visitorFormData['email'] = $visitorDataPost->getEmail();
+                $visitorFormData['readonlyEmail'] = $visitorDataPost->getEmail() ? 'readonly="1"' : '';  // proměnná pro input email
+
+                $visitorFormData['firstName'] = $visitorDataPost->getName();
+                $visitorFormData['surname'] = $visitorDataPost->getSurname();
+                $visitorFormData['postfix'] = $visitorDataPost->getPostfix();
+                $visitorFormData['phone'] = $visitorDataPost->getPhone();
+                $visitorFormData['cvEducationText'] = $visitorDataPost->getCvEducationText();
+                $visitorFormData['cvSkillsText'] = $visitorDataPost->getCvSkillsText();
+                $visitorFormData['cvDocumentFilename'] = $visitorDataPost->getCvDocumentFilename();
+                $visitorFormData['letterDocumentFilename'] = $visitorDataPost->getLetterDocumentFilename();
+                $allFormVisitorDataPost[] = $visitorFormData;
+            }
+        }
     }
-} else {
-
-    // odkaz na stánek - v tabulce blok musí existovat položka s názvem==$shortName
-    /** @var BlockRepo $blockRepo */
-    $blockRepo = $container->get(BlockRepo::class);
-    $block = $blockRepo->get($shortName);
-    //$presenterItemUid = isset($block) ? $block->getUidFk() : '';
 }
 ?>
 
@@ -137,12 +161,12 @@ if (isset($loginAggregate)) {
             <p class="podnadpis"><i class="dropdown icon"></i><?= $nazev ?>, <?= $mistoVykonu ?>
                 <?= $this->repeat(__DIR__.'/pozice/tag.php', $kategorie, 'cislo') ?>
                 <?php
-                if($visitorDataPosted) {
+                if($isVisitor AND $isVisitorDataPost) {
                     ?>
                     <span class="ui big green label">Pracovní údaje odeslány</span>
                     <?php
                 }
-                if($visitorDataCount) {
+                if($isPresenter AND $visitorDataCount) {
                     ?>
                     <span class="ui big orange label">Hlásí se zájemci na pozici. Počet: <?= $visitorDataCount ?></span>
                     <?php
@@ -189,7 +213,7 @@ if (isset($loginAggregate)) {
                                         ?>
                                         <div class="sixteen wide column center aligned">
                                         <?php
-                                        if($visitorDataPosted) {
+                                        if($isVisitorDataPost) {
                                             ?>
                                             <div class="ui large button green profil-visible">
                                                 <i class="play icon"></i>
@@ -201,7 +225,7 @@ if (isset($loginAggregate)) {
                                             ?>
                                             <div class="ui large button blue profil-visible">
                                                 <i class="play icon"></i>
-                                                <span>Mám zájem o tuto pozici, chci odeslat mé údaje zaměstnavateli &nbsp;</span>
+                                                <span>Mám zájem o tuto pozici &nbsp;</span>
                                                 <i class="play flipped icon"></i>
                                             </div>
                                             <?php
@@ -212,23 +236,39 @@ if (isset($loginAggregate)) {
                                             <div class="profil hidden">
                                                 <?php
                                                     // pokud je $visitorDataPosted je nastaveno readonly
-                                                    include Configuration::componentControler()['templates'].'visitor-data//osobni-udaje.php'; ?>
+                                                    include Configuration::componentControler()['templates'].'visitor-data/osobni-udaje.php'; ?>
                                             </div>
                                         </div>
                                         <?php
                                     } elseif ($isPresenter) {
+                                        if($isVisitorDataPost) {
+                                            ?>
+                                            <div class="sixteen wide column center aligned">
 
+                                                <div class="ui large button green profil-visible">
+                                                    <i class="play icon"></i>
+                                                    <span>Chci si prohlédnout údaje, které zájemci odeslali  &nbsp;</span>
+                                                    <i class="play flipped icon"></i>
+                                                </div>
+                                            </div>
+                                            <div class="sixteen wide column">
+                                                <div class="profil hidden">
+                                                    <?= $this->repeat(Configuration::componentControler()['templates'].'visitor-data/osobni-udaje.php', $allFormVisitorDataPost); ?>
+                                                </div>
+                                            </div>
+                                            <?php
+                                        }
                                     } else {
                                         ?>
                                         <div class="sixteen wide column center aligned">
                                             <div class="ui large button blue profil-visible">
                                                 <i class="play icon"></i>
-                                                <span>Mám zájem o tuto pozici, chci odeslat mé údaje zaměstnavateli &nbsp;</span>
+                                                <span>Mám zájem o tuto pozici &nbsp;</span>
                                                 <i class="play flipped icon"></i>
                                             </div>
                                             <div class="profil hidden">
                                                 <div class="active title">
-                                                    <i class="exclamation icon"></i>Přihlašte se jako návštěvník. <i class="user icon"></i> Údaje mohou posílat přihlášení návštěvníci. Pokud ještě nejste zaregistrování, nejprve se registrujte. <i class="address card icon"></i>
+                                                    <i class="exclamation icon"></i>Přihlašte se jako návštěvník. <i class="user icon"></i> Přihlášení návštěvníci mohou posílat přímo zaměstnavateli. Pokud ještě nejste zaregistrování, nejprve se registrujte. <i class="address card icon"></i>
                                                 </div>
                                                 <?php
                                                 if (isset($block)) {

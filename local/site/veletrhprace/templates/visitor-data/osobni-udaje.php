@@ -14,9 +14,10 @@
                 ?>
             </div>
             <div class="active content">
-                <form class="ui huge form" action="api/v1/event/visitorpost" method="POST" enctype="multipart/form-data">
+                <form class="ui huge form" action="" method="POST" enctype="multipart/form-data">visitorLoginName
                     <input type='hidden' name="short-name" value="<?= $shortName ?>">
                     <input type='hidden' name="position-name" value="<?= $positionName ?>">
+                    <input type='hidden' name="visitor-login-name" value="<?= $visitorLoginName ?? '' ?>">
                     <div class="four fields">
                         <div class="three wide field">
                             <label>Titul před jménem</label>
@@ -107,12 +108,21 @@
                         <div class="field margin"></div>
 
                         <div class="field">
-                            <button class="ui massive primary button" type="submit">Odeslat</button>
+                            <button class="ui massive primary button" type="submit" formaction="api/v1/event/visitorpost">Odeslat údaje zaměstnavateli</button>
                         </div>
                     </div>
                     <?php
+                    } elseif($isPresenter) {
+                        ?>
+                        <div class="two fields">
+                            <div class="field margin"></div>
+
+                            <div class="field">
+                                <button class="ui massive primary button" type="submit" formaction="api/v1/event/sendvisitorpost">Odeslat mailem na <?= $presenterEmail ?></button>
+                            </div>
+                        </div>
+                        <?php
                     }
                     ?>
-
                 </form>
             </div>

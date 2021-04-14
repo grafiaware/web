@@ -25,7 +25,7 @@ $event = [];
 $eventList = new Event($statusSecurity);
 
 
-$institutionName = $presenterItem["eventInstitutionName"];
+$institutionName = $presenterPerson["eventInstitutionName"];
 
 $event = $eventList->getEventList(null, $institutionName, [], false);   // enrolling = false
 

@@ -17,6 +17,7 @@ use Model\Arraymodel\Presenter;
 //        $readonly = '';
 //        $disabled = '';
 
+$isPresenter = false;
 
 $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
 /** @var StatusSecurityRepo $statusSecurityRepo */
@@ -24,20 +25,20 @@ $statusSecurity = $statusSecurityRepo->get();
 /** @var LoginAggregateCredentialsInterface $loginAggregate */
 $loginAggregate = $statusSecurity->getLoginAggregate();
 
-$presenterModel = new Presenter();
 $jobModel = new Job();
 
 if (isset($loginAggregate)) {
     $credentials = $loginAggregate->getCredentials();
     $role = $credentials->getRole();
     $loginName = $loginAggregate->getLoginName();
+    $presenterModel = new Presenter();
+    $presenterPerson = $presenterModel->getPerson($loginName);
 
     if(isset($role) AND $role==Configuration::loginLogoutControler()['rolePresenter']) {
         $isPresenter = true;
-        $presenterItem = $presenterModel->getPerson($loginName);
 
         $presenterJobs = array();
-        $shortName = $presenterItem['shortName'];  // každý s rolí presenter musí existovat v modelu jako presenterPerson
+        $shortName = $presenterPerson['shortName'];  // každý s rolí presenter musí existovat v modelu jako presenterPerson
         foreach ($jobModel->getCompanyJobList($shortName) as $job) {
             $jobs[] = array_merge($job, ['container' => $container, 'shortName' => $shortName]);
         }
@@ -77,7 +78,7 @@ if($isPresenter) {
                     <?php
                     foreach ($presenterModel->getCompanyList() as $shortN => $comp) {
                     ?>
-                    <option value="<?= $comp['name']?>" <?= $shortN==$presenterItem['shortName'] ? "selected" : "" ?> > <?= $comp['name']?></option>
+                    <option value="<?= $comp['name']?>" <?= $shortN==$presenterPerson['shortName'] ? "selected" : "" ?> > <?= $comp['name']?></option>
                     <?php
                     }
                     ?>

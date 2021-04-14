@@ -7,7 +7,7 @@ use Pes\Text\Html;
 use Site\Configuration;
 use Model\Entity\LoginAggregateFullInterface;
 
-use Middleware\Api\ApiController\VisitorDataUploadControler;
+use Middleware\Api\ApiController\VisitorDataControler;
 use Model\Entity\VisitorData;
 
 /** @var PhpTemplateRendererInterface $this */
@@ -16,8 +16,8 @@ use Model\Entity\VisitorData;
 
 $userHash = $loginAggregate->getLoginNameHash();
 $accept = implode(", ", Configuration::filesUploadControler()['uploads.acceptedextensions']);
-$$uploadedCvFilename = VisitorDataUploadControler::UPLOADED_KEY_CV.$userHash;
-$uploadedLetterFilename = VisitorDataUploadControler::UPLOADED_KEY_LETTER.$userHash;
+$uploadedCvFilename = VisitorDataControler::UPLOADED_KEY_CV.$userHash;
+$uploadedLetterFilename = VisitorDataControler::UPLOADED_KEY_LETTER.$userHash;
 
 // formulář
 // - pokud existuje registrace (loginAggregate má registration) defaultně nastaví jako email hodnotu z registrace $registration->getEmail(), pak input pro email je readonly
@@ -88,7 +88,7 @@ $email = isset($visitorData) ? $visitorData->getEmail() : ($loginAggregate->getR
                      <div class="two fields">
                         <div class="field margin">
                             <label><?= (isset($visitorData) AND $visitorData->getCvDocumentFilename()) ? 'Příloha - můžete nahrát jiný životopis' : 'Příloha - životopis'; ?></label>
-                            <input type="file" name="<?= $$uploadedCvFilename ?>" accept="<?= $accept ?>"  "multiple"=0 size="1">
+                            <input type="file" name="<?= $uploadedCvFilename ?>" accept="<?= $accept ?>"  "multiple"=0 size="1">
                         </div>
                         <div class="field margin">
                             <button class="ui massive primary button" type="submit">Uložit životopis</button>

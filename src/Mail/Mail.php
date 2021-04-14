@@ -10,6 +10,7 @@ use Psr\Log\LoggerInterface;
 
 use Mail\Params;
 use Mail\Params\Attachment;
+use Mail\Params\StringAttachment;
 use Mail\Exception\MailException;
 
 /**
@@ -116,8 +117,12 @@ class Mail {
 
             //Attachments
             foreach ($actualParams->getContent()->getAttachments() as $attachment) {
-                /** @var Attachment $attachment */
-                $mail->addAttachment($attachment->getFileName(), $attachment->getAltText());      //Add attachments  //Optional name
+                if ($attachment instanceof Attachment) {
+                    $mail->addAttachment($attachment->getFileName(), $attachment->getAltText());      //Add attachments  //Optional name
+                }
+                if ($attachment instanceof StringAttachment) {
+                    $mail->addStringAttachment($attachment->getStringAttachment(), $attachment->getAltText());      //Add attachments  //Optional name
+                }
             }
 
             //Content
