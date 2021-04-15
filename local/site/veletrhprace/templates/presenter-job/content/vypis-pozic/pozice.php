@@ -166,10 +166,16 @@ if (isset($loginAggregate)) {
                     <span class="ui big green label">Pracovní údaje odeslány</span>
                     <?php
                 }
-                if($isPresenter AND $visitorDataCount) {
+                if($isPresenter) {
+                    if ($visitorDataCount>0) {
                     ?>
                     <span class="ui big orange label">Hlásí se zájemci na pozici. Počet: <?= $visitorDataCount ?></span>
                     <?php
+                    } else {
+                    ?>
+                    <span class="ui big grey label">Na pozici se dusud nikdo nehlásil</span>
+                    <?php
+                    }
                 }
                 ?>
             </p>
