@@ -30,14 +30,18 @@ class ConfigurationDb extends ConfigurationConstants {
             # Sekce konfigurace účtů databáze pro api kontejner
             # Ostatní parametry konfigurace databáze v kontejneru dbUpgrade
             #
-            'api.db.everyone.name' => 'tydenzdravieu001',
-            'api.db.everyone.password' => 'tz_upgrader',
-            'api.db.authenticated.name' => 'tydenzdravieu001',
-            'api.db.authenticated.password' => 'tz_upgrader',
-            'api.db.administrator.name' => 'tydenzdravieu001',
-            'api.db.administrator.password' => 'tz_upgrader',
+            # Konfigurace připojení k databázi je v delegate kontejneru.
+            # Konfigurace připojení k databázi může být v aplikačním kontejneru nebo různá v jednotlivých middleware kontejnerech.
+            #
+            'api.db.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tydenzdravieu001' : 'tz_everyone',
+            'api.db.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tz_upgrader' : 'tz_everyone',
+            'api.db.authenticated.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tydenzdravieu001' : 'tz_auth',
+            'api.db.authenticated.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tz_upgrader' : 'tz_auth',
+            'api.db.administrator.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tydenzdravieu001' : 'tz_admin',
+            'api.db.administrator.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tz_upgrader' : 'tz_admin',
             #
             ###################################
+            # Konfigurace logu databáze
             #
             'api.logs.view.directory' => 'Logs/App/Web',
             'api.logs.view.file' => 'Render.log',
@@ -53,32 +57,37 @@ class ConfigurationDb extends ConfigurationConstants {
     public static function build() {
         return [
             #################################
-            # Sekce konfigurace databáze
-            # Konfigurace databáze může být v aplikačním kontejneru nebo různá v jednotlivých middleware kontejnerech.
+            # Sekce konfigurace uživatele databáze
+            # - konfigurováni dva uživatelé - jeden pro vývoj a druhý pro běh na produkčním stroji
+            # - uživatelé musí mít
+            #      - práva drop a create database
+            #      - crud práva + grant option k nové (upgrade) databázi redakčního sytému
+            #      - crud práva + grant option k nové databázi zabezpečení
+            #      - select k staré databázi redakního systému
+            # - reálně nejlépe role DBA
             #
-            ## konfigurována dvě připojení k databázi - jedno pro vývoj a druhé pro běh na produkčním stroji
+            # Konfigurace připojení k databázi je v delegate kontejneru.
+            # Konfigurace připojení k databázi může být v aplikačním kontejneru nebo různá v jednotlivých middleware kontejnerech.
             #
-            # user s právy drop a create database + crud práva + grant option k nové (upgrade) databázi
-            # a také select k staré databázi - reálně nejlépe role DBA
-            'build.db.user.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tydenzdravieu001' : 'tydenzdravieu001',
+            'build.db.user.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tydenzdravieu001' : 'tz_upgrader',
             'build.db.user.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tz_upgrader' : 'tz_upgrader',
             #
             ###################################
 
             ###################################
-            # Konfigurace create users - ostatní parametry přidá kontejner
+            # Konfigurace vytvářených uživatelů - příkaz createusers - ostatní parametry přidá kontejner
             #
             'build.config.users.everyone' =>
                 [
-                    'everyone_user' => 'tydenzdravieu001',
-                    'everyone_password' => 'tz_upgrader',
+                    'everyone_user' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tydenzdravieu001' : 'tz_everyone',
+                    'everyone_password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tz_upgrader' : 'tz_everyone',
                 ],
             'build.config.users.granted' =>
                 [
-                    'authenticated_user' => 'tydenzdravieu001',
-                    'authenticated_password' => 'tz_upgrader',
-                    'administrator_user' => 'tydenzdravieu001',
-                    'administrator_password' => 'tz_upgrader',
+                    'authenticated_user' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tydenzdravieu001' : 'tz_auth',
+                    'authenticated_password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tz_upgrader' : 'tzvp_auth',
+                    'administrator_user' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tydenzdravieu001' : 'tz_admin',
+                    'administrator_password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tz_upgrader' : 'tz_admin',
                 ],
             #
             ###################################
@@ -137,23 +146,23 @@ class ConfigurationDb extends ConfigurationConstants {
     public static function dbOld() {
         return [
             #################################
-            # Sekce konfigurace databáze
-            # Konfigurace databáze může být v aplikačním kontejneru nebo různá v jednotlivých middleware kontejnerech.
-            # Služby, které vrací objekty jsou v aplikačním kontejneru a v jednotlivých middleware kontejnerech musí být
-            # stejná sada služeb, které vracejí hodnoty konfigurace.
+            # Konfigurace připojení k databázi starého redakčního systému
+            #
+            # Konfigurována jsou dvě připojení k databázi - jedno pro vývoj a druhé pro běh na produkčním stroji
             #
             'dbold.db.type' => DbTypeEnum::MySQL,
             'dbold.db.port' => '3306',
             'dbold.db.charset' => 'utf8',
             'dbold.db.collation' => 'utf8_general_ci',
-
             'dbold.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? '127.0.0.1' : 'localhost',
             'dbold.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tydenzdravieu01' : 'wwwgrafia',
-
+            #
+            ###################################
+            # Konfigurace logu databáze
+            #
             'dbold.logs.directory' => 'Logs/DbOld',
             'dbold.logs.db.file' => 'Database.log',
             #
-            # Konec sekce konfigurace databáze
             ###################################
         ];
     }
@@ -165,10 +174,9 @@ class ConfigurationDb extends ConfigurationConstants {
     public static function dbUpgrade() {
         return [
             #####################################
-            # Konfigurace databáze
+            # Konfigurace připojení k databázi nového redakčního systému
             #
-            # konfigurovány dvě databáze pro Hierarchy a Konverze kontejnery
-            # - jedna pro vývoj a druhá pro běh na produkčním stroji
+            # Konfigurována jsou dvě připojení k databázi - jedno pro vývoj a druhé pro běh na produkčním stroji
             #
             'dbUpgrade.db.type' => DbTypeEnum::MySQL,
             'dbUpgrade.db.port' => '3306',
@@ -196,10 +204,11 @@ class ConfigurationDb extends ConfigurationConstants {
     public static function hierarchy() {
         return  [
             #################################
-            # Konfigurace databáze
-            # Ostatní parametry konfigurace databáze v kontejneru dbUpgrade
+            # Konfigurace uživatele databáze
             #
-            'dbUpgrade.db.user.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tydenzdravieu001' : 'tydenzdravieu001',
+            # - konfigurováni dva uživatelé - jeden pro vývoj a druhý pro běh na produkčním stroji
+            #
+            'dbUpgrade.db.user.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tydenzdravieu001' : 'tz_upgrader',
             'dbUpgrade.db.user.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tz_upgrader' : 'tz_upgrader',
             #
             ###################################
@@ -225,13 +234,14 @@ class ConfigurationDb extends ConfigurationConstants {
     public static function login() {
         return  [
             #################################
-            # Sekce konfigurace účtů databáze
+            # Sekce konfigurace uživatele databáze
             #
-            # user s právem select k databázi s tabulkou uživatelských oprávnění
+            # - konfigurováni dva uživatelé - jeden pro vývoj a druhý pro běh na produkčním stroji
+            # - uživatelé musí mít právo select k databázi s tabulkou uživatelských oprávnění
             # MySQL 5.6: délka jména max 16 znaků
 
-            'login.db.account.everyone.name' => 'tydenzdravieu002',  // nelze použít jméno uživatele použité pro db upgrade - došlo by k duplicitě jmen v build create
-            'login.db.account.everyone.password' => 'tz_opravneni',
+            'login.db.account.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tydenzdravieu002' : 'vp_login',  // nelze použít jméno uživatele použité pro db upgrade - došlo by k duplicitě jmen v build create
+            'login.db.account.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tz_opravneni' : 'vp_login',
 
             'login.logs.database.directory' => 'Logs/Login',
             'login.logs.database.file' => 'Database.log',
@@ -248,46 +258,22 @@ class ConfigurationDb extends ConfigurationConstants {
     public static function web() {
         return [
             #################################
-            # Sekce konfigurace účtů databáze
-            # Konfigurace připojení k databázi je v aplikačním kontejneru, je pro celou aplikaci stejná.
-            # Služby, které vrací objekty s informacemi pro připojení k databázi jsou také v aplikačním kontejneru a v jednotlivých middleware
-            # kontejnerech se volají jako služby delegate kontejneru.
+            # Sekce konfigurace uživatelů databáze nového redakčního systému
             #
-            # Zde je konfigurace údajů uživatele pro připojení k databázi. Ta je pro každý middleware v jeho kontejneru.
-            'web.db.account.everyone.name' => 'tydenzdravieu001',
-            'web.db.account.everyone.password' => 'tz_upgrader',
-            'web.db.account.authenticated.name' => 'tydenzdravieu001',
-            'web.db.account.authenticated.password' => 'tz_upgrader',
-            'web.db.account.administrator.name' => 'tydenzdravieu001',
-            'web.db.account.administrator.password' => 'tz_upgrader',
+            # Zde je konfigurace údajů uživatele pro připojení k databázi.
+            #
+            # Konfigurace připojení k databázi je v delegate kontejneru.
+            # Konfigurace připojení k databázi může být v aplikačním kontejneru nebo různá v jednotlivých middleware kontejnerech.
+            #
+            'web.db.account.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tydenzdravieu001' : 'vp_everyone',
+            'web.db.account.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tz_upgrader' : 'vp_everyone',
+            'web.db.account.authenticated.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tydenzdravieu001' : 'vp_auth',
+            'web.db.account.authenticated.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tz_upgrader' : 'vp_auth',
+            'web.db.account.administrator.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tydenzdravieu001' : 'vp_admin',
+            'web.db.account.administrator.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'tz_upgrader' : 'vp_admin',
             #
             ###################################
         ];
     }
 
-    /**
-     * Konfigurace kontejneru - vrací parametry pro RsContainerConfigurator
-     * @return array
-     */
-    public static function rs() {
-        return [
-
-            #################################
-            # Sekce konfigurace účtů databáze
-            # Konfigurace připojení k databázi je v aplikačním kontejneru, je pro celou apliaci stejná.
-            # Služby, které vrací objekty s informacemi pro připojení k databázi jsou také v aplikačním kontejneru a v jednotlivých middleware
-            # kontejnerech se volají jako služby delegate kontejneru.
-            #
-            # Zde je konfigurace údajů uživatele pro připojení k databízi. Ta je pro každý middleware v jeho kontejneru.
-            'rs.db.account.everyone.name' => 'tydenzdravieu001',
-            'rs.db.account.everyone.password' => 'tz_upgrader',
-            'rs.db.account.authenticated.name' => 'tydenzdravieu001',
-            'rs.db.account.authenticated.password' => 'tz_upgrader',
-            'rs.db.account.administrator.name' => 'tydenzdravieu001',
-            'rs.db.account.administrator.password' => 'tz_upgrader',
-            #
-            ###################################
-
-        ];
-    }
 }

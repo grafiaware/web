@@ -21,12 +21,13 @@ class ConfigurationConstants {
     // local
     const RED_TEMPLATES_COMMON = 'local/site/common/templates/';
     const RED_TEMPLATES_SITE = 'local/site/'.self::RED_SITE_PATH.'templates/';
+    const RED_STATIC = 'local/site/'.self::RED_SITE_PATH.'static/';
     // public
     const RED_ASSETS = 'public/assets/';
     const RED_LINKS_COMMON = 'public/site/common/';
     const RED_LINKS_SITE = 'public/site/'.self::RED_SITE_PATH;
     // files
-    const RED_FILES = '_www_gr_files/';
+    const RED_FILES_PATH = '_www_gr_files/';
+    const RED_FILES = '/_www_gr_files/';
     const RED_BOOTSTRAP_LOGS = '/_www_gr_logs/';
-
 }
