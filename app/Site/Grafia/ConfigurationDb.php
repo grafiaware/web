@@ -28,16 +28,20 @@ class ConfigurationDb extends ConfigurationConstants {
         return [
             #################################
             # Sekce konfigurace účtů databáze pro api kontejner
-            # Ostatní parametry konfigurace databáze v kontejneru dbUpgrade
+            # - konfigurováni dva uživatelé - jeden pro vývoj a druhý pro běh na produkčním stroji
             #
-            'api.db.everyone.name' => 'gr_everyone',
-            'api.db.everyone.password' => 'gr_everyone',
-            'api.db.authenticated.name' => 'gr_auth',
-            'api.db.authenticated.password' => 'gr_auth',
-            'api.db.administrator.name' => 'gr_admin',
-            'api.db.administrator.password' => 'gr_admin',
+            # Konfigurace připojení k databázi je v delegate kontejneru.
+            # Konfigurace připojení k databázi může být v aplikačním kontejneru nebo různá v jednotlivých middleware kontejnerech.
+            #
+            'api.db.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_PRODUCTION_USER_NAME' : 'gr_everyone',
+            'api.db.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'gr_upgrader' : 'gr_everyone',
+            'api.db.authenticated.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_PRODUCTION_USER_NAME' : 'gr_auth',
+            'api.db.authenticated.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'gr_upgrader' : 'gr_auth',
+            'api.db.administrator.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_PRODUCTION_USER_NAME' : 'gr_admin',
+            'api.db.administrator.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'gr_upgrader' : 'gr_admin',
             #
             ###################################
+            # Konfigurace logu databáze
             #
             'api.logs.view.directory' => 'Logs/App/Web',
             'api.logs.view.file' => 'Render.log',
@@ -53,10 +57,17 @@ class ConfigurationDb extends ConfigurationConstants {
     public static function build() {
         return [
             #################################
-            # Sekce konfigurace databáze
-            # Konfigurace databáze může být v aplikačním kontejneru nebo různá v jednotlivých middleware kontejnerech.
+            # Sekce konfigurace uživatele databáze
+            # - konfigurováni dva uživatelé - jeden pro vývoj a druhý pro běh na produkčním stroji
+            # - uživatelé musí mít
+            #      - práva drop a create database
+            #      - crud práva + grant option k nové (upgrade) databázi redakčního sytému
+            #      - crud práva + grant option k nové databázi zabezpečení
+            #      - select k staré databázi redakního systému
+            # - reálně nejlépe role DBA
             #
-            ## konfigurována dvě připojení k databázi - jedno pro vývoj a druhé pro běh na produkčním stroji
+            # Konfigurace připojení k databázi je v delegate kontejneru.
+            # Konfigurace připojení k databázi může být v aplikačním kontejneru nebo různá v jednotlivých middleware kontejnerech.
             #
             # user s právy drop a create database + crud práva + grant option k nové (upgrade) databázi
             # a také select k staré databázi - reálně nejlépe role DBA
@@ -66,19 +77,19 @@ class ConfigurationDb extends ConfigurationConstants {
             ###################################
 
             ###################################
-            # Konfigurace create users - ostatní parametry přidá kontejner
+            # Konfigurace vytvářených uživatelů - příkaz createusers - ostatní parametry přidá kontejner
             #
             'build.config.users.everyone' =>
                 [
-                    'everyone_user' => 'gr_everyone',
-                    'everyone_password' => 'gr_everyone',
+                    'everyone_user' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_BUILD_PRODUCTION_HOST' : 'gr_everyone',
+                    'everyone_password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_BUILD_PRODUCTION_USER' : 'gr_everyone',
                 ],
             'build.config.users.granted' =>
                 [
-                    'authenticated_user' => 'gr_auth',
-                    'authenticated_password' => 'gr_auth',
-                    'administrator_user' => 'gr_admin',
-                    'administrator_password' => 'gr_admin',
+                    'authenticated_user' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_BUILD_PRODUCTION_HOST' : 'gr_auth',
+                    'authenticated_password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_BUILD_PRODUCTION_USER' : 'gr_auth',
+                    'administrator_user' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_BUILD_PRODUCTION_HOST' : 'gr_admin',
+                    'administrator_password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_BUILD_PRODUCTION_USER' : 'gr_admin',
                 ],
             #
             ###################################
@@ -99,8 +110,6 @@ class ConfigurationDb extends ConfigurationConstants {
                 'trash',
                 'blocks',
                 'menu_vertical',
-                'menu_horizontal',
-                'menu_redirect',
             ],
             'build.config.convert.copy' =>
                 [
@@ -148,23 +157,23 @@ class ConfigurationDb extends ConfigurationConstants {
     public static function dbOld() {
         return [
             #################################
-            # Sekce konfigurace databáze
-            # Konfigurace databáze může být v aplikačním kontejneru nebo různá v jednotlivých middleware kontejnerech.
-            # Služby, které vrací objekty jsou v aplikačním kontejneru a v jednotlivých middleware kontejnerech musí být
-            # stejná sada služeb, které vracejí hodnoty konfigurace.
+            # Konfigurace připojení k databázi starého redakčního systému
+            #
+            # Konfigurována jsou dvě připojení k databázi - jedno pro vývoj a druhé pro běh na produkčním stroji
             #
             'dbold.db.type' => DbTypeEnum::MySQL,
             'dbold.db.port' => '3306',
             'dbold.db.charset' => 'utf8',
             'dbold.db.collation' => 'utf8_general_ci',
-
             'dbold.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? 'OLD_PRODUCTION_NAME' : 'localhost',
             'dbold.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'OLD_PRODUCTION_HOST' : 'wwwgrafia',
-
+            #
+            ###################################
+            # Konfigurace logu databáze
+            #
             'dbold.logs.directory' => 'Logs/DbOld',
             'dbold.logs.db.file' => 'Database.log',
             #
-            # Konec sekce konfigurace databáze
             ###################################
         ];
     }
@@ -176,10 +185,9 @@ class ConfigurationDb extends ConfigurationConstants {
     public static function dbUpgrade() {
         return [
             #####################################
-            # Konfigurace databáze
+            # Konfigurace připojení k databázi nového redakčního systému
             #
-            # konfigurovány dvě databáze pro Hierarchy a Konverze kontejnery
-            # - jedna pro vývoj a druhá pro běh na produkčním stroji
+            # Konfigurována jsou dvě připojení k databázi - jedno pro vývoj a druhé pro běh na produkčním stroji
             #
             'dbUpgrade.db.type' => DbTypeEnum::MySQL,
             'dbUpgrade.db.port' => '3306',
@@ -188,7 +196,6 @@ class ConfigurationDb extends ConfigurationConstants {
             'dbUpgrade.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_PRODUCTION_HOST' : 'localhost',
             'dbUpgrade.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_PRODUCTION_NAME' : 'gr_upgrade',
             #
-            #  Konec sekce konfigurace databáze
             ###################################
             # Konfigurace logu databáze
             #
@@ -207,8 +214,9 @@ class ConfigurationDb extends ConfigurationConstants {
     public static function hierarchy() {
         return  [
             #################################
-            # Konfigurace databáze
-            # Ostatní parametry konfigurace databáze v kontejneru dbUpgrade
+            # Konfigurace uživatele databáze
+            #
+            # - konfigurováni dva uživatelé - jeden pro vývoj a druhý pro běh na produkčním stroji
             #
             'dbUpgrade.db.user.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_PRODUCTION_USER_NAME' : 'gr_upgrader',
             'dbUpgrade.db.user.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'UPGRADE_PRODUCTION_USER_PASSWORD' : 'gr_upgrader',
@@ -236,13 +244,14 @@ class ConfigurationDb extends ConfigurationConstants {
     public static function login() {
         return  [
             #################################
-            # Sekce konfigurace účtů databáze
+            # Sekce konfigurace uživatele databáze
             #
-            # user s právem select k databázi s tabulkou uživatelských oprávnění
+            # - konfigurováni dva uživatelé - jeden pro vývoj a druhý pro běh na produkčním stroji
+            # - uživatelé musí mít právo select k databázi s tabulkou uživatelských oprávnění
             # MySQL 5.6: délka jména max 16 znaků
 
-            'login.db.account.everyone.name' => 'gr_login',  // nelze použít jméno uživatele použité pro db upgrade - došlo by k duplicitě jmen v build create
-            'login.db.account.everyone.password' => 'gr_login',
+            'login.db.account.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'xxxxxxxxxxxxxxx' : 'gr_login',  // nelze použít jméno uživatele použité pro db upgrade - došlo by k duplicitě jmen v build create
+            'login.db.account.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'gr_login' : 'gr_login',
 
             'login.logs.database.directory' => 'Logs/Login',
             'login.logs.database.file' => 'Database.log',
@@ -259,46 +268,22 @@ class ConfigurationDb extends ConfigurationConstants {
     public static function web() {
         return [
             #################################
-            # Sekce konfigurace účtů databáze
-            # Konfigurace připojení k databázi je v aplikačním kontejneru, je pro celou aplikaci stejná.
-            # Služby, které vrací objekty s informacemi pro připojení k databázi jsou také v aplikačním kontejneru a v jednotlivých middleware
-            # kontejnerech se volají jako služby delegate kontejneru.
+            # Sekce konfigurace uživatelů databáze nového redakčního systému
             #
-            # Zde je konfigurace údajů uživatele pro připojení k databázi. Ta je pro každý middleware v jeho kontejneru.
-            'web.db.account.everyone.name' => 'gr_everyone',
-            'web.db.account.everyone.password' => 'gr_everyone',
-            'web.db.account.authenticated.name' => 'gr_auth',
-            'web.db.account.authenticated.password' => 'gr_auth',
-            'web.db.account.administrator.name' => 'gr_admin',
-            'web.db.account.administrator.password' => 'gr_admin',
+            # Zde je konfigurace údajů uživatele pro připojení k databázi.
+            #
+            # Konfigurace připojení k databázi je v delegate kontejneru.
+            # Konfigurace připojení k databázi může být v aplikačním kontejneru nebo různá v jednotlivých middleware kontejnerech.
+            #
+            'web.db.account.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'xxxx' : 'g_everyone',
+            'web.db.account.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'gr_upgrader' : 'gr_everyone',
+            'web.db.account.authenticated.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'xxxxxx' : 'gr_auth',
+            'web.db.account.authenticated.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'gr_upgrader' : 'gr_auth',
+            'web.db.account.administrator.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'xxxxx' : 'gr_admin',
+            'web.db.account.administrator.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'gr_upgrader' : 'gr_admin',
             #
             ###################################
         ];
     }
 
-    /**
-     * Konfigurace kontejneru - vrací parametry pro RsContainerConfigurator
-     * @return array
-     */
-    public static function rs() {
-        return [
-
-            #################################
-            # Sekce konfigurace účtů databáze
-            # Konfigurace připojení k databázi je v aplikačním kontejneru, je pro celou apliaci stejná.
-            # Služby, které vrací objekty s informacemi pro připojení k databázi jsou také v aplikačním kontejneru a v jednotlivých middleware
-            # kontejnerech se volají jako služby delegate kontejneru.
-            #
-            # Zde je konfigurace údajů uživatele pro připojení k databízi. Ta je pro každý middleware v jeho kontejneru.
-            'rs.db.account.everyone.name' => 'gr_everyone',
-            'rs.db.account.everyone.password' => 'gr_everyone',
-            'rs.db.account.authenticated.name' => 'gr_auth',
-            'rs.db.account.authenticated.password' => 'gr_auth',
-            'rs.db.account.administrator.name' => 'gr_admin',
-            'rs.db.account.administrator.password' => 'gr_admin',
-            #
-            ###################################
-
-        ];
-    }
 }
