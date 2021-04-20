@@ -12,6 +12,7 @@ use Application\WebAppFactory;
 use Component\View\Flash\FlashComponent;
 use Component\View\Status\{
     LoginComponent,
+    RegisterComponent,
     LogoutComponent,
     UserActionComponent
 };
@@ -73,6 +74,9 @@ class ConfigurationRed extends ConfigurationDb {
 
     /**
      * Konfigurace kontejneru - vrací parametry pro ComponentContainerConfigurator
+     *
+     * Konfiguruje logování a šablony pro komponenty, které renderují šablony
+     *
      * @return array
      */
     public static function component() {
@@ -82,8 +86,10 @@ class ConfigurationRed extends ConfigurationDb {
             'component.templatePath.paper' => self::RED_TEMPLATES_COMMON.'paper/',
             'component.template.'.FlashComponent::class => self::RED_TEMPLATES_COMMON.'layout/info/flashMessage.php',
             'component.template.'.LoginComponent::class => self::RED_TEMPLATES_COMMON.'layout/modal/login.php',
+            'component.template.'.RegisterComponent::class => self::RED_TEMPLATES_COMMON.'layout/modal/register.php',
             'component.template.'.LogoutComponent::class => self::RED_TEMPLATES_COMMON.'layout/modal/logout.php',
             'component.template.'.UserActionComponent::class => self::RED_TEMPLATES_COMMON.'layout/modal/user_action.php',
+
         ];
     }
 
@@ -92,6 +98,9 @@ class ConfigurationRed extends ConfigurationDb {
 
     /**
      * Konfigurace prezentace - vrací parametry pro statusPresentationManager
+     *
+     * Konfiguruje výchozí jazyk webu.
+     *
      * @return array
      */
     public static function statusPresentationManager() {
@@ -152,6 +161,7 @@ class ConfigurationRed extends ConfigurationDb {
     /**
      * Konfigurace prezentace - vrací parametry pro pageControler
      *
+     * Definuje domácí (home) stránku webu.
      * Home stránka může být definována jménem komponenty nebo jménem statické stránky nebo identifikátorem uid položky menu (položky hierarchie).
      *
      * @return array
@@ -159,7 +169,7 @@ class ConfigurationRed extends ConfigurationDb {
     public static function pageControler() {
 
         return [
-               'home_page' => ['component', 'home'],
+               'home_page' => ['block', 'home'],
 //               'home_page' => ['static', 'body-pro-zdravi'],
 //               'home_page' => ['item', '5fad34398df10'],  // přednášky - pro test
 
@@ -169,6 +179,26 @@ class ConfigurationRed extends ConfigurationDb {
             ];
     }
 
+    public static function loginLogoutControler() {
+        ## HESLO - malé velké písmeno, číslice, min. 5 znaků
+        $passwordPattern = "(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}";
+        $passwordInfo = "Heslo musí obsahovat nejméně jedno velké písmeno, jedno malé písmeno a jednu číslici. Jiné znaky než písmena a číslice nejsou povoleny. Délka musí být nejméně 5 znaků.";
+
+        ## HESLO - malé velké písmeno, číslice, min. 3 znaky
+//        $passwordPattern = "(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{3,}";
+//        $passwordInfo = "Heslo musí obsahovat nejméně jedno velké písmeno, jedno malé písmeno a jednu číslici. Jiné znaky než písmena a číslice nejsou povoleny. Délka musí být nejméně 3 znaky.";
+
+        $siteSpecificToken = str_replace('/', '', self::RED_SITE_PATH);
+        return [
+                'fieldNameJmeno' => 'jmeno'.$siteSpecificToken,
+                'fieldNameHeslo' => 'heslo'.$siteSpecificToken,
+                'passwordPattern' => $passwordPattern,
+                'passwordInfo' => $passwordInfo,
+                'roleVisitor' => 'visitor',
+                'rolePresenter' => 'presenter',
+        ];
+    }
+
     /**
      * Konfigurace prezentace - vrací parametry pro ComponentControler
      * @return array
@@ -176,8 +206,19 @@ class ConfigurationRed extends ConfigurationDb {
     public static function componentControler() {
 
         return [
-               'static' => self::RED_TEMPLATES_SITE.'static/',
-
+                'templates' => self::RED_TEMPLATES_SITE,
+                'static' => self::RED_STATIC,
+                'compiled' => self::RED_STATIC.'__compiled/',
+                'presenterFiles' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES_PATH."presenter/" : self::RED_FILES_PATH."presenter/",
+                'prettyUrlCallable' => function($nadpis) {
+                        $url = $nadpis;
+                        $url = preg_replace('~[^\\pL0-9_]+~u', '-', $url);
+                        $url = trim($url, "-");
+                        $url = iconv("utf-8", "us-ascii//TRANSLIT", $url);
+                        $url = strtolower($url);
+                        $url = preg_replace('~[^-a-z0-9_]+~', '', $url);
+                        return $url;
+                    }
             ];
     }
 
@@ -202,8 +243,9 @@ class ConfigurationRed extends ConfigurationDb {
     public static function filesUploadControler() {
 
         return [
-            'filesDirectory' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES : self::RED_FILES,
-
+            'uploads.editor' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES.'uploads/editor/' : self::RED_FILES.'uploads/editor/',
+            'uploads.events.visitor' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES.'uploads/events/visitor' : self::RED_FILES.'uploads/events/visitor',
+            'uploads.acceptedextensions' => [".doc", ".docx", ".dot", ".odt", "pages", ".xls", ".xlsx", ".ods", ".txt", ".pdf"],
             ];
     }
 
@@ -214,8 +256,21 @@ class ConfigurationRed extends ConfigurationDb {
     public static function transformator() {
         return [
             // relativní cesta vzhledem k DOCUMENT_ROOT (htdocs) -začíná /
-            'filesDirectory' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES : '/'.self::RED_FILES,
-            'public' => self::RED_LINKS_COMMON,
+            'filesDirectory' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES : self::RED_FILES,
+            'publicDirectory' => self::RED_LINKS_COMMON,
+            'siteDirectory' => self::RED_LINKS_SITE,
         ];
     }
+
+    public static function mail() {
+        return [
+            'mail.logs.directory' => 'Logs/Mail',
+            'mail.logs.file' => 'Mail.log',
+            'mail.paramsname' => 'itGrafiaGmail', // 'najdisi',
+            'mail.attachments' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES_PATH.'attachments/' : self::RED_FILES_PATH.'attachments/',
+
+        ];
+}
+
+
 }

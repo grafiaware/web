@@ -59,7 +59,7 @@ class PageController extends LayoutControllerAbstract {
 
         $homePage = Configuration::pageControler()['home_page'];
         switch ($homePage[0]) {
-            case 'component':
+            case 'block':
                 /** @var BlockAggregateRepo $blockAggregateRepo */
                 $blockAggregateRepo = $this->container->get(BlockAggregateRepo::class);
                 // jméno default komponenty (z konfigurace)
@@ -190,7 +190,7 @@ class PageController extends LayoutControllerAbstract {
 //         ];
 
         $userActions = $this->statusSecurityRepo->get()->getUserActions();
-
+        $configMenu = Configuration::pageControler()['menu'];
         if ($userActions->isEditableLayout()) {
 //            $componets['menuPresmerovani'] = $this->container->get('menu.presmerovani')->setMenuRootName('menu_redirect');
 //            $componets['menuVodorovne'] = $this->container->get('menu.vodorovne')->setMenuRootName('menu_horizontal');
@@ -209,8 +209,8 @@ class PageController extends LayoutControllerAbstract {
             $componets['bloky'] = $this->container->get('menu.bloky.editable')->setMenuRootName('blocks')->withTitleItem(true);
             $componets['kos'] = $this->container->get('menu.kos.editable')->setMenuRootName('trash')->withTitleItem(true);
         } else {
-//            $componets['menuPresmerovani'] = $this->container->get('menu.presmerovani')->setMenuRootName('menu_redirect');
-//            $componets['menuVodorovne'] = $this->container->get('menu.vodorovne')->setMenuRootName('menu_horizontal');
+            $componets['menuPresmerovani'] = $this->container->get('menu.presmerovani')->setMenuRootName('menu_redirect');
+            $componets['menuVodorovne'] = $this->container->get('menu.vodorovne')->setMenuRootName('menu_horizontal');
             $componets['menuSvisle'] = $this->container->get('menu.svisle')->setMenuRootName('menu_vertical')->withTitleItem(true);
         }
         return $componets;

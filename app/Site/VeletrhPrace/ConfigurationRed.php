@@ -169,7 +169,7 @@ class ConfigurationRed extends ConfigurationDb {
     public static function pageControler() {
 
         return [
-               'home_page' => ['component', 'home'],
+               'home_page' => ['block', 'home'],
 //               'home_page' => ['static', 'uvod'],
 //               'home_page' => ['item', '5fad34398df10'],  // přednášky - pro test
 
