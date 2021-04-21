@@ -55,7 +55,11 @@ class WebAppFactory extends AppFactory {
             ];
         $appCodeset = "UTF8";  // bez pomlčky! (ne UTF-8)
 
-        $appLocale = $localeLangCode[$requestLangCode].".".$appCodeset;
+        if (array_key_exists($appCodeset, $localeLangCode)) {
+            $appLocale = $localeLangCode[$requestLangCode].".".$appCodeset;
+        } else {
+            $appLocale = $localeLangCode[self::INITIAL_APP_LANGCODE].".".$appCodeset;
+        }
         $acceptedLocale = setlocale(LC_ALL, $appLocale);
 
         $app->setServerRequest($request);

@@ -133,7 +133,7 @@ use Pes\Text\Text;
                     ],
                 ],
                 [
-                    'wwwPartnera' => 'https://www.diakoniezapad.cz/',
+                    'wwwPartnera' => 'https://www.czechinvest.org/cz',
                     'imgPartneraAttributes' => [
                         'src' => 'images/czechinvest-logo.png',
                         'alt' => 'Logo CzechInvest',
@@ -143,7 +143,7 @@ use Pes\Text\Text;
                     ],
                 ],
                 [
-                    'wwwPartnera' => 'https://www.diakoniezapad.cz/',
+                    'wwwPartnera' => 'https://www.cesnet.cz/',
                     'imgPartneraAttributes' => [
                         'src' => 'images/cesnet-logo.png',
                         'alt' => 'Logo Cesnet',
@@ -157,7 +157,7 @@ use Pes\Text\Text;
         [
             'radekPartneru' => [
                 [
-                    'wwwPartnera' => 'https://www.diakoniezapad.cz/',
+                    'wwwPartnera' => 'http://www.suip.cz/',
                     'imgPartneraAttributes' => [
                         'src' => 'images/suip.png',
                         'alt' => 'Logo SUIP',

@@ -173,7 +173,7 @@ if (isset($loginAggregate)) {
                     <?php
                     } else {
                     ?>
-                    <span class="ui big grey label">Na pozici se dusud nikdo nehlásil</span>
+                    <span class="ui big grey label">Na pozici se dosud nikdo nehlásil</span>
                     <?php
                     }
                 }

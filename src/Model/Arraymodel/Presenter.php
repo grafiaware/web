@@ -51,6 +51,9 @@ class Presenter {
             'Jana Brabcová' => ['regname' => "Jana Brabcová", 'regmail' => "brabcova@grafia.cz", 'regcompany' => "Grafia s.r.o.", 'shortName'=>"grafia"],
             'Jana Brabcová Grafia OK' => ['regname' => "Jana Brabcová Grafia OK", 'regmail' => "brabcova@grafia.cz", 'regcompany' => "Grafia s.r.o.", 'shortName'=>"grafia"],
             'presenter' => ['regname' => "presenter", 'regmail' => "svoboda@grafia.cz", 'regcompany' => "TEST", 'shortName'=>"akka"],
+            'katka2' => ['regname' => "katka2", 'regmail' => "85kacka58@seznam.cz", 'regcompany' => "Akka Czech Republice s.r.o.", 'shortName'=>"akka"],
+            'katka3' => ['regname' => "katka3", 'regmail' => "85kacka58@seznam.cz", 'regcompany' => "Grafia s.r.o.", 'shortName'=>"grafia"],
+
 #################
             'Romana' => ['regname' => "Romana", 'regmail' => "romana.nova@md-elektronik.cz", 'regcompany' => "MD ELEKTRONIK s.r.o.", 'shortName'=>"na"],
             'Jiří Čížek' => ['regname' => "Jiří Čížek", 'regmail' => "jiri.cizek@konplan.cz", 'regcompany' => "Konplan s.r.o.", 'shortName'=>"na"],

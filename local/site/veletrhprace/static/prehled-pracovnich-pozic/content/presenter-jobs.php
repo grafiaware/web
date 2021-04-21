@@ -12,11 +12,11 @@ use Site\Configuration;
                 <?php
                 if (isset($block)) {
                     ?>
-                    <a href="<?= "www/block/".$block->getName()."#chci-navazat-kontakt" ?>">
-                        <div class="ui button grey">
-                            Chci jít na stánek pro kontaktní údaje
-                        </div>
-                    </a>
+                    <div class="text okraje-vertical">
+                        <a class="ui large button grey" href="<?= "www/block/".$block->getName()."#chci-navazat-kontakt" ?>">
+                                Chci jít na stánek pro kontaktní údaje
+                        </a>
+                    </div>
                     <?php
                 }
                 ?>
