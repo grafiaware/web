@@ -1,8 +1,8 @@
 <?php
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Pes\View\Renderer\ClassMap\ClassMapInterface;
-use Component\Renderer\Html\Authored\ElementWrapper;
-use Component\Renderer\Html\Authored\Buttons;
+use Component\Renderer\Html\Authored\Paper\ElementWrapper;
+use Component\Renderer\Html\Authored\Paper\Buttons;
 use Model\Entity\PaperContentInterface;
 /** @var PhpTemplateRendererInterface $this */
 /** @var ClassMapInterface $classMap */

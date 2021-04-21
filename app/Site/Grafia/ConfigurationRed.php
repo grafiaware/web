@@ -173,13 +173,14 @@ class ConfigurationRed extends ConfigurationDb {
 //               'home_page' => ['static', 'body-pro-zdravi'],
 //               'home_page' => ['item', '5fad34398df10'],  // přednášky - pro test
 
+//      'context_name' => jméno proměnné v šabloně, 'service_name' => jméno služby component kontejneru, 'root_name' => jméno v db tabulce root_name, 'with_title' => bool hodnota - true - zobrazuje se i obsah kořenového prvku menu],
                 'menu' => [
-                    ['root_name' => 'menu_redirect', 'with_title' => false],
-                    ['root_name' => 'menu_horizontal', 'with_title' => false],
-                    ['root_name' => 'menu_vertical', 'with_title' => true],
-                    ['root_name' => 'blocks', 'with_title' => true],
-                    ['root_name' => 'trash', 'with_title' => true],
+                    ['context_name' => 'menuPresmerovani', 'service_name' => 'menu.presmerovani', 'root_name' => 'menu_redirect', 'with_title' => false],
+                    ['context_name' => 'menuVodorovne', 'service_name' => 'menu.vodorovne', 'root_name' => 'menu_horizontal', 'with_title' => false],
+                    ['context_name' => 'menuSvisle', 'service_name' => 'menu.svisle', 'root_name' => 'menu_vertical', 'with_title' => true],
                 ],
+                'blocks' =>  ['context_name' => 'bloky', 'service_name' => 'menu.bloky', 'root_name' => 'blocks', 'with_title' => true],
+                'trash' => ['context_name' => 'kos', 'service_name' => 'menu.kos', 'root_name' => 'trash', 'with_title' => true],
 
                'templates.poznamky' => self::RED_TEMPLATES_COMMON.'layout/info/poznamky.php',
                'templates.loaderElement' => self::RED_TEMPLATES_COMMON.'layout/component-load/loaderElement.php',

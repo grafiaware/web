@@ -1,5 +1,5 @@
 <?php
-namespace Component\Renderer\Html\Menu;
+namespace  Component\Renderer\Html\Authored\Menu;
 
 use Component\Renderer\Html\HtmlModelRendererAbstract;
 use Pes\Text\Html;
@@ -112,21 +112,6 @@ class ItemEditableRenderer extends HtmlModelRendererAbstract implements Renderer
         return $buttons;
     }
 
-//    private function getButtonRename(HierarchyNodeInterface $menuNode) {
-
-//        $buttonsDiv1 =
-//            Html::tag('button', [
-//                'class'=>$this->classMap->getClass('Buttons', 'div button'),
-//                'data-tooltip'=>'Přejmenovat položku',
-//                //'type'=>'submit',
-//                'name'=>'add',
-//                //'formmethod'=>'post',
-//                //'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/",
-//                'onclick'=>'event.preventDefault();edit_name()'
-//                    ],
-//                Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button0 i')])
-//            )
-//     }
     private function getButtonActive(HierarchyAggregateInterface $menuNode) {
         $active = $menuNode->getMenuItem()->getActive();
         return Html::tag('button',
@@ -220,57 +205,5 @@ class ItemEditableRenderer extends HtmlModelRendererAbstract implements Renderer
                 Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'button.movetotrash'),])
             );
     }
-
-//    private function getButtonsDiv2($param) {
-//        $buttonsDiv2 =
-//            Html::tag('button', [
-//                'class'=>$this->classMap->getClass('Buttons', 'button'),
-//                'data-tooltip'=>'Uložit',
-//                'data-position'=>'top right',
-//                'type'=>'submit',
-//                'formmethod'=>'post',
-//                'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/move/senPatříCílovýParentUid",
-//                    ],
-//                Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button6 i')])
-//            )
-//            .Html::tag('button', [
-//                'class'=>$this->classMap->getClass('Buttons', 'button'),
-//                'data-tooltip'=>'Převzít titulek článku',
-//                'data-position'=>'top right',
-//                'type'=>'submit',
-//                'formmethod'=>'post',
-//                'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/move/senPatříCílovýParentUid",
-//                    ],
-//                Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button7 i')])
-//            )
-//            .Html::tag('button', [
-//                'class'=>$this->classMap->getClass('Buttons', 'button'),
-//                'data-tooltip'=>'Zrušit úpravy',
-//                'data-position'=>'top right',
-//                //'type'=>'submit',
-//                //'formmethod'=>'post',
-//                //'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/move/senPatříCílovýParentUid",
-//                'onclick'=>'event.preventDefault();close_edit_name()'
-//                    ],
-//                Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div button8 i')])
-//            );
-//         Html::tag('div', ['class'=>$this->classMap->getClass('Buttons', 'div.name')],
-//        );
-//
-//    }
-
-//                    Html::tag('i', [
-//                        'class'=> $this->classMap->resolveClass(($menuItem->getActive() AND $menuItem->getActual()), 'Item', 'li div i1.published', 'li div i1.notpublished'),
-//                        'title'=>($menuItem->getActive() AND $menuItem->getActual()) ? "published" :  "not published"
-//                        ])
-//                    .Html::tag('i',
-//                            [
-//                            'class'=> $this->classMap->resolveClass($menuItem->getActive(), 'Item',
-//                                    $menuItem->getActual() ? 'li div i2.published' : 'li div i2.notactual',
-//                                    $menuItem->getActual() ?  'li div i2.notactive' : 'li div i2.notactivenotactual'
-//                                ),
-//                            'role'=>"presentation",
-//                            'title'=>$menuItem->getActive() ? ($menuItem->getActual() ? "active and actual" : "active but not actual") : ($menuItem->getActual() ? "actual but not active" : "not active nor actual")
-//                            ])
 
 }

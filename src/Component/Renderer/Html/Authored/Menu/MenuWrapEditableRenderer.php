@@ -1,5 +1,7 @@
 <?php
-namespace Component\Renderer\Html\Menu;
+namespace  Component\Renderer\Html\Authored\Menu;
+
+use Component\Renderer\Html\HtmlRendererAbstract;
 use Component\ViewModel\Authored\Menu\MenuViewModelInterface;
 
 use Pes\Text\Html;
@@ -15,15 +17,18 @@ use Pes\Text\Html;
  *
  * @author pes2704
  */
-class MenuWrapRenderer extends MenuWrapRendererAbstract {
+class MenuWrapEditableRenderer extends MenuWrapRendererAbstract {
 
-    public function render(iterable $data = NULL) {
+    public function render($data = NULL) {
         /** @var MenuViewModelInterface $viewModel */
         $viewModel = $this->viewModel;
         $menuLevelHtml = $this->getMenuLevelHtml($viewModel->getSubTreeItemModels());
 
-        return Html::tag('ul', ['class'=>$this->classMap->getClass('MenuWrap', 'ul')],
-            $menuLevelHtml
+        return
+        Html::tag('form', [],
+            Html::tag('ul', ['class'=>$this->classMap->getClass('MenuWrap', 'ul')],
+                $menuLevelHtml
+            )
         );
     }
 }

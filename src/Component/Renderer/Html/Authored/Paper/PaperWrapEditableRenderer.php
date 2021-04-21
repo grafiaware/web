@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Component\Renderer\Html\Authored;
+namespace Component\Renderer\Html\Authored\Paper;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
 

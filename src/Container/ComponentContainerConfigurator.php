@@ -93,9 +93,9 @@ use Component\Renderer\Html\{
 };
 
 // wrapper pro template
-use Component\Renderer\Html\Authored\ElementWrapper;
-use Component\Renderer\Html\Authored\ElementEditableWrapper;
-use Component\Renderer\Html\Authored\Buttons;
+use Component\Renderer\Html\Authored\Paper\ElementWrapper;
+use Component\Renderer\Html\Authored\Paper\ElementEditableWrapper;
+use Component\Renderer\Html\Authored\Paper\Buttons;
 
 // view
 use Pes\View\View;

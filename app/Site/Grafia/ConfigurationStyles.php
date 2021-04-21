@@ -9,6 +9,10 @@
 namespace Site\Grafia;
 
 use \Pes\View\Renderer\ClassMap\ClassMap;
+use  Component\Renderer\Html\Authored\Menu\{
+    MenuWrapRenderer, MenuWrapEditableRenderer, LevelWrapRenderer, ItemRenderer, ItemEditableRenderer, ItemBlockEditableRenderer, ItemTrashEditableRenderer
+};
+use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
 
 /**
  * Description of Configuration
@@ -157,6 +161,89 @@ class ConfigurationStyles extends ConfigurationRed {
      */
     public static function renderer() {
         return [
+        ###########################
+        # menu renderer
+        ###########################
+            'menu.presmerovani.menuwraprenderer' => function(ContainerInterface $c) {
+                return new MenuWrapRenderer($c->get('menu.presmerovani.classmap'));
+            },
+            'menu.presmerovani.levelwraprenderer' => function(ContainerInterface $c) {
+                return new LevelWrapRenderer($c->get('menu.presmerovani.classmap'));
+            },
+            'menu.presmerovani.itemrenderer' => function(ContainerInterface $c) {
+                return new ItemRenderer($c->get('menu.presmerovani.classmap'));
+            },
+            'menu.presmerovani.menuwraprenderer.editable' => function(ContainerInterface $c) {
+                return new MenuWrapEditableRenderer($c->get('menu.presmerovani.classmap.editable'));
+            },
+            'menu.presmerovani.levelwraprenderer.editable' => function(ContainerInterface $c) {
+                return new LevelWrapRenderer($c->get('menu.presmerovani.classmap.editable'));
+            },
+            'menu.presmerovani.itemrenderer.editable' => function(ContainerInterface $c) {
+                return new ItemEditableRenderer($c->get('menu.presmerovani.classmap.editable'));
+            },
+
+            'menu.vodorovne.menuwraprenderer' => function(ContainerInterface $c) {
+                return new MenuWrapRenderer($c->get('menu.vodorovne.classmap'));
+            },
+            'menu.vodorovne.levelwraprenderer' => function(ContainerInterface $c) {
+                return new LevelWrapRenderer($c->get('menu.vodorovne.classmap'));
+            },
+            'menu.vodorovne.itemrenderer' => function(ContainerInterface $c) {
+                return new ItemRenderer($c->get('menu.vodorovne.classmap'));
+            },
+            'menu.vodorovne.menuwraprenderer.editable' => function(ContainerInterface $c) {
+                return new MenuWrapEditableRenderer($c->get('menu.vodorovne.classmap.editable'));
+            },
+            'menu.vodorovne.levelwraprenderer.editable' => function(ContainerInterface $c) {
+                return new LevelWrapRenderer($c->get('menu.vodorovne.classmap.editable'));
+            },
+            'menu.vodorovne.itemrenderer.editable' => function(ContainerInterface $c) {
+                return new ItemEditableRenderer($c->get('menu.vodorovne.classmap.editable'));
+            },
+
+            'menu.svisle.menuwraprenderer' => function(ContainerInterface $c) {
+                return new MenuWrapRenderer($c->get('menu.svisle.classmap'));
+            },
+            'menu.svisle.levelwraprenderer' => function(ContainerInterface $c) {
+                return new LevelWrapRenderer($c->get('menu.svisle.classmap'));
+            },
+            'menu.svisle.itemrenderer' => function(ContainerInterface $c) {
+                return new ItemRenderer($c->get('menu.svisle.classmap'));
+            },
+            'menu.svisle.menuwraprenderer.editable' => function(ContainerInterface $c) {
+                return new MenuWrapEditableRenderer($c->get('menu.svisle.classmap.editable'));
+            },
+            'menu.svisle.levelwraprenderer.editable' => function(ContainerInterface $c) {
+                return new LevelWrapRenderer($c->get('menu.svisle.classmap.editable'));
+            },
+            'menu.svisle.itemrenderer.editable' => function(ContainerInterface $c) {
+                return new ItemEditableRenderer($c->get('menu.svisle.classmap.editable'));
+            },
+                   //bloky
+            'menu.bloky.menuwraprenderer.editable' => function(ContainerInterface $c) {
+                return new MenuWrapEditableRenderer($c->get('menu.bloky.classmap.editable'));
+            },
+            'menu.bloky.levelwraprenderer.editable' => function(ContainerInterface $c) {
+                return new LevelWrapRenderer($c->get('menu.bloky.classmap.editable'));
+            },
+            'menu.bloky.itemrenderer.editable' => function(ContainerInterface $c) {
+                return new ItemBlockEditableRenderer($c->get('menu.bloky.classmap.editable'));
+            },
+                    //kos
+            'menu.kos.menuwraprenderer' => function(ContainerInterface $c) {
+                return new MenuWrapRenderer($c->get('menu.kos.classmap'));
+            },
+            'menu.kos.levelwraprenderer' => function(ContainerInterface $c) {
+                return new LevelWrapRenderer($c->get('menu.kos.classmap'));
+            },
+            'menu.kos.itemrenderer' => function(ContainerInterface $c) {
+                return new ItemTrashEditableRenderer($c->get('menu.kos.classmap'));
+            },
+            'menu.kos.menuwraprenderer.editable' => function(ContainerInterface $c) {
+                return new MenuWrapEditableRenderer($c->get('menu.kos.classmap'));
+            },
+
         ###########################
         # menu classmap
         ###########################

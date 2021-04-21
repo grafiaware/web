@@ -209,6 +209,15 @@ class PageController extends LayoutControllerAbstract {
             $componets['bloky'] = $this->container->get('menu.bloky.editable')->setMenuRootName('blocks')->withTitleItem(true);
             $componets['kos'] = $this->container->get('menu.kos.editable')->setMenuRootName('trash')->withTitleItem(true);
         } else {
+
+            // TODO: dodělat - setEditable() metodu do menu komponent !!
+            foreach (Configuration::pageControler()['menu'] as $menuConf) {
+                $componets[$menuConf['context_name']] = $this->container->get($menuConf['service_name'])
+   dodělat!!                     ->setEditable(false)
+                        ->setMenuRootName($menuConf['root_name'])
+                        ->withTitleItem($menuConf['with_title']);
+            }
+
             $componets['menuPresmerovani'] = $this->container->get('menu.presmerovani')->setMenuRootName('menu_redirect');
             $componets['menuVodorovne'] = $this->container->get('menu.vodorovne')->setMenuRootName('menu_horizontal');
             $componets['menuSvisle'] = $this->container->get('menu.svisle')->setMenuRootName('menu_vertical')->withTitleItem(true);

@@ -12,8 +12,8 @@ use Pes\View\Renderer\RendererInterface;
 use Pes\View\Template\PhpTemplate;
 
 use Component\View\Authored\Paper\AuthoredComponentAbstract;
-use Component\Renderer\Html\Authored\Buttons;
-use Component\Renderer\Html\Authored\ElementWrapper;
+use Component\Renderer\Html\Authored\Paper\Buttons;
+use Component\Renderer\Html\Authored\Paper\ElementWrapper;
 /**
  * Description of ArticleComponent
  *

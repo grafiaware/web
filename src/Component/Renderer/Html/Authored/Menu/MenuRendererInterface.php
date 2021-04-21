@@ -1,5 +1,5 @@
 <?php
-namespace Component\Renderer\Html\Menu;
+namespace  Component\Renderer\Html\Authored\Menu;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
