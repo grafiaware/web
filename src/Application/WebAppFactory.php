@@ -58,12 +58,10 @@ class WebAppFactory extends AppFactory {
         if (array_key_exists($appCodeset, $localeLangCode)) {
             $appLocale = $localeLangCode[$requestLangCode].".".$appCodeset;
         } else {
-            $appLocale = $localeLangCode['cs'].".".$appCodeset;
+            $appLocale = $localeLangCode[self::INITIAL_APP_LANGCODE].".".$appCodeset;
         }
         $acceptedLocale = setlocale(LC_ALL, $appLocale);
-        if (!isset($acceptedLocale) OR !$acceptedLocale) {
-            $acceptedLocale = setlocale(LC_ALL, 'cs_CZ.UTF-8');
-        }
+
         $app->setServerRequest($request);
 
         Message::setAppLocale(self::INITIAL_APP_LANGCODE);
