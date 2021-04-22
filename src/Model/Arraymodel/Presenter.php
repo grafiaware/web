@@ -53,6 +53,7 @@ class Presenter {
             'presenter' => ['regname' => "presenter", 'regmail' => "svoboda@grafia.cz", 'regcompany' => "TEST", 'shortName'=>"akka"],
             'katka2' => ['regname' => "katka2", 'regmail' => "85kacka58@seznam.cz", 'regcompany' => "Akka Czech Republice s.r.o.", 'shortName'=>"akka"],
             'katka3' => ['regname' => "katka3", 'regmail' => "85kacka58@seznam.cz", 'regcompany' => "Grafia s.r.o.", 'shortName'=>"grafia"],
+            'Vlse Vystavovatel' => ['regname' => "Vlse Vystavovatel", 'regmail' => "selnerova@grafia.cz", 'regcompany' => "AKKA Czech Republic", 'shortName'=>"akka"],
 
 #################
             'Romana' => ['regname' => "Romana", 'regmail' => "romana.nova@md-elektronik.cz", 'regcompany' => "MD ELEKTRONIK s.r.o.", 'shortName'=>"na"],
