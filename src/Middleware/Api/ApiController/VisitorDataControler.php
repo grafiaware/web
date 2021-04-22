@@ -159,7 +159,7 @@ class VisitorDataControler extends PresentationFrontControllerAbstract {
                     ->setParty  (  (new Party())
                                      ->setFrom('it.grafia@gmail.com', 'veletrhprace.online')
                                      ->addTo($loginAggregateCredentials->getRegistration()->getEmail(), $loginAggregateCredentials->getCredentials()->getLoginNameFk().' veletrhprace.online')
-//                                     ->addTo($registration->getEmail(), $credentials->getLoginNameFk().' veletrhprace.online')
+                                    ->addTo('svoboda@grafia.cz', $presenterLogiName.' veletrhprace.online')
                                 );
         $mail->mail($params); // posle mail
     }
