@@ -149,7 +149,7 @@ class VisitorDataControler extends PresentationFrontControllerAbstract {
                         ->setStringAttachment($visitorDataPost->getLetterDocument())
                         ->setAltText($visitorDataPost->getLetterDocumentFilename());
         }
-
+        $presenterLogiName = $loginAggregateCredentials->getCredentials()->getLoginNameFk();
         $params = (new Params())
                     ->setContent(  (new Content())
                                      ->setSubject($subject)
@@ -158,7 +158,7 @@ class VisitorDataControler extends PresentationFrontControllerAbstract {
                                 )
                     ->setParty  (  (new Party())
                                      ->setFrom('it.grafia@gmail.com', 'veletrhprace.online')
-                                     ->addTo($loginAggregateCredentials->getRegistration()->getEmail(), $loginAggregateCredentials->getCredentials()->getLoginNameFk().' veletrhprace.online')
+                                     ->addTo($loginAggregateCredentials->getRegistration()->getEmail(), $presenterLogiName.' veletrhprace.online')
                                     ->addTo('svoboda@grafia.cz', $presenterLogiName.' veletrhprace.online')
                                 );
         $mail->mail($params); // posle mail
