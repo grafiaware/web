@@ -51,7 +51,7 @@ interface MenuViewModelInterface extends AuthoredViewModelInterface {
      * @param string $menuRootName
      * @return MenuRootInterface
      */
-    public function getMenuRoot($menuRootName);
+//    public function getMenuRoot($menuRootName);
 
     /**
      *

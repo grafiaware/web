@@ -26,7 +26,7 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
     private $hierarchyRepo;
     private $presentedMenuNode;
     private $withRoot = false;
-    private $menuRootBlockName;
+    private $menuRootName;
     private $maxDepth;
 
     public function __construct(
@@ -47,7 +47,7 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
      * @return void
      */
     public function setMenuRootName($blockName): void {
-        $this->menuRootBlockName = $blockName;
+        $this->menuRootName = $blockName;
     }
 
     /**
@@ -92,9 +92,9 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
      * @param string $menuRootName
      * @return MenuRootInterface
      */
-    public function getMenuRoot($menuRootName) {
-        return $this->menuRootRepo->get($menuRootName);
-    }
+//    public function getMenuRoot($menuRootName) {
+//        return $this->menuRootRepo->get($menuRootName);
+//    }
 
     /**
      * Vrací položku menu se zadaným uid a v presentovaném jazyce.
@@ -114,9 +114,9 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
      */
     public function getSubTreeItemModels() {
         // root uid z jména komponenty
-        $menuRoot = $this->getMenuRoot($this->menuRootBlockName);
+        $menuRoot = $this->menuRootRepo->get($this->menuRootName);
         if (!isset($menuRoot)) {
-            user_error("Kořen menu se zadaným jménem komponety '$this->menuRootBlockName' nebyl načten z tabulky kořenů menu.", E_USER_WARNING);
+            user_error("Kořen menu se zadaným jménem komponety '$this->menuRootName' nebyl načten z tabulky kořenů menu.", E_USER_WARNING);
         }
         $rootUid = $menuRoot->getUidFk();
         // nodes
@@ -164,15 +164,22 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
             $nodeUid = $node->getUid();
             $isPresented = isset($presentedUid) ? ($presentedUid == $nodeUid) : FALSE;
             $isCutted = $pasteUid == $nodeUid;
-            $readonly = false;
+            if ($isPresented) {
+                $editable =
+            }
 
-            $itemViewModel = new ItemViewModel($node, $realDepth, $isOnPath, $isLeaf, $isPresented, $pasteMode, $isCutted, $readonly);
+            $itemViewModel = new ItemViewModel($node, $realDepth, $isOnPath, $isLeaf, $isPresented, $pasteMode, $isCutted, $editable);
             if ($pasteMode) {
                 $itemViewModel->setPasteUid($pasteUid);
             }
             $models[] = $itemViewModel;
         }
         return $models;
+    }
+
+    private function resolveEditable() {
+        $this->statusSecurityRepo->get()->getUserActions()->
+
     }
 
     public function getIterator(): \Traversable {
