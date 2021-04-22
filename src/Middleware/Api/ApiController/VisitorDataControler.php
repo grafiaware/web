@@ -10,6 +10,8 @@ use Model\Repository\{
     StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo, VisitorDataRepo, VisitorDataPostRepo
 };
 
+use Model\Entity\LoginAggregateFullInterface;
+
 use Model\Entity\VisitorData;
 use Model\Entity\VisitorDataPost;
 
@@ -116,10 +118,7 @@ class VisitorDataControler extends PresentationFrontControllerAbstract {
                 if (!isset($visitorDataPost)) {
                     $this->addFlashMessage("Pracovní údaje pro pozici $positionName nenalezeny v databázi.");
                 } else {
-
-                    $presenterLogiName = $loginAggregateCredentials->getCredentials()->getLoginNameFk();
-
-                    $this->sendMail($positionName, $visitorDataPost, $presenterLogiName);
+                    $this->sendMail($positionName, $visitorDataPost, $loginAggregateCredentials);
                     $this->addFlashMessage("Pracovní údaje pro pozici $positionName odeslány.");
                 }
             } else {
@@ -129,7 +128,8 @@ class VisitorDataControler extends PresentationFrontControllerAbstract {
         return $this->redirectSeeLastGet($request);
     }
 
-    private function sendMail($positionName, VisitorDataPostInterface $visitorDataPost, $presenterLogiName) {
+    private function sendMail($positionName, VisitorDataPostInterface $visitorDataPost, LoginAggregateFullInterface $loginAggregateCredentials) {
+
         /** @var Mail $mail */
         $mail = $this->container->get(Mail::class);
         /** @var HtmlMessage $mailMessageFactory */
@@ -158,7 +158,7 @@ class VisitorDataControler extends PresentationFrontControllerAbstract {
                                 )
                     ->setParty  (  (new Party())
                                      ->setFrom('it.grafia@gmail.com', 'veletrhprace.online')
-                                     ->addTo('svoboda@grafia.cz', $presenterLogiName.' veletrhprace.online')
+                                     ->addTo($loginAggregateCredentials->getRegistration()->getEmail(), $loginAggregateCredentials->getCredentials()->getLoginNameFk().' veletrhprace.online')
 //                                     ->addTo($registration->getEmail(), $credentials->getLoginNameFk().' veletrhprace.online')
                                 );
         $mail->mail($params); // posle mail
