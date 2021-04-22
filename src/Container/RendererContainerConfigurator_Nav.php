@@ -8,7 +8,7 @@ use Pes\Container\ContainerConfiguratorAbstract;
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
 
 use  Component\Renderer\Html\Authored\Menu\{
-    MenuWrapRenderer, MenuWrapEditableRenderer, LevelWrapRenderer, ItemRenderer, ItemEditableRenderer, ItemBlockEditableRenderer, ItemTrashEditableRenderer
+    MenuWrapRenderer, MenuWrapEditableRenderer, LevelWrapRenderer, ItemRenderer, ItemEditableRenderer, ItemBlockRenderer, ItemTrashRenderer
 };
 
 use Component\Renderer\Html\Authored\Paper\{

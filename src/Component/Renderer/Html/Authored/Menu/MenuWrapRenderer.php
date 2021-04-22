@@ -20,7 +20,7 @@ class MenuWrapRenderer extends MenuWrapRendererAbstract {
     public function render(iterable $data = NULL) {
         /** @var MenuViewModelInterface $viewModel */
         $viewModel = $this->viewModel;
-        $menuLevelHtml = $this->getMenuLevelHtml($viewModel->getSubTreeItemModels());
+        $menuLevelHtml = $this->getMenuHtml($viewModel->getSubTreeItemModels());
 
         return Html::tag('ul', ['class'=>$this->classMap->getClass('MenuWrap', 'ul')],
             $menuLevelHtml

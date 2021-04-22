@@ -85,8 +85,8 @@ use Middleware\Xhr\Controller\TemplateControler;
 
 // renderery - pro volání služeb renderer kontejneru renderer::class
 use Component\Renderer\Html\{
-    Authored\PaperWrapRenderer, Authored\PaperWrapEditableRenderer,
-    Authored\ArticleRenderer, Authored\ArticleEditableRenderer,
+    Authored\Paper\PaperWrapRenderer, Authored\Paper\PaperWrapEditableRenderer,
+    Authored\Paper\ArticleRenderer, Authored\Paper\ArticleEditableRenderer,
     Generated\LanguageSelectRenderer,
     Generated\SearchPhraseRenderer, Generated\SearchResultRenderer, Generated\ItemTypeRenderer,
     Flash\FlashRenderer
@@ -213,44 +213,24 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                         ->setRendererName('menu.presmerovani.menuwraprenderer')
                         ->setRenderersNames('menu.presmerovani.levelwraprenderer', 'menu.presmerovani.itemrenderer');
             },
-            'menu.presmerovani.editable' => function(ContainerInterface $c) {
-                return $c->get(MenuComponent::class)
-                        ->setRendererName('menu.presmerovani.menuwraprenderer.editable')
-                        ->setRenderersNames('menu.presmerovani.levelwraprenderer.editable', 'menu.presmerovani.itemrenderer.editable');
-            },
             'menu.vodorovne' => function(ContainerInterface $c) {
                 return $c->get(MenuComponent::class)
                         ->setRendererName('menu.vodorovne.menuwraprenderer')
                         ->setRenderersNames('menu.vodorovne.levelwraprenderer', 'menu.vodorovne.itemrenderer');
-            },
-            'menu.vodorovne.editable' => function(ContainerInterface $c) {
-                return $c->get(MenuComponent::class)
-                        ->setRendererName('menu.vodorovne.menuwraprenderer.editable')
-                        ->setRenderersNames('menu.vodorovne.levelwraprenderer.editable', 'menu.vodorovne.itemrenderer.editable');
             },
             'menu.svisle' => function(ContainerInterface $c) {
                 return $c->get(MenuComponent::class)
                         ->setRendererName('menu.svisle.menuwraprenderer')
                         ->setRenderersNames('menu.svisle.levelwraprenderer', 'menu.svisle.itemrenderer');
             },
-            'menu.svisle.editable' => function(ContainerInterface $c) {
-                return $c->get(MenuComponent::class)
-                        ->setRendererName('menu.svisle.menuwraprenderer.editable')
-                        ->setRenderersNames('menu.svisle.levelwraprenderer.editable', 'menu.svisle.itemrenderer.editable');
-            },
-                    //bloky
+            //bloky
             'menu.bloky' => function(ContainerInterface $c) {
                 return $c->get(MenuComponent::class)
                         ->setRendererName('menu.bloky.menuwraprenderer')
                         ->setRenderersNames('menu.bloky.levelwraprenderer', 'menu.bloky.itemrenderer');
             },
-            'menu.bloky.editable' => function(ContainerInterface $c) {
-                return $c->get(MenuComponent::class)
-                        ->setRendererName('menu.bloky.menuwraprenderer.editable')
-                        ->setRenderersNames('menu.bloky.levelwraprenderer.editable', 'menu.bloky.itemrenderer.editable');
-            },
-                    //kos
-            'menu.kos.editable' => function(ContainerInterface $c) {
+            //kos
+            'menu.kos' => function(ContainerInterface $c) {
                 return $c->get(MenuComponent::class)
                         ->setRendererName('menu.kos.menuwraprenderer.editable')
                         ->setRenderersNames('menu.kos.levelwraprenderer', 'menu.kos.itemrenderer');

@@ -41,40 +41,35 @@ abstract class MenuWrapRendererAbstract extends HtmlModelRendererAbstract implem
         $this->itemRenderer = $itemRenderer;
     }
 
-    protected function getMenuLevelHtml($subtreeItemModels) {
+    protected function getMenuHtml($subtreeItemModels) {
         if (!$subtreeItemModels) {
             $wrap = '';
         } else {
-            $itemStack = $this->fillItemsStack($subtreeItemModels);
+            $itemTags = [];
+            $first = true;
+            foreach ($subtreeItemModels as $itemModel) {
+                /** @var ItemViewModelInterface $itemModel */
+                $itemDepth = $itemModel->getRealDepth();
+                if ($first) {
+                    $rootDepth = $itemDepth;
+                    $currDepth = $itemDepth;
+                    $first = false;
+                }
+                if ($itemDepth>$currDepth) {
+                    $itemStack[$itemDepth][] = $itemModel;
+                    $currDepth = $itemDepth;
+                } elseif ($itemDepth<$currDepth) {
+                    $this->renderStackedItems($currDepth, $itemDepth, $itemStack);
+                    $itemStack[$itemDepth][] = $itemModel;
+                    $currDepth = $itemDepth;
+                } else {
+                    $itemStack[$currDepth][] = $itemModel;
+                }
+            }
             $this->renderStackedItems($currDepth, $rootDepth, $itemStack);
             $wrap = $this->renderLastLevel($itemStack[$rootDepth]);
         }
         return $wrap;
-    }
-
-    private function fillItemsStack($subtreeItemModels) {
-        $itemTags = [];
-        $first = true;
-        foreach ($subtreeItemModels as $itemModel) {
-            /** @var ItemViewModelInterface $itemModel */
-            $itemDepth = $itemModel->getRealDepth();
-            if ($first) {
-                $rootDepth = $itemDepth;
-                $currDepth = $itemDepth;
-                $first = false;
-            }
-            if ($itemDepth>$currDepth) {
-                $itemStack[$itemDepth][] = $itemModel;
-                $currDepth = $itemDepth;
-            } elseif ($itemDepth<$currDepth) {
-                $this->renderStackedItems($currDepth, $itemDepth, $itemStack);
-                $itemStack[$itemDepth][] = $itemModel;
-                $currDepth = $itemDepth;
-            } else {
-                $itemStack[$currDepth][] = $itemModel;
-            }
-        }
-        return $itemStack;
     }
 
     private function renderStackedItems($currDepth, $targetDepth, &$itemStack) {
@@ -100,30 +95,5 @@ abstract class MenuWrapRendererAbstract extends HtmlModelRendererAbstract implem
         }
         $wrap = implode(PHP_EOL, $level);                // nejvyšší úroveň stromu je renderována je do "li", "ul" pak udělá menuWrapRenderer, který je nastaven jako renderer celé komponenty ($this->renderer)
         return $wrap;
-    }
-
-    private function getRenderer(ItemViewModelInterface $stackedItemModel) {
-        $menuItemype = $stackedItemModel->getMenuNode()->getMenuItem()->get
-        switch ($menuItemype) {
-            case $value:
-
-
-                break;
-            case $value:
-
-
-                break;
-            case $value:
-
-
-                break;
-            case $value:
-
-
-                break;
-            default:
-                break;
-        }
-
     }
 }

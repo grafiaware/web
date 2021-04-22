@@ -1,12 +1,8 @@
 <?php
 namespace  Component\Renderer\Html\Authored\Menu;
 
-use Component\Renderer\Html\HtmlModelRendererAbstract;
 use Pes\Text\Html;
 use Model\Entity\HierarchyAggregateInterface;
-use Component\ViewModel\Authored\Menu\Item\ItemViewModel;
-
-use Pes\View\Renderer\RendererModelAwareInterface;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -19,12 +15,10 @@ use Pes\View\Renderer\RendererModelAwareInterface;
  *
  * @author pes2704
  */
-class ItemBlockEditableRenderer extends HtmlModelRendererAbstract implements RendererModelAwareInterface {
+class ItemBlockRenderer extends ItemRenderer {
 
-    public function render($data=NULL) {
-        /** @var ItemViewModel $itemViewModel */
-        $itemViewModel = $this->viewModel;
-        $menuNode = $itemViewModel->getMenuNode();
+    protected function renderEditable() {
+        $menuNode = $this->viewModel->getMenuNode();
         $menuItem = $menuNode->getMenuItem();
         $active = $menuItem->getActive();
 
@@ -42,14 +36,14 @@ class ItemBlockEditableRenderer extends HtmlModelRendererAbstract implements Ren
                     Html::tag('i', ['class'=> $this->classMap->resolveClass($active, 'Item', 'semafor.published', 'semafor.notpublished')])
                 )
             )
-            .Html::tag('i', ['class'=>$this->classMap->resolveClass($itemViewModel->getInnerHtml(), 'Item', 'li.isnotleaf icon')])
-            .(($itemViewModel->isPresented() AND !$itemViewModel->isReadonly()) ? $this->renderButtons($menuNode) : '')
-            .$itemViewModel->getInnerHtml();
+            .Html::tag('i', ['class'=>$this->classMap->resolveClass($this->viewModel->getInnerHtml(), 'Item', 'li.isnotleaf icon')])
+            .(($this->viewModel->isPresented() AND !$this->viewModel->isEditable()) ? $this->renderButtons($menuNode) : '')
+            .$this->viewModel->getInnerHtml();
         $html = Html::tag('li',
                 ['class'=>[
-                    $this->classMap->resolveClass($itemViewModel->isOnPath(), 'Item', 'li.onpath', 'li'),
-                    $this->classMap->resolveClass($itemViewModel->isLeaf(), 'Item', 'li.leaf', ($itemViewModel->getRealDepth() == 1) ? 'li.dropdown' : 'li.item'),
-                    $this->classMap->resolveClass($itemViewModel->isPresented(), 'Item', 'li.presented', 'li'),
+                    $this->classMap->resolveClass($this->viewModel->isOnPath(), 'Item', 'li.onpath', 'li'),
+                    $this->classMap->resolveClass($this->viewModel->isLeaf(), 'Item', 'li.leaf', ($this->viewModel->getRealDepth() == 1) ? 'li.dropdown' : 'li.item'),
+                    $this->classMap->resolveClass($this->viewModel->isPresented(), 'Item', 'li.presented', 'li'),
                     ]
                 ],
                 $innerHtml);

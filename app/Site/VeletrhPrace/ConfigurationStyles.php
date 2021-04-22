@@ -9,6 +9,10 @@
 namespace Site\VeletrhPrace;
 
 use \Pes\View\Renderer\ClassMap\ClassMap;
+use  Component\Renderer\Html\Authored\Menu\{
+    MenuWrapRenderer, MenuWrapEditableRenderer, LevelWrapRenderer, ItemRenderer, ItemEditableRenderer, ItemBlockRenderer, ItemTrashRenderer
+};
+use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
 
 /**
  * Description of ConfigurationStyles
@@ -145,6 +149,42 @@ class ConfigurationStyles extends ConfigurationRed {
      */
     public static function renderer() {
         return [
+        ###########################
+        # menu renderer
+        ###########################
+            'menu.svisle.menuwraprenderer' => function(ContainerInterface $c) {
+                return new MenuWrapRenderer($c->get('menu.svisle.classmap'));
+            },
+            'menu.svisle.levelwraprenderer' => function(ContainerInterface $c) {
+                return new LevelWrapRenderer($c->get('menu.svisle.classmap'));
+            },
+            'menu.svisle.itemrenderer' => function(ContainerInterface $c) {
+                return new ItemRenderer($c->get('menu.svisle.classmap'));
+            },
+            //bloky
+            'menu.bloky.menuwraprenderer' => function(ContainerInterface $c) {
+                return new MenuWrapEditableRenderer($c->get('menu.bloky.classmap'));
+            },
+            'menu.bloky.levelwraprenderer' => function(ContainerInterface $c) {
+                return new LevelWrapRenderer($c->get('menu.bloky.classmap'));
+            },
+            'menu.bloky.itemrenderer' => function(ContainerInterface $c) {
+                return new ItemBlockRenderer($c->get('menu.bloky.classmap'));
+            },
+            //kos
+            'menu.kos.menuwraprenderer' => function(ContainerInterface $c) {
+                return new MenuWrapRenderer($c->get('menu.kos.classmap'));
+            },
+            'menu.kos.levelwraprenderer' => function(ContainerInterface $c) {
+                return new LevelWrapRenderer($c->get('menu.kos.classmap'));
+            },
+            'menu.kos.itemrenderer' => function(ContainerInterface $c) {
+                return new ItemTrashRenderer($c->get('menu.kos.classmap'));
+            },
+            'menu.kos.menuwraprenderer' => function(ContainerInterface $c) {
+                return new MenuWrapEditableRenderer($c->get('menu.kos.classmap'));
+            },
+
         ###########################
         # menu classmap
         ###########################

@@ -165,21 +165,27 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
             $isPresented = isset($presentedUid) ? ($presentedUid == $nodeUid) : FALSE;
             $isCutted = $pasteUid == $nodeUid;
             if ($isPresented) {
-                $editable =
+                $editable = $this->resolveEditable();
+            } else {
+                $editable = false;
             }
 
-            $itemViewModel = new ItemViewModel($node, $realDepth, $isOnPath, $isLeaf, $isPresented, $pasteMode, $isCutted, $editable);
-            if ($pasteMode) {
-                $itemViewModel->setPasteUid($pasteUid);
-            }
+            $itemViewModel = new ItemViewModel($node, $realDepth, $isOnPath, $isLeaf, $isPresented, $editable, $pasteMode, $isCutted, $pasteUid);
+
             $models[] = $itemViewModel;
         }
         return $models;
     }
 
     private function resolveEditable() {
-        $this->statusSecurityRepo->get()->getUserActions()->
-
+        $loginAggregate = $this->statusSecurityRepo->get()->getLoginAggregate();
+        if ($loginAggregate) {
+            $isEditableArticle = $this->statusSecurityRepo->get()->getUserActions()->isEditableArticle();
+            $isSupervisor = $loginAggregate->getCredentials()->getRole() == 'sup';
+            return ($isEditableArticle AND $isSupervisor);
+        } else {
+            return false;
+        }
     }
 
     public function getIterator(): \Traversable {

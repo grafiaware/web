@@ -17,14 +17,13 @@ use Model\Entity\HierarchyAggregateInterface;
 interface ItemViewModelInterface {
 
     public function setInnerHtml($innerHtml): void;
-    public function setPasteUid($uid);
 
     public function isOnPath();
     public function isLeaf();
     public function isPresented();
     public function isPasteMode();
     public function isCutted();
-    public function isReadonly();
+    public function isEditable();
     public function getInnerHtml();
     public function getPasteUid();
     public function getRealDepth();

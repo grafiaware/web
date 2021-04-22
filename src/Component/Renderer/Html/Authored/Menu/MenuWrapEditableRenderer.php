@@ -22,7 +22,7 @@ class MenuWrapEditableRenderer extends MenuWrapRendererAbstract {
     public function render($data = NULL) {
         /** @var MenuViewModelInterface $viewModel */
         $viewModel = $this->viewModel;
-        $menuLevelHtml = $this->getMenuLevelHtml($viewModel->getSubTreeItemModels());
+        $menuLevelHtml = $this->getMenuHtml($viewModel->getSubTreeItemModels());
 
         return
         Html::tag('form', [],
