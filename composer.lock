@@ -52,12 +52,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/box4pes/pes.git",
-                "reference": "9caed749b42c71aea81eeff3d61f80ca2656a272"
+                "reference": "8e1d5b7211202a504a23006affe7625dc04d243c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/box4pes/pes/zipball/9caed749b42c71aea81eeff3d61f80ca2656a272",
-                "reference": "9caed749b42c71aea81eeff3d61f80ca2656a272",
+                "url": "https://api.github.com/repos/box4pes/pes/zipball/8e1d5b7211202a504a23006affe7625dc04d243c",
+                "reference": "8e1d5b7211202a504a23006affe7625dc04d243c",
                 "shasum": ""
             },
             "require": {
@@ -94,7 +94,7 @@
                 "framework",
                 "pes"
             ],
-            "time": "2021-04-22T21:53:17+00:00"
+            "time": "2021-04-23T12:55:18+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
