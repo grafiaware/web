@@ -17,6 +17,11 @@ use Model\Entity\HierarchyAggregateInterface;
  */
 class ItemBlockRenderer extends ItemRenderer {
 
+    /**
+     * Přetěžuje metodu ItemRender pro editable variantu renderování.
+     *
+     * @return string
+     */
     protected function renderEditable() {
         $menuNode = $this->viewModel->getMenuNode();
         $menuItem = $menuNode->getMenuItem();
@@ -37,7 +42,7 @@ class ItemBlockRenderer extends ItemRenderer {
                 )
             )
             .Html::tag('i', ['class'=>$this->classMap->resolveClass($this->viewModel->getInnerHtml(), 'Item', 'li.isnotleaf icon')])
-            .(($this->viewModel->isPresented() AND !$this->viewModel->isEditable()) ? $this->renderButtons($menuNode) : '')
+            .(($this->viewModel->isPresented() AND $this->viewModel->isEditable()) ? $this->renderButtons($menuNode) : '')
             .$this->viewModel->getInnerHtml();
         $html = Html::tag('li',
                 ['class'=>[

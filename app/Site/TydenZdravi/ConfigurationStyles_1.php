@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Site\VeletrhPrace;
+namespace Site\TydenZdravi;
 
 use \Pes\View\Renderer\ClassMap\ClassMap;
 use  Component\Renderer\Html\Authored\Menu\{
@@ -153,35 +153,37 @@ class ConfigurationStyles extends ConfigurationRed {
         # menu renderer
         ###########################
             'menu.svisle.menuwraprenderer' => function(ContainerInterface $c) {
-                return new MenuWrapRenderer($c->get('menu.svisle.classmap'), $c->get('menu.svisle.classmap.editable'));
+                return new MenuWrapRenderer($c->get('menu.svisle.classmap'));
             },
             'menu.svisle.levelwraprenderer' => function(ContainerInterface $c) {
-                return new LevelWrapRenderer($c->get('menu.svisle.classmap'), $c->get('menu.svisle.classmap.editable'));
+                return new LevelWrapRenderer($c->get('menu.svisle.classmap'));
             },
             'menu.svisle.itemrenderer' => function(ContainerInterface $c) {
-                return new ItemRenderer($c->get('menu.svisle.classmap'), $c->get('menu.svisle.classmap.editable'));
+                return new ItemRenderer($c->get('menu.svisle.classmap'));
             },
             //bloky
-            'menu.bloky.menuwraprenderer' => function(ContainerInterface $c) {
-                return new MenuWrapEditableRenderer($c->get('menu.svisle.classmap'), $c->get('menu.bloky.classmap.editable'));
+            'menu.bloky.menuwraprenderer.editable' => function(ContainerInterface $c) {
+                return new MenuWrapEditableRenderer($c->get('menu.bloky.classmap.editable'));
             },
-            'menu.bloky.levelwraprenderer' => function(ContainerInterface $c) {
-                return new LevelWrapRenderer($c->get('menu.svisle.classmap'), $c->get('menu.bloky.classmap.editable'));
+            'menu.bloky.levelwraprenderer.editable' => function(ContainerInterface $c) {
+                return new LevelWrapRenderer($c->get('menu.bloky.classmap.editable'));
             },
-            'menu.bloky.itemrenderer' => function(ContainerInterface $c) {
-                return new ItemBlockRenderer($c->get('menu.svisle.classmap'), $c->get('menu.bloky.classmap.editable'));
+            'menu.bloky.itemrenderer.editable' => function(ContainerInterface $c) {
+                return new ItemBlockRenderer($c->get('menu.bloky.classmap.editable'));
             },
             //kos
             'menu.kos.menuwraprenderer' => function(ContainerInterface $c) {
-                return new MenuWrapRenderer($c->get('menu.svisle.classmap'), $c->get('menu.kos.classmap.editable'));
+                return new MenuWrapRenderer($c->get('menu.kos.classmap'));
             },
             'menu.kos.levelwraprenderer' => function(ContainerInterface $c) {
-                return new LevelWrapRenderer($c->get('menu.svisle.classmap'), $c->get('menu.kos.classmap.editable'));
+                return new LevelWrapRenderer($c->get('menu.kos.classmap'));
             },
             'menu.kos.itemrenderer' => function(ContainerInterface $c) {
-                return new ItemTrashRenderer($c->get('menu.svisle.classmap'), $c->get('menu.kos.classmap.editable'));
+                return new ItemTrashRenderer($c->get('menu.kos.classmap'));
             },
-
+            'menu.kos.menuwraprenderer.editable' => function(ContainerInterface $c) {
+                return new MenuWrapEditableRenderer($c->get('menu.kos.classmap'));
+            },
 
         ###########################
         # menu classmap
@@ -297,7 +299,7 @@ class ConfigurationStyles extends ConfigurationRed {
                         'Buttons' => self::rendererDefaults()['block_edit_buttons'],
                     ]);
             },
-            'menu.kos.classmap.editable' => function() { //kos
+            'menu.kos.classmap' => function() { //kos
                 return new ClassMap (
                     [
                         'MenuWrap' => [

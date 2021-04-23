@@ -13,17 +13,17 @@ namespace Site;
 //include 'app/Site/Grafia/ConfigurationRed.php';
 //include 'app/Site/Grafia/ConfigurationStyles.php';
 
-//use Site\TydenZdravi as Siteconfig;
-//include 'app/Site/TydenZdravi/ConfigurationConstants.php';
-//include 'app/Site/TydenZdravi/ConfigurationDb.php';
-//include 'app/Site/TydenZdravi/ConfigurationRed.php';
-//include 'app/Site/TydenZdravi/ConfigurationStyles.php';
+use Site\TydenZdravi as Siteconfig;
+include 'app/Site/TydenZdravi/ConfigurationConstants.php';
+include 'app/Site/TydenZdravi/ConfigurationDb.php';
+include 'app/Site/TydenZdravi/ConfigurationRed.php';
+include 'app/Site/TydenZdravi/ConfigurationStyles.php';
 
-use Site\VeletrhPrace as Siteconfig;
-include 'app/Site/VeletrhPrace/ConfigurationConstants.php';
-include 'app/Site/VeletrhPrace/ConfigurationDb.php';
-include 'app/Site/VeletrhPrace/ConfigurationRed.php';
-include 'app/Site/VeletrhPrace/ConfigurationStyles.php';
+//use Site\VeletrhPrace as Siteconfig;
+//include 'app/Site/VeletrhPrace/ConfigurationConstants.php';
+//include 'app/Site/VeletrhPrace/ConfigurationDb.php';
+//include 'app/Site/VeletrhPrace/ConfigurationRed.php';
+//include 'app/Site/VeletrhPrace/ConfigurationStyles.php';
 
 //use Site\Grafia as Siteconfig;
 //use Site\Grafia as Siteconfig;

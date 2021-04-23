@@ -2,10 +2,11 @@
 namespace  Component\Renderer\Html\Authored\Menu;
 
 use Component\Renderer\Html\HtmlModelRendererAbstract;
-use Pes\Text\Html;
 use Component\ViewModel\Authored\Menu\Item\ItemViewModelInterface;
+use Model\Entity\HierarchyAggregateInterface;
 
 use Pes\View\Renderer\RendererModelAwareInterface;
+use Pes\Text\Html;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -61,7 +62,7 @@ class ItemRenderer extends HtmlModelRendererAbstract implements RendererModelAwa
         $menuNode = $this->viewModel->getMenuNode();
         $menuItem = $menuNode->getMenuItem();
 
-        $presentedEditable = ($this->viewModel->isPresented() AND !$this->viewModel->isEditable());
+        $presentedEditable = ($this->viewModel->isPresented() AND $this->viewModel->isEditable());
         $active = $menuItem->getActive();
         $pasteMode = $this->viewModel->isPasteMode();
         $cutted = $this->viewModel->isCutted();

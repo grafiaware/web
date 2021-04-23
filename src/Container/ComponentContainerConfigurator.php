@@ -232,7 +232,7 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
             //kos
             'menu.kos' => function(ContainerInterface $c) {
                 return $c->get(MenuComponent::class)
-                        ->setRendererName('menu.kos.menuwraprenderer.editable')
+                        ->setRendererName('menu.kos.menuwraprenderer')
                         ->setRenderersNames('menu.kos.levelwraprenderer', 'menu.kos.itemrenderer');
             },
 

@@ -11,11 +11,16 @@ use Model\Entity\HierarchyAggregateInterface;
  */
 class ItemTrashRenderer extends ItemRenderer {
 
-    protected function render() {
+    /**
+     * Přetěžuje metodu ItemRender pro editable variantu renderování.
+     *
+     * @return string
+     */
+    protected function renderEditable() {
         $menuNode = $this->viewModel->getMenuNode();
         $menuItem = $menuNode->getMenuItem();
 
-        $presentedEditable = ($this->viewModel->isPresented() AND !$this->viewModel->isEditable());
+        $presentedEditable = ($this->viewModel->isPresented() AND $this->viewModel->isEditable());
         $active = $menuItem->getActive();
         $pasteMode = $this->viewModel->isPasteMode();
         $cutted = $this->viewModel->isCutted();
