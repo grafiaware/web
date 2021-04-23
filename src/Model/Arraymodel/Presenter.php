@@ -33,7 +33,7 @@ class Presenter {
         // musí mít nastavenu roli "presenter" v credentials
         private $person =
             [
-            'Krejčová' => ['regname' => "Krejčová", 'regmail' => "barbora.krejcova@wienerberger.com", 'regcompany' => "Wienerberger s.r.o.", 'shortName'=>"wienerberger"],
+            'Krejčová Barbora' => ['regname' => "Krejčová Barbora", 'regmail' => "barbora.krejcova@wienerberger.com", 'regcompany' => "Wienerberger s.r.o.", 'shortName'=>"wienerberger"],
 
             'Tomáš Matoušek' => ['regname' => "Tomáš Matoušek", 'regmail' => "matousek.t@daikinczech.cz", 'regcompany' => "Daikin Industries Czech Republic s.r.o.", 'shortName'=>"daikin"],
 
