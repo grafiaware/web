@@ -192,9 +192,9 @@ use Pes\Text\Text;
                 <?= Text::mono('Anna a Eva Vopalecké ze Studia FITNESSKA pro dobrou náladu posílají antikoronavirový tanec! Zatančete si s nimi!')?>
             </p>
             <video width="500" height="500" controls playsinline> <!--   autoplay muted>-->
-                <source src="video/video-fitneska1-500x500-H264.m4v">
-                <source src="video/video-fitneska1-500x500.webm">
-                <source src="video/video-fitneska1.mov">
+                <source src="movies/video-fitneska1-500x500-H264.m4v">
+                <source src="movies/video-fitneska1-500x500.webm">
+                <source src="movies/video-fitneska1.mov">
                 <p>Váš prohlížeč nepodporuje přehrávání videa, video si <a href="video/video-fitneska1-500x500-H264.m4v">stáhněte</a>.</p>
             </video>
         </div>

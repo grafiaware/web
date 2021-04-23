@@ -18,9 +18,9 @@ $shortName = 'dzk';
 
 $monitorFilename = Configuration::componentControler()['presenterFiles'].$shortName.'/assets/monitor-stanek.jpg';
 $monitorIsReadable = is_readable($monitorFilename);
-$videoMp4Filename = Configuration::componentControler()['presenterFiles'].$shortName.'/movie/video-stanek-MP4.mp4';
+$videoMp4Filename = Configuration::componentControler()['presenterFiles'].$shortName.'/movies/video-stanek-MP4.mp4';
 $videoMp4IsReadable = is_readable($videoMp4Filename);
-$videoWebmFilename = Configuration::componentControler()['presenterFiles'].$shortName.'/movie/video-stanek-WEBM.mp4';
+$videoWebmFilename = Configuration::componentControler()['presenterFiles'].$shortName.'/movies/video-stanek-WEBM.mp4';
 $videoWebmIsReadable = is_readable($videoWebmFilename);
 $stanek_ref = '/assets/stanek.png';
 

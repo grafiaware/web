@@ -1,7 +1,7 @@
         <div id="mySidenav">
             <div class="close-item">
                 <div class="hamburger-icon"><i class="bars big icon"></i><p>Menu</p></div>
-                <a href=""><img src="images/LogoCtyrlistekInvert.png" width="65" height="65" /></a>
+                <a href=""><img src="layout-images/LogoCtyrlistekInvert.png" width="65" height="65" /></a>
                 <a onclick="hamburger_close()" href="javascript:void(0)"><i class="close slim-icon"></i></a>
                 <!--jenom v editačním režimu ↓-->
                 <!--<span class="hamburger_dontclose"><i class="circle outline icon"></i>Nezavírat menu</span>-->

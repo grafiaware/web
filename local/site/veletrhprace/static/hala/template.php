@@ -15,9 +15,9 @@ $perex = 'Poznejte svého budoucího zaměstnavatele na našich online stáncíc
 
 $monitorFilename = '_www_vp_files/monitor-stanek.jpg';
 $monitorIsReadable = is_readable($monitorFilename);
-$videoMp4Filename = '_www_vp_files/movie/smycka-MP4.mp4';
+$videoMp4Filename = '_www_vp_files/movies/smycka-MP4.mp4';
 $videoMp4IsReadable = is_readable($videoMp4Filename);
-$videoWebmFilename = '_www_vp_files/movie/smycka-WEBM.webm';
+$videoWebmFilename = '_www_vp_files/movies/smycka-WEBM.webm';
 $videoWebmIsReadable = is_readable($videoWebmFilename);
 
 $promoVideo = [

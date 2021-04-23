@@ -19,7 +19,7 @@ $modalAtributy = [
 
 $static_ref = '_www_vp_files/static/';
 $monitor_ref = '/assets/monitor-stanek.jpg';
-$video_ref = '/movie/video-stanek.mp4';
+$video_ref = '/movies/video-stanek.mp4';
 $stanek_ref = '/assets/stanek.png';
 
 $letakJPG_ref = '/poster/letak.png';

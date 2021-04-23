@@ -18,7 +18,7 @@ $modalAtributy = [
 ];
 
 $monitor_ref = '/assets/monitor-stanek.jpg';
-$video_ref = '/movie/video-stanek.mp4';
+$video_ref = '/movies/video-stanek.mp4';
 $stanek_ref = '/assets/stanek.png';
 
 
