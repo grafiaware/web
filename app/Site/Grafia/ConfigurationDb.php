@@ -166,7 +166,7 @@ class ConfigurationDb extends ConfigurationConstants {
             'dbold.db.charset' => 'utf8',
             'dbold.db.collation' => 'utf8_general_ci',
             'dbold.db.connection.host' => PES_RUNNING_ON_PRODUCTION_HOST ? 'OLD_PRODUCTION_NAME' : 'localhost',
-            'dbold.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'OLD_PRODUCTION_HOST' : 'wwwgrafia',
+            'dbold.db.connection.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'OLD_PRODUCTION_HOST' : 'gr_pracovni',
             #
             ###################################
             # Konfigurace logu databáze
