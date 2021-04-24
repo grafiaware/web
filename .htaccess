@@ -20,6 +20,7 @@ RewriteBase "/web/"
 #RewriteRule ^(.*)\\.(gif|png|jpg|jpeg|css|js|swf|ico|bmp|less)$ /public/$1.$2 [L,NC]
 
 RewriteRule ^public/ - [L]
+RewriteRule ^_files/ - [L]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
