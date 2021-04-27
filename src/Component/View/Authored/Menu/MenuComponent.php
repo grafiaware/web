@@ -69,11 +69,11 @@ class MenuComponent extends CompositeComponentAbstract implements MenuComponentI
 
     /**
      *
-     * @param string $componentName
+     * @param string $menuRootName
      * @return \Component\Controler\Authored\MenuComponentInterface
      */
-    public function setMenuRootName($componentName): MenuComponentInterface {
-        $this->componentName = $componentName;
+    public function setMenuRootName($menuRootName): MenuComponentInterface {
+        $this->componentName = $menuRootName;
         return $this;
     }
 

@@ -186,79 +186,6 @@ class ConfigurationStyles extends ConfigurationRed {
         ###########################
         # menu classmap
         ###########################
-            'menu.presmerovani.classmap' => function() {
-                return new ClassMap (
-                    [
-                        'MenuWrap' => [
-                            'ul' => 'ui tiny text menu',
-                            ],
-                        'LevelWrap' => [
-                            'ul' => 'menu'
-                        ],
-                        'Item' => array_merge(self::rendererDefaults()['menu_edit_items'],
-                            [
-                            'li' => 'item',
-                            'li.onpath' => 'item onpath',
-                            'li a' => '',
-                            ]),
-                    ]);
-            },
-            'menu.presmerovani.classmap.editable' => function() {
-                return new ClassMap (
-                    [
-                        'MenuWrap' => [
-                            'ul' => 'ui tiny text menu edit',
-                            ],
-                        'LevelWrap' => [
-                            'ul' => 'menu'
-                        ],
-                        'Item' => array_merge(self::rendererDefaults()['menu_edit_items'],
-                            [
-                            'li' => 'item',
-                            'li.onpath' => 'item onpath',
-                            'li a' => '',
-                            ]),
-                        'Buttons' => self::rendererDefaults()['menu_edit_buttons'],
-                    ]
-                );
-            },
-
-            'menu.vodorovne.classmap' => function() {
-                return new ClassMap (
-                    [
-                        'MenuWrap' => [
-                            'ul' => 'ui small text menu left floated',
-                            ],
-                        'LevelWrap' => [
-
-                        ],
-                        'Item' => [
-                            'li' => 'item',
-                            'li.onpath' => 'item onpath',
-                            'li a' => 'ui primary button',
-                            ]
-                    ]);
-            },
-            'menu.vodorovne.classmap.editable' => function() {
-                return new ClassMap (
-                    [
-                        'MenuWrap' => [
-                            'ul' => 'ui small text menu edit left floated',
-                            ],
-                        'LevelWrap' => [
-                            'ul' => 'menu'
-                        ],
-                        'Item' => array_merge(self::rendererDefaults()['menu_edit_items'],
-                            [
-                            'li' => 'item',
-                            'li.onpath' => 'item onpath',
-                            'li a' => 'ui primary button',
-                            ]),
-//                        'Item' => self::rendererDefaults()['menu_edit_items'],
-                        'Buttons' => self::rendererDefaults()['menu_edit_buttons'],
-                    ]
-                );
-            },
             'menu.svisle.classmap' => function() {
                 return new ClassMap (
                     [
@@ -268,7 +195,12 @@ class ConfigurationStyles extends ConfigurationRed {
                         'LevelWrap' => [
                             'ul' => 'menu',
                             ],
-                        'Item' => self::rendererDefaults()['menu_edit_items'],
+                        'Item' => array_merge(self::rendererDefaults()['menu_edit_items'],
+                            [
+                            'li' => 'item',
+                            'li.onpath' => 'item onpath',
+                            'li a' => '',
+                            ]),
                     ]);
             },
             'menu.svisle.classmap.editable' => function() {

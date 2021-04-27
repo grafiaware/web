@@ -26,20 +26,20 @@ class ItemViewModel implements ItemViewModelInterface {
     private $isOnPath;
     private $isLeaf;
     private $isPresented;
-    private $editable;
+    private $isEditableItem;
     private $pasteMode;
     private $isCutted;
 
     private $innerHtml;
     private $pasteUid;
 
-    public function __construct(HierarchyAggregateInterface $menuNode, $realDepth, $isOnPath, $isLeaf, $isPresented, $editable, $pasteMode, $isCutted, $pasteUid=null) {
+    public function __construct(HierarchyAggregateInterface $menuNode, $realDepth, $isOnPath, $isLeaf, $isPresented, $editableItem, $pasteMode, $isCutted, $pasteUid=null) {
         $this->menuNode = $menuNode;
         $this->realDepth = $realDepth;
         $this->isOnPath = $isOnPath;
         $this->isLeaf = $isLeaf;
         $this->isPresented = $isPresented;
-        $this->editable = $editable;
+        $this->isEditableItem = $editableItem;
         $this->pasteMode = $pasteMode;
         $this->isCutted = $isCutted;
         $this->pasteUid = $pasteUid;
@@ -78,8 +78,8 @@ class ItemViewModel implements ItemViewModelInterface {
         return $this->isCutted;
     }
 
-    public function isEditable() {
-        return $this->editable;
+    public function isEditableItem() {
+        return $this->isEditableItem;
     }
 
     public function getInnerHtml() {

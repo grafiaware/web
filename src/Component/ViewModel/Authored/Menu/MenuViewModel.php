@@ -165,19 +165,25 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
             $isPresented = isset($presentedUid) ? ($presentedUid == $nodeUid) : FALSE;
             $isCutted = $pasteUid == $nodeUid;
             if ($isPresented) {
-                $editable = $this->resolveEditable();
+                $isEditableItem = $this->isEditableMenu();  // volá se jen pro presented = jednou
             } else {
-                $editable = false;
+                $isEditableItem = false;
             }
 
-            $itemViewModel = new ItemViewModel($node, $realDepth, $isOnPath, $isLeaf, $isPresented, $editable, $pasteMode, $isCutted, $pasteUid);
+            $itemViewModel = new ItemViewModel($node, $realDepth, $isOnPath, $isLeaf, $isPresented, $isEditableItem, $pasteMode, $isCutted, $pasteUid);
 
             $models[] = $itemViewModel;
         }
         return $models;
     }
 
-    private function resolveEditable() {
+
+    /**
+     * Editovat smí uživatel s rolí 'sup'
+     *
+     * @return bool
+     */
+    public function isEditableMenu(): bool {
         $loginAggregate = $this->statusSecurityRepo->get()->getLoginAggregate();
         if ($loginAggregate) {
             $isEditableArticle = $this->statusSecurityRepo->get()->getUserActions()->isEditableArticle();

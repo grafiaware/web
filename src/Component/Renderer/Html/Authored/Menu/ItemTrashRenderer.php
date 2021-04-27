@@ -20,25 +20,25 @@ class ItemTrashRenderer extends ItemRenderer {
         $menuNode = $this->viewModel->getMenuNode();
         $menuItem = $menuNode->getMenuItem();
 
-        $presentedEditable = ($this->viewModel->isPresented() AND $this->viewModel->isEditable());
+        $presentedEditable = ($this->viewModel->isPresented() AND $this->viewModel->isEditableItem());
         $active = $menuItem->getActive();
         $pasteMode = $this->viewModel->isPasteMode();
         $cutted = $this->viewModel->isCutted();
 
         // element a s potomkem span - needitovalný titulek
         $innerHtml[] = Html::tag('a', [
-                        'class'=>$this->classMap->getClass('Item', 'li a'),
+                        'class'=>$this->classMapEditable->getClass('Item', 'li a'),
                         'href'=>"www/item/{$menuNode->getMenuItem()->getLangCodeFk()}/{$menuNode->getUid()}",
                          ],
                         $menuNode->getMenuItem()->getTitle()
-                        .Html::tag('span', ['class'=>$this->classMap->getClass('Item', 'semafor')],
+                        .Html::tag('span', ['class'=>$this->classMapEditable->getClass('Item', 'semafor')],
                             Html::tag('i', [
-                                'class'=> $this->classMap->getClass('Item', 'semafor.trashed'),
+                                'class'=> $this->classMapEditable->getClass('Item', 'semafor.trashed'),
                                 'title'=> "smazaná položka"
                                 ])
                         )
                     );
-        $innerHtml[] = Html::tag('i', ['class'=>$this->classMap->resolveClass($this->viewModel->getInnerHtml(), 'Item', 'li.isnotleaf icon')]);
+        $innerHtml[] = Html::tag('i', ['class'=>$this->classMapEditable->resolveClass($this->viewModel->getInnerHtml(), 'Item', 'li.isnotleaf icon')]);
 
         $buttonsHtml = '';
         if ($presentedEditable) {
@@ -55,15 +55,15 @@ class ItemTrashRenderer extends ItemRenderer {
             }
         }
 
-        $innerHtml[] = $buttonsHtml ? Html::tag('div', ['class'=>$this->classMap->getClass('Buttons', 'div.buttons')], $buttonsHtml) : '';
+        $innerHtml[] = $buttonsHtml ? Html::tag('div', ['class'=>$this->classMapEditable->getClass('Buttons', 'div.buttons')], $buttonsHtml) : '';
         $innerHtml[] = $this->viewModel->getInnerHtml();
 
         $html = Html::tag('li',
                 ['class'=>[
-                    $this->classMap->resolveClass($this->viewModel->isOnPath(), 'Item', 'li.onpath', 'li'),
-                    $this->classMap->resolveClass($this->viewModel->isLeaf(), 'Item', 'li.leaf', ($this->viewModel->getRealDepth() == 1) ? 'li.dropdown' : 'li.item'),
-                    $this->classMap->resolveClass($this->viewModel->isPresented(), 'Item', 'li.presented', 'li'),
-                    $this->classMap->resolveClass($this->viewModel->isCutted(), 'Item', 'li.cut', 'li')
+                    $this->classMapEditable->resolveClass($this->viewModel->isOnPath(), 'Item', 'li.onpath', 'li'),
+                    $this->classMapEditable->resolveClass($this->viewModel->isLeaf(), 'Item', 'li.leaf', ($this->viewModel->getRealDepth() == 1) ? 'li.dropdown' : 'li.item'),
+                    $this->classMapEditable->resolveClass($this->viewModel->isPresented(), 'Item', 'li.presented', 'li'),
+                    $this->classMapEditable->resolveClass($this->viewModel->isCutted(), 'Item', 'li.cut', 'li')
                     ],
                 ],
                 $innerHtml);
@@ -84,7 +84,7 @@ class ItemTrashRenderer extends ItemRenderer {
     private function getButtonDelete(HierarchyAggregateInterface $menuNode) {
         return
             Html::tag('button', [
-                'class'=>$this->classMap->getClass('Buttons', 'button'),
+                'class'=>$this->classMapEditable->getClass('Buttons', 'button'),
                 'data-tooltip'=>'Trvale odstranit',
                 'data-position'=>'top right',
                 'type'=>'submit',
@@ -92,9 +92,9 @@ class ItemTrashRenderer extends ItemRenderer {
                 'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/delete",
                 'onclick'=>"return confirm('Jste si jisti?');"
                     ],
-                Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'button.icons'),],
-                        Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'button.delete'),])
-                        .Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'button.exclamation'),])
+                Html::tag('i', ['class'=>$this->classMapEditable->getClass('Buttons', 'button.icons'),],
+                        Html::tag('i', ['class'=>$this->classMapEditable->getClass('Buttons', 'button.delete'),])
+                        .Html::tag('i', ['class'=>$this->classMapEditable->getClass('Buttons', 'button.exclamation'),])
                 )
             );
     }
@@ -102,7 +102,7 @@ class ItemTrashRenderer extends ItemRenderer {
     private function getButtonCut(HierarchyAggregateInterface $menuNode) {
         return
             Html::tag('button', [
-                'class'=>$this->classMap->getClass('Buttons', 'button'),
+                'class'=>$this->classMapEditable->getClass('Buttons', 'button'),
                 'data-tooltip'=>'Vybrat k přesunutí',
                 'data-position'=>'top right',
                 'type'=>'submit',
@@ -110,12 +110,12 @@ class ItemTrashRenderer extends ItemRenderer {
                 'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/cut",
 
                     ],
-                Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'button.cut')])
+                Html::tag('i', ['class'=>$this->classMapEditable->getClass('Buttons', 'button.cut')])
             );
     }
     private function getButtonCutted(HierarchyAggregateInterface $menuNode) {
         return  Html::tag('button', [
-                'class'=>$this->classMap->getClass('Buttons', 'button'),
+                'class'=>$this->classMapEditable->getClass('Buttons', 'button'),
                 'data-tooltip'=>'Zrušit přesunutí',
                 'data-position'=>'top right',
                 'type'=>'submit',
@@ -123,7 +123,7 @@ class ItemTrashRenderer extends ItemRenderer {
                 'formmethod'=>'post',
                 'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/cut",
                     ],
-                Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'button.cutted')])
+                Html::tag('i', ['class'=>$this->classMapEditable->getClass('Buttons', 'button.cutted')])
             );
     }
 

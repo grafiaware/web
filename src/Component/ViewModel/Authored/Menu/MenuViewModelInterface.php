@@ -46,12 +46,7 @@ interface MenuViewModelInterface extends AuthoredViewModelInterface {
      */
     public function getPresentedMenuNode(HierarchyAggregateInterface $rootNode): ?HierarchyAggregateInterface;
 
-    /**
-     *
-     * @param string $menuRootName
-     * @return MenuRootInterface
-     */
-//    public function getMenuRoot($menuRootName);
+    public function isEditableMenu(): bool;
 
     /**
      *
