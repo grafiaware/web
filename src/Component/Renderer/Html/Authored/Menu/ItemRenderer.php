@@ -44,12 +44,8 @@ class ItemRenderer extends HtmlModelRendererAbstract implements RendererModelAwa
                     $this->classMap->resolveClass($this->viewModel->isPresented(), 'Item', 'li.presented', 'li'),
                     $this->classMap->resolveClass($this->viewModel->isCutted(), 'Item', 'li.cut', 'li')
                     ],
-                 'data-red-info'=>
-                    ($this->viewModel->isOnPath() ? "isOnPath " : "")
-                    .($this->viewModel->isLeaf() ? "isLeaf " : "")
-                    .($this->viewModel->isPresented() ? "isPresented " : "")
-                    .($this->viewModel->isCutted() ? "isCutted " : "")
-                    ."realDepth: ".$this->viewModel->getRealDepth()                ],
+                 'data-red-style'=> $this->redLiStyle()
+               ],
                 $this->renderNonEditableInner()
                 );
         return $html;
@@ -72,14 +68,10 @@ class ItemRenderer extends HtmlModelRendererAbstract implements RendererModelAwa
         $menuNode = $this->viewModel->getMenuNode();
         $menuItem = $menuNode->getMenuItem();
 
-        $presentedEditable = ($this->viewModel->isPresented() AND $this->viewModel->isEditableItem());
         $active = $menuItem->getActive();
-        $pasteMode = $this->viewModel->isPasteMode();
-        $cutted = $this->viewModel->isCutted();
-//        $pasteMode = $pastedUid AND ($pastedUid != $menuNode->getUid());  //zobrazí v modu "paste" buttony pokud je vybrána položka pro paste, ale není to právě ta vybraná položka
 
-        $innerHtml[] =
-            Html::tag($presentedEditable ? 'p' : 'a',
+        $liInnerHtml[] =
+            Html::tag('p',
                 [
                 'class'=>$this->classMapEditable->getClass('Item', 'li a'),   // class - 'editable' v kontejneru
                 'href'=>"www/item/{$menuNode->getMenuItem()->getLangCodeFk()}/{$menuNode->getUid()}",
@@ -90,7 +82,7 @@ class ItemRenderer extends HtmlModelRendererAbstract implements RendererModelAwa
                 // ve skriptu edit.js je element k editaci textu položky vybírán pravidlem (selektorem) acceptedElement = targetElement.nodeName === 'SPAN' && targetElement.parentNode.nodeName === 'P',
                 // vyvírá <span>, který má rodiče <p>
                 Html::tag('span', [
-                    'contenteditable'=> ($presentedEditable ? "true" : "false"),
+                    'contenteditable'=> "true",
                     'data-original-title'=>$menuItem->getTitle(),
                     'data-uid'=>$menuNode->getUid(),
                     ],
@@ -106,25 +98,11 @@ class ItemRenderer extends HtmlModelRendererAbstract implements RendererModelAwa
 
             );
 
-        $buttonsHtml = '';
-        if ($presentedEditable) {
-            if ($pasteMode) {
-                if($cutted) {
-                    $buttonsHtml = $this->renderCuttedItemButtons($menuNode);
-                } else {
-                    $buttonsHtml = $this->renderPasteButtons($menuNode, $this->viewModel->getPasteUid());
-                }
-            } else {
-                $buttonsHtml = $this->renderButtons($menuNode);
-            }
-        } else {
-            if ($pasteMode AND $cutted) {
-                $buttonsHtml = $this->renderCuttedItemButtons($menuNode);
-            }
-        }
-        $innerHtml[] = $buttonsHtml ? Html::tag('div', ['class'=>$this->classMapEditable->getClass('Buttons', 'div.buttons')], $buttonsHtml) : '';
+        $liInnerHtml[] = Html::tag('div',
+                ['class'=>$this->classMapEditable->getClass('Buttons', 'div.buttons')],
+                $this->renderButtons($menuNode));
 
-        $innerHtml[] = $this->viewModel->getInnerHtml();
+        $liInnerHtml[] = $this->viewModel->getInnerHtml();
 
         $html = Html::tag(     'li',
                 ['class'=>[
@@ -133,18 +111,40 @@ class ItemRenderer extends HtmlModelRendererAbstract implements RendererModelAwa
                     $this->classMapEditable->resolveClass($this->viewModel->isPresented(), 'Item', 'li.presented', 'li'),
                     $this->classMapEditable->resolveClass($this->viewModel->isCutted(), 'Item', 'li.cut', 'li')
                     ],
-                 'data-red-info'=>
-                    ($this->viewModel->isOnPath() ? "isOnPath " : "")
-                    .($this->viewModel->isLeaf() ? "isLeaf " : "")
-                    .($this->viewModel->isPresented() ? "isPresented " : "")
-                    .($this->viewModel->isCutted() ? "isCutted " : "")
-                    ."realDepth: ".$this->viewModel->getRealDepth()
+                 'data-red-style'=> $this->redLiStyle()
+
                 ],
-                $innerHtml);
+                $liInnerHtml);
         return $html;
     }
 
+    private function redLiStyle() {
+        return ($this->viewModel->isOnPath() ? "onpath " : "")
+            .(($this->viewModel->getRealDepth() == 1) ? "dropdown " : "")
+            .($this->viewModel->isPresented() ? "presented " : "")
+            .($this->viewModel->isCutted() ? "cutted " : "") ;
+    }
+
+    private function redLiIStyle() {
+        return ($this->viewModel->isLeaf() ? "leaf " : "");
+    }
+
     private function renderButtons(HierarchyAggregateInterface $menuNode) {
+        $buttonsHtml = '';
+
+        if ($this->viewModel->isPasteMode()) {
+            if($this->viewModel->isCutted()) {
+                $buttonsHtml = $this->renderCuttedItemButtons($menuNode);
+            } else {
+                $buttonsHtml = $this->renderPasteButtons($menuNode);
+            }
+        } else {
+            $buttonsHtml = $this->renderStandardButtons($menuNode);
+        }
+        return $buttonsHtml;
+    }
+
+    private function renderStandardButtons(HierarchyAggregateInterface $menuNode) {
         $buttons[] = $this->getButtonActive($menuNode);
         $buttons[] = $this->getButtonAdd($menuNode);
         $buttons[] = $this->getButtonCut($menuNode);
@@ -152,7 +152,8 @@ class ItemRenderer extends HtmlModelRendererAbstract implements RendererModelAwa
         return $buttons;
     }
 
-    private function renderPasteButtons(HierarchyAggregateInterface $menuNode, $pastedUid) {
+    private function renderPasteButtons(HierarchyAggregateInterface $menuNode) {
+        $pastedUid = $this->viewModel->getPasteUid();
         $buttons[] = $this->getButtonPaste($menuNode, $pastedUid);
         return $buttons;
     }
