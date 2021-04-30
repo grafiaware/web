@@ -10,34 +10,31 @@
         opacity: 0.8;
     }
 }
-.ui.menu .item:before{
+.ui.vertical.menu .item::before{
     display: none;
 }
 .ui.vertical.menu:not(.icon){
-    li:not(.presented){ 
-        > a.item{
-            overflow: hidden;
-            &:hover::after{
-                transform: scaleX(1);
-                background-color: @invertedTextColor; 
-            }
-            &::after{
-                background: none; 
-                position: absolute;
-                top: auto;
-                bottom: 15px;
-                right: 0;
-                width: 100%;
-                height: 3px;
-                background-color: @invertedTextColor; 
-                content: '';
-                transition: linear 0.4s;
-                backface-visibility: hidden;
-                transform: translateX(-100%);
-            }
+    a:not(.presented){ 
+        overflow: hidden;
+        &:hover::after{
+            transform: scaleX(1);
+            background-color: @invertedTextColor; 
+        }
+        &::after{
+            background: 0 0; 
+            position: absolute;
+            top: auto;
+            bottom: 0;
+            right: 0;
+            width: 100%;
+            height: 3px;
+            content: '';
+            transition: transform 0.4s;
+            backface-visibility: hidden;
+            transform: translateX(-100%);
         }
     }
-    li.cut a.item{
+    li.cut a{
         &::after{
             background-color: 0;
             transform: none;
@@ -52,29 +49,36 @@
 .ui.vertical.menu{
     &.massive{
         padding: 0.7em 0;
-        .onpath ul{
-            width: 28rem;
-        }
-        .item{
-            font-weight: bold;
+        a, p{
+            display: block;
+            width: 100%;
+            font-weight: 700;
+            font-size: 2rem;
             text-transform: uppercase;
-            padding: 0.6em 1.3em 0.6em 0;
             line-height: 1.2;
+            position: relative;
+            color: @invertedTextColor;
+        }
+        p{
+            padding-left: 35px;
         }
         &.edit{ 
             width: 35rem;
-            .onpath ul{
+            .onpath{
                 width: 33.5rem;
             }
-            a.item{
+             a{
+                display: block;
+                width: 100%;
                 padding: 0.6em 1.3em;
                 font-size: 1.8rem !important;
             }
-            p.item{
+            p{
+                width: 100%;
                 padding: 0.8em 1.3em;
                 font-size: 1.8rem !important;
             }
-            .presented:not(.cut) p.item{
+             li:not(.cut) p.presented{
                 margin-top: 0.7em;  
             }
         }
@@ -82,7 +86,7 @@
 }
 .kos .ui.vertical.menu{
     &.massive{
-        .item{
+        a,p{
             font-size: 1.8rem !important; 
             padding: 0.6em 1.3em;
         }

@@ -39,10 +39,8 @@ class ItemRenderer extends HtmlModelRendererAbstract implements RendererModelAwa
         // sloučeno
         $html = Html::tag(     'li',
                 ['class'=>[
-                    $this->classMap->resolveClass($this->viewModel->isOnPath(), 'Item', 'li.onpath', 'li'),
                     $this->classMap->resolveClass($this->viewModel->isLeaf(), 'Item', 'li.leaf', ($this->viewModel->getRealDepth() == 1) ? 'li.dropdown' : 'li.item'),
-                    $this->classMap->resolveClass($this->viewModel->isPresented(), 'Item', 'li.presented', 'li'),
-                    $this->classMap->resolveClass($this->viewModel->isCutted(), 'Item', 'li.cut', 'li')
+                    $this->classMap->resolveClass($this->viewModel->isCutted(), 'Item', 'li.cut', 'li') 
                     ],
                  'data-red-style'=> $this->redLiStyle()
                ],
@@ -54,7 +52,12 @@ class ItemRenderer extends HtmlModelRendererAbstract implements RendererModelAwa
 
     private function renderNonEditableInner() {
         $menuNode = $this->viewModel->getMenuNode();
-        $innerHtml = Html::tag('a', ['class'=>$this->classMap->getClass('Item', 'li a'), 'href'=> "www/item/{$menuNode->getMenuItem()->getLangCodeFk()}/{$menuNode->getUid()}" ],
+        $innerHtml = Html::tag('a', 
+                    ['class'=>[
+                        $this->classMap->getClass('Item', 'li a'), 
+                        $this->classMap->resolveClass($this->viewModel->isPresented(), 'Item', 'li.presented', 'li'),
+                        ],
+                    'href'=> "www/item/{$menuNode->getMenuItem()->getLangCodeFk()}/{$menuNode->getUid()}" ],
                         Html::tag('span', ['class'=>$this->classMap->getClass('Item', 'li a span')],
                             $menuNode->getMenuItem()->getTitle()
                             .Html::tag('i', ['class'=>$this->classMap->resolveClass($this->viewModel->isLeaf(), 'Item', 'li i', 'li i.dropdown')])
@@ -73,7 +76,10 @@ class ItemRenderer extends HtmlModelRendererAbstract implements RendererModelAwa
         $liInnerHtml[] =
             Html::tag('p',
                 [
-                'class'=>$this->classMapEditable->getClass('Item', 'li a'),   // class - 'editable' v kontejneru
+                'class'=>[
+                    $this->classMapEditable->getClass('Item', 'li a'),   // class - 'editable' v kontejneru
+                    $this->classMap->resolveClass($this->viewModel->isPresented(), 'Item', 'li.presented', 'li'),
+                    ],
                 'href'=>"www/item/{$menuNode->getMenuItem()->getLangCodeFk()}/{$menuNode->getUid()}",
                 'tabindex'=>0,
                 ],
@@ -106,9 +112,7 @@ class ItemRenderer extends HtmlModelRendererAbstract implements RendererModelAwa
 
         $html = Html::tag(     'li',
                 ['class'=>[
-                    $this->classMapEditable->resolveClass($this->viewModel->isOnPath(), 'Item', 'li.onpath', 'li'),
                     $this->classMapEditable->resolveClass($this->viewModel->isLeaf(), 'Item', 'li.leaf', ($this->viewModel->getRealDepth() == 1) ? 'li.dropdown' : 'li.item'),
-                    $this->classMapEditable->resolveClass($this->viewModel->isPresented(), 'Item', 'li.presented', 'li'),
                     $this->classMapEditable->resolveClass($this->viewModel->isCutted(), 'Item', 'li.cut', 'li')
                     ],
                  'data-red-style'=> $this->redLiStyle()

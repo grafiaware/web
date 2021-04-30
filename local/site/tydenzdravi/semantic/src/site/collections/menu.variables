@@ -9,7 +9,9 @@
 
 /* Menu Item */
 @itemTextColor: @invertedTextColor;
+@itemVerticalPadding: 0.5em;
 @itemHorizontalPadding: 0;
+@subMenuVerticalPadding: 0.4em;
 @subMenuTextColor: @invertedTextColor;
 
 /* Hovered Item */

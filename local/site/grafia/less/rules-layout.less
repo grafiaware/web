@@ -282,12 +282,10 @@
             }
         }
         .onpath {
+           margin-left: 12px;
+           padding: 0;
             .item{
                 border-bottom: 0;
-            }
-            .menu{
-                  margin-left: 12px;
-                  padding: 0;
             }
         }
         .item::before{
@@ -305,7 +303,7 @@
             &:last-child{
                 border-bottom: 2px solid @transparentBlack;
             }
-            &:first-child.onpath{
+            &:first-child .onpath{
                 border-width: 2px 0 0 0;
             }
             .item{
@@ -316,7 +314,7 @@
             }
         }
         .onpath{                                //pozadi jen v podrazenem ul
-            &.presented > .item{
+            .item{
                 background-color: @transparentBlack;
             }
             border-width: 0 0 2px 0;
@@ -332,7 +330,7 @@
                 border-right: 2px solid @transparentBlack !important;
                 line-height: normal;
             }
-            .menu{
+            &.menu{
                 border-top: 0;
                 background-color: @transparentBlack;
                 > li{
@@ -341,9 +339,9 @@
                 > li:hover{
                     background-color: @transparentBlack;
                 }
-                .onpath > .menu {
+                > .onpath.menu {
                     background-color: @transparentBlack+@transparentBlack;
-                    > .onpath > .menu{
+                    > .onpath.menu{
                         background-color: @transparentBlack+@transparentBlack+@transparentBlack;
                     }
                 }
@@ -363,8 +361,8 @@
         }
     }
     
-    .vodorovne-menu .menu .onpath,
-    .presmerovani-menu .menu .onpath{
+    .vodorovne-menu .onpath,
+    .presmerovani-menu .onpath{
          > ul{
             padding: 0;
         }
@@ -377,7 +375,7 @@
         .item{
             margin: 5px 5px 5px 0;
         }
-        .onpath > a{
+        .presented{
             color: @primaryColor ;
             background-color: @white;
             box-shadow: 0 0 0 1px @primaryColor inset ;
@@ -385,9 +383,6 @@
                 background-color: @white !important;
                 color: @darkPrimaryColor;
             }
-        }
-        a{
-            padding: 2px 3px;
         }
     }
     

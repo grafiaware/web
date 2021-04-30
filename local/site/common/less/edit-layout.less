@@ -58,8 +58,9 @@
 //Vodorovné menu
 @vodorovneMenuItemPaddingLeft: 5px;
 @vodorovneMenuItemButtonPadding: 9px 12px;
+@vodorovneMenuMarginLeft: 13px;
 //Přesměrování menu
-@presmerovaniMenuItemMaginRight: 20px;
+@presmerovaniMenuItemMaginRight: 20px; 
 
 //Paper 
 @paperMargin: @hodnota0 10px;
@@ -85,7 +86,7 @@
     word-wrap: break-word;
 }
  
-.layoutVP{
+body{
     /*celá stránka v editačním režimu posunutá napravo*/
     .ui.container.editable{
         position: relative;
@@ -103,7 +104,7 @@
         left: @poznamkyPositionLeft;
         right: @poznamkyPositionRight;
         bottom: @poznamkyPositionBottom;
-        width: @poznamkyWidth;
+        width: @poznamkyWidth; 
         background: @poznamkyBackground;
         border-radius: @poznamkyBorderRadius;
         box-shadow: @poznamkyBorderShadow;
@@ -155,7 +156,7 @@
         .cut - třída se přidá, pokud se klikne na tlačítko vybrat k přesunutí*/
     /*PRO VSECHNA MENU*/
     .menu.edit{
-        .presented p{
+        p.presented{ 
             margin-bottom: @menuParagraphMarginBottom;
             /*vybraná položka menu má editovatelný název - přizpůsobený kurzor myši*/
             span{
@@ -176,13 +177,12 @@
         padding-left: 8px; 
         .menu.edit{ 
             .menu {
-                > li:not(.presented){ //pro lepší čitelnost položek menu vzhledem k dalším editačním prvkům pložky (semafor)
+                > a.presented{ //pro lepší čitelnost položek menu vzhledem k dalším editačním prvkům pložky (semafor)
                     padding: @svisleMenuLiPadding; //není zvětšený padding pro <a>, protože to zajišťuje semantic
                 }
-                > .presented{
-                    p.item{ //stejný padding, jako mají <a> od semanticu
+                > p.presented{
+                    //stejný padding, jako mají <a> od semanticu
                         padding: @svisleMenuParagraphPadding;
-                    }
                 } 
             }
             li{
@@ -197,7 +197,7 @@
         }  
                 
     } 
-    nav{
+    .svisle-menu{
         &:first-of-type{
             margin: 0 auto;
             margin-left: -15px;
@@ -225,6 +225,9 @@
             a.button, p.button{
                 padding: @vodorovneMenuItemButtonPadding;
             }
+        }
+        .ui.menu .presented.button{
+            margin-left: @vodorovneMenuMarginLeft;
         }
     }
     

@@ -48,7 +48,7 @@
 @semaforMenuHeight: 100%;    
 @semaforSvisleMenuPositionLeft: -1px;
 @semaforPresmerovaniMenuPositionLeft: -12px;
-@semaforVodorovneMenuPositionLeft: -6px;
+@semaforVodorovneMenuPositionLeft: -6px; 
 @semaforVodorovneMenuBorder: @borderWidth @borderStyle @primaryColor;
 @semaforVodorovneMenuBorderRadius: @borderRadius @hodnota0 @hodnota0 @borderRadius;
 @semaforVodorovneMenuBackgroundColor: @white;
@@ -150,13 +150,13 @@
     }
 }
 
-.layoutVP{ 
+body{ 
     /*popisky buttonů budou tučně - popisky jsou v atributu data-tooltip*/
     .buttons [data-tooltip]::after{
         font-weight: @buttonDataTooltipFontWeight;
     }
 
-    /***MENU***/
+    /***MENU***/  
     /*pouzivane tridy u polozky menu (li):
         .leaf - posledni polozka menu
         .onpath - "na ceste"; pouziva se u kazde polozky, na kterou se klikne - potreba pro stylovani podmenu
@@ -170,10 +170,10 @@
             .paste - přidá se k třídě .button, když se přesouvá položka menu (button vybrat k přesunutí)*/
     /*PRO VSECHNA MENU*/
     .menu, .hlavni-menu{
-        /*styl pro položku menu, která je vybrána k přesunutí*/
+        /*styl pro položku menu, která je vybrána k přesunutí*/   
         li.cut{
             border: @menuLiCutBorder !important ;
-            a.item, > p.item span{
+            a , p{
                 color: @menuLiCutItemColor !important;
                 &:hover{
                     color: @menuLiCutItemColorHover;
@@ -181,11 +181,7 @@
                 }
             }
         }
-        /*buttony se zobrazí jen u vybrané položky menu*/
-        li:not(.presented):not(.cut) .buttons{
-            display: none;
-        }
-        li.presented > .buttons{
+        .buttons{
             display: flex !important;
             background-color: @buttonyMenuBackgroundColor ;
             > .button:last-child{
@@ -195,7 +191,7 @@
                 }
             }
         }
-        li.cut > .buttons{
+        .cut > .buttons{
             display: flex;
             background-color: @buttonyMenuBackgroundColor;
         }
@@ -280,7 +276,7 @@
         height: @semaforMenuHeight;
         left: @semaforSvisleMenuPositionLeft;
     }
-    nav li{
+    nav:not(.vodorovne-menu) li{
         padding-left: 15px !important;
     }
     /*PRESMEROVANI MENU*/
@@ -290,10 +286,10 @@
        }
     }
     /*VODOROVNÉ MENU*/
-    .vodorovne-menu .menu.edit{ //větší váha selektorů kvůli speciálnímu zobrazení pro vodorovné menu
+    .vodorovne-menu .text.menu{ //větší váha selektorů kvůli speciálnímu zobrazení pro vodorovné menu
         .semafor{
             left: @semaforVodorovneMenuPositionLeft;
-            background-color: @semaforVodorovneMenuBackgroundColor;
+            background-color: @semaforVodorovneMenuBackgroundColor; 
             border: @semaforVodorovneMenuBorder;
             border-radius: @semaforVodorovneMenuBorderRadius;
             i{
@@ -301,11 +297,11 @@
             }
         }
         //ke smazání, až bude .semafor i v <p>
-        .presented .semafor{
+/*        .presented .semafor{
             top: 4px;
             height: 28px;
             margin-left: 5px;
-        }
+        }*/
     }
     /*SVISLÉ MENU*/ //ke smazání, až bude .semafor i v <p>
     .svisle-menu .menu.edit{
@@ -476,7 +472,7 @@
             margin-bottom: 10px;
         }
     }
-
+  
 
     /***PROSTŘEDÍ TINY***/
     /*používané třídy pro práci s editovatelnou částí webu, třídy, které přidává Tiny
@@ -491,7 +487,7 @@
         &:not(.mce-edit-focus){
             &:not(.paper_template_select){
                 outline: @mceBodyOutline;
-            }
+            } 
             &.paper_template_select{
                 outline: @mceBodyTemplateOutline;
             }

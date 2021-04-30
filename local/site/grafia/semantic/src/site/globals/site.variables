@@ -18,7 +18,7 @@
 @darkRedGrafia       : #DC143C; 
 @lightRedGrafia      : lighten(@redGrafia, 30%); 
 
-@red                 : @redGrafia;
+@red                 : @redGrafia; 
 @redBackground       : @lightRedGrafia; 
 @headerTextColor     : darken(@darkRedGrafia, 10);   
 
@@ -26,7 +26,7 @@
        Links
 --------------------*/
 
-@linkColor           : @red;
+@linkColor           : @red; 
 @linkHoverColor      : darken(saturate(@linkColor, 20), 25, relative);
 
 /*-------------------
@@ -36,8 +36,8 @@
 /* This is the single variable that controls them all */
 @emSize   : 12px;
 
-/* The size of page text  */
-@fontSize : 12px;
+/* The size of page text */
+@fontSize : 12px ;
 
 /*-------------------
     Border Radius

@@ -30,7 +30,10 @@ class ItemBlockRenderer extends ItemRenderer {
         $innerHtml =
             Html::tag('a',
                 [
-                'class'=>$this->classMapEditable->getClass('Item', 'li a'),   // class - editable v kontejneru
+                'class'=>[
+                    $this->classMapEditable->getClass('Item', 'li a'),   // class - editable v kontejneru
+                    $this->classMapEditable->resolveClass($this->viewModel->isPresented(), 'Item', 'li.presented', 'li')
+                    ],
                 'href'=>"www/item/{$menuNode->getMenuItem()->getLangCodeFk()}/{$menuNode->getUid()}",
                 'tabindex'=>0,
                 'data-original-title'=>$menuItem->getTitle(),
@@ -46,9 +49,7 @@ class ItemBlockRenderer extends ItemRenderer {
             .$this->viewModel->getInnerHtml();
         $html = Html::tag('li',
                 ['class'=>[
-                    $this->classMapEditable->resolveClass($this->viewModel->isOnPath(), 'Item', 'li.onpath', 'li'),
                     $this->classMapEditable->resolveClass($this->viewModel->isLeaf(), 'Item', 'li.leaf', ($this->viewModel->getRealDepth() == 1) ? 'li.dropdown' : 'li.item'),
-                    $this->classMapEditable->resolveClass($this->viewModel->isPresented(), 'Item', 'li.presented', 'li'),
                     ]
                 ],
                 $innerHtml);

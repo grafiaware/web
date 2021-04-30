@@ -18,7 +18,11 @@ use Pes\Text\Html;
 class LevelWrapRenderer extends HtmlRendererAbstract {
 
     public function render($levelItemsHtml=NULL) {
-        return Html::tag('ul', ['class'=>$this->classMap->getClass('LevelWrap', 'ul')], $levelItemsHtml);
+        return Html::tag('ul', ['class'=>[
+                                //$this->classMap->getClass('LevelWrap', 'ul'), 
+                                $this->classMap->resolveClass($this->viewModel->isOnPath(), 'LevelWrap', 'ul.onpath', 'ul'),
+                                ]],
+                            $levelItemsHtml);
     }
 
 }

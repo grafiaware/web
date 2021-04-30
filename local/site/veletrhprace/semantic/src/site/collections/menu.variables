@@ -9,6 +9,8 @@
 
 /* Menu Item */
 @itemTextColor: @invertedTextColor;
+@itemVerticalPadding: 0.5em;
+@subMenuVerticalPadding: 0.5em;
 @itemHorizontalPadding: 0;
 @subMenuTextColor: @invertedTextColor;
 

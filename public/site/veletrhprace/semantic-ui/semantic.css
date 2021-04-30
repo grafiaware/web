@@ -26024,7 +26024,7 @@ ol.ui.suffixed.list li:before,
   -webkit-box-shadow: none;
   box-shadow: none;
   border-radius: 0.42857143rem;
-  min-height: 2.85714286em;
+  min-height: 2em;
 }
 
 .ui.menu:after {
@@ -26084,7 +26084,7 @@ ol.ui.suffixed.list li:before,
   -ms-user-select: none;
   user-select: none;
   background: none;
-  padding: 0.92857143em 0;
+  padding: 0.5em 0;
   text-transform: none;
   color: #fff;
   font-weight: 300;
@@ -26716,7 +26716,7 @@ Floated Menu / Item
   border-left: 1px solid transparent;
   border-right: 1px solid transparent;
   border-top: 2px solid transparent;
-  padding: 0.92857143em 1.42857143em;
+  padding: 0.5em 1.42857143em;
   color: #fff;
 }
 
@@ -26891,7 +26891,7 @@ Floated Menu / Item
 
 .ui.pagination.menu .active.item {
   border-top: none;
-  padding-top: 0.92857143em;
+  padding-top: 0.5em;
   background-color: rgba(0, 0, 0, 0.05);
   color: rgba(0, 0, 0, 0.95);
   -webkit-box-shadow: none;
@@ -27965,8 +27965,8 @@ Floated Menu / Item
 .ui.horizontally.fitted.menu .item,
 .ui.horizontally.fitted.menu .item .menu .item,
 .ui.menu .horizontally.fitted.item {
-  padding-top: 0.92857143em;
-  padding-bottom: 0.92857143em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
 }
 
 .ui.vertically.fitted.menu .item,
@@ -28529,46 +28529,47 @@ Floated Menu / Item
   opacity: 0.8;
 }
 
-.ui.menu .item:before {
+.ui.menu .item::before {
   display: none;
 }
 
-.ui.vertical.menu:not(.icon) li:not(.presented) > a.item {
+.ui.vertical.menu:not(.icon) a:not(.presented) {
   overflow: hidden;
 }
 
-.ui.vertical.menu:not(.icon) li:not(.presented) > a.item:hover::after {
+.ui.vertical.menu:not(.icon) a:not(.presented):hover::after {
   -webkit-transform: scaleX(1);
   transform: scaleX(1);
   background-color: #fff;
 }
 
-.ui.vertical.menu:not(.icon) li:not(.presented) > a.item::after {
-  background: none;
+.ui.vertical.menu:not(.icon) a:not(.presented)::after {
+  background: 0 0;
   position: absolute;
   top: auto;
-  bottom: 15px;
+  bottom: 0;
   right: 0;
   width: 100%;
   height: 3px;
-  background-color: #fff;
   content: '';
-  -webkit-transition: linear 0.4s;
-  transition: linear 0.4s;
+  -webkit-transition: -webkit-transform 0.4s;
+  transition: -webkit-transform 0.4s;
+  transition: transform 0.4s;
+  transition: transform 0.4s, -webkit-transform 0.4s;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   -webkit-transform: translateX(-100%);
   transform: translateX(-100%);
 }
 
-.ui.vertical.menu:not(.icon) li.cut a.item::after {
+.ui.vertical.menu:not(.icon) li.cut a::after {
   background-color: 0;
   -webkit-transform: none;
   transform: none;
   height: 0;
 }
 
-.ui.vertical.menu:not(.icon) li.cut a.item:hover::after {
+.ui.vertical.menu:not(.icon) li.cut a:hover::after {
   background-color: 0;
   -webkit-transform: none;
   transform: none;
@@ -28578,40 +28579,50 @@ Floated Menu / Item
   padding: 0.7em 0;
 }
 
-.ui.vertical.menu.massive .onpath ul {
-  width: 28rem;
+.ui.vertical.menu.massive a,
+.ui.vertical.menu.massive p {
+  display: block;
+  width: 100%;
+  font-weight: 500;
+  font-size: 2rem;
+  text-transform: uppercase;
+  line-height: 1.2;
+  position: relative;
+  color: #fff;
 }
 
-.ui.vertical.menu.massive .item {
-  font-weight: 500;
-  text-transform: uppercase;
-  padding: 0.6em 1.3em 0.6em 0;
-  line-height: 1.2;
+.ui.vertical.menu.massive p {
+  padding-left: 35px;
 }
 
 .ui.vertical.menu.massive.edit {
   width: 35rem;
 }
 
-.ui.vertical.menu.massive.edit .onpath ul {
+.ui.vertical.menu.massive.edit .onpath {
   width: 33.5rem;
 }
 
-.ui.vertical.menu.massive.edit a.item {
-  padding: 0.6em 1.3em;
+.ui.vertical.menu.massive.edit a {
+  display: block;
+  width: 100%;
   font-size: 1.8rem !important;
+  position: relative;
 }
 
-.ui.vertical.menu.massive.edit p.item {
+.ui.vertical.menu.massive.edit p {
   padding: 0.8em 1.3em;
   font-size: 1.8rem !important;
+  font-weight: 500;
+  position: relative;
 }
 
-.ui.vertical.menu.massive.edit .presented:not(.cut) p.item {
+.ui.vertical.menu.massive.edit li:not(.cut) p.presented {
   margin-top: 0.7em;
 }
 
-.kos .ui.vertical.menu.massive .item {
+.kos .ui.vertical.menu.massive a,
+.kos .ui.vertical.menu.massive p {
   font-size: 1.8rem !important;
   padding: 0.6em 1.3em;
 }

@@ -171,7 +171,7 @@
         color: @invertedTextColor;
     }
     .svisle-menu .menu{
-        li:not(.leaf) > .item > .chevron-icon::before{
+        li:not(.leaf) > a > .chevron-icon::before{
             content: "\f078";
             height: 1em;
             width: 1.18em;
@@ -186,22 +186,20 @@
             color: @invertedTextColor;
             backface-visibility: hidden;
         }
-        li.presented > .item{
+        .item a.presented, .item p.presented{
             color: darken(@primaryColor, 15);
             > .chevron-icon::before{
                     color: darken(@primaryColor, 15);
                 }
         }
-        li.onpath{
-            .menu{
-                left: 7%;
-                position: relative;
-                &:not(.presented).item{
-                    color: @invertedTextColor;
-                }
-                &.presented > .item{
-                    color: darken(@primaryColor, 15);
-                }
+        .onpath{
+            left: 7%;
+            position: relative;
+            a:not(.presented){
+                color: @invertedTextColor;
+            }
+            a.presented{
+                color: darken(@primaryColor, 15);
             }
         }
     }

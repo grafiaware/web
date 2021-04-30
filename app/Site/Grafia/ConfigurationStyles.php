@@ -35,41 +35,29 @@ class ConfigurationStyles extends ConfigurationRed {
                             'li' => '',
                             'li.item' => 'item',
                             'li.dropdown' => 'ui icon dropdown',
-                            'li.onpath' => 'onpath',
-                            'li.leaf' => 'item ',
-                            'li.presented' => '',
+                            'li.leaf' => 'item leaf',
+                            'li.presented' => 'presented',
                             'li a span' => 'text',
                             'li i.dropdown' => 'dropdown icon',
                             'li i' => '',
+                            'li a' => '',
                         ],
             'menu_edit_items' => [
                             'li' => '',
                             'li.item' => 'item',
                             'li.dropdown' => 'ui icon dropdown',
-                            'li.onpath' => 'onpath',
-                            'li.leaf' => 'item',
+                            'li.leaf' => 'item leaf',
                             'li.presented' => 'presented',
                             'li.cut' => 'cut',
                             'li.paste' => 'paste',
-                            'li a' => 'editable',   //nema_pravo //edituje_jiny
+                            'li a' => '',   //nema_pravo //edituje_jiny
                             'li i.dropdown' => 'dropdown icon',
                             'semafor'=> 'semafor',
                             'semafor.published' => 'circle icon green',
                             'semafor.notpublished' => 'circle icon red ',
                             'semafor.trashed' => 'circle icon inverted purple',
-//                            'li div i2.published' => 'calendar check icon green',
-//                            'li div i2.notactive' => 'calendar plus icon grey',
-//                            'li div i2.notactual' => 'calendar minus icon orange',
-//                            'li div i2.notactivenotactual' => 'calendar times icon red',
                         ],
             'menu_edit_buttons' => [
-//                            'div.name' => 'mini ui basic icon buttons editName',
-//                            'div button.name' => 'ui button toolsName',
-//                            'div button.menu' => 'ui button toolsMenu',
-//                            'div button0 i' => 'large pen icon',
-//                            'div button6 i' => 'large save icon',
-//                            'div button7 i' => 'large file icon',
-//                            'div button8 i' => 'large times circle icon',
                             'div.buttons' => 'mini ui basic icon buttons editMenu',
                             'button' => 'ui button',
                             'button.paste' => 'ui button paste',
@@ -117,8 +105,6 @@ class ConfigurationStyles extends ConfigurationRed {
                             'div.buttonsPage' => 'mini ui basic icon buttons editPage',
                             'button' => 'ui button',
                             'button.arrange' => 'large sort numeric up icon',
-//                            'div button1 i.on' => 'large green toggle on icon',
-//                            'div button1 i.off' => 'large red toggle off icon',
                         ],
             'content_edit_buttons' => [
                             'div.wrapContent' => 'contentButtons',
@@ -143,7 +129,6 @@ class ConfigurationStyles extends ConfigurationRed {
                             'div.wrapKalendar' => 'edit_kalendar',
                             'div.calendar' => 'ui calendar',
                             'div.input' => 'ui input',
-//                            'button.kalendar' => 'ui button kalendar',
                         ],
             'deleted_content_buttons' => [
                             'div.wrapTrash' => 'contentButtons trash',
@@ -227,12 +212,7 @@ class ConfigurationStyles extends ConfigurationRed {
                         'LevelWrap' => [
                             'ul' => 'menu'
                         ],
-                        'Item' => array_merge(self::rendererDefaults()['menu_edit_items'],
-                            [
-                            'li' => 'item',
-                            'li.onpath' => 'item onpath',
-                            'li a' => '',
-                            ]),
+                        'Item' => self::rendererDefaults()['menu_items'],
                     ]);
             },
             'menu.presmerovani.classmap.editable' => function() {
@@ -244,12 +224,7 @@ class ConfigurationStyles extends ConfigurationRed {
                         'LevelWrap' => [
                             'ul' => 'menu'
                         ],
-                        'Item' => array_merge(self::rendererDefaults()['menu_edit_items'],
-                            [
-                            'li' => 'item',
-                            'li.onpath' => 'item onpath',
-                            'li a' => '',
-                            ]),
+                        'Item' => self::rendererDefaults()['menu_edit_items'],
                         'Buttons' => self::rendererDefaults()['menu_edit_buttons'],
                     ]
                 );
@@ -264,11 +239,10 @@ class ConfigurationStyles extends ConfigurationRed {
                         'LevelWrap' => [
 
                         ],
-                        'Item' => [
-                            'li' => 'item',
-                            'li.onpath' => 'item onpath',
+                        'Item' => array_merge(self::rendererDefaults()['menu_items'],
+                            [
                             'li a' => 'ui primary button',
-                            ]
+                            ]),
                     ]);
             },
             'menu.vodorovne.classmap.editable' => function() {
@@ -282,11 +256,8 @@ class ConfigurationStyles extends ConfigurationRed {
                         ],
                         'Item' => array_merge(self::rendererDefaults()['menu_edit_items'],
                             [
-                            'li' => 'item',
-                            'li.onpath' => 'item onpath',
                             'li a' => 'ui primary button',
                             ]),
-//                        'Item' => self::rendererDefaults()['menu_edit_items'],
                         'Buttons' => self::rendererDefaults()['menu_edit_buttons'],
                     ]
                 );
@@ -299,6 +270,7 @@ class ConfigurationStyles extends ConfigurationRed {
                         ],
                         'LevelWrap' => [
                             'ul' => 'right menu',
+                            'ul.onpath' => 'right menu onpath',
                             ],
                         'Item' => self::rendererDefaults()['menu_items'],
                     ]);
@@ -307,10 +279,11 @@ class ConfigurationStyles extends ConfigurationRed {
                 return new ClassMap (
                     [
                         'MenuWrap' => [
-                            'ul' => 'hlavni-menu'
+                            'ul' => 'hlavni-menu edit'
                         ],
                         'LevelWrap' => [
-                            'ul' => 'right menu'
+                            'ul' => 'right menu',
+                            'ul.onpath' => 'right menu onpath',
                         ],
                         'Item' => self::rendererDefaults()['menu_edit_items'],
                         'Buttons' => self::rendererDefaults()['menu_edit_buttons'],
@@ -323,7 +296,8 @@ class ConfigurationStyles extends ConfigurationRed {
                             'ul' => 'hlavni-menu edit'
                         ],
                         'LevelWrap' => [
-                            'ul' => 'menu'
+                            'ul' => 'menu',
+                            'ul.onpath' => 'menu onpath',
                         ],
                         'Item' => self::rendererDefaults()['menu_edit_items'],
                         'Buttons' => self::rendererDefaults()['block_edit_buttons'],
@@ -336,7 +310,8 @@ class ConfigurationStyles extends ConfigurationRed {
                             'ul' => 'hlavni-menu menu'
                         ],
                         'LevelWrap' => [
-                            'ul' => 'menu'
+                            'ul' => 'menu',
+                            'ul.onpath' => 'menu onpath',
                         ],
                         'Item' => self::rendererDefaults()['menu_edit_items'],
                         'Buttons' => self::rendererDefaults()['trash_edit_buttons'],

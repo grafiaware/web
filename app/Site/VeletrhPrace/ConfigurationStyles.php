@@ -31,33 +31,34 @@ class ConfigurationStyles extends ConfigurationRed {
             #  menu classmap
             #
             // default hodnoty
+            'menu_items' => [
+                            'li' => '',
+                            'li.item' => 'item',
+                            'li.dropdown' => 'item',
+                            'li.leaf' => 'item leaf',
+                            'li.presented' => 'presented',
+                            'li a span' => 'text',
+                            'li i.dropdown' => 'dropdown icon',
+                            'li a' => '',
+                            'li i' => '',
+                        ],
             'menu_edit_items' => [
                             'li' => '',
-                            'li.onpath' => 'onpath',
-                            'li.leaf' => 'leaf',
+                            'li.item' => 'item',
+                            'li.dropdown' => 'item',
+                            'li.leaf' => 'item leaf',
                             'li.presented' => 'presented',
                             'li.cut' => 'cut',
                             'li.paste' => 'paste',
-                            'li a' => 'item editable',   //nema_pravo //edituje_jiny
+                            'li a' => '',   //nema_pravo //edituje_jiny
                             'li.isnotleaf icon' => 'chevron-icon', //dropdown icon
                             'semafor'=> 'semafor',
                             'semafor.published' => 'circle icon green',
                             'semafor.notpublished' => 'circle icon inverted red ',
                             'semafor.trashed' => 'circle icon inverted purple',
-//                            'li div i2.published' => 'calendar check icon green',
-//                            'li div i2.notactive' => 'calendar plus icon grey',
-//                            'li div i2.notactual' => 'calendar minus icon orange',
-//                            'li div i2.notactivenotactual' => 'calendar times icon red',
 
                         ],
             'menu_edit_buttons' => [
-//                            'div.name' => 'small ui basic icon buttons editName',
-//                            'div button.name' => 'ui button toolsName',
-//                            'div button.menu' => 'ui button toolsMenu',
-//                            'button0 i' => 'large pen icon',
-//                            'button6 i' => 'large save icon',
-//                            'button7 i' => 'large file icon',
-//                            'button8 i' => 'large times circle icon'
                             'div.buttons' => 'small ui basic icon buttons',
                             'button' => 'ui button',
                             'button.paste' => 'ui button paste',
@@ -105,8 +106,6 @@ class ConfigurationStyles extends ConfigurationRed {
                             'div.buttonsPage' => 'small ui basic icon buttons editPage',
                             'button' => 'ui button',
                             'button.arrange' => 'large sort numeric up icon',
-//                            'div button1 i.on' => 'large green toggle on icon',
-//                            'div button1 i.off' => 'large red toggle off icon',
                         ],
             'content_edit_buttons' => [
                             'div.wrapContent' => 'contentButtons',
@@ -131,7 +130,6 @@ class ConfigurationStyles extends ConfigurationRed {
                             'div.wrapKalendar' => 'edit_kalendar',
                             'div.calendar' => 'ui calendar',
                             'div.input' => 'ui input',
-//                            'button.kalendar' => 'ui button kalendar',
                         ],
             'deleted_content_buttons' => [
                             'div.wrapTrash' => 'contentButtons trash',
@@ -194,13 +192,9 @@ class ConfigurationStyles extends ConfigurationRed {
                         ],
                         'LevelWrap' => [
                             'ul' => 'menu',
+                            'ul.onpath' => 'menu onpath',
                             ],
-                        'Item' => array_merge(self::rendererDefaults()['menu_edit_items'],
-                            [
-                            'li' => 'item',
-                            'li.onpath' => 'item onpath',
-                            'li a' => '',
-                            ]),
+                        'Item' => self::rendererDefaults()['menu_items']
                     ]);
             },
             'menu.svisle.classmap.editable' => function() {
@@ -210,7 +204,8 @@ class ConfigurationStyles extends ConfigurationRed {
                             'ul' => 'ui vertical massive menu edit'
                         ],
                         'LevelWrap' => [
-                            'ul' => 'menu'
+                            'ul' => 'menu',
+                            'ul.onpath' => 'menu onpath',
                         ],
                         'Item' => self::rendererDefaults()['menu_edit_items'],
                         'Buttons' => self::rendererDefaults()['menu_edit_buttons'],
@@ -223,7 +218,8 @@ class ConfigurationStyles extends ConfigurationRed {
                             'ul' => 'ui vertical massive menu edit'
                         ],
                         'LevelWrap' => [
-                            'ul' => 'menu'
+                            'ul' => 'menu',
+                            'ul.onpath' => 'menu onpath',
                         ],
                         'Item' => self::rendererDefaults()['menu_edit_items'],
                         'Buttons' => self::rendererDefaults()['block_edit_buttons'],
@@ -236,7 +232,8 @@ class ConfigurationStyles extends ConfigurationRed {
                             'ul' => 'ui vertical massive menu'
                         ],
                         'LevelWrap' => [
-                            'ul' => 'menu'
+                            'ul' => 'menu',
+                            'ul.onpath' => 'menu onpath',
                         ],
                         'Item' => self::rendererDefaults()['menu_edit_items'],
                         'Buttons' => self::rendererDefaults()['trash_edit_buttons'],

@@ -27,7 +27,10 @@ class ItemTrashRenderer extends ItemRenderer {
 
         // element a s potomkem span - needitovalný titulek
         $innerHtml[] = Html::tag('a', [
-                        'class'=>$this->classMapEditable->getClass('Item', 'li a'),
+                        'class'=>[
+                            $this->classMapEditable->getClass('Item', 'li a'),
+                            $this->classMapEditable->resolveClass($this->viewModel->isPresented(), 'Item', 'li.presented', 'li'),
+                            ],
                         'href'=>"www/item/{$menuNode->getMenuItem()->getLangCodeFk()}/{$menuNode->getUid()}",
                          ],
                         $menuNode->getMenuItem()->getTitle()
@@ -60,9 +63,7 @@ class ItemTrashRenderer extends ItemRenderer {
 
         $html = Html::tag('li',
                 ['class'=>[
-                    $this->classMapEditable->resolveClass($this->viewModel->isOnPath(), 'Item', 'li.onpath', 'li'),
                     $this->classMapEditable->resolveClass($this->viewModel->isLeaf(), 'Item', 'li.leaf', ($this->viewModel->getRealDepth() == 1) ? 'li.dropdown' : 'li.item'),
-                    $this->classMapEditable->resolveClass($this->viewModel->isPresented(), 'Item', 'li.presented', 'li'),
                     $this->classMapEditable->resolveClass($this->viewModel->isCutted(), 'Item', 'li.cut', 'li')
                     ],
                 ],

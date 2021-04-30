@@ -1,19 +1,24 @@
-.svisle-menu .menu.edit{ 
-    .presented:not(.cut){
-        p{
-            outline: 3px solid;
-            border-left: 3px solid;
-        }
+.svisle-menu .menu{ 
+    li:not(.cut) p.presented{
+        outline: 3px solid;
+        border-left: 3px solid;
+        padding-top: 20px;
+        padding-bottom: 15px;
+        margin: 10px 0 0;
+        
     }
-    p:not(.item){
+/*    p:not(.item){
         display: none;
-    }
+    }*/
 }
 .svisle-menu.kos{
     .menu{
-        .presented:not(.cut) > a{
+        li:not(.cut) .presented{
             outline: 3px solid;
             border-left: 3px solid; 
+            padding-top: 20px;
+            padding-bottom: 15px;
+            margin-bottom: 0;
         }
         .item{
             color: darken(@barvaKos,20);
