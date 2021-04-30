@@ -105,7 +105,7 @@ HTMLArea.Config = function () {
 		this.baseURL = RegExp.$1 + "/";
 
 	// URL-s
-	this.imgURL = "images/";
+	this.imgURL = "@images/";
 	this.popupURL = "popups/";
 
 	/** CUSTOMIZING THE TOOLBAR

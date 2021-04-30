@@ -7,7 +7,7 @@ use Model\Entity\PaperAggregatePaperContentInterface;
 $letakAttributesClass = ['class' => 'letak-v-igelitce'];
 
 $posters = [];
-$pathToFolder = Configuration::componentControler()['presenterFiles'].$shortName."/poster/";
+$pathToFolder = Configuration::files()['presenter'].$shortName."/poster/";
 $globFolder = $pathToFolder."*.pdf";
 $glob = glob($globFolder);
 foreach($glob as $file) {
@@ -19,11 +19,11 @@ foreach ($posters as $poster) {
     $letak[] = [
         'letakAttributes' => $letakAttributesClass +
         [
-            'src' => Configuration::componentControler()['presenterFiles'].$shortName."/poster/$poster.jpg",
+            'src' => Configuration::files()['presenter'].$shortName."/poster/$poster.jpg",
             'alt' => "$poster",
         ],
         'downloadAttributes' => [
-            'href' => Configuration::componentControler()['presenterFiles'].$shortName."/poster/$poster.pdf",
+            'href' => Configuration::files()['presenter'].$shortName."/poster/$poster.pdf",
             'download' => "$poster",
         ]
     ];

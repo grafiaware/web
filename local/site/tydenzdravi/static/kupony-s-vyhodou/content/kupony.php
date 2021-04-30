@@ -11,13 +11,13 @@ use Pes\Text\Text;
                 [
                     'imgKuponuAttributes' => [
                         'class' => 'kupon-img',
-                        'src' => 'images/kupon-ForActive.jpg',
+                        'src' => '@download/kupon-ForActive.jpg',
                         'alt' => 'Kupón For Active',
                         'width' => '450',
                         'height' => '300',
                     ],
                     'odkazKeStazeniAttributes' => [
-                        'href' => 'files/kupon-ForActive.jpg',
+                        'href' => '@download/kupon-ForActive.jpg',
                         'download' => 'Kupón For Active'
                     ],
                     'text' => 'Stáhnout kupón'
@@ -25,13 +25,13 @@ use Pes\Text\Text;
                 [
                     'imgKuponuAttributes' => [
                         'class' => 'kupon-img',
-                        'src' => 'images/kupon-LekarnaVBezovce.jpg',
+                        'src' => '@download/kupon-LekarnaVBezovce.jpg',
                         'alt' => 'Kupón Lékárna V Bezovce',
                         'width' => '450',
                         'height' => '300',
                     ],
                     'odkazKeStazeniAttributes' => [
-                        'href' => 'files/kupon-LekarnaVBezovce.jpg',
+                        'href' => '@download/kupon-LekarnaVBezovce.jpg',
                         'download' => 'Kupón Lékárna V Bezovce'
                     ],
                     'text' => 'Stáhnout kupón'
@@ -43,13 +43,13 @@ use Pes\Text\Text;
                 [
                     'imgKuponuAttributes' => [
                         'class' => 'kupon-img',
-                        'src' => 'images/kupon-OptikStudio.jpg',
+                        'src' => '@download/kupon-OptikStudio.jpg',
                         'alt' => 'Kupón Optik Studio',
                         'width' => '450',
                         'height' => '300',
                     ],
                     'odkazKeStazeniAttributes' => [
-                        'href' => 'files/kupon-OptikStudio.jpg',
+                        'href' => '@download/kupon-OptikStudio.jpg',
                         'download' => 'Kupón Optik Studio'
                     ],
                     'text' => 'Stáhnout kupón'
@@ -57,13 +57,13 @@ use Pes\Text\Text;
                 [
                     'imgKuponuAttributes' => [
                         'class' => 'kupon-img',
-                        'src' => 'images/kupon-ULibusky.jpg',
+                        'src' => '@download/kupon-ULibusky.jpg',
                         'alt' => 'Kupón U Lidušky',
                         'width' => '450',
                         'height' => '300',
                     ],
                     'odkazKeStazeniAttributes' => [
-                        'href' => 'files/kupon-ULibusky.jpg',
+                        'href' => '@download/kupon-ULibusky.jpg',
                         'download' => 'Kupón U Lidušky'
                     ],
                     'text' => 'Stáhnout kupón'
@@ -75,21 +75,21 @@ use Pes\Text\Text;
                 [
                     'imgKuponuAttributes' => [
                         'class' => 'kupon-siroky-img',
-                        'src' => 'images/kupon-Grafia.jpg',
+                        'src' => '@download/kupon-Grafia.jpg',
                         'alt' => 'Kupón Grafia',
                         'width' => '590',
                         'height' => '250',
                     ],
                     'odkazKeStazeniAttributes' => [
-                        'href' => 'files/kupon-Grafia.jpg',
+                        'href' => '@download/kupon-Grafia.jpg',
                         'download' => 'Kupón Grafia'
                     ],
                     'text' => 'Stáhnout kupón'
                 ]
-                
+
             ]
         ]
-        
+
     ]
 ?>
 

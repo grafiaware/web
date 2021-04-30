@@ -90,7 +90,7 @@ class PasswordController extends LoginControlerAbstract {
                                                             ]);
 
                         $attachments = [ (new Attachment())
-                                        ->setFileName(Configuration::mail()['mail.attachments'].'logo_grafia.png')  // /_www_vp_files/attachments/
+                                        ->setFileName(Configuration::mail()['mail.attachments'].'logo_grafia.png')
                                         ->setAltText('Logo Grafia')
                                        ];
                         $params = (new Params())

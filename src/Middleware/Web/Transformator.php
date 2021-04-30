@@ -60,46 +60,40 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
      * @return type
      */
     private function transform($text) {
-// <a target="_blank" href="../index.php?list=s01_08_03&language=lan1&lay=">
-// <img width="234" height="167" alt="soubor plat.gif" src="files/1096212.gif" style="color: #ffffff; float: right;">
-        $filesDirectory = Configuration::transformator()['filesDirectory'];
+
+        $downloadDirectory = Configuration::files()['@download'];
+        $imagesDirectory = Configuration::files()['@images'];
+        $moviesDirectory = Configuration::files()['@movies'];
+        $filesDirectory = Configuration::files()['files'];
+
         $publicDirectory = Configuration::transformator()['publicDirectory'];
         $siteDirectory = Configuration::transformator()['siteDirectory'];
-//        $transform = array(
-//            'src="images/'               => 'src="'.$siteDirectory.'images/',   // <img>
-//            'srcset="images/'               => 'srcset="'.$siteDirectory.'images/',   // <img>
-//
-//            'src="video/'               => 'src="'.$filesDirectory.'video/',   // <video>
-//            'href="video/'               => 'href="'.$filesDirectory.'video/',   // video fallback pro stžení <a href=... >
-//            'src="files/'            => 'src="'.$filesDirectory.'files/',   //
-//            'src="../files/'            => 'src="'.$filesDirectory.'files/',   // pro chybně zadané obrázky (s tečkami)
-//            'href="files/'              => 'href="'.$filesDirectory.'files/',  // pro download
-//
-//            'src="public/web/'=>'src="'.$publicDirectory,
-//        );
+
         $transform = array(
-            '"layout-images/'               => '"'.$siteDirectory.'layout-images/',   // <img>
-            '"images/'               => '"'.$filesDirectory.'images/',   // <video>
+            // RED
+            '@download/'               => $downloadDirectory,
+            '@images/'               => $imagesDirectory,
+            '@movies/'               => $moviesDirectory,
 
-            '"movies/'               => '"'.$filesDirectory.'movies/',   // <video>
-            '"files/'            => '"'.$filesDirectory.'files/',   //
-            '"../files/'            => '"'.$filesDirectory.'files/',   // pro chybně zadané obrázky (s tečkami)
+            // staré stránky rs
+            '"files/'            => $filesDirectory,
+            '"../files/'            => $filesDirectory,   // pro chybně zadané obrázky (s dvěma tečkami)
 
+            '"layout-images/' => '"'.$siteDirectory.'layout-images/',
             '"public/web/'=>'"'.$publicDirectory,
         );
+
         $first = str_replace(array_keys($transform), array_values($transform), $text);
         $transformUrls = $this->transformUrls($first);
-        // str_replace při použití polí pro záměnu provádí náhrady posrupně znovu v celém řetězci pro každý prvek pole záměn
-        // pokud je v poli záměn řetězec, který je podřetězcem řetězce, který je v poli záměn později dojde k záměně podřetězce - např. chci nahradit
-        // ada za mařka a adam2 za božena3 -> v řetězci adam2 je nahrazen podřetězec ada a vznikne -> mařkam2 - a ta už tam zůstane
-        // nutné provést setřídění podle klíčů v reverzním pořadí
-        krsort($transformUrls);
         $second = str_replace(array_keys($transformUrls), array_values($transformUrls), $first);
         return $second;
     }
 
     /**
-     * url odkazy na vlastní stránky (do menu) ve starých obsazích -transformace na rest url
+     * url odkazy na vlastní stránky (do menu) ve starých obsazích (rs) -transformace na rest url (RED)
+     * Generuje pole, kde staré url jsou klíče a nové url je hodnota.
+     * Pole setřídí podle klíčů v reverzním pořadí tak, aby při nahrazování byl nahrazen nejprve delší klíč (staré url) a teprve pak kratší klíč.
+     *
      * @param type $text
      * @return type
      */
@@ -150,6 +144,11 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
             }
 
         }
+        // str_replace při použití polí pro záměnu provádí náhrady postupně znovu v celém řetězci pro každý prvek pole záměn
+        // pokud je v poli záměn řetězec, který je podřetězcem řetězce, který je v poli záměn později dojde k záměně podřetězce - např. chci nahradit
+        // ada za mařka a adam2 za božena3 -> v řetězci adam2 je nahrazen podřetězec ada a vznikne -> mařkam2 - a ta už tam zůstane
+        // nutné provést setřídění podle klíčů v reverzním pořadí
+        krsort($transform);
         return $transform;
     }
 }

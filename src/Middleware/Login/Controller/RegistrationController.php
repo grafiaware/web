@@ -115,7 +115,7 @@ class RegistrationController extends LoginControlerAbstract
                     $body = $mailMessageFactory->create(__DIR__."/Messages/registration.php", ['confirmationUrl'=>$confirmationUrl ]);
 
                     $attachments = [ (new Attachment())
-                                    ->setFileName(Configuration::mail()['mail.attachments'].'logo_grafia.png')  // /_www_vp_files/attachments/
+                                    ->setFileName(Configuration::mail()['mail.attachments'].'logo_grafia.png')
                                     ->setAltText('Logo Grafia')
                                    ];
                     $params = (new Params())
@@ -149,7 +149,7 @@ class RegistrationController extends LoginControlerAbstract
                     $body = $mailMessageFactory->create(__DIR__."/Messages/registration.php", ['confirmationUrl'=>$confirmationUrl ]);
 
                     $attachments = [ (new Attachment())
-                                    ->setFileName(Configuration::mail()['mail.attachments'].'logo_grafia.png')  // /_www_vp_files/attachments/
+                                    ->setFileName(Configuration::mail()['mail.attachments'].'logo_grafia.png')
                                     ->setAltText('Logo Grafia')
                                    ];
                     $params = (new Params())
@@ -183,7 +183,7 @@ class RegistrationController extends LoginControlerAbstract
                                                              'registerInfo' => $registerInfo,
                                                             ]);
                         $attachments = [ (new Attachment())
-                                        ->setFileName(Configuration::mail()['mail.attachments'].'logo_grafia.png')  // /_www_vp_files/attachments/
+                                        ->setFileName(Configuration::mail()['mail.attachments'].'logo_grafia.png')
                                         ->setAltText('Logo Grafia')
                                        ];
                         $params = (new Params())

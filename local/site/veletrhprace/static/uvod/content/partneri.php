@@ -9,7 +9,7 @@ use Pes\Text\Text;
     $placeneLogoValeo = [
         'wwwPartnera' => 'https://www.valeo.com/cs/ceska-republika/',
         'imgPartneraAttributes' => [
-            'src' => 'images/valeo_logo_web.png',
+            'src' => '@images/valeo_logo_web.png',
             'alt' => 'Logo Valeo',
             'width' => '',
             'height' => '130',
@@ -22,7 +22,7 @@ use Pes\Text\Text;
                 [
                     'wwwPartnera' => 'https://www.uradprace.cz/',
                     'imgPartneraAttributes' => [
-                        'src' => 'images/urad_prace.png',
+                        'src' => '@images/urad_prace.png',
                         'alt' => 'Logo ÚP ČR',
                         'width' => '',
                         'height' => '100',
@@ -32,7 +32,7 @@ use Pes\Text\Text;
                 [
                     'wwwPartnera' => 'https://www.zcu.cz/cs/index.html',
                     'imgPartneraAttributes' => [
-                        'src' => 'images/zcu.png',
+                        'src' => '@images/zcu.png',
                         'alt' => 'Logo Západočeská univerzita',
                         'width' => '',
                         'height' => '100',
@@ -42,14 +42,14 @@ use Pes\Text\Text;
                 [
                     'wwwPartnera' => 'https://www.komora.cz/',
                     'imgPartneraAttributes' => [
-                        'src' => 'images/komora_logo_web.png',
+                        'src' => '@images/komora_logo_web.png',
                         'alt' => 'Logo Hospodářská komora',
                         'width' => '',
                         'height' => '100',
                         'class' => 'logo-ctverec'
                     ]
                 ],
-                
+
             ]
         ],
         [
@@ -57,7 +57,7 @@ use Pes\Text\Text;
                 [
                     'wwwPartnera' => 'https://www.aivd.cz/',
                     'imgPartneraAttributes' => [
-                        'src' => 'images/aivd.png',
+                        'src' => '@images/aivd.png',
                         'alt' => 'Logo AIVD',
                         'width' => '',
                         'height' => '100',
@@ -67,7 +67,7 @@ use Pes\Text\Text;
                 [
                     'wwwPartnera' => 'https://www.pzpk.cz/',
                     'imgPartneraAttributes' => [
-                        'src' => 'images/pakt_namestnanosti.png',
+                        'src' => '@images/pakt_namestnanosti.png',
                         'alt' => 'Logo Pakt zaměstnanosti',
                         'width' => '',
                         'height' => '85',
@@ -77,7 +77,7 @@ use Pes\Text\Text;
                 [
                     'wwwPartnera' => 'https://umo3.plzen.eu/',
                     'imgPartneraAttributes' => [
-                        'src' => 'images/logo_umo3.png',
+                        'src' => '@images/logo_umo3.png',
                         'alt' => 'Logo UMO3 Plzeň',
                         'width' => '',
                         'height' => '110',
@@ -91,7 +91,7 @@ use Pes\Text\Text;
                 [
                     'wwwPartnera' => 'https://www.ledovec.cz/',
                     'imgPartneraAttributes' => [
-                        'src' => 'images/ledovec.png',
+                        'src' => '@images/ledovec.png',
                         'alt' => 'Logo Ledovec',
                         'width' => '',
                         'height' => '130',
@@ -101,7 +101,7 @@ use Pes\Text\Text;
                 [
                     'wwwPartnera' => 'https://plzensky.denik.cz/',
                     'imgPartneraAttributes' => [
-                        'src' => 'images/plzen_denik.png',
+                        'src' => '@images/plzen_denik.png',
                         'alt' => 'Logo Plzeňský deník',
                         'width' => '',
                         'height' => '85',
@@ -111,7 +111,7 @@ use Pes\Text\Text;
                 [
                     'wwwPartnera' => 'https://plzen.rozhlas.cz/',
                     'imgPartneraAttributes' => [
-                        'src' => 'images/CRo_Plzen.png',
+                        'src' => '@images/CRo_Plzen.png',
                         'alt' => 'Logo Český rozhlas Plzeň',
                         'width' => '',
                         'height' => '75',
@@ -125,7 +125,7 @@ use Pes\Text\Text;
                 [
                     'wwwPartnera' => 'http://www.krasovska.cz/',
                     'imgPartneraAttributes' => [
-                        'src' => 'images/krasovska-logo.png',
+                        'src' => '@images/krasovska-logo.png',
                         'alt' => 'Logo Krašovská',
                         'width' => '',
                         'height' => '110',
@@ -135,7 +135,7 @@ use Pes\Text\Text;
                 [
                     'wwwPartnera' => 'https://www.czechinvest.org/cz',
                     'imgPartneraAttributes' => [
-                        'src' => 'images/czechinvest-logo.png',
+                        'src' => '@images/czechinvest-logo.png',
                         'alt' => 'Logo CzechInvest',
                         'width' => '',
                         'height' => '75',
@@ -145,7 +145,7 @@ use Pes\Text\Text;
                 [
                     'wwwPartnera' => 'https://www.cesnet.cz/',
                     'imgPartneraAttributes' => [
-                        'src' => 'images/cesnet-logo.png',
+                        'src' => '@images/cesnet-logo.png',
                         'alt' => 'Logo Cesnet',
                         'width' => '',
                         'height' => '65',
@@ -159,7 +159,7 @@ use Pes\Text\Text;
                 [
                     'wwwPartnera' => 'http://www.suip.cz/',
                     'imgPartneraAttributes' => [
-                        'src' => 'images/suip.png',
+                        'src' => '@images/suip.png',
                         'alt' => 'Logo SUIP',
                         'width' => '',
                         'height' => '55',
@@ -169,7 +169,7 @@ use Pes\Text\Text;
                 [
                     'wwwPartnera' => 'https://www.diakoniezapad.cz/',
                     'imgPartneraAttributes' => [
-                        'src' => 'images/diakonie-logo.png',
+                        'src' => '@images/diakonie-logo.png',
                         'alt' => 'Logo Diakonie',
                         'width' => '',
                         'height' => '70',

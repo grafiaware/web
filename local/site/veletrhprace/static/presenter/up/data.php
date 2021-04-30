@@ -44,14 +44,14 @@ foreach ($buttonTitle as $title) {
 $firma = [
     'nazev' => 'Úřad práce&nbsp;ČR a&nbsp;EURES',
     'videoAttributes' => [
-        'poster' => Configuration::componentControler()['presenterFiles'].$shortName.$monitor_ref,
+        'poster' => Configuration::files()['presenter'].$shortName.$monitor_ref,
     ],
     'videoSourceSrc' => [
-        ['src' => Configuration::componentControler()['presenterFiles'].$shortName.$video_MP4_ref, 'type' => 'video/mp4'],
-        ['src' => Configuration::componentControler()['presenterFiles'].$shortName.$video_WEBM_ref, 'type' => 'video/webm'],
+        ['src' => Configuration::files()['presenter'].$shortName.$video_MP4_ref, 'type' => 'video/mp4'],
+        ['src' => Configuration::files()['presenter'].$shortName.$video_WEBM_ref, 'type' => 'video/webm'],
     ],
     'imgStankuAttributes' => [
-        'src' => Configuration::componentControler()['presenterFiles'].$shortName.$stanek_ref,
+        'src' => Configuration::files()['presenter'].$shortName.$stanek_ref,
         'alt' => 'stánek firmy',
     ],
     'socialniSiteIframe' => [

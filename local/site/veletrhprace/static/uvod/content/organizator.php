@@ -21,7 +21,7 @@ Umíme efektivně komunikovat akce našich zákazníků i ty vlastní, vzděláv
     <p class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll">Organizátor</p>
     <div class="ui two column stackable centered mobile reversed grid">
         <div class="six wide column middle aligned">
-            <a class="link-img photo-scroll show-on-scroll" href="http://www.grafia.cz" target="_blank"><img src="images/logo_grafia.png" width="250" height="210" alt="Logo Grafia, s.r.o."/></a>
+            <a class="link-img photo-scroll show-on-scroll" href="http://www.grafia.cz" target="_blank"><img src="@images/logo_grafia.png" width="250" height="210" alt="Logo Grafia, s.r.o."/></a>
         </div>
         <div class="ten wide column">
             <?= Html::p(Text::mono($text), ["class"=>"text tucne"]) ?> 

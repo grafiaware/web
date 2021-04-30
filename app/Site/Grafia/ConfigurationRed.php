@@ -264,8 +264,6 @@ class ConfigurationRed extends ConfigurationDb {
      */
     public static function transformator() {
         return [
-            // relativní cesta vzhledem k DOCUMENT_ROOT (htdocs) -začíná /
-            'filesDirectory' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES : self::RED_FILES,
             'publicDirectory' => self::RED_LINKS_COMMON,
             'siteDirectory' => self::RED_LINKS_SITE,
         ];
@@ -281,5 +279,13 @@ class ConfigurationRed extends ConfigurationDb {
         ];
 }
 
+    public static function files() {
+        return [
+            '@download' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES.'download/' : self::RED_FILES.'download/',
+            '@images' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES.'images/' : self::RED_FILES.'images/',
+            '@movies' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES.'movies/' : self::RED_FILES.'movies/',
+            'files' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES.'files/' : self::RED_FILES.'files/',
 
+        ];
+    }
 }

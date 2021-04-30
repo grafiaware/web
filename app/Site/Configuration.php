@@ -81,7 +81,9 @@ class Configuration {
                 case 'mail':
                     self::$cache[$name] = Siteconfig\ConfigurationRed::mail();
                     break;
-
+                case 'files':
+                    self::$cache[$name] = Siteconfig\ConfigurationRed::files();
+                    break;
                 ###############################
                 # configutation db
                 #
@@ -225,6 +227,8 @@ class Configuration {
         return self::getConfigModule('mail');
     }
 
-
+    public static function files() {
+        return self::getConfigModule('files');
+    }
 
 }

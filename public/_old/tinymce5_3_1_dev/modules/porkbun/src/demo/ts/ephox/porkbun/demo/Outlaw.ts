@@ -23,7 +23,7 @@ const create = function (name: string): Outlaw {
   const character = $('<div />');
   character.css({ width: '200px', float: 'left' });
 
-  const img = $('<img src="images/outlaw.jpg" />');
+  const img = $('<img src="@images/outlaw.jpg" />');
   img.height('200px');
 
   const actions = $('<div />');

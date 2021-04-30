@@ -17,28 +17,34 @@ $modalAtributy = [
     "class"=> ["ui tiny longer", "modal"]
 ];
 
-$monitor_ref = '/assets/monitor-stanek.jpg';
-$video_MP4_ref = '/movies/video-stanek-MP4.mp4';
-$video_WEBM_ref = '/movies/video-stanek-WEBM.mp4';
+############################
+$shortName = 'akka';
+############################
+
+$monitorFilename = Configuration::files()['presenter'].$shortName.'/assets/monitor-stanek.jpg';
+$monitorIsReadable = is_readable($monitorFilename);
+$videoMp4Filename = Configuration::files()['presenter'].$shortName.'/movies/video-stanek-MP4.mp4';
+$videoMp4IsReadable = is_readable($videoMp4Filename);
+$videoWebmFilename = Configuration::files()['presenter'].$shortName.'/movies/video-stanek-WEBM.mp4';
+$videoWebmIsReadable = is_readable($videoWebmFilename);
 $stanek_ref = '/assets/stanek.png';
 
 
-$shortName = 'czechinvest';
 $letakAttributesClass = ['class' => 'letak-v-igelitce'];
 
 $posters = [
-        
+
     ];
 $letak = [];
 foreach ($posters as $poster) {
     $letak[] = [
         'letakAttributes' => $letakAttributesClass +
         [
-            'src' => Configuration::componentControler()['presenterFiles']."poster/$poster.jpg",
+            'src' => Configuration::files()['presenter']."poster/$poster.jpg",
             'alt' => "$poster",
         ],
         'downloadAttributes' => [
-            'href' => Configuration::componentControler()['presenterFiles']."poster/$poster.pdf",
+            'href' => Configuration::files()['presenter']."poster/$poster.pdf",
             'download' => "$poster",
         ]
     ];
@@ -54,18 +60,18 @@ foreach ($buttonTitle as $title) {
         'odkaz' => 'javascript: document.getElementById(\''.Configuration::componentControler()['prettyUrlCallable']($title).'\').scrollIntoView();',
     ];
 };
-    
+
 $firma = [
     'nazev' => 'CzechInvest',
     'videoAttributes' => [
-        'poster' => Configuration::componentControler()['presenterFiles'].$shortName.$monitor_ref,
+        'poster' => Configuration::files()['presenter'].$shortName.$monitor_ref,
     ],
     'videoSourceSrc' => [
-        ['src' => Configuration::componentControler()['presenterFiles'].$shortName.$video_MP4_ref, 'type' => 'video/mp4'],
-        ['src' => Configuration::componentControler()['presenterFiles'].$shortName.$video_WEBM_ref, 'type' => 'video/webm'],
+        ['src' => Configuration::files()['presenter'].$shortName.$video_MP4_ref, 'type' => 'video/mp4'],
+        ['src' => Configuration::files()['presenter'].$shortName.$video_WEBM_ref, 'type' => 'video/webm'],
     ],
     'imgStankuAttributes' => [
-        'src' => Configuration::componentControler()['presenterFiles'].$shortName.$stanek_ref,
+        'src' => Configuration::files()['presenter'].$shortName.$stanek_ref,
         'alt' => 'stánek firmy',
     ],
     'socialniSiteIframe' => [
@@ -82,7 +88,7 @@ $firma = [
             'nazevSocialniSite' => 'LinkedIn',
             'btnClass' => 'btn-in',
             'modalID' => 'modal_18',
-            'iframe' => '<a href="https://www.linkedin.com/company/konplancz" target="_blank"><img src="'.Configuration::componentControler()['presenterFiles'].$shortName.'/assets/linkedin.png" alt="profil LinkednIn" height="" width="100%"/></a>',
+            'iframe' => '<a href="https://www.linkedin.com/company/konplancz" target="_blank"><img src="'.Configuration::files()['presenter'].$shortName.'/assets/linkedin.png" alt="profil LinkednIn" height="" width="100%"/></a>',
             'odkazNaProfil' => 'https://www.linkedin.com/company/konplancz'
         ]
     ],

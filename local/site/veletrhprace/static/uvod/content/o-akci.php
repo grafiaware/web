@@ -30,7 +30,7 @@ $text =
         </div>
         <div class="ten wide column">
             <div class="blokEL-dolni-img photo-scroll show-on-scroll">
-                <img src="images/delnik_na_stroji.jpg" width="670" height="500" alt="Obrázek"/>
+                <img src="@images/delnik_na_stroji.jpg" width="670" height="500" alt="Obrázek"/>
             </div>
         </div>
     </div>

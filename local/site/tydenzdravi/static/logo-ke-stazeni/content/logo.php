@@ -10,7 +10,7 @@ use Pes\Text\Text;
             'logo' => [
                 'ukazkaLoga' => [
                     'imgVariantaLogaAttributes' =>  [
-                        'src' => 'images/LogoTZ.jpg',
+                        'src' => '@download/LogoTZ.jpg',
                         'alt' => 'Logo Týden zdraví',
                         'width' => '362',
                         'height' => '130'
@@ -19,34 +19,34 @@ use Pes\Text\Text;
                 'stazeniLoga' => [
                     [
                         'odkazKeStazeniAttributes' => [
-                            'href' => 'files/LOGO_Týden_zdraví.ai',
+                            'href' => '@download/LOGO_Týden_zdraví.ai',
                             'download' => 'LOGA Týden zdraví.ai'
                         ],
                         'text' => 'Logo ve formátu AI'
                     ],
                     [
                         'odkazKeStazeniAttributes' => [
-                            'href' => 'files/LOGO_Týden_zdraví_2.png',
+                            'href' => '@download/LOGO_Týden_zdraví_2.png',
                             'download' => 'LOGO Týden zdraví horizontálně.png'
                         ],
                         'text' => 'Logo ve formátu PNG'
                     ],
                     [
                         'odkazKeStazeniAttributes' => [
-                            'href' => 'files/LOGO_Týden_zdraví_JPG_1.jpg',
+                            'href' => '@download/LOGO_Týden_zdraví_JPG_1.jpg',
                             'download' => 'LOGO Týden zdraví horizontálně.jpg'
                         ],
                         'text' => 'Logo ve formátu JPG'
                     ]
                 ],
-                
+
             ]
         ],
         [
             'logo' => [
                 'ukazkaLoga' => [
                     'imgVariantaLogaAttributes' =>  [
-                        'src' => 'images/LogoTZ_var2.jpg',
+                        'src' => '@download/LogoTZ_var2.jpg',
                         'alt' => 'Logo Týden zdraví',
                         'width' => '148',
                         'height' => '200'
@@ -55,27 +55,27 @@ use Pes\Text\Text;
                 'stazeniLoga' => [
                     [
                         'odkazKeStazeniAttributes' => [
-                            'href' => 'files/LOGO_Týden_zdraví.ai',
+                            'href' => '@download/LOGO_Týden_zdraví.ai',
                             'download' => 'LOGA Týden zdraví.ai'
                         ],
                         'text' => 'Logo ve formátu AI'
                     ],
                     [
                         'odkazKeStazeniAttributes' => [
-                            'href' => 'files/LOGO_Týden_zdraví_1.png',
+                            'href' => '@download/LOGO_Týden_zdraví_1.png',
                             'download' => 'LOGO Týden zdraví vertikálně.png'
                         ],
                         'text' => 'Logo ve formátu PNG'
                     ],
                     [
                         'odkazKeStazeniAttributes' => [
-                            'href' => 'files/LOGO_Týden_zdraví_JPG_2.jpg',
+                            'href' => '@download/LOGO_Týden_zdraví_JPG_2.jpg',
                             'download' => 'LOGO Týden zdraví vertikálně.jpg'
                         ],
                         'text' => 'Logo ve formátu JPG'
                     ]
                 ],
-                
+
             ]
         ]
     ];

@@ -18,7 +18,7 @@ Podívejte se, jak se registrovat, přihlásit nebo jak vložit životopis k pra
     <div class="ui two column stackable centered grid">
         <div class="nine wide tablet seven wide computer column middle aligned">
             <a class="link-img" href="www/item/cs/606eb31a5fc6c" target="_blank">
-                <img src="images/videonavod-foto.jpg" alt="videonávod" />
+                <img src="@images/videonavod-foto.jpg" alt="videonávod" />
             </a>
         </div>
         <div class="seven wide tablet nine wide computer column">

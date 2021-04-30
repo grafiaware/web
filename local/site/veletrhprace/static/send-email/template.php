@@ -8,7 +8,7 @@ use Site\Configuration;
 
 $msg = '';
 
-$pathToFolder = Configuration::componentControler()['presenterFiles']."uploads/";
+$pathToFolder = Configuration::files()['presenter']."uploads/";
 
 
 

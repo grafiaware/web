@@ -106,7 +106,7 @@
                     </div>
                     <div class="two fields">
                         <div class="field margin"></div>
-
+                        <!--odesílá k uložení do databáze-->
                         <div class="field">
                             <button class="ui massive primary button" type="submit" formaction="api/v1/event/visitorpost">Odeslat údaje zaměstnavateli</button>
                         </div>

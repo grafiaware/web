@@ -17,11 +17,11 @@ $shortName = 'wienerberger';
 ############################
 
 
-$monitorFilename = Configuration::componentControler()['presenterFiles'].$shortName.'/assets/monitor-stanek.jpg';
+$monitorFilename = Configuration::files()['presenter'].$shortName.'/assets/monitor-stanek.jpg';
 $monitorIsReadable = is_readable($monitorFilename);
-$videoMp4Filename = Configuration::componentControler()['presenterFiles'].$shortName.'/movies/video-stanek-MP4.mp4';
+$videoMp4Filename = Configuration::files()['presenter'].$shortName.'/movies/video-stanek-MP4.mp4';
 $videoMp4IsReadable = is_readable($videoMp4Filename);
-$videoWebmFilename = Configuration::componentControler()['presenterFiles'].$shortName.'/movies/video-stanek-WEBM.mp4';
+$videoWebmFilename = Configuration::files()['presenter'].$shortName.'/movies/video-stanek-WEBM.mp4';
 $videoWebmIsReadable = is_readable($videoWebmFilename);
 $stanek_ref = '/assets/stanek.png';
 
@@ -50,7 +50,7 @@ $firma = [
         $videoWebmIsReadable ? ['src' => $videoWebmFilename, 'type' => 'video/webm'] : null,
     ],
     'imgStankuAttributes' => [
-        'src' => Configuration::componentControler()['presenterFiles'].$shortName.$stanek_ref,
+        'src' => Configuration::files()['presenter'].$shortName.$stanek_ref,
         'alt' => 'stánek firmy',
     ],
     'socialniSiteIframe' => [
@@ -75,7 +75,7 @@ $firma = [
             'nazevSocialniSite' => 'Twitter',
             'btnClass' => 'btn-tw',
             'modalID' => 'modal_19',
-            'iframe' => '<a href="https://twitter.com/Wienerbergercz" target="_blank"><img src="'.Configuration::componentControler()['presenterFiles'].$shortName.'/assets/twitter.png" alt="profil Twitter" height="" width="100%"/></a>',
+            'iframe' => '<a href="https://twitter.com/Wienerbergercz" target="_blank"><img src="'.Configuration::files()['presenter'].$shortName.'/assets/twitter.png" alt="profil Twitter" height="" width="100%"/></a>',
             'odkazNaProfil' => 'https://twitter.com/Wienerbergercz'
         ]
     ],

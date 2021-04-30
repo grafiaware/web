@@ -37,11 +37,11 @@ foreach ($posters as $poster) {
     $letak[] = [
         'letakAttributes' => $letakAttributesClass +
         [
-            'src' => Configuration::componentControler()['presenterFiles']."poster/$poster.jpg",
+            'src' => Configuration::files()['presenter']."poster/$poster.jpg",
             'alt' => "$poster",
         ],
         'downloadAttributes' => [
-            'href' => Configuration::componentControler()['presenterFiles']."poster/$poster.pdf",
+            'href' => Configuration::files()['presenter']."poster/$poster.pdf",
             'download' => "$poster",
         ]
     ];
@@ -64,11 +64,11 @@ foreach ($buttonTitle as $title) {
 $firma = [
     'nazev' => 'Konplan s.r.o.',
     'videoAttributes' => [
-        'poster' => Configuration::componentControler()['presenterFiles'].$shortName.$monitor_ref,
+        'poster' => Configuration::files()['presenter'].$shortName.$monitor_ref,
     ],
-    'videoSourceSrc' => Configuration::componentControler()['presenterFiles'].$shortName.$video_ref,
+    'videoSourceSrc' => Configuration::files()['presenter'].$shortName.$video_ref,
     'imgStankuAttributes' => [
-        'src' => Configuration::componentControler()['presenterFiles'].$shortName.$stanek_ref,
+        'src' => Configuration::files()['presenter'].$shortName.$stanek_ref,
         'alt' => 'stánek firmy',
     ],
     'socialniSiteIframe' => [
@@ -85,7 +85,7 @@ $firma = [
             'nazevSocialniSite' => 'LinkedIn',
             'btnClass' => 'btn-ig',
             'modalID' => 'modal_16',
-            'iframe' => '<a href="https://www.linkedin.com/company/konplancz" target="_blank"><img src="'.Configuration::componentControler()['presenterFiles'].$shortName.'/assets/linkedin.png" alt="profil LinkednIn" height="" width="100%"/></a>',
+            'iframe' => '<a href="https://www.linkedin.com/company/konplancz" target="_blank"><img src="'.Configuration::files()['presenter'].$shortName.'/assets/linkedin.png" alt="profil LinkednIn" height="" width="100%"/></a>',
             'odkazNaProfil' => 'https://www.linkedin.com/company/konplancz'
         ]
     ],

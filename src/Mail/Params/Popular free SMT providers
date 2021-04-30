@@ -1,0 +1,19 @@
+Service                 SMTP server             Port    Connection
+Gmail                   smtp.gmail.com          587     TLS
+                                                25      TLS
+                                                465     SSL
+
+Office 365              smtp.office365.com      587     TLS
+                                                25      TLS
+
+Outlook.com             smtp-mail.outlook.com	587     TLS
+                                                25	TLS
+Yahoo mail              smtp.mail.yahoo.com	587     TLS
+                                                25      TLS
+                                                465	SSL
+
+Windows Live Hotmail	smtp.live.com           587     TLS
+                                                25	TLS
+
+Zoho                    smtp.zoho.com           587     TLS
+                                                465	SSL

@@ -3,32 +3,32 @@
 use Site\Configuration;
 
 use Pes\View\Renderer\PhpTemplateRendererInterface;
-use Model\Entity\PaperAggregatePaperContentInterface;
 /** @var PhpTemplateRendererInterface $this */
-/** @var PaperAggregatePaperContentInterface $paperAggregate */
+use Site\Configuration;
 
+Configuration::files()['presenter']
 $static_ref = '_www_vp_files/presenter/';
 $logo_ref = '/assets/logo.png';
 
 $headline = 'Online stánky';
 $perex = 'Poznejte svého budoucího zaměstnavatele na našich online stáncích.';
 
-$monitorFilename = '_www_vp_files/monitor-stanek.jpg';
-$monitorIsReadable = is_readable($monitorFilename);
-$videoMp4Filename = '_www_vp_files/movies/smycka-MP4.mp4';
-$videoMp4IsReadable = is_readable($videoMp4Filename);
-$videoWebmFilename = '_www_vp_files/movies/smycka-WEBM.webm';
-$videoWebmIsReadable = is_readable($videoWebmFilename);
-
-$promoVideo = [
-    'videoAttributes' => [
-        'poster' => $monitorIsReadable ? $monitorFilename : "",
-    ],
-    'videoSourceSrc' => [
-        $videoMp4IsReadable ? ['src' => $videoMp4Filename, 'type' => 'video/mp4'] : null,
-        $videoWebmIsReadable ? ['src' => $videoWebmFilename, 'type' => 'video/webm'] : null,
-    ]
-];
+//$monitorFilename = '_www_vp_files/monitor-stanek.jpg';
+//$monitorIsReadable = is_readable($monitorFilename);
+//$videoMp4Filename = '_www_vp_files/movies/smycka-MP4.mp4';
+//$videoMp4IsReadable = is_readable($videoMp4Filename);
+//$videoWebmFilename = '_www_vp_files/movies/smycka-WEBM.webm';
+//$videoWebmIsReadable = is_readable($videoWebmFilename);
+//
+//$promoVideo = [
+//    'videoAttributes' => [
+//        'poster' => $monitorIsReadable ? $monitorFilename : "",
+//    ],
+//    'videoSourceSrc' => [
+//        $videoMp4IsReadable ? ['src' => $videoMp4Filename, 'type' => 'video/mp4'] : null,
+//        $videoWebmIsReadable ? ['src' => $videoWebmFilename, 'type' => 'video/webm'] : null,
+//    ]
+//];
 
 $infoForRegistered = [
         [

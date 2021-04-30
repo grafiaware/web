@@ -85,19 +85,19 @@ class MailController extends PresentationFrontControllerAbstract {
                         $attachments = [
 
                                         (new Attachment())
-                                        ->setFileName(Configuration::mail()['mail.attachments'].'Katalog veletrhPRACE.online 2021.pdf')  // /_www_vp_files/attachments/
+                                        ->setFileName(Configuration::mail()['mail.attachments'].'Katalog veletrhPRACE.online 2021.pdf')
                                         ->setAltText('Katalog veletrhPRACE.online 2021'),
                                         (new Attachment())
-                                        ->setFileName(Configuration::mail()['mail.attachments'].'Letak nabor studenti POSSEHL.pdf')  // /_www_vp_files/attachments/
+                                        ->setFileName(Configuration::mail()['mail.attachments'].'Letak nabor studenti POSSEHL.pdf')
                                         ->setAltText('Leták nábor studenti_POSSEHL'),
                                         (new Attachment())
-                                        ->setFileName(Configuration::mail()['mail.attachments'].'MD ELEKTRONIK Serizovac min.pdf')  // /_www_vp_files/attachments/
+                                        ->setFileName(Configuration::mail()['mail.attachments'].'MD ELEKTRONIK Serizovac min.pdf')
                                         ->setAltText('Leták MD ELEKTRONIK Seřizovač'),
                                         (new Attachment())
-                                        ->setFileName(Configuration::mail()['mail.attachments'].'GRAFIA letaky.pdf')  // /_www_vp_files/attachments/
+                                        ->setFileName(Configuration::mail()['mail.attachments'].'GRAFIA letaky.pdf')
                                         ->setAltText('Letáky Grafia'),
                                         (new Attachment())
-                                        ->setFileName(Configuration::mail()['mail.attachments'].'logo_grafia.png')  // /_www_vp_files/attachments/
+                                        ->setFileName(Configuration::mail()['mail.attachments'].'logo_grafia.png')
                                         ->setAltText('Logo Grafia'),
 
 

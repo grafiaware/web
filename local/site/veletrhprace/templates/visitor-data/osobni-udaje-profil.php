@@ -84,6 +84,7 @@ $email = isset($visitorData) ? $visitorData->getEmail() : ($loginAggregate->getR
 
                     </div>
                 </form>
+                <!--odesílá k uložení do souboru-->
                 <form class="ui huge form" action="api/v1/event/uploadvisitorfile" method="POST" enctype="multipart/form-data">
                      <div class="two fields">
                         <div class="field margin">

@@ -1,8 +1,8 @@
 <?php
 use Pes\View\Renderer\PhpTemplateRendererInterface;
-use Model\Entity\PaperAggregateInterface;
 /** @var PhpTemplateRendererInterface $this */
-/** @var PaperAggregateInterface $paperAggregate */
+
+use Site\Configuration;
 
 $headline = 'Katalog firem';
 $perex = '';
@@ -22,9 +22,9 @@ $perex = '';
         <content>
             <div class="ui grid centered">
                 <div class="sixteen wide column center aligned">
-                    <p><a  href="_www_vp_files/files/Katalog veletrhPRACE.online 2021.pdf" download="Katalog veletrhPRACE.online 2021">Stáhnout katalog</a></p>
-                    <a class="link-img" href="_www_vp_files/files/Katalog veletrhPRACE.online 2021.pdf" download="Katalog veletrhPRACE.online 2021">
-                        <img  src="images/katalog.jpg" alt="katalog" heigh="" width="60%" />
+                    <p><a  href="<?= Configuration::filesUploadControler()['files.download']?>Katalog veletrhPRACE.online 2021.pdf" download="Katalog veletrhPRACE.online 2021">Stáhnout katalog</a></p>
+                    <a class="link-img" href="<?= Configuration::filesUploadControler()['files.download']?>Katalog veletrhPRACE.online 2021.pdf" download="Katalog veletrhPRACE.online 2021">
+                        <img  src="@images/katalog.jpg" alt="katalog" heigh="" width="60%" />
                     </a>
                 </div>
             </div>

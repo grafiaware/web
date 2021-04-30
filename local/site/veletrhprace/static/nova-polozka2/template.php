@@ -213,7 +213,7 @@
                         <div class="column">
                             <div class="ui segment">
                                 <div class="hala-logo-siroke">
-                                    <a href=""><img src="images/mojebudoucnost-siroke.png" alt="" /></a>
+                                    <a href=""><img src="@images/mojebudoucnost-siroke.png" alt="" /></a>
                                 </div>
                                 <div class="hala-benefity">
                                     <p><i class="car alternate large icon"></i>Příspěvek na dojíždění</p>
@@ -228,7 +228,7 @@
                         <div class="column">
                             <div class="ui segment">
                                 <div class="hala-logo-ctverec" style="">
-                                    <a href=""><img src="images/mojebudoucnos4t.jpg" alt="" width="50%" height="auto"/></a>
+                                    <a href=""><img src="@images/mojebudoucnos4t.jpg" alt="" width="50%" height="auto"/></a>
                                 </div>
                                 <div class="hala-benefity">
                                     <p><i class="bus large icon"></i>Svozové autobusy</p>
@@ -247,7 +247,7 @@
                             <div class="ui segments">
                                 <div class="ui secondary segment">
                                     <div class="hala-logo-siroke">
-                                        <a href=""><img src="images/mojebudoucnost-siroke.png" alt="" /></a>
+                                        <a href=""><img src="@images/mojebudoucnost-siroke.png" alt="" /></a>
                                     </div>
                                     <div class="hala-benefity">
                                         <p><i class="car alternate large icon"></i>Příspěvek na dojíždění</p>
@@ -269,7 +269,7 @@
                             <div class="ui segments">
                                 <div class="ui segment">
                                     <div class="hala-logo-ctverec" style="">
-                                        <a href=""><img src="images/mojebudoucnos4t.jpg" alt="" width="50%" height="auto"/></a>
+                                        <a href=""><img src="@images/mojebudoucnos4t.jpg" alt="" width="50%" height="auto"/></a>
                                     </div>
                                     <div class="hala-benefity">
                                         <p><i class="bus large icon"></i>Svozové autobusy</p>
