@@ -6,13 +6,15 @@
  * and open the template in the editor.
  */
 
-namespace Model\Repository;
+namespace Events\Model\Repository;
+
+use Model\Repository\RepoAbstract;
 
 use Model\Entity\EntityInterface;
-use Model\Entity\EnrollInterface;
-use Model\Entity\Enroll;
-use Model\Dao\EnrollDao;
-use Model\Hydrator\EnrollHydrator;
+use Events\Model\Entity\EnrollInterface;
+use Events\Model\Entity\Enroll;
+use Events\Model\Dao\EnrollDao;
+use Events\Model\Hydrator\EnrollHydrator;
 
 use Model\Repository\Exception\UnableRecreateEntityException;
 

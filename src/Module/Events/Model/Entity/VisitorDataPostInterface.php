@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Model\Entity;
+namespace Events\Model\Entity;
 
 /**
  *

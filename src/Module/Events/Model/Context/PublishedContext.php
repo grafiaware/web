@@ -8,7 +8,7 @@
 
 namespace Events\Model\Context;
 
-use Model\Context\PublishedContextInterface;
+use Events\Model\Context\PublishedContextInterface;
 
 /**
  * Description of PublishedContext

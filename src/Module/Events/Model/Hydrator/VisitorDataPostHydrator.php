@@ -6,10 +6,12 @@
  * and open the template in the editor.
  */
 
-namespace Model\Hydrator;
+namespace Events\Model\Hydrator;
 
 use Model\Entity\EntityInterface;
-use Model\Entity\VisitorDataPostInterface;
+use Model\Hydrator\HydratorInterface;
+
+use Events\Model\Entity\VisitorDataPostInterface;
 
 /**
  * Description of PaperHydrator

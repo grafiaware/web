@@ -10,7 +10,7 @@ use Model\Entity\LoginAggregateFullInterface;
 use Module\Events\Middleware\Api\Controller\VisitorDataController;
 use Model\Repository\VisitorDataRepo;
 use Model\Entity\VisitorDataInterface;
-use Model\Repository\VisitorDataPostRepo;
+use Events\Model\Repository\VisitorDataPostRepo;
 use Model\Entity\VisitorDataPostInterface;
 
 use Model\Arraymodel\Presenter;

@@ -8,10 +8,12 @@
 
 namespace Events\Model\Repository;
 
+use Model\Repository\RepoInterface;
+
 /**
  *
  * @author pes2704
  */
-interface EventPresentationRepoInterface {
+interface EventPresentationRepoInterface  extends RepoInterface {
     //put your code here
 }

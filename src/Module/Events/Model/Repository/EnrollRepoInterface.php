@@ -6,9 +6,11 @@
  * and open the template in the editor.
  */
 
-namespace Model\Repository;
+namespace Events\Model\Repository;
 
-use Model\Entity\EnrollInterface;
+use Model\Repository\RepoInterface;
+
+use Events\Model\Entity\EnrollInterface;
 
 /**
  *

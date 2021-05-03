@@ -6,13 +6,13 @@
  * and open the template in the editor.
  */
 
-namespace Model\Repository;
+namespace Events\Model\Repository;
 
 use Model\Entity\EntityInterface;
-use Model\Entity\VisitorDataInterface;
-use Model\Entity\VisitorData;
-use Model\Dao\VisitorDataDao;
-use Model\Hydrator\VisitorDataHydrator;
+use Events\Model\Entity\VisitorDataInterface;
+use Events\Model\Entity\VisitorData;
+use Events\Model\Dao\VisitorDataDao;
+use Events\Model\Hydrator\VisitorDataHydrator;
 
 use Model\Repository\Exception\UnableRecreateEntityException;
 

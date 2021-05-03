@@ -10,8 +10,8 @@ namespace Events\Model\Context;
 
 use Module\Status\Model\Repository\StatusSecurityRepo;
 use Module\Status\Model\Repository\StatusPresentationRepo;
-use Model\Context\ContextFactoryInterface;
-use Model\Context\PublishedContextInterface;
+use Events\Model\Context\ContextFactoryInterface;
+use Events\Model\Context\PublishedContextInterface;
 
 /**
  * Description of ContextFactory

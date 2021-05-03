@@ -14,7 +14,6 @@ use Pes\Container\ContainerConfiguratorAbstract;
 
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
 
-
 // db Handler
 use Pes\Database\Handler\Account;
 use Pes\Database\Handler\ConnectionInfo;
@@ -69,17 +68,18 @@ use Model\Dao\PaperContentDao;
 use Model\Hydrator\PaperContentHydrator;
 use Model\Repository\PaperContentRepo;
 
-use \Model\Dao\EnrollDao;
-use \Model\Hydrator\EnrollHydrator;
-use Model\Repository\EnrollRepo;
 
-use \Model\Dao\VisitorDataDao;
-use \Model\Hydrator\VisitorDataHydrator;
-use Model\Repository\VisitorDataRepo;
+use Events\Model\Dao\EnrollDao;
+use Events\Model\Hydrator\EnrollHydrator;
+use Events\Model\Repository\EnrollRepo;
 
-use \Model\Dao\VisitorDataPostDao;
-use \Model\Hydrator\VisitorDataPostHydrator;
-use Model\Repository\VisitorDataPostRepo;
+use Events\Model\Dao\VisitorDataDao;
+use Events\Model\Hydrator\VisitorDataHydrator;
+use Events\Model\Repository\VisitorDataRepo;
+
+use Events\Model\Dao\VisitorDataPostDao;
+use Events\Model\Hydrator\VisitorDataPostHydrator;
+use Events\Model\Repository\VisitorDataPostRepo;
 
 //aggregate
 use Model\Repository\MenuItemAggregateRepo;

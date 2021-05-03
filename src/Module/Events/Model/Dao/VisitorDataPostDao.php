@@ -6,7 +6,9 @@
  * and open the template in the editor.
  */
 
-namespace Model\Dao;
+namespace Events\Model\Dao;
+
+use Model\Dao\DaoAbstract;
 
 use Pes\Database\Handler\HandlerInterface;
 use Model\Dao\DaoKeyDbVerifiedInterface;

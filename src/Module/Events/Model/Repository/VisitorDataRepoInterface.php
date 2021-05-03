@@ -6,9 +6,9 @@
  * and open the template in the editor.
  */
 
-namespace Model\Repository;
+namespace Events\Model\Repository;
 
-use Model\Entity\VisitorDataInterface;
+use Events\Model\Entity\VisitorDataInterface;
 
 /**
  *
