@@ -29,6 +29,6 @@ foreach ($posters as $poster) {
     ];
 };
 
-include Configuration::componentControler()['templates']."presenter-posters/template.php"; 
+include Configuration::componentController()['templates']."presenter-posters/template.php"; 
 
 ?>

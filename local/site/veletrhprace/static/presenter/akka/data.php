@@ -36,7 +36,7 @@ $buttonTitle = [
 foreach ($buttonTitle as $title) {
     $buttony[] = [
         'text' => $title,
-        'odkaz' => 'javascript: document.getElementById(\''.Configuration::componentControler()['prettyUrlCallable']($title).'\').scrollIntoView();',
+        'odkaz' => 'javascript: document.getElementById(\''.Configuration::componentController()['prettyUrlCallable']($title).'\').scrollIntoView();',
     ];
 };
 

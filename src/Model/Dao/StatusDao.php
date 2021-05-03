@@ -11,7 +11,7 @@ namespace Model\Dao;
 use Pes\Session\SessionStatusHandlerInterface;
 
 /**
- * Description of StatusLoginDao
+ * Description of StatusDao
  *
  *
  *

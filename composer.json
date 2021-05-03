@@ -20,6 +20,7 @@
         "psr-4": {
             "Site\\": "app/Site",
             "Test\\": "tests",
+            "Events\\": "src/Module/Events",
             "" : "src"
         }
     }

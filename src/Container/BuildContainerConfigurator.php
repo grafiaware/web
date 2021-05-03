@@ -40,14 +40,10 @@ use Model\HierarchyHooks\HookedMenuItemActor;
 use Model\HierarchyHooks\ArticleTitleUpdater;
 use Model\HierarchyHooks\MenuListStyles;
 
-use Middleware\Build\Controler\DatabaseControler;
+use Middleware\Build\Controller\DatabaseController;
 
 // repo
-use Model\Repository\{
-    StatusSecurityRepo,
-    StatusPresentationRepo,
-    StatusFlashRepo
-};
+use Module\Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
 
 /**
  * Description of ContainerConfigurator
@@ -201,8 +197,8 @@ class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
             MenuListStyles::class => function() {
                 return new MenuListStyles();
             },
-            DatabaseControler::class => function(ContainerInterface $c) {
-                return (new DatabaseControler(
+            DatabaseController::class => function(ContainerInterface $c) {
+                return (new DatabaseController(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class)))->injectContainer($c);

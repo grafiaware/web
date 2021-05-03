@@ -74,10 +74,8 @@ use Pes\View\Renderer\RendererInterface;
 
 
 // repo
+use Module\Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
 use Model\Repository\{
-    StatusSecurityRepo,
-    StatusPresentationRepo,
-    StatusFlashRepo,
     LanguageRepo,
     HierarchyAggregateRepo,
     MenuItemRepo,
@@ -91,8 +89,8 @@ use Model\Repository\{
 
 // controller
 use Middleware\Web\Controller\PageController;
-use Middleware\Xhr\Controller\ComponentControler;
-use Middleware\Xhr\Controller\TemplateControler;
+use Middleware\Xhr\Controller\ComponentController;
+use Middleware\Xhr\Controller\TemplateController;
 
 
 // renderery - pro volání služeb renderer kontejneru renderer::class
@@ -163,8 +161,8 @@ class ComponentContainerConfigurator_Nav extends ContainerConfiguratorAbstract {
                             $c->get(ViewFactory::class))
                         )->injectContainer($c);  // inject component kontejner
             },
-            ComponentControler::class => function(ContainerInterface $c) {
-                return (new ComponentControler(
+            ComponentController::class => function(ContainerInterface $c) {
+                return (new ComponentController(
                             $c->get(StatusSecurityRepo::class),
                             $c->get(StatusFlashRepo::class),
                             $c->get(StatusPresentationRepo::class),
@@ -173,8 +171,8 @@ class ComponentContainerConfigurator_Nav extends ContainerConfiguratorAbstract {
                             $c->get(ViewFactory::class))
                         )->injectContainer($c);  // inject component kontejner
             },
-            TemplateControler::class => function(ContainerInterface $c) {
-                return (new TemplateControler(
+            TemplateController::class => function(ContainerInterface $c) {
+                return (new TemplateController(
                             $c->get(StatusSecurityRepo::class),
                             $c->get(StatusFlashRepo::class),
                             $c->get(StatusPresentationRepo::class),

@@ -6,9 +6,8 @@ use Component\ViewModel\Authored\AuthoredViewModelAbstract;
 use Model\Entity\HierarchyAggregateInterface;
 use Model\Entity\MenuRootInterface;
 
-use Model\Repository\StatusSecurityRepo;
-use Model\Repository\StatusPresentationRepo;
-use Model\Repository\StatusFlashRepo;
+use Module\Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
+
 use Model\Repository\HierarchyAggregateRepo;
 use Model\Repository\MenuRootRepo;
 
@@ -108,7 +107,7 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
     }
 
     /**
-     * Původní metoda getSubtreeItemModel pro Menu Display controler. Načte podstrom uzlů menu, potomkků
+     * Původní metoda getSubtreeItemModel pro Menu Display Controller. Načte podstrom uzlů menu, potomkků
      *
      * @return ItemViewModelInterface array af
      */

@@ -6,7 +6,7 @@ use Site\Configuration;
 
 use Model\Entity\LoginAggregateFullInterface;
 use Model\Repository\EnrollRepo;
-use Model\Repository\StatusSecurityRepo;
+use Module\Status\Model\Repository\StatusSecurityRepo;
 use Model\Repository\VisitorDataRepo;
 
 use Pes\Text\Html;
@@ -24,7 +24,7 @@ if (isset($loginAggregate)) {
 }
 
 // poue pro default roli 'visitor'
-if (isset($role) AND $role==(Configuration::loginLogoutControler()['roleVisitor'])) {
+if (isset($role) AND $role==(Configuration::loginLogoutController()['roleVisitor'])) {
 
     $visitorDataRepo = $container->get(VisitorDataRepo::class);
     $visitorData = $visitorDataRepo->get($loginName);
@@ -67,7 +67,7 @@ if (isset($role) AND $role==(Configuration::loginLogoutControler()['roleVisitor'
         </section>
         <section>
             <content>
-                <?= $this->insert(Configuration::componentControler()['templates']."zprava"."/template.php", $zprava) ?>
+                <?= $this->insert(Configuration::componentController()['templates']."zprava"."/template.php", $zprava) ?>
             </content>
             <content>
                 <?php include "content/profil.php" ?> <!-- Tiny pro .working-data -->
@@ -103,7 +103,7 @@ if (isset($role) AND $role==(Configuration::loginLogoutControler()['roleVisitor'
                 <?php include "perex.php" ?>
             </perex>
             <content>
-                <?= $this->insert(Configuration::componentControler()['templates']."zprava"."/template.php", $zprava) ?>
+                <?= $this->insert(Configuration::componentController()['templates']."zprava"."/template.php", $zprava) ?>
             </content>
         </section>
     </article>

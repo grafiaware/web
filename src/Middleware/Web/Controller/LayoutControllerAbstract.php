@@ -10,10 +10,10 @@ namespace Middleware\Web\Controller;
 
 use Site\Configuration;
 
-use Controller\PresentationFrontControllerAbstract;
+use FrontController\PresentationFrontControllerAbstract;
 use Psr\Http\Message\ServerRequestInterface;
 
-use Model\Repository\{
+use Module\Status\Model\Repository\{
     StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo
 };
 
@@ -37,7 +37,7 @@ use Pes\View\Template\InterpolateTemplate;
 
 
 /**
- * Description of GetControler
+ * Description of GetController
  *
  * @author pes2704
  */
@@ -78,13 +78,13 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
      * @return CompositeView
      */
     private function getCompositeView(ServerRequestInterface $request) {
-        return $this->viewFactory->phpTemplateCompositeView(Configuration::layoutControler()['layout'],
+        return $this->viewFactory->phpTemplateCompositeView(Configuration::layoutController()['layout'],
                 [
                     'basePath' => $this->getBasePath($request),
-                    'title' => Configuration::layoutControler()['title'],
+                    'title' => Configuration::layoutController()['title'],
                     'langCode' => $this->statusPresentationRepo->get()->getLanguage()->getLangCode(),
-                    'linksCommon' => Configuration::layoutControler()['linksCommon'],
-                    'linksSite' => Configuration::layoutControler()['linksSite'],
+                    'linksCommon' => Configuration::layoutController()['linksCommon'],
+                    'linksSite' => Configuration::layoutController()['linksSite'],
                     'bodyContainerAttributes' => $this->getBodyContainerAttributes(),
                     #### komponenty ######
                     'modalLoginLogout' => $this->getLoginLogoutComponent(),
@@ -121,8 +121,8 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
             $loginComponent = $this->container->get(LoginComponent::class);
             //$loginComponent nepoužívá viewModel, používá template a rendererContainer definované v kontejneru - zadávám jen data pro template
 //            $loginComponent->setData([
-//                'fieldNameJmeno' => Configuration::loginLogoutControler()['fieldNameJmeno'],
-//                'fieldNameHeslo' => Configuration::loginLogoutControler()['fieldNameHeslo'],
+//                'fieldNameJmeno' => Configuration::loginLogoutController()['fieldNameJmeno'],
+//                'fieldNameHeslo' => Configuration::loginLogoutController()['fieldNameHeslo'],
 //                ]);
             return $loginComponent;
         }
@@ -135,8 +135,8 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
             $registerComponent = $this->container->get(RegisterComponent::class);
             //$registerComponent nepoužívá viewModel, používá template a rendererContainer definované v kontejneru - zadávám jen data pro template
 //            $registerComponent->setData([
-//                'fieldNameJmeno' => Configuration::loginLogoutControler()['fieldNameJmeno'],
-//                'fieldNameHeslo' => Configuration::loginLogoutControler()['fieldNameHeslo'],
+//                'fieldNameJmeno' => Configuration::loginLogoutController()['fieldNameJmeno'],
+//                'fieldNameHeslo' => Configuration::loginLogoutController()['fieldNameHeslo'],
 //                ]);
             return $registerComponent;
         }
@@ -178,31 +178,31 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
         if ($isEditableContent) {
             ## document base path - stejná hodnota se musí použiít i v nastavení tinyMCE
             $basepath = $this->getBasePath($request);
-            $tinyLanguage = Configuration::layoutControler()['tinyLanguage'];
+            $tinyLanguage = Configuration::layoutController()['tinyLanguage'];
             $langCode =$this->statusPresentationRepo->get()->getLanguage()->getLangCode();
             $tinyToolsbarsLang = array_key_exists($langCode, $tinyLanguage) ? $tinyLanguage[$langCode] : Configuration::statusPresentationManager()['default_lang_code'];
             return
                 $this->container->get(View::class)
-                    ->setTemplate(new PhpTemplate(Configuration::layoutControler()['linksEditorJs']))
+                    ->setTemplate(new PhpTemplate(Configuration::layoutController()['linksEditorJs']))
                     ->setData([
                         'tinyMCEConfig' => $this->container->get(View::class)
-                                ->setTemplate(new InterpolateTemplate(Configuration::layoutControler()['tiny_config']))
+                                ->setTemplate(new InterpolateTemplate(Configuration::layoutController()['tiny_config']))
                                 ->setData([
                                     // pro tiny_config.js
                                     'basePath' => $basepath,
-                                    'urlStylesCss' => Configuration::layoutControler()['urlStylesCss'],
-                                    'urlSemanticCss' => Configuration::layoutControler()['urlSemanticCss'],
-                                    'urlContentTemplatesCss' => Configuration::layoutControler()['urlContentTemplatesCss'],
-                                    'paperTemplatesUri' =>  Configuration::layoutControler()['paperTemplatesUri'],  // URI pro Template controler
-                                    'authorTemplatesPath' => Configuration::layoutControler()['authorTemplatesPath'],
+                                    'urlStylesCss' => Configuration::layoutController()['urlStylesCss'],
+                                    'urlSemanticCss' => Configuration::layoutController()['urlSemanticCss'],
+                                    'urlContentTemplatesCss' => Configuration::layoutController()['urlContentTemplatesCss'],
+                                    'paperTemplatesUri' =>  Configuration::layoutController()['paperTemplatesUri'],  // URI pro Template Controller
+                                    'authorTemplatesPath' => Configuration::layoutController()['authorTemplatesPath'],
                                     'toolbarsLang' => $tinyToolsbarsLang
                                 ]),
 
-                        'urlTinyMCE' => Configuration::layoutControler()['urlTinyMCE'],
-                        'urlJqueryTinyMCE' => Configuration::layoutControler()['urlJqueryTinyMCE'],
+                        'urlTinyMCE' => Configuration::layoutController()['urlTinyMCE'],
+                        'urlJqueryTinyMCE' => Configuration::layoutController()['urlJqueryTinyMCE'],
 
-                        'urlTinyInit' => Configuration::layoutControler()['urlTinyInit'],
-                        'editScript' => Configuration::layoutControler()['urlEditScript'],
+                        'urlTinyInit' => Configuration::layoutController()['urlTinyInit'],
+                        'editScript' => Configuration::layoutController()['urlEditScript'],
                     ]);
         }
     }
@@ -212,10 +212,10 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
         $isEditableContent = $userActions->isEditableArticle() OR $userActions->isEditableLayout();
         if ($isEditableContent) {
             return $this->container->get(View::class)
-                    ->setTemplate(new PhpTemplate(Configuration::layoutControler()['linkEditorCss']))
+                    ->setTemplate(new PhpTemplate(Configuration::layoutController()['linkEditorCss']))
                     ->setData(
                             [
-                            'linksCommon' => Configuration::layoutControler()['linksCommon'],
+                            'linksCommon' => Configuration::layoutController()['linksCommon'],
                             ]
                             );
         }
@@ -227,7 +227,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
         if ($isEditableContent) {
             return
                 $this->container->get(View::class)
-                    ->setTemplate(new PhpTemplate(Configuration::pageControler()['templates.poznamky']))
+                    ->setTemplate(new PhpTemplate(Configuration::pageController()['templates.poznamky']))
                     ->setData([
                         'poznamka1'=>
                         $this->prettyDump($this->statusPresentationRepo->get()->getMenuItem(), true)

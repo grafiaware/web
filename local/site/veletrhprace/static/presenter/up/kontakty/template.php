@@ -27,7 +27,7 @@ $corporateAddress = [
        <?php
        
         
-        include Configuration::componentControler()['templates']."presenter-contacts/template.php";
+        include Configuration::componentController()['templates']."presenter-contacts/template.php";
         ?>
         <p class="text nastred"><a href="https://www.uradprace.cz/plzen" target="_blank">Všechny kontaktní údaje</a></p>
     </div>

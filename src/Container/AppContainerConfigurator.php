@@ -34,17 +34,7 @@ use Model\Entity\CredentialsInterface;
 use Model\Dao\StatusDao;
 
 // repo
-use Model\Repository\StatusSecurityRepo;
-use Model\Repository\StatusPresentationRepo;
-use Model\Repository\StatusFlashRepo;
-
-// statusModel
-use StatusManager\StatusSecurityManager;
-use StatusManager\StatusManagerInterface;
-use StatusManager\StatusPresentationManager;
-use StatusManager\StatusPresentationManagerInterface;
-use StatusManager\StatusFlashManager;
-use StatusManager\StatusFlashManagerInterface;
+use Module\Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
 
 // router
 use Pes\Router\RouterInterface;
@@ -75,9 +65,6 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
     public function getAliases() {
         return [
             SessionStatusHandlerInterface::class => SessionStatusHandler::class,
-            StatusManagerInterface::class => StatusSecurityManager::class,
-            StatusPresentationManagerInterface::class => StatusPresentationManager::class,
-            StatusFlashManagerInterface::class => StatusFlashManager::class,
             CredentialsInterface::class => Credentials::class,
             RouterInterface::class => Router::class,
             ResourceRegistryInterface::class => ResourceRegistry::class,
@@ -129,14 +116,6 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             StatusFlashRepo::class => function(ContainerInterface $c) {
                 return new StatusFlashRepo($c->get(StatusDao::class));
-            },
-
-            // status managers - presentation manager používá hierarchy databázi - je v hierarchy kontejneru
-            StatusSecurityManager::class => function(ContainerInterface $c) {
-                return new StatusSecurityManager();
-            },
-            StatusFlashManager::class => function(ContainerInterface $c) {
-                return new StatusFlashManager();
             },
 
             // router

@@ -13,9 +13,9 @@ use Model\Entity\PaperInterface;
 
 use Component\ViewModel\Authored\AuthoredViewModelAbstract;
 
-use Model\Repository\StatusSecurityRepo;
-use Model\Repository\StatusPresentationRepo;
-use Model\Repository\StatusFlashRepo;
+use Module\Status\Model\Repository\StatusSecurityRepo;
+use Module\Status\Model\Repository\StatusPresentationRepo;
+use Module\Status\Model\Repository\StatusFlashRepo;
 use Model\Repository\PaperAggregateRepo;
 use GeneratorService\Paper\PaperServiceInterface;
 

@@ -40,7 +40,7 @@ class ItemRenderer extends HtmlModelRendererAbstract implements RendererModelAwa
         $html = Html::tag(     'li',
                 ['class'=>[
                     $this->classMap->resolveClass($this->viewModel->isLeaf(), 'Item', 'li.leaf', ($this->viewModel->getRealDepth() == 1) ? 'li.dropdown' : 'li.item'),
-                    $this->classMap->resolveClass($this->viewModel->isCutted(), 'Item', 'li.cut', 'li') 
+                    $this->classMap->resolveClass($this->viewModel->isCutted(), 'Item', 'li.cut', 'li')
                     ],
                  'data-red-style'=> $this->redLiStyle()
                ],
@@ -52,9 +52,9 @@ class ItemRenderer extends HtmlModelRendererAbstract implements RendererModelAwa
 
     private function renderNonEditableInner() {
         $menuNode = $this->viewModel->getMenuNode();
-        $innerHtml = Html::tag('a', 
+        $innerHtml = Html::tag('a',
                     ['class'=>[
-                        $this->classMap->getClass('Item', 'li a'), 
+                        $this->classMap->getClass('Item', 'li a'),
                         $this->classMap->resolveClass($this->viewModel->isPresented(), 'Item', 'li.presented', 'li'),
                         ],
                     'href'=> "www/item/{$menuNode->getMenuItem()->getLangCodeFk()}/{$menuNode->getUid()}" ],
@@ -157,8 +157,8 @@ class ItemRenderer extends HtmlModelRendererAbstract implements RendererModelAwa
     }
 
     private function renderPasteButtons(HierarchyAggregateInterface $menuNode) {
-        $pastedUid = $this->viewModel->getPasteUid();
-        $buttons[] = $this->getButtonPaste($menuNode, $pastedUid);
+        $buttons[] = $this->getButtonPaste($menuNode);
+        $buttons[] = $this->getButtonCutted($menuNode);
         return $buttons;
     }
 
@@ -200,13 +200,13 @@ class ItemRenderer extends HtmlModelRendererAbstract implements RendererModelAwa
                 Html::tag('i', ['class'=>$this->classMapEditable->getClass('Buttons', 'button.addchildren')])
             );
     }
-    private function getButtonPaste(HierarchyAggregateInterface $menuNode, $pastedUid) {
+    private function getButtonPaste(HierarchyAggregateInterface $menuNode) {
         return Html::tag('button', [
                 'class'=>$this->classMapEditable->getClass('Buttons', 'button.paste'),
                 'data-tooltip'=>'Vložit jako sourozence',
                 'type'=>'submit',
                 'formmethod'=>'post',
-                'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/paste/$pastedUid",
+                'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/paste",
                     ],
                 Html::tag('i', ['class'=>$this->classMapEditable->getClass('Buttons', 'button.addsiblings')])
             )
@@ -216,7 +216,7 @@ class ItemRenderer extends HtmlModelRendererAbstract implements RendererModelAwa
                 'data-tooltip'=>'Vložit jako potomka',
                 'type'=>'submit',
                 'formmethod'=>'post',
-                'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/pastechild/$pastedUid",
+                'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/pastechild",
                     ],
                 Html::tag('i', ['class'=>$this->classMapEditable->getClass('Buttons', 'button.addchildren')])
             );
@@ -242,7 +242,7 @@ class ItemRenderer extends HtmlModelRendererAbstract implements RendererModelAwa
                 'type'=>'submit',
                 'name'=>'move',
                 'formmethod'=>'post',
-                'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/cut",
+                'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/cutescape",
                     ],
                 Html::tag('i', ['class'=>$this->classMapEditable->getClass('Buttons', 'button.cutted')])
             );

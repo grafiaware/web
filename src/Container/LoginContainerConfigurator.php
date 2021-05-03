@@ -47,33 +47,20 @@ use Pes\Database\Handler\AttributesProvider\AttributesProvider;
 use Pes\Database\Handler\Handler;
 use Pes\Database\Handler\HandlerInterface;
 
-// repo
-use Model\Repository\StatusSecurityRepo;
-use Model\Repository\StatusFlashRepo;
-use Model\Repository\StatusPresentationRepo;
-
-// router
-use Pes\Router\RouterInterface;
-use Pes\Router\Router;
 
 // controller
-use Middleware\Login\Controller\LoginLogoutController;
-use Middleware\Login\Controller\RegistrationController;
-use Middleware\Login\Controller\ConfirmController;
-use Middleware\Login\Controller\PasswordController;
-
-// status
-use StatusManager\StatusSecurityManager;
-use StatusManager\StatusManagerInterface;
+use Module\Auth\Middleware\Login\Controller\LoginLogoutController;
+use Module\Auth\Middleware\Login\Controller\RegistrationController;
+use Module\Auth\Middleware\Login\Controller\ConfirmController;
+use Module\Auth\Middleware\Login\Controller\PasswordController;
 
 // authenticator
 use Security\Auth\AuthenticatorInterface;
 use Security\Auth\DbAuthenticator;
 use Security\Auth\DbHashAuthenticator;
 
-// security context - použit v security status
-use StatusManager\Observer\SecurityContextObjectsRemover;
-
+// repo
+use Module\Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
 /**
  *
  *

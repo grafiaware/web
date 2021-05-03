@@ -4,9 +4,9 @@ namespace Component\ViewModel\Authored\Paper;
 use Model\Entity\MenuItemInterface;
 use Model\Entity\PaperAggregatePaperContentInterface;
 
-use Model\Repository\StatusSecurityRepo;
-use Model\Repository\StatusPresentationRepo;
-use Model\Repository\StatusFlashRepo;
+use Module\Status\Model\Repository\StatusSecurityRepo;
+use Module\Status\Model\Repository\StatusPresentationRepo;
+use Module\Status\Model\Repository\StatusFlashRepo;
 use Model\Repository\PaperAggregateRepo;
 use Model\Repository\MenuItemRepo;
 

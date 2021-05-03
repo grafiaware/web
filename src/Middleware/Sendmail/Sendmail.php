@@ -16,7 +16,7 @@ use Container\MailContainerConfigurator;
 use Container\LoginContainerConfigurator;
 use Container\DbOldContainerConfigurator;
 
-use Middleware\Sendmail\Controler\MailController;
+use Middleware\Sendmail\Controller\MailController;
 
 class Sendmail extends AppMiddlewareAbstract implements MiddlewareInterface {
 

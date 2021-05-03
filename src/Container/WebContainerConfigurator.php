@@ -7,16 +7,9 @@ use Site\Configuration;
 use Pes\Container\ContainerConfiguratorAbstract;
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
 
-// router
-use Pes\Router\RouterInterface;
-use Pes\Router\Router;
-
 // user - ze session
 use Model\Entity\Credentials;
 use Model\Entity\CredentialsInterface;
-
-// security context - použit v security status
-use StatusManager\Observer\SecurityContextObjectsRemover;
 
 // database
 use Pes\Database\Handler\Account;
@@ -29,7 +22,7 @@ use Pes\Database\Handler\Handler;
 use Pes\Database\Handler\HandlerInterface;
 
 // repo
-use Model\Repository\StatusSecurityRepo;
+use Module\Status\Model\Repository\StatusSecurityRepo;
 
 /**
  *

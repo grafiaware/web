@@ -25,7 +25,6 @@ interface ItemViewModelInterface {
     public function isCutted();
     public function isEditableItem();
     public function getInnerHtml();
-    public function getPasteUid();
     public function getRealDepth();
 
     /**

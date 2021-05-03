@@ -26,7 +26,7 @@ class NavSubtreeComponent extends NavComponentAbstract implements NavSubtreeComp
     /**
      *
      * @param string $componentName
-     * @return \Component\Controler\Authored\MenuComponentInterface
+     * @return \Component\Controller\Authored\MenuComponentInterface
      */
     public function setMenuRootName($componentName): NavSubtreeComponentInterface {
         $this->componentName = $componentName;

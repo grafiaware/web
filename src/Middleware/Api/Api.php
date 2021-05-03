@@ -16,9 +16,9 @@ use Container\{
     ApiContainerConfigurator, HierarchyContainerConfigurator, DbUpgradeContainerConfigurator, LoginContainerConfigurator, MailContainerConfigurator
 };
 
-use Middleware\Api\ApiController\{
+use Middleware\Api\Controller\{
     UserActionController, HierarchyController, EditItemController, PresentationActionController, PaperController, ContentController, EventController,
-    FilesUploadControler, VisitorDataControler
+    FilesUploadController, VisitorDataController
 };
 
 class Api extends AppMiddlewareAbstract implements MiddlewareInterface {
@@ -216,12 +216,17 @@ class Api extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(HierarchyController::class);
             return $ctrl->cut($request, $uid);
         });
-        $routeGenerator->addRouteForAction('POST', '/api/v1/hierarchy/:uid/paste/:pasteduid', function(ServerRequestInterface $request, $uid, $pasteduid) {
+        $routeGenerator->addRouteForAction('POST', '/api/v1/hierarchy/:uid/cutescape', function(ServerRequestInterface $request, $uid) {
+            /** @var HierarchyController $ctrl */
+            $ctrl = $this->container->get(HierarchyController::class);
+            return $ctrl->cutEscape($request, $uid);
+        });
+        $routeGenerator->addRouteForAction('POST', '/api/v1/hierarchy/:uid/paste', function(ServerRequestInterface $request, $uid) {
             /** @var HierarchyController $ctrl */
             $ctrl = $this->container->get(HierarchyController::class);
             return $ctrl->paste($request, $uid, $pasteduid);
         });
-        $routeGenerator->addRouteForAction('POST', '/api/v1/hierarchy/:uid/pastechild/:pasteduid', function(ServerRequestInterface $request, $uid, $pasteduid) {
+        $routeGenerator->addRouteForAction('POST', '/api/v1/hierarchy/:uid/pastechild', function(ServerRequestInterface $request, $uid) {
             /** @var HierarchyController $ctrl */
             $ctrl = $this->container->get(HierarchyController::class);
             return $ctrl->pastechild($request, $uid, $pasteduid);
@@ -238,34 +243,34 @@ class Api extends AppMiddlewareAbstract implements MiddlewareInterface {
         });
 
         $routeGenerator->addRouteForAction('POST', '/api/v1/upload/editorimages', function(ServerRequestInterface $request) {
-            /** @var FilesUploadControler $ctrl */
-            $ctrl = $this->container->get(FilesUploadControler::class);
+            /** @var FilesUploadController $ctrl */
+            $ctrl = $this->container->get(FilesUploadController::class);
             return $ctrl->uploadEditorImages($request);
         });
 
-        $routeGenerator->addRouteForAction('POST', "/api/v1/event/enroll", function(ServerRequestInterface $request) {
+        $routeGenerator->addRouteForAction('POST', "/event/v1/enroll", function(ServerRequestInterface $request) {
             /** @var EventController $ctrl */
             $ctrl = $this->container->get(EventController::class);
             return $ctrl->enroll($request);
         });
-        $routeGenerator->addRouteForAction('POST', '/api/v1/event/visitor', function(ServerRequestInterface $request) {
-            /** @var VisitorDataControler $ctrl */
-            $ctrl = $this->container->get(VisitorDataControler::class);
+        $routeGenerator->addRouteForAction('POST', '/event/v1/visitor', function(ServerRequestInterface $request) {
+            /** @var VisitorDataController $ctrl */
+            $ctrl = $this->container->get(VisitorDataController::class);
             return $ctrl->visitor($request);
         });
-        $routeGenerator->addRouteForAction('POST', '/api/v1/event/uploadvisitorfile', function(ServerRequestInterface $request) {
-            /** @var VisitorDataControler $ctrl */
-            $ctrl = $this->container->get(VisitorDataControler::class);
+        $routeGenerator->addRouteForAction('POST', '/event/v1/uploadvisitorfile', function(ServerRequestInterface $request) {
+            /** @var VisitorDataController $ctrl */
+            $ctrl = $this->container->get(VisitorDataController::class);
             return $ctrl->uploadTxtDocuments($request);
         });
-        $routeGenerator->addRouteForAction('POST', '/api/v1/event/visitorpost', function(ServerRequestInterface $request) {
-            /** @var VisitorDataControler $ctrl */
-            $ctrl = $this->container->get(VisitorDataControler::class);
+        $routeGenerator->addRouteForAction('POST', '/event/v1/visitorpost', function(ServerRequestInterface $request) {
+            /** @var VisitorDataController $ctrl */
+            $ctrl = $this->container->get(VisitorDataController::class);
             return $ctrl->postVisitorData($request);
         });
-        $routeGenerator->addRouteForAction('POST', '/api/v1/event/sendvisitorpost', function(ServerRequestInterface $request) {
-            /** @var VisitorDataControler $ctrl */
-            $ctrl = $this->container->get(VisitorDataControler::class);
+        $routeGenerator->addRouteForAction('POST', '/event/v1/sendvisitorpost', function(ServerRequestInterface $request) {
+            /** @var VisitorDataController $ctrl */
+            $ctrl = $this->container->get(VisitorDataController::class);
             return $ctrl->sendVisitorDataPost($request);
         });
 ####################################

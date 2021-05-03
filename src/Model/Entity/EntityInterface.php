@@ -11,7 +11,7 @@ namespace Model\Entity;
  * @author pes2704
  */
 interface EntityInterface extends EntitySingletonInterface {
-    
+
     public function setPersisted(): EntityInterface;
 
     /**

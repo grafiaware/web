@@ -9,7 +9,7 @@ use Site\Configuration;
 
 // visitor
 use Model\Entity\LoginAggregateFullInterface;
-use Model\Repository\StatusSecurityRepo;
+use Module\Status\Model\Repository\StatusSecurityRepo;
 use Model\Repository\VisitorDataRepo;
 
 
@@ -40,7 +40,7 @@ use Model\Repository\VisitorDataRepo;
     }
 
     // poue pro default roli 'visitor'
-    if (isset($role) AND $role==(Configuration::loginLogoutControler()['roleVisitor'])) {
+    if (isset($role) AND $role==(Configuration::loginLogoutController()['roleVisitor'])) {
         $visitorDataRepo = $container->get(VisitorDataRepo::class);
         $visitorData = $visitorDataRepo->get($loginName);
     }

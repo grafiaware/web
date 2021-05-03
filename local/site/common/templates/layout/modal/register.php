@@ -10,12 +10,12 @@ use Site\Configuration;
             <div class="item header"><p><i class="user icon"></i>Registrovat se</p></div>
 
                 <div class="ui input">
-                    <input type="text" name="<?=Configuration::loginLogoutControler()['fieldNameJmeno']?>" placeholder="Jméno" required>
+                    <input type="text" name="<?=Configuration::loginLogoutController()['fieldNameJmeno']?>" placeholder="Jméno" required>
                 </div>
                 <div class="ui input">
-                    <input type="password" name="<?=Configuration::loginLogoutControler()['fieldNameHeslo']?>" placeholder="Heslo"
-                           pattern="<?=Configuration::loginLogoutControler()['passwordPattern']?>"
-                           title ="<?=Configuration::loginLogoutControler()['passwordInfo']?>"
+                    <input type="password" name="<?=Configuration::loginLogoutController()['fieldNameHeslo']?>" placeholder="Heslo"
+                           pattern="<?=Configuration::loginLogoutController()['passwordPattern']?>"
+                           title ="<?=Configuration::loginLogoutController()['passwordInfo']?>"
                            required >
                 </div>
                 <div class="ui input">

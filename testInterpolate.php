@@ -63,27 +63,27 @@ $appContainer =
 $basepath = "";
 $tinyToolsbarsLang = "cs";
 $view = $appContainer->get(View::class)
-                    ->setTemplate(new PhpTemplate(Configuration::layoutControler()['linksEditorJs']))
+                    ->setTemplate(new PhpTemplate(Configuration::layoutController()['linksEditorJs']))
                     ->setData([
                         'tinyMCEConfig' => $appContainer->get(View::class)
-                                ->setTemplate(new InterpolateTemplate(Configuration::layoutControler()['tiny_config']))
+                                ->setTemplate(new InterpolateTemplate(Configuration::layoutController()['tiny_config']))
                                 ->setData([
 
                                     // pro tiny_config.js
                                     'basePath' => $basepath,
-                                    'urlStylesCss' => Configuration::layoutControler()['urlStylesCss'],
-                                    'urlSemanticCss' => Configuration::layoutControler()['urlSemanticCss'],
-                                    'urlContentTemplatesCss' => Configuration::layoutControler()['urlContentTemplatesCss'],
-                                    'paperTemplatesUri' =>  Configuration::layoutControler()['paperTemplatesUri'],  // URI pro Template controler
-                                    'authorTemplatesPath' => Configuration::layoutControler()['authorTemplatesPath'],
+                                    'urlStylesCss' => Configuration::layoutController()['urlStylesCss'],
+                                    'urlSemanticCss' => Configuration::layoutController()['urlSemanticCss'],
+                                    'urlContentTemplatesCss' => Configuration::layoutController()['urlContentTemplatesCss'],
+                                    'paperTemplatesUri' =>  Configuration::layoutController()['paperTemplatesUri'],  // URI pro Template Controller
+                                    'authorTemplatesPath' => Configuration::layoutController()['authorTemplatesPath'],
                                     'toolbarsLang' => $tinyToolsbarsLang
                                 ]),
 
-                        'urlTinyMCE' => Configuration::layoutControler()['urlTinyMCE'],
-                        'urlJqueryTinyMCE' => Configuration::layoutControler()['urlJqueryTinyMCE'],
+                        'urlTinyMCE' => Configuration::layoutController()['urlTinyMCE'],
+                        'urlJqueryTinyMCE' => Configuration::layoutController()['urlJqueryTinyMCE'],
 
-                        'urlTinyInit' => Configuration::layoutControler()['urlTinyInit'],
-                        'editScript' => Configuration::layoutControler()['urlEditScript'],
+                        'urlTinyInit' => Configuration::layoutController()['urlTinyInit'],
+                        'editScript' => Configuration::layoutController()['urlEditScript'],
                     ]);
 
 

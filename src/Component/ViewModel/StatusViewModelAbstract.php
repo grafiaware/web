@@ -2,9 +2,7 @@
 
 namespace Component\ViewModel;
 
-use Model\Repository\StatusSecurityRepo;
-use Model\Repository\StatusPresentationRepo;
-use Model\Repository\StatusFlashRepo;
+use Module\Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
 
 /**
  * Description of StatusViewModelAbstract

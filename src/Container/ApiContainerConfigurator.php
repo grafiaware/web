@@ -25,10 +25,11 @@ use Pes\Database\Handler\{
 };
 
 // controller
-use \Middleware\Api\ApiController\{
-    UserActionController, HierarchyController, EditItemController, PresentationActionController, PaperController, ContentController, EventController,
-    FilesUploadControler, VisitorDataControler
+use \Middleware\Api\Controller\{
+    UserActionController, HierarchyController, EditItemController, PresentationActionController, PaperController, ContentController,
+    FilesUploadController
 };
+use Module\Events\Middleware\Api\Controller\{EventController, VisitorDataController};
 
 // generator service
 use \GeneratorService\ContentGeneratorRegistry;
@@ -46,13 +47,11 @@ use \Model\Repository\VisitorDataPostRepo;
 // dao
 use Model\Dao\Hierarchy\HierarchyAggregateEditDao;
 
-use Model\Entity\StatusSecurityInterface;
+use Module\Status\Model\Entity\StatusSecurityInterface;
 
 // repo
+use Module\Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
 use Model\Repository\{
-    StatusSecurityRepo,
-    StatusPresentationRepo,
-    StatusFlashRepo,
     LanguageRepo,
     HierarchyAggregateRepo,
     MenuItemRepo,
@@ -142,8 +141,8 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusPresentationRepo::class),
                         $c->get(PaperContentRepo::class));
             },
-            FilesUploadControler::class => function(ContainerInterface $c) {
-                return new FilesUploadControler(
+            FilesUploadController::class => function(ContainerInterface $c) {
+                return new FilesUploadController(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class));
@@ -163,8 +162,8 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new Event($statusSecurityRepo->get());
             },
 
-            VisitorDataControler::class => function(ContainerInterface $c) {
-                return (new VisitorDataControler(
+            VisitorDataController::class => function(ContainerInterface $c) {
+                return (new VisitorDataController(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
@@ -174,7 +173,7 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             // generator service
 
-            // volání nastavených služeb GeneratorService ->initialize() probíhá při nastevení typu menuItem - teď v ApiControler/EditItemControler->type()
+            // volání nastavených služeb GeneratorService ->initialize() probíhá při nastevení typu menuItem - teď v Controller/EditItemController->type()
 
             ContentGeneratorRegistry::class => function(ContainerInterface $c) {
                 $factory = new ContentGeneratorRegistry(

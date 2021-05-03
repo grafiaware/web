@@ -4,7 +4,7 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 
 use Site\Configuration;
 
-use Model\Repository\StatusSecurityRepo;
+use Module\Status\Model\Repository\StatusSecurityRepo;
 use Model\Entity\LoginAggregateCredentialsInterface;;
 use Model\Entity\CredentialsInterface;
 
@@ -34,7 +34,7 @@ if (isset($loginAggregate)) {
     $presenterModel = new Presenter();
     $presenterPerson = $presenterModel->getPerson($loginName);
 
-    if(isset($role) AND $role==Configuration::loginLogoutControler()['rolePresenter']) {
+    if(isset($role) AND $role==Configuration::loginLogoutController()['rolePresenter']) {
         $isPresenter = true;
 
         $presenterJobs = array();

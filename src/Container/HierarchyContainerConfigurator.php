@@ -31,7 +31,7 @@ use Pes\Logger\FileLogger;
 // context
 use Model\Context\ContextFactory;
 use Model\Context\ContextFactoryInterface;
-use Model\Repository\{
+use Module\Status\Model\Repository\{
     StatusSecurityRepo,
     StatusPresentationRepo
 };
@@ -94,10 +94,6 @@ use Model\HierarchyHooks\HookedMenuItemActor;
 use Model\HierarchyHooks\ArticleTitleUpdater;
 use Model\HierarchyHooks\MenuListStyles;
 
-// status manager - používá novou databázi
-use StatusManager\StatusPresentationManager;
-use StatusManager\StatusPresentationManagerInterface;
-
 /**
  * Description of MenuContainerFactory
  *
@@ -120,7 +116,6 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
             ContextFactoryInterface::class => ContextFactory::class,
             HierarchyAggregateReadonlyDaoInterface::class => HierarchyAggregateReadonlyDao::class,
             HierarchyAggregateEditDaoInterface::class => HierarchyAggregateEditDao::class,
-            StatusPresentationManagerInterface::class => StatusPresentationManager::class,
         ];
     }
 

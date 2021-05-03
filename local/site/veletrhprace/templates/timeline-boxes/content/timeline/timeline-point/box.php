@@ -26,7 +26,7 @@ if ($published) {
                                                 <div class="text vpravo">
                                                     <button type="submit" <?= Html::attributes($linkButtonEnroll['linkButtonAttributes']) ?> name="event_enroll"
                                                         value="<?= $eventId ?>" formtarget="_self"
-                                                        formaction="api/v1/event/enroll"> <?= $linkButtonEnroll['linkButtonText'] ?>  </button>
+                                                        formaction="event/v1/enroll"> <?= $linkButtonEnroll['linkButtonText'] ?>  </button>
                                                 </div>
                                             <?php } ?>
                                             <?php if ($linkButtonEnter['showEnter']) {?>

@@ -59,7 +59,7 @@ class MenuComponent extends CompositeComponentAbstract implements MenuComponentI
      *
      * @param $levelWrapRendererName
      * @param $itemRendererName
-     * @return \Component\Controler\Authored\MenuComponentInterface
+     * @return \Component\Controller\Authored\MenuComponentInterface
      */
     public function setRenderersNames( $levelWrapRendererName, $itemRendererName): MenuComponentInterface {
         $this->levelWrapRendererName = $levelWrapRendererName;
@@ -70,7 +70,7 @@ class MenuComponent extends CompositeComponentAbstract implements MenuComponentI
     /**
      *
      * @param string $menuRootName
-     * @return \Component\Controler\Authored\MenuComponentInterface
+     * @return \Component\Controller\Authored\MenuComponentInterface
      */
     public function setMenuRootName($menuRootName): MenuComponentInterface {
         $this->componentName = $menuRootName;
@@ -80,7 +80,7 @@ class MenuComponent extends CompositeComponentAbstract implements MenuComponentI
     /**
      *
      * @param bool $withTitle
-     * @return \Component\Controler\Authored\MenuComponentInterface
+     * @return \Component\Controller\Authored\MenuComponentInterface
      */
     public function withTitleItem($withTitle=false): MenuComponentInterface {
         $this->withTitle = $withTitle;

@@ -57,7 +57,7 @@ $buttonTitle = [
 foreach ($buttonTitle as $title) {
     $buttony[] = [
         'text' => $title,
-        'odkaz' => "#".Configuration::componentControler()['prettyUrlCallable']($title)        
+        'odkaz' => "#".Configuration::componentController()['prettyUrlCallable']($title)        
     ];
 };
     

@@ -94,19 +94,20 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/hierarchy/:uid/add'));
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/hierarchy/:uid/addchild'));
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/hierarchy/:uid/cut'));
-        $registry->register($this->postPrototype->withUrlPattern('/api/v1/hierarchy/:uid/paste/:pasteduid'));
-        $registry->register($this->postPrototype->withUrlPattern('/api/v1/hierarchy/:uid/pastechild/:pasteduid'));
+        $registry->register($this->postPrototype->withUrlPattern('/api/v1/hierarchy/:uid/cutescape'));
+        $registry->register($this->postPrototype->withUrlPattern('/api/v1/hierarchy/:uid/paste'));
+        $registry->register($this->postPrototype->withUrlPattern('/api/v1/hierarchy/:uid/pastechild'));
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/hierarchy/:uid/delete'));
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/hierarchy/:uid/trash'));
 
         $registry->register($this->postPrototype->withUrlPattern('/api/v1/upload/editorimages'));
 
-        $registry->register($this->postPrototype->withUrlPattern('/api/v1/event/enroll'));
-        $registry->register($this->postPrototype->withUrlPattern('/api/v1/event/visitor'));
-        $registry->register($this->postPrototype->withUrlPattern('/api/v1/event/uploadvisitorfile'));
-        $registry->register($this->postPrototype->withUrlPattern('/api/v1/event/visitorpost'));
-        $registry->register($this->postPrototype->withUrlPattern('/api/v1/event/sendvisitorpost'));
-        #### MailControler ######
+        $registry->register($this->postPrototype->withUrlPattern('/event/v1/enroll'));
+        $registry->register($this->postPrototype->withUrlPattern('/event/v1/visitor'));
+        $registry->register($this->postPrototype->withUrlPattern('/event/v1/uploadvisitorfile'));
+        $registry->register($this->postPrototype->withUrlPattern('/event/v1/visitorpost'));
+        $registry->register($this->postPrototype->withUrlPattern('/event/v1/sendvisitorpost'));
+        #### MailController ######
         $registry->register($this->getPrototype->withUrlPattern('/api/v1/sendmail/:campaign'));
 
         #### TemplateController ####
@@ -120,7 +121,7 @@ class ApiRegistrator {
         $registry->register($this->getPrototype->withUrlPattern('/component/v1/itempaper/:menuItemId'));
         $registry->register($this->getPrototype->withUrlPattern('/component/v1/itempapereditable/:menuItemId'));
 
-        #### BuildControler ####
+        #### BuildController ####
         $registry->register($this->getPrototype->withUrlPattern('/build/createdb'));
         $registry->register($this->getPrototype->withUrlPattern('/build/dropdb'));
         $registry->register($this->getPrototype->withUrlPattern('/build/createusers'));

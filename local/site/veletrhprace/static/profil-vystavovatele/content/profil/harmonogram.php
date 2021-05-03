@@ -30,8 +30,8 @@ $institutionName = $presenterPerson["eventInstitutionName"];
 $event = $eventList->getEventList(null, $institutionName, [], false);   // enrolling = false
 
 
-//include Configuration::componentControler()['templates']."timecolumn/template.php";
-//include Configuration::componentControler()['templates']."timeline-boxes/template.php";
+//include Configuration::componentController()['templates']."timecolumn/template.php";
+//include Configuration::componentController()['templates']."timeline-boxes/template.php";
 
 
 ?>
@@ -40,5 +40,5 @@ $event = $eventList->getEventList(null, $institutionName, [], false);   // enrol
     Harmonogram
 </div>
 <div class="content">
-    <?php include Configuration::componentControler()['templates']."timeline-leafs/content/timeline.php"; ?>
+    <?php include Configuration::componentController()['templates']."timeline-leafs/content/timeline.php"; ?>
 </div>

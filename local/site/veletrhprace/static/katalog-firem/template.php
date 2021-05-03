@@ -22,8 +22,8 @@ $perex = '';
         <content>
             <div class="ui grid centered">
                 <div class="sixteen wide column center aligned">
-                    <p><a  href="<?= Configuration::filesUploadControler()['files.download']?>Katalog veletrhPRACE.online 2021.pdf" download="Katalog veletrhPRACE.online 2021">Stáhnout katalog</a></p>
-                    <a class="link-img" href="<?= Configuration::filesUploadControler()['files.download']?>Katalog veletrhPRACE.online 2021.pdf" download="Katalog veletrhPRACE.online 2021">
+                    <p><a  href="<?= Configuration::filesUploadController()['files.download']?>Katalog veletrhPRACE.online 2021.pdf" download="Katalog veletrhPRACE.online 2021">Stáhnout katalog</a></p>
+                    <a class="link-img" href="<?= Configuration::filesUploadController()['files.download']?>Katalog veletrhPRACE.online 2021.pdf" download="Katalog veletrhPRACE.online 2021">
                         <img  src="@images/katalog.jpg" alt="katalog" heigh="" width="60%" />
                     </a>
                 </div>

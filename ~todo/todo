@@ -24,7 +24,7 @@ v profilu - tinymce na texaareách, životopis jeden soubor  (další soubory mo
 
 registrace!!!
 
-v confirm kontroleru - přesměrování na stránku - dokončili jste registraci, to je odkaz www/item/static/:name - v metodě PageControler ->static() je
+v confirm kontroleru - přesměrování na stránku - dokončili jste registraci, to je odkaz www/item/static/:name - v metodě PageController ->static() je
 chyba - není proměnná $menuItem - není divu nevytváří se, kus tam chybí. Musím zajistit, aby příslušná statická stránka se zabrazoval (asi jako "Nová statická stránka" i když
 není v menu.
 
@@ -66,10 +66,10 @@ define('PES_PRODUCTION_MACHINE_HOST_NAME', 'mcintyre');
 define('PES_PRODUCTION_MACHINE_HOST_NAME', 'replikant2871')
 - v SetBootstrap už řádek s include Configuration
 
-pageControler
+pageController
 - nefunguje home page static - neí proměnná $homeMenuItem        $statusPresentation->setMenuItem($homeMenuItem);
 
-PageControler a EditItemControler
+PageController a EditItemController
     metoda: private function friendlyUrl($nadpis) {) je použita duplictně na těchto dvou místech - jednou pro loadScript static a podruhé pro update menuItem při změně title
     - musí se dát finam (service?) a také dodělat volání běžných item podle prettyUri - zaké dodělat unikátnost prettyUri - dokud je jen pro static stránky tak se to dá risknout
 

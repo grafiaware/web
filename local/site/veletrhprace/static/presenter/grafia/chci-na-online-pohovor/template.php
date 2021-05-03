@@ -5,7 +5,7 @@ use Model\Arraymodel\Event;
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Model\Entity\PaperAggregatePaperContentInterface;
 
-use Model\Repository\StatusSecurityRepo;
+use Module\Status\Model\Repository\StatusSecurityRepo;
 
     $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
     /** @var StatusSecurityRepo $statusSecurityRepo */
@@ -27,7 +27,7 @@ use Model\Repository\StatusSecurityRepo;
 
     <div id="chci-na-online-pohovor">
         <?php
-        //include Configuration::componentControler()['templates']."timecolumn/template.php";
-        include Configuration::componentControler()['templates']."timeline-boxes/template.php";
+        //include Configuration::componentController()['templates']."timecolumn/template.php";
+        include Configuration::componentController()['templates']."timeline-boxes/template.php";
         ?>
     </div>

@@ -8,7 +8,7 @@
 
 namespace Component\ViewModel\Flash;
 
-use Model\Repository\StatusFlashRepo;
+use Module\Status\Model\Repository\StatusFlashRepo;
 
 /**
  * Description of FlashViewModelForRenderer

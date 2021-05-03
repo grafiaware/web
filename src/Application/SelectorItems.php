@@ -11,7 +11,15 @@ namespace Application;
 use Pes\Application\AppInterface;
 use Pes\Middleware\SelectorInterface;
 
-use Middleware\Logged\Service\LoggedAccessor;
+use Module\Auth\Middleware\Login\Login;
+use Module\Auth\Middleware\Logged\LoggedAccess;
+use Module\Auth\Middleware\Logged\Service\LoggedAccessor;
+
+use Module\ResponseTime\Middleware\ResponseTime;
+
+use Module\Status\Middleware\FlashStatus;
+use Module\Status\Middleware\PresentationStatus;
+use Module\Status\Middleware\SecurityStatus;
 
 /**
  * Description of SelectorFactory
@@ -37,12 +45,12 @@ class SelectorItems {
         $this->app = $app;
         $default = function() {
                 return [
-                    new \Middleware\ResponseTime\ResponseTime(),
-                    new \Middleware\Status\SecurityStatus(),
-                    new \Middleware\Login\Login(),
-                    new \Middleware\Status\FlashStatus(),
-                    new \Middleware\Status\PresentationStatus(),
-                    new \Middleware\Web\Transformator(),
+                    new ResponseTime(),
+                    new SecurityStatus(),
+                    new Login(),
+                    new FlashStatus(),
+                    new PresentationStatus(),
+                    new \Middleware\Transformator\Transformator(),
                     new \Middleware\Web\Web()
                 ];};
 
@@ -53,52 +61,51 @@ class SelectorItems {
             '/api'=>
             function() {
                 return [
-                    new \Middleware\Status\SecurityStatus(),
-                    new \Middleware\Login\Login(),
-                    new \Middleware\Status\FlashStatus(),
-                    new \Middleware\Status\PresentationStatus(),
+                    new SecurityStatus(),
+                    new Login(),
+                    new FlashStatus(),
+                    new PresentationStatus(),
                     new \Middleware\Api\Api()
                 ];},
             '/auth'=>
             function() {
                 return [
-                    new \Middleware\Status\SecurityStatus(),
-                    new \Middleware\Status\FlashStatus(),
-                    new \Middleware\Status\PresentationStatus(),
-                    new \Middleware\Login\Login()
+                    new SecurityStatus(),
+                    new FlashStatus(),
+                    new PresentationStatus(),
+                    new Login()
                 ];},
             '/component'=>
             function() {
                 return [
-                    new \Middleware\ResponseTime\ResponseTime(),
-                    new \Middleware\Status\SecurityStatus(),
-                    new \Middleware\Login\Login(),
-                    new \Middleware\Status\FlashStatus(),
-//                    new \Middleware\Status\PresentationStatus(),  // request language
-                    new \Middleware\Web\Transformator(),
+                    new ResponseTime(),
+                    new SecurityStatus(),
+                    new Login(),
+                    new FlashStatus(),
+                    new \Middleware\Transformator\Transformator(),
                     new \Middleware\Xhr\Component()
                 ];},
             '/rs'=>
             function() {
                 return [
-                    new \Middleware\Status\SecurityStatus(),
-                    new \Middleware\Logged\LoggedAccess(new LoggedAccessor($this->app)),
+                    new SecurityStatus(),
+                    new LoggedAccess(new LoggedAccessor($this->app)),
                     new \Middleware\Rs\Transformator(),
                     new \Middleware\Rs\Rs()
                 ];},
             '/edun'=>
             function() {
                 return [
-                    new \Middleware\Status\SecurityStatus(),
-                    new \Middleware\Logged\LoggedAccess(new LoggedAccessor($this->app)),
+                    new SecurityStatus(),
+                    new LoggedAccess(new LoggedAccessor($this->app)),
                     new \Middleware\Edun\Transformator(),
                     new \Middleware\Edun\Edun()
                 ];},
             '/staffer'=>
             function() {
                 return [
-                    new \Middleware\Status\SecurityStatus(),
-                    new \Middleware\Logged\LoggedAccess(new LoggedAccessor($this->app)),
+                    new SecurityStatus(),
+                    new LoggedAccess(new LoggedAccessor($this->app)),
                     new \Middleware\Staffer\Transformator(),
                     new \Middleware\Staffer\Staffer()
                 ];},
@@ -108,22 +115,31 @@ class SelectorItems {
 //                    new \Middleware\Logged\LoggedAccess(new LoggedAccessor($this->app)),
 //                    (new \Middleware\Menu\Menu())
 //                ];},
+            '/event'=>
+            function() {
+                return [
+                    new SecurityStatus(),
+                    new Login(),
+                    new FlashStatus(),
+                    new PresentationStatus(),
+                    new \Module\Events\Middleware\Api\Api()
+                ];},
             '/sendmail'=>
             function() {
                 return [
                     //TODO: doplnit basic autentifikaci pro případ něpřihlášeného uživatele.
-                    new \Middleware\Status\SecurityStatus(),
-                    new \Middleware\Login\Login(),
-                    new \Middleware\Logged\LoggedAccess(new LoggedAccessor($this->app)),
+                    new SecurityStatus(),
+                    new Login(),
+                    new LoggedAccess(new LoggedAccessor($this->app)),
                     new \Middleware\Sendmail\Sendmail()
                 ];},
             '/build'=>
             function() {
                 return [
                     //TODO: doplnit basic autentifikaci pro případ něpřihlášeného uživatele.
-                    new \Middleware\Status\SecurityStatus(),
-                    new \Middleware\Login\Login(),
-                    new \Middleware\Logged\LoggedAccess(new LoggedAccessor($this->app)),
+                    new SecurityStatus(),
+                    new Login(),
+                    new LoggedAccess(new LoggedAccessor($this->app)),
                     new \Middleware\Build\Build()
                 ];},
 

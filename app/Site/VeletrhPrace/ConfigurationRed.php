@@ -110,10 +110,10 @@ class ConfigurationRed extends ConfigurationDb {
     }
 
     /**
-     * Konfigurace prezentace - vrací parametry pro layoutControler
+     * Konfigurace prezentace - vrací parametry pro layoutController
      * @return array
      */
-    public static function layoutControler() {
+    public static function layoutController() {
         return [
            // Language packages tinyMce používají krátké i dlouhé kódy, kód odpovídá jménu souboru např cs.js nebo en_US.js - proto mapování
             // pozn. - popisky šablon pro tiny jsou jen česky (TinyInit.js)
@@ -152,21 +152,21 @@ class ConfigurationRed extends ConfigurationDb {
             'urlSemanticCss' => self::RED_LINKS_SITE."semantic-ui/semantic.min.css",
             'urlContentTemplatesCss' => self::RED_LINKS_COMMON."css/templates.css",   // KŠ ?????
             //
-            'paperTemplatesUri' =>  self::RED_LINKS_SITE."templates/paper/",  // URI pro Template controler
+            'paperTemplatesUri' =>  self::RED_LINKS_SITE."templates/paper/",  // URI pro Template Controller
             'authorTemplatesPath' => self::RED_LINKS_COMMON."templates/author/",
 
         ];
     }
 
     /**
-     * Konfigurace prezentace - vrací parametry pro pageControler
+     * Konfigurace prezentace - vrací parametry pro pageController
      *
      * Definuje domácí (home) stránku webu.
      * Home stránka může být definována jménem komponenty nebo jménem statické stránky nebo identifikátorem uid položky menu (položky hierarchie).
      *
      * @return array
      */
-    public static function pageControler() {
+    public static function pageController() {
 
         return [
                'home_page' => ['block', 'home'],
@@ -186,7 +186,7 @@ class ConfigurationRed extends ConfigurationDb {
             ];
     }
 
-    public static function loginLogoutControler() {
+    public static function loginLogoutController() {
         ## HESLO - malé velké písmeno, číslice, min. 5 znaků
         $passwordPattern = "(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}";
         $passwordInfo = "Heslo musí obsahovat nejméně jedno velké písmeno, jedno malé písmeno a jednu číslici. Jiné znaky než písmena a číslice nejsou povoleny. Délka musí být nejméně 5 znaků.";
@@ -207,16 +207,15 @@ class ConfigurationRed extends ConfigurationDb {
     }
 
     /**
-     * Konfigurace prezentace - vrací parametry pro ComponentControler
+     * Konfigurace prezentace - vrací parametry pro ComponentController
      * @return array
      */
-    public static function componentControler() {
+    public static function componentController() {
 
         return [
                 'templates' => self::RED_TEMPLATES_SITE,
                 'static' => self::RED_STATIC,
                 'compiled' => self::RED_STATIC.'__compiled/',
-                'presenterFiles' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES."presenter/" : self::RED_FILES."presenter/",
                 'prettyUrlCallable' => function($nadpis) {
                         $url = $nadpis;
                         $url = preg_replace('~[^\\pL0-9_]+~u', '-', $url);
@@ -230,10 +229,10 @@ class ConfigurationRed extends ConfigurationDb {
     }
 
     /**
-     * Konfigurace prezentace - vrací parametry pro templateControler
+     * Konfigurace prezentace - vrací parametry pro templateController
      * @return array
      */
-    public static function templateControler() {
+    public static function templateController() {
 
         return [
                'templates.authorFolder' => self::RED_TEMPLATES_COMMON.'author/',
@@ -244,10 +243,10 @@ class ConfigurationRed extends ConfigurationDb {
     }
 
     /**
-     * Konfigurace upload files - vrací parametry pro FilesUploadControler
+     * Konfigurace upload files - vrací parametry pro FilesUploadController
      * @return array
      */
-    public static function filesUploadControler() {
+    public static function filesUploadController() {
 
         return [
             'uploads.editor' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES.'uploads/editor/' : self::RED_FILES.'uploads/editor/',
@@ -283,6 +282,7 @@ class ConfigurationRed extends ConfigurationDb {
             '@images' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES.'images/' : self::RED_FILES.'images/',
             '@movies' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES.'movies/' : self::RED_FILES.'movies/',
             'files' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES.'files/' : self::RED_FILES.'files/',
+            'presenter' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES."presenter/" : self::RED_FILES."presenter/",
 
         ];
     }

@@ -17,7 +17,7 @@ use Container\{
 };
 
 use \Middleware\Xhr\Controller\{
-    TemplateControler, ComponentControler
+    TemplateController, ComponentController
 };
 
 class Component extends AppMiddlewareAbstract implements MiddlewareInterface {
@@ -64,45 +64,45 @@ class Component extends AppMiddlewareAbstract implements MiddlewareInterface {
         #### TemplateController ####
 
         $routeGenerator->addRouteForAction('GET', '/component/v1/papertemplate/:folder', function(ServerRequestInterface $request, $folder) {
-            /** @var TemplateControler $ctrl */
-            $ctrl = $this->container->get(TemplateControler::class);
+            /** @var TemplateController $ctrl */
+            $ctrl = $this->container->get(TemplateController::class);
             return $ctrl->papertemplate($request, $folder);
             });
         $routeGenerator->addRouteForAction('GET', '/component/v1/authortemplate/:folder/:name', function(ServerRequestInterface $request, $folder, $name) {
-            /** @var TemplateControler $ctrl */
-            $ctrl = $this->container->get(TemplateControler::class);
+            /** @var TemplateController $ctrl */
+            $ctrl = $this->container->get(TemplateController::class);
             return $ctrl->authorTemplate($request, $folder, $name);
             });
 
-        #### ComponentControler ####
+        #### ComponentController ####
         $routeGenerator->addRouteForAction('GET', '/component/v1/flash', function(ServerRequestInterface $request) {
-            /** @var ComponentControler $ctrl */
-            $ctrl = $this->container->get(ComponentControler::class);
+            /** @var ComponentController $ctrl */
+            $ctrl = $this->container->get(ComponentController::class);
             return $ctrl->flash($request);
             });
         $routeGenerator->addRouteForAction('GET', '/component/v1/service/:name', function(ServerRequestInterface $request, $name) {
-            /** @var ComponentControler $ctrl */
-            $ctrl = $this->container->get(ComponentControler::class);
+            /** @var ComponentController $ctrl */
+            $ctrl = $this->container->get(ComponentController::class);
             return $ctrl->serviceComponent($request, $name);
             });
         $routeGenerator->addRouteForAction('GET', '/component/v1/static/:staticName', function(ServerRequestInterface $request, $staticName) {
-            /** @var ComponentControler $ctrl */
-            $ctrl = $this->container->get(ComponentControler::class);
+            /** @var ComponentController $ctrl */
+            $ctrl = $this->container->get(ComponentController::class);
             return $ctrl->static($request, $staticName);
             });
 //        $routeGenerator->addRouteForAction('GET', '/component/v1/staticfolded/:folderName', function(ServerRequestInterface $request, $staticName) {
-//            /** @var ComponentControler $ctrl */
-//            $ctrl = $this->container->get(ComponentControler::class);
+//            /** @var ComponentController $ctrl */
+//            $ctrl = $this->container->get(ComponentController::class);
 //            return $ctrl->static($request, $staticName);
 //            });
         $routeGenerator->addRouteForAction('GET', '/component/v1/itempaper/:menuItemId', function(ServerRequestInterface $request, $menuItemId) {
-            /** @var ComponentControler $ctrl */
-            $ctrl = $this->container->get(ComponentControler::class);
+            /** @var ComponentController $ctrl */
+            $ctrl = $this->container->get(ComponentController::class);
             return $ctrl->paper($request, $menuItemId);
             });
         $routeGenerator->addRouteForAction('GET', '/component/v1/itempapereditable/:menuItemId', function(ServerRequestInterface $request, $menuItemId) {
-            /** @var ComponentControler $ctrl */
-            $ctrl = $this->container->get(ComponentControler::class);
+            /** @var ComponentController $ctrl */
+            $ctrl = $this->container->get(ComponentController::class);
             return $ctrl->paperEditable($request, $menuItemId);
             });
 ####################################

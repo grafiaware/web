@@ -10,9 +10,9 @@ namespace GeneratorService\Paper;
 
 use GeneratorService\ContentServiceAbstract;
 
-use Model\Repository\StatusSecurityRepo;
-use Model\Repository\StatusPresentationRepo;
-use Model\Repository\StatusFlashRepo;
+use Module\Status\Model\Repository\StatusSecurityRepo;
+use Module\Status\Model\Repository\StatusPresentationRepo;
+use Module\Status\Model\Repository\StatusFlashRepo;
 use Model\Repository\PaperRepo;
 
 use Model\Entity\Paper;

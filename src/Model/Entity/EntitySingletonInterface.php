@@ -10,7 +10,7 @@ namespace Model\Entity;
 
 /**
  * Interface entity, která se musí vždy vyskytovat jen v jedné instanci - singletor. Singleton entita nemá identitu (klíč).
- * 
+ *
  * @author pes2704
  */
 interface EntitySingletonInterface {

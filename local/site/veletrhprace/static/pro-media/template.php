@@ -15,6 +15,6 @@ include 'data.php';
         <?php include "perex.php" ?>
     </perex>
     <content>
-        <?= $this->insert(Configuration::componentControler()['templates']."zprava"."/template.php", $tiskovaZprava) ?>
+        <?= $this->insert(Configuration::componentController()['templates']."zprava"."/template.php", $tiskovaZprava) ?>
     </content>
 </div>

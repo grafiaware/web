@@ -15,12 +15,10 @@ use Mail\Mail;
 use Mail\ParamsContainer;
 use Mail\MessageFactory\HtmlMessage;
 
-use Middleware\Sendmail\Controler\MailController;
+use Middleware\Sendmail\Controller\MailController;
 
 // repo - z app kontejneru
-use Model\Repository\StatusSecurityRepo;
-use Model\Repository\StatusPresentationRepo;
-use Model\Repository\StatusFlashRepo;
+use Module\Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
 
 use Model\Repository\LoginAggregateCredentialsRepo;
 use Model\Repository\RegistrationRepo;

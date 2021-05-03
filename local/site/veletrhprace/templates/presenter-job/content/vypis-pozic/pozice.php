@@ -4,10 +4,10 @@ use Pes\Text\Text;
 use Pes\Text\Html;
 
 use Site\Configuration;
-use Model\Repository\StatusSecurityRepo;
+use Module\Status\Model\Repository\StatusSecurityRepo;
 use Model\Entity\LoginAggregateFullInterface;
 
-use Middleware\Api\ApiController\VisitorDataControler;
+use Module\Events\Middleware\Api\Controller\VisitorDataController;
 use Model\Repository\VisitorDataRepo;
 use Model\Entity\VisitorDataInterface;
 use Model\Repository\VisitorDataPostRepo;
@@ -57,8 +57,8 @@ if (isset($loginAggregate)) {
     $role = $loginAggregate->getCredentials()->getRole() ?? '';
     $presenterPerson = $presenterModel->getPerson($loginName);
 
-    $isVisitor = $role==Configuration::loginLogoutControler()['roleVisitor'];
-    $isPresenter = (($role==Configuration::loginLogoutControler()['rolePresenter']) AND ($presenterPerson['shortName']==$shortName));
+    $isVisitor = $role==Configuration::loginLogoutController()['roleVisitor'];
+    $isPresenter = (($role==Configuration::loginLogoutController()['rolePresenter']) AND ($presenterPerson['shortName']==$shortName));
 
     if ($isVisitor) {
         /** @var VisitorDataRepo $visitorDataRepo */
@@ -72,9 +72,9 @@ if (isset($loginAggregate)) {
         // formulář
         // unikátní jména souborů pro upload
         $userHash = $loginAggregate->getLoginNameHash();
-        $accept = implode(", ", Configuration::filesUploadControler()['uploads.acceptedextensions']);
-        $uploadedCvFilename = VisitorDataControler::UPLOADED_KEY_CV.$userHash;
-        $uploadedLetterFilename = VisitorDataControler::UPLOADED_KEY_LETTER.$userHash;
+        $accept = implode(", ", Configuration::filesUploadController()['uploads.acceptedextensions']);
+        $uploadedCvFilename = VisitorDataController::UPLOADED_KEY_CV.$userHash;
+        $uploadedLetterFilename = VisitorDataController::UPLOADED_KEY_LETTER.$userHash;
 
         // email z registrace
         // - pokud existuje registrace (loginAggregate má registration) defaultně nastaví jako email hodnotu z registrace $registration->getEmail(), pak input pro email je readonly
@@ -242,7 +242,7 @@ if (isset($loginAggregate)) {
                                             <div class="profil hidden">
                                                 <?php
                                                     // pokud je $visitorDataPosted je nastaveno readonly
-                                                    include Configuration::componentControler()['templates'].'visitor-data/osobni-udaje.php'; ?>
+                                                    include Configuration::componentController()['templates'].'visitor-data/osobni-udaje.php'; ?>
                                             </div>
                                         </div>
                                         <?php
@@ -259,7 +259,7 @@ if (isset($loginAggregate)) {
                                             </div>
                                             <div class="sixteen wide column">
                                                 <div class="profil hidden">
-                                                    <?= $this->repeat(Configuration::componentControler()['templates'].'visitor-data/osobni-udaje.php', $allFormVisitorDataPost); ?>
+                                                    <?= $this->repeat(Configuration::componentController()['templates'].'visitor-data/osobni-udaje.php', $allFormVisitorDataPost); ?>
                                                 </div>
                                             </div>
                                             <?php

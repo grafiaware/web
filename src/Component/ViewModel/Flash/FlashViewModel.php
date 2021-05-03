@@ -8,9 +8,9 @@
 
 namespace Component\ViewModel\Flash;
 
-use Model\Repository\StatusFlashRepo;
+use Module\Status\Model\Repository\StatusFlashRepo;
 
-use Model\Entity\StatusFlashInterface;
+use Module\Status\Model\Entity\StatusFlashInterface;
 
 /**
  * Description of FlashVieModel

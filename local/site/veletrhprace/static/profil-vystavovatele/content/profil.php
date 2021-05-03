@@ -19,7 +19,7 @@ use Pes\Text\Html;
                 <br/>
             </div>
         </div>
-        <?php include Configuration::componentControler()['templates']."presenter-job/content/vypis-pozic.php"; ?>
+        <?php include Configuration::componentController()['templates']."presenter-job/content/vypis-pozic.php"; ?>
 
         <p class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll">Náš program</p>
         <?php include 'profil/harmonogram.php' ?>

@@ -27,6 +27,6 @@ $corporateAddress = [
        <?php
        
         
-        include Configuration::componentControler()['templates']."presenter-contacts/template.php";
+        include Configuration::componentController()['templates']."presenter-contacts/template.php";
         ?>
     </div>

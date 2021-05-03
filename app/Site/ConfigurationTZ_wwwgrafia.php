@@ -782,10 +782,10 @@ class ConfigurationTZ_wwwgrafia {
     }
 
     /**
-     * Konfigurace prezentace - vrací parametry pro layoutControler
+     * Konfigurace prezentace - vrací parametry pro layoutController
      * @return array
      */
-    public static function layoutControler() {
+    public static function layoutController() {
         return [
            // Language packages tinyMce používají krátké i dlouhé kódy, kód odpovídá jménu souboru např cs.js nebo en_US.js - proto mapování
             // pozn. - popisky šablon pro tiny jsou jen česky (TinyInit.js)
@@ -824,20 +824,20 @@ class ConfigurationTZ_wwwgrafia {
             'urlSemanticCss' => self::RED_LINKS_SITE."semantic-ui/semantic.min.css",
             'urlContentTemplatesCss' => self::RED_LINKS_COMMON."css/templates.css",   // KŠ ?????
             //
-            'paperTemplatesUri' =>  self::RED_LINKS_SITE."templates/paper/",  // URI pro Template controler
+            'paperTemplatesUri' =>  self::RED_LINKS_SITE."templates/paper/",  // URI pro Template Controller
             'authorTemplatesPath' => self::RED_LINKS_COMMON."templates/author/",
 
         ];
     }
 
     /**
-     * Konfigurace prezentace - vrací parametry pro pageControler
+     * Konfigurace prezentace - vrací parametry pro pageController
      *
      * Home stránka může být definována jménem komponenty nebo jménem statické stránky nebo identifikátorem uid položky menu (položky hierarchie).
      *
      * @return array
      */
-    public static function pageControler() {
+    public static function pageController() {
 
         return [
                'home_page' => ['component', 'home'],
@@ -851,10 +851,10 @@ class ConfigurationTZ_wwwgrafia {
     }
 
     /**
-     * Konfigurace prezentace - vrací parametry pro ComponentControler
+     * Konfigurace prezentace - vrací parametry pro ComponentController
      * @return array
      */
-    public static function componentControler() {
+    public static function componentController() {
 
         return [
                'static' => self::RED_TEMPLATES_SITE.'static/',
@@ -863,10 +863,10 @@ class ConfigurationTZ_wwwgrafia {
     }
 
     /**
-     * Konfigurace prezentace - vrací parametry pro templateControler
+     * Konfigurace prezentace - vrací parametry pro templateController
      * @return array
      */
-    public static function templateControler() {
+    public static function templateController() {
 
         return [
                'templates.authorFolder' => self::RED_TEMPLATES_COMMON.'author/',
@@ -877,10 +877,10 @@ class ConfigurationTZ_wwwgrafia {
     }
 
     /**
-     * Konfigurace upload files - vrací parametry pro FilesUploadControler
+     * Konfigurace upload files - vrací parametry pro FilesUploadController
      * @return array
      */
-    public static function filesUploadControler() {
+    public static function filesUploadController() {
 
         return [
             'filesDirectory' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES : self::RED_FILES,

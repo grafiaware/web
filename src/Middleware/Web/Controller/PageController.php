@@ -38,7 +38,7 @@ use \Pes\View\Renderer\StringRenderer;
 use \Pes\View\Renderer\ImplodeRenderer;
 
 /**
- * Description of GetControler
+ * Description of GetController
  *
  * @author pes2704
  */
@@ -57,7 +57,7 @@ class PageController extends LayoutControllerAbstract {
     public function home(ServerRequestInterface $request) {
         $statusPresentation = $this->statusPresentationRepo->get();
 
-        $homePage = Configuration::pageControler()['home_page'];
+        $homePage = Configuration::pageController()['home_page'];
         switch ($homePage[0]) {
             case 'block':
                 /** @var BlockAggregateRepo $blockAggregateRepo */
@@ -79,7 +79,7 @@ class PageController extends LayoutControllerAbstract {
                 $resourceUri = "www/item/$langCode/$homeMenuItemUid";
                 break;
             case 'static':
-                $resourceUri = "www/item/static/$homePage[1]";
+                $resourceUri = "www/block/$homePage[1]";
                 break;
             case 'item':
                 /** @var MenuItemRepo $menuItemRepo */
@@ -108,8 +108,7 @@ class PageController extends LayoutControllerAbstract {
         $menuItemRepo = $this->container->get(MenuItemRepo::class);
         $menuItem = $menuItemRepo->get($langCode, $uid);
         if ($menuItem) {
-            $statusPresentation = $this->statusPresentationRepo->get();
-            $statusPresentation->setMenuItem($menuItem);
+            $this->setPresentationMenuItem($menuItem);
             $actionComponents = ["content" => $this->resolveMenuItemView($menuItem)];
             return $this->createResponseFromView($request, $this->createView($request, $this->getComponentViews($actionComponents)));
         } else {
@@ -121,8 +120,7 @@ class PageController extends LayoutControllerAbstract {
     public function block(ServerRequestInterface $request, $name) {
         $menuItem = $this->getBlockMenuItem($name);
         if ($menuItem) {
-            $statusPresentation = $this->statusPresentationRepo->get();
-            $statusPresentation->setMenuItem($menuItem);
+            $this->setPresentationMenuItem($menuItem);
             $actionComponents = ["content" => $this->resolveMenuItemView($menuItem)];
             return $this->createResponseFromView($request, $this->createView($request, $this->getComponentViews($actionComponents)));
         }
@@ -135,8 +133,7 @@ class PageController extends LayoutControllerAbstract {
         $menuItemRepo = $this->container->get(MenuItemRepo::class);
         $menuItem = $menuItemRepo->getOutOfContext($langCode, $uid);
         if ($menuItem) {
-            $statusPresentation = $this->statusPresentationRepo->get();
-            $statusPresentation->setMenuItem($menuItem);
+            $this->setPresentationMenuItem($menuItem);
             $actionComponents = ["content" => $this->resolveMenuItemView($menuItem)];
             return $this->createResponseFromView($request, $this->createView($request, $this->getComponentViews($actionComponents)));
         } else {
@@ -157,7 +154,12 @@ class PageController extends LayoutControllerAbstract {
 ##### private methods ##############################################################
 #
 
-    protected function getComponentViews(array $actionComponents) {
+    private function setPresentationMenuItem($menuItem) {
+        $statusPresentation = $this->statusPresentationRepo->get();
+        $statusPresentation->setMenuItem($menuItem);
+    }
+
+    private function getComponentViews(array $actionComponents) {
         // POZOR! Nesmí se na stránce vyskytovat dva paper se stejným id v editovatelném režimu. TinyMCE vyrobí dvě hidden proměnné se stejným jménem
         // (odvozeným z id), ukládaný obsah editovatelné položky se neuloží - POST data obsahují prázdný řetězec a dojde potichu ke smazání obsahu v databázi.
         // Příklad: - bloky v editovatelném modu a současně editovatelné menu bloky - v menu bloky vybraný blok je zobrazen editovatelný duplicitně s blokem v layoutu
@@ -182,43 +184,17 @@ class PageController extends LayoutControllerAbstract {
     }
 
     private function getMenuComponents() {
-    // pro debug
-//        return [
-//            'menuPresmerovani' => $this->container->get(View::class),
-//            'menuVodorovne' => $this->container->get(View::class),
-//            'menuSvisle' => $this->container->get(View::class),
-//         ];
 
         $userActions = $this->statusSecurityRepo->get()->getUserActions();
-        $configMenu = Configuration::pageControler()['menu'];
-//        if ($userActions->isEditableLayout()) {
-//            $components['menuPresmerovani'] = $this->container->get('menu.presmerovani')->setMenuRootName('menu_redirect');
-//            $components['menuVodorovne'] = $this->container->get('menu.vodorovne')->setMenuRootName('menu_horizontal');
-//            $components['menuSvisle'] = $this->container->get('menu.svisle')->setMenuRootName('menu_vertical')->withTitleItem(true);
-//            $components['bloky'] = $this->container->get('menu.bloky.editable')->setMenuRootName('blocks')->withTitleItem(true);
-//            $components['kos'] = $this->container->get('menu.kos.editable')->setMenuRootName('trash'); //->withTitleItem(true);
-//        } elseif ($userActions->isEditableArticle()) {
-//            $components['menuPresmerovani'] = $this->container->get('menu.presmerovani.editable')->setMenuRootName('menu_redirect');
-//            $components['menuVodorovne'] = $this->container->get('menu.vodorovne.editable')->setMenuRootName('menu_horizontal');
-//            $components['menuSvisle'] = $this->container->get('menu.svisle.editable')->setMenuRootName('menu_vertical')->withTitleItem(true);
-//            $components['kos'] = $this->container->get('menu.kos.editable')->setMenuRootName('trash'); //->withTitleItem(true);
-//        } elseif ($userActions->isEditableMenu()) {
-//            $components['menuPresmerovani'] = $this->container->get('menu.presmerovani.editable')->setMenuRootName('menu_redirect');
-//            $components['menuVodorovne'] = $this->container->get('menu.vodorovne.editable')->setMenuRootName('menu_horizontal');
-//            $components['menuSvisle'] = $this->container->get('menu.svisle.editable')->setMenuRootName('menu_vertical')->withTitleItem(true);
-//            $components['bloky'] = $this->container->get('menu.bloky.editable')->setMenuRootName('blocks')->withTitleItem(true);
-//            $components['kos'] = $this->container->get('menu.kos.editable')->setMenuRootName('trash')->withTitleItem(true);
-//        } else {
-//
-//        }
+        $configMenu = Configuration::pageController()['menu'];
 
         $components = [];
-        foreach (Configuration::pageControler()['menu'] as $menuConf) {
+        foreach (Configuration::pageController()['menu'] as $menuConf) {
             $this->configMenuComponent($menuConf, $components);
         }
         if ($userActions->isEditableArticle()) {
-            $this->configMenuComponent(Configuration::pageControler()['blocks'], $components);
-            $this->configMenuComponent(Configuration::pageControler()['trash'], $components);
+            $this->configMenuComponent(Configuration::pageController()['blocks'], $components);
+            $this->configMenuComponent(Configuration::pageController()['trash'], $components);
 
         }
 
@@ -281,7 +257,7 @@ class PageController extends LayoutControllerAbstract {
      */
     private function resolveMenuItemView(MenuItemInterface $menuItem = null) {
         if (isset($menuItem)) {
-            // dočasně duplicitní s ComponentControler
+            // dočasně duplicitní s ComponentController
             $userActions = $this->statusSecurityRepo->get()->getUserActions();
             $isEditableContent = $userActions->isEditableArticle() OR $userActions->isEditableLayout();
             $menuItemType = $menuItem->getTypeFk();
@@ -389,11 +365,11 @@ class PageController extends LayoutControllerAbstract {
     }
 
     private function setLoadScriptTemplate($view) {
-        $view->setTemplate(new PhpTemplate(Configuration::pageControler()['templates.loaderElement']));
+        $view->setTemplate(new PhpTemplate(Configuration::pageController()['templates.loaderElement']));
     }
 
     private function setLoadEditableScriptTemplate($view) {
-        $view->setTemplate(new PhpTemplate(Configuration::pageControler()['templates.loaderElementEditable']));
+        $view->setTemplate(new PhpTemplate(Configuration::pageController()['templates.loaderElementEditable']));
     }
 
     private function getNameForStaticPage(MenuItemInterface $menuItem) {

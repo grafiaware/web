@@ -15,7 +15,7 @@ use Container\{
     BuildContainerConfigurator, DbUpgradeContainerConfigurator, LoginContainerConfigurator, DbOldContainerConfigurator
 };
 
-use Middleware\Build\Controler\DatabaseControler;
+use Middleware\Build\Controller\DatabaseController;
 
 /**
  * Description of MenuApplication
@@ -51,38 +51,38 @@ class Build extends AppMiddlewareAbstract implements MiddlewareInterface {
 
         #### TemplateController ####
         $routeGenerator->addRouteForAction('GET', '/build/createdb', function(ServerRequestInterface $request) {
-            /** @var DatabaseControler $ctrl */
-            $ctrl = $this->container->get(DatabaseControler::class);
+            /** @var DatabaseController $ctrl */
+            $ctrl = $this->container->get(DatabaseController::class);
             return $ctrl->createDb();
             });
         $routeGenerator->addRouteForAction('GET', '/build/dropdb', function(ServerRequestInterface $request) {
-            /** @var DatabaseControler $ctrl */
-            $ctrl = $this->container->get(DatabaseControler::class);
+            /** @var DatabaseController $ctrl */
+            $ctrl = $this->container->get(DatabaseController::class);
             return $ctrl->dropDb();
             });
         $routeGenerator->addRouteForAction('GET', '/build/createusers', function(ServerRequestInterface $request) {
-            /** @var DatabaseControler $ctrl */
-            $ctrl = $this->container->get(DatabaseControler::class);
+            /** @var DatabaseController $ctrl */
+            $ctrl = $this->container->get(DatabaseController::class);
             return $ctrl->createUsers();
             });
         $routeGenerator->addRouteForAction('GET', '/build/dropusers', function(ServerRequestInterface $request) {
-            /** @var DatabaseControler $ctrl */
-            $ctrl = $this->container->get(DatabaseControler::class);
+            /** @var DatabaseController $ctrl */
+            $ctrl = $this->container->get(DatabaseController::class);
             return $ctrl->dropUsers();
             });
         $routeGenerator->addRouteForAction('GET', '/build/droptables', function(ServerRequestInterface $request) {
-            /** @var DatabaseControler $ctrl */
-            $ctrl = $this->container->get(DatabaseControler::class);
+            /** @var DatabaseController $ctrl */
+            $ctrl = $this->container->get(DatabaseController::class);
             return $ctrl->dropTables();
             });
         $routeGenerator->addRouteForAction('GET', '/build/make', function(ServerRequestInterface $request) {
-            /** @var DatabaseControler $ctrl */
-            $ctrl = $this->container->get(DatabaseControler::class);
+            /** @var DatabaseController $ctrl */
+            $ctrl = $this->container->get(DatabaseController::class);
             return $ctrl->make();
             });
         $routeGenerator->addRouteForAction('GET', '/build/convert', function(ServerRequestInterface $request) {
-            /** @var DatabaseControler $ctrl */
-            $ctrl = $this->container->get(DatabaseControler::class);
+            /** @var DatabaseController $ctrl */
+            $ctrl = $this->container->get(DatabaseController::class);
             return $ctrl->convert();
             });
 ####################################

@@ -108,7 +108,7 @@
                         <div class="field margin"></div>
                         <!--odesílá k uložení do databáze-->
                         <div class="field">
-                            <button class="ui massive primary button" type="submit" formaction="api/v1/event/visitorpost">Odeslat údaje zaměstnavateli</button>
+                            <button class="ui massive primary button" type="submit" formaction="event/v1/visitorpost">Odeslat údaje zaměstnavateli</button>
                         </div>
                     </div>
                     <?php
@@ -118,7 +118,7 @@
                             <div class="field margin"></div>
 
                             <div class="field">
-                                <button class="ui massive primary button" type="submit" formaction="api/v1/event/sendvisitorpost">Odeslat mailem na <?= $presenterEmail ?></button>
+                                <button class="ui massive primary button" type="submit" formaction="event/v1/sendvisitorpost">Odeslat mailem na <?= $presenterEmail ?></button>
                             </div>
                         </div>
                         <?php

@@ -7,11 +7,11 @@
 
 namespace Site;
 
-use Site\Grafia as Siteconfig;
-include 'app/Site/Grafia/ConfigurationConstants.php';
-include 'app/Site/Grafia/ConfigurationDb.php';
-include 'app/Site/Grafia/ConfigurationRed.php';
-include 'app/Site/Grafia/ConfigurationStyles.php';
+//use Site\Grafia as Siteconfig;
+//include 'app/Site/Grafia/ConfigurationConstants.php';
+//include 'app/Site/Grafia/ConfigurationDb.php';
+//include 'app/Site/Grafia/ConfigurationRed.php';
+//include 'app/Site/Grafia/ConfigurationStyles.php';
 
 //use Site\TydenZdravi as Siteconfig;
 //include 'app/Site/TydenZdravi/ConfigurationConstants.php';
@@ -19,11 +19,11 @@ include 'app/Site/Grafia/ConfigurationStyles.php';
 //include 'app/Site/TydenZdravi/ConfigurationRed.php';
 //include 'app/Site/TydenZdravi/ConfigurationStyles.php';
 
-//use Site\VeletrhPrace as Siteconfig;
-//include 'app/Site/VeletrhPrace/ConfigurationConstants.php';
-//include 'app/Site/VeletrhPrace/ConfigurationDb.php';
-//include 'app/Site/VeletrhPrace/ConfigurationRed.php';
-//include 'app/Site/VeletrhPrace/ConfigurationStyles.php';
+use Site\VeletrhPrace as Siteconfig;
+include 'app/Site/VeletrhPrace/ConfigurationConstants.php';
+include 'app/Site/VeletrhPrace/ConfigurationDb.php';
+include 'app/Site/VeletrhPrace/ConfigurationRed.php';
+include 'app/Site/VeletrhPrace/ConfigurationStyles.php';
 
 //use Site\Grafia as Siteconfig;
 //use Site\Grafia as Siteconfig;
@@ -57,23 +57,23 @@ class Configuration {
                 case 'statusPresentationManager':
                     self::$cache[$name] = Siteconfig\ConfigurationRed::statusPresentationManager();
                     break;
-                case 'layoutControler':
-                    self::$cache[$name] = Siteconfig\ConfigurationRed::layoutControler();
+                case 'layoutController':
+                    self::$cache[$name] = Siteconfig\ConfigurationRed::layoutController();
                     break;
-                case 'pageControler':
-                    self::$cache[$name] = Siteconfig\ConfigurationRed::pageControler();
+                case 'pageController':
+                    self::$cache[$name] = Siteconfig\ConfigurationRed::pageController();
                     break;
-                case 'loginLogoutControler':
-                    self::$cache[$name] = Siteconfig\ConfigurationRed::loginLogoutControler();
+                case 'loginLogoutController':
+                    self::$cache[$name] = Siteconfig\ConfigurationRed::loginLogoutController();
                     break;
-                case 'componentControler':
-                    self::$cache[$name] = Siteconfig\ConfigurationRed::componentControler();
+                case 'componentController':
+                    self::$cache[$name] = Siteconfig\ConfigurationRed::componentController();
                     break;
-                case 'templateControler':
-                    self::$cache[$name] = Siteconfig\ConfigurationRed::templateControler();
+                case 'templateController':
+                    self::$cache[$name] = Siteconfig\ConfigurationRed::templateController();
                     break;
-                case 'filesUploadControler':
-                    self::$cache[$name] = Siteconfig\ConfigurationRed::filesUploadControler();
+                case 'filesUploadController':
+                    self::$cache[$name] = Siteconfig\ConfigurationRed::filesUploadController();
                     break;
                 case 'transformator':
                     self::$cache[$name] = Siteconfig\ConfigurationRed::transformator();
@@ -191,28 +191,28 @@ class Configuration {
         return self::getConfigModule('statusPresentationManager');
     }
 
-    public static function layoutControler() {
-        return self::getConfigModule('layoutControler');
+    public static function layoutController() {
+        return self::getConfigModule('layoutController');
     }
 
-    public static function pageControler() {
-        return self::getConfigModule('pageControler');
+    public static function pageController() {
+        return self::getConfigModule('pageController');
     }
 
-    public static function loginLogoutControler() {
-        return self::getConfigModule('loginLogoutControler');
+    public static function loginLogoutController() {
+        return self::getConfigModule('loginLogoutController');
     }
 
-    public static function componentControler() {
-        return self::getConfigModule('componentControler');
+    public static function componentController() {
+        return self::getConfigModule('componentController');
     }
 
-    public static function templateControler() {
-        return self::getConfigModule('templateControler');
+    public static function templateController() {
+        return self::getConfigModule('templateController');
     }
 
-    public static function filesUploadControler() {
-        return self::getConfigModule('filesUploadControler');
+    public static function filesUploadController() {
+        return self::getConfigModule('filesUploadController');
     }
 
     public static function languageSelectRenderer() {

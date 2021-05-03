@@ -5,7 +5,7 @@ use Model\Arraymodel\Event;
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 /** @var PhpTemplateRendererInterface $this */
 
-use Model\Repository\StatusSecurityRepo;
+use Module\Status\Model\Repository\StatusSecurityRepo;
 
 $headline = 'Poradny online zdarma';
 $perex =
@@ -27,8 +27,8 @@ $statusSecurity = $statusSecurityRepo->get();
 
 $event = (new Event($statusSecurity))->getEventList($eventTypeName, $institutionName, [], true);   // enrolling = true
 
-//include Configuration::componentControler()['templates']."timecolumn/template.php";
-include Configuration::componentControler()['templates']."timeline-boxes/template.php";
-//include Configuration::componentControler()['templates']."timeline-leafs/template.php";
+//include Configuration::componentController()['templates']."timecolumn/template.php";
+include Configuration::componentController()['templates']."timeline-boxes/template.php";
+//include Configuration::componentController()['templates']."timeline-leafs/template.php";
 
 ?>

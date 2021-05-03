@@ -7,7 +7,7 @@ use Pes\Text\Html;
 use Site\Configuration;
 use Model\Entity\LoginAggregateFullInterface;
 
-use Middleware\Api\ApiController\VisitorDataControler;
+use Middleware\Api\Controller\VisitorDataController;
 use Model\Entity\VisitorData;
 
 /** @var PhpTemplateRendererInterface $this */
@@ -15,9 +15,9 @@ use Model\Entity\VisitorData;
 /** @var LoginAggregateFullInterface $loginAggregate */
 
 $userHash = $loginAggregate->getLoginNameHash();
-$accept = implode(", ", Configuration::filesUploadControler()['uploads.acceptedextensions']);
-$uploadedCvFilename = VisitorDataControler::UPLOADED_KEY_CV.$userHash;
-$uploadedLetterFilename = VisitorDataControler::UPLOADED_KEY_LETTER.$userHash;
+$accept = implode(", ", Configuration::filesUploadController()['uploads.acceptedextensions']);
+$uploadedCvFilename = VisitorDataController::UPLOADED_KEY_CV.$userHash;
+$uploadedLetterFilename = VisitorDataController::UPLOADED_KEY_LETTER.$userHash;
 
 // formulář
 // - pokud existuje registrace (loginAggregate má registration) defaultně nastaví jako email hodnotu z registrace $registration->getEmail(), pak input pro email je readonly
@@ -29,7 +29,7 @@ $email = isset($visitorData) ? $visitorData->getEmail() : ($loginAggregate->getR
                 Balíček pracovních údajů
             </div>
             <div class="active content">
-                <form class="ui huge form" action="api/v1/event/visitor" method="POST">
+                <form class="ui huge form" action="event/v1/visitor" method="POST">
                     <div class="four fields">
                         <div class="three wide field">
                             <label>Titul před jménem</label>
@@ -85,7 +85,7 @@ $email = isset($visitorData) ? $visitorData->getEmail() : ($loginAggregate->getR
                     </div>
                 </form>
                 <!--odesílá k uložení do souboru-->
-                <form class="ui huge form" action="api/v1/event/uploadvisitorfile" method="POST" enctype="multipart/form-data">
+                <form class="ui huge form" action="event/v1/uploadvisitorfile" method="POST" enctype="multipart/form-data">
                      <div class="two fields">
                         <div class="field margin">
                             <label><?= (isset($visitorData) AND $visitorData->getCvDocumentFilename()) ? 'Příloha - můžete nahrát jiný životopis' : 'Příloha - životopis'; ?></label>
@@ -96,7 +96,7 @@ $email = isset($visitorData) ? $visitorData->getEmail() : ($loginAggregate->getR
                         </div>
                      </div>
                 </form>
-                <form class="ui huge form" action="api/v1/event/uploadvisitorfile" method="POST" enctype="multipart/form-data">
+                <form class="ui huge form" action="event/v1/uploadvisitorfile" method="POST" enctype="multipart/form-data">
                      <div class="two fields">
                         <div class="field margin">
                             <label><?= (isset($visitorData) AND $visitorData->getLetterDocumentFilename()) ? 'Příloha - můžete nahrát jiný motivační dopis' : 'Příloha - motivační dopis'; ?></label>

@@ -70,12 +70,13 @@ class Mail {
          */
         if (self::$logger) {
             if ($result) {
+                $toString = implode(', ', array_map(function($pair) {return implode('|', $pair);}, $to));  // $to je pole polí - pole dvojic hodnot 'adresa' a 'jméno adresáta'
                 $time = (new \DateTime())->format("Y-m-d H:i:s");
                 $decodedSubject = base64_decode(str_replace("=?utf-8?B?", "", $subject));
                 self::$logger->info("[$time] Result: '{result}'.", ['result'=>$result]);
-                self::$logger->info("[$time] Odeslán mail '{subject}' na adresy {to}.", ['subject'=>$decodedSubject, 'to'=>implode(', ', $to)]);
+                self::$logger->info("[$time] Odeslán mail '{subject}' na adresy {to}.", ['subject'=>$decodedSubject, 'to'=>$toString]);
             } else {
-                self::$logger->warning("[$time] Nepodařilo se odeslat mail '{subject}' na adresy {to}.", ['subject'=>$subject, 'to'=>implode(', ', $to)]);
+                self::$logger->warning("[$time] Nepodařilo se odeslat mail '{subject}' na adresy {to}.", ['subject'=>$subject, 'to'=>$toString]);
             }
         }
     }
