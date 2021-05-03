@@ -12,8 +12,8 @@ use Psr\Container\ContainerInterface;   // pro parametr closure function(Contain
 use Pes\Logger\FileLogger;
 
 //user
-use Model\Entity\LoginAggregate;
-use Model\Entity\LoginAggregateCredentialsInterface;
+use Auth\Model\Entity\LoginAggregate;
+use Auth\Model\Entity\LoginAggregateCredentialsInterface;
 
 // database
 use Pes\Database\Handler\{

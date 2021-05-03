@@ -1,5 +1,5 @@
 <?php
-namespace Module\Auth\Middleware\Login\Controller;
+namespace Auth\Middleware\Login\Controller;
 
 use Site\Configuration;
 
@@ -15,17 +15,18 @@ use Pes\Http\Request\RequestParams;
 use Pes\Security\Password\Password;
 
 // model
+use Model\Repository\Exception\UnableAddEntityException;
+
 use Module\Status\Model\Repository\StatusPresentationRepo;
 use Module\Status\Model\Repository\StatusSecurityRepo;
 use Module\Status\Model\Repository\StatusFlashRepo;
-use Model\Repository\LoginAggregateRegistrationRepo;
-use Model\Repository\LoginAggregateCredentialsRepo;
-use Model\Repository\Exception\UnableAddEntityException;
+use Auth\Model\Repository\LoginAggregateRegistrationRepo;
+use Auth\Model\Repository\LoginAggregateCredentialsRepo;
 
-use Model\Entity\Credentials;
-use Model\Entity\LoginAggregateCredentials;
-use Model\Entity\Registration;
-use Model\Entity\LoginAggregateRegistration;
+use Auth\Model\Entity\Credentials;
+use Auth\Model\Entity\LoginAggregateCredentials;
+use Auth\Model\Entity\Registration;
+use Auth\Model\Entity\LoginAggregateRegistration;
 /**
  * Description of PostController
  *
@@ -174,7 +175,7 @@ class RegistrationController extends LoginControllerAbstract
                         $mail = $this->container->get(Mail::class);
                         /** @var HtmlMessage $mailMessageFactory */
                         $mailMessageFactory = $this->container->get(HtmlMessage::class);
-                        
+
                         $subject =  'Veletrh práce a vzdělávání - Registrace zástupce vystavovatele.';
                         $body = $mailMessageFactory->create(__DIR__."/Messages/registrationexhib.php",
                                                             ['registerJmeno' => $registerJmeno,

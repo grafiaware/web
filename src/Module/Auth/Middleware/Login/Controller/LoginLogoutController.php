@@ -6,25 +6,26 @@
  * and open the template in the editor.
  */
 
-namespace Module\Auth\Middleware\Login\Controller;
+namespace Auth\Middleware\Login\Controller;
 
 use Site\Configuration;
 
 use Psr\Http\Message\ServerRequestInterface;
 
 use Pes\Http\Request\RequestParams;
-use Security\Auth\AuthenticatorInterface;
 use Pes\Security\Password\Password;
+
+use Auth\Authenticator\AuthenticatorInterface;
 
 // model
 use Module\Status\Model\Repository\StatusPresentationRepo;
 use Module\Status\Model\Repository\StatusSecurityRepo;
 use Module\Status\Model\Repository\StatusFlashRepo;
-use Model\Repository\CredentialsRepo;
-use Model\Repository\LoginAggregateFullRepo;
+use Auth\Model\Repository\CredentialsRepo;
+use Auth\Model\Repository\LoginAggregateFullRepo;
 
-use Model\Entity\Credentials;
-use Model\Entity\LoginAggregateFull;
+use Auth\Model\Entity\Credentials;
+use Auth\Model\Entity\LoginAggregateFull;
 
 /**
  * Description of PostController

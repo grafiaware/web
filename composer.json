@@ -19,8 +19,9 @@
     "autoload": {
         "psr-4": {
             "Site\\": "app/Site",
-            "Test\\": "tests",
+            "Auth\\": "src/Module/Auth",
             "Events\\": "src/Module/Events",
+            "Test\\": "tests",
             "" : "src"
         }
     }

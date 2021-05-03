@@ -1,6 +1,6 @@
 <?php
 
-namespace Module\Auth\Middleware\Logged\Service;
+namespace Auth\Middleware\Logged\Service;
 
 use Pes\Application\AppInterface;
 use Module\Status\Model\Repository\StatusSecurityRepo;

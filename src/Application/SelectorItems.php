@@ -11,9 +11,9 @@ namespace Application;
 use Pes\Application\AppInterface;
 use Pes\Middleware\SelectorInterface;
 
-use Module\Auth\Middleware\Login\Login;
-use Module\Auth\Middleware\Logged\LoggedAccess;
-use Module\Auth\Middleware\Logged\Service\LoggedAccessor;
+use Auth\Middleware\Login\Login;
+use Auth\Middleware\Logged\LoggedAccess;
+use Auth\Middleware\Logged\Service\LoggedAccessor;
 
 use Module\ResponseTime\Middleware\ResponseTime;
 

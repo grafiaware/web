@@ -11,30 +11,30 @@ use Psr\Container\ContainerInterface;   // pro parametr closure function(Contain
 use Pes\Logger\FileLogger;
 
 // user - ze session
-use Model\Entity\Credentials;
+use Auth\Model\Entity\Credentials;
 
 //login & credentials - db
-use Model\Dao\CredentialsDao;
-use Model\Hydrator\CredentialsHydrator;
-use Model\Repository\CredentialsRepo;
+use Auth\Model\Dao\CredentialsDao;
+use Auth\Model\Hydrator\CredentialsHydrator;
+use Auth\Model\Repository\CredentialsRepo;
 
-use Model\Dao\LoginDao;
-use Model\Hydrator\LoginHydrator;
-use Model\Repository\LoginRepo;
-use Model\Hydrator\LoginChildCredentialsHydrator;
-use Model\Repository\LoginAggregateCredentialsRepo;
+use Auth\Model\Dao\LoginDao;
+use Auth\Model\Hydrator\LoginHydrator;
+use Auth\Model\Repository\LoginRepo;
+use Auth\Model\Hydrator\LoginChildCredentialsHydrator;
+use Auth\Model\Repository\LoginAggregateCredentialsRepo;
 
-use Model\Dao\RegistrationDao;
-use Model\Hydrator\RegistrationHydrator;
-use Model\Repository\RegistrationRepo;
-use Model\Hydrator\LoginChildRegistrationHydrator;
-use Model\Repository\LoginAggregateRegistrationRepo;
+use Auth\Model\Dao\RegistrationDao;
+use Auth\Model\Hydrator\RegistrationHydrator;
+use Auth\Model\Repository\RegistrationRepo;
+use Auth\Model\Hydrator\LoginChildRegistrationHydrator;
+use Auth\Model\Repository\LoginAggregateRegistrationRepo;
 
-use Model\Repository\LoginAggregateFullRepo;
+use Auth\Model\Repository\LoginAggregateFullRepo;
 
-use Model\Dao\LoginAggregateReadonlyDao;
-use Model\Hydrator\LoginAggregateHydrator;
-use Model\Repository\LoginAggregateReadonlyRepo;
+use Auth\Model\Dao\LoginAggregateReadonlyDao;
+use Auth\Model\Hydrator\LoginAggregateHydrator;
+use Auth\Model\Repository\LoginAggregateReadonlyRepo;
 
 // database
 use Pes\Database\Handler\Account;
@@ -49,15 +49,15 @@ use Pes\Database\Handler\HandlerInterface;
 
 
 // controller
-use Module\Auth\Middleware\Login\Controller\LoginLogoutController;
-use Module\Auth\Middleware\Login\Controller\RegistrationController;
-use Module\Auth\Middleware\Login\Controller\ConfirmController;
-use Module\Auth\Middleware\Login\Controller\PasswordController;
+use Auth\Middleware\Login\Controller\LoginLogoutController;
+use Auth\Middleware\Login\Controller\RegistrationController;
+use Auth\Middleware\Login\Controller\ConfirmController;
+use Auth\Middleware\Login\Controller\PasswordController;
 
 // authenticator
-use Security\Auth\AuthenticatorInterface;
-use Security\Auth\DbAuthenticator;
-use Security\Auth\DbHashAuthenticator;
+use Auth\Authenticator\AuthenticatorInterface;
+use Auth\Authenticator\DbAuthenticator;
+use Auth\Authenticator\DbHashAuthenticator;
 
 // repo
 use Module\Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};

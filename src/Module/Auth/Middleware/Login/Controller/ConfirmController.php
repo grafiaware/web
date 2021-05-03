@@ -1,6 +1,6 @@
 <?php
 
-namespace Module\Auth\Middleware\Login\Controller;
+namespace Auth\Middleware\Login\Controller;
 
 use Site\Configuration;
 
@@ -12,21 +12,23 @@ use Mail\Params\{Content, Attachment, Party};
 use Psr\Http\Message\ServerRequestInterface;
 
 use Pes\Http\Request\RequestParams;
-use Security\Auth\AuthenticatorInterface;
 use Pes\Security\Password\Password;
+
+use Auth\Authenticator\AuthenticatorInterface;
 
 // model
 use Module\Status\Model\Repository\StatusPresentationRepo;
 use Module\Status\Model\Repository\StatusSecurityRepo;
 use Module\Status\Model\Repository\StatusFlashRepo;
-use Model\Repository\RegistrationRepo;
-use Model\Repository\LoginAggregateCredentialsRepo;
-use Model\Repository\Exception\UnableAddEntityException;
 
-use Model\Entity\Credentials;
-use Model\Entity\LoginAggregateCredentials;
-use Model\Entity\Registration;
-use Model\Entity\LoginAggregateRegistration;
+use Auth\Model\Repository\RegistrationRepo;
+use Auth\Model\Repository\LoginAggregateCredentialsRepo;
+use Auth\Model\Repository\Exception\UnableAddEntityException;
+
+use Auth\Model\Entity\Credentials;
+use Auth\Model\Entity\LoginAggregateCredentials;
+use Auth\Model\Entity\Registration;
+use Auth\Model\Entity\LoginAggregateRegistration;
 /**
  * Description of PostController
  *

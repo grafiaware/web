@@ -1,6 +1,6 @@
 <?php
 
-namespace Module\Auth\Middleware\Logged\Service;
+namespace Auth\Middleware\Logged\Service;
 
 /**
  *

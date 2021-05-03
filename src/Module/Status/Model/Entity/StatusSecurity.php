@@ -10,7 +10,8 @@ namespace Module\Status\Model\Entity;
 
 use Model\Entity\EntityAbstract;
 
-use Model\Entity\LoginAggregateFullInterface;
+use Auth\Model\Entity\LoginAggregateFullInterface;
+
 use Model\Entity\UserActionsInterface;
 use Model\Entity\UserActions;
 

@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Module\Auth\Middleware\Login\Controller;
+namespace Auth\Middleware\Login\Controller;
 
 // controller
 use FrontController\PresentationFrontControllerAbstract;

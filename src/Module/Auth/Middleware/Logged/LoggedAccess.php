@@ -1,5 +1,5 @@
 <?php
-namespace Module\Auth\Middleware\Logged;
+namespace Auth\Middleware\Logged;
 
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -10,7 +10,7 @@ use Pes\Http\Headers;
 use Pes\Http\Factory\BodyFactory;
 use Pes\Http\Response;
 
-use Module\Auth\Middleware\Logged\Service\AccessorInterface;
+use Auth\Middleware\Logged\Service\AccessorInterface;
 
 class LoggedAccess implements MiddlewareInterface {
 

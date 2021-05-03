@@ -1,6 +1,6 @@
 <?php
 
-namespace Module\Auth\Middleware\Login\Controller;
+namespace Auth\Middleware\Login\Controller;
 
 use Site\Configuration;
 

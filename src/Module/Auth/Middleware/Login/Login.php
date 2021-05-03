@@ -1,10 +1,10 @@
 <?php
-namespace Module\Auth\Middleware\Login;
+namespace Auth\Middleware\Login;
 
-use Module\Auth\Middleware\Login\Controller\LoginLogoutController;
-use Module\Auth\Middleware\Login\Controller\RegistrationController;
-use Module\Auth\Middleware\Login\Controller\ConfirmController;
-use Module\Auth\Middleware\Login\Controller\PasswordController;
+use Auth\Middleware\Login\Controller\LoginLogoutController;
+use Auth\Middleware\Login\Controller\RegistrationController;
+use Auth\Middleware\Login\Controller\ConfirmController;
+use Auth\Middleware\Login\Controller\PasswordController;
 
 use Pes\Middleware\AppMiddlewareAbstract;
 use Pes\Container\Container;
