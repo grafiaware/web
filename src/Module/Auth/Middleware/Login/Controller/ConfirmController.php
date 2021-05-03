@@ -11,10 +11,7 @@ use Mail\Params\{Content, Attachment, Party};
 
 use Psr\Http\Message\ServerRequestInterface;
 
-use Pes\Http\Request\RequestParams;
 use Pes\Security\Password\Password;
-
-use Auth\Authenticator\AuthenticatorInterface;
 
 // model
 use Module\Status\Model\Repository\StatusPresentationRepo;
@@ -23,14 +20,13 @@ use Module\Status\Model\Repository\StatusFlashRepo;
 
 use Auth\Model\Repository\RegistrationRepo;
 use Auth\Model\Repository\LoginAggregateCredentialsRepo;
-use Auth\Model\Repository\Exception\UnableAddEntityException;
 
 use Auth\Model\Entity\Credentials;
 use Auth\Model\Entity\LoginAggregateCredentials;
 use Auth\Model\Entity\Registration;
-use Auth\Model\Entity\LoginAggregateRegistration;
+
 /**
- * Description of PostController
+ * Description of ConfirmController
  *
  * @author pes2704
  */
@@ -55,7 +51,6 @@ class ConfirmController extends LoginControllerAbstract
                 StatusSecurityRepo $statusSecurityRepo,
                    StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
-         ResourceRegistryInterface $resourceRegistry=null,
      LoginAggregateCredentialsRepo $loginAggregateCredentialsRepo,
                   RegistrationRepo $registrationRepo )
     {

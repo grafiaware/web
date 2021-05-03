@@ -182,7 +182,6 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
                     $c->get(StatusSecurityRepo::class),
                     $c->get(StatusFlashRepo::class),
                     $c->get(StatusPresentationRepo::class),
-                        null,
                     $c->get(LoginAggregateFullRepo::class),
                     $c->get(AuthenticatorInterface::class))
                     )->injectContainer($c);  // inject component kontejner
@@ -193,7 +192,6 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
                     $c->get(StatusSecurityRepo::class),
                     $c->get(StatusFlashRepo::class),
                     $c->get(StatusPresentationRepo::class),
-                        null,
                     $c->get(LoginAggregateRegistrationRepo::class))
                     )->injectContainer($c);  // inject component kontejner
                     ;
@@ -203,7 +201,6 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
                     $c->get(StatusSecurityRepo::class),
                     $c->get(StatusFlashRepo::class),
                     $c->get(StatusPresentationRepo::class),
-                        null,
                     $c->get(LoginAggregateCredentialsRepo::class),
                     $c->get(RegistrationRepo::class))
                     )->injectContainer($c);  // inject component kontejner
@@ -214,7 +211,6 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
                     $c->get(StatusSecurityRepo::class),
                     $c->get(StatusFlashRepo::class),
                     $c->get(StatusPresentationRepo::class),
-                        null,
                     $c->get(LoginAggregateCredentialsRepo::class),
                     $c->get(LoginAggregateRegistrationRepo::class))
                     )->injectContainer($c);  // inject component kontejner

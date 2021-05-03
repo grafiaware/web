@@ -45,7 +45,6 @@ class LoginLogoutController extends LoginControllerAbstract {
                         StatusSecurityRepo $statusSecurityRepo,
                            StatusFlashRepo $statusFlashRepo,
                     StatusPresentationRepo $statusPresentationRepo,
-            ResourceRegistryInterface $resourceRegistry=null,
             LoginAggregateFullRepo $loginAggregateFullRepo,
                     AuthenticatorInterface $authenticator) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);

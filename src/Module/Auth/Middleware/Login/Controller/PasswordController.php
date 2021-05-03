@@ -39,7 +39,6 @@ class PasswordController extends LoginControllerAbstract {
                         StatusSecurityRepo $statusSecurityRepo,
                            StatusFlashRepo $statusFlashRepo,
                     StatusPresentationRepo $statusPresentationRepo,
-                 ResourceRegistryInterface $resourceRegistry=null,
              LoginAggregateCredentialsRepo $loginAggregateCredentialRepo,
             LoginAggregateRegistrationRepo $loginAggregateRegistrationRepo)
     {
@@ -82,7 +81,7 @@ class PasswordController extends LoginControllerAbstract {
                         $mail = $this->container->get(Mail::class);
                         /** @var HtmlMessage $mailMessageFactory */
                         $mailMessageFactory = $this->container->get(HtmlMessage::class);
-                        
+
                         $subject =  'Veletrh práce a vzdělávání - Nové heslo.';
                         $body = $mailMessageFactory->create(__DIR__."/Messages/forgottenpassword.php",
                                                             ['loginJmeno'=>$loginJmeno,

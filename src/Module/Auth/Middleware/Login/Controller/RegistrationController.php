@@ -47,7 +47,6 @@ class RegistrationController extends LoginControllerAbstract
                 StatusSecurityRepo $statusSecurityRepo,
                    StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
-         ResourceRegistryInterface $resourceRegistry=null,
     LoginAggregateRegistrationRepo $loginAggregateRegistrationRepo )
     {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
