@@ -8,8 +8,11 @@ use Psr\Http\Message\ServerRequestInterface;
 
 use Model\Dao\Hierarchy\HierarchyAggregateEditDao;
 
+use Module\Status\Model\Repository\{
+    StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo
+};
 use Model\Repository\{
-    StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo, MenuRootRepo
+    MenuRootRepo
 };
 
 /**

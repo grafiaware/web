@@ -18,9 +18,13 @@ use Pes\Http\Response;
 use Pes\Http\Response\RedirectResponse;
 use Psr\Http\Message\ResponseInterface;
 
-use Model\Repository\{
-    StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo, PaperContentRepo
+use Module\Status\Model\Repository\{
+    StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo
 };
+use Model\Repository\{
+    PaperContentRepo
+};
+
 use \Model\Entity\PaperContentInterface;
 use Model\Entity\PaperContent;
 

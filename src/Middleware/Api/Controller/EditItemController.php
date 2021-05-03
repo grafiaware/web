@@ -12,10 +12,12 @@ use Pes\Http\Response;
 use \Model\Entity\MenuItemInterface;
 use GeneratorService\ContentGeneratorRegistryInterface;
 
-use Model\Repository\{
-    StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo, MenuItemRepo
+use Module\Status\Model\Repository\{
+    StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo
 };
-
+use Model\Repository\{
+    MenuItemRepo
+};
 
 /**
  * Description of Controller

@@ -17,8 +17,11 @@ use Pes\Http\Request\RequestParams;
 use Pes\Http\Response;
 use Pes\Http\Response\RedirectResponse;
 
+use Module\Status\Model\Repository\{
+    StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo
+};
 use Model\Repository\{
-    StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo, LanguageRepo, MenuItemRepo
+    LanguageRepo, MenuItemRepo
 };
 
 use Middleware\Api\Controller\Exception\UnexpectedLanguageException;
