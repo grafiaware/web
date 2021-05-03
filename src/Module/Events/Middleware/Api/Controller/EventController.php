@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Module\Events\Middleware\Api\Controller;
+namespace Events\Middleware\Api\Controller;
 
 use FrontController\PresentationFrontControllerAbstract;
 

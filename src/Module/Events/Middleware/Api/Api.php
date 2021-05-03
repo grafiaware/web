@@ -1,5 +1,5 @@
 <?php
-namespace Module\Events\Middleware\Api;
+namespace Events\Middleware\Api;
 
 use Pes\Middleware\AppMiddlewareAbstract;
 use Pes\Container\Container;

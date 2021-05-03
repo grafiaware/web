@@ -122,7 +122,7 @@ class SelectorItems {
                     new Login(),
                     new FlashStatus(),
                     new PresentationStatus(),
-                    new \Module\Events\Middleware\Api\Api()
+                    new \Events\Middleware\Api\Api()
                 ];},
             '/sendmail'=>
             function() {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Module\Events\Middleware\Api\Controller;
+namespace Events\Middleware\Api\Controller;
 
 use Site\Configuration;
 
