@@ -94,7 +94,7 @@ var editorFunction = function (editor) {
         if (editor.isDirty()) {
             if (confirm("Zahodit změny?")) {
                 editor.reset();
-    //                editor.setContent(val);
+                editor.setContent(val);
                 editor.save();
             } else {
                 editor.save();
@@ -244,25 +244,25 @@ var file_picker_callback_function = function (cb, value, meta) {
     */
 
     input.onchange = function () {
-      var file = this.files[0];
+        var file = this.files[0];
 
-      var reader = new FileReader();
-      reader.onload = function () {
-        /*
-          Note: Now we need to register the blob in TinyMCEs image blob
-          registry. In the next release this part hopefully won't be
-          necessary, as we are looking to handle it internally.
-        */
-        var id = 'blobid' + (new Date()).getTime();
-        var blobCache =  tinymce.activeEditor.editorUpload.blobCache;
-        var base64 = reader.result.split(',')[1];
-        var blobInfo = blobCache.create(id, file, base64);
-        blobCache.add(blobInfo);
+        var reader = new FileReader();
+        reader.onload = function () {
+            /*
+              Note: Now we need to register the blob in TinyMCEs image blob
+              registry. In the next release this part hopefully won't be
+              necessary, as we are looking to handle it internally.
+            */
+            var id = 'blobid' + (new Date()).getTime();
+            var blobCache =  tinymce.activeEditor.editorUpload.blobCache;
+            var base64 = reader.result.split(',')[1];
+            var blobInfo = blobCache.create(id, file, base64);
+            blobCache.add(blobInfo);
 
-        /* call the callback and populate the Title field with the file name */
-        cb(blobInfo.blobUri(), { title: file.name });
-      };
-      reader.readAsDataURL(file);
+            /* call the callback and populate the Title field with the file name */
+            cb(blobInfo.blobUri(), { title: file.name });
+          };
+        reader.readAsDataURL(file);
     };
 
     input.click();
@@ -342,42 +342,6 @@ var perexConfig = {
     extended_valid_elements: ['i[*]', 'perex'],
     custom_elements: 'perex',
     valid_children: '+a[div]',
-    link_title: false,
-    noneditable_editable_class: 'mceEditable',
-    noneditable_noneditable_class: 'mceNonEditable',
-    language : tinyConfig.toolbarsLang,
-    document_base_url : tinyConfig.basePath,
-    content_css: tinyConfig.contentCss,
-
-    menubar: false,
-    inline: true,
-
-    plugins: plugins_paper,
-    templates: templates_paper,
-    toolbar1: toolbar1,
-    toolbar2: toolbar2,
-    imagetools_toolbar: imagetools_toolbar,
-    link_class_list: linkClassList,
-    /* enable title field in the Image dialog*/
-    image_title: true,
-    /* enable automatic uploads of images represented by blob or data URIs*/
-    automatic_uploads: true,
-    /* URL of our upload handler (for more details check: https://www.tiny.cloud/docs/configure/file-image-upload/#images_upload_url) */
-    images_upload_url: 'api/v1/upload/editorimages',
-    images_reuse_filename: true,
-    /* here we add custom filepicker only to Image dialog */
-    file_picker_types: 'image',
-    /* and here's our custom image picker*/
-    file_picker_callback: file_picker_callback_function,
-    setup: editorFunction
-};
-var divConfig = {
-    selector: 'main form div', //libovolný div
-    schema : 'html5',
-    placeholder: 'Vyplňte obsah',
-    relative_urls: true,
-    valid_children: '+a[div]',
-    extended_valid_elements: '+i[*]',
     link_title: false,
     noneditable_editable_class: 'mceEditable',
     noneditable_noneditable_class: 'mceNonEditable',

@@ -4,10 +4,10 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 
 use Site\Configuration;
 
-use Model\Entity\LoginAggregateFullInterface;
-use Model\Repository\EnrollRepo;
+use Auth\Model\Entity\LoginAggregateFullInterface;
+use Events\Model\Repository\EnrollRepo;
 use Module\Status\Model\Repository\StatusSecurityRepo;
-use Model\Repository\VisitorDataRepo;
+use Events\Model\Repository\VisitorDataRepo;
 
 use Pes\Text\Html;
 use Pes\Text\Text;

@@ -248,31 +248,7 @@ class Api extends AppMiddlewareAbstract implements MiddlewareInterface {
             return $ctrl->uploadEditorImages($request);
         });
 
-        $routeGenerator->addRouteForAction('POST', "/event/v1/enroll", function(ServerRequestInterface $request) {
-            /** @var EventController $ctrl */
-            $ctrl = $this->container->get(EventController::class);
-            return $ctrl->enroll($request);
-        });
-        $routeGenerator->addRouteForAction('POST', '/event/v1/visitor', function(ServerRequestInterface $request) {
-            /** @var VisitorDataController $ctrl */
-            $ctrl = $this->container->get(VisitorDataController::class);
-            return $ctrl->visitor($request);
-        });
-        $routeGenerator->addRouteForAction('POST', '/event/v1/uploadvisitorfile', function(ServerRequestInterface $request) {
-            /** @var VisitorDataController $ctrl */
-            $ctrl = $this->container->get(VisitorDataController::class);
-            return $ctrl->uploadTxtDocuments($request);
-        });
-        $routeGenerator->addRouteForAction('POST', '/event/v1/visitorpost', function(ServerRequestInterface $request) {
-            /** @var VisitorDataController $ctrl */
-            $ctrl = $this->container->get(VisitorDataController::class);
-            return $ctrl->postVisitorData($request);
-        });
-        $routeGenerator->addRouteForAction('POST', '/event/v1/sendvisitorpost', function(ServerRequestInterface $request) {
-            /** @var VisitorDataController $ctrl */
-            $ctrl = $this->container->get(VisitorDataController::class);
-            return $ctrl->sendVisitorDataPost($request);
-        });
+
 ####################################
         /** @var $router RouterInterface */
         $router = $this->container->get(RouterInterface::class);
