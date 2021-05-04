@@ -17,7 +17,7 @@ $modalAtributy = [
     "class"=> ["ui tiny longer", "modal"]
 ];
 
-$monitor_ref = '/assets/monitor-stanek.jpg';
+$monitor_ref = '/movies/monitor-stanek.jpg';
 $video_MP4_ref = '/movies/video-stanek-MP4.mp4';
 $video_WEBM_ref = '/movies/video-stanek-WEBM.mp4';
 $stanek_ref = '/assets/stanek.png';

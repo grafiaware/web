@@ -37,7 +37,7 @@ class ConfigurationStyles extends ConfigurationRed {
                             'li.dropdown' => 'item',
                             'li.leaf' => 'item leaf',
                             'li.presented' => 'presented',
-                            'li a span' => 'text',
+                            'li a span' => '',
                             'li i.dropdown' => 'dropdown icon',
                             'li a' => '',
                             'li i' => '',

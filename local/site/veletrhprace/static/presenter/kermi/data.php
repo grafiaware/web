@@ -17,7 +17,7 @@ $shortName = 'kermi';
 ############################
 
 
-$monitorFilename = Configuration::files()['presenter'].$shortName.'/assets/monitor-stanek.jpg';
+$monitorFilename = Configuration::files()['presenter'].$shortName.'/movies/monitor-stanek.jpg';
 $monitorIsReadable = is_readable($monitorFilename);
 $videoMp4Filename = Configuration::files()['presenter'].$shortName.'/movies/video-stanek-MP4.mp4';
 $videoMp4IsReadable = is_readable($videoMp4Filename);

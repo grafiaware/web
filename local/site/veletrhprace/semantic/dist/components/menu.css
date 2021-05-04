@@ -2317,5 +2317,5 @@ Floated Menu / Item
 .kos .ui.vertical.menu.massive a,
 .kos .ui.vertical.menu.massive p {
   font-size: 1.8rem !important;
-  padding: 0.6em 1.3em;
+  padding: 0 1.3em;
 }
