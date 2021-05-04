@@ -16,6 +16,9 @@ function replaceElement(id, apiUri){
             // náhrada innerHtml:
             document.getElementById(id).innerHTML = xhr.responseText;
 
+// zobrazení  modálního kna po kliknutí button
+//            $('#id_modal_element').modal('attach events', '.class_button', 'show');
+            
             $('#modal_12').modal('attach events', '.btn-12', 'show');
             $('#modal_15').modal('attach events', '.btn-fb', 'show');
             $('#modal_16').modal('attach events', '.btn-ig', 'show');
@@ -26,7 +29,7 @@ function replaceElement(id, apiUri){
             $('#modal_56').modal('attach events', '.btn-56', 'show');
             $('#modal_333').modal('attach events', '.btn-333', 'show');
 
-            //semantic-ui popup (použitý např. ikony v online-stáncích)
+            //semantic-ui popup "bublina" (použitý např. ikony v online-stáncích)
             $('.popup.icon').popup();
 
             //semantic-ui accordion (použitý např. pro výpis informací v profilu přihlášeného uživatele)
