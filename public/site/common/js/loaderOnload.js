@@ -18,7 +18,7 @@ function replaceElement(id, apiUri){
 
 // zobrazení  modálního kna po kliknutí button
 //            $('#id_modal_element').modal('attach events', '.class_button', 'show');
-            
+
             $('#modal_12').modal('attach events', '.btn-12', 'show');
             $('#modal_15').modal('attach events', '.btn-fb', 'show');
             $('#modal_16').modal('attach events', '.btn-ig', 'show');
@@ -91,7 +91,7 @@ function replaceElement(id, apiUri){
                 loadCounter += 1;
 
                 if (loadCounter === 2) {
-                    var ramDokument = ram.contentDocument || ram.contentWindow.document;
+                    var ramDokument = ram.contentDocument || ra+m.contentWindow.document;
                     ram.style.height = ramDokument.documentElement.scrollHeight + "px";
                 }
             };

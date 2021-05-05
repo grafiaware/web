@@ -393,7 +393,7 @@ class VisitorDataController extends StatusFrontControllerAbstract {
                 $flashMessage = "Uloženo $size bytů.";
                 $this->addFlashMessage($flashMessage);
 
-//            $targetFilename = Configuration::filesUploadController()['uploads.events.visitor'].self::UPLOADED_FOLDER.$item->getLangCodeFk()."_".$item->getId()."-".$file->getClientFilename();
+//            $targetFilename = Configuration::filesUploadController()['upload.events.visitor'].self::UPLOADED_FOLDER.$item->getLangCodeFk()."_".$item->getId()."-".$file->getClientFilename();
 //            $file->moveTo($targetFilename);
                 $response = $this->redirectSeeLastGet($request);
             } else {
@@ -481,7 +481,7 @@ class VisitorDataController extends StatusFrontControllerAbstract {
 //            $this->addFlashMessage("Chybné kméno souboru.");
 ////                header("HTTP/1.1 400 Invalid file name.");
 //        } else
-            if (array_search(pathinfo($clientFileName,  PATHINFO_EXTENSION ), Configuration::filesUploadController()['uploads.acceptedextensions'])) {
+            if (array_search(pathinfo($clientFileName,  PATHINFO_EXTENSION ), Configuration::filesUploadController()['upload.events.acceptedextensions'])) {
             $response = (new ResponseFactory())->createResponse();
             $response = $response->withStatus(400, "Bad Request. Invalid file extesion.");
             $this->addFlashMessage("Chybná přípona souboru.");

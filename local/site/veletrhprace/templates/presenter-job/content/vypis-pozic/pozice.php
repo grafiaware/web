@@ -72,7 +72,7 @@ if (isset($loginAggregate)) {
         // formulář
         // unikátní jména souborů pro upload
         $userHash = $loginAggregate->getLoginNameHash();
-        $accept = implode(", ", Configuration::filesUploadController()['uploads.acceptedextensions']);
+        $accept = implode(", ", Configuration::filesUploadController()['upload.events.acceptedextensions']);
         $uploadedCvFilename = VisitorDataController::UPLOADED_KEY_CV.$userHash;
         $uploadedLetterFilename = VisitorDataController::UPLOADED_KEY_LETTER.$userHash;
 

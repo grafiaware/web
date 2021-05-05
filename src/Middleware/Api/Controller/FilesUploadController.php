@@ -34,9 +34,11 @@ class FilesUploadController extends FilesUploadControllerAbstract {
         $size = 0;
         $item = $this->statusPresentationRepo->get()->getMenuItem();
 
-        $targetFilename = Configuration::filesUploadController()['uploads.editor']."item_".$item->getId()."-".$file->getClientFilename();
+        $targetFilename = Configuration::filesUploadController()['upload.red']."item_".$item->getId()."-".$file->getClientFilename();
         $file->moveTo($targetFilename);
-        $json = json_encode(array('location' => $targetFilename));  // toto jméno použije timyMCE pro změnu url obrázku ve výsledném html
+        // response pro TinyMCE - musí obsahovat json s informací u cestě a jménu uloženého souboru
+        // hodnotu v json položce 'location' použije timyMCE pro změnu url obrázku ve výsledném html
+        $json = json_encode(array('location' => $targetFilename));  //
         return $this->createResponseFromString($request, $json);
 
     }
@@ -63,7 +65,7 @@ class FilesUploadController extends FilesUploadControllerAbstract {
         $size = 0;
         $item = $this->statusPresentationRepo->get()->getMenuItem();
 
-        $targetFilename = Configuration::filesUploadController()['uploads.events.visitor'].$item->getLangCodeFk()."_".$item->getId()."-".$file->getClientFilename();
+        $targetFilename = Configuration::filesUploadController()['upload.events.visitor'].$item->getLangCodeFk()."_".$item->getId()."-".$file->getClientFilename();
         $file->moveTo($targetFilename);
         $json = json_encode(array('location' => $targetFilename));  // toto jméno použije timyMCE pro změnu url obrázku ve výsledném html
         return $this->createResponseFromString($request, $json);

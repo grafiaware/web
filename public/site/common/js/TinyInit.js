@@ -108,45 +108,45 @@ var editorFunction = function (editor) {
 
 };  // editorFunction
 /////////////////////////////////
-    //maxCharsFunction
-    var maxCharsFunction = function (ed) {
-        var allowedKeys = [8, 13, 16, 17, 18, 20, 33, 34, 35, 36, 37, 38, 39, 40, 46];
-        ed.on('keydown', function (e) {
-            if (allowedKeys.indexOf(e.keyCode) != -1) return true;
-            if (tinymce_getContentLength() + 1 > this.settings.max_chars) {
-                e.preventDefault();
-                e.stopPropagation();
-                return false;
-            }
-            return true;
-        });
-        ed.on('keyup', function (e) {
-            tinymce_updateCharCounter(this, tinymce_getContentLength());
-        });
-    };
-
-    var init_instance_callback_function = function () { // initialize counter div
-        $('#' + this.id).prev().append('<div class="char_count" style="text-align:right; float: right"></div>');
-        tinymce_updateCharCounter(this, tinymce_getContentLength());
-    };
-
-    var paste_preprocess_function = function (plugin, args) {
-        var editor = tinymce.get(tinymce.activeEditor.id);
-        var len = editor.contentDocument.body.innerText.length;
-        if (len + args.content.length > editor.settings.max_chars) {
-            alert('Pasting this exceeds the maximum allowed number of ' + editor.settings.max_chars + ' characters for the input.');
-            args.content = '';
+//maxCharsFunction
+var maxCharsFunction = function (ed) {
+    var allowedKeys = [8, 13, 16, 17, 18, 20, 33, 34, 35, 36, 37, 38, 39, 40, 46];
+    ed.on('keydown', function (e) {
+        if (allowedKeys.indexOf(e.keyCode) != -1) return true;
+        if (tinymce_getContentLength() + 1 > this.settings.max_chars) {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
         }
-        tinymce_updateCharCounter(editor, len + args.content.length);
-    };
+        return true;
+    });
+    ed.on('keyup', function (e) {
+        tinymce_updateCharCounter(this, tinymce_getContentLength());
+    });
+};
 
-    function tinymce_updateCharCounter(el, len) {
-        $('#' + el.id).prev().find('.char_count').text(len + '/' + el.settings.max_chars);
-    }
+var init_instance_callback_function = function () { // initialize counter div
+    $('#' + this.id).prev().append('<div class="char_count" style="text-align:right; float: right"></div>');
+    tinymce_updateCharCounter(this, tinymce_getContentLength());
+};
 
-    function tinymce_getContentLength() {
-        return tinymce.get(tinymce.activeEditor.id).contentDocument.body.innerText.length;
+var paste_preprocess_function = function (plugin, args) {
+    var editor = tinymce.get(tinymce.activeEditor.id);
+    var len = editor.contentDocument.body.innerText.length;
+    if (len + args.content.length > editor.settings.max_chars) {
+        alert('Pasting this exceeds the maximum allowed number of ' + editor.settings.max_chars + ' characters for the input.');
+        args.content = '';
     }
+    tinymce_updateCharCounter(editor, len + args.content.length);
+};
+
+function tinymce_updateCharCounter(el, len) {
+    $('#' + el.id).prev().find('.char_count').text(len + '/' + el.settings.max_chars);
+}
+
+function tinymce_getContentLength() {
+    return tinymce.get(tinymce.activeEditor.id).contentDocument.body.innerText.length;
+}
 
 
 /////////////////////////////////
@@ -255,7 +255,7 @@ var file_picker_callback_function = function (cb, value, meta) {
             */
             var id = 'blobid' + (new Date()).getTime();
             var blobCache =  tinymce.activeEditor.editorUpload.blobCache;
-            var base64 = reader.result.split(',')[1];
+            var base64 = reader.result.split(',')[1];  // reader.result konveruje image na base64 string
             var blobInfo = blobCache.create(id, file, base64);
             blobCache.add(blobInfo);
 
@@ -323,14 +323,16 @@ var contentConfig = {
     /* enable title field in the Image dialog*/
     image_title: true,
     /* enable automatic uploads of images represented by blob or data URIs*/
-    automatic_uploads: true,
+//    automatic_uploads: true,
     /* URL of our upload handler (for more details check: https://www.tiny.cloud/docs/configure/file-image-upload/#images_upload_url) */
+//    na tuto adresu odesílá tiny POST requesty - pro každý obrázek jeden request (tedy request s jedním obrázkem)
+// odesílá při každém volání editor.uploadImages() nebo automaticky, pokud je povoleno automatic_uploads option
     images_upload_url: 'api/v1/upload/editorimages',
-    images_reuse_filename: true,
+//    images_reuse_filename: true,
     /* here we add custom filepicker only to Image dialog */
     file_picker_types: 'image media',
     /* and here's our custom image picker*/
-    file_picker_callback: file_picker_callback_function,
+//    file_picker_callback: file_picker_callback_function,
     setup: editorFunction
 };
 
@@ -361,14 +363,14 @@ var perexConfig = {
     /* enable title field in the Image dialog*/
     image_title: true,
     /* enable automatic uploads of images represented by blob or data URIs*/
-    automatic_uploads: true,
+//    automatic_uploads: true,
     /* URL of our upload handler (for more details check: https://www.tiny.cloud/docs/configure/file-image-upload/#images_upload_url) */
     images_upload_url: 'api/v1/upload/editorimages',
-    images_reuse_filename: true,
+//    images_reuse_filename: true,
     /* here we add custom filepicker only to Image dialog */
     file_picker_types: 'image',
     /* and here's our custom image picker*/
-    file_picker_callback: file_picker_callback_function,
+//    file_picker_callback: file_picker_callback_function,
     setup: editorFunction
 };
 
