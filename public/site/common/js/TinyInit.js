@@ -83,7 +83,7 @@ var editorFunction = function (editor) {
     // ################################
 
     var form;
-    //    var val;
+        var val;
 
     editor.on('focus', function(e) {
         val = editor.getContent();
@@ -93,12 +93,13 @@ var editorFunction = function (editor) {
     editor.on('blur', function(e) {
         if (editor.isDirty()) {
             if (confirm("Zahodit změny?")) {
-                editor.reset();
-                editor.setContent(val);
+                editor.resetContent();
+//                editor.setContent(val);
                 editor.save();
             } else {
-                editor.save();
-                form.submit();
+//                editor.save();
+//                form.submit();
+                    editor.focus();
             }
         }
     //        if(val!=editor.getContent()){
@@ -220,7 +221,8 @@ var mobile = {
 var imagetools_toolbar = 'editimage | rotateleft rotateright | flipv fliph | imageoptions';
 
 /////////////////////////////////////////
-
+// funkce vytvoří v dialogu file picker (Vložit/upravit obrázek) tlačítko pto vyvolání file dialogu
+// po vybrání souboru v dialogu (input.onchange) načte obsah souboru do blobCache (proměnná tiny) a vyplní údaje zpět do dialogu file picker
 var file_picker_callback_function = function (cb, value, meta) {
     var input = document.createElement('input');
     input.setAttribute('type', 'file');
@@ -253,14 +255,15 @@ var file_picker_callback_function = function (cb, value, meta) {
               registry. In the next release this part hopefully won't be
               necessary, as we are looking to handle it internally.
             */
-            var id = 'blobid' + (new Date()).getTime();
+           var originalName = file.name.split('.')[0];
+            var id = originalName + '@blobid' + (new Date()).getTime();
             var blobCache =  tinymce.activeEditor.editorUpload.blobCache;
-            var base64 = reader.result.split(',')[1];  // reader.result konveruje image na base64 string
+            var base64 = reader.result.split(',')[1];  // reader.result konvertuje image na base64 string
             var blobInfo = blobCache.create(id, file, base64);
             blobCache.add(blobInfo);
 
             /* call the callback and populate the Title field with the file name */
-            cb(blobInfo.blobUri(), { title: file.name });
+            cb(blobInfo.blobUri(), { title: file.name.split('.')[0], alt: 'tttttt' });  // split - bez přípony
           };
         reader.readAsDataURL(file);
     };
@@ -328,11 +331,11 @@ var contentConfig = {
 //    na tuto adresu odesílá tiny POST requesty - pro každý obrázek jeden request (tedy request s jedním obrázkem)
 // odesílá při každém volání editor.uploadImages() nebo automaticky, pokud je povoleno automatic_uploads option
     images_upload_url: 'api/v1/upload/editorimages',
-//    images_reuse_filename: true,
+    images_reuse_filename: true,
     /* here we add custom filepicker only to Image dialog */
     file_picker_types: 'image media',
     /* and here's our custom image picker*/
-//    file_picker_callback: file_picker_callback_function,
+    file_picker_callback: file_picker_callback_function,
     setup: editorFunction
 };
 
@@ -366,11 +369,11 @@ var perexConfig = {
 //    automatic_uploads: true,
     /* URL of our upload handler (for more details check: https://www.tiny.cloud/docs/configure/file-image-upload/#images_upload_url) */
     images_upload_url: 'api/v1/upload/editorimages',
-//    images_reuse_filename: true,
+    images_reuse_filename: true,
     /* here we add custom filepicker only to Image dialog */
     file_picker_types: 'image',
     /* and here's our custom image picker*/
-//    file_picker_callback: file_picker_callback_function,
+    file_picker_callback: file_picker_callback_function,
     setup: editorFunction
 };
 
