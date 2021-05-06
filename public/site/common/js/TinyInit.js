@@ -255,7 +255,7 @@ var file_picker_callback_function = function (cb, value, meta) {
               registry. In the next release this part hopefully won't be
               necessary, as we are looking to handle it internally.
             */
-           var originalName = file.name.split('.')[0];
+            var originalName = file.name.split('.')[0];
             var id = originalName + '@blobid' + (new Date()).getTime();
             var blobCache =  tinymce.activeEditor.editorUpload.blobCache;
             var base64 = reader.result.split(',')[1];  // reader.result konvertuje image na base64 string
@@ -263,7 +263,7 @@ var file_picker_callback_function = function (cb, value, meta) {
             blobCache.add(blobInfo);
 
             /* call the callback and populate the Title field with the file name */
-            cb(blobInfo.blobUri(), { title: file.name.split('.')[0], alt: 'tttttt' });  // split - bez přípony
+            cb(blobInfo.blobUri(), { title: file.name.split('.')[0] });  // split - bez přípony
           };
         reader.readAsDataURL(file);
     };
@@ -331,7 +331,7 @@ var contentConfig = {
 //    na tuto adresu odesílá tiny POST requesty - pro každý obrázek jeden request (tedy request s jedním obrázkem)
 // odesílá při každém volání editor.uploadImages() nebo automaticky, pokud je povoleno automatic_uploads option
     images_upload_url: 'api/v1/upload/editorimages',
-    images_reuse_filename: true,
+//    images_reuse_filename: true,
     /* here we add custom filepicker only to Image dialog */
     file_picker_types: 'image media',
     /* and here's our custom image picker*/
@@ -369,7 +369,7 @@ var perexConfig = {
 //    automatic_uploads: true,
     /* URL of our upload handler (for more details check: https://www.tiny.cloud/docs/configure/file-image-upload/#images_upload_url) */
     images_upload_url: 'api/v1/upload/editorimages',
-    images_reuse_filename: true,
+//    images_reuse_filename: true,
     /* here we add custom filepicker only to Image dialog */
     file_picker_types: 'image',
     /* and here's our custom image picker*/

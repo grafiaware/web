@@ -34,7 +34,14 @@ class FilesUploadController extends FilesUploadControllerAbstract {
         $size = 0;
         $item = $this->statusPresentationRepo->get()->getMenuItem();
 
-        $targetFilename = Configuration::filesUploadController()['upload.red']."item_".$item->getId()."-".$file->getClientFilename();
+        //TODO: jméno souboru -> odstranit nabodeníčka a změnit na lowercase
+
+        // při prvním uložení přidá prefix umožňující identifikaci item
+        // při opakovaném uložení, kdy již jméno souboru prefix obsahuje, nepřidává nic - k opakovanému uložení dochází např. po editaci obrázku pomocí ImageTools
+        $itemPrefix = "item_".$item->getId().'-';
+        $clientFilename = strpos($file->getClientFilename())===0 ? $file->getClientFilename() : $itemPrefix.$file->getClientFilename();
+
+        $targetFilename = Configuration::filesUploadController()['upload.red'].$clientFilename;
         $file->moveTo($targetFilename);
         // response pro TinyMCE - musí obsahovat json s informací u cestě a jménu uloženého souboru
         // hodnotu v json položce 'location' použije timyMCE pro změnu url obrázku ve výsledném html
