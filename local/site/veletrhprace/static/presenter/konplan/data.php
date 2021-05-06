@@ -59,15 +59,15 @@ $firma = [
             'ikonaSocialniSite' => 'facebook circle',
             'nazevSocialniSite' => 'Facebook',
             'btnClass' => 'btn-fb',
-            'modalID' => 'modal_15',
+            'modalID' => 'modal_facebook',
             'iframe' => '<div class="fb-page" data-href="https://www.facebook.com/KonplanCZ" data-tabs="timeline" data-width="" data-height="" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/KonplanCZ" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/KonplanCZ">Konplan</a></blockquote></div>',
             'odkazNaProfil' => 'https://www.facebook.com/KonplanCZ/'
         ],
         [
             'ikonaSocialniSite' => 'linkedin circle',
             'nazevSocialniSite' => 'LinkedIn',
-            'btnClass' => 'btn-ig',
-            'modalID' => 'modal_16',
+            'btnClass' => 'btn-in',
+            'modalID' => 'modal_linkedin',
             'iframe' => '<a href="https://www.linkedin.com/company/konplancz" target="_blank"><img src="'.Configuration::files()['presenter'].$shortName.'/assets/linkedin.png" alt="profil LinkednIn" height="" width="100%"/></a>',
             'odkazNaProfil' => 'https://www.linkedin.com/company/konplancz'
         ]

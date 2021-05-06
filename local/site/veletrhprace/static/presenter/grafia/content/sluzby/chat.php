@@ -9,9 +9,9 @@ use Pes\Text\Html;
 
 ?>
 
-                <span class="btn-56"><i class="big <?= $ikonaChatu ?> grey icon"></i></span>
+                <span class="btn-chat"><i class="big <?= $ikonaChatu ?> grey icon"></i></span>
                 
-                <div id="modal_56" class="ui modal">
+                <div id="modal_chat" class="ui modal">
                     <i class="close icon"></i>
                     <div class="header">
                         Jsme pro vás on-line

@@ -3,9 +3,11 @@
       .dropdown()
     ;
     
-    
-    $('.ui.modal')
-      .modal('attach events', '.btn-form', 'show')
+    //flash message
+    $('#domtoast')
+        .toast({
+            displayTime: 0 //je zobrazen, dokud se na něj neklikne
+        })
     ;
 
     //menu semantic-ui dropdown reaguje na událost hover
@@ -13,13 +15,6 @@
        on: 'hover'
     });
     
-    //semantic-ui sidebar - zkouška pro veletržní virtuální stánek
-    $('.right.sidebar').first()
-      .sidebar('attach events', '.toggle.button')
-    ;
-    $('.toggle.button')
-      .removeClass('disabled')
-    ;
 
     //odeslani prihlasovaciho formulare pri stisku klavesy Enter
     $('.loginEnterKey').keyup(function(event){
@@ -27,17 +22,25 @@
             $('.positive.button').click();
         }
     });
+    
+    //veletrh online
+    //checkbox v registraci (zastupuji vystavovatele)
+    $('.exhibitor.checkbox')
+        .checkbox()
+        .first().checkbox({
+            onChecked: function() {
+                $('.input-company').addClass('show'); //objeví se input pro vyplnění názvu společnosti
+                $('.input-company').attr("required", true); //pole s názvem musí být vyplněno
+            },
+            onUnchecked: function() {
+                $('.input-company').removeClass('show');
+                $('.input-company').attr("required", false);
+              ;
+            }
+        });
 
-    //Vyuziti lokalniho uloziste pro menu
-    //ulozeni pozice vertikalni rolovaci listy u menu v editacnim rezimu
-    $(".vertical.menu.edit li").click(function(){
-        var itemPosition = $(".svisle-menu").scrollTop();
-        localStorage.setItem('itemPosition', itemPosition);
-    });
-    $(document).ready(function(){
-        //po nacteni stranky menu odroluje na pozici, ktera se ulozila
-        $('.svisle-menu').scrollTop(
-            localStorage.getItem('itemPosition')
-        );
+    //odebrání atributu required u hesla, pokud uživatel klikne na "zapomněl jsem heslo"    
+    $('.tertiary.button').on('click', function(){
+        $('.notRequired').attr("required", false);
     });
     

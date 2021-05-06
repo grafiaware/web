@@ -18,16 +18,14 @@ function replaceElement(id, apiUri){
 
 // zobrazení  modálního kna po kliknutí button
 //            $('#id_modal_element').modal('attach events', '.class_button', 'show');
-
-            $('#modal_12').modal('attach events', '.btn-12', 'show');
-            $('#modal_15').modal('attach events', '.btn-fb', 'show');
-            $('#modal_16').modal('attach events', '.btn-ig', 'show');
-            $('#modal_17').modal('attach events', '.btn-yt', 'show');
-            $('#modal_18').modal('attach events', '.btn-in', 'show');
-            $('#modal_19').modal('attach events', '.btn-tw', 'show');
+            
+            $('#modal_facebook').modal('attach events', '.btn-fb', 'show');
+            $('#modal_instagram').modal('attach events', '.btn-ig', 'show');
+            $('#modal_youtube').modal('attach events', '.btn-yt', 'show');
+            $('#modal_linkedin').modal('attach events', '.btn-in', 'show');
+            $('#modal_twitter').modal('attach events', '.btn-tw', 'show');
             $('#modal_letaky').modal('attach events', '.btn-letaky', 'show');
-            $('#modal_56').modal('attach events', '.btn-56', 'show');
-            $('#modal_333').modal('attach events', '.btn-333', 'show');
+            $('#modal_chat').modal('attach events', '.btn-chat', 'show');
 
             //semantic-ui popup "bublina" (použitý např. ikony v online-stáncích)
             $('.popup.icon').popup();

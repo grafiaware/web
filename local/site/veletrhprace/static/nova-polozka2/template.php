@@ -32,7 +32,7 @@
                         <div class="six wide column">
                             <form>
                                 <content class="borderDance" style="border: 2px solid gold">Tlačidla
-                                    <p><a class="ui fluid toggle button btn-form">Uka form</a></p>
+                                    <p><a class="ui fluid toggle button btn-form">Uka form</a></p> <!-- modalni okno / sidebar - potrebuje js  -->
                                     <p><a class="ui fluid button">Odkaz 2</a></p>
                                     <p><a class="ui fluid button">Odkaz 3</a></p>
                                     <p><a class="ui fluid button">Odkaz 4</a></p>

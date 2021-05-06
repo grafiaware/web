@@ -58,7 +58,7 @@ $firma = [
             'ikonaSocialniSite' => 'facebook circle',
             'nazevSocialniSite' => 'Facebook',
             'btnClass' => 'btn-fb',
-            'modalID' => 'modal_15',
+            'modalID' => 'modal_facebook',
             'iframe' => '<div class="fb-page" data-href="https://www.facebook.com/AKKACzechRepublic/" data-tabs="timeline" data-width="" data-height="" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/AKKACzechRepublic/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/AKKACzechRepublic/">AKKA Czech Republic</a></blockquote></div>',
             'odkazNaProfil' => 'https://www.facebook.com/AKKACzechRepublic/'
         ],
@@ -66,7 +66,7 @@ $firma = [
             'ikonaSocialniSite' => 'linkedin circle',
             'nazevSocialniSite' => 'LinkedIn',
             'btnClass' => 'btn-ig',
-            'modalID' => 'modal_16',
+            'modalID' => 'modal_instagram',
             'iframe' => '<a href="https://www.linkedin.com/company/akka-technologies/" target="_blank"><img src="'.Configuration::files()['presenter'].$shortName.'/assets/linkedin.png" alt="profil LinkednIn" height="" width="100%"/></a>',
             'odkazNaProfil' => 'https://www.linkedin.com/company/akka-technologies/'
         ],
@@ -74,7 +74,7 @@ $firma = [
             'ikonaSocialniSite' => 'youtube',
             'nazevSocialniSite' => 'Youtube',
             'btnClass' => 'btn-yt',
-            'modalID' => 'modal_17',
+            'modalID' => 'modal_youtube',
             'iframe' => '<a href="https://www.youtube.com/c/akkatechnologies/" target="_blank"><img src="'.Configuration::files()['presenter'].$shortName.'/assets/youtube.png" alt="profil Youtube" height="" width="100%"/></a>',
             'odkazNaProfil' => 'https://www.youtube.com/c/akkatechnologies/'
         ]

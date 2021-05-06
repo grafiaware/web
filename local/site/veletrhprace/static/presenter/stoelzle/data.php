@@ -58,7 +58,7 @@ $firma = [
             'ikonaSocialniSite' => 'facebook circle',
             'nazevSocialniSite' => 'Facebook',
             'btnClass' => 'btn-fb',
-            'modalID' => 'modal_15',
+            'modalID' => 'modal_facebook',
             'iframe' => '',
             'odkazNaProfil' => ''
         ]

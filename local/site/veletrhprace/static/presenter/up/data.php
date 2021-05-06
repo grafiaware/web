@@ -12,10 +12,6 @@ use Model\Entity\PaperAggregateInterface;
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregateInterface $paperAggregate */
 
-$modalAtributy = [
-    "id" => "modal_12",
-    "class"=> ["ui tiny longer", "modal"]
-];
 
 $monitor_ref = '/movies/monitor-stanek.jpg';
 $video_MP4_ref = '/movies/video-stanek-MP4.mp4';
@@ -59,7 +55,7 @@ $firma = [
             'ikonaSocialniSite' => 'facebook circle',
             'nazevSocialniSite' => 'Facebook',
             'btnClass' => 'btn-fb',
-            'modalID' => 'modal_15',
+            'modalID' => 'modal_facebook',
             'iframe' => '<div class="fb-page" data-href="https://www.facebook.com/uradprace.cr" data-tabs="timeline" data-width="" data-height="" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/uradprace.cr" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/uradprace.cr">Úřad práce ČR</a></blockquote></div>',
             'odkazNaProfil' => 'https://www.facebook.com/uradprace.cr'
         ]
