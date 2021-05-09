@@ -3,7 +3,7 @@
 namespace Auth\Middleware\Logged\Service;
 
 use Pes\Application\AppInterface;
-use Module\Status\Model\Repository\StatusSecurityRepo;
+use Status\Model\Repository\StatusSecurityRepo;
 
 /**
  * Description of Logged

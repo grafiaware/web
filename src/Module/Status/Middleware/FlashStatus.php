@@ -5,7 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-namespace Module\Status\Middleware;
+namespace Status\Middleware;
 
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -14,8 +14,8 @@ use Psr\Http\Message\ResponseInterface;
 
 use Pes\Middleware\AppMiddlewareAbstract;
 
-use Module\Status\Model\Entity\StatusFlash;
-use Module\Status\Model\Repository\StatusFlashRepo;
+use Status\Model\Entity\StatusFlash;
+use Status\Model\Repository\StatusFlashRepo;
 
 /**
  * Description of Status

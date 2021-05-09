@@ -30,7 +30,7 @@ use Pes\Logger\FileLogger;
 // context
 use Model\Context\ContextFactory;
 use Model\Context\ContextFactoryInterface;
-use Module\Status\Model\Repository\{
+use Status\Model\Repository\{
     StatusSecurityRepo,
     StatusPresentationRepo
 };

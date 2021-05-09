@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Module\Status\Model\Entity;
+namespace Status\Model\Entity;
 
 use Model\Entity\EntitySingletonInterface;
 
@@ -42,7 +42,7 @@ interface StatusSecurityInterface extends EntitySingletonInterface {
     /**
      *
      * @param UserActionsInterface $userActions
-     * @return \Module\Status\Model\Entity\StatusSecurityInterface
+     * @return \Status\Model\Entity\StatusSecurityInterface
      */
     public function setUserActions(UserActionsInterface $userActions): StatusSecurityInterface;
 

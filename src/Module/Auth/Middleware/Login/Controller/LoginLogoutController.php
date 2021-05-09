@@ -18,9 +18,9 @@ use Pes\Security\Password\Password;
 use Auth\Authenticator\AuthenticatorInterface;
 
 // model
-use Module\Status\Model\Repository\StatusPresentationRepo;
-use Module\Status\Model\Repository\StatusSecurityRepo;
-use Module\Status\Model\Repository\StatusFlashRepo;
+use Status\Model\Repository\StatusPresentationRepo;
+use Status\Model\Repository\StatusSecurityRepo;
+use Status\Model\Repository\StatusFlashRepo;
 use Auth\Model\Repository\CredentialsRepo;
 use Auth\Model\Repository\LoginAggregateFullRepo;
 

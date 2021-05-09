@@ -4,7 +4,7 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 
 use Site\Configuration;
 
-use Module\Status\Model\Repository\StatusSecurityRepo;
+use Status\Model\Repository\StatusSecurityRepo;
 use Model\Entity\LoginAggregateCredentialsInterface;;
 use Model\Entity\CredentialsInterface;
 

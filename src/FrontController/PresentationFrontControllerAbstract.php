@@ -3,7 +3,7 @@
 namespace FrontController;
 
 
-use Module\Status\Model\Repository\{
+use Status\Model\Repository\{
     StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo
 };
 

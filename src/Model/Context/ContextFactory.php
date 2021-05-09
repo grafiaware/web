@@ -8,8 +8,8 @@
 
 namespace Model\Context;
 
-use Module\Status\Model\Repository\StatusSecurityRepo;
-use Module\Status\Model\Repository\StatusPresentationRepo;
+use Status\Model\Repository\StatusSecurityRepo;
+use Status\Model\Repository\StatusPresentationRepo;
 
 /**
  * Description of ContextFactory

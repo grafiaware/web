@@ -43,7 +43,7 @@ use Model\HierarchyHooks\MenuListStyles;
 use Middleware\Build\Controller\DatabaseController;
 
 // repo
-use Module\Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
+use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
 
 /**
  * Description of ContainerConfigurator

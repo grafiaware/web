@@ -22,7 +22,7 @@ use Pes\Database\Handler\Handler;
 use Pes\Database\Handler\HandlerInterface;
 
 // repo
-use Module\Status\Model\Repository\StatusSecurityRepo;
+use Status\Model\Repository\StatusSecurityRepo;
 
 /**
  *

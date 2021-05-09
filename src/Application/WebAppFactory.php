@@ -21,7 +21,7 @@ use Pes\Logger\FileLogger;
 use Pes\Http\Helper\RequestDumper;
 
 use Container\AppContainerConfigurator;
-use Module\Status\Model\Repository\StatusPresentationRepo;
+use Status\Model\Repository\StatusPresentationRepo;
 use Model\Entity\StatusPresentation;
 use Model\Entity\StatusPresentationInterface;
 

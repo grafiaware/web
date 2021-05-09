@@ -6,7 +6,7 @@ use Site\Configuration;
 
 use FrontController\StatusFrontControllerAbstract;
 
-use Module\Status\Model\Repository\{StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo};
+use Status\Model\Repository\{StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo};
 use Model\Repository\{VisitorDataRepo, VisitorDataPostRepo};
 
 use Model\Entity\LoginAggregateFullInterface;

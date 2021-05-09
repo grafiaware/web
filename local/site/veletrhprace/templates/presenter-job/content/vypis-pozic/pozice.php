@@ -4,7 +4,7 @@ use Pes\Text\Text;
 use Pes\Text\Html;
 
 use Site\Configuration;
-use Module\Status\Model\Repository\StatusSecurityRepo;
+use Status\Model\Repository\StatusSecurityRepo;
 use Model\Entity\LoginAggregateFullInterface;
 
 use Module\Events\Middleware\Api\Controller\VisitorDataController;

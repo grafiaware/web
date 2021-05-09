@@ -47,10 +47,10 @@ use \Model\Repository\VisitorDataPostRepo;
 // dao
 use Model\Dao\Hierarchy\HierarchyAggregateEditDao;
 
-use Module\Status\Model\Entity\StatusSecurityInterface;
+use Status\Model\Entity\StatusSecurityInterface;
 
 // repo
-use Module\Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
+use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
 use Model\Repository\{
     LanguageRepo,
     HierarchyAggregateRepo,

@@ -13,7 +13,7 @@ use Site\Configuration;
 use FrontController\PresentationFrontControllerAbstract;
 use Psr\Http\Message\ServerRequestInterface;
 
-use Module\Status\Model\Repository\{
+use Status\Model\Repository\{
     StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo
 };
 
@@ -60,9 +60,6 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
     ### prezentace - view
 
     protected function createView(ServerRequestInterface $request, array $componentViews) {
-        #### speed test ####
-//        $timer = new Timer();
-//        $timer->start();
 
         $layoutView = $this->getCompositeView($request);
         foreach ($componentViews as $name => $componentView) {

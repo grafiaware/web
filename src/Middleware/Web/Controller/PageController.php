@@ -154,11 +154,6 @@ class PageController extends LayoutControllerAbstract {
 ##### private methods ##############################################################
 #
 
-    private function setPresentationMenuItem($menuItem) {
-        $statusPresentation = $this->statusPresentationRepo->get();
-        $statusPresentation->setMenuItem($menuItem);
-    }
-
     private function getComponentViews(array $actionComponents) {
         // POZOR! Nesmí se na stránce vyskytovat dva paper se stejným id v editovatelném režimu. TinyMCE vyrobí dvě hidden proměnné se stejným jménem
         // (odvozeným z id), ukládaný obsah editovatelné položky se neuloží - POST data obsahují prázdný řetězec a dojde potichu ke smazání obsahu v databázi.
@@ -392,26 +387,4 @@ class PageController extends LayoutControllerAbstract {
         return $url;
     }
 
-    ## nepoužito
-
-    private function createSpeedInfoHtml($duration) {
-        ## proměnné pro html
-//        $duration['Získání dat z modelu'] = $timer->interval();
-//        $duration['Vytvoření view s template'] = $timer->interval();
-//        $html = $view->getString();   // vynutí renderování už zde
-//        $duration['Renderování template'] = $timer->interval();
-//        $this->container->get(RecordsLogger::class)
-//                ->logRecords($this->container->get(RecorderProvider::class));
-//        $duration['Zápis recordu do logu'] = $timer->interval();
-//        $duration['Celkem web middleware: '] = $timer->runtime();
-//        #### speed test výsledky jsou viditelné ve firebugu ####
-//        $html .= $this->createSpeedInfoHtml($duration);
-        $testHtml[] = '<div style="display: none;">';
-        foreach ($duration as $message => $interval) {
-            $testHtml[] = "<p>$message:$interval</p>";
-        }
-        $testHtml[] = '</div>';
-        return implode(PHP_EOL, $testHtml);
-    }
-
-        }
+}

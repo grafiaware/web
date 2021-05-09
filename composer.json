@@ -20,6 +20,8 @@
         "psr-4": {
             "Site\\": "app/Site",
             "Auth\\": "src/Module/Auth",
+            "Status\\": "src/Module/Status",
+            "ResponseTime\\": "src/Module/ResponseTime",
             "Events\\": "src/Module/Events",
             "Test\\": "tests",
             "" : "src"

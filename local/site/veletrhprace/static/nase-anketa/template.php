@@ -9,7 +9,7 @@ use Site\Configuration;
 
 // visitor
 use Model\Entity\LoginAggregateFullInterface;
-use Module\Status\Model\Repository\StatusSecurityRepo;
+use Status\Model\Repository\StatusSecurityRepo;
 use Model\Repository\VisitorDataRepo;
 
 

@@ -10,9 +10,9 @@ namespace Component\ViewModel\Generated;
 
 use Component\ViewModel\StatusViewModelAbstract;
 
-use Module\Status\Model\Repository\StatusSecurityRepo;
-use Module\Status\Model\Repository\StatusPresentationRepo;
-use Module\Status\Model\Repository\StatusFlashRepo;
+use Status\Model\Repository\StatusSecurityRepo;
+use Status\Model\Repository\StatusPresentationRepo;
+use Status\Model\Repository\StatusFlashRepo;
 
 use Model\Repository\MenuItemTypeRepo;
 

@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Module\Status\Model\Entity;
+namespace Status\Model\Entity;
 
 use Model\Entity\EntitySingletonInterface;
 
@@ -52,7 +52,7 @@ interface StatusFlashInterface extends EntitySingletonInterface {
      * Nastaví command se životností do příštího requestu (standartní "flash" životnost).
      *
      * @param type $command
-     * @return \Module\Status\Model\Entity\StatusFlashInterface
+     * @return \Status\Model\Entity\StatusFlashInterface
      */
     public function setCommand($command): StatusFlashInterface;
 
@@ -60,7 +60,7 @@ interface StatusFlashInterface extends EntitySingletonInterface {
      * Nastaví command se životností do příštího POST requestu. Requesty jiného typu (typicky GET) nemají na životnost post command vliv.
      *
      * @param type $command
-     * @return \Module\Status\Model\Entity\StatusFlashInterface
+     * @return \Status\Model\Entity\StatusFlashInterface
      */
     public function setPostCommand($command): StatusFlashInterface;
 

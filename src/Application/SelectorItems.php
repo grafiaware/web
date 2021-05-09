@@ -15,11 +15,11 @@ use Auth\Middleware\Login\Login;
 use Auth\Middleware\Logged\LoggedAccess;
 use Auth\Middleware\Logged\Service\LoggedAccessor;
 
-use Module\ResponseTime\Middleware\ResponseTime;
+use ResponseTime\Middleware\ResponseTime;
 
-use Module\Status\Middleware\FlashStatus;
-use Module\Status\Middleware\PresentationStatus;
-use Module\Status\Middleware\SecurityStatus;
+use Status\Middleware\FlashStatus;
+use Status\Middleware\PresentationStatus;
+use Status\Middleware\SecurityStatus;
 
 /**
  * Description of SelectorFactory

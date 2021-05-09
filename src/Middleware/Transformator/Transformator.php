@@ -19,8 +19,8 @@ use Container\DbUpgradeContainerConfigurator;
 use Container\HierarchyContainerConfigurator;
 
 use Model\Dao\MenuItemDao;
-use Module\Status\Model\Repository\StatusPresentationRepo;
-use Module\Status\Model\Repository\StatusFlashRepo;
+use Status\Model\Repository\StatusPresentationRepo;
+use Status\Model\Repository\StatusFlashRepo;
 
 use Pes\Http\Body;
 

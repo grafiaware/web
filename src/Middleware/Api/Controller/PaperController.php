@@ -21,7 +21,7 @@ use Psr\Http\Message\ResponseInterface;
 
 use Model\Entity\Paper;
 
-use Module\Status\Model\Repository\{
+use Status\Model\Repository\{
     StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo
 };
 use Model\Repository\{

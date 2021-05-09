@@ -34,7 +34,7 @@ use Model\Entity\CredentialsInterface;
 use Model\Dao\StatusDao;
 
 // repo
-use Module\Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
+use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
 
 // router
 use Pes\Router\RouterInterface;

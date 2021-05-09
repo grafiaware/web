@@ -6,7 +6,7 @@ use Site\Configuration;
 
 use Auth\Model\Entity\LoginAggregateFullInterface;
 use Events\Model\Repository\EnrollRepo;
-use Module\Status\Model\Repository\StatusSecurityRepo;
+use Status\Model\Repository\StatusSecurityRepo;
 use Events\Model\Repository\VisitorDataRepo;
 
 use Pes\Text\Html;

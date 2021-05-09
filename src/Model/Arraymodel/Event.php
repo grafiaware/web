@@ -8,7 +8,7 @@
 
 namespace Model\Arraymodel;
 
-use Module\Status\Model\Entity\StatusSecurityInterface;
+use Status\Model\Entity\StatusSecurityInterface;
 
 /**
  * Description of EventList

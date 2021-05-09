@@ -6,7 +6,7 @@ use Component\ViewModel\Authored\AuthoredViewModelAbstract;
 use Model\Entity\HierarchyAggregateInterface;
 use Model\Entity\MenuRootInterface;
 
-use Module\Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
+use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
 
 use Model\Repository\HierarchyAggregateRepo;
 use Model\Repository\MenuRootRepo;

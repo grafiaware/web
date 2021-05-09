@@ -60,7 +60,7 @@ use Auth\Authenticator\DbAuthenticator;
 use Auth\Authenticator\DbHashAuthenticator;
 
 // repo
-use Module\Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
+use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
 /**
  *
  *

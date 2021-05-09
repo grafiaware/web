@@ -15,9 +15,9 @@ use Pes\Http\Request\RequestParams;
 use Pes\Security\Password\Password;
 
 // model
-use Module\Status\Model\Repository\StatusPresentationRepo;
-use Module\Status\Model\Repository\StatusSecurityRepo;
-use Module\Status\Model\Repository\StatusFlashRepo;
+use Status\Model\Repository\StatusPresentationRepo;
+use Status\Model\Repository\StatusSecurityRepo;
+use Status\Model\Repository\StatusFlashRepo;
 
 use Model\Repository\LoginAggregateCredentialsRepo;
 use Model\Entity\LoginAggregateCredentials;

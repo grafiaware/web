@@ -5,7 +5,7 @@ use Model\Arraymodel\Event;
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 /** @var PhpTemplateRendererInterface $this */
 
-use Module\Status\Model\Repository\StatusSecurityRepo;
+use Status\Model\Repository\StatusSecurityRepo;
 
 $headline = 'Poradny online zdarma';
 $perex =

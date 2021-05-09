@@ -18,7 +18,7 @@ use Pes\Http\Response;
 use Pes\Http\Response\RedirectResponse;
 use Psr\Http\Message\ResponseInterface;
 
-use Module\Status\Model\Repository\{
+use Status\Model\Repository\{
     StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo
 };
 use Model\Repository\{

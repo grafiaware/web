@@ -6,11 +6,11 @@
  * and open the template in the editor.
  */
 
-namespace Module\Status\Model\Repository;
+namespace Status\Model\Repository;
 
 use Model\Repository\StatusRepositoryAbstract;
 
-use Module\Status\Model\Entity\StatusFlashInterface;
+use Status\Model\Entity\StatusFlashInterface;
 
 /**
  * Description of StausLoginRepo

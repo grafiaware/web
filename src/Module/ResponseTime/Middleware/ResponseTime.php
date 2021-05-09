@@ -1,5 +1,5 @@
 <?php
-namespace Module\ResponseTime\Middleware;
+namespace ResponseTime\Middleware;
 
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;

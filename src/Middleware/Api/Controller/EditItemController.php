@@ -12,7 +12,7 @@ use Pes\Http\Response;
 use \Model\Entity\MenuItemInterface;
 use GeneratorService\ContentGeneratorRegistryInterface;
 
-use Module\Status\Model\Repository\{
+use Status\Model\Repository\{
     StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo
 };
 use Model\Repository\{

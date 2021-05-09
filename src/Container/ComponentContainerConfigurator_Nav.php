@@ -74,7 +74,7 @@ use Pes\View\Renderer\RendererInterface;
 
 
 // repo
-use Module\Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
+use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
 use Model\Repository\{
     LanguageRepo,
     HierarchyAggregateRepo,

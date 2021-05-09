@@ -6,14 +6,14 @@
  * and open the template in the editor.
  */
 
-namespace Module\Status\Model\Entity;
+namespace Status\Model\Entity;
 
 use Model\Entity\EntitySingletonInterface;
 use Model\Entity\{
     MenuItemInterface, LanguageInterface
 };
 
-use Module\Status\Model\Entity\StatusPresentationInterface;
+use Status\Model\Entity\StatusPresentationInterface;
 
 
 

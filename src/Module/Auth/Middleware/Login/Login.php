@@ -13,7 +13,7 @@ use Container\LoginContainerConfigurator;
 use Container\DbOldContainerConfigurator;
 use Container\MailContainerConfigurator;
 
-use Module\Status\Model\Repository\StatusSecurityRepo;
+use Status\Model\Repository\StatusSecurityRepo;
 
 use StatusManager\StatusManagerInterface;
 
