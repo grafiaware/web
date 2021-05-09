@@ -10,6 +10,8 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UploadedFileInterface;
 use Pes\Http\Response;
 
+use Utils\UrlConvertor;
+
 /**
  * Description of NestedFilesUpload
  *
@@ -39,13 +41,14 @@ class FilesUploadController extends FilesUploadControllerAbstract {
         // při prvním uložení přidá prefix umožňující identifikaci item
         // při opakovaném uložení, kdy již jméno souboru prefix obsahuje, nepřidává nic - k opakovanému uložení dochází např. po editaci obrázku pomocí ImageTools
         $itemPrefix = "item_".$item->getId().'-';
-        $clientFilename = strpos($file->getClientFilename())===0 ? $file->getClientFilename() : $itemPrefix.$file->getClientFilename();
+        $clientFilename = strpos($file->getClientFilename(), $itemPrefix)===0 ? $file->getClientFilename() : $itemPrefix.$file->getClientFilename();
 
         $targetFilename = Configuration::filesUploadController()['upload.red'].$clientFilename;
-        $file->moveTo($targetFilename);
+        $sanitizedFilename = urldecode($targetFilename);   //(new UrlConvertor())->sanitize($targetFilename);
+        $file->moveTo($sanitizedFilename);
         // response pro TinyMCE - musí obsahovat json s informací u cestě a jménu uloženého souboru
         // hodnotu v json položce 'location' použije timyMCE pro změnu url obrázku ve výsledném html
-        $json = json_encode(array('location' => $targetFilename));  //
+        $json = json_encode(array('location' => $sanitizedFilename));  //
         return $this->createResponseFromString($request, $json);
 
     }
@@ -169,3 +172,17 @@ class FilesUploadController extends FilesUploadControllerAbstract {
 
 
 //                <input type="file" name="filesupl[]" multiple webkitdirectory id="files" />
+
+#########################################################
+
+// When an image is inserted into the editor after image upload...
+//editor.on('NodeChange', function (e) {
+//    if (e.element.tagName === "IMG") {
+//        // Set an alt attribute. We will insert the value when the image was successfully uploaded and the imageId was returned from the server.
+//        // We saved the alt tag that we want into the imageId hidden input field (imageId) when the server returned data.
+//        // Here, we are taking that value and inserting the new alt tag.
+//        e.element.setAttribute("alt", $("#imageId").val());
+//        return;
+//    }
+//    return;
+//});

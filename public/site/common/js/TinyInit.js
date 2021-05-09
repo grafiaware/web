@@ -150,7 +150,109 @@ function tinymce_getContentLength() {
 }
 
 
-/////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////
+// funkce vytvoří v dialogu file picker (Vložit/upravit obrázek) tlačítko pto vyvolání file dialogu
+// po vybrání souboru v dialogu (input.onchange) načte obsah souboru do blobCache (proměnná tiny) a vyplní údaje zpět do dialogu file picker
+var file_picker_callback_function = function (cb, value, meta) {
+    var input = document.createElement('input');
+    input.setAttribute('type', 'file');
+
+    // For the image dialog
+    if (meta.filetype === 'image') {
+      input.setAttribute('accept', 'image/*');
+    }
+
+    // For the media dialog
+    if (meta.filetype === 'media') {
+      input.setAttribute('accept', 'video/*');
+    }
+
+    /*
+      Note: In modern browsers input[type="file"] is functional without
+      even adding it to the DOM, but that might not be the case in some older
+      or quirky browsers like IE, so you might want to add it to the DOM
+      just in case, and visually hide it. And do not forget do remove it
+      once you do not need it anymore.
+    */
+
+    input.onchange = function () {
+        var file = this.files[0];
+
+        var reader = new FileReader();
+        reader.onload = function () {
+            /*
+              Note: Now we need to register the blob in TinyMCEs image blob
+              registry. In the next release this part hopefully won't be
+              necessary, as we are looking to handle it internally.
+            */
+            var originalName = file.name.split('.')[0];
+            var id = originalName + '@blobid' + (new Date()).getTime();
+            var blobCache =  tinymce.activeEditor.editorUpload.blobCache;
+            var base64 = reader.result.split(',')[1];  // reader.result konvertuje image na base64 string
+            var blobInfo = blobCache.create(id, file, base64);
+            blobCache.add(blobInfo);
+
+            /* call the callback and populate the Title field with the file name */
+            // zkus  blobInfo.filename()
+            cb(blobInfo.blobUri(), { title: file.name.split('.')[0] });  // split - jméno souboru bez přípony
+          };
+        reader.readAsDataURL(file);
+    };
+
+    input.click();
+  };
+/////////////////////////////////////////
+
+
+function image_upload_handler (blobInfo, success, failure, progress) {
+  var xhr, formData;
+
+  xhr = new XMLHttpRequest();
+  xhr.withCredentials = false;
+  xhr.open('POST', 'api/v1/upload/editorimages');
+
+  xhr.upload.onprogress = function (e) {
+    progress(e.loaded / e.total * 100);
+  };
+
+  xhr.onload = function() {
+    var json;
+
+    if (xhr.status === 403) {
+      failure('HTTP Error: ' + xhr.status, { remove: true });
+      return;
+    }
+
+    if (xhr.status < 200 || xhr.status >= 300) {
+      failure('HTTP Error: ' + xhr.status);
+      return;
+    }
+
+    json = JSON.parse(xhr.responseText);
+
+    if (!json || typeof json.location != 'string') {
+      failure('Invalid JSON: ' + xhr.responseText);
+      return;
+    }
+
+    success(json.location);
+  };
+
+  xhr.onerror = function () {
+    failure('Image upload failed due to a XHR Transport error. Code: ' + xhr.status);
+  };
+
+  formData = new FormData();
+  formData.append('file', blobInfo.blob(), blobInfo.filename());
+
+  xhr.send(formData);
+};
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////
 
 var plugins_paper = [
        'paste advlist autolink lists link anchor charmap  preview hr anchor pagebreak image code', // codesample print  //
@@ -220,56 +322,6 @@ var mobile = {
 
 var imagetools_toolbar = 'editimage | rotateleft rotateright | flipv fliph | imageoptions';
 
-/////////////////////////////////////////
-// funkce vytvoří v dialogu file picker (Vložit/upravit obrázek) tlačítko pto vyvolání file dialogu
-// po vybrání souboru v dialogu (input.onchange) načte obsah souboru do blobCache (proměnná tiny) a vyplní údaje zpět do dialogu file picker
-var file_picker_callback_function = function (cb, value, meta) {
-    var input = document.createElement('input');
-    input.setAttribute('type', 'file');
-
-    // For the image dialog
-    if (meta.filetype === 'image') {
-      input.setAttribute('accept', 'image/*');
-    }
-
-    // For the media dialog
-    if (meta.filetype === 'media') {
-      input.setAttribute('accept', 'video/*');
-    }
-
-    /*
-      Note: In modern browsers input[type="file"] is functional without
-      even adding it to the DOM, but that might not be the case in some older
-      or quirky browsers like IE, so you might want to add it to the DOM
-      just in case, and visually hide it. And do not forget do remove it
-      once you do not need it anymore.
-    */
-
-    input.onchange = function () {
-        var file = this.files[0];
-
-        var reader = new FileReader();
-        reader.onload = function () {
-            /*
-              Note: Now we need to register the blob in TinyMCEs image blob
-              registry. In the next release this part hopefully won't be
-              necessary, as we are looking to handle it internally.
-            */
-            var originalName = file.name.split('.')[0];
-            var id = originalName + '@blobid' + (new Date()).getTime();
-            var blobCache =  tinymce.activeEditor.editorUpload.blobCache;
-            var base64 = reader.result.split(',')[1];  // reader.result konvertuje image na base64 string
-            var blobInfo = blobCache.create(id, file, base64);
-            blobCache.add(blobInfo);
-
-            /* call the callback and populate the Title field with the file name */
-            cb(blobInfo.blobUri(), { title: file.name.split('.')[0] });  // split - bez přípony
-          };
-        reader.readAsDataURL(file);
-    };
-
-    input.click();
-  };
 
 /////////////////////////////////////////
 
@@ -330,12 +382,15 @@ var contentConfig = {
     /* URL of our upload handler (for more details check: https://www.tiny.cloud/docs/configure/file-image-upload/#images_upload_url) */
 //    na tuto adresu odesílá tiny POST requesty - pro každý obrázek jeden request (tedy request s jedním obrázkem)
 // odesílá při každém volání editor.uploadImages() nebo automaticky, pokud je povoleno automatic_uploads option
-    images_upload_url: 'api/v1/upload/editorimages',
-//    images_reuse_filename: true,
+//    images_upload_url: 'api/v1/upload/editorimages',
+    images_reuse_filename: true,
     /* here we add custom filepicker only to Image dialog */
     file_picker_types: 'image media',
     /* and here's our custom image picker*/
     file_picker_callback: file_picker_callback_function,
+
+    images_upload_handler: image_upload_handler,
+
     setup: editorFunction
 };
 
@@ -368,12 +423,15 @@ var perexConfig = {
     /* enable automatic uploads of images represented by blob or data URIs*/
 //    automatic_uploads: true,
     /* URL of our upload handler (for more details check: https://www.tiny.cloud/docs/configure/file-image-upload/#images_upload_url) */
-    images_upload_url: 'api/v1/upload/editorimages',
-//    images_reuse_filename: true,
+//    images_upload_url: 'api/v1/upload/editorimages',
+    images_reuse_filename: true,
     /* here we add custom filepicker only to Image dialog */
     file_picker_types: 'image',
     /* and here's our custom image picker*/
     file_picker_callback: file_picker_callback_function,
+
+    images_upload_handler: image_upload_handler,
+
     setup: editorFunction
 };
 
