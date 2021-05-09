@@ -15,7 +15,7 @@ use Psr\Http\Message\ResponseInterface;
 use Pes\Application\AppFactory;
 use Pes\Application\UriInfoInterface;
 
-use Module\Status\Model\Repository\{
+use Status\Model\Repository\{
     StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo
 };
 
@@ -86,6 +86,14 @@ abstract class StatusFrontControllerAbstract extends FrontControllerAbstract imp
 
     public function addFlashMessage($message) {
         $this->statusFlashRepo->get()->appendMessage($message);
+    }
+    
+    protected function setPresentationMenuItem($menuItem) {
+        $statusPresentation = $this->statusPresentationRepo->get();
+        $statusPresentation->setMenuItem($menuItem);
+    }
+    protected function getPresentationLangCode() {
+        return $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
     }
 
     /**
