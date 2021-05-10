@@ -27,8 +27,6 @@ use Component\View\{
     Flash\FlashComponent
 };
 
-use Middleware\Login\Controller\LoginLogoutController;
-
 ####################
 use Pes\View\ViewFactory;
 use Pes\View\View;
@@ -79,7 +77,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
                 [
                     'basePath' => $this->getBasePath($request),
                     'title' => Configuration::layoutController()['title'],
-                    'langCode' => $this->statusPresentationRepo->get()->getLanguage()->getLangCode(),
+                    'langCode' => $this->getPresentationLangCode(),
                     'linksCommon' => Configuration::layoutController()['linksCommon'],
                     'linksSite' => Configuration::layoutController()['linksSite'],
                     'bodyContainerAttributes' => $this->getBodyContainerAttributes(),

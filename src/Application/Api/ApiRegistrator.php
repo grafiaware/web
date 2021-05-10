@@ -48,8 +48,8 @@ class ApiRegistrator {
 
         ### www ###
 
-        $registry->register($this->getPrototype->withUrlPattern('/www/item/:langCode/:uid'));
-        $registry->register($this->getPrototype->withUrlPattern('/www/subitem/:langCode/:uid'));
+        $registry->register($this->getPrototype->withUrlPattern('/www/item/:uid'));
+        $registry->register($this->getPrototype->withUrlPattern('/www/subitem/:uid'));
         $registry->register($this->getPrototype->withUrlPattern('/www/block/:name'));
         $registry->register($this->getPrototype->withUrlPattern('/www/searchresult'));
         $registry->register($this->getPrototype->withUrlPattern('/'));
@@ -107,6 +107,7 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/event/v1/uploadvisitorfile'));
         $registry->register($this->postPrototype->withUrlPattern('/event/v1/visitorpost'));
         $registry->register($this->postPrototype->withUrlPattern('/event/v1/sendvisitorpost'));
+        
         #### MailController ######
         $registry->register($this->getPrototype->withUrlPattern('/api/v1/sendmail/:campaign'));
 

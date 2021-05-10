@@ -55,91 +55,43 @@ class PageController extends LayoutControllerAbstract {
      * @throws UnexpectedValueException
      */
     public function home(ServerRequestInterface $request) {
-        $statusPresentation = $this->statusPresentationRepo->get();
-
         $homePage = Configuration::pageController()['home_page'];
         switch ($homePage[0]) {
             case 'block':
-                /** @var BlockAggregateRepo $blockAggregateRepo */
-                $blockAggregateRepo = $this->container->get(BlockAggregateRepo::class);
-                // jméno default komponenty (z konfigurace)
-                $langCode = $statusPresentation->getLanguage()->getLangCode();
-                $homeComponentAggregate = $blockAggregateRepo->getAggregate($langCode, $homePage[1]);
-                if (!isset($homeComponentAggregate)) {
-                    throw new \UnexpectedValueException("Undefined default page (home page) defined as component with name '$homePage[1]'.");
+                $menuItem = $this->getBlockMenuItem($homePage[1]);
+                if (!isset($menuItem)) {
+                    throw new \UnexpectedValueException("Undefined menu item for default page (home page) defined as component with name '$homePage[1]'.");
                 }
-                $homeMenuItem = $homeComponentAggregate->getMenuItem();
-                if (!isset($homeMenuItem)) {
-                    throw new \UnexpectedValueException("Undefined menu item with uid: '{$homeComponentAggregate->getUidFk()}'for default page (home page) defined as component with name '$homePage[1]'.");
-                }
-                /** @var MenuItemRepo $menuItemRepo */
-                $menuItemRepo = $this->container->get(MenuItemRepo::class);
-
-                $homeMenuItemUid = $homeMenuItem->getUidFk();
-                $resourceUri = "www/item/$langCode/$homeMenuItemUid";
-                break;
-            case 'static':
-                $resourceUri = "www/block/$homePage[1]";
                 break;
             case 'item':
-                /** @var MenuItemRepo $menuItemRepo */
-                $menuItemRepo = $this->container->get(MenuItemRepo::class);
-                // jméno default komponenty (z konfigurace)
-                $langCode = $statusPresentation->getLanguage()->getLangCode();
-                $homeMenuItem = $menuItemRepo->get($langCode, $homePage[1]);
-                if (!isset($homeMenuItem)) {
+                $menuItem = $this->getMenuItem($homePage[1]);
+                if (!isset($menuItem)) {
                     throw new UnexpectedValueException("Undefined default page (home page) defined as static with name '$homePage[1]'.");
                 }
-                $homeMenuItemUid = $homeMenuItem->getUidFk();
-                $resourceUri = "www/item/$langCode/$homeMenuItemUid";
                 break;
             default:
                 throw new UnexpectedValueException("Unknown home page type in configuration. Type: '$homePage[0]'.");
                 break;
         }
-
-        $statusPresentation->setLastGetResourcePath($resourceUri);
-        $statusPresentation->setMenuItem($homeMenuItem);
-        return $this->redirectSeeOther($request, $resourceUri); // 303 See Other
+        return $this->createResponseWithItem($request, $menuItem);
     }
 
-    public function item(ServerRequestInterface $request, $langCode, $uid) {
-        /** @var MenuItemRepo $menuItemRepo */
-        $menuItemRepo = $this->container->get(MenuItemRepo::class);
-        $menuItem = $menuItemRepo->get($langCode, $uid);
-        if ($menuItem) {
-            $this->setPresentationMenuItem($menuItem);
-            $actionComponents = ["content" => $this->resolveMenuItemView($menuItem)];
-            return $this->createResponseFromView($request, $this->createView($request, $this->getComponentViews($actionComponents)));
-        } else {
-            // neexistující stránka
-            return $this->redirectSeeOther($request, ""); // SeeOther - ->home
-        }
+    public function item(ServerRequestInterface $request, $uid) {
+        $menuItem = $this->getMenuItem($uid);
+        return $this->createResponseWithItem($request, $menuItem);
     }
 
     public function block(ServerRequestInterface $request, $name) {
         $menuItem = $this->getBlockMenuItem($name);
-        if ($menuItem) {
-            $this->setPresentationMenuItem($menuItem);
-            $actionComponents = ["content" => $this->resolveMenuItemView($menuItem)];
-            return $this->createResponseFromView($request, $this->createView($request, $this->getComponentViews($actionComponents)));
-        }
-        // neexistující stránka
-        return $this->redirectSeeOther($request, ""); // SeeOther - ->home
+        return $this->createResponseWithItem($request, $menuItem);
     }
 
-    public function subitem(ServerRequestInterface $request, $langCode, $uid) {
+    public function subitem(ServerRequestInterface $request, $uid) {
         /** @var MenuItemRepo $menuItemRepo */
         $menuItemRepo = $this->container->get(MenuItemRepo::class);
+        $langCode = $this->getPresentationLangCode();
         $menuItem = $menuItemRepo->getOutOfContext($langCode, $uid);
-        if ($menuItem) {
-            $this->setPresentationMenuItem($menuItem);
-            $actionComponents = ["content" => $this->resolveMenuItemView($menuItem)];
-            return $this->createResponseFromView($request, $this->createView($request, $this->getComponentViews($actionComponents)));
-        } else {
-            // neexistující stránka
-            return $this->redirectSeeOther($request, ""); // SeeOther - ->home
-        }
+        return $this->createResponseWithItem($request, $menuItem);
     }
 
     public function searchResult(ServerRequestInterface $request) {
@@ -153,6 +105,18 @@ class PageController extends LayoutControllerAbstract {
 
 ##### private methods ##############################################################
 #
+
+    private function createResponseWithItem(ServerRequestInterface $request, MenuItemInterface $menuItem = null) {
+        if ($menuItem) {
+            $this->setPresentationMenuItem($menuItem);
+            $actionComponents = ["content" => $this->resolveMenuItemView($menuItem)];
+            $response = $this->createResponseFromView($request, $this->createView($request, $this->getComponentViews($actionComponents)));
+        } else {
+            // neexistující stránka
+            $response = $this->redirectSeeOther($request, ""); // SeeOther - ->home
+        }
+        return $response;
+    }
 
     private function getComponentViews(array $actionComponents) {
         // POZOR! Nesmí se na stránce vyskytovat dva paper se stejným id v editovatelném režimu. TinyMCE vyrobí dvě hidden proměnné se stejným jménem
@@ -223,21 +187,28 @@ class PageController extends LayoutControllerAbstract {
                     'banner' => 'a8',
                 ];
         $componets = [];
+
+        // pro neexistující bloky nedělá nic
         foreach ($map as $variableName => $blockName) {
             $menuItem = $this->getBlockMenuItem($blockName);
-            $componets[$variableName] = $this->resolveMenuItemView($menuItem);
-//            $componets[$variableName] = $this->container->get($componentService)->setComponentName($blockName);
+            if (isset($menuItem)) {
+                $componets[$variableName] = $this->resolveMenuItemView($menuItem);
+            }
         }
         return $componets;
     }
 
-    private function getBlockMenuItem($name) {
-        $statusPresentation = $this->statusPresentationRepo->get();
+    private function getMenuItem($uid) {
+        /** @var MenuItemRepo $menuItemRepo */
+        $menuItemRepo = $this->container->get(MenuItemRepo::class);
+        $langCode = $this->getPresentationLangCode();
+        return $menuItemRepo->get($langCode, $uid);
+    }
 
+    private function getBlockMenuItem($name) {
         /** @var BlockAggregateRepo $blockAggregateRepo */
         $blockAggregateRepo = $this->container->get(BlockAggregateRepo::class);
-        // jméno default komponenty (z konfigurace)
-        $langCode = $statusPresentation->getLanguage()->getLangCode();
+        $langCode = $this->getPresentationLangCode();
         $blockAggregate = $blockAggregateRepo->getAggregate($langCode, $name);
 //        if (!isset($blockAggregate)) {
 //            throw new \UnexpectedValueException("Undefined block defined as component with name '$name'.");
@@ -250,7 +221,8 @@ class PageController extends LayoutControllerAbstract {
      * Vrací view objekt pro zobrazení centrálního obsahu v prostoru pro "content"
      * @return type
      */
-    private function resolveMenuItemView(MenuItemInterface $menuItem = null) {
+    private function resolveMenuItemView(MenuItemInterface $menuItem) {
+
         if (isset($menuItem)) {
             // dočasně duplicitní s ComponentController
             $userActions = $this->statusSecurityRepo->get()->getUserActions();

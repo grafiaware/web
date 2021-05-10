@@ -57,7 +57,7 @@ class ItemRenderer extends HtmlModelRendererAbstract implements RendererModelAwa
                         $this->classMap->getClass('Item', 'li a'),
                         $this->classMap->resolveClass($this->viewModel->isPresented(), 'Item', 'li.presented', 'li'),
                         ],
-                    'href'=> "www/item/{$menuNode->getMenuItem()->getLangCodeFk()}/{$menuNode->getUid()}" ],
+                    'href'=> "www/item/{$menuNode->getUid()}" ],
                         Html::tag('span', ['class'=>$this->classMap->getClass('Item', 'li a span')],
                             $menuNode->getMenuItem()->getTitle()
                             .Html::tag('i', ['class'=>$this->classMap->resolveClass($this->viewModel->isLeaf(), 'Item', 'li i', 'li i.dropdown')])
@@ -80,7 +80,7 @@ class ItemRenderer extends HtmlModelRendererAbstract implements RendererModelAwa
                     $this->classMapEditable->getClass('Item', 'li a'),   // class - 'editable' v kontejneru
                     $this->classMap->resolveClass($this->viewModel->isPresented(), 'Item', 'li.presented', 'li'),
                     ],
-                'href'=>"www/item/{$menuNode->getMenuItem()->getLangCodeFk()}/{$menuNode->getUid()}",
+                'href'=>"www/item/{$menuNode->getUid()}",
                 'tabindex'=>0,
                 ],
 

@@ -87,11 +87,12 @@ abstract class StatusFrontControllerAbstract extends FrontControllerAbstract imp
     public function addFlashMessage($message) {
         $this->statusFlashRepo->get()->appendMessage($message);
     }
-    
+
     protected function setPresentationMenuItem($menuItem) {
         $statusPresentation = $this->statusPresentationRepo->get();
         $statusPresentation->setMenuItem($menuItem);
     }
+    
     protected function getPresentationLangCode() {
         return $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
     }

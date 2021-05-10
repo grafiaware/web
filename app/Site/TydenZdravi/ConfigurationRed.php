@@ -170,7 +170,6 @@ class ConfigurationRed extends ConfigurationDb {
 
         return [
                'home_page' => ['block', 'home'],
-//               'home_page' => ['static', 'body-pro-zdravi'],
 //               'home_page' => ['item', '5fad34398df10'],  // přednášky - pro test
 
 //      'context_name' => jméno proměnné v šabloně, 'service_name' => jméno služby component kontejneru, 'root_name' => jméno v db tabulce root_name, 'with_title' => bool hodnota - true - zobrazuje se i obsah kořenového prvku menu],

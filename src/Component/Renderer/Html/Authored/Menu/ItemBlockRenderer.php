@@ -34,7 +34,7 @@ class ItemBlockRenderer extends ItemRenderer {
                     $this->classMapEditable->getClass('Item', 'li a'),   // class - editable v kontejneru
                     $this->classMapEditable->resolveClass($this->viewModel->isPresented(), 'Item', 'li.presented', 'li')
                     ],
-                'href'=>"www/item/{$menuNode->getMenuItem()->getLangCodeFk()}/{$menuNode->getUid()}",
+                'href'=>"www/item/{$menuNode->getUid()}",
                 'tabindex'=>0,
                 'data-original-title'=>$menuItem->getTitle(),
                 'data-uid'=>$menuNode->getUid(),

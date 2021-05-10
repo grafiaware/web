@@ -31,7 +31,7 @@ class ItemTrashRenderer extends ItemRenderer {
                             $this->classMapEditable->getClass('Item', 'li a'),
                             $this->classMapEditable->resolveClass($this->viewModel->isPresented(), 'Item', 'li.presented', 'li'),
                             ],
-                        'href'=>"www/item/{$menuNode->getMenuItem()->getLangCodeFk()}/{$menuNode->getUid()}",
+                        'href'=>"www/item/{$menuNode->getUid()}",
                          ],
                         $menuNode->getMenuItem()->getTitle()
                         .Html::tag('span', ['class'=>$this->classMapEditable->getClass('Item', 'semafor')],

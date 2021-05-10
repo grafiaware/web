@@ -107,6 +107,10 @@ var editorFunction = function (editor) {
     //        }
     });
 
+    editor.on('NodeChange', function(e) {
+      console.log('The ' + e.element.nodeName + ' changed.');
+    });
+
 };  // editorFunction
 /////////////////////////////////
 //maxCharsFunction

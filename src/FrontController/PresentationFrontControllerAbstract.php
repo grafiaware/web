@@ -33,11 +33,9 @@ abstract class PresentationFrontControllerAbstract extends StatusFrontController
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusFlashRepo $statusFlashRepo,
-            StatusPresentationRepo $statusPresentationRepo,
-            ResourceRegistryInterface $resourceRegistry=null
+            StatusPresentationRepo $statusPresentationRepo
             ) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
-        $this->resourceRegistry = $resourceRegistry;
     }
 
     /**
@@ -80,7 +78,7 @@ abstract class PresentationFrontControllerAbstract extends StatusFrontController
     }
 
     protected function okMessageResponse($messageText) {
-        // vracím 200 OK - použití 204 NoContent způsobí, že v jQuery kódu .done(function(data, textStatus, jqXHR) je proměnná data undefined a ani jqXhr objekt neobsahuje vrácený text - jQuery předpoklákládá, že NoContent znamená NoContent
+        // vracím 200 OK - použití 204 NoContent způsobí, že v jQuery kódu .done(function(data, textStatus, jqXHR) je proměnná data undefined a ani jqXhr objekt neobsahuje vrácený text - jQuery předpokládá, že NoContent znamená NoContent
         $response = new Response();
         $response->getBody()->write($messageText);
         return $response;
