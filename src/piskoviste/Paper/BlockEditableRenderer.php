@@ -61,7 +61,7 @@ class BlockEditableRenderer extends HtmlRendererAbstract {
                             'type'=>'submit',
                             'name'=>'toggle',
                             'formmethod'=>'post',
-                            'formaction'=>"api/v1/menu/{$menuNode->getUid()}/toggle",
+                            'formaction'=>"red/v1/menu/{$menuNode->getUid()}/toggle",
                             ],
                     Html::tag('i', ['class'=>$this->classMap->resolveClass($menuNode->getMenuItem()->getActive(), 'Buttons', 'div button5 i.on', 'div button5 i.off')])
                 )
@@ -82,7 +82,7 @@ class BlockEditableRenderer extends HtmlRendererAbstract {
                             'type'=>'submit',
                             'name'=>'time',
                             'formmethod'=>'post',
-                            'formaction'=>"api/v1/menu/{$menuNode->getUid()}/time",
+                            'formaction'=>"red/v1/menu/{$menuNode->getUid()}/time",
                                     ], 'Uložit'
                 )
 

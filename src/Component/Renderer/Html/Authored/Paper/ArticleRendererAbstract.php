@@ -96,7 +96,7 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract impleme
             $items[] = Html::tag('div', ['class'=>$class, 'value'=>$value], $title);
         }
         return
-            Html::tag('form', ['method'=>'POST', 'action'=>"api/v1/paper/$paperId/template"],
+            Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/$paperId/template"],
                 Html::tag('div', ['class'=>$this->classMap->getClass('PaperTemplateButtons', 'div.paperTemplate'), 'data-tooltip'=>'Výběr šablony stránky'],
                     Html::tag('i', ['class'=>$this->classMap->getClass('PaperTemplateButtons', 'button.templateSelect')])
                     .Html::tag('div', ['class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.menu')],
@@ -136,7 +136,7 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract impleme
                         'name'=>'button',
                         'value' => '',
                         'formmethod'=>'post',
-                        'formaction'=>"api/v1/paper/$paperId/contents",
+                        'formaction'=>"red/v1/paper/$paperId/contents",
                         ],
                         Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.icons')],
                             Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.addcontent')])
@@ -159,7 +159,7 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract impleme
     public function renderHeadlineForm(PaperInterface $paper) {
         return
             Html::tag('section', ['class'=>$this->classMap->getClass('Headline', 'section')],
-                    Html::tag('form', ['method'=>'POST', 'action'=>"api/v1/paper/{$paper->getId()}/headline"],
+                    Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/{$paper->getId()}/headline"],
                     Html::tag(
                         'headline',
                         [
@@ -176,7 +176,7 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract impleme
         $form =
             Html::tag('section', ['class'=>$this->classMap->getClass('Perex', 'section')],
                 Html::tag('form',
-                    ['method'=>'POST', 'action'=>"api/v1/paper/{$paper->getId()}/perex"],
+                    ['method'=>'POST', 'action'=>"red/v1/paper/{$paper->getId()}/perex"],
                     Html::tag('perex',
                         [
                             'id' => "perex_{$paper->getId()}",  // id musí být na stránce unikátní - skládám ze slova perex_ a paper id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
@@ -242,7 +242,7 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract impleme
                 .Html::tag('form',
                     [
                     'method'=>'POST',
-                    'action'=>"api/v1/paper/{$paperContent->getPaperIdFk()}/contents/{$paperContent->getId()}"
+                    'action'=>"red/v1/paper/{$paperContent->getPaperIdFk()}/contents/{$paperContent->getId()}"
                     ],
                      Html::tag('content',
                         [
@@ -316,7 +316,7 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract impleme
                         'name'=>'button',
                         'value' => 'toggle',
                         'formmethod'=>'post',
-                        'formaction'=>"api/v1/paper/$paperIdFk/contents/$paperContentId/toggle",
+                        'formaction'=>"red/v1/paper/$paperIdFk/contents/$paperContentId/toggle",
                         ],
                         Html::tag('i', ['class'=>$this->classMap->resolveClass($active, 'ContentButtons', 'button.notpublish', 'button.publish')])
                     )
@@ -337,7 +337,7 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract impleme
                         'name'=>'button',
                         'value' => '',
                         'formmethod'=>'post',
-                        'formaction'=>"api/v1/paper/$paperIdFk/contents/$paperContentId/up",
+                        'formaction'=>"red/v1/paper/$paperIdFk/contents/$paperContentId/up",
                         ],
                         Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.icons')],
                             Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.movecontent')])
@@ -351,7 +351,7 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract impleme
                         'name'=>'button',
                         'value' => '',
                         'formmethod'=>'post',
-                        'formaction'=>"api/v1/paper/$paperIdFk/contents/$paperContentId/down",
+                        'formaction'=>"red/v1/paper/$paperIdFk/contents/$paperContentId/down",
                         ],
                         Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.icons')],
                             Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.movecontent')])
@@ -367,7 +367,7 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract impleme
                         'name'=>'button',
                         'value' => '',
                         'formmethod'=>'post',
-                        'formaction'=>"api/v1/paper/$paperIdFk/contents/$paperContentId/add_above",
+                        'formaction'=>"red/v1/paper/$paperIdFk/contents/$paperContentId/add_above",
                         ],
                         Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.icons')],
                             Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.addcontent')])
@@ -381,7 +381,7 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract impleme
                         'name'=>'button',
                         'value' => '',
                         'formmethod'=>'post',
-                        'formaction'=>"api/v1/paper/$paperIdFk/contents/$paperContentId/add_below",
+                        'formaction'=>"red/v1/paper/$paperIdFk/contents/$paperContentId/add_below",
                         ],
                         Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.icons')],
                             Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.addcontent')])
@@ -397,7 +397,7 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract impleme
                         'name'=>'button',
                         'value' => '',
                         'formmethod'=>'post',
-                        'formaction'=>"api/v1/paper/$paperIdFk/contents/$paperContentId/trash",
+                        'formaction'=>"red/v1/paper/$paperIdFk/contents/$paperContentId/trash",
                         ],
                         Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.movetotrash')])
                     )
@@ -412,7 +412,7 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract impleme
                     'name'=>'button',
                     'value' => 'permanent',
                     'formmethod'=>'post',
-                    'formaction'=>"api/v1/paper/$paperIdFk/contents/$paperContentId/actual",
+                    'formaction'=>"red/v1/paper/$paperIdFk/contents/$paperContentId/actual",
                     ],
                     Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.permanently')])
                 )
@@ -424,7 +424,7 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract impleme
                     'name'=>'button',
                     'value' => 'calendar',
                     'formmethod'=>'post',
-                    'formaction'=>"api/v1/paper/$paperIdFk/contents/$paperContentId/actual",
+                    'formaction'=>"red/v1/paper/$paperIdFk/contents/$paperContentId/actual",
                     ],
                     Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.save')])
                 )
@@ -479,7 +479,7 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract impleme
                         'name'=>'button',
                         'value' => '',
                         'formmethod'=>'post',
-                        'formaction'=>"api/v1/paper/$paperIdFk/contents/$paperContentId/restore",
+                        'formaction'=>"red/v1/paper/$paperIdFk/contents/$paperContentId/restore",
                         ],
                         Html::tag('i', ['class'=>$this->classMap->getClass('TrashButtons', 'button.restore')])
                     )
@@ -492,7 +492,7 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract impleme
                         'name'=>'button',
                         'value' => '',
                         'formmethod'=>'post',
-                        'formaction'=>"api/v1/paper/$paperIdFk/contents/$paperContentId/delete",
+                        'formaction'=>"red/v1/paper/$paperIdFk/contents/$paperContentId/delete",
                         ],
                         Html::tag('i', ['class'=>$this->classMap->getClass('TrashButtons', 'button.delete')])
                     )
@@ -511,7 +511,7 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract impleme
             $this->getNewContentButtonsForm($paperAggregate)
         )
         .Html::tag('form',
-            ['method'=>'POST', 'action'=>"api/v1/paper/$paperId/contents"],
+            ['method'=>'POST', 'action'=>"red/v1/paper/$paperId/contents"],
             Html::tag('content',
                 [
                     'id' => "new content_for_paper_$paperId",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
@@ -538,7 +538,7 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract impleme
                         'name'=>'button',
                         'value' => '',
                         'formmethod'=>'post',
-                        'formaction'=>"api/v1/paper/$paperId/contents",
+                        'formaction'=>"red/v1/paper/$paperId/contents",
                         ],
                         Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.icons')],
                             Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.addcontent')])

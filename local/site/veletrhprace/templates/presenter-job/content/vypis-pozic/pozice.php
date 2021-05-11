@@ -7,7 +7,7 @@ use Site\Configuration;
 use Status\Model\Repository\StatusSecurityRepo;
 use Model\Entity\LoginAggregateFullInterface;
 
-use Module\Events\Middleware\Api\Controller\VisitorDataController;
+use Events\Middleware\Events\Controller\VisitorDataController;
 use Model\Repository\VisitorDataRepo;
 use Model\Entity\VisitorDataInterface;
 use Events\Model\Repository\VisitorDataPostRepo;
@@ -279,7 +279,7 @@ if (isset($loginAggregate)) {
                                                 <?php
                                                 if (isset($block)) {
                                                     ?>
-                                                    <a href="<?= "www/block/".$block->getName()."#chci-navazat-kontakt" ?>">
+                                                    <a href="<?= "web/v1/page/block/".$block->getName()."#chci-navazat-kontakt" ?>">
                                                         <div class="ui large button grey profil-visible">
                                                             Chci jít na stánek pro kontaktní údaje
                                                         </div>

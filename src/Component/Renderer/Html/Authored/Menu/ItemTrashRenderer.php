@@ -31,7 +31,7 @@ class ItemTrashRenderer extends ItemRenderer {
                             $this->classMapEditable->getClass('Item', 'li a'),
                             $this->classMapEditable->resolveClass($this->viewModel->isPresented(), 'Item', 'li.presented', 'li'),
                             ],
-                        'href'=>"www/item/{$menuNode->getUid()}",
+                        'href'=>"web/v1/page/item/{$menuNode->getUid()}",
                          ],
                         $menuNode->getMenuItem()->getTitle()
                         .Html::tag('span', ['class'=>$this->classMapEditable->getClass('Item', 'semafor')],
@@ -90,7 +90,7 @@ class ItemTrashRenderer extends ItemRenderer {
                 'data-position'=>'top right',
                 'type'=>'submit',
                 'formmethod'=>'post',
-                'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/delete",
+                'formaction'=>"red/v1/hierarchy/{$menuNode->getUid()}/delete",
                 'onclick'=>"return confirm('Jste si jisti?');"
                     ],
                 Html::tag('i', ['class'=>$this->classMapEditable->getClass('Buttons', 'button.icons'),],
@@ -108,7 +108,7 @@ class ItemTrashRenderer extends ItemRenderer {
                 'data-position'=>'top right',
                 'type'=>'submit',
                 'formmethod'=>'post',
-                'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/cut",
+                'formaction'=>"red/v1/hierarchy/{$menuNode->getUid()}/cut",
 
                     ],
                 Html::tag('i', ['class'=>$this->classMapEditable->getClass('Buttons', 'button.cut')])
@@ -122,7 +122,7 @@ class ItemTrashRenderer extends ItemRenderer {
                 'type'=>'submit',
                 'name'=>'move',
                 'formmethod'=>'post',
-                'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/cut",
+                'formaction'=>"red/v1/hierarchy/{$menuNode->getUid()}/cut",
                     ],
                 Html::tag('i', ['class'=>$this->classMapEditable->getClass('Buttons', 'button.cutted')])
             );

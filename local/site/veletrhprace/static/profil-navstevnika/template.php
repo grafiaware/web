@@ -52,7 +52,7 @@ if (isset($role) AND $role==(Configuration::loginLogoutController()['roleVisitor
             [
                 'idZpravy' => '',
                 'nazev' => 'Anketa a slosování',
-                'text' => 'Vyplňte <a href="www/item/cs/607400995acdd" target="_blank">ANKETU NÁVŠTĚVNÍKA</a> a zařaďte se do slosování o ceny, které proběhne 28. dubna!'
+                'text' => 'Vyplňte <a href="web/v1/page/item/607400995acdd" target="_blank">ANKETU NÁVŠTĚVNÍKA</a> a zařaďte se do slosování o ceny, které proběhne 28. dubna!'
             ]
         ];
     ?>

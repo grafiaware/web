@@ -9,7 +9,7 @@
     <div class="grafia segment headlined editable">
         <form method="POST" action="">
             <div class="mini ui basic icon buttons editPage">
-                <button class="ui button" data-tooltip="Přidat obsah" type="submit" name="button" value="" formmethod="post" formaction="api/v1/paper/616/contents">
+                <button class="ui button" data-tooltip="Přidat obsah" type="submit" name="button" value="" formmethod="post" formaction="red/v1/paper/616/contents">
                     <i class="icons">
                         <i class="large plus square outline icon"></i>
                         <i class="bottom right corner arrow down icon"></i>
@@ -18,7 +18,7 @@
             </div> 
         </form> 
         <section class="">
-            <form method="POST" action="api/v1/paper/616/headline/">
+            <form method="POST" action="red/v1/paper/616/headline/">
                 <headline class="ui header"><p>Nadpis</p></headline>
             </form>
         </section>
@@ -27,7 +27,7 @@
                 <form method="POST" action="">
                     <div class="contentButtons">
                         <div class="mini ui basic icon buttons editContent">
-                            <button class="ui button" data-tooltip="Aktivní/neaktivní stránka" type="submit" name="button" value="toggle" formmethod="post" formaction="api/v1/paper/73/contents/4/toggle">
+                            <button class="ui button" data-tooltip="Aktivní/neaktivní stránka" type="submit" name="button" value="toggle" formmethod="post" formaction="red/v1/paper/73/contents/4/toggle">
                                 <i class="large green toggle on icon">
 
                                 </i>
@@ -37,7 +37,7 @@
                                 </i>
                             </button>
                         </div><div class="mini ui basic icon buttons editContent">
-                            <button class="ui button" data-tooltip="Posunout o jednu výš" type="submit" name="button" value="" formmethod="post" formaction="api/v1/paper/73/contents/4/up">
+                            <button class="ui button" data-tooltip="Posunout o jednu výš" type="submit" name="button" value="" formmethod="post" formaction="red/v1/paper/73/contents/4/up">
                                 <i class="icons">
                                     <i class="large sticky note outline icon">
 
@@ -45,7 +45,7 @@
 
                                     </i>
                                 </i>
-                            </button><button class="ui button" data-tooltip="Posunout o jednu níž" type="submit" name="button" value="" formmethod="post" formaction="api/v1/paper/73/contents/4/down">
+                            </button><button class="ui button" data-tooltip="Posunout o jednu níž" type="submit" name="button" value="" formmethod="post" formaction="red/v1/paper/73/contents/4/down">
                                 <i class="icons">
                                     <i class="large sticky note outline icon">
 
@@ -55,7 +55,7 @@
                                 </i>
                             </button>
                         </div><div class="mini ui basic icon buttons editContent">
-                            <button class="ui button" data-tooltip="Přidat další obsah před" type="submit" name="button" value="" formmethod="post" formaction="api/v1/paper/73/contents/4/add_above">
+                            <button class="ui button" data-tooltip="Přidat další obsah před" type="submit" name="button" value="" formmethod="post" formaction="red/v1/paper/73/contents/4/add_above">
                                 <i class="icons">
                                     <i class="large plus square outline icon">
 
@@ -63,7 +63,7 @@
 
                                     </i>
                                 </i>
-                            </button><button class="ui button" data-tooltip="Přidat další obsah za" type="submit" name="button" value="" formmethod="post" formaction="api/v1/paper/73/contents/4/add_below">
+                            </button><button class="ui button" data-tooltip="Přidat další obsah za" type="submit" name="button" value="" formmethod="post" formaction="red/v1/paper/73/contents/4/add_below">
                                 <i class="icons">
                                     <i class="large plus square outline icon">
 
@@ -73,18 +73,18 @@
                                 </i>
                             </button>
                         </div><div class="mini ui basic icon buttons editContent">
-                            <button class="ui button" data-tooltip="Smazat" type="submit" name="button" value="" formmethod="post" formaction="api/v1/paper/73/contents/4/trash">
+                            <button class="ui button" data-tooltip="Smazat" type="submit" name="button" value="" formmethod="post" formaction="red/v1/paper/73/contents/4/trash">
                                 <i class="large trash icon">
 
                                 </i>
                             </button>
                         </div>
                     </div><div class="mini ui basic icon buttons editDate">
-                        <button class="ui button" data-tooltip="Trvale" data-position="top right" type="submit" name="button" value="permanent" formmethod="post" formaction="api/v1/paper/73/contents/4/actual">
+                        <button class="ui button" data-tooltip="Trvale" data-position="top right" type="submit" name="button" value="permanent" formmethod="post" formaction="red/v1/paper/73/contents/4/actual">
                             <i class="large calendar outline icon">
 
                             </i>
-                        </button><button class="ui button" data-tooltip="Uložit" data-position="top right" type="submit" name="button" value="calendar" formmethod="post" formaction="api/v1/paper/73/contents/4/actual">
+                        </button><button class="ui button" data-tooltip="Uložit" data-position="top right" type="submit" name="button" value="calendar" formmethod="post" formaction="red/v1/paper/73/contents/4/actual">
                             <i class="large save icon">
 
                             </i>
@@ -121,7 +121,7 @@
                 </i><i class="calendar plus icon grey" role="presentation" title="past">
 
                 </i>1
-            </div><form method="POST" action="api/v1/paper/73/contents/4/">
+            </div><form method="POST" action="red/v1/paper/73/contents/4/">
                 <content id="content_4" class="" data-paperowner="anta2208" data-owner="anta2208">
                     <div class="column">
                         <div class="ui segment">

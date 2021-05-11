@@ -7,7 +7,7 @@ use Pes\Text\Html;
 use Site\Configuration;
 use Model\Entity\LoginAggregateFullInterface;
 
-use Events\Middleware\Api\Controller\VisitorDataController;
+use Events\Middleware\Events\Controller\VisitorDataController;
 use Model\Entity\VisitorData;
 
 /** @var PhpTemplateRendererInterface $this */

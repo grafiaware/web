@@ -48,7 +48,7 @@ $exhibitor = [
             'row' => [
                 [
                     'name' => 'Grafia',
-                    'urlStand' => 'www/block/grafia',
+                    'urlStand' => 'web/v1/page/block/grafia',
                     'logoAttributes' => [
                         'src' => $static_ref.'grafia'.$logo_ref,
                         'alt' => 'Firma Grafia',
@@ -56,7 +56,7 @@ $exhibitor = [
                 ],
                 [
                     'name' => 'Daikin',
-                    'urlStand' => 'www/block/daikin',
+                    'urlStand' => 'web/v1/page/block/daikin',
                     'logoAttributes' => [
                         'src' => $static_ref.'daikin'.$logo_ref,
                         'alt' => 'Firma Daikin',
@@ -68,7 +68,7 @@ $exhibitor = [
             'row' => [
                 [
                     'name' => 'Konplan',
-                    'urlStand' => 'www/block/konplan',
+                    'urlStand' => 'web/v1/page/block/konplan',
                     'logoAttributes' => [
                         'src' => $static_ref.'konplan'.$logo_ref,
                         'alt' => 'Firma Konplan',
@@ -76,7 +76,7 @@ $exhibitor = [
                 ],
                 [
                     'name' => 'MD Elektronik',
-                    'urlStand' => 'www/block/mdelektronik',
+                    'urlStand' => 'web/v1/page/block/mdelektronik',
                     'logoAttributes' => [
                         'src' => $static_ref.'mdelektronik'.$logo_ref,
                         'alt' => 'Firma MD Elektronik',
@@ -88,7 +88,7 @@ $exhibitor = [
             'row' => [
                 [
                     'name' => 'Úřad práce',
-                    'urlStand' => 'www/block/up',
+                    'urlStand' => 'web/v1/page/block/up',
                     'logoAttributes' => [
                         'src' => $static_ref.'up'.$logo_ref,
                         'alt' => 'Firma ÚP',
@@ -96,7 +96,7 @@ $exhibitor = [
                 ],
                 [
                     'name' => 'Stoelzle',
-                    'urlStand' => 'www/block/stoelzle',
+                    'urlStand' => 'web/v1/page/block/stoelzle',
                     'logoAttributes' => [
                         'src' => $static_ref.'stoelzle'.$logo_ref,
                         'alt' => 'Firma Stoelzle',
@@ -108,7 +108,7 @@ $exhibitor = [
             'row' => [
                 [
                     'name' => 'Wienerberger',
-                    'urlStand' => 'www/block/wienerberger',
+                    'urlStand' => 'web/v1/page/block/wienerberger',
                     'logoAttributes' => [
                         'src' => $static_ref.'wienerberger'.$logo_ref,
                         'alt' => 'Firma Wienerberger',
@@ -116,7 +116,7 @@ $exhibitor = [
                 ],
                 [
                     'name' => 'Akka',
-                    'urlStand' => 'www/block/akka',
+                    'urlStand' => 'web/v1/page/block/akka',
                     'logoAttributes' => [
                         'src' => $static_ref.'akka'.$logo_ref,
                         'alt' => 'Firma Akka',
@@ -128,7 +128,7 @@ $exhibitor = [
             'row' => [
                 [
                     'name' => 'Kermi',
-                    'urlStand' => 'www/block/kermi',
+                    'urlStand' => 'web/v1/page/block/kermi',
                     'logoAttributes' => [
                         'src' => $static_ref.'kermi'.$logo_ref,
                         'alt' => 'Firma Kermi',
@@ -136,7 +136,7 @@ $exhibitor = [
                 ],
                 [
                     'name' => 'Drůběžářský závod Klatovy',
-                    'urlStand' => 'www/block/dzk',
+                    'urlStand' => 'web/v1/page/block/dzk',
                     'logoAttributes' => [
                         'src' => $static_ref.'dzk'.$logo_ref,
                         'alt' => 'Firma DZK',
@@ -148,7 +148,7 @@ $exhibitor = [
             'row' => [
                 [
                     'name' => 'Possehl',
-                    'urlStand' => 'www/block/possehl',
+                    'urlStand' => 'web/v1/page/block/possehl',
                     'logoAttributes' => [
                         'src' => $static_ref.'possehl'.$logo_ref,
                         'alt' => 'Firma Possehl',
@@ -156,7 +156,7 @@ $exhibitor = [
                 ],
                 [
                     'name' => 'Valeo',
-                    'urlStand' => 'www/block/valeo',
+                    'urlStand' => 'web/v1/page/block/valeo',
                     'logoAttributes' => [
                         'src' => $static_ref.'valeo'.$logo_ref,
                         'alt' => 'Firma Valeo',

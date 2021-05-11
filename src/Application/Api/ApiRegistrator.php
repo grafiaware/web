@@ -46,81 +46,81 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/forgottenpassword'));
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/changepassword'));
 
-        ### www ###
-
-        $registry->register($this->getPrototype->withUrlPattern('/www/item/:uid'));
-        $registry->register($this->getPrototype->withUrlPattern('/www/subitem/:uid'));
-        $registry->register($this->getPrototype->withUrlPattern('/www/block/:name'));
-        $registry->register($this->getPrototype->withUrlPattern('/www/searchresult'));
+        ### web ###
         $registry->register($this->getPrototype->withUrlPattern('/'));
+        $registry->register($this->getPrototype->withUrlPattern('/web/v1/page/item/:uid'));
+        $registry->register($this->getPrototype->withUrlPattern('/web/v1/page/subitem/:uid'));
+        $registry->register($this->getPrototype->withUrlPattern('/web/v1/page/block/:name'));
+        $registry->register($this->getPrototype->withUrlPattern('/web/v1/page/searchresult'));
+
+        #### ComponentController ####
+        $registry->register($this->getPrototype->withUrlPattern('/web/v1/flash'));
+        $registry->register($this->getPrototype->withUrlPattern('/web/v1/service/:name'));
+        $registry->register($this->getPrototype->withUrlPattern('/web/v1/static/:name'));
+        $registry->register($this->getPrototype->withUrlPattern('/web/v1/itempaper/:menuItemId'));
+        $registry->register($this->getPrototype->withUrlPattern('/web/v1/itempapereditable/:menuItemId'));
 
         ### api ###
         #### UserActionController ####
-        $registry->register($this->getPrototype->withUrlPattern('/api/v1/useraction/app/:app'));
+        $registry->register($this->getPrototype->withUrlPattern('/red/v1/useraction/app/:app'));
 
         #### PresentationController ####
-        $registry->register($this->postPrototype->withUrlPattern('/api/v1/presentation/language'));
-        $registry->register($this->postPrototype->withUrlPattern('/api/v1/presentation/uid'));
-        $registry->register($this->postPrototype->withUrlPattern('/api/v1/presentation/edit_layout'));
-        $registry->register($this->postPrototype->withUrlPattern('/api/v1/presentation/edit_article'));
-        $registry->register($this->postPrototype->withUrlPattern('/api/v1/presentation/edit_menu'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/presentation/language'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/presentation/uid'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/presentation/edit_layout'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/presentation/edit_article'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/presentation/edit_menu'));
 
         #### PaperController ####
-        $registry->register($this->postPrototype->withUrlPattern('/api/v1/paper'));
-        $registry->register($this->postPrototype->withUrlPattern('/api/v1/paper/:paperId/template'));
-        $registry->register($this->postPrototype->withUrlPattern('/api/v1/paper/:paperId/headline'));
-        $registry->register($this->postPrototype->withUrlPattern('/api/v1/paper/:paperId/perex'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/template'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/headline'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/perex'));
 
         #### ContentController ####
-        $registry->register($this->postPrototype->withUrlPattern('/api/v1/paper/:paperId/contents'));
-        $registry->register($this->postPrototype->withUrlPattern('/api/v1/paper/:paperId/contents/:contentId'));
-        $registry->register($this->postPrototype->withUrlPattern('/api/v1/paper/:paperId/contents/:contentId/toggle'));
-        $registry->register($this->postPrototype->withUrlPattern('/api/v1/paper/:paperId/contents/:contentId/actual'));
-        $registry->register($this->postPrototype->withUrlPattern('/api/v1/paper/:paperId/contents/:contentId/up'));
-        $registry->register($this->postPrototype->withUrlPattern('/api/v1/paper/:paperId/contents/:contentId/down'));
-        $registry->register($this->postPrototype->withUrlPattern('/api/v1/paper/:paperId/contents/:contentId/add_above'));
-        $registry->register($this->postPrototype->withUrlPattern('/api/v1/paper/:paperId/contents/:contentId/add_below'));
-        $registry->register($this->postPrototype->withUrlPattern('/api/v1/paper/:paperId/contents/:contentId/trash'));
-        $registry->register($this->postPrototype->withUrlPattern('/api/v1/paper/:paperId/contents/:contentId/restore'));
-        $registry->register($this->postPrototype->withUrlPattern('/api/v1/paper/:paperId/contents/:contentId/delete'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/contents'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/contents/:contentId'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/contents/:contentId/toggle'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/contents/:contentId/actual'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/contents/:contentId/up'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/contents/:contentId/down'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/contents/:contentId/add_above'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/contents/:contentId/add_below'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/contents/:contentId/trash'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/contents/:contentId/restore'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/contents/:contentId/delete'));
 
         #### EditItemController ####
-        $registry->register($this->postPrototype->withUrlPattern('/api/v1/menu'));
-        $registry->register($this->postPrototype->withUrlPattern('/api/v1/menu/:menuItemUidFk/toggle'));
-        $registry->register($this->postPrototype->withUrlPattern('/api/v1/menu/:menuItemUidFk/title'));
-        $registry->register($this->postPrototype->withUrlPattern('/api/v1/menu/:menuItemUidFk/type'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/menu'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/menu/:menuItemUidFk/toggle'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/menu/:menuItemUidFk/title'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/menu/:menuItemUidFk/type'));
 
         #### HierarchyController ####
-        $registry->register($this->postPrototype->withUrlPattern('/api/v1/hierarchy/:uid/add'));
-        $registry->register($this->postPrototype->withUrlPattern('/api/v1/hierarchy/:uid/addchild'));
-        $registry->register($this->postPrototype->withUrlPattern('/api/v1/hierarchy/:uid/cut'));
-        $registry->register($this->postPrototype->withUrlPattern('/api/v1/hierarchy/:uid/cutescape'));
-        $registry->register($this->postPrototype->withUrlPattern('/api/v1/hierarchy/:uid/paste'));
-        $registry->register($this->postPrototype->withUrlPattern('/api/v1/hierarchy/:uid/pastechild'));
-        $registry->register($this->postPrototype->withUrlPattern('/api/v1/hierarchy/:uid/delete'));
-        $registry->register($this->postPrototype->withUrlPattern('/api/v1/hierarchy/:uid/trash'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/hierarchy/:uid/add'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/hierarchy/:uid/addchild'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/hierarchy/:uid/cut'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/hierarchy/:uid/cutescape'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/hierarchy/:uid/paste'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/hierarchy/:uid/pastechild'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/hierarchy/:uid/delete'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/hierarchy/:uid/trash'));
 
-        $registry->register($this->postPrototype->withUrlPattern('/api/v1/upload/editorimages'));
+        #### TemplateController ####
+        $registry->register($this->getPrototype->withUrlPattern('/red/v1/papertemplate/:folder'));
+        $registry->register($this->getPrototype->withUrlPattern('/red/v1/authortemplate/:folder/:name'));
+
+        #### TinyUploadImagesController
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/upload/editorimages'));
 
         $registry->register($this->postPrototype->withUrlPattern('/event/v1/enroll'));
         $registry->register($this->postPrototype->withUrlPattern('/event/v1/visitor'));
         $registry->register($this->postPrototype->withUrlPattern('/event/v1/uploadvisitorfile'));
         $registry->register($this->postPrototype->withUrlPattern('/event/v1/visitorpost'));
         $registry->register($this->postPrototype->withUrlPattern('/event/v1/sendvisitorpost'));
-        
+
         #### MailController ######
-        $registry->register($this->getPrototype->withUrlPattern('/api/v1/sendmail/:campaign'));
-
-        #### TemplateController ####
-        $registry->register($this->getPrototype->withUrlPattern('/component/v1/papertemplate/:folder'));
-        $registry->register($this->getPrototype->withUrlPattern('/component/v1/authortemplate/:folder/:name'));
-
-        #### ComponentController ####
-        $registry->register($this->getPrototype->withUrlPattern('/component/v1/flash'));
-        $registry->register($this->getPrototype->withUrlPattern('/component/v1/service/:name'));
-        $registry->register($this->getPrototype->withUrlPattern('/component/v1/static/:name'));
-        $registry->register($this->getPrototype->withUrlPattern('/component/v1/itempaper/:menuItemId'));
-        $registry->register($this->getPrototype->withUrlPattern('/component/v1/itempapereditable/:menuItemId'));
+        $registry->register($this->getPrototype->withUrlPattern('/sendmail/v1/sendmail/:campaign'));
 
         #### BuildController ####
         $registry->register($this->getPrototype->withUrlPattern('/build/createdb'));

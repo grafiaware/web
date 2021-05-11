@@ -48,7 +48,7 @@ class ElementEditableWrapper {
     public function wrapHeadline(PaperInterface $paper) {
         return
             Html::tag('section', ['class'=>$this->classMap->getClass('Headline', 'section')],
-                    Html::tag('form', ['method'=>'POST', 'action'=>"api/v1/paper/{$paper->getId()}/headline"],
+                    Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/{$paper->getId()}/headline"],
                     Html::tag(
                         'headline',
                         [
@@ -65,7 +65,7 @@ class ElementEditableWrapper {
         $form =
             Html::tag('section', ['class'=>$this->classMap->getClass('Perex', 'section')],
                 Html::tag('form',
-                    ['method'=>'POST', 'action'=>"api/v1/paper/{$paper->getId()}/perex"],
+                    ['method'=>'POST', 'action'=>"red/v1/paper/{$paper->getId()}/perex"],
                     Html::tag('perex',
                         [
                             'id' => "perex_{$paper->getId()}",  // id musí být na stránce unikátní - skládám ze slova perex_ a paper id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
@@ -127,7 +127,7 @@ class ElementEditableWrapper {
                 .Html::tag('form',
                     [
                     'method'=>'POST',
-                    'action'=>"api/v1/paper/{$paperContent->getPaperIdFk()}/contents/{$paperContent->getId()}"
+                    'action'=>"red/v1/paper/{$paperContent->getPaperIdFk()}/contents/{$paperContent->getId()}"
                     ],
                      Html::tag('content',
                         [
@@ -169,7 +169,7 @@ class ElementEditableWrapper {
             $this->getNewContentButtonsForm($paperAggregate)
         )
         .Html::tag('form',
-            ['method'=>'POST', 'action'=>"api/v1/paper/$paperId/contents"],
+            ['method'=>'POST', 'action'=>"red/v1/paper/$paperId/contents"],
             Html::tag('content',
                 [
                     'id' => "new content_for_paper_$paperId",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
@@ -223,7 +223,7 @@ class ElementEditableWrapper {
                         'name'=>'button',
                         'value' => 'toggle',
                         'formmethod'=>'post',
-                        'formaction'=>"api/v1/paper/$paperIdFk/contents/$paperContentId/toggle",
+                        'formaction'=>"red/v1/paper/$paperIdFk/contents/$paperContentId/toggle",
                         ],
                         Html::tag('i', ['class'=>$this->classMap->resolveClass($active, 'ContentButtons', 'button.notpublish', 'button.publish')])
                     )
@@ -244,7 +244,7 @@ class ElementEditableWrapper {
                         'name'=>'button',
                         'value' => '',
                         'formmethod'=>'post',
-                        'formaction'=>"api/v1/paper/$paperIdFk/contents/$paperContentId/up",
+                        'formaction'=>"red/v1/paper/$paperIdFk/contents/$paperContentId/up",
                         ],
                         Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.icons')],
                             Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.movecontent')])
@@ -258,7 +258,7 @@ class ElementEditableWrapper {
                         'name'=>'button',
                         'value' => '',
                         'formmethod'=>'post',
-                        'formaction'=>"api/v1/paper/$paperIdFk/contents/$paperContentId/down",
+                        'formaction'=>"red/v1/paper/$paperIdFk/contents/$paperContentId/down",
                         ],
                         Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.icons')],
                             Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.movecontent')])
@@ -274,7 +274,7 @@ class ElementEditableWrapper {
                         'name'=>'button',
                         'value' => '',
                         'formmethod'=>'post',
-                        'formaction'=>"api/v1/paper/$paperIdFk/contents/$paperContentId/add_above",
+                        'formaction'=>"red/v1/paper/$paperIdFk/contents/$paperContentId/add_above",
                         ],
                         Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.icons')],
                             Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.addcontent')])
@@ -288,7 +288,7 @@ class ElementEditableWrapper {
                         'name'=>'button',
                         'value' => '',
                         'formmethod'=>'post',
-                        'formaction'=>"api/v1/paper/$paperIdFk/contents/$paperContentId/add_below",
+                        'formaction'=>"red/v1/paper/$paperIdFk/contents/$paperContentId/add_below",
                         ],
                         Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.icons')],
                             Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.addcontent')])
@@ -304,7 +304,7 @@ class ElementEditableWrapper {
                         'name'=>'button',
                         'value' => '',
                         'formmethod'=>'post',
-                        'formaction'=>"api/v1/paper/$paperIdFk/contents/$paperContentId/trash",
+                        'formaction'=>"red/v1/paper/$paperIdFk/contents/$paperContentId/trash",
                         ],
                         Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.movetotrash')])
                     )
@@ -319,7 +319,7 @@ class ElementEditableWrapper {
                     'name'=>'button',
                     'value' => 'permanent',
                     'formmethod'=>'post',
-                    'formaction'=>"api/v1/paper/$paperIdFk/contents/$paperContentId/actual",
+                    'formaction'=>"red/v1/paper/$paperIdFk/contents/$paperContentId/actual",
                     ],
                     Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.permanently')])
                 )
@@ -331,7 +331,7 @@ class ElementEditableWrapper {
                     'name'=>'button',
                     'value' => 'calendar',
                     'formmethod'=>'post',
-                    'formaction'=>"api/v1/paper/$paperIdFk/contents/$paperContentId/actual",
+                    'formaction'=>"red/v1/paper/$paperIdFk/contents/$paperContentId/actual",
                     ],
                     Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.save')])
                 )
@@ -386,7 +386,7 @@ class ElementEditableWrapper {
                         'name'=>'button',
                         'value' => '',
                         'formmethod'=>'post',
-                        'formaction'=>"api/v1/paper/$paperIdFk/contents/$paperContentId/restore",
+                        'formaction'=>"red/v1/paper/$paperIdFk/contents/$paperContentId/restore",
                         ],
                         Html::tag('i', ['class'=>$this->classMap->getClass('TrashButtons', 'button.restore')])
                     )
@@ -399,7 +399,7 @@ class ElementEditableWrapper {
                         'name'=>'button',
                         'value' => '',
                         'formmethod'=>'post',
-                        'formaction'=>"api/v1/paper/$paperIdFk/contents/$paperContentId/delete",
+                        'formaction'=>"red/v1/paper/$paperIdFk/contents/$paperContentId/delete",
                         ],
                         Html::tag('i', ['class'=>$this->classMap->getClass('TrashButtons', 'button.delete')])
                     )
@@ -424,7 +424,7 @@ class ElementEditableWrapper {
                         'name'=>'button',
                         'value' => '',
                         'formmethod'=>'post',
-                        'formaction'=>"api/v1/paper/$paperId/contents",
+                        'formaction'=>"red/v1/paper/$paperId/contents",
                         ],
                         Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.icons')],
                             Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.addcontent')])

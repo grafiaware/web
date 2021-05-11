@@ -37,7 +37,7 @@ class ItemTypeRenderer extends HtmlModelRendererAbstract implements RendererMode
                                     .$type
                                 );
             }
-            return Html::tag('form', ['method'=>'POST', 'action'=>"api/v1/menu/$menuItemUidFk/type"],
+            return Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/menu/$menuItemUidFk/type"],
                         Html::tag('p', [], Message::t("Vyberte typ obsahu:"))
                         .Html::tag('div', [],
                                 $radioHtml

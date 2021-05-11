@@ -1,4 +1,4 @@
 
-                <?php include Middleware\Web\AppContext::getScriptsDirectory().'contents/contents.php'; ?>
+                <?php include Web\Middleware\Web\AppContext::getScriptsDirectory().'contents/contents.php'; ?>
 
 

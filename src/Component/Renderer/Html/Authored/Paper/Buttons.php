@@ -61,7 +61,7 @@ class Buttons {
             $items[] = Html::tag('div', ['class'=>$class, 'value'=>$value], $title);
         }
         return
-            Html::tag('form', ['method'=>'POST', 'action'=>"api/v1/paper/$paperId/template"],
+            Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/$paperId/template"],
                 Html::tag('div', ['class'=>$this->classMap->getClass('PaperTemplateButtons', 'div.paperTemplate'), 'data-tooltip'=>'Výběr šablony stránky'],
                     Html::tag('i', ['class'=>$this->classMap->getClass('PaperTemplateButtons', 'button.templateSelect')])
                     .Html::tag('div', ['class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.menu')],
@@ -101,7 +101,7 @@ class Buttons {
                         'name'=>'button',
                         'value' => '',
                         'formmethod'=>'post',
-                        'formaction'=>"api/v1/paper/$paperId/contents",
+                        'formaction'=>"red/v1/paper/$paperId/contents",
                         ],
                         Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.icons')],
                             Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.addcontent')])

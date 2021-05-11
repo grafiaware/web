@@ -46,7 +46,7 @@ class LanguageSelectRenderer extends HtmlModelRendererAbstract implements Render
                             ])
                         );
         }
-        return Html::tag('form', ['method'=>'POST', 'action'=>'api/v1/presentation/language'], implode(PHP_EOL, $buttons));
+        return Html::tag('form', ['method'=>'POST', 'action'=>'red/v1/presentation/language'], implode(PHP_EOL, $buttons));
     }
 
 }

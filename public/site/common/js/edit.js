@@ -146,7 +146,7 @@ function sendOnEnter(event) {
             // data title z innerText, ostatní z data- atributů - zde musí být shoda jmen s html šablonou pro item!
             data['title'] = targetElement.innerText; // innerHTML obsahuje i vložený <br/> tag vzhiklý po stisku enter klávesy
             data['original-title'] = targetElement.getAttribute('data-oroginaltitle');
-            url = targetElement.baseURI + '/api/v1/menu/' + targetElement.getAttribute('data-uid') + '/title';
+            url = targetElement.baseURI + '/red/v1/menu/' + targetElement.getAttribute('data-uid') + '/title';
             // odeslání ajax requestu
             // .ajax vrací Deferred Object - .done a .fail jsou metody Deferred Objectu (a samy vracejí Deferred Object)
             $.ajax({

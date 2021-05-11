@@ -34,7 +34,7 @@ class ItemBlockRenderer extends ItemRenderer {
                     $this->classMapEditable->getClass('Item', 'li a'),   // class - editable v kontejneru
                     $this->classMapEditable->resolveClass($this->viewModel->isPresented(), 'Item', 'li.presented', 'li')
                     ],
-                'href'=>"www/item/{$menuNode->getUid()}",
+                'href'=>"web/v1/page/item/{$menuNode->getUid()}",
                 'tabindex'=>0,
                 'data-original-title'=>$menuItem->getTitle(),
                 'data-uid'=>$menuNode->getUid(),
@@ -67,7 +67,7 @@ class ItemBlockRenderer extends ItemRenderer {
                 'type'=>'submit',
                 'name'=>'delete',
                 'formmethod'=>'post',
-                'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/trash",
+                'formaction'=>"red/v1/hierarchy/{$menuNode->getUid()}/trash",
                 'onclick'=>"return confirm('Jste si jisti?');"
                     ],
                 Html::tag('i', ['class'=>$this->classMapEditable->getClass('Buttons', 'button.movetotrash'),])
@@ -79,7 +79,7 @@ class ItemBlockRenderer extends ItemRenderer {
                 'name'=>'button',
                 'value' => 'toggle',
                 'formmethod'=>'post',
-                'formaction'=>"api/v1/menu/{$menuNode->getUid()}/toggle",
+                'formaction'=>"red/v1/menu/{$menuNode->getUid()}/toggle",
                 ],
                 Html::tag('i', ['class'=>$this->classMapEditable->resolveClass($menuNode->getMenuItem()->getActive(), 'Buttons', 'button.notpublish', 'button.publish')])
             )
@@ -90,7 +90,7 @@ class ItemBlockRenderer extends ItemRenderer {
                 'type'=>'submit',
                 'name'=>'add',
                 'formmethod'=>'post',
-                'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/add",
+                'formaction'=>"red/v1/hierarchy/{$menuNode->getUid()}/add",
                     ],
                 Html::tag('i', ['class'=>$this->classMapEditable->getClass('Buttons', 'button.addsiblings')])
             )

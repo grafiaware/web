@@ -32,7 +32,7 @@ class SearchResultRenderer extends HtmlModelRendererAbstract implements Renderer
             /** @var MenuItemInterface $menuItem */
             $html .= Html::tag('p', [],
                         ++$n
-                        .Html::tag('a', ['href'=>"www/item/{$menuItem->getLangCodeFk()}/{$menuItem->getUidFk()}"], $menuItem->getTitle())
+                        .Html::tag('a', ['href'=>"web/v1/page/item/{$menuItem->getLangCodeFk()}/{$menuItem->getUidFk()}"], $menuItem->getTitle())
                     );
         }
         if ( $n== 0) {

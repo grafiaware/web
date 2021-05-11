@@ -15,6 +15,15 @@ use Auth\Middleware\Login\Login;
 use Auth\Middleware\Logged\LoggedAccess;
 use Auth\Middleware\Logged\Service\LoggedAccessor;
 
+use Web\Middleware\Web\Web;
+use Web\Middleware\Xhr\Component;
+
+use Red\Middleware\Redactor\Redactor;
+use Red\Middleware\Transformator\Transformator;
+
+use Sendmail\Middleware\Sendmail\Sendmail;
+
+use Build\Middleware\Build\Build;
 use ResponseTime\Middleware\ResponseTime;
 
 use Status\Middleware\FlashStatus;
@@ -50,23 +59,34 @@ class SelectorItems {
                     new Login(),
                     new FlashStatus(),
                     new PresentationStatus(),
-                    new \Middleware\Transformator\Transformator(),
-                    new \Middleware\Web\Web()
+                    new Transformator(),
+                    new Web()
                 ];};
 
         // všechny položky selektoru dostávají jako stack anonymní funkci, která přijímá AppInterface,
         // ve vzniklých položkách bude dostupná proměnná $app
         $this->items = [
-            '/www' => $default,
-            '/api'=>
+            '/web/v1/page' => $default,
+            '/web/v1'=>
+            function() {
+                return [
+                    new ResponseTime(),
+                    new SecurityStatus(),
+                    new Login(),
+                    new FlashStatus(),
+                    new Transformator(),
+                    new Component()
+                ];},
+            '/red'=>
             function() {
                 return [
                     new SecurityStatus(),
                     new Login(),
                     new FlashStatus(),
                     new PresentationStatus(),
-                    new \Middleware\Api\Api()
+                    new Redactor()
                 ];},
+
             '/auth'=>
             function() {
                 return [
@@ -75,16 +95,36 @@ class SelectorItems {
                     new PresentationStatus(),
                     new Login()
                 ];},
-            '/component'=>
+            '/event'=>
             function() {
                 return [
-                    new ResponseTime(),
                     new SecurityStatus(),
                     new Login(),
                     new FlashStatus(),
-                    new \Middleware\Transformator\Transformator(),
-                    new \Middleware\Xhr\Component()
+                    new PresentationStatus(),
+                    new \Events\Middleware\Events\Event()
                 ];},
+            '/sendmail'=>
+            function() {
+                return [
+                    //TODO: doplnit basic autentifikaci pro případ něpřihlášeného uživatele.
+                    new SecurityStatus(),
+                    new Login(),
+                    new LoggedAccess(new LoggedAccessor($this->app)),
+                    new Sendmail()
+                ];},
+            '/build'=>
+            function() {
+                return [
+                    //TODO: doplnit basic autentifikaci pro případ něpřihlášeného uživatele.
+                    new SecurityStatus(),
+                    new Login(),
+                    new LoggedAccess(new LoggedAccessor($this->app)),
+                    new Build()
+                ];},
+
+            '/' => $default,
+
             '/rs'=>
             function() {
                 return [
@@ -109,42 +149,9 @@ class SelectorItems {
                     new \Middleware\Staffer\Transformator(),
                     new \Middleware\Staffer\Staffer()
                 ];},
-//            '/menu/'=>
-//            function() {
-//                return [
-//                    new \Middleware\Logged\LoggedAccess(new LoggedAccessor($this->app)),
-//                    (new \Middleware\Menu\Menu())
-//                ];},
-            '/event'=>
-            function() {
-                return [
-                    new SecurityStatus(),
-                    new Login(),
-                    new FlashStatus(),
-                    new PresentationStatus(),
-                    new \Events\Middleware\Api\Api()
-                ];},
-            '/sendmail'=>
-            function() {
-                return [
-                    //TODO: doplnit basic autentifikaci pro případ něpřihlášeného uživatele.
-                    new SecurityStatus(),
-                    new Login(),
-                    new LoggedAccess(new LoggedAccessor($this->app)),
-                    new \Middleware\Sendmail\Sendmail()
-                ];},
-            '/build'=>
-            function() {
-                return [
-                    //TODO: doplnit basic autentifikaci pro případ něpřihlášeného uživatele.
-                    new SecurityStatus(),
-                    new Login(),
-                    new LoggedAccess(new LoggedAccessor($this->app)),
-                    new \Middleware\Build\Build()
-                ];},
 
-            '/' => $default,
-            ];
+
+        ];
     }
 
     /**

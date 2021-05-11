@@ -41,7 +41,7 @@ do {
             parse_str($query, $pairs);
             if (array_key_exists('list', $pairs)) {
                 $row = $dao->getByList('cs', $pairs['list']);
-                $transform[$url] = "/www/item/{$row['uid_fk']}";
+                $transform[$url] = "/web/v1/page/item/{$row['uid_fk']}";
             }
         }
     }

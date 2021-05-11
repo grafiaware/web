@@ -44,7 +44,7 @@ class HeadlinedEditableRenderer extends HtmlRendererAbstract {
             // a parametru v rest, který obsahuje paper id.
 
             $innerHtml =
-                Html::tag('form', ['method'=>'POST', 'action'=>"api/v1/paper/{$paper->getMenuItemIdFk()}/headline"],
+                Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/{$paper->getMenuItemIdFk()}/headline"],
                     $this->renderButtons($menuNode, $paper)
                     .Html::tag('div', ['class'=>$this->classMap->getClass('Component', 'div div div')],
                         Html::tag('headline', ['id'=>"headline_{$paper->getMenuItemIdFk()}", 'class'=>$this->classMap->getClass('Component', 'div div div headline')],
@@ -81,7 +81,7 @@ class HeadlinedEditableRenderer extends HtmlRendererAbstract {
                             'type'=>'submit',
                             'name'=>'toggle',
                             'formmethod'=>'post',
-                            'formaction'=>"api/v1/menu/{$menuNode->getUid()}/toggle",
+                            'formaction'=>"red/v1/menu/{$menuNode->getUid()}/toggle",
                             ],
                     Html::tag('i', ['class'=>$this->classMap->resolveClass($menuNode->getMenuItem()->getActive(), 'Buttons', 'div button5 i.on', 'div button5 i.off')])
                 )
@@ -102,7 +102,7 @@ class HeadlinedEditableRenderer extends HtmlRendererAbstract {
                             'type'=>'submit',
                             'name'=>'time',
                             'formmethod'=>'post',
-                            'formaction'=>"api/v1/menu/{$menuNode->getUid()}/time",
+                            'formaction'=>"red/v1/menu/{$menuNode->getUid()}/time",
                                     ], 'Uložit'
                 )
 

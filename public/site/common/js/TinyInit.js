@@ -215,7 +215,7 @@ function image_upload_handler (blobInfo, success, failure, progress) {
 
   xhr = new XMLHttpRequest();
   xhr.withCredentials = false;
-  xhr.open('POST', 'api/v1/upload/editorimages');
+  xhr.open('POST', 'red/v1/upload/editorimages');
 
   xhr.upload.onprogress = function (e) {
     progress(e.loaded / e.total * 100);
@@ -267,19 +267,19 @@ var plugins_paper = [
     ];
 
 var templates_paper = [
-        { title: 'Kontakt', description: 'Grafia web - kontakt',       url: 'component/v1/authortemplate/default/kontakt'}, //vztaženo k rootu RS, tam kde je index redakčního s.
-        { title: 'Publikace - novinka', description: 'Grafia web - publikace',   url: 'component/v1/authortemplate/default/eshop_nove'},
-        { title: 'Obrázek vlevo a text', description: 'Bez obtékání. Dva sloupce', url: 'component/v1/authortemplate/default/obrazekVlevo_blok'},
-        { title: 'Publikace - 2', description: 'Vložení publikací na stránku', url: 'component/v1/authortemplate/default/eshop_radka'},
-        { title: 'Menu - 1 položka', description: 'Vložení položky menu na stránku', url: 'component/v1/authortemplate/default/menu_1polozka'},
-        { title: 'Menu - 2 položky', description: 'Vložení 2 položek menu na stránku', url: 'component/v1/authortemplate/default/menu_2polozky'},
-        { title: 'Menu - 3 položky', description: 'Vložení 3 položek menu na stránku', url: 'component/v1/authortemplate/default/menu_3polozky'},
+        { title: 'Kontakt', description: 'Grafia web - kontakt',       url: 'red/v1/authortemplate/default/kontakt'}, //vztaženo k rootu RS, tam kde je index redakčního s.
+        { title: 'Publikace - novinka', description: 'Grafia web - publikace',   url: 'red/v1/authortemplate/default/eshop_nove'},
+        { title: 'Obrázek vlevo a text', description: 'Bez obtékání. Dva sloupce', url: 'red/v1/authortemplate/default/obrazekVlevo_blok'},
+        { title: 'Publikace - 2', description: 'Vložení publikací na stránku', url: 'red/v1/authortemplate/default/eshop_radka'},
+        { title: 'Menu - 1 položka', description: 'Vložení položky menu na stránku', url: 'red/v1/authortemplate/default/menu_1polozka'},
+        { title: 'Menu - 2 položky', description: 'Vložení 2 položek menu na stránku', url: 'red/v1/authortemplate/default/menu_2polozky'},
+        { title: 'Menu - 3 položky', description: 'Vložení 3 položek menu na stránku', url: 'red/v1/authortemplate/default/menu_3polozky'},
         { title: '---Tvorba šablon---',    description: 'oddelovac',  url: '' },
-        { title: 'Nutné k vytvoření šablon', description: 'Vložte nejprve tuto šablonu a do ní vkládejte ostatní prvky této sekce' , url: 'component/v1/authortemplate/default/grid' },
-        { title: 'Menu - 1 položka (bez gridu) verze 1', description: 'Vložení položky menu na stránku', url: 'component/v1/authortemplate/default/menu_1polozka_1'},
-        { title: 'Menu - 1 položka (bez gridu) dlouha', description: 'Vložení položky menu na stránku', url: 'component/v1/authortemplate/default/menu_1polozka_1_delsi'},
-        { title: 'Menu - 1 položka (bez gridu) dalsi', description: 'Vložení položky menu na stránku', url: 'component/v1/authortemplate/default/menu_1polozka_1_delsi_1'},
-        { title: 'Menu - 1 položka (bez gridu) verze 2', description: 'Vložení položky menu na stránku', url: 'component/v1/authortemplate/default/menu_1polozka_2'}
+        { title: 'Nutné k vytvoření šablon', description: 'Vložte nejprve tuto šablonu a do ní vkládejte ostatní prvky této sekce' , url: 'red/v1/authortemplate/default/grid' },
+        { title: 'Menu - 1 položka (bez gridu) verze 1', description: 'Vložení položky menu na stránku', url: 'red/v1/authortemplate/default/menu_1polozka_1'},
+        { title: 'Menu - 1 položka (bez gridu) dlouha', description: 'Vložení položky menu na stránku', url: 'red/v1/authortemplate/default/menu_1polozka_1_delsi'},
+        { title: 'Menu - 1 položka (bez gridu) dalsi', description: 'Vložení položky menu na stránku', url: 'red/v1/authortemplate/default/menu_1polozka_1_delsi_1'},
+        { title: 'Menu - 1 položka (bez gridu) verze 2', description: 'Vložení položky menu na stránku', url: 'red/v1/authortemplate/default/menu_1polozka_2'}
     ];
 
 var toolbar = 'save cancel | undo redo | fontstyle fontweight | aligment | list | template | anchor link image media | code';
@@ -386,7 +386,7 @@ var contentConfig = {
     /* URL of our upload handler (for more details check: https://www.tiny.cloud/docs/configure/file-image-upload/#images_upload_url) */
 //    na tuto adresu odesílá tiny POST requesty - pro každý obrázek jeden request (tedy request s jedním obrázkem)
 // odesílá při každém volání editor.uploadImages() nebo automaticky, pokud je povoleno automatic_uploads option
-//    images_upload_url: 'api/v1/upload/editorimages',
+//    images_upload_url: 'red/v1/upload/editorimages',
     images_reuse_filename: true,
     /* here we add custom filepicker only to Image dialog */
     file_picker_types: 'image media',
@@ -427,7 +427,7 @@ var perexConfig = {
     /* enable automatic uploads of images represented by blob or data URIs*/
 //    automatic_uploads: true,
     /* URL of our upload handler (for more details check: https://www.tiny.cloud/docs/configure/file-image-upload/#images_upload_url) */
-//    images_upload_url: 'api/v1/upload/editorimages',
+//    images_upload_url: 'red/v1/upload/editorimages',
     images_reuse_filename: true,
     /* here we add custom filepicker only to Image dialog */
     file_picker_types: 'image',
@@ -479,18 +479,18 @@ var selectPaperTemplateConfig = {
     ],
     toolbar: 'template | save code',
     templates: [
-        { title: 'template default', description: 'Grafia web - článek',       url: 'component/v1/papertemplate/default'},
-        { title: 'template contact', description: 'Grafia web - kontakty',       url: 'component/v1/papertemplate/contact'},
-        { title: 'template test', description: 'paper_test',       url: 'component/v1/papertemplate/test'},
-        { title: 'template course', description: 'Grafia web - kurz',       url: 'component/v1/papertemplate/course'},
-        { title: 'Vzor - Úvod', description: 'Vzor - Úvod',       url: 'component/v1/static/uvod'},
-        { title: 'Test - presentedpaper s šablonou default', description: 'rendered component',       url: 'component/v1/presenteditem?template=default'},
-        { title: 'Test - presentedpaper s šablonou contact', description: 'rendered component',       url: 'component/v1/presenteditem?template=contact'},
-        { title: 'Test - presentedpaper s šablonou test', description: 'rendered component',       url: 'component/v1/presenteditem?template=test'},
-        { title: 'Test - presentedpaper s šablonou course', description: 'rendered component',       url: 'component/v1/presenteditem?template=course'},
-        { title: 'Test - namedpaper a1', description: 'rendered component',       url: 'component/v1/nameditem/a1'},
-        { title: 'Test - namedpaper a2', description: 'rendered component',       url: 'component/v1/nameditem/a2'},
-        { title: 'Test - namedpaper a3', description: 'rendered component',       url: 'component/v1/nameditem/a3'},
+        { title: 'template default', description: 'Grafia web - článek',       url: 'red/v1/papertemplate/default'},
+        { title: 'template contact', description: 'Grafia web - kontakty',       url: 'red/v1/papertemplate/contact'},
+        { title: 'template test', description: 'paper_test',       url: 'red/v1/papertemplate/test'},
+        { title: 'template course', description: 'Grafia web - kurz',       url: 'red/v1/papertemplate/course'},
+        { title: 'Vzor - Úvod', description: 'Vzor - Úvod',       url: 'web/v1/static/uvod'},
+        { title: 'Test - presentedpaper s šablonou default', description: 'rendered component',       url: 'red/v1/presenteditem?template=default'},
+        { title: 'Test - presentedpaper s šablonou contact', description: 'rendered component',       url: 'red/v1/presenteditem?template=contact'},
+        { title: 'Test - presentedpaper s šablonou test', description: 'rendered component',       url: 'red/v1/presenteditem?template=test'},
+        { title: 'Test - presentedpaper s šablonou course', description: 'rendered component',       url: 'red/v1/presenteditem?template=course'},
+        { title: 'Test - namedpaper a1', description: 'rendered component',       url: 'red/v1/nameditem/a1'},
+        { title: 'Test - namedpaper a2', description: 'rendered component',       url: 'red/v1/nameditem/a2'},
+        { title: 'Test - namedpaper a3', description: 'rendered component',       url: 'red/v1/nameditem/a3'},
 
        // { title: 'Publikace', description: 'Grafia web - publikace',   url: tinyConfig.paper_templates_path + 'block/'},
     ]

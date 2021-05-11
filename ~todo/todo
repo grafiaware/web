@@ -24,7 +24,7 @@ v profilu - tinymce na texaareách, životopis jeden soubor  (další soubory mo
 
 registrace!!!
 
-v confirm kontroleru - přesměrování na stránku - dokončili jste registraci, to je odkaz www/item/static/:name - v metodě PageController ->static() je
+v confirm kontroleru - přesměrování na stránku - dokončili jste registraci, to je odkaz web/v1/static/:name - v metodě PageController ->static() je
 chyba - není proměnná $menuItem - není divu nevytváří se, kus tam chybí. Musím zajistit, aby příslušná statická stránka se zabrazoval (asi jako "Nová statická stránka" i když
 není v menu.
 
@@ -79,7 +79,7 @@ nastavení menu
 
 GET request vzniklý jinak, než kliknutím do menu - odkaz na jinou stránku, externí odkaz na stránku - musí nastavit aktivní položku i v menu
 
-api - '/www/named/:langCode/:jmeno_component' (vedle '/www/item/:langCode/:uid') - vrací celou prezentaci (nejen obsah komponenty) a jako presented použije kompoent
+api - '/www/named/:langCode/:jmeno_component' (vedle '/web/v1/page/item/:langCode/:uid') - vrací celou prezentaci (nejen obsah komponenty) a jako presented použije kompoent
 
 přesměrování starých adres (old) na nové (upgrade) - stačí pomocí transform
 

@@ -88,9 +88,9 @@ use Model\Repository\{
 };
 
 // controller
-use Middleware\Web\Controller\PageController;
-use Middleware\Xhr\Controller\ComponentController;
-use Middleware\Xhr\Controller\TemplateController;
+use Web\Middleware\Web\Controller\PageController;
+use Web\Middleware\Xhr\Controller\ComponentController;
+use Web\Middleware\Xhr\Controller\TemplateController;
 
 
 // renderery - pro volání služeb renderer kontejneru renderer::class

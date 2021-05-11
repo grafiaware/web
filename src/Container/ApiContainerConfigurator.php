@@ -25,11 +25,11 @@ use Pes\Database\Handler\{
 };
 
 // controller
-use \Middleware\Api\Controller\{
+use \Red\Middleware\Redactor\Controller\{
     UserActionController, HierarchyController, EditItemController, PresentationActionController, PaperController, ContentController,
     FilesUploadController
 };
-use Module\Events\Middleware\Api\Controller\{EventController, VisitorDataController};
+use Events\Middleware\Events\Controller\{EventController, VisitorDataController};
 
 // generator service
 use \GeneratorService\ContentGeneratorRegistry;

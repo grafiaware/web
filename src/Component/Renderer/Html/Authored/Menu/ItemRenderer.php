@@ -57,7 +57,7 @@ class ItemRenderer extends HtmlModelRendererAbstract implements RendererModelAwa
                         $this->classMap->getClass('Item', 'li a'),
                         $this->classMap->resolveClass($this->viewModel->isPresented(), 'Item', 'li.presented', 'li'),
                         ],
-                    'href'=> "www/item/{$menuNode->getUid()}" ],
+                    'href'=> "web/v1/page/item/{$menuNode->getUid()}" ],
                         Html::tag('span', ['class'=>$this->classMap->getClass('Item', 'li a span')],
                             $menuNode->getMenuItem()->getTitle()
                             .Html::tag('i', ['class'=>$this->classMap->resolveClass($this->viewModel->isLeaf(), 'Item', 'li i', 'li i.dropdown')])
@@ -80,7 +80,7 @@ class ItemRenderer extends HtmlModelRendererAbstract implements RendererModelAwa
                     $this->classMapEditable->getClass('Item', 'li a'),   // class - 'editable' v kontejneru
                     $this->classMap->resolveClass($this->viewModel->isPresented(), 'Item', 'li.presented', 'li'),
                     ],
-                'href'=>"www/item/{$menuNode->getUid()}",
+                'href'=>"web/v1/page/item/{$menuNode->getUid()}",
                 'tabindex'=>0,
                 ],
 
@@ -174,7 +174,7 @@ class ItemRenderer extends HtmlModelRendererAbstract implements RendererModelAwa
                 'data-tooltip'=> $active ? 'Nepublikovat' : 'Publikovat',
                 'type'=>'submit',
                 'formmethod'=>'post',
-                'formaction'=>"api/v1/menu/{$menuNode->getUid()}/toggle",
+                'formaction'=>"red/v1/menu/{$menuNode->getUid()}/toggle",
                 ],
                 Html::tag('i', ['class'=>$this->classMapEditable->resolveClass($active, 'Buttons', 'button.notpublish', 'button.publish')])
             );
@@ -185,7 +185,7 @@ class ItemRenderer extends HtmlModelRendererAbstract implements RendererModelAwa
                 'data-tooltip'=>'Přidat sourozence',
                 'type'=>'submit',
                 'formmethod'=>'post',
-                'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/add",
+                'formaction'=>"red/v1/hierarchy/{$menuNode->getUid()}/add",
                     ],
                 Html::tag('i', ['class'=>$this->classMapEditable->getClass('Buttons', 'button.addsiblings')])
             )
@@ -195,7 +195,7 @@ class ItemRenderer extends HtmlModelRendererAbstract implements RendererModelAwa
                 'data-tooltip'=>'Přidat potomka',
                 'type'=>'submit',
                 'formmethod'=>'post',
-                'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/addchild",
+                'formaction'=>"red/v1/hierarchy/{$menuNode->getUid()}/addchild",
                     ],
                 Html::tag('i', ['class'=>$this->classMapEditable->getClass('Buttons', 'button.addchildren')])
             );
@@ -206,7 +206,7 @@ class ItemRenderer extends HtmlModelRendererAbstract implements RendererModelAwa
                 'data-tooltip'=>'Vložit jako sourozence',
                 'type'=>'submit',
                 'formmethod'=>'post',
-                'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/paste",
+                'formaction'=>"red/v1/hierarchy/{$menuNode->getUid()}/paste",
                     ],
                 Html::tag('i', ['class'=>$this->classMapEditable->getClass('Buttons', 'button.addsiblings')])
             )
@@ -216,7 +216,7 @@ class ItemRenderer extends HtmlModelRendererAbstract implements RendererModelAwa
                 'data-tooltip'=>'Vložit jako potomka',
                 'type'=>'submit',
                 'formmethod'=>'post',
-                'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/pastechild",
+                'formaction'=>"red/v1/hierarchy/{$menuNode->getUid()}/pastechild",
                     ],
                 Html::tag('i', ['class'=>$this->classMapEditable->getClass('Buttons', 'button.addchildren')])
             );
@@ -229,7 +229,7 @@ class ItemRenderer extends HtmlModelRendererAbstract implements RendererModelAwa
                 'type'=>'submit',
                 'name'=>'move',
                 'formmethod'=>'post',
-                'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/cut",
+                'formaction'=>"red/v1/hierarchy/{$menuNode->getUid()}/cut",
                     ],
                 Html::tag('i', ['class'=>$this->classMapEditable->getClass('Buttons', 'button.cut')])
             );
@@ -242,7 +242,7 @@ class ItemRenderer extends HtmlModelRendererAbstract implements RendererModelAwa
                 'type'=>'submit',
                 'name'=>'move',
                 'formmethod'=>'post',
-                'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/cutescape",
+                'formaction'=>"red/v1/hierarchy/{$menuNode->getUid()}/cutescape",
                     ],
                 Html::tag('i', ['class'=>$this->classMapEditable->getClass('Buttons', 'button.cutted')])
             );
@@ -254,7 +254,7 @@ class ItemRenderer extends HtmlModelRendererAbstract implements RendererModelAwa
                 'data-position'=>'top right',
                 'type'=>'submit',
                 'formmethod'=>'post',
-                'formaction'=>"api/v1/hierarchy/{$menuNode->getUid()}/trash",
+                'formaction'=>"red/v1/hierarchy/{$menuNode->getUid()}/trash",
                 'onclick'=>"return confirm('Jste si jisti?');"
                     ],
                 Html::tag('i', ['class'=>$this->classMapEditable->getClass('Buttons', 'button.movetotrash'),])

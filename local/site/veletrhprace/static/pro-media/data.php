@@ -18,7 +18,7 @@ $tiskovaZprava = [
 Třídenní <b>Veletrh práce a vzdělávání</b> nabídl nejen pracovní místa na virtuálních stáncích firem, ale také <b>pracovní i oddechová témata v hlavním přednáškovém programu. Celá akce včetně individuálních online poraden byla pro návštěvníky zdarma. </b>
 
 Hlavní program byl vysílán na <a href="https://www.youtube.com/channel/UC-Di-88rpUfBZUHHVf7tntQ/videos" target="_blank">youtube kanálu veletrhu</a>, kde je uložen i pro pozdější shlédnutí po dobu dalších 3 měsíců.
-Naopak <a href="www/item/cs/604bd0e2e440d" target="_blank">poradenský program</a> a online setkání s personalisty na <a href="www/item/cs/60619d3247985" target="_blank">virtuálních stáncích</a> byly k dispozici jen po dobu veletrhu.
+Naopak <a href="web/v1/page/item/604bd0e2e440d" target="_blank">poradenský program</a> a online setkání s personalisty na <a href="web/v1/page/item/60619d3247985" target="_blank">virtuálních stáncích</a> byly k dispozici jen po dobu veletrhu.
 
 Mezi vystavujícími byly významné podniky, např. <b>AKKA Czech Republic, Drůbežářský závod Klatovy, Wienerberger, Daikin, Kermi, Possehl Electronics Czech Republic, Konplan, STOELZLE UNION či Valeo Autoklimatizace.</b>
 Každá firma prezentovala v hlavním programu na youtube, který lze shlédnout ze záznamu.
@@ -43,7 +43,7 @@ Vendula Linková, HR manažerka Konplan, sdělila v interview na téma home offi
 
 Na veletrhu jako každoročně byly také vyhlášeny ceny pro podniky přátelské rodině Mamma/Parent Friendly za rok 2020. Letos je získaly tyto společnosti: BOHEMIA SEKT, RSF Elektronik a Sony DADC Czech Republic.
 
-<b>Na pozice nabízené na veletrhu se návštěvníci mohou hlásit i po ukončení akce celý duben přes svůj <a href="www/item/cs/6062d0e00190e" target="_blank">návštěvnický profil</a>, kam vloží svůj životopis a motivační dopis. Po kliknutí na pracovní pozici u firemního stánku lze zanechat dokumenty personalistům. </b>
+<b>Na pozice nabízené na veletrhu se návštěvníci mohou hlásit i po ukončení akce celý duben přes svůj <a href="web/v1/page/item/6062d0e00190e" target="_blank">návštěvnický profil</a>, kam vloží svůj životopis a motivační dopis. Po kliknutí na pracovní pozici u firemního stánku lze zanechat dokumenty personalistům. </b>
 
 <div class="ui three column grid stackable">
 <div class="column"><a href="@download/Firemni prezentace Konplan.jpg" download="Firemni prezentace Konplan"><img src="@download/Firemni prezentace Konplan.jpg" alt="Foto z akce" height="" width="100%"/>Stáhnout</a><p class="text maly okraje-vertical">Firemní prezentace Konplan</p></div>

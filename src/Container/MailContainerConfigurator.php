@@ -15,7 +15,7 @@ use Mail\Mail;
 use Mail\ParamsContainer;
 use Mail\MessageFactory\HtmlMessage;
 
-use Middleware\Sendmail\Controller\MailController;
+use Sendmail\Middleware\Sendmail\Controller\MailController;
 
 // repo - z app kontejneru
 use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};

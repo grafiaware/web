@@ -15,8 +15,8 @@ use Pes\Text\Text;
             </div>
             <img src="@images/pexels-polina-web.jpg" width="1178" height="457" alt="Obrázek"/>
         </div>
-        <div class="eight wide column"><a href="www/item/static/prednasky" class="ui secondary fluid massive button">Zobrazit přednášky</a></div>
-        <div class="eight wide column"><a href="www/item/static/body-pro-zdravi" class="ui secondary fluid massive button">Zobrazit místa</a></div>
+        <div class="eight wide column"><a href="web/v1/static/prednasky" class="ui secondary fluid massive button">Zobrazit přednášky</a></div>
+        <div class="eight wide column"><a href="web/v1/static/body-pro-zdravi" class="ui secondary fluid massive button">Zobrazit místa</a></div>
         <div class="sixteen wide column">
             <div class="velky text vlevo okraje">
                 <p>
