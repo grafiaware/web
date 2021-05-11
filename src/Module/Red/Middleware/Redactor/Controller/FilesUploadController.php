@@ -44,7 +44,7 @@ class FilesUploadController extends FilesUploadControllerAbstract {
         $clientFilename = strpos($file->getClientFilename(), $itemPrefix)===0 ? $file->getClientFilename() : $itemPrefix.$file->getClientFilename();
 
         $targetFilename = Configuration::filesUploadController()['upload.red'].$clientFilename;
-        $sanitizedFilename = urldecode($targetFilename);   //(new UrlConvertor())->sanitize($targetFilename);
+        $sanitizedFilename = urldecode($targetFilename); 
         $file->moveTo($sanitizedFilename);
         // response pro TinyMCE - musí obsahovat json s informací u cestě a jménu uloženého souboru
         // hodnotu v json položce 'location' použije timyMCE pro změnu url obrázku ve výsledném html
