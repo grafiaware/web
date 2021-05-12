@@ -10,7 +10,7 @@ namespace Site\VeletrhPrace;
 
 use \Pes\View\Renderer\ClassMap\ClassMap;
 use  Component\Renderer\Html\Authored\Menu\{
-    MenuWrapRenderer, MenuWrapEditableRenderer, LevelWrapRenderer, ItemRenderer, ItemEditableRenderer, ItemBlockRenderer, ItemTrashRenderer
+    MenuWrapRenderer, LevelWrapRenderer, ItemRenderer, ItemEditableRenderer, ItemBlockRenderer, ItemTrashRenderer
 };
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
 
@@ -37,6 +37,7 @@ class ConfigurationStyles extends ConfigurationRed {
                             'li.dropdown' => 'item',
                             'li.leaf' => 'item leaf',
                             'li.presented' => 'presented',
+                            'li.parent' => 'parent',
                             'li a span' => '',
                             'li i.dropdown' => 'dropdown icon',
                             'li a' => '',
@@ -48,6 +49,7 @@ class ConfigurationStyles extends ConfigurationRed {
                             'li.dropdown' => 'item',
                             'li.leaf' => 'item leaf',
                             'li.presented' => 'presented',
+                            'li.parent' => 'parent',
                             'li.cut' => 'cut',
                             'li.paste' => 'paste',
                             'li a' => '',   //nema_pravo //edituje_jiny
@@ -161,7 +163,7 @@ class ConfigurationStyles extends ConfigurationRed {
             },
             //bloky
             'menu.bloky.menuwraprenderer' => function(ContainerInterface $c) {
-                return new MenuWrapEditableRenderer($c->get('menu.svisle.classmap'), $c->get('menu.bloky.classmap.editable'));
+                return new MenuWrapRenderer($c->get('menu.svisle.classmap'), $c->get('menu.bloky.classmap.editable'));
             },
             'menu.bloky.levelwraprenderer' => function(ContainerInterface $c) {
                 return new LevelWrapRenderer($c->get('menu.svisle.classmap'), $c->get('menu.bloky.classmap.editable'));
@@ -188,7 +190,7 @@ class ConfigurationStyles extends ConfigurationRed {
                 return new ClassMap (
                     [
                         'MenuWrap' => [
-                            'ul' => 'ui vertical massive menu'
+                            'ul' => 'ui vertical massive menu hidden-submenu'
                         ],
                         'LevelWrap' => [
                             'ul' => 'menu',

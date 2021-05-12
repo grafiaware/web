@@ -10,7 +10,7 @@ namespace Site\TydenZdravi;
 
 use \Pes\View\Renderer\ClassMap\ClassMap;
 use  Component\Renderer\Html\Authored\Menu\{
-    MenuWrapRenderer, MenuWrapEditableRenderer, LevelWrapRenderer, ItemRenderer, ItemEditableRenderer, ItemBlockRenderer, ItemTrashRenderer
+    MenuWrapRenderer, LevelWrapRenderer, ItemRenderer, ItemEditableRenderer, ItemBlockRenderer, ItemTrashRenderer
 };
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
 
@@ -161,7 +161,7 @@ class ConfigurationStyles extends ConfigurationRed {
             },
             //bloky
             'menu.bloky.menuwraprenderer' => function(ContainerInterface $c) {
-                return new MenuWrapEditableRenderer($c->get('menu.svisle.classmap'), $c->get('menu.bloky.classmap.editable'));
+                return new MenuWrapRenderer($c->get('menu.svisle.classmap'), $c->get('menu.bloky.classmap.editable'));
             },
             'menu.bloky.levelwraprenderer' => function(ContainerInterface $c) {
                 return new LevelWrapRenderer($c->get('menu.svisle.classmap'), $c->get('menu.bloky.classmap.editable'));

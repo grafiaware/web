@@ -98,7 +98,16 @@ class MenuComponent extends CompositeComponentAbstract implements MenuComponentI
         }
         /** @var MenuWrapRendererInterface $renderer */
         $renderer = $this->rendererContainer->get($this->rendererName);
-        $renderer->setLevelWrapRenderer($this->rendererContainer->get($this->levelWrapRendererName));
+        
+        //MenuWrapRenderer je nastaven jako renderer (rodičovského) view => je-li typu RendererModelAwareInterface dostane $this->viewModel voláním metody ->setViewModel($this->viewModel)
+        //v Pes View
+        //ItemRenderer dostane $this->viewModel v metodě MenuWrapRendererAbstract->getMenuHtml(), t.j. při renderování menuItemModel
+        //LevelWrapRenderer musí dostat $this->viewModel tady
+        
+        //TODO: celé je to pěkný ... dávám viewModel do rendereru - asi kvůli Paper nebo Article rendereru s template - ?? je to nutné?
+        $levelWrapRenderer = $this->rendererContainer->get($this->levelWrapRendererName);
+        $levelWrapRenderer->setViewModel($this->viewModel);
+        $renderer->setLevelWrapRenderer($levelWrapRenderer);
         $renderer->setItemRenderer($this->rendererContainer->get($this->itemRendererName));
         $this->setRenderer($renderer);
 

@@ -48,7 +48,7 @@ class MenuWrapRenderer extends MenuWrapRendererAbstract {
 
         return
         Html::tag('form', [],
-            Html::tag('ul', ['class'=>$this->classMap->getClass('MenuWrap', 'ul')],
+            Html::tag('ul', ['class'=>$this->classMapEditable->getClass('MenuWrap', 'ul')],
                 $menuLevelHtml
             )
         );

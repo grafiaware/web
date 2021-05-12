@@ -40,7 +40,8 @@ class ItemRenderer extends HtmlModelRendererAbstract implements RendererModelAwa
         $html = Html::tag(     'li',
                 ['class'=>[
                     $this->classMap->resolveClass($this->viewModel->isLeaf(), 'Item', 'li.leaf', ($this->viewModel->getRealDepth() == 1) ? 'li.dropdown' : 'li.item'),
-                    $this->classMap->resolveClass($this->viewModel->isCutted(), 'Item', 'li.cut', 'li')
+                    $this->classMap->resolveClass($this->viewModel->isCutted(), 'Item', 'li.cut', 'li'),
+                    $this->classMap->resolveClass($this->viewModel->isOnPath(), 'Item', $this->viewModel->isLeaf() ? 'li' : 'li.parent' , 'li')
                     ],
                  'data-red-style'=> $this->redLiStyle()
                ],
@@ -113,7 +114,8 @@ class ItemRenderer extends HtmlModelRendererAbstract implements RendererModelAwa
         $html = Html::tag(     'li',
                 ['class'=>[
                     $this->classMapEditable->resolveClass($this->viewModel->isLeaf(), 'Item', 'li.leaf', ($this->viewModel->getRealDepth() == 1) ? 'li.dropdown' : 'li.item'),
-                    $this->classMapEditable->resolveClass($this->viewModel->isCutted(), 'Item', 'li.cut', 'li')
+                    $this->classMapEditable->resolveClass($this->viewModel->isCutted(), 'Item', 'li.cut', 'li'),
+                    $this->classMap->resolveClass($this->viewModel->isOnPath(), 'Item', $this->viewModel->isLeaf() ? 'li' : 'li.parent' , 'li')
                     ],
                  'data-red-style'=> $this->redLiStyle()
 

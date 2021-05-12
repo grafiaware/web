@@ -10,7 +10,7 @@ namespace Site\Grafia;
 
 use \Pes\View\Renderer\ClassMap\ClassMap;
 use  Component\Renderer\Html\Authored\Menu\{
-    MenuWrapRenderer, MenuWrapEditableRenderer, LevelWrapRenderer, ItemRenderer, ItemEditableRenderer, ItemBlockRenderer, ItemTrashRenderer
+    MenuWrapRenderer, LevelWrapRenderer, ItemRenderer, ItemEditableRenderer, ItemBlockRenderer, ItemTrashRenderer
 };
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
 
@@ -34,9 +34,10 @@ class ConfigurationStyles extends ConfigurationRed {
             'menu_items' => [
                             'li' => '',
                             'li.item' => 'item',
-                            'li.dropdown' => 'ui icon dropdown',
+                            'li.dropdown' => 'item',
                             'li.leaf' => 'item leaf',
                             'li.presented' => 'presented',
+                            'li.parent' => 'parent',
                             'li a span' => 'text',
                             'li i.dropdown' => 'dropdown icon',
                             'li i' => '',
@@ -45,9 +46,10 @@ class ConfigurationStyles extends ConfigurationRed {
             'menu_edit_items' => [
                             'li' => '',
                             'li.item' => 'item',
-                            'li.dropdown' => 'ui icon dropdown',
+                            'li.dropdown' => 'item',
                             'li.leaf' => 'item leaf',
                             'li.presented' => 'presented',
+                            'li.parent' => 'parent',
                             'li.cut' => 'cut',
                             'li.paste' => 'paste',
                             'li a' => '',   //nema_pravo //edituje_jiny
@@ -180,7 +182,7 @@ class ConfigurationStyles extends ConfigurationRed {
             },
             //bloky
             'menu.bloky.menuwraprenderer' => function(ContainerInterface $c) {
-                return new MenuWrapEditableRenderer($c->get('menu.svisle.classmap'), $c->get('menu.bloky.classmap.editable'));
+                return new MenuWrapRenderer($c->get('menu.svisle.classmap'), $c->get('menu.bloky.classmap.editable'));
             },
             'menu.bloky.levelwraprenderer' => function(ContainerInterface $c) {
                 return new LevelWrapRenderer($c->get('menu.svisle.classmap'), $c->get('menu.bloky.classmap.editable'));
@@ -266,11 +268,11 @@ class ConfigurationStyles extends ConfigurationRed {
                 return new ClassMap (
                     [
                         'MenuWrap' => [
-                            'ul' => 'hlavni-menu'
+                            'ul' => 'ui vertical menu hidden-submenu'
                         ],
                         'LevelWrap' => [
-                            'ul' => 'right menu',
-                            'ul.onpath' => 'right menu onpath',
+                            'ul' => 'menu',
+                            'ul.onpath' => 'menu onpath',
                             ],
                         'Item' => self::rendererDefaults()['menu_items'],
                     ]);
@@ -279,11 +281,11 @@ class ConfigurationStyles extends ConfigurationRed {
                 return new ClassMap (
                     [
                         'MenuWrap' => [
-                            'ul' => 'hlavni-menu edit'
+                            'ul' => 'ui vertical menu hidden-submenu edit2'
                         ],
                         'LevelWrap' => [
-                            'ul' => 'right menu',
-                            'ul.onpath' => 'right menu onpath',
+                            'ul' => 'menu',
+                            'ul.onpath' => 'menu onpath',
                         ],
                         'Item' => self::rendererDefaults()['menu_edit_items'],
                         'Buttons' => self::rendererDefaults()['menu_edit_buttons'],
