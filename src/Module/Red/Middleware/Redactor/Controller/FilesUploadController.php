@@ -9,6 +9,7 @@ use FrontController\FilesUploadControllerAbstract;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UploadedFileInterface;
 use Pes\Http\Response;
+use Pes\Utils\Directory;
 
 use Utils\UrlConvertor;
 
@@ -36,19 +37,16 @@ class FilesUploadController extends FilesUploadControllerAbstract {
         $size = 0;
         $item = $this->statusPresentationRepo->get()->getMenuItem();
 
-        //TODO: jméno souboru -> odstranit nabodeníčka a změnit na lowercase
+        // vytvoří složku se jménem 'item_' a id menuItem
+        $itemFolder = "item_".$item->getId().'/';
+        $fullLogDirectoryPath = Configuration::filesUploadController()['upload.red'].Directory::normalizePath($itemFolder);
+        Directory::createDirectory($fullLogDirectoryPath);
+        $targetFilename = $fullLogDirectoryPath.urldecode($file->getClientFilename());  // někdy - např po ImageTools editaci je název souboru z Tiny url kódován
+        $file->moveTo($targetFilename);
 
-        // při prvním uložení přidá prefix umožňující identifikaci item
-        // při opakovaném uložení, kdy již jméno souboru prefix obsahuje, nepřidává nic - k opakovanému uložení dochází např. po editaci obrázku pomocí ImageTools
-        $itemPrefix = "item_".$item->getId().'-';
-        $clientFilename = strpos($file->getClientFilename(), $itemPrefix)===0 ? $file->getClientFilename() : $itemPrefix.$file->getClientFilename();
-
-        $targetFilename = Configuration::filesUploadController()['upload.red'].$clientFilename;
-        $sanitizedFilename = urldecode($targetFilename);   //(new UrlConvertor())->sanitize($targetFilename);
-        $file->moveTo($sanitizedFilename);
         // response pro TinyMCE - musí obsahovat json s informací u cestě a jménu uloženého souboru
         // hodnotu v json položce 'location' použije timyMCE pro změnu url obrázku ve výsledném html
-        $json = json_encode(array('location' => $sanitizedFilename));  //
+        $json = json_encode(array('location' => $targetFilename));  //
         return $this->createResponseFromString($request, $json);
 
     }
