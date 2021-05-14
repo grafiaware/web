@@ -35,12 +35,12 @@ class ConfigurationStyles extends ConfigurationRed {
                             'li' => '',
                             'li.item' => 'item',
                             'li.dropdown' => 'item',
-                            'li.leaf' => 'item leaf',
+                            'li.leaf' => 'item leaf', 
                             'li.presented' => 'presented',
                             'li.parent' => 'parent',
                             'li a span' => 'text',
                             'li i.dropdown' => 'dropdown icon',
-                            'li i' => '',
+                            'li i' => '', 
                             'li a' => '',
                         ],
             'menu_edit_items' => [
@@ -281,7 +281,7 @@ class ConfigurationStyles extends ConfigurationRed {
                 return new ClassMap (
                     [
                         'MenuWrap' => [
-                            'ul' => 'ui vertical menu hidden-submenu edit2'
+                            'ul' => 'ui vertical menu hidden-submenu edit'
                         ],
                         'LevelWrap' => [
                             'ul' => 'menu',
