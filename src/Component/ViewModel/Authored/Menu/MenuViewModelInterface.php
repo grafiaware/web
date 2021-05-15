@@ -10,8 +10,8 @@ namespace Component\ViewModel\Authored\Menu;
 
 use Component\ViewModel\Authored\AuthoredViewModelInterface;
 
-use Model\Entity\HierarchyAggregateInterface;
-use Model\Entity\MenuRootInterface;
+use Red\Model\Entity\HierarchyAggregateInterface;
+use Red\Model\Entity\MenuRootInterface;
 
 /**
  *

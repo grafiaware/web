@@ -12,8 +12,8 @@ use Model\Entity\EntityAbstract;
 
 use Auth\Model\Entity\LoginAggregateFullInterface;
 
-use Model\Entity\UserActionsInterface;
-use Model\Entity\UserActions;
+use Red\Model\Entity\UserActionsInterface;
+use Red\Model\Entity\UserActions;
 
 /**
  * Description of Login

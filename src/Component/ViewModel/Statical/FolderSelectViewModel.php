@@ -3,13 +3,13 @@ namespace Component\ViewModel\Statical;
 
 use Component\ViewModel\StatusViewModelAbstract;
 
-use Model\Entity\HierarchyAggregateInterface;
-use Model\Entity\MenuRootInterface;
+use Red\Model\Entity\HierarchyAggregateInterface;
+use Red\Model\Entity\MenuRootInterface;
 
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusFlashRepo;
-use Model\Repository\MenuItemRepo;
+use Red\Model\Repository\MenuItemRepo;
 
 /**
  * Description of MenuViewModel

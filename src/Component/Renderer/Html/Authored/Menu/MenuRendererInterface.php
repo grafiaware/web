@@ -7,7 +7,7 @@ namespace  Component\Renderer\Html\Authored\Menu;
  * and open the template in the editor.
  */
 
-use Model\Entity\MenuItemInterface;
+use Red\Model\Entity\MenuItemInterface;
 
 /**
  *

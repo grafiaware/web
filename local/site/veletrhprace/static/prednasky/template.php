@@ -1,6 +1,6 @@
 <?php
 use Site\Configuration;
-use Model\Arraymodel\Event;
+use Events\Model\Arraymodel\Event;
 
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 /** @var PhpTemplateRendererInterface $this */
@@ -25,7 +25,7 @@ Před zahájením akce zde uvidíte barevný odkaz pro vstup na akci nebo odkaz 
         ;
 $footer = '';
 
-$eventTypeName = "Přednáška";  // viz Model\Arraymodel\EventType
+$eventTypeName = "Přednáška";  // viz Events\Model\Arraymodel\EventType
 $institutionName = "";
 
 

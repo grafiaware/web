@@ -10,9 +10,9 @@ namespace Component\Renderer\Html\Authored\Paper;
 
 use Pes\View\Renderer\ClassMap\ClassMapInterface;
 
-use Model\Entity\PaperAggregatePaperContentInterface;
-use Model\Entity\PaperInterface;
-use Model\Entity\PaperContentInterface;
+use Red\Model\Entity\PaperAggregatePaperContentInterface;
+use Red\Model\Entity\PaperInterface;
+use Red\Model\Entity\PaperContentInterface;
 
 use Pes\Text\Html;
 

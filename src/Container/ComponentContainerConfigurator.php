@@ -62,7 +62,7 @@ use Component\ViewModel\{
 
 // repo
 use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
-use Model\Repository\{
+use Red\Model\Repository\{
     LanguageRepo,
     HierarchyAggregateRepo,
     MenuItemRepo,
@@ -76,9 +76,9 @@ use Model\Repository\{
 };
 
 // controller
-use Web\Middleware\Web\Controller\PageController;
-use Web\Middleware\Xhr\Controller\ComponentController;
-use Web\Middleware\Xhr\Controller\TemplateController;
+use Web\Middleware\Page\Controller\PageController;
+use Red\Middleware\Component\Controller\ComponentController;
+use Red\Middleware\Component\Controller\TemplateController;
 
 
 // renderery - pro volání služeb renderer kontejneru renderer::class

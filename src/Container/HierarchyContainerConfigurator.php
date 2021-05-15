@@ -28,45 +28,44 @@ use Pes\Logger\FileLogger;
 // models
 
 // context
-use Model\Context\ContextFactory;
+use Red\Model\Context\ContextFactory;
 use Model\Context\ContextFactoryInterface;
-use Status\Model\Repository\{
-    StatusSecurityRepo,
-    StatusPresentationRepo
-};
+use Status\Model\Repository\StatusSecurityRepo;
+use Status\Model\Repository\StatusPresentationRepo;
+
 //dao + hydrator + repo
-use Model\Dao\Hierarchy\HierarchyAggregateEditDao;
-use Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
-use Model\Dao\Hierarchy\HierarchyAggregateEditDaoInterface;
-use Model\Dao\Hierarchy\HierarchyAggregateReadonlyDaoInterface;
-use Model\Hydrator\HierarchyNodeHydrator;
-use Model\Repository\HierarchyAggregateRepo;
+use Red\Model\Dao\Hierarchy\HierarchyAggregateEditDao;
+use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
+use Red\Model\Dao\Hierarchy\HierarchyAggregateEditDaoInterface;
+use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDaoInterface;
+use Red\Model\Hydrator\HierarchyNodeHydrator;
+use Red\Model\Repository\HierarchyAggregateRepo;
 
-use Model\Dao\MenuItemDao;
-use Model\Hydrator\MenuItemHydrator;
-use Model\Repository\MenuItemRepo;
+use Red\Model\Dao\MenuItemDao;
+use Red\Model\Hydrator\MenuItemHydrator;
+use Red\Model\Repository\MenuItemRepo;
 
-use Model\Dao\MenuRootDao;
-use Model\Repository\MenuRootRepo;
+use Red\Model\Dao\MenuRootDao;
+use Red\Model\Repository\MenuRootRepo;
 
-use Model\Dao\LanguageDao;
-use Model\Repository\LanguageRepo;
+use Red\Model\Dao\LanguageDao;
+use Red\Model\Repository\LanguageRepo;
 
-use Model\Dao\MenuItemTypeDao;
-use Model\Hydrator\MenuItemTypeHydrator;
-use Model\Repository\MenuItemTypeRepo;
+use Red\Model\Dao\MenuItemTypeDao;
+use Red\Model\Hydrator\MenuItemTypeHydrator;
+use Red\Model\Repository\MenuItemTypeRepo;
 
-use Model\Dao\BlockDao;
-use Model\Hydrator\BlockHydrator;
-use Model\Repository\BlockRepo;
+use Red\Model\Dao\BlockDao;
+use Red\Model\Hydrator\BlockHydrator;
+use Red\Model\Repository\BlockRepo;
 
-use Model\Dao\PaperDao;
-use Model\Hydrator\PaperHydrator;
-use Model\Repository\PaperRepo;
+use Red\Model\Dao\PaperDao;
+use Red\Model\Hydrator\PaperHydrator;
+use Red\Model\Repository\PaperRepo;
 
-use Model\Dao\PaperContentDao;
-use Model\Hydrator\PaperContentHydrator;
-use Model\Repository\PaperContentRepo;
+use Red\Model\Dao\PaperContentDao;
+use Red\Model\Hydrator\PaperContentHydrator;
+use Red\Model\Repository\PaperContentRepo;
 
 
 use Events\Model\Dao\EnrollDao;
@@ -82,17 +81,17 @@ use Events\Model\Hydrator\VisitorDataPostHydrator;
 use Events\Model\Repository\VisitorDataPostRepo;
 
 //aggregate
-use Model\Repository\MenuItemAggregateRepo;
-use Model\Hydrator\MenuItemChildHydrator;
-use Model\Repository\PaperAggregateRepo;
-use Model\Hydrator\PaperChildHydrator;
-use Model\Repository\BlockAggregateRepo;
-use Model\Hydrator\BlockChildHydrator;
+use Red\Model\Repository\MenuItemAggregateRepo;
+use Red\Model\Hydrator\MenuItemChildHydrator;
+use Red\Model\Repository\PaperAggregateRepo;
+use Red\Model\Hydrator\PaperChildHydrator;
+use Red\Model\Repository\BlockAggregateRepo;
+use Red\Model\Hydrator\BlockChildHydrator;
 
 // hierarchy hooks
-use Model\HierarchyHooks\HookedMenuItemActor;
-use Model\HierarchyHooks\ArticleTitleUpdater;
-use Model\HierarchyHooks\MenuListStyles;
+use Red\Model\HierarchyHooks\HookedMenuItemActor;
+use Red\Model\HierarchyHooks\ArticleTitleUpdater;
+use Red\Model\HierarchyHooks\MenuListStyles;
 
 /**
  * Description of MenuContainerFactory

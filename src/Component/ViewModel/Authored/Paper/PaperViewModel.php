@@ -8,15 +8,15 @@
 
 namespace Component\ViewModel\Authored\Paper;
 
-use Model\Entity\PaperAggregatePaperContentInterface;
-use Model\Entity\PaperInterface;
+use Red\Model\Entity\PaperAggregatePaperContentInterface;
+use Red\Model\Entity\PaperInterface;
 
 use Component\ViewModel\Authored\AuthoredViewModelAbstract;
 
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusFlashRepo;
-use Model\Repository\PaperAggregateRepo;
+use Red\Model\Repository\PaperAggregateRepo;
 use GeneratorService\Paper\PaperServiceInterface;
 
 /**

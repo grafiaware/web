@@ -8,7 +8,7 @@ use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusFlashRepo;
 
 use Status\Model\Repository\StatusPresentationRepo;
-use Model\Repository\MenuItemRepo;
+use Red\Model\Repository\MenuItemRepo;
 
 use Pes\Text\Message;
 

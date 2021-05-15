@@ -1,5 +1,5 @@
 <?php
-use Model\Entity\PaperAggregatePaperContentInterface;
+use Red\Model\Entity\PaperAggregatePaperContentInterface;
 /** @var PaperAggregatePaperContentInterface $paperAggregate */
 ?>
 <div data-component="presented" data-template="<?= $paperAggregate->getTemplate() ?>" class="ui segment mceNonEditable">

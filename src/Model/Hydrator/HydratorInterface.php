@@ -15,7 +15,7 @@ use Model\Entity\EntityInterface;
  * @author pes2704
  */
 interface HydratorInterface {
-    
+
     /**
      *
      * @param EntityInterface $entity

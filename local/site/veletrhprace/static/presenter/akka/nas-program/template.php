@@ -1,16 +1,16 @@
 <?php
 use Site\Configuration;
-use Model\Arraymodel\Event;
+use Events\Model\Arraymodel\Event;
 
 use Pes\View\Renderer\PhpTemplateRendererInterface;
-use Model\Entity\PaperAggregatePaperContentInterface;
+use Red\Model\Entity\PaperAggregatePaperContentInterface;
 use Status\Model\Repository\StatusSecurityRepo;
 
     $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
     /** @var StatusSecurityRepo $statusSecurityRepo */
     $statusSecurity = $statusSecurityRepo->get();
 
-//    $eventTypeName = "Prezentace, Pohovor, Přednáška";  // viz Model\Arraymodel\EventType
+//    $eventTypeName = "Prezentace, Pohovor, Přednáška";  // viz Events\Model\Arraymodel\EventType
     $institutionName = "AKKA Czech Republic";
     $event = (new Event($statusSecurity))->getEventList("", $institutionName, [], true);   // enrolling = true
 

@@ -109,7 +109,7 @@
                             </div>
                     </div>
                     <div class="six wide column middle aligned">
-                        <a href="https://osm.org/go/0JbQCAEeV-?m=" target="_blank"><img class="mapa" src="<?= Web\Middleware\Web\AppContext::getAppPublicDirectory().'newlayout_3/img/mapa.png'?>" alt="mapa" /></a>
+                        <a href="https://osm.org/go/0JbQCAEeV-?m=" target="_blank"><img class="mapa" src="<?= Web\Middleware\Page\AppContext::getAppPublicDirectory().'newlayout_3/img/mapa.png'?>" alt="mapa" /></a>
 
                     </div>
                 </div>

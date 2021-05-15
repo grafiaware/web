@@ -8,8 +8,8 @@ use Pes\Container\ContainerConfiguratorAbstract;
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
 
 // user - ze session
-use Model\Entity\Credentials;
-use Model\Entity\CredentialsInterface;
+use Auth\Model\Entity\Credentials;
+use Auth\Model\Entity\CredentialsInterface;
 
 // database
 use Pes\Database\Handler\Account;

@@ -1,9 +1,9 @@
 <?php
 use Site\Configuration;
-use Model\Arraymodel\Event;
+use Events\Model\Arraymodel\Event;
 
 use Pes\View\Renderer\PhpTemplateRendererInterface;
-use Model\Entity\PaperAggregatePaperContentInterface;
+use Red\Model\Entity\PaperAggregatePaperContentInterface;
 
 $headline = 'Chci navázat kontakt';
 

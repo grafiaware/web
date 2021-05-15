@@ -29,10 +29,10 @@ use Pes\Logger\FileLogger;
 // models
 
 //dao + hydrator + repo
-use Model\Dao\Hierarchy\HierarchyAggregateEditDao;
-use Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
-use Model\Dao\Hierarchy\HierarchyAggregateEditDaoInterface;
-use Model\Dao\Hierarchy\HierarchyAggregateReadonlyDaoInterface;
+use Red\Model\Dao\Hierarchy\HierarchyAggregateEditDao;
+use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
+use Red\Model\Dao\Hierarchy\HierarchyAggregateEditDaoInterface;
+use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDaoInterface;
 
 
 /**

@@ -31,14 +31,14 @@ use Pes\Logger\FileLogger;
 
 use Pes\Database\Manipulator\Manipulator;
 
-use Model\Dao\Hierarchy\HierarchyAggregateEditDao;
-use Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
-use Model\Dao\Hierarchy\HierarchyAggregateEditDaoInterface;
-use Model\Dao\Hierarchy\HierarchyAggregateReadonlyDaoInterface;
+use Red\Model\Dao\Hierarchy\HierarchyAggregateEditDao;
+use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
+use Red\Model\Dao\Hierarchy\HierarchyAggregateEditDaoInterface;
+use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDaoInterface;
 
-use Model\HierarchyHooks\HookedMenuItemActor;
-use Model\HierarchyHooks\ArticleTitleUpdater;
-use Model\HierarchyHooks\MenuListStyles;
+use Red\Model\HierarchyHooks\HookedMenuItemActor;
+use Red\Model\HierarchyHooks\ArticleTitleUpdater;
+use Red\Model\HierarchyHooks\MenuListStyles;
 
 use Middleware\Build\Controller\DatabaseController;
 

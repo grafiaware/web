@@ -10,7 +10,7 @@ namespace Component\Renderer\Html\Generated;
 
 use Component\Renderer\Html\HtmlModelRendererAbstract;
 use Component\ViewModel\Generated\SearchResultViewModel;
-use Model\Entity\MenuItemInterface;
+use Red\Model\Entity\MenuItemInterface;
 
 use Pes\View\Renderer\RendererModelAwareInterface;
 use Pes\Text\Html;

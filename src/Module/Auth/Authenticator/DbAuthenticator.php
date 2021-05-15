@@ -8,8 +8,8 @@
 
 namespace Auth\Authenticator;
 
-use Model\Entity\LoginAggregateCredentialsInterface;
-use Model\Entity\LoginAggregate;
+use Red\Model\Entity\LoginAggregateCredentialsInterface;
+use Red\Model\Entity\LoginAggregate;
 
 use Auth\Model\Dao\LoginAggregateReadonlyDao;
 

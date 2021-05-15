@@ -9,7 +9,7 @@
 namespace Build\Middleware\Build\Controller;
 
 use Build\Middleware\Build\Exception\HierarchyStepFailedException;
-use Model\Dao\Hierarchy\HierarchyAggregateEditDao;
+use Red\Model\Dao\Hierarchy\HierarchyAggregateEditDao;
 
 use Pes\Database\Manipulator\Manipulator;
 

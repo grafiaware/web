@@ -16,8 +16,8 @@ use Pes\Session\SessionStatusHandlerInterface;
 use Pes\Session\SaveHandler\PhpLoggingSaveHandler;
 
 //user
-use Model\Entity\Credentials;
-use Model\Entity\CredentialsInterface;
+use Auth\Model\Entity\Credentials;
+use Auth\Model\Entity\CredentialsInterface;
 
 // security context - použit v security status
 use StatusManager\Observer\SecurityContextObjectsRemover;
@@ -33,10 +33,10 @@ use Pes\Database\Handler\AttributesProvider\AttributesProviderDefault;
 use Pes\Database\Handler\Handler;
 use Pes\Database\Handler\HandlerInterface;
 
-use Model\Repository\HierarchyAggregateRepo;
-use Model\Dao\MenuDao;
-use Model\Repository\MenuItemAggregateRepo;
-use Model\Dao\PaperContentDao;
+use Red\Model\Repository\HierarchyAggregateRepo;
+use Red\Model\Dao\MenuDao;
+use Red\Model\Repository\MenuItemAggregateRepo;
+use Red\Model\Dao\PaperContentDao;
 
 /**
  *

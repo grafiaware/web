@@ -17,13 +17,13 @@ use Pes\Http\Request\RequestParams;
 use Pes\Http\Response;
 use Pes\Http\Response\RedirectResponse;
 
-use Model\Repository\{
+use Red\Model\Repository\{
     StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo, EnrollRepo
 };
 
 use Middleware\Api\Controller\Exception\UnexpectedLanguageException;
 
-use \Model\Arraymodel\Event;
+use \Events\Model\Arraymodel\Event;
 use \Model\Entity\Enroll;
 
 /**

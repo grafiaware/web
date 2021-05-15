@@ -10,8 +10,8 @@ namespace Events\Model\Context;
 
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
-use Events\Model\Context\ContextFactoryInterface;
-use Events\Model\Context\PublishedContextInterface;
+use Model\Context\ContextFactoryInterface;
+use Model\Context\PublishedContextInterface;
 
 /**
  * Description of ContextFactory
@@ -33,17 +33,10 @@ class ContextFactory implements ContextFactoryInterface {
 
     //TODO: statusy
     public function __construct(
-//            StatusSecurityRepo $statusSecurityRepo,
-//            StatusPresentationRepo $statusPresentationRepo
             ) {
-//        $this->statusSecurityRepo = $statusSecurityRepo;
-//        $this->statusPresentationRepo = $statusPresentationRepo;
     }
 
     public function createPublishedContext(): PublishedContextInterface {
-//        $userActions = $this->statusSecurityRepo->get()->getUserActions();
-//        $onlyPublished = $userActions ? true : true;
-//        return new PublishedContext($onlyPublished);
         return new PublishedContext(true);
     }
 }

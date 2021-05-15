@@ -10,7 +10,7 @@ namespace GeneratorService;
 
 use GeneratorService\Exception;
 
-use Model\Repository\MenuItemTypeRepo;
+use Red\Model\Repository\MenuItemTypeRepo;
 
 /**
  * Description of ContentGeneratorFactory

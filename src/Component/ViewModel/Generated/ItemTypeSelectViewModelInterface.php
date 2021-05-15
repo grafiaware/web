@@ -10,7 +10,7 @@ namespace Component\ViewModel\Generated;
 
 use Component\ViewModel\ViewModelInterface;
 
-use Model\Entity\MenuItemInterface;
+use Red\Model\Entity\MenuItemInterface;
 
 /**
  *

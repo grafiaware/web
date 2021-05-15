@@ -11,7 +11,7 @@ use Model\Dao\Hierarchy\HierarchyAggregateEditDao;
 use Status\Model\Repository\{
     StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo
 };
-use Model\Repository\{
+use Red\Model\Repository\{
     MenuRootRepo
 };
 

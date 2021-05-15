@@ -1,6 +1,6 @@
 <?php
 use Site\Configuration;
-use Model\Arraymodel\Event;
+use Events\Model\Arraymodel\Event;
 
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 /** @var PhpTemplateRendererInterface $this */
@@ -18,7 +18,7 @@ Přihlaste se do vybrané poradny! Vstoupit mohou pouze registrovaní návštěv
 ';
 $footer = '';
 
-$eventTypeName = "Poradna";  // viz Model\Arraymodel\EventType
+$eventTypeName = "Poradna";  // viz Events\Model\Arraymodel\EventType
 $institutionName = "";
 
 $statusSecurityRepo = $container->get(StatusSecurityRepo::class);

@@ -20,7 +20,7 @@ use Pes\Http\Response\RedirectResponse;
 use Status\Model\Repository\{
     StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo
 };
-use Model\Repository\{
+use Red\Model\Repository\{
     LanguageRepo, MenuItemRepo
 };
 

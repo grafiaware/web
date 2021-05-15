@@ -28,7 +28,7 @@ use Component\View\{
 
 ####################
 
-use Model\Repository\{
+use Red\Model\Repository\{
     HierarchyAggregateRepo, MenuRootRepo, MenuItemRepo
 };
 

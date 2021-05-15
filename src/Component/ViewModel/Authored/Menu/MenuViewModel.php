@@ -3,13 +3,13 @@ namespace Component\ViewModel\Authored\Menu;
 
 use Component\ViewModel\Authored\AuthoredViewModelAbstract;
 
-use Model\Entity\HierarchyAggregateInterface;
-use Model\Entity\MenuRootInterface;
+use Red\Model\Entity\HierarchyAggregateInterface;
+use Red\Model\Entity\MenuRootInterface;
 
 use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
 
-use Model\Repository\HierarchyAggregateRepo;
-use Model\Repository\MenuRootRepo;
+use Red\Model\Repository\HierarchyAggregateRepo;
+use Red\Model\Repository\MenuRootRepo;
 
 use Component\ViewModel\Authored\Menu\Item\ItemViewModel;
 use Component\ViewModel\Authored\Menu\Item\ItemViewModelInterface;

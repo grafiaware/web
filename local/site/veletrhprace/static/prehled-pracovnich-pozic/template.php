@@ -4,9 +4,9 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 
 use Site\Configuration;
 
-use Model\Arraymodel\Job;
-use Model\Arraymodel\Presenter;
-use Model\Repository\BlockRepo;
+use Events\Model\Arraymodel\Job;
+use Events\Model\Arraymodel\Presenter;
+use Red\Model\Repository\BlockRepo;
 
 
 $headline = 'Pracovní pozice';

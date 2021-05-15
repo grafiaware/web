@@ -40,11 +40,11 @@ class ItemTypeRenderer extends HtmlModelRendererAbstract implements RendererMode
             return Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/menu/$menuItemUidFk/type"],
                         Html::tag('p', [], Message::t("Vyberte typ obsahu:"))
                         .Html::tag('div', [],
-                                $radioHtml
-                            )
+                            $radioHtml
+                         )
                         .Html::tag('label', [], "static path:" . Html::tag('input', ['type'=>"text", 'name'=>"folded", 'value'=>""]))
                         .Html::tag("div", [],
-                        Html::tag("button", [], Message::t("Odeslat"))
+                            Html::tag("button", [], Message::t("Odeslat"))
                         )
                     );
         } else {

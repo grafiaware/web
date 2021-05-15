@@ -35,7 +35,7 @@ class ApiRegistrator {
 
     public function registerApi(ResourceRegistryInterface $registry): void {
 
-        ### auth ###
+        ### auth module ###
 
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/logout'));
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/login'));
@@ -46,7 +46,9 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/forgottenpassword'));
         $registry->register($this->postPrototype->withUrlPattern('/auth/v1/changepassword'));
 
-        ### web ###
+        ### web module ###
+        #
+        #### PageController ####
         $registry->register($this->getPrototype->withUrlPattern('/'));
         $registry->register($this->getPrototype->withUrlPattern('/web/v1/page/item/:uid'));
         $registry->register($this->getPrototype->withUrlPattern('/web/v1/page/subitem/:uid'));
@@ -56,11 +58,14 @@ class ApiRegistrator {
         #### ComponentController ####
         $registry->register($this->getPrototype->withUrlPattern('/web/v1/flash'));
         $registry->register($this->getPrototype->withUrlPattern('/web/v1/service/:name'));
+
+
+        ### red module ###
+        #
         $registry->register($this->getPrototype->withUrlPattern('/web/v1/static/:name'));
         $registry->register($this->getPrototype->withUrlPattern('/web/v1/itempaper/:menuItemId'));
         $registry->register($this->getPrototype->withUrlPattern('/web/v1/itempapereditable/:menuItemId'));
-
-        ### api ###
+        #
         #### UserActionController ####
         $registry->register($this->getPrototype->withUrlPattern('/red/v1/useraction/app/:app'));
 
@@ -113,15 +118,24 @@ class ApiRegistrator {
         #### TinyUploadImagesController
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/upload/editorimages'));
 
+        ### events module ###
+        #
+        #### EventController ####
         $registry->register($this->postPrototype->withUrlPattern('/event/v1/enroll'));
+
+        #### VisitorDataController ####
         $registry->register($this->postPrototype->withUrlPattern('/event/v1/visitor'));
         $registry->register($this->postPrototype->withUrlPattern('/event/v1/uploadvisitorfile'));
         $registry->register($this->postPrototype->withUrlPattern('/event/v1/visitorpost'));
         $registry->register($this->postPrototype->withUrlPattern('/event/v1/sendvisitorpost'));
 
+        ### mail module ###
+        #
         #### MailController ######
         $registry->register($this->getPrototype->withUrlPattern('/sendmail/v1/sendmail/:campaign'));
 
+        ### build module ###
+        #
         #### BuildController ####
         $registry->register($this->getPrototype->withUrlPattern('/build/createdb'));
         $registry->register($this->getPrototype->withUrlPattern('/build/dropdb'));

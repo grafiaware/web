@@ -5,10 +5,10 @@ use Pes\Text\Text;
 use Pes\Text\Html;
 
 use Site\Configuration;
-use Model\Entity\LoginAggregateFullInterface;
+use Red\Model\Entity\LoginAggregateFullInterface;
 
 use Events\Middleware\Events\Controller\VisitorDataController;
-use Model\Entity\VisitorData;
+use Red\Model\Entity\VisitorData;
 
 /** @var PhpTemplateRendererInterface $this */
 /** @var VisitorData $visitorData */

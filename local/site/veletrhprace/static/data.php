@@ -5,7 +5,7 @@
  */
 
 use Pes\View\Renderer\PhpTemplateRendererInterface;
-use Model\Entity\PaperAggregatePaperContentInterface;
+use Red\Model\Entity\PaperAggregatePaperContentInterface;
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregatePaperContentInterface $paperAggregate */
 

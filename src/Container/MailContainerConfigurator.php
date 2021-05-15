@@ -20,8 +20,8 @@ use Sendmail\Middleware\Sendmail\Controller\MailController;
 // repo - z app kontejneru
 use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
 
-use Model\Repository\LoginAggregateCredentialsRepo;
-use Model\Repository\RegistrationRepo;
+use Auth\Model\Repository\LoginAggregateCredentialsRepo;
+use Auth\Model\Repository\RegistrationRepo;
 
 /**
  *
