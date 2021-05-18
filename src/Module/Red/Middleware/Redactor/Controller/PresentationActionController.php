@@ -60,15 +60,15 @@ class PresentationActionController extends PresentationFrontControllerAbstract {
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
-    public function setPresentedItem(ServerRequestInterface $request) {
-        $requestedUid = (new RequestParams())->getParsedBodyParam($request, 'uid');
-        $statusPresentation = $this->statusPresentationRepo->get();
-        $langCodeFk = $statusPresentation->getLanguage()->getLangCode();
-        $menuItem = $this->menuItemRepo->get($langCodeFk, $requestedUid);
-        $statusPresentation->setHierarchyAggregate($menuItem);  // bez kontroly
-        $this->addFlashMessage("setPresentedItem({$menuItem->getTitle()})");
-        return $this->redirectSeeLastGet($request); // 303 See Other
-    }
+//    public function setPresentedItem(ServerRequestInterface $request) {
+//        $requestedUid = (new RequestParams())->getParsedBodyParam($request, 'uid');
+//        $statusPresentation = $this->statusPresentationRepo->get();
+//        $langCodeFk = $statusPresentation->getLanguage()->getLangCode();
+//        $menuItem = $this->menuItemRepo->get($langCodeFk, $requestedUid);
+//        $statusPresentation->setHierarchyAggregate($menuItem);  // bez kontroly
+//        $this->addFlashMessage("setPresentedItem({$menuItem->getTitle()})");
+//        return $this->redirectSeeLastGet($request); // 303 See Other
+//    }
 
     public function setEditArticle(ServerRequestInterface $request) {
         $edit = (new RequestParams())->getParsedBodyParam($request, 'edit_article');
@@ -125,5 +125,9 @@ class PresentationActionController extends PresentationFrontControllerAbstract {
             default:
                 break;
         }
+    }
+
+    private function getPublishedItem() {
+
     }
 }

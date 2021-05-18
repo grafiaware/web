@@ -71,7 +71,7 @@ class ApiRegistrator {
 
         #### PresentationController ####
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/presentation/language'));
-        $registry->register($this->postPrototype->withUrlPattern('/red/v1/presentation/uid'));
+//        $registry->register($this->postPrototype->withUrlPattern('/red/v1/presentation/uid'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/presentation/edit_layout'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/presentation/edit_article'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/presentation/edit_menu'));
