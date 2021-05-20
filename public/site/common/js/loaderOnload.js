@@ -16,9 +16,9 @@ function replaceElement(id, apiUri){
             // náhrada innerHtml:
             document.getElementById(id).innerHTML = xhr.responseText;
 
-// zobrazení  modálního kna po kliknutí button
+// zobrazení  modálního okna po kliknutí button
 //            $('#id_modal_element').modal('attach events', '.class_button', 'show');
-            
+
             $('#modal_facebook').modal('attach events', '.btn-fb', 'show');
             $('#modal_instagram').modal('attach events', '.btn-ig', 'show');
             $('#modal_youtube').modal('attach events', '.btn-yt', 'show');

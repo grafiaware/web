@@ -159,6 +159,14 @@ function tinymce_getContentLength() {
 /////////////////////////////////////////
 // funkce vytvoří v dialogu file picker (Vložit/upravit obrázek) tlačítko pto vyvolání file dialogu
 // po vybrání souboru v dialogu (input.onchange) načte obsah souboru do blobCache (proměnná tiny) a vyplní údaje zpět do dialogu file picker
+
+/**
+ *
+ * @param {type} cb
+ * @param {type} value
+ * @param {type} meta
+ * @returns {undefined}
+ */
 var file_picker_callback_function = function (cb, value, meta) {
     var input = document.createElement('input');
     input.setAttribute('type', 'file');
@@ -336,7 +344,7 @@ var headlineConfig = {
     relative_urls : true,
     extended_valid_elements : ['i[*]', 'headline'],
     custom_elements: 'headline',
-    language : tinyConfig.t,
+    language : tinyConfig.toolbarsLang,
     document_base_url : tinyConfig.basePath,
     content_css: tinyConfig.contentCss,
 
