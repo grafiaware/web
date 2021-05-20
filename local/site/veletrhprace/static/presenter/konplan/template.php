@@ -1,12 +1,12 @@
 <?php
 
 use Pes\View\Renderer\PhpTemplateRendererInterface;
-use Model\Entity\PaperAggregateInterface;
+use Red\Model\Entity\PaperAggregateInterface;
 use Pes\Text\Html;
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregateInterface $paperAggregate */
 
-use Model\Arraymodel\Job;
+use Events\Model\Arraymodel\Job;
 
 include 'data.php';
 

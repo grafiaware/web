@@ -1,5 +1,5 @@
 <?php
-use Model\Entity\VisitorDataPostInterface;
+use Red\Model\Entity\VisitorDataPostInterface;
 /** @var VisitorDataPostInterface $visitorDataPost */
 use Pes\Text\Text;
 ?>

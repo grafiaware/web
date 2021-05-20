@@ -14,10 +14,10 @@ use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusFlashRepo;
 
-use Model\Repository\MenuItemTypeRepo;
+use Red\Model\Repository\MenuItemTypeRepo;
 
-use Model\Entity\MenuItemTypeInterface;
-use Model\Entity\MenuItemInterface;
+use Red\Model\Entity\MenuItemTypeInterface;
+use Red\Model\Entity\MenuItemInterface;
 /**
  * Description of LanguageSelect
  *

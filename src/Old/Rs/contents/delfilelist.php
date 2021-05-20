@@ -15,7 +15,7 @@ foreach ($zaznamy as $zaznan) {
                                                 //  unlink ($cesta);
                                                 //  unlink ($cesta_rs);                                                                                                                                                                 
 
-                                                $cesta_bezsouboru = \Web\Middleware\Web\AppContext::getAppPublicDirectory().'files/';
+                                                $cesta_bezsouboru = \Web\Middleware\Page\AppContext::getAppPublicDirectory().'files/';
                                                 $cesta_rs_bezsouboru = \Middleware\Rs\AppContext::getAppPublicDirectory().'files/';
                                                 $s = 'deleted_' . date("Ymd_His") .  '_' . $IDfile . '.' .$pripona;
                                                 rename( $cesta_bezsouboru . $IDfile.'.'.$pripona , $cesta_bezsouboru . $s  );

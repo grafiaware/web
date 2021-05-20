@@ -19,10 +19,10 @@ use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;
 
-use Model\Repository\LoginAggregateCredentialsRepo;
-use Model\Entity\LoginAggregateCredentials;
-use Model\Repository\LoginAggregateRegistrationRepo;
-use Model\Entity\LoginAggregateRegistration;
+use Red\Model\Repository\LoginAggregateCredentialsRepo;
+use Red\Model\Entity\LoginAggregateCredentials;
+use Red\Model\Repository\LoginAggregateRegistrationRepo;
+use Red\Model\Entity\LoginAggregateRegistration;
 
 
 /**

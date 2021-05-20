@@ -1,11 +1,11 @@
 <?php
 use Site\Configuration;
-use Model\Arraymodel\Event;
+use Events\Model\Arraymodel\Event;
 
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 /** @var PhpTemplateRendererInterface $this */
 
-use Model\Entity\EnrollInterface;  // pro vdoc
+use Red\Model\Entity\EnrollInterface;  // pro vdoc
 
 //include 'data.php';
 
@@ -18,7 +18,7 @@ Přednášky můžete i opakovaně zhlédnout na našem youtube kanálu. Odkaz n
 $footer = 'Další přednášky budou postupně přibývat, sledujte tuto stránku!';
 
 
-$eventTypeName = "";  // viz Model\Arraymodel\EventType
+$eventTypeName = "";  // viz Events\Model\Arraymodel\EventType
 $institutionName = "";
 
 $event = [];

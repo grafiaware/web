@@ -17,7 +17,7 @@ if ($sess_prava['chpass']) {
         </div>
 </DIV>-->
 <div class="fifteen wide mobile three wide tablet three wide computer column center aligned">
-    <img src="<?= Web\Middleware\Web\AppContext::getAppPublicDirectory().'grafia/img/grafia_logo.gif' ?>" alt="Grafia, s.r.o. Plzeň"/>
+    <img src="<?= Web\Middleware\Page\AppContext::getAppPublicDirectory().'grafia/img/grafia_logo.gif' ?>" alt="Grafia, s.r.o. Plzeň"/>
 </div>
 <div class="fifteen wide mobile seven wide tablet nine wide computer column center aligned middle aligned">
     <p>Redakční systém</p>

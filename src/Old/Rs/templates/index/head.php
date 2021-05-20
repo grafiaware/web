@@ -3,9 +3,9 @@
 <!-- Kalendar stylesheet -->
 <link rel="stylesheet" type="text/css" media="all" href="<?= \Middleware\Rs\AppContext::getAppPublicDirectory().'kalendar/calendar-win2k-cold-1.css' ?>" title="win2k-cold-1" />
 
-<link rel="stylesheet" type="text/css" href="<?=  Web\Middleware\Web\AppContext::getAppPublicDirectory().'semantic/dist/semantic.min.css'?>">
-<link rel="stylesheet" type="text/css" href="<?= \Web\Middleware\Web\AppContext::getAppPublicDirectory().'grafia/css/styles_rs.css' ?>" />
-<link rel="stylesheet" type="text/css" href="<?= \Web\Middleware\Web\AppContext::getAppPublicDirectory().'grafia/css/grafia_styles_rs.css' ?>" />
+<link rel="stylesheet" type="text/css" href="<?=  Web\Middleware\Page\AppContext::getAppPublicDirectory().'semantic/dist/semantic.min.css'?>">
+<link rel="stylesheet" type="text/css" href="<?= \Web\Middleware\Page\AppContext::getAppPublicDirectory().'grafia/css/styles_rs.css' ?>" />
+<link rel="stylesheet" type="text/css" href="<?= \Web\Middleware\Page\AppContext::getAppPublicDirectory().'grafia/css/grafia_styles_rs.css' ?>" />
 <link href="https://fonts.googleapis.com/css?family=Dancing+Script" rel="stylesheet"> 
 
-<script src="<?= Web\Middleware\Web\AppContext::getAppPublicDirectory().'semantic/dist/semantic.min.js'?>"></script>
+<script src="<?= Web\Middleware\Page\AppContext::getAppPublicDirectory().'semantic/dist/semantic.min.js'?>"></script>

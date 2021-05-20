@@ -12,9 +12,8 @@ use Model\Entity\EntityAbstract;
 
 use Status\Model\Entity\StatusPresentationInterface;
 
-use Model\Entity\{
-    MenuItemInterface, LanguageInterface
-};
+use Red\Model\Entity\MenuItemInterface;
+use Red\Model\Entity\LanguageInterface;
 
 /**
  * Description of StatusHierarchy

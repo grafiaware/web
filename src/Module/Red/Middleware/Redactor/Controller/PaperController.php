@@ -24,7 +24,7 @@ use Model\Entity\Paper;
 use Status\Model\Repository\{
     StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo
 };
-use Model\Repository\{
+use Red\Model\Repository\{
     PaperRepo
 };
 

@@ -40,8 +40,8 @@ if (($zaznam['aut_gen'] == 0)  or ($zaznam['aut_gen'] == 2)) {   //EDITOVAT
 $urlEditorCss = Middleware\Rs\AppContext::getAppPublicDirectory().'grafia/css/editor.css';
 $urlPrefixTemplatesTinyMce = Middleware\Rs\AppContext::getPublicDirectory().'tiny_templates/';
 
-$urlSemanticCss = Web\Middleware\Web\AppContext::getAppPublicDirectory().'semantic/dist/semantic.min.css';
-$urlZkouskaCss = Web\Middleware\Web\AppContext::getAppPublicDirectory().'grafia/css/zkouska_less.css';
+$urlSemanticCss = Web\Middleware\Page\AppContext::getAppPublicDirectory().'semantic/dist/semantic.min.css';
+$urlZkouskaCss = Web\Middleware\Page\AppContext::getAppPublicDirectory().'grafia/css/zkouska_less.css';
 
 // TODO: Svoboda - zřejmě se POST proměnná edit nikde nepoužívá (sloupec editor se nečetl z db) - navíc jde o bezpečnostní riziko - v prohlížeči vidím uživatelské jméno
 // řádek 253 a totéž na 286: <input type="hidden" name="edit" value="<?php echo $zaznam['editor' ...

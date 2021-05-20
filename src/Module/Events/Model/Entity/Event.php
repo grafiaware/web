@@ -4,7 +4,7 @@
 namespace Events\Model\Entity;
 
 use Model\Entity\EntityAbstract;
-use Model\Entity\EntityGeneratedKeyInterface;
+use Red\Model\Entity\EntityGeneratedKeyInterface;
 
 /**
  * Description of Login

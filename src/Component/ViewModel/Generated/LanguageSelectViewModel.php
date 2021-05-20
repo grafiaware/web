@@ -12,7 +12,7 @@ use Component\ViewModel\StatusViewModelAbstract;
 
 use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
 
-use Model\Repository\LanguageRepo;
+use Red\Model\Repository\LanguageRepo;
 
 /**
  * Description of LanguageSelectViewModel

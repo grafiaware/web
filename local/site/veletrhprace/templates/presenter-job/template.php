@@ -1,6 +1,6 @@
 <?php
 use Site\Configuration;
-use Model\Arraymodel\Event;
+use Events\Model\Arraymodel\Event;
 
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 

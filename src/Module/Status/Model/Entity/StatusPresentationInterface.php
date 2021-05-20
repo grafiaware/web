@@ -9,9 +9,9 @@
 namespace Status\Model\Entity;
 
 use Model\Entity\EntitySingletonInterface;
-use Model\Entity\{
-    MenuItemInterface, LanguageInterface
-};
+
+use Red\Model\Entity\MenuItemInterface;
+use Red\Model\Entity\LanguageInterface;
 
 use Status\Model\Entity\StatusPresentationInterface;
 

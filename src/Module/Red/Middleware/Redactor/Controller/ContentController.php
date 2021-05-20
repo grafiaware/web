@@ -11,22 +11,19 @@ namespace Red\Middleware\Redactor\Controller;
 use FrontController\PresentationFrontControllerAbstract;
 
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 use Pes\Application\AppFactory;
 use Pes\Http\Request\RequestParams;
 use Pes\Http\Response;
 use Pes\Http\Response\RedirectResponse;
-use Psr\Http\Message\ResponseInterface;
 
 use Status\Model\Repository\{
     StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo
 };
-use Model\Repository\{
-    PaperContentRepo
-};
-
-use \Model\Entity\PaperContentInterface;
-use Model\Entity\PaperContent;
+use Red\Model\Repository\PaperContentRepo;
+use Red\Model\Entity\PaperContentInterface;
+use Red\Model\Entity\PaperContent;
 
 use Pes\Text\Message;
 

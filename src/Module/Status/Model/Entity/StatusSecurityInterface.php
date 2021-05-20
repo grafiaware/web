@@ -12,7 +12,7 @@ use Model\Entity\EntitySingletonInterface;
 
 use Auth\Model\Entity\LoginAggregateFullInterface;
 
-use Model\Entity\UserActionsInterface;
+use Red\Model\Entity\UserActionsInterface;
 
 /**
  * Třída nemá metodu getUser(), nikdy nevrací celý objekt User. Tak nelze měnit vlastnosti objektu User získaného z StatusSecurity.

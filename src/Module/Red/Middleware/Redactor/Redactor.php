@@ -77,11 +77,11 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
                 $ctrl = $this->container->get(PresentationActionController::class);
                 return $ctrl->setLangCode($request);
         });
-        $routeGenerator->addRouteForAction('POST', '/red/v1/presentation/uid', function(ServerRequestInterface $request) {
-                /** @var PresentationActionController $ctrl */
-                $ctrl = $this->container->get(PresentationActionController::class);
-                return $ctrl->setPresentedItem($request);
-        });
+//        $routeGenerator->addRouteForAction('POST', '/red/v1/presentation/uid', function(ServerRequestInterface $request) {
+//                /** @var PresentationActionController $ctrl */
+//                $ctrl = $this->container->get(PresentationActionController::class);
+//                return $ctrl->setPresentedItem($request);
+//        });
         $routeGenerator->addRouteForAction('POST', '/red/v1/presentation/edit_layout', function(ServerRequestInterface $request) {
                 /** @var PresentationActionController $ctrl */
                 $ctrl = $this->container->get(PresentationActionController::class);

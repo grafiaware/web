@@ -18,7 +18,7 @@ use Container\WebContainerConfigurator;
 use Container\DbUpgradeContainerConfigurator;
 use Container\HierarchyContainerConfigurator;
 
-use Model\Dao\MenuItemDao;
+use Red\Model\Dao\MenuItemDao;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusFlashRepo;
 

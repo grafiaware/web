@@ -13,7 +13,7 @@ use Site\Configuration;
 use Component\Renderer\Html\HtmlModelRendererAbstract;
 use Component\ViewModel\Generated\LanguageSelectViewModel;
 
-use Model\Entity\LanguageInterface;
+use Red\Model\Entity\LanguageInterface;
 
 use Pes\View\Renderer\RendererModelAwareInterface;
 use Pes\Text\Html;

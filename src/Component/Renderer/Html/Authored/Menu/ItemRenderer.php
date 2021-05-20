@@ -3,7 +3,7 @@ namespace  Component\Renderer\Html\Authored\Menu;
 
 use Component\Renderer\Html\HtmlModelRendererAbstract;
 use Component\ViewModel\Authored\Menu\Item\ItemViewModelInterface;
-use Model\Entity\HierarchyAggregateInterface;
+use Red\Model\Entity\HierarchyAggregateInterface;
 
 use Pes\View\Renderer\RendererModelAwareInterface;
 use Pes\Text\Html;

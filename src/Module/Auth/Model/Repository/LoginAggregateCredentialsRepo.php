@@ -9,7 +9,7 @@
 namespace Auth\Model\Repository;
 
 use Model\Hydrator\HydratorInterface;
-use Model\Repository\RepoAggregateInterface;
+use Red\Model\Repository\RepoAggregateInterface;
 
 use Auth\Model\Repository\LoginRepo;
 use Auth\Model\Dao\LoginDao;

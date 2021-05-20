@@ -1,14 +1,14 @@
 <?php
 namespace Component\ViewModel\Authored\Paper;
 
-use Model\Entity\MenuItemInterface;
-use Model\Entity\PaperAggregatePaperContentInterface;
+use Red\Model\Entity\MenuItemInterface;
+use Red\Model\Entity\PaperAggregatePaperContentInterface;
 
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusFlashRepo;
-use Model\Repository\PaperAggregateRepo;
-use Model\Repository\MenuItemRepo;
+use Red\Model\Repository\PaperAggregateRepo;
+use Red\Model\Repository\MenuItemRepo;
 
 /**
  * Description of PresentedPaperViewModel

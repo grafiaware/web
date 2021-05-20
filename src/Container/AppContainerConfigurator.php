@@ -20,7 +20,6 @@ use Pes\Session\SaveHandler\PhpLoggingSaveHandler;
 use Application\WebAppFactory;
 
 // selector
-use Application\SelectorItems;
 use Pes\Middleware\Selector;
 
 // security context - použit v security status

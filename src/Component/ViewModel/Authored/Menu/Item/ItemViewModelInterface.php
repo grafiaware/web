@@ -8,7 +8,7 @@
 
 namespace Component\ViewModel\Authored\Menu\Item;
 
-use Model\Entity\HierarchyAggregateInterface;
+use Red\Model\Entity\HierarchyAggregateInterface;
 
 /**
  *

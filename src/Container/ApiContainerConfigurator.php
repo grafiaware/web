@@ -37,7 +37,7 @@ use \GeneratorService\Paper\PaperService;
 use \GeneratorService\StaticTemplate\StaticService;
 
 // array model
-use Model\Arraymodel\Event;
+use Events\Model\Arraymodel\Event;
 
 // events
 use \Model\Repository\EnrollRepo;
@@ -45,13 +45,13 @@ use \Model\Repository\VisitorDataRepo;
 use \Model\Repository\VisitorDataPostRepo;
 
 // dao
-use Model\Dao\Hierarchy\HierarchyAggregateEditDao;
+use Red\Model\Dao\Hierarchy\HierarchyAggregateEditDao;
 
 use Status\Model\Entity\StatusSecurityInterface;
 
 // repo
 use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
-use Model\Repository\{
+use Red\Model\Repository\{
     LanguageRepo,
     HierarchyAggregateRepo,
     MenuItemRepo,

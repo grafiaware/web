@@ -44,7 +44,7 @@ class FilesUploadController extends FilesUploadControllerAbstract {
         $targetFilename = $fullLogDirectoryPath.urldecode($file->getClientFilename());  // někdy - např po ImageTools editaci je název souboru z Tiny url kódován
         $file->moveTo($targetFilename);
 
-        // response pro TinyMCE - musí obsahovat json s informací u cestě a jménu uloženého souboru
+        // response pro TinyMCE - musí obsahovat json s informací o cestě a jménu uloženého souboru
         // hodnotu v json položce 'location' použije timyMCE pro změnu url obrázku ve výsledném html
         $json = json_encode(array('location' => $targetFilename));  //
         return $this->createResponseFromString($request, $json);

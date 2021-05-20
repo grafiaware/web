@@ -8,8 +8,8 @@
 
 namespace Component\Renderer\Html\Authored\Paper;
 
-use Model\Entity\PaperAggregatePaperContentInterface;
-use Model\Entity\PaperInterface;
+use Red\Model\Entity\PaperAggregatePaperContentInterface;
+use Red\Model\Entity\PaperInterface;
 
 use Component\ViewModel\Authored\Paper\PaperViewModelInterface;
 use Pes\Text\Html;

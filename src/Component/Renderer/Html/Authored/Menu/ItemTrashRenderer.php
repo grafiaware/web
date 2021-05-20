@@ -2,7 +2,7 @@
 namespace  Component\Renderer\Html\Authored\Menu;
 
 use Pes\Text\Html;
-use Model\Entity\HierarchyAggregateInterface;
+use Red\Model\Entity\HierarchyAggregateInterface;
 
 /**
  * Description of ItemTrashEditableRenderer

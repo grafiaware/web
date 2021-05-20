@@ -27,7 +27,7 @@ if ($sess_prava[$stranka]) {
                   $IDfile = uniqid(rand(), 0);
                   $IDfile = substr($IDfile,0,7);
 
-                  $umisteni = Web\Middleware\Web\AppContext::getFilesDirectory().'files/'.$IDfile.'.'.$pripona;
+                  $umisteni = Web\Middleware\Page\AppContext::getFilesDirectory().'files/'.$IDfile.'.'.$pripona;
 //                  $umistenirs = '../rs/files/'.$IDfile.'.'.$pripona;
                   move_uploaded_file($_FILES['fiadresa']['tmp_name'],$umisteni);
                   chmod ($umisteni, 0777);

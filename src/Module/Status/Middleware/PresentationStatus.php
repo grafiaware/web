@@ -24,11 +24,9 @@ use Container\HierarchyContainerConfigurator;
 
 use Status\Model\Entity\StatusPresentation;
 use Status\Model\Repository\StatusPresentationRepo;
-use Model\Repository\LanguageRepo;
+use Red\Model\Repository\LanguageRepo;
 
-use Model\Entity\{
-    HierarchyAggregateInterface, LanguageInterface, EntitySingletonInterface
-};
+use Red\Model\Entity\LanguageInterface;
 
 use UnexpectedValueException;
 

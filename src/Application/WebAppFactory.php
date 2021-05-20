@@ -22,8 +22,8 @@ use Pes\Http\Helper\RequestDumper;
 
 use Container\AppContainerConfigurator;
 use Status\Model\Repository\StatusPresentationRepo;
-use Model\Entity\StatusPresentation;
-use Model\Entity\StatusPresentationInterface;
+use Red\Model\Entity\StatusPresentation;
+use Red\Model\Entity\StatusPresentationInterface;
 
 /**
  * Description of WebAppFactory

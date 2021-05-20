@@ -13,9 +13,9 @@ use GeneratorService\ContentServiceAbstract;
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusFlashRepo;
-use Model\Repository\PaperRepo;
+use Red\Model\Repository\PaperRepo;
 
-use Model\Entity\Paper;
+use Red\Model\Entity\Paper;
 
 /**
  * Description of PaperService

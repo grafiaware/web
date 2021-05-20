@@ -43,7 +43,7 @@ class Transformator implements MiddlewareInterface {
             "action='index.php?'"  => "action='index.php?app=rs&'",  // přidán get parametr app=rs pro formuláře
             'action="index.php?"'   => 'action="index.php?app=rs&"',  // přidán get parametr app=rs pro formuláře
             //
-            // transformace z web (pro obsahy z db) - stejná jako v Web\Middleware\Web\Transformator
+            // transformace z web (pro obsahy z db) - stejná jako v Web\Middleware\Page\Transformator
             'href="../index.php?list'   => 'href="?list',  // změněna cesta k souboru index.php - odkazy na vlastní stránky (do menu) ve starých obsazích
             'src="files/'               => 'src="'.$publicDirectory.'files/',   // změněna cesta ke složce files
             'src="../files/'            => 'src="'.$publicDirectory.'files/',   // změněna cesta ke složce files - pro chybně zadané obrázky (s tečkou)
