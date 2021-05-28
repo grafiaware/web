@@ -25,7 +25,7 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract impleme
 
     public function renderHeadline(PaperInterface $paper) {
         $headline = $paper->getHeadline();
-        return  
+        return
             Html::tag('div',
                         ['class'=>$this->classMap->getClass('Headline', 'div'),
                          'style' => "display: block;"
@@ -63,7 +63,7 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract impleme
         $innerHtml = '';
         foreach ($contents as $paperContent) {
             /** @var PaperContentInterface $paperContent */
-            $innerHtml .= $innerHtml;
+            $innerHtml .= $this->renderContent($paperContent);
         }
         return $innerHtml;
     }
@@ -118,7 +118,7 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract impleme
         $paperId = $paper->getId();
 
         $buttons = [];
-        if ($paper instanceof PaperAggregateInterface AND $paper->getPaperContentsArray()) {
+        if ($paper instanceof PaperAggregatePaperContentInterface AND $paper->getPaperContentsArray()) {
             $buttons[] = Html::tag('button', [
                     'class'=>$this->classMap->getClass('PaperButtons', 'button'),
                     'data-tooltip'=> 'Seřadit podle data',

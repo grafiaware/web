@@ -219,7 +219,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
     protected function getPoznamkyComponentView() {
         $userActions = $this->statusSecurityRepo->get()->getUserActions();
         $isEditableContent = $userActions->isEditableArticle() OR $userActions->isEditableLayout();
-        if ($isEditableContent) {
+        if (false AND  $isEditableContent) {
             return
                 $this->container->get(View::class)
                     ->setTemplate(new PhpTemplate(Configuration::pageController()['templates.poznamky']))

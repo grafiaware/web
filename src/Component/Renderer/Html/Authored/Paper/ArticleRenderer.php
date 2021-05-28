@@ -10,7 +10,6 @@ namespace Component\Renderer\Html\Authored\Paper;
 
 use Red\Model\Entity\PaperAggregatePaperContentInterface;
 use Component\ViewModel\Authored\Paper\PaperViewModelInterface;
-use Component\ViewModel\Authored\Paper\NamedPaperViewModelInterface;
 use Pes\Text\Html;
 /**
  * Description of PaperRenderer
@@ -31,7 +30,7 @@ class ArticleRenderer extends ArticleRendererAbstract {
                         $this->renderHeadline($paperAggregate)
                     );
             $perex = $this->renderPerex($paperAggregate);
-            $contents = ($paperAggregate instanceof PaperAggregateInterface) ? $this->renderContents($paperAggregate) : "";
+            $contents = ($paperAggregate instanceof PaperAggregatePaperContentInterface) ? $this->renderContents($paperAggregate) : "";
             $html =
                 Html::tag('article', ['data-renderer'=>'PaperEditable'],
                         $headline.$perex.$contents

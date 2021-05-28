@@ -29,6 +29,8 @@ class ArticleComponent extends AuthoredComponentAbstract implements ArticleCompo
             $this->resolveTemplate($paperAggregate->getTemplate());
         }
         $renderer = parent::resolveRenderer();
+        // když renderer není RendererModelAwareInterface a přesto component má nastaven $this->viewModel - musí být viewModel iterable, pokud je použije se jako data
+        //TODO: podívej se na práci s RendererModelAwareInterface do view getString!
         if (!($renderer instanceof RendererModelAwareInterface)) {
             if (!is_iterable($this->viewModel)) {
                 throw new LogicException("ViewModel ". get_class($this->viewModel)." není iterable. Komponent má nastaven PHP template renderer a vyžaduje iterable view model.");

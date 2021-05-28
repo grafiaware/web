@@ -26,16 +26,16 @@ class ArticleEditableRenderer  extends ArticleRendererAbstract {
     public function render($data=NULL) {
         /** @var PaperViewModelInterface $viewModel */
         $viewModel = $this->viewModel;
-        $paper = $viewModel->getPaper();  // vrací PaperAggregate
-        if (!isset($paper)) {
-            $paper = $viewModel->getNewPaper();  // vrací Paper
+        $paperAggregate = $viewModel->getPaper();  // vrací PaperAggregate
+        if (!isset($paperAggregate)) {
+            $paperAggregate = $viewModel->getNewPaper();  // vrací Paper
         }
-        if (isset($paper)) {
-            $articleButtons = $this->renderPaperTemplateButtonsForm($paper) . $this->renderPaperButtonsForm($paper);
-            $section = $this->renderHeadlineForm($paper) . $this->renderPerexForm($paper);
-            $content = ($paper instanceof PaperAggregateInterface) ? $this->renderContentsDivs($paper) : "";
+        if (isset($paperAggregate)) {
+            $articleButtons = $this->renderPaperTemplateButtonsForm($paperAggregate) . $this->renderPaperButtonsForm($paperAggregate);
+            $section = $this->renderHeadlineForm($paperAggregate) . $this->renderPerexForm($paperAggregate);
+            $content = ($paperAggregate instanceof PaperAggregatePaperContentInterface) ? $this->renderContentsDivs($paperAggregate) : "";
 
-            $html = Html::tag('article', ['data-red-renderer'=>'PaperEditable', "data-red-datasource"=> "paperByReference{$paper->getMenuItemIdFk()}"],
+            $html = Html::tag('article', ['data-red-renderer'=>'PaperEditable', "data-red-datasource"=> "paper {$paperAggregate->getId()} for item {$paperAggregate->getMenuItemIdFk()}"],
                     $articleButtons
                     .Html::tag('section', [], $section)
                     .Html::tag('content', [], $content)

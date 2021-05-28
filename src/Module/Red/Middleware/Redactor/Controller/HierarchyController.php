@@ -6,7 +6,7 @@ use FrontController\PresentationFrontControllerAbstract;
 
 use Psr\Http\Message\ServerRequestInterface;
 
-use Model\Dao\Hierarchy\HierarchyAggregateEditDao;
+use Red\Model\Dao\Hierarchy\HierarchyAggregateEditDao;
 
 use Status\Model\Repository\{
     StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo
@@ -49,14 +49,14 @@ class HierarchyController extends PresentationFrontControllerAbstract {
     public function add(ServerRequestInterface $request, $uid) {
         $siblingUid = $this->editHierarchyDao->addNode($uid);
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
-        $this->addFlashMessage('add');
+        $this->addFlashMessage('add item as sibling');
         return $this->redirectSeeOther($request, "web/v1/page/item/$siblingUid");
     }
 
     public function addchild(ServerRequestInterface $request, $uid) {
         $childUid = $this->editHierarchyDao->addChildNode($uid);
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
-        $this->addFlashMessage('addchild');
+        $this->addFlashMessage('add item as child');
         return $this->redirectSeeOther($request, "web/v1/page/item/$childUid");
     }
 
@@ -64,7 +64,7 @@ class HierarchyController extends PresentationFrontControllerAbstract {
         $statusFlash = $this->statusFlashRepo->get();
         $statusFlash->setPostCommand(['cut'=>$uid]);  // command s životností do dalšího POST requestu
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
-        $statusFlash->appendMessage("cut - vybrán k přesunutí: $langCode/$uid");
+        $statusFlash->appendMessage("cut - item: $langCode/$uid selected for cut&patse operation");
 
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
@@ -72,7 +72,7 @@ class HierarchyController extends PresentationFrontControllerAbstract {
     public function cutEscape(ServerRequestInterface $request, $uid) {
         $statusFlash = $this->statusFlashRepo->get();
         $statusFlash->setPostCommand(null);  // zrušení výběru položky "cut"
-        $statusFlash->appendMessage("cutescape - zrušen výběr polořky k přesunutí");
+        $statusFlash->appendMessage("cut escape -cut&patse operation aborted");
 
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
@@ -83,7 +83,7 @@ class HierarchyController extends PresentationFrontControllerAbstract {
         $pasteduid = $statusFlash->getPostCommand()['cut'];  // command s životností do dalšího POST requestu
         if (isset($parentUid)) {
             $this->editHierarchyDao->moveSubTreeAsSiebling($pasteduid, $uid);
-            $this->addFlashMessage('paste as a siebling');
+            $this->addFlashMessage('pasted as a sibling');
         } else {
             $this->addFlashMessage('unable to paste, item has no parent');
         }
@@ -96,7 +96,7 @@ class HierarchyController extends PresentationFrontControllerAbstract {
         $pasteduid = $statusFlash->getPostCommand()['cut'];  // command s životností do dalšího POST requestu
         $this->editHierarchyDao->moveSubTreeAsChild($pasteduid, $uid);
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
-        $this->addFlashMessage('paste as a child');
+        $this->addFlashMessage('pasted as a child');
         return $this->redirectSeeOther($request, "web/v1/page/item/$pasteduid");
     }
 
