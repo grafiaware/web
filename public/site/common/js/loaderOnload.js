@@ -8,15 +8,49 @@ function hamburger_close() {
     document.getElementById("myOverlay").style.display = "none";
 }
 
-function replaceElement(id, apiUri){
-    var xhr = new XMLHttpRequest();
+function initLoadedEditableElements() {
+            tinymce.remove();
+            tinymce.init(headlineConfig);
+            tinymce.init(contentConfig);
+            tinymce.init(perexConfig);
+            tinymce.init(headerFooterConfig);
 
-    xhr.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            // náhrada innerHtml:
-            document.getElementById(id).innerHTML = xhr.responseText;
+            //pro editaci pracovního popisu pro přihlášené uživatele
+            tinymce.init(editWorkDataConfig);
+            //rozbalení formuláře osobních údajů pro "chci nazávat kontakt"
+                $('.profil-visible').on('click', function(){
+                $('.profil.hidden').css('display', 'block');
+            });
 
-// zobrazení  modálního okna po kliknutí button
+            //semantic-ui dropdown (použitý např. pro přihlašování)
+            $('.ui.dropdown').dropdown();
+            //menu semantic-ui dropdown reaguje na událost hover
+            $('.svisle-menu .ui.dropdown').dropdown({on: 'hover'});
+            //výběr šablony pro stránku - vlastní dropdown, protože jsou dva vnořený
+            $('.ui.selection.dropdown').dropdown();
+
+            $('.edit_kalendar .ui.calendar').calendar({
+                type: 'date',
+                today: true,
+                firstDayOfWeek: 1,
+                text: {
+                    days: ['Ne', 'Po', 'Út', 'St', 'Čt', 'Pá', 'So'],
+                    months: ['Leden', 'Únor', 'Březen', 'Duben', 'Květen', 'Červen', 'Červenec', 'Srpen', 'Září', 'Říjen', 'Listopad', 'Prosinec'],
+                    today: 'Dnes'
+                },
+                formatter: {
+                    date: function (date, settings) {
+                        if (!date) return '';
+                        var day = date.getDate();
+                        var month = date.getMonth() + 1;
+                        var year = date.getFullYear();
+                        return day + '. ' + month + '. ' + year;}
+                }
+            });
+}
+
+function initLoadedElements() {
+//            zobrazení  modálního okna po kliknutí button
 //            $('#id_modal_element').modal('attach events', '.class_button', 'show');
 
             $('#modal_facebook').modal('attach events', '.btn-fb', 'show');
@@ -93,9 +127,20 @@ function replaceElement(id, apiUri){
                     ram.style.height = ramDokument.documentElement.scrollHeight + "px";
                 }
             };
-        }
-        if (this.readyState == 4 && this.status != 200) {
-            console.log("Loader failed for id: "+id+",this.readyState:"+this.readyState+", this.status:"+this.status);
+}
+
+function replaceElement(id, apiUri){
+    var xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function() {
+        if (this.readyState == 4) {
+            if (this.status == 200) {
+                // náhrada innerHtml:
+                document.getElementById(id).innerHTML = xhr.responseText;
+                initLoadedElements();
+            } else {
+                console.log("Loader failed for id: "+id+",this.readyState:"+this.readyState+", this.status:"+this.status);
+            }
         }
     };
     xhr.open("GET", apiUri, true);
@@ -107,48 +152,13 @@ function replaceElementEditable(id, apiUri){
     var xhr = new XMLHttpRequest();
 
     xhr.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            // Typical action to be performed when the document is ready:
-            document.getElementById(id).innerHTML = xhr.responseText;
-
-            tinymce.remove();
-            tinymce.init(headlineConfig);
-            tinymce.init(contentConfig);
-            tinymce.init(perexConfig);
-            tinymce.init(headerFooterConfig);
-
-            //pro editaci pracovního popisu pro přihlášené uživatele
-            tinymce.init(editWorkDataConfig);
-            //rozbalení formuláře osobních údajů pro "chci nazávat kontakt"
-                $('.profil-visible').on('click', function(){
-                $('.profil.hidden').css('display', 'block');
-            });
-
-            //semantic-ui dropdown (použitý např. pro přihlašování)
-            $('.ui.dropdown').dropdown();
-            //menu semantic-ui dropdown reaguje na událost hover
-            $('.svisle-menu .ui.dropdown').dropdown({on: 'hover'});
-            //výběr šablony pro stránku - vlastní dropdown, protože jsou dva vnořený
-            $('.ui.selection.dropdown').dropdown();
-
-            $('.edit_kalendar .ui.calendar').calendar({
-                type: 'date',
-                today: true,
-                firstDayOfWeek: 1,
-                text: {
-                    days: ['Ne', 'Po', 'Út', 'St', 'Čt', 'Pá', 'So'],
-                    months: ['Leden', 'Únor', 'Březen', 'Duben', 'Květen', 'Červen', 'Červenec', 'Srpen', 'Září', 'Říjen', 'Listopad', 'Prosinec'],
-                    today: 'Dnes'
-                },
-                formatter: {
-                    date: function (date, settings) {
-                        if (!date) return '';
-                        var day = date.getDate();
-                        var month = date.getMonth() + 1;
-                        var year = date.getFullYear();
-                        return day + '. ' + month + '. ' + year;}
-                }
-            });
+        if (this.readyState == 4) {
+            if (this.status == 200) {
+                document.getElementById(id).innerHTML = xhr.responseText;
+                initLoadedEditableElements();
+            } else {
+                console.log("Loader failed for id: "+id+",this.readyState:"+this.readyState+", this.status:"+this.status);
+            }
         }
     };
     xhr.open("GET", apiUri, true);
