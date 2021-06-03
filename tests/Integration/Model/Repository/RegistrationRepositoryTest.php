@@ -12,18 +12,15 @@ use PHPUnit\Framework\TestCase;
 
 use Pes\Http\Factory\EnvironmentFactory;
 
-use Application\WebAppFactory;
-
 use Pes\Container\Container;
 
 use Container\LoginContainerConfigurator;
 use Container\DbOldContainerConfigurator;
 
-use Model\Dao\LoginDao;
-use Model\Dao\RegistrationDao;
-use Model\Repository\RegistrationRepo;
-
-use Model\Entity\Registration;
+use Auth\Model\Entity\Registration;
+use Auth\Model\Dao\LoginDao;
+use Auth\Model\Dao\RegistrationDao;
+use Auth\Model\Repository\RegistrationRepo;
 
 
 /**

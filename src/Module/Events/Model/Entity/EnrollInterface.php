@@ -8,6 +8,8 @@
 
 namespace Events\Model\Entity;
 
+use Model\Entity\EntityInterface;
+
 /**
  *
  * @author pes2704

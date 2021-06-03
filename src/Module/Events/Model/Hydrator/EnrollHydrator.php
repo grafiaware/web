@@ -9,6 +9,8 @@
 namespace Events\Model\Hydrator;
 
 use Model\Entity\EntityInterface;
+use Model\Hydrator\HydratorInterface;
+
 use Events\Model\Entity\EnrollInterface;
 
 /**

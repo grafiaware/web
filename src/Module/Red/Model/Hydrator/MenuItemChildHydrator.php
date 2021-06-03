@@ -9,6 +9,7 @@
 namespace Red\Model\Hydrator;
 
 use Model\Entity\EntityInterface;
+use Model\Hydrator\HydratorInterface;
 use Red\Model\Entity\MenuItemAggregatePaperInterface;
 use Red\Model\Entity\PaperInterface;
 

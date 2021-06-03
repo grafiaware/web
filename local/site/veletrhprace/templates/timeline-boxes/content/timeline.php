@@ -5,7 +5,6 @@ use Pes\Text\Text;
 use Pes\Text\Html;
 
 /** @var PhpTemplateRendererInterface $this */
-/** @var PaperAggregatePaperContentInterface $paperAggregate */
 ?>
 <form name="event-enroll" action="" method="POST">
                     <div class="timeline">

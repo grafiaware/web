@@ -16,11 +16,11 @@ use Container\DbUpgradeContainerConfigurator;
 use Container\HierarchyContainerConfigurator;
 use Test\Integration\Model\Container\TestModelContainerConfigurator;
 
-use Model\Dao\VisitorDataDao;
-use Model\Dao\Exception\DaoKeyVerificationFailedException;
-use Model\Repository\VisitorDataRepo;
+use Events\Model\Entity\VisitorData;
+use Events\Model\Dao\VisitorDataDao;
+use Events\Model\Repository\VisitorDataRepo;
 
-use Model\Entity\VisitorData;
+use Model\Dao\Exception\DaoKeyVerificationFailedException;
 
 
 /**

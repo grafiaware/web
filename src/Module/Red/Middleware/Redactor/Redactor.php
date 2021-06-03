@@ -17,8 +17,8 @@ use Container\{
 };
 
 use Red\Middleware\Redactor\Controller\{
-    UserActionController, HierarchyController, EditItemController, PresentationActionController, PaperController, ContentController, EventController,
-    FilesUploadController, VisitorDataController
+    UserActionController, HierarchyController, EditItemController, PresentationActionController, PaperController, ContentController, TemplateController,
+    FilesUploadController
 };
 
 class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
@@ -199,6 +199,18 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
                 $ctrl = $this->container->get(EditItemController::class);
                 return $ctrl->type($request, $menuItemId);
         });
+        #### TemplateController ####
+
+        $routeGenerator->addRouteForAction('GET', '/red/v1/papertemplate/:folder', function(ServerRequestInterface $request, $folder) {
+            /** @var TemplateController $ctrl */
+            $ctrl = $this->container->get(TemplateController::class);
+            return $ctrl->papertemplate($request, $folder);
+            });
+        $routeGenerator->addRouteForAction('GET', '/red/v1/authortemplate/:folder/:name', function(ServerRequestInterface $request, $folder, $name) {
+            /** @var TemplateController $ctrl */
+            $ctrl = $this->container->get(TemplateController::class);
+            return $ctrl->authorTemplate($request, $folder, $name);
+            });
 
         #### HierarchyController ####
         $routeGenerator->addRouteForAction('POST', '/red/v1/hierarchy/:uid/add', function(ServerRequestInterface $request, $uid) {

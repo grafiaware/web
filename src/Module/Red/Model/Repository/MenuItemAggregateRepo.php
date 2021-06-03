@@ -12,6 +12,7 @@ use Red\Model\Repository\MenuItemRepo;
 
 use Red\Model\Dao\MenuItemDao;
 use Model\Hydrator\HydratorInterface;
+use Model\Repository\RepoReadonlyInterface;
 
 use Red\Model\Repository\PaperAggregateRepo;
 use Red\Model\Entity\MenuItemAggregatePaper;

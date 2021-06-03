@@ -8,12 +8,14 @@
 
 namespace Events\Model\Entity;
 
+use Model\Entity\EntityInterface;
+
 /**
  *
  * @author pes2704
  */
 interface VisitorDataInterface extends EntityInterface {
-    
+
     public function getLoginName();
 
     public function getPrefix();

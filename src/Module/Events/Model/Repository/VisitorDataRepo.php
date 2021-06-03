@@ -8,7 +8,8 @@
 
 namespace Events\Model\Repository;
 
-use Model\Entity\EntityInterface;
+use Model\Repository\RepoAbstract;
+
 use Events\Model\Entity\VisitorDataInterface;
 use Events\Model\Entity\VisitorData;
 use Events\Model\Dao\VisitorDataDao;

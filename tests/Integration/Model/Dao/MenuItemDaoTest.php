@@ -19,11 +19,11 @@ use Container\DbUpgradeContainerConfigurator;
 use Container\HierarchyContainerConfigurator;
 use Test\Integration\Model\Container\TestModelContainerConfigurator;
 
-use Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
+use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
 
-use Model\Dao\MenuItemDao;
+use Red\Model\Dao\MenuItemDao;
 
-use Model\Entity\MenuItem;
+use Red\Model\Entity\MenuItem;
 
 /**
  * Description of MenuItemDaoTest

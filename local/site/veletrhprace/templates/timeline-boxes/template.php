@@ -1,8 +1,6 @@
 <?php
 use Pes\View\Renderer\PhpTemplateRendererInterface;
-use Red\Model\Entity\PaperAggregatePaperContentInterface;
 /** @var PhpTemplateRendererInterface $this */
-/** @var PaperAggregatePaperContentInterface $paperAggregate */
 
 ?>
 

@@ -9,6 +9,8 @@
 namespace Events\Model\Dao;
 
 use Pes\Database\Handler\HandlerInterface;
+
+use Model\Dao\DaoAbstract;
 use Model\Dao\DaoKeyDbVerifiedInterface;
 use Model\Dao\Exception\DaoKeyVerificationFailedException;
 /**

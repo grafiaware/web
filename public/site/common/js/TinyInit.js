@@ -83,7 +83,7 @@ var editorFunction = function (editor) {
     // ################################
 
     var form;
-        var val;
+    var val;
 
     editor.on('focus', function(e) {
         val = editor.getContent();
@@ -92,20 +92,15 @@ var editorFunction = function (editor) {
 
     editor.on('blur', function(e) {
         if (editor.isDirty()) {
-            if (confirm("Zahodit změny?")) {
-                editor.resetContent();
-//                editor.setContent(val);
-                editor.save();
+            if (confirm("Uložit změny?")) {
+                editor.save();  // vloží obsah do příslušného hidden inputu
+                form.submit();
             } else {
-//                editor.save();
-//                form.submit();
-                    editor.focus();
+                editor.resetContent();
             }
         }
-    //        if(val!=editor.getContent()){
-    //            form.submit();
-    //        }
-    });
+    }
+            );
 
     editor.on('NodeChange', function(e) {
       console.log('The ' + e.element.nodeName + ' changed.');
@@ -266,12 +261,24 @@ function image_upload_handler (blobInfo, success, failure, progress) {
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-var plugins_paper = [
-       'paste advlist autolink lists link anchor charmap  preview hr anchor pagebreak image code', // codesample print  //
-       'searchreplace wordcount visualblocks visualchars code fullscreen',
-       'insertdatetime  nonbreaking noneditable save autosave table directionality',
-       'template textpattern searchreplace image imagetools save example media'
-//       'template textpattern searchreplace image imagetools save example'
+var plugins = [
+       'lists  advlist',    // lists - add numbered and bulleted lists, advlist - extends by adding CSS list
+       'anchor', // adds an anchor/bookmark button to the toolbar that inserts an anchor at the editor’s cursor
+       'autolink', // automatically creates hyperlinks when a user types a valid, complete URL, URLs must include www to be automatically converted
+       'autosave', // gives the user a warning if they have unsaved changes in the editor and add a menu item, “Restore last draft” and an optional toolbar button
+       'code', //
+       'hr',  // Horizontal Rule (hr) plugin allows a user to insert a horizontal rule on the page
+       'image', // enables the user to insert an image, also adds a toolbar button and an Insert/edit image menu item under the Insert menu
+       'imagetools', // adds a contextual editing toolbar to the images in the editor
+       'link', // allows a user to link external resources, adds two toolbar buttons called link and unlink and three menu items called link, unlink and openlink
+       'media ', // adds the ability for users to be able to add HTML5 video and audio elements
+       'nonbreaking', // adds a button for inserting nonbreaking space entities &nbsp; , also adds a menu item and a toolbar button
+       'noneditable', // enables you to prevent users from being able to edit content within elements assigned the mceNonEditable class
+       'paste', // will filter/cleanup content pasted from Microsoft Word
+       'save', // adds a save button, which will submit the form
+       'searchreplace', // adds search/replace dialogs, also adds a toolbar button and the menu item
+       'table', // adds table management functionality
+       'template', // adds support for custom templates. It also adds a menu item and a toolbar button
     ];
 
 var templates_paper = [
@@ -291,11 +298,9 @@ var templates_paper = [
     ];
 
 var toolbar = 'save cancel | undo redo | fontstyle fontweight | aligment | list | template | anchor link image media | code';
-//    toolbar1: 'undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent'
-//            + ' | hr | nonbreaking | forecolor backcolor ' + ' | fontsizeselect | code | searchreplace template | link image | save'
-//            + ' | example vlozitNadpis vlozitOdstavec'
 var toolbar1 = 'save cancel | undo redo | removeformat | bold italic underline strikethrough nonbreaking | alignleft aligncenter alignright alignjustify | link image ';
 var toolbar2 = 'styleselect fontsizeselect forecolor | bullist numlist outdent indent | template | code | example';
+
 var linkClassList = [
         {title: 'Vyberte styl odkazu', value: ''},
         {title: 'Výchozí odkaz', value: ''},
@@ -336,6 +341,21 @@ var imagetools_toolbar = 'editimage | rotateleft rotateright | flipv fliph | ima
 
 
 /////////////////////////////////////////
+var blockConfig = {
+    selector: 'main form block',
+    schema : 'html5',
+    placeholder: 'Nový blok',
+    relative_urls: true,
+    extended_valid_elements : ['block'],
+    language : tinyConfig.toolbarsLang,
+    document_base_url : tinyConfig.basePath,
+    content_css: tinyConfig.contentCss,
+    plugins: [
+        'quickbars', // adds three context toolbars: Quick Selection - Shown when text is selected, Quick Insert - Shown when a new line is added, Quick Image - Shown when an image is selected
+     ],
+
+    setup: editorFunction  // callback that will be executed before the TinyMCE editor instance is rendered
+    };
 
 var headlineConfig = {
     selector: 'main form headline',
@@ -350,18 +370,14 @@ var headlineConfig = {
 
     menubar: false,
     inline: true,
-    plugins: [
-    'lists',
-    'paste',
-    'autolink',
-    'quickbars',
-    'link',
-    'save'
-    ],
+    plugins: plugins,
+
     toolbar: false,
     quickbars_insert_toolbar: '',
     quickbars_selection_toolbar: 'save | undo redo | removeformat italic | link ',
-    toolbar: 'undo redo | bold italic underline | save'
+    toolbar: 'undo redo | bold italic underline | save',
+
+    setup: editorFunction  // callback that will be executed before the TinyMCE editor instance is rendered
 };
 
 var contentConfig = {
@@ -382,9 +398,10 @@ var contentConfig = {
     menubar: false,
     inline: true,
 
-    plugins: plugins_paper,
+    plugins: plugins,
     templates: templates_paper,
-    toolbar: toolbar,
+    toolbar1: toolbar1,
+    toolbar2: toolbar2,
     imagetools_toolbar: imagetools_toolbar,
     link_class_list: linkClassList,
     /* enable title field in the Image dialog*/
@@ -400,10 +417,9 @@ var contentConfig = {
     file_picker_types: 'image media',
     /* and here's our custom image picker*/
     file_picker_callback: file_picker_callback_function,
-
     images_upload_handler: image_upload_handler,
 
-    setup: editorFunction
+    setup: editorFunction  // callback that will be executed before the TinyMCE editor instance is rendered
 };
 
 var perexConfig = {
@@ -424,7 +440,7 @@ var perexConfig = {
     menubar: false,
     inline: true,
 
-    plugins: plugins_paper,
+    plugins: plugins,
     templates: templates_paper,
     toolbar1: toolbar1,
     toolbar2: toolbar2,
@@ -441,7 +457,6 @@ var perexConfig = {
     file_picker_types: 'image',
     /* and here's our custom image picker*/
     file_picker_callback: file_picker_callback_function,
-
     images_upload_handler: image_upload_handler,
 
     setup: editorFunction

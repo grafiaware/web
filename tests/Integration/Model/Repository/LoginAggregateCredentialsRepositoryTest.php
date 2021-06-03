@@ -19,15 +19,14 @@ use Pes\Container\Container;
 use Container\LoginContainerConfigurator;
 use Container\DbOldContainerConfigurator;
 
+use Model\Dao\Exception\DaoKeyVerificationFailedException;
 
-use Model\Dao\LoginDao;
-use Model\Dao\CredentialsDao;
-use Model\Repository\LoginAggregateCredentialsRepo;
+use Auth\Model\Dao\LoginDao;
+use Auth\Model\Dao\CredentialsDao;
+use Auth\Model\Repository\LoginAggregateCredentialsRepo;
 
-use Model\Entity\LoginAggregateCredentials;
-use Model\Entity\Credentials;
-
-use Model\Repository\Exception\UnableAddEntityException;
+use Auth\Model\Entity\LoginAggregateCredentials;
+use Auth\Model\Entity\Credentials;
 
 /**
  * Description of MenuItemPaperRepositoryTest
@@ -105,10 +104,13 @@ class LoginAggregateCredentialsRepositoryTest extends TestCase {
                 )
             );
 
-        /** @var LoginDao $loginDao */
-        $loginDao = $container->get(LoginDao::class);
-        $loginDao->insertWithKeyVerification(['login_name'=>"testLoginAggregate1"]);
+        try {
+            /** @var LoginDao $loginDao */
+            $loginDao = $container->get(LoginDao::class);
+            $loginDao->insertWithKeyVerification(['login_name'=>"testLoginAggregate1"]);
+        } catch (DaoKeyVerificationFailedException $keyExistsExc) {
 
+        }
 
     }
 

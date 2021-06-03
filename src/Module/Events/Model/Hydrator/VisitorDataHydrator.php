@@ -9,6 +9,8 @@
 namespace Events\Model\Hydrator;
 
 use Model\Entity\EntityInterface;
+use Model\Hydrator\HydratorInterface;
+
 use Events\Model\Entity\VisitorDataInterface;
 
 /**
@@ -40,7 +42,7 @@ class VisitorDataHydrator implements HydratorInterface {
             ->setLetterDocument($row['letter_document'])
             ->setLetterDocumentFilename($row['letter_document_filename'])
             ->setLetterDocumentMimetype($row['letter_document_mimetype'])
-                
+
             ->setLoginName($row['login_name']);
     }
 

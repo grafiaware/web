@@ -12,22 +12,18 @@ use PHPUnit\Framework\TestCase;
 
 use Pes\Http\Factory\EnvironmentFactory;
 
-use Application\WebAppFactory;
-
 use Pes\Container\Container;
 
 use Container\LoginContainerConfigurator;
 use Container\DbOldContainerConfigurator;
 
 
-use Model\Dao\LoginDao;
-use Model\Dao\RegistrationDao;
-use Model\Repository\LoginAggregateRegistrationRepo;
+use Auth\Model\Dao\LoginDao;
+use Auth\Model\Dao\RegistrationDao;
+use Auth\Model\Repository\LoginAggregateRegistrationRepo;
 
-use Model\Entity\LoginAggregateRegistration;
-use Model\Entity\Registration;
-
-use Model\Repository\Exception\UnableAddEntityException;
+use Auth\Model\Entity\LoginAggregateRegistration;
+use Auth\Model\Entity\Registration;
 
 /**
  *

@@ -173,6 +173,7 @@ class PaperController extends PresentationFrontControllerAbstract {
         } else {
             $postHeadline = (new RequestParams())->getParam($request, 'headline_'.$paperId);
             $paper->setHeadline($postHeadline);
+            $this->addFlashMessage('Headline updated');
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
@@ -190,6 +191,7 @@ class PaperController extends PresentationFrontControllerAbstract {
         } else {
             $postPerex = (new RequestParams())->getParam($request, 'perex_'.$paperId);
             $paper->setPerex($postPerex);
+            $this->addFlashMessage('Perex updated');
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
@@ -207,6 +209,7 @@ class PaperController extends PresentationFrontControllerAbstract {
         } else {
             $postTemplate = (new RequestParams())->getParam($request, 'folder_'.$paperId, 'default');
             $paper->setTemplate($postTemplate);
+            $this->addFlashMessage("Set template: $postTemplate");
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
