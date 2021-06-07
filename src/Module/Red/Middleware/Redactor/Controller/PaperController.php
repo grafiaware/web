@@ -19,14 +19,17 @@ use Pes\Http\Response\RedirectResponse;
 use Psr\Http\Message\ResponseInterface;
 
 
-use Model\Entity\Paper;
+use Red\Model\Entity\Paper;
+use Red\Model\Entity\PaperAggregatePaperContentInterface;
 
 use Status\Model\Repository\{
     StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo
 };
 use Red\Model\Repository\{
-    PaperRepo
+    PaperAggregateRepo
 };
+
+use UnexpectedValueException;
 
 /**
  * Description of PostController
@@ -35,15 +38,15 @@ use Red\Model\Repository\{
  */
 class PaperController extends PresentationFrontControllerAbstract {
 
-    private $paperRepo;
+    private $paperAggregateRepo;
 
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
-            PaperRepo $paperRepo) {
+            PaperAggregateRepo $paperAggregateRepo) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
-        $this->paperRepo = $paperRepo;
+        $this->paperAggregateRepo = $paperAggregateRepo;
     }
 
     public function create(ServerRequestInterface $request): ResponseInterface {
@@ -59,7 +62,7 @@ class PaperController extends PresentationFrontControllerAbstract {
             $template = $dataTemplateAttribute->textContent ?? "defaulttemplate";
             $headlineElement = $layoutDocument->getElementsByTagName('headline')->item(0);
             $perexElement = $layoutDocument->getElementsByTagName('perex')->item(0);
-            if($this->paperRepo->getByReference($menuItemId)){
+            if($this->paperAggregateRepo->getByReference($menuItemId)){
                 user_error("Zadaná položka menu již ma připojen článek (paper).", E_USER_WARNING);
                 $this->addFlashMessage("Zadaná položka menu již ma připojen článek (paper).");
             } else {
@@ -74,7 +77,7 @@ class PaperController extends PresentationFrontControllerAbstract {
                         ->setTemplate($template)
                         ;
 
-                    $this->paperRepo->add($paper);
+                    $this->paperAggregateRepo->add($paper);
                 } else {
                     $this->addFlashMessage("Selhalo vyvoření článku z šablony. Nenalezen headline a perex element."); //"Paper creating failed. No healine or perex element detected.");
                 }
@@ -87,7 +90,7 @@ class PaperController extends PresentationFrontControllerAbstract {
                         ->setMenuItemIdFk($menuItemId)
                         ;
 
-                    $this->paperRepo->add($paper);
+                    $this->paperAggregateRepo->add($paper);
                     $this->addFlashMessage("Nebyl přijat žádný obsah šablony. Vytvořen nový prázdný článek.");
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
@@ -166,14 +169,30 @@ class PaperController extends PresentationFrontControllerAbstract {
      * @param type $paperId
      * @return ResponseInterface
      */
-    public function updateHeadline(ServerRequestInterface $request, $paperId): ResponseInterface {
-        $paper = $this->paperRepo->get($paperId);
-        if (!isset($paper)) {
+    public function update(ServerRequestInterface $request, $paperId): ResponseInterface {
+        /** @var PaperAggregatePaperContentInterface $paperAggregate */
+        $paperAggregate = $this->paperAggregateRepo->get($paperId);
+        if (!isset($paperAggregate)) {
             user_error("Neexistuje paper se zadaným id.$paperId");
         } else {
-            $postHeadline = (new RequestParams())->getParam($request, 'headline_'.$paperId);
-            $paper->setHeadline($postHeadline);
-            $this->addFlashMessage('Headline updated');
+            $postParams = $request->getParsedBody();
+            // jméno POST proměnné je vytvořeno v paper rendereru složením 'headline_' nebo 'perex_' nebo 'content_' a $paper->getId()
+            // jiné POST parametry nepoužije (pokud jsou renderovány elementy input např. z inputů show a hide - takové parametry musí vyhodnocovat jiná action metoda, t.j. musí se odesílat spolu
+            // s jiným formaction (jiné REST uri))
+            if (array_key_exists("headline_$paperId", $postParams)) {
+                $paperAggregate->setHeadline($postParams["headline_$paperId"]);
+                $this->addFlashMessage('Headline updated');
+            }
+            if (array_key_exists("perex_$paperId", $postParams)) {
+                $paperAggregate->setPerex($postParams["perex_$paperId"]);
+                $this->addFlashMessage('Perex updated');
+            }
+            foreach ($paperAggregate->getPaperContentsArray() as $content) {
+                if (array_key_exists("content_{$content->getId()}", $postParams)) {
+                    $content->setContent($postParams["content_{$content->getId()}"]);
+                    $this->addFlashMessage('Content updated');
+                }
+            }
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
@@ -185,13 +204,11 @@ class PaperController extends PresentationFrontControllerAbstract {
      * @return ResponseInterface
      */
     public function updatePerex(ServerRequestInterface $request, $paperId): ResponseInterface {
-        $paper = $this->paperRepo->get($paperId);
+        $paper = $this->paperAggregateRepo->get($paperId);
         if (!isset($paper)) {
             user_error("Neexistuje paper se zadaným id.$paperId");
         } else {
-            $postPerex = (new RequestParams())->getParam($request, 'perex_'.$paperId);
-            $paper->setPerex($postPerex);
-            $this->addFlashMessage('Perex updated');
+
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
@@ -203,7 +220,7 @@ class PaperController extends PresentationFrontControllerAbstract {
      * @return ResponseInterface
      */
     public function updateTemplate(ServerRequestInterface $request, $paperId): ResponseInterface {
-        $paper = $this->paperRepo->get($paperId);
+        $paper = $this->paperAggregateRepo->get($paperId);
         if (!isset($paper)) {
             user_error("Neexistuje paper se zadaným id.$paperId");
         } else {

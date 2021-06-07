@@ -78,22 +78,21 @@ class ApiRegistrator {
 
         #### PaperController ####
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/template'));
-        $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/headline'));
-        $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/perex'));
 
         #### ContentController ####
-        $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/contents'));
-        $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/contents/:contentId'));
-        $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/contents/:contentId/toggle'));
-        $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/contents/:contentId/actual'));
-        $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/contents/:contentId/up'));
-        $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/contents/:contentId/down'));
-        $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/contents/:contentId/add_above'));
-        $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/contents/:contentId/add_below'));
-        $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/contents/:contentId/trash'));
-        $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/contents/:contentId/restore'));
-        $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/contents/:contentId/delete'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/content'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/content/:contentId'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/content/:contentId/toggle'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/content/:contentId/actual'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/content/:contentId/up'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/content/:contentId/down'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/content/:contentId/add_above'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/content/:contentId/add_below'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/content/:contentId/trash'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/content/:contentId/restore'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/content/:contentId/delete'));
 
         #### EditItemController ####
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/menu'));

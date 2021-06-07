@@ -31,14 +31,17 @@ class ArticleEditableRenderer  extends ArticleRendererAbstract {
             $paperAggregate = $viewModel->getNewPaper();  // vrací Paper
         }
         if (isset($paperAggregate)) {
-            $articleButtons = $this->renderPaperTemplateButtonsForm($paperAggregate) . $this->renderPaperButtonsForm($paperAggregate);
-            $section = $this->renderHeadlineForm($paperAggregate) . $this->renderPerexForm($paperAggregate);
-            $content = ($paperAggregate instanceof PaperAggregatePaperContentInterface) ? $this->renderContentsDivs($paperAggregate) : "";
+            $articleButtonForms = $this->renderPaperTemplateButtonsForm($paperAggregate) . $this->renderPaperButtonsForm($paperAggregate);
+
+            $sectionHeadline = $this->renderHeadlineEditable($paperAggregate);
+            $sectionPerex = $this->renderPerexEditable($paperAggregate);
+            $content = ($paperAggregate instanceof PaperAggregatePaperContentInterface) ? $this->renderContentsEditable($paperAggregate) : "";
 
             $html = Html::tag('article', ['data-red-renderer'=>'PaperEditable', "data-red-datasource"=> "paper {$paperAggregate->getId()} for item {$paperAggregate->getMenuItemIdFk()}"],
-                    $articleButtons
-                    .Html::tag('section', [], $section)
-                    .Html::tag('content', [], $content)
+                        $articleButtonForms
+                        .Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/{$paperAggregate->getId()}"],
+                            $sectionHeadline.$sectionPerex.$content
+                        )
                     );
         } else {
             $html = Html::tag('div', ['style' => "display: none;"], "No paper for remderimg.");

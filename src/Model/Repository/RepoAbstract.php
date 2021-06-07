@@ -209,8 +209,10 @@ abstract class RepoAbstract {
      */
     protected function addAssociated($row, EntityInterface $entity) {
         foreach ($this->associations as $interfaceName => $association) {
-            if (isset($row[$interfaceName]) AND !$row[$interfaceName]->isPersisted()) {  // asociovaná entita nemusí existovat - agregát je i tak validní
-                $association->addAssociated($row[$interfaceName]);
+            foreach ($row[$interfaceName] as $assocEntity) {  // asociovaná entita nemusí existovat - agregát je i tak validní
+                if (!$assocEntity->isPersisted()) {
+                    $association->addAssociated($assocEntity);
+                }
             }
         }
     }
@@ -254,7 +256,7 @@ abstract class RepoAbstract {
         }
         if ( !($this instanceof RepoReadonlyInterface)) {
             /** @var \Model\Entity\EntityAbstract $entity */
-            if ( ! ($this->dao instanceof DaoKeyDbVerifiedInterface)) {
+            if ( ! ($this->dao instanceof DaoKeyDbVerifiedInterface)) {   // DaoKeyDbVerifiedInterface musí ukládat (insert) vždy již při nastavování hodnoty primárního klíče
                 foreach ($this->new as $entity) {
                     $row = [];
                     $this->extract($entity, $row);

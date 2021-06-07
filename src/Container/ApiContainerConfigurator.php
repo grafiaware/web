@@ -57,6 +57,7 @@ use Red\Model\Repository\{
     BlockRepo,
     MenuRootRepo,
     MenuItemAggregateRepo,
+    PaperAggregateRepo,
     PaperRepo,
     PaperContentRepo
 };
@@ -122,7 +123,7 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
-                        $c->get(PaperRepo::class));
+                        $c->get(PaperAggregateRepo::class));
             },
             ContentController::class => function(ContainerInterface $c) {
                 return new ContentController(

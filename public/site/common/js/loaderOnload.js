@@ -139,7 +139,7 @@ function replaceElement(id, apiUri){
                 document.getElementById(id).innerHTML = xhr.responseText;
                 initLoadedElements();
             } else {
-                console.log("Loader failed for id: "+id+",this.readyState:"+this.readyState+", this.status:"+this.status);
+                console.log("Load of element failed for id: "+id+",this.readyState:"+this.readyState+", this.status:"+this.status);
             }
         }
     };
@@ -157,7 +157,7 @@ function replaceElementEditable(id, apiUri){
                 document.getElementById(id).innerHTML = xhr.responseText;
                 initLoadedEditableElements();
             } else {
-                console.log("Loader failed for id: "+id+",this.readyState:"+this.readyState+", this.status:"+this.status);
+                console.log("Load of editable element failed for id: "+id+",this.readyState:"+this.readyState+", this.status:"+this.status);
             }
         }
     };

@@ -156,56 +156,50 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract impleme
      * @param MenuItemPaperAggregateInterface $paper
      * @return type
      */
-    public function renderHeadlineForm(PaperInterface $paper) {
+    public function renderHeadlineEditable(PaperInterface $paper) {
         return
             Html::tag('section', ['class'=>$this->classMap->getClass('Headline', 'section')],
-                    Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/{$paper->getId()}/headline"],
-                    Html::tag(
-                        'headline',
-                        [
-                            'id'=>"headline_{$paper->getId()}",  // id musí být na stránce unikátní - skládám ze slova headline_ a paper id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
-                            'class'=>$this->classMap->getClass('Headline', 'headline'),
-                        ],
-                        $paper->getHeadline() ?? ""
-                    )
+                Html::tag(
+                    'headline',
+                    [
+                        'id'=>"headline_{$paper->getId()}",  // id musí být na stránce unikátní - skládám ze slova headline_ a paper id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
+                        'class'=>$this->classMap->getClass('Headline', 'headline'),
+                    ],
+                    $paper->getHeadline() ?? ""
                 )
             );
     }
 
-    public function renderPerexForm(PaperInterface $paper) {
+    public function renderPerexEditable(PaperInterface $paper) {
         $form =
             Html::tag('section', ['class'=>$this->classMap->getClass('Perex', 'section')],
-                Html::tag('form',
-                    ['method'=>'POST', 'action'=>"red/v1/paper/{$paper->getId()}/perex"],
-                    Html::tag('perex',
-                        [
-                            'id' => "perex_{$paper->getId()}",  // id musí být na stránce unikátní - skládám ze slova perex_ a paper id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
-                            'class'=>$this->classMap->getClass('Perex', 'perex'),
-                            'data-owner'=>$paper->getEditor(),
-                            'data-text'=>'prázdný'
-                        ],
-                        $paper->getPerex() ?? ""
-                        )
-                )
+                Html::tag('perex',
+                    [
+                        'id' => "perex_{$paper->getId()}",  // id musí být na stránce unikátní - skládám ze slova perex_ a paper id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
+                        'class'=>$this->classMap->getClass('Perex', 'perex'),
+                        'data-owner'=>$paper->getEditor()
+                    ],
+                    $paper->getPerex() ?? ""
+                    )
             );
         return $form;
     }
 
-    public function renderContentsDivs(PaperAggregatePaperContentInterface $paperAggregate) {
+    public function renderContentsEditable(PaperAggregatePaperContentInterface $paperAggregate) {
         $contents = $paperAggregate->getPaperContentsArraySorted(PaperAggregatePaperContentInterface::BY_PRIORITY);
-        $form = [];
+        $sections = [];
         foreach ($contents as $paperContent) {
             /** @var PaperContentInterface $paperContent */
             if ($paperContent->getPriority() > 0) {  // není v koši
-                $form[] = $this->getContentForm($paperContent);
+                $sections[] = $this->getContent($paperContent);
             } else {  // je v koši
-                $form[] = $this->getTrashContentForm($paperContent);
+                $sections[] = $this->getTrashContentForm($paperContent);
             }
         }
-        return implode(PHP_EOL, $form);
+        return implode(PHP_EOL, $sections);
     }
 
-    private function getContentForm(PaperContentInterface $paperContent) {
+    private function getContent(PaperContentInterface $paperContent) {
         $active = $paperContent->getActive();
         $actual = $paperContent->getActual();
         $now =  new \DateTime("now");
@@ -215,7 +209,7 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract impleme
         return
             Html::tag('section', ['class'=>$this->classMap->getClass('Content', 'section')],
                 Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.corner')],
-                    $this->getContentButtonsForm($paperContent)
+                    $this->getContentButtons($paperContent)
                 )
                 .Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.semafor')],
                     Html::tag('i',
@@ -239,19 +233,13 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract impleme
                         ])
                     .$paperContent->getPriority()
                 )
-                .Html::tag('form',
+                .Html::tag('content',
                     [
-                    'method'=>'POST',
-                    'action'=>"red/v1/paper/{$paperContent->getPaperIdFk()}/contents/{$paperContent->getId()}"
+                    'id' => "content_{$paperContent->getId()}",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
+                    'class'=>$this->classMap->getClass('Content', 'content'),
+                    'data-owner'=>$paperContent->getEditor()
                     ],
-                     Html::tag('content',
-                        [
-                        'id' => "content_{$paperContent->getId()}",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
-                        'class'=>$this->classMap->getClass('Content', 'content'),
-                        'data-owner'=>$paperContent->getEditor()
-                        ],
-                        $paperContent->getContent()
-                    )
+                    $paperContent->getContent()
                 )
             );
     }
@@ -260,7 +248,7 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract impleme
         return
             Html::tag('section', ['class'=>$this->classMap->getClass('Content', 'section.trash')],
                 Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.corner')],
-                    $this->getTrashButtonsForm($paperContent)
+                    $this->getTrashButtons($paperContent)
                 )
                 .Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.semafor')],
                         Html::tag('i',['class'=>$this->classMap->getClass('Content', 'i.trash')])
@@ -276,7 +264,7 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract impleme
             );
     }
 
-    private function getContentButtonsForm(PaperContentInterface $paperContent) {
+    private function getContentButtons(PaperContentInterface $paperContent) {
         //TODO: atributy data-tooltip a data-position jsou pro semantic - zde jsou napevno zadané
         $show = $paperContent->getShowTime();
         $hide = $paperContent->getHideTime();
@@ -306,170 +294,166 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract impleme
 
         return
 
-        Html::tag('form', ['method'=>'POST', 'action'=>""],
-            Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.wrapContent')],
-                Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.buttonsContent')],
-                    Html::tag('button',
-                        ['class'=>$this->classMap->getClass('ContentButtons', 'button'),
-                        'data-tooltip'=>'Aktivní/neaktivní obsah',
-                        'type'=>'submit',
-                        'name'=>'button',
-                        'value' => 'toggle',
-                        'formmethod'=>'post',
-                        'formaction'=>"red/v1/paper/$paperIdFk/contents/$paperContentId/toggle",
-                        ],
-                        Html::tag('i', ['class'=>$this->classMap->resolveClass($active, 'ContentButtons', 'button.notpublish', 'button.publish')])
-                    )
-                    .Html::tag('button', [
-                        'class'=>$this->classMap->getClass('ContentButtons', 'button.date'),
-                        'data-tooltip'=> $textZobrazeni,
-                        'data-position'=>'top right',
-                        'onclick'=>'event.preventDefault();'
-                        ],
-                        Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.changedate')])
-                    )
-                )
-                .Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.buttonsContent')],
-                    Html::tag('button',
-                        ['class'=>$this->classMap->getClass('ContentButtons', 'button'),
-                        'data-tooltip'=>'Posunout o jednu výš',
-                        'type'=>'submit',
-                        'name'=>'button',
-                        'value' => '',
-                        'formmethod'=>'post',
-                        'formaction'=>"red/v1/paper/$paperIdFk/contents/$paperContentId/up",
-                        ],
-                        Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.icons')],
-                            Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.movecontent')])
-                            .Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.arrowup')])
-                        )
-                    )
-                    .Html::tag('button',
-                        ['class'=>$this->classMap->getClass('ContentButtons', 'button'),
-                        'data-tooltip'=>'Posunout o jednu níž',
-                        'type'=>'submit',
-                        'name'=>'button',
-                        'value' => '',
-                        'formmethod'=>'post',
-                        'formaction'=>"red/v1/paper/$paperIdFk/contents/$paperContentId/down",
-                        ],
-                        Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.icons')],
-                            Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.movecontent')])
-                            .Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.arrowdown')])
-                        )
-                    )
-                )
-                .Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.buttonsContent')],
-                    Html::tag('button',
-                        ['class'=>$this->classMap->getClass('ContentButtons', 'button'),
-                        'data-tooltip'=>'Přidat další obsah před',
-                        'type'=>'submit',
-                        'name'=>'button',
-                        'value' => '',
-                        'formmethod'=>'post',
-                        'formaction'=>"red/v1/paper/$paperIdFk/contents/$paperContentId/add_above",
-                        ],
-                        Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.icons')],
-                            Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.addcontent')])
-                            .Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.arrowup')])
-                        )
-                    )
-                    .Html::tag('button',
-                        ['class'=>$this->classMap->getClass('ContentButtons', 'button'),
-                        'data-tooltip'=>'Přidat další obsah za',
-                        'type'=>'submit',
-                        'name'=>'button',
-                        'value' => '',
-                        'formmethod'=>'post',
-                        'formaction'=>"red/v1/paper/$paperIdFk/contents/$paperContentId/add_below",
-                        ],
-                        Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.icons')],
-                            Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.addcontent')])
-                            .Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.arrowdown')])
-                        )
-                    )
-                )
-                .Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.buttonsContent')],
-                    Html::tag('button',
-                        ['class'=>$this->classMap->getClass('ContentButtons', 'button'),
-                        'data-tooltip'=>'Do koše',
-                        'type'=>'submit',
-                        'name'=>'button',
-                        'value' => '',
-                        'formmethod'=>'post',
-                        'formaction'=>"red/v1/paper/$paperIdFk/contents/$paperContentId/trash",
-                        ],
-                        Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.movetotrash')])
-                    )
-                )
-            )
-            .Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.buttonsDate')],
-                Html::tag('button', [
-                    'class'=>$this->classMap->getClass('ContentButtons', 'button'),
-                    'data-tooltip'=>'Trvale',
-                    'data-position'=>'top right',
+        Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.wrapContent')],
+            Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.buttonsContent')],
+                Html::tag('button',
+                    ['class'=>$this->classMap->getClass('ContentButtons', 'button'),
+                    'data-tooltip'=>'Aktivní/neaktivní obsah',
                     'type'=>'submit',
                     'name'=>'button',
-                    'value' => 'permanent',
+                    'value' => 'toggle',
                     'formmethod'=>'post',
-                    'formaction'=>"red/v1/paper/$paperIdFk/contents/$paperContentId/actual",
+                    'formaction'=>"red/v1/paper/$paperIdFk/contents/$paperContentId/toggle",
                     ],
-                    Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.permanently')])
+                    Html::tag('i', ['class'=>$this->classMap->resolveClass($active, 'ContentButtons', 'button.notpublish', 'button.publish')])
                 )
                 .Html::tag('button', [
-                    'class'=>$this->classMap->getClass('ContentButtons', 'button'),
-                    'data-tooltip'=>'Uložit',
+                    'class'=>$this->classMap->getClass('ContentButtons', 'button.date'),
+                    'data-tooltip'=> $textZobrazeni,
                     'data-position'=>'top right',
-                    'type'=>'submit',
-                    'name'=>'button',
-                    'value' => 'calendar',
-                    'formmethod'=>'post',
-                    'formaction'=>"red/v1/paper/$paperIdFk/contents/$paperContentId/actual",
-                    ],
-                    Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.save')])
-                )
-                .Html::tag('button', [
-                    'class'=>$this->classMap->getClass('ContentButtons', 'button.content'),
-                    'data-tooltip'=>'Zrušit úpravy',
-                    'data-position'=>'top right',
-                    'onclick'=>"event.preventDefault(); this.form.reset();"
-                    ],
-                    Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.cancel')])
-                )
-                .Html::tag('div', [
-                    'class'=>$this->classMap->getClass('ContentButtons', 'button'),
-                    'data-position'=>'top right',
+                    'onclick'=>'event.preventDefault();'
                     ],
                     Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.changedate')])
                 )
             )
-            .Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.wrapDate')],
-                Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.wrapKalendar'), ],
-                        Html::tag('p', ['class'=>$this->classMap->getClass('ContentButtons', 'p')], 'Uveřejnit od')
-                        .Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.calendar')],
-                            Html::tag('div',['class'=>$this->classMap->getClass('ContentButtons', 'div.input')],
-                                Html::tagNopair('input', ['type'=>'text', 'name'=>'show', 'placeholder'=>'Klikněte pro výběr data', 'value'=>$showTime])
-                            )
-                         )
-                        .Html::tag('p', ['class'=>$this->classMap->getClass('ContentButtons', 'p')], 'Uveřejnit do')
-                        .Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.calendar')],
-                            Html::tag('div',['class'=>$this->classMap->getClass('ContentButtons', 'div.input')],
-                            Html::tagNopair('input', ['type'=>'text', 'name'=>'hide', 'placeholder'=>'Klikněte pro výběr data', 'value'=> $hideTime])
+            .Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.buttonsContent')],
+                Html::tag('button',
+                    ['class'=>$this->classMap->getClass('ContentButtons', 'button'),
+                    'data-tooltip'=>'Posunout o jednu výš',
+                    'type'=>'submit',
+                    'name'=>'button',
+                    'value' => '',
+                    'formmethod'=>'post',
+                    'formaction'=>"red/v1/paper/$paperIdFk/contents/$paperContentId/up",
+                    ],
+                    Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.icons')],
+                        Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.movecontent')])
+                        .Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.arrowup')])
+                    )
+                )
+                .Html::tag('button',
+                    ['class'=>$this->classMap->getClass('ContentButtons', 'button'),
+                    'data-tooltip'=>'Posunout o jednu níž',
+                    'type'=>'submit',
+                    'name'=>'button',
+                    'value' => '',
+                    'formmethod'=>'post',
+                    'formaction'=>"red/v1/paper/$paperIdFk/contents/$paperContentId/down",
+                    ],
+                    Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.icons')],
+                        Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.movecontent')])
+                        .Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.arrowdown')])
+                    )
+                )
+            )
+            .Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.buttonsContent')],
+                Html::tag('button',
+                    ['class'=>$this->classMap->getClass('ContentButtons', 'button'),
+                    'data-tooltip'=>'Přidat další obsah před',
+                    'type'=>'submit',
+                    'name'=>'button',
+                    'value' => '',
+                    'formmethod'=>'post',
+                    'formaction'=>"red/v1/paper/$paperIdFk/contents/$paperContentId/add_above",
+                    ],
+                    Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.icons')],
+                        Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.addcontent')])
+                        .Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.arrowup')])
+                    )
+                )
+                .Html::tag('button',
+                    ['class'=>$this->classMap->getClass('ContentButtons', 'button'),
+                    'data-tooltip'=>'Přidat další obsah za',
+                    'type'=>'submit',
+                    'name'=>'button',
+                    'value' => '',
+                    'formmethod'=>'post',
+                    'formaction'=>"red/v1/paper/$paperIdFk/contents/$paperContentId/add_below",
+                    ],
+                    Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.icons')],
+                        Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.addcontent')])
+                        .Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.arrowdown')])
+                    )
+                )
+            )
+            .Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.buttonsContent')],
+                Html::tag('button',
+                    ['class'=>$this->classMap->getClass('ContentButtons', 'button'),
+                    'data-tooltip'=>'Do koše',
+                    'type'=>'submit',
+                    'name'=>'button',
+                    'value' => '',
+                    'formmethod'=>'post',
+                    'formaction'=>"red/v1/paper/$paperIdFk/contents/$paperContentId/trash",
+                    ],
+                    Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.movetotrash')])
+                )
+            )
+        )
+        .Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.buttonsDate')],
+            Html::tag('button', [
+                'class'=>$this->classMap->getClass('ContentButtons', 'button'),
+                'data-tooltip'=>'Trvale',
+                'data-position'=>'top right',
+                'type'=>'submit',
+                'name'=>'button',
+                'value' => 'permanent',
+                'formmethod'=>'post',
+                'formaction'=>"red/v1/paper/$paperIdFk/contents/$paperContentId/actual",
+                ],
+                Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.permanently')])
+            )
+            .Html::tag('button', [
+                'class'=>$this->classMap->getClass('ContentButtons', 'button'),
+                'data-tooltip'=>'Uložit',
+                'data-position'=>'top right',
+                'type'=>'submit',
+                'name'=>'button',
+                'value' => 'calendar',
+                'formmethod'=>'post',
+                'formaction'=>"red/v1/paper/$paperIdFk/contents/$paperContentId/actual",
+                ],
+                Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.save')])
+            )
+            .Html::tag('button', [
+                'class'=>$this->classMap->getClass('ContentButtons', 'button.content'),
+                'data-tooltip'=>'Zrušit úpravy',
+                'data-position'=>'top right',
+                'onclick'=>"event.preventDefault(); this.form.reset();"
+                ],
+                Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.cancel')])
+            )
+            .Html::tag('div', [
+                'class'=>$this->classMap->getClass('ContentButtons', 'button'),
+                'data-position'=>'top right',
+                ],
+                Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.changedate')])
+            )
+        )
+        .Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.wrapDate')],
+            Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.wrapKalendar'), ],
+                    Html::tag('p', ['class'=>$this->classMap->getClass('ContentButtons', 'p')], 'Uveřejnit od')
+                    .Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.calendar')],
+                        Html::tag('div',['class'=>$this->classMap->getClass('ContentButtons', 'div.input')],
+                            Html::tagNopair('input', ['type'=>'text', 'name'=>"show_$paperContentId", 'placeholder'=>'Klikněte pro výběr data', 'value'=>$showTime])
                         )
+                     )
+                    .Html::tag('p', ['class'=>$this->classMap->getClass('ContentButtons', 'p')], 'Uveřejnit do')
+                    .Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.calendar')],
+                        Html::tag('div',['class'=>$this->classMap->getClass('ContentButtons', 'div.input')],
+                        Html::tagNopair('input', ['type'=>'text', 'name'=>"hide_$paperContentId", 'placeholder'=>'Klikněte pro výběr data', 'value'=> $hideTime])
                     )
                 )
             )
         );
     }
 
-    private function getTrashButtonsForm(PaperContentInterface $paperContent) {
+    private function getTrashButtons(PaperContentInterface $paperContent) {
         //TODO: atributy data-tooltip a data-position jsou pro semantic - zde jsou napevno zadané
         $paperIdFk = $paperContent->getPaperIdFk();
         $paperContentId = $paperContent->getId();
 
         return
-
-        Html::tag('form', ['method'=>'POST', 'action'=>""],
             Html::tag('div', ['class'=>$this->classMap->getClass('TrashButtons', 'div.wrapTrash')],
                 Html::tag('div', ['class'=>$this->classMap->getClass('TrashButtons', 'div.buttonsContent')],
                     Html::tag('button',
@@ -497,9 +481,7 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract impleme
                         Html::tag('i', ['class'=>$this->classMap->getClass('TrashButtons', 'button.delete')])
                     )
                 )
-            )
-
-        );
+            );
 
     }
 
