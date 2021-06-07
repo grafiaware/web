@@ -115,6 +115,7 @@ function replaceElementEditable(id, apiUri){
             tinymce.init(headlineConfig);
             tinymce.init(contentConfig);
             tinymce.init(perexConfig);
+            tinymce.init(textConfig);
             tinymce.init(headerFooterConfig);
 
             //pro editaci pracovního popisu pro přihlášené uživatele

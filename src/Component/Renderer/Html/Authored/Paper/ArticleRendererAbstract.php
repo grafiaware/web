@@ -88,7 +88,8 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract impleme
         $postItems = [
             'Course'=>'course',
             'Contact'=>'contact',
-            'Default'=>'default'
+            'Default'=>'default', 
+            'Test' => 'test'
         ];
         $items = [];
         $class = $this->classMap->getClass('PaperTemplateSelect', 'div.item');
