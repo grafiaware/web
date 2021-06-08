@@ -229,6 +229,8 @@ var templates_paper = [
         { title: 'Menu - 1 položka (bez gridu) verze 2', description: 'Vložení položky menu na stránku', url: 'red/v1/authortemplate/default/menu_1polozka_2'}
     ];
 
+var toolbarText = 'save cancel | undo redo | fontstyle fontweight | aligment | anchor link';
+
 var toolbar = 'save cancel | undo redo | fontstyle fontweight | aligment | list | template | anchor link image media | code';
 var toolbar1 = 'save cancel | undo redo | removeformat | bold italic underline strikethrough nonbreaking | alignleft aligncenter alignright alignjustify | link image | sablona ';
 var toolbar2 = 'styleselect fontsizeselect forecolor | bullist numlist outdent indent | template | code | example';
@@ -273,24 +275,9 @@ var imagetools_toolbar = 'editimage | rotateleft rotateright | flipv fliph | ima
 
 
 /////////////////////////////////////////
-var blockConfig = {
-    selector: 'main form block',
-    schema : 'html5',
-    placeholder: 'Nový blok',
-    relative_urls: true,
-    extended_valid_elements : ['block'],
-    language : tinyConfig.toolbarsLang,
-    document_base_url : tinyConfig.basePath,
-    content_css: tinyConfig.contentCss,
-    plugins: [
-        'quickbars', // adds three context toolbars: Quick Selection - Shown when text is selected, Quick Insert - Shown when a new line is added, Quick Image - Shown when an image is selected
-     ],
 
-    setup: editorFunction  // callback that will be executed before the TinyMCE editor instance is rendered
-    };
-
-var headlineConfig = {
-    selector: 'main form headline',
+var editTextConfig = {
+    selector: 'form .edit-text',
     schema : 'html5',
     placeholder: 'Nadpis',
     relative_urls : true,
@@ -304,7 +291,7 @@ var headlineConfig = {
     inline: true,
     plugins: plugins,
 
-    toolbar: false,
+    toolbar: toolbarText,
     quickbars_insert_toolbar: '',
     quickbars_selection_toolbar: 'save | undo redo | removeformat italic | link ',
     toolbar: 'undo redo | bold italic underline | save',
@@ -312,8 +299,8 @@ var headlineConfig = {
     setup: editorFunction  // callback that will be executed before the TinyMCE editor instance is rendered
 };
 
-var contentConfig = {
-    selector: 'main form content', //.segment:not(.locked):not(.notpermitted) .grafia.segment...
+var editHtmlConfig = {
+    selector: 'form .edit-html',
     schema : 'html5',
     placeholder: 'Nový obsah',
     relative_urls: true,
@@ -354,105 +341,8 @@ var contentConfig = {
     setup: editorFunction  // callback that will be executed before the TinyMCE editor instance is rendered
 };
 
-var perexConfig = {
-    selector: 'main form perex', //.segment:not(.locked):not(.notpermitted) .grafia.segment...
-    schema : 'html5',
-    placeholder: 'Vyplňte perex',
-    relative_urls: true,
-    extended_valid_elements: ['i[*]', 'perex'],
-    custom_elements: 'perex',
-    valid_children: '+a[div]',
-    link_title: false,
-    noneditable_editable_class: 'mceEditable',
-    noneditable_noneditable_class: 'mceNonEditable',
-    language : tinyConfig.toolbarsLang,
-    document_base_url : tinyConfig.basePath,
-    content_css: tinyConfig.contentCss,
-
-    menubar: false,
-    inline: true,
-
-    plugins: plugins,
-    templates: templates_paper,
-    toolbar1: toolbar1,
-    toolbar2: toolbar2,
-    imagetools_toolbar: imagetools_toolbar,
-    link_class_list: linkClassList,
-    /* enable title field in the Image dialog*/
-    image_title: true,
-    /* enable automatic uploads of images represented by blob or data URIs*/
-//    automatic_uploads: true,
-    /* URL of our upload handler (for more details check: https://www.tiny.cloud/docs/configure/file-image-upload/#images_upload_url) */
-//    images_upload_url: 'red/v1/upload/editorimages',
-    images_reuse_filename: true,
-    /* here we add custom filepicker only to Image dialog */
-    file_picker_types: 'image',
-    /* and here's our custom image picker*/
-    file_picker_callback: file_picker_callback_function,
-    images_upload_handler: image_upload_handler,
-
-    setup: editorFunction
-};
-
-var textConfig = {
-    selector: 'text', //.segment:not(.locked):not(.notpermitted) .grafia.segment...
-    schema : 'html5',
-    placeholder: 'Vyplňte perex',
-    relative_urls: true,
-    extended_valid_elements: ['i[*]', 'text'],
-    custom_elements: 'text',
-    valid_children: '+a[div]',
-    link_title: false,
-    noneditable_editable_class: 'mceEditable',
-    noneditable_noneditable_class: 'mceNonEditable',
-    language : tinyConfig.toolbarsLang,
-    document_base_url : tinyConfig.basePath,
-    content_css: tinyConfig.contentCss,
-
-    menubar: false,
-    inline: true,
-
-    plugins: plugins,
-    templates: templates_paper,
-    toolbar1: toolbar1,
-    toolbar2: toolbar2,
-    imagetools_toolbar: imagetools_toolbar,
-    link_class_list: linkClassList,
-    /* enable title field in the Image dialog*/
-    image_title: true,
-    /* enable automatic uploads of images represented by blob or data URIs*/
-//    automatic_uploads: true,
-    /* URL of our upload handler (for more details check: https://www.tiny.cloud/docs/configure/file-image-upload/#images_upload_url) */
-//    images_upload_url: 'red/v1/upload/editorimages',
-    images_reuse_filename: true,
-    /* here we add custom filepicker only to Image dialog */
-    file_picker_types: 'image',
-    /* and here's our custom image picker*/
-    file_picker_callback: file_picker_callback_function,
-    images_upload_handler: image_upload_handler,
-
-    setup: editorFunction
-};
-
-var headerFooterConfig = {
-    selector: '.kontaktni-udaje, footer p',
-    schema : 'html5',
-    relative_urls : true,
-    extended_valid_elements : 'i[*]',
-    language : tinyConfig.toolbarsLang,
-    document_base_url : tinyConfig.basePath,
-    content_css: tinyConfig.contentCss,
-
-    menubar: false,
-    inline: true,
-    plugins: [
-    'lists', 'paste', 'autolink', 'save'
-    ],
-    toolbar: 'undo redo | bold italic underline | fontsizeselect | forecolor | save'
-};
-
 var selectPaperTemplateConfig = {
-    selector: 'main .paper_template_select',
+    selector: '.paper_template_select',
     schema : 'html5',
     placeholder: 'Výběr šablony stránky',
     relative_urls : true,

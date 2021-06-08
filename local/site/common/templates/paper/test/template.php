@@ -6,15 +6,17 @@ use Red\Model\Entity\PaperAggregatePaperContentInterface;
 ?>
 <div data-component="presented" data-template="<?= $paperAggregate->getTemplate() ?>" class="ui segment mceNonEditable">
     <div class="grafia segment headlined editable">
+        <form>
         <article class="" >
             <section>
-                <form>
                     <headline class="ui header">
-                        <?= $paperAggregate->getHeadline() ?>
+                        
+                        <div class="edit-text">
+                            <?= $paperAggregate->getHeadline() ?>
+                        </div>
                     </headline>
-                </form>
                 
-                    <perex data-template="nazdar" class="obr-upoutavka">
+                    <perex data-template="nazdar" class="edit-html obr-upoutavka">
                         <div class="ui two column stackable centered grid">
                             <div class="sixteen wide column">
                                 <div class="zeleny podklad vlevo nadpis">
@@ -29,15 +31,14 @@ use Red\Model\Entity\PaperAggregatePaperContentInterface;
                                 </div>
                                 <div class="zeleny podklad blok text okraje">
                                     <p class="podnadpis"><b>TÝDEN ZDRAVÍ</b><br/>Zdravá rodina</p>
-                                    <text style="position: relative; display: block;"><p><b>Zúčastněte se nové osvětové akce na podporu prevence a udržení dobrého zdravotního stavu všech generací!</b></p></text>
+                                    <text class="edit-text" style="position: relative; display: block;"><p><b>Zúčastněte se nové osvětové akce na podporu prevence a udržení dobrého zdravotního stavu všech generací!</b></p></text>
                                 </div>
                             </div>
                         </div>
                     </perex>
                 
             </section>
-            <form>
-                <content>
+                <content class="edit-html">
                     <div class="blok-nadpis-obr-text">
                         <div class="ui stackable centered grid">
                             <div class="sixteen wide column">
@@ -52,28 +53,27 @@ use Red\Model\Entity\PaperAggregatePaperContentInterface;
 
                     </div>
                 </content>
-            </form>
             <content>                
                 <div class="zeleny-blok-obr-text">
                     <div class="ui stackable centered grid">
                         <div class="sixteen wide column">
-                            <div class="velky text okraje vlevo">
+                            <div class="edit-text velky text okraje vlevo">
                                 <p>Ve spolupráci s <b>odborníky</b> proto společnost <b>Grafia</b> pořádá akci, jejímž cílem je <b>zvýšit povědomí veřejnosti o zdravém životním stylu, podpoře vlastní imunity a rozumném přístupu k vlastnímu zdraví.</b></p>
                             </div>
                         </div>
                     </div>
                 </div>
             </content>
-            <content>                 
+            <div>                 
                 <div class="dva-sloupce-nadpis">
                     <div class="ui two column stackable centered grid">
                         <div class="six wide column middle aligned">
                         </div>
                         <div class="ten wide column">
                             <div class="cerveny podklad nadpis vpravo">
-                                <p>Organizátor</p>
+                                <text class="edit-text">Organizátor</text>
                             </div>
-                            <div class="velky text okraje">
+                            <div class="edit-text velky text okraje">
                                 <p>Autorem myšlenky Týdne zdraví a organizátorem akce je <b>Grafia, s.r.o.</b></p>
                                 <p>Umíme efektivně komunikovat akce našich zákazníků i ty vlastní, vzděláváme a zkoušíme dospělé, organizujeme eventy na klíč, vydáváme knihy... Děláme to už od roku 1993 – rádi a dobře! Budeme rádi za Vaše reakce ci připomínky ke zlepšení: pište na <b>slukova@grafia.cz nebo volejte 774 484 855</b></p>
                             </div>
@@ -81,8 +81,9 @@ use Red\Model\Entity\PaperAggregatePaperContentInterface;
                         </div>
                     </div>
                 </div>
-            </content>
+            </div>
         </article>
+        </form>                    
     </div>
 </div>
 

@@ -112,11 +112,8 @@ function replaceElementEditable(id, apiUri){
             document.getElementById(id).innerHTML = xhr.responseText;
 
             tinymce.remove();
-            tinymce.init(headlineConfig);
-            tinymce.init(contentConfig);
-            tinymce.init(perexConfig);
-            tinymce.init(textConfig);
-            tinymce.init(headerFooterConfig);
+            tinymce.init(editTextConfig);
+            tinymce.init(editHtmlConfig);
 
             //pro editaci pracovního popisu pro přihlášené uživatele
             tinymce.init(editWorkDataConfig);
