@@ -10,10 +10,8 @@ function hamburger_close() {
 
 function initLoadedEditableElements() {
             tinymce.remove();
-            tinymce.init(headlineConfig);
-            tinymce.init(contentConfig);
-            tinymce.init(perexConfig);
-            tinymce.init(headerFooterConfig);
+            tinymce.init(editTextConfig);
+            tinymce.init(editHtmlConfig);
 
             //pro editaci pracovního popisu pro přihlášené uživatele
             tinymce.init(editWorkDataConfig);

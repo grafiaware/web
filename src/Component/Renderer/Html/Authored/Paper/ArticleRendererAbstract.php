@@ -88,7 +88,7 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract impleme
         $postItems = [
             'Course'=>'course',
             'Contact'=>'contact',
-            'Default'=>'default', 
+            'Default'=>'default',
             'Test' => 'test'
         ];
         $items = [];
@@ -166,7 +166,7 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract impleme
                         'id'=>"headline_{$paper->getId()}",  // id musí být na stránce unikátní - skládám ze slova headline_ a paper id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
                         'class'=>$this->classMap->getClass('Headline', 'headline'),
                     ],
-                    $paper->getHeadline() ?? ""
+                    Html::tag('div', ['class'=>"edit-text"], $paper->getHeadline() ?? "")
                 )
             );
     }
@@ -180,7 +180,7 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract impleme
                         'class'=>$this->classMap->getClass('Perex', 'perex'),
                         'data-owner'=>$paper->getEditor()
                     ],
-                    $paper->getPerex() ?? ""
+                    Html::tag('div', ['class'=>"edit-html"], $paper->getPerex() ?? "")
                     )
             );
         return $form;
@@ -240,7 +240,7 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract impleme
                     'class'=>$this->classMap->getClass('Content', 'content'),
                     'data-owner'=>$paperContent->getEditor()
                     ],
-                    $paperContent->getContent()
+                    Html::tag('div', ['class'=>"edit-html"], $paperContent->getContent() ?? "")
                 )
             );
     }

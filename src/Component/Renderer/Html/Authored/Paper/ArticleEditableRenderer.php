@@ -37,7 +37,7 @@ class ArticleEditableRenderer  extends ArticleRendererAbstract {
             $sectionPerex = $this->renderPerexEditable($paperAggregate);
             $content = ($paperAggregate instanceof PaperAggregatePaperContentInterface) ? $this->renderContentsEditable($paperAggregate) : "";
 
-            $html = Html::tag('article', ['data-red-renderer'=>'PaperEditable', "data-red-datasource"=> "paper {$paperAggregate->getId()} for item {$paperAggregate->getMenuItemIdFk()}"],
+            $html = Html::tag('article', ['data-red-renderer'=>'ArticleEditableRenderer', "data-red-datasource"=> "paper {$paperAggregate->getId()} for item {$paperAggregate->getMenuItemIdFk()}"],
                         $articleButtonForms
                         .Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/{$paperAggregate->getId()}"],
                             $sectionHeadline.$sectionPerex.$content
