@@ -16,7 +16,7 @@ use Red\Model\Entity\PaperAggregatePaperContentInterface;
                         </div>
                     </headline>
                 
-                    <perex data-template="nazdar" class="edit-html obr-upoutavka">
+                    <perex data-template="nazdar" class="edit-html obr-upoutavka borderDance">
                         <div class="ui two column stackable centered grid">
                             <div class="sixteen wide column">
                                 <div class="zeleny podklad vlevo nadpis">
@@ -38,7 +38,7 @@ use Red\Model\Entity\PaperAggregatePaperContentInterface;
                     </perex>
                 
             </section>
-                <content class="edit-html">
+                <content class="edit-html borderDance">
                     <div class="blok-nadpis-obr-text">
                         <div class="ui stackable centered grid">
                             <div class="sixteen wide column">
