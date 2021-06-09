@@ -21,21 +21,21 @@ use Container\HierarchyContainerConfigurator;
 use Test\Integration\Model\Container\TestModelContainerConfigurator;
 
 
-use Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
-use Model\Repository\MenuItemAggregateRepo;
-use Model\Repository\PaperAggregateRepo;
+use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
+use Red\Model\Repository\MenuItemAggregateRepo;
+use Red\Model\Repository\PaperAggregateRepo;
 
-use Model\Entity\MenuItemAggregatePaperInterface;
+use Red\Model\Entity\MenuItemAggregatePaperInterface;
 
 // pro contents repo
 use Pes\Database\Handler\HandlerInterface;
-use Model\Dao\PaperContentDao;
-use Model\Hydrator\PaperContentHydrator;
-use Model\Repository\PaperContentRepo;
+use Red\Model\Dao\PaperContentDao;
+use Red\Model\Hydrator\PaperContentHydrator;
+use Red\Model\Repository\PaperContentRepo;
 
-use Model\Entity\PaperContentInterface;
-use Model\Entity\PaperContent;
-use Model\Entity\PaperAggregatePaperContentInterface;
+use Red\Model\Entity\PaperContentInterface;
+use Red\Model\Entity\PaperContent;
+use Red\Model\Entity\PaperAggregatePaperContentInterface;
 
 
 /**
@@ -151,7 +151,7 @@ class PaperContentManipulationTest extends TestCase {
 
         $this->menuItemAgg = $this->menuItemAggRepo->get($this->langCode, $this->uid);
         $this->paper = $this->menuItemAgg->getPaper();
-        if (!$this->paper instanceof PaperAggregateInterface) {
+        if (!$this->paper instanceof PaperAggregatePaperContentInterface) {
             throw new \LogicException("Error in setUp: Nelze spustit integrační test - v set\up() metodě nevznikl paper.");
         }
         ######

@@ -48,15 +48,13 @@ class ElementEditableWrapper {
     public function wrapHeadline(PaperInterface $paper) {
         return
             Html::tag('section', ['class'=>$this->classMap->getClass('Headline', 'section')],
-                    Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/{$paper->getId()}/headline"],
-                    Html::tag(
-                        'headline',
-                        [
-                            'id'=>"headline_{$paper->getId()}",  // id musí být na stránce unikátní - skládám ze slova headline_ a paper id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
-                            'class'=>$this->classMap->getClass('Headline', 'headline'),
-                        ],
-                        $paper->getHeadline() ?? ""
-                    )
+                Html::tag(
+                    'headline',
+                    [
+                        'id'=>"headline_{$paper->getId()}",  // id musí být na stránce unikátní - skládám ze slova headline_ a paper id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
+                        'class'=>$this->classMap->getClass('Headline', 'headline'),
+                    ],
+                    $paper->getHeadline() ?? ""
                 )
             );
     }
@@ -127,7 +125,7 @@ class ElementEditableWrapper {
                 .Html::tag('form',
                     [
                     'method'=>'POST',
-                    'action'=>"red/v1/paper/{$paperContent->getPaperIdFk()}/contents/{$paperContent->getId()}"
+                    'action'=>"red/v1/paper/{$paperContent->getPaperIdFk()}/content/{$paperContent->getId()}"
                     ],
                      Html::tag('content',
                         [

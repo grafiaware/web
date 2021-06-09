@@ -26,7 +26,7 @@ use Pes\Database\Handler\{
 
 // controller
 use \Red\Middleware\Redactor\Controller\{
-    UserActionController, HierarchyController, EditItemController, PresentationActionController, PaperController, ContentController,
+    UserActionController, HierarchyController, EditItemController, PresentationActionController, PaperController, ContentController, TemplateController,
     FilesUploadController
 };
 use Events\Middleware\Events\Controller\{EventController, VisitorDataController};
@@ -47,8 +47,6 @@ use \Model\Repository\VisitorDataPostRepo;
 // dao
 use Red\Model\Dao\Hierarchy\HierarchyAggregateEditDao;
 
-use Status\Model\Entity\StatusSecurityInterface;
-
 // repo
 use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
 use Red\Model\Repository\{
@@ -59,17 +57,10 @@ use Red\Model\Repository\{
     BlockRepo,
     MenuRootRepo,
     MenuItemAggregateRepo,
+    PaperAggregateRepo,
     PaperRepo,
     PaperContentRepo
 };
-
-// view
-use Pes\View\View;
-use Pes\View\Renderer\Container\TemplateRendererContainer;
-
-use Pes\View\Recorder\RecorderProvider;
-use Pes\View\Recorder\VariablesUsageRecorder;
-use Pes\View\Recorder\RecordsLogger;
 
 /**
  *
@@ -132,7 +123,7 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
-                        $c->get(PaperRepo::class));
+                        $c->get(PaperAggregateRepo::class));
             },
             ContentController::class => function(ContainerInterface $c) {
                 return new ContentController(
@@ -140,6 +131,13 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
                         $c->get(PaperContentRepo::class));
+            },
+            TemplateController::class => function(ContainerInterface $c) {
+                return (new TemplateController(
+                            $c->get(StatusSecurityRepo::class),
+                            $c->get(StatusFlashRepo::class),
+                            $c->get(StatusPresentationRepo::class))
+                        )->injectContainer($c);  // inject component kontejner
             },
             FilesUploadController::class => function(ContainerInterface $c) {
                 return new FilesUploadController(

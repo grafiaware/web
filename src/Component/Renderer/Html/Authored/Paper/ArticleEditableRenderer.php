@@ -26,19 +26,22 @@ class ArticleEditableRenderer  extends ArticleRendererAbstract {
     public function render($data=NULL) {
         /** @var PaperViewModelInterface $viewModel */
         $viewModel = $this->viewModel;
-        $paper = $viewModel->getPaper();  // vrací PaperAggregate
-        if (!isset($paper)) {
-            $paper = $viewModel->getNewPaper();  // vrací Paper
+        $paperAggregate = $viewModel->getPaper();  // vrací PaperAggregate
+        if (!isset($paperAggregate)) {
+            $paperAggregate = $viewModel->getNewPaper();  // vrací Paper
         }
-        if (isset($paper)) {
-            $articleButtons = $this->renderPaperTemplateButtonsForm($paper) . $this->renderPaperButtonsForm($paper);
-            $section = $this->renderHeadlineForm($paper) . $this->renderPerexForm($paper);
-            $content = ($paper instanceof PaperAggregateInterface) ? $this->renderContentsDivs($paper) : "";
+        if (isset($paperAggregate)) {
+            $articleButtonForms = $this->renderPaperTemplateButtonsForm($paperAggregate) . $this->renderPaperButtonsForm($paperAggregate);
 
-            $html = Html::tag('article', ['data-red-renderer'=>'PaperEditable', "data-red-datasource"=> "paperByReference{$paper->getMenuItemIdFk()}"],
-                    $articleButtons
-                    .Html::tag('section', [], $section)
-                    .Html::tag('content', [], $content)
+            $sectionHeadline = $this->renderHeadlineEditable($paperAggregate);
+            $sectionPerex = $this->renderPerexEditable($paperAggregate);
+            $content = ($paperAggregate instanceof PaperAggregatePaperContentInterface) ? $this->renderContentsEditable($paperAggregate) : "";
+
+            $html = Html::tag('article', ['data-red-renderer'=>'ArticleEditableRenderer', "data-red-datasource"=> "paper {$paperAggregate->getId()} for item {$paperAggregate->getMenuItemIdFk()}"],
+                        $articleButtonForms
+                        .Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/{$paperAggregate->getId()}"],
+                            $sectionHeadline.$sectionPerex.$content
+                        )
                     );
         } else {
             $html = Html::tag('div', ['style' => "display: none;"], "No paper for remderimg.");

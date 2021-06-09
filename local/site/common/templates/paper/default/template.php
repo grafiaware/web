@@ -9,7 +9,7 @@ use Red\Model\Entity\PaperAggregatePaperContentInterface;
 /** @var PaperAggregatePaperContentInterface $paperAggregate */
 
 ?>
-    <?= isset($buttons) ? $buttons->getPaperTemplateButtonsForm($paperAggregate) : "" ?>
+    <?= isset($buttons) ? $buttons->renderPaperTemplateButtonsForm($paperAggregate) : "" ?>
     <?= isset($buttons) ? $buttons->getPaperButtonsForm($paperAggregate) : "" ?>
         <article class="" data-template="<?=$paperAggregate->getTemplate()?>">
             <section>

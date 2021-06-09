@@ -16,10 +16,10 @@ use Container\DbUpgradeContainerConfigurator;
 use Container\HierarchyContainerConfigurator;
 use Test\Integration\Model\Container\TestModelContainerConfigurator;
 
-use Model\Dao\EnrollDao;
-use Model\Repository\EnrollRepo;
+use Events\Model\Dao\EnrollDao;
+use Events\Model\Repository\EnrollRepo;
 
-use Model\Entity\Enroll;
+use Events\Model\Entity\Enroll;
 
 
 /**

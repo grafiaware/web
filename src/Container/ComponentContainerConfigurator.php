@@ -78,8 +78,6 @@ use Red\Model\Repository\{
 // controller
 use Web\Middleware\Page\Controller\PageController;
 use Red\Middleware\Component\Controller\ComponentController;
-use Red\Middleware\Component\Controller\TemplateController;
-
 
 // renderery - pro volání služeb renderer kontejneru renderer::class
 use Component\Renderer\Html\{
@@ -161,13 +159,7 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                             $c->get(StatusPresentationRepo::class))
                         )->injectContainer($c);  // inject component kontejner
             },
-            TemplateController::class => function(ContainerInterface $c) {
-                return (new TemplateController(
-                            $c->get(StatusSecurityRepo::class),
-                            $c->get(StatusFlashRepo::class),
-                            $c->get(StatusPresentationRepo::class))
-                        )->injectContainer($c);  // inject component kontejner
-            },
+
 
         ];
     }

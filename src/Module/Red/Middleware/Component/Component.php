@@ -16,9 +16,7 @@ use Container\{
     ComponentContainerConfigurator, HierarchyContainerConfigurator, DbUpgradeContainerConfigurator, LoginContainerConfigurator
 };
 
-use \Red\Middleware\Component\Controller\{
-    TemplateController, ComponentController
-};
+use \Red\Middleware\Component\Controller\ComponentController;
 
 class Component extends AppMiddlewareAbstract implements MiddlewareInterface {
 
@@ -60,19 +58,6 @@ class Component extends AppMiddlewareAbstract implements MiddlewareInterface {
 ####################################
         /** @var RouteSegmentGenerator $routeGenerator */
         $routeGenerator = $this->container->get(RouteSegmentGenerator::class);
-
-        #### TemplateController ####
-
-        $routeGenerator->addRouteForAction('GET', '/red/v1/papertemplate/:folder', function(ServerRequestInterface $request, $folder) {
-            /** @var TemplateController $ctrl */
-            $ctrl = $this->container->get(TemplateController::class);
-            return $ctrl->papertemplate($request, $folder);
-            });
-        $routeGenerator->addRouteForAction('GET', '/red/v1/authortemplate/:folder/:name', function(ServerRequestInterface $request, $folder, $name) {
-            /** @var TemplateController $ctrl */
-            $ctrl = $this->container->get(TemplateController::class);
-            return $ctrl->authorTemplate($request, $folder, $name);
-            });
 
         #### ComponentController ####
         $routeGenerator->addRouteForAction('GET', '/web/v1/flash', function(ServerRequestInterface $request) {

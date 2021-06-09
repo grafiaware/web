@@ -11,79 +11,11 @@
  */
 
 var editorFunction = function (editor) {
-    editor.ui.registry.addContextToolbar(
-        'vyberSablony',
-        {
-            predicate: function (node) {
-                return node.className === 'stretched row';
-            },
-            items: 'example',
-            position: 'node',
-            scope: 'node'
-        }
-    );
-    editor.ui.registry.addButton(
-        'sablona',
-        {
-            text: 'Vložit šablonu',
-            icon: 'vlastni_icona',
-            onAction: function (_) {
-                editor.insertContent('<p>lala</p>');
-            }
-        }
-    );
-    editor.ui.registry.addContextToolbar(
-        'vlozitNadpis',
-        {
-            predicate: function (node) {
-                return node.className === 'ui header';
-            },
-            items: 'vlastniTlacitkoP',
-            //items: 'example',
-            position: 'node',
-            scope: 'node'
-        }
-    );
-    editor.ui.registry.addIcon(
-        'vlastni_icona',
-        '<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="25px" height="25px" viewBox="0 0 595.279 841.89" enable-background="new 0 0 595.279 841.89" xml:space="preserve"><path d="M422.74,488.949c-5.332-4.775-13.523-4.309-18.272,1.01c-26.995,30.166-65.921,47.455-106.827,47.455     c-40.893,0-79.832-17.289-106.827-47.455c-4.774-5.318-12.94-5.785-18.272-1.01c-5.331,4.764-5.771,12.941-1.009,18.273     c31.899,35.639,77.865,56.072,126.108,56.072c48.257,0,94.223-20.447,126.108-56.072     C428.511,501.89,428.058,493.712,422.74,488.949z"/><path d="M297.64,123.305C133.524,123.305,0,256.829,0,420.945c0,164.117,133.523,297.64,297.64,297.64     s297.64-133.523,297.64-297.64C595.28,256.829,461.756,123.305,297.64,123.305z M297.64,692.703     c-149.855,0-271.758-121.902-271.758-271.757c0-149.855,121.902-271.759,271.758-271.759S569.399,271.09,569.399,420.945     C569.399,570.8,447.495,692.703,297.64,692.703z"/><path d="M401.167,330.359c-35.679,0-64.705,29.026-64.705,64.705c0,7.143,5.798,12.941,12.941,12.941s12.94-5.798,12.94-12.941     c0-21.404,17.419-38.823,38.823-38.823s38.822,17.418,38.822,38.823c0,7.143,5.798,12.941,12.94,12.941     c7.144,0,12.941-5.798,12.941-12.941C465.871,359.385,436.845,330.359,401.167,330.359z"/><path d="M232.936,395.063c0,7.143,5.798,12.941,12.94,12.941c7.144,0,12.941-5.798,12.941-12.941     c0-35.678-29.026-64.705-64.704-64.705c-35.679,0-64.705,29.026-64.705,64.705c0,7.143,5.798,12.941,12.941,12.941     s12.94-5.798,12.94-12.941c0-21.404,17.419-38.823,38.823-38.823C215.517,356.241,232.936,373.659,232.936,395.063z"/></svg>',
-    );
-    editor.ui.registry.addButton(
-        'vlastniTlacitkoP',
-        {
-            text: 'Vložit nadpis',
-            icon: 'vlastni_icona',
-            onAction: function (_) {
-                editor.insertContent('<h2>Nadpis</h2>');
-            }
-        }
-    );
-    editor.ui.registry.addContextToolbar(
-        'vlozitOdstavce',
-        {
-            predicate: function (node) {
-                return node.className === 'content';
-            },
-            items: 'vlastniTlacitkoDiv',
-            position: 'node',
-            scope: 'node'
-        }
-    );
-    editor.ui.registry.addButton(
-        'vlastniTlacitkoDiv',
-        {
-            text: 'Vložit odstavce',
-            icon: 'vlastni_icona',
-            onAction: function (_) {
-                editor.insertContent('<p>Napište krátký text</p>');
-            }
-        }
-    );
 
     // ################################
 
     var form;
-        var val;
+    var val;
 
     editor.on('focus', function(e) {
         val = editor.getContent();
@@ -92,20 +24,15 @@ var editorFunction = function (editor) {
 
     editor.on('blur', function(e) {
         if (editor.isDirty()) {
-            if (confirm("Zahodit změny?")) {
-                editor.resetContent();
-//                editor.setContent(val);
-                editor.save();
+            if (confirm("Uložit změny?")) {
+                editor.save();  // vloží obsah do příslušného hidden inputu
+                form.submit();
             } else {
-//                editor.save();
-//                form.submit();
-                    editor.focus();
+                editor.resetContent();
             }
         }
-    //        if(val!=editor.getContent()){
-    //            form.submit();
-    //        }
-    });
+    }
+            );
 
     editor.on('NodeChange', function(e) {
       console.log('The ' + e.element.nodeName + ' changed.');
@@ -266,13 +193,25 @@ function image_upload_handler (blobInfo, success, failure, progress) {
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-var plugins_paper = [
-       'paste advlist autolink lists link anchor charmap  preview hr anchor pagebreak image code', // codesample print  //
-       'searchreplace wordcount visualblocks visualchars code fullscreen',
-       'insertdatetime  nonbreaking noneditable save autosave table directionality',
-       'template textpattern searchreplace image imagetools save example media'
-//       'template textpattern searchreplace image imagetools save example'
-    ];
+var plugins = [
+       'lists  advlist',    // lists - add numbered and bulleted lists, advlist - extends by adding CSS list
+       'anchor', // adds an anchor/bookmark button to the toolbar that inserts an anchor at the editor’s cursor
+       'autolink', // automatically creates hyperlinks when a user types a valid, complete URL, URLs must include www to be automatically converted
+       'autosave', // gives the user a warning if they have unsaved changes in the editor and add a menu item, “Restore last draft” and an optional toolbar button
+       'code', //
+       'hr',  // Horizontal Rule (hr) plugin allows a user to insert a horizontal rule on the page
+       'image', // enables the user to insert an image, also adds a toolbar button and an Insert/edit image menu item under the Insert menu
+//       'imagetools', // adds a contextual editing toolbar to the images in the editor
+       'link', // allows a user to link external resources, adds two toolbar buttons called link and unlink and three menu items called link, unlink and openlink
+       'media ', // adds the ability for users to be able to add HTML5 video and audio elements
+       'nonbreaking', // adds a button for inserting nonbreaking space entities &nbsp; , also adds a menu item and a toolbar button
+       'noneditable', // enables you to prevent users from being able to edit content within elements assigned the mceNonEditable class
+       'paste', // will filter/cleanup content pasted from Microsoft Word
+       'save', // adds a save button, which will submit the form
+       'searchreplace', // adds search/replace dialogs, also adds a toolbar button and the menu item
+       'table', // adds table management functionality
+       'template', // adds support for custom templates. It also adds a menu item and a toolbar button
+'quickbars',    ];
 
 var templates_paper = [
         { title: 'Kontakt', description: 'Grafia web - kontakt',       url: 'red/v1/authortemplate/default/kontakt'}, //vztaženo k rootu RS, tam kde je index redakčního s.
@@ -290,12 +229,12 @@ var templates_paper = [
         { title: 'Menu - 1 položka (bez gridu) verze 2', description: 'Vložení položky menu na stránku', url: 'red/v1/authortemplate/default/menu_1polozka_2'}
     ];
 
+var toolbarText = 'save cancel | undo redo | fontstyle fontweight | aligment | anchor link';
+
 var toolbar = 'save cancel | undo redo | fontstyle fontweight | aligment | list | template | anchor link image media | code';
-//    toolbar1: 'undo redo | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent'
-//            + ' | hr | nonbreaking | forecolor backcolor ' + ' | fontsizeselect | code | searchreplace template | link image | save'
-//            + ' | example vlozitNadpis vlozitOdstavec'
-var toolbar1 = 'save cancel | undo redo | removeformat | bold italic underline strikethrough nonbreaking | alignleft aligncenter alignright alignjustify | link image ';
+var toolbar1 = 'save cancel | undo redo | removeformat | bold italic underline strikethrough nonbreaking | alignleft aligncenter alignright alignjustify | link image | sablona ';
 var toolbar2 = 'styleselect fontsizeselect forecolor | bullist numlist outdent indent | template | code | example';
+
 var linkClassList = [
         {title: 'Vyberte styl odkazu', value: ''},
         {title: 'Výchozí odkaz', value: ''},
@@ -337,8 +276,8 @@ var imagetools_toolbar = 'editimage | rotateleft rotateright | flipv fliph | ima
 
 /////////////////////////////////////////
 
-var headlineConfig = {
-    selector: 'main form headline',
+var editTextConfig = {
+    selector: 'form .edit-text',
     schema : 'html5',
     placeholder: 'Nadpis',
     relative_urls : true,
@@ -350,22 +289,18 @@ var headlineConfig = {
 
     menubar: false,
     inline: true,
-    plugins: [
-    'lists',
-    'paste',
-    'autolink',
-    'quickbars',
-    'link',
-    'save'
-    ],
-    toolbar: false,
+    plugins: plugins,
+
+    toolbar: toolbarText,
     quickbars_insert_toolbar: '',
     quickbars_selection_toolbar: 'save | undo redo | removeformat italic | link ',
-    toolbar: 'undo redo | bold italic underline | save'
+    toolbar: 'undo redo | bold italic underline | save',
+
+    setup: editorFunction  // callback that will be executed before the TinyMCE editor instance is rendered
 };
 
-var contentConfig = {
-    selector: 'main form content', //.segment:not(.locked):not(.notpermitted) .grafia.segment...
+var editHtmlConfig = {
+    selector: 'form .edit-html',
     schema : 'html5',
     placeholder: 'Nový obsah',
     relative_urls: true,
@@ -382,9 +317,10 @@ var contentConfig = {
     menubar: false,
     inline: true,
 
-    plugins: plugins_paper,
+    plugins: plugins,
     templates: templates_paper,
-    toolbar: toolbar,
+    toolbar1: toolbar1,
+    toolbar2: toolbar2,
     imagetools_toolbar: imagetools_toolbar,
     link_class_list: linkClassList,
     /* enable title field in the Image dialog*/
@@ -400,72 +336,13 @@ var contentConfig = {
     file_picker_types: 'image media',
     /* and here's our custom image picker*/
     file_picker_callback: file_picker_callback_function,
-
     images_upload_handler: image_upload_handler,
 
-    setup: editorFunction
-};
-
-var perexConfig = {
-    selector: 'main form perex', //.segment:not(.locked):not(.notpermitted) .grafia.segment...
-    schema : 'html5',
-    placeholder: 'Vyplňte perex',
-    relative_urls: true,
-    extended_valid_elements: ['i[*]', 'perex'],
-    custom_elements: 'perex',
-    valid_children: '+a[div]',
-    link_title: false,
-    noneditable_editable_class: 'mceEditable',
-    noneditable_noneditable_class: 'mceNonEditable',
-    language : tinyConfig.toolbarsLang,
-    document_base_url : tinyConfig.basePath,
-    content_css: tinyConfig.contentCss,
-
-    menubar: false,
-    inline: true,
-
-    plugins: plugins_paper,
-    templates: templates_paper,
-    toolbar1: toolbar1,
-    toolbar2: toolbar2,
-    imagetools_toolbar: imagetools_toolbar,
-    link_class_list: linkClassList,
-    /* enable title field in the Image dialog*/
-    image_title: true,
-    /* enable automatic uploads of images represented by blob or data URIs*/
-//    automatic_uploads: true,
-    /* URL of our upload handler (for more details check: https://www.tiny.cloud/docs/configure/file-image-upload/#images_upload_url) */
-//    images_upload_url: 'red/v1/upload/editorimages',
-    images_reuse_filename: true,
-    /* here we add custom filepicker only to Image dialog */
-    file_picker_types: 'image',
-    /* and here's our custom image picker*/
-    file_picker_callback: file_picker_callback_function,
-
-    images_upload_handler: image_upload_handler,
-
-    setup: editorFunction
-};
-
-var headerFooterConfig = {
-    selector: '.kontaktni-udaje, footer p',
-    schema : 'html5',
-    relative_urls : true,
-    extended_valid_elements : 'i[*]',
-    language : tinyConfig.toolbarsLang,
-    document_base_url : tinyConfig.basePath,
-    content_css: tinyConfig.contentCss,
-
-    menubar: false,
-    inline: true,
-    plugins: [
-    'lists', 'paste', 'autolink', 'save'
-    ],
-    toolbar: 'undo redo | bold italic underline | fontsizeselect | forecolor | save'
+    setup: editorFunction  // callback that will be executed before the TinyMCE editor instance is rendered
 };
 
 var selectPaperTemplateConfig = {
-    selector: 'main .paper_template_select',
+    selector: '.paper_template_select',
     schema : 'html5',
     placeholder: 'Výběr šablony stránky',
     relative_urls : true,

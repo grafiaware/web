@@ -20,11 +20,11 @@ use Container\DbUpgradeContainerConfigurator;
 use Container\HierarchyContainerConfigurator;
 use Test\Integration\Model\Container\TestModelContainerConfigurator;
 
-use Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
-use Model\Repository\MenuItemAggregateRepo;
+use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
+use Red\Model\Repository\MenuItemAggregateRepo;
 
-use Model\Entity\MenuItemAggregatePaper;
-use Model\Entity\PaperAggregatePaperContent;
+use Red\Model\Entity\MenuItemAggregatePaper;
+use Red\Model\Entity\PaperAggregatePaperContent;
 /**
  * Description of MenuItemPaperRepositoryTest
  *

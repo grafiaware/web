@@ -66,7 +66,7 @@ class ContentController extends PresentationFrontControllerAbstract {
         if ($this->isContent($content)) {
             $postContent = (new RequestParams())->getParam($request, 'content_'.$contentId);  // jméno POST proměnné je vytvořeno v paper rendereru složením 'content_' a $paper->getMenuItemId()
             $content->setContent($postContent);
-            $this->addFlashMessage('updateContent');
+            $this->addFlashMessage('Content updated');
 
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
@@ -88,8 +88,8 @@ class ContentController extends PresentationFrontControllerAbstract {
             $button = (new RequestParams())->getParam($request, 'button');
             switch ($button) {
                 case 'calendar':
-                    $showTime = preg_replace('/\s+/', '', (new RequestParams())->getParam($request, 'show'));
-                    $hideTime = preg_replace('/\s+/', '', (new RequestParams())->getParam($request, 'hide'));
+                    $showTime = preg_replace('/\s+/', '', (new RequestParams())->getParam($request, "show_$contentId"));
+                    $hideTime = preg_replace('/\s+/', '', (new RequestParams())->getParam($request, "hide_$contentId"));
                     $content->setShowTime(\DateTime::createFromFormat('d.m.Y', $showTime));
                     $content->setHideTime(\DateTime::createFromFormat('d.m.Y', $hideTime));
                     $this->addFlashMessage("content setShowTime($showTime), setHideTime($hideTime)");
@@ -116,7 +116,7 @@ class ContentController extends PresentationFrontControllerAbstract {
             if ($contentItem->getPriority() == $selectedContentPriority+1) {  // obsahy s vyšší nebo stejnou prioritou - zvětším jim prioriru o 1 - vznikne díra pro $selectedContentPriority
                 $contentItem->setPriority($selectedContentPriority);
                 $content->setPriority($selectedContentPriority+1);
-                $this->addFlashMessage("content down - priority $selectedContentPriority -> ".($selectedContentPriority+1));
+                $this->addFlashMessage("content up - priority changed $selectedContentPriority -> ".($selectedContentPriority+1));
             }
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
@@ -131,7 +131,7 @@ class ContentController extends PresentationFrontControllerAbstract {
             if ($contentItem->getPriority() == $selectedContentPriority-1) {  // obsahy s vyšší nebo stejnou prioritou - zvětším jim prioriru o 1 - vznikne díra pro $selectedContentPriority
                 $contentItem->setPriority($selectedContentPriority);
                 $content->setPriority($selectedContentPriority-1);
-                $this->addFlashMessage("content down - priority $selectedContentPriority -> ".($selectedContentPriority-1));
+                $this->addFlashMessage("content down - priority changed $selectedContentPriority -> ".($selectedContentPriority-1));
             }
         }
         return $this->redirectSeeLastGet($request); // 303 See Other

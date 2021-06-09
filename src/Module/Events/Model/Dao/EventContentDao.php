@@ -75,8 +75,8 @@ class EventContentDao extends DaoAbstract implements DaoAutoincrementKeyInterfac
                 ':title'=>$row['title'],
                 ':perex'=>$row['perex'],
                 ':party'=>$row['party'],
-                ':event_content_type_type_fk'=>$row['event_content_type_type_fk'] ?? null,   // m§že býz null
-                ':institution_id_fk'=>$row['institution_id_fk'] ?? null,   // m§že býz null
+                ':event_content_type_type_fk'=>$row['event_content_type_type_fk'] ?? null,   // může být null
+                ':institution_id_fk'=>$row['institution_id_fk'] ?? null,   // může být null
             ]);
     }
 
@@ -104,8 +104,8 @@ class EventContentDao extends DaoAbstract implements DaoAutoincrementKeyInterfac
                 ':published'=>$row['published'],
                 ':start'=>$row['start'],
                 ':end'=>$row['end'],
-                ':event_type_id_fk'=>$row['event_type_id_fk'] ?? null,   // m§že býz null
-                ':event_content_id_fk'=>$row['event_content_id_fk'] ?? null,   // m§že býz null
+                ':event_type_id_fk'=>$row['event_type_id_fk'] ?? null,   // může být null
+                ':event_content_id_fk'=>$row['event_content_id_fk'] ?? null,   // může být null
                 ':id'=>$row['id']
             ]);
     }

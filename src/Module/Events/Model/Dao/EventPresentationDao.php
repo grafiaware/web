@@ -72,7 +72,7 @@ class EventPresentationDao extends DaoAbstract implements DaoAutoincrementKeyInt
                 ':show'=>$row['show'],
                 ':platform'=>$row['platform'],
                 ':url'=>$row['url'],
-                ':event_id_fk'=>$row['event_id_fk'],
+                ':event_id_fk'=>$row['event_id_fk'] ?? null,   // může být null
             ]);
     }
 

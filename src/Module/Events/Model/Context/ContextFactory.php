@@ -12,6 +12,7 @@ use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 use Model\Context\ContextFactoryInterface;
 use Model\Context\PublishedContextInterface;
+use Model\Context\PublishedContext;
 
 /**
  * Description of ContextFactory

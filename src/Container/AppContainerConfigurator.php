@@ -87,8 +87,11 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
                 return FileLogger::getInstance( $c->get('app.logs.directory'), $c->get('app.logs.session.file'), FileLogger::REWRITE_LOG);
             },
             SessionStatusHandler::class => function(ContainerInterface $c) {
-                $saveHandler = new PhpLoggingSaveHandler($c->get('sessionLogger'));
-                $sessionHandler = (new SessionStatusHandler($c->get(WebAppFactory::SESSION_NAME_SERVICE), $saveHandler ));
+                ## startuje session ##
+                $sessionHandler = new SessionStatusHandler(
+                        $c->get(WebAppFactory::SESSION_NAME_SERVICE),
+                        new PhpLoggingSaveHandler($c->get('sessionLogger'))
+                        );
                 if (PES_DEVELOPMENT) {
                     $sessionHandler->setLogger($c->get('sessionLogger'));
                 }

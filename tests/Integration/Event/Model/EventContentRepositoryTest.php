@@ -142,10 +142,10 @@ class EventContentRepositoryTest extends TestCase {
         $this->assertTrue($eventContent->isLocked());
     }
 
-    public function testFindAll() {
-        $eventContents = $this->eventContentRepo->findAll();
-        $this->assertTrue(is_array($eventContents));
-    }
+//    public function testFindAll() {
+//        $eventContents = $this->eventContentRepo->findAll();
+//        $this->assertTrue(is_array($eventContents));
+//    }
 
 //    public function testGetAfterAdd() {
 //        $event = $this->eventTypeRepo->get("XXXXXX");

@@ -9,7 +9,7 @@
 namespace Red\Model\Repository;
 
 use Model\Repository\RepoInterface;
-use Model\Repository\RepoReadonlyInterface;
+//use Model\Repository\RepoReadonlyInterface;
 
 use Red\Model\Entity\PaperAggregatePaperContent;
 use Red\Model\Dao\PaperDao;
@@ -24,7 +24,7 @@ use Red\Model\Entity\PaperContentInterface;
  *
  * @author pes2704
  */
-class PaperAggregateRepo extends PaperRepo implements RepoInterface, PaperRepoInterface, RepoReadonlyInterface {
+class PaperAggregateRepo extends PaperRepo implements RepoInterface, PaperRepoInterface {
 
     public function __construct(PaperDao $paperDao, PaperHydrator $paperHydrator,
             PaperContentRepo $paperContentRepo, PaperChildHydrator $paperChildHydrator) {

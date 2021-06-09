@@ -39,16 +39,10 @@ class Buttons {
 
     #### editable ###################
 
-    public function getPaperTemplateButtonsForm(PaperInterface $paper) {
+    public function renderPaperTemplateButtonsForm(PaperInterface $paper) {
         $paperId = $paper->getId();
-        $paperTemplatesName = $paper->getTemplate();
-        $selectHtml = '';
-//        foreach ($paperTemplatesName as $type) {
-//            $selectHtml .=  Html::tag('div', ['value'=>$type->getType(), 'class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.item')],
-//                                $type->getType()
-//                            );
-//
-//        }
+        $templateName = $paper->getTemplate();
+
         $postName = 'folder_'.$paperId;
         $postItems = [
             'Course'=>'course',
@@ -83,7 +77,7 @@ class Buttons {
         $paperId = $paper->getId();
 
         $buttons = [];
-        if ($paper instanceof PaperAggregateInterface AND $paper->getPaperContentsArray()) {
+        if ($paper instanceof PaperAggregatePaperContentInterface AND $paper->getPaperContentsArray()) {
             $buttons[] = Html::tag('button', [
                     'class'=>$this->classMap->getClass('PaperButtons', 'button'),
                     'data-tooltip'=> 'Seřadit podle data',

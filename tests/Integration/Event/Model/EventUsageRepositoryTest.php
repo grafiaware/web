@@ -118,7 +118,7 @@ class EventUsageRepositoryTest extends TestCase {
             (new EventsContainerConfigurator())->configure(
                 (new DbEventsContainerConfigurator())->configure(new Container())
             );
-//        $this->eventContentRepo = $this->container->get(EventContentRepo::class);
+        $this->eventContentRepo = $this->container->get(EventContentRepo::class);
     }
 
     protected function tearDown(): void {

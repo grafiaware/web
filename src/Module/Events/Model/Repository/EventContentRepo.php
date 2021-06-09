@@ -59,16 +59,16 @@ class EventContentRepo extends RepoAbstract implements EventContentRepoInterface
         $this->addEntity($eventContentType);
     }
 
-    public function remove(EventContentInterface $eventContentType) {
-        $this->removeEntity($eventContentType);
+    public function remove(EventContentInterface $eventContent) {
+        $this->removeEntity($eventContent);
     }
 
     protected function createEntity() {
         return new EventContent();
     }
 
-    protected function indexFromEntity(EventContentInterface $eventContentType) {
-        return $eventContentType->getId();
+    protected function indexFromEntity(EventContentInterface $eventContent) {
+        return $eventContent->getId();
     }
 
     protected function indexFromRow($row) {
