@@ -210,7 +210,8 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract impleme
         return
             Html::tag('section', ['class'=>$this->classMap->getClass('Content', 'section')],
                 Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.corner')],
-                    $this->getContentButtons($paperContent)
+                    Html::tag('i', ['class'=>$this->classMap->getClass('Content', 'div.corner icon')])
+                        .$this->getContentButtons($paperContent)
                 )
                 .Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.semafor')],
                     Html::tag('i',

@@ -98,7 +98,8 @@ class ElementEditableWrapper {
         return
             Html::tag('section', ['class'=>$this->classMap->getClass('Content', 'section')],
                 Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.corner')],
-                    $this->getContentButtonsForm($paperContent)
+                    Html::tag('i', ['class'=>$this->classMap->getClass('Content', 'div.corner icon')])
+                        .$this->getContentButtonsForm($paperContent)
                 )
                 .Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.semafor')],
                     Html::tag('i',
