@@ -218,59 +218,9 @@ class PageController extends LayoutControllerAbstract {
     private function resolveMenuItemView(MenuItemInterface $menuItem) {
 
         if (isset($menuItem)) {
-            // dočasně duplicitní s ComponentController
-            $userActions = $this->statusSecurityRepo->get()->getUserActions();
-            $isEditableContent = $userActions->isEditableArticle() OR $userActions->isEditableLayout();
             $menuItemType = $menuItem->getTypeFk();
+            $content = $this->getAuthoredContentLoadScript($menuItemType, $menuItem);
 
-            switch ($menuItemType) {
-                case 'empty':
-                    if ($isEditableContent) {
-                        $content = $this->container->get(ItemTypeSelectComponent::class);
-                    } else {
-                        $content = $this->container->get(View::class)->setData(["Empty item."])->setRenderer(new ImplodeRenderer());
-                    }
-                    break;
-                case 'generated':
-                    $content = $view = $this->container->get(View::class)->setData( "No content for generated type.")->setRenderer(new StringRenderer());
-                    break;
-                case 'static':
-                    if ($isEditableContent) {
-                        $content = $this->getStaticEditableLoadScript($menuItem);
-                    } else {
-                        $content = $this->getStaticLoadScript($menuItem);
-                    }
-                    break;
-                case 'paper':
-                    if ($isEditableContent) {
-                        $content = $this->getPaperEditableLoadScript($menuItem);
-                    } else {
-                        $content = $this->getPaperLoadScript($menuItem);
-                    }
-
-                    break;
-                case 'template':
-                    if ($isEditableContent) {
-                        $content = $this->getTemplateEditableLoadScript($menuItem);
-                    } else {
-                        $content = $this->getTemplateLoadScript($menuItem);
-                    }
-
-                    break;
-                case 'redirect':
-                    $content = $view = $this->container->get(View::class)->setData( "No content for redirect type.")->setRenderer(new StringRenderer());
-                    break;
-                case 'root':
-                        $content = $this->container->get(View::class)->setData( "root")->setRenderer(new StringRenderer());
-                    break;
-                case 'trash':
-                        $content = $this->container->get(View::class)->setData( "trash")->setRenderer(new StringRenderer());
-                    break;
-
-                default:
-                        $content = $this->container->get('component.presented');
-                    break;
-            }
         } else {
             // například neaktivní, neaktuální menu item
             $content = $this->container->get(View::class)->setRenderer(new StringRenderer());
@@ -289,78 +239,24 @@ class PageController extends LayoutControllerAbstract {
      * @param type $menuItem
      * @return type
      */
-    private function getPaperLoadScript($menuItem) {
-        $menuItemId = $menuItem->getId();
-        // prvek data ''loaderWrapperElementId' musí být unikátní - z jeho hodnoty se generuje id načítaného elementu - a id musí být unikátní jinak dojde k opakovanému přepsání obsahu elemntu v DOM
-        $view = $this->container->get(View::class)
-                    ->setData([
-                        'loaderWrapperElementId' => "paper_for_item_$menuItemId",
-                        'apiUri' => "web/v1/paper/$menuItemId"
-                        ]);
+    private function getAuthoredContentLoadScript($menuItemType, $menuItem) {
+        if ($menuItemType!='static') {
+            $menuItemId = $menuItem->getId();
+            // prvek data ''loaderWrapperElementId' musí být unikátní - z jeho hodnoty se generuje id načítaného elementu - a id musí být unikátní jinak dojde k opakovanému přepsání obsahu elemntu v DOM
+            $view = $this->container->get(View::class)
+                        ->setData([
+                            'loaderWrapperElementId' => "paper_for_item_{$menuItemId}_generated_by_{$menuItemType}",
+                            'apiUri' => "web/v1/$menuItemType/$menuItemId"
+                            ]);
+        } else {
+            $name = $this->getNameForStaticPage($menuItem);
+            $view = $this->container->get(View::class)
+                        ->setData([
+                            'loaderWrapperElementId' => "paper_for_template_{$name}_generated_by_{$menuItemType}",
+                            'apiUri' => "web/v1/$menuItemType/$name"
+                            ]);
+        }
         $this->setLoadScriptTemplate($view);
-        return $view;
-    }
-
-    private function getPaperEditableLoadScript($menuItem) {
-        $menuItemId = $menuItem->getId();
-        // prvek data ''loaderWrapperElementId' musí být unikátní - z jeho hodnoty se generuje id načítaného elementu - a id musí být unikátní jinak dojde k opakovanému přepsání obsahu elemntu v DOM
-        $view = $this->container->get(View::class)
-                    ->setData([
-                        'loaderWrapperElementId' => "paper_for_item_$menuItemId",
-                        'apiUri' => "web/v1/papereditable/$menuItemId"
-                        ]);
-        $this->setLoadEditableScriptTemplate($view);
-        return $view;
-    }
-
-    /**
-     *
-     * @param type $menuItem
-     * @return type
-     */
-    private function getTemplateLoadScript($menuItem) {
-        $menuItemId = $menuItem->getId();
-        // prvek data ''loaderWrapperElementId' musí být unikátní - z jeho hodnoty se generuje id načítaného elementu - a id musí být unikátní jinak dojde k opakovanému přepsání obsahu elemntu v DOM
-        $view = $this->container->get(View::class)
-                    ->setData([
-                        'loaderWrapperElementId' => "paper_for_item_$menuItemId",
-                        'apiUri' => "web/v1/template/$menuItemId"
-                        ]);
-        $this->setLoadScriptTemplate($view);
-        return $view;
-    }
-
-    private function getTemplateEditableLoadScript($menuItem) {
-        $menuItemId = $menuItem->getId();
-        // prvek data ''loaderWrapperElementId' musí být unikátní - z jeho hodnoty se generuje id načítaného elementu - a id musí být unikátní jinak dojde k opakovanému přepsání obsahu elemntu v DOM
-        $view = $this->container->get(View::class)
-                    ->setData([
-                        'loaderWrapperElementId' => "paper_for_item_$menuItemId",
-                        'apiUri' => "web/v1/templateeditable/$menuItemId"
-                        ]);
-        $this->setLoadEditableScriptTemplate($view);
-        return $view;
-    }
-
-    private function getStaticLoadScript(MenuItemInterface $menuItem) {
-        $name = $this->getNameForStaticPage($menuItem);
-        $view = $this->container->get(View::class)
-                    ->setData([
-                        'loaderWrapperElementId' => $name,
-                        'apiUri' => "web/v1/static/$name"
-                        ]);
-        $this->setLoadScriptTemplate($view);
-        return $view;
-    }
-
-    private function getStaticEditableLoadScript(MenuItemInterface $menuItem) {
-        $name = $this->getNameForStaticPage($menuItem);
-        $view = $this->container->get(View::class)
-                    ->setData([
-                        'loaderWrapperElementId' => $name,
-                        'apiUri' => "web/v1/static/$name"
-                        ]);
-        $this->setLoadEditableScriptTemplate($view);
         return $view;
     }
 
@@ -368,9 +264,6 @@ class PageController extends LayoutControllerAbstract {
         $view->setTemplate(new PhpTemplate(Configuration::pageController()['templates.loaderElement']));
     }
 
-    private function setLoadEditableScriptTemplate($view) {
-        $view->setTemplate(new PhpTemplate(Configuration::pageController()['templates.loaderElementEditable']));
-    }
 
     private function getNameForStaticPage(MenuItemInterface $menuItem) {
         $menuItemPrettyUri = $menuItem->getPrettyuri();
@@ -391,5 +284,4 @@ class PageController extends LayoutControllerAbstract {
         $url = preg_replace('~[^-a-z0-9_]+~', '', $url);
         return $url;
     }
-
 }

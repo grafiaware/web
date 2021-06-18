@@ -62,34 +62,79 @@ class ComponentController extends XhrControllerAbstract {
         return $this->createResponseFromString($request, $compiledContent);
     }
 
-    public function paper(ServerRequestInterface $request, $menuItemId) {
-        /** @var PaperComponentInterface $component */
-        $component = $this->container->get('component.paper');
-        $component->setItemId($menuItemId);
-        return $this->createResponseFromView($request, $component);
+    public function content(ServerRequestInterface $request, $menuItemType, $menuItemId) {
+        $view = $this->resolveMenuItemView($menuItemType, $menuItemId);
+        return $this->createResponseFromView($request, $view);
     }
 
-    public function paperEditable(ServerRequestInterface $request, $menuItemId) {
-        /** @var PaperComponentInterface $component */
-        $component = $this->container->get('component.paper.editable');
-        $component->setItemId($menuItemId);
-        return $this->createResponseFromView($request, $component);
-    }
-
-    public function template(ServerRequestInterface $request, $menuItemId) {
-        /** @var PaperComponentInterface $component */
-        $component = $this->container->get('component.template');
-        $component->setItemId($menuItemId);
-        return $this->createResponseFromView($request, $component);
-    }
-
-    public function templateEditable(ServerRequestInterface $request, $menuItemId) {
-        /** @var PaperComponentInterface $component */
-        $component = $this->container->get('component.template.editable');
-        $component->setItemId($menuItemId);
-        return $this->createResponseFromView($request, $component);
-    }
     ######################
+
+    /**
+     * Vrací view objekt pro zobrazení centrálního obsahu v prostoru pro "content"
+     * @return type
+     */
+    private function resolveMenuItemView($menuItemType, $menuItemId) {
+            $userActions = $this->statusSecurityRepo->get()->getUserActions();
+            $isEditableContent = $userActions->isEditableArticle() OR $userActions->isEditableLayout();
+
+            switch ($menuItemType) {
+                case 'empty':
+                    if ($isEditableContent) {
+                        $view = $this->container->get(ItemTypeSelectComponent::class);
+                    } else {
+                        $view = $this->container->get(View::class)->setData(["Empty item."])->setRenderer(new ImplodeRenderer());
+                    }
+                    break;
+                case 'generated':
+                    $view = $view = $this->container->get(View::class)->setData( "No content for generated type.")->setRenderer(new StringRenderer());
+                    break;
+                case 'static':
+                    if ($isEditableContent) {
+                        $view = $this->getStaticEditableLoadScript($menuItem);
+                    } else {
+                        $view = $this->getStaticLoadScript($menuItem);
+                    }
+                    break;
+                case 'paper':
+                    /** @var PaperComponentInterface $view */
+                    if ($isEditableContent) {
+                        $view = $this->container->get('component.paper.editable');
+                    } else {
+                        $view = $this->container->get('component.paper');
+                    }
+                    $view->setItemId($menuItemId);
+
+                    break;
+                case 'template':
+                    /** @var PaperComponentInterface $view */
+                    if ($isEditableContent) {
+                        $view = $this->container->get('component.template.editable');
+                    } else {
+                        $view = $this->container->get('component.template');
+                    }
+                    $view->setItemId($menuItemId);
+
+                    break;
+                case 'redirect':
+                    $view = $view = $this->container->get(View::class)->setData( "No content for redirect type.")->setRenderer(new StringRenderer());
+                    break;
+                case 'root':
+                        $view = $this->container->get(View::class)->setData( "root")->setRenderer(new StringRenderer());
+                    break;
+                case 'trash':
+                        $view = $this->container->get(View::class)->setData( "trash")->setRenderer(new StringRenderer());
+                    break;
+
+                default:
+                        $view = $this->container->get('component.presented');
+                    break;
+            }
+
+        return $view;
+    }
+
+
+    ###########################################
 
     /**
      * Vrací přeložený obsah statické šablony. Pokud přeložený obsah neexistuje, přeloží ho, t.j. renderuje statickou šablonu a uloží obsah do složky s přeloženými obsahy.

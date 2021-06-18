@@ -55,18 +55,16 @@ class ApiRegistrator {
         $registry->register($this->getPrototype->withUrlPattern('/web/v1/page/block/:name'));
         $registry->register($this->getPrototype->withUrlPattern('/web/v1/page/searchresult'));
 
-        #### ComponentController ####
-        $registry->register($this->getPrototype->withUrlPattern('/web/v1/flash'));
-        $registry->register($this->getPrototype->withUrlPattern('/web/v1/service/:name'));
+
 
 
         ### red module ###
         #
+        #### ComponentController ####
+        $registry->register($this->getPrototype->withUrlPattern('/web/v1/flash'));
+        $registry->register($this->getPrototype->withUrlPattern('/web/v1/service/:name'));
         $registry->register($this->getPrototype->withUrlPattern('/web/v1/static/:name'));
-        $registry->register($this->getPrototype->withUrlPattern('/web/v1/paper/:menuItemId'));
-        $registry->register($this->getPrototype->withUrlPattern('/web/v1/papereditable/:menuItemId'));
-        $registry->register($this->getPrototype->withUrlPattern('/web/v1/template/:menuItemId'));
-        $registry->register($this->getPrototype->withUrlPattern('/web/v1/templateeditable/:menuItemId'));
+        $registry->register($this->getPrototype->withUrlPattern('/web/v1/:menuItemType/:menuItemId'));
         #
         #### UserActionController ####
         $registry->register($this->getPrototype->withUrlPattern('/red/v1/useraction/app/:app'));

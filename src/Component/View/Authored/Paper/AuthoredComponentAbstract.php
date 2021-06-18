@@ -57,4 +57,5 @@ abstract class AuthoredComponentAbstract extends CompositeComponentAbstract impl
         return $this->templatesPath.$templateName."/template.php";
     }
 
+
 }
