@@ -80,18 +80,30 @@ class Component extends AppMiddlewareAbstract implements MiddlewareInterface {
 //            $ctrl = $this->container->get(ComponentController::class);
 //            return $ctrl->static($request, $staticName);
 //            });
-        $routeGenerator->addRouteForAction('GET', '/web/v1/itempaper/:menuItemId', function(ServerRequestInterface $request, $menuItemId) {
+        $routeGenerator->addRouteForAction('GET', '/web/v1/paper/:menuItemId', function(ServerRequestInterface $request, $menuItemId) {
             /** @var ComponentController $ctrl */
             $ctrl = $this->container->get(ComponentController::class);
             return $ctrl->paper($request, $menuItemId);
             });
-        $routeGenerator->addRouteForAction('GET', '/web/v1/itempapereditable/:menuItemId', function(ServerRequestInterface $request, $menuItemId) {
+        $routeGenerator->addRouteForAction('GET', '/web/v1/papereditable/:menuItemId', function(ServerRequestInterface $request, $menuItemId) {
             /** @var ComponentController $ctrl */
             $ctrl = $this->container->get(ComponentController::class);
             return $ctrl->paperEditable($request, $menuItemId);
             });
+        $routeGenerator->addRouteForAction('GET', '/web/v1/template/:menuItemId', function(ServerRequestInterface $request, $menuItemId) {
+            /** @var ComponentController $ctrl */
+            $ctrl = $this->container->get(ComponentController::class);
+            return $ctrl->template($request, $menuItemId);
+            });
+        $routeGenerator->addRouteForAction('GET', '/web/v1/templateeditable/:menuItemId', function(ServerRequestInterface $request, $menuItemId) {
+            /** @var ComponentController $ctrl */
+            $ctrl = $this->container->get(ComponentController::class);
+            return $ctrl->templateEditable($request, $menuItemId);
+            });
+
 ####################################
-        /** @var $router RouterInterface */
+
+            /** @var $router RouterInterface */
         $router = $this->container->get(RouterInterface::class);
         $router->exchangeRoutes($routeGenerator);
 

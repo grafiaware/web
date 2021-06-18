@@ -56,7 +56,6 @@ use Component\ViewModel\{
     Generated\SearchResultViewModel,
     Generated\ItemTypeSelectViewModel,
     Flash\FlashViewModel,
-    Flash\FlashViewModelForRenderer,
     Status\StatusBoardViewModel
 };
 
@@ -245,12 +244,12 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                 $viewModel = $c->get(PaperViewModel::class);  //oba komponenty sdílejí stejný model
                 $articleComponent = new ArticleComponent($viewModel);
                 $articleComponent->setRendererContainer($c->get('rendererContainer'));
-                $articleComponent->setPaperTemplatesPath($c->get('component.templatePath.paper'));
                 $articleComponent->setFallbackRendererName(ArticleRenderer::class);
                 $articleComponent->addTemplateGlobals('elementWrapper', ElementWrapper::class);
                 $paperComponent = new PaperComponent($viewModel);
                 $paperComponent->setRendererContainer($c->get('rendererContainer'));
                 $paperComponent->setRendererName(PaperWrapRenderer::class);
+                $paperComponent->setTemplatesPath($c->get('component.templatePath.paper'));
                 $paperComponent->appendComponentView($articleComponent, 'article');
                 return $paperComponent;
             },
@@ -258,13 +257,28 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                 $viewModel = $c->get(PaperViewModel::class);  //oba komponenty sdílejí stejný model
                 $articleComponent = new ArticleComponent($viewModel);
                 $articleComponent->setRendererContainer($c->get('rendererContainer'));
-                $articleComponent->setPaperTemplatesPath($c->get('component.templatePath.paper'));
                 $articleComponent->setFallbackRendererName(ArticleEditableRenderer::class);
                 $articleComponent->addTemplateGlobals('elementWrapper', ElementEditableWrapper::class);
                 $articleComponent->addTemplateGlobals('buttons', Buttons::class);
                 $paperComponent = new PaperComponent($viewModel);
                 $paperComponent->setRendererContainer($c->get('rendererContainer'));
                 $paperComponent->setRendererName(PaperWrapEditableRenderer::class);
+                $paperComponent->setTemplatesPath($c->get('component.templatePath.paper'));
+                $paperComponent->appendComponentView($articleComponent, 'article');
+                return $paperComponent;
+            },
+            'component.template.editable' => function(ContainerInterface $c) {
+                $viewModel = $c->get(PaperViewModel::class);  //oba komponenty sdílejí stejný model
+                $articleComponent = new ArticleComponent($viewModel);
+                $articleComponent->setRendererContainer($c->get('rendererContainer'));
+                $articleComponent->setTemplatesPath($c->get('component.templatePath.paper'));
+                $articleComponent->setFallbackRendererName(ArticleEditableRenderer::class);
+                $articleComponent->addTemplateGlobals('elementWrapper', ElementEditableWrapper::class);
+                $articleComponent->addTemplateGlobals('buttons', Buttons::class);
+                $paperComponent = new PaperComponent($viewModel);
+                $paperComponent->setRendererContainer($c->get('rendererContainer'));
+                $paperComponent->setRendererName(PaperWrapEditableRenderer::class);
+                $paperComponent->setTemplatesPath($c->get('component.templatePath.paper'));
                 $paperComponent->appendComponentView($articleComponent, 'article');
                 return $paperComponent;
             },

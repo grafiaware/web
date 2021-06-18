@@ -1,5 +1,5 @@
-<div id="red_loaded_<?=$name?>">
+<div id="red_loaded_<?=$loaderWrapperElementId?>">
     <script>
-        replaceElement("red_loaded_<?=$name?>", "<?= $apiUri?>");
+        replaceElement("red_loaded_<?=$loaderWrapperElementId?>", "<?= $apiUri?>");
     </script>
 </div>

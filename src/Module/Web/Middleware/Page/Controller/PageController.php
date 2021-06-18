@@ -248,7 +248,14 @@ class PageController extends LayoutControllerAbstract {
                         $content = $this->getPaperLoadScript($menuItem);
                     }
 
-//                    $content = $this->getPresentedComponentLoadScript($menuItem);
+                    break;
+                case 'template':
+                    if ($isEditableContent) {
+                        $content = $this->getTemplateEditableLoadScript($menuItem);
+                    } else {
+                        $content = $this->getTemplateLoadScript($menuItem);
+                    }
+
                     break;
                 case 'redirect':
                     $content = $view = $this->container->get(View::class)->setData( "No content for redirect type.")->setRenderer(new StringRenderer());
@@ -272,32 +279,64 @@ class PageController extends LayoutControllerAbstract {
     }
 
     /**
-     * Vrací view s šablonou obsahující skript pro načtení paperu na základě reference menuItemId pomocí lazy load requestu a záměnu obsahu elementu v html stránky.
+     * Vrací view s šablonou obsahující skript pro načtení obsahu na základě reference menuItemId pomocí lazy load requestu a záměnu obsahu elementu v html stránky.
      * Parametr uri je id menuItem, aby nebylo třeba načítat paper zde v kontroleru.
-     * Lazy načítaný paper musí být v modu editable, pokud je nastaven uri query parametr editable=1.
+     */
+
+
+    /**
      *
      * @param type $menuItem
-     * @param bool $editable Pokud je true, přidá k uri query parametr editable=1
      * @return type
      */
     private function getPaperLoadScript($menuItem) {
         $menuItemId = $menuItem->getId();
-        // prvek data 'name' musí být unikátní - z jeho hodnoty se generuje id načítaného elementu - a id musí být unikátní jinak dojde k opakovanému přepsání obsahu elemntu v DOM
+        // prvek data ''loaderWrapperElementId' musí být unikátní - z jeho hodnoty se generuje id načítaného elementu - a id musí být unikátní jinak dojde k opakovanému přepsání obsahu elemntu v DOM
         $view = $this->container->get(View::class)
                     ->setData([
-                        'name' => "paper_for_item_$menuItemId",
-                        'apiUri' => "web/v1/itempaper/$menuItemId"
+                        'loaderWrapperElementId' => "paper_for_item_$menuItemId",
+                        'apiUri' => "web/v1/paper/$menuItemId"
                         ]);
         $this->setLoadScriptTemplate($view);
         return $view;
     }
+
     private function getPaperEditableLoadScript($menuItem) {
         $menuItemId = $menuItem->getId();
-        // prvek data 'name' musí být unikátní - z jeho hodnoty se generuje id načítaného elementu - a id musí být unikátní jinak dojde k opakovanému přepsání obsahu elemntu v DOM
+        // prvek data ''loaderWrapperElementId' musí být unikátní - z jeho hodnoty se generuje id načítaného elementu - a id musí být unikátní jinak dojde k opakovanému přepsání obsahu elemntu v DOM
         $view = $this->container->get(View::class)
                     ->setData([
-                        'name' => "paper_for_item_$menuItemId",
-                        'apiUri' => "web/v1/itempapereditable/$menuItemId"
+                        'loaderWrapperElementId' => "paper_for_item_$menuItemId",
+                        'apiUri' => "web/v1/papereditable/$menuItemId"
+                        ]);
+        $this->setLoadEditableScriptTemplate($view);
+        return $view;
+    }
+
+    /**
+     *
+     * @param type $menuItem
+     * @return type
+     */
+    private function getTemplateLoadScript($menuItem) {
+        $menuItemId = $menuItem->getId();
+        // prvek data ''loaderWrapperElementId' musí být unikátní - z jeho hodnoty se generuje id načítaného elementu - a id musí být unikátní jinak dojde k opakovanému přepsání obsahu elemntu v DOM
+        $view = $this->container->get(View::class)
+                    ->setData([
+                        'loaderWrapperElementId' => "paper_for_item_$menuItemId",
+                        'apiUri' => "web/v1/template/$menuItemId"
+                        ]);
+        $this->setLoadScriptTemplate($view);
+        return $view;
+    }
+
+    private function getTemplateEditableLoadScript($menuItem) {
+        $menuItemId = $menuItem->getId();
+        // prvek data ''loaderWrapperElementId' musí být unikátní - z jeho hodnoty se generuje id načítaného elementu - a id musí být unikátní jinak dojde k opakovanému přepsání obsahu elemntu v DOM
+        $view = $this->container->get(View::class)
+                    ->setData([
+                        'loaderWrapperElementId' => "paper_for_item_$menuItemId",
+                        'apiUri' => "web/v1/templateeditable/$menuItemId"
                         ]);
         $this->setLoadEditableScriptTemplate($view);
         return $view;
@@ -307,7 +346,7 @@ class PageController extends LayoutControllerAbstract {
         $name = $this->getNameForStaticPage($menuItem);
         $view = $this->container->get(View::class)
                     ->setData([
-                        'name' => $name,
+                        'loaderWrapperElementId' => $name,
                         'apiUri' => "web/v1/static/$name"
                         ]);
         $this->setLoadScriptTemplate($view);
@@ -318,7 +357,7 @@ class PageController extends LayoutControllerAbstract {
         $name = $this->getNameForStaticPage($menuItem);
         $view = $this->container->get(View::class)
                     ->setData([
-                        'name' => $name,
+                        'loaderWrapperElementId' => $name,
                         'apiUri' => "web/v1/static/$name"
                         ]);
         $this->setLoadEditableScriptTemplate($view);

@@ -226,12 +226,12 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
         $routeGenerator->addRouteForAction('POST', '/red/v1/hierarchy/:uid/paste', function(ServerRequestInterface $request, $uid) {
             /** @var HierarchyController $ctrl */
             $ctrl = $this->container->get(HierarchyController::class);
-            return $ctrl->paste($request, $uid, $pasteduid);
+            return $ctrl->paste($request, $uid);
         });
         $routeGenerator->addRouteForAction('POST', '/red/v1/hierarchy/:uid/pastechild', function(ServerRequestInterface $request, $uid) {
             /** @var HierarchyController $ctrl */
             $ctrl = $this->container->get(HierarchyController::class);
-            return $ctrl->pastechild($request, $uid, $pasteduid);
+            return $ctrl->pastechild($request, $uid);
         });
         $routeGenerator->addRouteForAction('POST', '/red/v1/hierarchy/:uid/delete', function(ServerRequestInterface $request, $uid) {
             /** @var HierarchyController $ctrl */

@@ -47,7 +47,7 @@ class ItemTypeSelectViewModel extends StatusViewModelAbstract implements ItemTyp
     public function getTypeTransitions() {
         $typeTransitions = [
             'root' => '',
-            'empty' => ['static', 'paper'],
+            'empty' => ['static', 'paper', 'template'],
             'redirect' => '',
             'static' => '',
             'paper' => '',

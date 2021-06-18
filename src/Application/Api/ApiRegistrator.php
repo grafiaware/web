@@ -63,8 +63,10 @@ class ApiRegistrator {
         ### red module ###
         #
         $registry->register($this->getPrototype->withUrlPattern('/web/v1/static/:name'));
-        $registry->register($this->getPrototype->withUrlPattern('/web/v1/itempaper/:menuItemId'));
-        $registry->register($this->getPrototype->withUrlPattern('/web/v1/itempapereditable/:menuItemId'));
+        $registry->register($this->getPrototype->withUrlPattern('/web/v1/paper/:menuItemId'));
+        $registry->register($this->getPrototype->withUrlPattern('/web/v1/papereditable/:menuItemId'));
+        $registry->register($this->getPrototype->withUrlPattern('/web/v1/template/:menuItemId'));
+        $registry->register($this->getPrototype->withUrlPattern('/web/v1/templateeditable/:menuItemId'));
         #
         #### UserActionController ####
         $registry->register($this->getPrototype->withUrlPattern('/red/v1/useraction/app/:app'));

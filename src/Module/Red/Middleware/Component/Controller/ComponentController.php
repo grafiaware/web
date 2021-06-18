@@ -76,6 +76,19 @@ class ComponentController extends XhrControllerAbstract {
         return $this->createResponseFromView($request, $component);
     }
 
+    public function template(ServerRequestInterface $request, $menuItemId) {
+        /** @var PaperComponentInterface $component */
+        $component = $this->container->get('component.template');
+        $component->setItemId($menuItemId);
+        return $this->createResponseFromView($request, $component);
+    }
+
+    public function templateEditable(ServerRequestInterface $request, $menuItemId) {
+        /** @var PaperComponentInterface $component */
+        $component = $this->container->get('component.template.editable');
+        $component->setItemId($menuItemId);
+        return $this->createResponseFromView($request, $component);
+    }
     ######################
 
     /**

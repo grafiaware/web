@@ -13,6 +13,8 @@ use Component\Renderer\Html\HtmlRendererAbstract;
 use Pes\Text\Html;
 use Pes\View\Renderer\ImplodeRenderer;
 
+use Component\Renderer\Html\Authored\Paper\Buttons;
+
 use Component\View\Authored\Paper\ButtonsForm\PaperTemplateButtonsForm;
 
 /**
@@ -22,9 +24,14 @@ use Component\View\Authored\Paper\ButtonsForm\PaperTemplateButtonsForm;
  */
 class PaperWrapEditableRenderer  extends HtmlRendererAbstract {
     public function render($data=NULL) {
+        $selectTemplate = isset($buttons) ? $buttons->renderPaperTemplateButtonsForm($paperAggregate) : "";
+        $paperButton = isset($buttons) ? $buttons->getPaperButtonsForm($paperAggregate) : "";
+        $article = $data['article'];
         // atribut data-componentinfo je jen pro info v html
         return Html::tag('div', ['class'=>$this->classMap->getClass('Segment', 'div')],
-                Html::tag('div', ['class'=>$this->classMap->getClass('Segment', 'div.paper')], $data['article'])
+                Html::tag('div', ['class'=>$this->classMap->getClass('Segment', 'div.paper')], $selectTemplate.$paperButton.$article
+
+                )
             );
     }
 }

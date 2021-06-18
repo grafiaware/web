@@ -366,7 +366,7 @@ class ComponentContainerConfigurator_Nav extends ContainerConfiguratorAbstract {
                             );
                 $component = new NamedPaperComponent($viewModel);
                 $component->setRendererContainer($c->get('rendererContainer'));
-                $component->setPaperTemplatesPath($c->get('component.templatePath.paper'));
+                $component->setTemplatesPath($c->get('component.templatePath.paper'));
                 return $component;
                 },
 
@@ -379,7 +379,7 @@ class ComponentContainerConfigurator_Nav extends ContainerConfiguratorAbstract {
                         );
                 $component = new PresentedPaperComponent($viewModel);
                 $component->setRendererContainer($c->get('rendererContainer'));
-                $component->setPaperTemplatesPath($c->get('component.templatePath.paper'));
+                $component->setTemplatesPath($c->get('component.templatePath.paper'));
                 return $component;
                 },
 
@@ -393,7 +393,7 @@ class ComponentContainerConfigurator_Nav extends ContainerConfiguratorAbstract {
                         );
                 $component = new PaperComponent($viewModel);
                 $component->setRendererContainer($c->get('rendererContainer'));
-                $component->setPaperTemplatesPath($c->get('component.templatePath.paper'));
+                $component->setTemplatesPath($c->get('component.templatePath.paper'));
                 return $component;
                 },
 
