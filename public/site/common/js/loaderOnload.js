@@ -115,16 +115,19 @@ function initLoadedElements() {
 
             ////////////////////////////////
             var ram = document.getElementById("googleform");
-            ram.scrolling =  "no";
-            var loadCounter = 0;
-            ram.onload = function() {
-                loadCounter += 1;
+            if (ram !== null) {
+                ram.scrolling =  "no";
+                var loadCounter = 0;
+                ram.onload = function() {
+                    loadCounter += 1;
 
-                if (loadCounter === 2) {
-                    var ramDokument = ram.contentDocument || ra+m.contentWindow.document;
-                    ram.style.height = ramDokument.documentElement.scrollHeight + "px";
-                }
-            };
+                    if (loadCounter === 2) {
+                        var ramDokument = ram.contentDocument || ra+m.contentWindow.document;
+                        ram.style.height = ramDokument.documentElement.scrollHeight + "px";
+                    }
+                };
+            }
+
 }
 
 function replaceElement(id, apiUri){
@@ -143,6 +146,7 @@ function replaceElement(id, apiUri){
     };
     xhr.open("GET", apiUri, true);
     xhr.setRequestHeader("X-Powered-By", "RED Loader");
+//    xhr.responseType = "document";   // XML nebo HTML
     xhr.send();
 };
 
@@ -153,6 +157,7 @@ function replaceElementEditable(id, apiUri){
         if (this.readyState == 4) {
             if (this.status == 200) {
                 document.getElementById(id).innerHTML = xhr.responseText;
+                initLoadedElements();
                 initLoadedEditableElements();
             } else {
                 console.log("Load of editable element failed for id: "+id+",this.readyState:"+this.readyState+", this.status:"+this.status);

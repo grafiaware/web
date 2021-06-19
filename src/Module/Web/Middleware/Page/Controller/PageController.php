@@ -256,14 +256,9 @@ class PageController extends LayoutControllerAbstract {
                             'apiUri' => "web/v1/$menuItemType/$name"
                             ]);
         }
-        $this->setLoadScriptTemplate($view);
+        $view->setTemplate(new PhpTemplate(Configuration::pageController()['templates.loaderElement']));
         return $view;
     }
-
-    private function setLoadScriptTemplate($view) {
-        $view->setTemplate(new PhpTemplate(Configuration::pageController()['templates.loaderElement']));
-    }
-
 
     private function getNameForStaticPage(MenuItemInterface $menuItem) {
         $menuItemPrettyUri = $menuItem->getPrettyuri();
