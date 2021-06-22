@@ -27,15 +27,15 @@ class MenuWrapRenderer extends MenuWrapRendererAbstract {
         /** @var MenuViewModelInterface $viewModel */
         $menuLevelHtml = $this->getMenuHtml($viewModel->getSubTreeItemModels());
         if ($viewModel->isEditableMenu()) {
-            return Html::tag('ul', ['class'=>$this->classMap->getClass('MenuWrap', 'ul')],
-                $menuLevelHtml
-            );
-        } else {
             return
             Html::tag('form', [],
                 Html::tag('ul', ['class'=>$this->classMap->getClass('MenuWrap', 'ul')],
                     $menuLevelHtml
                 )
+            );
+        } else {
+            return Html::tag('ul', ['class'=>$this->classMap->getClass('MenuWrap', 'ul')],
+                $menuLevelHtml
             );
         }
     }
