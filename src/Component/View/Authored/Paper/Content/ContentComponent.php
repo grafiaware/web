@@ -24,7 +24,7 @@ class ContentComponent extends AuthoredComponentAbstract implements ContentCompo
      * Přetěžuje metodu View. Generuje PHP template z názvu template objektu Paper a použije ji.
      */
     protected function resolveRenderer(): RendererInterface {
-        $paperAggregate = $this->viewModel->getPaper();
+        $paperAggregate = $this->contextData->getPaper();
         if (isset($paperAggregate)) {
             $paperTemplateName = $paperAggregate->getTemplate();
             if (isset($paperTemplateName) AND $paperTemplateName) {

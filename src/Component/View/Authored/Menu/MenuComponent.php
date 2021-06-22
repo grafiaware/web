@@ -20,7 +20,7 @@ class MenuComponent extends CompositeComponentAbstract implements MenuComponentI
     /**
      * @var MenuViewModelInterface
      */
-    protected $viewModel;
+    protected $contextData;
 
     protected $levelWrapRendererName;
     protected $itemRendererName;
@@ -52,7 +52,7 @@ class MenuComponent extends CompositeComponentAbstract implements MenuComponentI
      * @param MenuViewModelInterface $viewModel
      */
     public function __construct(MenuViewModelInterface $viewModel) {
-        $this->viewModel = $viewModel;
+        $this->contextData = $viewModel;
     }
 
     /**
@@ -102,9 +102,9 @@ class MenuComponent extends CompositeComponentAbstract implements MenuComponentI
         $renderer->setItemRenderer($this->rendererContainer->get($this->itemRendererName));
         $this->setRenderer($renderer);
 
-        $this->viewModel->setMenuRootName($this->componentName);
-        $this->viewModel->withTitleItem($this->withTitle);
-        $this->viewModel->setMaxDepth(null);
+        $this->contextData->setMenuRootName($this->componentName);
+        $this->contextData->withTitleItem($this->withTitle);
+        $this->contextData->setMaxDepth(null);
 
         return parent::getString();
     }

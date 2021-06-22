@@ -14,14 +14,12 @@ use Component\Renderer\Html\Authored\Menu\LevelWrapRenderer;
 use Component\Renderer\Html\Authored\Menu\ItemRenderer;
 use Component\ViewModel\Authored\Menu\Item\ItemViewModelInterface;
 
-use Pes\View\Renderer\RendererModelAwareInterface;
-
 /**
  * Description of MenuWrapRndererAbstract
  *
  * @author pes2704
  */
-abstract class MenuWrapRendererAbstract extends HtmlModelRendererAbstract implements MenuWrapRendererInterface, RendererModelAwareInterface {
+abstract class MenuWrapRendererAbstract extends HtmlModelRendererAbstract implements MenuWrapRendererInterface {
 
     /**
      * @var LevelWrapRenderer
@@ -77,8 +75,7 @@ abstract class MenuWrapRendererAbstract extends HtmlModelRendererAbstract implem
             $level = [];
             foreach ($itemStack[$i] as $stackedItemModel) {
                 /** @var ItemViewModelInterface $stackedItemModel */
-                $this->itemRenderer->setViewModel($stackedItemModel);
-                $level[] = $this->itemRenderer->render();
+                $level[] = $this->itemRenderer->render($stackedItemModel);
             }
             $wrap = $this->levelWrapRenderer->render(implode(PHP_EOL, $level));
             unset($itemStack[$i]);
@@ -90,8 +87,7 @@ abstract class MenuWrapRendererAbstract extends HtmlModelRendererAbstract implem
         $level = [];
         foreach ($itemStack as $stackedItemModel) {
             /** @var ItemViewModelInterface $stackedItemModel */
-            $this->itemRenderer->setViewModel($stackedItemModel);
-            $level[] = $this->itemRenderer->render();
+            $level[] = $this->itemRenderer->render($stackedItemModel);
         }
         $wrap = implode(PHP_EOL, $level);                // nejvyšší úroveň stromu je renderována je do "li", "ul" pak udělá menuWrapRenderer, který je nastaven jako renderer celé komponenty ($this->renderer)
         return $wrap;

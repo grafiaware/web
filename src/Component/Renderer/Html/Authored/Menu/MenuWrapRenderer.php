@@ -23,34 +23,20 @@ class MenuWrapRenderer extends MenuWrapRendererAbstract {
      */
     protected $viewModel;
 
-    public function render($data=NULL) {
-        if ($this->viewModel->isEditableMenu()) {
-            return $this->renderEditable();
-        } else {
-            return $this->renderNoneditable();
-        }
-    }
-
-    public function renderNoneditable(iterable $data = NULL) {
+    public function render(iterable $viewModel=NULL) {
         /** @var MenuViewModelInterface $viewModel */
-        $viewModel = $this->viewModel;
         $menuLevelHtml = $this->getMenuHtml($viewModel->getSubTreeItemModels());
-
-        return Html::tag('ul', ['class'=>$this->classMap->getClass('MenuWrap', 'ul')],
-            $menuLevelHtml
-        );
-    }
-
-    public function renderEditable($data = NULL) {
-        /** @var MenuViewModelInterface $viewModel */
-        $viewModel = $this->viewModel;
-        $menuLevelHtml = $this->getMenuHtml($viewModel->getSubTreeItemModels());
-
-        return
-        Html::tag('form', [],
-            Html::tag('ul', ['class'=>$this->classMap->getClass('MenuWrap', 'ul')],
+        if ($viewModel->isEditableMenu()) {
+            return Html::tag('ul', ['class'=>$this->classMap->getClass('MenuWrap', 'ul')],
                 $menuLevelHtml
-            )
-        );
+            );
+        } else {
+            return
+            Html::tag('form', [],
+                Html::tag('ul', ['class'=>$this->classMap->getClass('MenuWrap', 'ul')],
+                    $menuLevelHtml
+                )
+            );
+        }
     }
 }

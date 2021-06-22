@@ -9,7 +9,7 @@
 namespace Component\View\Authored\Paper;
 
 use Component\View\CompositeComponentAbstract;
-use Component\ViewModel\Authored\Paper\PaperViewModelInterface;
+use Component\ViewModel\Authored\AuthoredViewModelInterface;
 
 use Pes\View\Template\PhpTemplate;
 
@@ -22,12 +22,6 @@ use Pes\View\Template\PhpTemplate;
 abstract class AuthoredComponentAbstract extends CompositeComponentAbstract implements AuthoredComponentInterface {
 
     /**
-     * Přetěžuje view model Pes View, upřesňuje typ view modelu.
-     * @var PaperViewModelInterface
-     */
-    protected $viewModel;
-
-    /**
      * @var bool
      */
     protected $editable;
@@ -35,23 +29,23 @@ abstract class AuthoredComponentAbstract extends CompositeComponentAbstract impl
     /**
      * @var string
      */
-    private $templatesPath = "undefined_paper_templates_path/";
+    private $templatesPath = "templates_path_not_set/";
 
     protected $templateGlobals = [];
 
     /**
-     * Přetěžuje konstruktor CompositeComponentAbstract, upřesňuje typ parametru (view modelu).
-     * @param PaperViewModelInterface $viewModel
+     * @var AuthoredViewModelInterface
      */
-    public function __construct(PaperViewModelInterface $viewModel) {
-        $this->viewModel = $viewModel;
+    protected $contextData;
+
+    /**
+     * @param AuthoredViewModelInterface $viewModel
+     */
+    public function __construct(AuthoredViewModelInterface $viewModel) {
+        $this->contextData = $viewModel;
     }
 
-//    public function setEditable($editable) {
-//        $this->editable = $editable;
-//    }
-
-    public function setPaperTemplatesPath($templatesPath) {
+    public function setTemplatesPath($templatesPath) {
         $this->templatesPath = $templatesPath;
     }
 
@@ -59,31 +53,9 @@ abstract class AuthoredComponentAbstract extends CompositeComponentAbstract impl
         $this->templateGlobals[$variableName] = $rendererName;
     }
 
-    /**
-     * Pro zadané jméno template se pokusí nalézt soubor s PHP template a vytvořit PhpTemplate objekt. Pokud uspěje
-     * @param string $templateName
-     */
-    protected function resolveTemplate($templateName=null) {
-        if (isset($templateName) AND $templateName) {
-            $templatePath = $this->getPaperTemplatePath($templateName);
-            try {
-                $template = new PhpTemplate($templatePath);  // exception
-                $sharedData = [];
-                if (isset($this->rendererContainer)) {
-                    foreach ($this->templateGlobals as $variableName => $rendererName) {
-                        $sharedData[$variableName] = $this->rendererContainer->get($rendererName);
-                    }
-                }
-                $template->setSharedData($sharedData);
-                $this->setTemplate($template);
-            } catch (NoTemplateFileException $noTemplExc) {
-                user_error("Neexistuje soubor šablony $templatePath", E_USER_WARNING);
-            }
-        }
-    }
-
-    private function getPaperTemplatePath($templateName) {
+    protected function getPaperTemplatePath($templateName) {
         return $this->templatesPath.$templateName."/template.php";
     }
+
 
 }

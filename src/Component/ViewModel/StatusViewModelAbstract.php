@@ -9,7 +9,7 @@ use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusF
  *
  * @author pes2704
  */
-class StatusViewModelAbstract {
+abstract class StatusViewModelAbstract extends ViewModelAbstract implements StatusViewModelInterface {
 
     /**
      * @var StatusSecurityRepo
@@ -41,9 +41,23 @@ class StatusViewModelAbstract {
         return $flashCommand[$key] ?? '';
     }
 
-
     public function getPostFlashCommand($key) {
         $flashCommand = $this->statusFlashRepo->get()->getPostCommand();
         return $flashCommand[$key] ?? '';
+    }
+
+    public function getUserRole(): ?string {
+        $loginAggregate = $this->statusSecurityRepo->get()->getLoginAggregate();
+        return isset($loginAggregate) ? $loginAggregate->getCredentials()->getRole() : null;
+    }
+
+    public function getUserLoginName(): ?string {
+        $loginAggregate = $this->statusSecurityRepo->get()->getLoginAggregate();
+        return isset($loginAggregate) ? $loginAggregate->getLoginName() : null;
+    }
+
+    public function isArticleEditable(): bool {
+        $userActions = $this->statusSecurityRepo->get()->getUserActions();
+        return $userActions ? $userActions->isEditableArticle() : false;
     }
 }

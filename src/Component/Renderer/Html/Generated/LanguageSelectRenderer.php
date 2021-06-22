@@ -23,11 +23,10 @@ use Pes\Text\Html;
  *
  * @author pes2704
  */
-class LanguageSelectRenderer extends HtmlModelRendererAbstract implements RendererModelAwareInterface {
+class LanguageSelectRenderer extends HtmlModelRendererAbstract {
 
-    public function render($data=NULL) {
+    public function render($viewModel=NULL) {
         /** @var LanguageSelectViewModel $viewModel */
-        $viewModel = $this->viewModel;
         $presentedLangCode = $viewModel->getPresentedLangCode();
         $path = Configuration::languageSelectRenderer()['assets'];
         foreach ($viewModel->getLanguages() as $language) {

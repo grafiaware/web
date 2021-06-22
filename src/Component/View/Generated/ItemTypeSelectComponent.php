@@ -21,9 +21,9 @@ class ItemTypeSelectComponent extends ComponentAbstract {
     /**
      * @var ItemTypeSelectViewModel
      */
-    protected $viewModel;
+    protected $contextData;
 
     public function __construct(ItemTypeSelectViewModel $viewModel) {
-        $this->viewModel = $viewModel;
+        $this->contextData = $viewModel;
     }
 }

@@ -15,11 +15,6 @@ use Component\ViewModel\StatusViewModelInterface;
  * @author pes2704
  */
 interface AuthoredViewModelInterface extends StatusViewModelInterface {
-    /**
-     * Prezentuj položky v editovatelné podobě
-     * @return bool
-     */
-    public function isArticleEditable();
 
     /**
      * Prezentuj pouze publikované položky

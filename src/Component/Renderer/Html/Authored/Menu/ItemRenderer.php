@@ -5,7 +5,6 @@ use Component\Renderer\Html\HtmlModelRendererAbstract;
 use Component\ViewModel\Authored\Menu\Item\ItemViewModelInterface;
 use Red\Model\Entity\HierarchyAggregateInterface;
 
-use Pes\View\Renderer\RendererModelAwareInterface;
 use Pes\Text\Html;
 
 /*
@@ -19,7 +18,7 @@ use Pes\Text\Html;
  *
  * @author pes2704
  */
-class ItemRenderer extends HtmlModelRendererAbstract implements RendererModelAwareInterface {
+class ItemRenderer extends HtmlModelRendererAbstract {
 
     /**
      *
@@ -27,8 +26,9 @@ class ItemRenderer extends HtmlModelRendererAbstract implements RendererModelAwa
      */
     protected $viewModel;
 
-    public function render($data=NULL) {
-        if ($this->viewModel->isEditableItem()) {
+    public function render($viewModel=NULL) {
+        $this->viewModel = $viewModel;
+        if ($viewModel->isEditableItem()) {
             return $this->renderEditable();
         } else {
             return $this->renderNoneditable();

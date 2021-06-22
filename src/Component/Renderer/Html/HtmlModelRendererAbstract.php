@@ -8,17 +8,11 @@
 
 namespace Component\Renderer\Html;
 
-use Pes\View\Renderer\RendererModelAwareInterface;
-
 /**
  * Description of HtmlModelRendererAbstract
  *
  * @author pes2704
  */
-abstract class HtmlModelRendererAbstract extends HtmlRendererAbstract implements RendererModelAwareInterface {
-
-    public function setViewModel($viewModel) {
-        $this->viewModel = $viewModel;
-    }
+abstract class HtmlModelRendererAbstract extends HtmlRendererAbstract {
 
 }

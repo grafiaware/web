@@ -6,6 +6,6 @@ INSERT INTO `menu_item_type` (`type`) VALUES ( 'root' );  -- typ root - jen pro 
 INSERT INTO `menu_item_type` (`type`) VALUES ( 'empty' );  -- typ empty - obsah není vytvořen, bude nahrazen konkrétním typem
 INSERT INTO `menu_item_type` (`type`) VALUES ( 'redirect' );  -- typ redirect - dojde k přesměrování na jinou url
 INSERT INTO `menu_item_type` (`type`) VALUES ( 'static' );  -- typ static - obsah bude renderován ze statického obsahu (template)
-INSERT INTO `menu_item_type` (`type`) VALUES ( 'paper' );  -- typ paper - obsah bude načten z db tabulky paper, delete mění typ na trash
+INSERT INTO `menu_item_type` (`type`) VALUES ( 'paper' );  -- typ paper - obsah bude načten z db tabulky paper, delete přesune do menu trash
+INSERT INTO `menu_item_type` (`type`) VALUES ( 'template' );  -- typ template - obsah bude poprvé generován z šablony, editovatelný a ukládán do db tabulky template, delete přesune do menu trash
 INSERT INTO `menu_item_type` (`type`) VALUES ( 'trash' );  -- typ trash - koš - obsah bude načten z db tabulky paper, delete maže
-INSERT INTO `menu_item_type` (`type`) VALUES ( 'generated' );  -- typ generated - obsah bude generován jiným generátorem

@@ -18,9 +18,8 @@ use Pes\Text\Html;
  */
 class ArticleRenderer extends ArticleRendererAbstract {
 
-    public function render($data=NULL) {
+    public function render(iterable $viewModel=NULL) {
         /** @var PaperViewModelInterface $viewModel */
-        $viewModel = $this->viewModel;
         $paperAggregate = $viewModel->getPaper();  // vrací Paper nebo PaperAggregate
         if (isset($paperAggregate)) {
             $headline = Html::tag('div',

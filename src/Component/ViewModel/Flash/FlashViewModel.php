@@ -8,6 +8,8 @@
 
 namespace Component\ViewModel\Flash;
 
+use Component\ViewModel\ViewModelAbstract;
+
 use Status\Model\Repository\StatusFlashRepo;
 
 use Status\Model\Entity\StatusFlashInterface;
@@ -17,7 +19,7 @@ use Status\Model\Entity\StatusFlashInterface;
  *
  * @author pes2704
  */
-class FlashViewModel implements FlashViewModelInterface {
+class FlashViewModel extends ViewModelAbstract implements FlashViewModelInterface {
 
     private $statusFlashRepo;
 

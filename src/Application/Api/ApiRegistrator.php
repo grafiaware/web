@@ -55,16 +55,16 @@ class ApiRegistrator {
         $registry->register($this->getPrototype->withUrlPattern('/web/v1/page/block/:name'));
         $registry->register($this->getPrototype->withUrlPattern('/web/v1/page/searchresult'));
 
-        #### ComponentController ####
-        $registry->register($this->getPrototype->withUrlPattern('/web/v1/flash'));
-        $registry->register($this->getPrototype->withUrlPattern('/web/v1/service/:name'));
+
 
 
         ### red module ###
         #
+        #### ComponentController ####
+        $registry->register($this->getPrototype->withUrlPattern('/web/v1/flash'));
+        $registry->register($this->getPrototype->withUrlPattern('/web/v1/service/:name'));
         $registry->register($this->getPrototype->withUrlPattern('/web/v1/static/:name'));
-        $registry->register($this->getPrototype->withUrlPattern('/web/v1/itempaper/:menuItemId'));
-        $registry->register($this->getPrototype->withUrlPattern('/web/v1/itempapereditable/:menuItemId'));
+        $registry->register($this->getPrototype->withUrlPattern('/web/v1/:menuItemType/:menuItemId'));
         #
         #### UserActionController ####
         $registry->register($this->getPrototype->withUrlPattern('/red/v1/useraction/app/:app'));

@@ -14,6 +14,6 @@ namespace Component\View\Authored\Paper;
  */
 interface AuthoredComponentInterface {
 //    public function setEditable($editable);
-    public function setPaperTemplatesPath($templatesPath);
+    public function setTemplatesPath($templatesPath);
     public function addTemplateGlobals($variableName, $rendererName);
 }
