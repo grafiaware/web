@@ -23,9 +23,8 @@ use Component\View\Authored\Paper\ButtonsForm\PaperTemplateButtonsForm;
  * @author pes2704
  */
 class ArticleEditableRenderer  extends ArticleRendererAbstract {
-    public function render($data=NULL) {
+    public function render(iterable $viewModel=NULL) {
         /** @var PaperViewModelInterface $viewModel */
-        $viewModel = $this->viewModel;
         $paperAggregate = $viewModel->getPaper();  // vrací PaperAggregate
         if (!isset($paperAggregate)) {
             $paperAggregate = $viewModel->getNewPaper();  // vrací Paper

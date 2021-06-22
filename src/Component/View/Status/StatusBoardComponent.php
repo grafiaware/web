@@ -20,6 +20,6 @@ class StatusBoardComponent extends ComponentAbstract {
 
     // renderuje template, definováno v component kontejneru
     public function __construct(StatusBoardViewModel $viewModel) {
-        $this->viewModel = $viewModel;
+        $this->contextData = $viewModel;
     }
 }

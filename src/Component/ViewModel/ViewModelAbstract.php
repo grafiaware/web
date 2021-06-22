@@ -8,12 +8,13 @@
 
 namespace Component\ViewModel;
 
-use Pes\Type\ContextDataInterface;
+use Pes\Type\ContextData;
 
 /**
+ * Description of ViewModelAbstract
  *
  * @author pes2704
  */
-interface ViewModelInterface extends ContextDataInterface {
-
+class ViewModelAbstract extends ContextData {
+    //put your code here
 }

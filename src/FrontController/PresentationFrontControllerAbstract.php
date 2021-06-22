@@ -53,7 +53,8 @@ abstract class PresentationFrontControllerAbstract extends StatusFrontController
 
         ####  body  ####
 //        $size = $response->getBody()->write($view);
-        $size = $response->getBody()->write($view->getString());
+        $str = $view->getString();
+        $size = $response->getBody()->write($str);
         $response->getBody()->rewind();
         return $response;
     }

@@ -19,9 +19,8 @@ use Pes\Text\Html;
  */
 class MenuWrapEditableRenderer extends MenuWrapRendererAbstract {
 
-    public function render($data = NULL) {
+    public function render($viewModel = NULL) {
         /** @var MenuViewModelInterface $viewModel */
-        $viewModel = $this->viewModel;
         $menuLevelHtml = $this->getMenuHtml($viewModel->getSubTreeItemModels());
 
         return

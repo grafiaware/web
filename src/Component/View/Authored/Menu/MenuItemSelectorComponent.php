@@ -15,19 +15,19 @@ class MenuItemSelectorComponent extends AuthoredComponentAbstract {
     /**
      * @var MenuViewModelInterface
      */
-    protected $viewModel;
+    protected $contextData;
 
     /**
      *
      * @param MenuViewModelInterface $viewModel
      */
     public function __construct(MenuViewModelInterface $viewModel) {
-        $this->viewModel = $viewModel;
+        $this->contextData = $viewModel;
     }
 
     public function getString($data = null) {
-        $menuItem = $this->viewModel->getPresentedMenuNode()->getMenuItem();
-        $editable = $this->viewModel->isEditableArticle;
+        $menuItem = $this->contextData->getPresentedMenuNode()->getMenuItem();
+        $editable = $this->contextData->isEditableArticle;
         $menuItemType = $menuItem->getTypeFk();
             switch ($menuItemType) {
                 case 'segment':

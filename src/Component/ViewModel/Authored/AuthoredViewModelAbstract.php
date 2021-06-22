@@ -25,23 +25,4 @@ abstract class AuthoredViewModelAbstract extends StatusViewModelAbstract impleme
         return ! $this->isArticleEditable();  //negace
     }
 
-    /**
-     *
-     * @return bool
-     */
-    public function isArticleEditable() {
-        $userActions = $this->statusSecurityRepo->get()->getUserActions();
-        return $userActions ? $userActions->isEditableArticle() : false;
-    }
-
-    public function getFlashCommand($key) {
-        $flashCommand = $this->statusFlashRepo->get()->getCommand();
-        return $flashCommand[$key] ?? '';
-    }
-
-
-    public function getPostFlashCommand($key) {
-        $flashCommand = $this->statusFlashRepo->get()->getPostCommand();
-        return $flashCommand[$key] ?? '';
-    }
 }

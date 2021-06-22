@@ -9,7 +9,6 @@
 namespace Component\View;
 
 use Pes\View\View;
-use Pes\View\Renderer\RendererInterface;
 
 use Component\ViewModel\ViewModelInterface;
 
@@ -19,5 +18,10 @@ use Component\ViewModel\ViewModelInterface;
  * @author pes2704
  */
 abstract class ComponentAbstract extends View {
+    public function __construct(ViewModelInterface $viewModel=null) {
+        if (isset($viewModel)) {
+            $this->setData($viewModel);
+        }
+    }
 
 }

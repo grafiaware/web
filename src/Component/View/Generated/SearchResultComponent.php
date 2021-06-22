@@ -23,10 +23,10 @@ class SearchResultComponent extends ComponentAbstract {
     /**
      * @var SearchResultViewModel
      */
-    protected $viewModel;
+    protected $contextData;
 
     public function __construct(SearchResultViewModel $viewModel) {
-        $this->viewModel = $viewModel;
+        $this->contextData = $viewModel;
     }
 
     /**
@@ -35,7 +35,7 @@ class SearchResultComponent extends ComponentAbstract {
      * @return $this
      */
     public function setSearch($key) {
-        $this->viewModel->setQuery($key);
+        $this->contextData->setQuery($key);
         return $this;
     }
 }

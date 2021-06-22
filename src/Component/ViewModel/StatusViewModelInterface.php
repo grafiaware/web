@@ -15,7 +15,13 @@ namespace Component\ViewModel;
 interface StatusViewModelInterface extends ViewModelInterface {
 
     public function getFlashCommand($key);
-
     public function getPostFlashCommand($key);
-
+    public function getUserRole(): ?string;
+    public function getUserLoginName(): ?string;
+    
+    /**
+     * Prezentuj položky v editovatelné podobě
+     * @return bool
+     */
+    public function isArticleEditable(): bool;
 }

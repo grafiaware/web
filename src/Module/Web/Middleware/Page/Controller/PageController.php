@@ -52,7 +52,6 @@ class PageController extends LayoutControllerAbstract {
      * @param ServerRequestInterface $request
      * @return type
      * @throws \UnexpectedValueException
-     * @throws UnexpectedValueException
      */
     public function home(ServerRequestInterface $request) {
         $homePage = Configuration::pageController()['home_page'];
@@ -110,7 +109,8 @@ class PageController extends LayoutControllerAbstract {
         if ($menuItem) {
             $this->setPresentationMenuItem($menuItem);
             $actionComponents = ["content" => $this->resolveMenuItemView($menuItem)];
-            $response = $this->createResponseFromView($request, $this->createView($request, $this->getComponentViews($actionComponents)));
+            $view = $this->createView($request, $this->getComponentViews($actionComponents));
+            $response = $this->createResponseFromView($request, $view);
         } else {
             // neexistující stránka
             $response = $this->redirectSeeOther($request, ""); // SeeOther - ->home
@@ -145,7 +145,6 @@ class PageController extends LayoutControllerAbstract {
     private function getMenuComponents() {
 
         $userActions = $this->statusSecurityRepo->get()->getUserActions();
-        $configMenu = Configuration::pageController()['menu'];
 
         $components = [];
         foreach (Configuration::pageController()['menu'] as $menuConf) {

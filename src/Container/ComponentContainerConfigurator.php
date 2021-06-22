@@ -262,7 +262,7 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                 $articleComponent->addTemplateGlobals('buttons', Buttons::class);
                 $paperComponent = new PaperComponent($viewModel);
                 $paperComponent->setRendererContainer($c->get('rendererContainer'));
-                $paperComponent->setRendererName(PaperWrapEditableRenderer::class);
+                $paperComponent->setFallbackRendererName(PaperWrapEditableRenderer::class);
                 $paperComponent->setTemplatesPath($c->get('component.templatePath.paper'));
                 $paperComponent->appendComponentView($articleComponent, 'article');
                 return $paperComponent;

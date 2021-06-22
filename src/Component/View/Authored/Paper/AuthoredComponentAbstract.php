@@ -36,13 +36,13 @@ abstract class AuthoredComponentAbstract extends CompositeComponentAbstract impl
     /**
      * @var AuthoredViewModelInterface
      */
-    protected $viewModel;
+    protected $contextData;
 
     /**
      * @param AuthoredViewModelInterface $viewModel
      */
     public function __construct(AuthoredViewModelInterface $viewModel) {
-        $this->viewModel = $viewModel;
+        $this->contextData = $viewModel;
     }
 
     public function setTemplatesPath($templatesPath) {

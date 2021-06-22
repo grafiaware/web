@@ -21,7 +21,7 @@ use Pes\Text\Html;
  *
  * @author pes2704
  */
-abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract implements RendererModelAwareInterface {
+abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract {
 
     public function renderHeadline(PaperInterface $paper) {
         $headline = $paper->getHeadline();

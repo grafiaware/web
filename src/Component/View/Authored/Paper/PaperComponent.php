@@ -21,18 +21,18 @@ class PaperComponent extends AuthoredComponentAbstract implements PaperComponent
      * Přetěžuje view model Pes View, upřesňuje typ view modelu.
      * @var PaperViewModelInterface
      */
-    protected $viewModel;
+    protected $contextData;
 
     /**
      * Přetěžuje konstruktor CompositeComponentAbstract, upřesňuje typ parametru (view modelu).
      * @param PaperViewModelInterface $viewModel
      */
     public function __construct(PaperViewModelInterface $viewModel) {
-        $this->viewModel = $viewModel;
+        $this->contextData = $viewModel;
     }
 
     public function setItemId($menuItemId): PaperComponentInterface {
-        $this->viewModel->setItemId($menuItemId);
+        $this->contextData->setItemId($menuItemId);
         return $this;
     }
 
@@ -43,8 +43,8 @@ class PaperComponent extends AuthoredComponentAbstract implements PaperComponent
      * nastaví PhpTemplate objekt jako template pro component (view).
      * Následně metoda rodičovského view resolveRenderer() automaticky zvolí jako renderer PHP template renderer.
      */
-    protected function beforeRenderingHook(): void {
-        $paperAggregate = $this->viewModel->getPaper();
+    public function beforeRenderingHook(): void {
+        $paperAggregate = $this->contextData->getPaper();
         if (isset($paperAggregate)) {
             $templateName = $paperAggregate->getTemplate();
             if (isset($templateName) AND $templateName) {
