@@ -97,11 +97,8 @@ class ComponentController extends XhrControllerAbstract {
                     break;
                 case 'paper':
                     /** @var PaperComponentInterface $view */
-                    if ($isEditableContent) {
-                        $view = $this->container->get('component.paper.editable');
-                    } else {
-                        $view = $this->container->get('component.paper');
-                    }
+//                    $view = $this->container->get('component.paper');
+                    $view = $this->container->get('component.template');
                     $view->setItemId($menuItemId);
 
                     break;

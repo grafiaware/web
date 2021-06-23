@@ -16,5 +16,4 @@ use Component\View\Authored\Paper\Article\ArticleComponentInterface;
  */
 interface PaperComponentInterface extends AuthoredComponentInterface {
 
-    public function setItemId($menuItemId): PaperComponentInterface;
 }

@@ -18,26 +18,6 @@ use Component\ViewModel\Authored\Paper\PaperViewModelInterface;
 class PaperComponent extends AuthoredComponentAbstract implements PaperComponentInterface {
 
     /**
-     * Přetěžuje view model Pes View, upřesňuje typ view modelu.
-     * @var PaperViewModelInterface
-     */
-    protected $contextData;
-
-    /**
-     * Přetěžuje konstruktor CompositeComponentAbstract, upřesňuje typ parametru (view modelu).
-     * @param PaperViewModelInterface $viewModel
-     */
-    public function __construct(PaperViewModelInterface $viewModel) {
-        $this->contextData = $viewModel;
-    }
-
-    public function setItemId($menuItemId): PaperComponentInterface {
-        $this->contextData->setItemId($menuItemId);
-        return $this;
-    }
-
-
-    /**
      * Přetěžuje metodu View->beforeRenderingHook().
      * Pokud entita PaperAggregate má nastaven název template, metoda se pokusí nalézt soubor s šablonou a vytvořit PhpTemplate objekt. Pokud uspěje
      * nastaví PhpTemplate objekt jako template pro component (view).

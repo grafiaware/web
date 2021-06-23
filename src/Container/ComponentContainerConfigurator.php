@@ -24,6 +24,7 @@ use Pes\View\Template\PhpTemplate;
 use Component\View\Authored\Menu\MenuComponent;
 use Component\ViewModel\Authored\Menu\MenuViewModel;
 
+use Component\View\Authored\Paper\ContentComponent;
 //component
 use Component\View\Authored\Paper\{
     PaperComponent,
@@ -262,25 +263,23 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                 $articleComponent->addTemplateGlobals('buttons', Buttons::class);
                 $paperComponent = new PaperComponent($viewModel);
                 $paperComponent->setRendererContainer($c->get('rendererContainer'));
-                $paperComponent->setFallbackRendererName(PaperWrapEditableRenderer::class);
+                $paperComponent->setFallbackRendererName(PaperWrapRenderer::class);
                 $paperComponent->setTemplatesPath($c->get('component.templatePath.paper'));
+                $paperComponent->addTemplateGlobals('buttons', Buttons::class);
                 $paperComponent->appendComponentView($articleComponent, 'article');
                 return $paperComponent;
             },
-            'component.template.editable' => function(ContainerInterface $c) {
+            'component.template' => function(ContainerInterface $c) {
                 $viewModel = $c->get(PaperViewModel::class);  //oba komponenty sdílejí stejný model
-                $articleComponent = new ArticleComponent($viewModel);
-                $articleComponent->setRendererContainer($c->get('rendererContainer'));
-                $articleComponent->setTemplatesPath($c->get('component.templatePath.paper'));
-                $articleComponent->setFallbackRendererName(ArticleEditableRenderer::class);
-                $articleComponent->addTemplateGlobals('elementWrapper', ElementEditableWrapper::class);
-                $articleComponent->addTemplateGlobals('buttons', Buttons::class);
-                $paperComponent = new PaperComponent($viewModel);
-                $paperComponent->setRendererContainer($c->get('rendererContainer'));
-                $paperComponent->setRendererName(PaperWrapEditableRenderer::class);
-                $paperComponent->setTemplatesPath($c->get('component.templatePath.paper'));
-                $paperComponent->appendComponentView($articleComponent, 'article');
-                return $paperComponent;
+                $contentComponent = new ContentComponent($viewModel);
+                $contentComponent->setRendererContainer($c->get('rendererContainer'));
+                $contentComponent->setTemplatesPath($c->get('component.templatePath.paper'));
+                $contentComponent->setFallbackRendererName(PaperWrapRenderer::class);
+                $contentComponent->addTemplateGlobals('elementWrapper', ElementWrapper::class);
+                $contentComponent->addTemplateGlobals('buttons', Buttons::class);
+
+//                $paperComponent->appendComponentView($contentComponent, 'article');
+                return $contentComponent;
             },
 
             #### button form komponenty - pro editační režim paper, komponenty bez nastaveného viewmodelu

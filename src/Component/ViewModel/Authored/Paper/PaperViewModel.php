@@ -75,6 +75,22 @@ class PaperViewModel extends AuthoredViewModelAbstract implements PaperViewModel
         return $paper ?? null;
     }
 
+    /**
+     * Editovat smí uživatel s rolí 'sup'
+     *
+     * @return bool
+     */
+    public function isEditableArticle(): bool {
+        $loginAggregate = $this->statusSecurityRepo->get()->getLoginAggregate();
+        if ($loginAggregate) {
+            $isEditableArticle = $this->statusSecurityRepo->get()->getUserActions()->isEditableArticle();
+            $isSupervisor = $loginAggregate->getCredentials()->getRole() == 'sup';
+            return ($isEditableArticle AND $isSupervisor);
+        } else {
+            return false;
+        }
+    }
+
     public function getIterator() {
         return new \ArrayObject(
                 array_merge(

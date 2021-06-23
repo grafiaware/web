@@ -42,7 +42,7 @@ abstract class AuthoredComponentAbstract extends CompositeComponentAbstract impl
      * @param AuthoredViewModelInterface $viewModel
      */
     public function __construct(AuthoredViewModelInterface $viewModel) {
-        $this->contextData = $viewModel;
+        parent::__construct($viewModel);
     }
 
     public function setTemplatesPath($templatesPath) {
@@ -57,5 +57,8 @@ abstract class AuthoredComponentAbstract extends CompositeComponentAbstract impl
         return $this->templatesPath.$templateName."/template.php";
     }
 
-
+    public function setItemId($menuItemId): AuthoredComponentInterface {
+        $this->contextData->setItemId($menuItemId);
+        return $this;
+    }
 }

@@ -1,21 +1,28 @@
 <?php
 use Pes\View\Renderer\PhpTemplateRendererInterface;
+use Component\Renderer\Html\Authored\Paper\ElementWrapper;
+use Component\Renderer\Html\Authored\Paper\Buttons;
 use Red\Model\Entity\PaperAggregatePaperContentInterface;
 /** @var PhpTemplateRendererInterface $this */
+/** @var ElementWrapper $elementWrapper */
+/** @var Buttons $buttons */
 /** @var PaperAggregatePaperContentInterface $paperAggregate */
 ?>
+
+    <?= isset($buttons) ? $buttons->renderPaperTemplateButtonsForm($paperAggregate) : "" ?>
+    <?= isset($buttons) ? $buttons->renderPaperButtonsForm($paperAggregate) : "" ?>
 <div data-component="presented" data-template="<?= $paperAggregate->getTemplate() ?>" class="ui segment mceNonEditable">
     <div class="grafia segment headlined editable">
         <form>
         <article class="" >
             <section>
                     <headline class="ui header">
-                        
+
                         <div class="edit-text">
                             <?= $paperAggregate->getHeadline() ?>
                         </div>
                     </headline>
-                
+
                     <perex data-template="nazdar" class="edit-html obr-upoutavka borderDance">
                         <div class="ui two column stackable centered grid">
                             <div class="sixteen wide column">
@@ -36,7 +43,7 @@ use Red\Model\Entity\PaperAggregatePaperContentInterface;
                             </div>
                         </div>
                     </perex>
-                
+
             </section>
                 <content class="edit-html borderDance">
                     <div class="blok-nadpis-obr-text">
@@ -53,7 +60,7 @@ use Red\Model\Entity\PaperAggregatePaperContentInterface;
 
                     </div>
                 </content>
-            <content>                
+            <content>
                 <div class="zeleny-blok-obr-text">
                     <div class="ui stackable centered grid">
                         <div class="sixteen wide column">
@@ -64,7 +71,7 @@ use Red\Model\Entity\PaperAggregatePaperContentInterface;
                     </div>
                 </div>
             </content>
-            <div>                 
+            <div>
                 <div class="dva-sloupce-nadpis">
                     <div class="ui two column stackable centered grid">
                         <div class="six wide column middle aligned">
@@ -83,7 +90,7 @@ use Red\Model\Entity\PaperAggregatePaperContentInterface;
                 </div>
             </div>
         </article>
-        </form>                    
+        </form>
     </div>
 </div>
 

@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Component\View\Authored\Paper\Article;
+namespace Component\View\Authored\Paper;
 
 use Pes\View\Renderer\RendererInterface;
 use Pes\View\Template\PhpTemplate;
@@ -23,15 +23,15 @@ class ContentComponent extends AuthoredComponentAbstract implements ContentCompo
     /**
      * Přetěžuje metodu View. Generuje PHP template z názvu template objektu Paper a použije ji.
      */
-    protected function resolveRenderer(): RendererInterface {
+    public function beforeRenderingHook(): void {
         $paperAggregate = $this->contextData->getPaper();
         if (isset($paperAggregate)) {
-            $paperTemplateName = $paperAggregate->getTemplate();
-            if (isset($paperTemplateName) AND $paperTemplateName) {
-                $templatePath = $this->templatesPath.$paperTemplateName."/template.php";
+            $templateName = $paperAggregate->getTemplate();
+            if (isset($templateName) AND $templateName) {
+                $templatePath = $this->getPaperTemplatePath($templateName);
                 try {
                     $template = new PhpTemplate($templatePath);  // exception
-                    $parentRendererClassMap = parent::resolveRenderer()->getClassMap();
+//                    $parentRendererClassMap = parent::resolveRenderer()->getClassMap();
                     $data = [];
                     if (isset($this->rendererContainer)) {
                         foreach ($this->templateGlobals as $variableName => $rendererName) {
@@ -61,7 +61,6 @@ class ContentComponent extends AuthoredComponentAbstract implements ContentCompo
 //        }
 
 
-//        return isset($renderer) ? $renderer : parent::resolveRenderer();
-        return parent::resolveRenderer();
+        return ;
     }
 }

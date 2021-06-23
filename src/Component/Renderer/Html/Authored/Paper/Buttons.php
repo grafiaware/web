@@ -73,7 +73,7 @@ class Buttons {
             );
     }
 
-    public function getPaperButtonsForm(PaperInterface $paper) {
+    public function renderPaperButtonsForm(PaperInterface $paper) {
         $paperId = $paper->getId();
 
         $buttons = [];

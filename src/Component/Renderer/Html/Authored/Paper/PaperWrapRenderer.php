@@ -18,7 +18,20 @@ use Pes\Text\Html;
  */
 class PaperWrapRenderer extends HtmlRendererAbstract {
 
-    public function render($data=NULL) {
-        return  Html::tag('div', ['class'=>$this->classMap->getClass('Segment', 'div')], $data['article']);
+    public function render(iterable $viewModel=NULL) {
+        /** @var PaperViewModelInterface $viewModel */
+        if ($viewModel->isArticleEditable()) {
+            $selectTemplate = isset($buttons) ? $buttons->renderPaperTemplateButtonsForm($paperAggregate) : "";
+            $paperButton = isset($buttons) ? $buttons->renderPaperButtonsForm($paperAggregate) : "";
+            $article = $data['article'];
+            // atribut data-componentinfo je jen pro info v html
+            return Html::tag('div', ['class'=>$this->classMap->getClass('Segment', 'div')],
+                Html::tag('div', ['class'=>$this->classMap->getClass('Segment', 'div.paper')], $selectTemplate.$paperButton.$article
+
+                )
+            );
+        } else {
+            return  Html::tag('div', ['class'=>$this->classMap->getClass('Segment', 'div')], $data['article']);
+        }
     }
 }

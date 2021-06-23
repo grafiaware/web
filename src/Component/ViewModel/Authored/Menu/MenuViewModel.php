@@ -185,9 +185,9 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
     public function isEditableMenu(): bool {
         $loginAggregate = $this->statusSecurityRepo->get()->getLoginAggregate();
         if ($loginAggregate) {
-            $isEditableArticle = $this->statusSecurityRepo->get()->getUserActions()->isEditableArticle();
+            $isEditableMenu = $this->statusSecurityRepo->get()->getUserActions()->isEditableMenu();
             $isSupervisor = $loginAggregate->getCredentials()->getRole() == 'sup';
-            return ($isEditableArticle AND $isSupervisor);
+            return ($isEditableMenu AND $isSupervisor);
         } else {
             return false;
         }

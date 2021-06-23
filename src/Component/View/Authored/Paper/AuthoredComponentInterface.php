@@ -16,4 +16,5 @@ interface AuthoredComponentInterface {
 //    public function setEditable($editable);
     public function setTemplatesPath($templatesPath);
     public function addTemplateGlobals($variableName, $rendererName);
+    public function setItemId($menuItemId): AuthoredComponentInterface;
 }

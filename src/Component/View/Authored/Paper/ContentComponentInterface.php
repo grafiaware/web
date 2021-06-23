@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Component\View\Authored\Paper\Article;
+namespace Component\View\Authored\Paper;
 
 /**
  *

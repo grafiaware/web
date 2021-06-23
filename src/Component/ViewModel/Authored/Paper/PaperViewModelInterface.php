@@ -30,4 +30,6 @@ interface PaperViewModelInterface extends AuthoredViewModelInterface {
      * @return PaperInterface|null
      */
     public function getPaper(): ?PaperInterface;
+
+    public function isEditableArticle(): bool;
 }
