@@ -83,7 +83,7 @@ class Buttons {
                     'data-tooltip'=> 'Seřadit podle data',
                     'data-position'=>'top right',
                     'formmethod'=>'post',
-                    'formaction'=>"",
+                    'formaction'=>"not_implemented",
                     ],
                     Html::tag('i', ['class'=>$this->classMap->getClass('PaperButtons', 'button.arrange')])
                 );
@@ -103,7 +103,7 @@ class Buttons {
                         )
                     );
         }
-        return Html::tag('form', ['method'=>'POST', 'action'=>""],
+        return Html::tag('form', ['method'=>'POST', 'action'=>"", 'style'=>'posotion: relative;'],
             Html::tag('div', ['class'=>$this->classMap->getClass('PaperButtons', 'div.buttonsPage')],
                     implode('', $buttons)
             )

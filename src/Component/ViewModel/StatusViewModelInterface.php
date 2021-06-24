@@ -18,10 +18,12 @@ interface StatusViewModelInterface extends ViewModelInterface {
     public function getPostFlashCommand($key);
     public function getUserRole(): ?string;
     public function getUserLoginName(): ?string;
-    
+
     /**
-     * Prezentuj položky v editovatelné podobě
+     * Prezentuj článek v editovatelné podobě
      * @return bool
      */
     public function isArticleEditable(): bool;
+    public function isLayoutEditable(): bool;
+    public function isMenuEditable(): bool;
 }

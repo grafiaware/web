@@ -18,10 +18,10 @@ use Component\View\{
     Authored\Paper\PaperComponentInterface
 };
 
-// view pro kompilované static obsahy
+// renderery
 use Pes\View\Renderer\PhpTemplateRenderer;
 use Pes\View\Renderer\StringRenderer;
-
+use Pes\View\Renderer\ImplodeRenderer;
 ####################
 
 use \GeneratorService\Paper\PaperService;

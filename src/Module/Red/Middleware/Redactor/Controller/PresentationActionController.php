@@ -72,38 +72,48 @@ class PresentationActionController extends PresentationFrontControllerAbstract {
 
     public function setEditArticle(ServerRequestInterface $request) {
         $edit = (new RequestParams())->getParsedBodyParam($request, 'edit_article');
-//        $oldEditableLayoutStatus = $this->statusSecurityRepo->get()->getUserActions()->isEditableLayout();
-        $this->switchEditable('article', $edit);
-        $this->addFlashMessage("set editable article");
-//        if ($edit AND $oldEditableLayoutStatus) {
+//        $this->switchEditable('article', $edit);
+
+        //TODO: nejdřív vypnu editable a pak teprve volám isPresentedItemActive() - pokud menuItem není active, tak se s vypnutým editable už v metodě isPresentedItemActive() nenačte - ?? obráceně?
+        $this->statusSecurityRepo->get()->getUserActions()->setEditableArticle($edit);
+        $this->addFlashMessage("set editable article $edit");
+        if ($edit OR $this->isPresentedItemActive($request)) {
+            return $this->redirectSeeLastGet($request); // 303 See Other
+        } else {
             return $this->redirectSeeOther($request, ''); // 303 See Other -> home - jinak zůstane prezentovaný poslední segment layoutu, který nyl editován v režimu edit layout
-//        } else {
-//            return $this->redirectSeeLastGet($request); // 303 See Other
-//        }
+        }
     }
 
     public function setEditLayout(ServerRequestInterface $request) {
         $edit = (new RequestParams())->getParsedBodyParam($request, 'edit_layout');
-//        $oldEditableArticleStatus = $this->statusSecurityRepo->get()->getUserActions()->isEditableArticle();
-        $this->switchEditable('layout', $edit);
-        $this->addFlashMessage("set editable layout");
-//        if ($edit AND $oldEditableArticleStatus) {
+//        $this->switchEditable('layout', $edit);
+        $this->statusSecurityRepo->get()->getUserActions()->setEditableLayout($edit);
+        $this->addFlashMessage("set editable layout $edit");
+        if ($edit OR $this->isPresentedItemActive($request)) {
+            return $this->redirectSeeLastGet($request); // 303 See Other
+        } else {
             return $this->redirectSeeOther($request, ''); // 303 See Other -> home - jinak zůstane prezentovaný poslední articele, který nyl editován v režimu edit article
-//        } else {
-//            return $this->redirectSeeLastGet($request); // 303 See Other
-//        }
+        }
     }
 
     public function setEditMenu(ServerRequestInterface $request) {
         $edit = (new RequestParams())->getParsedBodyParam($request, 'edit_menu');
-//        $oldEditableArticleStatus = $this->statusSecurityRepo->get()->getUserActions()->isEditableMenu();
-        $this->switchEditable('menu', $edit);
-        $this->addFlashMessage("set editable menu");
-//        if ($edit AND $oldEditableArticleStatus) {
+//        $this->switchEditable('menu', $edit);
+        $this->addFlashMessage("set editable menu $edit");
+        $this->statusSecurityRepo->get()->getUserActions()->setEditableMenu($edit);
+        if ($edit OR $this->isPresentedItemActive($request)) {
+            return $this->redirectSeeLastGet($request); // 303 See Other
+        } else {
             return $this->redirectSeeOther($request, ''); // 303 See Other -> home - jinak zůstane prezentovaný poslední articele, který nyl editován v režimu edit article
-//        } else {
-//            return $this->redirectSeeLastGet($request); // 303 See Other
-//        }
+        }
+    }
+
+    private function isPresentedItemActive($request) {
+        $requestedUid = (new RequestParams())->getParsedBodyParam($request, 'uid');
+        $statusPresentation = $this->statusPresentationRepo->get();
+        $langCodeFk = $statusPresentation->getLanguage()->getLangCode();
+        $menuItem = $this->menuItemRepo->get($langCodeFk, $requestedUid);
+        return $menuItem ? $menuItem->getActive() : false;
     }
 
     protected function switchEditable($name, $value) {

@@ -34,7 +34,7 @@ class ItemPaperViewModel extends PaperViewModel implements ItemPaperViewModelInt
     public function setItemId($menuItemId) {
         $this->menuItemId = $menuItemId;
     }
-    public function getPaper(): ?PaperAggregatePaperContentInterface {
+    public function getPaperAggregate(): ?PaperAggregatePaperContentInterface {
             $paperAggregate = $this->paperAggregateRepo->getByReference($this->menuItemId);
             if (!isset($paperAggregate) AND $this->isArticleEditable()) {
                 $paperAggregate = new PaperAggregate();
@@ -42,9 +42,10 @@ class ItemPaperViewModel extends PaperViewModel implements ItemPaperViewModelInt
             }
         return $paperAggregate ?? null;
     }
-    public function getMenuItem(): ?MenuItemInterface {
-        return $this->menuItemRepo->getByReference($this->menuItemId);
-    }
+
+//    public function getMenuItem(): ?MenuItemInterface {
+//        return $this->menuItemRepo->getByReference($this->menuItemId);
+//    }
 
     public function getInfo(): string {
         return "item";

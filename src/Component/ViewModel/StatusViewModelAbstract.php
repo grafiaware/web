@@ -60,4 +60,14 @@ abstract class StatusViewModelAbstract extends ViewModelAbstract implements Stat
         $userActions = $this->statusSecurityRepo->get()->getUserActions();
         return $userActions ? $userActions->isEditableArticle() : false;
     }
-}
+
+    public function isLayoutEditable(): bool {
+        $userActions = $this->statusSecurityRepo->get()->getUserActions();
+        return $userActions ? $userActions->isEditableLayout() : false;
+    }
+
+    public function isMenuEditable(): bool {
+        $userActions = $this->statusSecurityRepo->get()->getUserActions();
+        return $userActions ? $userActions->isEditableMenu() : false;
+    }
+    }

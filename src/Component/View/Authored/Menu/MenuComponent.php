@@ -91,7 +91,7 @@ class MenuComponent extends CompositeComponentAbstract implements MenuComponentI
      * Renderuje menu a vrací string. Jazyk, uid aktuální položky menu, stav edit použije z presentation status.
      * @return string
      */
-    public function getString() {
+    public function beforeRenderingHook(): void {
         // set renderer
         if (!isset($this->rendererContainer)) {
             throw new \LogicException("Komponent ".get_called_class()." nemá nastaven renderer kontejner metodou setRendererContainer().");
@@ -106,7 +106,7 @@ class MenuComponent extends CompositeComponentAbstract implements MenuComponentI
         $this->contextData->withTitleItem($this->withTitle);
         $this->contextData->setMaxDepth(null);
 
-        return parent::getString();
+        return ;
     }
 
 }

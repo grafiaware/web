@@ -26,7 +26,8 @@ interface ItemViewModelInterface {
     public function isEditableItem();
     public function getInnerHtml();
     public function getRealDepth();
-
+    public function isMenuEditable();
+    
     /**
      * @return HierarchyAggregateInterface
      */

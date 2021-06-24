@@ -147,6 +147,9 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
         $pasteUid = $this->getPostFlashCommand('cut');
         $pasteMode = $pasteUid ? true : false;
 
+        //editable menu
+        $menuEditable = $this->isMenuEditable();
+
 //        since PHP 7.3 the first value of $array may be accessed with $array[array_key_first($array)];
         $rootDepth = reset($nodes)->getDepth();  //jako side efekt resetuje pointer
         $models = [];
@@ -169,7 +172,7 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
                 $isEditableItem = false;
             }
 
-            $itemViewModel = new ItemViewModel($node, $realDepth, $isOnPath, $isLeaf, $isPresented, $isEditableItem, $pasteMode, $isCutted, $pasteUid);
+            $itemViewModel = new ItemViewModel($node, $realDepth, $isOnPath, $isLeaf, $isPresented, $isEditableItem, $pasteMode, $isCutted, $menuEditable);
 
             $models[] = $itemViewModel;
         }

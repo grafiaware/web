@@ -52,16 +52,21 @@ class ItemRenderer extends HtmlModelRendererAbstract {
 
     private function renderNonEditableInner() {
         $menuNode = $this->viewModel->getMenuNode();
+        $dropdown = Html::tag('i', ['class'=>$this->classMap->resolveClass($this->viewModel->isLeaf(), 'Item', 'li i', 'li i.dropdown')]);
+        $semafor = $this->viewModel->isMenuEditable() ? $this->semafor() : "";
         $innerHtml = Html::tag('a',
-                    ['class'=>[
-                        $this->classMap->getClass('Item', 'li a'),
-                        $this->classMap->resolveClass($this->viewModel->isPresented(), 'Item', 'li.presented', 'li'),
+                        [
+                            'class'=>[
+                                $this->classMap->getClass('Item', 'li a'),
+                                $this->classMap->resolveClass($this->viewModel->isPresented(), 'Item', 'li.presented', 'li'),
+                                ],
+                            'href'=> "web/v1/page/item/{$menuNode->getUid()}"
                         ],
-                    'href'=> "web/v1/page/item/{$menuNode->getUid()}" ],
                         Html::tag('span', ['class'=>$this->classMap->getClass('Item', 'li a span')],
                             $menuNode->getMenuItem()->getTitle()
                             .Html::tag('i', ['class'=>$this->classMap->resolveClass($this->viewModel->isLeaf(), 'Item', 'li i', 'li i.dropdown')])
                         )
+                        . $semafor
                     )
                     .$this->viewModel->getInnerHtml();
         return $innerHtml;
@@ -69,16 +74,13 @@ class ItemRenderer extends HtmlModelRendererAbstract {
 
     protected function renderEditable() {
         $menuNode = $this->viewModel->getMenuNode();
-        $menuItem = $menuNode->getMenuItem();
-
-        $active = $menuItem->getActive();
 
         $liInnerHtml[] =
             Html::tag('p',
                 [
                 'class'=>[
                     $this->classMapEditable->getClass('Item', 'li a'),   // class - 'editable' v kontejneru
-                    $this->classMap->resolveClass($this->viewModel->isPresented(), 'Item', 'li.presented', 'li'),
+                    $this->classMapEditable->resolveClass($this->viewModel->isPresented(), 'Item', 'li.presented', 'li'),
                     ],
                 'href'=>"web/v1/page/item/{$menuNode->getUid()}",
                 'tabindex'=>0,
@@ -89,18 +91,13 @@ class ItemRenderer extends HtmlModelRendererAbstract {
                 // vyvírá <span>, který má rodiče <p>
                 Html::tag('span', [
                     'contenteditable'=> "true",
-                    'data-original-title'=>$menuItem->getTitle(),
+                    'data-original-title'=>$menuNode->getMenuItem()->getTitle(),
                     'data-uid'=>$menuNode->getUid(),
                     ],
-                    $menuItem->getTitle()
+                    $menuNode->getMenuItem()->getTitle()
                     .Html::tag('i', ['class'=>$this->classMapEditable->resolveClass($this->viewModel->isLeaf(), 'Item', 'li i', 'li i.dropdown')])
                 )
-                .Html::tag('span', ['class'=>$this->classMapEditable->getClass('Item', 'semafor')],
-                    Html::tag('i', [
-                        'class'=> $this->classMapEditable->resolveClass($active, 'Item', 'semafor.published', 'semafor.notpublished'),
-                        'title'=> $active ? "published" :  "not published"
-                        ])
-                )
+                .$this->semafor()
 
             );
 
@@ -120,6 +117,16 @@ class ItemRenderer extends HtmlModelRendererAbstract {
                 ],
                 $liInnerHtml);
         return $html;
+    }
+
+    private function semafor() {
+        $active = $this->viewModel->getMenuNode()->getMenuItem()->getActive();
+        return Html::tag('span', ['class'=>$this->classMapEditable->getClass('Item', 'semafor')],
+                    Html::tag('i', [
+                        'class'=> $this->classMapEditable->resolveClass($active, 'Item', 'semafor.published', 'semafor.notpublished'),
+                        'title'=> $active ? "published" :  "not published"
+                        ])
+                );
     }
 
     private function redLiStyle() {
