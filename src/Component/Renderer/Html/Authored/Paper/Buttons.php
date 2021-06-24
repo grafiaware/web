@@ -103,7 +103,7 @@ class Buttons {
                         )
                     );
         }
-        return Html::tag('form', ['method'=>'POST', 'action'=>"", 'style'=>'posotion: relative;'],
+        return Html::tag('form', ['method'=>'POST', 'action'=>""],
             Html::tag('div', ['class'=>$this->classMap->getClass('PaperButtons', 'div.buttonsPage')],
                     implode('', $buttons)
             )

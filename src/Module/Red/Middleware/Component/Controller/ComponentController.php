@@ -15,6 +15,7 @@ use Psr\Http\Message\ServerRequestInterface;
 // komponenty
 use Component\View\{
     Flash\FlashComponent,
+    Generated\ItemTypeSelectComponent,
     Authored\Paper\PaperComponentInterface
 };
 
