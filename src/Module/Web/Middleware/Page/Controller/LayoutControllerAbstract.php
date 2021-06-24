@@ -93,12 +93,10 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
     }
 
     private function getBodyContainerAttributes() {
-        $userActions = $this->statusSecurityRepo->get()->getUserActions();
-        $isEditableContent = $userActions->isEditableArticle() OR $userActions->isEditableLayout();
-        if ($isEditableContent) {
-            return ["class" => "ui container editable"];
+        if ($this->isAnyEditableMode()) {
+            return ["class" => "editable"];
         } else {
-            return ["class" => "ui container"];
+            return ["class" => ""];
         }
     }
     #### komponenty ######
@@ -168,9 +166,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
      * @return type
      */
     private function getLinkEditorJsView(ServerRequestInterface $request) {
-        $userActions = $this->statusSecurityRepo->get()->getUserActions();
-        $isEditableContent = $userActions->isEditableArticle() OR $userActions->isEditableLayout();
-        if ($isEditableContent) {
+        if ($this->isAnyEditableMode()) {
             ## document base path - stejná hodnota se musí použiít i v nastavení tinyMCE
             $basepath = $this->getBasePath($request);
             $tinyLanguage = Configuration::layoutController()['tinyLanguage'];
@@ -203,9 +199,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
     }
 
     private function getLinkEditorCssView(ServerRequestInterface $request) {
-        $userActions = $this->statusSecurityRepo->get()->getUserActions();
-        $isEditableContent = $userActions->isEditableArticle() OR $userActions->isEditableLayout();
-        if ($isEditableContent) {
+        if ($this->isAnyEditableMode()) {
             return $this->container->get(View::class)
                     ->setTemplate(new PhpTemplate(Configuration::layoutController()['linkEditorCss']))
                     ->setData(
@@ -217,9 +211,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
     }
 
     protected function getPoznamkyComponentView() {
-        $userActions = $this->statusSecurityRepo->get()->getUserActions();
-        $isEditableContent = $userActions->isEditableArticle() OR $userActions->isEditableLayout();
-        if (false AND  $isEditableContent) {
+        if (false AND $this->isAnyEditableMode()) {
             return
                 $this->container->get(View::class)
                     ->setTemplate(new PhpTemplate(Configuration::pageController()['templates.poznamky']))
@@ -233,6 +225,10 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
 }
     }
 
+    private function isAnyEditableMode() {
+        $userActions = $this->statusSecurityRepo->get()->getUserActions();        
+        return $userActions->isEditableArticle() OR $userActions->isEditableLayout() OR $userActions->isEditableMenu();
+    }
     private function prettyDump($var) {
 //        return htmlspecialchars(var_export($var, true), ENT_QUOTES, 'UTF-8', true);
 //        return htmlspecialchars(print_r($var, true), ENT_QUOTES, 'UTF-8', true);
