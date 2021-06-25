@@ -1,4 +1,4 @@
-
+                <div class="hamburger_dontclose"><i class="circle outline icon"></i>Nezavírat menu</div>
                 <div class="ui inverted accordion border">
                     <div class="title">
                         <i class="dropdown icon"></i>

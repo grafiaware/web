@@ -12,6 +12,7 @@
                 <?php include "container/hlavicka.php"; ?>
             </header>
             <main class="page-content">
+                <div class="paper_template_select"><div class="mceNonEditable">Výběr šablony pro stránku</div></div>
                 <?= $content ?? '' ?>
             </main>
         </div>

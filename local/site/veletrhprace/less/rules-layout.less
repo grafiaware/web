@@ -217,6 +217,9 @@
       i:hover, .hamburger_dontclose:hover{
           cursor: pointer;
       }
+      .hamburger_dontclose{
+          margin-top: 30px;
+      }
     }
     .close-item > a > i.times.circle.icon,
     .nav-mobile > i.bars.icon{
@@ -252,6 +255,7 @@
             height: 63px;
             right: 20px;
             top: 45px;
+            display: block;
             &:hover{
                 opacity: 0.8;
                 transition: 0.2s all;
@@ -271,6 +275,12 @@
             }
             &::after{
                 transform: rotate(-45deg);
+            }
+            &.none{
+                display: none;
+            }
+            &:not(.none){
+                display: block;
             }
         }
     }
@@ -383,7 +393,7 @@
     //smazat až bude accordion v menu jen v editacnim rezimu
     .accordion.border{
         border: 1px solid #FFFFFF96;
-        margin: 30px auto 0;
+        margin: 10px auto 0;
         padding: 10px 20px;
         a{
             color: @invertedTextColor;

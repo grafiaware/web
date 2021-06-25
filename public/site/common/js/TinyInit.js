@@ -360,9 +360,9 @@ var selectPaperTemplateConfig = {
     menubar: false,
     inline: true,
     plugins: [
-    'template', 'save', 'noneditable', 'code'
+    'template', 'save', 'noneditable',
     ],
-    toolbar: 'template | save code',
+    toolbar: 'template | save',
     templates: [
         { title: 'template default', description: 'Grafia web - článek',       url: 'red/v1/papertemplate/default'},
         { title: 'template contact', description: 'Grafia web - kontakty',       url: 'red/v1/papertemplate/contact'},

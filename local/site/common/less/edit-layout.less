@@ -175,10 +175,16 @@ body{
         width: @svisleMenuWidth;
         margin: @svisleMenuMargin;
         padding-left: 8px; 
+        a{
+            padding-left: 35px;
+        }
+        p{
+            margin-left: -3px !important;
+        }
         .menu.edit{ 
             .menu {
                 > a.presented{ //pro lepší čitelnost položek menu vzhledem k dalším editačním prvkům pložky (semafor)
-                    padding: @svisleMenuLiPadding; //není zvětšený padding pro <a>, protože to zajišťuje semantic
+                    padding: @svisleMenuLiPadding; //není zvětšený padding pro <a>, protože to zajišťuje semantic  
                 }
                 > p.presented{
                     //stejný padding, jako mají <a> od semanticu
