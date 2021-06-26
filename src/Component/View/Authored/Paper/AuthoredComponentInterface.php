@@ -13,8 +13,32 @@ namespace Component\View\Authored\Paper;
  * @author pes2704
  */
 interface AuthoredComponentInterface {
-//    public function setEditable($editable);
+
+    /**
+     * Nastaví cestu ke složce se složkami šablon používaných v komponentě.
+     *
+     * @param string $templatesPath
+     */
     public function setTemplatesPath($templatesPath);
-    public function addTemplateGlobals($variableName, $rendererName);
+
+    /**
+     * Přidá do proměnných šablony (do kontextu) proměnnou obsahující renderer. Parametrem této metody je jméno rendereru.
+     * Renderer je získán z render kontejneru před renderováním šablony.
+     * Podmínkou použití je, že renderer musí být možné získat z renderer kontejneru a tedy je také to, že komponent musí mít pro použití této metody nastaven renderer kontejner.
+     *
+     * @param string $variableName Jméno proměnné kontextu šablony.
+     * @param string $rendererName Jméno rendereru pro renderer kontejner.
+     */
+    public function addSubRendererName($variableName, $rendererName);
+
     public function setItemId($menuItemId): AuthoredComponentInterface;
+
+    /**
+     * Cesta ke složce se složkami šablon používaných v komponentě.
+     *
+     * @param string $templateName
+     * @return string
+     */
+    public function getTemplatePath($templateName): string;
+
 }

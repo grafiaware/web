@@ -219,7 +219,7 @@ class PaperController extends PresentationFrontControllerAbstract {
      * @param type $paperId
      * @return ResponseInterface
      */
-    public function updateTemplate(ServerRequestInterface $request, $paperId): ResponseInterface {
+    public function template(ServerRequestInterface $request, $paperId): ResponseInterface {
         $paper = $this->paperAggregateRepo->get($paperId);
         if (!isset($paper)) {
             user_error("Neexistuje paper se zadaným id.$paperId");

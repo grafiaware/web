@@ -47,12 +47,13 @@ class Buttons {
         $postItems = [
             'Course'=>'course',
             'Contact'=>'contact',
-            'Výchozí'=>'default'
+            'Výchozí'=>'default',
+            'Test'=>'test'
         ];
         $items = [];
         $class = $this->classMap->getClass('PaperTemplateSelect', 'div.item');
         foreach ($postItems as $title => $value) {
-            $items[] = Html::tag('div', ['class'=>$class, 'value'=>$value], $title);
+            $items[] = Html::tag('div', ['class'=>$class.($templateName==$value ? ' selected' : ''), 'value'=>$value], $title);
         }
         return
             Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/$paperId/template"],

@@ -26,7 +26,7 @@ use Pes\Database\Handler\{
 
 // controller
 use \Red\Middleware\Redactor\Controller\{
-    UserActionController, HierarchyController, EditItemController, PresentationActionController, PaperController, ContentController, TemplateController,
+    UserActionController, HierarchyController, EditItemController, PresentationActionController, PaperController, ContentController,
     FilesUploadController
 };
 use Events\Middleware\Events\Controller\{EventController, VisitorDataController};
@@ -131,13 +131,6 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
                         $c->get(PaperContentRepo::class));
-            },
-            TemplateController::class => function(ContainerInterface $c) {
-                return (new TemplateController(
-                            $c->get(StatusSecurityRepo::class),
-                            $c->get(StatusFlashRepo::class),
-                            $c->get(StatusPresentationRepo::class))
-                        )->injectContainer($c);  // inject component kontejner
             },
             FilesUploadController::class => function(ContainerInterface $c) {
                 return new FilesUploadController(

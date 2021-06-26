@@ -1,5 +1,5 @@
 <?php
-namespace Red\Middleware\Component;
+namespace Web\Middleware\Component;
 
 use Pes\Middleware\AppMiddlewareAbstract;
 use Pes\Container\Container;
@@ -16,7 +16,7 @@ use Container\{
     ComponentContainerConfigurator, HierarchyContainerConfigurator, DbUpgradeContainerConfigurator, LoginContainerConfigurator
 };
 
-use \Red\Middleware\Component\Controller\ComponentController;
+use \Web\Middleware\Component\Controller\ComponentController;
 
 class Component extends AppMiddlewareAbstract implements MiddlewareInterface {
 

@@ -89,8 +89,8 @@ use Red\Model\Repository\{
 
 // controller
 use Web\Middleware\Page\Controller\PageController;
-use Red\Middleware\Component\Controller\ComponentController;
-use Red\Middleware\Component\Controller\TemplateController;
+use Web\Middleware\Component\Controller\ComponentController;
+use Web\Middleware\Component\Controller\TemplateController;
 
 
 // renderery - pro volání služeb renderer kontejneru renderer::class
@@ -165,20 +165,14 @@ class ComponentContainerConfigurator_Nav extends ContainerConfiguratorAbstract {
                 return (new ComponentController(
                             $c->get(StatusSecurityRepo::class),
                             $c->get(StatusFlashRepo::class),
-                            $c->get(StatusPresentationRepo::class),
-                            $c->get(PaperAggregateRepo::class),
-                            $c->get(BlockAggregateRepo::class),
-                            $c->get(ViewFactory::class))
+                            $c->get(StatusPresentationRepo::class))
                         )->injectContainer($c);  // inject component kontejner
             },
             TemplateController::class => function(ContainerInterface $c) {
                 return (new TemplateController(
                             $c->get(StatusSecurityRepo::class),
                             $c->get(StatusFlashRepo::class),
-                            $c->get(StatusPresentationRepo::class),
-                            $c->get(PaperAggregateRepo::class),
-                            $c->get(BlockAggregateRepo::class),
-                            $c->get(ViewFactory::class))
+                            $c->get(StatusPresentationRepo::class))
                         )->injectContainer($c);  // inject component kontejner
             }
         ];

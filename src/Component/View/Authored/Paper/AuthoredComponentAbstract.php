@@ -21,6 +21,8 @@ use Pes\View\Template\PhpTemplate;
  */
 abstract class AuthoredComponentAbstract extends CompositeComponentAbstract implements AuthoredComponentInterface {
 
+    const DEFAULT_TEMPLATE_FILE_NAME = 'template.php';
+
     /**
      * @var bool
      */
@@ -29,7 +31,7 @@ abstract class AuthoredComponentAbstract extends CompositeComponentAbstract impl
     /**
      * @var string
      */
-    private $templatesPath = "templates_path_not_set/";
+    protected $templatesPath;
 
     protected $templateGlobals = [];
 
@@ -45,20 +47,29 @@ abstract class AuthoredComponentAbstract extends CompositeComponentAbstract impl
         parent::__construct($viewModel);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setTemplatesPath($templatesPath) {
         $this->templatesPath = $templatesPath;
     }
 
-    public function addTemplateGlobals($variableName, $rendererName) {
+    /**
+     * {@inheritdoc}
+     */
+    public function addSubRendererName($variableName, $rendererName) {
         $this->templateGlobals[$variableName] = $rendererName;
-    }
-
-    protected function getPaperTemplatePath($templateName) {
-        return $this->templatesPath.$templateName."/template.php";
     }
 
     public function setItemId($menuItemId): AuthoredComponentInterface {
         $this->contextData->setItemId($menuItemId);
         return $this;
     }
+
+    public function getTemplatePath($templateName): string {
+        if (isset($this->templatesPath))
+        return $this->templatesPath.$templateName."/".self::DEFAULT_TEMPLATE_FILE_NAME;
+    }
+//    = "templates_path_not_set/"
+
 }

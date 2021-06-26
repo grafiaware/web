@@ -21,7 +21,7 @@ use Pes\Text\Html;
  *
  * @author pes2704
  */
-abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract {
+abstract class PaperRendererAbstract extends HtmlModelRendererAbstract {
 
     public function renderHeadline(PaperInterface $paper) {
         $headline = $paper->getHeadline();
@@ -80,58 +80,23 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract {
 
     #### editable ###################
 
-    public function renderPaperTemplateButtonsForm(PaperInterface $paper) {
-        $paperId = $paper->getId();
-        $templateName = $paper->getTemplate();
-
-        $postName = 'folder_'.$paperId;
-        $postItems = [
-            'Course'=>'course',
-            'Contact'=>'contact',
-            'Default'=>'default',
-            'Test' => 'test'
-        ];
-        $items = [];
-        $class = $this->classMap->getClass('PaperTemplateSelect', 'div.item');
-        foreach ($postItems as $title => $value) {
-            $items[] = Html::tag('div', ['class'=>$class, 'value'=>$value], $title);
-        }
-        return
-            Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/$paperId/template"],
-                Html::tag('div', ['class'=>$this->classMap->getClass('PaperTemplateButtons', 'div.paperTemplate'), 'data-tooltip'=>'Výběr šablony stránky'],
-                    Html::tag('i', ['class'=>$this->classMap->getClass('PaperTemplateButtons', 'button.templateSelect')])
-                    .Html::tag('div', ['class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.menu')],
-                        Html::tag('div', ['class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.header')], 'Vyberte šablonu stránky')
-                        .Html::tag('div', ['class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.selection')],
-                            Html::tag('input', ['class'=>$this->classMap->getClass('PaperTemplateSelect', 'input'), 'type'=>'hidden', 'name'=>$postName, 'onchange'=>'this.form.submit()'] )
-                            .Html::tag('i', ['class'=>$this->classMap->getClass('PaperTemplateSelect', 'i.dropdown')])
-                            .Html::tag('div', ['class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.text')], 'Šablona')
-                            .Html::tag('div', ['class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.scrollmenu')],
-                                    implode(PHP_EOL, $items)
-                            )
-                        )
-                    )
-                )
-            );
-    }
-
     public function renderPaperButtonsForm(PaperInterface $paper) {
         $paperId = $paper->getId();
 
         $buttons = [];
         if ($paper instanceof PaperAggregatePaperContentInterface AND $paper->getPaperContentsArray()) {
             $buttons[] = Html::tag('button', [
-                    'class'=>$this->classMap->getClass('PaperButtons', 'button'),
+                    'class'=>$this->classMapEditable->getClass('PaperButtons', 'button'),
                     'data-tooltip'=> 'Seřadit podle data',
                     'data-position'=>'top right',
                     'formmethod'=>'post',
                     'formaction'=>"",
                     ],
-                    Html::tag('i', ['class'=>$this->classMap->getClass('PaperButtons', 'button.arrange')])
+                    Html::tag('i', ['class'=>$this->classMapEditable->getClass('PaperButtons', 'button.arrange')])
                 );
         } else {
             $buttons[] =  Html::tag('button',
-                        ['class'=>$this->classMap->getClass('ContentButtons', 'button'),
+                        ['class'=>$this->classMapEditable->getClass('ContentButtons', 'button'),
                         'data-tooltip'=>'Přidat obsah',
                         'type'=>'submit',
                         'name'=>'button',
@@ -139,14 +104,14 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract {
                         'formmethod'=>'post',
                         'formaction'=>"red/v1/paper/$paperId/contents",
                         ],
-                        Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.icons')],
-                            Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.addcontent')])
-                            .Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.arrowdown')])
+                        Html::tag('i', ['class'=>$this->classMapEditable->getClass('ContentButtons', 'button.icons')],
+                            Html::tag('i', ['class'=>$this->classMapEditable->getClass('ContentButtons', 'button.addcontent')])
+                            .Html::tag('i', ['class'=>$this->classMapEditable->getClass('ContentButtons', 'button.arrowdown')])
                         )
                     );
         }
         return Html::tag('form', ['method'=>'POST', 'action'=>""],
-            Html::tag('div', ['class'=>$this->classMap->getClass('PaperButtons', 'div.buttonsPage')],
+            Html::tag('div', ['class'=>$this->classMapEditable->getClass('PaperButtons', 'div.buttonsPage')],
                     implode('', $buttons)
             )
         );
@@ -159,12 +124,12 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract {
      */
     public function renderHeadlineEditable(PaperInterface $paper) {
         return
-            Html::tag('section', ['class'=>$this->classMap->getClass('Headline', 'section')],
+            Html::tag('section', ['class'=>$this->classMapEditable->getClass('Headline', 'section')],
                 Html::tag(
                     'headline',
                     [
                         'id'=>"headline_{$paper->getId()}",  // id musí být na stránce unikátní - skládám ze slova headline_ a paper id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
-                        'class'=>$this->classMap->getClass('Headline', 'headline'),
+                        'class'=>$this->classMapEditable->getClass('Headline', 'headline'),
                     ],
                     Html::tag('div', ['class'=>"edit-text"], $paper->getHeadline() ?? "")
                 )
@@ -173,11 +138,11 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract {
 
     public function renderPerexEditable(PaperInterface $paper) {
         $form =
-            Html::tag('section', ['class'=>$this->classMap->getClass('Perex', 'section')],
+            Html::tag('section', ['class'=>$this->classMapEditable->getClass('Perex', 'section')],
                 Html::tag('perex',
                     [
                         'id' => "perex_{$paper->getId()}",  // id musí být na stránce unikátní - skládám ze slova perex_ a paper id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
-                        'class'=>$this->classMap->getClass('Perex', 'perex'),
+                        'class'=>$this->classMapEditable->getClass('Perex', 'perex'),
                         'data-owner'=>$paper->getEditor()
                     ],
                     Html::tag('div', ['class'=>"edit-html"], $paper->getPerex() ?? "")
@@ -208,14 +173,14 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract {
         $past = $paperContent->getHideTime() < $now;  // pro zobrszeno trvale - null je vždy menší a $passed je true - vyhodnucuji nejprve $actual, nevadí to
 
         return
-            Html::tag('section', ['class'=>$this->classMap->getClass('Content', 'section')],
-                Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.corner')],
+            Html::tag('section', ['class'=>$this->classMapEditable->getClass('Content', 'section')],
+                Html::tag('div', ['class'=>$this->classMapEditable->getClass('Content', 'div.corner')],
                     $this->getContentButtons($paperContent)
                 )
-                .Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.semafor')],
+                .Html::tag('div', ['class'=>$this->classMapEditable->getClass('Content', 'div.semafor')],
                     Html::tag('i',
                        [
-                       'class'=> $this->classMap->resolveClass($active, 'Content','i1.published', 'i1.notpublished'),
+                       'class'=> $this->classMapEditable->resolveClass($active, 'Content','i1.published', 'i1.notpublished'),
                        'title'=> $active ? "published" : "not published",
                        ]
                     )
@@ -225,7 +190,7 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract {
 //                        'i2.notactivenotactual' => 'calendar times icon red',
                     .Html::tag('i',
                         [
-                        'class'=> $this->classMap->resolveClass($actual, 'Content',
+                        'class'=> $this->classMapEditable->resolveClass($actual, 'Content',
                                 'i2.actual',
                                 $past ?  'i2.past' : ($future ? 'i2.future' : 'i2.invalid')
                             ),
@@ -237,7 +202,7 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract {
                 .Html::tag('content',
                     [
                     'id' => "content_{$paperContent->getId()}",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
-                    'class'=>$this->classMap->getClass('Content', 'content'),
+                    'class'=>$this->classMapEditable->getClass('Content', 'content'),
                     'data-owner'=>$paperContent->getEditor()
                     ],
                     Html::tag('div', ['class'=>"edit-html"], $paperContent->getContent() ?? "")
@@ -295,10 +260,10 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract {
 
         return
 
-        Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.wrapContent')],
-            Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.buttonsContent')],
+        Html::tag('div', ['class'=>$this->classMapEditable->getClass('ContentButtons', 'div.wrapContent')],
+            Html::tag('div', ['class'=>$this->classMapEditable->getClass('ContentButtons', 'div.buttonsContent')],
                 Html::tag('button',
-                    ['class'=>$this->classMap->getClass('ContentButtons', 'button'),
+                    ['class'=>$this->classMapEditable->getClass('ContentButtons', 'button'),
                     'data-tooltip'=>'Aktivní/neaktivní obsah',
                     'type'=>'submit',
                     'name'=>'button',
@@ -306,20 +271,20 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract {
                     'formmethod'=>'post',
                     'formaction'=>"red/v1/paper/$paperIdFk/content/$paperContentId/toggle",
                     ],
-                    Html::tag('i', ['class'=>$this->classMap->resolveClass($active, 'ContentButtons', 'button.notpublish', 'button.publish')])
+                    Html::tag('i', ['class'=>$this->classMapEditable->resolveClass($active, 'ContentButtons', 'button.notpublish', 'button.publish')])
                 )
                 .Html::tag('button', [
-                    'class'=>$this->classMap->getClass('ContentButtons', 'button.date'),
+                    'class'=>$this->classMapEditable->getClass('ContentButtons', 'button.date'),
                     'data-tooltip'=> $textZobrazeni,
                     'data-position'=>'top right',
                     'onclick'=>'event.preventDefault();'
                     ],
-                    Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.changedate')])
+                    Html::tag('i', ['class'=>$this->classMapEditable->getClass('ContentButtons', 'button.changedate')])
                 )
             )
-            .Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.buttonsContent')],
+            .Html::tag('div', ['class'=>$this->classMapEditable->getClass('ContentButtons', 'div.buttonsContent')],
                 Html::tag('button',
-                    ['class'=>$this->classMap->getClass('ContentButtons', 'button'),
+                    ['class'=>$this->classMapEditable->getClass('ContentButtons', 'button'),
                     'data-tooltip'=>'Posunout o jednu výš',
                     'type'=>'submit',
                     'name'=>'button',
@@ -327,13 +292,13 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract {
                     'formmethod'=>'post',
                     'formaction'=>"red/v1/paper/$paperIdFk/content/$paperContentId/up",
                     ],
-                    Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.icons')],
-                        Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.movecontent')])
-                        .Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.arrowup')])
+                    Html::tag('i', ['class'=>$this->classMapEditable->getClass('ContentButtons', 'button.icons')],
+                        Html::tag('i', ['class'=>$this->classMapEditable->getClass('ContentButtons', 'button.movecontent')])
+                        .Html::tag('i', ['class'=>$this->classMapEditable->getClass('ContentButtons', 'button.arrowup')])
                     )
                 )
                 .Html::tag('button',
-                    ['class'=>$this->classMap->getClass('ContentButtons', 'button'),
+                    ['class'=>$this->classMapEditable->getClass('ContentButtons', 'button'),
                     'data-tooltip'=>'Posunout o jednu níž',
                     'type'=>'submit',
                     'name'=>'button',
@@ -341,15 +306,15 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract {
                     'formmethod'=>'post',
                     'formaction'=>"red/v1/paper/$paperIdFk/content/$paperContentId/down",
                     ],
-                    Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.icons')],
-                        Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.movecontent')])
-                        .Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.arrowdown')])
+                    Html::tag('i', ['class'=>$this->classMapEditable->getClass('ContentButtons', 'button.icons')],
+                        Html::tag('i', ['class'=>$this->classMapEditable->getClass('ContentButtons', 'button.movecontent')])
+                        .Html::tag('i', ['class'=>$this->classMapEditable->getClass('ContentButtons', 'button.arrowdown')])
                     )
                 )
             )
-            .Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.buttonsContent')],
+            .Html::tag('div', ['class'=>$this->classMapEditable->getClass('ContentButtons', 'div.buttonsContent')],
                 Html::tag('button',
-                    ['class'=>$this->classMap->getClass('ContentButtons', 'button'),
+                    ['class'=>$this->classMapEditable->getClass('ContentButtons', 'button'),
                     'data-tooltip'=>'Přidat další obsah před',
                     'type'=>'submit',
                     'name'=>'button',
@@ -357,13 +322,13 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract {
                     'formmethod'=>'post',
                     'formaction'=>"red/v1/paper/$paperIdFk/content/$paperContentId/add_above",
                     ],
-                    Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.icons')],
-                        Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.addcontent')])
-                        .Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.arrowup')])
+                    Html::tag('i', ['class'=>$this->classMapEditable->getClass('ContentButtons', 'button.icons')],
+                        Html::tag('i', ['class'=>$this->classMapEditable->getClass('ContentButtons', 'button.addcontent')])
+                        .Html::tag('i', ['class'=>$this->classMapEditable->getClass('ContentButtons', 'button.arrowup')])
                     )
                 )
                 .Html::tag('button',
-                    ['class'=>$this->classMap->getClass('ContentButtons', 'button'),
+                    ['class'=>$this->classMapEditable->getClass('ContentButtons', 'button'),
                     'data-tooltip'=>'Přidat další obsah za',
                     'type'=>'submit',
                     'name'=>'button',
@@ -371,15 +336,15 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract {
                     'formmethod'=>'post',
                     'formaction'=>"red/v1/paper/$paperIdFk/content/$paperContentId/add_below",
                     ],
-                    Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.icons')],
-                        Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.addcontent')])
-                        .Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.arrowdown')])
+                    Html::tag('i', ['class'=>$this->classMapEditable->getClass('ContentButtons', 'button.icons')],
+                        Html::tag('i', ['class'=>$this->classMapEditable->getClass('ContentButtons', 'button.addcontent')])
+                        .Html::tag('i', ['class'=>$this->classMapEditable->getClass('ContentButtons', 'button.arrowdown')])
                     )
                 )
             )
-            .Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.buttonsContent')],
+            .Html::tag('div', ['class'=>$this->classMapEditable->getClass('ContentButtons', 'div.buttonsContent')],
                 Html::tag('button',
-                    ['class'=>$this->classMap->getClass('ContentButtons', 'button'),
+                    ['class'=>$this->classMapEditable->getClass('ContentButtons', 'button'),
                     'data-tooltip'=>'Do koše',
                     'type'=>'submit',
                     'name'=>'button',
@@ -387,13 +352,13 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract {
                     'formmethod'=>'post',
                     'formaction'=>"red/v1/paper/$paperIdFk/content/$paperContentId/trash",
                     ],
-                    Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.movetotrash')])
+                    Html::tag('i', ['class'=>$this->classMapEditable->getClass('ContentButtons', 'button.movetotrash')])
                 )
             )
         )
-        .Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.buttonsDate')],
+        .Html::tag('div', ['class'=>$this->classMapEditable->getClass('ContentButtons', 'div.buttonsDate')],
             Html::tag('button', [
-                'class'=>$this->classMap->getClass('ContentButtons', 'button'),
+                'class'=>$this->classMapEditable->getClass('ContentButtons', 'button'),
                 'data-tooltip'=>'Trvale',
                 'data-position'=>'top right',
                 'type'=>'submit',
@@ -402,10 +367,10 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract {
                 'formmethod'=>'post',
                 'formaction'=>"red/v1/paper/$paperIdFk/content/$paperContentId/actual",
                 ],
-                Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.permanently')])
+                Html::tag('i', ['class'=>$this->classMapEditable->getClass('ContentButtons', 'button.permanently')])
             )
             .Html::tag('button', [
-                'class'=>$this->classMap->getClass('ContentButtons', 'button'),
+                'class'=>$this->classMapEditable->getClass('ContentButtons', 'button'),
                 'data-tooltip'=>'Uložit',
                 'data-position'=>'top right',
                 'type'=>'submit',
@@ -414,34 +379,34 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract {
                 'formmethod'=>'post',
                 'formaction'=>"red/v1/paper/$paperIdFk/content/$paperContentId/actual",
                 ],
-                Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.save')])
+                Html::tag('i', ['class'=>$this->classMapEditable->getClass('ContentButtons', 'button.save')])
             )
             .Html::tag('button', [
-                'class'=>$this->classMap->getClass('ContentButtons', 'button.content'),
+                'class'=>$this->classMapEditable->getClass('ContentButtons', 'button.content'),
                 'data-tooltip'=>'Zrušit úpravy',
                 'data-position'=>'top right',
                 'onclick'=>"event.preventDefault(); this.form.reset();"
                 ],
-                Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.cancel')])
+                Html::tag('i', ['class'=>$this->classMapEditable->getClass('ContentButtons', 'button.cancel')])
             )
             .Html::tag('div', [
-                'class'=>$this->classMap->getClass('ContentButtons', 'button'),
+                'class'=>$this->classMapEditable->getClass('ContentButtons', 'button'),
                 'data-position'=>'top right',
                 ],
-                Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.changedate')])
+                Html::tag('i', ['class'=>$this->classMapEditable->getClass('ContentButtons', 'button.changedate')])
             )
         )
-        .Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.wrapDate')],
-            Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.wrapKalendar'), ],
-                    Html::tag('p', ['class'=>$this->classMap->getClass('ContentButtons', 'p')], 'Uveřejnit od')
-                    .Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.calendar')],
-                        Html::tag('div',['class'=>$this->classMap->getClass('ContentButtons', 'div.input')],
+        .Html::tag('div', ['class'=>$this->classMapEditable->getClass('ContentButtons', 'div.wrapDate')],
+            Html::tag('div', ['class'=>$this->classMapEditable->getClass('ContentButtons', 'div.wrapKalendar'), ],
+                    Html::tag('p', ['class'=>$this->classMapEditable->getClass('ContentButtons', 'p')], 'Uveřejnit od')
+                    .Html::tag('div', ['class'=>$this->classMapEditable->getClass('ContentButtons', 'div.calendar')],
+                        Html::tag('div',['class'=>$this->classMapEditable->getClass('ContentButtons', 'div.input')],
                             Html::tagNopair('input', ['type'=>'text', 'name'=>"show_$paperContentId", 'placeholder'=>'Klikněte pro výběr data', 'value'=>$showTime])
                         )
                      )
-                    .Html::tag('p', ['class'=>$this->classMap->getClass('ContentButtons', 'p')], 'Uveřejnit do')
-                    .Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.calendar')],
-                        Html::tag('div',['class'=>$this->classMap->getClass('ContentButtons', 'div.input')],
+                    .Html::tag('p', ['class'=>$this->classMapEditable->getClass('ContentButtons', 'p')], 'Uveřejnit do')
+                    .Html::tag('div', ['class'=>$this->classMapEditable->getClass('ContentButtons', 'div.calendar')],
+                        Html::tag('div',['class'=>$this->classMapEditable->getClass('ContentButtons', 'div.input')],
                         Html::tagNopair('input', ['type'=>'text', 'name'=>"hide_$paperContentId", 'placeholder'=>'Klikněte pro výběr data', 'value'=> $hideTime])
                     )
                 )
@@ -455,10 +420,10 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract {
         $paperContentId = $paperContent->getId();
 
         return
-            Html::tag('div', ['class'=>$this->classMap->getClass('TrashButtons', 'div.wrapTrash')],
-                Html::tag('div', ['class'=>$this->classMap->getClass('TrashButtons', 'div.buttonsContent')],
+            Html::tag('div', ['class'=>$this->classMapEditable->getClass('TrashButtons', 'div.wrapTrash')],
+                Html::tag('div', ['class'=>$this->classMapEditable->getClass('TrashButtons', 'div.buttonsContent')],
                     Html::tag('button',
-                        ['class'=>$this->classMap->getClass('TrashButtons', 'button'),
+                        ['class'=>$this->classMapEditable->getClass('TrashButtons', 'button'),
                         'data-tooltip'=>'Obnovit',
                         'type'=>'submit',
                         'name'=>'button',
@@ -466,12 +431,12 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract {
                         'formmethod'=>'post',
                         'formaction'=>"red/v1/paper/$paperIdFk/content/$paperContentId/restore",
                         ],
-                        Html::tag('i', ['class'=>$this->classMap->getClass('TrashButtons', 'button.restore')])
+                        Html::tag('i', ['class'=>$this->classMapEditable->getClass('TrashButtons', 'button.restore')])
                     )
                 )
-                .Html::tag('div', ['class'=>$this->classMap->getClass('TrashButtons', 'div.buttonsContent')],
+                .Html::tag('div', ['class'=>$this->classMapEditable->getClass('TrashButtons', 'div.buttonsContent')],
                     Html::tag('button',
-                        ['class'=>$this->classMap->getClass('TrashButtons', 'button'),
+                        ['class'=>$this->classMapEditable->getClass('TrashButtons', 'button'),
                         'data-tooltip'=>'Smazat',
                         'type'=>'submit',
                         'name'=>'button',
@@ -479,7 +444,7 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract {
                         'formmethod'=>'post',
                         'formaction'=>"red/v1/paper/$paperIdFk/content/$paperContentId/delete",
                         ],
-                        Html::tag('i', ['class'=>$this->classMap->getClass('TrashButtons', 'button.delete')])
+                        Html::tag('i', ['class'=>$this->classMapEditable->getClass('TrashButtons', 'button.delete')])
                     )
                 )
             );
@@ -490,7 +455,7 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract {
         $paperId = $paperAggregate->getId();
 
         return
-        Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div div.corner')],
+        Html::tag('div', ['class'=>$this->classMapEditable->getClass('Content', 'div div.corner')],
             $this->getNewContentButtonsForm($paperAggregate)
         )
         .Html::tag('form',
@@ -498,7 +463,7 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract {
             Html::tag('content',
                 [
                     'id' => "new content_for_paper_$paperId",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
-                    'class'=>$this->classMap->getClass('Content', 'form content'),
+                    'class'=>$this->classMapEditable->getClass('Content', 'form content'),
                     'data-paperowner'=>$paperAggregate->getEditor()
                 ],
                 "Nový obsah"
@@ -512,10 +477,10 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract {
 
         return
         Html::tag('form', ['method'=>'POST', 'action'=>""],
-            Html::tag('div', ['class'=>$this->classMap->getClass('PaperButtons', 'div.page')],
-                Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.buttonsContent')],
+            Html::tag('div', ['class'=>$this->classMapEditable->getClass('PaperButtons', 'div.page')],
+                Html::tag('div', ['class'=>$this->classMapEditable->getClass('ContentButtons', 'div.buttonsContent')],
                     Html::tag('button',
-                        ['class'=>$this->classMap->getClass('ContentButtons', 'button'),
+                        ['class'=>$this->classMapEditable->getClass('ContentButtons', 'button'),
                         'data-tooltip'=>'Přidat obsah',
                         'type'=>'submit',
                         'name'=>'button',
@@ -523,9 +488,9 @@ abstract class ArticleRendererAbstract extends HtmlModelRendererAbstract {
                         'formmethod'=>'post',
                         'formaction'=>"red/v1/paper/$paperId/contents",
                         ],
-                        Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.icons')],
-                            Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.addcontent')])
-                            .Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.arrowdown')])
+                        Html::tag('i', ['class'=>$this->classMapEditable->getClass('ContentButtons', 'button.icons')],
+                            Html::tag('i', ['class'=>$this->classMapEditable->getClass('ContentButtons', 'button.addcontent')])
+                            .Html::tag('i', ['class'=>$this->classMapEditable->getClass('ContentButtons', 'button.arrowdown')])
                         )
                     )
                 )

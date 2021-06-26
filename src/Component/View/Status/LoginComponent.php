@@ -17,7 +17,4 @@ use Component\View\ComponentAbstract;
  */
 class LoginComponent extends ComponentAbstract {
     //nepoužívá viewModel, renderuje template, definováno v component kontejneru a konfiguraci component kontejneru
-    public function __toString() {
-        return parent::__toString();
-    }
 }

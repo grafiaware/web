@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Red\Middleware\Component\Controller;
+namespace Web\Middleware\Component\Controller;
 
 use Site\Configuration;
 
@@ -16,6 +16,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Component\View\{
     Flash\FlashComponent,
     Generated\ItemTypeSelectComponent,
+    Authored\Paper\ContentComponentInterface,
     Authored\Paper\PaperComponentInterface
 };
 
@@ -74,7 +75,7 @@ class ComponentController extends XhrControllerAbstract {
      * Vrací view objekt pro zobrazení centrálního obsahu v prostoru pro "content"
      * @return type
      */
-    private function resolveMenuItemView($menuItemType, $menuItemId) {
+    private function resolveMenuItemView(ServerRequestInterface $request, $menuItemType, $menuItemId) {
             $userActions = $this->statusSecurityRepo->get()->getUserActions();
             $isEditableContent = $userActions->isEditableArticle() OR $userActions->isEditableLayout();
 
@@ -90,26 +91,16 @@ class ComponentController extends XhrControllerAbstract {
                     $view = $view = $this->container->get(View::class)->setData( "No content for generated type.")->setRenderer(new StringRenderer());
                     break;
                 case 'static':
-                    if ($isEditableContent) {
-                        $view = $this->getStaticEditableLoadScript($menuItem);
-                    } else {
-                        $view = $this->getStaticLoadScript($menuItem);
-                    }
+                    $view = $this->container->get('component.stati:dosud_nevytvoreny');
                     break;
                 case 'paper':
                     /** @var PaperComponentInterface $view */
-//                    $view = $this->container->get('component.paper');
-                    $view = $this->container->get('component.template');
+                    $view = $this->container->get('component.paper');
                     $view->setItemId($menuItemId);
-
                     break;
                 case 'template':
-                    /** @var PaperComponentInterface $view */
-                    if ($isEditableContent) {
-                        $view = $this->container->get('component.template.editable');
-                    } else {
-                        $view = $this->container->get('component.template');
-                    }
+                    /** @var ContentComponentInterface $view */
+                    $view = $this->container->get('component.template');
                     $view->setItemId($menuItemId);
 
                     break;
