@@ -10,6 +10,8 @@ namespace Component\View\Generated;
 
 use Component\View\ComponentAbstract;
 use Component\ViewModel\Generated\ItemTypeSelectViewModel;
+use Component\Renderer\Html\Generated\ItemTypeRenderer;
+use Component\Renderer\Html\Generated\EmptyItemRenderer;
 
 /**
  * Description of ItemTypeSelectComponent
@@ -25,5 +27,13 @@ class ItemTypeSelectComponent extends ComponentAbstract {
 
     public function __construct(ItemTypeSelectViewModel $viewModel) {
         $this->contextData = $viewModel;
+    }
+
+    public function beforeRenderingHook(): void {
+        if($this->contextData->isArticleEditable()) {
+            $this->setRendererName(ItemTypeRenderer::class);
+        } else {
+            $this->setRendererName(EmptyItemRenderer::class);
+        }
     }
 }

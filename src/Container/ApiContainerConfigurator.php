@@ -26,14 +26,15 @@ use Pes\Database\Handler\{
 
 // controller
 use \Red\Middleware\Redactor\Controller\{
-    UserActionController, HierarchyController, EditItemController, PresentationActionController, PaperController, ContentController,
-    FilesUploadController
+    UserActionControler, HierarchyControler, EditItemControler, PresentationActionControler, PaperControler, ArticleControler, ContentControler,
+    FilesUploadControler
 };
 use Events\Middleware\Events\Controller\{EventController, VisitorDataController};
 
 // generator service
 use \GeneratorService\ContentGeneratorRegistry;
 use \GeneratorService\Paper\PaperService;
+use \GeneratorService\Article\ArticleService;
 use \GeneratorService\StaticTemplate\StaticService;
 
 // array model
@@ -59,7 +60,8 @@ use Red\Model\Repository\{
     MenuItemAggregateRepo,
     PaperAggregateRepo,
     PaperRepo,
-    PaperContentRepo
+    PaperContentRepo,
+    ArticleRepo
 };
 
 /**
@@ -88,52 +90,59 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getServicesDefinitions() {
         return [
-            PresentationActionController::class => function(ContainerInterface $c) {
-                return new PresentationActionController(
+            PresentationActionControler::class => function(ContainerInterface $c) {
+                return new PresentationActionControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
                         $c->get(LanguageRepo::class),
                         $c->get(MenuItemRepo::class));
             },
-            UserActionController::class => function(ContainerInterface $c) {
-                return new UserActionController(
+            UserActionControler::class => function(ContainerInterface $c) {
+                return new UserActionControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class)                        );
             },
-            HierarchyController::class => function(ContainerInterface $c) {
-                return new HierarchyController(
+            HierarchyControler::class => function(ContainerInterface $c) {
+                return new HierarchyControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
                         $c->get(HierarchyAggregateEditDao::class),
                         $c->get(MenuRootRepo::class));
             },
-            EditItemController::class => function(ContainerInterface $c) {
-                return new EditItemController(
+            EditItemControler::class => function(ContainerInterface $c) {
+                return new EditItemControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
                         $c->get(MenuItemRepo::class),
                         $c->get(ContentGeneratorRegistry::class));
             },
-            PaperController::class => function(ContainerInterface $c) {
-                return new PaperController(
+            PaperControler::class => function(ContainerInterface $c) {
+                return new PaperControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
                         $c->get(PaperAggregateRepo::class));
             },
-            ContentController::class => function(ContainerInterface $c) {
-                return new ContentController(
+            ArticleControler::class => function(ContainerInterface $c) {
+                return new ArticleControler(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(ArticleRepo::class));
+            },
+            ContentControler::class => function(ContainerInterface $c) {
+                return new ContentControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
                         $c->get(PaperContentRepo::class));
             },
-            FilesUploadController::class => function(ContainerInterface $c) {
-                return new FilesUploadController(
+            FilesUploadControler::class => function(ContainerInterface $c) {
+                return new FilesUploadControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class));
@@ -172,6 +181,7 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                     );
                 // lazy volání služby kontejneru
                 $factory->registerGeneratorService('paper', function() use ($c) {return $c->get(PaperService::class);});
+                $factory->registerGeneratorService('article', function() use ($c) {return $c->get(ArticleService::class);});
                 $factory->registerGeneratorService('static', function() use ($c) {return $c->get(StaticService::class);});
                 return $factory;
             },
@@ -181,6 +191,14 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusPresentationRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(PaperRepo::class)
+                    );
+            },
+            ArticleService::class => function(ContainerInterface $c) {
+                return new ArticleService(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(ArticleRepo::class)
                     );
             },
             StaticService::class => function(ContainerInterface $c) {

@@ -47,10 +47,11 @@ class ItemTypeSelectViewModel extends StatusViewModelAbstract implements ItemTyp
     public function getTypeTransitions() {
         $typeTransitions = [
             'root' => '',
-            'empty' => ['static', 'paper', 'template'],
+            'empty' => ['static', 'paper', 'article'],
             'redirect' => '',
             'static' => '',
             'paper' => '',
+            'article' => '',
             'trash' => '',
             'generated' => ''
         ];
@@ -71,7 +72,8 @@ class ItemTypeSelectViewModel extends StatusViewModelAbstract implements ItemTyp
     public function getIterator(): \Traversable {
         return new \ArrayObject(
                 [
-                    'menuItem' => $this->getMenuItem()
+                    'menuItem' => $this->getMenuItem(),
+                    'typeTransitions' => $this->getTypeTransitions()
                 ]
                 );
     }

@@ -67,6 +67,9 @@ use Red\Model\Dao\PaperContentDao;
 use Red\Model\Hydrator\PaperContentHydrator;
 use Red\Model\Repository\PaperContentRepo;
 
+use Red\Model\Dao\ArticleDao;
+use Red\Model\Hydrator\ArticleHydrator;
+use Red\Model\Repository\ArticleRepo;
 
 use Events\Model\Dao\EnrollDao;
 use Events\Model\Hydrator\EnrollHydrator;
@@ -225,7 +228,15 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(MenuItemChildHydrator::class)
                         );
             },
-
+            ArticleDao::class => function(ContainerInterface $c) {
+                return new ArticleDao($c->get(HandlerInterface::class));
+            },
+            ArticleHydrator::class => function(ContainerInterface $c) {
+                return new ArticleHydrator();
+            },
+            ArticleRepo::class => function(ContainerInterface $c) {
+                return new ArticleRepo($c->get(ArticleDao::class), $c->get(ArticleHydrator::class));
+            },
             BlockDao::class => function(ContainerInterface $c) {
                 return new BlockDao($c->get(HandlerInterface::class));
             },

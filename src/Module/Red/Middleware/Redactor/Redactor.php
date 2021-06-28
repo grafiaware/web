@@ -17,8 +17,8 @@ use Container\{
 };
 
 use Red\Middleware\Redactor\Controller\{
-    UserActionController, HierarchyController, EditItemController, PresentationActionController, PaperController, ContentController, TemplateController,
-    FilesUploadController
+    UserActionControler, HierarchyControler, EditItemControler, PresentationActionControler, PaperControler, ArticleControler, ContentControler, TemplateController,
+    FilesUploadControler
 };
 
 class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
@@ -66,15 +66,15 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
 
         #### UserActionController ####
         $routeGenerator->addRouteForAction('GET', '/red/v1/useraction/app/:app', function(ServerRequestInterface $request, $app) {
-            /** @var UserActionController $ctrl */
-            $ctrl = $this->container->get(UserActionController::class);
+            /** @var UserActionControler $ctrl */
+            $ctrl = $this->container->get(UserActionControler::class);
             return $ctrl->app($request, $app);
             });
 
         #### PresentationController ####
         $routeGenerator->addRouteForAction('POST', '/red/v1/presentation/language', function(ServerRequestInterface $request) {
-                /** @var PresentationActionController $ctrl */
-                $ctrl = $this->container->get(PresentationActionController::class);
+                /** @var PresentationActionControler $ctrl */
+                $ctrl = $this->container->get(PresentationActionControler::class);
                 return $ctrl->setLangCode($request);
         });
 //        $routeGenerator->addRouteForAction('POST', '/red/v1/presentation/uid', function(ServerRequestInterface $request) {
@@ -83,170 +83,170 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
 //                return $ctrl->setPresentedItem($request);
 //        });
         $routeGenerator->addRouteForAction('POST', '/red/v1/presentation/edit_layout', function(ServerRequestInterface $request) {
-                /** @var PresentationActionController $ctrl */
-                $ctrl = $this->container->get(PresentationActionController::class);
+                /** @var PresentationActionControler $ctrl */
+                $ctrl = $this->container->get(PresentationActionControler::class);
                 return $ctrl->setEditLayout($request);
         });
         $routeGenerator->addRouteForAction('POST', '/red/v1/presentation/edit_article', function(ServerRequestInterface $request) {
-                /** @var PresentationActionController $ctrl */
-                $ctrl = $this->container->get(PresentationActionController::class);
+                /** @var PresentationActionControler $ctrl */
+                $ctrl = $this->container->get(PresentationActionControler::class);
                 return $ctrl->setEditArticle($request);
         });
         $routeGenerator->addRouteForAction('POST', '/red/v1/presentation/edit_menu', function(ServerRequestInterface $request) {
-                /** @var PresentationActionController $ctrl */
-                $ctrl = $this->container->get(PresentationActionController::class);
+                /** @var PresentationActionControler $ctrl */
+                $ctrl = $this->container->get(PresentationActionControler::class);
                 return $ctrl->setEditMenu($request);
         });
 
         #### PaperController ####
         $routeGenerator->addRouteForAction('POST', '/red/v1/paper', function(ServerRequestInterface $request) {
-                /** @var PaperController $ctrl */
-                $ctrl = $this->container->get(PaperController::class);
+                /** @var PaperControler $ctrl */
+                $ctrl = $this->container->get(PaperControler::class);
                 return $ctrl->create($request);
         });
         $routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId', function(ServerRequestInterface $request, $paperId) {
-                /** @var PaperController $ctrl */
-                $ctrl = $this->container->get(PaperController::class);
+                /** @var PaperControler $ctrl */
+                $ctrl = $this->container->get(PaperControler::class);
                 return $ctrl->update($request, $paperId);
         });
         $routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId/template', function(ServerRequestInterface $request, $paperId) {
-                /** @var PaperController $ctrl */
-                $ctrl = $this->container->get(PaperController::class);
+                /** @var PaperControler $ctrl */
+                $ctrl = $this->container->get(PaperControler::class);
                 return $ctrl->template($request, $paperId);
+        });
+
+        #### ArticleControler ####
+        $routeGenerator->addRouteForAction('POST', '/red/v1/article/:articleId', function(ServerRequestInterface $request, $articleId) {
+                /** @var ArticleControler $ctrl */
+                $ctrl = $this->container->get(ArticleControler::class);
+                return $ctrl->update($request, $articleId);
+        });
+        $routeGenerator->addRouteForAction('POST', '/red/v1/article/:articleId/template', function(ServerRequestInterface $request, $articleId) {
+                /** @var ArticleControler $ctrl */
+                $ctrl = $this->container->get(ArticleControler::class);
+                return $ctrl->template($request, $articleId);
         });
 
         #### ContentController ####
 
         $routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId/content/:contentId', function(ServerRequestInterface $request, $paperId, $contentId) {
-                /** @var ContentController $ctrl */
-                $ctrl = $this->container->get(ContentController::class);
+                /** @var ContentControler $ctrl */
+                $ctrl = $this->container->get(ContentControler::class);
                 return $ctrl->updateContent($request, $paperId, $contentId);
         });
         $routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId/content/:contentId/toggle', function(ServerRequestInterface $request, $paperId, $contentId) {
-                /** @var ContentController $ctrl */
-                $ctrl = $this->container->get(ContentController::class);
+                /** @var ContentControler $ctrl */
+                $ctrl = $this->container->get(ContentControler::class);
                 return $ctrl->toggleContent($request, $paperId, $contentId);
         });
         $routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId/content/:contentId/actual', function(ServerRequestInterface $request, $paperId, $contentId) {
-                /** @var ContentController $ctrl */
-                $ctrl = $this->container->get(ContentController::class);
+                /** @var ContentControler $ctrl */
+                $ctrl = $this->container->get(ContentControler::class);
                 return $ctrl->actualContent($request, $paperId, $contentId);
         });
         $routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId/content/:contentId/up', function(ServerRequestInterface $request, $paperId, $contentId) {
-                /** @var ContentController $ctrl */
-                $ctrl = $this->container->get(ContentController::class);
+                /** @var ContentControler $ctrl */
+                $ctrl = $this->container->get(ContentControler::class);
                 return $ctrl->up($request, $paperId, $contentId);
         });
         $routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId/content/:contentId/down', function(ServerRequestInterface $request, $paperId, $contentId) {
-                /** @var ContentController $ctrl */
-                $ctrl = $this->container->get(ContentController::class);
+                /** @var ContentControler $ctrl */
+                $ctrl = $this->container->get(ContentControler::class);
                 return $ctrl->down($request, $paperId, $contentId);
         });
         $routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId/content/:contentId/add_above', function(ServerRequestInterface $request, $paperId, $contentId) {
-                /** @var ContentController $ctrl */
-                $ctrl = $this->container->get(ContentController::class);
+                /** @var ContentControler $ctrl */
+                $ctrl = $this->container->get(ContentControler::class);
                 return $ctrl->addAbove($request, $paperId, $contentId);
         });
         $routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId/content/:contentId/add_below', function(ServerRequestInterface $request, $paperId, $contentId) {
-                /** @var ContentController $ctrl */
-                $ctrl = $this->container->get(ContentController::class);
+                /** @var ContentControler $ctrl */
+                $ctrl = $this->container->get(ContentControler::class);
                 return $ctrl->addBelow($request, $paperId, $contentId);
         });
         $routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId/content/:contentId/trash', function(ServerRequestInterface $request, $paperId, $contentId) {
-                /** @var ContentController $ctrl */
-                $ctrl = $this->container->get(ContentController::class);
+                /** @var ContentControler $ctrl */
+                $ctrl = $this->container->get(ContentControler::class);
                 return $ctrl->trash($request, $paperId, $contentId);
         });
         $routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId/content/:contentId/restore', function(ServerRequestInterface $request, $paperId, $contentId) {
-                /** @var ContentController $ctrl */
-                $ctrl = $this->container->get(ContentController::class);
+                /** @var ContentControler $ctrl */
+                $ctrl = $this->container->get(ContentControler::class);
                 return $ctrl->restore($request, $paperId, $contentId);
         });
         $routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId/content/:contentId/delete', function(ServerRequestInterface $request, $paperId, $contentId) {
-                /** @var ContentController $ctrl */
-                $ctrl = $this->container->get(ContentController::class);
+                /** @var ContentControler $ctrl */
+                $ctrl = $this->container->get(ContentControler::class);
                 return $ctrl->delete($request, $paperId, $contentId);
         });
 
         #### EditItemController ####
         $routeGenerator->addRouteForAction('POST', '/red/v1/menu', function(ServerRequestInterface $request) {
-                /** @var EditItemController $ctrl */
-                $ctrl = $this->container->get(EditItemController::class);
+                /** @var EditItemControler $ctrl */
+                $ctrl = $this->container->get(EditItemControler::class);
                 return $ctrl->toggle($request, $menuItemId);
         });
         $routeGenerator->addRouteForAction('POST', '/red/v1/menu/:menuItemUidFk/toggle', function(ServerRequestInterface $request, $menuItemId) {
-                /** @var EditItemController $ctrl */
-                $ctrl = $this->container->get(EditItemController::class);
+                /** @var EditItemControler $ctrl */
+                $ctrl = $this->container->get(EditItemControler::class);
                 return $ctrl->toggle($request, $menuItemId);
         });
         $routeGenerator->addRouteForAction('POST', '/red/v1/menu/:menuItemUidFk/title', function(ServerRequestInterface $request, $menuItemId) {
-                /** @var EditItemController $ctrl */
-                $ctrl = $this->container->get(EditItemController::class);
+                /** @var EditItemControler $ctrl */
+                $ctrl = $this->container->get(EditItemControler::class);
                 return $ctrl->title($request, $menuItemId);
         });
         $routeGenerator->addRouteForAction('POST', '/red/v1/menu/:menuItemUidFk/type', function(ServerRequestInterface $request, $menuItemId) {
-                /** @var EditItemController $ctrl */
-                $ctrl = $this->container->get(EditItemController::class);
+                /** @var EditItemControler $ctrl */
+                $ctrl = $this->container->get(EditItemControler::class);
                 return $ctrl->type($request, $menuItemId);
         });
-        #### TemplateController ####
-
-        $routeGenerator->addRouteForAction('GET', '/red/v1/papertemplate/:folder', function(ServerRequestInterface $request, $folder) {
-            /** @var TemplateController $ctrl */
-            $ctrl = $this->container->get(TemplateController::class);
-            return $ctrl->papertemplate($request, $folder);
-            });
-        $routeGenerator->addRouteForAction('GET', '/red/v1/authortemplate/:folder/:name', function(ServerRequestInterface $request, $folder, $name) {
-            /** @var TemplateController $ctrl */
-            $ctrl = $this->container->get(TemplateController::class);
-            return $ctrl->authorTemplate($request, $folder, $name);
-            });
 
         #### HierarchyController ####
         $routeGenerator->addRouteForAction('POST', '/red/v1/hierarchy/:uid/add', function(ServerRequestInterface $request, $uid) {
-            /** @var HierarchyController $ctrl */
-            $ctrl = $this->container->get(HierarchyController::class);
+            /** @var HierarchyControler $ctrl */
+            $ctrl = $this->container->get(HierarchyControler::class);
             return $ctrl->add($request, $uid);
         });
         $routeGenerator->addRouteForAction('POST', '/red/v1/hierarchy/:uid/addchild', function(ServerRequestInterface $request, $uid) {
-            /** @var HierarchyController $ctrl */
-            $ctrl = $this->container->get(HierarchyController::class);
+            /** @var HierarchyControler $ctrl */
+            $ctrl = $this->container->get(HierarchyControler::class);
             return $ctrl->addchild($request, $uid);
         });
         $routeGenerator->addRouteForAction('POST', '/red/v1/hierarchy/:uid/cut', function(ServerRequestInterface $request, $uid) {
-            /** @var HierarchyController $ctrl */
-            $ctrl = $this->container->get(HierarchyController::class);
+            /** @var HierarchyControler $ctrl */
+            $ctrl = $this->container->get(HierarchyControler::class);
             return $ctrl->cut($request, $uid);
         });
         $routeGenerator->addRouteForAction('POST', '/red/v1/hierarchy/:uid/cutescape', function(ServerRequestInterface $request, $uid) {
-            /** @var HierarchyController $ctrl */
-            $ctrl = $this->container->get(HierarchyController::class);
+            /** @var HierarchyControler $ctrl */
+            $ctrl = $this->container->get(HierarchyControler::class);
             return $ctrl->cutEscape($request, $uid);
         });
         $routeGenerator->addRouteForAction('POST', '/red/v1/hierarchy/:uid/paste', function(ServerRequestInterface $request, $uid) {
-            /** @var HierarchyController $ctrl */
-            $ctrl = $this->container->get(HierarchyController::class);
+            /** @var HierarchyControler $ctrl */
+            $ctrl = $this->container->get(HierarchyControler::class);
             return $ctrl->paste($request, $uid);
         });
         $routeGenerator->addRouteForAction('POST', '/red/v1/hierarchy/:uid/pastechild', function(ServerRequestInterface $request, $uid) {
-            /** @var HierarchyController $ctrl */
-            $ctrl = $this->container->get(HierarchyController::class);
+            /** @var HierarchyControler $ctrl */
+            $ctrl = $this->container->get(HierarchyControler::class);
             return $ctrl->pastechild($request, $uid);
         });
         $routeGenerator->addRouteForAction('POST', '/red/v1/hierarchy/:uid/delete', function(ServerRequestInterface $request, $uid) {
-            /** @var HierarchyController $ctrl */
-            $ctrl = $this->container->get(HierarchyController::class);
+            /** @var HierarchyControler $ctrl */
+            $ctrl = $this->container->get(HierarchyControler::class);
             return $ctrl->delete($request, $uid);
         });
         $routeGenerator->addRouteForAction('POST', '/red/v1/hierarchy/:uid/trash', function(ServerRequestInterface $request, $uid) {
-            /** @var HierarchyController $ctrl */
-            $ctrl = $this->container->get(HierarchyController::class);
+            /** @var HierarchyControler $ctrl */
+            $ctrl = $this->container->get(HierarchyControler::class);
             return $ctrl->trash($request, $uid);
         });
 
         $routeGenerator->addRouteForAction('POST', '/red/v1/upload/editorimages', function(ServerRequestInterface $request) {
-            /** @var FilesUploadController $ctrl */
-            $ctrl = $this->container->get(FilesUploadController::class);
+            /** @var FilesUploadControler $ctrl */
+            $ctrl = $this->container->get(FilesUploadControler::class);
             return $ctrl->uploadEditorImages($request);
         });
 

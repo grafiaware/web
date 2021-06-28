@@ -214,19 +214,19 @@ var plugins = [
 'quickbars',    ];
 
 var templates_paper = [
-        { title: 'Kontakt', description: 'Grafia web - kontakt',       url: 'red/v1/authortemplate/default/kontakt'}, //vztaženo k rootu RS, tam kde je index redakčního s.
-        { title: 'Publikace - novinka', description: 'Grafia web - publikace',   url: 'red/v1/authortemplate/default/eshop_nove'},
-        { title: 'Obrázek vlevo a text', description: 'Bez obtékání. Dva sloupce', url: 'red/v1/authortemplate/default/obrazekVlevo_blok'},
-        { title: 'Publikace - 2', description: 'Vložení publikací na stránku', url: 'red/v1/authortemplate/default/eshop_radka'},
-        { title: 'Menu - 1 položka', description: 'Vložení položky menu na stránku', url: 'red/v1/authortemplate/default/menu_1polozka'},
-        { title: 'Menu - 2 položky', description: 'Vložení 2 položek menu na stránku', url: 'red/v1/authortemplate/default/menu_2polozky'},
-        { title: 'Menu - 3 položky', description: 'Vložení 3 položek menu na stránku', url: 'red/v1/authortemplate/default/menu_3polozky'},
+        { title: 'Kontakt', description: 'Grafia web - kontakt',       url: 'web/v1/authortemplate/default/kontakt'}, //vztaženo k rootu RS, tam kde je index redakčního s.
+        { title: 'Publikace - novinka', description: 'Grafia web - publikace',   url: 'web/v1/authortemplate/default/eshop_nove'},
+        { title: 'Obrázek vlevo a text', description: 'Bez obtékání. Dva sloupce', url: 'web/v1/authortemplate/default/obrazekVlevo_blok'},
+        { title: 'Publikace - 2', description: 'Vložení publikací na stránku', url: 'web/v1/authortemplate/default/eshop_radka'},
+        { title: 'Menu - 1 položka', description: 'Vložení položky menu na stránku', url: 'web/v1/authortemplate/default/menu_1polozka'},
+        { title: 'Menu - 2 položky', description: 'Vložení 2 položek menu na stránku', url: 'web/v1/authortemplate/default/menu_2polozky'},
+        { title: 'Menu - 3 položky', description: 'Vložení 3 položek menu na stránku', url: 'web/v1/authortemplate/default/menu_3polozky'},
         { title: '---Tvorba šablon---',    description: 'oddelovac',  url: '' },
-        { title: 'Nutné k vytvoření šablon', description: 'Vložte nejprve tuto šablonu a do ní vkládejte ostatní prvky této sekce' , url: 'red/v1/authortemplate/default/grid' },
-        { title: 'Menu - 1 položka (bez gridu) verze 1', description: 'Vložení položky menu na stránku', url: 'red/v1/authortemplate/default/menu_1polozka_1'},
-        { title: 'Menu - 1 položka (bez gridu) dlouha', description: 'Vložení položky menu na stránku', url: 'red/v1/authortemplate/default/menu_1polozka_1_delsi'},
-        { title: 'Menu - 1 položka (bez gridu) dalsi', description: 'Vložení položky menu na stránku', url: 'red/v1/authortemplate/default/menu_1polozka_1_delsi_1'},
-        { title: 'Menu - 1 položka (bez gridu) verze 2', description: 'Vložení položky menu na stránku', url: 'red/v1/authortemplate/default/menu_1polozka_2'}
+        { title: 'Nutné k vytvoření šablon', description: 'Vložte nejprve tuto šablonu a do ní vkládejte ostatní prvky této sekce' , url: 'web/v1/authortemplate/default/grid' },
+        { title: 'Menu - 1 položka (bez gridu) verze 1', description: 'Vložení položky menu na stránku', url: 'web/v1/authortemplate/default/menu_1polozka_1'},
+        { title: 'Menu - 1 položka (bez gridu) dlouha', description: 'Vložení položky menu na stránku', url: 'web/v1/authortemplate/default/menu_1polozka_1_delsi'},
+        { title: 'Menu - 1 položka (bez gridu) dalsi', description: 'Vložení položky menu na stránku', url: 'web/v1/authortemplate/default/menu_1polozka_1_delsi_1'},
+        { title: 'Menu - 1 položka (bez gridu) verze 2', description: 'Vložení položky menu na stránku', url: 'web/v1/authortemplate/default/menu_1polozka_2'}
     ];
 
 var toolbarText = 'save cancel | undo redo | fontstyle fontweight | aligment | anchor link';
@@ -360,14 +360,15 @@ var selectPaperTemplateConfig = {
     menubar: false,
     inline: true,
     plugins: [
-    'template', 'save', 'noneditable', 'code'
+    'template', 'save', 'noneditable'
     ],
-    toolbar: 'template | save code',
+    toolbar: 'template | save ',
     templates: [
-        { title: 'template default', description: 'Grafia web - článek',       url: 'red/v1/papertemplate/default'},
-        { title: 'template contact', description: 'Grafia web - kontakty',       url: 'red/v1/papertemplate/contact'},
-        { title: 'template test', description: 'paper_test',       url: 'red/v1/papertemplate/test'},
-        { title: 'template course', description: 'Grafia web - kurz',       url: 'red/v1/papertemplate/course'},
+        { title: 'template article test', description: 'paper_test',       url: 'web/v1/articletemplate/test'},
+        { title: 'template paper default', description: 'Grafia web - článek',       url: 'web/v1/papertemplate/default'},
+        { title: 'template paper contact', description: 'Grafia web - kontakty',       url: 'web/v1/papertemplate/contact'},
+        { title: 'template paper test', description: 'paper_test',       url: 'web/v1/papertemplate/test'},
+        { title: 'template paper course', description: 'Grafia web - kurz',       url: 'web/v1/papertemplate/course'},
         { title: 'Vzor - Úvod', description: 'Vzor - Úvod',       url: 'web/v1/static/uvod'},
         { title: 'Test - presentedpaper s šablonou default', description: 'rendered component',       url: 'red/v1/presenteditem?template=default'},
         { title: 'Test - presentedpaper s šablonou contact', description: 'rendered component',       url: 'red/v1/presenteditem?template=contact'},
@@ -404,4 +405,4 @@ var editWorkDataConfig = {
 //        tinymce.init(contentConfig);
 //        tinymce.init(perexConfig);
 //        tinymce.init(headerFooterConfig);
-        tinymce.init(selectPaperTemplateConfig);
+//        tinymce.init(selectPaperTemplateConfig);

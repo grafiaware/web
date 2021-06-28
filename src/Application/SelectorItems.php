@@ -16,7 +16,7 @@ use Auth\Middleware\Logged\LoggedAccess;
 use Auth\Middleware\Logged\Service\LoggedAccessor;
 
 use Web\Middleware\Page\Web;
-use Web\Middleware\Component\Component;
+use Red\Middleware\Component\Component;
 
 use Red\Middleware\Redactor\Redactor;
 use Red\Middleware\Transformator\Transformator;

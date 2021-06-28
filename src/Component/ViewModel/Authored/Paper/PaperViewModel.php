@@ -17,7 +17,6 @@ use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusFlashRepo;
 use Red\Model\Repository\PaperAggregateRepo;
-use GeneratorService\Paper\PaperServiceInterface;
 
 /**
  * Description of PaperViewModelAnstract
@@ -25,20 +24,11 @@ use GeneratorService\Paper\PaperServiceInterface;
  * @author pes2704
  */
 class PaperViewModel extends AuthoredViewModelAbstract implements PaperViewModelInterface {
+
     /**
      * @var PaperAggregateRepo
      */
     protected $paperAggregateRepo;
-
-    /**
-     * @var PaperServiceInterface
-     */
-//    protected $paperService;
-
-
-    private $menuItemId;
-
-    private $templateVariables = [];
 
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
@@ -48,54 +38,39 @@ class PaperViewModel extends AuthoredViewModelAbstract implements PaperViewModel
             ) {
         parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo);
         $this->paperAggregateRepo = $paperAggregateRepo;
-//        $this->paperService = $paperService;
-    }
-
-    public function setItemId($menuItemId) {
-        $this->menuItemId = $menuItemId;
     }
 
     /**
      * {@inheritdoc}
      *
-     * MenuItem musí být aktivní nebo prezentace musí být v reřimu article editable - jinak repository nevrací menuItem a nevznikne PaperAggregate, metoda vrací null.
-     *
-     * Pokud PaperAggregate dosud neexistuje (není persitován, není vrácen z repository v režimu article editable) vytvoří nový objekt PaperAggregate.
+     * MenuItem musí být aktivní nebo prezentace musí být v režimu article editable - jinak repository nevrací menuItem a nevznikne PaperAggregate, metoda vrací null.
      *
      * @return PaperAggregatePaperContentInterface|null
      */
-    public function getPaper(): ?PaperInterface {
+    public function getPaper(): ?PaperAggregatePaperContentInterface {
         if (isset($this->menuItemId)) {
-                $paper = $this->paperAggregateRepo->getByReference($this->menuItemId);
-//            if (!isset($paper)) {
-//                $paper = $this->paperService->initialize($this->menuItemId);
-//            }
+            $paper = $this->paperAggregateRepo->getByReference($this->menuItemId);
         }
-
         return $paper ?? null;
     }
 
-    /**
-     * Editovat smí uživatel s rolí 'sup'
-     *
-     * @return bool
-     */
-    public function isEditableArticle(): bool {
-        $loginAggregate = $this->statusSecurityRepo->get()->getLoginAggregate();
-        if ($loginAggregate) {
-            $isEditableArticle = $this->statusSecurityRepo->get()->getUserActions()->isEditableArticle();
-            $isSupervisor = $loginAggregate->getCredentials()->getRole() == 'sup';
-            return ($isEditableArticle AND $isSupervisor);
-        } else {
-            return false;
-        }
+    public function getContentTemplateName() {
+        $paper = $this->getPaper();
+        return isset($paper) ? $paper->getTemplate() : null;
+    }
+
+    public function getContentId() {
+        $paper = $this->getPaper();
+        return isset($paper) ? $paper->getId() : null;
+    }
+
+    public function getContentType() {
+        return 'paper';
     }
 
     public function getIterator() {
         return new \ArrayObject(
-                array_merge(
-                        $this->templateVariables,
-                        ['paperAggregate'=> $this->getPaper()]
-                ));  // nebo offsetSet po jedné hodnotě
+                        ['paperAggregate'=> $this->getPaper(), 'isEditable'=> $this->isEditableByUser()]
+                );  // nebo offsetSet po jedné hodnotě
     }
 }

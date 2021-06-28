@@ -16,10 +16,19 @@ use Component\ViewModel\StatusViewModelInterface;
  */
 interface AuthoredViewModelInterface extends StatusViewModelInterface {
 
+    public function setItemId($menuItemId);
+
     /**
      * Prezentuj pouze publikované položky
      * @return bool
      */
     public function presentOnlyPublished();
+
+    /**
+     * Informuje zda prezentace je v editovatelném režimu a současně prezentovaný obsah je editovatelný přihlášeným uživatelem.
+     * 
+     * @return bool
+     */
+    public function isEditableByUser(): bool;
 
 }

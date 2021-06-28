@@ -84,6 +84,7 @@ class ConfigurationRed extends ConfigurationDb {
             'component.logs.view.directory' => 'Logs/App/Web',
             'component.logs.view.file' => 'Render.log',
             'component.templatePath.paper' => self::RED_TEMPLATES_COMMON.'paper/',
+            'component.templatePath.article' => self::RED_TEMPLATES_COMMON.'article/',
             'component.template.'.FlashComponent::class => self::RED_TEMPLATES_COMMON.'layout/info/flashMessage.php',
             'component.template.'.LoginComponent::class => self::RED_TEMPLATES_COMMON.'layout/modal/login.php',
             'component.template.'.RegisterComponent::class => self::RED_TEMPLATES_COMMON.'layout/modal/register.php',
@@ -240,6 +241,7 @@ class ConfigurationRed extends ConfigurationDb {
                'templates.authorFolder' => self::RED_TEMPLATES_COMMON.'author/',
                'templates.paperFolder' => self::RED_TEMPLATES_COMMON.'paper/',
                'templates.paperContentFolder' => self::RED_TEMPLATES_COMMON.'paper-content/',
+               'templates.articleFolder' => self::RED_TEMPLATES_COMMON.'article/',
 
             ];
     }

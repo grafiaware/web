@@ -8,28 +8,19 @@
 
 namespace Component\ViewModel\Authored\Paper;
 
-use Component\ViewModel\Authored\AuthoredViewModelInterface;
+use Component\ViewModel\Authored\TemplatedViewModelInterface;
 use Red\Model\Entity\PaperAggregatePaperContentInterface;
-use Red\Model\Entity\PaperInterface;
-use Red\Model\Entity\MenuItemInterface;
 
 /**
  *
  * @author pes2704
  */
-interface PaperViewModelInterface extends AuthoredViewModelInterface {
-
-    public function setItemId($menuItemId);
+interface PaperViewModelInterface extends TemplatedViewModelInterface {
 
     /**
-     * Pro existující paper vrací PaperAggregate, pokud paper neexistuje vrací vově vytvořený Paper.
-     * <ul><li>
-     * Pokud byla zadána hodnota setMenuItemId() a zadaný menu item obsahuje Paper vrací PaperAggregate (potomek Paper) příslušný k menuItem.</li><li>
-     * Pokud byla zadána hodnota setMenuItemId() a zadaný menu item neobsahuje Paper vrací nově vytvořený Paper k menuItem.</li><li>
+     * Vrací PaperAggregate, pokud existuje a je aktivní (zveřejněný) nebo prezentace je v editačním režimu.
      *
-     * @return PaperInterface|null
+     * @return PaperAggregatePaperContentInterface|null
      */
-    public function getPaper(): ?PaperInterface;
-
-    public function isEditableArticle(): bool;
+    public function getPaper(): ?PaperAggregatePaperContentInterface;
 }

@@ -40,7 +40,7 @@ class PaperService extends ContentServiceAbstract {
     }
 
     /**
-     * Vytvoří nový Paper pro zadané menu item id. Nastaví jako editora právě přihlášeného uživatele. Ostatní vlastnosti entity Paper ponechá prázdné.
+     * Vytvoří nový Paper pro zadané menu item id. Nastaví jako editora právě přihlášeného uživatele. Ostatní vlastnosti entity Paper ponechá prázdné. Entitu přidá do Repository.
      *
      * @param type $menuItemIdFk
      * @return void

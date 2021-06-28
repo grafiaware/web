@@ -1,11 +1,4 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Component\Renderer\Html\Authored\Paper;
 
 use Red\Model\Entity\PaperAggregatePaperContentInterface;
@@ -25,34 +18,38 @@ class PaperRenderer  extends PaperRendererAbstract {
     public function render(iterable $viewModel=NULL) {
         /** @var PaperViewModelInterface $viewModel */
         $paperAggregate = $viewModel->getPaper();  // vrací PaperAggregate
-        if ($viewModel->isArticleEditable()) {
-            $articleButtonForms = $this->renderPaperButtonsForm($paperAggregate);
+        if (isset($paperAggregate)) { // paper je načten pokud menu item je aktivní (publikovaný) nebo režim je editační
+            if ($viewModel->isEditableByUser()) {  // editační režim a uživatel má právo editovat
+                $articleButtonForms = $this->renderPaperButtonsForm($paperAggregate);
 
-            $headline = $this->renderHeadlineEditable($paperAggregate);
-            $perex = $this->renderPerexEditable($paperAggregate);
-            $contents = ($paperAggregate instanceof PaperAggregatePaperContentInterface) ? $this->renderContentsEditable($paperAggregate) : "";
+                $headline = $this->renderHeadlineEditable($paperAggregate);
+                $perex = $this->renderPerexEditable($paperAggregate);
+                $contents = ($paperAggregate instanceof PaperAggregatePaperContentInterface) ? $this->renderContentsEditable($paperAggregate) : "";
 
-            $html = Html::tag('article', ['data-red-renderer'=>'ArticleEditableRenderer', "data-red-datasource"=> "paper {$paperAggregate->getId()} for item {$paperAggregate->getMenuItemIdFk()}"],
-                        $articleButtonForms
-                        .Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/{$paperAggregate->getId()}"],
+                $html = Html::tag('article', ['data-red-renderer'=>'ArticleEditableRenderer', "data-red-datasource"=> "paper {$paperAggregate->getId()} for item {$paperAggregate->getMenuItemIdFk()}"],
+                            $articleButtonForms
+                            .Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/{$paperAggregate->getId()}"],
+                                $headline.$perex.$contents
+                            )
+                        );
+            } else {
+                $headline = Html::tag('div',
+                            ['class'=>$this->classMap->getClass('Headline', 'div'),
+                             'style' => "display: block;"
+                            ],
+                            $this->renderHeadline($paperAggregate)
+                        );
+                $perex = $this->renderPerex($paperAggregate);
+                $contents = ($paperAggregate instanceof PaperAggregatePaperContentInterface) ? $this->renderContents($paperAggregate) : "";
+                $html =
+                    Html::tag('article', ['data-red-renderer'=>'PaperEditable'],
                             $headline.$perex.$contents
-                        )
                     );
+            }
         } else {
-            $paperAggregate = $viewModel->getPaper();  // vrací Paper nebo PaperAggregate
-            $headline = Html::tag('div',
-                        ['class'=>$this->classMap->getClass('Headline', 'div'),
-                         'style' => "display: block;"
-                        ],
-                        $this->renderHeadline($paperAggregate)
-                    );
-            $perex = $this->renderPerex($paperAggregate);
-            $contents = ($paperAggregate instanceof PaperAggregatePaperContentInterface) ? $this->renderContents($paperAggregate) : "";
-            $html =
-                Html::tag('article', ['data-red-renderer'=>'PaperEditable'],
-                        $headline.$perex.$contents
-                );
+            $html = Html::tag('div', ['style'=>'visibility: hidden;'], 'No active paper.');
         }
-        return $html;
+
+        return $html ?? '';
     }
 }

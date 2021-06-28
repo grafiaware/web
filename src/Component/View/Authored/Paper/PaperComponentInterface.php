@@ -8,8 +8,8 @@
 
 namespace Component\View\Authored\Paper;
 
-use Component\View\Authored\Paper\AuthoredComponentInterface;
-use Component\View\Authored\Paper\Article\ArticleComponentInterface;
+use Component\View\Authored\AuthoredComponentInterface;
+
 /**
  *
  * @author pes2704

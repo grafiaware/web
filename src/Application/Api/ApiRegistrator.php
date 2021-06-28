@@ -64,7 +64,16 @@ class ApiRegistrator {
         $registry->register($this->getPrototype->withUrlPattern('/web/v1/flash'));
         $registry->register($this->getPrototype->withUrlPattern('/web/v1/service/:name'));
         $registry->register($this->getPrototype->withUrlPattern('/web/v1/static/:name'));
-        $registry->register($this->getPrototype->withUrlPattern('/web/v1/:menuItemType/:menuItemId'));
+        $registry->register($this->getPrototype->withUrlPattern('/web/v1/empty/:menuItemId'));
+        $registry->register($this->getPrototype->withUrlPattern('/web/v1/paper/:menuItemId'));
+        $registry->register($this->getPrototype->withUrlPattern('/web/v1/article/:menuItemId'));
+
+        #### TemplateController ####
+        $registry->register($this->getPrototype->withUrlPattern('/web/v1/papertemplate/:folder'));
+        $registry->register($this->getPrototype->withUrlPattern('/web/v1/articletemplate/:folder'));
+        $registry->register($this->getPrototype->withUrlPattern('/web/v1/authortemplate/:folder/:name'));
+
+
         #
         #### UserActionController ####
         $registry->register($this->getPrototype->withUrlPattern('/red/v1/useraction/app/:app'));
@@ -80,6 +89,10 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/template'));
+
+        #### ArticleController ####
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/article/:articleId'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/article/:articleId/template'));
 
         #### ContentController ####
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/content'));
@@ -109,10 +122,6 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/hierarchy/:uid/pastechild'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/hierarchy/:uid/delete'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/hierarchy/:uid/trash'));
-
-        #### TemplateController ####
-        $registry->register($this->getPrototype->withUrlPattern('/red/v1/papertemplate/:folder'));
-        $registry->register($this->getPrototype->withUrlPattern('/red/v1/authortemplate/:folder/:name'));
 
         #### TinyUploadImagesController
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/upload/editorimages'));

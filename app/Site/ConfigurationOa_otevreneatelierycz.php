@@ -216,6 +216,7 @@ class ConfigurationOa_otevreneatelierycz {
             'component.logs.view.directory' => 'Logs/App/Web',
             'component.logs.view.file' => 'Render.log',
             'component.templatePath.paper' => self::RED_TEMPLATES_COMMON.'paper/',
+            'component.templatePath.article' => self::RED_TEMPLATES_COMMON.'article/',
             'component.template.'.FlashComponent::class => self::RED_TEMPLATES_COMMON.'layout/info/flashMessage.php',
             'component.template.'.LoginComponent::class => self::RED_TEMPLATES_COMMON.'layout/modal/login.php',
             'component.template.'.LogoutComponent::class => self::RED_TEMPLATES_COMMON.'layout/modal/logout.php',

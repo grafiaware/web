@@ -24,12 +24,10 @@ use Pes\View\Template\PhpTemplate;
 use Component\View\Authored\Menu\MenuComponent;
 use Component\ViewModel\Authored\Menu\MenuViewModel;
 
-use Component\View\Authored\Paper\ContentComponent;
+use Component\View\Authored\TemplatedComponent;
 //component
-use Component\View\Authored\Paper\{
-    PaperComponent,
-    Article\ArticleComponent
-};
+use Component\View\Authored\Paper\PaperComponent;
+use Component\View\Authored\Article\ArticleComponent;
 
 use Component\View\Generated\{
     LanguageSelectComponent,
@@ -48,12 +46,9 @@ use Component\View\Status\{
 
 // viewModel
 use Component\ViewModel\{
-    ComponentViewModelAbstract,
-    Authored\Paper\NamedPaperViewModel,
-    Authored\Paper\PresentedPaperViewModel,
     Authored\Paper\PaperViewModel,
+    Authored\Article\ArticleViewModel,
     Generated\LanguageSelectViewModel,
-    Generated\SearchPhraseViewModel,
     Generated\SearchResultViewModel,
     Generated\ItemTypeSelectViewModel,
     Flash\FlashViewModel,
@@ -70,6 +65,7 @@ use Red\Model\Repository\{
     MenuRootRepo,
     PaperRepo,
     PaperAggregateRepo,
+    ArticleRepo,
     BlockRepo,
     BlockAggregateRepo
 
@@ -77,12 +73,14 @@ use Red\Model\Repository\{
 
 // controller
 use Web\Middleware\Page\Controller\PageController;
-use Web\Middleware\Component\Controller\ComponentController;
-use \Web\Middleware\Component\Controller\TemplateController;
+use Red\Middleware\Component\Controller\RedComponentControler;
+use Red\Middleware\Component\Controller\TemplateControler;
 
 // renderery - pro volání služeb renderer kontejneru renderer::class
 use Component\Renderer\Html\{
-    Authored\Paper\ComponentWrapRenderer, Authored\Paper\PaperRenderer,
+    Authored\SelectTemplateRenderer,
+    Authored\Paper\PaperRenderer,
+    Authored\Article\ArticleRenderer,
     Generated\LanguageSelectRenderer,
     Generated\SearchPhraseRenderer, Generated\SearchResultRenderer, Generated\ItemTypeRenderer,
     Flash\FlashRenderer
@@ -90,7 +88,6 @@ use Component\Renderer\Html\{
 
 // wrapper pro template
 use Component\Renderer\Html\Authored\Paper\ElementWrapper;
-use Component\Renderer\Html\Authored\Paper\ElementEditableWrapper;
 use Component\Renderer\Html\Authored\Paper\Buttons;
 
 // view
@@ -152,15 +149,15 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                             $c->get(ViewFactory::class))
                         )->injectContainer($c);  // inject component kontejner
             },
-            ComponentController::class => function(ContainerInterface $c) {
-                return (new ComponentController(
+            RedComponentControler::class => function(ContainerInterface $c) {
+                return (new RedComponentControler(
                             $c->get(StatusSecurityRepo::class),
                             $c->get(StatusFlashRepo::class),
                             $c->get(StatusPresentationRepo::class))
                         )->injectContainer($c);  // inject component kontejner
             },
-            TemplateController::class => function(ContainerInterface $c) {
-                return (new TemplateController(
+            TemplateControler::class => function(ContainerInterface $c) {
+                return (new TemplateControler(
                             $c->get(StatusSecurityRepo::class),
                             $c->get(StatusFlashRepo::class),
                             $c->get(StatusPresentationRepo::class))
@@ -244,32 +241,40 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                                 $c->get(PaperAggregateRepo::class)
                         );
             },
-
+            ArticleViewModel::class => function(ContainerInterface $c) {
+                return new ArticleViewModel(
+                                $c->get(StatusSecurityRepo::class),
+                                $c->get(StatusPresentationRepo::class),
+                                $c->get(StatusFlashRepo::class),
+                                $c->get(ArticleRepo::class)
+                        );
+            },
             #### komponenty s připojeným fallback rendererem - pro paper s šablonou je šablona připojena později
             #
             'component.paper' => function(ContainerInterface $c) {
                 $viewModel = $c->get(PaperViewModel::class);  //oba komponenty sdílejí stejný model
-                $articleComponent = new PaperComponent($viewModel);
-                $articleComponent->setTemplatesPath($c->get('component.templatePath.paper'));
-                $articleComponent->setRendererContainer($c->get('rendererContainer'));
-                $articleComponent->setFallbackRendererName(PaperRenderer::class);
-                $articleComponent->addSubRendererName('elementWrapper', ElementWrapper::class);  // ElementEditableWrapper::class);
-                $paperComponent = new ContentComponent($viewModel);
+                $paperComponent = new PaperComponent($viewModel);
+                $paperComponent->setTemplatesPath($c->get('component.templatePath.paper'));
                 $paperComponent->setRendererContainer($c->get('rendererContainer'));
-                $paperComponent->setRendererName(ComponentWrapRenderer::class);
-                $paperComponent->appendComponentView($articleComponent, 'article');
-                return $paperComponent;
-            },
-            'component.template' => function(ContainerInterface $c) {
-                $viewModel = $c->get(PaperViewModel::class);  //oba komponenty sdílejí stejný model
-                $contentComponent = new ContentComponent($viewModel);
+                $paperComponent->setFallbackRendererName(PaperRenderer::class);
+                $paperComponent->addSubRendererName('elementWrapper', ElementWrapper::class);  // ElementEditableWrapper::class);
+                $contentComponent = new TemplatedComponent($viewModel);
                 $contentComponent->setRendererContainer($c->get('rendererContainer'));
-                $contentComponent->setTemplatesPath($c->get('component.templatePath.paper'));
-                $contentComponent->setFallbackRendererName(ComponentWrapRenderer::class);
-                $contentComponent->addSubRendererName('elementWrapper', ElementWrapper::class);
-                $contentComponent->addSubRendererName('buttons', Buttons::class);
-
-//                $paperComponent->appendComponentView($contentComponent, 'article');
+                $contentComponent->setRendererName(SelectTemplateRenderer::class);
+                $contentComponent->appendComponentView($paperComponent, 'templatedContent');
+                return $contentComponent;
+            },
+            'component.article' => function(ContainerInterface $c) {
+                $viewModel = $c->get(ArticleViewModel::class);  //oba komponenty sdílejí stejný model
+                $paperComponent = new ArticleComponent($viewModel);
+                $paperComponent->setTemplatesPath($c->get('component.templatePath.article'));
+                $paperComponent->setRendererContainer($c->get('rendererContainer'));
+                $paperComponent->setFallbackRendererName(ArticleRenderer::class);
+                $paperComponent->addSubRendererName('elementWrapper', ElementWrapper::class);  // ElementEditableWrapper::class);
+                $contentComponent = new TemplatedComponent($viewModel);
+                $contentComponent->setRendererContainer($c->get('rendererContainer'));
+                $contentComponent->setRendererName(SelectTemplateRenderer::class);
+                $contentComponent->appendComponentView($paperComponent, 'templatedContent');
                 return $contentComponent;
             },
 
@@ -312,7 +317,7 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                                 $c->get(StatusFlashRepo::class),
                                 $c->get(MenuItemTypeRepo::class)
                         );
-                return (new ItemTypeSelectComponent($viewModel))->setRendererContainer($c->get('rendererContainer'))->setRendererName(ItemTypeRenderer::class);
+                return (new ItemTypeSelectComponent($viewModel))->setRendererContainer($c->get('rendererContainer'));
             },
             StatusBoardComponent::class => function(ContainerInterface $c) {
                 $viewModel = new StatusBoardViewModel(

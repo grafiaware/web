@@ -12,7 +12,7 @@ use  Component\Renderer\Html\Authored\Menu\{
 };
 
 use Component\Renderer\Html\Authored\Paper\{
-    ComponentWrapRenderer, PaperWrapEditableRenderer
+    SelectTemplateRenderer, PaperWrapEditableRenderer
 };
 
 use Component\Renderer\Html\Generated\{
@@ -171,8 +171,8 @@ class RendererContainerConfigurator_Nav extends ContainerConfiguratorAbstract {
         ###########################
         # paper renderer
         ###########################
-            ComponentWrapRenderer::class => function(ContainerInterface $c) {
-                return new ComponentWrapRenderer($c->get('paper.classmap'));
+            SelectTemplateRenderer::class => function(ContainerInterface $c) {
+                return new SelectTemplateRenderer($c->get('paper.classmap'));
             },
             PaperWrapEditableRenderer::class => function(ContainerInterface $c) {
                 return new PaperWrapEditableRenderer($c->get('paper.editable.classmap'));

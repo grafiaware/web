@@ -217,12 +217,11 @@ class PageController extends LayoutControllerAbstract {
     private function resolveMenuItemView(MenuItemInterface $menuItem) {
 
         if (isset($menuItem)) {
-            $menuItemType = $menuItem->getTypeFk();
-            $content = $this->getAuthoredContentLoadScript($menuItemType, $menuItem);
+            $content = $this->getContentLoadScript($menuItem);
 
         } else {
             // například neaktivní, neaktuální menu item
-            $content = $this->container->get(View::class)->setRenderer(new StringRenderer());
+            $content = $this->container->get(View::class)->setRenderer(new ImplodeRenderer());
         }
         return $content;
     }
@@ -238,7 +237,8 @@ class PageController extends LayoutControllerAbstract {
      * @param type $menuItem
      * @return type
      */
-    private function getAuthoredContentLoadScript($menuItemType, $menuItem) {
+    private function getContentLoadScript($menuItem) {
+        $menuItemType = $menuItem->getTypeFk();
         if ($menuItemType!='static') {
             $menuItemId = $menuItem->getId();
             // prvek data ''loaderWrapperElementId' musí být unikátní - z jeho hodnoty se generuje id načítaného elementu - a id musí být unikátní jinak dojde k opakovanému přepsání obsahu elemntu v DOM
