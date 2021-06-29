@@ -24,15 +24,16 @@ class SelectTemplateRenderer extends HtmlRendererAbstract {
     public function render(iterable $viewModel=NULL) {
         /** @var TemplatedViewModelInterface $viewModel */
         $templatedContent = $viewModel->offsetExists('templatedContent') ? $viewModel->offsetGet('templatedContent') : '';
-        if ($viewModel->isEditableByUser()) {
             $contentTemplate = $viewModel->getContentTemplateName();
+        if ($viewModel->isEditableByUser() AND (!isset($contentTemplate) OR !$contentTemplate)) {
             $contentId = $viewModel->getContentId();
             $contentType = $viewModel->getContentType();
             return Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/$contentType/$contentId/template"],
                         Html::tagNopair('input', ["type"=>"hidden", "name"=>"template_$contentId", "value"=>$contentTemplate])
                         .
                         Html::tag('div', ['class'=>'paper_template_select'],
-                            Html::tag('div', ['class'=>'mceNonEditable'], $templatedContent)
+                                ''
+//                            Html::tag('div', ['class'=>'mceNonEditable'], $templatedContent)
                         )
                     );
         } else {

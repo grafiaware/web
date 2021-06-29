@@ -23,12 +23,12 @@ class ArticleRenderer extends HtmlModelRendererAbstract {
             if ($viewModel->isArticleEditable() AND $viewModel->isEditableByUser()) {  // editační režim// uživatel má právo editovat
                 $ret = Html::tag('article', ['data-red-renderer'=>'ArticleRenderer', "data-red-datasource"=> "paper {$article->getId()} for item {$article->getMenuItemIdFk()}"],
                             Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/article/{$article->getId()}"],
-                                Html::tag('article', ['id'=>'article_'.$article->getId(), 'class'=>'edit-html'], $article->getArticle())
+                                Html::tag('div', ['id'=>'article_'.$article->getId(), 'class'=>'edit-html'], $article->getArticle())
                             )
                         );
             } else {
                 $ret = Html::tag('article', ['data-red-renderer'=>'ArticleRenderer', "data-red-datasource"=> "paper {$article->getId()} for item {$article->getMenuItemIdFk()}"],
-                            Html::tag('article', ['class'=>''], $article->getArticle())
+                            $article->getArticle()
                         );
             }
         }
