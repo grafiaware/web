@@ -74,4 +74,8 @@ interface StatusPresentationInterface extends EntitySingletonInterface {
      * @return $this
      */
     public function setLastGetResourcePath($lastResourcePath): StatusPresentationInterface;
+
+    public function setLastTemplateName($templateName);
+
+    public function getLastTemplateName();
 }

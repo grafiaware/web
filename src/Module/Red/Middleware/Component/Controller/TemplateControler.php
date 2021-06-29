@@ -55,11 +55,13 @@ class TemplateControler extends PresentationFrontControllerAbstract {
 
     ### action metody ###############
 
-    public function articletemplate(ServerRequestInterface $request, $folder) {
-        $filename = Configuration::templateController()['templates.articleFolder']."$folder/template.php";
+    public function articletemplate(ServerRequestInterface $request, $templateName) {
+        $filename = Configuration::templateController()['templates.articleFolder']."$templateName/template.php";
         if (is_readable($filename)) {
             $str = file_get_contents($filename);
+            $this->statusPresentationRepo->get()->setLastTemplateName($templateName);
         } else {
+            $this->statusPresentationRepo->get()->setLastTemplateName('');
             $str = '';
         }
         return $this->createResponseFromString($request, $str);

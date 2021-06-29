@@ -70,7 +70,7 @@ class ArticleViewModel extends AuthoredViewModelAbstract implements ArticleViewM
 
     public function getIterator() {
         return new \ArrayObject(
-                        ['article'=> $this->getPaper(), 'isEditable'=> $this->isEditableByUser()]
+                        ['article'=> $this->getArticle(), 'isEditable'=> $this->isEditableByUser()]
                 );  // nebo offsetSet po jedné hodnotě
     }
 }

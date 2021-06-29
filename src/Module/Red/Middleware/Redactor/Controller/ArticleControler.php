@@ -83,9 +83,10 @@ class ArticleControler extends PresentationFrontControllerAbstract {
             user_error("Neexistuje article se zadaným id $articleId");
         } else {
             $postTemplate = (new RequestParams())->getParam($request, 'template_'.$articleId, 'default');
+            $lastTemplate = $this->statusPresentationRepo->get()->getLastTemplateName();
             //TODO: -template je nutné nastavit ve všech jazykovžch verzích
-            $article->setTemplate($postTemplate);
-            $this->addFlashMessage("Set template: $postTemplate");
+            $article->setTemplate($lastTemplate);
+            $this->addFlashMessage("Set template: $lastTemplate");
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
     }

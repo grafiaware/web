@@ -36,6 +36,8 @@ class StatusPresentation extends EntityAbstract implements StatusPresentationInt
 
     private $lastResourcePath;
 
+    private $lastTemplateName;
+
     /**
      *
      * @return LanguageInterface|null
@@ -107,5 +109,11 @@ class StatusPresentation extends EntityAbstract implements StatusPresentationInt
         $this->lastResourcePath = $lastResourcePath;
         return $this;
     }
+    public function setLastTemplateName($templateName) {
+        $this->lastTemplateName = $templateName;
+    }
 
+    public function getLastTemplateName() {
+        return $this->lastTemplateName;
+    }
 }
