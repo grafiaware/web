@@ -365,6 +365,12 @@ var selectPaperTemplateConfig = {
     toolbar: 'template | save ',
     templates: [
         { title: 'template article test', description: 'paper_test',       url: 'web/v1/articletemplate/test'},
+        { title: 'template article empty', description: 'paper_empty',       url: 'web/v1/articletemplate/empty'},
+        { title: 'template article two columns', description: 'paper_columns',       url: 'web/v1/articletemplate/two_columns'},
+        { title: 'template article two columns divided', description: 'paper_columns_divided',       url: 'web/v1/articletemplate/two_columns_divided'},
+        { title: 'template article two blocks styled', description: 'paper_blocks_styled',       url: 'web/v1/articletemplate/two_blocks_styled'},
+        { title: 'template article img & text styled', description: 'paper_box_styled',       url: 'web/v1/articletemplate/img_text_styled'},
+        { title: 'template article job', description: 'paper_job',       url: 'web/v1/articletemplate/job'},
         { title: 'template paper default', description: 'Grafia web - článek',       url: 'web/v1/papertemplate/default'},
         { title: 'template paper contact', description: 'Grafia web - kontakty',       url: 'web/v1/papertemplate/contact'},
         { title: 'template paper test', description: 'paper_test',       url: 'web/v1/papertemplate/test'},
