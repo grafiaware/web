@@ -181,13 +181,14 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
                                 ->setData([
                                     // pro tiny_config.js
                                     'basePath' => $basepath,
-                                    'urlStylesCss' => Configuration::layoutController()['urlStylesCss'],
-                                    'urlSemanticCss' => Configuration::layoutController()['urlSemanticCss'],
-                                    'urlContentTemplatesCss' => Configuration::layoutController()['urlContentTemplatesCss'],
                                     'paperTemplatesUri' =>  Configuration::layoutController()['paperTemplatesUri'],  // URI pro Template Controller
                                     'authorTemplatesPath' => Configuration::layoutController()['authorTemplatesPath'],
-                                    'toolbarsLang' => $tinyToolsbarsLang
-                                ]),
+                                    'toolbarsLang' => $tinyToolsbarsLang,
+                                    // prvky pole contentCSS - tyto tři proměnné jsou prvky pole - pole je v tiny_config.js v proměnné contentCss
+                                    'urlStylesCss' => Configuration::layoutController()['urlStylesCss'],
+                                    'urlSemanticCss' => Configuration::layoutController()['urlSemanticCss'],
+                                    'urlContentTemplatesCss' => Configuration::layoutController()['urlContentTemplatesCss']
+                        ]),
 
                         'urlTinyMCE' => Configuration::layoutController()['urlTinyMCE'],
                         'urlJqueryTinyMCE' => Configuration::layoutController()['urlJqueryTinyMCE'],
