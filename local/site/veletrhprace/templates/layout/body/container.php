@@ -14,13 +14,13 @@
             <main class="page-content">
 <!--                <div class="zapnout_editaci" style="text-align:right;">
                     <form class="ui form" method="POST" action="">
-                        <button class="ui huge animated button" type="submit" name="edit_article" value="<?= empty($editArticle) ? 1 : 0 ?>" formtarget="_self"
+                        <button class="ui huge animated button" type="submit" name="edit_article" value="<?= '';// empty($editArticle) ? 1 : 0 ?>" formtarget="_self"
                                 formaction="red/v1/presentation/edit_article">
                             <div class="visible content">
                                 <i class="pencil teal alternate icon"></i>
                             </div>
                             <div class="hidden content" style="font-size: 0.7em;line-height:1;top:40%">
-                                <?= empty($editArticle) ? "Editavat článek" : "Vypnout editaci" ?>
+                                <?= ''; // empty($editArticle) ? "Editavat článek" : "Vypnout editaci" ?>
                             </div>
                         </button>
                     </form>
