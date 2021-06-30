@@ -357,6 +357,7 @@ class ConfigurationStyles extends ConfigurationRed {
                         'section.trash'=>'trash',
                         'div.semafor'=>'semafor',
                         'div.corner'=>'ui right tiny corner blue label cornerWithTools',
+                        'div.corner icon' => 'tools black icon',
                         'i1.published' => 'circle icon green',
                         'i1.notpublished' => 'circle icon red ',
                         'i2.published' => 'calendar check icon green',

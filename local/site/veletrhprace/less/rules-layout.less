@@ -212,8 +212,6 @@
       }
     }
     .close-item{
-      font-size: @bigSize * @emSize;
-      margin: 5px 0;
       i:hover, .hamburger_dontclose:hover{
           cursor: pointer;
       }
@@ -228,14 +226,23 @@
     .nav-mobile{
         font-size: @bigSize * @emSize;
     }
+    .zapnout_editaci{
+        text-align: right;
+        margin: 5px 0 50px;
+        padding: 15px 0 0;
+        border-width: 1px 1px 0 1px;
+        border-style: solid;
+        border-color: @lightGrey;
+    }
     .close-item{
         font-size: @hugeSize * @emSize;
         border-bottom: 3px solid @invertedTextColor;
         margin: 50px 0 15px;
-        padding: 20px 20px 40px 0;
+        padding: 40px 20px 40px 0;
+        position: relative;
         .hamburger-icon{
             position: absolute;
-            top: 45px;
+            top: -45px;
             left: 20px;
             display: flex;
             flex-direction: column;
@@ -245,7 +252,7 @@
         }
         img{
             position: absolute;
-            top: 55px;
+            top: -45px;
             left: 120px;
         }
         .close.slim-icon{
@@ -254,7 +261,7 @@
             width: 63px;
             height: 63px;
             right: 20px;
-            top: 45px;
+            top: -45px;
             display: block;
             &:hover{
                 opacity: 0.8;
