@@ -1,5 +1,5 @@
 var tinyConfig = {
     basePath: '{{basePath}}',
-    contentCss: ['{{urlStylesCss}}', '{{urlSemanticCss}}'],
+    contentCss: ['{{urlStylesCss}}', '{{urlSemanticCss}}',  '{{urlContentTemplatesCss}}'],
     toolbarsLang: '{{toolbarsLang}}'
 };
