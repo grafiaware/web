@@ -360,9 +360,9 @@ var selectPaperTemplateConfig = {
     menubar: false,
     inline: true,
     plugins: [
-    'template', 'save', 'noneditable'
+    'template', 'save', 'noneditable',
     ],
-    toolbar: 'template | save ',
+    toolbar: 'template | save',
     templates: [
         { title: 'template article test', description: 'paper_test',       url: 'web/v1/articletemplate/test'},
         { title: 'template article empty', description: 'paper_empty',       url: 'web/v1/articletemplate/empty'},

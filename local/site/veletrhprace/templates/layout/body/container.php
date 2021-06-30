@@ -1,5 +1,5 @@
     <!--<div class="ui container editable">--> <!--$this->attributes($bodyContainerAttributes) -->
-    <div class="ui grid"> 
+    <div class="ui grid">
         <div class="two wide mobile two wide tablet two wide computer two wide large screen two wide widescreen column">
             <div class="fix-bar">
                 <?php include "container/telo/svislemenu.php"; ?>
@@ -12,12 +12,13 @@
                 <?php include "container/hlavicka.php"; ?>
             </header>
             <main class="page-content">
+                <?= (false ? '<div class="paper_template_select"><div class="mceNonEditable">Výběr šablony pro stránku</div></div>' : '') ?>
                 <?= $content ?? '' ?>
             </main>
         </div>
         <?= $flash ?? '' ?>
         <?= $poznamky ?? '' ?>
-        
+
         <div class="row">
             <div class="sixteen wide column">
                 <footer>
@@ -27,4 +28,4 @@
             </div>
         </div>
     </div>
-    
+

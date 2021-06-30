@@ -98,6 +98,11 @@ $('.edit_kalendar .ui.calendar').calendar({
     }
 });
 
+//semantic-ui accordion (použitý pro nastavení menu) v editačním režimu
+$('.accordion.border')
+    .accordion()
+;
+
 // EDIT MENU
 
 function sendOnEnter(event) {
