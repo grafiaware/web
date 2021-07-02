@@ -20,7 +20,6 @@
 
 /* Resize large sizes */
 @huge: @18px;
-@massive: @30px; 
 
 @massiveWidth: 30rem;
 

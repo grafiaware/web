@@ -167,6 +167,16 @@ body{
     /*SVISLE MENU*/
     /*svislé menu má pevnou výšku, protože jsou v editačním režimu vidět i neaktivní stránky
     (a je jich tam hodně). Aby obsah nepřetékal, přidána svislá rolovací lišta*/
+    .fix-bar:not(.editMenu){
+        a{
+            padding-left: 35px;
+        }
+    }
+    .fix-bar.editMenu{
+        a{
+            padding-left: 25px;
+        }
+    }
     .svisle-menu{
         &:not(.bloky):not(.kos){
             overflow: @svisleMenuOverflow;
@@ -175,9 +185,6 @@ body{
         width: @svisleMenuWidth;
         margin: @svisleMenuMargin;
         padding-left: 8px; 
-        a{
-            padding-left: 35px;
-        }
         p{
             margin-left: -3px !important;
         }

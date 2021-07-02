@@ -27,7 +27,7 @@
     }
     
     /***FIXNÍ LIŠTA***/
-    .fix-bar{
+    .fix-bar:not(.editMenu){
         width: 10%;
         height: 100%;
         position: fixed;
@@ -151,6 +151,78 @@
                 }
             }
         }
+        //hamburger menu
+        #mySidenav{
+            display: none;
+            height: 100%;
+            width: 30%;
+            background-color: @primaryColor;
+            position: fixed!important;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            overflow: auto;
+            -webkit-animation: animateleft 0.4s;
+            animation: animateleft 0.4s;
+            padding: 40px 20px 20px;
+            &.open{
+                display: block !important;
+            }
+        }
+        #myOverlay{
+            position: fixed;
+            display: none;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5); //@transparentBlack
+            z-index: 1;
+        }
+        .svisle-menu .vertical.menu{
+            margin-left: 20px;
+        }
+        .svisle-menu .menu .onpath{
+            left: 7%;
+        }
+    }
+    .fix-bar.editMenu{
+        width: 400px;
+        height: 102%;
+        position: relative;
+        color: @invertedTextColor;
+        background-color: @primaryColor;
+        #mySidenav{
+            display: block;
+            width: 100%;
+            background-color: @primaryColor;
+            position: relative;
+            overflow: hidden;
+            padding: 40px 0 20px 10px;
+            .prihlaseni{
+                margin-bottom: 10px;
+                right: 15px;
+                top: -50px;
+                position: absolute;
+            }
+        }
+        .svisle-menu .menu .onpath{
+            left: 2%;
+        }
+        .close-item .close.slim-icon{
+            display: none;
+        }
+        > .icon-menu{
+            display: none;
+        }
+        > .nav-mobile{
+            display: none;
+        }
+        > .prihlaseni{
+            display: none;
+        }
     }
     .form.huge input[type="checkbox"]{
         vertical-align: middle ;
@@ -161,16 +233,13 @@
         padding: 0;
         list-style: none;
     }
-    .svisle-menu .vertical.menu:not(.edit){
-        margin-left: 20px;
-    }
     .svisle-menu.kos .vertical.menu {
         margin-left: 0;
     }
     .svisle-menu .vertical.menu .item{
         color: @invertedTextColor;
     }
-    .svisle-menu .menu{
+    .fix-bar .svisle-menu .menu{
         li:not(.leaf) > a > .chevron-icon::before{
             content: "\f078";
             height: 1em;
@@ -193,7 +262,6 @@
                 }
         }
         .onpath{
-            left: 7%;
             position: relative;
             a:not(.presented){
                 color: @invertedTextColor;
@@ -232,7 +300,7 @@
         padding: 15px 0 0;
         border-width: 1px 1px 0 1px;
         border-style: solid;
-        border-color: @lightGrey;
+        border-color: @lightGrey; 
     }
     .close-item{
         font-size: @hugeSize * @emSize;
@@ -299,35 +367,7 @@
     .svisle-menu:first-child {
        // display: none;
     }
-    #mySidenav {
-        display: none;
-        height: 100%;
-        width: 30%;
-        background-color: @primaryColor;
-        position: fixed!important;
-        top: 0;
-        left: 0;
-        z-index: 100;
-        overflow: auto;
-        -webkit-animation: animateleft 0.4s;
-        animation: animateleft 0.4s;
-        padding: 40px 20px 20px;
-        &.open{
-            display: block !important;
-        }
-    }
-    #myOverlay{
-        position: fixed;
-        display: none;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: rgba(0, 0, 0, 0.5); //@transparentBlack
-        z-index: 1;
-    }
+    
     @-webkit-keyframes animateleft {
       from {
         left: -300px;
