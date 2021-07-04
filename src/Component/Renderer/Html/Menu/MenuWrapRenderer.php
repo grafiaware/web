@@ -1,6 +1,6 @@
 <?php
-namespace  Component\Renderer\Html\Authored\Menu;
-use Component\ViewModel\Authored\Menu\MenuViewModelInterface;
+namespace  Component\Renderer\Html\Menu;
+use Component\ViewModel\Menu\MenuViewModelInterface;
 
 use Pes\Text\Html;
 

@@ -6,13 +6,13 @@
  * and open the template in the editor.
  */
 
-namespace  Component\Renderer\Html\Authored\Menu;
+namespace  Component\Renderer\Html\Menu;
 
 use Pes\View\Renderer\RendererInterface;
 use Component\Renderer\Html\HtmlModelRendererAbstract;
-use Component\Renderer\Html\Authored\Menu\LevelWrapRenderer;
-use Component\Renderer\Html\Authored\Menu\ItemRenderer;
-use Component\ViewModel\Authored\Menu\Item\ItemViewModelInterface;
+use Component\Renderer\Html\Menu\LevelWrapRenderer;
+use Component\Renderer\Html\Menu\ItemRenderer;
+use Component\ViewModel\Menu\Item\ItemViewModelInterface;
 
 /**
  * Description of MenuWrapRndererAbstract

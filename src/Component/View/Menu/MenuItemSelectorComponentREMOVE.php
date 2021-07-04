@@ -1,9 +1,9 @@
 <?php
 
-namespace Component\View\Authored\Menu;
+namespace Component\View\Menu;
 
 use Component\View\Authored\AuthoredComponentAbstract;
-use Component\ViewModel\Authored\Menu\MenuViewModelInterface;
+use Component\ViewModel\Menu\MenuViewModelInterface;
 
 /**
  * Description of MenuItemComponentSwitch

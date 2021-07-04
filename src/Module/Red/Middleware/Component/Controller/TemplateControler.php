@@ -14,8 +14,8 @@ use Site\Configuration;
 
 use FrontController\PresentationFrontControllerAbstract;
 
-use Model\Entity\MenuItemInterface;
-use Model\Entity\PaperAggregatePaperContent;
+use Red\Model\Entity\MenuItemInterface;
+use Red\Model\Entity\PaperAggregatePaperContent;
 
 // komponenty
 use Component\View\{
@@ -41,10 +41,6 @@ use Pes\Text\Message;
 use Pes\View\View;
 use Pes\View\Template\PhpTemplate;
 use Pes\View\Template\InterpolateTemplate;
-//use Pes\View\Recorder\RecorderProvider;
-//use Pes\View\Recorder\VariablesUsageRecorder;
-//use Pes\View\Recorder\RecordsLogger;
-use \Pes\View\ViewFactory;
 
 /**
  * Description of GetController
@@ -55,6 +51,12 @@ class TemplateControler extends PresentationFrontControllerAbstract {
 
     ### action metody ###############
 
+    /**
+     * Vrací obsah šablony.
+     * @param ServerRequestInterface $request
+     * @param type $templateName
+     * @return type
+     */
     public function articletemplate(ServerRequestInterface $request, $templateName) {
         $filename = Configuration::templateController()['templates.articleFolder']."$templateName/template.php";
         if (is_readable($filename)) {

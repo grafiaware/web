@@ -24,26 +24,18 @@ abstract class AuthoredViewModelAbstract extends StatusViewModelAbstract impleme
     }
 
     /**
-     *
-     * @return bool
-     */
-    public function presentOnlyPublished() {
-        return ! $this->isArticleEditable();  //negace
-    }
-
-    /**
      * {@inheritdoc}
      *
      * Editovat smí uživatel s rolí 'sup'
      *
      * @return bool
      */
-    public function isEditableByUser(): bool {
+    public function userCanEdit(): bool {
         $loginAggregate = $this->statusSecurityRepo->get()->getLoginAggregate();
         if ($loginAggregate) {
-            $isEditableArticle = $this->statusSecurityRepo->get()->getUserActions()->isEditableArticle();
-            $isSupervisor = $loginAggregate->getCredentials()->getRole() == 'sup';
-            return ($isEditableArticle AND $isSupervisor);
+            $presentEditableArticle = $this->statusSecurityRepo->get()->getUserActions()->presentEditableArticle();
+            $userIsSupervisor = $loginAggregate->getCredentials()->getRole() == 'sup';
+            return ($presentEditableArticle AND $userIsSupervisor);
         } else {
             return false;
         }

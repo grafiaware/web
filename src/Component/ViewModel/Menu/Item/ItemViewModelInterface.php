@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Component\ViewModel\Authored\Menu\Item;
+namespace Component\ViewModel\Menu\Item;
 
 use Red\Model\Entity\HierarchyAggregateInterface;
 

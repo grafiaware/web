@@ -34,7 +34,7 @@ class Article extends EntityAbstract implements ArticleInterface {
         return $this->menuItemIdFk;
     }
 
-    public function getArticle() {
+    public function getContent() {
         return $this->article;
     }
 
@@ -64,7 +64,7 @@ class Article extends EntityAbstract implements ArticleInterface {
         return $this;
     }
 
-    public function setArticle($article): ArticleInterface {
+    public function setContent($article): ArticleInterface {
         $this->article = $article;
         return $this;
     }

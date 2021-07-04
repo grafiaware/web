@@ -1,14 +1,14 @@
 <?php
 
-namespace Component\View\Authored\Menu;
+namespace Component\View\Menu;
 
 use Component\View\CompositeComponentAbstract;
-use Component\ViewModel\Authored\Menu\MenuViewModelInterface;
-use Component\ViewModel\Authored\Menu\Item\ItemViewModel;
+use Component\ViewModel\Menu\MenuViewModelInterface;
+use Component\ViewModel\Menu\Item\ItemViewModel;
 
 use Pes\View\Renderer\RendererInterface;
 
-use  Component\Renderer\Html\Authored\Menu\MenuWrapRendererInterface;
+use  Component\Renderer\Html\Menu\MenuWrapRendererInterface;
 
 /**
  * Description of MenuComponent

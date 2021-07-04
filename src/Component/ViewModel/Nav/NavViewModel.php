@@ -23,8 +23,8 @@ use Status\Model\Repository\StatusFlashRepo;
 use Red\Model\Repository\HierarchyAggregateRepo;
 use Red\Model\Repository\MenuRootRepo;
 
-use Component\ViewModel\Authored\Menu\Item\ItemViewModel;
-use Component\ViewModel\Authored\Menu\Item\ItemViewModelInterface;
+use Component\ViewModel\Menu\Item\ItemViewModel;
+use Component\ViewModel\Menu\Item\ItemViewModelInterface;
 
 /**
  * Description of NavViewModel

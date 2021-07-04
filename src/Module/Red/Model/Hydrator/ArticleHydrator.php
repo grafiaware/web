@@ -30,7 +30,7 @@ class ArticleHydrator implements HydratorInterface {
         $article
             ->setId($row['id'])
             ->setMenuItemIdFk($row['menu_item_id_fk'])
-            ->setArticle($row['article'])
+            ->setContent($row['article'])
             ->setTemplate($row['template'])
             ->setEditor($row['editor'])
             ->setUpdated($row['updated'] ? \DateTime::createFromFormat('Y-m-d H:i:s', $row['updated']) : NULL);
@@ -45,7 +45,7 @@ class ArticleHydrator implements HydratorInterface {
         /** @var ArticleInterface $article */
         $row['id'] = $article->getId(); // id je autoincrement - readonly, hodnota pro where
         $row['menu_item_id_fk'] = $article->getMenuItemIdFk();
-        $row['article'] = $article->getArticle();
+        $row['article'] = $article->getContent();
         $row['template'] = $article->getTemplate();
         $row['editor'] = $article->getEditor();
         // updated je timestamp

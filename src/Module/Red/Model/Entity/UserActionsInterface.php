@@ -21,21 +21,21 @@ interface UserActionsInterface extends EntitySingletonInterface {
      *
      * @return bool
      */
-    public function isEditableLayout(): bool;
+    public function presentEditableLayout(): bool;
 
     /**
      * Informuje, zda prezentace je přepnuta do modu editace článku.
      *
      * @return bool
      */
-    public function isEditableArticle(): bool;
+    public function presentEditableArticle(): bool;
 
     /**
      * Informuje, zda prezentace je přepnuta do modu editace menu.
      *
      * @return bool
      */
-    public function isEditableMenu(): bool;
+    public function presentEditableMenu(): bool;
 
     /**
      * Nastaví informaci, že prezentace je přepnuta do modu editace layoutu.

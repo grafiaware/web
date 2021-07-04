@@ -12,8 +12,8 @@ use Menu\Psr\Container\ContainerInterface;
 
 // Components
 use Menu\Component\Renderer\Html\ClassMap\ClassMap;
-use Menu\Component\ViewModel\Authored\Menu\MenuViewModelInterface;
-use Menu\Component\ViewModel\Authored\Menu\Item\ItemViewModelInterface;
+use Menu\Component\ViewModel\Menu\MenuViewModelInterface;
+use Menu\Component\ViewModel\Menu\Item\ItemViewModelInterface;
 
 // Model
 use Menu\Model\Entity\MenuItemInterface;

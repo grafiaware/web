@@ -19,7 +19,7 @@ class PaperRenderer  extends PaperRendererAbstract {
         /** @var PaperViewModelInterface $viewModel */
         $paperAggregate = $viewModel->getPaper();  // vrací PaperAggregate
         if (isset($paperAggregate)) { // paper je načten pokud menu item je aktivní (publikovaný) nebo režim je editační
-            if ($viewModel->isEditableByUser()) {  // editační režim a uživatel má právo editovat
+            if ($viewModel->userCanEdit()) {  // editační režim a uživatel má právo editovat
                 $articleButtonForms = $this->renderPaperButtonsForm($paperAggregate);
 
                 $headline = $this->renderHeadlineEditable($paperAggregate);

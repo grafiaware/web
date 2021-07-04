@@ -21,7 +21,7 @@ interface ArticleInterface extends EntityInterface {
 
     public function getMenuItemIdFk();
 
-    public function getArticle();
+    public function getContent();
 
     public function getTemplate();
 
@@ -29,18 +29,16 @@ interface ArticleInterface extends EntityInterface {
 
     public function getUpdated();
 
-    public function getKeyAttribute();
-
     public function setId($id): ArticleInterface;
 
     public function setMenuItemIdFk($menuItemIdFk): ArticleInterface;
 
-    public function setArticle($article): ArticleInterface;
+    public function setContent($article): ArticleInterface;
 
     public function setTemplate($template): ArticleInterface;
 
     public function setEditor($editor): ArticleInterface;
-    
+
     public function setUpdated($updated): ArticleInterface;
 
 }

@@ -1,9 +1,6 @@
-
-<div data-component="presented" data-template="<?= $paperAggregate->getTemplate() ?>" class="">
-    <form>
-        <article class="edit-html borderDance">
+<article class="edit-html borderDance">
             <div class="title active">
-                <p class="podnadpis"><i class="dropdown icon"></i><span class="edit-text borderDance">Název pozice, Místo výkonu</span>                
+                <p class="podnadpis"><i class="dropdown icon"></i><span class="edit-text borderDance">Název pozice, Místo výkonu</span>
                     <span class="ui big red tag label edit-text borderDance">kategorie</span>                            </p>
             </div>
             <div class="content active">
@@ -45,5 +42,3 @@
                 </div>
             </div>
         </article>
-    </form>
-</div>

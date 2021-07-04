@@ -1,5 +1,5 @@
 <?php
-namespace  Component\Renderer\Html\Authored\Menu;
+namespace  Component\Renderer\Html\Menu;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
 use Pes\Text\Html;

@@ -1,7 +1,7 @@
 <?php
-namespace Component\ViewModel\Authored\Menu;
+namespace Component\ViewModel\Menu;
 
-use Component\ViewModel\Authored\AuthoredViewModelAbstract;
+use Component\ViewModel\StatusViewModelAbstract;
 
 use Red\Model\Entity\HierarchyAggregateInterface;
 use Red\Model\Entity\MenuRootInterface;
@@ -11,15 +11,15 @@ use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusF
 use Red\Model\Repository\HierarchyAggregateRepo;
 use Red\Model\Repository\MenuRootRepo;
 
-use Component\ViewModel\Authored\Menu\Item\ItemViewModel;
-use Component\ViewModel\Authored\Menu\Item\ItemViewModelInterface;
+use Component\ViewModel\Menu\Item\ItemViewModel;
+use Component\ViewModel\Menu\Item\ItemViewModelInterface;
 
 /**
  * Description of MenuViewModel
  *
  * @author pes2704
  */
-class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelInterface {
+class MenuViewModel extends StatusViewModelAbstract implements MenuViewModelInterface {
 
     private $menuRootRepo;
     private $hierarchyRepo;
@@ -38,6 +38,14 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
         parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo);
         $this->hierarchyRepo = $hierarchyRepo;
         $this->menuRootRepo = $menuRootRepo;
+    }
+
+    /**
+     *
+     * @return bool
+     */
+    public function presentOnlyPublished() {
+        return ! $this->isArticleEditable();  //negace
     }
 
     /**
@@ -188,7 +196,7 @@ class MenuViewModel extends AuthoredViewModelAbstract implements MenuViewModelIn
     public function isEditableMenu(): bool {
         $loginAggregate = $this->statusSecurityRepo->get()->getLoginAggregate();
         if ($loginAggregate) {
-            $isEditableMenu = $this->statusSecurityRepo->get()->getUserActions()->isEditableMenu();
+            $isEditableMenu = $this->statusSecurityRepo->get()->getUserActions()->presentEditableMenu();
             $isSupervisor = $loginAggregate->getCredentials()->getRole() == 'sup';
             return ($isEditableMenu AND $isSupervisor);
         } else {

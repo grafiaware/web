@@ -21,8 +21,8 @@ use Pes\View\Template\PhpTemplate;
 use Pes\View\Template\NodeTemplate;
 
 // menu
-use Component\View\Authored\Menu\MenuComponent;
-use Component\ViewModel\Authored\Menu\MenuViewModel;
+use Component\View\Menu\MenuComponent;
+use Component\ViewModel\Menu\MenuViewModel;
 
 //component
 use Component\View\Nav\NavSubtreeComponent;

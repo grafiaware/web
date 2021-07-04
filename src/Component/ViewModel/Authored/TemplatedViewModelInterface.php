@@ -18,13 +18,4 @@ interface TemplatedViewModelInterface extends AuthoredViewModelInterface {
      */
     public function getContentTemplateName();
 
-    /**
-     * Id obsahu - např. Paper nebo Article id.
-     */
-    public function getContentId();
-
-    /**
-     * typ obsahu (odpovídá menu item type) - např 'paper' nebo 'article'
-     */
-    public function getContentType();
 }

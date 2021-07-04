@@ -17,7 +17,8 @@ use Component\View\{
     Flash\FlashComponent,
     Generated\ItemTypeSelectComponent,
     Authored\Paper\ContentComponentInterface,
-    Authored\Paper\PaperComponentInterface
+    Authored\Paper\PaperComponentInterface,
+    Authored\Article\ArticleComponent
 };
 
 // renderery
@@ -73,7 +74,7 @@ class RedComponentControler extends XhrControllerAbstract {
 
     public function article(ServerRequestInterface $request, $menuItemId) {
         /** @var ContentComponentInterface $view */
-        $view = $this->container->get('component.article');
+        $view = $this->container->get(ArticleComponent::class);
         $view->setItemId($menuItemId);
         return $this->createResponseFromView($request, $view);
     }
@@ -86,29 +87,28 @@ class RedComponentControler extends XhrControllerAbstract {
      */
     private function resolveMenuItemView(ServerRequestInterface $request, $menuItemType, $menuItemId) {
             $userActions = $this->statusSecurityRepo->get()->getUserActions();
-            $isEditableContent = $userActions->isEditableArticle() OR $userActions->isEditableLayout();
+            $isEditableContent = $userActions->presentEditableArticle() OR $userActions->presentEditableLayout();
 
             switch ($menuItemType) {
-                case 'empty':
-                        $view = $this->container->get(ItemTypeSelectComponent::class);
-                    break;
+//                case 'empty':
+//                        $view = $this->container->get(ItemTypeSelectComponent::class);
+//                    break;
                 case 'generated':
                     $view = $view = $this->container->get(View::class)->setData( ["No content for generated type."])->setRenderer(new ImplodeRenderer());
                     break;
-                case 'static':
-                    $view = $this->container->get('component.static_dosud_nevytvoreny');
-                    break;
-                case 'paper':
-                    /** @var PaperComponentInterface $view */
-                    $view = $this->container->get('component.paper');
-                    $view->setItemId($menuItemId);
-                    break;
-                case 'article':
-                    /** @var ContentComponentInterface $view */
-                    $view = $this->container->get('component.article');
-                    $view->setItemId($menuItemId);
-
-                    break;
+//                case 'static':
+//                    $view = $this->container->get('component.static_dosud_nevytvoreny');
+//                    break;
+//                case 'paper':
+//                    /** @var PaperComponentInterface $view */
+//                    $view = $this->container->get('component.paper');
+//                    $view->setItemId($menuItemId);
+//                    break;
+//                case 'article':
+//                    /** @var ContentComponentInterface $view */
+//                    $view = $this->container->get('component.article');
+//                    $view->setItemId($menuItemId);
+//                    break;
                 case 'redirect':
                     $view = $view = $this->container->get(View::class)->setData( ["No content for redirect type."])->setRenderer(new ImplodeRenderer());
                     break;

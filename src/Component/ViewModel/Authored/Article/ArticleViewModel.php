@@ -8,15 +8,13 @@
 
 namespace Component\ViewModel\Authored\Article;
 
-use Red\Model\Entity\Article;
-use Red\Model\Entity\ArticleInterface;
-
+use ArrayObject;
 use Component\ViewModel\Authored\AuthoredViewModelAbstract;
-
-use Status\Model\Repository\StatusSecurityRepo;
-use Status\Model\Repository\StatusPresentationRepo;
-use Status\Model\Repository\StatusFlashRepo;
+use Red\Model\Entity\ArticleInterface;
 use Red\Model\Repository\ArticleRepo;
+use Status\Model\Repository\StatusFlashRepo;
+use Status\Model\Repository\StatusPresentationRepo;
+use Status\Model\Repository\StatusSecurityRepo;
 
 /**
  * Description of PaperViewModelAnstract
@@ -59,6 +57,16 @@ class ArticleViewModel extends AuthoredViewModelAbstract implements ArticleViewM
         return isset($article) ? $article->getTemplate() : null;
     }
 
+    /**
+     * Informuje, jestli article má zobrazitelná obsah. Zobrazitelný obsah má article. jehož metoda getContent() vrací neprázdný řetězec.
+     *
+     * @return bool
+     */
+    public function hasContent(): bool {
+        $article = $this->getArticle();
+        return (isset($article) AND $article->getContent()) ? true : false; //content může být null
+    }
+
     public function getContentId() {
         $article = $this->getArticle();
         return isset($article) ? $article->getId() : null;
@@ -69,8 +77,10 @@ class ArticleViewModel extends AuthoredViewModelAbstract implements ArticleViewM
     }
 
     public function getIterator() {
-        return new \ArrayObject(
-                        ['article'=> $this->getArticle(), 'isEditable'=> $this->isEditableByUser()]
+        return new ArrayObject(
+                        ['article'=> $this->getArticle(), 'isEditable'=> $this->userCanEdit()]
                 );  // nebo offsetSet po jedné hodnotě
     }
+
+
 }

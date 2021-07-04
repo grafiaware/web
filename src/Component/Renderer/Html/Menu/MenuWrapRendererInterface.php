@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace  Component\Renderer\Html\Authored\Menu;
+namespace  Component\Renderer\Html\Menu;
 
 use Pes\View\Renderer\RendererInterface;
 

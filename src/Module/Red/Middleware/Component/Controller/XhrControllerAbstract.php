@@ -20,12 +20,12 @@ abstract class XhrControllerAbstract extends PresentationFrontControllerAbstract
 
     protected function isEditableLayout() {
         $userActions = $this->statusSecurityRepo->get()->getUserActions();
-        return $userActions ? $userActions->isEditableLayout() : false;
+        return $userActions ? $userActions->presentEditableLayout() : false;
     }
 
     protected function isEditableArticle() {
         $userActions = $this->statusSecurityRepo->get()->getUserActions();
-        return $userActions ? $userActions->isEditableArticle() : false;
+        return $userActions ? $userActions->presentEditableArticle() : false;
     }
 
 }

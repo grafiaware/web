@@ -7,7 +7,7 @@ use Site\Configuration;
 use Pes\Container\ContainerConfiguratorAbstract;
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
 
-use  Component\Renderer\Html\Authored\Menu\{
+use  Component\Renderer\Html\Menu\{
     MenuWrapRenderer, MenuWrapEditableRenderer, LevelWrapRenderer, ItemRenderer, ItemEditableRenderer, ItemBlockRenderer, ItemTrashRenderer
 };
 

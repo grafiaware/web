@@ -19,16 +19,22 @@ interface AuthoredViewModelInterface extends StatusViewModelInterface {
     public function setItemId($menuItemId);
 
     /**
-     * Prezentuj pouze publikované položky
+     * Informuje zda prezentace je v editovatelném režimu a současně prezentovaný obsah je editovatelný přihlášeným uživatelem.
+     *
      * @return bool
      */
-    public function presentOnlyPublished();
+    public function userCanEdit(): bool;
+
+    public function hasContent(): bool;
 
     /**
-     * Informuje zda prezentace je v editovatelném režimu a současně prezentovaný obsah je editovatelný přihlášeným uživatelem.
-     * 
-     * @return bool
+     * Id obsahu - např. Paper nebo Article id.
      */
-    public function isEditableByUser(): bool;
+    public function getContentId();
+
+    /**
+     * typ obsahu (odpovídá menu item type) - např 'paper' nebo 'article'
+     */
+    public function getContentType();
 
 }

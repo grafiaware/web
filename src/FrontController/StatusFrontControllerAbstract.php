@@ -74,7 +74,7 @@ abstract class StatusFrontControllerAbstract extends FrontControllerAbstract imp
         $response = $response->withHeader('Content-Language', $language->getLocale());
 
         $userActions = $this->statusSecurityRepo->get()->getUserActions();
-        if ($userActions AND $userActions->isEditableArticle()) {
+        if ($userActions AND $userActions->presentEditableArticle()) {
             $response = $response->withHeader('Cache-Control', 'no-cache');
         } else {
             $response = $response->withHeader('Cache-Control', 'public, max-age=180');

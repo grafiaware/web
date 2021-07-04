@@ -105,100 +105,17 @@ class PageController extends LayoutControllerAbstract {
 ##### private methods ##############################################################
 #
 
-    private function createResponseWithItem(ServerRequestInterface $request, MenuItemInterface $menuItem = null) {
-        if ($menuItem) {
-            $this->setPresentationMenuItem($menuItem);
-            $actionComponents = ["content" => $this->resolveMenuItemView($menuItem)];
-            $view = $this->createView($request, $this->getComponentViews($actionComponents));
-            $response = $this->createResponseFromView($request, $view);
-        } else {
-            // neexistující stránka
-            $response = $this->redirectSeeOther($request, ""); // SeeOther - ->home
-        }
-        return $response;
-    }
 
-    private function getComponentViews(array $actionComponents) {
-        // POZOR! Nesmí se na stránce vyskytovat dva paper se stejným id v editovatelném režimu. TinyMCE vyrobí dvě hidden proměnné se stejným jménem
-        // (odvozeným z id), ukládaný obsah editovatelné položky se neuloží - POST data obsahují prázdný řetězec a dojde potichu ke smazání obsahu v databázi.
-        // Příklad: - bloky v editovatelném modu a současně editovatelné menu bloky - v menu bloky vybraný blok je zobrazen editovatelný duplicitně s blokem v layoutu
-        //          - dva stené bloky v layoutu - mapa, kontakt v hlavičce i v patičce
 
-        return array_merge(
-                $actionComponents,
-                $this->getGeneratedLayoutComponents(),
-                // full page
-                $this->getAuthoredLayoutComponents(),
-                // for debug
-//                $this->getEmptyMenuComponents(),
-                $this->getMenuComponents()
-                );
-    }
-
-    private function getGeneratedLayoutComponents() {
-        return [
-            'languageSelect' => $this->container->get(LanguageSelectComponent::class),
-            'searchPhrase' => $this->container->get(SearchPhraseComponent::class),
-        ];
-    }
-
-    private function getMenuComponents() {
-
-        $userActions = $this->statusSecurityRepo->get()->getUserActions();
-
-        $components = [];
-        foreach (Configuration::pageController()['menu'] as $menuConf) {
-            $this->configMenuComponent($menuConf, $components);
-        }
-        if ($userActions->isEditableArticle()) {
-            $this->configMenuComponent(Configuration::pageController()['blocks'], $components);
-            $this->configMenuComponent(Configuration::pageController()['trash'], $components);
-
-        }
-
-        return $components;
-    }
-
-    private function configMenuComponent($menuConf, &$componets): void {
-                $componets[$menuConf['context_name']] = $this->container->get($menuConf['service_name'])
-                        ->setMenuRootName($menuConf['root_name'])
-                        ->withTitleItem($menuConf['with_title']);
-    }
-
-    private function getAuthoredLayoutComponents() {
-        $userActions = $this->statusSecurityRepo->get()->getUserActions();
-        $isEditableContent = $userActions->isEditableArticle() OR $userActions->isEditableLayout();
-
-        $map = [
-                    'rychleOdkazy' => 'a3',
-                    'nejblizsiAkce' => 'a2',
-                    'aktuality' => 'a1',
-                    'razitko' => 'a4',
-                    'socialniSite' => 'a5',
-                    'mapa' => 'a6',
-                    'logo' => 'a7',
-                    'banner' => 'a8',
-                ];
-        $componets = [];
-
-        // pro neexistující bloky nedělá nic
-        foreach ($map as $variableName => $blockName) {
-            $menuItem = $this->getBlockMenuItem($blockName);
-            if (isset($menuItem)) {
-                $componets[$variableName] = $this->resolveMenuItemView($menuItem);
-            }
-        }
-        return $componets;
-    }
-
-    private function getMenuItem($uid) {
+    protected function getMenuItem($uid) {
         /** @var MenuItemRepo $menuItemRepo */
         $menuItemRepo = $this->container->get(MenuItemRepo::class);
         $langCode = $this->getPresentationLangCode();
         return $menuItemRepo->get($langCode, $uid);
     }
 
-    private function getBlockMenuItem($name) {
+
+    protected function getBlockMenuItem($name) {
         /** @var BlockAggregateRepo $blockAggregateRepo */
         $blockAggregateRepo = $this->container->get(BlockAggregateRepo::class);
         $langCode = $this->getPresentationLangCode();
@@ -214,7 +131,7 @@ class PageController extends LayoutControllerAbstract {
      * Vrací view objekt pro zobrazení centrálního obsahu v prostoru pro "content"
      * @return type
      */
-    private function resolveMenuItemView(MenuItemInterface $menuItem) {
+    protected function resolveMenuItemView(MenuItemInterface $menuItem) {
 
         if (isset($menuItem)) {
             $content = $this->getContentLoadScript($menuItem);
@@ -244,14 +161,14 @@ class PageController extends LayoutControllerAbstract {
             // prvek data ''loaderWrapperElementId' musí být unikátní - z jeho hodnoty se generuje id načítaného elementu - a id musí být unikátní jinak dojde k opakovanému přepsání obsahu elemntu v DOM
             $view = $this->container->get(View::class)
                         ->setData([
-                            'loaderWrapperElementId' => "paper_for_item_{$menuItemId}_generated_by_{$menuItemType}",
+                            'loaderWrapperElementId' => "content_for_item_{$menuItemId}_with_type_{$menuItemType}",
                             'apiUri' => "web/v1/$menuItemType/$menuItemId"
                             ]);
         } else {
             $name = $this->getNameForStaticPage($menuItem);
             $view = $this->container->get(View::class)
                         ->setData([
-                            'loaderWrapperElementId' => "paper_for_template_{$name}_generated_by_{$menuItemType}",
+                            'loaderWrapperElementId' => "content_for_item_{$name}_with_type_{$menuItemType}",
                             'apiUri' => "web/v1/$menuItemType/$name"
                             ]);
         }

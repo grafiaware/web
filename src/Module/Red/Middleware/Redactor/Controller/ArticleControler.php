@@ -64,8 +64,16 @@ class ArticleControler extends PresentationFrontControllerAbstract {
             // jiné POST parametry nepoužije (pokud jsou renderovány elementy input např. z inputů show a hide - takové parametry musí vyhodnocovat jiná action metoda, t.j. musí se odesílat spolu
             // s jiným formaction (jiné REST uri))
             if (array_key_exists("article_$articleId", $postParams)) {
-                $article->setArticle($postParams["article_$articleId"]);
-                $this->addFlashMessage('Article updated');
+                $statusPresentation = $this->statusPresentationRepo->get();
+                $templateName = $statusPresentation->getLastTemplateName();
+                if (isset($templateName) AND $templateName) {
+                    $statusPresentation->setLastTemplateName('');
+                    $article->setTemplate($templateName);
+                    $this->addFlashMessage("Article created from $templateName");
+                } else {
+                    $article->setContent($postParams["article_$articleId"]);
+                    $this->addFlashMessage('Article updated');
+                }
             }
         }
         return $this->redirectSeeLastGet($request); // 303 See Other

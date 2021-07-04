@@ -15,8 +15,8 @@ use Menu\Model\HierarchyHooks\MenuListStyles;
 use Menu\Model\Repository\HierarchyAggregateRepo;
 
 // propojení s middleware web
-use Menu\Component\ViewModel\Authored\Menu\MenuViewModel;
-use Menu\Component\ViewModel\Authored\Menu\ItemViewModel;
+use Menu\Component\ViewModel\Menu\MenuViewModel;
+use Menu\Component\ViewModel\Menu\ItemViewModel;
 
 
 

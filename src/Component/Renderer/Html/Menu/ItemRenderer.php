@@ -1,8 +1,8 @@
 <?php
-namespace  Component\Renderer\Html\Authored\Menu;
+namespace  Component\Renderer\Html\Menu;
 
 use Component\Renderer\Html\HtmlModelRendererAbstract;
-use Component\ViewModel\Authored\Menu\Item\ItemViewModelInterface;
+use Component\ViewModel\Menu\Item\ItemViewModelInterface;
 use Red\Model\Entity\HierarchyAggregateInterface;
 
 use Pes\Text\Html;

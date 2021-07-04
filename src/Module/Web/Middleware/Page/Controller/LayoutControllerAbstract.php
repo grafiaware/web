@@ -27,6 +27,8 @@ use Component\View\{
     Flash\FlashComponent
 };
 
+use Red\Model\Entity\MenuItemInterface;
+
 ####################
 use Pes\View\ViewFactory;
 use Pes\View\View;
@@ -55,15 +57,31 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
         $this->viewFactory = $viewFactory;
     }
 
-    ### prezentace - view
+    ### composite view
 
     protected function createView(ServerRequestInterface $request, array $componentViews) {
 
         $layoutView = $this->getCompositeView($request);
         foreach ($componentViews as $name => $componentView) {
-            $layoutView->appendComponentView($componentView, $name);
+            if (isset($componentView)) {
+                $layoutView->appendComponentView($componentView, $name);
+            }
         }
         return $layoutView;
+    }
+
+    ### response
+    protected function createResponseWithItem(ServerRequestInterface $request, MenuItemInterface $menuItem = null) {
+        if ($menuItem) {
+            $this->setPresentationMenuItem($menuItem);
+            $actionComponents = ["content" => $this->resolveMenuItemView($menuItem)];
+            $view = $this->createView($request, $this->getComponentViews($request, $actionComponents));
+            $response = $this->createResponseFromView($request, $view);
+        } else {
+            // neexistující stránka
+            $response = $this->redirectSeeOther($request, ""); // SeeOther - ->home
+        }
+        return $response;
     }
 
 ######################################
@@ -81,14 +99,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
                     'linksCommon' => Configuration::layoutController()['linksCommon'],
                     'linksSite' => Configuration::layoutController()['linksSite'],
                     'bodyContainerAttributes' => $this->getBodyContainerAttributes(),
-                    #### komponenty ######
-                    'modalLoginLogout' => $this->getLoginLogoutComponent(),
-                    'modalRegister' => $this->getRegisterComponent(),
-                    'modalUserAction' => $this->getUserActionComponent(),
-                    'linkEditorJs' => $this->getLinkEditorJsView($request),
-                    'linkEditorCss' => $this->getLinkEditorCssView($request),
-                    'poznamky' => $this->getPoznamkyComponentView(),
-                    'flash' => $this->getFlashComponent(),
+
                 ]);
     }
 
@@ -99,9 +110,92 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
             return ["class" => ""];
         }
     }
-    #### komponenty ######
 
-    protected function getLoginLogoutComponent() {
+    #### komponenty a komponentbí views ######
+
+
+    private function getComponentViews(ServerRequestInterface $request, array $actionComponents) {
+        // POZOR! Nesmí se na stránce vyskytovat dva paper se stejným id v editovatelném režimu. TinyMCE vyrobí dvě hidden proměnné se stejným jménem
+        // (odvozeným z id), ukládaný obsah editovatelné položky se neuloží - POST data obsahují prázdný řetězec a dojde potichu ke smazání obsahu v databázi.
+        // Příklad: - bloky v editovatelném modu a současně editovatelné menu bloky - v menu bloky vybraný blok je zobrazen editovatelný duplicitně s blokem v layoutu
+        //          - dva stené bloky v layoutu - mapa, kontakt v hlavičce i v patičce
+
+        $views = array_merge(
+                $actionComponents,
+                $this->getLayoutComponents($request),
+                // full page
+                $this->getAuthoredLayoutComponents(),
+                // for debug
+//                $this->getEmptyMenuComponents(),
+                $this->getMenuComponents()
+                );
+        return $views;
+    }
+
+    private function getLayoutComponents(ServerRequestInterface $request) {
+        return [
+            'languageSelect' => $this->container->get(LanguageSelectComponent::class),
+            'searchPhrase' => $this->container->get(SearchPhraseComponent::class),
+            'modalLoginLogout' => $this->getLoginLogoutComponent(),
+            'modalRegister' => $this->getRegisterComponent(),
+            'modalUserAction' => $this->getUserActionComponent(),
+            'linkEditorJs' => $this->getLinkEditorJsView($request),
+            'linkEditorCss' => $this->getLinkEditorCssView($request),
+            'poznamky' => $this->getPoznamkyComponentView(),
+            'flash' => $this->getFlashComponent(),
+        ];
+    }
+
+    private function getAuthoredLayoutComponents() {
+        $userActions = $this->statusSecurityRepo->get()->getUserActions();
+        $isEditableContent = $userActions->presentEditableArticle() OR $userActions->presentEditableLayout();
+
+        $map = [
+                    'rychleOdkazy' => 'a3',
+                    'nejblizsiAkce' => 'a2',
+                    'aktuality' => 'a1',
+                    'razitko' => 'a4',
+                    'socialniSite' => 'a5',
+                    'mapa' => 'a6',
+                    'logo' => 'a7',
+                    'banner' => 'a8',
+                ];
+        $componets = [];
+
+        // pro neexistující bloky nedělá nic
+        foreach ($map as $variableName => $blockName) {
+            $menuItem = $this->getBlockMenuItem($blockName);
+            if (isset($menuItem)) {
+                $componets[$variableName] = $this->resolveMenuItemView($menuItem);
+            }
+        }
+        return $componets;
+    }
+
+    private function getMenuComponents() {
+
+        $userActions = $this->statusSecurityRepo->get()->getUserActions();
+
+        $components = [];
+        foreach (Configuration::pageController()['menu'] as $menuConf) {
+            $this->configMenuComponent($menuConf, $components);
+        }
+        if ($userActions->presentEditableArticle()) {
+            $this->configMenuComponent(Configuration::pageController()['blocks'], $components);
+            $this->configMenuComponent(Configuration::pageController()['trash'], $components);
+
+        }
+
+        return $components;
+    }
+
+    private function configMenuComponent($menuConf, &$componets): void {
+                $componets[$menuConf['context_name']] = $this->container->get($menuConf['service_name'])
+                        ->setMenuRootName($menuConf['root_name'])
+                        ->withTitleItem($menuConf['with_title']);
+    }
+
+    private function getLoginLogoutComponent() {
         $credentials = $this->statusSecurityRepo->get()->getLoginAggregate();
         if (isset($credentials)) {
             /** @var LogoutComponent $logoutComponent */
@@ -121,7 +215,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
         }
     }
 
-    protected function getRegisterComponent() {
+    private function getRegisterComponent() {
         $credentials = $this->statusSecurityRepo->get()->getLoginAggregate();
         if (!isset($credentials)) {
             /** @var RegisterComponent $registerComponent */
@@ -135,7 +229,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
         }
     }
 
-    protected function getUserActionComponent() {
+    private function getUserActionComponent() {
         $loginAggregateCredentials = $this->statusSecurityRepo->get()->getLoginAggregate();
         if (isset($loginAggregateCredentials)) {
             $role = $loginAggregateCredentials->getCredentials()->getRole();
@@ -149,9 +243,9 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
                 $actionComponent = $this->container->get(UserActionComponent::class);
                 $actionComponent->setData(
                         [
-                        'editArticle' => $userActions->isEditableArticle(),
-                        'editLayout' => $userActions->isEditableLayout(),
-                        'editMenu' => $userActions->isEditableMenu(),
+                        'editArticle' => $userActions->presentEditableArticle(),
+                        'editLayout' => $userActions->presentEditableLayout(),
+                        'editMenu' => $userActions->presentEditableMenu(),
                         'userName' => $loginAggregateCredentials->getLoginName()
                         ]);
                 return $actionComponent;
@@ -211,7 +305,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
         }
     }
 
-    protected function getPoznamkyComponentView() {
+    private function getPoznamkyComponentView() {
         if (false AND $this->isAnyEditableMode()) {
             return
                 $this->container->get(View::class)
@@ -226,9 +320,15 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
 }
     }
 
+    protected function getFlashComponent() {
+        return $this->container->get(FlashComponent::class);
+    }
+
+    ### pomocné private metody
+
     private function isAnyEditableMode() {
-        $userActions = $this->statusSecurityRepo->get()->getUserActions();        
-        return $userActions->isEditableArticle() OR $userActions->isEditableLayout() OR $userActions->isEditableMenu();
+        $userActions = $this->statusSecurityRepo->get()->getUserActions();
+        return $userActions->presentEditableArticle() OR $userActions->presentEditableLayout() OR $userActions->presentEditableMenu();
     }
     private function prettyDump($var) {
 //        return htmlspecialchars(var_export($var, true), ENT_QUOTES, 'UTF-8', true);
@@ -259,7 +359,4 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
         return $retStr;
     }
 
-    protected function getFlashComponent() {
-        return $this->container->get(FlashComponent::class);
-    }
 }

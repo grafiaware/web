@@ -26,7 +26,7 @@ class UserActions extends EntityAbstract implements UserActionsInterface {
      *
      * @return bool
      */
-    public function isEditableLayout(): bool {
+    public function presentEditableLayout(): bool {
         return $this->editLayout;
     }
 
@@ -35,7 +35,7 @@ class UserActions extends EntityAbstract implements UserActionsInterface {
      *
      * @return bool
      */
-    public function isEditableArticle(): bool {
+    public function presentEditableArticle(): bool {
         return $this->editPaper;
     }
 
@@ -44,7 +44,7 @@ class UserActions extends EntityAbstract implements UserActionsInterface {
      *
      * @return bool
      */
-    public function isEditableMenu(): bool {
+    public function presentEditableMenu(): bool {
         return $this->editMenu;
     }
 

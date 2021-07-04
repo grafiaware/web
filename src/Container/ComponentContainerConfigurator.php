@@ -21,8 +21,8 @@ use Pes\View\Renderer\Container\TemplateRendererContainer;
 use Pes\View\Template\PhpTemplate;
 
 // menu
-use Component\View\Authored\Menu\MenuComponent;
-use Component\ViewModel\Authored\Menu\MenuViewModel;
+use Component\View\Menu\MenuComponent;
+use Component\ViewModel\Menu\MenuViewModel;
 
 use Component\View\Authored\TemplatedComponent;
 //component
@@ -264,18 +264,13 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                 $contentComponent->appendComponentView($paperComponent, 'templatedContent');
                 return $contentComponent;
             },
-            'component.article' => function(ContainerInterface $c) {
-                $viewModel = $c->get(ArticleViewModel::class);  //oba komponenty sdílejí stejný model
-                $paperComponent = new ArticleComponent($viewModel);
-                $paperComponent->setTemplatesPath($c->get('component.templatePath.article'));
-                $paperComponent->setRendererContainer($c->get('rendererContainer'));
-                $paperComponent->setFallbackRendererName(ArticleRenderer::class);
-                $paperComponent->addSubRendererName('elementWrapper', ElementWrapper::class);  // ElementEditableWrapper::class);
-                $contentComponent = new TemplatedComponent($viewModel);
-                $contentComponent->setRendererContainer($c->get('rendererContainer'));
-                $contentComponent->setRendererName(SelectTemplateRenderer::class);
-                $contentComponent->appendComponentView($paperComponent, 'templatedContent');
-                return $contentComponent;
+            ArticleComponent::class => function(ContainerInterface $c) {
+                $viewModel = $c->get(ArticleViewModel::class);
+                $articleComponent = new ArticleComponent($viewModel);
+                $articleComponent->setTemplatesPath($c->get('component.templatePath.article'));
+                $articleComponent->setRendererContainer($c->get('rendererContainer'));
+                $articleComponent->setFallbackRendererName(ArticleRenderer::class);
+                return $articleComponent;
             },
 
             #### button form komponenty - pro editační režim paper, komponenty bez nastaveného viewmodelu

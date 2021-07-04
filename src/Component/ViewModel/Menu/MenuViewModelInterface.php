@@ -6,9 +6,9 @@
  * and open the template in the editor.
  */
 
-namespace Component\ViewModel\Authored\Menu;
+namespace Component\ViewModel\Menu;
 
-use Component\ViewModel\Authored\AuthoredViewModelInterface;
+use Component\ViewModel\StatusViewModelInterface;
 
 use Red\Model\Entity\HierarchyAggregateInterface;
 use Red\Model\Entity\MenuRootInterface;
@@ -17,7 +17,13 @@ use Red\Model\Entity\MenuRootInterface;
  *
  * @author pes2704
  */
-interface MenuViewModelInterface extends AuthoredViewModelInterface {
+interface MenuViewModelInterface {
+
+    /**
+     * Prezentuj pouze publikované položky
+     * @return bool
+     */
+    public function presentOnlyPublished();
 
     /**
      *
