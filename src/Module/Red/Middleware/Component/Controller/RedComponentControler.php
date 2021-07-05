@@ -172,7 +172,6 @@ class RedComponentControler extends XhrControllerAbstract {
         $directory = new \RecursiveDirectoryIterator($folderPath);
         $iterator = new \RecursiveIteratorIterator($directory);
         $modTime = false;
-        $file;
         foreach ($iterator as $fileinfo) {
             if ($fileinfo->isFile()) {
                 $fileModTime = $fileinfo->getMTime();

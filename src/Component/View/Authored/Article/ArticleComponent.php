@@ -9,7 +9,7 @@ use Component\ViewModel\Authored\TemplatedViewModelInterface;
 use Component\Renderer\Html\Authored\Article\SelectArticleTemplateRenderer;
 use Component\Renderer\Html\Authored\Article\ArticleRenderer;
 use Component\Renderer\Html\Authored\Article\ArticleRendererEditable;
-use Component\Renderer\Html\Authored\EmptyRenderer;
+use Component\Renderer\Html\Authored\EmptyContentRenderer;
 
 /**
  * Description of ArticleComponent
@@ -46,7 +46,7 @@ class ArticleComponent extends AuthoredComponentAbstract implements ArticleCompo
         } elseif ($this->contextData->hasContent()) {
                 $this->setRendererName(ArticleRenderer::class);
         } else {
-            $this->setRendererName(EmptyRenderer::class);
+            $this->setRendererName(EmptyContentRenderer::class);
         }
     }
 

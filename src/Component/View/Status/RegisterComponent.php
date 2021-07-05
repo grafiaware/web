@@ -10,6 +10,8 @@ namespace Component\View\Status;
 
 use Component\View\ComponentAbstract;
 
+use Component\Renderer\Html\NonPermittedContentRenderer;
+
 /**
  * Description of LoginComponent
  *
@@ -17,4 +19,12 @@ use Component\View\ComponentAbstract;
  */
 class RegisterComponent extends ComponentAbstract {
     //nepoužívá viewModel, renderuje template, definováno v component kontejneru a konfiguraci component kontejneru
+
+//    toto do view modelu (status):
+            $credentials = $this->statusSecurityRepo->get()->getLoginAggregate();
+        if (!isset($credentials)) {
+            NonPermittedContentRenderer
+        } else {
+            
+        }
 }

@@ -238,8 +238,11 @@ class ConfigurationRed extends ConfigurationDb {
                'templates.authorFolder' => self::RED_TEMPLATES_COMMON.'author/',
                'templates.paperFolder' => self::RED_TEMPLATES_COMMON.'paper/',
                'templates.paperContentFolder' => self::RED_TEMPLATES_COMMON.'paper-content/',
-               'templates.articleFolder' => self::RED_TEMPLATES_COMMON.'article/',
-
+                // pole složek, jsou prohledávány postupně při hledání souboru s šablonou zadaného názvu
+               'templates.articleFolder' => [
+                   self::RED_TEMPLATES_SITE,
+                   self::RED_TEMPLATES_COMMON.'article/',
+                   ]
             ];
     }
 

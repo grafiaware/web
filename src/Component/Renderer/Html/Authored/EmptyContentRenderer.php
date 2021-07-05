@@ -9,7 +9,7 @@ use Pes\Text\Html;
  *
  * @author pes2704
  */
-class EmptyRenderer extends HtmlRendererAbstract {
+class EmptyContentRenderer extends HtmlRendererAbstract {
     public function render(iterable $viewModel = null) {
         /** @var AuthoredViewModelInterface $viewModel */
         return Html::tag('div', ['style'=>'display: none;' ], 'No content in '.$viewModel->getContentType()." with id ".$viewModel->getContentId());

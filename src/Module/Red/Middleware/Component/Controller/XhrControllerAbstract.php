@@ -18,14 +18,4 @@ use FrontController\PresentationFrontControllerAbstract;
  */
 abstract class XhrControllerAbstract extends PresentationFrontControllerAbstract {
 
-    protected function isEditableLayout() {
-        $userActions = $this->statusSecurityRepo->get()->getUserActions();
-        return $userActions ? $userActions->presentEditableLayout() : false;
-    }
-
-    protected function isEditableArticle() {
-        $userActions = $this->statusSecurityRepo->get()->getUserActions();
-        return $userActions ? $userActions->presentEditableArticle() : false;
-    }
-
 }

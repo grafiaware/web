@@ -142,7 +142,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
             'linkEditorJs' => $this->getLinkEditorJsView($request),
             'linkEditorCss' => $this->getLinkEditorCssView($request),
             'poznamky' => $this->getPoznamkyComponentView(),
-            'flash' => $this->getFlashComponent(),
+            'flash' => $this->container->get(FlashComponent::class),
         ];
     }
 
@@ -206,11 +206,6 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
         } else {
             /** @var LoginComponent $loginComponent */
             $loginComponent = $this->container->get(LoginComponent::class);
-            //$loginComponent nepoužívá viewModel, používá template a rendererContainer definované v kontejneru - zadávám jen data pro template
-//            $loginComponent->setData([
-//                'fieldNameJmeno' => Configuration::loginLogoutController()['fieldNameJmeno'],
-//                'fieldNameHeslo' => Configuration::loginLogoutController()['fieldNameHeslo'],
-//                ]);
             return $loginComponent;
         }
     }
@@ -220,11 +215,6 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
         if (!isset($credentials)) {
             /** @var RegisterComponent $registerComponent */
             $registerComponent = $this->container->get(RegisterComponent::class);
-            //$registerComponent nepoužívá viewModel, používá template a rendererContainer definované v kontejneru - zadávám jen data pro template
-//            $registerComponent->setData([
-//                'fieldNameJmeno' => Configuration::loginLogoutController()['fieldNameJmeno'],
-//                'fieldNameHeslo' => Configuration::loginLogoutController()['fieldNameHeslo'],
-//                ]);
             return $registerComponent;
         }
     }
@@ -318,10 +308,6 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
                         //'flashMessage' => $this->getFlashMessage(),
                         ]);
 }
-    }
-
-    protected function getFlashComponent() {
-        return $this->container->get(FlashComponent::class);
     }
 
     ### pomocné private metody

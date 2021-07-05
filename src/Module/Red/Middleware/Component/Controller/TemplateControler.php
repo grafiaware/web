@@ -41,7 +41,7 @@ use Pes\Text\Message;
 use Pes\View\View;
 use Pes\View\Template\PhpTemplate;
 use Pes\View\Template\InterpolateTemplate;
-
+use \View\Includer;
 /**
  * Description of GetController
  *
@@ -58,9 +58,12 @@ class TemplateControler extends PresentationFrontControllerAbstract {
      * @return type
      */
     public function articletemplate(ServerRequestInterface $request, $templateName) {
-        $filename = Configuration::templateController()['templates.articleFolder']."$templateName/template.php";
-        if (is_readable($filename)) {
-            $str = file_get_contents($filename);
+//        1 pokus - sůožka v site, kdy není readable -> 2. pokus složka v common
+//                ?? více složek (v Comfiguration pole) postupně prohledávaných
+        $filename = $this->seekTemplate(Configuration::templateController()['templates.articleFolder'], $templateName);
+        if ($filename) {
+            $str = (new Includer())->protectedIncludeScope($filename);
+//            $str = file_get_contents($filename);
             $this->statusPresentationRepo->get()->setLastTemplateName($templateName);
         } else {
             $this->statusPresentationRepo->get()->setLastTemplateName('');
@@ -95,4 +98,16 @@ class TemplateControler extends PresentationFrontControllerAbstract {
         return $this->createResponseFromString($request, $str);
     }
 
+
+    #### private ######################
+
+    private function seekTemplate($templatesFolders, $templateName) {
+        foreach ($templatesFolders as $templatesFolder) {
+            $filename = $templatesFolder."$templateName/template.php";
+            if (is_readable($filename)) {
+                return $filename;
+            }
+        }
+        return false;
+    }
 }
