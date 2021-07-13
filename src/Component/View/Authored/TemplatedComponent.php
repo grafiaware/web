@@ -19,6 +19,6 @@ use Component\Renderer\Html\Authored\Paper\ElementWrapper;
  *
  * @author pes2704
  */
-class TemplatedComponent extends AuthoredComponentAbstract implements TemplatedComponentInterface {
+class TemplatedComponent extends AuthoredComponentAbstract {
 
 }

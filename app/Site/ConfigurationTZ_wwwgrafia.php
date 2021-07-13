@@ -209,14 +209,14 @@ class ConfigurationTZ_wwwgrafia {
      */
     public static function component() {
         return [
-            'component.logs.view.directory' => 'Logs/App/Web',
-            'component.logs.view.file' => 'Render.log',
-            'component.templatePath.paper' => self::RED_TEMPLATES_COMMON.'paper/',
-            'component.templatePath.article' => self::RED_TEMPLATES_COMMON.'article/',
-            'component.template.'.FlashComponent::class => self::RED_TEMPLATES_COMMON.'layout/info/flashMessage.php',
-            'component.template.'.LoginComponent::class => self::RED_TEMPLATES_COMMON.'layout/modal/login.php',
-            'component.template.'.LogoutComponent::class => self::RED_TEMPLATES_COMMON.'layout/modal/logout.php',
-            'component.template.'.UserActionComponent::class => self::RED_TEMPLATES_COMMON.'layout/modal/user_action.php',
+            'component.logs.directory' => 'Logs/App/Web',
+            'component.logs.render' => 'Render.log',
+            'component.templatepath.paper' => self::RED_TEMPLATES_COMMON.'paper/',
+            'component.templatepath.article' => self::RED_TEMPLATES_COMMON.'article/',
+            'component.template.flash' => self::RED_TEMPLATES_COMMON.'layout/info/flashMessage.php',
+            'component.template.login' => self::RED_TEMPLATES_COMMON.'layout/modal/login.php',
+            'component.template.logout' => self::RED_TEMPLATES_COMMON.'layout/modal/logout.php',
+            'component.template.useraction' => self::RED_TEMPLATES_COMMON.'layout/modal/user_action.php',
         ];
     }
 

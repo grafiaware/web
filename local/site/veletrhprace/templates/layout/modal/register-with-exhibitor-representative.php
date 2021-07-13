@@ -21,6 +21,18 @@ use Site\Configuration;
                 <div class="ui input">
                     <input type="email" name="email" placeholder="Email" required>
                 </div>
+            
+                <div class="field">
+                    <div class="ui checkbox exhibitor">
+                      <input type="checkbox"
+                                 name="fieldNameExhibitor"
+                                 value="1">
+                      <label>Zastupuji vystavovatele</label>
+                    </div>
+                    <input class="input-company" type="text" name="info" placeholder="Název společnosti" maxlength="50">
+                </div>
+
+
                 <button class="ui positive button" type="submit" name="register" value=1 >Registrovat</button>
             </div>
         </div>

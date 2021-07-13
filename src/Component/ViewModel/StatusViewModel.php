@@ -9,7 +9,7 @@ use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusF
  *
  * @author pes2704
  */
-abstract class StatusViewModelAbstract extends ViewModelAbstract implements StatusViewModelInterface {
+class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterface {
 
     /**
      * @var StatusSecurityRepo
@@ -44,6 +44,11 @@ abstract class StatusViewModelAbstract extends ViewModelAbstract implements Stat
     public function getPostFlashCommand($key) {
         $flashCommand = $this->statusFlashRepo->get()->getPostCommand();
         return $flashCommand[$key] ?? '';
+    }
+
+    public function isUserLoggedIn(): bool {
+        $loginAggregate = $this->statusSecurityRepo->get()->getLoginAggregate();
+        return isset($loginAggregate) ? true : false;
     }
 
     public function getUserRole(): ?string {

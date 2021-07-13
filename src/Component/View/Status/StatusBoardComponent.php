@@ -18,8 +18,11 @@ use Component\ViewModel\Status\StatusBoardViewModel;
  */
 class StatusBoardComponent extends ComponentAbstract {
 
+    /**
+     * @var StatusBoardViewModel
+     */
+    protected $contextData;
+
     // renderuje template, definováno v component kontejneru
-    public function __construct(StatusBoardViewModel $viewModel) {
-        $this->contextData = $viewModel;
-    }
+
 }

@@ -6,10 +6,10 @@
  * and open the template in the editor.
  */
 
-namespace Component\Renderer\Html\Authored;
+namespace Component\Renderer\Html\Authored\Paper;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
-use Component\ViewModel\Authored\TemplatedViewModelInterface;
+use Component\ViewModel\Authored\Paper\PaperViewModelInterface;
 
 use Red\Model\Entity\PaperInterface;
 
@@ -19,22 +19,23 @@ use Pes\Text\Html;
  *
  * @author pes2704
  */
-class SelectTemplateRenderer extends HtmlRendererAbstract {
+class SelectPaperTemplateRenderer extends HtmlRendererAbstract {
 
     public function render(iterable $viewModel=NULL) {
-        /** @var TemplatedViewModelInterface $viewModel */
+        /** @var PaperViewModelInterface $viewModel */
         $templatedContent = $viewModel->offsetExists('templatedContent') ? $viewModel->offsetGet('templatedContent') : '';
-        $contentTemplateName = $viewModel->getContentTemplateName();
-        if ($viewModel->userCanEdit() AND (!isset($contentTemplateName) OR !$contentTemplateName)) {
-            $contentId = $viewModel->getContentId();
-            $contentType = $viewModel->getContentType();
-            return Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/$contentType/$contentId/template"],
-                        Html::tagNopair('input', ["type"=>"hidden", "name"=>"template_$contentId", "value"=>$contentTemplateName])
+        $contentTemplateName = $viewModel->getPaper()->getTemplate();
+        if ($viewModel->userCanEdit()) {
+            $paperId = $viewModel->getPaper()->getId();
+            return Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/$paperId/template"],
+                        Html::tagNopair('input', ["type"=>"hidden", "name"=>"template_$paperId", "value"=>$contentTemplateName])
                         .
                         Html::tag('div', ['class'=>'paper_template_select'],
                                 ''
 //                            Html::tag('div', ['class'=>'mceNonEditable'], $templatedContent)
                         )
+                    .
+                    Html::tag('div', ['class'=>''], $templatedContent)
                     );
         } else {
             return Html::tag('div', ['class'=>''], $templatedContent);

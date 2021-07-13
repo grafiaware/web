@@ -104,7 +104,7 @@ class StatusComponentContainerConfigurator extends ContainerConfiguratorAbstract
             // - cesty k souboru template jsou definovány v konfiguraci - předány do kontejneru jako parametry setParams()
             FlashComponent::class => function(ContainerInterface $c) {
                 $viewModel = new FlashViewModel($c->get(StatusFlashRepo::class));
-                return (new FlashComponent($viewModel))->setRendererContainer($c->get('rendererContainer'))->setTemplate(new PhpTemplate($c->get('component.template.'.FlashComponent::class)));
+                return (new FlashComponent($viewModel))->setRendererContainer($c->get('rendererContainer'))->setTemplate(new PhpTemplate($c->get('component.template.flash')));
             },
 
         ];

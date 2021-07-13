@@ -23,6 +23,7 @@ abstract class NavComponentAbstract extends CompositeComponentAbstract {
      */
     protected $nodeFactory;
 
+    // opravit - konstruktor neobsahuje konfiguraci
     public function __construct(NavTagFactoryInterface $nodeFactory) {
         $this->nodeFactory = $nodeFactory;
     }

@@ -132,7 +132,7 @@ class ComponentContainerConfigurator_Nav extends ContainerConfiguratorAbstract {
         return [
             // view
             'renderLogger' => function(ContainerInterface $c) {
-                return FileLogger::getInstance($c->get('component.logs.view.directory'), $c->get('component.logs.view.file'), FileLogger::REWRITE_LOG);
+                return FileLogger::getInstance($c->get('component.logs.directory'), $c->get('component.logs.render'), FileLogger::REWRITE_LOG);
             },
             // Nastaveno logování průběhu renderování
             //
@@ -360,7 +360,7 @@ class ComponentContainerConfigurator_Nav extends ContainerConfiguratorAbstract {
                             );
                 $component = new NamedPaperComponent($viewModel);
                 $component->setRendererContainer($c->get('rendererContainer'));
-                $component->setTemplatesPath($c->get('component.templatePath.paper'));
+                $component->setTemplatesPath($c->get('component.templatepath.paper'));
                 return $component;
                 },
 
@@ -373,7 +373,7 @@ class ComponentContainerConfigurator_Nav extends ContainerConfiguratorAbstract {
                         );
                 $component = new PresentedPaperComponent($viewModel);
                 $component->setRendererContainer($c->get('rendererContainer'));
-                $component->setTemplatesPath($c->get('component.templatePath.paper'));
+                $component->setTemplatesPath($c->get('component.templatepath.paper'));
                 return $component;
                 },
 
@@ -387,7 +387,7 @@ class ComponentContainerConfigurator_Nav extends ContainerConfiguratorAbstract {
                         );
                 $component = new PaperComponent($viewModel);
                 $component->setRendererContainer($c->get('rendererContainer'));
-                $component->setTemplatesPath($c->get('component.templatePath.paper'));
+                $component->setTemplatesPath($c->get('component.templatepath.paper'));
                 return $component;
                 },
 
@@ -470,16 +470,16 @@ class ComponentContainerConfigurator_Nav extends ContainerConfiguratorAbstract {
             // komponenty s PHP template - cesty k souboru template jsou definovány v konfiguraci - předány do kontejneru jako parametry setParams()
             FlashComponent::class => function(ContainerInterface $c) {
                 $viewModel = new FlashViewModel($c->get(StatusFlashRepo::class));
-                return (new FlashComponent($viewModel))->setRendererContainer($c->get('rendererContainer'))->setTemplate(new PhpTemplate($c->get('component.template.'.FlashComponent::class)));
+                return (new FlashComponent($viewModel))->setRendererContainer($c->get('rendererContainer'))->setTemplate(new PhpTemplate($c->get('component.template.flash')));
             },
             LoginComponent::class => function(ContainerInterface $c) {
-                return (new LoginComponent())->setRendererContainer($c->get('rendererContainer'))->setTemplate(new PhpTemplate($c->get('component.template.'.LoginComponent::class)));
+                return (new LoginComponent())->setRendererContainer($c->get('rendererContainer'))->setTemplate(new PhpTemplate($c->get('component.template.login')));
             },
             LogoutComponent::class => function(ContainerInterface $c) {
-                return (new LogoutComponent())->setRendererContainer($c->get('rendererContainer'))->setTemplate(new PhpTemplate($c->get('component.template.'.LogoutComponent::class)));
+                return (new LogoutComponent())->setRendererContainer($c->get('rendererContainer'))->setTemplate(new PhpTemplate($c->get('component.template.logout')));
             },
             UserActionComponent::class => function(ContainerInterface $c) {
-                return (new UserActionComponent())->setRendererContainer($c->get('rendererContainer'))->setTemplate(new PhpTemplate($c->get('component.template.'.UserActionComponent::class )));
+                return (new UserActionComponent())->setRendererContainer($c->get('rendererContainer'))->setTemplate(new PhpTemplate($c->get('component.template.useraction' )));
             }
         ];
     }

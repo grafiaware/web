@@ -25,10 +25,6 @@ class SearchResultComponent extends ComponentAbstract {
      */
     protected $contextData;
 
-    public function __construct(SearchResultViewModel $viewModel) {
-        $this->contextData = $viewModel;
-    }
-
     /**
      * Hledaný text. Hledají se jednotlivá slova IN NATURAL LANGUAGE MODE.
      * @param string $key

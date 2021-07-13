@@ -9,7 +9,7 @@
 namespace Component\Renderer\Html\Authored\Article;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
-use Component\ViewModel\Authored\AuthoredViewModelInterface;
+use Component\ViewModel\Authored\Article\ArticleViewModelInterface;
 
 use Red\Model\Entity\PaperInterface;
 
@@ -22,10 +22,12 @@ use Pes\Text\Html;
 class SelectArticleTemplateRenderer extends HtmlRendererAbstract {
 
     public function render(iterable $viewModel=NULL) {
-        /** @var AuthoredViewModelInterface $viewModel */
-        $contentId = $viewModel->getContentId();  // vrací ArticleInterface
+        /** @var ArticleViewModelInterface $viewModel */
+        $contentId = $viewModel->getArticle()->getId();  // vrací ArticleInterface
         return Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/article/$contentId"],
                     Html::tag('div', ['id'=>"article_$contentId", 'class'=>'paper_template_select'], '')
-                );
+                )
+                .
+                $viewModel->getArticle()->getContent();
     }
 }

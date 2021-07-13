@@ -137,7 +137,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
             'languageSelect' => $this->container->get(LanguageSelectComponent::class),
             'searchPhrase' => $this->container->get(SearchPhraseComponent::class),
             'modalLoginLogout' => $this->getLoginLogoutComponent(),
-            'modalRegister' => $this->getRegisterComponent(),
+            'modalRegister' => $this->container->get(RegisterComponent::class), //$this->getRegisterComponent(),
             'modalUserAction' => $this->getUserActionComponent(),
             'linkEditorJs' => $this->getLinkEditorJsView($request),
             'linkEditorCss' => $this->getLinkEditorCssView($request),
@@ -207,15 +207,6 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
             /** @var LoginComponent $loginComponent */
             $loginComponent = $this->container->get(LoginComponent::class);
             return $loginComponent;
-        }
-    }
-
-    private function getRegisterComponent() {
-        $credentials = $this->statusSecurityRepo->get()->getLoginAggregate();
-        if (!isset($credentials)) {
-            /** @var RegisterComponent $registerComponent */
-            $registerComponent = $this->container->get(RegisterComponent::class);
-            return $registerComponent;
         }
     }
 

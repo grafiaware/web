@@ -17,14 +17,6 @@ class MenuItemSelectorComponent extends AuthoredComponentAbstract {
      */
     protected $contextData;
 
-    /**
-     *
-     * @param MenuViewModelInterface $viewModel
-     */
-    public function __construct(MenuViewModelInterface $viewModel) {
-        $this->contextData = $viewModel;
-    }
-
     public function getString($data = null) {
         $menuItem = $this->contextData->getPresentedMenuNode()->getMenuItem();
         $editable = $this->contextData->isEditableArticle;

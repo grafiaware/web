@@ -25,16 +25,4 @@ interface AuthoredViewModelInterface extends StatusViewModelInterface {
      */
     public function userCanEdit(): bool;
 
-    public function hasContent(): bool;
-
-    /**
-     * Id obsahu - např. Paper nebo Article id.
-     */
-    public function getContentId();
-
-    /**
-     * typ obsahu (odpovídá menu item type) - např 'paper' nebo 'article'
-     */
-    public function getContentType();
-
 }

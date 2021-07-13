@@ -25,10 +25,6 @@ class ItemTypeSelectComponent extends ComponentAbstract {
      */
     protected $contextData;
 
-    public function __construct(ItemTypeSelectViewModel $viewModel) {
-        $this->contextData = $viewModel;
-    }
-
     public function beforeRenderingHook(): void {
         if($this->contextData->isArticleEditable()) {
             $this->setRendererName(ItemTypeRenderer::class);

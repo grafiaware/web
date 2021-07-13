@@ -19,10 +19,8 @@ use Component\ViewModel\Flash\FlashViewModelInterface;
 class FlashComponent extends ComponentAbstract {
 
     /**
-     *
-     * @param FlashViewModelInterface $viewModel
+     * @var FlashViewModelInterface
      */
-    public function __construct(FlashViewModelInterface $viewModel) {
-        $this->setData($viewModel);
-    }
+    protected $contextData;
+
 }

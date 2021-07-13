@@ -6,12 +6,12 @@
  * and open the template in the editor.
  */
 
-namespace Component\View;
+namespace Component\ViewModel\Status;
 
 /**
  *
  * @author pes2704
  */
-interface TemplatedComponentInterface {
+interface UserActionViewModelInterface {
     //put your code here
 }

@@ -1,7 +1,7 @@
 <?php
 namespace Component\ViewModel\Menu;
 
-use Component\ViewModel\StatusViewModelAbstract;
+use Component\ViewModel\StatusViewModel;
 
 use Red\Model\Entity\HierarchyAggregateInterface;
 use Red\Model\Entity\MenuRootInterface;
@@ -19,7 +19,7 @@ use Component\ViewModel\Menu\Item\ItemViewModelInterface;
  *
  * @author pes2704
  */
-class MenuViewModel extends StatusViewModelAbstract implements MenuViewModelInterface {
+class MenuViewModel extends StatusViewModel implements MenuViewModelInterface {
 
     private $menuRootRepo;
     private $hierarchyRepo;

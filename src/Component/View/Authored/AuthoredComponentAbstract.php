@@ -11,7 +11,6 @@ namespace Component\View\Authored;
 use Component\View\CompositeComponentAbstract;
 use Component\ViewModel\Authored\AuthoredViewModelInterface;
 
-use Pes\View\Template\PhpTemplate;
 use Pes\View\Template\PhpTemplateInterface;
 use Pes\View\Template\Exception\NoTemplateFileException;
 
@@ -35,7 +34,7 @@ abstract class AuthoredComponentAbstract extends CompositeComponentAbstract impl
      */
     protected $templatesPath;
 
-    protected $templateGlobals = [];
+    protected $childRenderers = [];
 
     /**
      * @var AuthoredViewModelInterface
@@ -43,24 +42,10 @@ abstract class AuthoredComponentAbstract extends CompositeComponentAbstract impl
     protected $contextData;
 
     /**
-     * @param AuthoredViewModelInterface $viewModel
-     */
-    public function __construct(AuthoredViewModelInterface $viewModel) {
-        parent::__construct($viewModel);
-    }
-
-    /**
      * {@inheritdoc}
      */
-    public function setTemplatesPath($templatesPath) {
-        $this->templatesPath = $templatesPath;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function addSubRendererName($variableName, $rendererName) {
-        $this->templateGlobals[$variableName] = $rendererName;
+    public function addChildRendererName($variableName, $rendererName) {
+        $this->childRenderers[$variableName] = $rendererName;
     }
 
     public function setItemId($menuItemId): AuthoredComponentInterface {
@@ -68,32 +53,23 @@ abstract class AuthoredComponentAbstract extends CompositeComponentAbstract impl
         return $this;
     }
 
-    public function getTemplatePath($templateName): string {
-        if (isset($this->templatesPath))
-        return $this->templatesPath.$templateName."/".self::DEFAULT_TEMPLATE_FILE_NAME;
+    public function getTemplateFileFullname($templatesPath, $templateName): string {
+        return $templatesPath.$templateName."/".self::DEFAULT_TEMPLATE_FILE_NAME;
     }
 
     /**
      *
-     * @param string $templateName
-     * @return PhpTemplateInterface|null
-     * @throws NoTemplateFileException
+     * @param PhpTemplateInterface $template
+     * @return void
      */
-    protected function resolveTemplateAndShared($templateName=null): ?PhpTemplateInterface {
-        if (isset($templateName) AND $templateName) {
-            $templatePath = $this->getTemplatePath($templateName);
-            $template = new PhpTemplate($templatePath);  // exception
-//            $parentRendererClassMap = parent::resolveRenderer()->getClassMap();
-            $sharedData = [];
-            if (isset($this->rendererContainer)) {
-                foreach ($this->templateGlobals as $variableName => $rendererName) {
-                    $sharedData[$variableName] = $this->rendererContainer->get($rendererName);
-                }
+    protected function adoptChildRenderers(PhpTemplateInterface $template): void {
+        $sharedData = [];
+        if (isset($this->rendererContainer)) {
+            foreach ($this->childRenderers as $variableName => $rendererName) {
+                $sharedData[$variableName] = $this->rendererContainer->get($rendererName);
             }
-            $template->setSharedData($sharedData);
         }
-
-        return $template ?? null;
+        $template->setSharedData($sharedData);
     }
 
 }

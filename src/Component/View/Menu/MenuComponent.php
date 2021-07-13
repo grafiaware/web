@@ -49,14 +49,6 @@ class MenuComponent extends CompositeComponentAbstract implements MenuComponentI
 
     /**
      *
-     * @param MenuViewModelInterface $viewModel
-     */
-    public function __construct(MenuViewModelInterface $viewModel) {
-        $this->contextData = $viewModel;
-    }
-
-    /**
-     *
      * @param $levelWrapRendererName
      * @param $itemRendererName
      * @return \Component\Controller\Authored\MenuComponentInterface

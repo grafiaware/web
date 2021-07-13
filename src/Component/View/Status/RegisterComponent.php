@@ -8,9 +8,11 @@
 
 namespace Component\View\Status;
 
-use Component\View\ComponentAbstract;
+use Pes\View\Template\PhpTemplate;
 
+use Component\View\ComponentAbstract;
 use Component\Renderer\Html\NonPermittedContentRenderer;
+use Component\ViewModel\StatusViewModelInterface;
 
 /**
  * Description of LoginComponent
@@ -18,13 +20,21 @@ use Component\Renderer\Html\NonPermittedContentRenderer;
  * @author pes2704
  */
 class RegisterComponent extends ComponentAbstract {
-    //nepoužívá viewModel, renderuje template, definováno v component kontejneru a konfiguraci component kontejneru
 
-//    toto do view modelu (status):
-            $credentials = $this->statusSecurityRepo->get()->getLoginAggregate();
-        if (!isset($credentials)) {
-            NonPermittedContentRenderer
+    /**
+     * @var StatusViewModelInterface
+     */
+    protected $contextData;
+
+    //renderuje template, definováno v component kontejneru a konfiguraci component kontejneru
+
+//  template nastevena v kontejneru, pokud není user přihlášen (není role) nahrazuji renderer - není to ideální řešení, v kontejneru vytvářím celý objekt template, jen ho nepoužiju
+    public function beforeRenderingHook(): void {
+        if ($this->contextData->isUserLoggedIn()) {
+            $this->setRendererName(NonPermittedContentRenderer::class);
         } else {
-            
+            $this->setTemplate(new PhpTemplate($this->configuration->getTemplateRegister()));
         }
+    }
+
 }

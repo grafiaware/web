@@ -16,6 +16,8 @@ interface StatusViewModelInterface extends ViewModelInterface {
 
     public function getFlashCommand($key);
     public function getPostFlashCommand($key);
+
+    public function isUserLoggedIn(): bool;
     public function getUserRole(): ?string;
     public function getUserLoginName(): ?string;
 

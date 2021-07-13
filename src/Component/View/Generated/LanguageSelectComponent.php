@@ -17,8 +17,4 @@ class LanguageSelectComponent extends ComponentAbstract {
      */
     protected $contextData;
 
-    public function __construct(LanguageSelectViewModel $viewModel) {
-        $this->contextData = $viewModel;
-    }
-
 }

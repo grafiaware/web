@@ -54,31 +54,6 @@ class PaperViewModel extends AuthoredViewModelAbstract implements PaperViewModel
         return $paper ?? null;
     }
 
-    public function getContentTemplateName() {
-        $paper = $this->getPaper();
-        return isset($paper) ? $paper->getTemplate() : null;
-    }
-
-    /**
-     * Informuje. jestli paper má zobrazitelný obsah. Za paper se zobrazizelným obsahem považuje takový, který má alespoň neprázdný titulek nebo nebo neprázdný perex nebo nastavenou šablonu.
-     *
-     * Zbývá možnost, že paper má prázdný titulek i perex a nemá šablonu nebo šablona je prázdný soubor, ale má neprázný aper content, takovou možnost metoda neověřuje.
-     * 
-     * @return bool
-     */
-    public function hasContent(): bool {
-        $paper = $this->getPaper();
-        return (isset($paper) AND ($paper->getHeadline() OR $paper->getPerex() OR $paper->getTemplate())) ? true : false;
-    }
-    public function getContentId() {
-        $paper = $this->getPaper();
-        return isset($paper) ? $paper->getId() : null;
-    }
-
-    public function getContentType() {
-        return 'paper';
-    }
-
     public function getIterator() {
         return new \ArrayObject(
                         ['paperAggregate'=> $this->getPaper(), 'isEditable'=> $this->userCanEdit()]

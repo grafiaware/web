@@ -8,14 +8,14 @@
 
 namespace Component\ViewModel\Status;
 
-use Component\ViewModel\StatusViewModelAbstract;
+use Component\ViewModel\StatusViewModel;
 
 /**
  * Description of StatusBoardViewModel
  *
  * @author pes2704
  */
-class StatusBoardViewModel extends StatusViewModelAbstract implements StatusBoardViewModelInterface {
+class StatusBoardViewModel extends StatusViewModel implements StatusBoardViewModelInterface {
 
     public function getLanguageInfo() {
         $language = $this->statusPresentationRepo->get()->getLanguage();

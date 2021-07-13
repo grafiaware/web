@@ -1,7 +1,7 @@
 <?php
 namespace Component\ViewModel\Statical;
 
-use Component\ViewModel\StatusViewModelAbstract;
+use Component\ViewModel\StatusViewModel;
 
 use Red\Model\Entity\HierarchyAggregateInterface;
 use Red\Model\Entity\MenuRootInterface;
@@ -16,7 +16,7 @@ use Red\Model\Repository\MenuItemRepo;
  *
  * @author pes2704
  */
-class FolderSelectViewModel extends StatusViewModelAbstract implements FolderSelectViewModelInterface {
+class FolderSelectViewModel extends StatusViewModel implements FolderSelectViewModelInterface {
 
     /**
      *

@@ -1,6 +1,8 @@
 <?php
 namespace Component\View\Authored\Paper;
 
+use Pes\View\Template\PhpTemplate;
+
 use Component\View\Authored\AuthoredComponentAbstract;
 use Component\ViewModel\Authored\Paper\PaperViewModelInterface;
 
@@ -22,14 +24,34 @@ class PaperComponent extends AuthoredComponentAbstract implements PaperComponent
      */
     public function beforeRenderingHook(): void {
         $paperAggregate = $this->contextData->getPaper();
-        if (isset($paperAggregate)) {
+        if ($this->getContentTemplateName()) {
             try {
-                $template = $this->resolveTemplateAndShared($paperAggregate->getTemplate());
+                $templatePath = $this->getTemplateFileFullname($this->configuration->getTemplatepathPaper(), $paperAggregate->getTemplate());
+                $template = new PhpTemplate($templatePath);  // exception
+                $this->adoptChildRenderers($template);
                 $this->setTemplate($template);
             } catch (NoTemplateFileException $noTemplExc) {
-                user_error("Neexistuje soubor šablony '{$this->getTemplatePath($paperAggregate->getTemplate())}'", E_USER_WARNING);
+                user_error("Neexistuje soubor šablony '{$this->getTemplateFileFullname($paperAggregate->getTemplate())}'", E_USER_WARNING);
                 $this->setTemplate(null);
             }
         }
+    }
+
+
+    public function getContentTemplateName() {
+        $paper = $this->contextData->getPaper();
+        return isset($paper) ? $paper->getTemplate() : null;
+    }
+
+    /**
+     * Informuje. jestli paper má zobrazitelný obsah. Za paper se zobrazizelným obsahem považuje takový, který má alespoň neprázdný titulek nebo nebo neprázdný perex nebo nastavenou šablonu.
+     *
+     * Zbývá možnost, že paper má prázdný titulek i perex a nemá šablonu nebo šablona je prázdný soubor, ale má neprázný aper content, takovou možnost metoda neověřuje.
+     *
+     * @return bool
+     */
+    public function hasContent(): bool {
+        $paper = $this->contextData->getPaper();
+        return (isset($paper) AND ($paper->getHeadline() OR $paper->getPerex() OR count($paper->getPaperContentsArray()) OR $paper->getTemplate())) ? true : false;
     }
 }

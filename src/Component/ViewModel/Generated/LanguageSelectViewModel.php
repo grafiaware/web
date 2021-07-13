@@ -8,7 +8,7 @@
 
 namespace Component\ViewModel\Generated;
 
-use Component\ViewModel\StatusViewModelAbstract;
+use Component\ViewModel\StatusViewModel;
 
 use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
 
@@ -19,7 +19,7 @@ use Red\Model\Repository\LanguageRepo;
  *
  * @author pes2704
  */
-class LanguageSelectViewModel extends StatusViewModelAbstract implements LanguageSelectViewModelInterface {
+class LanguageSelectViewModel extends StatusViewModel implements LanguageSelectViewModelInterface {
 
     private $languageRepo;
 

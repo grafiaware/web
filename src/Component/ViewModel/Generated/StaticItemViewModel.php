@@ -8,7 +8,7 @@
 
 namespace Component\ViewModel\Generated;
 
-use Component\ViewModel\StatusViewModelAbstract;
+use Component\ViewModel\StatusViewModel;
 
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
@@ -23,7 +23,7 @@ use Red\Model\Entity\MenuItemInterface;
  *
  * @author pes2704
  */
-class StaticItemViewModel extends StatusViewModelAbstract implements StaticItemViewModelInterface {
+class StaticItemViewModel extends StatusViewModel implements StaticItemViewModelInterface {
 
     /**
      * @var MenuItemTypeRepo

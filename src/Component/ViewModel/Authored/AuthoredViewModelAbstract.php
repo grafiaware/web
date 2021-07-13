@@ -8,14 +8,14 @@
 
 namespace Component\ViewModel\Authored;
 
-use Component\ViewModel\StatusViewModelAbstract;
+use Component\ViewModel\StatusViewModel;
 
 /**
  * Description of AuthoredViewModelAbstract
  *
  * @author pes2704
  */
-abstract class AuthoredViewModelAbstract extends StatusViewModelAbstract implements AuthoredViewModelInterface {
+abstract class AuthoredViewModelAbstract extends StatusViewModel implements AuthoredViewModelInterface {
 
     protected $menuItemId;
 

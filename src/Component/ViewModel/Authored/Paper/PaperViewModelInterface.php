@@ -15,7 +15,7 @@ use Red\Model\Entity\PaperAggregatePaperContentInterface;
  *
  * @author pes2704
  */
-interface PaperViewModelInterface extends TemplatedViewModelInterface {
+interface PaperViewModelInterface {
 
     /**
      * Vrací PaperAggregate, pokud existuje a je aktivní (zveřejněný) nebo prezentace je v editačním režimu.

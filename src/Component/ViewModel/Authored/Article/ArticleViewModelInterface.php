@@ -8,7 +8,7 @@ use Red\Model\Entity\ArticleInterface;
  *
  * @author pes2704
  */
-interface ArticleViewModelInterface extends TemplatedViewModelInterface {
+interface ArticleViewModelInterface {
 
     /**
      * Vrací Article, pokud existuje a je aktivní (zveřejněný) nebo prezentace je v editačním režimu.

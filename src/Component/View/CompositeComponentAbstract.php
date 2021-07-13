@@ -10,7 +10,7 @@ namespace Component\View;
 
 use Pes\View\CompositeView;
 
-use Component\ViewModel\ViewModelInterface;
+use Configuration\ComponentConfigurationInterface;
 
 /**
  * Description of ComponentAbstract
@@ -18,9 +18,16 @@ use Component\ViewModel\ViewModelInterface;
  * @author pes2704
  */
 abstract class CompositeComponentAbstract extends CompositeView {
-    public function __construct(ViewModelInterface $viewModel=null) {
-        if (isset($viewModel)) {
-            $this->setData($viewModel);
-        }
+
+    /**
+     *
+     * @var ComponentConfigurationInterface
+     */
+    protected $configuration;
+
+    protected $templateFileName;
+
+    public function __construct(ComponentConfigurationInterface $configuration) {
+        $this->configuration = $configuration;
     }
 }

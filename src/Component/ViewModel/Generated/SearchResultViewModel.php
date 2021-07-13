@@ -1,7 +1,7 @@
 <?php
 namespace Component\ViewModel\Generated;
 
-use Component\ViewModel\StatusViewModelAbstract;
+use Component\ViewModel\StatusViewModel;
 
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
@@ -23,7 +23,7 @@ use Pes\Text\Message;
  *
  * @author pes2704
  */
-class SearchResultViewModel extends StatusViewModelAbstract implements SearchResultViewModelInterface {
+class SearchResultViewModel extends StatusViewModel implements SearchResultViewModelInterface {
 
     private $query;
 

@@ -6,6 +6,8 @@ use Site\Configuration;
 use Pes\Container\ContainerConfiguratorAbstract;
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
 
+// configuration
+use Configuration\ComponentConfiguration;
 
 // logger
 use Pes\Logger\FileLogger;
@@ -24,10 +26,10 @@ use Pes\View\Template\PhpTemplate;
 use Component\View\Menu\MenuComponent;
 use Component\ViewModel\Menu\MenuViewModel;
 
-use Component\View\Authored\TemplatedComponent;
 //component
 use Component\View\Authored\Paper\PaperComponent;
 use Component\View\Authored\Article\ArticleComponent;
+use Component\View\Authored\TemplatedComponent;
 
 use Component\View\Generated\{
     LanguageSelectComponent,
@@ -46,13 +48,13 @@ use Component\View\Status\{
 
 // viewModel
 use Component\ViewModel\{
+    StatusViewModel,
     Authored\Paper\PaperViewModel,
     Authored\Article\ArticleViewModel,
     Generated\LanguageSelectViewModel,
     Generated\SearchResultViewModel,
     Generated\ItemTypeSelectViewModel,
     Flash\FlashViewModel,
-    Status\StatusBoardViewModel
 };
 
 // repo
@@ -78,7 +80,8 @@ use Red\Middleware\Component\Controller\TemplateControler;
 
 // renderery - pro volání služeb renderer kontejneru renderer::class
 use Component\Renderer\Html\{
-    Authored\SelectTemplateRenderer,
+    NonPermittedContentRenderer,
+    Authored\Paper\SelectPaperTemplateRenderer,
     Authored\Paper\PaperRenderer,
     Authored\Article\ArticleRenderer,
     Generated\LanguageSelectRenderer,
@@ -118,9 +121,24 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getServicesDefinitions() {
         return [
+            // configuration
+            ComponentConfiguration::class => function(ContainerInterface $c) {
+                return new ComponentConfiguration(
+                        $c->get('component.logs.directory'), //$logsDirectory,
+                        $c->get('component.logs.render'), //$logsRender,
+                        $c->get('component.templatepath.paper'), //$templatepathPaper,
+                        $c->get('component.templatepath.article'), //$templatepathArticle,
+                        $c->get('component.template.flash'), //$templateFlash,
+                        $c->get('component.template.login'), //$templateLogin,
+                        $c->get('component.template.register'), //$templateRegister,
+                        $c->get('component.template.logout'), //$templateLogout,
+                        $c->get('component.template.useraction') //$templateUserAction
+                    );
+            },
+
             // view
             'renderLogger' => function(ContainerInterface $c) {
-                return FileLogger::getInstance($c->get('component.logs.view.directory'), $c->get('component.logs.view.file'), FileLogger::REWRITE_LOG);
+                return FileLogger::getInstance($c->get('component.logs.directory'), $c->get('component.logs.render'), FileLogger::REWRITE_LOG);
             },
             // Nastaveno logování průběhu renderování
             //
@@ -197,7 +215,8 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                             $c->get(HierarchyAggregateRepo::class),
                             $c->get(MenuRootRepo::class)
                         );
-                $menuComponent = new MenuComponent($viewModel);
+                $menuComponent = new MenuComponent($c->get(ComponentConfiguration::class));
+                $menuComponent->setData($viewModel);
                 $menuComponent->setRendererContainer($c->get('rendererContainer'));
                 return $menuComponent;
             },
@@ -253,21 +272,22 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
             #
             'component.paper' => function(ContainerInterface $c) {
                 $viewModel = $c->get(PaperViewModel::class);  //oba komponenty sdílejí stejný model
-                $paperComponent = new PaperComponent($viewModel);
-                $paperComponent->setTemplatesPath($c->get('component.templatePath.paper'));
+                $paperComponent = new PaperComponent($c->get(ComponentConfiguration::class));
+                $paperComponent->setData($viewModel);
                 $paperComponent->setRendererContainer($c->get('rendererContainer'));
                 $paperComponent->setFallbackRendererName(PaperRenderer::class);
-                $paperComponent->addSubRendererName('elementWrapper', ElementWrapper::class);  // ElementEditableWrapper::class);
-                $contentComponent = new TemplatedComponent($viewModel);
+                $paperComponent->addChildRendererName('elementWrapper', ElementWrapper::class);  // ElementEditableWrapper::class);
+                $contentComponent = new TemplatedComponent($c->get(ComponentConfiguration::class));
+                $contentComponent->setData($viewModel);
                 $contentComponent->setRendererContainer($c->get('rendererContainer'));
-                $contentComponent->setRendererName(SelectTemplateRenderer::class);
+                $contentComponent->setRendererName(SelectPaperTemplateRenderer::class);
                 $contentComponent->appendComponentView($paperComponent, 'templatedContent');
                 return $contentComponent;
             },
             ArticleComponent::class => function(ContainerInterface $c) {
                 $viewModel = $c->get(ArticleViewModel::class);
-                $articleComponent = new ArticleComponent($viewModel);
-                $articleComponent->setTemplatesPath($c->get('component.templatePath.article'));
+                $articleComponent = new ArticleComponent($c->get(ComponentConfiguration::class));
+                $articleComponent->setData($viewModel);
                 $articleComponent->setRendererContainer($c->get('rendererContainer'));
                 $articleComponent->setFallbackRendererName(ArticleRenderer::class);
                 return $articleComponent;
@@ -289,7 +309,7 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                                 $c->get(StatusFlashRepo::class),
                                 $c->get(LanguageRepo::class)
                         );
-                return (new LanguageSelectComponent($viewModel))->setRendererContainer($c->get('rendererContainer'))->setRendererName(LanguageSelectRenderer::class);
+                return (new LanguageSelectComponent($c->get(ComponentConfiguration::class)))->setData($viewModel)->setRendererContainer($c->get('rendererContainer'))->setRendererName(LanguageSelectRenderer::class);
 
             },
             SearchResultComponent::class => function(ContainerInterface $c) {
@@ -298,11 +318,11 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                                 $c->get(StatusPresentationRepo::class),
                                 $c->get(StatusFlashRepo::class),
                                 $c->get(MenuItemRepo::class));
-                return (new SearchResultComponent($viewModel))->setRendererContainer($c->get('rendererContainer'))->setRendererName(SearchResultRenderer::class);
+                return (new SearchResultComponent($c->get(ComponentConfiguration::class)))->setData($viewModel)->setRendererContainer($c->get('rendererContainer'))->setRendererName(SearchResultRenderer::class);
             },
 
             SearchPhraseComponent::class => function(ContainerInterface $c) {
-                return (new SearchPhraseComponent())->setRendererContainer($c->get('rendererContainer'))->setRendererName(SearchPhraseRenderer::class);
+                return (new SearchPhraseComponent($c->get(ComponentConfiguration::class)))->setRendererContainer($c->get('rendererContainer'))->setRendererName(SearchPhraseRenderer::class);
             },
 
             ItemTypeSelectComponent::class => function(ContainerInterface $c) {
@@ -312,14 +332,14 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                                 $c->get(StatusFlashRepo::class),
                                 $c->get(MenuItemTypeRepo::class)
                         );
-                return (new ItemTypeSelectComponent($viewModel))->setRendererContainer($c->get('rendererContainer'));
+                return (new ItemTypeSelectComponent($c->get(ComponentConfiguration::class)))->setData($viewModel)->setRendererContainer($c->get('rendererContainer'));
             },
             StatusBoardComponent::class => function(ContainerInterface $c) {
                 $viewModel = new StatusBoardViewModel(
                                 $c->get(StatusSecurityRepo::class),
                                 $c->get(StatusPresentationRepo::class),
                                 $c->get(StatusFlashRepo::class));
-                return new StatusBoardComponent($viewModel);
+                return (new StatusBoardComponent($c->get(ComponentConfiguration::class)))->setData($viewModel);
             },
 
             // FlashComponent s vlastním rendererem
@@ -332,19 +352,27 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
             // - cesty k souboru template jsou definovány v konfiguraci - předány do kontejneru jako parametry setParams()
             FlashComponent::class => function(ContainerInterface $c) {
                 $viewModel = new FlashViewModel($c->get(StatusFlashRepo::class));
-                return (new FlashComponent($viewModel))->setRendererContainer($c->get('rendererContainer'))->setTemplate(new PhpTemplate($c->get('component.template.'.FlashComponent::class)));
+                return (new FlashComponent($c->get(ComponentConfiguration::class)))->setData($viewModel)->setRendererContainer($c->get('rendererContainer'))->setTemplate(new PhpTemplate($c->get('component.template.flash')));
             },
             LoginComponent::class => function(ContainerInterface $c) {
-                return (new LoginComponent())->setRendererContainer($c->get('rendererContainer'))->setTemplate(new PhpTemplate($c->get('component.template.'.LoginComponent::class)));
+                return (new LoginComponent($c->get(ComponentConfiguration::class)))->setRendererContainer($c->get('rendererContainer'))->setTemplate(new PhpTemplate($c->get('component.template.login')));
             },
             RegisterComponent::class => function(ContainerInterface $c) {
-                return (new RegisterComponent())->setRendererContainer($c->get('rendererContainer'))->setTemplate(new PhpTemplate($c->get('component.template.'.RegisterComponent::class)));
+                $viewModel = new StatusViewModel(
+                                $c->get(StatusSecurityRepo::class),
+                                $c->get(StatusPresentationRepo::class),
+                                $c->get(StatusFlashRepo::class)
+                        );
+                $component = new RegisterComponent($c->get(ComponentConfiguration::class));
+                $component->setData($viewModel);
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;
             },
             LogoutComponent::class => function(ContainerInterface $c) {
-                return (new LogoutComponent())->setRendererContainer($c->get('rendererContainer'))->setTemplate(new PhpTemplate($c->get('component.template.'.LogoutComponent::class)));
+                return (new LogoutComponent($c->get(ComponentConfiguration::class)))->setRendererContainer($c->get('rendererContainer'))->setTemplate(new PhpTemplate($c->get('component.template.logout')));
             },
             UserActionComponent::class => function(ContainerInterface $c) {
-                return (new UserActionComponent())->setRendererContainer($c->get('rendererContainer'))->setTemplate(new PhpTemplate($c->get('component.template.'.UserActionComponent::class )));
+                return (new UserActionComponent($c->get(ComponentConfiguration::class)))->setRendererContainer($c->get('rendererContainer'))->setTemplate(new PhpTemplate($c->get('component.template.useraction' )));
             }
         ];
     }

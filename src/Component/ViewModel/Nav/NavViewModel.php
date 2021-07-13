@@ -10,7 +10,7 @@ namespace Component\ViewModel\Nav;
 
 use Component\Renderer\Html\ClassMap\ClassMapInterface;
 
-use Component\ViewModel\StatusViewModelAbstract;
+use Component\ViewModel\StatusViewModel;
 use Component\Renderer\Nav\Factory\UlTagFactory;
 use Component\Renderer\Nav\Factory\NavTagFactory;
 
@@ -31,7 +31,7 @@ use Component\ViewModel\Menu\Item\ItemViewModelInterface;
  *
  * @author pes2704
  */
-class NavViewModel extends StatusViewModelAbstract implements NavViewModelInterface {
+class NavViewModel extends StatusViewModel implements NavViewModelInterface {
 
     private $menuRootRepo;
     private $HierarchyRepo;
