@@ -28592,6 +28592,10 @@ Floated Menu / Item
   text-transform: uppercase;
   line-height: 1.2;
   position: relative;
+}
+
+.fix-bar:not(.editMenu) .ui.vertical.menu.massive a:not(.presented),
+.fix-bar:not(.editMenu) .ui.vertical.menu.massive p:not(.presented) {
   color: #fff;
 }
 
@@ -28627,8 +28631,14 @@ Floated Menu / Item
 
 .fix-bar:not(.editMenu) .kos .ui.vertical.menu.massive a,
 .fix-bar:not(.editMenu) .kos .ui.vertical.menu.massive p {
-  font-size: 1.8rem !important;
-  padding: 0 1.3em;
+  font-size: 2rem !important;
+  padding: 0.2em 1.3em;
+}
+
+.fix-bar:not(.editMenu) .kos .ui.vertical.menu.massive a.presented,
+.fix-bar:not(.editMenu) .kos .ui.vertical.menu.massive p.presented {
+  padding: 20px 1.3em 15px;
+  margin-top: 10px;
 }
 
 .fix-bar.editMenu .ui.menu .item::before {
