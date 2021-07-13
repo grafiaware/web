@@ -27,16 +27,16 @@ class SelectPaperTemplateRenderer extends HtmlRendererAbstract {
         $contentTemplateName = $viewModel->getPaper()->getTemplate();
         if ($viewModel->userCanEdit()) {
             $paperId = $viewModel->getPaper()->getId();
-            return Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/$paperId/template"],
-                        Html::tagNopair('input', ["type"=>"hidden", "name"=>"template_$paperId", "value"=>$contentTemplateName])
-                        .
-                        Html::tag('div', ['class'=>'paper_template_select'],
-                                ''
+            return
+            Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/$paperId/template"],
+                Html::tagNopair('input', ["type"=>"hidden", "name"=>"template_$paperId", "value"=>$contentTemplateName])
+                .
+                Html::tag('div', ['class'=>'paper_template_select'],''
 //                            Html::tag('div', ['class'=>'mceNonEditable'], $templatedContent)
-                        )
-                    .
-                    Html::tag('div', ['class'=>''], $templatedContent)
-                    );
+                )
+                .
+                Html::tag('div', ['class'=>''], $templatedContent)
+            );
         } else {
             return Html::tag('div', ['class'=>''], $templatedContent);
         }

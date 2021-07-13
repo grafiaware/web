@@ -69,6 +69,7 @@ class ArticleControler extends PresentationFrontControllerAbstract {
                 if (isset($templateName) AND $templateName) {
                     $statusPresentation->setLastTemplateName('');
                     $article->setTemplate($templateName);
+                    $article->setContent($postParams["article_$articleId"]);
                     $this->addFlashMessage("Article created from $templateName");
                 } else {
                     $article->setContent($postParams["article_$articleId"]);
