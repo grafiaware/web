@@ -1,4 +1,4 @@
-@media screen and (min-width: 5000px){
+/*@media screen and (min-width: 5000px){
     .layoutVP{
         header h1{
             font-size: 15rem;
@@ -165,6 +165,17 @@
                 font-size: 2rem;
             }
         }
+    }
+}*/
+@media screen and (min-width: 2000px){
+    .fix-bar:not(.editMenu){
+        width: 13.5rem !important;
+    }
+    .ui.column.grid > [class*="eleven wide widescreen"].column, 
+    .ui.grid > .column.row > [class*="eleven wide widescreen"].column, 
+    .ui.grid > .row > [class*="eleven wide widescreen"].column, 
+    .ui.grid > [class*="eleven wide widescreen"].column{
+        width: 93rem !important;
     }
 }
 @media screen and (max-width: 1860px){
@@ -412,8 +423,8 @@
         }
     }
     video{
-/*        width: 90%;
-        height: auto;*/
+        width: 90%;
+        height: auto;
     }
 }
 @media only screen and (max-height: 630px) {
