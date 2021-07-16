@@ -88,7 +88,7 @@
  
 body{
     /*celá stránka v editačním režimu posunutá napravo*/
-    .ui.container.editable{
+    .editable > .ui.container{
         position: relative;
         margin: @containerMargin !important;
         right: @containerPositionRight; 
@@ -208,7 +208,7 @@ body{
             /*margin: @svisleMenuBlokyMargin;*/
                   
         }  
-                
+                    
     } 
     .svisle-menu{
         &:first-of-type{

@@ -3,7 +3,8 @@ use Pes\Text\Html;
 ?>
 
 <!-- comment --><!--<div class="ui container editable">-->
-<div <?= Html::attributes($bodyContainerAttributes) ?> >
+<div <?= Html::attributes($bodyContainerAttributes)?> >
+    <div class="ui container" >
         <div class="column">
             <header>
                 <?php include "container/hlavicka.php"; ?>
@@ -19,3 +20,4 @@ use Pes\Text\Html;
             </footer>
         </div>
     </div>
+</div>

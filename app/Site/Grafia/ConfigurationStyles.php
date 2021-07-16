@@ -45,7 +45,7 @@ class ConfigurationStyles extends ConfigurationRed {
             'menu_edit_items' => [
                             'li' => '',
                             'li.item' => 'item',
-                            'li.dropdown' => 'ui icon dropdown',
+                            'li.dropdown' => 'item',
                             'li.leaf' => 'item leaf',
                             'li.presented' => 'presented',
                             'li.cut' => 'cut',
@@ -279,7 +279,7 @@ class ConfigurationStyles extends ConfigurationRed {
                 return new ClassMap (
                     [
                         'MenuWrap' => [
-                            'ul' => 'hlavni-menu edit'
+                            'ul' => 'ui vertical menu edit'
                         ],
                         'LevelWrap' => [
                             'ul' => 'right menu',
