@@ -3,6 +3,9 @@
                 $modalLoginLogout
             ?>
             <?=
-                $modalUserAction
+                $modalRegister ?? ''
+            ?>
+            <?=
+                $modalUserAction ?? ''
             ?>
         </div>
