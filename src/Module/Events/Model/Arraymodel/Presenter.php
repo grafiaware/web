@@ -22,6 +22,7 @@ class Presenter {
         "mdelektronik" => ["name" => "MD ELEKTRONIK spol. s r.o.", "eventInstitutionName"=>"MD Elektronik", "shortName" => "mdelektronik"],
         "konplan" => ["name" => "Konplan s.r.o.", "eventInstitutionName"=>"Konplan", "shortName" => "konplan"],
         "valeo" => ["name" => "Valeo Autoklimatizace k.s.", "eventInstitutionName"=>"Valeo Autoklimatizace", "shortName" => "valeo"],
+        "serw" => ["name" => "SERW, spol. s r.o.", "eventInstitutionName"=>"Serw", "shortName" => "serw"],
         "stoelzle" => ["name" => "Stoelzle Union s.r.o.", "eventInstitutionName"=>"Stoelzle", "shortName" => "stoelzle"],
         "grafia" => ["name" => "Grafia s.r.o.", "eventInstitutionName"=>"Grafia", "shortName" => "grafia"],
         "dzk" => ["name" => "Drůbežářské závody Klatovy a.s.", "eventInstitutionName"=>"DZ Klatovy", "shortName" => "dzk"],
