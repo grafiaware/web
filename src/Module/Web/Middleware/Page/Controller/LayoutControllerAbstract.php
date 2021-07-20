@@ -146,32 +146,6 @@ abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstr
         ];
     }
 
-    private function getAuthoredLayoutComponents() {
-        $userActions = $this->statusSecurityRepo->get()->getUserActions();
-        $isEditableContent = $userActions->presentEditableArticle() OR $userActions->presentEditableLayout();
-
-        $map = [
-                    'rychleOdkazy' => 'a3',
-                    'nejblizsiAkce' => 'a2',
-                    'aktuality' => 'a1',
-                    'razitko' => 'a4',
-                    'socialniSite' => 'a5',
-                    'mapa' => 'a6',
-                    'logo' => 'a7',
-                    'banner' => 'a8',
-                ];
-        $componets = [];
-
-        // pro neexistující bloky nedělá nic
-        foreach ($map as $variableName => $blockName) {
-            $menuItem = $this->getBlockMenuItem($blockName);
-            if (isset($menuItem)) {
-                $componets[$variableName] = $this->resolveMenuItemView($menuItem);
-            }
-        }
-        return $componets;
-    }
-
     private function getMenuComponents() {
 
         $userActions = $this->statusSecurityRepo->get()->getUserActions();

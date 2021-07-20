@@ -105,7 +105,29 @@ class PageController extends LayoutControllerAbstract {
 ##### private methods ##############################################################
 #
 
+    protected function getAuthoredLayoutComponents() {
+        $userActions = $this->statusSecurityRepo->get()->getUserActions();
+        $isEditableContent = $userActions->presentEditableArticle() OR $userActions->presentEditableLayout();
 
+        $map = [
+                    'rychleOdkazy' => 'a3',
+                    'nejblizsiAkce' => 'a2',
+                    'aktuality' => 'a1',
+                    'razitko' => 'a4',
+                    'socialniSite' => 'a5',
+                    'mapa' => 'a6',
+                    'logo' => 'a7',
+                    'banner' => 'a8',
+                ];
+        $componets = [];
+
+        // pro neexistující bloky nedělá nic
+        foreach ($map as $variableName => $blockName) {
+            $menuItem = $this->getBlockMenuItem($blockName);
+            $componets[$variableName] = $this->resolveMenuItemView($menuItem);
+        }
+        return $componets;
+    }
 
     protected function getMenuItem($uid) {
         /** @var MenuItemRepo $menuItemRepo */
@@ -131,7 +153,7 @@ class PageController extends LayoutControllerAbstract {
      * Vrací view objekt pro zobrazení centrálního obsahu v prostoru pro "content"
      * @return type
      */
-    protected function resolveMenuItemView(MenuItemInterface $menuItem) {
+    protected function resolveMenuItemView(MenuItemInterface $menuItem=null) {
 
         if (isset($menuItem)) {
             $content = $this->getContentLoadScript($menuItem);
