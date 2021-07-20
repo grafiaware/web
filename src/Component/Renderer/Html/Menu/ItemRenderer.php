@@ -29,13 +29,13 @@ class ItemRenderer extends HtmlModelRendererAbstract {
     public function render($viewModel=NULL) {
         $this->viewModel = $viewModel;
         if ($viewModel->isEditableItem()) {
-            return $this->renderEditable();
+            return $this->renderEditableItem();
         } else {
-            return $this->renderNoneditable();
+            return $this->renderNoneditableItem();
         }
     }
 
-    private function renderNoneditable() {
+    private function renderNoneditableItem() {
         // sloučeno
         $html = Html::tag(     'li',
                 ['class'=>[
@@ -72,7 +72,7 @@ class ItemRenderer extends HtmlModelRendererAbstract {
         return $innerHtml;
     }
 
-    protected function renderEditable() {
+    protected function renderEditableItem() {
         $menuNode = $this->viewModel->getMenuNode();
 
         $liInnerHtml[] =
@@ -130,7 +130,9 @@ class ItemRenderer extends HtmlModelRendererAbstract {
     }
 
     private function redLiStyle() {
-        return ($this->viewModel->isOnPath() ? "onpath " : "")
+        return 
+            ($this->viewModel->isEditableItem() ? "editable-item " : "noneditable-item ")
+            .($this->viewModel->isOnPath() ? "onpath " : "")
             .(($this->viewModel->getRealDepth() == 1) ? "dropdown " : "")
             .($this->viewModel->isPresented() ? "presented " : "")
             .($this->viewModel->isCutted() ? "cutted " : "") ;

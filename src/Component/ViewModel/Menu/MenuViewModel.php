@@ -45,7 +45,7 @@ class MenuViewModel extends StatusViewModel implements MenuViewModelInterface {
      * @return bool
      */
     public function presentOnlyPublished() {
-        return ! $this->isArticleEditable();  //negace
+        return ! $this->presentEditableArticle();  //negace
     }
 
     /**
@@ -156,7 +156,7 @@ class MenuViewModel extends StatusViewModel implements MenuViewModelInterface {
         $pasteMode = $pasteUid ? true : false;
 
         //editable menu
-        $menuEditable = $this->isMenuEditable();
+        $menuEditable = $this->presentEditableMenu();
 
 //        since PHP 7.3 the first value of $array may be accessed with $array[array_key_first($array)];
         $rootDepth = reset($nodes)->getDepth();  //jako side efekt resetuje pointer
@@ -175,7 +175,7 @@ class MenuViewModel extends StatusViewModel implements MenuViewModelInterface {
             $isPresented = isset($presentedUid) ? ($presentedUid == $nodeUid) : FALSE;
             $isCutted = $pasteUid == $nodeUid;
             if ($isPresented) {
-                $isEditableItem = $this->isEditableMenu();  // volá se jen pro presented = jednou
+                $isEditableItem = $this->isEditableItem();  // volá se jen pro presented = jednou
             } else {
                 $isEditableItem = false;
             }
@@ -193,12 +193,11 @@ class MenuViewModel extends StatusViewModel implements MenuViewModelInterface {
      *
      * @return bool
      */
-    public function isEditableMenu(): bool {
+    public function isEditableItem(): bool {
         $loginAggregate = $this->statusSecurityRepo->get()->getLoginAggregate();
         if ($loginAggregate) {
-            $isEditableMenu = $this->statusSecurityRepo->get()->getUserActions()->presentEditableMenu();
             $isSupervisor = $loginAggregate->getCredentials()->getRole() == 'sup';
-            return ($isEditableMenu AND $isSupervisor);
+            return ($this->presentEditableMenu() AND $isSupervisor);
         } else {
             return false;
         }
