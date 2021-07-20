@@ -25,7 +25,7 @@ interface StatusViewModelInterface extends ViewModelInterface {
      * Prezentuj článek v editovatelné podobě
      * @return bool
      */
-    public function isArticleEditable(): bool;
-    public function isLayoutEditable(): bool;
-    public function isMenuEditable(): bool;
+    public function presentEditableArticle(): bool;
+    public function presentEditableLayout(): bool;
+    public function presentEditableMenu(): bool;
 }

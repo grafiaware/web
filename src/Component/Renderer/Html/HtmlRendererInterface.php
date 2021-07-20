@@ -17,5 +17,4 @@ use Pes\View\Renderer\ClassMap\ClassMapInterface;
  * @author pes2704
  */
 interface HtmlRendererInterface extends RendererInterface {
-    public function getClassMap(): ClassMapInterface;
 }

@@ -26,7 +26,7 @@ class ItemTypeSelectComponent extends ComponentAbstract {
     protected $contextData;
 
     public function beforeRenderingHook(): void {
-        if($this->contextData->isArticleEditable()) {
+        if($this->contextData->presentEditableArticle()) {
             $this->setRendererName(ItemTypeRenderer::class);
         } else {
             $this->setRendererName(EmptyItemRenderer::class);

@@ -36,8 +36,4 @@ abstract class HtmlRendererAbstract implements HtmlRendererInterface {
         $this->classMap = $menuClassMap;
         $this->classMapEditable = $menuClassMapEditable;
     }
-
-    public function getClassMap(): ClassMapInterface {
-        return $this->classMap;
-    }
 }

@@ -22,7 +22,7 @@ class ItemBlockRenderer extends ItemRenderer {
      *
      * @return string
      */
-    protected function renderEditable() {
+    protected function renderEditableItem() {
         $menuNode = $this->viewModel->getMenuNode();
         $menuItem = $menuNode->getMenuItem();
         $active = $menuItem->getActive();
