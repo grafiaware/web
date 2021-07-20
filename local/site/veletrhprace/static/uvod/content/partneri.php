@@ -167,6 +167,16 @@ use Pes\Text\Text;
                     ],
                 ],
                 [
+                    'wwwPartnera' => 'https://umo2.plzen.eu/',
+                    'imgPartneraAttributes' => [
+                        'src' => '@images/logo_umo2.png',
+                        'alt' => 'Logo UMO2 Plzeň',
+                        'width' => '',
+                        'height' => '120',
+                        'class' => 'logo-ctverec'
+                    ],
+                ],
+                [
                     'wwwPartnera' => 'https://www.diakoniezapad.cz/',
                     'imgPartneraAttributes' => [
                         'src' => '@images/diakonie-logo.png',
