@@ -245,10 +245,11 @@
         }
     } 
     //
-    .svisle-menu .menu{  //ohraniceni semantic
+    .svisle-menu .vertical.menu{  //ohraniceni semantic
         padding: 0;
         margin-top: 0;
         > li{
+            list-style-type: none;
             &:not(:first-child){
                 border-top: 2px solid @transparentBlack;
             }
@@ -265,7 +266,10 @@
         li:not(:first-child){ 
             border-top: 2px solid @transparentBlack;
         }
-        li:not(.leaf){
+        .presented{
+            font-weight: 700;
+        }
+/*        li:not(.leaf){
             > .item::after{
                 content: "\f107";
                 height: 1em;
@@ -280,71 +284,26 @@
                 top: 40%;
                 transform: translateY(-50%);
             }
-        }
-        .onpath {
+        }*/
+        .menu {
            margin-left: 12px;
            padding: 0;
             .item{
                 border-bottom: 0;
+                list-style-type: inherit;
             }
         }
-        .item::before{
+/*        .item::before{
+            display: none;
+        }*/
+    }
+    .hidden-submenu{
+        ul{
             display: none;
         }
-    }
-    .svisle-menu > .menu, .svisle-menu form > .menu{                                   //preorganizovano ohraniceni
-        padding: 0;
-        border: 0 !important; //prepsat v semantic ui
-        box-shadow: 0 0 0 0 !important; //prepsat v semantic ui
-        li{
-            list-style-type: none;
-            border: 2px solid @transparentBlack;
-            border-bottom: 0;
-            &:last-child{
-                border-bottom: 2px solid @transparentBlack;
-            }
-            &:first-child .onpath{
-                border-width: 2px 0 0 0;
-            }
-            .item{
-                line-height: normal;
-            }
-            i:first-child{
-                float: left;
-            }
-        }
-        .onpath{                                //pozadi jen v podrazenem ul
-            .item{
-                background-color: @transparentBlack;
-            }
-            border-width: 0 0 2px 0;
-            background-color: @white;
-            &:hover{
-                background-color: @white !important;
-            }
-            > .item{
-                font-weight: 700;
-                border-bottom: 1px solid @transparentBlack;
-                background-color: @transparentBlack + @transparentBlack !important;
-                border-left: 2px solid @transparentBlack;
-                border-right: 2px solid @transparentBlack !important;
-                line-height: normal;
-            }
-            &.menu{
-                border-top: 0;
-                background-color: @transparentBlack;
-                > li{
-                    list-style-type: inherit;
-                }
-                > li:hover{
-                    background-color: @transparentBlack;
-                }
-                > .onpath.menu {
-                    background-color: @transparentBlack+@transparentBlack;
-                    > .onpath.menu{
-                        background-color: @transparentBlack+@transparentBlack+@transparentBlack;
-                    }
-                }
+        .parent{
+            > ul {
+                display: block;
             }
         }
     }

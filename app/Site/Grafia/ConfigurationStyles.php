@@ -34,12 +34,13 @@ class ConfigurationStyles extends ConfigurationRed {
             'menu_items' => [
                             'li' => '',
                             'li.item' => 'item',
-                            'li.dropdown' => 'ui icon dropdown',
-                            'li.leaf' => 'item leaf',
+                            'li.dropdown' => 'item',
+                            'li.leaf' => 'item leaf', 
                             'li.presented' => 'presented',
+                            'li.parent' => 'parent',
                             'li a span' => 'text',
                             'li i.dropdown' => 'dropdown icon',
-                            'li i' => '',
+                            'li i' => '', 
                             'li a' => '',
                         ],
             'menu_edit_items' => [
@@ -48,6 +49,7 @@ class ConfigurationStyles extends ConfigurationRed {
                             'li.dropdown' => 'item',
                             'li.leaf' => 'item leaf',
                             'li.presented' => 'presented',
+                            'li.parent' => 'parent',
                             'li.cut' => 'cut',
                             'li.paste' => 'paste',
                             'li a' => '',   //nema_pravo //edituje_jiny
@@ -266,11 +268,11 @@ class ConfigurationStyles extends ConfigurationRed {
                 return new ClassMap (
                     [
                         'MenuWrap' => [
-                            'ul' => 'hlavni-menu'
+                            'ul' => 'ui vertical menu hidden-submenu'
                         ],
                         'LevelWrap' => [
-                            'ul' => 'right menu',
-                            'ul.onpath' => 'right menu onpath',
+                            'ul' => 'menu',
+                            'ul.onpath' => 'menu onpath',
                             ],
                         'Item' => self::rendererDefaults()['menu_items'],
                     ]);
@@ -279,11 +281,11 @@ class ConfigurationStyles extends ConfigurationRed {
                 return new ClassMap (
                     [
                         'MenuWrap' => [
-                            'ul' => 'ui vertical menu edit'
+                            'ul' => 'ui vertical menu hidden-submenu edit'
                         ],
                         'LevelWrap' => [
-                            'ul' => 'right menu',
-                            'ul.onpath' => 'right menu onpath',
+                            'ul' => 'menu',
+                            'ul.onpath' => 'menu onpath',
                         ],
                         'Item' => self::rendererDefaults()['menu_edit_items'],
                         'Buttons' => self::rendererDefaults()['menu_edit_buttons'],

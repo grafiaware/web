@@ -177,7 +177,7 @@ class ConfigurationRed extends ConfigurationDb {
                 'menu' => [
                     ['context_name' => 'menuPresmerovani', 'service_name' => 'menu.presmerovani', 'root_name' => 'menu_redirect', 'with_title' => false],
                     ['context_name' => 'menuVodorovne', 'service_name' => 'menu.vodorovne', 'root_name' => 'menu_horizontal', 'with_title' => false],
-                    ['context_name' => 'menuSvisle', 'service_name' => 'menu.svisle', 'root_name' => 'menu_vertical', 'with_title' => true],
+                    ['context_name' => 'menuSvisle', 'service_name' => 'menu.svisle', 'root_name' => 'menu_vertical', 'with_title' => false],
                 ],
                 'blocks' =>  ['context_name' => 'bloky', 'service_name' => 'menu.bloky', 'root_name' => 'blocks', 'with_title' => true],
                 'trash' => ['context_name' => 'kos', 'service_name' => 'menu.kos', 'root_name' => 'trash', 'with_title' => true],
