@@ -52,9 +52,9 @@ class ConfigurationStyles extends ConfigurationRed {
                             'li.parent' => 'parent',
                             'li.cut' => 'cut',
                             'li.paste' => 'paste',
-                            'li a' => '',   //nema_pravo //edituje_jiny
+                            'li a' => '',  
                             'li i.dropdown' => 'dropdown icon',
-                            'semafor'=> 'semafor',
+                            'semafor'=> 'semafor', 
                             'semafor.published' => 'circle icon green',
                             'semafor.notpublished' => 'circle icon red ',
                             'semafor.trashed' => 'circle icon inverted purple',
@@ -281,7 +281,7 @@ class ConfigurationStyles extends ConfigurationRed {
                 return new ClassMap (
                     [
                         'MenuWrap' => [
-                            'ul' => 'ui vertical menu hidden-submenu edit'
+                            'ul' => 'ui vertical menu edit'
                         ],
                         'LevelWrap' => [
                             'ul' => 'menu',
