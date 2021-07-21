@@ -1,7 +1,7 @@
 <?php
 namespace  Component\Renderer\Html\Menu;
 
-use Component\Renderer\Html\HtmlModelRendererAbstract;
+use Component\Renderer\Html\HtmlRendererAbstract;
 use Component\ViewModel\Menu\Item\ItemViewModelInterface;
 use Red\Model\Entity\HierarchyAggregateInterface;
 
@@ -18,7 +18,7 @@ use Pes\Text\Html;
  *
  * @author pes2704
  */
-class ItemRenderer extends HtmlModelRendererAbstract {
+class ItemRenderer extends HtmlRendererAbstract {
 
     /**
      *

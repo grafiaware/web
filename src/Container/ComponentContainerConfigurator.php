@@ -270,19 +270,21 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             #### komponenty s připojeným fallback rendererem - pro paper s šablonou je šablona připojena později
             #
-            'component.paper' => function(ContainerInterface $c) {
-                $viewModel = $c->get(PaperViewModel::class);  //oba komponenty sdílejí stejný model
-                $paperComponent = new PaperComponent($c->get(ComponentConfiguration::class));
-                $paperComponent->setData($viewModel);
-                $paperComponent->setRendererContainer($c->get('rendererContainer'));
-                $paperComponent->setFallbackRendererName(PaperRenderer::class);
-                $paperComponent->addChildRendererName('elementWrapper', ElementWrapper::class);  // ElementEditableWrapper::class);
+            TemplatedComponent::class => function(ContainerInterface $c) {
+                $viewModel = $c->get(PaperViewModel::class);  //TemplatedComponent sdílí stejný model s PaperComponent
                 $contentComponent = new TemplatedComponent($c->get(ComponentConfiguration::class));
                 $contentComponent->setData($viewModel);
                 $contentComponent->setRendererContainer($c->get('rendererContainer'));
                 $contentComponent->setRendererName(SelectPaperTemplateRenderer::class);
-                $contentComponent->appendComponentView($paperComponent, 'templatedContent');
                 return $contentComponent;
+            },
+            PaperComponent::class => function(ContainerInterface $c) {
+                $viewModel = $c->get(PaperViewModel::class);
+                $paperComponent = new PaperComponent($c->get(ComponentConfiguration::class));
+                $paperComponent->setData($viewModel);
+                $paperComponent->setRendererContainer($c->get('rendererContainer'));
+
+                return $paperComponent;
             },
             ArticleComponent::class => function(ContainerInterface $c) {
                 $viewModel = $c->get(ArticleViewModel::class);

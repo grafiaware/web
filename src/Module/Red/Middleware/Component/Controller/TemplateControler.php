@@ -18,13 +18,8 @@ use Red\Model\Entity\MenuItemInterface;
 use Red\Model\Entity\PaperAggregatePaperContent;
 
 // komponenty
-use Component\View\{
-    Generated\LanguageSelectComponent,
-    Generated\SearchPhraseComponent,
-    Generated\SearchResultComponent,
-    Generated\ItemTypeSelectComponent,
-    Flash\FlashComponent
-};
+use Component\View\Authored\Paper\PaperComponent;
+use Component\View\Authored\Paper\PaperComponentInterface;
 
 ####################
 
@@ -73,18 +68,27 @@ class TemplateControler extends PresentationFrontControllerAbstract {
     }
 
     public function papertemplate(ServerRequestInterface $request, $folder) {
-        $paperAggregate = new PaperAggregatePaperContent();
-        $paperAggregate->exchangePaperContentsArray([])   //  ['content'=> Message::t('Contents')]
-                ->setTemplate($folder)
-                ->setHeadline(Message::t('Headline'))
-                ->setPerex(Message::t('Perex'))
-                ;
-
-        $view = $this->container->get(View::class)
-                                ->setTemplate(new PhpTemplate(Configuration::templateController()['templates.paperFolder']."$folder/template.php"))
-                                ->setData([
-                                    'paperAggregate' => $paperAggregate,
-                                ]);
+        $presentedMenuItem = $this->statusPresentationRepo->get()->getMenuItem();
+        if (isset($presentedMenuItem)) {
+            $menuItemId = $presentedMenuItem->getId();
+            /** @var PaperComponentInterface $view */
+            $view = $this->container->get(PaperComponent::class);
+            $view->setTemplate($template)
+            $view->setItemId($menuItemId);
+            $view->setReadonly(true);
+        } else {
+            $paperAggregate = new PaperAggregatePaperContent();
+            $paperAggregate->exchangePaperContentsArray([])   //  ['content'=> Message::t('Contents')]
+                    ->setTemplate($folder)
+                    ->setHeadline(Message::t('Headline'))
+                    ->setPerex(Message::t('Perex'))
+                    ;
+            $view = $this->container->get(View::class)
+                                    ->setTemplate(new PhpTemplate(Configuration::templateController()['templates.paperFolder']."$folder/template.php"))
+                                    ->setData([
+                                        'paperAggregate' => $paperAggregate,
+                                    ]);
+        }
         return $this->createResponseFromView($request, $view);
     }
 

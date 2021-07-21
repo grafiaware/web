@@ -8,8 +8,9 @@ use Pes\Container\ContainerConfiguratorAbstract;
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
 
 use Component\Renderer\Html\Authored\Paper\{
-    SelectTemplateRenderer, PaperRenderer,
-    ElementWrapper, ElementEditableWrapper, Buttons
+    SelectTemplateRenderer, PaperRenderer, PaperRendererEditable,
+    ElementWrapper, ElementEditableWrapper, Buttons,
+    HeadlineRenderer
 };
 
 use Component\Renderer\Html\Generated\{
@@ -55,7 +56,10 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new SelectTemplateRenderer($c->get('paper.classmap'), $c->get('paper.editable.classmap'));
             },
             PaperRenderer::class => function(ContainerInterface $c) {
-                return new PaperRenderer($c->get('paper.classmap'), $c->get('paper.editable.classmap'));
+                return new PaperRenderer($c->get('paper.classmap'));
+            },
+            PaperRendererEditable::class => function(ContainerInterface $c) {
+                return new PaperRendererEditable($c->get('paper.editable.classmap'));
             },
             ElementWrapper::class => function(ContainerInterface $c) {
                 return new ElementWrapper($c->get('paper.classmap'));
@@ -66,7 +70,9 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
             Buttons::class => function(ContainerInterface $c) {
                 return new Buttons($c->get('paper.editable.classmap'));
             },
-
+            HeadlineRenderer::class => function(ContainerInterface $c) {
+                return new HeadlineRenderer($c->get('paper.classmap'), $c->get('paper.editable.classmap'));
+            },
         ###########################
         #  generated renderer
         ###########################

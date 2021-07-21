@@ -8,7 +8,7 @@
 
 namespace Component\Renderer\Html\Generated;
 
-use Component\Renderer\Html\HtmlModelRendererAbstract;
+use Component\Renderer\Html\HtmlRendererAbstract;
 use Component\ViewModel\Generated\SearchResultViewModel;
 use Red\Model\Entity\MenuItemInterface;
 
@@ -21,7 +21,7 @@ use Pes\Text\Message;
  *
  * @author pes2704
  */
-class SearchResultRenderer extends HtmlModelRendererAbstract implements RendererModelAwareInterface {
+class SearchResultRenderer extends HtmlRendererAbstract implements RendererModelAwareInterface {
 
     public function render($data=NULL) {
         /** @var SearchResultViewModel $viewModel */

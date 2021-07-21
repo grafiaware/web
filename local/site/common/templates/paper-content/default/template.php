@@ -18,7 +18,7 @@ use Red\Model\Entity\PaperContentInterface;
 
         </div>
         <div class="author-text">
-            <?= $elementWrapper->wrapContent($paperContent) ?>
+            <?= $paperContent ?>
         </div>
     </div>
 </section>

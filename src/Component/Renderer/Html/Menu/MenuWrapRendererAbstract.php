@@ -9,7 +9,7 @@
 namespace  Component\Renderer\Html\Menu;
 
 use Pes\View\Renderer\RendererInterface;
-use Component\Renderer\Html\HtmlModelRendererAbstract;
+use Component\Renderer\Html\HtmlRendererAbstract;
 use Component\Renderer\Html\Menu\LevelWrapRenderer;
 use Component\Renderer\Html\Menu\ItemRenderer;
 use Component\ViewModel\Menu\Item\ItemViewModelInterface;
@@ -19,7 +19,7 @@ use Component\ViewModel\Menu\Item\ItemViewModelInterface;
  *
  * @author pes2704
  */
-abstract class MenuWrapRendererAbstract extends HtmlModelRendererAbstract implements MenuWrapRendererInterface {
+abstract class MenuWrapRendererAbstract extends HtmlRendererAbstract implements MenuWrapRendererInterface {
 
     /**
      * @var LevelWrapRenderer

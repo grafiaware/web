@@ -16,9 +16,10 @@ use Psr\Http\Message\ServerRequestInterface;
 use Component\View\{
     Flash\FlashComponent,
     Generated\ItemTypeSelectComponent,
-    Authored\Paper\ContentComponentInterface,
+    Authored\Paper\PaperComponent,
     Authored\Paper\PaperComponentInterface,
-    Authored\Article\ArticleComponent
+    Authored\Article\ArticleComponent,
+    Authored\Article\ArticleComponentInterface
 };
 
 // renderery
@@ -67,13 +68,13 @@ class RedComponentControler extends XhrControllerAbstract {
 
     public function paper(ServerRequestInterface $request, $menuItemId) {
         /** @var PaperComponentInterface $view */
-        $view = $this->container->get('component.paper');
+        $view = $this->container->get(PaperComponent::class);
         $view->setItemId($menuItemId);
         return $this->createResponseFromView($request, $view);
     }
 
     public function article(ServerRequestInterface $request, $menuItemId) {
-        /** @var ContentComponentInterface $view */
+        /** @var ArticleComponentInterface $view */
         $view = $this->container->get(ArticleComponent::class);
         $view->setItemId($menuItemId);
         return $this->createResponseFromView($request, $view);

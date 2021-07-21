@@ -6,6 +6,9 @@ use Pes\View\Template\PhpTemplate;
 use Component\View\Authored\AuthoredComponentAbstract;
 use Component\ViewModel\Authored\Paper\PaperViewModelInterface;
 
+use Component\Renderer\Html\Authored\Paper\PaperRenderer;
+use Component\Renderer\Html\Authored\Paper\PaperRendererEditable;
+
 /**
  * Description of PaperComponent
  *
@@ -28,12 +31,25 @@ class PaperComponent extends AuthoredComponentAbstract implements PaperComponent
             try {
                 $templatePath = $this->getTemplateFileFullname($this->configuration->getTemplatepathPaper(), $paperAggregate->getTemplate());
                 $template = new PhpTemplate($templatePath);  // exception
-                $this->adoptChildRenderers($template);
+                // renderery musí být definovány v Renderer kontejneru - tam mohou dostat classMap do konstruktoru
+//                $this->addChildRendererName('headline', HeadlineRenderer::class);
+//                $this->adoptChildRenderers($template);   // jako shared data do template objektu
                 $this->setTemplate($template);
             } catch (NoTemplateFileException $noTemplExc) {
                 user_error("Neexistuje soubor šablony '{$this->getTemplateFileFullname($paperAggregate->getTemplate())}'", E_USER_WARNING);
                 $this->setTemplate(null);
             }
+        }
+        if ($this->contextData->userCanEdit() AND !$this->readonly) { // editační režim a uživatel má právo editovat
+            if ($this->hasContent()) {
+                $this->setRendererName(PaperRendererEditable::class);
+            } else {
+                $this->setRendererName(EmptyContentRenderer::class);
+            }
+        } elseif ($this->hasContent()) {
+                $this->setRendererName(PaperRenderer::class);
+        } else {
+            $this->setRendererName(EmptyContentRenderer::class);
         }
     }
 
@@ -52,6 +68,6 @@ class PaperComponent extends AuthoredComponentAbstract implements PaperComponent
      */
     public function hasContent(): bool {
         $paper = $this->contextData->getPaper();
-        return (isset($paper) AND ($paper->getHeadline() OR $paper->getPerex() OR count($paper->getPaperContentsArray()) OR $paper->getTemplate())) ? true : false;
+        return isset($paper) ? true : false;
     }
 }

@@ -27,7 +27,7 @@ abstract class AuthoredComponentAbstract extends CompositeComponentAbstract impl
     /**
      * @var bool
      */
-    protected $editable;
+    protected $readonly;
 
     /**
      * @var string
@@ -53,6 +53,10 @@ abstract class AuthoredComponentAbstract extends CompositeComponentAbstract impl
         return $this;
     }
 
+    public function setReadonly($readonly = true) {
+        $this->readonly = $readonly;
+    }
+
     public function getTemplateFileFullname($templatesPath, $templateName): string {
         return $templatesPath.$templateName."/".self::DEFAULT_TEMPLATE_FILE_NAME;
     }
@@ -71,5 +75,6 @@ abstract class AuthoredComponentAbstract extends CompositeComponentAbstract impl
         }
         $template->setSharedData($sharedData);
     }
+
 
 }

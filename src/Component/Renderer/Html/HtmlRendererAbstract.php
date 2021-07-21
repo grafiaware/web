@@ -1,6 +1,8 @@
 <?php
 namespace Component\Renderer\Html;
 
+use Pes\View\Renderer\PhpTemplateRenderer;
+
 use Pes\View\Renderer\ClassMap\ClassMapInterface;
 
 /*
@@ -14,7 +16,7 @@ use Pes\View\Renderer\ClassMap\ClassMapInterface;
  *
  * @author pes2704
  */
-abstract class HtmlRendererAbstract implements HtmlRendererInterface {
+abstract class HtmlRendererAbstract extends PhpTemplateRenderer {
 
     /**
      * @var ClassMapInterface

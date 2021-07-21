@@ -2,11 +2,10 @@
 namespace Component\Renderer\Html\Authored\Article;
 
 use Red\Model\Entity\ArticleInterface;
-use Component\Renderer\Html\HtmlModelRendererAbstract;
 
 use Component\ViewModel\Authored\Article\ArticleViewModelInterface;
 use Pes\Text\Html;
-use Pes\View\Renderer\ImplodeRenderer;
+use Component\Renderer\Html\HtmlRendererAbstract;
 
 
 /**
@@ -14,7 +13,7 @@ use Pes\View\Renderer\ImplodeRenderer;
  *
  * @author pes2704
  */
-class ArticleRenderer extends HtmlModelRendererAbstract {
+class ArticleRenderer extends HtmlRendererAbstract {
     public function render(iterable $viewModel=NULL) {
         /** @var ArticleViewModelInterface $viewModel */
         $article = $viewModel->getArticle();  // vrací ArticleInterface

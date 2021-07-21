@@ -10,7 +10,7 @@ namespace Component\Renderer\Html\Generated;
 
 use Site\Configuration;
 
-use Component\Renderer\Html\HtmlModelRendererAbstract;
+use Component\Renderer\Html\HtmlRendererAbstract;
 use Component\ViewModel\Generated\LanguageSelectViewModel;
 
 use Red\Model\Entity\LanguageInterface;
@@ -23,7 +23,7 @@ use Pes\Text\Html;
  *
  * @author pes2704
  */
-class LanguageSelectRenderer extends HtmlModelRendererAbstract {
+class LanguageSelectRenderer extends HtmlRendererAbstract {
 
     public function render($viewModel=NULL) {
         /** @var LanguageSelectViewModel $viewModel */

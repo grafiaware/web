@@ -8,7 +8,7 @@
 
 namespace Component\Renderer\Html\Flash;
 
-use Component\Renderer\Html\HtmlModelRendererAbstract;
+use Component\Renderer\Html\HtmlRendererAbstract;
 use Component\ViewModel\Flash\FlashViewModelForRendererInterface;
 
 use Pes\View\Renderer\RendererModelAwareInterface;
@@ -18,7 +18,7 @@ use Pes\View\Renderer\RendererModelAwareInterface;
  *
  * @author pes2704
  */
-class FlashRenderer extends HtmlModelRendererAbstract implements RendererModelAwareInterface {
+class FlashRenderer extends HtmlRendererAbstract implements RendererModelAwareInterface {
 
     public function render(iterable $data = NULL) {
         /** @var FlashViewModelForRendererInterface $viewModel */

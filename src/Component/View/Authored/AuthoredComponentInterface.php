@@ -8,11 +8,13 @@
 
 namespace Component\View\Authored;
 
+use Pes\View\CompositeViewInterface;
+
 /**
  *
  * @author pes2704
  */
-interface AuthoredComponentInterface {
+interface AuthoredComponentInterface extends CompositeViewInterface {
 
     /**
      * Připraví přidání proměné obsahující renderer do proměnných šablony (do kontextu). Parametrem této metody je jméno rendereru.
@@ -25,5 +27,7 @@ interface AuthoredComponentInterface {
     public function addChildRendererName($variableName, $rendererName);
 
     public function setItemId($menuItemId): AuthoredComponentInterface;
+
+    public function setReadonly($readonly=true);
 
 }

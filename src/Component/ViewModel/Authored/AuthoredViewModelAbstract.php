@@ -26,11 +26,13 @@ abstract class AuthoredViewModelAbstract extends StatusViewModel implements Auth
     /**
      * {@inheritdoc}
      *
+     * Informuje zda prezentace je v editovatelném režimu a současně prezentovaný obsah je editovatelný přihlášeným uživatelem.
      * Editovat smí uživatel s rolí 'sup'
      *
      * @return bool
      */
     public function userCanEdit(): bool {
+
         $loginAggregate = $this->statusSecurityRepo->get()->getLoginAggregate();
         if ($loginAggregate) {
             $presentEditableArticle = $this->statusSecurityRepo->get()->getUserActions()->presentEditableArticle();

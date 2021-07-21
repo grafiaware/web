@@ -9,15 +9,15 @@ use Red\Model\Entity\PaperAggregatePaperContentInterface;
 /** @var PaperAggregatePaperContentInterface $paperAggregate */
 
 ?>
-    <?= isset($buttons) ? $buttons->renderPaperTemplateButtonsForm($paperAggregate) : "" ?>
-    <?= isset($buttons) ? $buttons->renderPaperButtonsForm($paperAggregate) : "" ?>
-        <article class="" data-template="<?=$paperAggregate->getTemplate()?>">
+        <?= $selectTemplate ?? "" ?>
+        <article class="" data-template="<?= "sem jméno template" ?>">
+            <?= $articleButtonForms ?? "" ?>
             <section>
-                    <?= $elementWrapper->wrapHeadline($paperAggregate) ?>
-                    <?= $elementWrapper->wrapPerex($paperAggregate) ?>
+                    <?= $headline ?>
+                    <?= $perex ?>
             </section>
             <section>
                 <?=
-        $this->repeat(PROJECT_PATH."local/site/common/templates/paper-content/default/template.php", $paperAggregate->getPaperContentsArraySorted(PaperAggregatePaperContentInterface::BY_PRIORITY), 'paperContent'); ?>
+        $this->repeat(PROJECT_PATH."local/site/common/templates/paper-content/default/template.php", $contents, 'paperContent'); ?>
             </section>
         </article>

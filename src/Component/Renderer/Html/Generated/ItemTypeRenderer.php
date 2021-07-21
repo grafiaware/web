@@ -8,7 +8,7 @@
 
 namespace Component\Renderer\Html\Generated;
 
-use Component\Renderer\Html\HtmlModelRendererAbstract;
+use Component\Renderer\Html\HtmlRendererAbstract;
 use Component\ViewModel\Generated\ItemTypeSelectViewModel;
 
 use Pes\View\Renderer\RendererModelAwareInterface;
@@ -21,7 +21,7 @@ use Pes\Text\Html;
  *
  * @author pes2704
  */
-class ItemTypeRenderer extends HtmlModelRendererAbstract  {
+class ItemTypeRenderer extends HtmlRendererAbstract  {
 
     public function render(iterable $viewModel=NULL) {
         /** @var ItemTypeSelectViewModel $viewModel */

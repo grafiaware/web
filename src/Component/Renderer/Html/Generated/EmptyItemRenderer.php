@@ -8,12 +8,14 @@
 
 namespace Component\Renderer\Html\Generated;
 
+use Component\Renderer\Html\HtmlRendererAbstract;
+
 /**
  * Description of EmptyItemRenderer
  *
  * @author pes2704
  */
-class EmptyItemRenderer extends HtmlModelRendererAbstract  {
+class EmptyItemRenderer extends HtmlRendererAbstract  {
 
     public function render(iterable $viewModel=NULL) {
         return "<p>Empty item</p>";
