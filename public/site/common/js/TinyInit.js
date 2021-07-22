@@ -213,7 +213,31 @@ var plugins = [
        'template', // adds support for custom templates. It also adds a menu item and a toolbar button
 'quickbars',    ];
 
-var templates_paper = [
+var templates_article = [
+        { title: 'template article test', description: 'popis',       url: 'web/v1/articletemplate/test'},
+        { title: 'template article empty', description: 'popis',       url: 'web/v1/articletemplate/empty'},
+        { title: 'template article two columns', description: 'popis',       url: 'web/v1/articletemplate/two_columns'},
+        { title: 'template article two columns divided', description: 'popis',       url: 'web/v1/articletemplate/two_columns_divided'},
+        { title: 'template article two blocks styled', description: 'popis',       url: 'web/v1/articletemplate/two_blocks_styled'},
+        { title: 'template article img & text styled', description: 'popis',       url: 'web/v1/articletemplate/img_text_styled'},
+        { title: 'template article job', description: 'popis',       url: 'web/v1/articletemplate/job'},
+
+        { title: 'Vzor - Úvod', description: 'popis',       url: 'web/v1/static/uvod'},
+    ];
+var templates_paper= [
+        { title: 'template paper default', description: 'popis',       url: 'web/v1/papertemplate/default'},
+        { title: 'template paper contact', description: 'popis',       url: 'web/v1/papertemplate/contact'},
+        { title: 'template paper test', description: 'popis',       url: 'web/v1/papertemplate/test'},
+        { title: 'template paper course', description: 'popis',       url: 'web/v1/papertemplate/course'},
+        { title: 'Test - presentedpaper s šablonou default', description: 'rendered component',       url: 'red/v1/presenteditem?template=default'},
+        { title: 'Test - presentedpaper s šablonou contact', description: 'rendered component',       url: 'red/v1/presenteditem?template=contact'},
+        { title: 'Test - presentedpaper s šablonou test', description: 'rendered component',       url: 'red/v1/presenteditem?template=test'},
+        { title: 'Test - presentedpaper s šablonou course', description: 'rendered component',       url: 'red/v1/presenteditem?template=course'},
+        { title: 'Test - namedpaper a1', description: 'rendered component',       url: 'red/v1/nameditem/a1'},
+        { title: 'Test - namedpaper a2', description: 'rendered component',       url: 'red/v1/nameditem/a2'},
+        { title: 'Test - namedpaper a3', description: 'rendered component',       url: 'red/v1/nameditem/a3'},
+    ];
+var templates_author = [
         { title: 'Kontakt', description: 'Grafia web - kontakt',       url: 'web/v1/authortemplate/default/kontakt'}, //vztaženo k rootu RS, tam kde je index redakčního s.
         { title: 'Publikace - novinka', description: 'Grafia web - publikace',   url: 'web/v1/authortemplate/default/eshop_nove'},
         { title: 'Obrázek vlevo a text', description: 'Bez obtékání. Dva sloupce', url: 'web/v1/authortemplate/default/obrazekVlevo_blok'},
@@ -294,7 +318,6 @@ var editTextConfig = {
     toolbar: toolbarText,
     quickbars_insert_toolbar: '',
     quickbars_selection_toolbar: 'save | undo redo | removeformat italic | link ',
-    toolbar: 'undo redo | bold italic underline | save',
 
     setup: editorFunction  // callback that will be executed before the TinyMCE editor instance is rendered
 };
@@ -318,7 +341,7 @@ var editHtmlConfig = {
     inline: true,
 
     plugins: plugins,
-    templates: templates_paper,
+    templates: templates_author,
     toolbar1: toolbar1,
     toolbar2: toolbar2,
     imagetools_toolbar: imagetools_toolbar,
@@ -339,6 +362,31 @@ var editHtmlConfig = {
     images_upload_handler: image_upload_handler,
 
     setup: editorFunction  // callback that will be executed before the TinyMCE editor instance is rendered
+};
+var selectArticleTemplateConfig = {
+    selector: '.article_template_select',
+    schema : 'html5',
+    placeholder: 'Výběr šablony stránky',
+    relative_urls : true,
+    extended_valid_elements : ['headline[*]', 'perex[*]', 'content[*]'],
+    custom_elements: ['headline', 'perex', 'content'],
+    valid_children: '+a[div] ',
+    link_title: false,
+    noneditable_editable_class: 'mceEditable',
+    noneditable_noneditable_class: 'mceNonEditable',
+    language : tinyConfig.toolbarsLang,
+    document_base_url : tinyConfig.basePath,
+    content_css: tinyConfig.contentCss,
+    body_class: "layout preview",
+
+    menubar: false,
+    inline: true,
+    plugins: [
+    'template', 'save', 'noneditable',
+    ],
+    toolbar: 'template | save',
+    templates: templates_article
+
 };
 
 var selectPaperTemplateConfig = {
@@ -363,33 +411,7 @@ var selectPaperTemplateConfig = {
     'template', 'save', 'noneditable',
     ],
     toolbar: 'template | save',
-    templates: [
-        { title: 'template article test', description: 'paper_test',       url: 'web/v1/articletemplate/test'},
-        { title: 'template article empty', description: 'paper_empty',       url: 'web/v1/articletemplate/empty'},
-        { title: 'template article two columns', description: 'paper_columns',       url: 'web/v1/articletemplate/two_columns'},
-        { title: 'template article two columns divided', description: 'paper_columns_divided',       url: 'web/v1/articletemplate/two_columns_divided'},
-        { title: 'template article two blocks styled', description: 'paper_blocks_styled',       url: 'web/v1/articletemplate/two_blocks_styled'},
-        { title: 'template article img & text styled', description: 'paper_box_styled',       url: 'web/v1/articletemplate/img_text_styled'},
-        { title: 'template article job', description: 'paper_job',       url: 'web/v1/articletemplate/job'},
-        { title: 'template article retraining course', description: 'Šablonu využijete při vytváření nové stránky pro rekvalifikační kurz',       url: 'web/v1/articletemplate/retraining_course'},
-        { title: 'template article book description', description: 'Šablonu využijete při vytváření nové stránky pro knihu',       url: 'web/v1/articletemplate/book_description'},
-        { title: 'template article product page', description: 'Šablonu využijete při vytváření nové stránky pro produkt',       url: 'web/v1/articletemplate/product_page'},
-        { title: 'template paper default', description: 'Grafia web - článek',       url: 'web/v1/papertemplate/default'},
-        { title: 'template paper contact', description: 'Grafia web - kontakty',       url: 'web/v1/papertemplate/contact'},
-        { title: 'template paper test', description: 'paper_test',       url: 'web/v1/papertemplate/test'},
-        { title: 'template paper course', description: 'Grafia web - kurz',       url: 'web/v1/papertemplate/course'},
-        { title: 'Vzor - Úvod', description: 'Vzor - Úvod',       url: 'web/v1/static/uvod'},
-        { title: 'Test - presentedpaper s šablonou default', description: 'rendered component',       url: 'red/v1/presenteditem?template=default'},
-        { title: 'Test - presentedpaper s šablonou contact', description: 'rendered component',       url: 'red/v1/presenteditem?template=contact'},
-        { title: 'Test - presentedpaper s šablonou test', description: 'rendered component',       url: 'red/v1/presenteditem?template=test'},
-        { title: 'Test - presentedpaper s šablonou course', description: 'rendered component',       url: 'red/v1/presenteditem?template=course'},
-        { title: 'Test - namedpaper a1', description: 'rendered component',       url: 'red/v1/nameditem/a1'},
-        { title: 'Test - namedpaper a2', description: 'rendered component',       url: 'red/v1/nameditem/a2'},
-        { title: 'Test - namedpaper a3', description: 'rendered component',       url: 'red/v1/nameditem/a3'},
-
-       // { title: 'Publikace', description: 'Grafia web - publikace',   url: tinyConfig.paper_templates_path + 'block/'},
-    ]
-
+    templates: templates_paper
 };
 
 var editWorkDataConfig = {

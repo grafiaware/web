@@ -179,6 +179,10 @@ class PaperControler extends PresentationFrontControllerAbstract {
             // jméno POST proměnné je vytvořeno v paper rendereru složením 'headline_' nebo 'perex_' nebo 'content_' a $paper->getId()
             // jiné POST parametry nepoužije (pokud jsou renderovány elementy input např. z inputů show a hide - takové parametry musí vyhodnocovat jiná action metoda, t.j. musí se odesílat spolu
             // s jiným formaction (jiné REST uri))
+            if (array_key_exists("template_$paperId", $postParams)) {
+                $paperAggregate->setHeadline($postParams["template_$paperId"]);
+                $this->addFlashMessage('Template updated');
+            }
             if (array_key_exists("headline_$paperId", $postParams)) {
                 $paperAggregate->setHeadline($postParams["headline_$paperId"]);
                 $this->addFlashMessage('Headline updated');
@@ -225,8 +229,14 @@ class PaperControler extends PresentationFrontControllerAbstract {
             user_error("Neexistuje paper se zadaným id.$paperId");
         } else {
             $postTemplate = (new RequestParams())->getParam($request, 'template_'.$paperId, 'default');
-            $paper->setTemplate($postTemplate);
-            $this->addFlashMessage("Set template: $postTemplate");
+
+            $statusPresentation = $this->statusPresentationRepo->get();
+            $templateName = $statusPresentation->getLastTemplateName();
+            if (isset($templateName) AND $templateName) {
+                $statusPresentation->setLastTemplateName('');
+                $paper->setTemplate($templateName);
+                $this->addFlashMessage("Set paper template: $templateName");
+            }
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
     }

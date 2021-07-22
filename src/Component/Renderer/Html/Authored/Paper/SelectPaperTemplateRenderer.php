@@ -12,8 +12,11 @@ use Component\Renderer\Html\HtmlRendererAbstract;
 use Component\ViewModel\Authored\Paper\PaperViewModelInterface;
 
 use Red\Model\Entity\PaperInterface;
+use Red\Model\Entity\PaperAggregatePaperContentInterface;
+use Red\Model\Entity\PaperContentInterface;
 
 use Pes\Text\Html;
+
 /**
  * Description of PaperRenderer
  *
@@ -25,41 +28,18 @@ class SelectPaperTemplateRenderer extends HtmlRendererAbstract {
         /** @var PaperViewModelInterface $viewModel */
         $templatedContent = $viewModel->offsetExists('templatedContent') ? $viewModel->offsetGet('templatedContent') : '';
         $contentTemplateName = $viewModel->getPaper()->getTemplate();
-        if ($viewModel->userCanEdit()) {
-            $paperId = $viewModel->getPaper()->getId();
-            return
+        $paperId = $viewModel->getPaper()->getId();
+        return
             Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/$paperId/template"],
                 Html::tagNopair('input', ["type"=>"hidden", "name"=>"template_$paperId", "value"=>$contentTemplateName])
                 .
-                Html::tag('div', ['class'=>'paper_template_select'],''
+                Html::tag('div', ['id'=>"paper_$paperId", 'class'=>'paper_template_select mceNonEditable'],''
 //                            Html::tag('div', ['class'=>'mceNonEditable'], $templatedContent)
                 )
-                .
-                Html::tag('div', ['class'=>''], $templatedContent)
             );
-        } else {
-            return Html::tag('div', ['class'=>''], $templatedContent);
-        }
     }
 
-
-//    public function render(iterable $viewModel=NULL) {
-//        $templatedContent = $viewModel->offsetExists('templatedContent') ? $viewModel->offsetGet('templatedContent') : '';
-//        /** @var PaperViewModelInterface $viewModel */
-//        if ($viewModel->isEditableByUser()) {
-//            $selectTemplate = $this->renderPaperTemplateButtonsForm($paperAggregate);
-////            $selectTemplate = isset($buttons) ? $buttons->renderPaperTemplateButtonsForm($paperAggregate) : "";
-////            $paperButton = isset($buttons) ? $buttons->renderPaperButtonsForm($paperAggregate) : "";
-//            // atribut data-componentinfo je jen pro info v html
-//            return Html::tag('div', ['class'=>$this->classMapEditable->getClass('Segment', 'div')],
-//                Html::tag('div', ['class'=>$this->classMapEditable->getClass('Segment', 'div.paper')], $selectTemplate.$templatedContent
-//
-//                )
-//            );
-//        } else {
-//            return  Html::tag('div', ['class'=>$this->classMapEditable->getClass('Segment', 'div')], $templatedContent);
-//        }
-//    }
+    #############################################
 
     public function renderPaperTemplateButtonsForm(PaperInterface $paper) {
         $paperId = $paper->getId();

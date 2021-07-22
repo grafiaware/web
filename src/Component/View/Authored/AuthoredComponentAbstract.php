@@ -25,11 +25,6 @@ abstract class AuthoredComponentAbstract extends CompositeComponentAbstract impl
     const DEFAULT_TEMPLATE_FILE_NAME = 'template.php';
 
     /**
-     * @var bool
-     */
-    protected $readonly;
-
-    /**
      * @var string
      */
     protected $templatesPath;
@@ -51,10 +46,6 @@ abstract class AuthoredComponentAbstract extends CompositeComponentAbstract impl
     public function setItemId($menuItemId): AuthoredComponentInterface {
         $this->contextData->setItemId($menuItemId);
         return $this;
-    }
-
-    public function setReadonly($readonly = true) {
-        $this->readonly = $readonly;
     }
 
     public function getTemplateFileFullname($templatesPath, $templateName): string {

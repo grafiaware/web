@@ -18,8 +18,9 @@ use Red\Model\Entity\MenuItemInterface;
 use Red\Model\Entity\PaperAggregatePaperContent;
 
 // komponenty
-use Component\View\Authored\Paper\PaperComponent;
-use Component\View\Authored\Paper\PaperComponentInterface;
+use Component\View\Authored\AuthoredComponentInterface;
+use Component\View\Authored\SelectPaperTemplate\SelectedPaperTemplateComponent;
+use Component\View\Authored\SelectPaperTemplate\SelectedPaperTemplateComponentInterface;
 
 ####################
 
@@ -67,29 +68,54 @@ class TemplateControler extends PresentationFrontControllerAbstract {
         return $this->createResponseFromString($request, $str);
     }
 
-    public function papertemplate(ServerRequestInterface $request, $folder) {
+    /**
+     * Odesílá obsah vytvořený komponentou SelectPaperTemplateComponent. Ta renderuje požadovanou šablonu s použitím Paper odpovídajícího prezentované polořce menu.
+     * Připraveno pro TinyMce dialog pro výběr šablony. Teto dialog posílá GET request při každé změně výběru v selectoru šablon a ještě jednou po kliku na tlačítko 'Uložit'.
+     *
+     * @param ServerRequestInterface $request
+     * @param type $name
+     * @return type
+     */
+    public function papertemplate(ServerRequestInterface $request, $name) {
         $presentedMenuItem = $this->statusPresentationRepo->get()->getMenuItem();
         if (isset($presentedMenuItem)) {
             $menuItemId = $presentedMenuItem->getId();
-            /** @var PaperComponentInterface $view */
-            $view = $this->container->get(PaperComponent::class);
-            $view->setTemplate($template)
+            /** @var SelectedPaperTemplateComponentInterface $view */
+            $view = $this->container->get(SelectedPaperTemplateComponent::class);
+            $view->setPaperTemplateName($name);
             $view->setItemId($menuItemId);
-            $view->setReadonly(true);
+            $this->statusPresentationRepo->get()->setLastTemplateName($name);
+
         } else {
+            // není item - asi chyba
             $paperAggregate = new PaperAggregatePaperContent();
             $paperAggregate->exchangePaperContentsArray([])   //  ['content'=> Message::t('Contents')]
-                    ->setTemplate($folder)
+                    ->setTemplate($name)
                     ->setHeadline(Message::t('Headline'))
                     ->setPerex(Message::t('Perex'))
                     ;
             $view = $this->container->get(View::class)
-                                    ->setTemplate(new PhpTemplate(Configuration::templateController()['templates.paperFolder']."$folder/template.php"))
+                                    ->setTemplate($this->setTemplateByName($name))
                                     ->setData([
                                         'paperAggregate' => $paperAggregate,
                                     ]);
         }
         return $this->createResponseFromView($request, $view);
+    }
+
+    private function setTemplateByName(AuthoredComponentInterface $component, $name) {
+            try {
+                $templatePath = $this->getTemplateFileFullname($this->configuration->getTemplatepathPaper(), $paperAggregate->getTemplate());
+                $template = new PhpTemplate($templatePath);  // exception
+                // renderery musí být definovány v Renderer kontejneru - tam mohou dostat classMap do konstruktoru
+//                $this->addChildRendererName('headline', HeadlineRenderer::class);
+//                $this->adoptChildRenderers($template);   // jako shared data do template objektu
+                $this->setTemplate($template);
+            } catch (NoTemplateFileException $noTemplExc) {
+                user_error("Neexistuje soubor šablony '{$this->getTemplateFileFullname($paperAggregate->getTemplate())}'", E_USER_WARNING);
+                $this->setTemplate(null);
+            }
+        return new PhpTemplate(Configuration::templateController()['templates.paperFolder']."$name/template.php");
     }
 
     public function authorTemplate(ServerRequestInterface $request, $folder, $name) {

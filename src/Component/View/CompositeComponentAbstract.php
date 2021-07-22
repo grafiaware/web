@@ -25,8 +25,6 @@ abstract class CompositeComponentAbstract extends CompositeView {
      */
     protected $configuration;
 
-    protected $templateFileName;
-
     public function __construct(ComponentConfigurationInterface $configuration) {
         $this->configuration = $configuration;
     }

@@ -9,17 +9,16 @@ use Red\Model\Entity\PaperAggregatePaperContentInterface;
 /** @var PaperAggregatePaperContentInterface $paperAggregate */
 ?>
 
-    <?= isset($buttons) ? $buttons->renderPaperTemplateButtonsForm($paperAggregate) : "" ?>
-    <?= isset($buttons) ? $buttons->renderPaperButtonsForm($paperAggregate) : "" ?>
-<div data-component="presented" data-template="<?= $paperAggregate->getTemplate() ?>" class="ui segment mceNonEditable">
+<div data-component="presented" data-template="test" class="ui segment mceNonEditable">
     <div class="grafia segment headlined editable">
         <form>
         <article class="" >
+
             <section>
                     <headline class="ui header">
 
                         <div class="edit-text">
-                            <?= $paperAggregate->getHeadline() ?>
+                            <?= $headline ?>
                         </div>
                     </headline>
 

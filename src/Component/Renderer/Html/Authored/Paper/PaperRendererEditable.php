@@ -18,14 +18,16 @@ class PaperRendererEditable  extends HtmlRendererAbstract {
     public function render(iterable $viewModel=NULL) {
         /** @var PaperViewModelInterface $viewModel */
         $paperAggregate = $viewModel->getPaper();  // vrací PaperAggregate
+
         $selectTemplate = $this->renderSelectTemplate($paperAggregate);
         $articleButtonForms = $this->renderPaperButtonsForm($paperAggregate);
-
         $headline = $this->renderHeadlineEditable($paperAggregate);
         $perex = $this->renderPerexEditable($paperAggregate);
         $contents = ($paperAggregate instanceof PaperAggregatePaperContentInterface) ? $this->renderContentsEditable($paperAggregate) : "";
 
-        $html = Html::tag('article', ['data-red-renderer'=>'PaperRendererEditable', "data-red-datasource"=> "paper {$paperAggregate->getId()} for item {$paperAggregate->getMenuItemIdFk()}"],
+        $html = $selectTemplate
+                .
+                Html::tag('article', ['data-red-renderer'=>'PaperRendererEditable', "data-red-datasource"=> "paper {$paperAggregate->getId()} for item {$paperAggregate->getMenuItemIdFk()}"],
                     $articleButtonForms
                     .Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/{$paperAggregate->getId()}"],
                             parent::render(['selectTemplate'=>$selectTemplate, 'articleButtonForms'=>$articleButtonForms, 'headline'=>$headline, 'perex'=>$perex, 'contents'=>$contents])
@@ -42,7 +44,7 @@ class PaperRendererEditable  extends HtmlRendererAbstract {
         Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/$paperId/template"],
             Html::tagNopair('input', ["type"=>"hidden", "name"=>"template_$paperId", "value"=>$contentTemplateName])
             .
-            Html::tag('div', ['class'=>'paper_template_select'],'')
+            Html::tag('div', ['id'=>"paper_$paperId", 'class'=>'paper_template_select'],'')
 
         );
     }
@@ -98,7 +100,7 @@ class PaperRendererEditable  extends HtmlRendererAbstract {
                         'id'=>"headline_{$paper->getId()}",  // id musí být na stránce unikátní - skládám ze slova headline_ a paper id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
                         'class'=>$this->classMap->getClass('Headline', 'headline'),
                     ],
-                    Html::tag('div', ['class'=>"edit-text"], $paper->getHeadline() ?? "")
+                    $paper->getHeadline() ?? ""
                 )
             );
     }
@@ -112,7 +114,7 @@ class PaperRendererEditable  extends HtmlRendererAbstract {
                         'class'=>$this->classMap->getClass('Perex', 'perex'),
                         'data-owner'=>$paper->getEditor()
                     ],
-                    Html::tag('div', ['class'=>"edit-html"], $paper->getPerex() ?? "")
+                    $paper->getPerex() ?? ""
                     )
             );
         return $form;
@@ -172,7 +174,7 @@ class PaperRendererEditable  extends HtmlRendererAbstract {
                     'class'=>$this->classMap->getClass('Content', 'content'),
                     'data-owner'=>$paperContent->getEditor()
                     ],
-                    Html::tag('div', ['class'=>"edit-html"], $paperContent->getContent() ?? "")
+                    $paperContent->getContent() ?? ""
                 )
             );
     }

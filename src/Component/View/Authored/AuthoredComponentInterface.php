@@ -27,7 +27,6 @@ interface AuthoredComponentInterface extends CompositeViewInterface {
     public function addChildRendererName($variableName, $rendererName);
 
     public function setItemId($menuItemId): AuthoredComponentInterface;
-
-    public function setReadonly($readonly=true);
-
+    
+    public function getTemplateFileFullname($templatesPath, $templateName): string;
 }

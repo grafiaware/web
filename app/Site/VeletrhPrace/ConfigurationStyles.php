@@ -268,11 +268,11 @@ class ConfigurationStyles extends ConfigurationRed {
                         ],
                      'Headline' => [
                         'section'=>'',
-                        'headline'=>'ui header borderDance',
+                        'headline'=>'ui header borderDance edit-text',
                         ],
                      'Perex' => [
                         'section'=>'',
-                        'perex'=>'borderDance',
+                        'perex'=>'borderDance edit-html',
                         ],
                      'Content' => [
                         'section'=>'',
@@ -293,7 +293,7 @@ class ConfigurationStyles extends ConfigurationRed {
                         'i2.invalid' => 'calendar times icon red',
 
                         'i.trash' => 'trash icon purple',
-                        'content'=>'borderDance',
+                        'content'=>'borderDance edit-html',
                         'div.trash_content'=>'trash_content'
                         ],
                      'PaperTemplateButtons' => self::rendererDefaults()['paper_template_edit_buttons'],

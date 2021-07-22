@@ -30,6 +30,7 @@ use Component\ViewModel\Menu\MenuViewModel;
 use Component\View\Authored\Paper\PaperComponent;
 use Component\View\Authored\Article\ArticleComponent;
 use Component\View\Authored\TemplatedComponent;
+use Component\View\Authored\SelectPaperTemplate\SelectedPaperTemplateComponent;
 
 use Component\View\Generated\{
     LanguageSelectComponent,
@@ -285,6 +286,14 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                 $paperComponent->setRendererContainer($c->get('rendererContainer'));
 
                 return $paperComponent;
+            },
+            SelectedPaperTemplateComponent::class => function(ContainerInterface $c) {
+                $viewModel = $c->get(PaperViewModel::class);
+                $selectComponent = new SelectedPaperTemplateComponent($c->get(ComponentConfiguration::class));
+                $selectComponent->setData($viewModel);
+                $selectComponent->setRendererContainer($c->get('rendererContainer'));
+
+                return $selectComponent;
             },
             ArticleComponent::class => function(ContainerInterface $c) {
                 $viewModel = $c->get(ArticleViewModel::class);

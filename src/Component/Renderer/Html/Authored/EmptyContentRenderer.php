@@ -12,6 +12,6 @@ use Pes\Text\Html;
 class EmptyContentRenderer extends HtmlRendererAbstract {
     public function render(iterable $viewModel = null) {
         /** @var AuthoredViewModelInterface $viewModel */
-        return Html::tag('div', ['style'=>'display: none;' ], 'No content in '.$viewModel->getContentType()." with id ".$viewModel->getContentId());
+        return Html::tag('div', ['style'=>'display: none;' ], 'No published content.');
     }
 }

@@ -9,7 +9,9 @@ use Red\Model\Entity\PaperAggregatePaperContentInterface;
 /** @var PaperAggregatePaperContentInterface $paperAggregate */
 
 ?>
-        <article class="" data-template="<?= "default" ?>">
+        <?= $selectTemplate ?? "" ?>
+        <article class="" data-template="<?= "sem jméno template" ?>">
+            <?= $articleButtonForms ?? "" ?>
             <section>
                     <?= $headline ?>
                     <?= $perex ?>

@@ -1,5 +1,5 @@
 <?php
-namespace Component\View\Authored\Paper;
+namespace Component\View\Authored\SelectPaperTemplate;
 
 use Pes\View\Template\PhpTemplate;
 use Pes\View\Template\ImplodeTemplate;
@@ -8,14 +8,13 @@ use Component\View\Authored\AuthoredComponentAbstract;
 use Component\ViewModel\Authored\Paper\PaperViewModelInterface;
 
 use Component\Renderer\Html\Authored\Paper\PaperRenderer;
-use Component\Renderer\Html\Authored\Paper\PaperRendererEditable;
 
 /**
  * Description of PaperComponent
  *
  * @author pes2704
  */
-class PaperComponent extends AuthoredComponentAbstract implements PaperComponentInterface {
+class SelectedPaperTemplateComponent extends AuthoredComponentAbstract implements SelectedPaperTemplateComponentInterface {
 
     /**
      *
@@ -23,45 +22,39 @@ class PaperComponent extends AuthoredComponentAbstract implements PaperComponent
      */
     protected $contextData;
 
+    private $paperTemplateName;
+
     /**
      * Přetěžuje metodu View. Generuje PHP template z názvu template objektu Paper a použije ji.
      */
     public function beforeRenderingHook(): void {
         $paperAggregate = $this->contextData->getPaper();
-
-        if ($this->hasTemplate()) {
+        if ($this->paperTemplateName) {
             try {
-                $templatePath = $this->getTemplateFileFullname($this->configuration->getTemplatepathPaper(), $paperAggregate->getTemplate());
+                $templatePath = $this->getTemplateFileFullname($this->configuration->getTemplatepathPaper(), $this->paperTemplateName);
                 $template = new PhpTemplate($templatePath);  // exception
                 // renderery musí být definovány v Renderer kontejneru - tam mohou dostat classMap do konstruktoru
 //                $this->addChildRendererName('headline', HeadlineRenderer::class);
 //                $this->adoptChildRenderers($template);   // jako shared data do template objektu
                 $this->setTemplate($template);
             } catch (NoTemplateFileException $noTemplExc) {
-                user_error("Neexistuje soubor šablony '$templatePath'", E_USER_WARNING);
+                user_error("Neexistuje soubor šablony '{$this->getTemplateFileFullname($this->paperTemplateName)}'", E_USER_WARNING);
                 $this->setTemplate(new ImplodeTemplate());
             }
         } else {
             $this->setTemplate(new ImplodeTemplate());
         }
 
-        if ($this->contextData->userCanEdit()) { // editační režim a uživatel má právo editovat
-            if ($this->hasContent()) {
-                $this->setRendererName(PaperRendererEditable::class);
-            } else {
-                $this->setRendererName(EmptyContentRenderer::class);
-            }
-        } elseif ($this->hasContent()) {
-                $this->setRendererName(PaperRenderer::class);
+        if ($this->hasContent()) {
+            $this->setRendererName(PaperRenderer::class);
         } else {
             $this->setRendererName(EmptyContentRenderer::class);
         }
+
     }
 
-
-    private function hasTemplate() {
-        $paper = $this->contextData->getPaper();
-        return (isset($paper) AND $paper->getTemplate()) ? true : false;
+    public function setPaperTemplateName($name): void {
+        $this->paperTemplateName = $name;
     }
 
     /**
@@ -71,7 +64,7 @@ class PaperComponent extends AuthoredComponentAbstract implements PaperComponent
      *
      * @return bool
      */
-    public function hasContent(): bool {
+    private function hasContent(): bool {
         $paper = $this->contextData->getPaper();
         return isset($paper) ? true : false;
     }
