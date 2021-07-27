@@ -44,8 +44,6 @@ class PaperComponent extends AuthoredComponentAbstract implements PaperComponent
     public function beforeRenderingHook(): void {
         if ($this->hasContent()) {
             $paperAggregate = $this->contextData->getPaper();
-
-
             $templateFileName = $this->getTemplateFileFullname($this->configuration->getTemplatepathPaper(), $this->getTemplate());
 
             try {

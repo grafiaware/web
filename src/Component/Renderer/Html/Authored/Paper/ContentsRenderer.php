@@ -12,6 +12,8 @@ use Component\Renderer\Html\HtmlRendererAbstract;
 use Component\ViewModel\Authored\Paper\PaperViewModelInterface;
 
 use Red\Model\Entity\PaperAggregatePaperContentInterface;
+use Red\Model\Entity\PaperContentInterface;
+
 use Pes\Text\Html;
 
 /**

@@ -32,26 +32,29 @@ class SelectedPaperTemplateComponent extends AuthoredComponentAbstract implement
      * Přetěžuje metodu View. Generuje PHP template z názvu template objektu Paper a použije ji.
      */
     public function beforeRenderingHook(): void {
-        $paperAggregate = $this->contextData->getPaper();
-        if ($this->paperTemplateName) {
-            try {
-                $templateFileName = $this->getTemplateFileFullname($this->configuration->getTemplatepathPaper(), $this->paperTemplateName);
-                // renderery musí být definovány v Renderer kontejneru - tam mohou dostat classMap do konstruktoru
-                $this->setTemplate(new PaperTemplate($templateFileName));  // PhpTemplate exception
-                $this->adoptComponentView(HeadlineRenderer::class, 'headline');
-                $this->adoptComponentView(PerexRenderer::class, 'perex');
-                if ($paperAggregate instanceof PaperAggregatePaperContentInterface) {
-                    $this->adoptComponentView(ContentsRenderer::class, 'contents');
-                } else {
-                    $this->adoptComponentView(EmptyContentRenderer::class, 'contents');
+        if ($this->hasContent()) {
+            $paperAggregate = $this->contextData->getPaper();
+            if ($this->paperTemplateName) {
+                try {
+                    $templateFileName = $this->getTemplateFileFullname($this->configuration->getTemplatepathPaper(), $this->paperTemplateName);
+                    // renderery musí být definovány v Renderer kontejneru - tam mohou dostat classMap do konstruktoru
+                    $this->setTemplate(new PaperTemplate($templateFileName));  // PhpTemplate exception
+                    $this->adoptComponentView(HeadlineRenderer::class, 'headline');
+                    $this->adoptComponentView(PerexRenderer::class, 'perex');
+                    if ($paperAggregate instanceof PaperAggregatePaperContentInterface) {
+                        $this->adoptComponentView(ContentsRenderer::class, 'contents');
+                    } else {
+                        $this->adoptComponentView(EmptyContentRenderer::class, 'contents');
+                    }
+                } catch (NoTemplateFileException $noTemplExc) {
+                    throw new LogicException("Nelze vytvořit objekt template pro jméno nastavené metodou setPaperTemplateName()? {$this->paperTemplateName}");
                 }
-            } catch (NoTemplateFileException $noTemplExc) {
-                throw new LogicException("Nelze vytvořit objekt template pro jméno nastavené metodou setPaperTemplateName()? {$this->paperTemplateName}");
+            } else {
+                throw new LogicException("Nebyla nastavena template metodou setPaperTemplateName()");
             }
         } else {
-            throw new LogicException("Nebyla nastavena template metodou setPaperTemplateName()");
+            $this->setRendererName(EmptyContentRenderer::class);
         }
-
     }
 
     public function setPaperTemplateName($name): void {
