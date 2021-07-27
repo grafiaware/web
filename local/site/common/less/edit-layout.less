@@ -67,6 +67,7 @@
 @paperNotFirstMargin: 40px 0 0 0;
 //Headline
 @headlineHorizontalMargin: -0.4em;
+@headlineMarginTop: 0.55em;
 //Section
 @sectionMargin: 0 0 5px 0;
 @sectionTrashOutline: @borderWidth dotted darken(@barvaKos,20);
@@ -253,6 +254,7 @@ body{
     }
     /*HEADLINE*/
     headline{ 
+        margin-top: @headlineMarginTop !important;
         margin-left: @headlineHorizontalMargin !important;
         margin-right: @headlineHorizontalMargin !important;
     }
