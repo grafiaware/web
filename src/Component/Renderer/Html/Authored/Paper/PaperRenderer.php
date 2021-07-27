@@ -8,6 +8,8 @@ use Red\Model\Entity\PaperAggregatePaperContentInterface;
 use Red\Model\Entity\PaperInterface;
 use Red\Model\Entity\PaperContentInterface;
 
+use Component\Renderer\Html\Authored\Paper\HeadlineRenderer;
+
 use Pes\Text\Html;
 
 /**
@@ -19,21 +21,15 @@ class PaperRenderer  extends HtmlRendererAbstract {
     public function render(iterable $viewModel=NULL) {
         /** @var PaperViewModelInterface $viewModel */
         $paperAggregate = $viewModel->getPaper();  // vrací PaperAggregate
-        $headline = Html::tag('div',
-                    ['class'=>$this->classMap->getClass('Headline', 'div'),
-                     'style' => "display: block;"
-                    ],
-                    $this->renderHeadline($paperAggregate)
-                );
+        $headline = $this->renderHeadline($paperAggregate);
         $perex = $this->renderPerex($paperAggregate);
         $contents = ($paperAggregate instanceof PaperAggregatePaperContentInterface) ? $this->renderContents($paperAggregate) : "";
         $html =
             Html::tag('article', ['data-red-renderer'=>'PaperRenderer'],
-                    parent::render(['headline'=>$headline, 'perex'=>$perex, 'contents'=>$contents])
+                    parent::render($viewModel)
             );
         return $html ?? '';
     }
-
 
     private function renderHeadline(PaperInterface $paper) {
         $headline = $paper->getHeadline();

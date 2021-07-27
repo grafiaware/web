@@ -1,14 +1,29 @@
 <?php
 namespace Component\View\Authored\Paper;
 
-use Pes\View\Template\PhpTemplate;
 use Pes\View\Template\ImplodeTemplate;
+use Pes\View\View;
+
+use Red\Model\Entity\PaperAggregatePaperContentInterface;
 
 use Component\View\Authored\AuthoredComponentAbstract;
 use Component\ViewModel\Authored\Paper\PaperViewModelInterface;
 
 use Component\Renderer\Html\Authored\Paper\PaperRenderer;
 use Component\Renderer\Html\Authored\Paper\PaperRendererEditable;
+use Component\Renderer\Html\Authored\EmptyContentRenderer;
+
+use Component\Template\PaperTemplate;
+use Component\Template\PaperTemplateEditable;
+
+use Component\View\Authored\AuthoredElement;
+use Component\Renderer\Html\Authored\Paper\SelectPaperTemplateRenderer;
+use Component\Renderer\Html\Authored\Paper\HeadlineRenderer;
+use Component\Renderer\Html\Authored\Paper\PerexRenderer;
+use Component\Renderer\Html\Authored\Paper\ContentsRenderer;
+use Component\Renderer\Html\Authored\Paper\HeadlineRendererEditable;
+use Component\Renderer\Html\Authored\Paper\PerexRendererEditable;
+use Component\Renderer\Html\Authored\Paper\ContentsRendererEditable;
 
 /**
  * Description of PaperComponent
@@ -27,41 +42,46 @@ class PaperComponent extends AuthoredComponentAbstract implements PaperComponent
      * Přetěžuje metodu View. Generuje PHP template z názvu template objektu Paper a použije ji.
      */
     public function beforeRenderingHook(): void {
-        $paperAggregate = $this->contextData->getPaper();
+        if ($this->hasContent()) {
+            $paperAggregate = $this->contextData->getPaper();
 
-        if ($this->hasTemplate()) {
+
+            $templateFileName = $this->getTemplateFileFullname($this->configuration->getTemplatepathPaper(), $this->getTemplate());
+
             try {
-                $templatePath = $this->getTemplateFileFullname($this->configuration->getTemplatepathPaper(), $paperAggregate->getTemplate());
-                $template = new PhpTemplate($templatePath);  // exception
+                if ($this->contextData->userCanEdit()) { // editační režim a uživatel má právo editovat
+                    $this->setTemplate(new PaperTemplateEditable($templateFileName));  // PhpTemplate exception
+                    $this->adoptComponentView(SelectPaperTemplateRenderer::class, 'selectTemplate');
+                    $this->adoptComponentView(HeadlineRendererEditable::class, 'headline');
+                    $this->adoptComponentView(PerexRendererEditable::class, 'perex');
+                    if ($paperAggregate instanceof PaperAggregatePaperContentInterface) {
+                        $this->adoptComponentView(ContentsRendererEditable::class, 'contents');
+                    } else {
+                        $this->adoptComponentView(EmptyContentRenderer::class, 'contents');
+                    }
+                } else {
+                    $this->setTemplate(new PaperTemplate($templateFileName));  // PhpTemplate exception
+                    $this->adoptComponentView(HeadlineRenderer::class, 'headline');
+                    $this->adoptComponentView(PerexRenderer::class, 'perex');
+                    if ($paperAggregate instanceof PaperAggregatePaperContentInterface) {
+                        $this->adoptComponentView(ContentsRenderer::class, 'contents');
+                    }
+                }
                 // renderery musí být definovány v Renderer kontejneru - tam mohou dostat classMap do konstruktoru
 //                $this->addChildRendererName('headline', HeadlineRenderer::class);
 //                $this->adoptChildRenderers($template);   // jako shared data do template objektu
-                $this->setTemplate($template);
             } catch (NoTemplateFileException $noTemplExc) {
                 user_error("Neexistuje soubor šablony '$templatePath'", E_USER_WARNING);
-                $this->setTemplate(new ImplodeTemplate());
+                $this->setTemplate(new PaperTemplate($this->getTemplateFileFullname($this->configuration->getTemplatepathPaper(), self::DEFAULT_TEMPLATE_NAME)));  // PhpTemplate exception - nezachycená
             }
-        } else {
-            $this->setTemplate(new ImplodeTemplate());
-        }
-
-        if ($this->contextData->userCanEdit()) { // editační režim a uživatel má právo editovat
-            if ($this->hasContent()) {
-                $this->setRendererName(PaperRendererEditable::class);
-            } else {
-                $this->setRendererName(EmptyContentRenderer::class);
-            }
-        } elseif ($this->hasContent()) {
-                $this->setRendererName(PaperRenderer::class);
         } else {
             $this->setRendererName(EmptyContentRenderer::class);
         }
     }
 
-
-    private function hasTemplate() {
-        $paper = $this->contextData->getPaper();
-        return (isset($paper) AND $paper->getTemplate()) ? true : false;
+    private function getTemplate() {
+        $template = $this->contextData->getPaper()->getTemplate();
+        return (isset($template) AND $template) ? $template : self::DEFAULT_TEMPLATE_NAME;
     }
 
     /**

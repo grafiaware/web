@@ -19,16 +19,16 @@ use Pes\Text\Html;
  *
  * @author pes2704
  */
-class PerexEditableRenderer extends HtmlRendererAbstract {
+class PerexRendererEditable extends HtmlRendererAbstract {
     public function render(iterable $viewModel=NULL) {
         /** @var PaperViewModelInterface $viewModel */
         $paper = $viewModel->getPaper();
         return
-            Html::tag('section', ['class'=>$this->classMapEditable->getClass('Perex', 'section')],
+            Html::tag('section', ['class'=>$this->classMap->getClass('Perex', 'section')],
                 Html::tag('perex',
                     [
                         'id' => "perex_{$paper->getId()}",  // id musí být na stránce unikátní - skládám ze slova perex_ a paper id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
-                        'class'=>$this->classMapEditable->getClass('Perex', 'perex'),
+                        'class'=>$this->classMap->getClass('Perex', 'perex'),
                         'data-owner'=>$paper->getEditor()
                     ],
                     Html::tag('div', ['class'=>"edit-html"], $paper->getPerex() ?? "")

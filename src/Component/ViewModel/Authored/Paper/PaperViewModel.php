@@ -55,9 +55,8 @@ class PaperViewModel extends AuthoredViewModelAbstract implements PaperViewModel
     }
 
     public function getIterator() {
-        return new \ArrayObject(
-                        ['paperAggregate'=> $this->getPaper(), 'isEditable'=> $this->userCanEdit()]
-                );  // nebo offsetSet po jedné hodnotě
+        $this->appendData(['paperAggregate'=> $this->getPaper(), 'isEditable'=> $this->userCanEdit()]);
+        return parent::getIterator();
     }
 
 

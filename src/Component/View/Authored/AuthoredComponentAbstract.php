@@ -23,6 +23,7 @@ use Pes\View\Template\Exception\NoTemplateFileException;
 abstract class AuthoredComponentAbstract extends CompositeComponentAbstract implements AuthoredComponentInterface {
 
     const DEFAULT_TEMPLATE_FILE_NAME = 'template.php';
+    const DEFAULT_TEMPLATE_NAME = 'default';
 
     /**
      * @var string
@@ -68,4 +69,16 @@ abstract class AuthoredComponentAbstract extends CompositeComponentAbstract impl
     }
 
 
+    /**
+     *
+     * @param type $rendererClassname
+     * @param type $name Jméno proměnné v kompozitním view, která má být nahrazena výstupem zadané komponentní view
+     */
+    protected function adoptComponentView($rendererClassname, $name) {
+        // pokud render používá classMap musí být konfigurován v Renderer kontejneru - tam dostane classMap
+        return $this->appendComponentView(
+                (new AuthoredElement($this->configuration))->setData($this->contextData)->setRendererName($rendererClassname)->setRendererContainer($this->rendererContainer),
+                $name
+                );
+    }
 }

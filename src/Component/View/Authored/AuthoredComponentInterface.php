@@ -16,17 +16,7 @@ use Pes\View\CompositeViewInterface;
  */
 interface AuthoredComponentInterface extends CompositeViewInterface {
 
-    /**
-     * Připraví přidání proměné obsahující renderer do proměnných šablony (do kontextu). Parametrem této metody je jméno rendereru.
-     * Renderer je získán z renderer kontejneru a přidán do proměpřed renderováním šablony.
-     * Podmínkou použití je, že renderer musí být možné získat z renderer kontejneru a tedy je také to, že komponent musí mít pro použití této metody nastaven renderer kontejner.
-     *
-     * @param string $variableName Jméno proměnné kontextu šablony.
-     * @param string $rendererName Jméno rendereru pro renderer kontejner.
-     */
-    public function addChildRendererName($variableName, $rendererName);
-
     public function setItemId($menuItemId): AuthoredComponentInterface;
-    
+
     public function getTemplateFileFullname($templatesPath, $templateName): string;
 }

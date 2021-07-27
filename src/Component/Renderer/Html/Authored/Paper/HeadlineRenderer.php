@@ -23,30 +23,15 @@ class HeadlineRenderer extends HtmlRendererAbstract {
     public function render(iterable $viewModel=NULL) {
         /** @var PaperViewModelInterface $viewModel */
         $paper = $viewModel->getPaper();
-        if ($viewModel->userCanEdit()) {  // editační režim a uživatel má právo editovat
-            return
-                Html::tag('section', ['class'=>$this->classMapEditable->getClass('Headline', 'section')],
-                    Html::tag(
-                        'headline',
-                        [
-                            'id'=>"headline_{$paper->getId()}",  // id musí být na stránce unikátní - skládám ze slova headline_ a paper id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
-                            'class'=>$this->classMapEditable->getClass('Headline', 'headline'),
+        return
+            Html::tag('div',
+                        ['class'=>$this->classMap->getClass('Headline', 'div'),
+                         'style' => "display: block;"
                         ],
-                        Html::tag('div', ['class'=>"edit-text"], $paper->getHeadline() ?? "")
-                    )
-                );
-        } else {
-            return
-                Html::tag('div',
-                            ['class'=>$this->classMap->getClass('Headline', 'div'),
-                             'style' => "display: block;"
-                            ],
-                            Html::tag('headline',
-                                ['class'=>$this->classMap->getClass('Headline', 'headline')],
-                                $paper->getHeadline() ?? ""
-                            )
-                        );
-        }
-
+                        Html::tag('headline',
+                            ['class'=>$this->classMap->getClass('Headline', 'headline')],
+                            $paper->getHeadline() ?? ""
+                        )
+                    );
     }
 }
