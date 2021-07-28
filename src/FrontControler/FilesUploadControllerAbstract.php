@@ -1,6 +1,6 @@
 <?php
 
-namespace FrontController;
+namespace FrontControler;
 
 use Site\Configuration;
 
@@ -13,7 +13,7 @@ use Pes\Http\Response;
  *
  * @author pes2704
  */
-class FilesUploadControllerAbstract extends PresentationFrontControllerAbstract {
+class FilesUploadControllerAbstract extends PresentationFrontControlerAbstract {
 
     const UPLOADED_KEY = "file";
 

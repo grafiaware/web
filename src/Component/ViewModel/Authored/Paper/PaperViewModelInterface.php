@@ -8,6 +8,8 @@
 
 namespace Component\ViewModel\Authored\Paper;
 
+use Component\ViewModel\Authored\AuthoredViewModelInterface;
+
 use Component\ViewModel\Authored\TemplatedViewModelInterface;
 use Red\Model\Entity\PaperAggregatePaperContentInterface;
 
@@ -15,7 +17,7 @@ use Red\Model\Entity\PaperAggregatePaperContentInterface;
  *
  * @author pes2704
  */
-interface PaperViewModelInterface {
+interface PaperViewModelInterface extends AuthoredViewModelInterface {
 
     /**
      * Vrací PaperAggregate, pokud existuje a je aktivní (zveřejněný) nebo prezentace je v editačním režimu.

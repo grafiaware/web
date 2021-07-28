@@ -8,7 +8,7 @@
 
 namespace Red\Middleware\Component\Controller;
 
-use FrontController\PresentationFrontControllerAbstract;
+use FrontControler\PresentationFrontControlerAbstract;
 
 
 /**
@@ -16,6 +16,6 @@ use FrontController\PresentationFrontControllerAbstract;
  *
  * @author pes2704
  */
-abstract class XhrControllerAbstract extends PresentationFrontControllerAbstract {
+abstract class XhrControllerAbstract extends PresentationFrontControlerAbstract {
 
 }

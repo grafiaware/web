@@ -52,7 +52,7 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
         $future = $paperContent->getShowTime() > $now;
         $past = $paperContent->getHideTime() < $now;  // pro zobrszeno trvale - null je vždy menší a $passed je true - vyhodnucuji nejprve $actual, nevadí to
 
-        return
+        $html =
             Html::tag('section', ['class'=>$this->classMap->getClass('Content', 'section')],
                 Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.corner')],
                     $this->getContentButtons($paperContent)
@@ -88,6 +88,7 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
                     $paperContent->getContent() ?? ""
                 )
             );
+        return $html;
     }
 
     private function getTrashContentForm($paperContent) {

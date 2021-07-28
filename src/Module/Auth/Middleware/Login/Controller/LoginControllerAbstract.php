@@ -9,7 +9,7 @@
 namespace Auth\Middleware\Login\Controller;
 
 // controller
-use FrontController\PresentationFrontControllerAbstract;
+use FrontControler\PresentationFrontControlerAbstract;
 
 // view a template
 use \Pes\View\ViewFactory;
@@ -20,7 +20,7 @@ use \Pes\View\Renderer\PhpTemplateRenderer;
  *
  * @author pes2704
  */
-class LoginControllerAbstract extends PresentationFrontControllerAbstract {
+class LoginControllerAbstract extends PresentationFrontControlerAbstract {
 
 
 

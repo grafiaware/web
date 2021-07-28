@@ -8,7 +8,8 @@ use Pes\Container\ContainerConfiguratorAbstract;
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
 
 use Component\Renderer\Html\Authored\Paper\{
-    SelectTemplateRenderer, PaperRenderer, PaperRendererEditable,
+    SelectTemplateRenderer, ButtonsRenderer,
+    PaperRenderer, PaperRendererEditable,
     ElementWrapper, ElementEditableWrapper, Buttons,
     HeadlineRenderer, PerexRenderer, ContentsRenderer,
     HeadlineRendererEditable, PerexRendererEditable, ContentsRendererEditable
@@ -54,7 +55,10 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
         # paper renderer
         ###########################
             SelectTemplateRenderer::class => function(ContainerInterface $c) {
-                return new SelectTemplateRenderer($c->get('paper.classmap'), $c->get('paper.editable.classmap'));
+                return new SelectTemplateRenderer($c->get('paper.editable.classmap'));
+            },
+            ButtonsRenderer::class => function(ContainerInterface $c) {
+                return new ButtonsRenderer($c->get('paper.editable.classmap'));
             },
             PaperRenderer::class => function(ContainerInterface $c) {
                 return new PaperRenderer($c->get('paper.classmap'));

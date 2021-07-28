@@ -21,9 +21,9 @@ class PaperRenderer  extends HtmlRendererAbstract {
     public function render(iterable $viewModel=NULL) {
         /** @var PaperViewModelInterface $viewModel */
         $paperAggregate = $viewModel->getPaper();  // vrací PaperAggregate
-        $headline = $this->renderHeadline($paperAggregate);
-        $perex = $this->renderPerex($paperAggregate);
-        $contents = ($paperAggregate instanceof PaperAggregatePaperContentInterface) ? $this->renderContents($paperAggregate) : "";
+//        $headline = $this->renderHeadline($paperAggregate);
+//        $perex = $this->renderPerex($paperAggregate);
+//        $contents = ($paperAggregate instanceof PaperAggregatePaperContentInterface) ? $this->renderContents($paperAggregate) : "";
         $html =
             Html::tag('article', ['data-red-renderer'=>'PaperRenderer'],
                     parent::render($viewModel)

@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace FrontController;
+namespace FrontControler;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -17,7 +17,7 @@ use Psr\Container\ContainerInterface;
  *
  * @author pes2704
  */
-abstract class FrontControllerAbstract implements FrontControllerInterface {
+abstract class FrontControlerAbstract implements FrontControlerInterface {
 
 
     /**
@@ -38,7 +38,7 @@ abstract class FrontControllerAbstract implements FrontControllerInterface {
         return $response;
     }
 
-    public function injectContainer(ContainerInterface $componentContainer): FrontControllerInterface {
+    public function injectContainer(ContainerInterface $componentContainer): FrontControlerInterface {
         $this->container = $componentContainer;
         return $this;
     }

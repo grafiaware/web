@@ -2,7 +2,7 @@
 
 namespace Menu\Middleware\Menu\Controller;
 
-use Menu\Middleware\Controller\FrontControllerAbstract;
+use Menu\Middleware\Controller\FrontControlerAbstract;
 
 use Menu\Helper\TestHelper;
 
@@ -40,7 +40,7 @@ use Pes\Http\Response;
  *
  * @author pes2704
  */
-class DisplayController extends FrontControllerAbstract {
+class DisplayController extends FrontControlerAbstract {
 
     public function content($id=NULL) {
 

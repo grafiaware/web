@@ -17,7 +17,7 @@ use Menu\Model\HierarchyHooks\ArticleTitleUpdater;
  *
  * @author pes2704
  */
-class EditMenuController extends FrontControllerAbstract {
+class EditMenuController extends FrontControlerAbstract {
 
 /* non REST metody */
     public function add($id) {
