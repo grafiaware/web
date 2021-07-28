@@ -24,14 +24,9 @@ class HeadlineRenderer extends HtmlRendererAbstract {
         /** @var PaperViewModelInterface $viewModel */
         $paper = $viewModel->getPaper();
         return
-            Html::tag('div',
-                        ['class'=>$this->classMap->getClass('Headline', 'div'),
-                         'style' => "display: block;"
-                        ],
-                        Html::tag('headline',
+            Html::tag('headline',
                             ['class'=>$this->classMap->getClass('Headline', 'headline')],
                             $paper->getHeadline() ?? ""
-                        )
                     );
     }
 }
