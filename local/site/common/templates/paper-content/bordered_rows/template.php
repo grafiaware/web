@@ -10,6 +10,8 @@ use Red\Model\Entity\PaperContentInterface;
 /** @var Buttons $buttons */
 /** @var PaperContentInterface $paperContent */
 ?>
-    <div class="sixteen wide column">
-        <?= $paperContent ?>
-    </div>
+            <div class="sixteen wide column">
+                <div class="ui segment">
+                    <?= $paperContent ?>
+                </div>
+            </div>

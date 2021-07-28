@@ -27,10 +27,10 @@ class PerexRendererEditable extends HtmlRendererAbstract {
             Html::tag('perex',
                     [
                         'id' => "perex_{$paper->getId()}",  // id musí být na stránce unikátní - skládám ze slova perex_ a paper id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
-                        'class'=>$this->classMap->getClass('Perex', 'perex'),
+                        'class'=>$this->classMap->getClass('Perex', 'perex.edit-html'),
                         'data-owner'=>$paper->getEditor()
                     ],
-                    Html::tag('div', ['class'=>"edit-html"], $paper->getPerex() ?? "")
+                    $paper->getPerex() ?? ""
             );
     }
 }

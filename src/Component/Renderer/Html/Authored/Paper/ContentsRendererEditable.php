@@ -83,7 +83,9 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
                         'role'=>"presentation",
                         'title'=> $actual ? 'actual' : $past ?  'past' : ($future ? 'future' : 'invalid dates')
                         ])
-                    .$paperContent->getPriority()
+                    .Html::tag('span', ['class'=>''],
+                        $paperContent->getPriority()
+                    )
                 )
                 .Html::tag('content',
                     [

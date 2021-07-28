@@ -27,9 +27,9 @@ class HeadlineRendererEditable extends HtmlRendererAbstract {
             Html::tag('headline',
                     [
                         'id'=>"headline_{$paper->getId()}",  // id musí být na stránce unikátní - skládám ze slova headline_ a paper id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
-                        'class'=>$this->classMap->getClass('Headline', 'headline'),
+                        'class'=>$this->classMap->getClass('Headline', 'headline.edit-text'),
                     ],
-                    Html::tag('div', ['class'=>"edit-text"], $paper->getHeadline() ?? "")
+                    $paper->getHeadline() ?? ""
             );
     }
 }

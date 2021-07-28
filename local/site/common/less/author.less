@@ -13,7 +13,7 @@
 @barvaKos: #F8F3FF;
 @barvaButtonSablony: #EDF7FF;
 
-     
+      
 //Body
 @buttonDataTooltipFontWeight: @fontBold;
 
@@ -55,7 +55,10 @@
 @semaforVodorovneMenuIconPaddingLeft: 3px;
 //Pro paper
 @semaforContentPositionLeft: -21px;
+@semaforContentFontSize: initial;
 @semaforSectionTrashPositionLeft: -17px;
+@semaforContentNumberMarginTop: -10px;
+@semaforContentNumberTextAlign: center; 
 
 //Paper
 //Buttony pro paper
@@ -270,6 +273,13 @@ body{
             margin-bottom: @semaforIconMarginBottom;
         }
     }
+    article .semafor{
+        font-size: @semaforContentFontSize;   
+        > span{
+            margin-top: @semaforContentNumberMarginTop;
+            text-align: @semaforContentNumberTextAlign;
+        }
+    }
     /*U POLOŽKY MENU*/  
     nav .semafor{
         justify-content: center;
@@ -402,7 +412,7 @@ body{
     }
 
     /*ROH U CONTENTU*/
-    .blue.corner.label{    
+    .blue.corner.label{     
         width: @cornerWidth;
         height: @cornerHeight; 
         font-size: @cornerSize;

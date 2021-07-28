@@ -268,11 +268,11 @@ class ConfigurationStyles extends ConfigurationRed {
                         ],
                      'Headline' => [
                         'section'=>'',
-                        'headline'=>'ui header borderDance edit-text',
+                        'headline.edit-text'=>'borderDance edit-text',
                         ],
                      'Perex' => [
                         'section'=>'',
-                        'perex'=>'borderDance edit-html',
+                        'perex.edit-html'=>'borderDance edit-html',
                         ],
                      'Content' => [
                         'section'=>'',

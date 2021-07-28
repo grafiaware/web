@@ -226,10 +226,12 @@ var templates_article = [
     ];
 var templates_paper= [
         { title: 'template paper default', description: 'popis',       url: 'web/v1/papertemplate/default'},
-        { title: 'template paper contact', description: 'popis',       url: 'web/v1/papertemplate/contact'},
         { title: 'template paper test', description: 'popis',       url: 'web/v1/papertemplate/test'},
-        { title: 'template paper book cards', description: 'popis',       url: 'web/v1/papertemplate/book_cards'},
-        { title: 'template paper list of courses', description: 'popis',       url: 'web/v1/papertemplate/list_of_courses'},
+        { title: 'template paper column cards', description: 'popis',       url: 'web/v1/papertemplate/column_cards'},
+        { title: 'template paper columns', description: 'popis',       url: 'web/v1/papertemplate/columns'},
+        { title: 'template paper divided_rows', description: 'popis',       url: 'web/v1/papertemplate/divided_rows'},
+        { title: 'template paper bordered_rows', description: 'popis',       url: 'web/v1/papertemplate/bordered_rows'},
+        { title: 'template paper rows', description: 'popis',       url: 'web/v1/papertemplate/rows'},
         { title: 'Test - presentedpaper s šablonou default', description: 'rendered component',       url: 'red/v1/presenteditem?template=default'},
         { title: 'Test - presentedpaper s šablonou contact', description: 'rendered component',       url: 'red/v1/presenteditem?template=contact'},
         { title: 'Test - presentedpaper s šablonou test', description: 'rendered component',       url: 'red/v1/presenteditem?template=test'},
