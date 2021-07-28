@@ -56,18 +56,12 @@ class PaperComponent extends AuthoredComponentAbstract implements PaperComponent
 //                    $this->adoptComponentView(ButtonsRenderer::class, 'articleButtonForms ');
                     $this->adoptComponentView(HeadlineRendererEditable::class, 'headline');
                     $this->adoptComponentView(PerexRendererEditable::class, 'perex');
-                    if ($paperAggregate instanceof PaperAggregatePaperContentInterface) {
-                        $this->adoptComponentView(ContentsRendererEditable::class, 'contents');
-                    } else {
-                        $this->adoptComponentView(EmptyContentRenderer::class, 'contents');
-                    }
+                    $this->adoptComponentView(ContentsRendererEditable::class, 'contents');
                 } else {
                     $this->setTemplate(new PaperTemplate($templateFileName));  // PhpTemplate exception
                     $this->adoptComponentView(HeadlineRenderer::class, 'headline');
                     $this->adoptComponentView(PerexRenderer::class, 'perex');
-                    if ($paperAggregate instanceof PaperAggregatePaperContentInterface) {
-                        $this->adoptComponentView(ContentsRenderer::class, 'contents');
-                    }
+                    $this->adoptComponentView(ContentsRenderer::class, 'contents');
                 }
                 // renderery musí být definovány v Renderer kontejneru - tam mohou dostat classMap do konstruktoru
 //                $this->addChildRendererName('headline', HeadlineRenderer::class);

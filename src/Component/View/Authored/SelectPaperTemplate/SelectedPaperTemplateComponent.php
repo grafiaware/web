@@ -41,11 +41,7 @@ class SelectedPaperTemplateComponent extends AuthoredComponentAbstract implement
                     $this->setTemplate(new PaperTemplate($templateFileName));  // PhpTemplate exception
                     $this->adoptComponentView(HeadlineRenderer::class, 'headline');
                     $this->adoptComponentView(PerexRenderer::class, 'perex');
-                    if ($paperAggregate instanceof PaperAggregatePaperContentInterface) {
-                        $this->adoptComponentView(ContentsRenderer::class, 'contents');
-                    } else {
-                        $this->adoptComponentView(EmptyContentRenderer::class, 'contents');
-                    }
+                    $this->adoptComponentView(ContentsRenderer::class, 'contents');
                 } catch (NoTemplateFileException $noTemplExc) {
                     throw new LogicException("Nelze vytvořit objekt template pro jméno nastavené metodou setPaperTemplateName()? {$this->paperTemplateName}");
                 }

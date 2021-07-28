@@ -32,11 +32,16 @@ class ContentsRenderer extends HtmlRendererAbstract {
     public function render(iterable $viewModel=NULL) {
         /** @var PaperViewModelInterface $viewModel */
         $paperAggregate = $viewModel->getPaper();
-        $contents = $paperAggregate->getPaperContentsArraySorted(PaperAggregatePaperContentInterface::BY_PRIORITY);
-        $innerHtml = [];
-        foreach ($contents as $paperContent) {
-            /** @var PaperContentInterface $paperContent */
-            $innerHtml[] = $this->renderContent($paperContent);
+        if ($paperAggregate instanceof PaperAggregatePaperContentInterface) {
+
+            $contents = $paperAggregate->getPaperContentsArraySorted(PaperAggregatePaperContentInterface::BY_PRIORITY);
+            $innerHtml = [];
+            foreach ($contents as $paperContent) {
+                /** @var PaperContentInterface $paperContent */
+                $innerHtml[] = $this->renderContent($paperContent);
+            }
+        } else {
+            $innerHtml[] = 'No content.';
         }
         return $innerHtml;
     }

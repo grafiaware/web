@@ -32,15 +32,21 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
     public function render(iterable $viewModel=NULL) {
         /** @var PaperViewModelInterface $viewModel */
         $paperAggregate = $viewModel->getPaper();
-        $contents = $paperAggregate->getPaperContentsArraySorted(PaperAggregatePaperContentInterface::BY_PRIORITY);
-        $sections = [];
-        foreach ($contents as $paperContent) {
-            /** @var PaperContentInterface $paperContent */
-            if ($paperContent->getPriority() > 0) {  // není v koši
-                $sections[] = $this->getContent($paperContent);
-            } else {  // je v koši
-                $sections[] = $this->getTrashContentForm($paperContent);
+        if ($paperAggregate instanceof PaperAggregatePaperContentInterface) {
+
+            $contents = $paperAggregate->getPaperContentsArraySorted(PaperAggregatePaperContentInterface::BY_PRIORITY);
+            $sections = [];
+            foreach ($contents as $paperContent) {
+                /** @var PaperContentInterface $paperContent */
+                if ($paperContent->getPriority() > 0) {  // není v koši
+                    $sections[] = $this->getContent($paperContent);
+                } else {  // je v koši
+                    $sections[] = $this->getTrashContentForm($paperContent);
+                }
             }
+
+        } else {
+            $sections[] = 'No content.';
         }
         return $sections;
     }
