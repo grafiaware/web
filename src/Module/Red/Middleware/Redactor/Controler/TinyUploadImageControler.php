@@ -6,10 +6,10 @@
  * and open the template in the editor.
  */
 
-namespace Red\Middleware\Redactor\Controller;
+namespace Red\Middleware\Redactor\Controler;
 
 /**
- * Description of TinyUploadImageController
+ * Description of TinyUploadImageControler
  *
  * @author pes2704
  */

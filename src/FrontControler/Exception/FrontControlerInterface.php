@@ -10,6 +10,6 @@
  *
  * @author pes2704
  */
-interface FrontControllerInterface {
+interface FrontControlerInterface {
     //put your code here
 }

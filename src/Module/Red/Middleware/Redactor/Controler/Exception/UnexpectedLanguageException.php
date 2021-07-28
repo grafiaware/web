@@ -6,12 +6,13 @@
  * and open the template in the editor.
  */
 
-namespace Red\Middleware\Redactor\Controller\Exception;
+namespace Red\Middleware\Redactor\Controler\Exception;
 
 /**
+ * Description of UnexpectedLanguageException
  *
  * @author pes2704
  */
-interface ControllerExceptionInterface {
+class UnexpectedLanguageException extends \UnexpectedValueException implements ControlerExceptionInterface {
     //put your code here
 }

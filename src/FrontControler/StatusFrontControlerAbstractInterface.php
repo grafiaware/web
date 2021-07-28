@@ -6,19 +6,16 @@
  * and open the template in the editor.
  */
 
-namespace FrontController;
+namespace FrontControler;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Container\ContainerInterface;
 
-use Pes\View\ViewInterface;
 /**
  *
  * @author pes2704
  */
-interface FrontControllerInterface {
-
+interface StatusFrontControlerAbstractInterface {
 
     /**
      *
@@ -28,5 +25,4 @@ interface FrontControllerInterface {
      */
     public function addHeaders(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface;
 
-    public function injectContainer(ContainerInterface $componentContainer): FrontControllerInterface;
 }

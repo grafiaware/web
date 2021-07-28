@@ -32,15 +32,21 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
     public function render(iterable $viewModel=NULL) {
         /** @var PaperViewModelInterface $viewModel */
         $paperAggregate = $viewModel->getPaper();
-        $contents = $paperAggregate->getPaperContentsArraySorted(PaperAggregatePaperContentInterface::BY_PRIORITY);
-        $sections = [];
-        foreach ($contents as $paperContent) {
-            /** @var PaperContentInterface $paperContent */
-            if ($paperContent->getPriority() > 0) {  // není v koši
-                $sections[] = $this->getContent($paperContent);
-            } else {  // je v koši
-                $sections[] = $this->getTrashContentForm($paperContent);
+        if ($paperAggregate instanceof PaperAggregatePaperContentInterface) {
+
+            $contents = $paperAggregate->getPaperContentsArraySorted(PaperAggregatePaperContentInterface::BY_PRIORITY);
+            $sections = [];
+            foreach ($contents as $paperContent) {
+                /** @var PaperContentInterface $paperContent */
+                if ($paperContent->getPriority() > 0) {  // není v koši
+                    $sections[] = $this->getContent($paperContent);
+                } else {  // je v koši
+                    $sections[] = $this->getTrashContentForm($paperContent);
+                }
             }
+
+        } else {
+            $sections[] = 'No content.';
         }
         return $sections;
     }
@@ -52,7 +58,7 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
         $future = $paperContent->getShowTime() > $now;
         $past = $paperContent->getHideTime() < $now;  // pro zobrszeno trvale - null je vždy menší a $passed je true - vyhodnucuji nejprve $actual, nevadí to
 
-        return
+        $html =
             Html::tag('section', ['class'=>$this->classMap->getClass('Content', 'section')],
                 Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.corner')],
                     $this->getContentButtons($paperContent)
@@ -88,6 +94,7 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
                     $paperContent->getContent() ?? ""
                 )
             );
+        return $html;
     }
 
     private function getTrashContentForm($paperContent) {

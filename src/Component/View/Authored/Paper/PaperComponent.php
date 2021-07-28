@@ -17,7 +17,10 @@ use Component\Template\PaperTemplate;
 use Component\Template\PaperTemplateEditable;
 
 use Component\View\Authored\AuthoredElement;
+
 use Component\Renderer\Html\Authored\Paper\SelectPaperTemplateRenderer;
+use Component\Renderer\Html\Authored\Paper\ButtonsRenderer;
+
 use Component\Renderer\Html\Authored\Paper\HeadlineRenderer;
 use Component\Renderer\Html\Authored\Paper\PerexRenderer;
 use Component\Renderer\Html\Authored\Paper\ContentsRenderer;
@@ -44,28 +47,21 @@ class PaperComponent extends AuthoredComponentAbstract implements PaperComponent
     public function beforeRenderingHook(): void {
         if ($this->hasContent()) {
             $paperAggregate = $this->contextData->getPaper();
-
-
             $templateFileName = $this->getTemplateFileFullname($this->configuration->getTemplatepathPaper(), $this->getTemplate());
 
             try {
                 if ($this->contextData->userCanEdit()) { // editační režim a uživatel má právo editovat
                     $this->setTemplate(new PaperTemplateEditable($templateFileName));  // PhpTemplate exception
-                    $this->adoptComponentView(SelectPaperTemplateRenderer::class, 'selectTemplate');
+//                    $this->adoptComponentView(SelectPaperTemplateRenderer::class, 'selectTemplate');
+//                    $this->adoptComponentView(ButtonsRenderer::class, 'articleButtonForms ');
                     $this->adoptComponentView(HeadlineRendererEditable::class, 'headline');
                     $this->adoptComponentView(PerexRendererEditable::class, 'perex');
-                    if ($paperAggregate instanceof PaperAggregatePaperContentInterface) {
-                        $this->adoptComponentView(ContentsRendererEditable::class, 'contents');
-                    } else {
-                        $this->adoptComponentView(EmptyContentRenderer::class, 'contents');
-                    }
+                    $this->adoptComponentView(ContentsRendererEditable::class, 'contents');
                 } else {
                     $this->setTemplate(new PaperTemplate($templateFileName));  // PhpTemplate exception
                     $this->adoptComponentView(HeadlineRenderer::class, 'headline');
                     $this->adoptComponentView(PerexRenderer::class, 'perex');
-                    if ($paperAggregate instanceof PaperAggregatePaperContentInterface) {
-                        $this->adoptComponentView(ContentsRenderer::class, 'contents');
-                    }
+                    $this->adoptComponentView(ContentsRenderer::class, 'contents');
                 }
                 // renderery musí být definovány v Renderer kontejneru - tam mohou dostat classMap do konstruktoru
 //                $this->addChildRendererName('headline', HeadlineRenderer::class);

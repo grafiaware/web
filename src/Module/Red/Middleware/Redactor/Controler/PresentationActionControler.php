@@ -6,9 +6,9 @@
  * and open the template in the editor.
  */
 
-namespace Red\Middleware\Redactor\Controller;
+namespace Red\Middleware\Redactor\Controler;
 
-use FrontController\PresentationFrontControllerAbstract;
+use FrontControler\PresentationFrontControlerAbstract;
 
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -24,14 +24,14 @@ use Red\Model\Repository\{
     LanguageRepo, MenuItemRepo
 };
 
-use Red\Middleware\Redactor\Controller\Exception\UnexpectedLanguageException;
+use Red\Middleware\Redactor\Controler\Exception\UnexpectedLanguageException;
 
 /**
- * Description of PostController
+ * Description of PostControler
  *
  * @author pes2704
  */
-class PresentationActionControler extends PresentationFrontControllerAbstract {
+class PresentationActionControler extends PresentationFrontControlerAbstract {
 
     private $languageRepo;
 

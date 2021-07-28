@@ -6,9 +6,9 @@
  * and open the template in the editor.
  */
 
-namespace Red\Middleware\Redactor\Controller;
+namespace Red\Middleware\Redactor\Controler;
 
-use FrontController\PresentationFrontControllerAbstract;
+use FrontControler\PresentationFrontControlerAbstract;
 
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -18,11 +18,11 @@ use Pes\Application\AppFactory;
 
 
 /**
- * Description of PostController
+ * Description of PostControler
  *
  * @author pes2704
  */
-class UserActionControler extends PresentationFrontControllerAbstract {
+class UserActionControler extends PresentationFrontControlerAbstract {
 
     public function app(ServerRequestInterface $request, $app) {
         return RedirectResponse::withRedirect(

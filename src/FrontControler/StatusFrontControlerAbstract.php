@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace FrontController;
+namespace FrontControler;
 
 
 use Psr\Http\Message\ServerRequestInterface;
@@ -24,11 +24,11 @@ use Pes\Http\Response\RedirectResponse;
 use Pes\Http\Response;
 
 /**
- * Description of StatusFrontControllerAbstract
+ * Description of StatusFrontControlerAbstract
  *
  * @author pes2704
  */
-abstract class StatusFrontControllerAbstract extends FrontControllerAbstract implements StatusFrontControllerAbstractInterface {
+abstract class StatusFrontControlerAbstract extends FrontControlerAbstract implements StatusFrontControlerAbstractInterface {
 
     /**
      * @var StatusSecurityRepo
@@ -63,7 +63,7 @@ abstract class StatusFrontControllerAbstract extends FrontControllerAbstract imp
 
 
     /**
-     * Přetěžuje addHeaders() z FrontControllerAbstract
+     * Přetěžuje addHeaders() z FrontControlerAbstract
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
      * @return ResponseInterface

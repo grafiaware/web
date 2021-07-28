@@ -12,6 +12,8 @@ use Component\Renderer\Html\HtmlRendererAbstract;
 use Component\ViewModel\Authored\Paper\PaperViewModelInterface;
 
 use Red\Model\Entity\PaperAggregatePaperContentInterface;
+use Red\Model\Entity\PaperContentInterface;
+
 use Pes\Text\Html;
 
 /**
@@ -30,22 +32,28 @@ class ContentsRenderer extends HtmlRendererAbstract {
     public function render(iterable $viewModel=NULL) {
         /** @var PaperViewModelInterface $viewModel */
         $paperAggregate = $viewModel->getPaper();
-        $contents = $paperAggregate->getPaperContentsArraySorted(PaperAggregatePaperContentInterface::BY_PRIORITY);
-        $innerHtml = [];
-        foreach ($contents as $paperContent) {
-            /** @var PaperContentInterface $paperContent */
-            $innerHtml[] = $this->renderContent($paperContent);
+        if ($paperAggregate instanceof PaperAggregatePaperContentInterface) {
+
+            $contents = $paperAggregate->getPaperContentsArraySorted(PaperAggregatePaperContentInterface::BY_PRIORITY);
+            $innerHtml = [];
+            foreach ($contents as $paperContent) {
+                /** @var PaperContentInterface $paperContent */
+                $innerHtml[] = $this->renderContent($paperContent);
+            }
+        } else {
+            $innerHtml[] = 'No content.';
         }
         return $innerHtml;
     }
 
     private function renderContent(PaperContentInterface $paperContent) {
-        return  Html::tag('content', [
+        $html =  Html::tag('content', [
                             'id' => "content_{$paperContent->getId()}",
                             'class'=>$this->classMap->getClass('Content', 'content'),
                             'data-owner'=>$paperContent->getEditor()
                         ],
                     $paperContent->getContent()
                 );
+        return $html;
     }
 }

@@ -1,14 +1,15 @@
 <?php
 namespace Component\ViewModel\Authored\Article;
 
-use Component\ViewModel\Authored\TemplatedViewModelInterface;
+use Component\ViewModel\Authored\AuthoredViewModelInterface;
+
 use Red\Model\Entity\ArticleInterface;
 
 /**
  *
  * @author pes2704
  */
-interface ArticleViewModelInterface {
+interface ArticleViewModelInterface extends AuthoredViewModelInterface {
 
     /**
      * Vrací Article, pokud existuje a je aktivní (zveřejněný) nebo prezentace je v editačním režimu.

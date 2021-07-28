@@ -21,16 +21,18 @@ class PaperRendererEditable  extends HtmlRendererAbstract {
 
         $selectTemplate = $this->renderSelectTemplate($paperAggregate);
         $articleButtonForms = $this->renderPaperButtonsForm($paperAggregate);
-        $headline = $this->renderHeadlineEditable($paperAggregate);
-        $perex = $this->renderPerexEditable($paperAggregate);
-        $contents = ($paperAggregate instanceof PaperAggregatePaperContentInterface) ? $this->renderContentsEditable($paperAggregate) : "";
-
-        $html = $selectTemplate
-                .
+//        $headline = $this->renderHeadlineEditable($paperAggregate);
+//        $perex = $this->renderPerexEditable($paperAggregate);
+//        $contents = ($paperAggregate instanceof PaperAggregatePaperContentInterface) ? $this->renderContentsEditable($paperAggregate) : "";
+//          $selectTemplate = $viewModel->offsetGet('selectTemplate');
+//          $articleButtonForms = $viewModel->offsetGet('articleButtonForms');
+        $html =
                 Html::tag('article', ['data-red-renderer'=>'PaperRendererEditable', "data-red-datasource"=> "paper {$paperAggregate->getId()} for item {$paperAggregate->getMenuItemIdFk()}"],
-                    $articleButtonForms
+                    $selectTemplate
+                    .$articleButtonForms
                     .Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/{$paperAggregate->getId()}"],
-                            parent::render(['selectTemplate'=>$selectTemplate, 'articleButtonForms'=>$articleButtonForms, 'headline'=>$headline, 'perex'=>$perex, 'contents'=>$contents])
+                        parent::render($viewModel)
+
                     )
                 );
 
@@ -71,7 +73,7 @@ class PaperRendererEditable  extends HtmlRendererAbstract {
                         'name'=>'button',
                         'value' => '',
                         'formmethod'=>'post',
-                        'formaction'=>"red/v1/paper/$paperId/contents",
+                        'formaction'=>"red/v1/paper/$paperId/content",
                         ],
                         Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.icons')],
                             Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.addcontent')])
@@ -80,7 +82,7 @@ class PaperRendererEditable  extends HtmlRendererAbstract {
                     );
         }
         return Html::tag('form', ['method'=>'POST', 'action'=>""],
-            Html::tag('div', ['class'=>$this->classMap->getClass('PaperButtons', 'div.buttonsPage')],
+            Html::tag('div', ['class'=>$this->classMap->getClass('PaperButtons', 'div.buttonsPage'), 'style'=>'position: relative;'],
                     implode('', $buttons)
             )
         );
