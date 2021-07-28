@@ -8,7 +8,7 @@
 
 namespace Events\Middleware\Events\Controller;
 
-use FrontController\PresentationFrontControllerAbstract;
+use FrontControler\PresentationFrontControlerAbstract;
 
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -31,7 +31,7 @@ use \Model\Entity\Enroll;
  *
  * @author pes2704
  */
-class EventController extends PresentationFrontControllerAbstract {
+class EventController extends PresentationFrontControlerAbstract {
 
     private $enrollRepo;
 

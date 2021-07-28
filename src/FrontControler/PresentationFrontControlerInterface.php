@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace FrontController;
+namespace FrontControler;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -17,7 +17,7 @@ use Pes\View\ViewInterface;
  *
  * @author pes2704
  */
-interface PresentationFrontControllerInterface {
+interface PresentationFrontControlerInterface {
 
     /**
      *

@@ -16,7 +16,7 @@ use Container\{
     ApiContainerConfigurator, HierarchyContainerConfigurator, DbUpgradeContainerConfigurator, LoginContainerConfigurator, MailContainerConfigurator
 };
 
-use Red\Middleware\Redactor\Controller\{
+use Red\Middleware\Redactor\Controler\{
     UserActionControler, HierarchyControler, EditItemControler, PresentationActionControler, PaperControler, ArticleControler, ContentControler, TemplateController,
     FilesUploadControler
 };
@@ -128,7 +128,11 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
         });
 
         #### ContentController ####
-
+        $routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId/content', function(ServerRequestInterface $request, $paperId) {
+                /** @var ContentController $ctrl */
+                $ctrl = $this->container->get(Controler\ContentControler::class);
+                return $ctrl->add($request, $paperId);
+        });
         $routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId/content/:contentId', function(ServerRequestInterface $request, $paperId, $contentId) {
                 /** @var ContentControler $ctrl */
                 $ctrl = $this->container->get(ContentControler::class);

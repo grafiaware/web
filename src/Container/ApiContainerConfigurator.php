@@ -25,7 +25,7 @@ use Pes\Database\Handler\{
 };
 
 // controller
-use \Red\Middleware\Redactor\Controller\{
+use \Red\Middleware\Redactor\Controler\{
     UserActionControler, HierarchyControler, EditItemControler, PresentationActionControler, PaperControler, ArticleControler, ContentControler,
     FilesUploadControler
 };

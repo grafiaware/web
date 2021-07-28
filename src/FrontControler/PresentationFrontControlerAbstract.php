@@ -1,6 +1,6 @@
 <?php
 
-namespace FrontController;
+namespace FrontControler;
 
 
 use Status\Model\Repository\{
@@ -19,11 +19,11 @@ use Pes\View\ViewInterface;
 use Pes\Http\Response;
 
 /**
- * Description of PresentationFrontControllerAbstract
+ * Description of PresentationFrontControlerAbstract
  *
  * @author pes2704
  */
-abstract class PresentationFrontControllerAbstract extends StatusFrontControllerAbstract implements PresentationFrontControllerInterface {
+abstract class PresentationFrontControlerAbstract extends StatusFrontControlerAbstract implements PresentationFrontControlerInterface {
 
     /**
      * @var ResourceRegistryInterface

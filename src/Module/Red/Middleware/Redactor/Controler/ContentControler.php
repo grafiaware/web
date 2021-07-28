@@ -6,9 +6,9 @@
  * and open the template in the editor.
  */
 
-namespace Red\Middleware\Redactor\Controller;
+namespace Red\Middleware\Redactor\Controler;
 
-use FrontController\PresentationFrontControllerAbstract;
+use FrontControler\PresentationFrontControlerAbstract;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -28,11 +28,11 @@ use Red\Model\Entity\PaperContent;
 use Pes\Text\Message;
 
 /**
- * Description of PostController
+ * Description of PostControler
  *
  * @author pes2704
  */
-class ContentControler extends PresentationFrontControllerAbstract {
+class ContentControler extends PresentationFrontControlerAbstract {
 
     private $paperContentRepo;
 

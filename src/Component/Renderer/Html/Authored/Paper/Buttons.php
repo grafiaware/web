@@ -96,7 +96,7 @@ class Buttons {
                         'name'=>'button',
                         'value' => '',
                         'formmethod'=>'post',
-                        'formaction'=>"red/v1/paper/$paperId/contents",
+                        'formaction'=>"red/v1/paper/$paperId/content",
                         ],
                         Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.icons')],
                             Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.addcontent')])

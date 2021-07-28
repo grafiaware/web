@@ -6,11 +6,11 @@
  * and open the template in the editor.
  */
 
-namespace FrontController;
+namespace FrontControler;
 
 use Psr\Http\Message\ServerRequestInterface;
 
-use FrontController\PresentationFrontControllerAbstract;
+use FrontControler\PresentationFrontControlerAbstract;
 use Pes\View\View;
 
 /**
@@ -18,7 +18,7 @@ use Pes\View\View;
  *
  * @author pes2704
  */
-class RestrictedContentController extends PresentationFrontControllerAbstract {
+class RestrictedContentController extends PresentationFrontControlerAbstract {
 
     ### action metody ###############
 

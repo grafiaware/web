@@ -10,7 +10,7 @@ namespace Web\Middleware\Page\Controller;
 
 use Site\Configuration;
 
-use FrontController\PresentationFrontControllerAbstract;
+use FrontControler\PresentationFrontControlerAbstract;
 use Psr\Http\Message\ServerRequestInterface;
 
 use Status\Model\Repository\{
@@ -41,7 +41,7 @@ use Pes\View\Template\InterpolateTemplate;
  *
  * @author pes2704
  */
-abstract class LayoutControllerAbstract extends PresentationFrontControllerAbstract {
+abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstract {
 
     private $viewFactory;
 

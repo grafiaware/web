@@ -1,10 +1,10 @@
 <?php
 
-namespace Red\Middleware\Redactor\Controller;
+namespace Red\Middleware\Redactor\Controler;
 
 use Site\Configuration;
 
-use FrontController\FilesUploadControllerAbstract;
+use FrontControler\FilesUploadControlerAbstract;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UploadedFileInterface;
@@ -18,7 +18,7 @@ use Utils\UrlConvertor;
  *
  * @author pes2704
  */
-class FilesUploadControler extends FilesUploadControllerAbstract {
+class FilesUploadControler extends FilesUploadControlerAbstract {
 
     const UPLOADED_KEY = "file";
 
@@ -39,7 +39,7 @@ class FilesUploadControler extends FilesUploadControllerAbstract {
 
         // vytvoří složku se jménem 'item_' a id menuItem
         $itemFolder = "item_".$item->getId().'/';
-        $fullLogDirectoryPath = Configuration::filesUploadController()['upload.red'].Directory::normalizePath($itemFolder);
+        $fullLogDirectoryPath = Configuration::filesUploadControler()['upload.red'].Directory::normalizePath($itemFolder);
         Directory::createDirectory($fullLogDirectoryPath);
         $targetFilename = $fullLogDirectoryPath.urldecode($file->getClientFilename());  // někdy - např po ImageTools editaci je název souboru z Tiny url kódován
         $file->moveTo($targetFilename);
@@ -73,7 +73,7 @@ class FilesUploadControler extends FilesUploadControllerAbstract {
         $size = 0;
         $item = $this->statusPresentationRepo->get()->getMenuItem();
 
-        $targetFilename = Configuration::filesUploadController()['upload.events.visitor'].$item->getLangCodeFk()."_".$item->getId()."-".$file->getClientFilename();
+        $targetFilename = Configuration::filesUploadControler()['upload.events.visitor'].$item->getLangCodeFk()."_".$item->getId()."-".$file->getClientFilename();
         $file->moveTo($targetFilename);
         $json = json_encode(array('location' => $targetFilename));  // toto jméno použije timyMCE pro změnu url obrázku ve výsledném html
         return $this->createResponseFromString($request, $json);

@@ -8,7 +8,7 @@
 
 namespace Deployer;
 
-use FrontController\PresentationFrontControllerAbstract;
+use FrontControler\PresentationFrontControlerAbstract;
 
 use Deployer\Exception\{
     DeployExceptionInterface, DeployStepFailedException, MaxExecutionTimeException

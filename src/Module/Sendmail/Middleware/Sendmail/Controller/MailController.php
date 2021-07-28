@@ -10,7 +10,7 @@ namespace Sendmail\Middleware\Sendmail\Controller;
 
 use Site\Configuration;
 
-use FrontController\PresentationFrontControllerAbstract;
+use FrontControler\PresentationFrontControlerAbstract;
 
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -30,7 +30,7 @@ use Model\Repository\{
  *
  * @author pes2704
  */
-class MailController extends PresentationFrontControllerAbstract {
+class MailController extends PresentationFrontControlerAbstract {
 
     private $loginAggregateCredentialsRepo;
     private $registrationRepo;

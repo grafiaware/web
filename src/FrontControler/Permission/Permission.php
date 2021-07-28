@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace FrontController\Permission;
+namespace FrontControler\Permission;
 
 /**
  * Description of Permissions
