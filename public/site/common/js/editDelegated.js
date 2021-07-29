@@ -70,12 +70,14 @@ $("body").on("click", '.editDate .button.toolsContent',
             $(this).parent(".editDate").siblings(".contentButtons").css("display", "block");
             $(this).parent(".editDate").css("display", "none");
             $(this).parent(".editDate").siblings(".editDate").css("display", "none");
+            $(this).parent(".editDate").siblings(".contentButtons").parent(".cornerWithTools").removeClass("active");
         }
     );
 $("body").on("click", '.contentButtons .button.toolsDate',
         function(){
             $(this).parent(".editContent").parent(".contentButtons").siblings(".editDate").css("display", "flex");
             $(this).parent(".editContent").parent(".contentButtons").css("display", "none");
+            $(this).parent(".editContent").parent(".contentButtons").parent(".cornerWithTools").addClass("active");
         }
     );
 

@@ -277,28 +277,50 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
                 'onclick'=>"event.preventDefault(); this.form.reset();"
                 ],
                 Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.cancel')])
-            )
-            .Html::tag('div', [
-                'class'=>$this->classMap->getClass('ContentButtons', 'button'),
-                'data-position'=>'top right',
-                ],
-                Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.changedate')])
-            )
+            )  
         )
         .Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.wrapDate')],
             Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.wrapKalendar'), ],
-                    Html::tag('p', ['class'=>$this->classMap->getClass('ContentButtons', 'p')], 'Uveřejnit od')
-                    .Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.calendar')],
-                        Html::tag('div',['class'=>$this->classMap->getClass('ContentButtons', 'div.input')],
-                            Html::tagNopair('input', ['type'=>'text', 'name'=>"show_$paperContentId", 'placeholder'=>'Klikněte pro výběr data', 'value'=>$showTime])
+                    Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.grid')],
+                        Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.wholeRow')],
+                            Html::tag('p', ['class'=>$this->classMap->getClass('ContentButtons', 'p')], 'Uveřejnit obsah')
                         )
-                     )
-                    .Html::tag('p', ['class'=>$this->classMap->getClass('ContentButtons', 'p')], 'Uveřejnit do')
-                    .Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.calendar')],
-                        Html::tag('div',['class'=>$this->classMap->getClass('ContentButtons', 'div.input')],
-                        Html::tagNopair('input', ['type'=>'text', 'name'=>"hide_$paperContentId", 'placeholder'=>'Klikněte pro výběr data', 'value'=> $hideTime])
+                        .Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.halfRow')],
+                            Html::tag('p', ['class'=>$this->classMap->getClass('ContentButtons', 'p')], 'datum od')
+                            .Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.calendar')],
+                                Html::tag('div',['class'=>$this->classMap->getClass('ContentButtons', 'div.input')],
+                                    Html::tagNopair('input', ['type'=>'text', 'name'=>"show_$paperContentId", 'placeholder'=>'Klikněte pro výběr', 'value'=>$showTime])
+                                )
+                            )
+                        )
+                        .Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.halfRow')],
+                            Html::tag('p', ['class'=>$this->classMap->getClass('ContentButtons', 'p')], 'datum do')
+                            .Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.calendar')],
+                                Html::tag('div',['class'=>$this->classMap->getClass('ContentButtons', 'div.input')],
+                                    Html::tagNopair('input', ['type'=>'text', 'name'=>"hide_$paperContentId", 'placeholder'=>'Klikněte pro výběr', 'value'=> $hideTime])
+                                )
+                            )
+                        )
+                        .Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.wholeRow')],
+                            Html::tag('p', ['class'=>$this->classMap->getClass('ContentButtons', 'p')], 'Nastavit datum události')
+                        )
+                        .Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.halfRow')],
+                            Html::tag('p', ['class'=>$this->classMap->getClass('ContentButtons', 'p')], 'datum od')
+                            .Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.calendar')],
+                                Html::tag('div',['class'=>$this->classMap->getClass('ContentButtons', 'div.input')],
+                                    Html::tagNopair('input', ['type'=>'text', 'name'=>"", 'placeholder'=>'Klikněte pro výběr', 'value'=>''])
+                                )
+                            )
+                        )
+                        .Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.halfRow')],
+                            Html::tag('p', ['class'=>$this->classMap->getClass('ContentButtons', 'p')], 'datum do')
+                            .Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.calendar')],
+                                Html::tag('div',['class'=>$this->classMap->getClass('ContentButtons', 'div.input')],
+                                    Html::tagNopair('input', ['type'=>'text', 'name'=>"", 'placeholder'=>'Klikněte pro výběr', 'value'=> ''])
+                                )
+                            )
+                        )
                     )
-                )
             )
         );
     }

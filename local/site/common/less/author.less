@@ -93,6 +93,7 @@
 @cornerSize: 0.3em;
 @cornerPositionRigth: -5px;
 @cornerColor: lighten(@blue,40);
+@cornerActiveZIndex: 15;
 @cornerIconTransform: translateX(50%);
 @sectionTrashCornerPositionRight: 0;
 //Buttony pro content
@@ -105,6 +106,7 @@
 @buttonyKalendarPositionTop: -32px;
 @buttonyKalendarPositionRight: @hodnota0;
 @buttonyKalendarBackgroundColor: @barvaEditButtonyTmava;
+@divKalendarWidth: 350px;
 @divKalendarPositionTop: @hodnota0;
 @divKalendarPositionRight: -0.15em;
 @divKalendarFontSize: 2.8em;
@@ -117,6 +119,8 @@
 @divKalendarParagraphMarginBottom: 5px;
 @divKalendarCursor: auto;
 @divKalendarZIndex: 1;
+@divKalendarColumnPadding: 5px 10px;
+@divKalendarInputWidth: 100%; 
 
 //Prostředí pro Tiny
 @mceBodyOutline: @borderWidth dotted darken(@lightGrey, 20); 
@@ -426,6 +430,9 @@ body{
         .icons .icon{
             transform: @cornerIconTransform;
         }
+        &.cornerWithTools.active{
+            z-index: @cornerActiveZIndex !important;
+        }
     }
     /*BUTTONY PRO CONTENT*/
     /*používané třídy pro buttony ke contentu
@@ -465,6 +472,7 @@ body{
     /*VÝBĚR DATA V KALENDÁŘI*/
     .edit_kalendar{
         position: absolute;
+        width: @divKalendarWidth;
         cursor: @divKalendarCursor;
         top: @divKalendarPositionTop;
         right: @divKalendarPositionRight;
@@ -475,6 +483,9 @@ body{
         border: @divKalendarBorder;
         border-radius: @divKalendarBorderRadius;
         z-index: @divKalendarZIndex;
+        .grid > .column{
+            padding: @divKalendarColumnPadding !important;
+        }
         /*popisky inputů*/
         p{
             text-align: @divKalendarParagraphTextAlign;
@@ -483,6 +494,9 @@ body{
         /*obalující div inputu, semantická třída*/
         .calendar{
             margin-bottom: 10px;
+            .ui.input input{
+                width: @divKalendarInputWidth;
+            }
         }
     }
   
