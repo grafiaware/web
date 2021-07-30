@@ -62,14 +62,15 @@
 
 //Paper
 //Buttony pro paper
-@buttonyPaperPositionTop: -32px;
-@button2PaperPositionRight: -6px; //.editPage
-@button2SegmentPaperPositionRight: 18px;
-@button2PaperBackgroundColor: @barvaEditButtony;
+@button2PaperPositionTop: 50px; //.editPage
+@button2PaperPositionRight: -6px; 
+@button2SegmentPaperPositionRight: 18px; 
+@button2PaperBackgroundColor: @barvaEditButtony; 
+@button1PaperPositionTop: 20px; 
 @button1PaperPositionRight: 26px; //.changePaperTemplate
-@button1SegmentPaperPositionRight: 48px;
-@button1SegmentPaperHeight: 32px;
-@button1PaperBackgroundColor: @barvaButtonSablony;
+@button1SegmentPaperPositionRight: 48px; 
+@button1SegmentPaperHeight: 32px; 
+@button1PaperBackgroundColor: @barvaButtonSablony; 
 //Zmena/Vyber sablony
 @divSelectWidth: 200px;
 @divSelectPositionTop: 31px;
@@ -134,6 +135,7 @@
 @mceFocusPadding: 5px;
 @mceBorderDanceColor: @green;
 @mceTemplateSelectBorderDanceColor: @teal;
+@paperTempateSelectDisplay: none; 
 
 
  
@@ -351,9 +353,9 @@ body{
         .changePaperTemplate - div vypadající jako button na výměnu šablony stránky - funguje jako dropdown */
     .editPage, .dropdown.changePaperTemplate{
         position: absolute;
-        top: @buttonyPaperPositionTop;
     }
     .editPage{
+        top: @button2PaperPositionTop;
         right: @button2PaperPositionRight;
         background-color: @button2PaperBackgroundColor;
     }
@@ -367,6 +369,7 @@ body{
         }
     }
     .dropdown.changePaperTemplate{
+        top: @button1PaperPositionTop;
         right: @button1PaperPositionRight;
         background-color: @button1PaperBackgroundColor !important;
     }
@@ -534,6 +537,7 @@ body{
         }
         &.paper_template_select{
             margin: 10px auto 20px;
+            display: @paperTempateSelectDisplay;
         }
     }
     .mce-edit-focus{

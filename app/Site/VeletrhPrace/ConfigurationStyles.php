@@ -253,7 +253,7 @@ class ConfigurationStyles extends ConfigurationRed {
                         ],
                      'Headline' => [
                         'div'=>'paper',
-                        'headline'=>'ui header',
+                        'headline'=>'',
                         ],
                      'Perex' => [
                         'perex'=>'',
