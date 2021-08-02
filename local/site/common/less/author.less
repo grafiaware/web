@@ -13,7 +13,7 @@
 @barvaKos: #F8F3FF;
 @barvaButtonSablony: #EDF7FF;
 
-    
+      
 //Body
 @buttonDataTooltipFontWeight: @fontBold;
 
@@ -55,18 +55,22 @@
 @semaforVodorovneMenuIconPaddingLeft: 3px;
 //Pro paper
 @semaforContentPositionLeft: -21px;
+@semaforContentFontSize: initial;
 @semaforSectionTrashPositionLeft: -17px;
+@semaforContentNumberMarginTop: -10px;
+@semaforContentNumberTextAlign: center; 
 
 //Paper
 //Buttony pro paper
-@buttonyPaperPositionTop: -32px;
-@button2PaperPositionRight: -6px; //.editPage
-@button2SegmentPaperPositionRight: 18px;
-@button2PaperBackgroundColor: @barvaEditButtony;
+@button2PaperPositionTop: 50px; //.editPage
+@button2PaperPositionRight: -6px; 
+@button2SegmentPaperPositionRight: 18px; 
+@button2PaperBackgroundColor: @barvaEditButtony; 
+@button1PaperPositionTop: 20px; 
 @button1PaperPositionRight: 26px; //.changePaperTemplate
-@button1SegmentPaperPositionRight: 48px;
-@button1SegmentPaperHeight: 32px;
-@button1PaperBackgroundColor: @barvaButtonSablony;
+@button1SegmentPaperPositionRight: 48px; 
+@button1SegmentPaperHeight: 32px; 
+@button1PaperBackgroundColor: @barvaButtonSablony; 
 //Zmena/Vyber sablony
 @divSelectWidth: 200px;
 @divSelectPositionTop: 31px;
@@ -90,6 +94,7 @@
 @cornerSize: 0.3em;
 @cornerPositionRigth: -5px;
 @cornerColor: lighten(@blue,40);
+@cornerActiveZIndex: 15;
 @cornerIconTransform: translateX(50%);
 @sectionTrashCornerPositionRight: 0;
 //Buttony pro content
@@ -102,6 +107,7 @@
 @buttonyKalendarPositionTop: -32px;
 @buttonyKalendarPositionRight: @hodnota0;
 @buttonyKalendarBackgroundColor: @barvaEditButtonyTmava;
+@divKalendarWidth: 350px;
 @divKalendarPositionTop: @hodnota0;
 @divKalendarPositionRight: -0.15em;
 @divKalendarFontSize: 2.8em;
@@ -114,6 +120,8 @@
 @divKalendarParagraphMarginBottom: 5px;
 @divKalendarCursor: auto;
 @divKalendarZIndex: 1;
+@divKalendarColumnPadding: 5px 10px;
+@divKalendarInputWidth: 100%; 
 
 //Prostředí pro Tiny
 @mceBodyOutline: @borderWidth dotted darken(@lightGrey, 20); 
@@ -127,6 +135,7 @@
 @mceFocusPadding: 5px;
 @mceBorderDanceColor: @green;
 @mceTemplateSelectBorderDanceColor: @teal;
+@paperTempateSelectDisplay: none; 
 
 
  
@@ -270,6 +279,13 @@ body{
             margin-bottom: @semaforIconMarginBottom;
         }
     }
+    article .semafor{
+        font-size: @semaforContentFontSize;   
+        > span{
+            margin-top: @semaforContentNumberMarginTop;
+            text-align: @semaforContentNumberTextAlign;
+        }
+    }
     /*U POLOŽKY MENU*/  
     nav .semafor{
         justify-content: center;
@@ -337,9 +353,9 @@ body{
         .changePaperTemplate - div vypadající jako button na výměnu šablony stránky - funguje jako dropdown */
     .editPage, .dropdown.changePaperTemplate{
         position: absolute;
-        top: @buttonyPaperPositionTop;
     }
     .editPage{
+        top: @button2PaperPositionTop;
         right: @button2PaperPositionRight;
         background-color: @button2PaperBackgroundColor;
     }
@@ -353,6 +369,7 @@ body{
         }
     }
     .dropdown.changePaperTemplate{
+        top: @button1PaperPositionTop;
         right: @button1PaperPositionRight;
         background-color: @button1PaperBackgroundColor !important;
     }
@@ -402,7 +419,7 @@ body{
     }
 
     /*ROH U CONTENTU*/
-    .blue.corner.label{    
+    .blue.corner.label{     
         width: @cornerWidth;
         height: @cornerHeight; 
         font-size: @cornerSize;
@@ -415,6 +432,9 @@ body{
         /*icony, které jsou složené ze dvou, budou vycentrované jako ostatní*/
         .icons .icon{
             transform: @cornerIconTransform;
+        }
+        &.cornerWithTools.active{
+            z-index: @cornerActiveZIndex !important;
         }
     }
     /*BUTTONY PRO CONTENT*/
@@ -455,6 +475,7 @@ body{
     /*VÝBĚR DATA V KALENDÁŘI*/
     .edit_kalendar{
         position: absolute;
+        width: @divKalendarWidth;
         cursor: @divKalendarCursor;
         top: @divKalendarPositionTop;
         right: @divKalendarPositionRight;
@@ -465,6 +486,9 @@ body{
         border: @divKalendarBorder;
         border-radius: @divKalendarBorderRadius;
         z-index: @divKalendarZIndex;
+        .grid > .column{
+            padding: @divKalendarColumnPadding !important;
+        }
         /*popisky inputů*/
         p{
             text-align: @divKalendarParagraphTextAlign;
@@ -473,6 +497,9 @@ body{
         /*obalující div inputu, semantická třída*/
         .calendar{
             margin-bottom: 10px;
+            .ui.input input{
+                width: @divKalendarInputWidth;
+            }
         }
     }
   
@@ -510,6 +537,7 @@ body{
         }
         &.paper_template_select{
             margin: 10px auto 20px;
+            display: @paperTempateSelectDisplay;
         }
     }
     .mce-edit-focus{

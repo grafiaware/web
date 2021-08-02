@@ -105,7 +105,7 @@ class ConfigurationStyles extends ConfigurationRed {
             'paper_edit_buttons' => [
                             'div.buttonsPage' => 'small ui basic icon buttons editPage',
                             'button' => 'ui button',
-                            'button.arrange' => 'large sort numeric up icon',
+                            'button.arrange' => 'large sort numeric down icon',
                         ],
             'content_edit_buttons' => [
                             'div.wrapContent' => 'contentButtons',
@@ -124,10 +124,14 @@ class ConfigurationStyles extends ConfigurationRed {
                             'button.movecontent' => 'large sticky note outline icon',
                             'button.addcontent' => 'large plus square outline icon',
                             'button.movetotrash' => 'large trash icon',
+//                            'button.event' => 'large sim card icon', //sim card ; columns ; certificate; ticket alternate;
                             'button.permanently' => 'large calendar outline icon',
                             'button.save' => 'large save icon',
-                            'button.cancel' => 'large times circle icon',
+                            'button.cancel' => 'large red times circle icon',
                             'div.wrapKalendar' => 'edit_kalendar',
+                            'div.grid' => 'ui grid',
+                            'div.wholeRow' => 'sixteen wide column',
+                            'div.halfRow' => 'eight wide column',
                             'div.calendar' => 'ui calendar',
                             'div.input' => 'ui input',
                         ],
@@ -249,7 +253,7 @@ class ConfigurationStyles extends ConfigurationRed {
                         ],
                      'Headline' => [
                         'div'=>'paper',
-                        'headline'=>'ui header',
+                        'headline'=>'',
                         ],
                      'Perex' => [
                         'perex'=>'',
@@ -268,11 +272,11 @@ class ConfigurationStyles extends ConfigurationRed {
                         ],
                      'Headline' => [
                         'section'=>'',
-                        'headline'=>'ui header borderDance edit-text',
+                        'headline.edit-text'=>'borderDance edit-text',
                         ],
                      'Perex' => [
                         'section'=>'',
-                        'perex'=>'borderDance edit-html',
+                        'perex.edit-html'=>'borderDance edit-html',
                         ],
                      'Content' => [
                         'section'=>'',
@@ -288,7 +292,7 @@ class ConfigurationStyles extends ConfigurationRed {
                         'i2.notactivenotactual' => 'calendar times icon red',
                          // verze2
                         'i2.actual' => 'calendar check icon green',
-                        'i2.past' => 'calendar plus icon grey',
+                        'i2.past' => 'calendar plus icon brown',
                         'i2.future' => 'calendar minus icon orange',
                         'i2.invalid' => 'calendar times icon red',
 

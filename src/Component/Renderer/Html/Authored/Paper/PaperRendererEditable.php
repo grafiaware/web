@@ -82,7 +82,7 @@ class PaperRendererEditable  extends HtmlRendererAbstract {
                     );
         }
         return Html::tag('form', ['method'=>'POST', 'action'=>""],
-            Html::tag('div', ['class'=>$this->classMap->getClass('PaperButtons', 'div.buttonsPage'), 'style'=>'position: relative;'],
+            Html::tag('div', ['class'=>$this->classMap->getClass('PaperButtons', 'div.buttonsPage')],
                     implode('', $buttons)
             )
         );

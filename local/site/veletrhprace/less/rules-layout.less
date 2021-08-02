@@ -298,9 +298,13 @@
         text-align: right;
         margin: 5px 0 50px;
         padding: 15px 0 0;
-        border-width: 1px 1px 0 1px;
+/*        border-width: 1px 1px 0 1px;
         border-style: solid;
-        border-color: @lightGrey; 
+        border-color: @lightGrey; */
+        display: flex;
+    }
+    form{
+        position: relative;
     }
     .close-item{
         font-size: @hugeSize * @emSize;
@@ -415,6 +419,14 @@
         min-height: 1000px;
         padding: 0 10px;
     }
+    headline{
+        font-size: @h2;
+        font-weight: 500;
+    }
+    perex{
+        margin-top: 30px !important;
+        margin-bottom: 30px !important;
+    }
     
     /***PATIČKA***/
     > .ui.grid > .row{
@@ -423,8 +435,8 @@
     footer{
         color: @invertedTextColor;
         background-color: @primaryColor;
-        padding: 50px 10px 50px 13%;
-        font-size: @smallFontSize; 
+        padding: 50px 10px 50px 13% ;
+        font-size: @smallFontSize ; 
         footer a{ 
             color: @invertedTextColor !important; 
             &:hover{

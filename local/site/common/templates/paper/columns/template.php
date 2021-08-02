@@ -9,12 +9,13 @@ use Red\Model\Entity\PaperAggregatePaperContentInterface;
 /** @var PaperAggregatePaperContentInterface $paperAggregate */
 
 ?>
-        <div class="" data-template="<?= "default" ?>">
-            <section>
-                    <?= $headline ?>
-                    <?= $perex ?>
-            </section>
-            <div class="ui grid">
-                <?= $this->repeat(PROJECT_PATH."local/site/common/templates/paper-content/default/template.php", $contents, 'paperContent'); ?>
-            </div>
+
+    <div class="" data-template="<?= "columns" ?>">
+        <section class="">
+            <?= $headline ?>
+            <?= $perex ?>
+        </section>
+        <div class="ui three column grid stackable centered">
+            <?= $this->repeat(PROJECT_PATH."local/site/common/templates/paper-content/columns/template.php", $contents, 'paperContent'); ?>
         </div>
+    </div>
