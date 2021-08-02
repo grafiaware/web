@@ -96,6 +96,27 @@ CREATE TABLE `paper_content` (
   FULLTEXT KEY `searchcontent` (`content`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `paper_content` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `paper_id_fk` int(11) unsigned NOT NULL,
+  `list` varchar(45) DEFAULT NULL,
+  `content` longtext,
+  `template_name` varchar(100) DEFAULT '',
+  `template` longtext,
+  `active` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `priority` float unsigned NOT NULL DEFAULT '1',
+  `show_time` date DEFAULT NULL,
+  `hide_time` date DEFAULT NULL,
+  `event_start_time` date DEFAULT NULL,
+  `event_end_time` date DEFAULT NULL,
+  `editor` varchar(20) DEFAULT NULL,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `paper_id_fk2` (`paper_id_fk`),
+  FULLTEXT KEY `searchcontent` (`content`),
+  CONSTRAINT `paper_id_fk2` FOREIGN KEY (`paper_id_fk`) REFERENCES `paper` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
+
 CREATE TABLE `block` (
   `name` varchar(128) NOT NULL,
   `uid_fk` varchar(45) NOT NULL,

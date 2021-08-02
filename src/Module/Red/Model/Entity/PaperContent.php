@@ -21,12 +21,14 @@ class PaperContent extends EntityAbstract implements PaperContentInterface {
     private $paperIdFk;
     private $list;
     private $content;
+    private $templateName;
     private $template;
     private $active;
     private $priority;
     private $showTime;
     private $hideTime;
-    private $eventTime;
+    private $eventStartTime;
+    private $eventEndTime;
     private $editor;
     private $updated;
     private $actual;
@@ -53,6 +55,10 @@ class PaperContent extends EntityAbstract implements PaperContentInterface {
         return $this->content;
     }
 
+    public function getTemplateName() {
+        return $this->templateName;
+    }
+
     public function getTemplate() {
         return $this->template;
     }
@@ -73,8 +79,12 @@ class PaperContent extends EntityAbstract implements PaperContentInterface {
         return $this->hideTime;
     }
 
-    public function getEventTime(): ?\DateTimeInterface {
-        return $this->eventTime;
+    public function getEventStartTime(): ?\DateTimeInterface {
+        return $this->eventStartTime;
+    }
+
+    public function getEventEndTime(): ?\DateTimeInterface {
+        return $this->eventEndTime;
     }
 
     public function getEditor() {
@@ -109,6 +119,11 @@ class PaperContent extends EntityAbstract implements PaperContentInterface {
         return $this;
     }
 
+    public function setTemplateName($templateName): PaperContentInterface {
+        $this->templateName = $templateName;
+        return $this;
+    }
+
     public function setTemplate($template): PaperContentInterface {
         $this->template = $template;
         return $this;
@@ -134,8 +149,13 @@ class PaperContent extends EntityAbstract implements PaperContentInterface {
         return $this;
     }
 
-    public function setEventTime(\DateTimeInterface $eventTime=null): PaperContentInterface {
-        $this->eventTime = $eventTime;
+    public function setEventStartTime(\DateTimeInterface $eventStartTime=null): PaperContentInterface {
+        $this->eventStartTime = $eventStartTime;
+        return $this;
+    }
+
+    public function setEventEndTime(\DateTimeInterface $eventEndTime=null): PaperContentInterface {
+        $this->eventEndTime = $eventEndTime;
         return $this;
     }
 

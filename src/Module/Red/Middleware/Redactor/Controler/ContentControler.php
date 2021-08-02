@@ -72,7 +72,7 @@ class ContentControler extends PresentationFrontControlerAbstract {
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
-    public function toggleContent($request, $paperId, $contentId) {
+    public function toggleContent(ServerRequestInterface $request, $paperId, $contentId) {
         $content = $this->paperContentRepo->get($contentId);
         if ($this->isContent($content)) {
             $active = $content->getActive() ? 0 : 1;  //active je integer
@@ -82,32 +82,49 @@ class ContentControler extends PresentationFrontControlerAbstract {
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
-    public function actualContent($request, $paperId, $contentId) {
+    public function actualContent(ServerRequestInterface $request, $paperId, $contentId) {
         $content = $this->paperContentRepo->get($contentId);
         if ($this->isContent($content)) {
             $button = (new RequestParams())->getParam($request, 'button');
             switch ($button) {
                 case 'calendar':
-                    $showTime = preg_replace('/\s+/', '', (new RequestParams())->getParam($request, "show_$contentId"));
-                    $hideTime = preg_replace('/\s+/', '', (new RequestParams())->getParam($request, "hide_$contentId"));
-                    $content->setShowTime(\DateTime::createFromFormat('d.m.Y', $showTime));
-                    $content->setHideTime(\DateTime::createFromFormat('d.m.Y', $hideTime));
-                    $this->addFlashMessage("content setShowTime($showTime), setHideTime($hideTime)");
+                    $showTime = $this->timeFromParam($request, "show_$contentId");
+                    $hideTime = $this->timeFromParam($request, "hide_$contentId");
+                    if (!isset($showTime) OR !isset($hideTime) OR $showTime <= $hideTime) {
+                        $content->setShowTime($showTime);
+                        $content->setHideTime($hideTime);
+                        $s = isset($showTime) ? 'from '.$showTime->format('d.m.Y') : '';
+                        $h = isset($hideTime) ? 'to '.$hideTime->format('d.m.Y') : '';
+                        $this->addFlashMessage("content: show $s $h");
+                    } else {
+                        $this->addFlashMessage("content: Chyba! Datum počátku zobrazování musí být menší nebo stejné jako datum konce.");
+                    }
                     break;
                 case 'permanent':
                     $content->setShowTime(null);
                     $content->setHideTime(null);
-                    $this->addFlashMessage("content set permanent");
+                    $this->addFlashMessage("content: zobrazeno trvale");
                     break;
                 default:
-                    $this->addFlashMessage("content actual: Error - unknown button name.");
+                    $this->addFlashMessage("actualContent: Error - unknown button name.");
                     break;
             }
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
-    public function up($request, $paperId, $contentId) {
+    /**
+     * Najde parametr a vytvoří DateTime. Pokud to selže, vrací null (\DateTime::createFromFormat() vrací při neúspěchu false)
+     * @param type $name
+     * @return \DateTime|null
+     */
+    private function timeFromParam(ServerRequestInterface $request, $name): ?\DateTime {
+        $time = preg_replace('/\s+/', '', (new RequestParams())->getParam($request, $name));
+        $dateTime = \DateTime::createFromFormat('d.m.Y', $time);
+        return $dateTime ? $dateTime : null;
+
+    }
+    public function up(ServerRequestInterface $request, $paperId, $contentId) {
         $contents = $this->paperContentRepo->findByReference($paperId);
         $content = $this->paperContentRepo->get($contentId);
         $selectedContentPriority = $content->getPriority();
@@ -116,13 +133,13 @@ class ContentControler extends PresentationFrontControlerAbstract {
             if ($contentItem->getPriority() == $selectedContentPriority+1) {  // obsahy s vyšší nebo stejnou prioritou - zvětším jim prioriru o 1 - vznikne díra pro $selectedContentPriority
                 $contentItem->setPriority($selectedContentPriority);
                 $content->setPriority($selectedContentPriority+1);
-                $this->addFlashMessage("content up - priority changed $selectedContentPriority -> ".($selectedContentPriority+1));
+                $this->addFlashMessage("content up - priorita změněna $selectedContentPriority -> ".($selectedContentPriority+1));
             }
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
-    public function down($request, $paperId, $contentId) {
+    public function down(ServerRequestInterface $request, $paperId, $contentId) {
         $contents = $this->paperContentRepo->findByReference($paperId);
         $content = $this->paperContentRepo->get($contentId);
         $selectedContentPriority = $content->getPriority();
@@ -131,13 +148,13 @@ class ContentControler extends PresentationFrontControlerAbstract {
             if ($contentItem->getPriority() == $selectedContentPriority-1) {  // obsahy s vyšší nebo stejnou prioritou - zvětším jim prioriru o 1 - vznikne díra pro $selectedContentPriority
                 $contentItem->setPriority($selectedContentPriority);
                 $content->setPriority($selectedContentPriority-1);
-                $this->addFlashMessage("content down - priority changed $selectedContentPriority -> ".($selectedContentPriority-1));
+                $this->addFlashMessage("content down - priorita změněna $selectedContentPriority -> ".($selectedContentPriority-1));
             }
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
-    public function add($request, $paperId) {
+    public function add(ServerRequestInterface $request, $paperId) {
         $priority = 1;
         // pro případ volání add i v situaci, kdy již existuje obsah
         $contents = $this->paperContentRepo->findByReference($paperId);
@@ -152,7 +169,7 @@ class ContentControler extends PresentationFrontControlerAbstract {
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
-    public function addAbove($request, $paperId, $contentId) {
+    public function addAbove(ServerRequestInterface $request, $paperId, $contentId) {
         $contents = $this->paperContentRepo->findByReference($paperId);
         $content = $this->paperContentRepo->get($contentId);
         $priority = $content->getPriority();
@@ -168,7 +185,7 @@ class ContentControler extends PresentationFrontControlerAbstract {
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
-    public function addBelow($request, $paperId, $contentId) {
+    public function addBelow(ServerRequestInterface $request, $paperId, $contentId) {
         $contents = $this->paperContentRepo->findByReference($paperId);
         $content = $this->paperContentRepo->get($contentId);
         $priority = $content->getPriority();
@@ -186,13 +203,12 @@ class ContentControler extends PresentationFrontControlerAbstract {
 
     private function createNewContent($paperId, $priority) {
         $newContent = new PaperContent();
-        $newContent->setContent(""); //Nový obsah
         $newContent->setPaperIdFk($paperId);
         $newContent->setPriority($priority);
         return $newContent;
     }
 
-    public function trash($request, $paperId, $contentId) {
+    public function trash(ServerRequestInterface $request, $paperId, $contentId) {
         $contents = $this->paperContentRepo->findByReference($paperId);
         $content = $this->paperContentRepo->get($contentId);
         $priority = $content->getPriority();
@@ -210,7 +226,7 @@ class ContentControler extends PresentationFrontControlerAbstract {
 
     }
 
-    public function restore($request, $paperId, $contentId) {
+    public function restore(ServerRequestInterface $request, $paperId, $contentId) {
         $contents = $this->paperContentRepo->findByReference($paperId);
         $content = $this->paperContentRepo->get($contentId);
         $priority = $content->getPriority();
@@ -226,7 +242,7 @@ class ContentControler extends PresentationFrontControlerAbstract {
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
-    public function delete($request, $paperId, $contentId) {
+    public function delete(ServerRequestInterface $request, $paperId, $contentId) {
         $contents = $this->paperContentRepo->findByReference($paperId);
         $content = $this->paperContentRepo->get($contentId);
         $priority = $content->getPriority();

@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-namespace Test\Integration\Dao;
+namespace Test\Integration\Repository;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -43,7 +43,7 @@ use Red\Model\Entity\PaperAggregatePaperContentInterface;
  *
  * @author pes2704
  */
-class PaperContentManipulationTest extends TestCase {
+class MenuitemAggPaperContentManipulationTest extends TestCase {
 
     private static $inputStream;
 
@@ -63,9 +63,6 @@ class PaperContentManipulationTest extends TestCase {
      */
     private $menuItemAgg;
     private $paper;
-    private $contents = [];
-
-    private $contentRepoIsolated;
 
     public static function mock(array $userData = []) {
         //Validates if default protocol is HTTPS to set default port 443
@@ -152,14 +149,8 @@ class PaperContentManipulationTest extends TestCase {
         $this->menuItemAgg = $this->menuItemAggRepo->get($this->langCode, $this->uid);
         $this->paper = $this->menuItemAgg->getPaper();
         if (!$this->paper instanceof PaperAggregatePaperContentInterface) {
-            throw new \LogicException("Error in setUp: Nelze spustit integrační test - v set\up() metodě nevznikl paper.");
+            throw new \LogicException("Error in setUp: Nelze spustit integrační test - v setup() metodě nevznikl paper.");
         }
-        ######
-
-//            $paperContentDao = new PaperContentDao($this->container->get(HandlerInterface::class));
-//
-//            $paperContentHydrator = new PaperContentHydrator();
-//            $this->contentRepoIsolated = new PaperContentRepo($paperContentDao, $paperContentHydrator);
 
     }
 
@@ -167,11 +158,11 @@ class PaperContentManipulationTest extends TestCase {
         $this->assertIsArray($this->paper->getPaperContentsArray());
     }
 
-    public function test11Columns() {
+    public function testPaperContentType() {
         $this->assertInstanceOf(PaperContentInterface::class, $this->paper->getPaperContentsArray()[0]);
     }
 
-    public function testInsert() {
+    public function testAdd() {
         $oldContentsArray = $this->paper->getPaperContentsArray();
         $oldContent = $oldContentsArray[0];
         $oldContentCount = count($oldContentsArray);
@@ -180,6 +171,12 @@ class PaperContentManipulationTest extends TestCase {
         $newContent = new PaperContent();
         $newContent->setContent("bflmpsvz ".($oldContentCount+1));
         $newContent->setPaperIdFk($paperIdFk);
+        $newContent->setShowTime((new \DateTime("now"))->modify("-1 week"));
+        $newContent->setHideTime((new \DateTime("now"))->modify("+1 week"));
+        $newContent->setEventStartTime(new \DateTime("now"));
+        $newContent->setEventEndTime((new \DateTime("now"))->modify("1 day"));
+        $newContent->setTemplateName('neexistujícíTemplate.php');
+        $newContent->setTemplate("<h1>Content z testu</h1>");
 
         /** @var PaperContentRepo $paperContentRepo */
         $paperContentRepo = $this->container->get(PaperContentRepo::class);

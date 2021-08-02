@@ -24,6 +24,8 @@ interface PaperContentInterface extends EntityInterface {
     public function getList();
 
     public function getContent();
+    
+    public function getTemplateName();
 
     public function getTemplate();
 
@@ -35,7 +37,9 @@ interface PaperContentInterface extends EntityInterface {
 
     public function getHideTime(): ?\DateTimeInterface;
 
-    public function getEventTime(): ?\DateTimeInterface;
+    public function getEventStartTime(): ?\DateTimeInterface;
+
+    public function getEventEndTime(): ?\DateTimeInterface;
 
     public function getEditor();
 
@@ -51,6 +55,8 @@ interface PaperContentInterface extends EntityInterface {
 
     public function setContent($content): PaperContentInterface;
 
+    public function setTemplateName($templateName): PaperContentInterface;
+
     public function setTemplate($template): PaperContentInterface;
 
     public function setActive($active): PaperContentInterface;
@@ -61,7 +67,9 @@ interface PaperContentInterface extends EntityInterface {
 
     public function setHideTime(\DateTimeInterface $hideTime=null): PaperContentInterface;
 
-    public function setEventTime(\DateTimeInterface $eventTime=null): PaperContentInterface;
+    public function setEventStartTime(\DateTimeInterface $eventStartTime=null): PaperContentInterface;
+
+    public function setEventEndTime(\DateTimeInterface $eventEndTime=null): PaperContentInterface;
 
     public function setEditor($editor): PaperContentInterface;
 

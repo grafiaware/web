@@ -51,12 +51,14 @@ class PaperContentDao extends DaoContextualAbstract {
                 `paper_content`.`id` AS `id`,
                 `paper_content`.`paper_id_fk` AS `paper_id_fk`,
                 `paper_content`.`content` AS `content`,
+                `paper_content`.`template_name` AS `template_name`,
                 `paper_content`.`template` AS `template`,
                 `paper_content`.`active` AS `active`,
                 `paper_content`.`priority` AS `priority`,
                 `paper_content`.`show_time` AS `show_time`,
                 `paper_content`.`hide_time` AS `hide_time`,
-                `paper_content`.`event_time` AS `event_time`,
+                `paper_content`.`event_start_time` AS `event_start_time`,
+                `paper_content`.`event_end_time` AS `event_end_time`,
                 `paper_content`.`editor` AS `editor`,
                 `paper_content`.`updated` AS `updated`,
                  (ISNULL(show_time) OR show_time<=CURDATE()) AND (ISNULL(hide_time) OR CURDATE()<=hide_time) AS actual
@@ -81,12 +83,14 @@ class PaperContentDao extends DaoContextualAbstract {
                 `paper_content`.`id` AS `id`,
                 `paper_content`.`paper_id_fk` AS `paper_id_fk`,
                 `paper_content`.`content` AS `content`,
+                `paper_content`.`template_name` AS `template_name`,
                 `paper_content`.`template` AS `template`,
                 `paper_content`.`active` AS `active`,
                 `paper_content`.`priority` AS `priority`,
                 `paper_content`.`show_time` AS `show_time`,
                 `paper_content`.`hide_time` AS `hide_time`,
-                `paper_content`.`event_time` AS `event_time`,
+                `paper_content`.`event_start_time` AS `event_start_time`,
+                `paper_content`.`event_end_time` AS `event_end_time`,
                 `paper_content`.`editor` AS `editor`,
                 `paper_content`.`updated` AS `updated`,
                  (ISNULL(show_time) OR show_time<=CURDATE()) AND (ISNULL(hide_time) OR CURDATE()<=hide_time) AS actual
@@ -109,12 +113,15 @@ class PaperContentDao extends DaoContextualAbstract {
                 `paper_content`.`id` AS `id`,
                 `paper_content`.`paper_id_fk` AS `paper_id_fk`,
                 `paper_content`.`content` AS `content`,
+                `paper_content`.`template_name` AS `template_name`,
                 `paper_content`.`template` AS `template`,
                 `paper_content`.`active` AS `active`,
                 `paper_content`.`priority` AS `priority`,
                 `paper_content`.`show_time` AS `show_time`,
                 `paper_content`.`hide_time` AS `hide_time`,
                 `paper_content`.`event_time` AS `event_time`,
+                `paper_content`.`event_start_time` AS `event_start_time`,
+                `paper_content`.`event_end_time` AS `event_end_time`,
                 `paper_content`.`editor` AS `editor`,
                 `paper_content`.`updated` AS `updated`,
                  (ISNULL(show_time) OR show_time<=CURDATE()) AND (ISNULL(hide_time) OR CURDATE()<=hide_time) AS actual
@@ -167,10 +174,10 @@ class PaperContentDao extends DaoContextualAbstract {
      */
     public function update($row) {
         if (!isset($this->sqlUpdate)) {
-            $this->sqlUpdate = "UPDATE paper_content SET content = :content, template = :template, active = :active, priority = :priority, show_time = :show_time, hide_time = :hide_time, editor = :editor
+            $this->sqlUpdate = "UPDATE paper_content SET content = :content, template_name = :template_name, template = :template, active = :active, priority = :priority, show_time = :show_time, hide_time = :hide_time, event_start_time = :event_start_time, event_end_time = :event_end_time, editor = :editor
                 WHERE  id = :id";
         }
-        return $this->execUpdate($this->sqlUpdate, [':content'=>$row['content'], ':template'=>$row['template'], ':active'=>$row['active'], ':priority'=>$row['priority'], ':show_time'=>$row['show_time'], ':hide_time'=>$row['hide_time'], ':editor'=>$row['editor'], ':id'=>$row['id']]);
+        return $this->execUpdate($this->sqlUpdate, [':content'=>$row['content'], ':template_name'=>$row['template_name'], ':template'=>$row['template'], ':active'=>$row['active'], ':priority'=>$row['priority'], ':show_time'=>$row['show_time'], ':hide_time'=>$row['hide_time'], ':event_start_time'=>$row['event_start_time'], ':event_end_time'=>$row['event_end_time'], ':editor'=>$row['editor'], ':id'=>$row['id']]);
     }
 
     public function delete($row) {
