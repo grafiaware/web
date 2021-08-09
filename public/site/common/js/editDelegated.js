@@ -54,23 +54,21 @@ $("body").on("click", ".toolsDate", function(){
             }
     );
 
-//.borderDance - obihajici border kolem editacniho tagu, animace nastavena v author.less
-//zde prepisuji vlastnost animation-duration podle vysky a sirky tagu
-function showHeight(height, width) {
-        $('.mce-edit-focus').css("animation-duration", (height+width)/20+"s");
-    };
-$("body").on("click", ".borderDance",
-        function() {
-                showHeight( $( ".mce-edit-focus" ).height(), $( ".mce-edit-focus" ).width() );
-            }
-    );
 
-$("body").on("click", '.editDate .button.toolsContent',
+$("body").on("click", '.editShowDate .button.toolsContent',
         function(){
-            $(this).parent(".editDate").siblings(".contentButtons").css("display", "block");
-            $(this).parent(".editDate").css("display", "none");
-            $(this).parent(".editDate").siblings(".editDate").css("display", "none");
-            $(this).parent(".editDate").siblings(".contentButtons").parent(".cornerWithTools").removeClass("active");
+            $(this).parent(".editShowDate").siblings(".contentButtons").css("display", "block");
+            $(this).parent(".editShowDate").css("display", "none");
+            $(this).parent(".editShowDate").siblings(".editDate").css("display", "none");
+            $(this).parent(".editShowDate").siblings(".contentButtons").parent(".cornerWithTools").removeClass("active");
+        }
+    );
+$("body").on("click", '.editEventDate .button.toolsContent',
+        function(){
+            $(this).parent(".editEventDate").siblings(".contentButtons").css("display", "block");
+            $(this).parent(".editEventDate").css("display", "none");
+            $(this).parent(".editEventDate").siblings(".editDate").css("display", "none");
+            $(this).parent(".editEventDate").siblings(".contentButtons").parent(".cornerWithTools").removeClass("active");
         }
     );
 $("body").on("click", '.contentButtons .button.toolsDate',
@@ -81,7 +79,10 @@ $("body").on("click", '.contentButtons .button.toolsDate',
         }
     );
 
-$('.edit_kalendar .ui.calendar').calendar({
+
+
+//$('.edit_kalendar .ui.calendar').calendar({    SV
+$('.ui.calendar').calendar({
     type: 'date',
     today: true,
     firstDayOfWeek: 1,
@@ -99,6 +100,18 @@ $('.edit_kalendar .ui.calendar').calendar({
         return day + '. ' + month + '. ' + year;}
     }
 });
+
+//.borderDance - obihajici border kolem editacniho tagu, animace nastavena v author.less
+//zde prepisuji vlastnost animation-duration podle vysky a sirky tagu
+function showHeight(height, width) {
+        $('.mce-edit-focus').css("animation-duration", (height+width)/20+"s");
+    };
+$("body").on("click", ".borderDance",
+        function() {
+                showHeight( $( ".mce-edit-focus" ).height(), $( ".mce-edit-focus" ).width() );
+            }
+    );
+
 
 //semantic-ui accordion (použitý pro nastavení menu) v editačním režimu
 $('.accordion.border')

@@ -99,6 +99,7 @@ class ApiRegistrator {
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/content/:contentId'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/content/:contentId/toggle'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/content/:contentId/actual'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/content/:contentId/event'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/content/:contentId/up'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/content/:contentId/down'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/content/:contentId/add_above'));

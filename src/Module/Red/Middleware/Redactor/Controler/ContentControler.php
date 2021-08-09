@@ -90,15 +90,56 @@ class ContentControler extends PresentationFrontControlerAbstract {
                 case 'calendar':
                     $showTime = $this->timeFromParam($request, "show_$contentId");
                     $hideTime = $this->timeFromParam($request, "hide_$contentId");
-                    if (!isset($showTime) OR !isset($hideTime) OR $showTime <= $hideTime) {
+
+                    $error = false;
+                    if (isset($showTime) AND isset($hideTime) AND $showTime > $hideTime) {
+                        $this->addFlashMessage("content: Chyba! Datum počátku zobrazování musí být menší nebo stejné jako datum konce.");
+                        $error = true;
+                    }
+                    if (!$error) {
                         $content->setShowTime($showTime);
                         $content->setHideTime($hideTime);
                         $s = isset($showTime) ? 'from '.$showTime->format('d.m.Y') : '';
                         $h = isset($hideTime) ? 'to '.$hideTime->format('d.m.Y') : '';
                         $this->addFlashMessage("content: show $s $h");
-                    } else {
-                        $this->addFlashMessage("content: Chyba! Datum počátku zobrazování musí být menší nebo stejné jako datum konce.");
                     }
+
+                    break;
+                case 'permanent':
+                    $content->setShowTime(null);
+                    $content->setHideTime(null);
+                    $this->addFlashMessage("content: zobrazeno trvale");
+                    break;
+                default:
+                    $this->addFlashMessage("actualContent: Error - unknown button name.");
+                    break;
+            }
+        }
+        return $this->redirectSeeLastGet($request); // 303 See Other
+    }
+
+    public function event(ServerRequestInterface $request, $paperId, $contentId) {
+        $content = $this->paperContentRepo->get($contentId);
+        if ($this->isContent($content)) {
+            $button = (new RequestParams())->getParam($request, 'button');
+            switch ($button) {
+                case 'calendar':
+                    $eventStartTime = $this->timeFromParam($request, "start_$contentId");
+                    $eventEndTime = $this->timeFromParam($request, "end_$contentId");
+
+                    $error = false;
+                    if (isset($eventStartTime) AND isset($eventEndTime) AND $eventStartTime > $eventEndTime) {
+                        $this->addFlashMessage("content: Chyba! Datum počátku akce musí být menší nebo stejné jako datum konce.");
+                        $error = true;
+                    }
+                    if (!$error) {
+                        $content->setShowTime($eventStartTime);
+                        $content->setHideTime($eventEndTime);
+                        $s = isset($eventStartTime) ? 'from '.$eventStartTime->format('d.m.Y') : '';
+                        $h = isset($eventEndTime) ? 'to '.$eventEndTime->format('d.m.Y') : '';
+                        $this->addFlashMessage("content: event $s $h");
+                    }
+
                     break;
                 case 'permanent':
                     $content->setShowTime(null);
