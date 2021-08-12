@@ -39,9 +39,9 @@ class SelectedPaperTemplateComponent extends AuthoredComponentAbstract implement
                     $templateFileName = $this->getTemplateFileFullname($this->configuration->getTemplatepathPaper(), $this->paperTemplateName);
                     // renderery musí být definovány v Renderer kontejneru - tam mohou dostat classMap do konstruktoru
                     $this->setTemplate(new PaperTemplate($templateFileName));  // PhpTemplate exception
-                    $this->adoptComponentView(HeadlineRenderer::class, 'headline');
-                    $this->adoptComponentView(PerexRenderer::class, 'perex');
-                    $this->adoptComponentView(ContentsRenderer::class, 'contents');
+                    $this->adoptChildComponentWithRenderer(HeadlineRenderer::class, 'headline');
+                    $this->adoptChildComponentWithRenderer(PerexRenderer::class, 'perex');
+                    $this->adoptChildComponentWithRenderer(ContentsRenderer::class, 'contents');
                 } catch (NoTemplateFileException $noTemplExc) {
                     throw new LogicException("Nelze vytvořit objekt template pro jméno nastavené metodou setPaperTemplateName()? {$this->paperTemplateName}");
                 }

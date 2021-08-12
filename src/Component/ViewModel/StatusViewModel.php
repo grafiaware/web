@@ -75,4 +75,14 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
         $userActions = $this->statusSecurityRepo->get()->getUserActions();
         return $userActions ? $userActions->presentEditableMenu() : false;
     }
+
+    public function getIterator() {
+        $this->appendData([
+                        'editArticle' => $this->presentEditableArticle(),
+                        'editLayout' => $this->presentEditableLayout(),
+                        'editMenu' => $this->presentEditableMenu(),
+                        'userName' => $this->getUserLoginName()
+        ]);
+        return parent::getIterator();
     }
+}

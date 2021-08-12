@@ -52,16 +52,16 @@ class PaperComponent extends AuthoredComponentAbstract implements PaperComponent
             try {
                 if ($this->contextData->userCanEdit()) { // editační režim a uživatel má právo editovat
                     $this->setTemplate(new PaperTemplateEditable($templateFileName));  // PhpTemplate exception
-//                    $this->adoptComponentView(SelectPaperTemplateRenderer::class, 'selectTemplate');
-//                    $this->adoptComponentView(ButtonsRenderer::class, 'articleButtonForms ');
-                    $this->adoptComponentView(HeadlineRendererEditable::class, 'headline');
-                    $this->adoptComponentView(PerexRendererEditable::class, 'perex');
-                    $this->adoptComponentView(ContentsRendererEditable::class, 'contents');
+//                    $this->adoptChildComponentWithRenderer(SelectPaperTemplateRenderer::class, 'selectTemplate');
+//                    $this->adoptChildComponentWithRenderer(ButtonsRenderer::class, 'articleButtonForms ');
+                    $this->adoptChildComponentWithRenderer(HeadlineRendererEditable::class, 'headline');
+                    $this->adoptChildComponentWithRenderer(PerexRendererEditable::class, 'perex');
+                    $this->adoptChildComponentWithRenderer(ContentsRendererEditable::class, 'contents');
                 } else {
                     $this->setTemplate(new PaperTemplate($templateFileName));  // PhpTemplate exception
-                    $this->adoptComponentView(HeadlineRenderer::class, 'headline');
-                    $this->adoptComponentView(PerexRenderer::class, 'perex');
-                    $this->adoptComponentView(ContentsRenderer::class, 'contents');
+                    $this->adoptChildComponentWithRenderer(HeadlineRenderer::class, 'headline');
+                    $this->adoptChildComponentWithRenderer(PerexRenderer::class, 'perex');
+                    $this->adoptChildComponentWithRenderer(ContentsRenderer::class, 'contents');
                 }
                 // renderery musí být definovány v Renderer kontejneru - tam mohou dostat classMap do konstruktoru
 //                $this->addChildRendererName('headline', HeadlineRenderer::class);

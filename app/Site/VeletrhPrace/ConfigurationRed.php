@@ -89,7 +89,8 @@ class ConfigurationRed extends ConfigurationDb {
             'component.template.login' => self::RED_TEMPLATES_COMMON.'layout/modal/login.php',
             'component.template.register' => self::RED_TEMPLATES_SITE.'layout/modal/register-with-exhibitor-representative.php',
             'component.template.logout' => self::RED_TEMPLATES_COMMON.'layout/modal/logout.php',
-            'component.template.useraction' => self::RED_TEMPLATES_COMMON.'layout/modal/user_action.php',
+            'component.template.useraction' => self::RED_TEMPLATES_COMMON.'layout/modal/userAction.php',
+            'component.template.statusboard' => self::RED_TEMPLATES_COMMON.'layout/info/statusBoard.php',
 
         ];
     }

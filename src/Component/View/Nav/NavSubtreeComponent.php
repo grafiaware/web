@@ -15,7 +15,7 @@ use Pes\View\Template\NodeTemplate;
  *
  * @author pes2704
  */
-class NavSubtreeComponent extends NavComponentAbstract implements NavSubtreeComponentInterface {
+class NavSubtreeComponent extends NavCompositeComponentAbstract implements NavSubtreeComponentInterface {
 
     protected $withTitle;
 

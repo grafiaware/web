@@ -8,7 +8,7 @@
 
 namespace Component\View\Generated;
 
-use Component\View\ComponentAbstract;
+use Component\View\CompositeComponentAbstract;
 use Component\ViewModel\Generated\SearchPhraseViewModel;
 
 /**
@@ -16,6 +16,6 @@ use Component\ViewModel\Generated\SearchPhraseViewModel;
  *
  * @author pes2704
  */
-class SearchPhraseComponent extends ComponentAbstract {
+class SearchPhraseComponent extends CompositeComponentAbstract {
 
 }

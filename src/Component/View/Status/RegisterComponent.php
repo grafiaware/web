@@ -8,18 +8,17 @@
 
 namespace Component\View\Status;
 
-use Pes\View\Template\PhpTemplate;
-
-use Component\View\ComponentAbstract;
+use Component\View\CompositeComponentAbstract;
 use Component\Renderer\Html\NonPermittedContentRenderer;
 use Component\ViewModel\StatusViewModelInterface;
+use Pes\View\Template\PhpTemplate;
 
 /**
  * Description of LoginComponent
  *
  * @author pes2704
  */
-class RegisterComponent extends ComponentAbstract {
+class RegisterComponent extends CompositeComponentAbstract {
 
     /**
      * @var StatusViewModelInterface

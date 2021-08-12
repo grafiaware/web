@@ -12,11 +12,11 @@ use Component\View\CompositeComponentAbstract;
 use Component\NodeFactory\NavTagFactoryInterface;
 
 /**
- * Description of NavComponentAbstract
+ * Description of NavCompositeComponentAbstract
  *
  * @author pes2704
  */
-abstract class NavComponentAbstract extends CompositeComponentAbstract {
+abstract class NavCompositeComponentAbstract extends CompositeComponentAbstract {
 
     /**
      * @var NavTagFactoryInterface

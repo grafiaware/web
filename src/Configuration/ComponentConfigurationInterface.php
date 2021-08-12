@@ -26,5 +26,5 @@ interface ComponentConfigurationInterface {
 
     public function getTemplateUserAction();
 
-
+    public function getTemplateStatusBoard();
 }

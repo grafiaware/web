@@ -8,13 +8,34 @@
 
 namespace Component\View\Status;
 
-use Component\View\ComponentAbstract;
-
+use Component\View\CompositeComponentAbstract;
+use Component\Renderer\Html\NonPermittedContentRenderer;
+use Component\ViewModel\StatusViewModelInterface;
+use Pes\View\Template\PhpTemplate;
 /**
  * Description of UserActionComponent
  *
  * @author pes2704
  */
-class UserActionComponent extends ComponentAbstract {
-    //nepoužívá viewModel, renderuje template, definováno v component kontejneru
+class UserActionComponent extends CompositeComponentAbstract {
+
+    /**
+     * @var StatusViewModelInterface
+     */
+    protected $contextData;
+
+    //renderuje template nebo NonPermittedContentRenderer
+
+    public function beforeRenderingHook(): void {
+        $role = $this->contextData->getUserRole();
+        $permission = [
+            'sup' => true,
+            'editor' => true
+        ];
+        if (isset($role) AND array_key_exists($role, $permission) AND $permission[$role]) {
+            $this->setTemplate(new PhpTemplate($this->configuration->getTemplateUserAction()));
+        } else {
+            $this->setRendererName(NonPermittedContentRenderer::class);
+        }
+    }
 }

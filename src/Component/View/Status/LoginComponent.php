@@ -8,13 +8,13 @@
 
 namespace Component\View\Status;
 
-use Component\View\ComponentAbstract;
+use Component\View\CompositeComponentAbstract;
 
 /**
  * Description of LoginComponent
  *
  * @author pes2704
  */
-class LoginComponent extends ComponentAbstract {
+class LoginComponent extends CompositeComponentAbstract {
     //nepoužívá viewModel, renderuje template, definováno v component kontejneru a konfiguraci component kontejneru
 }

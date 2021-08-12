@@ -23,7 +23,7 @@ use Component\View\{
     Generated\SearchPhraseComponent,
     Generated\SearchResultComponent,
     Generated\ItemTypeSelectComponent,
-    Status\LoginComponent, Status\RegisterComponent, Status\LogoutComponent, Status\UserActionComponent,
+    Status\LoginComponent, Status\RegisterComponent, Status\LogoutComponent, Status\UserActionComponent, Status\StatusBoardComponent,
     Flash\FlashComponent
 };
 
@@ -137,11 +137,11 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
             'languageSelect' => $this->container->get(LanguageSelectComponent::class),
             'searchPhrase' => $this->container->get(SearchPhraseComponent::class),
             'modalLoginLogout' => $this->getLoginLogoutComponent(),
-            'modalRegister' => $this->container->get(RegisterComponent::class), //$this->getRegisterComponent(),
-            'modalUserAction' => $this->getUserActionComponent(),
+            'modalRegister' => $this->container->get(RegisterComponent::class),
+            'modalUserAction' => $this->container->get(UserActionComponent::class),
             'linkEditorJs' => $this->getLinkEditorJsView($request),
             'linkEditorCss' => $this->getLinkEditorCssView($request),
-            'poznamky' => $this->getPoznamkyComponentView(),
+            'poznamky' => $this->container->get(StatusBoardComponent::class),
             'flash' => $this->container->get(FlashComponent::class),
         ];
     }
@@ -181,30 +181,6 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
             /** @var LoginComponent $loginComponent */
             $loginComponent = $this->container->get(LoginComponent::class);
             return $loginComponent;
-        }
-    }
-
-    private function getUserActionComponent() {
-        $loginAggregateCredentials = $this->statusSecurityRepo->get()->getLoginAggregate();
-        if (isset($loginAggregateCredentials)) {
-            $role = $loginAggregateCredentials->getCredentials()->getRole();
-            $permission = [
-                'sup' => true,
-                'editor' => true
-            ];
-            if (array_key_exists($role, $permission) AND $permission[$role]) {
-                $userActions = $this->statusSecurityRepo->get()->getUserActions();
-                /** @var UserActionComponent $actionComponent */
-                $actionComponent = $this->container->get(UserActionComponent::class);
-                $actionComponent->setData(
-                        [
-                        'editArticle' => $userActions->presentEditableArticle(),
-                        'editLayout' => $userActions->presentEditableLayout(),
-                        'editMenu' => $userActions->presentEditableMenu(),
-                        'userName' => $loginAggregateCredentials->getLoginName()
-                        ]);
-                return $actionComponent;
-            }
         }
     }
 
@@ -260,54 +236,11 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
         }
     }
 
-    private function getPoznamkyComponentView() {
-        if (false AND $this->isAnyEditableMode()) {
-            return
-                $this->container->get(View::class)
-                    ->setTemplate(new PhpTemplate(Configuration::pageController()['templates.poznamky']))
-                    ->setData([
-                        'poznamka1'=>
-                        $this->prettyDump($this->statusPresentationRepo->get()->getMenuItem(), true)
-//                        .$this->prettyDump($this->statusPresentationRepo->get()->getLanguage(), true)
-//                        . $this->prettyDump($this->statusSecurityRepo->get()->getUserActions(), true),
-                        //'flashMessage' => $this->getFlashMessage(),
-                        ]);
-}
-    }
-
     ### pomocné private metody
 
     private function isAnyEditableMode() {
         $userActions = $this->statusSecurityRepo->get()->getUserActions();
         return $userActions->presentEditableArticle() OR $userActions->presentEditableLayout() OR $userActions->presentEditableMenu();
-    }
-    private function prettyDump($var) {
-//        return htmlspecialchars(var_export($var, true), ENT_QUOTES, 'UTF-8', true);
-//        return htmlspecialchars(print_r($var, true), ENT_QUOTES, 'UTF-8', true);
-        return $this->pp($var);
-    }
-
-    private function pp($arr){
-        if (is_object($arr)) {
-            $cls = get_class($arr);
-            $arr = (array) $arr;
-        } else {
-            $cls = '';
-        }
-        $retStr = $cls ? "<p>$cls</p>" : "";
-        $retStr .= '<ul style="margin:0px;">';
-        if (is_array($arr)){
-            foreach ($arr as $key=>$val){
-                if (is_object($val)) $val = (array) $val;
-                if (is_array($val)){
-                    $retStr .= '<li style="padding:0px; background: #cce5ff">' . str_replace('\0', ':', $key) . ' = array(' . $this->pp($val) . ')</li>';
-                }else{
-                    $retStr .= '<li style="padding:0px; background: #ffe5cc">' . str_replace($cls, "", $key) . ' = ' . ($val == '' ? '""' : $val) . '</li>';
-                }
-            }
-        }
-        $retStr .= '</ul>';
-        return $retStr;
     }
 
 }

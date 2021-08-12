@@ -37,18 +37,49 @@ class StatusBoardViewModel extends StatusViewModel implements StatusBoardViewMod
 
     public function getSecurityInfo() {
         return [
-            'userName' => $this->statusSecurityRepo->get()->getLoginAggregate()->getLoginName(),
-            'role' => $this->statusSecurityRepo->get()->getLoginAggregate()->getRole(),
+            'userName' => $this->statusSecurityRepo->get()->getLoginAggregate()->getCredentials()->getLoginNameFk(),
+            'role' => $this->statusSecurityRepo->get()->getLoginAggregate()->getCredentials()->getRole(),
             ];
     }
 
     public function getIterator(): \Traversable {
-        return new \ArrayObject(
+        $this->appendData(
                 [
-                'languageInfo' => $this->getLanguageInfo(),
-                'editableInfo' => $this->getEditableInfo(),
-                'securityInfo' => $this->getSecurityInfo()
+                'languageInfo' => $this->prettyDump($this->getLanguageInfo()),
+                'editableInfo' => $this->prettyDump($this->getEditableInfo()),
+                'securityInfo' => $this->prettyDump($this->getSecurityInfo()),
+                'menuItem'=> $this->prettyDump($this->statusPresentationRepo->get()->getMenuItem(), true)
                 ]
             );
+        return parent::getIterator();
+    }
+
+    private function prettyDump($var) {
+//        return htmlspecialchars(var_export($var, true), ENT_QUOTES, 'UTF-8', true);
+//        return htmlspecialchars(print_r($var, true), ENT_QUOTES, 'UTF-8', true);
+        return $this->pp($var);
+    }
+
+    private function pp($arr){
+        if (is_object($arr)) {
+            $cls = get_class($arr);
+            $arr = (array) $arr;
+        } else {
+            $cls = '';
+        }
+        $retStr = $cls ? "<p>$cls</p>" : "";
+        $retStr .= '<ul style="margin: 0.5rem; padding: 0;font-size: 1rem;line-height: 1;">';
+        if (is_array($arr)){
+            foreach ($arr as $key=>$val){
+                if (is_object($val)) $val = (array) $val;
+                if (is_array($val)){
+                    $retStr .= '<li style="background: #cce5ff">' . str_replace('\0', ':', $key) . ' = [' . $this->pp($val) . ']</li>';
+                }else{
+                    $retStr .= '<li style="background: #ffe5cc">' . str_replace($cls, "", $key) . ' = ' . ($val == '' ? '""' : $val) . '</li>';
+                }
+            }
+        }
+        $retStr .= '</ul>';
+        return $retStr;
     }
 }

@@ -26,8 +26,20 @@ class ComponentConfiguration implements ComponentConfigurationInterface {
     private $templateRegister;
     private $templateLogout;
     private $templateUserAction;
+    private $templateStatusBoard;
 
-    public function __construct($logsDirectory, $logsRender, $templatepathPaper, $templatepathArticle, $templateFlash, $templateLogin, $templateRegister, $templateLogout, $templateUserAction) {
+    public function __construct(
+            $logsDirectory,
+            $logsRender,
+            $templatepathPaper,
+            $templatepathArticle,
+            $templateFlash,
+            $templateLogin,
+            $templateRegister,
+            $templateLogout,
+            $templateUserAction,
+            $templateStatusBoard
+            ) {
         $this->logsDirectory = $logsDirectory;
         $this->logsRender = $logsRender;
         $this->templatepathPaper = $templatepathPaper;
@@ -37,6 +49,7 @@ class ComponentConfiguration implements ComponentConfigurationInterface {
         $this->templateRegister = $templateRegister;
         $this->templateLogout = $templateLogout;
         $this->templateUserAction = $templateUserAction;
+        $this->templateStatusBoard = $templateStatusBoard;
     }
 
     public function getLogsDirectory() {
@@ -73,6 +86,10 @@ class ComponentConfiguration implements ComponentConfigurationInterface {
 
     public function getTemplateUserAction() {
         return $this->templateUserAction;
+    }
+
+    public function getTemplateStatusBoard() {
+        return $this->templateStatusBoard;
     }
 
 

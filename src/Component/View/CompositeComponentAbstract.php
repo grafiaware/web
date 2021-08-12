@@ -13,7 +13,7 @@ use Pes\View\CompositeView;
 use Configuration\ComponentConfigurationInterface;
 
 /**
- * Description of ComponentAbstract
+ * Description of CompositeComponentAbstract
  *
  * @author pes2704
  */

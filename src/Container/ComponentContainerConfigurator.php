@@ -8,6 +8,7 @@ use Psr\Container\ContainerInterface;   // pro parametr closure function(Contain
 
 // configuration
 use Configuration\ComponentConfiguration;
+use Configuration\ComponentConfigurationInterface;
 
 // logger
 use Pes\Logger\FileLogger;
@@ -56,8 +57,8 @@ use Component\ViewModel\{
     Generated\SearchResultViewModel,
     Generated\ItemTypeSelectViewModel,
     Flash\FlashViewModel,
+    Status\StatusBoardViewModel
 };
-
 // repo
 use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
 use Red\Model\Repository\{
@@ -133,13 +134,16 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get('component.template.login'), //$templateLogin,
                         $c->get('component.template.register'), //$templateRegister,
                         $c->get('component.template.logout'), //$templateLogout,
-                        $c->get('component.template.useraction') //$templateUserAction
+                        $c->get('component.template.useraction'), //$templateUserAction,
+                        $c->get('component.template.statusboard') // $templateStatusBoard
                     );
             },
 
             // view
             'renderLogger' => function(ContainerInterface $c) {
-                return FileLogger::getInstance($c->get('component.logs.directory'), $c->get('component.logs.render'), FileLogger::REWRITE_LOG);
+                /** @var ComponentConfigurationInterface $configuration */
+                $configuration = $c->get(ComponentConfiguration::class);
+                return FileLogger::getInstance($configuration->getLogsDirectory(), $configuration->getLogsRender(), FileLogger::REWRITE_LOG);
             },
             // Nastaveno logování průběhu renderování
             //
@@ -350,7 +354,7 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                                 $c->get(StatusSecurityRepo::class),
                                 $c->get(StatusPresentationRepo::class),
                                 $c->get(StatusFlashRepo::class));
-                return (new StatusBoardComponent($c->get(ComponentConfiguration::class)))->setData($viewModel);
+                return (new StatusBoardComponent($c->get(ComponentConfiguration::class)))->setData($viewModel)->setRendererContainer($c->get('rendererContainer'));
             },
 
             // FlashComponent s vlastním rendererem
@@ -361,6 +365,14 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
 
             // komponenty s PHP template
             // - cesty k souboru template jsou definovány v konfiguraci - předány do kontejneru jako parametry setParams()
+            StatusViewModel::class => function(ContainerInterface $c) {
+                return new StatusViewModel(
+                                $c->get(StatusSecurityRepo::class),
+                                $c->get(StatusPresentationRepo::class),
+                                $c->get(StatusFlashRepo::class)
+                        );
+            },
+
             FlashComponent::class => function(ContainerInterface $c) {
                 $viewModel = new FlashViewModel($c->get(StatusFlashRepo::class));
                 return (new FlashComponent($c->get(ComponentConfiguration::class)))->setData($viewModel)->setRendererContainer($c->get('rendererContainer'))->setTemplate(new PhpTemplate($c->get('component.template.flash')));
@@ -369,13 +381,8 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                 return (new LoginComponent($c->get(ComponentConfiguration::class)))->setRendererContainer($c->get('rendererContainer'))->setTemplate(new PhpTemplate($c->get('component.template.login')));
             },
             RegisterComponent::class => function(ContainerInterface $c) {
-                $viewModel = new StatusViewModel(
-                                $c->get(StatusSecurityRepo::class),
-                                $c->get(StatusPresentationRepo::class),
-                                $c->get(StatusFlashRepo::class)
-                        );
                 $component = new RegisterComponent($c->get(ComponentConfiguration::class));
-                $component->setData($viewModel);
+                $component->setData($c->get(StatusViewModel::class));
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
@@ -383,7 +390,10 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                 return (new LogoutComponent($c->get(ComponentConfiguration::class)))->setRendererContainer($c->get('rendererContainer'))->setTemplate(new PhpTemplate($c->get('component.template.logout')));
             },
             UserActionComponent::class => function(ContainerInterface $c) {
-                return (new UserActionComponent($c->get(ComponentConfiguration::class)))->setRendererContainer($c->get('rendererContainer'))->setTemplate(new PhpTemplate($c->get('component.template.useraction' )));
+                $component = new UserActionComponent($c->get(ComponentConfiguration::class));
+                $component->setData($c->get(StatusViewModel::class));
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;
             }
         ];
     }
