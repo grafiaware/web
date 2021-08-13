@@ -21,18 +21,13 @@ class PaperRendererEditable  extends HtmlRendererAbstract {
 
         $selectTemplate = $this->renderSelectTemplate($paperAggregate);
         $articleButtonForms = $this->renderPaperButtonsForm($paperAggregate);
-//        $headline = $this->renderHeadlineEditable($paperAggregate);
-//        $perex = $this->renderPerexEditable($paperAggregate);
-//        $contents = ($paperAggregate instanceof PaperAggregatePaperContentInterface) ? $this->renderContentsEditable($paperAggregate) : "";
-//          $selectTemplate = $viewModel->offsetGet('selectTemplate');
-//          $articleButtonForms = $viewModel->offsetGet('articleButtonForms');
+
         $html =
                 Html::tag('article', ['data-red-renderer'=>'PaperRendererEditable', "data-red-datasource"=> "paper {$paperAggregate->getId()} for item {$paperAggregate->getMenuItemIdFk()}"],
                     $selectTemplate
                     .$articleButtonForms
                     .Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/{$paperAggregate->getId()}"],
-                        parent::render($viewModel)
-
+                        $viewModel->getStringValueIfExists('headline', '').$viewModel->('perex', '').$viewModel->getStringValueIfExists('contents', '')
                     )
                 );
 
@@ -93,93 +88,7 @@ class PaperRendererEditable  extends HtmlRendererAbstract {
      * @param MenuItemPaperAggregateInterface $paper
      * @return type
      */
-    private function renderHeadlineEditable(PaperInterface $paper) {
-        return
-            Html::tag('section', ['class'=>$this->classMap->getClass('Headline', 'section')],
-                Html::tag(
-                    'headline',
-                    [
-                        'id'=>"headline_{$paper->getId()}",  // id musí být na stránce unikátní - skládám ze slova headline_ a paper id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
-                        'class'=>$this->classMap->getClass('Headline', 'headline'),
-                    ],
-                    $paper->getHeadline() ?? ""
-                )
-            );
-    }
 
-    private function renderPerexEditable(PaperInterface $paper) {
-        $form =
-            Html::tag('section', ['class'=>$this->classMap->getClass('Perex', 'section')],
-                Html::tag('perex',
-                    [
-                        'id' => "perex_{$paper->getId()}",  // id musí být na stránce unikátní - skládám ze slova perex_ a paper id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
-                        'class'=>$this->classMap->getClass('Perex', 'perex'),
-                        'data-owner'=>$paper->getEditor()
-                    ],
-                    $paper->getPerex() ?? ""
-                    )
-            );
-        return $form;
-    }
-
-    private function renderContentsEditable(PaperAggregatePaperContentInterface $paperAggregate) {
-        $contents = $paperAggregate->getPaperContentsArraySorted(PaperAggregatePaperContentInterface::BY_PRIORITY);
-        $sections = [];
-        foreach ($contents as $paperContent) {
-            /** @var PaperContentInterface $paperContent */
-            if ($paperContent->getPriority() > 0) {  // není v koši
-                $sections[] = $this->getContent($paperContent);
-            } else {  // je v koši
-                $sections[] = $this->getTrashContentForm($paperContent);
-            }
-        }
-        return $sections;
-    }
-
-    private function getContent(PaperContentInterface $paperContent) {
-        $active = $paperContent->getActive();
-        $actual = $paperContent->getActual();
-        $now =  new \DateTime("now");
-        $future = $paperContent->getShowTime() > $now;
-        $past = $paperContent->getHideTime() < $now;  // pro zobrszeno trvale - null je vždy menší a $passed je true - vyhodnucuji nejprve $actual, nevadí to
-
-        return
-            Html::tag('section', ['class'=>$this->classMap->getClass('Content', 'section')],
-                Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.corner')],
-                    $this->getContentButtons($paperContent)
-                )
-                .Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.semafor')],
-                    Html::tag('i',
-                       [
-                       'class'=> $this->classMap->resolveClass($active, 'Content','i1.published', 'i1.notpublished'),
-                       'title'=> $active ? "published" : "not published",
-                       ]
-                    )
-//                        'i2.published' => 'calendar check icon green',
-//                        'i2.notactive' => 'calendar plus icon yellow',
-//                        'i2.notactual' => 'calendar minus icon orange',
-//                        'i2.notactivenotactual' => 'calendar times icon red',
-                    .Html::tag('i',
-                        [
-                        'class'=> $this->classMap->resolveClass($actual, 'Content',
-                                'i2.actual',
-                                $past ?  'i2.past' : ($future ? 'i2.future' : 'i2.invalid')
-                            ),
-                        'role'=>"presentation",
-                        'title'=> $actual ? 'actual' : $past ?  'past' : ($future ? 'future' : 'invalid dates')
-                        ])
-                    .$paperContent->getPriority()
-                )
-                .Html::tag('content',
-                    [
-                    'id' => "content_{$paperContent->getId()}",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
-                    'class'=>$this->classMap->getClass('Content', 'content'),
-                    'data-owner'=>$paperContent->getEditor()
-                    ],
-                    $paperContent->getContent() ?? ""
-                )
-            );
-    }
 
     private function getTrashContentForm($paperContent) {
         return
