@@ -9,6 +9,9 @@
 namespace Component\View\Status;
 
 use Component\View\CompositeComponentAbstract;
+use Component\Renderer\Html\NoContentForStatusRenderer;
+use Component\ViewModel\StatusViewModelInterface;
+use Pes\View\Template\PhpTemplate;
 
 /**
  * Description of LogoutComponent
@@ -16,5 +19,20 @@ use Component\View\CompositeComponentAbstract;
  * @author pes2704
  */
 class LogoutComponent extends CompositeComponentAbstract {
-    //nepoužívá viewModel, renderuje template, definováno v component kontejneru
+
+    /**
+     * @var StatusViewModelInterface
+     */
+    protected $contextData;
+
+    //renderuje template nebo NoContentForStatusRenderer
+
+    public function beforeRenderingHook(): void {
+        if ($this->contextData->isUserLoggedIn()) {
+            $this->setTemplate(new PhpTemplate($this->configuration->getTemplateLogout()));
+        } else {
+            $this->setRendererName(NoContentForStatusRenderer::class);
+        }
+    }
+
 }

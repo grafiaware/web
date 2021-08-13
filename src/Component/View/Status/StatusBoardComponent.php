@@ -9,8 +9,8 @@
 namespace Component\View\Status;
 
 use Component\View\CompositeComponentAbstract;
-use Component\Renderer\Html\NonPermittedContentRenderer;
-use Component\ViewModel\StatusViewModelInterface;
+use Component\Renderer\Html\NoPermittedContentRenderer;
+use Component\ViewModel\Status\StatusBoardViewModelInterface;
 use Pes\View\Template\PhpTemplate;
 
 /**
@@ -21,7 +21,7 @@ use Pes\View\Template\PhpTemplate;
 class StatusBoardComponent extends CompositeComponentAbstract {
 
     /**
-     * @var StatusBoardViewModel
+     * @var StatusViewModelInterface
      */
     protected $contextData;
 
@@ -36,7 +36,7 @@ class StatusBoardComponent extends CompositeComponentAbstract {
         if (isset($role) AND array_key_exists($role, $permission) AND $permission[$role]) {
             $this->setTemplate(new PhpTemplate($this->configuration->getTemplateStatusBoard()));
         } else {
-            $this->setRendererName(NonPermittedContentRenderer::class);
+            $this->setRendererName(NoPermittedContentRenderer::class);
         }
     }
 }

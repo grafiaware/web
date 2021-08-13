@@ -91,6 +91,7 @@ class ConfigurationRed extends ConfigurationDb {
             'component.template.logout' => self::RED_TEMPLATES_COMMON.'layout/modal/logout.php',
             'component.template.useraction' => self::RED_TEMPLATES_COMMON.'layout/modal/userAction.php',
             'component.template.statusboard' => self::RED_TEMPLATES_COMMON.'layout/info/statusBoard.php',
+            'component.template.controleditmenu' => self::RED_TEMPLATES_COMMON.'layout/controls/controlEditMenu.php',
 
         ];
     }

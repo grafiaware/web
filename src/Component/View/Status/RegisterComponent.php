@@ -9,7 +9,7 @@
 namespace Component\View\Status;
 
 use Component\View\CompositeComponentAbstract;
-use Component\Renderer\Html\NonPermittedContentRenderer;
+use Component\Renderer\Html\NoContentForStatusRenderer;
 use Component\ViewModel\StatusViewModelInterface;
 use Pes\View\Template\PhpTemplate;
 
@@ -30,7 +30,7 @@ class RegisterComponent extends CompositeComponentAbstract {
 //  template nastevena v kontejneru, pokud není user přihlášen (není role) nahrazuji renderer - není to ideální řešení, v kontejneru vytvářím celý objekt template, jen ho nepoužiju
     public function beforeRenderingHook(): void {
         if ($this->contextData->isUserLoggedIn()) {
-            $this->setRendererName(NonPermittedContentRenderer::class);
+            $this->setRendererName(NoContentForStatusRenderer::class);
         } else {
             $this->setTemplate(new PhpTemplate($this->configuration->getTemplateRegister()));
         }

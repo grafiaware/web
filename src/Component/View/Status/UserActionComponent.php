@@ -9,9 +9,10 @@
 namespace Component\View\Status;
 
 use Component\View\CompositeComponentAbstract;
-use Component\Renderer\Html\NonPermittedContentRenderer;
+use Component\Renderer\Html\NoPermittedContentRenderer;
 use Component\ViewModel\StatusViewModelInterface;
 use Pes\View\Template\PhpTemplate;
+
 /**
  * Description of UserActionComponent
  *
@@ -35,7 +36,7 @@ class UserActionComponent extends CompositeComponentAbstract {
         if (isset($role) AND array_key_exists($role, $permission) AND $permission[$role]) {
             $this->setTemplate(new PhpTemplate($this->configuration->getTemplateUserAction()));
         } else {
-            $this->setRendererName(NonPermittedContentRenderer::class);
+            $this->setRendererName(NoPermittedContentRenderer::class);
         }
     }
 }

@@ -46,36 +46,62 @@ class PaperComponent extends AuthoredComponentAbstract implements PaperComponent
      */
     public function beforeRenderingHook(): void {
         if ($this->hasContent()) {
-            $paperAggregate = $this->contextData->getPaper();
-            $templateFileName = $this->getTemplateFileFullname($this->configuration->getTemplatepathPaper(), $this->getTemplate());
+                    $this->setRendererName(PaperRendererEditable::class);
+                    $this->addChildEditableComponents();
 
-            try {
-                if ($this->contextData->userCanEdit()) { // editační režim a uživatel má právo editovat
-                    $this->setTemplate(new PaperTemplateEditable($templateFileName));  // PhpTemplate exception
-//                    $this->adoptChildComponentWithRenderer(SelectPaperTemplateRenderer::class, 'selectTemplate');
-//                    $this->adoptChildComponentWithRenderer(ButtonsRenderer::class, 'articleButtonForms ');
-                    $this->adoptChildComponentWithRenderer(HeadlineRendererEditable::class, 'headline');
-                    $this->adoptChildComponentWithRenderer(PerexRendererEditable::class, 'perex');
-                    $this->adoptChildComponentWithRenderer(ContentsRendererEditable::class, 'contents');
-                } else {
-                    $this->setTemplate(new PaperTemplate($templateFileName));  // PhpTemplate exception
-                    $this->adoptChildComponentWithRenderer(HeadlineRenderer::class, 'headline');
-                    $this->adoptChildComponentWithRenderer(PerexRenderer::class, 'perex');
-                    $this->adoptChildComponentWithRenderer(ContentsRenderer::class, 'contents');
-                }
-                // renderery musí být definovány v Renderer kontejneru - tam mohou dostat classMap do konstruktoru
-//                $this->addChildRendererName('headline', HeadlineRenderer::class);
-//                $this->adoptChildRenderers($template);   // jako shared data do template objektu
-            } catch (NoTemplateFileException $noTemplExc) {
-                user_error("Neexistuje soubor šablony '$templatePath'", E_USER_WARNING);
-                $this->setTemplate(new PaperTemplate($this->getTemplateFileFullname($this->configuration->getTemplatepathPaper(), self::DEFAULT_TEMPLATE_NAME)));  // PhpTemplate exception - nezachycená
-            }
+//            $paperAggregate = $this->contextData->getPaper();
+//            $templateFileName = $this->getTemplateFileFullname($this->configuration->getTemplatepathPaper(), $this->getTemplateName());
+//            if ($this->contextData->userCanEdit()) { // editační režim a uživatel má právo editovat
+//                try {
+//                    $this->setTemplate(new PaperTemplateEditable($templateFileName));  // PhpTemplate exception
+//                    $this->addChildEditableComponents();
+//                } catch (NoTemplateFileException $noTemplExc) {
+//                    user_error("Neexistuje soubor šablony '$templateFileName'", E_USER_WARNING);
+//                    $templateFileName = $this->getTemplateFileFullname($this->configuration->getTemplatepathPaper(), self::DEFAULT_TEMPLATE_NAME);
+//                    try {
+//                        $this->setTemplate(new PaperTemplateEditable($templateFileName));  // PhpTemplate exception
+//                        $this->addChildEditableComponents();
+//                    } catch (NoTemplateFileException $noTemplExc) {
+//                        user_error("Neexistuje soubor default šablony '$templateFileName'", E_USER_WARNING);
+//                        $this->setRendererName(PaperRendererEditable::class);
+//                    }
+//                }
+//            } else {
+//                try {
+//                    $this->setTemplate(new PaperTemplate($templateFileName));  // PhpTemplate exception
+//                    $this->addChildComponents();
+//                } catch (NoTemplateFileException $noTemplExc) {
+//                    user_error("Neexistuje soubor šablony '$templateFileName'", E_USER_WARNING);
+//                    $templateFileName = $this->getTemplateFileFullname($this->configuration->getTemplatepathPaper(), self::DEFAULT_TEMPLATE_NAME);
+//                    try {
+//                        $this->setTemplate(new PaperTemplate($templateFileName));  // PhpTemplate exception
+//                        $this->addChildComponents();
+//                    } catch (NoTemplateFileException $noTemplExc) {
+//                        user_error("Neexistuje soubor default šablony '$templateFileName'", E_USER_WARNING);
+//                        $this->setRendererName(PaperRenderer::class);
+//                    }
+//                }
+//            }
         } else {
             $this->setRendererName(EmptyContentRenderer::class);
         }
     }
 
-    private function getTemplate() {
+    private function addChildComponents() {
+        // renderery musí být definovány v Renderer kontejneru - tam mohou dostat classMap do konstruktoru
+        $this->addChildComponentWithRenderer(HeadlineRendererEditable::class, 'headline');
+        $this->addChildComponentWithRenderer(PerexRendererEditable::class, 'perex');
+        $this->addChildComponentWithRenderer(ContentsRendererEditable::class, 'contents');
+    }
+
+    private function addChildEditableComponents() {
+        // renderery musí být definovány v Renderer kontejneru - tam mohou dostat classMap do konstruktoru
+        $this->addChildComponentWithRenderer(HeadlineRenderer::class, 'headline');
+        $this->addChildComponentWithRenderer(PerexRenderer::class, 'perex');
+        $this->addChildComponentWithRenderer(ContentsRenderer::class, 'contents');
+    }
+
+    private function getTemplateName() {
         $template = $this->contextData->getPaper()->getTemplate();
         return (isset($template) AND $template) ? $template : self::DEFAULT_TEMPLATE_NAME;
     }
@@ -87,7 +113,7 @@ class PaperComponent extends AuthoredComponentAbstract implements PaperComponent
      *
      * @return bool
      */
-    public function hasContent(): bool {
+    private function hasContent(): bool {
         $paper = $this->contextData->getPaper();
         return isset($paper) ? true : false;
     }

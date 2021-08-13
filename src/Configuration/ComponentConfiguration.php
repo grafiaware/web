@@ -16,6 +16,9 @@ class ComponentConfiguration implements ComponentConfigurationInterface {
 //            'component.template.register' => self::RED_TEMPLATES_SITE.'layout/modal/register-with-exhibitor-representative.php',
 //            'component.template.logout' => self::RED_TEMPLATES_COMMON.'layout/modal/logout.php',
 //            'component.template.useraction' => self::RED_TEMPLATES_COMMON.'layout/modal/user_action.php',
+//            'component.template.statusboard' => self::RED_TEMPLATES_COMMON.'layout/info/statusBoard.php',
+//            'component.template.controleditmenu' => self::RED_TEMPLATES_COMMON.'layout/controls/controlEditMenu.php',
+
 
     private $logsDirectory;
     private $logsRender;
@@ -27,6 +30,7 @@ class ComponentConfiguration implements ComponentConfigurationInterface {
     private $templateLogout;
     private $templateUserAction;
     private $templateStatusBoard;
+    private $templateControlEditMenu;
 
     public function __construct(
             $logsDirectory,
@@ -38,7 +42,8 @@ class ComponentConfiguration implements ComponentConfigurationInterface {
             $templateRegister,
             $templateLogout,
             $templateUserAction,
-            $templateStatusBoard
+            $templateStatusBoard,
+            $templateControlEditMenu
             ) {
         $this->logsDirectory = $logsDirectory;
         $this->logsRender = $logsRender;
@@ -50,6 +55,7 @@ class ComponentConfiguration implements ComponentConfigurationInterface {
         $this->templateLogout = $templateLogout;
         $this->templateUserAction = $templateUserAction;
         $this->templateStatusBoard = $templateStatusBoard;
+        $this->templateControlEditMenu = $templateControlEditMenu;
     }
 
     public function getLogsDirectory() {
@@ -90,6 +96,10 @@ class ComponentConfiguration implements ComponentConfigurationInterface {
 
     public function getTemplateStatusBoard() {
         return $this->templateStatusBoard;
+    }
+
+    public function getTemplateControlEditMenu() {
+        return $this->templateControlEditMenu;
     }
 
 

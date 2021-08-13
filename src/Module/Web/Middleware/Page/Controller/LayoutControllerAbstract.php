@@ -23,7 +23,9 @@ use Component\View\{
     Generated\SearchPhraseComponent,
     Generated\SearchResultComponent,
     Generated\ItemTypeSelectComponent,
-    Status\LoginComponent, Status\RegisterComponent, Status\LogoutComponent, Status\UserActionComponent, Status\StatusBoardComponent,
+    Status\LoginComponent, Status\RegisterComponent, Status\LogoutComponent, Status\UserActionComponent,
+    Status\StatusBoardComponent, Status\ControlEditMenuComponent,
+
     Flash\FlashComponent
 };
 
@@ -143,6 +145,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
             'linkEditorCss' => $this->getLinkEditorCssView($request),
             'poznamky' => $this->container->get(StatusBoardComponent::class),
             'flash' => $this->container->get(FlashComponent::class),
+            'controlEditMenu' => $this->container->get(ControlEditMenuComponent::class),
         ];
     }
 
@@ -172,15 +175,9 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
     private function getLoginLogoutComponent() {
         $credentials = $this->statusSecurityRepo->get()->getLoginAggregate();
         if (isset($credentials)) {
-            /** @var LogoutComponent $logoutComponent */
-            $logoutComponent = $this->container->get(LogoutComponent::class);
-            //$logoutComponent nepoužívá viewModel, používá template a rendererContainer definované v kontejneru - zadávám jen data pro template
-            $logoutComponent->setData(['loginName' => $credentials->getLoginName()]);
-            return $logoutComponent;
+            return $this->container->get(LogoutComponent::class);
         } else {
-            /** @var LoginComponent $loginComponent */
-            $loginComponent = $this->container->get(LoginComponent::class);
-            return $loginComponent;
+            return $this->container->get(LoginComponent::class);
         }
     }
 
