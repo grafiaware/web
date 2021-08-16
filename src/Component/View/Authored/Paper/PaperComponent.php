@@ -1,8 +1,9 @@
 <?php
 namespace Component\View\Authored\Paper;
 
+use Pes\View\Template\PhpTemplate;
 use Pes\View\Template\ImplodeTemplate;
-use Pes\View\View;
+use Pes\View\CompositeViewInterface;
 
 use Red\Model\Entity\PaperAggregatePaperContentInterface;
 
@@ -12,9 +13,6 @@ use Component\ViewModel\Authored\Paper\PaperViewModelInterface;
 use Component\Renderer\Html\Authored\Paper\PaperRenderer;
 use Component\Renderer\Html\Authored\Paper\PaperRendererEditable;
 use Component\Renderer\Html\Authored\EmptyContentRenderer;
-
-use Component\Template\PaperTemplate;
-use Component\Template\PaperTemplateEditable;
 
 use Component\View\Authored\AuthoredElement;
 
@@ -43,62 +41,65 @@ class PaperComponent extends AuthoredComponentAbstract implements PaperComponent
 
     /**
      * Přetěžuje metodu View. Generuje PHP template z názvu template objektu Paper a použije ji.
+     * Pokud soubor template neexistuje, použije soubor default template, pokud ani ten neexistuje, použije PaperRenderer respektive PaperEditableRenderer.
+     *
+     *
      */
     public function beforeRenderingHook(): void {
         if ($this->hasContent()) {
-                    $this->setRendererName(PaperRendererEditable::class);
-                    $this->addChildEditableComponents();
+            try {
+                // konstruktor PhpTemplate vyhazuje výjimku NoTemplateFileException pro neexistující (nečitený) soubor s template
+                $template = new PhpTemplate($this->getTemplateFileFullname($this->configuration->getTemplatepathPaper(), $this->getTemplateName()));
+            } catch (NoTemplateFileException $noTemplExc) {
+                user_error("Neexistuje soubor šablony '{$this->getTemplateName()}'", E_USER_WARNING);
+                $template = new ImplodeTemplate();
+            }
+            $templatedView = $this->createComponentViewWithTemplate($template);
+            if ($this->contextData->userCanEdit()) { // editační režim a uživatel má právo editovat
+                $this->setRendererName(PaperRendererEditable::class);
+                $this->addChildEditableComponents($templatedView);
+            } else {
+                $this->setRendererName(PaperRenderer::class);
+                $this->addChildComponents($templatedView);
+            }
+            $this->appendComponentView($templatedView, 'template');
 
-//            $paperAggregate = $this->contextData->getPaper();
 //            $templateFileName = $this->getTemplateFileFullname($this->configuration->getTemplatepathPaper(), $this->getTemplateName());
+//
 //            if ($this->contextData->userCanEdit()) { // editační režim a uživatel má právo editovat
 //                try {
 //                    $this->setTemplate(new PaperTemplateEditable($templateFileName));  // PhpTemplate exception
-//                    $this->addChildEditableComponents();
 //                } catch (NoTemplateFileException $noTemplExc) {
 //                    user_error("Neexistuje soubor šablony '$templateFileName'", E_USER_WARNING);
-//                    $templateFileName = $this->getTemplateFileFullname($this->configuration->getTemplatepathPaper(), self::DEFAULT_TEMPLATE_NAME);
-//                    try {
-//                        $this->setTemplate(new PaperTemplateEditable($templateFileName));  // PhpTemplate exception
-//                        $this->addChildEditableComponents();
-//                    } catch (NoTemplateFileException $noTemplExc) {
-//                        user_error("Neexistuje soubor default šablony '$templateFileName'", E_USER_WARNING);
-//                        $this->setRendererName(PaperRendererEditable::class);
-//                    }
+//                    $this->setRendererName(PaperRendererEditable::class);
 //                }
+//                $this->addChildEditableComponents();
 //            } else {
 //                try {
 //                    $this->setTemplate(new PaperTemplate($templateFileName));  // PhpTemplate exception
-//                    $this->addChildComponents();
 //                } catch (NoTemplateFileException $noTemplExc) {
 //                    user_error("Neexistuje soubor šablony '$templateFileName'", E_USER_WARNING);
-//                    $templateFileName = $this->getTemplateFileFullname($this->configuration->getTemplatepathPaper(), self::DEFAULT_TEMPLATE_NAME);
-//                    try {
-//                        $this->setTemplate(new PaperTemplate($templateFileName));  // PhpTemplate exception
-//                        $this->addChildComponents();
-//                    } catch (NoTemplateFileException $noTemplExc) {
-//                        user_error("Neexistuje soubor default šablony '$templateFileName'", E_USER_WARNING);
-//                        $this->setRendererName(PaperRenderer::class);
-//                    }
+//                    $this->setRendererName(PaperRenderer::class);
 //                }
+//                $this->addChildComponents();
 //            }
         } else {
             $this->setRendererName(EmptyContentRenderer::class);
         }
     }
 
-    private function addChildComponents() {
+    private function addChildEditableComponents(CompositeViewInterface $view) {
         // renderery musí být definovány v Renderer kontejneru - tam mohou dostat classMap do konstruktoru
-        $this->addChildComponentWithRenderer(HeadlineRendererEditable::class, 'headline');
-        $this->addChildComponentWithRenderer(PerexRendererEditable::class, 'perex');
-        $this->addChildComponentWithRenderer(ContentsRendererEditable::class, 'contents');
+        $view->appendComponentView($this->createComponentViewWithRenderer(HeadlineRendererEditable::class), 'headline');
+        $view->appendComponentView($this->createComponentViewWithRenderer(PerexRendererEditable::class), 'perex');
+        $view->appendComponentView($this->createComponentViewWithRenderer(ContentsRendererEditable::class), 'contents');
     }
 
-    private function addChildEditableComponents() {
+    private function addChildComponents(CompositeViewInterface $view) {
         // renderery musí být definovány v Renderer kontejneru - tam mohou dostat classMap do konstruktoru
-        $this->addChildComponentWithRenderer(HeadlineRenderer::class, 'headline');
-        $this->addChildComponentWithRenderer(PerexRenderer::class, 'perex');
-        $this->addChildComponentWithRenderer(ContentsRenderer::class, 'contents');
+        $view->appendComponentView($this->createComponentViewWithRenderer(HeadlineRenderer::class), 'headline');
+        $view->appendComponentView($this->createComponentViewWithRenderer(PerexRenderer::class), 'perex');
+        $view->appendComponentView($this->createComponentViewWithRenderer(ContentsRenderer::class), 'contents');
     }
 
     private function getTemplateName() {

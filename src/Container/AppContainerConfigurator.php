@@ -15,6 +15,7 @@ use Pes\Logger\FileLogger;
 use Pes\Session\SessionStatusHandler;
 use Pes\Session\SessionStatusHandlerInterface;
 use Pes\Session\SaveHandler\PhpLoggingSaveHandler;
+use Pes\Session\SaveHandler\PhpSaveHandler;
 
 // application
 use Application\WebAppFactory;
@@ -88,12 +89,17 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             SessionStatusHandler::class => function(ContainerInterface $c) {
                 ## startuje session ##
-                $sessionHandler = new SessionStatusHandler(
+                if (PES_DEVELOPMENT) {
+                    $sessionHandler = new SessionStatusHandler(
                         $c->get(WebAppFactory::SESSION_NAME_SERVICE),
                         new PhpLoggingSaveHandler($c->get('sessionLogger'))
-                        );
-                if (PES_DEVELOPMENT) {
+                    );
                     $sessionHandler->setLogger($c->get('sessionLogger'));
+                } else {
+                    $sessionHandler = new SessionStatusHandler(
+                        $c->get(WebAppFactory::SESSION_NAME_SERVICE),
+                        new PhpSaveHandler($c->get('sessionLogger'))
+                    );
                 }
                 return $sessionHandler;
             },

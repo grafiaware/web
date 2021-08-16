@@ -21,17 +21,22 @@ class PaperRendererEditable  extends HtmlRendererAbstract {
 
         $selectTemplate = $this->renderSelectTemplate($paperAggregate);
         $articleButtonForms = $this->renderPaperButtonsForm($paperAggregate);
-
+        $inner = (string) $viewModel->getContextVariable('template') ?? '';
         $html =
                 Html::tag('article', ['data-red-renderer'=>'PaperRendererEditable', "data-red-datasource"=> "paper {$paperAggregate->getId()} for item {$paperAggregate->getMenuItemIdFk()}"],
                     $selectTemplate
                     .$articleButtonForms
                     .Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/{$paperAggregate->getId()}"],
-                        $viewModel->getStringValueIfExists('headline', '').$viewModel->('perex', '').$viewModel->getStringValueIfExists('contents', '')
+                        $inner
                     )
                 );
-
         return $html ?? '';
+    }
+
+    private function renderPaper(iterable $viewModel=NULL) {
+        return $viewModel->getContextVariable('headline', '')
+                .PHP_EOL.$viewModel->getContextVariable('perex', '')
+                .PHP_EOL.implode(PHP_EOL, $viewModel->getContextVariable('contents', []));
     }
 
     private function renderSelectTemplate(PaperInterface $paper) {

@@ -2,14 +2,16 @@
 namespace Component\View\Authored\SelectPaperTemplate;
 
 use Pes\View\Template\PhpTemplate;
+use Pes\View\CompositeViewInterface;
 
 use Component\View\Authored\AuthoredComponentAbstract;
 use Component\ViewModel\Authored\Paper\PaperViewModelInterface;
+use Component\Renderer\Html\Authored\Paper\PaperRenderer;
+use Component\Renderer\Html\Authored\EmptyContentRenderer;
 
 use Component\Renderer\Html\Authored\Paper\HeadlineRenderer;
 use Component\Renderer\Html\Authored\Paper\PerexRenderer;
 use Component\Renderer\Html\Authored\Paper\ContentsRenderer;
-use Component\Renderer\Html\Authored\EmptyContentRenderer;
 
 use Component\Template\PaperTemplate;
 
@@ -36,12 +38,14 @@ class SelectedPaperTemplateComponent extends AuthoredComponentAbstract implement
             $paperAggregate = $this->contextData->getPaper();
             if ($this->paperTemplateName) {
                 try {
-                    $templateFileName = $this->getTemplateFileFullname($this->configuration->getTemplatepathPaper(), $this->paperTemplateName);
-                    // renderery musí být definovány v Renderer kontejneru - tam mohou dostat classMap do konstruktoru
-                    $this->setTemplate(new PaperTemplate($templateFileName));  // PhpTemplate exception
-                    $this->addChildComponentWithRenderer(HeadlineRenderer::class, 'headline');
-                    $this->addChildComponentWithRenderer(PerexRenderer::class, 'perex');
-                    $this->addChildComponentWithRenderer(ContentsRenderer::class, 'contents');
+                    // konstruktor PhpTemplate vyhazuje výjimku NoTemplateFileException pro neexistující (nečitený) soubor s template
+                    $template = new PhpTemplate($this->getTemplateFileFullname($this->configuration->getTemplatepathPaper(), $this->paperTemplateName));
+                    $templatedView = $this->createComponentViewWithTemplate($template);
+
+                    $this->setRendererName(PaperRenderer::class);
+                    $this->addChildComponents($templatedView);
+                    $this->appendComponentView($templatedView, 'template');
+                    
                 } catch (NoTemplateFileException $noTemplExc) {
                     throw new LogicException("Nelze vytvořit objekt template pro jméno nastavené metodou setPaperTemplateName()? {$this->paperTemplateName}");
                 }
@@ -51,6 +55,13 @@ class SelectedPaperTemplateComponent extends AuthoredComponentAbstract implement
         } else {
             $this->setRendererName(EmptyContentRenderer::class);
         }
+    }
+
+    private function addChildComponents(CompositeViewInterface $view) {
+        // renderery musí být definovány v Renderer kontejneru - tam mohou dostat classMap do konstruktoru
+        $view->appendComponentView($this->createComponentViewWithRenderer(HeadlineRenderer::class), 'headline');
+        $view->appendComponentView($this->createComponentViewWithRenderer(PerexRenderer::class), 'perex');
+        $view->appendComponentView($this->createComponentViewWithRenderer(ContentsRenderer::class), 'contents');
     }
 
     public function setPaperTemplateName($name): void {

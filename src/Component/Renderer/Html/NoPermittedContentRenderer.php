@@ -9,7 +9,7 @@ use Pes\Text\Html;
  *
  * @author pes2704
  */
-class NonPermittedContentRenderer extends HtmlRendererAbstract {
+class NoPermittedContentRenderer extends HtmlRendererAbstract {
     public function render(iterable $viewModel = null) {
         /** @var AuthoredViewModelInterface $viewModel */
         return Html::tag('div', ['style'=>'display: none;' ], 'No permissions for display component.');

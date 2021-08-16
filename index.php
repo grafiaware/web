@@ -1,8 +1,5 @@
 <?php
 declare(strict_types=1);
-define('PES_FORCE_DEVELOPMENT', 'force_development');
-// nebo
-//define('PES_FORCE_PRODUCTION', 'force_production');
 
 define('PROJECT_PATH', str_replace("\\", "/", preg_replace('/^' . preg_quote($_SERVER['DOCUMENT_ROOT'], '/') . '/', '', __DIR__))."/");
 

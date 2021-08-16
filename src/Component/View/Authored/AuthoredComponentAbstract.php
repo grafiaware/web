@@ -11,8 +11,9 @@ namespace Component\View\Authored;
 use Component\View\CompositeComponentAbstract;
 use Component\ViewModel\Authored\AuthoredViewModelInterface;
 
-use Pes\View\Template\PhpTemplateInterface;
+use Pes\View\Template\TemplateInterface;
 use Pes\View\Template\Exception\NoTemplateFileException;
+use Pes\View\CompositeView;
 
 /**
  * Description of AuthoredComponentAbstract
@@ -26,23 +27,9 @@ abstract class AuthoredComponentAbstract extends CompositeComponentAbstract impl
     const DEFAULT_TEMPLATE_NAME = 'default';
 
     /**
-     * @var string
-     */
-    protected $templatesPath;
-
-    protected $childRenderers = [];
-
-    /**
      * @var AuthoredViewModelInterface
      */
     protected $contextData;
-
-    /**
-     * {@inheritdoc}
-     */
-    public function addChildRendererName($variableName, $rendererName) {
-        $this->childRenderers[$variableName] = $rendererName;
-    }
 
     public function setItemId($menuItemId): AuthoredComponentInterface {
         $this->contextData->setItemId($menuItemId);
@@ -55,30 +42,20 @@ abstract class AuthoredComponentAbstract extends CompositeComponentAbstract impl
 
     /**
      *
-     * @param PhpTemplateInterface $template
-     * @return void
+     * @param type $rendererClassname
+     * @return CompositeView
      */
-    protected function adoptChildRenderers(PhpTemplateInterface $template): void {
-        $sharedData = [];
-        if (isset($this->rendererContainer)) {
-            foreach ($this->childRenderers as $variableName => $rendererName) {
-                $sharedData[$variableName] = $this->rendererContainer->get($rendererName);
-            }
-        }
-        $template->setSharedData($sharedData);
+    protected function createComponentViewWithRenderer($rendererClassname) {
+        // pokud render používá classMap musí být konfigurován v Renderer kontejneru - tam dostane classMap
+        return (new CompositeView())->setData($this->contextData)->setRendererName($rendererClassname)->setRendererContainer($this->rendererContainer);
     }
-
 
     /**
      *
-     * @param type $rendererClassname
-     * @param type $name Jméno proměnné v kompozitním view, která má být nahrazena výstupem zadané komponentní view
+     * @param PhpTemplateInterface $template
+     * @return CompositeView
      */
-    protected function addChildComponentWithRenderer($rendererClassname, $name) {
-        // pokud render používá classMap musí být konfigurován v Renderer kontejneru - tam dostane classMap
-        return $this->appendComponentView(
-                (new AuthoredElement($this->configuration))->setData($this->contextData)->setRendererName($rendererClassname)->setRendererContainer($this->rendererContainer),
-                $name
-                );
+    protected function createComponentViewWithTemplate(TemplateInterface $template) {
+        return (new CompositeView())->setData($this->contextData)->setTemplate($template)->setRendererContainer($this->rendererContainer);
     }
 }

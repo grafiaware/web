@@ -39,7 +39,7 @@ abstract class MenuWrapRendererAbstract extends HtmlRendererAbstract implements 
         $this->itemRenderer = $itemRenderer;
     }
 
-    protected function getMenuHtml($subtreeItemModels) {
+    protected function renderSubtreeItemModels($subtreeItemModels) {
         if (!$subtreeItemModels) {
             $wrap = '';
         } else {
