@@ -18,14 +18,12 @@ class PaperRendererEditable  extends HtmlRendererAbstract {
     public function render(iterable $viewModel=NULL) {
         /** @var PaperViewModelInterface $viewModel */
         $paperAggregate = $viewModel->getPaper();  // vrací PaperAggregate
-
         $selectTemplate = $this->renderSelectTemplate($paperAggregate);
         $articleButtonForms = $this->renderPaperButtonsForm($paperAggregate);
         $inner = (string) $viewModel->getContextVariable('template') ?? '';
         $html =
                 Html::tag('article', ['data-red-renderer'=>'PaperRendererEditable', "data-red-datasource"=> "paper {$paperAggregate->getId()} for item {$paperAggregate->getMenuItemIdFk()}"],
-                    $selectTemplate
-                    .$articleButtonForms
+                    $selectTemplate.$articleButtonForms
                     .Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/{$paperAggregate->getId()}"],
                         $inner
                     )
@@ -33,24 +31,32 @@ class PaperRendererEditable  extends HtmlRendererAbstract {
         return $html ?? '';
     }
 
-    private function renderPaper(iterable $viewModel=NULL) {
-        return $viewModel->getContextVariable('headline', '')
-                .PHP_EOL.$viewModel->getContextVariable('perex', '')
-                .PHP_EOL.implode(PHP_EOL, $viewModel->getContextVariable('contents', []));
-    }
-
     private function renderSelectTemplate(PaperInterface $paper) {
         $contentTemplateName = $paper->getTemplate();
         $paperId = $paper->getId();
-        return
-        Html::tag('div', ['class'=>'template_select'],
-            Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/$paperId/template"],
-                Html::tagNopair('input', ["type"=>"hidden", "name"=>"template_$paperId", "value"=>$contentTemplateName])
-                .
-                Html::tag('div', ['id'=>"paper_$paperId", 'class'=>'paper_template_select'],'')
-            )
 
-        );
+        return
+                Html::tag('div', [],
+
+                    '
+                    <button class="ui huge fade animated button toogleTemplateSelect" formtarget="_self" tabindex="0">
+                        <div class="hidden content" style="font-size: 0.7em; top: 30%;">
+                            Šablony pro stránku
+                        </div>
+                        <div class="visible content">
+                            <i class="file alternate teal icon"></i>
+                        </div>
+                    </button>    '
+                    .
+                    Html::tag('div', ['class'=>'select_template'],
+                        Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/$paperId/template"],
+                            Html::tagNopair('input', ["type"=>"hidden", "name"=>"template_$paperId", "value"=>$contentTemplateName])
+                            .
+                            Html::tag('div', ['id'=>"paper_$paperId", 'class'=>'paper_template_select'],'')
+                        )
+
+                    )
+                );
     }
 
     private function renderPaperButtonsForm(PaperInterface $paper) {

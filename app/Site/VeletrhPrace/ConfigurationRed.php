@@ -28,7 +28,8 @@ class ConfigurationRed extends ConfigurationDb {
     #
     public static function bootstrap() {
         return [
-            'bootstrap_logs_base_path' => self::RED_BOOTSTRAP_LOGS,
+            'bootstrap.logs.basepath' => self::RED_BOOTSTRAP_LOGS,
+            'bootstrap.productionhost' => self::RED_BOOTSTRAP_PRODUCTION_HOST,
         ];
     }
 

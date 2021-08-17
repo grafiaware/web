@@ -1,11 +1,12 @@
 //výběr šablony stránky, po kliku na tlačítko se objeví div s Tiny
     $('.toogleTemplateSelect').on('click', function(){
-        $('.template_select').toggle();
+        var si = $(this).siblings('.select_template');
+                si.toggle();
     });
-    
+
 //zobrazí sadu buttonů s třídou .contentButtons
 var showContentButtons =     function(){
-        $(this).parent('section').find('.contentButtons').css("display", "flex"); 
+        $(this).parent('section').find('.contentButtons').css("display", "flex");
         $(this).css("z-index", "10");
     };
 //skryje sadu buttonů s třídou .contentButtons
@@ -19,16 +20,16 @@ $("body").on("mouseleave", ".cornerWithTools", hideContentButtons);
 
 
 
-//calendarWrap = div s buttony pro kalendář a inputy pro výběr datumů ; rozděluje se na kalendář pro content a kalendář pro událost    
+//calendarWrap = div s buttony pro kalendář a inputy pro výběr datumů ; rozděluje se na kalendář pro content a kalendář pro událost
 function showCalendarWrap(thisButton, calendarWrap) {
     //contentButtons - div s tlačítky pro content
-    var contentButtons = thisButton.parent(".editContent").parent(".contentButtons"); 
+    var contentButtons = thisButton.parent(".editContent").parent(".contentButtons");
     //výběr konrétního calendarWrapu podle zvoleného tlačítka
-    contentButtons.siblings(calendarWrap).css("display", "flex"); 
+    contentButtons.siblings(calendarWrap).css("display", "flex");
     //přidání třídy pro zvýšení z-indexu tohoto růžku (ostatní růžky nezasahují do kalendáře) - activeCalendar je v author.less
-    contentButtons.parent(".cornerWithTools").addClass("activeCalendar"); 
+    contentButtons.parent(".cornerWithTools").addClass("activeCalendar");
     //když je zobrazen div pro výběr kalendáře, nechci pod ním (ani u jiných contentů) zobrazovat buttony pro content (.contentButtons) - hideContentButtons je v author.less
-    $(".cornerWithTools").addClass("hideContentButtons"); 
+    $(".cornerWithTools").addClass("hideContentButtons");
 }
 //třída .toolsShowDate = tlačítko v sadě buttonů (.contentButtons) - nastavit datum contentu
 $("body").on("click", '.button.toolsShowDate',
@@ -90,7 +91,7 @@ function sendOnEnter(event) {
             targetElement.innerHTML = targetElement.innerText;
             // data title z innerText, ostatní z data- atributů - zde musí být shoda jmen s html šablonou pro item!
             data['title'] = targetElement.innerText; // innerHTML obsahuje i vložený <br/> tag vzhiklý po stisku enter klávesy
-            data['original-title'] = targetElement.getAttribute('data-oroginaltitle');
+            data['original-title'] = targetElement.getAttribute('data-originaltitle');
             url = targetElement.baseURI + '/red/v1/menu/' + targetElement.getAttribute('data-uid') + '/title';
             // odeslání ajax requestu
             // .ajax vrací Deferred Object - .done a .fail jsou metody Deferred Objectu (a samy vracejí Deferred Object)

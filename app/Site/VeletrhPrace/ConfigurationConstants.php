@@ -30,4 +30,7 @@ class ConfigurationConstants {
     const RED_FILES_PATH = '_files/'.self::RED_SITE_PATH;
     const RED_FILES = '_files/'.self::RED_SITE_PATH;
     const RED_BOOTSTRAP_LOGS = '/_www_vp_logs/';
+
+    // production host
+    const RED_BOOTSTRAP_PRODUCTION_HOST =  'replikant2871';  //vp
 }
