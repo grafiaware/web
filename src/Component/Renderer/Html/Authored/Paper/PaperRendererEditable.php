@@ -43,10 +43,12 @@ class PaperRendererEditable  extends HtmlRendererAbstract {
         $contentTemplateName = $paper->getTemplate();
         $paperId = $paper->getId();
         return
-        Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/$paperId/template"],
-            Html::tagNopair('input', ["type"=>"hidden", "name"=>"template_$paperId", "value"=>$contentTemplateName])
-            .
-            Html::tag('div', ['id'=>"paper_$paperId", 'class'=>'paper_template_select'],'')
+        Html::tag('div', ['class'=>'template_select'],
+            Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/$paperId/template"],
+                Html::tagNopair('input', ["type"=>"hidden", "name"=>"template_$paperId", "value"=>$contentTemplateName])
+                .
+                Html::tag('div', ['id'=>"paper_$paperId", 'class'=>'paper_template_select'],'')
+            )
 
         );
     }

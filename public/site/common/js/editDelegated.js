@@ -1,27 +1,14 @@
-//trida .selectTemplate se pouziva u buttonu, ktery slouzi pro vyber sablony paperu
-//popisek buttonu je napsany v atributu data-tooltip a je viditelny i pri vyberu sablony z rozeviraciho seznamu
-//pomoci tridy .nodatatooltip specifikovanou v author.less atribut skryvam, protoze text v atributu je stejny jako nadpis rozevirajiciho seznamu
-$("container.selectTemplate").on(
-        {
-            mouseenter: function() {
-                $(this).parent('.changePaperTemplate').addClass('nodatatooltip');
-            },
-            mouseleave: function(){
-                $(this).parent('.changePaperTemplate').removeClass('nodatatooltip');
-            }
-        }
-    );
-
-//pri najeti na tag s tridou .cornerWithTools se zobrazi sada buttonu s tridou .contentButtons
-//sada buttonu obsahuje nastroje pro praci s contentem paperu, mimo jine i nastaveni kalendare - odkdy dokdy ma byt content zobrazen
-//kalendar ma vlastni sadu buttonu, proto pomoci trid .toolsDate a .toolsContent menim zobrazeni pozadovane sady buttonu
-
-//zobrazi sadu buttonu s tridou .contentButtons
+//výběr šablony stránky, po kliku na tlačítko se objeví div s Tiny
+    $('.toogleTemplateSelect').on('click', function(){
+        $('.template_select').toggle();
+    });
+    
+//zobrazí sadu buttonů s třídou .contentButtons
 var showContentButtons =     function(){
-        $(this).parent('section').find('.contentButtons').css("display", "flex");
+        $(this).parent('section').find('.contentButtons').css("display", "flex"); 
         $(this).css("z-index", "10");
     };
-//skryje sadu buttonu s tridou .contentButtons
+//skryje sadu buttonů s třídou .contentButtons
 var hideContentButtons =     function(){
         $(this).parent('section').find('.contentButtons').css("display", "none");
         $(this).css("z-index", "1");
@@ -30,80 +17,43 @@ var hideContentButtons =     function(){
 $("body").on("mouseenter", ".cornerWithTools", showContentButtons);
 $("body").on("mouseleave", ".cornerWithTools", hideContentButtons);
 
-//trida .toolsContent je pripojena u tlacitka kalendare s popisem zrusit upravy
-//na tuto tridu je pripojena take onclick udalost v rendereru
-//kdyz dokoncim nastaveni kalendare, zobrazuji opet sadu buttonu pro praci s contentem paperu
-$("container.toolsContent").on(
-        {
-            mouseenter: function(){
-                $(this).parent('section').find('.contentButtons').css("display", "flex");
-                $(this).css("z-index", "10");
-            },
-            mouseleave: function(){
-                $(this).parent('section').find('.contentButtons').css("display", "none");
-                $(this).css("z-index", "1");
-            }
+
+
+//calendarWrap = div s buttony pro kalendář a inputy pro výběr datumů ; rozděluje se na kalendář pro content a kalendář pro událost    
+function showCalendarWrap(thisButton, calendarWrap) {
+    //contentButtons - div s tlačítky pro content
+    var contentButtons = thisButton.parent(".editContent").parent(".contentButtons"); 
+    //výběr konrétního calendarWrapu podle zvoleného tlačítka
+    contentButtons.siblings(calendarWrap).css("display", "flex"); 
+    //přidání třídy pro zvýšení z-indexu tohoto růžku (ostatní růžky nezasahují do kalendáře) - activeCalendar je v author.less
+    contentButtons.parent(".cornerWithTools").addClass("activeCalendar"); 
+    //když je zobrazen div pro výběr kalendáře, nechci pod ním (ani u jiných contentů) zobrazovat buttony pro content (.contentButtons) - hideContentButtons je v author.less
+    $(".cornerWithTools").addClass("hideContentButtons"); 
+}
+//třída .toolsShowDate = tlačítko v sadě buttonů (.contentButtons) - nastavit datum contentu
+$("body").on("click", '.button.toolsShowDate',
+        function() {
+            showCalendarWrap($(this),'.editShowDate');
         }
     );
-
-//trida .toolsDate je pouzita u talcitka s ikonou kalendare v sade buttonu .contentButtons
-//na tuto tridu je pripojena take onclick udalost v rendereru
-//pri nastavovani kalendare zobrazuji pouze buttony tykajici se kalendare
-$("body").on("click", ".toolsDate", function(){
-                $('.cornerWithTools').hover(hideContentButtons);
-            }
+//třída .toolsEventDate = tlačítko v sadě buttonů (.contentButtons) - nastavit datum události
+$("body").on("click", '.button.toolsEventDate',
+        function() {
+            showCalendarWrap($(this),'.editEventDate');
+        }
     );
-
-
-$("body").on("click", '.editShowDate .button.toolsContent',
+//třída .hideCalendarWrap = tlačítko rozbaleného kalendáře s popisem Zrušit úpravy (ikona křížku)
+$("body").on("click", '.button.hideCalendarWrap',
         function(){
-            $(this).parent(".editShowDate").siblings(".contentButtons").css("display", "block");
-            $(this).parent(".editShowDate").css("display", "none");
-            $(this).parent(".editShowDate").siblings(".editDate").css("display", "none");
-            $(this).parent(".editShowDate").siblings(".contentButtons").parent(".cornerWithTools").removeClass("active");
-        }
-    );
-$("body").on("click", '.editEventDate .button.toolsContent',
-        function(){
-            $(this).parent(".editEventDate").siblings(".contentButtons").css("display", "block");
-            $(this).parent(".editEventDate").css("display", "none");
-            $(this).parent(".editEventDate").siblings(".editDate").css("display", "none");
-            $(this).parent(".editEventDate").siblings(".contentButtons").parent(".cornerWithTools").removeClass("active");
-        }
-    );
-$("body").on("click", '.contentButtons .button.toolsDate',
-        function(){
-            $(this).parent(".editContent").parent(".contentButtons").siblings(".editDate").css("display", "flex");
-            $(this).parent(".editContent").parent(".contentButtons").css("display", "none");
-            $(this).parent(".editContent").parent(".contentButtons").parent(".cornerWithTools").addClass("active");
+            //smazat třídy u růžku a skrýt div s kalendářem
+            $(".cornerWithTools").removeClass("activeCalendar hideContentButtons").find(".calendarWrap").css("display", "none");
         }
     );
 
 
-
-//$('.edit_kalendar .ui.calendar').calendar({    SV
-$('.ui.calendar').calendar({
-    type: 'date',
-    today: true,
-    firstDayOfWeek: 1,
-    text: {
-        days: ['Ne', 'Po', 'Út', 'St', 'Čt', 'Pá', 'So'],
-        months: ['Leden', 'Únor', 'Březen', 'Duben', 'Květen', 'Červen', 'Červenec', 'Srpen', 'Září', 'Říjen', 'Listopad', 'Prosinec'],
-        today: 'Dnes'
-    },
-    formatter: {
-      date: function (date, settings) {
-        if (!date) return '';
-        var day = date.getDate();
-        var month = date.getMonth() + 1;
-        var year = date.getFullYear();
-        return day + '. ' + month + '. ' + year;}
-    }
-});
-
-//.borderDance - obihajici border kolem editacniho tagu, animace nastavena v author.less
-//zde prepisuji vlastnost animation-duration podle vysky a sirky tagu
+//.borderDance - animovaný border kolem editačního tagu (mravenci), animace nastavena v author.less
 function showHeight(height, width) {
+        //přepisuji vlastnost animation-duration podle výšky a šířky tagu
         $('.mce-edit-focus').css("animation-duration", (height+width)/20+"s");
     };
 $("body").on("click", ".borderDance",
