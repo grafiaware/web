@@ -15,10 +15,6 @@
        on: 'hover'
     });
     
-    //výběr šablony stránky, po kliku na tlačítko se objeví div s Tiny
-    $('.toogleTemplateSelect').on('click', function(){
-        $('.paper_template_select').toggle();
-    })
 
     //odeslani prihlasovaciho formulare pri stisku klavesy Enter
     $('.loginEnterKey').keyup(function(event){

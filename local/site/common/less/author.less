@@ -56,7 +56,8 @@
 //Pro paper
 @semaforContentPositionLeft: -21px;
 @semaforContentFontSize: initial;
-@semaforSectionTrashPositionLeft: -17px;
+@semaforSectionTrashCursor: no-drop;
+@semaforSectionTrashPositionLeft: -23px; 
 @semaforContentNumberMarginTop: -10px;
 @semaforContentNumberTextAlign: center; 
 
@@ -104,14 +105,14 @@
 @buttonyContentBackgroundColor: @barvaEditButtony;
 @lastButtonContentBackgroundColor: @barvaKos;
 //Kalendář
-@buttonyKalendarPositionTop: -32px;
+@buttonyKalendarPositionTop: -42px;
 @buttonyKalendarPositionRight: @hodnota0;
 @buttonyKalendarBackgroundColor: @barvaEditButtonyTmava;
 @divKalendarWidth: 350px;
 @divKalendarPositionTop: @hodnota0;
 @divKalendarPositionRight: -0.15em;
 @divKalendarFontSize: 2.8em;
-@divKalendarPadding: 10px;
+@divKalendarPadding: 10px; 
 @divKalendarColor: @black;
 @divKalendarBackgroundColor: @barvaEditButtonyTmava;
 @divKalendarBorder: @borderWidth @borderStyle @lightGrey;
@@ -340,6 +341,7 @@ body{
     }
     /*SMAZANÝ CONTENT*/
     section.trash{
+        cursor: @semaforSectionTrashCursor;
         .semafor{
             left: @semaforSectionTrashPositionLeft;
         }
@@ -433,9 +435,14 @@ body{
         .icons .icon{
             transform: @cornerIconTransform;
         }
-        &.cornerWithTools.active{
+        &.cornerWithTools.activeCalendar{
             z-index: @cornerActiveZIndex !important;
-        }
+        }   
+        &.cornerWithTools.hideContentButtons{
+            .contentButtons{
+                display: none !important;
+            }
+        } 
     }
     /*BUTTONY PRO CONTENT*/
     /*používané třídy pro buttony ke contentu
@@ -453,15 +460,17 @@ body{
         }
         .editContent{
             background-color: @buttonyContentBackgroundColor;
-            &:last-child{
-                background-color: @lastButtonContentBackgroundColor;
+            &:first-child{
+                .button:last-child{
+                    background-color: @lastButtonContentBackgroundColor;
+                }
             }
         }
     }
     /*KALENDÁŘ*/
     /*slouží k nastavení kalendáře contentu*/
     /*používané třídy pro buttony ke kalendáři
-        .editDate - třída divu pro výběr data i .buttons (trvale, uložit,...)*/
+        .calendarWrap - třída divu pro výběr data i .buttons (trvale, uložit,...)*/
     /*BUTTONY*/
     .corner.label .buttons.editDate{
         position: absolute;
@@ -469,11 +478,11 @@ body{
         top: @buttonyKalendarPositionTop;
         background-color: @buttonyKalendarBackgroundColor;
     }
-    .editDate, .buttons.editDate{
+    .calendarWrap{
         display: none; /*po kliknutí na iconu kalendáře se v edit.js mění display na flex*/
     }
     /*VÝBĚR DATA V KALENDÁŘI*/
-    .edit_kalendar{
+    .calendarWrap{
         position: absolute;
         width: @divKalendarWidth;
         cursor: @divKalendarCursor;
@@ -537,8 +546,10 @@ body{
         }
         &.paper_template_select{
             margin: 10px auto 20px;
-            display: @paperTempateSelectDisplay;
         }
+    }
+    .template_select_visible{
+        display: @paperTempateSelectDisplay;
     }
     .mce-edit-focus{
         /*.border-dance - obíhající border kolem editačního tagu, v edit.js ještě nastavena animation-duration podle výšky a šířky tagu*/

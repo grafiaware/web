@@ -28,7 +28,7 @@ function initLoadedEditableElements() {
             //výběr šablony pro stránku - vlastní dropdown, protože jsou dva vnořený
             $('.ui.selection.dropdown').dropdown();
 
-            $('.edit_kalendar .ui.calendar').calendar({
+            $('.calendarWrap .ui.calendar').calendar({
                 type: 'date',
                 today: true,
                 firstDayOfWeek: 1,
