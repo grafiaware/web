@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 define('PROJECT_PATH', str_replace("\\", "/", preg_replace('/^' . preg_quote($_SERVER['DOCUMENT_ROOT'], '/') . '/', '', __DIR__))."/");
 
-include 'vendor/pes/pes/src/Bootstrap/Bootstrap.php';
+include 'vendor/Pes/pes/src/Bootstrap/Bootstrap.php';
 //echo PES_RUNNING_ON_PRODUCTION_HOST ? "<p>Production host</p>" : "<p>No production host</p>";
 //echo "<pre>".print_r($bootstrapLoggerArray, true)."</pre>";
 
