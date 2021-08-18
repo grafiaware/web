@@ -93,7 +93,14 @@ class ConfigurationStyles extends ConfigurationRed {
                             'button.templateSelect' => 'large clone outline icon'
                         ],
             'paper_template_select' => [
-                            'div button' => 'ui button',
+                            'div button' => 'ui huge fade animated button toggleTemplateSelect',
+                            'div.hidden' => 'hidden content',
+                            'div.visible' => 'visible content',
+                            'div i' => 'file alternate teal icon',
+                            'div.selectTemplate' => 'select_template',
+                            'div.tinyPaperSelect' => 'paper_template_select',
+                            'div.tinyArticleSelect' => 'article_template_select',
+                
                             'div.menu' => 'menu selectTemplate',
                             'div.header' => 'item header',
                             'div.selection' => 'ui compact selection dropdown',

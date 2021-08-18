@@ -24,14 +24,6 @@
                             </div>
                         </button>
                     </form>
-                    <button class="ui huge fade animated button toogleTemplateSelect" formtarget="_self" tabindex="0">
-                        <div class="hidden content" style="font-size: 0.7em; top: 30%;">
-                            Šablony pro stránku
-                        </div>
-                        <div class="visible content">
-                            <i class="file alternate teal icon"></i>
-                        </div>
-                    </button>
                 </div>
                 <?= $content ?? '' ?>
             </main>

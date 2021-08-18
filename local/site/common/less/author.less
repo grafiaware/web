@@ -136,7 +136,7 @@
 @mceFocusPadding: 5px;
 @mceBorderDanceColor: @green;
 @mceTemplateSelectBorderDanceColor: @teal;
-@paperTempateSelectDisplay: none; 
+@paperTempateSelectDisplay: none;  
 
 
  
@@ -548,8 +548,14 @@ body{
             margin: 10px auto 20px;
         }
     }
-    .template_select_visible{
+    .select_template{
         display: @paperTempateSelectDisplay;
+    }
+    .animated.button.toggleTemplateSelect{
+        div.hidden.content{
+            font-size: 0.7em; 
+            top: 30%;
+        }
     }
     .mce-edit-focus{
         /*.border-dance - obíhající border kolem editačního tagu, v edit.js ještě nastavena animation-duration podle výšky a šířky tagu*/

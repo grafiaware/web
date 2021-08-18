@@ -1,8 +1,3 @@
-//výběr šablony stránky, po kliku na tlačítko se objeví div s Tiny
-    $('.toogleTemplateSelect').on('click', function(){
-        var si = $(this).siblings('.select_template');
-                si.toggle();
-    });
 
 //zobrazí sadu buttonů s třídou .contentButtons
 var showContentButtons =     function(){

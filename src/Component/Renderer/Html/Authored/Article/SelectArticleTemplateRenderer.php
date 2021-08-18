@@ -35,13 +35,26 @@ class SelectArticleTemplateRenderer extends HtmlRendererAbstract {
         $contentTemplateName = $paper->getTemplate();
         $paperId = $paper->getId();
         return
-        Html::tag('div', ['class'=>'select_template'],
-            Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/$paperId/template"],
-                Html::tagNopair('input', ["type"=>"hidden", "name"=>"template_$paperId", "value"=>$contentTemplateName])
-                .
-                Html::tag('div', ['id'=>"paper_$paperId", 'class'=>'article_template_select'],'')
+        Html::tag('div', [],
+            Html::tag('button', [
+                'class'=>$this->classMap->getClass('PaperTemplateSelect', 'div button'),
+                'formtarget'=>'_self',
+                'tabindex'=>'0'
+                ],
+                Html::tag('div', ['class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.hidden')], 'Šablony pro stránku')
+                .Html::tag('div', ['class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.visible')],
+                    Html::tag('i', ['class'=>$this->classMap->getClass('PaperTemplateSelect', 'div i')])
+                )
             )
+            .
+            Html::tag('div', ['class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.selectTemplate')],
+                Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/$paperId/template"],
+                    Html::tagNopair('input', ["type"=>"hidden", "name"=>"template_$paperId", "value"=>$contentTemplateName])
+                    .
+                    Html::tag('div', ['id'=>"paper_$paperId", 'class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.tinyArticleSelect')],'')
+                )
 
+            )
         );
     }
 }
