@@ -74,7 +74,7 @@ abstract class RepoAbstract {
 
     /**
      *
-     * @param string $entityInterfaceName Interface asociované entity
+     * @param string $entityInterfaceName Jméno interface asociované entity
      * @param array $parentReferenceKeyAttribute Atribut klíče, který je referencí na data rodiče v úložišti dat. V databázi jde o referenční cizí klíč.
      * @param \Model\Repository\RepoAssotiatedOneInterface $repo
      */
@@ -151,7 +151,7 @@ abstract class RepoAbstract {
 
     protected function recreateAssociations(&$row): void {
         foreach ($this->associations as $interfaceName => $association) {
-            $row[$interfaceName] = $association->getAssociated($row);
+            $row[$interfaceName] = $association->getAllAssociatedEntities($row);
         }
     }
 
@@ -211,7 +211,7 @@ abstract class RepoAbstract {
         foreach ($this->associations as $interfaceName => $association) {
             foreach ($row[$interfaceName] as $assocEntity) {  // asociovaná entita nemusí existovat - agregát je i tak validní
                 if (!$assocEntity->isPersisted()) {
-                    $association->addAssociated($assocEntity);
+                    $association->addAssociatedEntity($assocEntity);
                 }
             }
         }
@@ -245,7 +245,7 @@ abstract class RepoAbstract {
     protected function removeAssociated($row, EntityInterface $entity) {
         foreach ($this->associations as $interfaceName => $association) {
             if (isset($row[$interfaceName]) AND $row[$interfaceName]->isPersisted()) {  // asociovaná entita nemusí existovat - agregát je i tak validní
-                $association->removeAssociated($row[$interfaceName]);
+                $association->removeAssociatedEntity($row[$interfaceName]);
             }
         }
     }

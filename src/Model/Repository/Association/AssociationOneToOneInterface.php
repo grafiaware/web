@@ -15,7 +15,7 @@ use Model\Entity\EntityInterface;
  * @author pes2704
  */
 interface AssociationOneToOneInterface extends AssociationInterface {
-    public function getAssociated(&$row): ?EntityInterface;
-    public function addAssociated(EntityInterface $entity = null);
-    public function removeAssociated(EntityInterface $entity = null);
+    public function getAssociatedEntity(&$row): ?EntityInterface;
+    public function addAssociatedEntity(EntityInterface $entity = null);
+    public function removeAssociatedEntity(EntityInterface $entity = null);
 }

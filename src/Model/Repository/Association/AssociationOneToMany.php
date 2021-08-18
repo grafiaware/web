@@ -10,7 +10,7 @@ namespace Model\Repository\Association;
 
 use Model\Repository\RepoAssotiatedManyInterface;
 use Model\Repository\RepoInterface;
-
+use Model\Entity\EntityInterface;
 /**
  * Description of AssociationOneToManyFactory
  *
@@ -33,7 +33,7 @@ class AssociationOneToMany extends AssociationAbstract implements AssociationOne
         $this->childRepo = $childRepo;
     }
 
-    public function getAssociated(&$row): iterable {
+    public function getAllAssociatedEntities(&$row): iterable {
         $childKey = $this->getChildKey($row);
         $children = $this->childRepo->findByReference($childKey);
 //        if (!$children) {
@@ -42,11 +42,11 @@ class AssociationOneToMany extends AssociationAbstract implements AssociationOne
         return $children;
     }
 
-    public function addAssociated(iterable $entity) {
+    public function addAssociatedEntity(EntityInterface $entity = null) {
         $this->childRepo->add($entity);
     }
 
-    public function removeAssociated(iterable $entity) {
+    public function removeAssociatedEntity(EntityInterface $entity = null) {
         $this->childRepo->remove($entity);
     }
 

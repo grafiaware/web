@@ -133,8 +133,8 @@ class ContentControler extends PresentationFrontControlerAbstract {
                         $error = true;
                     }
                     if (!$error) {
-                        $content->setShowTime($eventStartTime);
-                        $content->setHideTime($eventEndTime);
+                        $content->setEventStartTime($eventStartTime);
+                        $content->setEventEndTime($eventEndTime);
                         $s = isset($eventStartTime) ? 'from '.$eventStartTime->format('d.m.Y') : '';
                         $h = isset($eventEndTime) ? 'to '.$eventEndTime->format('d.m.Y') : '';
                         $this->addFlashMessage("content: event $s $h");
@@ -202,7 +202,7 @@ class ContentControler extends PresentationFrontControlerAbstract {
         foreach ($contents as $contentItem) {
             /** @var PaperContentInterface $contentItem */
             if ($contentItem->getPriority()>$priority) {
-                $contentItem->setPriority($contentItem->getPriority());
+                $contentItem->setPriority($contentItem->getPriority()+1);
             }
         }
         $this->paperContentRepo->add($this->createNewContent($paperId, $priority));

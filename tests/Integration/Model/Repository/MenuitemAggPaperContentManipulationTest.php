@@ -168,22 +168,13 @@ class MenuitemAggPaperContentManipulationTest extends TestCase {
         $oldContentCount = count($oldContentsArray);
 
         $paperIdFk = $this->paper->getId();
-        $newContent = new PaperContent();
-        $newContent->setContent("bflmpsvz ".($oldContentCount+1));
-        $newContent->setPaperIdFk($paperIdFk);
-        $newContent->setShowTime((new \DateTime("now"))->modify("-1 week"));
-        $newContent->setHideTime((new \DateTime("now"))->modify("+1 week"));
-        $newContent->setEventStartTime(new \DateTime("now"));
-        $newContent->setEventEndTime((new \DateTime("now"))->modify("1 day"));
-        $newContent->setTemplateName('neexistujícíTemplate.php');
-        $newContent->setTemplate("<h1>Content z testu</h1>");
-
+        $this->paper->exchangePaperContentsArray($this->addContent($this->createContent($paperIdFk), $oldContentsArray));
         /** @var PaperContentRepo $paperContentRepo */
-        $paperContentRepo = $this->container->get(PaperContentRepo::class);
-        $paperContentRepo->add($newContent);
+//        $paperContentRepo = $this->container->get(PaperContentRepo::class);
+//        $paperContentRepo->add($newContent);
 
-        $paperContentRepo->flush();  // unset nevyvolá zavolání destruktoru
-
+//        $paperContentRepo->flush();  // unset nevyvolá zavolání destruktoru
+$this->menuItemAggRepo->flush();
         // reset odstraní repo - voláním container->get() pak vznikne nové repo
         // nestačí resetovat MenuItemAggregateRepo - to se sice vygeneruje znovu, ale v něm obsažené PaperAggregateRepo se zachová a použije
         // a obdobně PaperContentRepo obsažené v PaperAggregateRepo
@@ -201,6 +192,29 @@ class MenuitemAggPaperContentManipulationTest extends TestCase {
         // tohle nefunguje!
 //        $this->assertTrue(count($newContentsArray) == count($oldContentsArray)+1, "Není o jeden obsah více po paper->exchangePaperContentsArray ");
 
+    }
+
+    private function createContent($paperIdFk) {
+        $newContent = new PaperContent();
+        $newContent->setContent("bflmpsvz ".($oldContentCount+1));
+        $newContent->setPaperIdFk($paperIdFk);
+        $newContent->setShowTime((new \DateTime("now"))->modify("-1 week"));
+        $newContent->setHideTime((new \DateTime("now"))->modify("+1 week"));
+        $newContent->setEventStartTime(new \DateTime("now"));
+        $newContent->setEventEndTime((new \DateTime("now"))->modify("1 day"));
+        $newContent->setTemplateName('neexistujícíTemplate.php');
+        $newContent->setTemplate("<h1>Content z testu</h1>");
+        return $newContent;
+    }
+
+    private function addContent(PaperContentInterface $newContent, $oldContentsArray) {
+        $newContent->setPriority(1);
+        foreach ($oldContentsArray as $contentItem) {
+            /** @var PaperContentInterface $contentItem */
+                $contentItem->setPriority($contentItem->getPriority()+1);
+        }
+        $oldContentsArray[] = $newContent;
+        return $oldContentsArray;
     }
 
 //    public function testUpdate() {

@@ -35,7 +35,7 @@ class AssociationOneToOne extends AssociationAbstract implements AssociationOneT
         $this->childRepo = $childRepo;
     }
 
-    public function getAssociated(&$row): ?EntityInterface {
+    public function getAssociatedEntity(&$row): ?EntityInterface {
         $childKey = $this->getChildKey($row);
         $child = $this->childRepo->getByReference($childKey);
 //        if (is_null($child)) {
@@ -45,11 +45,11 @@ class AssociationOneToOne extends AssociationAbstract implements AssociationOneT
         return $child;
     }
 
-    public function addAssociated(EntityInterface $entity = null) {
+    public function addAssociatedEntity(EntityInterface $entity = null) {
         $this->childRepo->add($entity);
     }
 
-    public function removeAssociated(EntityInterface $entity = null) {
+    public function removeAssociatedEntity(EntityInterface $entity = null) {
         $this->childRepo->remove($entity);
     }
 }
