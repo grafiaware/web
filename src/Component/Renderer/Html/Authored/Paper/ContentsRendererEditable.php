@@ -63,6 +63,13 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
                 Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.corner')],
                     $this->getContentButtons($paperContent)
                 )
+                    .'<div class="div-osa" data-tooltip="'. $textDatumyZobrazeni.'",>
+                            <div class="zelene-obdobi">
+                                  <div class="cislo1"></div>
+                                  <div class="cislo2"></div>
+                            </div>
+                            <div class="dnes" data-datumOsa="'.$future.'x,'.$past.'x"></div>
+                      </div>'
                 .Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.semafor')],
                     Html::tag('i',
                        [

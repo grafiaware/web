@@ -1,4 +1,6 @@
 
+
+
 //zobrazí sadu buttonů s třídou .contentButtons
 var showContentButtons =     function(){
         $(this).parent('section').find('.contentButtons').css("display", "flex");
@@ -9,11 +11,8 @@ var hideContentButtons =     function(){
         $(this).parent('section').find('.contentButtons').css("display", "none");
         $(this).css("z-index", "1");
     };
-
 $("body").on("mouseenter", ".cornerWithTools", showContentButtons);
 $("body").on("mouseleave", ".cornerWithTools", hideContentButtons);
-
-
 
 //calendarWrap = div s buttony pro kalendář a inputy pro výběr datumů ; rozděluje se na kalendář pro content a kalendář pro událost
 function showCalendarWrap(thisButton, calendarWrap) {
