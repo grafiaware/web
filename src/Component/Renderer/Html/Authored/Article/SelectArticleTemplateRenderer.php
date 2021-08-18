@@ -32,8 +32,8 @@ class SelectArticleTemplateRenderer extends HtmlRendererAbstract {
     }
 
     private function renderSelectTemplate(ArticleInterface $article) {
-        $contentTemplateName = $paper->getTemplate();
-        $paperId = $paper->getId();
+        $contentTemplateName = $article->getTemplate();
+        $articleId = $article->getId();
         return
         Html::tag('div', [],
             Html::tag('button', [
@@ -48,10 +48,10 @@ class SelectArticleTemplateRenderer extends HtmlRendererAbstract {
             )
             .
             Html::tag('div', ['class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.selectTemplate')],
-                Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/$paperId/template"],
-                    Html::tagNopair('input', ["type"=>"hidden", "name"=>"template_$paperId", "value"=>$contentTemplateName])
+                Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/$articleId/template"],
+                    Html::tagNopair('input', ["type"=>"hidden", "name"=>"template_$articleId", "value"=>$contentTemplateName])
                     .
-                    Html::tag('div', ['id'=>"paper_$paperId", 'class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.tinyArticleSelect')],'')
+                    Html::tag('div', ['id'=>"paper_$articleId", 'class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.tinyArticleSelect')],'')
                 )
 
             )
