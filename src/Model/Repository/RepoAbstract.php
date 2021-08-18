@@ -17,6 +17,8 @@ use Model\Entity\EntityInterface;
 
 use Model\Repository\Association\AssociationOneToOne;
 use Model\Repository\Association\AssociationOneToMany;
+use Model\Repository\Association\AssociationOneToOneInterface;
+use Model\Repository\Association\AssociationOneToManyInterface;
 use Model\Repository\RepoAssotiatedOneInterface;
 use Model\Repository\RepoAssotiatedManyInterface;
 use Model\Repository\Exception\UnableToCreateAssotiatedChildEntity;
@@ -151,7 +153,13 @@ abstract class RepoAbstract {
 
     protected function recreateAssociations(&$row): void {
         foreach ($this->associations as $interfaceName => $association) {
-            $row[$interfaceName] = $association->getAllAssociatedEntities($row);
+            if ($association instanceof AssociationOneToManyInterface) {
+                $row[$interfaceName] = $association->getAllAssociatedEntities($row);
+            } elseif($association instanceof AssociationOneToOneInterface) {
+                $row[$interfaceName] = $association->getAssociatedEntity($row);
+            } else {
+                throw new \LogicException("Neznámý typ asociace pro $interfaceName");
+            }
         }
     }
 
