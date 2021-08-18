@@ -13,6 +13,7 @@ function initLoadedEditableElements() {
             tinymce.init(editTextConfig);
             tinymce.init(editHtmlConfig);
             tinymce.init(selectPaperTemplateConfig);
+            tinymce.init(selectArticleTemplateConfig);
 
             //pro editaci pracovního popisu pro přihlášené uživatele
             tinymce.init(editWorkDataConfig);
