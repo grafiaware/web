@@ -63,33 +63,59 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
                 Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.corner')],
                     $this->getContentButtons($paperContent)
                 )
-                    .'<div class="div-osa" data-tooltip="'. $textDatumyZobrazeni.'",>
+                    .'<div class="div-osa" data-tooltip="">
                             <div class="zelene-obdobi">
                                   <div class="cislo1"></div>
                                   <div class="cislo2"></div>
                             </div>
                             <div class="dnes" data-datumOsa="'.$future.'x,'.$past.'x"></div>
                       </div>'
+//                .Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.semafor')],
+//                    Html::tag('i',
+//                       [
+//                       'class'=> $this->classMap->resolveClass($active, 'Content','i1.published', 'i1.notpublished'),
+//                       'title'=> $active ? "published" : "not published",
+//                       ]
+//                    )
+//                    .Html::tag('i',
+//                        [
+//                        'class'=> $this->classMap->resolveClass($actual, 'Content',
+//                                'i2.actual',
+//                                $past ?  'i2.past' : ($future ? 'i2.future' : 'i2.invalid')
+//                            ),
+//                        'role'=>"presentation",
+//                        'title'=> $actual ? 'actual' : $past ?  'past' : ($future ? 'future' : 'invalid dates')
+//                        ])
+//                    .Html::tag('span', ['class'=>''],
+//                        $paperContent->getPriority()
+//                    )
+//                )
                 .Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.semafor')],
-                    Html::tag('i',
+                    Html::tag('div',
                        [
-                       'class'=> $this->classMap->resolveClass($active, 'Content','i1.published', 'i1.notpublished'),
-                       'title'=> $active ? "published" : "not published",
-                       ]
+                       'class'=> 'ikona-popis',
+                       'data-tooltip'=> $active ? "published" : "not published",
+                       ],
+                        Html::tag('i',
+                           [
+                           'class'=> $this->classMap->resolveClass($active, 'Content','i1.published', 'i1.notpublished'),
+                           ]
+                        )
                     )
-//                        'i2.published' => 'calendar check icon green',
-//                        'i2.notactive' => 'calendar plus icon yellow',
-//                        'i2.notactual' => 'calendar minus icon orange',
-//                        'i2.notactivenotactual' => 'calendar times icon red',
-                    .Html::tag('i',
+                    .Html::tag('div',
                         [
-                        'class'=> $this->classMap->resolveClass($actual, 'Content',
-                                'i2.actual',
-                                $past ?  'i2.past' : ($future ? 'i2.future' : 'i2.invalid')
-                            ),
+                        'class'=> 'ikona-popis',
                         'role'=>"presentation",
-                        'title'=> $actual ? 'actual' : $past ?  'past' : ($future ? 'future' : 'invalid dates')
-                        ])
+                        'data-tooltip'=> $actual ? 'actual' : $past ?  'past' : ($future ? 'future' : 'invalid dates')
+                        ],
+                        Html::tag('i',
+                            [
+                            'class'=> $this->classMap->resolveClass($actual, 'Content',
+                                    'i2.actual',
+                                    $past ?  'i2.past' : ($future ? 'i2.future' : 'i2.invalid')
+                                ),
+                            ])
+                    )
                     .Html::tag('span', ['class'=>''],
                         $paperContent->getPriority()
                     )

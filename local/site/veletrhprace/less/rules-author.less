@@ -32,6 +32,9 @@
         display: none;
     }
 }
+.semafor > div{
+    display: inline-flex; 
+}
 
 /*.blue.corner.label{
     float: right;
@@ -46,7 +49,7 @@
     }
 }*/
 
-.div-osa{
+/*.div-osa{
     width: 95%;
     background-color: #d7d8d9;
     height: 5px;
@@ -62,7 +65,6 @@
             width: 40%;
         }
         .cislo2{
-            
         }
     }
     .dnes{
@@ -71,7 +73,7 @@
         background: black;
         top: -2px;
         position: absolute;
-        z-index: 3;
+        z-index: 3; 
         &[data-datumOsa="1x,x"]{
             right: 20%;
         }
@@ -83,4 +85,60 @@
             
         }
     }
+}*/
+
+/**/
+
+/*.blue.corner.label{     
+    font-size: 0.4em;
 }
+.semafor{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: -9px;
+    right: -14px;
+    left: auto;
+    transform: rotate(-45deg);
+    z-index: 2;
+    .calendar, span{
+        transform: rotate(45deg);
+    }
+    > div[data-tooltip]::before,div[data-tooltip]::after{
+        content: '';
+        background: 0;
+        border: 0;
+        box-shadow: none;
+    }
+}*/
+
+/**/
+
+/*.semafor{
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    top: -9px;
+    right: 30px;
+    left: auto;
+    div{ 
+        display: inline-flex;
+    }
+}*/
+
+/**/
+
+/*.semafor{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: white;
+    z-index: 1;
+    div{
+        display: inline-flex;
+    }
+}*/
+
+/**/
