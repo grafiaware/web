@@ -63,7 +63,7 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
                 Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.corner')],
                     $this->getContentButtons($paperContent)
                 )
-                    .'<div class="div-osa" data-tooltip="'. $this->textDatumyZobrazeni($paperContent).' | '.$this->textDatumyZobrazeni($paperContent).'",>
+                    .'<div class="div-osa" data-tooltip="'. $this->textDatumyZobrazeni($paperContent).' | '.$this->textDatumyUdalosti($paperContent).'",>
                             <div class="zelene-obdobi">
                                   <div class="cislo1"></div>
                                   <div class="cislo2"></div>
@@ -126,49 +126,55 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
             );
     }
 
-    private function textDatumyZobrazeni(PaperContentInterface $paperContent) {
+    private function getShowTimeText(PaperContentInterface $paperContent) {
         $showTime = $paperContent->getShowTime();
-        $hideTiem = $paperContent->getHideTime();
-        if (isset($showTime)) {
-            $showTimeText = $showTime->format("d.m.Y") ;
-            if (isset($hideTiem)) {
-                $hideTimeText = $hideTiem->format("d.m.Y");
+        return isset($showTime) ? $showTime->format("d.m.Y") : '';
+    }
+
+    private function getHideTimeText(PaperContentInterface $paperContent) {
+        $hideTime = $paperContent->getHideTime();
+        return isset($hideTime) ? $hideTime->format("d.m.Y") : '';
+    }
+
+    private function getEventStartTimeText(PaperContentInterface $paperContent) {
+        $eventStartTime = $paperContent->getEventStartTime();
+        return isset($eventStartTime) ? $eventStartTime->format("d.m.Y") : '';
+    }
+
+    private function getEventEndTimeText(PaperContentInterface $paperContent) {
+        $eventEndTime = $paperContent->getEventEndTime();
+        return isset($eventEndTime) ? $eventEndTime->format("d.m.Y") : '';
+    }
+
+    private function textDatumyZobrazeni(PaperContentInterface $paperContent) {
+        $showTimeText = $this->getShowTimeText($paperContent);
+        $hideTimeText = $this->getHideTimeText($paperContent);
+        if ($showTimeText) {
+            if ($hideTimeText) {
                 $textDatumyZobrazeni = "Zobrazeno od $showTimeText  do $hideTimeText";
             } else {
-                $hideTimeText = '';
                 $textDatumyZobrazeni = "Zobrazeno od $showTimeText";
             }
-        } elseif (isset($hideTiem)) {
-            $showTimeText = '';
-            $hideTimeText = $hideTiem->format("d.m.Y");
+        } elseif ($hideTimeText) {
             $textDatumyZobrazeni = "Zobrazeno do $hideTimeText";
         } else {
-            $showTimeText = '';
-            $hideTimeText = '';
             $textDatumyZobrazeni = "Zobrazeno trvale";
         }
         return $textDatumyZobrazeni;
     }
 
     private function textDatumyUdalosti(PaperContentInterface $paperContent) {
-        $eventStartTime = $paperContent->getEventStartTime();
-        $eventEndTime = $paperContent->getEventEndTime();
-        if (isset($eventStartTime)) {
-            $eventStartTimeText = $eventStartTime->format("d.m.Y") ;
-            if (isset($eventEndTime)) {
-                $eventEndTimeText = $eventEndTime->format("d.m.Y");
+        $eventStartTimeText = $this->getEventStartTimeText($paperContent);
+        $eventEndTimeText = $this->getEventEndTimeText($paperContent);
+        if ($eventStartTimeText) {
+            if ($eventEndTimeText) {
                 $textDatumyUdalosti = "Událost se koná od $eventStartTimeText  do $eventEndTimeText";
             } else {
-                $eventEndTimeText = '';
                 $textDatumyUdalosti = "Událost se koná od $eventStartTimeText";
             }
-        } elseif (isset($eventEndTime)) {
-            $eventStartTimeText = '';
-            $eventEndTimeText = $eventEndTime->format("d.m.Y");
+        } elseif ($eventEndTimeText) {
             $textDatumyUdalosti = "Událost se koná do $eventEndTimeText";
         } else {
-            $eventStartTimeText = '';
-            $eventEndTimeText = '';
             $textDatumyUdalosti = "Událost se koná trvale";
         }
         return $textDatumyUdalosti;
@@ -368,8 +374,8 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
                 Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.wholeRow')],
                     Html::tag('p', ['class'=>$this->classMap->getClass('ContentButtons', 'p')], 'Uveřejnit obsah')
                 )
-                .$this->calendar('datum od', "show_$paperContentId", 'Klikněte pro výběr', $showTimeText)
-                .$this->calendar('datum do', "hide_$paperContentId", 'Klikněte pro výběr', $hideTimeText)
+                .$this->calendar('datum od', "show_$paperContentId", 'Klikněte pro výběr', $this->getShowTimeText($paperContent))
+                .$this->calendar('datum do', "hide_$paperContentId", 'Klikněte pro výběr', $this->getHideTimeText($paperContent))
 
             )
         )
@@ -382,8 +388,8 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
                 Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.wholeRow')],
                     Html::tag('p', ['class'=>$this->classMap->getClass('ContentButtons', 'p')], 'Nastavit datum události')
                 )
-                .$this->calendar('datum od', "start_$paperContentId", 'Klikněte pro výběr', $eventStartTimeText)
-                .$this->calendar('datum do', "end_$paperContentId", 'Klikněte pro výběr', $eventEndTimeText)
+                .$this->calendar('datum od', "start_$paperContentId", 'Klikněte pro výběr', $this->getEventStartTimeText($paperContent))
+                .$this->calendar('datum do', "end_$paperContentId", 'Klikněte pro výběr', $this->getEventEndTimeText($paperContent))
 
             )
         );
