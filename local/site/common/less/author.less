@@ -155,12 +155,12 @@
     &:not(mce-edit-focus) a[data-mce-selected]{
         background-color: @colorNotFocus !important;
     }
-    &.mce-edit-focus a[data-mce-selected]{  
+    &.mce-edit-focus a[data-mce-selected]{   
         background-color: @colorFocus !important; //Tiny modrá pro odkaz
     }
-}
-
-body{ 
+} 
+ 
+body{   
     /*popisky buttonů budou tučně - popisky jsou v atributu data-tooltip*/
     .buttons [data-tooltip]::after{
         font-weight: @buttonDataTooltipFontWeight;
@@ -345,7 +345,7 @@ body{
         .semafor{
             left: @semaforSectionTrashPositionLeft;
         }
-        .blue.corner.label{
+        .blue.ribbon.label{  
             right: @sectionTrashCornerPositionRight;
         }
     }
@@ -421,8 +421,8 @@ body{
     }
 
     /*ROH U CONTENTU*/
-    .blue.corner.label{     
-        width: @cornerWidth;
+    .blue.ribbon.label{     
+        width: @cornerWidth;               
         height: @cornerHeight; 
         font-size: @cornerSize;
         right: @cornerPositionRigth;
@@ -435,7 +435,7 @@ body{
         .icons .icon{
             transform: @cornerIconTransform;
         }
-        &.cornerWithTools.activeCalendar{
+        &.cornerWithTools.activeCalendar{ 
             z-index: @cornerActiveZIndex !important;
         }   
         &.cornerWithTools.hideContentButtons{
@@ -472,7 +472,7 @@ body{
     /*používané třídy pro buttony ke kalendáři
         .calendarWrap - třída divu pro výběr data i .buttons (trvale, uložit,...)*/
     /*BUTTONY*/
-    .corner.label .buttons.editDate{
+    .ribbon.label .buttons.editDate{
         position: absolute;
         right: @buttonyKalendarPositionRight;
         top: @buttonyKalendarPositionTop;
