@@ -54,7 +54,7 @@ class PaperComponent extends AuthoredComponentAbstract implements PaperComponent
                 user_error("Neexistuje soubor šablony '{$this->getTemplateName()}'", E_USER_WARNING);
                 $template = new ImplodeTemplate();
             }
-            $templatedView = $this->createComponentViewWithTemplate($template);
+            $templatedView = $this->createCompositeViewWithTemplate($template);
             if ($this->contextData->userCanEdit()) { // editační režim a uživatel má právo editovat
                 $this->setRendererName(PaperRendererEditable::class);
                 $this->addChildEditableComponents($templatedView);
@@ -90,16 +90,16 @@ class PaperComponent extends AuthoredComponentAbstract implements PaperComponent
 
     private function addChildEditableComponents(CompositeViewInterface $view) {
         // renderery musí být definovány v Renderer kontejneru - tam mohou dostat classMap do konstruktoru
-        $view->appendComponentView($this->createComponentViewWithRenderer(HeadlineRendererEditable::class), 'headline');
-        $view->appendComponentView($this->createComponentViewWithRenderer(PerexRendererEditable::class), 'perex');
-        $view->appendComponentView($this->createComponentViewWithRenderer(ContentsRendererEditable::class), 'contents');
+        $view->appendComponentView($this->createCompositeViewWithRenderer(HeadlineRendererEditable::class), 'headline');
+        $view->appendComponentView($this->createCompositeViewWithRenderer(PerexRendererEditable::class), 'perex');
+        $view->appendComponentView($this->createCompositeViewWithRenderer(ContentsRendererEditable::class), 'contents');
     }
 
     private function addChildComponents(CompositeViewInterface $view) {
         // renderery musí být definovány v Renderer kontejneru - tam mohou dostat classMap do konstruktoru
-        $view->appendComponentView($this->createComponentViewWithRenderer(HeadlineRenderer::class), 'headline');
-        $view->appendComponentView($this->createComponentViewWithRenderer(PerexRenderer::class), 'perex');
-        $view->appendComponentView($this->createComponentViewWithRenderer(ContentsRenderer::class), 'contents');
+        $view->appendComponentView($this->createCompositeViewWithRenderer(HeadlineRenderer::class), 'headline');
+        $view->appendComponentView($this->createCompositeViewWithRenderer(PerexRenderer::class), 'perex');
+        $view->appendComponentView($this->createCompositeViewWithRenderer(ContentsRenderer::class), 'contents');
     }
 
     private function getTemplateName() {

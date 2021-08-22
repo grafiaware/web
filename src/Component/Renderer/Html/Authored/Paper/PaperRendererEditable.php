@@ -19,11 +19,11 @@ class PaperRendererEditable  extends HtmlRendererAbstract {
         /** @var PaperViewModelInterface $viewModel */
         $paperAggregate = $viewModel->getPaper();  // vrací PaperAggregate
         $selectTemplate = $this->renderSelectTemplate($paperAggregate);
-        $articleButtonForms = $this->renderPaperButtonsForm($paperAggregate);
+        $paperButtonsForm = $this->renderPaperButtonsForm($paperAggregate);
         $inner = (string) $viewModel->getContextVariable('template') ?? '';
         $html =
                 Html::tag('article', ['data-red-renderer'=>'PaperRendererEditable', "data-red-datasource"=> "paper {$paperAggregate->getId()} for item {$paperAggregate->getMenuItemIdFk()}"],
-                    $selectTemplate.$articleButtonForms
+                    $selectTemplate.$paperButtonsForm
                     .Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/{$paperAggregate->getId()}"],
                         $inner
                     )

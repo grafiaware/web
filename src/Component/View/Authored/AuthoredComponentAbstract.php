@@ -45,7 +45,7 @@ abstract class AuthoredComponentAbstract extends CompositeComponentAbstract impl
      * @param type $rendererClassname
      * @return CompositeView
      */
-    protected function createComponentViewWithRenderer($rendererClassname) {
+    protected function createCompositeViewWithRenderer($rendererClassname) {
         // pokud render používá classMap musí být konfigurován v Renderer kontejneru - tam dostane classMap
         return (new CompositeView())->setData($this->contextData)->setRendererName($rendererClassname)->setRendererContainer($this->rendererContainer);
     }
@@ -55,7 +55,7 @@ abstract class AuthoredComponentAbstract extends CompositeComponentAbstract impl
      * @param PhpTemplateInterface $template
      * @return CompositeView
      */
-    protected function createComponentViewWithTemplate(TemplateInterface $template) {
+    protected function createCompositeViewWithTemplate(TemplateInterface $template) {
         return (new CompositeView())->setData($this->contextData)->setTemplate($template)->setRendererContainer($this->rendererContainer);
     }
 }

@@ -8,7 +8,7 @@ namespace Test\Integration\Repository;
  * and open the template in the editor.
  */
 
-use PHPUnit\Framework\TestCase;
+use Test\AppRunner\AppRunner;
 
 use Pes\Container\Container;
 
@@ -26,7 +26,7 @@ use Events\Model\Entity\Enroll;
  *
  * @author pes2704
  */
-class EnrollRepositoryTest extends TestCase {
+class EnrollRepositoryTest extends AppRunner {
 
 
     private $container;
@@ -40,15 +40,17 @@ class EnrollRepositoryTest extends TestCase {
     private static $id;
 
     public static function setUpBeforeClass(): void {
-        if ( !defined('PES_DEVELOPMENT') AND !defined('PES_PRODUCTION') ) {
-            define('PES_FORCE_DEVELOPMENT', 'force_development');
-            //// nebo
-            //define('PES_FORCE_PRODUCTION', 'force_production');
+//        if ( !defined('PES_DEVELOPMENT') AND !defined('PES_PRODUCTION') ) {
+//            define('PES_FORCE_DEVELOPMENT', 'force_development');
+//            //// nebo
+//            //define('PES_FORCE_PRODUCTION', 'force_production');
+//
+//            define('PROJECT_PATH', 'c:/ApacheRoot/web/');
+//
+//            include '../vendor/pes/pes/src/Bootstrap/Bootstrap.php';
+//        }
 
-            define('PROJECT_PATH', 'c:/ApacheRoot/web/');
-
-            include '../vendor/pes/pes/src/Bootstrap/Bootstrap.php';
-        }
+        self::bootstrapBeforeClass();
 
         $container =
                 (new TestModelContainerConfigurator())->configure(  // přepisuje ContextFactory
@@ -72,9 +74,9 @@ class EnrollRepositoryTest extends TestCase {
     }
 
     private static function deleteRecords(Container $container) {
-        /** @var EventContentDao $eventContentDao */
-        $eventContentDao = $container->get(EnrollDao::class);
-        $eventContentDao->delete(['id'=>0]);
+        /** @var EventContentDao $enrollDao */
+        $enrollDao = $container->get(EnrollDao::class);
+        $enrollDao->delete(['id'=>0]);
     }
 
     protected function setUp(): void {

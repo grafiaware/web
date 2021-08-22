@@ -63,7 +63,7 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
                 Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.corner')],
                     $this->getContentButtons($paperContent)
                 )
-                    .'<div class="div-osa" data-tooltip="'. $textDatumyZobrazeni.'",>
+                    .'<div class="div-osa" data-tooltip="'. $this->textDatumyZobrazeni($paperContent).' | '.$this->textDatumyZobrazeni($paperContent).'",>
                             <div class="zelene-obdobi">
                                   <div class="cislo1"></div>
                                   <div class="cislo2"></div>
@@ -126,15 +126,9 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
             );
     }
 
-    private function getContentButtons(PaperContentInterface $paperContent) {
-        //TODO: atributy data-tooltip a data-position jsou pro semantic - zde jsou napevno zadané
+    private function textDatumyZobrazeni(PaperContentInterface $paperContent) {
         $showTime = $paperContent->getShowTime();
         $hideTiem = $paperContent->getHideTime();
-        $paperIdFk = $paperContent->getPaperIdFk();
-        $paperContentId = $paperContent->getId();
-        $active = $paperContent->getActive();
-        $actual = $paperContent->getActual();
-
         if (isset($showTime)) {
             $showTimeText = $showTime->format("d.m.Y") ;
             if (isset($hideTiem)) {
@@ -153,10 +147,12 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
             $hideTimeText = '';
             $textDatumyZobrazeni = "Zobrazeno trvale";
         }
+        return $textDatumyZobrazeni;
+    }
+
+    private function textDatumyUdalosti(PaperContentInterface $paperContent) {
         $eventStartTime = $paperContent->getEventStartTime();
         $eventEndTime = $paperContent->getEventEndTime();
-        $eventStartTimeText = isset($eventStartTime) ? $eventStartTime->format("d.m.Y") : '';
-        $eventEndTimeText = isset($eventEndTime) ? $eventEndTime->format("d.m.Y") : '';
         if (isset($eventStartTime)) {
             $eventStartTimeText = $eventStartTime->format("d.m.Y") ;
             if (isset($eventEndTime)) {
@@ -175,8 +171,17 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
             $eventEndTimeText = '';
             $textDatumyUdalosti = "Událost se koná trvale";
         }
+        return $textDatumyUdalosti;
+    }
 
-        $btnAktivni =                 Html::tag('button',
+    private function getContentButtons(PaperContentInterface $paperContent) {
+
+        $paperIdFk = $paperContent->getPaperIdFk();
+        $paperContentId = $paperContent->getId();
+        $active = $paperContent->getActive();
+        $actual = $paperContent->getActual();
+
+        $btnAktivni = Html::tag('button',
                     ['class'=>$this->classMap->getClass('ContentButtons', 'button'),
                     'data-tooltip'=>'Aktivní/neaktivní obsah',
                     'type'=>'submit',
@@ -200,7 +205,7 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
                 );
         $btnDatumyZobrazeni = Html::tag('button', [
                     'class'=>$this->classMap->getClass('ContentButtons', 'button.showDate'),
-                    'data-tooltip'=> $textDatumyZobrazeni,
+                    'data-tooltip'=> $this->textDatumyZobrazeni($paperContent),
                     'data-position'=>'top right',
                     'onclick'=>'event.preventDefault();'
                     ],
@@ -241,7 +246,7 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
             );
         $btnDatumyUdalosti = Html::tag('button', [
                     'class'=>$this->classMap->getClass('ContentButtons', 'button.eventDate'),
-                    'data-tooltip'=> $textDatumyUdalosti,
+                    'data-tooltip'=> $this->textDatumyUdalosti($paperContent),
                     'data-position'=>'top right',
                     'onclick'=>'event.preventDefault();'
                     ],
