@@ -70,52 +70,26 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
                             </div>
                             <div class="dnes" data-datumOsa="'.$future.'x,'.$past.'x"></div>
                       </div>'
-//                .Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.semafor')],
-//                    Html::tag('i',
-//                       [
-//                       'class'=> $this->classMap->resolveClass($active, 'Content','i1.published', 'i1.notpublished'),
-//                       'title'=> $active ? "published" : "not published",
-//                       ]
-//                    )
-//                    .Html::tag('i',
-//                        [
-//                        'class'=> $this->classMap->resolveClass($actual, 'Content',
-//                                'i2.actual',
-//                                $past ?  'i2.past' : ($future ? 'i2.future' : 'i2.invalid')
-//                            ),
-//                        'role'=>"presentation",
-//                        'title'=> $actual ? 'actual' : $past ?  'past' : ($future ? 'future' : 'invalid dates')
-//                        ])
-//                    .Html::tag('span', ['class'=>''],
-//                        $paperContent->getPriority()
-//                    )
-//                )
                 .Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.semafor')],
-                    Html::tag('div',
+                    Html::tag('i',
                        [
-                       'class'=> 'ikona-popis',
-                       'data-tooltip'=> $active ? "published" : "not published",
-                       ],
-                        Html::tag('i',
-                           [
-                           'class'=> $this->classMap->resolveClass($active, 'Content','i1.published', 'i1.notpublished'),
-                           ]
-                        )
+                       'class'=> $this->classMap->resolveClass($active, 'Content','i1.published', 'i1.notpublished'),
+                       'title'=> $active ? "published" : "not published",
+                       ]
                     )
-                    .Html::tag('div',
+//                        'i2.published' => 'calendar check icon green',
+//                        'i2.notactive' => 'calendar plus icon yellow',
+//                        'i2.notactual' => 'calendar minus icon orange',
+//                        'i2.notactivenotactual' => 'calendar times icon red',
+                    .Html::tag('i',
                         [
-                        'class'=> 'ikona-popis',
+                        'class'=> $this->classMap->resolveClass($actual, 'Content',
+                                'i2.actual',
+                                $past ?  'i2.past' : ($future ? 'i2.future' : 'i2.invalid')
+                            ),
                         'role'=>"presentation",
-                        'data-tooltip'=> $actual ? 'actual' : $past ?  'past' : ($future ? 'future' : 'invalid dates')
-                        ],
-                        Html::tag('i',
-                            [
-                            'class'=> $this->classMap->resolveClass($actual, 'Content',
-                                    'i2.actual',
-                                    $past ?  'i2.past' : ($future ? 'i2.future' : 'i2.invalid')
-                                ),
-                            ])
-                    )
+                        'title'=> $actual ? 'actual' : $past ?  'past' : ($future ? 'future' : 'invalid dates')
+                        ])
                     .Html::tag('span', ['class'=>''],
                         $paperContent->getPriority()
                     )
