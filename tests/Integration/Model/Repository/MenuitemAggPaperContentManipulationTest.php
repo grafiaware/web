@@ -196,7 +196,7 @@ $this->menuItemAggRepo->flush();
 
     private function createContent($paperIdFk) {
         $newContent = new PaperContent();
-        $newContent->setContent("bflmpsvz ".($oldContentCount+1));
+        $newContent->setContent($content = file_get_contents('http://loripsum.net/api/3/short/headers'));
         $newContent->setPaperIdFk($paperIdFk);
         $newContent->setShowTime((new \DateTime("now"))->modify("-1 week"));
         $newContent->setHideTime((new \DateTime("now"))->modify("+1 week"));
@@ -208,11 +208,7 @@ $this->menuItemAggRepo->flush();
     }
 
     private function addContent(PaperContentInterface $newContent, $oldContentsArray) {
-        $newContent->setPriority(1);
-        foreach ($oldContentsArray as $contentItem) {
-            /** @var PaperContentInterface $contentItem */
-                $contentItem->setPriority($contentItem->getPriority()+1);
-        }
+        $newContent->setPriority(count($oldContentsArray)+1);
         $oldContentsArray[] = $newContent;
         return $oldContentsArray;
     }
