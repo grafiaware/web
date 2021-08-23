@@ -303,7 +303,7 @@ body{
        }
     }
     /*VODOROVNÉ MENU*/
-    .vodorovne-menu .text.menu{ //větší váha selektorů kvůli speciálnímu zobrazení pro vodorovné menu
+    .vodorovne-menu .text.menu{ //větší váha selektorů kvůli speciálnímu zobrazení pro vodorovné menu 
         .semafor{
             left: @semaforVodorovneMenuPositionLeft;
             background-color: @semaforVodorovneMenuBackgroundColor; 
@@ -345,7 +345,10 @@ body{
         .semafor{
             left: @semaforSectionTrashPositionLeft;
         }
-        .blue.ribbon.label{  
+        .blue.corner.label{  
+            right: @sectionTrashCornerPositionRight;
+        }
+        .ui.ribbon.label{  
             right: @sectionTrashCornerPositionRight;
         }
     }
@@ -421,7 +424,7 @@ body{
     }
 
     /*ROH U CONTENTU*/
-    .blue.ribbon.label{     
+    .blue.corner.label{     
         width: @cornerWidth;               
         height: @cornerHeight; 
         font-size: @cornerSize;
@@ -435,7 +438,33 @@ body{
         .icons .icon{
             transform: @cornerIconTransform;
         }
-        &.cornerWithTools.activeCalendar{      
+        &.cornerWithTools.activeCalendar{          
+            z-index: @cornerActiveZIndex !important;
+        }   
+        &.cornerWithTools.hideContentButtons{
+            .contentButtons{
+                display: none !important;
+            }
+        } 
+    }
+    .ui.ribbon.label{     
+        width: @cornerWidth;               
+        height: @cornerHeight; 
+        font-size: 0.55em;
+        right: -52px;
+        position: absolute;
+        left: auto;
+        top: 45px;
+        z-index: 1;
+        .icon:not(.editDate){
+            /*výchozí vlastnost polohy CSS - semantic má nastaveno position: absolute, což je zde nežádoucí*/
+            position: initial;
+        }
+        /*icony, které jsou složené ze dvou, budou vycentrované jako ostatní*/
+        .icons .icon{
+            transform: @cornerIconTransform;
+        }
+        &.cornerWithTools.activeCalendar{          
             z-index: @cornerActiveZIndex !important;
         }   
         &.cornerWithTools.hideContentButtons{
@@ -472,6 +501,12 @@ body{
     /*používané třídy pro buttony ke kalendáři
         .calendarWrap - třída divu pro výběr data i .buttons (trvale, uložit,...)*/
     /*BUTTONY*/
+    .corner.label .buttons.editDate{
+        position: absolute;
+        right: @buttonyKalendarPositionRight;
+        top: @buttonyKalendarPositionTop;
+        background-color: @buttonyKalendarBackgroundColor;
+    }
     .ribbon.label .buttons.editDate{
         position: absolute;
         right: @buttonyKalendarPositionRight;
