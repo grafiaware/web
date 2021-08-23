@@ -243,8 +243,8 @@ var templates_paper= [
 var templates_author = [
         { title: 'Kontakt', description: 'Grafia web - kontakt',       url: 'web/v1/authortemplate/default/kontakt'}, //vztaženo k rootu RS, tam kde je index redakčního s.
         { title: 'Publikace - novinka', description: 'Grafia web - publikace',   url: 'web/v1/authortemplate/default/eshop_nove'},
-        { title: 'Obrázek vlevo a text', description: 'Bez obtékání. Dva sloupce', url: 'web/v1/authortemplate/default/obrazekVlevo_blok'},
         { title: 'Publikace - 2', description: 'Vložení publikací na stránku', url: 'web/v1/authortemplate/default/eshop_radka'},
+        { title: 'Obrázek vlevo a text', description: 'Bez obtékání. Dva sloupce', url: 'web/v1/authortemplate/default/obrazekVlevo_blok'},
         { title: 'Menu - 1 položka', description: 'Vložení položky menu na stránku', url: 'web/v1/authortemplate/default/menu_1polozka'},
         { title: 'Menu - 2 položky', description: 'Vložení 2 položek menu na stránku', url: 'web/v1/authortemplate/default/menu_2polozky'},
         { title: 'Menu - 3 položky', description: 'Vložení 3 položek menu na stránku', url: 'web/v1/authortemplate/default/menu_3polozky'},
@@ -253,7 +253,8 @@ var templates_author = [
         { title: 'Menu - 1 položka (bez gridu) verze 1', description: 'Vložení položky menu na stránku', url: 'web/v1/authortemplate/default/menu_1polozka_1'},
         { title: 'Menu - 1 položka (bez gridu) dlouha', description: 'Vložení položky menu na stránku', url: 'web/v1/authortemplate/default/menu_1polozka_1_delsi'},
         { title: 'Menu - 1 položka (bez gridu) dalsi', description: 'Vložení položky menu na stránku', url: 'web/v1/authortemplate/default/menu_1polozka_1_delsi_1'},
-        { title: 'Menu - 1 položka (bez gridu) verze 2', description: 'Vložení položky menu na stránku', url: 'web/v1/authortemplate/default/menu_1polozka_2'}
+        { title: 'Menu - 1 položka (bez gridu) verze 2', description: 'Vložení položky menu na stránku', url: 'web/v1/authortemplate/default/menu_1polozka_2'},
+        { title: 'Lorem ipsum', description: 'Vložení lorem ipsum', url: 'web/v1/authortemplate/default/lorem_ipsum'}
     ];
 
 var toolbarText = 'save cancel | undo redo | fontstyle fontweight | aligment | anchor link';

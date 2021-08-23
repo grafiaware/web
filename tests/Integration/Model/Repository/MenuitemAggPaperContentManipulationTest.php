@@ -196,7 +196,7 @@ $this->menuItemAggRepo->flush();
 
     private function createContent($paperIdFk) {
         $newContent = new PaperContent();
-        $newContent->setContent($content = file_get_contents('http://loripsum.net/api/3/short/headers'));
+        $newContent->setContent(file_get_contents('http://loripsum.net/api/3/short/headers'));
         $newContent->setPaperIdFk($paperIdFk);
         $newContent->setShowTime((new \DateTime("now"))->modify("-1 week"));
         $newContent->setHideTime((new \DateTime("now"))->modify("+1 week"));

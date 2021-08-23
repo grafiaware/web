@@ -69,7 +69,7 @@ class TemplateControler extends PresentationFrontControlerAbstract {
     }
 
     /**
-     * Odesílá obsah vytvořený komponentou SelectPaperTemplateComponent. Ta renderuje požadovanou šablonu s použitím Paper odpovídajícího prezentované polořce menu.
+     * Odesílá obsah vytvořený komponentou SelectPaperTemplateComponent. Ta renderuje požadovanou šablonu s použitím Paper odpovídajícího prezentované položce menu.
      * Připraveno pro TinyMce dialog pro výběr šablony. Teto dialog posílá GET request při každé změně výběru v selectoru šablon a ještě jednou po kliku na tlačítko 'Uložit'.
      *
      * @param ServerRequestInterface $request
@@ -103,6 +103,19 @@ class TemplateControler extends PresentationFrontControlerAbstract {
         return $this->createResponseFromView($request, $view);
     }
 
+    public function authorTemplate(ServerRequestInterface $request, $folder, $name) {
+        $filename = Configuration::templateController()['templates.authorFolder']."$folder/$name.php";
+        $view = $this->container->get(View::class);
+        if (is_readable($filename)) {
+            $view->setTemplate(new PhpTemplate($filename));  // exception
+//            $str = file_get_contents($filename);
+        }
+        return $this->createResponseFromView($request, $view);
+    }
+
+    #### private ######################
+
+
     private function setTemplateByName(AuthoredComponentInterface $component, $name) {
             try {
                 $templatePath = $this->getTemplateFileFullname($this->configuration->getTemplatepathPaper(), $paperAggregate->getTemplate());
@@ -117,19 +130,6 @@ class TemplateControler extends PresentationFrontControlerAbstract {
             }
         return new PhpTemplate(Configuration::templateController()['templates.paperFolder']."$name/template.php");
     }
-
-    public function authorTemplate(ServerRequestInterface $request, $folder, $name) {
-        $filename = Configuration::templateController()['templates.authorFolder']."$folder/$name.html";
-        if (is_readable($filename)) {
-            $str = file_get_contents($filename);
-        } else {
-            $str = '';
-        }
-        return $this->createResponseFromString($request, $str);
-    }
-
-
-    #### private ######################
 
     private function seekTemplate($templatesFolders, $templateName) {
         foreach ($templatesFolders as $templatesFolder) {
