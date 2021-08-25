@@ -303,7 +303,7 @@ body{
        }
     }
     /*VODOROVNÉ MENU*/
-    .vodorovne-menu .text.menu{ //větší váha selektorů kvůli speciálnímu zobrazení pro vodorovné menu 
+    .vodorovne-menu .text.menu{ //větší váha selektorů kvůli speciálnímu zobrazení pro vodorovné menu  
         .semafor{
             left: @semaforVodorovneMenuPositionLeft;
             background-color: @semaforVodorovneMenuBackgroundColor; 
@@ -509,7 +509,7 @@ body{
     }
     .ribbon.label .buttons.editDate{
         position: absolute;
-        right: @buttonyKalendarPositionRight;
+        right: @buttonyKalendarPositionRight;  
         top: @buttonyKalendarPositionTop;
         background-color: @buttonyKalendarBackgroundColor;
     }
@@ -582,6 +582,9 @@ body{
         &.paper_template_select{
             margin: 10px auto 20px;
         }
+    }
+    .tox.tox-tinymce{
+        z-index: 4;
     }
     .select_template{
         display: @paperTempateSelectDisplay;
