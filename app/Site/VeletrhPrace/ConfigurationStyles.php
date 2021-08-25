@@ -37,6 +37,7 @@ class ConfigurationStyles extends ConfigurationRed {
                             'li.dropdown' => 'item',
                             'li.leaf' => 'item leaf',
                             'li.presented' => 'presented',
+                            'li.parent' => 'parent',
                             'li a span' => '',
                             'li i.dropdown' => 'dropdown icon',
                             'li a' => '',
@@ -48,6 +49,7 @@ class ConfigurationStyles extends ConfigurationRed {
                             'li.dropdown' => 'item',
                             'li.leaf' => 'item leaf',
                             'li.presented' => 'presented',
+                            'li.parent' => 'parent',
                             'li.cut' => 'cut',
                             'li.paste' => 'paste',
                             'li a' => '',   //nema_pravo //edituje_jiny
@@ -203,7 +205,7 @@ class ConfigurationStyles extends ConfigurationRed {
                 return new ClassMap (
                     [
                         'MenuWrap' => [
-                            'ul' => 'ui vertical massive menu'
+                            'ul' => 'ui vertical massive menu hidden-submenu'
                         ],
                         'LevelWrap' => [
                             'ul' => 'menu',
