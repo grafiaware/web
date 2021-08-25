@@ -205,7 +205,7 @@ class ConfigurationStyles extends ConfigurationRed {
                 return new ClassMap (
                     [
                         'MenuWrap' => [
-                            'ul' => 'ui vertical massive menu hidden-submenu'
+                            'ul' => 'ui vertical massive menu' //hidden-submenu pro rozbalení submenu po kliknutí //ui text menu left floated vodorovne_menu
                         ],
                         'LevelWrap' => [
                             'ul' => 'menu',
