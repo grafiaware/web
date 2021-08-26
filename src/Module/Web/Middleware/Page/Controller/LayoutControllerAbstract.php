@@ -36,7 +36,7 @@ use Pes\View\ViewFactory;
 use Pes\View\View;
 use Pes\View\Template\PhpTemplate;
 use Pes\View\Template\InterpolateTemplate;
-
+use Pes\View\Renderer\ImplodeRenderer;
 
 /**
  * Description of GetController
@@ -76,8 +76,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
     protected function createResponseWithItem(ServerRequestInterface $request, MenuItemInterface $menuItem = null) {
         if ($menuItem) {
             $this->setPresentationMenuItem($menuItem);
-            $actionComponents = ["content" => $this->resolveMenuItemView($menuItem)];
-            $view = $this->createView($request, $this->getComponentViews($request, $actionComponents));
+            $view = $this->createView($request, $this->getComponentViews($request, $menuItem));
             $response = $this->createResponseFromView($request, $view);
         } else {
             // neexistující stránka
@@ -96,8 +95,8 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
         return $this->viewFactory->phpTemplateCompositeView(Configuration::layoutController()['layout'],
                 [
                     'basePath' => $this->getBasePath($request),
-                    'title' => Configuration::layoutController()['title'],
                     'langCode' => $this->getPresentationLangCode(),
+                    'title' => Configuration::layoutController()['title'],
                     'linksCommon' => Configuration::layoutController()['linksCommon'],
                     'linksSite' => Configuration::layoutController()['linksSite'],
                     'bodyContainerAttributes' => $this->getBodyContainerAttributes(),
@@ -113,20 +112,32 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
         }
     }
 
-    #### komponenty a komponentbí views ######
+    #### komponenty a komponentní views ######
 
 
-    private function getComponentViews(ServerRequestInterface $request, array $actionComponents) {
+    private function getComponentViews(ServerRequestInterface $request, MenuItemInterface $menuItem) {
         // POZOR! Nesmí se na stránce vyskytovat dva paper se stejným id v editovatelném režimu. TinyMCE vyrobí dvě hidden proměnné se stejným jménem
         // (odvozeným z id), ukládaný obsah editovatelné položky se neuloží - POST data obsahují prázdný řetězec a dojde potichu ke smazání obsahu v databázi.
         // Příklad: - bloky v editovatelném modu a současně editovatelné menu bloky - v menu bloky vybraný blok je zobrazen editovatelný duplicitně s blokem v layoutu
         //          - dva stené bloky v layoutu - mapa, kontakt v hlavičce i v patičce
 
         $views = array_merge(
-                $actionComponents,
-                $this->getLayoutComponents($request),
+                ['content' => $this->getMenuItemLoader($menuItem),
+                'languageSelect' => $this->container->get(LanguageSelectComponent::class),
+                'searchPhrase' => $this->container->get(SearchPhraseComponent::class),
+                'modalLoginLogout' => $this->getLoginLogoutComponent(),
+                'modalRegister' => $this->container->get(RegisterComponent::class),
+                'modalUserAction' => $this->container->get(UserActionComponent::class),
+                'linkEditorJs' => $this->getLinkEditorJsView($request),
+                'linkEditorCss' => $this->getLinkEditorCssView($request),
+                'poznamky' => $this->container->get(StatusBoardComponent::class),
+                'flash' => $this->container->get(FlashComponent::class),
+                'controlEditMenu' => $this->container->get(ControlEditMenuComponent::class),
+
+
+                ],
                 // full page
-                $this->getAuthoredLayoutComponents(),
+                $this->getAuthoredLayoutBlockLoaders(),
                 // for debug
 //                $this->getEmptyMenuComponents(),
                 $this->getMenuComponents()
@@ -134,43 +145,9 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
         return $views;
     }
 
-    private function getLayoutComponents(ServerRequestInterface $request) {
-        return [
-            'languageSelect' => $this->container->get(LanguageSelectComponent::class),
-            'searchPhrase' => $this->container->get(SearchPhraseComponent::class),
-            'modalLoginLogout' => $this->getLoginLogoutComponent(),
-            'modalRegister' => $this->container->get(RegisterComponent::class),
-            'modalUserAction' => $this->container->get(UserActionComponent::class),
-            'linkEditorJs' => $this->getLinkEditorJsView($request),
-            'linkEditorCss' => $this->getLinkEditorCssView($request),
-            'poznamky' => $this->container->get(StatusBoardComponent::class),
-            'flash' => $this->container->get(FlashComponent::class),
-            'controlEditMenu' => $this->container->get(ControlEditMenuComponent::class),
-        ];
-    }
-
-    private function getMenuComponents() {
-
-        $userActions = $this->statusSecurityRepo->get()->getUserActions();
-
-        $components = [];
-        foreach (Configuration::pageController()['menu'] as $menuConf) {
-            $this->configMenuComponent($menuConf, $components);
-        }
-        if ($userActions->presentEditableArticle()) {
-            $this->configMenuComponent(Configuration::pageController()['blocks'], $components);
-            $this->configMenuComponent(Configuration::pageController()['trash'], $components);
-
-        }
-
-        return $components;
-    }
-
-    private function configMenuComponent($menuConf, &$componets): void {
-                $componets[$menuConf['context_name']] = $this->container->get($menuConf['service_name'])
-                        ->setMenuRootName($menuConf['root_name'])
-                        ->withTitleItem($menuConf['with_title']);
-    }
+#
+#### login nebo logout komponent #####################################################
+#
 
     private function getLoginLogoutComponent() {
         $credentials = $this->statusSecurityRepo->get()->getLoginAggregate();
@@ -180,6 +157,83 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
             return $this->container->get(LoginComponent::class);
         }
     }
+
+#
+#### menu item loader #########################################################################
+#
+
+    /**
+     * Vrací view objekt pro zobrazení centrálního obsahu v prostoru pro "content"
+     * @return type
+     */
+    protected function getMenuItemLoader(MenuItemInterface $menuItem=null) {
+
+        if (isset($menuItem)) {
+            $content = $this->getContentLoadScript($menuItem);
+
+        } else {
+            // například neaktivní, neaktuální menu item
+            $content = $this->container->get(View::class)->setRenderer(new ImplodeRenderer());
+        }
+        return $content;
+    }
+
+#
+#### view s content loaderem #####################################################
+#
+
+    /**
+     * Vrací view s šablonou obsahující skript pro načtení obsahu na základě reference menuItemId pomocí lazy load requestu a záměnu obsahu elementu v html stránky.
+     * Parametr uri je id menuItem, aby nebylo třeba načítat paper nebo article zde v kontroleru.
+     *
+     * @param type $menuItem
+     * @return type
+     */
+    protected function getContentLoadScript($menuItem) {
+        $menuItemType = $menuItem->getTypeFk();
+        if ($menuItemType!='static') {
+            $menuItemId = $menuItem->getId();
+            // prvek data ''loaderWrapperElementId' musí být unikátní - z jeho hodnoty se generuje id načítaného elementu - a id musí být unikátní jinak dojde k opakovanému přepsání obsahu elemntu v DOM
+            $view = $this->container->get(View::class)
+                        ->setData([
+                            'loaderWrapperElementId' => "content_for_item_{$menuItemId}_with_type_{$menuItemType}",
+                            'apiUri' => "web/v1/$menuItemType/$menuItemId"
+                            ]);
+        } else {
+            $name = $this->getNameForStaticPage($menuItem);
+            $view = $this->container->get(View::class)
+                        ->setData([
+                            'loaderWrapperElementId' => "content_for_item_{$name}_with_type_{$menuItemType}",
+                            'apiUri' => "web/v1/$menuItemType/$name"
+                            ]);
+        }
+        $view->setTemplate(new PhpTemplate(Configuration::pageController()['templates.loaderElement']));
+        return $view;
+    }
+
+    private function getNameForStaticPage(MenuItemInterface $menuItem) {
+        $menuItemPrettyUri = $menuItem->getPrettyuri();
+        if (isset($menuItemPrettyUri) AND $menuItemPrettyUri AND strpos($menuItemPrettyUri, "folded:")===0) {      // EditItemController - line 93
+            $name = str_replace('/', '_', str_replace("folded:", "", $menuItemPrettyUri));  // zahodí prefix a nahradí '/' za '_' - recopročně
+        } else {
+            $name = $this->friendlyUrl($menuItem->getTitle());
+        }
+        return $name;
+    }
+
+    private function friendlyUrl($nadpis) {
+        $url = $nadpis;
+        $url = preg_replace('~[^\\pL0-9_]+~u', '-', $url);
+        $url = trim($url, "-");
+        $url = iconv("utf-8", "us-ascii//TRANSLIT", $url);
+        $url = strtolower($url);
+        $url = preg_replace('~[^-a-z0-9_]+~', '', $url);
+        return $url;
+    }
+
+#
+#### view s js a css pro editační mód #####################################################
+#
 
     /**
      * Generuje html obsahující definice tagů <script> vkládaných do stránku pouze v editačním módu

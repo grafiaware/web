@@ -30,13 +30,6 @@ use Red\Model\Repository\BlockAggregateRepo;
 use Red\Model\Repository\BlockRepo;
 use Red\Model\Entity\BlockAggregateMenuItemInterface;
 
-####################
-//use Pes\Debug\Timer;
-use Pes\View\View;
-use Pes\View\Template\PhpTemplate;
-use \Pes\View\Renderer\StringRenderer;
-use \Pes\View\Renderer\ImplodeRenderer;
-
 /**
  * Description of GetController
  *
@@ -102,33 +95,8 @@ class PageController extends LayoutControllerAbstract {
         return $this->createResponseFromView($request, $this->createView($request, $this->getComponentViews($actionComponents)));
     }
 
-##### private methods ##############################################################
+#### get menu item z repository ###########################################################################
 #
-
-    protected function getAuthoredLayoutComponents() {
-        $userActions = $this->statusSecurityRepo->get()->getUserActions();
-        $isEditableContent = $userActions->presentEditableArticle() OR $userActions->presentEditableLayout();
-
-        $map = [
-                    'rychleOdkazy' => 'a3',
-                    'nejblizsiAkce' => 'a2',
-                    'aktuality' => 'a1',
-                    'razitko' => 'a4',
-                    'socialniSite' => 'a5',
-                    'mapa' => 'a6',
-                    'logo' => 'a7',
-                    'banner' => 'a8',
-                ];
-        $componets = [];
-
-        // pro neexistující bloky nedělá nic
-        foreach ($map as $variableName => $blockName) {
-            $menuItem = $this->getBlockMenuItem($blockName);
-            $componets[$variableName] = $this->resolveMenuItemView($menuItem);
-        }
-        return $componets;
-    }
-
     protected function getMenuItem($uid) {
         /** @var MenuItemRepo $menuItemRepo */
         $menuItemRepo = $this->container->get(MenuItemRepo::class);
@@ -149,72 +117,55 @@ class PageController extends LayoutControllerAbstract {
         return $menuItem;
     }
 
-    /**
-     * Vrací view objekt pro zobrazení centrálního obsahu v prostoru pro "content"
-     * @return type
-     */
-    protected function resolveMenuItemView(MenuItemInterface $menuItem=null) {
+#
+##### menu komponenty ##############################################################
+#
+    protected function getMenuComponents() {
 
-        if (isset($menuItem)) {
-            $content = $this->getContentLoadScript($menuItem);
+        $userActions = $this->statusSecurityRepo->get()->getUserActions();
 
-        } else {
-            // například neaktivní, neaktuální menu item
-            $content = $this->container->get(View::class)->setRenderer(new ImplodeRenderer());
+        $components = [];
+        foreach (Configuration::pageController()['menu'] as $menuConf) {
+            $this->configMenuComponent($menuConf, $components);
         }
-        return $content;
-    }
+        if ($userActions->presentEditableMenu()) {
+            $this->configMenuComponent(Configuration::pageController()['blocks'], $components);
+            $this->configMenuComponent(Configuration::pageController()['trash'], $components);
 
-    /**
-     * Vrací view s šablonou obsahující skript pro načtení obsahu na základě reference menuItemId pomocí lazy load requestu a záměnu obsahu elementu v html stránky.
-     * Parametr uri je id menuItem, aby nebylo třeba načítat paper zde v kontroleru.
-     */
-
-
-    /**
-     *
-     * @param type $menuItem
-     * @return type
-     */
-    private function getContentLoadScript($menuItem) {
-        $menuItemType = $menuItem->getTypeFk();
-        if ($menuItemType!='static') {
-            $menuItemId = $menuItem->getId();
-            // prvek data ''loaderWrapperElementId' musí být unikátní - z jeho hodnoty se generuje id načítaného elementu - a id musí být unikátní jinak dojde k opakovanému přepsání obsahu elemntu v DOM
-            $view = $this->container->get(View::class)
-                        ->setData([
-                            'loaderWrapperElementId' => "content_for_item_{$menuItemId}_with_type_{$menuItemType}",
-                            'apiUri' => "web/v1/$menuItemType/$menuItemId"
-                            ]);
-        } else {
-            $name = $this->getNameForStaticPage($menuItem);
-            $view = $this->container->get(View::class)
-                        ->setData([
-                            'loaderWrapperElementId' => "content_for_item_{$name}_with_type_{$menuItemType}",
-                            'apiUri' => "web/v1/$menuItemType/$name"
-                            ]);
         }
-        $view->setTemplate(new PhpTemplate(Configuration::pageController()['templates.loaderElement']));
-        return $view;
+
+        return $components;
     }
 
-    private function getNameForStaticPage(MenuItemInterface $menuItem) {
-        $menuItemPrettyUri = $menuItem->getPrettyuri();
-        if (isset($menuItemPrettyUri) AND $menuItemPrettyUri AND strpos($menuItemPrettyUri, "folded:")===0) {      // EditItemController - line 93
-            $name = str_replace('/', '_', str_replace("folded:", "", $menuItemPrettyUri));  // zahodí prefix a nahradí '/' za '_' - recopročně
-        } else {
-            $name = $this->friendlyUrl($menuItem->getTitle());
+    private function configMenuComponent($menuConf, &$componets): void {
+                $componets[$menuConf['context_name']] = $this->container->get($menuConf['service_name'])
+                        ->setMenuRootName($menuConf['root_name'])
+                        ->withTitleItem($menuConf['with_title']);
+    }
+
+#
+#### menu item loadery pro bloky layoutu #########################################################################
+#
+
+    protected function getAuthoredLayoutBlockLoaders() {
+        $map = [
+                    'rychleOdkazy' => 'a3',
+                    'nejblizsiAkce' => 'a2',
+                    'aktuality' => 'a1',
+                    'razitko' => 'a4',
+                    'socialniSite' => 'a5',
+                    'mapa' => 'a6',
+                    'logo' => 'a7',
+                    'banner' => 'a8',
+                ];
+        $componets = [];
+
+        // pro neexistující bloky nedělá nic
+        foreach ($map as $variableName => $blockName) {
+            $menuItem = $this->getBlockMenuItem($blockName);
+            $componets[$variableName] = $this->getMenuItemLoader($menuItem);
         }
-        return $name;
+        return $componets;
     }
 
-    private function friendlyUrl($nadpis) {
-        $url = $nadpis;
-        $url = preg_replace('~[^\\pL0-9_]+~u', '-', $url);
-        $url = trim($url, "-");
-        $url = iconv("utf-8", "us-ascii//TRANSLIT", $url);
-        $url = strtolower($url);
-        $url = preg_replace('~[^-a-z0-9_]+~', '', $url);
-        return $url;
-    }
 }
