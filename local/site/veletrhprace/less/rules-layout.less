@@ -294,15 +294,30 @@
     .nav-mobile{
         font-size: @bigSize * @emSize;
     }
-    .zapnout_editaci{
+/*    .zapnout_editaci{ //styly pro tlacitko v container.php
         text-align: right;
         margin: 5px 0 50px;
         padding: 15px 0 0;
-/*        border-width: 1px 1px 0 1px;
-        border-style: solid;
-        border-color: @lightGrey; */
         display: flex;
+    }*/
+
+    /***/
+    .zapnout_editaci{ //male tlacitko v rohu
+        text-align: right;
+        position: absolute;
+        padding: 0;
+        margin: 0;
+        right: -17px;
+        z-index: 2;
+        top: -7px;
     }
+    [data-red-renderer]{
+        position: relative;
+        outline: 1px solid @teal;
+        border-radius: 5px;
+        padding-top: 30px;
+    }
+    /***/
     form{
         position: relative;
     }

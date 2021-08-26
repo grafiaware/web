@@ -125,7 +125,7 @@
 @divKalendarInputWidth: 100%; 
 
 //Prostředí pro Tiny
-@mceBodyOutline: @borderWidth dotted darken(@lightGrey, 20); 
+@mceBodyOutline: @borderWidth dotted darken(@greyBorderColor,10);  
 @mceBodyTemplateOutline: @borderWidth dashed darken(@barvaButtonSablony, 35);
 @mceBodyLinkSelected: true;
 @mceLinkSelectedColor: @white;
@@ -348,7 +348,7 @@ body{
         .blue.corner.label{  
             right: @sectionTrashCornerPositionRight;
         }
-        .ui.ribbon.label{  
+        .ui.ribbon.label:not(.page-edit){  
             right: @sectionTrashCornerPositionRight;
         }
     }
@@ -447,11 +447,11 @@ body{
             }
         } 
     }
-    .ui.ribbon.label{     
+    .ui.ribbon.label:not(.page-edit){     
         width: @cornerWidth;               
         height: @cornerHeight; 
         font-size: 0.55em;
-        right: -52px;
+        right: -50px;
         position: absolute;
         left: auto;
         top: 45px;
@@ -473,11 +473,21 @@ body{
             }
         } 
     }
+    .ui.ribbon.label.page-edit{
+        width: @cornerWidth;               
+        height: @cornerHeight; 
+        font-size: 0.6em;
+        right: -66px;
+        position: absolute;
+        left: auto;
+        top: 40px; 
+        z-index: 1;
+    }
     /*BUTTONY PRO CONTENT*/
     /*používané třídy pro buttony ke contentu
         .contentButtons - obalovací div pro všechny .editContent
         .editContent - třída u .buttons (aktivní/neaktivní, přidat obsah,...), slouží k nastavení contentu; označuje 1 řádků butonů*/
-    .contentButtons{
+    .contentButtons:not(.page-edit){
         display: none; /*po najetí na "modrý roh" se v edit.js mění display na flex*/
         flex-direction: column;
         position: absolute;
@@ -489,13 +499,32 @@ body{
         }
         .editContent{
             background-color: @buttonyContentBackgroundColor;
-            &:first-child{
-                .button:last-child{
-                    background-color: @lastButtonContentBackgroundColor;
-                }
+            
+        }
+    }
+    .contentButtons.page-edit{
+        display: none; /*po najetí na "modrý roh" se v edit.js mění display na flex*/
+        flex-direction: column;
+        position: absolute;
+        width: @buttonyContentWidth; 
+        right: -15px;
+        top: -3px;
+        &.trash .editContent{
+            background-color: @lastButtonContentBackgroundColor;
+        }
+        .editContent{
+            background-color: @buttonyContentBackgroundColor;
+            
+        }
+    }
+    content ~ .cornerWithTools{
+        .contentButtons .editContent:first-child{
+            .button:last-child{
+                background-color: @lastButtonContentBackgroundColor;
             }
         }
     }
+    
     /*KALENDÁŘ*/
     /*slouží k nastavení kalendáře contentu*/
     /*používané třídy pro buttony ke kalendáři
@@ -507,7 +536,7 @@ body{
         top: @buttonyKalendarPositionTop;
         background-color: @buttonyKalendarBackgroundColor;
     }
-    .ribbon.label .buttons.editDate{
+    .ribbon.label:not(.page-edit) .buttons.editDate{  
         position: absolute;
         right: @buttonyKalendarPositionRight;  
         top: @buttonyKalendarPositionTop;
@@ -554,13 +583,13 @@ body{
         .mce-edit-focus - tato třída se přidá jen k tagu, který právě edituji*/
     /*výběr šablony paperu .paper_template_select má jiné ohraničení*/
     .mce-content-body{
-        padding: @mceBodyPadding;
+        padding: @mceBodyPadding; 
         margin: @mceBodyMargin;
         /*označení pro tagy, které jsou editovatelné, ale ještě nebyly vybrány pro editaci*/
         /*rozdílné ohraničení pro editaci a pro výběr šablony*/
         &:not(.mce-edit-focus){
             &:not(.paper_template_select){
-                outline: @mceBodyOutline;
+                outline: @mceBodyOutline;  
             } 
             &.paper_template_select{
                 outline: @mceBodyTemplateOutline;

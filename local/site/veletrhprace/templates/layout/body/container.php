@@ -12,19 +12,6 @@
                 <?php include "container/hlavicka.php"; ?>
             </header>
             <main class="page-content">
-                <div class="zapnout_editaci" style="text-align:right;">
-                    <form class="ui form" method="POST" action="">
-                        <button class="ui huge fade animated button" type="submit" name="edit_article" value="<?= empty($editArticle) ? 1 : 0 ?>" formtarget="_self" tabindex="0"
-                                formaction="red/v1/presentation/edit_article">
-                            <div class="hidden content" style="font-size: 0.7em;top: 30%; ">
-                                <?= empty($editArticle) ? "Editavat článek" : "Vypnout editaci" ?>
-                            </div>
-                            <div class="visible content">
-                                <i class="pencil teal alternate icon"></i>
-                            </div>
-                        </button>
-                    </form>
-                </div>
                 <?= $content ?? '' ?>
             </main>
         </div>

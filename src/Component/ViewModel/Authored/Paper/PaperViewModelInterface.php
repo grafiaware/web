@@ -25,4 +25,5 @@ interface PaperViewModelInterface extends AuthoredViewModelInterface {
      * @return PaperAggregatePaperContentInterface|null
      */
     public function getPaper(): ?PaperAggregatePaperContentInterface;
+    
 }

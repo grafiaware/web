@@ -15,6 +15,7 @@ use Red\Model\Repository\ArticleRepo;
 use Status\Model\Repository\StatusFlashRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusSecurityRepo;
+use Red\Model\Repository\MenuItemRepoInterface;
 
 /**
  * Description of PaperViewModelAnstract
@@ -32,9 +33,10 @@ class ArticleViewModel extends AuthoredViewModelAbstract implements ArticleViewM
             StatusSecurityRepo $statusSecurityRepo,
             StatusPresentationRepo $statusPresentationRepo,
             StatusFlashRepo $statusFlashRepo,
+            MenuItemRepoInterface $menuItemRepo,
             ArticleRepo $articleRepo
             ) {
-        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo);
+        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo, $menuItemRepo);
         $this->articleRepo = $articleRepo;
     }
 
@@ -47,9 +49,9 @@ class ArticleViewModel extends AuthoredViewModelAbstract implements ArticleViewM
      */
     public function getArticle(): ?ArticleInterface {
         if (isset($this->menuItemId)) {
-            $paper = $this->articleRepo->getByReference($this->menuItemId);
+            $article = $this->articleRepo->getByReference($this->menuItemId);
         }
-        return $paper ?? null;
+        return $article ?? null;
     }
 
     public function getIterator() {

@@ -110,9 +110,17 @@ class ConfigurationStyles extends ConfigurationRed {
                             'i.dropdown' => 'dropdown icon',
                         ],
             'paper_edit_buttons' => [
-                            'div.buttonsPage' => 'small ui basic icon buttons editPage',
+                            'div.buttonsWrap' => 'contentButtons page-edit',
+                            'div.buttons' => 'small ui basic icon buttons editContent',
+                            'div.corner' => 'ui right ribbon teal basic label cornerWithTools page-edit',
                             'button' => 'ui button',
+                            'button.template' => 'ui button toggleTemplateSelect',
                             'button.arrange' => 'large sort numeric down icon',
+                            'button.template i' => 'large file alternate icon',
+                            'div.editMode' => 'zapnout_editaci',
+                            'div.editMode button' => 'ui small teal icon button',
+                            'div.editMode i' => 'pencil alternate icon',
+                
                         ],
             'content_edit_buttons' => [
                             'div.wrapContent' => 'contentButtons',
@@ -134,7 +142,7 @@ class ConfigurationStyles extends ConfigurationRed {
                             'button.arrowdown' => 'bottom right corner arrow down icon',
                             'button.movecontent' => 'large sticky note outline icon',
                             'button.addcontent' => 'large plus square outline icon',
-                            'button.movetotrash' => 'large trash icon',
+                            'button.movetotrash' => 'large purple trash icon',
 //                            'button.event' => 'large sim card icon', //credit card outline ; columns ; certificate; ticket alternate; money check
                             'button.permanently' => 'large calendar outline icon',
                             'button.save' => 'large save icon',
@@ -271,7 +279,8 @@ class ConfigurationStyles extends ConfigurationRed {
                         ],
                      'Content' => [
                         'content'=>'',
-                        ]
+                        ],
+                      'PaperButtons' => self::rendererDefaults()['paper_edit_buttons'],
                     ]
                 );
             },

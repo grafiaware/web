@@ -17,6 +17,7 @@ use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusFlashRepo;
 use Red\Model\Repository\PaperAggregateRepo;
+use Red\Model\Repository\MenuItemRepoInterface;
 
 /**
  * Description of PaperViewModelAnstract
@@ -34,9 +35,10 @@ class PaperViewModel extends AuthoredViewModelAbstract implements PaperViewModel
             StatusSecurityRepo $statusSecurityRepo,
             StatusPresentationRepo $statusPresentationRepo,
             StatusFlashRepo $statusFlashRepo,
+            MenuItemRepoInterface $menuItemRepo,
             PaperAggregateRepo $paperAggregateRepo
             ) {
-        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo);
+        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo, $menuItemRepo);
         $this->paperAggregateRepo = $paperAggregateRepo;
     }
 
