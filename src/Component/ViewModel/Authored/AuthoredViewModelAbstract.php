@@ -8,7 +8,11 @@
 
 namespace Component\ViewModel\Authored;
 
+use Status\Model\Repository\StatusSecurityRepo;
+use Status\Model\Repository\StatusPresentationRepo;
+use Status\Model\Repository\StatusFlashRepo;
 use Component\ViewModel\StatusViewModel;
+use Red\Model\Repository\MenuItemRepoInterface;
 
 /**
  * Description of AuthoredViewModelAbstract
@@ -18,11 +22,30 @@ use Component\ViewModel\StatusViewModel;
 abstract class AuthoredViewModelAbstract extends StatusViewModel implements AuthoredViewModelInterface {
 
     protected $menuItemId;
-
+    /**
+     * @var PaperAggregateRepo
+     */
+    protected $menuItemRepo;
+    
+    public function __construct(
+            StatusSecurityRepo $statusSecurityRepo,
+            StatusPresentationRepo $statusPresentationRepo,
+            StatusFlashRepo $statusFlashRepo,
+            MenuItemRepoInterface $menuItemRepo
+            ) {
+        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo);
+        $this->menuItemRepo = $menuItemRepo;
+    }
+    
     public function setItemId($menuItemId) {
         $this->menuItemId = $menuItemId;
     }
-
+    
+    public function isMenuItemActive(): bool {
+        $langCodeFk = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
+        return (isset($this->menuItemId) AND $this->menuItemRepo->get($langCodeFk, $this->menuItemId)) ? true : false;
+    }
+    
     /**
      * {@inheritdoc}
      *

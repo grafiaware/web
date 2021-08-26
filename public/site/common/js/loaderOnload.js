@@ -31,7 +31,7 @@ function initLoadedEditableElements() {
             
             //výběr šablony stránky, po kliku na tlačítko se objeví div s Tiny
             $('.toggleTemplateSelect').on('click', function(){
-                var si = $(this).siblings('.select_template');
+                var si = $(this).parents('.cornerWithTools').siblings('.select_template');
                         si.toggle();
             });
 

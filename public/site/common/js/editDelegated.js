@@ -3,12 +3,12 @@
 
 //zobrazí sadu buttonů s třídou .contentButtons
 var showContentButtons =     function(){
-        $(this).parent('section').find('.contentButtons').css("display", "flex");
+        $(this).find('.contentButtons').css("display", "flex");
         $(this).css("z-index", "10");
     };
 //skryje sadu buttonů s třídou .contentButtons
 var hideContentButtons =     function(){
-        $(this).parent('section').find('.contentButtons').css("display", "none");
+        $(this).find('.contentButtons').css("display", "none");
         $(this).css("z-index", "1");
     };
 $("body").on("mouseenter", ".cornerWithTools", showContentButtons);

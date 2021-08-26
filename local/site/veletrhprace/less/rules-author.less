@@ -35,6 +35,16 @@
 .semafor > div{
     display: inline-flex; 
 }
+.ui.ribbon:not(.page-edit) ~ .semafor{
+    top: 48px;
+    right: 5px;
+    z-index: 1; 
+}
+.ui.ribbon.page-edit ~ .semafor{
+    top: 43px;
+    right: -8px;
+    z-index: 1; 
+}
 
 /*.blue.corner.label{
     float: right;
@@ -92,7 +102,7 @@
 /*.blue.corner.label{     
     font-size: 0.4em;
 }
-.semafor{
+main .semafor{
     display: flex;
     flex-direction: column;
     position: absolute;
@@ -114,7 +124,7 @@
 
 /**/
 
-/*.semafor{
+main .semafor{ 
     display: flex;
     flex-direction: row;
     position: absolute;
@@ -124,7 +134,7 @@
     div{ 
         display: inline-flex;
     }
-}*/
+}
 
 /**/
 
