@@ -12,8 +12,6 @@
 
 var editorFunction = function (editor) {
 
-    // ################################
-
     var form;
     var val;
 
@@ -31,8 +29,7 @@ var editorFunction = function (editor) {
                 editor.resetContent();
             }
         }
-    }
-            );
+    });
 
     editor.on('NodeChange', function(e) {
       console.log('The ' + e.element.nodeName + ' changed.');
@@ -83,11 +80,9 @@ function tinymce_getContentLength() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-/////////////////////////////////////////
-// funkce vytvoří v dialogu file picker (Vložit/upravit obrázek) tlačítko pto vyvolání file dialogu
-// po vybrání souboru v dialogu (input.onchange) načte obsah souboru do blobCache (proměnná tiny) a vyplní údaje zpět do dialogu file picker
-
 /**
+ * Funkce vytvoří v dialogu file picker (Vložit/upravit obrázek) tlačítko pto vyvolání file dialogu
+ * po vybrání souboru v dialogu (input.onchange) načte obsah souboru do blobCache (proměnná tiny) a vyplní údaje zpět do dialogu file picker
  *
  * @param {type} cb
  * @param {type} value
@@ -211,7 +206,8 @@ var plugins = [
        'searchreplace', // adds search/replace dialogs, also adds a toolbar button and the menu item
        'table', // adds table management functionality
        'template', // adds support for custom templates. It also adds a menu item and a toolbar button
-'quickbars',    ];
+        'quickbars',
+    ];
 
 var templates_article = [
         { title: 'template article test', description: 'popis',       url: 'web/v1/articletemplate/test'},
@@ -238,7 +234,7 @@ var templates_paper= [
         { title: 'Test - presentedpaper s šablonou course', description: 'rendered component',       url: 'red/v1/presenteditem?template=course'},
         { title: 'Test - namedpaper a1', description: 'rendered component',       url: 'red/v1/nameditem/a1'},
         { title: 'Test - namedpaper a2', description: 'rendered component',       url: 'red/v1/nameditem/a2'},
-        { title: 'Test - namedpaper a3', description: 'rendered component',       url: 'red/v1/nameditem/a3'},
+        { title: 'Test - namedpaper a3', description: 'rendered component',       url: 'red/v1/nameditem/a3'}
     ];
 var templates_author = [
         { title: 'Kontakt', description: 'Grafia web - kontakt',       url: 'web/v1/authortemplate/default/kontakt'}, //vztaženo k rootu RS, tam kde je index redakčního s.

@@ -54,8 +54,6 @@ class TemplateControler extends PresentationFrontControlerAbstract {
      * @return type
      */
     public function articletemplate(ServerRequestInterface $request, $templateName) {
-//        1 pokus - sůožka v site, kdy není readable -> 2. pokus složka v common
-//                ?? více složek (v Comfiguration pole) postupně prohledávaných
         $filename = $this->seekTemplate(Configuration::templateController()['templates.articleFolder'], $templateName);
         if ($filename) {
             $str = (new Includer())->protectedIncludeScope($filename);
@@ -82,7 +80,7 @@ class TemplateControler extends PresentationFrontControlerAbstract {
             $menuItemId = $presentedMenuItem->getId();
             /** @var SelectedPaperTemplateComponentInterface $view */
             $view = $this->container->get(SelectedPaperTemplateComponent::class);
-            $view->setPaperTemplateName($name);
+            $view->setSelectedPaperTemplateName($name);
             $view->setItemId($menuItemId);
             $this->statusPresentationRepo->get()->setLastTemplateName($name);
 

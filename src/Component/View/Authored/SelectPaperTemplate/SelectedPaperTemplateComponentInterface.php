@@ -15,5 +15,5 @@ use Component\View\Authored\AuthoredComponentInterface;
  * @author pes2704
  */
 interface SelectedPaperTemplateComponentInterface extends AuthoredComponentInterface {
-    public function setPaperTemplateName($name): void;
+    public function setSelectedPaperTemplateName($name): void;
 }
