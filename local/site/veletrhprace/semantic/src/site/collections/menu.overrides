@@ -23,6 +23,27 @@
             &:hover::after{
                 transform: scaleX(1);
                 background-color: @invertedTextColor; 
+} 
+.ui.vertical.menu{
+    &.massive{
+        padding: 0.7em 0;
+        a, p{
+            display: block;
+            width: 100%;
+            font-weight: 500;
+            font-size: 2rem;
+            text-transform: uppercase;
+            line-height: 1.2;
+            position: relative;
+            color: @invertedTextColor;
+        }
+        p{
+            padding-left: 35px;
+        }
+        &.edit{ 
+            width: 33rem;
+            .onpath{
+                width: 29rem;
             }
             &::after{
                 background: 0 0; 
