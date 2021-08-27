@@ -1,0 +1,1 @@
+<?= file_get_contents('http://loripsum.net/api/3/short/headers') ?>

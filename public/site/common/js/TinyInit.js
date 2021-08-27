@@ -12,8 +12,6 @@
 
 var editorFunction = function (editor) {
 
-    // ################################
-
     var form;
     var val;
 
@@ -31,8 +29,7 @@ var editorFunction = function (editor) {
                 editor.resetContent();
             }
         }
-    }
-            );
+    });
 
     editor.on('NodeChange', function(e) {
       console.log('The ' + e.element.nodeName + ' changed.');
@@ -83,11 +80,9 @@ function tinymce_getContentLength() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-/////////////////////////////////////////
-// funkce vytvoří v dialogu file picker (Vložit/upravit obrázek) tlačítko pto vyvolání file dialogu
-// po vybrání souboru v dialogu (input.onchange) načte obsah souboru do blobCache (proměnná tiny) a vyplní údaje zpět do dialogu file picker
-
 /**
+ * Funkce vytvoří v dialogu file picker (Vložit/upravit obrázek) tlačítko pto vyvolání file dialogu
+ * po vybrání souboru v dialogu (input.onchange) načte obsah souboru do blobCache (proměnná tiny) a vyplní údaje zpět do dialogu file picker
  *
  * @param {type} cb
  * @param {type} value
@@ -211,7 +206,8 @@ var plugins = [
        'searchreplace', // adds search/replace dialogs, also adds a toolbar button and the menu item
        'table', // adds table management functionality
        'template', // adds support for custom templates. It also adds a menu item and a toolbar button
-'quickbars',    ];
+        'quickbars',
+    ];
 
 var templates_article = [
         { title: 'template article test', description: 'popis',       url: 'web/v1/articletemplate/test'},
@@ -238,13 +234,13 @@ var templates_paper= [
         { title: 'Test - presentedpaper s šablonou course', description: 'rendered component',       url: 'red/v1/presenteditem?template=course'},
         { title: 'Test - namedpaper a1', description: 'rendered component',       url: 'red/v1/nameditem/a1'},
         { title: 'Test - namedpaper a2', description: 'rendered component',       url: 'red/v1/nameditem/a2'},
-        { title: 'Test - namedpaper a3', description: 'rendered component',       url: 'red/v1/nameditem/a3'},
+        { title: 'Test - namedpaper a3', description: 'rendered component',       url: 'red/v1/nameditem/a3'}
     ];
 var templates_author = [
         { title: 'Kontakt', description: 'Grafia web - kontakt',       url: 'web/v1/authortemplate/default/kontakt'}, //vztaženo k rootu RS, tam kde je index redakčního s.
         { title: 'Publikace - novinka', description: 'Grafia web - publikace',   url: 'web/v1/authortemplate/default/eshop_nove'},
-        { title: 'Obrázek vlevo a text', description: 'Bez obtékání. Dva sloupce', url: 'web/v1/authortemplate/default/obrazekVlevo_blok'},
         { title: 'Publikace - 2', description: 'Vložení publikací na stránku', url: 'web/v1/authortemplate/default/eshop_radka'},
+        { title: 'Obrázek vlevo a text', description: 'Bez obtékání. Dva sloupce', url: 'web/v1/authortemplate/default/obrazekVlevo_blok'},
         { title: 'Menu - 1 položka', description: 'Vložení položky menu na stránku', url: 'web/v1/authortemplate/default/menu_1polozka'},
         { title: 'Menu - 2 položky', description: 'Vložení 2 položek menu na stránku', url: 'web/v1/authortemplate/default/menu_2polozky'},
         { title: 'Menu - 3 položky', description: 'Vložení 3 položek menu na stránku', url: 'web/v1/authortemplate/default/menu_3polozky'},
@@ -253,7 +249,8 @@ var templates_author = [
         { title: 'Menu - 1 položka (bez gridu) verze 1', description: 'Vložení položky menu na stránku', url: 'web/v1/authortemplate/default/menu_1polozka_1'},
         { title: 'Menu - 1 položka (bez gridu) dlouha', description: 'Vložení položky menu na stránku', url: 'web/v1/authortemplate/default/menu_1polozka_1_delsi'},
         { title: 'Menu - 1 položka (bez gridu) dalsi', description: 'Vložení položky menu na stránku', url: 'web/v1/authortemplate/default/menu_1polozka_1_delsi_1'},
-        { title: 'Menu - 1 položka (bez gridu) verze 2', description: 'Vložení položky menu na stránku', url: 'web/v1/authortemplate/default/menu_1polozka_2'}
+        { title: 'Menu - 1 položka (bez gridu) verze 2', description: 'Vložení položky menu na stránku', url: 'web/v1/authortemplate/default/menu_1polozka_2'},
+        { title: 'Lorem ipsum', description: 'Vložení lorem ipsum', url: 'web/v1/authortemplate/default/lorem_ipsum'}
     ];
 
 var toolbarText = 'save cancel | undo redo | fontstyle fontweight | aligment | anchor link';
