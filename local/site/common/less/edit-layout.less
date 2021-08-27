@@ -10,7 +10,7 @@
 @mediumGrey: darken(@lightGrey, 15);
 @barvaEditButtony: #FBFBE7; //pro prvni polozku ve svislem menu Bloky
 @barvaKos: #F8F3FF; //pro smazany content a prvni polozku ve svislem menu Kos
-   
+    
 //Container
 @containerPositionRight: 0;
 @containerMargin: @hodnota0 10px @hodnota0 @hodnotaAuto;
@@ -36,6 +36,8 @@
 @poznamkyTransition: 0.7s linear;
 @poznamkyZIndex: 1;
 @poznamkyBreakPre: true;
+//Flash toast
+@toastFontSize: 1.3rem;
 
 //Header
 @headerMargin: 50px @hodnota0 35px @hodnota0;
@@ -139,6 +141,13 @@ body{
             .content{
                 min-height: @flashContentHeight;
             }
+        }
+    }
+    //Flash - semantic ui toast
+    .small.toast{
+        font-size: @toastFontSize;
+        p > br:first-child{
+            display: none;
         }
     }    
     

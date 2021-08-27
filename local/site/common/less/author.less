@@ -42,6 +42,7 @@
 @buttonyVodorovneMenuMargin: @hodnota0 5px @hodnota0 @hodnota0;
 
 //Semafor  
+@semaforFlexDirection: column; 
 @semaforPositionTop: @hodnota0;
 @semaforIconMarginBottom: 2px;
 //Pro menu
@@ -57,11 +58,18 @@
 @semaforVodorovneMenuBackgroundColor: @white;
 @semaforVodorovneMenuIconPaddingLeft: 3px;
 //Pro paper
+@semaforPagePositionTop: 43px;
+@semaforPagePositionRight: -8px;
+@semaforPagePositionLeft: -21px;
+@semaforPageZIndex: 1; 
 @semaforContentPositionLeft: -21px;
 @semaforContentFontSize: initial;
+@semaforContentPositionTop: 48px;
+@semaforContentPositionRight: 5px;
+@semaforContentZIndex: 1;
 @semaforSectionTrashCursor: no-drop;
 @semaforSectionTrashPositionLeft: -23px; 
-@semaforContentNumberMarginTop: -10px;
+@semaforContentNumberMarginTop: -10px; 
 @semaforContentNumberTextAlign: center; 
 
 //Paper
@@ -93,13 +101,22 @@
 @scrollhintMenuItemFontSize: 0.95rem;
 
 //Roh u contentu
-@cornerWidth: 2em;
-@cornerHeight: 2em;
-@cornerSize: 0.3em;
-@cornerPositionRigth: -5px;
-@cornerColor: lighten(@blue,40);
-@cornerActiveZIndex: 15;
-@cornerIconTransform: translateX(50%);
+@ribbonWidth: 2em;               
+@ribbonHeight: 1.5em; 
+@ribbonSize: 0.55em;
+@ribbonPositionTop: 45px;
+@ribbonPositionRigth: -50px;
+@ribbonPositionLeft: auto; 
+@ribbonZIndex: 1;
+@ribbonActiveZIndex: 15; 
+@ribbonIconTransform: translateX(50%);
+@ribbonPageWidth: 2em;               
+@ribbonPageHeight: 1.5em;   
+@ribbonPageSize: 0.6em;
+@ribbonPagePositionRigth: -66px;
+@ribbonPagePositionLeft: auto;
+@ribbonPagePositionTop: 40px; 
+@ribbonPageZIndex: 1;
 @sectionTrashCornerPositionRight: 0;
 //Buttony pro content
 @buttonyContentWidth: 100px;
@@ -136,7 +153,7 @@
 @mceBodyMargin: @hodnota0 -5px; //.mce-content-body
 @mceBodyPadding: 5px;
 @mceFocusMargin: 0; //.mce-edit-focus 
-@mceFocusPadding: 0;
+@mceFocusPadding: 5px;
 @mceBorderDanceColor: @green;
 @mceTemplateSelectBorderDanceColor: @teal;
 @paperTempateSelectDisplay: none;  
@@ -275,20 +292,34 @@ body{
     /*SPOLEČNÁ ČÁST*/
     .semafor{
         display: flex;
-        flex-direction: column;
+        flex-direction: @semaforFlexDirection;
         position: absolute;
         top: @semaforPositionTop;
-        left: @semaforContentPositionLeft;
         i.icon{ //když bude více icon, nebudou nalepené u sebe
             margin-bottom: @semaforIconMarginBottom;
         }
-    }
+        > div{
+            display: inline-flex;
+        }  
+    }  
     article .semafor{
         font-size: @semaforContentFontSize;   
         > span{
             margin-top: @semaforContentNumberMarginTop;
             text-align: @semaforContentNumberTextAlign;
         }
+    }
+    .ui.ribbon:not(.page-edit) ~ .semafor{  
+        top: @semaforContentPositionTop;
+        right: @semaforContentPositionRight;
+        left: @semaforContentPositionLeft;
+        z-index: @semaforContentZIndex; 
+    }
+    .ui.ribbon.page-edit ~ .semafor{
+        top: @semaforPagePositionTop;
+        right: @semaforPagePositionRight;
+        left: @semaforPagePositionLeft;
+        z-index: @semaforPageZIndex; 
     }
     /*U POLOŽKY MENU*/  
     nav .semafor{
@@ -347,9 +378,6 @@ body{
         cursor: @semaforSectionTrashCursor;
         .semafor{
             left: @semaforSectionTrashPositionLeft;
-        }
-        .blue.corner.label{  
-            right: @sectionTrashCornerPositionRight;
         }
         .ui.ribbon.label:not(.page-edit){  
             right: @sectionTrashCornerPositionRight;
@@ -427,48 +455,25 @@ body{
     }
 
     /*ROH U CONTENTU*/
-    .blue.corner.label{     
-        width: @cornerWidth;               
-        height: @cornerHeight; 
-        font-size: @cornerSize;
-        right: @cornerPositionRigth;
-        border-color: @cornerColor !important;
-        .icon:not(.editDate){
-            /*výchozí vlastnost polohy CSS - semantic má nastaveno position: absolute, což je zde nežádoucí*/
-            position: initial;
-        }
-        /*icony, které jsou složené ze dvou, budou vycentrované jako ostatní*/
-        .icons .icon{
-            transform: @cornerIconTransform;
-        }
-        &.cornerWithTools.activeCalendar{          
-            z-index: @cornerActiveZIndex !important;
-        }   
-        &.cornerWithTools.hideContentButtons{
-            .contentButtons{
-                display: none !important;
-            }
-        } 
-    }
     .ui.ribbon.label:not(.page-edit){     
-        width: @cornerWidth;               
-        height: @cornerHeight; 
-        font-size: 0.55em;
-        right: -50px;
+        width: @ribbonWidth;               
+        height: @ribbonHeight; 
+        font-size: @ribbonSize;
+        top: @ribbonPositionTop;
+        right:  @ribbonPositionRigth;
+        left: @ribbonPositionLeft;
+        z-index: @ribbonZIndex;
         position: absolute;
-        left: auto;
-        top: 45px;
-        z-index: 1;
         .icon:not(.editDate){
             /*výchozí vlastnost polohy CSS - semantic má nastaveno position: absolute, což je zde nežádoucí*/
             position: initial;
         }
         /*icony, které jsou složené ze dvou, budou vycentrované jako ostatní*/
         .icons .icon{
-            transform: @cornerIconTransform;
+            transform: @ribbonIconTransform;
         }
         &.cornerWithTools.activeCalendar{          
-            z-index: @cornerActiveZIndex !important;
+            z-index: @ribbonActiveZIndex !important;
         }   
         &.cornerWithTools.hideContentButtons{
             .contentButtons{
@@ -477,14 +482,14 @@ body{
         } 
     }
     .ui.ribbon.label.page-edit{
-        width: @cornerWidth;               
-        height: @cornerHeight; 
-        font-size: 0.6em;
-        right: -66px;
+        width: @ribbonPageWidth;               
+        height: @ribbonPageHeight; 
+        font-size: @ribbonPageSize;
+        right: @ribbonPagePositionRigth;
+        left: @ribbonPagePositionLeft;
+        top: @ribbonPagePositionTop; 
+        z-index: @ribbonPageZIndex;
         position: absolute;
-        left: auto;
-        top: 40px; 
-        z-index: 1;
     }
     /*BUTTONY PRO CONTENT*/
     /*používané třídy pro buttony ke contentu
@@ -533,12 +538,6 @@ body{
     /*používané třídy pro buttony ke kalendáři
         .calendarWrap - třída divu pro výběr data i .buttons (trvale, uložit,...)*/
     /*BUTTONY*/
-    .corner.label .buttons.editDate{
-        position: absolute;
-        right: @buttonyKalendarPositionRight;
-        top: @buttonyKalendarPositionTop;
-        background-color: @buttonyKalendarBackgroundColor;
-    }
     .ribbon.label:not(.page-edit) .buttons.editDate{  
         position: absolute;
         right: @buttonyKalendarPositionRight;  
