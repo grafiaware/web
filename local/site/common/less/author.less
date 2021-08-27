@@ -47,6 +47,9 @@
 //Pro menu
 @semaforMenuHeight: 100%;    
 @semaforSvisleMenuPositionLeft: -1px;
+@semafonSvisleMenuPositionTop: 10px;
+@semaforSvisleMenuPositionLeft: 1px; 
+@semaforSvisleMenuHeight: auto;
 @semaforPresmerovaniMenuPositionLeft: -12px;
 @semaforVodorovneMenuPositionLeft: -6px; 
 @semaforVodorovneMenuBorder: @borderWidth @borderStyle @primaryColor;
@@ -132,8 +135,8 @@
 @mceLinkNotSelectedColor: #b4d7ff; //Tiny modrá pro odkaz
 @mceBodyMargin: @hodnota0 -5px; //.mce-content-body
 @mceBodyPadding: 5px;
-@mceFocusMargin: @hodnota0 -5px; //.mce-edit-focus
-@mceFocusPadding: 5px;
+@mceFocusMargin: 0; //.mce-edit-focus 
+@mceFocusPadding: 0;
 @mceBorderDanceColor: @green;
 @mceTemplateSelectBorderDanceColor: @teal;
 @paperTempateSelectDisplay: none;  
@@ -327,9 +330,9 @@ body{
     .svisle-menu .menu.edit{
         li {
             > .semafor{
-                top: 10px;
-                left: 1px; 
-                height: auto;
+                top: @semafonSvisleMenuPositionTop;
+                left: @semaforSvisleMenuPositionLeft; 
+                height: @semaforSvisleMenuHeight;
             }
         }
     }
