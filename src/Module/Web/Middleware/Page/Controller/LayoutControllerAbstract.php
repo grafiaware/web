@@ -19,13 +19,8 @@ use Status\Model\Repository\{
 
 // komponenty
 use Component\View\{
-    Generated\LanguageSelectComponent,
-    Generated\SearchPhraseComponent,
-    Generated\SearchResultComponent,
-    Generated\ItemTypeSelectComponent,
-    Status\LoginComponent, Status\RegisterComponent, Status\LogoutComponent, Status\UserActionComponent,
-    Status\StatusBoardComponent, Status\ControlEditMenuComponent,
-
+    Generated\LanguageSelectComponent, Generated\SearchPhraseComponent, Generated\SearchResultComponent, Generated\ItemTypeSelectComponent,
+    Status\LoginComponent, Status\RegisterComponent, Status\LogoutComponent, Status\UserActionComponent, Status\StatusBoardComponent, Status\ControlEditMenuComponent,
     Flash\FlashComponent
 };
 
@@ -257,8 +252,6 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
                                 ->setData([
                                     // pro tiny_config.js
                                     'basePath' => $basepath,
-                                    'paperTemplatesUri' =>  Configuration::layoutController()['paperTemplatesUri'],  // URI pro Template Controller
-                                    'authorTemplatesPath' => Configuration::layoutController()['authorTemplatesPath'],
                                     'toolbarsLang' => $tinyToolsbarsLang,
                                     // prvky pole contentCSS - tyto tři proměnné jsou prvky pole - pole je v tiny_config.js v proměnné contentCss
                                     'urlStylesCss' => Configuration::layoutController()['urlStylesCss'],

@@ -33,21 +33,21 @@ use Component\View\Authored\Article\ArticleComponent;
 use Component\View\Authored\TemplatedComponent;
 use Component\View\Authored\SelectPaperTemplate\SelectedPaperTemplateComponent;
 
-use Component\View\Generated\{
-    LanguageSelectComponent,
-    SearchPhraseComponent,
-    SearchResultComponent,
-    ItemTypeSelectComponent
-};
+use Component\View\Generated\LanguageSelectComponent;
+use Component\View\Generated\ SearchPhraseComponent;
+use Component\View\Generated\SearchResultComponent;
+use Component\View\Generated\ItemTypeSelectComponent;
+
 use Component\View\Flash\FlashComponent;
-use Component\View\Status\{
-    LoginComponent,
-    RegisterComponent,
-    LogoutComponent,
-    UserActionComponent,
-    StatusBoardComponent,
-    ControlEditMenuComponent
-};
+
+use Component\View\Status\LoginComponent;
+use Component\View\Status\RegisterComponent;
+use Component\View\Status\LogoutComponent;
+use Component\View\Status\UserActionComponent;
+use Component\View\Status\StatusBoardComponent;
+
+use Component\View\Status\ControlEditMenuComponent;
+use Component\View\Status\ToggleEditButtonComponent;
 
 // viewModel
 use Component\ViewModel\{
@@ -423,7 +423,13 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                 $component->setData($c->get(StatusViewModel::class));
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
-            }
+            },
+            ToggleEditButtonComponent::class => function(ContainerInterface $c) {
+                $component = new ToggleEditButtonComponent($c->get(ComponentConfiguration::class));
+                $component->setData($c->get(StatusViewModel::class));
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;
+            },
         ];
     }
 

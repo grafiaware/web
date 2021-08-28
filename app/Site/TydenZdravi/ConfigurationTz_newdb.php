@@ -207,9 +207,9 @@ class ConfigurationTz_newdb {
             'component.templatepath.paper' => self::RED_TEMPLATES_COMMON.'paper/',
             'component.templatepath.article' => self::RED_TEMPLATES_COMMON.'article/',
             'component.template.flash' => self::RED_TEMPLATES_COMMON.'layout/info/flashMessage.php',
-            'component.template.login' => self::RED_TEMPLATES_COMMON.'layout/modal/login.php',
-            'component.template.logout' => self::RED_TEMPLATES_COMMON.'layout/modal/logout.php',
-            'component.template.useraction' => self::RED_TEMPLATES_COMMON.'layout/modal/user_action.php',
+            'component.template.login' => self::RED_TEMPLATES_COMMON.'layout/status/login.php',
+            'component.template.logout' => self::RED_TEMPLATES_COMMON.'layout/status/logout.php',
+            'component.template.useraction' => self::RED_TEMPLATES_COMMON.'layout/status/user_action.php',
         ];
     }
 

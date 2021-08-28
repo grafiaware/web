@@ -86,14 +86,16 @@ class ConfigurationRed extends ConfigurationDb {
             'component.logs.render' => 'Render.log',
             'component.templatepath.paper' => self::RED_TEMPLATES_COMMON.'paper/',
             'component.templatepath.article' => self::RED_TEMPLATES_COMMON.'article/',
+            'component.templatepath.author' => self::RED_LINKS_COMMON."author/",
+            // common layout templates
             'component.template.flash' => self::RED_TEMPLATES_COMMON.'layout/info/flashMessage.php',
-            'component.template.login' => self::RED_TEMPLATES_COMMON.'layout/modal/login.php',
-            'component.template.register' => self::RED_TEMPLATES_SITE.'layout/modal/register-with-exhibitor-representative.php',
-            'component.template.logout' => self::RED_TEMPLATES_COMMON.'layout/modal/logout.php',
-            'component.template.useraction' => self::RED_TEMPLATES_COMMON.'layout/modal/userAction.php',
+            'component.template.login' => self::RED_TEMPLATES_COMMON.'layout/status/login.php',
+            'component.template.logout' => self::RED_TEMPLATES_COMMON.'layout/status/logout.php',
+            'component.template.useraction' => self::RED_TEMPLATES_COMMON.'layout/status/userAction.php',
             'component.template.statusboard' => self::RED_TEMPLATES_COMMON.'layout/info/statusBoard.php',
-            'component.template.controleditmenu' => self::RED_TEMPLATES_COMMON.'layout/controls/controlEditMenu.php',
-
+            'component.template.controleditmenu' => self::RED_TEMPLATES_COMMON.'layout/status/controlEditMenu.php',
+            // site layout templates
+            'component.template.register' => self::RED_TEMPLATES_SITE.'layout/modal/register-with-exhibitor-representative.php',
         ];
     }
 
@@ -155,10 +157,6 @@ class ConfigurationRed extends ConfigurationDb {
             'urlStylesCss' => self::RED_LINKS_COMMON."css/old/styles.css",
             'urlSemanticCss' => self::RED_LINKS_SITE."semantic-ui/semantic.min.css",
             'urlContentTemplatesCss' => self::RED_LINKS_COMMON."css/templates.css",   // KŠ ?????
-            //
-            'paperTemplatesUri' =>  self::RED_LINKS_SITE."templates/paper/",  // URI pro Template Controller
-            'authorTemplatesPath' => self::RED_LINKS_COMMON."templates/author/",
-
         ];
     }
 
