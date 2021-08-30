@@ -161,7 +161,7 @@
 
  
 //import změněných proměnných stylu šablony (specifických pro projekt)
-@import (optional) "../../@{sitename}/@{siteStylesFolder}/variables-author.less";
+@import (optional) "../../@{sitename}/@{siteStylesFolder}/variables-author.less"; 
 
 .border-dance(@color){
     background: linear-gradient(90deg, @color 50%, transparent 50%),
@@ -292,7 +292,7 @@ body{
     /*SPOLEČNÁ ČÁST*/
     .semafor{
         display: flex;
-        flex-direction: @semaforFlexDirection;
+        flex-direction: @semaforFlexDirection; 
         position: absolute;
         top: @semaforPositionTop;
         i.icon{ //když bude více icon, nebudou nalepené u sebe
