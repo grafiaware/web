@@ -26,7 +26,7 @@ abstract class AuthoredViewModelAbstract extends StatusViewModel implements Auth
      * @var PaperAggregateRepo
      */
     protected $menuItemRepo;
-    
+
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusPresentationRepo $statusPresentationRepo,
@@ -36,16 +36,16 @@ abstract class AuthoredViewModelAbstract extends StatusViewModel implements Auth
         parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo);
         $this->menuItemRepo = $menuItemRepo;
     }
-    
+
     public function setItemId($menuItemId) {
         $this->menuItemId = $menuItemId;
     }
-    
+
     public function isMenuItemActive(): bool {
         $langCodeFk = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
         return (isset($this->menuItemId) AND $this->menuItemRepo->get($langCodeFk, $this->menuItemId)) ? true : false;
     }
-    
+
     /**
      * {@inheritdoc}
      *
@@ -54,15 +54,7 @@ abstract class AuthoredViewModelAbstract extends StatusViewModel implements Auth
      *
      * @return bool
      */
-    public function userCanEdit(): bool {
-
-        $loginAggregate = $this->statusSecurityRepo->get()->getLoginAggregate();
-        if ($loginAggregate) {
-            $presentEditableArticle = $this->statusSecurityRepo->get()->getUserActions()->presentEditableArticle();
-            $userIsSupervisor = $loginAggregate->getCredentials()->getRole() == 'sup';
-            return ($presentEditableArticle AND $userIsSupervisor);
-        } else {
-            return false;
-        }
+    public function presentEditableArticle(): bool {
+        return $this->statusSecurityRepo->get()->getUserActions()->presentEditableArticle();
     }
 }

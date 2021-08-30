@@ -17,7 +17,7 @@ use Configuration\ComponentConfigurationInterface;
  *
  * @author pes2704
  */
-abstract class CompositeComponentAbstract extends CompositeView {
+abstract class ComponentAbstract extends CompositeView {
 
     /**
      *

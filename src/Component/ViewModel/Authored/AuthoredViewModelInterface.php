@@ -23,7 +23,7 @@ interface AuthoredViewModelInterface extends StatusViewModelInterface {
      *
      * @return bool
      */
-    public function userCanEdit(): bool;
+    public function presentEditableArticle(): bool;
     
     /**
      * Informuje, zda menu item je aktivní - prezentovaný.

@@ -20,7 +20,7 @@ use Status\Model\Repository\{
 // komponenty
 use Component\View\{
     Generated\LanguageSelectComponent, Generated\SearchPhraseComponent, Generated\SearchResultComponent, Generated\ItemTypeSelectComponent,
-    Status\LoginComponent, Status\RegisterComponent, Status\LogoutComponent, Status\UserActionComponent, Status\StatusBoardComponent, Status\ControlEditMenuComponent,
+    Status\LoginComponent, Status\RegisterComponent, Status\LogoutComponent, Status\UserActionComponent, Status\StatusBoardComponent, Status\ButtonEditMenuComponent,
     Flash\FlashComponent
 };
 
@@ -127,7 +127,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
                 'linkEditorCss' => $this->getLinkEditorCssView($request),
                 'poznamky' => $this->container->get(StatusBoardComponent::class),
                 'flash' => $this->container->get(FlashComponent::class),
-                'controlEditMenu' => $this->container->get(ControlEditMenuComponent::class),
+                'controlEditMenu' => $this->container->get(ButtonEditMenuComponent::class),
 
 
                 ],

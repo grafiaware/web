@@ -2,7 +2,7 @@
 
 namespace Component\View\Menu;
 
-use Component\View\CompositeComponentAbstract;
+use Component\View\ComponentAbstract;
 use Component\ViewModel\Menu\MenuViewModelInterface;
 use Component\ViewModel\Menu\Item\ItemViewModel;
 
@@ -15,7 +15,7 @@ use  Component\Renderer\Html\Menu\MenuWrapRendererInterface;
  *
  * @author pes2704
  */
-class MenuComponent extends CompositeComponentAbstract implements MenuComponentInterface {
+class MenuComponent extends ComponentAbstract implements MenuComponentInterface {
 
     /**
      * @var MenuViewModelInterface

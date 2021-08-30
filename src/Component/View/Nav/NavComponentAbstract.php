@@ -8,7 +8,7 @@
 
 namespace Component\View\Nav;
 
-use Component\View\CompositeComponentAbstract;
+use Component\View\ComponentAbstract;
 use Component\NodeFactory\NavTagFactoryInterface;
 
 /**
@@ -16,7 +16,7 @@ use Component\NodeFactory\NavTagFactoryInterface;
  *
  * @author pes2704
  */
-abstract class NavCompositeComponentAbstract extends CompositeComponentAbstract {
+abstract class NavCompositeComponentAbstract extends ComponentAbstract {
 
     /**
      * @var NavTagFactoryInterface

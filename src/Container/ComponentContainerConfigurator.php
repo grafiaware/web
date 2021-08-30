@@ -45,56 +45,52 @@ use Component\View\Status\RegisterComponent;
 use Component\View\Status\LogoutComponent;
 use Component\View\Status\UserActionComponent;
 use Component\View\Status\StatusBoardComponent;
-
-use Component\View\Status\ControlEditMenuComponent;
-use Component\View\Status\ToggleEditButtonComponent;
+use Component\View\Status\ButtonEditMenuComponent;
+use Component\View\Status\ButtonEditContentComponent;
 
 // viewModel
-use Component\ViewModel\{
-    StatusViewModel,
-    Authored\Paper\PaperViewModel,
-    Authored\Article\ArticleViewModel,
-    Generated\LanguageSelectViewModel,
-    Generated\SearchResultViewModel,
-    Generated\ItemTypeSelectViewModel,
-    Flash\FlashViewModel,
-    Status\StatusBoardViewModel
-};
-// repo
-use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
-use Red\Model\Repository\{
-    LanguageRepo,
-    HierarchyAggregateRepo,
-    MenuItemRepo,
-    MenuItemTypeRepo,
-    MenuRootRepo,
-    PaperRepo,
-    PaperAggregateRepo,
-    ArticleRepo,
-    BlockRepo,
-    BlockAggregateRepo
+use Component\ViewModel\StatusViewModel;
+use Component\ViewModel\Authored\Paper\PaperViewModel;
+use Component\ViewModel\Authored\Article\ArticleViewModel;
+use Component\ViewModel\Generated\LanguageSelectViewModel;
+use Component\ViewModel\Generated\SearchResultViewModel;
+use Component\ViewModel\Generated\ItemTypeSelectViewModel;
+use Component\ViewModel\Flash\FlashViewModel;
+use Component\ViewModel\Status\StatusBoardViewModel;
 
-};
+// renderery - pro volání služeb renderer kontejneru renderer::class
+use Component\Renderer\Html\NoPermittedContentRenderer;
+use Component\Renderer\Html\Authored\Paper\SelectPaperTemplateRenderer;
+use Component\Renderer\Html\Authored\Paper\PaperRenderer;
+use Component\Renderer\Html\Authored\Article\ArticleRenderer;
+use Component\Renderer\Html\Generated\LanguageSelectRenderer;
+use Component\Renderer\Html\Generated\SearchPhraseRenderer;
+use Component\Renderer\Html\Generated\SearchResultRenderer;
+use Component\Renderer\Html\Generated\ItemTypeRenderer;
+use Component\Renderer\Html\Flash\FlashRenderer;
+// wrapper pro template
+use Component\Renderer\Html\Authored\Paper\ElementWrapper;
+use Component\Renderer\Html\Authored\Paper\Buttons;
+
+// repo
+use Status\Model\Repository\StatusSecurityRepo;
+use Status\Model\Repository\StatusPresentationRepo;
+use Status\Model\Repository\StatusFlashRepo;
+use Red\Model\Repository\LanguageRepo;
+use Red\Model\Repository\HierarchyAggregateRepo;
+use Red\Model\Repository\MenuItemRepo;
+use Red\Model\Repository\MenuItemTypeRepo;
+use Red\Model\Repository\MenuRootRepo;
+use Red\Model\Repository\PaperRepo;
+use Red\Model\Repository\PaperAggregateRepo;
+use Red\Model\Repository\ArticleRepo;
+use Red\Model\Repository\BlockRepo;
+use Red\Model\Repository\BlockAggregateRepo;
 
 // controller
 use Web\Middleware\Page\Controller\PageController;
 use Red\Middleware\Component\Controller\RedComponentControler;
 use Red\Middleware\Component\Controller\TemplateControler;
-
-// renderery - pro volání služeb renderer kontejneru renderer::class
-use Component\Renderer\Html\{
-    NoPermittedContentRenderer,
-    Authored\Paper\SelectPaperTemplateRenderer,
-    Authored\Paper\PaperRenderer,
-    Authored\Article\ArticleRenderer,
-    Generated\LanguageSelectRenderer,
-    Generated\SearchPhraseRenderer, Generated\SearchResultRenderer, Generated\ItemTypeRenderer,
-    Flash\FlashRenderer
-};
-
-// wrapper pro template
-use Component\Renderer\Html\Authored\Paper\ElementWrapper;
-use Component\Renderer\Html\Authored\Paper\Buttons;
 
 // view
 use Pes\View\View;
@@ -418,14 +414,14 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
-            ControlEditMenuComponent::class => function(ContainerInterface $c) {
-                $component = new ControlEditMenuComponent($c->get(ComponentConfiguration::class));
+            ButtonEditMenuComponent::class => function(ContainerInterface $c) {
+                $component = new ButtonEditMenuComponent($c->get(ComponentConfiguration::class));
                 $component->setData($c->get(StatusViewModel::class));
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
-            ToggleEditButtonComponent::class => function(ContainerInterface $c) {
-                $component = new ToggleEditButtonComponent($c->get(ComponentConfiguration::class));
+            ButtonEditContentComponent::class => function(ContainerInterface $c) {
+                $component = new ButtonEditContentComponent($c->get(ComponentConfiguration::class));
                 $component->setData($c->get(StatusViewModel::class));
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;

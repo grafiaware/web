@@ -21,29 +21,30 @@ class PaperRenderer  extends HtmlRendererAbstract {
     public function render(iterable $viewModel=NULL) {
         /** @var PaperViewModelInterface $viewModel */
         $paperAggregate = $viewModel->getPaper();  // vrací PaperAggregate
-        $setEditableButton =
+//        $setEditableButton =
 //                $viewModel->presentEditableArticle() ?
-                Html::tag('div', ['class'=>$this->classMap->getClass('PaperButtons', 'div.editMode')], //tlačítko "tužka" pro zvolení editace
-                    Html::tag('form', ['method'=>'POST', 'action'=>''],
-                        Html::tag('button', [
-                            'class'=>$this->classMap->getClass('PaperButtons', 'div.editMode button'),
-                            'data-tooltip' => 'Článek můžete editovat',
-                            'name' => 'edit_article',
-                            'value' => '',
-                            'type' => 'submit',
-                            'formtarget' => '_self',
-                            ],
-                            Html::tag('i', ['class'=>$this->classMap->getClass('PaperButtons', 'div.editMode i')])
-                        )
-                    )
-            )
+//                Html::tag('div', ['class'=>$this->classMap->getClass('PaperButtons', 'div.editMode')], //tlačítko "tužka" pro zvolení editace
+//                    Html::tag('form', ['method'=>'POST', 'action'=>''],
+//                        Html::tag('button', [
+//                            'class'=>$this->classMap->getClass('PaperButtons', 'div.editMode button'),
+//                            'data-tooltip' => 'Článek můžete editovat',
+//                            'name' => 'edit_article',
+//                            'value' => '',
+//                            'type' => 'submit',
+//                            'formtarget' => '_self',
+//                            ],
+//                            Html::tag('i', ['class'=>$this->classMap->getClass('PaperButtons', 'div.editMode i')])
+//                        )
+//                    )
+//            )
 //            :
 //            ''
-        ;
+//        ;
         $inner = (string) $viewModel->getContextVariable('template') ?? '';
+        $buttonEditContent = (string) $viewModel->getContextVariable('buttonEditContent') ?? '';
         $html =
                 Html::tag('article', ['data-red-renderer'=>'PaperRenderer', "data-red-datasource"=> "paper {$paperAggregate->getId()} for item {$paperAggregate->getMenuItemIdFk()}"],
-                        $setEditableButton . $inner
+                        [$buttonEditContent, $inner]
                 );
         return $html ?? '';
     }

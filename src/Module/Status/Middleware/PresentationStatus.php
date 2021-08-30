@@ -48,6 +48,13 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
                     )
                 );
 
+        $statusPresentation = $this->createStatusIfNotExists();
+        $this->presetPresentationLanguage($statusPresentation);
+        $this->presetLastGetResourcePath($statusPresentation, $request);
+        return $handler->handle($request);
+    }
+
+    private function createStatusIfNotExists() {
         /** @var StatusPresentationRepo $statusPresentationRepo */
         $statusPresentationRepo = $this->container->get(StatusPresentationRepo::class);
 
@@ -56,9 +63,7 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
             $statusPresentation = new StatusPresentation();
             $statusPresentationRepo->add($statusPresentation);
         }
-        $this->beforeHandle($statusPresentation, $request);
-
-        return $handler->handle($request);
+        return $statusPresentation;
     }
 
     /**
@@ -68,20 +73,26 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
      * @param ServerRequestInterface $request
      * @return void
      */
-    public function beforeHandle(StatusPresentation $statusPresentation, ServerRequestInterface $request): void {
-
-        ## defaultní hodnoty parametrů status presentation
-        // jazyk prezentace
-        $language = $statusPresentation->getLanguage();
-        if (!isset($language)) {
-            $language = $this->getRequestedLanguage($request);
-            $statusPresentation->setLanguage($language);
-        }
+    private function presetLastGetResourcePath(StatusPresentation $statusPresentation, ServerRequestInterface $request): void {
         if ($request->getMethod()=='GET') {
             /** @var UriInfoInterface $uriInfo */
             $uriInfo = $request->getAttribute(WebAppFactory::URI_INFO_ATTRIBUTE_NAME);
             $restUri = $uriInfo->getRestUri();
             $statusPresentation->setLastGetResourcePath($restUri);
+        }
+    }
+
+    /**
+     * Nastaví jazyk prezentace pokud není nastaven.
+     *
+     * @param type $statusPresentation
+     */
+    private function presetPresentationLanguage($statusPresentation) {
+        // jazyk prezentace
+        $language = $statusPresentation->getLanguage();
+        if (!isset($language)) {
+            $language = $this->getRequestedLanguage($request);
+            $statusPresentation->setLanguage($language);
         }
     }
 

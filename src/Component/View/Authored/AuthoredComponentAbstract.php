@@ -8,7 +8,7 @@
 
 namespace Component\View\Authored;
 
-use Component\View\CompositeComponentAbstract;
+use Component\View\ComponentAbstract;
 use Component\ViewModel\Authored\AuthoredViewModelInterface;
 
 use Pes\View\Template\TemplateInterface;
@@ -21,7 +21,7 @@ use Pes\View\CompositeView;
  *
  * @author pes2704
  */
-abstract class AuthoredComponentAbstract extends CompositeComponentAbstract implements AuthoredComponentInterface {
+abstract class AuthoredComponentAbstract extends ComponentAbstract implements AuthoredComponentInterface {
 
     const DEFAULT_TEMPLATE_FILE_NAME = 'template.php';
     const DEFAULT_TEMPLATE_NAME = 'default';

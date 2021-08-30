@@ -68,7 +68,7 @@ class PaperViewModel extends AuthoredViewModelAbstract implements PaperViewModel
      * @return type
      */
     public function getIterator() {
-        $this->appendData(['isEditable'=> $this->userCanEdit()]);
+        $this->appendData(['isEditable'=> $this->presentEditableArticle()]);
         return parent::getIterator();
     }
 

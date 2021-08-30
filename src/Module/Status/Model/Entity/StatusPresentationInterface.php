@@ -29,7 +29,6 @@ interface StatusPresentationInterface extends EntitySingletonInterface {
      */
     public function getLanguage(): ?LanguageInterface;
 
-
     /**
      * @return string
      */

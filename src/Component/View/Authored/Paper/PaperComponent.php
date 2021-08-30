@@ -26,6 +26,8 @@ use Component\Renderer\Html\Authored\Paper\HeadlineRendererEditable;
 use Component\Renderer\Html\Authored\Paper\PerexRendererEditable;
 use Component\Renderer\Html\Authored\Paper\ContentsRendererEditable;
 
+use Component\View\Status\ButtonEditContentComponent;
+
 /**
  * Description of PaperComponent
  *
@@ -47,6 +49,8 @@ class PaperComponent extends AuthoredComponentAbstract implements PaperComponent
      */
     public function beforeRenderingHook(): void {
         if ($this->hasContent()) {
+
+            // vytvoří komponentní view z šablony paperu nebo s ImplodeTemplate, pokud šablona paperu není nastavena
             try {
                 // konstruktor PhpTemplate vyhazuje výjimku NoTemplateFileException pro neexistující (nečitený) soubor s template
                 $template = new PhpTemplate($this->getTemplateFileFullname($this->configuration->getTemplatepathPaper(), $this->getTemplateName()));
@@ -55,37 +59,30 @@ class PaperComponent extends AuthoredComponentAbstract implements PaperComponent
                 $template = new ImplodeTemplate();
             }
             $templatedView = $this->createCompositeViewWithTemplate($template);
-            if ($this->contextData->userCanEdit()) { // editační režim a uživatel má právo editovat
-                $this->setRendererName(PaperRendererEditable::class);
-                $this->addChildEditableComponents($templatedView);
-            } else {
-                $this->setRendererName(PaperRenderer::class);
-                $this->addChildComponents($templatedView);
-            }
             $this->appendComponentView($templatedView, 'template');
 
-//            $templateFileName = $this->getTemplateFileFullname($this->configuration->getTemplatepathPaper(), $this->getTemplateName());
-//
-//            if ($this->contextData->userCanEdit()) { // editační režim a uživatel má právo editovat
-//                try {
-//                    $this->setTemplate(new PaperTemplateEditable($templateFileName));  // PhpTemplate exception
-//                } catch (NoTemplateFileException $noTemplExc) {
-//                    user_error("Neexistuje soubor šablony '$templateFileName'", E_USER_WARNING);
-//                    $this->setRendererName(PaperRendererEditable::class);
-//                }
-//                $this->addChildEditableComponents();
-//            } else {
-//                try {
-//                    $this->setTemplate(new PaperTemplate($templateFileName));  // PhpTemplate exception
-//                } catch (NoTemplateFileException $noTemplExc) {
-//                    user_error("Neexistuje soubor šablony '$templateFileName'", E_USER_WARNING);
-//                    $this->setRendererName(PaperRenderer::class);
-//                }
-//                $this->addChildComponents();
-//            }
+            // zvolí PaperRenderer nebo PaperRendererEditable
+            if ($this->contextData->presentEditableArticle()) { // editační režim
+                $this->setRendererName(PaperRendererEditable::class);
+                // připojí k templated view komponentní view s editable renderery headline, perex, contents
+                $this->addChildEditableComponents($templatedView);
+                // vytvoří komponentní view s buttonem ButtonEditContent
+                $buttonEditContentComponent = new ButtonEditContentComponent($this->configuration);
+                $buttonEditContentComponent->setData($this->contextData);
+                $buttonEditContentComponent->setRendererContainer($this->rendererContainer);
+                $this->appendComponentView($buttonEditContentComponent, 'buttonEditContent');
+            } else {
+                $this->setRendererName(PaperRenderer::class);
+                // připojí k templated view komponentní view s editable renderery headline, perex, contents
+                $this->addChildComponents($templatedView);
+            }
         } else {
             $this->setRendererName(EmptyContentRenderer::class);
         }
+    }
+
+    public function __toString() {
+        parent::__toString();
     }
 
     private function addChildEditableComponents(CompositeViewInterface $view) {

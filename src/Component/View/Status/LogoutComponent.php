@@ -8,7 +8,7 @@
 
 namespace Component\View\Status;
 
-use Component\View\CompositeComponentAbstract;
+use Component\View\ComponentAbstract;
 use Component\Renderer\Html\NoContentForStatusRenderer;
 use Component\ViewModel\StatusViewModelInterface;
 use Pes\View\Template\PhpTemplate;
@@ -18,7 +18,7 @@ use Pes\View\Template\PhpTemplate;
  *
  * @author pes2704
  */
-class LogoutComponent extends CompositeComponentAbstract {
+class LogoutComponent extends ComponentAbstract {
 
     /**
      * @var StatusViewModelInterface

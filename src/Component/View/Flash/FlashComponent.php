@@ -8,7 +8,7 @@
 
 namespace Component\View\Flash;
 
-use Component\View\CompositeComponentAbstract;
+use Component\View\ComponentAbstract;
 use Component\ViewModel\Flash\FlashViewModelInterface;
 
 /**
@@ -16,7 +16,7 @@ use Component\ViewModel\Flash\FlashViewModelInterface;
  *
  * @author pes2704
  */
-class FlashComponent extends CompositeComponentAbstract {
+class FlashComponent extends ComponentAbstract {
 
     /**
      * @var FlashViewModelInterface

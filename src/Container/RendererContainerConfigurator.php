@@ -14,8 +14,9 @@ use Component\Renderer\Html\Authored\Paper\{
     HeadlineRenderer, PerexRenderer, ContentsRenderer,
     HeadlineRendererEditable, PerexRendererEditable, ContentsRendererEditable
 };
-use \Component\Renderer\Html\Authored\Article\SelectArticleTemplateRenderer;
+use Component\Renderer\Html\Status\ButtonEditContentRenderer;
 
+use Component\Renderer\Html\Authored\Article\SelectArticleTemplateRenderer;
 use Component\Renderer\Html\Generated\{
     LanguageSelectRenderer, SearchPhraseRenderer, SearchResultRenderer, ItemTypeRenderer
 };
@@ -95,7 +96,13 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new ContentsRendererEditable($c->get('paper.editable.classmap'));
             },
         ###########################
-        #  generated renderer
+        #  status renderer
+        ###########################
+            ButtonEditContentRenderer::class => function(ContainerInterface $c) {
+                return new ButtonEditContentRenderer($c->get('paper.editable.classmap'));
+            },
+        ###########################
+        #  article renderer
         ###########################
             SelectArticleTemplateRenderer::class => function(ContainerInterface $c) {
                 return new SelectArticleTemplateRenderer($c->get('paper.editable.classmap'));   //používá paper classmapu - přejmenovat společnou classmapu??

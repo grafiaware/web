@@ -6,12 +6,14 @@
  * and open the template in the editor.
  */
 
-namespace Component\ViewModel\Status;
+namespace Component\View;
 
 /**
  *
  * @author pes2704
  */
-interface LogoutViewModelInterface {
-    //put your code here
+interface AccessComponentInterface {
+    public function isAllowed(AccessComponentInterface $component, $action): bool;
+    public function getComponentPermissions(): array;
+
 }

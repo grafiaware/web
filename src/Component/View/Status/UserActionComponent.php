@@ -8,7 +8,7 @@
 
 namespace Component\View\Status;
 
-use Component\View\CompositeComponentAbstract;
+use Component\View\ComponentAbstract;
 use Component\Renderer\Html\NoPermittedContentRenderer;
 use Component\ViewModel\StatusViewModelInterface;
 use Pes\View\Template\PhpTemplate;
@@ -18,7 +18,7 @@ use Pes\View\Template\PhpTemplate;
  *
  * @author pes2704
  */
-class UserActionComponent extends CompositeComponentAbstract {
+class UserActionComponent extends ComponentAbstract {
 
     /**
      * @var StatusViewModelInterface
