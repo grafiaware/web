@@ -6,7 +6,7 @@
         NOVÉ 
     </span>
     <div class="content center aligned"> 
-        <img class="card-image" src="contents/images/toulky.jpg">
+        <img class="card-image" src="">
     </div>
     <div class="content">
         <h3>Toulky českým západem</h3>
