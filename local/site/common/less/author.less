@@ -58,8 +58,8 @@
 @semaforVodorovneMenuBackgroundColor: @white;
 @semaforVodorovneMenuIconPaddingLeft: 3px;
 //Pro paper
-@semaforPagePositionTop: 43px;
-@semaforPagePositionRight: -8px;
+@semaforPagePositionTop: 45px;
+@semaforPagePositionRight: -8px; 
 @semaforPagePositionLeft: -21px;
 @semaforPageZIndex: 1; 
 @semaforContentPositionLeft: -21px;
@@ -110,10 +110,11 @@
 @ribbonZIndex: 1;
 @ribbonActiveZIndex: 15; 
 @ribbonIconTransform: translateX(50%);
+@ribbonCornerIconFontSize: 1em;
 @ribbonPageWidth: 2em;               
 @ribbonPageHeight: 1.5em;   
 @ribbonPageSize: 0.6em;
-@ribbonPagePositionRigth: -66px;
+@ribbonPagePositionRigth: -66px;     
 @ribbonPagePositionLeft: auto;
 @ribbonPagePositionTop: 40px; 
 @ribbonPageZIndex: 1;
@@ -458,8 +459,8 @@ body{
     .ui.ribbon.label:not(.page-edit){     
         width: @ribbonWidth;               
         height: @ribbonHeight; 
-        font-size: @ribbonSize;
-        top: @ribbonPositionTop;
+        font-size: @ribbonSize; 
+        top: @ribbonPositionTop; 
         right:  @ribbonPositionRigth;
         left: @ribbonPositionLeft;
         z-index: @ribbonZIndex;
@@ -471,6 +472,9 @@ body{
         /*icony, které jsou složené ze dvou, budou vycentrované jako ostatní*/
         .icons .icon{
             transform: @ribbonIconTransform;
+            &.corner{
+                font-size: @ribbonCornerIconFontSize;
+            }
         }
         &.cornerWithTools.activeCalendar{          
             z-index: @ribbonActiveZIndex !important;
