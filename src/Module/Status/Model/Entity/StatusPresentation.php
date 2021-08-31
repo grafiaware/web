@@ -14,7 +14,7 @@ use Status\Model\Entity\StatusPresentationInterface;
 
 use Red\Model\Entity\MenuItemInterface;
 use Red\Model\Entity\LanguageInterface;
-
+use Red\Model\Entity\ItemActionInterface;
 /**
  * Description of StatusHierarchy
  *
@@ -37,6 +37,13 @@ class StatusPresentation extends EntityAbstract implements StatusPresentationInt
     private $lastResourcePath;
 
     private $lastTemplateName;
+
+    /**
+     *
+     * @var ItemActionInterface array of
+     */
+    private $itemActions = [];
+
 
     /**
      *
@@ -68,6 +75,22 @@ class StatusPresentation extends EntityAbstract implements StatusPresentationInt
      */
     public function getLastGetResourcePath() {
         return $this->lastResourcePath;
+    }
+
+    /**
+     *
+     * @return string
+     */
+    public function getLastTemplateName() {
+        return $this->lastTemplateName;
+    }
+
+    /**
+     *
+     * @return array ItemActionInterface array of
+     */
+    public function getItemActions() {
+        return $this->itemActions;
     }
 
     /**
@@ -113,7 +136,9 @@ class StatusPresentation extends EntityAbstract implements StatusPresentationInt
         $this->lastTemplateName = $templateName;
     }
 
-    public function getLastTemplateName() {
-        return $this->lastTemplateName;
+    public function setItemActions($itemActions) {
+        $this->itemActions = $itemActions;
+        return $this;
     }
+
 }
