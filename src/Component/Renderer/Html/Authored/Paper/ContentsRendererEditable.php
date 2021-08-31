@@ -57,38 +57,33 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
         $now =  new \DateTime("now");
         $future = $paperContent->getShowTime() > $now;
         $past = $paperContent->getHideTime() < $now;  // pro zobrszeno trvale - null je vždy menší a $passed je true - vyhodnucuji nejprve $actual, nevadí to
+        $circleColor = $active ? "#21ba45" : "#db2828";
 
         $html =
             Html::tag('section', ['class'=>$this->classMap->getClass('Content', 'section')],
-                Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.corner')],
-                    $this->getContentButtons($paperContent)
-                )
-                    .
-                    '<svg width="100%" height="30">
+                Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.ribbon')],
+                    '<svg width="100" height="30" style="position: relative; top: -15px">
                         <line x1="0" y1="50%" x2="100%" y2="50%" fill="none" stroke="#aeaeae" stroke-width="5"/>
-                        <rect x="38" y="0" width="50%" height="100%" fill="#21ba45c7" stroke="#000000" stroke-width="0"/>
-                        <rect x="50" y="6" width="30%" height="60%" fill="#fbf26cd6" stroke="#000000" stroke-width="0"/>
-                        <circle cx="42" cy="50%" r="6" fill="#000000" stroke="#000000" stroke-width="1"/>
+                        <rect x="20%" y="4" width="70%" height="75%" fill="#6435c9c2" stroke="#000000" stroke-width="0"/>
+                        <rect x="35%" y="8" width="50%" height="50%" fill="#ffe21fc4" stroke="#000000" stroke-width="0"/>
+                        <circle cx="47" cy="50%" r="5" fill="'.$circleColor.'" stroke="#000000" stroke-width="0"/>
                      </svg>'
-//                    '<div class="div-osa" data-tooltip="'. $this->textDatumyZobrazeni($paperContent).' | '.$this->textDatumyUdalosti($paperContent).'",>
-//                            <div class="zelene-obdobi">
-//                                  <div class="cislo1"></div>
-//                                  <div class="cislo2"></div>
-//                            </div>
-//                            <div class="dnes" data-datumOsa="'.$future.'x,'.$past.'x"></div>
-//                      </div>'
-                .Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.semafor')],
-                    Html::tag('div',
-                       [
-                       'class'=> 'ikona-popis',
-                       'data-tooltip'=> $active ? "published" : "not published",
-                       ],
-                        Html::tag('i',
-                           [
-                           'class'=> $this->classMap->resolveClass($active, 'Content','i1.published', 'i1.notpublished'),
-                           ]
-                        )
-                    )
+                        .
+                    $this->getContentButtons($paperContent)
+                    
+                )
+//                .Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.semafor')],
+//                    Html::tag('div',
+//                       [
+//                       'class'=> 'ikona-popis',
+//                       'data-tooltip'=> $active ? "published" : "not published",
+//                       ],
+//                        Html::tag('i',
+//                           [
+//                           'class'=> $this->classMap->resolveClass($active, 'Content','i1.published', 'i1.notpublished'),
+//                           ]
+//                        )
+//                    )
 //                        'i2.published' => 'calendar check icon green',
 //                        'i2.notactive' => 'calendar plus icon yellow',
 //                        'i2.notactual' => 'calendar minus icon orange',
@@ -106,7 +101,7 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
 //                        $paperContent->getPriority()
 //                    )
 //                )
-                )
+//                )
                 .Html::tag('content',
                     [
                     'id' => "content_{$paperContent->getId()}",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
@@ -122,7 +117,7 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
     private function getTrashContentForm($paperContent) {
         return
             Html::tag('section', ['class'=>$this->classMap->getClass('Content', 'section.trash')],
-                Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.corner')],
+                Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.ribbon')],
                     $this->getTrashButtons($paperContent)
                 )
                 .Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.semafor')],
