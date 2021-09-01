@@ -42,7 +42,7 @@ class ItemActionRepositoryTest extends TestCase {
      *
      * @var ItemActionRepoInterface
      */
-    private $itemActionepo;
+    private $itemActionRepo;
 
     private $title;
     private $langCode;
@@ -117,17 +117,57 @@ class ItemActionRepositoryTest extends TestCase {
                 );
 
 
-        $this->itemActionepo = $this->container->get(ItemActionRepo::class);
+        $this->itemActionRepo = $this->container->get(ItemActionRepo::class);
     }
 
     public function testSetUp() {
-        $this->assertInstanceOf(ItemActionRepoInterface::class, $this->itemActionepo);
+        $this->assertInstanceOf(ItemActionRepoInterface::class, $this->itemActionRepo);
+    }
+
+    public function testGetNonExisted() {
+        $entity = $this->itemActionRepo->get('ghgug', 111);
+        $this->assertNull($entity);
+
+    }
+
+    public function testFindAll() {
+        $allEntities = $this->itemActionRepo->findAll();
+        $this->assertIsArray($allEntities);
+        $this->assertTrue(count($allEntities) > 0);
+    }
+
+    public function testDeleteAll() {
+        $allEntities = $this->itemActionRepo->findAll();
+        foreach ($allEntities as $entity) {
+            $this->itemActionRepo->remove($entity);
+        }
+        $this->itemActionRepo->flush();
+        $allEntities = $this->itemActionRepo->findAll();
+        $this->assertIsArray($allEntities);
+        $this->assertTrue(count($allEntities) == 0);
+    }
+
+    public function testSaveNew() {
+        $itemAction = new ItemAction();
+        $itemAction->setTypeFk('paper');
+        $itemAction->setItemId('111');
+        $itemAction->setEditorLoginName('editoří jméno');
+        $this->itemActionRepo->add($itemAction);
+        $itemAction = new ItemAction();
+        $itemAction->setTypeFk('article');
+        $itemAction->setItemId('222');
+        $itemAction->setEditorLoginName('pan Chytrý');
+        $this->itemActionRepo->add($itemAction);
+
+        $this->itemActionRepo->flush();
+        $allEntities = $this->itemActionRepo->findAll();
+        $this->assertTrue(count($allEntities) == 2);
+
     }
 
     public function testGet() {
-        $entity = $this->itemActionepo->get('ghgug', 111);
-        $this->assertNull($entity);
-
+        $entity = $this->itemActionRepo->get('paper', 111);
+        $this->assertInstanceOf(ItemAction::class, $entity);
     }
 
 }

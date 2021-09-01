@@ -45,6 +45,18 @@ class ItemActionRepo extends RepoAbstract implements ItemActionRepoInterface {
         return $this->collection[$index] ?? NULL;
     }
 
+    public function findAll() {
+        $selected = [];
+        foreach ($this->dao->findAll() as $itemActionsRow) {
+            $index = $this->indexFromRow($itemActionsRow);
+            if (!isset($this->collection[$index])) {
+                $this->recreateEntity($index, $itemActionsRow);
+            }
+            $selected[] = $this->collection[$index];
+        }
+        return $selected;
+    }
+
     public function add(ItemActionInterface $itemAction) {
         $index = $this->indexFromEntity($itemAction);
         $this->addEntity($itemAction, $index);

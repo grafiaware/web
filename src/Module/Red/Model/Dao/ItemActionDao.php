@@ -36,7 +36,23 @@ class ItemActionDao extends DaoAbstract {
             WHERE
                 `item_action`.`type_fk` = :type_fk AND `item_action`.`item_id` = :item_id
             ";
-        return $this->selectOne($sql, [':type_fk' => $type_fk, ':item_id' => $item_id], TRUE);
+        return $this->selectOne($sql, [':type_fk'=>$type_fk, ':item_id'=>$item_id], TRUE);
+    }
+
+    /**
+     * Vrací všechny řádky tabulky 'item_action' ve formě asociativního pole.
+     * @return array
+     */
+    public function findAll() {
+        $sql = "
+            SELECT
+                `item_action`.`type_fk`,
+                `item_action`.`item_id`,
+                `item_action`.`editor_login_name`,
+                `item_action`.`created`
+            FROM `item_action`
+            ";
+        return $this->selectMany($sql, []);
     }
 
     public function insert($row) {

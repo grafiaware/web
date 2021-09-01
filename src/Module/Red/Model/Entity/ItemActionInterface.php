@@ -2,13 +2,13 @@
 
 namespace Red\Model\Entity;
 
-use Model\Entity\EntitySingletonInterface;
+use Model\Entity\EntityInterface;
 
 /**
  *
  * @author pes2704
  */
-interface ItemActionInterface extends EntitySingletonInterface {
+interface ItemActionInterface extends EntityInterface {
 
     public function getTypeFk(): string;
 
