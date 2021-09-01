@@ -41,6 +41,11 @@ abstract class AuthoredViewModelAbstract extends StatusViewModel implements Auth
         $this->menuItemId = $menuItemId;
     }
 
+    /**
+     * Info pro zobrazení stavu menuItem v paper nebo article rendereru
+     * 
+     * @return bool
+     */
     public function isMenuItemActive(): bool {
         $langCodeFk = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
         return (isset($this->menuItemId) AND $this->menuItemRepo->get($langCodeFk, $this->menuItemId)) ? true : false;

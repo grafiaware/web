@@ -76,6 +76,7 @@ class PaperComponent extends AuthoredComponentAbstract implements PaperComponent
                 // připojí k templated view komponentní view s editable renderery headline, perex, contents
                 $this->addChildComponents($templatedView);
             }
+
         } else {
             $this->setRendererName(EmptyContentRenderer::class);
         }
