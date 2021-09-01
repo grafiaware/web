@@ -148,16 +148,7 @@ class PageController extends LayoutControllerAbstract {
 #
 
     protected function getAuthoredLayoutBlockLoaders() {
-        $map = [
-                    'rychleOdkazy' => 'a3',
-                    'nejblizsiAkce' => 'a2',
-                    'aktuality' => 'a1',
-                    'razitko' => 'a4',
-                    'socialniSite' => 'a5',
-                    'mapa' => 'a6',
-                    'logo' => 'a7',
-                    'banner' => 'a8',
-                ];
+        $map = Configuration::pageController()['context_name_to_block_name_map'];
         $componets = [];
 
         // pro neexistující bloky nedělá nic

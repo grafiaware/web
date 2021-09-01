@@ -40,13 +40,13 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
     private $container;
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
-        // potřebuje novou databázi (language, menuItem a menuRoot) -> HierarchyContainerConfigurator a DbUpgradeContainerConfigurator
-        $this->container =
-                (new HierarchyContainerConfigurator())->configure(
-                    (new DbUpgradeContainerConfigurator())->configure(
-                        (new Container($this->getApp()->getAppContainer())) //->addContainerInfo("PresentationStatus")
-                    )
-                );
+
+        $this->container = $this->getApp()->getAppContainer();
+//                (new HierarchyContainerConfigurator())->configure(
+//                    (new DbUpgradeContainerConfigurator())->configure(
+//                        (new Container($this->getApp()->getAppContainer())) //->addContainerInfo("PresentationStatus")
+//                    )
+//                );
 
         $statusPresentation = $this->createStatusIfNotExists();
         $this->presetPresentationLanguage($statusPresentation);

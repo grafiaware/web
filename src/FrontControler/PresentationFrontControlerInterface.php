@@ -22,6 +22,14 @@ interface PresentationFrontControlerInterface {
     /**
      *
      * @param \Controller\ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @return ResponseInterface
+     */
+    public function addHeaders(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface;
+    
+    /**
+     *
+     * @param \Controller\ServerRequestInterface $request
      * @param \Controller\ViewInterface $view
      * @return ResponseInterface
      */

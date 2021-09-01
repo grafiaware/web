@@ -70,6 +70,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
     ### response
     protected function createResponseWithItem(ServerRequestInterface $request, MenuItemInterface $menuItem = null) {
         if ($menuItem) {
+            $this->statusPresentationRepo->get();
             $this->setPresentationMenuItem($menuItem);
             $view = $this->createView($request, $this->getComponentViews($request, $menuItem));
             $response = $this->createResponseFromView($request, $view);
