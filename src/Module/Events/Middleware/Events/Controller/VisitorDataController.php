@@ -4,7 +4,7 @@ namespace Events\Middleware\Events\Controller;
 
 use Site\Configuration;
 
-use FrontControler\PresentationFrontControlerAbstract;
+use FrontControler\FrontControlerAbstract;
 
 use Status\Model\Repository\{StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo};
 use Red\Model\Repository\{VisitorDataRepo, VisitorDataPostRepo};
@@ -35,7 +35,7 @@ use Mail\Params\{Content, Attachment, StringAttachment, Party};
  *
  * @author pes2704
  */
-class VisitorDataController extends PresentationFrontControlerAbstract {
+class VisitorDataController extends FrontControlerAbstract {
 
     const UPLOADED_KEY_CV = "visitor-cv";
     const UPLOADED_KEY_LETTER = "visitor-letter";

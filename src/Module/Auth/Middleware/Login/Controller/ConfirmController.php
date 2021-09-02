@@ -125,7 +125,7 @@ class ConfirmController extends LoginControllerAbstract
             }
 
 //        return $this->redirectSeeOther($request, 'web/v1/static/dokonceni-registrace'); // 303 See Other
-        return $this->redirectSeeOther($request, ''); // 303 See Other
+        return $this->createResponseRedirectSeeOther($request, ''); // 303 See Other
 
     }
 }

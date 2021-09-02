@@ -41,9 +41,9 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
 
-        $this->container = 
+        $this->container =
         //      $this->getApp()->getAppContainer();
-                (new HierarchyContainerConfigurator())->configure(
+                (new HierarchyContainerConfigurator())->configure(   // jen kvůli languageRepo z kontejneru - výkonostní problém - viz níže
                     (new DbUpgradeContainerConfigurator())->configure(
                         (new Container($this->getApp()->getAppContainer())) //->addContainerInfo("PresentationStatus")
                     )
@@ -51,8 +51,9 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
 
         $statusPresentation = $this->createStatusIfNotExists();
         $this->presetPresentationLanguage($statusPresentation, $request);
-        $this->presetLastGetResourcePath($statusPresentation, $request);
-        return $handler->handle($request);
+//        $this->presetLastGetResourcePath($statusPresentation, $request);  // přesunuto do PresentationDrontControleru
+        $response = $handler->handle($request);
+        return $response;
     }
 
     private function createStatusIfNotExists() {

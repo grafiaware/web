@@ -76,7 +76,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
             $response = $this->createResponseFromView($request, $view);
         } else {
             // neexistující stránka
-            $response = $this->redirectSeeOther($request, ""); // SeeOther - ->home
+            $response = $this->createResponseRedirectSeeOther($request, ""); // SeeOther - ->home
         }
         return $response;
     }

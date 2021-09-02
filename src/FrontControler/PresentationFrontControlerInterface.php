@@ -17,28 +17,7 @@ use Pes\View\ViewInterface;
  *
  * @author pes2704
  */
-interface PresentationFrontControlerInterface {
+interface PresentationFrontControlerInterface extends FrontControlerInterface {
 
-    /**
-     *
-     * @param \Controller\ServerRequestInterface $request
-     * @param ResponseInterface $response
-     * @return ResponseInterface
-     */
-    public function addHeaders(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface;
-    
-    /**
-     *
-     * @param \Controller\ServerRequestInterface $request
-     * @param \Controller\ViewInterface $view
-     * @return ResponseInterface
-     */
-    public function createResponseFromView(ServerRequestInterface $request, ViewInterface $view): ResponseInterface;
-    /**
-     *
-     * @param ServerRequestInterface $request
-     * @param ViewInterface $view
-     * @return ResponseInterface
-     */
-    public function createResponseFromString(ServerRequestInterface $request, $stringContent): ResponseInterface;
+
 }

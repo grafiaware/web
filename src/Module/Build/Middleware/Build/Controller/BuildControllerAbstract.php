@@ -1,7 +1,7 @@
 <?php
 namespace Build\Middleware\Build\Controller;
 
-use FrontControler\PresentationFrontControlerAbstract;
+use FrontControler\FrontControlerAbstract;
 
 use Build\Middleware\Build\Exception\{
     BuildExceptionInterface, SqlExecutionStepFailedException, MaxExecutionTimeException
@@ -25,7 +25,7 @@ use Pes\Http\Response;
  *
  * @author pes2704
  */
-class BuildControllerAbstract  extends PresentationFrontControlerAbstract  implements BuildControllerInterface {
+class BuildControllerAbstract  extends FrontControlerAbstract  implements BuildControllerInterface {
 
     const RELATIVE_SQLFILE_PATH = "src/Middleware/Build/Sql/";
 
