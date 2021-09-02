@@ -68,7 +68,10 @@
 @semaforContentPositionRight: 5px;
 @semaforContentZIndex: 1;
 @semaforSectionTrashCursor: no-drop;
-@semaforSectionTrashPositionLeft: -23px; 
+@semaforSectionTrashPositionLeft: auto; 
+@semaforSectionTrashPositionTop: 12px;
+@sectionTrashTransform: translateX(0);
+@sectionTrashCornerPositionLeft: 97.5%;
 @semaforContentNumberMarginTop: -10px; 
 @semaforContentNumberTextAlign: center; 
 
@@ -108,6 +111,7 @@
 @ribbonPositionRigth: -50px;
 @ribbonPositionLeft: auto; 
 @ribbonZIndex: 1;
+@ribbonTransform: translateX(0); 
 @ribbonActiveZIndex: 15; 
 @ribbonIconTransform: translateX(50%);
 @ribbonCornerIconFontSize: 1em;
@@ -119,6 +123,7 @@
 @ribbonPagePositionTop: 40px; 
 @ribbonPageZIndex: 1;
 @sectionTrashCornerPositionRight: 0;
+@sectionTrashCornerPositionTop: 5px;
 //Buttony pro content
 @buttonyContentWidth: 100px;
 @buttonyContentPositionRight: 6px;
@@ -375,13 +380,17 @@ body{
         position: relative;
     }
     /*SMAZANÝ CONTENT*/
-    section.trash{
+    section.trash {
         cursor: @semaforSectionTrashCursor;
-        .semafor{
-            left: @semaforSectionTrashPositionLeft;
-        }
         .ui.ribbon.label:not(.page-edit){  
             right: @sectionTrashCornerPositionRight;
+            left: @sectionTrashCornerPositionLeft;
+            top: @sectionTrashCornerPositionTop;
+            transform: @sectionTrashTransform;
+            & ~ .semafor{
+                left: @semaforSectionTrashPositionLeft;
+                top: @semaforSectionTrashPositionTop;
+            } 
         }
     }
     /*BUTTONY PRO PAPER*/
@@ -464,6 +473,7 @@ body{
         right:  @ribbonPositionRigth;
         left: @ribbonPositionLeft;
         z-index: @ribbonZIndex;
+        transform: @ribbonTransform; 
         position: absolute;
         .icon:not(.editDate){
             /*výchozí vlastnost polohy CSS - semantic má nastaveno position: absolute, což je zde nežádoucí*/

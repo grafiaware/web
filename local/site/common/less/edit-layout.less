@@ -72,11 +72,12 @@
 @headlineMarginTop: 0.55em;
 //Section
 @sectionMargin: 0 0 5px 0;  
-@sectionTrashOutline: @borderWidth dotted darken(@barvaKos,20);
+@sectionTrashBoxShadow: 0 0 0 1px darken(@barvaKos,20);
 //Content
 @contentMinHeight: 45px;
 //Smazaný content
-@sectionTrashMargin: @hodnota0 -5px 5px -5px;
+@sectionTrashMargin: 0;
+@sectionTrashPadding: 0;
 @trashContentOpacity: 0.5; 
 @trashContentPadding: 5px;
 @trashContentFilter: grayscale(1); 
@@ -279,8 +280,9 @@ body{
     /*SMAZANÝ CONTENT*/
     section.trash{
         /*outline už na sekci; kdyby se dal ke contentu (.trash_content), byl by šedý kvůli filter: grayscale*/
-        outline: @sectionTrashOutline;
+        box-shadow: @sectionTrashBoxShadow;
         margin: @sectionTrashMargin;
+        padding: @sectionTrashPadding;
     }
     .trash_content{
         filter: @trashContentFilter;
