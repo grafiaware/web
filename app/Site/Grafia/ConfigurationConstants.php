@@ -32,5 +32,5 @@ class ConfigurationConstants {
     const RED_BOOTSTRAP_LOGS = '/_www_gr_logs/';
 
     // production host
-    const RED_BOOTSTRAP_PRODUCTION_HOST =  'XXXXXXXXXXXXXX';  //hosting grafia
+    const RED_BOOTSTRAP_PRODUCTION_HOST =  'mcintyre';  //hosting grafia
 }
