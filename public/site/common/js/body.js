@@ -6,7 +6,7 @@
     //flash message
     $('#domtoast')
         .toast({
-            displayTime: 0 //je zobrazen, dokud se na něj neklikne
+            displayTime: 5000
         })
     ;
 

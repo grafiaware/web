@@ -103,7 +103,13 @@ body{
     }
     
     /*poznámky a flash mají stejný styl, jen jinou pozici*/
+    .btn-poznamky{
+        position: fixed;
+        top: 10px;
+        right: 10px;
+    }
     .poznamky{
+        display: none;
         position: absolute;
         left: @poznamkyPositionLeft;
         right: @poznamkyPositionRight;
