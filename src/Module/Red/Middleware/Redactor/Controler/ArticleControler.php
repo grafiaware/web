@@ -8,7 +8,7 @@
 
 namespace Red\Middleware\Redactor\Controler;
 
-use FrontControler\PresentationFrontControlerAbstract;
+use FrontControler\FrontControlerAbstract;
 
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -34,7 +34,7 @@ use UnexpectedValueException;
  *
  * @author pes2704
  */
-class ArticleControler extends PresentationFrontControlerAbstract {
+class ArticleControler extends FrontControlerAbstract {
 
     private $articleRepo;
 

@@ -2,7 +2,7 @@
 
 namespace Red\Middleware\Redactor\Controler;
 
-use FrontControler\PresentationFrontControlerAbstract;
+use FrontControler\FrontControlerAbstract;
 
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -20,7 +20,7 @@ use Red\Model\Repository\{
  *
  * @author pes2704
  */
-class HierarchyControler extends PresentationFrontControlerAbstract {
+class HierarchyControler extends FrontControlerAbstract {
 
     //TODO: Svoboda Konfigurace
     const TRASH_MENU_ROOT = "trash";
@@ -50,14 +50,14 @@ class HierarchyControler extends PresentationFrontControlerAbstract {
         $siblingUid = $this->editHierarchyDao->addNode($uid);
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
         $this->addFlashMessage('add item as sibling');
-        return $this->redirectSeeOther($request, "web/v1/page/item/$siblingUid");
+        return $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$siblingUid");
     }
 
     public function addchild(ServerRequestInterface $request, $uid) {
         $childUid = $this->editHierarchyDao->addChildNode($uid);
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
         $this->addFlashMessage('add item as child');
-        return $this->redirectSeeOther($request, "web/v1/page/item/$childUid");
+        return $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$childUid");
     }
 
     public function cut(ServerRequestInterface $request, $uid) {
@@ -88,7 +88,7 @@ class HierarchyControler extends PresentationFrontControlerAbstract {
             $this->addFlashMessage('unable to paste, item has no parent');
         }
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
-        return $this->redirectSeeOther($request, "web/v1/page/item/$pasteduid");
+        return $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$pasteduid");
     }
 
     public function pastechild(ServerRequestInterface $request, $uid) {
@@ -97,7 +97,7 @@ class HierarchyControler extends PresentationFrontControlerAbstract {
         $this->editHierarchyDao->moveSubTreeAsChild($pasteduid, $uid);
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
         $this->addFlashMessage('pasted as a child');
-        return $this->redirectSeeOther($request, "web/v1/page/item/$pasteduid");
+        return $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$pasteduid");
     }
 
     public function delete(ServerRequestInterface $request, $uid) {
@@ -106,13 +106,13 @@ class HierarchyControler extends PresentationFrontControlerAbstract {
         $parentUid = $this->editHierarchyDao->deleteSubTree($uid);
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
         $this->addFlashMessage('delete');
-        return $this->redirectSeeOther($request, "web/v1/page/item/$parentUid");
+        return $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$parentUid");
     }
 
     // odloženo!!
     public function nonPermittedDelete(ServerRequestInterface $request, $uid) {
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
-        return $this->redirectSeeOther($request, "web/v1/page/item/$uid");
+        return $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$uid");
     }
 
 

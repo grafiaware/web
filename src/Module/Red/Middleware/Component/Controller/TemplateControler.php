@@ -12,7 +12,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 use Site\Configuration;
 
-use FrontControler\PresentationFrontControlerAbstract;
+use FrontControler\FrontControlerAbstract;
 
 use Red\Model\Entity\MenuItemInterface;
 use Red\Model\Entity\PaperAggregatePaperContent;
@@ -43,7 +43,7 @@ use \View\Includer;
  *
  * @author pes2704
  */
-class TemplateControler extends PresentationFrontControlerAbstract {
+class TemplateControler extends FrontControlerAbstract {
 
     ### action metody ###############
 

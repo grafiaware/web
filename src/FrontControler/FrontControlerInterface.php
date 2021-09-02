@@ -19,7 +19,6 @@ use Pes\View\ViewInterface;
  */
 interface FrontControlerInterface {
 
-
     /**
      *
      * @param \Controller\ServerRequestInterface $request
@@ -27,6 +26,32 @@ interface FrontControlerInterface {
      * @return ResponseInterface
      */
     public function addHeaders(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface;
+
+    /**
+     *
+     * @param \Controller\ServerRequestInterface $request
+     * @param \Controller\ViewInterface $view
+     * @return ResponseInterface
+     */
+    public function createResponseFromView(ServerRequestInterface $request, ViewInterface $view): ResponseInterface;
+
+    /**
+     *
+     * @param ServerRequestInterface $request
+     * @param ViewInterface $view
+     * @return ResponseInterface
+     */
+    public function createResponseFromString(ServerRequestInterface $request, $stringContent): ResponseInterface;
+
+    /**
+     * Generuje response s přesměrováním na zadanou adresu.
+     *
+     * @param string $restUri Relativní adresa - resource uri
+     * @return Response
+     */
+    public function createResponseRedirectSeeOther(ServerRequestInterface $request, $restUri): ResponseInterface;
+
+    public function addFlashMessage($message): void;
 
     public function injectContainer(ContainerInterface $componentContainer): FrontControlerInterface;
 }
