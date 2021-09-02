@@ -70,7 +70,7 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
      *
      * @return UriInfoInterface
      */
-    private function getUriInfo(ServerRequestInterface $request) {
+    protected function getUriInfo(ServerRequestInterface $request) {
         return $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME);
     }
 }
