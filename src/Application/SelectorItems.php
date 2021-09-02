@@ -74,12 +74,14 @@ class SelectorItems {
                     new SecurityStatus(),
                     new Login(),
                     new FlashStatus(),
+                    new PresentationStatus(),
                     new Transformator(),
                     new Component()
                 ];},
             '/red'=>
             function() {
                 return [
+                    new ResponseTime(),
                     new SecurityStatus(),
                     new Login(),
                     new FlashStatus(),
@@ -90,6 +92,7 @@ class SelectorItems {
             '/auth'=>
             function() {
                 return [
+                    new ResponseTime(),
                     new SecurityStatus(),
                     new FlashStatus(),
                     new PresentationStatus(),
@@ -98,6 +101,7 @@ class SelectorItems {
             '/event'=>
             function() {
                 return [
+                    new ResponseTime(),
                     new SecurityStatus(),
                     new Login(),
                     new FlashStatus(),

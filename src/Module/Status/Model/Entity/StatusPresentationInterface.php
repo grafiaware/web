@@ -46,6 +46,14 @@ interface StatusPresentationInterface extends EntitySingletonInterface {
      */
     public function getLastGetResourcePath();
 
+    public function getLastTemplateName();
+
+    /**
+     *
+     * @return array ItemActionInterface array of
+     */
+    public function getItemActions();
+
     /**
      *
      * @param LanguageInterface $language
@@ -76,5 +84,6 @@ interface StatusPresentationInterface extends EntitySingletonInterface {
 
     public function setLastTemplateName($templateName);
 
-    public function getLastTemplateName();
+    public function setItemActions($itemActions);
+
 }

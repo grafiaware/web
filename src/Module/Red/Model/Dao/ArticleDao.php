@@ -18,7 +18,7 @@ use Model\Dao\DaoAbstract;
 class ArticleDao extends DaoAbstract {
 
     /**
-     * Vrací jednu řádku tabulky 'paper' ve formě asociativního pole podle primárního klíče.
+     * Vrací jednu řádku tabulky 'article' ve formě asociativního pole podle primárního klíče.
      *
      * @param string $id Hodnota primárního klíče
      * @return array Asociativní pole
@@ -39,7 +39,7 @@ class ArticleDao extends DaoAbstract {
     }
 
     /**
-     * Vrací jednu řádku tabulky 'paper' ve formě asociativního pole podle cizího klíče s vazbou 1:1.
+     * Vrací jednu řádku tabulky 'article' ve formě asociativního pole podle cizího klíče s vazbou 1:1.
      *
      * @param string $menuItemIdFk Hodnota cizího klíče
      * @return array Asociativní pole

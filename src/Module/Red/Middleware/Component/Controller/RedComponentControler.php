@@ -13,14 +13,12 @@ use Site\Configuration;
 use Psr\Http\Message\ServerRequestInterface;
 
 // komponenty
-use Component\View\{
-    Flash\FlashComponent,
-    Generated\ItemTypeSelectComponent,
-    Authored\Paper\PaperComponent,
-    Authored\Paper\PaperComponentInterface,
-    Authored\Article\ArticleComponent,
-    Authored\Article\ArticleComponentInterface
-};
+use Component\View\Flash\FlashComponent;
+use Component\View\Generated\ItemTypeSelectComponent;
+use Component\View\Authored\Paper\PaperComponent;
+use Component\View\Authored\Paper\PaperComponentInterface;
+use Component\View\Authored\Article\ArticleComponent;
+use Component\View\Authored\Article\ArticleComponentInterface;
 
 // renderery
 use Pes\View\Renderer\PhpTemplateRenderer;
@@ -28,7 +26,8 @@ use Pes\View\Renderer\StringRenderer;
 use Pes\View\Renderer\ImplodeRenderer;
 ####################
 
-use \GeneratorService\Paper\PaperService;
+use Red\Model\Repository\ItemActionRepo;
+use Red\Model\Repository\ItemActionRepoInterface;
 
 use Pes\Text\Message;
 

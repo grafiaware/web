@@ -71,6 +71,11 @@ use Red\Model\Dao\ArticleDao;
 use Red\Model\Hydrator\ArticleHydrator;
 use Red\Model\Repository\ArticleRepo;
 
+use Red\Model\Dao\ItemActionDao;
+use Red\Model\Hydrator\ItemActionHydrator;
+use Red\Model\Repository\ItemActionRepo;
+
+### Events ###
 use Events\Model\Dao\EnrollDao;
 use Events\Model\Hydrator\EnrollHydrator;
 use Events\Model\Repository\EnrollRepo;
@@ -237,6 +242,15 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
             ArticleRepo::class => function(ContainerInterface $c) {
                 return new ArticleRepo($c->get(ArticleDao::class), $c->get(ArticleHydrator::class));
             },
+            ItemActionDao::class => function(ContainerInterface $c) {
+                return new ItemActionDao($c->get(HandlerInterface::class));
+            },
+            ItemActionHydrator::class => function(ContainerInterface $c) {
+                return new ItemActionHydrator();
+            },
+            ItemActionRepo::class => function(ContainerInterface $c) {
+                return new ItemActionRepo($c->get(ItemActionDao::class), $c->get(ItemActionHydrator::class));
+            },
             BlockDao::class => function(ContainerInterface $c) {
                 return new BlockDao($c->get(HandlerInterface::class));
             },
@@ -275,6 +289,7 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new LanguageRepo($c->get(LanguageDao::class));
             },
 
+            ### Enroll ###
             EnrollDao::class => function(ContainerInterface $c) {
                 return new EnrollDao($c->get(HandlerInterface::class));
             },
