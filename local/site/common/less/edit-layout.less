@@ -12,7 +12,7 @@
 @barvaKos: #F8F3FF; //pro smazany content a prvni polozku ve svislem menu Kos
     
 //Container
-@containerPositionRight: 0;
+@containerPositionRight: 0;  
 @containerMargin: @hodnota0 10px @hodnota0 @hodnotaAuto;
 @formMargin: 0;
       
@@ -107,11 +107,12 @@ body{
         position: fixed;
         top: 10px;
         right: 10px;
+        background-color: @white !important;
     }
     .poznamky{
         display: none;
         position: absolute; 
-        left: @poznamkyPositionLeft;
+        left: @poznamkyPositionLeft; 
         right: @poznamkyPositionRight;
         bottom: @poznamkyPositionBottom;
         width: @poznamkyWidth; 

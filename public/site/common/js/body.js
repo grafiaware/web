@@ -9,6 +9,11 @@
             displayTime: 5000
         })
     ;
+    
+    $('.btn-poznamky').on("click",
+        function(){
+            $(this).siblings('.poznamky').toggle("slow");
+    });
 
     //menu semantic-ui dropdown reaguje na událost hover
     $('.svisle-menu .ui.dropdown').dropdown({

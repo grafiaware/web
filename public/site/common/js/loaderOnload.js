@@ -35,11 +35,6 @@ function initLoadedEditableElements() {
                         si.toggle();
             });
             
-            $('.btn-poznamky').on("click",
-                function(){
-                    $('.poznamky').toggle("slow");
-            });
-
             $('.calendarWrap .ui.calendar').calendar({
                 type: 'date',
                 today: true,

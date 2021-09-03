@@ -47,8 +47,7 @@
 @semaforIconMarginBottom: 2px;
 //Pro menu
 @semaforMenuHeight: 100%;    
-@semaforSvisleMenuPositionLeft: -1px;
-@semafonSvisleMenuPositionTop: 10px;
+@semafonSvisleMenuPositionTop: 10px; 
 @semaforSvisleMenuPositionLeft: 1px; 
 @semaforSvisleMenuHeight: auto;
 @semaforPresmerovaniMenuPositionLeft: -12px;
@@ -60,10 +59,10 @@
 //Pro paper
 @semaforPagePositionTop: 45px;
 @semaforPagePositionRight: -8px; 
-@semaforPagePositionLeft: -21px;
+@semaforPagePositionLeft: auto;
 @semaforPageZIndex: 1; 
 @semaforContentPositionLeft: -21px;
-@semaforContentFontSize: initial;
+@semaforContentFontSize: initial;  
 @semaforContentPositionTop: 48px;
 @semaforContentPositionRight: 5px;
 @semaforContentZIndex: 1;
@@ -107,8 +106,8 @@
 @ribbonWidth: 2em;               
 @ribbonHeight: 1.5em; 
 @ribbonSize: 0.55em;
-@ribbonPositionTop: 45px;
-@ribbonPositionRigth: -50px;
+@ribbonPositionTop: 45px; 
+@ribbonPositionRigth: auto;
 @ribbonPositionLeft: auto; 
 @ribbonZIndex: 1;
 @ribbonTransform: translateX(0); 
@@ -117,16 +116,16 @@
 @ribbonCornerIconFontSize: 1em;
 @ribbonPageWidth: 2em;               
 @ribbonPageHeight: 1.5em;   
-@ribbonPageSize: 0.6em;
+@ribbonPageSize: 0.6em;  
 @ribbonPagePositionRigth: -66px;     
-@ribbonPagePositionLeft: auto;
+@ribbonPagePositionLeft: auto; 
 @ribbonPagePositionTop: 40px; 
 @ribbonPageZIndex: 1;
-@sectionTrashCornerPositionRight: 0;
+@sectionTrashCornerPositionRight: 0; 
 @sectionTrashCornerPositionTop: 5px;
 //Buttony pro content
 @buttonyContentWidth: 100px;
-@buttonyContentPositionRight: 6px;
+@buttonyContentPositionRight: 6px; 
 @buttonyContentPositionTop: 6px;
 @buttonyContentBackgroundColor: @barvaEditButtony;
 @lastButtonContentBackgroundColor: @barvaKos;
@@ -156,7 +155,7 @@
 @mceBodyLinkSelected: true;
 @mceLinkSelectedColor: @white;
 @mceLinkNotSelectedColor: #b4d7ff; //Tiny modrá pro odkaz
-@mceBodyMargin: @hodnota0 -5px; //.mce-content-body
+@mceBodyMargin: 0; //.mce-content-body 
 @mceBodyPadding: 5px;
 @mceFocusMargin: 0; //.mce-edit-focus 
 @mceFocusPadding: 5px;
@@ -471,10 +470,10 @@ body{
         font-size: @ribbonSize; 
         top: @ribbonPositionTop; 
         right:  @ribbonPositionRigth;
-        left: @ribbonPositionLeft;
+        left: @ribbonPositionLeft;    
         z-index: @ribbonZIndex;
         transform: @ribbonTransform; 
-        position: absolute;
+        position: relative;
         .icon:not(.editDate){
             /*výchozí vlastnost polohy CSS - semantic má nastaveno position: absolute, což je zde nežádoucí*/
             position: initial;
