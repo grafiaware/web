@@ -1,10 +1,3 @@
-$('body').on("click", ".btn-poznamky",
-    function(){
-        $('.poznamky')
-          .transition('fade left')
-        ;
-});
-
 
 //zobrazí sadu buttonů s třídou .contentButtons
 var showContentButtons =     function(){

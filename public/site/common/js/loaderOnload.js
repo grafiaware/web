@@ -34,6 +34,11 @@ function initLoadedEditableElements() {
                 var si = $(this).parents('.cornerWithTools').siblings('.select_template');
                         si.toggle();
             });
+            
+            $('.btn-poznamky').on("click",
+                function(){
+                    $('.poznamky').toggle("slow");
+            });
 
             $('.calendarWrap .ui.calendar').calendar({
                 type: 'date',
