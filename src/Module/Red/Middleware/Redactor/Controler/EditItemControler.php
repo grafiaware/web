@@ -2,7 +2,7 @@
 
 namespace Red\Middleware\Redactor\Controler;
 
-use FrontControler\PresentationFrontControlerAbstract;
+use FrontControler\FrontControlerAbstract;
 
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -24,7 +24,7 @@ use Red\Model\Repository\{
  *
  * @author pes2704
  */
-class EditItemControler extends PresentationFrontControlerAbstract {
+class EditItemControler extends FrontControlerAbstract {
 
     /**
      *

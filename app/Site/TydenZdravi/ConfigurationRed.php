@@ -28,7 +28,8 @@ class ConfigurationRed extends ConfigurationDb {
     #
     public static function bootstrap() {
         return [
-            'bootstrap_logs_base_path' => self::RED_BOOTSTRAP_LOGS,
+            'bootstrap.logs.basepath' => self::RED_BOOTSTRAP_LOGS,
+            'bootstrap.productionhost' => self::RED_BOOTSTRAP_PRODUCTION_HOST,
         ];
     }
 
@@ -85,12 +86,15 @@ class ConfigurationRed extends ConfigurationDb {
             'component.logs.render' => 'Render.log',
             'component.templatepath.paper' => self::RED_TEMPLATES_COMMON.'paper/',
             'component.templatepath.article' => self::RED_TEMPLATES_COMMON.'article/',
+            'component.templatepath.author' => self::RED_LINKS_COMMON."author/",
+            // common layout templates
             'component.template.flash' => self::RED_TEMPLATES_COMMON.'layout/info/flashMessage.php',
             'component.template.login' => self::RED_TEMPLATES_COMMON.'layout/status/login.php',
             'component.template.register' => self::RED_TEMPLATES_COMMON.'layout/status/register.php',
             'component.template.logout' => self::RED_TEMPLATES_COMMON.'layout/status/logout.php',
-            'component.template.useraction' => self::RED_TEMPLATES_COMMON.'layout/status/user_action.php',
-
+            'component.template.useraction' => self::RED_TEMPLATES_COMMON.'layout/status/userAction.php',
+            'component.template.statusboard' => self::RED_TEMPLATES_COMMON.'layout/info/statusBoard.php',
+            'component.template.controleditmenu' => self::RED_TEMPLATES_COMMON.'layout/status/controlEditMenu.php',
         ];
     }
 
@@ -120,8 +124,8 @@ class ConfigurationRed extends ConfigurationDb {
             // pozn. - popisky šablon pro tiny jsou jen česky (TinyInit.js)
             'tinyLanguage' => [
                     'cs' => 'cs',
-                    'de' => 'de',
-                    'en' => 'en_US'
+//                    'de' => 'de',
+//                    'en' => 'en_US'
                 ],
 
             // title
@@ -152,10 +156,6 @@ class ConfigurationRed extends ConfigurationDb {
             'urlStylesCss' => self::RED_LINKS_COMMON."css/old/styles.css",
             'urlSemanticCss' => self::RED_LINKS_SITE."semantic-ui/semantic.min.css",
             'urlContentTemplatesCss' => self::RED_LINKS_COMMON."css/templates.css",   // KŠ ?????
-            //
-            'paperTemplatesUri' =>  self::RED_LINKS_SITE."templates/paper/",  // URI pro Template Controller
-            'authorTemplatesPath' => self::RED_LINKS_COMMON."templates/author/",
-
         ];
     }
 
@@ -180,9 +180,19 @@ class ConfigurationRed extends ConfigurationDb {
                 'blocks' =>  ['context_name' => 'bloky', 'service_name' => 'menu.bloky', 'root_name' => 'blocks', 'with_title' => true],
                 'trash' => ['context_name' => 'kos', 'service_name' => 'menu.kos', 'root_name' => 'trash', 'with_title' => true],
 
-               'templates.poznamky' => self::RED_TEMPLATES_COMMON.'layout/info/poznamky.php',
-               'templates.loaderElement' => self::RED_TEMPLATES_COMMON.'layout/component-load/loaderElement.php',
-               'templates.loaderElementEditable' => self::RED_TEMPLATES_COMMON.'layout/component-load/loaderElementEditable.php',
+                'templates.poznamky' => self::RED_TEMPLATES_COMMON.'layout/info/poznamky.php',
+                'templates.loaderElement' => self::RED_TEMPLATES_COMMON.'layout/component-load/loaderElement.php',
+                'templates.loaderElementEditable' => self::RED_TEMPLATES_COMMON.'layout/component-load/loaderElementEditable.php',
+                'context_name_to_block_name_map' => [
+                    'rychleOdkazy' => 'a3',
+                    'nejblizsiAkce' => 'a2',
+                    'aktuality' => 'a1',
+                    'razitko' => 'a4',
+                    'socialniSite' => 'a5',
+                    'mapa' => 'a6',
+                    'logo' => 'a7',
+                    'banner' => 'a8',
+                ]
             ];
     }
 
@@ -239,8 +249,11 @@ class ConfigurationRed extends ConfigurationDb {
                'templates.authorFolder' => self::RED_TEMPLATES_COMMON.'author/',
                'templates.paperFolder' => self::RED_TEMPLATES_COMMON.'paper/',
                'templates.paperContentFolder' => self::RED_TEMPLATES_COMMON.'paper-content/',
-               'templates.articleFolder' => self::RED_TEMPLATES_COMMON.'article/',
-
+                // pole složek, jsou prohledávány postupně při hledání souboru s šablonou zadaného názvu
+               'templates.articleFolder' => [
+                   self::RED_TEMPLATES_SITE.'article/',
+                   self::RED_TEMPLATES_COMMON.'article/',
+                   ]
             ];
     }
 
@@ -252,7 +265,6 @@ class ConfigurationRed extends ConfigurationDb {
 
         return [
             'upload.red' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES.'uploads/editor/' : self::RED_FILES.'uploads/editor/',
-            'upload.events.visitor' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES.'uploads/events/visitor' : self::RED_FILES.'uploads/events/visitor',
             'upload.events.acceptedextensions' => [".doc", ".docx", ".dot", ".odt", "pages", ".xls", ".xlsx", ".ods", ".txt", ".pdf"],
             ];
     }

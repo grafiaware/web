@@ -15,14 +15,14 @@ use  Component\Renderer\Html\Menu\{
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
 
 /**
- * Description of Configuration
+ * Description of ConfigurationStyles
  *
  * @author pes2704
  */
 class ConfigurationStyles extends ConfigurationRed {
 
     /**
-     * Pomocná metoda pro konfiguraci renderer kontejneru - vrací default hodnoty pro metodu Configuration::renderer()
+     * Pomocná metoda pro konfiguraci renderer kontejneru - vrací default hodnoty pro metodu self::renderer()
      * @return array
      */
     public static function rendererDefaults() {
@@ -35,12 +35,12 @@ class ConfigurationStyles extends ConfigurationRed {
                             'li' => '',
                             'li.item' => 'item',
                             'li.dropdown' => 'item',
-                            'li.leaf' => 'item leaf', 
+                            'li.leaf' => 'item leaf',
                             'li.presented' => 'presented',
                             'li.parent' => 'parent',
                             'li a span' => 'text',
                             'li i.dropdown' => 'dropdown icon',
-                            'li i' => '', 
+                            'li i' => '',
                             'li a' => '',
                         ],
             'menu_edit_items' => [
@@ -52,9 +52,9 @@ class ConfigurationStyles extends ConfigurationRed {
                             'li.parent' => 'parent',
                             'li.cut' => 'cut',
                             'li.paste' => 'paste',
-                            'li a' => '',  
+                            'li a' => '',
                             'li i.dropdown' => 'dropdown icon',
-                            'semafor'=> 'semafor', 
+                            'semafor'=> 'semafor',
                             'semafor.published' => 'circle icon green',
                             'semafor.notpublished' => 'circle icon red ',
                             'semafor.trashed' => 'circle icon inverted purple',
@@ -336,7 +336,8 @@ class ConfigurationStyles extends ConfigurationRed {
                         ],
                      'Content' => [
                         'content'=>'',
-                        ]
+                        ],
+                      'PaperButtons' => self::rendererDefaults()['paper_edit_buttons'],
                     ]
                 );
             },

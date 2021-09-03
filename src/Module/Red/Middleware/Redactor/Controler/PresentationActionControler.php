@@ -8,7 +8,7 @@
 
 namespace Red\Middleware\Redactor\Controler;
 
-use FrontControler\PresentationFrontControlerAbstract;
+use FrontControler\FrontControlerAbstract;
 
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -31,7 +31,7 @@ use Red\Middleware\Redactor\Controler\Exception\UnexpectedLanguageException;
  *
  * @author pes2704
  */
-class PresentationActionControler extends PresentationFrontControlerAbstract {
+class PresentationActionControler extends FrontControlerAbstract {
 
     private $languageRepo;
 
@@ -77,10 +77,10 @@ class PresentationActionControler extends PresentationFrontControlerAbstract {
         //TODO: nejdřív vypnu editable a pak teprve volám isPresentedItemActive() - pokud menuItem není active, tak se s vypnutým editable už v metodě isPresentedItemActive() nenačte - ?? obráceně?
         $this->statusSecurityRepo->get()->getUserActions()->setEditableArticle($edit);
         $this->addFlashMessage("set editable article $edit");
-        if ($edit OR $this->isPresentedItemActive($request)) {
+        if ($edit OR $this->isPresentedItemActive()) {
             return $this->redirectSeeLastGet($request); // 303 See Other
         } else {
-            return $this->redirectSeeOther($request, ''); // 303 See Other -> home - jinak zůstane prezentovaný poslední segment layoutu, který nyl editován v režimu edit layout
+            return $this->createResponseRedirectSeeOther($request, ''); // 303 See Other -> home - jinak zůstane prezentovaný poslední segment layoutu, který nyl editován v režimu edit layout
         }
     }
 
@@ -89,10 +89,10 @@ class PresentationActionControler extends PresentationFrontControlerAbstract {
 //        $this->switchEditable('layout', $edit);
         $this->statusSecurityRepo->get()->getUserActions()->setEditableLayout($edit);
         $this->addFlashMessage("set editable layout $edit");
-        if ($edit OR $this->isPresentedItemActive($request)) {
+        if ($edit OR $this->isPresentedItemActive()) {
             return $this->redirectSeeLastGet($request); // 303 See Other
         } else {
-            return $this->redirectSeeOther($request, ''); // 303 See Other -> home - jinak zůstane prezentovaný poslední articele, který nyl editován v režimu edit article
+            return $this->createResponseRedirectSeeOther($request, ''); // 303 See Other -> home - jinak zůstane prezentovaný poslední articele, který nyl editován v režimu edit article
         }
     }
 
@@ -101,18 +101,16 @@ class PresentationActionControler extends PresentationFrontControlerAbstract {
 //        $this->switchEditable('menu', $edit);
         $this->addFlashMessage("set editable menu $edit");
         $this->statusSecurityRepo->get()->getUserActions()->setEditableMenu($edit);
-        if ($edit OR $this->isPresentedItemActive($request)) {
+        if ($edit OR $this->isPresentedItemActive()) {
             return $this->redirectSeeLastGet($request); // 303 See Other
         } else {
-            return $this->redirectSeeOther($request, ''); // 303 See Other -> home - jinak zůstane prezentovaný poslední articele, který nyl editován v režimu edit article
+            return $this->createResponseRedirectSeeOther($request, ''); // 303 See Other -> home - jinak zůstane prezentovaný poslední articele, který nyl editován v režimu edit article
         }
     }
 
-    private function isPresentedItemActive($request) {
-        $requestedUid = (new RequestParams())->getParsedBodyParam($request, 'uid');
+    private function isPresentedItemActive() {
         $statusPresentation = $this->statusPresentationRepo->get();
-        $langCodeFk = $statusPresentation->getLanguage()->getLangCode();
-        $menuItem = $this->menuItemRepo->get($langCodeFk, $requestedUid);
+        $menuItem = $statusPresentation->getMenuItem();
         return $menuItem ? $menuItem->getActive() : false;
     }
 

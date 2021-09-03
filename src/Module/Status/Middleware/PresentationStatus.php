@@ -41,17 +41,19 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
 
-        $this->container = $this->getApp()->getAppContainer();
-//                (new HierarchyContainerConfigurator())->configure(
-//                    (new DbUpgradeContainerConfigurator())->configure(
-//                        (new Container($this->getApp()->getAppContainer())) //->addContainerInfo("PresentationStatus")
-//                    )
-//                );
+        $this->container =
+        //      $this->getApp()->getAppContainer();
+                (new HierarchyContainerConfigurator())->configure(   // jen kvůli languageRepo z kontejneru - výkonostní problém - viz níže
+                    (new DbUpgradeContainerConfigurator())->configure(
+                        (new Container($this->getApp()->getAppContainer())) //->addContainerInfo("PresentationStatus")
+                    )
+                );
 
         $statusPresentation = $this->createStatusIfNotExists();
-        $this->presetPresentationLanguage($statusPresentation);
-        $this->presetLastGetResourcePath($statusPresentation, $request);
-        return $handler->handle($request);
+        $this->presetPresentationLanguage($statusPresentation, $request);
+//        $this->presetLastGetResourcePath($statusPresentation, $request);  // přesunuto do PresentationDrontControleru
+        $response = $handler->handle($request);
+        return $response;
     }
 
     private function createStatusIfNotExists() {
@@ -87,7 +89,7 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
      *
      * @param type $statusPresentation
      */
-    private function presetPresentationLanguage($statusPresentation) {
+    private function presetPresentationLanguage(StatusPresentation $statusPresentation, ServerRequestInterface $request) {
         // jazyk prezentace
         $language = $statusPresentation->getLanguage();
         if (!isset($language)) {

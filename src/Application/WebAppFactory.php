@@ -79,16 +79,14 @@ class WebAppFactory extends AppFactory {
             $logger->info("Accepted locale by setlocale() function: '$acceptedLocale'.");
 
             $pathLogger = FileLogger::getInstance('Logs/App', 'RequestPathLogger.log', FileLogger::APPEND_TO_LOG);
-            $uri = $request->getUri();
+            $method = $request->getMethod();
+            $uri = (string) $request->getUri();
             $xPoweredByHeader = $request->getHeaderLine('x-powered-by');
             $refererHeader = $request->getHeaderLine('referer');
-            $pathLogger->info((string) $uri);
-            if ($xPoweredByHeader) {
-                $pathLogger->info("x-powered-by $xPoweredByHeader");
-            }
-            if ($refererHeader) {
-                $pathLogger->info("referer $refererHeader");
-            }
+            $xPoweredBy = $xPoweredByHeader ? " ,x-powered-by: $xPoweredByHeader" : '';
+            $referer = $refererHeader ? " ,referer: $refererHeader" : '';
+            $pathLogger->info("$method $uri$xPoweredBy$referer");
+
         } else {
             Message::setLogger(FileLogger::getInstance("Logs/App", 'Messages.log', FileLogger::REWRITE_LOG));
         }

@@ -8,7 +8,7 @@
 
 namespace Red\Middleware\Redactor\Controler;
 
-use FrontControler\PresentationFrontControlerAbstract;
+use FrontControler\FrontControlerAbstract;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -32,7 +32,7 @@ use Pes\Text\Message;
  *
  * @author pes2704
  */
-class ContentControler extends PresentationFrontControlerAbstract {
+class ContentControler extends FrontControlerAbstract {
 
     private $paperContentRepo;
 

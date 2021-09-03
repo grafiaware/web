@@ -8,7 +8,7 @@
 
 namespace Red\Middleware\Redactor\Controler;
 
-use FrontControler\PresentationFrontControlerAbstract;
+use FrontControler\FrontControlerAbstract;
 
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -22,7 +22,7 @@ use Pes\Application\AppFactory;
  *
  * @author pes2704
  */
-class UserActionControler extends PresentationFrontControlerAbstract {
+class UserActionControler extends FrontControlerAbstract {
 
     public function app(ServerRequestInterface $request, $app) {
         return RedirectResponse::withRedirect(
