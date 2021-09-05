@@ -8,17 +8,20 @@
 
 namespace Component\View\Status;
 
-use Component\View\ComponentAbstract;
+use Component\View\StatusComponentAbstract;
 use Component\Renderer\Html\NoPermittedContentRenderer;
 use Component\ViewModel\StatusViewModelInterface;
 use Pes\View\Template\PhpTemplate;
+
+use Component\View\RoleEnum;
+use Component\View\AllowedActionEnum;
 
 /**
  * Description of UserActionComponent
  *
  * @author pes2704
  */
-class UserActionComponent extends ComponentAbstract {
+class UserActionComponent extends StatusComponentAbstract {
 
     /**
      * @var StatusViewModelInterface
@@ -28,12 +31,7 @@ class UserActionComponent extends ComponentAbstract {
     //renderuje template nebo NonPermittedContentRenderer
 
     public function beforeRenderingHook(): void {
-        $role = $this->contextData->getUserRole();
-        $permission = [
-            'sup' => true,
-            'editor' => true
-        ];
-        if (isset($role) AND array_key_exists($role, $permission) AND $permission[$role]) {
+        if($this->isAllowed($this, AllowedActionEnum::EDIT)) {
             $this->setTemplate(new PhpTemplate($this->configuration->getTemplateUserAction()));
         } else {
             $this->setRendererName(NoPermittedContentRenderer::class);

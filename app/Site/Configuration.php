@@ -53,8 +53,8 @@ class Configuration {
                 case 'component':
                     self::$cache[$name] = Siteconfig\ConfigurationRed::component();
                     break;
-                case 'statusPresentationManager':
-                    self::$cache[$name] = Siteconfig\ConfigurationRed::statusPresentationManager();
+                case 'presentationStatus':
+                    self::$cache[$name] = Siteconfig\ConfigurationRed::presentationStatus();
                     break;
                 case 'layoutController':
                     self::$cache[$name] = Siteconfig\ConfigurationRed::layoutController();
@@ -186,8 +186,8 @@ class Configuration {
 
     ### presentation ###
     #
-    public static function statusPresentationManager() {
-        return self::getConfigModule('statusPresentationManager');
+    public static function presentationStatus() {
+        return self::getConfigModule('presentationStatus');
     }
 
     public static function layoutController() {

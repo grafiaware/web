@@ -7,19 +7,29 @@ use Site\Configuration;
 use Pes\Container\ContainerConfiguratorAbstract;
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
 
-use Component\Renderer\Html\Authored\Paper\{
-    SelectTemplateRenderer, ButtonsRenderer,
-    PaperRenderer, PaperRendererEditable,
-    ElementWrapper, ElementEditableWrapper, Buttons,
-    HeadlineRenderer, PerexRenderer, ContentsRenderer,
-    HeadlineRendererEditable, PerexRendererEditable, ContentsRendererEditable
-};
+use Component\Renderer\Html\Authored\Paper\SelectTemplateRenderer;
+use Component\Renderer\Html\Authored\Paper\ButtonsRenderer;
+use Component\Renderer\Html\Authored\Paper\PaperRenderer;
+use Component\Renderer\Html\Authored\Paper\PaperRendererEditable;
+use Component\Renderer\Html\Authored\Paper\ElementWrapper;
+use Component\Renderer\Html\Authored\Paper\ElementEditableWrapper;
+use Component\Renderer\Html\Authored\Paper\Buttons;
+use Component\Renderer\Html\Authored\Paper\HeadlineRenderer;
+use Component\Renderer\Html\Authored\Paper\PerexRenderer;
+use Component\Renderer\Html\Authored\Paper\ContentsRenderer;
+use Component\Renderer\Html\Authored\Paper\HeadlineRendererEditable;
+use Component\Renderer\Html\Authored\Paper\PerexRendererEditable;
+use Component\Renderer\Html\Authored\Paper\ContentsRendererEditable;
+
+use Component\Renderer\Html\Authored\Article\ArticleRendererEditable;
+
 use Component\Renderer\Html\Status\ButtonEditContentRenderer;
 
 use Component\Renderer\Html\Authored\Article\SelectArticleTemplateRenderer;
-use Component\Renderer\Html\Generated\{
-    LanguageSelectRenderer, SearchPhraseRenderer, SearchResultRenderer, ItemTypeRenderer
-};
+use Component\Renderer\Html\Generated\LanguageSelectRenderer;
+use Component\Renderer\Html\Generated\SearchPhraseRenderer;
+use Component\Renderer\Html\Generated\SearchResultRenderer;
+use Component\Renderer\Html\Generated\ItemTypeRenderer;
 
 /**
  *
@@ -106,6 +116,9 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
         ###########################
             SelectArticleTemplateRenderer::class => function(ContainerInterface $c) {
                 return new SelectArticleTemplateRenderer($c->get('paper.editable.classmap'));   //používá paper classmapu - přejmenovat společnou classmapu??
+            },
+            ArticleRendererEditable::class => function(ContainerInterface $c) {
+                return new ArticleRendererEditable($c->get('paper.editable.classmap'));   //používá paper classmapu - přejmenovat společnou classmapu??
             },
         ###########################
         #  generated renderer

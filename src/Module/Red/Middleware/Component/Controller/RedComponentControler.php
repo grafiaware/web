@@ -86,7 +86,7 @@ class RedComponentControler extends XhrControllerAbstract {
      * @return type
      */
     private function resolveMenuItemView(ServerRequestInterface $request, $menuItemType, $menuItemId) {
-            $userActions = $this->statusSecurityRepo->get()->getUserActions();
+            $userActions = $this->statusPresentationRepo->get()->getUserActions();
             $isEditableContent = $userActions->presentEditableArticle() OR $userActions->presentEditableLayout();
 
             switch ($menuItemType) {

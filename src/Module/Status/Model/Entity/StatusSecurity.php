@@ -12,9 +12,6 @@ use Model\Entity\EntityAbstract;
 
 use Auth\Model\Entity\LoginAggregateFullInterface;
 
-use Red\Model\Entity\UserActionsInterface;
-use Red\Model\Entity\UserActions;
-
 /**
  * Description of Login
  *
@@ -28,11 +25,6 @@ class StatusSecurity extends EntityAbstract implements StatusSecurityInterface {
     private $loginAggregate;
 
     /**
-     * @var UserActionsInterface
-     */
-    private $userActions;
-
-    /**
      * Vrací jméno
      *
      * @return LoginAggregateFullInterface|null
@@ -41,23 +33,6 @@ class StatusSecurity extends EntityAbstract implements StatusSecurityInterface {
         return $this->loginAggregate;
     }
 
-    /**
-     *
-     * @return UserActionsInterface|null
-     */
-    public function getUserActions(): ?UserActionsInterface {
-        return $this->userActions;
-    }
-
-    /**
-     *
-     * @param UserActionsInterface $userActions
-     * @return StatusSecurityInterface
-     */
-    public function setUserActions(UserActionsInterface $userActions): StatusSecurityInterface {
-        $this->userActions = $userActions;
-        return $this;
-    }
 
     /**
      * {@inheritdoc}
@@ -66,7 +41,6 @@ class StatusSecurity extends EntityAbstract implements StatusSecurityInterface {
      */
     public function renewSecurityStatus(LoginAggregateFullInterface $loginAggregate=null): StatusSecurityInterface {
         $this->loginAggregate = $loginAggregate;
-        $this->userActions = new UserActions();  // má default hodnoty
         return $this;
     }
 

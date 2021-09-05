@@ -12,8 +12,6 @@ use Model\Entity\EntitySingletonInterface;
 
 use Auth\Model\Entity\LoginAggregateFullInterface;
 
-use Red\Model\Entity\UserActionsInterface;
-
 /**
  * Třída nemá metodu getUser(), nikdy nevrací celý objekt User. Tak nelze měnit vlastnosti objektu User získaného z StatusSecurity.
  * Nelze použít:
@@ -33,18 +31,6 @@ interface StatusSecurityInterface extends EntitySingletonInterface {
      */
     public function getLoginAggregate(): ?LoginAggregateFullInterface;
 
-    /**
-     *
-     * @return UserActionsInterface|null
-     */
-    public function getUserActions(): ?UserActionsInterface;
-
-    /**
-     *
-     * @param UserActionsInterface $userActions
-     * @return \Status\Model\Entity\StatusSecurityInterface
-     */
-    public function setUserActions(UserActionsInterface $userActions): StatusSecurityInterface;
 
     /**
      *

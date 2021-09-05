@@ -12,10 +12,10 @@ use Model\Entity\EntitySingletonInterface;
 
 use Red\Model\Entity\MenuItemInterface;
 use Red\Model\Entity\LanguageInterface;
+use Red\Model\Entity\ItemActionInterface;
+use Red\Model\Entity\UserActionsInterface;
 
 use Status\Model\Entity\StatusPresentationInterface;
-
-
 
 /**
  *
@@ -56,6 +56,12 @@ interface StatusPresentationInterface extends EntitySingletonInterface {
 
     /**
      *
+     * @return UserActionsInterface|null
+     */
+    public function getUserActions(): ?UserActionsInterface;
+
+    /**
+     *
      * @param LanguageInterface $language
      * @return StatusPresentationInterface
      */
@@ -77,13 +83,22 @@ interface StatusPresentationInterface extends EntitySingletonInterface {
 
     /**
      *
+     * @param UserActionsInterface $userActions
+     * @return StatusPresentationInterface
+     */
+    public function setUserActions(UserActionsInterface $userActions): StatusPresentationInterface;
+
+    /**
+     *
      * @param type $lastResourcePath
      * @return $this
      */
     public function setLastGetResourcePath($lastResourcePath): StatusPresentationInterface;
 
-    public function setLastTemplateName($templateName);
+    public function setLastTemplateName($templateName): StatusPresentationInterface;
 
-    public function setItemActions($itemActions);
+    public function addItemAction(ItemActionInterface $itemAction): StatusPresentationInterface;
+
+    public function removeItemAction(ItemActionInterface $itemAction): StatusPresentationInterface;
 
 }

@@ -41,7 +41,7 @@ class ContextFactory implements ContextFactoryInterface {
     }
 
     public function createPublishedContext(): PublishedContextInterface {
-        $userActions = $this->statusSecurityRepo->get()->getUserActions();
+        $userActions = $this->statusPresentationRepo->get()->getUserActions();
         $onlyPublished = $userActions ? ! ($userActions->presentEditableArticle() OR $userActions->presentEditableLayout() OR $userActions->presentEditableMenu()) : true;
         return new PublishedContext($onlyPublished);
     }

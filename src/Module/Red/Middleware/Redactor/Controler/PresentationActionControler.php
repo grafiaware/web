@@ -75,7 +75,7 @@ class PresentationActionControler extends FrontControlerAbstract {
 //        $this->switchEditable('article', $edit);
 
         //TODO: nejdřív vypnu editable a pak teprve volám isPresentedItemActive() - pokud menuItem není active, tak se s vypnutým editable už v metodě isPresentedItemActive() nenačte - ?? obráceně?
-        $this->statusSecurityRepo->get()->getUserActions()->setEditableArticle($edit);
+        $this->statusPresentationRepo->get()->getUserActions()->setEditableArticle($edit);
         $this->addFlashMessage("set editable article $edit");
         if ($edit OR $this->isPresentedItemActive()) {
             return $this->redirectSeeLastGet($request); // 303 See Other
@@ -87,7 +87,7 @@ class PresentationActionControler extends FrontControlerAbstract {
     public function setEditLayout(ServerRequestInterface $request) {
         $edit = (new RequestParams())->getParsedBodyParam($request, 'edit_layout');
 //        $this->switchEditable('layout', $edit);
-        $this->statusSecurityRepo->get()->getUserActions()->setEditableLayout($edit);
+        $this->statusPresentationRepo->get()->getUserActions()->setEditableLayout($edit);
         $this->addFlashMessage("set editable layout $edit");
         if ($edit OR $this->isPresentedItemActive()) {
             return $this->redirectSeeLastGet($request); // 303 See Other
@@ -100,7 +100,7 @@ class PresentationActionControler extends FrontControlerAbstract {
         $edit = (new RequestParams())->getParsedBodyParam($request, 'edit_menu');
 //        $this->switchEditable('menu', $edit);
         $this->addFlashMessage("set editable menu $edit");
-        $this->statusSecurityRepo->get()->getUserActions()->setEditableMenu($edit);
+        $this->statusPresentationRepo->get()->getUserActions()->setEditableMenu($edit);
         if ($edit OR $this->isPresentedItemActive()) {
             return $this->redirectSeeLastGet($request); // 303 See Other
         } else {
@@ -115,7 +115,7 @@ class PresentationActionControler extends FrontControlerAbstract {
     }
 
     protected function switchEditable($name, $value) {
-        $userAction = $this->statusSecurityRepo->get()->getUserActions();
+        $userAction = $this->statusPresentationRepo->get()->getUserActions();
 //        $isAnyOldAction = $userAction->isEditableArticle() OR $userAction->isEditableLayout() OR $userAction->isEditableMenu();
                 $userAction->setEditableArticle(false);
                 $userAction->setEditableLayout(false);

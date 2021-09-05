@@ -15,6 +15,8 @@ use Status\Model\Entity\StatusPresentationInterface;
 use Red\Model\Entity\MenuItemInterface;
 use Red\Model\Entity\LanguageInterface;
 use Red\Model\Entity\ItemActionInterface;
+use Red\Model\Entity\UserActionsInterface;
+
 /**
  * Description of StatusHierarchy
  *
@@ -39,11 +41,14 @@ class StatusPresentation extends EntityAbstract implements StatusPresentationInt
     private $lastTemplateName;
 
     /**
-     *
      * @var ItemActionInterface array of
      */
     private $itemActions = [];
 
+    /**
+     * @var UserActionsInterface
+     */
+    private $userActions;
 
     /**
      *
@@ -95,6 +100,14 @@ class StatusPresentation extends EntityAbstract implements StatusPresentationInt
 
     /**
      *
+     * @return UserActionsInterface|null
+     */
+    public function getUserActions(): ?UserActionsInterface {
+        return $this->userActions;
+    }
+
+    /**
+     *
      * @param LanguageInterface $language
      * @return StatusPresentationInterface
      */
@@ -132,13 +145,28 @@ class StatusPresentation extends EntityAbstract implements StatusPresentationInt
         $this->lastResourcePath = $lastResourcePath;
         return $this;
     }
-    public function setLastTemplateName($templateName) {
+
+    public function setLastTemplateName($templateName): StatusPresentationInterface {
         $this->lastTemplateName = $templateName;
     }
 
-    public function setItemActions($itemActions) {
-        $this->itemActions = $itemActions;
+    /**
+     *
+     * @param UserActionsInterface $userActions
+     * @return StatusPresentationInterface
+     */
+    public function setUserActions(UserActionsInterface $userActions): StatusPresentationInterface {
+        $this->userActions = $userActions;
         return $this;
     }
 
+    public function addItemAction(ItemActionInterface $itemAction): StatusPresentationInterface {
+        $this->itemActions[$itemAction->getCreated().$itemAction->getItemId()] = $itemAction;
+        return $this;
+    }
+
+    public function removeItemAction(ItemActionInterface $itemAction): \Status\Model\Entity\StatusPresentationInterface {
+        unset($this->itemActions[$itemAction->getCreated().$itemAction->getItemId()]);
+        return $this;
+    }
 }
