@@ -62,17 +62,17 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
     }
 
     public function presentEditableArticle(): bool {
-        $userActions = $this->statusSecurityRepo->get()->getUserActions();
+        $userActions = $this->statusPresentationRepo->get()->getUserActions();
         return $userActions ? $userActions->presentEditableArticle() : false;
     }
 
     public function presentEditableLayout(): bool {
-        $userActions = $this->statusSecurityRepo->get()->getUserActions();
+        $userActions = $this->statusPresentationRepo->get()->getUserActions();
         return $userActions ? $userActions->presentEditableLayout() : false;
     }
 
     public function presentEditableMenu(): bool {
-        $userActions = $this->statusSecurityRepo->get()->getUserActions();
+        $userActions = $this->statusPresentationRepo->get()->getUserActions();
         return $userActions ? $userActions->presentEditableMenu() : false;
     }
 

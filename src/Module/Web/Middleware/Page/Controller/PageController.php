@@ -122,7 +122,7 @@ class PageController extends LayoutControllerAbstract {
 #
     protected function getMenuComponents() {
 
-        $userActions = $this->statusSecurityRepo->get()->getUserActions();
+        $userActions = $this->statusPresentationRepo->get()->getUserActions();
 
         $components = [];
         foreach (Configuration::pageController()['menu'] as $menuConf) {

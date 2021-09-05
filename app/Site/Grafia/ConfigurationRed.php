@@ -109,7 +109,7 @@ class ConfigurationRed extends ConfigurationDb {
      *
      * @return array
      */
-    public static function statusPresentationManager() {
+    public static function presentationStatus() {
         return [
             'default_lang_code' => 'cs',
         ];

@@ -27,6 +27,7 @@ use Status\Model\Repository\StatusPresentationRepo;
 use Red\Model\Repository\LanguageRepo;
 
 use Red\Model\Entity\LanguageInterface;
+use Red\Model\Entity\UserActions;
 
 use UnexpectedValueException;
 
@@ -51,7 +52,6 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
 
         $statusPresentation = $this->createStatusIfNotExists();
         $this->presetPresentationLanguage($statusPresentation, $request);
-//        $this->presetLastGetResourcePath($statusPresentation, $request);  // přesunuto do PresentationDrontControleru
         $response = $handler->handle($request);
         return $response;
     }
@@ -69,32 +69,18 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
     }
 
     /**
-     * Pokud nejsou nastaveny hodnoty, nastaví defaultní hodnoty language, menuItem do presentation statusu.
-     *
-     * @param StatusPresentationInterface $statusPresentation
-     * @param ServerRequestInterface $request
-     * @return void
-     */
-    private function presetLastGetResourcePath(StatusPresentation $statusPresentation, ServerRequestInterface $request): void {
-        if ($request->getMethod()=='GET') {
-            /** @var UriInfoInterface $uriInfo */
-            $uriInfo = $request->getAttribute(WebAppFactory::URI_INFO_ATTRIBUTE_NAME);
-            $restUri = $uriInfo->getRestUri();
-            $statusPresentation->setLastGetResourcePath($restUri);
-        }
-    }
-
-    /**
      * Nastaví jazyk prezentace pokud není nastaven.
      *
      * @param type $statusPresentation
      */
     private function presetPresentationLanguage(StatusPresentation $statusPresentation, ServerRequestInterface $request) {
         // jazyk prezentace
-        $language = $statusPresentation->getLanguage();
-        if (!isset($language)) {
+        if (is_null($statusPresentation->getLanguage())) {
             $language = $this->getRequestedLanguage($request);
             $statusPresentation->setLanguage($language);
+        }
+        if (is_null($statusPresentation->getUserActions())) {
+            $statusPresentation->setUserActions(new UserActions());  // má default hodnoty
         }
     }
 

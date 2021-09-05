@@ -54,19 +54,6 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
         $this->viewFactory = $viewFactory;
     }
 
-    ### composite view
-
-    protected function createView(ServerRequestInterface $request, array $componentViews) {
-
-        $layoutView = $this->getCompositeView($request);
-        foreach ($componentViews as $name => $componentView) {
-            if (isset($componentView)) {
-                $layoutView->appendComponentView($componentView, $name);
-            }
-        }
-        return $layoutView;
-    }
-
     ### response
     protected function createResponseWithItem(ServerRequestInterface $request, MenuItemInterface $menuItem = null) {
         if ($menuItem) {
@@ -79,6 +66,19 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
             $response = $this->createResponseRedirectSeeOther($request, ""); // SeeOther - ->home
         }
         return $response;
+    }
+
+    ### composite view
+
+    protected function createView(ServerRequestInterface $request, array $componentViews) {
+
+        $layoutView = $this->getCompositeView($request);
+        foreach ($componentViews as $name => $componentView) {
+            if (isset($componentView)) {
+                $layoutView->appendComponentView($componentView, $name);
+            }
+        }
+        return $layoutView;
     }
 
 ######################################
@@ -243,7 +243,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
             $basepath = $this->getBasePath($request);
             $tinyLanguage = Configuration::layoutController()['tinyLanguage'];
             $langCode =$this->statusPresentationRepo->get()->getLanguage()->getLangCode();
-            $tinyToolsbarsLang = array_key_exists($langCode, $tinyLanguage) ? $tinyLanguage[$langCode] : Configuration::statusPresentationManager()['default_lang_code'];
+            $tinyToolsbarsLang = array_key_exists($langCode, $tinyLanguage) ? $tinyLanguage[$langCode] : Configuration::presentationStatus()['default_lang_code'];
             return
                 $this->container->get(View::class)
                     ->setTemplate(new PhpTemplate(Configuration::layoutController()['linksEditorJs']))
@@ -284,7 +284,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
     ### pomocné private metody
 
     private function isAnyEditableMode() {
-        $userActions = $this->statusSecurityRepo->get()->getUserActions();
+        $userActions = $this->statusPresentationRepo->get()->getUserActions();
         return $userActions->presentEditableArticle() OR $userActions->presentEditableLayout() OR $userActions->presentEditableMenu();
     }
 

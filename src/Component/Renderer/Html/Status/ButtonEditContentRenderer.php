@@ -14,12 +14,17 @@ use Pes\Text\Html;
 class ButtonEditContentRenderer extends HtmlRendererAbstract {
     public function render(iterable $viewModel = NULL) {
         /** @var StatusViewModelInterface $viewModel */
+        if (true) {
+            $tooltip = 'Článek můžete editovat';
+        } else {
+
+        }
         return
             Html::tag('div', ['class'=>$this->classMap->getClass('PaperButtons', 'div.editMode')], //tlačítko "tužka" pro zvolení editace
                 Html::tag('form', ['method'=>'POST', 'action'=>''],
                     Html::tag('button', [
                         'class'=>$this->classMap->getClass('PaperButtons', 'div.editMode button'),
-                        'data-tooltip' => 'Článek můžete editovat',
+                        'data-tooltip' => $tooltip,
                         'name' => 'edit_article',
                         'value' => '',
                         'type' => 'submit',

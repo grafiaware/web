@@ -5,13 +5,13 @@ use Pes\Text\Html;
 
 use Site\Configuration;
 use Status\Model\Repository\StatusSecurityRepo;
-use Red\Model\Entity\LoginAggregateFullInterface;
+use Auth\Model\Entity\LoginAggregateFullInterface;
 
 use Events\Middleware\Events\Controller\VisitorDataController;
-use Red\Model\Repository\VisitorDataRepo;
-use Red\Model\Entity\VisitorDataInterface;
+use Events\Model\Repository\VisitorDataRepo;
+use Events\Model\Entity\VisitorDataInterface;
 use Events\Model\Repository\VisitorDataPostRepo;
-use Red\Model\Entity\VisitorDataPostInterface;
+use Events\Model\Entity\VisitorDataPostInterface;
 
 use Events\Model\Arraymodel\Presenter;
 /** @var PhpTemplateRendererInterface $this */

@@ -43,7 +43,7 @@ abstract class AuthoredViewModelAbstract extends StatusViewModel implements Auth
 
     /**
      * Info pro zobrazení stavu menuItem v paper nebo article rendereru
-     * 
+     *
      * @return bool
      */
     public function isMenuItemActive(): bool {
@@ -60,6 +60,6 @@ abstract class AuthoredViewModelAbstract extends StatusViewModel implements Auth
      * @return bool
      */
     public function presentEditableArticle(): bool {
-        return $this->statusSecurityRepo->get()->getUserActions()->presentEditableArticle();
+        return $this->statusPresentationRepo->get()->getUserActions()->presentEditableArticle();
     }
 }
