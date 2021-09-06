@@ -17,7 +17,7 @@ use Red\Model\Entity\ItemActionInterface;
  * @author pes2704
  */
 interface ItemActionRepoInterface extends RepoInterface {
-    public function get($type_fk, $item_id): ?ItemActionInterface;
+    public function get($typeFk, $itemId): ?ItemActionInterface;
     public function findAll();
     public function add(ItemActionInterface $itemAction);
     public function remove(ItemActionInterface $itemAction);

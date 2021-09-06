@@ -12,10 +12,11 @@ use ArrayObject;
 use Component\ViewModel\Authored\AuthoredViewModelAbstract;
 use Red\Model\Entity\ArticleInterface;
 use Red\Model\Repository\ArticleRepo;
-use Status\Model\Repository\StatusFlashRepo;
-use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusSecurityRepo;
+use Status\Model\Repository\StatusPresentationRepo;
+use Status\Model\Repository\StatusFlashRepo;
 use Red\Model\Repository\MenuItemRepoInterface;
+use Red\Model\Repository\ItemActionRepo;
 
 /**
  * Description of PaperViewModelAnstract
@@ -34,9 +35,10 @@ class ArticleViewModel extends AuthoredViewModelAbstract implements ArticleViewM
             StatusPresentationRepo $statusPresentationRepo,
             StatusFlashRepo $statusFlashRepo,
             MenuItemRepoInterface $menuItemRepo,
+            ItemActionRepo $itemActionRepo,
             ArticleRepo $articleRepo
             ) {
-        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo, $menuItemRepo);
+        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo, $menuItemRepo, $itemActionRepo);
         $this->articleRepo = $articleRepo;
     }
 

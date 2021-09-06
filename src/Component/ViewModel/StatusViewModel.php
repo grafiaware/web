@@ -2,6 +2,8 @@
 
 namespace Component\ViewModel;
 
+use Red\Model\Entity\UserActionsInterface;
+
 use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
 
 /**
@@ -74,6 +76,10 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
     public function presentEditableMenu(): bool {
         $userActions = $this->statusPresentationRepo->get()->getUserActions();
         return $userActions ? $userActions->presentEditableMenu() : false;
+    }
+
+    public function getUserActions(): ?UserActionsInterface {
+        return $this->statusPresentationRepo->get()->getUserActions();
     }
 
     public function getIterator() {

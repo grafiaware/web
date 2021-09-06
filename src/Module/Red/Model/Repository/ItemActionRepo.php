@@ -33,14 +33,14 @@ class ItemActionRepo extends RepoAbstract implements ItemActionRepoInterface {
 
     /**
      *
-     * @param type $type_fk
-     * @param type $item_id
+     * @param type $typeFk
+     * @param type $itemId
      * @return ItemActionInterface|null
      */
-    public function get($type_fk, $item_id): ?ItemActionInterface {
-        $index = $type_fk . $item_id;
+    public function get($typeFk, $itemId): ?ItemActionInterface {
+        $index = $typeFk . $itemId;
         if (!isset($this->collection[$index])) {
-            $this->recreateEntity($index, $this->dao->get($type_fk, $item_id));
+            $this->recreateEntity($index, $this->dao->get($typeFk, $itemId));
         }
         return $this->collection[$index] ?? NULL;
     }
