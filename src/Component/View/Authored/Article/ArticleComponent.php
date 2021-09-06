@@ -11,6 +11,9 @@ use Component\Renderer\Html\Authored\Article\ArticleRenderer;
 use Component\Renderer\Html\Authored\Article\ArticleRendererEditable;
 use Component\Renderer\Html\Authored\EmptyContentRenderer;
 
+use Component\View\Status\ButtonEditContentComponent;
+
+use Component\View\Authored\AuthoredEnum;
 /**
  * Description of ArticleComponent
  *
@@ -39,8 +42,22 @@ class ArticleComponent extends AuthoredComponentAbstract implements ArticleCompo
             // zvolit šablonu lze jen dokud je article prázdný a nemá nastavenou šablonu
             // Dokud je article prázdný, zobrazuje se jen toolbar s volbou šablony (SelectArticleTemplateRenderer). Jedna ze šablon musí být prázdná šablona, nelze pokračovat bez zvolení šablony.
             // Volba prázdné šablony však může znamenat prázdný obsah pokud šablona nebude obsahovat žádný text.
+            $articleId = $this->contextData->getArticle()->getId();
+            $userPerformsActionWithContent = $this->contextData->getUserActions()->hasUserAction(AuthoredEnum::ARTICLE, $articleId);
             if ($this->hasContent()) {
-                $this->setRendererName(ArticleRendererEditable::class);
+                if ($userPerformsActionWithContent) {
+                    $this->setRendererName(ArticleRendererEditable::class);
+                } else {
+                    $this->setRendererName(ArticleRenderer::class);
+                }
+                // vytvoří komponent - view s buttonem ButtonEditContent
+                $buttonEditContentComponent = new ButtonEditContentComponent($this->configuration);
+                $this->contextData->offsetSet('typeFk', AuthoredEnum::ARTICLE);
+                $this->contextData->offsetSet('itemId', $articleId);
+                $this->contextData->offsetSet('userPerformActionWithContent', $userPerformsActionWithContent);
+                $buttonEditContentComponent->setData($this->contextData);
+                $buttonEditContentComponent->setRendererContainer($this->rendererContainer);
+                $this->appendComponentView($buttonEditContentComponent, 'buttonEditContent');
             } else {
                 $this->setRendererName(SelectArticleTemplateRenderer::class);
             }

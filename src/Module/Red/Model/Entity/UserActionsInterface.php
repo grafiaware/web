@@ -9,6 +9,7 @@
 namespace Red\Model\Entity;
 
 use Model\Entity\EntitySingletonInterface;
+use Red\Model\Entity\ItemActionInterface;
 
 /**
  *
@@ -37,6 +38,8 @@ interface UserActionsInterface extends EntitySingletonInterface {
      */
     public function presentEditableMenu(): bool;
 
+    ###
+
     /**
      * Nastaví informaci, že prezentace je přepnuta do modu editace layoutu.
      *
@@ -61,5 +64,8 @@ interface UserActionsInterface extends EntitySingletonInterface {
      */
     public function setEditableMenu($editableMenu): UserActionsInterface;
 
-
+    public function addUserItemAction(ItemActionInterface $itemAction): void;
+    public function removeUserItemAction(ItemActionInterface $iemAction): void;
+    public function getUserAction($typeFk, $itemId): ?ItemActionInterface;
+    public function hasUserAction($typeFk, $itemId): bool;
 }

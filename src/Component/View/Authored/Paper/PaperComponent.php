@@ -28,6 +28,9 @@ use Component\Renderer\Html\Authored\Paper\ContentsRendererEditable;
 
 use Component\View\Status\ButtonEditContentComponent;
 
+use Component\View\Authored\AuthoredEnum;
+use Pes\Type\ContextData;
+
 /**
  * Description of PaperComponent
  *
@@ -63,11 +66,22 @@ class PaperComponent extends AuthoredComponentAbstract implements PaperComponent
 
             // zvolí PaperRenderer nebo PaperRendererEditable
             if ($this->contextData->presentEditableArticle()) { // editační režim
-                $this->setRendererName(PaperRendererEditable::class);
-                // připojí k templated view komponentní view s editable renderery headline, perex, contents
-                $this->addChildEditableComponents($templatedView);
-                // vytvoří komponentní view s buttonem ButtonEditContent
+                $paperId = $this->contextData->getPaper()->getId();
+                $userPerformsActionWithContent = $this->contextData->getUserActions()->hasUserAction(AuthoredEnum::PAPER, $paperId);
+                if ($userPerformsActionWithContent) {
+                    $this->setRendererName(PaperRendererEditable::class);
+                    // připojí k templated view komponentní view s editable renderery headline, perex, contents
+                    $this->addChildEditableComponents($templatedView);
+                } else {
+                    $this->setRendererName(PaperRenderer::class);
+                    // připojí k templated view komponentní view s editable renderery headline, perex, contents
+                    $this->addChildComponents($templatedView);
+                }
+                // vytvoří komponent - view s buttonem ButtonEditContent
                 $buttonEditContentComponent = new ButtonEditContentComponent($this->configuration);
+                $this->contextData->offsetSet('typeFk', AuthoredEnum::PAPER);
+                $this->contextData->offsetSet('itemId', $paperId);
+                $this->contextData->offsetSet('userPerformActionWithContent', $userPerformsActionWithContent);
                 $buttonEditContentComponent->setData($this->contextData);
                 $buttonEditContentComponent->setRendererContainer($this->rendererContainer);
                 $this->appendComponentView($buttonEditContentComponent, 'buttonEditContent');
@@ -76,7 +90,6 @@ class PaperComponent extends AuthoredComponentAbstract implements PaperComponent
                 // připojí k templated view komponentní view s editable renderery headline, perex, contents
                 $this->addChildComponents($templatedView);
             }
-
         } else {
             $this->setRendererName(EmptyContentRenderer::class);
         }

@@ -9,6 +9,7 @@
 namespace Red\Model\Entity;
 
 use Model\Entity\EntityAbstract;
+use Red\Model\Entity\ItemActionInterface;
 
 /**
  * Description of StatusPresentation
@@ -20,6 +21,8 @@ class UserActions extends EntityAbstract implements UserActionsInterface {
     private $editLayout = false;
     private $editPaper = false;
     private $editMenu = false;
+    private $userItemAction = [];
+
 
     /**
      * Informuje, zda prezentace je přepnuta do modu editace layoutu.
@@ -81,5 +84,21 @@ class UserActions extends EntityAbstract implements UserActionsInterface {
         return $this;
     }
 
+    ### user actions ###
 
+    public function addUserItemAction(ItemActionInterface $itemAction): void {
+        $this->userItemAction[$itemAction->getTypeFk()][$itemAction->getItemId()] = $itemAction;
+    }
+
+    public function removeUserItemAction(ItemActionInterface $itemAction): void {
+        unset($this->userItemAction[$itemAction->getTypeFk()][$itemAction->getItemId()]);
+    }
+
+    public function hasUserAction($typeFk, $itemId): bool {
+        return (array_key_exists($typeFk, $this->userItemAction) AND array_key_exists($itemId, $this->userItemAction[$typeFk]));
+    }
+
+    public function getUserAction($typeFk, $itemId): ?ItemActionInterface {
+        return $this->hasUserAction($typeFk, $itemId) ? $this->userItemAction[$typeFk][$itemId] : null;
+    }
 }

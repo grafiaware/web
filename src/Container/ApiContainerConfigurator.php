@@ -61,7 +61,9 @@ use Red\Model\Repository\{
     PaperAggregateRepo,
     PaperRepo,
     PaperContentRepo,
-    ArticleRepo
+    ArticleRepo,
+    ItemActionRepo
+
 };
 
 /**
@@ -96,7 +98,8 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
                         $c->get(LanguageRepo::class),
-                        $c->get(MenuItemRepo::class));
+                        $c->get(MenuItemRepo::class),
+                        $c->get(ItemActionRepo::class));
             },
             UserActionControler::class => function(ContainerInterface $c) {
                 return new UserActionControler(

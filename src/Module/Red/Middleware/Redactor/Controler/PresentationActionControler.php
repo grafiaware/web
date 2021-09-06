@@ -17,12 +17,16 @@ use Pes\Http\Request\RequestParams;
 use Pes\Http\Response;
 use Pes\Http\Response\RedirectResponse;
 
-use Status\Model\Repository\{
-    StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo
-};
-use Red\Model\Repository\{
-    LanguageRepo, MenuItemRepo
-};
+use Status\Model\Repository\StatusSecurityRepo;
+use Status\Model\Repository\StatusFlashRepo;
+use Status\Model\Repository\StatusPresentationRepo;
+
+use Red\Model\Repository\LanguageRepo;
+use Red\Model\Repository\MenuItemRepo;
+use Red\Model\Repository\ItemActionRepo;
+
+use Red\Model\Entity\ItemAction;
+use Component\View\Authored\AuthoredEnum;
 
 use Red\Middleware\Redactor\Controler\Exception\UnexpectedLanguageException;
 
@@ -37,15 +41,19 @@ class PresentationActionControler extends FrontControlerAbstract {
 
     private $menuItemRepo;
 
+    private $itemActionRepo;
+
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
             LanguageRepo $languageRepo,
-            MenuItemRepo $menuItemRepo) {
+            MenuItemRepo $menuItemRepo,
+            ItemActionRepo $itemActionRepo) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
         $this->languageRepo = $languageRepo;
         $this->menuItemRepo = $menuItemRepo;
+        $this->itemActionRepo = $itemActionRepo;
     }
 
     public function setLangCode(ServerRequestInterface $request) {
@@ -82,6 +90,35 @@ class PresentationActionControler extends FrontControlerAbstract {
         } else {
             return $this->createResponseRedirectSeeOther($request, ''); // 303 See Other -> home - jinak zůstane prezentovaný poslední segment layoutu, který nyl editován v režimu edit layout
         }
+    }
+
+    public function addUserItemAction(ServerRequestInterface $request, $typeFk, $itemId) {
+        $userActions = $this->statusPresentationRepo->get()->getUserActions();
+        $typeFk = (new AuthoredEnum())($typeFk);
+        if (! $userActions->hasUserAction($typeFk, $itemId)) {
+            $itemAction = new ItemAction();
+            $itemAction->setTypeFk($typeFk);
+            $itemAction->setItemId($itemId);
+            $itemAction->setEditorLoginName($this->statusSecurityRepo->get()->getLoginAggregate()->getLoginName());
+            $this->itemActionRepo->add($itemAction);
+            $userActions->addUserItemAction($itemAction);
+            $this->addFlashMessage("add user action for $typeFk($itemId)");
+        }
+        return $this->redirectSeeLastGet($request); // 303 See Other
+    }
+
+    public function removeUserItemAction(ServerRequestInterface $request, $typeFk, $itemId) {
+        // mažu nezávisle itemAction z statusPresentation (session) i z itemActionRepo (db) - hrozí chyby při opakované modeslání požadavku POST nebo naopak při ztrátě session
+        $userActions = $this->statusPresentationRepo->get()->getUserActions();
+        if ($userActions->hasUserAction($typeFk, $itemId)) {
+            $userActions->removeUserItemAction($userActions->getUserAction($typeFk, $itemId));
+        }
+        $itemAction = $this->itemActionRepo->get($typeFk, $itemId);  // nestačí načíst itemAction z UserAction - v itemActionRepo pak není entity v kolekci a nelze volat remove
+        if (isset($itemAction)) {
+            $this->itemActionRepo->remove($itemAction);
+        }
+        $this->addFlashMessage("remove user action for $typeFk($itemId)");
+        return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
     public function setEditLayout(ServerRequestInterface $request) {

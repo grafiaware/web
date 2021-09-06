@@ -13,6 +13,7 @@ use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusFlashRepo;
 use Component\ViewModel\StatusViewModel;
 use Red\Model\Repository\MenuItemRepoInterface;
+use Red\Model\Repository\ItemActionRepo;
 
 /**
  * Description of AuthoredViewModelAbstract
@@ -27,14 +28,18 @@ abstract class AuthoredViewModelAbstract extends StatusViewModel implements Auth
      */
     protected $menuItemRepo;
 
+    private $itemActionRepo;
+
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusPresentationRepo $statusPresentationRepo,
             StatusFlashRepo $statusFlashRepo,
-            MenuItemRepoInterface $menuItemRepo
+            MenuItemRepoInterface $menuItemRepo,
+            ItemActionRepo $itemActionRepo
             ) {
         parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo);
         $this->menuItemRepo = $menuItemRepo;
+        $this->itemActionRepo = $itemActionRepo;
     }
 
     public function setItemId($menuItemId) {

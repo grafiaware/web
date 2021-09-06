@@ -81,6 +81,7 @@ use Red\Model\Repository\HierarchyAggregateRepo;
 use Red\Model\Repository\MenuItemRepo;
 use Red\Model\Repository\MenuItemTypeRepo;
 use Red\Model\Repository\MenuRootRepo;
+use Red\Model\Repository\ItemActionRepo;
 use Red\Model\Repository\PaperRepo;
 use Red\Model\Repository\PaperAggregateRepo;
 use Red\Model\Repository\ArticleRepo;
@@ -196,6 +197,7 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                                 $c->get(StatusPresentationRepo::class),
                                 $c->get(StatusFlashRepo::class),
                                 $c->get(MenuItemRepo::class),
+                                $c->get(ItemActionRepo::class),
                                 $c->get(PaperAggregateRepo::class)
                         );
             },
@@ -205,6 +207,7 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                                 $c->get(StatusPresentationRepo::class),
                                 $c->get(StatusFlashRepo::class),
                                 $c->get(MenuItemRepo::class),
+                                $c->get(ItemActionRepo::class),
                                 $c->get(ArticleRepo::class)
                         );
             },
