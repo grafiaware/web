@@ -63,14 +63,14 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
             Html::tag('section', ['class'=>$this->classMap->getClass('Content', 'section')],
                 Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.ribbon')],
                     '<svg width="100" height="30" style="position: relative; top: -15px">
-                        <line x1="0" y1="50%" x2="100%" y2="50%" fill="none" stroke="#aeaeae" stroke-width="5"/>
-                        <rect x="20%" y="4" width="70%" height="75%" fill="#6435c9c2" stroke="#000000" stroke-width="0"/>
-                        <rect x="35%" y="8" width="50%" height="50%" fill="#ffe21fc4" stroke="#000000" stroke-width="0"/>
+                        <line x1="0" y1="50%" x2="100%" y2="50%" style="fill:none; stroke:#aeaeae; stroke-width:5"/>
+                        <rect x="20%" y=4 rx=5 ry=5 width="70%" height="75%" style="fill:#6435c9c2; stroke:#333333; stroke-width:1"/>
+                        <rect x="35%" y=8 rx=4 ry=4 width="50%" height="50%" style="fill:#ffe21fc4; stroke:#333333; stroke-width:1"/>
                         <circle cx="47" cy="50%" r="5" fill="'.$circleColor.'" stroke="#000000" stroke-width="0"/>
                      </svg>'
                         .
                     $this->getContentButtons($paperContent)
-                    
+
                 )
 //                .Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.semafor')],
 //                    Html::tag('div',

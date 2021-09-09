@@ -1,0 +1,3 @@
+jméno proměnné ve formuláři a v kontroleru (kombinace s RequestParam)
+pravidla pro formulář - hlavně kotrola jestli jsou v POST všechny povinné parametry
+url ve formuláři a "hydratace" parametrů do url a "extrakce" parametrů z url v front kontroleru (z POST)
