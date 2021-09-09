@@ -122,6 +122,7 @@ class ConfigurationStyles extends ConfigurationRed {
                             'button.template i' => 'large file alternate icon',
                             'div.editMode' => 'zapnout_editaci',
                             'div.editMode button' => 'ui small teal icon button',
+                            'div.offEditMode button' => 'ui small teal basic icon button',
                             'div.editMode i' => 'pencil alternate icon',
                 
                         ],

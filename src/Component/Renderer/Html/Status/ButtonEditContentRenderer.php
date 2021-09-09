@@ -17,7 +17,8 @@ class ButtonEditContentRenderer extends HtmlRendererAbstract {
         /** @var ContextDataInterface $viewModel */
         $typeFk = $viewModel->offsetGet('typeFk');
         $itemId = $viewModel->offsetGet('itemId');
-        if ($viewModel->offsetGet('userPerformActionWithContent')) {
+        $userPerformActionWithContent = $viewModel->offsetGet('userPerformActionWithContent');
+        if ($userPerformActionWithContent) {
             $tooltip = 'Vypnout editaci';
             $action = "red/v1/itemaction/$typeFk/$itemId/remove";
         } else {
@@ -28,7 +29,7 @@ class ButtonEditContentRenderer extends HtmlRendererAbstract {
             Html::tag('div', ['class'=>$this->classMap->getClass('PaperButtons', 'div.editMode')], //tlačítko "tužka" pro zvolení editace
                 Html::tag('form', ['method'=>'POST', 'action'=>$action],
                     Html::tag('button', [
-                        'class'=>$this->classMap->getClass('PaperButtons', 'div.editMode button'),
+                        'class'=>$this->classMap->resolveClass($userPerformActionWithContent, 'PaperButtons', 'div.offEditMode button', 'div.editMode button'),
                         'data-tooltip' => $tooltip,
                         'name' => 'edit_article',
                         'value' => '',

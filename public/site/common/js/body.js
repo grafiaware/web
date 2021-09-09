@@ -9,7 +9,7 @@
             displayTime: 5000
         })
     ;
-    
+            
     $('.btn-poznamky').on("click",
         function(){
             $(this).siblings('.poznamky').toggle("slow");
