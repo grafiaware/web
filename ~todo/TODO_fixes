@@ -1,1 +1,8 @@
+menuItem - předávat di status presentation z menu komponentu, ovládací prvek "active" menuitem do authored komponenty (paper a article)
+- zrevidovat rodičovský komponent AuthoredComponent a práci s presentation status dát do něj
 
+do actionItem přidat zohlednění stavu, kdy s komponentem pracuje jiný uživatel
+
+nový ovládací prvek - nastavení menu:
+- volba home stránky - aktuální stránka bude home
+- zapnutí, vypnutí zobrazení titulní stránky

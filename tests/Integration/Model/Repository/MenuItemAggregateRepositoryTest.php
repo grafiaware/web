@@ -46,6 +46,8 @@ class MenuItemAggregateRepositoryTest extends TestCase {
     private $title;
     private $langCode;
     private $uid;
+    private $id;
+    private $prettyUri;
 
 
     public static function mock(array $userData = []) {
@@ -128,6 +130,8 @@ class MenuItemAggregateRepositoryTest extends TestCase {
         }
         //  node.uid, (COUNT(parent.uid) - 1) AS depth, node.left_node, node.right_node, node.parent_uid
         $this->uid = $node['uid'];
+        $this->id = $node['id'];
+        $this->prettyUri = $node['prettyUri'] ?? null;
     }
 
     public function testSetUp() {
@@ -138,6 +142,19 @@ class MenuItemAggregateRepositoryTest extends TestCase {
 
     public function testGet() {
         $entity = $this->menuItemAggRepo->get($this->langCode, $this->uid);
+        $this->assertInstanceOf(MenuItemAggregatePaper::class, $entity);
+        $this->assertEquals($this->title, $entity->getTitle());
+        /** @var PaperAggregatePaperContent $paper */      // není interface
+        $paper = $entity->getPaper();
+        $this->assertInstanceOf(PaperAggregatePaperContent::class, $paper);
+        $contents = $paper->getPaperContentsArray();
+        $this->assertIsArray($contents);
+        $this->assertTrue(count($contents)>0, "Nenalezen žádný obsah");
+
+    }
+
+    public function testGetById() {
+        $entity = $this->menuItemAggRepo->getById($this->id);
         $this->assertInstanceOf(MenuItemAggregatePaper::class, $entity);
         $this->assertEquals($this->title, $entity->getTitle());
         /** @var PaperAggregatePaperContent $paper */      // není interface
