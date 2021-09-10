@@ -130,7 +130,7 @@ class ConfigurationRed extends ConfigurationDb {
                 ],
 
             // title
-            'title' => "Veletrh práce online",
+            'title' => "Grafia",
 
             // folders
             'linksCommon' => self::RED_LINKS_COMMON,

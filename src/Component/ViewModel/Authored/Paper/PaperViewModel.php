@@ -52,8 +52,8 @@ class PaperViewModel extends AuthoredViewModelAbstract implements PaperViewModel
      * @return PaperAggregatePaperContentInterface|null
      */
     public function getPaper(): ?PaperAggregatePaperContentInterface {
-        if (isset($this->menuItemId)) {
-            $paper = $this->paperAggregateRepo->getByReference($this->menuItemId);
+        if (isset($this->menuItemIdCached)) {
+            $paper = $this->paperAggregateRepo->getByReference($this->menuItemIdCached);
         }
         return $paper ?? null;
     }

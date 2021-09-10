@@ -62,12 +62,23 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
         return $this->collection[$index] ?? null;
     }
 
+    public function getById($id): ?MenuItemInterface {
+        $row = $this->dao->getById($id);
+        if ($row) {
+            $index = $this->indexFromRow($row);
+            if (!isset($this->collection[$index])) {
+                $this->recreateEntity($index, $row);
+            }
+            return $this->collection[$index] ?? null;
+        }
+    }
+
     public function getByPrettyUri($langCodeFk, $prettyUri): ?MenuItemInterface {
         $row = $this->dao->getByPrettyUri($langCodeFk, $prettyUri);
         if ($row) {
             $index = $this->indexFromRow($row);
             if (!isset($this->collection[$index])) {
-                $this->recreateEntity($index, );
+                $this->recreateEntity($index, $row);
             }
             return $this->collection[$index] ?? null;
         }
@@ -90,10 +101,10 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
      */
     public function findAllLanguageVersions($uidFk): iterable {
         $selected = [];
-        foreach ($this->dao->findAllLanguageVersions($uidFk) as $menuitemRow) {
-            $index = $this->indexFromRow($menuitemRow);
+        foreach ($this->dao->findAllLanguageVersions($uidFk) as $row) {
+            $index = $this->indexFromRow($row);
             if (!isset($this->collection[$index])) {
-                $this->recreateEntity($index, $menuitemRow);
+                $this->recreateEntity($index, $row);
             }
             $selected[] = $this->collection[$index];
         }

@@ -15,6 +15,8 @@ use Component\ViewModel\StatusViewModel;
 use Red\Model\Repository\MenuItemRepoInterface;
 use Red\Model\Repository\ItemActionRepo;
 
+use Red\Model\Entity\MenuItemInterface;
+
 /**
  * Description of AuthoredViewModelAbstract
  *
@@ -22,7 +24,10 @@ use Red\Model\Repository\ItemActionRepo;
  */
 abstract class AuthoredViewModelAbstract extends StatusViewModel implements AuthoredViewModelInterface {
 
-    protected $menuItemId;
+    protected $menuItemIdCached;
+
+    protected $menuItemCached;
+
     /**
      * @var PaperAggregateRepo
      */
@@ -43,7 +48,10 @@ abstract class AuthoredViewModelAbstract extends StatusViewModel implements Auth
     }
 
     public function setItemId($menuItemId) {
-        $this->menuItemId = $menuItemId;
+        if (isset($this->menuItemIdCached)) {
+            throw new LogicException("Menu item id je již nastaveno na hodnotu {$this->menuItemIdCached}. Nelze nastavovat menu item id opakovaně.");
+        }
+        $this->menuItemIdCached = $menuItemId;
     }
 
     /**
@@ -52,8 +60,7 @@ abstract class AuthoredViewModelAbstract extends StatusViewModel implements Auth
      * @return bool
      */
     public function isMenuItemActive(): bool {
-        $langCodeFk = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
-        return (isset($this->menuItemId) AND $this->menuItemRepo->get($langCodeFk, $this->menuItemId)) ? true : false;
+        return ($this->getMenuItemCached() AND $this->getMenuItemCached()->getActive()) ? true : false;
     }
 
     /**
@@ -66,5 +73,12 @@ abstract class AuthoredViewModelAbstract extends StatusViewModel implements Auth
      */
     public function presentEditableArticle(): bool {
         return $this->statusPresentationRepo->get()->getUserActions()->presentEditableArticle();
+    }
+
+    private function getMenuItemCached(): ?MenuItemInterface {
+       if ( !isset($this->menuItemCached) AND isset($this->menuItemIdCached)) {
+           $this->menuItemCached = $this->menuItemRepo->getById($this->menuItemIdCached);
+       }
+       return $this->menuItemCached;
     }
 }
