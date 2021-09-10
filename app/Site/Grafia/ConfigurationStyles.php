@@ -374,11 +374,11 @@ class ConfigurationStyles extends ConfigurationRed {
                         ],
                      'Headline' => [
                         'section'=>'',
-                        'headline'=>'ui header borderDance',
+                        'headline.edit-text'=>'ui header borderDance edit-text',
                         ],
                      'Perex' => [
                         'section'=>'',
-                        'perex'=>'borderDance',
+                        'perex.edit-html'=>'borderDance edit-html',
                         ],
                      'Content' => [
                         'section'=>'',
@@ -435,11 +435,11 @@ class ConfigurationStyles extends ConfigurationRed {
                         ],
                      'Headline' => [
                         'section'=>'',
-                        'headline'=>'borderDance',
+                        'headline.edit-text'=>'borderDance edit-text',
                         ],
                     'Perex' => [
                         'section'=>'',
-                        'perex'=>'borderDance',
+                        'perex.edit-html'=>'borderDance edit-html',
                         ],
                     'Content' => [
                         'section'=>'',
