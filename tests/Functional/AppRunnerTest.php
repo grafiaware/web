@@ -9,6 +9,7 @@ use Pes\Http\Factory\EnvironmentFactory;
 use Application\WebAppFactory;
 use Application\SelectorItems;
 use Pes\Middleware\Selector;
+use Pes\Container\Container;
 
 use Pes\Middleware\NoMatchSelectorItemRequestHandler;
 use Pes\Http\ResponseSender;

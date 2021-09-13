@@ -41,7 +41,7 @@ class ContentsRenderer extends HtmlRendererAbstract {
                 $innerHtml[] = $this->renderContent($paperContent);
             }
         } else {
-            $innerHtml[] = 'No content.';
+            $innerHtml[] = 'No paper.';
         }
         return $innerHtml;
     }

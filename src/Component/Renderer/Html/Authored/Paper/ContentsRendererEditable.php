@@ -46,32 +46,91 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
             }
 
         } else {
-            $sections[] = 'No content.';
+            $sections[] = 'No paper.';
         }
         return $sections;
+    }
+
+    /**
+     * Vrací hodnoty od -1 do 1
+     * @param float $x
+     * @return float
+     */
+    private function krivka($x) {
+        $k = (($x-1)>=0 ? 1 : -1)*pow(abs($x-1), (1/5));
+        return $k;
+    }
+
+    /**
+     * Vrací hodnoty od 0 do 50 nebo -10. Pro čas v daleké minulosti vrací 0, pro čas "now" vrací 50. Pro null vrací -10.
+     * @param \DateTimeInterface $leftTime
+     * @return type
+     */
+    private function left(\DateTimeInterface $leftTime = null) {
+        if (isset($leftTime)) {
+            $l = $leftTime->getTimestamp()/(new \DateTime("now"))->getTimestamp();
+            $left = $this->krivka($l)*53+47;
+        } else {
+            $left = -10;
+        }
+        return $left;
+    }
+
+    /**
+     * Vrací hodnoty od 50 do 100 nebo 110. Pro čas "now" vrací 50, pro čas v daleké budoucnosti vrací 100. Pro null vrací 110.
+     * @param \DateTimeInterface $rightTime
+     * @return int
+     */
+    private function right(\DateTimeInterface $rightTime = null) {
+        if (isset($rightTime)) {
+            $r = $rightTime->getTimestamp()/(new \DateTime("now"))->getTimestamp();
+            $right = $this->krivka($r)*47+53;
+        } else {
+            $right = 110;
+        }
+        return $right;
     }
 
     private function getContent(PaperContentInterface $paperContent) {
         $active = $paperContent->getActive();
         $actual = $paperContent->getActual();
-        $now =  new \DateTime("now");
+        $now = new \DateTime("now");
         $future = $paperContent->getShowTime() > $now;
         $past = $paperContent->getHideTime() < $now;  // pro zobrszeno trvale - null je vždy menší a $passed je true - vyhodnucuji nejprve $actual, nevadí to
-        $circleColor = $active ? "#21ba45" : "#db2828";
+
+        $styleLine ="fill:none; stroke:#aeaeae; stroke-width:5";
+        $styleRectShow =  $actual ? "fill:#6435c9c2; stroke:#333333; stroke-width:2" : "fill:#111111; stroke:#333333; stroke-width:2";
+        $styleRectEvent =  "fill:#ffe21fc4; stroke:#333333; stroke-width:1";
+        $styleCircle = $active ? "fill:#21ba45; stroke:#000000; stroke-width:0" : "fill:#db2828; stroke:#000000; stroke-width:0";
+
+        $sLeft = $this->left($paperContent->getShowTime());
+        $sRight = $this->right($paperContent->getHideTime());
+        $eLeft = $this->left($paperContent->getEventStartTime());
+        $eRight = $this->right($paperContent->getEventEndTime());
+
+        $point = 50;
+
+        $showLeft = sprintf('%d%%', $sLeft);
+        $showWidth = sprintf('%d%%', $sRight-$sLeft);
+        $eventLeft = sprintf('%d%%', $eLeft);
+        $eventWidth = sprintf('%d%%', $eRight-$eLeft);
+        $circlePosition = sprintf('%d%%', $point);
 
         $html =
             Html::tag('section', ['class'=>$this->classMap->getClass('Content', 'section')],
                 Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.ribbon')],
-                    '<svg width="100" height="30" style="position: relative; top: -15px">
-                        <line x1="0" y1="50%" x2="100%" y2="50%" style="fill:none; stroke:#aeaeae; stroke-width:5"/>
-                        <rect x="20%" y=4 rx=5 ry=5 width="70%" height="75%" style="fill:#6435c9c2; stroke:#333333; stroke-width:1"/>
-                        <rect x="35%" y=8 rx=4 ry=4 width="50%" height="50%" style="fill:#ffe21fc4; stroke:#333333; stroke-width:1"/>
-                        <circle cx="47" cy="50%" r="5" fill="'.$circleColor.'" stroke="#000000" stroke-width="0"/>
-                     </svg>'
+                    Html::tag('svg', ["width"=>"100", "height"=>"30", "style"=>"position: relative; top: -15px"],
+                           [
+                                Html::tag('line', ["x1"=>"0", "y1"=>"50%", "x2"=>"100%", "y2"=>"50%", "style"=>$styleLine]),
+                                Html::tag('rect', ["x"=>$showLeft, "y"=>4, "rx"=>0, "ry"=>0, "width"=>$showWidth, "height"=>"60%", "style"=>$styleRectShow]),
+                                Html::tag('rect', ["x"=>$eventLeft, "y"=>8, "rx"=>4, "ry"=>4, "width"=>$eventWidth, "height"=>"60%", "style"=>$styleRectEvent]),
+                                Html::tag('circle', ["cx"=>$circlePosition, "cy"=>"50%", "r"=>"5", "style"=>$styleCircle]),
+                            ]
+                        )
                         .
-                    $this->getContentButtons($paperContent)
+                        $this->getContentButtons($paperContent)
 
-                )
+                    )
 //                .Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.semafor')],
 //                    Html::tag('div',
 //                       [
