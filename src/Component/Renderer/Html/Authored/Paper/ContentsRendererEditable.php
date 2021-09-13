@@ -98,9 +98,16 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
         $future = $paperContent->getShowTime() > $now;
         $past = $paperContent->getHideTime() < $now;  // pro zobrszeno trvale - null je vždy menší a $passed je true - vyhodnucuji nejprve $actual, nevadí to
 
+//                    '<svg width="100" height="30" style="position: relative; top: -15px">
+//                        <line x1="0" y1="50%" x2="100%" y2="50%" fill="none" stroke="#aeaeae" stroke-width="5"/>
+//                        <rect x="20%" y="4" width="70%" height="75%" fill="#6435c9c2" stroke="#000000" stroke-width="1"/>
+//                        <rect x="35%" y="8" width="50%" height="50%" fill="#ffe21fc4" stroke="#000000" stroke-width="1"/>
+//                        <circle cx="47" cy="50%" r="5" fill="'.$circleColor.'" stroke="#000000" stroke-width="0"/>
+//                     </svg>'
+
         $styleLine ="fill:none; stroke:#aeaeae; stroke-width:5";
-        $styleRectShow =  $actual ? "fill:#6435c9c2; stroke:#333333; stroke-width:2" : "fill:#111111; stroke:#333333; stroke-width:2";
-        $styleRectEvent =  "fill:#ffe21fc4; stroke:#333333; stroke-width:1";
+        $styleRectShow =  $actual ? "fill:purple; stroke:#333333; stroke-width:2" : "fill:grey; stroke:#222222; stroke-width:2";
+        $styleRectEvent =  "fill:gold; stroke:#333333; stroke-width:1";
         $styleCircle = $active ? "fill:#21ba45; stroke:#000000; stroke-width:0" : "fill:#db2828; stroke:#000000; stroke-width:0";
 
         $sLeft = $this->left($paperContent->getShowTime());
