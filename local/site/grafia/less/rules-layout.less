@@ -396,22 +396,17 @@
     }
     
     /*nadpis paperu*/
-    /*díky .segment se rozliší nadpis pro block (logo, razítko,...) a pro headlined (aktuality, odkazy,...)*/
-    /*myšlený .ui.segment semantický*/
-    .segment headline.header{ 
+    /*rozlišení nadpisu pro block (logo, razítko,...) a pro headlined (aktuality, odkazy,...)*/
+    main > .grid > .column:not(.wide) headline.header{ 
         color: @headerTextColor; //pridat do site.variables jako @headerTextColor
         background-color: @backgroundLightGrey;
         border-radius: 4px 4px 0 0;
         text-align: center;
-        margin: 0 -12px;
-        margin-top: -12px !important; //pro nadpisy v ohraničeném paperu (např. aktuality)
+        margin-bottom: 20px;
         padding: 5px 15px;
         p{
             font-size: @h2;
             margin-bottom: 0;
         }
-    }
-    #contents headline{ //#contents smazáno - přepsat (k .ui.segment pridan margin(top a bottom) - zjistit zda je potreba tohle ↓)
-        margin-top: 0 !important; //pro hlavni obsah - zarovnaný s menu
     }
 }
