@@ -71,6 +71,10 @@ use Red\Model\Dao\ArticleDao;
 use Red\Model\Hydrator\ArticleHydrator;
 use Red\Model\Repository\ArticleRepo;
 
+use Red\Model\Dao\MultipageDao;
+use Red\Model\Hydrator\MultipageHydrator;
+use Red\Model\Repository\MultipageRepo;
+
 use Red\Model\Dao\ItemActionDao;
 use Red\Model\Hydrator\ItemActionHydrator;
 use Red\Model\Repository\ItemActionRepo;
@@ -89,7 +93,7 @@ use Events\Model\Hydrator\VisitorDataPostHydrator;
 use Events\Model\Repository\VisitorDataPostRepo;
 
 //aggregate
-use Red\Model\Repository\MenuItemAggregateRepo;
+use Red\Model\Repository\MenuItemAggregatePaperRepo;
 use Red\Model\Hydrator\MenuItemChildHydrator;
 use Red\Model\Repository\PaperAggregateRepo;
 use Red\Model\Hydrator\PaperChildHydrator;
@@ -225,8 +229,8 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new PaperAggregateRepo($c->get(PaperDao::class), $c->get(PaperHydrator::class),
                         $c->get(PaperContentRepo::class), $c->get(PaperChildHydrator::class));
             },
-            MenuItemAggregateRepo::class => function(ContainerInterface $c) {
-                return new MenuItemAggregateRepo(
+            MenuItemAggregatePaperRepo::class => function(ContainerInterface $c) {
+                return new MenuItemAggregatePaperRepo(
                         $c->get(MenuItemDao::class),
                         $c->get(MenuItemHydrator::class),
                         $c->get(PaperAggregateRepo::class),
@@ -241,6 +245,15 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             ArticleRepo::class => function(ContainerInterface $c) {
                 return new ArticleRepo($c->get(ArticleDao::class), $c->get(ArticleHydrator::class));
+            },
+            MultipageDao::class => function(ContainerInterface $c) {
+                return new MultipageDao($c->get(HandlerInterface::class));
+            },
+            MultipageHydrator::class => function(ContainerInterface $c) {
+                return new MultipageHydrator();
+            },
+            MultipageRepo::class => function(ContainerInterface $c) {
+                return new MultipageRepo($c->get(MultipageDao::class), $c->get(MultipageHydrator::class));
             },
             ItemActionDao::class => function(ContainerInterface $c) {
                 return new ItemActionDao($c->get(HandlerInterface::class));

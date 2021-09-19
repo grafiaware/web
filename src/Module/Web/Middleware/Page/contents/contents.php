@@ -21,7 +21,7 @@ function getNoContentMessage($lang) {
 }
 
 function createDatabaseContent(Psr\Container\ContainerInterface $mwContainer, $list, $lang, $edit, $klic) {
-    $article = (new Model\Repository\MenuItemAggregateRepo($mwContainer->get(\Model\Dao\PaperContentDao::class)))->get($lang, $list);
+    $article = (new Model\Repository\MenuItemAggregatePaperRepo($mwContainer->get(\Model\Dao\PaperContentDao::class)))->get($lang, $list);
     if($article) {
         if ($edit) {
             include Web\Middleware\Page\AppContext::getScriptsDirectory().'templates/layout/body/telo/tiny_config.php';    // tinymce

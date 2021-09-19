@@ -63,7 +63,7 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
         return isset($loginAggregate) ? $loginAggregate->getLoginName() : null;
     }
 
-    public function presentEditableArticle(): bool {
+    public function presentEditableContent(): bool {
         $userActions = $this->statusPresentationRepo->get()->getUserActions();
         return $userActions ? $userActions->presentEditableArticle() : false;
     }
@@ -84,7 +84,7 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
 
     public function getIterator() {
         $this->appendData([
-                        'editArticle' => $this->presentEditableArticle(),
+                        'editArticle' => $this->presentEditableContent(),
                         'editLayout' => $this->presentEditableLayout(),
                         'editMenu' => $this->presentEditableMenu(),
                         'userName' => $this->getUserLoginName()

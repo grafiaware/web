@@ -36,7 +36,6 @@ class MenuItemHydrator implements HydratorInterface {
             ->setTitle($row['title'])
             ->setPrettyuri($row['prettyuri'])
             ->setActive((bool) $row['active'])
-            ->setMultipage($row['multipage'])
             ;
     }
 
@@ -54,6 +53,5 @@ class MenuItemHydrator implements HydratorInterface {
         $row['title'] = $menuItem->getTitle();
         $row['prettyuri'] = $menuItem->getPrettyuri();
         $row['active'] = (int) $menuItem->getActive();
-        $row['multipage'] = $menuItem->getMultipage() ?? '';
     }
 }

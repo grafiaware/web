@@ -23,7 +23,6 @@ interface MenuItemInterface extends EntityInterface {
     public function getTitle();
     public function getPrettyuri();
     public function getActive();
-    public function getMultipage();
 
     public function setUidFk($uidFk): MenuItemInterface;
     public function setLangCodeFk($lang): MenuItemInterface;
@@ -32,6 +31,5 @@ interface MenuItemInterface extends EntityInterface {
     public function setTitle($title): MenuItemInterface;
     public function setPrettyuri($prettyuri): MenuItemInterface;
     public function setActive($active): MenuItemInterface;
-    public function setMultipage($multipage);
 
 }

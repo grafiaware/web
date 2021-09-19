@@ -96,12 +96,12 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
                     'linksCommon' => Configuration::layoutController()['linksCommon'],
                     'linksSite' => Configuration::layoutController()['linksSite'],
                     'bodyContainerAttributes' => $this->getBodyContainerAttributes(),
-
+                    'isEditableMode' => $this->isEditableMode(),
                 ]);
     }
 
     private function getBodyContainerAttributes() {
-        if ($this->isAnyEditableMode()) {
+        if ($this->isEditableMode()) {
             return ["class" => "editable"];
         } else {
             return ["class" => ""];
@@ -118,19 +118,18 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
         //          - dva stené bloky v layoutu - mapa, kontakt v hlavičce i v patičce
 
         $views = array_merge(
-                ['content' => $this->getMenuItemLoader($menuItem),
+                [
+                'content' => $this->getMenuItemLoader($menuItem),
                 'languageSelect' => $this->container->get(LanguageSelectComponent::class),
                 'searchPhrase' => $this->container->get(SearchPhraseComponent::class),
                 'modalLoginLogout' => $this->getLoginLogoutComponent(),
                 'modalRegister' => $this->container->get(RegisterComponent::class),
                 'modalUserAction' => $this->container->get(UserActionComponent::class),
-                'linkEditorJs' => $this->getLinkEditorJsView($request),
-                'linkEditorCss' => $this->getLinkEditorCssView($request),
                 'poznamky' => $this->container->get(StatusBoardComponent::class),
                 'flash' => $this->container->get(FlashComponent::class),
                 'controlEditMenu' => $this->container->get(ButtonEditMenuComponent::class),
 
-
+                'scriptsEditableMode' => $this->getScriptsEditableModeView($request),
                 ],
                 // full page
                 $this->getAuthoredLayoutBlockLoaders(),
@@ -188,21 +187,16 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
     protected function getContentLoadScript($menuItem) {
         $menuItemType = $menuItem->getTypeFk();
         if ($menuItemType!='static') {
-            $menuItemId = $menuItem->getId();
-            // prvek data ''loaderWrapperElementId' musí být unikátní - z jeho hodnoty se generuje id načítaného elementu - a id musí být unikátní jinak dojde k opakovanému přepsání obsahu elemntu v DOM
-            $view = $this->container->get(View::class)
-                        ->setData([
-                            'loaderWrapperElementId' => "content_for_item_{$menuItemId}_with_type_{$menuItemType}",
-                            'apiUri' => "web/v1/$menuItemType/$menuItemId"
-                            ]);
+            $id = $menuItem->getId();
         } else {
-            $name = $this->getNameForStaticPage($menuItem);
-            $view = $this->container->get(View::class)
-                        ->setData([
-                            'loaderWrapperElementId' => "content_for_item_{$name}_with_type_{$menuItemType}",
-                            'apiUri' => "web/v1/$menuItemType/$name"
-                            ]);
+            $id = $this->getNameForStaticPage($menuItem);
         }
+        // prvek data ''loaderWrapperElementId' musí být unikátní - z jeho hodnoty se generuje id načítaného elementu - a id musí být unikátní jinak dojde k opakovanému přepsání obsahu elemntu v DOM
+        $view = $this->container->get(View::class)
+                    ->setData([
+                        'loaderWrapperElementId' => "content_for_item_{$id}_with_type_{$menuItemType}",
+                        'apiUri' => "web/v1/$menuItemType/$id"
+                        ]);
         $view->setTemplate(new PhpTemplate(Configuration::pageController()['templates.loaderElement']));
         return $view;
     }
@@ -237,8 +231,8 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
      * @param ServerRequestInterface $request
      * @return type
      */
-    private function getLinkEditorJsView(ServerRequestInterface $request) {
-        if ($this->isAnyEditableMode()) {
+    private function getScriptsEditableModeView(ServerRequestInterface $request) {
+        if ($this->isEditableMode()) {
             ## document base path - stejná hodnota se musí použiít i v nastavení tinyMCE
             $basepath = $this->getBasePath($request);
             $tinyLanguage = Configuration::layoutController()['tinyLanguage'];
@@ -246,7 +240,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
             $tinyToolsbarsLang = array_key_exists($langCode, $tinyLanguage) ? $tinyLanguage[$langCode] : Configuration::presentationStatus()['default_lang_code'];
             return
                 $this->container->get(View::class)
-                    ->setTemplate(new PhpTemplate(Configuration::layoutController()['linksEditorJs']))
+                    ->setTemplate(new PhpTemplate(Configuration::layoutController()['scriptsEditableMode']))
                     ->setData([
                         'tinyMCEConfig' => $this->container->get(View::class)
                                 ->setTemplate(new InterpolateTemplate(Configuration::layoutController()['tiny_config']))
@@ -269,21 +263,19 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
         }
     }
 
-    private function getLinkEditorCssView(ServerRequestInterface $request) {
-        if ($this->isAnyEditableMode()) {
-            return $this->container->get(View::class)
-                    ->setTemplate(new PhpTemplate(Configuration::layoutController()['linkEditorCss']))
-                    ->setData(
-                            [
-                            'linksCommon' => Configuration::layoutController()['linksCommon'],
-                            ]
-                            );
-        }
-    }
+//    private function getLinkEditorCssView(ServerRequestInterface $request) {
+//        return $this->container->get(View::class)
+//                ->setTemplate(new PhpTemplate(Configuration::layoutController()['linkEditorCss']))
+//                ->setData(
+//                        [
+//                        'linksCommon' => Configuration::layoutController()['linksCommon'],
+//                        'isEditableMode' => $this->isEditableMode(),
+//                        ]);
+//    }
 
     ### pomocné private metody
 
-    private function isAnyEditableMode() {
+    private function isEditableMode() {
         $userActions = $this->statusPresentationRepo->get()->getUserActions();
         return $userActions->presentEditableArticle() OR $userActions->presentEditableLayout() OR $userActions->presentEditableMenu();
     }

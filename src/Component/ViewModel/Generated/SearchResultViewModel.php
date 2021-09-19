@@ -130,8 +130,9 @@ class SearchResultViewModel extends StatusViewModel implements SearchResultViewM
     }
 
     public function getIterator(): \Traversable {
-        return new \ArrayObject(
+        $this->appendData(
                 ['searchedMenuItems' => $this->getSearchedMenuItems()]
                 );
+        return parent::getIterator();
     }
 }

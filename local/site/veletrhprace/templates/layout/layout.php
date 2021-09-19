@@ -4,7 +4,8 @@
         <base href="<?= $basePath; ?>">
         <title><?= $title; ?></title>
         <?php include "head/meta.php"; ?>
-        <?php include "head/links.php"; ?>
+        <?php include "head/icon.php"; ?>
+        <?php include "head/css.php"; ?>
         <?php include "head/scripts.php"; ?>
     </head>
     <body class="layoutVP">

@@ -4,7 +4,7 @@ namespace Red\Middleware\Redactor\Controler;
 
 use Site\Configuration;
 
-use FrontControler\FilesUploadControlerAbstract;
+use FrontControler\FilesUploadControllerAbstract;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UploadedFileInterface;
@@ -18,7 +18,7 @@ use Utils\UrlConvertor;
  *
  * @author pes2704
  */
-class FilesUploadControler extends FilesUploadControlerAbstract {
+class FilesUploadControler extends FilesUploadControllerAbstract {
 
     const UPLOADED_KEY = "file";
 

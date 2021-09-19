@@ -22,7 +22,7 @@ class ButtonEditContentComponent extends StatusComponentAbstract {
      * @return void
      */
     public function beforeRenderingHook(): void {
-        if($this->contextData->presentEditableArticle() AND $this->isAllowed($this, AllowedActionEnum::EDIT)) {
+        if($this->contextData->presentEditableContent() AND $this->isAllowed($this, AllowedActionEnum::EDIT)) {
             $this->setRendererName(ButtonEditContentRenderer::class);
 //            $this->setTemplate(new PhpTemplate($this->configuration->getTemplateXXXXXXX()));
         } else {

@@ -6,14 +6,13 @@
  * and open the template in the editor.
  */
 
-namespace Component\ViewModel\Statical;
+namespace Component\View\Authored\Multipage;
 
-use Component\ViewModel\Authored\AuthoredViewModelInterface;
+use Component\View\Authored\AuthoredComponentInterface;
 
 /**
  *
  * @author pes2704
  */
-interface FolderSelectViewModelInterface extends AuthoredViewModelInterface {
-
+interface MultipageComponentInterface extends AuthoredComponentInterface {
 }

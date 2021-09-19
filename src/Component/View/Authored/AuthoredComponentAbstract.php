@@ -41,6 +41,8 @@ abstract class AuthoredComponentAbstract extends StatusComponentAbstract impleme
     }
 
     /**
+     * Vytvoří nový CompositeView s rendererem zadaným jako parametr.
+     * Vytvořenému COmponentView jako data nastaví contextData komponenty, jako renderer kontener mu nastaví renderer kontejner komponenty.
      *
      * @param type $rendererClassname
      * @return CompositeView
@@ -51,6 +53,8 @@ abstract class AuthoredComponentAbstract extends StatusComponentAbstract impleme
     }
 
     /**
+     * Vytvoří nový CompositeView a šablonou zadanou jako parametr.
+     * Vytvořenému COmponentView jako data nastaví contextData komponenty, jako renderer kontener mu nastaví renderer kontejner komponenty.
      *
      * @param PhpTemplateInterface $template
      * @return CompositeView

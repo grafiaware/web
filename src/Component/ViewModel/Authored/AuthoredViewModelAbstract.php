@@ -29,7 +29,7 @@ abstract class AuthoredViewModelAbstract extends StatusViewModel implements Auth
     protected $menuItemCached;
 
     /**
-     * @var PaperAggregateRepo
+     * @var MenuItemRepoInterface
      */
     protected $menuItemRepo;
 
@@ -47,6 +47,13 @@ abstract class AuthoredViewModelAbstract extends StatusViewModel implements Auth
         $this->itemActionRepo = $itemActionRepo;
     }
 
+    /**
+     * Nastaví id položky MenuItem, podle kterého bude načítáná příslušná entita s obsahem (např. Paper, Article, Multipage)
+     * Obvykle je metoda volána z metody Front kontroleru.
+     *
+     * @param type $menuItemId
+     * @throws LogicException
+     */
     public function setItemId($menuItemId) {
         if (isset($this->menuItemIdCached)) {
             throw new LogicException("Menu item id je již nastaveno na hodnotu {$this->menuItemIdCached}. Nelze nastavovat menu item id opakovaně.");
@@ -71,7 +78,7 @@ abstract class AuthoredViewModelAbstract extends StatusViewModel implements Auth
      *
      * @return bool
      */
-    public function presentEditableArticle(): bool {
+    public function presentEditableContent(): bool {
         return $this->statusPresentationRepo->get()->getUserActions()->presentEditableArticle();
     }
 

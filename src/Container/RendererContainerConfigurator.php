@@ -22,10 +22,12 @@ use Component\Renderer\Html\Authored\Paper\PerexRendererEditable;
 use Component\Renderer\Html\Authored\Paper\ContentsRendererEditable;
 
 use Component\Renderer\Html\Authored\Article\ArticleRendererEditable;
+use Component\Renderer\Html\Authored\Article\SelectArticleTemplateRenderer;
+
+use Component\Renderer\Html\Authored\Multipage\MultipageRendererEditable;
 
 use Component\Renderer\Html\Status\ButtonEditContentRenderer;
 
-use Component\Renderer\Html\Authored\Article\SelectArticleTemplateRenderer;
 use Component\Renderer\Html\Generated\LanguageSelectRenderer;
 use Component\Renderer\Html\Generated\SearchPhraseRenderer;
 use Component\Renderer\Html\Generated\SearchResultRenderer;
@@ -119,6 +121,12 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             ArticleRendererEditable::class => function(ContainerInterface $c) {
                 return new ArticleRendererEditable($c->get('paper.editable.classmap'));   //používá paper classmapu - přejmenovat společnou classmapu??
+            },
+        ###########################
+        #  multipage renderer
+        ###########################
+        MultipageRendererEditable::class => function(ContainerInterface $c) {
+                return new MultipageRendererEditable($c->get('paper.editable.classmap'));   //používá paper classmapu - přejmenovat společnou classmapu??
             },
         ###########################
         #  generated renderer

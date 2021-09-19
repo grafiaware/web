@@ -11,6 +11,7 @@ class ComponentConfiguration implements ComponentConfigurationInterface {
 //            'component.logs.render' => 'Render.log',
 //            'component.templatepath.paper' => self::RED_TEMPLATES_COMMON.'paper/',
 //            'component.templatepath.article' => self::RED_TEMPLATES_COMMON.'article/',
+//            'component.templatepath.multipage' => self::RED_TEMPLATES_COMMON.'multipage/',
 //            'component.template.flash' => self::RED_TEMPLATES_COMMON.'layout/info/flashMessage.php',
 //            'component.template.login' => self::RED_TEMPLATES_COMMON.'layout/status/login.php',
 //            'component.template.register' => self::RED_TEMPLATES_SITE.'layout/modal/register-with-exhibitor-representative.php',
@@ -24,6 +25,7 @@ class ComponentConfiguration implements ComponentConfigurationInterface {
     private $logsRender;
     private $templatepathPaper;
     private $templatepathArticle;
+    private $templatepathMultipage;
     private $templateFlash;
     private $templateLogin;
     private $templateRegister;
@@ -37,6 +39,7 @@ class ComponentConfiguration implements ComponentConfigurationInterface {
             $logsRender,
             $templatepathPaper,
             $templatepathArticle,
+            $templatepathMultipage,
             $templateFlash,
             $templateLogin,
             $templateRegister,
@@ -49,6 +52,7 @@ class ComponentConfiguration implements ComponentConfigurationInterface {
         $this->logsRender = $logsRender;
         $this->templatepathPaper = $templatepathPaper;
         $this->templatepathArticle = $templatepathArticle;
+        $this->templatepathMultipage = $templatepathMultipage;
         $this->templateFlash = $templateFlash;
         $this->templateLogin = $templateLogin;
         $this->templateRegister = $templateRegister;
@@ -72,6 +76,10 @@ class ComponentConfiguration implements ComponentConfigurationInterface {
 
     public function getTemplatepathArticle() {
         return $this->templatepathArticle;
+    }
+
+    public function getTemplatepathMultipage() {
+        return $this->templatepathMultipage;
     }
 
     public function getTemplateFlash() {

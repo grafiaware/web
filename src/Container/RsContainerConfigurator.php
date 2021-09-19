@@ -35,7 +35,7 @@ use Pes\Database\Handler\HandlerInterface;
 
 use Red\Model\Repository\HierarchyAggregateRepo;
 use Red\Model\Dao\MenuDao;
-use Red\Model\Repository\MenuItemAggregateRepo;
+use Red\Model\Repository\MenuItemAggregatePaperRepo;
 use Red\Model\Dao\PaperContentDao;
 
 /**

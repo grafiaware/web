@@ -34,6 +34,8 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
     }
 
     /**
+     * Vrací MenuItem podle hodnoty primárního klíče - kompozit z langCode a uid.
+     * Vrací jen položky, které jsou aktivní a aktuální.
      *
      * @param string $langCodeFk
      * @param string $uidFk
@@ -48,7 +50,8 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
     }
 
     /**
-     * Čte i neaktivní a nektuální položky
+     * Vrací MenuItem podle hodnoty primárního klíče - kompozit z langCode a uid.
+     * Vrací i neaktivní a nektuální položky.
      *
      * @param type $langCodeFk
      * @param type $uidFk
@@ -62,6 +65,13 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
         return $this->collection[$index] ?? null;
     }
 
+    /**
+     * Vrací MenuItem podle id, id je cizí klíč v entitách Paper, Article, Multipage.
+     * Vrací jen položky, které jsou aktivní a aktuální.
+     *
+     * @param type $id
+     * @return MenuItemInterface|null
+     */
     public function getById($id): ?MenuItemInterface {
         $row = $this->dao->getById($id);
         if ($row) {
@@ -73,6 +83,14 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
         }
     }
 
+    /**
+     * Vrací MenuItem podle kódu jazyka a hodnoty prettyUri.
+     * Vrací jen položky, které jsou aktivní a aktuální.
+     *
+     * @param type $langCodeFk
+     * @param type $prettyUri
+     * @return MenuItemInterface|null
+     */
     public function getByPrettyUri($langCodeFk, $prettyUri): ?MenuItemInterface {
         $row = $this->dao->getByPrettyUri($langCodeFk, $prettyUri);
         if ($row) {
@@ -112,11 +130,10 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
     }
 
     /**
+     * NEFUNKČNÍ! metoda dao vrací data z menu_item JOIN paper - v tomto smyslu je to opravdu PaperFulltextSearch, jen asi nevzniká správně menuItem
      *
      * @param string $langCodeFk
      * @param string $text
-     * @param bool $active Nepovinný parametr, default=TRUE. Defaultně metoda hledá jen aktivní (zveřejněné) položky.
-     * @param bool $actual Nepovinný parametr, default=TRUE. Defaultně metoda hledá jen aktuální položky.
      * @return MenuItemInterface array of
      */
     public function findByPaperFulltextSearch($langCodeFk, $text) {

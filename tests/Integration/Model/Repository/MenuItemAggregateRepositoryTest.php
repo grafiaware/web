@@ -21,7 +21,7 @@ use Container\HierarchyContainerConfigurator;
 use Test\Integration\Model\Container\TestModelContainerConfigurator;
 
 use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
-use Red\Model\Repository\MenuItemAggregateRepo;
+use Red\Model\Repository\MenuItemAggregatePaperRepo;
 
 use Red\Model\Entity\MenuItemAggregatePaper;
 use Red\Model\Entity\PaperAggregatePaperContent;
@@ -39,7 +39,7 @@ class MenuItemAggregateRepositoryTest extends TestCase {
 
     /**
      *
-     * @var MenuItemAggregateRepo
+     * @var MenuItemAggregatePaperRepo
      */
     private $menuItemAggRepo;
 
@@ -118,7 +118,7 @@ class MenuItemAggregateRepositoryTest extends TestCase {
                 );
 
 
-        $this->menuItemAggRepo = $this->container->get(MenuItemAggregateRepo::class);
+        $this->menuItemAggRepo = $this->container->get(MenuItemAggregatePaperRepo::class);
 
         /** @var HierarchyAggregateReadonlyDao $hierarchy */
         $hierarchy = $this->container->get(HierarchyAggregateReadonlyDao::class);
@@ -137,7 +137,7 @@ class MenuItemAggregateRepositoryTest extends TestCase {
     public function testSetUp() {
         $this->assertIsString($this->langCode);
         $this->assertIsString($this->uid);
-        $this->assertInstanceOf(MenuItemAggregateRepo::class, $this->menuItemAggRepo);
+        $this->assertInstanceOf(MenuItemAggregatePaperRepo::class, $this->menuItemAggRepo);
     }
 
     public function testGet() {

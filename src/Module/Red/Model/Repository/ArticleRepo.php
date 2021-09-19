@@ -64,13 +64,11 @@ class ArticleRepo extends RepoAbstract implements ArticleRepoInterface {
     }
 
     public function add(ArticleInterface $article) {
-        $index = $this->indexFromEntity($article);
-        $this->addEntity($article, $index);
+        $this->addEntity($article);
     }
 
     public function remove(ArticleInterface $article) {
-        $index = $this->indexFromEntity($article);
-        $this->removeEntity($article, $index);
+        $this->removeEntity($article);
     }
 
     protected function createEntity() {
