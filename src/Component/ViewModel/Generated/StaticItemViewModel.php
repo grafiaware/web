@@ -50,10 +50,11 @@ class StaticItemViewModel extends StatusViewModel implements StaticItemViewModel
     }
 
     public function getIterator(): \Traversable {
-        return new \ArrayObject(
+        $this->appendData(
                 [
                     'menuItem' => $this->getMenuItem()
                 ]
                 );
+        return parent::getIterator();
     }
 }

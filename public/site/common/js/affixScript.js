@@ -1,0 +1,16 @@
+/*
+ * https://developer.mozilla.org/en-US/docs/Web/API/HTMLScriptElement
+ */
+
+function loadError(oError) {
+  throw new URIError("The script " + oError.target.src + " didn't load correctly.");
+}
+
+function affixScriptToHead(url, onloadFunction) {
+  var newScript = document.createElement("script");
+  newScript.onerror = loadError;
+  if (onloadFunction) { newScript.onload = onloadFunction; }
+  document.head.appendChild(newScript);
+  newScript.src = url;
+}
+

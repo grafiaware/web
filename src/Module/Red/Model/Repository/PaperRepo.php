@@ -64,13 +64,11 @@ class PaperRepo extends RepoAbstract implements PaperRepoInterface {
     }
 
     public function add(PaperInterface $paper) {
-        $index = $this->indexFromEntity($paper);
-        $this->addEntity($paper, $index);
+        $this->addEntity($paper);
     }
 
     public function remove(PaperInterface $paper) {
-        $index = $this->indexFromEntity($paper);
-        $this->removeEntity($paper, $index);
+        $this->removeEntity($paper);
     }
 
     protected function createEntity() {

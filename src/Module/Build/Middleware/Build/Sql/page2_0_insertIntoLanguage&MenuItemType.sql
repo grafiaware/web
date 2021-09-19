@@ -8,4 +8,5 @@ INSERT INTO `menu_item_type` (`type`) VALUES ( 'redirect' );  -- typ redirect - 
 INSERT INTO `menu_item_type` (`type`) VALUES ( 'static' );  -- typ static - obsah bude renderován ze statického obsahu (template)
 INSERT INTO `menu_item_type` (`type`) VALUES ( 'paper' );  -- typ paper - obsah částí bude načten z db tabulky paper a paper content, delete přesune do menu trash
 INSERT INTO `menu_item_type` (`type`) VALUES ( 'article' );  -- typ article - obsah bude poprvé generován z šablony, editovatelný a ukládán do db tabulky article, delete přesune do menu trash
+INSERT INTO `menu_item_type` (`type`) VALUES ( 'multipage' );  -- typ multipage - obsah bude generován složením obsahů potomkovských stránek
 INSERT INTO `menu_item_type` (`type`) VALUES ( 'trash' );  -- typ trash - koš - obsah bude načten z db tabulky paper, delete maže

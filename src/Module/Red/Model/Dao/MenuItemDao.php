@@ -47,7 +47,7 @@ class MenuItemDao extends DaoContextualAbstract {
      */
     public function get($langCodeFk, $uidFk) {
         if(!isset($this->sqlGet)) {
-            $this->sqlGet = "SELECT lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active, multipage "
+            $this->sqlGet = "SELECT lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active "
                 . "FROM menu_item "
                 . $this->where($this->and($this->getContextConditions(), ['menu_item.lang_code_fk = :lang_code_fk', 'menu_item.uid_fk=:uid_fk']));
         }
@@ -55,7 +55,7 @@ class MenuItemDao extends DaoContextualAbstract {
     }
 
     public function getOutOfContext($langCodeFk, $uidFk) {
-        $sqlGet = "SELECT lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active, multipage "
+        $sqlGet = "SELECT lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active "
             . "FROM menu_item "
             . $this->where($this->and( ['menu_item.lang_code_fk = :lang_code_fk', 'menu_item.uid_fk=:uid_fk']));
         return $this->selectOne($sqlGet, [':lang_code_fk' => $langCodeFk, ':uid_fk'=> $uidFk], true);
@@ -68,7 +68,7 @@ class MenuItemDao extends DaoContextualAbstract {
      * @return type
      */
     public function getById($id) {
-        $sqlGet = "SELECT lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active, multipage "
+        $sqlGet = "SELECT lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active "
             . "FROM menu_item "
             . $this->where($this->and($this->getContextConditions(), ['menu_item.id=:id']));
         return $this->selectOne($sqlGet, [':id'=> $id], true);
@@ -82,7 +82,7 @@ class MenuItemDao extends DaoContextualAbstract {
      * @return type
      */
     public function getByPrettyUri($prettyUri) {
-        $sqlGet = "SELECT lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active, multipage "
+        $sqlGet = "SELECT lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active "
             . "FROM menu_item "
             . $this->where($this->and($this->getContextConditions(), ['menu_item.prettyuri=:prettyuri']));
         return $this->selectOne($sqlGet, [':prettyuri'=> $prettyUri], true);
@@ -99,7 +99,7 @@ class MenuItemDao extends DaoContextualAbstract {
      */
     public function getByList($langCodeFk, $list, $active=true, $actual=true) {
         if (!isset($this->sqlGetByList)) {
-            $this->sqlGetByList = "SELECT lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active, multipage "
+            $this->sqlGetByList = "SELECT lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active "
                 . "FROM menu_item "
                 . $this->where($this->and(['menu_item.lang_code_fk = :lang_code_fk', 'menu_item.list=:list']));
         }
@@ -108,7 +108,7 @@ class MenuItemDao extends DaoContextualAbstract {
 
     public function findAllLanguageVersions($uidFk) {
         if(!isset($this->sqlFindAllLanguageVersions)) {
-            $this->sqlFindAllLanguageVersions = "SELECT lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active, multipage "
+            $this->sqlFindAllLanguageVersions = "SELECT lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active "
                 . "FROM menu_item "
                 . $this->where($this->and($this->getContextConditions(), ['menu_item.uid_fk=:uid_fk']));
         }
@@ -148,7 +148,7 @@ class MenuItemDao extends DaoContextualAbstract {
             $scoreLimitHeadline = '1';  // musí být string - císlo 0.2 se převede na string 0,2
             $scoreLimitContent = '0.2';  // musí být string - císlo 0.2 se převede na string 0,2
             $this->sqlFindByContentFulltextSearch =
-            "SELECT lang_code_fk, uid_fk, type_fk, active_menu_item.id AS id, title, prettyuri, active, multipage
+            "SELECT lang_code_fk, uid_fk, type_fk, active_menu_item.id AS id, title, prettyuri, active
                 , searched_paper.headline, searched_paper.perex
                 , active_content.content
                 , active_menu_item.active AS active,
@@ -194,10 +194,10 @@ class MenuItemDao extends DaoContextualAbstract {
      */
     public function update($row) {
         if (!$this->sqlUpdate) {
-            $this->sqlUpdate = "UPDATE menu_item SET type_fk=:type_fk, title=:title, prettyuri=:prettyuri, active=:active, multipage=:multipage "
+            $this->sqlUpdate = "UPDATE menu_item SET type_fk=:type_fk, title=:title, prettyuri=:prettyuri, active=:active "
                 . $this->where($this->and(['lang_code_fk=:lang_code_fk AND uid_fk=:uid_fk']));
         }
-        return $this->execUpdate($this->sqlUpdate, [':type_fk'=>$row['type_fk'], ':title'=>$row['title'], ':prettyuri'=>$row['prettyuri'], ':active'=>$row['active'], ':multipage'=>$row['multipage'],
+        return $this->execUpdate($this->sqlUpdate, [':type_fk'=>$row['type_fk'], ':title'=>$row['title'], ':prettyuri'=>$row['prettyuri'], ':active'=>$row['active'],
             ':lang_code_fk' => $row['lang_code_fk'], ':uid_fk'=> $row['uid_fk']]);
     }
 

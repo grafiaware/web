@@ -24,7 +24,7 @@ use Red\Model\Entity\PaperInterface;
  *
  * @author pes2704
  */
-class MenuItemAggregateRepo extends MenuItemRepo implements MenuItemRepoInterface, RepoReadonlyInterface {
+class MenuItemAggregatePaperRepo extends MenuItemRepo implements MenuItemRepoInterface, RepoReadonlyInterface {
 
     public function __construct(MenuItemDao $menuItemDao, HydratorInterface $menuItemHydrator,
             PaperAggregateRepo $paperAggregateRepo, MenuItemChildHydrator $menuItemPaperHydrator) {

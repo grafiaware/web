@@ -36,6 +36,7 @@ use \GeneratorService\ContentGeneratorRegistry;
 use \GeneratorService\Paper\PaperService;
 use \GeneratorService\Article\ArticleService;
 use \GeneratorService\StaticTemplate\StaticService;
+use \GeneratorService\Multipage\MultipageService;
 
 // array model
 use Events\Model\Arraymodel\Event;
@@ -57,11 +58,12 @@ use Red\Model\Repository\{
     MenuItemTypeRepo,
     BlockRepo,
     MenuRootRepo,
-    MenuItemAggregateRepo,
+    MenuItemAggregatePaperRepo,
     PaperAggregateRepo,
     PaperRepo,
     PaperContentRepo,
     ArticleRepo,
+    MultipageRepo,
     ItemActionRepo
 
 };
@@ -186,6 +188,7 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                 $factory->registerGeneratorService('paper', function() use ($c) {return $c->get(PaperService::class);});
                 $factory->registerGeneratorService('article', function() use ($c) {return $c->get(ArticleService::class);});
                 $factory->registerGeneratorService('static', function() use ($c) {return $c->get(StaticService::class);});
+                $factory->registerGeneratorService('multipage', function() use ($c) {return $c->get(MultipageService::class);});
                 return $factory;
             },
             PaperService::class => function(ContainerInterface $c) {
@@ -211,6 +214,15 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusFlashRepo::class)
                     );
             },
+            MultipageService::class => function(ContainerInterface $c) {
+                return new MultipageService(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(MultipageRepo::class)
+                    );
+            },
+
             // view
             'renderLogger' => function(ContainerInterface $c) {
                 return FileLogger::getInstance($c->get('api.logs.view.directory'), $c->get('api.logs.view.file'), FileLogger::REWRITE_LOG);

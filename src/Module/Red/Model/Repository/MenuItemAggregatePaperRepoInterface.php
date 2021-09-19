@@ -14,7 +14,7 @@ use Red\Model\Entity\MenuItemAggregatePaperInterface;
  *
  * @author pes2704
  */
-interface MenuItemAggregateRepoInterface  extends MenuItemRepoInterface {
+interface MenuItemAggregatePaperRepoInterface  extends MenuItemRepoInterface {
     public function get($langCodeFk, $uidFk): ?MenuItemAggregatePaperInterface;
 
 }

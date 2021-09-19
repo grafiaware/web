@@ -37,7 +37,7 @@ class ArticleComponent extends AuthoredComponentAbstract implements ArticleCompo
      * Přetěžuje metodu View. Generuje PHP template z názvu template objektu Paper a použije ji.
      */
     public function beforeRenderingHook(): void {
-        if ($this->contextData->presentEditableArticle()) {
+        if ($this->contextData->presentEditableContent()) {
 
             // zvolit šablonu lze jen dokud je article prázdný a nemá nastavenou šablonu
             // Dokud je article prázdný, zobrazuje se jen toolbar s volbou šablony (SelectArticleTemplateRenderer). Jedna ze šablon musí být prázdná šablona, nelze pokračovat bez zvolení šablony.

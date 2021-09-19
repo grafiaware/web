@@ -24,10 +24,10 @@ interface StatusViewModelInterface extends ViewModelInterface {
     public function getUserLoginName(): ?string;
 
     /**
-     * Prezentuj článek v editovatelné podobě
+     * Prezentuj generovaný obsah v editovatelné podobě
      * @return bool
      */
-    public function presentEditableArticle(): bool;
+    public function presentEditableContent(): bool;
     public function presentEditableLayout(): bool;
     public function presentEditableMenu(): bool;
 

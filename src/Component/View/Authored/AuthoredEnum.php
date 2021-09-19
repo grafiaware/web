@@ -20,4 +20,5 @@ class AuthoredEnum extends Enum {
     const ARTICLE =  'article';
     const TEXTELEMENT = 'textelement';
     const HTMLELEMENT = 'htmlelement';
+    const MULTIPAGE = 'multipage';
 }

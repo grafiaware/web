@@ -22,7 +22,7 @@ use Test\Integration\Model\Container\TestModelContainerConfigurator;
 
 
 use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
-use Red\Model\Repository\MenuItemAggregateRepo;
+use Red\Model\Repository\MenuItemAggregatePaperRepo;
 use Red\Model\Repository\PaperAggregateRepo;
 
 use Red\Model\Entity\MenuItemAggregatePaperInterface;
@@ -54,7 +54,7 @@ class MenuitemAggPaperContentManipulationTest extends TestCase {
     private $uid;
 
     /**
-     *  @var MenuItemAggregateRepo
+     *  @var MenuItemAggregatePaperRepo
      */
     private $menuItemAggRepo;
 
@@ -132,7 +132,7 @@ class MenuitemAggPaperContentManipulationTest extends TestCase {
                 );
 
 
-        $this->menuItemAggRepo = $this->container->get(MenuItemAggregateRepo::class);
+        $this->menuItemAggRepo = $this->container->get(MenuItemAggregatePaperRepo::class);
 
         /** @var HierarchyAggregateReadonlyDao $hierarchy */
         $hierarchy = $this->container->get(HierarchyAggregateReadonlyDao::class);
@@ -178,11 +178,11 @@ $this->menuItemAggRepo->flush();
         // reset odstraní repo - voláním container->get() pak vznikne nové repo
         // nestačí resetovat MenuItemAggregateRepo - to se sice vygeneruje znovu, ale v něm obsažené PaperAggregateRepo se zachová a použije
         // a obdobně PaperContentRepo obsažené v PaperAggregateRepo
-        $this->container->reset(MenuItemAggregateRepo::class);
+        $this->container->reset(MenuItemAggregatePaperRepo::class);
         $this->container->reset(PaperAggregateRepo::class);
         $this->container->reset(PaperContentRepo::class);
-        /** @var MenuItemAggregateRepo $menuItemAggRepo */
-        $this->menuItemAggRepo = $this->container->get(MenuItemAggregateRepo::class);
+        /** @var MenuItemAggregatePaperRepo $menuItemAggRepo */
+        $this->menuItemAggRepo = $this->container->get(MenuItemAggregatePaperRepo::class);
         $this->menuItemAgg = $this->menuItemAggRepo->get($this->langCode, $this->uid);
         $this->paper = $this->menuItemAgg->getPaper();
         $newContentsArray = $this->paper->getPaperContentsArray();

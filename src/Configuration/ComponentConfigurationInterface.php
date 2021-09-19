@@ -15,6 +15,8 @@ interface ComponentConfigurationInterface {
     public function getTemplatepathPaper();
 
     public function getTemplatepathArticle();
+    
+    public function getTemplatepathMultipage();
 
     public function getTemplateFlash();
 

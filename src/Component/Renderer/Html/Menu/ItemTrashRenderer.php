@@ -41,7 +41,7 @@ class ItemTrashRenderer extends ItemRenderer {
                                 ])
                         )
                     );
-        $innerHtml[] = Html::tag('i', ['class'=>$this->classMapEditable->resolveClass($this->viewModel->getInnerHtml(), 'Item', 'li.isnotleaf icon')]);
+        $innerHtml[] = Html::tag('i', ['class'=>$this->classMapEditable->resolveClass($this->viewModel->getInnerHtml(), 'Item', 'li.isnotleaf icon', 'li.leaf')]);
 
         $buttonsHtml = '';
         if ($presentedEditable) {

@@ -50,7 +50,7 @@ class PageController extends LayoutControllerAbstract {
         $homePage = Configuration::pageController()['home_page'];
         switch ($homePage[0]) {
             case 'block':
-                $menuItem = $this->getBlockMenuItem($homePage[1]);
+                $menuItem = $this->getMenuItemForBlock($homePage[1]);
                 if (!isset($menuItem)) {
                     throw new \UnexpectedValueException("Undefined menu item for default page (home page) defined as component with name '$homePage[1]'.");
                 }
@@ -74,7 +74,7 @@ class PageController extends LayoutControllerAbstract {
     }
 
     public function block(ServerRequestInterface $request, $name) {
-        $menuItem = $this->getBlockMenuItem($name);
+        $menuItem = $this->getMenuItemForBlock($name);
         return $this->createResponseWithItem($request, $menuItem);
     }
 
@@ -97,24 +97,32 @@ class PageController extends LayoutControllerAbstract {
 
 #### get menu item z repository ###########################################################################
 #
-    protected function getMenuItem($uid) {
+    /**
+     * Podle hierarchy uid a aktuálního jazyka prezentace vrací menuItem nebo null
+     *
+     * @param string $uid
+     * @return MenuItemInterface|null
+     */
+    protected function getMenuItem($uid): ?MenuItemInterface {
         /** @var MenuItemRepo $menuItemRepo */
         $menuItemRepo = $this->container->get(MenuItemRepo::class);
-        $langCode = $this->getPresentationLangCode();
-        return $menuItemRepo->get($langCode, $uid);
+        return $menuItemRepo->get($this->getPresentationLangCode(), $uid);
     }
 
-
-    protected function getBlockMenuItem($name) {
+    /**
+     * Podle jména bloku a aktuálního jazyka prezentace vrací menuItem nebo null
+     *
+     * @param string $name
+     * @return MenuItemInterface|null
+     */
+    protected function getMenuItemForBlock($name): ?MenuItemInterface {
         /** @var BlockAggregateRepo $blockAggregateRepo */
         $blockAggregateRepo = $this->container->get(BlockAggregateRepo::class);
-        $langCode = $this->getPresentationLangCode();
-        $blockAggregate = $blockAggregateRepo->getAggregate($langCode, $name);
+        $blockAggregate = $blockAggregateRepo->getAggregate($this->getPresentationLangCode(), $name);
 //        if (!isset($blockAggregate)) {
 //            throw new \UnexpectedValueException("Undefined block defined as component with name '$name'.");
 //        }
-        $menuItem = $blockAggregate ? $blockAggregate->getMenuItem() :null;
-        return $menuItem;
+        return isset($blockAggregate) ? $blockAggregate->getMenuItem() : null;  // není blok nebo není publikovaný&aktivní item
     }
 
 #
@@ -153,7 +161,7 @@ class PageController extends LayoutControllerAbstract {
 
         // pro neexistující bloky nedělá nic
         foreach ($map as $variableName => $blockName) {
-            $menuItem = $this->getBlockMenuItem($blockName);
+            $menuItem = $this->getMenuItemForBlock($blockName);
             $componets[$variableName] = $this->getMenuItemLoader($menuItem);
         }
         return $componets;

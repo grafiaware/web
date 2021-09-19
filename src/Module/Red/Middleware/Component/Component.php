@@ -96,7 +96,11 @@ class Component extends AppMiddlewareAbstract implements MiddlewareInterface {
             $ctrl = $this->container->get(RedComponentControler::class);
             return $ctrl->article($request, $menuItemId);
             });
-
+        $routeGenerator->addRouteForAction('GET', '/web/v1/multipage/:menuItemId', function(ServerRequestInterface $request, $menuItemId) {
+            /** @var RedComponentControler $ctrl */
+            $ctrl = $this->container->get(RedComponentControler::class);
+            return $ctrl->multipage($request, $menuItemId);
+            });
 
 #### TemplateController ####
 

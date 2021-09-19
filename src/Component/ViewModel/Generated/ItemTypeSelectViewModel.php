@@ -47,7 +47,7 @@ class ItemTypeSelectViewModel extends StatusViewModel implements ItemTypeSelectV
     public function getTypeTransitions() {
         $typeTransitions = [
             'root' => '',
-            'empty' => ['static', 'paper', 'article'],
+            'empty' => ['static', 'paper', 'article', 'multipage'],
             'redirect' => '',
             'static' => '',
             'paper' => '',
@@ -70,11 +70,12 @@ class ItemTypeSelectViewModel extends StatusViewModel implements ItemTypeSelectV
     }
 
     public function getIterator(): \Traversable {
-        return new \ArrayObject(
+        $this->appendData(
                 [
                     'menuItem' => $this->getMenuItem(),
                     'typeTransitions' => $this->getTypeTransitions()
                 ]
                 );
+        return parent::getIterator();
     }
 }

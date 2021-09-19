@@ -19,6 +19,8 @@ use Component\View\Authored\Paper\PaperComponent;
 use Component\View\Authored\Paper\PaperComponentInterface;
 use Component\View\Authored\Article\ArticleComponent;
 use Component\View\Authored\Article\ArticleComponentInterface;
+use Component\View\Authored\Multipage\MultipageComponent;
+use Component\View\Authored\Multipage\MultipageComponentInterface;
 
 // renderery
 use Pes\View\Renderer\PhpTemplateRenderer;
@@ -75,6 +77,13 @@ class RedComponentControler extends XhrControllerAbstract {
     public function article(ServerRequestInterface $request, $menuItemId) {
         /** @var ArticleComponentInterface $view */
         $view = $this->container->get(ArticleComponent::class);
+        $view->setItemId($menuItemId);
+        return $this->createResponseFromView($request, $view);
+    }
+
+    public function multipage(ServerRequestInterface $request, $menuItemId) {
+        /** @var MultipageComponentInterface $view */
+        $view = $this->container->get(MultipageComponent::class);
         $view->setItemId($menuItemId);
         return $this->createResponseFromView($request, $view);
     }

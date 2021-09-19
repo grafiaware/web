@@ -45,7 +45,7 @@ class MenuViewModel extends StatusViewModel implements MenuViewModelInterface {
      * @return bool
      */
     public function presentOnlyPublished() {
-        return ! $this->presentEditableArticle();  //negace
+        return ! $this->presentEditableContent();  //negace
     }
 
     /**

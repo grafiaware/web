@@ -30,6 +30,7 @@ use Component\ViewModel\Menu\MenuViewModel;
 //component
 use Component\View\Authored\Paper\PaperComponent;
 use Component\View\Authored\Article\ArticleComponent;
+use Component\View\Authored\Multipage\MultipageComponent;
 use Component\View\Authored\TemplatedComponent;
 use Component\View\Authored\SelectPaperTemplate\SelectedPaperTemplateComponent;
 
@@ -52,6 +53,7 @@ use Component\View\Status\ButtonEditContentComponent;
 use Component\ViewModel\StatusViewModel;
 use Component\ViewModel\Authored\Paper\PaperViewModel;
 use Component\ViewModel\Authored\Article\ArticleViewModel;
+use Component\ViewModel\Authored\Multipage\MultipageViewModel;
 use Component\ViewModel\Generated\LanguageSelectViewModel;
 use Component\ViewModel\Generated\SearchResultViewModel;
 use Component\ViewModel\Generated\ItemTypeSelectViewModel;
@@ -87,6 +89,7 @@ use Red\Model\Repository\PaperAggregateRepo;
 use Red\Model\Repository\ArticleRepo;
 use Red\Model\Repository\BlockRepo;
 use Red\Model\Repository\BlockAggregateRepo;
+use Red\Model\Repository\MultipageRepo;
 
 // controller
 use Web\Middleware\Page\Controller\PageController;
@@ -128,6 +131,7 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get('component.logs.render'),
                         $c->get('component.templatepath.paper'),
                         $c->get('component.templatepath.article'),
+                        $c->get('component.templatepath.multipage'),
                         $c->get('component.template.flash'),
                         $c->get('component.template.login'),
                         $c->get('component.template.register'),
@@ -209,6 +213,17 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                                 $c->get(MenuItemRepo::class),
                                 $c->get(ItemActionRepo::class),
                                 $c->get(ArticleRepo::class)
+                        );
+            },
+            MultipageViewModel::class => function(ContainerInterface $c) {
+                return new MultipageViewModel(
+                                $c->get(StatusSecurityRepo::class),
+                                $c->get(StatusPresentationRepo::class),
+                                $c->get(StatusFlashRepo::class),
+                                $c->get(MenuItemRepo::class),
+                                $c->get(ItemActionRepo::class),
+                                $c->get(MultipageRepo::class),
+                                $c->get(HierarchyAggregateRepo::class)
                         );
             },
             StatusBoardViewModel::class => function(ContainerInterface $c) {
@@ -328,7 +343,12 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                 $articleComponent->setFallbackRendererName(ArticleRenderer::class);
                 return $articleComponent;
             },
-
+            MultipageComponent::class => function(ContainerInterface $c) {
+                $multipageComponent = new MultipageComponent($c->get(ComponentConfiguration::class));
+                $multipageComponent->setData($c->get(MultipageViewModel::class));
+                $multipageComponent->setRendererContainer($c->get('rendererContainer'));
+                return $multipageComponent;
+            },
             #### button form komponenty - pro editační režim paper, komponenty bez nastaveného viewmodelu
             #
             PaperTemplateButtonsForm::class => function(ContainerInterface $c) {

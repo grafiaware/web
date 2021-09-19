@@ -138,8 +138,7 @@ class ConfigurationRed extends ConfigurationDb {
             // local templates paths
             'layout' => self::RED_TEMPLATES_SITE.'layout/layout.php',
             'tiny_config' => self::RED_TEMPLATES_SITE.'js/tiny_config.js',
-            'linksEditorJs' => self::RED_TEMPLATES_COMMON.'layout/links/linkEditorJs.php',
-            'linkEditorCss' => self::RED_TEMPLATES_COMMON.'layout/links/linkEditorCss.php',
+            'scriptsEditableMode' => self::RED_TEMPLATES_COMMON.'layout/head/scriptsEditableMode.php',
 
             // linksEditorJs links
             'urlTinyMCE' => self::RED_ASSETS.'tinymce5_3_1\js\tinymce\tinymce.min.js',
@@ -150,7 +149,7 @@ class ConfigurationRed extends ConfigurationDb {
 //    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 //    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/jquery.tinymce.min.js" referrerpolicy="origin"></script>
             'urlTinyInit' => self::RED_LINKS_COMMON.'js/TinyInit.js',
-            'urlEditScript' => self::RED_LINKS_COMMON . 'js/editDelegated.js',
+            'urlEditScript' => self::RED_LINKS_COMMON . 'js/edit.js',
 
             // linkEditorCss links
             'urlStylesCss' => self::RED_LINKS_COMMON."css/old/styles.css",

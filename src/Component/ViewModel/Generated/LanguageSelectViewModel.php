@@ -41,11 +41,12 @@ class LanguageSelectViewModel extends StatusViewModel implements LanguageSelectV
     }
 
     public function getIterator(): \Traversable {
-        return new \ArrayObject(
+        $this->appendData(
                 [
                     'languages' => $this->getLanguages(),
                     'presentedLangCode' => $this->getPresentedLangCode()
                 ]
                 );
+        return parent::getIterator();
     }
 }

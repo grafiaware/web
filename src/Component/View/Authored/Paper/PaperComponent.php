@@ -5,6 +5,8 @@ use Pes\View\Template\PhpTemplate;
 use Pes\View\Template\ImplodeTemplate;
 use Pes\View\CompositeViewInterface;
 
+use Pes\View\Template\Exception\NoTemplateFileException;
+
 use Red\Model\Entity\PaperAggregatePaperContentInterface;
 
 use Component\View\Authored\AuthoredComponentAbstract;
@@ -65,7 +67,7 @@ class PaperComponent extends AuthoredComponentAbstract implements PaperComponent
             $this->appendComponentView($templatedView, 'template');
 
             // zvolí PaperRenderer nebo PaperRendererEditable
-            if ($this->contextData->presentEditableArticle()) { // editační režim
+            if ($this->contextData->presentEditableContent()) { // editační režim
                 $paperId = $this->contextData->getPaper()->getId();
                 $userPerformsActionWithContent = $this->contextData->getUserActions()->hasUserAction(AuthoredEnum::PAPER, $paperId);
                 if ($userPerformsActionWithContent) {
