@@ -18,12 +18,14 @@ class ArticleRendererEditable extends HtmlRendererAbstract {
         /** @var ArticleViewModelInterface $viewModel */
         $article = $viewModel->getArticle();  // vrací ArticleInterface
         $buttonEditContent = (string) $viewModel->getContextVariable('buttonEditContent') ?? '';
+        $selectTemplate = (string) $viewModel->getContextVariable('selectTemplate') ?? '';
 
         if (isset($article)) { // menu item aktivní (publikovaný)
             /** @var ArticleInterface $article */
             $ret = Html::tag('article', ['data-red-renderer'=>'ArticleRendererEditable', "data-red-datasource"=> "article {$article->getId()} for item {$article->getMenuItemIdFk()}"],
                         [
                             $buttonEditContent,
+                            $selectTemplate ?? '',
                             Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/article/{$article->getId()}"],
                                 Html::tag('div', ['id'=>'article_'.$article->getId(), 'class'=>'edit-html'], $article->getContent())
                             )

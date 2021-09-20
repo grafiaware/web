@@ -44,23 +44,24 @@ class ArticleComponent extends AuthoredComponentAbstract implements ArticleCompo
             // Volba prázdné šablony však může znamenat prázdný obsah pokud šablona nebude obsahovat žádný text.
             $articleId = $this->contextData->getArticle()->getId();
             $userPerformsActionWithContent = $this->contextData->getUserActions()->hasUserAction(AuthoredEnum::ARTICLE, $articleId);
-            if ($this->hasContent()) {
-                if ($userPerformsActionWithContent) {
-                    $this->setRendererName(ArticleRendererEditable::class);
-                } else {
-                    $this->setRendererName(ArticleRenderer::class);
-                }
-                // vytvoří komponent - view s buttonem ButtonEditContent
-                $buttonEditContentComponent = new ButtonEditContentComponent($this->configuration);
-                $this->contextData->offsetSet('typeFk', AuthoredEnum::ARTICLE);
-                $this->contextData->offsetSet('itemId', $articleId);
-                $this->contextData->offsetSet('userPerformActionWithContent', $userPerformsActionWithContent);
-                $buttonEditContentComponent->setData($this->contextData);
-                $buttonEditContentComponent->setRendererContainer($this->rendererContainer);
-                $this->appendComponentView($buttonEditContentComponent, 'buttonEditContent');
-            } else {
-                $this->setRendererName(SelectArticleTemplateRenderer::class);
+            if (!$this->hasContent()) {
+                $this->appendComponentView($this->createCompositeViewWithRenderer(SelectArticleTemplateRenderer::class), 'selectTemplate');
             }
+//                $this->setRendererName(SelectArticleTemplateRenderer::class);
+            if ($userPerformsActionWithContent) {
+                $this->setRendererName(ArticleRendererEditable::class);
+            } else {
+                $this->setRendererName(ArticleRenderer::class);
+            }
+            // vytvoří komponent - view s buttonem ButtonEditContent
+            $buttonEditContentComponent = new ButtonEditContentComponent($this->configuration);
+            $this->contextData->offsetSet('typeFk', AuthoredEnum::ARTICLE);
+            $this->contextData->offsetSet('itemId', $articleId);
+            $this->contextData->offsetSet('userPerformActionWithContent', $userPerformsActionWithContent);
+            $buttonEditContentComponent->setData($this->contextData);
+            $buttonEditContentComponent->setRendererContainer($this->rendererContainer);
+            $this->appendComponentView($buttonEditContentComponent, 'buttonEditContent');
+
         } elseif ($this->hasContent()) {
                 $this->setRendererName(ArticleRenderer::class);
         } else {

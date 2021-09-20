@@ -39,7 +39,8 @@ class SelectArticleTemplateRenderer extends HtmlRendererAbstract {
             Html::tag('button', [
                 'class'=>$this->classMap->getClass('PaperTemplateSelect', 'div button'),
                 'formtarget'=>'_self',
-                'tabindex'=>'0'
+                'tabindex'=>'0',
+                'onclick'=>"togleTemplateSelect('select_template_article_$articleId'); "
                 ],
                 Html::tag('div', ['class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.hidden')], 'Šablony pro stránku')
                 .Html::tag('div', ['class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.visible')],
@@ -47,11 +48,11 @@ class SelectArticleTemplateRenderer extends HtmlRendererAbstract {
                 )
             )
             .
-            Html::tag('div', ['class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.selectTemplate')],
-                Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/$articleId/template"],
+            Html::tag('div', ['id'=>"select_template_article_$articleId",'class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.selectTemplate')],
+                Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/article/$articleId/template"],
                     Html::tagNopair('input', ["type"=>"hidden", "name"=>"template_$articleId", "value"=>$contentTemplateName])
                     .
-                    Html::tag('div', ['id'=>"paper_$articleId", 'class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.tinyArticleSelect')],'')
+                    Html::tag('div', ['id'=>"article_$articleId", 'class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.tinyArticleSelect')],'')
                 )
 
             )

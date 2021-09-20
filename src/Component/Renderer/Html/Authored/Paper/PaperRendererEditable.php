@@ -71,7 +71,7 @@ class PaperRendererEditable  extends HtmlRendererAbstract {
 //                        )
 //                    )
 //                    .
-                    Html::tag('div', ['class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.selectTemplate')],
+                    Html::tag('div', ['id'=>"select_template_paper_$paperId",'class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.selectTemplate')],
                         Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/$paperId/template"],
                             Html::tagNopair('input', ["type"=>"hidden", "name"=>"template_$paperId", "value"=>$contentTemplateName])
                             .
@@ -94,7 +94,7 @@ class PaperRendererEditable  extends HtmlRendererAbstract {
                     'formtarget'=>'_self',
                     'formmethod'=>'post',
                     'formaction'=>"",
-                    'onclick'=>'event.preventDefault();'
+                    'onclick'=>"togleTemplateSelect('select_template_paper_$paperId'); event.preventDefault();"
                     ],
                     Html::tag('i', ['class'=>$this->classMap->getClass('PaperButtons', 'button.template i')])
         );
