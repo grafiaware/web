@@ -99,9 +99,8 @@ class ConfigurationStyles extends ConfigurationRed {
                             'div.visible' => 'visible content',
                             'div i' => 'file alternate teal icon',
                             'div.selectTemplate' => 'select_template',
-                            'div.tinyPaperSelect' => 'paper_template_select',
-                            'div.tinyArticleSelect' => 'article_template_select',
-                
+                            'div.tinyTemplateSelect' => 'tiny_template_select',
+
                             'div.menu' => 'menu selectTemplate',
                             'div.header' => 'item header',
                             'div.selection' => 'ui compact selection dropdown',
@@ -123,7 +122,7 @@ class ConfigurationStyles extends ConfigurationRed {
                             'div.editMode button' => 'ui small teal icon button',
                             'div.offEditMode button' => 'ui small teal basic icon button',
                             'div.editMode i' => 'pencil alternate icon',
-                
+
                         ],
             'content_edit_buttons' => [
                             'div.wrapContent' => 'contentButtons',

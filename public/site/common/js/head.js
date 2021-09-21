@@ -8,16 +8,23 @@ function hamburger_close() {
     document.getElementById("myOverlay").style.display = "none";
 }
 
-function togleTemplateSelect(id) {
-    $('#'+id).toggle();
+function togleTemplateSelect(event, id) {
+//    $('#'+id).toggle();
+    var elm = document.getElementById(id);
+    if (elm.style.display=="block") {
+        elm.style.display = "none";
+    } else {
+        elm.style.display = "block";
+    }
+    event.preventDefault();
+    event.stopPropagation();
 }
 
 function initLoadedEditableElements() {
             tinymce.remove();
             tinymce.init(editTextConfig);
             tinymce.init(editHtmlConfig);
-            tinymce.init(selectPaperTemplateConfig);
-            tinymce.init(selectArticleTemplateConfig);
+            tinymce.init(selectTemplateConfig);
 
             //pro editaci pracovního popisu pro přihlášené uživatele
             tinymce.init(editWorkDataConfig);
@@ -181,6 +188,7 @@ function replaceElement(id, apiUri){
                 // náhrada innerHtml:
                 document.getElementById(id).innerHTML = xhr.responseText;
                 initLoadedElements();
+                console.log("Loaded editable element for id: "+id+".");                
             } else {
                 console.log("Load of element failed for id: "+id+",this.readyState:"+this.readyState+", this.status:"+this.status);
             }
@@ -201,6 +209,7 @@ function replaceElementEditable(id, apiUri){
                 document.getElementById(id).innerHTML = xhr.responseText;
                 initLoadedElements();
                 initLoadedEditableElements();
+                console.log("Loaded editable element for id: "+id+".");
             } else {
                 console.log("Load of editable element failed for id: "+id+",this.readyState:"+this.readyState+", this.status:"+this.status);
             }

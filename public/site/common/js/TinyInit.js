@@ -363,8 +363,8 @@ var editHtmlConfig = {
 
     setup: editorFunction  // callback that will be executed before the TinyMCE editor instance is rendered
 };
-var selectArticleTemplateConfig = {
-    selector: '.article_template_select',
+var selectTemplateConfig = {
+    selector: '.tiny_template_select',
     schema : 'html5',
     placeholder: 'Výběr šablony stránky',
     relative_urls : true,
@@ -389,31 +389,6 @@ var selectArticleTemplateConfig = {
 
 };
 
-var selectPaperTemplateConfig = {
-    selector: '.paper_template_select',
-    schema : 'html5',
-    placeholder: 'Výběr šablony stránky',
-    relative_urls : true,
-    extended_valid_elements : ['headline[*]', 'perex[*]', 'content[*]', 'i[*]'],
-    custom_elements: ['headline', 'perex', 'content'],
-    valid_children: '+a[div] ',
-    link_title: false,
-    noneditable_editable_class: 'mceEditable',
-    noneditable_noneditable_class: 'mceNonEditable',
-    language : tinyConfig.toolbarsLang,
-    document_base_url : tinyConfig.basePath,
-    content_css: tinyConfig.contentCss,
-    body_class: "layout preview",
-
-    menubar: false,
-    inline: true,
-    plugins: [
-    'template', 'save', 'noneditable',
-    ],
-    toolbar: 'template | save',
-    templates: templates_paper
-};
-
 var editWorkDataConfig = {
     selector: '.working-data',
     schema : 'html5',
@@ -436,4 +411,4 @@ var editWorkDataConfig = {
 //        tinymce.init(contentConfig);
 //        tinymce.init(perexConfig);
 //        tinymce.init(headerFooterConfig);
-//        tinymce.init(selectPaperTemplateConfig);
+//        tinymce.init(selectTemplateConfig);
