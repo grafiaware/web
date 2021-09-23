@@ -129,8 +129,8 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
                     Html::tag('svg', ["width"=>"100", "height"=>"30", "style"=>"position: relative; top: -15px"],
                            [
                                 Html::tag('line', ["x1"=>"0", "y1"=>"50%", "x2"=>"100%", "y2"=>"50%", "style"=>$styleLine]),
-                                Html::tag('rect', ["x"=>$showLeft, "y"=>4, "rx"=>4, "ry"=>4, "width"=>$showWidth, "height"=>"60%", "style"=>$styleRectShow]),
                                 Html::tag('rect', ["x"=>$eventLeft, "y"=>8, "rx"=>4, "ry"=>4, "width"=>$eventWidth, "height"=>"60%", "style"=>$styleRectEvent]),
+                                Html::tag('rect', ["x"=>$showLeft, "y"=>4, "rx"=>4, "ry"=>4, "width"=>$showWidth, "height"=>"60%", "style"=>$styleRectShow]),
                                 Html::tag('circle', ["cx"=>$circlePosition, "cy"=>"50%", "r"=>"5", "style"=>$styleCircle]),
                             ]
                         )
