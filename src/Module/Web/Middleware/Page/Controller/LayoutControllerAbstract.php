@@ -243,7 +243,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
                     ->setTemplate(new PhpTemplate(Configuration::layoutController()['scriptsEditableMode']))
                     ->setData([
                         'tinyMCEConfig' => $this->container->get(View::class)
-                                ->setTemplate(new InterpolateTemplate(Configuration::layoutController()['tiny_config']))
+                                ->setTemplate(new InterpolateTemplate(Configuration::layoutController()['tinyConfig']))
                                 ->setData([
                                     // pro tiny_config.js
                                     'basePath' => $basepath,

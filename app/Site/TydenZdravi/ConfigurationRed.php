@@ -137,7 +137,7 @@ class ConfigurationRed extends ConfigurationDb {
 
             // local templates paths
             'layout' => self::RED_TEMPLATES_SITE.'layout/layout.php',
-            'tiny_config' => self::RED_TEMPLATES_SITE.'js/tiny_config.js',
+            'tinyConfig' => self::RED_TEMPLATES_COMMON.'js/tinyConfig.js',
             'scriptsEditableMode' => self::RED_TEMPLATES_COMMON.'layout/head/scriptsEditableMode.php',
 
             // linksEditorJs links
