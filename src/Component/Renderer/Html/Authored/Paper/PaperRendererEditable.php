@@ -338,7 +338,7 @@ class PaperRendererEditable  extends HtmlRendererAbstract {
     }
 
     private function getTrashButtons(PaperContentInterface $paperContent) {
-        //TODO: atributy data-tooltip a data-position jsou pro semantic - zde jsou napevno zadané
+        //TODO: atributy data-tooltip a data-position jsou pro semantic
         $paperIdFk = $paperContent->getPaperIdFk();
         $paperContentId = $paperContent->getId();
 

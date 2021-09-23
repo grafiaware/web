@@ -94,9 +94,9 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
     private function getContent(PaperContentInterface $paperContent) {
         $active = $paperContent->getActive();
         $actual = $paperContent->getActual();
-        $now = new \DateTime("now");
-        $future = $paperContent->getShowTime() > $now;
-        $past = $paperContent->getHideTime() < $now;  // pro zobrszeno trvale - null je vždy menší a $passed je true - vyhodnucuji nejprve $actual, nevadí to
+//        $now = new \DateTime("now");
+//        $future = $paperContent->getShowTime() > $now;
+//        $past = $paperContent->getHideTime() < $now;  // pro zobrszeno trvale - null je vždy menší a $passed je true - vyhodnucuji nejprve $actual, nevadí to
 
 //                    '<svg width="100%" height="30">
 //                        <line x1="0" y1="50%" x2="100%" y2="50%" fill="none" stroke="#aeaeae" stroke-width="5"/>
@@ -108,7 +108,7 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
         $styleLine ="fill:none; stroke:#aeaeae; stroke-width:5";
         $styleRectShow =  $actual ? "fill:purple; stroke:#333333; stroke-width:2" : "fill:grey; stroke:#222222; stroke-width:2";
         $styleRectEvent =  "fill:gold; stroke:#333333; stroke-width:1";
-        $styleCircle = $active ? "fill:#21ba45; stroke:#000000; stroke-width:0" : "fill:#db2828; stroke:#000000; stroke-width:0";
+        $styleCircle = $active ? "fill:#21ba45; stroke:#000000; stroke-width:0" : "fill:#ffffff; stroke:#db2828; stroke-width:2";
 
         $sLeft = $this->left($paperContent->getShowTime());
         $sRight = $this->right($paperContent->getHideTime());
@@ -131,7 +131,7 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
                                 Html::tag('line', ["x1"=>"0", "y1"=>"50%", "x2"=>"100%", "y2"=>"50%", "style"=>$styleLine]),
                                 Html::tag('rect', ["x"=>$eventLeft, "y"=>8, "rx"=>4, "ry"=>4, "width"=>$eventWidth, "height"=>"60%", "style"=>$styleRectEvent]),
                                 Html::tag('rect', ["x"=>$showLeft, "y"=>4, "rx"=>4, "ry"=>4, "width"=>$showWidth, "height"=>"60%", "style"=>$styleRectShow]),
-                                Html::tag('circle', ["cx"=>$circlePosition, "cy"=>"50%", "r"=>"5", "style"=>$styleCircle]),
+                                Html::tag('circle', ["cx"=>$circlePosition, "cy"=>"50%", "r"=>"6", "style"=>$styleCircle]),
                             ]
                         )
                         .
