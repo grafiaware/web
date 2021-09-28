@@ -107,7 +107,7 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
 
         $styleLine ="fill:none; stroke:#aeaeae; stroke-width:5";
         $styleRectShow =  $actual ? "fill:purple; stroke:#333333; stroke-width:2" : "fill:grey; stroke:#222222; stroke-width:2";
-        $styleRectEvent =  "fill:gold; stroke:#333333; stroke-width:1";
+        $styleRectEvent =  ($paperContent->getEventStartTime() OR $paperContent->getEventEndTime()) ? "fill:gold; stroke:#333333; stroke-width:1" : "fill:#cccccc; stroke:#333333; stroke-width:1";
         $styleCircle = $active ? "fill:#21ba45; stroke:#000000; stroke-width:0" : "fill:#ffffff; stroke:#db2828; stroke-width:2";
 
         $sLeft = $this->left($paperContent->getShowTime());
@@ -249,7 +249,7 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
         } elseif ($eventEndTimeText) {
             $textDatumyUdalosti = "Událost se koná do $eventEndTimeText";
         } else {
-            $textDatumyUdalosti = "Událost se koná trvale";
+            $textDatumyUdalosti = "Událost nemá trvání.";
         }
         return $textDatumyUdalosti;
     }

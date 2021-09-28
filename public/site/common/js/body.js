@@ -49,16 +49,26 @@
         $('.notRequired').attr("required", false);
     });
 
-if (document.readyState === 'complete') {
-    initLoaded();
-    console.log("document ready state is complete");
 
-} else {
-	$(window).on('load',function(){
+document.onreadystatechange = function () {
+//    if (event.target.readyState === 'interactive') {   // Alternative to DOMContentLoaded event
+    if (document.readyState === 'complete') {  // Alternative to load event
+        const init = async () => {
+        console.log("document ready state is complete, waiting for loadSubsequentElements()");
+        let result = await loadSubsequentElements(document, "red_loaded");
+            console.log(result);
+            console.log("loadSubsequentElements fullfilled, run initLoaded");
             initLoaded();
-            console.log("window load");
-	});
+        }
+        init(); // async - volá initLoaded()
+    }
 }
+
+//$(window).on('load',function(){
+//    initLoaded();
+//    console.log("window load");
+//});
+
 
 /**
  * HACK! Provede initLoadedElements() a pokud je definována proměnná tinymce, provede initLoadedEditableElements().
@@ -67,16 +77,16 @@ if (document.readyState === 'complete') {
  * @returns {undefined}
  */
 function initLoaded() {
-            initLoadedElements();
-            if (typeof tinymce!=='undefined') {
-                initLoadedEditableElements();
-            }
+    initLoadedElements();
+    if (typeof tinymce!=='undefined') {
+        initLoadedEditableElements();
+    }
 }
 
 /**
  * Volá funkce, které mají být volány po událostech na elementech DOM načtených dynamicky.
  * Tato sada funkcí je určena pro elementy používané k editaci obsahu.
- * 
+ *
  * @returns {undefined}
  */
 function initLoadedEditableElements() {
