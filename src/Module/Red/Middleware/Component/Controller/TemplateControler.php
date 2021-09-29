@@ -106,7 +106,6 @@ class TemplateControler extends FrontControlerAbstract {
         $view = $this->container->get(View::class);
         if (is_readable($filename)) {
             $view->setTemplate(new PhpTemplate($filename));  // exception
-//            $str = file_get_contents($filename);
         }
         return $this->createResponseFromView($request, $view);
     }

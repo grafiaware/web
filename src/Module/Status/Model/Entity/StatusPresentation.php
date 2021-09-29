@@ -148,6 +148,7 @@ class StatusPresentation extends EntityAbstract implements StatusPresentationInt
 
     public function setLastTemplateName($templateName): StatusPresentationInterface {
         $this->lastTemplateName = $templateName;
+        return $this;
     }
 
     /**

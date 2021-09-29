@@ -26,6 +26,7 @@ use Status\Model\Repository\{
     StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo
 };
 use Red\Model\Repository\ArticleRepo;
+use View\Includer;
 
 use UnexpectedValueException;
 
@@ -92,10 +93,11 @@ class ArticleControler extends FrontControlerAbstract {
             user_error("Neexistuje article se zadaným id $articleId");
         } else {
             $postTemplate = (new RequestParams())->getParam($request, 'template_'.$articleId, 'default');
-            $lastTemplate = $this->statusPresentationRepo->get()->getLastTemplateName();
-            //TODO: -template je nutné nastavit ve všech jazykovžch verzích
-            $article->setTemplate($lastTemplate);
-            $this->addFlashMessage("Set template: $lastTemplate");
+            $lastTemplateName = $this->statusPresentationRepo->get()->getLastTemplateName();
+            //TODO: -template je nutné nastavit ve všech jazykových verzích ?? možná ne
+            $article->setTemplate($lastTemplateName);
+            $article->setContent($postTemplate);
+            $this->addFlashMessage("Set template: $lastTemplateName");
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
