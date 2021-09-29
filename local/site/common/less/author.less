@@ -129,6 +129,8 @@
 @buttonyContentPositionTop: 6px;
 @buttonyContentBackgroundColor: @barvaEditButtony;
 @lastButtonContentBackgroundColor: @barvaKos;
+@buttonyContentPagePositionRight: -15px;
+@buttonyContentPagePositionTop: -3px;
 //Kalendář
 @buttonyKalendarPositionTop: -42px;
 @buttonyKalendarPositionRight: @hodnota0;
@@ -148,6 +150,7 @@
 @divKalendarZIndex: 1;
 @divKalendarColumnPadding: 5px 10px;
 @divKalendarInputWidth: 100%;
+@divKalendarInputMarginBottom: 10px;
 
 //Prostředí pro Tiny
 @mceBodyOutline: @borderWidth dotted darken(@greyBorderColor,10);
@@ -161,7 +164,11 @@
 @mceFocusPadding: 5px;
 @mceBorderDanceColor: @green;
 @mceTemplateSelectBorderDanceColor: @teal;
+@tinyTemplateSelectMargin: 10px auto 20px;
 @paperTempateSelectDisplay: none;
+@articleTempateSelectFontSize: 0.7em;
+@articleTempateSelectTop: 30%; 
+
 
 
 
@@ -528,8 +535,8 @@ body{
         flex-direction: column;
         position: absolute;
         width: @buttonyContentWidth;
-        right: -15px;
-        top: -3px;
+        right: @buttonyContentPagePositionRight;
+        top: @buttonyContentPagePositionTop;
         &.trash .editContent{
             background-color: @lastButtonContentBackgroundColor;
         }
@@ -584,7 +591,7 @@ body{
         }
         /*obalující div inputu, semantická třída*/
         .calendar{
-            margin-bottom: 10px;
+            margin-bottom: @divKalendarInputMarginBottom;
             .ui.input input{
                 width: @divKalendarInputWidth;
             }
@@ -596,17 +603,17 @@ body{
     /*používané třídy pro práci s editovatelnou částí webu, třídy, které přidává Tiny
         .mce-content-body - tuto třídu dá Tiny ke všem tagům, které mají být editovatelné
         .mce-edit-focus - tato třída se přidá jen k tagu, který právě edituji*/
-    /*výběr šablony paperu .paper_template_select má jiné ohraničení*/
+    /*výběr šablony paperu .tiny_template_select má jiné ohraničení*/
     .mce-content-body{
         padding: @mceBodyPadding;
         margin: @mceBodyMargin;
         /*označení pro tagy, které jsou editovatelné, ale ještě nebyly vybrány pro editaci*/
         /*rozdílné ohraničení pro editaci a pro výběr šablony*/
         &:not(.mce-edit-focus){
-            &:not(.paper_template_select){
+            &:not(.tiny_template_select){
                 outline: @mceBodyOutline;
             }
-            &.paper_template_select{
+            &.tiny_template_select{
                 outline: @mceBodyTemplateOutline;
             }
         }
@@ -623,20 +630,20 @@ body{
                 cursor: text;
             }
         }
-        &.paper_template_select{
-            margin: 10px auto 20px;
+        &.tiny_template_select{
+            margin: @tinyTemplateSelectMargin;
         }
     }
     .tox.tox-tinymce{
         z-index: 4;
     }
     .select_template{
-        display: @paperTempateSelectDisplay;
+        display: @paperTempateSelectDisplay ;
     }
     .animated.button.toggleTemplateSelect{
         div.hidden.content{
-            font-size: 0.7em;
-            top: 30%;
+            font-size: @articleTempateSelectFontSize;
+            top: @articleTempateSelectTop;
         }
     }
     .mce-edit-focus{
@@ -647,10 +654,10 @@ body{
         animation: border-dance 40s infinite linear;
         /*označení pro tagy, které jsou editovatelné a byly vybrány pro editaci*/
         /*rozdílné ohraničení pro editaci a pro výběr šablony*/
-        &:not(.paper_template_select){
+        &:not(.tiny_template_select){
             .border-dance(@mceBorderDanceColor);
         }
-        &.paper_template_select{
+        &.tiny_template_select{
             .border-dance(@mceTemplateSelectBorderDanceColor);
         }
     }

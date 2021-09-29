@@ -17,6 +17,8 @@
 @formMargin: 0;
       
 //Poznamky a flash 
+@buttonPoznamkyPositionTop: 10px;
+@buttonPoznamkyPositionRight: 10px;
 @poznamkyPositionLeft: -260px;
 @poznamkyPositionRight: @hodnotaAuto;
 @poznamkyPositionTop: 170px;
@@ -43,16 +45,23 @@
 @headerMargin: 50px @hodnota0 35px @hodnota0;
 
 //Menu
+@fixBarPaddingLeft: 35px;
+@fixBarEditMenuPaddingLeft: 25px;
 @menuParagraphSpanCursor: text;
 @menuParagraphMarginBottom: 0;
 
 //Svislé menu
 @svisleMenuWidth: 107%;
 @svisleMenuHeight: 650px; //pro overflow
+@svisleMenuParagraphMarginLeft: -3px;
 @svisleMenuMargin: @hodnota0 @hodnota0 @hodnota0 -8px;
 @svisleMenuOverflow: hidden scroll;
 @svisleMenuParagraphPadding: 10px 20px;
 @svisleMenuLiPadding: 3px;
+@svisleMenuFirstMargin: 0 auto;
+@svisleMenuNthMargin: 30px auto;
+@svisleMenuLastMargin: 0 auto 30px auto;
+@svisleMenuMarginLeft: -15px;
 //Svislé menu bloky
 @svisleMenuBlokyHeight: 400px; 
 @svisleMenuBlokyMargin: 20px auto 20px -8px;
@@ -105,8 +114,8 @@ body{
     /*poznámky a flash mají stejný styl, jen jinou pozici*/
     .btn-poznamky{
         position: fixed;
-        top: 10px;
-        right: 10px;
+        top: @buttonPoznamkyPositionTop;
+        right: @buttonPoznamkyPositionRight;
         background-color: @white !important;
     }
     .button.teal.basic.icon{    
@@ -190,12 +199,12 @@ body{
     (a je jich tam hodně). Aby obsah nepřetékal, přidána svislá rolovací lišta*/
     .fix-bar:not(.editMenu){
         a{
-            padding-left: 35px ;
+            padding-left: @fixBarPaddingLeft;
         }
     }
     .fix-bar.editMenu{
         a{
-            padding-left: 25px ;
+            padding-left: @fixBarEditMenuPaddingLeft;
         }
     }
     .svisle-menu{
@@ -207,7 +216,7 @@ body{
         margin: @svisleMenuMargin;
         padding-left: 8px ; 
         p{
-            margin-left: -3px !important ; 
+            margin-left: @svisleMenuParagraphMarginLeft !important ; 
         }
         .menu.edit{ 
             .menu {
@@ -233,16 +242,16 @@ body{
     } 
     .svisle-menu{
         &:first-of-type{
-            margin: 0 auto ;
-            margin-left: -15px ;
+            margin: @svisleMenuFirstMargin;
+            margin-left: @svisleMenuMarginLeft;
         }
         &:nth-of-type(2){
-            margin: 30px auto ;
-            margin-left: -15px ;
+            margin: @svisleMenuNthMargin;
+            margin-left: @svisleMenuMarginLeft;
         }
         &:last-of-type{
-            margin: 0 auto 30px auto ; 
-            margin-left: -15px ; 
+            margin: @svisleMenuLastMargin; 
+            margin-left: @svisleMenuMarginLeft; 
         }
     }
     /*PRESMEROVANI MENU*/

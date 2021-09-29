@@ -8,7 +8,7 @@
         <?php include "head/css.php"; ?>
         <?php include "head/scripts.php"; ?>
     </head>
-    <body class="layoutVP">
+    <body class="layout">
         <?php include "body/container.php"; ?>
         <?php include "body/scripts.php"; ?>
     </body>
