@@ -166,6 +166,7 @@
 @mceTemplateSelectBorderDanceColor: @teal;
 @tinyTemplateSelectMargin: 10px auto 20px;
 @paperTempateSelectDisplay: none;
+@articleTemplateButtonMarginBottom: 10px;
 @articleTempateSelectFontSize: 0.7em;
 @articleTempateSelectTop: 30%; 
 
@@ -603,17 +604,17 @@ body{
     /*používané třídy pro práci s editovatelnou částí webu, třídy, které přidává Tiny
         .mce-content-body - tuto třídu dá Tiny ke všem tagům, které mají být editovatelné
         .mce-edit-focus - tato třída se přidá jen k tagu, který právě edituji*/
-    /*výběr šablony paperu .tiny_template_select má jiné ohraničení*/
+    /*výběr šablony paperu tiny_select_template_paper má jiné ohraničení*/
     .mce-content-body{
         padding: @mceBodyPadding;
         margin: @mceBodyMargin;
         /*označení pro tagy, které jsou editovatelné, ale ještě nebyly vybrány pro editaci*/
         /*rozdílné ohraničení pro editaci a pro výběr šablony*/
         &:not(.mce-edit-focus){
-            &:not(.tiny_template_select){
+            &:not(.tiny_select_template_paper):not(.tiny_select_template_article){
                 outline: @mceBodyOutline;
             }
-            &.tiny_template_select{
+            &.tiny_select_template_paper, &.tiny_select_template_article{
                 outline: @mceBodyTemplateOutline;
             }
         }
@@ -624,13 +625,13 @@ body{
         &.mce-edit-focus{
             .button{
                 user-select: text;
-                    -webkit-user-select: text;
-                    -moz-user-select: text;
-                    -ms-user-select: text;
-                cursor: text;
+                    -webkit-user-select: text ;
+                    -moz-user-select: text ;
+                    -ms-user-select: text ;
+                cursor: text; 
             }
         }
-        &.tiny_template_select{
+        &.tiny_select_template_paper, &.tiny_select_template_article{
             margin: @tinyTemplateSelectMargin;
         }
     }
@@ -641,6 +642,7 @@ body{
         display: @paperTempateSelectDisplay ;
     }
     .animated.button.toggleTemplateSelect{
+        margin-bottom: @articleTemplateButtonMarginBottom;
         div.hidden.content{
             font-size: @articleTempateSelectFontSize;
             top: @articleTempateSelectTop;
@@ -654,10 +656,10 @@ body{
         animation: border-dance 40s infinite linear;
         /*označení pro tagy, které jsou editovatelné a byly vybrány pro editaci*/
         /*rozdílné ohraničení pro editaci a pro výběr šablony*/
-        &:not(.tiny_template_select){
+        &:not(.tiny_select_template_paper):not(.tiny_select_template_article){
             .border-dance(@mceBorderDanceColor);
         }
-        &.tiny_template_select{
+        &.tiny_select_template_paper, &.tiny_select_template_article{
             .border-dance(@mceTemplateSelectBorderDanceColor);
         }
     }

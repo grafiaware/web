@@ -100,8 +100,8 @@ class ConfigurationStyles extends ConfigurationRed {
                             'div.visible' => 'visible content',
                             'div i' => 'file alternate teal icon',
                             'div.selectTemplate' => 'select_template',
-                            'div.tinyPaperSelect' => 'paper_template_select',
-                            'div.tinyArticleSelect' => 'article_template_select',
+                            'div.tinySelectTemplatePaper' => 'tiny_select_template_paper borderDance',
+                            'div.tinySelectTemplateArticle' => 'tiny_select_template_article ',
                 
                             'div.menu' => 'menu selectTemplate',
                             'div.header' => 'item header',

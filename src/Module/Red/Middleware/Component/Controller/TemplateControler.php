@@ -130,7 +130,7 @@ class TemplateControler extends FrontControlerAbstract {
 
     private function seekTemplate($templatesFolders, $templateName) {
         foreach ($templatesFolders as $templatesFolder) {
-            $filename = $templatesFolder."$templateName/template.php";
+            $filename = $templatesFolder."$templateName/template.php";  // 'default_template_file_name'
             if (is_readable($filename)) {
                 return $filename;
             }

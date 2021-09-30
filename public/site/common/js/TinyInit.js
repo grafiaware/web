@@ -208,6 +208,9 @@ var plugins = [
        'template', // adds support for custom templates. It also adds a menu item and a toolbar button
         'quickbars',
     ];
+var templates_multipage= [
+        { title: 'template article test', description: 'popis',       url: 'web/v1/multipagetemplate/test'},
+];
 
 var templates_article = [
         { title: 'template article test', description: 'popis',       url: 'web/v1/articletemplate/test'},
@@ -228,10 +231,6 @@ var templates_paper= [
         { title: 'template paper divided_rows', description: 'popis',       url: 'web/v1/papertemplate/divided_rows'},
         { title: 'template paper bordered_rows', description: 'popis',       url: 'web/v1/papertemplate/bordered_rows'},
         { title: 'template paper rows', description: 'popis',       url: 'web/v1/papertemplate/rows'},
-        { title: 'Test - presentedpaper s šablonou default', description: 'rendered component',       url: 'red/v1/presenteditem?template=default'},
-        { title: 'Test - presentedpaper s šablonou contact', description: 'rendered component',       url: 'red/v1/presenteditem?template=contact'},
-        { title: 'Test - presentedpaper s šablonou test', description: 'rendered component',       url: 'red/v1/presenteditem?template=test'},
-        { title: 'Test - presentedpaper s šablonou course', description: 'rendered component',       url: 'red/v1/presenteditem?template=course'},
         { title: 'Test - namedpaper a1', description: 'rendered component',       url: 'red/v1/nameditem/a1'},
         { title: 'Test - namedpaper a2', description: 'rendered component',       url: 'red/v1/nameditem/a2'},
         { title: 'Test - namedpaper a3', description: 'rendered component',       url: 'red/v1/nameditem/a3'}
@@ -363,8 +362,8 @@ var editHtmlConfig = {
 
     setup: editorFunction  // callback that will be executed before the TinyMCE editor instance is rendered
 };
-var selectTemplateConfig = {
-    selector: '.tiny_template_select',
+var selectTemplateArticleConfig = {
+    selector: '.tiny_select_template_article',
     schema : 'html5',
     placeholder: 'Výběr šablony stránky',
     relative_urls : true,
@@ -386,6 +385,31 @@ var selectTemplateConfig = {
     ],
     toolbar: 'template | save',
     templates: templates_article
+
+};
+var selectTemplatePaperConfig = {
+    selector: '.tiny_select_template_paper',
+    schema : 'html5',
+    placeholder: 'Výběr šablony stránky',
+    relative_urls : true,
+    extended_valid_elements : ['headline[*]', 'perex[*]', 'content[*]'],
+    custom_elements: ['headline', 'perex', 'content'],
+    valid_children: '+a[div] ',
+    link_title: false,
+    noneditable_editable_class: 'mceEditable',
+    noneditable_noneditable_class: 'mceNonEditable',
+    language : tinyConfig.toolbarsLang,
+    document_base_url : tinyConfig.basePath,
+    content_css: tinyConfig.contentCss,
+    body_class: "layout preview",
+
+    menubar: false,
+    inline: true,
+    plugins: [
+    'template', 'save', 'noneditable',
+    ],
+    toolbar: 'template | save',
+    templates: templates_paper
 
 };
 
