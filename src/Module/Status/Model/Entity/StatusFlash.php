@@ -138,6 +138,8 @@ class StatusFlash extends EntityAbstract implements StatusFlashInterface {
     public function afterHandle(ServerRequestInterface $request): void {
         $this->storedFlashMessage = $this->preparedFlashMessage;
         $this->storedFlashCommand = $this->preparedFlashCommand;
+        $this->preparedFlashMessage = null;
+        $this->preparedFlashCommand = null;
         $method = $request->getMethod();
         switch ($method) {
             case 'GET':
@@ -145,6 +147,7 @@ class StatusFlash extends EntityAbstract implements StatusFlashInterface {
                 break;
             case 'POST':
                 $this->storedPostFlashCommand = $this->preparedPostFlashCommand;
+                $this->preparedPostFlashCommand = null;
                 break;
             default:
                 break;
