@@ -80,8 +80,9 @@ class MenuComponent extends ComponentAbstract implements MenuComponentInterface 
     }
 
     /**
-     * Renderuje menu a vrací string. Jazyk, uid aktuální položky menu, stav edit použije z presentation status.
-     * @return string
+     * Nastaví renderery z kontejneru podle jmen zadaných setRendererName() a setRendererNames(), nastaví parametry menu.
+     * @return void
+     * @throws \LogicException
      */
     public function beforeRenderingHook(): void {
         // set renderer

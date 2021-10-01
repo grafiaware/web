@@ -65,6 +65,11 @@ interface StatusFlashInterface extends EntitySingletonInterface {
     public function setPostCommand($command): StatusFlashInterface;
 
     /**
+     * Metoda slouží pro nastavení stavu objektu StatusFlash z middleware FlashStatus před zpracováním requestu v dalších vnořených middleware.
+     *
+     * Musí být volána před voláním middleware metody handle().
+     * Musí být volána poté, kdy byl StatusFlash obnoven z uložených dat, např. deserializován ze session.
+     * Objekt je v takovém okamžiku v identickém stavu, v jakém byl uložen v předcházejícím requestu.
      *
      * @param ServerRequestInterface $request
      * @return void
@@ -72,6 +77,10 @@ interface StatusFlashInterface extends EntitySingletonInterface {
     public function beforeHandle(ServerRequestInterface $request): void;
 
     /**
+     * Metoda slouží pro nastavení stavu objektu StatusFlash z middleware FlashStatus po zpracování requestu v dalších middleware.
+     *
+     * Musí být volána po návratu z middleware metody handle().
+     * Po návratu z této metody je StatusFlash uložen, například serializován do session.
      *
      * @param ServerRequestInterface $request
      * @return void
