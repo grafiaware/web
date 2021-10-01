@@ -52,7 +52,7 @@ class SelectArticleTemplateRenderer extends HtmlRendererAbstract {
                 Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/article/$articleId/template"],
 //                    Html::tagNopair('input', ["type"=>"hidden", "name"=>"template_$articleId", "value"=>$contentTemplateName])
 //                    .
-                    Html::tag('div', ['id'=>"template_$articleId", 'class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.tinyTemplateSelect')],'')
+                    Html::tag('div', ['id'=>"template_$articleId", 'class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.tinySelectTemplateArticle')],'')
                 )
 
             )

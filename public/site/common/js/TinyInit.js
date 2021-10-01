@@ -208,15 +208,17 @@ var plugins = [
        'template', // adds support for custom templates. It also adds a menu item and a toolbar button
         'quickbars',
     ];
+var templates_multipage= [
+        { title: 'template article test', description: 'popis',       url: 'web/v1/multipagetemplate/test'},
+];
 
 var templates_article = [
         { title: 'template article test', description: 'popis',       url: 'web/v1/articletemplate/test'},
-        { title: 'template article empty', description: 'popis',       url: 'web/v1/articletemplate/empty'},
-        { title: 'template article two columns', description: 'popis',       url: 'web/v1/articletemplate/two_columns'},
-        { title: 'template article two columns divided', description: 'popis',       url: 'web/v1/articletemplate/two_columns_divided'},
-        { title: 'template article two blocks styled', description: 'popis',       url: 'web/v1/articletemplate/two_blocks_styled'},
-        { title: 'template article img & text styled', description: 'popis',       url: 'web/v1/articletemplate/img_text_styled'},
-        { title: 'template article job', description: 'popis',       url: 'web/v1/articletemplate/job'},
+        { title: 'Prázdná šablona', description: 'Tato šablona nemá předepsaný styl. Po uložení šablony využijte editační lištu pro formátování.',       url: 'web/v1/articletemplate/empty'},
+        { title: 'Šablona pro příspěvek', description: 'Jednoduchá šablona pro vložení textu a obrázku.',       url: 'web/v1/articletemplate/web_post'},
+        { title: 'Šablona pro popis knihy', description: 'Popis knihy i autora, obrázky a důležité informace.',       url: 'web/v1/articletemplate/book_description'},
+        { title: 'Šablona pro kurz', description: 'Hlavní stránka kurzu. Napište lidem základní informace i recenze od účastníků.',       url: 'web/v1/articletemplate/retraining_course'},
+        { title: 'Šablona pro produkt / službu', description: 'Zviditelněte svůj produkt či službu.',       url: 'web/v1/articletemplate/product_page'},
 
         { title: 'Vzor - Úvod', description: 'popis',       url: 'web/v1/static/uvod'},
     ];
@@ -228,10 +230,6 @@ var templates_paper= [
         { title: 'template paper divided_rows', description: 'popis',       url: 'web/v1/papertemplate/divided_rows'},
         { title: 'template paper bordered_rows', description: 'popis',       url: 'web/v1/papertemplate/bordered_rows'},
         { title: 'template paper rows', description: 'popis',       url: 'web/v1/papertemplate/rows'},
-        { title: 'Test - presentedpaper s šablonou default', description: 'rendered component',       url: 'red/v1/presenteditem?template=default'},
-        { title: 'Test - presentedpaper s šablonou contact', description: 'rendered component',       url: 'red/v1/presenteditem?template=contact'},
-        { title: 'Test - presentedpaper s šablonou test', description: 'rendered component',       url: 'red/v1/presenteditem?template=test'},
-        { title: 'Test - presentedpaper s šablonou course', description: 'rendered component',       url: 'red/v1/presenteditem?template=course'},
         { title: 'Test - namedpaper a1', description: 'rendered component',       url: 'red/v1/nameditem/a1'},
         { title: 'Test - namedpaper a2', description: 'rendered component',       url: 'red/v1/nameditem/a2'},
         { title: 'Test - namedpaper a3', description: 'rendered component',       url: 'red/v1/nameditem/a3'}
@@ -241,15 +239,16 @@ var templates_author = [
         { title: 'Publikace - novinka', description: 'Grafia web - publikace',   url: 'web/v1/authortemplate/default/eshop_nove'},
         { title: 'Publikace - 2', description: 'Vložení publikací na stránku', url: 'web/v1/authortemplate/default/eshop_radka'},
         { title: 'Obrázek vlevo a text', description: 'Bez obtékání. Dva sloupce', url: 'web/v1/authortemplate/default/obrazekVlevo_blok'},
-        { title: 'Menu - 1 položka', description: 'Vložení položky menu na stránku', url: 'web/v1/authortemplate/default/menu_1polozka'},
-        { title: 'Menu - 2 položky', description: 'Vložení 2 položek menu na stránku', url: 'web/v1/authortemplate/default/menu_2polozky'},
-        { title: 'Menu - 3 položky', description: 'Vložení 3 položek menu na stránku', url: 'web/v1/authortemplate/default/menu_3polozky'},
-        { title: '---Tvorba šablon---',    description: 'oddelovac',  url: '' },
-        { title: 'Nutné k vytvoření šablon', description: 'Vložte nejprve tuto šablonu a do ní vkládejte ostatní prvky této sekce' , url: 'web/v1/authortemplate/default/grid' },
-        { title: 'Menu - 1 položka (bez gridu) verze 1', description: 'Vložení položky menu na stránku', url: 'web/v1/authortemplate/default/menu_1polozka_1'},
-        { title: 'Menu - 1 položka (bez gridu) dlouha', description: 'Vložení položky menu na stránku', url: 'web/v1/authortemplate/default/menu_1polozka_1_delsi'},
-        { title: 'Menu - 1 položka (bez gridu) dalsi', description: 'Vložení položky menu na stránku', url: 'web/v1/authortemplate/default/menu_1polozka_1_delsi_1'},
-        { title: 'Menu - 1 položka (bez gridu) verze 2', description: 'Vložení položky menu na stránku', url: 'web/v1/authortemplate/default/menu_1polozka_2'},
+        { title: 'Obrázek vpravo a text', description: 'Bez obtékání. Dva sloupce', url: 'web/v1/authortemplate/default/obrazekVpravo_blok'},
+        { title: 'Ohraničený obsah s odkazem - 1 položka', description: 'Vložení ohraničené položky na stránku. Položka obsahuje odkaz, připojte správnou adresu či odkaz odeberte', url: 'web/v1/authortemplate/default/menu_1polozka_2'},
+        { title: 'Ohraničený obsah s odkazem - 1 položka rozdělená na sloupce', description: 'Vložení ohraničené položky na stránku. Položka obsahuje odkaz, připojte správnou adresu či odkaz odeberte', url: 'web/v1/authortemplate/default/menu_1polozka'},
+        { title: 'Ohraničený obsah s odkazem - 2 položky', description: 'Vložení 2 položek na stránku. Každá položka obsahuje odkaz, připojte správnou adresu či odkaz odeberte', url: 'web/v1/authortemplate/default/menu_2polozky'},
+        { title: 'Ohraničený obsah s odkazem - 3 položky', description: 'Vložení 3 položek menu na stránku. Každá položka obsahuje odkaz, připojte správnou adresu či odkaz odeberte', url: 'web/v1/authortemplate/default/menu_3polozky'},
+        { title: 'Upoutávka na kurz', description: 'popis',       url: 'web/v1/authortemplate/default/uvod_kurzu'},
+        { title: 'template two columns divided', description: 'popis',       url: 'web/v1/authortemplate/default/two_columns_divided'},
+        { title: 'template two blocks styled', description: 'popis',       url: 'web/v1/authortemplate/default/two_blocks_styled'},
+        { title: 'template img & text styled', description: 'popis',       url: 'web/v1/authortemplate/default/img_text_styled'},
+        { title: 'template job', description: 'popis',       url: 'web/v1/authortemplate/default/job'},
         { title: 'Lorem ipsum', description: 'Vložení lorem ipsum', url: 'web/v1/authortemplate/default/lorem_ipsum'}
     ];
 
@@ -363,12 +362,12 @@ var editHtmlConfig = {
 
     setup: editorFunction  // callback that will be executed before the TinyMCE editor instance is rendered
 };
-var selectTemplateConfig = {
-    selector: '.tiny_template_select',
+var selectTemplateArticleConfig = {
+    selector: '.tiny_select_template_article',
     schema : 'html5',
     placeholder: 'Výběr šablony stránky',
     relative_urls : true,
-    extended_valid_elements : ['headline[*]', 'perex[*]', 'content[*]'],
+    extended_valid_elements : ['headline[*]', 'perex[*]', 'content[*]', 'i[*]'],
     custom_elements: ['headline', 'perex', 'content'],
     valid_children: '+a[div] ',
     link_title: false,
@@ -386,6 +385,31 @@ var selectTemplateConfig = {
     ],
     toolbar: 'template | save',
     templates: templates_article
+
+};
+var selectTemplatePaperConfig = {
+    selector: '.tiny_select_template_paper',
+    schema : 'html5',
+    placeholder: 'Výběr šablony stránky',
+    relative_urls : true,
+    extended_valid_elements : ['headline[*]', 'perex[*]', 'content[*]', 'i[*]'],
+    custom_elements: ['headline', 'perex', 'content'],
+    valid_children: '+a[div] ',
+    link_title: false,
+    noneditable_editable_class: 'mceEditable',
+    noneditable_noneditable_class: 'mceNonEditable',
+    language : tinyConfig.toolbarsLang,
+    document_base_url : tinyConfig.basePath,
+    content_css: tinyConfig.contentCss,
+    body_class: "layout preview",
+
+    menubar: false,
+    inline: true,
+    plugins: [
+    'template', 'save', 'noneditable',
+    ],
+    toolbar: 'template | save',
+    templates: templates_paper
 
 };
 

@@ -5,7 +5,7 @@ use Pes\Text\Html;
     <div <?= Html::attributes($bodyContainerAttributes)?> >
         <div class="ui grid">
             <div class="two wide mobile two wide tablet two wide computer two wide large screen two wide widescreen column">
-                <div class="fix-bar"> <!-- editMenu změnit třídu editMenu -->
+                <div class="fix-bar"> <!-- při editování menu přidat k třídě fix-bar třídu editMenu -->
                     <?php include "container/telo/svislemenu.php"; ?>
                     <?php include "container/hlavicka/prihlaseni.php"; ?>
                     <?php include "container/telo/iconmenu.php"; ?>

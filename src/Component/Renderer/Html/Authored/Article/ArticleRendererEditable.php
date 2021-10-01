@@ -22,12 +22,17 @@ class ArticleRendererEditable extends HtmlRendererAbstract {
 
         if (isset($article)) { // menu item aktivní (publikovaný)
             /** @var ArticleInterface $article */
+            if ($article->getTemplate()) {
+                $content = Html::tag('div', ['id'=>'article_'.$article->getId()], $article->getContent());
+            } else {
+                $content = Html::tag('div', ['id'=>'article_'.$article->getId(), 'class'=>'edit-html'], $article->getContent());
+            }
             $ret = Html::tag('article', ['data-red-renderer'=>'ArticleRendererEditable', "data-red-datasource"=> "article {$article->getId()} for item {$article->getMenuItemIdFk()}"],
                         [
                             $buttonEditContent,
                             $selectTemplate ?? '',
                             Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/article/{$article->getId()}"],
-                                Html::tag('div', ['id'=>'article_'.$article->getId(), 'class'=>'edit-html'], $article->getContent())
+                                $content
                             )
                         ]
                     );

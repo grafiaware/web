@@ -65,7 +65,7 @@ class PaperRendererEditable  extends HtmlRendererAbstract {
                     [
                         Html::tagNopair('input', ["type"=>"hidden", "name"=>"template_$paperId", "value"=>$contentTemplateName]),
                         // class je třída pro selector v tinyInit var selectTemplateConfig
-                        Html::tag('div', ['id'=>"paper_$paperId", 'class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.tinyTemplateSelect')],''),
+                        Html::tag('div', ['id'=>"paper_$paperId", 'class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.tinySelectTemplatePaper')],''),
                     ]
                 )
             );

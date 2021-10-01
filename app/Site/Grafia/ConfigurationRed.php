@@ -250,14 +250,23 @@ class ConfigurationRed extends ConfigurationDb {
     public static function templateController() {
 
         return [
-               'templates.authorFolder' => self::RED_TEMPLATES_COMMON.'author/',
-               'templates.paperFolder' => self::RED_TEMPLATES_COMMON.'paper/',
-               'templates.paperContentFolder' => self::RED_TEMPLATES_COMMON.'paper-content/',
+                'default_template_file_name' => 'template.php',
+                'templates.authorFolder' => self::RED_TEMPLATES_COMMON.'author/',
+
+                'templates.paperContentFolder' => self::RED_TEMPLATES_COMMON.'paper-content/',  // nepoužito
                 // pole složek, jsou prohledávány postupně při hledání souboru s šablonou zadaného názvu
-               'templates.articleFolder' => [
+                'templates.articleFolder' => [
                    self::RED_TEMPLATES_SITE.'article/',
                    self::RED_TEMPLATES_COMMON.'article/',
-                   ]
+                   ],
+                'templates.paperFolder' => [
+                   self::RED_TEMPLATES_SITE.'paper/',
+                   self::RED_TEMPLATES_COMMON.'paper/',
+                   ],
+                'templates.multipageFolder' => [
+                   self::RED_TEMPLATES_SITE.'multipage/',
+                   self::RED_TEMPLATES_COMMON.'multipage/',
+                   ],
             ];
     }
 
