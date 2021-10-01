@@ -1,4 +1,3 @@
-    <p>&nbsp;</p>    
     <div class="column"> 
         <div class="ui segment">
             <h3 class="ui header">Pozice (Jednatelka)</h3>
@@ -12,7 +11,6 @@
             </div>
         </div>
     </div>
-    <p>&nbsp;</p>
 
 
 

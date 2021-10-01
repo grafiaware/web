@@ -1,11 +1,10 @@
-<article class="">
     <div class="dva-sloupce-nadpis">
         <div class="ui two column grid internally celled stackable centered">
-            <div class="seven wide column edit-html borderDance">
+            <div class="seven wide column">
                 <p>Napište text nebo využijte nástrojovou lištu pro vytvoření odrážkového či číselného seznamu.
                     Také můžete vložit obrázek. Tlačítko vytvoříte prostřednictvím volby 'Vložit/upravit odkaz'.</p>
             </div>
-            <div class="seven wide column edit-html borderDance">
+            <div class="seven wide column">
                 <p>Libovolný text</p>
                 <ul>
                     <li>odrážka 1</li>
@@ -16,4 +15,3 @@
             </div>
         </div>
     </div>
-</article>

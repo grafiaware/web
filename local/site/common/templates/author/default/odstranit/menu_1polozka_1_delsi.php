@@ -1,4 +1,3 @@
-&nbsp;
 <div class="ten wide column">
     <div class="ui segment">
         <a href="index.php">
@@ -14,6 +13,5 @@
         </a>
     </div>
 </div>
-&nbsp;
 
 

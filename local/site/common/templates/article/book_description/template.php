@@ -1,4 +1,3 @@
-<article class="">
     <div class="ui stackable centered grid">
         <p class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll edit-text borderDance">Název knihy</p>
         <div class="sixteen wide column">
@@ -41,4 +40,3 @@
             </p>
         </div>
     </div>
-</article>
