@@ -162,6 +162,7 @@ class MenuViewModel extends StatusViewModel implements MenuViewModelInterface {
         $rootDepth = reset($nodes)->getDepth();  //jako side efekt resetuje pointer
         $models = [];
         foreach ($nodes as $key => $node) {
+            /** @var HierarchyAggregateInterface $node */
             $realDepth = $node->getDepth() - $rootDepth + 1;  // první úroveň má realDepth=1
             $isOnPath = isset($presentedNode) ? ($presentedItemLeftNode >= $node->getLeftNode()) && ($presentedItemRightNode <= $node->getRightNode()) : FALSE;
             $isLeaf = (

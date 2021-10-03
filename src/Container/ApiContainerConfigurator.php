@@ -48,6 +48,7 @@ use \Model\Repository\VisitorDataPostRepo;
 
 // dao
 use Red\Model\Dao\Hierarchy\HierarchyAggregateEditDao;
+use \Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
 
 // repo
 use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
@@ -123,6 +124,7 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
                         $c->get(MenuItemRepo::class),
+                        $c->get(HierarchyAggregateReadonlyDao::class),
                         $c->get(ContentGeneratorRegistry::class));
             },
             PaperControler::class => function(ContainerInterface $c) {

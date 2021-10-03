@@ -9,7 +9,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Pes\Http\Request\RequestParams;
 use Pes\Http\Response;
 
-use \Model\Entity\MenuItemInterface;
+use Model\Entity\MenuItemInterface;
 use GeneratorService\ContentGeneratorRegistryInterface;
 
 use Status\Model\Repository\{
@@ -18,6 +18,9 @@ use Status\Model\Repository\{
 use Red\Model\Repository\{
     MenuItemRepo
 };
+
+use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
+use Red\Model\Entity\HierarchyAggregateInterface;
 
 /**
  * Description of Controler
@@ -33,6 +36,12 @@ class EditItemControler extends FrontControlerAbstract {
     private $menuItemRepo;
 
     /**
+     *
+     * @var HierarchyAggregateReadonlyDao
+     */
+    private $hierarchyDao;
+
+    /**
      * @var ContentGeneratorRegistryInterface
      */
     private $contentGeneratorRegistry;
@@ -42,17 +51,28 @@ class EditItemControler extends FrontControlerAbstract {
             StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
             MenuItemRepo $menuItemRepo,
+            HierarchyAggregateReadonlyDao $hierarchyDao,
             ContentGeneratorRegistryInterface $contentGeneratorFactory) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);;
         $this->menuItemRepo = $menuItemRepo;
         $this->contentGeneratorRegistry = $contentGeneratorFactory;
+        $this->hierarchyDao = $hierarchyDao;
     }
 
     public function toggle(ServerRequestInterface $request, $uid) {
         $menuItem = $this->getMenuItem($uid);
-        $active = $menuItem->getActive() ? 0 : 1;  //active je integer
-        $menuItem->setActive($active);
-        $this->addFlashMessage("menuItem toggle(".($active?'true':'false').")");
+        $active = $menuItem->getActive();
+        if ($active) {
+            $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
+            $subNodes = $this->hierarchyDao->getSubNodes($langCode, $uid);
+            foreach ($subNodes as $node) {
+                $menuItem = $this->menuItemRepo->getOutOfContext($langCode, $node['uid']);
+                $menuItem->setActive(0);  //active je integer
+            }
+        } else {
+            $menuItem->setActive(1);  //active je integer
+        }
+        $this->addFlashMessage("menuItem toggle(".($active?'false':'true').")");
         return $this->redirectSeeLastGet($request); // 303 See Other
      }
 
