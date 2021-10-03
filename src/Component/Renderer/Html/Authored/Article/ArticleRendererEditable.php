@@ -23,9 +23,9 @@ class ArticleRendererEditable extends HtmlRendererAbstract {
         if (isset($article)) { // menu item aktivní (publikovaný)
             /** @var ArticleInterface $article */
             if ($article->getTemplate()) {
-                $content = Html::tag('div', ['id'=>'article_'.$article->getId()], $article->getContent());
+                $content = Html::tag('div', ['id'=>'article_'.$article->getId()], $article->getContent());  // co je editovatelné je dáno šablonou
             } else {
-                $content = Html::tag('div', ['id'=>'article_'.$article->getId(), 'class'=>'edit-html'], $article->getContent());
+                $content = Html::tag('div', ['id'=>'article_'.$article->getId(), 'class'=>'edit-html'], $article->getContent());  // editovalný celý obsah pokud nebyla použita čablona
             }
             $ret = Html::tag('article', ['data-red-renderer'=>'ArticleRendererEditable', "data-red-datasource"=> "article {$article->getId()} for item {$article->getMenuItemIdFk()}"],
                         [
