@@ -14,14 +14,14 @@ use Site\Configuration;
 use Red\Model\Entity\MenuItemInterface;
 
 // komponenty
-use Component\View\{
-    Generated\LanguageSelectComponent,
-    Generated\SearchPhraseComponent,
-    Generated\SearchResultComponent,
-    Generated\ItemTypeSelectComponent,
-    Status\LoginComponent, Status\LogoutComponent, Status\UserActionComponent,
-    Flash\FlashComponent
-};
+use Component\View\Generated\LanguageSelectComponent;
+use Component\View\Generated\SearchPhraseComponent;
+use Component\View\Generated\SearchResultComponent;
+use Component\View\Generated\ItemTypeSelectComponent;
+use Component\View\Manage\LoginComponent;
+use Component\View\Manage\LogoutComponent;
+use Component\View\Manage\UserActionComponent;
+use Component\View\Flash\FlashComponent;
 
 ####################
 

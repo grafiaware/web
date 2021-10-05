@@ -1,11 +1,11 @@
 <?php
-namespace Component\Renderer\Html\Status;
+namespace Component\Renderer\Html\Manage;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
-use Component\ViewModel\StatusViewModelInterface;
 
 use Pes\Text\Html;
 use Pes\Type\ContextDataInterface;
+use Component\View\Manage\ButtonEditContentComponent;
 
 /**
  * Description of ToggleEditButtonRenderer
@@ -15,9 +15,9 @@ use Pes\Type\ContextDataInterface;
 class ButtonEditContentRenderer extends HtmlRendererAbstract {
     public function render(iterable $viewModel = NULL) {
         /** @var ContextDataInterface $viewModel */
-        $typeFk = $viewModel->offsetGet('typeFk');
-        $itemId = $viewModel->offsetGet('itemId');
-        $userPerformActionWithContent = $viewModel->offsetGet('userPerformActionWithContent');
+        $typeFk = $viewModel->offsetGet(ButtonEditContentComponent::CONTEXT_TYPE_FK);
+        $itemId = $viewModel->offsetGet(ButtonEditContentComponent::CONTEXT_ITEM_ID);
+        $userPerformActionWithContent = $viewModel->offsetGet(ButtonEditContentComponent::CONTEXT_USER_PERFORM_ACTION);
         if ($userPerformActionWithContent) {
             $tooltip = 'Vypnout editaci';
             $action = "red/v1/itemaction/$typeFk/$itemId/remove";

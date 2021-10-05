@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Component\ViewModel\Status;
+namespace Component\ViewModel\Manage;
 
 use Component\ViewModel\StatusViewModel;
 

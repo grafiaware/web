@@ -43,13 +43,13 @@ use Component\View\Generated\ItemTypeSelectComponent;
 
 use Component\View\Flash\FlashComponent;
 
-use Component\View\Status\LoginComponent;
-use Component\View\Status\RegisterComponent;
-use Component\View\Status\LogoutComponent;
-use Component\View\Status\UserActionComponent;
-use Component\View\Status\StatusBoardComponent;
-use Component\View\Status\ButtonEditMenuComponent;
-use Component\View\Status\ButtonEditContentComponent;
+use Component\View\Manage\LoginComponent;
+use Component\View\Manage\RegisterComponent;
+use Component\View\Manage\LogoutComponent;
+use Component\View\Manage\UserActionComponent;
+use Component\View\Manage\StatusBoardComponent;
+use Component\View\Manage\ButtonEditMenuComponent;
+use Component\View\Manage\ButtonEditContentComponent;
 
 // viewModel
 use Component\ViewModel\StatusViewModel;
@@ -60,7 +60,7 @@ use Component\ViewModel\Generated\LanguageSelectViewModel;
 use Component\ViewModel\Generated\SearchResultViewModel;
 use Component\ViewModel\Generated\ItemTypeSelectViewModel;
 use Component\ViewModel\Flash\FlashViewModel;
-use Component\ViewModel\Status\StatusBoardViewModel;
+use Component\ViewModel\Manage\StatusBoardViewModel;
 
 // renderery - pro volání služeb renderer kontejneru renderer::class
 use Component\Renderer\Html\NoPermittedContentRenderer;

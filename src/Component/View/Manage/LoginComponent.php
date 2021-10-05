@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Component\View\Status;
+namespace Component\View\Manage;
 
 use Component\View\ComponentAbstract;
 

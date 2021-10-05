@@ -11,7 +11,7 @@ use Component\Renderer\Html\Authored\Article\ArticleRenderer;
 use Component\Renderer\Html\Authored\Article\ArticleRendererEditable;
 use Component\Renderer\Html\Authored\EmptyContentRenderer;
 
-use Component\View\Status\ButtonEditContentComponent;
+use Component\View\Manage\ButtonEditContentComponent;
 
 use Component\View\Authored\AuthoredEnum;
 /**

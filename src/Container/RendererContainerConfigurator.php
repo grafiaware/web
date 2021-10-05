@@ -26,7 +26,7 @@ use Component\Renderer\Html\Authored\Article\SelectArticleTemplateRenderer;
 
 use Component\Renderer\Html\Authored\Multipage\MultipageRendererEditable;
 
-use Component\Renderer\Html\Status\ButtonEditContentRenderer;
+use Component\Renderer\Html\Manage\ButtonEditContentRenderer;
 
 use Component\Renderer\Html\Generated\LanguageSelectRenderer;
 use Component\Renderer\Html\Generated\SearchPhraseRenderer;

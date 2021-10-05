@@ -10,7 +10,7 @@ namespace Site\VeletrhPrace;
 
 use Application\WebAppFactory;
 use Component\View\Flash\FlashComponent;
-use Component\View\Status\{
+use Component\View\Manage\{
     LoginComponent,
     RegisterComponent,
     LogoutComponent,
@@ -229,7 +229,7 @@ class ConfigurationRed extends ConfigurationDb {
     }
 
     /**
-     * Konfigurace prezentace - vrací parametry pro templateController
+     * Konfigurace - parametry pro templateController
      * @return array
      */
     public static function templateController() {

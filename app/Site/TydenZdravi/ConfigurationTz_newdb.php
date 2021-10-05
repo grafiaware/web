@@ -12,7 +12,7 @@ use Pes\Database\Handler\DbTypeEnum;
 
 use Application\WebAppFactory;
 use Component\View\Flash\FlashComponent;
-use Component\View\Status\{
+use Component\View\Manage\{
     LoginComponent,
     LogoutComponent,
     UserActionComponent

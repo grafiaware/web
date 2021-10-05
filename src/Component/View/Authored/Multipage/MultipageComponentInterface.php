@@ -15,4 +15,5 @@ use Component\View\Authored\AuthoredComponentInterface;
  * @author pes2704
  */
 interface MultipageComponentInterface extends AuthoredComponentInterface {
+
 }

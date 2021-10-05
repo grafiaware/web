@@ -41,7 +41,7 @@ use Component\View\Generated\{
     ItemTypeSelectComponent
 };
 use Component\View\Flash\FlashComponent;
-use Component\View\Status\{
+use Component\View\Manage\{
     LoginComponent,
     LogoutComponent,
     UserActionComponent,

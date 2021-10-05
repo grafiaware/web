@@ -6,41 +6,30 @@
  * and open the template in the editor.
  */
 
-namespace Component\View\Status;
+namespace Component\View\Manage;
 
 use Component\View\StatusComponentAbstract;
 use Component\Renderer\Html\NoPermittedContentRenderer;
-use Component\ViewModel\Status\StatusBoardViewModelInterface;
+use Component\ViewModel\StatusViewModelInterface;
 use Pes\View\Template\PhpTemplate;
 
 use Component\View\RoleEnum;
 use Component\View\AllowedActionEnum;
 
 /**
- * Description of StatusBoadComponent
+ * Description of ControlEditMenu
  *
  * @author pes2704
  */
-class StatusBoardComponent extends StatusComponentAbstract {
-
-    /**
-     * @var StatusViewModelInterface
-     */
-    protected $contextData;
+class ButtonEditMenuComponent  extends StatusComponentAbstract {
 
     //renderuje template nebo NonPermittedContentRenderer
 
     public function beforeRenderingHook(): void {
-        if($this->isAllowed($this, AllowedActionEnum::DISPLAY)) {
-            $this->setTemplate(new PhpTemplate($this->configuration->getTemplateStatusBoard()));
+        if($this->isAllowed($this, AllowedActionEnum::EDIT)) {
+            $this->setTemplate(new PhpTemplate($this->configuration->getTemplateControlEditMenu()));
         } else {
             $this->setRendererName(NoPermittedContentRenderer::class);
         }
-    }
-
-    public function getComponentPermissions(): array {
-        return [
-            RoleEnum::SUP => [AllowedActionEnum::DISPLAY => static::class],
-        ];
     }
 }

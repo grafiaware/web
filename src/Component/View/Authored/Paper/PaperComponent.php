@@ -28,7 +28,7 @@ use Component\Renderer\Html\Authored\Paper\HeadlineRendererEditable;
 use Component\Renderer\Html\Authored\Paper\PerexRendererEditable;
 use Component\Renderer\Html\Authored\Paper\ContentsRendererEditable;
 
-use Component\View\Status\ButtonEditContentComponent;
+use Component\View\Manage\ButtonEditContentComponent;
 
 use Component\View\Authored\AuthoredEnum;
 use Pes\Type\ContextData;

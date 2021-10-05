@@ -13,16 +13,22 @@ use Site\Configuration;
 use FrontControler\PresentationFrontControlerAbstract;
 use Psr\Http\Message\ServerRequestInterface;
 
-use Status\Model\Repository\{
-    StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo
-};
+use Status\Model\Repository\StatusSecurityRepo;
+use Status\Model\Repository\StatusFlashRepo;
+use Status\Model\Repository\StatusPresentationRepo;
 
 // komponenty
-use Component\View\{
-    Generated\LanguageSelectComponent, Generated\SearchPhraseComponent, Generated\SearchResultComponent, Generated\ItemTypeSelectComponent,
-    Status\LoginComponent, Status\RegisterComponent, Status\LogoutComponent, Status\UserActionComponent, Status\StatusBoardComponent, Status\ButtonEditMenuComponent,
-    Flash\FlashComponent
-};
+use Component\View\Generated\LanguageSelectComponent;
+use Component\View\Generated\SearchPhraseComponent;
+use Component\View\Generated\SearchResultComponent;
+use Component\View\Generated\ItemTypeSelectComponent;
+use Component\View\Manage\LoginComponent;
+use Component\View\Manage\RegisterComponent;
+use Component\View\Manage\LogoutComponent;
+use Component\View\Manage\UserActionComponent;
+use Component\View\Manage\StatusBoardComponent;
+use Component\View\Manage\ButtonEditMenuComponent;
+use Component\View\Flash\FlashComponent;
 
 use Red\Model\Entity\MenuItemInterface;
 

@@ -4,9 +4,8 @@ namespace Component\Renderer\Html\Authored\Multipage;
 use Component\Renderer\Html\HtmlRendererAbstract;
 use Component\ViewModel\Authored\Multipage\MultipageViewModelInterface;
 
-use Red\Model\Entity\PaperAggregatePaperContentInterface;
 use Red\Model\Entity\MultipageInterface;
-use Red\Model\Entity\PaperContentInterface;
+use Component\View\Authored\Multipage\MultipageComponent;
 
 use Pes\Text\Html;
 
@@ -20,10 +19,10 @@ class MultipageRendererEditable  extends HtmlRendererAbstract {
         /** @var MultipageViewModelInterface $viewModel */
         $multipage = $viewModel->getMultipage();
         $active = $viewModel->isMenuItemActive();
-        $buttonEditContent = (string) $viewModel->getContextVariable('buttonEditContent') ?? '';
+        $buttonEditContent = (string) $viewModel->getContextVariable(MultipageComponent::CONTEXT_BUTTON_EDIT_CONTENT) ?? '';
 
         $selectTemplate = $this->renderSelectTemplate($multipage);
-        $inner = (string) $viewModel->getContextVariable('template') ?? '';
+        $inner = (string) $viewModel->getContextVariable(MultipageComponent::CONTEXT_TEMPLATE) ?? '';
         $html =
                 Html::tag('div', ['data-red-renderer'=>'MultipageRendererEditable', "data-red-datasource"=> "multipage {$multipage->getId()} for item {$multipage->getMenuItemIdFk()}"],
                     [
