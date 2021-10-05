@@ -72,7 +72,7 @@ class ApiRegistrator {
         #### TemplateController ####
         $registry->register($this->getPrototype->withUrlPattern('/web/v1/papertemplate/:folder'));
         $registry->register($this->getPrototype->withUrlPattern('/web/v1/articletemplate/:folder'));
-        $registry->register($this->getPrototype->withUrlPattern('/web/v1/authortemplate/:folder/:name'));
+        $registry->register($this->getPrototype->withUrlPattern('/web/v1/authortemplate/:name'));
 
 
         #

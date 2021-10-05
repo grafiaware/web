@@ -28,7 +28,7 @@ class SelectedPaperTemplateComponent extends AuthoredComponentAbstract implement
      */
     protected $contextData;
 
-    private $selectedPaperTemplateName;
+    private $selectedPaperTemplateFileName;
 
     /**
      * Přetěžuje metodu View. Generuje PHP template z názvu template objektu Paper a použije ji.
@@ -36,10 +36,10 @@ class SelectedPaperTemplateComponent extends AuthoredComponentAbstract implement
     public function beforeRenderingHook(): void {
         $paperAggregate = $this->contextData->getPaper();
         if (isset($paperAggregate)) {
-            if ($this->selectedPaperTemplateName) {
+            if ($this->selectedPaperTemplateFileName) {
                 try {
                     // konstruktor PhpTemplate vyhazuje výjimku NoTemplateFileException pro neexistující (nečitený) soubor s template
-                    $template = new PhpTemplate($this->getTemplateFileFullname($this->configuration->getTemplatepathPaper(), $this->selectedPaperTemplateName));
+                    $template = new PhpTemplate($this->selectedPaperTemplateFileName);
                     $templatedView = $this->createCompositeViewWithTemplate($template);
 
                     $this->setRendererName(PaperRenderer::class);
@@ -47,7 +47,7 @@ class SelectedPaperTemplateComponent extends AuthoredComponentAbstract implement
                     $this->appendComponentView($templatedView, 'template');
 
                 } catch (NoTemplateFileException $noTemplExc) {
-                    throw new LogicException("Nelze vytvořit objekt template pro jméno nastavené metodou setPaperTemplateName()? {$this->selectedPaperTemplateName}");
+                    throw new LogicException("Nelze vytvořit objekt template pro jméno nastavené metodou setPaperTemplateName()? {$this->selectedPaperTemplateFileName}");
                 }
             } else {
                 throw new LogicException("Nebyla nastavena template metodou setPaperTemplateName()");
@@ -64,8 +64,8 @@ class SelectedPaperTemplateComponent extends AuthoredComponentAbstract implement
         $view->appendComponentView($this->createCompositeViewWithRenderer(ContentsRenderer::class), 'contents');
     }
 
-    public function setSelectedPaperTemplateName($name): void {
-        $this->selectedPaperTemplateName = $name;
+    public function setSelectedPaperTemplateFileName($name): void {
+        $this->selectedPaperTemplateFileName = $name;
     }
 
 }

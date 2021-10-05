@@ -117,7 +117,10 @@ use \Pes\View\ViewFactory;
 class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getParams() {
-        return Configuration::component();
+        return array_merge(
+                Configuration::component(),
+                Configuration::templateController()
+                );
     }
 
     public function getAliases() {
@@ -144,7 +147,7 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                     );
             },
             TemplateControlerConfiguration::class => function(ContainerInterface $c) {
-                return new Configuration\TemplateControlerConfiguration(
+                return new TemplateControlerConfiguration(
                         $c->get('templates.defaultFilename'),
                         $c->get('templates.authorFolder'),
                         $c->get('templates.paperFolder'),

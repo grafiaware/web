@@ -236,10 +236,7 @@ class ConfigurationRed extends ConfigurationDb {
 
         return [
                 'templates.defaultFilename' => 'template.php',
-                'templates.authorFolder' => [
-                    self::RED_TEMPLATES_SITE.'author/',
-                    self::RED_TEMPLATES_COMMON.'author/',
-                    ],
+                'templates.authorFolder' => self::RED_TEMPLATES_COMMON.'author/',   //jen v common
                 'templates.paperFolder' => [
                     self::RED_TEMPLATES_SITE.'paper/',
                     self::RED_TEMPLATES_COMMON.'paper/',

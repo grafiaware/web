@@ -35,7 +35,7 @@ class TemplateControlerConfiguration implements TemplateControlerConfigurationIn
 
     public function __construct(
             string $defaultFilename,
-            array $authorFolder,
+            string $authorFolder,
             array $paperFolder,
             array $articleFolder,
             array $multipageFolder
@@ -46,7 +46,7 @@ class TemplateControlerConfiguration implements TemplateControlerConfigurationIn
         $this->articleFolder = $articleFolder;
         $this->multipageFolder = $multipageFolder;
     }
-    
+
     public function getDefaultFilename() {
         return $this->defaultFilename;
     }

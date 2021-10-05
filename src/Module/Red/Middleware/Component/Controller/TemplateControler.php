@@ -38,7 +38,6 @@ use Pes\Text\Message;
 //use Pes\Debug\Timer;
 use Pes\View\View;
 use Pes\View\Template\PhpTemplate;
-use Pes\View\Template\InterpolateTemplate;
 use \View\Includer;
 /**
  * Description of GetController
@@ -55,6 +54,7 @@ class TemplateControler extends FrontControlerAbstract {
 
     public function setConfiguration($configuration): FrontControlerInterface {
         $this->configuration = $configuration;
+        return $this;
     }
 
     ### action metody ###############
@@ -83,29 +83,31 @@ class TemplateControler extends FrontControlerAbstract {
      * Připraveno pro TinyMce dialog pro výběr šablony. Teto dialog posílá GET request při každé změně výběru v selectoru šablon a ještě jednou po kliku na tlačítko 'Uložit'.
      *
      * @param ServerRequestInterface $request
-     * @param type $name
+     * @param type $templateName
      * @return type
      */
-    public function papertemplate(ServerRequestInterface $request, $name) {
+    public function papertemplate(ServerRequestInterface $request, $templateName) {
         $presentedMenuItem = $this->statusPresentationRepo->get()->getMenuItem();
         if (isset($presentedMenuItem)) {
+            $filename = $this->seekTemplate($this->configuration->getPaperFolder(), $templateName);
+
             $menuItemId = $presentedMenuItem->getId();
             /** @var SelectedPaperTemplateComponentInterface $view */
             $view = $this->container->get(SelectedPaperTemplateComponent::class);
-            $view->setSelectedPaperTemplateName($name);
+            $view->setSelectedPaperTemplateFileName($filename);
             $view->setItemId($menuItemId);
-            $this->statusPresentationRepo->get()->setLastTemplateName($name);
+            $this->statusPresentationRepo->get()->setLastTemplateName($templateName);
 
         } else {
             // není item - asi chyba
             $paperAggregate = new PaperAggregatePaperContent();
             $paperAggregate->exchangePaperContentsArray([])   //  ['content'=> Message::t('Contents')]
-                    ->setTemplate($name)
+                    ->setTemplate($templateName)
                     ->setHeadline(Message::t('Headline'))
                     ->setPerex(Message::t('Perex'))
                     ;
             $view = $this->container->get(View::class)
-                                    ->setTemplate($this->setTemplateByName($name))
+                                    ->setTemplate($this->setTemplateByName($templateName))
                                     ->setData([
                                         'paperAggregate' => $paperAggregate,
                                     ]);
@@ -113,8 +115,9 @@ class TemplateControler extends FrontControlerAbstract {
         return $this->createResponseFromView($request, $view);
     }
 
-    public function authorTemplate(ServerRequestInterface $request, $folder, $name) {
-        $filename = $this->seekTemplate($this->configuration->getAuthorFolder(), $name);
+    public function authorTemplate(ServerRequestInterface $request, $name) {
+        // author šablony - jen v common a jméno je jméno souboru (ne složky)
+        $filename = $this->configuration->getAuthorFolder()."$name.php";
         $view = $this->container->get(View::class);
         if (is_readable($filename)) {
             $view->setTemplate(new PhpTemplate($filename));  // exception
