@@ -10,7 +10,7 @@ namespace Sendmail\Middleware\Sendmail\Controller;
 
 use Site\Configuration;
 
-use FrontControler\FrontControlerAbstract;
+use FrontControler\PresentationFrontControlerAbstract;
 
 use Psr\Http\Message\ServerRequestInterface;
 

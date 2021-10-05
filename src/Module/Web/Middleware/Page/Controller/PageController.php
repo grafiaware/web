@@ -47,7 +47,7 @@ class PageController extends LayoutControllerAbstract {
      * @throws \UnexpectedValueException
      */
     public function home(ServerRequestInterface $request) {
-        $homePage = Configuration::pageController()['home_page'];
+        $homePage = Configuration::layoutController()['home_page'];
         switch ($homePage[0]) {
             case 'block':
                 $menuItem = $this->getMenuItemForBlock($homePage[1]);
@@ -133,12 +133,12 @@ class PageController extends LayoutControllerAbstract {
         $userActions = $this->statusPresentationRepo->get()->getUserActions();
 
         $components = [];
-        foreach (Configuration::pageController()['menu'] as $menuConf) {
+        foreach (Configuration::layoutController()['menu'] as $menuConf) {
             $this->configMenuComponent($menuConf, $components);
         }
         if ($userActions->presentEditableMenu()) {
-            $this->configMenuComponent(Configuration::pageController()['blocks'], $components);
-            $this->configMenuComponent(Configuration::pageController()['trash'], $components);
+            $this->configMenuComponent(Configuration::layoutController()['blocks'], $components);
+            $this->configMenuComponent(Configuration::layoutController()['trash'], $components);
 
         }
 
@@ -156,7 +156,7 @@ class PageController extends LayoutControllerAbstract {
 #
 
     protected function getAuthoredLayoutBlockLoaders() {
-        $map = Configuration::pageController()['context_name_to_block_name_map'];
+        $map = Configuration::layoutController()['context_name_to_block_name_map'];
         $componets = [];
 
         // pro neexistující bloky nedělá nic

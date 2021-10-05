@@ -11,8 +11,10 @@ namespace Red\Middleware\Component\Controller;
 use Psr\Http\Message\ServerRequestInterface;
 
 use Site\Configuration;
+use Configuration\TemplateControlerConfigurationInterface;
 
 use FrontControler\FrontControlerAbstract;
+use FrontControler\FrontControlerInterface;
 
 use Red\Model\Entity\MenuItemInterface;
 use Red\Model\Entity\PaperAggregatePaperContent;
@@ -45,6 +47,16 @@ use \View\Includer;
  */
 class TemplateControler extends FrontControlerAbstract {
 
+    /**
+     *
+     * @var TemplateControlerConfigurationInterface
+     */
+    protected $configuration;
+
+    public function setConfiguration($configuration): FrontControlerInterface {
+        $this->configuration = $configuration;
+    }
+
     ### action metody ###############
 
     /**
@@ -54,7 +66,7 @@ class TemplateControler extends FrontControlerAbstract {
      * @return type
      */
     public function articletemplate(ServerRequestInterface $request, $templateName) {
-        $filename = $this->seekTemplate(Configuration::templateController()['templates.articleFolder'], $templateName);
+        $filename = $this->seekTemplate($this->configuration->getArticleFolder(), $templateName);
         if ($filename) {
             $str = (new Includer())->protectedIncludeScope($filename);
 //            $str = file_get_contents($filename);
@@ -102,7 +114,7 @@ class TemplateControler extends FrontControlerAbstract {
     }
 
     public function authorTemplate(ServerRequestInterface $request, $folder, $name) {
-        $filename = Configuration::templateController()['templates.authorFolder']."$folder/$name.php";
+        $filename = $this->seekTemplate($this->configuration->getAuthorFolder(), $name);
         $view = $this->container->get(View::class);
         if (is_readable($filename)) {
             $view->setTemplate(new PhpTemplate($filename));  // exception
@@ -115,7 +127,7 @@ class TemplateControler extends FrontControlerAbstract {
 
     private function setTemplateByName(AuthoredComponentInterface $component, $name) {
             try {
-                $templatePath = $this->getTemplateFileFullname($this->configuration->getTemplatepathPaper(), $paperAggregate->getTemplate());
+                $templatePath = $this->seekTemplate($this->configuration->getPaperFolder(), $paperAggregate->getTemplate());
                 $template = new PhpTemplate($templatePath);  // exception
                 // renderery musí být definovány v Renderer kontejneru - tam mohou dostat classMap do konstruktoru
 //                $this->addChildRendererName('headline', HeadlineRenderer::class);
@@ -125,12 +137,13 @@ class TemplateControler extends FrontControlerAbstract {
                 user_error("Neexistuje soubor šablony '{$this->getTemplateFileFullname($paperAggregate->getTemplate())}'", E_USER_WARNING);
                 $this->setTemplate(null);
             }
-        return new PhpTemplate(Configuration::templateController()['templates.paperFolder']."$name/template.php");
+        return new PhpTemplate(Configuration::templateController()['templates.paperFolder']."$name/".Configuration::templateController()['templates.defaultFilename']);
     }
 
     private function seekTemplate($templatesFolders, $templateName) {
+        $templateFilename = $this->configuration->getDefaultFilename();
         foreach ($templatesFolders as $templatesFolder) {
-            $filename = $templatesFolder."$templateName/template.php";  // 'default_template_file_name'
+            $filename = $templatesFolder."$templateName/$templateFilename";
             if (is_readable($filename)) {
                 return $filename;
             }

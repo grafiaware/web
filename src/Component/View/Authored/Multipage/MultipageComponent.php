@@ -100,7 +100,7 @@ class MultipageComponent extends AuthoredComponentAbstract implements MultipageC
                         'loaderWrapperElementId' => "content_for_item_{$id}_with_type_{$menuItemType}",
                         'apiUri' => "web/v1/$menuItemType/$id"
                         ]);
-        $view->setTemplate(new PhpTemplate(Configuration::pageController()['templates.loaderElement']));  //TODO: loader element oddělit samostatně
+        $view->setTemplate(new PhpTemplate(Configuration::layoutController()['templates.loaderElement']));  //TODO: loader element oddělit samostatně
         $view->setRendererContainer($this->rendererContainer);
         return $view;
     }

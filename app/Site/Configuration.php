@@ -59,9 +59,6 @@ class Configuration {
                 case 'layoutController':
                     self::$cache[$name] = Siteconfig\ConfigurationRed::layoutController();
                     break;
-                case 'pageController':
-                    self::$cache[$name] = Siteconfig\ConfigurationRed::pageController();
-                    break;
                 case 'loginLogoutController':
                     self::$cache[$name] = Siteconfig\ConfigurationRed::loginLogoutController();
                     break;
@@ -192,10 +189,6 @@ class Configuration {
 
     public static function layoutController() {
         return self::getConfigModule('layoutController');
-    }
-
-    public static function pageController() {
-        return self::getConfigModule('pageController');
     }
 
     public static function loginLogoutController() {

@@ -9,6 +9,7 @@
 namespace Red\Middleware\Component\Controller;
 
 use Site\Configuration;
+use FrontControler\FrontControlerAbstract;
 
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -43,7 +44,7 @@ use Pes\View\Template\PhpTemplate;
  *
  * @author pes2704
  */
-class RedComponentControler extends XhrControllerAbstract {
+class RedComponentControler extends FrontControlerAbstract {
 
     ### action metody ###############
 

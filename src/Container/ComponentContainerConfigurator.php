@@ -9,6 +9,8 @@ use Psr\Container\ContainerInterface;   // pro parametr closure function(Contain
 // configuration
 use Configuration\ComponentConfiguration;
 use Configuration\ComponentConfigurationInterface;
+use Configuration\TemplateControlerConfiguration;
+use Configuration\TemplateControlerConfigurationInterface;
 
 // logger
 use Pes\Logger\FileLogger;
@@ -141,7 +143,15 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get('component.template.controleditmenu')
                     );
             },
-
+            TemplateControlerConfiguration::class => function(ContainerInterface $c) {
+                return new Configuration\TemplateControlerConfiguration(
+                        $c->get('templates.defaultFilename'),
+                        $c->get('templates.authorFolder'),
+                        $c->get('templates.paperFolder'),
+                        $c->get('templates.articleFolder'),
+                        $c->get('templates.multipageFolder')
+                        );
+            },
             // logger
             'renderLogger' => function(ContainerInterface $c) {
                 /** @var ComponentConfigurationInterface $configuration */
@@ -191,7 +201,8 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
                             $c->get(StatusSecurityRepo::class),
                             $c->get(StatusFlashRepo::class),
                             $c->get(StatusPresentationRepo::class))
-                        )->injectContainer($c);  // inject component kontejner
+                        )->injectContainer($c)  // inject component kontejner
+                        ->setConfiguration($c->get(TemplateControlerConfiguration::class));
             },
 
             // view modely pro komponenty

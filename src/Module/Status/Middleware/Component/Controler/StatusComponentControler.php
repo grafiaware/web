@@ -10,6 +10,8 @@ namespace Status\Middleware\Component\Controller;
 
 use Site\Configuration;
 
+use FrontControler\FrontControlerAbstract;
+
 use Psr\Http\Message\ServerRequestInterface;
 
 // komponenty
@@ -20,7 +22,7 @@ use Component\View\Flash\FlashComponent;
  *
  * @author pes2704
  */
-class StatusComponentControler extends XhrControllerAbstract {
+class StatusComponentControler extends FrontControlerAbstract {
 
     ### action metody ###############
 

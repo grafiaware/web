@@ -158,36 +158,22 @@ class ConfigurationRed extends ConfigurationDb {
             'urlStylesCss' => self::RED_LINKS_COMMON."css/old/styles.css",
             'urlSemanticCss' => self::RED_LINKS_SITE."semantic-ui/semantic.min.css",
             'urlContentTemplatesCss' => self::RED_LINKS_COMMON."css/templates.css",   // KŠ ?????
-        ];
-    }
-
-    /**
-     * Konfigurace prezentace - vrací parametry pro pageController
-     *
-     * Definuje domácí (home) stránku webu.
-     * Home stránka může být definována jménem komponenty nebo jménem statické stránky nebo identifikátorem uid položky menu (položky hierarchie).
-     *
-     * @return array
-     */
-    public static function pageController() {
-
-        return [
-               'home_page' => ['block', 'home'],
-//               'home_page' => ['item', '5fad34398df10'],  // přednášky - pro test
+            'home_page' => ['block', 'home'],
+//           'home_page' => ['item', '5fad34398df10'],  // přednášky - pro test
 
 //      'context_name' => jméno proměnné v šabloně, 'service_name' => jméno služby component kontejneru, 'root_name' => jméno v db tabulce root_name, 'with_title' => bool hodnota - true - zobrazuje se i obsah kořenového prvku menu],
-                'menu' => [
-                    ['context_name' => 'menuPresmerovani', 'service_name' => 'menu.presmerovani', 'root_name' => 'menu_redirect', 'with_title' => false],
-                    ['context_name' => 'menuVodorovne', 'service_name' => 'menu.vodorovne', 'root_name' => 'menu_horizontal', 'with_title' => false],
-                    ['context_name' => 'menuSvisle', 'service_name' => 'menu.svisle', 'root_name' => 'menu_vertical', 'with_title' => false],
-                ],
-                'blocks' =>  ['context_name' => 'bloky', 'service_name' => 'menu.bloky', 'root_name' => 'blocks', 'with_title' => true],
-                'trash' => ['context_name' => 'kos', 'service_name' => 'menu.kos', 'root_name' => 'trash', 'with_title' => true],
+            'menu' => [
+                ['context_name' => 'menuPresmerovani', 'service_name' => 'menu.presmerovani', 'root_name' => 'menu_redirect', 'with_title' => false],
+                ['context_name' => 'menuVodorovne', 'service_name' => 'menu.vodorovne', 'root_name' => 'menu_horizontal', 'with_title' => false],
+                ['context_name' => 'menuSvisle', 'service_name' => 'menu.svisle', 'root_name' => 'menu_vertical', 'with_title' => false],
+            ],
+            'blocks' =>  ['context_name' => 'bloky', 'service_name' => 'menu.bloky', 'root_name' => 'blocks', 'with_title' => true],
+            'trash' => ['context_name' => 'kos', 'service_name' => 'menu.kos', 'root_name' => 'trash', 'with_title' => true],
 
-               'templates.poznamky' => self::RED_TEMPLATES_COMMON.'layout/info/poznamky.php',
-               'templates.loaderElement' => self::RED_TEMPLATES_COMMON.'layout/component-load/loaderElement.php',
-               'templates.loaderElementEditable' => self::RED_TEMPLATES_COMMON.'layout/component-load/loaderElementEditable.php',
-                'context_name_to_block_name_map' => [
+            'templates.poznamky' => self::RED_TEMPLATES_COMMON.'layout/info/poznamky.php',
+            'templates.loaderElement' => self::RED_TEMPLATES_COMMON.'layout/component-load/loaderElement.php',
+            'templates.loaderElementEditable' => self::RED_TEMPLATES_COMMON.'layout/component-load/loaderElementEditable.php',
+            'context_name_to_block_name_map' => [
                     'rychleOdkazy' => 'a3',
                     'nejblizsiAkce' => 'a2',
                     'aktuality' => 'a1',

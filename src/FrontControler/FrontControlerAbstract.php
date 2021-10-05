@@ -23,6 +23,8 @@ use Pes\Http\Response\RedirectResponse;
 use Pes\Http\Response;
 use Pes\View\ViewInterface;
 
+use LogicException;
+
 /**
  * Description of ControllerAbstract
  *
@@ -82,44 +84,19 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
         return $this;
     }
 
-    ### uri info helpers ###
-
-    /**
-     * Vrací base path pro nastavení html base path
-     * @param ServerRequestInterface $request
-     * @return string
-     */
-    protected function getBasePath(ServerRequestInterface $request) {
-        $basePath = $this->getUriInfo($request)->getSubdomainPath();
-        return $basePath;
+    public function setConfiguration($configuration): FrontControlerInterface {
+        throw new LogicException("Implementace kontroleru musí implementovat vlastní metodu setConfiguration.");
     }
 
-    /**
-     * Vrací relativní path pro redirect url
-     * @param ServerRequestInterface $request
-     * @return type
-     */
-    protected function getRedirectPath(ServerRequestInterface $request) {
-        return $this->getUriInfo($request)->getSubdomainPath();
-    }
+    ### public methods ###
 
-    /**
-     * Pomocná metoda - získá base path z objektu UriInfo, který byl vložen do requestu jako atribut s jménem AppFactory::URI_INFO_ATTRIBUTE_NAME v AppFactory.
-     *
-     * @return UriInfoInterface
-     */
-    protected function getUriInfo(ServerRequestInterface $request) {
-        return $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME);
-    }
-
-    ### status control methods ###
-    ### flash ###
+    /// status control ///
 
     public function addFlashMessage($message): void {
         $this->statusFlashRepo->get()->appendMessage($message);
     }
 
-    ### create response helpers ###
+    /// create response helpers ///
 
     /**
      *
@@ -161,7 +138,43 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
         $newPath = $this->getUriInfo($request)->getRootAbsolutePath().ltrim($restUri, '/');
         return RedirectResponse::withPostRedirectGet(new Response(), $newPath); // 303 See Other
     }
+
+    ### protected methods ###############
     
+    /// uri info helpers ///
+
+    /**
+     * Vrací base path pro nastavení html base path
+     * @param ServerRequestInterface $request
+     * @return string
+     */
+    protected function getBasePath(ServerRequestInterface $request) {
+        $basePath = $this->getUriInfo($request)->getSubdomainPath();
+        return $basePath;
+    }
+
+    /**
+     * Vrací relativní path pro redirect url
+     * @param ServerRequestInterface $request
+     * @return type
+     */
+    protected function getRedirectPath(ServerRequestInterface $request) {
+        return $this->getUriInfo($request)->getSubdomainPath();
+    }
+
+    /**
+     * Pomocná metoda - získá base path z objektu UriInfo, který byl vložen do requestu jako atribut s jménem AppFactory::URI_INFO_ATTRIBUTE_NAME v AppFactory.
+     *
+     * @return UriInfoInterface
+     */
+    protected function getUriInfo(ServerRequestInterface $request): UriInfoInterface {
+        $uriInfo = $request->getAttribute(AppFactory::URI_INFO_ATTRIBUTE_NAME);
+        if (! $uriInfo instanceof UriInfoInterface) {
+            throw new LogicException("Atribut requestu ".AppFactory::URI_INFO_ATTRIBUTE_NAME." neobsahuje objekt typu ".UriInfoInterface::class.".");
+        }
+        return $uriInfo;
+    }
+
     /**
      * Generuje response s přesměrování na adresu posledního GET requestu jako odpověď na POST request při použití POST-REDIRECT-GET.
      *

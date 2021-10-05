@@ -29,6 +29,7 @@ use Red\Model\Entity\MenuItemInterface;
 ####################
 use Pes\View\ViewFactory;
 use Pes\View\View;
+use Pes\View\ViewInterface;
 use Pes\View\Template\PhpTemplate;
 use Pes\View\Template\InterpolateTemplate;
 use Pes\View\Renderer\ImplodeRenderer;
@@ -40,19 +41,7 @@ use Pes\View\Renderer\ImplodeRenderer;
  */
 abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstract {
 
-    private $viewFactory;
-
     protected $componentViews = [];
-
-
-    public function __construct(
-            StatusSecurityRepo $statusSecurityRepo,
-            StatusFlashRepo $statusFlashRepo,
-            StatusPresentationRepo $statusPresentationRepo,
-            ViewFactory $viewFactory) {
-        parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
-        $this->viewFactory = $viewFactory;
-    }
 
     ### response
     protected function createResponseWithItem(ServerRequestInterface $request, MenuItemInterface $menuItem = null) {
@@ -88,7 +77,10 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
      * @return CompositeView
      */
     private function getCompositeView(ServerRequestInterface $request) {
-        return $this->viewFactory->phpTemplateCompositeView(Configuration::layoutController()['layout'],
+        /** @var ViewInterface $view */
+        $view = $this->container->get(View::class);
+        $view->setTemplate(new PhpTemplate(Configuration::layoutController()['layout']));
+        $view->setData(
                 [
                     'basePath' => $this->getBasePath($request),
                     'langCode' => $this->getPresentationLangCode(),
@@ -98,6 +90,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
                     'bodyContainerAttributes' => $this->getBodyContainerAttributes(),
                     'isEditableMode' => $this->isEditableMode(),
                 ]);
+        return $view;
     }
 
     private function getBodyContainerAttributes() {
@@ -197,7 +190,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
                         'loaderWrapperElementId' => "content_for_item_{$id}_with_type_{$menuItemType}",
                         'apiUri' => "web/v1/$menuItemType/$id"
                         ]);
-        $view->setTemplate(new PhpTemplate(Configuration::pageController()['templates.loaderElement']));
+        $view->setTemplate(new PhpTemplate(Configuration::layoutController()['templates.loaderElement']));
         return $view;
     }
 

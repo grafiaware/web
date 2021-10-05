@@ -54,4 +54,6 @@ interface FrontControlerInterface {
     public function addFlashMessage($message): void;
 
     public function injectContainer(ContainerInterface $componentContainer): FrontControlerInterface;
+
+    public function setConfiguration($configuration): FrontControlerInterface;
 }
