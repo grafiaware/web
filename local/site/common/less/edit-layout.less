@@ -172,7 +172,7 @@ body{
     }    
     
     /***HEADER***/
-    /*header posunutý od horního okraje pouze v edit. režimu kvůli data-tooltip u buttonů*/
+    /*header posunutý od horního okraje pouze v edit. režimu kvůli data-tooltip u buttonů*/ 
     header{
         margin: @headerMargin !important;
     }
@@ -224,7 +224,7 @@ body{
                     padding: @svisleMenuLiPadding; //není zvětšený padding pro <a>, protože to zajišťuje semantic  
                 }
                 > p.presented{
-                    //stejný padding, jako mají <a> od semanticu
+                    //stejný padding, jako mají <a> od semantic-ui
                         padding: @svisleMenuParagraphPadding;
                 } 
             }
@@ -296,7 +296,7 @@ body{
         /*nastavena min. výška, aby se nepřekrývaly semafory a priority u contentů*/
         min-height: @contentMinHeight;
     }
-    /*SMAZANÝ CONTENT*/
+    /*SMAZANÝ CONTENT*/ 
     section.trash{
         /*outline už na sekci; kdyby se dal ke contentu (.trash_content), byl by šedý kvůli filter: grayscale*/
         box-shadow: @sectionTrashBoxShadow;
@@ -313,7 +313,7 @@ body{
     }
     
     //import pravidel specifických pro projekt
-    @import (optional) "../../@{sitename}/@{siteStylesFolder}/rules-edit-layout.less";
+    @import (optional) "../../@{sitename}/@{siteStylesFolder}/overrides-edit-layout.less";
     
 }      
 

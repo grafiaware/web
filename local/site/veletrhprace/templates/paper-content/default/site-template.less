@@ -4,7 +4,7 @@ main{
         margin: @marginDefault 0;
     }*/
     .paper perex {
-         margin: 50px 0;
+        margin: 50px 0;
     }
     section > content{
         margin: 150px 0;
@@ -20,163 +20,13 @@ main{
 main headline{
    // margin: 70px 0 -20px
 }
-.sekundarni-barva{
-    &.podklad{
-        color: @invertedTextColor;
-        background-color: @secondaryColor;
-        padding: 30px;
-    }
-    &:not(.podklad).text, &:not(.podklad).nadpis{
-        color: @secondaryColor;
-    }
-}
-.primarni-barva{
-    &.podklad{
-        color: @invertedTextColor;
-        background-color: @primaryColor;
-        padding: 30px;
-    }
-    &:not(.podklad).text{
-        color: @primaryColor;
-        &.tucne{
-            font-weight: @bold;
-        }
-    }
-    &:not(.podklad).nadpis{
-        color: @textColor;
-    }
-}
-.pruhledna-barva.podklad{
-    color: @textColor;
-    background-color: #FFFFFF96;
-    padding: 30px;
-}
-.nadpis{
-    font-size: @h2;
-    font-weight: 300;
-    z-index: 1;
-    position: relative;
-    text-transform: uppercase;
-/*    &.vlevo{
-        width: 42%;
-        position: absolute;
-        position: absolute;
-        transform: translateX(-20%) translateY(-45px);
-        &.primarni-barva{
-            text-align: right;
-        }
-    }
-    &.vpravo{
-        width: 100%;
-        position: relative;
-    }*/
-    &.nastred{
-        text-align: center;
-        margin-bottom: 85px;
-    }
-    &.podtrzeny::after{
-        content: "";
-        width: 40%;
-        height: 2px;
-        position: absolute;
-        bottom: -10px;
-        left: 50%;
-        transform: translateX(-50%);
-        background-color: @primaryColor;
-    }
-    p{
-        line-height: 1.15;
-    }
-}
-.podnadpis{
-    font-size: @h4;
-    line-height: 1;
-    &.primarni-barva{
-        color: @primaryColor;
-    }
-    &.nastred{
-        text-align: center;
-    }
-}
-.text{
-    font-size: @fontSize;
-    color: @textColor;
-    &:not(.okraje):not(.okraje-vertical):not(.okraje-horizontal):not(.zadne-okraje){
-        padding: 10px 0;
-    }
-    &.okraje{
-        padding: 30px 40px;
-    }
-    &.okraje-vertical{ 
-        padding: 30px 0px;
-    }
-    &.okraje-horizontal{
-        padding: 0 30px;
-        margin-bottom: 0.15em !important;
-    }
-    &.zadne-okraje{
-        padding: 5px 0;
-        margin: 0;
-    }
-    &.velky{
-        font-size: @bigFontSize; 
-    }
-    &.maly{
-        font-size: @smallFontSize;
-        &.primarni-barva{
-            color: @primaryColor;
-        }
-    }
-    &.vpravo{
-        text-align: right;
-        float: right;
-        position: relative;
-    }
-    &.vlevo{
-        text-align: left;
-        left: 0;
-        position: relative;
-    }
-    &.nastred{
-        text-align: center;
-    }
-    &.tucne{
-        font-weight: @bold;
-        line-height: 1.7;
-    }
-    &.kurziva{
-        font-style: oblique;
-    }
-}
-.mce-edit-focus .float-img{
-    outline: 1px dotted @pink;
-}
-.float-img{
-    &.vpravo{
-        float: right;
-        padding: 10px 0 10px 10px;
-        margin: 10px 0 10px 15px;
-    }
-    &.vlevo{
-        float: left;
-        padding: 10px 10px 10px 0;
-        margin: 10px 15px 10px 0;
-    }
-}
-.row.padding-vertical{
-    padding: 2em 0 !important;
-}
-.column.padding-vertical{
-    padding: 2em 1rem !important;
-}
-.paper{
-    headline{
-        
-    }
-    perex{
-        
-    }
-}
+
+
+
+
+
+
+
 .nadpis.uvod{
     font-weight: 300;
     font-size: @h4;

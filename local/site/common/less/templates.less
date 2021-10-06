@@ -11,33 +11,62 @@
 /*******************************
          layout.less: @import (optional) "../../@{sitename}/semantic/src/site/globals/site.variables"
 *******************************/
-@import (optional) "../../@{sitename}/semantic/src/site/globals/site.variables";                            
-                                                                    
-                                                                            
-&{     
-@templateType: "author";                                         
-@templateName: "default";  
-@templatePath: "@{templateType}/@{templateName}";
-@siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templatePath}/site-template.less";
-//@import (optional) "../templates/@{templatePath}/base-template.less";   
-}
+@import (optional) "../../@{sitename}/semantic/src/site/globals/site.variables";                             
+@import (optional) "../../@{sitename}/@{siteStylesFolder}/overrides-templates.less";                               
+                                                                     
  
+//article   
 &{    
-@templateType: "paper";                                     
-@templateName: "contact";                                                   
+@templateType: "article";                                     
+@templateName: "book_description";                                                   
 @templatePath: "@{templateType}/@{templateName}";
 @siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templatePath}/site-template.less";
 @import (optional) "../templates/@{templatePath}/base-template.less";
 }
-         
+&{    
+@templateType: "article";                                     
+@templateName: "product_page";                                                   
+@templatePath: "@{templateType}/@{templateName}";
+@siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templatePath}/site-template.less";
+@import (optional) "../templates/@{templatePath}/base-template.less";
+}
+&{    
+@templateType: "article";                                     
+@templateName: "retraining_course";                                                   
+@templatePath: "@{templateType}/@{templateName}";
+@siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templatePath}/site-template.less";
+@import (optional) "../templates/@{templatePath}/base-template.less";
+}
+&{    
+@templateType: "article";                                     
+@templateName: "web_post";                                                   
+@templatePath: "@{templateType}/@{templateName}";
+@siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templatePath}/site-template.less";
+@import (optional) "../templates/@{templatePath}/base-template.less";
+}
+
+//paper
+&{    
+@templateType: "paper";                                     
+@templateName: "bordered_rows";                                                   
+@templatePath: "@{templateType}/@{templateName}";
+@siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templatePath}/site-template.less";
+@import (optional) "../templates/@{templatePath}/base-template.less";
+}
 &{   
 @templateType: "paper";       
-@templateName: "course";                          
+@templateName: "column_cards";                          
 @templatePath: "@{templateType}/@{templateName}";
 @siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templatePath}/site-template.less";  
 @import (optional) "../templates/@{templatePath}/base-template.less";      
 }
-
+&{   
+@templateType: "paper";       
+@templateName: "columns";                          
+@templatePath: "@{templateType}/@{templateName}";
+@siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templatePath}/site-template.less";  
+@import (optional) "../templates/@{templatePath}/base-template.less";      
+}
 &{
 @templateType: "paper";
 @templateName: "default";
@@ -45,7 +74,29 @@
 @siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templatePath}/site-template.less";
 @import (optional) "../templates/@{templatePath}/base-template.less";
 }
-    
+&{
+@templateType: "paper";
+@templateName: "divided_rows";
+@templatePath: "@{templateType}/@{templateName}/";
+@siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templatePath}/site-template.less";
+@import (optional) "../templates/@{templatePath}/base-template.less";
+}
+&{
+@templateType: "paper";
+@templateName: "rows";
+@templatePath: "@{templateType}/@{templateName}/";
+@siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templatePath}/site-template.less";
+@import (optional) "../templates/@{templatePath}/base-template.less";
+}
+&{
+@templateType: "paper";
+@templateName: "wrapper";
+@templatePath: "@{templateType}/@{templateName}/";
+@siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templatePath}/site-template.less";
+@import (optional) "../templates/@{templatePath}/base-template.less";
+}
+
+//paper-content
 &{          
 @templateType: "paper-content";
 @templateName: "default";
@@ -53,10 +104,18 @@
 @siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templatePath}/site-template.less";  
 @import (optional) "../templates/@{templatePath}/base-template.less";         
 }
-
 &{                                       
 @templateType: "paper-content";    
 @templateName: "default";
+@templatePath: "@{templateType}/@{templateName}";
+@siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templatePath}/site-template.less";
+@import (optional) "../templates/@{templatePath}/base-template.less";    
+}
+
+//author                                                                            
+&{     
+@templateType: "author";                                             
+@templateName: "default";  
 @templatePath: "@{templateType}/@{templateName}";
 @siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templatePath}/site-template.less";
 @import (optional) "../templates/@{templatePath}/base-template.less";    
