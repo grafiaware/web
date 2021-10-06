@@ -23,7 +23,7 @@ use Pes\View\CompositeView;
  */
 abstract class AuthoredComponentAbstract extends StatusComponentAbstract implements AuthoredComponentInterface {
 
-    const DEFAULT_TEMPLATE_FILE_NAME = 'template.php';
+    const DEFAULT_TEMPLATE_FILE_EXTENSION = '.php';
     const DEFAULT_TEMPLATE_NAME = 'default';
 
     /**
@@ -37,7 +37,7 @@ abstract class AuthoredComponentAbstract extends StatusComponentAbstract impleme
     }
 
     public function getTemplateFileFullname($templatesPath, $templateName): string {
-        return $templatesPath.$templateName."/".self::DEFAULT_TEMPLATE_FILE_NAME;
+        return $templatesPath.$templateName.self::DEFAULT_TEMPLATE_FILE_EXTENSION;
     }
 
     /**

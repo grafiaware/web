@@ -59,7 +59,7 @@ class RedComponentControler extends FrontControlerAbstract {
 
     public function static(ServerRequestInterface $request, $staticName) {
         $realName = str_replace('_', '/', $staticName);
-         $compiledContent=$this->getCompiledContent($request, $realName);
+        $compiledContent = $this->getCompiledContent($request, $realName);
         return $this->createResponseFromString($request, $compiledContent);
     }
 

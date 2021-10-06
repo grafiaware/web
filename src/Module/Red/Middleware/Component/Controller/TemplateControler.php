@@ -140,13 +140,13 @@ class TemplateControler extends FrontControlerAbstract {
                 user_error("Neexistuje soubor šablony '{$this->getTemplateFileFullname($paperAggregate->getTemplate())}'", E_USER_WARNING);
                 $this->setTemplate(null);
             }
-        return new PhpTemplate(Configuration::templateController()['templates.paperFolder']."$name/".Configuration::templateController()['templates.defaultFilename']);
+        return new PhpTemplate(Configuration::templateController()['templates.paperFolder']."$name/".Configuration::templateController()['templates.defaultExtension']);
     }
 
     private function seekTemplate($templatesFolders, $templateName) {
-        $templateFilename = $this->configuration->getDefaultFilename();
+        $templateExtension = $this->configuration->getDefaultExtension();
         foreach ($templatesFolders as $templatesFolder) {
-            $filename = $templatesFolder."$templateName/$templateFilename";
+            $filename = $templatesFolder.$templateName.$templateExtension;
             if (is_readable($filename)) {
                 return $filename;
             }

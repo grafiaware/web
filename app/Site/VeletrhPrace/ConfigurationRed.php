@@ -235,7 +235,7 @@ class ConfigurationRed extends ConfigurationDb {
     public static function templateController() {
 
         return [
-                'templates.defaultFilename' => 'template.php',
+                'templates.defaultExtension' => '.php',
                 'templates.authorFolder' => self::RED_TEMPLATES_COMMON.'author/',   //jen v common
                 'templates.paperFolder' => [
                     self::RED_TEMPLATES_SITE.'paper/',

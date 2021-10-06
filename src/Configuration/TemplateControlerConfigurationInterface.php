@@ -8,7 +8,7 @@ namespace Configuration;
  */
 interface TemplateControlerConfigurationInterface {
 
-    public function getDefaultFilename();
+    public function getDefaultExtension();
 
     public function getAuthorFolder();
 

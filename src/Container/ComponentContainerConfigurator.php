@@ -148,7 +148,7 @@ class ComponentContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             TemplateControlerConfiguration::class => function(ContainerInterface $c) {
                 return new TemplateControlerConfiguration(
-                        $c->get('templates.defaultFilename'),
+                        $c->get('templates.defaultExtension'),
                         $c->get('templates.authorFolder'),
                         $c->get('templates.paperFolder'),
                         $c->get('templates.articleFolder'),

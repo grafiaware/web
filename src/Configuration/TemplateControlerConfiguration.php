@@ -7,7 +7,7 @@ namespace Configuration;
  * @author pes2704
  */
 class TemplateControlerConfiguration implements TemplateControlerConfigurationInterface {
-//                'templates.defaultFilename' => 'template.php',
+//                'templates.defaultExtension' => '.php',
 //                'templates.authorFolder' => [
 //                    self::RED_TEMPLATES_SITE.'author/',
 //                    self::RED_TEMPLATES_COMMON.'author/',
@@ -27,28 +27,28 @@ class TemplateControlerConfiguration implements TemplateControlerConfigurationIn
 //                    ]
 
 
-    private $defaultFilename;
+    private $defaultExtension;
     private $authorFolder;
     private $paperFolder;
     private $articleFolder;
     private $multipageFolder;
 
     public function __construct(
-            string $defaultFilename,
+            string $defaultExtension,
             string $authorFolder,
             array $paperFolder,
             array $articleFolder,
             array $multipageFolder
             ) {
-        $this->defaultFilename = $defaultFilename;
+        $this->defaultExtension = $defaultExtension;
         $this->authorFolder = $authorFolder;
         $this->paperFolder = $paperFolder;
         $this->articleFolder = $articleFolder;
         $this->multipageFolder = $multipageFolder;
     }
 
-    public function getDefaultFilename() {
-        return $this->defaultFilename;
+    public function getDefaultExtension() {
+        return $this->defaultExtension;
     }
 
     public function getAuthorFolder() {

@@ -60,7 +60,7 @@ class MultipageComponent extends AuthoredComponentAbstract implements MultipageC
             $item = $subNode->getMenuItem();
             $templatedView->appendComponentView($this->getContentLoadScript($item), $item->getTypeFk().'_'.$item->getId());
         }
-        $this->appendComponentView($templatedView, MultipageComponentInterface::CONTEXT_TEMPLATE);
+        $this->appendComponentView($templatedView, self::CONTEXT_TEMPLATE);
 
         // zvolí PaperRenderer nebo PaperRendererEditable
         if ($this->contextData->presentEditableContent()) { // editační režim
@@ -79,7 +79,7 @@ class MultipageComponent extends AuthoredComponentAbstract implements MultipageC
             $this->contextData->offsetSet(ButtonEditContentComponent::CONTEXT_USER_PERFORM_ACTION, $userPerformsActionWithContent);
             $buttonEditContentComponent->setData($this->contextData);
             $buttonEditContentComponent->setRendererContainer($this->rendererContainer);
-            $this->appendComponentView($buttonEditContentComponent, MultipageComponentInterface::CONTEXT_BUTTON_EDIT_CONTENT);
+            $this->appendComponentView($buttonEditContentComponent, self::CONTEXT_BUTTON_EDIT_CONTENT);
         } else {
             $this->setRendererName(MultipageRenderer::class);
         }
