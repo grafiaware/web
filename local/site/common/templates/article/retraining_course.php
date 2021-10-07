@@ -1,5 +1,4 @@
-<article class="">
-    <div class="ui stackable centered grid">
+    <div class="ui stackable centered grid mceNonEditable">
         <div class="sixteen wide column">
             <div class="dva-sloupce-nadpis">
                 <p class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll edit-text borderDance">Název kurzu</p>
@@ -7,7 +6,16 @@
                     <div class="six wide column middle aligned edit-html borderDance">
                         <p>Obrázek</p>
                     </div>
+                    <div class="ten wide column borderDance">
+                        <p><b>Levý sloupec se hodí spíše na obrázek, protože je zarovnaný vertikálně na střed tohoto sloupce. Napište úvod ke kurzu, text může být libovolně dlouhý.</b></p>
+                    </div>
                     <div class="ten wide column edit-html borderDance">
+                        <p><b>Levý sloupec se hodí spíše na obrázek, protože je zarovnaný vertikálně na střed tohoto sloupce. Napište úvod ke kurzu, text může být libovolně dlouhý.</b></p>
+                    </div>
+                    <div class="ten wide column mceEditable borderDance">
+                        <p><b>Levý sloupec se hodí spíše na obrázek, protože je zarovnaný vertikálně na střed tohoto sloupce. Napište úvod ke kurzu, text může být libovolně dlouhý.</b></p>
+                    </div>
+                    <div class="ten wide column edit-html mceEditable borderDance">
                         <p><b>Levý sloupec se hodí spíše na obrázek, protože je zarovnaný vertikálně na střed tohoto sloupce. Napište úvod ke kurzu, text může být libovolně dlouhý.</b></p>
                     </div>
                 </div>
@@ -33,7 +41,7 @@
         <div class="sixteen wide column">
             <p class="text okraje-vertical"></p>
             <div class="ui segment edit-html borderDance">
-                <p class="velky text primarni-barva nastred">Základní informace o kurzu</p>  
+                <p class="velky text primarni-barva nastred">Základní informace o kurzu</p>
                 <p class="text zadne-okraje"><i class="calendar alternate outline icon"></i> <b>Termín kurzu:</b> 31. 5. - 16. 7. 2021</p>
                 <p class="text zadne-okraje"><i class="chart pie icon"></i> <b>Rozsah kurzu:</b> 100 hodin výuky + zkouška</p>
                 <p class="text zadne-okraje"><i class="users icon"></i> <b>Počet účastníků:</b> Cca 5 - 12 osob</p>
@@ -52,4 +60,3 @@
             </div>
         </div>
     </div>
-</article>
