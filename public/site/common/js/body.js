@@ -110,12 +110,6 @@ function initLoadedEditableElements() {
             //výběr šablony pro stránku - vlastní dropdown, protože jsou dva vnořený
             $('.ui.selection.dropdown').dropdown();
 
-            //výběr šablony stránky, po kliku na tlačítko se objeví div s Tiny
-            $('.toggleTemplateSelect').off('click').on('click', function(){
-                var si = $(this).closest('.cornerWithTools').siblings('.select_template');
-                    si.toggle();
-            });
-
             $('.calendarWrap .ui.calendar').calendar({
                 type: 'date',
                 today: true,
