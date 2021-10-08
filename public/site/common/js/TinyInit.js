@@ -14,6 +14,12 @@
  * - pokud chci selektovat Tiny pomocí třídy/id, ujistím se, že jsem jej přidal/a také v RendererContainerConfigurator.php v classmapách
  */
 
+/**
+ * Callback funkce nastavená parametrem v konfiguraci TinyMCE setup: editorFunction. Volá se před inicializací instance TinyMCE.
+ *
+ * @param {type} editor
+ * @returns {undefined}
+ */
 var editorFunction = function (editor) {
 
     var form;
@@ -34,14 +40,25 @@ var editorFunction = function (editor) {
             }
         }
     });
+    editor.on('submit', function(e) {
+        var elm = e.element;
+
+    });
 
     editor.on('NodeChange', function(e) {
       console.log('The ' + e.element.nodeName + ' changed.');
     });
 
 };  // editorFunction
+
 /////////////////////////////////
-//maxCharsFunction
+
+/**
+ * Callback funkce volaná před inicializací TinyMce - použito v editWorkDataConfig.
+ *
+ * @param {type} ed
+ * @returns {undefined}
+ */
 var maxCharsFunction = function (ed) {
     var allowedKeys = [8, 13, 16, 17, 18, 20, 33, 34, 35, 36, 37, 38, 39, 40, 46];
     ed.on('keydown', function (e) {
@@ -58,11 +75,22 @@ var maxCharsFunction = function (ed) {
     });
 };
 
+/**
+ * Callback funkce volaná po inicializaci TinyMce - použito v editWorkDataConfig.
+ *
+ * @returns {undefined}
+ */
 var init_instance_callback_function = function () { // initialize counter div
     $('#' + this.id).prev().append('<div class="char_count" style="text-align:right; float: right"></div>');
     tinymce_updateCharCounter(this, tinymce_getContentLength());
 };
 
+/**
+ * Callback funkce volaná před "paste" vložením obsahu Ctrl+v v TinyMce - použito v editWorkDataConfig.
+ * @param {type} plugin
+ * @param {type} args
+ * @returns {undefined}
+ */
 var paste_preprocess_function = function (plugin, args) {
     var editor = tinymce.get(tinymce.activeEditor.id);
     var len = editor.contentDocument.body.innerText.length;
@@ -206,7 +234,7 @@ var plugins = [
        'nonbreaking', // adds a button for inserting nonbreaking space entities &nbsp; , also adds a menu item and a toolbar button
        'noneditable', // enables you to prevent users from being able to edit content within elements assigned the mceNonEditable class
        'paste', // will filter/cleanup content pasted from Microsoft Word
-       'save', // adds a save button, which will submit the form
+       'save', // adds a save button, which will submit the form that the editor is within.
        'searchreplace', // adds search/replace dialogs, also adds a toolbar button and the menu item
        'table', // adds table management functionality
        'template', // adds support for custom templates. It also adds a menu item and a toolbar button
@@ -268,6 +296,7 @@ var editTextConfig = {
     relative_urls : true,
     extended_valid_elements : ['i[*]', 'headline'],
     custom_elements: 'headline',
+    hidden_input: false,
     language : tinyConfig.toolbarsLang,
     document_base_url : tinyConfig.basePath,
     content_css: tinyConfig.contentCss,
@@ -288,12 +317,13 @@ var editHtmlConfig = {
     schema : 'html5',
     placeholder: 'Nový obsah',
     relative_urls: true,
-        extended_valid_elements : ['headline[*]', 'perex[*]', 'content[*]', 'i[*]'],
-        custom_elements: ['headline', 'perex', 'content'],
+    extended_valid_elements : ['headline[*]', 'perex[*]', 'content[*]', 'i[*]'],
+    custom_elements: ['headline', 'perex', 'content'],
     valid_children: '+a[div]',
     link_title: false,
-    noneditable_editable_class: 'mceEditable',
-    noneditable_noneditable_class: 'mceNonEditable',
+    noneditable_editable_class: 'mceEditable',   // nastavení pro noneditable plugin
+    noneditable_noneditable_class: 'mceNonEditable',   // nastavení pro noneditable plugin
+    hidden_input: false,
     language : tinyConfig.toolbarsLang,
     document_base_url : tinyConfig.basePath,
     content_css: tinyConfig.contentCss,
@@ -392,9 +422,10 @@ var editWorkDataConfig = {
     paste_preprocess: paste_preprocess_function
 };
 
+tinymce.on('AddEditor', function (e) {
+  console.log('Added editor with id: ' + e.editor.id);
+});
 
-//        tinymce.init(headlineConfig);
-//        tinymce.init(contentConfig);
-//        tinymce.init(perexConfig);
-//        tinymce.init(headerFooterConfig);
-//        tinymce.init(selectTemplateConfig);
+tinymce.on('RemoveEditor', function (e) {
+  console.log('Removed editor with id: ' + e.editor.id);
+});

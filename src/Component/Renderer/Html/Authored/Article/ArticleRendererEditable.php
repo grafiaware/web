@@ -21,18 +21,40 @@ class ArticleRendererEditable extends HtmlRendererAbstract {
         $selectTemplate = (string) $viewModel->getContextVariable('selectTemplate') ?? '';
 
         if (isset($article)) { // menu item aktivní (publikovaný)
+            $templateName = $article->getTemplate() ?? '';
             /** @var ArticleInterface $article */
-            if ($article->getTemplate()) {
-                $content = Html::tag('div', ['id'=>'article_'.$article->getId()], $article->getContent());  // co je editovatelné je dáno šablonou
+            if ($templateName) {
+                $formContent = [
+                            Html::tag('input', ['type'=>'hidden', 'name'=>'article_'.$article->getId()]),  // hidden input pro Article Controler updateHtml::tag('div', ['id'=>'article_'.$article->getId()],
+                            Html::tag('article',
+                                    [
+                                        'id'=>'article_'.$article->getId(),
+                                        'class'=>'edit-html',
+                                        "data-templatename"=>$templateName,   // toto je selektor pro template css - nastaveno v base-template.less souboru
+                                    ],
+                                    $article->getContent()),  // co je editovatelné je dáno šablonou
+                            ];
             } else {
-                $content = Html::tag('div', ['id'=>'article_'.$article->getId(), 'class'=>'edit-html'], $article->getContent());  // editovalný celý obsah pokud nebyla použita čablona
+                $formContent = [
+                            Html::tag('input', ['type'=>'hidden', 'name'=>'article_'.$article->getId()]),  // hidden input pro Article Controler update
+                            Html::tag('article',
+                                    [
+                                        'id'=>'article_'.$article->getId(),
+                                        'class'=>'edit-html',
+                                        "data-templatename"=>$templateName,   // toto je selektor pro template css - nastaveno v base-template.less souboru
+                                    ],
+                                    $article->getContent()),  // editovatelný celý obsah pokud nebyla použita šablona
+                            ];
             }
-            $ret = Html::tag('article', ['data-red-renderer'=>'ArticleRendererEditable', "data-red-datasource"=> "article {$article->getId()} for item {$article->getMenuItemIdFk()}"],
+            $ret = Html::tag('section', [
+                                        'data-red-renderer'=>'ArticleRendererEditable',
+                                        "data-red-datasource"=> "article {$article->getId()} for item {$article->getMenuItemIdFk()}",
+                                        ],
                         [
                             $buttonEditContent,
                             $selectTemplate ?? '',
                             Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/article/{$article->getId()}"],
-                                $content
+                                $formContent
                             )
                         ]
                     );
