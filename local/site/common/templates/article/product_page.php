@@ -1,7 +1,6 @@
-<article class="edit-html borderDance">
-    <div class="ui stackable centered grid">
-        <p class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll edit-text borderDance">Název produktu</p>
-        <div class="sixteen wide column">
+    <div class="ui stackable centered grid mceNonEditable">
+        <p class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll mceEditable">Název produktu</p>
+        <div class="sixteen wide column mceEditable">
             <p class="text velky primarni-barva">Popis:</p>
             <div class="float-img vpravo">
                 floatovací obrázek
@@ -12,7 +11,7 @@
         </div>
         <div class="sixteen wide column">
             <div class="ui two column grid internally celled stackable centered">
-                <div class="seven wide column edit-html borderDance">
+                <div class="seven wide column mceEditable">
                     <p class="text velky primarni-barva">Výhody časopisu:</p>
                     <ul>
                         <li>Časopis zdarma přináší novinky z oboru až na stůl Vašeho zákazníka</li>
@@ -21,7 +20,7 @@
                         <li>Časopis podporuje loajalitu Vašich zákazníků</li>
                     </ul>
                 </div>
-                <div class="seven wide column edit-html borderDance">
+                <div class="seven wide column mceEditable">
                     <p class="text velky primarni-barva">Proč spolupracovat s námi:</p>
                     <ul>
                         <li>Nápady, které fungují</li>
@@ -34,11 +33,11 @@
         </div>
         <div class="sixteen wide column">
             <div class="ui three column grid stackable">
-                <div class="column">obrázek 1</div>
-                <div class="column">obrázek 2</div>
-                <div class="column">obrázek 3</div>
-                <div class="column">obrázek 4</div>
-                <div class="column">obrázek 5</div>
+                <div class="column mceEditable">obrázek 1</div>
+                <div class="column mceEditable">obrázek 2</div>
+                <div class="column mceEditable">obrázek 3</div>
+                <div class="column mceEditable">obrázek 4</div>
+                <div class="column mceEditable">obrázek 5</div>
             </div>
         </div>
         <div class="eight wide column centered">
@@ -49,4 +48,3 @@
                 <p class="text zadne-okraje"><b>E-mail:</b> produkce@grafia.cz</p>
             </div>
         </div>
-</article>

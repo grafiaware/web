@@ -153,14 +153,14 @@
 @divKalendarInputMarginBottom: 10px;
 
 //Prostředí pro Tiny
-@mceBodyOutline: @borderWidth dotted darken(@greyBorderColor,10);
+@mceBodyOutline: 3px dotted #b4d7ff;
 @mceBodyTemplateOutline: @borderWidth dashed darken(@barvaButtonSablony, 35);
 @mceBodyLinkSelected: true;
 @mceLinkSelectedColor: @white;
 @mceLinkNotSelectedColor: #b4d7ff; //Tiny modrá pro odkaz
-@mceBodyMargin: 0; //.mce-content-body
+@mceBodyMargin: 0; //.mce-content-body 
 @mceBodyPadding: 5px;
-@mceFocusMargin: 0; //.mce-edit-focus
+@mceFocusMargin: 0; //.mce-edit-focus 
 @mceFocusPadding: 5px;
 @mceBorderDanceColor: @green;
 @mceTemplateSelectBorderDanceColor: @teal;
@@ -652,16 +652,21 @@ body{
         /*.border-dance - obíhající border kolem editačního tagu, v edit.js ještě nastavena animation-duration podle výšky a šířky tagu*/
         padding: @mceFocusPadding;
         margin: @mceFocusMargin;
-        height: max-content;
-        animation: border-dance 40s infinite linear;
         /*označení pro tagy, které jsou editovatelné a byly vybrány pro editaci*/
         /*rozdílné ohraničení pro editaci a pro výběr šablony*/
         &:not(.tiny_select_template_paper):not(.tiny_select_template_article){
+            height: max-content;
+            animation: border-dance 40s infinite linear;
             .border-dance(@mceBorderDanceColor);
         }
         &.tiny_select_template_paper, &.tiny_select_template_article{
             .border-dance(@mceTemplateSelectBorderDanceColor);
+            height: max-content;
+            animation: border-dance 40s infinite linear;
         }
+    }
+    .mceEditable{
+        outline: @mceBodyOutline;
     }
 
     //import pravidel specifických pro projekt

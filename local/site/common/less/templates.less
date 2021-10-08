@@ -11,113 +11,47 @@
 /*******************************
          layout.less: @import (optional) "../../@{sitename}/semantic/src/site/globals/site.variables"
 *******************************/
-@import (optional) "../../@{sitename}/semantic/src/site/globals/site.variables";                             
-@import (optional) "../../@{sitename}/@{siteStylesFolder}/overrides-templates.less";                               
+@import (optional) "../../@{sitename}/semantic/src/site/globals/site.variables"; 
+
+/*******************************
+         společná část stylů pro všechny šablony
+         layout.less: @import (optional) "../../@{sitename}/@{siteStylesFolder}/templates.less"
+*******************************/
+@import (optional) "../../@{sitename}/@{siteStylesFolder}/templates.less";    
+
+/*******************************
+         styly pro šablony static v site
+         layout.less: @import (optional) "../../@{sitename}/@{siteStylesFolder}/static-templates.less"       
+*******************************/
+@import (optional) "../../@{sitename}/@{siteStylesFolder}/static-templates.less";                               
                                                                      
  
-//article   
 &{    
-@templateType: "article";                                     
-@templateName: "book_description";                                                   
-@templatePath: "@{templateType}/@{templateName}";
-@siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templatePath}/site-template.less";
-@import (optional) "../templates/@{templatePath}/base-template.less";
+@templateType: "article";                                                                                   
+@siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templateType}/site-template.less";
+@import (optional) "../@{siteTemplatesFolder}/@{templateType}/base-template.less";
 } 
-&{    
-@templateType: "article";                                     
-@templateName: "product_page";                                                   
-@templatePath: "@{templateType}/@{templateName}";
-@siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templatePath}/site-template.less";
-@import (optional) "../templates/@{templatePath}/base-template.less";
-}
-&{    
-@templateType: "article";                                     
-@templateName: "retraining_course";                                                   
-@templatePath: "@{templateType}/@{templateName}";
-@siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templatePath}/site-template.less";
-@import (optional) "../templates/@{templatePath}/base-template.less";
-}
-&{    
-@templateType: "article";                                     
-@templateName: "web_post";                                                   
-@templatePath: "@{templateType}/@{templateName}";
-@siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templatePath}/site-template.less";
-@import (optional) "../templates/@{templatePath}/base-template.less";
-}
 
-//paper
 &{    
 @templateType: "paper";                                     
-@templateName: "bordered_rows";                                                   
-@templatePath: "@{templateType}/@{templateName}";
-@siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templatePath}/site-template.less";
-@import (optional) "../templates/@{templatePath}/base-template.less";
+@siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templateType}/site-template.less";
+@import (optional) "../@{siteTemplatesFolder}/@{templateType}/base-template.less";
 }
-&{   
-@templateType: "paper";       
-@templateName: "column_cards";                          
-@templatePath: "@{templateType}/@{templateName}";
-@siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templatePath}/site-template.less";  
-@import (optional) "../templates/@{templatePath}/base-template.less";      
-}
-&{   
-@templateType: "paper";       
-@templateName: "columns";                          
-@templatePath: "@{templateType}/@{templateName}";
-@siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templatePath}/site-template.less";  
-@import (optional) "../templates/@{templatePath}/base-template.less";      
-}
-&{
-@templateType: "paper";
-@templateName: "default";
-@templatePath: "@{templateType}/@{templateName}/";
-@siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templatePath}/site-template.less";
-@import (optional) "../templates/@{templatePath}/base-template.less";
-}
-&{
-@templateType: "paper";
-@templateName: "divided_rows";
-@templatePath: "@{templateType}/@{templateName}/";
-@siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templatePath}/site-template.less";
-@import (optional) "../templates/@{templatePath}/base-template.less";
-}
-&{
-@templateType: "paper";
-@templateName: "rows";
-@templatePath: "@{templateType}/@{templateName}/";
-@siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templatePath}/site-template.less";
-@import (optional) "../templates/@{templatePath}/base-template.less";
-}
-&{
-@templateType: "paper";
-@templateName: "wrapper";
-@templatePath: "@{templateType}/@{templateName}/";
-@siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templatePath}/site-template.less";
-@import (optional) "../templates/@{templatePath}/base-template.less";
-}
-
-//paper-content
+ 
 &{          
 @templateType: "paper-content";
-@templateName: "default";
-@templatePath: "@{templateType}/@{templateName}";
-@siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templatePath}/site-template.less";  
-@import (optional) "../templates/@{templatePath}/base-template.less";         
+@siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templateType}/site-template.less";  
+@import (optional) "../@{siteTemplatesFolder}/@{templateType}/base-template.less";         
 }
-&{                                       
-@templateType: "paper-content";    
-@templateName: "default";
-@templatePath: "@{templateType}/@{templateName}";
-@siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templatePath}/site-template.less";
-@import (optional) "../templates/@{templatePath}/base-template.less";    
-}
-
-//author                                                                            
+                                                                           
 &{     
 @templateType: "author";                                             
-@templateName: "default";  
-@templatePath: "@{templateType}/@{templateName}";
-@siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templatePath}/site-template.less";
-@import (optional) "../templates/@{templatePath}/base-template.less";    
+@siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templateType}/site-template.less";
+@import (optional) "../@{siteTemplatesFolder}/@{templateType}/base-template.less";    
+}
+
+&{     
+@templateType: "static";                                             
+@import (optional) "../../@{sitename}/@{siteTemplatesFolder}/@{templateType}/site-template.less";
 }
 

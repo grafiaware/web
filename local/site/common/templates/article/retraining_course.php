@@ -1,28 +1,28 @@
     <div class="ui stackable centered grid mceNonEditable">
         <div class="sixteen wide column">
             <div class="dva-sloupce-nadpis">
-                <p class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll edit-text borderDance">Název kurzu</p>
+                <p class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll mceEditable">Název kurzu</p>
                 <div class="ui two column stackable centered mobile reversed grid">
-                    <div class="six wide column middle aligned edit-html borderDance">
+                    <div class="six wide column middle aligned ">
                         <p>Obrázek</p>
                     </div>
-                    <div class="ten wide column borderDance">
+                    <div class="ten wide column mceEditable">
                         <p><b>Levý sloupec se hodí spíše na obrázek, protože je zarovnaný vertikálně na střed tohoto sloupce. Napište úvod ke kurzu, text může být libovolně dlouhý.</b></p>
                     </div>
-                    <div class="ten wide column edit-html borderDance">
+                    <div class="ten wide column">
                         <p><b>Levý sloupec se hodí spíše na obrázek, protože je zarovnaný vertikálně na střed tohoto sloupce. Napište úvod ke kurzu, text může být libovolně dlouhý.</b></p>
                     </div>
-                    <div class="ten wide column mceEditable borderDance">
+                    <div class="ten wide column">
                         <p><b>Levý sloupec se hodí spíše na obrázek, protože je zarovnaný vertikálně na střed tohoto sloupce. Napište úvod ke kurzu, text může být libovolně dlouhý.</b></p>
                     </div>
-                    <div class="ten wide column edit-html mceEditable borderDance">
+                    <div class="ten wide column mceEditable">
                         <p><b>Levý sloupec se hodí spíše na obrázek, protože je zarovnaný vertikálně na střed tohoto sloupce. Napište úvod ke kurzu, text může být libovolně dlouhý.</b></p>
                     </div>
                 </div>
             </div>
         </div>
         <div class="sixteen wide column">
-            <div class="edit-html borderDance">
+            <div class="mceEditable">
                 <p class="velky text primarni-barva nastred okraje-vertical">Obsah kurzu</p>
                 <ul>
                     <li>Orientace v základní terminologii andragogiky, didaktiky, hodnocení a měření ve vzdělávání dospělých a lektorských forem a metod ve vzdělávání dospělých</li>
@@ -33,14 +33,14 @@
             </div>
         </div>
         <div class="sixteen wide column">
-            <div class="edit-html borderDance">
+            <div class="">
                 <p class="velky text primarni-barva nastred okraje-vertical">Doklad</p>
                 <p>Při splnění minimálně 80% docházky do kurzu absolventi a absolventky získají Potvrzení o účasti v akreditovaném vzdělávacím programu. Absolventi a absolventky, kteří na konci kurzu úspěšně složí zkoušku z profesní kvalifikace, získají Osvědčení o získání profesní kvalifikace "Lektor dalšího vzdělávání" dle zákona č. 179/2006 Sb. <a href="">Více zde</a></p>
             </div>
         </div>
         <div class="sixteen wide column">
             <p class="text okraje-vertical"></p>
-            <div class="ui segment edit-html borderDance">
+            <div class="ui segment mceEditable">
                 <p class="velky text primarni-barva nastred">Základní informace o kurzu</p>
                 <p class="text zadne-okraje"><i class="calendar alternate outline icon"></i> <b>Termín kurzu:</b> 31. 5. - 16. 7. 2021</p>
                 <p class="text zadne-okraje"><i class="chart pie icon"></i> <b>Rozsah kurzu:</b> 100 hodin výuky + zkouška</p>
@@ -52,7 +52,7 @@
             </div>
         </div>
         <div class="sixteen wide column">
-            <div class="edit-html borderDance">
+            <div class="mceEditable">
                 <p class="velky text primarni-barva nastred okraje-vertical">Řekli o kurzu</p>
                 <p class="text kurziva zadne-okraje">"Velmi zdařilé spojení teorie a příkladů z předchozí pestré praxe na různých pozicích."</p>
                 <p class="text kurziva zadne-okraje">"Jen tak dál, je radost být účastníkem Vašeho kurzu."</p>

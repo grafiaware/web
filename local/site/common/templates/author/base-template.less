@@ -1,350 +1,350 @@
-@import "../../../semantic/src/themes/default/globals/site.variables";
-@import "../../../semantic/src/@{siteTemplatesFolder}/globals/site.variables";
+[data-red-templatetype="@{templateType}"]{
+    .layout{
+        //default proměnné stylu šablony
+        @halfWidth: 50%;
+        @backgroundLightGrey: lighten(@lightGrey, 5%); 
+        @black: #000;
 
-.layout{
-    //default proměnné stylu šablony
-    @halfWidth: 50%;
-    @backgroundLightGrey: lighten(@lightGrey, 5%); 
-    @black: #000;
-      
-    //import změněných proměnných stylu šablony (specifických pro projekt)    
-    @import (optional) "@{siteTemplatePath}";  
-    
-    .obrazek-vlevo, .obrazek-vpravo{
-        .column p > img{
-            width: 100%;
-            height: auto;
-        }
-    }
-    .image_vlevo{
-        float: left;
-        margin: 5px 5px 5px 0;
-    }
-    .image_vpravo{
-        float: right;
-        margin: 5px 0 5px 5px;
-    }
-    .image_ramecek{
-        border: 1px solid @black;
-    }
-    .image_vlevo_ramecek{
-        float: left;
-        border: 1px solid @black;
-        margin: 5px 5px 5px 0;
-    }
-    .image_vpravo_ramecek{
-        float: right;
-        border: 1px solid @black;
-        margin: 5px 0 5px 5px;
-    }
-    .eshop.card{
-        width: 270px !important;
-        margin-left: 0.3em !important;
-        margin-right: 0.3em !important;
-    }
-    .eshop.card .content:first-child p{
-        line-height: 2.5em;
-    }
-    .eshop.card .content p.cena{
-        display: inline-block;
-        margin-top: 10px !important;
-    }
-    .eshop.card-image{
-        height: 200px;
-        width: auto;
-        max-height: 100%;
-    }
-    .eshop.card .middle{
-        vertical-align: middle;
-        position: relative;
-        transform: translateY(-20%);
-        background-color: transparent;
-        color: #000;
-    }
-    .ui.corner.label::after{
-        border-right-width: 5em !important;
-        border-bottom-width: 4.8em !important;
-    }
-    .ui.teal.label{
-        padding: 5px !important;
-    }
-    /*tiny*/
-/*    .mce-content-body .ui.grid{ ??
-        background-color: lightyellow;
-        .column{
-            outline: 1px dashed @lightGrey !important;
-        }
-    }
-    .mce-content-body .ui.grid .ui.grid{
-        background-color: initial;
-    }
-*/
-    /******************************sablona**stranka_kurzy**************************/
-    .stranka-kurzy{
-        .column:nth-child(2){
-            .content:first-child{
-                p{
-                    font-weight: 700;
-                    margin-bottom: 5px;
-                }
-            }
-            .content:nth-child(2){
-                h3{
-                    margin-top: 10px;
-                    margin-bottom: 5px;
-                }
+        //import změněných proměnných stylu šablony (specifických pro projekt)    
+        @import (optional) "@{siteTemplatePath}";  
+
+        .obrazek-vlevo, .obrazek-vpravo{
+            .column p > img{
+                width: 100%;
+                height: auto;
             }
         }
-    }
-    .sablonaMenu .stretched.row > .column{
-        padding-top: 10px;
-        padding-bottom: 10px;
-    }
-    /*******************************sablona**otevrene_kurzy************************/
-    .otevreny-kurz p.popisek{
-        font-style: italic;
-        font-size: 0.9em;
-    }
-    /*******************************sablona**prednasky*****************************/
-    .prednaska{
-        position: relative;
-        background-color: white;
-        padding: 20px 0 10px;
-        margin: 10px 0;
-        border-bottom: 1px solid #dedede;
-    }
-    .prednaska .obrazek_popisek{
-        position: relative;
-        align-self: center;
-    }
-    .prednaska .obrazek_popisek > p > img{
-        border-radius: 200px;
-        width: 155px !important;
-        height: 155px !important;
-        border: 1px solid #000;
-        position: relative;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-    #contents .prednaska .obrazek_popisek p.prednasejici{
-        position: absolute;
-        font-size: 1em;
-        font-weight: 700;
-        bottom: -2px;
-        height: 57px;
-        width: 90%;
-        background-color: rgba(255,255,255,0.7);
-        padding: 7px;
-        text-align: center;
-    }
-    /*#contents .prednaska .stitek{
-        color: white;
-        padding: 3px 3px 3px 13px;
-        background: rgb(0, 0, 128);
-        vertical-align: middle;
-        border-radius: 5px;
-        position: absolute;
-        right: 0;
-        top: 0;
-    }
-    .prednaska .stitek::before{
-        width: 16px;
-        height: 16px;
-        content: '';
-        position: absolute;
-        background: rgb(0,0,128);
-        transform: rotate(45deg);
-        left: -5px;
-        top: 3px;
-        z-index: 1;
-    }*/
-    #contents .prednaska p.label{
-        position: absolute;
-        right: 0;
-        top: 0;
-    }
-    .prednaska .informace_prednasky{
-        display: inline;
-    }
-    #contents .prednaska .informace_prednasky h4{
-        font-size: 1.1em;
-    }
-    #contents .prednaska .informace_prednasky h4:first-child{
-        margin-bottom: 0;
-        margin-top: 10px;
-    }
-
-    #contents .prednaska .informace_prednasky h4:nth-child(2){
-        margin-top: 0;
-    }
-    .prednaska .informace_prednasky ul{
-        transform: translateX(5%);
-        margin-bottom: 10px;
-    }
-    .prednaska a.odkaz_vtextu_kulaty_cerveny{
-        padding: 3px;
-        margin: 5px 5px 5px 0;
-    }
-    #contents  .prednaska a.odkaz_vtextu_kulaty_sedy{
-        padding: 3px;
-        margin: 5px 0 5px 5px;
-    }
-
-
-    /*responz:
-    .prednaska{
-        flex-direction: column;
-    }
-    .prednaska .stitek{
-        position: relative;
-        margin: 10px 30px;
-    }
+        .image_vlevo{
+            float: left;
+            margin: 5px 5px 5px 0;
+        }
+        .image_vpravo{
+            float: right;
+            margin: 5px 0 5px 5px;
+        }
+        .image_ramecek{
+            border: 1px solid @black;
+        }
+        .image_vlevo_ramecek{
+            float: left;
+            border: 1px solid @black;
+            margin: 5px 5px 5px 0;
+        }
+        .image_vpravo_ramecek{
+            float: right;
+            border: 1px solid @black;
+            margin: 5px 0 5px 5px;
+        }
+        .eshop.card{
+            width: 270px !important;
+            margin-left: 0.3em !important;
+            margin-right: 0.3em !important;
+        }
+        .eshop.card .content:first-child p{
+            line-height: 2.5em;
+        }
+        .eshop.card .content p.cena{
+            display: inline-block;
+            margin-top: 10px !important;
+        }
+        .eshop.card-image{
+            height: 200px;
+            width: auto;
+            max-height: 100%;
+        }
+        .eshop.card .middle{
+            vertical-align: middle;
+            position: relative;
+            transform: translateY(-20%);
+            background-color: transparent;
+            color: #000;
+        }
+        .ui.corner.label::after{
+            border-right-width: 5em !important;
+            border-bottom-width: 4.8em !important;
+        }
+        .ui.teal.label{
+            padding: 5px !important;
+        }
+        /*tiny*/
+    /*    .mce-content-body .ui.grid{ ??
+            background-color: lightyellow;
+            .column{
+                outline: 1px dashed @lightGrey !important;
+            }
+        }
+        .mce-content-body .ui.grid .ui.grid{
+            background-color: initial;
+        }
     */
-
-    /* v rs */
-    .mce-content-body{
-        .prednaska p.label{
-            position: absolute;
-            top: 0;
-            right: 0;
+        /******************************sablona**stranka_kurzy**************************/
+        .stranka-kurzy{
+            .column:nth-child(2){
+                .content:first-child{
+                    p{
+                        font-weight: 700;
+                        margin-bottom: 5px;
+                    }
+                }
+                .content:nth-child(2){
+                    h3{
+                        margin-top: 10px;
+                        margin-bottom: 5px;
+                    }
+                }
+            }
+        }
+        .sablonaMenu .stretched.row > .column{
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+        /*******************************sablona**otevrene_kurzy************************/
+        .otevreny-kurz p.popisek{
+            font-style: italic;
+            font-size: 0.9em;
+        }
+        /*******************************sablona**prednasky*****************************/
+        .prednaska{
+            position: relative;
+            background-color: white;
+            padding: 20px 0 10px;
+            margin: 10px 0;
+            border-bottom: 1px solid #dedede;
         }
         .prednaska .obrazek_popisek{
-            outline: 1px dashed purple;
-            background-color: #f4eafa;
+            position: relative;
+            align-self: center;
         }
         .prednaska .obrazek_popisek > p > img{
             border-radius: 200px;
             width: 155px !important;
             height: 155px !important;
             border: 1px solid #000;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
         }
-        .prednaska .informace_prednasky h4:first-child{
+        #contents .prednaska .obrazek_popisek p.prednasejici{
+            position: absolute;
+            font-size: 1em;
+            font-weight: 700;
+            bottom: -2px;
+            height: 57px;
+            width: 90%;
+            background-color: rgba(255,255,255,0.7);
+            padding: 7px;
+            text-align: center;
+        }
+        /*#contents .prednaska .stitek{
+            color: white;
+            padding: 3px 3px 3px 13px;
+            background: rgb(0, 0, 128);
+            vertical-align: middle;
+            border-radius: 5px;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+        .prednaska .stitek::before{
+            width: 16px;
+            height: 16px;
+            content: '';
+            position: absolute;
+            background: rgb(0,0,128);
+            transform: rotate(45deg);
+            left: -5px;
+            top: 3px;
+            z-index: 1;
+        }*/
+        #contents .prednaska p.label{
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+        .prednaska .informace_prednasky{
+            display: inline;
+        }
+        #contents .prednaska .informace_prednasky h4{
+            font-size: 1.1em;
+        }
+        #contents .prednaska .informace_prednasky h4:first-child{
             margin-bottom: 0;
             margin-top: 10px;
         }
-        .prednaska .informace_prednasky h4:nth-child(2){
-            margin-top: 5px;
+
+        #contents .prednaska .informace_prednasky h4:nth-child(2){
+            margin-top: 0;
         }
-    }
-}
-/**************************sablony*komponenty********************************/
-.paper_template_select{
-    .ui.segment[data-component="presented"]{
-        border: 0;
-        box-shadow: none;
-        padding: 0 1em;
-    }
-}
+        .prednaska .informace_prednasky ul{
+            transform: translateX(5%);
+            margin-bottom: 10px;
+        }
+        .prednaska a.odkaz_vtextu_kulaty_cerveny{
+            padding: 3px;
+            margin: 5px 5px 5px 0;
+        }
+        #contents  .prednaska a.odkaz_vtextu_kulaty_sedy{
+            padding: 3px;
+            margin: 5px 0 5px 5px;
+        }
 
 
-/**sablony veletrh**/
-.blok-obr-text{
-    img{
-        width: 100%;
-        height: auto;
-    }
-}
-.blok-nadpis-obr-text{
-    &.program{
-        .text{
-            padding-top: 10px;
+        /*responz:
+        .prednaska{
+            flex-direction: column;
         }
-    }
-    img{
-        width: 100%;
-        height: auto;
-    }
-}
-.blok-sedy-nadpis-obr-text{
-    .blok-sedy-nahore{
-        position: relative;
-        height: 470px;
-        width: 176%;
-        padding-right: 60%;
-        background-color: darken(@greyBackground,5) ;
-        margin-top: -35px;
-        padding-left: 60px;
-        p{
-            text-align: left;
+        .prednaska .stitek{
             position: relative;
-            top: 25%;
+            margin: 10px 30px;
+        }
+        */
+
+        /* v rs */
+        .mce-content-body{
+            .prednaska p.label{
+                position: absolute;
+                top: 0;
+                right: 0;
+            }
+            .prednaska .obrazek_popisek{
+                outline: 1px dashed purple;
+                background-color: #f4eafa;
+            }
+            .prednaska .obrazek_popisek > p > img{
+                border-radius: 200px;
+                width: 155px !important;
+                height: 155px !important;
+                border: 1px solid #000;
+            }
+            .prednaska .informace_prednasky h4:first-child{
+                margin-bottom: 0;
+                margin-top: 10px;
+            }
+            .prednaska .informace_prednasky h4:nth-child(2){
+                margin-top: 5px;
+            }
         }
     }
-    .blokEL-dolni-img{
-        width: 670px;
-        position: relative;
-        float: right;
-        margin-right: 30px;
-        margin-top: 0;
-        &::before{
-            content: '';
-            width: 30px; 
-            height: 300px; 
-            position: absolute;
-            bottom: -20px;
-            right: -30px;
-            background-color: @primaryColor;
+    /**************************sablony*komponenty********************************/
+    .paper_template_select{
+        .ui.segment[data-component="presented"]{
+            border: 0;
+            box-shadow: none;
+            padding: 0 1em;
         }
-        &::after{
-            content: '';
-            width: 60%;
-            height: 30px;
-            position: absolute;
-            bottom: -20px;
-            right: -5px;
-            background-color: @primaryColor;
+    }
+
+
+    /**sablony veletrh**/
+    .blok-obr-text{
+        img{
+            width: 100%;
+            height: auto;
+        }
+    }
+    .blok-nadpis-obr-text{
+        &.program{
+            .text{
+                padding-top: 10px;
+            }
         }
         img{
             width: 100%;
             height: auto;
         }
     }
-}
-.blok-sedy-obr-text{
-    .blok-sedy-dole{
-        position: relative;
-        height: 470px;
-        width: 177%;
-        padding-left: 70%;
-        background-color: darken(@greyBackground,5) ;
-        margin-top: 35px;
-        left: -80%;
-        p{
-            text-align: right;
+    .blok-sedy-nadpis-obr-text{
+        .blok-sedy-nahore{
             position: relative;
-            top: 20%;
-            width: 80%;
+            height: 470px;
+            width: 176%;
+            padding-right: 60%;
+            background-color: darken(@greyBackground,5) ;
+            margin-top: -35px;
+            padding-left: 60px;
+            p{
+                text-align: left;
+                position: relative;
+                top: 25%;
+            }
+        }
+        .blokEL-dolni-img{
+            width: 670px;
+            position: relative;
+            float: right;
+            margin-right: 30px;
+            margin-top: 0;
+            &::before{
+                content: '';
+                width: 30px; 
+                height: 300px; 
+                position: absolute;
+                bottom: -20px;
+                right: -30px;
+                background-color: @primaryColor;
+            }
+            &::after{
+                content: '';
+                width: 60%;
+                height: 30px;
+                position: absolute;
+                bottom: -20px;
+                right: -5px;
+                background-color: @primaryColor;
+            }
+            img{
+                width: 100%;
+                height: auto;
+            }
         }
     }
-    .blokEL-horni-img{
-        width: 670px; 
-        position: relative;
-        float: left;
-        margin-left: 30px;
-        margin-top: -30px;
-        z-index:1;
-        &::before{
-            content: '';
-            width: 30px;
-            height: 300px;
-            position: absolute;
-            top: -30px;
-            left: -30px;
-            background-color: @primaryColor;
+    .blok-sedy-obr-text{
+        .blok-sedy-dole{
+            position: relative;
+            height: 470px;
+            width: 177%;
+            padding-left: 70%;
+            background-color: darken(@greyBackground,5) ;
+            margin-top: 35px;
+            left: -80%;
+            p{
+                text-align: right;
+                position: relative;
+                top: 20%;
+                width: 80%;
+            }
         }
-        &::after{
-            content: '';
-            width: 60%;
-            height: 30px;
-            position: absolute;
-            top: -30px;
-            left: -5px;
-            background-color: @primaryColor;
-        }
-        img{
-            width: 100%;
-            height: auto;
+        .blokEL-horni-img{
+            width: 670px; 
+            position: relative;
+            float: left;
+            margin-left: 30px;
+            margin-top: -30px;
+            z-index:1;
+            &::before{
+                content: '';
+                width: 30px;
+                height: 300px;
+                position: absolute;
+                top: -30px;
+                left: -30px;
+                background-color: @primaryColor;
+            }
+            &::after{
+                content: '';
+                width: 60%;
+                height: 30px;
+                position: absolute;
+                top: -30px;
+                left: -5px;
+                background-color: @primaryColor;
+            }
+            img{
+                width: 100%;
+                height: auto;
+            }
         }
     }
+    
+    @import (optional) "@{siteTemplatePath}";  
 }
-
