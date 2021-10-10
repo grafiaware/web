@@ -9,18 +9,18 @@ use Red\Model\Entity\PaperAggregatePaperContentInterface;
 <article class="paper">
     <section>
         <headline>
-            <?php include "headline.php" ?>
+            <?php include "timeline-leafs/headline.php" ?>
         </headline>
         <perex>
-            <?php include "perex.php" ?>
+            <?php include "timeline-leafs/perex.php" ?>
         </perex>
     </section>
     <section>
         <content>
-            <?php include "content/timeline.php" ?>
+            <?php include "timeline-leafs/content/timeline.php" ?>
         </content>
         <content>
-            <?php include "footer.php" ?>
+            <?php include "timeline-leafs/footer.php" ?>
         </content>
     </section>
 </article>

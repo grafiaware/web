@@ -22,5 +22,5 @@ use Site\Configuration;
                 ?>
 
 
-                <?= $this->insert( Configuration::componentController()['templates']."presenter-job/content/vypis-pozic.php", $presenterJobs); ?>
+                <?= $this->insert( Configuration::componentController()['templates']."paper/presenter-job/content/vypis-pozic.php", $presenterJobs); ?>
             </div>

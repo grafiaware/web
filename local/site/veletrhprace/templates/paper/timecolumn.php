@@ -6,15 +6,15 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 ?>
 <div class="paper">
     <headline>
-        <?php include "headline.php" ?>
+        <?php include "timecolumn/headline.php" ?>
     </headline>
     <perex>
-        <?php include "perex.php" ?>
+        <?php include "timecolumn/perex.php" ?>
     </perex>
     <content>
-        <?php include'content/timecolumn.php' ?>
+        <?php include'timecolumn/content/timecolumn.php' ?>
     </content>
     <content>
-        <?php include "footer.php" ?>
+        <?php include "timecolumn/footer.php" ?>
     </content>
 </div>

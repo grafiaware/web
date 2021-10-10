@@ -16,58 +16,61 @@ use Auth\Model\Entity\LoginAggregate;
 use Auth\Model\Entity\LoginAggregateCredentialsInterface;
 
 // database
-use Pes\Database\Handler\{
-    Account, AccountInterface, ConnectionInfo,
-    DsnProvider\DsnProviderMysql,
-    OptionsProvider\OptionsProviderMysql,
-    AttributesProvider\AttributesProvider,
-    Handler, HandlerInterface
-};
+use Pes\Database\Handler\Account;
+use Pes\Database\Handler\AccountInterface;
+use Pes\Database\Handler\ConnectionInfo;
+use Pes\Database\Handler\DsnProvider\DsnProviderMysql;
+use Pes\Database\Handler\OptionsProvider\OptionsProviderMysql;
+use Pes\Database\Handler\AttributesProvider\AttributesProvider;
+use Pes\Database\Handler\Handler;
+use Pes\Database\Handler\HandlerInterface;
 
 // controller
-use \Red\Middleware\Redactor\Controler\{
-    UserActionControler, HierarchyControler, EditItemControler, PresentationActionControler, PaperControler, ArticleControler, ContentControler,
-    FilesUploadControler
-};
+use \Red\Middleware\Redactor\Controler\UserActionControler;
+use \Red\Middleware\Redactor\Controler\HierarchyControler;
+use \Red\Middleware\Redactor\Controler\EditItemControler;
+use \Red\Middleware\Redactor\Controler\PresentationActionControler;
+use \Red\Middleware\Redactor\Controler\PaperControler;
+use \Red\Middleware\Redactor\Controler\ArticleControler;
+use \Red\Middleware\Redactor\Controler\ContentControler;
+use Red\Middleware\Redactor\Controler\FilesUploadControler;
+
 use Events\Middleware\Events\Controller\{EventController, VisitorDataController};
 
 // generator service
-use \GeneratorService\ContentGeneratorRegistry;
-use \GeneratorService\Paper\PaperService;
-use \GeneratorService\Article\ArticleService;
-use \GeneratorService\StaticTemplate\StaticService;
-use \GeneratorService\Multipage\MultipageService;
+use GeneratorService\ContentGeneratorRegistry;
+use GeneratorService\Paper\PaperService;
+use GeneratorService\Article\ArticleService;
+use GeneratorService\StaticTemplate\StaticService;
+use GeneratorService\Multipage\MultipageService;
 
 // array model
 use Events\Model\Arraymodel\Event;
 
 // events
-use \Model\Repository\EnrollRepo;
-use \Model\Repository\VisitorDataRepo;
-use \Model\Repository\VisitorDataPostRepo;
+use Events\Model\Repository\EnrollRepo;
+use Events\Model\Repository\VisitorDataRepo;
+use Events\Model\Repository\VisitorDataPostRepo;
 
 // dao
 use Red\Model\Dao\Hierarchy\HierarchyAggregateEditDao;
-use \Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
+use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
 
 // repo
 use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
-use Red\Model\Repository\{
-    LanguageRepo,
-    HierarchyAggregateRepo,
-    MenuItemRepo,
-    MenuItemTypeRepo,
-    BlockRepo,
-    MenuRootRepo,
-    MenuItemAggregatePaperRepo,
-    PaperAggregateRepo,
-    PaperRepo,
-    PaperContentRepo,
-    ArticleRepo,
-    MultipageRepo,
-    ItemActionRepo
-
-};
+use Red\Model\Repository\LanguageRepo;
+use Red\Model\Repository\HierarchyAggregateRepo;
+use Red\Model\Repository\MenuItemRepo;
+use Red\Model\Repository\MenuItemTypeRepo;
+use Red\Model\Repository\BlockRepo;
+use Red\Model\Repository\MenuRootRepo;
+use Red\Model\Repository\MenuItemAggregatePaperRepo;
+use Red\Model\Repository\PaperAggregateRepo;
+use Red\Model\Repository\PaperRepo;
+use Red\Model\Repository\PaperContentRepo;
+use Red\Model\Repository\ArticleRepo;
+use Red\Model\Repository\MultipageRepo;
+use Red\Model\Repository\ItemActionRepo;
 
 /**
  *

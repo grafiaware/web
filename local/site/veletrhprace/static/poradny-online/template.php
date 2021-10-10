@@ -14,7 +14,7 @@ $perex =
 ';
 $perex1 =
     '
-Přihlaste se do vybrané poradny! Vstoupit mohou pouze registrovaní návštěvníci. Přihlašovací tlačítko u každé poradny uvidíte teprve po registraci či přihlášení do vašeho účtu na tomto webu. 
+Přihlaste se do vybrané poradny! Vstoupit mohou pouze registrovaní návštěvníci. Přihlašovací tlačítko u každé poradny uvidíte teprve po registraci či přihlášení do vašeho účtu na tomto webu.
 ';
 $footer = '';
 
@@ -27,8 +27,8 @@ $statusSecurity = $statusSecurityRepo->get();
 
 $event = (new Event($statusSecurity))->getEventList($eventTypeName, $institutionName, [], true);   // enrolling = true
 
-//include Configuration::componentController()['templates']."timecolumn/template.php";
-include Configuration::componentController()['templates']."timeline-boxes/template.php";
-//include Configuration::componentController()['templates']."timeline-leafs/template.php";
+//include Configuration::componentController()['templates']."paper/timecolumn.php";
+include Configuration::componentController()['templates']."paper/timeline-boxes.php";
+//include Configuration::componentController()['templates']."paper/timeline-leafs.php";
 
 ?>

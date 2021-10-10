@@ -5,10 +5,8 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Site\Configuration;
 
 use Status\Model\Repository\StatusSecurityRepo;
-use Red\Model\Entity\LoginAggregateCredentialsInterface;;
-use Red\Model\Entity\CredentialsInterface;
 
-use Red\Model\Repository\EnrollRepo;
+use Events\Model\Repository\EnrollRepo;
 use Events\Model\Arraymodel\Job;
 use Events\Model\Arraymodel\Presenter;
 

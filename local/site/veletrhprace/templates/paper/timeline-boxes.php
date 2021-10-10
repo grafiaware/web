@@ -7,18 +7,18 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 <article class="paper">
     <section>
         <headline>
-            <?php include "headline.php" ?>
+            <?php include "timeline-boxes/headline.php" ?>
         </headline>
         <perex>
-            <?php include "perex.php" ?>
+            <?php include "timeline-boxes/perex.php" ?>
         </perex>
     </section>
     <section>
         <content>
-         <?php include 'content/timeline.php' ?>
+         <?php include 'timeline-boxes/content/timeline.php' ?>
         </content>
         <content>
-            <?php include "footer.php" ?>
+            <?php include "timeline-boxes/footer.php" ?>
         </content>
     </section>
 </article>
