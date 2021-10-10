@@ -1,5 +1,6 @@
 <?php
-use Site\Configuration;
+use Configuration\ComponentConfigurationInterface;
+use Psr\Container\ContainerInterface;
 use Events\Model\Arraymodel\Event;
 
 use Pes\View\Renderer\PhpTemplateRendererInterface;
@@ -21,11 +22,16 @@ $footer = '';
 $eventTypeName = "Poradna";  // viz Events\Model\Arraymodel\EventType
 $institutionName = "";
 
-$statusSecurityRepo = $container->get(StatusSecurityRepo::class);
+/** @var ContainerInterface $container */
+/** @var ComponentConfigurationInterface $configuration */
+$configuration = $container->get(ComponentConfigurationInterface::class);
 /** @var StatusSecurityRepo $statusSecurityRepo */
+$statusSecurityRepo = $container->get(StatusSecurityRepo::class);
 $statusSecurity = $statusSecurityRepo->get();
 
 $event = (new Event($statusSecurity))->getEventList($eventTypeName, $institutionName, [], true);   // enrolling = true
+
+include $configuration->getTemplatepathPaper()."timeline-boxes.php";
 
 //include Configuration::componentController()['templates']."paper/timecolumn.php";
 include Configuration::componentController()['templates']."paper/timeline-boxes.php";
