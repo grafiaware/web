@@ -24,5 +24,6 @@ interface AuthoredViewModelInterface extends StatusViewModelInterface {
      */
     public function isMenuItemActive(): bool;
 
-//    public function isAuthoredContentEditable(): bool;
+    public function seekTemplate($templatesType, $templateName);
+
 }

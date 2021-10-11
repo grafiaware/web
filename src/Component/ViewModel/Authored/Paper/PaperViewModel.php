@@ -20,6 +20,8 @@ use Red\Model\Repository\MenuItemRepoInterface;
 use Red\Model\Repository\ItemActionRepo;
 use Red\Model\Repository\PaperAggregateRepo;
 
+use TemplateService\TemplateSeekerInterface;
+
 /**
  * Description of PaperViewModelAnstract
  *
@@ -37,10 +39,11 @@ class PaperViewModel extends AuthoredViewModelAbstract implements PaperViewModel
             StatusPresentationRepo $statusPresentationRepo,
             StatusFlashRepo $statusFlashRepo,
             MenuItemRepoInterface $menuItemRepo,
+            TemplateSeekerInterface $templateSeeker,
             ItemActionRepo $itemActionRepo,
             PaperAggregateRepo $paperAggregateRepo
             ) {
-        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo, $menuItemRepo, $itemActionRepo);
+        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo, $menuItemRepo, $itemActionRepo, $templateSeeker);
         $this->paperAggregateRepo = $paperAggregateRepo;
     }
 

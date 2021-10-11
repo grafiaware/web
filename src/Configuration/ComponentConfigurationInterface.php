@@ -12,12 +12,6 @@ interface ComponentConfigurationInterface {
 
     public function getLogsRender();
 
-    public function getTemplatepathPaper();
-
-    public function getTemplatepathArticle();
-    
-    public function getTemplatepathMultipage();
-
     public function getTemplateFlash();
 
     public function getTemplateLogin();

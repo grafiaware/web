@@ -115,6 +115,9 @@ use Red\Model\Repository\BlockRepo;
 use Red\Model\Repository\BlockAggregateRepo;
 use Red\Model\Repository\MultipageRepo;
 
+// template service
+use TemplateService\TemplateSeeker;
+
 // view
 use Pes\View\View;
 use Pes\View\CompositeView;
@@ -367,9 +370,6 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new ComponentConfiguration(
                         $c->get('component.logs.directory'),
                         $c->get('component.logs.render'),
-                        $c->get('component.templatepath.paper'),
-                        $c->get('component.templatepath.article'),
-                        $c->get('component.templatepath.multipage'),
                         $c->get('component.template.flash'),
                         $c->get('component.template.login'),
                         $c->get('component.template.register'),
@@ -382,10 +382,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
             TemplateControlerConfiguration::class => function(ContainerInterface $c) {
                 return new TemplateControlerConfiguration(
                         $c->get('templates.defaultExtension'),
-                        $c->get('templates.authorFolder'),
-                        $c->get('templates.paperFolder'),
-                        $c->get('templates.articleFolder'),
-                        $c->get('templates.multipageFolder')
+                        $c->get('templates.folders')
                         );
             },
             // front kontrolery
@@ -408,9 +405,9 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 return (new TemplateControler(
                             $c->get(StatusSecurityRepo::class),
                             $c->get(StatusFlashRepo::class),
-                            $c->get(StatusPresentationRepo::class))
-                        )->injectContainer($c)  // inject component kontejner
-                        ->setConfiguration($c->get(TemplateControlerConfiguration::class));
+                            $c->get(StatusPresentationRepo::class),
+                            $c->get(TemplateSeeker::class))
+                        )->injectContainer($c);  // inject component kontejner
             },
 
             // components
@@ -450,6 +447,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                                 $c->get(StatusPresentationRepo::class),
                                 $c->get(StatusFlashRepo::class),
                                 $c->get(MenuItemRepo::class),
+                                $c->get(TemplateSeeker::class),
                                 $c->get(ItemActionRepo::class),
                                 $c->get(PaperAggregateRepo::class)
                         );
@@ -460,6 +458,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                                 $c->get(StatusPresentationRepo::class),
                                 $c->get(StatusFlashRepo::class),
                                 $c->get(MenuItemRepo::class),
+                                $c->get(TemplateSeeker::class),
                                 $c->get(ItemActionRepo::class),
                                 $c->get(ArticleRepo::class)
                         );
@@ -470,6 +469,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                                 $c->get(StatusPresentationRepo::class),
                                 $c->get(StatusFlashRepo::class),
                                 $c->get(MenuItemRepo::class),
+                                $c->get(TemplateSeeker::class),
                                 $c->get(ItemActionRepo::class),
                                 $c->get(MultipageRepo::class),
                                 $c->get(HierarchyAggregateRepo::class)
@@ -490,6 +490,10 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             FlashViewModel::class => function(ContainerInterface $c) {
                 return new FlashViewModel($c->get(StatusFlashRepo::class));
+            },
+
+            TemplateSeeker::class => function(ContainerInterface $c) {
+                return new TemplateSeeker($c->get(TemplateControlerConfiguration::class));
             }
         ];
     }

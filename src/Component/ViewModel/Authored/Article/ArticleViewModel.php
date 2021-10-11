@@ -18,6 +18,8 @@ use Status\Model\Repository\StatusFlashRepo;
 use Red\Model\Repository\MenuItemRepoInterface;
 use Red\Model\Repository\ItemActionRepo;
 
+use TemplateService\TemplateSeekerInterface;
+
 /**
  * Description of PaperViewModelAnstract
  *
@@ -35,10 +37,11 @@ class ArticleViewModel extends AuthoredViewModelAbstract implements ArticleViewM
             StatusPresentationRepo $statusPresentationRepo,
             StatusFlashRepo $statusFlashRepo,
             MenuItemRepoInterface $menuItemRepo,
+            TemplateSeekerInterface $templateSeeker,
             ItemActionRepo $itemActionRepo,
             ArticleRepo $articleRepo
             ) {
-        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo, $menuItemRepo, $itemActionRepo);
+        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo, $menuItemRepo, $itemActionRepo, $templateSeeker);
         $this->articleRepo = $articleRepo;
     }
 

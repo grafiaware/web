@@ -17,9 +17,9 @@ interface TemplateSeekerInterface {
      * Vyhledá soubor template se zadaným jménem template ve složkách zadaných jako pole. Prohledává složky v pořadí, ve kterém jsou zapsány v poli složek.
      * Vrací plnou cestu k souboru s template. Pokud soubor s template nenalezne, vrací false.
      *
-     * @param array $templatesFolders Pole složek, ve kterých bude hledat template
+     * @param string $templatesType Typ šablony
      * @param string $templateName Jméno hledané template
      * @return string|false Cesta k souboru s template nebo false
      */
-    public function seekTemplate($templatesFolders, $templateName);
+    public function seekTemplate($templatesType, $templateName);
 }

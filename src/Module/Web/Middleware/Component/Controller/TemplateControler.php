@@ -25,10 +25,11 @@ use Component\View\Authored\SelectPaperTemplate\SelectedPaperTemplateComponent;
 use Component\View\Authored\SelectPaperTemplate\SelectedPaperTemplateComponentInterface;
 
 ####################
+use Status\Model\Repository\StatusSecurityRepo;
+use Status\Model\Repository\StatusFlashRepo;
+use Status\Model\Repository\StatusPresentationRepo;
 
-use Red\Model\Repository\{
-    HierarchyAggregateRepo, MenuRootRepo, MenuItemRepo
-};
+use TemplateService\TemplateSeekerInterface;
 
 use \StatusManager\StatusPresentationManager;
 
@@ -48,13 +49,13 @@ class TemplateControler extends FrontControlerAbstract {
 
     /**
      *
-     * @var TemplateControlerConfigurationInterface
+     * @var TemplateSeekerInterface
      */
-    protected $configuration;
+    private $templateSeeker;
 
-    public function setConfiguration($configuration): FrontControlerInterface {
-        $this->configuration = $configuration;
-        return $this;
+    public function __construct(StatusSecurityRepo $statusSecurityRepo, StatusFlashRepo $statusFlashRepo, StatusPresentationRepo $statusPresentationRepo, TemplateSeekerInterface $templateSeeker) {
+        parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
+        $this->templateSeeker = $templateSeeker;
     }
 
     ### action metody ###############
@@ -66,7 +67,7 @@ class TemplateControler extends FrontControlerAbstract {
      * @return type
      */
     public function articletemplate(ServerRequestInterface $request, $templateName) {
-        $filename = $this->seekTemplate($this->configuration->getArticleFolder(), $templateName);
+        $filename = $this->templateSeeker->seekTemplate('article', $templateName);
         if ($filename) {
             $str = (new Includer())->protectedIncludeScope($filename);
 //            $str = file_get_contents($filename);
@@ -89,7 +90,7 @@ class TemplateControler extends FrontControlerAbstract {
     public function papertemplate(ServerRequestInterface $request, $templateName) {
         $presentedMenuItem = $this->statusPresentationRepo->get()->getMenuItem();
         if (isset($presentedMenuItem)) {
-            $filename = $this->seekTemplate($this->configuration->getPaperFolder(), $templateName);
+            $filename = $this->templateSeeker->seekTemplate('paper', $templateName);
 
             $menuItemId = $presentedMenuItem->getId();
             /** @var SelectedPaperTemplateComponentInterface $view */
@@ -115,13 +116,11 @@ class TemplateControler extends FrontControlerAbstract {
         return $this->createResponseFromView($request, $view);
     }
 
-    public function authorTemplate(ServerRequestInterface $request, $name) {
+    public function authorTemplate(ServerRequestInterface $request, $templateName) {
         // author šablony - jen v common a jméno je jméno souboru (ne složky)
-        $filename = $this->configuration->getAuthorFolder()."$name.php";
+        $filename = $this->templateSeeker->seekTemplate('author', $templateName);
         $view = $this->container->get(View::class);
-        if (is_readable($filename)) {
-            $view->setTemplate(new PhpTemplate($filename));  // exception
-        }
+        $view->setTemplate(new PhpTemplate($filename));  // exception
         return $this->createResponseFromView($request, $view);
     }
 
@@ -130,27 +129,15 @@ class TemplateControler extends FrontControlerAbstract {
 
     private function setTemplateByName(AuthoredComponentInterface $component, $name) {
             try {
-                $templatePath = $this->seekTemplate($this->configuration->getPaperFolder(), $paperAggregate->getTemplate());
-                $template = new PhpTemplate($templatePath);  // exception
+                $templatePath = $this->templateSeeker->seekTemplate('paper', $paperAggregate->getTemplate());
+                $this->setTemplate(new PhpTemplate($templatePath));  // exception
                 // renderery musí být definovány v Renderer kontejneru - tam mohou dostat classMap do konstruktoru
 //                $this->addChildRendererName('headline', HeadlineRenderer::class);
 //                $this->adoptChildRenderers($template);   // jako shared data do template objektu
-                $this->setTemplate($template);
             } catch (NoTemplateFileException $noTemplExc) {
-                user_error("Neexistuje soubor šablony '{$this->getTemplateFileFullname($paperAggregate->getTemplate())}'", E_USER_WARNING);
+                user_error("Neexistuje soubor šablony '$templatePath'", E_USER_WARNING);
                 $this->setTemplate(null);
             }
         return new PhpTemplate(Configuration::templateController()['templates.paperFolder']."$name/".Configuration::templateController()['templates.defaultExtension']);
-    }
-
-    private function seekTemplate($templatesFolders, $templateName) {
-        $templateExtension = $this->configuration->getDefaultExtension();
-        foreach ($templatesFolders as $templatesFolder) {
-            $filename = $templatesFolder.$templateName.$templateExtension;
-            if (is_readable($filename)) {
-                return $filename;
-            }
-        }
-        return false;
     }
 }
