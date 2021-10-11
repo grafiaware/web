@@ -89,8 +89,8 @@ use Red\Model\Repository\{
 
 // controller
 use Web\Middleware\Page\Controller\PageController;
-use Red\Middleware\Component\Controller\RedComponentControler;
-use Red\Middleware\Component\Controller\TemplateControler;
+use Web\Middleware\Component\Controller\RedComponentControler;
+use Web\Middleware\Component\Controller\TemplateControler;
 
 
 // renderery - pro volání služeb renderer kontejneru renderer::class

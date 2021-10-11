@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Red\Middleware\Component\Controller;
+namespace Web\Middleware\Component\Controller;
 
 use Psr\Http\Message\ServerRequestInterface;
 

@@ -368,7 +368,7 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             Handler::class => function(ContainerInterface $c) : HandlerInterface {
                 // povinný logger do kostruktoru = pro logování exception při intancování Handleru a PDO
-                $logger = $c->get('dbupgradeLogger');
+                $logger = $c->get('dbUpgradeLogger');
                 return new Handler(
                         $c->get(Account::class),
                         $c->get(ConnectionInfo::class),

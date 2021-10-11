@@ -37,12 +37,10 @@ class Web extends AppMiddlewareAbstract implements MiddlewareInterface {
         //      používá jen db upgrade (k db old se přistupuje z login middleware)
         //      app container se nekonfuguruje znovu - bere se z app
         $this->container =
-            (new ComponentContainerConfigurator())->configure(
+            (new WebContainerConfigurator())->configure(
                 (new HierarchyContainerConfigurator())->configure(
-                    (new WebContainerConfigurator())->configure(
-                        (new DbUpgradeContainerConfigurator())->configure(
-                                new Container($this->getApp()->getAppContainer())
-                        )
+                    (new DbUpgradeContainerConfigurator())->configure(
+                            new Container($this->getApp()->getAppContainer())
                     )
                 )
             );
