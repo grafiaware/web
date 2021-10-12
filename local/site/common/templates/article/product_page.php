@@ -1,5 +1,5 @@
+    <p class="primarni-nadpis nastred nadpis-scroll show-on-scroll mceEditable">Název produktu</p>
     <div class="ui stackable centered grid mceNonEditable">
-        <p class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll mceEditable">Název produktu</p>
         <div class="sixteen wide column mceEditable">
             <p class="text velky primarni-barva">Popis:</p>
             <div class="float-img vpravo">

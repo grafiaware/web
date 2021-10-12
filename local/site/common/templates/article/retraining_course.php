@@ -1,7 +1,7 @@
     <div class="ui stackable centered grid mceNonEditable">
         <div class="sixteen wide column">
             <div class="dva-sloupce-nadpis">
-                <p class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll mceEditable">Název kurzu</p>
+                <p class="primarni-nadpis nastred nadpis-scroll show-on-scroll mceEditable">Název kurzu</p>
                 <div class="ui two column stackable centered mobile reversed grid">
                     <div class="six wide column middle aligned ">
                         <p>Obrázek</p>

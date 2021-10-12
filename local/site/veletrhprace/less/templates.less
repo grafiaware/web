@@ -29,24 +29,38 @@
     background-color: #FFFFFF96;
     padding: 30px;
 }
+.primarni-nadpis{
+    font-size: @h2;
+    font-weight: 300;
+    z-index: 1;
+    position: relative;
+    text-transform: uppercase;
+    &::after{
+        content: "";
+        width: 40%;
+        height: 2px;
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: @primaryColor;
+    }
+    &.nastred{
+        text-align: center;
+        margin-bottom: 85px;
+    }
+}
 .nadpis{
     font-size: @h2;
     font-weight: 300;
     z-index: 1;
     position: relative;
     text-transform: uppercase;
-/*    &.vlevo{
-        width: 42%;
-        position: absolute;
-        position: absolute;
-        transform: translateX(-20%) translateY(-45px);
-        &.primarni-barva{
-            text-align: right;
-        }
+/*  &.vlevo{
+       
     }
     &.vpravo{
-        width: 100%;
-        position: relative;
+        
     }*/
     &.nastred{
         text-align: center;

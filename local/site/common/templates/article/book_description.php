@@ -1,5 +1,5 @@
+    <p class="primarni-nadpis nastred nadpis-scroll">Název knihy</p>
     <div class="ui stackable centered grid">
-        <p class="nadpis podtrzeny nastred nadpis-scroll">Název knihy</p>
         <div class="sixteen wide column">
             <p class="text velky primarni-barva">Anotace knihy</p>
             <div class="text">

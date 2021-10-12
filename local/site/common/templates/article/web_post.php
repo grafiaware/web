@@ -1,6 +1,6 @@
 <article class="">
     <div class="dva-sloupce-nadpis">
-        <p class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll edit-text borderDance">Nadpis</p>
+        <p class="primarni-nadpis nastred nadpis-scroll show-on-scroll edit-text borderDance">Nadpis</p>
         <div class="ui grid">
             <div class="sixteen wide column"><p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed convallis magna eu sem. Phasellus enim erat, vestibulum vel, aliquam a, posuere eu, velit. Nulla accumsan, elit sit amet varius semper, nulla mauris mollis quam, tempor suscipit diam nulla vel leo. Proin in tellus sit amet nibh dignissim sagittis. Nunc dapibus tortor vel mi dapibus sollicitudin. Pellentesque arcu. Curabitur bibendum justo non orci. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Sed ac dolor sit amet purus malesuada congue. Fusce suscipit libero eget elit. Etiam neque. Quisque porta. Curabitur vitae diam non enim vestibulum interdum. Etiam posuere lacus quis dolor.</p></div>
         </div>
