@@ -19,7 +19,7 @@ use Web\Middleware\Page\Web;
 use Web\Middleware\Component\Component;
 
 use Red\Middleware\Redactor\Redactor;
-use Red\Middleware\Transformator\Transformator;
+use Web\Middleware\Transformator\Transformator;
 
 use Sendmail\Middleware\Sendmail\Sendmail;
 

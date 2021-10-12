@@ -1,6 +1,6 @@
 <?php
 
-namespace Red\Middleware\Transformator;
+namespace Web\Middleware\Transformator;
 
 
 use Site\Configuration;
@@ -40,14 +40,13 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
 
         $this->container =
+            (new WebContainerConfigurator())->configure(
                 (new HierarchyContainerConfigurator())->configure(
-                    (new WebContainerConfigurator())->configure(
-                        (new DbUpgradeContainerConfigurator())->configure(
-                                new Container($this->getApp()->getAppContainer())
-                        )
+                    (new DbUpgradeContainerConfigurator())->configure(
+                            new Container($this->getApp()->getAppContainer())
                     )
-                );
-
+                )
+            );
         $response = $handler->handle($request);
         $newBody = new Body(fopen('php://temp', 'r+'));
         $newBody->write($this->transform($response->getBody()->getContents()));
