@@ -275,7 +275,7 @@ class ConfigurationDb extends ConfigurationConstants {
             # Konfigurace připojení k databázi je v delegate kontejneru.
             # Konfigurace připojení k databázi může být v aplikačním kontejneru nebo různá v jednotlivých middleware kontejnerech.
             #
-            'web.db.account.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'xxxx' : 'g_everyone',
+            'web.db.account.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'xxxx' : 'gr_everyone',
             'web.db.account.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'gr_upgrader' : 'gr_everyone',
             'web.db.account.authenticated.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'xxxxxx' : 'gr_auth',
             'web.db.account.authenticated.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'gr_upgrader' : 'gr_auth',

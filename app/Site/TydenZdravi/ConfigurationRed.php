@@ -87,12 +87,11 @@ class ConfigurationRed extends ConfigurationDb {
             // common layout templates
             'component.template.flash' => self::RED_TEMPLATES_COMMON.'layout/info/flashMessage.php',
             'component.template.login' => self::RED_TEMPLATES_COMMON.'layout/status/login.php',
+            'component.template.register' => self::RED_TEMPLATES_COMMON.'layout/status/register.php',
             'component.template.logout' => self::RED_TEMPLATES_COMMON.'layout/status/logout.php',
             'component.template.useraction' => self::RED_TEMPLATES_COMMON.'layout/status/userAction.php',
             'component.template.statusboard' => self::RED_TEMPLATES_COMMON.'layout/info/statusBoard.php',
             'component.template.controleditmenu' => self::RED_TEMPLATES_COMMON.'layout/status/controlEditMenu.php',
-            // site layout templates
-            'component.template.register' => self::RED_TEMPLATES_SITE.'layout/modal/register-with-exhibitor-representative.php',
         ];
     }
 
