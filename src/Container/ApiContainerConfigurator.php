@@ -286,7 +286,7 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(DsnProviderMysql::class),
                         $c->get(OptionsProviderMysql::class),
                         $c->get(AttributesProvider::class),
-                        $c->get('dbupgradeLogger'));
+                        $c->get('dbUpgradeLogger'));
                 return $handler;
             },
         ];

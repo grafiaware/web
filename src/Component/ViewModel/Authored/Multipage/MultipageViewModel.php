@@ -17,6 +17,8 @@ use Red\Model\Repository\HierarchyAggregateRepo;
 use Red\Model\Entity\MultipageInterface;
 use Red\Model\Entity\HierarchyAggregateInterface;
 
+use TemplateService\TemplateSeekerInterface;
+
 /**
  * Description of PaperViewModelAnstract
  *
@@ -39,11 +41,12 @@ class MultipageViewModel extends AuthoredViewModelAbstract implements MultipageV
             StatusPresentationRepo $statusPresentationRepo,
             StatusFlashRepo $statusFlashRepo,
             MenuItemRepoInterface $menuItemRepo,
+            TemplateSeekerInterface $templateSeeker,
             ItemActionRepo $itemActionRepo,
             MultipageRepo $multipageRepo,
             HierarchyAggregateRepo $hierarchyRepo
             ) {
-        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo, $menuItemRepo, $itemActionRepo);
+        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo, $menuItemRepo, $itemActionRepo, $templateSeeker);
         $this->multipageRepo = $multipageRepo;
         $this->hierarchyRepo = $hierarchyRepo;
     }

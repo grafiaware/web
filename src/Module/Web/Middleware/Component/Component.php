@@ -1,5 +1,5 @@
 <?php
-namespace Red\Middleware\Component;
+namespace Web\Middleware\Component;
 
 use Pes\Middleware\AppMiddlewareAbstract;
 use Pes\Container\Container;
@@ -12,12 +12,13 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-use Container\{
-    ComponentContainerConfigurator, HierarchyContainerConfigurator, DbUpgradeContainerConfigurator, LoginContainerConfigurator
-};
+use Container\WebContainerConfigurator;
+use Container\HierarchyContainerConfigurator;
+use Container\DbUpgradeContainerConfigurator;
+use Container\LoginContainerConfigurator;
 
-use \Red\Middleware\Component\Controller\RedComponentControler;
-use \Red\Middleware\Component\Controller\TemplateControler;
+use Web\Middleware\Component\Controller\RedComponentControler;
+use Web\Middleware\Component\Controller\TemplateControler;
 
 class Component extends AppMiddlewareAbstract implements MiddlewareInterface {
 
@@ -43,7 +44,7 @@ class Component extends AppMiddlewareAbstract implements MiddlewareInterface {
         // operace s menu používají databázi z menu kontejneru (upgrade), ostatní používají starou databázi z app kontejneru (připojovací informace
         // jsou v jednotlivých kontejnerech)
         $this->container =
-                (new ComponentContainerConfigurator())->configure(
+                (new WebContainerConfigurator())->configure(
                     (new HierarchyContainerConfigurator())->configure(
                        (new DbUpgradeContainerConfigurator())->configure(
                             (new Container(

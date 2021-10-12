@@ -10,11 +10,6 @@ interface TemplateControlerConfigurationInterface {
 
     public function getDefaultExtension();
 
-    public function getAuthorFolder();
+    public function getFolders();
 
-    public function getPaperFolder();
-
-    public function getArticleFolder();
-
-    public function getMultipageFolder();
 }

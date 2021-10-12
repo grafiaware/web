@@ -14,8 +14,9 @@ use Status\Model\Repository\StatusFlashRepo;
 use Component\ViewModel\StatusViewModel;
 use Red\Model\Repository\MenuItemRepoInterface;
 use Red\Model\Repository\ItemActionRepo;
-
 use Red\Model\Entity\MenuItemInterface;
+
+use TemplateService\TemplateSeekerInterface;
 
 /**
  * Description of AuthoredViewModelAbstract
@@ -35,16 +36,20 @@ abstract class AuthoredViewModelAbstract extends StatusViewModel implements Auth
 
     private $itemActionRepo;
 
+    private $templateSeeker;
+
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusPresentationRepo $statusPresentationRepo,
             StatusFlashRepo $statusFlashRepo,
             MenuItemRepoInterface $menuItemRepo,
-            ItemActionRepo $itemActionRepo
+            ItemActionRepo $itemActionRepo,
+            TemplateSeekerInterface $templateSeeker
             ) {
         parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo);
         $this->menuItemRepo = $menuItemRepo;
         $this->itemActionRepo = $itemActionRepo;
+        $this->templateSeeker = $templateSeeker;
     }
 
     /**
@@ -87,5 +92,9 @@ abstract class AuthoredViewModelAbstract extends StatusViewModel implements Auth
            $this->menuItemCached = $this->menuItemRepo->getById($this->menuItemIdCached);
        }
        return $this->menuItemCached;
+    }
+
+    public function seekTemplate($templatesType, $templateName) {
+        return $this->templateSeeker->seekTemplate($templatesType, $templateName);
     }
 }

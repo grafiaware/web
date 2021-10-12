@@ -48,7 +48,7 @@ class MultipageComponent extends AuthoredComponentAbstract implements MultipageC
         // vytvoří komponentní view z šablony paperu nebo s ImplodeTemplate, pokud šablona paperu není nastavena
         try {
             // konstruktor PhpTemplate vyhazuje výjimku NoTemplateFileException pro neexistující (nečitený) soubor s template
-            $template = new PhpTemplate($this->getTemplateFileFullname($this->configuration->getTemplatepathMultipage(), $this->getTemplateName()));
+            $template = new PhpTemplate($this->contextData->seekTemplate('multipage', $this->getTemplateName()));
         } catch (NoTemplateFileException $noTemplExc) {
 //            user_error("Neexistuje soubor šablony '{$this->getTemplateName()}'", E_USER_WARNING);
             $template = new ImplodeTemplate();

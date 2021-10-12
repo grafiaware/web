@@ -84,17 +84,15 @@ class ConfigurationRed extends ConfigurationDb {
         return [
             'component.logs.directory' => 'Logs/App/Web',
             'component.logs.render' => 'Render.log',
-            'component.templatepath.paper' => self::RED_TEMPLATES_COMMON.'paper/',
-            'component.templatepath.article' => self::RED_TEMPLATES_COMMON.'article/',
-            'component.templatepath.author' => self::RED_LINKS_COMMON."author/",
             // common layout templates
             'component.template.flash' => self::RED_TEMPLATES_COMMON.'layout/info/flashMessage.php',
             'component.template.login' => self::RED_TEMPLATES_COMMON.'layout/status/login.php',
-            'component.template.register' => self::RED_TEMPLATES_COMMON.'layout/status/register.php',
             'component.template.logout' => self::RED_TEMPLATES_COMMON.'layout/status/logout.php',
             'component.template.useraction' => self::RED_TEMPLATES_COMMON.'layout/status/userAction.php',
             'component.template.statusboard' => self::RED_TEMPLATES_COMMON.'layout/info/statusBoard.php',
             'component.template.controleditmenu' => self::RED_TEMPLATES_COMMON.'layout/status/controlEditMenu.php',
+            // site layout templates
+            'component.template.register' => self::RED_TEMPLATES_SITE.'layout/modal/register-with-exhibitor-representative.php',
         ];
     }
 
@@ -111,6 +109,7 @@ class ConfigurationRed extends ConfigurationDb {
     public static function presentationStatus() {
         return [
             'default_lang_code' => 'cs',
+            'accepted_languages' => ['cs']
         ];
     }
 
@@ -155,6 +154,7 @@ class ConfigurationRed extends ConfigurationDb {
             'urlStylesCss' => self::RED_LINKS_COMMON."css/old/styles.css",
             'urlSemanticCss' => self::RED_LINKS_SITE."semantic-ui/semantic.min.css",
             'urlContentTemplatesCss' => self::RED_LINKS_COMMON."css/templates.css",   // KŠ ?????
+
             'home_page' => ['block', 'home'],
 //           'home_page' => ['item', '5fad34398df10'],  // přednášky - pro test
 
@@ -211,7 +211,6 @@ class ConfigurationRed extends ConfigurationDb {
                 'templates' => self::RED_TEMPLATES_SITE,
                 'static' => self::RED_STATIC,
                 'compiled' => self::RED_STATIC.'__compiled/',
-                'presenterFiles' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES."presenter/" : self::RED_FILES."presenter/",
                 'prettyUrlCallable' => function($nadpis) {
                         $url = $nadpis;
                         $url = preg_replace('~[^\\pL0-9_]+~u', '-', $url);
@@ -232,20 +231,13 @@ class ConfigurationRed extends ConfigurationDb {
 
         return [
                 'templates.defaultExtension' => '.php',
-                'templates.authorFolder' => self::RED_TEMPLATES_COMMON.'author/',   //jen v common
-                'templates.paperFolder' => [
-                    self::RED_TEMPLATES_SITE.'paper/',
-                    self::RED_TEMPLATES_COMMON.'paper/',
+                // pole složek, jsou prohledávány postupně při hledání souboru s šablonou zadaného typu
+                'templates.folders' => [
+                    'author'=>[self::RED_TEMPLATES_COMMON.'author/'],   //jen v common
+                    'paper' => [self::RED_TEMPLATES_SITE.'paper/', self::RED_TEMPLATES_COMMON.'paper/'],
+                    'article' => [self::RED_TEMPLATES_SITE.'article/', self::RED_TEMPLATES_COMMON.'article/'],
+                    'multipage' => [self::RED_TEMPLATES_SITE.'multipage/', self::RED_TEMPLATES_COMMON.'multipage/'],
                     ],
-                // pole složek, jsou prohledávány postupně při hledání souboru s šablonou zadaného názvu
-                'templates.articleFolder' => [
-                    self::RED_TEMPLATES_SITE.'article/',
-                    self::RED_TEMPLATES_COMMON.'article/',
-                    ],
-                'templates.multipageFolder' => [
-                    self::RED_TEMPLATES_SITE.'multipage/',
-                    self::RED_TEMPLATES_COMMON.'multipage/',
-                    ]
             ];
     }
 

@@ -68,27 +68,27 @@ class DbUpgradeContainerConfigurator extends ContainerConfiguratorAbstract {
     public function getServicesOverrideDefinitions() {
         return [
             // db objekty - služby stejného jména jsou v db old konfiguraci - tedy v db old kontejneru, který musí delegátem
-            'dbupgradeLogger' => function(ContainerInterface $c) {
+            'dbUpgradeLogger' => function(ContainerInterface $c) {
                 return FileLogger::getInstance($c->get('dbUpgrade.logs.db.directory'), $c->get('dbUpgrade.logs.db.file'), FileLogger::REWRITE_LOG); //new NullLogger();
             },
             DsnProviderMysql::class =>  function(ContainerInterface $c) {
                 $dsnProvider = new DsnProviderMysql();
                 if (PES_DEVELOPMENT) {
-                    $dsnProvider->setLogger($c->get('dbupgradeLogger'));
+                    $dsnProvider->setLogger($c->get('dbUpgradeLogger'));
                 }
                 return $dsnProvider;
             },
             OptionsProviderMysql::class =>  function(ContainerInterface $c) {
                 $optionsProvider = new OptionsProviderMysql();
                 if (PES_DEVELOPMENT) {
-                    $optionsProvider->setLogger($c->get('dbupgradeLogger'));
+                    $optionsProvider->setLogger($c->get('dbUpgradeLogger'));
                 }
                 return $optionsProvider;
             },
             AttributesProvider::class =>  function(ContainerInterface $c) {
                 $attributesProvider = new AttributesProvider();
                 if (PES_DEVELOPMENT) {
-                    $attributesProvider->setLogger($c->get('dbupgradeLogger'));
+                    $attributesProvider->setLogger($c->get('dbUpgradeLogger'));
                 }
                 return $attributesProvider;
             },

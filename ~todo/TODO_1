@@ -1,3 +1,6 @@
 nová databáze - generovat jen jazykové verze podle konfigurace
 
 
+papertemplates (dtto multipage templates) - přidat do db a modelu položku templateContent, do té uložit obsah šablony načtený ze souboru s šablonou při výběru šablony, renderovat obsah šablony z dtabáze
+( z paper->templateContent) - ochrana proti "rozbití" při změně nebo smazání souboru s šablonou
+
