@@ -60,38 +60,38 @@ class ConfigurationStyles extends ConfigurationRed {
                             'semafor.trashed' => 'circle icon inverted purple',
                         ],
             'menu_edit_buttons' => [
-                            'div.buttons' => 'mini ui basic icon buttons editMenu',
+                            'div.buttons' => 'editSize ui basic icon buttons editMenu',
                             'button' => 'ui button',
                             'button.paste' => 'ui button paste',
-                            'button.cut' => 'large cut icon',
-                            'button.cutted' => 'large red cut icon',
-                            'button.notpublish' => 'large green toggle on icon',
-                            'button.publish' => 'large red toggle off icon',
-                            'button.addsiblings' => 'large add circle icon',
-                            'button.addchildren' => 'large arrow circle right icon',
-                            'button.movetotrash' => 'large trash icon',
+                            'button.cut' => ' cut icon',
+                            'button.cutted' => ' red cut icon',
+                            'button.notpublish' => ' green toggle on icon',
+                            'button.publish' => ' red toggle off icon',
+                            'button.addsiblings' => ' add circle icon',
+                            'button.addchildren' => ' arrow circle right icon',
+                            'button.movetotrash' => ' trash icon',
                         ],
             'block_edit_buttons' => [ //bloky
-                            'div.buttons' => 'mini ui basic icon buttons',
+                            'div.buttons' => 'editSize ui basic icon buttons',
                             'button' => 'ui button',
-                            'button.notpublish' => 'large green toggle on icon',
-                            'button.publish' => 'large red toggle off icon',
-                            'button.addsiblings' => 'large add circle icon',
-                            'button.movetotrash' => 'large trash icon',
+                            'button.notpublish' => ' green toggle on icon',
+                            'button.publish' => ' red toggle off icon',
+                            'button.addsiblings' => ' add circle icon',
+                            'button.movetotrash' => ' trash icon',
                         ],
             'trash_edit_buttons' => [
-                            'div.buttons' => 'mini ui basic icon buttons',
+                            'div.buttons' => 'editSize ui basic icon buttons',
                             'button' => 'ui button',
-                            'button.icons' => 'large icons',
+                            'button.icons' => ' icons',
                             'button.delete' => 'trash icon',
                             'button.exclamation' => 'corner red exclamation icon',
-                            'button.cut' => 'large cut icon',
-                            'button.cutted' => 'large red cut icon',
+                            'button.cut' => ' cut icon',
+                            'button.cutted' => ' red cut icon',
                         ],
             'paper_template_edit_buttons' => [
-                            'div.paperTemplate' => 'ui mini basic icon dropdown button changePaperTemplate',
+                            'div.paperTemplate' => 'ui editSize basic icon dropdown button changePaperTemplate',
                             'button' => 'ui button',
-                            'button.templateSelect' => 'large clone outline icon'
+                            'button.templateSelect' => ' clone outline icon'
                         ],
             'paper_template_select' => [
                             'div button' => 'ui huge fade animated button toggleTemplateSelect',
@@ -112,16 +112,16 @@ class ConfigurationStyles extends ConfigurationRed {
                         ],
             'paper_edit_buttons' => [
                             'div.buttonsWrap' => 'contentButtons page-edit',
-                            'div.buttons' => 'small ui basic icon buttons editContent',
+                            'div.buttons' => 'editSizeArticle ui basic icon buttons editContent',
                             'div.ribbon' => 'ui right ribbon teal basic label cornerWithTools page-edit',
                             'div.corner' => 'ui right ribbon teal basic label cornerWithTools page-edit',
                             'button' => 'ui button',
                             'button.template' => 'ui button toggleTemplateSelect',
-                            'button.arrange' => 'large sort numeric down icon',
-                            'button.template i' => 'large file alternate icon',
+                            'button.arrange' => ' sort numeric down icon',
+                            'button.template i' => ' file alternate icon',
                             'div.editMode' => 'zapnout_editaci',
-                            'div.editMode button' => 'ui small teal icon button',
-                            'div.offEditMode button' => 'ui small teal basic icon button',
+                            'div.editMode button' => 'ui editSizeArticle teal icon button',
+                            'div.offEditMode button' => 'ui editSizeArticle teal basic icon button',
                             'div.editMode i' => 'pencil alternate icon',
 
                         ],
@@ -129,27 +129,27 @@ class ConfigurationStyles extends ConfigurationRed {
                             'div.wrapContent' => 'contentButtons',
                             'div.wrapShowDate' => 'calendarWrap editShowDate',
                             'div.wrapEventDate' => 'calendarWrap editEventDate',
-                            'div.buttonsEditShowDate' => 'small ui basic icon buttons editDate',
-                            'div.buttonsEditEventDate' => 'small ui basic icon buttons editDate',
-                            'div.buttonsContent' => 'small ui basic icon buttons editContent',
+                            'div.buttonsEditShowDate' => 'editSizeArticle ui basic icon buttons editDate',
+                            'div.buttonsEditEventDate' => 'editSizeArticle ui basic icon buttons editDate',
+                            'div.buttonsContent' => 'editSizeArticle ui basic icon buttons editContent',
                             'button' => 'ui button',
                             'button.showDate' => 'ui button toolsShowDate',
                             'button.eventDate' => 'ui button toolsEventDate',
                             'button.content' => 'ui button hideCalendarWrap',
-                            'button.notpublish' => 'large green toggle on icon',
-                            'button.publish' => 'large red toggle off icon',
-                            'button.changedisplaydate' => 'large violet calendar alternate icon',
-                            'button.changeeventdate' => 'large yellow money check icon',
+                            'button.notpublish' => ' green toggle on icon',
+                            'button.publish' => ' red toggle off icon',
+                            'button.changedisplaydate' => ' violet calendar alternate icon',
+                            'button.changeeventdate' => ' yellow money check icon',
                             'button.icons' => 'icons',
                             'button.arrowup' => 'top right corner arrow up icon',
                             'button.arrowdown' => 'bottom right corner arrow down icon',
-                            'button.movecontent' => 'large sticky note outline icon',
-                            'button.addcontent' => 'large plus square outline icon',
-                            'button.movetotrash' => 'large purple trash icon',
-//                            'button.event' => 'large sim card icon', //credit card outline ; columns ; certificate; ticket alternate; money check
-                            'button.permanently' => 'large calendar outline icon',
-                            'button.save' => 'large save icon',
-                            'button.cancel' => 'large red times circle icon',
+                            'button.movecontent' => ' sticky note outline icon',
+                            'button.addcontent' => ' plus square outline icon',
+                            'button.movetotrash' => ' purple trash icon',
+//                            'button.event' => ' sim card icon', //credit card outline ; columns ; certificate; ticket alternate; money check
+                            'button.permanently' => ' calendar outline icon',
+                            'button.save' => ' save icon',
+                            'button.cancel' => ' red times circle icon',
                             //'div.wrapKalendar' => 'edit_kalendar', //'edit_kalendar',   SV
                             'div.grid' => 'ui grid',
                             'div.wholeRow' => 'sixteen wide column',
@@ -159,10 +159,10 @@ class ConfigurationStyles extends ConfigurationRed {
                         ],
             'deleted_content_buttons' => [
                             'div.wrapTrash' => 'contentButtons trash',
-                            'div.buttonsContent' => 'mini ui basic icon buttons editContent',
+                            'div.buttonsContent' => 'editSizeArticle ui basic icon buttons editContent',
                             'button' => 'ui button',
-                            'button.restore' => 'large sync icon',
-                            'button.delete' => 'large trash icon',
+                            'button.restore' => ' sync icon',
+                            'button.delete' => ' trash icon',
                         ],
                     ];
     }
@@ -234,7 +234,7 @@ class ConfigurationStyles extends ConfigurationRed {
                 return new ClassMap (
                     [
                         'MenuWrap' => [
-                            'ul' => 'ui tiny text menu',
+                            'ul' => 'ui text menu',
                             ],
                         'LevelWrap' => [
                             'ul' => 'menu'
@@ -246,7 +246,7 @@ class ConfigurationStyles extends ConfigurationRed {
                 return new ClassMap (
                     [
                         'MenuWrap' => [
-                            'ul' => 'ui tiny text menu edit',
+                            'ul' => 'ui text menu edit',
                             ],
                         'LevelWrap' => [
                             'ul' => 'menu'
@@ -261,7 +261,7 @@ class ConfigurationStyles extends ConfigurationRed {
                 return new ClassMap (
                     [
                         'MenuWrap' => [
-                            'ul' => 'ui mini text menu left floated',
+                            'ul' => 'ui text menu left floated',
                             ],
                         'LevelWrap' => [
 
@@ -276,7 +276,7 @@ class ConfigurationStyles extends ConfigurationRed {
                 return new ClassMap (
                     [
                         'MenuWrap' => [
-                            'ul' => 'ui mini text menu edit left floated',
+                            'ul' => 'ui text menu edit left floated',
                             ],
                         'LevelWrap' => [
                             'ul' => 'menu'

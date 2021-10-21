@@ -80,7 +80,7 @@
   pointer-events: none;
   position: absolute;
   content: '';
-  font-size: 1rem;
+  font-size: 1.71428571rem;
   width: 0.71428571em;
   height: 0.71428571em;
   background: #FFFFFF;
@@ -100,7 +100,7 @@
   text-align: left;
   text-shadow: none;
   white-space: nowrap;
-  font-size: 1rem;
+  font-size: 17px;
   border: 1px solid #D4D4D5;
   line-height: 1.4em;
   max-width: none;
@@ -752,7 +752,7 @@
 ---------------*/
 
 .ui.popup {
-  font-size: 1rem;
+  font-size: 1.71428571rem;
 }
 .ui.mini.popup {
   font-size: 0.78571429rem;
@@ -815,3 +815,6 @@
         User Overrides
 *******************************/
 
+[data-tooltip]::before {
+  font-size: 17px;
+}

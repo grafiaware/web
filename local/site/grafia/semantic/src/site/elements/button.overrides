@@ -1,3 +1,19 @@
 /*******************************
          Site Overrides
 *******************************/
+.editSize.buttons{
+    .button{
+        font-size: @tiny;
+        .icon{
+            font-size: @big;
+        }
+    }
+} 
+.editSizeArticle.buttons{
+    .button{
+        font-size: @small;
+        .icon{
+            font-size: @huge;
+        }
+    }
+}

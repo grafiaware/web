@@ -1797,67 +1797,67 @@
 /* Column Width */
 .ui.table th.one.wide,
 .ui.table td.one.wide {
-  width: 6.66666667%;
+  width: 6.25%;
 }
 .ui.table th.two.wide,
 .ui.table td.two.wide {
-  width: 13.33333333%;
+  width: 12.5%;
 }
 .ui.table th.three.wide,
 .ui.table td.three.wide {
-  width: 20%;
+  width: 18.75%;
 }
 .ui.table th.four.wide,
 .ui.table td.four.wide {
-  width: 24.66666667%;
+  width: 25%;
 }
 .ui.table th.five.wide,
 .ui.table td.five.wide {
-  width: 33.33333333%;
+  width: 31.25%;
 }
 .ui.table th.six.wide,
 .ui.table td.six.wide {
-  width: 40%;
+  width: 37.5%;
 }
 .ui.table th.seven.wide,
 .ui.table td.seven.wide {
-  width: 46.66666667%;
+  width: 43.75%;
 }
 .ui.table th.eight.wide,
 .ui.table td.eight.wide {
-  width: 53.33333333%;
+  width: 50%;
 }
 .ui.table th.nine.wide,
 .ui.table td.nine.wide {
-  width: 60%;
+  width: 56.25%;
 }
 .ui.table th.ten.wide,
 .ui.table td.ten.wide {
-  width: 66.66666667%;
+  width: 62.5%;
 }
 .ui.table th.eleven.wide,
 .ui.table td.eleven.wide {
-  width: 73.33333333%;
+  width: 68.75%;
 }
 .ui.table th.twelve.wide,
 .ui.table td.twelve.wide {
-  width: 80%;
+  width: 75%;
 }
 .ui.table th.thirteen.wide,
 .ui.table td.thirteen.wide {
-  width: 86.66666667%;
+  width: 81.25%;
 }
 .ui.table th.fourteen.wide,
 .ui.table td.fourteen.wide {
-  width: 93.33333333%;
+  width: 87.5%;
 }
 .ui.table th.fifteen.wide,
 .ui.table td.fifteen.wide {
-  width: 100%;
+  width: 93.75%;
 }
 .ui.table th.sixteen.wide,
 .ui.table td.sixteen.wide {
-  width: 106.66666667%;
+  width: 100%;
 }
 
 /*--------------

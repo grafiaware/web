@@ -24,7 +24,7 @@
   color: rgba(0, 0, 0, 0.6);
   font-family: Verdana, Geneva, "arial ce";
   margin: 0 0.25em 0 0;
-  padding: 0.91666667em 1em 0.91666667em;
+  padding: 0.75em 1em 0.75em;
   text-transform: none;
   text-shadow: none;
   font-weight: bold;
@@ -677,19 +677,19 @@
 
 .ui.compact.buttons .button,
 .ui.compact.button {
-  padding: 0.6875em 0.75em 0.6875em;
+  padding: 0.5625em 0.75em 0.5625em;
 }
 .ui.compact.icon.buttons .button,
 .ui.compact.icon.button {
-  padding: 0.6875em 0.6875em 0.6875em;
+  padding: 0.5625em 0.5625em 0.5625em;
 }
 .ui.compact.labeled.icon.buttons .button,
 .ui.compact.labeled.icon.button {
-  padding: 0.6875em 3.58333333em 0.6875em;
+  padding: 0.5625em 3.25em 0.5625em;
 }
 .ui.compact.labeled.icon.buttons .button > .icon,
 .ui.compact.labeled.icon.button > .icon {
-  padding: 0.6875em 0 0.6875em 0;
+  padding: 0.5625em 0 0.5625em 0;
 }
 
 /*-------------------
@@ -757,7 +757,7 @@
 
 .ui.icon.buttons .button,
 .ui.icon.button:not(.animated):not(.compact) {
-  padding: 0.91666667em 0.91666667em 0.91666667em;
+  padding: 0.75em 0.75em 0.75em;
 }
 .ui.animated.icon.button > .content > .icon,
 .ui.icon.buttons .button > .icon,
@@ -908,7 +908,7 @@
   -webkit-transition: color 0.1s ease !important;
   transition: color 0.1s ease !important;
   border-radius: 0;
-  margin: 0.41666667em 0.25em 0.41666667em 0 !important;
+  margin: 0.25em 0.25em 0.25em 0 !important;
   padding: 0.5em !important;
   -webkit-box-shadow: none;
           box-shadow: none;
@@ -942,7 +942,7 @@
 .ui.labeled.icon.buttons .button,
 .ui.labeled.icon.button {
   position: relative;
-  padding-left: 3.83333333em !important;
+  padding-left: 3.5em !important;
   padding-right: 1em !important;
 }
 
@@ -960,9 +960,9 @@
   text-align: center;
   -webkit-animation: none;
           animation: none;
-  padding: 0.91666667em 0 0.91666667em 0;
+  padding: 0.75em 0 0.75em 0;
   margin: 0;
-  width: 2.83333333em;
+  width: 2.5em;
   background-color: rgba(0, 0, 0, 0.05);
   color: '';
   -webkit-box-shadow: -1px 0 0 0 transparent inset;
@@ -971,7 +971,7 @@
 
 /* Right Labeled */
 .ui[class*="right labeled"].icon.button {
-  padding-right: 3.83333333em !important;
+  padding-right: 3.5em !important;
   padding-left: 1em !important;
 }
 .ui[class*="right labeled"].icon.button > .icon {
@@ -1059,23 +1059,23 @@
 .ui.buttons .or {
   position: relative;
   width: 0.3em;
-  height: 2.83333333em;
+  height: 2.5em;
   z-index: 3;
 }
 .ui.buttons .or:before {
   position: absolute;
   text-align: center;
   border-radius: 500rem;
-  content: 'or';
+  content: '×';
   top: 50%;
   left: 50%;
   background-color: #FFFFFF;
   text-shadow: none;
-  margin-top: -0.95833333em;
-  margin-left: -0.95833333em;
-  width: 1.91666667em;
-  height: 1.91666667em;
-  line-height: 1.91666667em;
+  margin-top: -0.875em;
+  margin-left: -0.875em;
+  width: 1.75em;
+  height: 1.75em;
+  line-height: 1.75em;
   color: rgba(0, 0, 0, 0.4);
   font-style: normal;
   font-weight: bold;
@@ -4376,3 +4376,15 @@
          Site Overrides
 *******************************/
 
+.editSize.buttons .button {
+  font-size: 0.83333333rem;
+}
+.editSize.buttons .button .icon {
+  font-size: 1.25rem;
+}
+.editSizeArticle.buttons .button {
+  font-size: 0.91666667rem;
+}
+.editSizeArticle.buttons .button .icon {
+  font-size: 1.41666667rem;
+}

@@ -41,7 +41,7 @@
   font-weight: 300;
   padding: 0;
   margin: 0;
-  font-size: 1rem;
+  font-size: 1.71428571rem;
   line-height: 1.2em;
   color: rgba(0, 0, 0, 0.6);
 }
@@ -146,13 +146,13 @@ h3.ui.header {
   font-size: 3.92857143rem;
 }
 h3.ui.header .sub.header {
-  font-size: 1rem;
+  font-size: 1.71428571rem;
 }
 h4.ui.header {
   font-size: 3.42857143rem;
 }
 h4.ui.header .sub.header {
-  font-size: 1rem;
+  font-size: 1.71428571rem;
 }
 h5.ui.header {
   font-size: 3.21428571rem;
@@ -196,7 +196,7 @@ h6.ui.header .sub.header {
   min-height: 1em;
 }
 .ui.small.header .sub.header {
-  font-size: 1rem;
+  font-size: 1.71428571rem;
 }
 .ui.small.sub.header {
   font-size: 0.78571429em;
@@ -218,7 +218,7 @@ h6.ui.header .sub.header {
   font-size: 1.14285714rem;
 }
 .ui.big.sub.header {
-  font-size: 1em;
+  font-size: 1.71428571em;
 }
 .ui.huge.header {
   font-size: 4.14285714em;
@@ -228,7 +228,7 @@ h6.ui.header .sub.header {
   font-size: 1.14285714rem;
 }
 .ui.huge.sub.header {
-  font-size: 1em;
+  font-size: 1.71428571em;
 }
 .ui.massive.header {
   font-size: 2.28571429em;
@@ -692,14 +692,14 @@ a.ui.inverted.black.header.header.header:hover {
 
 .ui.block.header {
   background: #F3F4F5;
-  padding: 0.78571429rem 1rem;
+  padding: 0.78571429rem 1.71428571rem;
   -webkit-box-shadow: none;
           box-shadow: none;
   border: 1px solid #D4D4D5;
   border-radius: 0.42857143rem;
 }
 .ui.block.header:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6) {
-  font-size: 1rem;
+  font-size: 1.71428571rem;
 }
 .ui.mini.block.header {
   font-size: 0.78571429rem;
@@ -729,7 +729,7 @@ a.ui.inverted.black.header.header.header:hover {
 
 .ui.attached.header {
   background: #FFFFFF;
-  padding: 0.78571429rem 1rem;
+  padding: 0.78571429rem 1.71428571rem;
   margin: 0 -1px 0 -1px;
   -webkit-box-shadow: none;
           box-shadow: none;
@@ -751,7 +751,7 @@ a.ui.inverted.black.header.header.header:hover {
 
 /* Attached Sizes */
 .ui.attached.header:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6) {
-  font-size: 1em;
+  font-size: 1.71428571em;
 }
 .ui.mini.attached.header {
   font-size: 0.78571429em;

@@ -25,9 +25,9 @@ use Pes\Text\Text;
             <p class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll">Program</p>
             <img src="@images/klic_foto.jpg" width="1280" height="420" alt="Obrázek k programu"/>
         </div>
-        <div class="eight wide column"><a href="web/v1/page/item/604bcc5b3c5d7" class="ui primary fluid massive button">Zobrazit přednášky</a></div>
-        <div class="eight wide column"><a href="web/v1/page/item/604bd0e2e440d" class="ui primary fluid massive button">Zobrazit poradny</a></div>
-        <div class="sixteen wide column"><a href="web/v1/page/item/60619d3247985" class="ui primary fluid massive button">Online stánky podniků</a></div>
+        <div class="eight wide column"><a href="web/v1/page/item/604bcc5b3c5d7" class="ui primary fluid button">Zobrazit přednášky</a></div>
+        <div class="eight wide column"><a href="web/v1/page/item/604bd0e2e440d" class="ui primary fluid button">Zobrazit poradny</a></div>
+        <div class="sixteen wide column"><a href="web/v1/page/item/60619d3247985" class="ui primary fluid button">Online stánky podniků</a></div>
 <!--        <div class="sixteen wide column">
                 <p class="text tucne">
                     <?

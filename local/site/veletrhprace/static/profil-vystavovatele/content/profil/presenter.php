@@ -44,7 +44,7 @@ use Pes\Text\Html;
                         if($readonly === '') {
                         ?>
                         <div class="field margin">
-                            <button class="ui massive primary button" type="submit">Uložit</button>
+                            <button class="ui primary button" type="submit">Uložit</button>
                         </div>
                         <?php
                         }

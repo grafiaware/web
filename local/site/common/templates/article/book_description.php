@@ -36,7 +36,7 @@
             <p class="text zadne-okraje"><b>Formát a rozsah publikace:</b> A4, 496 stran, pevná knižní vazba, obálka lamino</p>
             <p class="text zadne-okraje">Speciální nabídka publikací pro podniky <a href="https://form.simpleshop.cz/k4OE/buy/" target="_blank">zde</a></p>
             <p class="text okraje nastred">
-                <a class="ui massive green labeled icon button" href=""><i class="shopping cart icon"></i> Koupit</a>
+                <a class="ui green labeled icon button" href=""><i class="shopping cart icon"></i> Koupit</a>
             </p>
         </div>
     </div>

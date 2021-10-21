@@ -69,7 +69,7 @@ $email = isset($visitorData) ? $visitorData->getEmail() : ($loginAggregate->getR
                         </div>
                     </div>
                     <div class="field margin">
-                        <button class="ui massive primary button" type="submit">Uložit údaje</button>
+                        <button class="ui primary button" type="submit">Uložit údaje</button>
                     </div>
                     <label><b>Nahrané soubory</b></label>
                     <div class="fields">
@@ -92,7 +92,7 @@ $email = isset($visitorData) ? $visitorData->getEmail() : ($loginAggregate->getR
                             <input type="file" name="<?= $uploadedCvFilename ?>" accept="<?= $accept ?>"  "multiple"=0 size="1">
                         </div>
                         <div class="field margin">
-                            <button class="ui massive primary button" type="submit">Uložit životopis</button>
+                            <button class="ui primary button" type="submit">Uložit životopis</button>
                         </div>
                      </div>
                 </form>
@@ -103,7 +103,7 @@ $email = isset($visitorData) ? $visitorData->getEmail() : ($loginAggregate->getR
                             <input type="file" name="<?= $uploadedLetterFilename ?>" accept="<?= $accept ?>"  "multiple"=0 size="1">
                         </div>
                         <div class="field margin">
-                            <button class="ui massive primary button" type="submit">Uložit dopis</button>
+                            <button class="ui primary button" type="submit">Uložit dopis</button>
                         </div>
                      </div>
                 </form>

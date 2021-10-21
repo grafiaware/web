@@ -199,7 +199,7 @@
   margin-top: 0;
 }
 .ui.dropdown .menu > .input:not(.transparent) input {
-  padding: 0.5em 1.16666667em;
+  padding: 0.5em 0.91666667em;
 }
 .ui.dropdown .menu > .input:not(.transparent) .button,
 .ui.dropdown .menu > .input:not(.transparent) i.icon,
@@ -391,10 +391,10 @@ select.ui.dropdown {
   -webkit-transform: rotateZ(0deg);
           transform: rotateZ(0deg);
   min-width: 14em;
-  min-height: 2.96428571em;
+  min-height: 2.63095238em;
   background: #FFFFFF;
   display: inline-block;
-  padding: 0.91666667em 3.36666667em 0.91666667em 1.16666667em;
+  padding: 0.75em 3.11666667em 0.75em 0.91666667em;
   color: rgba(0, 0, 0, 0.87);
   -webkit-box-shadow: none;
           box-shadow: none;
@@ -417,11 +417,11 @@ select.ui.dropdown {
   width: auto;
   height: auto;
   line-height: 1.21428571em;
-  top: 0.91666667em;
-  right: 1.16666667em;
+  top: 0.75em;
+  right: 0.91666667em;
   z-index: 3;
-  margin: -0.91666667em;
-  padding: 0.91666667em;
+  margin: -0.75em;
+  padding: 0.75em;
   opacity: 0.8;
   -webkit-transition: opacity 0.1s ease;
   transition: opacity 0.1s ease;
@@ -711,13 +711,13 @@ select.ui.dropdown {
 /* Search Selection */
 .ui.search.selection.dropdown > input.search {
   line-height: 1.21428571em;
-  padding: 0.80952381em 3.36666667em 0.80952381em 1.16666667em;
+  padding: 0.64285714em 3.11666667em 0.64285714em 0.91666667em;
 }
 
 /* Used to size multi select input to character width */
 .ui.search.selection.dropdown > span.sizer {
   line-height: 1.21428571em;
-  padding: 0.80952381em 3.36666667em 0.80952381em 1.16666667em;
+  padding: 0.64285714em 3.11666667em 0.64285714em 0.91666667em;
   display: none;
   white-space: pre;
 }
@@ -777,10 +777,10 @@ select.ui.dropdown {
 .ui.dropdown > .remove.icon {
   cursor: pointer;
   font-size: 1em;
-  margin: -0.91666667em;
-  padding: 0.91666667em;
+  margin: -0.75em;
+  padding: 0.75em;
   right: 3em;
-  top: 0.91666667em;
+  top: 0.75em;
   position: absolute;
   opacity: 0.6;
   z-index: 3;
@@ -803,7 +803,7 @@ select.ui.dropdown {
 
 /* Multiple Selection */
 .ui.ui.multiple.dropdown {
-  padding: 0.26984127em 3.36666667em 0.26984127em 0.41666667em;
+  padding: 0.21428571em 3.11666667em 0.21428571em 0.41666667em;
 }
 .ui.multiple.dropdown .menu {
   cursor: auto;
@@ -831,7 +831,7 @@ select.ui.dropdown {
   position: static;
   padding: 0;
   max-width: 100%;
-  margin: 0.53968254em 0 0.53968254em 0.75em;
+  margin: 0.42857143em 0 0.42857143em 0.5em;
   line-height: 1.41666667em;
 }
 .ui.multiple.dropdown > .text.default {
@@ -874,7 +874,7 @@ select.ui.dropdown {
   top: 0;
   left: 0;
   padding: inherit;
-  margin: 0.53968254em 0 0.53968254em 0.75em;
+  margin: 0.42857143em 0 0.42857143em 0.5em;
   line-height: 1.41666667em;
 }
 .ui.multiple.search.dropdown > .label ~ .text {
@@ -886,7 +886,7 @@ select.ui.dropdown {
   position: static;
   padding: 0;
   max-width: 100%;
-  margin: 0.53968254em 0 0.53968254em 0.75em;
+  margin: 0.42857143em 0 0.42857143em 0.5em;
   width: 2.2em;
   line-height: 1.41666667em;
 }

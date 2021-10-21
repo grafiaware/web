@@ -37,7 +37,7 @@
 @emSize   : 12px;
 
 /* The size of page text */
-@fontSize : 12px ;
+@fontSize : 12px;
 
 /*-------------------
     Border Radius
@@ -51,6 +51,12 @@
 
 @headerFontWeight : @bold;
 @headerLineHeight : unit((18 / 14), em);
+
+/*--------------
+   Form Input
+---------------*/
+@inputVerticalPadding   : @relative9px;
+@inputHorizontalPadding : @relative11px;
 
 /*--------------
   Segment
@@ -77,11 +83,26 @@
         Grid
 --------------------*/
 
-@columnCount: 15;
+@columnCount: 16;
 
-/* Columns */
-@fourWide       : (3.7 / @columnCount * 100%);
 
+/*-------------------
+        Sizes
+--------------------*/
+
+/*
+  Sizes are all expressed in terms of 14px/em (default em)  
+  This ensures these "ratios" remain constant despite changes in EM
+*/
+
+@miniSize        : (11 / 14);
+@tinySize        : (12 / 14);
+@smallSize       : (13 / 14);
+@mediumSize      : (14 / 14);
+@largeSize       : (16 / 14);
+@bigSize         : (18 / 14);
+@hugeSize        : (20 / 14);
+@massiveSize     : (24 / 14);
 
 
 /*-------------------

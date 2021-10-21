@@ -23,7 +23,7 @@ Podívejte se, jak se registrovat, přihlásit nebo jak vložit životopis k pra
         </div>
         <div class="seven wide tablet nine wide computer column">
             <?= Html::p(Text::mono($text), ["class"=>"text tucne"]) ?> 
-            <a class="ui primary massive button" href="web/v1/page/item/606eb31a5fc6c" target="_blank">Zhlédnout videonávod</a>
+            <a class="ui primary button" href="web/v1/page/item/606eb31a5fc6c" target="_blank">Zhlédnout videonávod</a>
         </div>
     </div>
 </div>

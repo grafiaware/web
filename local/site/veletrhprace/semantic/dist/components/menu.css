@@ -23,7 +23,7 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  margin: 1rem 0;
+  margin: 1.71428571rem 0;
   font-family: 'Rubik';
   background: transparent;
   font-weight: 300;
@@ -150,7 +150,7 @@
   margin: -0.5em 0;
   padding-bottom: 0.78571429em;
   padding-top: 0.78571429em;
-  font-size: 1em;
+  font-size: 1.71428571em;
 }
 
 /*----------------
@@ -184,7 +184,7 @@
   margin: -0.5em 0;
 }
 .ui.menu .item > .input input {
-  font-size: 1em;
+  font-size: 1.71428571em;
   padding-top: 0.57142857em;
   padding-bottom: 0.57142857em;
 }
@@ -202,7 +202,7 @@
 }
 .ui.vertical.menu .item > .header:not(.ui) {
   margin: 0 0 0.5em;
-  font-size: 1em;
+  font-size: 1.71428571em;
   font-weight: 500;
 }
 
@@ -236,7 +236,7 @@
 .ui.menu .ui.dropdown .menu > .item {
   margin: 0;
   text-align: left;
-  font-size: 1em !important;
+  font-size: 1.71428571em !important;
   padding: 0.78571429em 1.14285714em !important;
   background: transparent !important;
   color: #000 !important;
@@ -266,7 +266,7 @@
 .ui.menu .ui.dropdown .menu > .item > .icons,
 .ui.menu .ui.dropdown .menu > .item > i.icon:not(.dropdown) {
   display: inline-block;
-  font-size: 1em !important;
+  font-size: 1.71428571em !important;
   float: none;
   margin: 0 0.75em 0 0 !important;
 }
@@ -1102,7 +1102,7 @@ Floated Menu / Item
   -webkit-box-shadow: none;
           box-shadow: none;
   border: none;
-  margin: 1em -0.5em;
+  margin: 1.71428571em -0.5em;
 }
 .ui.text.menu .item {
   border-radius: 0;
@@ -1148,7 +1148,7 @@ Floated Menu / Item
 /*--- vertical text ---*/
 
 .ui.vertical.text.menu {
-  margin: 1em 0;
+  margin: 1.71428571em 0;
 }
 .ui.vertical.text.menu:first-child {
   margin-top: 0;
@@ -2076,7 +2076,7 @@ Floated Menu / Item
   bottom: 0;
   margin-bottom: 0;
   top: 0;
-  margin-top: 1rem;
+  margin-top: 1.71428571rem;
   border-radius: 0.42857143rem 0.42857143rem 0 0;
 }
 .ui.menu[class*="top attached"]:first-child {
@@ -2088,7 +2088,7 @@ Floated Menu / Item
   bottom: 0;
   margin-top: 0;
   top: 0;
-  margin-bottom: 1rem;
+  margin-bottom: 1.71428571rem;
   -webkit-box-shadow: none, none;
           box-shadow: none, none;
   border-radius: 0 0 0.42857143rem 0.42857143rem;
@@ -2123,7 +2123,7 @@ Floated Menu / Item
 ---------------*/
 
 .ui.menu {
-  font-size: 1rem;
+  font-size: 1.71428571rem;
 }
 .ui.vertical.menu {
   width: 15rem;
@@ -2239,18 +2239,22 @@ Floated Menu / Item
 .fix-bar:not(.editMenu) .ui.menu .item::before {
   display: none;
 }
-.fix-bar:not(.editMenu) .ui.massive.vertical.menu:not(.icon) {
+.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) {
   width: 30rem;
+  padding: 0.7em 0;
 }
-.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) a:not(.presented) {
-  overflow: hidden;
+.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) a,
+.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) p {
+  display: block;
+  width: 100%;
+  font-weight: 500;
+  font-size: 2rem;
+  text-transform: uppercase;
+  line-height: 1.2;
+  position: relative;
 }
-.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) a:not(.presented):hover::after {
-  -webkit-transform: scaleX(1);
-          transform: scaleX(1);
-  background-color: #fff;
-}
-.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) a:not(.presented)::after {
+.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) a::after,
+.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) p::after {
   background: 0 0;
   position: absolute;
   top: auto;
@@ -2268,6 +2272,27 @@ Floated Menu / Item
   -webkit-transform: translateX(-100%);
           transform: translateX(-100%);
 }
+.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) a:not(.presented),
+.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) p:not(.presented) {
+  color: #fff;
+}
+.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) a:not(.presented) {
+  overflow: hidden;
+}
+.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) a:not(.presented):hover::after {
+  -webkit-transform: scaleX(1);
+          transform: scaleX(1);
+  background-color: #fff;
+}
+.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) p {
+  padding-left: 35px;
+}
+.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon).edit {
+  width: 33rem;
+}
+.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon).edit .onpath {
+  width: 29rem;
+}
 .fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) li.cut a::after {
   background-color: 0;
   -webkit-transform: none;
@@ -2279,61 +2304,20 @@ Floated Menu / Item
   -webkit-transform: none;
           transform: none;
 }
-.fix-bar:not(.editMenu) .ui.vertical.menu.massive {
-  padding: 0.7em 0;
-}
-.fix-bar:not(.editMenu) .ui.vertical.menu.massive a,
-.fix-bar:not(.editMenu) .ui.vertical.menu.massive p {
-  display: block;
-  width: 100%;
-  font-weight: 500;
-  font-size: 2rem;
-  text-transform: uppercase;
-  line-height: 1.2;
-  position: relative;
-}
-.fix-bar:not(.editMenu) .ui.vertical.menu.massive a:not(.presented),
-.fix-bar:not(.editMenu) .ui.vertical.menu.massive p:not(.presented) {
-  color: #fff;
-}
-.fix-bar:not(.editMenu) .ui.vertical.menu.massive p {
-  padding-left: 35px;
-}
-.fix-bar:not(.editMenu) .ui.vertical.menu.massive.edit {
-  width: 35rem;
-}
-.fix-bar:not(.editMenu) .ui.vertical.menu.massive.edit .onpath {
-  width: 33.5rem;
-}
-.fix-bar:not(.editMenu) .ui.vertical.menu.massive.edit a {
-  display: block;
-  width: 100%;
-  font-size: 1.8rem !important;
-  position: relative;
-}
-.fix-bar:not(.editMenu) .ui.vertical.menu.massive.edit p {
-  padding: 0.8em 1.3em;
-  font-size: 1.8rem !important;
-  font-weight: 500;
-  position: relative;
-}
-.fix-bar:not(.editMenu) .ui.vertical.menu.massive.edit li:not(.cut) p.presented {
-  margin-top: 0.7em;
-}
-.fix-bar:not(.editMenu) .kos .ui.vertical.menu.massive a,
-.fix-bar:not(.editMenu) .kos .ui.vertical.menu.massive p {
+.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) .kos .ui.vertical.menu a,
+.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) .kos .ui.vertical.menu p {
   font-size: 2rem !important;
   padding: 0.2em 1.3em;
 }
-.fix-bar:not(.editMenu) .kos .ui.vertical.menu.massive a.presented,
-.fix-bar:not(.editMenu) .kos .ui.vertical.menu.massive p.presented {
+.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) .kos .ui.vertical.menu a.presented,
+.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) .kos .ui.vertical.menu p.presented {
   padding: 20px 1.3em 15px;
   margin-top: 10px;
 }
 .fix-bar.editMenu .ui.menu .item::before {
   display: none;
 }
-.fix-bar.editMenu .ui.massive.vertical.menu:not(.icon) {
+.fix-bar.editMenu .ui.vertical.menu:not(.icon) {
   width: 26rem;
 }
 .fix-bar.editMenu .ui.vertical.menu:not(.icon) a:not(.presented) {
@@ -2373,11 +2357,11 @@ Floated Menu / Item
   -webkit-transform: none;
           transform: none;
 }
-.fix-bar.editMenu .ui.vertical.menu.massive {
+.fix-bar.editMenu .ui.vertical.menu {
   padding: 0.7em 0;
 }
-.fix-bar.editMenu .ui.vertical.menu.massive a,
-.fix-bar.editMenu .ui.vertical.menu.massive p {
+.fix-bar.editMenu .ui.vertical.menu a,
+.fix-bar.editMenu .ui.vertical.menu p {
   display: block;
   width: 100%;
   font-weight: 500;
@@ -2387,32 +2371,32 @@ Floated Menu / Item
   position: relative;
   color: #fff;
 }
-.fix-bar.editMenu .ui.vertical.menu.massive p {
+.fix-bar.editMenu .ui.vertical.menu p {
   padding-left: 25px;
 }
-.fix-bar.editMenu .ui.vertical.menu.massive.edit {
+.fix-bar.editMenu .ui.vertical.menu.edit {
   width: 27rem;
 }
-.fix-bar.editMenu .ui.vertical.menu.massive.edit .onpath {
+.fix-bar.editMenu .ui.vertical.menu.edit .onpath {
   width: 35rem;
 }
-.fix-bar.editMenu .ui.vertical.menu.massive.edit a {
+.fix-bar.editMenu .ui.vertical.menu.edit a {
   display: block;
   width: 100%;
   font-size: 1.8rem !important;
   position: relative;
 }
-.fix-bar.editMenu .ui.vertical.menu.massive.edit p {
+.fix-bar.editMenu .ui.vertical.menu.edit p {
   padding: 0.6em 1.1em;
   font-size: 1.5rem !important;
   font-weight: 500;
   position: relative;
 }
-.fix-bar.editMenu .ui.vertical.menu.massive.edit li:not(.cut) p.presented {
+.fix-bar.editMenu .ui.vertical.menu.edit li:not(.cut) p.presented {
   margin-top: 0.7em;
 }
-.fix-bar.editMenu .kos .ui.vertical.menu.massive a,
-.fix-bar.editMenu .kos .ui.vertical.menu.massive p {
+.fix-bar.editMenu .kos .ui.vertical.menu a,
+.fix-bar.editMenu .kos .ui.vertical.menu p {
   font-size: 1.5rem !important;
   padding: 0 1.3em;
 }

@@ -1159,7 +1159,7 @@ footer a:hover::after {
   -ms-flex-align: center;
   align-items: center;
   margin: 0 0 0 -1px !important;
-  font-size: 1em;
+  font-size: 1.71428571em;
   padding: '';
   border-color: rgba(34, 36, 38, 0.15);
 }
@@ -1496,7 +1496,7 @@ footer a:hover::after {
 .ui.buttons .button,
 .ui.buttons .or,
 .ui.button {
-  font-size: 1rem;
+  font-size: 1.71428571rem;
 }
 
 .ui.mini.buttons .dropdown,
@@ -5707,6 +5707,30 @@ footer a:hover::after {
 /*******************************
          Site Overrides
 *******************************/
+
+.prihlaseni .dropdown .tertiary.button {
+  font-size: 0.42857143em;
+}
+
+.editSize.buttons .button,
+.editSizeArticle.buttons .button {
+  font-size: 0.92857143rem;
+}
+
+.editSize.buttons .button .icon,
+.editSizeArticle.buttons .button .icon {
+  font-size: 1.42857143rem;
+}
+
+.editSize.button,
+.editSizeArticle.button {
+  font-size: 0.92857143rem;
+}
+
+.editSize.button .icon,
+.editSizeArticle.button .icon {
+  font-size: 1.42857143rem;
+}
 /*!
  * # Fomantic-UI - Container
  * http://github.com/fomantic/Fomantic-UI/
@@ -6223,7 +6247,7 @@ footer a:hover::after {
   font-weight: 300;
   padding: 0;
   margin: 0;
-  font-size: 1rem;
+  font-size: 1.71428571rem;
   line-height: 1.2em;
   color: rgba(0, 0, 0, 0.6);
 }
@@ -6336,7 +6360,7 @@ h3.ui.header {
 }
 
 h3.ui.header .sub.header {
-  font-size: 1rem;
+  font-size: 1.71428571rem;
 }
 
 h4.ui.header {
@@ -6344,7 +6368,7 @@ h4.ui.header {
 }
 
 h4.ui.header .sub.header {
-  font-size: 1rem;
+  font-size: 1.71428571rem;
 }
 
 h5.ui.header {
@@ -6399,7 +6423,7 @@ h6.ui.header .sub.header {
 }
 
 .ui.small.header .sub.header {
-  font-size: 1rem;
+  font-size: 1.71428571rem;
 }
 
 .ui.small.sub.header {
@@ -6428,7 +6452,7 @@ h6.ui.header .sub.header {
 }
 
 .ui.big.sub.header {
-  font-size: 1em;
+  font-size: 1.71428571em;
 }
 
 .ui.huge.header {
@@ -6441,7 +6465,7 @@ h6.ui.header .sub.header {
 }
 
 .ui.huge.sub.header {
-  font-size: 1em;
+  font-size: 1.71428571em;
 }
 
 .ui.massive.header {
@@ -7014,7 +7038,7 @@ a.ui.inverted.black.header.header.header:hover {
 
 .ui.block.header {
   background: #F3F4F5;
-  padding: 0.78571429rem 1rem;
+  padding: 0.78571429rem 1.71428571rem;
   -webkit-box-shadow: none;
   box-shadow: none;
   border: 1px solid #D4D4D5;
@@ -7022,7 +7046,7 @@ a.ui.inverted.black.header.header.header:hover {
 }
 
 .ui.block.header:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6) {
-  font-size: 1rem;
+  font-size: 1.71428571rem;
 }
 
 .ui.mini.block.header {
@@ -7059,7 +7083,7 @@ a.ui.inverted.black.header.header.header:hover {
 
 .ui.attached.header {
   background: #FFFFFF;
-  padding: 0.78571429rem 1rem;
+  padding: 0.78571429rem 1.71428571rem;
   margin: 0 -1px 0 -1px;
   -webkit-box-shadow: none;
   box-shadow: none;
@@ -7086,7 +7110,7 @@ a.ui.inverted.black.header.header.header:hover {
 /* Attached Sizes */
 
 .ui.attached.header:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6) {
-  font-size: 1em;
+  font-size: 1.71428571em;
 }
 
 .ui.mini.attached.header {
@@ -16320,7 +16344,7 @@ img.ui.bordered.image {
 .ui.medium.image {
   width: 300px;
   height: auto;
-  font-size: 1rem;
+  font-size: 1.71428571rem;
 }
 
 .ui.mini.images .image,
@@ -16864,7 +16888,7 @@ img.ui.bordered.image {
   -ms-flex: 0 0 auto;
   flex: 0 0 auto;
   margin: 0;
-  font-size: 1em;
+  font-size: 1.71428571em;
 }
 
 .ui.labeled.input > .label:not(.corner) {
@@ -17176,7 +17200,7 @@ img.ui.bordered.image {
 ---------------------*/
 
 .ui.input {
-  font-size: 1em;
+  font-size: 1.71428571em;
 }
 
 .ui.mini.input {
@@ -17714,11 +17738,11 @@ a.ui.label {
 /* Inside Table */
 
 .ui.table td > .ui.ribbon.label {
-  left: calc(-1em - 1.2em);
+  left: calc(-1.7142857142857142em - 1.2em);
 }
 
 .ui.table td > .ui[class*="right ribbon"].label {
-  left: calc(100% + 1em + 1.2em);
+  left: calc(100% + 1.7142857142857142em + 1.2em);
   padding-left: 0.833em;
 }
 
@@ -19589,7 +19613,7 @@ a.ui.ui.ui.inverted.basic.black.label:hover {
 
 .ui.large.labels .label,
 .ui.large.label {
-  font-size: 1rem;
+  font-size: 1.71428571rem;
 }
 
 .ui.big.labels .label,
@@ -20647,7 +20671,7 @@ ol.ui.suffixed.list li:before,
 --------------------*/
 
 .ui.list {
-  font-size: 1em;
+  font-size: 1.71428571em;
 }
 
 .ui.mini.list {
@@ -23531,7 +23555,7 @@ ol.ui.suffixed.list li:before,
   margin-top: 0;
   margin-bottom: 0;
   vertical-align: middle;
-  font-size: 1em;
+  font-size: 1.71428571em;
 }
 
 .ui.form .inline.fields .field .calendar:not(.popup),
@@ -23579,7 +23603,7 @@ ol.ui.suffixed.list li:before,
 .ui.form,
 .ui.form .field .dropdown,
 .ui.form .field .dropdown .menu > .item {
-  font-size: 1rem;
+  font-size: 1.71428571rem;
 }
 
 .ui.mini.form,
@@ -26016,7 +26040,7 @@ ol.ui.suffixed.list li:before,
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  margin: 1rem 0;
+  margin: 1.71428571rem 0;
   font-family: 'Rubik';
   background: transparent;
   font-weight: 300;
@@ -26152,7 +26176,7 @@ ol.ui.suffixed.list li:before,
   margin: -0.5em 0;
   padding-bottom: 0.78571429em;
   padding-top: 0.78571429em;
-  font-size: 1em;
+  font-size: 1.71428571em;
 }
 
 /*----------------
@@ -26188,7 +26212,7 @@ ol.ui.suffixed.list li:before,
 }
 
 .ui.menu .item > .input input {
-  font-size: 1em;
+  font-size: 1.71428571em;
   padding-top: 0.57142857em;
   padding-bottom: 0.57142857em;
 }
@@ -26207,7 +26231,7 @@ ol.ui.suffixed.list li:before,
 
 .ui.vertical.menu .item > .header:not(.ui) {
   margin: 0 0 0.5em;
-  font-size: 1em;
+  font-size: 1.71428571em;
   font-weight: 500;
 }
 
@@ -26243,7 +26267,7 @@ ol.ui.suffixed.list li:before,
 .ui.menu .ui.dropdown .menu > .item {
   margin: 0;
   text-align: left;
-  font-size: 1em !important;
+  font-size: 1.71428571em !important;
   padding: 0.78571429em 1.14285714em !important;
   background: transparent !important;
   color: #000 !important;
@@ -26278,7 +26302,7 @@ ol.ui.suffixed.list li:before,
 .ui.menu .ui.dropdown .menu > .item > .icons,
 .ui.menu .ui.dropdown .menu > .item > i.icon:not(.dropdown) {
   display: inline-block;
-  font-size: 1em !important;
+  font-size: 1.71428571em !important;
   float: none;
   margin: 0 0.75em 0 0 !important;
 }
@@ -27205,7 +27229,7 @@ Floated Menu / Item
   -webkit-box-shadow: none;
   box-shadow: none;
   border: none;
-  margin: 1em -0.5em;
+  margin: 1.71428571em -0.5em;
 }
 
 .ui.text.menu .item {
@@ -27255,7 +27279,7 @@ Floated Menu / Item
 /*--- vertical text ---*/
 
 .ui.vertical.text.menu {
-  margin: 1em 0;
+  margin: 1.71428571em 0;
 }
 
 .ui.vertical.text.menu:first-child {
@@ -28342,7 +28366,7 @@ Floated Menu / Item
   bottom: 0;
   margin-bottom: 0;
   top: 0;
-  margin-top: 1rem;
+  margin-top: 1.71428571rem;
   border-radius: 0.42857143rem 0.42857143rem 0 0;
 }
 
@@ -28356,7 +28380,7 @@ Floated Menu / Item
   bottom: 0;
   margin-top: 0;
   top: 0;
-  margin-bottom: 1rem;
+  margin-bottom: 1.71428571rem;
   -webkit-box-shadow: none, none;
   box-shadow: none, none;
   border-radius: 0 0 0.42857143rem 0.42857143rem;
@@ -28397,7 +28421,7 @@ Floated Menu / Item
 ---------------*/
 
 .ui.menu {
-  font-size: 1rem;
+  font-size: 1.71428571rem;
 }
 
 .ui.vertical.menu {
@@ -28533,21 +28557,24 @@ Floated Menu / Item
   display: none;
 }
 
-.fix-bar:not(.editMenu) .ui.massive.vertical.menu:not(.icon) {
+.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) {
   width: 30rem;
+  padding: 0.7em 0;
 }
 
-.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) a:not(.presented) {
-  overflow: hidden;
+.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) a,
+.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) p {
+  display: block;
+  width: 100%;
+  font-weight: 500;
+  font-size: 2rem;
+  text-transform: uppercase;
+  line-height: 1.2;
+  position: relative;
 }
 
-.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) a:not(.presented):hover::after {
-  -webkit-transform: scaleX(1);
-  transform: scaleX(1);
-  background-color: #fff;
-}
-
-.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) a:not(.presented)::after {
+.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) a::after,
+.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) p::after {
   background: 0 0;
   position: absolute;
   top: auto;
@@ -28566,6 +28593,33 @@ Floated Menu / Item
   transform: translateX(-100%);
 }
 
+.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) a:not(.presented),
+.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) p:not(.presented) {
+  color: #fff;
+}
+
+.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) a:not(.presented) {
+  overflow: hidden;
+}
+
+.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) a:not(.presented):hover::after {
+  -webkit-transform: scaleX(1);
+  transform: scaleX(1);
+  background-color: #fff;
+}
+
+.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) p {
+  padding-left: 35px;
+}
+
+.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon).edit {
+  width: 33rem;
+}
+
+.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon).edit .onpath {
+  width: 29rem;
+}
+
 .fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) li.cut a::after {
   background-color: 0;
   -webkit-transform: none;
@@ -28579,64 +28633,14 @@ Floated Menu / Item
   transform: none;
 }
 
-.fix-bar:not(.editMenu) .ui.vertical.menu.massive {
-  padding: 0.7em 0;
-}
-
-.fix-bar:not(.editMenu) .ui.vertical.menu.massive a,
-.fix-bar:not(.editMenu) .ui.vertical.menu.massive p {
-  display: block;
-  width: 100%;
-  font-weight: 500;
-  font-size: 2rem;
-  text-transform: uppercase;
-  line-height: 1.2;
-  position: relative;
-}
-
-.fix-bar:not(.editMenu) .ui.vertical.menu.massive a:not(.presented),
-.fix-bar:not(.editMenu) .ui.vertical.menu.massive p:not(.presented) {
-  color: #fff;
-}
-
-.fix-bar:not(.editMenu) .ui.vertical.menu.massive p {
-  padding-left: 35px;
-}
-
-.fix-bar:not(.editMenu) .ui.vertical.menu.massive.edit {
-  width: 35rem;
-}
-
-.fix-bar:not(.editMenu) .ui.vertical.menu.massive.edit .onpath {
-  width: 33.5rem;
-}
-
-.fix-bar:not(.editMenu) .ui.vertical.menu.massive.edit a {
-  display: block;
-  width: 100%;
-  font-size: 1.8rem !important;
-  position: relative;
-}
-
-.fix-bar:not(.editMenu) .ui.vertical.menu.massive.edit p {
-  padding: 0.8em 1.3em;
-  font-size: 1.8rem !important;
-  font-weight: 500;
-  position: relative;
-}
-
-.fix-bar:not(.editMenu) .ui.vertical.menu.massive.edit li:not(.cut) p.presented {
-  margin-top: 0.7em;
-}
-
-.fix-bar:not(.editMenu) .kos .ui.vertical.menu.massive a,
-.fix-bar:not(.editMenu) .kos .ui.vertical.menu.massive p {
+.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) .kos .ui.vertical.menu a,
+.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) .kos .ui.vertical.menu p {
   font-size: 2rem !important;
   padding: 0.2em 1.3em;
 }
 
-.fix-bar:not(.editMenu) .kos .ui.vertical.menu.massive a.presented,
-.fix-bar:not(.editMenu) .kos .ui.vertical.menu.massive p.presented {
+.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) .kos .ui.vertical.menu a.presented,
+.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) .kos .ui.vertical.menu p.presented {
   padding: 20px 1.3em 15px;
   margin-top: 10px;
 }
@@ -28645,7 +28649,7 @@ Floated Menu / Item
   display: none;
 }
 
-.fix-bar.editMenu .ui.massive.vertical.menu:not(.icon) {
+.fix-bar.editMenu .ui.vertical.menu:not(.icon) {
   width: 26rem;
 }
 
@@ -28691,12 +28695,12 @@ Floated Menu / Item
   transform: none;
 }
 
-.fix-bar.editMenu .ui.vertical.menu.massive {
+.fix-bar.editMenu .ui.vertical.menu {
   padding: 0.7em 0;
 }
 
-.fix-bar.editMenu .ui.vertical.menu.massive a,
-.fix-bar.editMenu .ui.vertical.menu.massive p {
+.fix-bar.editMenu .ui.vertical.menu a,
+.fix-bar.editMenu .ui.vertical.menu p {
   display: block;
   width: 100%;
   font-weight: 500;
@@ -28707,38 +28711,38 @@ Floated Menu / Item
   color: #fff;
 }
 
-.fix-bar.editMenu .ui.vertical.menu.massive p {
+.fix-bar.editMenu .ui.vertical.menu p {
   padding-left: 25px;
 }
 
-.fix-bar.editMenu .ui.vertical.menu.massive.edit {
+.fix-bar.editMenu .ui.vertical.menu.edit {
   width: 27rem;
 }
 
-.fix-bar.editMenu .ui.vertical.menu.massive.edit .onpath {
+.fix-bar.editMenu .ui.vertical.menu.edit .onpath {
   width: 35rem;
 }
 
-.fix-bar.editMenu .ui.vertical.menu.massive.edit a {
+.fix-bar.editMenu .ui.vertical.menu.edit a {
   display: block;
   width: 100%;
   font-size: 1.8rem !important;
   position: relative;
 }
 
-.fix-bar.editMenu .ui.vertical.menu.massive.edit p {
+.fix-bar.editMenu .ui.vertical.menu.edit p {
   padding: 0.6em 1.1em;
   font-size: 1.5rem !important;
   font-weight: 500;
   position: relative;
 }
 
-.fix-bar.editMenu .ui.vertical.menu.massive.edit li:not(.cut) p.presented {
+.fix-bar.editMenu .ui.vertical.menu.edit li:not(.cut) p.presented {
   margin-top: 0.7em;
 }
 
-.fix-bar.editMenu .kos .ui.vertical.menu.massive a,
-.fix-bar.editMenu .kos .ui.vertical.menu.massive p {
+.fix-bar.editMenu .kos .ui.vertical.menu a,
+.fix-bar.editMenu .kos .ui.vertical.menu p {
   font-size: 1.5rem !important;
   padding: 0 1.3em;
 }
@@ -29399,7 +29403,7 @@ Floated Menu / Item
   -webkit-box-shadow: '';
   box-shadow: '';
   text-align: '';
-  font-size: 1em;
+  font-size: 1.71428571em;
   padding-left: '';
   padding-right: '';
 }
@@ -31615,7 +31619,7 @@ Floated Menu / Item
 
 .ui.cards > .card .meta,
 .ui.card .meta {
-  font-size: 1em;
+  font-size: 1.71428571em;
   color: rgba(0, 0, 0, 0.4);
 }
 
@@ -33313,7 +33317,7 @@ a.inverted.ui.card:hover,
 ---------------*/
 
 .ui.items > .item {
-  font-size: 1em;
+  font-size: 1.71428571em;
 }
 
 .ui.mini.items > .item {
@@ -33666,7 +33670,7 @@ a.inverted.ui.card:hover,
   vertical-align: baseline;
   font-style: normal;
   min-height: 17px;
-  font-size: 1em;
+  font-size: 1.71428571em;
   line-height: 17px;
   min-width: 17px;
 }
@@ -33692,7 +33696,7 @@ a.inverted.ui.card:hover,
   display: block;
   padding-left: 1.85714em;
   outline: none;
-  font-size: 1em;
+  font-size: 1.71428571em;
 }
 
 .ui.checkbox label:before {
@@ -35046,7 +35050,7 @@ body.dimmable > .dimmer {
   margin: 0;
   padding: 0 0;
   background: #FFFFFF;
-  font-size: 1em;
+  font-size: 1.71428571em;
   text-shadow: none;
   text-align: left;
   -webkit-box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
@@ -35117,7 +35121,7 @@ body.dimmable > .dimmer {
   text-align: left;
   border-top: none;
   line-height: 1em;
-  font-size: 1rem;
+  font-size: 0.92857143;
   color: #000;
   padding: 0.78571429rem 1.14285714rem !important;
   text-transform: none;
@@ -35179,7 +35183,7 @@ body.dimmable > .dimmer {
 
 .ui.dropdown .menu > .header:not(.ui) {
   color: rgba(0, 0, 0, 0.85);
-  font-size: 0.78571429em;
+  font-size: 0.64285714em;
 }
 
 .ui.dropdown .menu > .divider {
@@ -35206,14 +35210,14 @@ body.dimmable > .dimmer {
 }
 
 .ui.dropdown .menu > .input:not(.transparent) input {
-  padding: 0.5em 1em;
+  padding: 0.3em 0.3em;
 }
 
 .ui.dropdown .menu > .input:not(.transparent) .button,
 .ui.dropdown .menu > .input:not(.transparent) i.icon,
 .ui.dropdown .menu > .input:not(.transparent) .label {
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
+  padding-top: 0.3em;
+  padding-bottom: 0.3em;
 }
 
 /*-----------------
@@ -35891,7 +35895,7 @@ select.ui.dropdown {
 .ui.multiple.dropdown > .label {
   display: inline-block;
   white-space: normal;
-  font-size: 1em;
+  font-size: 1.71428571em;
   padding: 0.35714286em 0.78571429em;
   margin: 0.14285714rem 0.28571429rem 0.14285714rem 0;
   -webkit-box-shadow: 0 0 0 1px rgba(34, 36, 38, 0.15) inset;
@@ -36937,7 +36941,7 @@ select.ui.dropdown {
 
 .ui.dropdown,
 .ui.dropdown .menu > .item {
-  font-size: 1rem;
+  font-size: 1.71428571rem;
 }
 
 .ui.mini.dropdown,
@@ -37233,6 +37237,15 @@ select.ui.dropdown {
 /*******************************
         User Overrides
 *******************************/
+
+.prihlaseni .dropdown label {
+  font-size: 0.28571429em;
+  padding-left: 1.3em;
+}
+
+.prihlaseni .dropdown .input {
+  font-size: 0.85714286em;
+}
 /*!
  * # Fomantic-UI - Accordion
  * http://github.com/fomantic/Fomantic-UI/
@@ -38032,7 +38045,7 @@ select.ui.dropdown {
 ---------------*/
 
 .ui.modal {
-  font-size: 1rem;
+  font-size: 1.71428571rem;
 }
 
 .ui.mini.modal > .header:not(.ui) {
@@ -38719,7 +38732,7 @@ select.ui.dropdown {
   pointer-events: none;
   position: absolute;
   content: '';
-  font-size: 1rem;
+  font-size: 1.71428571rem;
   width: 0.71428571em;
   height: 0.71428571em;
   background: #FFFFFF;
@@ -38740,7 +38753,7 @@ select.ui.dropdown {
   text-align: left;
   text-shadow: none;
   white-space: nowrap;
-  font-size: 1rem;
+  font-size: 17px;
   border: 1px solid #D4D4D5;
   line-height: 1.4em;
   max-width: none;
@@ -39474,7 +39487,7 @@ select.ui.dropdown {
 ---------------*/
 
 .ui.popup {
-  font-size: 1rem;
+  font-size: 1.71428571rem;
 }
 
 .ui.mini.popup {
@@ -39547,6 +39560,10 @@ select.ui.dropdown {
 /*******************************
         User Overrides
 *******************************/
+
+[data-tooltip]::before {
+  font-size: 17px;
+}
 /*!
  * # Fomantic-UI - Search
  * http://github.com/fomantic/Fomantic-UI/
@@ -39575,7 +39592,7 @@ select.ui.dropdown {
   font-weight: 300;
   line-height: 1.21428571em;
   padding: 0.67857143em 1em;
-  font-size: 1em;
+  font-size: 1.71428571em;
   background: #FFFFFF;
   border: 1px solid rgba(34, 36, 38, 0.15);
   color: #000;
@@ -39679,7 +39696,7 @@ select.ui.dropdown {
   margin: -0.14285714em 0 0;
   font-family: 'Rubik';
   font-weight: 500;
-  font-size: 1em;
+  font-size: 1.71428571em;
   color: rgba(0, 0, 0, 0.85);
 }
 
@@ -39704,7 +39721,7 @@ select.ui.dropdown {
 
 .ui.search > .results > .message .header {
   font-family: 'Rubik';
-  font-size: 1rem;
+  font-size: 1.71428571rem;
   font-weight: 500;
   color: #000;
 }
@@ -39721,7 +39738,7 @@ select.ui.dropdown {
   display: block;
   border-top: none;
   background: #F3F4F5;
-  padding: 0.92857143em 1em;
+  padding: 0.92857143em 1.71428571em;
   color: #000;
   font-weight: 500;
   text-align: center;
@@ -40081,7 +40098,7 @@ select.ui.dropdown {
 ---------------*/
 
 .ui.search {
-  font-size: 1em;
+  font-size: 1.71428571em;
 }
 
 .ui.mini.search {

@@ -68,8 +68,9 @@
 @semaforContentZIndex: 1;
 @semaforSectionTrashCursor: no-drop;
 @semaforSectionTrashPositionLeft: auto;
+@semaforSectionTrashPositionRight: @semaforContentPositionRight;
 @semaforSectionTrashPositionTop: 12px;
-@sectionTrashTransform: translateX(0);
+@sectionTrashTransform: translateX(0); 
 @sectionTrashCornerPositionLeft: 97.5%;
 @semaforContentNumberMarginTop: -10px;
 @semaforContentNumberTextAlign: center;
@@ -170,7 +171,7 @@
 @articleTempateSelectFontSize: 0.7em;
 @articleTempateSelectTop: 30%; 
 
-
+    
 
 
 //import změněných proměnných stylu šablony (specifických pro projekt)
@@ -329,9 +330,9 @@ body{
         z-index: @semaforContentZIndex;
     }
     .ui.ribbon.page-edit ~ .semafor{
-        top: @semaforPagePositionTop;
+        top: @semaforPagePositionTop;      
         right: @semaforPagePositionRight;
-        left: @semaforPagePositionLeft;
+        left: @semaforPagePositionLeft;      
         z-index: @semaforPageZIndex;
     }
     /*U POLOŽKY MENU*/
@@ -387,7 +388,7 @@ body{
         position: relative;
     }
     /*SMAZANÝ CONTENT*/
-    section.trash {
+    section.trash { 
         cursor: @semaforSectionTrashCursor;
         .ui.ribbon.label:not(.page-edit){
             right: @sectionTrashCornerPositionRight;
@@ -396,6 +397,7 @@ body{
             transform: @sectionTrashTransform;
             & ~ .semafor{
                 left: @semaforSectionTrashPositionLeft;
+                right: @semaforSectionTrashPositionRight;
                 top: @semaforSectionTrashPositionTop;
             }
         }
@@ -508,7 +510,7 @@ body{
         font-size: @ribbonPageSize;
         right: @ribbonPagePositionRigth;
         left: @ribbonPagePositionLeft;
-        top: @ribbonPagePositionTop;
+        top: @ribbonPagePositionTop; 
         z-index: @ribbonPageZIndex;
         position: absolute;
     }

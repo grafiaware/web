@@ -1670,7 +1670,7 @@
   margin-top: 0;
   margin-bottom: 0;
   vertical-align: middle;
-  font-size: 1em;
+  font-size: 1.71428571em;
 }
 .ui.form .inline.fields .field .calendar:not(.popup),
 .ui.form .inline.field .calendar:not(.popup) {
@@ -1712,7 +1712,7 @@
 .ui.form,
 .ui.form .field .dropdown,
 .ui.form .field .dropdown .menu > .item {
-  font-size: 1rem;
+  font-size: 1.71428571rem;
 }
 .ui.mini.form,
 .ui.mini.form .field .dropdown,

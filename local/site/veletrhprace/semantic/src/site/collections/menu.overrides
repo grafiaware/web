@@ -14,65 +14,8 @@
     .ui.menu .item::before{ 
         display: none;
     }
-    .ui.massive.vertical.menu:not(.icon){
-        width: 30rem;
-    }
     .ui.vertical.menu:not(.icon){
-        a:not(.presented){
-            overflow: hidden;
-            &:hover::after{
-                transform: scaleX(1);
-                background-color: @invertedTextColor; 
-} 
-.ui.vertical.menu{
-    &.massive{
-        padding: 0.7em 0;
-        a, p{
-            display: block;
-            width: 100%;
-            font-weight: 500;
-            font-size: 2rem;
-            text-transform: uppercase;
-            line-height: 1.2;
-            position: relative;
-            color: @invertedTextColor;
-        }
-        p{
-            padding-left: 35px;
-        }
-        &.edit{ 
-            width: 33rem;
-            .onpath{
-                width: 29rem;
-            }
-            &::after{
-                background: 0 0; 
-                position: absolute;
-                top: auto;
-                bottom: 0;
-                right: 0;
-                width: 100%;
-                height: 3px;
-                content: '';
-                transition: transform 0.4s;
-                backface-visibility: hidden;
-                transform: translateX(-100%);
-            }
-        }
-        li.cut a{
-            &::after{
-                background-color: 0;
-                transform: none;
-                height: 0;
-            }
-            &:hover::after{
-                background-color: 0;
-                transform: none;
-            }
-        }
-    } 
-    .ui.vertical.menu{
-        &.massive{
+            width: 30rem;
             padding: 0.7em 0;
             a, p{
                 display: block;
@@ -82,38 +25,51 @@
                 text-transform: uppercase;
                 line-height: 1.2;
                 position: relative;
+                &::after{
+                    background: 0 0; 
+                    position: absolute;
+                    top: auto;
+                    bottom: 0;
+                    right: 0;
+                    width: 100%;
+                    height: 3px;
+                    content: '';
+                    transition: transform 0.4s;
+                    backface-visibility: hidden;
+                    transform: translateX(-100%);
+                }
             }
             a:not(.presented), p:not(.presented){
                 color: @invertedTextColor;
+            }
+            a:not(.presented){
+                overflow: hidden;
+                &:hover::after{
+                    transform: scaleX(1);
+                    background-color: @invertedTextColor; 
+                }
             }
             p{
                 padding-left: 35px;
             }
             &.edit{ 
-                width: 35rem;
+                width: 33rem;
                 .onpath{
-                    width: 33.5rem;
+                    width: 29rem;
                 }
-                a{
-                    display: block;
-                    width: 100%;
-                    font-size: 1.8rem !important;
-                    position: relative;
-                }
-                p{
-                    padding: 0.8em 1.3em;
-                    font-size: 1.8rem !important;
-                    font-weight: 500;
-                    position: relative;
-                }
-                li:not(.cut) p.presented{
-                    margin-top: 0.7em;  
-                } 
             }
-        }
-    }
-    .kos .ui.vertical.menu{
-        &.massive{
+            li.cut a{
+                &::after{
+                    background-color: 0;
+                    transform: none;
+                    height: 0;
+                }
+                &:hover::after{
+                    background-color: 0;
+                    transform: none;
+                }
+            }
+        .kos .ui.vertical.menu{
             a, p{
                 font-size: 2rem !important;
                 padding: 0.2em 1.3em; 
@@ -129,7 +85,7 @@
     .ui.menu .item::before{ 
         display: none;
     }
-    .ui.massive.vertical.menu:not(.icon){
+    .ui.vertical.menu:not(.icon){
         width: 26rem; 
     }
     .ui.vertical.menu:not(.icon){
@@ -166,50 +122,47 @@
         }
     } 
     .ui.vertical.menu{
-        &.massive{
-            padding: 0.7em 0;
-            a, p{
+        padding: 0.7em 0;
+        a, p{
+            display: block;
+            width: 100%;
+            font-weight: 500;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            line-height: 1.4;
+            position: relative;
+            color: @invertedTextColor;
+        }
+        p{
+            padding-left: 25px;
+        }
+        &.edit{ 
+            width: 27rem;
+            .onpath{
+                width: 35rem;
+            }
+            a{
                 display: block;
                 width: 100%;
-                font-weight: 500;
-                font-size: 1.5rem;
-                text-transform: uppercase;
-                line-height: 1.4;
+                font-size: 1.8rem !important;
                 position: relative;
-                color: @invertedTextColor;
             }
             p{
-                padding-left: 25px;
+                padding: 0.6em 1.1em;
+                font-size: 1.5rem !important;
+                font-weight: 500;
+                position: relative;
             }
-            &.edit{ 
-                width: 27rem;
-                .onpath{
-                    width: 35rem;
-                }
-                a{
-                    display: block;
-                    width: 100%;
-                    font-size: 1.8rem !important;
-                    position: relative;
-                }
-                p{
-                    padding: 0.6em 1.1em;
-                    font-size: 1.5rem !important;
-                    font-weight: 500;
-                    position: relative;
-                }
-                li:not(.cut) p.presented{
-                    margin-top: 0.7em;  
-                } 
-            }
+            li:not(.cut) p.presented{
+                margin-top: 0.7em;  
+            } 
         }
+        
     }
     .kos .ui.vertical.menu{
-        &.massive{
-            a, p{
-                font-size: 1.5rem !important; 
-                padding: 0 1.3em; 
-            }
+        a, p{
+            font-size: 1.5rem !important; 
+            padding: 0 1.3em; 
         }
     }
 }

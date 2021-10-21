@@ -29,3 +29,28 @@
     padding-top: 15px;
     padding-bottom: 15px;
 }
+.editable section[data-red-renderer]{
+    margin: 0 -1.5em;
+}
+.editable article[data-red-renderer]{
+    margin: 0 -1em;
+}
+.editable [data-red-renderer]{
+    position: relative;
+    outline: 1px solid @teal;
+    border-radius: 5px;
+    padding-top: 70px;
+}
+.zapnout_editaci{ //male tlacitko v rohu
+    text-align: right;
+    position: absolute;
+    padding: 0;
+    margin: 0;
+    top: -7px;
+}
+section > .zapnout_editaci{
+    right: -4px;
+}
+article > .zapnout_editaci{
+    right: -18px;
+}
