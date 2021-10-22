@@ -41,16 +41,27 @@
     border-radius: 5px;
     padding-top: 70px;
 }
-.zapnout_editaci{ //male tlacitko v rohu
+.zapnout_editaci{  //male tlacitko v rohu
     text-align: right;
     position: absolute;
     padding: 0;
     margin: 0;
     top: -7px;
-}
-section > .zapnout_editaci{
     right: -4px;
 }
-article > .zapnout_editaci{
-    right: -18px;
+[data-red-renderer="MultipageRenderer"] > .zapnout_editaci,
+[data-red-renderer="MultipageRendererEditable"] > .zapnout_editaci{
+    right: -44px;
 }
+[data-red-renderer="ArticleRenderer"] > .zapnout_editaci{
+    right: -17px
+}
+[data-red-renderer="MultipageRendererEditable"] > .semafor{
+    right: 10px;
+    top: 5px;
+}
+.button-edit-menu{
+    position: absolute;
+    right: 20px;
+}
+
