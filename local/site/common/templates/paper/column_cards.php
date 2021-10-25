@@ -16,6 +16,6 @@ use Red\Model\Entity\PaperAggregatePaperContentInterface;
             <?= $perex ?>
         </section>
         <div class="ui three column grid stackable centered">
-            <?= $this->repeat(PROJECT_PATH."local/site/common/templates/paper-content/column_cards/template.php", $contents, 'paperContent'); ?>
+            <?= $this->repeat(PROJECT_PATH."local/site/common/templates/paper-content/column_cards.php", $contents, 'paperContent'); ?>
         </div>
     </div>
