@@ -104,14 +104,14 @@
 @scrollhintMenuItemFontSize: 0.95rem;
 
 //Roh u contentu
-@ribbonWidth: 2em;
+@ribbonWidth: 2em; 
 @ribbonHeight: 1.5em;
-@ribbonSize: 0.55em;
+@ribbonSize: 0.55em;         
 @ribbonPositionTop: 45px;
 @ribbonPositionRigth: auto;
 @ribbonPositionLeft: auto;
 @ribbonZIndex: 1;
-@ribbonTransform: translateX(0);
+@ribbonTransform: translateX(-197px);  
 @ribbonActiveZIndex: 15;
 @ribbonIconTransform: translateX(50%);
 @ribbonCornerIconFontSize: 1em;
@@ -122,7 +122,7 @@
 @ribbonPagePositionLeft: auto;
 @ribbonPagePositionTop: 40px;
 @ribbonPageZIndex: 1;
-@sectionTrashCornerPositionRight: 0;
+@sectionTrashCornerPositionRight: 0; 
 @sectionTrashCornerPositionTop: 5px;
 //Buttony pro content
 @buttonyContentWidth: 100px;
@@ -274,7 +274,7 @@ body{
                     left: @buttonSvisleMenuKosSecondIconPositionleft;
                 }
             }
-        }
+        } 
     }
     /*PRESMEROVANI MENU*/
     .presmerovani-menu{
@@ -282,7 +282,7 @@ body{
         .buttons{
             margin: @buttonyPresmerovaniMenuMargin;
         }
-    }
+    }      
     .presmerovani-menu, .vodorovne-menu{
         /*buttony velké jako položka menu*/
         /*není to u .buttons protože to je jen obal - nastaví výšku celé sady, ale buttony nezmenší*/
@@ -477,10 +477,10 @@ body{
     .ui.ribbon.label:not(.page-edit){
         width: @ribbonWidth;
         height: @ribbonHeight;
-        font-size: @ribbonSize;
+        font-size: @ribbonSize;   
         top: @ribbonPositionTop;
         right:  @ribbonPositionRigth;
-        left: @ribbonPositionLeft;
+        //left: @ribbonPositionLeft;
         z-index: @ribbonZIndex;
         transform: @ribbonTransform;
         position: relative;
