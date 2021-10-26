@@ -31,6 +31,9 @@
 }
 .editable section[data-red-renderer]{
     margin: 0 -1.5em;
+    article{
+        margin-top: 15px;
+    }
 }
 .editable article[data-red-renderer]{
     margin: 0 -1em;
@@ -49,17 +52,32 @@
     top: -7px;
     right: -4px;
 }
-[data-red-renderer="MultipageRenderer"] > .zapnout_editaci,
-[data-red-renderer="MultipageRendererEditable"] > .zapnout_editaci{
-    right: -44px;
-}
 [data-red-renderer="ArticleRenderer"] > .zapnout_editaci{
-    right: -17px
+    right: -17px;
 }
-[data-red-renderer="MultipageRendererEditable"] > .semafor{ 
-    right: 10px;
-    top: 5px;
-}
+.editable [data-red-renderer="MultipageRendererEditable"],
+.editable [data-red-renderer="MultipageRenderer"]{
+    margin: 0 -1.8em;
+    outline: 2px solid @black;
+    > .zapnout_editaci .button.teal{
+        color: @black;
+        box-shadow: 0 0 0 1px @black inset;
+    }
+    [data-red-renderer="ArticleRendererEditable"]{
+        margin: 30px 20px;
+    } 
+    [data-red-renderer="ArticleRenderer"]{
+        margin: 30px 34px;
+    }
+    [data-red-renderer="PaperRendererEditable"],
+    [data-red-renderer="PaperRenderer"]{
+        margin: 35px 20px;
+    }
+    > .semafor{ 
+        right: 30px;
+        top: 5px;
+    }
+} 
 .button-edit-menu{
     position: absolute;
     right: 20px;

@@ -101,8 +101,9 @@ class ConfigurationStyles extends ConfigurationRed {
                             'div i' => 'file alternate teal icon',
                             'div.selectTemplate' => 'select_template',
                             'div.tinySelectTemplatePaper' => 'tiny_select_template_paper borderDance',
-                            'div.tinySelectTemplateArticle' => 'tiny_select_template_article ',
-                
+                            'div.tinySelectTemplateArticle' => 'tiny_select_template_article borderDance',
+                            'div.tinySelectTemplateMultipage' => 'tiny_select_template_multipage borderDance',
+
                             'div.menu' => 'menu selectTemplate',
                             'div.header' => 'item header',
                             'div.selection' => 'ui compact selection dropdown',
@@ -115,7 +116,7 @@ class ConfigurationStyles extends ConfigurationRed {
                             'div.buttonsWrap' => 'contentButtons page-edit',
                             'div.buttons' => 'editSizeArticle ui basic icon buttons editContent',
                             'div.ribbon' => 'ui right ribbon teal basic label cornerWithTools page-edit',
-                            'div.corner' => 'ui right ribbon teal basic label cornerWithTools page-edit',
+                            'div.ribbon-disabled' => 'ui right ribbon label page-edit black basic',
                             'button' => 'ui button',
                             'button.template' => 'ui button toggleTemplateSelect',
                             'button.arrange' => ' sort numeric down icon',

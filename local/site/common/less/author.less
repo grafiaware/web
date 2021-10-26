@@ -119,9 +119,10 @@
 @ribbonPageHeight: 1.5em;
 @ribbonPageSize: 0.6em;
 @ribbonPagePositionRigth: -66px; 
-@ribbonPagePositionLeft: auto;
+@ribbonPagePositionLeft: auto; 
 @ribbonPagePositionTop: 40px;
 @ribbonPageZIndex: 1;
+@ribbonPageAfterBorder: 1.2em 1.2em 0 0;  
 @sectionTrashCornerPositionRight: 0; 
 @sectionTrashCornerPositionTop: 5px;
 //Buttony pro content
@@ -316,17 +317,19 @@ body{
             display: inline-flex;
         }
     }
-    article .semafor{
+    .editable [data-red-renderer] .semafor{ 
         font-size: @semaforContentFontSize;
+    }
+    article .semafor{
         > span{
             margin-top: @semaforContentNumberMarginTop;
             text-align: @semaforContentNumberTextAlign;
         }
     }
     .ui.ribbon:not(.page-edit) ~ .semafor{
-        top: @semaforContentPositionTop;
+        top: @semaforContentPositionTop; 
         right: @semaforContentPositionRight;
-        left: @semaforContentPositionLeft;
+        left: @semaforContentPositionLeft;           
         z-index: @semaforContentZIndex;
     }
     .ui.ribbon.page-edit ~ .semafor{
@@ -503,8 +506,8 @@ body{
                 display: none !important;
             }
         }
-    }
-    .ui.ribbon.label.page-edit{
+    }         
+    .ui.ribbon.label.page-edit{ 
         width: @ribbonPageWidth;
         height: @ribbonPageHeight;
         font-size: @ribbonPageSize;
@@ -513,6 +516,9 @@ body{
         top: @ribbonPagePositionTop; 
         z-index: @ribbonPageZIndex;
         position: absolute;
+        &::after{
+            border-width: @ribbonPageAfterBorder;
+        }
     }
     /*BUTTONY PRO CONTENT*/
     /*používané třídy pro buttony ke contentu
@@ -610,6 +616,9 @@ body{
     .mce-content-body{
         padding: @mceBodyPadding;
         margin: @mceBodyMargin;
+        .mceEditable{
+            outline: @mceBodyOutline;     
+        }
         /*označení pro tagy, které jsou editovatelné, ale ještě nebyly vybrány pro editaci*/
         /*rozdílné ohraničení pro editaci a pro výběr šablony*/
         &:not(.mce-edit-focus){
@@ -666,9 +675,6 @@ body{
             height: max-content;
             animation: border-dance 40s infinite linear;
         }
-    }
-    .mceEditable{
-        outline: @mceBodyOutline;
     }
 
     //import pravidel specifických pro projekt

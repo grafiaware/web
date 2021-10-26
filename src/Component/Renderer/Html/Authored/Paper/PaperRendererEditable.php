@@ -30,7 +30,7 @@ class PaperRendererEditable  extends HtmlRendererAbstract {
                     [
                         $buttonEditContent,
                         $selectTemplate,
-                        Html::tag('div', ['class'=>$this->classMap->getClass('PaperButtons', 'div.corner')], //lepítko s buttony
+                        Html::tag('div', ['class'=>$this->classMap->getClass('PaperButtons', 'div.ribbon')], //lepítko s buttony
                             $paperButtonsForm
                         ),
                         Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.semafor')], //aktivní/neaktivní paper
@@ -136,7 +136,7 @@ class PaperRendererEditable  extends HtmlRendererAbstract {
     private function getTrashContentForm($paperContent) {
         return
             Html::tag('section', ['class'=>$this->classMap->getClass('Content', 'section.trash')],
-                Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.corner')],
+                Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.ribbon')],
                     $this->getTrashButtons($paperContent)
                 )
                 .Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.semafor')],
@@ -378,7 +378,7 @@ class PaperRendererEditable  extends HtmlRendererAbstract {
         $paperId = $paperAggregate->getId();
 
         return
-        Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div div.corner')],
+        Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div div.ribbon')],
             $this->getNewContentButtonsForm($paperAggregate)
         )
         .Html::tag('form',

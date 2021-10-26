@@ -8,26 +8,26 @@ var templates_multipage= [
 ];
 
 var templates_article = [
-        { title: 'template article test', description: 'popis',       url: 'web/v1/articletemplate/test'},
-        { title: 'Prázdná šablona', description: 'Tato šablona nemá předepsaný styl. Po uložení šablony využijte editační lištu pro formátování.',       url: 'web/v1/articletemplate/empty'},
+       // { title: 'template article test', description: 'popis',       url: 'web/v1/articletemplate/test'},
+       // { title: 'Prázdná šablona', description: 'Tato šablona nemá předepsaný styl. Po uložení šablony využijte editační lištu pro formátování.',       url: 'web/v1/articletemplate/empty'},
         { title: 'Šablona pro příspěvek', description: 'Jednoduchá šablona pro vložení textu a obrázku.',       url: 'web/v1/articletemplate/web_post'},
         { title: 'Šablona pro popis knihy', description: 'Popis knihy i autora, obrázky a důležité informace.',       url: 'web/v1/articletemplate/book_description'},
         { title: 'Šablona pro kurz', description: 'Hlavní stránka kurzu. Napište lidem základní informace i recenze od účastníků.',       url: 'web/v1/articletemplate/retraining_course'},
         { title: 'Šablona pro produkt / službu', description: 'Zviditelněte svůj produkt či službu.',       url: 'web/v1/articletemplate/product_page'},
 
-        { title: 'Vzor - Úvod', description: 'popis',       url: 'web/v1/static/uvod'},
+       // { title: 'Vzor - Úvod', description: 'popis',       url: 'web/v1/static/uvod'},
     ];
 var templates_paper= [
         { title: 'template paper default', description: 'popis',       url: 'web/v1/papertemplate/default'},
-        { title: 'template paper test', description: 'popis',       url: 'web/v1/papertemplate/test'},
+       // { title: 'template paper test', description: 'popis',       url: 'web/v1/papertemplate/test'},
         { title: 'template paper column cards', description: 'popis',       url: 'web/v1/papertemplate/column_cards'},
         { title: 'template paper columns', description: 'popis',       url: 'web/v1/papertemplate/columns'},
         { title: 'template paper divided_rows', description: 'popis',       url: 'web/v1/papertemplate/divided_rows'},
         { title: 'template paper bordered_rows', description: 'popis',       url: 'web/v1/papertemplate/bordered_rows'},
         { title: 'template paper rows', description: 'popis',       url: 'web/v1/papertemplate/rows'},
-        { title: 'Test - namedpaper a1', description: 'rendered component',       url: 'red/v1/nameditem/a1'},
-        { title: 'Test - namedpaper a2', description: 'rendered component',       url: 'red/v1/nameditem/a2'},
-        { title: 'Test - namedpaper a3', description: 'rendered component',       url: 'red/v1/nameditem/a3'}
+       // { title: 'Test - namedpaper a1', description: 'rendered component',       url: 'red/v1/nameditem/a1'},
+       // { title: 'Test - namedpaper a2', description: 'rendered component',       url: 'red/v1/nameditem/a2'},
+       // { title: 'Test - namedpaper a3', description: 'rendered component',       url: 'red/v1/nameditem/a3'}
     ];
 var templates_author = [
         { title: 'Kontakt', description: 'Grafia web - kontakt',       url: 'web/v1/authortemplate/kontakt'}, //vztaženo k rootu RS, tam kde je index redakčního s.

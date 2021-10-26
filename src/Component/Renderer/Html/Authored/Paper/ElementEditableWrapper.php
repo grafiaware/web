@@ -97,8 +97,8 @@ class ElementEditableWrapper {
 
         return
             Html::tag('section', ['class'=>$this->classMap->getClass('Content', 'section')],
-                Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.corner')],
-                    Html::tag('i', ['class'=>$this->classMap->getClass('Content', 'div.corner icon')])
+                Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.ribbon')],
+                    Html::tag('i', ['class'=>$this->classMap->getClass('Content', 'div.ribbon icon')])
                         .$this->getContentButtonsForm($paperContent)
                 )
                 .Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.semafor')],
@@ -143,7 +143,7 @@ class ElementEditableWrapper {
     private function getTrashContentForm($paperContent) {
         return
             Html::tag('section', ['class'=>$this->classMap->getClass('Content', 'section.trash')],
-                Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.corner')],
+                Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.ribbon')],
                     $this->getTrashButtonsForm($paperContent)
                 )
                 .Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.semafor')],
@@ -164,7 +164,7 @@ class ElementEditableWrapper {
         $paperId = $paperAggregate->getId();
 
         return
-        Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div div.corner')],
+        Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div div.ribbon')],
             $this->getNewContentButtonsForm($paperAggregate)
         )
         .Html::tag('form',

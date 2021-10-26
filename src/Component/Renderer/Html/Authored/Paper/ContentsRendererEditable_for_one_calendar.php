@@ -60,7 +60,7 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
 
         $html =
             Html::tag('section', ['class'=>$this->classMap->getClass('Content', 'section')],
-                Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.corner')],
+                Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.ribbon')],
                     $this->getContentButtons($paperContent)
                 )
                 .Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.semafor')],
@@ -102,7 +102,7 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
     private function getTrashContentForm($paperContent) {
         return
             Html::tag('section', ['class'=>$this->classMap->getClass('Content', 'section.trash')],
-                Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.corner')],
+                Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.ribbon')],
                     $this->getTrashButtons($paperContent)
                 )
                 .Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.semafor')],

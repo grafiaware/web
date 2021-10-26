@@ -28,11 +28,18 @@ class MultipageRendererEditable  extends HtmlRendererAbstract {
                     [
                         $buttonEditContent,
                         $selectTemplate,
-                        Html::tag('div',
-                            ['class'=>$this->classMap->getClass('Content', 'div.semafor')], //aktivní/neaktivní paper
+                        Html::tag('div', ['class'=>$this->classMap->getClass('PaperButtons', 'div.ribbon-disabled')]), //lepítko s buttony
+                        Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.semafor')], //aktivní/neaktivní paper
                             Html::tag('div',
-                                ['class'=> 'ikona-popis', 'data-tooltip'=> $active ? "published" : "not published"],
-                                Html::tag('i', ['class'=> $this->classMap->resolveClass($active, 'Content','i1.published', 'i1.notpublished')])
+                               [
+                               'class'=> 'ikona-popis',
+                               'data-tooltip'=> $active ? "published" : "not published",
+                               ],
+                                Html::tag('i',
+                                   [
+                                   'class'=> $this->classMap->resolveClass($active, 'Content','i1.published', 'i1.notpublished'),
+                                   ]
+                                )
                             )
                         ),
                         $inner
@@ -46,11 +53,11 @@ class MultipageRendererEditable  extends HtmlRendererAbstract {
         $multipageId = $multipage->getId();
 
         return
-                    Html::tag('div', ['class'=>$this->classMap->getClass('MultipageTemplateSelect', 'div.selectTemplate')],
+                    Html::tag('div', ['class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.selectTemplate')],
                         Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/multipage/$multipageId/template"],
                             Html::tagNopair('input', ["type"=>"hidden", "name"=>"template_$multipageId", "value"=>$contentTemplateName])
                             .
-                            Html::tag('div', ['id'=>"multipage_$multipageId", 'class'=>$this->classMap->getClass('MultipageTemplateSelect', 'div.tinyPaperSelect')],'')
+                            Html::tag('div', ['id'=>"multipage_$multipageId", 'class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.tinySelectTemplateMultipage')],'')
                         )
 
                     );
