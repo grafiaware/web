@@ -93,6 +93,7 @@ function initLoadedEditableElements() {
             tinymce.remove();
             tinymce.init(editTextConfig);
             tinymce.init(editHtmlConfig);
+            tinymce.init(editMceEditableConfig);
             tinymce.init(selectTemplateArticleConfig);
             tinymce.init(selectTemplatePaperConfig);
 

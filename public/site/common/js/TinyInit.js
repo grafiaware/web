@@ -354,6 +354,46 @@ var editHtmlConfig = {
 
     setup: editorFunction  // callback that will be executed before the TinyMCE editor instance is rendered
 };
+var editMceEditableConfig = {
+    selector: 'form .edit-mceeditable',
+    schema : 'html5',
+    placeholder: 'Nový obsah',
+    relative_urls: true,
+    valid_children: '+a[div]',
+    link_title: false,
+    noneditable_editable_class: 'mceEditable',   // nastavení pro noneditable plugin
+    noneditable_noneditable_class: 'mceNonEditable',   // nastavení pro noneditable plugin
+    hidden_input: false,
+    language : tinyConfig.toolbarsLang,
+    document_base_url : tinyConfig.basePath,
+    content_css: tinyConfig.contentCss,
+
+    menubar: false,
+    inline: true,
+
+    plugins: plugins,
+    templates: templates_author,
+    toolbar1: toolbar1,
+    toolbar2: toolbar2,
+    imagetools_toolbar: imagetools_toolbar,
+    link_class_list: linkClassList,
+    /* enable title field in the Image dialog*/
+    image_title: true,
+    /* enable automatic uploads of images represented by blob or data URIs*/
+//    automatic_uploads: true,
+    /* URL of our upload handler (for more details check: https://www.tiny.cloud/docs/configure/file-image-upload/#images_upload_url) */
+//    na tuto adresu odesílá tiny POST requesty - pro každý obrázek jeden request (tedy request s jedním obrázkem)
+// odesílá při každém volání editor.uploadImages() nebo automaticky, pokud je povoleno automatic_uploads option
+//    images_upload_url: 'red/v1/upload/editorimages',
+    images_reuse_filename: true,
+    /* here we add custom filepicker only to Image dialog */
+    file_picker_types: 'image media',
+    /* and here's our custom image picker*/
+    file_picker_callback: file_picker_callback_function,
+    images_upload_handler: image_upload_handler,
+
+    setup: editorFunction  // callback that will be executed before the TinyMCE editor instance is rendered
+};
 var selectTemplateArticleConfig = {
     selector: '.tiny_select_template_article',
     schema : 'html5',
