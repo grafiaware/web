@@ -45,16 +45,15 @@ function replaceElement(replacedElement, responseText) {
 };
 
 /**
- * Stáhne HTML z adresy apiUri a nahradí element s identifikátorem id
- * @param {String} id
- * @param {String} apiUri
- * @returns {String}
+ *
+ * @param {Element} replacedElement
+ * @returns {Promise}
  */
 function fetchElementContent(replacedElement){
     let apiUri = getApiUri(replacedElement);
     /// fetch ///
     // fetch vrací Promise, která resolvuje s Response objektem a to v okamžiku, kdy server odpoví a jsou přijaty hlavičky odpovědi - nečeká na stažení celeho response
-    // tento return je klíčový - vrací jako návratovou hodnotu hodotu vrýcenou pžíkazen returm v posledním bloku .then - viz https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Promises
+    // tento return je klíčový - vrací jako návratovou hodnotu hodotu vrácenou příkazem return v posledním bloku .then - viz https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Promises
     return fetch(apiUri)
     .then(response => {
       if (response.ok) {  // ok je true pro status 200-299, jinak je vždy false
@@ -76,25 +75,6 @@ function fetchElementContent(replacedElement){
       console.log(`There has been a problem with fetch from ${apiUri}. Reason:` + e.message);
       throw new Error(`There has been a problem with fetch from ${apiUri}. Reason:` + e.message);
     });
-
-    /// xhr ///
-//    var xhr = new XMLHttpRequest();
-//
-//    xhr.onreadystatechange = function() {
-//        if (this.readyState == 4) {
-//            if (this.status == 200) {
-//                //document.getElementById(id).innerHTML = xhr.responseText;
-//                console.log("Loaded content for element with id: "+id+".");
-//                replaceElementAndSubElements(id, responseText);
-//            } else {
-//                console.log("Failed load of content for element with id: "+id+",this.readyState:"+this.readyState+", this.status:"+this.status);
-//            }
-//        }
-//    };
-//    xhr.open("GET", apiUri, true);
-//    xhr.setRequestHeader("X-Powered-By", "RED Loader");
-////    xhr.responseType = "document";   // XML nebo HTML
-//    xhr.send();
 };
 
 /**
@@ -141,43 +121,3 @@ function loadSubsequentElements(element, className) {
 
     return Promise.allSettled(loadSubPromises);
 }
-
-///////////////////////////////////////////////
-// Dynamic Script Loading Template
-
-//const loadDynamicScript = (callback) => {
-//  const existingScript = document.getElementById('scriptId');
-//
-//  if (!existingScript) {
-//    const script = document.createElement('script');
-//    script.src = 'url'; // URL for the third-party library being loaded.
-//    script.id = 'libraryName'; // e.g., googleMaps or stripe
-//    document.body.appendChild(script);
-//
-//    script.onload = () => {
-//      if (callback) callback();
-//    };
-//  }
-//
-//  if (existingScript && callback) callback();
-//};
-//
-//var loadJS = function(url, implementationCode, location){
-//    //url is URL of external file, implementationCode is the code
-//    //to be called from the file, location is the location to
-//    //insert the <script> element
-//
-//    var scriptTag = document.createElement('script');
-//    scriptTag.src = url;
-//
-//    scriptTag.onload = implementationCode;
-//    scriptTag.onreadystatechange = implementationCode;
-//
-//    location.appendChild(scriptTag);
-//};
-//var yourCodeToBeCalled = function(){
-////your code goes here
-//}
-//loadJS('yourcode.js', yourCodeToBeCalled, document.body);
-
-//////////////////////////////////////////////
