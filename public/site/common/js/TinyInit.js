@@ -296,7 +296,7 @@ var editTextConfig = {
     relative_urls : true,
     extended_valid_elements : ['i[*]', 'headline'],
     custom_elements: 'headline',
-    hidden_input: false,
+    hidden_input: true,
     language : tinyConfig.toolbarsLang,
     document_base_url : tinyConfig.basePath,
     content_css: tinyConfig.contentCss,
@@ -323,7 +323,7 @@ var editHtmlConfig = {
     link_title: false,
     noneditable_editable_class: 'mceEditable',   // nastavení pro noneditable plugin
     noneditable_noneditable_class: 'mceNonEditable',   // nastavení pro noneditable plugin
-    hidden_input: false,
+    hidden_input: true,
     language : tinyConfig.toolbarsLang,
     document_base_url : tinyConfig.basePath,
     content_css: tinyConfig.contentCss,
