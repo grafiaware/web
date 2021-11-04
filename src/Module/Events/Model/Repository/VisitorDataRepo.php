@@ -31,39 +31,19 @@ class VisitorDataRepo extends RepoAbstract implements VisitorDataRepoInterface {
 
     /**
      *
-     * @param type $id
+     * @param type $loginName
      * @return VisitorDataInterface|null
      */
-    public function get($id): ?VisitorDataInterface {
-        $index = $id;
-        if (!isset($this->collection[$index])) {
-            $this->recreateEntity($index, $this->dao->get($id));
-        }
-        return $this->collection[$index] ?? NULL;
+    public function get($loginName): ?VisitorDataInterface {
+        return $this->getEntity($loginName);
     }
 
     public function find($whereClause=null, $touplesToBind=[]) {
-        $selected = [];
-        foreach ($this->dao->find($whereClause, $touplesToBind) as $enrollRow) {
-            $index = $this->indexFromRow($enrollRow);
-            if (!isset($this->collection[$index])) {
-                $this->recreateEntity($index, $enrollRow);
-            }
-            $selected[] = $this->collection[$index];
-        }
-        return $selected;
+        return $this->findEntities($whereClause, $touplesToBind);
     }
 
     public function findAll() {
-        $selected = [];
-        foreach ($this->dao->findAll() as $enrollRow) {
-            $index = $this->indexFromRow($enrollRow);
-            if (!isset($this->collection[$index])) {
-                $this->recreateEntity($index, $enrollRow);
-            }
-            $selected[] = $this->collection[$index];
-        }
-        return $selected;
+        return $this->findAllEntities();
     }
 
     public function add(VisitorDataInterface $visitorData) {
@@ -76,6 +56,10 @@ class VisitorDataRepo extends RepoAbstract implements VisitorDataRepoInterface {
 
     protected function createEntity() {
         return new VisitorData();
+    }
+
+    protected function indexFromKeyParams($loginName) {
+        return $loginName;
     }
 
     protected function indexFromEntity(VisitorDataInterface $visitorData) {

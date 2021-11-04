@@ -10,6 +10,8 @@ namespace Red\Model\Hydrator;
 
 use Model\Entity\EntityInterface;
 use Model\Hydrator\HydratorInterface;
+use Model\RowData\RowDataInterface;
+
 use Red\Model\Entity\MenuItemAggregatePaperInterface;
 use Red\Model\Entity\PaperInterface;
 
@@ -23,22 +25,22 @@ class MenuItemChildHydrator implements HydratorInterface {
     /**
      *
      * @param MenuItemAggregatePaperInterface $menuItemPaperAggregate
-     * @param type $row
+     * @param type $rowData
      */
-    public function hydrate(EntityInterface $menuItemPaperAggregate, &$row) {
+    public function hydrate(EntityInterface $menuItemPaperAggregate, RowDataInterface $rowData) {
         /** @var MenuItemAggregatePaperInterface $menuItemPaperAggregate */
         $menuItemPaperAggregate
-            ->setPaper($row[PaperInterface::class]);
+            ->setPaper($rowData->offsetGet(PaperInterface::class));
     }
 
     /**
      *
      * @param MenuItemAggregatePaperInterface $paperAggregate
-     * @param type $row
+     * @param type $rowData
      */
-    public function extract(EntityInterface $paperAggregate, &$row) {
+    public function extract(EntityInterface $paperAggregate, RowDataInterface $rowData) {
         /** @var MenuItemAggregatePaperInterface $paperAggregate */
-        $row[PaperInterface::class] = $paperAggregate->getPaper();
+        $rowData->offsetSet(PaperInterface::class, $paperAggregate->getPaper());
     }
 
 }

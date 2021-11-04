@@ -10,6 +10,7 @@ namespace Events\Model\Hydrator;
 
 use Model\Entity\EntityInterface;
 use Model\Hydrator\HydratorInterface;
+use Model\RowData\RowDataInterface;
 
 use Events\Model\Entity\EnrollInterface;
 
@@ -23,27 +24,27 @@ class EnrollHydrator implements HydratorInterface {
     /**
      *
      * @param EnrollInterface $enroll
-     * @param type $row
+     * @param type $rowData
      */
-    public function hydrate(EntityInterface $enroll, &$row) {
+    public function hydrate(EntityInterface $enroll, RowDataInterface $rowData) {
         /** @var EnrollInterface $enroll */
         $enroll
-            ->setId($row['id'])
-            ->setLoginName($row['login_name'])
-            ->setEventid($row['eventid'])
+            ->setId($rowData->offsetGet('id'))
+            ->setLoginName($rowData->offsetGet('login_name'))
+            ->setEventid($rowData->offsetGet('eventid'))
             ;
     }
 
     /**
      *
      * @param EnrollInterface $enroll
-     * @param type $row
+     * @param type $rowData
      */
-    public function extract(EntityInterface $enroll, &$row) {
+    public function extract(EntityInterface $enroll, RowDataInterface $rowData) {
         /** @var EnrollInterface $enroll */
-        $row['id'] = $enroll->getId(); // id je autoincrement - readonly, hodnota pro where
-        $row['login_name'] = $enroll->getLoginName();
-        $row['eventid'] = $enroll->getEventid();
+        $rowData->offsetSet('id', $enroll->getId()); // id je autoincrement - readonly, hodnota pro where
+        $rowData->offsetSet('login_name', $enroll->getLoginName());
+        $rowData->offsetSet('eventid', $enroll->getEventid());
     }
 
 }

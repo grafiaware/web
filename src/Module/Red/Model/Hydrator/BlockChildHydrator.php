@@ -11,6 +11,8 @@ namespace Red\Model\Hydrator;
 use Model\Hydrator\HydratorInterface;
 
 use Model\Entity\EntityInterface;
+use Model\RowData\RowDataInterface;
+
 use Red\Model\Entity\BlockAggregateMenuItemInterface;
 use Red\Model\Entity\MenuItemInterface;
 
@@ -25,24 +27,21 @@ class BlockChildHydrator implements HydratorInterface {
      * Nastaví do agregátu MenuItem, pokud existuje. MenuItem je závislý na kontextu a tedy může být null (neaktivní nebo neaktuální menu item)
      *
      * @param BlockAggregateMenuItemInterface $componentAggregate
-     * @param type $row
+     * @param type $rowData
      */
-    public function hydrate(EntityInterface $componentAggregate, &$row) {
+    public function hydrate(EntityInterface $componentAggregate, RowDataInterface $rowData) {
         /** @var BlockAggregateMenuItemInterface $componentAggregate */
-        if (isset($row[MenuItemInterface::class])) {
-        $componentAggregate
-            ->setMenuItem($row[MenuItemInterface::class]);
-        }
+        $componentAggregate->setMenuItem($rowData->offsetGet(MenuItemInterface::class));
     }
 
     /**
      *
      * @param BlockAggregateMenuItemInterface $componentAggregate
-     * @param array $row
+     * @param array $rowData
      */
-    public function extract(EntityInterface $componentAggregate, &$row) {
+    public function extract(EntityInterface $componentAggregate, RowDataInterface $rowData) {
         /** @var BlockAggregateMenuItemInterface $componentAggregate */
-        $row[MenuItemInterface::class] = $componentAggregate->getMenuItem();
+        $rowData->offsetSet(MenuItemInterface::class, $componentAggregate->getMenuItem());
     }
 
 }

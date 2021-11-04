@@ -10,6 +10,7 @@ namespace Events\Model\Hydrator;
 
 use Model\Entity\EntityInterface;
 use Model\Hydrator\HydratorInterface;
+use Model\RowData\RowDataInterface;
 
 use Events\Model\Entity\VisitorDataInterface;
 
@@ -23,52 +24,52 @@ class VisitorDataHydrator implements HydratorInterface {
     /**
      *
      * @param EnrollInterface $enroll
-     * @param type $row
+     * @param type $rowData
      */
-    public function hydrate(EntityInterface $visitorData, &$row) {
+    public function hydrate(EntityInterface $visitorData, RowDataInterface $rowData) {
         /** @var VisitorDataInterface $visitorData */
         $visitorData
-            ->setPrefix($row['prefix'])
-            ->setName($row['name'])
-            ->setSurname($row['surname'])
-            ->setPostfix($row['postfix'])
-            ->setEmail($row['email'])
-            ->setPhone($row['phone'])
-            ->setCvEducationText($row['cv_education_text'])
-            ->setCvSkillsText($row['cv_skills_text'])
-            ->setCvDocument($row['cv_document'])
-            ->setCvDocumentFilename($row['cv_document_filename'])
-            ->setCvDocumentMimetype($row['cv_document_mimetype'])
-            ->setLetterDocument($row['letter_document'])
-            ->setLetterDocumentFilename($row['letter_document_filename'])
-            ->setLetterDocumentMimetype($row['letter_document_mimetype'])
+            ->setPrefix($rowData->offsetGet('prefix'))
+            ->setName($rowData->offsetGet('name'))
+            ->setSurname($rowData->offsetGet('surname'))
+            ->setPostfix($rowData->offsetGet('postfix'))
+            ->setEmail($rowData->offsetGet('email'))
+            ->setPhone($rowData->offsetGet('phone'))
+            ->setCvEducationText($rowData->offsetGet('cv_education_text'))
+            ->setCvSkillsText($rowData->offsetGet('cv_skills_text'))
+            ->setCvDocument($rowData->offsetGet('cv_document'))
+            ->setCvDocumentFilename($rowData->offsetGet('cv_document_filename'))
+            ->setCvDocumentMimetype($rowData->offsetGet('cv_document_mimetype'))
+            ->setLetterDocument($rowData->offsetGet('letter_document'))
+            ->setLetterDocumentFilename($rowData->offsetGet('letter_document_filename'))
+            ->setLetterDocumentMimetype($rowData->offsetGet('letter_document_mimetype'))
 
-            ->setLoginName($row['login_name']);
+            ->setLoginName($rowData->offsetGet('login_name'));
     }
 
     /**
      *
      * @param EnrollInterface $enroll
-     * @param type $row
+     * @param type $rowData
      */
-    public function extract(EntityInterface $visitorData, &$row) {
+    public function extract(EntityInterface $visitorData, RowDataInterface $rowData) {
         /** @var VisitorDataInterface $visitorData */
-            $row['prefix'] = $visitorData->getPrefix();
-            $row['name'] = $visitorData->getName();
-            $row['surname'] = $visitorData->getSurname();
-            $row['postfix'] = $visitorData->getPostfix();
-            $row['email'] = $visitorData->getEmail();
-            $row['phone'] = $visitorData->getPhone();
-            $row['cv_education_text'] = $visitorData->getCvEducationText();
-            $row['cv_skills_text'] = $visitorData->getCvSkillsText();
-            $row['cv_document'] = $visitorData->getCvDocument();
-            $row['cv_document_filename'] = $visitorData->getCvDocumentFilename();
-            $row['cv_document_mimetype'] = $visitorData->getCvDocumentMimetype();
-            $row['letter_document'] = $visitorData->getLetterDocument();
-            $row['letter_document_filename'] = $visitorData->getLetterDocumentFilename();
-            $row['letter_document_mimetype'] = $visitorData->getLetterDocumentMimetype();
+            $rowData->offsetSet('prefix', $visitorData->getPrefix());
+            $rowData->offsetSet('name', $visitorData->getName());
+            $rowData->offsetSet('surname', $visitorData->getSurname());
+            $rowData->offsetSet('postfix', $visitorData->getPostfix());
+            $rowData->offsetSet('email', $visitorData->getEmail());
+            $rowData->offsetSet('phone', $visitorData->getPhone());
+            $rowData->offsetSet('cv_education_text', $visitorData->getCvEducationText());
+            $rowData->offsetSet('cv_skills_text', $visitorData->getCvSkillsText());
+            $rowData->offsetSet('cv_document', $visitorData->getCvDocument());
+            $rowData->offsetSet('cv_document_filename', $visitorData->getCvDocumentFilename());
+            $rowData->offsetSet('cv_document_mimetype', $visitorData->getCvDocumentMimetype());
+            $rowData->offsetSet('letter_document', $visitorData->getLetterDocument());
+            $rowData->offsetSet('letter_document_filename', $visitorData->getLetterDocumentFilename());
+            $rowData->offsetSet('letter_document_mimetype', $visitorData->getLetterDocumentMimetype());
 
-            $row['login_name'] = $visitorData->getLoginName();
+            $rowData->offsetSet('login_name', $visitorData->getLoginName());
     }
 
 }

@@ -42,11 +42,7 @@ class PaperRepo extends RepoAbstract implements PaperRepoInterface {
      * @return PaperInterface|null
      */
     public function get($id): ?PaperInterface {
-        $index = $id;
-        if (!isset($this->collection[$index])) {
-            $this->recreateEntity($index, $this->dao->get($id));
-        }
-        return $this->collection[$index] ?? NULL;
+        return $this->getEntity($id);
     }
 
     /**
@@ -55,12 +51,7 @@ class PaperRepo extends RepoAbstract implements PaperRepoInterface {
      * @return PaperInterface|null
      */
     public function getByReference($menuItemIdFk): ?EntityInterface {
-        $row = $this->dao->getByFk($menuItemIdFk);
-        $index = $this->indexFromRow($row);
-        if (!isset($this->collection[$index])) {
-            $this->recreateEntity($index, $row);
-        }
-        return $this->collection[$index] ?? NULL;
+        return $this->getEntityByReference($menuItemIdFk);
     }
 
     public function add(PaperInterface $paper) {
@@ -73,6 +64,10 @@ class PaperRepo extends RepoAbstract implements PaperRepoInterface {
 
     protected function createEntity() {
         return new Paper();
+    }
+
+    protected function indexFromKeyParams($id) {
+        return $id;
     }
 
     protected function indexFromEntity(PaperInterface $paper) {

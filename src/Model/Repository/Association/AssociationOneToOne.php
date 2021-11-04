@@ -9,6 +9,7 @@
 namespace Model\Repository\Association;
 
 use Model\Entity\EntityInterface;
+use Model\RowData\RowDataInterface;
 
 use Model\Repository\RepoAssotiatedOneInterface;
 use Model\Repository\Exception\UnableToCreateAssotiatedChildEntity;
@@ -35,8 +36,8 @@ class AssociationOneToOne extends AssociationAbstract implements AssociationOneT
         $this->childRepo = $childRepo;
     }
 
-    public function getAssociatedEntity(&$row): ?EntityInterface {
-        $childKey = $this->getChildKey($row);
+    public function getAssociatedEntity(RowDataInterface $rowData): ?EntityInterface {
+        $childKey = $this->getChildKey($rowData);
         $child = $this->childRepo->getByReference($childKey);
 //        if (is_null($child)) {
 //            $repoCls = get_class($this->childRepo);

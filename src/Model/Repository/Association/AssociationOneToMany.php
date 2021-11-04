@@ -9,8 +9,9 @@
 namespace Model\Repository\Association;
 
 use Model\Repository\RepoAssotiatedManyInterface;
-use Model\Repository\RepoInterface;
 use Model\Entity\EntityInterface;
+use Model\RowData\RowDataInterface;
+
 /**
  * Description of AssociationOneToManyFactory
  *

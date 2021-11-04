@@ -49,27 +49,27 @@ class Language extends EntityAbstract implements LanguageInterface {
         return $this->state;
     }
 
-    public function setLangCode($langCode) {
+    public function setLangCode($langCode): LanguageInterface {
         $this->langCode = $langCode;
         return $this;
     }
 
-    public function setLocale($locale) {
+    public function setLocale($locale): LanguageInterface {
         $this->locale = $locale;
         return $this;
     }
 
-    public function setName($name) {
+    public function setName($name): LanguageInterface {
         $this->name = $name;
         return $this;
     }
 
-    public function setCollation($collation) {
+    public function setCollation($collation): LanguageInterface {
         $this->collation = $collation;
         return $this;
     }
 
-    public function setState($state) {
+    public function setState($state): LanguageInterface {
         $this->state = $state;
         return $this;
     }

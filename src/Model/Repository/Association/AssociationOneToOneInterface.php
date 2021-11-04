@@ -9,13 +9,14 @@
 namespace Model\Repository\Association;
 
 use Model\Entity\EntityInterface;
+use Model\RowData\RowDataInterface;
 
 /**
  *
  * @author pes2704
  */
 interface AssociationOneToOneInterface extends AssociationInterface {
-    public function getAssociatedEntity(&$row): ?EntityInterface;
+    public function getAssociatedEntity(RowDataInterface $rowData): ?EntityInterface;
     public function addAssociatedEntity(EntityInterface $entity = null);
     public function removeAssociatedEntity(EntityInterface $entity = null);
 }

@@ -19,12 +19,6 @@ use Pes\Database\Handler\HandlerInterface;
  */
 class MenuRootDao extends DaoAbstract {
 
-    protected $dbHandler;
-
-    public function __construct(HandlerInterface $dbHandler) {
-        $this->dbHandler = $dbHandler;
-    }
-
     /**
      * Vrací asociativní pole.
      *

@@ -10,6 +10,7 @@ namespace Events\Model\Hydrator;
 
 use Model\Hydrator\HydratorInterface;
 use Model\Entity\EntityInterface;
+use Model\RowData\RowDataInterface;
 
 use Events\Model\Entity\VisitorInterface;
 
@@ -23,24 +24,24 @@ class EventTypeHydrator implements HydratorInterface {
     /**
      *
      * @param EntityInterface $eventType
-     * @param type $row
+     * @param type $rowData
      */
-    public function hydrate(EntityInterface $eventType, &$row) {
+    public function hydrate(EntityInterface $eventType, RowDataInterface $rowData) {
         /** @var VisitorInterface $eventType */
         $eventType
-            ->setId($row['id'])
-            ->setValue($row['value']);
+            ->setId($rowData->offsetGet('id'))
+            ->setValue($rowData->offsetGet('value'));
     }
 
     /**
      *
      * @param EntityInterface $eventType
-     * @param array $row
+     * @param array $rowData
      */
-    public function extract(EntityInterface $eventType, &$row) {
+    public function extract(EntityInterface $eventType, RowDataInterface $rowData) {
         /** @var VisitorInterface $eventType */
-        $row['id'] = $eventType->getId(); // id je autoincrement - readonly, hodnota pro where
-        $row['value'] = $eventType->getValue();
+        $rowData->offsetSet('id', $eventType->getId()); // id je autoincrement - readonly, hodnota pro where
+        $rowData->offsetSet('value', $eventType->getValue());
     }
 
 }

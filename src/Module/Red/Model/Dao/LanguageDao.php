@@ -19,12 +19,6 @@ use Pes\Database\Handler\HandlerInterface;
  */
 class LanguageDao extends DaoAbstract {
 
-    protected $dbHandler;
-
-    public function __construct(HandlerInterface $dbHandler) {
-        $this->dbHandler = $dbHandler;
-    }
-
     /**
      * Vrací jednu řádku tabulky 'paper' ve formě asociativního pole.
      *
@@ -39,19 +33,27 @@ class LanguageDao extends DaoAbstract {
 
         return $this->selectOne($sql, [':lang_code'=>$lang_code]);
     }
+    /**
+     *
+     * @return array
+     */
+    public function findAll() {
+        $sql = "SELECT lang_code, locale, name, collation, state "
+                . "FROM language ";
+        return $this->selectMany($sql, []);
+    }
 
     /**
      *
      * @return array
      */
-    public function find($whereClause=null) {
-
+    public function find($whereClause=null, $touplesToBind=[]) {
         $sql = "SELECT lang_code, locale, name, collation, state "
                 . "FROM language ";
         if (isset($whereClause) AND $whereClause) {
             $sql .= "WHERE ".$whereClause;
         }
-        return $this->selectMany($sql, []);
+        return $this->selectMany($sql, $touplesToBind);
     }
 
     public function update($param) {

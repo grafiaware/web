@@ -20,9 +20,9 @@ interface LanguageInterface extends EntityInterface {
     public function getName();
     public function getCollation();
     public function getState();
-    public function setLangCode($langCode);
-    public function setLocale($locale);
-    public function setName($name);
-    public function setCollation($collation);
-    public function setState($state);
+    public function setLangCode($langCode): LanguageInterface;
+    public function setLocale($locale): LanguageInterface;
+    public function setName($name): LanguageInterface;
+    public function setCollation($collation): LanguageInterface;
+    public function setState($state): LanguageInterface;
 }

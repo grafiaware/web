@@ -33,6 +33,9 @@ use Model\Context\ContextFactoryInterface;
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 
+// rowdata
+use Model\RowData\PdoRowData;
+
 //dao + hydrator + repo
 use Red\Model\Dao\Hierarchy\HierarchyAggregateEditDao;
 use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
@@ -46,9 +49,11 @@ use Red\Model\Hydrator\MenuItemHydrator;
 use Red\Model\Repository\MenuItemRepo;
 
 use Red\Model\Dao\MenuRootDao;
+use Red\Model\Hydrator\MenuRootHydrator;
 use Red\Model\Repository\MenuRootRepo;
 
 use Red\Model\Dao\LanguageDao;
+use Red\Model\Hydrator\LanguageHydrator;
 use Red\Model\Repository\LanguageRepo;
 
 use Red\Model\Dao\MenuItemTypeDao;
@@ -142,6 +147,7 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(Handler::class),
                         $c->get('hierarchy.table'),
                         $c->get('hierarchy.menu_item_table'),
+                        PdoRowData::class,
                         $c->get(ContextFactoryInterface::class));
             },
             HierarchyAggregateEditDao::class => function(ContainerInterface $c) : HierarchyAggregateEditDao {
@@ -149,6 +155,7 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
                 $editHierarchy = (new HierarchyAggregateEditDao(
                         $c->get(Handler::class),
                         $c->get('hierarchy.table'),
+                        PdoRowData::class,
                         $c->get(ContextFactoryInterface::class))
                         );
                 $editHierarchy->registerHookedActor($c->get(HookedMenuItemActor::class));
@@ -156,11 +163,12 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             'MenuItemAllDao' => function(ContainerInterface $c) {
                 return new MenuItemDao(
-                        $c->get(HandlerInterface::class));
+                        $c->get(HandlerInterface::class), PdoRowData::class);
             },
             MenuItemDao::class => function(ContainerInterface $c) {
                 return new MenuItemDao(
                         $c->get(HandlerInterface::class),
+                        PdoRowData::class,
                         $c->get(ContextFactoryInterface::class));
             },
             HookedMenuItemActor::class => function(ContainerInterface $c) {
@@ -191,7 +199,7 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(MenuItemRepo::class));
             },
             MenuItemTypeDao::class => function(ContainerInterface $c) {
-                return new MenuItemTypeDao($c->get(HandlerInterface::class));
+                return new MenuItemTypeDao($c->get(HandlerInterface::class), PdoRowData::class);
             },
             MenuItemTypeHydrator::class => function(ContainerInterface $c) {
                 return new MenuItemTypeHydrator();
@@ -200,7 +208,7 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new MenuItemTypeRepo($c->get(MenuItemTypeDao::class), $c->get(MenuItemTypeHydrator::class));
             },
             PaperDao::class => function(ContainerInterface $c) {
-                return new PaperDao($c->get(HandlerInterface::class));
+                return new PaperDao($c->get(HandlerInterface::class), PdoRowData::class);
             },
             PaperHydrator::class => function(ContainerInterface $c) {
                 return new PaperHydrator();
@@ -211,6 +219,7 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
             PaperContentDao::class => function(ContainerInterface $c) {
                 return new PaperContentDao(
                         $c->get(HandlerInterface::class),
+                        PdoRowData::class,
                         $c->get(ContextFactoryInterface::class));
             },
             PaperContentHydrator::class => function(ContainerInterface $c) {
@@ -238,7 +247,7 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
                         );
             },
             ArticleDao::class => function(ContainerInterface $c) {
-                return new ArticleDao($c->get(HandlerInterface::class));
+                return new ArticleDao($c->get(HandlerInterface::class), PdoRowData::class);
             },
             ArticleHydrator::class => function(ContainerInterface $c) {
                 return new ArticleHydrator();
@@ -247,7 +256,7 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new ArticleRepo($c->get(ArticleDao::class), $c->get(ArticleHydrator::class));
             },
             MultipageDao::class => function(ContainerInterface $c) {
-                return new MultipageDao($c->get(HandlerInterface::class));
+                return new MultipageDao($c->get(HandlerInterface::class), PdoRowData::class);
             },
             MultipageHydrator::class => function(ContainerInterface $c) {
                 return new MultipageHydrator();
@@ -256,7 +265,7 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new MultipageRepo($c->get(MultipageDao::class), $c->get(MultipageHydrator::class));
             },
             ItemActionDao::class => function(ContainerInterface $c) {
-                return new ItemActionDao($c->get(HandlerInterface::class));
+                return new ItemActionDao($c->get(HandlerInterface::class), PdoRowData::class);
             },
             ItemActionHydrator::class => function(ContainerInterface $c) {
                 return new ItemActionHydrator();
@@ -265,7 +274,7 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new ItemActionRepo($c->get(ItemActionDao::class), $c->get(ItemActionHydrator::class));
             },
             BlockDao::class => function(ContainerInterface $c) {
-                return new BlockDao($c->get(HandlerInterface::class));
+                return new BlockDao($c->get(HandlerInterface::class), PdoRowData::class);
             },
             BlockHydrator::class => function(ContainerInterface $c) {
                 return new BlockHydrator($c->get(BlockDao::class));
@@ -289,22 +298,28 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
             },
 
             MenuRootDao::class => function(ContainerInterface $c) {
-                return new MenuRootDao($c->get(HandlerInterface::class));
+                return new MenuRootDao($c->get(HandlerInterface::class), PdoRowData::class);
+            },
+            MenuRootHydrator::class => function(ContainerInterface $c) {
+                return new MenuRootHydrator();
             },
             MenuRootRepo::class => function(ContainerInterface $c) {
-                return new MenuRootRepo($c->get(MenuRootDao::class));
+                return new MenuRootRepo($c->get(MenuRootDao::class), $c->get(MenuRootHydrator::class));
             },
 
             LanguageDao::class => function(ContainerInterface $c) {
-                return new LanguageDao($c->get(HandlerInterface::class));
+                return new LanguageDao($c->get(HandlerInterface::class), PdoRowData::class);
+            },
+            LanguageHydrator::class => function(ContainerInterface $c) {
+                return new LanguageHydrator();
             },
             LanguageRepo::class => function(ContainerInterface $c) {
-                return new LanguageRepo($c->get(LanguageDao::class));
+                return new LanguageRepo($c->get(LanguageDao::class), $c->get(LanguageHydrator::class));
             },
 
             ### Enroll ###
             EnrollDao::class => function(ContainerInterface $c) {
-                return new EnrollDao($c->get(HandlerInterface::class));
+                return new EnrollDao($c->get(HandlerInterface::class), PdoRowData::class);
             },
             EnrollHydrator::class => function(ContainerInterface $c) {
                 return new EnrollHydrator();
@@ -317,7 +332,7 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
             },
 
             VisitorDataDao::class => function(ContainerInterface $c) {
-                return new VisitorDataDao($c->get(HandlerInterface::class));
+                return new VisitorDataDao($c->get(HandlerInterface::class), PdoRowData::class);
             },
             VisitorDataHydrator::class => function(ContainerInterface $c) {
                 return new VisitorDataHydrator();
@@ -330,7 +345,7 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
             },
 
             VisitorDataPostDao::class => function(ContainerInterface $c) {
-                return new VisitorDataPostDao($c->get(HandlerInterface::class));
+                return new VisitorDataPostDao($c->get(HandlerInterface::class), PdoRowData::class);
             },
             VisitorDataPostHydrator::class => function(ContainerInterface $c) {
                 return new VisitorDataPostHydrator();

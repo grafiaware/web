@@ -11,7 +11,9 @@ namespace Red\Model\Hydrator;
 use Model\Hydrator\HydratorInterface;
 
 use Model\Entity\EntityInterface;
+use Model\RowData\RowDataInterface;
 use Red\Model\Entity\MenuItemInterface;
+
 use Pes\Type\Date;
 
 /**
@@ -24,34 +26,34 @@ class MenuItemHydrator implements HydratorInterface {
     /**
      *
      * @param MenuItemInterface $menuItem
-     * @param type $row
+     * @param type $rowData
      */
-    public function hydrate(EntityInterface $menuItem, &$row) {
+    public function hydrate(EntityInterface $menuItem, RowDataInterface $rowData) {
         /** @var MenuItemInterface $menuItem */
         $menuItem
-            ->setLangCodeFk($row['lang_code_fk'])
-            ->setUidFk($row['uid_fk'])
-            ->setType($row['type_fk'])
-            ->setId($row['id'])
-            ->setTitle($row['title'])
-            ->setPrettyuri($row['prettyuri'])
-            ->setActive((bool) $row['active'])
+            ->setLangCodeFk($rowData->offsetGet('lang_code_fk'))
+            ->setUidFk($rowData->offsetGet('uid_fk'))
+            ->setType($rowData->offsetGet('type_fk'))
+            ->setId($rowData->offsetGet('id'))
+            ->setTitle($rowData->offsetGet('title'))
+            ->setPrettyuri($rowData->offsetGet('prettyuri'))
+            ->setActive((bool) $rowData->offsetGet('active'))
             ;
     }
 
     /**
      *
      * @param MenuItemInterface $menuItem
-     * @param type $row
+     * @param type $rowData
      */
-    public function extract(EntityInterface $menuItem, &$row=[]) {
+    public function extract(EntityInterface $menuItem, RowDataInterface $rowData) {
         /** @var MenuItemInterface $menuItem */
-        $row['lang_code_fk'] = $menuItem->getLangCodeFk();
-        $row['uid_fk'] = $menuItem->getUidFk();
-        $row['type_fk'] = $menuItem->getTypeFk();
-        $row['id'] = $menuItem->getId();
-        $row['title'] = $menuItem->getTitle();
-        $row['prettyuri'] = $menuItem->getPrettyuri();
-        $row['active'] = (int) $menuItem->getActive();
+        $rowData->offsetSet('lang_code_fk', $menuItem->getLangCodeFk());
+        $rowData->offsetSet('uid_fk', $menuItem->getUidFk());
+        $rowData->offsetSet('type_fk', $menuItem->getTypeFk());
+        $rowData->offsetSet('id', $menuItem->getId());
+        $rowData->offsetSet('title', $menuItem->getTitle());
+        $rowData->offsetSet('prettyuri', $menuItem->getPrettyuri());
+        $rowData->offsetSet('active', (int) $menuItem->getActive());
     }
 }

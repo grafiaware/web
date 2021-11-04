@@ -9,8 +9,9 @@
 namespace Red\Model\Hydrator;
 
 use Model\Hydrator\HydratorInterface;
-
 use Model\Entity\EntityInterface;
+use Model\RowData\RowDataInterface;
+
 use Red\Model\Entity\PaperContentInterface;
 use Pes\Type\Date;
 
@@ -24,46 +25,46 @@ class PaperContentHydrator implements HydratorInterface {
     /**
      *
      * @param PaperInterface $paperContent
-     * @param type $row
+     * @param type $rowData
      */
-    public function hydrate(EntityInterface $paperContent, &$row) {
+    public function hydrate(EntityInterface $paperContent, RowDataInterface $rowData) {
         /** @var PaperContentInterface $paperContent */
         $paperContent
-            ->setPaperIdFk($row['paper_id_fk'])
-            ->setId($row['id'])
-            ->setContent($row['content'])
-            ->setTemplateName($row['template_name'])
-            ->setTemplate($row['template'])
-            ->setActive($row['active'])
-            ->setPriority($row['priority'])
-            ->setShowTime($row['show_time'] ? \DateTime::createFromFormat('Y-m-d', $row['show_time']) : NULL)
-            ->setHideTime($row['hide_time'] ? \DateTime::createFromFormat('Y-m-d', $row['hide_time']) : NULL)
-            ->setEventStartTime($row['event_start_time'] ? \DateTime::createFromFormat('Y-m-d', $row['event_start_time']) : NULL)
-            ->setEventEndTime($row['event_end_time'] ? \DateTime::createFromFormat('Y-m-d', $row['event_end_time']) : NULL)
-            ->setEditor($row['editor'])
-            ->setUpdated(\DateTime::createFromFormat('Y-m-d H:i:s', $row['updated']) )  // včetně času
-            ->setActual($row['actual']);
+            ->setPaperIdFk($rowData->offsetGet('paper_id_fk'))
+            ->setId($rowData->offsetGet('id'))
+            ->setContent($rowData->offsetGet('content'))
+            ->setTemplateName($rowData->offsetGet('template_name'))
+            ->setTemplate($rowData->offsetGet('template'))
+            ->setActive($rowData->offsetGet('active'))
+            ->setPriority($rowData->offsetGet('priority'))
+            ->setShowTime($rowData->offsetGet('show_time') ? \DateTime::createFromFormat('Y-m-d', $rowData->offsetGet('show_time')) : NULL)
+            ->setHideTime($rowData->offsetGet('hide_time') ? \DateTime::createFromFormat('Y-m-d', $rowData->offsetGet('hide_time')) : NULL)
+            ->setEventStartTime($rowData->offsetGet('event_start_time') ? \DateTime::createFromFormat('Y-m-d', $rowData->offsetGet('event_start_time')) : NULL)
+            ->setEventEndTime($rowData->offsetGet('event_end_time') ? \DateTime::createFromFormat('Y-m-d', $rowData->offsetGet('event_end_time')) : NULL)
+            ->setEditor($rowData->offsetGet('editor'))
+            ->setUpdated(\DateTime::createFromFormat('Y-m-d H:i:s', $rowData->offsetGet('updated')) )  // včetně času
+            ->setActual($rowData->offsetGet('actual'));
     }
 
     /**
      *
      * @param PaperInterface $paperContent
-     * @param type $row
+     * @param type $rowData
      */
-    public function extract(EntityInterface $paperContent, &$row) {
+    public function extract(EntityInterface $paperContent, RowDataInterface $rowData) {
         /** @var PaperContentInterface $paperContent */
-        $row['paper_id_fk'] = $paperContent->getPaperIdFk();
-        $row['id'] = $paperContent->getId();
-        $row['content'] = $paperContent->getContent();
-        $row['template_name'] = $paperContent->getTemplateName();
-        $row['template'] = $paperContent->getTemplate();
-        $row['active'] = $paperContent->getActive();
-        $row['priority'] = $paperContent->getPriority();
-        $row['show_time'] = $paperContent->getShowTime() ? $paperContent->getShowTime()->format("Y-m-d") : null;
-        $row['hide_time'] = $paperContent->getHideTime() ? $paperContent->getHideTime()->format("Y-m-d") : null;
-        $row['event_start_time'] = $paperContent->getEventStartTime() ? $paperContent->getEventStartTime()->format("Y-m-d") : null;
-        $row['event_end_time'] = $paperContent->getEventEndTime() ? $paperContent->getEventEndTime()->format("Y-m-d") : null;
-        $row['editor'] = $paperContent->getEditor();
+        $rowData->offsetSet('paper_id_fk',  $paperContent->getPaperIdFk());
+        $rowData->offsetSet('id',  $paperContent->getId());
+        $rowData->offsetSet('content',  $paperContent->getContent());
+        $rowData->offsetSet('template_name',  $paperContent->getTemplateName());
+        $rowData->offsetSet('template',  $paperContent->getTemplate());
+        $rowData->offsetSet('active',  $paperContent->getActive());
+        $rowData->offsetSet('priority',  $paperContent->getPriority());
+        $rowData->offsetSet('show_time',  $paperContent->getShowTime() ? $paperContent->getShowTime()->format("Y-m-d") : null);
+        $rowData->offsetSet('hide_time',  $paperContent->getHideTime() ? $paperContent->getHideTime()->format("Y-m-d") : null);
+        $rowData->offsetSet('event_start_time',  $paperContent->getEventStartTime() ? $paperContent->getEventStartTime()->format("Y-m-d") : null);
+        $rowData->offsetSet('event_end_time',  $paperContent->getEventEndTime() ? $paperContent->getEventEndTime()->format("Y-m-d") : null);
+        $rowData->offsetSet('editor',  $paperContent->getEditor());
         // updated je timestamp
         // actual je readonly
     }

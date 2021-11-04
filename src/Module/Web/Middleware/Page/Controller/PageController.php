@@ -116,6 +116,8 @@ class PageController extends LayoutControllerAbstract {
      * @return MenuItemInterface|null
      */
     protected function getMenuItemForBlock($name): ?MenuItemInterface {
+//        assert(false, "Uprav block aggregate repo!");
+
         /** @var BlockAggregateRepo $blockAggregateRepo */
         $blockAggregateRepo = $this->container->get(BlockAggregateRepo::class);
         $blockAggregate = $blockAggregateRepo->getAggregate($this->getPresentationLangCode(), $name);

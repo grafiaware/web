@@ -42,8 +42,8 @@ class HierarchyAggregateReadonlyDao extends HierarchyAggregateEditDao implements
      * @param string $nestedSetTableName Jméno databázové tabulky menu nested set
      * @param string $itemTableName Jméno databázové tabulky menu item
      */
-    public function __construct(HandlerInterface $handler, $nestedSetTableName, $itemTableName, ContextFactoryInterface $contextFactory=null) {
-        parent::__construct($handler, $nestedSetTableName, $contextFactory);
+    public function __construct(HandlerInterface $handler, $nestedSetTableName, $itemTableName, $fetchClassName="", ContextFactoryInterface $contextFactory=null) {
+        parent::__construct($handler, $nestedSetTableName, $fetchClassName, $contextFactory);
         $this->itemTableName = $itemTableName;
     }
 
@@ -95,11 +95,11 @@ class HierarchyAggregateReadonlyDao extends HierarchyAggregateEditDao implements
                     INNER JOIN
                 $this->itemTableName AS menu_item ON (nested_set.uid = menu_item.uid_fk)"
                 .$this->where($this->and($this->getContextConditions(), ["menu_item.lang_code_fk = :lang_code", "nested_set.uid = :uid"]));
-        $stmt = $this->dbHandler->prepare($sql);
+        $stmt = $this->getPreparedStatement($sql);
         $stmt->bindParam(':uid', $uid, \PDO::PARAM_STR);
         $stmt->bindParam(':lang_code', $langCode, \PDO::PARAM_STR);
         $stmt->execute();
-        return $stmt->rowCount() == 1 ? $stmt->fetch(\PDO::FETCH_ASSOC) : NULL;
+        return $stmt->rowCount() == 1 ? $stmt->fetch() : NULL;
     }
 
     /**
@@ -125,11 +125,11 @@ class HierarchyAggregateReadonlyDao extends HierarchyAggregateEditDao implements
                 $this->itemTableName AS menu_item ON (nested_set.uid = menu_item.uid_fk)"
                 .$this->where($this->and($this->getContextConditions(), ["menu_item.lang_code_fk = :lang_code", "menu_item.title = :title"]))
                 ;
-        $stmt = $this->dbHandler->prepare($sql);
+        $stmt = $this->getPreparedStatement($sql);
         $stmt->bindParam(':title', $title, \PDO::PARAM_STR);
         $stmt->bindParam(':lang_code', $langCode, \PDO::PARAM_STR);
         $stmt->execute();
-        return $stmt->rowCount() >= 1 ? $stmt->fetch(\PDO::FETCH_ASSOC) : NULL;
+        return $stmt->rowCount() >= 1 ? $stmt->fetch() : NULL;
     }
 
     /**
@@ -139,7 +139,7 @@ class HierarchyAggregateReadonlyDao extends HierarchyAggregateEditDao implements
      * @return type
      */
     public function getFullTree($langCode) {
-//        $stmt = $this->dbHandler->prepare(
+//        $stmt = $this->getPreparedStatement(
 //            " SELECT node.title, node.uid, (COUNT(parent.uid ) - 1) AS depth, GROUP_CONCAT(DISTINCT parent.title  ORDER BY parent.uid ASC SEPARATOR ' / ') AS breadcrumb
 //            FROM $this->nestedSetTableName AS node CROSS JOIN $this->nestedSetTableName AS parent
 //            WHERE node.left_node BETWEEN parent.left_node AND parent.right_node AND node.lang_code = :lang_code
@@ -162,10 +162,10 @@ class HierarchyAggregateReadonlyDao extends HierarchyAggregateEditDao implements
                 .$this->where($this->and($this->getContextConditions(), ["menu_item.lang_code_fk = :lang_code"]))
             ." ORDER BY nested_set.left_node"
                 ;
-        $stmt = $this->dbHandler->prepare($sql);
+        $stmt = $this->getPreparedStatement($sql);
         $stmt->bindParam(':lang_code', $langCode, \PDO::PARAM_STR);
         $stmt->execute();
-        return $stmt->fetchALL(\PDO::FETCH_ASSOC);
+        return $stmt->fetchALL();
     }
 
     /**
@@ -198,7 +198,7 @@ class HierarchyAggregateReadonlyDao extends HierarchyAggregateEditDao implements
                 .$this->where($this->and($this->getContextConditions(), ["menu_item.lang_code_fk = :lang_code"]))
             ." ORDER BY nested_set.left_node"
                 ;
-        $stmt = $this->dbHandler->prepare($sql);
+        $stmt = $this->getPreparedStatement($sql);
         $stmt->bindParam(':uid', $rootUid, \PDO::PARAM_STR);
         if(isset($maxDepth)) {
             $stmt->bindParam(':maxdepth', $maxDepth, \PDO::PARAM_INT);
@@ -206,7 +206,7 @@ class HierarchyAggregateReadonlyDao extends HierarchyAggregateEditDao implements
         $stmt->bindParam(':lang_code', $langCode, \PDO::PARAM_STR);
 
         $stmt->execute();
-        return $stmt->fetchALL(\PDO::FETCH_ASSOC);
+        return $stmt->fetchALL();
     }
 
     /**
@@ -235,11 +235,11 @@ class HierarchyAggregateReadonlyDao extends HierarchyAggregateEditDao implements
                 $this->itemTableName ON (nested_set.uid = menu_item.uid_fk)"
                 .$this->where($this->and($this->getContextConditions(), ["menu_item.lang_code_fk = :lang_code"]))
                 ;
-        $stmt = $this->dbHandler->prepare($sql);
+        $stmt = $this->getPreparedStatement($sql);
         $stmt->bindParam(':uid', $uid, \PDO::PARAM_STR);
         $stmt->bindParam(':lang_code', $langCode, \PDO::PARAM_STR);
         $stmt->execute();
-        return $stmt->fetchALL(\PDO::FETCH_ASSOC);
+        return $stmt->fetchALL();
     }
 
     /**
@@ -277,12 +277,12 @@ class HierarchyAggregateReadonlyDao extends HierarchyAggregateEditDao implements
                 .$this->where($this->and($this->getContextConditions(), ["menu_item.lang_code_fk = :lang_code"]))
             ." ORDER BY nested_set.left_node"
                 ;
-        $stmt = $this->dbHandler->prepare($sql);
+        $stmt = $this->getPreparedStatement($sql);
         $stmt->bindParam(':rootuid', $rootUid, \PDO::PARAM_STR);
         $stmt->bindParam(':uid', $uid, \PDO::PARAM_STR);
         $stmt->bindParam(':lang_code', $langCode, \PDO::PARAM_STR);
         $stmt->execute();
-        return $stmt->fetchALL(\PDO::FETCH_ASSOC);
+        return $stmt->fetchALL();
     }
     /**
      * Vrací bezprostřední potomky
@@ -348,14 +348,14 @@ class HierarchyAggregateReadonlyDao extends HierarchyAggregateEditDao implements
                 .$this->where($this->and($this->getContextConditions(), ["menu_item.lang_code_fk = :lang_code"]))
                 ." ORDER BY nested_set.left_node"
             ;
-        $stmt = $this->dbHandler->prepare($sql);
+        $stmt = $this->getPreparedStatement($sql);
         $stmt->bindParam(':uid', $parentUid, \PDO::PARAM_STR);
         if(isset($maxDepth)) {
             $stmt->bindParam(':maxdepth', $maxDepth, \PDO::PARAM_INT);
         }
         $stmt->bindParam(':lang_code', $langCode, \PDO::PARAM_STR);
         $stmt->execute();
-        return $stmt->fetchALL(\PDO::FETCH_ASSOC);
+        return $stmt->fetchALL();
     }
 
     public function getFullPathWithSiblings($langCode, $rootUid, $uid) {
@@ -387,14 +387,14 @@ class HierarchyAggregateReadonlyDao extends HierarchyAggregateEditDao implements
                 .$this->where($this->and($this->getContextConditions(), ["menu_item.lang_code_fk = :lang_code"]))
             ." ORDER BY nested_set.left_node"
             ;
-        $stmt = $this->dbHandler->prepare($sql);
+        $stmt = $this->getPreparedStatement($sql);
         $stmt->bindParam(':uid', $uid, \PDO::PARAM_STR);
 //                                AND sub_parent.uid = :rootuid
 
 //        $stmt->bindParam(':rootuid', $rootUid, \PDO::PARAM_STR);
         $stmt->bindParam(':lang_code', $langCode, \PDO::PARAM_STR);
         $stmt->execute();
-        return $stmt->fetchALL(\PDO::FETCH_ASSOC);
+        return $stmt->fetchALL();
     }
 
     /**
@@ -427,11 +427,11 @@ class HierarchyAggregateReadonlyDao extends HierarchyAggregateEditDao implements
                     AND menu_item_for_breadcrumb.lang_code_fk = :lang_code
                     AND menu_item_for_title.lang_code_fk = :lang_code"
                ;
-        $stmt = $this->dbHandler->prepare($sql);
+        $stmt = $this->getPreparedStatement($sql);
         $stmt->bindParam(':uid', $uid, \PDO::PARAM_STR);
         $stmt->bindParam(':lang_code', $langCode, \PDO::PARAM_STR);
         $stmt->execute();
-        return $stmt->fetchALL(\PDO::FETCH_ASSOC);
+        return $stmt->fetchALL();
     }
 
 #################
@@ -442,14 +442,14 @@ class HierarchyAggregateReadonlyDao extends HierarchyAggregateEditDao implements
      * @return array
      */
 //    public function leafNodes(){
-//        $stmt = $this->dbHandler->prepare(
+//        $stmt = $this->getPreparedStatement(
 //                "SELECT menu_item.title, nested_set.uid
 //                FROM $this->nestedSetTableName AS nested_set
 //                    INNER JOIN
 //                    $this->itemTableName AS menu_item
 //                WHERE nested_set.right_node = nested_set.left_node + 1");
 //        $stmt->execute();
-//        return $stmt->fetchALL(\PDO::FETCH_ASSOC);
+//        return $stmt->fetchALL();
 //    }
 
 

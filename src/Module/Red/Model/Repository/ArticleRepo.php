@@ -42,11 +42,7 @@ class ArticleRepo extends RepoAbstract implements ArticleRepoInterface {
      * @return PaperInterface|null
      */
     public function get($id): ?ArticleInterface {
-        $index = $id;
-        if (!isset($this->collection[$index])) {
-            $this->recreateEntity($index, $this->dao->get($id));
-        }
-        return $this->collection[$index] ?? NULL;
+        return $this->getEntity($id);
     }
 
     /**
@@ -55,12 +51,7 @@ class ArticleRepo extends RepoAbstract implements ArticleRepoInterface {
      * @return ArticleInterface|null
      */
     public function getByReference($menuItemIdFk): ?EntityInterface {
-        $row = $this->dao->getByFk($menuItemIdFk);
-        $index = $this->indexFromRow($row);
-        if (!isset($this->collection[$index])) {
-            $this->recreateEntity($index, $row);
-        }
-        return $this->collection[$index] ?? NULL;
+        return $this->getEntityByReference($menuItemIdFk);
     }
 
     public function add(ArticleInterface $article) {
@@ -73,6 +64,10 @@ class ArticleRepo extends RepoAbstract implements ArticleRepoInterface {
 
     protected function createEntity() {
         return new Article();
+    }
+
+    protected function indexFromKeyParams($id) {
+        return $id;
     }
 
     protected function indexFromEntity(ArticleInterface $article) {

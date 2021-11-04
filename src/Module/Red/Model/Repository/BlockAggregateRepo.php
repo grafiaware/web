@@ -24,15 +24,15 @@ use Red\Model\Entity\MenuItemInterface;
  */
 class BlockAggregateRepo extends BlockRepo implements BlockAggregateRepoInterface, RepoReadonlyInterface {
 
-    public function __construct(BlockDao $componentDao, HydratorInterface $componentHydrator,
+    public function __construct(BlockDao $blockDao, HydratorInterface $blockHydrator,
             MenuItemRepo $menuItemRepo, BlockChildHydrator $componentMenuItemHydrator) {
-        parent::__construct($componentDao, $componentHydrator);
+        parent::__construct($blockDao, $blockHydrator);
         $this->registerOneToOneAssociation(MenuItemInterface::class, ['lang_code_fk', 'uid_fk'], $menuItemRepo);
         $this->registerHydrator($componentMenuItemHydrator);
     }
 
     /**
-     * Vrací ComponentAggregate - agregát Component a MenuItem. Parametr $langCode je pouze použit pro výběr MenuItem.
+     * Vrací BlockAggregate - agregát Block a MenuItem. Parametr $langCode je pouze použit pro výběr MenuItem.
      * @param type $langCode
      * @param type $name
      * @return BlockAggregateMenuItemInterface|null

@@ -33,7 +33,7 @@ class LanguageSelectViewModel extends StatusViewModel implements LanguageSelectV
     }
 
     public function getLanguages() {
-        return $this->languageRepo->find();
+        return $this->languageRepo->findAll();
     }
 
     public function getPresentedLangCode() {

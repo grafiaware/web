@@ -36,23 +36,11 @@ class EventContentRepo extends RepoAbstract implements EventContentRepoInterface
      * @return EventContentInterface|null
      */
     public function get($id): ?EventContentInterface {
-        $index = $this->indexFromKey($id);
-        if (!isset($this->collection[$index])) {
-            $this->recreateEntity($index, $this->dao->get($id));
-        }
-        return $this->collection[$index] ?? null;
+        return $this->getEntity($id);
     }
 
     public function findAll() {
-        $selected = [];
-        foreach ($this->dao->findAll() as $eventContentRow) {
-            $index = $this->indexFromRow($eventContentRow);
-            if (!isset($this->collection[$index])) {
-                $this->recreateEntity($index, $eventContentRow);
-            }
-            $selected[] = $this->collection[$index];
-        }
-        return $selected;
+        return $this->findAllEntities();
     }
 
     public function add(EventContentInterface $eventContentType) {
@@ -65,6 +53,10 @@ class EventContentRepo extends RepoAbstract implements EventContentRepoInterface
 
     protected function createEntity() {
         return new EventContent();
+    }
+
+    protected function indexFromKeyParams($id) {
+        return $id;
     }
 
     protected function indexFromEntity(EventContentInterface $eventContent) {

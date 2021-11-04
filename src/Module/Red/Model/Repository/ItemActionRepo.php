@@ -38,39 +38,29 @@ class ItemActionRepo extends RepoAbstract implements ItemActionRepoInterface {
      * @return ItemActionInterface|null
      */
     public function get($typeFk, $itemId): ?ItemActionInterface {
-        $index = $typeFk . $itemId;
-        if (!isset($this->collection[$index])) {
-            $this->recreateEntity($index, $this->dao->get($typeFk, $itemId));
-        }
-        return $this->collection[$index] ?? NULL;
+        return $this->getEntity($typeFk, $itemId);
     }
 
     public function findAll() {
-        $selected = [];
-        foreach ($this->dao->findAll() as $itemActionsRow) {
-            $index = $this->indexFromRow($itemActionsRow);
-            if (!isset($this->collection[$index])) {
-                $this->recreateEntity($index, $itemActionsRow);
-            }
-            $selected[] = $this->collection[$index];
-        }
-        return $selected;
+        return $this->findAllEntities();
     }
 
     public function add(ItemActionInterface $itemAction) {
-        $index = $this->indexFromEntity($itemAction);
-        $this->addEntity($itemAction, $index);
+        $this->addEntity($itemAction);
     }
 
     public function remove(ItemActionInterface $itemAction) {
-        $index = $this->indexFromEntity($itemAction);
-        $this->removeEntity($itemAction, $index);
+        $this->removeEntity($itemAction);
     }
 
     protected function createEntity() {
         return new ItemAction();
     }
 
+    protected function indexFromKeyParams($typeFk, $itemId) {
+        return $typeFk.$itemId;
+
+    }
     protected function indexFromEntity(ItemActionInterface $itemAction) {
         return $itemAction->getTypeFk().$itemAction->getItemId();
     }

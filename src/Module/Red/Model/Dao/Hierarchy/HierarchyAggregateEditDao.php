@@ -26,8 +26,8 @@ class HierarchyAggregateEditDao extends DaoContextualAbstract implements Hierarc
      * @param strimg $nestedSetTableName Jméno tabulky obsahující nested set hierarchii položek. Používá se pro editaci hierarchie.
      * @param ContextFactoryInterface $contextFactory
      */
-    public function __construct(HandlerInterface $handler, $nestedSetTableName, ContextFactoryInterface $contextFactory=null) {
-        parent::__construct($handler, $contextFactory);
+    public function __construct(HandlerInterface $handler, $nestedSetTableName, $fetchClassName="", ContextFactoryInterface $contextFactory=null) {
+        parent::__construct($handler, $fetchClassName, $contextFactory);
         $this->nestedSetTableName = $nestedSetTableName;
     }
 
@@ -55,23 +55,23 @@ class HierarchyAggregateEditDao extends DaoContextualAbstract implements Hierarc
      * @return array
      */
     public function getNode($uid) {
-        $stmt = $this->dbHandler->prepare(
+        $stmt = $this->getPreparedStatement(
             "SELECT *
             FROM $this->nestedSetTableName
             WHERE uid = :uid");
         $stmt->bindParam(':uid', $uid);
         $stmt->execute();
-        return $stmt->rowCount() == 1 ? $stmt->fetch(\PDO::FETCH_ASSOC) : NULL;
+        return $stmt->rowCount() == 1 ? $stmt->fetch() : NULL;
     }
 
     public function getNodeByTitle($title) {
-        $stmt = $this->dbHandler->prepare(
+        $stmt = $this->getPreparedStatement(
             "SELECT *
             FROM $this->viewName
             WHERE title = :title");
         $stmt->bindParam(':title', $title);
         $stmt->execute();
-        return $stmt->rowCount() == 1 ? $stmt->fetch(\PDO::FETCH_ASSOC) : NULL;
+        return $stmt->rowCount() == 1 ? $stmt->fetch() : NULL;
     }
 
 #### editační metody ########################################################
@@ -83,8 +83,7 @@ class HierarchyAggregateEditDao extends DaoContextualAbstract implements Hierarc
      * @throws LogicException Pokud tabulka pro ukládání nested setu není prázdná.
      */
     public function newNestedSet() {
-        $dbh = $this->dbHandler;
-        $stmt = $dbh->prepare("SELECT uid FROM $this->nestedSetTableName");
+        $stmt = $this->getPreparedStatement("SELECT uid FROM $this->nestedSetTableName");
         $stmt->execute();
         if($stmt->rowCount()) {
             throw new \LogicException("Tabulka pro uložení nested et není prázná. Tabulka '$this->nestedSetTableName' má {$stmt->rowCount()} řádek.");
@@ -111,7 +110,7 @@ class HierarchyAggregateEditDao extends DaoContextualAbstract implements Hierarc
             $uid = $this->getNewUidWithinTransaction($dbhTransact);
 
             /*** insert the new node ***/
-            $stmt = $dbhTransact->prepare(
+            $stmt = $this->getPreparedStatement(
                     "INSERT INTO $this->nestedSetTableName(uid, left_node, right_node, parent_uid) VALUES (:uid, :left_node, :right_node, :parent_uid)");
             $stmt->bindParam(':uid', $uid);
             $stmt->bindParam(':left_node', $leftNode);
@@ -147,7 +146,7 @@ class HierarchyAggregateEditDao extends DaoContextualAbstract implements Hierarc
         if ($dbhTransact->inTransaction()) {
             do {
                 $uid = uniqid();
-                $stmt = $dbhTransact->prepare(
+                $stmt =$this->getPreparedStatement(
                         "SELECT uid
                         FROM $this->nestedSetTableName
                         WHERE uid = :uid LOCK IN SHARE MODE");   //nelze použít LOCK TABLES - to commitne aktuální transakci!
@@ -171,7 +170,7 @@ class HierarchyAggregateEditDao extends DaoContextualAbstract implements Hierarc
         $dbhTransact = $this->dbHandler;
         try {
             $dbhTransact->beginTransaction();
-            $stmt = $dbhTransact->prepare(
+            $stmt = $this->getPreparedStatement(
                     "SELECT @myLeft := left_node
                     FROM $this->nestedSetTableName
                     WHERE uid=:node_uid FOR UPDATE");
@@ -186,7 +185,7 @@ class HierarchyAggregateEditDao extends DaoContextualAbstract implements Hierarc
                     SET left_node = left_node + 2
                     WHERE left_node > @myLeft");
             $uid = $this->getNewUidWithinTransaction($dbhTransact);
-            $stmt = $dbhTransact->prepare(
+            $stmt = $this->getPreparedStatement(
                     "INSERT INTO $this->nestedSetTableName(uid, left_node, right_node, parent_uid) VALUES(:uid, @myLeft + 1, @myLeft + 2, :parent_uid)");
             $stmt->bindParam(':uid', $uid);
             $stmt->bindParam(':parent_uid', $parentNodeUid);
@@ -212,7 +211,7 @@ class HierarchyAggregateEditDao extends DaoContextualAbstract implements Hierarc
         $dbhTransact = $this->dbHandler;
         try {
             $dbhTransact->beginTransaction();
-            $stmt = $dbhTransact->prepare(
+            $stmt = $this->getPreparedStatement(
                     "SELECT @myRight := right_node
                     FROM $this->nestedSetTableName
                     WHERE uid=:node_uid FOR UPDATE");
@@ -227,7 +226,7 @@ class HierarchyAggregateEditDao extends DaoContextualAbstract implements Hierarc
                     SET left_node = left_node + 2
                     WHERE left_node > @myRight");
             $uid = $this->getNewUidWithinTransaction($dbhTransact);
-            $stmt = $dbhTransact->prepare(
+            $stmt = $this->getPreparedStatement(
                     "INSERT INTO $this->nestedSetTableName(uid, left_node, right_node, parent_uid) VALUES(:uid, @myRight, @myRight + 1, :parent_uid)");
             $stmt->bindParam(':uid', $uid);
             $stmt->bindParam(':parent_uid', $parentNodeUid);
@@ -255,7 +254,7 @@ class HierarchyAggregateEditDao extends DaoContextualAbstract implements Hierarc
         $dbhTransact = $this->dbHandler;
         try {
             $dbhTransact->beginTransaction();
-            $stmt = $dbhTransact->prepare(
+            $stmt = $this->getPreparedStatement(
                     "SELECT @myRight := right_node, @parentUid := parent_uid
                     FROM $this->nestedSetTableName
                     WHERE uid = :left_node_uid");
@@ -272,7 +271,7 @@ class HierarchyAggregateEditDao extends DaoContextualAbstract implements Hierarc
                     WHERE left_node > @myRight");
             /*** insert the new node ***/
             $uid = $this->getNewUidWithinTransaction($dbhTransact);
-            $stmt = $dbhTransact->prepare(
+            $stmt = $this->getPreparedStatement(
                     "INSERT INTO $this->nestedSetTableName(uid, left_node, right_node, parent_uid) VALUES (:uid, @myRight + 1, @myRight + 2, @parentUid)");  // přidá doprava za zadaný uzel - t.j. bezprostředně pod vybranou položku při svislém zobrazení
             $stmt->bindParam(':uid', $uid);
             $stmt->execute();
@@ -299,13 +298,13 @@ class HierarchyAggregateEditDao extends DaoContextualAbstract implements Hierarc
         $dbhTransact = $this->dbHandler;
         try {
             $dbhTransact->beginTransaction();
-            $stmt = $dbhTransact->prepare(
+            $stmt = $this->getPreparedStatement(
                     "SELECT @myLeft := left_node, @myRight := right_node, @myWidth := right_node - left_node + 1, parent_uid
                     FROM $this->nestedSetTableName WHERE uid = :node_uid AND right_node - left_node = 1");
             $stmt->bindParam(':node_uid', $nodeUid, \PDO::PARAM_STR);
             $stmt->execute();
-            $nodeRow = $stmt->fetch(\PDO::FETCH_ASSOC);
-            $stmt = $dbhTransact->prepare(
+            $nodeRow = $stmt->fetch();
+            $stmt = $this->getPreparedStatement(
                     "SELECT uid FROM $this->nestedSetTableName
                     WHERE left_node BETWEEN @myLeft AND @myRight");
             $stmt->execute();
@@ -343,13 +342,13 @@ class HierarchyAggregateEditDao extends DaoContextualAbstract implements Hierarc
         $dbhTransact = $this->dbHandler;
         try {
             $dbhTransact->beginTransaction();
-            $stmt = $dbhTransact->prepare(
+            $stmt = $this->getPreparedStatement(
                     "SELECT @myLeft := left_node, @myRight := right_node, @myWidth := right_node - left_node + 1, parent_uid
                     FROM $this->nestedSetTableName WHERE uid = :node_uid FOR UPDATE");
             $stmt->bindParam(':node_uid', $nodeUid, \PDO::PARAM_STR);
             $stmt->execute();
-            $nodeRow = $stmt->fetch(\PDO::FETCH_ASSOC);
-            $stmt = $dbhTransact->prepare(
+            $nodeRow = $stmt->fetch();
+            $stmt = $this->getPreparedStatement(
                     "SELECT uid FROM $this->nestedSetTableName
                     WHERE left_node BETWEEN @myLeft AND @myRight");
             $stmt->execute();
@@ -388,10 +387,10 @@ class HierarchyAggregateEditDao extends DaoContextualAbstract implements Hierarc
 
             // parametry
             $dbhTransact->beginTransaction();
-            $stmt = $dbhTransact->prepare("SET @sourceId := :source_uid");
+            $stmt = $this->getPreparedStatement("SET @sourceId := :source_uid");
             $stmt->bindParam(':source_uid', $sourceUid);
             $stmt->execute();
-            $stmt = $dbhTransact->prepare("SET @targetId := :target_uid");
+            $stmt = $this->getPreparedStatement("SET @targetId := :target_uid");
             $stmt->bindParam(':target_uid', $targetUid);
             $stmt->execute();
 
@@ -442,10 +441,10 @@ class HierarchyAggregateEditDao extends DaoContextualAbstract implements Hierarc
 
             // parametry
             $dbhTransact->beginTransaction();
-            $stmt = $dbhTransact->prepare("SET @sourceId := :source_uid");
+            $stmt = $this->getPreparedStatement("SET @sourceId := :source_uid");
             $stmt->bindParam(':source_uid', $sourceUid);
             $stmt->execute();
-            $stmt = $dbhTransact->prepare("SET @targetId := :target_uid");
+            $stmt = $this->getPreparedStatement("SET @targetId := :target_uid");
             $stmt->bindParam(':target_uid', $targetUid);
             $stmt->execute();
 
@@ -490,14 +489,14 @@ class HierarchyAggregateEditDao extends DaoContextualAbstract implements Hierarc
         $dbhTransact = $this->dbHandler;
         try {
             $dbhTransact->beginTransaction();
-            $stmt = $dbhTransact->prepare(
+            $stmt = $this->getPreparedStatement(
                     "SELECT @myLeft := left_node, @myRight := right_node, @myWidth := right_node - left_node + 1, parent_uid
                     FROM $this->nestedSetTableName
                     WHERE uid = :node_uid");
             $stmt->bindParam(':node_uid', $nodeUid);
             $stmt->execute();
-            $nodeRow = $stmt->fetch(\PDO::FETCH_ASSOC);
-            $stmt = $dbhTransact->prepare(
+            $nodeRow = $stmt->fetch();
+            $stmt = $this->getPreparedStatement(
                     "SELECT uid FROM $this->nestedSetTableName
                     WHERE left_node = @myLeft");
             $stmt->execute();

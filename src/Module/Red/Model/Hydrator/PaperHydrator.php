@@ -9,8 +9,9 @@
 namespace Red\Model\Hydrator;
 
 use Model\Hydrator\HydratorInterface;
-
 use Model\Entity\EntityInterface;
+use Model\RowData\RowDataInterface;
+
 use Red\Model\Entity\PaperInterface;
 
 /**
@@ -23,35 +24,35 @@ class PaperHydrator implements HydratorInterface {
     /**
      *
      * @param PaperInterface $paperHeadline
-     * @param type $row
+     * @param type $rowData
      */
-    public function hydrate(EntityInterface $paperHeadline, &$row) {
+    public function hydrate(EntityInterface $paperHeadline, RowDataInterface $rowData) {
         /** @var PaperInterface $paperHeadline */
         $paperHeadline
-            ->setId($row['id'])
-            ->setMenuItemIdFk($row['menu_item_id_fk'])
-            ->setHeadline($row['headline'])
-            ->setPerex($row['perex'])
-            ->setTemplate($row['template'])
-            ->setKeywords($row['keywords'])
-            ->setEditor($row['editor'])
-            ->setUpdated($row['updated'] ? \DateTime::createFromFormat('Y-m-d H:i:s', $row['updated']) : NULL);
+            ->setId($rowData->offsetGet('id'))
+            ->setMenuItemIdFk($rowData->offsetGet('menu_item_id_fk'))
+            ->setHeadline($rowData->offsetGet('headline'))
+            ->setPerex($rowData->offsetGet('perex'))
+            ->setTemplate($rowData->offsetGet('template'))
+            ->setKeywords($rowData->offsetGet('keywords'))
+            ->setEditor($rowData->offsetGet('editor'))
+            ->setUpdated($rowData->offsetGet('updated') ? \DateTime::createFromFormat('Y-m-d H:i:s', $rowData->offsetGet('updated')) : NULL);
     }
 
     /**
      *
      * @param PaperInterface $paperHeadline
-     * @param type $row
+     * @param type $rowData
      */
-    public function extract(EntityInterface $paperHeadline, &$row) {
+    public function extract(EntityInterface $paperHeadline, RowDataInterface $rowData) {
         /** @var PaperInterface $paperHeadline */
-        $row['id'] = $paperHeadline->getId(); // id je autoincrement - readonly, hodnota pro where
-        $row['menu_item_id_fk'] = $paperHeadline->getMenuItemIdFk();
-        $row['headline'] = $paperHeadline->getHeadline();
-        $row['perex'] = $paperHeadline->getPerex();
-        $row['template'] = $paperHeadline->getTemplate();
-        $row['keywords'] = $paperHeadline->getKeywords();
-        $row['editor'] = $paperHeadline->getEditor();
+        $rowData->offsetSet('id',  $paperHeadline->getId()); // id je autoincrement - readonly, hodnota pro where
+        $rowData->offsetSet('menu_item_id_fk',  $paperHeadline->getMenuItemIdFk());
+        $rowData->offsetSet('headline',  $paperHeadline->getHeadline());
+        $rowData->offsetSet('perex',  $paperHeadline->getPerex());
+        $rowData->offsetSet('template',  $paperHeadline->getTemplate());
+        $rowData->offsetSet('keywords',  $paperHeadline->getKeywords());
+        $rowData->offsetSet('editor',  $paperHeadline->getEditor());
         // updated je timestamp
         // id je autoincrement - readonly
     }

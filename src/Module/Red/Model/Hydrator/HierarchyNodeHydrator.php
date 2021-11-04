@@ -11,6 +11,8 @@ namespace Red\Model\Hydrator;
 use Model\Hydrator\HydratorInterface;
 
 use Model\Entity\EntityInterface;
+use Model\RowData\RowDataInterface;
+
 use Red\Model\Entity\HierarchyAggregateInterface;
 
 /**
@@ -23,30 +25,30 @@ class HierarchyNodeHydrator implements HydratorInterface {
     /**
      *
      * @param HierarchyAggregateInterface $menuNode
-     * @param type $row
+     * @param type $rowData
      */
-    public function hydrate(EntityInterface $menuNode, &$row) {
+    public function hydrate(EntityInterface $menuNode, RowDataInterface $rowData) {
         /** @var HierarchyAggregateInterface $menuNode */
         $menuNode
-            ->setUid($row['uid'])
-            ->setDepth($row['depth'])
-            ->setLeftNode($row['left_node'])
-            ->setRightNode($row['right_node'])
-            ->setParentUid($row['parent_uid'])
+            ->setUid($rowData->offsetGet('uid'))
+            ->setDepth($rowData->offsetGet('depth'))
+            ->setLeftNode($rowData->offsetGet('left_node'))
+            ->setRightNode($rowData->offsetGet('right_node'))
+            ->setParentUid($rowData->offsetGet('parent_uid'))
         ;
     }
 
     /**
      *
      * @param HierarchyAggregateInterface $menuNode
-     * @param type $row
+     * @param type $rowData
      */
-    public function extract(EntityInterface $menuNode, &$row) {
+    public function extract(EntityInterface $menuNode, RowDataInterface $rowData) {
         /** @var HierarchyAggregateInterface $menuNode */
-        $row['uid'] = $menuNode->getUid();
-        $row['left_node'] = $menuNode->getLeftNode();
-        $row['right_node'] = $menuNode->getRightNode();
-        $row['parent_uid'] = $menuNode->getParentUid();
+        $rowData->offsetSet('uid', $menuNode->getUid());
+        $rowData->offsetSet('left_node', $menuNode->getLeftNode());
+        $rowData->offsetSet('right_node', $menuNode->getRightNode());
+        $rowData->offsetSet('parent_uid', $menuNode->getParentUid());
         // depth je generovaná vlastnost
     }
 }

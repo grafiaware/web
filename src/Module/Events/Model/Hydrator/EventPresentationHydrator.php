@@ -10,6 +10,7 @@ namespace Events\Model\Hydrator;
 
 use Model\Hydrator\HydratorInterface;
 use Model\Entity\EntityInterface;
+use Model\RowData\RowDataInterface;
 
 use Events\Model\Entity\EventPresentationInterface;
 
@@ -23,16 +24,16 @@ class EventPresentationHydrator implements HydratorInterface {
     /**
      *
      * @param EntityInterface $eventContent
-     * @param type $row
+     * @param type $rowData
      */
-    public function hydrate(EntityInterface $eventContent, &$row) {
+    public function hydrate(EntityInterface $eventContent, RowDataInterface $rowData) {
         /** @var EventPresentationInterface $eventContent */
         $eventContent
-            ->setId($row['id'])
-            ->setShow((bool) $row['show'])
-            ->setPlatform($row['platform'])
-            ->setUrl($row['url'])
-            ->setEventIdFk($row['event_id_fk'])
+            ->setId($rowData->offsetGet('id'))
+            ->setShow((bool) $rowData->offsetGet('show'))
+            ->setPlatform($rowData->offsetGet('platform'))
+            ->setUrl($rowData->offsetGet('url'))
+            ->setEventIdFk($rowData->offsetGet('event_id_fk'))
         ;
     }
 
@@ -41,13 +42,13 @@ class EventPresentationHydrator implements HydratorInterface {
      * @param EntityInterface $eventContent
      * @param array $row
      */
-    public function extract(EntityInterface $eventContent, &$row) {
+    public function extract(EntityInterface $eventContent, RowDataInterface $rowData) {
         /** @var EventPresentationInterface $eventContent */
-        $row['id'] = $eventContent->getId(); // id je autoincrement - readonly, hodnota pro where
-        $row['show'] = (int) $eventContent->getShow();   // tinyint
-        $row['platform'] = $eventContent->getPlatform();
-        $row['url'] = $eventContent->getUrl();
-        $row['event_id_fk'] = $eventContent->getEventIdFk() ?? null;   //  NULL
+        $rowData->offsetSet('id', $eventContent->getId()); // id je autoincrement - readonly, hodnota pro where
+        $rowData->offsetSet('show', (int) $eventContent->getShow());   // tinyint
+        $rowData->offsetSet('platform', $eventContent->getPlatform());
+        $rowData->offsetSet('url', $eventContent->getUrl());
+        $rowData->offsetSet('event_id_fk', $eventContent->getEventIdFk() ?? null);   //  NULL
     }
 
 }

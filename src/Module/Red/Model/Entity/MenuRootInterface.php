@@ -7,12 +7,13 @@
  */
 
 namespace Red\Model\Entity;
+use Model\Entity\EntityInterface;
 
 /**
  *
  * @author pes2704
  */
-interface MenuRootInterface {
+interface MenuRootInterface extends EntityInterface {
     public function getName();
 
     public function getUidFk();

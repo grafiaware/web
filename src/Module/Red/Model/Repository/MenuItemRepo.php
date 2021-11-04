@@ -42,11 +42,7 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
      * @return MenuItemInterface|null
      */
     public function get($langCodeFk, $uidFk): ?MenuItemInterface {
-        $index = $this->indexFromKeyParams($langCodeFk, $uidFk);
-        if (!isset($this->collection[$index])) {
-            $this->recreateEntity($index, $this->dao->get($langCodeFk, $uidFk));
-        }
-        return $this->collection[$index] ?? null;
+        return $this->getEntity($langCodeFk, $uidFk);
     }
 
     /**

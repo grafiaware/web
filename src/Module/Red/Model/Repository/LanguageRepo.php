@@ -7,25 +7,25 @@
  */
 
 namespace Red\Model\Repository;
+
+use Model\Repository\RepoAbstract;
+
 use Red\Model\Entity\LanguageInterface;
 use Red\Model\Entity\Language;
 use Red\Model\Dao\LanguageDao;
+use Red\Model\Hydrator\LanguageHydrator;
 
 /**
  * Description of LanguageRepository
  *
  * @author pes2704
  */
-class LanguageRepo {
+class LanguageRepo extends RepoAbstract {
 
-    /**
-     *
-     * @var LanguageDao
-     */
-    private $languageDao;
+    public function __construct(LanguageDao $languageDao, LanguageHydrator $languageHydrator) {
+        $this->dao = $languageDao;
+        $this->registerHydrator($languageHydrator);
 
-    public function __construct(LanguageDao $languageDao) {
-        $this->languageDao = $languageDao;
     }
 
     /**
@@ -34,43 +34,37 @@ class LanguageRepo {
      * @return LanguageInterface|null
      */
     public function get($langCode): ?LanguageInterface {
-        $row = $this->languageDao->get($langCode);
-        return $row ? $this->createItem($row) : NULL;
+        return $this->getEntity($langCode);
     }
 
     /**
      *
      * @return LanguageInterface array of
      */
-    public function find($whereClause=null) {
-        $entities = [];
-        foreach ($this->languageDao->find($whereClause) as $row) {
-            $entities[] = $this->createItem($row);
-        }
-        return $entities;
+    public function findAll() {
+        return $this->findAllEntities();
     }
 
-    /**
-     *
-     * @param type $lang
-     * @param type $row
-     * @return LanguageInterface
-     */
-    private function createItem($row) {
-        return (new Language())
-                ->setLangCode($row['lang_code'])
-                ->setLocale($row['locale'])
-                ->setName($row['name'])
-                ->setCollation($row['collation'])
-                ->setState($row['state']);
+    public function add(LanguageInterface $entity) {
+        $this->addEntity($entity);
     }
 
-    public function add(EntityInterface $entity) {
-        ;
+    public function remove(LanguageInterface $entity) {
+        $this->removeEntity($entity);
     }
 
-    public function remove(EntityInterface $entity) {
-        ;
+    protected function createEntity() {
+        return new Language();
+    }
+    protected function indexFromKeyParams($langCode) {
+        return $langCode;
     }
 
+    protected function indexFromEntity(LanguageInterface $language) {
+        return $language->getLangCode();
+    }
+
+    protected function indexFromRow($row) {
+        return $row['lang_code'];
+    }
 }

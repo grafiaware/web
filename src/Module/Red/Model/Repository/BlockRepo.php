@@ -34,11 +34,7 @@ class BlockRepo extends RepoAbstract implements BlockRepoInterface, RepoReadonly
      * @return BlockInterface|null
      */
     public function get($name):?BlockInterface {
-        $index = $name;
-        if (!isset($this->collection[$index])) {
-            $this->recreateEntity($index, $this->dao->get($name));
-        }
-        return $this->collection[$index] ?? null;
+        return $this->getEntity($name);
     }
 
     protected function createEntity() {

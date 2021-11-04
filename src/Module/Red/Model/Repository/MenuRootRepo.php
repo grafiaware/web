@@ -8,21 +8,29 @@
 
 namespace Red\Model\Repository;
 
+use Model\Repository\RepoAbstract;
+
 use Red\Model\Entity\MenuRoot;
 use Red\Model\Entity\MenuRootInterface;
 use Red\Model\Dao\MenuRootDao;
+use Red\Model\Hydrator\MenuRootHydrator;
 
 /**
  * Description of MenuRootRepo
  *
  * @author pes2704
  */
-class MenuRootRepo {
+class MenuRootRepo extends RepoAbstract {
 
-    private $menuRootDao;
+    /**
+     *
+     * @param MenuRootDao $menuRootDao
+     * @param MenuRootHydrator $menuRootHydrator
+     */
+    public function __construct(MenuRootDao $menuRootDao, MenuRootHydrator $menuRootHydrator) {
+        $this->dao = $menuRootDao;
+        $this->registerHydrator($menuRootHydrator);
 
-    public function __construct(MenuRootDao $menuRootDao) {
-        $this->menuRootDao = $menuRootDao;
     }
 
     /**
@@ -31,39 +39,38 @@ class MenuRootRepo {
      * @return MenuRootInterface|null
      */
     public function get($name): ?MenuRootInterface {
-        $row = $this->menuRootDao->get($name);
-        return $row ? $this->createItem($row) : NULL;
+        return $this->getEntity($name);
     }
 
     /**
      *
      * @return MenuRootInterface array of
      */
-    public function find() {
-        $entities = [];
-        foreach ($this->menuRootDao->findAll() as $row) {
-            $entities[] = $this->createItem($row);
-        }
-        return $entities;
+    public function findAll() {
+        return $this->findAllEntities();
     }
 
-    /**
-     *
-     * @param type $lang
-     * @param type $row
-     * @return MenuRootInterface
-     */
-    private function createItem($row) {
-        return (new MenuRoot())
-                ->setName($row['name'])
-                ->setUidFk($row['uid_fk']);
+    public function add(MenuRootInterface $entity) {
+        $this->addEntity($entity);
     }
 
-    public function add(EntityInterface $entity) {
-        ;
+    public function remove(MenuRootInterface $entity) {
+        $this->removeEntity($entity);
     }
 
-    public function remove(EntityInterface $entity) {
-        ;
+    protected function createEntity() {
+        return new MenuRoot();
+    }
+
+    protected function indexFromKeyParams($name) {
+        return $name;
+    }
+
+    protected function indexFromEntity(MenuRootInterface $menuRoot) {
+        return $menuRoot->getName();
+    }
+
+    protected function indexFromRow($row) {
+        return $row['name'];
     }
 }

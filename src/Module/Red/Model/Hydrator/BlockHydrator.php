@@ -11,8 +11,9 @@ namespace Red\Model\Hydrator;
 use Model\Hydrator\HydratorInterface;
 
 use Model\Entity\EntityInterface;
+use Model\RowData\RowDataInterface;
+
 use Red\Model\Entity\BlockInterface;
-use Pes\Type\Date;
 
 /**
  * Description of MenuItemHydrator
@@ -23,25 +24,24 @@ class BlockHydrator implements HydratorInterface {
 
     /**
      *
-     * @param MenuItemInterface $component
-     * @param type $row
+     * @param BlockInterface $block
+     * @param type $rowData
      */
-    public function hydrate(EntityInterface $component, &$row) {
-        /** @var BlockInterface $component */
-        $component
-                ->setName($row['name'])
-                ->setUidFk($row['uid_fk'])
+    public function hydrate(EntityInterface $block, RowDataInterface $rowData) {
+        /** @var BlockInterface $block */
+        $block
+                ->setName($rowData->offsetGet('name'))
+                ->setUidFk($rowData->offsetGet('uid_fk'))
             ;
     }
 
     /**
      *
-     * @param MenuItemInterface $component
-     * @param type $row
+     * @param BlockInterface $block
+     * @param type $rowData
      */
-    public function extract(EntityInterface $component, &$row=[]) {
-        /** @var BlockInterface $component */
-        $row['name'] = $component->getName();
-        $row['uid_fk'] = $component->getUidFk();
+    public function extract(EntityInterface $block, RowDataInterface $rowData) {
+        /** @var BlockInterface $block */
+        $rowData->offsetSet('name', $block->getName());
     }
 }

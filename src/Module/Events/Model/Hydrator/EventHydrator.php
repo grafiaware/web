@@ -10,6 +10,7 @@ namespace Events\Model\Hydrator;
 
 use Model\Hydrator\HydratorInterface;
 use Model\Entity\EntityInterface;
+use Model\RowData\RowDataInterface;
 
 use Events\Model\Entity\EventInterface;
 
@@ -28,17 +29,17 @@ class EventHydrator implements HydratorInterface {
     /**
      *
      * @param EntityInterface $event
-     * @param type $row
+     * @param type $rowData
      */
-    public function hydrate(EntityInterface $event, &$row) {
+    public function hydrate(EntityInterface $event, RowDataInterface $rowData) {
         /** @var EventInterface $event */
         $event
-            ->setId($row['id'])
-            ->setPublished($row['published'])
-            ->setStart( isset($row['start']) ? \DateTime::createFromFormat('Y-m-d H:i:s', $row['start']) : NULL)
-            ->setEnd( isset($row['end']) ? \DateTime::createFromFormat('Y-m-d H:i:s', $row['end']) : NULL)
-            ->setEventTypeIdFk($row['event_type_id_fk'])
-            ->setEventContentIdFk($row['event_content_id_fk']);
+            ->setId($rowData->offsetGet('id'))
+            ->setPublished($rowData->offsetGet('published'))
+            ->setStart($rowData->offsetGet('start') ? \DateTime::createFromFormat('Y-m-d H:i:s', $rowData->offsetGet('start')) : NULL)
+            ->setEnd($rowData->offsetGet('end') ? \DateTime::createFromFormat('Y-m-d H:i:s', $rowData->offsetGet('end')) : NULL)
+            ->setEventTypeIdFk($rowData->offsetGet('event_type_id_fk'))
+            ->setEventContentIdFk($rowData->offsetGet('event_content_id_fk'));
     }
 
     /**
@@ -46,14 +47,14 @@ class EventHydrator implements HydratorInterface {
      * @param EntityInterface $event
      * @param array $row
      */
-    public function extract(EntityInterface $event, &$row) {
+    public function extract(EntityInterface $event, RowDataInterface $rowData) {
         /** @var EventInterface $event */
-        $row['id'] = $event->getId(); // id je autoincrement - readonly, hodnota pro where
-        $row['published'] = $event->getPublished();
-        $row['start'] = $event->getStart() ? $event->getStart()->format('Y-m-d H:i:s') : NULL ;
-        $row['end'] = $event->getEnd() ? $event->getEnd()->format('Y-m-d H:i:s') : NULL ;
-        $row['event_type_id_fk'] = $event->getEventTypeIdFk();
-        $row['event_content_id_fk'] = $event->getEventContentIdFk();
+        $rowData->offsetSet('id', $event->getId()); // id je autoincrement - readonly, hodnota pro where
+        $rowData->offsetSet('published', $event->getPublished());
+        $rowData->offsetSet('start', $event->getStart() ? $event->getStart()->format('Y-m-d H:i:s') : NULL) ;
+        $rowData->offsetSet('end', $event->getEnd() ? $event->getEnd()->format('Y-m-d H:i:s') : NULL) ;
+        $rowData->offsetSet('event_type_id_fk', $event->getEventTypeIdFk());
+        $rowData->offsetSet('event_content_id_fk', $event->getEventContentIdFk());
     }
 
 }

@@ -24,9 +24,11 @@ abstract class DaoAbstract {
      */
     protected $dbHandler;
 
-    private $lastInsertRowCount;
+    protected $fetchMode;
 
-    private $rowCount;
+    protected $lastInsertRowCount;
+
+    protected $rowCount;
 
     /**
      * Prepared statements cache
@@ -35,8 +37,13 @@ abstract class DaoAbstract {
      */
     private $preparedStatements = [];
 
-    public function __construct(HandlerInterface $dbHandler) {
+    public function __construct(HandlerInterface $dbHandler, $fetchClassName="") {
         $this->dbHandler = $dbHandler;
+        if ($fetchClassName) {
+            $this->fetchMode = [\PDO::FETCH_CLASS, $fetchClassName];
+        } else {
+            $this->fetchMode = [\PDO::FETCH_ASSOC];
+        }
     }
 
     protected function where($condition = "") {
@@ -74,19 +81,20 @@ abstract class DaoAbstract {
     }
 
     /**
-     * Očekává SQL string s příkazem SELECT a případnými placeholdery. Provede ho s použitím parametrů a vrací jednu řádku tabulky ve formě asociativního pole.
+     * Očekává SQL string s příkazem SELECT a případnými placeholdery. Provede ho s použitím parametrů a vrací jednu řádku tabulky ve formě dané nastavením parametrů konstruktoru.
+     * V případě úspěchu vrací objekt nebo asociativní pole, v případě neúspěchu vrací false (viz metoda PDOStatement fetch()).
      *
      * Podrobně:
      * - Vyzvedne vytvořený prepared statement pro zadaný SQL řetězec z cache, pokud není vytvoří nový prepared statement a uloží do cache.
      * - Nahradí placeholdery zadanými parametry pomocí bindParams().
-     * - Provede příkaz a vrací jednu řádku tabulky ve formě asociativního pole. Pokud provedení příkazu vede k vyhledání více než jedné
+     * - Provede příkaz a vrací jednu řádku tabulky ve formě objektu nebo asociativního pole. Pokud provedení příkazu vede k vyhledání více než jedné
      * řádky, vrací jen první nalezenou a pokud je nastaven parametr $checkDuplicities na TRUE, pak v takovém případě vznikne user error typu E_USER_WARNING
      * s hlášením o duplicitním záznamu. I v případě duplicitního záznamu vrací první vyhledaný řádek, nevyhazuje výjimku.
      *
      * @param string $sql SQL příkaz s případnými placeholdery.
      * @param array $touplesToBind Pole parametrů pro bind, nepovinný parametr, default prázdné pole.
      * @param bool $checkDuplicities Nepovinný parametr, default FALSE.
-     * @return array
+     * @return object|array|false
      */
     protected function selectOne($sql, $touplesToBind=[], $checkDuplicities=FALSE) {
         $statement = $this->getPreparedStatement($sql);
@@ -100,7 +108,7 @@ abstract class DaoAbstract {
                 user_error("V databázi existuje duplicitní záznam.". "Dao: ".get_called_class().", ". print_r($touplesToBind, true), E_USER_WARNING);
             }
         }
-        return $statement->fetch(\PDO::FETCH_ASSOC);
+        return $statement->fetch();
     }
 
     /**
@@ -121,7 +129,7 @@ abstract class DaoAbstract {
             $this->bindParams($statement, $touplesToBind);
         }
         $statement->execute();
-        return $statement->fetchAll(\PDO::FETCH_ASSOC);
+        return $statement->fetchAll();
     }
 
     /**
@@ -208,10 +216,17 @@ abstract class DaoAbstract {
     protected function getRowCount($param) {
         return $this->lastInsertRowCount;
     }
-    
+
+    /**
+     * Vrací prepared statement z cache. Pokud není v cache, vytvoří nový prepared statement, uliží do cache a vrací.
+     *
+     * @param type $sql
+     * @return StatementInterface
+     */
     protected function getPreparedStatement($sql): StatementInterface {
         if (!isset($this->preparedStatements[$sql])) {
             $statement =$this->dbHandler->prepare($sql);
+            $statement->setFetchMode(...$this->fetchMode);
             $this->preparedStatements[$sql] = $statement;
         }
         return $this->preparedStatements[$sql];

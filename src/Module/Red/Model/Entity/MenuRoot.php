@@ -8,12 +8,14 @@
 
 namespace Red\Model\Entity;
 
+use Model\Entity\EntityAbstract;
+
 /**
  * Description of MenuRoot
  *
  * @author pes2704
  */
-class MenuRoot implements MenuRootInterface {
+class MenuRoot extends EntityAbstract implements MenuRootInterface {
 
     private $name;
     private $uidFk;
@@ -23,7 +25,7 @@ class MenuRoot implements MenuRootInterface {
     public function getKeyAttribute() {
         return $this->keyAttribute;
     }
-    
+
     public function getName() {
         return $this->name;
     }

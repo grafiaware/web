@@ -10,6 +10,7 @@ namespace Events\Model\Hydrator;
 
 use Model\Hydrator\HydratorInterface;
 use Model\Entity\EntityInterface;
+use Model\RowData\RowDataInterface;
 
 use Events\Model\Entity\EventContentTypeInterface;
 
@@ -25,11 +26,11 @@ class EventContentTypeHydrator implements HydratorInterface {
      * @param EntityInterface $eventContentType
      * @param type $row
      */
-    public function hydrate(EntityInterface $eventContentType, &$row) {
+    public function hydrate(EntityInterface $eventContentType, RowDataInterface $row) {
         /** @var EventContentTypeInterface $eventContentType */
         $eventContentType
-            ->setType($row['type'])
-            ->setName($row['name']);
+            ->setType($rowData->offsetGet('type'))
+            ->setName($rowData->offsetGet('name'));
     }
 
     /**
@@ -37,10 +38,10 @@ class EventContentTypeHydrator implements HydratorInterface {
      * @param EntityInterface $eventContentType
      * @param array $row
      */
-    public function extract(EntityInterface $eventContentType, &$row) {
+    public function extract(EntityInterface $eventContentType, RowDataInterface $row) {
         /** @var EventContentTypeInterface $eventContentType */
-        $row['type'] = $eventContentType->getType(); // readonly, hodnota pro where
-        $row['name'] = $eventContentType->getName();
+        $rowData->offsetSet('type', $eventContentType->getType()); // readonly, hodnota pro where
+        $rowData->offsetSet('name', $eventContentType->getName());
     }
 
 }

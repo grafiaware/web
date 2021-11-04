@@ -36,35 +36,15 @@ class EnrollRepo extends RepoAbstract implements EnrollRepoInterface {
      * @return EnrollInterface|null
      */
     public function get($id): ?EnrollInterface {
-        $index = $id;
-        if (!isset($this->collection[$index])) {
-            $this->recreateEntity($index, $this->dao->get($id));
-        }
-        return $this->collection[$index] ?? NULL;
+        return $this->getEntity($id);
     }
 
     public function findByLoginName($loginName) {
-        $selected = [];
-        foreach ($this->dao->find("login_name = :login_name", [":login_name"=>$loginName]) as $enrollRow) {
-            $index = $this->indexFromRow($enrollRow);
-            if (!isset($this->collection[$index])) {
-                $this->recreateEntity($index, $enrollRow);
-            }
-            $selected[] = $this->collection[$index];
-        }
-        return $selected;
+        return $this->findEntities("login_name = :login_name", [":login_name"=>$loginName]);
     }
 
     public function findAll() {
-        $selected = [];
-        foreach ($this->dao->findAll() as $enrollRow) {
-            $index = $this->indexFromRow($enrollRow);
-            if (!isset($this->collection[$index])) {
-                $this->recreateEntity($index, $enrollRow);
-            }
-            $selected[] = $this->collection[$index];
-        }
-        return $selected;
+        return $this->findAllEntities();
     }
 
     public function add(EnrollInterface $enroll) {
@@ -77,6 +57,10 @@ class EnrollRepo extends RepoAbstract implements EnrollRepoInterface {
 
     protected function createEntity() {
         return new Enroll();
+    }
+
+    protected function indexFromKeyParams($id) {
+        return $id;
     }
 
     protected function indexFromEntity(EnrollInterface $enroll) {

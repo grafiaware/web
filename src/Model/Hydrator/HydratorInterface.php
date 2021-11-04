@@ -9,6 +9,7 @@
 namespace Model\Hydrator;
 
 use Model\Entity\EntityInterface;
+use Model\RowData\RowDataInterface;
 
 /**
  *
@@ -19,14 +20,14 @@ interface HydratorInterface {
     /**
      *
      * @param EntityInterface $entity
-     * @param array $row
+     * @param RowDataInterface $rowData
      */
-    public function hydrate(EntityInterface $entity, &$row);
+    public function hydrate(EntityInterface $entity, RowDataInterface $rowData);
 
     /**
      *
      * @param EntityInterface $entity
-     * @param array $row
+     * @param RowDataInterface $rowData
      */
-    public function extract(EntityInterface $entity, &$row);
+    public function extract(EntityInterface $entity, RowDataInterface $rowData);
 }

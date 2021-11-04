@@ -11,6 +11,8 @@ namespace Red\Model\Hydrator;
 use Model\Hydrator\HydratorInterface;
 
 use Model\Entity\EntityInterface;
+use Model\RowData\RowDataInterface;
+
 use Red\Model\Entity\ItemActionInterface;
 
 /**
@@ -23,27 +25,27 @@ class ItemActionHydrator implements HydratorInterface {
     /**
      *
      * @param ItemActionInterface $itemAction
-     * @param type $row
+     * @param type $rowData
      */
-    public function hydrate(EntityInterface $itemAction, &$row) {
+    public function hydrate(EntityInterface $itemAction, RowDataInterface $rowData) {
         /** @var ItemActionInterface $itemAction */
         $itemAction
-            ->setTypeFk($row['type_fk'])
-            ->setItemId($row['item_id'])
-            ->setEditorLoginName($row['editor_login_name'])
-            ->setCreated($row['created'] ? \DateTime::createFromFormat('Y-m-d H:i:s', $row['created']) : NULL);
+            ->setTypeFk($rowData->offsetGet('type_fk'))
+            ->setItemId($rowData->offsetGet('item_id'))
+            ->setEditorLoginName($rowData->offsetGet('editor_login_name'))
+            ->setCreated($rowData->offsetGet('created') ? \DateTime::createFromFormat('Y-m-d H:i:s', $rowData->offsetGet('created')) : NULL);
     }
 
     /**
      *
      * @param ItemActionInterface $itemAction
-     * @param type $row
+     * @param type $rowData
      */
-    public function extract(EntityInterface $itemAction, &$row) {
+    public function extract(EntityInterface $itemAction, RowDataInterface $rowData) {
         /** @var ItemActionInterface $itemAction */
-        $row['type_fk'] = $itemAction->getTypeFk(); 
-        $row['item_id'] = $itemAction->getItemId();
-        $row['editor_login_name'] = $itemAction->getEditorLoginName();
+        $rowData->offsetSet('type_fk', $itemAction->getTypeFk());
+        $rowData->offsetSet('item_id', $itemAction->getItemId());
+        $rowData->offsetSet('editor_login_name', $itemAction->getEditorLoginName());
         // created je timestamp
     }
 

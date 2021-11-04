@@ -38,49 +38,21 @@ class VisitorDataPostRepo extends RepoAbstract implements VisitorDataPostRepoInt
      * @return VisitorDataPostInterface|null
      */
     public function get($loginName, $shortName, $positionName): ?VisitorDataPostInterface {
-        $index = $loginName.$shortName.$positionName;
-        if (!isset($this->collection[$index])) {
-            $this->recreateEntity($index, $this->dao->get($loginName, $shortName, $positionName));
-        }
-        return $this->collection[$index] ?? NULL;
+        return $this->getEntity($loginName, $shortName, $positionName);
     }
 
     public function find($whereClause=null, $touplesToBind=[]) {
-        $selected = [];
-        foreach ($this->dao->find($whereClause, $touplesToBind) as $row) {
-            $index = $this->indexFromRow($row);
-            if (!isset($this->collection[$index])) {
-                $this->recreateEntity($index, $row);
-            }
-            $selected[] = $this->collection[$index];
-        }
-        return $selected;
+        return $this->findEntities($whereClause, $touplesToBind);
     }
 
     public function findAll() {
-        $selected = [];
-        foreach ($this->dao->findAll() as $rpw) {
-            $index = $this->indexFromRow($rpw);
-            if (!isset($this->collection[$index])) {
-                $this->recreateEntity($index, $rpw);
-            }
-            $selected[] = $this->collection[$index];
-        }
-        return $selected;
+        return $this->findAllEntities();
     }
 
     public function findAllForPosition($shortName, $positionName) {
-        $selected = [];
         $whereClause = "`short_name` = :short_name AND `position_name` = :position_name";
         $touplesToBind = [':short_name' => $shortName, ':position_name' => $positionName];
-        foreach ($this->dao->find($whereClause, $touplesToBind) as $row) {
-            $index = $this->indexFromRow($row);
-            if (!isset($this->collection[$index])) {
-                $this->recreateEntity($index, $row);
-            }
-            $selected[] = $this->collection[$index];
-        }
-        return $selected;
+        return $this->findEntities($whereClause, $touplesToBind);
     }
 
     public function add(VisitorDataPostInterface $visitorDataPost) {
@@ -93,6 +65,10 @@ class VisitorDataPostRepo extends RepoAbstract implements VisitorDataPostRepoInt
 
     protected function createEntity() {
         return new VisitorDataPost();
+    }
+
+    protected function indexFromKeyParams($loginName, $shortName, $positionName) {
+        return $loginName.$shortName.$positionName;
     }
 
     protected function indexFromEntity(VisitorDataPostInterface $visitorDataPost) {

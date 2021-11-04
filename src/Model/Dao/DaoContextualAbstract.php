@@ -26,8 +26,8 @@ abstract class DaoContextualAbstract extends DaoAbstract {
     protected $contextFactory;
 
 
-    public function __construct(HandlerInterface $dbHandler, ContextFactoryInterface $context=null) {
-        parent::__construct($dbHandler);
+    public function __construct(HandlerInterface $dbHandler, $fetchClassName="", ContextFactoryInterface $context=null) {
+        parent::__construct($dbHandler, $fetchClassName);
         $this->contextFactory = $context;
     }
 

@@ -10,6 +10,7 @@ namespace Events\Model\Hydrator;
 
 use Model\Hydrator\HydratorInterface;
 use Model\Entity\EntityInterface;
+use Model\RowData\RowDataInterface;
 
 use Events\Model\Entity\EventContentInterface;
 
@@ -30,32 +31,32 @@ class EventContentHydrator implements HydratorInterface {
     /**
      *
      * @param EntityInterface $eventContent
-     * @param type $row
+     * @param type $rowData
      */
-    public function hydrate(EntityInterface $eventContent, &$row) {
+    public function hydrate(EntityInterface $eventContent, RowDataInterface $rowData) {
         /** @var EventContentInterface $eventContent */
         $eventContent
-            ->setId($row['id'])
-            ->setTitle($row['title'])
-            ->setPerex($row['perex'])
-            ->setParty($row['party'])
-            ->setEventContentTypeTypeFk($row['event_content_type_type_fk'])
-            ->setInstitutionIdFk($row['institution_id_fk']);
+            ->setId($rowData->offsetGet('id'))
+            ->setTitle($rowData->offsetGet('title'))
+            ->setPerex($rowData->offsetGet('perex'))
+            ->setParty($rowData->offsetGet('party'))
+            ->setEventContentTypeTypeFk($rowData->offsetGet('event_content_type_type_fk'))
+            ->setInstitutionIdFk($rowData->offsetGet('institution_id_fk'));
     }
 
     /**
      *
      * @param EntityInterface $eventContent
-     * @param array $row
+     * @param array $rowData
      */
-    public function extract(EntityInterface $eventContent, &$row) {
+    public function extract(EntityInterface $eventContent, RowDataInterface $rowData) {
         /** @var EventContentInterface $eventContent */
-        $row['id'] = $eventContent->getId(); // id je autoincrement - readonly, hodnota pro where
-        $row['title'] = $eventContent->getTitle();
-        $row['perex'] = $eventContent->getPerex();
-        $row['party'] = $eventContent->getParty();
-        $row['event_content_type_type_fk'] = $eventContent->getEventContentTypeTypeFk();
-        $row['institution_id_fk'] = $eventContent->getInstitutionIdFk();
+        $rowData->offsetSet('id', $eventContent->getId()); // id je autoincrement - readonly, hodnota pro where
+        $rowData->offsetSet('title', $eventContent->getTitle());
+        $rowData->offsetSet('perex', $eventContent->getPerex());
+        $rowData->offsetSet('party', $eventContent->getParty());
+        $rowData->offsetSet('event_content_type_type_fk', $eventContent->getEventContentTypeTypeFk());
+        $rowData->offsetSet('institution_id_fk', $eventContent->getInstitutionIdFk());
     }
 
 }

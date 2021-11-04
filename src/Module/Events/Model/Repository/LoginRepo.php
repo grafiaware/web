@@ -37,11 +37,7 @@ class LoginRepo extends RepoAbstract implements LoginRepoInterface {
      * @return LoginInterface|null
      */
     public function get($loginName): ?LoginInterface {
-        $index = $this->indexFromKey($loginName);
-        if (!isset($this->collection[$index])) {
-            $this->recreateEntity($index, $this->dao->get($loginName));
-        }
-        return $this->collection[$index] ?? null;
+        return $this->getEntity($loginName);
     }
 
     public function add(LoginInterface $login) {
@@ -54,6 +50,10 @@ class LoginRepo extends RepoAbstract implements LoginRepoInterface {
 
     protected function createEntity() {
         return new Login();
+    }
+
+    protected function indexFromKeyParams($loginName) {
+        return $loginName;
     }
 
     protected function indexFromEntity(LoginInterface $login) {

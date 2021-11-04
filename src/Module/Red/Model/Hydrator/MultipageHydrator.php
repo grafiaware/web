@@ -11,6 +11,8 @@ namespace Red\Model\Hydrator;
 use Model\Hydrator\HydratorInterface;
 
 use Model\Entity\EntityInterface;
+use Model\RowData\RowDataInterface;
+
 use Red\Model\Entity\MultipageInterface;
 
 /**
@@ -23,29 +25,29 @@ class MultipageHydrator implements HydratorInterface {
     /**
      *
      * @param MultipageInterface $multipage
-     * @param type $row
+     * @param type $rowData
      */
-    public function hydrate(EntityInterface $multipage, &$row) {
+    public function hydrate(EntityInterface $multipage, RowDataInterface $rowData) {
         /** @var MultipageInterface $multipage */
         $multipage
-            ->setId($row['id'])
-            ->setMenuItemIdFk($row['menu_item_id_fk'])
-            ->setTemplate($row['template'])
-            ->setEditor($row['editor'])
-            ->setUpdated($row['updated'] ? \DateTime::createFromFormat('Y-m-d H:i:s', $row['updated']) : NULL);
+            ->setId($rowData->offsetGet('id'))
+            ->setMenuItemIdFk($rowData->offsetGet('menu_item_id_fk'))
+            ->setTemplate($rowData->offsetGet('template'))
+            ->setEditor($rowData->offsetGet('editor'))
+            ->setUpdated($rowData->offsetGet('updated') ? \DateTime::createFromFormat('Y-m-d H:i:s', $rowData->offsetGet('updated')) : NULL);
     }
 
     /**
      *
      * @param MultipageInterface $article
-     * @param type $row
+     * @param type $rowData
      */
-    public function extract(EntityInterface $article, &$row) {
+    public function extract(EntityInterface $article, RowDataInterface $rowData) {
         /** @var MultipageInterface $article */
-        $row['id'] = $article->getId(); // id je autoincrement - readonly, hodnota pro where
-        $row['menu_item_id_fk'] = $article->getMenuItemIdFk();
-        $row['template'] = $article->getTemplate();
-        $row['editor'] = $article->getEditor();
+        $rowData->offsetSet('id', $article->getId()); // id je autoincrement - readonly, hodnota pro where
+        $rowData->offsetSet('menu_item_id_fk', $article->getMenuItemIdFk());
+        $rowData->offsetSet('template', $article->getTemplate());
+        $rowData->offsetSet('editor', $article->getEditor());
         // updated je timestamp
         // id je autoincrement - readonly
     }

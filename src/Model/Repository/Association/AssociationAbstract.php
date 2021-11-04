@@ -8,6 +8,8 @@
 
 namespace Model\Repository\Association;
 
+use Model\RowData\RowDataInterface;
+
 use Model\Repository\Exception\UnableToCreateAssotiatedChildEntity;
 
 /**
@@ -32,17 +34,17 @@ class AssociationAbstract {
         $this->childRepo->flush();
     }
 
-    protected function getChildKey($row) {
+    protected function getChildKey(RowDataInterface $rowData) {
         $parentKeyAttribute = $this->parentReferenceKeyAttribute;
         if (is_array($parentKeyAttribute)) {
             foreach ($parentKeyAttribute as $field) {
-                if( ! array_key_exists($field, $row)) {
+                if( ! $rowData->offsetExists($field)) {
                     throw new UnableToCreateAssotiatedChildEntity("Nelze vytvořit asociovanou entitu.. Atribut referenčního klíče obsahuje pole $field a pole řádku dat pro vytvoření potomkovské entity neobsahuje prvek s takovým jménem.");
                 }
-                $childKey[$field] = $row[$field];
+                $childKey[$field] = $rowData->offsetGet($field);
             }
         } else {
-            $childKey = $row[$this->parentReferenceKeyAttribute];
+            $childKey = $rowData->offsetGet($this->parentReferenceKeyAttribute);
         }
         return $childKey;
     }
