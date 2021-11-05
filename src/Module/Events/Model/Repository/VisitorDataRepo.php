@@ -25,7 +25,7 @@ use Model\Repository\Exception\UnableRecreateEntityException;
 class VisitorDataRepo extends RepoAbstract implements VisitorDataRepoInterface {
 
     public function __construct(VisitorDataDao $visitorDataDao, VisitorDataHydrator $visitorDataHydrator) {
-        $this->dao = $visitorDataDao;
+        $this->dataManager = $visitorDataDao;
         $this->registerHydrator($visitorDataHydrator);
     }
 

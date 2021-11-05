@@ -29,9 +29,9 @@ class VisitorDataDao extends DaoAbstract implements DaoKeyDbVerifiedInterface {
         return $this->getLastInsertedIdForOneRowInsert();
     }
 
-    public function get($id) {
-        $sql = "
-SELECT `visitor_data`.`login_name`,
+    public function get($loginName) {
+        $select = $this->select("
+    `visitor_data`.`login_name`,
     `visitor_data`.`prefix`,
     `visitor_data`.`name`,
     `visitor_data`.`surname`,
@@ -46,16 +46,16 @@ SELECT `visitor_data`.`login_name`,
     `visitor_data`.`letter_document`,
     `visitor_data`.`letter_document_filename`,
     `visitor_data`.`letter_document_mimetype`
-FROM `visitor_data`
-WHERE
-                `visitor_data`.`login_name` = :login_name";
-
-        return $this->selectOne($sql, [':login_name' => $id], TRUE);
+    ");
+        $from = $this->from("`visitor_data`");
+        $where = $this->where("`visitor_data`.`login_name` = :login_name");
+        $touples = [':login_name' => $loginName];
+        return $this->selectOne($select, $from, $where, $touples, TRUE);
     }
 
     public function findAll() {
-        $sql = "
-SELECT `visitor_data`.`login_name`,
+        $select = $this->select("
+    `visitor_data`.`login_name`,
     `visitor_data`.`prefix`,
     `visitor_data`.`name`,
     `visitor_data`.`surname`,
@@ -70,14 +70,14 @@ SELECT `visitor_data`.`login_name`,
     `visitor_data`.`letter_document`,
     `visitor_data`.`letter_document_filename`,
     `visitor_data`.`letter_document_mimetype`
-FROM `visitor_data`";
-
-        return $this->selectMany($sql, []);
+    ");
+        $from = $this->from("`visitor_data`");
+        return $this->selectMany($select, $from, "", []);
     }
 
     public function find($whereClause=null, $touplesToBind=[]) {
-        $sql = "
-SELECT `visitor_data`.`login_name`,
+        $select = $this->select("
+    `visitor_data`.`login_name`,
     `visitor_data`.`prefix`,
     `visitor_data`.`name`,
     `visitor_data`.`surname`,
@@ -92,9 +92,10 @@ SELECT `visitor_data`.`login_name`,
     `visitor_data`.`letter_document`,
     `visitor_data`.`letter_document_filename`,
     `visitor_data`.`letter_document_mimetype`
-FROM `visitor_data`"
-            .$this->where($whereClause);
-        return $this->selectMany($sql, $touplesToBind);
+    ");
+        $from = $this->from("`visitor_data`");
+        $where = $this->where($whereClause);
+        return $this->selectMany($select, $from, $where, $touplesToBind);
     }
 
     private function getWithinTransaction(HandlerInterface $dbhTransact, $loginName) {

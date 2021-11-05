@@ -27,7 +27,7 @@ class LoginRepo extends RepoAbstract implements LoginRepoInterface {
     protected $dao;
 
     public function __construct(LoginDao $loginDao, HydratorInterface $loginHydrator) {
-        $this->dao = $loginDao;
+        $this->dataManager = $loginDao;
         $this->registerHydrator($loginHydrator);
     }
 

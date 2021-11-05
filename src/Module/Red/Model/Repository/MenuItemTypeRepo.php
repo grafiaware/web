@@ -25,7 +25,7 @@ use Model\Repository\Exception\UnableRecreateEntityException;
 class MenuItemTypeRepo extends RepoAbstract implements MenuItemTypeRepoInterface { // implements Chybí interface pro repa {
 
     public function __construct(MenuItemTypeDao $menuItemTypeDao, HydratorInterface $menuItemTypeHydrator) {
-        $this->dao = $menuItemTypeDao;
+        $this->dataManager = $menuItemTypeDao;
         $this->registerHydrator($menuItemTypeHydrator);
     }
 
@@ -38,7 +38,7 @@ class MenuItemTypeRepo extends RepoAbstract implements MenuItemTypeRepoInterface
     public function get($type): ?MenuItemTypeInterface {
         $index = $type;
         if (!isset($this->collection[$index])) {
-            $this->recreateEntity($index, $this->dao->get($type));
+            $this->recreateEntity($index, $this->dataManager->get($type));
         }
         return $this->collection[$index] ?? null;
     }
@@ -48,7 +48,7 @@ class MenuItemTypeRepo extends RepoAbstract implements MenuItemTypeRepoInterface
      * @return MenuItemTypeInterface array of
      */
     public function findAll() {
-        $rows = $this->dao->findAll();
+        $rows = $this->dataManager->findAll();
         $collection = [];
         foreach ($rows as $row) {
             $index = $this->indexFromRow($row);

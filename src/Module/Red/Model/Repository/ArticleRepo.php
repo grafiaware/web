@@ -32,7 +32,7 @@ class ArticleRepo extends RepoAbstract implements ArticleRepoInterface {
     protected $dao;  // přetěžuje $dao v AbstractRepo - typ DaoChildInterface
 
     public function __construct(ArticleDao $articleDao, ArticleHydrator $articleHydrator) {
-        $this->dao = $articleDao;
+        $this->dataManager = $articleDao;
         $this->registerHydrator($articleHydrator);
     }
 

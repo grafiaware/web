@@ -29,7 +29,7 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
     protected $dao;
 
     public function __construct(MenuItemDao $menuItemDao, HydratorInterface $menuItemHydrator) {
-        $this->dao = $menuItemDao;
+        $this->dataManager = $menuItemDao;
         $this->registerHydrator($menuItemHydrator);
     }
 
@@ -56,7 +56,7 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
     public function getOutOfContext($langCodeFk, $uidFk): ?MenuItemInterface {
         $index = $this->indexFromKeyParams($langCodeFk, $uidFk);
         if (!isset($this->collection[$index])) {
-            $this->recreateEntity($index, $this->dao->getOutOfContext($langCodeFk, $uidFk));
+            $this->recreateEntity($index, $this->dataManager->getOutOfContext($langCodeFk, $uidFk));
         }
         return $this->collection[$index] ?? null;
     }
@@ -69,7 +69,7 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
      * @return MenuItemInterface|null
      */
     public function getById($id): ?MenuItemInterface {
-        $row = $this->dao->getById($id);
+        $row = $this->dataManager->getById($id);
         if ($row) {
             $index = $this->indexFromRow($row);
             if (!isset($this->collection[$index])) {
@@ -88,7 +88,7 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
      * @return MenuItemInterface|null
      */
     public function getByPrettyUri($langCodeFk, $prettyUri): ?MenuItemInterface {
-        $row = $this->dao->getByPrettyUri($langCodeFk, $prettyUri);
+        $row = $this->dataManager->getByPrettyUri($langCodeFk, $prettyUri);
         if ($row) {
             $index = $this->indexFromRow($row);
             if (!isset($this->collection[$index])) {
@@ -115,7 +115,7 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
      */
     public function findAllLanguageVersions($uidFk): iterable {
         $selected = [];
-        foreach ($this->dao->findAllLanguageVersions($uidFk) as $row) {
+        foreach ($this->dataManager->findAllLanguageVersions($uidFk) as $row) {
             $index = $this->indexFromRow($row);
             if (!isset($this->collection[$index])) {
                 $this->recreateEntity($index, $row);
@@ -133,7 +133,7 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
      * @return MenuItemInterface array of
      */
     public function findByPaperFulltextSearch($langCodeFk, $text) {
-        $rows = $this->dao->findByContentFulltextSearch($langCodeFk, $text);
+        $rows = $this->dataManager->findByContentFulltextSearch($langCodeFk, $text);
         $collection = [];
         foreach ($rows as $row) {
             $index = $this->indexFromRow($row);

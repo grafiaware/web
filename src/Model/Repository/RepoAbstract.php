@@ -16,6 +16,7 @@ use Model\Hydrator\HydratorInterface;
 use Model\Entity\EntityInterface;
 use Model\RowData\RowDataInterface;
 use Model\RowData\PdoRowData;
+use Model\DataManager\DataManager;
 
 use Model\Repository\Association\AssociationOneToOne;
 use Model\Repository\Association\AssociationOneToMany;
@@ -56,10 +57,9 @@ abstract class RepoAbstract {
     private $hydrators = [];
 
     /**
-     * @var DaoInterface | DaoKeyDbVerifiedInterface
-     * @var  DaoKeyDbVerifiedInterface
+     * @var  DataManager
      */
-    protected $dao;
+    protected $dataManager;
 
     /**
      * @var HydratorInterface array of
@@ -116,7 +116,7 @@ abstract class RepoAbstract {
     protected function getEntity(...$id) {
         $index = $this->indexFromKeyParams(...$id);
         if (!isset($this->collection[$index])) {
-            $rowData = $this->dao->get(...$id);
+            $rowData = $this->dataManager->get(...$id);
             if ($rowData) {
                 $this->recreateEntity($index, $rowData);
             }
@@ -130,7 +130,7 @@ abstract class RepoAbstract {
      * @return EntityInterface|null
      */
     protected function getEntityByReference(...$referenceId): ?EntityInterface {
-        $rowData = $this->dao->getByFk(...$referenceId);
+        $rowData = $this->dataManager->getByFk(...$referenceId);
         if (!$rowData) {
             return null;
         }
@@ -141,21 +141,9 @@ abstract class RepoAbstract {
         return $this->collection[$index] ?? NULL;
     }
 
-    protected function findAllEntities() {
-        $selected = [];
-        foreach ($this->dao->findAll() as $rowData) {
-            $index = $this->indexFromRow($rowData);
-            if (!isset($this->collection[$index])) {
-                $this->recreateEntity($index, $rowData);
-            }
-            $selected[] = $this->collection[$index];
-        }
-        return $selected;
-    }
-
     protected function findEntities($whereClause=null, $touplesToBind=[]) {
         $selected = [];
-        foreach ($this->dao->find($whereClause, $touplesToBind) as $rowData) {
+        foreach ($this->dataManager->find($whereClause, $touplesToBind) as $rowData) {
             $index = $this->indexFromRow($rowData);
             if (!isset($this->collection[$index])) {
                 $this->recreateEntity($index, $rowData);
@@ -232,11 +220,11 @@ abstract class RepoAbstract {
         if ($entity->isPersisted()) {
             $this->collection[$this->indexFromEntity($entity)] = $entity;
         } else {
-            if ( $this->dao instanceof DaoKeyDbVerifiedInterface ) {
+            if ( $this->dataManager instanceof DaoKeyDbVerifiedInterface ) {
                 $row = $this->createRowData();
                 $this->extract($entity, $row);
                 try {
-                    $this->dao->insertWithKeyVerification($row);
+                    $this->dataManager->insertWithKeyVerification($row);
                     $entity->setPersisted();
                     $this->collection[$this->indexFromEntity($entity)] = $entity;
                 } catch ( DaoKeyVerificationFailedException $verificationFailedExc) {
@@ -303,11 +291,11 @@ abstract class RepoAbstract {
         }
         if ( !($this instanceof RepoReadonlyInterface)) {
             /** @var \Model\Entity\EntityAbstract $entity */
-            if ( ! ($this->dao instanceof DaoKeyDbVerifiedInterface)) {   // DaoKeyDbVerifiedInterface musí ukládat (insert) vždy již při nastavování hodnoty primárního klíče
+            if ( ! ($this->dataManager instanceof DaoKeyDbVerifiedInterface)) {   // DaoKeyDbVerifiedInterface musí ukládat (insert) vždy již při nastavování hodnoty primárního klíče
                 foreach ($this->new as $entity) {
                     $row = $this->createRowData();
                     $this->extract($entity, $row);
-                    $this->dao->insert($row);
+                    $this->dataManager->insert($row);
                     $this->addAssociated($row, $entity);
                     $this->flushChildRepos();  //pokud je vnořená agregovaná entita - musí se provést její insert
                     $entity->setPersisted();
@@ -322,7 +310,7 @@ abstract class RepoAbstract {
                 $this->flushChildRepos();  //pokud je vnořená agregovaná entita přidána později - musí se provést její insert teď
                 if ($entity->isPersisted()) {
                     if ($row) {     // $row po extractu musí obsahovat nějaká data, která je možno updatovat - v extractu musí být vynechány "readonly" sloupce
-                        $this->dao->update($row);
+                        $this->dataManager->update($row);
                     }
                 } else {
                     throw new \LogicException("V collection je nepersistovaná entita.");
@@ -335,7 +323,7 @@ abstract class RepoAbstract {
                 $this->extract($entity, $row);
                 $this->removeAssociated($row, $entity);
                 $this->flushChildRepos();
-                $this->dao->delete($row);
+                $this->dataManager->delete($row);
                 $entity->setUnpersisted();
             }
             $this->removed = [];

@@ -28,7 +28,7 @@ class LoginRepo extends RepoAbstract implements LoginRepoInterface {
     protected $dao;
 
     public function __construct(LoginDao $loginDao, HydratorInterface $loginHydrator) {
-        $this->dao = $loginDao;
+        $this->dataManager = $loginDao;
         $this->registerHydrator($loginHydrator);
     }
 
@@ -40,7 +40,7 @@ class LoginRepo extends RepoAbstract implements LoginRepoInterface {
     public function get($loginName): ?LoginInterface {
         $index = $this->indexFromKey($loginName);
         if (!isset($this->collection[$index])) {
-            $this->recreateEntity($index, $this->dao->get($loginName));
+            $this->recreateEntity($index, $this->dataManager->get($loginName));
         }
         return $this->collection[$index] ?? null;
     }

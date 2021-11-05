@@ -23,7 +23,7 @@ use Red\Model\Hydrator\LanguageHydrator;
 class LanguageRepo extends RepoAbstract {
 
     public function __construct(LanguageDao $languageDao, LanguageHydrator $languageHydrator) {
-        $this->dao = $languageDao;
+        $this->dataManager = $languageDao;
         $this->registerHydrator($languageHydrator);
 
     }

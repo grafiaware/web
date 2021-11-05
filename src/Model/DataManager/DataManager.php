@@ -8,76 +8,111 @@
 
 namespace Model\DataManager;
 
-use Monorm\Dao\DaoInterface;
+use Model\Dao\DaoInterface;
+
+use Model\RowData\RowDataInterface;
 
 /**
- * Description of DstaManager
+ * Description of DataManager
  *
  * @author pes2704
  */
-class DataManager {
+abstract class DataManager implements DataManagerInterface {
 
     /**
      * @var DaoInterface
      */
     private $dao;
-    private $oldDataStorage;
-    private $newDataStorage;
-    private $removedDataStorage;
+    private $persitedData;
+    private $dataToAdd;
+    private $dataToRemove;
+
+    private $flushed = false;
 
     public function __construct(DaoInterface $dao) {
         $this->dao = $dao;
-        $this->oldDataStorage = new \ArrayObject();
-        $this->newDataStorage = new \ArrayObject();
-        $this->removedDataStorage = new \ArrayObject();
+        $this->persitedData = new \ArrayObject();
+        $this->dataToAdd = new \ArrayObject();
+        $this->dataToRemove = new \ArrayObject();
     }
 
-    public function get($index) {
-        if ($this->newDataStorage->offsetExists($index)) {
-            return $this->newDataStorage->offsetGet($index);
-        } elseif (!$this->oldDataStorage->offsetExists($index)) {
-            $data = $this->dao->get($index);
-            $this->oldDataStorage->offsetSet($index, $data);
+    public function get(...$id): ?RowDataInterface {
+        $index = $this->indexFromKeyParams(...$id);
+        if ($this->dataToAdd->offsetExists($index)) {
+            return $this->dataToAdd->offsetGet($index);
+        } elseif (!$this->persitedData->offsetExists($index)) {
+            $data = $this->dao->get(...$id);
+            $this->persitedData->offsetSet($index, $data);
+            $this->flushed = false;
         }
-        if ($this->oldDataStorage->offsetExists($index)) {
-            return $this->oldDataStorage->offsetGet($index);
+        return $this->persitedData->offsetExists($index) ? $this->persitedData->offsetGet($index) : null;
+    }
+
+    protected function getByReference(...$referenceId): ?RowDataInterface {
+        $rowData = $this->dao->getByFk(...$referenceId);
+        if (!$rowData) {
+            return null;
+        }
+        $index = $this->indexFromRowData($rowData);
+        if (!$this->persitedData->offsetExists($index)) {
+            $this->persitedData->offsetSet($index, $rowData);
+        }
+        return $rowData;
+    }
+
+    public function find($whereClause="", $touplesToBind=[]) {
+        $collection = [];
+        foreach ($this->dao->find($whereClause, $touplesToBind) as $rowData) {
+            $index = $this->indexFromRowData($rowData);
+            if ($this->dataToAdd->offsetExists($index)) {
+                $collection[] = $this->dataToAdd->offsetGet($index);
+            } elseif ($this->persitedData->offsetExists($index)) {
+                $collection[] = $this->persitedData->offsetGet($index);
+            } else {
+                $this->persitedData->offsetSet($index, $rowData);
+                $collection[] = $rowData;
+                $this->flushed = false;
+            }
+        }
+        return $collection;
+    }
+
+    public function set($index, RowDataInterface $data): void {
+        if ($this->persitedData->offsetExists($index)) {
+            $this->persitedData->offsetSet($index, $data);
         } else {
-            throw new UnexpectedValueException("V úložišti (databázi) neexistují data se požadovaným indexem.");
+            $this->dataToAdd->offsetSet($index, $data);
+            $this->flushed = false;
         }
     }
 
-    public function set($index, $data) {
-        if ($this->oldDataStorage->offsetExists($index)) {
-            $this->oldDataStorage->offsetSet($index, $data);
-        } else {
-            $this->newDataStorage->offsetSet($index, $data);
+    public function unset($index): void {
+        if ($this->persitedData->offsetExists($index)) {
+            $this->dataToRemove->offsetSet($index, $this->persitedData->offsetGet($index));
+            $this->persitedData->offsetUnset($index);
+            $this->flushed = false;
         }
-        return $this;
+        if ($this->dataToAdd->offsetExists($index)) {
+            $this->dataToAdd->offsetUnset($index);
+        }
     }
 
-    public function unset($index) {
-        if ($this->oldDataStorage->offsetExists($index)) {
-            $this->removedDataStorage->offsetSet($index, $this->oldDataStorage->offsetGet($index));
-            $this->oldDataStorage->offsetUnset($index);
+    public function flush(): void {
+        if ($this->flushed) {
+            return;
         }
-        if ($this->newDataStorage->offsetExists($index)) {
-            $this->newDataStorage->offsetUnset($index);
+        foreach ($this->dataToAdd as $rowData) {
+            $this->dao->insert($rowData);
         }
-        return $this;
-    }
-
-    public function flush() {
-        foreach ($this->oldDataStorage as $rowData) {
+        foreach ($this->persitedData as $rowData) {
             if ($rowData->isChanged()) {
                 $this->dao->update($rowData);
             }
         }
-        foreach ($this->newDataStorage as $rowData) {
-            $this->dao->insert($rowData);
-        }
-        foreach ($this->removedDataStorage as $rowData) {
+        foreach ($this->dataToRemove as $rowData) {
             $this->dao->delete($rowData);
         }
+        $this->flushed = true;
     }
 
 }

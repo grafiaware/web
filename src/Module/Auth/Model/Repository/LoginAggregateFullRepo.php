@@ -47,9 +47,9 @@ class LoginAggregateFullRepo extends LoginRepo implements RepoAggregateInterface
         return new LoginAggregateFull();
     }
 
-    public function findAll() {
+    public function find($whereClause="", $touplesToBind=[]) {
         $selected = [];
-        foreach ($this->dao->findAll() as $loginRow) {
+        foreach ($this->dataManager->find($whereClause, $touplesToBind) as $loginRow) {
             $index = $this->indexFromRow($loginRow);
             if (!isset($this->collection[$index])) {
                 $this->recreateEntity($index, $loginRow);

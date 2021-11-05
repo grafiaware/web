@@ -40,7 +40,7 @@ class BlockAggregateRepo extends BlockRepo implements BlockAggregateRepoInterfac
     public function getAggregate($langCode, $name): ?BlockAggregateMenuItemInterface {
         $index = $this->indexFromKeyParams($name);
         if (!isset($this->collection[$index])) {
-            $row = $this->dao->get($name);
+            $row = $this->dataManager->get($name);
             if ($row) {
                 $row['lang_code_fk'] = $langCode;
                 $this->recreateEntity($index, $row);

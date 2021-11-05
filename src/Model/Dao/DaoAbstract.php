@@ -46,6 +46,14 @@ abstract class DaoAbstract {
         }
     }
 
+    protected function select($fields = "") {
+        return " SELECT ".$fields." ";
+    }
+    
+    protected function from($name) {
+        return " FROM ".$name." ";
+    }
+
     protected function where($condition = "") {
         return $condition ? " WHERE ".$condition." " : "";
     }
@@ -96,8 +104,8 @@ abstract class DaoAbstract {
      * @param bool $checkDuplicities Nepovinný parametr, default FALSE.
      * @return object|array|false
      */
-    protected function selectOne($sql, $touplesToBind=[], $checkDuplicities=FALSE) {
-        $statement = $this->getPreparedStatement($sql);
+    protected function selectOne($select, $from, $where, $touplesToBind=[], $checkDuplicities=FALSE) {
+        $statement = $this->getPreparedStatement($select." ".$from." ".$where);
         if ($touplesToBind) {
             $this->bindParams($statement, $touplesToBind);
         }
@@ -123,8 +131,8 @@ abstract class DaoAbstract {
      * @param array $touplesToBind Pole parametrů pro bind, nepovinný parametr, default prázdné pole.
      * @return array
      */
-    protected function selectMany($sql, $touplesToBind=[]) {
-        $statement = $this->getPreparedStatement($sql);
+    protected function selectMany($select, $from, $where, $touplesToBind=[]) {
+        $statement = $this->getPreparedStatement($select." ".$from." ".$where);
         if ($touplesToBind) {
             $this->bindParams($statement, $touplesToBind);
         }

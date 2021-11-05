@@ -28,7 +28,7 @@ class MenuRootRepo extends RepoAbstract {
      * @param MenuRootHydrator $menuRootHydrator
      */
     public function __construct(MenuRootDao $menuRootDao, MenuRootHydrator $menuRootHydrator) {
-        $this->dao = $menuRootDao;
+        $this->dataManager = $menuRootDao;
         $this->registerHydrator($menuRootHydrator);
 
     }

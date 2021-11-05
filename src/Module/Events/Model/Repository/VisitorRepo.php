@@ -26,7 +26,7 @@ class VisitorRepo extends RepoAbstract implements VisitorRepoInterface {
     protected $dao;
 
     public function __construct(VisitorDao $visitorDao, HydratorInterface $visitorHydrator) {
-        $this->dao = $visitorDao;
+        $this->dataManager = $visitorDao;
         $this->registerHydrator($visitorHydrator);
     }
 

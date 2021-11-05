@@ -30,7 +30,7 @@ class MultipageRepo extends RepoAbstract implements MultipageRepoInterface {
     protected $dao;  // přetěžuje $dao v AbstractRepo - typ DaoChildInterface
 
     public function __construct(MultipageDao $multipageDao, MultipageHydrator $multipageHydrator) {
-        $this->dao = $multipageDao;
+        $this->dataManager = $multipageDao;
         $this->registerHydrator($multipageHydrator);
     }
 
@@ -42,7 +42,7 @@ class MultipageRepo extends RepoAbstract implements MultipageRepoInterface {
     public function get($id): ?MultipageInterface {
         $index = $id;
         if (!isset($this->collection[$index])) {
-            $this->recreateEntity($index, $this->dao->get($id));
+            $this->recreateEntity($index, $this->dataManager->get($id));
         }
         return $this->collection[$index] ?? NULL;
     }
@@ -53,7 +53,7 @@ class MultipageRepo extends RepoAbstract implements MultipageRepoInterface {
      * @return MultipageInterface|null
      */
     public function getByReference($menuItemIdFk): ?EntityInterface {
-        $row = $this->dao->getByFk($menuItemIdFk);
+        $row = $this->dataManager->getByFk($menuItemIdFk);
         $index = $this->indexFromRow($row);
         if (!isset($this->collection[$index])) {
             $this->recreateEntity($index, $row);

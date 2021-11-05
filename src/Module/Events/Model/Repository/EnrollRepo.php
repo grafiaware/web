@@ -26,7 +26,7 @@ use Model\Repository\Exception\UnableRecreateEntityException;
 class EnrollRepo extends RepoAbstract implements EnrollRepoInterface {
 
     public function __construct(EnrollDao $enrollDao, EnrollHydrator $enrollHydrator) {
-        $this->dao = $enrollDao;
+        $this->dataManager = $enrollDao;
         $this->registerHydrator($enrollHydrator);
     }
 

@@ -28,34 +28,30 @@ class EnrollDao extends DaoAbstract implements DaoAutoincrementKeyInterface {
     }
 
     public function get($id) {
-        $sql = "
-            SELECT `enrolled`.`id`,
+        $select = $this->select("`enrolled`.`id`,
                 `enrolled`.`login_name`,
-                `enrolled`.`eventid`
-            FROM `enrolled`
-            WHERE
-                `enrolled`.`id` = :id";
-
-        return $this->selectOne($sql, [':id' => $id], TRUE);
+                `enrolled`.`eventid`");
+        $from = $this->from(`enrolled`);
+        $where = $this->where("`enrolled`.`id` = :id");
+        $touples = [':id' => $id];
+        return $this->selectOne($select, $from, $where, $touples, true);
     }
 
     public function findAll() {
-        $sql = "
-            SELECT `enrolled`.`id`,
+        $select = $this->select("`enrolled`.`id`,
                 `enrolled`.`login_name`,
-                `enrolled`.`eventid`
-            FROM `enrolled`";
-        return $this->selectMany($sql, []);
+                `enrolled`.`eventid`");
+        $from = $this->from(`enrolled`);
+        return $this->selectMany($select, $from, "", []);
     }
 
-    public function find($whereClause=null, $touplesToBind=[]) {
-        $sql = "
-            SELECT `enrolled`.`id`,
+    public function find($whereClause="", $touplesToBind=[]) {
+        $select = $this->select("`enrolled`.`id`,
                 `enrolled`.`login_name`,
-                `enrolled`.`eventid`
-            FROM `enrolled`"
-            .$this->where($whereClause);
-        return $this->selectMany($sql, $touplesToBind);
+                `enrolled`.`eventid`");
+        $from = $this->from(`enrolled`);
+        $where = $this->where($whereClause);
+        return $this->selectMany($select, $from, $where, $touplesToBind);
     }
 
     public function insert($row) {

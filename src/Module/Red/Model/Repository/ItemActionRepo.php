@@ -27,7 +27,7 @@ class ItemActionRepo extends RepoAbstract implements ItemActionRepoInterface {
 
 
     public function __construct(ItemActionDao $itemActionDao, ItemActionHydrator $itemActionHydrator) {
-        $this->dao = $itemActionDao;
+        $this->dataManager = $itemActionDao;
         $this->registerHydrator($itemActionHydrator);
     }
 

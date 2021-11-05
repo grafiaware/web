@@ -32,7 +32,7 @@ class PaperRepo extends RepoAbstract implements PaperRepoInterface {
     protected $dao;  // přetěžuje $dao v AbstractRepo - typ DaoChildInterface
 
     public function __construct(PaperDao $paperDao, PaperHydrator $paperHydrator) {
-        $this->dao = $paperDao;
+        $this->dataManager = $paperDao;
         $this->registerHydrator($paperHydrator);
     }
 

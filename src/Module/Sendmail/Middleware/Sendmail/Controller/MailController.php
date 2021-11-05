@@ -49,7 +49,7 @@ class MailController extends PresentationFrontControlerAbstract {
 
 
     private function getLogins() {
-        $visitorsLoginAgg = $this->loginAggregateCredentialsRepo->findAll();
+        $visitorsLoginAgg = $this->loginAggregateCredentialsRepo->find();
         return $visitorsLoginAgg;
     }
 

@@ -18,14 +18,14 @@ use Auth\Model\Dao\RegistrationDao;
 class RegistrationRepo extends RepoAbstract implements RegistrationRepoInterface {
 
     public function __construct(RegistrationDao $registrationDao, HydratorInterface $registrationHydrator) {
-        $this->dao = $registrationDao;
+        $this->dataManager = $registrationDao;
         $this->registerHydrator($registrationHydrator);
     }
 
     public function get($loginNameFk): ?RegistrationInterface {
         $index = $this->indexFromKeyParams($loginNameFk);
         if (!isset($this->collection[$index])) {
-            $this->recreateEntity($index, $this->dao->get($loginNameFk));
+            $this->recreateEntity($index, $this->dataManager->get($loginNameFk));
         }
         return $this->collection[$index] ?? NULL;
     }
@@ -35,7 +35,7 @@ class RegistrationRepo extends RepoAbstract implements RegistrationRepoInterface
     }
 
     public function getByUid($uid): ?RegistrationInterface {
-        $row = $this->dao->getByUid($uid);
+        $row = $this->dataManager->getByUid($uid);
         $index = $this->indexFromRow($row);
         if (!isset($this->collection[$index])) {
             $this->recreateEntity($index, $row);

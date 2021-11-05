@@ -37,7 +37,7 @@ class LoginAggregateReadonlyRepo extends RepoAbstract implements LoginAggregateR
             HydratorInterface $loginAggregateHydrator,
             HydratorInterface $credentialsHydrator
             ) {
-        $this->dao = $loginAggregateDao;
+        $this->dataManager = $loginAggregateDao;
         $this->registerHydrator($loginAggregateHydrator);
         $this->childHydrator = $credentialsHydrator;
     }
@@ -50,7 +50,7 @@ class LoginAggregateReadonlyRepo extends RepoAbstract implements LoginAggregateR
     public function get($loginName): ?LoginAggregateCredentialsInterface {
         $index = $this->indexFromKeyParams($loginName);
         if (!isset($this->collection[$index])) {
-            $joinedRow = $this->dao->get($loginName);
+            $joinedRow = $this->dataManager->get($loginName);
             if ($joinedRow) {
                 $credentials = $this->createChildEntity($joinedRow);
                 $this->recreateEntity($index, ['login_name'=>$joinedRow['login_name'], 'credentials'=>$credentials]);

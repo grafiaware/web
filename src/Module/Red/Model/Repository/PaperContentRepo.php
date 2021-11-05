@@ -27,7 +27,7 @@ class PaperContentRepo extends RepoAbstract implements PaperContentRepoInterface
     protected $dao;
 
     public function __construct(PaperContentDao $paperContentDao, HydratorInterface $contentHydrator) {
-        $this->dao = $paperContentDao;
+        $this->dataManager = $paperContentDao;
         $this->registerHydrator($contentHydrator);
     }
 
@@ -40,7 +40,7 @@ class PaperContentRepo extends RepoAbstract implements PaperContentRepoInterface
         $index = $contentId;
         if (!isset($this->collection[$index])) {
             /** @var PaperContentDao $this->dao */
-            $this->recreateEntity($index, $this->dao->get($contentId));
+            $this->recreateEntity($index, $this->dataManager->get($contentId));
         }
         return $this->collection[$index] ?? NULL;
     }
@@ -52,7 +52,7 @@ class PaperContentRepo extends RepoAbstract implements PaperContentRepoInterface
      */
     public function findByReference($paperIdFk): iterable {
         $selected = [];
-        foreach ($this->dao->findAllByFk($paperIdFk) as $paperContentRow) {
+        foreach ($this->dataManager->findAllByFk($paperIdFk) as $paperContentRow) {
             $index = $this->indexFromRow($paperContentRow);
             if (!isset($this->collection[$index])) {
                 $this->recreateEntity($index, $paperContentRow);

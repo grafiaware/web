@@ -26,7 +26,7 @@ class EventContentRepo extends RepoAbstract implements EventContentRepoInterface
     protected $dao;
 
     public function __construct(EventContentDao $eventContentTypeDao, HydratorInterface $eventContentTypeHydrator) {
-        $this->dao = $eventContentTypeDao;
+        $this->dataManager = $eventContentTypeDao;
         $this->registerHydrator($eventContentTypeHydrator);
     }
 

@@ -46,8 +46,7 @@ class PaperContentDao extends DaoContextualAbstract {
      * @return array Jednorozměrné asociativní pole
      */
     public function get($id) {
-        if (!isset($this->sqlGet)) {
-            $this->sqlGet = "SELECT
+        $select = $this->select("
                 `paper_content`.`id` AS `id`,
                 `paper_content`.`paper_id_fk` AS `paper_id_fk`,
                 `paper_content`.`content` AS `content`,
@@ -61,12 +60,11 @@ class PaperContentDao extends DaoContextualAbstract {
                 `paper_content`.`event_end_time` AS `event_end_time`,
                 `paper_content`.`editor` AS `editor`,
                 `paper_content`.`updated` AS `updated`,
-                 (ISNULL(show_time) OR show_time<=CURDATE()) AND (ISNULL(hide_time) OR CURDATE()<=hide_time) AS actual
-            FROM
-                `paper_content`"
-            . $this->where($this->and($this->getContextConditions(), ['paper_content.id=:id']));
-        }
-        return $this->selectOne($this->sqlGet, [':id' => $id], true);
+                 (ISNULL(show_time) OR show_time<=CURDATE()) AND (ISNULL(hide_time) OR CURDATE()<=hide_time) AS actual");
+        $from = $this->from("`paper_content`");
+        $where = $this->where($this->and($this->getContextConditions(), ['paper_content.id=:id']));
+        $touplesToBind = [':id' => $id];
+        return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
     /**
@@ -78,8 +76,7 @@ class PaperContentDao extends DaoContextualAbstract {
      * @return array Jednorozměrné asociativní pole
      */
     public function findAllByFk($paperIdFk) {
-        if (!isset($this->sqlFindAllByFk)) {
-            $this->sqlFindAllByFk = "SELECT
+        $select = $this->select("
                 `paper_content`.`id` AS `id`,
                 `paper_content`.`paper_id_fk` AS `paper_id_fk`,
                 `paper_content`.`content` AS `content`,
@@ -93,12 +90,11 @@ class PaperContentDao extends DaoContextualAbstract {
                 `paper_content`.`event_end_time` AS `event_end_time`,
                 `paper_content`.`editor` AS `editor`,
                 `paper_content`.`updated` AS `updated`,
-                 (ISNULL(show_time) OR show_time<=CURDATE()) AND (ISNULL(hide_time) OR CURDATE()<=hide_time) AS actual
-            FROM
-                `paper_content`"
-            . $this->where($this->and($this->getContextConditions(), ['`paper_content`.`paper_id_fk` = :paper_id_fk']));
-        }
-        return $this->selectMany($this->sqlFindAllByFk, [':paper_id_fk' => $paperIdFk]);
+                 (ISNULL(show_time) OR show_time<=CURDATE()) AND (ISNULL(hide_time) OR CURDATE()<=hide_time) AS actual");
+        $from = $this->from("`paper_content`");
+        $where = $this->where($this->and($this->getContextConditions(), ['`paper_content`.`paper_id_fk` = :paper_id_fk']));
+        $touplesToBind = [':paper_id_fk' => $paperIdFk];
+        return $this->selectMany($select, $from, $where, $touplesToBind);
     }
 
     /**
@@ -108,8 +104,7 @@ class PaperContentDao extends DaoContextualAbstract {
      * @return array Dvojrozměrné asociativní pole
      */
     public function find($whereClause=null, $touplesToBind=[]) {
-        if (!isset($this->sqlFind)) {
-            $this->sqlFind = "SELECT
+        $select = $this->select("
                 `paper_content`.`id` AS `id`,
                 `paper_content`.`paper_id_fk` AS `paper_id_fk`,
                 `paper_content`.`content` AS `content`,
@@ -124,13 +119,10 @@ class PaperContentDao extends DaoContextualAbstract {
                 `paper_content`.`event_end_time` AS `event_end_time`,
                 `paper_content`.`editor` AS `editor`,
                 `paper_content`.`updated` AS `updated`,
-                 (ISNULL(show_time) OR show_time<=CURDATE()) AND (ISNULL(hide_time) OR CURDATE()<=hide_time) AS actual
-            FROM
-                `paper_content`"
-            .$this->where($whereClause);
-
-        }
-        return $this->selectMany($this->sqlFind, $touplesToBind);
+                 (ISNULL(show_time) OR show_time<=CURDATE()) AND (ISNULL(hide_time) OR CURDATE()<=hide_time) AS actual");
+        $from = $this->from("`paper_content`");
+        $where = $this->where($whereClause);
+        return $this->selectMany($select, $from, $where, $touplesToBind);
     }
 
     /**
