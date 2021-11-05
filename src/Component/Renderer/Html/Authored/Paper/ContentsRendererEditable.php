@@ -440,7 +440,7 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
             )
         )
         .Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.wrapShowDate')],
-            Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.buttonsEditShowDate')],
+            Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.buttonsEditDate')],
                 $btnZobrazeniTrvale.$btnZobrazeniUlozit.$btnZobrazeniZrusitUpravy
              )
             .Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.grid')],
@@ -454,7 +454,7 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
             )
         )
         .Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.wrapEventDate')],       // display none <-> display flex
-            Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.buttonsEditEventDate')],
+            Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.buttonsEditDate')],
                 $btnUdalostTrvale.$btnUdalostUlozit.$btnUdalostZrusitUpravy
             )
             .Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.grid')],
@@ -487,9 +487,9 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
 
         return
             Html::tag('div', ['class'=>$this->classMap->getClass('TrashButtons', 'div.wrapTrash')],
-                Html::tag('div', ['class'=>$this->classMap->getClass('TrashButtons', 'div.buttonsContent')],
+                Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.buttonsContent')],
                     Html::tag('button',
-                        ['class'=>$this->classMap->getClass('TrashButtons', 'button'),
+                        ['class'=>$this->classMap->getClass('ContentButtons', 'button'),
                         'data-tooltip'=>'Obnovit',
                         'type'=>'submit',
                         'name'=>'button',
@@ -500,9 +500,9 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
                         Html::tag('i', ['class'=>$this->classMap->getClass('TrashButtons', 'button.restore')])
                     )
                 )
-                .Html::tag('div', ['class'=>$this->classMap->getClass('TrashButtons', 'div.buttonsContent')],
+                .Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.buttonsContent')],
                     Html::tag('button',
-                        ['class'=>$this->classMap->getClass('TrashButtons', 'button'),
+                        ['class'=>$this->classMap->getClass('ContentButtons', 'button'),
                         'data-tooltip'=>'Smazat',
                         'type'=>'submit',
                         'name'=>'button',

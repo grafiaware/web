@@ -71,7 +71,7 @@
 @semaforSectionTrashPositionRight: @semaforContentPositionRight;
 @semaforSectionTrashPositionTop: 12px;
 @sectionTrashTransform: translateX(0); 
-@sectionTrashCornerPositionLeft: 97.5%;
+@sectionTrashCornerPositionLeft: 97.5%;  
 @semaforContentNumberMarginTop: -10px;
 @semaforContentNumberTextAlign: center;
 
@@ -103,6 +103,32 @@
 @scrollhintMenuPositionTop: 37px;
 @scrollhintMenuItemFontSize: 0.95rem;
 
+/*OHRANIČENÍ EDITAČNÍCH PRVKŮ RŮZNÝCH TYPŮ*/
+@sectionRendererMargin: initial;
+@sectionRendererMarginTop: initial;
+@articleRendererMargin: 10px 7px;
+@rendererOutline: 1px solid @teal;
+@rendererBorderRadius: 5px;
+@rendererPadding: initial;
+@rendererPaddingTop: initial;     
+@rendererSectionMarginBottom: 20px;
+@zapnoutEditaciTextAlign: right;
+@zapnoutEditaciPadding: 0;
+@zapnoutEditaciMargin: 0; 
+@zapnoutEditaciPositionTop: -1px;
+@zapnoutEditaciPositionRight: -4px;
+@zapnoutEditaciArticlePositionRight: -4px;
+@rendererMultipageMargin: 0 9px;   
+@rendererMultipageOutline: 2px solid @black;
+@rendererMultipageZapnoutEditaciColor: @black;
+@rendererMultipageZapnoutEditaciBoxShadow: 0 0 0 1px @black inset; 
+@rendererMultipageArticleEditableMargin: 20px 5px;
+@rendererMultipageArticleMargin: 20px 9px; 
+@rendererMultipagePaperMargin: 25px 5px;
+@rendererMultipageSemaforPositionRight: initial;
+@rendererMultipageSemaforPositionTop: initial;  
+@buttonEditMenuPositionRight: initial;
+
 //Roh u contentu
 @ribbonWidth: 2em; 
 @ribbonHeight: 1.5em;
@@ -111,13 +137,13 @@
 @ribbonPositionRigth: auto;
 @ribbonPositionLeft: auto;
 @ribbonZIndex: 1;
-@ribbonTransform: translateX(-197px);  
+@ribbonTransform: translateX(-197px);   
 @ribbonActiveZIndex: 15;
 @ribbonIconTransform: translateX(50%);
-@ribbonCornerIconFontSize: 1em;
+@ribbonCornerIconFontSize: 1em; 
 @ribbonPageWidth: 2em;
 @ribbonPageHeight: 1.5em;
-@ribbonPageSize: 0.6em;
+@ribbonPageSize: 0.6em; 
 @ribbonPagePositionRigth: -66px; 
 @ribbonPagePositionLeft: auto; 
 @ribbonPagePositionTop: 40px;
@@ -134,7 +160,7 @@
 @buttonyContentPagePositionRight: -15px;
 @buttonyContentPagePositionTop: -3px;
 //Kalendář
-@buttonyKalendarPositionTop: -42px;
+@buttonyKalendarPositionTop: -42px; 
 @buttonyKalendarPositionRight: @hodnota0;
 @buttonyKalendarBackgroundColor: @barvaEditButtonyTmava;
 @divKalendarWidth: 350px;
@@ -191,7 +217,7 @@
         background-color: @colorNotFocus !important;
     }
     &.mce-edit-focus a[data-mce-selected]{
-        background-color: @colorFocus !important; //Tiny modrá pro odkaz
+        background-color: @colorFocus !important; //Tiny modrá pro odkaz 
     }
 }
 
@@ -327,7 +353,7 @@ body{
         }
     }
     .ui.ribbon:not(.page-edit) ~ .semafor{
-        top: @semaforContentPositionTop; 
+        top: @semaforContentPositionTop;  
         right: @semaforContentPositionRight;
         left: @semaforContentPositionLeft;           
         z-index: @semaforContentZIndex;
@@ -474,6 +500,64 @@ body{
                 }
             }
         }
+    }
+    /*OHRANIČENÍ EDITAČNÍCH PRVKŮ RŮZNÝCH TYPŮ*/
+    .editable section[data-red-renderer]{
+        margin: @sectionRendererMargin;  
+        article{
+            margin-top: @sectionRendererMarginTop;
+        }
+    }
+    .editable article[data-red-renderer]{ 
+        margin: @articleRendererMargin;
+    }
+    .editable [data-red-renderer]{
+        position: relative;
+        outline: @rendererOutline;
+        border-radius: @rendererBorderRadius;
+        padding: @rendererPadding;
+        padding-top: @rendererPaddingTop;
+        [data-template] > section, [data-red-template] > section{
+            margin-bottom: @rendererSectionMarginBottom;
+        }
+    }
+    .zapnout_editaci{  //male tlacitko v rohu
+        position: absolute;
+        text-align: @zapnoutEditaciTextAlign;
+        padding: @zapnoutEditaciPadding;
+        margin: @zapnoutEditaciMargin;
+        top: @zapnoutEditaciPositionTop;
+        right: @zapnoutEditaciPositionRight;
+    }
+    [data-red-renderer="ArticleRenderer"] > .zapnout_editaci{
+        right: @zapnoutEditaciArticlePositionRight; 
+    }
+    .editable [data-red-renderer="MultipageRendererEditable"],
+    .editable [data-red-renderer="MultipageRenderer"]{
+        margin: @rendererMultipageMargin;
+        outline: @rendererMultipageOutline;
+        > .zapnout_editaci .button.teal{
+            color: @rendererMultipageZapnoutEditaciColor;
+            box-shadow: @rendererMultipageZapnoutEditaciBoxShadow;
+        }
+        [data-red-renderer="ArticleRendererEditable"]{
+            margin: @rendererMultipageArticleEditableMargin;
+        } 
+        [data-red-renderer="ArticleRenderer"]{
+            margin: @rendererMultipageArticleMargin;
+        }
+        [data-red-renderer="PaperRendererEditable"],
+        [data-red-renderer="PaperRenderer"]{ 
+            margin: @rendererMultipagePaperMargin;
+        }
+        > .semafor{ 
+            right: @rendererMultipageSemaforPositionRight;
+            top: @rendererMultipageSemaforPositionTop;
+        }
+    } 
+    .button-edit-menu{
+        position: absolute;
+        right: @buttonEditMenuPositionRight;
     }
 
     /*ROH U CONTENTU*/
