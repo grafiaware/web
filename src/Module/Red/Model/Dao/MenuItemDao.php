@@ -61,7 +61,7 @@ class MenuItemDao extends DaoContextualAbstract {
         return $this->selectOne($sqlGet, [':lang_code_fk' => $langCodeFk, ':uid_fk'=> $uidFk], true);
     }
     /**
-     * Vrací řádek menu_item vyhledaný podle lang_code_fk a prettyuri - pro statické stránky
+     * Vrací řádek menu_item podle id menu item
      *
      * @param type $langCodeFk
      * @param type $prettyUri
@@ -75,7 +75,8 @@ class MenuItemDao extends DaoContextualAbstract {
     }
 
     /**
-     * Vrací řádek menu_item vyhledaný podle lang_code_fk a prettyuri - pro statické stránky
+     * Vrací řádek menu_item vyhledaný podle prettyuri - pro statické stránky. Předpokládá, že prettyUri je unikátní a tedy různé pro jazykové verze, kontroluje,
+     * že byl přečten jen jeden řádek databáze.
      *
      * @param type $langCodeFk
      * @param type $prettyUri
