@@ -4,22 +4,16 @@
 .editSize.buttons{
     .button{
         font-size: @tiny;
-        .icon:not(.corner){
+        .icon{
             font-size: @big;
-        }
-        .icon.corner{
-            font-size: @medium;
         }
     }
 } 
-.editingButtons_size.buttons{
+.editSizeArticle.buttons{
     .button{
         font-size: @small;
-        .icon:not(.corner){
+        .icon{
             font-size: @huge;
-        }
-        .icon.corner{
-            font-size: 1em;
         }
     }
 }

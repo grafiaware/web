@@ -3,7 +3,7 @@
                     <span class="ui big red tag label">kategorie</span>                            </p>
             </div>
             <div class="content active">
-                <div class="ui padded grid stackable visible" style="display: flex !important;">
+                <div class="ui grid stackable visible" style="display: flex !important;">
                     <div class="row">
                         <div class="four wide column"><b>Místo výkonu práce:</b></div>
                         <div class="six wide column">Plzeň</div>

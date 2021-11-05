@@ -4379,18 +4379,12 @@
 .editSize.buttons .button {
   font-size: 0.83333333rem;
 }
-.editSize.buttons .button .icon:not(.corner) {
+.editSize.buttons .button .icon {
   font-size: 1.25rem;
 }
-.editSize.buttons .button .icon.corner {
-  font-size: 1rem;
-}
-.editingButtons_size.buttons .button {
+.editSizeArticle.buttons .button {
   font-size: 0.91666667rem;
 }
-.editingButtons_size.buttons .button .icon:not(.corner) {
+.editSizeArticle.buttons .button .icon {
   font-size: 1.41666667rem;
-}
-.editingButtons_size.buttons .button .icon.corner {
-  font-size: 1em;
 }

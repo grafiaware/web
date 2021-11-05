@@ -325,7 +325,7 @@
     
     .vodorovne-menu .onpath,
     .presmerovani-menu .onpath{
-        > ul{
+         > ul{
             padding: 0;
         }
     }
@@ -338,9 +338,9 @@
             margin: 5px 5px 5px 5px;
         }
         .presented{
-            color: @primaryColor;
+            color: @primaryColor ;
             background-color: @white;
-            box-shadow: 0 0 0 1px @primaryColor inset;
+            box-shadow: 0 0 0 1px @primaryColor inset ;
             &:hover{
                 background-color: @white !important;
                 color: @darkPrimaryColor;
@@ -381,21 +381,30 @@
             }
         }
     }
+    .zapnout_editaci{ //male tlacitko v rohu
+        text-align: right;
+        position: absolute;
+        padding: 0;
+        margin: 0;
+        right: -4px;
+        top: -1px;
+    }
     .editable [data-red-renderer]{
-        padding: 55px 20px 20px;
+        position: relative;
+        box-shadow: 0 0 0 1px @teal;
+        border-radius: 5px;
+        padding: 55px 15px 20px;
     }
     
     /*nadpis paperu*/
     /*rozlišení nadpisu pro block (logo, razítko,...) a pro headlined (aktuality, odkazy,...)*/
-    main > .grid > .column:not(.wide) headline{ 
+    main > .grid > .column:not(.wide) headline.header{ 
         color: @headerTextColor; //pridat do site.variables jako @headerTextColor
         background-color: @backgroundLightGrey;
         border-radius: 4px 4px 0 0;
         text-align: center;
         margin-bottom: 20px;
         padding: 5px 15px;
-        font-weight: bold;
-        font-size: 1.1em;
         p{
             //font-size: @h2;
             margin-bottom: 0;

@@ -7,15 +7,15 @@
         font-size: @relative6px; 
     }
 } 
-.editSize.buttons, .editingButtons_size.buttons{
+.editSize.buttons, .editSizeArticle.buttons{
     .button{
         font-size: @small;
         .icon{
             font-size: @huge; 
-        } 
+        }
     }
 } 
-.editSize.button, .editingButtons_size.button{
+.editSize.button, .editSizeArticle.button{
     font-size: @small;
     .icon{
         font-size: @huge; 

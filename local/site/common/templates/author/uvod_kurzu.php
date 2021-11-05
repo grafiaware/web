@@ -1,6 +1,6 @@
-        <div class="">
-            <div class="ui padded grid stackable centered">
-                <div class="sixteen wide column">
+        <div class="ui grid stackable centered">
+            <div class="sixteen wide column">
+                <content id="content_4" class="">
                     <p class="text velky primarni-barva zadne-okraje">Architekt kybernetické bezpečnosti</p>
                     <p class="text tucne zadne-okraje"><i class="calendar alternate icon"></i>15. - 16. 09. 2021</p>
                     <div class="text">
@@ -14,6 +14,6 @@
                     </div>
                     <p><a href="" class="ui button">Více informací</a> <a href="" class="ui primary button">Přihlásit se</a></p>
                     <hr/>
-                </div>
+                </content>
             </div>
         </div>
