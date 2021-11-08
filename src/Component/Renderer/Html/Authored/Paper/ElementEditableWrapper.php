@@ -377,9 +377,9 @@ class ElementEditableWrapper {
 
         Html::tag('form', ['method'=>'POST', 'action'=>""],
             Html::tag('div', ['class'=>$this->classMap->getClass('TrashButtons', 'div.wrapTrash')],
-                Html::tag('div', ['class'=>$this->classMap->getClass('TrashButtons', 'div.buttonsContent')],
+                Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.buttonsContent')],
                     Html::tag('button',
-                        ['class'=>$this->classMap->getClass('TrashButtons', 'button'),
+                        ['class'=>$this->classMap->getClass('ContentButtons', 'button'),
                         'data-tooltip'=>'Obnovit',
                         'type'=>'submit',
                         'name'=>'button',
@@ -390,9 +390,9 @@ class ElementEditableWrapper {
                         Html::tag('i', ['class'=>$this->classMap->getClass('TrashButtons', 'button.restore')])
                     )
                 )
-                .Html::tag('div', ['class'=>$this->classMap->getClass('TrashButtons', 'div.buttonsContent')],
+                .Html::tag('div', ['class'=>$this->classMap->getClass('ContentButtons', 'div.buttonsContent')],
                     Html::tag('button',
-                        ['class'=>$this->classMap->getClass('TrashButtons', 'button'),
+                        ['class'=>$this->classMap->getClass('ContentButtons', 'button'),
                         'data-tooltip'=>'Smazat',
                         'type'=>'submit',
                         'name'=>'button',

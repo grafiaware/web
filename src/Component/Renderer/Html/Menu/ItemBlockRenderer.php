@@ -59,9 +59,31 @@ class ItemBlockRenderer extends ItemRenderer {
     private function renderButtons(HierarchyAggregateInterface $menuNode) {
 
         return
-        Html::tag('div', ['class'=>$this->classMapEditable->getClass('Buttons', 'div.buttons')],
-            Html::tag('button', [
-                'class'=>$this->classMapEditable->getClass('Buttons', 'button'),
+        Html::tag('div', ['class'=>$this->classMapEditable->getClass('CommonButtons', 'div.buttons')],
+            Html::tag('button',
+                ['class'=>$this->classMapEditable->getClass('CommonButtons', 'button'),
+                'data-tooltip'=>'Aktivní/neaktivní položka',
+                'type'=>'submit',
+                'name'=>'button',
+                'value' => 'toggle',
+                'formmethod'=>'post',
+                'formaction'=>"red/v1/menu/{$menuNode->getUid()}/toggle",
+                ],
+                Html::tag('i', ['class'=>$this->classMapEditable->resolveClass($menuNode->getMenuItem()->getActive(), 'CommonButtons', 'button.notpublish', 'button.publish')])
+            )
+            .Html::tag('button', [
+                'class'=>$this->classMapEditable->getClass('CommonButtons', 'button'),
+                'data-tooltip'=>'Přidat sourozence',
+                'data-position'=>'top right',
+                'type'=>'submit',
+                'name'=>'add',
+                'formmethod'=>'post',
+                'formaction'=>"red/v1/hierarchy/{$menuNode->getUid()}/add",
+                    ],
+                Html::tag('i', ['class'=>$this->classMapEditable->getClass('CommonButtons', 'button.addsiblings')])
+            )
+            .Html::tag('button', [
+                'class'=>$this->classMapEditable->getClass('CommonButtons', 'button'),
                 'data-tooltip'=>'Odstranit položku',
                 'data-position'=>'top right',
                 'type'=>'submit',
@@ -70,29 +92,7 @@ class ItemBlockRenderer extends ItemRenderer {
                 'formaction'=>"red/v1/hierarchy/{$menuNode->getUid()}/trash",
                 'onclick'=>"return confirm('Jste si jisti?');"
                     ],
-                Html::tag('i', ['class'=>$this->classMapEditable->getClass('Buttons', 'button.movetotrash'),])
-            )
-            .Html::tag('button',
-                ['class'=>$this->classMapEditable->getClass('Buttons', 'button'),
-                'data-tooltip'=>'Aktivní/neaktivní položka',
-                'type'=>'submit',
-                'name'=>'button',
-                'value' => 'toggle',
-                'formmethod'=>'post',
-                'formaction'=>"red/v1/menu/{$menuNode->getUid()}/toggle",
-                ],
-                Html::tag('i', ['class'=>$this->classMapEditable->resolveClass($menuNode->getMenuItem()->getActive(), 'Buttons', 'button.notpublish', 'button.publish')])
-            )
-            .Html::tag('button', [
-                'class'=>$this->classMapEditable->getClass('Buttons', 'button'),
-                'data-tooltip'=>'Přidat sourozence',
-                'data-position'=>'top right',
-                'type'=>'submit',
-                'name'=>'add',
-                'formmethod'=>'post',
-                'formaction'=>"red/v1/hierarchy/{$menuNode->getUid()}/add",
-                    ],
-                Html::tag('i', ['class'=>$this->classMapEditable->getClass('Buttons', 'button.addsiblings')])
+                Html::tag('i', ['class'=>$this->classMapEditable->getClass('CommonButtons', 'button.movetotrash')])
             )
         );
     }
