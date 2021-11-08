@@ -28,7 +28,8 @@ class ConfigurationConstants {
     const RED_LINKS_SITE = 'public/site/'.self::RED_SITE_PATH;
     // files
     const RED_FILES_PATH = '_files/'.self::RED_SITE_PATH;
-    const RED_FILES = '_files/'.self::RED_SITE_PATH;
+    const RED_FILES_COMMON = '_files/common/';
+    const RED_FILES_SITE = '_files/'.self::RED_SITE_PATH;
     const RED_BOOTSTRAP_LOGS = '/_www_vp_logs/';
 
     // production host

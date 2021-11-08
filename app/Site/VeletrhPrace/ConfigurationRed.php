@@ -249,8 +249,8 @@ class ConfigurationRed extends ConfigurationDb {
     public static function filesUploadController() {
 
         return [
-            'upload.red' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES.'upload/editor/' : self::RED_FILES.'upload/editor/',
-            'upload.events.visitor' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES.'upload/events/visitor' : self::RED_FILES.'upload/events/visitor',
+            'upload.red' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES_SITE.'upload/editor/' : self::RED_FILES_SITE.'upload/editor/',
+            'upload.events.visitor' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES_SITE.'upload/events/visitor' : self::RED_FILES_SITE.'upload/events/visitor',
             'upload.events.acceptedextensions' => [".doc", ".docx", ".dot", ".odt", "pages", ".xls", ".xlsx", ".ods", ".txt", ".pdf"],
             ];
     }
@@ -278,11 +278,14 @@ class ConfigurationRed extends ConfigurationDb {
 
     public static function files() {
         return [
-            '@download' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES.'download/' : self::RED_FILES.'download/',
-            '@images' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES.'images/' : self::RED_FILES.'images/',
-            '@movies' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES.'movies/' : self::RED_FILES.'movies/',
-            'files' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES.'files/' : self::RED_FILES.'files/',
-            'presenter' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES."presenter/" : self::RED_FILES."presenter/",
+            '@download' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES_SITE.'download/' : self::RED_FILES_SITE.'download/',
+            '@commonimages' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES_COMMON.'images/' : self::RED_FILES_COMMON.'images/',
+            '@commonmovies' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES_COMMON.'movies/' : self::RED_FILES_COMMON.'movies/',
+            '@siteimages' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES_SITE.'images/' : self::RED_FILES_SITE.'images/',
+            '@sitemovies' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES_SITE.'movies/' : self::RED_FILES_SITE.'movies/',
+
+            'files' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES_SITE.'files/' : self::RED_FILES_SITE.'files/',
+            'presenter' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES_SITE."presenter/" : self::RED_FILES_SITE."presenter/",
 
         ];
     }
