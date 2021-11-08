@@ -61,10 +61,8 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
     private function transform($text) {
 
         $downloadDirectory = Configuration::files()['@download'];
-        $siteImagesDirectory = Configuration::files()['@siteimages'];
-        $siteMoviesDirectory = Configuration::files()['@sitemovies'];
-        $commonImagesDirectory = Configuration::files()['@commonimages'];
-        $commonMoviesDirectory = Configuration::files()['@commonmovies'];
+        $imagesDirectory = Configuration::files()['@images'];
+        $moviesDirectory = Configuration::files()['@movies'];
         $filesDirectory = Configuration::files()['files'];
 
         $publicDirectory = Configuration::transformator()['publicDirectory'];
@@ -73,10 +71,8 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
         $transform = array(
             // RED
             '@download/'               => $downloadDirectory,
-            '@commonimages/'           => $commonImagesDirectory,
-            '@commonmovies/'           => $commonMoviesDirectory,
-            '@siteimages/'             => $siteImagesDirectory,
-            '@sitemovies/'             => $siteMoviesDirectory,
+            '@images/'               => $imagesDirectory,
+            '@movies/'               => $moviesDirectory,
 
             // staré stránky rs
             '"files/'            => '"'.$filesDirectory,
