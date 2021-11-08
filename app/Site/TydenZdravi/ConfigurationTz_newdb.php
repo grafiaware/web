@@ -879,7 +879,7 @@ class ConfigurationTz_newdb {
     public static function filesUploadController() {
 
         return [
-            'filesDirectory' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES_SITE : self::RED_FILES_SITE,
+            'filesDirectory' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES : self::RED_FILES,
 
             ];
     }
@@ -901,7 +901,7 @@ class ConfigurationTz_newdb {
     public static function transformator() {
         return [
             // relativní cesta vzhledem k DOCUMENT_ROOT (htdocs) -začíná /
-            'filesDirectory' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES_SITE : '/'.self::RED_FILES_SITE,
+            'filesDirectory' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES : '/'.self::RED_FILES,
             'public' => self::RED_LINKS_COMMON,
         ];
     }

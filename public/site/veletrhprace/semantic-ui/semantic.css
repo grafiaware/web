@@ -5713,22 +5713,22 @@ footer a:hover::after {
 }
 
 .editSize.buttons .button,
-.editSizeArticle.buttons .button {
+.editingButtons_size.buttons .button {
   font-size: 0.92857143rem;
 }
 
 .editSize.buttons .button .icon,
-.editSizeArticle.buttons .button .icon {
+.editingButtons_size.buttons .button .icon {
   font-size: 1.42857143rem;
 }
 
 .editSize.button,
-.editSizeArticle.button {
+.editingButtons_size.button {
   font-size: 0.92857143rem;
 }
 
 .editSize.button .icon,
-.editSizeArticle.button .icon {
+.editingButtons_size.button .icon {
   font-size: 1.42857143rem;
 }
 /*!
