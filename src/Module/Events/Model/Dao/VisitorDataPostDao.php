@@ -21,8 +21,8 @@ use Model\Dao\Exception\DaoKeyVerificationFailedException;
 class VisitorDataPostDao extends DaoAbstract implements DaoKeyDbVerifiedInterface {
 
     public function get($loginName, $shortName, $positionName) {
-        $sql = "
-SELECT `visitor_data_post`.`login_name`,
+        $select = $this->select("
+    `visitor_data_post`.`login_name`,
     `visitor_data_post`.`short_name`,
     `visitor_data_post`.`position_name`,
     `visitor_data_post`.`prefix`,
@@ -39,39 +39,16 @@ SELECT `visitor_data_post`.`login_name`,
     `visitor_data_post`.`letter_document`,
     `visitor_data_post`.`letter_document_filename`,
     `visitor_data_post`.`letter_document_mimetype`
-FROM `visitor_data_post`
-WHERE `login_name` = :login_name AND `short_name` = :short_name AND `position_name` = :position_name";
-
-        return $this->selectOne($sql, [':login_name' => $loginName, ':short_name' => $shortName, ':position_name' => $positionName], TRUE);
-    }
-
-    public function findAll() {
-        $sql = "
-SELECT `visitor_data_post`.`login_name`,
-    `visitor_data_post`.`short_name`,
-    `visitor_data_post`.`position_name`,
-    `visitor_data_post`.`prefix`,
-    `visitor_data_post`.`name`,
-    `visitor_data_post`.`surname`,
-    `visitor_data_post`.`postfix`,
-    `visitor_data_post`.`email`,
-    `visitor_data_post`.`phone`,
-    `visitor_data_post`.`cv_education_text`,
-    `visitor_data_post`.`cv_skills_text`,
-    `visitor_data_post`.`cv_document`,
-    `visitor_data_post`.`cv_document_filename`,
-    `visitor_data_post`.`cv_document_mimetype`,
-    `visitor_data_post`.`letter_document`,
-    `visitor_data_post`.`letter_document_filename`,
-    `visitor_data_post`.`letter_document_mimetype`
-FROM `visitor_data_post`";
-
-        return $this->selectMany($sql, []);
+    ");
+        $from = $this->from("`visitor_data_post`");
+        $where = $this->where("`login_name` = :login_name AND `short_name` = :short_name AND `position_name` = :position_name");
+        $touplesToBind = [':login_name' => $loginName, ':short_name' => $shortName, ':position_name' => $positionName];
+        return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
     public function find($whereClause=null, $touplesToBind=[]) {
-        $sql = "
-SELECT `visitor_data_post`.`login_name`,
+        $select = $this->select("
+    `visitor_data_post`.`login_name`,
     `visitor_data_post`.`short_name`,
     `visitor_data_post`.`position_name`,
     `visitor_data_post`.`prefix`,
@@ -88,9 +65,10 @@ SELECT `visitor_data_post`.`login_name`,
     `visitor_data_post`.`letter_document`,
     `visitor_data_post`.`letter_document_filename`,
     `visitor_data_post`.`letter_document_mimetype`
-FROM `visitor_data_post`"
-            .$this->where($whereClause);
-        return $this->selectMany($sql, $touplesToBind);
+    ");
+        $from = $this->from("`visitor_data_post`");
+        $where = $this->where($whereClause);
+        return $this->selectMany($select, $from, $where, $touplesToBind);
     }
 
     private function getWithinTransaction(HandlerInterface $dbhTransact, $loginName, $shortName, $positionName) {

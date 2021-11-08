@@ -49,30 +49,8 @@ class VisitorDataDao extends DaoAbstract implements DaoKeyDbVerifiedInterface {
     ");
         $from = $this->from("`visitor_data`");
         $where = $this->where("`visitor_data`.`login_name` = :login_name");
-        $touples = [':login_name' => $loginName];
-        return $this->selectOne($select, $from, $where, $touples, TRUE);
-    }
-
-    public function findAll() {
-        $select = $this->select("
-    `visitor_data`.`login_name`,
-    `visitor_data`.`prefix`,
-    `visitor_data`.`name`,
-    `visitor_data`.`surname`,
-    `visitor_data`.`postfix`,
-    `visitor_data`.`email`,
-    `visitor_data`.`phone`,
-    `visitor_data`.`cv_education_text`,
-    `visitor_data`.`cv_skills_text`,
-    `visitor_data`.`cv_document`,
-    `visitor_data`.`cv_document_filename`,
-    `visitor_data`.`cv_document_mimetype`,
-    `visitor_data`.`letter_document`,
-    `visitor_data`.`letter_document_filename`,
-    `visitor_data`.`letter_document_mimetype`
-    ");
-        $from = $this->from("`visitor_data`");
-        return $this->selectMany($select, $from, "", []);
+        $touplesToBind = [':login_name' => $loginName];
+        return $this->selectOne($select, $from, $where, $touplesToBind, TRUE);
     }
 
     public function find($whereClause=null, $touplesToBind=[]) {

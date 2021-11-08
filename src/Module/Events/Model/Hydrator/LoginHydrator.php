@@ -36,7 +36,7 @@ class LoginHydrator implements HydratorInterface {
      * @param EntityInterface $login
      * @param array $row
      */
-    public function extract(EntityInterface $login, &$row) {
+    public function extract(EntityInterface $login, RowDataInterface $rowData) {
         /** @var LoginInterface $login */
         $rowData->offsetSet('login_name', $login->getLoginName());
     }

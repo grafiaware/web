@@ -20,27 +20,27 @@ use Pes\Database\Handler\HandlerInterface;
 class LanguageDao extends DaoAbstract {
 
     /**
-     * Vrací jednu řádku tabulky 'paper' ve formě asociativního pole.
+     * Vrací jednu řádku tabulky
      *
      * @param string $lang_code
      * @return array Asociativní pole
      */
     public function get($lang_code) {
-        $sql = "SELECT lang_code, locale, name, collation, state "
-                . "FROM language "
-                . "WHERE (lang_code=:lang_code) "
-               ;
-
-        return $this->selectOne($sql, [':lang_code'=>$lang_code]);
+        $select = $this->select("lang_code, locale, name, collation, state");
+        $from = $this->from("language");
+        $where = $this->where("lang_code=:lang_code");
+        $touplesToBind = [':lang_code'=>$lang_code];
+        return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
+
     /**
      *
      * @return array
      */
     public function findAll() {
-        $sql = "SELECT lang_code, locale, name, collation, state "
-                . "FROM language ";
-        return $this->selectMany($sql, []);
+        $select = $this->select("lang_code, locale, name, collation, state");
+        $from = $this->from("language");
+        return $this->selectMany($select, $from, "", []);
     }
 
     /**
@@ -48,12 +48,10 @@ class LanguageDao extends DaoAbstract {
      * @return array
      */
     public function find($whereClause=null, $touplesToBind=[]) {
-        $sql = "SELECT lang_code, locale, name, collation, state "
-                . "FROM language ";
-        if (isset($whereClause) AND $whereClause) {
-            $sql .= "WHERE ".$whereClause;
-        }
-        return $this->selectMany($sql, $touplesToBind);
+        $select = $this->select("lang_code, locale, name, collation, state");
+        $from = $this->from("language");
+        $where = $this->where($whereClause);
+        return $this->selectMany($select, $from, $where, $touplesToBind);
     }
 
     public function update($param) {

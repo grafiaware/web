@@ -44,7 +44,7 @@ class EnrollRepo extends RepoAbstract implements EnrollRepoInterface {
     }
 
     public function findAll() {
-        return $this->findAllEntities();
+        return $this->findEntities();
     }
 
     public function add(EnrollInterface $enroll) {

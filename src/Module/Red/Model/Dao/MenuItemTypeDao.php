@@ -18,16 +18,17 @@ use Model\Dao\DaoAbstract;
 class MenuItemTypeDao  extends DaoAbstract {
 
     public function get($type) {
-        $sql = "SELECT type "
-                . "FROM menu_item_type "
-                . "WHERE type=:type";
-        return $this->selectOne($sql, [':type' => $type]);
+        $select = $this->select("type");
+        $from = $this->from("menu_item_type");
+        $where = $this->where("type=:type");
+        $touplesToBind = [':type' => $type];
+        return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
     public function findAll() {
-        $sql = "SELECT type "
-                . "FROM menu_item_type ";
-        return $this->selectMany($sql);
+        $select = $this->select("type");
+        $from = $this->from("menu_item_type");
+        return $this->selectMany($select, $from, "", []);
     }
 
 

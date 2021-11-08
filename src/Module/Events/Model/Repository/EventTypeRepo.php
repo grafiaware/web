@@ -40,7 +40,7 @@ class EventTypeRepo extends RepoAbstract implements EventTypeRepoInterface {
     }
 
     public function findAll() {
-        return $this->findAllEntities();
+        return $this->findEntities();
     }
 
     public function add(EventTypeInterface $eventType) {

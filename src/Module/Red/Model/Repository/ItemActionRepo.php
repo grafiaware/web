@@ -42,7 +42,7 @@ class ItemActionRepo extends RepoAbstract implements ItemActionRepoInterface {
     }
 
     public function findAll() {
-        return $this->findAllEntities();
+        return $this->findEntities();
     }
 
     public function add(ItemActionInterface $itemAction) {

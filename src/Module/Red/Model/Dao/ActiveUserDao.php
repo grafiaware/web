@@ -27,8 +27,11 @@ class ActiveUserDao extends DaoAbstract {
      * @return array
      */
     public function get($user) {
-        $sql = "SELECT user, stranka, akce FROM activ_user WHERE user=:user";
-        return $this->selectOne($sql, [':user'=>$user]);
+        $select = $this->select("user, stranka, akce");
+        $from = $this->from("activ_user");
+        $where = $this->where("user=:user");
+        $touplesToBind = [':user'=>$user];
+        return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
 //$successUpdate = $handler->exec("UPDATE activ_user SET user = '".$user->getUser()."',stranka = 'null' WHERE user = '".$user->getUser()."'");

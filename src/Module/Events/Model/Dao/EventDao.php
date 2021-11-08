@@ -42,19 +42,18 @@ class EventDao extends DaoContextualAbstract implements DaoAutoincrementKeyInter
      * @throws StatementFailureException
      */
     public function get($id) {
-        $sql = "
-        SELECT
+        $select = $this->select("
             `event`.`id`,
             `event`.`published`,
             `event`.`start`,
             `event`.`end`,
             `event`.`event_type_id_fk`,
             `event`.`event_content_id_fk`
-        FROM `event`
-        WHERE
-            `event`.`id` = :id";
-
-        return $this->selectOne($sql, [':id' => $id], TRUE);
+            ");
+        $from = $this->from("`event`");
+        $where = $this->where("`event`.`id` = :id");
+        $touplesToBind = [':id' => $id];
+        return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
     /**
@@ -65,45 +64,32 @@ class EventDao extends DaoContextualAbstract implements DaoAutoincrementKeyInter
      * @throws StatementFailureException
      */
     public function getByTypeFk($eventTypeFk) {
-        $sql = "
-        SELECT
+        $select = $this->select("
             `event`.`id`,
             `event`.`published`,
             `event`.`start`,
             `event`.`end`,
             `event`.`event_type_id_fk`,
             `event`.`event_content_id_fk`
-        FROM `event` "
-        . $this->where($this->and($this->getContextConditions(), ["`paper`.`event_type_id_fk` = :event_type_id_fk"]));
-        return $this->selectOne($sql, [':event_type_id_fk' => $eventTypeFk], TRUE);
+            ");
+        $from = $this->from("`event`");
+        $where = $this->where($this->and($this->getContextConditions(), ["`paper`.`event_type_id_fk` = :event_type_id_fk"]));
+        $touplesToBind = [':event_type_id_fk' => $eventTypeFk];
+        return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
-    public function findAll() {
-        $sql = "
-        SELECT
+    public function find($whereClause="", $touplesToBind=[]) {
+        $select = $this->select("
             `event`.`id`,
             `event`.`published`,
             `event`.`start`,
             `event`.`end`,
             `event`.`event_type_id_fk`,
             `event`.`event_content_id_fk`
-        FROM `event` "
-        . $this->where($this->and($this->getContextConditions()));
-        return $this->selectMany($sql, []);
-    }
-
-    public function find() {
-        $sql = "
-        SELECT
-            `event`.`id`,
-            `event`.`published`,
-            `event`.`start`,
-            `event`.`end`,
-            `event`.`event_type_id_fk`,
-            `event`.`event_content_id_fk`
-        FROM `event`";
-
-        return $this->selectMany($sql, []);
+            ");
+        $from = $this->from("`event`");
+        $where = $this->where($this->and($this->getContextConditions(), $whereClause));
+        return $this->selectMany($select, $from, $where, $touplesToBind);
     }
 
     public function insert($row) {

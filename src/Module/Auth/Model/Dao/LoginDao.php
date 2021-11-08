@@ -15,24 +15,17 @@ use Model\Dao\Exception\DaoKeyVerificationFailedException;
 class LoginDao extends DaoAbstract implements DaoKeyDbVerifiedInterface {
 
     public function get($loginName) {
-        $sql = "
-            SELECT
-                `login`.`login_name`
-            FROM
-                `login`
-            WHERE
-                `login`.`login_name` = :login_name";
-
-        return $this->selectOne($sql, [':login_name' => $loginName], TRUE);
+        $select = $this->select("`login`.`login_name`");
+        $from = $this->from("`login`");
+        $where = $this->where("`login`.`login_name` = :login_name");
+        $touplesToBind = [':login_name' => $loginName];
+        return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
     public function findAll() {
-        $sql = "
-            SELECT
-                `login`.`login_name`
-            FROM
-                `login`";
-        return $this->selectMany($sql, []);
+        $select = $this->select("`login`.`login_name`");
+        $from = $this->from("`login`");
+        return $this->selectMany($select, $from, $where, []);
     }
 
 

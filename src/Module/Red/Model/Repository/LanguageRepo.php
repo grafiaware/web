@@ -42,7 +42,7 @@ class LanguageRepo extends RepoAbstract {
      * @return LanguageInterface array of
      */
     public function findAll() {
-        return $this->findAllEntities();
+        return $this->findEntities();
     }
 
     public function add(LanguageInterface $entity) {

@@ -13,6 +13,9 @@ use Pes\Logger\FileLogger;
 // user - ze session
 use Auth\Model\Entity\Credentials;
 
+// rowdata
+use Model\RowData\PdoRowData;
+
 //login & credentials - db
 use Auth\Model\Dao\CredentialsDao;
 use Auth\Model\Hydrator\CredentialsHydrator;
@@ -119,7 +122,7 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             // db login & credentials repo
             LoginAggregateReadonlyDao::class => function(ContainerInterface $c) {
-                return new LoginAggregateReadonlyDao($c->get(Handler::class));
+                return new LoginAggregateReadonlyDao($c->get(Handler::class), PdoRowData::class);
             },
             LoginAggregateReadonlyRepo::class => function(ContainerInterface $c) {
                 return new LoginAggregateReadonlyRepo(
@@ -129,7 +132,7 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
                         );
             },
             LoginDao::class => function(ContainerInterface $c) {
-                return new LoginDao($c->get(Handler::class));
+                return new LoginDao($c->get(Handler::class), PdoRowData::class);
             },
             CredentialsDao::class => function(ContainerInterface $c) {
                 return new CredentialsDao($c->get(Handler::class));
@@ -146,7 +149,7 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
                         );
             },
             RegistrationDao::class => function(ContainerInterface $c) {
-                return new RegistrationDao($c->get(Handler::class));
+                return new RegistrationDao($c->get(Handler::class), PdoRowData::class);
             },
             RegistrationRepo::class => function(ContainerInterface $c) {
                 return new RegistrationRepo($c->get(RegistrationDao::class), new RegistrationHydrator());

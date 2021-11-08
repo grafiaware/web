@@ -71,7 +71,7 @@ class EventRepositoryTest extends TestCase {
 //            end,
 //            event_type_id_fk,
 //            event_content_id_fk
-        
+
         self::$startTimestamp = (new \DateTime())->format('Y-m-d H:i:s');
         $eventDao->insert([
             'published' => true,
@@ -84,7 +84,7 @@ class EventRepositoryTest extends TestCase {
     private static function deleteRecords(Container $container) {
         /** @var EventDao $eventDao */
         $eventDao = $container->get(EventDao::class);
-        $eventDao->delete(['login_name'=>"testEvent"]);
+        $eventDao->delete(['login_name'=>"testEvent"]);  // nesmysl Event namá login_name - vyhodí chybu - !! je třeba vymyslet mazání testovacích datz databáze!
     }
 
     protected function setUp(): void {

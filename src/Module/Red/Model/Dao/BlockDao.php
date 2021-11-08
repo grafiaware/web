@@ -26,8 +26,11 @@ class BlockDao extends DaoAbstract {
      * @return array|false
      */
     public function get($name) {
-        $sql = "SELECT name, uid_fk FROM block WHERE name=:name";
-        return $this->selectOne($sql, [':name'=>$name]);
+        $select = $this->select("name, uid_fk");
+        $from = $this->from("block");
+        $where = $this->where("name=:name");
+        $touplesToBind = [':name'=>$name];
+        return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
     /**
@@ -35,7 +38,8 @@ class BlockDao extends DaoAbstract {
      * @return array
      */
     public function findAll() {
-        $sql = "SELECT name, uid_fk FROM block";
-        return $this->selectMany($sql, []);
+        $select = $this->select("name, uid_fk");
+        $from = $this->from("block");
+        return $this->selectMany($select, $from, "", []);
     }
 }

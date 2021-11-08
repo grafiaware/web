@@ -47,7 +47,7 @@ class MenuRootRepo extends RepoAbstract {
      * @return MenuRootInterface array of
      */
     public function findAll() {
-        return $this->findAllEntities();
+        return $this->findEntities();
     }
 
     public function add(MenuRootInterface $entity) {

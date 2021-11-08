@@ -10,6 +10,7 @@ namespace Auth\Model\Hydrator;
 
 use Model\Entity\EntityInterface;
 use Model\Hydrator\HydratorInterface;
+use Model\RowData\RowDataInterface;
 
 use Auth\Model\Entity\LoginAggregateRegistrationInterface;
 use Auth\Model\Entity\RegistrationInterface;
@@ -24,22 +25,22 @@ class LoginChildRegistrationHydrator implements HydratorInterface {
     /**
      *
      * @param LoginAggregateRegistrationInterface $loginAggregateRegistration
-     * @param type $row
+     * @param type $rowData
      */
-    public function hydrate(EntityInterface $loginAggregateRegistration, &$row) {
+    public function hydrate(EntityInterface $loginAggregateRegistration, RowDataInterface $rowData) {
         /** @var LoginAggregateRegistrationInterface $loginAggregateRegistration */
         $loginAggregateRegistration
-            ->setRegistration($row[RegistrationInterface::class]);
+            ->setRegistration($rowData->offsetGet(RegistrationInterface::class));
     }
 
     /**
      *
      * @param LoginAggregateRegistrationInterface $loginAggregateRegistration
-     * @param type $row
+     * @param type $rowData
      */
-    public function extract(EntityInterface $loginAggregateRegistration, &$row) {
+    public function extract(EntityInterface $loginAggregateRegistration, RowDataInterface $rowData) {
         /** @var LoginAggregateRegistrationInterface $loginAggregateRegistration */
-        $row[RegistrationInterface::class] = $loginAggregateRegistration->getRegistration();
+        $rowData->offsetSet(RegistrationInterface::class, $loginAggregateRegistration->getRegistration());
     }
 
 }

@@ -135,7 +135,7 @@ class EventPresentationRepositoryTest extends TestCase {
         $this->assertTrue($eventContent->isLocked());
     }
 
-    public function testFindAll() {
+    public function testfindAll() {
         $eventContents = $this->eventPresentationRepo->findAll();
         $this->assertTrue(is_array($eventContents));
     }

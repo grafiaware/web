@@ -28,23 +28,24 @@ class VisitorDao extends DaoAbstract implements DaoAutoincrementKeyInterface {
      * @throws StatementFailureException
      */
     public function get($id) {
-        $sql = "
-        SELECT `visitor`.`id`,
+        $select = $this->select("
+            `visitor`.`id`,
             `visitor`.`login_login_name`
-        FROM `events`.`visitor`
-        WHERE
-            `visitor`.`id` = :id";
-
-        return $this->selectOne($sql, [':id' => $id], TRUE);
+            ");
+        $from = $this->from("`events`.`visitor`");
+        $where = $this->where("`visitor`.`id` = :id");
+        $touplesToBind = [':id' => $id];
+        return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
-    public function findAll() {
-        $sql = "
-        SELECT `visitor`.`id`,
+    public function find($whereClause="", $touplesToBind=[]) {
+        $select = $this->select("
+            `visitor`.`id`,
             `visitor`.`login_login_name`
-        FROM `visitor`";
-        return $this->selectMany($sql, []);
-    }
+            ");
+        $from = $this->from("`events`.`visitor`");
+        $where = $this->where($whereClause);
+        return $this->selectMany($select, $from, $where, $touplesToBind);    }
 
     public function insert($row) {
         // autoincrement id

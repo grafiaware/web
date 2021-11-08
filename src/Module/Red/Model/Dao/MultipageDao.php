@@ -25,15 +25,17 @@ class MultipageDao extends DaoAbstract {
      * @throws StatementFailureException
      */
     public function get($id) {
-        $sql = "SELECT `multipage`.`id`,
+        $select = $this->select("
+            `multipage`.`id`,
             `multipage`.`menu_item_id_fk`,
             `multipage`.`template`,
             `multipage`.`editor`,
             `multipage`.`updated`
-        FROM `multipage`
-        WHERE
-        `multipage`.`id` = :id";
-        return $this->selectOne($sql, [':id' => $id], TRUE);
+            ");
+        $from = $this->from("`multipage`");
+        $where = $this->where("`multipage`.`id` = :id");
+        $touplesToBind = [':id' => $id];
+        return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
     /**
@@ -44,15 +46,16 @@ class MultipageDao extends DaoAbstract {
      * @throws StatementFailureException
      */
     public function getByFk($menuItemIdFk) {
-        $sql = "SELECT `multipage`.`id`,
+        $select = $this->select("
+            `multipage`.`id`,
             `multipage`.`menu_item_id_fk`,
             `multipage`.`template`,
             `multipage`.`editor`,
             `multipage`.`updated`
-        FROM `multipage`
-        WHERE
-        `multipage`.`menu_item_id_fk` = :menu_item_id_fk";
-        return $this->selectOne($sql, [':menu_item_id_fk' => $menuItemIdFk], TRUE);
+            ");
+        $from = $this->from("`multipage`");
+        $where = $this->where("`multipage`.`menu_item_id_fk` = :menu_item_id_fk");
+        return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
     public function insert($row) {

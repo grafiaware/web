@@ -40,16 +40,18 @@ class EventContentDao extends DaoAbstract implements DaoAutoincrementKeyInterfac
 
     }
 
-    public function findAll() {
-        $sql = "
-        SELECT `event_content`.`id`,
+    public function find($whereClause="", $touplesToBind=[]) {
+        $select = $this->select("
+        `event_content`.`id`,
             `event_content`.`title`,
             `event_content`.`perex`,
             `event_content`.`party`,
             `event_content`.`event_content_type_type_fk`,
             `event_content`.`institution_id_fk`
-        FROM `event_content` ";
-        return $this->selectMany($sql, []);
+            ");
+        $from = $this->from("`event_content` ");
+        $where = $this->where($whereClause);
+        return $this->selectMany($select, $from, $where, $touplesToBind);
     }
 
     public function insert($row) {

@@ -46,7 +46,7 @@ class VisitorDataPostRepo extends RepoAbstract implements VisitorDataPostRepoInt
     }
 
     public function findAll() {
-        return $this->findAllEntities();
+        return $this->findEntities();
     }
 
     public function findAllForPosition($shortName, $positionName) {

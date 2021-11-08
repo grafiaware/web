@@ -18,18 +18,17 @@ class CredentialsDao extends DaoAbstract {
      * @param type $loginName
      */
     public function get($loginNameFK) {
-        $sql = "
-            SELECT `credentials`.`login_name_fk`,
-                `credentials`.`password_hash`,
-                `credentials`.`role`,
-                `credentials`.`created`,
-                `credentials`.`updated`
-            FROM
-                `credentials`
-            WHERE
-                `credentials`.`login_name_fk` = :login_name_fk";
-
-        return $this->selectOne($sql, [':login_name_fk' => $loginNameFK], TRUE);
+        $select = $this->select("
+            ¨`credentials`.`login_name_fk`,
+            `credentials`.`password_hash`,
+            `credentials`.`role`,
+            `credentials`.`created`,
+            `credentials`.`updated`
+            ");
+        $from = $this->from("`credentials`");
+        $where = $this->where("`credentials`.`login_name_fk` = :login_name_fk");
+        $touplesToBind = [':login_name_fk' => $loginNameFK];
+        return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
     public function insert($row) {

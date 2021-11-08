@@ -9,6 +9,10 @@ use Psr\Container\ContainerInterface;   // pro parametr closure function(Contain
 // logger
 use Pes\Logger\FileLogger;
 
+// rowdata
+use Model\RowData\PdoRowData;
+
+// repo
 use Events\Model\Context\ContextFactory;
 
 use Events\Model\Dao\LoginDao;
@@ -131,7 +135,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
 
             // login
             LoginDao::class => function(ContainerInterface $c) {
-                return new LoginDao($c->get(Handler::class));
+                return new LoginDao($c->get(Handler::class), PdoRowData::class);
             },
             LoginHydrator::class => function(ContainerInterface $c) {
                 return new \Events\Model\Hydrator\LoginHydrator();
@@ -142,7 +146,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
 
             // event
             EventDao::class => function(ContainerInterface $c) {
-                return new EventDao($c->get(Handler::class), $c->get(ContextFactory::class));
+                return new EventDao($c->get(Handler::class), PdoRowData::class, $c->get(ContextFactory::class));
             },
             EventHydrator::class => function(ContainerInterface $c) {
                 return new EventHydrator();
@@ -153,7 +157,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
 
             // eventType
             EventTypeDao::class => function(ContainerInterface $c) {
-                return new EventTypeDao($c->get(Handler::class));
+                return new EventTypeDao($c->get(Handler::class), PdoRowData::class);
             },
             EventTypeHydrator::class => function(ContainerInterface $c) {
                 return new EventTypeHydrator();
@@ -164,7 +168,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
 
             // eventContentType
             EventContentTypeDao::class => function(ContainerInterface $c) {
-                return new EventContentTypeDao($c->get(Handler::class));
+                return new EventContentTypeDao($c->get(Handler::class), PdoRowData::class);
             },
             EventContentTypeHydrator::class => function(ContainerInterface $c) {
                 return new EventContentTypeHydrator();
@@ -175,7 +179,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
 
             // eventContent
             EventContentDao::class => function(ContainerInterface $c) {
-                return new EventContentDao($c->get(Handler::class));
+                return new EventContentDao($c->get(Handler::class), PdoRowData::class);
             },
             EventContentHydrator::class => function(ContainerInterface $c) {
                 return new EventContentHydrator();
@@ -186,7 +190,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
 
             // EventPresentation
             EventPresentationDao::class => function(ContainerInterface $c) {
-                return new EventPresentationDao($c->get(Handler::class));
+                return new EventPresentationDao($c->get(Handler::class), PdoRowData::class);
             },
             EventPresentationHydrator::class => function(ContainerInterface $c) {
                 return new EventPresentationHydrator();
@@ -197,7 +201,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
 
             // EventPresentation
             VisitorDao::class => function(ContainerInterface $c) {
-                return new VisitorDao($c->get(Handler::class));
+                return new VisitorDao($c->get(Handler::class), PdoRowData::class);
             },
             VisitorHydrator::class => function(ContainerInterface $c) {
                 return new VisitorHydrator();

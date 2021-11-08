@@ -25,25 +25,10 @@ class OpravneniDao {
      * @throws StatementFailureException
      */
     public function get($user) {
-        $sql = "SELECT * FROM opravneni WHERE user=:user";
-        $statement = $this->dbHandler->prepare($sql);
-//        $statement = $this->dbHandler->query($sql);
-        if ($statement == FALSE) {
-            $einfo = $this->dbHandler->errorInfo();
-            throw new StatementFailureException($einfo[2].PHP_EOL.". Nevznikl PDO statement z sql příkazu: $sql", $einfo[1]);
-        }
-        $statement->bindParam(':user', $user);
-        $success = $statement->execute();
-        if (!$success) {
-            $einfo = $this->dbHandler->errorInfo();
-            throw new StatementFailureException($einfo[2].PHP_EOL.". Nevykonal se PDO statement z sql příkazu: $sql", $einfo[1]);
-        }
-        $num_rows = $statement->rowCount();
-
-        if ($num_rows > 1) {
-            user_error("V databázi existuje duplicitní záznam user=$user", E_USER_ERROR);
-        }
-
-        return $num_rows ? $statement->fetch(\PDO::FETCH_ASSOC) : [];
+        $select = $this->select("*");
+        $from = $this->from("opravneni");
+        $where = $this->where("user=:user");
+        $touplesToBind = [':user' => $user];
+        return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 }

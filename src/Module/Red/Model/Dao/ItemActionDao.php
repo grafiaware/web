@@ -26,17 +26,16 @@ class ItemActionDao extends DaoAbstract {
      * @throws StatementFailureException
      */
     public function get($type_fk, $item_id) {
-        $sql = "
-            SELECT
+        $select = $this->select("
                 `item_action`.`type_fk`,
                 `item_action`.`item_id`,
                 `item_action`.`editor_login_name`,
                 `item_action`.`created`
-            FROM `item_action`
-            WHERE
-                `item_action`.`type_fk` = :type_fk AND `item_action`.`item_id` = :item_id
-            ";
-        return $this->selectOne($sql, [':type_fk'=>$type_fk, ':item_id'=>$item_id], TRUE);
+                ");
+        $from = $this->from("`item_action`");
+        $where = $this->where("`item_action`.`type_fk` = :type_fk AND `item_action`.`item_id` = :item_id");
+        $touplesToBind = [':type_fk'=>$type_fk, ':item_id'=>$item_id];
+        return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
     /**
@@ -44,15 +43,14 @@ class ItemActionDao extends DaoAbstract {
      * @return array
      */
     public function findAll() {
-        $sql = "
-            SELECT
+        $select = $this->select("
                 `item_action`.`type_fk`,
                 `item_action`.`item_id`,
                 `item_action`.`editor_login_name`,
                 `item_action`.`created`
-            FROM `item_action`
-            ";
-        return $this->selectMany($sql, []);
+                ");
+        $from = $this->from("`item_action`");
+        return $this->selectMany($select, $from, "", []);
     }
 
     public function insert($row) {

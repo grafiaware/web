@@ -14,37 +14,35 @@ use Pes\Database\Handler\HandlerInterface;
 class RegistrationDao extends DaoAbstract {
 
     public function get($loginNameFK) {
-        $sql = "
-            SELECT `registration`.`login_name_fk`,
-                   `registration`.`password_hash`,
-                   `registration`.`email`,
-                   `registration`.`email_time`,
-                   `registration`.`uid`,
-                   `registration`.`info`,
-                   `registration`.`created`
-            FROM
-                `registration`
-            WHERE
-                `registration`.`login_name_fk` = :login_name_fk";
-
-        return $this->selectOne($sql, [':login_name_fk' => $loginNameFK], TRUE);
+        $select = $this->select("
+            `registration`.`login_name_fk`,
+           `registration`.`password_hash`,
+           `registration`.`email`,
+           `registration`.`email_time`,
+           `registration`.`uid`,
+           `registration`.`info`,
+           `registration`.`created`
+           ");
+        $from = $this->from("`registration`");
+        $where = $this->where("`registration`.`login_name_fk` = :login_name_fk");
+        $touplesToBind = [':login_name_fk' => $loginNameFK];
+        return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
     public function getByUid($uid) {
-        $sql = "
-            SELECT `registration`.`login_name_fk`,
-                   `registration`.`password_hash`,
-                   `registration`.`email`,
-                   `registration`.`email_time`,
-                   `registration`.`uid`,
-                   `registration`.`info`,
-                   `registration`.`created`
-            FROM
-                `registration`
-            WHERE
-                `registration`.`uid` = :uid";
-
-        return $this->selectOne($sql, [':uid' => $uid], TRUE);
+        $select = $this->select("
+            `registration`.`login_name_fk`,
+           `registration`.`password_hash`,
+           `registration`.`email`,
+           `registration`.`email_time`,
+           `registration`.`uid`,
+           `registration`.`info`,
+           `registration`.`created`
+           ");
+        $from = $this->from("`registration`");
+        $where = $this->where("`registration`.`uid` = :uid");
+        $touplesToBind = [':uid' => $uid];
+        return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
     public function insert /*Unique*/ ($row) {

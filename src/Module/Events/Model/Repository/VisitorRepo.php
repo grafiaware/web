@@ -40,7 +40,7 @@ class VisitorRepo extends RepoAbstract implements VisitorRepoInterface {
     }
 
     public function findAll() {
-        return $this->findAllEntities();
+        return $this->findEntities();
     }
 
     public function add(VisitorInterface $event) {

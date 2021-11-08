@@ -25,16 +25,16 @@ class StaticalDao extends DaoAbstract {
      * @throws StatementFailureException
      */
     public function get($id) {
-
-        $sql = "SELECT
+        $select = $this->select("
             `statical`.`id`,
             `statical`.`menu_item_id_fk`.
             `statical`.`path`,
             `statical`.`folded`
-        FROM `statical`;
-        WHERE
-            `statical`.`id` = :id";
-        return $this->selectOne($sql, [':id' => $id], TRUE);
+            ");
+        $from = $this->from("`statical`");
+        $where = $this->where("`statical`.`id` = :id");
+        $touplesToBind = [':id' => $id];
+        return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
     /**
@@ -45,16 +45,16 @@ class StaticalDao extends DaoAbstract {
      * @throws StatementFailureException
      */
     public function getByFk($menuItemIdFk) {
-
-        $sql = "SELECT
+        $select = $this->select("
             `statical`.`id`,
-            `statical`.`menu_item_id_fk`,
+            `statical`.`menu_item_id_fk`.
             `statical`.`path`,
             `statical`.`folded`
-        FROM `statical`;
-        WHERE
-            `statical`.`menu_item_id_fk` = :menu_item_id_fk";
-        return $this->selectOne($sql, [':menu_item_id_fk' => $menuItemIdFk], TRUE);
+            ");
+        $from = $this->from("`statical`");
+        $where = $this->where("`statical`.`menu_item_id_fk` = :menu_item_id_fk");
+        $touplesToBind = [':menu_item_id_fk' => $menuItemIdFk];
+        return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
     public function insert($row) {

@@ -27,28 +27,30 @@ class EventPresentationDao extends DaoAbstract implements DaoAutoincrementKeyInt
      * @throws StatementFailureException
      */
     public function get($id) {
-        $sql = "
-        SELECT `event_presentation`.`id`,
+        $select = $this->select("
+            `event_presentation`.`id`,
             `event_presentation`.`show`,
             `event_presentation`.`platform`,
             `event_presentation`.`url`,
             `event_presentation`.`event_id_fk`
-        FROM `event_presentation`
-        WHERE
-            `event_presentation`.`id` = :id";
-
-        return $this->selectOne($sql, [':id' => $id], TRUE);
+            ");
+        $from = $this->from("`event_presentation`");
+        $where = $this->where("`event_presentation`.`id` = :id");
+        $touplesToBind = [':id' => $id];
+        return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
-    public function findAll() {
-        $sql = "
-        SELECT `event_presentation`.`id`,
+    public function find($whereClause="", $touplesToBind=[]) {
+        $select = $this->select("
+            `event_presentation`.`id`,
             `event_presentation`.`show`,
             `event_presentation`.`platform`,
             `event_presentation`.`url`,
             `event_presentation`.`event_id_fk`
-        FROM `event_presentation` ";
-        return $this->selectMany($sql, []);
+            ");
+        $from = $this->from("`event_presentation`");
+        $where = $this->where($whereClause);
+        return $this->selectMany($select, $from, $where, $touplesToBind);
     }
 
     public function insert($row) {

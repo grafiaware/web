@@ -26,8 +26,11 @@ class MenuRootDao extends DaoAbstract {
      * @return array
      */
     public function get($name) {
-        $sql = "SELECT name, uid_fk FROM menu_root WHERE name=:name";
-        return $this->selectOne($sql, [':name'=>$name]);
+        $select = $this->select("name, uid_fk");
+        $from = $this->from("menu_root");
+        $where = $this->where("name=:name");
+        $touplesToBind = [':name'=>$name];
+        return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
     /**
@@ -35,7 +38,8 @@ class MenuRootDao extends DaoAbstract {
      * @return array
      */
     public function findAll() {
-        $sql = "SELECT name, uid_fk FROM menu_root";
-        return $this->selectMany($sql, []);
+        $select = $this->select("name, uid_fk");
+        $from = $this->from("menu_root");
+        return $this->selectMany($select, $from, "", []);
     }
 }

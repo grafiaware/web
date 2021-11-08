@@ -12,21 +12,22 @@ use Model\Dao\DaoAbstract;
 class LoginAggregateReadonlyDao extends DaoAbstract {
 
     public function get($loginName) {
-        $sql = "
-            SELECT
-                `login`.`login_name`,
-                `credentials`.`login_name_fk`,
-                `credentials`.`password_hash`,
-                `credentials`.`role`,
-                `credentials`.`created`,
-                `credentials`.`updated`
-            FROM
-                `login`
+        $select = $this->select("
+            `login`.`login_name`,
+            `credentials`.`login_name_fk`,
+            `credentials`.`password_hash`,
+            `credentials`.`role`,
+            `credentials`.`created`,
+            `credentials`.`updated`
+            ");
+        $from = $this->from("
+            `login`
                 INNER JOIN
-                `credentials` ON (`login`.`login_name` = `credentials`.`login_name_fk`)
-            WHERE
-                `login`.`login_name` = :login_name";
-
-        return $this->selectOne($sql, [':login_name' => $loginName], TRUE);
+            `credentials`
+            ON (`login`.`login_name` = `credentials`.`login_name_fk`)");
+        $where = $this->where("
+            `login`.`login_name` = :login_name");
+        $touplesToBind = [':login_name' => $loginName];
+        return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 }

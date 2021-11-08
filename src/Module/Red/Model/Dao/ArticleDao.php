@@ -25,17 +25,18 @@ class ArticleDao extends DaoAbstract {
      * @throws StatementFailureException
      */
     public function get($id) {
-        $sql = "SELECT
+        $select = $this->select("
             `article`.`id`,
             `article`.`menu_item_id_fk`,
             `article`.`article`,
             `article`.`template`,
             `article`.`editor`,
             `article`.`updated`
-        FROM `article`
-        WHERE
-        `article`.`id` = :id";
-        return $this->selectOne($sql, [':id' => $id], TRUE);
+            ");
+        $from = $this->from("`article`");
+        $where = $this->where("`article`.`id` = :id");
+        $touplesToBind = [':id' => $id];
+        return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
     /**
@@ -46,18 +47,20 @@ class ArticleDao extends DaoAbstract {
      * @throws StatementFailureException
      */
     public function getByFk($menuItemIdFk) {
-
-        $sql = "SELECT
+        $select = $this->select("
             `article`.`id`,
             `article`.`menu_item_id_fk`,
             `article`.`article`,
             `article`.`template`,
             `article`.`editor`,
             `article`.`updated`
-        FROM `article`
-        WHERE
-        `article`.`menu_item_id_fk` = :menu_item_id_fk";
-        return $this->selectOne($sql, [':menu_item_id_fk' => $menuItemIdFk], TRUE);
+            ");
+        $from = $this->from("`article`");
+        $where = $this->where("
+            `article`.`menu_item_id_fk` = :menu_item_id_fk
+            ");
+        $touplesToBind = [':menu_item_id_fk' => $menuItemIdFk];
+        return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
     public function insert($row) {

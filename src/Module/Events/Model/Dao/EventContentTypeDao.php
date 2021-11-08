@@ -28,21 +28,20 @@ class EventContentTypeDao extends DaoAbstract implements DaoKeyDbVerifiedInterfa
      * @throws StatementFailureException
      */
     public function get($type) {
-        $sql = "
-            SELECT `event_content_type`.`type`,
-                `event_content_type`.`name`
-            FROM `event_content_type`
-            WHERE
-                `event_content_type`.`type` = :type";
-        return $this->selectOne($sql, [':type' => $type], TRUE);
+        $select = $this->select("`event_content_type`.`type`,
+                `event_content_type`.`name`");
+        $from = $this->from("`event_content_type`");
+        $where = $this->where("`event_content_type`.`type` = :type");
+        $touplesToBind = [':type' => $type];
+        return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
-    public function findAll() {
-        $sql = "
-            SELECT `event_content_type`.`type`,
-                `event_content_type`.`name`
-            FROM `event_content_type`";
-        return $this->selectMany($sql, []);
+    public function find($whereClause="", $touplesToBind=[]) {
+        $select = $this->select("`event_content_type`.`type`,
+                `event_content_type`.`name`");
+        $from = $this->from("`event_content_type`");
+        $where = $this->where($whereClause);
+        return $this->selectMany($select, $from, $where, $touplesToBind);
     }
 
     public function insert($row) {

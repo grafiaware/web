@@ -28,22 +28,20 @@ class EventTypeDao extends DaoAbstract implements DaoAutoincrementKeyInterface {
      * @throws StatementFailureException
      */
     public function get($id) {
-        $sql = "
-        SELECT `event_type`.`id`,
-            `event_type`.`value`
-        FROM `event_type`
-        WHERE
-            `event_type`.`id` = :id";
-        return $this->selectOne($sql, [':id' => $id], TRUE);
+        $select = $this->select("`event_type`.`id`,
+            `event_type`.`value`");
+        $from = $this->from("`event_type`");
+        $where = $this->where("`event_type`.`id` = :id");
+        $touplesToBind = [':id' => $id];
+        return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
-    public function findAll() {
-        $sql = "
-        SELECT `event_type`.`id`,
-            `event_type`.`value`
-        FROM `event_type`";
-        return $this->selectMany($sql, []);
-    }
+    public function find($whereClause="", $touplesToBind=[]) {
+        $select = $this->select("`event_type`.`id`,
+            `event_type`.`value`");
+        $from = $this->from("`event_type`");
+        $where = $this->where($whereClause);
+        return $this->selectMany($select, $from, $where, $touplesToBind);    }
 
     public function insert($row) {
         // autoincrement id

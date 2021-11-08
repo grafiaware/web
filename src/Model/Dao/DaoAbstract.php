@@ -37,19 +37,19 @@ abstract class DaoAbstract {
      */
     private $preparedStatements = [];
 
-    public function __construct(HandlerInterface $dbHandler, $fetchClassName="") {
+    public function __construct(HandlerInterface $dbHandler, $fetchClassName) {
         $this->dbHandler = $dbHandler;
-        if ($fetchClassName) {
+//        if ($fetchClassName) {
             $this->fetchMode = [\PDO::FETCH_CLASS, $fetchClassName];
-        } else {
-            $this->fetchMode = [\PDO::FETCH_ASSOC];
-        }
+//        } else {
+//            $this->fetchMode = [\PDO::FETCH_ASSOC];
+//        }
     }
 
     protected function select($fields = "") {
         return " SELECT ".$fields." ";
     }
-    
+
     protected function from($name) {
         return " FROM ".$name." ";
     }
@@ -67,7 +67,13 @@ abstract class DaoAbstract {
         $merged = [];
         if ($conditions) {
             foreach ($conditions as $condition) {
-                $merged = array_merge_recursive($merged, $condition);
+                if ($condition) {
+                    if (is_array($condition)) {
+                        $merged = array_merge_recursive($merged, $condition);
+                    } else {
+                        $merged = array_merge_recursive($merged, [$condition]);
+                    }
+                }
             }
         }
         return $merged ? implode(" AND ", $merged) : "";
