@@ -49,8 +49,7 @@ class VisitorDao extends DaoAbstract implements DaoAutoincrementKeyInterface {
 
     public function insert($row) {
         // autoincrement id
-        $sql = "
-        INSERT INTO `visitor`
+        $sql = "INSERT INTO `visitor`
         (`login_login_name`)
         VALUES
         (:login_login_name)";
@@ -69,16 +68,15 @@ class VisitorDao extends DaoAbstract implements DaoAutoincrementKeyInterface {
 
     public function update($row) {
         $sql = "
-            INSERT INTO `visitor`
-            (
-            `login_login_name`)
-            VALUES
-            (
-            :login_login_name)`
-        WHERE
-            `visitor`.`id` = :id";
-
-        return $this->execUpdate($sql, [':id'=>$row['id']]);
+            UPDATE `visitor`
+            SET
+            `login_login_name` = :login_login_name 
+            WHERE `id` = :id";
+        return $this->execUpdate($sql,
+            [
+                ':login_login_name'=>$row['login_login_name'],
+                ':id'=>$row['id']
+            ]);
     }
 
     public function delete($row) {

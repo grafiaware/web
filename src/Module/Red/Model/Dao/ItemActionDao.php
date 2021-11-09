@@ -42,7 +42,7 @@ class ItemActionDao extends DaoAbstract {
      * Vrací všechny řádky tabulky 'item_action' ve formě asociativního pole.
      * @return array
      */
-    public function findAll() {
+    public function find($whereClause="", $touplesToBind=[]) {
         $select = $this->select("
                 `item_action`.`type_fk`,
                 `item_action`.`item_id`,
@@ -50,7 +50,8 @@ class ItemActionDao extends DaoAbstract {
                 `item_action`.`created`
                 ");
         $from = $this->from("`item_action`");
-        return $this->selectMany($select, $from, "", []);
+        $where = $this->where($whereClause);
+        return $this->selectMany($select, $from, $where, $touplesToBind);
     }
 
     public function insert($row) {

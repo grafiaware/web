@@ -37,12 +37,7 @@ class PaperContentRepo extends RepoAbstract implements PaperContentRepoInterface
      * @return PaperContentInterface|null
      */
     public function get($contentId): ?PaperContentInterface {
-        $index = $contentId;
-        if (!isset($this->collection[$index])) {
-            /** @var PaperContentDao $this->dao */
-            $this->recreateEntity($index, $this->dataManager->get($contentId));
-        }
-        return $this->collection[$index] ?? NULL;
+        return $this->getEntity($id);
     }
 
     /**
@@ -51,28 +46,16 @@ class PaperContentRepo extends RepoAbstract implements PaperContentRepoInterface
      * @return iterable
      */
     public function findByReference($paperIdFk): iterable {
-        $selected = [];
-        foreach ($this->dataManager->findAllByFk($paperIdFk) as $paperContentRow) {
-            $index = $this->indexFromRow($paperContentRow);
-            if (!isset($this->collection[$index])) {
-                $this->recreateEntity($index, $paperContentRow);
-            }
-            $selected[] = $this->collection[$index];
-        }
-        return $selected;
+        return $this->findEntitiesByReference($paperIdFk);
     }
 
     public function add(PaperContentInterface $paperContent) {
-        if ($paperContent->isPersisted()) {
-            $this->collection[$this->indexFromEntity($paperContent)] = $paperContent;
-        } else {
-            $this->new[] = $paperContent;
-        }
+        $this->addEntity($paperContent);
+
     }
 
     public function remove(PaperContentInterface $paperContent) {
-        $this->removed[] = $paperContent;
-        unset($this->collection[$this->indexFromEntity($paperContent)]);
+        $this->removeEntity($paperContent);
     }
 
     protected function createEntity() {

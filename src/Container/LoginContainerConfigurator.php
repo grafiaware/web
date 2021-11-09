@@ -135,7 +135,7 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new LoginDao($c->get(Handler::class), PdoRowData::class);
             },
             CredentialsDao::class => function(ContainerInterface $c) {
-                return new CredentialsDao($c->get(Handler::class));
+                return new CredentialsDao($c->get(Handler::class), PdoRowData::class);
             },
             CredentialsRepo::class => function(ContainerInterface $c) {
                 return new CredentialsRepo($c->get(CredentialsDao::class), new CredentialsHydrator());

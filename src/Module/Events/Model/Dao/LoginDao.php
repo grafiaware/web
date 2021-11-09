@@ -75,9 +75,9 @@ class LoginDao extends DaoAbstract implements DaoKeyDbVerifiedInterface {
             }
             /*** commit the transaction ***/
             $dbhTransact->commit();
-        } catch(Exception $e) {
+        } catch(\Exception $e) {
             $dbhTransact->rollBack();
-            throw new Exception($e);
+            throw $e;
         }
     }
 

@@ -161,9 +161,9 @@ class VisitorDataPostDao extends DaoAbstract implements DaoKeyDbVerifiedInterfac
             }
             /*** commit the transaction ***/
             $dbhTransact->commit();
-        } catch(Exception $e) {
+        } catch(\Exception $e) {
             $dbhTransact->rollBack();
-            throw new Exception($e);
+            throw $e;
         }
     }
 

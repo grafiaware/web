@@ -40,15 +40,7 @@ class LoginAggregateCredentialsRepo extends LoginRepo implements RepoAggregateIn
     }
 
     public function find($whereClause="", $touplesToBind=[]) {
-        $selected = [];
-        foreach ($this->dataManager->find($whereClause, $touplesToBind) as $loginRow) {
-            $index = $this->indexFromRow($loginRow);
-            if (!isset($this->collection[$index])) {
-                $this->recreateEntity($index, $loginRow);
-            }
-            $selected[] = $this->collection[$index];
-        }
-        return $selected;
+        return $this->findEntities($whereClause, $touplesToBind);
     }
 
 }

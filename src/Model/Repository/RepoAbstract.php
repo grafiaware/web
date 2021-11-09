@@ -134,6 +134,10 @@ abstract class RepoAbstract {
         if (!$rowData) {
             return null;
         }
+        return $this->getEntityByRowData($rowData);
+    }
+
+    protected function getEntityByRowData(RowDataInterface $rowData): ?EntityInterface {
         $index = $this->indexFromRow($rowData);
         if (!isset($this->collection[$index])) {
             $this->recreateEntity($index, $rowData);
@@ -142,8 +146,16 @@ abstract class RepoAbstract {
     }
 
     protected function findEntities($whereClause=null, $touplesToBind=[]) {
+        return $this->findEntitiesByRowDataArray($this->dataManager->find($whereClause, $touplesToBind));
+    }
+
+    protected function findEntitiesByReference(...$referenceId): ?EntityInterface {
+        return $this->findEntitiesByRowDataArray($this->dataManager->findByFk(...$referenceId));
+    }
+
+    protected function findEntitiesByRowDataArray($rowDataArray): array {
         $selected = [];
-        foreach ($this->dataManager->find($whereClause, $touplesToBind) as $rowData) {
+        foreach ($rowDataArray as $rowData) {
             $index = $this->indexFromRow($rowData);
             if (!isset($this->collection[$index])) {
                 $this->recreateEntity($index, $rowData);
@@ -152,7 +164,6 @@ abstract class RepoAbstract {
         }
         return $selected;
     }
-
     /**
      *
      * @param string $index

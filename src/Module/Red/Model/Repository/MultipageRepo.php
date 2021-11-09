@@ -40,11 +40,7 @@ class MultipageRepo extends RepoAbstract implements MultipageRepoInterface {
      * @return MultipageInterface|null
      */
     public function get($id): ?MultipageInterface {
-        $index = $id;
-        if (!isset($this->collection[$index])) {
-            $this->recreateEntity($index, $this->dataManager->get($id));
-        }
-        return $this->collection[$index] ?? NULL;
+        return $this->getEntity($id);
     }
 
     /**
@@ -53,12 +49,7 @@ class MultipageRepo extends RepoAbstract implements MultipageRepoInterface {
      * @return MultipageInterface|null
      */
     public function getByReference($menuItemIdFk): ?EntityInterface {
-        $row = $this->dataManager->getByFk($menuItemIdFk);
-        $index = $this->indexFromRow($row);
-        if (!isset($this->collection[$index])) {
-            $this->recreateEntity($index, $row);
-        }
-        return $this->collection[$index] ?? NULL;
+        return $this->getEntityByReference($menuItemIdFk);
     }
 
     public function add(MultipageInterface $multipage) {

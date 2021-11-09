@@ -74,7 +74,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             'events.db.account.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'xxxxxx' : 'vp_events',  // nelze použít jméno uživatele použité pro db upgrade - došlo by k duplicitě jmen v build create
             'events.db.account.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'xxxxx' : 'vp_events',
 
-            'events.logs.database.directory' => 'Logs/Evemts',
+            'events.logs.database.directory' => 'Logs/Events',
             'events.logs.database.file' => 'Database.log',
             #
             ###################################

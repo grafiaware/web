@@ -23,6 +23,8 @@ use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
 
 use Red\Model\Dao\MenuItemDao;
 
+use Model\RowData\RowDataInterface;
+
 use Red\Model\Entity\MenuItem;
 
 /**
@@ -132,7 +134,7 @@ class MenuItemDaoTest extends TestCase {
 
     public function testGetExistingRow() {
         $menuItemRow = $this->dao->get($this->langCode, $this->uid);
-        $this->assertIsArray($menuItemRow);
+        $this->assertInstanceOf(RowDataInterface::class, $menuItemRow);
     }
 
     public function test7Columns() {

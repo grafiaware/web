@@ -36,11 +36,7 @@ class MenuItemTypeRepo extends RepoAbstract implements MenuItemTypeRepoInterface
      * @return MenuItemTypeInterface|null
      */
     public function get($type): ?MenuItemTypeInterface {
-        $index = $type;
-        if (!isset($this->collection[$index])) {
-            $this->recreateEntity($index, $this->dataManager->get($type));
-        }
-        return $this->collection[$index] ?? null;
+        return $this->getEntity($type);
     }
 
     /**
@@ -48,26 +44,15 @@ class MenuItemTypeRepo extends RepoAbstract implements MenuItemTypeRepoInterface
      * @return MenuItemTypeInterface array of
      */
     public function findAll() {
-        $rows = $this->dataManager->findAll();
-        $collection = [];
-        foreach ($rows as $row) {
-            $index = $this->indexFromRow($row);
-            if (!isset($this->collection[$index])) {
-                $this->recreateEntity($index, $row);
-            }
-            $collection[] = $this->collection[$index];
-        }
-        return $collection;
+        return $this->findEntities();
     }
 
     public function add(MenuItemTypeInterface $menuItemType) {
-        $index = $this->indexFromEntity($menuItemType);
-        $this->collection[$index] = $menuItemType;
+        $this->addEntity($menuItemType);
     }
 
     public function remove(MenuItemTypeInterface $menuItemType) {
-        $this->removed[] = $menuItemType;
-        unset($this->collection[$this->indexFromEntity($menuItemType)]);
+        $this->removeEntity($menuItemType);
     }
 
     protected function indexFromEntity(MenuItemTypeInterface $menuItemType) {

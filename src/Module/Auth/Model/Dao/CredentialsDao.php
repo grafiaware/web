@@ -19,7 +19,7 @@ class CredentialsDao extends DaoAbstract {
      */
     public function get($loginNameFK) {
         $select = $this->select("
-            ¨`credentials`.`login_name_fk`,
+            `credentials`.`login_name_fk`,
             `credentials`.`password_hash`,
             `credentials`.`role`,
             `credentials`.`created`,
@@ -28,6 +28,20 @@ class CredentialsDao extends DaoAbstract {
         $from = $this->from("`credentials`");
         $where = $this->where("`credentials`.`login_name_fk` = :login_name_fk");
         $touplesToBind = [':login_name_fk' => $loginNameFK];
+        return $this->selectOne($select, $from, $where, $touplesToBind, true);
+    }
+
+    public function getByFk($loginNameFk) {
+        $select = $this->select("
+            `credentials`.`login_name_fk`,
+            `credentials`.`password_hash`,
+            `credentials`.`role`,
+            `credentials`.`created`,
+            `credentials`.`updated`
+            ");
+        $from = $this->from("`credentials`");
+        $where = $this->where("`credentials`.`login_name_fk` = :login_name_fk");
+        $touplesToBind = [':login_name_fk' => $loginNameFk];
         return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 

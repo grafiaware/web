@@ -49,7 +49,7 @@ class DbEventsContainerConfigurator extends ContainerConfiguratorAbstract {
             ###################################
             # Konfigurace logu databáze
             #
-            'dbEvents.logs.db.directory' => 'Logs/Hierarchy',
+            'dbEvents.logs.db.directory' => 'Logs/DbEvents',
             'dbEvents.logs.db.file' => 'Database.log',
             #
             #################################

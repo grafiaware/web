@@ -31,7 +31,7 @@ class EnrollDao extends DaoAbstract implements DaoAutoincrementKeyInterface {
         $select = $this->select("`enrolled`.`id`,
                 `enrolled`.`login_name`,
                 `enrolled`.`eventid`");
-        $from = $this->from(`enrolled`);
+        $from = $this->from("`enrolled`");
         $where = $this->where("`enrolled`.`id` = :id");
         $touples = [':id' => $id];
         return $this->selectOne($select, $from, $where, $touples, true);
@@ -41,7 +41,7 @@ class EnrollDao extends DaoAbstract implements DaoAutoincrementKeyInterface {
         $select = $this->select("`enrolled`.`id`,
                 `enrolled`.`login_name`,
                 `enrolled`.`eventid`");
-        $from = $this->from(`enrolled`);
+        $from = $this->from("`enrolled`");
         $where = $this->where($whereClause);
         return $this->selectMany($select, $from, $where, $touplesToBind);
     }

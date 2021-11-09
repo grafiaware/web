@@ -25,12 +25,12 @@ class MenuItemTypeDao  extends DaoAbstract {
         return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
-    public function findAll() {
+    public function find($whereClause="", $touplesToBind=[]) {
         $select = $this->select("type");
         $from = $this->from("menu_item_type");
-        return $this->selectMany($select, $from, "", []);
+        $where = $this->where($whereClause);
+        return $this->selectMany($select, $from, $where, $touplesToBind);
     }
-
 
     public function insert($row) {
         $sql = "INSERT INTO menu_item_type(type)

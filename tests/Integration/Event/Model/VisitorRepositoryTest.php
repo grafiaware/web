@@ -73,6 +73,11 @@ class VisitorRepositoryTest extends TestCase {
         } catch(DaoKeyVerificationFailedException $e) {
 
         }
+        try {
+            $loginDao->insertWithKeyVerification(['login_name'=>'testVisitor2']);
+        } catch(DaoKeyVerificationFailedException $e) {
+
+        }
         $visitorDao->insert([
             'login_login_name' => 'testVisitor',
         ]);
@@ -134,8 +139,8 @@ class VisitorRepositoryTest extends TestCase {
 
     public function testAdd() {
         $visitor = new Visitor();
-        $visitor->setLoginName("testVisitorX");
-        $this->visitorRepo->add($visitor);
+        $visitor->setLoginName("testVisitor2");
+        $this->visitorRepo->add($visitor);   // !! podmínkou je existence loginName v login - viz setUpBeforeClass(), jinak dojde k chybě SQL Integrity constraint violation
         $this->assertTrue($visitor->isLocked());
     }
 

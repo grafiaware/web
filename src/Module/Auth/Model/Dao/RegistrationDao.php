@@ -29,6 +29,22 @@ class RegistrationDao extends DaoAbstract {
         return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
+    public function getByFk($loginNameFK) {
+        $select = $this->select("
+            `registration`.`login_name_fk`,
+           `registration`.`password_hash`,
+           `registration`.`email`,
+           `registration`.`email_time`,
+           `registration`.`uid`,
+           `registration`.`info`,
+           `registration`.`created`
+           ");
+        $from = $this->from("`registration`");
+        $where = $this->where("`registration`.`login_name_fk` = :login_name_fk");
+        $touplesToBind = [':login_name_fk' => $loginNameFK];
+        return $this->selectOne($select, $from, $where, $touplesToBind, true);
+    }
+
     public function getByUid($uid) {
         $select = $this->select("
             `registration`.`login_name_fk`,

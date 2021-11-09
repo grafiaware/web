@@ -75,7 +75,7 @@ class PaperContentDao extends DaoContextualAbstract {
      * @param string $paperIdFk
      * @return array Jednorozměrné asociativní pole
      */
-    public function findAllByFk($paperIdFk) {
+    public function findByFk($paperIdFk) {
         $select = $this->select("
                 `paper_content`.`id` AS `id`,
                 `paper_content`.`paper_id_fk` AS `paper_id_fk`,
@@ -121,7 +121,7 @@ class PaperContentDao extends DaoContextualAbstract {
                 `paper_content`.`updated` AS `updated`,
                  (ISNULL(show_time) OR show_time<=CURDATE()) AND (ISNULL(hide_time) OR CURDATE()<=hide_time) AS actual");
         $from = $this->from("`paper_content`");
-        $where = $this->where($whereClause);
+        $where = $this->where($this->and($this->getContextConditions(), $whereClause));
         return $this->selectMany($select, $from, $where, $touplesToBind);
     }
 

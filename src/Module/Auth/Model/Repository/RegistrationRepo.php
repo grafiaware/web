@@ -22,16 +22,12 @@ class RegistrationRepo extends RepoAbstract implements RegistrationRepoInterface
         $this->registerHydrator($registrationHydrator);
     }
 
-    public function get($loginNameFk): ?RegistrationInterface {
-        $index = $this->indexFromKeyParams($loginNameFk);
-        if (!isset($this->collection[$index])) {
-            $this->recreateEntity($index, $this->dataManager->get($loginNameFk));
-        }
-        return $this->collection[$index] ?? NULL;
+    public function get($loginNameFk): ?RegistrationInterface {    // $loginNameFk je primární i cizí klíč
+        $this->getEntity($loginNameFk);
     }
 
     public function getByReference($loginNameFk): ?EntityInterface {
-        return $this->get($loginNameFk);
+        return $this->getEntityByReference($loginNameFk);
     }
 
     public function getByUid($uid): ?RegistrationInterface {

@@ -85,9 +85,9 @@ class EventContentTypeDao extends DaoAbstract implements DaoKeyDbVerifiedInterfa
             }
             /*** commit the transaction ***/
             $dbhTransact->commit();
-        } catch(Exception $e) {
+        } catch(\Exception $e) {
             $dbhTransact->rollBack();
-            throw new Exception($e);
+            throw $e;
         }
     }
 

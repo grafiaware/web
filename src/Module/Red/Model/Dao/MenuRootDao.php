@@ -37,9 +37,10 @@ class MenuRootDao extends DaoAbstract {
      *
      * @return array
      */
-    public function findAll() {
+    public function find($whereClause="", $touplesToBind=[]) {
         $select = $this->select("name, uid_fk");
         $from = $this->from("menu_root");
-        return $this->selectMany($select, $from, "", []);
+        $where = $this->where($whereClause);
+        return $this->selectMany($select, $from, $where, $touplesToBind);
     }
 }
