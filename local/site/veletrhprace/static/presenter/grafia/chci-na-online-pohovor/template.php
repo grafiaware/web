@@ -28,6 +28,6 @@ use Status\Model\Repository\StatusSecurityRepo;
     <div id="chci-na-online-pohovor">
         <?php
         //include Configuration::componentController()['templates']."timecolumn/template.php";
-        include Configuration::componentController()['templates']."timeline-boxes/template.php";
+        include Configuration::componentController()['templates']."paper/timeline-boxes.php";
         ?>
     </div>

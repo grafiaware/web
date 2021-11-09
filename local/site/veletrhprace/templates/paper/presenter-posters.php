@@ -15,7 +15,7 @@ use Red\Model\Entity\PaperAggregatePaperContentInterface;
     </div>
     <div class="content">
         <div class="ui three column grid centered stackable">
-            <?= $this->repeat(__DIR__.'/letaky/letak.php', $letak) ?>
+            <?= $this->repeat(__DIR__.'/presenter-posters/letaky/letak.php', $letak) ?>
         </div>
     </div>
     <div class="actions">

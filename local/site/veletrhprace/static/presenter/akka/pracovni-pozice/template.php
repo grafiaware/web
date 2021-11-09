@@ -1,8 +1,5 @@
 <?php
 use Site\Configuration;
-use Events\Model\Arraymodel\Event;
-
-use Pes\View\Renderer\PhpTemplateRendererInterface;
 
 $headline = 'Pracovní pozice';
 $perex = '';
@@ -10,6 +7,6 @@ $perex = '';
 ?>
     <div id="pracovni-pozice">
        <?php
-        include Configuration::componentController()['templates']."presenter-job/template.php";
+        include Configuration::componentController()['templates']."paper/presenter-job.php";
         ?>
     </div>

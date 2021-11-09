@@ -17,7 +17,7 @@
          společná část stylů pro všechny šablony   
          layout.less: @import (optional) "../../@{sitename}/@{siteStylesFolder}/templates.less"
 *******************************/       
-@import (optional) "../../@{sitename}/@{siteStylesFolder}/templates.less";    
+@import (optional) "../../@{sitename}/@{siteStylesFolder}/templates.less";     
 
 /*******************************
          styly pro šablony static v site
@@ -50,8 +50,4 @@
 @import (optional) "../@{siteTemplatesFolder}/@{templateType}/base-template.less";    
 }
 
-&{     
-@templateType: "static";                                             
-@import (optional) "../../@{sitename}/@{siteTemplatesFolder}/@{templateType}/site-template.less";
-}
 

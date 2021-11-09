@@ -11,11 +11,11 @@ $logo_ref = '/assets/logo.png';
 $headline = 'Online stánky';
 $perex = 'Poznejte svého budoucího zaměstnavatele na našich online stáncích.';
 
-$monitorFilename = Configuration::files()['@images'].'monitor-stanek.jpg';
+$monitorFilename = Configuration::files()['@siteimages'].'monitor-stanek.jpg';
 $monitorIsReadable = is_readable($monitorFilename);
-$videoMp4Filename = Configuration::files()['@movies'].'smycka-MP4.mp4';
+$videoMp4Filename = Configuration::files()['@sitemovies'].'smycka-MP4.mp4';
 $videoMp4IsReadable = is_readable($videoMp4Filename);
-$videoWebmFilename = Configuration::files()['@movies'].'smycka-WEBM.webm';
+$videoWebmFilename = Configuration::files()['@sitemovies'].'smycka-WEBM.webm';
 $videoWebmIsReadable = is_readable($videoWebmFilename);
 
 $promoVideo = [

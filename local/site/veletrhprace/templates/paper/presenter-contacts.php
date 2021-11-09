@@ -12,14 +12,14 @@ use Red\Model\Entity\PaperAggregatePaperContentInterface;
         <article class="paper">
             <section>
                 <headline>
-                    <?php include "headline.php" ?>
+                    <?php include "presenter-contacts/headline.php" ?>
                 </headline>
                 <perex>
-                    <?php include "perex.php" ?>
+                    <?php include "presenter-contacts/perex.php" ?>
                 </perex>
             </section>
             <section>
-                <?php include "content/kontakty.php" ?>
+                <?php include "presenter-contacts/content/kontakty.php" ?>
             </section>
         </article>
     </div>

@@ -27,6 +27,6 @@ use Status\Model\Repository\StatusSecurityRepo;
     <div id="nas-program">
         <?php
         //include Configuration::componentController()['templates']."timecolumn/template.php";
-        include Configuration::componentController()['templates']."timeline-boxes/template.php";
+        include Configuration::componentController()['templates']."paper/timeline-boxes.php";
         ?>
     </div>

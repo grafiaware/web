@@ -12,7 +12,7 @@ use Pes\Text\Html;
     <div class="ui two column grid">
         <div class="ten wide column">
             <div class="blokEL-horni-img photo-scroll show-on-scroll">
-                <img src="@images/pan_s_pocitacem.jpg" width="670" height="500" alt="Obrázek"/>
+                <img src="@siteimages/pan_s_pocitacem.jpg" width="670" height="500" alt="Obrázek"/>
             </div>
         </div> 
         <div class="six wide column">
