@@ -4,7 +4,7 @@
             <div class="ui segment">
                 <a href="index.php">
                     <div class="content">
-                        Sem přetáhněte obrázek
+                        <img class="ui image" src="@commonimages/sablony-tym.jpg" alt="ilustrační obrázek" />
                     </div>
                     <div class="content">
                         <h2>Nadpis</h2>
@@ -17,7 +17,7 @@
             <div class="ui segment">
                 <a href="index.php">
                     <div class="content">
-                        Sem přetáhněte obrázek
+                        <img class="ui image" src="@commonimages/sablony-tym.jpg" alt="ilustrační obrázek" />
                     </div>
                     <div class="content">
                         <h2>Nadpis</h2>
@@ -30,7 +30,7 @@
             <div class="ui segment">
                 <a href="index.php">
                     <div class="content">
-                        Sem přetáhněte obrázek
+                        <img class="ui image" src="@commonimages/sablony-tym.jpg" alt="ilustrační obrázek" />
                     </div>
                     <div class="content">
                         <h2>Nadpis</h2>

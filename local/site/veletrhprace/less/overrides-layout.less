@@ -1,6 +1,6 @@
 .layout{
     font-weight: @normal;
-    /*VLASTNÍ HTML TAGY*/
+    /* VLASTNÍ HTML TAGY */
     headline, content, block, div[class=""], perex{
         display: block;
         position: relative;
@@ -8,7 +8,11 @@
             display: inline-block;
         }
     }
-    header{
+    img{
+        max-width: 100%; //aby se obrázky "vešly" do semantických obalů
+        height: auto; //kvůli deformaci, pokud má obrázek nastavenou výšku i šířku 
+    }
+    header{ 
         display: flex;
         align-items: start;
         flex-direction: column;

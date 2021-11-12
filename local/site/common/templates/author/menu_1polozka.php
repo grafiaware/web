@@ -9,7 +9,7 @@
                         <p>Krátký popis</p>
                     </div>
                     <div class="column middle aligned centered">
-                        <p>Druhý sloupec. Sem vložte obrázek nebo další text.</p>
+                        <img class="ui image" src="@commonimages/sablony-tym.jpg" alt="ilustrační obrázek" />
                     </div>
                 </div>
             </a>

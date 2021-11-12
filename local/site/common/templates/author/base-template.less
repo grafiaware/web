@@ -225,6 +225,24 @@
             }
         }
     }
+    .block-img{
+        display: block;
+        float: none;
+    }
+    .float-img{
+        &.vpravo{
+            float: right;
+            margin: 5px 0 10px 25px;
+        }
+        &.vlevo{
+            float: left;
+            margin: 5px 25px 10px 0; 
+        }
+    }
+    .centered-img img{
+        margin: 5px auto;
+    }
+
     /**************************sablony*komponenty********************************/
     .paper_template_select{
         .ui.segment[data-component="presented"]{
@@ -344,21 +362,13 @@
             }
         }
     }
+    
+    //označení editovatelných prvků pro tiny
 .mce-content-body .float-img{
     outline: 1px dotted @pink;
-}   
-.float-img{
-    &.vpravo{
-        float: right;
-        padding: 10px 0 10px 10px;
-        margin: 10px 0 10px 15px;
-    }
-    &.vlevo{
-        float: left;
-        padding: 10px 10px 10px 0;
-        margin: 10px 15px 10px 0;
-    }
-}
+} 
+
+
     
     @import (optional) "@{siteTemplatePath}";  
 

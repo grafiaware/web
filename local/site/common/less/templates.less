@@ -1,7 +1,7 @@
 /*******************************
          layout.less: @import "../../site-definitions.less"     
 *******************************/                  
-@import "../../site-definitions.less";                   
+@import "../../site-definitions.less";                              
    
 /*******************************
          layout.less: @import "../../@{sitename}/semantic/src/themes/default/globals/site.variables"
@@ -13,18 +13,6 @@
 *******************************/
 @import (optional) "../../@{sitename}/semantic/src/site/globals/site.variables"; 
 
-/*******************************
-         společná část stylů pro všechny šablony   
-         layout.less: @import (optional) "../../@{sitename}/@{siteStylesFolder}/templates.less"
-*******************************/       
-@import (optional) "../../@{sitename}/@{siteStylesFolder}/templates.less";     
-
-/*******************************
-         styly pro šablony static v site
-         layout.less: @import (optional) "../../@{sitename}/@{siteStylesFolder}/static-templates.less"       
-*******************************/
-@import (optional) "../../@{sitename}/@{siteStylesFolder}/static-templates.less";                               
-                                                                      
  
 &{    
 @templateType: "article";                                                                                   
@@ -49,5 +37,17 @@
 @siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templateType}/site-template.less";
 @import (optional) "../@{siteTemplatesFolder}/@{templateType}/base-template.less";    
 }
+   
+/*******************************
+         společná část stylů pro všechny šablony   
+         layout.less: @import (optional) "../../@{sitename}/@{siteStylesFolder}/templates.less"
+*******************************/       
+@import (optional) "../../@{sitename}/@{siteStylesFolder}/templates.less";        
+
+/*******************************
+         styly pro šablony static v site
+         layout.less: @import (optional) "../../@{sitename}/@{siteStylesFolder}/static-templates.less"       
+*******************************/
+@import (optional) "../../@{sitename}/@{siteStylesFolder}/static-templates.less";     
 
 

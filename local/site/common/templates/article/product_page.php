@@ -1,17 +1,15 @@
-    <p class="primarni-nadpis nastred nadpis-scroll show-on-scroll mceEditable">Název produktu</p>
-    <div class="ui stackable centered grid mceNonEditable">
-        <div class="sixteen wide column mceEditable">
+    <p class="primarni-nadpis nastred nadpis-scroll show-on-scroll ">Název produktu</p>
+    <div class="ui stackable centered grid">
+        <div class="sixteen wide column ">
             <p class="text velky primarni-barva">Popis:</p>
-            <div class="float-img vpravo">
-                floatovací obrázek
-            </div>
+            <img class="float-img vlevo" src="@commonimages/sablony-produkt1.jpg" alt="ilustrační obrázek" />
             <p>Potřebujete sdělovat víc, než jen co vyrábíte? Zákazníci mají plné koše prospektů a přesto kupují u konkurence? Dobrá znalost je základem důvěry. Dejte zákazníkům šanci, aby Vás poznali!</p>
             <p>Vyrobíme Váš firemní časopis tak, aby jej Vaši zákazníci rádi četli a Vy jste měli minimum práce s jeho přípravou. K dispozici Vám dáme naše zkušené redaktory, fotografy, korektory, sazeče a grafiky. Navrhneme layout časopisu, zajistíme tisk, rozeslání na Vaše zákazníky a zajistíme zákonné povinnosti za Vás.</p>
             <p>Lze vybírat z mnoha formátů a typů časopisů. Nejčastěji užívaným formátem je A4, A5, ale lze využít libovolně velký formát. Tisk může být plnobarevný nebo třeba jen jednobarevný, můžete vydávat třeba vlastní noviny...</p>
         </div>
         <div class="sixteen wide column">
             <div class="ui two column grid internally celled stackable centered">
-                <div class="seven wide column mceEditable">
+                <div class="seven wide column ">
                     <p class="text velky primarni-barva">Výhody časopisu:</p>
                     <ul>
                         <li>Časopis zdarma přináší novinky z oboru až na stůl Vašeho zákazníka</li>
@@ -20,7 +18,7 @@
                         <li>Časopis podporuje loajalitu Vašich zákazníků</li>
                     </ul>
                 </div>
-                <div class="seven wide column mceEditable">
+                <div class="seven wide column ">
                     <p class="text velky primarni-barva">Proč spolupracovat s námi:</p>
                     <ul>
                         <li>Nápady, které fungují</li>
@@ -32,12 +30,12 @@
             </div>
         </div>
         <div class="sixteen wide column">
-            <div class="ui three column grid stackable">
-                <div class="column mceEditable">obrázek 1</div>
-                <div class="column mceEditable">obrázek 2</div>
-                <div class="column mceEditable">obrázek 3</div>
-                <div class="column mceEditable">obrázek 4</div>
-                <div class="column mceEditable">obrázek 5</div>
+            <div class="ui three column grid stackable middle aligned centered centered-img">
+                <div class="column"><img class="ui image" src="@commonimages/sablony-produkt2.jpg" alt="ilustrační obrázek" /></div>
+                <div class="column"><img class="ui image" src="@commonimages/sablony-produkt3.jpg" alt="ilustrační obrázek" /></div>
+                <div class="column"><img class="ui image" src="@commonimages/sablony-produkt4.jpg" alt="ilustrační obrázek" /></div>
+                <div class="column"><img class="ui image" src="@commonimages/sablony-produkt5.jpg" alt="ilustrační obrázek" /></div>
+                <div class="column"><img class="ui image" src="@commonimages/sablony-produkt6.jpg" alt="ilustrační obrázek" /></div>
             </div>
         </div>
         <div class="eight wide column centered">

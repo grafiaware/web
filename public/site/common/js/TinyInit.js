@@ -255,6 +255,15 @@ var linkClassList = [
         {title: 'Sekundární tlačítko', value: 'ui secondary button'},
         {title: 'Šedé tlačítko', value: 'ui button'}
     ];
+var imageClassList = [
+        {title: 'Vyberte styl obrázku', value: ''},
+        {title: 'Obrázek není obtékaný', value: 'block-img'},
+        {title: 'Obrázek obtékaný zprava', value: 'float-img vlevo'},
+        {title: 'Obrázek obtékaný zleva', value: 'float-img vpravo'},
+        {title: 'Kruhový obrázek - pro poměr stran 1:1!', value: 'ui circular image'},
+        {title: 'Kruhový obrázek obtékaný zprava', value: 'ui circular image float-img vlevo'},
+        {title: 'Kruhový obrázek obtékaný zleva', value: 'ui circular image float-img vpravo'},
+    ];
 
 var toolbar_groups = {
         fontstyle: {
@@ -337,6 +346,8 @@ var editHtmlConfig = {
     toolbar2: toolbar2,
     imagetools_toolbar: imagetools_toolbar,
     link_class_list: linkClassList,
+    image_class_list: imageClassList,
+    image_advtab: true, //přidá do dialogového okna obrázku záložku „Upřesnit“, která umožňuje přidat k obrázkům vlastní styly, mezery a okraje
     /* enable title field in the Image dialog*/
     image_title: true,
     /* enable automatic uploads of images represented by blob or data URIs*/
