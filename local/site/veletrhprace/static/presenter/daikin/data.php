@@ -20,7 +20,7 @@ $monitorFilename = Configuration::files()['presenter'].$shortName.'/movies/monit
 $monitorIsReadable = is_readable($monitorFilename);
 $videoMp4Filename = Configuration::files()['presenter'].$shortName.'/movies/video-stanek-MP4.mp4';
 $videoMp4IsReadable = is_readable($videoMp4Filename);
-$videoWebmFilename = Configuration::files()['presenter'].$shortName.'/movies/video-stanek-WEBM.mp4';
+$videoWebmFilename = Configuration::files()['presenter'].$shortName.'/movies/video-stanek-WEBM.webm';
 $videoWebmIsReadable = is_readable($videoWebmFilename);
 $stanek_ref = '/assets/stanek.png';
 

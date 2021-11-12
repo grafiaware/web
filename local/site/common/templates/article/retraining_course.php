@@ -1,28 +1,19 @@
-    <div class="ui stackable centered grid mceNonEditable">
+    <div class="ui stackable centered grid">
         <div class="sixteen wide column">
             <div class="dva-sloupce-nadpis">
-                <p class="primarni-nadpis nastred nadpis-scroll show-on-scroll mceEditable">Název kurzu</p>
+                <p class="primarni-nadpis nastred nadpis-scroll show-on-scroll ">Název kurzu</p>
                 <div class="ui two column stackable centered mobile reversed grid">
                     <div class="six wide column middle aligned ">
-                        <p>Obrázek</p>
+                        <img class="ui image" src="@commonimages/sablony-kurz.jpg" alt="ilustrační obrázek" />
                     </div>
-                    <div class="ten wide column mceEditable">
-                        <p><b>Levý sloupec se hodí spíše na obrázek, protože je zarovnaný vertikálně na střed tohoto sloupce. Napište úvod ke kurzu, text může být libovolně dlouhý.</b></p>
-                    </div>
-                    <div class="ten wide column">
-                        <p><b>Levý sloupec se hodí spíše na obrázek, protože je zarovnaný vertikálně na střed tohoto sloupce. Napište úvod ke kurzu, text může být libovolně dlouhý.</b></p>
-                    </div>
-                    <div class="ten wide column">
-                        <p><b>Levý sloupec se hodí spíše na obrázek, protože je zarovnaný vertikálně na střed tohoto sloupce. Napište úvod ke kurzu, text může být libovolně dlouhý.</b></p>
-                    </div>
-                    <div class="ten wide column mceEditable">
+                    <div class="ten wide column ">
                         <p><b>Levý sloupec se hodí spíše na obrázek, protože je zarovnaný vertikálně na střed tohoto sloupce. Napište úvod ke kurzu, text může být libovolně dlouhý.</b></p>
                     </div>
                 </div>
             </div>
         </div>
         <div class="sixteen wide column">
-            <div class="mceEditable">
+            <div class="">
                 <p class="velky text primarni-barva nastred okraje-vertical">Obsah kurzu</p>
                 <ul>
                     <li>Orientace v základní terminologii andragogiky, didaktiky, hodnocení a měření ve vzdělávání dospělých a lektorských forem a metod ve vzdělávání dospělých</li>
@@ -40,7 +31,7 @@
         </div>
         <div class="sixteen wide column">
             <p class="text okraje-vertical"></p>
-            <div class="ui segment mceEditable">
+            <div class="ui segment ">
                 <p class="velky text primarni-barva nastred">Základní informace o kurzu</p>
                 <p class="text zadne-okraje"><i class="calendar alternate outline icon"></i> <b>Termín kurzu:</b> 31. 5. - 16. 7. 2021</p>
                 <p class="text zadne-okraje"><i class="chart pie icon"></i> <b>Rozsah kurzu:</b> 100 hodin výuky + zkouška</p>
@@ -52,7 +43,7 @@
             </div>
         </div>
         <div class="sixteen wide column">
-            <div class="mceEditable">
+            <div class="">
                 <p class="velky text primarni-barva nastred okraje-vertical">Řekli o kurzu</p>
                 <p class="text kurziva zadne-okraje">"Velmi zdařilé spojení teorie a příkladů z předchozí pestré praxe na různých pozicích."</p>
                 <p class="text kurziva zadne-okraje">"Jen tak dál, je radost být účastníkem Vašeho kurzu."</p>

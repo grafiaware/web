@@ -3,9 +3,9 @@
         <div class="sixteen wide column">
             <p class="text velky primarni-barva">Anotace knihy</p>
             <div class="text">
-                <div class="float-img vpravo">
-                    floatovací obrázek
-                </div>
+                <p>
+                    <img class="float-img vpravo" src="@commonimages/sablony-obalka-knihy.png" alt="ilustrační obrázek" width="350"/>
+                </p>
                 <p>
                 Nová kniha  MUDr. Tomáše Lebenharta není čtením pro každého. Je drsně upřímnou zpovědí lékaře celostní medicíny, který  bez sebelítosti, s velkou potřebou nalézt správné a fungující řešení pro sebe i své pacienty ukazuje svůj život v průběhu několika let v plné nahotě: boj s depresí, závislost na lécích na spaní, pobyt na detoxikačním oddělení psychiatrie i vítěznou cestu k vlastnímu uzdravení.
                 MUDr. Tomáš Lebenhart je poctivý k sobě i ke svým pacientům. Hledá kořen nemoci, který často spočívá v destrukčním chování nemocného, a nalézá cesty, vedoucí přes homeopatii, ayurvédu, čínskou medicínu až k autopatii.
@@ -20,9 +20,7 @@
         <div class="sixteen wide column">
             <p class="text velky primarni-barva">O autorovi</p>
             <div class="text">
-                <div class="float-img vlevo">
-                    floatovací obrázek
-                </div>
+                <img class="ui circular image float-img vlevo" src="@commonimages/sablony-autor-knihy.jpg" alt="ilustrační obrázek"  width="200"/>
                 <p>
                 Od jara 2013 vystoupil z lékařské komory pro zásadní nesouhlas s etickou i odbornou úrovní našeho zdravotnictví, což má za následek zákaz poskytování oficiálních lékařských služeb - tedy zejména služby na první pomoci. Poslední roky se stále více specializuje na autopatii a etikoterapii.
                 V únoru 2016 jsem po dlouhém a bolestivém zvažování opět vstoupil do ČLK. Jen proto, abych mohl dále legálně provozovat homeopatii a předepisovat homeopatika vázaná na lék. recept. Podle MZ a ČLK je homeopatie sice nevědecký obor a v podstatě nefunguje, leč může jí provozovat v naší rozkošné zemi pouze lékař při svém atestačním oboru ve zdravotnickém zařízení. A některá homeopatika (byznys SÚKLU) může předepsat jen lékař. Podotýkám, že dle všech zdravotnických oficiálních složek homeopatika neobsahují žádnou účinnou látku. Stupidita těchto pravidel je tedy zjevná... 

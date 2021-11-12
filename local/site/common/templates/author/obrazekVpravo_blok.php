@@ -3,6 +3,6 @@
         <p>Napište text</p>
     </div>
     <div class="five wide column middle aligned">
-        <span>sem přetáhněte obrázek</span>
+        <img class="ui image" src="@commonimages/sablony-tym.jpg" alt="ilustrační obrázek" />
     </div>
 </div>

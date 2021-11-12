@@ -28,8 +28,8 @@ foreach ($jobModel->getCompanyJobList($shortName) as $job) {
     <section>
         <?= $this->insert(__DIR__.'/content/stanek.php', $firma)?>
     </section>
+    <?php include "pracovni-pozice/template.php" ?>
+    <?php include "program/template.php" ?>
+    <?php include "chatujte-s-nami-(Eures)/template.php" ?>
+    <?php include "kontakty/template.php" ?>
 </article>
-<?php include "pracovni-pozice/template.php" ?>
-<?php include "program/template.php" ?>
-<?php include "chatujte-s-nami-(Eures)/template.php" ?>
-<?php include "kontakty/template.php" ?>

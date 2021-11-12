@@ -10,14 +10,14 @@ $headline = 'Videonávody';
 $perex = 'Podívejte se, jak se registrovat, přihlásit nebo jak vložit životopis k pracovní pozici u vybrané firmy';
 
 
-$videoMp4Filename = Configuration::files()['@movies'].'navod-MP4.m4v';
+$videoMp4Filename = Configuration::files()['@sitemovies'].'navod-MP4.m4v';
 $videoMp4IsReadable = is_readable($videoMp4Filename);
-$videoWebmFilename = Configuration::files()['@movies'].'navod-WEBM.webm';
+$videoWebmFilename = Configuration::files()['@sitemovies'].'navod-WEBM.webm';
 $videoWebmIsReadable = is_readable($videoWebmFilename);
 
 $videonavody = [
     'videoAttributes' => [
-        'poster' => '@movies/navod-poster.jpg',
+        'poster' => '@sitemovies/navod-poster.jpg',
     ],
     'videoSourceSrc' => [
         $videoMp4IsReadable ? ['src' => $videoMp4Filename, 'type' => 'video/m4v'] : ['src' => "Not readable $videoMp4Filename", 'type' => 'video/m4v'],

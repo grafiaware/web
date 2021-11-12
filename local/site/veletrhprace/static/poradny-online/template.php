@@ -1,5 +1,5 @@
 <?php
-use Configuration\ComponentConfigurationInterface;
+use Site\Configuration;
 use Psr\Container\ContainerInterface;
 use Events\Model\Arraymodel\Event;
 
@@ -23,15 +23,11 @@ $eventTypeName = "Poradna";  // viz Events\Model\Arraymodel\EventType
 $institutionName = "";
 
 /** @var ContainerInterface $container */
-/** @var ComponentConfigurationInterface $configuration */
-$configuration = $container->get(ComponentConfigurationInterface::class);
 /** @var StatusSecurityRepo $statusSecurityRepo */
 $statusSecurityRepo = $container->get(StatusSecurityRepo::class);
 $statusSecurity = $statusSecurityRepo->get();
 
 $event = (new Event($statusSecurity))->getEventList($eventTypeName, $institutionName, [], true);   // enrolling = true
-
-include $configuration->getTemplatepathPaper()."timeline-boxes.php";
 
 //include Configuration::componentController()['templates']."paper/timecolumn.php";
 include Configuration::componentController()['templates']."paper/timeline-boxes.php";

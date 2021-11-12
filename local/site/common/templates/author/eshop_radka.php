@@ -4,7 +4,7 @@
             <p><i class="user circular icon"></i> Tomáš Lebenhart</p> 
         </div>
         <div class="content center aligned">
-            <img class="card-image" src="">
+            <img class="ui image" src="@commonimages/sablony-tym.jpg" alt="ilustrační obrázek" />
         </div>
         <div class="content">
             <h3>Příběhy nejen z ordinace</h3>
@@ -25,7 +25,7 @@
            <p><i class="user circular icon"></i> Josef Kejha, Jiří Janouškovec</p> 
         </div>
         <div class="content center aligned"> 
-            <img class="card-image" src="">
+            <img class="ui image" src="@commonimages/sablony-tym.jpg" alt="ilustrační obrázek" />
         </div>
         <div class="content">
             <h3>Toulky českým západem</h3>
