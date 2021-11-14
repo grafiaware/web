@@ -55,6 +55,7 @@ class MultipageComponent extends AuthoredComponentAbstract implements MultipageC
         }
         $templatedView = (new CompositeView())->setTemplate($template)->setRendererContainer($this->rendererContainer);  // "nedědí" contextData
         $subNodes = $this->contextData->getSubNodes();  //včetně kořene podstromu - tedy včetně multipage položky
+        // odstraní kořenový uzel, tj. uzel odpovídající vlastní multipage, zbydou jen potomci
         array_shift($subNodes);   //odstraní první prvek s indexem [0] a výsledné pole opět začína prvkem s indexem [0]
         foreach ($subNodes as $subNode) {
             $item = $subNode->getMenuItem();

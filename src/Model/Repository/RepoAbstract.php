@@ -149,7 +149,7 @@ abstract class RepoAbstract {
         return $this->findEntitiesByRowDataArray($this->dataManager->find($whereClause, $touplesToBind));
     }
 
-    protected function findEntitiesByReference(...$referenceId): ?EntityInterface {
+    protected function findEntitiesByReference(...$referenceId) {
         return $this->findEntitiesByRowDataArray($this->dataManager->findByFk(...$referenceId));
     }
 
@@ -320,9 +320,7 @@ abstract class RepoAbstract {
                 $this->addAssociated($row, $entity);
                 $this->flushChildRepos();  //pokud je vnořená agregovaná entita přidána později - musí se provést její insert teď
                 if ($entity->isPersisted()) {
-                    if ($row) {     // $row po extractu musí obsahovat nějaká data, která je možno updatovat - v extractu musí být vynechány "readonly" sloupce
-                        $this->dataManager->update($row);
-                    }
+                    $this->dataManager->update($row->fetchChanged());
                 } else {
                     throw new \LogicException("V collection je nepersistovaná entita.");
                 }

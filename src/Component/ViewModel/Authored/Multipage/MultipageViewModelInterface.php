@@ -13,7 +13,7 @@ use Red\Model\Entity\HierarchyAggregateInterface;
 interface MultipageViewModelInterface extends AuthoredViewModelInterface {
 
     /**
-     * Vrací Multipage, pokud existuje a je aktivní (zveřejněný) nebo prezentace je v editačním režimu.
+     * Vrací Multipage, pokud existuje a menu item je aktivní (zveřejněný) nebo prezentace je v editačním režimu.
      *
      * @return MultipageInterface|null
      */

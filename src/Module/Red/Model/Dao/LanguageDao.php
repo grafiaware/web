@@ -44,17 +44,6 @@ class LanguageDao extends DaoAbstract {
         return $this->selectMany($select, $from, $where, $touplesToBind);
     }
 
-    /**
-     *
-     * @return array
-     */
-    public function find($whereClause=null, $touplesToBind=[]) {
-        $select = $this->select("lang_code, locale, name, collation, state");
-        $from = $this->from("language");
-        $where = $this->where($whereClause);
-        return $this->selectMany($select, $from, $where, $touplesToBind);
-    }
-
     public function update($param) {
 
     }

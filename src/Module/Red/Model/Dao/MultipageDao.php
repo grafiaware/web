@@ -55,6 +55,7 @@ class MultipageDao extends DaoAbstract {
             ");
         $from = $this->from("`multipage`");
         $where = $this->where("`multipage`.`menu_item_id_fk` = :menu_item_id_fk");
+        $touplesToBind = [':menu_item_id_fk' => $menuItemIdFk];
         return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 

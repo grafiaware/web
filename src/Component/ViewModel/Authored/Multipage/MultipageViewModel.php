@@ -66,7 +66,8 @@ class MultipageViewModel extends AuthoredViewModelAbstract implements MultipageV
     }
 
     /**
-     *
+     * Vrací pole uzlů HierarchyAggregateInterface[], obsahuje uzel (node) odpovídající multipage a všechny potomky (neomezená hloubka)
+     * 
      * @return HierarchyAggregateInterface[]
      */
     public function getSubNodes() {
