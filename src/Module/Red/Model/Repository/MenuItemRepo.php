@@ -56,7 +56,9 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
     public function getOutOfContext($langCodeFk, $uidFk): ?MenuItemInterface {
         $index = $this->indexFromKeyParams($langCodeFk, $uidFk);
         if (!isset($this->collection[$index])) {
-            $this->recreateEntity($index, $this->dataManager->getOutOfContext($langCodeFk, $uidFk));
+            $rowData = $this->dataManager->getOutOfContext($langCodeFk, $uidFk);
+            $this->addData($index, $rowData);  // natvrdo dá rowData do $this->data
+            $this->recreateEntity($index, $rowData);
         }
         return $this->collection[$index] ?? null;
     }
@@ -69,14 +71,8 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
      * @return MenuItemInterface|null
      */
     public function getById($id): ?MenuItemInterface {
-        $row = $this->dataManager->getById($id);
-        if ($row) {
-            $index = $this->indexFromRow($row);
-            if (!isset($this->collection[$index])) {
-                $this->recreateEntity($index, $row);
-            }
-            return $this->collection[$index] ?? null;
-        }
+        $rowData = $this->dataManager->getById($id);
+        return $this->addEntityByRowData($rowData);
     }
 
     /**
@@ -88,14 +84,8 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
      * @return MenuItemInterface|null
      */
     public function getByPrettyUri($langCodeFk, $prettyUri): ?MenuItemInterface {
-        $row = $this->dataManager->getByPrettyUri($langCodeFk, $prettyUri);
-        if ($row) {
-            $index = $this->indexFromRow($row);
-            if (!isset($this->collection[$index])) {
-                $this->recreateEntity($index, $row);
-            }
-            return $this->collection[$index] ?? null;
-        }
+        $rowData = $this->dataManager->getByPrettyUri($langCodeFk, $prettyUri);
+        return $this->addEntityByRowData($rowData);
     }
 
     /**
@@ -104,7 +94,6 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
      * @return EntityInterface|null
      */
     public function getByReference($id): ?EntityInterface {
-        // TODO: SV dočasné řešení - kompozitní líč jako pole - dodělat Identity
         return $this->get($id['lang_code_fk'], $id['uid_fk']);
     }
 
@@ -114,15 +103,8 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
      * @return iterable
      */
     public function findAllLanguageVersions($uidFk): iterable {
-        $selected = [];
-        foreach ($this->dataManager->findAllLanguageVersions($uidFk) as $row) {
-            $index = $this->indexFromRow($row);
-            if (!isset($this->collection[$index])) {
-                $this->recreateEntity($index, $row);
-            }
-            $selected[] = $this->collection[$index];
-        }
-        return $selected;
+        $rowDataArray = $this->dataManager->findAllLanguageVersions($uidFk);
+        return $this->addEntitiesByRowDataArray($rowDataArray);
     }
 
     /**
@@ -133,16 +115,8 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
      * @return MenuItemInterface array of
      */
     public function findByPaperFulltextSearch($langCodeFk, $text) {
-        $rows = $this->dataManager->findByContentFulltextSearch($langCodeFk, $text);
-        $collection = [];
-        foreach ($rows as $row) {
-            $index = $this->indexFromRow($row);
-            if (!isset($this->collection[$index])) {
-                $this->recreateEntity($index, $row);
-            }
-            $collection[] = $this->collection[$index];
-        }
-        return $collection;
+        $rowDataArray = $this->dataManager->findByContentFulltextSearch($langCodeFk, $text);
+        return $this->addEntitiesByRowDataArray($rowDataArray);
     }
 
     public function add(MenuItemInterface $menuItem) {

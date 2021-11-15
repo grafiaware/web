@@ -42,6 +42,6 @@ class PdoRowData extends RowData {
      * @param type $value
      */
     public function __set($name, $value) {
-        parent::offsetSet($name, $value);
+        parent::forcedSet($name, $value);
     }
 }

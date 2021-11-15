@@ -26,7 +26,6 @@ use Component\View\Flash\FlashComponent;
 ####################
 
 use Red\Model\Repository\MenuItemRepo;
-use Red\Model\Repository\BlockAggregateRepo;
 use Red\Model\Repository\BlockRepo;
 use Red\Model\Entity\BlockAggregateMenuItemInterface;
 
@@ -116,15 +115,14 @@ class PageController extends LayoutControllerAbstract {
      * @return MenuItemInterface|null
      */
     protected function getMenuItemForBlock($name): ?MenuItemInterface {
-//        assert(false, "Uprav block aggregate repo!");
+        /** @var BlockRepo $blockRepo */
+        $blockRepo = $this->container->get(BlockRepo::class);
+        $block = $blockRepo->get($name);
 
-        /** @var BlockAggregateRepo $blockAggregateRepo */
-        $blockAggregateRepo = $this->container->get(BlockAggregateRepo::class);
-        $blockAggregate = $blockAggregateRepo->getAggregate($this->getPresentationLangCode(), $name);
-//        if (!isset($blockAggregate)) {
+//        if (!isset($block)) {
 //            throw new \UnexpectedValueException("Undefined block defined as component with name '$name'.");
 //        }
-        return isset($blockAggregate) ? $blockAggregate->getMenuItem() : null;  // není blok nebo není publikovaný&aktivní item
+        return isset($block) ? $this->getMenuItem($block->getUidFk()) : null;  // není blok nebo není publikovaný&aktivní item
     }
 
 #

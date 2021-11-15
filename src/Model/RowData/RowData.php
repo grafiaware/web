@@ -88,4 +88,8 @@ class RowData extends \ArrayObject implements RowDataInterface {
         }
     }
 
+
+    protected function forcedSet($index, $value) {
+        parent::offsetSet($index, $value);
+    }
 }

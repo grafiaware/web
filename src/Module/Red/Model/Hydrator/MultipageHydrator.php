@@ -39,15 +39,15 @@ class MultipageHydrator implements HydratorInterface {
 
     /**
      *
-     * @param MultipageInterface $article
+     * @param MultipageInterface $multipage
      * @param type $rowData
      */
-    public function extract(EntityInterface $article, RowDataInterface $rowData) {
-        /** @var MultipageInterface $article */
-        $rowData->offsetSet('id', $article->getId()); // id je autoincrement - readonly, hodnota pro where
-        $rowData->offsetSet('menu_item_id_fk', $article->getMenuItemIdFk());
-        $rowData->offsetSet('template', $article->getTemplate());
-        $rowData->offsetSet('editor', $article->getEditor());
+    public function extract(EntityInterface $multipage, RowDataInterface $rowData) {
+        /** @var MultipageInterface $multipage */
+        $rowData->offsetSet('id', $multipage->getId()); // id je autoincrement - readonly, hodnota pro where
+        $rowData->offsetSet('menu_item_id_fk', $multipage->getMenuItemIdFk());
+        $rowData->offsetSet('template', $multipage->getTemplate());
+        $rowData->offsetSet('editor', $multipage->getEditor());
         // updated je timestamp
         // id je autoincrement - readonly
     }

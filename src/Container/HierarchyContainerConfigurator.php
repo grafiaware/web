@@ -36,6 +36,9 @@ use Status\Model\Repository\StatusPresentationRepo;
 // rowdata
 use Model\RowData\PdoRowData;
 
+// data manager
+use Model\DataManager\DataManager;
+
 //dao + hydrator + repo
 use Red\Model\Dao\Hierarchy\HierarchyAggregateEditDao;
 use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;

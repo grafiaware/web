@@ -39,11 +39,7 @@ abstract class DaoAbstract {
 
     public function __construct(HandlerInterface $dbHandler, $fetchClassName) {
         $this->dbHandler = $dbHandler;
-//        if ($fetchClassName) {
-            $this->fetchMode = [\PDO::FETCH_CLASS, $fetchClassName];
-//        } else {
-//            $this->fetchMode = [\PDO::FETCH_ASSOC];
-//        }
+        $this->fetchMode = [\PDO::FETCH_CLASS, $fetchClassName];
     }
 
     protected function select($fields = "") {
@@ -122,7 +118,8 @@ abstract class DaoAbstract {
                 user_error("V databázi existuje duplicitní záznam.". "Dao: ".get_called_class().", ". print_r($touplesToBind, true), E_USER_WARNING);
             }
         }
-        return $statement->fetch();
+        $rowData = $statement->fetch();  // vrací rowDta nebo false
+        return $rowData ? $rowData : null; // vrací rowDta nebo null
     }
 
     /**
