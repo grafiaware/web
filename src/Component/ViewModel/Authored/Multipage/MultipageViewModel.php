@@ -12,10 +12,10 @@ use Status\Model\Repository\StatusFlashRepo;
 use Red\Model\Repository\MenuItemRepoInterface;
 use Red\Model\Repository\ItemActionRepo;
 use Red\Model\Repository\MultipageRepo;
-use Red\Model\Repository\HierarchyAggregateRepo;
+use Red\Model\Repository\HierarchyAggregateMenuItemRepo;
 
 use Red\Model\Entity\MultipageInterface;
-use Red\Model\Entity\HierarchyAggregateInterface;
+use Red\Model\Entity\MenuItemAggregateHierarchyInterface;
 
 use TemplateService\TemplateSeekerInterface;
 
@@ -32,7 +32,7 @@ class MultipageViewModel extends AuthoredViewModelAbstract implements MultipageV
     private $multipageRepo;
 
     /**
-     * @var HierarchyAggregateRepo
+     * @var HierarchyAggregateMenuItemRepo
      */
     private $hierarchyRepo;
 
@@ -44,7 +44,7 @@ class MultipageViewModel extends AuthoredViewModelAbstract implements MultipageV
             TemplateSeekerInterface $templateSeeker,
             ItemActionRepo $itemActionRepo,
             MultipageRepo $multipageRepo,
-            HierarchyAggregateRepo $hierarchyRepo
+            HierarchyAggregateMenuItemRepo $hierarchyRepo
             ) {
         parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo, $menuItemRepo, $itemActionRepo, $templateSeeker);
         $this->multipageRepo = $multipageRepo;
@@ -68,7 +68,7 @@ class MultipageViewModel extends AuthoredViewModelAbstract implements MultipageV
     /**
      * Vrací pole uzlů HierarchyAggregateInterface[], obsahuje uzel (node) odpovídající multipage a všechny potomky (neomezená hloubka)
      * 
-     * @return HierarchyAggregateInterface[]
+     * @return MenuItemAggregateHierarchyInterface[]
      */
     public function getSubNodes() {
         $multipage = $this->getMultipage();

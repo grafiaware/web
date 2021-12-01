@@ -18,7 +18,7 @@ class MenuItemSelectorComponent extends AuthoredComponentAbstract {
     protected $contextData;
 
     public function getString($data = null) {
-        $menuItem = $this->contextData->getPresentedMenuNode()->getMenuItem();
+        $menuItem = $this->contextData->getPresentedMenuNode()->getHierarchy();
         $editable = $this->contextData->isEditableArticle;
         $menuItemType = $menuItem->getTypeFk();
             switch ($menuItemType) {

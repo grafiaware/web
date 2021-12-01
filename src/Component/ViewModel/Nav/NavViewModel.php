@@ -14,13 +14,13 @@ use Component\ViewModel\StatusViewModel;
 use Component\Renderer\Nav\Factory\UlTagFactory;
 use Component\Renderer\Nav\Factory\NavTagFactory;
 
-use Red\Model\Entity\HierarchyAggregateInterface;
+use Red\Model\Entity\MenuItemAggregateHierarchyInterface;
 use Red\Model\Entity\MenuRootInterface;
 
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusFlashRepo;
-use Red\Model\Repository\HierarchyAggregateRepo;
+use Red\Model\Repository\HierarchyAggregateMenuItemRepo;
 use Red\Model\Repository\MenuRootRepo;
 
 use Component\ViewModel\Menu\Item\ItemViewModel;
@@ -48,7 +48,7 @@ class NavViewModel extends StatusViewModel implements NavViewModelInterface {
             StatusSecurityRepo $statusSecurityRepo,
             StatusPresentationRepo $statusPresentationRepo,
             StatusFlashRepo $statusFlashRepo,
-            HierarchyAggregateRepo $hierarchyRepo,
+            HierarchyAggregateMenuItemRepo $hierarchyRepo,
             MenuRootRepo $menuRootRepo
             ) {
         parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo);
@@ -75,9 +75,9 @@ class NavViewModel extends StatusViewModel implements NavViewModelInterface {
     /**
      * Vrací prezentovanou položku menu. Řídí se stavem PresentationStatus language a menuItem.
      *
-     * @return HierarchyAggregateInterface
+     * @return MenuItemAggregateHierarchyInterface
      */
-    public function getPresentedMenuNode(): HierarchyAggregateInterface {
+    public function getPresentedMenuNode(): MenuItemAggregateHierarchyInterface {
         if(!isset($this->presentedMenuNode)) {
             $this->presentedMenuNode = isset($this->presentedMenuItem) ? $this->getMenuNode($this->presentedMenuItem->getUidFk()) : '';
         }
@@ -87,9 +87,9 @@ class NavViewModel extends StatusViewModel implements NavViewModelInterface {
     /**
      * Vrací položku menu se zadaným uid a v presentovaném jazyce.
      * @param string $nodeUid
-     * @return HierarchyAggregateInterface
+     * @return MenuItemAggregateHierarchyInterface
      */
-    public function getMenuNode($nodeUid): HierarchyAggregateInterface {
+    public function getMenuNode($nodeUid): MenuItemAggregateHierarchyInterface {
         return $this->HierarchyRepo->get($this->presentedLangCode, $nodeUid);
     }
 
@@ -152,8 +152,8 @@ class NavViewModel extends StatusViewModel implements NavViewModelInterface {
         $ulElementId = $this->container->get('menuUlElementId');
 
         $subDomain = "/www_grafia_development_v0_5/"; //$this->container->get(ServerRequestInterface::class)->getUri()->getPath();
-        /* @var $menuRepo HierarchyAggregateRepo */
-        $menuRepo = $this->container->get(HierarchyAggregateRepo::class);
+        /* @var $menuRepo HierarchyAggregateMenuItemRepo */
+        $menuRepo = $this->container->get(HierarchyAggregateMenuItemRepo::class);
 
         $mode = 2;
         $langCode = 'cs';

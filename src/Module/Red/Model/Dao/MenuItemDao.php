@@ -9,6 +9,7 @@
 namespace Red\Model\Dao;
 
 use Model\Dao\DaoContextualAbstract;
+use Model\RowData\RowDataInterface;
 
 /**
  * Description of RsDao
@@ -172,7 +173,7 @@ class MenuItemDao extends DaoContextualAbstract {
 
     }
 
-    public function insert($row) {
+    public function insert($rowData) {
         throw \LogicException("Nelze samostatně vložit novou položku menu_item. Nové položky lze vytvořit pouze voláním metod Node (Hierarchy) dao.");
     }
 
@@ -181,14 +182,16 @@ class MenuItemDao extends DaoContextualAbstract {
      * @param type $row
      * @return type
      */
-    public function update($row) {
-        $sql = "UPDATE menu_item SET type_fk=:type_fk, title=:title, prettyuri=:prettyuri, active=:active "
-                . $this->where($this->and(['lang_code_fk=:lang_code_fk AND uid_fk=:uid_fk']));
-        return $this->execUpdate($sql, [':type_fk'=>$row['type_fk'], ':title'=>$row['title'], ':prettyuri'=>$row['prettyuri'], ':active'=>$row['active'],
-            ':lang_code_fk' => $row['lang_code_fk'], ':uid_fk'=> $row['uid_fk']]);
+    public function update(RowDataInterface $rowData) {
+//        $sql = "UPDATE menu_item SET type_fk=:type_fk, title=:title, prettyuri=:prettyuri, active=:active "
+//                . $this->where($this->and(['lang_code_fk=:lang_code_fk','uid_fk=:uid_fk']));
+//        return $this->execUpdate($sql, [':type_fk'=>$row['type_fk'], ':title'=>$row['title'], ':prettyuri'=>$row['prettyuri'], ':active'=>$row['active'],
+//            ':lang_code_fk' => $row['lang_code_fk'], ':uid_fk'=> $row['uid_fk']]);
+
+        return $this->execUpdate('menu_item', ['lang_code_fk','uid_fk'], $rowData);
     }
 
-    public function delete($row) {
+    public function delete(RowDataInterface $rowData) {
         throw new \LogicException("Nelze samostatně smazat položku menu_item. Položky lze mazat pouze voláním metod Node (Hierarchy) dao.");
     }
 }

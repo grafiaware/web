@@ -16,18 +16,8 @@ use Red\Model\Entity\MenuItemInterface;
  *
  * @author pes2704
  */
-interface HierarchyAggregateInterface extends EntityInterface {
-    public function getUid();
-    public function getDepth();
-    public function getLeftNode();
-    public function getRightNode();
-    public function getParentUid();
+interface HierarchyAggregateInterface extends HierarchyInterface {
     public function getMenuItem(): MenuItemInterface;
 
-    public function setUid($uid): HierarchyAggregateInterface;
-    public function setDepth($depth): HierarchyAggregateInterface;
-    public function setLeftNode($leftNode): HierarchyAggregateInterface;
-    public function setRightNode($rightNode): HierarchyAggregateInterface;
-    public function setParentUid($parentUid): HierarchyAggregateInterface;
     public function setMenuItem(MenuItemInterface $menuItem): HierarchyAggregateInterface;
 }

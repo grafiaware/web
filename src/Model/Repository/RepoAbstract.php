@@ -118,8 +118,7 @@ abstract class RepoAbstract {
     protected function getEntity(...$id) {
         $index = $this->indexFromKeyParams(...$id);
         if (!isset($this->collection[$index])) {
-            $this->recreateData($index, ...$id);
-            $this->recreateEntity($index);
+            $this->recreateEntity($index, $this->recreateData($index, ...$id));
         }
         return $this->collection[$index] ?? NULL;
     }
@@ -143,14 +142,14 @@ abstract class RepoAbstract {
         return $this->addEntitiesByRowDataArray($this->dataManager->findByFk(...$referenceId));
     }
 
-    protected function addEntityByRowData($rowData) {
-        if (!$rowData) {
+    protected function addEntityByRowData($rowData=null) {
+        if (!isset($rowData)) {
             return null;
         }
         $index = $this->indexFromRow($rowData);
         if (!isset($this->collection[$index])) {
             $this->addData($index, $rowData);  // natvrdo dá rowData do $this->data
-            $this->recreateEntity($index);
+            $this->recreateEntity($index, $rowData);
         }
         return $this->collection[$index] ?? null;
     }
@@ -158,19 +157,18 @@ abstract class RepoAbstract {
     protected function addEntitiesByRowDataArray($rowDataArray): array {
         $selected = [];
         foreach ($rowDataArray as $rowData) {
-            $index = $this->indexFromRow($rowData);
-            if (!isset($this->collection[$index])) {
-                $this->addData($index, $rowData);  // natvrdo dá rowData do $this->data
-                $this->recreateEntity($index, $rowData);
-            }
-            $selected[] = $this->collection[$index];
+            $selected[] = $this->addEntityByRowData($rowData);
         }
         return $selected;
     }
 
 
     private function recreateData($index, ...$id) {
-        $this->addData($index, $this->dataManager->get(...$id));
+        $rowData = $this->dataManager->get(...$id);
+        if(isset($rowData)) {
+            $this->addData($index, $rowData);
+        }
+        return $rowData ?? null;
     }
 
     private function addData($index, RowDataInterface $rowData = null) {
@@ -183,8 +181,7 @@ abstract class RepoAbstract {
      * @return string|null
      * @throws UnableRecreateEntityException
      */
-    private function recreateEntity($index) {
-        $rowData = $this->data[$index];
+    private function recreateEntity($index, RowDataInterface $rowData = null) {
         if(isset($rowData)) {
             $entity = $this->createEntity();  // definována v konkrétní třídě - adept na entity managera
             try {
@@ -202,9 +199,9 @@ abstract class RepoAbstract {
     private function recreateAssociations(RowDataInterface $rowData): void {
         foreach ($this->associations as $interfaceName => $association) {
             if ($association instanceof AssociationOneToManyInterface) {
-                $rowData[$interfaceName] = $association->getAllAssociatedEntities($rowData);
+                $rowData->forcedSet($interfaceName, $association->getAllAssociatedEntities($rowData));
             } elseif($association instanceof AssociationOneToOneInterface) {
-                $rowData[$interfaceName] = $association->getAssociatedEntity($rowData);
+                $rowData->forcedSet($interfaceName, $association->getAssociatedEntity($rowData));
             } else {
                 throw new \LogicException("Neznámý typ asociace pro $interfaceName");
             }
@@ -271,7 +268,7 @@ abstract class RepoAbstract {
         foreach ($this->associations as $interfaceName => $association) {
             foreach ($row[$interfaceName] as $assocEntity) {  // asociovaná entita nemusí existovat - agregát je i tak validní
                 if (!$assocEntity->isPersisted()) {
-                    $association->addAssociatedEntity($assocEntity);
+                    $association->addAssociatedEntity($assocEntity);  // child repo add
                 }
             }
         }
@@ -322,31 +319,38 @@ abstract class RepoAbstract {
                     $this->extract($entity, $rowData);
                     $this->dataManager->insert($rowData);
                     $this->addAssociated($rowData, $entity);
-                    $this->flushChildRepos();  //pokud je vnořená agregovaná entita - musí se provést její insert
                     $entity->setPersisted();
                 }
+                $this->flushChildRepos();  //pokud je vnořená agregovaná entita - musí se provést její insert
             }
             $this->new = []; // při dalším pokusu o find se bude volat recteateEntity, entita se zpětně načte z db (včetně případného autoincrement id a dalších generovaných sloupců)
 
-            foreach ($this->collection as $entity) {
-                $rowData = $this->data[$this->indexFromEntity($entity)];
+            foreach ($this->collection as $index => $entity) {
+                if (!$entity->isPersisted()) {
+                    throw new \LogicException("V collection je nepersistovaná entita.");
+                }
+                $rowData = $this->data[$index];
                 $this->extract($entity, $rowData);
                 $this->addAssociated($rowData, $entity);
-                $this->flushChildRepos();  //pokud je vnořená agregovaná entita přidána později - musí se provést její insert teď
-                if ($entity->isPersisted()) {
-                    $this->dataManager->update($rowData->fetchChanged());
-                } else {
-                    throw new \LogicException("V collection je nepersistovaná entita.");
+            }
+            $this->flushChildRepos();  //pokud je vnořená agregovaná entita přidána později - musí se provést její insert teď
+            foreach ($this->collection as $index => $entity) {
+                $rowData = $this->data[$index];
+                if ($rowData->isChanged()) {
+                    $this->dataManager->update($rowData);
                 }
             }
             $this->collection = [];
 
-            foreach ($this->removed as $entity) {
+            foreach ($this->removed as $index => $entity) {
                 $rowData = $this->createRowData();
+                $this->data[$index] = $rowData;
                 $this->extract($entity, $rowData);
                 $this->removeAssociated($rowData, $entity);
-                $this->flushChildRepos();
-                $this->dataManager->delete($rowData);
+            }
+            $this->flushChildRepos();
+            foreach ($this->removed as $index => $entity) {
+                $this->dataManager->delete($this->data[$index]);
                 $entity->setUnpersisted();
             }
             $this->removed = [];

@@ -3,12 +3,13 @@ namespace Component\ViewModel\Menu;
 
 use Component\ViewModel\StatusViewModel;
 
+use Red\Model\Entity\HierarchyAggregate;
 use Red\Model\Entity\HierarchyAggregateInterface;
 use Red\Model\Entity\MenuRootInterface;
 
 use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
 
-use Red\Model\Repository\HierarchyAggregateRepo;
+use Red\Model\Repository\HierarchyAggregateMenuItemRepo;
 use Red\Model\Repository\MenuRootRepo;
 
 use Component\ViewModel\Menu\Item\ItemViewModel;
@@ -32,7 +33,7 @@ class MenuViewModel extends StatusViewModel implements MenuViewModelInterface {
             StatusSecurityRepo $statusSecurityRepo,
             StatusPresentationRepo $statusPresentationRepo,
             StatusFlashRepo $statusFlashRepo,
-            HierarchyAggregateRepo $hierarchyRepo,
+            HierarchyAggregateMenuItemRepo $hierarchyRepo,
             MenuRootRepo $menuRootRepo
             ) {
         parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo);

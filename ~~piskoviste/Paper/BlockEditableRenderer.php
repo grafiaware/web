@@ -14,7 +14,7 @@ use Component\ViewModel\Authored\Paper\PaperViewModelInterface;
 use Component\ViewModel\Authored\Paper\NamedPaperViewModelInterface;
 use Pes\Text\Html;
 
-use Model\Entity\HierarchyAggregateInterface;
+use Model\Entity\MenuItemAggregateHierarchyInterface;
 use Model\Entity\MenuItemAggregatePaperInterface;
 
 /**
@@ -51,7 +51,7 @@ class BlockEditableRenderer extends HtmlRendererAbstract {
                );
     }
     
-    private function renderButtons(HierarchyAggregateInterface $menuNode, MenuItemAggregatePaperInterface $paper) {
+    private function renderButtons(MenuItemAggregateHierarchyInterface $menuNode, MenuItemAggregatePaperInterface $paper) {
         //TODO: atributy data-tooltip a data-position jsou pro semantic - zde jsou napevno zadané
             return
             Html::tag('div', ['class'=>$this->classMap->getClass('Buttons', 'div')],
@@ -63,11 +63,11 @@ class BlockEditableRenderer extends HtmlRendererAbstract {
                             'formmethod'=>'post',
                             'formaction'=>"red/v1/menu/{$menuNode->getUid()}/toggle",
                             ],
-                    Html::tag('i', ['class'=>$this->classMap->resolveClass($menuNode->getMenuItem()->getActive(), 'Buttons', 'div button5 i.on', 'div button5 i.off')])
+                    Html::tag('i', ['class'=>$this->classMap->resolveClass($menuNode->getHierarchy()->getActive(), 'Buttons', 'div button5 i.on', 'div button5 i.off')])
                 )
                 .Html::tag('div',
                             ['class'=>$this->classMap->getClass('Buttons', 'div div'),
-                            'data-tooltip'=>'Změnit od '.$menuNode->getMenuItem()->getShowTime().' do '.$menuNode->getMenuItem()->getHideTime(), 'data-position'=>'bottom right',
+                            'data-tooltip'=>'Změnit od '.$menuNode->getHierarchy()->getShowTime().' do '.$menuNode->getHierarchy()->getHideTime(), 'data-position'=>'bottom right',
                             ],
                     Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div div i')])
                     .Html::tag('div', ['class'=>$this->classMap->getClass('Buttons', 'div div div')],

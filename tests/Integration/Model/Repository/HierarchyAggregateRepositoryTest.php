@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
-namespace Test\Integration\Dao;
+namespace Test\Integration\Repository;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -20,19 +21,16 @@ use Container\HierarchyContainerConfigurator;
 use Test\Integration\Model\Container\TestModelContainerConfigurator;
 
 use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
+use Red\Model\Repository\HierarchyAggregateMenuItemRepo;
 
-use Red\Model\Dao\MenuItemDao;
-
-use Model\RowData\RowDataInterface;
-
-use Red\Model\Entity\MenuItem;
+use Red\Model\Entity\HierarchyAggregateInterface;
 
 /**
- * Description of MenuItemDaoTest
+ * Description of MenuItemPaperRepositoryTest
  *
  * @author pes2704
  */
-class MenuItemDaoTest extends TestCase {
+class HierarchyAggregateRepositoryTest extends TestCase {
 
     private static $inputStream;
 
@@ -41,12 +39,15 @@ class MenuItemDaoTest extends TestCase {
 
     /**
      *
-     * @var MenuItemDao
+     * @var HierarchyAggregateMenuItemRepo
      */
-    private $dao;
+    private $hirerchyAggRepo;
 
+    private $title;
     private $langCode;
     private $uid;
+    private $id;
+    private $prettyUri;
 
 
     public static function mock(array $userData = []) {
@@ -98,13 +99,12 @@ class MenuItemDaoTest extends TestCase {
     }
 
     protected function setUp(): void {
+
         $environment = $this->mock(
                 ['HTTP_USER_AGENT'=>'AppRunner']
 
                 );
         $this->app = (new WebAppFactory())->createFromEnvironment($environment);
-//        $appContainer =(new AppContainerConfigurator())->configure(new Container());
-//        $this->app->setAppContainer($appContainer);
 
         $this->container =
                 (new TestModelContainerConfigurator())->configure(  // přepisuje ContextFactory
@@ -117,67 +117,44 @@ class MenuItemDaoTest extends TestCase {
                         )
                     )
                 );
-        $this->dao = $this->container->get(MenuItemDao::class);  // vždy nový objekt
 
-        /** @var HierarchyAggregateReadonlyDao $hierarchy */
-        $hierarchy = $this->container->get(HierarchyAggregateReadonlyDao::class);
+
+        $this->hirerchyAggRepo = $this->container->get(HierarchyAggregateMenuItemRepo::class);
+
+        /** @var HierarchyAggregateReadonlyDao $hierarchyDao */
+        $hierarchyDao = $this->container->get(HierarchyAggregateReadonlyDao::class);
         $this->langCode = 'cs';
         $this->title = 'Tests Integration';
-        $node = $hierarchy->getByTitleHelper($this->langCode, $this->title);
+        $node = $hierarchyDao->getByTitleHelper($this->langCode, $this->title);
         if (!isset($node)) {
-            throw new \LogicException("Nelte spoušrět integrační testy - v databázi projektu není položka menu v jazyce '$this->langCode' s názvem '$this->title'");
+            throw new \LogicException("Error in setUp: Nelze spouštět integrační testy - v databázi projektu není položka menu v jazyce '$this->langCode' s názvem '$this->title'");
         }
-
         //  node.uid, (COUNT(parent.uid) - 1) AS depth, node.left_node, node.right_node, node.parent_uid
         $this->uid = $node['uid'];
+        $this->id = $node['id'];
     }
 
-    public function testGetExistingRow() {
-        $menuItemRow = $this->dao->get($this->langCode, $this->uid);
-        $this->assertInstanceOf(RowDataInterface::class, $menuItemRow);
+    public function testSetUp() {
+        $this->assertIsString($this->langCode);
+        $this->assertIsString($this->uid);
+        $this->assertInstanceOf(HierarchyAggregateMenuItemRepo::class, $this->hirerchyAggRepo);
     }
 
-    public function test7Columns() {
-        $menuItemRow = $this->dao->get($this->langCode, $this->uid);
-        $this->assertCount(7, $menuItemRow);
+    public function testGet() {
+        $entity = $this->hirerchyAggRepo->get($this->langCode, $this->uid);
+        $this->assertInstanceOf(HierarchyAggregateInterface::class, $entity);
+        $this->assertEquals($this->title, $entity->getMenuItem()->getTitle());
     }
 
-    public function testUpdate() {
-        $menuItemRow = $this->dao->get($this->langCode, $this->uid);
-        $oldActive = $menuItemRow['active'];
-        $this->assertIsInt($oldActive);
-        //
-        $this->setUp();
-        $menuItemRow['active'] = 1;
-        $this->dao->update($menuItemRow);
-        $this->setUp();
-        $menuItemRowRereaded = $this->dao->get($this->langCode, $this->uid);
-        $this->assertEquals($menuItemRow, $menuItemRowRereaded);
-        $this->assertEquals(1, $menuItemRowRereaded['active']);
-
-        $this->setUp();
-        $menuItemRow['active'] = 0;
-        $this->dao->update($menuItemRow);
-        $this->setUp();
-        $menuItemRowRereaded = $this->dao->get($this->langCode, $this->uid);
-        $this->assertEquals($menuItemRow, $menuItemRowRereaded);
-        $this->assertEquals(0, $menuItemRowRereaded['active']);
-
-        // vrácení původní hodnoty
-        $this->setUp();
-        $menuItemRow['active'] = $oldActive;
-        $this->dao->update($menuItemRow);
-        $this->setUp();
-        $this->dao = $this->container->get(MenuItemDao::class);
-        $menuItemRowRereaded = $this->dao->get($this->langCode, $this->uid);
-        $this->assertEquals($menuItemRow, $menuItemRowRereaded);
-        $this->assertEquals($oldActive, $menuItemRowRereaded['active']);
-
+    public function testUpdateChildMenuItem() {
+        $entity = $this->hirerchyAggRepo->get($this->langCode, $this->uid);
+        $this->assertInstanceOf(HierarchyAggregateInterface::class, $entity);
+        $entity->getMenuItem()->setTitle('Tests Integration HierarchyAggregateRepositoryTest');
     }
 
-    public function testDeleteLogicException() {
-        $menuItemRow = $this->dao->get($this->langCode, $this->uid);
-        $this->expectException(\LogicException::class);
-        $this->dao->delete($menuItemRow);
+    public function testAfterUpdateHierarchy() {
+        $entity = $this->hirerchyAggRepo->get($this->langCode, $this->uid);
+        $this->assertInstanceOf(HierarchyAggregateInterface::class, $entity);
+        $this->assertStringStartsWith($this->title, $entity->getMenuItem()->getTitle());
     }
 }

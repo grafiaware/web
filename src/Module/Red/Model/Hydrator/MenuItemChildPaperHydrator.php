@@ -20,7 +20,7 @@ use Red\Model\Entity\PaperInterface;
  *
  * @author pes2704
  */
-class MenuItemChildHydrator implements HydratorInterface {
+class MenuItemChildPaperHydrator implements HydratorInterface {
 
     /**
      *

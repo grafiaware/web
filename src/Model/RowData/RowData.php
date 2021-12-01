@@ -17,7 +17,13 @@ namespace Model\RowData;
  */
 class RowData extends \ArrayObject implements RowDataInterface {
 
-    private $changed = [];
+    private $isChanged = false;
+
+    /**
+     *
+     * @var \ArrayObject
+     */
+    private $changed;
 
     /**
      * V kostruktoru se mastaví způsob zapisu dat do RowData objektu na ARRAY_AS_PROPS a pokud je zadán parametr $data, zapíší se tato data
@@ -29,22 +35,21 @@ class RowData extends \ArrayObject implements RowDataInterface {
     }
 
     public function isChanged(): bool {
-        return ($this->changed) ? TRUE : FALSE;
+        return $this->isChanged;
     }
 
     /**
-     * Vrací pole změněných hodnot od instancování objektu nebo od posledního volání této metody.
+     * Vrací ArrayObject změněných hodnot od instancování RowData objektu nebo od posledního volání této metody.
      * Metoda vrací evidované změněné hodnoty a evidenci změněných hodnot smaže. Další změny jsou pak dále evidovány a příští volání
      * této metody vrací jen tyto další změny.
      *
-     * @return array
+     * @return \ArrayObject
      */
-    public function fetchChanged(): array {
-        $ret = $this->changed;
-        if ($this->isChanged()) {
-            $this->changed = [];
-        }
-        return $ret;
+    public function fetchChanged(): \ArrayObject {
+        $changed = $this->getChanged();
+        $this->isChanged = false;
+        $this->resetChanged();  // nový objekt - neovlivňuji dále referencovaný starý changed objekt
+        return $changed;
     }
 
     public function offsetGet($index) {
@@ -84,12 +89,26 @@ class RowData extends \ArrayObject implements RowDataInterface {
         // změněná nebo nová data
         if (!parent::offsetExists($index) OR parent::offsetGet($index) !== $value) {
             parent::offsetSet($index, $value);
-            $this->changed[$index] = $value;
+            $this->isChanged = true;
+            $this->getChanged()->offsetSet($index, $value);
         }
     }
 
+    private function getChanged(): \ArrayObject {
+        if (!isset($this->changed)) {
+            $this->resetChanged();
+        }
+        return $this->changed;
+    }
 
-    protected function forcedSet($index, $value) {
+    private function resetChanged() {
+        $this->changed = new \ArrayObject();
+    }
+
+    // pro PdoRowData
+    // pro asociované entity v agregátech - přidání asociované entity do rodičovské entity metodou offsetSet by vždy vedlo k tomu, že asoiciovaná entota je v rodičovském RowData
+    // vložena jako changed
+    public function forcedSet($index, $value) {
         parent::offsetSet($index, $value);
     }
 }

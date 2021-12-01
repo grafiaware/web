@@ -111,7 +111,7 @@ class ItemRenderer extends HtmlRendererAbstract {
         $html = Html::tag(     'li',
                 ['class'=>[
                     $this->classMapEditable->resolveClass($this->viewModel->isLeaf(), 'Item', 'li.leaf', ($this->viewModel->getRealDepth() == 1) ? 'li.dropdown' : 'li.item'),
-                    $this->classMap->resolveClass($this->viewModel->isOnPath(), 'Item', 'li.parent', 'li'), 
+                    $this->classMap->resolveClass($this->viewModel->isOnPath(), 'Item', 'li.parent', 'li'),
                     $this->classMapEditable->resolveClass($this->viewModel->isCutted(), 'Item', 'li.cut', 'li')
                     ],
                  'data-red-style'=> $this->redLiStyle()
@@ -132,7 +132,7 @@ class ItemRenderer extends HtmlRendererAbstract {
     }
 
     private function redLiStyle() {
-        return 
+        return
             ($this->viewModel->isEditableItem() ? "editable-item " : "noneditable-item ")
             .($this->viewModel->isOnPath() ? "onpath " : "")
             .(($this->viewModel->getRealDepth() == 1) ? "dropdown " : "")

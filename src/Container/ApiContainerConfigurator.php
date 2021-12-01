@@ -59,7 +59,7 @@ use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
 // repo
 use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
 use Red\Model\Repository\LanguageRepo;
-use Red\Model\Repository\HierarchyAggregateRepo;
+use Red\Model\Repository\HierarchyAggregateMenuItemRepo;
 use Red\Model\Repository\MenuItemRepo;
 use Red\Model\Repository\MenuItemTypeRepo;
 use Red\Model\Repository\BlockRepo;

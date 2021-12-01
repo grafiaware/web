@@ -11,6 +11,9 @@ namespace Model\Dao;
 use Pes\Database\Handler\HandlerInterface;
 use Pes\Database\Statement\StatementInterface;
 
+use Model\RowData\RowDataInterface;
+use Model\RowData\Filter\NominateFilter;
+
 /**
  * Description of DaoAbstract
  *
@@ -54,12 +57,31 @@ abstract class DaoAbstract {
         return $condition ? " WHERE ".$condition." " : "";
     }
 
+    protected function set($set) {
+        return implode(", ", $set);
+    }
+
     /**
      *
      * @param array $conditions Jedno nebo více asociativních polí.
      * @return string
      */
     protected function and(...$conditions) {
+        $merged = $this->merge($conditions);
+        return $merged ? implode(" AND ", $merged) : "";
+    }
+
+    /**
+     *
+     * @param array $conditions Jedno nebo více asociativních polí.
+     * @return string
+     */
+    protected function or(...$conditions) {
+        $merged = $this->merge($conditions);
+        return $merged ? "(".implode(" OR ", $merged).")" : "";  // závorky pro prioritu OR před případnými AND spojujícími jednotlivé OR výrazy
+    }
+
+    private function merge($conditions): array {
         $merged = [];
         if ($conditions) {
             foreach ($conditions as $condition) {
@@ -72,22 +94,14 @@ abstract class DaoAbstract {
                 }
             }
         }
-        return $merged ? implode(" AND ", $merged) : "";
+        return $merged;
     }
 
-    /**
-     *
-     * @param array $conditions Jedno nebo více asociativních polí.
-     * @return string
-     */
-    protected function or(...$conditions) {
-        $merged = [];
-        if ($conditions) {
-            foreach ($conditions as $condition) {
-                $merged = array_merge_recursive($merged, $condition);
-            }
+    private function touples(array $names) {
+        foreach ($names as $name) {
+            $touples[] = $name . " = :" . $name;
         }
-        return $merged ? "(".implode(" OR ", $merged).")" : "";  // závorky pro prioritu OR před případnými AND spojujícími jednotlivé OR výrazy
+        return $touples;
     }
 
     /**
@@ -107,7 +121,7 @@ abstract class DaoAbstract {
      * @return object|array|false
      */
     protected function selectOne($select, $from, $where, $touplesToBind=[], $checkDuplicities=FALSE) {
-        $statement = $this->getPreparedStatement($select." ".$from." ".$where);
+        $statement = $this->getPreparedStatement($select.$from.$where);
         if ($touplesToBind) {
             $this->bindParams($statement, $touplesToBind);
         }
@@ -135,7 +149,7 @@ abstract class DaoAbstract {
      * @return array
      */
     protected function selectMany($select, $from, $where, $touplesToBind=[]) {
-        $statement = $this->getPreparedStatement($select." ".$from." ".$where);
+        $statement = $this->getPreparedStatement($select.$from.$where);
         if ($touplesToBind) {
             $this->bindParams($statement, $touplesToBind);
         }
@@ -155,15 +169,16 @@ abstract class DaoAbstract {
      * @param array $touplesToBind Pole parametrů pro bind, nepovinný parametr, default prázdné pole.
      * @return aray
      */
-    protected function execInsert($sql, $touplesToBind=[]) {
+    protected function execInsert($tableName, RowDataInterface $rowData) {
+        $cols = implode(', ', array_keys($rowData->fetchChanged()));
+        $values = ':'.implode(', :', array_keys($rowData->fetchChanged()));
+        $sql = "INSERT INTO $tableName (".$cols.")  VALUES (" .$values.")";
         $statement = $this->getPreparedStatement($sql);
-        if ($touplesToBind) {
-            $this->bindParams($statement, $touplesToBind);
-        }
+        $this->bindParams($statement, $rowData->fetchChanged());
         $success = $statement->execute();
         $this->lastInsertRowCount = $statement->rowCount();
         $this->rowCount = $this->lastInsertRowCount;
-        return $success;
+        return $success ?? false;
     }
 
     protected function getLastInsertedIdForOneRowInsert() {
@@ -182,18 +197,26 @@ abstract class DaoAbstract {
      * - Nahradí placeholdery zadanými parametry pomocí bindParams().
      * - Provede příkaz a vrací výsledek metody PDOStatement->execute().
      *
-     * @param string $sql SQL příkaz s případnými placeholdery.
-     * @param array $touplesToBind Pole parametrů pro bind, nepovinný parametr, default prázdné pole.
-     * @return aray
      */
-    protected function execUpdate($sql, $touplesToBind=[]) {
-        $statement = $this->getPreparedStatement($sql);
-        if ($touplesToBind) {
-            $this->bindParams($statement, $touplesToBind);
+    protected function execUpdate($tableName, $whereNames, RowDataInterface $rowData) {
+        if ($rowData->isChanged()) {
+            $set = [];
+            $where = [];
+            foreach ($rowData->fetchChanged() as $name => $value) {
+                    $set[] = $name . " = :" . $name;
+                    $binds[$name] = $value;
+            }
+            foreach ($whereNames as $name) {
+                    $where[] = $name . " = :" . $name;
+                    $binds[$name] = $rowData->offsetGet($name);
+            }
+            $sql = "UPDATE $tableName SET ".$this->set($set).$this->where($this->and($where));
+            $statement = $this->getPreparedStatement($sql);
+            $this->bindParams($statement, $binds);
+            $success = $statement->execute();
+            $this->rowCount = $statement->rowCount();
         }
-        $success = $statement->execute();
-        $this->rowCount = $statement->rowCount();
-        return $success;
+        return $success ?? false;
     }
 
     /**
@@ -204,15 +227,14 @@ abstract class DaoAbstract {
      * - Nahradí placeholdery zadanými parametry pomocí bindParams().
      * - Provede příkaz a vrací výsledek metody PDOStatement->execute().
      *
-     * @param string $sql SQL příkaz s případnými placeholdery.
-     * @param array $touplesToBind Pole parametrů pro bind, nepovinný parametr, default prázdné pole.
-     * @return aray
      */
-    protected function execDelete($sql, $touplesToBind=[]) {
-        $statement = $this->getPreparedStatement($sql);
-        if ($touplesToBind) {
-            $this->bindParams($statement, $touplesToBind);
+    protected function execDelete($tableName, $whereNames, RowDataInterface $rowData) {
+        foreach ($whereNames as $name) {
+            $where[] = $name . " = :" . $name;
         }
+        $sql = "DELETE FROM $tableName ".$this->where($this->and($where));
+        $statement = $this->getPreparedStatement($sql);
+        $this->bindParams($statement, $rowData, $whereNames);
         $success = $statement->execute();
         $this->rowCount = $statement->rowCount();
         return $success;
@@ -243,18 +265,20 @@ abstract class DaoAbstract {
         return $this->preparedStatements[$sql];
     }
 
-    private function bindParams(\PDOStatement $statement, $touplesToBind=[]) {
-        foreach ($touplesToBind as $key => $value) {
-            $placeholder = $key;
-            if (strpos($statement->queryString, $placeholder) !== FALSE) {
-                if (isset($value)) {
-                    $statement->bindValue($placeholder, $value);
+    private function bindParams(\PDOStatement $statement, $touplesToBind=[], $filterNames=[]) {
+        if(!$filterNames) {
+            $filterNames = array_keys($touplesToBind);
+        }
+        foreach ($filterNames as $name) {
+            if (strpos($statement->queryString, $name) !== FALSE) {
+                if (isset($touplesToBind[$name])) {
+                    $statement->bindValue($name, $touplesToBind[$name]);
                 } else {
-                    $statement->bindValue($placeholder, null, \PDO::PARAM_INT);
+                    $statement->bindValue($name, null, \PDO::PARAM_INT);
                 }
             }
         }
         return $statement;
     }
 
-        }
+}

@@ -197,7 +197,7 @@ class NavTagFactory implements NavTagFactoryInterface {
                         'class'=>$this->classMap->getClass('Item', 'li a'),
                         'href'=>"index.php?list={$itemViewModel->getMenuNode()->getUid()}"
                     ]
-                    ))->addChild(new Text\Text($itemViewModel->getMenuNode()->getMenuItem()->getTitle()))
+                    ))->addChild(new Text\Text($itemViewModel->getMenuNode()->getHierarchy()->getTitle()))
                 );
 
         // nemám innerHtml

@@ -20,7 +20,7 @@ use Red\Model\Repository\{
 };
 
 use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
-use Red\Model\Entity\HierarchyAggregateInterface;
+use Red\Model\Entity\MenuItemAggregateHierarchyInterface;
 
 /**
  * Description of Controler

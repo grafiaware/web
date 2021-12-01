@@ -10,8 +10,10 @@ namespace Red\Model\Dao;
 
 use Model\Dao\DaoAbstract;
 
+use Model\RowData\RowDataInterface;
+
 /**
- * Description of RsDao
+ * Description of PaperDao
  *
  * @author pes2704
  */
@@ -65,22 +67,22 @@ class PaperDao extends DaoAbstract {
         return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
-    public function insert($row) {
+    public function insert(RowDataInterface $rowData) {
         $sql = "INSERT INTO paper (menu_item_id_fk, headline, perex, template, keywords, editor)
                 VALUES (:menu_item_id_fk, :headline, :perex, :template, :keywords, :editor)";
-        return $this->execInsert($sql, [':menu_item_id_fk'=>$row['menu_item_id_fk'], ':headline'=>$row['headline'], ':perex'=>$row['perex'], ':template'=>$row['template'], ':keywords'=>$row['keywords'], ':editor'=>$row['editor'],
-            ]);
+        return $this->execInsert('paper', $rowData);
     }
 
-    public function update($row) {
-        $sql = "UPDATE paper SET menu_item_id_fk = :menu_item_id_fk, headline = :headline, keywords = :keywords, perex = :perex, template = :template, editor = :editor
-                WHERE id = :id";
-        return $this->execUpdate($sql, [':menu_item_id_fk'=>$row['menu_item_id_fk'], ':headline'=>$row['headline'], ':perex'=>$row['perex'], ':template'=>$row['template'], ':keywords'=>$row['keywords'], ':editor'=>$row['editor'],
-             ':id'=>$row['id']]);
+    public function update(RowDataInterface $rowData) {
+//        $sql = "UPDATE paper SET menu_item_id_fk = :menu_item_id_fk, headline = :headline, keywords = :keywords, perex = :perex, template = :template, editor = :editor
+//                WHERE id = :id";
+//        return $this->execUpdate($sql, [':menu_item_id_fk'=>$row['menu_item_id_fk'], ':headline'=>$row['headline'], ':perex'=>$row['perex'], ':template'=>$row['template'], ':keywords'=>$row['keywords'], ':editor'=>$row['editor'],
+//             ':id'=>$row['id']]);
+        return $this->execUpdate('paper', ['id'], $rowData);
     }
 
-    public function delete($row) {
-        $sql = "DELETE FROM paper WHERE id = :id";
-        return $this->execDelete($sql, [':id'=>$row['id']]);
+    public function delete(RowDataInterface $row) {
+//        $sql = "DELETE FROM paper WHERE id = :id";
+        return $this->execDelete('paper', ['id'], $rowData);
     }
 }

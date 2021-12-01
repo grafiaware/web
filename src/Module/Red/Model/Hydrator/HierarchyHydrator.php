@@ -13,22 +13,22 @@ use Model\Hydrator\HydratorInterface;
 use Model\Entity\EntityInterface;
 use Model\RowData\RowDataInterface;
 
-use Red\Model\Entity\HierarchyAggregateInterface;
+use Red\Model\Entity\MenuItemAggregateHierarchyInterface;
 
 /**
  * Description of MenuNodeHydrator
  *
  * @author pes2704
  */
-class HierarchyNodeHydrator implements HydratorInterface {
+class HierarchyHydrator implements HydratorInterface {
 
     /**
      *
-     * @param HierarchyAggregateInterface $menuNode
+     * @param MenuItemAggregateHierarchyInterface $menuNode
      * @param type $rowData
      */
     public function hydrate(EntityInterface $menuNode, RowDataInterface $rowData) {
-        /** @var HierarchyAggregateInterface $menuNode */
+        /** @var MenuItemAggregateHierarchyInterface $menuNode */
         $menuNode
             ->setUid($rowData->offsetGet('uid'))
             ->setDepth($rowData->offsetGet('depth'))
@@ -40,11 +40,11 @@ class HierarchyNodeHydrator implements HydratorInterface {
 
     /**
      *
-     * @param HierarchyAggregateInterface $menuNode
+     * @param MenuItemAggregateHierarchyInterface $menuNode
      * @param type $rowData
      */
     public function extract(EntityInterface $menuNode, RowDataInterface $rowData) {
-        /** @var HierarchyAggregateInterface $menuNode */
+        /** @var MenuItemAggregateHierarchyInterface $menuNode */
         $rowData->offsetSet('uid', $menuNode->getUid());
         $rowData->offsetSet('left_node', $menuNode->getLeftNode());
         $rowData->offsetSet('right_node', $menuNode->getRightNode());

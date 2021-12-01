@@ -44,8 +44,9 @@ use Red\Model\Dao\Hierarchy\HierarchyAggregateEditDao;
 use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
 use Red\Model\Dao\Hierarchy\HierarchyAggregateEditDaoInterface;
 use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDaoInterface;
-use Red\Model\Hydrator\HierarchyNodeHydrator;
-use Red\Model\Repository\HierarchyAggregateRepo;
+use Red\Model\Hydrator\HierarchyHydrator;
+use Red\Model\Repository\HierarchyAggregateMenuItemRepo;
+use Red\Model\Hydrator\HierarchyChildHydrator;
 
 use Red\Model\Dao\MenuItemDao;
 use Red\Model\Hydrator\MenuItemHydrator;
@@ -102,7 +103,7 @@ use Events\Model\Repository\VisitorDataPostRepo;
 
 //aggregate
 use Red\Model\Repository\MenuItemAggregatePaperRepo;
-use Red\Model\Hydrator\MenuItemChildHydrator;
+use Red\Model\Hydrator\MenuItemChildPaperHydrator;
 use Red\Model\Repository\PaperAggregateRepo;
 use Red\Model\Hydrator\PaperChildHydrator;
 use Red\Model\Repository\BlockAggregateRepo;
@@ -180,8 +181,11 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
             ArticleTitleUpdater::class => function(ContainerInterface $c) {
                 return new ArticleTitleUpdater($c->get(Handler::class));
             },
-            HierarchyNodeHydrator::class => function(ContainerInterface $c) {
-                return new HierarchyNodeHydrator();
+            HierarchyHydrator::class => function(ContainerInterface $c) {
+                return new HierarchyHydrator();
+            },
+            HierarchyChildHydrator::class => function(ContainerInterface $c) {
+                return new HierarchyChildHydrator();
             },
             MenuItemHydrator::class => function(ContainerInterface $c) {
                 return new MenuItemHydrator();
@@ -196,10 +200,12 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(MenuItemHydrator::class),
                 );
             },
-            HierarchyAggregateRepo::class => function(ContainerInterface $c) {
-                return new HierarchyAggregateRepo($c->get(HierarchyAggregateReadonlyDao::class),
-                        $c->get(HierarchyNodeHydrator::class), $c->get(MenuItemHydrator::class),
-                        $c->get(MenuItemRepo::class));
+            HierarchyAggregateMenuItemRepo::class => function(ContainerInterface $c) {
+                return new HierarchyAggregateMenuItemRepo(
+                        $c->get(HierarchyAggregateReadonlyDao::class),
+                        $c->get(HierarchyHydrator::class),
+                        $c->get(MenuItemRepo::class),
+                        $c->get(HierarchyChildHydrator::class));
             },
             MenuItemTypeDao::class => function(ContainerInterface $c) {
                 return new MenuItemTypeDao($c->get(HandlerInterface::class), PdoRowData::class);
@@ -231,8 +237,11 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
             PaperContentRepo::class => function(ContainerInterface $c) {
                 return new PaperContentRepo($c->get(PaperContentDao::class), $c->get(PaperContentHydrator::class));
             },
-            MenuItemChildHydrator::class => function(ContainerInterface $c) {
-                return new MenuItemChildHydrator();
+            MenuItemChildHierarchyHydrator::class => function(ContainerInterface $c) {
+                return new MenuItemChildHierarchyHydrator();
+            },
+            MenuItemChildPaperHydrator::class => function(ContainerInterface $c) {
+                return new MenuItemChildPaperHydrator();
             },
             PaperChildHydrator::class => function(ContainerInterface $c) {
                 return new PaperChildHydrator();
@@ -246,7 +255,7 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(MenuItemDao::class),
                         $c->get(MenuItemHydrator::class),
                         $c->get(PaperAggregateRepo::class),
-                        $c->get(MenuItemChildHydrator::class)
+                        $c->get(MenuItemChildPaperHydrator::class)
                         );
             },
             ArticleDao::class => function(ContainerInterface $c) {

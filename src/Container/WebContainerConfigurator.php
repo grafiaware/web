@@ -103,7 +103,7 @@ use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusFlashRepo;
 use Red\Model\Repository\LanguageRepo;
-use Red\Model\Repository\HierarchyAggregateRepo;
+use Red\Model\Repository\HierarchyAggregateMenuItemRepo;
 use Red\Model\Repository\MenuItemRepo;
 use Red\Model\Repository\MenuItemTypeRepo;
 use Red\Model\Repository\MenuRootRepo;
@@ -175,7 +175,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                             $c->get(StatusSecurityRepo::class),
                             $c->get(StatusPresentationRepo::class),
                             $c->get(StatusFlashRepo::class),
-                            $c->get(HierarchyAggregateRepo::class),
+                            $c->get(HierarchyAggregateMenuItemRepo::class),
                             $c->get(MenuRootRepo::class)
                         );
                 $menuComponent = new MenuComponent($c->get(ComponentConfiguration::class));
@@ -472,7 +472,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                                 $c->get(TemplateSeeker::class),
                                 $c->get(ItemActionRepo::class),
                                 $c->get(MultipageRepo::class),
-                                $c->get(HierarchyAggregateRepo::class)
+                                $c->get(HierarchyAggregateMenuItemRepo::class)
                         );
             },
             StatusBoardViewModel::class => function(ContainerInterface $c) {

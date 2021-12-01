@@ -11,7 +11,6 @@ namespace Red\Model\Entity;
 use Red\Model\Entity\MenuItemAggregatePaperInterface;
 use Red\Model\Entity\MenuItem;
 use Red\Model\Entity\Paper;
-use Red\Model\Entity\PaperContent;
 
 /**
  * Description of Article

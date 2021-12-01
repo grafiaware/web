@@ -120,11 +120,11 @@ class MenuItemAggregateRepositoryTest extends TestCase {
 
         $this->menuItemAggRepo = $this->container->get(MenuItemAggregatePaperRepo::class);
 
-        /** @var HierarchyAggregateReadonlyDao $hierarchy */
-        $hierarchy = $this->container->get(HierarchyAggregateReadonlyDao::class);
+        /** @var HierarchyAggregateReadonlyDao $hierarchyDao */
+        $hierarchyDao = $this->container->get(HierarchyAggregateReadonlyDao::class);
         $this->langCode = 'cs';
         $this->title = 'Tests Integration';
-        $node = $hierarchy->getByTitleHelper($this->langCode, $this->title);
+        $node = $hierarchyDao->getByTitleHelper($this->langCode, $this->title);
         if (!isset($node)) {
             throw new \LogicException("Error in setUp: Nelze spouštět integrační testy - v databázi projektu není položka menu v jazyce '$this->langCode' s názvem '$this->title'");
         }
