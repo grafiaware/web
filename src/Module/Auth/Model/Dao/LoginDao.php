@@ -3,16 +3,18 @@
 namespace Auth\Model\Dao;
 use Pes\Database\Handler\HandlerInterface;
 
-use Model\Dao\DaoAbstract;
+use Model\Dao\DaoTableAbstract;
 use Model\Dao\DaoKeyDbVerifiedInterface;
 use Model\Dao\Exception\DaoKeyVerificationFailedException;
+use Model\Dao\Exception\DaoForbiddenOperationException;
+use Model\RowData\RowDataInterface;
 
 /**
  * Description of UserDao
  *
  * @author pes2704
  */
-class LoginDao extends DaoAbstract implements DaoKeyDbVerifiedInterface {
+class LoginDao extends DaoTableAbstract implements DaoKeyDbVerifiedInterface {
 
     public function get($loginName) {
         $select = $this->select("`login`.`login_name`");
@@ -26,11 +28,6 @@ class LoginDao extends DaoAbstract implements DaoKeyDbVerifiedInterface {
         $select = $this->select("`login`.`login_name`");
         $from = $this->from("`login`");
         return $this->selectMany($select, $from, $where, []);
-    }
-
-
-    public function insert($row) {
-        throw new \LogicException('Object LoginDao neumožňuje insertovat bez ověření duplicity klíče!');
     }
 
     private function getWithinTransaction(HandlerInterface $dbhTransact, $loginName) {
@@ -70,14 +67,15 @@ class LoginDao extends DaoAbstract implements DaoKeyDbVerifiedInterface {
         }
     }
 
-    public function update($row) {
-        return ;
-        // TODO: Svoboda : upravir na readonly.
-        throw new \LogicException("Nelze měnit unikátní identifikátor login name.");
+    public function insert(RowDataInterface $rowData) {
+        throw new DaoForbiddenOperationException("Object LoginDao neumožňuje insertovat bez ověření duplicity klíče. Nelze vkládat metodou insert(), je nutné používat insertWithKeyVerification().");
     }
 
-    public function delete($row) {
-        $sql = "DELETE FROM login WHERE `login_name` = :login_name";
-        return $this->execDelete($sql, [':login_name'=>$row['login_name'] ]);
+    public function update(RowDataInterface $rowData) {
+        throw new DaoForbiddenOperationException("Nelze měnit unikátní identifikátor login name.");
+    }
+
+    public function delete(RowDataInterface $rowData) {
+        return $this->execDelete('login', ['login_name'], $rowData);
     }
 }

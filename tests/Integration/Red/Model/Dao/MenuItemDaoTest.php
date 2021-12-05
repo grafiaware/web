@@ -25,7 +25,7 @@ use Red\Model\Dao\MenuItemDao;
 
 use Model\RowData\RowDataInterface;
 
-use Red\Model\Entity\MenuItem;
+use Model\Dao\Exception\DaoForbiddenOperationException;
 
 /**
  * Description of MenuItemDaoTest
@@ -175,9 +175,15 @@ class MenuItemDaoTest extends TestCase {
 
     }
 
-    public function testDeleteLogicException() {
+    public function testInsertException() {
         $menuItemRow = $this->dao->get($this->langCode, $this->uid);
-        $this->expectException(\LogicException::class);
+        $this->expectException(DaoForbiddenOperationException::class);
+        $this->dao->insert($menuItemRow);
+    }
+
+    public function testDeleteException() {
+        $menuItemRow = $this->dao->get($this->langCode, $this->uid);
+        $this->expectException(DaoForbiddenOperationException::class);
         $this->dao->delete($menuItemRow);
     }
 }

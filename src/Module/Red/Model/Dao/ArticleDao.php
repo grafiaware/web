@@ -8,14 +8,15 @@
 
 namespace Red\Model\Dao;
 
-use Model\Dao\DaoAbstract;
+use Model\Dao\DaoTableAbstract;
+use Model\RowData\RowDataInterface;
 
 /**
  * Description of RsDao
  *
  * @author pes2704
  */
-class ArticleDao extends DaoAbstract {
+class ArticleDao extends DaoTableAbstract {
 
     /**
      * Vrací jednu řádku tabulky 'article' ve formě asociativního pole podle primárního klíče.
@@ -63,40 +64,16 @@ class ArticleDao extends DaoAbstract {
         return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
-    public function insert($row) {
-        $sql = "INSERT INTO `article`
-            (
-            `menu_item_id_fk`,
-            `article`,
-            `template`,
-            `editor`)
-            VALUES
-            (
-            :menu_item_id_fk,
-            :article,
-            :template,
-            :editor)";
-
-        return $this->execInsert($sql, [':menu_item_id_fk'=>$row['menu_item_id_fk'], ':article'=>$row['article'], ':template'=>$row['template'], ':editor'=>$row['editor']
-            ]);
+    public function insert(RowDataInterface $rowData) {
+        return $this->execInsert('article', $rowData);
     }
 
-    public function update($row) {
-        $sql = "UPDATE `article`
-            SET
-            `menu_item_id_fk` = :menu_item_id_fk,
-            `article` = :article,
-            `template` = :template,
-            `editor` = :editor
-            WHERE `id` = :id";
-
-        return $this->execUpdate($sql, [':menu_item_id_fk'=>$row['menu_item_id_fk'], ':article'=>$row['article'], ':template'=>$row['template'], ':editor'=>$row['editor'],
-             ':id'=>$row['id']]);
+    public function update(RowDataInterface $rowData) {
+        return $this->execUpdate('article', ['id'], $rowData);
     }
 
-    public function delete($row) {
-        $sql = "DELETE FROM `article` WHERE id = :id";
-        return $this->execDelete($sql, [':id'=>$row['id']]);
+    public function delete(RowDataInterface $rowData) {
+        return $this->execDelete('article', ['id'], $rowData);
     }
 }
 

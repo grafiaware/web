@@ -8,14 +8,15 @@
 
 namespace Red\Model\Dao;
 
-use Model\Dao\DaoAbstract;
+use Model\Dao\DaoTableAbstract;
+use Model\RowData\RowDataInterface;
 
 /**
  * Description of RsDao
  *
  * @author pes2704
  */
-class MultipageDao extends DaoAbstract {
+class MultipageDao extends DaoTableAbstract {
 
     /**
      * Vrací jednu řádku tabulky 'multipage' ve formě asociativního pole podle primárního klíče.
@@ -59,40 +60,16 @@ class MultipageDao extends DaoAbstract {
         return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
-    public function insert($row) {
-        $sql = "INSERT INTO `multipage`
-            (
-            `menu_item_id_fk`,
-            `template`,
-            `editor`)
-            VALUES
-            (
-            :menu_item_id_fk,
-            :template,
-            :editor)
-            ";
-
-        return $this->execInsert($sql, [':menu_item_id_fk'=>$row['menu_item_id_fk'], ':template'=>$row['template'], ':editor'=>$row['editor']
-            ]);
+    public function insert(RowDataInterface $rowData) {
+        return $this->execInsert('multipage', $rowData);
     }
 
-    public function update($row) {
-        $sql = "UPDATE `multipage`
-            SET
-            `menu_item_id_fk` = :menu_item_id_fk,
-            `template` = :template,
-            `editor` = :editor
-            WHERE `multipage`.`id` = :id
-            ";
-
-        return $this->execUpdate($sql, [':menu_item_id_fk'=>$row['menu_item_id_fk'], ':template'=>$row['template'], ':editor'=>$row['editor'],
-             ':id'=>$row['id']]);
+    public function update(RowDataInterface $rowData) {
+        return $this->execUpdate('multipage', ['id'], $rowData);
     }
 
-    public function delete($row) {
-        $sql = "DELETE FROM `multipage` WHERE `multipage`.`id` = :id;
-";
-        return $this->execDelete($sql, [':id'=>$row['id']]);
+    public function delete(RowDataInterface $rowData) {
+        return $this->execDelete('multipage', ['id'], $rowData);
     }
 }
 

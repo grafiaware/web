@@ -10,15 +10,19 @@ namespace Events\Model\Dao;
 
 use Pes\Database\Handler\HandlerInterface;
 
-use Model\Dao\DaoAbstract;
+use Model\Dao\DaoTableAbstract;
 use Model\Dao\DaoAutoincrementKeyInterface;
+use Model\Dao\LastInsertIdTrait;
+use Model\RowData\RowDataInterface;
 
 /**
  * Description of LoginDao
  *
  * @author pes2704
  */
-class EventTypeDao extends DaoAbstract implements DaoAutoincrementKeyInterface {
+class EventTypeDao extends DaoTableAbstract implements DaoAutoincrementKeyInterface {
+
+    use LastInsertIdTrait;
 
     /**
      * Vrací jednu řádku tabulky 'event' ve formě asociativního pole podle primárního klíče.
@@ -43,39 +47,15 @@ class EventTypeDao extends DaoAbstract implements DaoAutoincrementKeyInterface {
         $where = $this->where($whereClause);
         return $this->selectMany($select, $from, $where, $touplesToBind);    }
 
-    public function insert($row) {
-        // autoincrement id
-        $sql = "
-        INSERT INTO `event_type`
-        (`value`)
-        VALUES
-        (:value)";
-
-        return $this->execInsert($sql,[':value'=>$row['value']]);
+    public function insert(RowDataInterface $rowData) {
+        return $this->execInsert('event_type', $rowData);
     }
 
-    /**
-     * Pro tabulky s auto increment id.
-     *
-     * @return type
-     */
-    public function getLastInsertedId() {
-        return $this->getLastInsertedIdForOneRowInsert();
+    public function update(RowDataInterface $rowData) {
+        return $this->execUpdate('event_type', ['id'], $rowData);
     }
 
-    public function update($row) {
-        $sql = "
-            UPDATE `event_type`
-            SET
-            `value` = :value
-            WHERE `id` = :id";
-        return $this->execUpdate($sql, [':value'=>$row['value'], ':id'=>$row['id']]);
-    }
-
-    public function delete($row) {
-        $sql = "
-            DELETE FROM `event_type`
-            WHERE `id` = :id";
-        return $this->execDelete($sql, [':id'=>$row['id']]);
+    public function delete(RowDataInterface $rowData) {
+        return $this->execDelete('event_type', ['id'], $rowData);
     }
 }

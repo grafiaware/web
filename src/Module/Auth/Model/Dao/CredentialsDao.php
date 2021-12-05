@@ -3,14 +3,15 @@
 
 namespace Auth\Model\Dao;
 
-use Model\Dao\DaoAbstract;
+use Model\Dao\DaoTableAbstract;
+use Model\RowData\RowDataInterface;
 
 /**
  * Description of UserDao
  *
  * @author pes2704
  */
-class CredentialsDao extends DaoAbstract {
+class CredentialsDao extends DaoTableAbstract {
 
     /**
      *
@@ -45,24 +46,15 @@ class CredentialsDao extends DaoAbstract {
         return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
-    public function insert($row) {
-        $sql = "INSERT INTO credentials (login_name_fk, password_hash, role )
-                VALUES (:login_name_fk, :password_hash, :role )";
-        return $this->execInsert($sql, [':login_name_fk'=>$row['login_name_fk'],
-                                        ':password_hash'=>$row['password_hash'],
-                                        ':role'=>$row['role']  ]);
+    public function insert(RowDataInterface $rowData) {
+        return $this->execInsert('credentials', $rowData);
     }
 
-    public function update($row) {
-        $sql = "UPDATE credentials SET password_hash = :password_hash, role = :role
-                WHERE `login_name_fk` = :login_name_fk";
-        return $this->execUpdate($sql, [':password_hash'=>$row['password_hash'],
-                                        ':role'=>$row['role'],
-                                        ':login_name_fk'=>$row['login_name_fk'] ]);
+    public function update(RowDataInterface $rowData) {
+        return $this->execUpdate('credentials', ['login_name_fk'], $rowData);
     }
 
-    public function delete($row) {
-        $sql = "DELETE FROM credentials WHERE `login_name_fk` = :login_name_fk";
-        return $this->execDelete($sql, [':login_name_fk'=>$row['login_name_fk'] ]);
+    public function delete(RowDataInterface $rowData) {
+        return $this->execDelete('credentials', ['login_name_fk'], $rowData);
     }
 }

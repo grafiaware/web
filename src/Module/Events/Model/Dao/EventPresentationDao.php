@@ -9,15 +9,19 @@
 namespace Events\Model\Dao;
 
 
-use Model\Dao\DaoAbstract;
+use Model\Dao\DaoTableAbstract;
 use Model\Dao\DaoAutoincrementKeyInterface;
+use Model\Dao\LastInsertIdTrait;
+use Model\RowData\RowDataInterface;
 
 /**
  * Description of LoginDao
  *
  * @author pes2704
  */
-class EventPresentationDao extends DaoAbstract implements DaoAutoincrementKeyInterface {
+class EventPresentationDao extends DaoTableAbstract implements DaoAutoincrementKeyInterface {
+
+    use LastInsertIdTrait;
 
     /**
      * Vrací jednu řádku tabulky 'event' ve formě asociativního pole podle primárního klíče.
@@ -53,65 +57,15 @@ class EventPresentationDao extends DaoAbstract implements DaoAutoincrementKeyInt
         return $this->selectMany($select, $from, $where, $touplesToBind);
     }
 
-    public function insert($row) {
-        // autoincrement id
-        $sql = "
-            INSERT INTO `event_presentation`
-            (
-            `show`,
-            `platform`,
-            `url`,
-            `event_id_fk`)
-            VALUES
-            (
-            :show,
-            :platform,
-            :url,
-            :event_id_fk);";
-
-        return $this->execInsert($sql,
-            [
-                ':show'=>$row['show'],
-                ':platform'=>$row['platform'],
-                ':url'=>$row['url'],
-                ':event_id_fk'=>$row['event_id_fk'] ?? null,   // může být null
-            ]);
+    public function insert(RowDataInterface $rowData) {
+        return $this->execInsert('event_presentation', $rowData);
     }
 
-    /**
-     * Pro tabulky s auto increment id.
-     *
-     * @return type
-     */
-    public function getLastInsertedId() {
-        return $this->getLastInsertedIdForOneRowInsert();
+    public function update(RowDataInterface $rowData) {
+        return $this->execUpdate('event_presentation', ['id'], $rowData);
     }
 
-    public function update($row) {
-
-        $sql = "
-            UPDATE `event_presentation`
-            SET
-            `show` = :show,
-            `platform` = :platform,
-            `url` = :url,
-            `event_id_fk` = :event_id_fk
-            WHERE `id` = :id";
-
-return $this->execUpdate($sql,
-            [
-                ':show'=>$row['show'],
-                ':platform'=>$row['platform'],
-                ':url'=>$row['url'],
-                ':event_id_fk'=>$row['event_id_fk'],   // not null
-                ':id'=>$row['id']
-            ]);
-    }
-
-    public function delete($row) {
-        $sql = "
-            DELETE FROM `event_presentation`
-            WHERE `id` = :id";
-        return $this->execDelete($sql, [':id'=>$row['id']]);
+    public function delete(RowDataInterface $rowData) {
+        return $this->execDelete('event_presentation', ['id'], $rowData);
     }
 }

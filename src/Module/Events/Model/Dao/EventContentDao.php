@@ -9,15 +9,19 @@
 namespace Events\Model\Dao;
 
 
-use Model\Dao\DaoAbstract;
+use Model\Dao\DaoTableAbstract;
 use Model\Dao\DaoAutoincrementKeyInterface;
+use \Model\Dao\LastInsertIdTrait;
+use Model\RowData\RowDataInterface;
 
 /**
  * Description of LoginDao
  *
  * @author pes2704
  */
-class EventContentDao extends DaoAbstract implements DaoAutoincrementKeyInterface {
+class EventContentDao extends DaoTableAbstract implements DaoAutoincrementKeyInterface {
+
+    use LastInsertIdTrait;
 
     /**
      * Vrací jednu řádku tabulky 'event' ve formě asociativního pole podle primárního klíče.
@@ -54,68 +58,15 @@ class EventContentDao extends DaoAbstract implements DaoAutoincrementKeyInterfac
         return $this->selectMany($select, $from, $where, $touplesToBind);
     }
 
-    public function insert($row) {
-        // autoincrement id
-        $sql = "
-            INSERT INTO `event_content`
-            (
-            `title`,
-            `perex`,
-            `party`,
-            `event_content_type_type_fk`,
-            `institution_id_fk`)
-            VALUES
-            (
-            :title,
-            :perex,
-            :party,
-            :event_content_type_type_fk,
-            :institution_id_fk)";
-
-        return $this->execInsert($sql,
-            [
-                ':title'=>$row['title'],
-                ':perex'=>$row['perex'],
-                ':party'=>$row['party'],
-                ':event_content_type_type_fk'=>$row['event_content_type_type_fk'] ?? null,   // může být null
-                ':institution_id_fk'=>$row['institution_id_fk'] ?? null,   // může být null
-            ]);
+    public function insert(RowDataInterface $rowData) {
+        return $this->execInsert('event_content', $rowData);
     }
 
-    /**
-     * Pro tabulky s auto increment id.
-     *
-     * @return type
-     */
-    public function getLastInsertedId() {
-        return $this->getLastInsertedIdForOneRowInsert();
+    public function update(RowDataInterface $rowData) {
+        return $this->execUpdate('event_content', ['id'], $rowData);
     }
 
-    public function update($row) {
-        $sql = "
-            UPDATE `event`
-            SET
-            `published` = :published,
-            `start` = :start,
-            `end` = :end,
-            `event_type_id_fk` = :event_type_id_fk,
-            `event_content_id_fk` = event_content_id_fk
-            WHERE `id` = :id";
-        return $this->execUpdate($sql,
-            [
-                ':published'=>$row['published'],
-                ':start'=>$row['start'],
-                ':end'=>$row['end'],
-                ':event_type_id_fk'=>$row['event_type_id_fk'] ?? null,   // může být null
-                ':event_content_id_fk'=>$row['event_content_id_fk'] ?? null,   // může být null
-                ':id'=>$row['id']
-            ]);
-    }
-
-    public function delete($row) {
-        $sql = "
-            DELETE FROM `event_content`
-            WHERE `id` = :id";
-        return $this->execDelete($sql, [':id'=>$row['id']]);
+    public function delete(RowDataInterface $rowData) {
+        return $this->execDelete('event_content', ['id'], $rowData);
     }
 }

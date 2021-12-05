@@ -8,14 +8,14 @@
 
 namespace Red\Model\Dao;
 
-use Model\Dao\DaoAbstract;
+use Model\Dao\DaoTableAbstract;
 
 /**
  * Description of RsDao
  *
  * @author pes2704
  */
-class StaticalDao extends DaoAbstract {
+class StaticalDao extends DaoTableAbstract {
 
     /**
      * Vrací jednu řádku tabulky 'paper' ve formě asociativního pole podle primárního klíče.
@@ -57,35 +57,15 @@ class StaticalDao extends DaoAbstract {
         return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
-    public function insert($row) {
-        $sql = "INSERT INTO `statical`
-                (
-                `menu_item_id_fk`,
-                `path`,
-                `folded`)
-                VALUES
-                (
-                menu_item_id_fk:,
-                path:,
-                folded:);
-                ";
-        return $this->execInsert($sql, [':menu_item_id_fk'=>$row['menu_item_id_fk'], ':path'=>$row['path'], ':folded'=>$row['folded']]);
+    public function insert(RowDataInterface $rowData) {
+        return $this->execInsert('statical', $rowData);
     }
 
-    public function update($row) {
-        $sql = "UPDATE `statical`
-                SET
-                `menu_item_id_fk` = menu_item_id_fk:,
-                `path` = path:,
-                `folded` = folded:
-                WHERE
-                    `statical`.`id` = :id";
-
-        return $this->execUpdate($sql, [':menu_item_id_fk'=>$row['menu_item_id_fk'], ':path'=>$row['path'], ':folded'=>$row['folded'], ':id'=>$row['id']]);
+    public function update(RowDataInterface $rowData) {
+        return $this->execUpdate('statical', ['id'], $rowData);
     }
 
-    public function delete($row) {
-        $sql = "DELETE FROM statical WHERE id = :id";
-        return $this->execDelete($sql, [':id'=>$row['id']]);
+    public function delete(RowDataInterface $rowData) {
+        return $this->execDelete('statical', ['id'], $rowData);
     }
 }

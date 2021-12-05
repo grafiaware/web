@@ -2,14 +2,14 @@
 
 namespace Auth\Model\Dao;
 
-use Model\Dao\DaoAbstract;
+use Model\Dao\DaoReadonlyAbstract;
 
 /**
  * Description of UserDao
  *
  * @author pes2704
  */
-class LoginAggregateReadonlyDao extends DaoAbstract {
+class LoginAggregateReadonlyDao extends DaoReadonlyAbstract {
 
     public function get($loginName) {
         $select = $this->select("

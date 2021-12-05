@@ -16,6 +16,6 @@ class NominateFilter extends \FilterIterator implements NominateFilterInterface 
     }
 
     public function accept(): bool {
-        return array_key_exists($this->key(), $this->names);
+        return array_key_exists($this->key(), $this->names);  // nelze použít isset() - akceptuje položky, které existují a nejsou null
     }
 }

@@ -19,7 +19,7 @@ use Model\RowData\Filter\NominateFilter;
  *
  * @author pes2704
  */
-abstract class DaoAbstract {
+abstract class DaoReadonlyAbstract implements DaoReadonlyInterface {
 
     /**
      *
@@ -29,10 +29,6 @@ abstract class DaoAbstract {
 
     protected $fetchMode;
 
-    protected $lastInsertRowCount;
-
-    protected $rowCount;
-
     /**
      * Prepared statements cache
      *
@@ -40,8 +36,8 @@ abstract class DaoAbstract {
      */
     private $preparedStatements = [];
 
-    public function __construct(HandlerInterface $dbHandler, $fetchClassName) {
-        $this->dbHandler = $dbHandler;
+    public function __construct(HandlerInterface $handler, $fetchClassName) {
+        $this->dbHandler = $handler;
         $this->fetchMode = [\PDO::FETCH_CLASS, $fetchClassName];
     }
 
@@ -55,10 +51,6 @@ abstract class DaoAbstract {
 
     protected function where($condition = "") {
         return $condition ? " WHERE ".$condition." " : "";
-    }
-
-    protected function set($set) {
-        return implode(", ", $set);
     }
 
     /**
@@ -97,13 +89,6 @@ abstract class DaoAbstract {
         return $merged;
     }
 
-    private function touples(array $names) {
-        foreach ($names as $name) {
-            $touples[] = $name . " = :" . $name;
-        }
-        return $touples;
-    }
-
     /**
      * Očekává SQL string s příkazem SELECT a případnými placeholdery. Provede ho s použitím parametrů a vrací jednu řádku tabulky ve formě dané nastavením parametrů konstruktoru.
      * V případě úspěchu vrací objekt nebo asociativní pole, v případě neúspěchu vrací false (viz metoda PDOStatement fetch()).
@@ -118,7 +103,7 @@ abstract class DaoAbstract {
      * @param string $sql SQL příkaz s případnými placeholdery.
      * @param array $touplesToBind Pole parametrů pro bind, nepovinný parametr, default prázdné pole.
      * @param bool $checkDuplicities Nepovinný parametr, default FALSE.
-     * @return object|array|false
+     * @return object|array|null
      */
     protected function selectOne($select, $from, $where, $touplesToBind=[], $checkDuplicities=FALSE) {
         $statement = $this->getPreparedStatement($select.$from.$where);
@@ -158,99 +143,6 @@ abstract class DaoAbstract {
     }
 
     /**
-     * Očekává SQL string s příkazem INSERT. Provede ho s použitím parametrů a vrací výsledek metody PDOStatement->execute().
-     *
-     * Podrobně:
-     * - Vyzvedne vytvořený prepared statement pro zadaný SQL řetězec z cache, pokud není vytvoří nový prepared statement a uloží do cache.
-     * - Nahradí placeholdery zadanými parametry pomocí bindParams().
-     * - Provede příkaz a vrací výsledek metody PDOStatement->execute().
-     *
-     * @param string $sql SQL příkaz s případnými placeholdery.
-     * @param array $touplesToBind Pole parametrů pro bind, nepovinný parametr, default prázdné pole.
-     * @return aray
-     */
-    protected function execInsert($tableName, RowDataInterface $rowData) {
-        $cols = implode(', ', array_keys($rowData->fetchChanged()));
-        $values = ':'.implode(', :', array_keys($rowData->fetchChanged()));
-        $sql = "INSERT INTO $tableName (".$cols.")  VALUES (" .$values.")";
-        $statement = $this->getPreparedStatement($sql);
-        $this->bindParams($statement, $rowData->fetchChanged());
-        $success = $statement->execute();
-        $this->lastInsertRowCount = $statement->rowCount();
-        $this->rowCount = $this->lastInsertRowCount;
-        return $success ?? false;
-    }
-
-    protected function getLastInsertedIdForOneRowInsert() {
-        if ($this->lastInsertRowCount == 1) {
-            return $this->dbHandler->lastInsertId();
-        } else {
-            user_error("Metoda getLastInsertedIdForOneRowInsert vrací platnou hodnotu jen při vložení právě jedho řádku. Poslední insert vložil řádky: $this->lastInsertRowCount.");
-        }
-    }
-
-    /**
-     * Očekává SQL string s příkazem UPDATE. Provede ho s použitím parametrů a vrací výsledek metody PDOStatement->execute().
-     *
-     * Podrobně:
-     * - Vyzvedne vytvořený prepared statement pro zadaný SQL řetězec z cache, pokud není vytvoří nový prepared statement a uloží do cache.
-     * - Nahradí placeholdery zadanými parametry pomocí bindParams().
-     * - Provede příkaz a vrací výsledek metody PDOStatement->execute().
-     *
-     */
-    protected function execUpdate($tableName, $whereNames, RowDataInterface $rowData) {
-        if ($rowData->isChanged()) {
-            $set = [];
-            $where = [];
-            foreach ($rowData->fetchChanged() as $name => $value) {
-                    $set[] = $name . " = :" . $name;
-                    $binds[$name] = $value;
-            }
-            foreach ($whereNames as $name) {
-                    $where[] = $name . " = :" . $name;
-                    $binds[$name] = $rowData->offsetGet($name);
-            }
-            $sql = "UPDATE $tableName SET ".$this->set($set).$this->where($this->and($where));
-            $statement = $this->getPreparedStatement($sql);
-            $this->bindParams($statement, $binds);
-            $success = $statement->execute();
-            $this->rowCount = $statement->rowCount();
-        }
-        return $success ?? false;
-    }
-
-    /**
-     * Očekává SQL string s příkazem DELETE. Provede ho s použitím parametrů a vrací výsledek metody PDOStatement->execute().
-     *
-     * Podrobně:
-     * - Vyzvedne vytvořený prepared statement pro zadaný SQL řetězec z cache, pokud není vytvoří nový prepared statement a uloží do cache.
-     * - Nahradí placeholdery zadanými parametry pomocí bindParams().
-     * - Provede příkaz a vrací výsledek metody PDOStatement->execute().
-     *
-     */
-    protected function execDelete($tableName, $whereNames, RowDataInterface $rowData) {
-        foreach ($whereNames as $name) {
-            $where[] = $name . " = :" . $name;
-        }
-        $sql = "DELETE FROM $tableName ".$this->where($this->and($where));
-        $statement = $this->getPreparedStatement($sql);
-        $this->bindParams($statement, $rowData, $whereNames);
-        $success = $statement->execute();
-        $this->rowCount = $statement->rowCount();
-        return $success;
-    }
-
-    /**
-     * Vrací počet řádek dotčených posledním příkazem delete, insert nebo update
-     *
-     * Správná funkce předpokládá nastavení atributu handleru PDO::MYSQL_ATTR_FOUND_ROWS = true
-     * @param type $param
-     */
-    protected function getRowCount($param) {
-        return $this->lastInsertRowCount;
-    }
-
-    /**
      * Vrací prepared statement z cache. Pokud není v cache, vytvoří nový prepared statement, uliží do cache a vrací.
      *
      * @param type $sql
@@ -265,19 +157,33 @@ abstract class DaoAbstract {
         return $this->preparedStatements[$sql];
     }
 
-    private function bindParams(\PDOStatement $statement, $touplesToBind=[], $filterNames=[]) {
-        if(!$filterNames) {
-            $filterNames = array_keys($touplesToBind);
-        }
-        foreach ($filterNames as $name) {
-            if (strpos($statement->queryString, $name) !== FALSE) {
+    /**
+     * Předpokládá, ale nekontroluje, že s parametrem $touplesToBind lze pracovat jako s polem.
+     *
+     * @param \PDOStatement $statement
+     * @param iterable $touplesToBind
+     * @param iterable $filterNames
+     * @return \PDOStatement
+     */
+    protected function bindParams(\PDOStatement $statement, iterable $touplesToBind, iterable $filterNames=[]) {
+        if($filterNames) {
+            foreach ($filterNames as $name) {
                 if (isset($touplesToBind[$name])) {
                     $statement->bindValue($name, $touplesToBind[$name]);
                 } else {
                     $statement->bindValue($name, null, \PDO::PARAM_INT);
                 }
             }
+        } else {
+            foreach ($touplesToBind as $name => $value) {
+                if (isset($value)) {
+                    $statement->bindValue($name, $value);
+                } else {
+                    $statement->bindValue($name, null, \PDO::PARAM_INT);
+                }
+            }
         }
+
         return $statement;
     }
 

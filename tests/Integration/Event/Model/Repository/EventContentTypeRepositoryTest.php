@@ -1,6 +1,5 @@
 <?php
 declare(strict_types=1);
-namespace Test\Integration\Repository;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -8,7 +7,7 @@ namespace Test\Integration\Repository;
  * and open the template in the editor.
  */
 
-use PHPUnit\Framework\TestCase;
+use Test\AppRunner\AppRunner;
 
 use Pes\Container\Container;
 
@@ -19,13 +18,13 @@ use Events\Model\Dao\EventContentTypeDao;
 use Events\Model\Repository\EventContentTypeRepo;
 
 use Events\Model\Entity\EventContentType;
-
+use Model\RowData\RowData;
 
 /**
  *
  * @author pes2704
  */
-class EventContentTypeRepositoryTest extends TestCase {
+class EventContentTypeRepositoryTest extends AppRunner {
 
     private $container;
 
@@ -36,15 +35,7 @@ class EventContentTypeRepositoryTest extends TestCase {
     private $eventContentTypeRepo;
 
     public static function setUpBeforeClass(): void {
-        if ( !defined('PES_DEVELOPMENT') AND !defined('PES_PRODUCTION') ) {
-            define('PES_FORCE_DEVELOPMENT', 'force_development');
-            //// nebo
-            //define('PES_FORCE_PRODUCTION', 'force_production');
-
-            define('PROJECT_PATH', 'c:/ApacheRoot/web/');
-
-            include '../vendor/pes/pes/src/Bootstrap/Bootstrap.php';
-        }
+        self::bootstrapBeforeClass();
 
         $container =
             (new EventsContainerConfigurator())->configure(
@@ -61,17 +52,20 @@ class EventContentTypeRepositoryTest extends TestCase {
         // toto je příprava testu
         /** @var EventContentTypeDao $eventContentTypeDao */
         $eventContentTypeDao = $container->get(EventContentTypeDao::class);
-
-        $eventContentTypeDao->insertWithKeyVerification([
-            'type' => 'testEvCtTypeType',
-            'name' => 'testEventContentTypeName',
-        ]);
+        $rowData = new RowData();
+        $type =  "testEvCtTypeType";
+        $rowData->offsetSet('type', $type);
+        $rowData->offsetSet('name', "testEventContentTypeName");
+        $eventContentTypeDao->insertWithKeyVerification($rowData);
     }
 
     private static function deleteRecords(Container $container) {
         /** @var EventContentTypeDao $eventContentTypeDao */
         $eventContentTypeDao = $container->get(EventContentTypeDao::class);
-        $eventContentTypeDao->delete(['type' => 'testEvCtTypeType']);
+        $row = $eventContentTypeDao->get('testEvCtTypeType');
+        if (isset($row)) {
+            $eventContentTypeDao->delete($row);
+        }
     }
 
     protected function setUp(): void {

@@ -20,6 +20,8 @@ use Events\Model\Entity\VisitorData;
 use Events\Model\Dao\VisitorDataDao;
 use Events\Model\Repository\VisitorDataRepo;
 
+use Model\RowData\RowData;
+
 use Model\Dao\Exception\DaoKeyVerificationFailedException;
 
 

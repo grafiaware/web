@@ -26,23 +26,30 @@ interface RowDataInterface extends \IteratorAggregate, \ArrayAccess, \Serializab
     public function isChanged(): bool;
 
     /**
-     * Vrací ArrayObject položek změněných od instancování objektu RowDataInterface nebo od posledního volání metody ->fetchChanged()
+     * Vrací pole jmen změněných hodnot od instancování RowData objektu nebo od posledního volání této metody.
      *
      * Změnou hodnoty položky je i změna typu nebo záměna instance objektu za jinou.
      *
-     * Metoda vrací evidované změněné hodnoty a evidenci změněných hodnot smaže. Další změny jsou pak dále evidovány a příští volání
+     * Metoda vrací evidovaná jména změněných hodnoty a evidenci jmen hodnot smaže. Další změny jsou pak dále evidovány a příští volání
      * této metody vrací jen tyto další změny.
+     *
+     * @return array
+     */
+    public function changedNames(): array;
+
+    /**
+     * Vrací nový ArrayObject obsahující změněné hodnoty. Původní RowData objekt zůstane nezměněn, ani evidované změny (changedNames()) se nemění.
      *
      * @return \ArrayObject
      */
-    public function fetchChanged(): \ArrayObject;
+    public function yieldChanged(): \ArrayObject;
 
     /**
      * Přidá hodnotu do objektu bez kontroly, zda jde o změněná data a bez vlivu na hodnoty zaregistrované ja změněné.
      * - pro PdoRowData metodu __set()
      * - pro asociované entity v agregátech - přidání asociované entity do rodičovské entity metodou offsetSet by vždy vedlo k tomu,
      *   že asociovaná entita je v rodičovském RowData vložena jako changed
-     * 
+     *
      * @param type $index
      * @param type $value
      */

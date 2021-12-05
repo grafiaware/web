@@ -97,7 +97,7 @@ class ArticleControler extends FrontControlerAbstract {
             //TODO: -template je nutné nastavit ve všech jazykových verzích ?? možná ne
             $article->setTemplate($lastTemplateName);
             $article->setContent($postTemplate);
-            $this->addFlashMessage("Set template: $lastTemplateName");
+            $this->addFlashMessage("Set content from template: $lastTemplateName");
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
     }

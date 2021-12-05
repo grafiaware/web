@@ -24,6 +24,7 @@ use Events\Model\Repository\LoginRepo;
 
 use Events\Model\Entity\Login;
 
+use Model\RowData\RowData;
 
 /**
  *

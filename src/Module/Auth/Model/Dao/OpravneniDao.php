@@ -8,14 +8,14 @@
 
 namespace Auth\Model\Dao;
 
-use Model\Dao\DaoAbstract;
+use Model\Dao\DaoReadonlyAbstract;
 
 /**
  * Description of RsDao
  *
  * @author pes2704
  */
-class OpravneniDao {
+class OpravneniDao extends DaoReadonlyAbstract {
 
     /**
      * Vrací asociativní pole s jménem uživatele - user. Jde o část řádky tabulky opravneni.

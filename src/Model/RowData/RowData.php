@@ -17,16 +17,14 @@ namespace Model\RowData;
  */
 class RowData extends \ArrayObject implements RowDataInterface {
 
-    private $isChanged = false;
-
     /**
      *
-     * @var \ArrayObject
+     * @var array
      */
-    private $changed;
+    private $changed = [];
 
     /**
-     * V kostruktoru se mastaví způsob zapisu dat do RowData objektu na ARRAY_AS_PROPS a pokud je zadán parametr $data, zapíší se tato data
+     * V kostruktoru se mastaví způsob zápisu dat do RowData objektu na ARRAY_AS_PROPS a pokud je zadán parametr $data, zapíší se tato data
      * do interní storage objektu. Nastavení ARRAY_AS_PROPS způsobí, že každý zápis dalších dat je prováděn metodou offsetSet.
      * @param type $data
      */
@@ -35,20 +33,17 @@ class RowData extends \ArrayObject implements RowDataInterface {
     }
 
     public function isChanged(): bool {
-        return $this->isChanged;
+        return $this->changed ? true : false;
     }
 
     /**
-     * Vrací ArrayObject změněných hodnot od instancování RowData objektu nebo od posledního volání této metody.
-     * Metoda vrací evidované změněné hodnoty a evidenci změněných hodnot smaže. Další změny jsou pak dále evidovány a příští volání
-     * této metody vrací jen tyto další změny.
+     * {@inheritdoc}
      *
-     * @return \ArrayObject
+     * @return array
      */
-    public function fetchChanged(): \ArrayObject {
-        $changed = $this->getChanged();
-        $this->isChanged = false;
-        $this->resetChanged();  // nový objekt - neovlivňuji dále referencovaný starý changed objekt
+    public function changedNames(): array {
+        $changed = array_keys($this->changed);
+        $this->changed = [];
         return $changed;
     }
 
@@ -62,11 +57,11 @@ class RowData extends \ArrayObject implements RowDataInterface {
 
     public function exchangeArray($data) {
         // Zde by se musely v cyklu vyhodnocovat varianty byla/nebyla data x jsou/nejsou nová data
-        throw new LogicException('Nelze použít metodu exchangeArray(). Použijte offsetSet().');
+        throw new \LogicException('Nelze použít metodu exchangeArray(). Použijte offsetSet().');
     }
 
     public function append($value) {
-        throw new LogicException('Nelze vkládat neindexovaná data. Použijte offsetSet().');
+        throw new \LogicException('Nelze vkládat neindexovaná data. Použijte offsetSet().');
     }
 
     /**
@@ -89,20 +84,8 @@ class RowData extends \ArrayObject implements RowDataInterface {
         // změněná nebo nová data
         if (!parent::offsetExists($index) OR parent::offsetGet($index) !== $value) {
             parent::offsetSet($index, $value);
-            $this->isChanged = true;
-            $this->getChanged()->offsetSet($index, $value);
+            $this->changed[$index] = $index;
         }
-    }
-
-    private function getChanged(): \ArrayObject {
-        if (!isset($this->changed)) {
-            $this->resetChanged();
-        }
-        return $this->changed;
-    }
-
-    private function resetChanged() {
-        $this->changed = new \ArrayObject();
     }
 
     // pro PdoRowData
@@ -110,5 +93,14 @@ class RowData extends \ArrayObject implements RowDataInterface {
     // vložena jako changed
     public function forcedSet($index, $value) {
         parent::offsetSet($index, $value);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return \ArrayObject
+     */
+    public function yieldChanged(): \ArrayObject {
+        return new \ArrayObject(array_intersect_key($this->getArrayCopy(), array_flip($this->changed)));
     }
 }

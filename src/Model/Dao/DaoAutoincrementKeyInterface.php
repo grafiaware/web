@@ -12,6 +12,6 @@ namespace Model\Dao;
  *
  * @author pes2704
  */
-interface DaoAutoincrementKeyInterface {
+interface DaoAutoincrementKeyInterface extends DaoTableInterface {
     public function getLastInsertedId();
 }

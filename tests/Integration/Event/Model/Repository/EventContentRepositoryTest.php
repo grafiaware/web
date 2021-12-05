@@ -20,6 +20,8 @@ use Events\Model\Repository\EventContentRepo;
 
 use Events\Model\Entity\EventContent;
 
+use Model\RowData\RowData;
+
 // eventrepo
 use Events\Model\Repository\EventRepo;
 use Events\Model\Entity\EventInterface;
@@ -69,19 +71,20 @@ class EventContentRepositoryTest extends TestCase {
         // toto je příprava testu
         /** @var EventContentDao $eventTContentDao */
         $eventTContentDao = $container->get(EventContentDao::class);
-
-        $eventTContentDao->insert([
-            'party' => "testEventContentKluk, Ťuk, Muk, Kuk, Buk, Guk",
-            'perex' => "testEventContent Přednáška kjrhrkjh rkh rktjh erůjkhlkjhlkjhg welkfh ůh ů§h §h ů§fh lůfjkhů fkjh fůsdjefhů fhsůjh ksjh ůjh ůsdhdůfh sůheůrjheů",
-            'title' => "testEventContentPřednáška",
-        ]);
+        $rowData = new RowData();
+        $rowData->offsetSet('party', "testEventContentKluk, Ťuk, Muk, Kuk, Buk, Guk");
+        $rowData->offsetSet('perex', "testEventContent Přednáška kjrhrkjh rkh rktjh erůjkhlkjhlkjhg welkfh ůh ů§h §h ů§fh lůfjkhů fkjh fůsdjefhů fhsůjh ksjh ůjh ůsdhdůfh sůheůrjheů");
+        $rowData->offsetSet('title', "testEventContentPřednáška");
+        $eventTContentDao->insert($rowData);
         self::$id = $eventTContentDao->getLastInsertedId();
     }
 
     private static function deleteRecords(Container $container) {
         /** @var EventContentDao $eventContentDao */
         $eventContentDao = $container->get(EventContentDao::class);
-        $eventContentDao->delete(['id'=>0]);
+        $rowData = new RowData();
+        $rowData->offsetSet('id', 0);
+        $eventContentDao->delete($rowData);
     }
 
     protected function setUp(): void {

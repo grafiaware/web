@@ -2,7 +2,8 @@
 
 namespace Auth\Model\Dao;
 
-use Model\Dao\DaoAbstract;
+use Model\Dao\DaoTableAbstract;
+use Model\RowData\RowDataInterface;
 
 use Pes\Database\Handler\HandlerInterface;
 
@@ -11,7 +12,7 @@ use Pes\Database\Handler\HandlerInterface;
  *
  * @author pes2704
  */
-class RegistrationDao extends DaoAbstract {
+class RegistrationDao extends DaoTableAbstract {
 
     public function get($loginNameFK) {
         $select = $this->select("
@@ -109,25 +110,11 @@ class RegistrationDao extends DaoAbstract {
 
     }
 
-    /**
-     * Update registration.
-     * login_name_fk, uid, created jsou readonly
-     *
-     * @param type $row
-     * @return type
-     */
-    public function update($row) {
-        $sql = "UPDATE registration SET  password_hash = :password_hash, email = :email, email_time = :email_time, info = :info
-                WHERE `login_name_fk` = :login_name_fk";
-        return $this->execUpdate($sql, [ ':password_hash'=>$row['password_hash'],
-                                         ':email'=>$row['email'],
-                                         ':email_time'=>$row['email_time'],
-                                         ':info'=>$row['info'],
-                                         ':login_name_fk'=>$row['login_name_fk']   ]);
+    public function update(RowDataInterface $rowData) {
+        return $this->execUpdate('registration', ['uid'], $rowData);
     }
 
-    public function delete($row) {
-        $sql = "DELETE FROM registration WHERE `login_name_fk` = :login_name_fk";
-        return $this->execDelete($sql, [':login_name_fk'=>$row['login_name_fk'] ]);
+    public function delete(RowDataInterface $rowData) {
+        return $this->execDelete('registration', ['uid'], $rowData);
     }
 }

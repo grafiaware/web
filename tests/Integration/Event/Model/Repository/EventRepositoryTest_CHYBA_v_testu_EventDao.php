@@ -15,26 +15,31 @@ use Pes\Container\Container;
 use Test\Integration\Event\Container\EventsContainerConfigurator;
 use Test\Integration\Event\Container\DbEventsContainerConfigurator;
 
-use Events\Model\Dao\EventPresentationDao;
-use Events\Model\Repository\EventPresentationRepo;
+use Events\Model\Dao\EventDao;
+use Events\Model\Repository\EventRepo;
 
-use Events\Model\Entity\EventPresentation;
+use Events\Model\Entity\Event;
+
+use Model\RowData\RowData;
+
 
 /**
  *
  * @author pes2704
  */
-class EventPresentationRepositoryTest extends TestCase {
+class EventRepositoryTest extends TestCase {
 
     private $container;
 
     /**
      *
-     * @var EventPresentationRepo
+     * @var EventRepo
      */
-    private $eventPresentationRepo;
+    private $eventRepo;
 
     private static $id;
+
+    private static $startTimestamp;
 
     public static function setUpBeforeClass(): void {
         if ( !defined('PES_DEVELOPMENT') AND !defined('PES_PRODUCTION') ) {
@@ -60,21 +65,28 @@ class EventPresentationRepositoryTest extends TestCase {
         self::deleteRecords($container);
 
         // toto je příprava testu
-        /** @var EventPresentationDao $eventTPresentationDao */
-        $eventTPresentationDao = $container->get(EventPresentationDao::class);
+        /** @var EventDao $eventDao */
+        $eventDao = $container->get(EventDao::class);
+//            id,
+//            published,
+//            start,
+//            end,
+//            event_type_id_fk,
+//            event_content_id_fk
 
-        $eventTPresentationDao->insert([
-            'show' => true,
-            'platform' => "testEventPresentation Platform",
-            'url' => "https://tqwrqwztrrwqz.zu?44654s6d5f46sd54f6s54f654sdf654sd65f4",
+        self::$startTimestamp = (new \DateTime())->format('Y-m-d H:i:s');
+        $eventDao->insert([
+            'published' => true,
+            'start' => self::$startTimestamp,
+            'end' => (new \DateTime())->modify("+24 hours")->format('Y-m-d H:i:s'),
         ]);
-        self::$id = $eventTPresentationDao->getLastInsertedId();
+        self::$id = $eventDao->getLastInsertedId();
     }
 
     private static function deleteRecords(Container $container) {
-        /** @var EventPresentationDao $eventPresentationDao */
-        $eventPresentationDao = $container->get(EventPresentationDao::class);
-        $eventPresentationDao->delete(['id'=>0]);
+        /** @var EventDao $eventDao */
+        $eventDao = $container->get(EventDao::class);
+        $eventDao->delete(['login_name'=>"testEvent"]);  // nesmysl Event namá login_name - vyhodí chybu - !! je třeba vymyslet mazání testovacích datz databáze!
     }
 
     protected function setUp(): void {
@@ -82,11 +94,11 @@ class EventPresentationRepositoryTest extends TestCase {
             (new EventsContainerConfigurator())->configure(
                 (new DbEventsContainerConfigurator())->configure(new Container())
             );
-        $this->eventPresentationRepo = $this->container->get(EventPresentationRepo::class);
+        $this->eventRepo = $this->container->get(EventRepo::class);
     }
 
     protected function tearDown(): void {
-        $this->eventPresentationRepo->flush();
+        $this->eventRepo->flush();
     }
 
     public static function tearDownAfterClass(): void {
@@ -103,62 +115,62 @@ class EventPresentationRepositoryTest extends TestCase {
     }
 
     public function testSetUp() {
-        $this->assertInstanceOf(EventPresentationRepo::class, $this->eventPresentationRepo);
+        $this->assertInstanceOf(EventRepo::class, $this->eventRepo);
     }
 
     public function testGetNonExisted() {
-        $event = $this->eventPresentationRepo->get(0);
+        $event = $this->eventRepo->get("QWER45T6U7I89OPOLKJHGFD");
         $this->assertNull($event);
     }
 
     public function testGetAndRemoveAfterSetup() {
-        $event = $this->eventPresentationRepo->get(self::$id);    // !!!! jenom po insertu v setUp - hodnotu vrací dao
-        $this->assertInstanceOf(EventPresentation::class, $event);
+        $event = $this->eventRepo->get(self::$id);    // !!!! jenom po insertu v setUp - hodnotu vrací dao
+        $this->assertInstanceOf(Event::class, $event);
 
-        $event = $this->eventPresentationRepo->remove($event);
+        $event = $this->eventRepo->remove($event);
         $this->assertNull($event);
     }
 
     public function testGetAfterRemove() {
-        $event = $this->eventPresentationRepo->get(self::$id);
+        $event = $this->eventRepo->get(self::$id);
         $this->assertNull($event);
     }
 
     public function testAdd() {
-
-        $eventContent = new EventPresentation();
-        $eventContent->setEventIdFk(null);
-        $eventContent->setShow(false);
-        $eventContent->setPlatform("testEventPresentation Platform test add");
-        $eventContent->setUrl("https://tqwrqwztrrwqz.zu?aaaa=555@ddd=6546546");
-        $this->eventPresentationRepo->add($eventContent);
-        $this->assertTrue($eventContent->isLocked());
+        $event = new Event();
+        $event->setPublished(true);
+        $event->setStart((new\DateTime())->setDate(1999, 7, 11)->setTime(14, 55));
+        $event->setEnd( ( clone $event->getStart())->modify("+1 hour"));
+        $this->eventRepo->add($event);
+        $this->assertTrue($event->isLocked());
     }
 
-    public function testfindAll() {
-        $eventContents = $this->eventPresentationRepo->findAll();
-        $this->assertTrue(is_array($eventContents));
+    public function testFindAll() {
+        $events = $this->eventRepo->findAll();
+        $this->assertTrue(is_array($events));
     }
+
+
 
 //    public function testGetAfterAdd() {
-//        $event = $this->eventTypeRepo->get("XXXXXX");
-//        $this->assertInstanceOf(EventPresentation::class, $event);
+//        $event = $this->eventRepo->get("XXXXXX");
+//        $this->assertInstanceOf(Event::class, $event);
 //        $this->assertTrue($event->getPublished());
 //    }
 //
 //    public function testGetAndRemoveAfterAdd() {
-//        $event = $this->eventTypeRepo->get("XXXXXX");
-//        $this->eventTypeRepo->remove($event);
-//        $this->assertTrue($event->isLocked(), 'EventPresentation není zamčena po remove.');
+//        $event = $this->eventRepo->get("XXXXXX");
+//        $this->eventRepo->remove($event);
+//        $this->assertTrue($event->isLocked(), 'Event není zamčena po remove.');
 //    }
 //
 //    public function testAddAndReread() {
-//        $event = new EventPresentation();
+//        $event = new Event();
 //        $event->setLoginName("XXXXXX");
-//        $this->eventTypeRepo->add($event);
-//        $this->eventTypeRepo->flush();
-//        $event = $this->eventTypeRepo->get($event->getLoginName());
-//        $this->assertTrue($event->isPersisted(), 'EventPresentation není persistován.');
+//        $this->eventRepo->add($event);
+//        $this->eventRepo->flush();
+//        $event = $this->eventRepo->get($event->getLoginName());
+//        $this->assertTrue($event->isPersisted(), 'Event není persistován.');
 //        $this->assertTrue(is_string($event->getLoginName()));
 //    }
 

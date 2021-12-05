@@ -8,7 +8,7 @@
 
 namespace Events\Model\Dao;
 
-use Model\Dao\DaoAbstract;
+use Model\Dao\DaoEditAbstract;
 
 use Pes\Database\Handler\HandlerInterface;
 use Model\Dao\DaoKeyDbVerifiedInterface;
@@ -18,7 +18,7 @@ use Model\Dao\Exception\DaoKeyVerificationFailedException;
  *
  * @author pes2704
  */
-class VisitorDataPostDao extends DaoAbstract implements DaoKeyDbVerifiedInterface {
+class VisitorDataPostDao extends DaoEditAbstract implements DaoKeyDbVerifiedInterface {
 
     public function get($loginName, $shortName, $positionName) {
         $select = $this->select("

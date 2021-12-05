@@ -10,15 +10,19 @@ namespace Events\Model\Dao;
 
 use Pes\Database\Handler\HandlerInterface;
 
-use Model\Dao\DaoAbstract;
+use Model\Dao\DaoTableAbstract;
 use Model\Dao\DaoAutoincrementKeyInterface;
+use \Model\Dao\LastInsertIdTrait;
+use Model\RowData\RowDataInterface;
 
 /**
  * Description of LoginDao
  *
  * @author pes2704
  */
-class VisitorDao extends DaoAbstract implements DaoAutoincrementKeyInterface {
+class VisitorDao extends DaoTableAbstract implements DaoAutoincrementKeyInterface {
+
+    use LastInsertIdTrait;
 
     /**
      * Vrací jednu řádku tabulky 'event' ve formě asociativního pole podle primárního klíče.
@@ -45,45 +49,18 @@ class VisitorDao extends DaoAbstract implements DaoAutoincrementKeyInterface {
             ");
         $from = $this->from("`events`.`visitor`");
         $where = $this->where($whereClause);
-        return $this->selectMany($select, $from, $where, $touplesToBind);    }
-
-    public function insert($row) {
-        // autoincrement id
-        $sql = "INSERT INTO `visitor`
-        (`login_login_name`)
-        VALUES
-        (:login_login_name)";
-
-        return $this->execInsert($sql,[':login_login_name'=>$row['login_login_name']]);
+        return $this->selectMany($select, $from, $where, $touplesToBind);
     }
 
-    /**
-     * Pro tabulky s auto increment id.
-     *
-     * @return type
-     */
-    public function getLastInsertedId() {
-        return $this->getLastInsertedIdForOneRowInsert();
+    public function insert(RowDataInterface $rowData) {
+        return $this->execInsert('visitor', $rowData);
     }
 
-    public function update($row) {
-        $sql = "
-            UPDATE `visitor`
-            SET
-            `login_login_name` = :login_login_name 
-            WHERE `id` = :id";
-        return $this->execUpdate($sql,
-            [
-                ':login_login_name'=>$row['login_login_name'],
-                ':id'=>$row['id']
-            ]);
+    public function update(RowDataInterface $rowData) {
+        return $this->execUpdate('visitor', ['id'], $rowData);
     }
 
-    public function delete($row) {
-        $sql = "
-            DELETE FROM `visitor`
-            WHERE `id` = :id";
-
-        return $this->execDelete($sql, [':id'=>$row['id']]);
+    public function delete(RowDataInterface $rowData) {
+        return $this->execDelete('visitor', ['id'], $rowData);
     }
 }

@@ -2,9 +2,8 @@
 
 namespace Red\Model\Dao\Hierarchy;
 
-//use Pes\Database\MyMiniHandler\HandlerInterface;
+use Model\Dao\DaoReadonlyAbstract;
 use Pes\Database\Handler\HandlerInterface;
-use Pes\Database\Statement\StatementInterface;
 
 use Model\Context\ContextFactoryInterface;
 
@@ -29,12 +28,20 @@ use Model\Context\ContextFactoryInterface;
  *
  * V obou případech jsou např. publikované uzly, které mají nějakého nepublikovaného předka v menu nedostupné. Jsou jen v menu v "editačním" modu, kdy se zobrazijí i neaktivní a neaktuální uzly.
  */
-class HierarchyAggregateReadonlyDao extends HierarchyAggregateEditDao implements HierarchyAggregateReadonlyDaoInterface {
+class HierarchyAggregateReadonlyDao extends DaoReadonlyAbstract implements HierarchyAggregateReadonlyDaoInterface {
 
     const UID_TITLE_SEPARATOR = '|';
     const BREADCRUMB_SEPARATOR = '/';
 
+    protected $nestedSetTableName;
+
     private $itemTableName;
+
+    /**
+     *
+     * @var ContextFactoryInterface
+     */
+    protected $contextFactory;
 
     /**
      *
@@ -43,8 +50,10 @@ class HierarchyAggregateReadonlyDao extends HierarchyAggregateEditDao implements
      * @param string $itemTableName Jméno databázové tabulky menu item
      */
     public function __construct(HandlerInterface $handler, $nestedSetTableName, $itemTableName, $fetchClassName="", ContextFactoryInterface $contextFactory=null) {
-        parent::__construct($handler, $nestedSetTableName, $fetchClassName, $contextFactory);
+        parent::__construct($handler, $fetchClassName);
+        $this->nestedSetTableName =$nestedSetTableName;
         $this->itemTableName = $itemTableName;
+        $this->contextFactory = $contextFactory;
     }
 
 ################

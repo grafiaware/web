@@ -8,10 +8,9 @@
 
 namespace Events\Model\Dao;
 
-use Pes\Database\Handler\HandlerInterface;
-
 use Model\Dao\DaoContextualAbstract;
 use Model\Dao\DaoAutoincrementKeyInterface;
+use \Model\Dao\LastInsertIdTrait;
 
 /**
  * Description of LoginDao
@@ -19,6 +18,8 @@ use Model\Dao\DaoAutoincrementKeyInterface;
  * @author pes2704
  */
 class EventDao extends DaoContextualAbstract implements DaoAutoincrementKeyInterface {
+
+    use LastInsertIdTrait;
 
     protected function getContextConditions() {
         $contextConditions = [];

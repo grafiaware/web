@@ -8,14 +8,16 @@
 
 namespace Red\Model\Dao;
 
-use Model\Dao\DaoAbstract;
+use Model\Dao\DaoTableAbstract;
+use Model\RowData\RowDataInterface;
+use Model\Dao\Exception\DaoForbiddenOperationException;
 
 /**
  * Description of MenuItemTypeDao
  *
  * @author pes2704
  */
-class MenuItemTypeDao  extends DaoAbstract {
+class MenuItemTypeDao extends DaoTableAbstract {
 
     public function get($type) {
         $select = $this->select("type");
@@ -32,19 +34,15 @@ class MenuItemTypeDao  extends DaoAbstract {
         return $this->selectMany($select, $from, $where, $touplesToBind);
     }
 
-    public function insert($row) {
-        $sql = "INSERT INTO menu_item_type(type)
-                VALUES (:type)";
-        return $this->execInsert($sql, [':type'=>$row['type']
-            ]);
+    public function insert(RowDataInterface $rowData) {
+        return $this->execInsert('menu_item_type', $rowData);
     }
 
-    public function update($row) {
-        throw new \LogicException("Není implemtováno - nelze měnit primární klíč type.");
+    public function update(RowDataInterface $rowData) {
+        throw new DaoForbiddenOperationException("Není implemtováno - nelze měnit primární klíč type.");
     }
 
-    public function delete($row) {
-        $sql = "DELETE FROM menu_item_type WHERE type = :type";
-        return $this->execDelete($sql, [':type'=>$row['type']]);
+    public function delete(RowDataInterface $rowData) {
+        return $this->execDelete('menu_item_type', ['type'], $rowData);
     }
 }

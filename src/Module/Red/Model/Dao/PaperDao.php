@@ -8,7 +8,7 @@
 
 namespace Red\Model\Dao;
 
-use Model\Dao\DaoAbstract;
+use Model\Dao\DaoTableAbstract;
 
 use Model\RowData\RowDataInterface;
 
@@ -17,7 +17,7 @@ use Model\RowData\RowDataInterface;
  *
  * @author pes2704
  */
-class PaperDao extends DaoAbstract {
+class PaperDao extends DaoTableAbstract {
 
     /**
      * Vrací jednu řádku tabulky 'paper' ve formě asociativního pole podle primárního klíče.
@@ -68,21 +68,14 @@ class PaperDao extends DaoAbstract {
     }
 
     public function insert(RowDataInterface $rowData) {
-        $sql = "INSERT INTO paper (menu_item_id_fk, headline, perex, template, keywords, editor)
-                VALUES (:menu_item_id_fk, :headline, :perex, :template, :keywords, :editor)";
         return $this->execInsert('paper', $rowData);
     }
 
     public function update(RowDataInterface $rowData) {
-//        $sql = "UPDATE paper SET menu_item_id_fk = :menu_item_id_fk, headline = :headline, keywords = :keywords, perex = :perex, template = :template, editor = :editor
-//                WHERE id = :id";
-//        return $this->execUpdate($sql, [':menu_item_id_fk'=>$row['menu_item_id_fk'], ':headline'=>$row['headline'], ':perex'=>$row['perex'], ':template'=>$row['template'], ':keywords'=>$row['keywords'], ':editor'=>$row['editor'],
-//             ':id'=>$row['id']]);
         return $this->execUpdate('paper', ['id'], $rowData);
     }
 
-    public function delete(RowDataInterface $row) {
-//        $sql = "DELETE FROM paper WHERE id = :id";
+    public function delete(RowDataInterface $rowData) {
         return $this->execDelete('paper', ['id'], $rowData);
     }
 }

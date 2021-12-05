@@ -17,6 +17,8 @@ use Test\Integration\Event\Container\DbEventsContainerConfigurator;
 
 use Events\Model\Dao\EventContentDao;
 
+use Model\RowData\RowData;
+
 
 // eventrepo
 use Events\Model\Repository\EventRepo;

@@ -8,11 +8,13 @@
 
 namespace Red\Model\Dao\Hierarchy;
 
+use Model\Dao\DaoTableInterface;
+
 /**
  *
  * @author pes2704
  */
-interface HierarchyEditDaoInterface {
+interface HierarchyEditDaoInterface extends DaoTableInterface {
 
 #### pomocné čtecí metody ###################################################
 

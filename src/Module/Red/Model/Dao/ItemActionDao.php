@@ -8,14 +8,15 @@
 
 namespace Red\Model\Dao;
 
-use Model\Dao\DaoAbstract;
+use Model\Dao\DaoTableAbstract;
+use Model\RowData\RowDataInterface;
 
 /**
  * Description of RsDao
  *
  * @author pes2704
  */
-class ItemActionDao extends DaoAbstract {
+class ItemActionDao extends DaoTableAbstract {
 
     /**
      * Vrací jednu řádku tabulky 'item_action' ve formě asociativního pole podle primárního klíče, klíč je kompozitní.
@@ -54,32 +55,16 @@ class ItemActionDao extends DaoAbstract {
         return $this->selectMany($select, $from, $where, $touplesToBind);
     }
 
-    public function insert($row) {
-        $sql = "INSERT INTO `item_action`
-            (`type_fk`,
-            `item_id`,
-            `editor_login_name`)
-            VALUES
-            (:type_fk,
-            :item_id,
-            :editor_login_name)
-            ";
-        return $this->execInsert($sql, [':type_fk'=>$row['type_fk'], ':item_id'=>$row['item_id'], ':editor_login_name'=>$row['editor_login_name']
-            ]);
+    public function insert(RowDataInterface $rowData) {
+        return $this->execInsert('item_action', $rowData);
     }
 
-    public function update($row) {
-        $sql = "UPDATE `item_action`
-            SET
-            `editor_login_name` = :editor_login_name
-            WHERE `type_fk` = :type_fk AND `item_id` = :item_id
-            ";
-        return $this->execUpdate($sql, [':editor_login_name'=>$row['editor_login_name'],
-             ':type_fk'=>$row['type_fk'], ':item_id'=>$row['item_id']]);
+    public function update(RowDataInterface $rowData) {
+        return $this->execUpdate('item_action', ['type_fk', 'item_id'], $rowData);
     }
 
-    public function delete($row) {
-        $sql = "DELETE FROM `item_action` WHERE `type_fk` = :type_fk AND `item_id` = :item_id";
-        return $this->execDelete($sql, [':type_fk'=>$row['type_fk'], ':item_id'=>$row['item_id']]);
+    public function delete(RowDataInterface $rowData) {
+        return $this->execDelete('item_action', ['type_fk', 'item_id'], $rowData);
     }
+
 }

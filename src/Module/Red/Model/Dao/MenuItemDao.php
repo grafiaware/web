@@ -8,15 +8,35 @@
 
 namespace Red\Model\Dao;
 
-use Model\Dao\DaoContextualAbstract;
+use Pes\Database\Handler\HandlerInterface;
+use Model\Dao\DaoTableAbstract;
+use Model\Context\ContextFactoryInterface;
 use Model\RowData\RowDataInterface;
+use Model\Dao\Exception\DaoForbiddenOperationException;
 
 /**
  * Description of RsDao
  *
  * @author pes2704
  */
-class MenuItemDao extends DaoContextualAbstract {
+class MenuItemDao extends DaoTableAbstract {
+
+    /**
+     *
+     * @var ContextFactoryInterface
+     */
+    protected $contextFactory;
+
+    /**
+     *
+     * @param HandlerInterface $handler
+     * @param strimg $nestedSetTableName Jméno tabulky obsahující nested set hierarchii položek. Používá se pro editaci hierarchie.
+     * @param ContextFactoryInterface $contextFactory
+     */
+    public function __construct(HandlerInterface $handler, $fetchClassName="", ContextFactoryInterface $contextFactory=null) {
+        parent::__construct($handler, $fetchClassName);
+        $this->contextFactory = $contextFactory;
+    }
 
     protected function getContextConditions() {
         $contextConditions = [];
@@ -173,25 +193,25 @@ class MenuItemDao extends DaoContextualAbstract {
 
     }
 
-    public function insert($rowData) {
-        throw \LogicException("Nelze samostatně vložit novou položku menu_item. Nové položky lze vytvořit pouze voláním metod Node (Hierarchy) dao.");
+    public function insert(RowDataInterface $rowData) {
+        throw new DaoForbiddenOperationException("Nelze samostatně vložit novou položku menu_item. Nové položky lze vytvořit pouze voláním metod Node (Hierarchy) dao.");
     }
 
     /**
-     * Zapisuje jen type_fk, title, active - lang_code_fk, uid_fk jsou měněny jen pomocí hierarchy, id je readonly
-     * @param type $row
+     *
+     * @param RowDataInterface $rowData
      * @return type
      */
     public function update(RowDataInterface $rowData) {
-//        $sql = "UPDATE menu_item SET type_fk=:type_fk, title=:title, prettyuri=:prettyuri, active=:active "
-//                . $this->where($this->and(['lang_code_fk=:lang_code_fk','uid_fk=:uid_fk']));
-//        return $this->execUpdate($sql, [':type_fk'=>$row['type_fk'], ':title'=>$row['title'], ':prettyuri'=>$row['prettyuri'], ':active'=>$row['active'],
-//            ':lang_code_fk' => $row['lang_code_fk'], ':uid_fk'=> $row['uid_fk']]);
-
         return $this->execUpdate('menu_item', ['lang_code_fk','uid_fk'], $rowData);
     }
 
+    /**
+     *
+     * @param RowDataInterface $rowData
+     * @throws DaoForbiddenOperationException
+     */
     public function delete(RowDataInterface $rowData) {
-        throw new \LogicException("Nelze samostatně smazat položku menu_item. Položky lze mazat pouze voláním metod Node (Hierarchy) dao.");
+        throw new DaoForbiddenOperationException("Nelze samostatně smazat položku menu_item. Položky lze mazat pouze voláním metod Node (Hierarchy) dao.");
     }
 }

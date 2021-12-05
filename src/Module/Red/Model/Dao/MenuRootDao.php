@@ -8,7 +8,8 @@
 
 namespace Red\Model\Dao;
 
-use Model\Dao\DaoAbstract;
+use Model\Dao\DaoTableAbstract;
+use Model\RowData\RowDataInterface;
 
 use Pes\Database\Handler\HandlerInterface;
 
@@ -17,7 +18,7 @@ use Pes\Database\Handler\HandlerInterface;
  *
  * @author pes2704
  */
-class MenuRootDao extends DaoAbstract {
+class MenuRootDao extends DaoTableAbstract {
 
     /**
      * Vrací asociativní pole.
@@ -42,5 +43,17 @@ class MenuRootDao extends DaoAbstract {
         $from = $this->from("menu_root");
         $where = $this->where($whereClause);
         return $this->selectMany($select, $from, $where, $touplesToBind);
+    }
+
+    public function insert(RowDataInterface $rowData) {
+        return $this->execInsert('menu_root', $rowData);
+    }
+
+    public function update(RowDataInterface $rowData) {
+        return $this->execUpdate('menu_root', ['name'], $rowData);
+    }
+
+    public function delete(RowDataInterface $rowData) {
+        return $this->execDelete('menu_root', ['name'], $rowData);
     }
 }

@@ -8,21 +8,35 @@
 
 namespace Red\Model\Dao;
 
-use Model\Dao\DaoContextualAbstract;
+use Pes\Database\Handler\HandlerInterface;
+use Model\Context\ContextFactoryInterface;
+
+use Model\Dao\DaoTableAbstract;
+use Model\RowData\RowDataInterface;
 
 /**
  * Description of RsDao
  *
  * @author pes2704
  */
-class PaperContentDao extends DaoContextualAbstract {
+class PaperContentDao extends DaoTableAbstract {
 
-    private $sqlGet;
-    private $sqlFindAllByFk;
-    private $sqlFind;
-    private $sqlInsert;
-    private $sqlUpdate;
-    private $sqlDelete;
+    /**
+     *
+     * @var ContextFactoryInterface
+     */
+    protected $contextFactory;
+
+    /**
+     *
+     * @param HandlerInterface $handler
+     * @param strimg $nestedSetTableName Jméno tabulky obsahující nested set hierarchii položek. Používá se pro editaci hierarchie.
+     * @param ContextFactoryInterface $contextFactory
+     */
+    public function __construct(HandlerInterface $handler, $fetchClassName="", ContextFactoryInterface $contextFactory=null) {
+        parent::__construct($handler, $fetchClassName);
+        $this->contextFactory = $contextFactory;
+    }
 
     protected function getContextConditions() {
         $contextConditions = [];
@@ -125,55 +139,15 @@ class PaperContentDao extends DaoContextualAbstract {
         return $this->selectMany($select, $from, $where, $touplesToBind);
     }
 
-    /**
-     * Provede insert jen hodnot v row, které nwjsou null. Hlídá, aby row neobsahovalo klíč 'id'.
-     *
-     * @param type $row
-     * @return type
-     * @throws UnexpectedValueException
-     */
-    public function insert($row) {
-        $readonly = [
-            'id'
-        ];
-
-        foreach ($row as $key => $value) {
-            if (array_key_exists($key, $readonly)) {
-                throw new \UnexpectedValueException("Chybný pokus o insert. Pole vstupních dat obsahuje položku $key, která odpovídá readonly atributu.");
-            } else {
-                if (isset($value)) {
-                    $columns[] = $key;
-                    $placeholders[] = ":".$key;
-                    $touplesToBind[":".$key] = $value;
-                }
-            }
-
-        }
-        $sql = "INSERT INTO paper_content (".implode(", ", $columns).") "
-                . "VALUES (".implode(", ", $placeholders).")";
-        return $this->execInsert($sql, $touplesToBind);
-
-//        $sql = "INSERT INTO paper_content (paper_id_fk, active, priority, show_time, hide_time, content, editor)
-//                VALUES (:paper_id_fk, :content, :active, :priority, :show_time, :hide_time, :editor)";
-//        return $this->execInsert($sql, [':paper_id_fk'=>$row['paper_id_fk'], ':content'=>$row['content'], ':active'=>$row['active'], ':priority'=>$row['priority'], ':show_time'=>$row['show_time'], ':hide_time'=>$row['hide_time'], ':editor'=>$row['editor']]);
+    public function insert(RowDataInterface $rowData) {
+        return $this->execInsert('paper_content', $rowData);
     }
 
-    /**
-     * Update - neukládá paper_id_fk a actual (actual je readonly)
-     *
-     * @param type $row
-     * @return type
-     */
-    public function update($row) {
-        if (!isset($this->sqlUpdate)) {
-            $this->sqlUpdate = "UPDATE paper_content SET content = :content, template_name = :template_name, template = :template, active = :active, priority = :priority, show_time = :show_time, hide_time = :hide_time, event_start_time = :event_start_time, event_end_time = :event_end_time, editor = :editor
-                WHERE  id = :id";
-        }
-        return $this->execUpdate($this->sqlUpdate, [':content'=>$row['content'], ':template_name'=>$row['template_name'], ':template'=>$row['template'], ':active'=>$row['active'], ':priority'=>$row['priority'], ':show_time'=>$row['show_time'], ':hide_time'=>$row['hide_time'], ':event_start_time'=>$row['event_start_time'], ':event_end_time'=>$row['event_end_time'], ':editor'=>$row['editor'], ':id'=>$row['id']]);
+    public function update(RowDataInterface $rowData) {
+        return $this->execUpdate('paper_content', ['id'], $rowData);
     }
 
-    public function delete($row) {
-        $sql = "DELETE FROM paper_content WHERE id = :id";
-        return $this->execDelete($sql, [':id'=>$row['id']]);
+    public function delete(RowDataInterface $rowData) {
+        return $this->execDelete('paper_content', ['id'], $rowData);
     }
 }

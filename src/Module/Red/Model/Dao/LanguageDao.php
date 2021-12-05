@@ -8,16 +8,15 @@
 
 namespace Red\Model\Dao;
 
-use Model\Dao\DaoAbstract;
-
-use Pes\Database\Handler\HandlerInterface;
+use Model\Dao\DaoTableAbstract;
+use Model\RowData\RowDataInterface;
 
 /**
  * Description of LanguageDao
  *
  * @author pes2704
  */
-class LanguageDao extends DaoAbstract {
+class LanguageDao extends DaoTableAbstract {
 
     /**
      * Vrací jednu řádku tabulky
@@ -44,8 +43,15 @@ class LanguageDao extends DaoAbstract {
         return $this->selectMany($select, $from, $where, $touplesToBind);
     }
 
-    public function update($param) {
-
+    public function insert(RowDataInterface $rowData) {
+        return $this->execInsert('language', $rowData);
     }
 
+    public function update(RowDataInterface $rowData) {
+        return $this->execUpdate('language', ['lang_code'], $rowData);
+    }
+
+    public function delete(RowDataInterface $rowData) {
+        return $this->execDelete('language', ['lang_code'], $rowData);
+    }
 }

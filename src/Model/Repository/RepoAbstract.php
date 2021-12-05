@@ -8,7 +8,7 @@
 
 namespace Model\Repository;
 
-use Model\Dao\DaoInterface;
+use Model\Dao\DaoTableInterface;
 use Model\Dao\DaoKeyDbVerifiedInterface;
 use Model\Dao\Exception\DaoKeyVerificationFailedException;
 
@@ -243,12 +243,14 @@ abstract class RepoAbstract {
             $this->collection[$this->indexFromEntity($entity)] = $entity;
         } else {
             if ( $this->dataManager instanceof DaoKeyDbVerifiedInterface ) {
-                $row = $this->createRowData();
-                $this->extract($entity, $row);
+                $rowData = $this->createRowData();
+                $this->extract($entity, $rowData);
                 try {
-                    $this->dataManager->insertWithKeyVerification($row);
+                    $this->dataManager->insertWithKeyVerification($rowData);
                     $entity->setPersisted();
-                    $this->collection[$this->indexFromEntity($entity)] = $entity;
+                    $index = $this->indexFromEntity($entity);
+                    $this->collection[$index] = $entity;
+                    $this->addData($index, $rowData);  // natvrdo dá rowData do $this->data
                 } catch ( DaoKeyVerificationFailedException $verificationFailedExc) {
                     throw new UnableAddEntityException('Entitu s nastavenou hodnotou klíče nelze zapsat do databáze.', 0, $verificationFailedExc);
                 }
@@ -320,10 +322,10 @@ abstract class RepoAbstract {
                     $this->dataManager->insert($rowData);
                     $this->addAssociated($rowData, $entity);
                     $entity->setPersisted();
+                    $this->new = []; // při dalším pokusu o find se bude volat recteateEntity, entita se zpětně načte z db (včetně případného autoincrement id a dalších generovaných sloupců)
                 }
                 $this->flushChildRepos();  //pokud je vnořená agregovaná entita - musí se provést její insert
             }
-            $this->new = []; // při dalším pokusu o find se bude volat recteateEntity, entita se zpětně načte z db (včetně případného autoincrement id a dalších generovaných sloupců)
 
             foreach ($this->collection as $index => $entity) {
                 if (!$entity->isPersisted()) {
@@ -344,7 +346,6 @@ abstract class RepoAbstract {
 
             foreach ($this->removed as $index => $entity) {
                 $rowData = $this->createRowData();
-                $this->data[$index] = $rowData;
                 $this->extract($entity, $rowData);
                 $this->removeAssociated($rowData, $entity);
             }
@@ -352,6 +353,7 @@ abstract class RepoAbstract {
             foreach ($this->removed as $index => $entity) {
                 $this->dataManager->delete($this->data[$index]);
                 $entity->setUnpersisted();
+                unset($this->data[$index]);
             }
             $this->removed = [];
 

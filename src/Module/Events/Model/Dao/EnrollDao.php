@@ -8,24 +8,19 @@
 
 namespace Events\Model\Dao;
 
-use Model\Dao\DaoAbstract;
+use Model\Dao\DaoTableAbstract;
 use Model\Dao\DaoAutoincrementKeyInterface;
+use \Model\Dao\LastInsertIdTrait;
+use Model\RowData\RowDataInterface;
 
 /**
  * Description of EnrollDao
  *
  * @author pes2704
  */
-class EnrollDao extends DaoAbstract implements DaoAutoincrementKeyInterface {
+class EnrollDao extends DaoTableAbstract implements DaoAutoincrementKeyInterface {
 
-    /**
-     * Pro tabulky s auto increment id.
-     *
-     * @return type
-     */
-    public function getLastInsertedId() {
-        return $this->getLastInsertedIdForOneRowInsert();
-    }
+    use LastInsertIdTrait;
 
     public function get($id) {
         $select = $this->select("`enrolled`.`id`,
@@ -46,38 +41,15 @@ class EnrollDao extends DaoAbstract implements DaoAutoincrementKeyInterface {
         return $this->selectMany($select, $from, $where, $touplesToBind);
     }
 
-    public function insert($row) {
-        $sql = "
-            INSERT INTO .`enrolled`
-            (
-            `login_name`,
-            `eventid`)
-            VALUES
-            (
-            :login_name,
-            :eventid)";
-
-        return $this->execInsert($sql, [':login_name'=>$row['login_name'], ':eventid'=>$row['eventid']]);
+    public function insert(RowDataInterface $rowData) {
+        return $this->execInsert('enrolled', $rowData);
     }
 
-    public function update($row) {
-        $sql = "
-        UPDATE .`enrolled`
-        SET
-        `login_name` = :login_name,
-        `eventid` = :eventid
-        WHERE `id` = :id";
-
-        return $this->execUpdate($sql, [':login_name'=>$row['login_name'], ':eventid'=>$row['eventid'], ':id' => $row['id'] ]);
+    public function update(RowDataInterface $rowData) {
+        return $this->execUpdate('enrolled', ['id'], $rowData);
     }
 
-    public function delete($row) {
-        $sql = "DELETE FROM credentials WHERE `login_name_fk` = :login_name_fk";
-        $sql = "
-            DELETE FROM .`enrolled`
-            WHERE `id` = :id";
-
-        return $this->execDelete($sql, [':id' => $row['id']] );
+    public function delete(RowDataInterface $rowData) {
+        return $this->execDelete('enrolled', ['id'], $rowData);
     }
-
 }

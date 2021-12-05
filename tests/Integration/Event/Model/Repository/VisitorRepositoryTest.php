@@ -15,25 +15,29 @@ use Pes\Container\Container;
 use Test\Integration\Event\Container\EventsContainerConfigurator;
 use Test\Integration\Event\Container\DbEventsContainerConfigurator;
 
-use Events\Model\Dao\EventTypeDao;
-use Events\Model\Repository\EventTypeRepo;
+use Events\Model\Dao\LoginDao;
+use Events\Model\Dao\VisitorDao;
+use Events\Model\Repository\VisitorRepo;
 
-use Events\Model\Entity\EventType;
+use Events\Model\Entity\Visitor;
 
+use Model\RowData\RowData;
+
+use Model\Dao\Exception\DaoKeyVerificationFailedException;
 
 /**
  *
  * @author pes2704
  */
-class EventTypeRepositoryTest extends TestCase {
+class VisitorRepositoryTest extends TestCase {
 
     private $container;
 
     /**
      *
-     * @var EventTypeRepo
+     * @var VisitorRepo
      */
-    private $eventTypeRepo;
+    private $visitorRepo;
 
     private static $id;
 
@@ -58,22 +62,34 @@ class EventTypeRepositoryTest extends TestCase {
             );
 
         // mazání - zde jen pro případ, že minulý test nebyl dokončen
-        self::deleteRecords($container);
+//        self::deleteRecords($container);
 
         // toto je příprava testu
-        /** @var EventTypeDao $eventTypeDao */
-        $eventTypeDao = $container->get(EventTypeDao::class);
+        /** @var LoginDao $loginDao */
+        $loginDao = $container->get(LoginDao::class);
+        /** @var VisitorDao $visitorDao */
+        $visitorDao = $container->get(VisitorDao::class);
 
-        $eventTypeDao->insert([
-            'value' => 'testEventType',
+        try {
+            $loginDao->insertWithKeyVerification(['login_name'=>'testVisitor']);
+        } catch(DaoKeyVerificationFailedException $e) {
+
+        }
+        try {
+            $loginDao->insertWithKeyVerification(['login_name'=>'testVisitor2']);
+        } catch(DaoKeyVerificationFailedException $e) {
+
+        }
+        $visitorDao->insert([
+            'login_login_name' => 'testVisitor',
         ]);
-        self::$id = $eventTypeDao->getLastInsertedId();
+        self::$id = $visitorDao->getLastInsertedId();
     }
 
     private static function deleteRecords(Container $container) {
-        /** @var EventTypeDao $eventDao */
-        $eventDao = $container->get(EventTypeDao::class);
-        $eventDao->delete(['id'=>0]);
+        /** @var VisitorDao $visitorDao */
+//        $visitorDao = $container->get(VisitorDao::class);
+//        $visitorDao->delete(['id'=>0]);
     }
 
     protected function setUp(): void {
@@ -81,11 +97,11 @@ class EventTypeRepositoryTest extends TestCase {
             (new EventsContainerConfigurator())->configure(
                 (new DbEventsContainerConfigurator())->configure(new Container())
             );
-        $this->eventTypeRepo = $this->container->get(EventTypeRepo::class);
+        $this->visitorRepo = $this->container->get(VisitorRepo::class);
     }
 
     protected function tearDown(): void {
-        $this->eventTypeRepo->flush();
+        $this->visitorRepo->flush();
     }
 
     public static function tearDownAfterClass(): void {
@@ -102,58 +118,58 @@ class EventTypeRepositoryTest extends TestCase {
     }
 
     public function testSetUp() {
-        $this->assertInstanceOf(EventTypeRepo::class, $this->eventTypeRepo);
+        $this->assertInstanceOf(VisitorRepo::class, $this->visitorRepo);
     }
 
     public function testGetNonExisted() {
-        $event = $this->eventTypeRepo->get(0);
-        $this->assertNull($event);
+        $visitor = $this->visitorRepo->get(0);
+        $this->assertNull($visitor);
     }
 
     public function testGetAndRemoveAfterSetup() {
-        $event = $this->eventTypeRepo->get(self::$id);    // !!!! jenom po insertu v setUp - hodnotu vrací dao
-        $this->assertInstanceOf(EventType::class, $event);
+        $visitor = $this->visitorRepo->get(self::$id);    // !!!! jenom po insertu v setUp - hodnotu vrací dao
+        $this->assertInstanceOf(Visitor::class, $visitor);
 
-        $event = $this->eventTypeRepo->remove($event);
-        $this->assertNull($event);
+        $visitor = $this->visitorRepo->remove($visitor);
+        $this->assertNull($visitor);
     }
 
     public function testGetAfterRemove() {
-        $event = $this->eventTypeRepo->get(self::$id);
-        $this->assertNull($event);
+        $visitor = $this->visitorRepo->get(self::$id);
+        $this->assertNull($visitor);
     }
 
     public function testAdd() {
-        $event = new EventType();
-        $event->setValue("testEventTypePřednáška");
-        $this->eventTypeRepo->add($event);
-        $this->assertTrue($event->isLocked());
+        $visitor = new Visitor();
+        $visitor->setLoginName("testVisitor2");
+        $this->visitorRepo->add($visitor);   // !! podmínkou je existence loginName v login - viz setUpBeforeClass(), jinak dojde k chybě SQL Integrity constraint violation
+        $this->assertTrue($visitor->isLocked());
     }
 
     public function testFindAll() {
-        $events = $this->eventTypeRepo->findAll();
-        $this->assertTrue(is_array($events));
+        $visitors = $this->visitorRepo->findAll();
+        $this->assertTrue(is_array($visitors));
     }
 
 //    public function testGetAfterAdd() {
 //        $event = $this->eventTypeRepo->get("XXXXXX");
-//        $this->assertInstanceOf(EventType::class, $event);
+//        $this->assertInstanceOf(Visitor::class, $event);
 //        $this->assertTrue($event->getPublished());
 //    }
 //
 //    public function testGetAndRemoveAfterAdd() {
 //        $event = $this->eventTypeRepo->get("XXXXXX");
 //        $this->eventTypeRepo->remove($event);
-//        $this->assertTrue($event->isLocked(), 'EventType není zamčena po remove.');
+//        $this->assertTrue($event->isLocked(), 'Visitor není zamčena po remove.');
 //    }
 //
 //    public function testAddAndReread() {
-//        $event = new EventType();
+//        $event = new Visitor();
 //        $event->setLoginName("XXXXXX");
 //        $this->eventTypeRepo->add($event);
 //        $this->eventTypeRepo->flush();
 //        $event = $this->eventTypeRepo->get($event->getLoginName());
-//        $this->assertTrue($event->isPersisted(), 'EventType není persistován.');
+//        $this->assertTrue($event->isPersisted(), 'Visitor není persistován.');
 //        $this->assertTrue(is_string($event->getLoginName()));
 //    }
 

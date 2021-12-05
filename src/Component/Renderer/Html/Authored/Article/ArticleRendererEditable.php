@@ -25,7 +25,6 @@ class ArticleRendererEditable extends HtmlRendererAbstract {
             /** @var ArticleInterface $article */
             if ($templateName) {
                 $formContent = [
-                            Html::tag('input', ['type'=>'hidden', 'name'=>'article_'.$article->getId()]),  // hidden input pro Article Controler updateHtml::tag('div', ['id'=>'article_'.$article->getId()],
                             Html::tag('article',
                                     [
                                         'id'=>'article_'.$article->getId(),

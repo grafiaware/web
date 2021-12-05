@@ -8,17 +8,16 @@
 
 namespace Red\Model\Dao;
 
-use Model\Dao\DaoAbstract;
+use Model\Dao\DaoTableAbstract;
 
-use Pes\Database\Handler\HandlerInterface;
-use Model\Dao\Exception\DaoException;
+use Model\RowData\RowDataInterface;
 
 /**
  * Description of RsDao
  *
  * @author pes2704
  */
-class ActiveUserDao extends DaoAbstract {
+class ActiveUserDao extends DaoTableAbstract {
 
     /**
      * Vrací asociativní pole s polžkami - user, stranka, akce. Sloupec akce je timestamp nastavovaný automaticky ON UPDAET.
@@ -34,22 +33,15 @@ class ActiveUserDao extends DaoAbstract {
         return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
-//$successUpdate = $handler->exec("UPDATE activ_user SET user = '".$user->getUser()."',stranka = 'null' WHERE user = '".$user->getUser()."'");
-//} else {
-//$successInsert = $handler->exec("INSERT INTO activ_user (user,stranka) VALUES ('".$user->getUser()."','null')");
-
-    public function insert($row) {
-        $sql = "INSERT INTO activ_user (user,stranka) VALUES (:user, NULL)";
-        return $this->execInsert($sql, [':user'=>$row['user']]);
+    public function insert(RowDataInterface $rowData) {
+        return $this->execInsert('activ_user', $rowData);
     }
 
-    public function update($row) {
-        $sql = "UPDATE activ_user SET stranka=:stranka WHERE user=:user";
-        return $this->execUpdate($sql, [':stranka'=>$row['stranka'], ':user'=>$row['user']]);
+    public function update(RowDataInterface $rowData) {
+        return $this->execUpdate('activ_user', ['user'], $rowData);
     }
 
-    public function delete($row) {
-        $sql = "DELETE FROM activ_user WHERE user=:user";
-        return $this->execDelete($sql, [':user'=>$row['user']]);
+    public function delete(RowDataInterface $rowData) {
+        return $this->execDelete('activ_user', ['user'], $rowData);
     }
 }
