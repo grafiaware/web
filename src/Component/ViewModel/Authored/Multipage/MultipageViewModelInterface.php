@@ -4,7 +4,7 @@ namespace Component\ViewModel\Authored\Multipage;
 use Component\ViewModel\Authored\AuthoredViewModelInterface;
 
 use Red\Model\Entity\MultipageInterface;
-use Red\Model\Entity\MenuItemAggregateHierarchyInterface;
+use Red\Model\Entity\HierarchyAggregateInterface;
 
 /**
  *
@@ -20,7 +20,7 @@ interface MultipageViewModelInterface extends AuthoredViewModelInterface {
     public function getMultipage(): ?MultipageInterface;
 
     /**
-     * @return MenuItemAggregateHierarchyInterface[]
+     * @return HierarchyAggregateInterface[]
      */
     public function getSubNodes();
 }
