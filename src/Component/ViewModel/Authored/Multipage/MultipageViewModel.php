@@ -12,7 +12,7 @@ use Status\Model\Repository\StatusFlashRepo;
 use Red\Model\Repository\MenuItemRepoInterface;
 use Red\Model\Repository\ItemActionRepo;
 use Red\Model\Repository\MultipageRepo;
-use Red\Model\Repository\HierarchyAggregateMenuItemRepo;
+use Red\Model\Repository\HierarchyJoinMenuItemRepo;
 
 use Red\Model\Entity\MultipageInterface;
 use Red\Model\Entity\MenuItemAggregateHierarchyInterface;
@@ -32,7 +32,7 @@ class MultipageViewModel extends AuthoredViewModelAbstract implements MultipageV
     private $multipageRepo;
 
     /**
-     * @var HierarchyAggregateMenuItemRepo
+     * @var HierarchyJoinMenuItemRepo
      */
     private $hierarchyRepo;
 
@@ -44,7 +44,7 @@ class MultipageViewModel extends AuthoredViewModelAbstract implements MultipageV
             TemplateSeekerInterface $templateSeeker,
             ItemActionRepo $itemActionRepo,
             MultipageRepo $multipageRepo,
-            HierarchyAggregateMenuItemRepo $hierarchyRepo
+            HierarchyJoinMenuItemRepo $hierarchyRepo
             ) {
         parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo, $menuItemRepo, $itemActionRepo, $templateSeeker);
         $this->multipageRepo = $multipageRepo;

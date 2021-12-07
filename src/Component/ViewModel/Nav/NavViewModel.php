@@ -20,7 +20,7 @@ use Red\Model\Entity\MenuRootInterface;
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusFlashRepo;
-use Red\Model\Repository\HierarchyAggregateMenuItemRepo;
+use Red\Model\Repository\HierarchyJoinMenuItemRepo;
 use Red\Model\Repository\MenuRootRepo;
 
 use Component\ViewModel\Menu\Item\ItemViewModel;
@@ -48,7 +48,7 @@ class NavViewModel extends StatusViewModel implements NavViewModelInterface {
             StatusSecurityRepo $statusSecurityRepo,
             StatusPresentationRepo $statusPresentationRepo,
             StatusFlashRepo $statusFlashRepo,
-            HierarchyAggregateMenuItemRepo $hierarchyRepo,
+            HierarchyJoinMenuItemRepo $hierarchyRepo,
             MenuRootRepo $menuRootRepo
             ) {
         parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo);
@@ -152,8 +152,8 @@ class NavViewModel extends StatusViewModel implements NavViewModelInterface {
         $ulElementId = $this->container->get('menuUlElementId');
 
         $subDomain = "/www_grafia_development_v0_5/"; //$this->container->get(ServerRequestInterface::class)->getUri()->getPath();
-        /* @var $menuRepo HierarchyAggregateMenuItemRepo */
-        $menuRepo = $this->container->get(HierarchyAggregateMenuItemRepo::class);
+        /* @var $menuRepo HierarchyJoinMenuItemRepo */
+        $menuRepo = $this->container->get(HierarchyJoinMenuItemRepo::class);
 
         $mode = 2;
         $langCode = 'cs';

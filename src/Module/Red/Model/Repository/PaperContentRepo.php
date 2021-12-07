@@ -36,7 +36,7 @@ class PaperContentRepo extends RepoAbstract implements PaperContentRepoInterface
      * @param int $contentId
      * @return PaperContentInterface|null
      */
-    public function get($contentId): ?PaperContentInterface {
+    public function get($id): ?PaperContentInterface {
         return $this->getEntity($id);
     }
 
@@ -60,6 +60,10 @@ class PaperContentRepo extends RepoAbstract implements PaperContentRepoInterface
 
     protected function createEntity() {
         return new PaperContent();
+    }
+
+    protected function indexFromKeyParams($id) {
+        return $id;
     }
 
     protected function indexFromEntity(PaperContentInterface $paperContent) {

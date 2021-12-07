@@ -17,7 +17,7 @@ use Red\Model\Entity\PaperContentInterface;
  * @author pes2704
  */
 interface PaperContentRepoInterface extends RepoAssotiatedManyInterface {
-    public function get($contentId): ?PaperContentInterface;
+    public function get($id): ?PaperContentInterface;
     public function findByReference($paperIdFk): iterable;
     public function add(PaperContentInterface $paper);
     public function remove(PaperContentInterface $paper);

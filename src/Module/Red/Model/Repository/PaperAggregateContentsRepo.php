@@ -24,7 +24,7 @@ use Red\Model\Entity\PaperContentInterface;
  *
  * @author pes2704
  */
-class PaperAggregateRepo extends PaperRepo implements RepoInterface, PaperRepoInterface {
+class PaperAggregateContentsRepo extends PaperRepo implements RepoInterface, PaperRepoInterface {
 
     public function __construct(PaperDao $paperDao, PaperHydrator $paperHydrator,
             PaperContentRepo $paperContentRepo, PaperChildHydrator $paperChildHydrator) {

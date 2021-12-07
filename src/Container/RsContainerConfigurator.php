@@ -33,7 +33,7 @@ use Pes\Database\Handler\AttributesProvider\AttributesProviderDefault;
 use Pes\Database\Handler\Handler;
 use Pes\Database\Handler\HandlerInterface;
 
-use Red\Model\Repository\HierarchyAggregateMenuItemRepo;
+use Red\Model\Repository\HierarchyJoinMenuItemRepo;
 use Red\Model\Dao\MenuDao;
 use Red\Model\Repository\MenuItemAggregatePaperRepo;
 use Red\Model\Dao\PaperContentDao;

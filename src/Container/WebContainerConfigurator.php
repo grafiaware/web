@@ -103,13 +103,13 @@ use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusFlashRepo;
 use Red\Model\Repository\LanguageRepo;
-use Red\Model\Repository\HierarchyAggregateMenuItemRepo;
+use Red\Model\Repository\HierarchyJoinMenuItemRepo;
 use Red\Model\Repository\MenuItemRepo;
 use Red\Model\Repository\MenuItemTypeRepo;
 use Red\Model\Repository\MenuRootRepo;
 use Red\Model\Repository\ItemActionRepo;
 use Red\Model\Repository\PaperRepo;
-use Red\Model\Repository\PaperAggregateRepo;
+use Red\Model\Repository\PaperAggregateContentsRepo;
 use Red\Model\Repository\ArticleRepo;
 use Red\Model\Repository\BlockRepo;
 use Red\Model\Repository\BlockAggregateRepo;
@@ -175,7 +175,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                             $c->get(StatusSecurityRepo::class),
                             $c->get(StatusPresentationRepo::class),
                             $c->get(StatusFlashRepo::class),
-                            $c->get(HierarchyAggregateMenuItemRepo::class),
+                            $c->get(HierarchyJoinMenuItemRepo::class),
                             $c->get(MenuRootRepo::class)
                         );
                 $menuComponent = new MenuComponent($c->get(ComponentConfiguration::class));
@@ -449,7 +449,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                                 $c->get(MenuItemRepo::class),
                                 $c->get(TemplateSeeker::class),
                                 $c->get(ItemActionRepo::class),
-                                $c->get(PaperAggregateRepo::class)
+                                $c->get(PaperAggregateContentsRepo::class)
                         );
             },
             ArticleViewModel::class => function(ContainerInterface $c) {
@@ -472,7 +472,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                                 $c->get(TemplateSeeker::class),
                                 $c->get(ItemActionRepo::class),
                                 $c->get(MultipageRepo::class),
-                                $c->get(HierarchyAggregateMenuItemRepo::class)
+                                $c->get(HierarchyJoinMenuItemRepo::class)
                         );
             },
             StatusBoardViewModel::class => function(ContainerInterface $c) {
