@@ -3,13 +3,13 @@
             <div class="dva-sloupce-nadpis">
                 <p class="primarni-nadpis nastred nadpis-scroll show-on-scroll ">Název kurzu</p>
                 <div class="ui two column stackable centered mobile reversed grid">
-                    <div class="six wide column middle aligned ">
+                    <div class="six wide column middle aligned">
                         <img class="ui image" src="@commonimages/sablony-kurz.jpg" alt="ilustrační obrázek" />
                     </div>
-                    <div class="ten wide column ">
+                    <div class="ten wide column">
                         <p><b>Levý sloupec se hodí spíše na obrázek, protože je zarovnaný vertikálně na střed tohoto sloupce. Napište úvod ke kurzu, text může být libovolně dlouhý.</b></p>
                     </div>
-                </div>
+                </div> 
             </div>
         </div>
         <div class="sixteen wide column">

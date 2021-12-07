@@ -31,11 +31,18 @@
         </div>
         <div class="sixteen wide column">
             <div class="ui three column grid stackable middle aligned centered centered-img">
-                <div class="column"><img class="ui image" src="@commonimages/sablony-produkt2.jpg" alt="ilustrační obrázek" /></div>
-                <div class="column"><img class="ui image" src="@commonimages/sablony-produkt3.jpg" alt="ilustrační obrázek" /></div>
-                <div class="column"><img class="ui image" src="@commonimages/sablony-produkt4.jpg" alt="ilustrační obrázek" /></div>
-                <div class="column"><img class="ui image" src="@commonimages/sablony-produkt5.jpg" alt="ilustrační obrázek" /></div>
-                <div class="column"><img class="ui image" src="@commonimages/sablony-produkt6.jpg" alt="ilustrační obrázek" /></div>
+                <div class="stretched row">
+                    <div class="column"><div class="ui segment"><img class="ui image" src="@commonimages/sablony-produkt2.jpg" alt="ilustrační obrázek"/></div></div>
+                    <div class="column"><div class="ui segment"><img class="ui image" src="@commonimages/sablony-produkt3.jpg" alt="ilustrační obrázek"/></div></div>
+                    <div class="column"><div class="ui segment"><img class="ui image" src="@commonimages/sablony-produkt4.jpg" alt="ilustrační obrázek"/></div></div>
+                </div>
+                <div class="stretched row">
+                    <div class="column"><img class="ui image" src="@commonimages/sablony-produkt2.jpg" alt="ilustrační obrázek"/></div>
+                    <div class="column"><img class="ui image" src="@commonimages/sablony-produkt3.jpg" alt="ilustrační obrázek"/></div>
+                    <div class="column"><img class="ui image" src="@commonimages/sablony-produkt4.jpg" alt="ilustrační obrázek"/></div>
+                </div>
+                <div class="column"><img class="ui image" src="@commonimages/sablony-produkt5.jpg" alt="ilustrační obrázek"/></div>
+                <div class="column"><img class="ui image" src="@commonimages/sablony-produkt6.jpg" alt="ilustrační obrázek"/></div>
             </div>
         </div>
         <div class="eight wide column centered">

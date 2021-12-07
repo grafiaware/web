@@ -228,7 +228,7 @@ var plugins = [
        'code', //
        'hr',  // Horizontal Rule (hr) plugin allows a user to insert a horizontal rule on the page
        'image', // enables the user to insert an image, also adds a toolbar button and an Insert/edit image menu item under the Insert menu
-//       'imagetools', // adds a contextual editing toolbar to the images in the editor
+       //'imagetools', // adds a contextual editing toolbar to the images in the editor
        'link', // allows a user to link external resources, adds two toolbar buttons called link and unlink and three menu items called link, unlink and openlink
        'media ', // adds the ability for users to be able to add HTML5 video and audio elements
        'nonbreaking', // adds a button for inserting nonbreaking space entities &nbsp; , also adds a menu item and a toolbar button
@@ -238,7 +238,7 @@ var plugins = [
        'searchreplace', // adds search/replace dialogs, also adds a toolbar button and the menu item
        'table', // adds table management functionality
        'template', // adds support for custom templates. It also adds a menu item and a toolbar button
-        'quickbars',
+        //'quickbars',
     ];
 
 
@@ -256,7 +256,7 @@ var linkClassList = [
         {title: 'Šedé tlačítko', value: 'ui button'}
     ];
 var imageClassList = [
-        {title: 'Vyberte styl obrázku', value: ''},
+        {title: 'Vyberte styl obrázku', value: 'ui image'},
         {title: 'Obrázek není obtékaný', value: 'block-img'},
         {title: 'Obrázek obtékaný zprava', value: 'float-img vlevo'},
         {title: 'Obrázek obtékaný zleva', value: 'float-img vpravo'},

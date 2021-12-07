@@ -5,7 +5,7 @@
         </div>
         <div class="ui two column stackable centered mobile reversed grid">
             <div class="six wide column middle aligned edit-html borderDance">
-                <img class="ui image" src="@commonimages/sablony-prispevek.jpg" alt="ilustrační obrázek" />
+                <img class="ui image" src="@commonimages/sablony-prispevek.jpg" alt="ilustrační obrázek"/>
             </div>
             <div class="ten wide column edit-html borderDance">
                 <p> Levý sloupec se hodí spíše na obrázek, protože je zarovnaný vertikálně na střed tohoto sloupce. Napište libovolně dlouhý text.
