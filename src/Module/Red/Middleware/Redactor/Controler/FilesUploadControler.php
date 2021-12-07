@@ -39,9 +39,9 @@ class FilesUploadControler extends FilesUploadControllerAbstract {
 
         // vytvoří složku se jménem 'item_' a id menuItem
         $itemFolder = "item_".$item->getId().'/';
-        $fullLogDirectoryPath = Configuration::filesUploadControler()['upload.red'].Directory::normalizePath($itemFolder);
-        Directory::createDirectory($fullLogDirectoryPath);
-        $targetFilename = $fullLogDirectoryPath.urldecode($file->getClientFilename());  // někdy - např po ImageTools editaci je název souboru z Tiny url kódován
+        $fullFilePath = Configuration::filesUploadController()['upload.red'].Directory::normalizePath($itemFolder);
+        Directory::createDirectory($fullFilePath);
+        $targetFilename = $fullFilePath.urldecode($file->getClientFilename());  // někdy - např po ImageTools editaci je název souboru z Tiny url kódován
         $file->moveTo($targetFilename);
 
         // response pro TinyMCE - musí obsahovat json s informací o cestě a jménu uloženého souboru
