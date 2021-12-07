@@ -21,11 +21,13 @@ use Red\Model\Hydrator\HierarchyHydrator;
 use Red\Model\Hydrator\HierarchyChildHydrator;
 
 /**
- * Description of HierarchyAggregateRepo
+ * Description of HierarchyJoinMenuItemRepo
+ *
+ * Používá Dao, které pracuje nas hierarchy (nested set) JOIN menuItem
  *
  * @author pes2704
  */
-class HierarchyAggregateMenuItemRepo extends RepoAbstract {  // HierarchyAggregateMenuItemRepo nemá skutečné rodičovské repo
+class HierarchyJoinMenuItemRepo extends RepoAbstract {  // HierarchyAggregateMenuItemRepo nemá skutečné rodičovské repo
 
     public function __construct(HierarchyAggregateReadonlyDaoInterface $editHirerarchy, HierarchyHydrator $hierarchyNodeHydrator,
             MenuItemRepo $menuItemRepo, HierarchyChildHydrator $hierarchyChildHydrator

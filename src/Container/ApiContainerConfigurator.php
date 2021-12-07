@@ -59,13 +59,13 @@ use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
 // repo
 use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
 use Red\Model\Repository\LanguageRepo;
-use Red\Model\Repository\HierarchyAggregateMenuItemRepo;
+use Red\Model\Repository\HierarchyJoinMenuItemRepo;
 use Red\Model\Repository\MenuItemRepo;
 use Red\Model\Repository\MenuItemTypeRepo;
 use Red\Model\Repository\BlockRepo;
 use Red\Model\Repository\MenuRootRepo;
 use Red\Model\Repository\MenuItemAggregatePaperRepo;
-use Red\Model\Repository\PaperAggregateRepo;
+use Red\Model\Repository\PaperAggregateContentsRepo;
 use Red\Model\Repository\PaperRepo;
 use Red\Model\Repository\PaperContentRepo;
 use Red\Model\Repository\ArticleRepo;
@@ -135,7 +135,7 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
-                        $c->get(PaperAggregateRepo::class));
+                        $c->get(PaperAggregateContentsRepo::class));
             },
             ArticleControler::class => function(ContainerInterface $c) {
                 return new ArticleControler(

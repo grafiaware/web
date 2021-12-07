@@ -26,7 +26,7 @@ use Status\Model\Repository\{
     StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo
 };
 use Red\Model\Repository\{
-    PaperAggregateRepo
+    PaperAggregateContentsRepo
 };
 
 use UnexpectedValueException;
@@ -44,7 +44,7 @@ class PaperControler extends FrontControlerAbstract {
             StatusSecurityRepo $statusSecurityRepo,
             StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
-            PaperAggregateRepo $paperAggregateRepo) {
+            PaperAggregateContentsRepo $paperAggregateRepo) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
         $this->paperAggregateRepo = $paperAggregateRepo;
     }

@@ -52,8 +52,4 @@ class BlockAggregateRepo extends BlockRepo implements RepoReadonlyInterface {
     protected function createEntity() {
         return new BlockAggregateMenuItem();
     }
-
-    protected function indexFromKeyParams($name) {
-        return $name;
-    }
 }

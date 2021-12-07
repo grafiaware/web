@@ -63,6 +63,9 @@ class MultipageRepo extends RepoAbstract implements MultipageRepoInterface {
     protected function createEntity() {
         return new Multipage();
     }
+    protected function indexFromKeyParams($id) {
+        return $id;
+    }
 
     protected function indexFromEntity(MultipageInterface $multipage) {
         return $multipage->getId();
