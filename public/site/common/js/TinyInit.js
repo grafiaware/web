@@ -238,7 +238,7 @@ var plugins = [
        'searchreplace', // adds search/replace dialogs, also adds a toolbar button and the menu item
        'table', // adds table management functionality
        'template', // adds support for custom templates. It also adds a menu item and a toolbar button
-        //'quickbars',
+       //'quickbars',
     ];
 
 

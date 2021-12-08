@@ -40,6 +40,8 @@ var templates_author = [
         { title: 'Ohraničený obsah s odkazem - 2 položky', description: 'Vložení 2 položek na stránku. Každá položka obsahuje odkaz, připojte správnou adresu či odkaz odeberte', url: 'web/v1/authortemplate/menu_2polozky'},
         { title: 'Ohraničený obsah s odkazem - 3 položky', description: 'Vložení 3 položek menu na stránku. Každá položka obsahuje odkaz, připojte správnou adresu či odkaz odeberte', url: 'web/v1/authortemplate/menu_3polozky'},
         { title: 'Upoutávka na kurz', description: 'popis',       url: 'web/v1/authortemplate/uvod_kurzu'},
+        { title: '3 stejně vysoké obrázky  v řádce', description: 'popis',       url: 'web/v1/authortemplate/stretched-images'}, 
+        { title: '3 stejně vysoké obsahy v řádce', description: 'popis',       url: 'web/v1/authortemplate/stretched-blocks'},
         { title: 'template two columns divided', description: 'popis',       url: 'web/v1/authortemplate/two_columns_divided'},
         { title: 'template two blocks styled', description: 'popis',       url: 'web/v1/authortemplate/two_blocks_styled'},
         { title: 'template img & text styled', description: 'popis',       url: 'web/v1/authortemplate/img_text_styled'},
