@@ -40,7 +40,7 @@ function htmlToElement(html) {
 function replaceElement(replacedElement, responseText) {
     newElement = htmlToElement(responseText);
     replacedElement.replaceWith(newElement);  // přidá nový a odstraní starý element
-    console.log("Replaced element "+replacedElement.tagName+" with element "+newElement.tagName+".");
+    console.log("cascade: Replaced element "+replacedElement.tagName+" with element "+newElement.tagName+".");
     return newElement;
 };
 
@@ -60,11 +60,11 @@ function fetchElementContent(replacedElement){
           // pokud došlo k přesměrování: status je 200, (mohu jako druhý paremetr fetch dát objekt s hodnotou např. redirect: 'follow' atd.) a také porovnávat response.url s požadovaným apiUri
           return response.text(); //vrací Promise, která resolvuje na text až když je celý response je přijat ze serveru
       } else {
-          throw new Error(`HTTP error! Status: ${response.status}`);  // will only reject on network failure or if anything prevented the request from completing.
+          throw new Error(`cascade: HTTP error! Status: ${response.status}`);  // will only reject on network failure or if anything prevented the request from completing.
       }
     })
     .then(textPromise => {
-        console.log(`Loading content from ${apiUri}.`);
+        console.log(`cascade: Loading content from ${apiUri}.`);
         return replaceElement(replacedElement, textPromise);  // vrací nový Element
     })
     .then(newElement => {
@@ -72,8 +72,8 @@ function fetchElementContent(replacedElement){
         return loadSubPromise;
     })
     .catch(e => {
-      console.log(`There has been a problem with fetch from ${apiUri}. Reason:` + e.message);
-      throw new Error(`There has been a problem with fetch from ${apiUri}. Reason:` + e.message);
+      console.log(`cascade: There has been a problem with fetch from ${apiUri}. Reason:` + e.message);
+      throw new Error(`cascade: There has been a problem with fetch from ${apiUri}. Reason:` + e.message);
     });
 };
 
@@ -100,20 +100,20 @@ function getApiUri(element) {
  */
 function loadSubsequentElements(element, className) {
     if (element.nodeName=='#document') {
-        console.log(`Run loadSubsequentElements() for document.`);
+        console.log(`cascade: Run loadSubsequentElements() for document.`);
     } else {
-        console.log(`Run loadSubsequentElements() for element ${element.tagName}.`);
+        console.log(`cascade: Run loadSubsequentElements() for element ${element.tagName}.`);
     }
 
     // elements is a live HTMLCollection of found elements
     // Warning: This is a live HTMLCollection. Changes in the DOM will reflect in the array as the changes occur. If an element selected by this array no longer qualifies for the selector, it will automatically be removed. Be aware of this for iteration purposes.
     var subElements = element.getElementsByClassName(className);
-    console.log(`Nalezeno ${subElements.length} potomkovských elementů s class=${className}.`);
+    console.log(`cascade: ${subElements.length} child elements founded with class="${className}".`);
     var subElementsArray = Array.from(subElements);
     let loadSubPromises = subElementsArray.map(subElement => fetchElementContent(subElement));
 
 
-    if (subElements.length) {console.log(`Volání fetchElementContent() pro subelementy načetlo dalších ${loadSubPromises.length} obsahů.`);}
+    if (subElements.length) {console.log(`cascade: Calling of fetchElementContent() fetched next ${loadSubPromises.length} element contents.`);}
     // Promise.allSettled just waits for all promises to settle, regardless of the result. The resulting array has:
 
 //    {status:"fulfilled", value:result} for successful responses,
