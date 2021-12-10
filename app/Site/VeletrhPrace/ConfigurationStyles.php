@@ -249,6 +249,7 @@ class ConfigurationStyles extends ConfigurationRed {
                         ],
                      'Content' => [
                         'content'=>'',
+                        'div.templateMultipage' => 'template-multipage',
                         ],
                       'PaperButtons' => self::rendererDefaults()['paper_edit_buttons'],
                     ]
@@ -274,7 +275,8 @@ class ConfigurationStyles extends ConfigurationRed {
                         'i1.notpublished' => 'circle icon red',
                         'i.trash' => 'trash icon purple',
                         'content'=>'borderDance edit-html',
-                        'div.trash_content'=>'trash_content'
+                        'div.trash_content'=>'trash_content',
+                        'div.templateMultipage' => 'template-multipage',
                         ],
                      'PaperTemplateButtons' => self::rendererDefaults()['paper_template_edit_buttons'],
                      'PaperTemplateSelect' => self::rendererDefaults()['paper_template_select'],

@@ -24,7 +24,8 @@ class MultipageRendererEditable  extends HtmlRendererAbstract {
         $selectTemplate = $this->renderSelectTemplate($multipage);
         $inner = (string) $viewModel->getContextVariable(MultipageComponent::CONTEXT_TEMPLATE) ?? '';
         $html =
-                Html::tag('div', ['data-red-renderer'=>'MultipageRendererEditable', "data-red-datasource"=> "multipage {$multipage->getId()} for item {$multipage->getMenuItemIdFk()}"],
+                Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.templateMultipage')],
+                  Html::tag('div', ['data-red-renderer'=>'MultipageRendererEditable', "data-red-datasource"=> "multipage {$multipage->getId()} for item {$multipage->getMenuItemIdFk()}"],
                     [
                         $buttonEditContent,
                         $selectTemplate,
@@ -44,7 +45,8 @@ class MultipageRendererEditable  extends HtmlRendererAbstract {
                         ),
                         $inner
                     ]
-                );
+                )
+              );
         return $html ?? '';
     }
 
