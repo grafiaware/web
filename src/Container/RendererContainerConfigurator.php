@@ -24,6 +24,7 @@ use Component\Renderer\Html\Authored\Paper\ContentsRendererEditable;
 use Component\Renderer\Html\Authored\Article\ArticleRendererEditable;
 use Component\Renderer\Html\Authored\Article\SelectArticleTemplateRenderer;
 
+use Component\Renderer\Html\Authored\Multipage\MultipageRenderer;
 use Component\Renderer\Html\Authored\Multipage\MultipageRendererEditable;
 
 use Component\Renderer\Html\Manage\ButtonEditContentRenderer;
@@ -125,6 +126,9 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
         ###########################
         #  multipage renderer
         ###########################
+        MultipageRenderer::class => function(ContainerInterface $c) {
+                return new MultipageRenderer($c->get('paper.classmap'));   //používá paper classmapu - přejmenovat společnou classmapu??
+            },
         MultipageRendererEditable::class => function(ContainerInterface $c) {
                 return new MultipageRendererEditable($c->get('paper.editable.classmap'));   //používá paper classmapu - přejmenovat společnou classmapu??
             },
