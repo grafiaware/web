@@ -42,10 +42,11 @@ abstract class RepoAbstract {
     protected $count;
     protected $oid;
 
-    protected $collection = [];
-    protected $new = [];
-    protected $removed = [];
-    protected $data = [];
+    private $collection = [];
+    private $new = [];
+    private $removed = [];
+    private $data = [];
+    private $refIndexToIndex = [];
 
 
     private $flushed = false;
@@ -142,6 +143,32 @@ abstract class RepoAbstract {
         return $this->addEntitiesByRowDataArray($this->dataManager->findByFk(...$referenceId));
     }
 
+    /**
+     * Přidá entity na základě pole Rowdata objektů.
+     *
+     * Metoda je vhodná pro případy, kdy jsou načtena z úložiště současně data pro rodičovskou i potomkovskou entitu
+     * - například pomocí SELECT FROM table1 JOIN table2
+     *
+     * @param type $rowDataArray
+     * @return array
+     */
+    protected function addEntitiesByRowDataArray($rowDataArray): array {
+        $selected = [];
+        foreach ($rowDataArray as $rowData) {
+            $selected[] = $this->addEntityByRowData($rowData);
+        }
+        return $selected;
+    }
+
+    /**
+     * Přidá entitu na základě Rowdata objektu.
+     *
+     * Metoda je vhodná pro případy, kdy jsou načtena z úložiště současně data pro rodičovskou i potomkovskou entitu
+     * - například pomocí SELECT FROM table1 JOIN table2
+     *
+     * @param type $rowData
+     * @return type
+     */
     protected function addEntityByRowData($rowData=null) {
         if (!isset($rowData)) {
             return null;
@@ -154,13 +181,6 @@ abstract class RepoAbstract {
         return $this->collection[$index] ?? null;
     }
 
-    protected function addEntitiesByRowDataArray($rowDataArray): array {
-        $selected = [];
-        foreach ($rowDataArray as $rowData) {
-            $selected[] = $this->addEntityByRowData($rowData);
-        }
-        return $selected;
-    }
 
 
     private function recreateData($index, ...$id) {
@@ -208,20 +228,20 @@ abstract class RepoAbstract {
         }
     }
 
-    protected function getKey($row) {
-        $keyAttribute = $this->getKeyAttribute();
-        if (is_array($keyAttribute)) {
-            foreach ($keyAttribute as $field) {
-                if( ! array_key_exists($field, $row)) {
-                    throw new UnableRecreateEntityException("Nelze vytvořit klíč entity. Atribut klíče obsahuje pole $field a pole řádku dat pro vytvoření entity neobsahuje prvek s takovým kménem.");
-                }
-                $key[$field] = $row[$field];
-            }
-        } else {
-            $key = $row[$keyAttribute];
-        }
-        return $key;
-    }
+//    protected function getKey($row) {
+//        $keyAttribute = $this->getKeyAttribute();
+//        if (is_array($keyAttribute)) {
+//            foreach ($keyAttribute as $field) {
+//                if( ! array_key_exists($field, $row)) {
+//                    throw new UnableRecreateEntityException("Nelze vytvořit klíč entity. Atribut klíče obsahuje pole $field a pole řádku dat pro vytvoření entity neobsahuje prvek s takovým kménem.");
+//                }
+//                $key[$field] = $row[$field];
+//            }
+//        } else {
+//            $key = $row[$keyAttribute];
+//        }
+//        return $key;
+//    }
 
     protected function indexFromKey($key) {
         if (is_array($key)) {
