@@ -168,8 +168,9 @@ abstract class DaoReadonlyAbstract implements DaoReadonlyInterface {
     protected function bindParams(\PDOStatement $statement, iterable $touplesToBind, iterable $filterNames=[]) {
         if($filterNames) {
             foreach ($filterNames as $name) {
-                if (isset($touplesToBind[$name])) {
-                    $statement->bindValue($name, $touplesToBind[$name]);
+                $value = $touplesToBind[$name];  // nelze použít isset($touplesToBind[$name]) - vrací true i pro hodnoty null
+                if (isset($value)) {
+                    $statement->bindValue($name, $value);
                 } else {
                     $statement->bindValue($name, null, \PDO::PARAM_INT);
                 }

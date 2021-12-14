@@ -246,6 +246,7 @@ class ContentControler extends FrontControlerAbstract {
         $newContent = new PaperContent();
         $newContent->setPaperIdFk($paperId);
         $newContent->setPriority($priority);
+        $newContent->setActive(0);
         return $newContent;
     }
 
