@@ -17,6 +17,7 @@ class ArticleRendererEditable extends HtmlRendererAbstract {
     public function render(iterable $viewModel=NULL) {
         /** @var ArticleViewModelInterface $viewModel */
         $article = $viewModel->getArticle();  // vrací ArticleInterface
+        $active = $viewModel->isMenuItemActive();
         $buttonEditContent = (string) $viewModel->getContextVariable('buttonEditContent') ?? '';
         $selectTemplate = (string) $viewModel->getContextVariable('selectTemplate') ?? '';
 
@@ -57,11 +58,11 @@ class ArticleRendererEditable extends HtmlRendererAbstract {
                                 Html::tag('div',
                                    [
                                    'class'=> 'ikona-popis',
-                                   //'data-tooltip'=> $active ? "published" : "not published",
+                                   'data-tooltip'=> $active ? "published" : "not published",
                                    ],
                                     Html::tag('i',
                                        [
-                                       //'class'=> $this->classMap->resolveClass($active, 'Content','i1.published', 'i1.notpublished'),
+                                       'class'=> $this->classMap->resolveClass($active, 'Content','i1.published', 'i1.notpublished'),
                                        ]
                                     )
                                 )
