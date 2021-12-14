@@ -223,6 +223,7 @@ class ConfigurationStyles extends ConfigurationRed {
                         ],
                         'Item' => self::rendererDefaults()['menu_items'],
                         'Buttons' => self::rendererDefaults()['menu_edit_buttons'],
+                        'CommonButtons' => self::rendererDefaults()['menu_common_edit_buttons'],
                     ]
                 );
             },
@@ -256,6 +257,7 @@ class ConfigurationStyles extends ConfigurationRed {
                             'li a' => 'ui primary button',
                             ]),
                         'Buttons' => self::rendererDefaults()['menu_edit_buttons'],
+                        'CommonButtons' => self::rendererDefaults()['menu_common_edit_buttons'],
                     ]
                 );
             },
