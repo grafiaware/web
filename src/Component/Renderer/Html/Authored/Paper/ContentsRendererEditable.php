@@ -69,7 +69,8 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
     private function left(\DateTimeInterface $leftTime = null) {
         if (isset($leftTime)) {
             $l = $leftTime->getTimestamp()/(new \DateTime("now"))->getTimestamp();
-            $left = $this->krivka($l)*53+47;
+//            $left = $this->krivka($l)*53+47;
+            $left = $this->krivka($l)*50+50;
         } else {
             $left = -10;
         }
@@ -84,7 +85,8 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
     private function right(\DateTimeInterface $rightTime = null) {
         if (isset($rightTime)) {
             $r = $rightTime->getTimestamp()/(new \DateTime("now"))->getTimestamp();
-            $right = $this->krivka($r)*47+53;
+//            $right = $this->krivka($r)*47+53;
+            $right = $this->krivka($r)*50+50;
         } else {
             $right = 110;
         }
@@ -105,38 +107,45 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
 //                        <circle cx="42" cy="50%" r="6" fill="#000000" stroke="#000000" stroke-width="1"/>
 //                     </svg>'
 
-        $styleLine ="fill:none; stroke:#aeaeae; stroke-width:5";
-        $styleRectShow =  $actual ? "fill:purple; stroke:#333333; stroke-width:2" : "fill:grey; stroke:#222222; stroke-width:2";
+        $styleLine ="fill:none; stroke:#aeaeae; stroke-width:2";
+        $styleRectShow =  $actual ? "fill:purple; stroke:#333333; stroke-width:2" : "fill:lightgrey; stroke:#222222; stroke-width:1";
         $styleRectEvent =  ($paperContent->getEventStartTime() OR $paperContent->getEventEndTime()) ? "fill:gold; stroke:#333333; stroke-width:1" : "fill:#cccccc; stroke:#333333; stroke-width:1";
         $styleCircle = $active ? "fill:#21ba45; stroke:#000000; stroke-width:0" : "fill:#ffffff; stroke:#db2828; stroke-width:2";
+        $clockStroke = $actual ? "green" : "red";
 
         $sLeft = $this->left($paperContent->getShowTime());
         $sRight = $this->right($paperContent->getHideTime());
         $eLeft = $this->left($paperContent->getEventStartTime());
         $eRight = $this->right($paperContent->getEventEndTime());
 
-        $point = 50;
+        $svgWidth=100;
 
         $showLeft = sprintf('%d%%', $sLeft);
-        $showWidth = sprintf('%d%%', $sRight-$sLeft);
+        $showWidth = sprintf('%d%%', max($sRight-$sLeft, 4));
         $eventLeft = sprintf('%d%%', $eLeft);
-        $eventWidth = sprintf('%d%%', $eRight-$eLeft);
-        $circlePosition = sprintf('%d%%', $point);
+        $eventWidth = sprintf('%d%%', max($eRight-$eLeft, 4));
+        $nowPoint = sprintf('%d%%', $svgWidth/2);
 
         $html =
             Html::tag('section', ['class'=>$this->classMap->getClass('Content', 'section')],
                 Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.ribbon')],
-                    Html::tag('svg', ["width"=>"100", "height"=>"30", "style"=>"position: relative; top: -15px"],
+                    Html::tag('svg', ["width"=>"20", "height"=>"30", "style"=>"position: relative; top: -15px"],
+                            Html::tag('circle', ["cx"=>"50%", "cy"=>"50%", "r"=>"8", "style"=>$styleCircle])
+                        )
+                    .Html::tag('svg', ["width"=>"30", "height"=>"30", "style"=>"position: relative; top: -12px"],
+                               Html::tag('path', ["fill-rule"=>"evenodd", "clip-rule"=>"evenodd", "stroke"=>$clockStroke, "d"=>"M15 0c6.623 0 12 5.377 12 12s-5.377 12-12 12-12-5.377-12-12 5.377-12 12-12zm0 1c6.071 0 11 4.929 11 11s-4.929 11-11 11-11-4.929-11-11 4.929-11 11-11zm0 11h6v1h-7v-9h1v8z"]),
+                        )
+                    .Html::tag('svg', ["width"=>$svgWidth, "height"=>"30", "style"=>"position: relative; top: -15px"],
                            [
                                 Html::tag('line', ["x1"=>"0", "y1"=>"50%", "x2"=>"100%", "y2"=>"50%", "style"=>$styleLine]),
-                                Html::tag('rect', ["x"=>$eventLeft, "y"=>8, "rx"=>4, "ry"=>4, "width"=>$eventWidth, "height"=>"60%", "style"=>$styleRectEvent]),
-                                Html::tag('rect', ["x"=>$showLeft, "y"=>4, "rx"=>4, "ry"=>4, "width"=>$showWidth, "height"=>"60%", "style"=>$styleRectShow]),
-                                Html::tag('circle', ["cx"=>$circlePosition, "cy"=>"50%", "r"=>"6", "style"=>$styleCircle]),
+                                Html::tag('line', ["x1"=>$nowPoint, "y1"=>"10%", "x2"=>$nowPoint, "y2"=>"90%", "style"=>$styleLine]),
+                                Html::tag('rect', ["x"=>$showLeft, "y"=>6, "rx"=>4, "ry"=>4, "width"=>$showWidth, "height"=>"50%", "style"=>$styleRectShow]),
+                                Html::tag('rect', ["x"=>$eventLeft, "y"=>10, "rx"=>4, "ry"=>4, "width"=>$eventWidth, "height"=>"60%", "style"=>$styleRectEvent]),
+
                             ]
                         )
                         .
                         $this->getContentButtons($paperContent)
-
                     )
 //                .Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.semafor')],
 //                    Html::tag('div',

@@ -142,9 +142,9 @@ class ContentControler extends FrontControlerAbstract {
 
                     break;
                 case 'permanent':
-                    $content->setShowTime(null);
-                    $content->setHideTime(null);
-                    $this->addFlashMessage("content: zobrazeno trvale");
+                    $content->setEventStartTime(null);
+                    $content->setEventEndTime(null);
+                    $this->addFlashMessage("content: koná se trvale");
                     break;
                 default:
                     $this->addFlashMessage("actualContent: Error - unknown button name.");
@@ -246,7 +246,7 @@ class ContentControler extends FrontControlerAbstract {
         $newContent = new PaperContent();
         $newContent->setPaperIdFk($paperId);
         $newContent->setPriority($priority);
-        $newContent->setActive(0);
+        $newContent->setActive(0);   //active je integer
         return $newContent;
     }
 
