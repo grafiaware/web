@@ -7,6 +7,7 @@ use Component\ViewModel\Authored\Article\ArticleViewModelInterface;
 use Pes\Text\Html;
 use Component\Renderer\Html\HtmlRendererAbstract;
 
+use Component\View\Authored\Paper\PaperComponent;
 
 /**
  * Description of PaperRenderer
@@ -17,7 +18,7 @@ class ArticleRenderer extends HtmlRendererAbstract {
     public function render(iterable $viewModel=NULL) {
         /** @var ArticleViewModelInterface $viewModel */
         $article = $viewModel->getArticle();  // vrací ArticleInterface
-        $buttonEditContent = (string) $viewModel->getContextVariable('buttonEditContent') ?? '';
+        $buttonEditContent = (string) $viewModel->getContextVariable(PaperComponent::CONTEXT_BUTTON_EDIT_CONTENT) ?? '';
 
         $ret = Html::tag('article', ['data-red-renderer'=>'ArticleRenderer', "data-red-datasource"=> "article {$article->getId()} for item {$article->getMenuItemIdFk()}"],
                     [$buttonEditContent, $article->getContent()]
