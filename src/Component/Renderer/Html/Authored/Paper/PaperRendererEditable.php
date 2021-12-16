@@ -10,6 +10,8 @@ use Red\Model\Entity\PaperContentInterface;
 
 use Pes\Text\Html;
 
+use Component\View\Authored\Paper\PaperComponent;
+
 /**
  * Description of PaperRenderer
  *
@@ -20,11 +22,11 @@ class PaperRendererEditable  extends HtmlRendererAbstract {
         /** @var PaperViewModelInterface $viewModel */
         $paperAggregate = $viewModel->getPaper();  // vrací PaperAggregate
         $active = $viewModel->isMenuItemActive();
-        $buttonEditContent = (string) $viewModel->getContextVariable('buttonEditContent') ?? '';
+        $buttonEditContent = (string) $viewModel->getContextVariable(PaperComponent::CONTEXT_BUTTON_EDIT_CONTENT) ?? '';
 
         $selectTemplate = $this->renderSelectTemplate($paperAggregate);
         $paperButtonsForm = $this->renderPaperButtonsForm($paperAggregate);
-        $inner = (string) $viewModel->getContextVariable('template') ?? '';
+        $inner = (string) $viewModel->getContextVariable(PaperComponent::CONTEXT_TEMPLATE) ?? '';  // Paper Component beforeRenderingHook()
         $html =
                 Html::tag('article', ['data-red-renderer'=>'PaperRendererEditable', "data-red-datasource"=> "paper {$paperAggregate->getId()} for item {$paperAggregate->getMenuItemIdFk()}"],
                     [

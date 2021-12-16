@@ -55,9 +55,9 @@ class ArticleComponent extends AuthoredComponentAbstract implements ArticleCompo
             }
             // vytvoří komponent - view s buttonem ButtonEditContent
             $buttonEditContentComponent = new ButtonEditContentComponent($this->configuration);
-            $this->contextData->offsetSet('typeFk', AuthoredEnum::ARTICLE);
-            $this->contextData->offsetSet('itemId', $articleId);
-            $this->contextData->offsetSet('userPerformActionWithContent', $userPerformsActionWithContent);
+            $this->contextData->offsetSet(ButtonEditContentComponent::CONTEXT_TYPE_FK, AuthoredEnum::ARTICLE);
+            $this->contextData->offsetSet(ButtonEditContentComponent::CONTEXT_ITEM_ID, $articleId);
+            $this->contextData->offsetSet(ButtonEditContentComponent::CONTEXT_USER_PERFORM_ACTION, $userPerformsActionWithContent);
             $buttonEditContentComponent->setData($this->contextData);
             $buttonEditContentComponent->setRendererContainer($this->rendererContainer);
             $this->appendComponentView($buttonEditContentComponent, 'buttonEditContent');
