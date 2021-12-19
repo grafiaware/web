@@ -33,7 +33,6 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
         /** @var PaperViewModelInterface $viewModel */
         $paperAggregate = $viewModel->getPaper();
         if ($paperAggregate instanceof PaperAggregatePaperContentInterface) {
-
             $contents = $paperAggregate->getPaperContentsArraySorted(PaperAggregatePaperContentInterface::BY_PRIORITY);
             $sections = [];
             foreach ($contents as $paperContent) {
@@ -44,7 +43,6 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
                     $sections[] = $this->getTrashContent($paperContent);
                 }
             }
-
         } else {
             $sections[] = 'No paper.';
         }
@@ -94,53 +92,50 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
     }
 
     private function getContentForm(PaperAggregatePaperContentInterface $paperAggregate, PaperContentInterface $paperContent) {
-
-
-        $html =
-            Html::tag('section', ['class'=>$this->classMap->get('Content', 'section')],
-                Html::tag("form", ['method'=>'POST', "action"=>"javascript:void(0);"],  // potlačí submit po stisku Enter
-                    Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.ribbon')],
-                            $this->getRibbonContent($paperContent)
-                    )
+        return
+        Html::tag('section', ['class'=>$this->classMap->get('Content', 'section')],
+            Html::tag("form", ['method'=>'POST', "action"=>"javascript:void(0);"],  // potlačí submit po stisku Enter
+                Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.ribbon')],
+                        $this->getRibbonContent($paperContent)
                 )
-                .
-                Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/{$paperAggregate->getId()}/content/{$paperContent->getId()}"],
-                    Html::tag('content',
-                        [
-                        'id' => "content_{$paperContent->getId()}",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
-                        'class'=>$this->classMap->get('Content', 'content'),
-                        'data-owner'=>$paperContent->getEditor()
-                        ],
-                        $paperContent->getContent() ?? ""
-                    )
+            )
+            .
+            Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/{$paperAggregate->getId()}/content/{$paperContent->getId()}"],
+                Html::tag('content',
+                    [
+                    'id' => "content_{$paperContent->getId()}",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
+                    'class'=>$this->classMap->get('Content', 'content'),
+                    'data-owner'=>$paperContent->getEditor()
+                    ],
+                    $paperContent->getContent() ?? ""
                 )
-            );
-        return $html;
+            )
+        );
     }
 
     private function getTrashContent(PaperContentInterface $paperContent) {
         return
-            Html::tag('section', ['class'=>$this->classMap->get('Content', 'section.trash')],
-                Html::tag("form", ['method'=>'POST', "action"=>"javascript:void(0);"],  // potlačí submit po stisku Enter
-                    Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.ribbon')],
-                        $this->getTrashButtons($paperContent)
-                        .Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.semafor')],
-                                Html::tag('i',['class'=>$this->classMap->get('Content', 'i.trash')])
-                        )
+        Html::tag('section', ['class'=>$this->classMap->get('Content', 'section.trash')],
+            Html::tag("form", ['method'=>'POST', "action"=>"javascript:void(0);"],  // potlačí submit po stisku Enter
+                Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.ribbon')],
+                    $this->getTrashButtons($paperContent)
+                    .Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.semafor')],
+                            Html::tag('i',['class'=>$this->classMap->get('Content', 'i.trash')])
                     )
                 )
-                .Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.semafor')],
-                        Html::tag('i',['class'=>$this->classMap->get('Content', 'i.trash')])
-                )
-                .Html::tag('div',
-                    [
-                        'id' => "content_{$paperContent->getId()}",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
-                        'class'=>$this->classMap->get('Content', 'div.trash_content'),
-                        'data-owner'=>$paperContent->getEditor()
-                    ],
-                    $paperContent->getContent() ?? ""
-                )
-            );
+            )
+            .Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.semafor')],
+                    Html::tag('i',['class'=>$this->classMap->get('Content', 'i.trash')])
+            )
+            .Html::tag('div',
+                [
+                    'id' => "content_{$paperContent->getId()}",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
+                    'class'=>$this->classMap->get('Content', 'div.trash_content'),
+                    'data-owner'=>$paperContent->getEditor()
+                ],
+                $paperContent->getContent() ?? ""
+            )
+        );
     }
 
     private function getRibbonContent($paperContent) {
@@ -169,23 +164,23 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
         $nowPoint = sprintf('%d%%', $svgWidth/2);
 
         return
-            Html::tag('svg', ["width"=>"20", "height"=>"30", "style"=>"position: relative; top: -15px"],
-                Html::tag('circle', ["cx"=>"50%", "cy"=>"50%", "r"=>"8", "style"=>$styleCircle])
-            )
-            .Html::tag('svg', ["width"=>"30", "height"=>"30", "style"=>"position: relative; top: -12px"],
-                   Html::tag('path', ["fill-rule"=>"nonzero", "clip-rule"=>"evenodd", "fill"=>"white", "stroke"=>$clockStroke, "d"=>"M15 0c6.623 0 12 5.377 12 12s-5.377 12-12 12-12-5.377-12-12 5.377-12 12-12zm0 1c6.071 0 11 4.929 11 11s-4.929 11-11 11-11-4.929-11-11 4.929-11 11-11zm0 11h6v1h-7v-9h1v8z"]),
-            )
-            .Html::tag('svg', ["width"=>$svgWidth, "height"=>"30", "style"=>"position: relative; top: -15px"],
-               [
-                    Html::tag('line', ["x1"=>"0", "y1"=>"50%", "x2"=>"100%", "y2"=>"50%", "style"=>$styleLine]),
-                    Html::tag('line', ["x1"=>$nowPoint, "y1"=>"10%", "x2"=>$nowPoint, "y2"=>"90%", "style"=>$styleLine]),
-                    Html::tag('rect', ["x"=>$showLeft, "y"=>6, "rx"=>4, "ry"=>4, "width"=>$showWidth, "height"=>"50%", "style"=>$styleRectShow]),
-                    Html::tag('rect', ["x"=>$eventLeft, "y"=>10, "rx"=>4, "ry"=>4, "width"=>$eventWidth, "height"=>"60%", "style"=>$styleRectEvent]),
+        Html::tag('svg', ["width"=>"20", "height"=>"30", "style"=>"position: relative; top: -15px"],
+            Html::tag('circle', ["cx"=>"50%", "cy"=>"50%", "r"=>"8", "style"=>$styleCircle])
+        )
+        .Html::tag('svg', ["width"=>"30", "height"=>"30", "style"=>"position: relative; top: -12px"],
+               Html::tag('path', ["fill-rule"=>"nonzero", "clip-rule"=>"evenodd", "fill"=>"white", "stroke"=>$clockStroke, "d"=>"M15 0c6.623 0 12 5.377 12 12s-5.377 12-12 12-12-5.377-12-12 5.377-12 12-12zm0 1c6.071 0 11 4.929 11 11s-4.929 11-11 11-11-4.929-11-11 4.929-11 11-11zm0 11h6v1h-7v-9h1v8z"]),
+        )
+        .Html::tag('svg', ["width"=>$svgWidth, "height"=>"30", "style"=>"position: relative; top: -15px"],
+           [
+                Html::tag('line', ["x1"=>"0", "y1"=>"50%", "x2"=>"100%", "y2"=>"50%", "style"=>$styleLine]),
+                Html::tag('line', ["x1"=>$nowPoint, "y1"=>"10%", "x2"=>$nowPoint, "y2"=>"90%", "style"=>$styleLine]),
+                Html::tag('rect', ["x"=>$showLeft, "y"=>6, "rx"=>4, "ry"=>4, "width"=>$showWidth, "height"=>"50%", "style"=>$styleRectShow]),
+                Html::tag('rect', ["x"=>$eventLeft, "y"=>10, "rx"=>4, "ry"=>4, "width"=>$eventWidth, "height"=>"60%", "style"=>$styleRectEvent]),
 
-                ]
-            )
-            .$this->getContentButtons($paperContent)
-            ;
+            ]
+        )
+        .$this->getContentButtons($paperContent)
+        ;
     }
 
     private function getRibbonTagOld(PaperContentInterface $paperContent) {
