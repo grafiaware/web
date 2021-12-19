@@ -60,13 +60,13 @@ class FilesUploadControler extends FilesUploadControllerAbstract {
 
         //TODO: self::UPLOADED_KEY -rozlišit uploady z jednotlivých metod
 
-//".doc", ".docx", ".dot", ".odt", "pages", ".xls", ."xlsx", ".ods", ".txt", ".pdf"
+//".doc", ".docx", ".dot", ".odt", ".pages", ".xls", ."xlsx", ".ods", ".txt", ".pdf"
 
         $statusSecurity = $this->statusSecurityRepo->get();
 
         $this->setAcceptedExtensions([".doc", ".docx", ".dot", ".odt", "pages", ".xls", ".xlsx", ".ods", ".txt", ".pdf"]);
-        $time = str_replace(",", "-", $request->getServerParams()["REQUEST_TIME_FLOAT"]); // stovky mikrosekund
-//        $timestamp = (new \DateTime("now"))->getTimestamp();  // sekundy
+        $time = str_replace(",", "-", $request->getServerParams()["REQUEST_TIME_FLOAT"]); // přesnost: stovky mikrosekund
+//        $timestamp = (new \DateTime("now"))->getTimestamp();  // přesnost: sekundy
         // POST - jeden soubor
         /* @var $file UploadedFileInterface */
         $file = $request->getUploadedFiles()[self::UPLOADED_KEY];

@@ -113,15 +113,18 @@ function tinymce_getContentLength() {
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * Funkce vytvoří v dialogu file picker (Vložit/upravit obrázek) tlačítko pto vyvolání file dialogu
- * po vybrání souboru v dialogu (input.onchange) načte obsah souboru do blobCache (proměnná tiny) a vyplní údaje zpět do dialogu file picker
+ * Funkce vytvoří v dialogu file picker (Vložit/upravit obrázek) tlačítko pro vyvolání file dialogu, nastaví mu parametry
+ * a vyvolá input.click() - tím otevře file dialog.
+ * Po vybrání souboru v dialogu (input.onchange) načte obsah souboru do blobCache (proměnná tiny) a vyplní údaje zpět do dialogu file picker.
+ * Jméno obrázku složí ze jména souboru vybraného obrázku + "@blob" + timestamp. To zajišťuje, že opakovaně uploadovaný obrázek ze stejného souboru má pokaždé nové jméno
+ * a nedojde k zobrazování nového obrázku na místech dříve uploadovaných a vložených obrázků se stejným jménem.
  *
- * @param {type} cb
+ * @param {type} callback
  * @param {type} value
  * @param {type} meta
  * @returns {undefined}
  */
-var file_picker_callback_function = function (cb, value, meta) {
+var file_picker_callback_function = function (callback, value, meta) {
     var input = document.createElement('input');
     input.setAttribute('type', 'file');
 
@@ -154,7 +157,7 @@ var file_picker_callback_function = function (cb, value, meta) {
               necessary, as we are looking to handle it internally.
             */
             var originalName = file.name.split('.')[0];
-            var id = originalName + '@blobid' + (new Date()).getTime();
+            var id = originalName + '@blobid' + (new Date()).getTime();  // timestamp v milisekundách (čas od 1.1.1970)
             var blobCache =  tinymce.activeEditor.editorUpload.blobCache;
             var base64 = reader.result.split(',')[1];  // reader.result konvertuje image na base64 string
             var blobInfo = blobCache.create(id, file, base64);
@@ -162,7 +165,7 @@ var file_picker_callback_function = function (cb, value, meta) {
 
             /* call the callback and populate the Title field with the file name */
             // zkus  blobInfo.filename()
-            cb(blobInfo.blobUri(), { title: file.name.split('.')[0] });  // split - jméno souboru bez přípony
+            callback(blobInfo.blobUri(), { title: file.name.split('.')[0] });  // split - jméno souboru bez přípony
           };
         reader.readAsDataURL(file);
     };
