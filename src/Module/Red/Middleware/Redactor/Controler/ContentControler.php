@@ -279,32 +279,15 @@ class ContentControler extends FrontControlerAbstract {
                 $contentItem->setPriority($itemPriority+1); // uvolním pozici s prioritou 1
             }
         }
-        $content->setPriority(1);   // z "koše" - obnoveno vždy s prioritou 1, zůstává neaktivní
+        $content->setPriority(1);   // z "koše" - obnoveno s prioritou 1, zůstává neaktivní
         $this->addFlashMessage("restore - obnoven content z koše.");
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
     public function delete(ServerRequestInterface $request, $paperId, $contentId) {
-        $contents = $this->paperContentRepo->findByReference($paperId);
         $content = $this->paperContentRepo->get($contentId);
-        $priority = $content->getPriority();
         $this->paperContentRepo->remove($content);
-        foreach ($contents as $contentItem) {
-            /** @var PaperContentInterface $contentItem */
-            $itemPriority = $contentItem->getPriority();
-            if ($itemPriority>$priority) {  // obsahy s vyšší prioritou - zmenším jim prioritu o 1 - zavřu díru po smazaném
-                $contentItem->setPriority($itemPriority-1);
-            }
-        }
         $this->addFlashMessage("delete - smazán content.");
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
-
-//    $paper = $this->paperRepo->get($menuItemId) ?? $this->createPaper($menuItemId);
-
-//    private function createPaper($menuItemId) {
-//        $paper = (new Paper())->setMenuItemIdFk($menuItemId)->setLangCode($this->statusPresentation->getLanguage()->getLangCode());
-//        $this->paperRepo->add($paper);
-//        return $paper;
-//    }
 }

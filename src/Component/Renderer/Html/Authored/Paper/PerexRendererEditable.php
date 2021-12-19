@@ -22,15 +22,17 @@ use Pes\Text\Html;
 class PerexRendererEditable extends HtmlRendererAbstract {
     public function render(iterable $viewModel=NULL) {
         /** @var PaperViewModelInterface $viewModel */
-        $paper = $viewModel->getPaper();
+        $paperAggregate = $viewModel->getPaper();
         return
-            Html::tag('perex',
+            Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/{$paperAggregate->getId()}/perex"],
+                Html::tag('perex',
                     [
-                        'id' => "perex_{$paper->getId()}",  // id musí být na stránce unikátní - skládám ze slova perex_ a paper id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
-                        'class'=>$this->classMap->getClass('Perex', 'perex.edit-html'),
-                        'data-owner'=>$paper->getEditor()
+                        'id' => "perex_{$paperAggregate->getId()}",  // id musí být na stránce unikátní - skládám ze slova perex_ a paper id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
+                        'class'=>$this->classMap->get('Perex', 'perex.edit-html'),
+                        'data-owner'=>$paperAggregate->getEditor()
                     ],
-                    $paper->getPerex() ?? ""
+                    $paperAggregate->getPerex() ?? ""
+                )
             );
     }
 }

@@ -16,7 +16,7 @@ use Component\ViewModel\Authored\Multipage\MultipageViewModelInterface;
 use Component\Renderer\Html\Authored\Multipage\MultipageRenderer;
 use Component\Renderer\Html\Authored\Multipage\MultipageRendererEditable;
 
-use Component\View\Manage\ButtonEditContentComponent;
+use Component\View\Manage\ToggleEditContentButtonComponent;
 
 use Component\View\Authored\AuthoredEnum;
 use Pes\Type\ContextData;
@@ -74,10 +74,10 @@ class MultipageComponent extends AuthoredComponentAbstract implements MultipageC
             }
 
             // vytvoří komponent - view s buttonem ButtonEditContent
-            $buttonEditContentComponent = new ButtonEditContentComponent($this->configuration);
-            $this->contextData->offsetSet(ButtonEditContentComponent::CONTEXT_TYPE_FK, AuthoredEnum::MULTIPAGE);
-            $this->contextData->offsetSet(ButtonEditContentComponent::CONTEXT_ITEM_ID, $multipageId);
-            $this->contextData->offsetSet(ButtonEditContentComponent::CONTEXT_USER_PERFORM_ACTION, $userPerformsActionWithContent);
+            $buttonEditContentComponent = new ToggleEditContentButtonComponent($this->configuration);
+            $this->contextData->offsetSet(ToggleEditContentButtonComponent::CONTEXT_TYPE_FK, AuthoredEnum::MULTIPAGE);
+            $this->contextData->offsetSet(ToggleEditContentButtonComponent::CONTEXT_ITEM_ID, $multipageId);
+            $this->contextData->offsetSet(ToggleEditContentButtonComponent::CONTEXT_USER_PERFORM_ACTION, $userPerformsActionWithContent);
             $buttonEditContentComponent->setData($this->contextData);
             $buttonEditContentComponent->setRendererContainer($this->rendererContainer);
             $this->appendComponentView($buttonEditContentComponent, self::CONTEXT_BUTTON_EDIT_CONTENT);

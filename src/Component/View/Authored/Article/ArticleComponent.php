@@ -11,7 +11,7 @@ use Component\Renderer\Html\Authored\Article\ArticleRenderer;
 use Component\Renderer\Html\Authored\Article\ArticleRendererEditable;
 use Component\Renderer\Html\Authored\EmptyContentRenderer;
 
-use Component\View\Manage\ButtonEditContentComponent;
+use Component\View\Manage\ToggleEditContentButtonComponent;
 
 use Component\View\Authored\AuthoredEnum;
 /**
@@ -54,10 +54,10 @@ class ArticleComponent extends AuthoredComponentAbstract implements ArticleCompo
                 $this->setRendererName(ArticleRenderer::class);
             }
             // vytvoří komponent - view s buttonem ButtonEditContent
-            $buttonEditContentComponent = new ButtonEditContentComponent($this->configuration);
-            $this->contextData->offsetSet(ButtonEditContentComponent::CONTEXT_TYPE_FK, AuthoredEnum::ARTICLE);
-            $this->contextData->offsetSet(ButtonEditContentComponent::CONTEXT_ITEM_ID, $articleId);
-            $this->contextData->offsetSet(ButtonEditContentComponent::CONTEXT_USER_PERFORM_ACTION, $userPerformsActionWithContent);
+            $buttonEditContentComponent = new ToggleEditContentButtonComponent($this->configuration);
+            $this->contextData->offsetSet(ToggleEditContentButtonComponent::CONTEXT_TYPE_FK, AuthoredEnum::ARTICLE);
+            $this->contextData->offsetSet(ToggleEditContentButtonComponent::CONTEXT_ITEM_ID, $articleId);
+            $this->contextData->offsetSet(ToggleEditContentButtonComponent::CONTEXT_USER_PERFORM_ACTION, $userPerformsActionWithContent);
             $buttonEditContentComponent->setData($this->contextData);
             $buttonEditContentComponent->setRendererContainer($this->rendererContainer);
             $this->appendComponentView($buttonEditContentComponent, 'buttonEditContent');

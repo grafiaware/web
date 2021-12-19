@@ -19,9 +19,9 @@ class LevelWrapRenderer extends HtmlRendererAbstract {
 
     public function render($levelItemsHtml=NULL) {
         return Html::tag('ul', ['class'=>[
-                                //$this->classMap->getClass('LevelWrap', 'ul'),
-//                                $this->classMap->resolveClass($this->viewModel->isOnPath(), 'LevelWrap', 'ul.onpath', 'ul'),
-                                $this->classMap->getClass('LevelWrap', 'ul'),
+                                //$this->classMap->get('LevelWrap', 'ul'),
+//                                $this->classMap->resolve($this->viewModel->isOnPath(), 'LevelWrap', 'ul.onpath', 'ul'),
+                                $this->classMap->get('LevelWrap', 'ul'),
                                 ]],
                             $levelItemsHtml);
     }

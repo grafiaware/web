@@ -3,7 +3,7 @@ namespace Component\View\Manage;
 
 use Component\View\StatusComponentAbstract;
 use Component\Renderer\Html\NoPermittedContentRenderer;
-use Component\Renderer\Html\Manage\ButtonEditContentRenderer;
+use Component\Renderer\Html\Manage\ToggleEditContentButtomRenderer;
 //use Pes\View\Template\PhpTemplate;
 
 use Component\View\RoleEnum;
@@ -14,7 +14,7 @@ use Component\View\AllowedActionEnum;
  *
  * @author pes2704
  */
-class ButtonEditContentComponent extends StatusComponentAbstract {
+class ToggleEditContentButtonComponent extends StatusComponentAbstract {
 
     const CONTEXT_TYPE_FK = 'typeFk';
     const CONTEXT_ITEM_ID = 'itemId';
@@ -26,7 +26,7 @@ class ButtonEditContentComponent extends StatusComponentAbstract {
      */
     public function beforeRenderingHook(): void {
         if($this->contextData->presentEditableContent() AND $this->isAllowed($this, AllowedActionEnum::EDIT)) {
-            $this->setRendererName(ButtonEditContentRenderer::class);
+            $this->setRendererName(ToggleEditContentButtomRenderer::class);
 //            $this->setTemplate(new PhpTemplate($this->configuration->getTemplateXXXXXXX()));
         } else {
             $this->setRendererName(NoPermittedContentRenderer::class);

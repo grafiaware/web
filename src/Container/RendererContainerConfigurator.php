@@ -27,7 +27,7 @@ use Component\Renderer\Html\Authored\Article\SelectArticleTemplateRenderer;
 use Component\Renderer\Html\Authored\Multipage\MultipageRenderer;
 use Component\Renderer\Html\Authored\Multipage\MultipageRendererEditable;
 
-use Component\Renderer\Html\Manage\ButtonEditContentRenderer;
+use Component\Renderer\Html\Manage\ToggleEditContentButtomRenderer;
 
 use Component\Renderer\Html\Generated\LanguageSelectRenderer;
 use Component\Renderer\Html\Generated\SearchPhraseRenderer;
@@ -111,8 +111,8 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
         ###########################
         #  status renderer
         ###########################
-            ButtonEditContentRenderer::class => function(ContainerInterface $c) {
-                return new ButtonEditContentRenderer($c->get('paper.editable.classmap'));
+            ToggleEditContentButtomRenderer::class => function(ContainerInterface $c) {
+                return new ToggleEditContentButtomRenderer($c->get('paper.editable.classmap'));
             },
         ###########################
         #  article renderer

@@ -29,12 +29,12 @@ class MenuWrapRenderer extends MenuWrapRendererAbstract {
         if ($viewModel->isEditableItem()) {
             return
             Html::tag('form', [],
-                Html::tag('ul', ['class'=>$this->classMap->getClass('MenuWrap', 'ul')],
+                Html::tag('ul', ['class'=>$this->classMap->get('MenuWrap', 'ul')],
                     $menuLevelHtml
                 )
             );
         } else {
-            return Html::tag('ul', ['class'=>$this->classMap->getClass('MenuWrap', 'ul')],
+            return Html::tag('ul', ['class'=>$this->classMap->get('MenuWrap', 'ul')],
                 $menuLevelHtml
             );
         }

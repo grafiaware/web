@@ -107,7 +107,7 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
                 $ctrl = $this->container->get(PresentationActionControler::class);
                 return $ctrl->removeUserItemAction($request, $typeFk, $itemId);
         });
-        
+
         #### PaperController ####
         $routeGenerator->addRouteForAction('POST', '/red/v1/paper', function(ServerRequestInterface $request) {
                 /** @var PaperControler $ctrl */
@@ -123,6 +123,16 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
                 /** @var PaperControler $ctrl */
                 $ctrl = $this->container->get(PaperControler::class);
                 return $ctrl->template($request, $paperId);
+        });
+        $routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId/headline', function(ServerRequestInterface $request, $paperId) {
+                /** @var PaperControler $ctrl */
+                $ctrl = $this->container->get(PaperControler::class);
+                return $ctrl->updateHeadline($request, $paperId);
+        });
+        $routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId/perex', function(ServerRequestInterface $request, $paperId) {
+                /** @var PaperControler $ctrl */
+                $ctrl = $this->container->get(PaperControler::class);
+                return $ctrl->updatePerex($request, $paperId);
         });
 
         #### ArticleControler ####

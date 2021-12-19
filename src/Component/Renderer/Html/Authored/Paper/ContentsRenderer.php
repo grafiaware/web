@@ -49,7 +49,7 @@ class ContentsRenderer extends HtmlRendererAbstract {
     private function renderContent(PaperContentInterface $paperContent) {
         $html =  Html::tag('content', [
                             'id' => "content_{$paperContent->getId()}",
-                            'class'=>$this->classMap->getClass('Content', 'content'),
+                            'class'=>$this->classMap->get('Content', 'content'),
                             'data-owner'=>$paperContent->getEditor()
                         ],
                     $paperContent->getContent()

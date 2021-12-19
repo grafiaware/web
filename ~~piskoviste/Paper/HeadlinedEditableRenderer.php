@@ -46,59 +46,59 @@ class HeadlinedEditableRenderer extends HtmlRendererAbstract {
             $innerHtml =
                 Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/{$paper->getMenuItemIdFk()}/headline"],
                     $this->renderButtons($menuNode, $paper)
-                    .Html::tag('div', ['class'=>$this->classMap->getClass('Component', 'div div div')],
-                        Html::tag('headline', ['id'=>"headline_{$paper->getMenuItemIdFk()}", 'class'=>$this->classMap->getClass('Component', 'div div div headline')],
+                    .Html::tag('div', ['class'=>$this->classMap->get('Component', 'div div div')],
+                        Html::tag('headline', ['id'=>"headline_{$paper->getMenuItemIdFk()}", 'class'=>$this->classMap->get('Component', 'div div div headline')],
                             $paper->getPaper()
                         )
-                        .Html::tag('i', ['class'=> $this->classMap->resolveClass(($menuNode->getHierarchyAggregate()->selectActive() AND $menuNode->getHierarchyAggregate()->selectActual()), 'Component',
+                        .Html::tag('i', ['class'=> $this->classMap->resolve(($menuNode->getHierarchyAggregate()->selectActive() AND $menuNode->getHierarchyAggregate()->selectActual()), 'Component',
                                 'div div div i1.published', 'div div div i1.notpublished')]
                         )
-                        .Html::tag('i', ['class'=> $this->classMap->resolveClass($menuNode->getHierarchyAggregate()->selectActive(), 'Component',
+                        .Html::tag('i', ['class'=> $this->classMap->resolve($menuNode->getHierarchyAggregate()->selectActive(), 'Component',
                                 $menuNode->getHierarchyAggregate()->selectActual() ? 'div div div i2.published' : 'div div div i2.notactual',
                                 $menuNode->getHierarchyAggregate()->selectActual() ?  'div div div i2.notactive' : 'div div div i2.notactivenotactual'
                                 )]
                         )
-                        //.Html::tag('i', ['class'=>$this->classMap->getClass('Component', 'div div div i3')])
+                        //.Html::tag('i', ['class'=>$this->classMap->get('Component', 'div div div i3')])
                     )
-                    .Html::tag('content', ['id'=>"content_{$paper->getMenuItemIdFk()}", 'class'=>$this->classMap->getClass('Component', 'div div content')], $paper->getPaperContent())
+                    .Html::tag('content', ['id'=>"content_{$paper->getMenuItemIdFk()}", 'class'=>$this->classMap->get('Component', 'div div content')], $paper->getPaperContent())
                 );
         } else {
             $innerHtml = Html::tag('div', [], 'No data item or article for rendering.');
         }
         // atribut data-component je jen pro info v html
-        return Html::tag('div', ['data-component'=>$name, 'class'=>$this->classMap->getClass('Component', 'div')],
-                Html::tag('div', ['class'=>$this->classMap->getClass('Component', 'div div')], $innerHtml)
+        return Html::tag('div', ['data-component'=>$name, 'class'=>$this->classMap->get('Component', 'div')],
+                Html::tag('div', ['class'=>$this->classMap->get('Component', 'div div')], $innerHtml)
             );
     }
 
     private function renderButtons(MenuItemAggregateHierarchyInterface $menuNode, MenuItemAggregatePaperInterface $paper) {
         //TODO: atributy data-tooltip a data-position jsou pro semantic - zde jsou napevno zadané
             return
-            Html::tag('div', ['class'=>$this->classMap->getClass('Buttons', 'div')],
+            Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div')],
                 Html::tag('button',
-                            ['class'=>$this->classMap->getClass('Buttons', 'div button'),
+                            ['class'=>$this->classMap->get('Buttons', 'div button'),
                             'data-tooltip'=>'Aktivní/neaktivní stránka',
                             'type'=>'submit',
                             'name'=>'toggle',
                             'formmethod'=>'post',
                             'formaction'=>"red/v1/menu/{$menuNode->getUid()}/toggle",
                             ],
-                    Html::tag('i', ['class'=>$this->classMap->resolveClass($menuNode->getHierarchy()->getActive(), 'Buttons', 'div button5 i.on', 'div button5 i.off')])
+                    Html::tag('i', ['class'=>$this->classMap->resolve($menuNode->getHierarchy()->getActive(), 'Buttons', 'div button5 i.on', 'div button5 i.off')])
                 )
                 .Html::tag('div',
-                            ['class'=>$this->classMap->getClass('Buttons', 'div div'),
+                            ['class'=>$this->classMap->get('Buttons', 'div div'),
                             'data-tooltip'=>'Změnit od '.$menuNode->getHierarchy()->getShowTime().' do '.$menuNode->getHierarchy()->getHideTime(), 'data-position'=>'top right',
                             ],
-                    Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div div i')])
-                    .Html::tag('div', ['class'=>$this->classMap->getClass('Buttons', 'div div div')],
-                        Html::tag('p', ['class'=>$this->classMap->getClass('Buttons', 'div div div p')], 'Od')
+                    Html::tag('i', ['class'=>$this->classMap->get('Buttons', 'div div i')])
+                    .Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div div div')],
+                        Html::tag('p', ['class'=>$this->classMap->get('Buttons', 'div div div p')], 'Od')
                         .Html::tagNopair('input', ['type'=>'date', 'name'=>''])
-                        .Html::tag('button', ['class'=>$this->classMap->getClass('Buttons', 'div div div button'), 'name'=>''], 'Trvale')
-                        .Html::tag('p',['class'=>$this->classMap->getClass('Buttons', 'div div div p')], 'Do')
+                        .Html::tag('button', ['class'=>$this->classMap->get('Buttons', 'div div div button'), 'name'=>''], 'Trvale')
+                        .Html::tag('p',['class'=>$this->classMap->get('Buttons', 'div div div p')], 'Do')
                         .Html::tagNopair('input', ['type'=>'date', 'name'=>''])
-                        .Html::tag('button', ['class'=>$this->classMap->getClass('Buttons', 'div div div button'), 'name'=>''], 'Trvale')
+                        .Html::tag('button', ['class'=>$this->classMap->get('Buttons', 'div div div button'), 'name'=>''], 'Trvale')
                 .Html::tag('button',
-                                    ['class'=>$this->classMap->getClass('Buttons', 'div div div button'),
+                                    ['class'=>$this->classMap->get('Buttons', 'div div div button'),
                             'type'=>'submit',
                             'name'=>'time',
                             'formmethod'=>'post',

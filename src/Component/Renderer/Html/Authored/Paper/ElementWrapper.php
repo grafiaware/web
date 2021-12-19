@@ -40,7 +40,7 @@ class ElementWrapper {
     public function wrapHeadline(PaperInterface $paper) {
         $headline = $paper->getHeadline();
         return Html::tag('headline',
-                            ['class'=>$this->classMap->getClass('Headline', 'headline')],
+                            ['class'=>$this->classMap->get('Headline', 'headline')],
                             $headline ?? ''
                     );
     }
@@ -48,7 +48,7 @@ class ElementWrapper {
     public function wrapPerex(PaperInterface $paper) {
         $perex = $paper->getPerex();
         return  Html::tag('perex',
-                    ['class'=>$this->classMap->getClass('Perex', 'perex')],
+                    ['class'=>$this->classMap->get('Perex', 'perex')],
                     $perex ?? ''
                 );
     }
@@ -56,7 +56,7 @@ class ElementWrapper {
     public function wrapContent(PaperContentInterface $paperContent) {
         return  Html::tag('content', [
                             'id' => "content_{$paperContent->getId()}",
-                            'class'=>$this->classMap->getClass('Content', 'content'),
+                            'class'=>$this->classMap->get('Content', 'content'),
                             'data-owner'=>$paperContent->getEditor()
                         ],
                     $paperContent->getContent()

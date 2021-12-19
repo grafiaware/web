@@ -24,13 +24,13 @@ class MultipageRendererEditable  extends HtmlRendererAbstract {
         $selectTemplate = $this->renderSelectTemplate($multipage);
         $inner = (string) $viewModel->getContextVariable(MultipageComponent::CONTEXT_TEMPLATE) ?? '';
         $html =
-                Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.templateMultipage')],
+                Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.templateMultipage')],
                   Html::tag('div', ['data-red-renderer'=>'MultipageRendererEditable', "data-red-datasource"=> "multipage {$multipage->getId()} for item {$multipage->getMenuItemIdFk()}"],
                     [
                         $buttonEditContent,
                         $selectTemplate,
-                        Html::tag('div', ['class'=>$this->classMap->getClass('PaperButtons', 'div.ribbon-disabled')]), //lepítko s buttony
-                        Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.semafor')], //aktivní/neaktivní paper
+                        Html::tag('div', ['class'=>$this->classMap->get('PaperButtons', 'div.ribbon-disabled')]), //lepítko s buttony
+                        Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.semafor')], //aktivní/neaktivní paper
                             Html::tag('div',
                                [
                                'class'=> 'ikona-popis',
@@ -38,7 +38,7 @@ class MultipageRendererEditable  extends HtmlRendererAbstract {
                                ],
                                 Html::tag('i',
                                    [
-                                   'class'=> $this->classMap->resolveClass($active, 'Content','i1.published', 'i1.notpublished'),
+                                   'class'=> $this->classMap->resolve($active, 'Content','i1.published', 'i1.notpublished'),
                                    ]
                                 )
                             )
@@ -55,11 +55,11 @@ class MultipageRendererEditable  extends HtmlRendererAbstract {
         $multipageId = $multipage->getId();
 
         return
-                    Html::tag('div', ['class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.selectTemplate')],
+                    Html::tag('div', ['class'=>$this->classMap->get('PaperTemplateSelect', 'div.selectTemplate')],
                         Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/multipage/$multipageId/template"],
                             Html::tagNopair('input', ["type"=>"hidden", "name"=>"template_$multipageId", "value"=>$contentTemplateName])
                             .
-                            Html::tag('div', ['id'=>"multipage_$multipageId", 'class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.tinySelectTemplateMultipage')],'')
+                            Html::tag('div', ['id'=>"multipage_$multipageId", 'class'=>$this->classMap->get('PaperTemplateSelect', 'div.tinySelectTemplateMultipage')],'')
                         )
 
                     );

@@ -53,21 +53,21 @@ class SelectPaperTemplateRenderer extends HtmlRendererAbstract {
             'Test' => 'test'
         ];
         $items = [];
-        $class = $this->classMapEditable->getClass('PaperTemplateSelect', 'div.item');
+        $class = $this->classMapEditable->get('PaperTemplateSelect', 'div.item');
         foreach ($postItems as $title => $value) {
             $items[] = Html::tag('div', ['class'=>$class, 'value'=>$value], $title);
         }
         return
             Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/$paperId/template"],
-                Html::tag('div', ['class'=>$this->classMapEditable->getClass('PaperTemplateButtons', 'div.paperTemplate'), 'data-tooltip'=>'Výběr šablony stránky'],
-                    Html::tag('i', ['class'=>$this->classMapEditable->getClass('PaperTemplateButtons', 'button.templateSelect')])
-                    .Html::tag('div', ['class'=>$this->classMapEditable->getClass('PaperTemplateSelect', 'div.menu')],
-                        Html::tag('div', ['class'=>$this->classMapEditable->getClass('PaperTemplateSelect', 'div.header')], 'Vyberte šablonu stránky')
-                        .Html::tag('div', ['class'=>$this->classMapEditable->getClass('PaperTemplateSelect', 'div.selection')],
-                            Html::tag('input', ['class'=>$this->classMapEditable->getClass('PaperTemplateSelect', 'input'), 'type'=>'hidden', 'name'=>$postName, 'onchange'=>'this.form.submit()'] )
-                            .Html::tag('i', ['class'=>$this->classMapEditable->getClass('PaperTemplateSelect', 'i.dropdown')])
-                            .Html::tag('div', ['class'=>$this->classMapEditable->getClass('PaperTemplateSelect', 'div.text')], 'Šablona')
-                            .Html::tag('div', ['class'=>$this->classMapEditable->getClass('PaperTemplateSelect', 'div.scrollmenu')],
+                Html::tag('div', ['class'=>$this->classMapEditable->get('PaperTemplateButtons', 'div.paperTemplate'), 'data-tooltip'=>'Výběr šablony stránky'],
+                    Html::tag('i', ['class'=>$this->classMapEditable->get('PaperTemplateButtons', 'button.templateSelect')])
+                    .Html::tag('div', ['class'=>$this->classMapEditable->get('PaperTemplateSelect', 'div.menu')],
+                        Html::tag('div', ['class'=>$this->classMapEditable->get('PaperTemplateSelect', 'div.header')], 'Vyberte šablonu stránky')
+                        .Html::tag('div', ['class'=>$this->classMapEditable->get('PaperTemplateSelect', 'div.selection')],
+                            Html::tag('input', ['class'=>$this->classMapEditable->get('PaperTemplateSelect', 'input'), 'type'=>'hidden', 'name'=>$postName, 'onchange'=>'this.form.submit()'] )
+                            .Html::tag('i', ['class'=>$this->classMapEditable->get('PaperTemplateSelect', 'i.dropdown')])
+                            .Html::tag('div', ['class'=>$this->classMapEditable->get('PaperTemplateSelect', 'div.text')], 'Šablona')
+                            .Html::tag('div', ['class'=>$this->classMapEditable->get('PaperTemplateSelect', 'div.scrollmenu')],
                                     implode(PHP_EOL, $items)
                             )
                         )

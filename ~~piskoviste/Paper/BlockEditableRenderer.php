@@ -47,38 +47,38 @@ class BlockEditableRenderer extends HtmlRendererAbstract {
             $style = "display: none;";
         }
         return Html::tag('form', ['method'=>'POST', 'action'=>""],
-                   Html::tag('block', ['data-component'=>$name, 'class'=>$this->classMap->getClass('Component', 'block'), 'style'=>$style], $innerHtml)
+                   Html::tag('block', ['data-component'=>$name, 'class'=>$this->classMap->get('Component', 'block'), 'style'=>$style], $innerHtml)
                );
     }
     
     private function renderButtons(MenuItemAggregateHierarchyInterface $menuNode, MenuItemAggregatePaperInterface $paper) {
         //TODO: atributy data-tooltip a data-position jsou pro semantic - zde jsou napevno zadané
             return
-            Html::tag('div', ['class'=>$this->classMap->getClass('Buttons', 'div')],
+            Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div')],
                 Html::tag('button',
-                            ['class'=>$this->classMap->getClass('Buttons', 'div button'),
+                            ['class'=>$this->classMap->get('Buttons', 'div button'),
                             'data-tooltip'=>'Aktivní/neaktivní stránka',
                             'type'=>'submit',
                             'name'=>'toggle',
                             'formmethod'=>'post',
                             'formaction'=>"red/v1/menu/{$menuNode->getUid()}/toggle",
                             ],
-                    Html::tag('i', ['class'=>$this->classMap->resolveClass($menuNode->getHierarchy()->getActive(), 'Buttons', 'div button5 i.on', 'div button5 i.off')])
+                    Html::tag('i', ['class'=>$this->classMap->resolve($menuNode->getHierarchy()->getActive(), 'Buttons', 'div button5 i.on', 'div button5 i.off')])
                 )
                 .Html::tag('div',
-                            ['class'=>$this->classMap->getClass('Buttons', 'div div'),
+                            ['class'=>$this->classMap->get('Buttons', 'div div'),
                             'data-tooltip'=>'Změnit od '.$menuNode->getHierarchy()->getShowTime().' do '.$menuNode->getHierarchy()->getHideTime(), 'data-position'=>'bottom right',
                             ],
-                    Html::tag('i', ['class'=>$this->classMap->getClass('Buttons', 'div div i')])
-                    .Html::tag('div', ['class'=>$this->classMap->getClass('Buttons', 'div div div')],
-                        Html::tag('p', ['class'=>$this->classMap->getClass('Buttons', 'div div div p')], 'Od')
+                    Html::tag('i', ['class'=>$this->classMap->get('Buttons', 'div div i')])
+                    .Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div div div')],
+                        Html::tag('p', ['class'=>$this->classMap->get('Buttons', 'div div div p')], 'Od')
                         .Html::tagNopair('input', ['type'=>'date', 'name'=>''])
-                        .Html::tag('button', ['class'=>$this->classMap->getClass('Buttons', 'div div div button'), 'name'=>''], 'Trvale')
-                        .Html::tag('p',['class'=>$this->classMap->getClass('Buttons', 'div div div p')], 'Do')
+                        .Html::tag('button', ['class'=>$this->classMap->get('Buttons', 'div div div button'), 'name'=>''], 'Trvale')
+                        .Html::tag('p',['class'=>$this->classMap->get('Buttons', 'div div div p')], 'Do')
                         .Html::tagNopair('input', ['type'=>'date', 'name'=>''])
-                        .Html::tag('button', ['class'=>$this->classMap->getClass('Buttons', 'div div div button'), 'name'=>''], 'Trvale')
+                        .Html::tag('button', ['class'=>$this->classMap->get('Buttons', 'div div div button'), 'name'=>''], 'Trvale')
                 .Html::tag('button',
-                                    ['class'=>$this->classMap->getClass('Buttons', 'div div div button'),
+                                    ['class'=>$this->classMap->get('Buttons', 'div div div button'),
                             'type'=>'submit',
                             'name'=>'time',
                             'formmethod'=>'post',

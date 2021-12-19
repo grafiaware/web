@@ -22,14 +22,16 @@ use Pes\Text\Html;
 class HeadlineRendererEditable extends HtmlRendererAbstract {
     public function render(iterable $viewModel=NULL) {
         /** @var PaperViewModelInterface $viewModel */
-        $paper = $viewModel->getPaper();
+        $paperAggregate = $viewModel->getPaper();
         return
+            Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/{$paperAggregate->getId()}/headline"],
             Html::tag('headline',
                     [
-                        'id'=>"headline_{$paper->getId()}",  // id musí být na stránce unikátní - skládám ze slova headline_ a paper id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
-                        'class'=>$this->classMap->getClass('Headline', 'headline.edit-text'),
+                        'id'=>"headline_{$paperAggregate->getId()}",  // id musí být na stránce unikátní - skládám ze slova headline_ a paper id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
+                        'class'=>$this->classMap->get('Headline', 'headline.edit-text'),
                     ],
-                    $paper->getHeadline() ?? ""
+                    $paperAggregate->getHeadline() ?? ""
+                )
             );
     }
 }

@@ -33,17 +33,17 @@ class ButtonsRenderer extends HtmlRendererAbstract {
         $buttons = [];
         if ($paper instanceof PaperAggregatePaperContentInterface AND $paper->getPaperContentsArray()) {
             $buttons[] = Html::tag('button', [
-                    'class'=>$this->classMap->getClass('PaperButtons', 'button'),
+                    'class'=>$this->classMap->get('PaperButtons', 'button'),
                     'data-tooltip'=> 'Seřadit podle data',
                     'data-position'=>'top right',
                     'formmethod'=>'post',
                     'formaction'=>"not_implemented",
                     ],
-                    Html::tag('i', ['class'=>$this->classMap->getClass('PaperButtons', 'button.arrange')])
+                    Html::tag('i', ['class'=>$this->classMap->get('PaperButtons', 'button.arrange')])
                 );
         } else {
             $buttons[] =  Html::tag('button',
-                        ['class'=>$this->classMap->getClass('ContentButtons', 'button'),
+                        ['class'=>$this->classMap->get('ContentButtons', 'button'),
                         'data-tooltip'=>'Přidat obsah',
                         'type'=>'submit',
                         'name'=>'button',
@@ -51,14 +51,14 @@ class ButtonsRenderer extends HtmlRendererAbstract {
                         'formmethod'=>'post',
                         'formaction'=>"red/v1/paper/$paperId/content",
                         ],
-                        Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.icons')],
-                            Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.addcontent')])
-                            .Html::tag('i', ['class'=>$this->classMap->getClass('ContentButtons', 'button.arrowdown')])
+                        Html::tag('i', ['class'=>$this->classMap->get('ContentButtons', 'button.icons')],
+                            Html::tag('i', ['class'=>$this->classMap->get('ContentButtons', 'button.addcontent')])
+                            .Html::tag('i', ['class'=>$this->classMap->get('ContentButtons', 'button.arrowdown')])
                         )
                     );
         }
         return Html::tag('form', ['method'=>'POST', 'action'=>""],
-            Html::tag('div', ['class'=>$this->classMap->getClass('PaperButtons', 'div.buttonsPage')],
+            Html::tag('div', ['class'=>$this->classMap->get('PaperButtons', 'div.buttonsPage')],
                     implode('', $buttons)
             )
         );

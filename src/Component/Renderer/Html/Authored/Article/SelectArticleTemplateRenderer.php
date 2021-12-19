@@ -37,22 +37,22 @@ class SelectArticleTemplateRenderer extends HtmlRendererAbstract {
         return
         Html::tag('div', [],
             Html::tag('button', [
-                'class'=>$this->classMap->getClass('PaperTemplateSelect', 'div button'),
+                'class'=>$this->classMap->get('PaperTemplateSelect', 'div button'),
                 'formtarget'=>'_self',
                 'tabindex'=>'0',
                 'onclick'=>"togleTemplateSelect(event, 'select_template_article_$articleId'); "
                 ],
-                Html::tag('div', ['class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.hidden')], 'Šablony pro stránku')
-                .Html::tag('div', ['class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.visible')],
-                    Html::tag('i', ['class'=>$this->classMap->getClass('PaperTemplateSelect', 'div i')])
+                Html::tag('div', ['class'=>$this->classMap->get('PaperTemplateSelect', 'div.hidden')], 'Šablony pro stránku')
+                .Html::tag('div', ['class'=>$this->classMap->get('PaperTemplateSelect', 'div.visible')],
+                    Html::tag('i', ['class'=>$this->classMap->get('PaperTemplateSelect', 'div i')])
                 )
             )
             .
-            Html::tag('div', ['id'=>"select_template_article_$articleId",'class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.selectTemplate')],
+            Html::tag('div', ['id'=>"select_template_article_$articleId",'class'=>$this->classMap->get('PaperTemplateSelect', 'div.selectTemplate')],
                 Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/article/$articleId/template"],
 //                    Html::tagNopair('input', ["type"=>"hidden", "name"=>"template_$articleId", "value"=>$contentTemplateName])
 //                    .
-                    Html::tag('div', ['id'=>"template_$articleId", 'class'=>$this->classMap->getClass('PaperTemplateSelect', 'div.tinySelectTemplateArticle')],'')
+                    Html::tag('div', ['id'=>"template_$articleId", 'class'=>$this->classMap->get('PaperTemplateSelect', 'div.tinySelectTemplateArticle')],'')
                 )
 
             )

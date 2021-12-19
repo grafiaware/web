@@ -118,7 +118,7 @@ abstract class RepoAbstract {
      */
     protected function getEntity(...$id) {
         $index = $this->indexFromKeyParams(...$id);
-        if (!isset($this->collection[$index])) {
+        if (!isset($this->collection[$index]) AND !isset($this->removed[$index])) {
             $this->recreateEntity($index, $this->recreateData($index, ...$id));
         }
         return $this->collection[$index] ?? NULL;
@@ -155,7 +155,10 @@ abstract class RepoAbstract {
     protected function addEntitiesByRowDataArray($rowDataArray): array {
         $selected = [];
         foreach ($rowDataArray as $rowData) {
-            $selected[] = $this->addEntityByRowData($rowData);
+            $added = $this->addEntityByRowData($rowData);  // může vracet null
+            if (isset($added)) {
+                $selected[] = $added;
+            }
         }
         return $selected;
     }
@@ -174,7 +177,7 @@ abstract class RepoAbstract {
             return null;
         }
         $index = $this->indexFromRow($rowData);
-        if (!isset($this->collection[$index])) {
+        if (!isset($this->collection[$index]) AND !isset($this->removed[$index])) {
             $this->addData($index, $rowData);  // natvrdo dá rowData do $this->data
             $this->recreateEntity($index, $rowData);
         }
@@ -306,7 +309,7 @@ abstract class RepoAbstract {
             unset($this->collection[$index]);
             $entity->setUnpersisted();
             $entity->lock();
-        } else {   // smazání před uložením do db
+        } else {   // smazání nepersistované entity před uložením do db
             foreach ($this->new as $key => $new) {
                 if ($new === $entity) {
                     unset($this->new[$key]);

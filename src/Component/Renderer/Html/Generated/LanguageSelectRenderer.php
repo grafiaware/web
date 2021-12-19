@@ -36,11 +36,11 @@ class LanguageSelectRenderer extends HtmlRendererAbstract {
             $buttons[] = Html::tag('button', [
                             'name'=>'langcode',
                             'value'=>$langCode,
-                            'class'=>$this->classMap->resolveClass($langCode == $presentedLangCode , 'Item', 'button.presentedlanguage', 'button'),
+                            'class'=>$this->classMap->resolve($langCode == $presentedLangCode , 'Item', 'button.presentedlanguage', 'button'),
                         ],
                         Html::tagNopair('img', [
                             'src'=>$flagfile,
-                            'class'=>$this->classMap->resolveClass($langCode == $presentedLangCode , 'Item', 'img.presentedlanguage', 'img'),
+                            'class'=>$this->classMap->resolve($langCode == $presentedLangCode , 'Item', 'img.presentedlanguage', 'img'),
                             'alt'=>$language->getName()
                             ])
                         );

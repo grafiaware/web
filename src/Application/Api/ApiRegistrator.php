@@ -91,6 +91,8 @@ class ApiRegistrator {
         #### PaperController ####
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/headline'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/perex'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/template'));
 
         #### ArticleController ####

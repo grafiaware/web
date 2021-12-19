@@ -95,15 +95,15 @@ class UlTagFactory {
     }
 
     public function getMenuWrapNode() {
-        return new Tag\Ul(['class'=>$this->classMap->getClass('MenuWrap', 'ul')]);
+        return new Tag\Ul(['class'=>$this->classMap->get('MenuWrap', 'ul')]);
     }
 
     public function getLevelWrapNode() {
-        return new Tag\Ul(['class'=>$this->classMap->getClass('LevelWrap', 'ul')]);
+        return new Tag\Ul(['class'=>$this->classMap->get('LevelWrap', 'ul')]);
     }
 
     public function getItemNode(MenuItemInterface $item) {
-        $returnTag =new Tag\Li(['class'=>$this->classMap->getClass('Item', 'li'), 'data-depth'=>$item['depth']]);
+        $returnTag =new Tag\Li(['class'=>$this->classMap->get('Item', 'li'), 'data-depth'=>$item['depth']]);
         // hned generuji obsah Li z ItemView - používám node text
         return $returnTag->addChild(
                 new Text\Text(
@@ -118,19 +118,19 @@ class UlTagFactory {
         $returnTag = new Tag\Li(
                 [
                     'class'=>[
-                        $this->classMap->resolveClass($itemViewModel->isOnPath(), 'Item', 'li.onpath', 'li'),
-                        $this->classMap->resolveClass($itemViewModel->isLeaf(), 'Item', 'li.leaf', 'li'),
-                        $this->classMap->resolveClass($itemViewModel->isPresented(), 'Item', 'li.presented', 'li'),
+                        $this->classMap->resolve($itemViewModel->isOnPath(), 'Item', 'li.onpath', 'li'),
+                        $this->classMap->resolve($itemViewModel->isLeaf(), 'Item', 'li.leaf', 'li'),
+                        $this->classMap->resolve($itemViewModel->isPresented(), 'Item', 'li.presented', 'li'),
                         ],
                     'data-depth'=>$itemViewModel->getMenuNode()->getDepth()
                 ]);
 
         $returnTag->addChild(new Tag\I(
-                ['class'=> $this->classMap->getClass('Item', 'li i1')]
+                ['class'=> $this->classMap->get('Item', 'li i1')]
                 ));
         $returnTag->addChild((new Tag\A(
                     [
-                        'class'=>$this->classMap->getClass('Item', 'li a'),
+                        'class'=>$this->classMap->get('Item', 'li a'),
                         'href'=>"index.php?list={$itemViewModel->getMenuNode()->getUid()}"
                     ]
                     ))->addChild(new Text\Text($itemViewModel->getMenuNode()->getHierarchy()->getTitle()))
@@ -138,7 +138,7 @@ class UlTagFactory {
 
         // nemám innerHtml
         $returnTag->addChild(new Tag\I(
-                ['class'=>$this->classMap->resolveClass( ! $itemViewModel->isLeaf(), 'Item', 'li i')]  // negace - není leaf, má dropdown icon
+                ['class'=>$this->classMap->resolve( ! $itemViewModel->isLeaf(), 'Item', 'li i')]  // negace - není leaf, má dropdown icon
                 ));
         return $returnTag;
     }

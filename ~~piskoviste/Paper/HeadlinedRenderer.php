@@ -33,15 +33,15 @@ class HeadlinedRenderer extends HtmlRendererAbstract {
         }
 
         if (isset($menuNode) AND isset($paper)) {
-            $innerHtml = Html::tag('div', ['class'=>$this->classMap->getClass('Component', 'div div')],
-                            Html::tag('headline', ['class'=>$this->classMap->getClass('Component', 'div div headline')], $paper->getPaper())
+            $innerHtml = Html::tag('div', ['class'=>$this->classMap->get('Component', 'div div')],
+                            Html::tag('headline', ['class'=>$this->classMap->get('Component', 'div div headline')], $paper->getPaper())
                         )
-                        .Html::tag('content', ['class'=>$this->classMap->getClass('Component', 'div content')], $paper->getPaperContent());
+                        .Html::tag('content', ['class'=>$this->classMap->get('Component', 'div content')], $paper->getPaperContent());
             $style = "display: block;";
         } else {
             $innerHtml = Html::tag('div', [], 'No data item or article for rendering.');
             $style = "display: none;";
         }
-        return Html::tag('div', ['data-component'=>$name, 'class'=>$this->classMap->getClass('Component', 'div'), 'style'=>$style], $innerHtml);
+        return Html::tag('div', ['data-component'=>$name, 'class'=>$this->classMap->get('Component', 'div'), 'style'=>$style], $innerHtml);
     }
 }

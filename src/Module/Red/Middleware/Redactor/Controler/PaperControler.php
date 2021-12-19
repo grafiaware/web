@@ -22,12 +22,10 @@ use Psr\Http\Message\ResponseInterface;
 use Red\Model\Entity\Paper;
 use Red\Model\Entity\PaperAggregatePaperContentInterface;
 
-use Status\Model\Repository\{
-    StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo
-};
-use Red\Model\Repository\{
-    PaperAggregateContentsRepo
-};
+use Status\Model\Repository\StatusSecurityRepo;
+use Status\Model\Repository\StatusFlashRepo;
+use Status\Model\Repository\StatusPresentationRepo;
+use Red\Model\Repository\PaperAggregateContentsRepo;
 
 use UnexpectedValueException;
 
@@ -207,12 +205,54 @@ class PaperControler extends FrontControlerAbstract {
      * @param type $paperId
      * @return ResponseInterface
      */
-    public function updatePerex(ServerRequestInterface $request, $paperId): ResponseInterface {
-        $paper = $this->paperAggregateRepo->get($paperId);
-        if (!isset($paper)) {
+    public function updateHeadline(ServerRequestInterface $request, $paperId): ResponseInterface {
+        /** @var PaperAggregatePaperContentInterface $paperAggregate */
+        $paperAggregate = $this->paperAggregateRepo->get($paperId);
+        if (!isset($paperAggregate)) {
             user_error("Neexistuje paper se zadaným id.$paperId");
         } else {
+            $postParams = $request->getParsedBody();
+                $paperAggregate->setHeadline($postParams["headline_$paperId"]);
+                $this->addFlashMessage('Headline updated');
+        }
+        return $this->redirectSeeLastGet($request); // 303 See Other
+    }
 
+    /**
+     *
+     * @param ServerRequestInterface $request
+     * @param type $paperId
+     * @return ResponseInterface
+     */
+    public function updatePerex(ServerRequestInterface $request, $paperId): ResponseInterface {
+        /** @var PaperAggregatePaperContentInterface $paperAggregate */
+        $paperAggregate = $this->paperAggregateRepo->get($paperId);
+        if (!isset($paperAggregate)) {
+            user_error("Neexistuje paper se zadaným id.$paperId");
+        } else {
+            $postParams = $request->getParsedBody();
+            $paperAggregate->setPerex($postParams["perex_$paperId"]);
+            $this->addFlashMessage('Perex updated');
+        }
+        return $this->redirectSeeLastGet($request); // 303 See Other
+    }
+
+    /**
+     *
+     * @param ServerRequestInterface $request
+     * @param type $paperId
+     * @return ResponseInterface
+     */
+    public function updateContent(ServerRequestInterface $request, $paperId, $contentId): ResponseInterface {
+        /** @var PaperAggregatePaperContentInterface $paperAggregate */
+        $paperAggregate = $this->paperAggregateRepo->get($paperId);
+        if (!isset($paperAggregate)) {
+            user_error("Neexistuje paper se zadaným id.$paperId");
+        } else {
+            $content = $paperAggregate->getPaperContent($contentId);
+            $postParams = $request->getParsedBody();
+            $content->setContent($postParams["content_{$content->getId()}"]);
+            $this->addFlashMessage('Content updated');
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
     }

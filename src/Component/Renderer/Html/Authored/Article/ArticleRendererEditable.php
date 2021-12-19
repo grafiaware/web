@@ -53,8 +53,8 @@ class ArticleRendererEditable extends HtmlRendererAbstract {
                         [
                             $buttonEditContent,
                             $selectTemplate ?? '',
-                            Html::tag('div', ['class'=>$this->classMap->getClass('PaperButtons', 'div.ribbon-disabled')]), //lepítko s buttony
-                            Html::tag('div', ['class'=>$this->classMap->getClass('Content', 'div.semafor')], //aktivní/neaktivní paper
+                            Html::tag('div', ['class'=>$this->classMap->get('PaperButtons', 'div.ribbon-disabled')]), //lepítko s buttony
+                            Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.semafor')], //aktivní/neaktivní paper
                                 Html::tag('div',
                                    [
                                    'class'=> 'ikona-popis',
@@ -62,7 +62,7 @@ class ArticleRendererEditable extends HtmlRendererAbstract {
                                    ],
                                     Html::tag('i',
                                        [
-                                       'class'=> $this->classMap->resolveClass($active, 'Content','i1.published', 'i1.notpublished'),
+                                       'class'=> $this->classMap->resolve($active, 'Content','i1.published', 'i1.notpublished'),
                                        ]
                                     )
                                 )

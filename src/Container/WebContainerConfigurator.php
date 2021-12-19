@@ -71,7 +71,7 @@ use Component\View\Manage\LogoutComponent;
 use Component\View\Manage\UserActionComponent;
 use Component\View\Manage\StatusBoardComponent;
 use Component\View\Manage\ButtonEditMenuComponent;
-use Component\View\Manage\ButtonEditContentComponent;
+use Component\View\Manage\ToggleEditContentButtonComponent;
 
 // viewModel
 use Component\ViewModel\StatusViewModel;
@@ -346,8 +346,8 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
-            ButtonEditContentComponent::class => function(ContainerInterface $c) {
-                $component = new ButtonEditContentComponent($c->get(ComponentConfiguration::class));
+            ToggleEditContentButtonComponent::class => function(ContainerInterface $c) {
+                $component = new ToggleEditContentButtonComponent($c->get(ComponentConfiguration::class));
                 $component->setData($c->get(StatusViewModel::class));
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;

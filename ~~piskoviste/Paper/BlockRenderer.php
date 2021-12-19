@@ -41,6 +41,6 @@ class BlockRenderer extends HtmlRendererAbstract {
             $innerHtml = Html::tag('div', ['data-component'=>$name], 'No data item or article for rendering.');
             $style = "display: none;";
         }
-        return Html::tag('block', ['data-component'=>$name, 'class'=>$this->classMap->getClass('Component', 'block'), 'style'=>$style], $innerHtml);
+        return Html::tag('block', ['data-component'=>$name, 'class'=>$this->classMap->get('Component', 'block'), 'style'=>$style], $innerHtml);
     }
 }

@@ -28,7 +28,7 @@ use Component\Renderer\Html\Authored\Paper\HeadlineRendererEditable;
 use Component\Renderer\Html\Authored\Paper\PerexRendererEditable;
 use Component\Renderer\Html\Authored\Paper\ContentsRendererEditable;
 
-use Component\View\Manage\ButtonEditContentComponent;
+use Component\View\Manage\ToggleEditContentButtonComponent;
 
 use Component\View\Authored\AuthoredEnum;
 use Pes\Type\ContextData;
@@ -82,15 +82,16 @@ class PaperComponent extends AuthoredComponentAbstract implements PaperComponent
                     // připojí k templated view komponentní view s editable renderery headline, perex, contents
                     $this->addChildComponents($templatedView);
                 }
-                // vytvoří komponent - view s buttonem ButtonEditContent
-                $buttonEditContentComponent = new ButtonEditContentComponent($this->configuration);
-                $this->contextData->offsetSet(ButtonEditContentComponent::CONTEXT_TYPE_FK, AuthoredEnum::PAPER);
-                $this->contextData->offsetSet(ButtonEditContentComponent::CONTEXT_ITEM_ID, $paperId);
-                $this->contextData->offsetSet(ButtonEditContentComponent::CONTEXT_USER_PERFORM_ACTION, $userPerformsActionWithContent);
+                // připojí komponent - view s buttonem ToggleEditContentButtonComponent (tužtička)
+                $buttonEditContentComponent = new ToggleEditContentButtonComponent($this->configuration);
+                // kontext pro ToggleEditContentButtomRenderer
+                $this->contextData->offsetSet(ToggleEditContentButtonComponent::CONTEXT_TYPE_FK, AuthoredEnum::PAPER);
+                $this->contextData->offsetSet(ToggleEditContentButtonComponent::CONTEXT_ITEM_ID, $paperId);
+                $this->contextData->offsetSet(ToggleEditContentButtonComponent::CONTEXT_USER_PERFORM_ACTION, $userPerformsActionWithContent);
                 $buttonEditContentComponent->setData($this->contextData);
                 $buttonEditContentComponent->setRendererContainer($this->rendererContainer);
                 $this->appendComponentView($buttonEditContentComponent, self::CONTEXT_BUTTON_EDIT_CONTENT);
-            } else {
+            } else {  // needitační režim
                 $this->setRendererName(PaperRenderer::class);
                 // připojí k templated view komponentní view s editable renderery headline, perex, contents
                 $this->addChildComponents($templatedView);
