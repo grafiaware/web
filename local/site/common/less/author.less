@@ -71,8 +71,9 @@
 @semaforSectionTrashPositionRight: @semaforContentPositionRight;
 @semaforSectionTrashPositionTop: 12px;
 @sectionTrashTransform: translateX(0);
+@sectionTrashRibbonIconPositionTop: -8px;
 @sectionTrashCornerPositionLeft: 97.5%;
-@semaforContentNumberMarginTop: -10px;
+@semaforContentNumberMarginTop: -10px; 
 @semaforContentNumberTextAlign: center;
 
 //Paper
@@ -157,9 +158,11 @@
 @buttonyContentPositionTop: 6px;
 @buttonyContentBackgroundColor: @barvaEditButtony;
 @lastButtonContentBackgroundColor: @barvaKos;
-@buttonyContentPagePositionRight: -15px;
+@buttonyContentPagePositionRight: -15px; 
 @buttonyContentPagePositionTop: -3px;
 //Kalendář
+@fontSizeCalendar: 1.1rem;
+@fontSizeCalendarInput: 1.2rem;
 @buttonyKalendarPositionTop: -42px;
 @buttonyKalendarPositionRight: @hodnota0;
 @buttonyKalendarBackgroundColor: @barvaEditButtonyTmava;
@@ -417,13 +420,18 @@ body{
         position: relative;
     }
     /*SMAZANÝ CONTENT*/
-    section.trash {
+    section.trash {  
         cursor: @semaforSectionTrashCursor;
         .ui.ribbon.label:not(.page-edit){
             right: @sectionTrashCornerPositionRight;
             left: @sectionTrashCornerPositionLeft;
             top: @sectionTrashCornerPositionTop;
             transform: @sectionTrashTransform;
+            .trash.purple.icon:not(.editDate){
+                top: @sectionTrashRibbonIconPositionTop;
+                position: relative;
+                z-index: -1;
+            }
             & ~ .semafor{
                 left: @semaforSectionTrashPositionLeft;
                 right: @semaforSectionTrashPositionRight;
@@ -572,7 +580,7 @@ body{
         transform: @ribbonTransform;
         position: relative;
         .icon:not(.editDate){
-            /*výchozí vlastnost polohy CSS - semantic má nastaveno position: absolute, což je zde nežádoucí*/
+            /*semantic má nastaveno position: absolute, což je zde nežádoucí*/
             position: initial;
         }
         /*icony, které jsou složené ze dvou, budou vycentrované jako ostatní*/
@@ -685,6 +693,10 @@ body{
         /*obalující div inputu, semantická třída*/
         .calendar{
             margin-bottom: @divKalendarInputMarginBottom;
+            font-size: @fontSizeCalendar;
+            input{
+                font-size: @fontSizeCalendarInput;
+            }
             .ui.input input{
                 width: @divKalendarInputWidth;
             }

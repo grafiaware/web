@@ -11,10 +11,14 @@ use Red\Model\Entity\PaperAggregatePaperContentInterface;
 ?>
 
     <div class="" data-template="<?= "columns" ?>">
-        <section class="">
-            <?= $headline ?>
-            <?= $perex ?>
-        </section>
+        <div class="ui grid">
+            <div class="sixteen wide column">
+                <section>
+                        <?= $headline ?>
+                        <?= $perex ?>
+                </section>
+            </div>
+        </div>
         <div class="ui three column grid stackable centered">
             <?= $this->repeat(PROJECT_PATH."local/site/common/templates/paper-content/columns.php", $contents, 'paperContent'); ?>
         </div>

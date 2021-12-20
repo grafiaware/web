@@ -119,14 +119,12 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
             Html::tag("form", ['method'=>'POST', "action"=>"javascript:void(0);"],  // potlačí submit po stisku Enter
                 Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.ribbon')],
                     $this->getTrashButtons($paperContent)
-                    .Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.semafor')],
-                            Html::tag('i',['class'=>$this->classMap->get('Content', 'i.trash')])
-                    )
+                    .Html::tag('i',['class'=>$this->classMap->get('Content', 'i.trash')])
                 )
             )
-            .Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.semafor')],
-                    Html::tag('i',['class'=>$this->classMap->get('Content', 'i.trash')])
-            )
+//            .Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.semafor')],
+//                    Html::tag('i',['class'=>$this->classMap->get('Content', 'i.trash')])
+//            )
             .Html::tag('div',
                 [
                     'id' => "content_{$paperContent->getId()}",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
@@ -164,11 +162,12 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
         $nowPoint = sprintf('%d%%', $svgWidth/2);
 
         return
-        Html::tag('svg', ["width"=>"20", "height"=>"30", "style"=>"position: relative; top: -15px"],
+        Html::tag('svg', ["width"=>"25", "height"=>"30", "style"=>"position: relative; top: -15px"],
             Html::tag('circle', ["cx"=>"50%", "cy"=>"50%", "r"=>"8", "style"=>$styleCircle])
         )
-        .Html::tag('svg', ["width"=>"30", "height"=>"30", "style"=>"position: relative; top: -12px"],
-               Html::tag('path', ["fill-rule"=>"nonzero", "clip-rule"=>"evenodd", "fill"=>"white", "stroke"=>$clockStroke, "d"=>"M15 0c6.623 0 12 5.377 12 12s-5.377 12-12 12-12-5.377-12-12 5.377-12 12-12zm0 1c6.071 0 11 4.929 11 11s-4.929 11-11 11-11-4.929-11-11 4.929-11 11-11zm0 11h6v1h-7v-9h1v8z"]),
+        .Html::tag('svg', ["width"=>"35", "height"=>"30", "style"=>"position: relative; top: -11px"],
+               Html::tag('path', ["fill-rule"=>"nonzero", "clip-rule"=>"evenodd", "fill"=>"white", "stroke"=>$clockStroke, "d"=>"M15 1c5.623 0 10 3.377 10 10s-3.377 10-10 10-10-3.377-10-10 3.377-10 10-10zm0 1c5.623 0 9 2.929 9 9s-2.929 9-9 9-9-2.929-9-9 2.929-9 9-9zm0 9h5v1h-6v-7h1v6z"]),
+               //Html::tag('path', ["fill-rule"=>"nonzero", "clip-rule"=>"evenodd", "fill"=>"white", "stroke"=>$clockStroke, "d"=>"M15 0c6.623 0 12 5.377 12 12s-5.377 12-12 12-12-5.377-12-12 5.377-12 12-12zm0 1c6.071 0 11 4.929 11 11s-4.929 11-11 11-11-4.929-11-11 4.929-11 11-11zm0 11h6v1h-7v-9h1v8z"]),
         )
         .Html::tag('svg', ["width"=>$svgWidth, "height"=>"30", "style"=>"position: relative; top: -15px"],
            [
