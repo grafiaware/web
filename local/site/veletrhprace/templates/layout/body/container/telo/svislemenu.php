@@ -9,6 +9,7 @@ use Site\Configuration;
                 <?= $controlEditMenu ?>
 
                 <!-- vložit při editování menu "ovladaci-prvky-menu.php"-->
+                <?php include "ovladaci-prvky-menu.php"; ?>
 
             </div>
             <nav class="svisle-menu">

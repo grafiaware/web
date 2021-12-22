@@ -164,6 +164,7 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
         return
         Html::tag('svg', ["width"=>"25", "height"=>"30", "style"=>"position: relative; top: -15px"],
             Html::tag('circle', ["cx"=>"50%", "cy"=>"50%", "r"=>"8", "style"=>$styleCircle])
+            .Html::tag('title', [], 'Něco napsáno')
         )
         .Html::tag('svg', ["width"=>"35", "height"=>"30", "style"=>"position: relative; top: -11px"],
                Html::tag('path', ["fill-rule"=>"nonzero", "clip-rule"=>"evenodd", "fill"=>"white", "stroke"=>$clockStroke, "d"=>"M15 1c5.623 0 10 3.377 10 10s-3.377 10-10 10-10-3.377-10-10 3.377-10 10-10zm0 1c5.623 0 9 2.929 9 9s-2.929 9-9 9-9-2.929-9-9 2.929-9 9-9zm0 9h5v1h-6v-7h1v6z"]),

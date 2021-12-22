@@ -31,13 +31,13 @@
     }
     
     /***FIXNÍ LIŠTA***/
-    .fix-bar:not(.editMenu){
+    .column:not(.editMenu) > .fix-bar{
         width: 10%;
         height: 100%;
         position: fixed;
         color: @invertedTextColor;
         background-color: @primaryColor;
-        z-index: 2 ;
+        z-index: 2;
         .prihlaseni{
             top: 17%;
             width: 100%;
@@ -191,8 +191,8 @@
         .svisle-menu .menu .onpath{
             left: 7%;
         }
-    } 
-    .fix-bar.editMenu{
+    }
+    .column.editMenu > .fix-bar{
         width: 400px;
         height: 102%;
         position: relative;
@@ -229,7 +229,7 @@
         }
     }
     .form.huge input[type="checkbox"]{
-        vertical-align: middle ;
+        vertical-align: middle;
     }
     
     /***SVISLE MENU***/
@@ -243,7 +243,7 @@
     .svisle-menu .vertical.menu .item{
         color: @invertedTextColor;
     }
-    .fix-bar .svisle-menu .menu{
+    .column .fix-bar .svisle-menu .menu{
         li:not(.leaf) > a > .chevron-icon::before{
             content: "\f078";
           //  height: 1em;

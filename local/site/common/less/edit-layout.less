@@ -21,11 +21,11 @@
 @buttonPoznamkyPositionRight: 10px;    
 @poznamkyPositionLeft: -260px;  
 @poznamkyPositionRight: @hodnotaAuto;
-@poznamkyPositionTop: 170px;        
+@poznamkyPositionTop: 170px;         
 @flashPositionTop: 10px; 
 @poznamkyPositionBottom: @hodnotaAuto;
 @poznamkyFontSize: @fontSize;     
-@poznamkyWidth: 250px;
+@poznamkyWidth: 250px; 
 @poznamkyContentPadding: 10px;
 @poznamkyParagraphMarginBottom: 0.7em;
 @poznamkyLastParagraphMarginBottom: 0;
@@ -46,7 +46,7 @@
 
 //Menu
 @fixBarPaddingLeft: 35px;
-@fixBarEditMenuPaddingLeft: 25px;
+@fixBarEditMenuPaddingLeft: 25px;  
 @menuParagraphSpanCursor: text;
 @menuParagraphMarginBottom: 0;
 
@@ -197,14 +197,17 @@ body{
     /*SVISLE MENU*/
     /*svislé menu má pevnou výšku, protože jsou v editačním režimu vidět i neaktivní stránky
     (a je jich tam hodně). Aby obsah nepřetékal, přidána svislá rolovací lišta*/
-    .fix-bar:not(.editMenu){
+    .column:not(.editMenu) .fix-bar nav:not(.icon-menu){
         a{
             padding-left: @fixBarPaddingLeft;
         }
     }
-    .fix-bar.editMenu{
+    .column.editMenu .fix-bar{
         a{
             padding-left: @fixBarEditMenuPaddingLeft;
+        }
+        .accordion.border a{
+            padding-left: 0;
         }
     }
     .svisle-menu{
@@ -292,13 +295,13 @@ body{
         margin: @sectionMargin;
     }
     /*CONTENTY*/
-    content{
+    content{ 
         /*nastavena min. výška, aby se nepřekrývaly semafory a priority u contentů*/
-        min-height: @contentMinHeight;
+        min-height: @contentMinHeight; 
     }
     /*SMAZANÝ CONTENT*/ 
     section.trash{
-        /*outline už na sekci; kdyby se dal ke contentu (.trash_content), byl by šedý kvůli filter: grayscale*/
+        /*outline už na sekci; kdyby se dal ke contentu (.trash_content), byl by šedý kvůli filter: grayscale*/  
         box-shadow: @sectionTrashBoxShadow;
         margin: @sectionTrashMargin;
         padding: @sectionTrashPadding;

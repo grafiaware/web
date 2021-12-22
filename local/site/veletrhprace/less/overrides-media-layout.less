@@ -168,7 +168,7 @@
     }
 }*/
 @media screen and (min-width: 2000px){
-    .fix-bar:not(.editMenu){
+    .column:not(.editMenu) .fix-bar{
         width: 13.5rem !important;
     }
     .ui.column.grid > [class*="eleven wide widescreen"].column, 
@@ -189,7 +189,7 @@
     }
 }
 @media screen and (max-width: 1750px){
-    .layout .fix-bar:not(.editMenu) #mySidenav{
+    .layout .column:not(.editMenu) .fix-bar #mySidenav{
         width: 35%;
     }
     .layout header{
@@ -218,10 +218,10 @@
             height: auto;
         }
     }
-    .layout .fix-bar:not(.editMenu) #mySidenav{
+    .layout .column:not(.editMenu) .fix-bar #mySidenav{
         width: 40%;
     }
-    .layout .fix-bar{
+    .layout .column:not(.editMenu) .fix-bar{
         width: 8.5%;
     }
 }
@@ -238,7 +238,7 @@
             height: auto;
         }
     }
-    .layout .fix-bar:not(.editMenu) #mySidenav{
+    .layout .column:not(.editMenu) .fix-bar #mySidenav{
         width: 45%;
     }
 }
@@ -255,13 +255,13 @@
             height: auto;
         }
     }
-    .layout .fix-bar:not(.editMenu) #mySidenav{
+    .layout .column:not(.editMenu) .fix-bar #mySidenav{
         width: 50%;
     }
     body.layout{
         font-size: 24px;
     }
-    .layout .fix-bar{
+    .layout .column:not(.editMenu) .fix-bar{
         width: 10%;
     }
 }
@@ -283,7 +283,7 @@
             left: 115px;
         }
     }
-    .layout .fix-bar{
+    .layout .column:not(.editMenu) .fix-bar{
         width: 13%;
         .prihlaseni{
             .icon.button:not(.labeled){
@@ -299,14 +299,21 @@
     body.layout{
         font-size: 1.4rem;
     }
-    .layout .fix-bar:not(.editMenu) #mySidenav{
-        width: 80%;
+    .layout .column:not(.editMenu) .fix-bar #mySidenav{
+        width: 70%;
     }
     .ui.massive.menu{
         font-size: 2rem;
     }
     .layout footer{
         padding-left: 17%;
+    }
+    .layout div.editMenu-article{
+        margin-right: auto;
+        margin-left: auto;
+    }
+    .ui.grid > .two.wide.column.editMenu{
+        width: 70% !important;
     }
 }
 @media screen and (max-width: 768px){
@@ -327,7 +334,7 @@
             left: 115px;
         }
     }
-    .layout .fix-bar{
+    .layout .column:not(.editMenu) .fix-bar{
         width: 13%;
         height: 110%;
         .prihlaseni{
@@ -360,8 +367,8 @@
     body.layout{
         font-size: 1.4rem;
     }
-    .layout .fix-bar:not(.editMenu) #mySidenav{
-        width: 90%;
+    .layout .column:not(.editMenu) .fix-bar #mySidenav{
+        width: 70%;
     }
     .ui.massive.menu{
         font-size: 1.5rem;
@@ -379,7 +386,11 @@
         footer{
             padding-left: 17%;
         }
-    } 
+    }
+    .layout div.editMenu-article{
+        margin-right: auto;
+        margin-left: auto;
+    }
 }
 @media screen and (max-width: 600px){
     .layout footer{

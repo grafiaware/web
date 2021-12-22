@@ -2227,34 +2227,34 @@ Floated Menu / Item
          Site Overrides
 *******************************/
 
-.fix-bar:not(.editMenu) .ui.vertical.icon.menu {
+.column:not(.editMenu) .fix-bar .ui.vertical.icon.menu {
   background-color: transparent;
   width: 100%;
   position: absolute;
   bottom: 20%;
 }
-.fix-bar:not(.editMenu) .ui.vertical.icon.menu .item > i.icon:not(.dropdown):hover {
+.column:not(.editMenu) .fix-bar .ui.vertical.icon.menu .item > i.icon:not(.dropdown):hover {
   opacity: 0.8;
 }
-.fix-bar:not(.editMenu) .ui.menu .item::before {
+.column:not(.editMenu) .fix-bar .ui.menu .item::before {
   display: none;
 }
-.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) {
+.column:not(.editMenu) .fix-bar .ui.vertical.menu:not(.icon) {
   width: 30rem;
   padding: 0.7em 0;
 }
-.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) a,
-.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) p {
+.column:not(.editMenu) .fix-bar .ui.vertical.menu:not(.icon) a,
+.column:not(.editMenu) .fix-bar .ui.vertical.menu:not(.icon) p {
   display: block;
-  width: 100%;
+  width: 98%;
   font-weight: 500;
   font-size: 2rem;
   text-transform: uppercase;
   line-height: 1.2;
   position: relative;
 }
-.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) a::after,
-.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) p::after {
+.column:not(.editMenu) .fix-bar .ui.vertical.menu:not(.icon) a::after,
+.column:not(.editMenu) .fix-bar .ui.vertical.menu:not(.icon) p::after {
   background: 0 0;
   position: absolute;
   top: auto;
@@ -2272,63 +2272,63 @@ Floated Menu / Item
   -webkit-transform: translateX(-100%);
           transform: translateX(-100%);
 }
-.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) a:not(.presented),
-.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) p:not(.presented) {
+.column:not(.editMenu) .fix-bar .ui.vertical.menu:not(.icon) a:not(.presented),
+.column:not(.editMenu) .fix-bar .ui.vertical.menu:not(.icon) p:not(.presented) {
   color: #fff;
 }
-.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) a:not(.presented) {
+.column:not(.editMenu) .fix-bar .ui.vertical.menu:not(.icon) a:not(.presented) {
   overflow: hidden;
 }
-.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) a:not(.presented):hover::after {
+.column:not(.editMenu) .fix-bar .ui.vertical.menu:not(.icon) a:not(.presented):hover::after {
   -webkit-transform: scaleX(1);
           transform: scaleX(1);
   background-color: #fff;
 }
-.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) p {
+.column:not(.editMenu) .fix-bar .ui.vertical.menu:not(.icon) p {
   padding-left: 35px;
 }
-.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon).edit {
+.column:not(.editMenu) .fix-bar .ui.vertical.menu:not(.icon).edit {
   width: 33rem;
 }
-.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon).edit .onpath {
+.column:not(.editMenu) .fix-bar .ui.vertical.menu:not(.icon).edit .onpath {
   width: 29rem;
 }
-.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) li.cut a::after {
+.column:not(.editMenu) .fix-bar .ui.vertical.menu:not(.icon) li.cut a::after {
   background-color: 0;
   -webkit-transform: none;
           transform: none;
   height: 0;
 }
-.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) li.cut a:hover::after {
+.column:not(.editMenu) .fix-bar .ui.vertical.menu:not(.icon) li.cut a:hover::after {
   background-color: 0;
   -webkit-transform: none;
           transform: none;
 }
-.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) .kos .ui.vertical.menu a,
-.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) .kos .ui.vertical.menu p {
+.column:not(.editMenu) .fix-bar .ui.vertical.menu:not(.icon) .kos .ui.vertical.menu a,
+.column:not(.editMenu) .fix-bar .ui.vertical.menu:not(.icon) .kos .ui.vertical.menu p {
   font-size: 2rem !important;
   padding: 0.2em 1.3em;
 }
-.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) .kos .ui.vertical.menu a.presented,
-.fix-bar:not(.editMenu) .ui.vertical.menu:not(.icon) .kos .ui.vertical.menu p.presented {
+.column:not(.editMenu) .fix-bar .ui.vertical.menu:not(.icon) .kos .ui.vertical.menu a.presented,
+.column:not(.editMenu) .fix-bar .ui.vertical.menu:not(.icon) .kos .ui.vertical.menu p.presented {
   padding: 20px 1.3em 15px;
   margin-top: 10px;
 }
-.fix-bar.editMenu .ui.menu .item::before {
+.column.editMenu .fix-bar .ui.menu .item::before {
   display: none;
 }
-.fix-bar.editMenu .ui.vertical.menu:not(.icon) {
+.column.editMenu .fix-bar .ui.vertical.menu:not(.icon) {
   width: 26rem;
 }
-.fix-bar.editMenu .ui.vertical.menu:not(.icon) a:not(.presented) {
+.column.editMenu .fix-bar .ui.vertical.menu:not(.icon) a:not(.presented) {
   overflow: hidden;
 }
-.fix-bar.editMenu .ui.vertical.menu:not(.icon) a:not(.presented):hover::after {
+.column.editMenu .fix-bar .ui.vertical.menu:not(.icon) a:not(.presented):hover::after {
   -webkit-transform: scaleX(1);
           transform: scaleX(1);
   background-color: #fff;
 }
-.fix-bar.editMenu .ui.vertical.menu:not(.icon) a:not(.presented)::after {
+.column.editMenu .fix-bar .ui.vertical.menu:not(.icon) a:not(.presented)::after {
   background: 0 0;
   position: absolute;
   top: auto;
@@ -2346,24 +2346,24 @@ Floated Menu / Item
   -webkit-transform: translateX(-100%);
           transform: translateX(-100%);
 }
-.fix-bar.editMenu .ui.vertical.menu:not(.icon) li.cut a::after {
+.column.editMenu .fix-bar .ui.vertical.menu:not(.icon) li.cut a::after {
   background-color: 0;
   -webkit-transform: none;
           transform: none;
   height: 0;
 }
-.fix-bar.editMenu .ui.vertical.menu:not(.icon) li.cut a:hover::after {
+.column.editMenu .fix-bar .ui.vertical.menu:not(.icon) li.cut a:hover::after {
   background-color: 0;
   -webkit-transform: none;
           transform: none;
 }
-.fix-bar.editMenu .ui.vertical.menu {
+.column.editMenu .fix-bar .ui.vertical.menu {
   padding: 0.7em 0;
 }
-.fix-bar.editMenu .ui.vertical.menu a,
-.fix-bar.editMenu .ui.vertical.menu p {
+.column.editMenu .fix-bar .ui.vertical.menu a,
+.column.editMenu .fix-bar .ui.vertical.menu p {
   display: block;
-  width: 100%;
+  width: 98%;
   font-weight: 500;
   font-size: 1.5rem;
   text-transform: uppercase;
@@ -2371,32 +2371,32 @@ Floated Menu / Item
   position: relative;
   color: #fff;
 }
-.fix-bar.editMenu .ui.vertical.menu p {
+.column.editMenu .fix-bar .ui.vertical.menu p {
   padding-left: 25px;
 }
-.fix-bar.editMenu .ui.vertical.menu.edit {
+.column.editMenu .fix-bar .ui.vertical.menu.edit {
   width: 27rem;
 }
-.fix-bar.editMenu .ui.vertical.menu.edit .onpath {
+.column.editMenu .fix-bar .ui.vertical.menu.edit .onpath {
   width: 35rem;
 }
-.fix-bar.editMenu .ui.vertical.menu.edit a {
+.column.editMenu .fix-bar .ui.vertical.menu.edit a {
   display: block;
-  width: 100%;
+  width: 98%;
   font-size: 1.8rem !important;
   position: relative;
 }
-.fix-bar.editMenu .ui.vertical.menu.edit p {
+.column.editMenu .fix-bar .ui.vertical.menu.edit p {
   padding: 0.6em 1.1em;
   font-size: 1.5rem !important;
   font-weight: 500;
   position: relative;
 }
-.fix-bar.editMenu .ui.vertical.menu.edit li:not(.cut) p.presented {
+.column.editMenu .fix-bar .ui.vertical.menu.edit li:not(.cut) p.presented {
   margin-top: 0.7em;
 }
-.fix-bar.editMenu .kos .ui.vertical.menu a,
-.fix-bar.editMenu .kos .ui.vertical.menu p {
+.column.editMenu .fix-bar .kos .ui.vertical.menu a,
+.column.editMenu .fix-bar .kos .ui.vertical.menu p {
   font-size: 1.5rem !important;
   padding: 0 1.3em;
 }

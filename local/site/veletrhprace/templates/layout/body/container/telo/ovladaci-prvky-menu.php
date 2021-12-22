@@ -5,8 +5,8 @@
                         Nastavení menu
                     </div>
                     <div class="content">
+                        <p><a href="">Nezavírat menu (zapnout/vypnout)</a></p>
                         <p><a href="">Nastavit home page</a></p>
-                        <p><a href="">Nastavit home page</a></p>
-                        <p><a href="">Nastavit home page</a></p>
+                        <p><a href="">Něco dalšího</a></p>
                     </div>
                 </div>

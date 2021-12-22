@@ -1,7 +1,7 @@
 /*******************************
          Site Overrides
 *******************************/
-.fix-bar:not(.editMenu){
+.column:not(.editMenu) .fix-bar{
     .ui.vertical.icon.menu{
         background-color: transparent;
         width: 100%;
@@ -19,7 +19,7 @@
             padding: 0.7em 0;
             a, p{
                 display: block;
-                width: 100%;
+                width: 98%;
                 font-weight: 500;
                 font-size: 2rem;
                 text-transform: uppercase;
@@ -81,7 +81,7 @@
         }
     }
 }
-.fix-bar.editMenu{
+.column.editMenu .fix-bar{
     .ui.menu .item::before{ 
         display: none;
     }
@@ -125,7 +125,7 @@
         padding: 0.7em 0;
         a, p{
             display: block;
-            width: 100%;
+            width: 98%;
             font-weight: 500;
             font-size: 1.5rem;
             text-transform: uppercase;
@@ -143,7 +143,7 @@
             }
             a{
                 display: block;
-                width: 100%;
+                width: 98%;
                 font-size: 1.8rem !important;
                 position: relative;
             }
