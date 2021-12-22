@@ -57,17 +57,16 @@ abstract class RepoAbstract {
      */
     private $associations = [];
 
+    /**
+     *
+     * @var HydratorInterface[]
+     */
     private $hydrators = [];
 
     /**
      * @var  DataManager
      */
     protected $dataManager;
-
-    /**
-     * @var HydratorInterface array of
-     */
-    protected $hydrator;
 
     /**
      *
@@ -94,7 +93,6 @@ abstract class RepoAbstract {
     }
 
     protected function hydrate(EntityInterface $entity, RowDataInterface $rowData) {
-        /** @var HydratorInterface $hydrator */
         foreach ($this->hydrators as $hydrator) {
             $hydrator->hydrate($entity, $rowData);
         }
