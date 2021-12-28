@@ -9,7 +9,6 @@
 namespace Component\View\Manage;
 
 use Component\View\ComponentAbstract;
-use Component\Renderer\Html\NoContentForStatusRenderer;
 use Component\ViewModel\StatusViewModelInterface;
 use Pes\View\Template\PhpTemplate;
 
@@ -18,20 +17,21 @@ use Pes\View\Template\PhpTemplate;
  *
  * @author pes2704
  */
-class LogoutComponent extends ComponentAbstract {
+class LoginLogoutComponent extends ComponentAbstract {
 
     /**
      * @var StatusViewModelInterface
      */
     protected $contextData;
 
-    //renderuje template nebo NoContentForStatusRenderer
+    //renderuje template login nebo logout
 
     public function beforeRenderingHook(): void {
+
         if ($this->contextData->isUserLoggedIn()) {
             $this->setTemplate(new PhpTemplate($this->configuration->getTemplateLogout()));
         } else {
-            $this->setRendererName(NoContentForStatusRenderer::class);
+            $this->setTemplate(new PhpTemplate($this->configuration->getTemplateLogin()));
         }
     }
 

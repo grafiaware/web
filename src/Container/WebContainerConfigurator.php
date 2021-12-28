@@ -65,9 +65,8 @@ use Component\View\Generated\ItemTypeSelectComponent;
 
 use Component\View\Flash\FlashComponent;
 
-use Component\View\Manage\LoginComponent;
+use Component\View\Manage\LoginLogoutComponent;
 use Component\View\Manage\RegisterComponent;
-use Component\View\Manage\LogoutComponent;
 use Component\View\Manage\UserActionComponent;
 use Component\View\Manage\StatusBoardComponent;
 use Component\View\Manage\ButtonEditMenuComponent;
@@ -314,22 +313,16 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 $component->setTemplate(new PhpTemplate($configuration->getTemplateFlash()));
                 return $component;
             },
-            LoginComponent::class => function(ContainerInterface $c) {
+            LoginLogoutComponent::class => function(ContainerInterface $c) {
                 /** @var ComponentConfigurationInterface $configuration */
                 $configuration = $c->get(ComponentConfiguration::class);
-                $component = new LoginComponent($c->get(ComponentConfiguration::class));
-                $component->setRendererContainer($c->get('rendererContainer'));
-                $component->setTemplate(new PhpTemplate($configuration->getTemplateLogin()));
-                return $component;
-            },
-            RegisterComponent::class => function(ContainerInterface $c) {
-                $component = new RegisterComponent($c->get(ComponentConfiguration::class));
+                $component = new LoginLogoutComponent($c->get(ComponentConfiguration::class));
                 $component->setData($c->get(StatusViewModel::class));
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
-            LogoutComponent::class => function(ContainerInterface $c) {
-                $component = new LogoutComponent($c->get(ComponentConfiguration::class));
+            RegisterComponent::class => function(ContainerInterface $c) {
+                $component = new RegisterComponent($c->get(ComponentConfiguration::class));
                 $component->setData($c->get(StatusViewModel::class));
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;

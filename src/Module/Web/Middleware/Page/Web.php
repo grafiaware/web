@@ -15,9 +15,8 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 use Container\WebContainerConfigurator;
-use Container\DbUpgradeContainerConfigurator;
 use Container\HierarchyContainerConfigurator;
-use Container\ComponentContainerConfigurator;
+use Container\DbUpgradeContainerConfigurator;
 
 use Web\Middleware\Page\Controller\PageController;
 

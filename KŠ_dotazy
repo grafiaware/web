@@ -1,0 +1,5 @@
+
+v template body/contaner:
+    <div <?= Html::attributes($bodyContainerAttributes)?> >
+- v LayoutControleru se nastavuje "class" => "editable" v editačním módu
+?? je to jen pro editaci obsahu (a bloků layoutu)?

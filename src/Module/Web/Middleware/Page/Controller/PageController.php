@@ -93,7 +93,8 @@ class PageController extends LayoutControllerAbstract {
         $actionComponents = ["content" => $component->setSearch($key)];
         return $this->createResponseFromView($request, $this->createView($request, $this->getComponentViews($actionComponents)));
     }
-
+    
+#
 #### get menu item z repository ###########################################################################
 #
     /**
@@ -119,52 +120,11 @@ class PageController extends LayoutControllerAbstract {
         $blockRepo = $this->container->get(BlockRepo::class);
         $block = $blockRepo->get($name);
 
+        // log!
 //        if (!isset($block)) {
 //            throw new \UnexpectedValueException("Undefined block defined as component with name '$name'.");
 //        }
         return isset($block) ? $this->getMenuItem($block->getUidFk()) : null;  // není blok nebo není publikovaný&aktivní item
-    }
-
-#
-##### menu komponenty ##############################################################
-#
-    protected function getMenuComponents() {
-
-        $userActions = $this->statusPresentationRepo->get()->getUserActions();
-
-        $components = [];
-        foreach (Configuration::layoutController()['menu'] as $menuConf) {
-            $this->configMenuComponent($menuConf, $components);
-        }
-        if ($userActions->presentEditableMenu()) {
-            $this->configMenuComponent(Configuration::layoutController()['blocks'], $components);
-            $this->configMenuComponent(Configuration::layoutController()['trash'], $components);
-
-        }
-
-        return $components;
-    }
-
-    private function configMenuComponent($menuConf, &$componets): void {
-                $componets[$menuConf['context_name']] = $this->container->get($menuConf['service_name'])
-                        ->setMenuRootName($menuConf['root_name'])
-                        ->withTitleItem($menuConf['with_title']);
-    }
-
-#
-#### menu item loadery pro bloky layoutu #########################################################################
-#
-
-    protected function getAuthoredLayoutBlockLoaders() {
-        $map = Configuration::layoutController()['context_name_to_block_name_map'];
-        $componets = [];
-
-        // pro neexistující bloky nedělá nic
-        foreach ($map as $variableName => $blockName) {
-            $menuItem = $this->getMenuItemForBlock($blockName);
-            $componets[$variableName] = $this->getMenuItemLoader($menuItem);
-        }
-        return $componets;
     }
 
 }

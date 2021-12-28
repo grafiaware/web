@@ -12,6 +12,7 @@ use Site\Configuration;
 
 use FrontControler\PresentationFrontControlerAbstract;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;
@@ -22,6 +23,7 @@ use Component\View\Generated\LanguageSelectComponent;
 use Component\View\Generated\SearchPhraseComponent;
 use Component\View\Generated\SearchResultComponent;
 use Component\View\Generated\ItemTypeSelectComponent;
+use Component\View\Manage\LoginLogoutComponent;
 use Component\View\Manage\LoginComponent;
 use Component\View\Manage\RegisterComponent;
 use Component\View\Manage\LogoutComponent;
@@ -49,7 +51,18 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
 
     protected $componentViews = [];
 
-    ### response
+
+#
+#### response ################################
+#
+    /**
+     * Metzoda pro pomtomkovský controler (page controler). Rozšiřuje funkčnost metod FrontControlerAbstract.
+     * Vytvoří response pro položku v hierarchii - menu item. Pro neexistující menu item vytvoří response s přesměrováním na "home" stránku.
+     *
+     * @param ServerRequestInterface $request
+     * @param MenuItemInterface $menuItem
+     * @return ResponseInterface
+     */
     protected function createResponseWithItem(ServerRequestInterface $request, MenuItemInterface $menuItem = null) {
         if ($menuItem) {
             $this->setPresentationMenuItem($menuItem);
@@ -62,11 +75,20 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
         return $response;
     }
 
-    ### composite view
-
+#
+#### composite view
+#
+    /**
+     * vytvoří kompozitní view z layout template a tomuto view nastaví defaultní data každé stránky.
+     * Tomuto view přidá jako komponenty případné zadané komponentní views.
+     *
+     * @param ServerRequestInterface $request
+     * @param array $componentViews
+     * @return CompositeView
+     */
     protected function createView(ServerRequestInterface $request, array $componentViews) {
 
-        $layoutView = $this->getCompositeView($request);
+        $layoutView = $this->getViewWithLayoutTemplate($request);
         foreach ($componentViews as $name => $componentView) {
             if (isset($componentView)) {
                 $layoutView->appendComponentView($componentView, $name);
@@ -81,7 +103,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
      *
      * @return CompositeView
      */
-    private function getCompositeView(ServerRequestInterface $request) {
+    private function getViewWithLayoutTemplate(ServerRequestInterface $request) {
         /** @var ViewInterface $view */
         $view = $this->container->get(View::class);
         $view->setTemplate(new PhpTemplate(Configuration::layoutController()['layout']));
@@ -89,17 +111,19 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
                 [
                     'basePath' => $this->getBasePath($request),
                     'langCode' => $this->getPresentationLangCode(),
+                    'isEditableMode' => $this->isPartInEditableMode(),
+
                     'title' => Configuration::layoutController()['title'],
                     'linksCommon' => Configuration::layoutController()['linksCommon'],
                     'linksSite' => Configuration::layoutController()['linksSite'],
+
                     'bodyContainerAttributes' => $this->getBodyContainerAttributes(),
-                    'isEditableMode' => $this->isEditableMode(),
                 ]);
         return $view;
     }
 
     private function getBodyContainerAttributes() {
-        if ($this->isEditableMode()) {
+        if ($this->isPartInEditableMode()) {
             return ["class" => "editable"];
         } else {
             return ["class" => ""];
@@ -109,6 +133,12 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
     #### komponenty a komponentní views ######
 
 
+    /**
+     *
+     * @param ServerRequestInterface $request
+     * @param MenuItemInterface $menuItem
+     * @return CompositeView[]
+     */
     private function getComponentViews(ServerRequestInterface $request, MenuItemInterface $menuItem) {
         // POZOR! Nesmí se na stránce vyskytovat dva paper se stejným id v editovatelném režimu. TinyMCE vyrobí dvě hidden proměnné se stejným jménem
         // (odvozeným z id), ukládaný obsah editovatelné položky se neuloží - POST data obsahují prázdný řetězec a dojde potichu ke smazání obsahu v databázi.
@@ -118,9 +148,10 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
         $views = array_merge(
                 [
                 'content' => $this->getMenuItemLoader($menuItem),
+
                 'languageSelect' => $this->container->get(LanguageSelectComponent::class),
                 'searchPhrase' => $this->container->get(SearchPhraseComponent::class),
-                'modalLoginLogout' => $this->getLoginLogoutComponent(),
+                'modalLoginLogout' => $this->container->get(LoginLogoutComponent::class),
                 'modalRegister' => $this->container->get(RegisterComponent::class),
                 'modalUserAction' => $this->container->get(UserActionComponent::class),
                 'poznamky' => $this->container->get(StatusBoardComponent::class),
@@ -139,16 +170,23 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
     }
 
 #
-#### login nebo logout komponent #####################################################
+#### menu item loadery pro bloky layoutu #########################################################################
 #
 
-    private function getLoginLogoutComponent() {
-        $credentials = $this->statusSecurityRepo->get()->getLoginAggregate();
-        if (isset($credentials)) {
-            return $this->container->get(LogoutComponent::class);
-        } else {
-            return $this->container->get(LoginComponent::class);
+    /**
+     *
+     * @return View[]
+     */
+    private function getAuthoredLayoutBlockLoaders() {
+        $map = Configuration::layoutController()['context_name_to_block_name_map'];
+        $componets = [];
+
+        // pro neexistující bloky nedělá nic
+        foreach ($map as $variableName => $blockName) {
+            $menuItem = $this->getMenuItemForBlock($blockName);
+            $componets[$variableName] = $this->getMenuItemLoader($menuItem);
         }
+        return $componets;
     }
 
 #
@@ -156,14 +194,17 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
 #
 
     /**
-     * Vrací view objekt pro zobrazení centrálního obsahu v prostoru pro "content"
-     * @return type
+     * Vrací view objekt pro zobrazení centrálního obsahu v prostoru pro "content".
+     * Pro existující menu item view obsahuje skript pro načtení obsahu pomocí cascade.js v dalším requestu generovaném v prohlížeči.
+     * Pro neexistující menu item vrací view s prázdným obsahem.
+     *
+     * @param MenuItemInterface $menuItem
+     * @return View
      */
-    protected function getMenuItemLoader(MenuItemInterface $menuItem=null) {
+    private function getMenuItemLoader(MenuItemInterface $menuItem=null) {
 
         if (isset($menuItem)) {
             $content = $this->getContentLoadScript($menuItem);
-
         } else {
             // například neaktivní, neaktuální menu item
             $content = $this->container->get(View::class)->setRenderer(new ImplodeRenderer());
@@ -176,13 +217,15 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
 #
 
     /**
-     * Vrací view s šablonou obsahující skript pro načtení obsahu na základě reference menuItemId pomocí lazy load requestu a záměnu obsahu elementu v html stránky.
-     * Parametr uri je id menuItem, aby nebylo třeba načítat paper nebo article zde v kontroleru.
+     * Vrací view s šablonou obsahující skript pro načtení obsahu na základě typu menuItem a id menu item. Načtení probíhá pomocí cascade.js.
+     * cascade.js odešlě request a získá obsah a zámění původní obsah html elementu v layoutu.
+     * Parametry uri v načítacím skriptu jsou typ menuItem a id menu item, aby nebylo třeba načítat data s obsahem (paper, article, multipage a další) zde v kontroleru.
+     * Pro případ obsahu typu 'static' jsou jako prametry uri předány typ 'static' a jméno statické stránky, které je pak použito pro načtení statické šablony.
      *
      * @param type $menuItem
-     * @return type
+     * @return View
      */
-    protected function getContentLoadScript($menuItem) {
+    private function getContentLoadScript($menuItem) {
         $menuItemType = $menuItem->getTypeFk();
         if ($menuItemType!='static') {
             $id = $menuItem->getId();
@@ -220,6 +263,42 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
     }
 
 #
+##### menu komponenty ##############################################################
+#
+    /**
+     * Pole komponent generujících menu.
+     *
+     * @return View[]
+     */
+    private function getMenuComponents() {
+
+        $userActions = $this->statusPresentationRepo->get()->getUserActions();
+
+        $components = [];
+        foreach (Configuration::layoutController()['menu'] as $menuConf) {
+            $this->configMenuComponent($menuConf, $components);
+        }
+        if ($userActions->presentEditableMenu()) {
+            $this->configMenuComponent(Configuration::layoutController()['blocks'], $components);
+            $this->configMenuComponent(Configuration::layoutController()['trash'], $components);
+
+        }
+        return $components;
+    }
+
+    /**
+     * Přidá do pole předaných menu komponent další menu komponent, který nastaví podle položky konfigurace.
+     *
+     * @param array $menuConf Položka parametrů pro nastavení menu z konfigurace
+     * @param View[] $componets Referencí předávané pole menu komponent.
+     */
+    private function configMenuComponent($menuConf, &$componets): void {
+                $componets[$menuConf['context_name']] = $this->container->get($menuConf['service_name'])
+                        ->setMenuRootName($menuConf['root_name'])
+                        ->withTitleItem($menuConf['with_title']);
+    }
+
+#
 #### view s js a css pro editační mód #####################################################
 #
 
@@ -230,7 +309,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
      * @return type
      */
     private function getScriptsEditableModeView(ServerRequestInterface $request) {
-        if ($this->isEditableMode()) {
+        if ($this->isPartInEditableMode()) {
             ## document base path - stejná hodnota se musí použiít i v nastavení tinyMCE
             $basepath = $this->getBasePath($request);
             $tinyLanguage = Configuration::layoutController()['tinyLanguage'];
@@ -271,11 +350,9 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
 //                        ]);
 //    }
 
-    ### pomocné private metody
-
-    private function isEditableMode() {
+    private function isPartInEditableMode() {
         $userActions = $this->statusPresentationRepo->get()->getUserActions();
-        return $userActions->presentEditableArticle() OR $userActions->presentEditableLayout() OR $userActions->presentEditableMenu();
+        return $userActions->presentAnyInEditableMode();
     }
 
 }

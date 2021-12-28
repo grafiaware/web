@@ -23,6 +23,14 @@ class UserActions extends EntityAbstract implements UserActionsInterface {
     private $editMenu = false;
     private $userItemAction = [];
 
+    /**
+     * Informuje, zda je některá část prezentace přepnuta do editačního módu.
+     * 
+     * @return bool
+     */
+    public function presentAnyInEditableMode(): bool {
+        return  $this->presentEditableArticle() OR $this->presentEditableLayout() OR $this->presentEditableMenu();
+    }
 
     /**
      * Informuje, zda prezentace je přepnuta do modu editace layoutu.

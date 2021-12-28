@@ -1,16 +1,11 @@
 <?php
 declare(strict_types=1);
-define('PES_FORCE_DEVELOPMENT', 'force_development');
-// nebo
-//define('PES_FORCE_PRODUCTION', 'force_production');
 
 define('PROJECT_PATH', str_replace("\\", "/", preg_replace('/^' . preg_quote($_SERVER['DOCUMENT_ROOT'], '/') . '/', '', __DIR__))."/");
 
 include 'vendor/pes/pes/src/Bootstrap/Bootstrap.php';
 
 use Application\WebAppFactory;
-
-
 
 use Container\AppContainerConfigurator;
 use Pes\Container\Container;
@@ -19,12 +14,8 @@ use Pes\Container\AutowiringContainer;
 use Site\Configuration;
 
 use Container\WebContainerConfigurator;
-use Container\DbUpgradeContainerConfigurator;
 use Container\HierarchyContainerConfigurator;
-use Container\ComponentContainerConfigurator;
-
-
-use Middleware\Login\Controller\LoginLogoutController;
+use Container\DbUpgradeContainerConfigurator;
 
 ####################
 use Pes\View\ViewFactory;
@@ -48,13 +39,11 @@ $r = new InterpolateRenderer();
 
 $environment = (new EnvironmentFactory())->createFromGlobals();
 //$app = (new WebAppFactory())->createFromEnvironment($environment);
-$appContainer =
-            (new ComponentContainerConfigurator())->configure(
+        $appContainer =
+            (new WebContainerConfigurator())->configure(
                 (new HierarchyContainerConfigurator())->configure(
-                    (new WebContainerConfigurator())->configure(
-                        (new DbUpgradeContainerConfigurator())->configure(
+                    (new DbUpgradeContainerConfigurator())->configure(
                                 new Container((new AppContainerConfigurator())->configure(new Container()))
-                        )
                     )
                 )
             );
@@ -63,21 +52,19 @@ $appContainer =
 $basepath = "";
 $tinyToolsbarsLang = "cs";
 $view = $appContainer->get(View::class)
-                    ->setTemplate(new PhpTemplate(Configuration::layoutController()['linksEditorJs']))
+                    ->setTemplate(new PhpTemplate(Configuration::layoutController()['scriptsEditableMode']))
                     ->setData([
                         'tinyMCEConfig' => $appContainer->get(View::class)
-                                ->setTemplate(new InterpolateTemplate(Configuration::layoutController()['tiny_config']))
+                                ->setTemplate(new InterpolateTemplate(Configuration::layoutController()['tinyConfig']))
                                 ->setData([
-
                                     // pro tiny_config.js
                                     'basePath' => $basepath,
+                                    'toolbarsLang' => $tinyToolsbarsLang,
+                                    // prvky pole contentCSS - tyto tři proměnné jsou prvky pole - pole je v tiny_config.js v proměnné contentCss
                                     'urlStylesCss' => Configuration::layoutController()['urlStylesCss'],
                                     'urlSemanticCss' => Configuration::layoutController()['urlSemanticCss'],
-                                    'urlContentTemplatesCss' => Configuration::layoutController()['urlContentTemplatesCss'],
-                                    'paperTemplatesUri' =>  Configuration::layoutController()['paperTemplatesUri'],  // URI pro Template Controller
-                                    'authorTemplatesPath' => Configuration::layoutController()['authorTemplatesPath'],
-                                    'toolbarsLang' => $tinyToolsbarsLang
-                                ]),
+                                    'urlContentTemplatesCss' => Configuration::layoutController()['urlContentTemplatesCss']
+                        ]),
 
                         'urlTinyMCE' => Configuration::layoutController()['urlTinyMCE'],
                         'urlJqueryTinyMCE' => Configuration::layoutController()['urlJqueryTinyMCE'],

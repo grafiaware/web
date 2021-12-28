@@ -18,6 +18,13 @@ use Red\Model\Entity\ItemActionInterface;
 interface UserActionsInterface extends EntitySingletonInterface {
 
     /**
+     * Informuje, zda je některá část prezentace přepnuta do editačního módu.
+     *
+     * @return bool
+     */
+    public function presentAnyInEditableMode(): bool;
+
+    /**
      * Informuje, zda prezentace je přepnuta do modu editace layoutu.
      *
      * @return bool
