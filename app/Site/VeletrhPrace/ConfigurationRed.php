@@ -178,7 +178,7 @@ class ConfigurationRed extends ConfigurationDb {
             'templates.poznamky' => self::RED_TEMPLATES_COMMON.'layout/info/poznamky.php',
             'templates.loaderElement' => self::RED_TEMPLATES_COMMON.'layout/component-load/loaderElement.php',
             'templates.loaderElementEditable' => self::RED_TEMPLATES_COMMON.'layout/component-load/loaderElementEditable.php',
-            'context_name_to_block_name_map' => [
+            'layout_blocks' => [
                 ]
             ];
     }

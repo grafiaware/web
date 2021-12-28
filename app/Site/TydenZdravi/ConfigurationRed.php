@@ -154,10 +154,19 @@ class ConfigurationRed extends ConfigurationDb {
             'urlSemanticCss' => self::RED_LINKS_SITE."semantic-ui/semantic.min.css",
             'urlContentTemplatesCss' => self::RED_LINKS_COMMON."css/templates.css",   // KŠ ?????
 
+            // home page
             'home_page' => ['block', 'home'],
 //           'home_page' => ['item', '5fad34398df10'],  // přednášky - pro test
 
-//      'context_name' => jméno proměnné v šabloně, 'service_name' => jméno služby component kontejneru, 'root_name' => jméno v db tabulce root_name, 'with_title' => bool hodnota - true - zobrazuje se i obsah kořenového prvku menu],
+            // menu
+            // - je nutné definovat hodnoty 'menu', 'blocks' a 'trash';
+            // - položka 'menu' je pole polí s parametry jednotlivých menu na stránce viditelných i v needitačním modu prezentace
+            // - položky 'blocks' a 'trash' jsou jednorozměrná pole s parametry menu bloků layoutu a menu koše, tato menu jsou viditelná jen v editačním řežimu
+            // parametry menu jsou:
+            //      'context_name' => jméno proměnné v šabloně (bez znaku $),
+            //      'service_name' => jméno služby component kontejneru,
+            //      'root_name' => jméno kořene menu v db tabulce root_name,
+            //      'with_title' => bool hodnota - true - zobrazuje se i obsah kořenového prvku menu,
             'menu' => [
                 ['context_name' => 'menuSvisle', 'service_name' => 'menu.svisle', 'root_name' => 'menu_vertical', 'with_title' => true],
             ],
@@ -167,7 +176,7 @@ class ConfigurationRed extends ConfigurationDb {
             'templates.poznamky' => self::RED_TEMPLATES_COMMON.'layout/info/poznamky.php',
             'templates.loaderElement' => self::RED_TEMPLATES_COMMON.'layout/component-load/loaderElement.php',
             'templates.loaderElementEditable' => self::RED_TEMPLATES_COMMON.'layout/component-load/loaderElementEditable.php',
-            'context_name_to_block_name_map' => [
+            'layout_blocks' => [
                     'rychleOdkazy' => 'a3',
                     'nejblizsiAkce' => 'a2',
                     'aktuality' => 'a1',
@@ -279,7 +288,7 @@ class ConfigurationRed extends ConfigurationDb {
             '@commonimages' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES_COMMON.'images/' : self::RED_FILES_COMMON.'images/',
             '@commonmovies' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES_COMMON.'movies/' : self::RED_FILES_COMMON.'movies/',
             '@siteimages' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES_SITE.'images/' : self::RED_FILES_SITE.'images/',
-            '@sitemovies' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES_SITE.'movies/' : self::RED_FILES_SITE.'movies/',                        '@download/'               => $downloadDirectory,
+            '@sitemovies' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES_SITE.'movies/' : self::RED_FILES_SITE.'movies/',
 
             'files' => PES_RUNNING_ON_PRODUCTION_HOST ? self::RED_FILES_SITE.'files/' : self::RED_FILES_SITE.'files/',
 

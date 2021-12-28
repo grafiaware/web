@@ -174,11 +174,13 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
 #
 
     /**
-     *
+     * Vrací pole komponentů pro zobrazení obsahů v místech bloků layoutu. Pro bloky definované v konfiguraci vytvoří pole komponentních view obsahujících
+     * skript pro načtení obsahu pomocí cascade.js v dalším requestu generovaném v prohlížeči.
+     * 
      * @return View[]
      */
     private function getAuthoredLayoutBlockLoaders() {
-        $map = Configuration::layoutController()['context_name_to_block_name_map'];
+        $map = Configuration::layoutController()['layout_blocks'];
         $componets = [];
 
         // pro neexistující bloky nedělá nic
