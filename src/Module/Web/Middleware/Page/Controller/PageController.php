@@ -14,14 +14,7 @@ use Site\Configuration;
 use Red\Model\Entity\MenuItemInterface;
 
 // komponenty
-use Component\View\Generated\LanguageSelectComponent;
-use Component\View\Generated\SearchPhraseComponent;
 use Component\View\Generated\SearchResultComponent;
-use Component\View\Generated\ItemTypeSelectComponent;
-use Component\View\Manage\LoginComponent;
-use Component\View\Manage\LogoutComponent;
-use Component\View\Manage\UserActionComponent;
-use Component\View\Flash\FlashComponent;
 
 ####################
 
@@ -93,38 +86,7 @@ class PageController extends LayoutControllerAbstract {
         $actionComponents = ["content" => $component->setSearch($key)];
         return $this->createResponseFromView($request, $this->createView($request, $this->getComponentViews($actionComponents)));
     }
-    
-#
-#### get menu item z repository ###########################################################################
-#
-    /**
-     * Podle hierarchy uid a aktuálního jazyka prezentace vrací menuItem nebo null
-     *
-     * @param string $uid
-     * @return MenuItemInterface|null
-     */
-    protected function getMenuItem($uid): ?MenuItemInterface {
-        /** @var MenuItemRepo $menuItemRepo */
-        $menuItemRepo = $this->container->get(MenuItemRepo::class);
-        return $menuItemRepo->get($this->getPresentationLangCode(), $uid);
-    }
 
-    /**
-     * Podle jména bloku a aktuálního jazyka prezentace vrací menuItem nebo null
-     *
-     * @param string $name
-     * @return MenuItemInterface|null
-     */
-    protected function getMenuItemForBlock($name): ?MenuItemInterface {
-        /** @var BlockRepo $blockRepo */
-        $blockRepo = $this->container->get(BlockRepo::class);
-        $block = $blockRepo->get($name);
 
-        // log!
-//        if (!isset($block)) {
-//            throw new \UnexpectedValueException("Undefined block defined as component with name '$name'.");
-//        }
-        return isset($block) ? $this->getMenuItem($block->getUidFk()) : null;  // není blok nebo není publikovaný&aktivní item
-    }
 
 }

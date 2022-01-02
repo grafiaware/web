@@ -7,6 +7,7 @@ use Pes\View\View;
 use Pes\View\Template\PhpTemplate;
 use Pes\View\Template\ImplodeTemplate;
 use Pes\View\CompositeView;
+use Pes\Text\FriendlyUrl;
 
 use Pes\View\Template\Exception\NoTemplateFileException;
 
@@ -115,19 +116,9 @@ class MultipageComponent extends AuthoredComponentAbstract implements MultipageC
         if (isset($menuItemPrettyUri) AND $menuItemPrettyUri AND strpos($menuItemPrettyUri, "folded:")===0) {      // EditItemController - line 93
             $name = str_replace('/', '_', str_replace("folded:", "", $menuItemPrettyUri));  // zahodí prefix a nahradí '/' za '_' - recopročně
         } else {
-            $name = $this->friendlyUrl($menuItem->getTitle());
+            $name = FriendlyUrl::friendlyUrlText($menuItem->getTitle());
         }
         return $name;
-    }
-
-    private function friendlyUrl($nadpis) {
-        $url = $nadpis;
-        $url = preg_replace('~[^\\pL0-9_]+~u', '-', $url);
-        $url = trim($url, "-");
-        $url = iconv("utf-8", "us-ascii//TRANSLIT", $url);
-        $url = strtolower($url);
-        $url = preg_replace('~[^-a-z0-9_]+~', '', $url);
-        return $url;
     }
 
     ####

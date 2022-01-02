@@ -33,6 +33,7 @@ use Red\Model\Repository\ItemActionRepo;
 use Red\Model\Repository\ItemActionRepoInterface;
 
 use Pes\Text\Message;
+use Pes\Text\Html;
 
 ####################
 //use Pes\Debug\Timer;
@@ -89,6 +90,13 @@ class RedComponentControler extends FrontControlerAbstract {
         return $this->createResponseFromView($request, $view);
     }
 
+    public function unknown(ServerRequestInterface $request) {
+        /** @var MultipageComponentInterface $view */
+        $view = $this->container->get(View::class);
+        $view->setData([Html::tag('div', ['style'=>'display: none;' ], 'Unknown content.')]);
+        $view->setRenderer(new ImplodeRenderer());
+        return $this->createResponseFromView($request, $view);
+    }
     ######################
 
     /**

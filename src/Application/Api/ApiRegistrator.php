@@ -68,6 +68,7 @@ class ApiRegistrator {
         $registry->register($this->getPrototype->withUrlPattern('/web/v1/paper/:menuItemId'));
         $registry->register($this->getPrototype->withUrlPattern('/web/v1/article/:menuItemId'));
         $registry->register($this->getPrototype->withUrlPattern('/web/v1/multipage/:menuItemId'));
+        $registry->register($this->getPrototype->withUrlPattern('/web/v1/unknown'));
 
         #### TemplateController ####
         $registry->register($this->getPrototype->withUrlPattern('/web/v1/papertemplate/:folder'));

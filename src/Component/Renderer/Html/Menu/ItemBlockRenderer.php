@@ -69,7 +69,7 @@ class ItemBlockRenderer extends ItemRenderer {
                 'formmethod'=>'post',
                 'formaction'=>"red/v1/menu/{$menuNode->getUid()}/toggle",
                 ],
-                Html::tag('i', ['class'=>$this->classMapEditable->resolve($menuNode->getHierarchy()->getActive(), 'CommonButtons', 'button.notpublish', 'button.publish')])
+                Html::tag('i', ['class'=>$this->classMapEditable->resolve($menuNode->getMenuItem()->getActive(), 'CommonButtons', 'button.notpublish', 'button.publish')])
             )
             .Html::tag('button', [
                 'class'=>$this->classMapEditable->get('CommonButtons', 'button'),
