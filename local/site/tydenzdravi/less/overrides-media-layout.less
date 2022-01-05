@@ -1,5 +1,5 @@
 @media screen and (min-width: 2000px){
-    .fix-bar:not(.editMenu){
+    .column:not(.editMenu) .fix-bar{
         width: 13.5rem !important;
     }
     .ui.column.grid > [class*="ten wide widescreen"].column, 
@@ -19,7 +19,7 @@
     }
 }
 @media screen and (max-width: 1750px){
-    .layout #mySidenav{
+    .layout .column:not(.editMenu) .fix-bar #mySidenav{
         width: 35%;
     }
     .obr-upoutavka{
@@ -41,10 +41,10 @@
     
 }
 @media screen and (max-width: 1600px){
-    .layout #mySidenav{
+    .layout .column:not(.editMenu) .fix-bar #mySidenav{
         width: 40%;
     }
-    .layout .fix-bar{
+    .layout .column:not(.editMenu) .fix-bar{
         width: 8.5%;
     }
     .layout footer{
@@ -52,7 +52,7 @@
     }
 }
 @media screen and (max-width: 1340px){
-    .layout #mySidenav{
+    .layout .column:not(.editMenu) .fix-bar #mySidenav{
         width: 45%;
     }
     .obr-upoutavka{
@@ -144,9 +144,6 @@
     }
 }
 @media screen and (max-width: 1200px){
-    .layout #mySidenav{
-        width: 50%;
-    }
     .nadpis{
         font-size: 3rem;
     }
@@ -175,7 +172,10 @@
             height: 340px;
         }
     }
-    .layout .fix-bar{
+    .layout .column:not(.editMenu) .fix-bar #mySidenav{
+        width: 50%;
+    }
+    .layout .column:not(.editMenu) .fix-bar{
         width: 10%;
     }
     .layout footer{
@@ -213,7 +213,7 @@
     }
 }
 @media screen and (max-width: 1000px) and (min-width: 769px){ 
-    .layout .fix-bar{
+    .layout .column:not(.editMenu) .fix-bar{
         width: 13%;
         .prihlaseni{
             .icon.button:not(.labeled){
@@ -337,8 +337,11 @@
             height: auto;
         }
     }
-    .layout #mySidenav{
-        width: 80%;
+    .ui.grid > .two.wide.column.editMenu{
+        width: 70% !important;
+    }
+    .layout .column:not(.editMenu) .fix-bar #mySidenav{
+        width: 70%;
     }
     .ui.massive.menu{
         font-size: 2rem;
@@ -397,7 +400,7 @@
     }
 }
 @media screen and (max-width: 768px){
-    .layout .fix-bar{
+    .layout .column:not(.editMenu) .fix-bar{
         width: 13%;
         height: 110%;
         .prihlaseni{
@@ -512,8 +515,11 @@
             height: auto;
         }
     }
-    .layout #mySidenav{
-        width: 90%;
+    .ui.grid > .two.wide.column.editMenu{
+        width: 70% !important;
+    }
+    .layout .column:not(.editMenu) .fix-bar #mySidenav{
+        width: 70%;
     }
     .ui.massive.menu{
         font-size: 1.5rem;

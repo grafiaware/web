@@ -16,7 +16,7 @@
     }
     
     /***FIXNÍ LIŠTA***/
-    .fix-bar{
+    .column:not(.editMenu) > .fix-bar{
         width: 10%;
         height: 100%;
         position: fixed;
@@ -101,6 +101,152 @@
                     font-size: 0.92em;
                     padding-top: 0.6em;
                     padding-bottom: 0.6em;
+                }
+            }
+        }
+    }
+    .column.editMenu > .fix-bar{
+        width: 400px;
+        height: 102%;
+        position: relative;
+        color: @invertedTextColor;
+        background-color: @primaryColor;
+        #mySidenav{
+            display: block;
+            width: 100%;
+            background-color: @primaryColor;
+            position: relative;
+            overflow: hidden;
+            padding: 0 0 20px 10px;
+            .prihlaseni{
+                margin-bottom: 10px;
+                right: 15px;
+                top: -50px;
+                position: absolute;
+            }
+        }
+        .svisle-menu .menu .onpath{
+            left: 2%;
+        }
+        .close-item .close.slim-icon{
+            display: none;
+        }
+        > .icon-menu{
+            display: none;
+        }
+        > .nav-mobile{
+            display: none;
+        }
+        > .prihlaseni{
+            width: 100%;
+            display: flex;
+            flex-direction: row-reverse;
+            align-items: center;
+            position: relative;
+            z-index: 3;
+            .icon.button:not(.labeled){
+                background-color: transparent;
+                > .user.icon, .address.card.icon{
+                    color: @invertedTextColor;
+                    opacity: 1;
+                    &:hover{
+                        opacity: 0.8 ;
+                        transition: 0.2s all;
+                    }
+                }
+            }
+            .dropdown{
+                .header.item{
+                    background-color: @white;
+                    cursor: default;
+                    text-align: center;
+                    &:hover{
+                        background-color: @white;
+                    }
+                    .icon{
+                        opacity: 1;
+                    }
+                }
+                .menu{
+                    padding: 0 12px 20px 12px;
+                    .ui.button{
+                        font-size: 1.3rem;
+                    }
+                }
+                input{
+                    border: 1px solid @lightGrey !important;
+                }
+                button.fluid{
+                    margin: 5px 0;
+                    &.tertiary{
+                        &:hover{
+                            box-shadow: 0 0;
+                            text-decoration: underline;
+                        }
+                    }
+                }
+                .ui.labeled.icon.button > .icon::before{
+                    top: -10px;
+                }
+            }
+            .ui.left.pointing.dropdown:not(.top) > .menu{
+                top: -145px;
+            }
+            .ui.left.pointing.dropdown:not(.top) > .menu::after{
+                top: 175px;
+            }
+            .logout{
+                i.sign.out.icon{
+                    color: @invertedTextColor;
+                    opacity: 1;
+                    &:hover{
+                        opacity: 0.8 ;
+                    }
+                }
+                i.user.circle.icon{
+                    color: @invertedTextColor;
+                    opacity: 1;
+                    &:hover{
+                        opacity: 0.8 ;
+                    }
+                }
+                .profil-ikona{
+                    text-align: center;
+                }
+                .dropdown .header.item{
+                    font-size: 1.3rem;
+                }
+            }
+            > form{ //v tomhle formu je tlacitko Akce
+                > div.icon{
+                    color: @invertedTextColor;
+                    //font-size: 1.8em ;
+                    opacity: 1;
+                    padding: 7px;
+
+                }
+                label{
+                    color: @textColor !important;
+                    //font-size: 0.7em;
+                    font-weight: 400;
+                }
+            }
+            button:not(.fluid){
+                position: relative;
+                left: 10%;
+                //font-size: 1.2em;
+                &.positive{
+                    left: 6%;
+                    //font-size: 0.92em;
+                    padding-top: 0.6em;
+                    padding-bottom: 0.6em;
+                }
+            }
+            .input-company{
+                display: none;
+                &.show{
+                    display: block;
+                    margin: 10px 0;
                 }
             }
         }

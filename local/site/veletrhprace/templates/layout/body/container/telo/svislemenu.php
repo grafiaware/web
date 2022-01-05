@@ -8,8 +8,7 @@ use Site\Configuration;
                 <a onclick="hamburger_close()" href="javascript:void(0)"><i class="close slim-icon"></i></a>
                 <?= $controlEditMenu ?>
 
-                <!-- vložit při editování menu "ovladaci-prvky-menu.php"-->
-                <?php include "ovladaci-prvky-menu.php"; ?>
+                <?php include "svislemenu/ovladaci-prvky-menu.php"; ?>
 
             </div>
             <nav class="svisle-menu">

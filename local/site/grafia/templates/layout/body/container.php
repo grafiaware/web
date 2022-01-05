@@ -2,7 +2,6 @@
 use Pes\Text\Html;
 ?>
 
-<!-- comment --><!--<div class="ui container editable">-->
 <div <?= Html::attributes($bodyContainerAttributes)?> >
     <div class="ui container" >
         <div class="column">
@@ -10,8 +9,7 @@ use Pes\Text\Html;
                 <?php include "container/hlavicka.php"; ?>
             </header>
             <main class="page-content">
-                <?=
-                $flash ?? '' ?>
+                <?= $flash ?? '' ?>
                 <?= $poznamky ?? '' ?>
                 <?php include "container/telo.php"; ?>
             </main>
