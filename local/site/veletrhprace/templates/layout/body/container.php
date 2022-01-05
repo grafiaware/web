@@ -8,8 +8,8 @@ use Pes\View\Renderer\PhpTemplateFunctionsInterface;
         <div class="ui grid">
             <div class="row">
                 <?php $isMenuEditableMode=false; ?>
-                <?= $this->insertConditionally( $isMenuEditableMode, __DIR__.'/container/teloEditableMode.php', ['controlEditMenu'=>$controlEditMenu, 'content'=> $content]); ?>
-                <?= $this->insertConditionally( !$isMenuEditableMode, __DIR__.'/container/teloNoneditableMode.php'); ?>
+                <?= $this->insertConditionally( $isMenuEditableMode, __DIR__.'/container/teloEditableMode.php', $context); ?>
+                <?= $this->insertConditionally( !$isMenuEditableMode, __DIR__.'/container/teloNoneditableMode.php', $context); ?>
                 <?= $flash ?? '' ?>
                 <?= $poznamky ?? '' ?>
             </div>
