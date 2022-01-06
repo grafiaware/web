@@ -28,30 +28,32 @@ class PaperRendererEditable  extends HtmlRendererAbstract {
         $paperButtonsForm = $this->renderPaperButtonsForm($paperAggregate);
         $inner = (string) $viewModel->getContextVariable(PaperComponent::CONTEXT_TEMPLATE) ?? '';  // Paper Component beforeRenderingHook()
         $html =
-                Html::tag('article', ['data-red-renderer'=>'PaperRendererEditable', "data-red-datasource"=> "paper {$paperAggregate->getId()} for item {$paperAggregate->getMenuItemIdFk()}"],
-                    [
-                        $buttonEditContent,
-                        $selectTemplate,
-                        Html::tag('div', ['class'=>$this->classMap->get('PaperButtons', 'div.ribbon')], //lepítko s buttony
-                            $paperButtonsForm
-                        ),
-                        Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.semafor')], //aktivní/neaktivní paper
-                            Html::tag('div',
-                               [
-                               'class'=> 'ikona-popis',
-                               'data-tooltip'=> $active ? "published" : "not published",
-                               ],
-                                Html::tag('i',
+                Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.templatePaper')],
+                    Html::tag('article', ['data-red-renderer'=>'PaperRendererEditable', "data-red-datasource"=> "paper {$paperAggregate->getId()} for item {$paperAggregate->getMenuItemIdFk()}"],
+                        [
+                            $buttonEditContent,
+                            $selectTemplate,
+                            Html::tag('div', ['class'=>$this->classMap->get('PaperButtons', 'div.ribbon')], //lepítko s buttony
+                                $paperButtonsForm
+                            ),
+                            Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.semafor')], //aktivní/neaktivní paper
+                                Html::tag('div',
                                    [
-                                   'class'=> $this->classMap->resolve($active, 'Content','i1.published', 'i1.notpublished'),
-                                   ]
+                                   'class'=> 'ikona-popis',
+                                   'data-tooltip'=> $active ? "published" : "not published",
+                                   ],
+                                    Html::tag('i',
+                                       [
+                                       'class'=> $this->classMap->resolve($active, 'Content','i1.published', 'i1.notpublished'),
+                                       ]
+                                    )
                                 )
-                            )
-                        ),
-//                        Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/{$paperAggregate->getId()}"],
-                            $inner
-//                        ),
-                    ]
+                            ),
+    //                        Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/{$paperAggregate->getId()}"],
+                                $inner
+    //                        ),
+                        ]
+                    )
                 );
         return $html ?? '';
     }

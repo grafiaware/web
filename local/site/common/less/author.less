@@ -346,7 +346,7 @@ body{
             display: inline-flex;
         }
     }
-    .editable [data-red-renderer] .semafor{
+     [data-red-renderer] .semafor{
         font-size: @semaforContentFontSize;
     }
     article .semafor{
@@ -510,16 +510,16 @@ body{
         }
     }
     /*OHRANIČENÍ EDITAČNÍCH PRVKŮ RŮZNÝCH TYPŮ*/
-    .editable section[data-red-renderer]{
+     section[data-red-renderer]{
         margin: @sectionRendererMargin;
         article{
             margin-top: @sectionRendererMarginTop;
         }
     }
-    .editable article[data-red-renderer]{
+     .template-article, .template-articleedit{
         margin: @articleRendererMargin;
     }
-    .editable [data-red-renderer]{
+    .template-multipage, .template-article, .template-articleedit, .template-paper{
         position: relative;
         outline: @rendererOutline;
         border-radius: @rendererBorderRadius;
@@ -537,25 +537,26 @@ body{
         top: @zapnoutEditaciPositionTop;
         right: @zapnoutEditaciPositionRight;
     }
-    [data-red-renderer="ArticleRenderer"] > .zapnout_editaci{
+    .template-article > .zapnout_editaci{
         right: @zapnoutEditaciArticlePositionRight;
     }
-    .editable [data-red-renderer="MultipageRendererEditable"],
-    .editable [data-red-renderer="MultipageRenderer"]{
+    .template-multipage{ //[data-red-renderer="MultipageRenderer"]
         margin: @rendererMultipageMargin;
         outline: @rendererMultipageOutline;
+        border-radius: @rendererBorderRadius;
+        padding: @rendererPadding;
+        padding-top: @rendererPaddingTop;
         > .zapnout_editaci .button.teal{
             color: @rendererMultipageZapnoutEditaciColor;
             box-shadow: @rendererMultipageZapnoutEditaciBoxShadow;
         }
-        [data-red-renderer="ArticleRendererEditable"]{
+        .template-articleedit{
             margin: @rendererMultipageArticleEditableMargin;
         }
-        [data-red-renderer="ArticleRenderer"]{
+        .template-article{
             margin: @rendererMultipageArticleMargin;
         }
-        [data-red-renderer="PaperRendererEditable"],
-        [data-red-renderer="PaperRenderer"]{
+        .template-paper{
             margin: @rendererMultipagePaperMargin;
         }
         > .semafor{
