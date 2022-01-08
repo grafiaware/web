@@ -21,6 +21,7 @@ use Component\Renderer\Html\Authored\Paper\HeadlineRendererEditable;
 use Component\Renderer\Html\Authored\Paper\PerexRendererEditable;
 use Component\Renderer\Html\Authored\Paper\ContentsRendererEditable;
 
+use Component\Renderer\Html\Authored\Article\ArticleRenderer;
 use Component\Renderer\Html\Authored\Article\ArticleRendererEditable;
 use Component\Renderer\Html\Authored\Article\SelectArticleTemplateRenderer;
 
@@ -119,6 +120,9 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
         ###########################
             SelectArticleTemplateRenderer::class => function(ContainerInterface $c) {
                 return new SelectArticleTemplateRenderer($c->get('paper.editable.classmap'));   //používá paper classmapu - přejmenovat společnou classmapu??
+            },
+            ArticleRenderer::class => function(ContainerInterface $c) {
+                return new ArticleRenderer($c->get('paper.classmap'));   //používá paper classmapu - přejmenovat společnou classmapu??
             },
             ArticleRendererEditable::class => function(ContainerInterface $c) {
                 return new ArticleRendererEditable($c->get('paper.editable.classmap'));   //používá paper classmapu - přejmenovat společnou classmapu??
