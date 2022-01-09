@@ -1,5 +1,6 @@
                 <div class="two wide column editMenu">
                     <div class="fix-bar">
+                        <?php include "telo/prihlaseni.php"; ?>
                         <?php include "telo/svislemenu.php"; ?>
                     </div>
                 </div>

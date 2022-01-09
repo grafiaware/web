@@ -4,7 +4,7 @@ use Pes\View\Renderer\PhpTemplateFunctionsInterface;
 /** @var PhpTemplateFunctionsInterface $this */
 ?>
 
-    <div <?= Html::attributes($bodyContainerAttributes)?> >
+    <div>
         <div class="ui grid">
             <div class="row">
                 <?php $isMenuEditableMode=false; ?>

@@ -250,6 +250,8 @@ class ConfigurationStyles extends ConfigurationRed {
                      'Content' => [
                         'content'=>'',
                         'div.templateMultipage' => 'template-multipage',
+                        'div.templatePaper' => 'template-paper',
+                        'div.templateArticle' => 'template-article',
                         ],
                       'PaperButtons' => self::rendererDefaults()['paper_edit_buttons'],
                     ]
@@ -277,6 +279,9 @@ class ConfigurationStyles extends ConfigurationRed {
                         'content'=>'borderDance edit-html',
                         'div.trash_content'=>'trash_content',
                         'div.templateMultipage' => 'template-multipage',
+                        'div.templateMultipage' => 'template-multipage',
+                        'div.templatePaper' => 'template-paper',
+                        'div.templateArticle' => 'template-articleedit',
                         ],
                      'PaperTemplateButtons' => self::rendererDefaults()['paper_template_edit_buttons'],
                      'PaperTemplateSelect' => self::rendererDefaults()['paper_template_select'],

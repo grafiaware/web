@@ -26,24 +26,28 @@ class ArticleRendererEditable extends HtmlRendererAbstract {
             /** @var ArticleInterface $article */
             if ($templateName) {
                 $formContent = [
-                            Html::tag('article',
-                                    [
-                                        'id'=>'article_'.$article->getId(),
-                                        'class'=>'edit-html',
-                                        "data-templatename"=>$templateName,   // toto je selektor pro template css - nastaveno v base-template.less souboru
-                                    ],
-                                    $article->getContent()),  // co je editovatelné je dáno šablonou
+                                Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.templateArticle')],
+                                    Html::tag('article',
+                                        [
+                                            'id'=>'article_'.$article->getId(),
+                                            'class'=>'edit-html',
+                                            "data-templatename"=>$templateName,   // toto je selektor pro template css - nastaveno v base-template.less souboru
+                                        ],
+                                        $article->getContent()),  // co je editovatelné je dáno šablonou
+                                )
                             ];
             } else {
                 $formContent = [
-                            Html::tag('input', ['type'=>'hidden', 'name'=>'article_'.$article->getId()]),  // hidden input pro Article Controler update
-                            Html::tag('article',
-                                    [
-                                        'id'=>'article_'.$article->getId(),
-                                        'class'=>'edit-html',
-                                        "data-templatename"=>$templateName,   // toto je selektor pro template css - nastaveno v base-template.less souboru
-                                    ],
-                                    $article->getContent()),  // editovatelný celý obsah pokud nebyla použita šablona
+                                Html::tag('input', ['type'=>'hidden', 'name'=>'article_'.$article->getId()]),  // hidden input pro Article Controler update
+                                Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.templateArticle')],
+                                    Html::tag('article',
+                                        [
+                                            'id'=>'article_'.$article->getId(),
+                                            'class'=>'edit-html',
+                                            "data-templatename"=>$templateName,   // toto je selektor pro template css - nastaveno v base-template.less souboru
+                                        ],
+                                        $article->getContent()),  // editovatelný celý obsah pokud nebyla použita šablona
+                                )
                             ];
             }
             $ret = Html::tag('section', [
