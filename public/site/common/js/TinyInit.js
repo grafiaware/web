@@ -1,3 +1,5 @@
+/* proměnné jsou definovány v web\local\site\common\templates\js\tinyConfig.js */
+
 /* global tinyConfig */
 /* global templates_multipage */
 /* global templates_article */

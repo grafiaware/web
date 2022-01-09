@@ -213,15 +213,15 @@ class ConfigurationRed extends ConfigurationDb {
                 'templates' => self::RED_TEMPLATES_SITE,
                 'static' => self::RED_STATIC,
                 'compiled' => self::RED_STATIC.'__compiled/',
-                'prettyUrlCallable' => function($nadpis) {
-                        $url = $nadpis;
-                        $url = preg_replace('~[^\\pL0-9_]+~u', '-', $url);
-                        $url = trim($url, "-");
-                        $url = iconv("utf-8", "us-ascii//TRANSLIT", $url);
-                        $url = strtolower($url);
-                        $url = preg_replace('~[^-a-z0-9_]+~', '', $url);
-                        return $url;
-                    }
+//                'prettyUrlCallable' => function($nadpis) {
+//                        $url = $nadpis;
+//                        $url = preg_replace('~[^\\pL0-9_]+~u', '-', $url);
+//                        $url = trim($url, "-");
+//                        $url = iconv("utf-8", "us-ascii//TRANSLIT", $url);
+//                        $url = strtolower($url);
+//                        $url = preg_replace('~[^-a-z0-9_]+~', '', $url);
+//                        return $url;
+//                    }
             ];
     }
 

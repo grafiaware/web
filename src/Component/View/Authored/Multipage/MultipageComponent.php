@@ -40,13 +40,12 @@ class MultipageComponent extends AuthoredComponentAbstract implements MultipageC
     protected $contextData;
 
     /**
-     * Přetěžuje metodu View. Generuje PHP template z názvu template objektu Paper a použije ji.
-     * Pokud soubor template neexistuje, použije soubor default template, pokud ani ten neexistuje, použije PaperRenderer respektive PaperEditableRenderer.
-     *
+     * Přetěžuje metodu View. Generuje PHP template z názvu template a použije ji.
+     * Pokud soubor template neexistuje, použije ImplodeRenderer (ten zřetězí obsahy jednotlivých komponentních view).
      *
      */
     public function beforeRenderingHook(): void {
-        // vytvoří komponentní view z šablony paperu nebo s ImplodeTemplate, pokud šablona paperu není nastavena
+        // vytvoří komponentní view z šablony paperu nebo s ImplodeTemplate, pokud šablona multipage není nastavena
         try {
             // konstruktor PhpTemplate vyhazuje výjimku NoTemplateFileException pro neexistující (nečitený) soubor s template
             $template = new PhpTemplate($this->contextData->seekTemplate('multipage', $this->getTemplateName()));
@@ -64,7 +63,7 @@ class MultipageComponent extends AuthoredComponentAbstract implements MultipageC
         }
         $this->appendComponentView($templatedView, self::CONTEXT_TEMPLATE);
 
-        // zvolí PaperRenderer nebo PaperRendererEditable
+        // zvolí MultipageRenderer nebo MultipageRendererEditable
         if ($this->contextData->presentEditableContent()) { // editační režim
             $multipageId = $this->contextData->getMultipage()->getId();
             $userPerformsActionWithContent = $this->contextData->getUserActions()->hasUserAction(AuthoredEnum::MULTIPAGE, $multipageId);

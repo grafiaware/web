@@ -30,7 +30,7 @@ var templates_paper= [
        // { title: 'Test - namedpaper a3', description: 'rendered component',       url: 'red/v1/nameditem/a3'}
     ];
 var templates_author = [
-        { title: 'Kontakt', description: 'Grafia web - kontakt',       url: 'web/v1/authortemplate/kontakt'}, //vztaženo k rootu RS, tam kde je index redakčního s.
+        { title: 'Kontakt', description: 'Grafia web - kontakt',       url: 'web/v1/authortemplate/kontakt'}, 
         { title: 'Publikace - novinka', description: 'Grafia web - publikace',   url: 'web/v1/authortemplate/eshop_nove'},
         { title: 'Publikace - 2', description: 'Vložení publikací na stránku', url: 'web/v1/authortemplate/eshop_radka'},
         { title: 'Obrázek vlevo a text', description: 'Bez obtékání. Dva sloupce', url: 'web/v1/authortemplate/obrazekVlevo_blok'},
@@ -40,7 +40,7 @@ var templates_author = [
         { title: 'Ohraničený obsah s odkazem - 2 položky', description: 'Vložení 2 položek na stránku. Každá položka obsahuje odkaz, připojte správnou adresu či odkaz odeberte', url: 'web/v1/authortemplate/menu_2polozky'},
         { title: 'Ohraničený obsah s odkazem - 3 položky', description: 'Vložení 3 položek menu na stránku. Každá položka obsahuje odkaz, připojte správnou adresu či odkaz odeberte', url: 'web/v1/authortemplate/menu_3polozky'},
         { title: 'Upoutávka na kurz', description: 'popis',       url: 'web/v1/authortemplate/uvod_kurzu'},
-        { title: '3 stejně vysoké obrázky  v řádce', description: 'popis',       url: 'web/v1/authortemplate/stretched-images'}, 
+        { title: '3 stejně vysoké obrázky  v řádce', description: 'popis',       url: 'web/v1/authortemplate/stretched-images'},
         { title: '3 stejně vysoké obsahy v řádce', description: 'popis',       url: 'web/v1/authortemplate/stretched-blocks'},
         { title: 'template two columns divided', description: 'popis',       url: 'web/v1/authortemplate/two_columns_divided'},
         { title: 'template two blocks styled', description: 'popis',       url: 'web/v1/authortemplate/two_blocks_styled'},

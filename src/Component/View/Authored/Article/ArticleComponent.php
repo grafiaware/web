@@ -34,21 +34,22 @@ class ArticleComponent extends AuthoredComponentAbstract implements ArticleCompo
     protected $contextData;
 
     /**
-     * Přetěžuje metodu View. Generuje PHP template z názvu template objektu Paper a použije ji.
+     * Přetěžuje metodu View. Pokud je eneruje PHP template z názvu template a použije ji.
      */
     public function beforeRenderingHook(): void {
         if ($this->contextData->presentEditableContent()) {
 
             // zvolit šablonu lze jen dokud je article prázdný a nemá nastavenou šablonu
-            // Dokud je article prázdný, zobrazuje se jen toolbar s volbou šablony (SelectArticleTemplateRenderer). Jedna ze šablon musí být prázdná šablona, nelze pokračovat bez zvolení šablony.
+            // Dokud je article prázdný, zobrazuje se toolbar s volbou šablony (SelectArticleTemplateRenderer). Jedna ze šablon musí být prázdná šablona, nelze pokračovat bez zvolení šablony.
             // Volba prázdné šablony však může znamenat prázdný obsah pokud šablona nebude obsahovat žádný text.
             $articleId = $this->contextData->getArticle()->getId();
             $userPerformsActionWithContent = $this->contextData->getUserActions()->hasUserAction(AuthoredEnum::ARTICLE, $articleId);
-            if (!$this->hasContent()) {
-                $this->appendComponentView($this->createCompositeViewWithRenderer(SelectArticleTemplateRenderer::class), 'selectTemplate');
-            }
+
 //                $this->setRendererName(SelectArticleTemplateRenderer::class);
             if ($userPerformsActionWithContent) {
+                if (!$this->hasContent()) {
+                    $this->appendComponentView($this->createCompositeViewWithRenderer(SelectArticleTemplateRenderer::class), 'selectTemplate');
+                }
                 $this->setRendererName(ArticleRendererEditable::class);
             } else {
                 $this->setRendererName(ArticleRenderer::class);

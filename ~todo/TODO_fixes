@@ -1,6 +1,51 @@
+ACTION:
+- do actionItem přidat zohlednění stavu, kdy s komponentem pracuje jiný uživatel
 
-do actionItem přidat zohlednění stavu, kdy s komponentem pracuje jiný uživatel
+nová databáze - generovat jen jazykové verze podle konfigurace
 
-nový ovládací prvek - nastavení menu:
-- volba home stránky - aktuální stránka bude home
-- zapnutí, vypnutí zobrazení titulní stránky
+TEMPLATES:
+- nabídky templates - js definice přesunout z TinyInit.ks do souborů v jednotlivých složkách s šablonami (možná jako .js, možná jako čablony s javascriptem a brackets)
+
+- papertemplates (dtto multipage templates) - přidat do db a modelu položku templateContent, do té uložit obsah šablony načtený ze souboru s šablonou při výběru šablony, renderovat obsah šablony z dtabáze
+( z paper->templateContent) - ochrana proti "rozbití" při změně nebo smazání souboru s šablonou
+
+MENU:
+- nezobrazovat toggle button "active/passive pro položky, které jsou potomky neaktivní položky - zamezit nastavení active položce, která je potomkem neaktivní položky
+- nový ovládací prvek - nastavení menu:
+  - volba home stránky - aktuální stránka bude home
+  - zapnutí, vypnutí zobrazení titulní stránky
+
+REGISTRACE:
+- odmazávat záznamy v registration, které nebyly využity - nebyla dokončena registrace - teď se poznají podle nesmazaného hesla (to není moc bezpečné, lze rozbít, lepší by by sloupec "registrace dokončena" a možná i das dokončení
+
+
+flash
+- přidat typy - notice, warning, error
+
+local vs hosting
+- PROJECT_PATH - například v konfiguraci
+
+build
+- !! přidat autentizaci!
+
+deploy:
+- změna .htaccess RewriteBase
+
+
+bootstrap:
+
+SetBootstrap - konstanta PES_PRODUCTION_MACHINE_HOST_NAME musí být přesunuta do konfigurace - různé weby jsou na různých produkčních strojích
+define('PES_PRODUCTION_MACHINE_HOST_NAME', 'mcintyre');
+define('PES_PRODUCTION_MACHINE_HOST_NAME', 'replikant2871')
+- v SetBootstrap už řádek s include Configuration
+
+pageController
+- nefunguje home page static - neí proměnná $homeMenuItem        $statusPresentation->setMenuItem($homeMenuItem);
+
+GET request vzniklý jinak, než kliknutím do menu - odkaz na jinou stránku, externí odkaz na stránku - musí nastavit aktivní položku i v menu
+
+api - '/www/named/:langCode/:jmeno_component' (vedle '/web/v1/page/item/:langCode/:uid') - vrací celou prezentaci (nejen obsah komponenty) a jako presented použije kompoent
+
+friendly url's
+
+sitemap

@@ -27,7 +27,6 @@ class ToggleEditContentButtonComponent extends StatusComponentAbstract {
     public function beforeRenderingHook(): void {
         if($this->contextData->presentEditableContent() AND $this->isAllowed($this, AllowedActionEnum::EDIT)) {
             $this->setRendererName(ToggleEditContentButtomRenderer::class);
-//            $this->setTemplate(new PhpTemplate($this->configuration->getTemplateXXXXXXX()));
         } else {
             $this->setRendererName(NoPermittedContentRenderer::class);
         }
