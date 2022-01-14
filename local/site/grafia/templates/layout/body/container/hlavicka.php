@@ -5,7 +5,7 @@
                              <?php  include "hlavicka/logo.php"; ?>
 
                         </div>
-                        <div class="fifteen wide mobile eight wide tablet nine wide computer column bottom aligned center aligned">
+                        <div class="fifteen wide mobile nine wide tablet ten wide computer column bottom aligned center aligned">
                             BANNER
                              <?php  include "hlavicka/presmerovanimenu.php"; ?>
                              <?php  include "hlavicka/banner.php"; ?>

@@ -3,6 +3,10 @@
             <?=
                 $menuSvisle
             ?>
+            
+            <?=
+            $rychleOdkazy
+            ?>
         </nav>
         <div id="myOverlay" onclick="hamburger_close()"></div>
         <span class="nav-mobile active" onclick="hamburger_open()"><i class="bars large icon"></i>Menu</span>

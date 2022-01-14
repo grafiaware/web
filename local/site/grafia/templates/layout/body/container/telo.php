@@ -4,9 +4,6 @@
         <?php include "telo/bloky.php"; ?>
         <?php include "telo/svislemenu.php"; ?>
         <?php include "telo/kos.php"; ?>
-        <?=
-            $rychleOdkazy
-        ?>
     </div>
     <div class="column">
         <?=
