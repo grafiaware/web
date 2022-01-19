@@ -24,11 +24,11 @@
                                 OD ROKU 1993
                             </div>
                         </div>
-                        <div class="fifteen wide mobile ten wide tablet nine wide computer column">
+                        <div class="fifteen wide mobile nine wide tablet ten wide computer column">
                             MENU
                             <?php  include "hlavicka/vodorovnemenu.php"; ?>
                         </div>
-                        <div class="fifteen wide mobile three wide tablet three wide computer column middle aligned right floated">
+                        <div class="fifteen wide mobile four wide tablet three wide computer column middle aligned right floated">
                             HLEDANI 
                             <?php  include "hlavicka/vyhledavani.php"; ?>
                         </div>

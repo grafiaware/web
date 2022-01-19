@@ -52,7 +52,7 @@ interface MenuViewModelInterface {
      */
     public function getPresentedMenuNode(HierarchyAggregateInterface $rootNode): ?HierarchyAggregateInterface;
 
-    public function isEditableItem(): bool;
+    public function isMenuEditableByUser(): bool;
 
     /**
      *

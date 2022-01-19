@@ -28,7 +28,7 @@ class ItemRenderer extends HtmlRendererAbstract {
 
     public function render($viewModel=NULL) {
         $this->viewModel = $viewModel;
-        if ($viewModel->isEditableItem()) {
+        if ($viewModel->isMenuEditableByUser()) {
             return $this->renderEditableItem();
         } else {
             return $this->renderNoneditableItem();
@@ -133,7 +133,7 @@ class ItemRenderer extends HtmlRendererAbstract {
 
     private function redLiStyle() {
         return
-            ($this->viewModel->isEditableItem() ? "editable-item " : "noneditable-item ")
+            ($this->viewModel->isMenuEditableByUser() ? "editable-item " : "noneditable-item ")
             .($this->viewModel->isOnPath() ? "onpath " : "")
             .(($this->viewModel->getRealDepth() == 1) ? "dropdown " : "")
             .($this->viewModel->isPresented() ? "presented " : "")

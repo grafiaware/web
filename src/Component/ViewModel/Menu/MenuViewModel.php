@@ -177,12 +177,12 @@ class MenuViewModel extends StatusViewModel implements MenuViewModelInterface {
             $isPresented = isset($presentedUid) ? ($presentedUid == $nodeUid) : FALSE;
             $isCutted = $pasteUid == $nodeUid;
             if ($isPresented) {
-                $isEditableItem = $this->isEditableItem();  // volá se jen pro presented = jednou
+                $isMenuEditableByUser = $this->isMenuEditableByUser();  // volá se jen pro presented = jednou
             } else {
-                $isEditableItem = false;
+                $isMenuEditableByUser = false;
             }
 
-            $itemViewModel = new ItemViewModel($node, $realDepth, $isOnPath, $isLeaf, $isPresented, $isEditableItem, $pasteMode, $isCutted, $menuEditable);
+            $itemViewModel = new ItemViewModel($node, $realDepth, $isOnPath, $isLeaf, $isPresented, $isMenuEditableByUser, $pasteMode, $isCutted, $menuEditable);
 
             $models[] = $itemViewModel;
         }
@@ -195,7 +195,7 @@ class MenuViewModel extends StatusViewModel implements MenuViewModelInterface {
      *
      * @return bool
      */
-    public function isEditableItem(): bool {
+    public function isMenuEditableByUser(): bool {
         $loginAggregate = $this->statusSecurityRepo->get()->getLoginAggregate();
         if ($loginAggregate) {
             $isSupervisor = $loginAggregate->getCredentials()->getRole() == 'sup';
