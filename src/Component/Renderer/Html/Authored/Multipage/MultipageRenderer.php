@@ -5,6 +5,7 @@ use Component\Renderer\Html\HtmlRendererAbstract;
 use Component\ViewModel\Authored\Multipage\MultipageViewModelInterface;
 
 use Component\View\Authored\Multipage\MultipageComponent;
+use Component\View\Authored\AuthoredComponentAbstract;
 
 use Pes\Text\Html;
 
@@ -17,7 +18,7 @@ class MultipageRenderer  extends HtmlRendererAbstract {
     public function render(iterable $viewModel=NULL) {
         /** @var MultipageViewModelInterface $viewModel */
         $inner = (string) $viewModel->getContextVariable(MultipageComponent::CONTEXT_TEMPLATE) ?? '';
-        $buttonEditContent = (string) $viewModel->getContextVariable(MultipageComponent::CONTEXT_BUTTON_EDIT_CONTENT) ?? '';
+        $buttonEditContent = (string) $viewModel->getContextVariable(AuthoredComponentAbstract::BUTTON_EDIT_CONTENT) ?? '';
         $html =
                 Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.templateMultipage')],
                     Html::tag('div', ['data-red-renderer'=>'MultipageRenderer', "data-red-datasource"=> "multipage {$viewModel->getMultipage()->getId()} for item {$viewModel->getMultipage()->getMenuItemIdFk()}"],

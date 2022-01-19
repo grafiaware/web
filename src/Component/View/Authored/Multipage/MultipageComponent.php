@@ -19,7 +19,7 @@ use Component\Renderer\Html\Authored\Multipage\MultipageRendererEditable;
 
 use Component\View\Manage\ToggleEditContentButtonComponent;
 
-use Component\View\Authored\AuthoredEnum;
+use Red\Model\Enum\AuthoredEnum;
 use Pes\Type\ContextData;
 
 /**
@@ -30,8 +30,6 @@ use Pes\Type\ContextData;
 class MultipageComponent extends AuthoredComponentAbstract implements MultipageComponentInterface {
 
     const CONTEXT_TEMPLATE = 'template';
-    const CONTEXT_BUTTON_EDIT_CONTENT = 'buttonEditContent';
-
 
     /**
      *
@@ -65,9 +63,7 @@ class MultipageComponent extends AuthoredComponentAbstract implements MultipageC
 
         // zvolí MultipageRenderer nebo MultipageRendererEditable
         if ($this->contextData->presentEditableContent()) { // editační režim
-            $multipageId = $this->contextData->getMultipage()->getId();
-            $userPerformsActionWithContent = $this->contextData->getUserActions()->hasUserAction(AuthoredEnum::MULTIPAGE, $multipageId);
-            if ($userPerformsActionWithContent) {
+            if ($this->userPerformActionWithItem()) {
                 $this->setRendererName(MultipageRendererEditable::class);
             } else {
                 $this->setRendererName(MultipageRenderer::class);
@@ -75,12 +71,10 @@ class MultipageComponent extends AuthoredComponentAbstract implements MultipageC
 
             // vytvoří komponent - view s buttonem ButtonEditContent
             $buttonEditContentComponent = new ToggleEditContentButtonComponent($this->configuration);
-            $this->contextData->offsetSet(ToggleEditContentButtonComponent::CONTEXT_TYPE_FK, AuthoredEnum::MULTIPAGE);
-            $this->contextData->offsetSet(ToggleEditContentButtonComponent::CONTEXT_ITEM_ID, $multipageId);
-            $this->contextData->offsetSet(ToggleEditContentButtonComponent::CONTEXT_USER_PERFORM_ACTION, $userPerformsActionWithContent);
             $buttonEditContentComponent->setData($this->contextData);
             $buttonEditContentComponent->setRendererContainer($this->rendererContainer);
-            $this->appendComponentView($buttonEditContentComponent, self::CONTEXT_BUTTON_EDIT_CONTENT);
+            $this->appendComponentView($buttonEditContentComponent, self::BUTTON_EDIT_CONTENT);
+
         } else {
             $this->setRendererName(MultipageRenderer::class);
         }

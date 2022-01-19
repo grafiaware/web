@@ -8,8 +8,7 @@
 
 namespace Component\ViewModel;
 
-use Red\Model\Entity\UserActionsInterface;
-
+use Red\Model\Entity\UserActionsInterface;  // zrušit?
 /**
  *
  * @author pes2704
@@ -28,8 +27,6 @@ interface StatusViewModelInterface extends ViewModelInterface {
      * @return bool
      */
     public function presentEditableContent(): bool;
-    public function presentEditableLayout(): bool;
     public function presentEditableMenu(): bool;
 
-    public function getUserActions(): ?UserActionsInterface;
 }

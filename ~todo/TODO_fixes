@@ -14,6 +14,12 @@ MENU:
 - nový ovládací prvek - nastavení menu:
   - volba home stránky - aktuální stránka bude home
   - zapnutí, vypnutí zobrazení titulní stránky
+. kopie podstromu menu
+
+MENU ITEM: ??
+- přidat ke každé položce šablonu containeru - obsahuje layout menu i contentu -> musí také předepisovat jaká data potřebuje - bloky layoutu jedno nebo více mwnu a to včetně deklarace
+    počtu úrovní jednotlivých menu
+- asi db tabulka item_layout - stejný layout pro všechny potomky až do potomka, který má definován nový layout nebo layout ke každému item - a při změně přegenerovat menu_item
 
 REGISTRACE:
 - odmazávat záznamy v registration, které nebyly využity - nebyla dokončena registrace - teď se poznají podle nesmazaného hesla (to není moc bezpečné, lze rozbít, lepší by by sloupec "registrace dokončena" a možná i das dokončení

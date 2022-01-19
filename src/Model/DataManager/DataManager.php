@@ -48,7 +48,7 @@ abstract class DataManager implements DataManagerInterface {
         return $this->persitedData->offsetExists($index) ? $this->persitedData->offsetGet($index) : null;
     }
 
-    protected function getByReference(...$referenceId): ?RowDataInterface {
+    public function getByReference(...$referenceId): ?RowDataInterface {
         $rowData = $this->dao->getByFk(...$referenceId);
         if (!$rowData) {
             return null;
@@ -60,7 +60,7 @@ abstract class DataManager implements DataManagerInterface {
         return $rowData;
     }
 
-    public function find($whereClause="", $touplesToBind=[]) {
+    public function find($whereClause="", $touplesToBind=[]): iterable {
         $collection = [];
         foreach ($this->dao->find($whereClause, $touplesToBind) as $rowData) {
             $index = $this->indexFromRowData($rowData);

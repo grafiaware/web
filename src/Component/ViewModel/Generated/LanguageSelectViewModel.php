@@ -10,7 +10,10 @@ namespace Component\ViewModel\Generated;
 
 use Component\ViewModel\StatusViewModel;
 
-use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
+use Status\Model\Repository\StatusSecurityRepo;
+use Status\Model\Repository\StatusPresentationRepo;
+use Status\Model\Repository\StatusFlashRepo;
+use Red\Model\Repository\ItemActionRepo;
 
 use Red\Model\Repository\LanguageRepo;
 
@@ -27,8 +30,9 @@ class LanguageSelectViewModel extends StatusViewModel implements LanguageSelectV
             StatusSecurityRepo $statusSecurityRepo,
             StatusPresentationRepo $statusPresentationRepo,
             StatusFlashRepo $statusFlashRepo,
+            ItemActionRepo $itemActionRepo,
             LanguageRepo $languageRepo) {
-        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo);
+        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo, $itemActionRepo);
         $this->languageRepo = $languageRepo;
     }
 

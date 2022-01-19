@@ -12,33 +12,26 @@ use Model\Entity\EntityAbstract;
 use Red\Model\Entity\ItemActionInterface;
 
 /**
- * Description of StatusPresentation
+ * Description of UserActions
+ *
+ * UserActions je součástí StatusPresentation, ukládána do session prostřednictvím StatusPresentationRepo.
+ * Obsahuje stav prezentace a také akce uživatele - ItemActionInterface entity
  *
  * @author pes2704
  */
 class UserActions extends EntityAbstract implements UserActionsInterface {
 
-    private $editLayout = false;
-    private $editPaper = false;
+    private $editArticle = false;
     private $editMenu = false;
     private $userItemAction = [];
 
     /**
      * Informuje, zda je některá část prezentace přepnuta do editačního módu.
-     * 
-     * @return bool
-     */
-    public function presentAnyInEditableMode(): bool {
-        return  $this->presentEditableArticle() OR $this->presentEditableLayout() OR $this->presentEditableMenu();
-    }
-
-    /**
-     * Informuje, zda prezentace je přepnuta do modu editace layoutu.
      *
      * @return bool
      */
-    public function presentEditableLayout(): bool {
-        return $this->editLayout;
+    public function presentAnyInEditableMode(): bool {
+        return  $this->presentEditableArticle() OR $this->presentEditableMenu();
     }
 
     /**
@@ -47,7 +40,7 @@ class UserActions extends EntityAbstract implements UserActionsInterface {
      * @return bool
      */
     public function presentEditableArticle(): bool {
-        return $this->editPaper;
+        return $this->editArticle;
     }
 
     /**
@@ -77,7 +70,7 @@ class UserActions extends EntityAbstract implements UserActionsInterface {
      * @return UserActionsInterface
      */
     public function setEditableArticle($editPaper): UserActionsInterface {
-        $this->editPaper = boolval($editPaper);
+        $this->editArticle = boolval($editPaper);
         return $this;
     }
 

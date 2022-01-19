@@ -3,8 +3,14 @@
 namespace Component\ViewModel;
 
 use Red\Model\Entity\UserActionsInterface;
+use Red\Model\Entity\ItemActionInterface;
 
-use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
+use Status\Model\Repository\StatusSecurityRepo;
+use Status\Model\Repository\StatusPresentationRepo;
+use Status\Model\Repository\StatusFlashRepo;
+
+use Red\Model\Repository\ItemActionRepo;
+use Red\Model\Repository\MenuItemRepoInterface;
 
 /**
  * Description of StatusViewModelAbstract
@@ -28,15 +34,24 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
      */
     protected $statusFlashRepo;
 
+    /**
+     *
+     * @var ItemActionRepo
+     */
+    protected $itemActionRepo;
+
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusPresentationRepo $statusPresentationRepo,
-            StatusFlashRepo $statusFlashRepo
+            StatusFlashRepo $statusFlashRepo,
+            ItemActionRepo $itemActionRepo
             ) {
         $this->statusSecurityRepo = $statusSecurityRepo;
         $this->statusPresentationRepo = $statusPresentationRepo;
         $this->statusFlashRepo = $statusFlashRepo;
-    }
+        $this->itemActionRepo = $itemActionRepo;
+        parent::__construct();
+        }
 
     public function getFlashCommand($key) {
         $flashCommand = $this->statusFlashRepo->get()->getCommand();
@@ -68,24 +83,16 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
         return $userActions ? $userActions->presentEditableArticle() : false;
     }
 
-    public function presentEditableLayout(): bool {
-        $userActions = $this->statusPresentationRepo->get()->getUserActions();
-        return $userActions ? $userActions->presentEditableLayout() : false;
-    }
-
     public function presentEditableMenu(): bool {
         $userActions = $this->statusPresentationRepo->get()->getUserActions();
         return $userActions ? $userActions->presentEditableMenu() : false;
     }
 
-    public function getUserActions(): ?UserActionsInterface {
-        return $this->statusPresentationRepo->get()->getUserActions();
-    }
+    ### user actions ###
 
     public function getIterator() {
         $this->appendData([
                         'editArticle' => $this->presentEditableContent(),
-                        'editLayout' => $this->presentEditableLayout(),
                         'editMenu' => $this->presentEditableMenu(),
                         'userName' => $this->getUserLoginName()
         ]);

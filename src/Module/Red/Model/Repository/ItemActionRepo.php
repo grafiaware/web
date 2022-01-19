@@ -41,7 +41,11 @@ class ItemActionRepo extends RepoAbstract implements ItemActionRepoInterface {
         return $this->getEntity($typeFk, $itemId);
     }
 
-    public function findAll() {
+    /**
+     *
+     * @return ItemActionInterface[]
+     */
+    public function findAll(): array {
         return $this->findEntities();
     }
 

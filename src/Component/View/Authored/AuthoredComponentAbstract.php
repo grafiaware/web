@@ -24,6 +24,7 @@ use Pes\View\CompositeView;
 abstract class AuthoredComponentAbstract extends StatusComponentAbstract implements AuthoredComponentInterface {
 
     const DEFAULT_TEMPLATE_NAME = 'default';
+    const BUTTON_EDIT_CONTENT = 'buttonEditContent';
 
     /**
      * @var AuthoredViewModelInterface
@@ -33,6 +34,11 @@ abstract class AuthoredComponentAbstract extends StatusComponentAbstract impleme
     public function setItemId($menuItemId): AuthoredComponentInterface {
         $this->contextData->setItemId($menuItemId);
         return $this;
+    }
+
+    public function userPerformActionWithItem(): bool {
+        $itemAction = $this->contextData->getItemAction();
+        return isset($itemAction) AND $itemAction->getEditorLoginName()==$this->contextData->getUserLoginName();
     }
 
     public function getTemplateFileFullname(array $templatesFolders, $templateName): string {

@@ -11,9 +11,11 @@ namespace Component\ViewModel\Authored;
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusFlashRepo;
-use Component\ViewModel\StatusViewModel;
-use Red\Model\Repository\MenuItemRepoInterface;
 use Red\Model\Repository\ItemActionRepo;
+use Red\Model\Repository\MenuItemRepoInterface;
+
+use Component\ViewModel\StatusViewModel;
+use Red\Model\Entity\ItemActionInterface;
 use Red\Model\Entity\MenuItemInterface;
 
 use TemplateService\TemplateSeekerInterface;
@@ -25,16 +27,14 @@ use TemplateService\TemplateSeekerInterface;
  */
 abstract class AuthoredViewModelAbstract extends StatusViewModel implements AuthoredViewModelInterface {
 
-    protected $menuItemIdCached;
-
-    protected $menuItemCached;
+    protected $menuItemId;
+    protected $menuItemType;
 
     /**
+     *
      * @var MenuItemRepoInterface
      */
     protected $menuItemRepo;
-
-    private $itemActionRepo;
 
     private $templateSeeker;
 
@@ -42,28 +42,36 @@ abstract class AuthoredViewModelAbstract extends StatusViewModel implements Auth
             StatusSecurityRepo $statusSecurityRepo,
             StatusPresentationRepo $statusPresentationRepo,
             StatusFlashRepo $statusFlashRepo,
-            MenuItemRepoInterface $menuItemRepo,
             ItemActionRepo $itemActionRepo,
+            MenuItemRepoInterface $menuItemRepo,
             TemplateSeekerInterface $templateSeeker
             ) {
-        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo);
+        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo, $itemActionRepo);
         $this->menuItemRepo = $menuItemRepo;
-        $this->itemActionRepo = $itemActionRepo;
         $this->templateSeeker = $templateSeeker;
     }
 
+    abstract public function getItemType();
+
+    public function getItemId() {
+        if (!isset($this->menuItemId)) {
+            throw new LogicException("Nebyla nastavena hodnota menu item id. Hodnutu je nutné nastavit voláním metody setItemId().");
+        }
+        return $this->menuItemId;
+    }
     /**
-     * Nastaví id položky MenuItem, podle kterého bude načítáná příslušná entita s obsahem (např. Paper, Article, Multipage)
+     * Nastaví id položky MenuItem, podle kterého bude načítáná příslušná entita s obsahem (např. Paper, Article, Multipage) a ItemAction
      * Obvykle je metoda volána z metody Front kontroleru.
      *
      * @param type $menuItemId
      * @throws LogicException
      */
     public function setItemId($menuItemId) {
-        if (isset($this->menuItemIdCached)) {
-            throw new LogicException("Menu item id je již nastaveno na hodnotu {$this->menuItemIdCached}. Nelze nastavovat menu item id opakovaně.");
-        }
-        $this->menuItemIdCached = $menuItemId;
+        $this->menuItemId = $menuItemId;
+    }
+
+    public function getMenuItem(): MenuItemInterface {
+        return $this->menuItemRepo->getById($this->getItemId());
     }
 
     /**
@@ -72,7 +80,7 @@ abstract class AuthoredViewModelAbstract extends StatusViewModel implements Auth
      * @return bool
      */
     public function isMenuItemActive(): bool {
-        return ($this->getMenuItemCached() AND $this->getMenuItemCached()->getActive()) ? true : false;
+        return ($this->getMenuItem() AND $this->getMenuItem()->getActive()) ? true : false;
     }
 
     /**
@@ -87,14 +95,17 @@ abstract class AuthoredViewModelAbstract extends StatusViewModel implements Auth
         return $this->statusPresentationRepo->get()->getUserActions()->presentEditableArticle();
     }
 
-    private function getMenuItemCached(): ?MenuItemInterface {
-       if ( !isset($this->menuItemCached) AND isset($this->menuItemIdCached)) {
-           $this->menuItemCached = $this->menuItemRepo->getById($this->menuItemIdCached);
-       }
-       return $this->menuItemCached;
-    }
-
     public function seekTemplate($templatesType, $templateName) {
         return $this->templateSeeker->seekTemplate($templatesType, $templateName);
+    }
+
+    public function getItemAction(): ?ItemActionInterface {
+        return $this->itemActionRepo->get($this->getItemType(), $this->getItemId());
+    }
+
+    public function userPerformActionWithItem(): bool {
+        $itemAction = $this->getItemAction();
+        $loginAgg = $this->statusSecurityRepo->get()->getLoginAggregate();
+        return isset($itemAction) AND isset($loginAgg) AND $itemAction->getEditorLoginName()==$loginAgg->getLoginName();
     }
 }

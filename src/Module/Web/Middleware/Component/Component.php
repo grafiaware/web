@@ -17,7 +17,7 @@ use Container\HierarchyContainerConfigurator;
 use Container\DbUpgradeContainerConfigurator;
 use Container\LoginContainerConfigurator;
 
-use Web\Middleware\Component\Controller\RedComponentControler;
+use Web\Middleware\Component\Controller\ComponentControler;
 use Web\Middleware\Component\Controller\TemplateControler;
 
 class Component extends AppMiddlewareAbstract implements MiddlewareInterface {
@@ -48,9 +48,9 @@ class Component extends AppMiddlewareAbstract implements MiddlewareInterface {
                     (new HierarchyContainerConfigurator())->configure(
                        (new DbUpgradeContainerConfigurator())->configure(
                             (new Container(
-                                    (new LoginContainerConfigurator())->configure(
+//                                    (new LoginContainerConfigurator())->configure(
                                         new Container($this->getApp()->getAppContainer())
-                                    )
+//                                    )
                                 )
                             )
                         )
@@ -63,18 +63,18 @@ class Component extends AppMiddlewareAbstract implements MiddlewareInterface {
 
         #### ComponentController ####
         $routeGenerator->addRouteForAction('GET', '/web/v1/flash', function(ServerRequestInterface $request) {
-            /** @var RedComponentControler $ctrl */
-            $ctrl = $this->container->get(RedComponentControler::class);
+            /** @var ComponentControler $ctrl */
+            $ctrl = $this->container->get(ComponentControler::class);
             return $ctrl->flash($request);
             });
         $routeGenerator->addRouteForAction('GET', '/web/v1/service/:name', function(ServerRequestInterface $request, $name) {
-            /** @var RedComponentControler $ctrl */
-            $ctrl = $this->container->get(RedComponentControler::class);
+            /** @var ComponentControler $ctrl */
+            $ctrl = $this->container->get(ComponentControler::class);
             return $ctrl->serviceComponent($request, $name);
             });
         $routeGenerator->addRouteForAction('GET', '/web/v1/static/:staticName', function(ServerRequestInterface $request, $staticName) {
-            /** @var RedComponentControler $ctrl */
-            $ctrl = $this->container->get(RedComponentControler::class);
+            /** @var ComponentControler $ctrl */
+            $ctrl = $this->container->get(ComponentControler::class);
             return $ctrl->static($request, $staticName);
             });
 //        $routeGenerator->addRouteForAction('GET', '/web/v1/staticfolded/:folderName', function(ServerRequestInterface $request, $staticName) {
@@ -83,28 +83,28 @@ class Component extends AppMiddlewareAbstract implements MiddlewareInterface {
 //            return $ctrl->static($request, $staticName);
 //            });
         $routeGenerator->addRouteForAction('GET', '/web/v1/empty/:menuItemId', function(ServerRequestInterface $request, $menuItemId) {
-            /** @var RedComponentControler $ctrl */
-            $ctrl = $this->container->get(RedComponentControler::class);
+            /** @var ComponentControler $ctrl */
+            $ctrl = $this->container->get(ComponentControler::class);
             return $ctrl->empty($request, $menuItemId);
             });
         $routeGenerator->addRouteForAction('GET', '/web/v1/paper/:menuItemId', function(ServerRequestInterface $request, $menuItemId) {
-            /** @var RedComponentControler $ctrl */
-            $ctrl = $this->container->get(RedComponentControler::class);
+            /** @var ComponentControler $ctrl */
+            $ctrl = $this->container->get(ComponentControler::class);
             return $ctrl->paper($request, $menuItemId);
             });
         $routeGenerator->addRouteForAction('GET', '/web/v1/article/:menuItemId', function(ServerRequestInterface $request, $menuItemId) {
-            /** @var RedComponentControler $ctrl */
-            $ctrl = $this->container->get(RedComponentControler::class);
+            /** @var ComponentControler $ctrl */
+            $ctrl = $this->container->get(ComponentControler::class);
             return $ctrl->article($request, $menuItemId);
             });
         $routeGenerator->addRouteForAction('GET', '/web/v1/multipage/:menuItemId', function(ServerRequestInterface $request, $menuItemId) {
-            /** @var RedComponentControler $ctrl */
-            $ctrl = $this->container->get(RedComponentControler::class);
+            /** @var ComponentControler $ctrl */
+            $ctrl = $this->container->get(ComponentControler::class);
             return $ctrl->multipage($request, $menuItemId);
             });
         $routeGenerator->addRouteForAction('GET', '/web/v1/unknown', function(ServerRequestInterface $request, $menuItemId) {
-            /** @var RedComponentControler $ctrl */
-            $ctrl = $this->container->get(RedComponentControler::class);
+            /** @var ComponentControler $ctrl */
+            $ctrl = $this->container->get(ComponentControler::class);
             return $ctrl->unknown($request);
             });
 

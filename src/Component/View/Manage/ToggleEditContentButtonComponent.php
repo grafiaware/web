@@ -16,9 +16,6 @@ use Component\View\AllowedActionEnum;
  */
 class ToggleEditContentButtonComponent extends StatusComponentAbstract {
 
-    const CONTEXT_TYPE_FK = 'typeFk';
-    const CONTEXT_ITEM_ID = 'itemId';
-    const CONTEXT_USER_PERFORM_ACTION = 'userPerformActionWithContent';
     /**
      * Pro oprávnění 'edit' renderuje ButtonEditContentRenderer jinak NonPermittedContentRenderer.
      *

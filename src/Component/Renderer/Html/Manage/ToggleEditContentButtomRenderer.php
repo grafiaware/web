@@ -6,6 +6,7 @@ use Component\Renderer\Html\HtmlRendererAbstract;
 use Pes\Text\Html;
 use Pes\Type\ContextDataInterface;
 use Component\View\Manage\ToggleEditContentButtonComponent;
+use Component\ViewModel\Authored\AuthoredViewModelInterface;
 
 /**
  * Description of ToggleEditButtonRenderer
@@ -14,16 +15,14 @@ use Component\View\Manage\ToggleEditContentButtonComponent;
  */
 class ToggleEditContentButtomRenderer extends HtmlRendererAbstract {
     public function render(iterable $viewModel = NULL) {
-        /** @var ContextDataInterface $viewModel */
-        $typeFk = $viewModel->offsetGet(ToggleEditContentButtonComponent::CONTEXT_TYPE_FK);
-        $itemId = $viewModel->offsetGet(ToggleEditContentButtonComponent::CONTEXT_ITEM_ID);
-        $userPerformActionWithContent = $viewModel->offsetGet(ToggleEditContentButtonComponent::CONTEXT_USER_PERFORM_ACTION);
+        /** @var AuthoredViewModelInterface $viewModel */
+        $userPerformActionWithContent = $viewModel->userPerformActionWithItem();
         if ($userPerformActionWithContent) {
             $tooltip = 'Vypnout editaci';
-            $action = "red/v1/itemaction/$typeFk/$itemId/remove";
+            $action = "red/v1/itemaction/{$viewModel->getItemType()}/{$viewModel->getItemId()}/remove";
         } else {
             $tooltip = 'Zapnout editaci';
-            $action = "red/v1/itemaction/$typeFk/$itemId/add";
+            $action = "red/v1/itemaction/{$viewModel->getItemType()}/{$viewModel->getItemId()}/add";
         }
         return
             Html::tag('div', ['class'=>$this->classMap->get('PaperButtons', 'div.editMode')], //tlačítko "tužka" pro zvolení editace

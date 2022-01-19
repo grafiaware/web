@@ -15,10 +15,12 @@ use Red\Model\Repository\ArticleRepo;
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusFlashRepo;
-use Red\Model\Repository\MenuItemRepoInterface;
 use Red\Model\Repository\ItemActionRepo;
+use Red\Model\Repository\MenuItemRepoInterface;
 
 use TemplateService\TemplateSeekerInterface;
+
+use Red\Model\Enum\AuthoredEnum;
 
 /**
  * Description of PaperViewModelAnstract
@@ -36,13 +38,23 @@ class ArticleViewModel extends AuthoredViewModelAbstract implements ArticleViewM
             StatusSecurityRepo $statusSecurityRepo,
             StatusPresentationRepo $statusPresentationRepo,
             StatusFlashRepo $statusFlashRepo,
+            ItemActionRepo $itemActionRepo,
             MenuItemRepoInterface $menuItemRepo,
             TemplateSeekerInterface $templateSeeker,
-            ItemActionRepo $itemActionRepo,
             ArticleRepo $articleRepo
             ) {
-        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo, $menuItemRepo, $itemActionRepo, $templateSeeker);
+        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo, $itemActionRepo, $menuItemRepo, $templateSeeker);
         $this->articleRepo = $articleRepo;
+    }
+
+    /**
+     * Vrací typ položky. Používá AuthoredEnum.
+     * Obvykle je metoda volána z metody Front kontroleru.
+     *
+     * @param type $menuItemType
+     */
+    public function getItemType() {
+        return AuthoredEnum::ARTICLE;
     }
 
     /**
@@ -53,8 +65,8 @@ class ArticleViewModel extends AuthoredViewModelAbstract implements ArticleViewM
      * @return ArticleInterface|null
      */
     public function getArticle(): ?ArticleInterface {
-        if (isset($this->menuItemIdCached)) {
-            $article = $this->articleRepo->getByReference($this->menuItemIdCached);
+        if (isset($this->menuItemId)) {
+            $article = $this->articleRepo->getByReference($this->menuItemId);
         }
         return $article ?? null;
     }

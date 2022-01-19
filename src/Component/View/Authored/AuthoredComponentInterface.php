@@ -17,6 +17,6 @@ use Pes\View\CompositeViewInterface;
 interface AuthoredComponentInterface extends CompositeViewInterface {
 
     public function setItemId($menuItemId): AuthoredComponentInterface;
-
+    public function userPerformActionWithItem(): bool;
     public function getTemplateFileFullname(array $templatesFolders, $templateName): string;
 }

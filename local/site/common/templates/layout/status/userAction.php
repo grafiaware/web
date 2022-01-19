@@ -1,4 +1,4 @@
-
+<!--data generuje: StatusViewModel-->
         <form class="ui form" method="POST" action="">
             <div class="ui icon left pointing dropdown button">
               Akce
@@ -18,11 +18,6 @@
                             formaction="red/v1/presentation/edit_article">
                         <i class="pencil alternate large icon"></i>
                         <?= empty($editArticle) ? "Zapnout inline editaci článků" : "Vypnout inline editaci článků" ?>
-                </button>
-                <button class="fluid ui olive labeled icon button" type="submit" name="edit_layout" value="<?= empty($editLayout) ? 1 : 0 ?>" formtarget="_self"
-                            formaction="red/v1/presentation/edit_layout">
-                        <i class="pencil alternate large icon"></i>
-                        <?= empty($editLayout) ? "Zapnout inline editaci rozvržení" : "Vypnout inline editaci rozvržení" ?>
                 </button>
                 <button class="fluid ui yellow labeled icon button" type="submit" name="edit_menu" value="<?= empty($editMenu) ? 1 : 0 ?>" formtarget="_self"
                             formaction="red/v1/presentation/edit_menu">

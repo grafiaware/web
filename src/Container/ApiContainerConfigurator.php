@@ -29,7 +29,7 @@ use Pes\Database\Handler\HandlerInterface;
 use \Red\Middleware\Redactor\Controler\UserActionControler;
 use \Red\Middleware\Redactor\Controler\HierarchyControler;
 use \Red\Middleware\Redactor\Controler\EditItemControler;
-use \Red\Middleware\Redactor\Controler\PresentationActionControler;
+use Red\Middleware\Redactor\Controler\ItemActionControler;
 use \Red\Middleware\Redactor\Controler\PaperControler;
 use \Red\Middleware\Redactor\Controler\ArticleControler;
 use \Red\Middleware\Redactor\Controler\ContentControler;
@@ -98,20 +98,20 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getServicesDefinitions() {
         return [
-            PresentationActionControler::class => function(ContainerInterface $c) {
-                return new PresentationActionControler(
-                        $c->get(StatusSecurityRepo::class),
-                        $c->get(StatusFlashRepo::class),
-                        $c->get(StatusPresentationRepo::class),
-                        $c->get(LanguageRepo::class),
-                        $c->get(MenuItemRepo::class),
-                        $c->get(ItemActionRepo::class));
-            },
             UserActionControler::class => function(ContainerInterface $c) {
                 return new UserActionControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
-                        $c->get(StatusPresentationRepo::class)                        );
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(LanguageRepo::class),
+                        $c->get(MenuItemRepo::class));
+            },
+            ItemActionControler::class => function(ContainerInterface $c) {
+                return new ItemActionControler(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(ItemActionRepo::class));
             },
             HierarchyControler::class => function(ContainerInterface $c) {
                 return new HierarchyControler(

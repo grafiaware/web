@@ -10,7 +10,7 @@ use Psr\Container\ContainerInterface;   // pro parametr closure function(Contain
 
 // controller
 use Web\Middleware\Page\Controller\PageController;
-use Web\Middleware\Component\Controller\RedComponentControler;
+use Web\Middleware\Component\Controller\ComponentControler;
 use Web\Middleware\Component\Controller\TemplateControler;
 
 // user - ze session
@@ -159,12 +159,6 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 return (new CompositeView())->setRendererContainer($c->get('rendererContainer'));
             },
 
-        ####
-        # view factory
-        #
-            ViewFactory::class => function(ContainerInterface $c) {
-                return (new ViewFactory())->setRendererContainer($c->get('rendererContainer'));
-            },
 
         ####
         # menu komponenty
@@ -174,6 +168,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                             $c->get(StatusSecurityRepo::class),
                             $c->get(StatusPresentationRepo::class),
                             $c->get(StatusFlashRepo::class),
+                            $c->get(ItemActionRepo::class),
                             $c->get(HierarchyJoinMenuItemRepo::class),
                             $c->get(MenuRootRepo::class)
                         );
@@ -265,6 +260,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                                 $c->get(StatusSecurityRepo::class),
                                 $c->get(StatusPresentationRepo::class),
                                 $c->get(StatusFlashRepo::class),
+                                $c->get(ItemActionRepo::class),
                                 $c->get(LanguageRepo::class)
                         );
                 return (new LanguageSelectComponent($c->get(ComponentConfiguration::class)))->setData($viewModel)->setRendererContainer($c->get('rendererContainer'))->setRendererName(LanguageSelectRenderer::class);
@@ -275,6 +271,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                                 $c->get(StatusSecurityRepo::class),
                                 $c->get(StatusPresentationRepo::class),
                                 $c->get(StatusFlashRepo::class),
+                                $c->get(ItemActionRepo::class),
                                 $c->get(MenuItemRepo::class));
                 return (new SearchResultComponent($c->get(ComponentConfiguration::class)))->setData($viewModel)->setRendererContainer($c->get('rendererContainer'))->setRendererName(SearchResultRenderer::class);
             },
@@ -288,12 +285,16 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                                 $c->get(StatusSecurityRepo::class),
                                 $c->get(StatusPresentationRepo::class),
                                 $c->get(StatusFlashRepo::class),
+                                $c->get(ItemActionRepo::class),
                                 $c->get(MenuItemTypeRepo::class)
                         );
                 return (new ItemTypeSelectComponent($c->get(ComponentConfiguration::class)))->setData($viewModel)->setRendererContainer($c->get('rendererContainer'));
             },
             StatusBoardComponent::class => function(ContainerInterface $c) {
-                return (new StatusBoardComponent($c->get(ComponentConfiguration::class)))->setData($c->get(StatusBoardViewModel::class))->setRendererContainer($c->get('rendererContainer'));
+                $bomponent = new StatusBoardComponent($c->get(ComponentConfiguration::class));
+                $bomponent->setData($c->get(StatusViewModel::class));
+                $bomponent->setRendererContainer($c->get('rendererContainer'));
+                return $bomponent;
             },
 
             // FlashComponent s vlastním rendererem
@@ -387,8 +388,8 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                             $c->get(ViewFactory::class))
                         )->injectContainer($c);  // inject component kontejner
             },
-            RedComponentControler::class => function(ContainerInterface $c) {
-                return (new RedComponentControler(
+            ComponentControler::class => function(ContainerInterface $c) {
+                return (new ComponentControler(
                             $c->get(StatusSecurityRepo::class),
                             $c->get(StatusFlashRepo::class),
                             $c->get(StatusPresentationRepo::class))
@@ -401,6 +402,12 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                             $c->get(StatusPresentationRepo::class),
                             $c->get(TemplateSeeker::class))
                         )->injectContainer($c);  // inject component kontejner
+            },
+        ####
+        # view factory
+        #
+            ViewFactory::class => function(ContainerInterface $c) {
+                return (new ViewFactory())->setRendererContainer($c->get('rendererContainer'));
             },
 
             // components
@@ -439,9 +446,9 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                                 $c->get(StatusSecurityRepo::class),
                                 $c->get(StatusPresentationRepo::class),
                                 $c->get(StatusFlashRepo::class),
+                                $c->get(ItemActionRepo::class),
                                 $c->get(MenuItemRepo::class),
                                 $c->get(TemplateSeeker::class),
-                                $c->get(ItemActionRepo::class),
                                 $c->get(PaperAggregateContentsRepo::class)
                         );
             },
@@ -450,9 +457,9 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                                 $c->get(StatusSecurityRepo::class),
                                 $c->get(StatusPresentationRepo::class),
                                 $c->get(StatusFlashRepo::class),
+                                $c->get(ItemActionRepo::class),
                                 $c->get(MenuItemRepo::class),
                                 $c->get(TemplateSeeker::class),
-                                $c->get(ItemActionRepo::class),
                                 $c->get(ArticleRepo::class)
                         );
             },
@@ -461,24 +468,19 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                                 $c->get(StatusSecurityRepo::class),
                                 $c->get(StatusPresentationRepo::class),
                                 $c->get(StatusFlashRepo::class),
+                                $c->get(ItemActionRepo::class),
                                 $c->get(MenuItemRepo::class),
                                 $c->get(TemplateSeeker::class),
-                                $c->get(ItemActionRepo::class),
                                 $c->get(MultipageRepo::class),
                                 $c->get(HierarchyJoinMenuItemRepo::class)
                         );
-            },
-            StatusBoardViewModel::class => function(ContainerInterface $c) {
-                return new StatusBoardViewModel(
-                                $c->get(StatusSecurityRepo::class),
-                                $c->get(StatusPresentationRepo::class),
-                                $c->get(StatusFlashRepo::class));
             },
             StatusViewModel::class => function(ContainerInterface $c) {
                 return new StatusViewModel(
                                 $c->get(StatusSecurityRepo::class),
                                 $c->get(StatusPresentationRepo::class),
-                                $c->get(StatusFlashRepo::class)
+                                $c->get(StatusFlashRepo::class),
+                                $c->get(ItemActionRepo::class)
                         );
             },
             FlashViewModel::class => function(ContainerInterface $c) {

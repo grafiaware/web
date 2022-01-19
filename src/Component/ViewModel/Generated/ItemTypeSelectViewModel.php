@@ -13,6 +13,7 @@ use Component\ViewModel\StatusViewModel;
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusFlashRepo;
+use Red\Model\Repository\ItemActionRepo;
 
 use Red\Model\Repository\MenuItemTypeRepo;
 
@@ -34,9 +35,10 @@ class ItemTypeSelectViewModel extends StatusViewModel implements ItemTypeSelectV
             StatusSecurityRepo $statusSecurityRepo,
             StatusPresentationRepo $statusPresentationRepo,
             StatusFlashRepo $statusFlashRepo,
+            ItemActionRepo $itemActionRepo,
             MenuItemTypeRepo $menuItemTypeRepo
             ) {
-        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo);
+        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo, $itemActionRepo);
         $this->menuItemTypeRepo = $menuItemTypeRepo;
     }
 

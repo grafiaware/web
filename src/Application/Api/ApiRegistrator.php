@@ -78,12 +78,9 @@ class ApiRegistrator {
 
         #
         #### UserActionController ####
-        $registry->register($this->getPrototype->withUrlPattern('/red/v1/useraction/app/:app'));
 
         #### PresentationActionControler ####
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/presentation/language'));
-//        $registry->register($this->postPrototype->withUrlPattern('/red/v1/presentation/uid'));
-        $registry->register($this->postPrototype->withUrlPattern('/red/v1/presentation/edit_layout'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/presentation/edit_article'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/presentation/edit_menu'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/itemaction/:typeFk/:itemId/add'));

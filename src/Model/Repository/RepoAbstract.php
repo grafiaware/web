@@ -289,9 +289,11 @@ abstract class RepoAbstract {
      */
     private function addAssociated($row, EntityInterface $entity) {
         foreach ($this->associations as $interfaceName => $association) {
-            foreach ($row[$interfaceName] as $assocEntity) {  // asociovaná entita nemusí existovat - agregát je i tak validní
-                if (!$assocEntity->isPersisted()) {
-                    $association->addAssociatedEntity($assocEntity);  // child repo add
+            if (isset($row[$interfaceName])) {
+                foreach ($row[$interfaceName] as $assocEntity) {  // asociovaná entita nemusí existovat - agregát je i tak validní
+                    if (!$assocEntity->isPersisted()) {
+                        $association->addAssociatedEntity($assocEntity);  // child repo add
+                    }
                 }
             }
         }

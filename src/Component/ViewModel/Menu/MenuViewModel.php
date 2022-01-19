@@ -7,7 +7,10 @@ use Red\Model\Entity\HierarchyAggregate;
 use Red\Model\Entity\HierarchyAggregateInterface;
 use Red\Model\Entity\MenuRootInterface;
 
-use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
+use Status\Model\Repository\StatusSecurityRepo;
+use Status\Model\Repository\StatusPresentationRepo;
+use Status\Model\Repository\StatusFlashRepo;
+use Red\Model\Repository\ItemActionRepo;
 
 use Red\Model\Repository\HierarchyJoinMenuItemRepo;
 use Red\Model\Repository\MenuRootRepo;
@@ -33,10 +36,11 @@ class MenuViewModel extends StatusViewModel implements MenuViewModelInterface {
             StatusSecurityRepo $statusSecurityRepo,
             StatusPresentationRepo $statusPresentationRepo,
             StatusFlashRepo $statusFlashRepo,
+            ItemActionRepo $itemActionRepo,
             HierarchyJoinMenuItemRepo $hierarchyRepo,
             MenuRootRepo $menuRootRepo
             ) {
-        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo);
+        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo, $itemActionRepo);
         $this->hierarchyRepo = $hierarchyRepo;
         $this->menuRootRepo = $menuRootRepo;
     }

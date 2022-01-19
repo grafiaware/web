@@ -2,6 +2,8 @@
 namespace Component\Renderer\Html\Authored\Article;
 
 use Red\Model\Entity\ArticleInterface;
+use Component\View\Authored\Article\ArticleComponent;
+use Component\View\Authored\AuthoredComponentAbstract;
 
 use Component\ViewModel\Authored\Article\ArticleViewModelInterface;
 use Pes\Text\Html;
@@ -17,9 +19,8 @@ class ArticleRendererEditable extends HtmlRendererAbstract {
     public function render(iterable $viewModel=NULL) {
         /** @var ArticleViewModelInterface $viewModel */
         $article = $viewModel->getArticle();  // vrací ArticleInterface
-        $active = $viewModel->isMenuItemActive();
-        $buttonEditContent = (string) $viewModel->getContextVariable('buttonEditContent') ?? '';
-        $selectTemplate = (string) $viewModel->getContextVariable('selectTemplate') ?? '';
+        $active = $viewModel->getMenuItem()->getActive();
+
 
         if (isset($article)) { // menu item aktivní (publikovaný)
             $templateName = $article->getTemplate() ?? '';
@@ -55,8 +56,8 @@ class ArticleRendererEditable extends HtmlRendererAbstract {
                                         "data-red-datasource"=> "article {$article->getId()} for item {$article->getMenuItemIdFk()}",
                                         ],
                         [
-                            $buttonEditContent,
-                            $selectTemplate ?? '',
+                            $viewModel->getContextVariable(AuthoredComponentAbstract::BUTTON_EDIT_CONTENT) ?? '',
+                            $viewModel->getContextVariable(ArticleComponent::SELECT_TEMPLATE) ?? '',
                             Html::tag('div', ['class'=>$this->classMap->get('PaperButtons', 'div.ribbon-disabled')]), //lepítko s buttony
                             Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.semafor')], //aktivní/neaktivní paper
                                 Html::tag('div',

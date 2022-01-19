@@ -4,7 +4,7 @@ namespace Component\View\Authored\Article;
 use Component\View\Authored\AuthoredComponentAbstract;
 use Component\ViewModel\Authored\Article\ArticleViewModelInterface;
 
-use Component\ViewModel\Authored\TemplatedViewModelInterface;
+use Component\ViewModel\Manage\ToggleEditContentButtonViewModel;
 
 use Component\Renderer\Html\Authored\Article\SelectArticleTemplateRenderer;
 use Component\Renderer\Html\Authored\Article\ArticleRenderer;
@@ -13,7 +13,7 @@ use Component\Renderer\Html\Authored\EmptyContentRenderer;
 
 use Component\View\Manage\ToggleEditContentButtonComponent;
 
-use Component\View\Authored\AuthoredEnum;
+use Red\Model\Enum\AuthoredEnum;
 /**
  * Description of ArticleComponent
  *
@@ -26,6 +26,7 @@ class ArticleComponent extends AuthoredComponentAbstract implements ArticleCompo
 //    ContentComponent -> TemplateSelectComponent
 //    AuthoredComponentAbstract o úroveň výš
 
+    const SELECT_TEMPLATE = 'selectTemplate';
 
     /**
      *
@@ -42,13 +43,9 @@ class ArticleComponent extends AuthoredComponentAbstract implements ArticleCompo
             // zvolit šablonu lze jen dokud je article prázdný a nemá nastavenou šablonu
             // Dokud je article prázdný, zobrazuje se toolbar s volbou šablony (SelectArticleTemplateRenderer). Jedna ze šablon musí být prázdná šablona, nelze pokračovat bez zvolení šablony.
             // Volba prázdné šablony však může znamenat prázdný obsah pokud šablona nebude obsahovat žádný text.
-            $articleId = $this->contextData->getArticle()->getId();
-            $userPerformsActionWithContent = $this->contextData->getUserActions()->hasUserAction(AuthoredEnum::ARTICLE, $articleId);
-
-//                $this->setRendererName(SelectArticleTemplateRenderer::class);
-            if ($userPerformsActionWithContent) {
+            if ($this->userPerformActionWithItem()) {
                 if (!$this->hasContent()) {
-                    $this->appendComponentView($this->createCompositeViewWithRenderer(SelectArticleTemplateRenderer::class), 'selectTemplate');
+                    $this->appendComponentView($this->createCompositeViewWithRenderer(SelectArticleTemplateRenderer::class), self::SELECT_TEMPLATE);
                 }
                 $this->setRendererName(ArticleRendererEditable::class);
             } else {
@@ -56,23 +53,15 @@ class ArticleComponent extends AuthoredComponentAbstract implements ArticleCompo
             }
             // vytvoří komponent - view s buttonem ButtonEditContent
             $buttonEditContentComponent = new ToggleEditContentButtonComponent($this->configuration);
-            $this->contextData->offsetSet(ToggleEditContentButtonComponent::CONTEXT_TYPE_FK, AuthoredEnum::ARTICLE);
-            $this->contextData->offsetSet(ToggleEditContentButtonComponent::CONTEXT_ITEM_ID, $articleId);
-            $this->contextData->offsetSet(ToggleEditContentButtonComponent::CONTEXT_USER_PERFORM_ACTION, $userPerformsActionWithContent);
             $buttonEditContentComponent->setData($this->contextData);
             $buttonEditContentComponent->setRendererContainer($this->rendererContainer);
-            $this->appendComponentView($buttonEditContentComponent, 'buttonEditContent');
+            $this->appendComponentView($buttonEditContentComponent, self::BUTTON_EDIT_CONTENT);
 
         } elseif ($this->hasContent()) {
                 $this->setRendererName(ArticleRenderer::class);
         } else {
             $this->setRendererName(EmptyContentRenderer::class);
         }
-    }
-
-    private function getContentTemplateName() {
-        $article = $this->contextData->getArticle();
-        return isset($article) ? $article->getTemplate() : null;
     }
 
     /**

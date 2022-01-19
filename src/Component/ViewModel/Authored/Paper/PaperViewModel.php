@@ -16,12 +16,13 @@ use Component\ViewModel\Authored\AuthoredViewModelAbstract;
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusFlashRepo;
-use Red\Model\Repository\MenuItemRepoInterface;
 use Red\Model\Repository\ItemActionRepo;
+use Red\Model\Repository\MenuItemRepoInterface;
+
 use Red\Model\Repository\PaperAggregateContentsRepo;
 
 use TemplateService\TemplateSeekerInterface;
-
+use Red\Model\Enum\AuthoredEnum;
 /**
  * Description of PaperViewModelAnstract
  *
@@ -38,13 +39,23 @@ class PaperViewModel extends AuthoredViewModelAbstract implements PaperViewModel
             StatusSecurityRepo $statusSecurityRepo,
             StatusPresentationRepo $statusPresentationRepo,
             StatusFlashRepo $statusFlashRepo,
+            ItemActionRepo $itemActionRepo,
             MenuItemRepoInterface $menuItemRepo,
             TemplateSeekerInterface $templateSeeker,
-            ItemActionRepo $itemActionRepo,
             PaperAggregateContentsRepo $paperAggregateRepo
             ) {
-        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo, $menuItemRepo, $itemActionRepo, $templateSeeker);
+        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo, $itemActionRepo, $menuItemRepo, $templateSeeker);
         $this->paperAggregateRepo = $paperAggregateRepo;
+    }
+
+    /**
+     * Vrací typ položky. Používá AuthoredEnum.
+     * Obvykle je metoda volána z metody Front kontroleru.
+     *
+     * @param type $menuItemType
+     */
+    public function getItemType() {
+        return AuthoredEnum::PAPER;
     }
 
     /**
@@ -55,8 +66,8 @@ class PaperViewModel extends AuthoredViewModelAbstract implements PaperViewModel
      * @return PaperAggregatePaperContentInterface|null
      */
     public function getPaper(): ?PaperAggregatePaperContentInterface {
-        if (isset($this->menuItemIdCached)) {
-            $paper = $this->paperAggregateRepo->getByReference($this->menuItemIdCached);
+        if (isset($this->menuItemId)) {
+            $paper = $this->paperAggregateRepo->getByReference($this->menuItemId);
         }
         return $paper ?? null;
     }

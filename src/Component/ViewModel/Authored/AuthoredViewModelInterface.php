@@ -9,6 +9,8 @@
 namespace Component\ViewModel\Authored;
 
 use Component\ViewModel\StatusViewModelInterface;
+use Red\Model\Entity\ItemActionInterface;
+use Red\Model\Entity\MenuItemInterface;
 
 /**
  *
@@ -16,6 +18,8 @@ use Component\ViewModel\StatusViewModelInterface;
  */
 interface AuthoredViewModelInterface extends StatusViewModelInterface {
 
+    public function getItemType();
+    public function getItemId();
     public function setItemId($menuItemId);
 
     /**
@@ -25,5 +29,7 @@ interface AuthoredViewModelInterface extends StatusViewModelInterface {
     public function isMenuItemActive(): bool;
 
     public function seekTemplate($templatesType, $templateName);
-
+    public function getItemAction(): ?ItemActionInterface;
+    public function getMenuItem(): MenuItemInterface;
+    public function userPerformActionWithItem(): bool;
 }

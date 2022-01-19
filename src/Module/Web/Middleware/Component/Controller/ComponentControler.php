@@ -45,7 +45,7 @@ use Pes\View\Template\PhpTemplate;
  *
  * @author pes2704
  */
-class RedComponentControler extends FrontControlerAbstract {
+class ComponentControler extends FrontControlerAbstract {
 
     ### action metody ###############
 

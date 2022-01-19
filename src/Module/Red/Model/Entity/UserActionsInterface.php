@@ -25,13 +25,6 @@ interface UserActionsInterface extends EntitySingletonInterface {
     public function presentAnyInEditableMode(): bool;
 
     /**
-     * Informuje, zda prezentace je přepnuta do modu editace layoutu.
-     *
-     * @return bool
-     */
-    public function presentEditableLayout(): bool;
-
-    /**
      * Informuje, zda prezentace je přepnuta do modu editace článku.
      *
      * @return bool

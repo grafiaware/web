@@ -17,7 +17,7 @@ use Container\{
 };
 
 use Red\Middleware\Redactor\Controler\{
-    UserActionControler, HierarchyControler, EditItemControler, PresentationActionControler, PaperControler, ArticleControler, ContentControler, TemplateController,
+    UserActionControler, HierarchyControler, EditItemControler, ItemActionControler, PaperControler, ArticleControler, ContentControler, TemplateController,
     FilesUploadControler
 };
 
@@ -65,46 +65,31 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
         $routeGenerator = $this->container->get(RouteSegmentGenerator::class);
 
         #### UserActionController ####
-        $routeGenerator->addRouteForAction('GET', '/red/v1/useraction/app/:app', function(ServerRequestInterface $request, $app) {
-            /** @var UserActionControler $ctrl */
-            $ctrl = $this->container->get(UserActionControler::class);
-            return $ctrl->app($request, $app);
-            });
-
-        #### PresentationController ####
         $routeGenerator->addRouteForAction('POST', '/red/v1/presentation/language', function(ServerRequestInterface $request) {
-                /** @var PresentationActionControler $ctrl */
-                $ctrl = $this->container->get(PresentationActionControler::class);
+                /** @var UserActionControler $ctrl */
+                $ctrl = $this->container->get(UserActionControler::class);
                 return $ctrl->setLangCode($request);
         });
-//        $routeGenerator->addRouteForAction('POST', '/red/v1/presentation/uid', function(ServerRequestInterface $request) {
-//                /** @var PresentationActionController $ctrl */
-//                $ctrl = $this->container->get(PresentationActionController::class);
-//                return $ctrl->setPresentedItem($request);
-//        });
-        $routeGenerator->addRouteForAction('POST', '/red/v1/presentation/edit_layout', function(ServerRequestInterface $request) {
-                /** @var PresentationActionControler $ctrl */
-                $ctrl = $this->container->get(PresentationActionControler::class);
-                return $ctrl->setEditLayout($request);
-        });
         $routeGenerator->addRouteForAction('POST', '/red/v1/presentation/edit_article', function(ServerRequestInterface $request) {
-                /** @var PresentationActionControler $ctrl */
-                $ctrl = $this->container->get(PresentationActionControler::class);
+                /** @var UserActionControler $ctrl */
+                $ctrl = $this->container->get(UserActionControler::class);
                 return $ctrl->setEditArticle($request);
         });
         $routeGenerator->addRouteForAction('POST', '/red/v1/presentation/edit_menu', function(ServerRequestInterface $request) {
-                /** @var PresentationActionControler $ctrl */
-                $ctrl = $this->container->get(PresentationActionControler::class);
+                /** @var UserActionControler $ctrl */
+                $ctrl = $this->container->get(UserActionControler::class);
                 return $ctrl->setEditMenu($request);
         });
+
+        #### ItemActionControler ####
         $routeGenerator->addRouteForAction('POST', '/red/v1/itemaction/:typeFk/:itemId/add', function(ServerRequestInterface $request, $typeFk, $itemId) {
-                /** @var PresentationActionControler $ctrl */
-                $ctrl = $this->container->get(PresentationActionControler::class);
+                /** @var ItemActionControler $ctrl */
+                $ctrl = $this->container->get(ItemActionControler::class);
                 return $ctrl->addUserItemAction($request, $typeFk, $itemId);
         });
         $routeGenerator->addRouteForAction('POST', '/red/v1/itemaction/:typeFk/:itemId/remove', function(ServerRequestInterface $request, $typeFk, $itemId) {
-                /** @var PresentationActionControler $ctrl */
-                $ctrl = $this->container->get(PresentationActionControler::class);
+                /** @var ItemActionControler $ctrl */
+                $ctrl = $this->container->get(ItemActionControler::class);
                 return $ctrl->removeUserItemAction($request, $typeFk, $itemId);
         });
 

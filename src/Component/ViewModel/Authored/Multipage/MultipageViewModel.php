@@ -9,8 +9,9 @@ use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusFlashRepo;
 
-use Red\Model\Repository\MenuItemRepoInterface;
 use Red\Model\Repository\ItemActionRepo;
+use Red\Model\Repository\MenuItemRepoInterface;
+
 use Red\Model\Repository\MultipageRepo;
 use Red\Model\Repository\HierarchyJoinMenuItemRepo;
 
@@ -18,7 +19,7 @@ use Red\Model\Entity\MultipageInterface;
 use Red\Model\Entity\MenuItemAggregateHierarchyInterface;
 
 use TemplateService\TemplateSeekerInterface;
-
+use Red\Model\Enum\AuthoredEnum;
 /**
  * Description of PaperViewModelAnstract
  *
@@ -40,15 +41,25 @@ class MultipageViewModel extends AuthoredViewModelAbstract implements MultipageV
             StatusSecurityRepo $statusSecurityRepo,
             StatusPresentationRepo $statusPresentationRepo,
             StatusFlashRepo $statusFlashRepo,
+            ItemActionRepo $itemActionRepo,
             MenuItemRepoInterface $menuItemRepo,
             TemplateSeekerInterface $templateSeeker,
-            ItemActionRepo $itemActionRepo,
             MultipageRepo $multipageRepo,
             HierarchyJoinMenuItemRepo $hierarchyRepo
             ) {
-        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo, $menuItemRepo, $itemActionRepo, $templateSeeker);
+        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo, $itemActionRepo, $menuItemRepo, $templateSeeker);
         $this->multipageRepo = $multipageRepo;
         $this->hierarchyRepo = $hierarchyRepo;
+    }
+
+    /**
+     * Vrací typ položky. Používá AuthoredEnum.
+     * Obvykle je metoda volána z metody Front kontroleru.
+     *
+     * @param type $menuItemType
+     */
+    public function getItemType() {
+        return AuthoredEnum::MULTIPAGE;
     }
 
     /**
@@ -59,15 +70,15 @@ class MultipageViewModel extends AuthoredViewModelAbstract implements MultipageV
      * @return MultipageInterface|null
      */
     public function getMultipage(): ?MultipageInterface {
-        if (isset($this->menuItemIdCached)) {
-            $multipage = $this->multipageRepo->getByReference($this->menuItemIdCached);
+        if (isset($this->menuItemId)) {
+            $multipage = $this->multipageRepo->getByReference($this->menuItemId);
         }
         return $multipage ?? null;
     }
 
     /**
      * Vrací pole uzlů HierarchyAggregateInterface[], obsahuje uzel (node) odpovídající multipage a všechny potomky (neomezená hloubka)
-     * 
+     *
      * @return MenuItemAggregateHierarchyInterface[]
      */
     public function getSubNodes() {
