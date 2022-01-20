@@ -28,7 +28,8 @@ class SelectArticleTemplateRenderer extends HtmlRendererAbstract {
         return
                 $this->renderSelectTemplate($article)
                 .
-                $viewModel->getArticle()->getContent();
+                $viewModel->getArticle()->getContent()
+                ;
     }
 
     private function renderSelectTemplate(ArticleInterface $article) {
