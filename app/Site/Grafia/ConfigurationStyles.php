@@ -90,6 +90,8 @@ class ConfigurationStyles extends ConfigurationRed {
                             'div.buttonsWrap' => 'contentButtons page-edit',
                             'div.buttons' => 'editingButtons_size ui basic icon buttons editContent',
                             'div.ribbon' => 'ui right ribbon teal basic label cornerWithTools page-edit',
+                            'div.ribbon-paper' => 'ui right ribbon pink basic label cornerWithTools page-edit',
+                            'div.ribbon-article' => 'ui right ribbon orange basic label cornerWithTools page-edit',
                             'div.ribbon-disabled' => 'ui right ribbon label page-edit black basic',
                             'button' => 'ui button',
                             'button.template' => 'ui button toggleTemplateSelect',
@@ -354,6 +356,7 @@ class ConfigurationStyles extends ConfigurationRed {
                         'section.trash'=>'trash',
                         'div.semafor'=>'semafor',
                         'div.ribbon'=>'ui right ribbon grey inverted label cornerWithTools',
+                        'div.nameMenuItem'=> 'nadpis-polozky-menu',
                         'i1.published' => 'circle icon green',
                         'i1.notpublished' => 'circle icon red',
                         'i.trash' => 'trash icon purple',
@@ -369,6 +372,7 @@ class ConfigurationStyles extends ConfigurationRed {
                      'PaperButtons' => self::rendererDefaults()['paper_edit_buttons'],
                      'ContentButtons' => self::rendererDefaults()['content_edit_buttons'],
                      'TrashButtons' => self::rendererDefaults()['deleted_content_buttons'],
+                     'CommonButtons' => self::rendererDefaults()['menu_common_edit_buttons'],
                     ]
                 );
             },
