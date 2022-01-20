@@ -1,12 +1,6 @@
 <div class="ui three column stackable grid equal width">
     <div class="one wide tablet three wide computer column">
-        <?= $controlEditMenu ?>
-        <?php include "telo/bloky.php"; ?>
         <?php include "telo/svislemenu.php"; ?>
-        <?php include "telo/kos.php"; ?>
-        <?=
-            $rychleOdkazy
-        ?>
     </div>
     <div class="column">
         <?=

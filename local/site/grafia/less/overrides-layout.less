@@ -36,7 +36,6 @@
     }
     
     /***HEADER***/
-    /*změna paddingů oproti semanticu*/
     header{ 
         padding-top: 10px;
         margin-bottom: 10px;
@@ -46,10 +45,10 @@
         .grid > .row:first-child,
         .grid > .row:last-child{
             > .column:first-child{
-                padding-right: 0; //zarovnani s 1.sloupcem v main
+                padding-right: 0; // zarovnani s 1.sloupcem v main
             }
             > .column:last-child{
-                padding-left: 0; //zarovnani se 3.sloupcem v main
+                padding-left: 0; // zarovnani se 3.sloupcem v main
             }
         }
     }
@@ -99,8 +98,8 @@
             height: 17px;
             &.jazyk-on{
                 border: double @linkColor 3px;
-                height: 20px;
-                width: 33px;
+                height: 20px ; 
+                width: 33px ;
             }
         }
     }
@@ -303,6 +302,10 @@
 /*        .item::before{
             display: none;
         }*/
+        span > .icon{
+            position: absolute;
+            right: 0;
+        }
     }
     
     
@@ -367,7 +370,7 @@
         padding: 0 1em;
         margin: 1rem 0;
     }
-    .ui.segment[data-templatepath="paper/default/"]{ //až budou fungovat šablony
+    .ui.segment[data-templatepath="paper/default/"]{ // až budou fungovat šablony
         border: 0;
         box-shadow: none;
         padding: 0 1em;

@@ -7,7 +7,7 @@
 @borderStyle: solid;  
 @borderRadius: 5px;
 @fontBold: bold;
-@mediumGrey: darken(@lightGrey, 15);
+@mediumGrey: darken(@lightGrey, 15);  
 @barvaEditButtony: #FBFBE7; 
 @barvaEditButtonyTmava: #FFF1D5;
 @barvaKos: #F8F3FF;
@@ -48,7 +48,7 @@
 //Pro menu
 @semaforMenuHeight: 100%;
 @semafonSvisleMenuPositionTop: 10px;
-@semaforSvisleMenuPositionLeft: 1px;
+@semaforSvisleMenuPositionLeft: 1px;  
 @semaforSvisleMenuHeight: auto;
 @semaforPresmerovaniMenuPositionLeft: -12px;
 @semaforVodorovneMenuPositionLeft: -6px;
@@ -57,9 +57,10 @@
 @semaforVodorovneMenuBackgroundColor: @white;
 @semaforVodorovneMenuIconPaddingLeft: 3px;
 //Pro paper
-@semaforPagePositionTop: 45px;
-@semaforPagePositionRight: -8px;
-@semaforPagePositionLeft: auto;
+@semaforPagePositionTop: 50%;
+@semaforPagePositionTranslate:translateY(-50%);
+@semaforPagePositionRight: auto;
+@semaforPagePositionLeft: 2px;
 @semaforPageZIndex: 1;
 @semaforContentPositionLeft: -21px;
 @semaforContentFontSize: initial;
@@ -108,7 +109,7 @@
 @sectionRendererMargin: initial;
 @sectionRendererMarginTop: initial;
 @articleRendererMargin: 10px 7px;
-@rendererOutline: 1px solid @teal;
+@rendererBoxShadow: 0 0 0 1px @teal;
 @rendererBorderRadius: 5px;
 @rendererPadding: initial;
 @rendererPaddingTop: initial;
@@ -120,7 +121,7 @@
 @zapnoutEditaciPositionRight: -4px;
 @zapnoutEditaciArticlePositionRight: -4px;
 @rendererMultipageMargin: 0 9px;
-@rendererMultipageOutline: 2px solid @black;
+@rendererMultipageBoxShadow: 0 0 0 2px @black;
 @rendererMultipageZapnoutEditaciColor: @black;
 @rendererMultipageZapnoutEditaciBoxShadow: 0 0 0 1px @black inset;
 @rendererMultipageArticleEditableMargin: 20px 5px;
@@ -138,7 +139,7 @@
 @ribbonPositionRigth: auto;
 @ribbonPositionLeft: auto;
 @ribbonZIndex: 1;
-@ribbonTransform: translateX(-197px);
+@ribbonTransform: translateX(-197px); 
 @ribbonActiveZIndex: 15;
 @ribbonIconTransform: translateX(50%);
 @ribbonCornerIconFontSize: 1em;
@@ -146,8 +147,9 @@
 @ribbonPageHeight: 1.5em;
 @ribbonPageSize: 0.6em;
 @ribbonPagePositionRigth: -66px;
-@ribbonPagePositionLeft: auto;
-@ribbonPagePositionTop: 40px;
+@ribbonPagePositionLeft: calc(100% + 2rem + 1.3em);
+@ribbonPagePositionTop: -10px;
+@ribbonPagePaddingLeft: 18px;
 @ribbonPageZIndex: 1;
 @ribbonPageAfterBorder: 1.2em 1.2em 0 0;
 @sectionTrashCornerPositionRight: 0;
@@ -159,7 +161,7 @@
 @buttonyContentBackgroundColor: @barvaEditButtony;
 @lastButtonContentBackgroundColor: @barvaKos;
 @buttonyContentPagePositionRight: -15px;  
-@buttonyContentPagePositionTop: -3px;
+@buttonyContentPagePositionTop: 0;
 //Kalendář
 @fontSizeCalendar: 1.1rem;
 @fontSizeCalendarInput: 1.2rem;
@@ -291,7 +293,7 @@ body{
             position: absolute;
             left: @buttonySvisleMenuPositionLeft;
             right: @buttonySvisleMenuPositionRight;
-            top: @buttonySvisleMenuPositionTop;
+            top: @buttonySvisleMenuPositionTop; 
             z-index: @buttonySvisleMenuZIndex;
         }
         /*SVISLÉ MENU KOŠ*/
@@ -361,11 +363,17 @@ body{
         left: @semaforContentPositionLeft;
         z-index: @semaforContentZIndex;
     }
-    .ui.ribbon.page-edit ~ .semafor{
+/*    .ui.ribbon.teal.page-edit ~ .semafor{ 
         top: @semaforPagePositionTop;
         right: @semaforPagePositionRight;
         left: @semaforPagePositionLeft;
         z-index: @semaforPageZIndex;
+    }*/
+    .ui.ribbon.page-edit .semafor{
+        top: @semaforPagePositionTop;
+        left:  @semaforPagePositionLeft;
+        right: @semaforPagePositionRight;
+        transform: @semaforPagePositionTranslate;
     }
     /*U POLOŽKY MENU*/
     nav .semafor{
@@ -521,7 +529,7 @@ body{
     }
     .template-multipage, .template-article, .template-articleedit, .template-paper{
         position: relative;
-        outline: @rendererOutline;
+        box-shadow: @rendererBoxShadow;
         border-radius: @rendererBorderRadius;
         padding: @rendererPadding;
         padding-top: @rendererPaddingTop;
@@ -542,10 +550,13 @@ body{
     }
     .template-multipage{ //[data-red-renderer="MultipageRenderer"]
         margin: @rendererMultipageMargin;
-        outline: @rendererMultipageOutline;
+        box-shadow: @rendererMultipageBoxShadow;
         border-radius: @rendererBorderRadius;
-        padding: @rendererPadding;
+        padding: @rendererPadding; 
         padding-top: @rendererPaddingTop;
+        .zapnout_editaci{
+            display: none;
+        }
         > .zapnout_editaci .button.teal{
             color: @rendererMultipageZapnoutEditaciColor;
             box-shadow: @rendererMultipageZapnoutEditaciBoxShadow;
@@ -600,9 +611,9 @@ body{
             }
         }
     }
-    .ui.ribbon.label.page-edit{
+/*    .ui.ribbon.label.teal.page-edit{ 
         width: @ribbonPageWidth;
-        height: @ribbonPageHeight;
+        height: @ribbonPageHeight;   
         font-size: @ribbonPageSize;
         right: @ribbonPagePositionRigth;
         left: @ribbonPagePositionLeft;
@@ -612,7 +623,23 @@ body{
         &::after{
             border-width: @ribbonPageAfterBorder;
         }
+    }*/
+    .ui.ribbon.label.page-edit{
+        top: @ribbonPagePositionTop;
+        padding-left: @ribbonPagePaddingLeft;
+        left: @ribbonPagePositionLeft;
+        z-index: @ribbonPageZIndex; 
+        .nadpis-polozky-menu{
+            width: @ribbonPageWidth;
+            > p{
+                margin: 0;
+                &:last-child{
+                    color: @black
+                }
+            }
+        }  
     }
+
     /*BUTTONY PRO CONTENT*/
     /*používané třídy pro buttony ke contentu
         .contentButtons - obalovací div pro všechny .editContent

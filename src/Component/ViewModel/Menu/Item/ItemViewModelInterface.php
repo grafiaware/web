@@ -23,7 +23,7 @@ interface ItemViewModelInterface {
     public function isPresented();
     public function isPasteMode();
     public function isCutted();
-    public function isEditableItem();
+    public function isMenuEditableByUser();
     public function getInnerHtml();
     public function getRealDepth();
     public function isMenuEditable();

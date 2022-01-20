@@ -4,24 +4,7 @@
 .layout{                  
     /************************************media*************************************/ 
     @media (max-width: 1750px) {  
-/*        .poznamky{                  
-            left: 10px; 
-            .label::before{                 
-                display: none;        
-            } 
-            .content{       
-                display: none;        
-            } 
-        }*/
-/*        .poznamky:hover{    
-            .label::before{  
-                display: block;
-            }
-            .content{      
-                display: block;
-            }
- 
-        }*/
+
     }            
     @media (max-width: 1300px) {
         header{
@@ -46,12 +29,18 @@
         .poznamky{
             left: 10px;
         }
+        .vodorovne-menu .text.menu{
+            width: 600px;
+        }
     }
     @media (max-width: 1099px) {
         /*menu*/
         /*vodorovne menu*/
         .vodorovne-menu ul.menu.edit{
             width: 620px;
+        }
+        .vodorovne-menu .text.menu:not(.edit){
+            width: 550px;
         }
         /*svisle menu*/
         .svisle-menu > .edit.menu li.presented div.ui.mini.icon.buttons{
@@ -88,6 +77,7 @@
                 }
             }
             .row:first-child{
+                margin-bottom: 25px;
                 .column:first-child{
                     img{
                         width: 130px;
@@ -141,6 +131,7 @@
             border: 1px solid @lightGrey;
             border-radius: 5px;
             box-shadow: 1px 1px 10px 1px rgba(34,36,38,.15);
+            cursor: pointer;
             &:hover{
                 background-color: rgb(242, 242, 242);
                 transition: 0.3s all;
@@ -150,6 +141,7 @@
             display: none;
         }
         #mySidenav {
+            display: none;
             height: 100%;
             width: 80%;
             background-color: @white;
@@ -173,7 +165,19 @@
             bottom: 0;
             background-color: rgba(0, 0, 0, 0.5); //@transparentBlack
             z-index: 5; 
-        }  
+        }
+        .svisle-menu{
+            width: 90%;
+            &:first-of-type{
+                margin-left: 2px;
+            }
+            &:nth-of-type(2){
+                margin-left: 2px;
+            }
+            &:last-of-type{
+                margin-left: 2px;
+            }
+        }
         @-webkit-keyframes animateleft {
           from {
             left: -300px;
@@ -221,9 +225,12 @@
         .vodorovne-menu ul.menu.edit{
             width: 530px;
         }
+        .vodorovne-menu .text.menu:not(.edit){
+            width: 500px;
+        }
         header .grid > .row:first-child{
-            //padding-bottom: 1rem;
             height: 125px;
+            margin-bottom: 35px;
         }
         header{
             .row:first-child{
@@ -321,6 +328,9 @@
         .vodorovne-menu ui.menu:not(.floated):not(.left){
             flex-direction: column;
             align-items: center;
+        }
+        .svisle-menu{
+            width: 95%;
         }
         .nav-mobile{
            background: #fff;

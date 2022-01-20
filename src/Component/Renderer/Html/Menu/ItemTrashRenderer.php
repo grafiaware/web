@@ -20,7 +20,7 @@ class ItemTrashRenderer extends ItemRenderer {
         $menuNode = $this->viewModel->getMenuNode();
         $menuItem = $menuNode->getMenuItem();
 
-        $presentedEditable = ($this->viewModel->isPresented() AND $this->viewModel->isEditableItem());
+        $presentedEditable = ($this->viewModel->isPresented() AND $this->viewModel->isMenuEditableByUser());
         $active = $menuItem->getActive();
         $pasteMode = $this->viewModel->isPasteMode();
         $cutted = $this->viewModel->isCutted();

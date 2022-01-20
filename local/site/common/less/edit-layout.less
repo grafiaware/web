@@ -5,7 +5,7 @@
 @hodnotaAuto: auto; 
 @hodnota0: 0;   
 @borderWidth: 1px;    
-@borderStyle: solid;
+@borderStyle: solid; 
 @borderRadius: 5px;
 @mediumGrey: darken(@lightGrey, 15);
 @barvaEditButtony: #FBFBE7; //pro prvni polozku ve svislem menu Bloky
@@ -61,7 +61,8 @@
 @svisleMenuFirstMargin: 0 auto;
 @svisleMenuNthMargin: 30px auto;
 @svisleMenuLastMargin: 0 auto 30px auto;
-@svisleMenuMarginLeft: -15px;
+@svisleMenuMarginLeft: -15px;   
+@svisleMenuPaddingLeft: 8px;
 //Svislé menu bloky
 @svisleMenuBlokyHeight: 400px; 
 @svisleMenuBlokyMargin: 20px auto 20px -8px;
@@ -214,10 +215,10 @@ body{
         &:not(.bloky):not(.kos){
             overflow: @svisleMenuOverflow;
             height: @svisleMenuHeight;
-        }  
+        }
         width: @svisleMenuWidth;
         margin: @svisleMenuMargin;
-        padding-left: 8px ; 
+        padding-left: @svisleMenuPaddingLeft; 
         p{
             margin-left: @svisleMenuParagraphMarginLeft !important ; 
         }
@@ -244,7 +245,7 @@ body{
                     
     } 
     .svisle-menu{
-        &:first-of-type{
+        &:first-of-type{ 
             margin: @svisleMenuFirstMargin;
             margin-left: @svisleMenuMarginLeft;
         }
@@ -261,6 +262,9 @@ body{
     .presmerovani-menu{
         .menu.edit .item{
             margin-right: @presmerovaniMenuItemMaginRight;
+        }
+        .semafor{
+            left: -15px; 
         }
     }
     /*VODOROVNE MENU*/

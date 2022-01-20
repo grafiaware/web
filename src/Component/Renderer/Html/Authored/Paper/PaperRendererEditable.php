@@ -34,21 +34,29 @@ class PaperRendererEditable  extends HtmlRendererAbstract {
                         [
                             $buttonEditContent,
                             $selectTemplate,
-                            Html::tag('div', ['class'=>$this->classMap->get('PaperButtons', 'div.ribbon')], //lepítko s buttony
-                                $paperButtonsForm
-                            ),
-                            Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.semafor')], //aktivní/neaktivní paper
-                                Html::tag('div',
-                                   [
-                                   'class'=> 'ikona-popis',
-                                   'data-tooltip'=> $active ? "published" : "not published",
-                                   ],
-                                    Html::tag('i',
+                            Html::tag('div', ['class'=>$this->classMap->get('PaperButtons', 'div.ribbon-paper')], //lepítko s buttony
+                                Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.semafor')], //aktivní/neaktivní paper
+                                    Html::tag('div',
                                        [
-                                       'class'=> $this->classMap->resolve($active, 'Content','i1.published', 'i1.notpublished'),
-                                       ]
+                                       'class'=> 'ikona-popis',
+                                       'data-tooltip'=> $active ? "published" : "not published",
+                                       ],
+                                        Html::tag('i',
+                                           [
+                                           'class'=> $this->classMap->resolve($active, 'Content','i1.published', 'i1.notpublished'),
+                                           ]
+                                        )
                                     )
                                 )
+                                .Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.nameMenuItem')],
+                                    Html::tag('p', ['class'=>''],
+                                        'Typ: Paper'
+                                    )
+                                    .Html::tag('p', ['class'=>''],
+                                        'Název položky menu'
+                                    )
+                                )
+                                .$paperButtonsForm
                             ),
     //                        Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/{$paperAggregate->getId()}"],
                                 $inner
@@ -80,7 +88,33 @@ class PaperRendererEditable  extends HtmlRendererAbstract {
         $paperId = $paper->getId();
 
         $buttons = [];
-        $buttons[] = Html::tag('button', [
+         
+                
+        $btnAktivni =  Html::tag('button', [
+                    'class'=>$this->classMap->get('PaperButtons', 'button'),
+                    'data-tooltip'=> 'Publikovat / Nepublikovat', //$active ? 'Nepublikovat' : 'Publikovat',
+                    'data-position'=>'top right',
+                    'tabindex'=>'0',
+                    'formtarget'=>'_self',
+                    'formmethod'=>'post',
+                    'formaction'=>"",
+                    ],
+                    Html::tag('i', ['class'=>$this->classMap->get('CommonButtons', 'button.notpublish')])
+                    //Html::tag('i', ['class'=>$this->classMapEditable->resolve($active, 'CommonButtons', 'button.notpublish', 'button.publish')])
+                );
+        $btnDoKose =   Html::tag('button', [
+                    'class'=>$this->classMap->get('PaperButtons', 'button'),
+                    'data-tooltip'=> 'Odstranit položku',
+                    'data-position'=>'top right',
+                    'tabindex'=>'0',
+                    'formtarget'=>'_self',
+                    'formmethod'=>'post',
+                    'formaction'=>"",
+                    'onclick'=>"return confirm('Jste si jisti?');"
+                    ],
+                    Html::tag('i', ['class'=>$this->classMap->get('CommonButtons', 'button.movetotrash')])
+                );
+        $buttons[] =  Html::tag('button', [
                     'class'=>$this->classMap->get('PaperButtons', 'button.template'),
                     'data-tooltip'=> 'Vybrat šablonu stránky',
                     'data-position'=>'top right',
@@ -91,7 +125,7 @@ class PaperRendererEditable  extends HtmlRendererAbstract {
                     'onclick'=>"togleTemplateSelect(event, 'select_template_paper_$paperId');"
                     ],
                     Html::tag('i', ['class'=>$this->classMap->get('PaperButtons', 'button.template i')])
-        );
+                );
         if ($paper instanceof PaperAggregatePaperContentInterface AND $paper->getPaperContentsArray()) {
             $buttons[] = Html::tag('button', [
                     'class'=>$this->classMap->get('PaperButtons', 'button'),
@@ -122,6 +156,9 @@ class PaperRendererEditable  extends HtmlRendererAbstract {
         return Html::tag('form', ['method'=>'POST', 'action'=>""],
             Html::tag('div', ['class'=>$this->classMap->get('PaperButtons', 'div.buttonsWrap')],
                 Html::tag('div', ['class'=>$this->classMap->get('PaperButtons', 'div.buttons')],
+                    $btnAktivni.$btnDoKose
+                )
+                .Html::tag('div', ['class'=>$this->classMap->get('PaperButtons', 'div.buttons')],
                     implode('', $buttons)
                 )
             )

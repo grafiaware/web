@@ -45,7 +45,7 @@ class ItemBlockRenderer extends ItemRenderer {
                 )
             )
             .Html::tag('i', ['class'=>$this->classMapEditable->resolve($this->viewModel->getInnerHtml(), 'Item', 'li.isnotleaf icon', '')])
-            .(($this->viewModel->isPresented() AND $this->viewModel->isEditableItem()) ? $this->renderButtons($menuNode) : '')
+            .(($this->viewModel->isPresented() AND $this->viewModel->isMenuEditableByUser()) ? $this->renderButtons($menuNode) : '')
             .$this->viewModel->getInnerHtml();
         $html = Html::tag('li',
                 ['class'=>[
