@@ -55,10 +55,10 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
      */
     public function getOutOfContext($langCodeFk, $uidFk): ?MenuItemInterface {
         $index = $this->indexFromKeyParams($langCodeFk, $uidFk);
-        if (!isset($this->collection[$index])) {
+        if (!isset($this->collection[$index])) {   // collection je private
             $rowData = $this->dataManager->getOutOfContext($langCodeFk, $uidFk);
-            $this->addData($index, $rowData);  // natvrdo dá rowData do $this->data
-            $this->recreateEntity($index, $rowData);
+            $this->addData($index, $rowData);  // natvrdo dá rowData do $this->data // private
+            $this->recreateEntity($index, $rowData);  // private
         }
         return $this->collection[$index] ?? null;
     }

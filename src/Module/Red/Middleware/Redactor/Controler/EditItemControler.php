@@ -68,8 +68,10 @@ class EditItemControler extends FrontControlerAbstract {
             $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
             $subNodes = $this->hierarchyDao->getSubNodes($langCode, $uid);
             foreach ($subNodes as $node) {
-                $menuItem = $this->menuItemRepo->getOutOfContext($langCode, $node['uid']);
-                $menuItem->setActive(0);  //active je integer
+                $menuItem = $this->menuItemRepo->get($langCode, $node['uid']);  // vrací jen aktivní - nevadí, jen aktivní chci vypnout
+                if (isset($menuItem)) {
+                    $menuItem->setActive(0);  //active je integer
+                }
             }
         } else {
             $menuItem->setActive(1);  //active je integer

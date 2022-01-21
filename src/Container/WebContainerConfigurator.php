@@ -47,11 +47,8 @@ use Pes\View\Renderer\Container\TemplateRendererContainer;
 // template
 use Pes\View\Template\PhpTemplate;
 
-// menu
-use Component\View\Menu\MenuComponent;
-use Component\ViewModel\Menu\MenuViewModel;
-
 //component
+use Component\View\Menu\MenuComponent;
 use Component\View\Authored\Paper\PaperComponent;
 use Component\View\Authored\Article\ArticleComponent;
 use Component\View\Authored\Multipage\MultipageComponent;
@@ -73,6 +70,7 @@ use Component\View\Manage\ButtonEditMenuComponent;
 use Component\View\Manage\ToggleEditContentButtonComponent;
 
 // viewModel
+use Component\ViewModel\Menu\MenuViewModel;
 use Component\ViewModel\StatusViewModel;
 use Component\ViewModel\Authored\Paper\PaperViewModel;
 use Component\ViewModel\Authored\Article\ArticleViewModel;
