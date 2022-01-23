@@ -194,9 +194,6 @@ class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new ArticleTitleUpdater($c->get(Handler::class));
             },
 
-            MenuListStyles::class => function() {
-                return new MenuListStyles();
-            },
             DatabaseController::class => function(ContainerInterface $c) {
                 return (new DatabaseController(
                         $c->get(StatusSecurityRepo::class),

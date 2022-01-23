@@ -103,6 +103,26 @@ interface HierarchyAggregateReadonlyDaoInterface extends DaoReadonlyInterface {
     public function getSubNodes($langCode, $parentUid, $maxDepth=NULL);
 
     /**
+     * Vrací rodiče (nikoli předky) prvku.
+     *
+     * @param type $langCode
+     * @param type $uid
+     */
+    public function getParent($langCode, $uid);
+
+    /**
+     * Vrací výběrový strom složený z uzlů na cestě od zadaného kořene k zadanému cílovému prvku a z sourozenců všech uzlů na cestě.
+     *
+     * Takový výběrový strom je vhodný pro zobrazení menu s rozbalenými (viditelnými) sourozenci každé položky na cestě k zobrazené (aktuálně vybrané) položce.
+     *
+     * @param type $langCode
+     * @param type $rootUid
+     * @param type $uid
+     * @return type
+     */
+    public function getFullPathWithSiblings($langCode, $rootUid, $uid);
+    
+    /**
      * Vrací jednu položku. Položka obsahuje depth a breadcrumb.
      * Brad crumb je řetězec dvojic uid|title (uid a title jsou oddělené znakem |) oddělených navzájem znakem /
      *

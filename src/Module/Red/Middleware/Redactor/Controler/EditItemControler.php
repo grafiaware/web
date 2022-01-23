@@ -63,9 +63,9 @@ class EditItemControler extends FrontControlerAbstract {
 
     public function toggle(ServerRequestInterface $request, $uid) {
         $menuItem = $this->getMenuItem($uid);
+        $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
         $active = $menuItem->getActive();
         if ($active) {
-            $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
             $subNodes = $this->hierarchyDao->getSubNodes($langCode, $uid);
             foreach ($subNodes as $node) {
                 $menuItem = $this->menuItemRepo->get($langCode, $node['uid']);  // vrací jen aktivní - nevadí, jen aktivní chci vypnout
@@ -73,10 +73,19 @@ class EditItemControler extends FrontControlerAbstract {
                     $menuItem->setActive(0);  //active je integer
                 }
             }
+            $this->addFlashMessage("menuItem toggle(false)");
+            $this->addFlashMessage("Item inactivated with all its descendants.");
         } else {
-            $menuItem->setActive(1);  //active je integer
+            $parent = $this->hierarchyDao->getParent($langCode, $uid);
+            $parentMenuItem = $this->menuItemRepo->get($langCode, $parent['uid']);  // vrací jen aktivní - pokud je neaktivní, vrací null
+            if (isset($parentMenuItem)AND $parentMenuItem->getActive()) {
+                $menuItem->setActive(1);  //active je integer
+                $this->addFlashMessage("menuItem toggle(true)");
+            } else {
+                $this->addFlashMessage("unable to menuItem toggle(true)");
+                $this->addFlashMessage("Parent item is not active.");
+            }
         }
-        $this->addFlashMessage("menuItem toggle(".($active?'false':'true').")");
         return $this->redirectSeeLastGet($request); // 303 See Other
      }
 

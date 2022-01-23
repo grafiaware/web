@@ -368,6 +368,9 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(VisitorDataPostHydrator::class)
                     );
             },
+
+            ### StatusPresentationManager ###
+
             StatusPresentationManager::class => function(ContainerInterface $c) {
             return (new StatusPresentationManager(
                         $c->get(LanguageRepo::class),
@@ -379,9 +382,9 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
 ########################
 
 
-            MenuListStyles::class => function() {
-                return new MenuListStyles();
-            }
+//            MenuListStyles::class => function() {
+//                return new MenuListStyles();
+//            }
         ];
     }
 

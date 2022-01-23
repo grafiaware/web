@@ -305,7 +305,7 @@ class HierarchyAggregateReadonlyDao extends DaoReadonlyAbstract implements Hiera
     }
 
     /**
-     * Vrací potomky rodičovského prvku. Pokud je zadán, vrací jen potomky do maximální hloubky jejich umístění v celém stromu, jinak vrací celý postrom.
+     * Vrací potomky rodičovského prvku. Pokud je zadána hloubka, vrací jen potomky do maximální hloubky jejich umístění v celém stromu, jinak vrací celý postrom.
      *
      * @param string $langCode
      * @param string $parentUid uid rodičovského porvku
@@ -367,6 +367,60 @@ class HierarchyAggregateReadonlyDao extends DaoReadonlyAbstract implements Hiera
         return $stmt->fetchALL();
     }
 
+    /**
+     * Vrací rodiče (nikoli předky) prvku.
+     *
+     * @param type $langCode
+     * @param type $uid
+     * @return type
+     */
+    public function getParent($langCode, $uid){
+
+
+        $sql =
+            "SELECT "
+            .$this->selected()
+            ."FROM
+
+                (SELECT
+
+                (COUNT(grand_parent.uid) - 1) AS depth,
+                parent.uid, parent.left_node, parent.right_node, parent.parent_uid
+                FROM
+                $this->nestedSetTableName AS node
+                CROSS JOIN
+                $this->nestedSetTableName AS parent
+                ON parent.left_node<node.left_node AND parent.right_node>node.right_node
+                CROSS JOIN
+                $this->nestedSetTableName AS grand_parent ON parent.left_node BETWEEN grand_parent.left_node AND grand_parent.right_node
+                WHERE node.uid = :uid
+                GROUP BY parent.uid
+                ORDER BY parent.left_node DESC) AS nested_set
+
+            INNER JOIN
+                $this->itemTableName ON (nested_set.uid = menu_item.uid_fk)"
+                .$this->where($this->and($this->getContextConditions(), ["menu_item.lang_code_fk = :lang_code"]))
+            ." ORDER BY nested_set.left_node DESC
+            LIMIT 1"
+                ;
+        $stmt = $this->getPreparedStatement($sql);
+        $stmt->bindParam(':uid', $uid, \PDO::PARAM_STR);
+        $stmt->bindParam(':lang_code', $langCode, \PDO::PARAM_STR);
+
+        $stmt->execute();
+        return $stmt->rowCount() == 1 ? $stmt->fetch() : NULL;
+    }
+
+    /**
+     * Vrací výběrový strom složený z uzlů na cestě od zadaného kořene k zadanému cílovému prvku a z sourozenců všech uzlů na cestě.
+     *
+     * Takový výběrový strom je vhodný pro zobrazení menu s rozbalenými (viditelnými) sourozenci každé položky na cestě k zobrazené (aktuálně vybrané) položce.
+     *
+     * @param type $langCode
+     * @param type $rootUid
+     * @param type $uid
+     * @return type
+     */
     public function getFullPathWithSiblings($langCode, $rootUid, $uid) {
         $sql =
             "SELECT "
@@ -408,7 +462,7 @@ class HierarchyAggregateReadonlyDao extends DaoReadonlyAbstract implements Hiera
 
     /**
      * Vrací jednu položku. Položka obsahuje depth a breadcrumb.
-     * Brad crumb je řetězec dvojic uid|title (uid a title jsou oddělené znakem |) oddělených navzájem znakem /
+     * Breadcrumb je řetězec dvojic uid|title (uid a title jsou oddělené znakem |) oddělených navzájem znakem /
      *
      * @param string $langCode
      * @param string $uid
