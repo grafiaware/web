@@ -46,7 +46,7 @@ interface UserActionsInterface extends EntitySingletonInterface {
      * @param type $editableLayout
      * @return UserActionsInterface
      */
-    public function setEditableLayout($editableLayout): UserActionsInterface;
+//    public function setEditableLayout($editableLayout): UserActionsInterface;
 
     /**
      * Nastaví informaci, že prezentace je přepnuta do modu editace článku
@@ -66,6 +66,6 @@ interface UserActionsInterface extends EntitySingletonInterface {
 
     public function addUserItemAction(ItemActionInterface $itemAction): void;
     public function removeUserItemAction(ItemActionInterface $iemAction): void;
-    public function getUserAction($typeFk, $itemId): ?ItemActionInterface;
-    public function hasUserAction($typeFk, $itemId): bool;
+    public function getUserItemAction($typeFk, $itemId): ?ItemActionInterface;
+    public function hasUserItemAction($typeFk, $itemId): bool;
 }
