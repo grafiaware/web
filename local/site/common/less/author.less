@@ -9,7 +9,7 @@
 @fontBold: bold;
 @mediumGrey: darken(@lightGrey, 15);  
 @barvaEditButtony: #FBFBE7; 
-@barvaEditButtonyTmava: #FFF1D5;
+@barvaEditButtonyTmava: #FFF1D5; 
 @barvaKos: #F8F3FF;
 @barvaButtonSablony: #EDF7FF;
 
@@ -42,7 +42,7 @@
 @buttonyVodorovneMenuMargin: @hodnota0 5px @hodnota0 @hodnota0;
 
 //Semafor
-@semaforFlexDirection: column ;
+@semaforFlexDirection: column;
 @semaforPositionTop: @hodnota0;
 @semaforIconMarginBottom: 2px;
 //Pro menu
@@ -129,7 +129,6 @@
 @rendererMultipagePaperMargin: 25px 5px;
 @rendererMultipageSemaforPositionRight: initial;
 @rendererMultipageSemaforPositionTop: initial;
-@buttonEditMenuPositionRight: initial;
 
 //Roh u contentu
 @ribbonWidth: 2em;
@@ -248,7 +247,7 @@ body{
     .menu, .hlavni-menu{
         /*styl pro položku menu, která je vybrána k přesunutí*/
         li.cut{
-            border: @menuLiCutBorder !important ;
+            border: @menuLiCutBorder !important;
             a , p{
                 color: @menuLiCutItemColor !important;
                 &:hover{
@@ -259,7 +258,7 @@ body{
         }
         .buttons{
             display: flex !important;
-            background-color: @buttonyMenuBackgroundColor ;
+            background-color: @buttonyMenuBackgroundColor;
             > .button:last-child{
                 background-color: @lastButtonMenuBackgroundColor;
                 &:hover{
@@ -575,10 +574,7 @@ body{
             top: @rendererMultipageSemaforPositionTop;
         }
     }
-    .button-edit-menu{
-        position: absolute;
-        right: @buttonEditMenuPositionRight;
-    }
+    
 
     /*ROH U CONTENTU*/
     .ui.ribbon.label:not(.page-edit){
@@ -760,9 +756,9 @@ body{
         &.mce-edit-focus{
             .button{
                 user-select: text;
-                    -webkit-user-select: text ;
-                    -moz-user-select: text ;
-                    -ms-user-select: text ;
+                    -webkit-user-select: text;
+                    -moz-user-select: text;
+                    -ms-user-select: text;
                 cursor: text;
             }
         }
@@ -774,7 +770,7 @@ body{
         z-index: 4;
     }
     .select_template{
-        display: @paperTempateSelectDisplay ;
+        display: @paperTempateSelectDisplay;
     }
     .animated.button.toggleTemplateSelect{
         margin-bottom: @articleTemplateButtonMarginBottom;

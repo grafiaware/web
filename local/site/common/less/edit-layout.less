@@ -16,31 +16,6 @@
 @containerMargin: @hodnota0 10px @hodnota0 @hodnotaAuto;
 @formMargin: 0;
       
-//Poznamky a flash 
-@buttonPoznamkyPositionTop: 10px;
-@buttonPoznamkyPositionRight: 10px;    
-@poznamkyPositionLeft: -260px;  
-@poznamkyPositionRight: @hodnotaAuto;
-@poznamkyPositionTop: 170px;         
-@flashPositionTop: 10px; 
-@poznamkyPositionBottom: @hodnotaAuto;
-@poznamkyFontSize: @fontSize;     
-@poznamkyWidth: 250px; 
-@poznamkyContentPadding: 10px;
-@poznamkyParagraphMarginBottom: 0.7em;
-@poznamkyLastParagraphMarginBottom: 0;
-@flashContentHeight: 110px;
-@poznamkyLabelMargin: @hodnota0;
-@poznamkyLabelIconWidth: 100%;
-@poznamkyBorderShadow: 1px 1px 10px 1px @mediumGrey;
-@poznamkyBorderRadius: @borderRadius;
-@poznamkyBackground: @white;
-@poznamkyTransition: 0.3s linear;
-@poznamkyZIndex: 1;
-@poznamkyBreakPre: true;
-//Flash toast
-@toastFontSize: 1.3rem;
-
 //Header
 @headerMargin: 50px @hodnota0 35px @hodnota0;
 
@@ -95,10 +70,7 @@
 //import změněných proměnných stylu šablony (specifických pro projekt) 
 @import (optional) "../../@{sitename}/@{siteStylesFolder}/variables-edit-layout.less";
 
-.breakPre(@poznamkyBreakPre) when (@poznamkyBreakPre){
-    white-space: pre-wrap;
-    word-wrap: break-word;
-}
+
  
 body{
     /*celá stránka v editačním režimu posunutá napravo*/
@@ -111,66 +83,6 @@ body{
     form{
         margin: @formMargin;
     }
-    
-    /*poznámky a flash mají stejný styl, jen jinou pozici*/
-    .btn-poznamky{
-        position: fixed;
-        top: @buttonPoznamkyPositionTop;
-        right: @buttonPoznamkyPositionRight;
-        background-color: @white !important;
-    }
-    .button.teal.basic.icon{    
-        background-color: @white !important;
-    }
-    .poznamky{
-        display: none;
-        position: absolute; 
-        left: @poznamkyPositionLeft; 
-        right: @poznamkyPositionRight;
-        bottom: @poznamkyPositionBottom;
-        width: @poznamkyWidth; 
-        background: @poznamkyBackground;
-        border-radius: @poznamkyBorderRadius;
-        box-shadow: @poznamkyBorderShadow;
-        transition: @poznamkyTransition;
-        z-index: @poznamkyZIndex;
-        font-size: @poznamkyFontSize;
-        .label{ //horní pruh s ikonou uprostřed 
-            margin: @poznamkyLabelMargin !important;
-            i{
-                width: @poznamkyLabelIconWidth !important;
-            }  
-        }
-        .content{ //obsah poznámek
-            padding: @poznamkyContentPadding;
-            p{
-                margin-bottom: @poznamkyParagraphMarginBottom;
-                &:last-child{
-                    margin-bottom: @poznamkyLastParagraphMarginBottom;
-                }
-            }
-            pre{ //aby se předformátovaný text vešel do šířky divu poznámek a nepřetékal
-                .breakPre(@poznamkyBreakPre);
-            }
-        }
-        &:not(.flash){ //pozice pro poznámky
-            top: @poznamkyPositionTop;
-            position: fixed;
-        }
-        &.flash{ //pozice pro flash
-            top: @flashPositionTop;
-            .content{
-                min-height: @flashContentHeight;
-            }
-        }
-    }
-    //Flash - semantic ui toast
-    .small.toast{
-        font-size: @toastFontSize;
-        p > br:first-child{
-            display: none;
-        }
-    }    
     
     /***HEADER***/
     /*header posunutý od horního okraje pouze v edit. režimu kvůli data-tooltip u buttonů*/ 

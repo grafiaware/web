@@ -30,7 +30,7 @@
         }
     }
     
-    /***FIXNÍ LIŠTA***/
+    /***FIXNÍ LIŠTA fix-bar***/
     .column:not(.editMenu) > .fix-bar{
         width: 10%;
         height: 100%;
@@ -168,7 +168,7 @@
             overflow: auto;
             -webkit-animation: animateleft 0.4s;
             animation: animateleft 0.4s;
-            padding: 40px 20px 20px;
+            padding: 40px 20px 20px ;
             &.open{
                 display: block !important;
             }
@@ -600,3 +600,20 @@ body#tinymce{
    // font-size: 24px;
     font-weight: 400;
 }
+
+/*****/
+.button-edit-menu{
+    top: 0;
+    position: relative;
+    left: 94%;
+}
+.editMenu .button-edit-menu{
+    top: -40px;
+}
+
+//Poznamky a flash
+@poznamkyPositionLeft: auto;
+@poznamkyPositionRight: 10px;
+@poznamkyPositionTop: 70px;
+@poznamkyFontSize: 15px;
+@poznamkyWidth: 350px;
