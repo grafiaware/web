@@ -105,7 +105,7 @@ class ComponentControler extends FrontControlerAbstract {
      */
     private function resolveMenuItemView(ServerRequestInterface $request, $menuItemType, $menuItemId) {
             $userActions = $this->statusPresentationRepo->get()->getUserActions();
-            $isEditableContent = $userActions->presentEditableArticle() OR $userActions->presentEditableLayout();
+            $isEditableContent = $userActions->presentEditableContent() OR $userActions->presentEditableLayout();
 
             switch ($menuItemType) {
 //                case 'empty':

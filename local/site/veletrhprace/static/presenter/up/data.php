@@ -8,6 +8,7 @@
 use Site\Configuration;
 
 use Pes\View\Renderer\PhpTemplateRendererInterface;
+use Pes\Text\FriendlyUrl;
 use Red\Model\Entity\PaperAggregateInterface;
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregateInterface $paperAggregate */
@@ -30,13 +31,14 @@ $buttonTitle = [
     'Kontakty'
 ];
 
+$friendlyUrl = new FriendlyUrl();
 foreach ($buttonTitle as $title) {
     $buttony[] = [
         'text' => $title,
-        'odkaz' => 'javascript: document.getElementById(\''.Configuration::componentController()['prettyUrlCallable']($title).'\').scrollIntoView();',
+        'odkaz' => 'javascript: document.getElementById(\''.$friendlyUrl->friendlyUrlText($title).'\').scrollIntoView();',
     ];
 };
-    
+
 $firma = [
     'nazev' => 'Úřad práce&nbsp;ČR a&nbsp;EURES',
     'videoAttributes' => [

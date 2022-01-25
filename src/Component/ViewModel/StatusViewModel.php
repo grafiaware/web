@@ -80,7 +80,7 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
 
     public function presentEditableContent(): bool {
         $userActions = $this->statusPresentationRepo->get()->getUserActions();
-        return $userActions ? $userActions->presentEditableArticle() : false;
+        return $userActions ? $userActions->presentEditableContent() : false;
     }
 
     public function presentEditableMenu(): bool {

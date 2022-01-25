@@ -40,7 +40,12 @@ use Pes\Type\ContextData;
  */
 class PaperComponent extends AuthoredComponentAbstract implements PaperComponentInterface {
 
-    const CONTEXT_TEMPLATE = 'template';
+    const CONTENT = 'template';
+    const PEREX = 'perex';
+    const HEADLINE = 'headline';
+    const PARTS = 'parts';
+
+    const SELECT_TEMPLATE = 'selectTemplate';
 
     /**
      *
@@ -65,19 +70,17 @@ class PaperComponent extends AuthoredComponentAbstract implements PaperComponent
                 user_error("Neexistuje soubor šablony '{$this->getTemplateName()}'", E_USER_WARNING);
                 $template = new ImplodeTemplate();
             }
-            $templatedView = $this->createCompositeViewWithTemplate($template);
-            $this->appendComponentView($templatedView, self::CONTEXT_TEMPLATE);
-
+            $contentView = $this->createCompositeViewWithTemplate($template);
             // zvolí PaperRenderer nebo PaperRendererEditable
             if ($this->contextData->presentEditableContent()) { // editační režim
                 if ($this->userPerformActionWithItem()) {
                     $this->setRendererName(PaperRendererEditable::class);
-                    // připojí k templated view komponentní view s editable renderery headline, perex, contents
-                    $this->addChildEditableComponents($templatedView);
+                    // připojí k komponentu komponentní view s editable renderery headline, perex, contents
+                    $this->addChildEditableComponents($contentView);
                 } else {
                     $this->setRendererName(PaperRenderer::class);
-                    // připojí k templated view komponentní view s editable renderery headline, perex, contents
-                    $this->addChildComponents($templatedView);
+                    // připojí k komponentu komponentní view s editable renderery headline, perex, contents
+                    $this->addChildComponents($contentView);
                 }
                 // připojí komponent - view s buttonem ToggleEditContentButtonComponent (tužtička)
                 $buttonEditContentComponent = new ToggleEditContentButtonComponent($this->configuration);
@@ -88,8 +91,9 @@ class PaperComponent extends AuthoredComponentAbstract implements PaperComponent
             } else {  // needitační režim
                 $this->setRendererName(PaperRenderer::class);
                 // připojí k templated view komponentní view s editable renderery headline, perex, contents
-                $this->addChildComponents($templatedView);
+                $this->addChildComponents($contentView);
             }
+            $this->appendComponentView($contentView, self::CONTENT);
         } else {
             $this->setRendererName(EmptyContentRenderer::class);
         }
@@ -101,16 +105,16 @@ class PaperComponent extends AuthoredComponentAbstract implements PaperComponent
 
     private function addChildEditableComponents(CompositeViewInterface $view) {
         // renderery musí být definovány v Renderer kontejneru - tam mohou dostat classMap do konstruktoru
-        $view->appendComponentView($this->createCompositeViewWithRenderer(HeadlineRendererEditable::class), 'headline');
-        $view->appendComponentView($this->createCompositeViewWithRenderer(PerexRendererEditable::class), 'perex');
-        $view->appendComponentView($this->createCompositeViewWithRenderer(ContentsRendererEditable::class), 'contents');
+        $view->appendComponentView($this->createCompositeViewWithRenderer(HeadlineRendererEditable::class), self::HEADLINE);
+        $view->appendComponentView($this->createCompositeViewWithRenderer(PerexRendererEditable::class), self::PEREX);
+        $view->appendComponentView($this->createCompositeViewWithRenderer(ContentsRendererEditable::class), self::PARTS);
     }
 
     private function addChildComponents(CompositeViewInterface $view) {
         // renderery musí být definovány v Renderer kontejneru - tam mohou dostat classMap do konstruktoru
-        $view->appendComponentView($this->createCompositeViewWithRenderer(HeadlineRenderer::class), 'headline');
-        $view->appendComponentView($this->createCompositeViewWithRenderer(PerexRenderer::class), 'perex');
-        $view->appendComponentView($this->createCompositeViewWithRenderer(ContentsRenderer::class), 'contents');
+        $view->appendComponentView($this->createCompositeViewWithRenderer(HeadlineRenderer::class), self::HEADLINE);
+        $view->appendComponentView($this->createCompositeViewWithRenderer(PerexRenderer::class), self::PEREX);
+        $view->appendComponentView($this->createCompositeViewWithRenderer(ContentsRenderer::class), self::PARTS);
     }
 
     private function getTemplateName() {
@@ -119,7 +123,7 @@ class PaperComponent extends AuthoredComponentAbstract implements PaperComponent
     }
 
     /**
-     * Informuje. jestli paper má zobrazitelný obsah. Za paper se zobrazizelným obsahem považuje takový, který má alespoň neprázdný titulek nebo nebo neprázdný perex nebo nastavenou šablonu.
+     * Informuje. jestli paper má zobrazitelný obsah. Za paper se zobrazitelným obsahem považuje takový, který má alespoň neprázdný titulek nebo nebo neprázdný perex nebo nastavenou šablonu.
      *
      * Zbývá možnost, že paper má prázdný titulek i perex a nemá šablonu nebo šablona je prázdný soubor, ale má neprázný aper content, takovou možnost metoda neověřuje.
      *

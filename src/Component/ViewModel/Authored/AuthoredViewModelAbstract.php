@@ -92,7 +92,7 @@ abstract class AuthoredViewModelAbstract extends StatusViewModel implements Auth
      * @return bool
      */
     public function presentEditableContent(): bool {
-        return $this->statusPresentationRepo->get()->getUserActions()->presentEditableArticle();
+        return $this->statusPresentationRepo->get()->getUserActions()->presentEditableContent();
     }
 
     public function seekTemplate($templatesType, $templateName) {

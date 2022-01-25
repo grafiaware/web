@@ -30,7 +30,7 @@ class StatusBoardViewModel extends StatusViewModel implements StatusBoardViewMod
     public function getEditableInfo() {
         $userActions = $this->statusPresentationRepo->get()->getUserActions();
         return [
-            'article' => $userActions->presentEditableArticle(),
+            'article' => $userActions->presentEditableContent(),
             ];
     }
 

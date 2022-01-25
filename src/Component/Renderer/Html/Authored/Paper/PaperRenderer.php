@@ -24,7 +24,7 @@ class PaperRenderer  extends HtmlRendererAbstract {
     public function render(iterable $viewModel=NULL) {
         /** @var PaperViewModelInterface $viewModel */
         $paperAggregate = $viewModel->getPaper();  // vrací PaperAggregate
-        $inner = (string) $viewModel->getContextVariable(PaperComponent::CONTEXT_TEMPLATE) ?? '';
+        $inner = (string) $viewModel->getContextVariable(PaperComponent::CONTENT) ?? '';
         $buttonEditContent = (string) $viewModel->getContextVariable(AuthoredComponentAbstract::BUTTON_EDIT_CONTENT) ?? '';
         $html =
                 Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.templatePaper')],

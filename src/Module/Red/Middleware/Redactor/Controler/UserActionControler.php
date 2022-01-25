@@ -37,6 +37,10 @@ use Red\Middleware\Redactor\Controler\Exception\UnexpectedLanguageException;
  */
 class UserActionControler extends FrontControlerAbstract {
 
+    const FORM_USER_ACTION_EDIT_MODE = 'edit_mode';
+    const FORM_USER_ACTION_EDIT_MENU = 'edit_menu';
+    const FORM_USER_ACTION_EDIT_CONTENT = 'edit_content';
+
     private $languageRepo;
 
     private $menuItemRepo;
@@ -74,12 +78,26 @@ class UserActionControler extends FrontControlerAbstract {
 //        return $this->redirectSeeLastGet($request); // 303 See Other
 //    }
 
-    public function setEditArticle(ServerRequestInterface $request) {
-        $edit = (new RequestParams())->getParsedBodyParam($request, 'edit_article');
+    public function setEditMode(ServerRequestInterface $request) {
+        $edit = (new RequestParams())->getParsedBodyParam($request, self::FORM_USER_ACTION_EDIT_MODE);
 //        $this->switchEditable('article', $edit);
 
         //TODO: nejdřív vypnu editable a pak teprve volám isPresentedItemActive() - pokud menuItem není active, tak se s vypnutým editable už v metodě isPresentedItemActive() nenačte - ?? obráceně?
-        $this->statusPresentationRepo->get()->getUserActions()->setEditableArticle($edit);
+        $this->statusPresentationRepo->get()->getUserActions()->setEditableContent($edit);
+        $this->addFlashMessage("set editable article $edit");
+        if ($edit OR $this->isPresentedItemActive()) {
+            return $this->redirectSeeLastGet($request); // 303 See Other
+        } else {
+            return $this->createResponseRedirectSeeOther($request, ''); // 303 See Other -> home - jinak zůstane prezentovaný poslední segment layoutu, který nyl editován v režimu edit layout
+        }
+    }
+
+    public function setEditContent(ServerRequestInterface $request) {
+        $edit = (new RequestParams())->getParsedBodyParam($request, self::FORM_USER_ACTION_EDIT_CONTENT);
+//        $this->switchEditable('article', $edit);
+
+        //TODO: nejdřív vypnu editable a pak teprve volám isPresentedItemActive() - pokud menuItem není active, tak se s vypnutým editable už v metodě isPresentedItemActive() nenačte - ?? obráceně?
+        $this->statusPresentationRepo->get()->getUserActions()->setEditableContent($edit);
         $this->addFlashMessage("set editable article $edit");
         if ($edit OR $this->isPresentedItemActive()) {
             return $this->redirectSeeLastGet($request); // 303 See Other
@@ -89,7 +107,7 @@ class UserActionControler extends FrontControlerAbstract {
     }
 
     public function setEditMenu(ServerRequestInterface $request) {
-        $edit = (new RequestParams())->getParsedBodyParam($request, 'edit_menu');
+        $edit = (new RequestParams())->getParsedBodyParam($request, self::FORM_USER_ACTION_EDIT_MENU);
 //        $this->switchEditable('menu', $edit);
         $this->addFlashMessage("set editable menu $edit");
         $this->statusPresentationRepo->get()->getUserActions()->setEditableMenu($edit);

@@ -18,7 +18,7 @@ class MultipageRendererEditable  extends HtmlRendererAbstract {
     public function render(iterable $viewModel=NULL) {
         /** @var MultipageViewModelInterface $viewModel */
         $multipage = $viewModel->getMultipage();
-        $active = $viewModel->isMenuItemActive();
+        $menuItem = $viewModel->getMenuItem();
         $buttonEditContent = (string) $viewModel->getContextVariable(MultipageComponent::CONTEXT_BUTTON_EDIT_CONTENT) ?? '';
 
         $selectTemplate = $this->renderSelectTemplate($multipage);
@@ -34,11 +34,11 @@ class MultipageRendererEditable  extends HtmlRendererAbstract {
                             Html::tag('div',
                                [
                                'class'=> 'ikona-popis',
-                               'data-tooltip'=> $active ? "published" : "not published",
+                               'data-tooltip'=> $menuItem->getActive() ? "published" : "not published",
                                ],
                                 Html::tag('i',
                                    [
-                                   'class'=> $this->classMap->resolve($active, 'Content','i1.published', 'i1.notpublished'),
+                                   'class'=> $this->classMap->resolve($menuItem->getActive(), 'Content','i1.published', 'i1.notpublished'),
                                    ]
                                 )
                             )

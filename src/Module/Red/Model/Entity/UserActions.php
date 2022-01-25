@@ -31,7 +31,7 @@ class UserActions extends EntityAbstract implements UserActionsInterface {
      * @return bool
      */
     public function presentAnyInEditableMode(): bool {
-        return  $this->presentEditableArticle() OR $this->presentEditableMenu();
+        return  $this->presentEditableContent() OR $this->presentEditableMenu();
     }
 
     /**
@@ -39,7 +39,7 @@ class UserActions extends EntityAbstract implements UserActionsInterface {
      *
      * @return bool
      */
-    public function presentEditableArticle(): bool {
+    public function presentEditableContent(): bool {
         return $this->editArticle;
     }
 
@@ -58,10 +58,10 @@ class UserActions extends EntityAbstract implements UserActionsInterface {
      * @param mixed $editLayout Metoda převede zadanou hodnotu na boolen hodnotu.
      * @return UserActionsInterface
      */
-    public function setEditableLayout($editLayout): UserActionsInterface {
-        $this->editLayout = boolval($editLayout);
-        return $this;
-    }
+//    public function setEditableLayout($editLayout): UserActionsInterface {
+//        $this->editLayout = boolval($editLayout);
+//        return $this;
+//    }
 
     /**
      * Nastaví informaci, že prezentace je přepnuta do modu editace článku
@@ -69,7 +69,7 @@ class UserActions extends EntityAbstract implements UserActionsInterface {
      * @param mixed $editPaper Metoda převede zadanou hodnotu na boolen hodnotu.
      * @return UserActionsInterface
      */
-    public function setEditableArticle($editPaper): UserActionsInterface {
+    public function setEditableContent($editPaper): UserActionsInterface {
         $this->editArticle = boolval($editPaper);
         return $this;
     }
@@ -95,11 +95,11 @@ class UserActions extends EntityAbstract implements UserActionsInterface {
         unset($this->userItemAction[$itemAction->getTypeFk()][$itemAction->getItemId()]);
     }
 
-    public function hasUserAction($typeFk, $itemId): bool {
+    public function hasUserItemAction($typeFk, $itemId): bool {
         return (array_key_exists($typeFk, $this->userItemAction) AND array_key_exists($itemId, $this->userItemAction[$typeFk]));
     }
 
-    public function getUserAction($typeFk, $itemId): ?ItemActionInterface {
-        return $this->hasUserAction($typeFk, $itemId) ? $this->userItemAction[$typeFk][$itemId] : null;
+    public function getUserItemAction($typeFk, $itemId): ?ItemActionInterface {
+        return $this->hasUserItemAction($typeFk, $itemId) ? $this->userItemAction[$typeFk][$itemId] : null;
     }
 }

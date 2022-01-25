@@ -1,6 +1,7 @@
 <?php
 namespace Component\Renderer\Html\Authored\Paper;
 
+use Component\View\Authored\AuthoredComponentAbstract;
 use Component\Renderer\Html\HtmlRendererAbstract;
 use Component\ViewModel\Authored\Paper\PaperViewModelInterface;
 
@@ -11,7 +12,6 @@ use Red\Model\Entity\PaperContentInterface;
 use Pes\Text\Html;
 
 use Component\View\Authored\Paper\PaperComponent;
-use Component\View\Authored\AuthoredComponentAbstract;
 
 /**
  * Description of PaperRenderer
@@ -22,12 +22,12 @@ class PaperRendererEditable  extends HtmlRendererAbstract {
     public function render(iterable $viewModel=NULL) {
         /** @var PaperViewModelInterface $viewModel */
         $paperAggregate = $viewModel->getPaper();  // vrací PaperAggregate
-        $active = $viewModel->isMenuItemActive();
+        $menuItem = $viewModel->getMenuItem();
         $buttonEditContent = (string) $viewModel->getContextVariable(AuthoredComponentAbstract::BUTTON_EDIT_CONTENT) ?? '';
 
         $selectTemplate = $this->renderSelectTemplate($paperAggregate);
         $paperButtonsForm = $this->renderPaperButtonsForm($paperAggregate);
-        $inner = (string) $viewModel->getContextVariable(PaperComponent::CONTEXT_TEMPLATE) ?? '';  // Paper Component beforeRenderingHook()
+        $inner = (string) $viewModel->getContextVariable(PaperComponent::CONTENT) ?? '';  // Paper Component beforeRenderingHook()
         $html =
                 Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.templatePaper')],
                     Html::tag('article', ['data-red-renderer'=>'PaperRendererEditable', "data-red-datasource"=> "paper {$paperAggregate->getId()} for item {$paperAggregate->getMenuItemIdFk()}"],
@@ -39,11 +39,11 @@ class PaperRendererEditable  extends HtmlRendererAbstract {
                                     Html::tag('div',
                                        [
                                        'class'=> 'ikona-popis',
-                                       'data-tooltip'=> $active ? "published" : "not published",
+                                       'data-tooltip'=> $menuItem->getActive() ? "published" : "not published",
                                        ],
                                         Html::tag('i',
                                            [
-                                           'class'=> $this->classMap->resolve($active, 'Content','i1.published', 'i1.notpublished'),
+                                           'class'=> $this->classMap->resolve($menuItem->getActive(), 'Content','i1.published', 'i1.notpublished'),
                                            ]
                                         )
                                     )
@@ -88,8 +88,8 @@ class PaperRendererEditable  extends HtmlRendererAbstract {
         $paperId = $paper->getId();
 
         $buttons = [];
-         
-                
+
+
         $btnAktivni =  Html::tag('button', [
                     'class'=>$this->classMap->get('PaperButtons', 'button'),
                     'data-tooltip'=> 'Publikovat / Nepublikovat', //$active ? 'Nepublikovat' : 'Publikovat',
