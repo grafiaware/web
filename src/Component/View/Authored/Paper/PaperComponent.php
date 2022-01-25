@@ -43,7 +43,7 @@ class PaperComponent extends AuthoredComponentAbstract implements PaperComponent
     const CONTENT = 'template';
     const PEREX = 'perex';
     const HEADLINE = 'headline';
-    const PARTS = 'parts';
+    const PARTS = 'contents';
 
     const SELECT_TEMPLATE = 'selectTemplate';
 
@@ -75,11 +75,11 @@ class PaperComponent extends AuthoredComponentAbstract implements PaperComponent
             if ($this->contextData->presentEditableContent()) { // editační režim
                 if ($this->userPerformActionWithItem()) {
                     $this->setRendererName(PaperRendererEditable::class);
-                    // připojí k komponentu komponentní view s editable renderery headline, perex, contents
+                    // připojí k komponentě komponentní view s editable renderery headline, perex, contents
                     $this->addChildEditableComponents($contentView);
                 } else {
                     $this->setRendererName(PaperRenderer::class);
-                    // připojí k komponentu komponentní view s editable renderery headline, perex, contents
+                    // připojí k komponentě komponentní view s editable renderery headline, perex, contents
                     $this->addChildComponents($contentView);
                 }
                 // připojí komponent - view s buttonem ToggleEditContentButtonComponent (tužtička)
