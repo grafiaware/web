@@ -54,7 +54,7 @@ class PaperRendererEditable  extends HtmlRendererAbstract {
                                         'Typ: Paper'
                                     )
                                     .Html::tag('p', ['class'=>''],
-                                        'Název položky menu'
+                                        $menuItem->getTitle()
                                     )
                                 )
                                 .$paperButtonsForm

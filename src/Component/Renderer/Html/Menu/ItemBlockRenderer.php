@@ -3,6 +3,7 @@ namespace  Component\Renderer\Html\Menu;
 
 use Pes\Text\Html;
 use Red\Model\Entity\HierarchyAggregateInterface;
+use Red\Model\Entity\MenuItemInterface;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -22,7 +23,7 @@ class ItemBlockRenderer extends ItemRenderer {
      *
      * @return string
      */
-    protected function renderEditableItem() {
+    protected function renderEditableItem(MenuItemInterface $menuItem) {
         $menuNode = $this->viewModel->getMenuNode();
         $menuItem = $menuNode->getMenuItem();
         $active = $menuItem->getActive();
@@ -34,10 +35,10 @@ class ItemBlockRenderer extends ItemRenderer {
                     $this->classMapEditable->get('Item', 'li a'),   // class - editable v kontejneru
                     $this->classMapEditable->resolve($this->viewModel->isPresented(), 'Item', 'li.presented', 'li')
                     ],
-                'href'=>"web/v1/page/item/{$menuNode->getUid()}",
+                'href'=>"web/v1/page/item/{$menuItem->getUidFk()}",
                 'tabindex'=>0,
                 'data-original-title'=>$menuItem->getTitle(),
-                'data-uid'=>$menuNode->getUid(),
+                'data-uid'=>$menuItem->getUidFk(),
                 ],
                 $menuItem->getTitle()
                 .Html::tag('span', ['class'=>$this->classMapEditable->get('Item', 'semafor')],
@@ -45,7 +46,7 @@ class ItemBlockRenderer extends ItemRenderer {
                 )
             )
             .Html::tag('i', ['class'=>$this->classMapEditable->resolve($this->viewModel->getInnerHtml(), 'Item', 'li.isnotleaf icon', '')])
-            .(($this->viewModel->isPresented() AND $this->viewModel->isMenuEditableByUser()) ? $this->renderButtons($menuNode) : '')
+            .(($this->viewModel->isPresented() AND $this->viewModel->isMenuEditableByUser()) ? $this->renderButtons($menuItem) : '')
             .$this->viewModel->getInnerHtml();
         $html = Html::tag('li',
                 ['class'=>[
@@ -56,7 +57,7 @@ class ItemBlockRenderer extends ItemRenderer {
         return $html;
     }
 
-    private function renderButtons(HierarchyAggregateInterface $menuNode) {
+    private function renderButtons(MenuItemInterface $menuItem) {
 
         return
         Html::tag('div', ['class'=>$this->classMapEditable->get('CommonButtons', 'div.buttons')],
@@ -67,9 +68,9 @@ class ItemBlockRenderer extends ItemRenderer {
                 'name'=>'button',
                 'value' => 'toggle',
                 'formmethod'=>'post',
-                'formaction'=>"red/v1/menu/{$menuNode->getUid()}/toggle",
+                'formaction'=>"red/v1/menu/{$menuItem->getUidFk()}/toggle",
                 ],
-                Html::tag('i', ['class'=>$this->classMapEditable->resolve($menuNode->getMenuItem()->getActive(), 'CommonButtons', 'button.notpublish', 'button.publish')])
+                Html::tag('i', ['class'=>$this->classMapEditable->resolve($menuItem->getActive(), 'CommonButtons', 'button.notpublish', 'button.publish')])
             )
             .Html::tag('button', [
                 'class'=>$this->classMapEditable->get('CommonButtons', 'button'),
@@ -78,7 +79,7 @@ class ItemBlockRenderer extends ItemRenderer {
                 'type'=>'submit',
                 'name'=>'add',
                 'formmethod'=>'post',
-                'formaction'=>"red/v1/hierarchy/{$menuNode->getUid()}/add",
+                'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/add",
                     ],
                 Html::tag('i', ['class'=>$this->classMapEditable->get('CommonButtons', 'button.addsiblings')])
             )
@@ -89,7 +90,7 @@ class ItemBlockRenderer extends ItemRenderer {
                 'type'=>'submit',
                 'name'=>'delete',
                 'formmethod'=>'post',
-                'formaction'=>"red/v1/hierarchy/{$menuNode->getUid()}/trash",
+                'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/trash",
                 'onclick'=>"return confirm('Jste si jisti?');"
                     ],
                 Html::tag('i', ['class'=>$this->classMapEditable->get('CommonButtons', 'button.movetotrash')])

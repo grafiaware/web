@@ -3,6 +3,7 @@ namespace  Component\Renderer\Html\Menu;
 
 use Pes\Text\Html;
 use Red\Model\Entity\HierarchyAggregateInterface;
+use Red\Model\Entity\MenuItemInterface;
 
 /**
  * Description of ItemTrashEditableRenderer
@@ -16,7 +17,7 @@ class ItemTrashRenderer extends ItemRenderer {
      *
      * @return string
      */
-    protected function renderEditableItem() {
+    protected function renderEditableItem(MenuItemInterface $menuItem) {
         $menuNode = $this->viewModel->getMenuNode();
         $menuItem = $menuNode->getMenuItem();
 
@@ -47,14 +48,14 @@ class ItemTrashRenderer extends ItemRenderer {
         if ($presentedEditable) {
             if ($pasteMode) {
                 if($cutted) {
-                    $buttonsHtml = $this->renderCuttedItemButtons($menuNode);
+                    $buttonsHtml = $this->renderCuttedItemButtons($menuItem);
                 }
             } else {
-                $buttonsHtml = $this->renderButtons($menuNode);
+                $buttonsHtml = $this->renderButtons($menuItem);
             }
         } else {
             if ($pasteMode AND $cutted) {
-                $buttonsHtml = $this->renderCuttedItemButtons($menuNode);
+                $buttonsHtml = $this->renderCuttedItemButtons($menuItem);
             }
         }
 
@@ -71,18 +72,18 @@ class ItemTrashRenderer extends ItemRenderer {
         return $html;
     }
 
-    private function renderButtons(HierarchyAggregateInterface $menuNode) {
-        $buttons[] = $this->getButtonCut($menuNode);
-        $buttons[] = $this->getButtonDelete($menuNode);
+    private function renderButtons(MenuItemInterface $menuItem) {
+        $buttons[] = $this->getButtonCut($menuItem);
+        $buttons[] = $this->getButtonDelete($menuItem);
         return $buttons;
     }
 
-    private function renderCuttedItemButtons(HierarchyAggregateInterface $menuNode) {
-        $buttons[] = $this->getButtonCutted($menuNode);
+    private function renderCuttedItemButtons(MenuItemInterface $menuItem) {
+        $buttons[] = $this->getButtonCutted($menuItem);
         return $buttons;
     }
 
-    private function getButtonDelete(HierarchyAggregateInterface $menuNode) {
+    private function getButtonDelete(MenuItemInterface $menuItem) {
         return
             Html::tag('button', [
                 'class'=>$this->classMapEditable->get('CommonButtons', 'button'),
@@ -90,7 +91,7 @@ class ItemTrashRenderer extends ItemRenderer {
                 'data-position'=>'top right',
                 'type'=>'submit',
                 'formmethod'=>'post',
-                'formaction'=>"red/v1/hierarchy/{$menuNode->getUid()}/delete",
+                'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/delete",
                 'onclick'=>"return confirm('Jste si jisti?');"
                     ],
                 Html::tag('i', ['class'=>$this->classMapEditable->get('Buttons', 'button.icons'),],
@@ -100,7 +101,7 @@ class ItemTrashRenderer extends ItemRenderer {
             );
     }
 
-    private function getButtonCut(HierarchyAggregateInterface $menuNode) {
+    private function getButtonCut(MenuItemInterface $menuItem) {
         return
             Html::tag('button', [
                 'class'=>$this->classMapEditable->get('CommonButtons', 'button'),
@@ -108,13 +109,13 @@ class ItemTrashRenderer extends ItemRenderer {
                 'data-position'=>'top right',
                 'type'=>'submit',
                 'formmethod'=>'post',
-                'formaction'=>"red/v1/hierarchy/{$menuNode->getUid()}/cut",
+                'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/cut",
 
                     ],
                 Html::tag('i', ['class'=>$this->classMapEditable->get('CommonButtons', 'button.cut')])
             );
     }
-    private function getButtonCutted(HierarchyAggregateInterface $menuNode) {
+    private function getButtonCutted(MenuItemInterface $menuItem) {
         return  Html::tag('button', [
                 'class'=>$this->classMapEditable->get('CommonButtons', 'button'),
                 'data-tooltip'=>'Zrušit přesunutí',
@@ -122,7 +123,7 @@ class ItemTrashRenderer extends ItemRenderer {
                 'type'=>'submit',
                 'name'=>'move',
                 'formmethod'=>'post',
-                'formaction'=>"red/v1/hierarchy/{$menuNode->getUid()}/cut",
+                'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/cut",
                     ],
                 Html::tag('i', ['class'=>$this->classMapEditable->get('CommonButtons', 'button.cutted')])
             );

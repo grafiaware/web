@@ -75,7 +75,8 @@ class ArticleRendererEditable extends HtmlRendererAbstract {
                                 )
                                 .Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.nameMenuItem')],
                                     Html::tag('p', ['class'=>''],
-                                        'Typ: Article'
+                                        'Article'
+//                                        . $menuItem->getTitle()
                                     )
                                     .Html::tag('p', ['class'=>''],
                                         $menuItem->getTitle()
