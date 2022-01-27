@@ -13,7 +13,6 @@ use Component\Renderer\Html\Authored\EmptyContentRenderer;
 
 use Component\View\Manage\ToggleEditContentButtonComponent;
 
-use Red\Model\Enum\AuthoredEnum;
 /**
  * Description of ArticleComponent
  *

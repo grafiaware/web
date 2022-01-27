@@ -71,70 +71,70 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
         # select template renderer
         ###########################
             SelectTemplateRenderer::class => function(ContainerInterface $c) {
-                return new SelectTemplateRenderer($c->get('paper.editable.classmap'));  // -> selecttemplate.editable.classmap
+                return new SelectTemplateRenderer($c->get('authored.editable.classmap'));  // -> selecttemplate.editable.classmap
             },
         ###########################
         # paper renderer
         ###########################
             ButtonsRenderer::class => function(ContainerInterface $c) {
-                return new ButtonsRenderer($c->get('paper.editable.classmap'));
+                return new ButtonsRenderer($c->get('authored.editable.classmap'));
             },
             PaperRenderer::class => function(ContainerInterface $c) {
-                return new PaperRenderer($c->get('paper.classmap'));
+                return new PaperRenderer($c->get('authored.classmap'));
             },
             PaperRendererEditable::class => function(ContainerInterface $c) {
-                return new PaperRendererEditable($c->get('paper.editable.classmap'));
+                return new PaperRendererEditable($c->get('authored.editable.classmap'));
             },
             ElementWrapper::class => function(ContainerInterface $c) {
-                return new ElementWrapper($c->get('paper.classmap'));
+                return new ElementWrapper($c->get('authored.classmap'));
             },
             ElementEditableWrapper::class => function(ContainerInterface $c) {
-                return new ElementEditableWrapper($c->get('paper.editable.classmap'));
+                return new ElementEditableWrapper($c->get('authored.editable.classmap'));
             },
             Buttons::class => function(ContainerInterface $c) {
-                return new Buttons($c->get('paper.editable.classmap'));
+                return new Buttons($c->get('authored.editable.classmap'));
             },
             HeadlineRenderer::class => function(ContainerInterface $c) {
-                return new HeadlineRenderer($c->get('paper.classmap'));
+                return new HeadlineRenderer($c->get('authored.classmap'));
             },
             PerexRenderer::class => function(ContainerInterface $c) {
-                return new PerexRenderer($c->get('paper.classmap'));
+                return new PerexRenderer($c->get('authored.classmap'));
             },
             ContentsRenderer::class => function(ContainerInterface $c) {
-                return new ContentsRenderer($c->get('paper.classmap'));
+                return new ContentsRenderer($c->get('authored.classmap'));
             },
             HeadlineRendererEditable::class => function(ContainerInterface $c) {
-                return new HeadlineRendererEditable($c->get('paper.editable.classmap'));
+                return new HeadlineRendererEditable($c->get('authored.editable.classmap'));
             },
             PerexRendererEditable::class => function(ContainerInterface $c) {
-                return new PerexRendererEditable($c->get('paper.editable.classmap'));
+                return new PerexRendererEditable($c->get('authored.editable.classmap'));
             },
             ContentsRendererEditable::class => function(ContainerInterface $c) {
-                return new ContentsRendererEditable($c->get('paper.editable.classmap'));
+                return new ContentsRendererEditable($c->get('authored.editable.classmap'));
             },
         ###########################
         #  status renderer
         ###########################
             ToggleEditContentButtomRenderer::class => function(ContainerInterface $c) {
-                return new ToggleEditContentButtomRenderer($c->get('paper.editable.classmap'));
+                return new ToggleEditContentButtomRenderer($c->get('authored.editable.classmap'));
             },
         ###########################
         #  article renderer
         ###########################
             ArticleRenderer::class => function(ContainerInterface $c) {
-                return new ArticleRenderer($c->get('paper.classmap'));   //používá paper classmapu - přejmenovat společnou classmapu??
+                return new ArticleRenderer($c->get('authored.classmap'));   //používá paper classmapu - přejmenovat společnou classmapu??
             },
             ArticleRendererEditable::class => function(ContainerInterface $c) {
-                return new ArticleRendererEditable($c->get('paper.editable.classmap'));   //používá paper classmapu - přejmenovat společnou classmapu??
+                return new ArticleRendererEditable($c->get('authored.editable.classmap'));   //používá paper classmapu - přejmenovat společnou classmapu??
             },
         ###########################
         #  multipage renderer
         ###########################
         MultipageRenderer::class => function(ContainerInterface $c) {
-                return new MultipageRenderer($c->get('paper.classmap'));   //používá paper classmapu - přejmenovat společnou classmapu??
+                return new MultipageRenderer($c->get('authored.classmap'));   //používá paper classmapu - přejmenovat společnou classmapu??
             },
         MultipageRendererEditable::class => function(ContainerInterface $c) {
-                return new MultipageRendererEditable($c->get('paper.editable.classmap'));   //používá paper classmapu - přejmenovat společnou classmapu??
+                return new MultipageRendererEditable($c->get('authored.editable.classmap'));   //používá paper classmapu - přejmenovat společnou classmapu??
             },
         ###########################
         #  generated renderer

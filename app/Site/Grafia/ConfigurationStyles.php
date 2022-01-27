@@ -320,7 +320,7 @@ class ConfigurationStyles extends ConfigurationRed {
         ###########################
         # paper classmap
         ###########################
-            'paper.classmap' => function() {
+            'authored.classmap' => function() {
                 return new ClassMap (
                     [
                      'Headline' => [
@@ -340,7 +340,7 @@ class ConfigurationStyles extends ConfigurationRed {
                     ]
                 );
             },
-            'paper.editable.classmap' => function() {
+            'authored.editable.classmap' => function() {
                 return new ClassMap (
                     [
                      'Headline' => [

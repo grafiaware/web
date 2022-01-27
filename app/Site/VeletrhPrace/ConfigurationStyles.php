@@ -65,7 +65,7 @@ class ConfigurationStyles extends ConfigurationRed {
                             'button.addchildren' => ' arrow circle right icon',
                         ],
             'block_edit_buttons' => [
-                            
+
                         ],
             'trash_edit_buttons' => [
                             'button.icons' => 'icons',
@@ -83,7 +83,7 @@ class ConfigurationStyles extends ConfigurationRed {
                             'div.visible' => 'visible content',
                             'div i' => 'file alternate teal icon',
                             'div.selectTemplate' => 'select_template',
-                            'div.tinySelectTemplatePaper' => 'tiny_select_template_paper borderDance',
+                            'div.tinySelectTemplatePaper' => 'tiny_select_template_paper borderDance',   // class tiny_select_template_paper je selektor pro TinyInit - vybere konfiguraci a v té je proměnná se seznameme šablon (jiný seznam pro paper, article, multipage)
                             'div.tinySelectTemplateArticle' => 'tiny_select_template_article borderDance',
                             'div.tinySelectTemplateMultipage' => 'tiny_select_template_multipage borderDance',
                         ],
@@ -240,7 +240,7 @@ class ConfigurationStyles extends ConfigurationRed {
         ###########################
         # paper classmap
         ###########################
-            'paper.classmap' => function() {
+            'authored.classmap' => function() {
                 return new ClassMap (
                     [
                      'Headline' => [
@@ -259,7 +259,7 @@ class ConfigurationStyles extends ConfigurationRed {
                     ]
                 );
             },
-            'paper.editable.classmap' => function() {
+            'authored.editable.classmap' => function() {
                 return new ClassMap (
                     [
                      'Headline' => [

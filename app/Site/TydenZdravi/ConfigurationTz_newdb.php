@@ -582,7 +582,7 @@ class ConfigurationTz_newdb {
         ###########################
         # paper classmap
         ###########################
-            'paper.classmap' => function() {
+            'authored.classmap' => function() {
                 return new ClassMap (
                     ['Segment' => [
                         'div'=>'ui basic segment',
@@ -600,7 +600,7 @@ class ConfigurationTz_newdb {
                     ]
                 );
             },
-            'paper.editable.classmap' => function() {
+            'authored.editable.classmap' => function() {
                 return new ClassMap (
                     ['Segment' => [
                         'div'=>'ui basic segment',

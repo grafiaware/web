@@ -60,7 +60,7 @@ abstract class AuthoredViewModelAbstract extends StatusViewModel implements Auth
 
     public function getItemId() {
         if (!isset($this->menuItemId)) {
-            throw new LogicException("Nebyla nastavena hodnota menu item id. Hodnutu je nutné nastavit voláním metody setItemId().");
+            throw new LogicException("Nebyla nastavena hodnota menu item id. Hodnotu je nutné nastavit voláním metody setItemId().");
         }
         return $this->menuItemId;
     }

@@ -22,7 +22,7 @@ use Pes\Text\Html;
  *
  * @author pes2704
  */
-class SelectPaperTemplateRendererOLD extends HtmlRendererAbstract {
+class SelectPaperTemplateRendererSelectVersion extends HtmlRendererAbstract {
 
     public function render(iterable $viewModel=NULL) {
         /** @var PaperViewModelInterface $viewModel */

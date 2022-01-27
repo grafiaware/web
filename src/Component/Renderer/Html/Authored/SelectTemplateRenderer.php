@@ -23,25 +23,28 @@ class SelectTemplateRenderer extends HtmlRendererAbstract {
 
     public function render(iterable $viewModel=NULL) {
         /** @var AuthoredViewModelInterface $viewModel */
-        $article = $viewModel->getArticle();
-        $contentId = $viewModel->getArticle()->getId();  // vrací ArticleInterface
         return
-                $this->renderSelectTemplate($article)
+                $this->renderSelectTemplate($viewModel)
                 .
                 $viewModel->getArticle()->getContent()
                 ;
     }
 
-    private function renderSelectTemplate(ArticleInterface $article) {
-        $contentTemplateName = $article->getTemplate();
-        $articleId = $article->getId();
+    private function renderSelectTemplate(AuthoredViewModelInterface $viewModel) {
+        $article = $viewModel->getArticle();
+
+        $contentTemplateName = $viewModel->getItemTemplate();
+        $itemType = $viewModel->getItemType();
+        $itemId = $viewModel->getItemId();
+        $selectTemplateElementId = "select_template_$itemType_$itemId";
+
         return
         Html::tag('div', [],
             Html::tag('button', [
                 'class'=>$this->classMap->get('PaperTemplateSelect', 'div button'),
                 'formtarget'=>'_self',
                 'tabindex'=>'0',
-                'onclick'=>"togleTemplateSelect(event, 'select_template_article_$articleId'); "
+                'onclick'=>"togleTemplateSelect(event, '$selectTemplateElementId'); "
                 ],
                 Html::tag('div', ['class'=>$this->classMap->get('PaperTemplateSelect', 'div.hidden')], 'Šablony pro stránku')
                 .Html::tag('div', ['class'=>$this->classMap->get('PaperTemplateSelect', 'div.visible')],
@@ -49,11 +52,17 @@ class SelectTemplateRenderer extends HtmlRendererAbstract {
                 )
             )
             .
-            Html::tag('div', ['id'=>"select_template_article_$articleId",'class'=>$this->classMap->get('PaperTemplateSelect', 'div.selectTemplate')],
-                Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/article/$articleId/template"],
+            Html::tag('div', ['id'=>$selectTemplateElementId,'class'=>$this->classMap->get('PaperTemplateSelect', 'div.selectTemplate')],
+                Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/article/$itemId/template"],
 //                    Html::tagNopair('input', ["type"=>"hidden", "name"=>"template_$articleId", "value"=>$contentTemplateName])
 //                    .
-                    Html::tag('div', ['id'=>"template_$articleId", 'class'=>$this->classMap->get('PaperTemplateSelect', 'div.tinySelectTemplateArticle')],'')
+                    // class tohoto divu je třída pro selector v tinyInit var selectTemplateConfig
+                    // položka classmapy 'div.tinySelectTemplateArticle' vede na class, např. tiny_select_template_paper (v ConfigurationStyles)
+                    // class tiny_select_template_paper je selektor pro TinyInit.js (v public) - vybere konfiguraci tiny a v té je proměnná templates se seznamem šablon
+                    // např. templates: templates_article (jiný seznam pro paper, article, multipage),
+                    // proměnné templates_article a další jsou pak definovány v local šablonách tinyConfig.js
+                        //TODO: Sv
+                    Html::tag('div', ['id'=>"template_$itemId", 'class'=>$this->classMap->get('PaperTemplateSelect', 'div.tinySelectTemplateArticle')],'')
                 )
 
             )
