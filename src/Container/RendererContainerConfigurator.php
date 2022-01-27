@@ -7,7 +7,7 @@ use Site\Configuration;
 use Pes\Container\ContainerConfiguratorAbstract;
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
 
-use Component\Renderer\Html\Authored\Paper\SelectTemplateRenderer;
+use Component\Renderer\Html\Authored\Paper\SelectTemplateRendererOld;
 use Component\Renderer\Html\Authored\Paper\ButtonsRenderer;
 use Component\Renderer\Html\Authored\Paper\PaperRenderer;
 use Component\Renderer\Html\Authored\Paper\PaperRendererEditable;
@@ -23,7 +23,7 @@ use Component\Renderer\Html\Authored\Paper\ContentsRendererEditable;
 
 use Component\Renderer\Html\Authored\Article\ArticleRenderer;
 use Component\Renderer\Html\Authored\Article\ArticleRendererEditable;
-use Component\Renderer\Html\Authored\Article\SelectArticleTemplateRenderer;
+use Component\Renderer\Html\Authored\SelectTemplateRenderer;
 
 use Component\Renderer\Html\Authored\Multipage\MultipageRenderer;
 use Component\Renderer\Html\Authored\Multipage\MultipageRendererEditable;
@@ -68,11 +68,14 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
     public function getServicesOverrideDefinitions() {
         return [
         ###########################
-        # paper renderer
+        # select template renderer
         ###########################
             SelectTemplateRenderer::class => function(ContainerInterface $c) {
-                return new SelectTemplateRenderer($c->get('paper.editable.classmap'));
+                return new SelectTemplateRenderer($c->get('paper.editable.classmap'));  // -> selecttemplate.editable.classmap
             },
+        ###########################
+        # paper renderer
+        ###########################
             ButtonsRenderer::class => function(ContainerInterface $c) {
                 return new ButtonsRenderer($c->get('paper.editable.classmap'));
             },
@@ -118,9 +121,6 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
         ###########################
         #  article renderer
         ###########################
-            SelectArticleTemplateRenderer::class => function(ContainerInterface $c) {
-                return new SelectArticleTemplateRenderer($c->get('paper.editable.classmap'));   //používá paper classmapu - přejmenovat společnou classmapu??
-            },
             ArticleRenderer::class => function(ContainerInterface $c) {
                 return new ArticleRenderer($c->get('paper.classmap'));   //používá paper classmapu - přejmenovat společnou classmapu??
             },

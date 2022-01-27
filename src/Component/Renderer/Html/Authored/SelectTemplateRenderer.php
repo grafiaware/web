@@ -6,10 +6,10 @@
  * and open the template in the editor.
  */
 
-namespace Component\Renderer\Html\Authored\Article;
+namespace Component\Renderer\Html\Authored;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
-use Component\ViewModel\Authored\Article\ArticleViewModelInterface;
+use Component\ViewModel\Authored\AuthoredViewModelInterface;
 
 use Red\Model\Entity\ArticleInterface;
 
@@ -19,10 +19,10 @@ use Pes\Text\Html;
  *
  * @author pes2704
  */
-class SelectArticleTemplateRenderer extends HtmlRendererAbstract {
+class SelectTemplateRenderer extends HtmlRendererAbstract {
 
     public function render(iterable $viewModel=NULL) {
-        /** @var ArticleViewModelInterface $viewModel */
+        /** @var AuthoredViewModelInterface $viewModel */
         $article = $viewModel->getArticle();
         $contentId = $viewModel->getArticle()->getId();  // vrací ArticleInterface
         return
@@ -58,5 +58,20 @@ class SelectArticleTemplateRenderer extends HtmlRendererAbstract {
 
             )
         );
+
+        // kopie z PaperRendererEditable->renderSelectTemplate()
+
+        return
+            // id je parametr pro togleTemplateSelect(id) - voláno onclick na button 'Vybrat šablonu stránky'
+            Html::tag('div', ['id'=>"select_template_paper_$paperId",'class'=>$this->classMap->get('PaperTemplateSelect', 'div.selectTemplate')],
+                Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/$paperId/template"],
+                    [
+                        Html::tagNopair('input', ["type"=>"hidden", "name"=>"template_$paperId", "value"=>$contentTemplateName]),
+                        // class je třída pro selector v tinyInit var selectTemplateConfig
+                        Html::tag('div', ['id'=>"paper_$paperId", 'class'=>$this->classMap->get('PaperTemplateSelect', 'div.tinySelectTemplatePaper')],''),
+                    ]
+                )
+            );
+
     }
 }

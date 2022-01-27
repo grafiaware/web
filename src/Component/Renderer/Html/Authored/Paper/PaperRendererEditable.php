@@ -26,6 +26,8 @@ class PaperRendererEditable  extends HtmlRendererAbstract {
         $menuItem = $viewModel->getMenuItem();
         $buttonEditContent = (string) $viewModel->getContextVariable(AuthoredComponentAbstract::BUTTON_EDIT_CONTENT) ?? '';
 
+        $viewModel->getItemType();
+        $viewModel->getItemId();
         $selectTemplate = $this->renderSelectTemplate($paperAggregate);
         $paperButtonsForm = $this->renderPaperButtonsForm($menuItem, $paperAggregate);
         $inner = (string) $viewModel->getContextVariable(PaperComponent::CONTENT) ?? '';  // Paper Component beforeRenderingHook()

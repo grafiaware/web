@@ -6,7 +6,7 @@ use Component\ViewModel\Authored\Article\ArticleViewModelInterface;
 
 use Component\ViewModel\Manage\ToggleEditContentButtonViewModel;
 
-use Component\Renderer\Html\Authored\Article\SelectArticleTemplateRenderer;
+use Component\Renderer\Html\Authored\SelectTemplateRenderer;
 use Component\Renderer\Html\Authored\Article\ArticleRenderer;
 use Component\Renderer\Html\Authored\Article\ArticleRendererEditable;
 use Component\Renderer\Html\Authored\EmptyContentRenderer;
@@ -45,7 +45,7 @@ class ArticleComponent extends AuthoredComponentAbstract implements ArticleCompo
             // Volba prázdné šablony však může znamenat prázdný obsah pokud šablona nebude obsahovat žádný text.
             if ($this->userPerformActionWithItem()) {
                 if (!$this->hasContent()) {
-                    $this->appendComponentView($this->createCompositeViewWithRenderer(SelectArticleTemplateRenderer::class), self::SELECT_TEMPLATE);
+                    $this->appendComponentView($this->createCompositeViewWithRenderer(SelectTemplateRenderer::class), self::SELECT_TEMPLATE);
                 }
                 $this->setRendererName(ArticleRendererEditable::class);
             } else {

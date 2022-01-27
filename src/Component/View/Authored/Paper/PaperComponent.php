@@ -65,9 +65,8 @@ class PaperComponent extends AuthoredComponentAbstract implements PaperComponent
             // vytvoří komponentní view z šablony paperu nebo s ImplodeTemplate, pokud šablona paperu není nastavena
             try {
                 // konstruktor PhpTemplate vyhazuje výjimku NoTemplateFileException pro neexistující (nečitený) soubor s template
-                $template = new PhpTemplate($this->contextData->seekTemplate('paper', $this->getTemplateName()));
+                $template = new PhpTemplate($this->contextData->seekTemplate());
             } catch (NoTemplateFileException $noTemplExc) {
-                user_error("Neexistuje soubor šablony '{$this->getTemplateName()}'", E_USER_WARNING);
                 $template = new ImplodeTemplate();
             }
             $contentView = $this->createCompositeViewWithTemplate($template);
@@ -115,11 +114,6 @@ class PaperComponent extends AuthoredComponentAbstract implements PaperComponent
         $view->appendComponentView($this->createCompositeViewWithRenderer(HeadlineRenderer::class), self::HEADLINE);
         $view->appendComponentView($this->createCompositeViewWithRenderer(PerexRenderer::class), self::PEREX);
         $view->appendComponentView($this->createCompositeViewWithRenderer(ContentsRenderer::class), self::PARTS);
-    }
-
-    private function getTemplateName() {
-        $template = $this->contextData->getPaper()->getTemplate();
-        return (isset($template) AND $template) ? $template : self::DEFAULT_TEMPLATE_NAME;
     }
 
     /**

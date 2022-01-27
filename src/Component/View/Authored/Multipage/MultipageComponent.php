@@ -46,9 +46,8 @@ class MultipageComponent extends AuthoredComponentAbstract implements MultipageC
         // vytvoří komponentní view z šablony paperu nebo s ImplodeTemplate, pokud šablona multipage není nastavena
         try {
             // konstruktor PhpTemplate vyhazuje výjimku NoTemplateFileException pro neexistující (nečitený) soubor s template
-            $template = new PhpTemplate($this->contextData->seekTemplate('multipage', $this->getTemplateName()));
+            $template = new PhpTemplate($this->contextData->seekTemplate());
         } catch (NoTemplateFileException $noTemplExc) {
-//            user_error("Neexistuje soubor šablony '{$this->getTemplateName()}'", E_USER_WARNING);
             $template = new ImplodeTemplate();
         }
         $templatedView = (new CompositeView())->setTemplate($template)->setRendererContainer($this->rendererContainer);  // "nedědí" contextData
@@ -112,13 +111,6 @@ class MultipageComponent extends AuthoredComponentAbstract implements MultipageC
             $name = FriendlyUrl::friendlyUrlText($menuItem->getTitle());
         }
         return $name;
-    }
-
-    ####
-
-    private function getTemplateName() {
-        $template = $this->contextData->getMultipage()->getTemplate();
-        return (isset($template) AND $template) ? $template : self::DEFAULT_TEMPLATE_NAME;
     }
 
 }

@@ -23,7 +23,6 @@ use Pes\View\CompositeView;
  */
 abstract class AuthoredComponentAbstract extends StatusComponentAbstract implements AuthoredComponentInterface {
 
-    const DEFAULT_TEMPLATE_NAME = 'default';
     const BUTTON_EDIT_CONTENT = 'buttonEditContent';
 
     /**

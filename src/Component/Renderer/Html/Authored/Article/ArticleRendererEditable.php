@@ -23,7 +23,7 @@ class ArticleRendererEditable extends HtmlRendererAbstract {
 //        $buttonEditContent = (string) $viewModel->getContextVariable('buttonEditContent') ?? '';
         $buttonEditContent = (string) $viewModel->getContextVariable(AuthoredComponentAbstract::BUTTON_EDIT_CONTENT) ?? '';
         $selectTemplate = (string) $viewModel->getContextVariable('selectTemplate') ?? '';
-        $articleButtonsForm = $this->renderArticleButtonsForm($menuItem);
+        $articleButtonsForm = $this->renderArticleButtonsForm($menuItem, $article);
 
         if (isset($article)) { // menu item aktivní (publikovaný)
             $templateName = $article->getTemplate() ?? '';
@@ -96,11 +96,14 @@ class ArticleRendererEditable extends HtmlRendererAbstract {
         return $ret ?? '';
     }
 
-     private function renderArticleButtonsForm(MenuItemInterface $menuItem) {
+     private function renderArticleButtonsForm(MenuItemInterface $menuItem, ArticleInterface $article) {
         $active = $menuItem->getActive();
+        $articleId = $article->getId();
+        
         $btnAktivni =  Html::tag('button',
                 ['class'=>$this->classMap->get('CommonButtons', 'button'),
                 'data-tooltip'=> $active ? 'Nepublikovat' : 'Publikovat',
+                'data-position'=>'top right',
                 'type'=>'submit',
                 'formmethod'=>'post',
                 'formaction'=>"red/v1/menu/{$menuItem->getUidFk()}/toggle",
@@ -108,37 +111,38 @@ class ArticleRendererEditable extends HtmlRendererAbstract {
                 Html::tag('i', ['class'=>$this->classMap->resolve($active, 'CommonButtons', 'button.notpublish', 'button.publish')])
             );
 
-//        $btnAktivni =  Html::tag('button', [
-//                    'class'=>$this->classMap->get('PaperButtons', 'button'),
-//                    'data-tooltip'=> 'Publikovat / Nepublikovat', //$active ? 'Nepublikovat' : 'Publikovat',
-//                    'data-position'=>'top right',
-//                    'tabindex'=>'0',
-//                    'formtarget'=>'_self',
-//                    'formmethod'=>'post',
-//                    'formaction'=>"",
-//                    ],
-//                    Html::tag('i', ['class'=>$this->classMap->get('CommonButtons', 'button.notpublish')])
-//                    //Html::tag('i', ['class'=>$this->classMapEditable->resolve($active, 'CommonButtons', 'button.notpublish', 'button.publish')])
-//                );
-//        $btnDoKose =   Html::tag('button', [
-//                    'class'=>$this->classMap->get('PaperButtons', 'button'),
-//                    'data-tooltip'=> 'Odstranit položku',
-//                    'data-position'=>'top right',
-//                    'tabindex'=>'0',
-//                    'formtarget'=>'_self',
-//                    'formmethod'=>'post',
-//                    'formaction'=>"",
-//                    'onclick'=>"return confirm('Jste si jisti?');"
-//                    ],
-//                    Html::tag('i', ['class'=>$this->classMap->get('CommonButtons', 'button.movetotrash')])
-//                );
+        $btnDoKose =   Html::tag('button', [
+                    'class'=>$this->classMap->get('PaperButtons', 'button'),
+                    'data-tooltip'=> 'Odstranit položku',
+                    'data-position'=>'top right',
+                    'formtarget'=>'_self',
+                    'formmethod'=>'post',
+                    'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/trash",
+                    'onclick'=>"return confirm('Jste si jisti?');"
+                    ],
+                    Html::tag('i', ['class'=>$this->classMap->get('CommonButtons', 'button.movetotrash')])
+                );
+        $btnSablona =  Html::tag('button', [
+                    'class'=>$this->classMap->get('PaperButtons', 'button.template'),
+                    'data-tooltip'=> 'Vybrat šablonu stránky',
+                    'data-position'=>'top right',
+                    'formtarget'=>'_self',
+                    'formmethod'=>'post',
+                    'formaction'=>"",
+                    'onclick'=>"togleTemplateSelect(event, 'select_template_article_$articleId');"
+                    ],
+                    Html::tag('i', ['class'=>$this->classMap->get('PaperButtons', 'button.template i')])
+                );
 
 
         return Html::tag('form', ['method'=>'POST', 'action'=>""],
             Html::tag('div', ['class'=>$this->classMap->get('PaperButtons', 'div.buttonsWrap')],
                 Html::tag('div', ['class'=>$this->classMap->get('PaperButtons', 'div.buttons')],
-                    $btnAktivni
-//                        .$btnDoKose
+                    [
+                        $btnAktivni,
+                        $btnDoKose,
+                        $btnSablona,
+                    ]
                 )
             )
         );

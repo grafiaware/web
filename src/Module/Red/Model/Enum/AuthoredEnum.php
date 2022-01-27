@@ -11,7 +11,7 @@ namespace Red\Model\Enum;
 use Pes\Type\Enum;
 
 /**
- * Description of AuzhoredEnum
+ * Description of AuthoredEnum
  *
  * @author pes2704
  */

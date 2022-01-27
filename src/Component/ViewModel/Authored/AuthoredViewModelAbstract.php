@@ -19,6 +19,9 @@ use Red\Model\Entity\ItemActionInterface;
 use Red\Model\Entity\MenuItemInterface;
 
 use TemplateService\TemplateSeekerInterface;
+use Red\Model\Enum\AuthoredEnum;
+use Pes\Type\Exception\ValueNotInEnumException;
+use Component\ViewModel\Exception\InvalidItemTypeException;
 
 /**
  * Description of AuthoredViewModelAbstract
@@ -52,6 +55,8 @@ abstract class AuthoredViewModelAbstract extends StatusViewModel implements Auth
     }
 
     abstract public function getItemType();
+
+    abstract public function getItemTemplate();
 
     public function getItemId() {
         if (!isset($this->menuItemId)) {
@@ -95,7 +100,25 @@ abstract class AuthoredViewModelAbstract extends StatusViewModel implements Auth
         return $this->statusPresentationRepo->get()->getUserActions()->presentEditableContent();
     }
 
-    public function seekTemplate($templatesType, $templateName) {
+    /**
+     * Vyhledá soubor template podle typu item a jména template. Typ template získá voláním vlastní metody getItemType() a jméno template
+     * voláním vlastní metody getItemTemplate().
+     *
+     * Tato metoda konroluje typ item vrácení metodou getItemType(). Přípustné jsou typy zadané ve výčtovém typu AuthoredEnum. Pokud metoda konkrétního modelu vrací
+     * nepřípustný typ, vyhodí výjimku. Pro vlastní hledámí použije objekt TemplateSeekerInterface zadaný do konstruktoru. Konkrétní strategie hledání
+     * je dána objektem TemplateSeekerInterface.
+     *
+     * @return string|false Cesta k souboru s template nebo false
+     * @throws InvalidItemTypeException
+     */
+    public function seekTemplate() {
+        try {
+            $itemType = (string) $this->getItemType();
+            $templatesType = (new AuthoredEnum())($itemType);
+        } catch (ValueNotInEnumException $exc) {
+            throw new InvalidItemTypeException("Nepřípustný typ item. Typ '$itemType' vrácený metodou getItemType() není přípustný.", 0, $exc);
+        }
+        $templateName = $this->getItemTemplate();
         return $this->templateSeeker->seekTemplate($templatesType, $templateName);
     }
 

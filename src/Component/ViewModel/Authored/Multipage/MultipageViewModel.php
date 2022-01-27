@@ -62,6 +62,10 @@ class MultipageViewModel extends AuthoredViewModelAbstract implements MultipageV
         return AuthoredEnum::MULTIPAGE;
     }
 
+    public function getItemTemplate() {
+        return $this->getMultipage()->getTemplate();
+    }
+
     /**
      * {@inheritdoc}
      *
