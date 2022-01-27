@@ -35,7 +35,7 @@ abstract class PresentationFrontControlerAbstract extends FrontControlerAbstract
         $response = $response->withHeader('Content-Language', $language->getLocale());
 
         $userActions = $this->statusPresentationRepo->get()->getUserActions();
-        if ($userActions AND $userActions->presentEditableArticle()) {
+        if ($userActions AND $userActions->presentEditableContent()) {
             $response = $response->withHeader('Cache-Control', 'no-cache');
         } else {
             $response = $response->withHeader('Cache-Control', 'public, max-age=180');

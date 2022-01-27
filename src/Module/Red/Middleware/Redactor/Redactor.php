@@ -70,10 +70,15 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
                 $ctrl = $this->container->get(UserActionControler::class);
                 return $ctrl->setLangCode($request);
         });
-        $routeGenerator->addRouteForAction('POST', '/red/v1/presentation/edit_article', function(ServerRequestInterface $request) {
+        $routeGenerator->addRouteForAction('POST', '/red/v1/presentation/edit_mode', function(ServerRequestInterface $request) {
                 /** @var UserActionControler $ctrl */
                 $ctrl = $this->container->get(UserActionControler::class);
-                return $ctrl->setEditArticle($request);
+                return $ctrl->setEditMode($request);
+        });
+        $routeGenerator->addRouteForAction('POST', '/red/v1/presentation/edit_content', function(ServerRequestInterface $request) {
+                /** @var UserActionControler $ctrl */
+                $ctrl = $this->container->get(UserActionControler::class);
+                return $ctrl->setEditContent($request);
         });
         $routeGenerator->addRouteForAction('POST', '/red/v1/presentation/edit_menu', function(ServerRequestInterface $request) {
                 /** @var UserActionControler $ctrl */

@@ -7,7 +7,7 @@ use Pes\Text\Html;
 use Pes\Type\ContextDataInterface;
 use Component\View\Manage\ToggleEditContentButtonComponent;
 use Component\ViewModel\Authored\AuthoredViewModelInterface;
-
+use Red\Middleware\Redactor\Controler\UserActionControler;
 /**
  * Description of ToggleEditButtonRenderer
  *
@@ -30,7 +30,7 @@ class ToggleEditContentButtomRenderer extends HtmlRendererAbstract {
                     Html::tag('button', [
                         'class'=>$this->classMap->resolve($userPerformActionWithContent, 'PaperButtons', 'div.offEditMode button', 'div.editMode button'),
                         'data-tooltip' => $tooltip,
-                        'name' => 'edit_article',
+                        'name' => UserActionControler::FORM_USER_ACTION_EDIT_CONTENT,
                         'value' => '',
                         'type' => 'submit',
                         'formtarget' => '_self',

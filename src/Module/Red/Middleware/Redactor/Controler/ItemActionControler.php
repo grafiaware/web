@@ -52,7 +52,7 @@ class ItemActionControler extends FrontControlerAbstract {
     public function addUserItemAction(ServerRequestInterface $request, $typeFk, $itemId) {
         $userActions = $this->statusPresentationRepo->get()->getUserActions();
         $typeFk = (new AuthoredEnum())($typeFk);
-        if (! $userActions->hasUserAction($typeFk, $itemId)) {
+        if (! $userActions->hasUserItemAction($typeFk, $itemId)) {
             $itemAction = new ItemAction();
             $itemAction->setTypeFk($typeFk);
             $itemAction->setItemId($itemId);
@@ -67,8 +67,8 @@ class ItemActionControler extends FrontControlerAbstract {
     public function removeUserItemAction(ServerRequestInterface $request, $typeFk, $itemId) {
         // mažu nezávisle itemAction z statusPresentation (session) i z itemActionRepo (db) - hrozí chyby při opakované modeslání požadavku POST nebo naopak při ztrátě session
         $userActions = $this->statusPresentationRepo->get()->getUserActions();
-        if ($userActions->hasUserAction($typeFk, $itemId)) {
-            $userActions->removeUserItemAction($userActions->getUserAction($typeFk, $itemId));
+        if ($userActions->hasUserItemAction($typeFk, $itemId)) {
+            $userActions->removeUserItemAction($userActions->getUserItemAction($typeFk, $itemId));
         }
         $itemAction = $this->itemActionRepo->get($typeFk, $itemId);  // nestačí načíst itemAction z UserAction - v itemActionRepo pak není entity v kolekci a nelze volat remove
         if (isset($itemAction)) {

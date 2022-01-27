@@ -81,7 +81,8 @@ class ApiRegistrator {
 
         #### PresentationActionControler ####
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/presentation/language'));
-        $registry->register($this->postPrototype->withUrlPattern('/red/v1/presentation/edit_article'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/presentation/edit_mode'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/presentation/edit_content'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/presentation/edit_menu'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/itemaction/:typeFk/:itemId/add'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/itemaction/:typeFk/:itemId/remove'));

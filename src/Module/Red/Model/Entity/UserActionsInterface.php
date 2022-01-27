@@ -29,7 +29,7 @@ interface UserActionsInterface extends EntitySingletonInterface {
      *
      * @return bool
      */
-    public function presentEditableArticle(): bool;
+    public function presentEditableContent(): bool;
 
     /**
      * Informuje, zda prezentace je přepnuta do modu editace menu.
@@ -46,7 +46,7 @@ interface UserActionsInterface extends EntitySingletonInterface {
      * @param type $editableLayout
      * @return UserActionsInterface
      */
-    public function setEditableLayout($editableLayout): UserActionsInterface;
+//    public function setEditableLayout($editableLayout): UserActionsInterface;
 
     /**
      * Nastaví informaci, že prezentace je přepnuta do modu editace článku
@@ -54,7 +54,7 @@ interface UserActionsInterface extends EntitySingletonInterface {
      * @param type $editablePaper
      * @return UserActionsInterface
      */
-    public function setEditableArticle($editablePaper): UserActionsInterface;
+    public function setEditableContent($editablePaper): UserActionsInterface;
 
     /**
      * Nastaví informaci, že pretentace je přepnuta do modu editace menu
@@ -66,6 +66,6 @@ interface UserActionsInterface extends EntitySingletonInterface {
 
     public function addUserItemAction(ItemActionInterface $itemAction): void;
     public function removeUserItemAction(ItemActionInterface $iemAction): void;
-    public function getUserAction($typeFk, $itemId): ?ItemActionInterface;
-    public function hasUserAction($typeFk, $itemId): bool;
+    public function getUserItemAction($typeFk, $itemId): ?ItemActionInterface;
+    public function hasUserItemAction($typeFk, $itemId): bool;
 }

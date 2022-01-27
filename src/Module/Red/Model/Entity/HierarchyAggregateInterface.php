@@ -8,8 +8,6 @@
 
 namespace Red\Model\Entity;
 
-use Model\Entity\EntityInterface;
-
 use Red\Model\Entity\MenuItemInterface;
 
 /**

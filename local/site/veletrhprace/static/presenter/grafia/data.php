@@ -8,6 +8,7 @@
 use Site\Configuration;
 
 use Pes\View\Renderer\PhpTemplateRendererInterface;
+use Pes\Text\FriendlyUrl;
 use Red\Model\Entity\PaperAggregateInterface;
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregateInterface $paperAggregate */
@@ -17,7 +18,7 @@ $shortName = 'grafia';
 ############################
 
 
-$monitorFilename = Configuration::files()['presenter'].$shortName.'/movies/monitor-stanek.jpg'; 
+$monitorFilename = Configuration::files()['presenter'].$shortName.'/movies/monitor-stanek.jpg';
 $monitorIsReadable = is_readable($monitorFilename);
 $videoMp4Filename = Configuration::files()['presenter'].$shortName.'/movies/video-stanek-MP4.mp4';
 $videoMp4IsReadable = is_readable($videoMp4Filename);
@@ -33,13 +34,14 @@ $buttonTitle = [
     'Chci navázat kontakt'
 ];
 
+$friendlyUrl = new FriendlyUrl();
 foreach ($buttonTitle as $title) {
     $buttony[] = [
         'text' => $title,
-        'odkaz' => 'javascript: document.getElementById(\''.Configuration::componentController()['prettyUrlCallable']($title).'\').scrollIntoView();',
+        'odkaz' => 'javascript: document.getElementById(\''.$friendlyUrl->friendlyUrlText($title).'\').scrollIntoView();',
     ];
 };
-    
+
 $firma = [
     'nazev' => 'Grafia,&nbsp;s.r.o.',
     'videoAttributes' => [

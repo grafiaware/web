@@ -8,6 +8,7 @@
 use Site\Configuration;
 
 use Pes\View\Renderer\PhpTemplateRendererInterface;
+use Pes\Text\FriendlyUrl;
 use Red\Model\Entity\PaperAggregateInterface;
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregateInterface $paperAggregate */
@@ -40,7 +41,7 @@ foreach ($buttonTitle as $title) {
         'odkaz' => 'javascript: document.getElementById(\''.Configuration::componentController()['prettyUrlCallable']($title).'\').scrollIntoView();',
     ];
 };
-    
+
 $firma = [
     'nazev' => 'Valeo Autoklimatizace&nbsp;k.s.',
     'videoAttributes' => [
