@@ -64,7 +64,7 @@ class HierarchyControler extends FrontControlerAbstract {
         $statusFlash = $this->statusFlashRepo->get();
         $statusFlash->setPostCommand(['cut'=>$uid]);  // command s životností do dalšího POST requestu
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
-        $statusFlash->appendMessage("cut - item: $langCode/$uid selected for cut&patse operation");
+        $statusFlash->setMessage("cut - item: $langCode/$uid selected for cut&patse operation");
 
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
@@ -72,7 +72,7 @@ class HierarchyControler extends FrontControlerAbstract {
     public function cutEscape(ServerRequestInterface $request, $uid) {
         $statusFlash = $this->statusFlashRepo->get();
         $statusFlash->setPostCommand(null);  // zrušení výběru položky "cut"
-        $statusFlash->appendMessage("cut escape -cut&patse operation aborted");
+        $statusFlash->setMessage("cut escape -cut&patse operation aborted");
 
         return $this->redirectSeeLastGet($request); // 303 See Other
     }

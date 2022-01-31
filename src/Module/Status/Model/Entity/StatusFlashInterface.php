@@ -19,10 +19,10 @@ use Psr\Http\Message\ServerRequestInterface;
 interface StatusFlashInterface extends EntitySingletonInterface {
 
     /**
-     * Vrací message
+     * Vrací pole messages
      * @return string
      */
-    public function getMessage();
+    public function getMessages(): array;
 
     /**
      * Vrací command se životností do příštího requestu (standartní "flash" životnost).
@@ -40,13 +40,6 @@ interface StatusFlashInterface extends EntitySingletonInterface {
      * @return $this
      */
     public function setMessage(string $flash): StatusFlashInterface;
-
-    /**
-     * Připojí message ke na konec existujícího řetezce flash message oddělenou znakem (znaky) konce řádku PHP_EOL
-     * @param string $flash
-     * @return $this
-     */
-    public function appendMessage(string $flash): StatusFlashInterface;
 
     /**
      * Nastaví command se životností do příštího requestu (standartní "flash" životnost).

@@ -85,7 +85,7 @@ class ConfigurationRed extends ConfigurationDb {
             'component.logs.directory' => 'Logs/App/Web',
             'component.logs.render' => 'Render.log',
             // common layout templates
-            'component.template.flash' => self::RED_TEMPLATES_COMMON.'layout/info/flashMessage.php',
+            'component.template.flash' => self::RED_TEMPLATES_COMMON.'layout/info/flashMessages.php',
             'component.template.login' => self::RED_TEMPLATES_COMMON.'layout/status/login.php',
 //            'component.template.register' => self::RED_TEMPLATES_COMMON.'layout/status/register.php',  // nahrazeno - site layout templates
             'component.template.logout' => self::RED_TEMPLATES_COMMON.'layout/status/logout.php',

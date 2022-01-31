@@ -93,7 +93,7 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
     /// status control ///
 
     public function addFlashMessage($message): void {
-        $this->statusFlashRepo->get()->appendMessage($message);
+        $this->statusFlashRepo->get()->setMessage($message);
     }
 
     /// create response helpers ///

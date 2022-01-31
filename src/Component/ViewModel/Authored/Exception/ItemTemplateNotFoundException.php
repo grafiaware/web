@@ -8,6 +8,6 @@ use UnexpectedValueException;
  *
  * @author pes2704
  */
-class ItemTemplateNotFound extends UnexpectedValueException implements AuthoredViewModelExceptionInterface {
+class ItemTemplateNotFoundException extends UnexpectedValueException implements AuthoredViewModelExceptionInterface {
 
 }

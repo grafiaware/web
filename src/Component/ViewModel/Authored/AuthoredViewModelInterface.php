@@ -35,9 +35,9 @@ interface AuthoredViewModelInterface extends StatusViewModelInterface {
 
     /**
      * Vyhledá plné jméno souboru s template itemu.
-     * @return string|false Cesta k souboru s template nebo false
+     * @return string Cesta k souboru s template nebo prázdný řetězec
      */
-    public function seekTemplate();
+    public function seekTemplate(): string;
     public function getItemAction(): ?ItemActionInterface;
     public function getMenuItem(): MenuItemInterface;
     public function userPerformActionWithItem(): bool;

@@ -23,7 +23,7 @@ use Red\Model\Enum\AuthoredItemEnum;
 use Pes\Type\Exception\ValueNotInEnumException;
 use Component\ViewModel\Authored\Exception\InvalidItemTypeException;
 use TemplateService\Exception\TemplateServiceExceptionInterface;
-use TemplateService\Exception\TemplateNotFoundException;
+use Component\ViewModel\Authored\Exception\ItemTemplateNotFoundException;
 
 /**
  * Description of AuthoredViewModelAbstract
@@ -112,10 +112,11 @@ abstract class AuthoredViewModelAbstract extends StatusViewModel implements Auth
      * Pro vlastní hledámí použije objekt TemplateSeekerInterface zadaný do konstruktoru. Konkrétní strategie hledání
      * je dána objektem TemplateSeekerInterface.
      *
+     * @return string
      * @throws InvalidItemTypeException
-     * @throws ItemTemplateNotFound
+     * @throws ItemTemplateNotFoundException
      */
-    public function seekTemplate() {
+    public function seekTemplate(): string {
         try {
             $itemType = (string) $this->getItemType();
             $templatesType = (new AuthoredItemEnum())($itemType);
@@ -123,11 +124,14 @@ abstract class AuthoredViewModelAbstract extends StatusViewModel implements Auth
             throw new InvalidItemTypeException("Nepřípustný typ item. Typ '$itemType' vrácený metodou getItemType() není přípustný.", 0, $exc);
         }
         $templateName = $this->getItemTemplate();
-        try {
-            return $this->templateSeeker->seekTemplate($templatesType, $templateName);
-        } catch (TemplateServiceExceptionInterface $exc) {
-            throw new ItemTemplateNotFound("Nenalezen soubor pro hodnoty vracené metodami ViewModel getItemTemplate(): '$templateName' a getItemType(): '$itemType'.", 0, $exc);
+        if (isset($templateName) AND $templateName) {
+            try {
+                $templateFileName = $this->templateSeeker->seekTemplate($templatesType, $templateName);
+            } catch (TemplateServiceExceptionInterface $exc) {
+                throw new ItemTemplateNotFoundException("Nenalezen soubor pro hodnoty vracené metodami ViewModel getItemTemplate(): '$templateName' a getItemType(): '$itemType'.", 0, $exc);
+            }
         }
+        return $templateFileName ?? '';
     }
 
     public function getItemAction(): ?ItemActionInterface {

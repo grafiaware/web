@@ -46,9 +46,16 @@ class SelectorItems {
     private $items;
 
     /**
-     * Kontejner pro předání do jednotlivých middleware stacků definovaných při přidávání SelectorItem do vytvářeného objektu Selector.
+     * Kostruktor, opbsahuje definice všech middleware stacků.
      *
-     * @param AppInterface $app
+     * Jako parametr přijímá aplikaci (AppInterface objekt).
+     * Položky selektoru jsou v tomto konstruktoru definovány jako asiciativní pole, klíč je prefix položky selektoru a hodnota je middleware stack
+     *
+     * Pokud definice stacku pro selector item je anonymní funkce, je po vybrání middleware v selectoru podle prefixu tato anonymní funkce zavolána
+     * a objekt aplikace předán jako jako parametr této anonymní funkce.
+     * K tomu dojde při volání vybrané položky SelectorItem v metodě process() Selectoru.
+     *
+     * @param AppInterface $app Kontejner pro předání do všech middleware stacků definovaných v konstruktoru.
      */
     public function __construct(AppInterface $app=NULL) {
         $this->app = $app;
@@ -63,8 +70,7 @@ class SelectorItems {
                     new Web()
                 ];};
 
-        // všechny položky selektoru dostávají jako stack anonymní funkci, která přijímá AppInterface,
-        // ve vzniklých položkách bude dostupná proměnná $app
+        //
         $this->items = [
             '/web/v1/page' => $default,
             '/web/v1'=>
@@ -95,7 +101,7 @@ class SelectorItems {
                     new ResponseTime(),
                     new SecurityStatus(),
                     new FlashStatus(),
-                    new PresentationStatus(),
+//                    new PresentationStatus(),
                     new Login()
                 ];},
             '/event'=>
@@ -159,11 +165,13 @@ class SelectorItems {
     }
 
     /**
-     * Vytvoří objekt Pes\Middleware\Selector a nastaví mu potřebné položky SelectorItem. Objekt Selector je middleware a implementuje Pes\Middleware\ContainerMiddlewareInterface.
+     * Vytvoří objekt Pes\Middleware\Selector a nastaví mu potřebné položky SelectorItem.
+     *
+     * Objekt Selector je middleware a implementuje Pes\Middleware\ContainerMiddlewareInterface.
      * Proto je schopen přijímat middleware kontejner (metodou setMwContainer rozhraní Pes\Middleware\ContainerMiddlewareInterface).
      * Pokud byl při volání konstruktoru této SelectorFactory nastaven kontejner, je tento kontejner nastaven jako middleware kontejner objektu Selector.
      * Selector svůj middleware kontejner sám nepoužívá, pouze ho předává jako parametr middleware stacku (Closure) vybraného SelectorItem.
-     * Pokud je stack při volíní metody addItem() selektoru definován jako anonymní funkce (Closure), kterí jako parametr přijímá kontejner typu Psr\Container\AppInterface,
+     * Pokud je stack při volíní metody addItem() selektoru definován jako anonymní funkce (Closure), která jako parametr přijímá kontejner typu Psr\Container\AppInterface,
      * pak této anonymní funkci předán middleware kontejner selektoru. Injektováním aplikačního kontekneru do konstruktoru selektoru a definováním stacků jednotlivých SelectorItem jako anonymní funkce
      * příjímající kontejner typu Psr\Container\AppInterface lze zajistit automatické předávání (propagaci) aplikačního kontejneru do všech SelectorItem a tedy do všech selektovaných middleware stacků.
      *

@@ -39,14 +39,19 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
 
+//        $this->container =
+//            (new WebContainerConfigurator())->configure(
+//                (new HierarchyContainerConfigurator())->configure(
+//                    (new DbUpgradeContainerConfigurator())->configure(
+//                            new Container($this->getApp()->getAppContainer())
+//                    )
+//                )
+//            );
         $this->container =
             (new WebContainerConfigurator())->configure(
-                (new HierarchyContainerConfigurator())->configure(
-                    (new DbUpgradeContainerConfigurator())->configure(
-                            new Container($this->getApp()->getAppContainer())
-                    )
-                )
+                $this->getApp()->getAppContainer()
             );
+
         $response = $handler->handle($request);
         $newBody = new Body(fopen('php://temp', 'r+'));
         $newBody->write($this->transform($response->getBody()->getContents()));
@@ -139,7 +144,7 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
             /** @var StatusFlashRepo $statusFlashRepo */
             $statusFlashRepo = $this->container->get(StatusFlashRepo::class);
             foreach ($notFound as $url) {
-                $statusFlashRepo->get()->appendMessage("Nenalezen odkaz $url v databázi.");
+                $statusFlashRepo->get()->setMessage("Nenalezen odkaz $url v databázi.");
 //                user_error("Nenalezen odkaz $url v databázi.", E_USER_WARNING);
                 if ($this->hasLogger()) {
                     $this->getLogger()->notice("Pro uri $requestUri nenalezen v obsahu stránky v databázi odkaz $url.");

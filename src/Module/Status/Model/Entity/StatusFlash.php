@@ -11,6 +11,9 @@ namespace Status\Model\Entity;
 use Psr\Http\Message\ServerRequestInterface;
 
 use Model\Entity\EntityAbstract;
+use Status\Model\Enum\FlashSeverityEnum;
+use Pes\Type\Exception\ValueNotInEnumException;
+use Status\Model\Exception\UndefinedFlashMessageSeverityException;
 
 /**
  * Description of StatusFlash
@@ -19,9 +22,9 @@ use Model\Entity\EntityAbstract;
  */
 class StatusFlash extends EntityAbstract implements StatusFlashInterface {
 
-    private $preparedFlashMessage=null;
-    private $storedFlashMessage=null;
-    private $restoredFlashMessage=null;
+    private $preparedFlashMessage=[];
+    private $storedFlashMessage=[];
+    private $restoredFlashMessage=[];
 
     private $preparedFlashCommand;
     private $storedFlashCommand;
@@ -32,11 +35,20 @@ class StatusFlash extends EntityAbstract implements StatusFlashInterface {
     private $preparedPostFlashCommand;
 
     /**
-     * Vrací flash message.
-     *
-     * @return string Flash message string.
+     * @var FlashSeverityEnum
      */
-    public function getMessage() {
+    private $severityEnum;
+
+    public function __construct() {
+        $this->severityEnum = new FlashSeverityEnum();
+    }
+
+    /**
+     * Vrací pole flash message.
+     *
+     * @return array Array Flash messages.
+     */
+    public function getMessages(): array {
         return $this->restoredFlashMessage;
     }
 
@@ -56,22 +68,17 @@ class StatusFlash extends EntityAbstract implements StatusFlashInterface {
 
     /**
      * Nastaví novou flash message.
-     * @param string $message
-     * @return $this
-     */
-    public function setMessage(string $message): StatusFlashInterface {
-        $this->preparedFlashMessage = $message;
-        return $this;
-    }
-
-    /**
-     * Připojí zadaný řerěze na konec flash message oddělený zalomením řádku.
      *
      * @param string $message
      * @return StatusFlashInterface
      */
-    public function appendMessage(string $message): StatusFlashInterface {
-        $this->preparedFlashMessage = (isset($message) AND $message) ? $this->preparedFlashMessage.PHP_EOL.$message : $message;
+    public function setMessage(string $message, $severity = FlashSeverityEnum::INFO): StatusFlashInterface {
+        $en = $this->severityEnum;
+        try {
+            $this->preparedFlashMessage[] = ['severity'=>$en($severity), 'message'=>$message];
+        } catch (ValueNotInEnumException $e) {
+            throw new UndefinedFlashMessageSeverityException("nepřípustná hodnota severity $severity", 0, $e);
+        }
         return $this;
     }
 
@@ -79,7 +86,7 @@ class StatusFlash extends EntityAbstract implements StatusFlashInterface {
      * Nastaví command se životností do příštího requestu (standartní "flash" životnost).
      *
      * @param type $command
-     * @return \Status\Model\Entity\StatusFlashInterface
+     * @return StatusFlashInterface
      */
     public function setCommand($command): StatusFlashInterface {
         $this->preparedFlashCommand = $command;
@@ -90,7 +97,7 @@ class StatusFlash extends EntityAbstract implements StatusFlashInterface {
      * Nastaví command se životností do příštího POST requestu. Requesty jiného typu (typicky GET) nemají na životnost post command vliv.
      *
      * @param type $command
-     * @return \Status\Model\Entity\StatusFlashInterface
+     * @return StatusFlashInterface
      */
     public function setPostCommand($command): StatusFlashInterface {
         $this->preparedPostFlashCommand = $command;
@@ -115,7 +122,7 @@ class StatusFlash extends EntityAbstract implements StatusFlashInterface {
         $method = $request->getMethod();
         switch ($method) {
             case 'GET':
-                $this->storedFlashMessage = null;
+                $this->storedFlashMessage = [];
                 $this->storedFlashCommand = null;
                 break;
             case 'POST':
@@ -129,8 +136,8 @@ class StatusFlash extends EntityAbstract implements StatusFlashInterface {
     /**
      * Metoda slouží pro nastavení stavu objektu StatusFlash z middleware FlashStatus po zpracování requestu v dalších middleware.
      *
-     * Je volána po návratu z middleware metody handle().
-     * Po návratu z této metody je StatusFlash uložen, například serializován do session.
+     * Je určens k volání po návratu z middleware metody handle(). Připraví StatusFlash pro uložení do session.
+     * Po návratu z této metody múže být StatusFlash uložen, například serializován do session.
      *
      * @param ServerRequestInterface $request
      * @return void
@@ -138,7 +145,7 @@ class StatusFlash extends EntityAbstract implements StatusFlashInterface {
     public function afterHandle(ServerRequestInterface $request): void {
         $this->storedFlashMessage = $this->preparedFlashMessage;
         $this->storedFlashCommand = $this->preparedFlashCommand;
-        $this->preparedFlashMessage = null;
+        $this->preparedFlashMessage = [];
         $this->preparedFlashCommand = null;
         $method = $request->getMethod();
         switch ($method) {

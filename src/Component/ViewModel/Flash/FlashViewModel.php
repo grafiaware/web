@@ -29,16 +29,16 @@ class FlashViewModel extends ViewModelAbstract implements FlashViewModelInterfac
 
     public function getIterator() {
         $this->appendData( [
-                    'flashMessage' => $this->getFlashMessage(),
+                    'flashMessages' => $this->getFlashMessages(),
                     'postCommand' => $this->getPostCommand()
                 ]
             );
         return parent::getIterator();
     }
 
-    private function getFlashMessage() {
+    private function getFlashMessages() {
         $statusFlash = $this->statusFlashRepo->get();
-        return $statusFlash ? $statusFlash->getMessage() : '';
+        return $statusFlash ? $statusFlash->getMessages() : '';
     }
 
     private function getPostCommand() {
