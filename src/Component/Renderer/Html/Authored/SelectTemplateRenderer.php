@@ -36,7 +36,7 @@ class SelectTemplateRenderer extends HtmlRendererAbstract {
         $contentTemplateName = $viewModel->getItemTemplate();
         $itemType = $viewModel->getItemType();
         $itemId = $viewModel->getItemId();
-        $selectTemplateElementId = "select_template_$itemType_$itemId";
+        $selectTemplateElementId = "select_template_{$itemType}_{$itemId}";
 
         return
         Html::tag('div', [],
@@ -53,9 +53,11 @@ class SelectTemplateRenderer extends HtmlRendererAbstract {
             )
             .
             Html::tag('div', ['id'=>$selectTemplateElementId,'class'=>$this->classMap->get('PaperTemplateSelect', 'div.selectTemplate')],
-                Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/article/$itemId/template"],
-//                    Html::tagNopair('input', ["type"=>"hidden", "name"=>"template_$articleId", "value"=>$contentTemplateName])
-//                    .
+                Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/$itemType/$itemId/template"],
+
+                    Html::tagNopair('input', ["type"=>"hidden", "name"=>"template_$itemId", "value"=>$contentTemplateName])
+//                       Html::tagNopair('input', ["type"=>"hidden", "name"=>"template_$paperId", "value"=>$contentTemplateName]),
+                    .
                     // class tohoto divu je třída pro selector v tinyInit var selectTemplateConfig
                     // položka classmapy 'div.tinySelectTemplateArticle' vede na class, např. tiny_select_template_paper (v ConfigurationStyles)
                     // class tiny_select_template_paper je selektor pro TinyInit.js (v public) - vybere konfiguraci tiny a v té je proměnná templates se seznamem šablon
@@ -63,24 +65,16 @@ class SelectTemplateRenderer extends HtmlRendererAbstract {
                     // proměnné templates_article a další jsou pak definovány v local šablonách tinyConfig.js
                         //TODO: Sv
                     Html::tag('div', ['id'=>"template_$itemId", 'class'=>$this->classMap->get('PaperTemplateSelect', 'div.tinySelectTemplateArticle')],'')
-                )
+
+                    // kopie z PaperRendererEditable->renderSelectTemplate()
+//                        // class je třída pro selector v tinyInit var selectTemplateConfig
+//                        Html::tag('div', ['id'=>"paper_$paperId", 'class'=>$this->classMap->get('PaperTemplateSelect', 'div.tinySelectTemplatePaper')],''),
+                 )
 
             )
         );
 
         // kopie z PaperRendererEditable->renderSelectTemplate()
-
-        return
-            // id je parametr pro togleTemplateSelect(id) - voláno onclick na button 'Vybrat šablonu stránky'
-            Html::tag('div', ['id'=>"select_template_paper_$paperId",'class'=>$this->classMap->get('PaperTemplateSelect', 'div.selectTemplate')],
-                Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/$paperId/template"],
-                    [
-                        Html::tagNopair('input', ["type"=>"hidden", "name"=>"template_$paperId", "value"=>$contentTemplateName]),
-                        // class je třída pro selector v tinyInit var selectTemplateConfig
-                        Html::tag('div', ['id'=>"paper_$paperId", 'class'=>$this->classMap->get('PaperTemplateSelect', 'div.tinySelectTemplatePaper')],''),
-                    ]
-                )
-            );
 
     }
 }

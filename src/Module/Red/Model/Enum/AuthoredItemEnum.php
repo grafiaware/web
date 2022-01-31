@@ -15,10 +15,17 @@ use Pes\Type\Enum;
  *
  * @author pes2704
  */
-class AuthoredEnum extends Enum {
+class AuthoredItemEnum extends Enum {
+//    db menu_item:
+//article
+//empty
+//multipage
+//paper
+//redirect
+//root
+//static
+//trash
     const PAPER = 'paper';
     const ARTICLE =  'article';
-    const TEXTELEMENT = 'textelement';
-    const HTMLELEMENT = 'htmlelement';
     const MULTIPAGE = 'multipage';
 }

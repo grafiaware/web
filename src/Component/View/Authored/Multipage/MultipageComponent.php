@@ -19,7 +19,7 @@ use Component\Renderer\Html\Authored\Multipage\MultipageRendererEditable;
 
 use Component\View\Manage\ToggleEditContentButtonComponent;
 
-use Red\Model\Enum\AuthoredEnum;
+use Red\Model\Enum\AuthoredItemEnum;
 use Pes\Type\ContextData;
 
 /**

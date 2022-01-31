@@ -432,7 +432,9 @@ var selectTemplateArticleConfig = {
     'template', 'save', 'noneditable',
     ],
     toolbar: 'template | save',
-    templates: templates_article
+//    Array with template items each having a title, description and content/url. If this option is a string then it will be requested as an URL that should produce a JSON output in the same format as the option accepts.
+//    templates: templates_article
+    templates: 'web/v1/templateslist/article'
 
 };
 var selectTemplatePaperConfig = {
@@ -457,7 +459,8 @@ var selectTemplatePaperConfig = {
     'template', 'save', 'noneditable',
     ],
     toolbar: 'template | save',
-    templates: templates_paper
+//    templates: templates_paper
+    templates: 'web/v1/templateslist/paper'
 
 };
 

@@ -20,7 +20,7 @@ use Red\Model\Repository\MenuItemRepoInterface;
 
 use TemplateService\TemplateSeekerInterface;
 
-use Red\Model\Enum\AuthoredEnum;
+use Red\Model\Enum\AuthoredItemEnum;
 
 /**
  * Description of PaperViewModelAnstract
@@ -54,7 +54,7 @@ class ArticleViewModel extends AuthoredViewModelAbstract implements ArticleViewM
      * @param type $menuItemType
      */
     public function getItemType() {
-        return AuthoredEnum::ARTICLE;
+        return AuthoredItemEnum::ARTICLE;
     }
 
     public function getItemTemplate() {

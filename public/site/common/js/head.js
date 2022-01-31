@@ -10,6 +10,7 @@ function hamburger_close() {
 
 function togleTemplateSelect(event, id) {
 //    $('#'+id).toggle();
+    console.log("togleTemplateSelect: element id "+id+".");
     var elm = document.getElementById(id);
     if (elm.style.display=="block") {
         elm.style.display = "none";

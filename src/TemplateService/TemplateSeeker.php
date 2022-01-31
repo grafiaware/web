@@ -4,6 +4,7 @@ namespace TemplateService;
 use Configuration\TemplateControlerConfigurationInterface;
 
 use TemplateService\Exception\UnknownTemplateTypeException;
+use TemplateService\Exception\TemplateNotFoundException;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -24,17 +25,24 @@ class TemplateSeeker implements TemplateSeekerInterface {
      */
     private $configuration;
 
+    /**
+     *
+     * @param TemplateControlerConfigurationInterface $configuration
+     */
     public function __construct(TemplateControlerConfigurationInterface $configuration) {
         $this->configuration = $configuration;
     }
 
     /**
-     * Vyhledá soubor template se zadaným jménem template ve složkách zadaných jako pole. Prohledává složky v pořadí, ve kterém jsou zapsány v poli složek.
+     * Vyhledá soubor template se zadaným jménem template a s příponou zadanou konfigurací ve složkách zadaných v konfiguraci.
+     * Prohledává složky v pořadí, ve kterém jsou zapsány v poli složek a vrací první nalezený soubor.
      * Vrací plnou cestu k souboru s template. Pokud soubor s template nenalezne, vrací false.
      *
      * @param array $templatesType Pole složek, ve kterých bude hledat template
      * @param string $templateName Jméno hledané template
      * @return string|false Cesta k souboru s template nebo false
+     * @throws UnknownTemplateTypeException
+     * @throws TemplateNotFoundException
      */
     public function seekTemplate($templatesType, $templateName) {
         $templateExtension = $this->configuration->getDefaultExtension();
@@ -48,6 +56,6 @@ class TemplateSeeker implements TemplateSeekerInterface {
                 return $filename;
             }
         }
-        return false;
+        throw new TemplateNotFoundException("Nebyly nalezen soubor template se jménem '$templateName' s příponou '$templateExtension' ve složkách zadaných konfigurací.");
     }
 }

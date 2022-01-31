@@ -19,9 +19,11 @@ use Red\Model\Entity\ItemActionInterface;
 use Red\Model\Entity\MenuItemInterface;
 
 use TemplateService\TemplateSeekerInterface;
-use Red\Model\Enum\AuthoredEnum;
+use Red\Model\Enum\AuthoredItemEnum;
 use Pes\Type\Exception\ValueNotInEnumException;
-use Component\ViewModel\Exception\InvalidItemTypeException;
+use Component\ViewModel\Authored\Exception\InvalidItemTypeException;
+use TemplateService\Exception\TemplateServiceExceptionInterface;
+use TemplateService\Exception\TemplateNotFoundException;
 
 /**
  * Description of AuthoredViewModelAbstract
@@ -104,22 +106,28 @@ abstract class AuthoredViewModelAbstract extends StatusViewModel implements Auth
      * Vyhledá soubor template podle typu item a jména template. Typ template získá voláním vlastní metody getItemType() a jméno template
      * voláním vlastní metody getItemTemplate().
      *
-     * Tato metoda konroluje typ item vrácení metodou getItemType(). Přípustné jsou typy zadané ve výčtovém typu AuthoredEnum. Pokud metoda konkrétního modelu vrací
-     * nepřípustný typ, vyhodí výjimku. Pro vlastní hledámí použije objekt TemplateSeekerInterface zadaný do konstruktoru. Konkrétní strategie hledání
+     * Tato metoda konroluje typ item vrácený metodou getItemType(). Přípustné jsou typy zadané ve výčtovém typu AuthoredEnum. Pokud metoda konkrétního modelu vrací
+     * nepřípustný typ, tato metoda vyhodí výjimku.
+     *
+     * Pro vlastní hledámí použije objekt TemplateSeekerInterface zadaný do konstruktoru. Konkrétní strategie hledání
      * je dána objektem TemplateSeekerInterface.
      *
-     * @return string|false Cesta k souboru s template nebo false
      * @throws InvalidItemTypeException
+     * @throws ItemTemplateNotFound
      */
     public function seekTemplate() {
         try {
             $itemType = (string) $this->getItemType();
-            $templatesType = (new AuthoredEnum())($itemType);
+            $templatesType = (new AuthoredItemEnum())($itemType);
         } catch (ValueNotInEnumException $exc) {
             throw new InvalidItemTypeException("Nepřípustný typ item. Typ '$itemType' vrácený metodou getItemType() není přípustný.", 0, $exc);
         }
         $templateName = $this->getItemTemplate();
-        return $this->templateSeeker->seekTemplate($templatesType, $templateName);
+        try {
+            return $this->templateSeeker->seekTemplate($templatesType, $templateName);
+        } catch (TemplateServiceExceptionInterface $exc) {
+            throw new ItemTemplateNotFound("Nenalezen soubor pro hodnoty vracené metodami ViewModel getItemTemplate(): '$templateName' a getItemType(): '$itemType'.", 0, $exc);
+        }
     }
 
     public function getItemAction(): ?ItemActionInterface {
