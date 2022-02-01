@@ -11,6 +11,7 @@ namespace FrontControler;
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;
 use Status\Model\Repository\StatusPresentationRepo;
+use Status\Model\Enum\FlashSeverityEnum;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -92,8 +93,8 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
 
     /// status control ///
 
-    public function addFlashMessage($message): void {
-        $this->statusFlashRepo->get()->setMessage($message);
+    public function addFlashMessage($message, $severity = FlashSeverityEnum::INFO): void {
+        $this->statusFlashRepo->get()->setMessage($message, $severity);
     }
 
     /// create response helpers ///
@@ -140,7 +141,7 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
     }
 
     ### protected methods ###############
-    
+
     /// uri info helpers ///
 
     /**

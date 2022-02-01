@@ -77,12 +77,12 @@ class EditItemControler extends FrontControlerAbstract {
             $this->addFlashMessage("Item inactivated with all its descendants.");
         } else {
             $parent = $this->hierarchyDao->getParent($langCode, $uid);
-            $parentMenuItem = $this->menuItemRepo->get($langCode, $parent['uid']);  
+            $parentMenuItem = $this->menuItemRepo->get($langCode, $parent['uid']);
             if (isset($parentMenuItem)AND $parentMenuItem->getActive()) {
                 $menuItem->setActive(1);  //active je integer
                 $this->addFlashMessage("menuItem toggle(true)");
             } else {
-                $this->addFlashMessage("unable to menuItem toggle(true)");
+                $this->addFlashMessage("unable to menuItem toggle(true)", 'warning');
                 $this->addFlashMessage("Parent item is not active.");
             }
         }

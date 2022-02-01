@@ -72,7 +72,7 @@ class StatusFlash extends EntityAbstract implements StatusFlashInterface {
      * @param string $message
      * @return StatusFlashInterface
      */
-    public function setMessage(string $message, $severity = FlashSeverityEnum::INFO): StatusFlashInterface {
+    public function setMessage(string $message, string $severity = FlashSeverityEnum::INFO): StatusFlashInterface {
         $en = $this->severityEnum;
         try {
             $this->preparedFlashMessage[] = ['severity'=>$en($severity), 'message'=>$message];

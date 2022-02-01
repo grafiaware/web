@@ -9,6 +9,7 @@
 namespace Status\Model\Entity;
 
 use Model\Entity\EntitySingletonInterface;
+use Status\Model\Enum\FlashSeverityEnum;
 
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -35,11 +36,13 @@ interface StatusFlashInterface extends EntitySingletonInterface {
     public function getPostCommand();
 
     /**
-     * Nastaví message
-     * @param string $flash
-     * @return $this
+     * Nastaví message a severity
+     * 
+     * @param string $message
+     * @param string $severity
+     * @return StatusFlashInterface
      */
-    public function setMessage(string $flash): StatusFlashInterface;
+    public function setMessage(string $message, string $severity = FlashSeverityEnum::INFO): StatusFlashInterface;
 
     /**
      * Nastaví command se životností do příštího requestu (standartní "flash" životnost).
