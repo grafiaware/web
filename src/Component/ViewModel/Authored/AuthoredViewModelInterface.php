@@ -24,7 +24,7 @@ interface AuthoredViewModelInterface extends StatusViewModelInterface {
 
     public function getItemType();
     public function getItemId();
-    public function getAuthoredTemplateType();
+    public function getAuthoredTemplateName();
 
     /**
      * Vrací id entity, kretá tvoří zobrazovaný obsah - např article, paper, multipge.

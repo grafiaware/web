@@ -57,7 +57,7 @@ class ArticleViewModel extends AuthoredViewModelAbstract implements ArticleViewM
         return AuthoredTypeEnum::ARTICLE;
     }
 
-    public function getAuthoredTemplateType() {
+    public function getAuthoredTemplateName() {
         return $this->getArticle()->getTemplate();
     }
 

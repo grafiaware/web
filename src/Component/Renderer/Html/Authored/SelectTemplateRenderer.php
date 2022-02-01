@@ -31,10 +31,12 @@ class SelectTemplateRenderer extends HtmlRendererAbstract {
     }
 
     private function renderSelectTemplate(AuthoredViewModelInterface $viewModel) {
-        $contentTemplateName = $viewModel->getAuthoredTemplateType();
+        $contentTemplateName = $viewModel->getAuthoredTemplateName();
         $itemType = $viewModel->getItemType();
-        $itemId = $viewModel->getAuthoredContentId();
-        $selectTemplateElementId = "select_template_{$itemType}_{$itemId}";
+        $contentId = $viewModel->getAuthoredContentId();
+
+        $urlId = "{$itemType}_{$contentId}";
+        $selectTemplateElementId = "select_template_$urlId";
 
         return
         Html::tag('div', [],
@@ -51,18 +53,17 @@ class SelectTemplateRenderer extends HtmlRendererAbstract {
             )
             .
             Html::tag('div', ['id'=>$selectTemplateElementId,'class'=>$this->classMap->get('PaperTemplateSelect', 'div.selectTemplate')],
-                Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/$itemType/$itemId/template"],
+                Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/$itemType/$contentId/template"],
 
-                    Html::tagNopair('input', ["type"=>"hidden", "name"=>"template_$itemId", "value"=>$contentTemplateName])
+                    Html::tagNopair('input', ["type"=>"hidden", "name"=>"template_$contentId", "value"=>$contentTemplateName])
 //                       Html::tagNopair('input', ["type"=>"hidden", "name"=>"template_$paperId", "value"=>$contentTemplateName]),
                     .
                     // class tohoto divu je třída pro selector v tinyInit var selectTemplateConfig
                     // položka classmapy 'div.tinySelectTemplateArticle' vede na class, např. tiny_select_template_paper (v ConfigurationStyles)
-                    // class tiny_select_template_paper je selektor pro TinyInit.js (v public) - vybere konfiguraci tiny a v té je proměnná templates se seznamem šablon
-                    // např. templates: templates_article (jiný seznam pro paper, article, multipage),
-                    // proměnné templates_article a další jsou pak definovány v local šablonách tinyConfig.js
+                    // class tiny_select_template_article je selektor pro TinyInit.js (v public) - vybere konfiguraci tiny a v té je proměnná templates se seznamem šablon
+                    // např. templates: templates_article (jiný seznam pro paper, article, multipage) - teď se seznamy načítací z TemplateCtrl
                         //TODO: Sv
-                    Html::tag('div', ['id'=>"template_$itemId", 'class'=>$this->classMap->get('PaperTemplateSelect', 'div.tinySelectTemplateArticle')],'')
+                    Html::tag('div', ['id'=>"$urlId", 'class'=>$this->classMap->get('PaperTemplateSelect', 'div.tinySelectTemplateArticle')],'')
 
                     // kopie z PaperRendererEditable->renderSelectTemplate()
 //                        // class je třída pro selector v tinyInit var selectTemplateConfig

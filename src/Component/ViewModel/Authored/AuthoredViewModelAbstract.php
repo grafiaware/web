@@ -58,7 +58,7 @@ abstract class AuthoredViewModelAbstract extends StatusViewModel implements Auth
 
     abstract public function getItemType();
 
-    abstract public function getAuthoredTemplateType();
+    abstract public function getAuthoredTemplateName();
     
     abstract public function getAuthoredContentId();
 
@@ -125,7 +125,7 @@ abstract class AuthoredViewModelAbstract extends StatusViewModel implements Auth
         } catch (ValueNotInEnumException $exc) {
             throw new InvalidItemTypeException("Nepřípustný typ item. Typ '$itemType' vrácený metodou getItemType() není přípustný.", 0, $exc);
         }
-        $templateName = $this->getAuthoredTemplateType();
+        $templateName = $this->getAuthoredTemplateName();
         if (isset($templateName) AND $templateName) {
             try {
                 $templateFileName = $this->templateSeeker->seekTemplate($templatesType, $templateName);

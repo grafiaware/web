@@ -58,7 +58,7 @@ class PaperViewModel extends AuthoredViewModelAbstract implements PaperViewModel
         return AuthoredTypeEnum::PAPER;
     }
 
-    public function getAuthoredTemplateType() {
+    public function getAuthoredTemplateName() {
         return $this->getPaper()->getTemplate();
     }
 
