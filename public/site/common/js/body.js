@@ -259,24 +259,24 @@ function initLoadedElements() {
                   cls = className of divs;
                   cw = clockwise(true/false) 
             */
-            var Position = {
-              ellipse : function(n, rx, ry, so, wh, clsP, cls, cw) {
-                var m = document.getElementsByClassName('contents_in_circle'),
-                 ss = document.styleSheets;
-                ss[0].insertRule(clsP + ' { position: relative; left: 50%; transform: translateX(-50%); border-radius: 50%; box-shadow: inset 0 0 ' + wh + 'px ' + wh/4 +'px #abcfcf; background: transparent; width: ' + String((rx * 2) + wh) + 'px; height: ' + String((ry * 2) + wh) + 'px; }', 1);
-                ss[0].insertRule(cls + '{ position: absolute; background: #e2fbff; color: black; text-align: center; font-family: "Open Sans Condensed", sans-serif; border-radius: 100%; transition: transform 0.2s ease; width: ' + wh + 'px; height: ' + wh + 'px; line-height: ' + wh + 'px;}', 1);
-                ss[0].insertRule(cls + ':hover { transform: scale(1.1); cursor: pointer; background: white; }', 1);
-                m.className = clsP;
-                for (var i = 0; i < n; i++) {
-                  var c = document.getElementById('circle').getElementsByTagName('content')[i];
-                  //console.log('shoj');
-                  //c.className = cls;  
-                  c.style.top = String(ry + -ry * Math.cos((360 / n / 180) * (i + so) * Math.PI)) + 'px';
-                  c.style.left = String(rx + rx * (cw ? Math.sin((360 / n / 180) * (i + so) * Math.PI) : -Math.sin((360 / n / 180) * (i + so) * Math.PI))) + 'px';
-                }
-              }
-            };
-
-            var lenghtD = document.getElementById('circle').getElementsByTagName('content').length;
-            Position.ellipse(lenghtD, 120, 120, 0, 100, '.contents_in_circle', '#circle content', true);
+//            var Position = {
+//              ellipse : function(n, rx, ry, so, wh, clsP, cls, cw) {
+//                var m = document.getElementsByClassName('contents_in_circle'),
+//                 ss = document.styleSheets;
+//                ss[0].insertRule(clsP + ' { position: relative; left: 50%; transform: translateX(-50%); border-radius: 50%; box-shadow: inset 0 0 ' + wh + 'px ' + wh/4 +'px #abcfcf; background: transparent; width: ' + String((rx * 2) + wh) + 'px; height: ' + String((ry * 2) + wh) + 'px; }', 1);
+//                ss[0].insertRule(cls + '{ position: absolute; background: #e2fbff; color: black; text-align: center; font-family: "Open Sans Condensed", sans-serif; border-radius: 100%; transition: transform 0.2s ease; width: ' + wh + 'px; height: ' + wh + 'px; line-height: ' + wh + 'px;}', 1);
+//                ss[0].insertRule(cls + ':hover { transform: scale(1.1); cursor: pointer; background: white; }', 1);
+//                m.className = clsP;
+//                for (var i = 0; i < n; i++) {
+//                  var c = document.getElementById('circle').getElementsByTagName('content')[i];
+//                  //console.log('shoj');
+//                  //c.className = cls;  
+//                  c.style.top = String(ry + -ry * Math.cos((360 / n / 180) * (i + so) * Math.PI)) + 'px';
+//                  c.style.left = String(rx + rx * (cw ? Math.sin((360 / n / 180) * (i + so) * Math.PI) : -Math.sin((360 / n / 180) * (i + so) * Math.PI))) + 'px';
+//                }
+//              }
+//            };
+//
+//            var lenghtD = document.getElementById('circle').getElementsByTagName('content').length;
+//            Position.ellipse(lenghtD, 120, 120, 0, 100, '.contents_in_circle', '#circle content', true);
 }
