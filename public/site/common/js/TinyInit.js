@@ -4,7 +4,7 @@
 /* global templates_multipage */
 /* global templates_article */
 /* global templates_paper */
-/* global templates_author */
+/* global 'web/v1/templateslist/author' */
 
 /*
  * Přidání/změna selectoru pro Tiny
@@ -346,7 +346,7 @@ var editHtmlConfig = {
     inline: true,
 
     plugins: plugins,
-    templates: templates_author,
+    templates: 'web/v1/templateslist/author',
     toolbar1: toolbar1,
     toolbar2: toolbar2,
     imagetools_toolbar: imagetools_toolbar,
@@ -388,7 +388,7 @@ var editMceEditableConfig = {
     inline: true,
 
     plugins: plugins,
-    templates: templates_author,
+    templates: 'web/v1/templateslist/author',
     toolbar1: toolbar1,
     toolbar2: toolbar2,
     imagetools_toolbar: imagetools_toolbar,
@@ -461,6 +461,32 @@ var selectTemplatePaperConfig = {
     toolbar: 'template | save',
 //    templates: templates_paper
     templates: 'web/v1/templateslist/paper'
+
+};
+
+var selectTemplateMultipageConfig = {
+    selector: '.tiny_select_template_multipage',
+    schema : 'html5',
+    placeholder: 'Výběr šablony stránky',
+    relative_urls : true,
+    extended_valid_elements : ['headline[*]', 'perex[*]', 'content[*]', 'i[*]'],
+    custom_elements: ['headline', 'perex', 'content'],
+    valid_children: '+a[div] ',
+    link_title: false,
+    noneditable_editable_class: 'mceEditable',
+    noneditable_noneditable_class: 'mceNonEditable',
+    language : tinyConfig.toolbarsLang,
+    document_base_url : tinyConfig.basePath,
+    content_css: tinyConfig.contentCss,
+    body_class: "layout preview",
+
+    menubar: false,
+    inline: true,
+    plugins: [
+    'template', 'save', 'noneditable',
+    ],
+    toolbar: 'template | save',
+    templates: 'web/v1/templateslist/multipage'
 
 };
 

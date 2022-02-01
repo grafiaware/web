@@ -4,7 +4,7 @@
     ;
 
     //flash message
-    $('#domtoast')
+    $('.flashtoast')
         .toast({
             displayTime: 5000
         })

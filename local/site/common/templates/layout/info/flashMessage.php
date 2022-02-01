@@ -2,11 +2,10 @@
 use Pes\Text\Text;
 use Pes\Text\Html;
 
-// flashMessages je číselné pole - je třeba použít proměnnou $repeatItem
-
+// class flashtoast je selektor pro volání semantic funkce toast (body.js)
 $toastAtrributes = [
-        'id'=>($message ?? '') ? "domtoast". time() : "",
-        'class'=>["ui small toast", $severity ?? 'info']  // "warning", "info", "success"
+        'id'=>($message ?? '') ? "flash". time() : "",
+        'class'=>["ui small toast", "flashtoast", $severity ?? 'info']  // severity: "warning", "info", "success"
     ];
 
 
