@@ -1,0 +1,2 @@
+    
+    <?= $paperContent ?>

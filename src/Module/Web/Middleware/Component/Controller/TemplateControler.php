@@ -80,6 +80,7 @@ class TemplateControler extends FrontControlerAbstract {
         $templates['article'] = [
         [ 'title' => 'Šablona pro příspěvek', 'description' => 'Jednoduchá šablona pro vložení textu a obrázku.',       'url' => 'web/v1/articletemplate/web_post'],
         [ 'title' => 'Šablona pro popis knihy', 'description' => 'Popis knihy i autora, obrázky a důležité informace.',       'url' => 'web/v1/articletemplate/book_description'],
+        [ 'title' => 'Kousíčková šablona', 'description' => 'Popis knihy i autora, obrázky a důležité informace.',       'url' => 'web/v1/articletemplate/book_description_Lebenhart'],
         [ 'title' => 'Šablona pro kurz', 'description' => 'Hlavní stránka kurzu. Napište lidem základní informace i recenze od účastníků.',       'url' => 'web/v1/articletemplate/retraining_course'],
         [ 'title' => 'Šablona pro produkt / službu', 'description' => 'Zviditelněte svůj produkt či službu.',       'url' => 'web/v1/articletemplate/product_page'],
              ];
@@ -90,6 +91,9 @@ class TemplateControler extends FrontControlerAbstract {
        // [ 'title' => 'Test - namedpaper a3', 'description' => 'rendered component',       'url' => 'red/v1/nameditem/a3'],
         $templates['paper'] = [
         [ 'title' => 'template paper default', 'description' => 'popis',       'url' => 'web/v1/papertemplate/default'],
+        [ 'title' => 'template paper columns perex and contents', 'description' => 'popis',       'url' => 'web/v1/papertemplate/columns_perex_contents'],
+        [ 'title' => 'template paper columns in circle with js', 'description' => 'popis',       'url' => 'web/v1/papertemplate/contents_in_circle_js'],
+        [ 'title' => 'template paper with images', 'description' => 'popis',       'url' => 'web/v1/papertemplate/images_paper'],
         [ 'title' => 'template paper column cards', 'description' => 'popis',       'url' => 'web/v1/papertemplate/column_cards'],
         [ 'title' => 'template paper columns', 'description' => 'popis',       'url' => 'web/v1/papertemplate/columns'],
         [ 'title' => 'template paper divided_rows', 'description' => 'popis',       'url' => 'web/v1/papertemplate/divided_rows'],
