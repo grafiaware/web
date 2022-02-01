@@ -19,7 +19,7 @@ use Red\Model\Entity\ItemActionInterface;
 use Red\Model\Entity\MenuItemInterface;
 
 use TemplateService\TemplateSeekerInterface;
-use Red\Model\Enum\AuthoredItemEnum;
+use Red\Model\Enum\AuthoredTypeEnum;
 use Pes\Type\Exception\ValueNotInEnumException;
 use Component\ViewModel\Authored\Exception\InvalidItemTypeException;
 use TemplateService\Exception\TemplateServiceExceptionInterface;
@@ -58,7 +58,9 @@ abstract class AuthoredViewModelAbstract extends StatusViewModel implements Auth
 
     abstract public function getItemType();
 
-    abstract public function getItemTemplate();
+    abstract public function getAuthoredTemplateType();
+    
+    abstract public function getAuthoredContentId();
 
     public function getItemId() {
         if (!isset($this->menuItemId)) {
@@ -119,11 +121,11 @@ abstract class AuthoredViewModelAbstract extends StatusViewModel implements Auth
     public function seekTemplate(): string {
         try {
             $itemType = (string) $this->getItemType();
-            $templatesType = (new AuthoredItemEnum())($itemType);
+            $templatesType = (new AuthoredTypeEnum())($itemType);
         } catch (ValueNotInEnumException $exc) {
             throw new InvalidItemTypeException("Nepřípustný typ item. Typ '$itemType' vrácený metodou getItemType() není přípustný.", 0, $exc);
         }
-        $templateName = $this->getItemTemplate();
+        $templateName = $this->getAuthoredTemplateType();
         if (isset($templateName) AND $templateName) {
             try {
                 $templateFileName = $this->templateSeeker->seekTemplate($templatesType, $templateName);

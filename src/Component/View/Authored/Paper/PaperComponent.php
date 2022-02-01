@@ -30,7 +30,7 @@ use Component\Renderer\Html\Authored\Paper\ContentsRendererEditable;
 
 use Component\View\Manage\ToggleEditContentButtonComponent;
 
-use Red\Model\Enum\AuthoredItemEnum;
+use Red\Model\Enum\AuthoredTypeEnum;
 use Pes\Type\ContextData;
 
 /**

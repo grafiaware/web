@@ -19,7 +19,7 @@ use Red\Model\Entity\MultipageInterface;
 use Red\Model\Entity\MenuItemAggregateHierarchyInterface;
 
 use TemplateService\TemplateSeekerInterface;
-use Red\Model\Enum\AuthoredItemEnum;
+use Red\Model\Enum\AuthoredTypeEnum;
 /**
  * Description of PaperViewModelAnstract
  *
@@ -59,13 +59,17 @@ class MultipageViewModel extends AuthoredViewModelAbstract implements MultipageV
      * @param type $menuItemType
      */
     public function getItemType() {
-        return AuthoredItemEnum::MULTIPAGE;
+        return AuthoredTypeEnum::MULTIPAGE;
     }
 
-    public function getItemTemplate() {
+    public function getAuthoredTemplateType() {
         return $this->getMultipage()->getTemplate();
     }
 
+    public function getAuthoredContentId() {
+        return $this->getMultipage()->getId();
+    }
+    
     /**
      * {@inheritdoc}
      *

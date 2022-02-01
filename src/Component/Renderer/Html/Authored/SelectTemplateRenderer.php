@@ -31,11 +31,9 @@ class SelectTemplateRenderer extends HtmlRendererAbstract {
     }
 
     private function renderSelectTemplate(AuthoredViewModelInterface $viewModel) {
-        $article = $viewModel->getArticle();
-
-        $contentTemplateName = $viewModel->getItemTemplate();
+        $contentTemplateName = $viewModel->getAuthoredTemplateType();
         $itemType = $viewModel->getItemType();
-        $itemId = $viewModel->getItemId();
+        $itemId = $viewModel->getAuthoredContentId();
         $selectTemplateElementId = "select_template_{$itemType}_{$itemId}";
 
         return

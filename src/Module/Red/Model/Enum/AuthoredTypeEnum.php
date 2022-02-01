@@ -15,7 +15,7 @@ use Pes\Type\Enum;
  *
  * @author pes2704
  */
-class AuthoredItemEnum extends Enum {
+class AuthoredTypeEnum extends Enum {
 //    db menu_item:
 //article
 //empty

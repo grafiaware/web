@@ -26,7 +26,7 @@ use Red\Model\Repository\MenuItemRepo;
 use Red\Model\Repository\ItemActionRepo;
 
 use Red\Model\Entity\ItemAction;
-use Red\Model\Enum\AuthoredItemEnum;
+use Red\Model\Enum\AuthoredTypeEnum;
 
 use Red\Middleware\Redactor\Controler\Exception\UnexpectedLanguageException;
 

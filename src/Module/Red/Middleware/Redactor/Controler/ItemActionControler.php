@@ -26,7 +26,7 @@ use Red\Model\Repository\MenuItemRepo;
 use Red\Model\Repository\ItemActionRepo;
 
 use Red\Model\Entity\ItemAction;
-use Red\Model\Enum\AuthoredItemEnum;
+use Red\Model\Enum\AuthoredTypeEnum;
 
 use Red\Middleware\Redactor\Controler\Exception\UnexpectedLanguageException;
 
@@ -51,7 +51,7 @@ class ItemActionControler extends FrontControlerAbstract {
 
     public function addUserItemAction(ServerRequestInterface $request, $typeFk, $itemId) {
         $userActions = $this->statusPresentationRepo->get()->getUserActions();
-        $typeFk = (new AuthoredItemEnum())($typeFk);
+        $typeFk = (new AuthoredTypeEnum())($typeFk);
         if (! $userActions->hasUserItemAction($typeFk, $itemId)) {
             $itemAction = new ItemAction();
             $itemAction->setTypeFk($typeFk);
