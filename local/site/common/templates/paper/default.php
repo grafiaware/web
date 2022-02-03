@@ -1,13 +1,11 @@
         <div class="" data-template="<?= "default" ?>">
             <div class="ui grid">
-                <div class="sixteen wide column">
-                    <section>
-                            <?= $headline ?>
-                            <?= $perex ?>
-                    </section>
-                </div>
+                <?= $headline ?>
             </div>
-            <div class="ui grid">
+            <div class="ui grid vertikalne-prohodit">
+                <div class="sixteen wide column">
+                    <?= $perex ?>
+                </div>
                 <?= $this->repeat(PROJECT_PATH."local/site/common/templates/paper-content/default.php", $contents, 'paperContent'); ?>
             </div>
         </div>

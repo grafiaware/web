@@ -10,13 +10,13 @@ use Red\Model\Entity\PaperAggregatePaperContentInterface;
 
 ?>
 
-    <div class="" data-template="<?= "columns_perex_contents" ?>">
+    <div class="" data-template="columns_perex_contents">
         <div class="ui grid">
             <div class="sixteen wide column">
                 <?= $headline ?>
             </div>
         </div>
-        <div class="ui grid stackable">
+        <div class="ui grid stackable horizontalne-prohodit">
             <div class="eight wide column">
                 <?= $perex ?>
             </div>

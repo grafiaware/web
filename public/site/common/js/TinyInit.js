@@ -479,13 +479,17 @@ var selectTemplatePaperConfig = {
     document_base_url : tinyConfig.basePath,
     content_css: tinyConfig.contentCss,
     body_class: "layout preview",
-
+    style_formats: [
+        { title: 'Vertikálně prohodit perex a contents', selector: 'div.vertikalne-prohodit', styles: { 'flex-direction': 'column-reverse' } },
+        { title: 'Horizontálně prohodit perex a contents', selector: 'div.horizontalne-prohodit', styles: { 'flex-direction': 'row-reverse' } },
+    ],
+    style_formats_autohide: true,
     menubar: false,
     inline: true,
     plugins: [
-    'template', 'save', 'noneditable',
+    'template', 'save', 'noneditable', 
     ],
-    toolbar: 'template | save',
+    toolbar: 'template | save cancel | styleselect',
     templates: 'web/v1/templateslist/paper'
 
 };
