@@ -10,9 +10,13 @@ use Component\ViewModel\Authored\Article\ArticleViewModelInterface;
 
 use Component\ViewModel\Authored\AuthoredViewModelInterface;
 
+use Red\Middleware\Redactor\Controler\AuthoredControlerAbstract;
+use Red\Middleware\Redactor\Controler\ArticleControler;
+
 use Pes\Text\Html;
 use Component\Renderer\Html\HtmlRendererAbstract;
 
+use UnexpectedValueException;
 
 /**
  * Description of PaperRenderer
@@ -113,29 +117,38 @@ class ArticleRendererEditable extends HtmlRendererAbstract {
                             $viewModel->getContextVariable(AuthoredComponentAbstract::BUTTON_EDIT_CONTENT) ?? '',
                             $this->renderSelectTemplate($viewModel),
                             $this->renderRibbon($viewModel),
-                            $article->getContent(),
+                            $this->getFormWithContent($viewModel),
                         ]
                     )
                 );
         return $html ?? '';
     }
+##### article
+    private function getFormWithContent(ArticleViewModelInterface $viewModel) {
+        $id = $viewModel->getAuthoredContentId();
+        $templateName = $viewModel->getAuthoredTemplateName();
+
+        return Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/article/$id"],
+                Html::tag('div',
+                    [
+                        'id'=> ArticleControler::ARTICLE_CONTENT.$id,           // POZOR - id musí být unikátní - jinak selhává tiny selektor
+                        'class'=>'edit-html',
+                        "data-templatename"=>$templateName,   // toto je selektor pro template css - nastaveno v base-template.less souboru
+                    ],
+                     $viewModel->getArticle()->getContent()  // co je editovatelné je dáno šablonou
+                )
+            );
+    }
+
+##### společné - authored
 
     private function renderRibbon(AuthoredViewModelInterface $viewModel) {
         $menuItem = $viewModel->getMenuItem();
         $type = $viewModel->getItemType();  // spoléhám na to, že návratová hodnota je hodnota z AuthoredTypeEnum
-        switch ($type) {
-            case AuthoredTypeEnum::ARTICLE:
-                $class = $this->classMap->get('PaperButtons', 'div.ribbon-article');
-                break;
-            case AuthoredTypeEnum::PAPER:
-                $class = $this->classMap->get('PaperButtons', 'div.ribbon-paper');
-                break;
-            case AuthoredTypeEnum::MULTIPAGE:
-                $class = $this->classMap->get('PaperButtons', 'div.ribbon-multipage');
-                break;
-            default:
-                break;
-        }
+
+        //TODO: barvy do css - KŠ
+        $class = $this->classMap->get('PaperButtons', 'div.ribbon-article');
+
         return
             Html::tag('div', ['class'=>$class], //lepítko s buttony
                 Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.semafor')], //aktivní/neaktivní paper
@@ -146,9 +159,7 @@ class ArticleRendererEditable extends HtmlRendererAbstract {
                 .Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.nameMenuItem')],
                     Html::tag('p', ['class'=>''],
                         $type
-                    )
-                    .Html::tag('p', ['class'=>''],
-                        $menuItem->getTitle()
+                        .Html::tag('span', ['class'=>''],$menuItem->getTitle())
                     )
                 )
                 .$this->renderArticleButtonsForm($viewModel)
@@ -156,21 +167,35 @@ class ArticleRendererEditable extends HtmlRendererAbstract {
     }
 
     private function renderSelectTemplate(AuthoredViewModelInterface $viewModel) {
-        $type = $viewModel->getItemType();
         $contentTemplateName = $viewModel->getAuthoredTemplateName();
         $authoredContentId = $viewModel->getAuthoredContentId();
 
-        $templateNamePostVar = "template_$authoredContentId";
-        $templateContentPostVar = "{$type}_{$authoredContentId}";
+        $type = $viewModel->getItemType();
+        // $templateContentPostVar použito jako id pro element, na které visí tiny - POZOR - id musí být unikátní - jinak selhává tiny selektor
+        switch ($type) {
+            case AuthoredTypeEnum::ARTICLE:
+                $templateContentPostVar = AuthoredControlerAbstract::ARTICLE_TEMPLATE_CONTENT.$authoredContentId;
+                break;
+            case AuthoredTypeEnum::PAPER:
+                $templateContentPostVar = AuthoredControlerAbstract::PAPER_TEMPLATE_CONTENT.$authoredContentId;
+                break;
+            case AuthoredTypeEnum::MULTIPAGE:
+                $templateContentPostVar = AuthoredControlerAbstract::MULTIPAGE_TEMPLATE_CONTENT.$authoredContentId;
+                break;
+            default:
+                throw new UnexpectedValueException("Neznámý typ item '$type'. Použijte příkaz 'Zpět' a nepoužívejte tento typ obsahu.");
+        }
+
         return
             // id je parametr pro togleTemplateSelect(id) - voláno onclick na button 'Vybrat šablonu stránky'
             Html::tag('div', ['id'=> $this->getTemplateSelectId($viewModel),'class'=>$this->classMap->get('PaperTemplateSelect', 'div.selectTemplate')],
                 Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/$type/$authoredContentId/template"],
                     [
-                        Html::tagNopair('input', ["type"=>"hidden", "name"=>$templateNamePostVar, "value"=>$contentTemplateName]),
+//                        Html::tagNopair('input', ["type"=>"hidden", "name"=>$templateNamePostVar, "value"=>$contentTemplateName]),
+//
                         // class je třída pro selector v tinyInit var selectTemplateConfig
 //                        Html::tag('div', ['id'=>$templateContentPostVar, 'class'=>$this->classMap->get('PaperTemplateSelect', 'div.tinySelectTemplateArticle')],''),
-                        Html::tag('div', ['id'=>$templateContentPostVar, 'class'=>"tiny_select_template_$type"],''),
+                        Html::tag('div', ['id'=>$templateContentPostVar, 'class'=>"tiny_select_template_$type"],''),       // POZOR - id musí být unikátní - jinak selhává tiny selektor
                     ]
                 )
             );

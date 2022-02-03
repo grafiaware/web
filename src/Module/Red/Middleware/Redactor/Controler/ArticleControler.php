@@ -8,8 +8,6 @@
 
 namespace Red\Middleware\Redactor\Controler;
 
-use FrontControler\FrontControlerAbstract;
-
 use Psr\Http\Message\ServerRequestInterface;
 
 use Pes\Application\AppFactory;
@@ -38,7 +36,10 @@ use UnexpectedValueException;
  *
  * @author pes2704
  */
-class ArticleControler extends FrontControlerAbstract {
+class ArticleControler extends AuthoredControlerAbstract {
+
+    const ARTICLE_TEMPLATE_NAME = 'article_template';
+    const ARTICLE_CONTENT = 'article_content';
 
     private $articleRepo;
 
@@ -63,23 +64,11 @@ class ArticleControler extends FrontControlerAbstract {
         if (!isset($article)) {
             user_error("Neexistuje article se zadaným id $articleId");
         } else {
-            $postParams = $request->getParsedBody();
-            // jméno POST proměnné je vytvořeno v paper rendereru složením 'article_' a $article->getId()
-            // jiné POST parametry nepoužije (pokud jsou renderovány elementy input např. z inputů show a hide - takové parametry musí vyhodnocovat jiná action metoda, t.j. musí se odesílat spolu
-            // s jiným formaction (jiné REST uri))
-            if (array_key_exists("article_$articleId", $postParams)) {
-                $statusPresentation = $this->statusPresentationRepo->get();
-                $templateName = $statusPresentation->getLastTemplateName();
-                if (isset($templateName) AND $templateName) {
-                    $statusPresentation->setLastTemplateName('');
-                    $article->setTemplate($templateName);
-                    $article->setContent($postParams["article_$articleId"]);
-                    $this->addFlashMessage("Article created from $templateName", FlashSeverityEnum::SUCCESS);
-                } else {
-                    $article->setContent($postParams["article_$articleId"]);
-                    $this->addFlashMessage('Article updated', FlashSeverityEnum::SUCCESS);
-                }
-            }
+            $postContent = (new RequestParams())->getParam($request, self::ARTICLE_CONTENT.$articleId, '');
+            $statusPresentation = $this->statusPresentationRepo->get();
+            $statusPresentation->setLastTemplateName('');
+            $article->setContent($postContent);
+            $this->addFlashMessage('Article updated', FlashSeverityEnum::SUCCESS);
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
@@ -95,9 +84,11 @@ class ArticleControler extends FrontControlerAbstract {
         if (!isset($article)) {
             user_error("Neexistuje article se zadaným id $articleId");
         } else {
-            $postTemplateName = (new RequestParams())->getParam($request, 'template_'.$articleId, '');
-            $postTemplateContent = (new RequestParams())->getParam($request, 'article_'.$articleId, '');
-            $lastTemplateName = $this->statusPresentationRepo->get()->getLastTemplateName();   // TODO: odstranit mechanizmus LastTemplateName
+            $postTemplateName = (new RequestParams())->getParam($request, self::ARTICLE_TEMPLATE_NAME.$articleId, '');
+            $postTemplateContent = (new RequestParams())->getParam($request, self::ARTICLE_TEMPLATE_CONTENT.$articleId, '');
+            $statusPresentation = $this->statusPresentationRepo->get();
+            $lastTemplateName = $statusPresentation->getLastTemplateName() ?? '';
+            $statusPresentation->setLastTemplateName('');
             //TODO: -template je nutné nastavit ve všech jazykových verzích ?? možná ne
             $article->setTemplate($lastTemplateName);
             $article->setContent($postTemplateContent);

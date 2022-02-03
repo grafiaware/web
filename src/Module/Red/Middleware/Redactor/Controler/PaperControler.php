@@ -8,8 +8,6 @@
 
 namespace Red\Middleware\Redactor\Controler;
 
-use FrontControler\FrontControlerAbstract;
-
 use Psr\Http\Message\ServerRequestInterface;
 
 use Pes\Application\AppFactory;
@@ -37,7 +35,7 @@ use UnexpectedValueException;
  *
  * @author pes2704
  */
-class PaperControler extends FrontControlerAbstract {
+class PaperControler extends AuthoredControlerAbstract {
 
     private $paperAggregateRepo;
 

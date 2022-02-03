@@ -41,6 +41,7 @@ class PaperRendererEditable  extends HtmlRendererAbstract {
 
     private function renderRibbon(PaperViewModelInterface $viewModel) {
         $menuItem = $viewModel->getMenuItem();
+        $type = $viewModel->getItemType();  // spoléhám na to, že návratová hodnota je hodnota z AuthoredTypeEnum
         return
             Html::tag('div', ['class'=>$this->classMap->get('PaperButtons', 'div.ribbon-paper')], //lepítko s buttony
                 Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.semafor')], //aktivní/neaktivní paper
@@ -50,10 +51,8 @@ class PaperRendererEditable  extends HtmlRendererAbstract {
                 )
                 .Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.nameMenuItem')],
                     Html::tag('p', ['class'=>''],
-                        'Paper'
-                    )
-                    .Html::tag('p', ['class'=>''],
-                        $menuItem->getTitle()
+                        $type
+                        .Html::tag('span', ['class'=>''],$menuItem->getTitle())
                     )
                 )
                 .$this->renderPaperButtonsForm($viewModel)
@@ -70,7 +69,7 @@ class PaperRendererEditable  extends HtmlRendererAbstract {
             Html::tag('div', ['id'=>"select_template_paper_$paperId",'class'=>$this->classMap->get('PaperTemplateSelect', 'div.selectTemplate')],
                 Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/$paperId/template"],
                     [
-                        Html::tagNopair('input', ["type"=>"hidden", "name"=>"template_$paperId", "value"=>$contentTemplateName]),
+//                        Html::tagNopair('input', ["type"=>"hidden", "name"=>"template_$paperId", "value"=>$contentTemplateName]),
                         // class je třída pro selector v tinyInit var selectTemplateConfig
                         Html::tag('div', ['id'=>"paper_$paperId", 'class'=>$this->classMap->get('PaperTemplateSelect', 'div.tinySelectTemplatePaper')],''),
                     ]

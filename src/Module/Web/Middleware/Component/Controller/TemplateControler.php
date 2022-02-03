@@ -30,8 +30,7 @@ use Status\Model\Repository\StatusFlashRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 
 use TemplateService\TemplateSeekerInterface;
-
-use \StatusManager\StatusPresentationManager;
+use Red\Model\Enum\AuthoredTemplateTypeEnum;
 
 use Pes\Text\Message;
 
@@ -124,13 +123,15 @@ class TemplateControler extends FrontControlerAbstract {
     }
 
     /**
-     * Vrací obsah šablony.
+     * Uloží jméno požadované šablony do presentatin statusu a vrací obsah šablony (pro zobrazení v náhledu šablony).
+     * Připraveno pro TinyMce dialog pro výběr šablony. Teto dialog posílá GET request při každé změně výběru v selectoru šablon a ještě jednou po kliku na tlačítko 'Uložit'.
+     *
      * @param ServerRequestInterface $request
      * @param type $templateName
      * @return type
      */
     public function articletemplate(ServerRequestInterface $request, $templateName) {
-        $filename = $this->templateSeeker->seekTemplate('article', $templateName);
+        $filename = $this->templateSeeker->seekTemplate(AuthoredTemplateTypeEnum::ARTICLE, $templateName);
         if ($filename) {
             $str = (new Includer())->protectedIncludeScope($filename);
 //            $str = file_get_contents($filename);
@@ -143,7 +144,8 @@ class TemplateControler extends FrontControlerAbstract {
     }
 
     /**
-     * Odesílá obsah vytvořený komponentou SelectPaperTemplateComponent. Ta renderuje požadovanou šablonu s použitím Paper odpovídajícího prezentované položce menu.
+     * Uloží jméno požadované šablony do presentatin statusu a odesílá obsah vytvořený komponentou SelectPaperTemplateComponent.
+     * Ta renderuje požadovanou šablonu s použitím Paper odpovídajícího prezentované položce menu.
      * Připraveno pro TinyMce dialog pro výběr šablony. Teto dialog posílá GET request při každé změně výběru v selectoru šablon a ještě jednou po kliku na tlačítko 'Uložit'.
      *
      * @param ServerRequestInterface $request
@@ -153,7 +155,7 @@ class TemplateControler extends FrontControlerAbstract {
     public function papertemplate(ServerRequestInterface $request, $templateName) {
         $presentedMenuItem = $this->statusPresentationRepo->get()->getMenuItem();
         if (isset($presentedMenuItem)) {
-            $filename = $this->templateSeeker->seekTemplate('paper', $templateName);
+            $filename = $this->templateSeeker->seekTemplate(AuthoredTemplateTypeEnum::PAPER, $templateName);
 
             $menuItemId = $presentedMenuItem->getId();
             /** @var SelectedPaperTemplateComponentInterface $view */
@@ -179,9 +181,15 @@ class TemplateControler extends FrontControlerAbstract {
         return $this->createResponseFromView($request, $view);
     }
 
+    /**
+     * Odesílá obsah authoringové šablony. Obsah načte ze souboru a renderuje jako PhpTemplate.
+     * @param ServerRequestInterface $request
+     * @param type $templateName
+     * @return type
+     */
     public function authorTemplate(ServerRequestInterface $request, $templateName) {
         // author šablony - jen v common a jméno je jméno souboru (ne složky)
-        $filename = $this->templateSeeker->seekTemplate('author', $templateName);
+        $filename = $this->templateSeeker->seekTemplate(AuthoredTemplateTypeEnum::AUTHOR, $templateName);
         $view = $this->container->get(View::class);
         $view->setTemplate(new PhpTemplate($filename));  // exception
         return $this->createResponseFromView($request, $view);
@@ -192,7 +200,7 @@ class TemplateControler extends FrontControlerAbstract {
 
     private function setTemplateByName(AuthoredComponentInterface $component, $name) {
             try {
-                $templatePath = $this->templateSeeker->seekTemplate('paper', $paperAggregate->getTemplate());
+                $templatePath = $this->templateSeeker->seekTemplate(AuthoredTemplateTypeEnum::PAPER, $paperAggregate->getTemplate());
                 $this->setTemplate(new PhpTemplate($templatePath));  // exception
                 // renderery musí být definovány v Renderer kontejneru - tam mohou dostat classMap do konstruktoru
 //                $this->addChildRendererName('headline', HeadlineRenderer::class);
