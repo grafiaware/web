@@ -18,9 +18,12 @@ use Pes\Http\Request\RequestParams;
 use Pes\Http\Response;
 use Pes\Http\Response\RedirectResponse;
 
-use Status\Model\Repository\{
-    StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo
-};
+use Status\Model\Repository\StatusSecurityRepo;
+use Status\Model\Repository\StatusFlashRepo;
+use Status\Model\Repository\StatusPresentationRepo;
+
+use Status\Model\Enum\FlashSeverityEnum;
+
 use Red\Model\Repository\PaperContentRepo;
 use Red\Model\Entity\PaperContentInterface;
 use Red\Model\Entity\PaperContent;
@@ -48,7 +51,7 @@ class ContentControler extends FrontControlerAbstract {
     private function isContent($content) {
         if (!isset($content)) {
             user_error('Neexistuje content se zadaným $contentId.');
-            $this->addFlashMessage('Neexistuje content s $contentId v requestu.');
+            $this->addFlashMessage('Neexistuje content s $contentId v requestu.', FlashSeverityEnum::WARNING);
             return false;
         }
         return true;
@@ -66,7 +69,7 @@ class ContentControler extends FrontControlerAbstract {
         if ($this->isContent($content)) {
             $postContent = (new RequestParams())->getParam($request, 'content_'.$contentId);  // jméno POST proměnné je vytvořeno v paper rendereru složením 'content_' a $paper->getMenuItemId()
             $content->setContent($postContent);
-            $this->addFlashMessage('Content updated');
+            $this->addFlashMessage('Content updated', FlashSeverityEnum::SUCCESS);
 
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
@@ -77,7 +80,7 @@ class ContentControler extends FrontControlerAbstract {
         if ($this->isContent($content)) {
             $active = $content->getActive() ? 0 : 1;  //active je integer
             $content->setActive($active);
-            $this->addFlashMessage("content toggle(".($active?'true':'false').")");
+            $this->addFlashMessage("content toggle(".($active?'true':'false').")", FlashSeverityEnum::SUCCESS);
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
@@ -93,7 +96,7 @@ class ContentControler extends FrontControlerAbstract {
 
                     $error = false;
                     if (isset($showTime) AND isset($hideTime) AND $showTime > $hideTime) {
-                        $this->addFlashMessage("content: Chyba! Datum počátku zobrazování musí být menší nebo stejné jako datum konce.");
+                        $this->addFlashMessage("content: Chyba! Datum počátku zobrazování musí být menší nebo stejné jako datum konce.", FlashSeverityEnum::WARNING);
                         $error = true;
                     }
                     if (!$error) {
@@ -101,17 +104,17 @@ class ContentControler extends FrontControlerAbstract {
                         $content->setHideTime($hideTime);
                         $s = isset($showTime) ? 'from '.$showTime->format('d.m.Y') : '';
                         $h = isset($hideTime) ? 'to '.$hideTime->format('d.m.Y') : '';
-                        $this->addFlashMessage("content: show $s $h");
+                        $this->addFlashMessage("content: show $s $h", FlashSeverityEnum::SUCCESS);
                     }
 
                     break;
                 case 'permanent':
                     $content->setShowTime(null);
                     $content->setHideTime(null);
-                    $this->addFlashMessage("content: zobrazeno trvale");
+                    $this->addFlashMessage("content: zobrazeno trvale", FlashSeverityEnum::SUCCESS);
                     break;
                 default:
-                    $this->addFlashMessage("actualContent: Error - unknown button name.");
+                    $this->addFlashMessage("actualContent: Error - unknown button name.", FlashSeverityEnum::WARNING);
                     break;
             }
         }
@@ -129,7 +132,7 @@ class ContentControler extends FrontControlerAbstract {
 
                     $error = false;
                     if (isset($eventStartTime) AND isset($eventEndTime) AND $eventStartTime > $eventEndTime) {
-                        $this->addFlashMessage("content: Chyba! Datum počátku akce musí být menší nebo stejné jako datum konce.");
+                        $this->addFlashMessage("content: Chyba! Datum počátku akce musí být menší nebo stejné jako datum konce.", FlashSeverityEnum::WARNING);
                         $error = true;
                     }
                     if (!$error) {
@@ -137,17 +140,17 @@ class ContentControler extends FrontControlerAbstract {
                         $content->setEventEndTime($eventEndTime);
                         $s = isset($eventStartTime) ? 'from '.$eventStartTime->format('d.m.Y') : '';
                         $h = isset($eventEndTime) ? 'to '.$eventEndTime->format('d.m.Y') : '';
-                        $this->addFlashMessage("content: event $s $h");
+                        $this->addFlashMessage("content: event $s $h", FlashSeverityEnum::SUCCESS);
                     }
 
                     break;
                 case 'permanent':
                     $content->setEventStartTime(null);
                     $content->setEventEndTime(null);
-                    $this->addFlashMessage("content: koná se trvale");
+                    $this->addFlashMessage("content: koná se trvale", FlashSeverityEnum::SUCCESS);
                     break;
                 default:
-                    $this->addFlashMessage("actualContent: Error - unknown button name.");
+                    $this->addFlashMessage("actualContent: Error - unknown button name.", FlashSeverityEnum::WARNING);
                     break;
             }
         }
@@ -174,7 +177,7 @@ class ContentControler extends FrontControlerAbstract {
             if ($contentItem->getPriority() == $selectedContentPriority+1) {  // obsahy s vyšší nebo stejnou prioritou - zvětším jim prioriru o 1 - vznikne díra pro $selectedContentPriority
                 $contentItem->setPriority($selectedContentPriority);
                 $content->setPriority($selectedContentPriority+1);
-                $this->addFlashMessage("content up - priorita změněna $selectedContentPriority -> ".($selectedContentPriority+1));
+                $this->addFlashMessage("content up - priorita změněna $selectedContentPriority -> ".($selectedContentPriority+1), FlashSeverityEnum::SUCCESS);
             }
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
@@ -189,7 +192,7 @@ class ContentControler extends FrontControlerAbstract {
             if ($contentItem->getPriority() == $selectedContentPriority-1) {  // obsahy s vyšší nebo stejnou prioritou - zvětším jim prioriru o 1 - vznikne díra pro $selectedContentPriority
                 $contentItem->setPriority($selectedContentPriority);
                 $content->setPriority($selectedContentPriority-1);
-                $this->addFlashMessage("content down - priorita změněna $selectedContentPriority -> ".($selectedContentPriority-1));
+                $this->addFlashMessage("content down - priorita změněna $selectedContentPriority -> ".($selectedContentPriority-1), FlashSeverityEnum::SUCCESS);
             }
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
@@ -206,7 +209,7 @@ class ContentControler extends FrontControlerAbstract {
             }
         }
         $this->paperContentRepo->add($this->createNewContent($paperId, $priority));
-        $this->addFlashMessage("add - Nový obsah, priorita $priority");
+        $this->addFlashMessage("add - Nový obsah, priorita $priority", FlashSeverityEnum::SUCCESS);
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
@@ -222,7 +225,7 @@ class ContentControler extends FrontControlerAbstract {
             }
         }
         $this->paperContentRepo->add($this->createNewContent($paperId, $priority+1));
-        $this->addFlashMessage("addBelow - Nový obsah, priorita $priority");
+        $this->addFlashMessage("addBelow - Nový obsah, priorita $priority", FlashSeverityEnum::SUCCESS);
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
@@ -238,7 +241,7 @@ class ContentControler extends FrontControlerAbstract {
             }
         }
         $this->paperContentRepo->add($this->createNewContent($paperId, $priority));
-        $this->addFlashMessage("addBelow - Nový obsah, priorita $priority");
+        $this->addFlashMessage("addBelow - Nový obsah, priorita $priority", FlashSeverityEnum::SUCCESS);
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
@@ -263,7 +266,7 @@ class ContentControler extends FrontControlerAbstract {
                 $contentItem->setPriority($itemPriority-1);
             }
         }
-        $this->addFlashMessage("trash - content zahozen do koše.");
+        $this->addFlashMessage("trash - content zahozen do koše.", FlashSeverityEnum::SUCCESS);
         return $this->redirectSeeLastGet($request); // 303 See Other
 
     }
@@ -280,14 +283,14 @@ class ContentControler extends FrontControlerAbstract {
             }
         }
         $content->setPriority(1);   // z "koše" - obnoveno s prioritou 1, zůstává neaktivní
-        $this->addFlashMessage("restore - obnoven content z koše.");
+        $this->addFlashMessage("restore - obnoven content z koše.", FlashSeverityEnum::SUCCESS);
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
     public function delete(ServerRequestInterface $request, $paperId, $contentId) {
         $content = $this->paperContentRepo->get($contentId);
         $this->paperContentRepo->remove($content);
-        $this->addFlashMessage("delete - smazán content.");
+        $this->addFlashMessage("delete - smazán content.", FlashSeverityEnum::SUCCESS);
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 }

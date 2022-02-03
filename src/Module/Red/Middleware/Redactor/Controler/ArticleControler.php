@@ -22,9 +22,12 @@ use Psr\Http\Message\ResponseInterface;
 use Red\Model\Entity\Article;
 use Red\Model\Entity\ArticleInterface;
 
-use Status\Model\Repository\{
-    StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo
-};
+use Status\Model\Repository\StatusSecurityRepo;
+use Status\Model\Repository\StatusFlashRepo;
+use Status\Model\Repository\StatusPresentationRepo;
+
+use Status\Model\Enum\FlashSeverityEnum;
+
 use Red\Model\Repository\ArticleRepo;
 use View\Includer;
 
@@ -71,10 +74,10 @@ class ArticleControler extends FrontControlerAbstract {
                     $statusPresentation->setLastTemplateName('');
                     $article->setTemplate($templateName);
                     $article->setContent($postParams["article_$articleId"]);
-                    $this->addFlashMessage("Article created from $templateName");
+                    $this->addFlashMessage("Article created from $templateName", FlashSeverityEnum::SUCCESS);
                 } else {
                     $article->setContent($postParams["article_$articleId"]);
-                    $this->addFlashMessage('Article updated');
+                    $this->addFlashMessage('Article updated', FlashSeverityEnum::SUCCESS);
                 }
             }
         }
@@ -92,12 +95,13 @@ class ArticleControler extends FrontControlerAbstract {
         if (!isset($article)) {
             user_error("Neexistuje article se zadaným id $articleId");
         } else {
-            $postTemplate = (new RequestParams())->getParam($request, 'template_'.$articleId, 'default');
-            $lastTemplateName = $this->statusPresentationRepo->get()->getLastTemplateName();
+            $postTemplateName = (new RequestParams())->getParam($request, 'template_'.$articleId, '');
+            $postTemplateContent = (new RequestParams())->getParam($request, 'article_'.$articleId, '');
+            $lastTemplateName = $this->statusPresentationRepo->get()->getLastTemplateName();   // TODO: odstranit mechanizmus LastTemplateName
             //TODO: -template je nutné nastavit ve všech jazykových verzích ?? možná ne
             $article->setTemplate($lastTemplateName);
-            $article->setContent($postTemplate);
-            $this->addFlashMessage("Set content from template: $lastTemplateName");
+            $article->setContent($postTemplateContent);
+            $this->addFlashMessage("Set content with template: $lastTemplateName", FlashSeverityEnum::SUCCESS);
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
     }

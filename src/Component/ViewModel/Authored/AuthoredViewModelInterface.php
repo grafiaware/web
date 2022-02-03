@@ -18,8 +18,6 @@ use Red\Model\Entity\MenuItemInterface;
  */
 interface AuthoredViewModelInterface extends StatusViewModelInterface {
 
-    const DEFAULT_TEMPLATE_NAME = 'default';
-
     public function setItemId($menuItemId);
 
     public function getItemType();

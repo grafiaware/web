@@ -25,6 +25,9 @@ use Red\Model\Entity\PaperAggregatePaperContentInterface;
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;
 use Status\Model\Repository\StatusPresentationRepo;
+
+use Status\Model\Enum\FlashSeverityEnum;
+
 use Red\Model\Repository\PaperAggregateContentsRepo;
 
 use UnexpectedValueException;
@@ -62,7 +65,7 @@ class PaperControler extends FrontControlerAbstract {
             $perexElement = $layoutDocument->getElementsByTagName('perex')->item(0);
             if($this->paperAggregateRepo->getByReference($menuItemId)){
                 user_error("Zadaná položka menu již ma připojen článek (paper).", E_USER_WARNING);
-                $this->addFlashMessage("Zadaná položka menu již ma připojen článek (paper).");
+                $this->addFlashMessage("Zadaná položka menu již ma připojen článek (paper).", FlashSeverityEnum::WARNING);
             } else {
                 if ($headlineElement AND $perexElement) {
                     $paper = new Paper();
@@ -77,7 +80,7 @@ class PaperControler extends FrontControlerAbstract {
 
                     $this->paperAggregateRepo->add($paper);
                 } else {
-                    $this->addFlashMessage("Selhalo vyvoření článku z šablony. Nenalezen headline a perex element."); //"Paper creating failed. No healine or perex element detected.");
+                    $this->addFlashMessage("Selhalo vyvoření článku z šablony. Nenalezen headline a perex element.", FlashSeverityEnum::WARNING); //"Paper creating failed. No healine or perex element detected.");
                 }
             }
         } else {
@@ -89,7 +92,7 @@ class PaperControler extends FrontControlerAbstract {
                         ;
 
                     $this->paperAggregateRepo->add($paper);
-                    $this->addFlashMessage("Nebyl přijat žádný obsah šablony. Vytvořen nový prázdný článek.");
+                    $this->addFlashMessage("Nebyl přijat žádný obsah šablony. Vytvořen nový prázdný článek.", FlashSeverityEnum::INFO);
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
@@ -179,20 +182,20 @@ class PaperControler extends FrontControlerAbstract {
             // s jiným formaction (jiné REST uri))
             if (array_key_exists("template_$paperId", $postParams)) {
                 $paperAggregate->setHeadline($postParams["template_$paperId"]);
-                $this->addFlashMessage('Template updated');
+                $this->addFlashMessage('Template updated', FlashSeverityEnum::SUCCESS);
             }
             if (array_key_exists("headline_$paperId", $postParams)) {
                 $paperAggregate->setHeadline($postParams["headline_$paperId"]);
-                $this->addFlashMessage('Headline updated');
+                $this->addFlashMessage('Headline updated', FlashSeverityEnum::SUCCESS);
             }
             if (array_key_exists("perex_$paperId", $postParams)) {
                 $paperAggregate->setPerex($postParams["perex_$paperId"]);
-                $this->addFlashMessage('Perex updated');
+                $this->addFlashMessage('Perex updated', FlashSeverityEnum::SUCCESS);
             }
             foreach ($paperAggregate->getPaperContentsArray() as $content) {
                 if (array_key_exists("content_{$content->getId()}", $postParams)) {
                     $content->setContent($postParams["content_{$content->getId()}"]);
-                    $this->addFlashMessage('Content updated');
+                    $this->addFlashMessage('Content updated', FlashSeverityEnum::SUCCESS);
                 }
             }
         }
@@ -213,7 +216,7 @@ class PaperControler extends FrontControlerAbstract {
         } else {
             $postParams = $request->getParsedBody();
                 $paperAggregate->setHeadline($postParams["headline_$paperId"]);
-                $this->addFlashMessage('Headline updated');
+                $this->addFlashMessage('Headline updated', FlashSeverityEnum::SUCCESS);
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
@@ -232,7 +235,7 @@ class PaperControler extends FrontControlerAbstract {
         } else {
             $postParams = $request->getParsedBody();
             $paperAggregate->setPerex($postParams["perex_$paperId"]);
-            $this->addFlashMessage('Perex updated');
+            $this->addFlashMessage('Perex updated', FlashSeverityEnum::SUCCESS);
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
@@ -252,7 +255,7 @@ class PaperControler extends FrontControlerAbstract {
             $content = $paperAggregate->getPaperContent($contentId);
             $postParams = $request->getParsedBody();
             $content->setContent($postParams["content_{$content->getId()}"]);
-            $this->addFlashMessage('Content updated');
+            $this->addFlashMessage('Content updated', FlashSeverityEnum::SUCCESS);
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
@@ -268,14 +271,14 @@ class PaperControler extends FrontControlerAbstract {
         if (!isset($paper)) {
             user_error("Neexistuje paper se zadaným id.$paperId");
         } else {
-            $postTemplate = (new RequestParams())->getParam($request, 'template_'.$paperId, 'default');
-
+            $postTemplateName = (new RequestParams())->getParam($request, 'template_'.$paperId, '');
+            $postTemplateContent = (new RequestParams())->getParam($request, 'article_'.$paperId, '');
             $statusPresentation = $this->statusPresentationRepo->get();
             $templateName = $statusPresentation->getLastTemplateName();
             if (isset($templateName) AND $templateName) {
                 $statusPresentation->setLastTemplateName('');
                 $paper->setTemplate($templateName);
-                $this->addFlashMessage("Set paper template: $templateName");
+                $this->addFlashMessage("Set paper template: $templateName", FlashSeverityEnum::SUCCESS);
             }
         }
         return $this->redirectSeeLastGet($request); // 303 See Other

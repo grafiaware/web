@@ -54,9 +54,7 @@ class SelectTemplateRenderer extends HtmlRendererAbstract {
             .
             Html::tag('div', ['id'=>$selectTemplateElementId,'class'=>$this->classMap->get('PaperTemplateSelect', 'div.selectTemplate')],
                 Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/$itemType/$contentId/template"],
-
                     Html::tagNopair('input', ["type"=>"hidden", "name"=>"template_$contentId", "value"=>$contentTemplateName])
-//                       Html::tagNopair('input', ["type"=>"hidden", "name"=>"template_$paperId", "value"=>$contentTemplateName]),
                     .
                     // class tohoto divu je třída pro selector v tinyInit var selectTemplateConfig
                     // položka classmapy 'div.tinySelectTemplateArticle' vede na class, např. tiny_select_template_paper (v ConfigurationStyles)
@@ -64,10 +62,6 @@ class SelectTemplateRenderer extends HtmlRendererAbstract {
                     // např. templates: templates_article (jiný seznam pro paper, article, multipage) - teď se seznamy načítací z TemplateCtrl
                         //TODO: Sv
                     Html::tag('div', ['id'=>"$urlId", 'class'=>$this->classMap->get('PaperTemplateSelect', 'div.tinySelectTemplateArticle')],'')
-
-                    // kopie z PaperRendererEditable->renderSelectTemplate()
-//                        // class je třída pro selector v tinyInit var selectTemplateConfig
-//                        Html::tag('div', ['id'=>"paper_$paperId", 'class'=>$this->classMap->get('PaperTemplateSelect', 'div.tinySelectTemplatePaper')],''),
                  )
 
             )

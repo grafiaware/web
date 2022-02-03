@@ -21,6 +21,8 @@ use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 
+use Status\Model\Enum\FlashSeverityEnum;
+
 use Red\Model\Repository\LanguageRepo;
 use Red\Model\Repository\MenuItemRepo;
 use Red\Model\Repository\ItemActionRepo;
@@ -64,7 +66,7 @@ class UserActionControler extends FrontControlerAbstract {
         } else{
             throw new UnexpectedLanguageException("Požadavek a nastavení neznámého jazyka aplikace s kódem $requestedLangCode.");
         }
-        $this->addFlashMessage("setLangCode({$language->getLangCode()})");
+        $this->addFlashMessage("setLangCode({$language->getLangCode()})", FlashSeverityEnum::INFO);
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
@@ -84,7 +86,7 @@ class UserActionControler extends FrontControlerAbstract {
 
         //TODO: nejdřív vypnu editable a pak teprve volám isPresentedItemActive() - pokud menuItem není active, tak se s vypnutým editable už v metodě isPresentedItemActive() nenačte - ?? obráceně?
         $this->statusPresentationRepo->get()->getUserActions()->setEditableContent($edit);
-        $this->addFlashMessage("set editable article $edit");
+        $this->addFlashMessage("set editable article $edit", FlashSeverityEnum::INFO);
         if ($edit OR $this->isPresentedItemActive()) {
             return $this->redirectSeeLastGet($request); // 303 See Other
         } else {
@@ -98,7 +100,7 @@ class UserActionControler extends FrontControlerAbstract {
 
         //TODO: nejdřív vypnu editable a pak teprve volám isPresentedItemActive() - pokud menuItem není active, tak se s vypnutým editable už v metodě isPresentedItemActive() nenačte - ?? obráceně?
         $this->statusPresentationRepo->get()->getUserActions()->setEditableContent($edit);
-        $this->addFlashMessage("set editable article $edit");
+        $this->addFlashMessage("set editable article $edit", FlashSeverityEnum::INFO);
         if ($edit OR $this->isPresentedItemActive()) {
             return $this->redirectSeeLastGet($request); // 303 See Other
         } else {
@@ -109,7 +111,7 @@ class UserActionControler extends FrontControlerAbstract {
     public function setEditMenu(ServerRequestInterface $request) {
         $edit = (new RequestParams())->getParsedBodyParam($request, self::FORM_USER_ACTION_EDIT_MENU);
 //        $this->switchEditable('menu', $edit);
-        $this->addFlashMessage("set editable menu $edit");
+        $this->addFlashMessage("set editable menu $edit", FlashSeverityEnum::INFO);
         $this->statusPresentationRepo->get()->getUserActions()->setEditableMenu($edit);
         if ($edit OR $this->isPresentedItemActive()) {
             return $this->redirectSeeLastGet($request); // 303 See Other

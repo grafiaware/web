@@ -8,9 +8,12 @@ use Psr\Http\Message\ServerRequestInterface;
 
 use Red\Model\Dao\Hierarchy\HierarchyAggregateEditDao;
 
-use Status\Model\Repository\{
-    StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo
-};
+use Status\Model\Repository\StatusSecurityRepo;
+use Status\Model\Repository\StatusFlashRepo;
+use Status\Model\Repository\StatusPresentationRepo;
+
+use Status\Model\Enum\FlashSeverityEnum;
+
 use Red\Model\Repository\{
     MenuRootRepo
 };
@@ -49,14 +52,14 @@ class HierarchyControler extends FrontControlerAbstract {
     public function add(ServerRequestInterface $request, $uid) {
         $siblingUid = $this->editHierarchyDao->addNode($uid);
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
-        $this->addFlashMessage('add item as sibling');
+        $this->addFlashMessage('add item as sibling', FlashSeverityEnum::SUCCESS);
         return $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$siblingUid");
     }
 
     public function addchild(ServerRequestInterface $request, $uid) {
         $childUid = $this->editHierarchyDao->addChildNode($uid);
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
-        $this->addFlashMessage('add item as child');
+        $this->addFlashMessage('add item as child', FlashSeverityEnum::SUCCESS);
         return $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$childUid");
     }
 
@@ -64,7 +67,7 @@ class HierarchyControler extends FrontControlerAbstract {
         $statusFlash = $this->statusFlashRepo->get();
         $statusFlash->setPostCommand(['cut'=>$uid]);  // command s životností do dalšího POST requestu
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
-        $statusFlash->setMessage("cut - item: $langCode/$uid selected for cut&patse operation");
+        $statusFlash->setMessage("cut - item: $langCode/$uid selected for cut&patse operation", FlashSeverityEnum::INFO);
 
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
@@ -72,7 +75,7 @@ class HierarchyControler extends FrontControlerAbstract {
     public function cutEscape(ServerRequestInterface $request, $uid) {
         $statusFlash = $this->statusFlashRepo->get();
         $statusFlash->setPostCommand(null);  // zrušení výběru položky "cut"
-        $statusFlash->setMessage("cut escape -cut&patse operation aborted");
+        $statusFlash->setMessage("cut escape -cut&patse operation aborted", FlashSeverityEnum::WARNING);
 
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
@@ -83,9 +86,9 @@ class HierarchyControler extends FrontControlerAbstract {
         $pasteduid = $statusFlash->getPostCommand()['cut'];  // command s životností do dalšího POST requestu
         if (isset($parentUid)) {
             $this->editHierarchyDao->moveSubTreeAsSiebling($pasteduid, $uid);
-            $this->addFlashMessage('pasted as a sibling');
+            $this->addFlashMessage('pasted as a sibling', FlashSeverityEnum::SUCCESS);
         } else {
-            $this->addFlashMessage('unable to paste, item has no parent');
+            $this->addFlashMessage('unable to paste, item has no parent', FlashSeverityEnum::WARNING);
         }
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
         return $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$pasteduid");
@@ -96,7 +99,7 @@ class HierarchyControler extends FrontControlerAbstract {
         $pasteduid = $statusFlash->getPostCommand()['cut'];  // command s životností do dalšího POST requestu
         $this->editHierarchyDao->moveSubTreeAsChild($pasteduid, $uid);
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
-        $this->addFlashMessage('pasted as a child');
+        $this->addFlashMessage('pasted as a child', FlashSeverityEnum::SUCCESS);
         return $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$pasteduid");
     }
 
@@ -105,7 +108,7 @@ class HierarchyControler extends FrontControlerAbstract {
 //        $parentUid = $this->editHierarchyDao->deleteLeafNode($uid);
         $parentUid = $this->editHierarchyDao->deleteSubTree($uid);
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
-        $this->addFlashMessage('delete');
+        $this->addFlashMessage('delete', FlashSeverityEnum::SUCCESS);
         return $this->createResponseRedirectSeeOther($request, "web/v1/page/item/$parentUid");
     }
 
@@ -119,7 +122,7 @@ class HierarchyControler extends FrontControlerAbstract {
     public function trash(ServerRequestInterface $request, $uid) {
         $trashUid = $this->menuRootRepo->get(self::TRASH_MENU_ROOT)->getUidFk();
         $this->editHierarchyDao->moveSubTreeAsChild($uid, $trashUid);
-        $this->addFlashMessage('trash');
+        $this->addFlashMessage('trash', FlashSeverityEnum::SUCCESS);
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 

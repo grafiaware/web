@@ -21,6 +21,8 @@ use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 
+use Status\Model\Enum\FlashSeverityEnum;
+
 use Red\Model\Repository\LanguageRepo;
 use Red\Model\Repository\MenuItemRepo;
 use Red\Model\Repository\ItemActionRepo;
@@ -59,7 +61,7 @@ class ItemActionControler extends FrontControlerAbstract {
             $itemAction->setEditorLoginName($this->statusSecurityRepo->get()->getLoginAggregate()->getLoginName());
             $this->itemActionRepo->add($itemAction);
             $userActions->addUserItemAction($itemAction);
-            $this->addFlashMessage("add user action for $typeFk($itemId)");
+            $this->addFlashMessage("add user action for $typeFk($itemId)", FlashSeverityEnum::INFO);
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
@@ -74,7 +76,7 @@ class ItemActionControler extends FrontControlerAbstract {
         if (isset($itemAction)) {
             $this->itemActionRepo->remove($itemAction);
         }
-        $this->addFlashMessage("remove user action for $typeFk($itemId)");
+        $this->addFlashMessage("remove user action for $typeFk($itemId)", FlashSeverityEnum::INFO);
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 }

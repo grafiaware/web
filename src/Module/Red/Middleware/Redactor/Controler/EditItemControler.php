@@ -14,15 +14,16 @@ use Pes\Text\FriendlyUrl;
 use Model\Entity\MenuItemInterface;
 use GeneratorService\ContentGeneratorRegistryInterface;
 
-use Status\Model\Repository\{
-    StatusSecurityRepo, StatusFlashRepo, StatusPresentationRepo
-};
-use Red\Model\Repository\{
-    MenuItemRepo
-};
+use Status\Model\Repository\StatusSecurityRepo;
+use Status\Model\Repository\StatusFlashRepo;
+use Status\Model\Repository\StatusPresentationRepo;
+
+use Status\Model\Enum\FlashSeverityEnum;
+
+use Red\Model\Repository\MenuItemRepo;
 
 use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
-use Red\Model\Entity\MenuItemAggregateHierarchyInterface;
+
 
 /**
  * Description of Controler
@@ -66,24 +67,26 @@ class EditItemControler extends FrontControlerAbstract {
         $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
         $active = $menuItem->getActive();
         if ($active) {
-            $subNodes = $this->hierarchyDao->getSubNodes($langCode, $uid);
+            $subNodes = $this->hierarchyDao->getSubNodes($langCode, $uid);  // včetně "kořene"
             foreach ($subNodes as $node) {
                 $menuItem = $this->menuItemRepo->get($langCode, $node['uid']);
                 if (isset($menuItem)) {
                     $menuItem->setActive(0);  //active je integer
                 }
             }
-            $this->addFlashMessage("menuItem toggle(false)");
-            $this->addFlashMessage("Item inactivated with all its descendants.");
+            $this->addFlashMessage("menuItem toggle(false)", FlashSeverityEnum::SUCCESS);
+            if (count($subNodes)>1) {
+                $this->addFlashMessage("Item inactivated with all its descendants.", FlashSeverityEnum::WARNING);
+            }
         } else {
             $parent = $this->hierarchyDao->getParent($langCode, $uid);
             $parentMenuItem = $this->menuItemRepo->get($langCode, $parent['uid']);
             if (isset($parentMenuItem)AND $parentMenuItem->getActive()) {
                 $menuItem->setActive(1);  //active je integer
-                $this->addFlashMessage("menuItem toggle(true)");
+                $this->addFlashMessage("menuItem toggle(true)", FlashSeverityEnum::SUCCESS);
             } else {
-                $this->addFlashMessage("unable to menuItem toggle(true)", 'warning');
-                $this->addFlashMessage("Parent item is not active.");
+                $this->addFlashMessage("unable to menuItem toggle(true)", FlashSeverityEnum::WARNING);
+                $this->addFlashMessage("Parent item is not active.", FlashSeverityEnum::INFO);
             }
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
@@ -95,7 +98,7 @@ class EditItemControler extends FrontControlerAbstract {
         $postOriginalTitle = (new RequestParams())->getParam($request, 'original-title');
         $menuItem->setTitle($postTitle);
         $menuItem->setPrettyuri(FriendlyUrl::friendlyUrlText($postTitle));
-        $this->addFlashMessage("menuItem title($postTitle)");
+        $this->addFlashMessage("menuItem title($postTitle)", FlashSeverityEnum::SUCCESS);
         return $this->okMessageResponse("Uložen nový titulek položky menu:".PHP_EOL.$postTitle);
     }
 
@@ -132,7 +135,7 @@ class EditItemControler extends FrontControlerAbstract {
                 }
                 $contentGenerator->initialize($langMenuItem->getId());
             }
-            $this->addFlashMessage("menuItem type($type)");
+            $this->addFlashMessage("menuItem type($type)", FlashSeverityEnum::SUCCESS);
         } else {
 
 

@@ -83,6 +83,9 @@ class ConfigurationStyles extends ConfigurationRed {
                             'div.visible' => 'visible content',
                             'div i' => 'file alternate teal icon',
                             'div.selectTemplate' => 'select_template',
+                            // test
+                            'div.tinySelectTemplate' => 'tiny_select_template borderDance',
+                
                             'div.tinySelectTemplatePaper' => 'tiny_select_template_paper borderDance',   // class tiny_select_template_paper je selektor pro TinyInit - vybere konfiguraci a v té je proměnná se seznameme šablon (jiný seznam pro paper, article, multipage)
                             'div.tinySelectTemplateArticle' => 'tiny_select_template_article borderDance',
                             'div.tinySelectTemplateMultipage' => 'tiny_select_template_multipage borderDance',

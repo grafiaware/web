@@ -370,6 +370,7 @@ var editHtmlConfig = {
 
     setup: editorFunction  // callback that will be executed before the TinyMCE editor instance is rendered
 };
+
 var editMceEditableConfig = {
     selector: 'form .edit-mceeditable',
     schema : 'html5',
@@ -410,6 +411,33 @@ var editMceEditableConfig = {
 
     setup: editorFunction  // callback that will be executed before the TinyMCE editor instance is rendered
 };
+
+var selectTemplateArticleConfig = {
+    selector: '.tiny_select_template',
+    schema : 'html5',
+    placeholder: 'Výběr šablony stránky',
+    relative_urls : true,
+    extended_valid_elements : ['headline[*]', 'perex[*]', 'content[*]', 'i[*]'],
+    custom_elements: ['headline', 'perex', 'content'],
+    valid_children: '+a[div] ',
+    link_title: false,
+    noneditable_editable_class: 'mceEditable',
+    noneditable_noneditable_class: 'mceNonEditable',
+    language : tinyConfig.toolbarsLang,
+    document_base_url : tinyConfig.basePath,
+    content_css: tinyConfig.contentCss,
+    body_class: "layout preview",
+
+    menubar: false,
+    inline: true,
+    plugins: [
+    'template', 'save', 'noneditable',
+    ],
+    toolbar: 'template | save',
+    templates: 'web/v1/templateslist/article'
+
+};
+
 var selectTemplateArticleConfig = {
     selector: '.tiny_select_template_article',
     schema : 'html5',
@@ -435,6 +463,7 @@ var selectTemplateArticleConfig = {
     templates: 'web/v1/templateslist/article'
 
 };
+
 var selectTemplatePaperConfig = {
     selector: '.tiny_select_template_paper',
     schema : 'html5',

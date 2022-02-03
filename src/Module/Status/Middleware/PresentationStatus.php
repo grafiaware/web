@@ -46,8 +46,7 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
         //      $this->getApp()->getAppContainer();
                 (new HierarchyContainerConfigurator())->configure(   // jen kvůli languageRepo z kontejneru - výkonostní problém - viz níže
                     (new DbUpgradeContainerConfigurator())->configure(
-//                        (new Container($this->getApp()->getAppContainer())) //->addContainerInfo("PresentationStatus")
-                        $this->getApp()->getAppContainer() 
+                        $this->getApp()->getAppContainer()
                     )
                 );
 
