@@ -10,25 +10,25 @@ use Red\Model\Entity\PaperAggregatePaperContentInterface;
 
 ?>
 
-        <div class="obr-upoutavka">
+        <div class="obr-upoutavka" data-template="images_paper">
             <div class="ui two column stackable centered grid">
                 <div class="six wide column">
                     <img class="sirsi-obr"
-                         src="@siteimages/pan_s_tabletem.jpg" 
+                         src="@commonimages/sablony-prace-na-pc.png" 
                          srcset=" 
-                          @siteimages/pan_s_tabletem.jpg 480w,  
-                          @siteimages/pan_s_tabletem_mobile.jpg 820w"
+                          @commonimages/sablony-prace-na-pc.png 480w,  
+                          @commonimages/sablony-prace-na-pc_mobile.png 820w"
                           sizes="
                             (max-width: 768px) 100vw,
                             120px"
-                         width="476" height="671" alt="Pracovník s tabletem"/>
+                         width="476" height="671" alt="Pracovník na PC"/>
                     <div class="primarni-barva podklad nadpis presah">
                         <?= $headline ?>
                     </div>
                 </div>
                 <div class="ten wide column">
-                    <img src="@siteimages/mama.jpg" width="790" height="394" alt="Home office"/>
-                    <img src="@siteimages/delnik_jupi.jpg" width="790" height="402" alt="Dělník na stavbě"/>
+                    <img src="@commonimages/sablony-komunikace.jpg" width="790" height="394" alt="Jednání"/>
+                    <img src="@commonimages/sablony-zabava.jpg" width="790" height="402" alt="Pracovní tým"/>
                     <div class="pruhledna-barva podklad blok podnadpis photo-scroll show-on-scroll">
                         <?= $perex ?>
                     </div>

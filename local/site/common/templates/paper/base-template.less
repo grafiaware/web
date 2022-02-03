@@ -2,6 +2,35 @@
     margin: 0;
     line-height: inherit;
 }
+.tiny_select_template_paper, .tiny_select_template_multipage{
+    .vertikalne-prohodit, .horizontalne-prohodit{
+        box-shadow: 0 0 0 1px #f1fa8c;
+    } 
+}
+[data-template="images_paper"]{
+    headline{
+        margin: 0 !important;
+    }
+    perex{
+        margin: 0 !important;
+        padding: 0;
+    }
+    &.obr-upoutavka{
+        margin-top: 10px;
+        img{
+            max-width: 103%;
+        }
+        .blok.podnadpis{
+            width: 50%;
+        }
+        .pruhledna-barva.podklad{
+            background-color: #FFFFFFBD;
+        }
+    }
+}
+
+
+
 [data-red-templatetype="@{templateType}"]{
     //default sada stylů
       

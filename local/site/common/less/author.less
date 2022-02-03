@@ -110,6 +110,9 @@
 @sectionRendererMarginTop: initial;
 @articleRendererMargin: 10px 7px;
 @rendererBoxShadow: 0 0 0 1px @teal;
+@rendererTrashBoxShadow: 0 0 0 1px darken(@barvaKos,20);
+@trashContentOpacity: 0.5; 
+@trashContentFilter: grayscale(1); 
 @rendererBorderRadius: 5px;
 @rendererPadding: initial;
 @rendererPaddingTop: initial;
@@ -159,6 +162,7 @@
 @buttonyContentPositionTop: 6px;
 @buttonyContentBackgroundColor: @barvaEditButtony;
 @lastButtonContentBackgroundColor: @barvaKos;
+@buttonyContentPageWidth: 100px;
 @buttonyContentPagePositionRight: -15px;  
 @buttonyContentPagePositionTop: 0;
 //Kalendář
@@ -528,12 +532,21 @@ body{
     }
     .template-multipage, .template-article, .template-articleedit, .template-paper{
         position: relative;
-        box-shadow: @rendererBoxShadow;
-        border-radius: @rendererBorderRadius;
         padding: @rendererPadding;
         padding-top: @rendererPaddingTop;
+        border-radius: @rendererBorderRadius;
         [data-template] > section, [data-red-template] > section{
             margin-bottom: @rendererSectionMarginBottom;
+        }
+        &:not(.trash){
+            box-shadow: @rendererBoxShadow;
+        }
+        &.trash{ 
+            box-shadow: @rendererTrashBoxShadow; 
+            [data-template]{
+                filter: @trashContentFilter;
+                opacity: @trashContentOpacity;
+            }
         }
     }
     .zapnout_editaci{  //male tlacitko v rohu
@@ -554,7 +567,7 @@ body{
         padding: @rendererPadding; 
         padding-top: @rendererPaddingTop;
         .zapnout_editaci{
-            //display: none;
+            //display: none; 
         }
         > .zapnout_editaci .button.teal{
             color: @rendererMultipageZapnoutEditaciColor;
@@ -629,7 +642,7 @@ body{
             width: @ribbonPageWidth;
             > p{
                 margin: 0;
-                &:last-child{
+                > span{
                     color: @black
                 }
             }
@@ -659,7 +672,7 @@ body{
         display: none; /*po najetí na "modrý roh" se v edit.js mění display na flex*/
         flex-direction: column;
         position: absolute;
-        width: @buttonyContentWidth;
+        width: @buttonyContentPageWidth;  
         right: @buttonyContentPagePositionRight;
         top: @buttonyContentPagePositionTop;
         &.trash .editContent{
