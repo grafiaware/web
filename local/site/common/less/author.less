@@ -619,6 +619,18 @@ body{
                 display: none !important;
             }
         }
+        .ribbon-svg{
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+            &:nth-child(2){top: 4px;}
+        }
+        .content-priority{
+            display: inline-block;
+            top: 50%;
+            transform: translate(25px, -50%); 
+            vertical-align: top;
+        }
     }
 /*    .ui.ribbon.label.teal.page-edit{ 
         width: @ribbonPageWidth;

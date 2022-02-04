@@ -356,6 +356,8 @@ class ConfigurationStyles extends ConfigurationRed {
                         'section.trash'=>'trash',
                         'div.semafor'=>'semafor',
                         'div.ribbon'=>'ui right ribbon grey inverted label cornerWithTools',
+                        'ribbon.svg' => 'ribbon-svg',
+                        'ribbon.priority' => 'content-priority',
                         'div.nameMenuItem'=> 'nadpis-polozky-menu',
                         'i1.published' => 'circle icon green',
                         'i1.notpublished' => 'circle icon red',
