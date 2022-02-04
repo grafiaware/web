@@ -141,19 +141,18 @@ class ArticleRendererEditable extends AuthoredRendererAbstract {
         $templateName = $viewModel->getAuthoredTemplateName() ?? '';
         $onclick = (string) "togleTemplateSelect(event, '{$this->getTemplateSelectId($viewModel)}');";   // ! chybná syntaxe javascriptu vede k volání form action (s nesmyslným uri)
         $buttons = [];
-        if (!$templateName) {
-            $buttons[] = Html::tag('button', [
-                    'class'=>$this->classMap->get('PaperButtons', 'button.template'),
-                    'data-tooltip'=> 'Vybrat šablonu stránky',
-                    'data-position'=>'top right',
-                    'formtarget'=>'_self',
-                    'formmethod'=>'post',
-                    'formaction'=>"",
-                    'onclick'=>$onclick
-                    ],
-                    Html::tag('i', ['class'=>$this->classMap->get('PaperButtons', 'button.template i')])
-                );
-        }
+        $disabled = $templateName ? 'disabled' : '';
+        $buttons[] = Html::tag('button', [
+                'class'=>[$this->classMap->get('PaperButtons', 'button.template'), $disabled],
+                'data-tooltip'=> 'Vybrat šablonu stránky',
+                'data-position'=>'top right',
+                'formtarget'=>'_self',
+                'formmethod'=>'post',
+                'formaction'=>"",
+                'onclick'=>$onclick
+                ],
+                Html::tag('i', ['class'=>$this->classMap->get('PaperButtons', 'button.template i')])
+            );
         return $buttons;
     }
 }
