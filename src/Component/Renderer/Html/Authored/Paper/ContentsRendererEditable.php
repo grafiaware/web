@@ -100,7 +100,7 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
                 )
             )
             .
-            Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/{$paperAggregate->getId()}/content/{$paperContent->getId()}"],
+            Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/{$paperAggregate->getId()}/section/{$paperContent->getId()}"],
                 Html::tag('content',
                     [
                     'id' => "content_{$paperContent->getId()}",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
@@ -136,7 +136,8 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
         );
     }
 
-    private function getRibbonContent($paperContent) {
+    private function getRibbonContent(PaperContentInterface $paperContent) {
+        $priority = $paperContent->getPriority();
         $active = $paperContent->getActive();
         $actual = $paperContent->getActual();
 
@@ -162,6 +163,7 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
         $nowPoint = sprintf('%d%%', $svgWidth/2);
 
         return
+
         Html::tag('svg', ["width"=>"25", "height"=>"30", "style"=>"position: relative; top: -15px"],
             Html::tag('circle', ["cx"=>"50%", "cy"=>"50%", "r"=>"8", "style"=>$styleCircle])
             .Html::tag('title', [], 'Něco napsáno')
@@ -179,6 +181,7 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
 
             ]
         )
+        .Html::tag('div', [ "style"=>"display: inline-block;"],  $priority)
         .$this->getContentButtons($paperContent)
         ;
     }
@@ -284,7 +287,7 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
                     'name'=>'button',
                     'value' => 'toggle',
                     'formmethod'=>'post',
-                    'formaction'=>"red/v1/paper/$paperIdFk/content/$paperContentId/toggle",
+                    'formaction'=>"red/v1/paper/$paperIdFk/section/$paperContentId/toggle",
                     ],
                     Html::tag('i', ['class'=>$this->classMap->resolve($active, 'ContentButtons', 'button.notpublish', 'button.publish')])
                 );
@@ -295,7 +298,7 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
                     'name'=>'button',
                     'value' => '',
                     'formmethod'=>'post',
-                    'formaction'=>"red/v1/paper/$paperIdFk/content/$paperContentId/trash",
+                    'formaction'=>"red/v1/paper/$paperIdFk/section/$paperContentId/trash",
                     ],
                     Html::tag('i', ['class'=>$this->classMap->get('ContentButtons', 'button.movetotrash')])
                 );
@@ -316,7 +319,7 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
                     'name'=>'button',
                     'value' => 'permanent',
                     'formmethod'=>'post',
-                    'formaction'=>"red/v1/paper/$paperIdFk/content/$paperContentId/actual",
+                    'formaction'=>"red/v1/paper/$paperIdFk/section/$paperContentId/actual",
                     ],
                     Html::tag('i', ['class'=>$this->classMap->get('ContentButtons', 'button.permanently')])
                 );
@@ -328,7 +331,7 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
                     'name'=>'button',
                     'value' => 'calendar',
                     'formmethod'=>'post',
-                    'formaction'=>"red/v1/paper/$paperIdFk/content/$paperContentId/actual",
+                    'formaction'=>"red/v1/paper/$paperIdFk/section/$paperContentId/actual",
                     ],
                     Html::tag('i', ['class'=>$this->classMap->get('ContentButtons', 'button.save')])
                 );
@@ -357,7 +360,7 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
                     'name'=>'button',
                     'value' => 'permanent',
                     'formmethod'=>'post',
-                    'formaction'=>"red/v1/paper/$paperIdFk/content/$paperContentId/event",
+                    'formaction'=>"red/v1/paper/$paperIdFk/section/$paperContentId/event",
                     ],
                     Html::tag('i', ['class'=>$this->classMap->get('ContentButtons', 'button.permanently')])
                 );
@@ -369,7 +372,7 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
                     'name'=>'button',
                     'value' => 'calendar',
                     'formmethod'=>'post',
-                    'formaction'=>"red/v1/paper/$paperIdFk/content/$paperContentId/event",
+                    'formaction'=>"red/v1/paper/$paperIdFk/section/$paperContentId/event",
                     ],
                     Html::tag('i', ['class'=>$this->classMap->get('ContentButtons', 'button.save')])
                 );
@@ -388,7 +391,7 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
                     'name'=>'button',
                     'value' => '',
                     'formmethod'=>'post',
-                    'formaction'=>"red/v1/paper/$paperIdFk/content/$paperContentId/up",
+                    'formaction'=>"red/v1/paper/$paperIdFk/section/$paperContentId/up",
                     ],
                     Html::tag('i', ['class'=>$this->classMap->get('ContentButtons', 'button.icons')],
                         Html::tag('i', ['class'=>$this->classMap->get('ContentButtons', 'button.movecontent')])
@@ -402,7 +405,7 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
                     'name'=>'button',
                     'value' => '',
                     'formmethod'=>'post',
-                    'formaction'=>"red/v1/paper/$paperIdFk/content/$paperContentId/down",
+                    'formaction'=>"red/v1/paper/$paperIdFk/section/$paperContentId/down",
                     ],
                     Html::tag('i', ['class'=>$this->classMap->get('ContentButtons', 'button.icons')],
                         Html::tag('i', ['class'=>$this->classMap->get('ContentButtons', 'button.movecontent')])
@@ -416,7 +419,7 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
                     'name'=>'button',
                     'value' => '',
                     'formmethod'=>'post',
-                    'formaction'=>"red/v1/paper/$paperIdFk/content/$paperContentId/add_above",
+                    'formaction'=>"red/v1/paper/$paperIdFk/section/$paperContentId/add_above",
                     ],
                     Html::tag('i', ['class'=>$this->classMap->get('ContentButtons', 'button.icons')],
                         Html::tag('i', ['class'=>$this->classMap->get('ContentButtons', 'button.addcontent')])
@@ -430,7 +433,7 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
                     'name'=>'button',
                     'value' => '',
                     'formmethod'=>'post',
-                    'formaction'=>"red/v1/paper/$paperIdFk/content/$paperContentId/add_below",
+                    'formaction'=>"red/v1/paper/$paperIdFk/section/$paperContentId/add_below",
                     ],
                     Html::tag('i', ['class'=>$this->classMap->get('ContentButtons', 'button.icons')],
                         Html::tag('i', ['class'=>$this->classMap->get('ContentButtons', 'button.addcontent')])
@@ -510,7 +513,7 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
                         'name'=>'button',
                         'value' => '',
                         'formmethod'=>'post',
-                        'formaction'=>"red/v1/paper/$paperIdFk/content/$paperContentId/restore",
+                        'formaction'=>"red/v1/paper/$paperIdFk/section/$paperContentId/restore",
                         ],
                         Html::tag('i', ['class'=>$this->classMap->get('TrashButtons', 'button.restore')])
                     )
@@ -523,7 +526,7 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
                         'name'=>'button',
                         'value' => '',
                         'formmethod'=>'post',
-                        'formaction'=>"red/v1/paper/$paperIdFk/content/$paperContentId/delete",
+                        'formaction'=>"red/v1/paper/$paperIdFk/section/$paperContentId/delete",
                         ],
                         Html::tag('i', ['class'=>$this->classMap->get('TrashButtons', 'button.delete')])
                     )

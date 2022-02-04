@@ -1,29 +1,23 @@
 <?php
 namespace Component\Renderer\Html\Authored\Article;
 
+use Component\Renderer\Html\Authored\AuthoredRendererAbstract;
+
 use Red\Model\Entity\ArticleInterface;
-use Red\Model\Entity\MenuItemInterface;
-use Red\Model\Enum\AuthoredTypeEnum;
 
 use Component\View\Authored\AuthoredComponentAbstract;
 use Component\ViewModel\Authored\Article\ArticleViewModelInterface;
 
-use Component\ViewModel\Authored\AuthoredViewModelInterface;
-
-use Red\Middleware\Redactor\Controler\AuthoredControlerAbstract;
 use Red\Middleware\Redactor\Controler\ArticleControler;
 
 use Pes\Text\Html;
-use Component\Renderer\Html\HtmlRendererAbstract;
-
-use UnexpectedValueException;
 
 /**
  * Description of PaperRenderer
  *
  * @author pes2704
  */
-class ArticleRendererEditable extends HtmlRendererAbstract {
+class ArticleRendererEditable extends AuthoredRendererAbstract {
     public function renderOLD(iterable $viewModel=NULL) {
         /** @var ArticleViewModelInterface $viewModel */
         $article = $viewModel->getArticle();  // vrací ArticleInterface
@@ -108,7 +102,6 @@ class ArticleRendererEditable extends HtmlRendererAbstract {
     public function render(iterable $viewModel=NULL) {
         /** @var ArticleViewModelInterface $viewModel */
         $article = $viewModel->getArticle();  // vrací PaperAggregate
-        $menuItem = $viewModel->getMenuItem();
 
         $html =
                 Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.templatePaper')],
@@ -140,104 +133,16 @@ class ArticleRendererEditable extends HtmlRendererAbstract {
             );
     }
 
-##### společné - authored
-
-    private function renderRibbon(AuthoredViewModelInterface $viewModel) {
-        $menuItem = $viewModel->getMenuItem();
-        $type = $viewModel->getItemType();  // spoléhám na to, že návratová hodnota je hodnota z AuthoredTypeEnum
-
-        //TODO: barvy do css - KŠ
-        $class = $this->classMap->get('PaperButtons', 'div.ribbon-article');
-
-        return
-            Html::tag('div', ['class'=>$class], //lepítko s buttony
-                Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.semafor')], //aktivní/neaktivní paper
-                    Html::tag('div', ['class'=> 'ikona-popis', 'data-tooltip'=> $menuItem->getActive() ? "published" : "not published"],
-                        Html::tag('i', ['class'=> $this->classMap->resolve($menuItem->getActive(), 'Content','i1.published', 'i1.notpublished')])
-                    )
-                )
-                .Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.nameMenuItem')],
-                    Html::tag('p', ['class'=>''],
-                        $type
-                        .Html::tag('span', ['class'=>''],$menuItem->getTitle())
-                    )
-                )
-                .$this->renderArticleButtonsForm($viewModel)
-            );
-    }
-
-    private function renderSelectTemplate(AuthoredViewModelInterface $viewModel) {
-        $contentTemplateName = $viewModel->getAuthoredTemplateName();
-        $authoredContentId = $viewModel->getAuthoredContentId();
-
-        $type = $viewModel->getItemType();
-        // $templateContentPostVar použito jako id pro element, na které visí tiny - POZOR - id musí být unikátní - jinak selhává tiny selektor
-        switch ($type) {
-            case AuthoredTypeEnum::ARTICLE:
-                $templateContentPostVar = AuthoredControlerAbstract::ARTICLE_TEMPLATE_CONTENT.$authoredContentId;
-                break;
-            case AuthoredTypeEnum::PAPER:
-                $templateContentPostVar = AuthoredControlerAbstract::PAPER_TEMPLATE_CONTENT.$authoredContentId;
-                break;
-            case AuthoredTypeEnum::MULTIPAGE:
-                $templateContentPostVar = AuthoredControlerAbstract::MULTIPAGE_TEMPLATE_CONTENT.$authoredContentId;
-                break;
-            default:
-                throw new UnexpectedValueException("Neznámý typ item '$type'. Použijte příkaz 'Zpět' a nepoužívejte tento typ obsahu.");
-        }
-
-        return
-            // id je parametr pro togleTemplateSelect(id) - voláno onclick na button 'Vybrat šablonu stránky'
-            Html::tag('div', ['id'=> $this->getTemplateSelectId($viewModel),'class'=>$this->classMap->get('PaperTemplateSelect', 'div.selectTemplate')],
-                Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/$type/$authoredContentId/template"],
-                    [
-//                        Html::tagNopair('input', ["type"=>"hidden", "name"=>$templateNamePostVar, "value"=>$contentTemplateName]),
-//
-                        // class je třída pro selector v tinyInit var selectTemplateConfig
-//                        Html::tag('div', ['id'=>$templateContentPostVar, 'class'=>$this->classMap->get('PaperTemplateSelect', 'div.tinySelectTemplateArticle')],''),
-                        Html::tag('div', ['id'=>$templateContentPostVar, 'class'=>"tiny_select_template_$type"],''),       // POZOR - id musí být unikátní - jinak selhává tiny selektor
-                    ]
-                )
-            );
-    }
-
-    private function getTemplateSelectId(AuthoredViewModelInterface $viewModel) {
-        $type = $viewModel->getItemType();
-        $articleId = $viewModel->getAuthoredContentId(); //$article->getId();
-        return "select_template_{$type}_{$articleId}";
-    }
 
 ####################################
-    private function renderArticleButtonsForm(AuthoredViewModelInterface $viewModel) {
-        $menuItem = $viewModel->getMenuItem();
-        $active = $menuItem->getActive();
-        $type = $viewModel->getItemType();
+
+
+    protected function renderContentControlButtons(ArticleViewModelInterface $viewModel): array {
+        $templateName = $viewModel->getAuthoredTemplateName() ?? '';
         $onclick = (string) "togleTemplateSelect(event, '{$this->getTemplateSelectId($viewModel)}');";   // ! chybná syntaxe javascriptu vede k volání form action (s nesmyslným uri)
-
-        $btnAktivni = Html::tag('button',
-                ['class'=>$this->classMap->get('CommonButtons', 'button'),
-                'data-tooltip'=> $active ? 'Nepublikovat' : 'Publikovat',
-                'data-position'=>'top right',
-                'type'=>'submit',
-                'formmethod'=>'post',
-                'formaction'=>"red/v1/menu/{$menuItem->getUidFk()}/toggle",
-                ],
-                Html::tag('i', ['class'=>$this->classMap->resolve($active, 'CommonButtons', 'button.notpublish', 'button.publish')])
-            );
-
-        $btnDoKose = Html::tag('button', [
-                    'class'=>$this->classMap->get('PaperButtons', 'button'),
-                    'data-tooltip'=> 'Odstranit položku',
-                    'data-position'=>'top right',
-                    'formtarget'=>'_self',
-                    'formmethod'=>'post',
-                    'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/trash",
-                    'onclick'=>"return confirm('Jste si jisti?');"
-                    ],
-                    Html::tag('i', ['class'=>$this->classMap->get('CommonButtons', 'button.movetotrash')])
-                );
-
-        $buttons[] = Html::tag('button', [
+        $buttons = [];
+        if (!$templateName) {
+            $buttons[] = Html::tag('button', [
                     'class'=>$this->classMap->get('PaperButtons', 'button.template'),
                     'data-tooltip'=> 'Vybrat šablonu stránky',
                     'data-position'=>'top right',
@@ -248,18 +153,7 @@ class ArticleRendererEditable extends HtmlRendererAbstract {
                     ],
                     Html::tag('i', ['class'=>$this->classMap->get('PaperButtons', 'button.template i')])
                 );
-
-        return Html::tag('form', ['method'=>'POST', 'action'=>""],
-            Html::tag('div', ['class'=>$this->classMap->get('PaperButtons', 'div.buttonsWrap')],
-                Html::tag('div', ['class'=>$this->classMap->get('PaperButtons', 'div.buttons')],
-                    $btnAktivni.$btnDoKose
-                )
-                .Html::tag('div', ['class'=>$this->classMap->get('PaperButtons', 'div.buttons')],
-                    implode('', $buttons)
-                )
-            )
-        );
+        }
+        return $buttons;
     }
-
-
 }

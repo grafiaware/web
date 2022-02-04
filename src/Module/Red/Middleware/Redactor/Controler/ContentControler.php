@@ -172,13 +172,17 @@ class ContentControler extends FrontControlerAbstract {
         $contents = $this->paperContentRepo->findByReference($paperId);
         $content = $this->paperContentRepo->get($contentId);
         $selectedContentPriority = $content->getPriority();
+        $shifted = false;
         foreach ($contents as $contentItem) {
             /** @var PaperContentInterface $contentItem */
             if ($contentItem->getPriority() == $selectedContentPriority+1) {  // obsahy s vyšší nebo stejnou prioritou - zvětším jim prioriru o 1 - vznikne díra pro $selectedContentPriority
                 $contentItem->setPriority($selectedContentPriority);
                 $content->setPriority($selectedContentPriority+1);
-                $this->addFlashMessage("content up - priorita změněna $selectedContentPriority -> ".($selectedContentPriority+1), FlashSeverityEnum::SUCCESS);
+                $shifted = true;
             }
+        }
+        if ($shifted) {
+                $this->addFlashMessage("content up - priorita změněna $selectedContentPriority -> ".($selectedContentPriority+1), FlashSeverityEnum::SUCCESS);
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
@@ -187,13 +191,17 @@ class ContentControler extends FrontControlerAbstract {
         $contents = $this->paperContentRepo->findByReference($paperId);
         $content = $this->paperContentRepo->get($contentId);
         $selectedContentPriority = $content->getPriority();
+        $shifted = false;
         foreach ($contents as $contentItem) {
             /** @var PaperContentInterface $contentItem */
             if ($contentItem->getPriority() == $selectedContentPriority-1) {  // obsahy s vyšší nebo stejnou prioritou - zvětším jim prioriru o 1 - vznikne díra pro $selectedContentPriority
                 $contentItem->setPriority($selectedContentPriority);
                 $content->setPriority($selectedContentPriority-1);
-                $this->addFlashMessage("content down - priorita změněna $selectedContentPriority -> ".($selectedContentPriority-1), FlashSeverityEnum::SUCCESS);
+                $shifted = true;
             }
+        }
+        if ($shifted) {
+            $this->addFlashMessage("content down - priorita změněna $selectedContentPriority -> ".($selectedContentPriority-1), FlashSeverityEnum::SUCCESS);
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
     }

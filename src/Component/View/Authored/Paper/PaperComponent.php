@@ -70,26 +70,25 @@ class PaperComponent extends AuthoredComponentAbstract implements PaperComponent
                 $template = new ImplodeTemplate();
             }
             $contentView = $this->createCompositeViewWithTemplate($template);
-            // zvolí PaperRenderer nebo PaperRendererEditable
-            if ($this->contextData->presentEditableContent()) { // editační režim
+            if ($this->contextData->presentEditableContent()) {
                 if ($this->userPerformActionWithItem()) {
+                    // editační režim - připojí views s editable renderery headline, perex, contents
                     $this->setRendererName(PaperRendererEditable::class);
-                    // připojí k komponentě komponentní view s editable renderery headline, perex, contents
                     $this->addChildEditableComponents($contentView);
                 } else {
+                    // needitační režim - připojí views s needitable renderery headline, perex, contents
                     $this->setRendererName(PaperRenderer::class);
-                    // připojí k komponentě komponentní view s editable renderery headline, perex, contents
                     $this->addChildComponents($contentView);
                 }
                 // připojí komponent - view s buttonem ToggleEditContentButtonComponent (tužtička)
                 $buttonEditContentComponent = new ToggleEditContentButtonComponent($this->configuration);
                 $buttonEditContentComponent->setData($this->contextData);
                 $buttonEditContentComponent->setRendererContainer($this->rendererContainer);
-                $this->appendComponentView($buttonEditContentComponent, self::BUTTON_EDIT_CONTENT);
+                $this->appendComponentView($buttonEditContentComponent, parent::BUTTON_EDIT_CONTENT);
 
-            } else {  // needitační režim
+            } else {
+                // needitační režim - připojí views s needitable renderery headline, perex, contents
                 $this->setRendererName(PaperRenderer::class);
-                // připojí k templated view komponentní view s editable renderery headline, perex, contents
                 $this->addChildComponents($contentView);
             }
             $this->appendComponentView($contentView, self::CONTENT);
