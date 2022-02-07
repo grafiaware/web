@@ -31,6 +31,59 @@ class ConfigurationStyles extends ConfigurationRed {
             #  menu classmap
             #
             // default hodnoty
+            'buttons' => [
+                            'button' => 'ui button',
+                            'div.buttons' => 'editSize ui basic icon buttons',
+                            'button.paste' => 'ui button paste',
+                            'div.buttonsWrap' => 'contentButtons page-edit',
+                            'div.ribbon' => 'ui right ribbon teal basic label cornerWithTools page-edit',
+                            'div.ribbon-paper' => 'ui right ribbon pink basic label cornerWithTools page-edit',        ///jeden ribbon, barvu měnit v less
+                            'div.ribbon-article' => 'ui right ribbon orange basic label cornerWithTools page-edit',
+                            'div.ribbon-disabled' => 'ui right ribbon label page-edit black basic',
+                            'button.template' => 'ui button toggleTemplateSelect',
+                            'div.editMode' => 'zapnout_editaci',
+                            'div.editMode button' => 'ui editingButtons_size teal icon button',
+                            'div.offEditMode button' => 'ui editingButtons_size teal basic icon button',
+                            'div.wrapTrash' => 'contentButtons trash',
+                            'div.wrapContent' => 'contentButtons',
+                            'div.wrapShowDate' => 'calendarWrap editShowDate',
+                            'div.wrapEventDate' => 'calendarWrap editEventDate',
+                            'div.buttonsEditDate' => 'editingButtons_size ui basic icon buttons editDate',
+                            'div.buttonsContent' => 'editingButtons_size ui basic icon buttons editContent',        ///div.buttons = div.buttonsContent - zkontrolovat!!!
+                            'button.showDate' => 'ui button toolsShowDate',
+                            'button.eventDate' => 'ui button toolsEventDate',
+                            'button.content' => 'ui button hideCalendarWrap',
+                
+                        ],
+            'icons_buttons' => [
+                            'button.notpublish' => 'green toggle on icon',
+                            'button.publish' => 'red toggle off icon',
+                            'button.cut' => 'cut icon',
+                            'button.cutted' => 'red cut icon',
+                            'button.addsiblings' => 'add circle icon',
+                            'button.movetotrash' => 'purple trash icon',
+                            'button.addchildren' => ' arrow circle right icon',
+                            'button.icons' => 'icons',
+                            'button.delete' => 'trash icon',
+                            'button.exclamation' => 'corner red exclamation icon',
+                            'button.templateSelect' => 'clone outline icon',
+                            'button.template i' => 'file alternate icon',
+                            'button.arrange' => 'sort numeric down icon',
+                            'div.editMode i' => 'pencil alternate icon',
+                            'button.changedisplaydate' => 'violet calendar alternate icon',
+                            'button.changeeventdate' => 'yellow money check icon',
+                            'button.arrowup' => 'top right corner arrow up icon',
+                            'button.arrowdown' => 'bottom right corner arrow down icon',
+                            'button.movecontent' => 'sticky note outline icon',
+                            'button.addcontent' => 'plus square outline icon',
+                            'button.permanently' => 'calendar outline icon',
+                            'button.save' => 'save icon',
+                            'button.cancel' => 'red times circle icon',
+                            'button.restore' => 'sync icon',
+                            'semafor.published' => 'circle icon green',
+                            'semafor.notpublished' => 'circle icon inverted red',
+                            'semafor.trashed' => 'circle icon inverted purple',
+                        ],
             'menu_items' => [
                             'li' => '',
                             'li.presented' => 'presented',
@@ -45,96 +98,19 @@ class ConfigurationStyles extends ConfigurationRed {
                             //editační prvky
                             'li.cut' => 'cut',
                             'semafor'=> 'semafor',
-                            'semafor.published' => 'circle icon green',
-                            'semafor.notpublished' => 'circle icon red ',
-                            'semafor.trashed' => 'circle icon inverted purple',
-                        ],
-            'menu_common_edit_buttons' => [
-                            'div.buttons' => 'editSize ui basic icon buttons',
-                            'button' => 'ui button',
-                            'button.notpublish' => 'green toggle on icon',
-                            'button.publish' => 'red toggle off icon',
-                            'button.cut' => 'cut icon',
-                            'button.cutted' => 'red cut icon',
-                            'button.addsiblings' => 'add circle icon',
-                            'button.movetotrash' => 'purple trash icon',
-                        ],
-            'menu_edit_buttons' => [
-                            'button.paste' => 'ui button paste',
-                            'button.addchildren' => ' arrow circle right icon',
-                        ],
-            'block_edit_buttons' => [
-                            
-                        ],
-            'trash_edit_buttons' => [
-                            'button.icons' => 'icons',
-                            'button.delete' => 'trash icon',
-                            'button.exclamation' => 'corner red exclamation icon',
-                        ],
-            'paper_template_edit_buttons' => [
-                            'div.paperTemplate' => 'ui editSize basic icon dropdown button changePaperTemplate',
-                            'button' => 'ui button',
-                            'button.templateSelect' => ' clone outline icon'
+                            //'li.isnotleaf icon' => 'chevron-icon', //dropdown icon
                         ],
             'paper_template_select' => [
-                            'div button' => 'ui huge fade animated button toggleTemplateSelect',
-                            'div.hidden' => 'hidden content',
-                            'div.visible' => 'visible content',
-                            'div i' => 'file alternate teal icon',
-                            'div.selectTemplate' => 'select_template',
-                            'div.tinySelectTemplatePaper' => 'tiny_select_template_paper borderDance',
+                            'div button' => 'ui huge fade animated button toggleTemplateSelect', ///vybirani sablon pro article???
+                            'div.hidden' => 'hidden content', ///vybirani sablon pro article???
+                            'div.visible' => 'visible content', ///vybirani sablon pro article???
+                            'div i' => 'file alternate teal icon', ///vybirani sablon pro article???
+                
+                            
+                
+                            'div.tinySelectTemplatePaper' => 'tiny_select_template_paper borderDance',   // class tiny_select_template_paper je selektor pro TinyInit - vybere konfiguraci a v té je proměnná se seznameme šablon (jiný seznam pro paper, article, multipage)
                             'div.tinySelectTemplateArticle' => 'tiny_select_template_article borderDance',
                             'div.tinySelectTemplateMultipage' => 'tiny_select_template_multipage borderDance',
-                        ],
-            'paper_edit_buttons' => [
-                            'div.buttonsWrap' => 'contentButtons page-edit',
-                            'div.buttons' => 'editingButtons_size ui basic icon buttons editContent',
-                            'div.ribbon' => 'ui right ribbon teal basic label cornerWithTools page-edit',
-                            'div.ribbon-paper' => 'ui right ribbon pink basic label cornerWithTools page-edit',
-                            'div.ribbon-article' => 'ui right ribbon orange basic label cornerWithTools page-edit',
-                            'div.ribbon-disabled' => 'ui right ribbon label page-edit black basic',
-                            'button' => 'ui button',
-                            'button.template' => 'ui button toggleTemplateSelect',
-                            'button.template i' => 'file alternate icon',
-                            'button.arrange' => 'sort numeric down icon',
-                            'div.editMode' => 'zapnout_editaci',
-                            'div.editMode i' => 'pencil alternate icon',
-                            'div.editMode button' => 'ui editingButtons_size teal icon button',
-                            'div.offEditMode button' => 'ui editingButtons_size teal basic icon button',
-                        ],
-            'content_edit_buttons' => [
-                            'div.wrapContent' => 'contentButtons',
-                            'div.wrapShowDate' => 'calendarWrap editShowDate',
-                            'div.wrapEventDate' => 'calendarWrap editEventDate',
-                            'div.buttonsEditDate' => 'editingButtons_size ui basic icon buttons editDate',
-                            'div.buttonsContent' => 'editingButtons_size ui basic icon buttons editContent',
-                            'button' => 'ui button',
-                            'button.showDate' => 'ui button toolsShowDate',
-                            'button.eventDate' => 'ui button toolsEventDate',
-                            'button.content' => 'ui button hideCalendarWrap',
-                            'button.notpublish' => 'green toggle on icon',
-                            'button.publish' => 'red toggle off icon',
-                            'button.changedisplaydate' => 'violet calendar alternate icon',
-                            'button.changeeventdate' => 'yellow money check icon',
-                            'button.icons' => 'icons',
-                            'button.arrowup' => 'top right corner arrow up icon',
-                            'button.arrowdown' => 'bottom right corner arrow down icon',
-                            'button.movecontent' => 'sticky note outline icon',
-                            'button.addcontent' => 'plus square outline icon',
-                            'button.movetotrash' => 'purple trash icon',
-                            'button.permanently' => 'calendar outline icon',
-                            'button.save' => 'save icon',
-                            'button.cancel' => 'red times circle icon',
-                            'div.grid' => 'ui grid',
-                            'div.wholeRow' => 'sixteen wide column',
-                            'div.halfRow' => 'eight wide column',
-                            'div.calendar' => 'ui calendar',
-                            'div.input' => 'ui input',
-                        ],
-            'deleted_content_buttons' => [
-                            'div.wrapTrash' => 'contentButtons trash',
-                            'button.restore' => 'sync icon',
-                            'button.delete' => 'trash icon',
                         ],
                     ];
     }
@@ -224,8 +200,8 @@ class ConfigurationStyles extends ConfigurationRed {
                             'ul' => 'menu'
                         ],
                         'Item' => self::rendererDefaults()['menu_items'],
-                        'Buttons' => self::rendererDefaults()['menu_edit_buttons'],
-                        'CommonButtons' => self::rendererDefaults()['menu_common_edit_buttons'],
+                        'Buttons' => self::rendererDefaults()['buttons'],
+                        'Icons' => self::rendererDefaults()['icons_buttons']
                     ]
                 );
             },
@@ -241,7 +217,7 @@ class ConfigurationStyles extends ConfigurationRed {
                         ],
                         'Item' => array_merge(self::rendererDefaults()['menu_items'],
                             [
-                            'li a' => 'ui primary button',
+                            'li a' => 'ui primary button', ///presunout do lessu jako styl
                             ]),
                     ]);
             },
@@ -258,8 +234,8 @@ class ConfigurationStyles extends ConfigurationRed {
                             [
                             'li a' => 'ui primary button',
                             ]),
-                        'Buttons' => self::rendererDefaults()['menu_edit_buttons'],
-                        'CommonButtons' => self::rendererDefaults()['menu_common_edit_buttons'],
+                        'Buttons' => self::rendererDefaults()['buttons'],
+                        'Icons' => self::rendererDefaults()['icons_buttons']
                     ]
                 );
             },
@@ -272,7 +248,7 @@ class ConfigurationStyles extends ConfigurationRed {
                         'LevelWrap' => [
                             'ul' => 'menu onpath',
                             ],
-                        'Item' => self::rendererDefaults()['menu_items'],
+                        'Item' => self::rendererDefaults()['menu_items'], /// + Icons?
                     ]);
             },
             'menu.svisle.classmap.editable' => function() {
@@ -285,8 +261,8 @@ class ConfigurationStyles extends ConfigurationRed {
                             'ul' => 'menu onpath',
                         ],
                         'Item' => self::rendererDefaults()['menu_items'],
-                        'Buttons' => self::rendererDefaults()['menu_edit_buttons'],
-                        'CommonButtons' => self::rendererDefaults()['menu_common_edit_buttons'],
+                        'Buttons' => self::rendererDefaults()['buttons'],
+                        'Icons' => self::rendererDefaults()['icons_buttons']
                     ]);
             },
             'menu.bloky.classmap.editable' => function() { //bloky
@@ -299,8 +275,8 @@ class ConfigurationStyles extends ConfigurationRed {
                             'ul' => 'menu onpath',
                         ],
                         'Item' => self::rendererDefaults()['menu_items'],
-                        'Buttons' => self::rendererDefaults()['block_edit_buttons'],
-                        'CommonButtons' => self::rendererDefaults()['menu_common_edit_buttons'],
+                        'Buttons' => self::rendererDefaults()['buttons'],
+                        'Icons' => self::rendererDefaults()['icons_buttons']
                     ]);
             },
             'menu.kos.classmap.editable' => function() { //kos
@@ -313,8 +289,8 @@ class ConfigurationStyles extends ConfigurationRed {
                             'ul' => 'menu onpath',
                         ],
                         'Item' => self::rendererDefaults()['menu_items'],
-                        'Buttons' => self::rendererDefaults()['trash_edit_buttons'],
-                        'CommonButtons' => self::rendererDefaults()['menu_common_edit_buttons'],
+                        'Buttons' => self::rendererDefaults()['buttons'],
+                        'Icons' => self::rendererDefaults()['icons_buttons']
                     ]);
             },
         ###########################
@@ -323,6 +299,11 @@ class ConfigurationStyles extends ConfigurationRed {
             'authored.classmap' => function() {
                 return new ClassMap (
                     [
+                     'Template' => [
+                        'div.templateMultipage' => 'template-multipage',
+                        'div.templatePaper' => 'template-paper',
+                        'div.templateArticle' => 'template-article',
+                        ],   
                      'Headline' => [
                         'headline'=>'',
                         ],
@@ -331,18 +312,26 @@ class ConfigurationStyles extends ConfigurationRed {
                         ],
                      'Content' => [
                         'content'=>'',
-                        'div.templateMultipage' => 'template-multipage',
-                        'div.templateMultipage' => 'template-multipage',
-                        'div.templatePaper' => 'template-paper',
-                        'div.templateArticle' => 'template-article',
                         ],
-                      'PaperButtons' => self::rendererDefaults()['paper_edit_buttons'],
+                     'Buttons' => self::rendererDefaults()['buttons'],
+                     'Icons' => self::rendererDefaults()['icons_buttons'],
                     ]
                 );
             },
             'authored.editable.classmap' => function() {
                 return new ClassMap (
                     [
+                     'Template' => [
+                        'div.templateMultipage' => 'template-multipage',
+                        'div.templateMultipageTrash' => 'template-multipage trash',
+                        'div.templatePaper' => 'template-paper',
+                        'div.templatePaperTrash' => 'template-paper trash',
+                        'div.templateArticle' => 'template-articleedit',
+                        'div.templateArticleTrash' => 'template-articleedit trash',
+                        'div.selectTemplate' => 'select_template',
+                            // test
+                        'div.tinySelectTemplate' => 'tiny_select_template borderDance',
+                        ],
                      'Headline' => [
                         'section'=>'',
                         'headline.edit-text'=>'borderDance edit-text',
@@ -359,22 +348,19 @@ class ConfigurationStyles extends ConfigurationRed {
                         'ribbon.svg' => 'ribbon-svg',
                         'ribbon.priority' => 'content-priority',
                         'div.nameMenuItem'=> 'nadpis-polozky-menu',
-                        'i1.published' => 'circle icon green',
-                        'i1.notpublished' => 'circle icon red',
-                        'i.trash' => 'trash icon purple',
                         'content'=>'borderDance edit-html',
                         'div.trash_content'=>'trash_content',
-                        'div.templateMultipage' => 'template-multipage',
-                        'div.templateMultipage' => 'template-multipage',
-                        'div.templatePaper' => 'template-paper',
-                        'div.templateArticle' => 'template-article',
+                        'div.grid' => 'ui grid',
+                        'div.wholeRow' => 'sixteen wide column',
+                        'div.halfRow' => 'eight wide column',
+                        'div.calendar' => 'ui calendar',
+                        'div.input' => 'ui input',
                         ],
-                     'PaperTemplateButtons' => self::rendererDefaults()['paper_template_edit_buttons'],
+                     'Buttons' => self::rendererDefaults()['buttons'],
+                     'Icons' => self::rendererDefaults()['icons_buttons'],
+                        //
                      'PaperTemplateSelect' => self::rendererDefaults()['paper_template_select'],
-                     'PaperButtons' => self::rendererDefaults()['paper_edit_buttons'],
-                     'ContentButtons' => self::rendererDefaults()['content_edit_buttons'],
-                     'TrashButtons' => self::rendererDefaults()['deleted_content_buttons'],
-                     'CommonButtons' => self::rendererDefaults()['menu_common_edit_buttons'],
+                     
                     ]
                 );
             },
