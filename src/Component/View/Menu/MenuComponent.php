@@ -56,19 +56,17 @@ class MenuComponent extends StatusComponentAbstract implements MenuComponentInte
     /**
      *
      * @param $levelWrapRendererName
-     * @param $itemRendererName
-     * @return \Component\Controller\Authored\MenuComponentInterface
+     * @return MenuComponentInterface
      */
-    public function setRenderersNames( $levelWrapRendererName, $itemRendererName): MenuComponentInterface {
+    public function setRenderersNames( $levelWrapRendererName): MenuComponentInterface {
         $this->levelWrapRendererName = $levelWrapRendererName;
-        $this->itemRendererName = $itemRendererName;
         return $this;
     }
 
     /**
      *
      * @param string $menuRootName
-     * @return \Component\Controller\Authored\MenuComponentInterface
+     * @return MenuComponentInterface
      */
     public function setMenuRootName($menuRootName): MenuComponentInterface {
         $this->componentName = $menuRootName;
@@ -78,7 +76,7 @@ class MenuComponent extends StatusComponentAbstract implements MenuComponentInte
     /**
      *
      * @param bool $withTitle
-     * @return \Component\Controller\Authored\MenuComponentInterface
+     * @return MenuComponentInterface
      */
     public function withTitleItem($withTitle=false): MenuComponentInterface {
         $this->withTitle = $withTitle;
@@ -98,7 +96,6 @@ class MenuComponent extends StatusComponentAbstract implements MenuComponentInte
         /** @var MenuWrapRendererInterface $renderer */
         $renderer = $this->rendererContainer->get($this->rendererName);
         $renderer->setLevelWrapRenderer($this->rendererContainer->get($this->levelWrapRendererName));
-        $renderer->setItemRenderer($this->rendererContainer->get($this->itemRendererName));
         $this->setRenderer($renderer);
 
         $this->contextData->setMenuRootName($this->componentName);
@@ -153,22 +150,22 @@ class MenuComponent extends StatusComponentAbstract implements MenuComponentInte
 
             $itemViewModel = new ItemViewModel($node, $realDepth, $isOnPath, $isLeaf, $isPresented, $pasteMode, $isCutted, $menuEditable);
 
-            $models[$realDepth] = $itemViewModel;
+            $models[] = $itemViewModel;
         }
         return $models;
     }
 
     private function createItemViews($itemViewModels) {
-        foreach ($itemViewModels as $depth => $itemVieModel) {
-            /** @var ItemViewModelInterface $itemVieModel */
+        foreach ($itemViewModels as $depth => $itemViewModel) {
+            /** @var ItemViewModelInterface $itemViewModel */
             // pokud render používá classMap musí být konfigurován v Renderer kontejneru - tam dostane classMap
-            if($this->contextData->presentEditableMenu() AND $this->isAllowed($this, AllowedActionEnum::EDIT)) {
-                $view =  (new CompositeView())->setData($itemVieModel)->setRendererName(ItemRendererEditable::class)->setRendererContainer($this->rendererContainer);
+            if($itemViewModel->isPresented() AND $this->contextData->presentEditableMenu() AND $this->isAllowed($this, AllowedActionEnum::EDIT)) {
+                $view =  (new CompositeView())->setData($itemViewModel)->setRendererName('menu.itemrenderer.editable')->setRendererContainer($this->rendererContainer);
             } else {
-                $view =  (new CompositeView())->setData($itemVieModel)->setRendererName(ItemRenderer::class)->setRendererContainer($this->rendererContainer);
+                $view =  (new CompositeView())->setData($itemViewModel)->setRendererName('menu.itemrenderer')->setRendererContainer($this->rendererContainer);
             }
             // $itemVieModel !! není iterable!
-            $views[$depth] = $view;
+            $views[] = $view;
         }
         return $views ?? [];
     }

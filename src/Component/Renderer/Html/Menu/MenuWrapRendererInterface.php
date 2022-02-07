@@ -17,5 +17,4 @@ use Pes\View\Renderer\RendererInterface;
 interface MenuWrapRendererInterface extends RendererInterface {
     public function setLevelWrapRenderer(RendererInterface $levelWrapRenderer): void;
 
-    public function setItemRenderer(RendererInterface $itemRenderer): void;
 }

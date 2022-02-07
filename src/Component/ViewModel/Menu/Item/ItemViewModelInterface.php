@@ -30,5 +30,5 @@ interface ItemViewModelInterface {
     /**
      * @return HierarchyAggregateInterface
      */
-    public function getMenuNode();
+    public function getHierarchyAggregate();
 }

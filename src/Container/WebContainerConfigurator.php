@@ -175,32 +175,35 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 $menuComponent->setRendererContainer($c->get('rendererContainer'));
                 return $menuComponent;
             },
+
+            //TODO: SV - konfigurace menu kom ponent do konfigurace site
+
             'menu.presmerovani' => function(ContainerInterface $c) {
                 return $c->get(MenuComponent::class)
                         ->setRendererName('menu.presmerovani.menuwraprenderer')
-                        ->setRenderersNames('menu.presmerovani.levelwraprenderer', 'menu.presmerovani.itemrenderer');
+                        ->setRenderersNames('menu.presmerovani.levelwraprenderer');
             },
             'menu.vodorovne' => function(ContainerInterface $c) {
                 return $c->get(MenuComponent::class)
                         ->setRendererName('menu.vodorovne.menuwraprenderer')
-                        ->setRenderersNames('menu.vodorovne.levelwraprenderer', 'menu.vodorovne.itemrenderer');
+                        ->setRenderersNames('menu.vodorovne.levelwraprenderer');
             },
             'menu.svisle' => function(ContainerInterface $c) {
                 return $c->get(MenuComponent::class)
                         ->setRendererName('menu.svisle.menuwraprenderer')
-                        ->setRenderersNames('menu.svisle.levelwraprenderer', 'menu.svisle.itemrenderer');
+                        ->setRenderersNames('menu.svisle.levelwraprenderer');
             },
             //bloky
             'menu.bloky' => function(ContainerInterface $c) {
                 return $c->get(MenuComponent::class)
                         ->setRendererName('menu.bloky.menuwraprenderer')
-                        ->setRenderersNames('menu.bloky.levelwraprenderer', 'menu.bloky.itemrenderer');
+                        ->setRenderersNames('menu.bloky.levelwraprenderer');
             },
             //kos
             'menu.kos' => function(ContainerInterface $c) {
                 return $c->get(MenuComponent::class)
                         ->setRendererName('menu.kos.menuwraprenderer')
-                        ->setRenderersNames('menu.kos.levelwraprenderer', 'menu.kos.itemrenderer');
+                        ->setRenderersNames('menu.kos.levelwraprenderer');
             },
 
         ####

@@ -8,10 +8,17 @@
 
 namespace Site\VeletrhPrace;
 
-use \Pes\View\Renderer\ClassMap\ClassMap;
-use  Component\Renderer\Html\Menu\{
-    MenuWrapRenderer, MenuWrapEditableRenderer, LevelWrapRenderer, ItemRenderer, ItemEditableRenderer, ItemBlockRenderer, ItemTrashRenderer
-};
+use Pes\View\Renderer\ClassMap\ClassMap;
+use Component\Renderer\Html\Menu\MenuWrapRenderer;
+use Component\Renderer\Html\Menu\MenuWrapEditableRenderer;
+use Component\Renderer\Html\Menu\LevelWrapRenderer;
+use Component\Renderer\Html\Menu\ItemRenderer;
+use Component\Renderer\Html\Menu\ItemRendererEditable;
+use Component\Renderer\Html\Menu\ItemBlockRenderer;
+use Component\Renderer\Html\Menu\ItemBlockRendererEditable;
+use Component\Renderer\Html\Menu\ItemTrashRenderer;
+use Component\Renderer\Html\Menu\ItemTrashRendererEditable;
+
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
 
 /**
@@ -53,7 +60,7 @@ class ConfigurationStyles extends ConfigurationRed {
                             'button.showDate' => 'ui button toolsShowDate',
                             'button.eventDate' => 'ui button toolsEventDate',
                             'button.content' => 'ui button hideCalendarWrap',
-                
+
                         ],
             'icons_buttons' => [
                             'button.notpublish' => 'green toggle on icon',
@@ -105,9 +112,9 @@ class ConfigurationStyles extends ConfigurationRed {
                             'div.hidden' => 'hidden content', ///vybirani sablon pro article???
                             'div.visible' => 'visible content', ///vybirani sablon pro article???
                             'div i' => 'file alternate teal icon', ///vybirani sablon pro article???
-                
-                            
-                
+
+
+
                             'div.tinySelectTemplatePaper' => 'tiny_select_template_paper borderDance',   // class tiny_select_template_paper je selektor pro TinyInit - vybere konfiguraci a v té je proměnná se seznameme šablon (jiný seznam pro paper, article, multipage)
                             'div.tinySelectTemplateArticle' => 'tiny_select_template_article borderDance',
                             'div.tinySelectTemplateMultipage' => 'tiny_select_template_multipage borderDance',
@@ -125,35 +132,46 @@ class ConfigurationStyles extends ConfigurationRed {
         # menu renderer
         ###########################
             'menu.svisle.menuwraprenderer' => function(ContainerInterface $c) {
-                return new MenuWrapRenderer($c->get('menu.svisle.classmap'), $c->get('menu.svisle.classmap.editable'));
+                return new MenuWrapRenderer($c->get('menu.svisle.classmap'));
             },
             'menu.svisle.levelwraprenderer' => function(ContainerInterface $c) {
-                return new LevelWrapRenderer($c->get('menu.svisle.classmap'), $c->get('menu.svisle.classmap.editable'));
-            },
-            'menu.svisle.itemrenderer' => function(ContainerInterface $c) {
-                return new ItemRenderer($c->get('menu.svisle.classmap'), $c->get('menu.svisle.classmap.editable'));
-            },
-            //bloky
-            'menu.bloky.menuwraprenderer' => function(ContainerInterface $c) {
-                return new MenuWrapRenderer($c->get('menu.svisle.classmap'), $c->get('menu.bloky.classmap.editable'));
-            },
-            'menu.bloky.levelwraprenderer' => function(ContainerInterface $c) {
-                return new LevelWrapRenderer($c->get('menu.svisle.classmap'), $c->get('menu.bloky.classmap.editable'));
-            },
-            'menu.bloky.itemrenderer' => function(ContainerInterface $c) {
-                return new ItemBlockRenderer($c->get('menu.svisle.classmap'), $c->get('menu.bloky.classmap.editable'));
-            },
-            //kos
-            'menu.kos.menuwraprenderer' => function(ContainerInterface $c) {
-                return new MenuWrapRenderer($c->get('menu.svisle.classmap'), $c->get('menu.kos.classmap.editable'));
-            },
-            'menu.kos.levelwraprenderer' => function(ContainerInterface $c) {
-                return new LevelWrapRenderer($c->get('menu.svisle.classmap'), $c->get('menu.kos.classmap.editable'));
-            },
-            'menu.kos.itemrenderer' => function(ContainerInterface $c) {
-                return new ItemTrashRenderer($c->get('menu.svisle.classmap'), $c->get('menu.kos.classmap.editable'));
+                return new LevelWrapRenderer($c->get('menu.svisle.classmap'));
             },
 
+            //bloky
+            'menu.bloky.menuwraprenderer' => function(ContainerInterface $c) {
+                return new MenuWrapRenderer($c->get('menu.svisle.classmap'));
+            },
+            'menu.bloky.levelwraprenderer' => function(ContainerInterface $c) {
+                return new LevelWrapRenderer($c->get('menu.svisle.classmap'));
+            },
+
+            //kos
+            'menu.kos.menuwraprenderer' => function(ContainerInterface $c) {
+                return new MenuWrapRenderer($c->get('menu.svisle.classmap'));
+            },
+            'menu.kos.levelwraprenderer' => function(ContainerInterface $c) {
+                return new LevelWrapRenderer($c->get('menu.svisle.classmap'));
+            },
+            // item
+            'menu.itemrenderer' => function(ContainerInterface $c) {
+                return new ItemRenderer($c->get('menu.item.classmap'));
+            },
+            'menu.itemrenderer.editable' => function(ContainerInterface $c) {
+                return new ItemRendererEditable($c->get('menu.item.classmap.editable'));
+            },
+            'menu.itemblockrenderer' => function(ContainerInterface $c) {
+                return new ItemBlockRenderer($c->get('menu.item.classmap'));
+            },
+            'menu.itemblockrenderer.editable' => function(ContainerInterface $c) {
+                return new ItemBlockRendererEditable($c->get('menu.item.classmap.editable'));
+            },
+            'menu.itemtrashrenderer' => function(ContainerInterface $c) {
+                return new ItemTrashRenderer($c->get('menu.item.classmap'));
+            },
+            'menu.itemtrashrenderer.editable' => function(ContainerInterface $c) {
+                return new ItemTrashRendererEditable($c->get('menu.item.classmap.editable'));
+            },
 
         ###########################
         # menu classmap
@@ -167,7 +185,6 @@ class ConfigurationStyles extends ConfigurationRed {
                         'LevelWrap' => [
                             'ul' => 'menu onpath',
                             ],
-                        'Item' => self::rendererDefaults()['menu_items']  /// + Icons?
                     ]);
             },
             'menu.svisle.classmap.editable' => function() {
@@ -179,9 +196,6 @@ class ConfigurationStyles extends ConfigurationRed {
                         'LevelWrap' => [
                             'ul' => 'menu onpath',
                         ],
-                        'Item' => self::rendererDefaults()['menu_items'],
-                        'Buttons' => self::rendererDefaults()['buttons'],
-                        'Icons' => self::rendererDefaults()['icons_buttons']
                     ]);
             },
             'menu.bloky.classmap.editable' => function() { //bloky
@@ -193,9 +207,6 @@ class ConfigurationStyles extends ConfigurationRed {
                         'LevelWrap' => [
                             'ul' => 'menu onpath',
                         ],
-                        'Item' => self::rendererDefaults()['menu_items'],
-                        'Buttons' => self::rendererDefaults()['buttons'],
-                        'Icons' => self::rendererDefaults()['icons_buttons']
                     ]);
             },
             'menu.kos.classmap.editable' => function() { //kos
@@ -207,6 +218,17 @@ class ConfigurationStyles extends ConfigurationRed {
                         'LevelWrap' => [
                             'ul' => 'menu onpath',
                         ],
+                    ]);
+            },
+            'menu.item.classmap' => function() {
+                return new ClassMap (
+                    [
+                        'Item' => self::rendererDefaults()['menu_items']  /// + Icons?
+                    ]);
+            },
+            'menu.item.classmap.editable' => function() {
+                return new ClassMap (
+                    [
                         'Item' => self::rendererDefaults()['menu_items'],
                         'Buttons' => self::rendererDefaults()['buttons'],
                         'Icons' => self::rendererDefaults()['icons_buttons']

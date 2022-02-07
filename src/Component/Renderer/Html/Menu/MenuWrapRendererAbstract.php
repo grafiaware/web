@@ -35,33 +35,29 @@ abstract class MenuWrapRendererAbstract extends HtmlRendererAbstract implements 
         $this->levelWrapRenderer = $levelWrapRenderer;
     }
 
-    public function setItemRenderer(RendererInterface $itemRenderer): void {
-        $this->itemRenderer = $itemRenderer;
-    }
-
     protected function renderSubtreeItemModels($subtreeItemModels) {
         if (!$subtreeItemModels) {
             $wrap = '';
         } else {
             $itemTags = [];
             $first = true;
-            foreach ($subtreeItemModels as $itemDepth => $itemModel) {
-                /** @var ItemViewModelInterface $itemModel */
-//                $itemDepth = $itemModel->getRealDepth();
+            foreach ($subtreeItemModels as $itemDepth => $itemView) {
+                /** @var ItemViewModelInterface $itemView */
+                $itemDepth = $itemView->getData()->getRealDepth();
                 if ($first) {
                     $rootDepth = $itemDepth;
                     $currDepth = $itemDepth;
                     $first = false;
                 }
                 if ($itemDepth>$currDepth) {
-                    $itemStack[$itemDepth][] = $itemModel;
+                    $itemStack[$itemDepth][] = $itemView;
                     $currDepth = $itemDepth;
                 } elseif ($itemDepth<$currDepth) {
                     $this->renderStackedItems($currDepth, $itemDepth, $itemStack);
-                    $itemStack[$itemDepth][] = $itemModel;
+                    $itemStack[$itemDepth][] = $itemView;
                     $currDepth = $itemDepth;
                 } else {
-                    $itemStack[$currDepth][] = $itemModel;
+                    $itemStack[$currDepth][] = $itemView;
                 }
             }
             $this->renderStackedItems($currDepth, $rootDepth, $itemStack);
@@ -80,7 +76,7 @@ abstract class MenuWrapRendererAbstract extends HtmlRendererAbstract implements 
             }
             $wrap = $this->levelWrapRenderer->render(implode(PHP_EOL, $level));
             unset($itemStack[$i]);
-            end($itemStack[$i-1])->setInnerHtml($wrap);
+            end($itemStack[$i-1])->getData()->setInnerHtml($wrap);
         }
     }
 

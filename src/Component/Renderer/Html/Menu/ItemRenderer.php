@@ -30,7 +30,7 @@ class ItemRenderer extends HtmlRendererAbstract {
 
     public function render($viewModel=NULL) {
         $this->viewModel = $viewModel;
-        $menuItem = $this->viewModel->getMenuNode()->getMenuItem();
+        $menuItem = $this->viewModel->getHierarchyAggregate()->getMenuItem();
 
             return $this->renderNoneditableItem($menuItem);
     }
@@ -58,7 +58,7 @@ class ItemRenderer extends HtmlRendererAbstract {
                     $this->classMap->resolve($this->viewModel->isOnPath(), 'Item', 'li.parent', 'li'),
                     $this->classMap->resolve($this->viewModel->isCutted(), 'Item', 'li.cut', 'li')
                     ],
-                 'data-red-style'=> $this->redLiINoneditabletyle()
+                 'data-red-style'=> $this->redLiEditableStyle()
                ],
                 $innerHtml
                 );
@@ -68,12 +68,18 @@ class ItemRenderer extends HtmlRendererAbstract {
 
     private function semafor(MenuItemInterface $menuItem) {
         $active =$menuItem->getActive();
-        return Html::tag('span', ['class'=>$this->classMapEditable->get('Item', 'semafor')],
+        return Html::tag('span', ['class'=>$this->classMap->get('Item', 'semafor')],
                     Html::tag('i', [
-                        'class'=> $this->classMapEditable->resolve($active, 'Item', 'semafor.published', 'semafor.notpublished'),
+                        'class'=> $this->classMap->resolve($active, 'Item', 'semafor.published', 'semafor.notpublished'),
                         'title'=> $active ? "published" :  "not published"
                         ])
                 );
     }
-
+    private function redLiEditableStyle() {
+        return
+            ($this->viewModel->isOnPath() ? "onpath " : "")
+            .(($this->viewModel->getRealDepth() == 1) ? "dropdown " : "")
+            .($this->viewModel->isPresented() ? "presented " : "")
+            .($this->viewModel->isCutted() ? "cutted " : "") ;
+    }
 }

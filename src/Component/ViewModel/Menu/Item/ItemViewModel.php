@@ -21,7 +21,7 @@ class ItemViewModel extends ViewModelAbstract implements ItemViewModelInterface 
     /**
      * @var HierarchyAggregateInterface
      */
-    private $menuNode;
+    private $hierarchyAggregate;
 
     private $realDepth;
     private $isOnPath;
@@ -33,8 +33,8 @@ class ItemViewModel extends ViewModelAbstract implements ItemViewModelInterface 
 
     private $innerHtml;
 
-    public function __construct(HierarchyAggregateInterface $menuNode, $realDepth, $isOnPath, $isLeaf, $isPresented, $pasteMode, $isCutted, $menuEditable) {
-        $this->menuNode = $menuNode;
+    public function __construct(HierarchyAggregateInterface $hierarchaAggregate, $realDepth, $isOnPath, $isLeaf, $isPresented, $pasteMode, $isCutted, $menuEditable) {
+        $this->hierarchyAggregate = $hierarchaAggregate;
         $this->realDepth = $realDepth;
         $this->isOnPath = $isOnPath;
         $this->isLeaf = $isLeaf;
@@ -53,8 +53,8 @@ class ItemViewModel extends ViewModelAbstract implements ItemViewModelInterface 
      *
      * @return HierarchyAggregateInterface
      */
-    public function getMenuNode() {
-        return $this->menuNode;
+    public function getHierarchyAggregate() {
+        return $this->hierarchyAggregate;
     }
     public function getRealDepth() {
         return $this->realDepth;

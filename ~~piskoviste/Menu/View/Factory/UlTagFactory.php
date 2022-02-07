@@ -64,7 +64,7 @@ class UlTagFactory {
         $rootTag->getAttributesNode()->setAttribute('id', $this->ulElementId);   // přidám atribut id s hodnotou, na kterou je pověšeno jQuery
 
         foreach( $this->flattenedTree as $itemViewModel ) {
-            $itemDepth = $itemViewModel->getMenuNode()->getDepth();
+            $itemDepth = $itemViewModel->getHierarchyAggregate()->getDepth();
             if (!isset($currDepth)) {
                 $currDepth = $itemDepth-1;
             }
@@ -122,7 +122,7 @@ class UlTagFactory {
                         $this->classMap->resolve($itemViewModel->isLeaf(), 'Item', 'li.leaf', 'li'),
                         $this->classMap->resolve($itemViewModel->isPresented(), 'Item', 'li.presented', 'li'),
                         ],
-                    'data-depth'=>$itemViewModel->getMenuNode()->getDepth()
+                    'data-depth'=>$itemViewModel->getHierarchyAggregate()->getDepth()
                 ]);
 
         $returnTag->addChild(new Tag\I(
@@ -131,9 +131,9 @@ class UlTagFactory {
         $returnTag->addChild((new Tag\A(
                     [
                         'class'=>$this->classMap->get('Item', 'li a'),
-                        'href'=>"index.php?list={$itemViewModel->getMenuNode()->getUid()}"
+                        'href'=>"index.php?list={$itemViewModel->getHierarchyAggregate()->getUid()}"
                     ]
-                    ))->addChild(new Text\Text($itemViewModel->getMenuNode()->getHierarchy()->getTitle()))
+                    ))->addChild(new Text\Text($itemViewModel->getHierarchyAggregate()->getHierarchy()->getTitle()))
                 );
 
         // nemám innerHtml

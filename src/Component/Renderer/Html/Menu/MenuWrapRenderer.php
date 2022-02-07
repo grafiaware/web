@@ -25,19 +25,9 @@ class MenuWrapRenderer extends MenuWrapRendererAbstract {
 
     public function render(iterable $viewModel=NULL) {
         /** @var MenuViewModelInterface $viewModel */
-        // ??
         $menuLevelHtml = $this->renderSubtreeItemModels($viewModel->getSubTreeItemViews());
-        if ($viewModel->isMenuEditableByUser()) {
-            return
-            Html::tag('form', [],
-                Html::tag('ul', ['class'=>$this->classMapEditable->get('MenuWrap', 'ul')],
-                    $menuLevelHtml
-                )
-            );
-        } else {
-            return Html::tag('ul', ['class'=>$this->classMap->get('MenuWrap', 'ul')],
-                $menuLevelHtml
-            );
-        }
+        return Html::tag('ul', ['class'=>$this->classMap->get('MenuWrap', 'ul')],
+            $menuLevelHtml
+        );
     }
 }

@@ -23,19 +23,13 @@ abstract class HtmlRendererAbstract implements RendererInterface {
      */
     protected $classMap;
 
-    /**
-     * @var ClassMapInterface
-     */
-    protected $classMapEditable;
-
     protected $viewModel;
 
     /**
      *
      * @param ClassMapInterface $menuClassMap
      */
-    public function __construct(ClassMapInterface $menuClassMap=NULL, ClassMapInterface $menuClassMapEditable=NULL) {
+    public function __construct(ClassMapInterface $menuClassMap=NULL) {
         $this->classMap = $menuClassMap;
-        $this->classMapEditable = $menuClassMapEditable;
     }
 }

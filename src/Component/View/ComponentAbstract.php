@@ -9,6 +9,7 @@
 namespace Component\View;
 
 use Pes\View\CompositeView;
+use Pes\View\Template\TemplateInterface;
 
 use Configuration\ComponentConfigurationInterface;
 
