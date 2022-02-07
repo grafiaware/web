@@ -18,6 +18,6 @@ use Red\Model\Entity\PaperAggregatePaperContentInterface;
             </section>
             <section>
                 <?=
-        $this->repeat(PROJECT_PATH."local/site/common/templates/paper-content/default.php", $paperAggregate->getPaperContentsArraySorted(PaperAggregatePaperContentInterface::BY_PRIORITY), 'paperContent'); ?>
+        $this->repeat(PROJECT_PATH."local/site/common/templates/paper-content/default.php", $paperAggregate->getPaperContentsArraySorted(PaperAggregatePaperContentInterface::BY_PRIORITY), 'paperSection'); ?>
             </section>
         </article>

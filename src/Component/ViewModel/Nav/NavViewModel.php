@@ -172,7 +172,7 @@ class NavViewModel extends StatusViewModel implements NavViewModelInterface {
 //                $topMenuItemTitle = "Rekvalifikační kurzy";
                 $rootNode = $menuRepo->getNodeByTitle($langCode, $topMenuItemTitle, $active, $actual);
 //                $flatenedTree = $menuRepo->getSubTree($langCode, $rootNode->getHierarchyUid(), $active, $actual);
-                $flatenedTree = $menuViewModel->getSubTreeItemModels($rootNode->getUid());
+                $flatenedTree = $menuViewModel->getSubTreeItemViews($rootNode->getUid());
                 break;
             // getSubTree s maximální hloubkou
             case 2:
@@ -183,7 +183,7 @@ class NavViewModel extends StatusViewModel implements NavViewModelInterface {
                 $maxDepth = NULL;
                 $maxDepth = 4;   // max depth v celém stromu!!
 //                $flatenedTree = $menuRepo->getSubTree($langCode, $rootNode->getHierarchyUid(), $active, $actual, $maxDepth);
-                $flatenedTree = $menuViewModel->getSubTreeItemModels($rootNode->getUid(), $maxDepth);
+                $flatenedTree = $menuViewModel->getSubTreeItemViews($rootNode->getUid(), $maxDepth);
                 break;
             // getSubNodes s maximální hloubkou
             case 3:

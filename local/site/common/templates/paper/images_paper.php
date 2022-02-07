@@ -35,6 +35,6 @@ use Red\Model\Entity\PaperAggregatePaperContentInterface;
                 </div>
             </div>
             <div class="ui grid">
-                 <?= $this->repeat(PROJECT_PATH."local/site/common/templates/paper-content/images_paper.php", $contents, 'paperContent'); ?>
+                 <?= $this->repeat(PROJECT_PATH."local/site/common/templates/paper-content/images_paper.php", $sections, 'paperSection'); ?>
             </div>
         </div>

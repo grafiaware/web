@@ -20,6 +20,6 @@ use Red\Model\Entity\PaperAggregatePaperContentInterface;
             </div>
         </div>
         <div class="ui three column grid stackable centered">
-            <?= $this->repeat(PROJECT_PATH."local/site/common/templates/paper-content/column_cards.php", $contents, 'paperContent'); ?>
+            <?= $this->repeat(PROJECT_PATH."local/site/common/templates/paper-content/column_cards.php", $sections, 'paperSection'); ?>
         </div>
     </div>

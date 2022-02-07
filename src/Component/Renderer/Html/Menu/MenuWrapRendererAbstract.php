@@ -45,9 +45,9 @@ abstract class MenuWrapRendererAbstract extends HtmlRendererAbstract implements 
         } else {
             $itemTags = [];
             $first = true;
-            foreach ($subtreeItemModels as $itemModel) {
+            foreach ($subtreeItemModels as $itemDepth => $itemModel) {
                 /** @var ItemViewModelInterface $itemModel */
-                $itemDepth = $itemModel->getRealDepth();
+//                $itemDepth = $itemModel->getRealDepth();
                 if ($first) {
                     $rootDepth = $itemDepth;
                     $currDepth = $itemDepth;
@@ -75,7 +75,8 @@ abstract class MenuWrapRendererAbstract extends HtmlRendererAbstract implements 
             $level = [];
             foreach ($itemStack[$i] as $stackedItemModel) {
                 /** @var ItemViewModelInterface $stackedItemModel */
-                $level[] = $this->itemRenderer->render($stackedItemModel);
+//                $level[] = $this->itemRenderer->render($stackedItemModel);
+                $level[] = $stackedItemModel;
             }
             $wrap = $this->levelWrapRenderer->render(implode(PHP_EOL, $level));
             unset($itemStack[$i]);
@@ -87,7 +88,8 @@ abstract class MenuWrapRendererAbstract extends HtmlRendererAbstract implements 
         $level = [];
         foreach ($itemStack as $stackedItemModel) {
             /** @var ItemViewModelInterface $stackedItemModel */
-            $level[] = $this->itemRenderer->render($stackedItemModel);
+//            $level[] = $this->itemRenderer->render($stackedItemModel);
+            $level[] = $stackedItemModel;
         }
         $wrap = implode(PHP_EOL, $level);                // nejvyšší úroveň stromu je renderována je do "li", "ul" pak udělá menuWrapRenderer, který je nastaven jako renderer celé komponenty ($this->renderer)
         return $wrap;

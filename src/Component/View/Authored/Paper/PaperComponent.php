@@ -30,8 +30,7 @@ use Component\Renderer\Html\Authored\Paper\ContentsRendererEditable;
 
 use Component\View\Manage\ToggleEditContentButtonComponent;
 
-use Red\Model\Enum\AuthoredTypeEnum;
-use Pes\Type\ContextData;
+use Component\View\AllowedActionEnum;
 
 /**
  * Description of PaperComponent
@@ -40,10 +39,12 @@ use Pes\Type\ContextData;
  */
 class PaperComponent extends AuthoredComponentAbstract implements PaperComponentInterface {
 
-    const CONTENT = 'template';
+    // hodnoty těchto konstant určují, jaká budou jména proměnných genrovaných template rendererem při renderování php template
+    // - např, hodnota const QQQ='nazdar' způsobí, že obsah bude v proměnné $nazdar
+    const CONTENT = 'content';
     const PEREX = 'perex';
     const HEADLINE = 'headline';
-    const PARTS = 'contents';
+    const PARTS = 'sections';
 
     const SELECT_TEMPLATE = 'selectTemplate';
 
@@ -70,7 +71,8 @@ class PaperComponent extends AuthoredComponentAbstract implements PaperComponent
                 $template = new ImplodeTemplate();
             }
             $contentView = $this->createCompositeViewWithTemplate($template);
-            if ($this->contextData->presentEditableContent()) {
+
+            if($this->contextData->presentEditableContent() AND $this->isAllowed($this, AllowedActionEnum::EDIT)) {
                 if ($this->userPerformActionWithItem()) {
                     // editační režim - připojí views s editable renderery headline, perex, contents
                     $this->setRendererName(PaperRendererEditable::class);

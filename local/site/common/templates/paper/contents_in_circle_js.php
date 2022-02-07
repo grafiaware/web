@@ -22,7 +22,7 @@ use Red\Model\Entity\PaperAggregatePaperContentInterface;
             <div class="ui grid">
                 <div class="sixteen wide column">
                     <div id="circle" class="contents_in_circle">
-                        <?= $this->repeat(PROJECT_PATH."local/site/common/templates/paper-content/contents_in_circle_js.php", $contents, 'paperContent'); ?>
+                        <?= $this->repeat(PROJECT_PATH."local/site/common/templates/paper-content/contents_in_circle_js.php", $sections, 'paperSection'); ?>
                     </div>
                 </div>
             </div>

@@ -1,7 +1,7 @@
 <?php
 namespace Component\Renderer\Html\Authored\Multipage;
 
-use Component\Renderer\Html\HtmlRendererAbstract;
+use Component\Renderer\Html\Authored\AuthoredRendererAbstract;
 use Component\ViewModel\Authored\Multipage\MultipageViewModelInterface;
 
 use Red\Model\Entity\MultipageInterface;
@@ -14,15 +14,14 @@ use Pes\Text\Html;
  *
  * @author pes2704
  */
-class MultipageRendererEditable  extends HtmlRendererAbstract {
-    public function render(iterable $viewModel=NULL) {
+class MultipageRendererEditable  extends AuthoredRendererAbstract {
+    public function renderOLD(iterable $viewModel=NULL) {
         /** @var MultipageViewModelInterface $viewModel */
         $multipage = $viewModel->getMultipage();
         $menuItem = $viewModel->getMenuItem();
         $buttonEditContent = (string) $viewModel->getContextVariable(MultipageComponent::CONTEXT_BUTTON_EDIT_CONTENT) ?? '';
-
         $selectTemplate = $this->renderSelectTemplate($multipage);
-        $inner = (string) $viewModel->getContextVariable(MultipageComponent::CONTEXT_TEMPLATE) ?? '';
+        $inner = (string) $viewModel->getContextVariable(MultipageComponent::CONTENT) ?? '';
         $html =
                 Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.templateMultipage')],
                   Html::tag('div', ['data-red-renderer'=>'MultipageRendererEditable', "data-red-datasource"=> "multipage {$multipage->getId()} for item {$multipage->getMenuItemIdFk()}"],
@@ -47,6 +46,25 @@ class MultipageRendererEditable  extends HtmlRendererAbstract {
                     ]
                 )
               );
+        return $html ?? '';
+    }
+
+    #############################
+    public function render(iterable $viewModel=NULL) {
+        /** @var MultipageViewModelInterface $viewModel */
+        $multipage = $viewModel->getMultipage();
+
+        $html =
+                Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.templateMultipage')],
+                  Html::tag('div', ['data-red-renderer'=>'MultipageRendererEditable', "data-red-datasource"=> "multipage {$multipage->getId()} for item {$multipage->getMenuItemIdFk()}"],
+                        [
+                            $viewModel->getContextVariable(AuthoredComponentAbstract::BUTTON_EDIT_CONTENT) ?? '',
+                            $this->renderSelectTemplate($viewModel),
+                            $this->renderRibbon($viewModel),
+                            $viewModel->getContextVariable(MultipageComponent::CONTENT) ?? '',
+                        ]
+                    )
+                );
         return $html ?? '';
     }
 

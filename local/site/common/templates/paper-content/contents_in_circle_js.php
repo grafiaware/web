@@ -1,2 +1,2 @@
     
-    <?= $paperContent ?>
+    <?= $paperSection ?>

@@ -1,5 +1,5 @@
             <div class="column">
                 <div class="ui segment">
-                    <?= $paperContent ?>
+                    <?= $paperSection ?>
                 </div>
             </div>

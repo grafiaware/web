@@ -19,8 +19,7 @@ use Component\Renderer\Html\Authored\Multipage\MultipageRendererEditable;
 
 use Component\View\Manage\ToggleEditContentButtonComponent;
 
-use Red\Model\Enum\AuthoredTypeEnum;
-use Pes\Type\ContextData;
+use Component\View\AllowedActionEnum;
 
 /**
  * Description of PaperComponent
@@ -29,7 +28,9 @@ use Pes\Type\ContextData;
  */
 class MultipageComponent extends AuthoredComponentAbstract implements MultipageComponentInterface {
 
-    const CONTEXT_TEMPLATE = 'template';
+    // hodnoty těchto konstant určují, jaká budou jména proměnných genrovaných template rendererem při renderování php template
+    // - např, hodnota const QQQ='nazdar' způsobí, že obsah bude v proměnné $nazdar
+    const CONTENT = 'content';
 
     /**
      *
@@ -50,18 +51,20 @@ class MultipageComponent extends AuthoredComponentAbstract implements MultipageC
         } catch (NoTemplateFileException $noTemplExc) {
             $template = new ImplodeTemplate();
         }
-        $templatedView = (new CompositeView())->setTemplate($template)->setRendererContainer($this->rendererContainer);  // "nedědí" contextData
+        $contentView = (new CompositeView())->setTemplate($template)->setRendererContainer($this->rendererContainer);  // "nedědí" contextData
+
         $subNodes = $this->contextData->getSubNodes();  //včetně kořene podstromu - tedy včetně multipage položky
         // odstraní kořenový uzel, tj. uzel odpovídající vlastní multipage, zbydou jen potomci
         array_shift($subNodes);   //odstraní první prvek s indexem [0] a výsledné pole opět začína prvkem s indexem [0]
+
         foreach ($subNodes as $subNode) {
             $item = $subNode->getMenuItem();
-            $templatedView->appendComponentView($this->getContentLoadScript($item), $item->getTypeFk().'_'.$item->getId());
+            $contentView->appendComponentView($this->getContentLoadScript($item), $item->getTypeFk().'_'.$item->getId());
         }
-        $this->appendComponentView($templatedView, self::CONTEXT_TEMPLATE);
+        $this->appendComponentView($contentView, self::CONTENT);
 
         // zvolí MultipageRenderer nebo MultipageRendererEditable
-        if ($this->contextData->presentEditableContent()) { // editační režim
+        if($this->contextData->presentEditableContent() AND $this->isAllowed($this, AllowedActionEnum::EDIT)) {
             if ($this->userPerformActionWithItem()) {
                 $this->setRendererName(MultipageRendererEditable::class);
             } else {

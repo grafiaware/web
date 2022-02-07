@@ -1,3 +1,3 @@
     <div class="sixteen wide column">
-        <?= $paperContent ?>
+        <?= $paperSection ?>
     </div>

@@ -116,6 +116,7 @@ class ArticleRendererEditable extends AuthoredRendererAbstract {
                 );
         return $html ?? '';
     }
+    
 ##### article
     private function getFormWithContent(ArticleViewModelInterface $viewModel) {
         $id = $viewModel->getAuthoredContentId();

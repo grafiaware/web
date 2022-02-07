@@ -25,7 +25,8 @@ class MenuWrapRenderer extends MenuWrapRendererAbstract {
 
     public function render(iterable $viewModel=NULL) {
         /** @var MenuViewModelInterface $viewModel */
-        $menuLevelHtml = $this->renderSubtreeItemModels($viewModel->getSubTreeItemModels());
+        // ??
+        $menuLevelHtml = $this->renderSubtreeItemModels($viewModel->getSubTreeItemViews());
         if ($viewModel->isMenuEditableByUser()) {
             return
             Html::tag('form', [],

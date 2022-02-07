@@ -1,4 +1,4 @@
             <div class="sixteen wide column">
-                <?= $paperContent ?>
+                <?= $paperSection ?>
                 <hr/>
             </div>

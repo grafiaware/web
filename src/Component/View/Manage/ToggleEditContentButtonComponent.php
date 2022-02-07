@@ -6,7 +6,6 @@ use Component\Renderer\Html\NoPermittedContentRenderer;
 use Component\Renderer\Html\Manage\ToggleEditContentButtomRenderer;
 //use Pes\View\Template\PhpTemplate;
 
-use Component\View\RoleEnum;
 use Component\View\AllowedActionEnum;
 
 /**

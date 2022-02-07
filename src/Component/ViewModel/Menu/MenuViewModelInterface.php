@@ -17,7 +17,7 @@ use Red\Model\Entity\MenuRootInterface;
  *
  * @author pes2704
  */
-interface MenuViewModelInterface {
+interface MenuViewModelInterface extends StatusViewModelInterface {
 
     /**
      * Prezentuj pouze publikované položky
@@ -34,13 +34,6 @@ interface MenuViewModelInterface {
 
     /**
      *
-     * @param bool $withTitle
-     * @return void
-     */
-    public function withTitleItem($withTitle=false): void;
-
-    /**
-     *
      * @param int $maxDepth
      * @return void
      */
@@ -51,8 +44,6 @@ interface MenuViewModelInterface {
      * @return HierarchyAggregateInterface|null
      */
     public function getPresentedMenuNode(HierarchyAggregateInterface $rootNode): ?HierarchyAggregateInterface;
-
-    public function isMenuEditableByUser(): bool;
 
     /**
      *
@@ -80,5 +71,7 @@ interface MenuViewModelInterface {
      *
      * @return ItemViewModelInterface array af
      */
-    public function getSubTreeItemModels();
+    public function getSubTreeNodes();
+    public function setSubtreeItemViews($views);
+    public function getSubTreeItemViews();
 }

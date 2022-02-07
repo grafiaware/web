@@ -14,6 +14,6 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
             </div>
         </div>
         <div class="ui grid stackable centered">
-            <?= $this->repeat(PROJECT_PATH."local/site/common/templates/paper-content/bordered_rows.php", $contents, 'paperContent'); ?>
+            <?= $this->repeat(PROJECT_PATH."local/site/common/templates/paper-content/bordered_rows.php", $sections, 'paperSection'); ?>
         </div>
     </div>

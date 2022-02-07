@@ -22,7 +22,7 @@ use Red\Model\Entity\PaperAggregatePaperContentInterface;
             </div>
             <div class="eight wide column">
                 <div class="ui grid">
-                    <?= $this->repeat(PROJECT_PATH."local/site/common/templates/paper-content/columns_perex_contents.php", $contents, 'paperContent'); ?>
+                    <?= $this->repeat(PROJECT_PATH."local/site/common/templates/paper-content/columns_perex_contents.php", $sections, 'paperSection'); ?>
                 </div>
             </div>
         </div>

@@ -8,6 +8,7 @@
 
 namespace Component\ViewModel\Menu\Item;
 
+use Component\ViewModel\ViewModelAbstract;
 use Red\Model\Entity\HierarchyAggregateInterface;
 
 /**
@@ -15,7 +16,7 @@ use Red\Model\Entity\HierarchyAggregateInterface;
  *
  * @author pes2704
  */
-class ItemViewModel implements ItemViewModelInterface {
+class ItemViewModel extends ViewModelAbstract implements ItemViewModelInterface {
 
     /**
      * @var HierarchyAggregateInterface
@@ -26,23 +27,22 @@ class ItemViewModel implements ItemViewModelInterface {
     private $isOnPath;
     private $isLeaf;
     private $isPresented;
-    private $isMenuEditableByUser;
     private $pasteMode;
     private $isCutted;
     private $menuEditable;
 
     private $innerHtml;
 
-    public function __construct(HierarchyAggregateInterface $menuNode, $realDepth, $isOnPath, $isLeaf, $isPresented, $isMenuEditableByUser, $pasteMode, $isCutted, $menuEditable) {
+    public function __construct(HierarchyAggregateInterface $menuNode, $realDepth, $isOnPath, $isLeaf, $isPresented, $pasteMode, $isCutted, $menuEditable) {
         $this->menuNode = $menuNode;
         $this->realDepth = $realDepth;
         $this->isOnPath = $isOnPath;
         $this->isLeaf = $isLeaf;
         $this->isPresented = $isPresented;
-        $this->isMenuEditableByUser = $isMenuEditableByUser;
         $this->pasteMode = $pasteMode;
         $this->isCutted = $isCutted;
         $this->menuEditable = $menuEditable;
+        parent::__construct();
     }
 
     public function setInnerHtml($innerHtml): void {
@@ -76,10 +76,6 @@ class ItemViewModel implements ItemViewModelInterface {
     }
     public function isCutted() {
         return $this->isCutted;
-    }
-
-    public function isMenuEditableByUser() {
-        return $this->isMenuEditableByUser;
     }
 
     public function getInnerHtml() {
