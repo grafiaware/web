@@ -27,7 +27,7 @@ class PaperRenderer  extends HtmlRendererAbstract {
         $inner = (string) $viewModel->getContextVariable(PaperComponent::CONTENT) ?? '';
         $buttonEditContent = (string) $viewModel->getContextVariable(AuthoredComponentAbstract::BUTTON_EDIT_CONTENT) ?? '';
         $html =
-                Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.templatePaper')],
+                Html::tag('div', ['class'=>$this->classMap->get('Template', 'div.templatePaper')],
                     Html::tag('article', ['data-red-renderer'=>'PaperRenderer', "data-red-datasource"=> "paper {$paperAggregate->getId()} for item {$paperAggregate->getMenuItemIdFk()}"],
                             [$buttonEditContent, $inner]
                     )

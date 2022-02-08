@@ -549,6 +549,18 @@ body{
             }
         }
     }
+    .template-article, .template-articleedit{
+        .ribbon.page-edit{
+            color: @orange;
+            border-color: @orange;
+        }
+    }
+    .template-paper{
+        .ribbon.page-edit{
+            color: @pink;
+            border-color: @pink;
+        }
+    }
     .zapnout_editaci{  //male tlacitko v rohu
         position: absolute;
         text-align: @zapnoutEditaciTextAlign;
@@ -650,7 +662,7 @@ body{
         padding-left: @ribbonPagePaddingLeft;
         left: @ribbonPagePositionLeft;
         z-index: @ribbonPageZIndex; 
-        .nadpis-polozky-menu{
+        .nadpis-polozky-menu{ 
             width: @ribbonPageWidth;
             > p{
                 margin: 0;
@@ -687,11 +699,11 @@ body{
         width: @buttonyContentPageWidth;  
         right: @buttonyContentPagePositionRight;
         top: @buttonyContentPagePositionTop;
+        background-color: @buttonyContentBackgroundColor;
         &.trash .editContent{
             background-color: @lastButtonContentBackgroundColor;
         }
         .editContent{
-            background-color: @buttonyContentBackgroundColor;
 
         }
     }

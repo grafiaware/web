@@ -22,13 +22,13 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract {
         $type = $viewModel->getItemType();  // spoléhám na to, že návratová hodnota je hodnota z AuthoredTypeEnum
 
         //TODO: barvy do css - KŠ
-        $class = $this->classMap->get('PaperButtons', 'div.ribbon-article');
+        $class = $this->classMap->get('Buttons', 'div.ribbon-article');
 
         return
             Html::tag('div', ['class'=>$class], //lepítko s buttony
                 Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.semafor')], //aktivní/neaktivní paper
                     Html::tag('div', ['class'=> 'ikona-popis', 'data-tooltip'=> $menuItem->getActive() ? "published" : "not published"],
-                        Html::tag('i', ['class'=> $this->classMap->resolve($menuItem->getActive(), 'Content','i1.published', 'i1.notpublished')])
+                        Html::tag('i', ['class'=> $this->classMap->resolve($menuItem->getActive(), 'Icons','semafor.published', 'semafor.notpublished')])
                     )
                 )
                 .Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.nameMenuItem')],
@@ -63,7 +63,7 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract {
 
         return
             // id je parametr pro togleTemplateSelect(id) - voláno onclick na button 'Vybrat šablonu stránky'
-            Html::tag('div', ['id'=> $this->getTemplateSelectId($viewModel),'class'=>$this->classMap->get('PaperTemplateSelect', 'div.selectTemplate')],
+            Html::tag('div', ['id'=> $this->getTemplateSelectId($viewModel),'class'=>$this->classMap->get('Template', 'div.selectTemplate')],
                 Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/$type/$authoredContentId/template"],
                     [
 //                        Html::tagNopair('input', ["type"=>"hidden", "name"=>$templateNamePostVar, "value"=>$contentTemplateName]),
@@ -84,7 +84,7 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract {
 
     protected function renderArticleButtonsForm(AuthoredViewModelInterface $viewModel) {
         return Html::tag('form', ['method'=>'POST', 'action'=>""],
-            Html::tag('div', ['class'=>$this->classMap->get('PaperButtons', 'div.buttonsWrap')],
+            Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsWrap')],
                 [
                     $this->renderButtonsDiv($this->renderItemControlButtons($viewModel)),
                     $this->renderButtonsDiv($this->renderContentControlButtons($viewModel)),
@@ -101,18 +101,18 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract {
         
         $buttons = [];
         $buttons[] = Html::tag('button',
-                ['class'=>$this->classMap->get('CommonButtons', 'button'),
+                ['class'=>$this->classMap->get('Buttons', 'button'),
                 'data-tooltip'=> $active ? 'Nepublikovat' : 'Publikovat',
                 'data-position'=>'top right',
                 'type'=>'submit',
                 'formmethod'=>'post',
                 'formaction'=>"red/v1/menu/$uid/toggle",
                 ],
-                Html::tag('i', ['class'=>$this->classMap->resolve($active, 'CommonButtons', 'button.notpublish', 'button.publish')])
+                Html::tag('i', ['class'=>$this->classMap->resolve($active, 'Icons', 'icon.notpublish', 'icon.publish')])
             );
 
         $buttons[] = Html::tag('button', [
-                'class'=>$this->classMap->get('PaperButtons', 'button'),
+                'class'=>$this->classMap->get('Buttons', 'button'),
                 'data-tooltip'=> 'Odstranit položku',
                 'data-position'=>'top right',
                 'formtarget'=>'_self',
@@ -120,12 +120,12 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract {
                 'formaction'=>"red/v1/hierarchy/$uid/trash",
                 'onclick'=>"return confirm('Jste si jisti?');"
                 ],
-                Html::tag('i', ['class'=>$this->classMap->get('CommonButtons', 'button.movetotrash')])
+                Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.movetotrash')])
             );
         return $buttons;
     }
 
     private function renderButtonsDiv(array $buttons) {
-        return Html::tag('div', ['class'=>$this->classMap->get('PaperButtons', 'div.buttons')], implode('', $buttons));
+        return Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttons')], implode('', $buttons));
     }
 }

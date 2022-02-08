@@ -59,7 +59,7 @@ class ItemTrashRendererEditable extends ItemRendererEditable {
             }
         }
 
-        $innerHtml[] = $buttonsHtml ? Html::tag('div', ['class'=>$this->classMap->get('CommonButtons', 'div.buttons')], $buttonsHtml) : '';
+        $innerHtml[] = $buttonsHtml ? Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttons')], $buttonsHtml) : '';
         $innerHtml[] = $this->viewModel->getInnerHtml();
 
         $html = Html::tag('li',
@@ -86,7 +86,7 @@ class ItemTrashRendererEditable extends ItemRendererEditable {
     private function getButtonDelete(MenuItemInterface $menuItem) {
         return
             Html::tag('button', [
-                'class'=>$this->classMap->get('CommonButtons', 'button'),
+                'class'=>$this->classMap->get('Buttons', 'button'),
                 'data-tooltip'=>'Trvale odstranit',
                 'data-position'=>'top right',
                 'type'=>'submit',
@@ -104,7 +104,7 @@ class ItemTrashRendererEditable extends ItemRendererEditable {
     private function getButtonCut(MenuItemInterface $menuItem) {
         return
             Html::tag('button', [
-                'class'=>$this->classMap->get('CommonButtons', 'button'),
+                'class'=>$this->classMap->get('Buttons', 'button'),
                 'data-tooltip'=>'Vybrat k přesunutí',
                 'data-position'=>'top right',
                 'type'=>'submit',
@@ -112,12 +112,12 @@ class ItemTrashRendererEditable extends ItemRendererEditable {
                 'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/cut",
 
                     ],
-                Html::tag('i', ['class'=>$this->classMap->get('CommonButtons', 'button.cut')])
+                Html::tag('i', ['class'=>$this->classMap->get('Buttons', 'button.cut')])
             );
     }
     private function getButtonCutted(MenuItemInterface $menuItem) {
         return  Html::tag('button', [
-                'class'=>$this->classMap->get('CommonButtons', 'button'),
+                'class'=>$this->classMap->get('Buttons', 'button'),
                 'data-tooltip'=>'Zrušit přesunutí',
                 'data-position'=>'top right',
                 'type'=>'submit',
@@ -125,7 +125,7 @@ class ItemTrashRendererEditable extends ItemRendererEditable {
                 'formmethod'=>'post',
                 'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/cut",
                     ],
-                Html::tag('i', ['class'=>$this->classMap->get('CommonButtons', 'button.cutted')])
+                Html::tag('i', ['class'=>$this->classMap->get('Buttons', 'button.cutted')])
             );
     }
 
