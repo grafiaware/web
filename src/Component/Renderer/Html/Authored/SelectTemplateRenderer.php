@@ -48,11 +48,11 @@ class SelectTemplateRenderer extends HtmlRendererAbstract {
                 ],
                 Html::tag('div', ['class'=>$this->classMap->get('PaperTemplateSelect', 'div.hidden')], 'Šablony pro stránku')
                 .Html::tag('div', ['class'=>$this->classMap->get('PaperTemplateSelect', 'div.visible')],
-                    Html::tag('i', ['class'=>$this->classMap->get('PaperTemplateSelect', 'div i')])
+                    Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.template')])
                 )
             )
             .
-            Html::tag('div', ['id'=>$selectTemplateElementId,'class'=>$this->classMap->get('PaperTemplateSelect', 'div.selectTemplate')],
+            Html::tag('div', ['id'=>$selectTemplateElementId,'class'=>$this->classMap->get('Template', 'div.selectTemplate')],
                 Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/$itemType/$contentId/template"],
                     Html::tagNopair('input', ["type"=>"hidden", "name"=>"template_$contentId", "value"=>$contentTemplateName])
                     .

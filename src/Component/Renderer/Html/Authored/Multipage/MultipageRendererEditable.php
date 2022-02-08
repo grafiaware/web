@@ -23,12 +23,12 @@ class MultipageRendererEditable  extends AuthoredRendererAbstract {
         $selectTemplate = $this->renderSelectTemplate($multipage);
         $inner = (string) $viewModel->getContextVariable(MultipageComponent::CONTENT) ?? '';
         $html =
-                Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.templateMultipage')],
+                Html::tag('div', ['class'=>$this->classMap->get('Template', 'div.templateMultipage')],
                   Html::tag('div', ['data-red-renderer'=>'MultipageRendererEditable', "data-red-datasource"=> "multipage {$multipage->getId()} for item {$multipage->getMenuItemIdFk()}"],
                     [
                         $buttonEditContent,
                         $selectTemplate,
-                        Html::tag('div', ['class'=>$this->classMap->get('PaperButtons', 'div.ribbon-disabled')]), //lepítko s buttony
+                        Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.ribbon-disabled')]), //lepítko s buttony
                         Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.semafor')], //aktivní/neaktivní paper
                             Html::tag('div',
                                [
@@ -37,7 +37,7 @@ class MultipageRendererEditable  extends AuthoredRendererAbstract {
                                ],
                                 Html::tag('i',
                                    [
-                                   'class'=> $this->classMap->resolve($menuItem->getActive(), 'Content','i1.published', 'i1.notpublished'),
+                                   'class'=> $this->classMap->resolve($menuItem->getActive(), 'Icons','semafor.published', 'semafor.notpublished'),
                                    ]
                                 )
                             )
@@ -55,7 +55,7 @@ class MultipageRendererEditable  extends AuthoredRendererAbstract {
         $multipage = $viewModel->getMultipage();
 
         $html =
-                Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.templateMultipage')],
+                Html::tag('div', ['class'=>$this->classMap->get('Template', 'div.templateMultipage')],
                   Html::tag('div', ['data-red-renderer'=>'MultipageRendererEditable', "data-red-datasource"=> "multipage {$multipage->getId()} for item {$multipage->getMenuItemIdFk()}"],
                         [
                             $viewModel->getContextVariable(AuthoredComponentAbstract::BUTTON_EDIT_CONTENT) ?? '',
@@ -73,7 +73,7 @@ class MultipageRendererEditable  extends AuthoredRendererAbstract {
         $multipageId = $multipage->getId();
 
         return
-                    Html::tag('div', ['class'=>$this->classMap->get('PaperTemplateSelect', 'div.selectTemplate')],
+                    Html::tag('div', ['class'=>$this->classMap->get('Template', 'div.selectTemplate')],
                         Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/multipage/$multipageId/template"],
                             Html::tagNopair('input', ["type"=>"hidden", "name"=>"template_$multipageId", "value"=>$contentTemplateName])
                             .

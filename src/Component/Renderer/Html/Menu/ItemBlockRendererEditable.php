@@ -60,9 +60,9 @@ class ItemBlockRendererEditable extends ItemRendererEditable {
     private function renderButtons(MenuItemInterface $menuItem) {
 
         return
-        Html::tag('div', ['class'=>$this->classMap->get('CommonButtons', 'div.buttons')],
+        Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttons')],
             Html::tag('button',
-                ['class'=>$this->classMap->get('CommonButtons', 'button'),
+                ['class'=>$this->classMap->get('Buttons', 'button'),
                 'data-tooltip'=>'Aktivní/neaktivní položka',
                 'type'=>'submit',
                 'name'=>'button',
@@ -70,10 +70,10 @@ class ItemBlockRendererEditable extends ItemRendererEditable {
                 'formmethod'=>'post',
                 'formaction'=>"red/v1/menu/{$menuItem->getUidFk()}/toggle",
                 ],
-                Html::tag('i', ['class'=>$this->classMap->resolve($menuItem->getActive(), 'CommonButtons', 'button.notpublish', 'button.publish')])
+                Html::tag('i', ['class'=>$this->classMap->resolve($menuItem->getActive(), 'Icons', 'icon.notpublish', 'icon.publish')])
             )
             .Html::tag('button', [
-                'class'=>$this->classMap->get('CommonButtons', 'button'),
+                'class'=>$this->classMap->get('Buttons', 'button'),
                 'data-tooltip'=>'Přidat sourozence',
                 'data-position'=>'top right',
                 'type'=>'submit',
@@ -81,10 +81,10 @@ class ItemBlockRendererEditable extends ItemRendererEditable {
                 'formmethod'=>'post',
                 'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/add",
                     ],
-                Html::tag('i', ['class'=>$this->classMap->get('CommonButtons', 'button.addsiblings')])
+                Html::tag('i', ['class'=>$this->classMap->get('Buttons', 'button.addsiblings')])
             )
             .Html::tag('button', [
-                'class'=>$this->classMap->get('CommonButtons', 'button'),
+                'class'=>$this->classMap->get('Buttons', 'button'),
                 'data-tooltip'=>'Odstranit položku',
                 'data-position'=>'top right',
                 'type'=>'submit',
@@ -93,7 +93,7 @@ class ItemBlockRendererEditable extends ItemRendererEditable {
                 'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/trash",
                 'onclick'=>"return confirm('Jste si jisti?');"
                     ],
-                Html::tag('i', ['class'=>$this->classMap->get('CommonButtons', 'button.movetotrash')])
+                Html::tag('i', ['class'=>$this->classMap->get('Buttons', 'button.movetotrash')])
             )
         );
     }

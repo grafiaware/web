@@ -43,10 +43,7 @@ class ConfigurationStyles extends ConfigurationRed {
                             'div.buttons' => 'editSize ui basic icon buttons',
                             'button.paste' => 'ui button paste',
                             'div.buttonsWrap' => 'contentButtons page-edit',
-                            'div.ribbon' => 'ui right ribbon teal basic label cornerWithTools page-edit',
-                            'div.ribbon-paper' => 'ui right ribbon pink basic label cornerWithTools page-edit',        ///jeden ribbon, barvu měnit v less
-                            'div.ribbon-article' => 'ui right ribbon orange basic label cornerWithTools page-edit',
-                            'div.ribbon-disabled' => 'ui right ribbon label page-edit black basic',
+                            'div.ribbon-article' => 'ui right ribbon basic label cornerWithTools page-edit',
                             'button.template' => 'ui button toggleTemplateSelect',
                             'div.editMode' => 'zapnout_editaci',
                             'div.editMode button' => 'ui editingButtons_size teal icon button',
@@ -56,37 +53,37 @@ class ConfigurationStyles extends ConfigurationRed {
                             'div.wrapShowDate' => 'calendarWrap editShowDate',
                             'div.wrapEventDate' => 'calendarWrap editEventDate',
                             'div.buttonsEditDate' => 'editingButtons_size ui basic icon buttons editDate',
-                            'div.buttonsContent' => 'editingButtons_size ui basic icon buttons editContent',        ///div.buttons = div.buttonsContent - zkontrolovat!!!
+                            'div.buttonsContent' => 'editingButtons_size ui basic icon buttons editContent',       
                             'button.showDate' => 'ui button toolsShowDate',
                             'button.eventDate' => 'ui button toolsEventDate',
                             'button.content' => 'ui button hideCalendarWrap',
 
                         ],
             'icons_buttons' => [
-                            'button.notpublish' => 'green toggle on icon',
-                            'button.publish' => 'red toggle off icon',
-                            'button.cut' => 'cut icon',
-                            'button.cutted' => 'red cut icon',
-                            'button.addsiblings' => 'add circle icon',
-                            'button.movetotrash' => 'purple trash icon',
-                            'button.addchildren' => ' arrow circle right icon',
-                            'button.icons' => 'icons',
-                            'button.delete' => 'trash icon',
-                            'button.exclamation' => 'corner red exclamation icon',
-                            'button.templateSelect' => 'clone outline icon',
-                            'button.template i' => 'file alternate icon',
-                            'button.arrange' => 'sort numeric down icon',
-                            'div.editMode i' => 'pencil alternate icon',
-                            'button.changedisplaydate' => 'violet calendar alternate icon',
-                            'button.changeeventdate' => 'yellow money check icon',
-                            'button.arrowup' => 'top right corner arrow up icon',
-                            'button.arrowdown' => 'bottom right corner arrow down icon',
-                            'button.movecontent' => 'sticky note outline icon',
-                            'button.addcontent' => 'plus square outline icon',
-                            'button.permanently' => 'calendar outline icon',
-                            'button.save' => 'save icon',
-                            'button.cancel' => 'red times circle icon',
-                            'button.restore' => 'sync icon',
+                            'icon.notpublish' => 'green toggle on icon',
+                            'icon.publish' => 'red toggle off icon',
+                            'icon.cut' => 'cut icon',
+                            'icon.cutted' => 'red cut icon',
+                            'icon.addsiblings' => 'add circle icon',
+                            'icon.movetotrash' => 'purple trash icon',
+                            'icon.addchildren' => ' arrow circle right icon',
+                            'icons' => 'icons',
+                            'icon.delete' => 'trash icon',
+                            'icon.exclamation' => 'corner red exclamation icon',
+                            'icon.templateSelect' => 'clone outline icon',
+                            'icon.template' => 'file alternate icon',
+                            'icon.arrange' => 'sort numeric down icon',
+                            'icon.editMode' => 'pencil alternate icon', 
+                            'icon.changedisplaydate' => 'violet calendar alternate icon',
+                            'icon.changeeventdate' => 'yellow money check icon',
+                            'icon.arrowup' => 'top right corner arrow up icon',
+                            'icon.arrowdown' => 'bottom right corner arrow down icon',
+                            'icon.movecontent' => 'sticky note outline icon',
+                            'icon.addcontent' => 'plus square outline icon',
+                            'icon.permanently' => 'calendar outline icon',
+                            'icon.save' => 'save icon',
+                            'icon.cancel' => 'red times circle icon',
+                            'icon.restore' => 'sync icon',
                             'semafor.published' => 'circle icon green',
                             'semafor.notpublished' => 'circle icon inverted red',
                             'semafor.trashed' => 'circle icon inverted purple',
@@ -108,13 +105,11 @@ class ConfigurationStyles extends ConfigurationRed {
                             //'li.isnotleaf icon' => 'chevron-icon', //dropdown icon
                         ],
             'paper_template_select' => [
+                            //ke smazání
                             'div button' => 'ui huge fade animated button toggleTemplateSelect', ///vybirani sablon pro article???
-                            'div.hidden' => 'hidden content', ///vybirani sablon pro article???
-                            'div.visible' => 'visible content', ///vybirani sablon pro article???
-                            'div i' => 'file alternate teal icon', ///vybirani sablon pro article???
-
-
-
+                            'div.hidden' => 'hidden content', 
+                            'div.visible' => 'visible content', 
+                            'div i' => 'file alternate teal icon', 
                             'div.tinySelectTemplatePaper' => 'tiny_select_template_paper borderDance',   // class tiny_select_template_paper je selektor pro TinyInit - vybere konfiguraci a v té je proměnná se seznameme šablon (jiný seznam pro paper, article, multipage)
                             'div.tinySelectTemplateArticle' => 'tiny_select_template_article borderDance',
                             'div.tinySelectTemplateMultipage' => 'tiny_select_template_multipage borderDance',
@@ -289,7 +284,6 @@ class ConfigurationStyles extends ConfigurationRed {
                         'ribbon.svg' => 'ribbon-svg',
                         'ribbon.priority' => 'content-priority',
                         'div.nameMenuItem'=> 'nadpis-polozky-menu',
-                        'i.trash' => 'trash icon purple', ///pouzit z Icons button.movetotrash + prejmenovat i1.(not)published na semafor.(not)published
                         'content'=>'borderDance edit-html',
                         'div.trash_content'=>'trash_content',
                         'div.grid' => 'ui grid',
@@ -300,8 +294,6 @@ class ConfigurationStyles extends ConfigurationRed {
                         ],
                      'Buttons' => self::rendererDefaults()['buttons'],
                      'Icons' => self::rendererDefaults()['icons_buttons'],
-                        //////
-                     'PaperTemplateSelect' => self::rendererDefaults()['paper_template_select'],
                     ]
                 );
             },

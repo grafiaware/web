@@ -63,7 +63,7 @@ class ItemRendererEditable extends HtmlRendererAbstract {
             );
 
         $liInnerHtml[] = Html::tag('div',
-                ['class'=>$this->classMap->get('CommonButtons', 'div.buttons')],
+                ['class'=>$this->classMap->get('Buttons', 'div.buttons')],
                 $this->renderButtons($menuItem));
 
         $liInnerHtml[] = $this->viewModel->getInnerHtml();
@@ -145,7 +145,7 @@ class ItemRendererEditable extends HtmlRendererAbstract {
                 'formmethod'=>'post',
                 'formaction'=>"red/v1/menu/{$menuItem->getUidFk()}/toggle",
                 ],
-                Html::tag('i', ['class'=>$this->classMap->resolve($active, 'Icons', 'button.notpublish', 'button.publish')])
+                Html::tag('i', ['class'=>$this->classMap->resolve($active, 'Icons', 'icon.notpublish', 'icon.publish')])
             );
     }
     private function getButtonAdd(MenuItemInterface $menuItem) {
@@ -156,7 +156,7 @@ class ItemRendererEditable extends HtmlRendererAbstract {
                 'formmethod'=>'post',
                 'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/add",
                     ],
-                Html::tag('i', ['class'=>$this->classMap->get('Icons', 'button.addsiblings')])
+                Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.addsiblings')])
             )
             .
             Html::tag('button', [
@@ -166,7 +166,7 @@ class ItemRendererEditable extends HtmlRendererAbstract {
                 'formmethod'=>'post',
                 'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/addchild",
                     ],
-                Html::tag('i', ['class'=>$this->classMap->get('Icons', 'button.addchildren')])
+                Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.addchildren')])
             );
     }
     private function getButtonPaste(MenuItemInterface $menuItem) {
@@ -177,7 +177,7 @@ class ItemRendererEditable extends HtmlRendererAbstract {
                 'formmethod'=>'post',
                 'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/paste",
                     ],
-                Html::tag('i', ['class'=>$this->classMap->get('Icons', 'button.addsiblings')])
+                Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.addsiblings')])
             )
             .
             Html::tag('button', [
@@ -187,7 +187,7 @@ class ItemRendererEditable extends HtmlRendererAbstract {
                 'formmethod'=>'post',
                 'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/pastechild",
                     ],
-                Html::tag('i', ['class'=>$this->classMap->get('Icons', 'button.addchildren')])
+                Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.addchildren')])
             );
     }
     private function getButtonCut(MenuItemInterface $menuItem) {
@@ -200,7 +200,7 @@ class ItemRendererEditable extends HtmlRendererAbstract {
                 'formmethod'=>'post',
                 'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/cut",
                     ],
-                Html::tag('i', ['class'=>$this->classMap->get('Icons', 'button.cut')])
+                Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.cut')])
             );
     }
     private function getButtonCutted(MenuItemInterface $menuItem) {
@@ -213,7 +213,7 @@ class ItemRendererEditable extends HtmlRendererAbstract {
                 'formmethod'=>'post',
                 'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/cutescape",
                     ],
-                Html::tag('i', ['class'=>$this->classMap->get('Icons', 'button.cutted')])
+                Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.cutted')])
             );
     }
     private function getButtonTrash(MenuItemInterface $menuItem) {
@@ -226,7 +226,7 @@ class ItemRendererEditable extends HtmlRendererAbstract {
                 'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/trash",
                 'onclick'=>"return confirm('Jste si jisti?');"
                     ],
-                Html::tag('i', ['class'=>$this->classMap->get('Icons', 'button.movetotrash')])
+                Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.movetotrash')])
             );
     }
 }

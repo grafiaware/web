@@ -54,14 +54,14 @@ class ArticleRendererEditable extends AuthoredRendererAbstract {
                             ];
             }
             $ret =
-                Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.templateArticle')],
+                Html::tag('div', ['class'=>$this->classMap->get('Template', 'div.templateArticle')],
                     Html::tag('article', [
                                         'data-red-renderer'=>'ArticleRendererEditable',
                                         "data-red-datasource"=> "article {$article->getId()} for item {$article->getMenuItemIdFk()}",
                                         ],
                         [
                             $buttonEditContent,
-                            Html::tag('div', ['class'=>$this->classMap->get('PaperButtons', 'div.ribbon-article')], //lepítko s buttony
+                            Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.ribbon-article')], //lepítko s buttony
                                 Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.semafor')], //aktivní/neaktivní paper
                                     Html::tag('div',
                                        [
@@ -70,7 +70,7 @@ class ArticleRendererEditable extends AuthoredRendererAbstract {
                                        ],
                                         Html::tag('i',
                                            [
-                                           'class'=> $this->classMap->resolve($menuItem->getActive(), 'Content','i1.published', 'i1.notpublished'),
+                                           'class'=> $this->classMap->resolve($menuItem->getActive(), 'Icons','semafor.published', 'semafor.notpublished'),
                                            ]
                                         )
                                     )
@@ -104,7 +104,7 @@ class ArticleRendererEditable extends AuthoredRendererAbstract {
         $article = $viewModel->getArticle();  // vrací PaperAggregate
 
         $html =
-                Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.templatePaper')],
+                Html::tag('div', ['class'=>$this->classMap->get('Template', 'div.templateArticle')],
                     Html::tag('article', ['data-red-renderer'=>'PaperRendererEditable', "data-red-datasource"=> "paper {$article->getId()} for item {$article->getMenuItemIdFk()}"],
                         [
                             $viewModel->getContextVariable(AuthoredComponentAbstract::BUTTON_EDIT_CONTENT) ?? '',
@@ -144,7 +144,7 @@ class ArticleRendererEditable extends AuthoredRendererAbstract {
         $buttons = [];
         $disabled = $templateName ? 'disabled' : '';
         $buttons[] = Html::tag('button', [
-                'class'=>[$this->classMap->get('PaperButtons', 'button.template'), $disabled],
+                'class'=>[$this->classMap->get('Buttons', 'button.template'), $disabled],
                 'data-tooltip'=> 'Vybrat šablonu stránky',
                 'data-position'=>'top right',
                 'formtarget'=>'_self',
@@ -152,7 +152,7 @@ class ArticleRendererEditable extends AuthoredRendererAbstract {
                 'formaction'=>"",
                 'onclick'=>$onclick
                 ],
-                Html::tag('i', ['class'=>$this->classMap->get('PaperButtons', 'button.template i')])
+                Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.template')])
             );
         return $buttons;
     }

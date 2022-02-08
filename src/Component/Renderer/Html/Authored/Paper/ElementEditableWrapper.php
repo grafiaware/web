@@ -98,13 +98,13 @@ class ElementEditableWrapper {
         return
             Html::tag('section', ['class'=>$this->classMap->get('Content', 'section')],
                 Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.ribbon')],
-                    Html::tag('i', ['class'=>$this->classMap->get('Content', 'div.ribbon icon')])
+                    Html::tag('i', ['class'=>$this->classMap->get('Icons', 'div.ribbon icon')])
                         .$this->getContentButtonsForm($paperContent)
                 )
                 .Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.semafor')],
                     Html::tag('i',
                        [
-                       'class'=> $this->classMap->resolve($active, 'Content','i1.published', 'i1.notpublished'),
+                       'class'=> $this->classMap->resolve($active, 'Icons','semafor.published', 'semafor.notpublished'),
                        'title'=> $active ? "published" : "not published",
                        ]
                     )
@@ -147,7 +147,7 @@ class ElementEditableWrapper {
                     $this->getTrashButtonsForm($paperContent)
                 )
                 .Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.semafor')],
-                        Html::tag('i',['class'=>$this->classMap->get('Content', 'i.trash')])
+                        Html::tag('i',['class'=>$this->classMap->get('Icons', 'icon.movetotrash')])
                 )
                 .Html::tag('div',
                     [
@@ -213,10 +213,10 @@ class ElementEditableWrapper {
         return
 
         Html::tag('form', ['method'=>'POST', 'action'=>""],
-            Html::tag('div', ['class'=>$this->classMap->get('ContentButtons', 'div.wrapContent')],
-                Html::tag('div', ['class'=>$this->classMap->get('ContentButtons', 'div.buttonsContent')],
+            Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.wrapContent')],
+                Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsContent')],
                     Html::tag('button',
-                        ['class'=>$this->classMap->get('ContentButtons', 'button'),
+                        ['class'=>$this->classMap->get('Buttons', 'button'),
                         'data-tooltip'=>'Aktivní/neaktivní obsah',
                         'type'=>'submit',
                         'name'=>'button',
@@ -224,20 +224,20 @@ class ElementEditableWrapper {
                         'formmethod'=>'post',
                         'formaction'=>"red/v1/paper/$paperIdFk/content/$paperContentId/toggle",
                         ],
-                        Html::tag('i', ['class'=>$this->classMap->resolve($active, 'ContentButtons', 'button.notpublish', 'button.publish')])
+                        Html::tag('i', ['class'=>$this->classMap->resolve($active, 'Icons', 'icon.notpublish', 'icon.publish')])
                     )
                     .Html::tag('button', [
-                        'class'=>$this->classMap->get('ContentButtons', 'button.date'),
+                        'class'=>$this->classMap->get('Buttons', 'button.date'),
                         'data-tooltip'=> $textZobrazeni,
                         'data-position'=>'top right',
                         'onclick'=>'event.preventDefault();'
                         ],
-                        Html::tag('i', ['class'=>$this->classMap->get('ContentButtons', 'button.changedate')])
+                        Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.changedate')])
                     )
                 )
-                .Html::tag('div', ['class'=>$this->classMap->get('ContentButtons', 'div.buttonsContent')],
+                .Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsContent')],
                     Html::tag('button',
-                        ['class'=>$this->classMap->get('ContentButtons', 'button'),
+                        ['class'=>$this->classMap->get('Buttons', 'button'),
                         'data-tooltip'=>'Posunout o jednu výš',
                         'type'=>'submit',
                         'name'=>'button',
@@ -245,13 +245,13 @@ class ElementEditableWrapper {
                         'formmethod'=>'post',
                         'formaction'=>"red/v1/paper/$paperIdFk/content/$paperContentId/up",
                         ],
-                        Html::tag('i', ['class'=>$this->classMap->get('ContentButtons', 'button.icons')],
-                            Html::tag('i', ['class'=>$this->classMap->get('ContentButtons', 'button.movecontent')])
-                            .Html::tag('i', ['class'=>$this->classMap->get('ContentButtons', 'button.arrowup')])
+                        Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icons')],
+                            Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.movecontent')])
+                            .Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.arrowup')])
                         )
                     )
                     .Html::tag('button',
-                        ['class'=>$this->classMap->get('ContentButtons', 'button'),
+                        ['class'=>$this->classMap->get('Buttons', 'button'),
                         'data-tooltip'=>'Posunout o jednu níž',
                         'type'=>'submit',
                         'name'=>'button',
@@ -259,15 +259,15 @@ class ElementEditableWrapper {
                         'formmethod'=>'post',
                         'formaction'=>"red/v1/paper/$paperIdFk/content/$paperContentId/down",
                         ],
-                        Html::tag('i', ['class'=>$this->classMap->get('ContentButtons', 'button.icons')],
-                            Html::tag('i', ['class'=>$this->classMap->get('ContentButtons', 'button.movecontent')])
-                            .Html::tag('i', ['class'=>$this->classMap->get('ContentButtons', 'button.arrowdown')])
+                        Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icons')],
+                            Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.movecontent')])
+                            .Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.arrowdown')])
                         )
                     )
                 )
-                .Html::tag('div', ['class'=>$this->classMap->get('ContentButtons', 'div.buttonsContent')],
+                .Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsContent')],
                     Html::tag('button',
-                        ['class'=>$this->classMap->get('ContentButtons', 'button'),
+                        ['class'=>$this->classMap->get('Buttons', 'button'),
                         'data-tooltip'=>'Přidat další obsah před',
                         'type'=>'submit',
                         'name'=>'button',
@@ -275,13 +275,13 @@ class ElementEditableWrapper {
                         'formmethod'=>'post',
                         'formaction'=>"red/v1/paper/$paperIdFk/content/$paperContentId/add_above",
                         ],
-                        Html::tag('i', ['class'=>$this->classMap->get('ContentButtons', 'button.icons')],
-                            Html::tag('i', ['class'=>$this->classMap->get('ContentButtons', 'button.addcontent')])
-                            .Html::tag('i', ['class'=>$this->classMap->get('ContentButtons', 'button.arrowup')])
+                        Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icons')],
+                            Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.addcontent')])
+                            .Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.arrowup')])
                         )
                     )
                     .Html::tag('button',
-                        ['class'=>$this->classMap->get('ContentButtons', 'button'),
+                        ['class'=>$this->classMap->get('Buttons', 'button'),
                         'data-tooltip'=>'Přidat další obsah za',
                         'type'=>'submit',
                         'name'=>'button',
@@ -289,15 +289,15 @@ class ElementEditableWrapper {
                         'formmethod'=>'post',
                         'formaction'=>"red/v1/paper/$paperIdFk/content/$paperContentId/add_below",
                         ],
-                        Html::tag('i', ['class'=>$this->classMap->get('ContentButtons', 'button.icons')],
-                            Html::tag('i', ['class'=>$this->classMap->get('ContentButtons', 'button.addcontent')])
-                            .Html::tag('i', ['class'=>$this->classMap->get('ContentButtons', 'button.arrowdown')])
+                        Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icons')],
+                            Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.addcontent')])
+                            .Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.arrowdown')])
                         )
                     )
                 )
-                .Html::tag('div', ['class'=>$this->classMap->get('ContentButtons', 'div.buttonsContent')],
+                .Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsContent')],
                     Html::tag('button',
-                        ['class'=>$this->classMap->get('ContentButtons', 'button'),
+                        ['class'=>$this->classMap->get('Buttons', 'button'),
                         'data-tooltip'=>'Do koše',
                         'type'=>'submit',
                         'name'=>'button',
@@ -305,13 +305,13 @@ class ElementEditableWrapper {
                         'formmethod'=>'post',
                         'formaction'=>"red/v1/paper/$paperIdFk/content/$paperContentId/trash",
                         ],
-                        Html::tag('i', ['class'=>$this->classMap->get('ContentButtons', 'button.movetotrash')])
+                        Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.movetotrash')])
                     )
                 )
             )
-            .Html::tag('div', ['class'=>$this->classMap->get('ContentButtons', 'div.buttonsDate')],
+            .Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsDate')],
                 Html::tag('button', [
-                    'class'=>$this->classMap->get('ContentButtons', 'button'),
+                    'class'=>$this->classMap->get('Buttons', 'button'),
                     'data-tooltip'=>'Trvale',
                     'data-position'=>'top right',
                     'type'=>'submit',
@@ -320,10 +320,10 @@ class ElementEditableWrapper {
                     'formmethod'=>'post',
                     'formaction'=>"red/v1/paper/$paperIdFk/content/$paperContentId/actual",
                     ],
-                    Html::tag('i', ['class'=>$this->classMap->get('ContentButtons', 'button.permanently')])
+                    Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.permanently')])
                 )
                 .Html::tag('button', [
-                    'class'=>$this->classMap->get('ContentButtons', 'button'),
+                    'class'=>$this->classMap->get('Buttons', 'button'),
                     'data-tooltip'=>'Uložit',
                     'data-position'=>'top right',
                     'type'=>'submit',
@@ -332,34 +332,34 @@ class ElementEditableWrapper {
                     'formmethod'=>'post',
                     'formaction'=>"red/v1/paper/$paperIdFk/content/$paperContentId/actual",
                     ],
-                    Html::tag('i', ['class'=>$this->classMap->get('ContentButtons', 'button.save')])
+                    Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.save')])
                 )
                 .Html::tag('button', [
-                    'class'=>$this->classMap->get('ContentButtons', 'button.content'),
+                    'class'=>$this->classMap->get('Buttons', 'button.content'),
                     'data-tooltip'=>'Zrušit úpravy',
                     'data-position'=>'top right',
                     'onclick'=>"event.preventDefault(); this.form.reset();"
                     ],
-                    Html::tag('i', ['class'=>$this->classMap->get('ContentButtons', 'button.cancel')])
+                    Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.cancel')])
                 )
                 .Html::tag('div', [
-                    'class'=>$this->classMap->get('ContentButtons', 'button'),
+                    'class'=>$this->classMap->get('Buttons', 'button'),
                     'data-position'=>'top right',
                     ],
-                    Html::tag('i', ['class'=>$this->classMap->get('ContentButtons', 'button.changedate')])
+                    Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.changedate')])
                 )
             )
-            .Html::tag('div', ['class'=>$this->classMap->get('ContentButtons', 'div.wrapDate')],
-                Html::tag('div', ['class'=>$this->classMap->get('ContentButtons', 'div.wrapKalendar'), ],
-                        Html::tag('p', ['class'=>$this->classMap->get('ContentButtons', 'p')], 'Uveřejnit od')
-                        .Html::tag('div', ['class'=>$this->classMap->get('ContentButtons', 'div.calendar')],
-                            Html::tag('div',['class'=>$this->classMap->get('ContentButtons', 'div.input')],
+            .Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.wrapDate')],
+                Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.wrapKalendar'), ],
+                        Html::tag('p', ['class'=>$this->classMap->get('Buttons', 'p')], 'Uveřejnit od')
+                        .Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.calendar')],
+                            Html::tag('div',['class'=>$this->classMap->get('Buttons', 'div.input')],
                                 Html::tagNopair('input', ['type'=>'text', 'name'=>'show', 'placeholder'=>'Klikněte pro výběr data', 'value'=>$showTime])
                             )
                          )
-                        .Html::tag('p', ['class'=>$this->classMap->get('ContentButtons', 'p')], 'Uveřejnit do')
-                        .Html::tag('div', ['class'=>$this->classMap->get('ContentButtons', 'div.calendar')],
-                            Html::tag('div',['class'=>$this->classMap->get('ContentButtons', 'div.input')],
+                        .Html::tag('p', ['class'=>$this->classMap->get('Buttons', 'p')], 'Uveřejnit do')
+                        .Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.calendar')],
+                            Html::tag('div',['class'=>$this->classMap->get('Buttons', 'div.input')],
                             Html::tagNopair('input', ['type'=>'text', 'name'=>'hide', 'placeholder'=>'Klikněte pro výběr data', 'value'=> $hideTime])
                         )
                     )
@@ -376,10 +376,10 @@ class ElementEditableWrapper {
         return
 
         Html::tag('form', ['method'=>'POST', 'action'=>""],
-            Html::tag('div', ['class'=>$this->classMap->get('TrashButtons', 'div.wrapTrash')],
-                Html::tag('div', ['class'=>$this->classMap->get('ContentButtons', 'div.buttonsContent')],
+            Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.wrapTrash')],
+                Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsContent')],
                     Html::tag('button',
-                        ['class'=>$this->classMap->get('ContentButtons', 'button'),
+                        ['class'=>$this->classMap->get('Buttons', 'button'),
                         'data-tooltip'=>'Obnovit',
                         'type'=>'submit',
                         'name'=>'button',
@@ -387,12 +387,12 @@ class ElementEditableWrapper {
                         'formmethod'=>'post',
                         'formaction'=>"red/v1/paper/$paperIdFk/content/$paperContentId/restore",
                         ],
-                        Html::tag('i', ['class'=>$this->classMap->get('TrashButtons', 'button.restore')])
+                        Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.restore')])
                     )
                 )
-                .Html::tag('div', ['class'=>$this->classMap->get('ContentButtons', 'div.buttonsContent')],
+                .Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsContent')],
                     Html::tag('button',
-                        ['class'=>$this->classMap->get('ContentButtons', 'button'),
+                        ['class'=>$this->classMap->get('Buttons', 'button'),
                         'data-tooltip'=>'Smazat',
                         'type'=>'submit',
                         'name'=>'button',
@@ -400,7 +400,7 @@ class ElementEditableWrapper {
                         'formmethod'=>'post',
                         'formaction'=>"red/v1/paper/$paperIdFk/content/$paperContentId/delete",
                         ],
-                        Html::tag('i', ['class'=>$this->classMap->get('TrashButtons', 'button.delete')])
+                        Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.delete')])
                     )
                 )
             )
@@ -414,10 +414,10 @@ class ElementEditableWrapper {
 
         return
         Html::tag('form', ['method'=>'POST', 'action'=>""],
-            Html::tag('div', ['class'=>$this->classMap->get('PaperButtons', 'div.page')],
-                Html::tag('div', ['class'=>$this->classMap->get('ContentButtons', 'div.buttonsContent')],
+            Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.page')],
+                Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsContent')],
                     Html::tag('button',
-                        ['class'=>$this->classMap->get('ContentButtons', 'button'),
+                        ['class'=>$this->classMap->get('Buttons', 'button'),
                         'data-tooltip'=>'Přidat obsah',
                         'type'=>'submit',
                         'name'=>'button',
@@ -425,9 +425,9 @@ class ElementEditableWrapper {
                         'formmethod'=>'post',
                         'formaction'=>"red/v1/paper/$paperId/contents",
                         ],
-                        Html::tag('i', ['class'=>$this->classMap->get('ContentButtons', 'button.icons')],
-                            Html::tag('i', ['class'=>$this->classMap->get('ContentButtons', 'button.addcontent')])
-                            .Html::tag('i', ['class'=>$this->classMap->get('ContentButtons', 'button.arrowdown')])
+                        Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.icons')],
+                            Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.addcontent')])
+                            .Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.arrowdown')])
                         )
                     )
                 )

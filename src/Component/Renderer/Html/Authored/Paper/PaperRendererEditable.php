@@ -25,7 +25,7 @@ class PaperRendererEditable  extends AuthoredRendererAbstract {
         $menuItem = $viewModel->getMenuItem();
 
         $html =
-                Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.templatePaper')],
+                Html::tag('div', ['class'=>$this->classMap->get('Template', 'div.templatePaper')],
                     Html::tag('article', ['data-red-renderer'=>'PaperRendererEditable', "data-red-datasource"=> "paper {$paper->getId()} for item {$paper->getMenuItemIdFk()}"],
                         [
                             $viewModel->getContextVariable(AuthoredComponentAbstract::BUTTON_EDIT_CONTENT) ?? '',
@@ -45,7 +45,7 @@ class PaperRendererEditable  extends AuthoredRendererAbstract {
         $article = $viewModel->getPaper();  // vrací PaperAggregate
 
         $html =
-                Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.templatePaper')],
+                Html::tag('div', ['class'=>$this->classMap->get('Template', 'div.templatePaper')],
                     Html::tag('article', ['data-red-renderer'=>'PaperRendererEditable', "data-red-datasource"=> "paper {$article->getId()} for item {$article->getMenuItemIdFk()}"],
                         [
                             $viewModel->getContextVariable(AuthoredComponentAbstract::BUTTON_EDIT_CONTENT) ?? '',
@@ -67,7 +67,7 @@ class PaperRendererEditable  extends AuthoredRendererAbstract {
         $buttons = [];
 
         $buttons[] = Html::tag('button', [
-                'class'=>$this->classMap->get('PaperButtons', 'button.template'),
+                'class'=>$this->classMap->get('Buttons', 'button.template'),
                 'data-tooltip'=> 'Vybrat šablonu stránky',
                 'data-position'=>'top right',
                 'formtarget'=>'_self',
@@ -75,22 +75,22 @@ class PaperRendererEditable  extends AuthoredRendererAbstract {
                 'formaction'=>"",
                 'onclick'=>$onclick
                 ],
-                Html::tag('i', ['class'=>$this->classMap->get('PaperButtons', 'button.template i')])
+                Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.template')])
             );
 
         if ($paper instanceof PaperAggregatePaperContentInterface AND $paper->getPaperContentsArray()) {
             $buttons[] = Html::tag('button', [
-                    'class'=>$this->classMap->get('PaperButtons', 'button'),
+                    'class'=>$this->classMap->get('Buttons', 'button'),
                     'data-tooltip'=> 'Seřadit podle data',
                     'data-position'=>'top right',
                     'formmethod'=>'post',
                     'formaction'=>"",
                     ],
-                    Html::tag('i', ['class'=>$this->classMap->get('PaperButtons', 'button.arrange')])
+                    Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.arrange')])
                 );
         } else {
             $buttons[] =  Html::tag('button',
-                    ['class'=>$this->classMap->get('ContentButtons', 'button'),
+                    ['class'=>$this->classMap->get('Buttons', 'button'),
                     'data-tooltip'=>'Přidat sekci',
                     'type'=>'submit',
                     'name'=>'button',
@@ -98,9 +98,9 @@ class PaperRendererEditable  extends AuthoredRendererAbstract {
                     'formmethod'=>'post',
                     'formaction'=>"red/v1/paper/$paperId/section",
                     ],
-                    Html::tag('i', ['class'=>$this->classMap->get('ContentButtons', 'button.icons')],
-                        Html::tag('i', ['class'=>$this->classMap->get('ContentButtons', 'button.addcontent')])
-                        .Html::tag('i', ['class'=>$this->classMap->get('ContentButtons', 'button.arrowdown')])
+                    Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.icons')],
+                        Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.addcontent')])
+                        .Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.arrowdown')])
                     )
                 );
         }
