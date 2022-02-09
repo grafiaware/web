@@ -287,7 +287,8 @@ abstract class RepoAbstract {
      *
      * @param type $entity Agregátní entita.
      */
-    private function addAssociated($row, EntityInterface $entity) {
+    private function addAssociated($row) {
+//    private function addAssociated($row, EntityInterface $entity) {
         foreach ($this->associations as $interfaceName => $association) {
             if (isset($row[$interfaceName])) {
                 foreach ($row[$interfaceName] as $assocEntity) {  // asociovaná entita nemusí existovat - agregát je i tak validní
@@ -324,7 +325,8 @@ abstract class RepoAbstract {
      * @param string $entityInterfaceName
      * @param type $entity Entita nebo null. Asociovaná entita (vrácená pomocí cizího klíče) nemusí existovat.
      */
-    protected function removeAssociated($row, EntityInterface $entity) {
+    protected function removeAssociated($row) {
+//    protected function removeAssociated($row, EntityInterface $entity) {
         foreach ($this->associations as $interfaceName => $association) {
             if (isset($row[$interfaceName]) AND $row[$interfaceName]->isPersisted()) {  // asociovaná entita nemusí existovat - agregát je i tak validní
                 $association->removeAssociatedEntity($row[$interfaceName]);
@@ -343,7 +345,8 @@ abstract class RepoAbstract {
                     $rowData = $this->createRowData();
                     $this->extract($entity, $rowData);
                     $this->dataManager->insert($rowData);
-                    $this->addAssociated($rowData, $entity);
+//                    $this->addAssociated($rowData, $entity);
+                    $this->addAssociated($rowData);
                     $entity->setPersisted();
                     $this->new = []; // při dalším pokusu o find se bude volat recteateEntity, entita se zpětně načte z db (včetně případného autoincrement id a dalších generovaných sloupců)
                 }
@@ -356,7 +359,8 @@ abstract class RepoAbstract {
                 }
                 $rowData = $this->data[$index];
                 $this->extract($entity, $rowData);
-                $this->addAssociated($rowData, $entity);
+//                $this->addAssociated($rowData, $entity);
+                $this->addAssociated($rowData);
             }
             $this->flushChildRepos();  //pokud je vnořená agregovaná entita přidána později - musí se provést její insert teď
             foreach ($this->collection as $index => $entity) {
@@ -370,7 +374,8 @@ abstract class RepoAbstract {
             foreach ($this->removed as $index => $entity) {
                 $rowData = $this->createRowData();
                 $this->extract($entity, $rowData);
-                $this->removeAssociated($rowData, $entity);
+//                $this->removeAssociated($rowData, $entity);
+                $this->removeAssociated($rowData);
             }
             $this->flushChildRepos();
             foreach ($this->removed as $index => $entity) {

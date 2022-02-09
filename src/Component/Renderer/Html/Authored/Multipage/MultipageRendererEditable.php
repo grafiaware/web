@@ -3,9 +3,10 @@ namespace Component\Renderer\Html\Authored\Multipage;
 
 use Component\Renderer\Html\Authored\AuthoredRendererAbstract;
 use Component\ViewModel\Authored\Multipage\MultipageViewModelInterface;
+use Component\View\Authored\Multipage\MultipageComponent;
+use Component\View\Authored\AuthoredComponentAbstract;
 
 use Red\Model\Entity\MultipageInterface;
-use Component\View\Authored\Multipage\MultipageComponent;
 
 use Pes\Text\Html;
 
@@ -68,20 +69,30 @@ class MultipageRendererEditable  extends AuthoredRendererAbstract {
         return $html ?? '';
     }
 
-    private function renderSelectTemplate(MultipageInterface $multipage) {
-        $contentTemplateName = $multipage->getTemplate();
-        $multipageId = $multipage->getId();
-
-        return
-                    Html::tag('div', ['class'=>$this->classMap->get('Template', 'div.selectTemplate')],
-                        Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/multipage/$multipageId/template"],
-                            Html::tagNopair('input', ["type"=>"hidden", "name"=>"template_$multipageId", "value"=>$contentTemplateName])
-                            .
-                            Html::tag('div', ['id'=>"multipage_$multipageId", 'class'=>$this->classMap->get('PaperTemplateSelect', 'div.tinySelectTemplateMultipage')],'')
-                        )
-
-                    );
-//                );
+    /**
+     * Nemá buttony
+     *
+     * @param MultipageViewModelInterface $viewModel
+     * @return array
+     */
+    protected function renderContentControlButtons(MultipageViewModelInterface $viewModel): array {
+        return [];
     }
+
+//    private function renderSelectTemplate(MultipageInterface $multipage) {
+//        $contentTemplateName = $multipage->getTemplate();
+//        $multipageId = $multipage->getId();
+//
+//        return
+//                    Html::tag('div', ['class'=>$this->classMap->get('Template', 'div.selectTemplate')],
+//                        Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/multipage/$multipageId/template"],
+//                            Html::tagNopair('input', ["type"=>"hidden", "name"=>"template_$multipageId", "value"=>$contentTemplateName])
+//                            .
+//                            Html::tag('div', ['id'=>"multipage_$multipageId", 'class'=>$this->classMap->get('PaperTemplateSelect', 'div.tinySelectTemplateMultipage')],'')
+//                        )
+//
+//                    );
+////                );
+//    }
 
 }
