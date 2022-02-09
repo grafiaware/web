@@ -34,7 +34,7 @@ class ToggleEditContentButtomRenderer extends HtmlRendererAbstract {
             Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.editMode')], //tlačítko "tužka" pro zvolení editace
                 Html::tag('form', ['method'=>'POST', 'action'=>$action],
                     [
-                        Html::tag('button', [], $editor ? "Obsah upravuje $editor." : ''),
+                        Html::tag('p', [], isset($editor) ? "Obsah upravuje $editor." : ''),
                         Html::tag('button', [
                             'class'=>[$this->classMap->resolve($userPerformActionWithContent, 'Buttons', 'div.offEditMode button', 'div.editMode button'), $disabled ?? ''],
 

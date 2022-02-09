@@ -241,7 +241,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
         /** @var View $view */
         $view = $this->container->get(View::class);
         // prvek data 'loaderWrapperElementId' musí být unikátní - z jeho hodnoty se generuje id načítaného elementu - a id musí být unikátní jinak dojde k opakovanému přepsání obsahu elemntu v DOM
-        $u = 0;
+        $u = $u ?? 0;
         if (isset($menuItem)) {
             $menuItemType = $menuItem->getTypeFk();
             if ($menuItemType!='static') {
