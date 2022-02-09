@@ -180,7 +180,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
 
         $views = array_merge(
                 [
-                'content' => $this->getMenuItemLoader($menuItem),
+                'content' => $this->getContentLoadScript($menuItem),
 
                 'languageSelect' => $this->container->get(LanguageSelectComponent::class),
                 'searchPhrase' => $this->container->get(SearchPhraseComponent::class),
@@ -219,32 +219,9 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
         // pro neexistující bloky nedělá nic
         foreach ($map as $variableName => $blockName) {
             $menuItem = $this->getMenuItemForBlock($blockName);
-            $componets[$variableName] = $this->getMenuItemLoader($menuItem);
+            $componets[$variableName] = $this->getContentLoadScript($menuItem);
         }
         return $componets;
-    }
-
-#
-#### menu item loader #########################################################################
-#
-
-    /**
-     * Vrací view objekt pro zobrazení centrálního obsahu v prostoru pro "content".
-     * Pro existující menu item view obsahuje skript pro načtení obsahu pomocí cascade.js v dalším requestu generovaném v prohlížeči.
-     * Pro neexistující menu item vrací view s prázdným obsahem.
-     *
-     * @param MenuItemInterface $menuItem
-     * @return View
-     */
-    private function getMenuItemLoader(MenuItemInterface $menuItem=null) {
-
-//        if (isset($menuItem)) {
-            $content = $this->getContentLoadScript($menuItem);
-//        } else {
-//            // například neaktivní, neaktuální menu item
-//            $content = $this->container->get(View::class)->setRenderer(new ImplodeRenderer());
-//        }
-        return $content;
     }
 
 #
@@ -260,11 +237,11 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
      * @param type $menuItem
      * @return View
      */
-    private function getContentLoadScript($menuItem=null) {
+    protected function getContentLoadScript($menuItem=null) {
         /** @var View $view */
         $view = $this->container->get(View::class);
         // prvek data 'loaderWrapperElementId' musí být unikátní - z jeho hodnoty se generuje id načítaného elementu - a id musí být unikátní jinak dojde k opakovanému přepsání obsahu elemntu v DOM
-        $u = 0;
+        $u = $u ?? 0;
         if (isset($menuItem)) {
             $menuItemType = $menuItem->getTypeFk();
             if ($menuItemType!='static') {

@@ -63,6 +63,7 @@ class PaperRendererEditable  extends AuthoredRendererAbstract {
     protected function renderContentControlButtons(PaperViewModelInterface $viewModel): array {
         $templateName = $viewModel->getAuthoredTemplateName() ?? '';
         $paper = $viewModel->getPaper();
+        $paperId = $paper->getId();
         $onclick = (string) "togleTemplateSelect(event, '{$this->getTemplateSelectId($viewModel)}');";   // ! chybná syntaxe javascriptu vede k volání form action (s nesmyslným uri)
         $buttons = [];
 
