@@ -164,14 +164,39 @@ class ContentsRendererEditable extends HtmlRendererAbstract {
 
         return
 
-        Html::tag('svg', ["width"=>"25", "height"=>"30", 'class'=>$this->classMap->get('Content', 'ribbon.svg')],
-            Html::tag('circle', ["cx"=>"50%", "cy"=>"50%", "r"=>"8", "style"=>$styleCircle])
-            .Html::tag('title', [], 'Něco napsáno')
+        Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.semafor-radek')], //aktivní/neaktivní content
+            Html::tag('div',
+               [
+               'class'=> 'ikona-popis',
+               'data-tooltip'=> $active ? "published" : "not published",
+               ],
+                Html::tag('i',
+                   [
+                   'class'=> $this->classMap->resolve($active, 'Icons','semafor.published', 'semafor.notpublished'),
+                   ]
+                )
+            )
+            .Html::tag('div',
+               [
+               'class'=> 'ikona-popis',
+               'data-tooltip'=> $active ? "actual" : "not actual",
+               ],
+                Html::tag('i',
+                   [
+                   'class'=> $this->classMap->resolve($actual, 'Icons','semafor.actual', 'semafor.notactual'),
+                   ]
+                )
+            )
         )
-        .Html::tag('svg', ["width"=>"35", "height"=>"30", 'class'=>$this->classMap->get('Content', 'ribbon.svg')],
-               Html::tag('path', ["fill-rule"=>"nonzero", "clip-rule"=>"evenodd", "fill"=>"white", "stroke"=>$clockStroke, "d"=>"M15 1c5.623 0 10 3.377 10 10s-3.377 10-10 10-10-3.377-10-10 3.377-10 10-10zm0 1c5.623 0 9 2.929 9 9s-2.929 9-9 9-9-2.929-9-9 2.929-9 9-9zm0 9h5v1h-6v-7h1v6z"]),
-               //Html::tag('path', ["fill-rule"=>"nonzero", "clip-rule"=>"evenodd", "fill"=>"white", "stroke"=>$clockStroke, "d"=>"M15 0c6.623 0 12 5.377 12 12s-5.377 12-12 12-12-5.377-12-12 5.377-12 12-12zm0 1c6.071 0 11 4.929 11 11s-4.929 11-11 11-11-4.929-11-11 4.929-11 11-11zm0 11h6v1h-7v-9h1v8z"]),
-        )
+    //SVG
+//        Html::tag('svg', ["width"=>"25", "height"=>"30", 'class'=>$this->classMap->get('Content', 'ribbon.svg')],
+//            Html::tag('circle', ["cx"=>"50%", "cy"=>"50%", "r"=>"8", "style"=>$styleCircle])
+//            .Html::tag('title', [], 'Něco napsáno')
+//        )
+//        .Html::tag('svg', ["width"=>"35", "height"=>"30", 'class'=>$this->classMap->get('Content', 'ribbon.svg')],
+//               Html::tag('path', ["fill-rule"=>"nonzero", "clip-rule"=>"evenodd", "fill"=>"white", "stroke"=>$clockStroke, "d"=>"M15 1c5.623 0 10 3.377 10 10s-3.377 10-10 10-10-3.377-10-10 3.377-10 10-10zm0 1c5.623 0 9 2.929 9 9s-2.929 9-9 9-9-2.929-9-9 2.929-9 9-9zm0 9h5v1h-6v-7h1v6z"]),
+//               //Html::tag('path', ["fill-rule"=>"nonzero", "clip-rule"=>"evenodd", "fill"=>"white", "stroke"=>$clockStroke, "d"=>"M15 0c6.623 0 12 5.377 12 12s-5.377 12-12 12-12-5.377-12-12 5.377-12 12-12zm0 1c6.071 0 11 4.929 11 11s-4.929 11-11 11-11-4.929-11-11 4.929-11 11-11zm0 11h6v1h-7v-9h1v8z"]),
+//        )
         .Html::tag('svg', ["width"=>$svgWidth, "height"=>"30", 'class'=>$this->classMap->get('Content', 'ribbon.svg')],
            [
                 Html::tag('line', ["x1"=>"0", "y1"=>"50%", "x2"=>"100%", "y2"=>"50%", "style"=>$styleLine]),

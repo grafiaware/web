@@ -40,14 +40,15 @@ class ConfigurationStyles extends ConfigurationRed {
             // default hodnoty
             'buttons' => [
                             'button' => 'ui button',
+                            'button.disabled' => 'ui button disabled',
                             'div.buttons' => 'editSize ui basic icon buttons',
                             'button.paste' => 'ui button paste',
                             'div.buttonsWrap' => 'contentButtons page-edit',
                             'div.ribbon-article' => 'ui right ribbon basic label cornerWithTools page-edit',
-                            'button.template' => 'ui button toggleTemplateSelect',
                             'div.editMode' => 'zapnout_editaci',
-                            'div.editMode button' => 'ui editingButtons_size teal icon button',
-                            'div.offEditMode button' => 'ui editingButtons_size teal basic icon button',
+                            'button.editMode' => 'ui editingButtons_size teal icon button',
+                            'button.editMode.disabled' => 'ui editingButtons_size teal icon button disabled',
+                            'button.offEditMode' => 'ui editingButtons_size teal basic icon button',
                             'div.wrapTrash' => 'contentButtons trash',
                             'div.wrapContent' => 'contentButtons',
                             'div.wrapShowDate' => 'calendarWrap editShowDate',
@@ -86,6 +87,8 @@ class ConfigurationStyles extends ConfigurationRed {
                             'icon.restore' => 'sync icon',
                             'semafor.published' => 'circle icon green',
                             'semafor.notpublished' => 'circle icon inverted red',
+                            'semafor.actual' => 'clock outline icon green',
+                            'semafor.notactual' => 'clock outline icon inverted red',
                             'semafor.trashed' => 'circle icon inverted purple',
                         ],
             'menu_items' => [
@@ -218,7 +221,7 @@ class ConfigurationStyles extends ConfigurationRed {
             'menu.item.classmap' => function() {
                 return new ClassMap (
                     [
-                        'Item' => self::rendererDefaults()['menu_items'],  /// + Icons?
+                        'Item' => self::rendererDefaults()['menu_items'], 
                         'Icons' => self::rendererDefaults()['icons_buttons']
                     ]);
             },
@@ -281,6 +284,7 @@ class ConfigurationStyles extends ConfigurationRed {
                         'section'=>'',
                         'section.trash'=>'trash',
                         'div.semafor'=>'semafor',
+                        'div.semafor-radek'=>'semafor-radek',
                         'div.ribbon'=>'ui right ribbon grey inverted label cornerWithTools',
                         'ribbon.svg' => 'ribbon-svg',
                         'ribbon.priority' => 'content-priority',

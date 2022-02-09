@@ -70,7 +70,7 @@ class ItemRenderer extends HtmlRendererAbstract {
         $active =$menuItem->getActive();
         return Html::tag('span', ['class'=>$this->classMap->get('Item', 'semafor')],
                     Html::tag('i', [
-                        'class'=> $this->classMap->resolve($active, 'Item', 'semafor.published', 'semafor.notpublished'),
+                        'class'=> $this->classMap->resolve($active, 'Icons', 'semafor.published', 'semafor.notpublished'),
                         'title'=> $active ? "published" :  "not published"
                         ])
                 );

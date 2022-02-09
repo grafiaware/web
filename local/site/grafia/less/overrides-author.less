@@ -1,6 +1,5 @@
-.ribbon svg{
-    top: -7px !important;
-    height: 25px !important;
+.ribbon:not(.page-edit) .ribbon-svg:nth-child(2){
+    top: 10px;
 }
 .ui.ribbon.label:not(.page-edit){
     padding-right: 0.5em;
@@ -13,7 +12,21 @@
         margin: @articleRendererMargin;
 }
 .svisle-menu.bloky .semafor, .svisle-menu.kos .semafor{
-    left: -15px;
+    //left: -15px;
+}
+.semafor-radek{
+        display: inline-flex;
+        flex-direction: row;
+        position: relative;
+        vertical-align: top;
+        top: -2px;
+        > div{
+            display: inline-flex;
+            font-size: 1.25rem;
+            &:nth-child(2){
+                font-size: 1.3rem;
+            }
+        }
 }
 /*.ui.ribbon.label.teal.page-edit{
     position: relative;

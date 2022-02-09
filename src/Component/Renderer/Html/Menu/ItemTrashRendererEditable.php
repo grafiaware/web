@@ -37,7 +37,7 @@ class ItemTrashRendererEditable extends ItemRendererEditable {
                         $menuNode->getMenuItem()->getTitle()
                         .Html::tag('span', ['class'=>$this->classMap->get('Item', 'semafor')],
                             Html::tag('i', [
-                                'class'=> $this->classMap->get('Item', 'semafor.trashed'),
+                                'class'=> $this->classMap->get('Icons', 'semafor.trashed'),
                                 'title'=> "smazaná položka"
                                 ])
                         )
@@ -94,9 +94,9 @@ class ItemTrashRendererEditable extends ItemRendererEditable {
                 'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/delete",
                 'onclick'=>"return confirm('Jste si jisti?');"
                     ],
-                Html::tag('i', ['class'=>$this->classMap->get('Buttons', 'button.icons'),],
-                        Html::tag('i', ['class'=>$this->classMap->get('Buttons', 'button.delete'),])
-                        .Html::tag('i', ['class'=>$this->classMap->get('Buttons', 'button.exclamation'),])
+                Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icons'),],
+                        Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.delete'),])
+                        .Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.exclamation'),])
                 )
             );
     }
@@ -112,7 +112,7 @@ class ItemTrashRendererEditable extends ItemRendererEditable {
                 'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/cut",
 
                     ],
-                Html::tag('i', ['class'=>$this->classMap->get('Buttons', 'button.cut')])
+                Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.cut')])
             );
     }
     private function getButtonCutted(MenuItemInterface $menuItem) {
@@ -125,7 +125,7 @@ class ItemTrashRendererEditable extends ItemRendererEditable {
                 'formmethod'=>'post',
                 'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/cut",
                     ],
-                Html::tag('i', ['class'=>$this->classMap->get('Buttons', 'button.cutted')])
+                Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.cutted')])
             );
     }
 

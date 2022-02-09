@@ -144,13 +144,13 @@ class ArticleRendererEditable extends AuthoredRendererAbstract {
         $buttons = [];
         $disabled = $templateName ? 'disabled' : '';
         $buttons[] = Html::tag('button', [
-                'class'=>[$this->classMap->get('Buttons', 'button.template'), $disabled],
+                'class'=>$this->classMap->get('Buttons', $disabled ? 'button.disabled':'button'),
                 'data-tooltip'=> 'Vybrat šablonu stránky',
                 'data-position'=>'top right',
                 'formtarget'=>'_self',
                 'formmethod'=>'post',
                 'formaction'=>"",
-                'onclick'=>$onclick
+                'onclick'=> $disabled ? 'event.preventDefault()' : $onclick
                 ],
                 Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.template')])
             );

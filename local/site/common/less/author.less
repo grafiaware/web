@@ -157,6 +157,8 @@
 @ribbonPagePaddingLeft: 18px;
 @ribbonPageZIndex: 1;
 @ribbonPageAfterBorder: 1.2em 1.2em 0 0;
+@ribbonPageIconTransform: translateX(25%);
+@ribbonPageIconCornerPositionRight: -10px;
 @sectionTrashCornerPositionRight: 0;
 @sectionTrashCornerPositionTop: 5px;
 //Buttony pro content
@@ -234,12 +236,12 @@
 
 body{
     /*popisky buttonů budou tučně - popisky jsou v atributu data-tooltip*/
-    .buttons [data-tooltip]::after{
+    [data-tooltip]::after{
         font-weight: @buttonDataTooltipFontWeight;
     }
     /*popisky buttonů při stavu disabled - oprava semanticu*/
    .ui.button.disabled[data-tooltip] {
-       color: @buttonDisabledDataTooltipColor;
+       //color: @buttonDisabledDataTooltipColor;
     }
 
     /***MENU***/
@@ -357,7 +359,7 @@ body{
         > div{
             display: inline-flex;
         }
-    }
+    }       
      [data-red-renderer] .semafor{
         font-size: @semaforContentFontSize;
     }
@@ -368,7 +370,7 @@ body{
         }
     }
     .ui.ribbon:not(.page-edit) ~ .semafor{
-        top: @semaforContentPositionTop;
+        top: @semaforContentPositionTop; 
         right: @semaforContentPositionRight;
         left: @semaforContentPositionLeft;
         z-index: @semaforContentZIndex;
@@ -434,7 +436,7 @@ body{
     /*PAPER*/
     /*SECTION*/
     section{
-        /*vytvoření nového omezujícího bloku - pro zanořené position: absolute*/
+        /*vytvoření nového omezujícího bloku - pro zanořené position: absolute*/ 
         position: relative;
     }
     /*SMAZANÝ CONTENT*/
@@ -617,7 +619,7 @@ body{
         right:  @ribbonPositionRigth;
         //left: @ribbonPositionLeft;
         z-index: @ribbonZIndex;
-        transform: @ribbonTransform;
+        transform: @ribbonTransform; 
         position: relative;
         .icon:not(.editDate){
             /*semantic má nastaveno position: absolute, což je zde nežádoucí*/
@@ -637,7 +639,7 @@ body{
             .contentButtons{
                 display: none !important;
             }
-        }
+        } 
         .ribbon-svg{
             position: relative;
             top: 50%;
@@ -646,9 +648,10 @@ body{
         }
         .content-priority{
             display: inline-block;
-            top: 50%;
-            transform: translate(25px, -50%); 
+/*            top: 50%;
+            transform: translate(25px, -50%); */
             vertical-align: top;
+            margin-left: 7px;
         }
     }
     .ui.ribbon.label.page-edit{
@@ -658,13 +661,21 @@ body{
         z-index: @ribbonPageZIndex; 
         .nadpis-polozky-menu{ 
             width: @ribbonPageWidth;
+            max-width: max-content;
             > p{
                 margin: 0;
                 > span{
                     color: @black
                 }
             }
-        } 
+        }
+        .icons .icon{
+            transform: @ribbonPageIconTransform;
+            &.corner{
+                font-size: @ribbonCornerIconFontSize;
+                right: @ribbonPageIconCornerPositionRight;
+            }
+        }
     }
 
     /*BUTTONY PRO CONTENT*/
