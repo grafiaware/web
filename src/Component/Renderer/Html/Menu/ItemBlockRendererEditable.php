@@ -42,10 +42,10 @@ class ItemBlockRendererEditable extends ItemRendererEditable {
                 ],
                 $menuItem->getTitle()
                 .Html::tag('span', ['class'=>$this->classMap->get('Item', 'semafor')],
-                    Html::tag('i', ['class'=> $this->classMap->resolve($active, 'Item', 'semafor.published', 'semafor.notpublished')])
+                    Html::tag('i', ['class'=> $this->classMap->resolve($active, 'Icons', 'semafor.published', 'semafor.notpublished')])
                 )
             )
-            .Html::tag('i', ['class'=>$this->classMap->resolve($this->viewModel->getInnerHtml(), 'Item', 'li.isnotleaf icon', '')])
+            .Html::tag('i', ['class'=>$this->classMap->resolve($this->viewModel->getInnerHtml(), 'Icons', 'li.isnotleaf icon', '')])
             .(($this->viewModel->isPresented() AND $this->viewModel->isMenuEditableByUser()) ? $this->renderButtons($menuItem) : '')
             .$this->viewModel->getInnerHtml();
         $html = Html::tag('li',
@@ -81,7 +81,7 @@ class ItemBlockRendererEditable extends ItemRendererEditable {
                 'formmethod'=>'post',
                 'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/add",
                     ],
-                Html::tag('i', ['class'=>$this->classMap->get('Buttons', 'button.addsiblings')])
+                Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.addsiblings')])
             )
             .Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button'),
@@ -93,7 +93,7 @@ class ItemBlockRendererEditable extends ItemRendererEditable {
                 'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/trash",
                 'onclick'=>"return confirm('Jste si jisti?');"
                     ],
-                Html::tag('i', ['class'=>$this->classMap->get('Buttons', 'button.movetotrash')])
+                Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.movetotrash')])
             )
         );
     }

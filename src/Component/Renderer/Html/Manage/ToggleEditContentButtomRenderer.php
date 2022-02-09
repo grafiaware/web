@@ -17,6 +17,7 @@ class ToggleEditContentButtomRenderer extends HtmlRendererAbstract {
     public function render(iterable $viewModel = NULL) {
         /** @var AuthoredViewModelInterface $viewModel */
         $userPerformActionWithContent = $viewModel->userPerformActionWithItem();
+        $disabled = '';
         if ($userPerformActionWithContent) {
             $tooltip = 'Vypnout editaci';
             $action = "red/v1/itemaction/{$viewModel->getItemType()}/{$viewModel->getItemId()}/remove";
@@ -34,14 +35,14 @@ class ToggleEditContentButtomRenderer extends HtmlRendererAbstract {
             Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.editMode')], //tlačítko "tužka" pro zvolení editace
                 Html::tag('form', ['method'=>'POST', 'action'=>$action],
                     [
-                        Html::tag('p', [], isset($editor) ? "Obsah upravuje $editor." : ''),
+                        //Html::tag('p', [], isset($editor) ? "Obsah upravuje $editor." : ''),
                         Html::tag('button', [
-                            'class'=>[$this->classMap->resolve($userPerformActionWithContent, 'Buttons', 'div.offEditMode button', 'div.editMode button'), $disabled ?? ''],
+                            'class'=>$this->classMap->resolve($userPerformActionWithContent, 'Buttons', 'button.offEditMode',  $disabled ? 'button.editMode.disabled':'button.editMode'),
 
-                            'data-tooltip' => $tooltip,
+                            'data-tooltip' => isset($editor) ? "Obsah upravuje $editor." : $tooltip,
                             'name' => UserActionControler::FORM_USER_ACTION_EDIT_CONTENT,
                             'value' => '',
-                            'type' => 'submit',
+                            'type' => $disabled ? 'button':'submit',
                             'formtarget' => '_self',
                             ],
                             Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.editMode')])

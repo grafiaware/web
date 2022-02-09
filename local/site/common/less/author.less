@@ -16,6 +16,9 @@
 
 //Body
 @buttonDataTooltipFontWeight: @fontBold;
+@buttonDisabledDataTooltipPointer: auto;
+@buttonDisabledDataTooltipOpacity: 1;
+@buttonDisabledDataTooltipColor: rgba(34,36,38,.3);
 
 //Menu
 @menuLiCutBorder: @borderWidth @borderStyle @mediumGrey;
@@ -154,6 +157,8 @@
 @ribbonPagePaddingLeft: 18px;
 @ribbonPageZIndex: 1;
 @ribbonPageAfterBorder: 1.2em 1.2em 0 0;
+@ribbonPageIconTransform: translateX(25%);
+@ribbonPageIconCornerPositionRight: -10px;
 @sectionTrashCornerPositionRight: 0;
 @sectionTrashCornerPositionTop: 5px;
 //Buttony pro content
@@ -231,8 +236,12 @@
 
 body{
     /*popisky buttonů budou tučně - popisky jsou v atributu data-tooltip*/
-    .buttons [data-tooltip]::after{
+    [data-tooltip]::after{
         font-weight: @buttonDataTooltipFontWeight;
+    }
+    /*popisky buttonů při stavu disabled - oprava semanticu*/
+   .ui.button.disabled[data-tooltip] {
+       //color: @buttonDisabledDataTooltipColor;
     }
 
     /***MENU***/
@@ -350,7 +359,7 @@ body{
         > div{
             display: inline-flex;
         }
-    }
+    }       
      [data-red-renderer] .semafor{
         font-size: @semaforContentFontSize;
     }
@@ -361,7 +370,7 @@ body{
         }
     }
     .ui.ribbon:not(.page-edit) ~ .semafor{
-        top: @semaforContentPositionTop;
+        top: @semaforContentPositionTop; 
         right: @semaforContentPositionRight;
         left: @semaforContentPositionLeft;
         z-index: @semaforContentZIndex;
@@ -427,7 +436,7 @@ body{
     /*PAPER*/
     /*SECTION*/
     section{
-        /*vytvoření nového omezujícího bloku - pro zanořené position: absolute*/
+        /*vytvoření nového omezujícího bloku - pro zanořené position: absolute*/ 
         position: relative;
     }
     /*SMAZANÝ CONTENT*/
@@ -610,7 +619,7 @@ body{
         right:  @ribbonPositionRigth;
         //left: @ribbonPositionLeft;
         z-index: @ribbonZIndex;
-        transform: @ribbonTransform;
+        transform: @ribbonTransform; 
         position: relative;
         .icon:not(.editDate){
             /*semantic má nastaveno position: absolute, což je zde nežádoucí*/
@@ -630,7 +639,7 @@ body{
             .contentButtons{
                 display: none !important;
             }
-        }
+        } 
         .ribbon-svg{
             position: relative;
             top: 50%;
@@ -639,24 +648,12 @@ body{
         }
         .content-priority{
             display: inline-block;
-            top: 50%;
-            transform: translate(25px, -50%); 
+/*            top: 50%;
+            transform: translate(25px, -50%); */
             vertical-align: top;
+            margin-left: 7px;
         }
     }
-/*    .ui.ribbon.label.teal.page-edit{ 
-        width: @ribbonPageWidth;
-        height: @ribbonPageHeight;   
-        font-size: @ribbonPageSize;
-        right: @ribbonPagePositionRigth;
-        left: @ribbonPagePositionLeft;
-        top: @ribbonPagePositionTop;
-        z-index: @ribbonPageZIndex;
-        position: absolute;
-        &::after{
-            border-width: @ribbonPageAfterBorder;
-        }
-    }*/
     .ui.ribbon.label.page-edit{
         top: @ribbonPagePositionTop;
         padding-left: @ribbonPagePaddingLeft;
@@ -664,13 +661,21 @@ body{
         z-index: @ribbonPageZIndex; 
         .nadpis-polozky-menu{ 
             width: @ribbonPageWidth;
+            max-width: max-content;
             > p{
                 margin: 0;
                 > span{
                     color: @black
                 }
             }
-        }  
+        }
+        .icons .icon{
+            transform: @ribbonPageIconTransform;
+            &.corner{
+                font-size: @ribbonCornerIconFontSize;
+                right: @ribbonPageIconCornerPositionRight;
+            }
+        }
     }
 
     /*BUTTONY PRO CONTENT*/
@@ -769,7 +774,7 @@ body{
     /*používané třídy pro práci s editovatelnou částí webu, třídy, které přidává Tiny
         .mce-content-body - tuto třídu dá Tiny ke všem tagům, které mají být editovatelné
         .mce-edit-focus - tato třída se přidá jen k tagu, který právě edituji*/
-    /*výběr šablony paperu tiny_select_template_paper má jiné ohraničení*/
+    /*výběr šablony paperu, articlu tiny_select_template má jiné ohraničení*/
     .mce-content-body{
         padding: @mceBodyPadding;
         margin: @mceBodyMargin;
@@ -779,10 +784,10 @@ body{
         /*označení pro tagy, které jsou editovatelné, ale ještě nebyly vybrány pro editaci*/
         /*rozdílné ohraničení pro editaci a pro výběr šablony*/
         &:not(.mce-edit-focus){
-            &:not(.tiny_select_template_paper):not(.tiny_select_template_article){
+            &:not(.tiny_select_template){
                 outline: @mceBodyOutline;
             }
-            &.tiny_select_template_paper, &.tiny_select_template_article{
+            &.tiny_select_template{
                 outline: @mceBodyTemplateOutline;
             }
         }
@@ -790,7 +795,7 @@ body{
         /*změna podbarvení při opuštění editovatelného tagu na bílou - potřeba změnit, pokud bude nastavena editačním tagům background-color*/
         .mceBodyLinkSelectedColor(@mceBodyLinkSelected, @mceLinkSelectedColor, @mceLinkNotSelectedColor);
         /*při editaci buttonů lze vybírat text myší, semantic má nastaveno user-select: none*/
-        &.mce-edit-focus{
+        &.mce-edit-focus{ 
             .button{
                 user-select: text;
                     -webkit-user-select: text;
@@ -799,7 +804,7 @@ body{
                 cursor: text;
             }
         }
-        &.tiny_select_template_paper, &.tiny_select_template_article{
+        &.tiny_select_template{
             margin: @tinyTemplateSelectMargin;
         }
     }
@@ -822,12 +827,12 @@ body{
         margin: @mceFocusMargin;
         /*označení pro tagy, které jsou editovatelné a byly vybrány pro editaci*/
         /*rozdílné ohraničení pro editaci a pro výběr šablony*/
-        &:not(.tiny_select_template_paper):not(.tiny_select_template_article){
+        &:not(.tiny_select_template){
             height: max-content;
             animation: border-dance 40s infinite linear;
             .border-dance(@mceBorderDanceColor);
         }
-        &.tiny_select_template_paper, &.tiny_select_template_article{
+        &.tiny_select_template{
             .border-dance(@mceTemplateSelectBorderDanceColor);
             height: max-content;
             animation: border-dance 40s infinite linear;

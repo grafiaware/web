@@ -68,7 +68,7 @@ class PaperRendererEditable  extends AuthoredRendererAbstract {
         $buttons = [];
 
         $buttons[] = Html::tag('button', [
-                'class'=>$this->classMap->get('Buttons', 'button.template'),
+                'class'=>$this->classMap->get('Buttons', 'button'),
                 'data-tooltip'=> 'Vybrat šablonu stránky',
                 'data-position'=>'top right',
                 'formtarget'=>'_self',
@@ -99,7 +99,7 @@ class PaperRendererEditable  extends AuthoredRendererAbstract {
                     'formmethod'=>'post',
                     'formaction'=>"red/v1/paper/$paperId/section",
                     ],
-                    Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.icons')],
+                    Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icons')],
                         Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.addcontent')])
                         .Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.arrowdown')])
                     )

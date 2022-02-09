@@ -5731,6 +5731,16 @@ footer a:hover::after {
 .editingButtons_size.button .icon {
   font-size: 1.42857143rem;
 }
+
+.ui.button:disabled,
+.ui.buttons .disabled.button:not(.basic),
+.ui.disabled.active.button,
+.ui.disabled.button,
+.ui.disabled.button:hover {
+  pointer-events: auto !important;
+  opacity: 1 !important;
+  color: rgba(34, 36, 38, 0.3);
+}
 /*!
  * # Fomantic-UI - Container
  * http://github.com/fomantic/Fomantic-UI/
