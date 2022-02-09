@@ -218,7 +218,8 @@ class ConfigurationStyles extends ConfigurationRed {
             'menu.item.classmap' => function() {
                 return new ClassMap (
                     [
-                        'Item' => self::rendererDefaults()['menu_items']  /// + Icons?
+                        'Item' => self::rendererDefaults()['menu_items'],  /// + Icons?
+                        'Icons' => self::rendererDefaults()['icons_buttons']
                     ]);
             },
             'menu.item.classmap.editable' => function() {
