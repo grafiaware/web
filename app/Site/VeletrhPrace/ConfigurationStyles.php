@@ -65,6 +65,7 @@ class ConfigurationStyles extends ConfigurationRed {
                             'icon.publish' => 'red toggle off icon',
                             'icon.cut' => 'cut icon',
                             'icon.cutted' => 'red cut icon',
+                            'icon.copy' => 'copy icon',
                             'icon.addsiblings' => 'add circle icon',
                             'icon.movetotrash' => 'purple trash icon',
                             'icon.addchildren' => ' arrow circle right icon',

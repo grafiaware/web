@@ -350,25 +350,32 @@
         width: 700px;
         flex-wrap: wrap;
         padding: 0;
-        li a{
-            //styl jako semantické tlačítko primary button
-            background-color: @primaryColor;
-            color: @white;
-            padding: .75em 1em .75em;
-            font-weight: 700;
-            line-height: 1em;
-            text-align: center;
-            border-radius: .33333333rem;
-            user-select: none;
-            position: relative;
-            top: 0;
-            margin: -.5em 0.2em;
-            font-size: .91666667em;
-            transition: opacity .1s ease,background-color .1s ease,color .1s ease,box-shadow .1s ease,background .1s ease;
-            &:hover{
-                background-color: @darkPrimaryColor;
+        li{
+            a, p{
+                padding: .75em 1em .75em;
+                font-weight: 700;
+                line-height: 1em;
+                text-align: center;
+                border-radius: .33333333rem;
+                user-select: none;
+                position: relative;
+                top: 0;
+                margin: -.5em 0.2em;
+                font-size: .91666667em;
+                transition: opacity .1s ease,background-color .1s ease,color .1s ease,box-shadow .1s ease,background .1s ease;
+                    &:hover{
+                        background-color: @darkPrimaryColor;
+                    }
+                }
             }
-        }
+            a{
+                //styl jako semantické tlačítko primary button
+                background-color: @primaryColor;
+                color: @white;
+            
+            
+        } 
+        
         .item{
             margin: 5px 5px 5px 5px;
         }

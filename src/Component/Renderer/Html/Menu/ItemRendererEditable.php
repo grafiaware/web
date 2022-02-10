@@ -121,6 +121,7 @@ class ItemRendererEditable extends HtmlRendererAbstract {
         $buttons[] = $this->getButtonActive($menuItem);
         $buttons[] = $this->getButtonAdd($menuItem);
         $buttons[] = $this->getButtonCut($menuItem);
+        $buttons[] = $this->getButtonCopy($menuItem);
         $buttons[] = $this->getButtonTrash($menuItem);
         return $buttons;
     }
@@ -201,6 +202,19 @@ class ItemRendererEditable extends HtmlRendererAbstract {
                 'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/cut",
                     ],
                 Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.cut')])
+            );
+    }
+    private function getButtonCopy(MenuItemInterface $menuItem) {
+        return  Html::tag('button', [
+                'class'=>$this->classMap->get('Buttons', 'button'),
+                'data-tooltip'=>'Zkopírovat položku',
+                'data-position'=>'top right',
+                'type'=>'submit',
+                'name'=>'move',
+                'formmethod'=>'post',
+                'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/copy",
+                    ],
+                Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.copy')])
             );
     }
     private function getButtonCutted(MenuItemInterface $menuItem) {
