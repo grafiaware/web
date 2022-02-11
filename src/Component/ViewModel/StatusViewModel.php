@@ -90,12 +90,12 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
 
     ### user actions ###
 
-//    public function getIterator() {
-//        $this->appendData([
-//                        'editArticle' => $this->presentEditableContent(),
-//                        'editMenu' => $this->presentEditableMenu(),
-//                        'userName' => $this->getUserLoginName()
-//        ]);
-//        return parent::getIterator();
-//    }
+    public function getIterator() {
+        $this->appendData([
+                        'editArticle' => $this->presentEditableContent(),
+                        'editMenu' => $this->presentEditableMenu(),
+                        'userName' => $this->getUserLoginName()
+        ]);
+        return parent::getIterator();
+    }
 }
