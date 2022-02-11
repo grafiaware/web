@@ -1,5 +1,5 @@
 <?php
-namespace Component\View\Authored\SelectPaperTemplate;
+namespace Component\View\Authored\PaperTemplate;
 
 use Pes\View\Template\PhpTemplate;
 use Pes\View\CompositeViewInterface;
@@ -12,15 +12,15 @@ use Component\Renderer\Html\Authored\EmptyContentRenderer;
 use Component\Renderer\Html\Authored\Paper\HeadlineRenderer;
 use Component\Renderer\Html\Authored\Paper\PerexRenderer;
 use Component\Renderer\Html\Authored\Paper\ContentsRenderer;
-
-use Component\Template\PaperTemplate;
+// zde jsou definovány konstanty se jmény proměnných pro template (headline, presex, sections) - společné pro PaperComponent
+use Component\View\Authored\Paper\PaperComponent;
 
 /**
  * Description of PaperComponent
  *
  * @author pes2704
  */
-class SelectedPaperTemplateComponent extends AuthoredComponentAbstract implements SelectedPaperTemplateComponentInterface {
+class PaperTemplateComponent extends AuthoredComponentAbstract implements PaperTemplateComponentInterface {
 
     /**
      *
@@ -40,11 +40,11 @@ class SelectedPaperTemplateComponent extends AuthoredComponentAbstract implement
                 try {
                     // konstruktor PhpTemplate vyhazuje výjimku NoTemplateFileException pro neexistující (nečitený) soubor s template
                     $template = new PhpTemplate($this->selectedPaperTemplateFileName);
-                    $templatedView = $this->createCompositeViewWithTemplate($template);
+                    $contentView = $this->createCompositeViewWithTemplate($template);
 
                     $this->setRendererName(PaperRenderer::class);
-                    $this->addChildComponents($templatedView);
-                    $this->appendComponentView($templatedView, 'template');
+                    $this->addChildComponents($contentView);
+                    $this->appendComponentView($contentView, PaperComponent::CONTENT);
 
                 } catch (NoTemplateFileException $noTemplExc) {
                     throw new LogicException("Nelze vytvořit objekt template pro jméno nastavené metodou setPaperTemplateName()? {$this->selectedPaperTemplateFileName}");
@@ -59,9 +59,9 @@ class SelectedPaperTemplateComponent extends AuthoredComponentAbstract implement
 
     private function addChildComponents(CompositeViewInterface $view) {
         // renderery musí být definovány v Renderer kontejneru - tam mohou dostat classMap do konstruktoru
-        $view->appendComponentView($this->createCompositeViewWithRenderer(HeadlineRenderer::class), 'headline');
-        $view->appendComponentView($this->createCompositeViewWithRenderer(PerexRenderer::class), 'perex');
-        $view->appendComponentView($this->createCompositeViewWithRenderer(ContentsRenderer::class), 'contents');
+        $view->appendComponentView($this->createCompositeViewWithRenderer(HeadlineRenderer::class), PaperComponent::HEADLINE);
+        $view->appendComponentView($this->createCompositeViewWithRenderer(PerexRenderer::class), PaperComponent::PEREX);
+        $view->appendComponentView($this->createCompositeViewWithRenderer(ContentsRenderer::class), PaperComponent::SECTIONS);
     }
 
     public function setSelectedPaperTemplateFileName($name): void {

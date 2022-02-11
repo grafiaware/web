@@ -19,26 +19,6 @@ use Component\View\Authored\Paper\PaperComponent;
  * @author pes2704
  */
 class PaperRendererEditable  extends AuthoredRendererAbstract {
-    public function renderOLD(iterable $viewModel=NULL) {
-        /** @var PaperViewModelInterface $viewModel */
-        $paper = $viewModel->getPaper();  // vrací PaperAggregate
-        $menuItem = $viewModel->getMenuItem();
-
-        $html =
-                Html::tag('div', ['class'=>$this->classMap->get('Template', 'div.templatePaper')],
-                    Html::tag('article', ['data-red-renderer'=>'PaperRendererEditable', "data-red-datasource"=> "paper {$paper->getId()} for item {$paper->getMenuItemIdFk()}"],
-                        [
-                            $viewModel->getContextVariable(AuthoredComponentAbstract::BUTTON_EDIT_CONTENT) ?? '',
-                            $this->renderSelectTemplate($viewModel),
-                            $this->renderRibbon($viewModel),
-                            $viewModel->getContextVariable(PaperComponent::CONTENT) ?? '',
-                        ]
-                    )
-                );
-        return $html ?? '';
-    }
-
-    #############################
 
     public function render(iterable $viewModel=NULL) {
         /** @var PaperViewModelInterface $viewModel */
@@ -129,23 +109,23 @@ class PaperRendererEditable  extends AuthoredRendererAbstract {
 //            );
 //    }
 
-//    private function renderSelectTemplate(PaperViewModelInterface $viewModel) {
-//        $paper = $viewModel->getPaper();
-//        $contentTemplateName = $paper->getTemplate();
-//        $paperId = $paper->getId();
-//
-//        return
-//            // id je parametr pro togleTemplateSelect(id) - voláno onclick na button 'Vybrat šablonu stránky'
-//            Html::tag('div', ['id'=>"select_template_paper_$paperId",'class'=>$this->classMap->get('PaperTemplateSelect', 'div.selectTemplate')],
-//                Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/$paperId/template"],
-//                    [
-////                        Html::tagNopair('input', ["type"=>"hidden", "name"=>"template_$paperId", "value"=>$contentTemplateName]),
-//                        // class je třída pro selector v tinyInit var selectTemplateConfig
-//                        Html::tag('div', ['id'=>"paper_$paperId", 'class'=>$this->classMap->get('PaperTemplateSelect', 'div.tinySelectTemplatePaper')],''),
-//                    ]
-//                )
-//            );
-//    }
+    private function renderSelectTemplate(PaperViewModelInterface $viewModel) {
+        $paper = $viewModel->getPaper();
+        $contentTemplateName = $paper->getTemplate();
+        $paperId = $paper->getId();
+
+        return
+            // id je parametr pro togleTemplateSelect(id) - voláno onclick na button 'Vybrat šablonu stránky'
+            Html::tag('div', ['id'=>"select_template_paper_$paperId",'class'=>$this->classMap->get('PaperTemplateSelect', 'div.selectTemplate')],
+                Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/$paperId/template"],
+                    [
+//                        Html::tagNopair('input', ["type"=>"hidden", "name"=>"template_$paperId", "value"=>$contentTemplateName]),
+                        // class je třída pro selector v tinyInit var selectTemplateConfig
+                        Html::tag('div', ['id'=>"paper_$paperId", 'class'=>$this->classMap->get('PaperTemplateSelect', 'div.tinySelectTemplatePaper')],''),
+                    ]
+                )
+            );
+    }
 
 //    private function renderPaperButtonsForm(PaperViewModelInterface $viewModel) {
 //        $paper = $viewModel->getPaper();

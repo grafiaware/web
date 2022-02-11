@@ -18,87 +18,7 @@ use Pes\Text\Html;
  * @author pes2704
  */
 class ArticleRendererEditable extends AuthoredRendererAbstract {
-    public function renderOLD(iterable $viewModel=NULL) {
-        /** @var ArticleViewModelInterface $viewModel */
-        $article = $viewModel->getArticle();  // vrací ArticleInterface
-        $menuItem = $viewModel->getMenuItem();
-//        $buttonEditContent = (string) $viewModel->getContextVariable('buttonEditContent') ?? '';
-        $buttonEditContent = (string) $viewModel->getContextVariable(AuthoredComponentAbstract::BUTTON_EDIT_CONTENT) ?? '';
-        $selectTemplate = (string) $viewModel->getContextVariable('selectTemplate') ?? '';
-        $articleButtonsForm = $this->renderArticleButtonsForm($menuItem, $article);
 
-        if (isset($article)) { // menu item aktivní (publikovaný)
-            $templateName = $article->getTemplate() ?? '';
-            /** @var ArticleInterface $article */
-            if ($templateName) {
-                $formContent = [
-
-                                Html::tag('div',
-                                        [
-                                            'id'=>'article_'.$article->getId(),
-                                            'class'=>'edit-html',
-                                            "data-templatename"=>$templateName,   // toto je selektor pro template css - nastaveno v base-template.less souboru
-                                        ],
-                                        $article->getContent()),  // co je editovatelné je dáno šablonou
-                            ];
-            } else {
-                $formContent = [
-                                Html::tag('input', ['type'=>'hidden', 'name'=>'article_'.$article->getId()]),  // hidden input pro Article Controler update
-                                    Html::tag('div',
-                                        [
-                                            'id'=>'article_'.$article->getId(),
-                                            'class'=>'edit-html',
-                                            "data-templatename"=>$templateName,   // toto je selektor pro template css - nastaveno v base-template.less souboru
-                                        ],
-                                        $article->getContent()),  // editovatelný celý obsah pokud nebyla použita šablona
-                            ];
-            }
-            $ret =
-                Html::tag('div', ['class'=>$this->classMap->get('Template', 'div.templateArticle')],
-                    Html::tag('article', [
-                                        'data-red-renderer'=>'ArticleRendererEditable',
-                                        "data-red-datasource"=> "article {$article->getId()} for item {$article->getMenuItemIdFk()}",
-                                        ],
-                        [
-                            $buttonEditContent,
-                            Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.ribbon-article')], //lepítko s buttony
-                                Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.semafor')], //aktivní/neaktivní paper
-                                    Html::tag('div',
-                                       [
-                                       'class'=> 'ikona-popis',
-                                       'data-tooltip'=> $menuItem->getActive() ? "published" : "not published",
-                                       ],
-                                        Html::tag('i',
-                                           [
-                                           'class'=> $this->classMap->resolve($menuItem->getActive(), 'Icons','semafor.published', 'semafor.notpublished'),
-                                           ]
-                                        )
-                                    )
-                                )
-                                .Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.nameMenuItem')],
-                                    Html::tag('p', ['class'=>''],
-                                        'Article'
-//                                        . $menuItem->getTitle()
-                                    )
-                                    .Html::tag('p', ['class'=>''],
-                                        $menuItem->getTitle()
-                                    )
-                                )
-                                .$articleButtonsForm
-
-                            ),
-                            $selectTemplate ?? '',
-                            Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/article/{$article->getId()}"],
-                                $formContent
-                            )
-                        ]
-                        )
-                    );
-        }
-        return $ret ?? '';
-    }
-
-    #############################
     public function render(iterable $viewModel=NULL) {
         /** @var ArticleViewModelInterface $viewModel */
         $article = $viewModel->getArticle();  // vrací PaperAggregate
@@ -116,7 +36,7 @@ class ArticleRendererEditable extends AuthoredRendererAbstract {
                 );
         return $html ?? '';
     }
-    
+
 ##### article
     private function getFormWithContent(ArticleViewModelInterface $viewModel) {
         $id = $viewModel->getAuthoredContentId();

@@ -49,16 +49,18 @@ use Pes\View\Template\PhpTemplate;
 
 //component
 use Component\View\Menu\MenuComponent;
+
+use Component\View\Generated\ItemTypeSelectComponent;
 use Component\View\Authored\Paper\PaperComponent;
 use Component\View\Authored\Article\ArticleComponent;
 use Component\View\Authored\Multipage\MultipageComponent;
 use Component\View\Authored\TemplatedComponent;
-use Component\View\Authored\SelectPaperTemplate\SelectedPaperTemplateComponent;
+use Component\View\Authored\PaperTemplate\PaperTemplateComponent;
+use Component\View\Manage\SelectTemplateComponent;
 
 use Component\View\Generated\LanguageSelectComponent;
 use Component\View\Generated\ SearchPhraseComponent;
 use Component\View\Generated\SearchResultComponent;
-use Component\View\Generated\ItemTypeSelectComponent;
 
 use Component\View\Flash\FlashComponent;
 
@@ -227,8 +229,8 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
 
                 return $paperComponent;
             },
-            SelectedPaperTemplateComponent::class => function(ContainerInterface $c) {
-                $selectComponent = new SelectedPaperTemplateComponent($c->get(ComponentConfiguration::class));
+            PaperTemplateComponent::class => function(ContainerInterface $c) {
+                $selectComponent = new PaperTemplateComponent($c->get(ComponentConfiguration::class));
                 $selectComponent->setData($c->get(PaperViewModel::class));
                 $selectComponent->setRendererContainer($c->get('rendererContainer'));
 
@@ -247,8 +249,14 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 $multipageComponent->setRendererContainer($c->get('rendererContainer'));
                 return $multipageComponent;
             },
-            #### button form komponenty - pro editační režim paper, komponenty bez nastaveného viewmodelu
+            #### komponenty - pro editační režim authored komponent, komponenty bez nastaveného viewmodelu
+            # view model předává komponent v metodě beroreRenderingHook()
             #
+            SelectTemplateComponent::class  => function(ContainerInterface $c) {
+                $selectTemplateComponent = new SelectTemplateComponent($c->get(ComponentConfiguration::class));
+                $selectTemplateComponent->setRendererContainer($c->get('rendererContainer'));
+                return $selectTemplateComponent;
+            },
             PaperTemplateButtonsForm::class => function(ContainerInterface $c) {
                 $component = new PaperTemplateButtonsForm();
                 $component->setRenderer(new PaperButtonsFormRenderer());
