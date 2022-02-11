@@ -116,12 +116,12 @@ class PaperRendererEditable  extends AuthoredRendererAbstract {
 
         return
             // id je parametr pro togleTemplateSelect(id) - voláno onclick na button 'Vybrat šablonu stránky'
-            Html::tag('div', ['id'=>"select_template_paper_$paperId",'class'=>$this->classMap->get('PaperTemplateSelect', 'div.selectTemplate')],
+            Html::tag('div', ['id'=>"select_template_paper_$paperId",'class'=>$this->classMap->get('Template', 'div.selectTemplate')],
                 Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/$paperId/template"],
                     [
 //                        Html::tagNopair('input', ["type"=>"hidden", "name"=>"template_$paperId", "value"=>$contentTemplateName]),
                         // class je třída pro selector v tinyInit var selectTemplateConfig
-                        Html::tag('div', ['id'=>"paper_$paperId", 'class'=>$this->classMap->get('PaperTemplateSelect', 'div.tinySelectTemplatePaper')],''),
+                        Html::tag('div', ['id'=>"paper_$paperId", 'class'=>"tiny_select_template_paper"],''),
                     ]
                 )
             );
