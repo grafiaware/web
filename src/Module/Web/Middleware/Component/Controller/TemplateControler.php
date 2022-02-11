@@ -21,8 +21,8 @@ use Red\Model\Entity\PaperAggregatePaperContent;
 
 // komponenty
 use Component\View\Authored\AuthoredComponentInterface;
-use Component\View\Authored\SelectPaperTemplate\SelectedPaperTemplateComponent;
-use Component\View\Authored\SelectPaperTemplate\SelectedPaperTemplateComponentInterface;
+use Component\View\Authored\PaperTemplate\PaperTemplateComponent;
+use Component\View\Authored\PaperTemplate\PaperTemplateComponentInterface;
 
 ####################
 use Status\Model\Repository\StatusSecurityRepo;
@@ -158,8 +158,8 @@ class TemplateControler extends FrontControlerAbstract {
             $filename = $this->templateSeeker->seekTemplate(AuthoredTemplateTypeEnum::PAPER, $templateName);
 
             $menuItemId = $presentedMenuItem->getId();
-            /** @var SelectedPaperTemplateComponentInterface $view */
-            $view = $this->container->get(SelectedPaperTemplateComponent::class);
+            /** @var PaperTemplateComponentInterface $view */
+            $view = $this->container->get(PaperTemplateComponent::class);
             $view->setSelectedPaperTemplateFileName($filename);
             $view->setItemId($menuItemId);
             $this->statusPresentationRepo->get()->setLastTemplateName($templateName);

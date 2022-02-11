@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Component\View\Authored\SelectPaperTemplate;
+namespace Component\View\Authored\PaperTemplate;
 
 use Component\View\Authored\AuthoredComponentInterface;
 
@@ -14,6 +14,6 @@ use Component\View\Authored\AuthoredComponentInterface;
  *
  * @author pes2704
  */
-interface SelectedPaperTemplateComponentInterface extends AuthoredComponentInterface {
+interface PaperTemplateComponentInterface extends AuthoredComponentInterface {
     public function setSelectedPaperTemplateFileName($name): void;
 }

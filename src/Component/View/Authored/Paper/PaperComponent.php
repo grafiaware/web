@@ -44,7 +44,7 @@ class PaperComponent extends AuthoredComponentAbstract implements PaperComponent
     const CONTENT = 'content';
     const PEREX = 'perex';
     const HEADLINE = 'headline';
-    const PARTS = 'sections';
+    const SECTIONS = 'sections';
 
     const SELECT_TEMPLATE = 'selectTemplate';
 
@@ -107,14 +107,14 @@ class PaperComponent extends AuthoredComponentAbstract implements PaperComponent
         // renderery musí být definovány v Renderer kontejneru - tam mohou dostat classMap do konstruktoru
         $view->appendComponentView($this->createCompositeViewWithRenderer(HeadlineRendererEditable::class), self::HEADLINE);
         $view->appendComponentView($this->createCompositeViewWithRenderer(PerexRendererEditable::class), self::PEREX);
-        $view->appendComponentView($this->createCompositeViewWithRenderer(ContentsRendererEditable::class), self::PARTS);
+        $view->appendComponentView($this->createCompositeViewWithRenderer(ContentsRendererEditable::class), self::SECTIONS);
     }
 
     private function addChildComponents(CompositeViewInterface $view) {
         // renderery musí být definovány v Renderer kontejneru - tam mohou dostat classMap do konstruktoru
         $view->appendComponentView($this->createCompositeViewWithRenderer(HeadlineRenderer::class), self::HEADLINE);
         $view->appendComponentView($this->createCompositeViewWithRenderer(PerexRenderer::class), self::PEREX);
-        $view->appendComponentView($this->createCompositeViewWithRenderer(ContentsRenderer::class), self::PARTS);
+        $view->appendComponentView($this->createCompositeViewWithRenderer(ContentsRenderer::class), self::SECTIONS);
     }
 
     /**

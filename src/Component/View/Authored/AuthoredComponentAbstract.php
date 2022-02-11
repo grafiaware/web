@@ -39,9 +39,4 @@ abstract class AuthoredComponentAbstract extends StatusComponentAbstract impleme
         $itemAction = $this->contextData->getItemAction();
         return isset($itemAction) AND $itemAction->getEditorLoginName()==$this->contextData->getUserLoginName();
     }
-
-    public function getTemplateFileFullname(array $templatesFolders, $templateName): string {
-        return $this->contextData->seekTemplate($templatesFolders, $templateName);
-    }
-
 }
