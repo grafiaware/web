@@ -36,11 +36,6 @@ interface AuthoredViewModelInterface extends StatusViewModelInterface {
      */
     public function isMenuItemActive(): bool;
 
-    /**
-     * Vyhledá plné jméno souboru s template itemu.
-     * @return string Cesta k souboru s template nebo prázdný řetězec
-     */
-    public function seekTemplate(): string;
     public function getItemAction(): ?ItemActionInterface;
     public function getMenuItem(): MenuItemInterface;
     public function userPerformActionWithItem(): bool;

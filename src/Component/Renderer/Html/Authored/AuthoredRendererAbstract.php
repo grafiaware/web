@@ -86,10 +86,10 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract {
 
     protected function getTemplateSelectId(AuthoredViewModelInterface $viewModel) {
         $type = $viewModel->getItemType();
-        $articleId = $viewModel->getAuthoredContentId(); //$article->getId();
-        return "select_template_{$type}_{$articleId}";
+        $contentId = $viewModel->getAuthoredContentId(); 
+        return "select_template_{$type}_{$contentId}";
     }
-    
+
     private function renderButtonsDiv(array $buttons) {
         return Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttons')], implode('', $buttons));
     }

@@ -224,7 +224,20 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             PaperComponent::class => function(ContainerInterface $c) {
                 $paperComponent = new PaperComponent($c->get(ComponentConfiguration::class));
-                $paperComponent->setData($c->get(PaperViewModel::class));
+                $paperViewModel = $c->get(PaperViewModel::class);
+
+                /** @var TemplatedComponent $templatedComponent */
+                $templatedComponent = $c->get(TemplatedComponent::class);
+                $templatedComponent->setData($templatedComponent);
+                $paperComponent->appendComponentView($templatedComponent, PaperComponent::CONTENT);
+
+                // připojí komponent - view s buttonem ToggleEditContentButtonComponent (tužtička)
+                $buttonEditContentComponent = new ToggleEditContentButtonComponent($this->configuration);
+                $buttonEditContentComponent->setData($this->contextData);
+                $buttonEditContentComponent->setRendererContainer($this->rendererContainer);
+                $this->appendComponentView($buttonEditContentComponent, parent::BUTTON_EDIT_CONTENT);
+
+                $paperComponent->setData($paperViewModel);
                 $paperComponent->setRendererContainer($c->get('rendererContainer'));
 
                 return $paperComponent;
@@ -252,6 +265,12 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
             #### komponenty - pro editační režim authored komponent, komponenty bez nastaveného viewmodelu
             # view model předává komponent v metodě beroreRenderingHook()
             #
+            ToggleEditContentButtonComponent::class => function(ContainerInterface $c) {
+                $component = new ToggleEditContentButtonComponent($c->get(ComponentConfiguration::class));
+                $component->setData($c->get(StatusViewModel::class));
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;
+            },
             SelectTemplateComponent::class  => function(ContainerInterface $c) {
                 $selectTemplateComponent = new SelectTemplateComponent($c->get(ComponentConfiguration::class));
                 $selectTemplateComponent->setRendererContainer($c->get('rendererContainer'));
@@ -324,8 +343,6 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 return $component;
             },
             LoginLogoutComponent::class => function(ContainerInterface $c) {
-                /** @var ComponentConfigurationInterface $configuration */
-                $configuration = $c->get(ComponentConfiguration::class);
                 $component = new LoginLogoutComponent($c->get(ComponentConfiguration::class));
                 $component->setData($c->get(StatusViewModel::class));
                 $component->setRendererContainer($c->get('rendererContainer'));
@@ -345,12 +362,6 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             ButtonEditMenuComponent::class => function(ContainerInterface $c) {
                 $component = new ButtonEditMenuComponent($c->get(ComponentConfiguration::class));
-                $component->setData($c->get(StatusViewModel::class));
-                $component->setRendererContainer($c->get('rendererContainer'));
-                return $component;
-            },
-            ToggleEditContentButtonComponent::class => function(ContainerInterface $c) {
-                $component = new ToggleEditContentButtonComponent($c->get(ComponentConfiguration::class));
                 $component->setData($c->get(StatusViewModel::class));
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;

@@ -63,13 +63,7 @@ class PaperComponent extends AuthoredComponentAbstract implements PaperComponent
     public function beforeRenderingHook(): void {
         if ($this->hasContent()) {
 
-            // vytvoří komponentní view z šablony paperu nebo s ImplodeTemplate, pokud šablona paperu není nastavena
-            try {
-                // konstruktor PhpTemplate vyhazuje výjimku NoTemplateFileException pro neexistující (nečitený) soubor s template
-                $template = new PhpTemplate($this->contextData->seekTemplate());
-            } catch (NoTemplateFileException $noTemplExc) {
-                $template = new ImplodeTemplate();
-            }
+
             $contentView = $this->createCompositeViewWithTemplate($template);
 
             if($this->contextData->presentEditableContent() AND $this->isAllowed($this, AllowedActionEnum::EDIT)) {
