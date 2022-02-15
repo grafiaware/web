@@ -250,7 +250,7 @@ var plugins = [
 var toolbarText = 'save cancel | undo redo | fontstyle fontweight | aligment | anchor link';
 
 var toolbar = 'save cancel | undo redo | fontstyle fontweight | aligment | list | template | anchor link image media | code';
-var toolbar1 = 'save cancel | undo redo | removeformat | bold italic underline strikethrough nonbreaking | alignleft aligncenter alignright alignjustify | link image | sablona ';
+var toolbar1 = 'save cancel | undo redo | removeformat | bold italic underline strikethrough nonbreaking | alignleft aligncenter alignright alignjustify | link image media | sablona ';
 var toolbar2 = 'styleselect fontsizeselect forecolor | bullist numlist outdent indent | template | code | example';
 
 var linkClassList = [
@@ -452,7 +452,7 @@ var selectTemplatePaperConfig = {
     content_css: tinyConfig.contentCss,
     body_class: "layout preview",
     style_formats: [
-        { title: 'Vertikálně prohodit perex a contents', selector: 'div.vertikalne-prohodit', styles: { 'flex-direction': 'column-reverse' } },
+        { title: 'Vertikálně prohodit perex a contents', selector: 'div.vertikalne-prohodit', classes: [ 'active' ], styles: { 'flex-direction': 'column-reverse' } },
         { title: 'Horizontálně prohodit perex a contents', selector: 'div.horizontalne-prohodit', styles: { 'flex-direction': 'row-reverse' } },
     ],
     style_formats_autohide: true,

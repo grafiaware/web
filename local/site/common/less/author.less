@@ -30,11 +30,15 @@
 @buttonyPasteMenuBackgroundColor: lighten(@lightOlive, 15);
 @buttonyPasteMenuBorderLeft: 0;
 @buttonyMenuBackgroundColor: @barvaEditButtony;
-@lastButtonMenuBackgroundColor: @barvaKos;
+@lastButtonMenuBackgroundColor: @barvaEditButtony;
 @lastButtonMenuBackgroundColorHover: @white;
 @buttonySvisleMenuPositionTop: -25px;
 @buttonySvisleMenuPositionLeft: auto;
 @buttonySvisleMenuPositionRight: @hodnota0;
+@buttonySvisleMenuVnorenePositionRight: 28px;
+@buttonySvisleMenuVnorenePositionTop: -32px; 
+@buttonySvisleMenuRadkaBorderLeft: 1px solid rgba(34,36,38,.15);
+@buttonySvisleMenuRadkaBorderRadius: 0;
 @buttonySvisleMenuZIndex: 15;
 @buttonySvisleMenuKosBackgroundColor: @barvaKos;
 @buttonSvisleMenuKosSecondIconSize: 0.9em;
@@ -270,14 +274,14 @@ body{
             }
         }
         .buttons{
-            display: flex !important;
+            display: flex ;
             background-color: @buttonyMenuBackgroundColor;
-            > .button:last-child{
+/*            > .button:last-child{
                 background-color: @lastButtonMenuBackgroundColor;
                 &:hover{
                     background-color: @lastButtonMenuBackgroundColorHover;
                 }
-            }
+            }*/
         }
         .cut > .buttons{
             display: flex;
@@ -307,6 +311,31 @@ body{
             right: @buttonySvisleMenuPositionRight;
             top: @buttonySvisleMenuPositionTop; 
             z-index: @buttonySvisleMenuZIndex;
+            .nested{
+                &:hover{
+                    .buttons{
+                        display: flex;
+                    }
+                }
+                > .buttons{
+                    display: none;
+                    right: @buttonySvisleMenuVnorenePositionRight;
+                    top: @buttonySvisleMenuVnorenePositionTop; 
+                    opacity: 1;
+                    &::after{
+                        content: '';
+                    }
+                }
+            }
+            .line{
+                border-left: @buttonySvisleMenuRadkaBorderLeft;
+                > .icon{
+                    display: none;
+                }
+                .button{
+                    border-radius: @buttonySvisleMenuRadkaBorderRadius;
+                }
+            }
         }
         /*SVISLÉ MENU KOŠ*/
         &.kos{
@@ -341,6 +370,34 @@ body{
             position: relative;
             margin: @buttonyVodorovneMenuMargin;
             top: @buttonyVodorovneMenuPositionTop;
+            .button > .icon{
+                opacity: 1 !important;
+            }
+            .nested{
+                &:hover{
+                    .buttons{
+                        display: flex;
+                    }
+                }
+                > .buttons{
+                    display: none;
+                    right: @buttonySvisleMenuVnorenePositionRight;
+                    top: @buttonySvisleMenuVnorenePositionTop; 
+                    opacity: 1;
+                    &::after{
+                        content: '';
+                    }
+                }
+            }
+            .line{
+                border-left: @buttonySvisleMenuRadkaBorderLeft;
+                > .icon{
+                    display: none;
+                }
+                .button{
+                    border-radius: @buttonySvisleMenuRadkaBorderRadius;
+                }
+            }
         }
     }
 
@@ -539,7 +596,7 @@ body{
      .template-article, .template-articleedit{
         margin: @articleRendererMargin;
     }
-    .template-multipage, .template-article, .template-articleedit, .template-paper{
+    .template-multipage, .template-article, .template-articleedit, .template-paper, .template-paperedit{
         position: relative;
         padding: @rendererPadding;
         padding-top: @rendererPaddingTop;
@@ -564,7 +621,7 @@ body{
             border-color: @orange;
         }
     }
-    .template-paper{
+    .template-paper, .template-paperedit{
         .ribbon.page-edit{
             color: @pink;
             border-color: @pink;
@@ -600,7 +657,7 @@ body{
         .template-article{
             margin: @rendererMultipageArticleMargin;
         }
-        .template-paper{
+        .template-paper, .template-paperedit{
             margin: @rendererMultipagePaperMargin;
         }
         > .semafor{

@@ -47,12 +47,15 @@ class ContentsRenderer extends HtmlRendererAbstract {
     }
 
     private function renderContent(PaperContentInterface $paperContent) {
-        $html =  Html::tag('content', [
-                            'id' => "content_{$paperContent->getId()}",
-                            'class'=>$this->classMap->get('Content', 'content'),
-                            'data-owner'=>$paperContent->getEditor()
-                        ],
-                    $paperContent->getContent()
+        $html =  
+                Html::tag('section', ['class'=>$this->classMap->get('Content', 'section')],
+                    Html::tag('content', [
+                                'id' => "content_{$paperContent->getId()}",
+                                'class'=>$this->classMap->get('Content', 'content'),
+                                'data-owner'=>$paperContent->getEditor()
+                            ],
+                        $paperContent->getContent()
+                    )
                 );
         return $html;
     }

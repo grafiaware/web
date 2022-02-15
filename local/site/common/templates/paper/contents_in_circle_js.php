@@ -10,7 +10,7 @@ use Red\Model\Entity\PaperAggregatePaperContentInterface;
 
 ?>
 
-        <div class="" data-template="<?= "contents_in_circle" ?>">
+        <div class="template-circle" data-template="contents_in_circle">
             <div class="ui grid">
                 <div class="sixteen wide column">
                     <section>
