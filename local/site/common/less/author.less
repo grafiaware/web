@@ -18,7 +18,7 @@
 @buttonDataTooltipFontWeight: @fontBold;
 @buttonDisabledDataTooltipPointer: auto;
 @buttonDisabledDataTooltipOpacity: 1;
-@buttonDisabledDataTooltipColor: #f76262;
+@buttonDisabledDataTooltipColor: auto;
 
 //Menu
 @menuLiCutBorder: @borderWidth @borderStyle @mediumGrey;
@@ -35,7 +35,7 @@
 @buttonySvisleMenuPositionTop: -25px;
 @buttonySvisleMenuPositionLeft: auto;
 @buttonySvisleMenuPositionRight: @hodnota0;
-@buttonySvisleMenuVnorenePositionRight: 28px;
+@buttonySvisleMenuVnorenePositionRight: 33px;
 @buttonySvisleMenuVnorenePositionTop: -32px; 
 @buttonySvisleMenuRadkaBorderLeft: 1px solid rgba(34,36,38,.15);
 @buttonySvisleMenuRadkaBorderRadius: 0;
@@ -44,9 +44,13 @@
 @buttonSvisleMenuKosSecondIconSize: 0.9em;
 @buttonSvisleMenuKosSecondIconPositionleft: 7px;
 @buttonyPresmerovaniMenuMargin: @hodnota0 @hodnota0 @hodnota0 5px;
+@buttonyPresmerovaniMenuVnorenePositionRight: 62px;
+@buttonyPresmerovaniMenuVnorenePositionTop: -26px;
 @buttonyVodorovneMenuHeight: 28px;
 @buttonyVodorovneMenuPositionTop: @hodnota0;
 @buttonyVodorovneMenuMargin: @hodnota0 5px @hodnota0 @hodnota0;
+@buttonyVodorovneMenuVnorenePositionRight: @buttonySvisleMenuVnorenePositionRight;
+@buttonyVodorovneMenuVnorenePositionTop: -30px;
 
 //Semafor
 @semaforFlexDirection: column;
@@ -65,7 +69,7 @@
 @semaforVodorovneMenuIconPaddingLeft: 3px;
 //Pro paper
 @semaforPagePositionTop: 50%;
-@semaforPagePositionTranslate:translateY(-50%);
+@semaforPagePositionTranslate: translateY(-50%);
 @semaforPagePositionRight: auto;
 @semaforPagePositionLeft: 2px;
 @semaforPageZIndex: 1;
@@ -152,6 +156,16 @@
 @ribbonActiveZIndex: 15;
 @ribbonIconTransform: translateX(50%);
 @ribbonCornerIconFontSize: 1em;
+@ribbonContentPriorityDisplay: inline-block;
+@ribbonContentPriorityVerticalAlign: top;
+@ribbonContentPriorityFontSize: 1.75rem;
+@ribbonContentPriorityPositionPositionTop: -6px;
+@ribbonContentPriorityMarginRight: -9px;
+@ribbonContentPriorityMarginLeft: 0px;
+@ribbonContentPrioritySpanPositionRight: 12px;
+@ribbonContentPrioritySpanPositionTop: 6px;
+@ribbonContentPrioritySpanFontSize: 1rem;
+@ribbonContentPrioritySpanFontWeight: 700;
 @ribbonPageWidth: 2em;
 @ribbonPageHeight: 1.5em;
 @ribbonPageSize: 0.6em;
@@ -311,6 +325,9 @@ body{
             right: @buttonySvisleMenuPositionRight;
             top: @buttonySvisleMenuPositionTop; 
             z-index: @buttonySvisleMenuZIndex;
+            .button > .icon{
+                opacity: 1 !important; 
+            }
             .nested{
                 &:hover{
                     .buttons{
@@ -354,6 +371,35 @@ body{
         /*pozice buttonů u presmerovani menu*/
         .buttons{
             margin: @buttonyPresmerovaniMenuMargin;
+            .button > .icon{
+                opacity: 1 !important;
+            }
+            .nested{
+                &:hover{
+                    .buttons{
+                        display: flex;
+                    }
+                }
+                > .buttons{
+                    position: absolute;
+                    display: none;
+                    right: @buttonyPresmerovaniMenuVnorenePositionRight;
+                    top: @buttonyPresmerovaniMenuVnorenePositionTop;
+                    opacity: 1;
+                    &::after{
+                        content: '';
+                    }
+                }
+            }
+            .line{
+                border-left: @buttonySvisleMenuRadkaBorderLeft;
+                > .icon{
+                    display: none;
+                }
+                .button{
+                    border-radius: @buttonySvisleMenuRadkaBorderRadius;
+                }
+            }
         }
     }
     .presmerovani-menu, .vodorovne-menu{
@@ -380,9 +426,10 @@ body{
                     }
                 }
                 > .buttons{
+                    position: absolute;
                     display: none;
-                    right: @buttonySvisleMenuVnorenePositionRight;
-                    top: @buttonySvisleMenuVnorenePositionTop; 
+                    right: @buttonyVodorovneMenuVnorenePositionRight;
+                    top: @buttonyVodorovneMenuVnorenePositionTop;
                     opacity: 1;
                     &::after{
                         content: '';
@@ -704,11 +751,22 @@ body{
             &:nth-child(2){top: 4px;}
         }
         .content-priority{
-            display: inline-block;
+            position: relative;
 /*            top: 50%;
             transform: translate(25px, -50%); */
-            vertical-align: top;
-            margin-left: 7px;
+            display: @ribbonContentPriorityDisplay;
+            vertical-align: @ribbonContentPriorityVerticalAlign;
+            font-size: @ribbonContentPriorityFontSize;
+            top: @ribbonContentPriorityPositionPositionTop;
+            margin-right: @ribbonContentPriorityMarginRight;
+            margin-left: @ribbonContentPriorityMarginLeft;
+            > .icon > span{
+                position: absolute;
+                right: @ribbonContentPrioritySpanPositionRight;
+                top: @ribbonContentPrioritySpanPositionTop;
+                font-size: @ribbonContentPrioritySpanFontSize;
+                font-weight: @ribbonContentPrioritySpanFontWeight;
+            }
         }
     }
     .ui.ribbon.label.page-edit{

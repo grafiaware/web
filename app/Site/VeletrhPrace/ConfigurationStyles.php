@@ -42,6 +42,9 @@ class ConfigurationStyles extends ConfigurationRed {
                             'button' => 'ui button',
                             'button.disabled' => 'ui button disabled',
                             'div.buttons' => 'editSize ui basic icon buttons',
+                            'div.buttonsRow' => 'ui basic icons',
+                            'div.buttonsChangeView' => 'ui button nested',                       //  'line' nebo 'ui button nested'
+                            'div.buttonsChangeViewGroup' => 'ui basic icon buttons',             //  'ui basic icon' (pro line) nebo 'ui basic icon buttons' (pro nested)
                             'button.paste' => 'ui button paste',
                             'div.buttonsWrap' => 'contentButtons page-edit',
                             'div.ribbon-article' => 'ui right ribbon basic label cornerWithTools page-edit',
@@ -66,6 +69,8 @@ class ConfigurationStyles extends ConfigurationRed {
                             'icon.cut' => 'cut icon',
                             'icon.cutted' => 'red cut icon',
                             'icon.copy' => 'copy icon',
+                            'icon.plus' => 'plus icon',
+                            'icon.object' => 'object ungroup icon',
                             'icon.addsiblings' => 'add circle icon',
                             'icon.movetotrash' => 'purple trash icon',
                             'icon.addchildren' => ' arrow circle right icon',
@@ -86,6 +91,7 @@ class ConfigurationStyles extends ConfigurationRed {
                             'icon.save' => 'save icon',
                             'icon.cancel' => 'red times circle icon',
                             'icon.restore' => 'sync icon',
+                            'icon.clipboard' => 'clipboard outline icon',
                             'semafor.published' => 'circle icon green',
                             'semafor.notpublished' => 'circle icon inverted red',
                             'semafor.actual' => 'clock outline icon green',
@@ -252,6 +258,7 @@ class ConfigurationStyles extends ConfigurationRed {
                         'perex'=>'',
                         ],
                      'Content' => [
+                        'section'=>'',
                         'content'=>'',
                         ],
                      'Buttons' => self::rendererDefaults()['buttons'],
