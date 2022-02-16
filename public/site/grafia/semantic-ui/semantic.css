@@ -5674,7 +5674,6 @@ body .ui.inverted:not(.dimmer)::-webkit-scrollbar-thumb:hover {
 .ui.disabled.button:hover {
   pointer-events: auto !important;
   opacity: 1 !important;
-  color: rgba(34, 36, 38, 0.3);
 }
 /*!
  * # Fomantic-UI - Container
