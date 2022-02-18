@@ -27,9 +27,25 @@ use Red\Middleware\Redactor\Controler\UserActionControler;
                 <i class="pencil alternate large icon"></i>
                 <?= empty($editMode) ? "Zapnout inline editaci" : "Vypnout inline editaci" ?>
             </button>
+            <div class="item">
+                <i class="dropdown icon"></i>
+                Nastavení menu
+                <div class="menu">
+                    <div class="item"><a href="">Nezavírat menu (zapnout/vypnout)</a></div>
+                    <div class="item"><a href="">Nastavit home page</a></div>
+                    <div class="item">
+                        <i class="dropdown icon"></i>
+                        Něco dalšího
+                        <div class="menu">
+                            <div class="item disabled"><a href="">Vnořená 1</a></div>
+                            <div class="item"><a href="">Vnořená 2</a></div>
+                        </div>
+                    </div>
+                    <div class="item"><a href="">Nějaká další možnost</a></div>
+                </div>
+            </div>
         </div>
-    </div>
-</form>
+</div>
 
 
 
