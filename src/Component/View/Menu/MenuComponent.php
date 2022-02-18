@@ -14,7 +14,7 @@ use Component\Renderer\Html\Menu\MenuWrapRendererInterface;
 use Component\Renderer\Html\Menu\ItemRenderer;
 use Component\Renderer\Html\Menu\ItemRendererEditable;
 
-use Component\View\AllowedActionEnum;
+use Access\Enum\AllowedViewEnum;
 
 /**
  * Description of MenuComponent
@@ -159,7 +159,7 @@ class MenuComponent extends StatusComponentAbstract implements MenuComponentInte
         foreach ($itemViewModels as $depth => $itemViewModel) {
             /** @var ItemViewModelInterface $itemViewModel */
             // pokud render používá classMap musí být konfigurován v Renderer kontejneru - tam dostane classMap
-            if($itemViewModel->isPresented() AND $this->contextData->presentEditableMenu() AND $this->isAllowed($this, AllowedActionEnum::EDIT)) {
+            if($itemViewModel->isPresented() AND $this->contextData->presentEditableMenu() AND $this->isAllowed(AllowedViewEnum::EDIT)) {
                 $view =  (new CompositeView())->setData($itemViewModel)->setRendererName('menu.itemrenderer.editable')->setRendererContainer($this->rendererContainer);
             } else {
                 $view =  (new CompositeView())->setData($itemViewModel)->setRendererName('menu.itemrenderer')->setRendererContainer($this->rendererContainer);

@@ -30,11 +30,16 @@ use StatusManager\Observer\SecurityContextObjectsRemover;
 use Model\Entity\Credentials;
 use Model\Entity\CredentialsInterface;
 
+// entity
+use Status\Model\Entity\StatusPresentation;
+
 // dao
 use Model\Dao\StatusDao;
 
 // repo
-use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusFlashRepo};
+use Status\Model\Repository\StatusSecurityRepo;
+use Status\Model\Repository\StatusPresentationRepo;
+use Status\Model\Repository\StatusFlashRepo;
 
 // router
 use Pes\Router\RouterInterface;
@@ -109,7 +114,9 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new SecurityContextObjectsRemover();
             },
 
-
+            StatusPresentation::class => function(ContainerInterface $c) {
+                return new StatusPresentation();
+            },
             // model - pro data v session - dao používají všechny session repo v kontejnerech
             StatusDao::class => function(ContainerInterface $c) {
                 return new StatusDao($c->get(SessionStatusHandler::class));

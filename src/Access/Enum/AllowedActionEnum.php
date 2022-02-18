@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Component\View;
+namespace Access\Enum;
 
 use Pes\Type\Enum;
 
@@ -15,7 +15,7 @@ use Pes\Type\Enum;
  *
  * @author pes2704
  */
-class AllowedActionEnum {
+class AllowedActionEnum extends Enum {
     const DISPLAY = 'display';
     const EDIT = 'edit';
 

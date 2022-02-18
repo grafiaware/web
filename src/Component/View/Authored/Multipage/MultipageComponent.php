@@ -19,7 +19,7 @@ use Component\Renderer\Html\Authored\Multipage\MultipageRendererEditable;
 
 use Component\View\Manage\ToggleEditContentButtonComponent;
 
-use Component\View\AllowedActionEnum;
+use Access\Enum\AllowedViewEnum;
 
 /**
  * Description of PaperComponent
@@ -64,7 +64,7 @@ class MultipageComponent extends AuthoredComponentAbstract implements MultipageC
         $this->appendComponentView($contentView, self::CONTENT);
 
         // zvolí MultipageRenderer nebo MultipageRendererEditable
-        if($this->contextData->presentEditableContent() AND $this->isAllowed($this, AllowedActionEnum::EDIT)) {
+        if($this->contextData->presentEditableContent() AND $this->isAllowed(AllowedViewEnum::EDIT)) {
             if ($this->userPerformActionWithItem()) {
                 $this->setRendererName(MultipageRendererEditable::class);
             } else {

@@ -48,10 +48,13 @@ use Pes\View\Renderer\Container\TemplateRendererContainer;
 use Pes\View\Template\PhpTemplate;
 
 //component
+use Component\View\AccessComponentInterface;
+
 use Component\View\Menu\MenuComponent;
 
 use Component\View\Generated\ItemTypeSelectComponent;
 use Component\View\Authored\Paper\PaperComponent;
+use Component\View\Authored\Paper\PaperComponentEditable;
 use Component\View\Authored\Article\ArticleComponent;
 use Component\View\Authored\Multipage\MultipageComponent;
 use Component\View\Authored\TemplatedComponent;
@@ -215,6 +218,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
 
             #### komponenty s připojeným fallback rendererem - pro paper s šablonou je šablona připojena později
             #
+            // komponenr (t.j. view) - před renderování beforeRenderingHook() vytvoří a připojí objekt template vytvořený načtením souboru template se jménem daným vlastností Paperu
             TemplatedComponent::class => function(ContainerInterface $c) {
                 $contentComponent = new TemplatedComponent($c->get(ComponentConfiguration::class));
                 $contentComponent->setData($c->get(PaperViewModel::class));
@@ -222,23 +226,43 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 $contentComponent->setRendererName(SelectPaperTemplateRenderer::class);
                 return $contentComponent;
             },
+            ToggleEditContentButtonComponent::class => function(ContainerInterface $c) {
+                $buttonEditContentComponent = new ToggleEditContentButtonComponent($c->get(ComponentConfiguration::class));
+                $buttonEditContentComponent->setData($c->get(PaperViewModel::class));
+                $buttonEditContentComponent->setRendererContainer($c->get('rendererContainer'));
+            },
             PaperComponent::class => function(ContainerInterface $c) {
                 $paperComponent = new PaperComponent($c->get(ComponentConfiguration::class));
-                $paperViewModel = $c->get(PaperViewModel::class);
-
-                /** @var TemplatedComponent $templatedComponent */
-                $templatedComponent = $c->get(TemplatedComponent::class);
-                $templatedComponent->setData($templatedComponent);
-                $paperComponent->appendComponentView($templatedComponent, PaperComponent::CONTENT);
-
-                // připojí komponent - view s buttonem ToggleEditContentButtonComponent (tužtička)
-                $buttonEditContentComponent = new ToggleEditContentButtonComponent($this->configuration);
-                $buttonEditContentComponent->setData($this->contextData);
-                $buttonEditContentComponent->setRendererContainer($this->rendererContainer);
-                $this->appendComponentView($buttonEditContentComponent, parent::BUTTON_EDIT_CONTENT);
-
-                $paperComponent->setData($paperViewModel);
+                $paperComponent->isAllowed($this, AllowedViewEnum::DISPLAY);
+                $paperComponent->setData($c->get(PaperViewModel::class));
+                $paperComponent->setRendererName(PaperRenderer::class);
                 $paperComponent->setRendererContainer($c->get('rendererContainer'));
+                // komponent s obsahem
+                $paperComponent->appendComponentView($c->get(TemplatedComponent::class), PaperComponent::CONTENT);
+                return $paperComponent;
+            },
+            PaperComponentEditable::class => function(ContainerInterface $c) {
+                $paperComponent = new PaperComponent($c->get(ComponentConfiguration::class));
+                $paperComponent->setData($c->get(PaperViewModel::class));
+                $paperComponent->setRendererContainer($c->get('rendererContainer'));
+                // komponent s obsahem
+                /** @var TemplatedComponent $templatedContent */
+                $templatedContent = $c->get(TemplatedComponent::class);
+                $templatedContent->appendComponentView(
+                        (new CompositeView())->setData($c->get(PaperViewModel::class))->setRendererContainer($c->get('rendererContainer')),  // nená renderer name
+                        PaperComponent::HEADLINE);
+                $templatedContent->appendComponentView(
+                        (new CompositeView())->setData($c->get(PaperViewModel::class))->setRendererContainer($c->get('rendererContainer')),  // nená renderer name
+                        PaperComponent::PEREX);
+                $templatedContent->appendComponentView(
+                        (new CompositeView())->setData($c->get(PaperViewModel::class))->setRendererContainer($c->get('rendererContainer')),  // nená renderer name
+                        PaperComponent::SECTIONS);
+                $paperComponent->appendComponentView($templatedContent, PaperComponent::CONTENT);
+                // komponent - view s buttonem zapni/vypni editaci (tužtička)
+                $paperComponent->appendComponentView($c->get(ToggleEditContentButtonComponent::class), PaperComponent::BUTTON_EDIT_CONTENT);
+
+        // pokud render používá classMap musí být konfigurován v Renderer kontejneru - tam dostane classMap
+        return $paperComponent;
 
                 return $paperComponent;
             },

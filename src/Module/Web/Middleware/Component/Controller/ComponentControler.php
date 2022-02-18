@@ -17,6 +17,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Component\View\Flash\FlashComponent;
 use Component\View\Generated\ItemTypeSelectComponent;
 use Component\View\Authored\Paper\PaperComponent;
+use Component\View\Authored\Paper\PaperComponentEditable;
 use Component\View\Authored\Paper\PaperComponentInterface;
 use Component\View\Authored\Article\ArticleComponent;
 use Component\View\Authored\Article\ArticleComponentInterface;
@@ -28,6 +29,8 @@ use Pes\View\Renderer\PhpTemplateRenderer;
 use Pes\View\Renderer\StringRenderer;
 use Pes\View\Renderer\ImplodeRenderer;
 ####################
+
+use Red\Model\Enum\AuthoredTypeEnum;
 
 use Red\Model\Repository\ItemActionRepo;
 use Red\Model\Repository\ItemActionRepoInterface;
@@ -70,8 +73,15 @@ class ComponentControler extends FrontControlerAbstract {
     }
 
     public function paper(ServerRequestInterface $request, $menuItemId) {
-        /** @var PaperComponentInterface $view */
-        $view = $this->container->get(PaperComponent::class);
+        $userActions = $this->statusPresentationRepo->get()->getUserActions();
+//        $itemAction = $userActions->getUserItemAction(AuthoredTypeEnum::PAPER, $menuItemId);
+        if ($userActions->presentEditableContent()) {
+            /** @var PaperComponentInterface $view */
+            $view = $this->container->get(PaperComponentEditable::class);
+        } else {
+            /** @var PaperComponentInterface $view */
+            $view = $this->container->get(PaperComponent::class);
+        }
         $view->setItemId($menuItemId);
         return $this->createResponseFromView($request, $view);
     }

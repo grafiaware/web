@@ -13,8 +13,8 @@ use Component\Renderer\Html\NoPermittedContentRenderer;
 use Component\ViewModel\StatusViewModelInterface;
 use Pes\View\Template\PhpTemplate;
 
-use Component\View\RoleEnum;
-use Component\View\AllowedActionEnum;
+use Access\Enum\RoleEnum;
+use Access\Enum\AllowedViewEnum;
 
 /**
  * Description of ControlEditMenu
@@ -26,7 +26,7 @@ class ButtonEditMenuComponent  extends StatusComponentAbstract {
     //renderuje template nebo NonPermittedContentRenderer
 
     public function beforeRenderingHook(): void {
-        if($this->isAllowed($this, AllowedActionEnum::EDIT)) {
+        if($this->isAllowed(AllowedViewEnum::EDIT)) {
             $this->setTemplate(new PhpTemplate($this->configuration->getTemplateControlEditMenu()));
         } else {
             $this->setRendererName(NoPermittedContentRenderer::class);

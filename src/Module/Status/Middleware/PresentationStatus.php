@@ -62,7 +62,7 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
 
         $statusPresentation = $statusPresentationRepo->get();
         if (!isset($statusPresentation)) {
-            $statusPresentation = new StatusPresentation();
+            $statusPresentation = $this->container->get(StatusPresentation::class);
             $statusPresentationRepo->add($statusPresentation);
         }
         return $statusPresentation;

@@ -13,8 +13,8 @@ use Component\View\AccessComponentInterface;
 use Configuration\ComponentConfigurationInterface;
 use Component\ViewModel\StatusViewModelInterface;
 
-use Component\View\RoleEnum;
-use Component\View\AllowedActionEnum;
+use Access\Enum\RoleEnum;
+use Access\Enum\AllowedViewEnum;
 
 /**
  * Description of AclComponentAbstract
@@ -32,16 +32,16 @@ abstract class StatusComponentAbstract extends ComponentAbstract implements Acce
         parent::__construct($configuration);
     }
 
-    public function isAllowed(AccessComponentInterface $component, $action): bool {
+    public function isAllowed($action): bool {
         $isAllowed = false;
         $role = $this->contextData->getUserRole();
         $logged = $this->contextData->isUserLoggedIn();
-        $permissions = $component->getComponentPermissions();
+        $permissions = $this->getComponentPermissions();
         $activeRole = $this->getActiveRole($logged, $role, $permissions);
         if (isset($activeRole)) {
             if (array_key_exists($activeRole, $permissions) AND array_key_exists($action, $permissions[$activeRole])) {
                 $resource = $permissions[$activeRole][$action];
-                $isAllowed = ($component instanceof $resource) ? true : false;
+                $isAllowed = ($this instanceof $resource) ? true : false;
             } else {
                 $isAllowed =false;
             }
@@ -74,9 +74,9 @@ abstract class StatusComponentAbstract extends ComponentAbstract implements Acce
 
     public function getComponentPermissions(): array {
         return [
-            RoleEnum::SUP => [AllowedActionEnum::DISPLAY => \Component\View\StatusComponentAbstract::class, AllowedActionEnum::EDIT => \Component\View\StatusComponentAbstract::class],
-            RoleEnum::EDITOR => [AllowedActionEnum::DISPLAY => \Component\View\StatusComponentAbstract::class, AllowedActionEnum::EDIT => \Component\View\StatusComponentAbstract::class],
-            RoleEnum::EVERYONE => [AllowedActionEnum::DISPLAY => \Component\View\StatusComponentAbstract::class],
+            RoleEnum::SUP => [AllowedViewEnum::DISPLAY => \Component\View\StatusComponentAbstract::class, AllowedViewEnum::EDIT => \Component\View\StatusComponentAbstract::class],
+            RoleEnum::EDITOR => [AllowedViewEnum::DISPLAY => \Component\View\StatusComponentAbstract::class, AllowedViewEnum::EDIT => \Component\View\StatusComponentAbstract::class],
+            RoleEnum::EVERYONE => [AllowedViewEnum::DISPLAY => \Component\View\StatusComponentAbstract::class],
             RoleEnum::ANONYMOUS => []
         ];
     }

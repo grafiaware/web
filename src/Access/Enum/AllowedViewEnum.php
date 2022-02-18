@@ -6,14 +6,17 @@
  * and open the template in the editor.
  */
 
-namespace Component\View;
+namespace Access\Enum;
+
+use Pes\Type\Enum;
 
 /**
+ * Description of AlloweActionsEnum
  *
  * @author pes2704
  */
-interface AccessComponentInterface {
-    public function isAllowed($action): bool;
-    public function getComponentPermissions(): array;
+class AllowedViewEnum extends Enum {
+    const DISPLAY = 'display';
+    const EDIT = 'edit';
 
 }

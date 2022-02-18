@@ -6,17 +6,19 @@
  * and open the template in the editor.
  */
 
-namespace Component\View;
+namespace Access\Enum;
+
+use Pes\Type\Enum;
 
 /**
  * Description of RoleEnum
  *
  * @author pes2704
  */
-class RoleEnum {
+class RoleEnum  extends Enum {
     const ANONYMOUS = 'anonymous';
     const EVERYONE = 'everyone';
     const EDITOR = 'editor';
     const SUP = 'sup';
-    
+
 }

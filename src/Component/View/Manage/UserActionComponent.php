@@ -13,8 +13,8 @@ use Component\Renderer\Html\NoPermittedContentRenderer;
 use Component\ViewModel\StatusViewModelInterface;
 use Pes\View\Template\PhpTemplate;
 
-use Component\View\RoleEnum;
-use Component\View\AllowedActionEnum;
+use Access\Enum\RoleEnum;
+use Access\Enum\AllowedViewEnum;
 
 /**
  * Description of UserActionComponent
@@ -31,7 +31,7 @@ class UserActionComponent extends StatusComponentAbstract {
     //renderuje template nebo NonPermittedContentRenderer
 
     public function beforeRenderingHook(): void {
-        if($this->isAllowed($this, AllowedActionEnum::EDIT)) {
+        if($this->isAllowed(AllowedViewEnum::EDIT)) {
             $this->setTemplate(new PhpTemplate($this->configuration->getTemplateUserAction()));
         } else {
             $this->setRendererName(NoPermittedContentRenderer::class);
