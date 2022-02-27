@@ -11,7 +11,7 @@ use Component\Renderer\Html\Authored\EmptyContentRenderer;
 
 use Component\Renderer\Html\Authored\Paper\HeadlineRenderer;
 use Component\Renderer\Html\Authored\Paper\PerexRenderer;
-use Component\Renderer\Html\Authored\Paper\ContentsRenderer;
+use Component\Renderer\Html\Authored\Paper\SectionsRenderer;
 // zde jsou definovány konstanty se jmény proměnných pro template (headline, presex, sections) - společné pro PaperComponent
 use Component\View\Authored\Paper\PaperComponent;
 
@@ -61,7 +61,7 @@ class PaperTemplateComponent extends AuthoredComponentAbstract implements PaperT
         // renderery musí být definovány v Renderer kontejneru - tam mohou dostat classMap do konstruktoru
         $view->appendComponentView($this->createCompositeViewWithRenderer(HeadlineRenderer::class), PaperComponent::HEADLINE);
         $view->appendComponentView($this->createCompositeViewWithRenderer(PerexRenderer::class), PaperComponent::PEREX);
-        $view->appendComponentView($this->createCompositeViewWithRenderer(ContentsRenderer::class), PaperComponent::SECTIONS);
+        $view->appendComponentView($this->createCompositeViewWithRenderer(SectionsRenderer::class), PaperComponent::SECTIONS);
     }
 
     public function setSelectedPaperTemplateFileName($name): void {

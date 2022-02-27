@@ -23,10 +23,10 @@ use Component\Renderer\Html\Authored\Paper\ButtonsRenderer;
 
 use Component\Renderer\Html\Authored\Paper\HeadlineRenderer;
 use Component\Renderer\Html\Authored\Paper\PerexRenderer;
-use Component\Renderer\Html\Authored\Paper\ContentsRenderer;
+use Component\Renderer\Html\Authored\Paper\SectionsRenderer;
 use Component\Renderer\Html\Authored\Paper\HeadlineRendererEditable;
 use Component\Renderer\Html\Authored\Paper\PerexRendererEditable;
-use Component\Renderer\Html\Authored\Paper\ContentsRendererEditable;
+use Component\Renderer\Html\Authored\Paper\SectionsRendererEditable;
 
 use Component\View\Manage\ToggleEditContentButtonComponent;
 
@@ -61,13 +61,14 @@ class PaperComponent extends AuthoredComponentAbstract implements PaperComponent
      *
      */
     public function beforeRenderingHook(): void {
-        if($this->isAllowed(AllowedViewEnum::DISPLAY)) {
-            $contentView = $this->getComponentView(self::CONTENT);
-            $this->appendComponentView($contentView, self::CONTENT);
-// vytvoř headline, perex sections komponenty, append v kontejneru, tady také getComponentView(self::HEADLINE) atd. a jen jim nastavit renderer name
-        } else {
-            $this->setRendererName(EmptyContentRenderer::class);
-        }
+        $test;
+//        if($this->isAllowed(AllowedViewEnum::DISPLAY)) {
+//            $contentView = $this->getComponentView(self::CONTENT);
+//            $this->appendComponentView($contentView, self::CONTENT);
+//// vytvoř headline, perex sections komponenty, append v kontejneru, tady také getComponentView(self::HEADLINE) atd. a jen jim nastavit renderer name
+//        } else {
+//            $this->setRendererName(EmptyContentRenderer::class);
+//        }
     }
 
     public function __toString() {
@@ -78,6 +79,6 @@ class PaperComponent extends AuthoredComponentAbstract implements PaperComponent
         // renderery musí být definovány v Renderer kontejneru - tam mohou dostat classMap do konstruktoru
         $view->appendComponentView($this->createCompositeViewWithRenderer(HeadlineRenderer::class), self::HEADLINE);
         $view->appendComponentView($this->createCompositeViewWithRenderer(PerexRenderer::class), self::PEREX);
-        $view->appendComponentView($this->createCompositeViewWithRenderer(ContentsRenderer::class), self::SECTIONS);
+        $view->appendComponentView($this->createCompositeViewWithRenderer(SectionsRenderer::class), self::SECTIONS);
     }
 }

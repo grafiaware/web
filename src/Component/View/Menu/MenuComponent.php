@@ -23,6 +23,8 @@ use Access\Enum\AllowedViewEnum;
  */
 class MenuComponent extends StatusComponentAbstract implements MenuComponentInterface {
 
+    const TOGGLE_EDIT_MENU = 'toggleEditMenuButton';
+
     /**
      * @var MenuViewModelInterface
      */
@@ -69,7 +71,7 @@ class MenuComponent extends StatusComponentAbstract implements MenuComponentInte
      * @return MenuComponentInterface
      */
     public function setMenuRootName($menuRootName): MenuComponentInterface {
-        $this->componentName = $menuRootName;
+        $this->contextData->setMenuRootName($menuRootName);
         return $this;
     }
 
@@ -98,7 +100,6 @@ class MenuComponent extends StatusComponentAbstract implements MenuComponentInte
         $renderer->setLevelWrapRenderer($this->rendererContainer->get($this->levelWrapRendererName));
         $this->setRenderer($renderer);
 
-        $this->contextData->setMenuRootName($this->componentName);
         $this->contextData->setMaxDepth(null);
 
         $models = $this->prepareItemModels($this->contextData);

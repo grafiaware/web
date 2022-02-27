@@ -10,7 +10,6 @@ namespace Component\View\Manage;
 
 use Component\View\StatusComponentAbstract;
 use Component\Renderer\Html\NoPermittedContentRenderer;
-use Component\ViewModel\StatusViewModelInterface;
 use Pes\View\Template\PhpTemplate;
 
 use Access\Enum\RoleEnum;
@@ -21,15 +20,22 @@ use Access\Enum\AllowedViewEnum;
  *
  * @author pes2704
  */
-class ButtonEditMenuComponent  extends StatusComponentAbstract {
+class ToggleEditMenuComponent  extends StatusComponentAbstract {
 
     //renderuje template nebo NonPermittedContentRenderer
 
     public function beforeRenderingHook(): void {
-        if($this->isAllowed(AllowedViewEnum::EDIT)) {
+        if($this->isAllowed(AllowedViewEnum::DISPLAY)) {
             $this->setTemplate(new PhpTemplate($this->configuration->getTemplateControlEditMenu()));
         } else {
             $this->setRendererName(NoPermittedContentRenderer::class);
         }
+    }
+
+    public function getComponentPermissions(): array {
+        return [
+            RoleEnum::SUP => [AllowedViewEnum::DISPLAY => \Component\View\StatusComponentAbstract::class],
+//            RoleEnum::EDITOR => [AllowedViewEnum::DISPLAY => \Component\View\StatusComponentAbstract::class],
+        ];
     }
 }

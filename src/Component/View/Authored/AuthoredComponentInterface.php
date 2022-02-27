@@ -9,12 +9,13 @@
 namespace Component\View\Authored;
 
 use Pes\View\CompositeViewInterface;
+use Component\View\AccessComponentInterface;
 
 /**
  *
  * @author pes2704
  */
-interface AuthoredComponentInterface extends CompositeViewInterface {
+interface AuthoredComponentInterface extends CompositeViewInterface, AccessComponentInterface {
 
     public function setItemId($menuItemId): AuthoredComponentInterface;
     public function userPerformActionWithItem(): bool;

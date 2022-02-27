@@ -17,7 +17,7 @@ use Red\Model\Repository\MenuItemRepoInterface;
  *
  * @author pes2704
  */
-class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterface {
+abstract class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterface {
 
     /**
      * @var StatusSecurityRepo
@@ -88,14 +88,4 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
         return $userActions ? $userActions->presentEditableMenu() : false;
     }
 
-    ### user actions ###
-
-    public function getIterator() {
-        $this->appendData([
-                        'editArticle' => $this->presentEditableContent(),
-                        'editMenu' => $this->presentEditableMenu(),
-                        'userName' => $this->getUserLoginName()
-        ]);
-        return parent::getIterator();
-    }
 }

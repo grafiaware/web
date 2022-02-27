@@ -16,6 +16,11 @@ use Status\Model\Enum\FlashSeverityEnum;
 use Access\Enum\RoleEnum;
 use Access\Enum\AllowedActionEnum;
 
+use Component\View\AccessComponentInterface;
+
+use Red\Model\Repository\ItemActionRepo;
+use Red\Model\Repository\ItemActionRepoInterface;
+
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Container\ContainerInterface;
@@ -25,7 +30,10 @@ use Pes\Application\UriInfoInterface;
 use Pes\Http\Factory\ResponseFactory;
 use Pes\Http\Response\RedirectResponse;
 use Pes\Http\Response;
+use Pes\View\View;
 use Pes\View\ViewInterface;
+use Pes\View\Renderer\ImplodeRenderer;
+use Pes\Text\Html;
 
 use LogicException;
 
@@ -202,6 +210,19 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
         return $response;
     }
 
+    // editable mode
+
+    protected function isItemInEditableMode($itemType, $itemId) {
+        $userActions = $this->statusPresentationRepo->get()->getUserActions();
+        $itemAction = $userActions->getUserItemAction($itemType, $itemId);
+        $loginAggregate = $this->statusSecurityRepo->get()->getLoginAggregate();
+
+        return (
+                $userActions->presentEditableContent()
+                AND isset($itemAction) AND isset($loginAggregate) AND $itemAction->getEditorLoginName()==$loginAggregate->getLoginName()
+                );
+    }
+
     // permissions
 
     /**
@@ -210,11 +231,12 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
      * @param type $action
      * @return bool
      */
-    protected function isAllowed(AccessComponentInterface $component, $action): bool {
+    protected function isComponentAllowed(AccessComponentInterface $component, $action): bool {
         $isAllowed = false;
-        $role = $this->contextData->getUserRole();
-        $logged = $this->contextData->isUserLoggedIn();
-        $permissions = $component->getComponentPermissions();
+        $loginAggregate = $this->statusSecurityRepo->get()->getLoginAggregate();
+        $role = isset($loginAggregate) ? $loginAggregate->getCredentials()->getRole() : null;
+        $logged = isset($loginAggregate) ? true : false;
+        $permissions = $component->getComponentPermissions();  // !! oprávnění komponenty - Access\Enum\AllowedViewEnum
         $activeRole = $this->getActiveRole($logged, $role, $permissions);
         if (isset($activeRole)) {
             if (array_key_exists($activeRole, $permissions) AND array_key_exists($action, $permissions[$activeRole])) {
@@ -252,12 +274,19 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
 
     protected function getComponentPermissions(): array {
         return [
-            RoleEnum::SUP => [AllowedActionEnum::DISPLAY => \Component\View\StatusComponentAbstract::class, AllowedActionEnum::EDIT => \Component\View\StatusComponentAbstract::class],
-            RoleEnum::EDITOR => [AllowedActionEnum::DISPLAY => \Component\View\StatusComponentAbstract::class, AllowedActionEnum::EDIT => \Component\View\StatusComponentAbstract::class],
-            RoleEnum::EVERYONE => [AllowedActionEnum::DISPLAY => \Component\View\StatusComponentAbstract::class],
-            RoleEnum::ANONYMOUS => []
+            RoleEnum::SUP => [AllowedActionEnum::GET => \Component\View\StatusComponentAbstract::class, AllowedActionEnum::POST => \Component\View\StatusComponentAbstract::class],
+            RoleEnum::EDITOR => [AllowedActionEnum::GET => \Component\View\StatusComponentAbstract::class, AllowedActionEnum::POST => \Component\View\StatusComponentAbstract::class],
+            RoleEnum::EVERYONE => [AllowedActionEnum::GET => \Component\View\StatusComponentAbstract::class],
+            RoleEnum::ANONYMOUS => [AllowedActionEnum::GET => \Component\View\StatusComponentAbstract::class]
         ];
     }
 
+    protected function getNonPermittedContentView($authoredType='authored content', $viewPermission='') {
+        $view = $this->container->get(View::class);
+        $reflect = new \ReflectionClass($this);
+        $view->setData([Html::tag('div', ['style'=>'display: none;' ], $reflect->getShortName().": No permissions for $viewPermission $authoredType.")]);
+        $view->setRenderer(new ImplodeRenderer());
+        return $view;
+    }
 
 }

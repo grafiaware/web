@@ -8,7 +8,7 @@
 
 namespace Component\View\Manage;
 
-use Component\View\ComponentAbstract;
+use Component\View\StatusComponentAbstract;
 use Component\ViewModel\StatusViewModelInterface;
 use Pes\View\Template\PhpTemplate;
 
@@ -17,7 +17,7 @@ use Pes\View\Template\PhpTemplate;
  *
  * @author pes2704
  */
-class LoginLogoutComponent extends ComponentAbstract {
+class LoginLogoutComponent extends StatusComponentAbstract {
 
     /**
      * @var StatusViewModelInterface

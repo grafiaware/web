@@ -8,7 +8,7 @@
 
 namespace Component\View\Generated;
 
-use Component\View\ComponentAbstract;
+use Component\View\StatusComponentAbstract;
 use Component\ViewModel\Generated\ItemTypeSelectViewModel;
 use Component\Renderer\Html\Generated\ItemTypeRenderer;
 use Component\Renderer\Html\Generated\EmptyItemRenderer;
@@ -18,7 +18,7 @@ use Component\Renderer\Html\Generated\EmptyItemRenderer;
  *
  * @author pes2704
  */
-class ItemTypeSelectComponent extends ComponentAbstract {
+class ItemTypeSelectComponent extends StatusComponentAbstract {
 
     /**
      * @var ItemTypeSelectViewModel

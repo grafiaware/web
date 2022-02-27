@@ -8,7 +8,7 @@
 
 namespace Component\ViewModel\Flash;
 
-use Component\ViewModel\ViewModelAbstract;
+use Component\ViewModel\StatusViewModel;
 
 use Status\Model\Repository\StatusFlashRepo;
 
@@ -19,13 +19,7 @@ use Status\Model\Entity\StatusFlashInterface;
  *
  * @author pes2704
  */
-class FlashViewModel extends ViewModelAbstract implements FlashViewModelInterface {
-
-    private $statusFlashRepo;
-
-    public function __construct(StatusFlashRepo $statusFlashRepo) {
-        $this->statusFlashRepo = $statusFlashRepo;
-    }
+class FlashViewModel extends StatusViewModel implements FlashViewModelInterface {
 
     public function getIterator() {
         $this->appendData( [

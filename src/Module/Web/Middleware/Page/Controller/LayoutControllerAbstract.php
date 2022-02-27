@@ -28,7 +28,7 @@ use Component\View\Manage\RegisterComponent;
 use Component\View\Manage\LogoutComponent;
 use Component\View\Manage\UserActionComponent;
 use Component\View\Manage\StatusBoardComponent;
-use Component\View\Manage\ButtonEditMenuComponent;
+use Component\View\Manage\ToggleEditMenuComponent;
 use Component\View\Flash\FlashComponent;
 
 use Red\Model\Entity\MenuItemInterface;
@@ -189,7 +189,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
                 'modalUserAction' => $this->container->get(UserActionComponent::class),
                 'poznamky' => $this->container->get(StatusBoardComponent::class),
                 'flash' => $this->container->get(FlashComponent::class),
-                'controlEditMenu' => $this->container->get(ButtonEditMenuComponent::class),
+//                'controlEditMenu' => $this->container->get(ToggleEditMenuComponent::class),
 
                 'scriptsEditableMode' => $this->getScriptsEditableModeView($request),
                 ],

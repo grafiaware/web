@@ -17,6 +17,9 @@ use Red\Model\Repository\MenuItemRepoInterface;
 use Component\ViewModel\StatusViewModel;
 use Red\Model\Entity\ItemActionInterface;
 use Red\Model\Entity\MenuItemInterface;
+use Red\Model\Enum\AuthoredTypeEnum;
+
+use UnexpectedValueException;
 
 /**
  * Description of AuthoredViewModelAbstract
@@ -102,5 +105,31 @@ abstract class AuthoredViewModelAbstract extends StatusViewModel implements Auth
         $itemAction = $this->getItemAction();
         $loginAgg = $this->statusSecurityRepo->get()->getLoginAggregate();
         return isset($itemAction) AND isset($loginAgg) AND $itemAction->getEditorLoginName()==$loginAgg->getLoginName();
+    }
+
+    /**
+     * Vrací jméno, které musí být v rendereru použito jako id pro element, na kterém visí tiny editor.
+     * POZOR - id musí být unikátní - jinak selhává tiny selektor - a "nic není vidět"
+     *
+     * @return string
+     * @throws UnexpectedValueException
+     */
+    public function getTemplateContentPostVarName() {
+        $type = $this->getItemType();
+        // $templateContentPostVar použito jako id pro element, na které visí tiny - POZOR - id musí být unikátní - jinak selhává tiny selektor - a "nic není vidět"
+        switch ($type) {
+            case AuthoredTypeEnum::ARTICLE:
+                $templateContentPostVar = AuthoredControlerAbstract::ARTICLE_TEMPLATE_CONTENT.$authoredContentId;
+                break;
+            case AuthoredTypeEnum::PAPER:
+                $templateContentPostVar = AuthoredControlerAbstract::PAPER_TEMPLATE_CONTENT.$authoredContentId;
+                break;
+            case AuthoredTypeEnum::MULTIPAGE:
+                $templateContentPostVar = AuthoredControlerAbstract::MULTIPAGE_TEMPLATE_CONTENT.$authoredContentId;
+                break;
+            default:
+                throw new UnexpectedValueException("Neznámý typ item '$type'. Použijte příkaz 'Zpět' a nepoužívejte tento typ obsahu.");
+        }
+        return $templateContentPostVar;
     }
 }

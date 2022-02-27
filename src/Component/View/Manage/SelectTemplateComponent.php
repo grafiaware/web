@@ -21,7 +21,7 @@ class SelectTemplateComponent extends StatusComponentAbstract {
      * @return void
      */
     public function beforeRenderingHook(): void {
-        if($this->contextData->presentEditableContent() AND $this->isAllowed(AllowedViewEnum::EDIT)) {
+        if($this->isAllowed(AllowedViewEnum::EDIT)) {
             $this->setRendererName(SelectTemplateRenderer::class);
         } else {
             $this->setRendererName(NoPermittedContentRenderer::class);

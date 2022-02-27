@@ -16,22 +16,7 @@ class SelectTemplateRenderer extends HtmlRendererAbstract {
         /** @var AuthoredViewModelInterface $viewModel */
         $contentTemplateName = $viewModel->getAuthoredTemplateName();
         $authoredContentId = $viewModel->getAuthoredContentId();
-
-        $type = $viewModel->getItemType();
-        // $templateContentPostVar použito jako id pro element, na které visí tiny - POZOR - id musí být unikátní - jinak selhává tiny selektor - a "nic není vidět"
-        switch ($type) {
-            case AuthoredTypeEnum::ARTICLE:
-                $templateContentPostVar = AuthoredControlerAbstract::ARTICLE_TEMPLATE_CONTENT.$authoredContentId;
-                break;
-            case AuthoredTypeEnum::PAPER:
-                $templateContentPostVar = AuthoredControlerAbstract::PAPER_TEMPLATE_CONTENT.$authoredContentId;
-                break;
-            case AuthoredTypeEnum::MULTIPAGE:
-                $templateContentPostVar = AuthoredControlerAbstract::MULTIPAGE_TEMPLATE_CONTENT.$authoredContentId;
-                break;
-            default:
-                throw new UnexpectedValueException("Neznámý typ item '$type'. Použijte příkaz 'Zpět' a nepoužívejte tento typ obsahu.");
-        }
+        $templateContentPostVar = $viewModel->getTemplateContentPostVarName();
 
         return
             // id je parametr pro togleTemplateSelect(id) - voláno onclick na button 'Vybrat šablonu stránky'

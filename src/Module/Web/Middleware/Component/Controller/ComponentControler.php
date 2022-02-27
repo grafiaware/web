@@ -13,8 +13,13 @@ use FrontControler\FrontControlerAbstract;
 
 use Psr\Http\Message\ServerRequestInterface;
 
+// enum
+use Red\Model\Enum\AuthoredTypeEnum;
+use Access\Enum\AllowedViewEnum;
+//TODO: oprávnění pro routy
+use Access\Enum\AllowedActionEnum;
+
 // komponenty
-use Component\View\Flash\FlashComponent;
 use Component\View\Generated\ItemTypeSelectComponent;
 use Component\View\Authored\Paper\PaperComponent;
 use Component\View\Authored\Paper\PaperComponentEditable;
@@ -29,11 +34,6 @@ use Pes\View\Renderer\PhpTemplateRenderer;
 use Pes\View\Renderer\StringRenderer;
 use Pes\View\Renderer\ImplodeRenderer;
 ####################
-
-use Red\Model\Enum\AuthoredTypeEnum;
-
-use Red\Model\Repository\ItemActionRepo;
-use Red\Model\Repository\ItemActionRepoInterface;
 
 use Pes\Text\Message;
 use Pes\Text\Html;
@@ -73,14 +73,18 @@ class ComponentControler extends FrontControlerAbstract {
     }
 
     public function paper(ServerRequestInterface $request, $menuItemId) {
-        $userActions = $this->statusPresentationRepo->get()->getUserActions();
-//        $itemAction = $userActions->getUserItemAction(AuthoredTypeEnum::PAPER, $menuItemId);
-        if ($userActions->presentEditableContent()) {
+        if ($this->isItemInEditableMode(AuthoredTypeEnum::PAPER, $menuItemId)) {
             /** @var PaperComponentInterface $view */
             $view = $this->container->get(PaperComponentEditable::class);
+            if(!$view->isAllowed(AllowedViewEnum::EDIT)) {
+                $view = $this->getNonPermittedContentView(AllowedViewEnum::EDIT, AuthoredTypeEnum::PAPER);
+            }
         } else {
             /** @var PaperComponentInterface $view */
             $view = $this->container->get(PaperComponent::class);
+            if(!$view->isAllowed(AllowedViewEnum::DISPLAY)) {
+                $view = $this->getNonPermittedContentView(AllowedViewEnum::DISPLAY, AuthoredTypeEnum::PAPER);
+            }
         }
         $view->setItemId($menuItemId);
         return $this->createResponseFromView($request, $view);
@@ -108,6 +112,8 @@ class ComponentControler extends FrontControlerAbstract {
         return $this->createResponseFromView($request, $view);
     }
     ######################
+
+
 
     /**
      * Vrací view objekt pro zobrazení centrálního obsahu v prostoru pro "content"

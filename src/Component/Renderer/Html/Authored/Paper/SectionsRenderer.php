@@ -21,7 +21,7 @@ use Pes\Text\Html;
  *
  * @author pes2704
  */
-class ContentsRenderer extends HtmlRendererAbstract {
+class SectionsRenderer extends HtmlRendererAbstract {
     /**
      * Renderuje bloky s atributem id pro TinyMCE jméno proměnné ve formuláři
      *

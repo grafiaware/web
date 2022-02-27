@@ -1,18 +1,17 @@
 <?php
-
-namespace Component\ViewModel\Manage;
+namespace Component\ViewModel\Authored\Manage;
 
 use Pes\Type\ContextData;
 
 use Red\Model\Entity\ItemActionInterface;
-use Component\ViewModel\StatusViewModel;
+use Component\ViewModel\Authored\AuthoredViewModelAbstract;
 
 /**
  * Description of ToggleEditContentButtonViewModel
  *
  * @author pes2704
  */
-class ToggleEditContentButtonViewModel extends StatusViewModel implements ToggleEditContentButtonViewModelInterface {
+class ToggleEditContentButtonViewModel extends AuthoredViewModelAbstract implements ToggleEditContentButtonViewModelInterface {
 
     private $typeFk;
     private $itemId;

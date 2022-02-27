@@ -1,7 +1,6 @@
         <div id="mySidenav">
             <div class="close-item" onclick="hamburger_close()"><a href="javascript:void(0)"><i class="times circle outline large icon"></i>Zavřít</a></div>
-            <?= $controlEditMenu ?>
-            
+
             <nav class="svisle-menu bloky">
                 <?= $bloky ?? ''?>
             </nav>
@@ -11,7 +10,7 @@
             <nav class="svisle-menu kos">
                 <?= $kos ?? '' ?>
             </nav>
-            
+
             <?=
             $rychleOdkazy
             ?>

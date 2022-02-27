@@ -16,10 +16,10 @@ use Component\Renderer\Html\Authored\Paper\ElementEditableWrapper;
 use Component\Renderer\Html\Authored\Paper\Buttons;
 use Component\Renderer\Html\Authored\Paper\HeadlineRenderer;
 use Component\Renderer\Html\Authored\Paper\PerexRenderer;
-use Component\Renderer\Html\Authored\Paper\ContentsRenderer;
+use Component\Renderer\Html\Authored\Paper\SectionsRenderer;
 use Component\Renderer\Html\Authored\Paper\HeadlineRendererEditable;
 use Component\Renderer\Html\Authored\Paper\PerexRendererEditable;
-use Component\Renderer\Html\Authored\Paper\ContentsRendererEditable;
+use Component\Renderer\Html\Authored\Paper\SectionsRendererEditable;
 
 use Component\Renderer\Html\Authored\Article\ArticleRenderer;
 use Component\Renderer\Html\Authored\Article\ArticleRendererEditable;
@@ -100,8 +100,8 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
             PerexRenderer::class => function(ContainerInterface $c) {
                 return new PerexRenderer($c->get('authored.classmap'));
             },
-            ContentsRenderer::class => function(ContainerInterface $c) {
-                return new ContentsRenderer($c->get('authored.classmap'));
+            SectionsRenderer::class => function(ContainerInterface $c) {
+                return new SectionsRenderer($c->get('authored.classmap'));
             },
             HeadlineRendererEditable::class => function(ContainerInterface $c) {
                 return new HeadlineRendererEditable($c->get('authored.editable.classmap'));
@@ -109,8 +109,8 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
             PerexRendererEditable::class => function(ContainerInterface $c) {
                 return new PerexRendererEditable($c->get('authored.editable.classmap'));
             },
-            ContentsRendererEditable::class => function(ContainerInterface $c) {
-                return new ContentsRendererEditable($c->get('authored.editable.classmap'));
+            SectionsRendererEditable::class => function(ContainerInterface $c) {
+                return new SectionsRendererEditable($c->get('authored.editable.classmap'));
             },
         ###########################
         #  status renderer

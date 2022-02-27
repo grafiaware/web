@@ -28,4 +28,5 @@ class AuthoredTypeEnum extends Enum {
     const PAPER = 'paper';
     const ARTICLE =  'article';
     const MULTIPAGE = 'multipage';
+    const ITEM_TYPE_SELECT = 'item_type_select';
 }

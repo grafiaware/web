@@ -11,11 +11,22 @@ namespace Component\View\Authored;
 use Pes\View\Renderer\RendererInterface;
 use Pes\View\Template\PhpTemplate;
 
+use Red\Model\Enum\AuthoredTypeEnum;
+
 use Component\ViewModel\Authored\AuthoredViewModelInterface;
 
 use Component\View\Authored\AuthoredComponentAbstract;
 use Component\Renderer\Html\Authored\Paper\Buttons;
 use Component\Renderer\Html\Authored\Paper\ElementWrapper;
+
+use Pes\View\Template\ImplodeTemplate;
+
+use Component\Renderer\Html\Authored\Paper\HeadlineRenderer;
+use Component\Renderer\Html\Authored\Paper\PerexRenderer;
+use Component\Renderer\Html\Authored\Paper\SectionsRenderer;
+use Component\View\Authored\Paper\PaperComponent;  // pracovní verze TemplatedC pro paper
+use Pes\View\CompositeView;
+
 /**
  * Description of ArticleComponent
  *
@@ -46,26 +57,46 @@ class TemplatedComponent extends AuthoredComponentAbstract {
      * @throws ItemTemplateNotFoundException
      */
     public function beforeRenderingHook(): void {
-        $itemType = (string) $this- $this->contextData->getItemType();
+        $itemType = $this->contextData->getItemType();
         $templateName = $this->contextData->getAuthoredTemplateName();
-        try {
-            $templatesType = (new AuthoredTypeEnum())($itemType);
-        } catch (ValueNotInEnumException $exc) {
-            throw new InvalidItemTypeException("Nepřípustný typ item. Typ '$itemType' vrácený metodou getItemType() není přípustný.", 0, $exc);
-        }
+
         if (isset($templateName) AND $templateName) {
+            try {
+                $templatesType = (new AuthoredTypeEnum())($itemType);
+            } catch (ValueNotInEnumException $exc) {
+                throw new InvalidItemTypeException("Nepřípustný typ item. Typ '$itemType' vrácený metodou getItemType() není přípustný.", 0, $exc);
+            }
             try {
                 $templateFileName = $this->templateSeeker->seekTemplate($templatesType, $templateName);
             } catch (TemplateServiceExceptionInterface $exc) {
                 throw new ItemTemplateNotFoundException("Nenalezen soubor pro hodnoty vracené metodami ViewModel getItemTemplate(): '$templateName' a getItemType(): '$itemType'.", 0, $exc);
             }
-        }
-        try {
-            // konstruktor PhpTemplate vyhazuje výjimku NoTemplateFileException pro neexistující (nečitený) soubor s template
-            $template = new PhpTemplate($templateFileName);
-        } catch (NoTemplateFileException $noTemplExc) {
+            try {
+                // konstruktor PhpTemplate vyhazuje výjimku NoTemplateFileException pro neexistující (nečitený) soubor s template
+                $template = new PhpTemplate($templateFileName);
+            } catch (NoTemplateFileException $noTemplExc) {
+                $template = new ImplodeTemplate();
+            }
+        } else {
             $template = new ImplodeTemplate();
         }
-        $this->setTemplate();
+
+        $this->setTemplate($template);   //TODO: otestuj fallback template (user error)
+        /** @var CompositeView $view */
+        foreach ($this->componentViews as $view) {
+            switch ($this->componentViews->getInfo()) {
+                case PaperComponent::HEADLINE:
+                    $view->setRendererName(HeadlineRenderer::class);
+                    break;
+                case PaperComponent::PEREX:
+                    $view->setRendererName(PerexRenderer::class);
+                    break;
+                case PaperComponent::SECTIONS:
+                    $view->setRendererName(SectionsRenderer::class);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

@@ -39,4 +39,12 @@ interface AuthoredViewModelInterface extends StatusViewModelInterface {
     public function getItemAction(): ?ItemActionInterface;
     public function getMenuItem(): MenuItemInterface;
     public function userPerformActionWithItem(): bool;
+
+    /**
+     * Vrací jméno, které musí být v rendereru použito jako id pro element, na kterém visí tiny editor.
+     * POZOR - id musí být unikátní - jinak selhává tiny selektor - a "nic není vidět"
+     *
+     * @return string
+     */
+    public function getTemplateContentPostVarName();
 }

@@ -23,10 +23,10 @@ use Component\Renderer\Html\Authored\Paper\ButtonsRenderer;
 
 use Component\Renderer\Html\Authored\Paper\HeadlineRenderer;
 use Component\Renderer\Html\Authored\Paper\PerexRenderer;
-use Component\Renderer\Html\Authored\Paper\ContentsRenderer;
+use Component\Renderer\Html\Authored\Paper\SectionsRenderer;
 use Component\Renderer\Html\Authored\Paper\HeadlineRendererEditable;
 use Component\Renderer\Html\Authored\Paper\PerexRendererEditable;
-use Component\Renderer\Html\Authored\Paper\ContentsRendererEditable;
+use Component\Renderer\Html\Authored\Paper\SectionsRendererEditable;
 
 use Component\View\Manage\ToggleEditContentButtonComponent;
 
@@ -54,31 +54,31 @@ class PaperComponentEditable extends PaperComponent {
      *
      */
     public function beforeRenderingHook(): void {
-
-            $contentView = $this->createCompositeViewWithTemplate($template);
-
-            if($this->isAllowed(AllowedViewEnum::EDIT)) {
-                if ($this->userPerformActionWithItem()) {
-                    // editační režim - připojí views s editable renderery headline, perex, contents
-                    $this->setRendererName(PaperRendererEditable::class);
-                    $this->addChildEditableComponents($contentView);
-                } else {
-                    // needitační režim - připojí views s needitable renderery headline, perex, contents
-                    $this->setRendererName(PaperRenderer::class);
-                    $this->addChildComponents($contentView);
-                }
-                // připojí komponent - view s buttonem ToggleEditContentButtonComponent (tužtička)
-//                $buttonEditContentComponent = new ToggleEditContentButtonComponent($this->configuration);
-//                $buttonEditContentComponent->setData($this->contextData);
-//                $buttonEditContentComponent->setRendererContainer($this->rendererContainer);
-//                $this->appendComponentView($buttonEditContentComponent, parent::BUTTON_EDIT_CONTENT);
-
-            } else {
-                // needitační režim - připojí views s needitable renderery headline, perex, contents
-                $this->setRendererName(PaperRenderer::class);
-                $this->addChildComponents($contentView);
-            }
-            $this->appendComponentView($contentView, self::CONTENT);
+        $test;
+//            $contentView = $this->getComponentView(self::CONTENT);
+//
+//            if($this->isAllowed(AllowedViewEnum::EDIT)) {
+//                if ($this->userPerformActionWithItem()) {
+//                    // editační režim - připojí views s editable renderery headline, perex, contents
+//                    $this->setRendererName(PaperRendererEditable::class);
+//                    $this->addChildEditableComponents($contentView);
+//                } else {
+//                    // needitační režim - připojí views s needitable renderery headline, perex, contents
+//                    $this->setRendererName(PaperRenderer::class);
+//                    $this->addChildComponents($contentView);
+//                }
+//                // připojí komponent - view s buttonem ToggleEditContentButtonComponent (tužtička)
+////                $buttonEditContentComponent = new ToggleEditContentButtonComponent($this->configuration);
+////                $buttonEditContentComponent->setData($this->contextData);
+////                $buttonEditContentComponent->setRendererContainer($this->rendererContainer);
+////                $this->appendComponentView($buttonEditContentComponent, parent::BUTTON_EDIT_CONTENT);
+//
+//            } else {
+//                // needitační režim - připojí views s needitable renderery headline, perex, contents
+//                $this->setRendererName(PaperRenderer::class);
+//                $this->addChildComponents($contentView);
+//            }
+//            $this->appendComponentView($contentView, self::CONTENT);
     }
 
     public function __toString() {
@@ -89,14 +89,14 @@ class PaperComponentEditable extends PaperComponent {
         // renderery musí být definovány v Renderer kontejneru - tam mohou dostat classMap do konstruktoru
         $view->appendComponentView($this->createCompositeViewWithRenderer(HeadlineRendererEditable::class), self::HEADLINE);
         $view->appendComponentView($this->createCompositeViewWithRenderer(PerexRendererEditable::class), self::PEREX);
-        $view->appendComponentView($this->createCompositeViewWithRenderer(ContentsRendererEditable::class), self::SECTIONS);
+        $view->appendComponentView($this->createCompositeViewWithRenderer(SectionsRendererEditable::class), self::SECTIONS);
     }
 
     private function addChildComponents(CompositeViewInterface $view) {
         // renderery musí být definovány v Renderer kontejneru - tam mohou dostat classMap do konstruktoru
         $view->appendComponentView($this->createCompositeViewWithRenderer(HeadlineRenderer::class), self::HEADLINE);
         $view->appendComponentView($this->createCompositeViewWithRenderer(PerexRenderer::class), self::PEREX);
-        $view->appendComponentView($this->createCompositeViewWithRenderer(ContentsRenderer::class), self::SECTIONS);
+        $view->appendComponentView($this->createCompositeViewWithRenderer(SectionsRenderer::class), self::SECTIONS);
     }
 
     /**

@@ -28,7 +28,8 @@ abstract class StatusComponentAbstract extends ComponentAbstract implements Acce
      */
     protected $contextData;
 
-    public function __construct(ComponentConfigurationInterface $configuration) {
+    public function __construct(ComponentConfigurationInterface $configuration, StatusViewModelInterface $contextData) {
+        $this->contextData = $contextData;
         parent::__construct($configuration);
     }
 
@@ -77,7 +78,7 @@ abstract class StatusComponentAbstract extends ComponentAbstract implements Acce
             RoleEnum::SUP => [AllowedViewEnum::DISPLAY => \Component\View\StatusComponentAbstract::class, AllowedViewEnum::EDIT => \Component\View\StatusComponentAbstract::class],
             RoleEnum::EDITOR => [AllowedViewEnum::DISPLAY => \Component\View\StatusComponentAbstract::class, AllowedViewEnum::EDIT => \Component\View\StatusComponentAbstract::class],
             RoleEnum::EVERYONE => [AllowedViewEnum::DISPLAY => \Component\View\StatusComponentAbstract::class],
-            RoleEnum::ANONYMOUS => []
+            RoleEnum::ANONYMOUS => [AllowedViewEnum::DISPLAY => \Component\View\StatusComponentAbstract::class]
         ];
     }
 

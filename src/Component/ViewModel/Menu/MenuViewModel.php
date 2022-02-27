@@ -56,7 +56,8 @@ class MenuViewModel extends StatusViewModel implements MenuViewModelInterface {
     }
 
     /**
-     * Nstaví jméni bloku, jehož ko
+     * Nstaví jméno kořene menu
+     *
      * @param string $blockName
      * @return void
      */
@@ -119,9 +120,12 @@ class MenuViewModel extends StatusViewModel implements MenuViewModelInterface {
      */
     public function getSubTreeNodes() {
         // root uid z jména komponenty
+        if (!isset($this->menuRootName)) {
+            user_error("Název kořene menu nebyl zadán. Název kořenr menu je nutné zadat metodou setMenuRootName().", E_USER_WARNING);
+        }
         $menuRoot = $this->menuRootRepo->get($this->menuRootName);
         if (!isset($menuRoot)) {
-            user_error("Kořen menu se zadaným jménem komponety '$this->menuRootName' nebyl načten z tabulky kořenů menu.", E_USER_WARNING);
+            user_error("Kořen menu se zadaným jménem '$this->menuRootName' nebyl načten z tabulky kořenů menu.", E_USER_WARNING);
         }
         $rootUid = $menuRoot->getUidFk();
         // nodes
@@ -140,12 +144,4 @@ class MenuViewModel extends StatusViewModel implements MenuViewModelInterface {
         return $this->models;
     }
 
-
-    public function getIterator(): \Traversable {
-        return new \ArrayObject(
-                [
-                    'subTreeItemModels' => $this->getSubTreeNodes(),
-                ]
-                );
-    }
 }

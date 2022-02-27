@@ -16,7 +16,7 @@ use Pes\Type\Enum;
  * @author pes2704
  */
 class AllowedActionEnum extends Enum {
-    const DISPLAY = 'display';
-    const EDIT = 'edit';
+    const GET = 'get';
+    const POST = 'post';
 
 }

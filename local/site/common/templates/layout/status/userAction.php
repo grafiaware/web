@@ -22,10 +22,10 @@ use Red\Middleware\Redactor\Controler\UserActionControler;
                 Katalog kurzů
             </button>
             -->
-            <button class="fluid ui olive labeled icon button" type="submit" name="<?= UserActionControler::FORM_USER_ACTION_EDIT_MODE ?>" value="<?= empty($editMode) ? 1 : 0 ?>" formtarget="_self"
+            <button class="fluid ui olive labeled icon button" type="submit" name="<?= UserActionControler::FORM_USER_ACTION_EDIT_MODE ?>" value="<?= empty($editContent) ? 1 : 0 ?>" formtarget="_self"
                 formaction="red/v1/presentation/edit_mode">
                 <i class="pencil alternate large icon"></i>
-                <?= empty($editMode) ? "Zapnout inline editaci" : "Vypnout inline editaci" ?>
+                <?= empty($editContent) ? "Zapnout inline editaci" : "Vypnout inline editaci" ?>
             </button>
         </div>
     </div>

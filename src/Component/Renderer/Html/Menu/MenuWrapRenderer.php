@@ -1,7 +1,7 @@
 <?php
 namespace  Component\Renderer\Html\Menu;
 use Component\ViewModel\Menu\MenuViewModelInterface;
-
+use Component\View\Menu\MenuComponent;
 use Pes\Text\Html;
 
 /*
@@ -26,8 +26,9 @@ class MenuWrapRenderer extends MenuWrapRendererAbstract {
     public function render(iterable $viewModel=NULL) {
         /** @var MenuViewModelInterface $viewModel */
         $menuLevelHtml = $this->renderSubtreeItemModels($viewModel->getSubTreeItemViews());
-        return Html::tag('ul', ['class'=>$this->classMap->get('MenuWrap', 'ul')],
-            $menuLevelHtml
-        );
+        return
+            $viewModel->offsetGet(MenuComponent::TOGGLE_EDIT_MENU)
+            .Html::tag('ul', ['class'=>$this->classMap->get('MenuWrap', 'ul')],$menuLevelHtml)
+            ;
     }
 }
