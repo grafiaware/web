@@ -11,7 +11,7 @@ use Component\Renderer\Html\Authored\EmptyContentRenderer;
 
 use Component\View\Manage\ToggleEditContentButtonComponent;
 
-use Access\Enum\AllowedViewEnum;
+use Access\Enum\AccessPresentationEnum;
 
 /**
  * Description of ArticleComponent
@@ -35,7 +35,7 @@ class ArticleComponent extends AuthoredComponentAbstract implements ArticleCompo
      * Přetěžuje metodu View. Pokud je eneruje PHP template z názvu template a použije ji.
      */
     public function beforeRenderingHook(): void {
-        if($this->contextData->presentEditableContent() AND $this->isAllowed(AllowedViewEnum::EDIT)) {
+        if($this->contextData->presentEditableContent() AND $this->contextData->isAllowed($this->getComponentPermissions(), AccessPresentationEnum::EDIT)) {
 
             // zvolit šablonu lze jen dokud je article prázdný a nemá nastavenou šablonu
             // Dokud je article prázdný, zobrazuje se toolbar s volbou šablony (SelectArticleTemplateRenderer). Jedna ze šablon musí být prázdná šablona, nelze pokračovat bez zvolení šablony.

@@ -10,9 +10,10 @@ use Model\Entity\EntityInterface;
  */
 interface ItemActionInterface extends EntityInterface {
 
+    //TODO: CHYBÍ language code!
     public function getTypeFk(): string;
 
-    public function getItemId(): string;
+    public function getContentId(): string;
 
     public function getEditorLoginName(): string;
 
@@ -20,7 +21,7 @@ interface ItemActionInterface extends EntityInterface {
 
     public function setTypeFk($typeFk): ItemActionInterface;
 
-    public function setItemId($itemId): ItemActionInterface;
+    public function setContentId($itemId): ItemActionInterface;
 
     public function setEditorLoginName($editorLoginName): ItemActionInterface;
 

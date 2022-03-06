@@ -5,11 +5,8 @@ use ArrayObject;
 use Component\ViewModel\Authored\AuthoredViewModelAbstract;
 use Component\ViewModel\Authored\Multipage\MultipageViewModelInterface;
 
-use Status\Model\Repository\StatusSecurityRepo;
-use Status\Model\Repository\StatusPresentationRepo;
-use Status\Model\Repository\StatusFlashRepo;
+use Component\ViewModel\StatusViewModelInterface;
 
-use Red\Model\Repository\ItemActionRepo;
 use Red\Model\Repository\MenuItemRepoInterface;
 
 use Red\Model\Repository\MultipageRepo;
@@ -38,16 +35,12 @@ class MultipageViewModel extends AuthoredViewModelAbstract implements MultipageV
     private $hierarchyRepo;
 
     public function __construct(
-            StatusSecurityRepo $statusSecurityRepo,
-            StatusPresentationRepo $statusPresentationRepo,
-            StatusFlashRepo $statusFlashRepo,
-            ItemActionRepo $itemActionRepo,
+            StatusViewModelInterface $status,
             MenuItemRepoInterface $menuItemRepo,
-            TemplateSeekerInterface $templateSeeker,
             MultipageRepo $multipageRepo,
             HierarchyJoinMenuItemRepo $hierarchyRepo
             ) {
-        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo, $itemActionRepo, $menuItemRepo, $templateSeeker);
+        parent::__construct($status, $menuItemRepo);
         $this->multipageRepo = $multipageRepo;
         $this->hierarchyRepo = $hierarchyRepo;
     }
@@ -58,7 +51,7 @@ class MultipageViewModel extends AuthoredViewModelAbstract implements MultipageV
      *
      * @param type $menuItemType
      */
-    public function getItemType() {
+    public function getAuthoredContentType() {
         return AuthoredTypeEnum::MULTIPAGE;
     }
 
@@ -69,7 +62,7 @@ class MultipageViewModel extends AuthoredViewModelAbstract implements MultipageV
     public function getAuthoredContentId() {
         return $this->getMultipage()->getId();
     }
-    
+
     /**
      * {@inheritdoc}
      *
@@ -100,7 +93,7 @@ class MultipageViewModel extends AuthoredViewModelAbstract implements MultipageV
     }
 
     public function getIterator() {
-        $this->appendData(['multipage'=> $this->getMultipage(), 'isEditable'=> $this->presentEditableContent()]);
+        $this->appendData(['multipage'=> $this->getMultipage()]);
         return parent::getIterator();
     }
 

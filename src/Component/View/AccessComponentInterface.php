@@ -13,7 +13,7 @@ namespace Component\View;
  * @author pes2704
  */
 interface AccessComponentInterface {
-    public function isAllowed($action): bool;
+    public function isAllowedToPresent($action): bool;
     public function getComponentPermissions(): array;
 
 }

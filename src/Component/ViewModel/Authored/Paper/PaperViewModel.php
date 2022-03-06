@@ -13,16 +13,14 @@ use Red\Model\Entity\PaperInterface;
 
 use Component\ViewModel\Authored\AuthoredViewModelAbstract;
 
-use Status\Model\Repository\StatusSecurityRepo;
-use Status\Model\Repository\StatusPresentationRepo;
-use Status\Model\Repository\StatusFlashRepo;
-use Red\Model\Repository\ItemActionRepo;
+use Component\ViewModel\StatusViewModelInterface;
 use Red\Model\Repository\MenuItemRepoInterface;
 
 use Red\Model\Repository\PaperAggregateContentsRepo;
 
 use TemplateService\TemplateSeekerInterface;
 use Red\Model\Enum\AuthoredTypeEnum;
+
 /**
  * Description of PaperViewModelAnstract
  *
@@ -36,15 +34,11 @@ class PaperViewModel extends AuthoredViewModelAbstract implements PaperViewModel
     protected $paperAggregateRepo;
 
     public function __construct(
-            StatusSecurityRepo $statusSecurityRepo,
-            StatusPresentationRepo $statusPresentationRepo,
-            StatusFlashRepo $statusFlashRepo,
-            ItemActionRepo $itemActionRepo,
+            StatusViewModelInterface $status,
             MenuItemRepoInterface $menuItemRepo,
-            TemplateSeekerInterface $templateSeeker,
             PaperAggregateContentsRepo $paperAggregateRepo
             ) {
-        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo, $itemActionRepo, $menuItemRepo, $templateSeeker);
+        parent::__construct($status, $menuItemRepo);
         $this->paperAggregateRepo = $paperAggregateRepo;
     }
 
@@ -54,7 +48,7 @@ class PaperViewModel extends AuthoredViewModelAbstract implements PaperViewModel
      *
      * @param type $menuItemType
      */
-    public function getItemType() {
+    public function getAuthoredContentType() {
         return AuthoredTypeEnum::PAPER;
     }
 

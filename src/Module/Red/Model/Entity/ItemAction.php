@@ -31,7 +31,7 @@ class ItemAction extends EntityAbstract implements ItemActionInterface {
         return $this->typeFk;
     }
 
-    public function getItemId(): string {
+    public function getContentId(): string {
         return $this->itemId;
     }
 
@@ -48,7 +48,7 @@ class ItemAction extends EntityAbstract implements ItemActionInterface {
         return $this;
     }
 
-    public function setItemId($itemId): ItemActionInterface {
+    public function setContentId($itemId): ItemActionInterface {
         $this->itemId = $itemId;
         return $this;
     }

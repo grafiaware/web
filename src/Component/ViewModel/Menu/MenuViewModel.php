@@ -1,16 +1,14 @@
 <?php
 namespace Component\ViewModel\Menu;
 
+use Component\ViewModel\ViewModelAbstract;
 use Component\ViewModel\StatusViewModel;
+
+use Red\Model\Entity\MenuItemInterface;
 
 use Red\Model\Entity\HierarchyAggregate;
 use Red\Model\Entity\HierarchyAggregateInterface;
 use Red\Model\Entity\MenuRootInterface;
-
-use Status\Model\Repository\StatusSecurityRepo;
-use Status\Model\Repository\StatusPresentationRepo;
-use Status\Model\Repository\StatusFlashRepo;
-use Red\Model\Repository\ItemActionRepo;
 
 use Red\Model\Repository\HierarchyJoinMenuItemRepo;
 use Red\Model\Repository\MenuRootRepo;
@@ -23,40 +21,44 @@ use Component\ViewModel\Menu\Item\ItemViewModelInterface;
  *
  * @author pes2704
  */
-class MenuViewModel extends StatusViewModel implements MenuViewModelInterface {
+class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface {
 
+    private $status;
     private $menuRootRepo;
     private $hierarchyRepo;
     private $presentedMenuNode;
+    //TODO: stavové proměnné menu - kvůli nim musí být MenuViewModel vyráběn v kontejneru pomocí factory
     private $menuRootName;
     private $maxDepth;
+    private $withRootItem;
 
-    private $models;
-
+    private $models = [];
+    private $itemViews = [];
 
     public function __construct(
-            StatusSecurityRepo $statusSecurityRepo,
-            StatusPresentationRepo $statusPresentationRepo,
-            StatusFlashRepo $statusFlashRepo,
-            ItemActionRepo $itemActionRepo,
+            StatusViewModel $status,
             HierarchyJoinMenuItemRepo $hierarchyRepo,
             MenuRootRepo $menuRootRepo
             ) {
-        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo, $itemActionRepo);
+        $this->status = $status;
         $this->hierarchyRepo = $hierarchyRepo;
         $this->menuRootRepo = $menuRootRepo;
+    }
+
+    public function presentEditableMenu(): bool {
+        return $this->status->presentEditableMenu();
     }
 
     /**
      *
      * @return bool
      */
-    public function presentOnlyPublished() {
-        return ! $this->presentEditableContent();  //negace
+    public function presentOnlyPublished(): bool {
+        return ! $this->status->presentEditableContent();  //negace
     }
 
     /**
-     * Nstaví jméno kořene menu
+     * Nastaví jméno kořene menu
      *
      * @param string $blockName
      * @return void
@@ -75,16 +77,25 @@ class MenuViewModel extends StatusViewModel implements MenuViewModelInterface {
     }
 
     /**
+     * {@inheritDoc}
+     *
+     * @param type $withRootItem
+     * @return void
+     */
+    public function withRootItem($withRootItem = false): void {
+        $this->withRootItem = $withRootItem;
+    }
+
+    /**
      * {@inheritdoc}
      *
      * @return HierarchyAggregateInterface|null
      */
-    public function getPresentedMenuNode(HierarchyAggregateInterface $rootNode): ?HierarchyAggregateInterface { // jen mezi left a rifht - uprav
+    public function getPresentedMenuNode(HierarchyAggregateInterface $rootNode): ?HierarchyAggregateInterface {
         if(!isset($this->presentedMenuNode)) {
-            $presentationStatus = $this->statusPresentationRepo->get();
-            $presentedMenuItem = $presentationStatus->getMenuItem();
-            if ($presentedMenuItem) {
-                $presented = $this->getMenuNode($presentedMenuItem->getUidFk());
+            $presentedMenuItem = $this->status->getPresentedMenuItem();
+            if (isset($presentedMenuItem)) {
+                $presented = $this->getMenuNode($presentedMenuItem);
                 if ($presented->getLeftNode() >= $rootNode->getLeftNode() AND $presented->getLeftNode() < $rootNode->getRightNode()) {
                     $this->presentedMenuNode = $presented;
                 }
@@ -94,25 +105,18 @@ class MenuViewModel extends StatusViewModel implements MenuViewModelInterface {
     }
 
     /**
+     * Vrací položku hierarchie (menu node) pro zadaný menu item a prezentovaný jazyk.
      *
-     * @param string $menuRootName
-     * @return MenuRootInterface
+     * @param MenuItemInterface $menuItem
+     * @return HierarchyAggregateInterface|null
      */
-//    public function getMenuRoot($menuRootName) {
-//        return $this->menuRootRepo->get($menuRootName);
-//    }
-
-    /**
-     * Vrací položku menu se zadaným uid a v presentovaném jazyce.
-     *
-     * @param string $nodeUid
-     * @return HierarchyAggregateInterface
-     */
-    public function getMenuNode($nodeUid): ?HierarchyAggregateInterface {
-        $presentationStatus = $this->statusPresentationRepo->get();
-        return $this->hierarchyRepo->get($presentationStatus->getLanguage()->getLangCode(), $nodeUid);
+    private function getMenuNode(MenuItemInterface $menuItem): ?HierarchyAggregateInterface {
+        return $this->hierarchyRepo->get($this->presentedLanguageLangCode(), $menuItem->getUidFk());
     }
 
+    private function presentedLanguageLangCode() {
+        return $this->status->getPresentedLanguage()->getLangCode();
+    }
     /**
      * Původní metoda getSubtreeItemModel pro Menu Display Controller. Načte podstrom uzlů menu, potomkků
      *
@@ -127,21 +131,82 @@ class MenuViewModel extends StatusViewModel implements MenuViewModelInterface {
         if (!isset($menuRoot)) {
             user_error("Kořen menu se zadaným jménem '$this->menuRootName' nebyl načten z tabulky kořenů menu.", E_USER_WARNING);
         }
-        $rootUid = $menuRoot->getUidFk();
         // nodes
-        $presentationStatus = $this->statusPresentationRepo->get();
-        $langCode = $presentationStatus->getLanguage()->getLangCode();
-        $nodes = $this->hierarchyRepo->getSubTree($langCode, $rootUid, $this->maxDepth);
+        $nodes = $this->hierarchyRepo->getSubTree($this->presentedLanguageLangCode(), $menuRoot->getUidFk(), $this->maxDepth);
 
         return $nodes ?? [];
     }
 
-    public function setSubtreeItemViews($models) {
-        $this->models = $models;
-    }
-
-    public function getSubTreeItemViews() {
+    /**
+     * Cache
+     * Asociativní pole depth=>ItemViewModel pro generování ul, li struktury v rendereru.
+     *
+     * @return array
+     */
+    public function getItemModels(): array {
+        if (! $this->models) {   //prázdné pole
+            $this->models = $this->prepareItemModels();
+        }
         return $this->models;
     }
 
+    /**
+     * Pole ItemViewModel pro generování ul, li struktury v rendereru
+     * @return array
+     */
+    private function prepareItemModels() {
+//            $nodes, $presentedNode=null) {
+        $nodes = $this->getSubTreeNodes();
+        $rootNode = reset($nodes);
+            // remove root
+//        since PHP 7.3 the first value of $array may be accessed with $array[array_key_first($array)];
+        if (!$this->withRootItem) {
+            $removed = array_shift($nodes);   //odstraní první prvek s indexem [0] a výsledné pole opět začína prvkem s indexem [0]
+        }
+        $presentedNode = $this->getPresentedMenuNode($rootNode);
+        if (isset($presentedNode)) {
+            $presentedUid = $presentedNode->getUid();
+            $presentedItemLeftNode = $presentedNode->getLeftNode();
+            $presentedItemRightNode = $presentedNode->getRightNode();
+        }
+
+        // command
+        $pasteUid = $this->status->getFlashPostCommand('cut');
+        $pasteMode = $pasteUid ? true : false;
+
+        //editable menu
+        $menuEditable = $this->status->presentEditableMenu();
+
+//        since PHP 7.3 the first value of $array may be accessed with $array[array_key_first($array)];
+        $rootDepth = reset($nodes)->getDepth();  //jako side efekt resetuje pointer
+        $models = [];
+        foreach ($nodes as $key => $node) {
+            /** @var HierarchyAggregateInterface $node */
+            $realDepth = $node->getDepth() - $rootDepth + 1;  // první úroveň má realDepth=1
+            $isOnPath = isset($presentedNode) ? ($presentedItemLeftNode >= $node->getLeftNode()) && ($presentedItemRightNode <= $node->getRightNode()) : FALSE;
+            $isLeaf = (
+                        (($node->getRightNode() - $node->getLeftNode()) == 1)   //žádný potomek
+                        OR
+                        (!array_key_exists($key+1, $nodes))  // žádný aktivní (zobrazený) potomek - je poslední v poli $nodes
+                        OR
+                        ($nodes[$key+1]->getDepth() <= $node->getDepth())  // žádný aktivní (zobrazený) potomek - další prvek $nodes nemá větší hloubku
+                    );
+            $nodeUid = $node->getUid();
+            $isPresented = isset($presentedUid) ? ($presentedUid == $nodeUid) : FALSE;
+            $isCutted = $pasteUid == $nodeUid;
+
+            $itemViewModel = new ItemViewModel($node, $realDepth, $isOnPath, $isLeaf, $isPresented, $pasteMode, $isCutted, $menuEditable);
+
+            $models[] = $itemViewModel;
+        }
+        return $models;
+    }
+
+    public function setSubTreeItemViews($itemViews) {
+        $this->itemViews = $itemViews;
+    }
+
+    public function getSubTreeItemViews() {
+        return $this->itemViews;
+    }
 }

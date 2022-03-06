@@ -5,12 +5,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/PHPInterface.php to edit this template
  */
 
-namespace Component\ViewModel\Generated;
+namespace Component\ViewModel;
+
+use Red\Model\Entity\MenuItemInterface;
 
 /**
  *
  * @author pes2704
  */
-interface SearchPhraseViewModelInterface {
-    //put your code here
+interface MenuItemViewModelInterface {
+
+    public function setMenuItemId($menuItemId);
+    public function getMenuItem(): MenuItemInterface;
 }

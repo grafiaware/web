@@ -34,11 +34,11 @@ class ItemActionRepo extends RepoAbstract implements ItemActionRepoInterface {
     /**
      *
      * @param type $typeFk
-     * @param type $itemId
+     * @param type $contentId
      * @return ItemActionInterface|null
      */
-    public function get($typeFk, $itemId): ?ItemActionInterface {
-        return $this->getEntity($typeFk, $itemId);
+    public function get($typeFk, $contentId): ?ItemActionInterface {
+        return $this->getEntity($typeFk, $contentId);
     }
 
     /**
@@ -66,7 +66,7 @@ class ItemActionRepo extends RepoAbstract implements ItemActionRepoInterface {
 
     }
     protected function indexFromEntity(ItemActionInterface $itemAction) {
-        return $itemAction->getTypeFk().$itemAction->getItemId();
+        return $itemAction->getTypeFk().$itemAction->getContentId();
     }
 
     protected function indexFromRow($row) {

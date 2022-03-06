@@ -15,7 +15,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 // enum
 use Red\Model\Enum\AuthoredTypeEnum;
-use Access\Enum\AllowedViewEnum;
+use Access\Enum\AccessPresentationEnum;
 //TODO: oprávnění pro routy
 use Access\Enum\AllowedActionEnum;
 
@@ -76,17 +76,17 @@ class ComponentControler extends FrontControlerAbstract {
         if ($this->isItemInEditableMode(AuthoredTypeEnum::PAPER, $menuItemId)) {
             /** @var PaperComponentInterface $view */
             $view = $this->container->get(PaperComponentEditable::class);
-            if(!$view->isAllowed(AllowedViewEnum::EDIT)) {
-                $view = $this->getNonPermittedContentView(AllowedViewEnum::EDIT, AuthoredTypeEnum::PAPER);
-            }
+            $allowed = AccessPresentationEnum::EDIT;
         } else {
             /** @var PaperComponentInterface $view */
             $view = $this->container->get(PaperComponent::class);
-            if(!$view->isAllowed(AllowedViewEnum::DISPLAY)) {
-                $view = $this->getNonPermittedContentView(AllowedViewEnum::DISPLAY, AuthoredTypeEnum::PAPER);
-            }
+            $allowed = AccessPresentationEnum::DISPLAY;
         }
-        $view->setItemId($menuItemId);
+        if($view->isAllowedToPresent($allowed)) {
+            $view->setItemId($menuItemId);
+        } else {
+            $view = $this->getNonPermittedContentView($allowed, AuthoredTypeEnum::PAPER);
+        }
         return $this->createResponseFromView($request, $view);
     }
 

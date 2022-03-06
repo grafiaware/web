@@ -13,7 +13,7 @@ use Component\Renderer\Html\NoPermittedContentRenderer;
 use Pes\View\Template\PhpTemplate;
 
 use Access\Enum\RoleEnum;
-use Access\Enum\AllowedViewEnum;
+use Access\Enum\AccessPresentationEnum;
 
 /**
  * Description of ControlEditMenu
@@ -25,7 +25,7 @@ class ToggleEditMenuComponent  extends StatusComponentAbstract {
     //renderuje template nebo NonPermittedContentRenderer
 
     public function beforeRenderingHook(): void {
-        if($this->isAllowed(AllowedViewEnum::DISPLAY)) {
+        if($this->isAllowedToPresent(AccessPresentationEnum::DISPLAY)) {
             $this->setTemplate(new PhpTemplate($this->configuration->getTemplateControlEditMenu()));
         } else {
             $this->setRendererName(NoPermittedContentRenderer::class);
@@ -34,7 +34,7 @@ class ToggleEditMenuComponent  extends StatusComponentAbstract {
 
     public function getComponentPermissions(): array {
         return [
-            RoleEnum::SUP => [AllowedViewEnum::DISPLAY => \Component\View\StatusComponentAbstract::class],
+            RoleEnum::SUP => [AccessPresentationEnum::DISPLAY => \Component\View\StatusComponentAbstract::class],
 //            RoleEnum::EDITOR => [AllowedViewEnum::DISPLAY => \Component\View\StatusComponentAbstract::class],
         ];
     }

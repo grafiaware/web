@@ -17,7 +17,7 @@ use Red\Model\Entity\ItemActionInterface;
  * @author pes2704
  */
 interface ItemActionRepoInterface extends RepoInterface {
-    public function get($typeFk, $itemId): ?ItemActionInterface;
+    public function get($typeFk, $contentId): ?ItemActionInterface;
 
     /**
      *

@@ -160,6 +160,23 @@ class ConfigurationRed extends ConfigurationDb {
             'home_page' => ['block', 'home'],
 //           'home_page' => ['item', '5fad34398df10'],  // přednášky - pro test
 
+            'templates.poznamky' => self::RED_TEMPLATES_COMMON.'layout/info/poznamky.php',
+            'templates.loaderElement' => self::RED_TEMPLATES_COMMON.'layout/component-load/loaderElement.php',
+            'templates.loaderElementEditable' => self::RED_TEMPLATES_COMMON.'layout/component-load/loaderElementEditable.php',
+            'layout_blocks' => [
+                    'rychleOdkazy' => 'a3',
+                    'nejblizsiAkce' => 'a2',
+                    'aktuality' => 'a1',
+                    'razitko' => 'a4',
+                    'socialniSite' => 'a5',
+                    'mapa' => 'a6',
+                    'logo' => 'a7',
+                    'banner' => 'a8',
+                ]
+            ];
+    }
+
+    public static function menu() {
             // menu
             // - je nutné definovat hodnoty 'menu', 'blocks' a 'trash';
             // - položka 'menu' je pole polí s parametry jednotlivých menu na stránce viditelných i v needitačním modu prezentace
@@ -169,17 +186,12 @@ class ConfigurationRed extends ConfigurationDb {
             //      'service_name' => jméno služby component kontejneru,
             //      'root_name' => jméno kořene menu v db tabulce root_name,
             //      'with_title' => bool hodnota - true - zobrazuje se i obsah kořenového prvku menu,
+        return [
             'menu' => [
                         ['context_name' => 'menuSvisle', 'service_name' => 'menu.svisle', 'root_name' => 'menu_vertical', 'with_title' => true],
                     ],
-            'blocks' =>  ['context_name' => 'bloky', 'service_name' => 'menu.bloky', 'root_name' => 'blocks', 'with_title' => true],
+            'blocks' => ['context_name' => 'bloky', 'service_name' => 'menu.bloky', 'root_name' => 'blocks', 'with_title' => true],
             'trash' => ['context_name' => 'kos', 'service_name' => 'menu.kos', 'root_name' => 'trash', 'with_title' => true],
-
-            'templates.poznamky' => self::RED_TEMPLATES_COMMON.'layout/info/poznamky.php',
-            'templates.loaderElement' => self::RED_TEMPLATES_COMMON.'layout/component-load/loaderElement.php',
-            'templates.loaderElementEditable' => self::RED_TEMPLATES_COMMON.'layout/component-load/loaderElementEditable.php',
-            'layout_blocks' => [
-                ]
             ];
     }
 

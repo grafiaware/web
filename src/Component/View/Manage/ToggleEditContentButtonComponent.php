@@ -3,17 +3,28 @@ namespace Component\View\Manage;
 
 use Component\View\StatusComponentAbstract;
 use Component\Renderer\Html\NoPermittedContentRenderer;
-use Component\Renderer\Html\Manage\ToggleEditContentButtomRenderer;
-//use Pes\View\Template\PhpTemplate;
+use Component\Renderer\Html\Manage\ToggleEditContentButtonRenderer;
 
-use Access\Enum\AllowedViewEnum;
+use Access\Enum\AccessPresentationEnum;
+
+use Pes\View\ViewInterface;
+use Pes\View\InheritDataViewInterface;
 
 /**
  * Description of ToggleEditButton
  *
  * @author pes2704
  */
-class ToggleEditContentButtonComponent extends StatusComponentAbstract {
+class ToggleEditContentButtonComponent extends StatusComponentAbstract implements InheritDataViewInterface {
+
+    /**
+     *
+     * @param iterable $data
+     * @return ViewInterface
+     */
+    public function inheritData(iterable $data): ViewInterface {
+        return $this->setData($data);
+    }
 
     /**
      * Pro oprávnění 'edit' renderuje ButtonEditContentRenderer jinak NonPermittedContentRenderer.
@@ -21,8 +32,8 @@ class ToggleEditContentButtonComponent extends StatusComponentAbstract {
      * @return void
      */
     public function beforeRenderingHook(): void {
-        if($this->contextData->presentEditableContent() AND $this->isAllowed(AllowedViewEnum::EDIT)) {
-            $this->setRendererName(ToggleEditContentButtomRenderer::class);
+        if($this->isAllowedToPresent(AccessPresentationEnum::EDIT)) {
+            $this->setRendererName(ToggleEditContentButtonRenderer::class);
         } else {
             $this->setRendererName(NoPermittedContentRenderer::class);
         }

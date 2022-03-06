@@ -6,7 +6,7 @@ use Component\Renderer\Html\NoPermittedContentRenderer;
 use Component\Renderer\Html\Manage\SelectTemplateRenderer;
 //use Pes\View\Template\PhpTemplate;
 
-use Access\Enum\AllowedViewEnum;
+use Access\Enum\AccessPresentationEnum;
 
 /**
  * Description of ToggleEditButton
@@ -21,7 +21,7 @@ class SelectTemplateComponent extends StatusComponentAbstract {
      * @return void
      */
     public function beforeRenderingHook(): void {
-        if($this->isAllowed(AllowedViewEnum::EDIT)) {
+        if($this->isAllowed(AccessPresentationEnum::EDIT)) {
             $this->setRendererName(SelectTemplateRenderer::class);
         } else {
             $this->setRendererName(NoPermittedContentRenderer::class);

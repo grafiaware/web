@@ -158,23 +158,6 @@ class ConfigurationRed extends ConfigurationDb {
             'home_page' => ['block', 'home'],
 //           'home_page' => ['item', '5fad34398df10'],  // přednášky - pro test
 
-            // menu
-            // - je nutné definovat hodnoty 'menu', 'blocks' a 'trash';
-            // - položka 'menu' je pole polí s parametry jednotlivých menu na stránce viditelných i v needitačním modu prezentace
-            // - položky 'blocks' a 'trash' jsou jednorozměrná pole s parametry menu bloků layoutu a menu koše, tato menu jsou viditelná jen v editačním řežimu
-            // parametry menu jsou:
-            //      'context_name' => jméno proměnné v šabloně (bez znaku $),
-            //      'service_name' => jméno služby component kontejneru,
-            //      'root_name' => jméno kořene menu v db tabulce root_name,
-            //      'with_title' => bool hodnota - true - zobrazuje se i obsah kořenového prvku menu,
-            'menu' => [
-                ['context_name' => 'menuPresmerovani', 'service_name' => 'menu.presmerovani', 'root_name' => 'menu_redirect', 'with_title' => false],
-                ['context_name' => 'menuVodorovne', 'service_name' => 'menu.vodorovne', 'root_name' => 'menu_horizontal', 'with_title' => false],
-                ['context_name' => 'menuSvisle', 'service_name' => 'menu.svisle', 'root_name' => 'menu_vertical', 'with_title' => false],
-            ],
-            'blocks' =>  ['context_name' => 'bloky', 'service_name' => 'menu.bloky', 'root_name' => 'blocks', 'with_title' => true],
-            'trash' => ['context_name' => 'kos', 'service_name' => 'menu.kos', 'root_name' => 'trash', 'with_title' => true],
-
             'templates.poznamky' => self::RED_TEMPLATES_COMMON.'layout/info/poznamky.php',
             'templates.loaderElement' => self::RED_TEMPLATES_COMMON.'layout/component-load/loaderElement.php',
             'templates.loaderElementEditable' => self::RED_TEMPLATES_COMMON.'layout/component-load/loaderElementEditable.php',
@@ -188,6 +171,33 @@ class ConfigurationRed extends ConfigurationDb {
                     'logo' => 'a7',
                     'banner' => 'a8',
                 ]
+            ];
+    }
+    public static function menu() {
+            // menu
+            // - je nutné definovat hodnoty 'menu', 'blocks' a 'trash';
+            // - položka 'menu' je pole polí s parametry jednotlivých menu na stránce viditelných i v needitačním modu prezentace
+            // - položky 'blocks' a 'trash' jsou jednorozměrná pole s parametry menu bloků layoutu a menu koše, tato menu jsou viditelná jen v editačním řežimu
+            // parametry menu jsou:
+            //      'context_name' => jméno proměnné v šabloně (bez znaku $),
+            //      'service_name' => jméno služby component kontejneru,
+            //      'root_name' => jméno kořene menu v db tabulce root_name,
+            //      'with_rootItem' => bool hodnota - true - zobrazuje se i obsah kořenového prvku menu,
+        return [
+            'menu.componentsServices' => [
+                    'menu.presmerovani' => ['root_name' => 'menu_redirect', 'with_rootItem' => false, 'menuwraprenderer' => 'menu.presmerovani.menuwraprenderer', 'levelwraprenderer' => 'menu.presmerovani.levelwraprenderer'],
+                    'menu.vodorovne' => ['root_name' => 'menu_horizontal', 'with_rootItem' => false, 'menuwraprenderer' => 'menu.vodorovne.menuwraprenderer', 'levelwraprenderer' => 'menu.vodorovne.levelwraprenderer'],
+                    'menu.svisle' => ['root_name' => 'menu_vertical', 'with_rootItem' => false, 'menuwraprenderer' => 'menu.svisle.menuwraprenderer', 'levelwraprenderer' => 'menu.svisle.levelwraprenderer'],
+                    'menu.bloky' => ['root_name' => 'blocks', 'with_rootItem' => true, 'menuwraprenderer' => 'menu.bloky.menuwraprenderer', 'levelwraprenderer' => 'menu.bloky.levelwraprenderer'],
+                    'menu.kos' => ['root_name' => 'trash', 'with_rootItem' => true, 'menuwraprenderer' => 'menu.kos.menuwraprenderer', 'levelwraprenderer' => 'menu.kos.levelwraprenderer'],
+                ],
+            'menu.contextServiceMap' => [
+                    'menuPresmerovani' => 'menu.presmerovani',
+                    'menuVodorovne' => 'menu.vodorovne',
+                    'menuSvisle' => 'menu.svisle',
+                    'bloky' => 'menu.bloky',
+                    'kos' => 'menu.kos',
+                ],
             ];
     }
 

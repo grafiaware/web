@@ -19,7 +19,7 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract {
 
     protected function renderRibbon(AuthoredViewModelInterface $viewModel) {
         $menuItem = $viewModel->getMenuItem();
-        $type = $viewModel->getItemType();  // spoléhám na to, že návratová hodnota je hodnota z AuthoredTypeEnum
+        $type = $viewModel->getAuthoredContentType();  // spoléhám na to, že návratová hodnota je hodnota z AuthoredTypeEnum
 
         //TODO: barvy do css - KŠ
         $class = $this->classMap->get('Buttons', 'div.ribbon-article');
@@ -56,7 +56,7 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract {
         $menuItem = $viewModel->getMenuItem();
         $uid = $menuItem->getUidFk();
         $active = $menuItem->getActive();
-        $type = $viewModel->getItemType();
+        $type = $viewModel->getAuthoredContentType();
 
         $buttons = [];
         $buttons[] = Html::tag('button',
@@ -85,7 +85,7 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract {
     }
 
     protected function getTemplateSelectId(AuthoredViewModelInterface $viewModel) {
-        $type = $viewModel->getItemType();
+        $type = $viewModel->getAuthoredContentType();
         $contentId = $viewModel->getAuthoredContentId(); 
         return "select_template_{$type}_{$contentId}";
     }

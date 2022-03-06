@@ -8,45 +8,28 @@
 
 namespace Component\ViewModel\Flash;
 
-use Component\ViewModel\StatusViewModel;
+use Component\ViewModel\ViewModelAbstract;
+use Component\ViewModel\StatusViewModelInterface;
 
-use Status\Model\Repository\StatusFlashRepo;
-
-use Status\Model\Entity\StatusFlashInterface;
 
 /**
  * Description of FlashVieModel
  *
  * @author pes2704
  */
-class FlashViewModel extends StatusViewModel implements FlashViewModelInterface {
+class FlashViewModel extends ViewModelAbstract implements FlashViewModelInterface {
+
+    private $status;
+
+    public function __construct(StatusViewModelInterface $status) {
+        $this->status = $status;
+    }
 
     public function getIterator() {
         $this->appendData( [
-                    'flashMessages' => $this->getFlashMessages(),
-                    'postCommand' => $this->getPostCommand()
+                    'flashMessages' => $this->status->getFlashMessages(),
                 ]
             );
         return parent::getIterator();
-    }
-
-    private function getFlashMessages() {
-        $statusFlash = $this->statusFlashRepo->get();
-        return $statusFlash ? $statusFlash->getMessages() : '';
-    }
-
-    private function getPostCommand() {
-        $statusFlash = $this->statusFlashRepo->get();
-        return $statusFlash ? $this->formatCommad($statusFlash->getPostCommand()) : '';
-    }
-
-    private function formatCommad($command) {
-        $msg = '';
-        if (isset($command)) {
-            foreach ($command as $key => $value) {
-                $msg .=$key." => ".$value.PHP_EOL;
-            }
-        }
-        return $msg;
     }
 }

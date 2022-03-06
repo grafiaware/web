@@ -289,29 +289,11 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
         $userActions = $this->statusPresentationRepo->get()->getUserActions();
 
         $components = [];
-        foreach (Configuration::layoutController()['menu'] as $menuConf) {
-            $this->configMenuComponent($menuConf, $components);
-        }
-        if ($userActions->presentEditableMenu()) {
-            $this->configMenuComponent(Configuration::layoutController()['blocks'], $components);
-            $this->configMenuComponent(Configuration::layoutController()['trash'], $components);
-
+        foreach (Configuration::menu()['menu.contextServiceMap'] as $contextName => $serviceName) {
+            $components[$contextName] = $this->container->get($serviceName);
         }
         return $components;
     }
-
-    /**
-     * Přidá do pole předaných menu komponent další menu komponent, který nastaví podle položky konfigurace.
-     *
-     * @param array $menuConf Položka parametrů pro nastavení menu z konfigurace
-     * @param View[] $componets Referencí předávané pole menu komponent.
-     */
-    private function configMenuComponent($menuConf, &$componets): void {
-                $componets[$menuConf['context_name']] = $this->container->get($menuConf['service_name'])
-                        ->setMenuRootName($menuConf['root_name'])
-                        ->withTitleItem($menuConf['with_title']);
-    }
-
 #
 #### view s js a css pro editační mód #####################################################
 #

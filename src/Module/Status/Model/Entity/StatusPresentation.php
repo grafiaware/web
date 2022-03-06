@@ -50,6 +50,28 @@ class StatusPresentation extends EntityAbstract implements StatusPresentationInt
      */
     private $userActions;
 
+    ### resource path
+
+    /**
+     *
+     * @return string
+     */
+    public function getLastGetResourcePath() {
+        return $this->lastResourcePath;
+    }
+
+    /**
+     *
+     * @param type $lastResourcePath
+     * @return $this
+     */
+    public function setLastGetResourcePath($lastResourcePath): StatusPresentationInterface {
+        $this->lastResourcePath = $lastResourcePath;
+        return $this;
+    }
+
+    ## language
+
     /**
      *
      * @return LanguageInterface|null
@@ -64,46 +86,6 @@ class StatusPresentation extends EntityAbstract implements StatusPresentationInt
      */
     public function getRequestedLangCode() {
         return $this->requestedLangCode;
-    }
-
-    /**
-     *
-     * @return MenuItemInterface|null
-     */
-    public function getMenuItem(): ?MenuItemInterface {
-        return $this->menuItem;
-    }
-
-    /**
-     *
-     * @return string
-     */
-    public function getLastGetResourcePath() {
-        return $this->lastResourcePath;
-    }
-
-    /**
-     *
-     * @return string
-     */
-    public function getLastTemplateName() {
-        return $this->lastTemplateName;
-    }
-
-    /**
-     *
-     * @return array ItemActionInterface array of
-     */
-    public function getItemActions() {
-        return $this->itemActions;
-    }
-
-    /**
-     *
-     * @return UserActionsInterface|null
-     */
-    public function getUserActions(): ?UserActionsInterface {
-        return $this->userActions;
     }
 
     /**
@@ -126,6 +108,16 @@ class StatusPresentation extends EntityAbstract implements StatusPresentationInt
         return $this;
     }
 
+    ## menu item
+
+    /**
+     *
+     * @return MenuItemInterface|null
+     */
+    public function getMenuItem(): ?MenuItemInterface {
+        return $this->menuItem;
+    }
+
     /**
      *
      * @param MenuItemInterface $menuItem
@@ -136,19 +128,30 @@ class StatusPresentation extends EntityAbstract implements StatusPresentationInt
         return $this;
     }
 
+    ## template
+
     /**
      *
-     * @param type $lastResourcePath
-     * @return $this
+     * @return string
      */
-    public function setLastGetResourcePath($lastResourcePath): StatusPresentationInterface {
-        $this->lastResourcePath = $lastResourcePath;
-        return $this;
+    public function getLastTemplateName() {
+        return $this->lastTemplateName;
     }
 
     public function setLastTemplateName($templateName): StatusPresentationInterface {
         $this->lastTemplateName = $templateName;
         return $this;
+    }
+
+
+    ## user action
+
+    /**
+     *
+     * @return UserActionsInterface|null
+     */
+    public function getUserActions(): ?UserActionsInterface {
+        return $this->userActions;
     }
 
     /**
@@ -161,13 +164,32 @@ class StatusPresentation extends EntityAbstract implements StatusPresentationInt
         return $this;
     }
 
+    ## item action
+
+    /**
+     * Vrací item action pro zadaný typ a id obsahu nebo null.
+     *
+     * @param type $contentType
+     * @param type $contentId
+     * @return ItemActionInterface|null
+     */
+    public function getItemAction($contentType, $contentId): ?ItemActionInterface {
+        $key = $contentType.$contentId;
+        return array_key_exists($key, $this->itemActions) ? $this->itemActions[$key] : null;
+    }
+
+    /**
+     * Přidá item action do vnitřní kolekce pro typ a id obsahu.
+     * @param ItemActionInterface $itemAction
+     * @return StatusPresentationInterface
+     */
     public function addItemAction(ItemActionInterface $itemAction): StatusPresentationInterface {
-        $this->itemActions[$itemAction->getCreated().$itemAction->getItemId()] = $itemAction;
+        $this->itemActions[$itemAction->getTypeFk().$itemAction->getContentId()] = $itemAction;
         return $this;
     }
 
-    public function removeItemAction(ItemActionInterface $itemAction): \Status\Model\Entity\StatusPresentationInterface {
-        unset($this->itemActions[$itemAction->getCreated().$itemAction->getItemId()]);
+    public function removeItemAction(ItemActionInterface $itemAction): StatusPresentationInterface {
+        unset($this->itemActions[$itemAction->getCreated().$itemAction->getContentId()]);
         return $this;
     }
 }

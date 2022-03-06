@@ -4,20 +4,20 @@ namespace Component\ViewModel;
 
 use Red\Model\Entity\UserActionsInterface;
 use Red\Model\Entity\ItemActionInterface;
+use Red\Model\Entity\MenuItemInterface;
+use Red\Model\Entity\LanguageInterface;
+use Red\Model\Repository\ItemActionRepo;
 
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusFlashRepo;
-
-use Red\Model\Repository\ItemActionRepo;
-use Red\Model\Repository\MenuItemRepoInterface;
 
 /**
  * Description of StatusViewModelAbstract
  *
  * @author pes2704
  */
-abstract class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterface {
+class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterface {
 
     /**
      * @var StatusSecurityRepo
@@ -35,7 +35,6 @@ abstract class StatusViewModel extends ViewModelAbstract implements StatusViewMo
     protected $statusFlashRepo;
 
     /**
-     *
      * @var ItemActionRepo
      */
     protected $itemActionRepo;
@@ -58,14 +57,13 @@ abstract class StatusViewModel extends ViewModelAbstract implements StatusViewMo
         return $flashCommand[$key] ?? '';
     }
 
-    public function getPostFlashCommand($key) {
+    public function getFlashPostCommand($key) {
         $flashCommand = $this->statusFlashRepo->get()->getPostCommand();
         return $flashCommand[$key] ?? '';
     }
 
-    public function isUserLoggedIn(): bool {
-        $loginAggregate = $this->statusSecurityRepo->get()->getLoginAggregate();
-        return isset($loginAggregate) ? true : false;
+    public function getFlashMessages() {
+        return $this->statusFlashRepo->get()->getMessages();
     }
 
     public function getUserRole(): ?string {
@@ -78,6 +76,14 @@ abstract class StatusViewModel extends ViewModelAbstract implements StatusViewMo
         return isset($loginAggregate) ? $loginAggregate->getLoginName() : null;
     }
 
+    /**
+     * {@inheritdoc}
+     *
+     * Informuje zda prezentace je v editovatelném režimu a současně prezentovaný obsah je editovatelný přihlášeným uživatelem.
+     * Editovat smí uživatel s rolí 'sup'
+     *
+     * @return bool
+     */
     public function presentEditableContent(): bool {
         $userActions = $this->statusPresentationRepo->get()->getUserActions();
         return $userActions ? $userActions->presentEditableContent() : false;
@@ -86,6 +92,18 @@ abstract class StatusViewModel extends ViewModelAbstract implements StatusViewMo
     public function presentEditableMenu(): bool {
         $userActions = $this->statusPresentationRepo->get()->getUserActions();
         return $userActions ? $userActions->presentEditableMenu() : false;
+    }
+
+    public function getPresentedLanguage(): ?LanguageInterface {
+        return $this->statusPresentationRepo->get()->getLanguage();
+    }
+
+    public function getItemsAction($contentType, $contentId): ?UserActionsInterface {
+        return $this->statusPresentationRepo->get()->getItemAction($contentType, $contentId);
+    }
+
+    public function getPresentedMenuItem(): ?MenuItemInterface {
+        return $this->statusPresentationRepo->get()->getMenuItem();
     }
 
 }

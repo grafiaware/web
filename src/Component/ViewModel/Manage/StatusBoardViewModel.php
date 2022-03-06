@@ -8,17 +8,26 @@
 
 namespace Component\ViewModel\Manage;
 
-use Component\ViewModel\StatusViewModel;
+use Component\ViewModel\ViewModelAbstract;
+
+use Component\ViewModel\StatusViewModelInterface;
 
 /**
  * Description of StatusBoardViewModel
  *
  * @author pes2704
  */
-class StatusBoardViewModel extends StatusViewModel implements StatusBoardViewModelInterface {
+class StatusBoardViewModel extends ViewModelAbstract implements StatusBoardViewModelInterface {
 
-    public function getLanguageInfo() {
-        $language = $this->statusPresentationRepo->get()->getLanguage();
+    private $status;
+
+    public function __construct(
+            StatusViewModelInterface $status) {
+        $this->status = $status;
+    }
+
+    private function getLanguageInfo() {
+        $language = $this->status->getPresentedLanguage();
         return [
             'code' => $language->getLangCode(),
             'name' => $language->getName(),
@@ -27,17 +36,10 @@ class StatusBoardViewModel extends StatusViewModel implements StatusBoardViewMod
             ];
     }
 
-    public function getEditableInfo() {
-        $userActions = $this->statusPresentationRepo->get()->getUserActions();
+    private function getSecurityInfo() {
         return [
-            'article' => $userActions->presentEditableContent(),
-            ];
-    }
-
-    public function getSecurityInfo() {
-        return [
-            'userName' => $this->statusSecurityRepo->get()->getLoginAggregate()->getCredentials()->getLoginNameFk(),
-            'role' => $this->statusSecurityRepo->get()->getLoginAggregate()->getCredentials()->getRole(),
+            'userName' => $this->status->getUserLoginName(),
+            'role' => $this->status->getUserRole(),
             ];
     }
 
@@ -45,9 +47,9 @@ class StatusBoardViewModel extends StatusViewModel implements StatusBoardViewMod
         $this->appendData(
                 [
                 'languageInfo' => $this->prettyDump($this->getLanguageInfo()),
-                'editableInfo' => $this->prettyDump($this->getEditableInfo()),
                 'securityInfo' => $this->prettyDump($this->getSecurityInfo()),
-                'menuItem'=> $this->prettyDump($this->statusPresentationRepo->get()->getMenuItem(), true)
+                'presentEditableContent' => $this->prettyDump($this->status->presentEditableContent()),
+                'presentEditableMenu' => $this->prettyDump($this->status->presentEditableMenu()),
                 ]
             );
         return parent::getIterator();

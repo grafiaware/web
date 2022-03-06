@@ -281,10 +281,10 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
         ];
     }
 
-    protected function getNonPermittedContentView($authoredType='authored content', $viewPermission='') {
+    protected function getNonPermittedContentView($viewPermission='', $authoredType='authored content') {
         $view = $this->container->get(View::class);
         $reflect = new \ReflectionClass($this);
-        $view->setData([Html::tag('div', ['style'=>'display: none;' ], $reflect->getShortName().": No permissions for $viewPermission $authoredType.")]);
+        $view->setData([Html::tag('div', ['style'=>'display: none;' ], $reflect->getShortName().": No permissions to $viewPermission for $authoredType.")]);
         $view->setRenderer(new ImplodeRenderer());
         return $view;
     }

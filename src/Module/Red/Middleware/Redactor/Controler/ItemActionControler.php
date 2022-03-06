@@ -57,7 +57,7 @@ class ItemActionControler extends FrontControlerAbstract {
         if (! $userActions->hasUserItemAction($typeFk, $itemId)) {
             $itemAction = new ItemAction();
             $itemAction->setTypeFk($typeFk);
-            $itemAction->setItemId($itemId);
+            $itemAction->setContentId($itemId);
             $itemAction->setEditorLoginName($this->statusSecurityRepo->get()->getLoginAggregate()->getLoginName());
             $this->itemActionRepo->add($itemAction);
             $userActions->addUserItemAction($itemAction);

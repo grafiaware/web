@@ -12,10 +12,7 @@ use ArrayObject;
 use Component\ViewModel\Authored\AuthoredViewModelAbstract;
 use Red\Model\Entity\ArticleInterface;
 use Red\Model\Repository\ArticleRepo;
-use Status\Model\Repository\StatusSecurityRepo;
-use Status\Model\Repository\StatusPresentationRepo;
-use Status\Model\Repository\StatusFlashRepo;
-use Red\Model\Repository\ItemActionRepo;
+use Component\ViewModel\StatusViewModelInterface;
 use Red\Model\Repository\MenuItemRepoInterface;
 
 use TemplateService\TemplateSeekerInterface;
@@ -35,15 +32,11 @@ class ArticleViewModel extends AuthoredViewModelAbstract implements ArticleViewM
     protected $articleRepo;
 
     public function __construct(
-            StatusSecurityRepo $statusSecurityRepo,
-            StatusPresentationRepo $statusPresentationRepo,
-            StatusFlashRepo $statusFlashRepo,
-            ItemActionRepo $itemActionRepo,
+            StatusViewModelInterface $status,
             MenuItemRepoInterface $menuItemRepo,
-            TemplateSeekerInterface $templateSeeker,
             ArticleRepo $articleRepo
             ) {
-        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo, $itemActionRepo, $menuItemRepo, $templateSeeker);
+        parent::__construct($status, $menuItemRepo);
         $this->articleRepo = $articleRepo;
     }
 
@@ -53,7 +46,7 @@ class ArticleViewModel extends AuthoredViewModelAbstract implements ArticleViewM
      *
      * @param type $menuItemType
      */
-    public function getItemType() {
+    public function getAuthoredContentType() {
         return AuthoredTypeEnum::ARTICLE;
     }
 
@@ -80,7 +73,7 @@ class ArticleViewModel extends AuthoredViewModelAbstract implements ArticleViewM
     }
 
     public function getIterator() {
-        $this->appendData(['article'=> $this->getArticle(), 'isEditable'=> $this->presentEditableContent()]);
+        $this->appendData(['article'=> $this->getArticle()]);
         return parent::getIterator();
     }
 

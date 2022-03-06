@@ -20,10 +20,4 @@ interface ItemTypeSelectViewModelInterface extends ViewModelInterface {
 
     public function getTypeTransitions();
 
-    /**
-     * Vrací menuItem odpovídající prezentované položce menu. Řídí se hodnotami vlastností objektu PresentationStatus.
-     *
-     * @return MenuItemInterface|null
-     */
-    public function getMenuItem(): ?MenuItemInterface ;
 }

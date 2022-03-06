@@ -15,7 +15,5 @@ use Component\ViewModel\ViewModelInterface;
  * @author pes2704
  */
 interface StatusBoardViewModelInterface extends ViewModelInterface {
-    public function getLanguageInfo();
-    public function getEditableInfo();
-    public function getSecurityInfo();
+
 }

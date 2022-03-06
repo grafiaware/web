@@ -8,45 +8,22 @@
 
 namespace Component\ViewModel\Generated;
 
-use Component\ViewModel\StatusViewModel;
-
-use Status\Model\Repository\StatusSecurityRepo;
-use Status\Model\Repository\StatusPresentationRepo;
-use Status\Model\Repository\StatusFlashRepo;
-use Red\Model\Repository\ItemActionRepo;
-
-use Red\Model\Repository\MenuItemTypeRepo;
+use Component\ViewModel\MenuItemViewModel;
 
 use Red\Model\Entity\MenuItemTypeInterface;
-use Red\Model\Entity\MenuItemInterface;
+
 /**
  * Description of LanguageSelect
  *
  * @author pes2704
  */
-class ItemTypeSelectViewModel extends StatusViewModel implements ItemTypeSelectViewModelInterface {
+class ItemTypeSelectViewModel extends MenuItemViewModel implements ItemTypeSelectViewModelInterface {
 
     /**
-     * @var MenuItemTypeRepo
-     */
-    private $menuItemTypeRepo;
-
-    public function __construct(
-            StatusSecurityRepo $statusSecurityRepo,
-            StatusPresentationRepo $statusPresentationRepo,
-            StatusFlashRepo $statusFlashRepo,
-            ItemActionRepo $itemActionRepo,
-            MenuItemTypeRepo $menuItemTypeRepo
-            ) {
-        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo, $itemActionRepo);
-        $this->menuItemTypeRepo = $menuItemTypeRepo;
-    }
-
-    /**
-     *
      * @return MenuItemTypeInterface array of
      */
     public function getTypeTransitions() {
+        $itemType = $this->getMenuItem()->getTypeFk();
         $typeTransitions = [
             'root' => '',
             'empty' => ['static', 'paper', 'article', 'multipage'],
@@ -57,18 +34,11 @@ class ItemTypeSelectViewModel extends StatusViewModel implements ItemTypeSelectV
             'trash' => '',
             'generated' => ''
         ];
-        return $typeTransitions;
-//        return $this->menuItemTypeRepo->findAll();
-    }
-
-
-    /**
-     * Vrací menuItem odpovídající prezentované položce menu. Řídí se hodnotami vlastností objektu PresentationStatus.
-     *
-     * @return MenuItemInterface|null
-     */
-    public function getMenuItem(): ?MenuItemInterface {
-        return $this->statusPresentationRepo->get()->getMenuItem();
+        if (array_key_exists($itemType, $typeTransitions)) {
+            return $typeTransitions[$itemType];
+        } else {
+            throw new \UnexpectedValueException("No transitions for menu item type '$itemType'.");
+        }
     }
 
     public function getIterator(): \Traversable {

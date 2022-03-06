@@ -21,7 +21,7 @@ interface StatusFlashInterface extends EntitySingletonInterface {
 
     /**
      * Vrací pole messages
-     * @return string
+     * @return array
      */
     public function getMessages(): array;
 
@@ -37,7 +37,7 @@ interface StatusFlashInterface extends EntitySingletonInterface {
 
     /**
      * Nastaví message a severity
-     * 
+     *
      * @param string $message
      * @param string $severity
      * @return StatusFlashInterface

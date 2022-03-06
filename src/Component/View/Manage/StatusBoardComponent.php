@@ -14,7 +14,7 @@ use Component\ViewModel\Manage\StatusBoardViewModelInterface;
 use Pes\View\Template\PhpTemplate;
 
 use Access\Enum\RoleEnum;
-use Access\Enum\AllowedViewEnum;
+use Access\Enum\AccessPresentationEnum;
 
 /**
  * Description of StatusBoadComponent
@@ -31,7 +31,7 @@ class StatusBoardComponent extends StatusComponentAbstract {
     //renderuje template nebo NonPermittedContentRenderer
 
     public function beforeRenderingHook(): void {
-        if($this->isAllowed(AllowedViewEnum::DISPLAY)) {
+        if($this->isAllowedToPresent(AccessPresentationEnum::DISPLAY)) {
             $this->setTemplate(new PhpTemplate($this->configuration->getTemplateStatusBoard()));
         } else {
             $this->setRendererName(NoPermittedContentRenderer::class);
@@ -40,7 +40,7 @@ class StatusBoardComponent extends StatusComponentAbstract {
 
     public function getComponentPermissions(): array {
         return [
-            RoleEnum::SUP => [AllowedViewEnum::DISPLAY => static::class],
+            RoleEnum::SUP => [AccessPresentationEnum::DISPLAY => static::class],
         ];
     }
 }

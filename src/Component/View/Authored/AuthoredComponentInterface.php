@@ -18,5 +18,4 @@ use Component\View\AccessComponentInterface;
 interface AuthoredComponentInterface extends CompositeViewInterface, AccessComponentInterface {
 
     public function setItemId($menuItemId): AuthoredComponentInterface;
-    public function userPerformActionWithItem(): bool;
 }

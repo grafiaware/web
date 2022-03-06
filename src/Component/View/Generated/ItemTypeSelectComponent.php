@@ -26,7 +26,7 @@ class ItemTypeSelectComponent extends StatusComponentAbstract {
     protected $contextData;
 
     public function beforeRenderingHook(): void {
-        if($this->contextData->presentEditableContent()) {
+        if($this->statusViewModel->presentEditableContent()) {
             $this->setRendererName(ItemTypeRenderer::class);
         } else {
             $this->setRendererName(EmptyItemRenderer::class);

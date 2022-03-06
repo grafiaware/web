@@ -14,7 +14,7 @@ use Component\ViewModel\StatusViewModelInterface;
 use Pes\View\Template\PhpTemplate;
 
 use Access\Enum\RoleEnum;
-use Access\Enum\AllowedViewEnum;
+use Access\Enum\AccessPresentationEnum;
 
 /**
  * Description of LoginComponent
@@ -32,7 +32,7 @@ class RegisterComponent extends StatusComponentAbstract {
 
 //  template nastevena v kontejneru, pokud není user přihlášen (není role) nahrazuji renderer - není to ideální řešení, v kontejneru vytvářím celý objekt template, jen ho nepoužiju
     public function beforeRenderingHook(): void {
-        if($this->isAllowed(AllowedViewEnum::DISPLAY)) {
+        if($this->isAllowedToPresent(AccessPresentationEnum::DISPLAY)) {
             $this->setTemplate(new PhpTemplate($this->configuration->getTemplateRegister()));
         } else {
             $this->setRendererName(NoContentForStatusRenderer::class);
@@ -41,7 +41,7 @@ class RegisterComponent extends StatusComponentAbstract {
 
     public function getComponentPermissions(): array {
         return [
-            RoleEnum::ANONYMOUS => [AllowedViewEnum::DISPLAY => static::class]
+            RoleEnum::ANONYMOUS => [AccessPresentationEnum::DISPLAY => static::class]
         ];
     }
 }

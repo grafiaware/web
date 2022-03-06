@@ -88,11 +88,11 @@ class UserActions extends EntityAbstract implements UserActionsInterface {
     ### user actions ###
 
     public function addUserItemAction(ItemActionInterface $itemAction): void {
-        $this->userItemAction[$itemAction->getTypeFk()][$itemAction->getItemId()] = $itemAction;
+        $this->userItemAction[$itemAction->getTypeFk()][$itemAction->getContentId()] = $itemAction;
     }
 
     public function removeUserItemAction(ItemActionInterface $itemAction): void {
-        unset($this->userItemAction[$itemAction->getTypeFk()][$itemAction->getItemId()]);
+        unset($this->userItemAction[$itemAction->getTypeFk()][$itemAction->getContentId()]);
     }
 
     public function hasUserItemAction($typeFk, $itemId): bool {

@@ -13,22 +13,22 @@ use Red\Middleware\Redactor\Controler\UserActionControler;
  *
  * @author pes2704
  */
-class ToggleEditContentButtomRenderer extends HtmlRendererAbstract {
+class ToggleEditContentButtonRenderer extends HtmlRendererAbstract {
     public function render(iterable $viewModel = NULL) {
         /** @var AuthoredViewModelInterface $viewModel */
-        $userPerformActionWithContent = $viewModel->userPerformActionWithItem();
+        $userPerformActionWithContent = $viewModel->userPerformAuthoredContentAction();
         $disabled = '';
         if ($userPerformActionWithContent) {
             $tooltip = 'Vypnout editaci';
-            $action = "red/v1/itemaction/{$viewModel->getItemType()}/{$viewModel->getItemId()}/remove";
+            $action = "red/v1/itemaction/{$viewModel->getAuthoredContentType()}/{$viewModel->getAuthoredContentId()}/remove";
         } else {
-            $action = $viewModel->getItemAction();
+            $action = $viewModel->getAuthoredContentAction();
             if (isset($action)) {
                 $editor = $action->getEditorLoginName() ?? '';
                 $disabled = 'disabled';
             }
             $tooltip = 'Zapnout editaci';
-            $action = "red/v1/itemaction/{$viewModel->getItemType()}/{$viewModel->getItemId()}/add";
+            $action = "red/v1/itemaction/{$viewModel->getAuthoredContentType()}/{$viewModel->getAuthoredContentId()}/add";
         }
 
         return

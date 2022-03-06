@@ -8,13 +8,13 @@
 
 namespace Component\View;
 
-use Access\AccessInterface;
 use Component\View\AccessComponentInterface;
 use Configuration\ComponentConfigurationInterface;
 use Component\ViewModel\StatusViewModelInterface;
 
+use Access\AccessPresentationInterface;
 use Access\Enum\RoleEnum;
-use Access\Enum\AllowedViewEnum;
+use Access\Enum\AccessPresentationEnum;
 
 /**
  * Description of AclComponentAbstract
@@ -26,59 +26,29 @@ abstract class StatusComponentAbstract extends ComponentAbstract implements Acce
     /**
      * @var StatusViewModelInterface
      */
-    protected $contextData;
+    protected $statusViewModel;
 
-    public function __construct(ComponentConfigurationInterface $configuration, StatusViewModelInterface $contextData) {
-        $this->contextData = $contextData;
+    /**
+     * @var AccessPresentationInterface
+     */
+    protected $accessView;
+
+    public function __construct(ComponentConfigurationInterface $configuration, StatusViewModelInterface $statusViewModel, AccessPresentationInterface $accessView) {
+        $this->statusViewModel = $statusViewModel;
+        $this->accessView = $accessView;
         parent::__construct($configuration);
     }
 
-    public function isAllowed($action): bool {
-        $isAllowed = false;
-        $role = $this->contextData->getUserRole();
-        $logged = $this->contextData->isUserLoggedIn();
-        $permissions = $this->getComponentPermissions();
-        $activeRole = $this->getActiveRole($logged, $role, $permissions);
-        if (isset($activeRole)) {
-            if (array_key_exists($activeRole, $permissions) AND array_key_exists($action, $permissions[$activeRole])) {
-                $resource = $permissions[$activeRole][$action];
-                $isAllowed = ($this instanceof $resource) ? true : false;
-            } else {
-                $isAllowed =false;
-            }
-        }
-//            $componentClass = get_class($component);
-//            $m = $logged ? "Uživatel je přihlášen s rolí '$role'." : "Uživatel není přihlášen.";
-//            $message = "Neznámá oprávnění pro komponentu '$componentClass' a přidělenou aktivní roli uživatele '$activeRole'. $m";
-
-        return $isAllowed;
-    }
-
-    /**
-     * Pokud uživatel má nastavenu roli a tato role je definována v permissions - vrací roli uživatele.
-     * Pokud uživatek nemá nastavenu roli nebo jeho role není uvedena v permissions, zjistí jestli je v permission nastavena oprávnění pro roli 'everyone!, pokud ano, vrací roli 'everyone'.
-     *
-     * @param type $role
-     * @param type $permissions
-     * @return type
-     */
-    private function getActiveRole($logged, $role, $permissions) {
-        if (isset($role) AND array_key_exists($role, $permissions)){
-            $ret = $role;
-        } elseif($logged){
-            $ret = RoleEnum::EVERYONE;
-        } else {
-            $ret = RoleEnum::ANONYMOUS;
-        }
-        return $ret;
+    public function isAllowedToPresent($action): bool {
+        return $this->accessView->isAllowed($this, $this->getComponentPermissions(), $action);
     }
 
     public function getComponentPermissions(): array {
         return [
-            RoleEnum::SUP => [AllowedViewEnum::DISPLAY => \Component\View\StatusComponentAbstract::class, AllowedViewEnum::EDIT => \Component\View\StatusComponentAbstract::class],
-            RoleEnum::EDITOR => [AllowedViewEnum::DISPLAY => \Component\View\StatusComponentAbstract::class, AllowedViewEnum::EDIT => \Component\View\StatusComponentAbstract::class],
-            RoleEnum::EVERYONE => [AllowedViewEnum::DISPLAY => \Component\View\StatusComponentAbstract::class],
-            RoleEnum::ANONYMOUS => [AllowedViewEnum::DISPLAY => \Component\View\StatusComponentAbstract::class]
+            RoleEnum::SUP => [AccessPresentationEnum::DISPLAY => \Component\View\StatusComponentAbstract::class, AccessPresentationEnum::EDIT => \Component\View\StatusComponentAbstract::class],
+            RoleEnum::EDITOR => [AccessPresentationEnum::DISPLAY => \Component\View\StatusComponentAbstract::class, AccessPresentationEnum::EDIT => \Component\View\StatusComponentAbstract::class],
+            RoleEnum::EVERYONE => [AccessPresentationEnum::DISPLAY => \Component\View\StatusComponentAbstract::class],
+            RoleEnum::ANONYMOUS => [AccessPresentationEnum::DISPLAY => \Component\View\StatusComponentAbstract::class]
         ];
     }
 

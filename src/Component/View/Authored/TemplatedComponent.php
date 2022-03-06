@@ -25,20 +25,31 @@ use Component\Renderer\Html\Authored\Paper\HeadlineRenderer;
 use Component\Renderer\Html\Authored\Paper\PerexRenderer;
 use Component\Renderer\Html\Authored\Paper\SectionsRenderer;
 use Component\View\Authored\Paper\PaperComponent;  // pracovní verze TemplatedC pro paper
-use Pes\View\CompositeView;
+
+use Pes\View\ViewInterface;
+use Pes\View\InheritDataViewInterface;
 
 /**
  * Description of ArticleComponent
  *
  * @author pes2704
  */
-class TemplatedComponent extends AuthoredComponentAbstract {
+class TemplatedComponent extends AuthoredComponentAbstract implements InheritDataViewInterface {
 
     /**
      *
      * @var AuthoredViewModelInterface
      */
     protected $contextData;
+
+    /**
+     *
+     * @param iterable $data
+     * @return ViewInterface
+     */
+    public function inheritData(iterable $data): ViewInterface {
+        return $this->setData($data);
+    }
 
     /**
      * Vytvoří PhpTemplate template objekt z šablony nebo ImplodeTemplate template objekt, pokud šablona není nastavena nebo její soubor neexistuje (není čitelný).
@@ -57,7 +68,7 @@ class TemplatedComponent extends AuthoredComponentAbstract {
      * @throws ItemTemplateNotFoundException
      */
     public function beforeRenderingHook(): void {
-        $itemType = $this->contextData->getItemType();
+        $itemType = $this->contextData->getAuthoredContentType();
         $templateName = $this->contextData->getAuthoredTemplateName();
 
         if (isset($templateName) AND $templateName) {
@@ -80,9 +91,9 @@ class TemplatedComponent extends AuthoredComponentAbstract {
         } else {
             $template = new ImplodeTemplate();
         }
-
         $this->setTemplate($template);   //TODO: otestuj fallback template (user error)
-        /** @var CompositeView $view */
+
+        /** @var ViewInterface $view */
         foreach ($this->componentViews as $view) {
             switch ($this->componentViews->getInfo()) {
                 case PaperComponent::HEADLINE:

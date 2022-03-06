@@ -8,7 +8,7 @@
 
 namespace Component\ViewModel\Menu;
 
-use Component\ViewModel\StatusViewModelInterface;
+use Component\ViewModel\ViewModelInterface;
 
 use Red\Model\Entity\HierarchyAggregateInterface;
 use Red\Model\Entity\MenuRootInterface;
@@ -17,13 +17,15 @@ use Red\Model\Entity\MenuRootInterface;
  *
  * @author pes2704
  */
-interface MenuViewModelInterface extends StatusViewModelInterface {
+interface MenuViewModelInterface extends ViewModelInterface {
+
+    public function presentEditableMenu(): bool;
 
     /**
      * Prezentuj pouze publikované položky
      * @return bool
      */
-    public function presentOnlyPublished();
+    public function presentOnlyPublished(): bool;
 
     /**
      *
@@ -38,6 +40,15 @@ interface MenuViewModelInterface extends StatusViewModelInterface {
      * @return void
      */
     public function setMaxDepth($maxDepth): void;
+
+    /**
+     * Položka menu (menu subtree nodes a views) bodou henerovány včetně kořenového prvku menu. První úrovwň menu pak obsahuje právě tuto jednu kořenovou položku.
+     *
+     * @param type $withRootItem
+     * @return void
+     */
+    public function withRootItem($withRootItem=false): void ;
+
     /**
      * Vrací prezentovanou položku hierarchie, pokud je položkou tohoto modelu menu. Řídí se hodnotami status presentation.
      *
@@ -45,12 +56,14 @@ interface MenuViewModelInterface extends StatusViewModelInterface {
      */
     public function getPresentedMenuNode(HierarchyAggregateInterface $rootNode): ?HierarchyAggregateInterface;
 
+    public function getItemModels(): array;
+
     /**
      *
      * @param type $nodeUid
      * @return HierarchyAggregateInterface|null
      */
-    public function getMenuNode($nodeUid): ?HierarchyAggregateInterface ;
+//    public function getMenuNode($nodeUid): ?HierarchyAggregateInterface ;
 
     /**
      *
@@ -68,10 +81,13 @@ interface MenuViewModelInterface extends StatusViewModelInterface {
 //    public function getChildrenItemModels($parentUid);
 
     /**
+     * Původní metoda
      *
      * @return ItemViewModelInterface array af
      */
     public function getSubTreeNodes();
-    public function setSubtreeItemViews($views);
+
+    public function setSubTreeItemViews($itemViews);
+
     public function getSubTreeItemViews();
 }

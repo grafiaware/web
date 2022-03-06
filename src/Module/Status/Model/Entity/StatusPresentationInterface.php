@@ -25,6 +25,19 @@ interface StatusPresentationInterface extends EntitySingletonInterface {
 
     /**
      *
+     * @param type $lastResourcePath
+     * @return $this
+     */
+    public function setLastGetResourcePath($lastResourcePath): StatusPresentationInterface;
+
+    /**
+     *
+     * @return string
+     */
+    public function getLastGetResourcePath();
+
+    /**
+     *
      * @return LanguageInterface|null
      */
     public function getLanguage(): ?LanguageInterface;
@@ -33,33 +46,6 @@ interface StatusPresentationInterface extends EntitySingletonInterface {
      * @return string
      */
     public function getRequestedLangCode();
-
-    /**
-     *
-     * @return MenuItemInterface|null
-     */
-    public function getMenuItem(): ?MenuItemInterface;
-
-    /**
-     *
-     * @return string
-     */
-    public function getLastGetResourcePath();
-
-    public function getLastTemplateName();
-
-    /**
-     *
-     * @return array ItemActionInterface array of
-     */
-    public function getItemActions();
-
-    /**
-     *
-     * @return UserActionsInterface|null
-     */
-    public function getUserActions(): ?UserActionsInterface;
-
     /**
      *
      * @param LanguageInterface $language
@@ -76,10 +62,22 @@ interface StatusPresentationInterface extends EntitySingletonInterface {
 
     /**
      *
+     * @return MenuItemInterface|null
+     */
+    public function getMenuItem(): ?MenuItemInterface;
+
+    /**
+     *
      * @param MenuItemInterface $menuItem
      * @return StatusPresentationInterface
      */
     public function setMenuItem(MenuItemInterface $menuItem): StatusPresentationInterface;
+
+    /**
+     *
+     * @return UserActionsInterface|null
+     */
+    public function getUserActions(): ?UserActionsInterface;
 
     /**
      *
@@ -88,14 +86,18 @@ interface StatusPresentationInterface extends EntitySingletonInterface {
      */
     public function setUserActions(UserActionsInterface $userActions): StatusPresentationInterface;
 
-    /**
-     *
-     * @param type $lastResourcePath
-     * @return $this
-     */
-    public function setLastGetResourcePath($lastResourcePath): StatusPresentationInterface;
+    public function getLastTemplateName();
 
     public function setLastTemplateName($templateName): StatusPresentationInterface;
+
+    /**
+     * Vrací item action pro zadaný typ a id obsahu nebo null.
+     *
+     * @param type $contentType
+     * @param type $contentId
+     * @return ItemActionInterface|null
+     */
+    public function getItemAction($contentType, $contentId): ?ItemActionInterface;
 
     public function addItemAction(ItemActionInterface $itemAction): StatusPresentationInterface;
 

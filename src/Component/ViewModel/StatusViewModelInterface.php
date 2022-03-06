@@ -8,7 +8,10 @@
 
 namespace Component\ViewModel;
 
-use Red\Model\Entity\UserActionsInterface;  // zrušit?
+use Red\Model\Entity\LanguageInterface;
+use Red\Model\Entity\UserActionsInterface;
+use Red\Model\Entity\MenuItemInterface;
+
 /**
  *
  * @author pes2704
@@ -16,9 +19,9 @@ use Red\Model\Entity\UserActionsInterface;  // zrušit?
 interface StatusViewModelInterface extends ViewModelInterface {
 
     public function getFlashCommand($key);
-    public function getPostFlashCommand($key);
+    public function getFlashPostCommand($key);
+    public function getFlashMessages();
 
-    public function isUserLoggedIn(): bool;
     public function getUserRole(): ?string;
     public function getUserLoginName(): ?string;
 
@@ -28,5 +31,7 @@ interface StatusViewModelInterface extends ViewModelInterface {
      */
     public function presentEditableContent(): bool;
     public function presentEditableMenu(): bool;
-
+    public function getPresentedLanguage(): ?LanguageInterface;
+    public function getItemsAction($contentType, $contentId): ?UserActionsInterface;
+    public function getPresentedMenuItem(): ?MenuItemInterface;
 }

@@ -15,7 +15,7 @@ use Pes\Type\Enum;
  *
  * @author pes2704
  */
-class AllowedViewEnum extends Enum {
+class AccessPresentationEnum extends Enum {
     const DISPLAY = 'display';
     const EDIT = 'edit';
 

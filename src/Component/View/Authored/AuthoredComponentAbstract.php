@@ -31,12 +31,7 @@ abstract class AuthoredComponentAbstract extends StatusComponentAbstract impleme
     protected $contextData;
 
     public function setItemId($menuItemId): AuthoredComponentInterface {
-        $this->contextData->setItemId($menuItemId);
+        $this->contextData->setMenuItemId($menuItemId);
         return $this;
-    }
-
-    public function userPerformActionWithItem(): bool {
-        $itemAction = $this->contextData->getItemAction();
-        return isset($itemAction) AND $itemAction->getEditorLoginName()==$this->contextData->getUserLoginName();
     }
 }

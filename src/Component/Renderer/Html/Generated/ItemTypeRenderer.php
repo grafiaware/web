@@ -25,10 +25,9 @@ class ItemTypeRenderer extends HtmlRendererAbstract  {
 
     public function render(iterable $viewModel=NULL) {
         /** @var ItemTypeSelectViewModel $viewModel */
-        $typeFk = $viewModel->getMenuItem()->getTypeFk();
         $menuItemUidFk = $viewModel->getMenuItem()->getUidFk();
+        $transitions = $viewModel->getTypeTransitions()[];
         $radioHtml = '';
-        $transitions = $viewModel->getTypeTransitions()[$typeFk];
         if (isset($transitions)) {
             foreach ($transitions as $type ) {
                 $radioHtml .=Html::tag('label', [],
@@ -46,9 +45,6 @@ class ItemTypeRenderer extends HtmlRendererAbstract  {
                             Html::tag("button", [], Message::t("Odeslat"))
                         )
                     );
-        } else {
-            throw new UnexpectedValueException("No transitions for menu item type '$typeFk'.");
         }
-
     }
 }

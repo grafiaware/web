@@ -30,7 +30,7 @@ use Component\Renderer\Html\Authored\Paper\SectionsRendererEditable;
 
 use Component\View\Manage\ToggleEditContentButtonComponent;
 
-use Access\Enum\AllowedViewEnum;
+use Access\Enum\AccessPresentationEnum;
 
 /**
  * Description of PaperComponent
@@ -73,12 +73,5 @@ class PaperComponent extends AuthoredComponentAbstract implements PaperComponent
 
     public function __toString() {
         parent::__toString();
-    }
-
-    private function addChildComponents(CompositeViewInterface $view) {
-        // renderery musí být definovány v Renderer kontejneru - tam mohou dostat classMap do konstruktoru
-        $view->appendComponentView($this->createCompositeViewWithRenderer(HeadlineRenderer::class), self::HEADLINE);
-        $view->appendComponentView($this->createCompositeViewWithRenderer(PerexRenderer::class), self::PEREX);
-        $view->appendComponentView($this->createCompositeViewWithRenderer(SectionsRenderer::class), self::SECTIONS);
     }
 }

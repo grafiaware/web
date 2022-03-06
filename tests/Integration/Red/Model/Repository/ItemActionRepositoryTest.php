@@ -150,12 +150,12 @@ class ItemActionRepositoryTest extends TestCase {
     public function testSaveNew() {
         $itemAction = new ItemAction();
         $itemAction->setTypeFk('paper');
-        $itemAction->setItemId('111');
+        $itemAction->setContentId('111');
         $itemAction->setEditorLoginName('editoří jméno');
         $this->itemActionRepo->add($itemAction);
         $itemAction = new ItemAction();
         $itemAction->setTypeFk('article');
-        $itemAction->setItemId('222');
+        $itemAction->setContentId('222');
         $itemAction->setEditorLoginName('pan Chytrý');
         $this->itemActionRepo->add($itemAction);
 

@@ -1,16 +1,10 @@
 <?php
 namespace Component\ViewModel\Generated;
 
-use Component\ViewModel\StatusViewModel;
+use Component\ViewModel\ViewModelAbstract;
 
-use Status\Model\Repository\StatusSecurityRepo;
-use Status\Model\Repository\StatusPresentationRepo;
-use Status\Model\Repository\StatusFlashRepo;
-use Red\Model\Repository\ItemActionRepo;
-
+use Component\ViewModel\StatusViewModelInterface;
 use Red\Model\Repository\MenuItemRepo;
-
-use Pes\Text\Message;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -23,19 +17,18 @@ use Pes\Text\Message;
  *
  * @author pes2704
  */
-class SearchResultViewModel extends StatusViewModel implements SearchResultViewModelInterface {
+class SearchResultViewModel extends ViewModelAbstract implements SearchResultViewModelInterface {
+
+    private $status;
 
     private $query;
 
     private $menuItemRepo;
 
     public function __construct(
-            StatusSecurityRepo $statusSecurityRepo,
-            StatusPresentationRepo $statusPresentationRepo,
-            StatusFlashRepo $statusFlashRepo,
-            ItemActionRepo $itemActionRepo,
+            StatusViewModelInterface $status,
             MenuItemRepo $menuItemRepo) {
-        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo, $itemActionRepo);
+        $this->status = $status;
         $this->menuItemRepo = $menuItemRepo;
     }
 
@@ -74,7 +67,7 @@ class SearchResultViewModel extends StatusViewModel implements SearchResultViewM
             $text = trim(implode(' ', explode(" ",$text)));
 
             // hledají se jednotlivá slova IN NATURAL LANGUAGE MODE
-            $langCodeFk = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
+            $langCodeFk = $this->status->getPresentedLanguage()->getLangCode();
             return $this->menuItemRepo->findByPaperFulltextSearch($langCodeFk, $text);
     }
 

@@ -8,12 +8,8 @@
 
 namespace Component\ViewModel\Generated;
 
-use Component\ViewModel\StatusViewModel;
-
-use Status\Model\Repository\StatusSecurityRepo;
-use Status\Model\Repository\StatusPresentationRepo;
-use Status\Model\Repository\StatusFlashRepo;
-use Red\Model\Repository\ItemActionRepo;
+use Component\ViewModel\ViewModelAbstract;
+use Component\ViewModel\StatusViewModelInterface;
 
 use Red\Model\Repository\LanguageRepo;
 
@@ -22,17 +18,16 @@ use Red\Model\Repository\LanguageRepo;
  *
  * @author pes2704
  */
-class LanguageSelectViewModel extends StatusViewModel implements LanguageSelectViewModelInterface {
+class LanguageSelectViewModel extends ViewModelAbstract implements LanguageSelectViewModelInterface {
+
+    private $status;
 
     private $languageRepo;
 
     public function __construct(
-            StatusSecurityRepo $statusSecurityRepo,
-            StatusPresentationRepo $statusPresentationRepo,
-            StatusFlashRepo $statusFlashRepo,
-            ItemActionRepo $itemActionRepo,
+            StatusViewModelInterface $status,
             LanguageRepo $languageRepo) {
-        parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo, $itemActionRepo);
+        $this->status = $status;
         $this->languageRepo = $languageRepo;
     }
 
@@ -41,7 +36,7 @@ class LanguageSelectViewModel extends StatusViewModel implements LanguageSelectV
     }
 
     public function getPresentedLangCode() {
-        return $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
+        return $this->status->getPresentedLanguage()->getLangCode();
     }
 
     public function getIterator(): \Traversable {

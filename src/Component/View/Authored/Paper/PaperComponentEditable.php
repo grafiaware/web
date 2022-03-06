@@ -30,7 +30,7 @@ use Component\Renderer\Html\Authored\Paper\SectionsRendererEditable;
 
 use Component\View\Manage\ToggleEditContentButtonComponent;
 
-use Access\Enum\AllowedViewEnum;
+use Access\Enum\AccessPresentationEnum;
 
 /**
  * Description of PaperComponent
