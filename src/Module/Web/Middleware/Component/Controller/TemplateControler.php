@@ -20,9 +20,9 @@ use Red\Model\Entity\MenuItemInterface;
 use Red\Model\Entity\PaperAggregatePaperContent;
 
 // komponenty
-use Component\View\Authored\AuthoredComponentInterface;
-use Component\View\Authored\PaperTemplate\PaperTemplateComponent;
-use Component\View\Authored\PaperTemplate\PaperTemplateComponentInterface;
+use Component\View\MenuItem\Authored\AuthoredComponentInterface;
+use Component\View\MenuItem\Authored\PaperTemplate\PaperTemplateComponent;
+use Component\View\MenuItem\Authored\PaperTemplate\PaperTemplateComponentInterface;
 
 ####################
 use Status\Model\Repository\StatusSecurityRepo;

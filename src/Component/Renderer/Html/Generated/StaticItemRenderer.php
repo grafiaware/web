@@ -9,7 +9,7 @@
 namespace Component\Renderer\Html\Generated;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
-use Component\ViewModel\Generated\ItemTypeSelectViewModel;
+use Component\ViewModel\Authored\TypeSelect\ItemTypeSelectViewModel;
 
 use Pes\View\Renderer\RendererModelAwareInterface;
 

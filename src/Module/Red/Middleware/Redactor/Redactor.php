@@ -17,7 +17,7 @@ use Container\{
 };
 
 use Red\Middleware\Redactor\Controler\{
-    UserActionControler, HierarchyControler, EditItemControler, ItemActionControler, PaperControler, ArticleControler, ContentControler, TemplateController,
+    UserActionControler, HierarchyControler, EditItemControler, ItemActionControler, PaperControler, ArticleControler, SectionsControler, TemplateController,
     FilesUploadControler
 };
 
@@ -150,62 +150,62 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
         #### ContentController ####
         $routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId/section', function(ServerRequestInterface $request, $paperId) {
                 /** @var ContentController $ctrl */
-                $ctrl = $this->container->get(Controler\ContentControler::class);
+                $ctrl = $this->container->get(Controler\SectionsControler::class);
                 return $ctrl->add($request, $paperId);
         });
         $routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId/section/:contentId', function(ServerRequestInterface $request, $paperId, $contentId) {
-                /** @var ContentControler $ctrl */
-                $ctrl = $this->container->get(ContentControler::class);
-                return $ctrl->updateContent($request, $paperId, $contentId);
+                /** @var SectionsControler $ctrl */
+                $ctrl = $this->container->get(SectionsControler::class);
+                return $ctrl->update($request, $paperId, $contentId);
         });
         $routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId/section/:contentId/toggle', function(ServerRequestInterface $request, $paperId, $contentId) {
-                /** @var ContentControler $ctrl */
-                $ctrl = $this->container->get(ContentControler::class);
-                return $ctrl->toggleContent($request, $paperId, $contentId);
+                /** @var SectionsControler $ctrl */
+                $ctrl = $this->container->get(SectionsControler::class);
+                return $ctrl->toggle($request, $paperId, $contentId);
         });
         $routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId/section/:contentId/actual', function(ServerRequestInterface $request, $paperId, $contentId) {
-                /** @var ContentControler $ctrl */
-                $ctrl = $this->container->get(ContentControler::class);
-                return $ctrl->actualContent($request, $paperId, $contentId);
+                /** @var SectionsControler $ctrl */
+                $ctrl = $this->container->get(SectionsControler::class);
+                return $ctrl->actual($request, $paperId, $contentId);
         });
         $routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId/section/:contentId/event', function(ServerRequestInterface $request, $paperId, $contentId) {
-                /** @var ContentControler $ctrl */
-                $ctrl = $this->container->get(ContentControler::class);
+                /** @var SectionsControler $ctrl */
+                $ctrl = $this->container->get(SectionsControler::class);
                 return $ctrl->event($request, $paperId, $contentId);
         });
         $routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId/section/:contentId/up', function(ServerRequestInterface $request, $paperId, $contentId) {
-                /** @var ContentControler $ctrl */
-                $ctrl = $this->container->get(ContentControler::class);
+                /** @var SectionsControler $ctrl */
+                $ctrl = $this->container->get(SectionsControler::class);
                 return $ctrl->up($request, $paperId, $contentId);
         });
         $routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId/section/:contentId/down', function(ServerRequestInterface $request, $paperId, $contentId) {
-                /** @var ContentControler $ctrl */
-                $ctrl = $this->container->get(ContentControler::class);
+                /** @var SectionsControler $ctrl */
+                $ctrl = $this->container->get(SectionsControler::class);
                 return $ctrl->down($request, $paperId, $contentId);
         });
         $routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId/section/:contentId/add_above', function(ServerRequestInterface $request, $paperId, $contentId) {
-                /** @var ContentControler $ctrl */
-                $ctrl = $this->container->get(ContentControler::class);
+                /** @var SectionsControler $ctrl */
+                $ctrl = $this->container->get(SectionsControler::class);
                 return $ctrl->addAbove($request, $paperId, $contentId);
         });
         $routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId/section/:contentId/add_below', function(ServerRequestInterface $request, $paperId, $contentId) {
-                /** @var ContentControler $ctrl */
-                $ctrl = $this->container->get(ContentControler::class);
+                /** @var SectionsControler $ctrl */
+                $ctrl = $this->container->get(SectionsControler::class);
                 return $ctrl->addBelow($request, $paperId, $contentId);
         });
         $routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId/section/:contentId/trash', function(ServerRequestInterface $request, $paperId, $contentId) {
-                /** @var ContentControler $ctrl */
-                $ctrl = $this->container->get(ContentControler::class);
+                /** @var SectionsControler $ctrl */
+                $ctrl = $this->container->get(SectionsControler::class);
                 return $ctrl->trash($request, $paperId, $contentId);
         });
         $routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId/section/:contentId/restore', function(ServerRequestInterface $request, $paperId, $contentId) {
-                /** @var ContentControler $ctrl */
-                $ctrl = $this->container->get(ContentControler::class);
+                /** @var SectionsControler $ctrl */
+                $ctrl = $this->container->get(SectionsControler::class);
                 return $ctrl->restore($request, $paperId, $contentId);
         });
         $routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId/section/:contentId/delete', function(ServerRequestInterface $request, $paperId, $contentId) {
-                /** @var ContentControler $ctrl */
-                $ctrl = $this->container->get(ContentControler::class);
+                /** @var SectionsControler $ctrl */
+                $ctrl = $this->container->get(SectionsControler::class);
                 return $ctrl->delete($request, $paperId, $contentId);
         });
 

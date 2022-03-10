@@ -4,7 +4,7 @@
                     <div class="content">
                         <?= $languageInfo ?? ''?>
                         <?= $securityInfo ?? ''?>
-                        <?= $presentedItemsActions ?? ''?>
+                        <?= $userActions ?? ''?>
 
                         <?= $presentEditableContent ?? ''?>
                         <?= $presentEditableMenu ?? ''?>

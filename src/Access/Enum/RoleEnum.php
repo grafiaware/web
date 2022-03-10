@@ -17,7 +17,7 @@ use Pes\Type\Enum;
  */
 class RoleEnum  extends Enum {
     const ANONYMOUS = 'anonymous';
-    const EVERYONE = 'everyone';
+    const AUTHENTICATED = 'authenticated';
     const EDITOR = 'editor';
     const SUP = 'sup';
 

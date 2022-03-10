@@ -48,8 +48,9 @@ class StatusBoardViewModel extends ViewModelAbstract implements StatusBoardViewM
                 [
                 'languageInfo' => $this->prettyDump($this->getLanguageInfo()),
                 'securityInfo' => $this->prettyDump($this->getSecurityInfo()),
-                'presentEditableContent' => $this->prettyDump($this->status->presentEditableContent()),
-                'presentEditableMenu' => $this->prettyDump($this->status->presentEditableMenu()),
+                'userActions' => $this->prettyDump($this->status->getUserActions()),
+//                'presentEditableContent' => $this->prettyDump($this->status->presentEditableContent()),
+//                'presentEditableMenu' => $this->prettyDump($this->status->presentEditableMenu()),
                 ]
             );
         return parent::getIterator();

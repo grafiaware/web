@@ -206,7 +206,13 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
 
             ]
         )
-        .Html::tag('div', [ 'class'=>$this->classMap->get('Content', 'ribbon.priority')],  $priority)
+        .Html::tag('div', ['class'=>$this->classMap->get('Content', 'ribbon.priority'), 'data-tooltip'=>'priority'],
+            Html::tag('i', [ 'class'=>$this->classMap->get('Icons', 'icon.clipboard')],
+                Html::tag('span', [ 'class'=>''],
+                    $priority
+                )
+            )
+        )
         .$this->getContentButtons($paperContent)
         ;
     }

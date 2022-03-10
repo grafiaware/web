@@ -7,13 +7,15 @@ use Site\Configuration;
 use Pes\Container\ContainerConfiguratorAbstract;
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
 
-use Component\Renderer\Html\Authored\Paper\SelectTemplateRendererOld;
 use Component\Renderer\Html\Authored\Paper\ButtonsRenderer;
 use Component\Renderer\Html\Authored\Paper\PaperRenderer;
 use Component\Renderer\Html\Authored\Paper\PaperRendererEditable;
-use Component\Renderer\Html\Authored\Paper\ElementWrapper;
-use Component\Renderer\Html\Authored\Paper\ElementEditableWrapper;
-use Component\Renderer\Html\Authored\Paper\Buttons;
+use Component\Renderer\Html\Manage\SelectTemplateRenderer;
+
+//use Component\Renderer\Html\Authored\Paper\ElementWrapper;
+//use Component\Renderer\Html\Authored\Paper\ElementEditableWrapper;
+//use Component\Renderer\Html\Authored\Paper\Buttons;
+
 use Component\Renderer\Html\Authored\Paper\HeadlineRenderer;
 use Component\Renderer\Html\Authored\Paper\PerexRenderer;
 use Component\Renderer\Html\Authored\Paper\SectionsRenderer;
@@ -23,17 +25,18 @@ use Component\Renderer\Html\Authored\Paper\SectionsRendererEditable;
 
 use Component\Renderer\Html\Authored\Article\ArticleRenderer;
 use Component\Renderer\Html\Authored\Article\ArticleRendererEditable;
-use Component\Renderer\Html\Authored\SelectTemplateRenderer;
 
 use Component\Renderer\Html\Authored\Multipage\MultipageRenderer;
 use Component\Renderer\Html\Authored\Multipage\MultipageRendererEditable;
 
-use Component\Renderer\Html\Manage\ToggleEditContentButtonRenderer;
+use Component\Renderer\Html\Manage\EditContentSwitchRenderer;
+use Component\Renderer\Html\Manage\EditContentSwitchOffRenderer;
+use Component\Renderer\Html\Manage\EditContentSwitchDisabledRenderer;
 
 use Component\Renderer\Html\Generated\LanguageSelectRenderer;
 use Component\Renderer\Html\Generated\SearchPhraseRenderer;
 use Component\Renderer\Html\Generated\SearchResultRenderer;
-use Component\Renderer\Html\Generated\ItemTypeRenderer;
+use Component\Renderer\Html\Authored\TypeSelect\ItemTypeSelectRenderer;
 
 /**
  *
@@ -85,15 +88,17 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
             PaperRendererEditable::class => function(ContainerInterface $c) {
                 return new PaperRendererEditable($c->get('authored.editable.classmap'));
             },
-            ElementWrapper::class => function(ContainerInterface $c) {
-                return new ElementWrapper($c->get('authored.classmap'));
-            },
-            ElementEditableWrapper::class => function(ContainerInterface $c) {
-                return new ElementEditableWrapper($c->get('authored.editable.classmap'));
-            },
-            Buttons::class => function(ContainerInterface $c) {
-                return new Buttons($c->get('authored.editable.classmap'));
-            },
+//
+//            ElementWrapper::class => function(ContainerInterface $c) {
+//                return new ElementWrapper($c->get('authored.classmap'));
+//            },
+//            ElementEditableWrapper::class => function(ContainerInterface $c) {
+//                return new ElementEditableWrapper($c->get('authored.editable.classmap'));
+//            },
+//            Buttons::class => function(ContainerInterface $c) {
+//                return new Buttons($c->get('authored.editable.classmap'));
+//            },
+
             HeadlineRenderer::class => function(ContainerInterface $c) {
                 return new HeadlineRenderer($c->get('authored.classmap'));
             },
@@ -113,10 +118,16 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new SectionsRendererEditable($c->get('authored.editable.classmap'));
             },
         ###########################
-        #  status renderer
+        #  edit content renderer
         ###########################
-            ToggleEditContentButtonRenderer::class => function(ContainerInterface $c) {
-                return new ToggleEditContentButtonRenderer($c->get('authored.editable.classmap'));
+            EditContentSwitchRenderer::class => function(ContainerInterface $c) {
+                return new EditContentSwitchRenderer($c->get('authored.editable.classmap'));
+            },
+            EditContentSwitchOffRenderer::class => function(ContainerInterface $c) {
+                return new EditContentSwitchOffRenderer($c->get('authored.editable.classmap'));
+            },
+            EditContentSwitchDisabledRenderer::class => function(ContainerInterface $c) {
+                return new EditContentSwitchDisabledRenderer($c->get('authored.editable.classmap'));
             },
         ###########################
         #  article renderer
@@ -148,8 +159,8 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
             SearchResultRenderer::class => function(ContainerInterface $c) {
                 return new SearchResultRenderer();
             },
-            ItemTypeRenderer::class => function(ContainerInterface $c) {
-                return new ItemTypeRenderer();
+            ItemTypeSelectRenderer::class => function(ContainerInterface $c) {
+                return new ItemTypeSelectRenderer();
             },
         ###########################
         #  default template renderer

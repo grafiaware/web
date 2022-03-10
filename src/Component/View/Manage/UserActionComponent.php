@@ -31,10 +31,16 @@ class UserActionComponent extends StatusComponentAbstract {
     //renderuje template nebo NonPermittedContentRenderer
 
     public function beforeRenderingHook(): void {
-        if($this->isAllowedToPresent(AccessPresentationEnum::EDIT)) {
+        if($this->isAllowedToPresent(AccessPresentationEnum::DISPLAY)) {
             $this->setTemplate(new PhpTemplate($this->configuration->getTemplateUserAction()));
         } else {
             $this->setRendererName(NoPermittedContentRenderer::class);
         }
+    }
+
+    public function getComponentPermissions(): array {
+        return [
+            RoleEnum::AUTHENTICATED => [AccessPresentationEnum::DISPLAY => \Component\View\StatusComponentAbstract::class],
+        ];
     }
 }

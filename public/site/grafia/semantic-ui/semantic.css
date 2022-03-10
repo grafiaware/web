@@ -5674,6 +5674,112 @@ body .ui.inverted:not(.dimmer)::-webkit-scrollbar-thumb:hover {
 .ui.disabled.button:hover {
   pointer-events: auto !important;
   opacity: 1 !important;
+  color: rgba(255, 255, 255, 0.7);
+  background-color: white;
+}
+
+.ui.button:disabled.red,
+.ui.buttons .disabled.button:not(.basic).red,
+.ui.disabled.active.button.red,
+.ui.disabled.button.red,
+.ui.disabled.button:hover.red {
+  background-color: rgba(235, 27, 76, 0.45);
+}
+
+.ui.button:disabled.orange,
+.ui.buttons .disabled.button:not(.basic).orange,
+.ui.disabled.active.button.orange,
+.ui.disabled.button.orange,
+.ui.disabled.button:hover.orange {
+  background-color: rgba(242, 113, 28, 0.45);
+}
+
+.ui.button:disabled.yellow,
+.ui.buttons .disabled.button:not(.basic).yellow,
+.ui.disabled.active.button.yellow,
+.ui.disabled.button.yellow,
+.ui.disabled.button:hover.yellow {
+  background-color: rgba(251, 189, 8, 0.45);
+}
+
+.ui.button:disabled.olive,
+.ui.buttons .disabled.button:not(.basic).olive,
+.ui.disabled.active.button.olive,
+.ui.disabled.button.olive,
+.ui.disabled.button:hover.olive {
+  background-color: rgba(181, 204, 24, 0.45);
+}
+
+.ui.button:disabled.green,
+.ui.buttons .disabled.button:not(.basic).green,
+.ui.disabled.active.button.green,
+.ui.disabled.button.green,
+.ui.disabled.button:hover.green {
+  background-color: rgba(33, 186, 69, 0.45);
+}
+
+.ui.button:disabled.teal,
+.ui.buttons .disabled.button:not(.basic).teal,
+.ui.disabled.active.button.teal,
+.ui.disabled.button.teal,
+.ui.disabled.button:hover.teal {
+  background-color: rgba(0, 181, 173, 0.45);
+}
+
+.ui.button:disabled.blue,
+.ui.buttons .disabled.button:not(.basic).blue,
+.ui.disabled.active.button.blue,
+.ui.disabled.button.blue,
+.ui.disabled.button:hover.blue {
+  background-color: rgba(33, 133, 208, 0.45);
+}
+
+.ui.button:disabled.violet,
+.ui.buttons .disabled.button:not(.basic).violet,
+.ui.disabled.active.button.violet,
+.ui.disabled.button.violet,
+.ui.disabled.button:hover.violet {
+  background-color: rgba(100, 53, 201, 0.45);
+}
+
+.ui.button:disabled.purple,
+.ui.buttons .disabled.button:not(.basic).purple,
+.ui.disabled.active.button.purple,
+.ui.disabled.button.purple,
+.ui.disabled.button:hover.purple {
+  background-color: rgba(163, 51, 200, 0.45);
+}
+
+.ui.button:disabled.pink,
+.ui.buttons .disabled.button:not(.basic).pink,
+.ui.disabled.active.button.pink,
+.ui.disabled.button.pink,
+.ui.disabled.button:hover.pink {
+  background-color: rgba(224, 57, 151, 0.45);
+}
+
+.ui.button:disabled.brown,
+.ui.buttons .disabled.button:not(.basic).brown,
+.ui.disabled.active.button.brown,
+.ui.disabled.button.brown,
+.ui.disabled.button:hover.brown {
+  background-color: rgba(165, 103, 63, 0.45);
+}
+
+.ui.button:disabled.grey,
+.ui.buttons .disabled.button:not(.basic).grey,
+.ui.disabled.active.button.grey,
+.ui.disabled.button.grey,
+.ui.disabled.button:hover.grey {
+  background-color: rgba(118, 118, 118, 0.45);
+}
+
+.ui.button:disabled.black,
+.ui.buttons .disabled.button:not(.basic).black,
+.ui.disabled.active.button.black,
+.ui.disabled.button.black,
+.ui.disabled.button:hover.black {
+  background-color: rgba(27, 28, 29, 0.45);
 }
 /*!
  * # Fomantic-UI - Container

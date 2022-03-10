@@ -4,65 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b43dc622592ff4f8766c9a22c4960fd1",
+    "content-hash": "e0cbeeb15d1d518baa9a6966b555954f",
     "packages": [
-        {
-            "name": "pes/monorm",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/box4pes/monorm.git",
-                "reference": "0810aa5e160d4c9ae7b2994c0466c234bf35e9be"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/box4pes/monorm/zipball/0810aa5e160d4c9ae7b2994c0466c234bf35e9be",
-                "reference": "0810aa5e160d4c9ae7b2994c0466c234bf35e9be",
-                "shasum": ""
-            },
-            "require": {
-                "pes/pes": "@dev"
-            },
-            "default-branch": true,
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Monorm\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Petr Svoboda",
-                    "email": "svoboda@grafia.cz"
-                }
-            ],
-            "description": "Mono ORM.",
-            "keywords": [
-                "orm",
-                "pes"
-            ],
-            "support": {
-                "issues": "https://github.com/box4pes/monorm/issues",
-                "source": "https://github.com/box4pes/monorm/tree/master"
-            },
-            "time": "2020-07-25T10:07:05+00:00"
-        },
         {
             "name": "pes/pes",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/box4pes/pes.git",
-                "reference": "8f383efeff47278b5c08f107db3bfb8fc55012be"
+                "reference": "4ce48532025e3c108f97e4f38b5844905294ff4c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/box4pes/pes/zipball/8f383efeff47278b5c08f107db3bfb8fc55012be",
-                "reference": "8f383efeff47278b5c08f107db3bfb8fc55012be",
+                "url": "https://api.github.com/repos/box4pes/pes/zipball/4ce48532025e3c108f97e4f38b5844905294ff4c",
+                "reference": "4ce48532025e3c108f97e4f38b5844905294ff4c",
                 "shasum": ""
             },
             "require": {
@@ -104,7 +59,7 @@
                 "issues": "https://github.com/box4pes/pes/issues",
                 "source": "https://github.com/box4pes/pes/tree/master"
             },
-            "time": "2022-03-06T10:56:41+00:00"
+            "time": "2022-03-10T12:07:43+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
@@ -551,7 +506,6 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "pes/pes": 20,
-        "pes/monorm": 20,
         "samshal/acl": 20
     },
     "prefer-stable": false,

@@ -15,19 +15,17 @@ use Psr\Http\Message\ServerRequestInterface;
 
 // enum
 use Red\Model\Enum\AuthoredTypeEnum;
-use Access\Enum\AccessPresentationEnum;
 //TODO: oprávnění pro routy
 use Access\Enum\AllowedActionEnum;
 
 // komponenty
-use Component\View\Generated\ItemTypeSelectComponent;
-use Component\View\Authored\Paper\PaperComponent;
-use Component\View\Authored\Paper\PaperComponentEditable;
-use Component\View\Authored\Paper\PaperComponentInterface;
-use Component\View\Authored\Article\ArticleComponent;
-use Component\View\Authored\Article\ArticleComponentInterface;
-use Component\View\Authored\Multipage\MultipageComponent;
-use Component\View\Authored\Multipage\MultipageComponentInterface;
+use Component\View\MenuItem\TypeSelect\ItemTypeSelectComponent;
+use Component\View\MenuItem\Authored\Paper\PaperComponent;
+use Component\View\MenuItem\Authored\Paper\PaperComponentInterface;
+use Component\View\MenuItem\Authored\Article\ArticleComponent;
+use Component\View\MenuItem\Authored\Article\ArticleComponentInterface;
+use Component\View\MenuItem\Authored\Multipage\MultipageComponent;
+use Component\View\MenuItem\Authored\Multipage\MultipageComponentInterface;
 
 // renderery
 use Pes\View\Renderer\PhpTemplateRenderer;
@@ -69,23 +67,17 @@ class ComponentControler extends FrontControlerAbstract {
 
     public function empty(ServerRequestInterface $request, $menuItemId) {
         $view = $this->container->get(ItemTypeSelectComponent::class);
+        $view->setItemId($menuItemId);
         return $this->createResponseFromView($request, $view);
     }
 
     public function paper(ServerRequestInterface $request, $menuItemId) {
-        if ($this->isItemInEditableMode(AuthoredTypeEnum::PAPER, $menuItemId)) {
-            /** @var PaperComponentInterface $view */
-            $view = $this->container->get(PaperComponentEditable::class);
-            $allowed = AccessPresentationEnum::EDIT;
-        } else {
+        if($this->isAllowed(AllowedActionEnum::GET)) {
             /** @var PaperComponentInterface $view */
             $view = $this->container->get(PaperComponent::class);
-            $allowed = AccessPresentationEnum::DISPLAY;
-        }
-        if($view->isAllowedToPresent($allowed)) {
             $view->setItemId($menuItemId);
         } else {
-            $view = $this->getNonPermittedContentView($allowed, AuthoredTypeEnum::PAPER);
+            $view =  $this->getNonPermittedContentView(AllowedActionEnum::GET, AuthoredTypeEnum::PAPER);
         }
         return $this->createResponseFromView($request, $view);
     }

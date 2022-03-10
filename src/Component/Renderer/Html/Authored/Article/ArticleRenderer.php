@@ -3,11 +3,11 @@ namespace Component\Renderer\Html\Authored\Article;
 
 use Red\Model\Entity\ArticleInterface;
 
-use Component\ViewModel\Authored\Article\ArticleViewModelInterface;
+use Component\ViewModel\MenuItem\Authored\Article\ArticleViewModelInterface;
 use Pes\Text\Html;
 use Component\Renderer\Html\HtmlRendererAbstract;
 
-use Component\View\Authored\AuthoredComponentAbstract;
+use Component\View\MenuItem\Authored\AuthoredComponentAbstract;
 
 /**
  * Description of PaperRenderer

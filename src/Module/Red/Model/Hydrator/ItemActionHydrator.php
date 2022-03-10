@@ -31,7 +31,7 @@ class ItemActionHydrator implements HydratorInterface {
         /** @var ItemActionInterface $itemAction */
         $itemAction
             ->setTypeFk($rowData->offsetGet('type_fk'))
-            ->setContentId($rowData->offsetGet('content_id'))
+            ->setItemId($rowData->offsetGet('item_id'))
             ->setEditorLoginName($rowData->offsetGet('editor_login_name'))
             ->setCreated($rowData->offsetGet('created') ? \DateTime::createFromFormat('Y-m-d H:i:s', $rowData->offsetGet('created')) : NULL);
     }
@@ -44,7 +44,7 @@ class ItemActionHydrator implements HydratorInterface {
     public function extract(EntityInterface $itemAction, RowDataInterface $rowData) {
         /** @var ItemActionInterface $itemAction */
         $rowData->offsetSet('type_fk', $itemAction->getTypeFk());
-        $rowData->offsetSet('content_id', $itemAction->getContentId());
+        $rowData->offsetSet('item_id', $itemAction->getItemId());
         $rowData->offsetSet('editor_login_name', $itemAction->getEditorLoginName());
         // created je timestamp
     }

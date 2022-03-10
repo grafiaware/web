@@ -12,8 +12,8 @@ use Component\Renderer\Html\Authored\Paper\HeadlineRenderer;
 
 use Pes\Text\Html;
 
-use Component\View\Authored\Paper\PaperComponent;
-use Component\View\Authored\AuthoredComponentAbstract;
+use Component\View\MenuItem\Authored\Paper\PaperComponent;
+use Component\View\MenuItem\Authored\AuthoredComponentAbstract;
 
 /**
  * Description of PaperRenderer
@@ -24,12 +24,10 @@ class PaperRenderer  extends HtmlRendererAbstract {
     public function render(iterable $viewModel=NULL) {
         /** @var PaperViewModelInterface $viewModel */
         $paperAggregate = $viewModel->getPaper();  // vrací PaperAggregate
-        $inner = (string) $viewModel->getContextVariable(PaperComponent::CONTENT) ?? '';
-        $buttonEditContent = (string) $viewModel->getContextVariable(AuthoredComponentAbstract::BUTTON_EDIT_CONTENT) ?? '';
         $html =
                 Html::tag('div', ['class'=>$this->classMap->get('Template', 'div.templatePaper')],
                     Html::tag('article', ['data-red-renderer'=>'PaperRenderer', "data-red-datasource"=> "paper {$paperAggregate->getId()} for item {$paperAggregate->getMenuItemIdFk()}"],
-                            [$buttonEditContent, $inner]
+                            $viewModel->getContextVariable(PaperComponent::CONTENT) ?? ''
                     )
                 );
         return $html ?? '';

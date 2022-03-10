@@ -20,15 +20,10 @@ use Red\Model\Repository\BlockRepo;
 // komponenty
 use Component\View\Generated\LanguageSelectComponent;
 use Component\View\Generated\SearchPhraseComponent;
-use Component\View\Generated\SearchResultComponent;
-use Component\View\Generated\ItemTypeSelectComponent;
 use Component\View\Manage\LoginLogoutComponent;
-use Component\View\Manage\LoginComponent;
 use Component\View\Manage\RegisterComponent;
-use Component\View\Manage\LogoutComponent;
 use Component\View\Manage\UserActionComponent;
 use Component\View\Manage\StatusBoardComponent;
-use Component\View\Manage\ToggleEditMenuComponent;
 use Component\View\Flash\FlashComponent;
 
 use Red\Model\Entity\MenuItemInterface;
@@ -121,7 +116,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
      */
     protected function createView(ServerRequestInterface $request, array $componentViews) {
 
-        $layoutView = $this->getViewWithLayoutTemplate($request);
+        $layoutView = $this->getLayoutView($request);
         foreach ($componentViews as $name => $componentView) {
             if (isset($componentView)) {
                 $layoutView->appendComponentView($componentView, $name);
@@ -133,23 +128,25 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
 ######################################
 
     /**
-     *
+     * View s tempate layout.php a data pro template
      * @return CompositeView
      */
-    private function getViewWithLayoutTemplate(ServerRequestInterface $request) {
+    private function getLayoutView(ServerRequestInterface $request) {
         /** @var ViewInterface $view */
         $view = $this->container->get(View::class);
         $view->setTemplate(new PhpTemplate(Configuration::layoutController()['layout']));
         $view->setData(
                 [
-                    'basePath' => $this->getBasePath($request),
+                    // v layout.php
+                    'basePath' => $this->getBasePath($request),  // stejná metoda dává base path i do tinyConfig.js
                     'langCode' => $this->getPresentationLangCode(),
-                    'isEditableMode' => $this->isPartInEditableMode(),
-
                     'title' => Configuration::layoutController()['title'],
+                    // podmínění insert css souborů v head/css.php
+                    'isEditableMode' => $this->isPartInEditableMode(),
+                    // na mnoha místech - cesty k souborům zadané v konfiguraci
                     'linksCommon' => Configuration::layoutController()['linksCommon'],
                     'linksSite' => Configuration::layoutController()['linksSite'],
-
+                    // atributy div v container.php
                     'bodyContainerAttributes' => $this->getBodyContainerAttributes(),
                 ]);
         return $view;
@@ -165,7 +162,6 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
 
     #### komponenty a komponentní views ######
 
-
     /**
      *
      * @param ServerRequestInterface $request
@@ -179,26 +175,46 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
         //          - dva stené bloky v layoutu - mapa, kontakt v hlavičce i v patičce
 
         $views = array_merge(
-                [
-                'content' => $this->getContentLoadScript($menuItem),
-
-                'languageSelect' => $this->container->get(LanguageSelectComponent::class),
-                'searchPhrase' => $this->container->get(SearchPhraseComponent::class),
-                'modalLoginLogout' => $this->container->get(LoginLogoutComponent::class),
-                'modalRegister' => $this->container->get(RegisterComponent::class),
-                'modalUserAction' => $this->container->get(UserActionComponent::class),
-                'poznamky' => $this->container->get(StatusBoardComponent::class),
-                'flash' => $this->container->get(FlashComponent::class),
-//                'controlEditMenu' => $this->container->get(ToggleEditMenuComponent::class),
-
-                'scriptsEditableMode' => $this->getScriptsEditableModeView($request),
-                ],
-                // full page
-                $this->getAuthoredLayoutBlockLoaders(),
+                ['content' => $this->getContentLoadScript($menuItem)],
+                $this->getBasicViews(),
+                $this->getEditableModeViews($request),
+                $this->getLoggedOnOffViews(),
+                $this->getMenuComponents(),
                 // for debug
 //                $this->getEmptyMenuComponents(),
-                $this->getMenuComponents()
-                );
+                // cascade
+                $this->getAuthoredLayoutBlockLoaders(),
+            );
+        return $views;
+    }
+
+    private function getBasicViews() {
+        return [
+                'languageSelect' => $this->container->get(LanguageSelectComponent::class),
+                'searchPhrase' => $this->container->get(SearchPhraseComponent::class),
+                'flash' => $this->container->get(FlashComponent::class),
+            ];
+    }
+
+    private function getEditableModeViews($request) {
+        return [
+                'scriptsEditableMode' => $this->getScriptsEditableModeView($request),
+            ];
+    }
+
+    private function getLoggedOnOffViews() {
+        if($this->isUserLoggedIn()) {
+            $views = [
+                'modalLoginLogout' => $this->container->get(LoginLogoutComponent::class),
+                'modalUserAction' => $this->container->get(UserActionComponent::class),
+                'poznamky' => $this->container->get(StatusBoardComponent::class),
+            ];
+        } else {
+            $views =  [
+                'modalRegister' => $this->container->get(RegisterComponent::class),
+                'modalLoginLogout' => $this->container->get(LoginLogoutComponent::class),
+            ];
+        }
         return $views;
     }
 
@@ -230,14 +246,14 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
 
     /**
      * Vrací view s šablonou obsahující skript pro načtení obsahu na základě typu menuItem a id menu item. Načtení probíhá pomocí cascade.js.
-     * cascade.js odešlě request a získá obsah a zámění původní obsah html elementu v layoutu.
+     * cascade.js odešle request a získá obsah a zámění původní obsah html elementu v layoutu.
      * Parametry uri v načítacím skriptu jsou typ menuItem a id menu item, aby nebylo třeba načítat data s obsahem (paper, article, multipage a další) zde v kontroleru.
      * Pro případ obsahu typu 'static' jsou jako prametry uri předány typ 'static' a jméno statické stránky, které je pak použito pro načtení statické šablony.
      *
      * @param type $menuItem
      * @return View
      */
-    protected function getContentLoadScript($menuItem=null) {
+    private function getContentLoadScript($menuItem=null) {
         /** @var View $view */
         $view = $this->container->get(View::class);
         // prvek data 'loaderWrapperElementId' musí být unikátní - z jeho hodnoty se generuje id načítaného elementu - a id musí být unikátní jinak dojde k opakovanému přepsání obsahu elemntu v DOM
@@ -306,8 +322,6 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
      */
     private function getScriptsEditableModeView(ServerRequestInterface $request) {
         if ($this->isPartInEditableMode()) {
-            ## document base path - stejná hodnota se musí použiít i v nastavení tinyMCE
-            $basepath = $this->getBasePath($request);
             $tinyLanguage = Configuration::layoutController()['tinyLanguage'];
             $langCode =$this->statusPresentationRepo->get()->getLanguage()->getLangCode();
             $tinyToolsbarsLang = array_key_exists($langCode, $tinyLanguage) ? $tinyLanguage[$langCode] : Configuration::presentationStatus()['default_lang_code'];
@@ -319,7 +333,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
                                 ->setTemplate(new InterpolateTemplate(Configuration::layoutController()['tinyConfig']))
                                 ->setData([
                                     // pro tiny_config.js
-                                    'basePath' => $basepath,
+                                    'basePath' => $this->getBasePath($request),  // stejná metoda dáva base path i do layout.php
                                     'toolbarsLang' => $tinyToolsbarsLang,
                                     // prvky pole contentCSS - tyto tři proměnné jsou prvky pole - pole je v tiny_config.js v proměnné contentCss
                                     'urlStylesCss' => Configuration::layoutController()['urlStylesCss'],
@@ -349,6 +363,11 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
     private function isPartInEditableMode() {
         $userActions = $this->statusPresentationRepo->get()->getUserActions();
         return $userActions->presentAnyInEditableMode();
+    }
+
+    private function isUserLoggedIn() {
+        $loginAggregate = $this->statusSecurityRepo->get()->getLoginAggregate();
+        return (isset($loginAggregate) AND $loginAggregate->getLoginName()) ? true : false;
     }
 
 }

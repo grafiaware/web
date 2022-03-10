@@ -9,8 +9,12 @@
 namespace Component\View\Manage;
 
 use Component\View\StatusComponentAbstract;
+use Component\Renderer\Html\NoContentForStatusRenderer;
 use Component\ViewModel\StatusViewModelInterface;
 use Pes\View\Template\PhpTemplate;
+
+use Access\Enum\RoleEnum;
+use Access\Enum\AccessPresentationEnum;
 
 /**
  * Description of LogoutComponent
@@ -27,12 +31,14 @@ class LoginLogoutComponent extends StatusComponentAbstract {
     //renderuje template login nebo logout
 
     public function beforeRenderingHook(): void {
-
-        if ($this->contextData->isUserLoggedIn()) {
-            $this->setTemplate(new PhpTemplate($this->configuration->getTemplateLogout()));
+        if($this->isAllowedToPresent(AccessPresentationEnum::DISPLAY)) {
+            if ($this->contextData->isUserLoggedIn()) {
+                $this->setTemplate(new PhpTemplate($this->configuration->getTemplateLogout()));
+            } else {
+                $this->setTemplate(new PhpTemplate($this->configuration->getTemplateLogin()));
+            }
         } else {
-            $this->setTemplate(new PhpTemplate($this->configuration->getTemplateLogin()));
+            $this->setRendererName(NoContentForStatusRenderer::class);
         }
     }
-
 }

@@ -5,8 +5,8 @@ use Component\Renderer\Html\Authored\AuthoredRendererAbstract;
 
 use Red\Model\Entity\ArticleInterface;
 
-use Component\View\Authored\AuthoredComponentAbstract;
-use Component\ViewModel\Authored\Article\ArticleViewModelInterface;
+use Component\View\MenuItem\Authored\AuthoredComponentAbstract;
+use Component\ViewModel\MenuItem\Authored\Article\ArticleViewModelInterface;
 
 use Red\Middleware\Redactor\Controler\ArticleControler;
 

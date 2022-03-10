@@ -24,7 +24,7 @@ class SearchPhraseRenderer extends HtmlRendererAbstract {
         return '
             <form action="web/v1/page/searchresult" method="GET">
             <div class="ui mini action fluid input">
-            <input placeholder="'.Message::t("Vyhledat...").'" type="search" name="klic" value=""  minlength="3" maxlength="200" required>
+            <input placeholder="'.Message::t("Vyhledat...").'" type="search" name="klic" value=""  minlength="3" maxlength="200">
             <button class="ui icon button" type="submit"><i class="search link icon"></i></button>
             </div>
             </form>';

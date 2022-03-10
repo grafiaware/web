@@ -32,7 +32,7 @@ use \Red\Middleware\Redactor\Controler\EditItemControler;
 use Red\Middleware\Redactor\Controler\ItemActionControler;
 use \Red\Middleware\Redactor\Controler\PaperControler;
 use \Red\Middleware\Redactor\Controler\ArticleControler;
-use \Red\Middleware\Redactor\Controler\ContentControler;
+use \Red\Middleware\Redactor\Controler\SectionsControler;
 use Red\Middleware\Redactor\Controler\FilesUploadControler;
 
 use Events\Middleware\Events\Controller\{EventController, VisitorDataController};
@@ -144,8 +144,8 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusPresentationRepo::class),
                         $c->get(ArticleRepo::class));
             },
-            ContentControler::class => function(ContainerInterface $c) {
-                return new ContentControler(
+            SectionsControler::class => function(ContainerInterface $c) {
+                return new SectionsControler(
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),

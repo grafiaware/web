@@ -2,7 +2,7 @@
 
 namespace Component\View\Menu;
 
-use Component\View\Authored\AuthoredComponentAbstract;
+use Component\View\MenuItem\Authored\AuthoredComponentAbstract;
 use Component\ViewModel\Menu\MenuViewModelInterface;
 
 /**

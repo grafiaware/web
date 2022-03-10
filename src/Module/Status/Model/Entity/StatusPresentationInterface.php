@@ -94,13 +94,13 @@ interface StatusPresentationInterface extends EntitySingletonInterface {
      * Vrací item action pro zadaný typ a id obsahu nebo null.
      *
      * @param type $contentType
-     * @param type $contentId
+     * @param type $itemId
      * @return ItemActionInterface|null
      */
-    public function getItemAction($contentType, $contentId): ?ItemActionInterface;
-
-    public function addItemAction(ItemActionInterface $itemAction): StatusPresentationInterface;
-
-    public function removeItemAction(ItemActionInterface $itemAction): StatusPresentationInterface;
+//    public function getItemAction($contentType, $itemId): ?ItemActionInterface;
+//
+//    public function addItemAction(ItemActionInterface $itemAction): StatusPresentationInterface;
+//
+//    public function removeItemAction(ItemActionInterface $itemAction): StatusPresentationInterface;
 
 }

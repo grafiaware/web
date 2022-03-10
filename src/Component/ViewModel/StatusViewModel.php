@@ -98,8 +98,8 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
         return $this->statusPresentationRepo->get()->getLanguage();
     }
 
-    public function getItemsAction($contentType, $contentId): ?UserActionsInterface {
-        return $this->statusPresentationRepo->get()->getItemAction($contentType, $contentId);
+    public function getUserActions(): ?UserActionsInterface {
+        return $this->statusPresentationRepo->get()->getUserActions();
     }
 
     public function getPresentedMenuItem(): ?MenuItemInterface {

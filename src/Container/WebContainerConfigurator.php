@@ -56,13 +56,12 @@ use Component\View\AccessComponentInterface;
 
 use Component\View\Menu\MenuComponent;
 
-use Component\View\Generated\ItemTypeSelectComponent;
-use Component\View\Authored\Paper\PaperComponent;
-use Component\View\Authored\Paper\PaperComponentEditable;
-use Component\View\Authored\Article\ArticleComponent;
-use Component\View\Authored\Multipage\MultipageComponent;
-use Component\View\Authored\TemplatedComponent;
-use Component\View\Authored\PaperTemplate\PaperTemplateComponent;
+use Component\View\MenuItem\TypeSelect\ItemTypeSelectComponent;
+use Component\View\MenuItem\Authored\Paper\PaperComponent;
+use Component\View\MenuItem\Authored\Article\ArticleComponent;
+use Component\View\MenuItem\Authored\Multipage\MultipageComponent;
+use Component\View\MenuItem\Authored\TemplatedComponent;
+use Component\View\MenuItem\Authored\PaperTemplate\PaperTemplateComponent;
 use Component\View\Manage\SelectTemplateComponent;
 use Component\View\Element\ElementInheritDataComponent;
 
@@ -76,41 +75,36 @@ use Component\View\Manage\LoginLogoutComponent;
 use Component\View\Manage\RegisterComponent;
 use Component\View\Manage\UserActionComponent;
 use Component\View\Manage\StatusBoardComponent;
-use Component\View\Manage\ToggleEditMenuComponent;
-use Component\View\Manage\ToggleEditContentButtonComponent;
+use Component\View\Manage\EditMenuSwitchComponent;
+use Component\View\Manage\EditContentSwitchComponent;
 
 // viewModel
 use Component\ViewModel\StatusViewModel;
 
 use Component\ViewModel\Menu\MenuViewModel;
-use Component\ViewModel\Authored\Paper\PaperViewModel;
-use Component\ViewModel\Authored\Article\ArticleViewModel;
-use Component\ViewModel\Authored\Multipage\MultipageViewModel;
+
+use Component\ViewModel\MenuItem\Authored\Paper\PaperViewModel;
+use Component\ViewModel\MenuItem\Authored\Article\ArticleViewModel;
+use Component\ViewModel\MenuItem\Authored\Multipage\MultipageViewModel;
+
+use Component\ViewModel\MenuItem\TypeSelect\ItemTypeSelectViewModel;
 
 use Component\ViewModel\Manage\LoginLogoutViewModel;
-use Component\ViewModel\Manage\RegisterViewModel;
 use Component\ViewModel\Manage\StatusBoardViewModel;
 use Component\ViewModel\Manage\UserActionViewModel;
-use Component\ViewModel\Authored\Manage\ToggleEditContentButtonViewModel;
 use Component\ViewModel\Manage\ToggleEditMenuViewModel;
 
 use Component\ViewModel\Generated\LanguageSelectViewModel;
 use Component\ViewModel\Generated\SearchResultViewModel;
-use Component\ViewModel\Generated\ItemTypeSelectViewModel;
+
 use Component\ViewModel\Flash\FlashViewModel;
 
 // renderery - pro volání služeb renderer kontejneru renderer::class
 use Component\Renderer\Html\NoPermittedContentRenderer;
 
-use Component\Renderer\Html\Authored\Paper\SelectPaperTemplateRenderer;
-use Component\Renderer\Html\Authored\Paper\PaperRenderer;
+use Component\Renderer\Html\Manage\SelectTemplateRenderer;
+
 use Component\Renderer\Html\Authored\Article\ArticleRenderer;
-use Component\Renderer\Html\Authored\Paper\HeadlineRenderer;
-use Component\Renderer\Html\Authored\Paper\HeadlineRendererEditable;
-use Component\Renderer\Html\Authored\Paper\PerexRenderer;
-use Component\Renderer\Html\Authored\Paper\PerexRendererEditable;
-use Component\Renderer\Html\Authored\Paper\SectionsRenderer;
-use Component\Renderer\Html\Authored\Paper\SectionsRendererEditable;
 
 use Component\Renderer\Html\Generated\LanguageSelectRenderer;
 use Component\Renderer\Html\Generated\SearchPhraseRenderer;
@@ -206,7 +200,9 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(AccessPresentation::class)
                     );
                 $menuComponent->setRendererContainer($c->get('rendererContainer'));
-                $menuComponent->appendComponentView($c->get(ToggleEditMenuComponent::class), MenuComponent::TOGGLE_EDIT_MENU);
+                if ($menuComponent->getStatus()->presentEditableContent()) {
+                    $menuComponent->appendComponentView($c->get(EditMenuSwitchComponent::class), MenuComponent::TOGGLE_EDIT_MENU);
+                }
                 return $menuComponent;
             },
         ####
@@ -309,13 +305,14 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 $component = new TemplatedComponent(
                         $c->get(ComponentConfiguration::class),
                         $c->get(StatusViewModel::class),
-                        $c->get(AccessPresentation::class)
+                        $c->get(AccessPresentation::class),
+                        $c->get(TemplateSeeker::class)
                      );
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
-            ToggleEditContentButtonComponent::class => function(ContainerInterface $c) {
-                $component = new ToggleEditContentButtonComponent(
+            EditContentSwitchComponent::class => function(ContainerInterface $c) {
+                $component = new EditContentSwitchComponent(
                         $c->get(ComponentConfiguration::class),
                         $c->get(StatusViewModel::class),
                         $c->get(AccessPresentation::class)
@@ -324,6 +321,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 return $component;
             },
             PaperComponent::class => function(ContainerInterface $c) {
+                /** @var PaperViewModel $viewModel */
                 $viewModel = $c->get(PaperViewModel::class);
 
                 $component = new PaperComponent(
@@ -332,53 +330,24 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(AccessPresentation::class)
                      );
                 $component->setData($viewModel);
-                $component->setRendererName(PaperRenderer::class);
                 $component->setRendererContainer($c->get('rendererContainer'));
-                // komponent - view s buttonem zapni/vypni editaci (tužtička)
-                /** @var ToggleEditContentButtonComponent $toggleEditComponent */
-                $component->appendComponentView($c->get(ToggleEditContentButtonComponent::class), PaperComponent::BUTTON_EDIT_CONTENT);
-                // komponent s obsahem
-                /** @var TemplatedComponent $templatedComponent */
-                $templatedComponent = $c->get(TemplatedComponent::class);
-                $templatedComponent->appendComponentView(
-                        ($c->get(ElementInheritDataComponent::class))->setRendererName(HeadlineRenderer::class),
-                        PaperComponent::HEADLINE);
-                $templatedComponent->appendComponentView(
-                        ($c->get(ElementInheritDataComponent::class))->setRendererName(PerexRenderer::class),
-                        PaperComponent::PEREX);
-                $templatedComponent->appendComponentView(
-                        ($c->get(ElementInheritDataComponent::class))->setRendererName(SectionsRenderer::class),
-                        PaperComponent::SECTIONS);
-                $component->appendComponentView($templatedComponent, PaperComponent::CONTENT);
-                return $component;
-            },
-            PaperComponentEditable::class => function(ContainerInterface $c) {
-                /** @var PaperViewModel $viewModel */
-                $viewModel = $c->get(PaperViewModel::class);
 
-                $component = new PaperComponentEditable(
-                        $c->get(ComponentConfiguration::class),
-                        $c->get(StatusViewModel::class),
-                        $c->get(AccessPresentation::class)
-                     );
-                $component->setData($viewModel);
-                $component->setRendererName(PaperRenderer::class);
-                $component->setRendererContainer($c->get('rendererContainer'));
                 // komponent - view s buttonem zapni/vypni editaci (tužtička)
-                /** @var ToggleEditContentButtonComponent $toggleEditComponent */
-                $component->appendComponentView($c->get(ToggleEditContentButtonComponent::class), PaperComponent::BUTTON_EDIT_CONTENT);
+
+                // podmíněné přidání komponent do paper - jen pro editační režim PaperComponentu
+                if ($component->getStatus()->presentEditableContent()) {
+                    $editContentSwithComponent = $c->get(EditContentSwitchComponent::class);
+                    $selectTemplateComponent = $c->get(SelectTemplateComponent::class);
+                    $component->appendComponentView($editContentSwithComponent, PaperComponent::BUTTON_EDIT_CONTENT);
+                    $component->appendComponentView($selectTemplateComponent, PaperComponent::SELECT_TEMPLATE);
+                }
                 // komponent s obsahem
                 /** @var TemplatedComponent $templatedComponent */
                 $templatedComponent = $c->get(TemplatedComponent::class);
-                $templatedComponent->appendComponentView(
-                        ($c->get(ElementInheritDataComponent::class))->setRendererName(HeadlineRendererEditable::class),
-                        PaperComponent::HEADLINE);
-                $templatedComponent->appendComponentView(
-                        ($c->get(ElementInheritDataComponent::class))->setRendererName(PerexRendererEditable::class),
-                        PaperComponent::PEREX);
-                $templatedComponent->appendComponentView(
-                        ($c->get(ElementInheritDataComponent::class))->setRendererName(SectionsRendererEditable::class),
-                        PaperComponent::SECTIONS);
+                $templatedComponent->appendComponentView($c->get(ElementInheritDataComponent::class), PaperComponent::HEADLINE);
+                $templatedComponent->appendComponentView($c->get(ElementInheritDataComponent::class), PaperComponent::PEREX);
+                $templatedComponent->appendComponentView($c->get(ElementInheritDataComponent::class), PaperComponent::SECTIONS);
+                // přidání komponent do paper
                 $component->appendComponentView($templatedComponent, PaperComponent::CONTENT);
                 return $component;
             },
@@ -393,15 +362,21 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
 
                 return $component;
             },
-            ArticleComponent::class => function(ContainerInterface $c) {
+            ArticleComponent::class => function(ContainerInterface $c)   {
                 $component = new ArticleComponent(
                         $c->get(ComponentConfiguration::class),
                         $c->get(StatusViewModel::class),
                         $c->get(AccessPresentation::class)
                      );
-                $component->setData( $c->get(ArticleViewModel::class));
+                     /** @var ArticleViewModel $viewModel */
+                $viewModel = $c->get(ArticleViewModel::class);
+                $component->setData($viewModel);
                 $component->setRendererContainer($c->get('rendererContainer'));
                 $component->setFallbackRendererName(ArticleRenderer::class);
+                if (!$viewModel->hasContent()) {
+                    $component->appendComponentView($c->get(SelectTemplateComponent::class), ArticleComponent::SELECT_TEMPLATE);
+                }
+                $component->appendComponentView($c->get(EditContentSwitchComponent::class), ArticleComponent::BUTTON_EDIT_CONTENT);
                 return $component;
             },
             MultipageComponent::class => function(ContainerInterface $c) {
@@ -425,6 +400,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusViewModel::class),
                         $c->get(AccessPresentation::class)
                      );
+                $component->setRendererName(SelectTemplateRenderer::class);
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
@@ -538,8 +514,8 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
-            ToggleEditMenuComponent::class => function(ContainerInterface $c) {
-                $component = new ToggleEditMenuComponent(
+            EditMenuSwitchComponent::class => function(ContainerInterface $c) {
+                $component = new EditMenuSwitchComponent(
                         $c->get(ComponentConfiguration::class),
                         $c->get(StatusViewModel::class),
                         $c->get(AccessPresentation::class)
@@ -674,9 +650,6 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
         ####
         # view modely pro komponenty
         #
-            ToggleEditContentButtonViewModel::class => function(ContainerInterface $c) {
-                return new ToggleEditContentButtonViewModel( );
-            },
             PaperViewModel::class => function(ContainerInterface $c) {
                 return new PaperViewModel(
                             $c->get(StatusViewModel::class),
@@ -714,6 +687,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             ItemTypeSelectViewModel::class => function(ContainerInterface $c) {
                 return new ItemTypeSelectViewModel(
+                            $c->get(StatusViewModel::class),
                             $c->get(MenuItemRepo::class)
                     );
             },

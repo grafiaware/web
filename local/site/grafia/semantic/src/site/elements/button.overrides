@@ -26,4 +26,47 @@
 .ui.button:disabled, .ui.buttons .disabled.button:not(.basic), .ui.disabled.active.button, .ui.disabled.button, .ui.disabled.button:hover {
     pointer-events: auto !important;
     opacity: 1 !important;  
+    color: fade(@white, 70%);  
+    background-color: white;  
+    @transparency: 45%;
+    &.red{
+        background-color: fade(@red, @transparency); 
+    }
+    &.orange{
+        background-color: fade(@orange, @transparency); 
+    }
+    &.yellow{
+        background-color: fade(@yellow, @transparency); 
+    }
+    &.olive{
+        background-color: fade(@olive, @transparency); 
+    }
+    &.green{
+        background-color: fade(@green, @transparency); 
+    }
+    &.teal{
+        background-color: fade(@teal, @transparency); 
+    }
+    &.blue{
+        background-color: fade(@blue, @transparency); 
+    }
+    &.violet{
+        background-color: fade(@violet, @transparency); 
+    }
+    &.purple{
+        background-color: fade(@purple, @transparency); 
+    }
+    &.pink{
+        background-color: fade(@pink, @transparency); 
+    }
+    &.brown{
+        background-color: fade(@brown, @transparency); 
+    }
+    &.grey{
+        background-color: fade(@grey, @transparency); 
+    }
+    &.black{
+        background-color: fade(@black, @transparency); 
+    }
+
 }

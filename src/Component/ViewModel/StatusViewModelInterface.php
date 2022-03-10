@@ -32,6 +32,6 @@ interface StatusViewModelInterface extends ViewModelInterface {
     public function presentEditableContent(): bool;
     public function presentEditableMenu(): bool;
     public function getPresentedLanguage(): ?LanguageInterface;
-    public function getItemsAction($contentType, $contentId): ?UserActionsInterface;
+    public function getUserActions(): ?UserActionsInterface;
     public function getPresentedMenuItem(): ?MenuItemInterface;
 }

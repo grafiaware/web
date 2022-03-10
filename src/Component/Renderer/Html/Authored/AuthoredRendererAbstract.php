@@ -17,6 +17,26 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract {
 
 ##### společné - authored
 
+    protected function renderSelectTemplate(AuthoredViewModelInterface $viewModel) {
+        $paper = $viewModel->getPaper();
+        $contentTemplateName = $paper->getTemplate();
+        $contentType = $viewModel->getAuthoredContentType();
+        $contentId = $viewModel->getAuthoredContentId();
+
+        return
+            // id je parametr pro togleTemplateSelect(id) - voláno onclick na button 'Vybrat šablonu stránky'
+            Html::tag('div', ['id'=>"select_template_paper_$contentId",'class'=>$this->classMap->get('Template', 'div.selectTemplate')],
+                Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/$contentType/$contentId/template"],
+                    [
+//                        Html::tagNopair('input', ["type"=>"hidden", "name"=>"template_$paperId", "value"=>$contentTemplateName]),
+                        // id?
+                        // class je třída pro selector v tinyInit var selectTemplateConfig
+                        Html::tag('div', ['id'=>"{$contentType}_{$contentId}", 'class'=>"tiny_select_template_{$contentType}"],''),
+                    ]
+                )
+            );
+    }
+
     protected function renderRibbon(AuthoredViewModelInterface $viewModel) {
         $menuItem = $viewModel->getMenuItem();
         $type = $viewModel->getAuthoredContentType();  // spoléhám na to, že návratová hodnota je hodnota z AuthoredTypeEnum
@@ -86,7 +106,7 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract {
 
     protected function getTemplateSelectId(AuthoredViewModelInterface $viewModel) {
         $type = $viewModel->getAuthoredContentType();
-        $contentId = $viewModel->getAuthoredContentId(); 
+        $contentId = $viewModel->getAuthoredContentId();
         return "select_template_{$type}_{$contentId}";
     }
 

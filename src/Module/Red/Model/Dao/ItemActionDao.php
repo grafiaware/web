@@ -22,20 +22,20 @@ class ItemActionDao extends DaoTableAbstract {
      * Vrací jednu řádku tabulky 'item_action' ve formě asociativního pole podle primárního klíče, klíč je kompozitní.
      *
      * @param string $type_fk Hodnota prvního atributu primárního klíče
-     * @param string $content_id Hodnota druhého atributu primárního klíče
+     * @param string $item_id Hodnota druhého atributu primárního klíče
      * @return array Asociativní pole
      * @throws StatementFailureException
      */
-    public function get($type_fk, $content_id) {
+    public function get($type_fk, $item_id) {
         $select = $this->select("
                 `item_action`.`type_fk`,
-                `item_action`.`content_id`,
+                `item_action`.`item_id`,
                 `item_action`.`editor_login_name`,
                 `item_action`.`created`
                 ");
         $from = $this->from("`item_action`");
-        $where = $this->where("`item_action`.`type_fk` = :type_fk AND `item_action`.`content_id` = :content_id");
-        $touplesToBind = [':type_fk'=>$type_fk, ':content_id'=>$content_id];
+        $where = $this->where("`item_action`.`type_fk` = :type_fk AND `item_action`.`item_id` = :item_id");
+        $touplesToBind = [':type_fk'=>$type_fk, ':item_id'=>$item_id];
         return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
@@ -46,7 +46,7 @@ class ItemActionDao extends DaoTableAbstract {
     public function find($whereClause="", $touplesToBind=[]) {
         $select = $this->select("
                 `item_action`.`type_fk`,
-                `item_action`.`content_id`,
+                `item_action`.`item_id`,
                 `item_action`.`editor_login_name`,
                 `item_action`.`created`
                 ");
@@ -60,11 +60,11 @@ class ItemActionDao extends DaoTableAbstract {
     }
 
     public function update(RowDataInterface $rowData) {
-        return $this->execUpdate('item_action', ['type_fk', 'content_id'], $rowData);
+        return $this->execUpdate('item_action', ['type_fk', 'item_id'], $rowData);
     }
 
     public function delete(RowDataInterface $rowData) {
-        return $this->execDelete('item_action', ['type_fk', 'content_id'], $rowData);
+        return $this->execDelete('item_action', ['type_fk', 'item_id'], $rowData);
     }
 
 }

@@ -44,7 +44,7 @@ class ConfigurationStyles extends ConfigurationRed {
                             'div.buttons' => 'editSize ui basic icon buttons',
                             'div.buttonsRow' => 'ui basic icons',
                             'div.buttonsChangeView' => 'ui button nested',                       //  'line' nebo 'ui button nested'
-                            'div.buttonsChangeViewGroup' => 'ui basic icon buttons', //  'ui basic icon' (pro line) nebo 'ui basic icon buttons' (pro nested)
+                            'div.buttonsChangeViewGroup' => 'ui basic icon buttons',             //  'ui basic icon' (pro line) nebo 'ui basic icon buttons' (pro nested)
                             'button.paste' => 'ui button paste',
                             'div.buttonsWrap' => 'contentButtons page-edit',
                             'div.ribbon-article' => 'ui right ribbon basic label cornerWithTools page-edit',
@@ -57,7 +57,7 @@ class ConfigurationStyles extends ConfigurationRed {
                             'div.wrapShowDate' => 'calendarWrap editShowDate',
                             'div.wrapEventDate' => 'calendarWrap editEventDate',
                             'div.buttonsEditDate' => 'editingButtons_size ui basic icon buttons editDate',
-                            'div.buttonsContent' => 'editingButtons_size ui basic icon buttons editContent',        ///div.buttons = div.buttonsContent - zkontrolovat!!!
+                            'div.buttonsContent' => 'editingButtons_size ui basic icon buttons editContent',       
                             'button.showDate' => 'ui button toolsShowDate',
                             'button.eventDate' => 'ui button toolsEventDate',
                             'button.content' => 'ui button hideCalendarWrap',
@@ -80,7 +80,7 @@ class ConfigurationStyles extends ConfigurationRed {
                             'icon.templateSelect' => 'clone outline icon',
                             'icon.template' => 'file alternate icon',
                             'icon.arrange' => 'sort numeric down icon',
-                            'icon.editMode' => 'pencil alternate icon', //???
+                            'icon.editMode' => 'pencil alternate icon', 
                             'icon.changedisplaydate' => 'violet calendar alternate icon',
                             'icon.changeeventdate' => 'yellow money check icon',
                             'icon.arrowup' => 'top right corner arrow up icon',
@@ -91,6 +91,7 @@ class ConfigurationStyles extends ConfigurationRed {
                             'icon.save' => 'save icon',
                             'icon.cancel' => 'red times circle icon',
                             'icon.restore' => 'sync icon',
+                            'icon.clipboard' => 'clipboard outline icon',
                             'semafor.published' => 'circle icon green',
                             'semafor.notpublished' => 'circle icon red',
                             'semafor.actual' => 'clock outline icon green',
@@ -115,12 +116,9 @@ class ConfigurationStyles extends ConfigurationRed {
                         ],
             'paper_template_select' => [
                             'div button' => 'ui huge fade animated button toggleTemplateSelect', ///vybirani sablon pro article???
-                            'div.hidden' => 'hidden content', ///vybirani sablon pro article???
-                            'div.visible' => 'visible content', ///vybirani sablon pro article???
-                            'div i' => 'file alternate teal icon', ///vybirani sablon pro article???
-
-
-
+                            'div.hidden' => 'hidden content', 
+                            'div.visible' => 'visible content', 
+                            'div i' => 'file alternate teal icon', 
                             'div.tinySelectTemplatePaper' => 'tiny_select_template_paper borderDance',   // class tiny_select_template_paper je selektor pro TinyInit - vybere konfiguraci a v té je proměnná se seznameme šablon (jiný seznam pro paper, article, multipage)
                             'div.tinySelectTemplateArticle' => 'tiny_select_template_article borderDance',
                             'div.tinySelectTemplateMultipage' => 'tiny_select_template_multipage borderDance',

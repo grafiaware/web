@@ -210,19 +210,6 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
         return $response;
     }
 
-    // editable mode
-
-    protected function isItemInEditableMode($itemType, $itemId) {
-        $userActions = $this->statusPresentationRepo->get()->getUserActions();
-        $itemAction = $userActions->getUserItemAction($itemType, $itemId);
-        $loginAggregate = $this->statusSecurityRepo->get()->getLoginAggregate();
-
-        return (
-                $userActions->presentEditableContent()
-                AND isset($itemAction) AND isset($loginAggregate) AND $itemAction->getEditorLoginName()==$loginAggregate->getLoginName()
-                );
-    }
-
     // permissions
 
     /**
@@ -231,17 +218,17 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
      * @param type $action
      * @return bool
      */
-    protected function isComponentAllowed(AccessComponentInterface $component, $action): bool {
+    protected function isAllowed($action): bool {
         $isAllowed = false;
         $loginAggregate = $this->statusSecurityRepo->get()->getLoginAggregate();
         $role = isset($loginAggregate) ? $loginAggregate->getCredentials()->getRole() : null;
         $logged = isset($loginAggregate) ? true : false;
-        $permissions = $component->getComponentPermissions();  // !! oprávnění komponenty - Access\Enum\AllowedViewEnum
+        $permissions = $this->getActionPermissions();
         $activeRole = $this->getActiveRole($logged, $role, $permissions);
         if (isset($activeRole)) {
             if (array_key_exists($activeRole, $permissions) AND array_key_exists($action, $permissions[$activeRole])) {
                 $resource = $permissions[$activeRole][$action];
-                $isAllowed = ($component instanceof $resource) ? true : false;
+                $isAllowed = ($this instanceof $resource) ? true : false;
             } else {
                 $isAllowed =false;
             }
@@ -265,19 +252,19 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
         if (isset($role) AND array_key_exists($role, $permissions)){
             $ret = $role;
         } elseif($logged){
-            $ret = RoleEnum::EVERYONE;
+            $ret = RoleEnum::AUTHENTICATED;
         } else {
             $ret = RoleEnum::ANONYMOUS;
         }
         return $ret;
     }
 
-    protected function getComponentPermissions(): array {
+    protected function getActionPermissions(): array {
         return [
-            RoleEnum::SUP => [AllowedActionEnum::GET => \Component\View\StatusComponentAbstract::class, AllowedActionEnum::POST => \Component\View\StatusComponentAbstract::class],
-            RoleEnum::EDITOR => [AllowedActionEnum::GET => \Component\View\StatusComponentAbstract::class, AllowedActionEnum::POST => \Component\View\StatusComponentAbstract::class],
-            RoleEnum::EVERYONE => [AllowedActionEnum::GET => \Component\View\StatusComponentAbstract::class],
-            RoleEnum::ANONYMOUS => [AllowedActionEnum::GET => \Component\View\StatusComponentAbstract::class]
+            RoleEnum::SUP => [AllowedActionEnum::GET => self::class, AllowedActionEnum::POST => self::class],
+            RoleEnum::EDITOR => [AllowedActionEnum::GET => self::class, AllowedActionEnum::POST => self::class],
+            RoleEnum::AUTHENTICATED => [AllowedActionEnum::GET => self::class],
+            RoleEnum::ANONYMOUS => [AllowedActionEnum::GET => self::class]
         ];
     }
 

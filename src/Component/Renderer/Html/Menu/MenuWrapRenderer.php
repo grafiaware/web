@@ -26,9 +26,10 @@ class MenuWrapRenderer extends MenuWrapRendererAbstract {
     public function render(iterable $viewModel=NULL) {
         /** @var MenuViewModelInterface $viewModel */
         $menuLevelHtml = $this->renderSubtreeItemModels($viewModel->getSubTreeItemViews());
-        return
-            $viewModel->offsetGet(MenuComponent::TOGGLE_EDIT_MENU)
-            .Html::tag('ul', ['class'=>$this->classMap->get('MenuWrap', 'ul')],$menuLevelHtml)
+        $html =
+            $viewModel->offsetExists(MenuComponent::TOGGLE_EDIT_MENU) ? $viewModel->offsetGet(MenuComponent::TOGGLE_EDIT_MENU) : "";
+        $html .= Html::tag('ul', ['class'=>$this->classMap->get('MenuWrap', 'ul')],$menuLevelHtml)
             ;
+        return $html;
     }
 }

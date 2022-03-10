@@ -57,11 +57,11 @@ class ItemActionControler extends FrontControlerAbstract {
         if (! $userActions->hasUserItemAction($typeFk, $itemId)) {
             $itemAction = new ItemAction();
             $itemAction->setTypeFk($typeFk);
-            $itemAction->setContentId($itemId);
+            $itemAction->setItemId($itemId);
             $itemAction->setEditorLoginName($this->statusSecurityRepo->get()->getLoginAggregate()->getLoginName());
-            $this->itemActionRepo->add($itemAction);
-            $userActions->addUserItemAction($itemAction);
-            $this->addFlashMessage("add user action for $typeFk($itemId)", FlashSeverityEnum::INFO);
+            $this->itemActionRepo->add($itemAction);  // do repo
+            $userActions->addUserItemAction($itemAction);  // do statusu
+            $this->addFlashMessage("add user action for $typeFk (item $itemId)", FlashSeverityEnum::INFO);
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
@@ -76,7 +76,7 @@ class ItemActionControler extends FrontControlerAbstract {
         if (isset($itemAction)) {
             $this->itemActionRepo->remove($itemAction);
         }
-        $this->addFlashMessage("remove user action for $typeFk($itemId)", FlashSeverityEnum::INFO);
+        $this->addFlashMessage("remove user action for $typeFk (item $itemId)", FlashSeverityEnum::INFO);
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 }

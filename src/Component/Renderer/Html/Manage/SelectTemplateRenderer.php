@@ -4,7 +4,7 @@ namespace Component\Renderer\Html\Manage;
 use Component\Renderer\Html\HtmlRendererAbstract;
 
 use Pes\Text\Html;
-use Component\ViewModel\Authored\AuthoredViewModelInterface;
+use Component\ViewModel\MenuItem\Authored\AuthoredViewModelInterface;
 
 /**
  * Description of ToggleEditButtonRenderer
@@ -16,6 +16,7 @@ class SelectTemplateRenderer extends HtmlRendererAbstract {
         /** @var AuthoredViewModelInterface $viewModel */
         $contentTemplateName = $viewModel->getAuthoredTemplateName();
         $authoredContentId = $viewModel->getAuthoredContentId();
+        $type = $viewModel->getAuthoredContentType();
         $templateContentPostVar = $viewModel->getTemplateContentPostVarName();
 
         return

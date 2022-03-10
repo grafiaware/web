@@ -170,26 +170,26 @@ class StatusPresentation extends EntityAbstract implements StatusPresentationInt
      * Vrací item action pro zadaný typ a id obsahu nebo null.
      *
      * @param type $contentType
-     * @param type $contentId
+     * @param type $menuItemId
      * @return ItemActionInterface|null
      */
-    public function getItemAction($contentType, $contentId): ?ItemActionInterface {
-        $key = $contentType.$contentId;
-        return array_key_exists($key, $this->itemActions) ? $this->itemActions[$key] : null;
-    }
+//    public function getItemAction($contentType, $menuItemId): ?ItemActionInterface {
+//        $key = $contentType.$menuItemId;
+//        return array_key_exists($key, $this->itemActions) ? $this->itemActions[$key] : null;
+//    }
 
     /**
      * Přidá item action do vnitřní kolekce pro typ a id obsahu.
      * @param ItemActionInterface $itemAction
      * @return StatusPresentationInterface
      */
-    public function addItemAction(ItemActionInterface $itemAction): StatusPresentationInterface {
-        $this->itemActions[$itemAction->getTypeFk().$itemAction->getContentId()] = $itemAction;
-        return $this;
-    }
+//    public function addItemAction(ItemActionInterface $itemAction): StatusPresentationInterface {
+//        $this->itemActions[$itemAction->getTypeFk().$itemAction->getItemId()] = $itemAction;
+//        return $this;
+//    }
 
-    public function removeItemAction(ItemActionInterface $itemAction): StatusPresentationInterface {
-        unset($this->itemActions[$itemAction->getCreated().$itemAction->getContentId()]);
-        return $this;
-    }
+//    public function removeItemAction(ItemActionInterface $itemAction): StatusPresentationInterface {
+//        unset($this->itemActions[$itemAction->getTypeFk().$itemAction->getItemId()]);
+//        return $this;
+//    }
 }

@@ -3,15 +3,13 @@ namespace Component\Renderer\Html\Authored\Paper;
 
 use Component\Renderer\Html\Authored\AuthoredRendererAbstract;
 
-use Component\View\Authored\AuthoredComponentAbstract;
+use Component\View\MenuItem\Authored\Paper\PaperComponent;
 
 use Component\ViewModel\Authored\Paper\PaperViewModelInterface;
 
 use Red\Model\Entity\PaperAggregatePaperContentInterface;
 
 use Pes\Text\Html;
-
-use Component\View\Authored\Paper\PaperComponent;
 
 /**
  * Description of PaperRenderer
@@ -28,8 +26,9 @@ class PaperRendererEditable  extends AuthoredRendererAbstract {
                 Html::tag('div', ['class'=>$this->classMap->get('Template', 'div.templatePaper')],
                     Html::tag('article', ['data-red-renderer'=>'PaperRendererEditable', "data-red-datasource"=> "paper {$article->getId()} for item {$article->getMenuItemIdFk()}"],
                         [
-                            $viewModel->getContextVariable(AuthoredComponentAbstract::BUTTON_EDIT_CONTENT) ?? '',
-                            $this->renderSelectTemplate($viewModel),
+                            $viewModel->getContextVariable(PaperComponent::BUTTON_EDIT_CONTENT) ?? '',
+//                            $this->renderSelectTemplate($viewModel),
+                            $viewModel->getContextVariable(PaperComponent::SELECT_TEMPLATE) ?? '',
                             $this->renderRibbon($viewModel),
                             $viewModel->getContextVariable(PaperComponent::CONTENT) ?? '',   // obsah z papet komponenty
                         ]
@@ -109,23 +108,6 @@ class PaperRendererEditable  extends AuthoredRendererAbstract {
 //            );
 //    }
 
-    private function renderSelectTemplate(PaperViewModelInterface $viewModel) {
-        $paper = $viewModel->getPaper();
-        $contentTemplateName = $paper->getTemplate();
-        $paperId = $paper->getId();
-
-        return
-            // id je parametr pro togleTemplateSelect(id) - voláno onclick na button 'Vybrat šablonu stránky'
-            Html::tag('div', ['id'=>"select_template_paper_$paperId",'class'=>$this->classMap->get('Template', 'div.selectTemplate')],
-                Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/$paperId/template"],
-                    [
-//                        Html::tagNopair('input', ["type"=>"hidden", "name"=>"template_$paperId", "value"=>$contentTemplateName]),
-                        // class je třída pro selector v tinyInit var selectTemplateConfig
-                        Html::tag('div', ['id'=>"paper_$paperId", 'class'=>"tiny_select_template_paper"],''),
-                    ]
-                )
-            );
-    }
 
 //    private function renderPaperButtonsForm(PaperViewModelInterface $viewModel) {
 //        $paper = $viewModel->getPaper();

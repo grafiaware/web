@@ -4,8 +4,8 @@ namespace Component\Renderer\Html\Authored\Multipage;
 use Component\Renderer\Html\HtmlRendererAbstract;
 use Component\ViewModel\Authored\Multipage\MultipageViewModelInterface;
 
-use Component\View\Authored\Multipage\MultipageComponent;
-use Component\View\Authored\AuthoredComponentAbstract;
+use Component\View\MenuItem\Authored\Multipage\MultipageComponent;
+use Component\View\MenuItem\Authored\AuthoredComponentAbstract;
 
 use Pes\Text\Html;
 

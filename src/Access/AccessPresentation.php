@@ -37,37 +37,40 @@ class AccessPresentation implements AccessPresentationInterface {
         $isAllowed = false;
         $role = $this->statusViewModel->getUserRole();
         $logged = $this->statusViewModel->getUserLoginName() ? true : false;
-        $activeRole = $this->getActiveRole($logged, $role, $permissions);
-        if (isset($activeRole)) {
+        $activeRoles = $this->getActiveRoles($logged, $role, $permissions);
+        $isAllowed =false;
+        foreach ($activeRoles as $activeRole) {
             if (array_key_exists($activeRole, $permissions) AND array_key_exists($action, $permissions[$activeRole])) {
                 $permittedResource = $permissions[$activeRole][$action];
                 $isAllowed = ($resource instanceof $permittedResource) ? true : false;
-            } else {
-                $isAllowed =false;
             }
         }
-//            $componentClass = get_class($component);
-//            $m = $logged ? "Uživatel je přihlášen s rolí '$role'." : "Uživatel není přihlášen.";
-//            $message = "Neznámá oprávnění pro komponentu '$componentClass' a přidělenou aktivní roli uživatele '$activeRole'. $m";
-
         return $isAllowed;
     }
 
     /**
-     * Pokud uživatel má nastavenu roli a tato role je definována v permissions - vrací roli uživatele.
-     * Pokud uživatek nemá nastavenu roli nebo jeho role není uvedena v permissions, zjistí jestli je v permission nastavena oprávnění pro roli 'everyone!, pokud ano, vrací roli 'everyone'.
+     * Vrací pole rolí uživatele.
+     * Pokud má uživatel přidělenu roli a pro tuto roli jsou existuje položka v permission je mu přidělena tato role jako aktivní.
+     * Pokud je uživatel přihlášen je mu přidána aktivní role AUTHENTICATED,
+     * pokud uživatel není přihlášen je mu přidána aktivní role ANONYMOUS.
+     *
+     * Příklad:
+     * 1) Uživatel s rolí SUP je i přihlášen - získá aktivní role SUP a AUTHENTICATED
+     * 2) Uživatel je přihlášen a nemá nastavenou roli - získá jen AUTHENTICATED
+     * 3) Uživatel není přihlášen - získá jen ANONYMOUS
      *
      * @param type $role
      * @param type $permissions
      * @return type
      */
-    private function getActiveRole($logged, $role, $permissions) {
+    private function getActiveRoles($logged, $role, $permissions) {
         if (isset($role) AND array_key_exists($role, $permissions)){
-            $ret = $role;
-        } elseif($logged){
-            $ret = RoleEnum::EVERYONE;
+            $ret[] = $role;
+        }
+        if($logged){
+            $ret[] = RoleEnum::AUTHENTICATED;
         } else {
-            $ret = RoleEnum::ANONYMOUS;
+            $ret[] = RoleEnum::ANONYMOUS;
         }
         return $ret;
     }
