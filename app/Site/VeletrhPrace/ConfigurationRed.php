@@ -175,23 +175,33 @@ class ConfigurationRed extends ConfigurationDb {
                 ]
             ];
     }
-
     public static function menu() {
             // menu
-            // - je nutné definovat hodnoty 'menu', 'blocks' a 'trash';
-            // - položka 'menu' je pole polí s parametry jednotlivých menu na stránce viditelných i v needitačním modu prezentace
-            // - položky 'blocks' a 'trash' jsou jednorozměrná pole s parametry menu bloků layoutu a menu koše, tato menu jsou viditelná jen v editačním řežimu
+            // 'jméno služby kontejneru' => [pole parametrů menu]
+            // 'jméno služby kontejneru' - jmébo služby kontejneru, která vrací příslušný menu komponent
             // parametry menu jsou:
             //      'context_name' => jméno proměnné v šabloně (bez znaku $),
             //      'service_name' => jméno služby component kontejneru,
             //      'root_name' => jméno kořene menu v db tabulce root_name,
-            //      'with_title' => bool hodnota - true - zobrazuje se i obsah kořenového prvku menu,
+            //      'with_rootItem' => bool hodnota - true - zobrazuje se i obsah kořenového prvku menu,
+            //      'itemtype! => jedna z hodnot 'menu', 'block', 'trash' - určuje výběr rendereru menu item
+            //      'menuwraprenderer' => jméno rendereru obalového elementu menu
+            //      'levelwraprenderer' => jméno rendereru jedné úrovně menu
         return [
-            'menu' => [
-                        ['context_name' => 'menuSvisle', 'service_name' => 'menu.svisle', 'root_name' => 'menu_vertical', 'with_title' => true],
-                    ],
-            'blocks' => ['context_name' => 'bloky', 'service_name' => 'menu.bloky', 'root_name' => 'blocks', 'with_title' => true],
-            'trash' => ['context_name' => 'kos', 'service_name' => 'menu.kos', 'root_name' => 'trash', 'with_title' => true],
+            'menu.componentsServices' => [
+                    'menu.svisle' => ['root_name' => 'menu_vertical', 'with_rootItem' => false, 'itemtype' => 'menu', 'menuwraprenderer' => 'menu.svisle.menuwraprenderer', 'levelwraprenderer' => 'menu.svisle.levelwraprenderer'],
+                    'menu.bloky' => ['root_name' => 'blocks', 'with_rootItem' => true, 'itemtype' => 'block', 'menuwraprenderer' => 'menu.bloky.menuwraprenderer', 'levelwraprenderer' => 'menu.bloky.levelwraprenderer'],
+                    'menu.kos' => ['root_name' => 'trash', 'with_rootItem' => true, 'itemtype' => 'trash', 'menuwraprenderer' => 'menu.kos.menuwraprenderer', 'levelwraprenderer' => 'menu.kos.levelwraprenderer'],
+                ],
+            // parametry kontext - service mapy jsou:
+            //'context_name' => 'service_name'
+            //      'context_name' - jméno proměnné v šabloně (bez znaku $),
+            //      'service_name' => jméno služby component kontejneru,
+            'menu.contextServiceMap' => [
+                    'menuSvisle' => 'menu.svisle',
+                    'bloky' => 'menu.bloky',
+                    'kos' => 'menu.kos',
+                ],
             ];
     }
 

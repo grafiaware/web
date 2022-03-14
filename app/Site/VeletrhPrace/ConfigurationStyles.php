@@ -57,7 +57,7 @@ class ConfigurationStyles extends ConfigurationRed {
                             'div.wrapShowDate' => 'calendarWrap editShowDate',
                             'div.wrapEventDate' => 'calendarWrap editEventDate',
                             'div.buttonsEditDate' => 'editingButtons_size ui basic icon buttons editDate',
-                            'div.buttonsContent' => 'editingButtons_size ui basic icon buttons editContent',       
+                            'div.buttonsContent' => 'editingButtons_size ui basic icon buttons editContent',
                             'button.showDate' => 'ui button toolsShowDate',
                             'button.eventDate' => 'ui button toolsEventDate',
                             'button.content' => 'ui button hideCalendarWrap',
@@ -80,7 +80,7 @@ class ConfigurationStyles extends ConfigurationRed {
                             'icon.templateSelect' => 'clone outline icon',
                             'icon.template' => 'file alternate icon',
                             'icon.arrange' => 'sort numeric down icon',
-                            'icon.editMode' => 'pencil alternate icon', 
+                            'icon.editMode' => 'pencil alternate icon',
                             'icon.changedisplaydate' => 'violet calendar alternate icon',
                             'icon.changeeventdate' => 'yellow money check icon',
                             'icon.arrowup' => 'top right corner arrow up icon',
@@ -117,9 +117,9 @@ class ConfigurationStyles extends ConfigurationRed {
             'paper_template_select' => [
                             //ke smazání
                             'div button' => 'ui huge fade animated button toggleTemplateSelect', ///vybirani sablon pro article???
-                            'div.hidden' => 'hidden content', 
-                            'div.visible' => 'visible content', 
-                            'div i' => 'file alternate teal icon', 
+                            'div.hidden' => 'hidden content',
+                            'div.visible' => 'visible content',
+                            'div i' => 'file alternate teal icon',
                             'div.tinySelectTemplatePaper' => 'tiny_select_template_paper borderDance',   // class tiny_select_template_paper je selektor pro TinyInit - vybere konfiguraci a v té je proměnná se seznameme šablon (jiný seznam pro paper, article, multipage)
                             'div.tinySelectTemplateArticle' => 'tiny_select_template_article borderDance',
                             'div.tinySelectTemplateMultipage' => 'tiny_select_template_multipage borderDance',
@@ -157,25 +157,6 @@ class ConfigurationStyles extends ConfigurationRed {
             },
             'menu.kos.levelwraprenderer' => function(ContainerInterface $c) {
                 return new LevelWrapRenderer($c->get('menu.svisle.classmap'));
-            },
-            // item
-            'menu.itemrenderer' => function(ContainerInterface $c) {
-                return new ItemRenderer($c->get('menu.item.classmap'));
-            },
-            'menu.itemrenderer.editable' => function(ContainerInterface $c) {
-                return new ItemRendererEditable($c->get('menu.item.classmap.editable'));
-            },
-            'menu.itemblockrenderer' => function(ContainerInterface $c) {
-                return new ItemBlockRenderer($c->get('menu.item.classmap'));
-            },
-            'menu.itemblockrenderer.editable' => function(ContainerInterface $c) {
-                return new ItemBlockRendererEditable($c->get('menu.item.classmap.editable'));
-            },
-            'menu.itemtrashrenderer' => function(ContainerInterface $c) {
-                return new ItemTrashRenderer($c->get('menu.item.classmap'));
-            },
-            'menu.itemtrashrenderer.editable' => function(ContainerInterface $c) {
-                return new ItemTrashRendererEditable($c->get('menu.item.classmap.editable'));
             },
 
         ###########################
@@ -228,7 +209,7 @@ class ConfigurationStyles extends ConfigurationRed {
             'menu.item.classmap' => function() {
                 return new ClassMap (
                     [
-                        'Item' => self::rendererDefaults()['menu_items'], 
+                        'Item' => self::rendererDefaults()['menu_items'],
                         'Icons' => self::rendererDefaults()['icons_buttons']
                     ]);
             },

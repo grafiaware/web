@@ -53,7 +53,7 @@ class ConfigurationStyles extends ConfigurationRed {
                             'button.showDate' => 'ui button toolsShowDate',
                             'button.eventDate' => 'ui button toolsEventDate',
                             'button.content' => 'ui button hideCalendarWrap',
-                
+
                         ],
             'icons_buttons' => [
                             'icon.notpublish' => 'green toggle on icon',
@@ -105,9 +105,9 @@ class ConfigurationStyles extends ConfigurationRed {
                             'div.hidden' => 'hidden content', ///vybirani sablon pro article???
                             'div.visible' => 'visible content', ///vybirani sablon pro article???
                             'div i' => 'file alternate teal icon', ///vybirani sablon pro article???
-                
-                            
-                
+
+
+
                             'div.tinySelectTemplatePaper' => 'tiny_select_template_paper borderDance',   // class tiny_select_template_paper je selektor pro TinyInit - vybere konfiguraci a v té je proměnná se seznameme šablon (jiný seznam pro paper, article, multipage)
                             'div.tinySelectTemplateArticle' => 'tiny_select_template_article borderDance',
                             'div.tinySelectTemplateMultipage' => 'tiny_select_template_multipage borderDance',
@@ -140,20 +140,6 @@ class ConfigurationStyles extends ConfigurationRed {
             'menu.bloky.levelwraprenderer' => function(ContainerInterface $c) {
                 return new LevelWrapRenderer($c->get('menu.svisle.classmap'), $c->get('menu.bloky.classmap.editable'));
             },
-            'menu.bloky.itemrenderer' => function(ContainerInterface $c) {
-                return new ItemBlockRenderer($c->get('menu.svisle.classmap'), $c->get('menu.bloky.classmap.editable'));
-            },
-            //kos
-            'menu.kos.menuwraprenderer' => function(ContainerInterface $c) {
-                return new MenuWrapRenderer($c->get('menu.svisle.classmap'), $c->get('menu.kos.classmap.editable'));
-            },
-            'menu.kos.levelwraprenderer' => function(ContainerInterface $c) {
-                return new LevelWrapRenderer($c->get('menu.svisle.classmap'), $c->get('menu.kos.classmap.editable'));
-            },
-            'menu.kos.itemrenderer' => function(ContainerInterface $c) {
-                return new ItemTrashRenderer($c->get('menu.svisle.classmap'), $c->get('menu.kos.classmap.editable'));
-            },
-
 
         ###########################
         # menu classmap
@@ -286,7 +272,7 @@ class ConfigurationStyles extends ConfigurationRed {
                     ]
                 );
             },
-            
+
         ###########################
         # generated classmap
         ###########################
