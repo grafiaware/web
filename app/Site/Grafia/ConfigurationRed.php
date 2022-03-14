@@ -187,11 +187,40 @@ class ConfigurationRed extends ConfigurationDb {
             //      'levelwraprenderer' => jméno rendereru jedné úrovně menu
         return [
             'menu.componentsServices' => [
-                    'menu.presmerovani' => ['root_name' => 'menu_redirect', 'with_rootItem' => false, 'itemtype' => 'menu', 'menuwraprenderer' => 'menu.presmerovani.menuwraprenderer', 'levelwraprenderer' => 'menu.presmerovani.levelwraprenderer'],
-                    'menu.vodorovne' => ['root_name' => 'menu_horizontal', 'with_rootItem' => false, 'itemtype' => 'menu', 'menuwraprenderer' => 'menu.vodorovne.menuwraprenderer', 'levelwraprenderer' => 'menu.vodorovne.levelwraprenderer'],
-                    'menu.svisle' => ['root_name' => 'menu_vertical', 'with_rootItem' => false, 'itemtype' => 'menu', 'menuwraprenderer' => 'menu.svisle.menuwraprenderer', 'levelwraprenderer' => 'menu.svisle.levelwraprenderer'],
-                    'menu.bloky' => ['root_name' => 'blocks', 'with_rootItem' => true, 'itemtype' => 'block', 'menuwraprenderer' => 'menu.bloky.menuwraprenderer', 'levelwraprenderer' => 'menu.bloky.levelwraprenderer'],
-                    'menu.kos' => ['root_name' => 'trash', 'with_rootItem' => true, 'itemtype' => 'trash', 'menuwraprenderer' => 'menu.kos.menuwraprenderer', 'levelwraprenderer' => 'menu.kos.levelwraprenderer'],
+                    'menu.presmerovani' => [
+                        'root_name' => 'menu_redirect',
+                        'with_rootItem' => false,
+                        'itemtype' => 'menu',
+                        'menuwraprenderer' => 'menu.presmerovani.menuwraprenderer',
+                        'levelwraprenderer' => 'menu.presmerovani.levelwraprenderer'
+                        ],
+                    'menu.vodorovne' => [
+                        'root_name' => 'menu_horizontal',
+                        'with_rootItem' => false,
+                        'itemtype' => 'menu',
+                        'menuwraprenderer' => 'menu.vodorovne.menuwraprenderer',
+                        'levelwraprenderer' => 'menu.vodorovne.levelwraprenderer'
+                        ],
+                    'menu.svisle' => [
+                        'root_name' => 'menu_vertical',
+                        'with_rootItem' => false,
+                        'itemtype' => 'menu',
+                        'menuwraprenderer' => 'menu.svisle.menuwraprenderer',
+                        'levelwraprenderer' => 'menu.svisle.levelwraprenderer'],
+                    'menu.bloky' => [
+                        'root_name' => 'blocks',
+                        'with_rootItem' => true,
+                        'itemtype' => 'block',
+                        'menuwraprenderer' => 'menu.bloky.menuwraprenderer',
+                        'levelwraprenderer' => 'menu.bloky.levelwraprenderer'
+                        ],
+                    'menu.kos' => [
+                        'root_name' => 'trash',
+                        'with_rootItem' => true,
+                        'itemtype' => 'trash',
+                        'menuwraprenderer' => 'menu.kos.menuwraprenderer',
+                        'levelwraprenderer' => 'menu.kos.levelwraprenderer'
+                        ],
                 ],
             // parametry kontext - service mapy jsou:
             //'context_name' => 'service_name'

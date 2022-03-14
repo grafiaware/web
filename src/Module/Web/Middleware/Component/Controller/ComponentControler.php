@@ -22,6 +22,7 @@ use Access\Enum\AllowedActionEnum;
 use Component\ViewModel\MenuItem\Authored\Paper\PaperViewModel;
 use Component\ViewModel\MenuItem\Authored\Article\ArticleViewModel;
 use Component\ViewModel\MenuItem\Authored\Multipage\MultipageViewModel;
+use Component\ViewModel\MenuItem\TypeSelect\ItemTypeSelectViewModel;
 
 // komponenty
 use Component\View\MenuItem\TypeSelect\ItemTypeSelectComponent;
@@ -71,8 +72,14 @@ class ComponentControler extends FrontControlerAbstract {
     }
 
     public function empty(ServerRequestInterface $request, $menuItemId) {
-        $view = $this->container->get(ItemTypeSelectComponent::class);
-        $view->setItemId($menuItemId);
+        if($this->isAllowed(AllowedActionEnum::GET)) {
+            /** @var ItemTypeSelectViewModel $itemTypeSelectViewModel */
+            $itemTypeSelectViewModel = $this->container->get(ItemTypeSelectViewModel::class);
+            $itemTypeSelectViewModel->setMenuItemId($menuItemId);
+            $view = $this->container->get(ItemTypeSelectComponent::class);
+        } else {
+            $view =  $this->getNonPermittedContentView(AllowedActionEnum::GET, AuthoredTypeEnum::PAPER);
+        }
         return $this->createResponseFromView($request, $view);
     }
 

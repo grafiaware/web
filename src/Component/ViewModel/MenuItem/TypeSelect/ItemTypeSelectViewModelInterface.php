@@ -8,13 +8,13 @@
 
 namespace Component\ViewModel\MenuItem\TypeSelect;
 
-use Component\ViewModel\ViewModelInterface;
+use Component\ViewModel\MenuItem\MenuItemViewModelInterface;
 
 /**
  *
  * @author pes2704
  */
-interface ItemTypeSelectViewModelInterface extends ViewModelInterface {
+interface ItemTypeSelectViewModelInterface extends MenuItemViewModelInterface {
 
     public function getTypeTransitions();
 
