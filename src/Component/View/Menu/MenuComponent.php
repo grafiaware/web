@@ -30,38 +30,21 @@ class MenuComponent extends StatusComponentAbstract implements MenuComponentInte
      */
     protected $contextData;
 
-    protected $levelWrapRendererName;
-    protected $itemRendererName;
+    private $levelWrapRendererName;
+    private $itemRendererName;
+    private $itemEditableRendererName;
 
-    /**
-     * @var RendererInterface
-     */
-    protected $levelWrapRenderer;
-
-    /**
-     * @var RendererInterface
-     */
-    protected $itemRenderer;
-
-    protected $active = TRUE;
-    protected $actual = TRUE;
-    protected $langCode;
-    protected $rootUid;
-    protected $withTitle = false;
-
-    protected $componentName;
-    protected $presentedUid;
-    protected $presentedItemLeftNode;
-    protected $presentedItemRightNode;
-    protected $presentRenderer;
+    private $withTitle = false;
 
     /**
      *
      * @param $levelWrapRendererName
      * @return MenuComponentInterface
      */
-    public function setRenderersNames( $levelWrapRendererName): MenuComponentInterface {
+    public function setRenderersNames( $levelWrapRendererName, $itemRendererName, $itemEditableRendererName): MenuComponentInterface {
         $this->levelWrapRendererName = $levelWrapRendererName;
+        $this->itemRendererName = $itemRendererName;
+        $this->itemEditableRendererName = $itemEditableRendererName;
         return $this;
     }
 
@@ -112,12 +95,30 @@ class MenuComponent extends StatusComponentAbstract implements MenuComponentInte
             /** @var ItemViewModelInterface $itemViewModel */
             // pokud render používá classMap musí být konfigurován v Renderer kontejneru - tam dostane classMap
             if($editableMode AND $itemViewModel->isPresented()) {
-                $views[] =  (new CompositeView())->setData($itemViewModel)->setRendererName('menu.itemrenderer.editable')->setRendererContainer($this->rendererContainer);
+                $views[] =  (new CompositeView())->setData($itemViewModel)->setRendererName($this->itemEditableRendererName)->setRendererContainer($this->rendererContainer);
             } else {
-                $views[] =  (new CompositeView())->setData($itemViewModel)->setRendererName('menu.itemrenderer')->setRendererContainer($this->rendererContainer);
+                $views[] =  (new CompositeView())->setData($itemViewModel)->setRendererName($this->itemRendererName)->setRendererContainer($this->rendererContainer);
             }
         }
         $this->contextData->setSubTreeItemViews($views);
+    }
+
+    private function getMenuRendererMap($type) {
+        $map = [
+            'items' => ['noneditable' => 'menu.itemrenderer', 'editable' => 'menu.itemrenderer.editable'],
+            'blocks' => ['noneditable' => 'menu.itemblockrenderer', 'editable' => 'menu.itemblockrenderer.editable'],
+            'trash' => ['noneditable' => 'menu.itemtrashrenderer', 'editable' => 'menu.itemtrashrenderer.editable'],
+        ];
+        switch ($type) {
+            case '':
+
+
+                break;
+
+            default:
+                break;
+        }
+        return $map;
     }
 
 }

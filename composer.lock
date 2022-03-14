@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e0cbeeb15d1d518baa9a6966b555954f",
+    "content-hash": "e7f84860616064274d0bab90b6c350c2",
     "packages": [
         {
             "name": "pes/pes",
@@ -458,55 +458,13 @@
                 "source": "https://github.com/php-fig/log/tree/1.1.4"
             },
             "time": "2021-05-03T11:20:27+00:00"
-        },
-        {
-            "name": "samshal/acl",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Samshal/Acl.git",
-                "reference": "4ed476400c9a4dd4b148e07db3f10a88a22e7e7b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Samshal/Acl/zipball/4ed476400c9a4dd4b148e07db3f10a88a22e7e7b",
-                "reference": "4ed476400c9a4dd4b148e07db3f10a88a22e7e7b",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.0"
-            },
-            "default-branch": true,
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Samshal\\Acl\\": "./src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Samshal",
-                    "email": "samueladeshina73@gmail.com"
-                }
-            ],
-            "description": "This package provides a lightweight and flexible access control list for privileges and permission management.",
-            "support": {
-                "issues": "https://github.com/Samshal/Acl/issues",
-                "source": "https://github.com/Samshal/Acl/tree/master"
-            },
-            "time": "2020-09-18T00:33:01+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "pes/pes": 20,
-        "samshal/acl": 20
+        "pes/pes": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

@@ -23,8 +23,8 @@ class PerexRendererEditable extends HtmlRendererAbstract {
     public function render(iterable $viewModel=NULL) {
         /** @var PaperViewModelInterface $viewModel */
         $paperAggregate = $viewModel->getPaper();
-        return
-            Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/{$paperAggregate->getId()}/perex"],
+        if ($paperAggregate) {
+            $html = Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/{$paperAggregate->getId()}/perex"],
                 Html::tag('perex',
                     [
                         'id' => "perex_{$paperAggregate->getId()}",  // id musí být na stránce unikátní - skládám ze slova perex_ a paper id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
@@ -34,5 +34,9 @@ class PerexRendererEditable extends HtmlRendererAbstract {
                     $paperAggregate->getPerex() ?? ""
                 )
             );
+        } else {
+            $html = '';
+        }
+        return $html;
     }
 }

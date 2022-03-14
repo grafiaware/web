@@ -23,9 +23,14 @@ class PerexRenderer extends HtmlRendererAbstract {
     public function render(iterable $viewModel=NULL) {
         /** @var PaperViewModelInterface $viewModel */
         $paper = $viewModel->getPaper();
-        return  Html::tag('perex',
+        if (isset($paper)) {
+            $html = Html::tag('perex',
                         ['class'=>$this->classMap->get('Perex', 'perex')],
                         $paper->getPerex() ?? ""
                 );
+        } else {
+            $html = '';
+        }
+        return $html;
     }
 }

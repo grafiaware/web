@@ -2,10 +2,8 @@
 namespace Component\Renderer\Html\Authored;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
-use Component\ViewModel\Authored\AuthoredViewModelInterface;
+use Component\ViewModel\MenuItem\Authored\AuthoredViewModelInterface;
 
-use Red\Model\Enum\AuthoredTypeEnum;
-use Red\Middleware\Redactor\Controler\AuthoredControlerAbstract;
 use Pes\Text\Html;
 
 /**
@@ -18,8 +16,9 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract {
 ##### společné - authored
 
     protected function renderSelectTemplate(AuthoredViewModelInterface $viewModel) {
-        $paper = $viewModel->getPaper();
-        $contentTemplateName = $paper->getTemplate();
+
+        //TODO: default hodnota šablony - současná hodnota
+        $contentTemplateName = $viewModel->getAuthoredTemplateName();
         $contentType = $viewModel->getAuthoredContentType();
         $contentId = $viewModel->getAuthoredContentId();
 

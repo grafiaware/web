@@ -100,11 +100,34 @@ use Component\ViewModel\Generated\SearchResultViewModel;
 use Component\ViewModel\Flash\FlashViewModel;
 
 // renderery - pro volání služeb renderer kontejneru renderer::class
-use Component\Renderer\Html\NoPermittedContentRenderer;
+use Component\Renderer\Html\Menu\ItemRenderer;
+use Component\Renderer\Html\Menu\ItemRendererEditable;
+use Component\Renderer\Html\Menu\ItemBlockRenderer;
+use Component\Renderer\Html\Menu\ItemBlockRendererEditable;
+use Component\Renderer\Html\Menu\ItemTrashRenderer;
+use Component\Renderer\Html\Menu\ItemTrashRendererEditable;
 
-use Component\Renderer\Html\Manage\SelectTemplateRenderer;
+use Component\Renderer\Html\Authored\Paper\PaperRenderer;
+use Component\Renderer\Html\Authored\Paper\HeadlineRenderer;
+use Component\Renderer\Html\Authored\Paper\PerexRenderer;
+use Component\Renderer\Html\Authored\Paper\SectionsRenderer;
+
+use Component\Renderer\Html\Authored\Paper\PaperRendererEditable;
+use Component\Renderer\Html\Authored\Paper\HeadlineRendererEditable;
+use Component\Renderer\Html\Authored\Paper\PerexRendererEditable;
+use Component\Renderer\Html\Authored\Paper\SectionsRendererEditable;
 
 use Component\Renderer\Html\Authored\Article\ArticleRenderer;
+use Component\Renderer\Html\Authored\Article\ArticleRendererEditable;
+
+use Component\Renderer\Html\Authored\Multipage\MultipageRenderer;
+use Component\Renderer\Html\Authored\Multipage\MultipageRendererEditable;
+
+use Component\Renderer\Html\Manage\EditContentSwitchRenderer;
+
+use Component\Renderer\Html\NoPermittedContentRenderer;
+use Component\Renderer\Html\Manage\SelectTemplateRenderer;
+
 
 use Component\Renderer\Html\Generated\LanguageSelectRenderer;
 use Component\Renderer\Html\Generated\SearchPhraseRenderer;
@@ -229,7 +252,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 /** @var MenuComponent $component */
                 $component = $c->get(MenuComponent::class);
                 $component->setRendererName($menuConfig['menuwraprenderer']);
-                $component->setRenderersNames($menuConfig['levelwraprenderer']);
+                $component->setRenderersNames($menuConfig['levelwraprenderer'], ItemRenderer::class, ItemRendererEditable::class);
                 $component->setData($viewModel);
                 return $component;
             },
@@ -242,7 +265,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 /** @var MenuComponent $component */
                 $component = $c->get(MenuComponent::class);
                 $component->setRendererName($menuConfig['menuwraprenderer']);
-                $component->setRenderersNames($menuConfig['levelwraprenderer']);
+                $component->setRenderersNames($menuConfig['levelwraprenderer'], ItemRenderer::class, ItemRendererEditable::class);
                 $component->setData($viewModel);
                 return $component;
             },
@@ -255,7 +278,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 /** @var MenuComponent $component */
                 $component = $c->get(MenuComponent::class);
                 $component->setRendererName($menuConfig['menuwraprenderer']);
-                $component->setRenderersNames($menuConfig['levelwraprenderer']);
+                $component->setRenderersNames($menuConfig['levelwraprenderer'], ItemRenderer::class, ItemRendererEditable::class);
                 $component->setData($viewModel);
                 return $component;
             },
@@ -269,7 +292,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 /** @var MenuComponent $component */
                 $component = $c->get(MenuComponent::class);
                 $component->setRendererName($menuConfig['menuwraprenderer']);
-                $component->setRenderersNames($menuConfig['levelwraprenderer']);
+                $component->setRenderersNames($menuConfig['levelwraprenderer'], ItemBlockRenderer::class, ItemBlockRendererEditable::class);
                 $component->setData($viewModel);
                 return $component;
             },
@@ -283,7 +306,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 /** @var MenuComponent $component */
                 $component = $c->get(MenuComponent::class);
                 $component->setRendererName($menuConfig['menuwraprenderer']);
-                $component->setRenderersNames($menuConfig['levelwraprenderer']);
+                $component->setRenderersNames($menuConfig['levelwraprenderer'], ItemTrashRenderer::class, ItemTrashRendererEditable::class);
                 $component->setData($viewModel);
                 return $component;
             },
@@ -318,6 +341,11 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(AccessPresentation::class)
                      );
                 $component->setRendererContainer($c->get('rendererContainer'));
+                if($component->isAllowedToPresent(AccessPresentationEnum::EDIT)) {
+                    $component->setRendererName(EditContentSwitchRenderer::class);
+                } else {
+                    $component->setRendererName(NoPermittedContentRenderer::class);
+                }
                 return $component;
             },
             PaperComponent::class => function(ContainerInterface $c) {
@@ -332,28 +360,65 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 $component->setData($viewModel);
                 $component->setRendererContainer($c->get('rendererContainer'));
 
-                // komponent - view s buttonem zapni/vypni editaci (tužtička)
 
                 // podmíněné přidání komponent do paper - jen pro editační režim PaperComponentu
-                if ($component->getStatus()->presentEditableContent()) {
+                if ($component->getStatus()->presentEditableContent() AND $component->isAllowedToPresent(AccessPresentationEnum::EDIT)) {
                     $editContentSwithComponent = $c->get(EditContentSwitchComponent::class);
-                    $selectTemplateComponent = $c->get(SelectTemplateComponent::class);
+                    // komponent - view s buttonem zapni/vypni editaci (tužtička)
                     $component->appendComponentView($editContentSwithComponent, PaperComponent::BUTTON_EDIT_CONTENT);
-                    $component->appendComponentView($selectTemplateComponent, PaperComponent::SELECT_TEMPLATE);
+                    if ($viewModel->userPerformAuthoredContentAction()) {   // v této chvíli musí mít komponent nasteveno setMenuItemId() - v kontroleru
+                        $component->setRendererName(PaperRendererEditable::class);
+                        // komponent s obsahem
+                        /** @var TemplatedComponent $templatedComponent */
+                        $templatedComponent = $c->get(TemplatedComponent::class);
+                        $templatedComponent->appendComponentView($c->get(ElementInheritDataComponent::class), PaperComponent::HEADLINE);
+                        $templatedComponent->appendComponentView($c->get(ElementInheritDataComponent::class), PaperComponent::PEREX);
+                        $templatedComponent->appendComponentView($c->get(ElementInheritDataComponent::class), PaperComponent::SECTIONS);
+                        // přidání komponentu do paper
+                        $component->appendComponentView($templatedComponent, PaperComponent::CONTENT);
+                        $component->getComponentView(PaperComponent::CONTENT)->getComponentView(PaperComponent::HEADLINE)->setRendererName(HeadlineRendererEditable::class);
+                        $component->getComponentView(PaperComponent::CONTENT)->getComponentView(PaperComponent::PEREX)->setRendererName(PerexRendererEditable::class);
+                        $component->getComponentView(PaperComponent::CONTENT)->getComponentView(PaperComponent::SECTIONS)->setRendererName(SectionsRendererEditable::class);
+                        $selectTemplateComponent = $c->get(SelectTemplateComponent::class);
+                        $component->appendComponentView($selectTemplateComponent, PaperComponent::SELECT_TEMPLATE);
+                    } else {
+                        $component->setRendererName(PaperRenderer::class);
+                        // komponent s obsahem
+                        /** @var TemplatedComponent $templatedComponent */
+                        $templatedComponent = $c->get(TemplatedComponent::class);
+                        $templatedComponent->appendComponentView($c->get(ElementInheritDataComponent::class), PaperComponent::HEADLINE);
+                        $templatedComponent->appendComponentView($c->get(ElementInheritDataComponent::class), PaperComponent::PEREX);
+                        $templatedComponent->appendComponentView($c->get(ElementInheritDataComponent::class), PaperComponent::SECTIONS);
+                        // přidání komponentu do paper
+                        $component->appendComponentView($templatedComponent, PaperComponent::CONTENT);
+                        $component->getComponentView(PaperComponent::CONTENT)->getComponentView(PaperComponent::HEADLINE)->setRendererName(HeadlineRenderer::class);
+                        $component->getComponentView(PaperComponent::CONTENT)->getComponentView(PaperComponent::PEREX)->setRendererName(PerexRenderer::class);
+                        $component->getComponentView(PaperComponent::CONTENT)->getComponentView(PaperComponent::SECTIONS)->setRendererName(SectionsRenderer::class);
+                    }
+                } else {
+                    if ($component->isAllowedToPresent(AccessPresentationEnum::DISPLAY)) {
+                        $component->setRendererName(PaperRenderer::class);
+                        // komponent s obsahem
+                        /** @var TemplatedComponent $templatedComponent */
+                        $templatedComponent = $c->get(TemplatedComponent::class);
+                        $templatedComponent->appendComponentView($c->get(ElementInheritDataComponent::class), PaperComponent::HEADLINE);
+                        $templatedComponent->appendComponentView($c->get(ElementInheritDataComponent::class), PaperComponent::PEREX);
+                        $templatedComponent->appendComponentView($c->get(ElementInheritDataComponent::class), PaperComponent::SECTIONS);
+                        // přidání komponentu do paper
+                        $component->appendComponentView($templatedComponent, PaperComponent::CONTENT);
+                        $component->getComponentView(PaperComponent::CONTENT)->getComponentView(PaperComponent::HEADLINE)->setRendererName(HeadlineRenderer::class);
+                        $component->getComponentView(PaperComponent::CONTENT)->getComponentView(PaperComponent::PEREX)->setRendererName(PerexRenderer::class);
+                        $component->getComponentView(PaperComponent::CONTENT)->getComponentView(PaperComponent::SECTIONS)->setRendererName(SectionsRenderer::class);
+                    } else {
+                        $component->setRendererName(NoPermittedContentRenderer::class);
+                    }
                 }
-                // komponent s obsahem
-                /** @var TemplatedComponent $templatedComponent */
-                $templatedComponent = $c->get(TemplatedComponent::class);
-                $templatedComponent->appendComponentView($c->get(ElementInheritDataComponent::class), PaperComponent::HEADLINE);
-                $templatedComponent->appendComponentView($c->get(ElementInheritDataComponent::class), PaperComponent::PEREX);
-                $templatedComponent->appendComponentView($c->get(ElementInheritDataComponent::class), PaperComponent::SECTIONS);
-                // přidání komponent do paper
-                $component->appendComponentView($templatedComponent, PaperComponent::CONTENT);
+
                 return $component;
             },
             PaperTemplateComponent::class => function(ContainerInterface $c) {
                 $component = new PaperTemplateComponent(
-                        $c->get(ComponentConfiguration::class),
+                                $c->get(ComponentConfiguration::class),
                         $c->get(StatusViewModel::class),
                         $c->get(AccessPresentation::class)
                      );
@@ -368,25 +433,55 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusViewModel::class),
                         $c->get(AccessPresentation::class)
                      );
-                     /** @var ArticleViewModel $viewModel */
+                /** @var ArticleViewModel $viewModel */
                 $viewModel = $c->get(ArticleViewModel::class);
                 $component->setData($viewModel);
                 $component->setRendererContainer($c->get('rendererContainer'));
-                $component->setFallbackRendererName(ArticleRenderer::class);
-                if (!$viewModel->hasContent()) {
-                    $component->appendComponentView($c->get(SelectTemplateComponent::class), ArticleComponent::SELECT_TEMPLATE);
+
+                if($component->getStatus()->presentEditableContent() AND $component->isAllowedToPresent(AccessPresentationEnum::EDIT)) {
+                    $component->appendComponentView($c->get(EditContentSwitchComponent::class), ArticleComponent::BUTTON_EDIT_CONTENT);
+                    if($viewModel->userPerformAuthoredContentAction()) {
+                        $component->setRendererName(ArticleRendererEditable::class);
+                        if (!$viewModel->hasContent()) {
+                            $component->appendComponentView($c->get(SelectTemplateComponent::class), ArticleComponent::SELECT_TEMPLATE);
+                        }
+                    } else {
+                        $component->setRendererName(ArticleRenderer::class);
+                    }
+                } else {
+                    $component->setRendererName(ArticleRenderer::class);
                 }
-                $component->appendComponentView($c->get(EditContentSwitchComponent::class), ArticleComponent::BUTTON_EDIT_CONTENT);
+
                 return $component;
             },
             MultipageComponent::class => function(ContainerInterface $c) {
+                $viewModel = $c->get(MultipageViewModel::class);
                 $component = new MultipageComponent(
                         $c->get(ComponentConfiguration::class),
                         $c->get(StatusViewModel::class),
                         $c->get(AccessPresentation::class)
                      );
-                $component->setData($c->get(MultipageViewModel::class));
+                $component->setData($viewModel);
                 $component->setRendererContainer($c->get('rendererContainer'));
+
+                // komponent s obsahem
+                /** @var TemplatedComponent $templatedComponent */
+                $templatedComponent = $c->get(TemplatedComponent::class);
+                // přidání komponent do article
+                $component->appendComponentView($templatedComponent, MultipageComponent::CONTENT);
+
+        // zvolí MultipageRenderer nebo MultipageRendererEditable
+                if ($component->getStatus()->presentEditableContent() AND $component->isAllowedToPresent(AccessPresentationEnum::EDIT)) {
+                    $component->appendComponentView($c->get(EditContentSwitchComponent::class), MultipageComponent::BUTTON_EDIT_CONTENT);
+
+                    if($viewModel->userPerformAuthoredContentAction()) {
+                        $component->setRendererName(MultipageRendererEditable::class);
+                    } else {
+                        $component->setRendererName(MultipageRenderer::class);
+                    }
+                } else {
+                    $component->setRendererName(MultipageRenderer::class);
+                }
                 return $component;
             },
             ####

@@ -8,14 +8,12 @@
 
 namespace Component\ViewModel\MenuItem\Authored\Article;
 
-use ArrayObject;
 use Component\ViewModel\MenuItem\Authored\AuthoredViewModelAbstract;
+use Component\ViewModel\StatusViewModelInterface;
+
 use Red\Model\Entity\ArticleInterface;
 use Red\Model\Repository\ArticleRepo;
-use Component\ViewModel\StatusViewModelInterface;
 use Red\Model\Repository\MenuItemRepoInterface;
-
-use TemplateService\TemplateSeekerInterface;
 
 use Red\Model\Enum\AuthoredTypeEnum;
 
@@ -46,15 +44,16 @@ class ArticleViewModel extends AuthoredViewModelAbstract implements ArticleViewM
      *
      * @param type $menuItemType
      */
-    public function getAuthoredContentType() {
+    public function getAuthoredContentType(): string {
         return AuthoredTypeEnum::ARTICLE;
     }
 
-    public function getAuthoredTemplateName() {
-        return $this->getArticle()->getTemplate();
+    public function getAuthoredTemplateName(): ?string {
+        $article = $this->getArticle();
+        return isset($article) ? $article->getTemplate() : null;
     }
 
-    public function getAuthoredContentId() {
+    public function getAuthoredContentId(): string {
         return $this->getArticle()->getId();
     }
 
@@ -80,11 +79,6 @@ class ArticleViewModel extends AuthoredViewModelAbstract implements ArticleViewM
     public function hasContent(): bool {
         $article = $this->getArticle();
         return (isset($article) AND $article->getContent()) ? true : false; //content může být null
-    }
-
-    public function getIterator() {
-        $this->appendData(['article'=> $this->getArticle()]);
-        return parent::getIterator();
     }
 
 

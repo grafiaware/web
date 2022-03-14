@@ -44,7 +44,7 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
                 }
             }
         } else {
-            $sections[] = 'No paper.';
+            $sections[] = '';
         }
         return $sections;
     }

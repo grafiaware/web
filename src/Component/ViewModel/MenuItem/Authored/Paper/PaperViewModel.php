@@ -47,15 +47,16 @@ class PaperViewModel extends AuthoredViewModelAbstract implements PaperViewModel
      *
      * @param type $menuItemType
      */
-    public function getAuthoredContentType() {
+    public function getAuthoredContentType(): string {
         return AuthoredTypeEnum::PAPER;
     }
 
-    public function getAuthoredTemplateName() {
-        return $this->getPaper()->getTemplate();
+    public function getAuthoredTemplateName(): ?string {
+        $paper = $this->getPaper();
+        return isset($paper) ? $paper->getTemplate() : null;
     }
 
-    public function getAuthoredContentId() {
+    public function getAuthoredContentId(): string {
         return $this->getPaper()->getId();
     }
 

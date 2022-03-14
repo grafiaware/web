@@ -13,7 +13,7 @@ namespace Component\View\Menu;
  * @author pes2704
  */
 interface MenuComponentInterface  {
-    public function setRenderersNames($levelWrapRendererName): MenuComponentInterface;
+    public function setRenderersNames( $levelWrapRendererName, $itemRendererName, $itemEditableRendererName): MenuComponentInterface;
     public function setMenuRootName($menuRootName): MenuComponentInterface;
     public function withTitleItem($withTitle=false): MenuComponentInterface;
 }

@@ -9,15 +9,8 @@ use Pes\View\Template\ImplodeTemplate;
 use Pes\View\CompositeView;
 use Pes\Text\FriendlyUrl;
 
-use Pes\View\Template\Exception\NoTemplateFileException;
-
 use Component\View\MenuItem\Authored\AuthoredComponentAbstract;
-use Component\ViewModel\Authored\Multipage\MultipageViewModelInterface;
-
-use Component\Renderer\Html\Authored\Multipage\MultipageRenderer;
-use Component\Renderer\Html\Authored\Multipage\MultipageRendererEditable;
-
-use Component\View\Manage\EditContentSwitchComponent;
+use Component\ViewModel\MenuItem\Authored\Multipage\MultipageViewModelInterface;
 
 use Access\Enum\AccessPresentationEnum;
 
@@ -44,14 +37,16 @@ class MultipageComponent extends AuthoredComponentAbstract implements MultipageC
      *
      */
     public function beforeRenderingHook(): void {
+
         // vytvoří komponentní view z šablony paperu nebo s ImplodeTemplate, pokud šablona multipage není nastavena
-        try {
+//        try {
             // konstruktor PhpTemplate vyhazuje výjimku NoTemplateFileException pro neexistující (nečitený) soubor s template
-            $template = new PhpTemplate($this->contextData->seekTemplate());
-        } catch (NoTemplateFileException $noTemplExc) {
-            $template = new ImplodeTemplate();
-        }
-        $contentView = (new CompositeView())->setTemplate($template)->setRendererContainer($this->rendererContainer);  // "nedědí" contextData
+//            $template = new PhpTemplate($this->contextData->seekTemplate());
+//        } catch (NoTemplateFileException $noTemplExc) {
+//            $template = new ImplodeTemplate();
+//        }
+//        $contentView = (new CompositeView())->setTemplate($template)->setRendererContainer($this->rendererContainer);  // "nedědí" contextData
+        $contentView = $this->getComponentView(self::CONTENT);
 
         $subNodes = $this->contextData->getSubNodes();  //včetně kořene podstromu - tedy včetně multipage položky
         // odstraní kořenový uzel, tj. uzel odpovídající vlastní multipage, zbydou jen potomci
@@ -61,25 +56,25 @@ class MultipageComponent extends AuthoredComponentAbstract implements MultipageC
             $item = $subNode->getMenuItem();
             $contentView->appendComponentView($this->getContentLoadScript($item), $item->getTypeFk().'_'.$item->getId());
         }
-        $this->appendComponentView($contentView, self::CONTENT);
+//        $this->appendComponentView($contentView, self::CONTENT);
 
-        // zvolí MultipageRenderer nebo MultipageRendererEditable
-        if($this->contextData->presentEditableContent() AND $this->isAllowed(AccessPresentationEnum::EDIT)) {
-            if ($this->userPerformActionWithItem()) {
-                $this->setRendererName(MultipageRendererEditable::class);
-            } else {
-                $this->setRendererName(MultipageRenderer::class);
-            }
-
-            // vytvoří komponent - view s buttonem ButtonEditContent
-            $buttonEditContentComponent = new EditContentSwitchComponent($this->configuration);
-            $buttonEditContentComponent->setData($this->contextData);
-            $buttonEditContentComponent->setRendererContainer($this->rendererContainer);
-            $this->appendComponentView($buttonEditContentComponent, self::BUTTON_EDIT_CONTENT);
-
-        } else {
-            $this->setRendererName(MultipageRenderer::class);
-        }
+//        // zvolí MultipageRenderer nebo MultipageRendererEditable
+//        if($this->contextData->presentEditableContent() AND $this->isAllowed(AccessPresentationEnum::EDIT)) {
+//            if ($this->userPerformActionWithItem()) {
+//                $this->setRendererName(MultipageRendererEditable::class);
+//            } else {
+//                $this->setRendererName(MultipageRenderer::class);
+//            }
+//
+//            // vytvoří komponent - view s buttonem ButtonEditContent
+//            $buttonEditContentComponent = new EditContentSwitchComponent($this->configuration);
+//            $buttonEditContentComponent->setData($this->contextData);
+//            $buttonEditContentComponent->setRendererContainer($this->rendererContainer);
+//            $this->appendComponentView($buttonEditContentComponent, self::BUTTON_EDIT_CONTENT);
+//
+//        } else {
+//            $this->setRendererName(MultipageRenderer::class);
+//        }
     }
 
     public function getString() {

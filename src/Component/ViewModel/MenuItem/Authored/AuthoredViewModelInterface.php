@@ -18,15 +18,15 @@ use Red\Model\Entity\ItemActionInterface;
  */
 interface AuthoredViewModelInterface extends MenuItemViewModelInterface {
 
-    public function getAuthoredContentType();
+    public function getAuthoredContentType(): string;
 
-    public function getAuthoredTemplateName();
+    public function getAuthoredTemplateName(): ?string;
 
     /**
      * Vrací id entity, kretá tvoří zobrazovaný obsah - např article, paper, multipge.
      * Spolu s hodnotou type slouží ke generování url pro renderované ovládací prvky
      */
-    public function getAuthoredContentId();
+    public function getAuthoredContentId(): string;
 
     public function getAuthoredContentAction(): ?ItemActionInterface;
     public function userPerformAuthoredContentAction(): bool;

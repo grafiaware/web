@@ -21,7 +21,7 @@ class ItemTrashRendererEditable extends ItemRendererEditable {
         $menuNode = $this->viewModel->getHierarchyAggregate();
         $menuItem = $menuNode->getMenuItem();
 
-        $presentedEditable = ($this->viewModel->isPresented() AND $this->viewModel->isMenuEditableByUser());
+        $presentedEditable = ($this->viewModel->isPresented() AND $this->viewModel->isMenuEditable());
         $active = $menuItem->getActive();
         $pasteMode = $this->viewModel->isPasteMode();
         $cutted = $this->viewModel->isCutted();

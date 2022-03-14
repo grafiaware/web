@@ -7,6 +7,13 @@ use Site\Configuration;
 use Pes\Container\ContainerConfiguratorAbstract;
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
 
+use Component\Renderer\Html\Menu\ItemRenderer;
+use Component\Renderer\Html\Menu\ItemRendererEditable;
+use Component\Renderer\Html\Menu\ItemBlockRenderer;
+use Component\Renderer\Html\Menu\ItemBlockRendererEditable;
+use Component\Renderer\Html\Menu\ItemTrashRenderer;
+use Component\Renderer\Html\Menu\ItemTrashRendererEditable;
+
 use Component\Renderer\Html\Authored\Paper\ButtonsRenderer;
 use Component\Renderer\Html\Authored\Paper\PaperRenderer;
 use Component\Renderer\Html\Authored\Paper\PaperRendererEditable;
@@ -70,6 +77,27 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getServicesOverrideDefinitions() {
         return [
+        ###########################
+        # menu item renderer
+        ###########################
+            ItemRenderer::class => function(ContainerInterface $c) {
+                return new ItemRenderer($c->get('menu.item.classmap'));
+            },
+            ItemRendererEditable::class => function(ContainerInterface $c) {
+                return new ItemRendererEditable($c->get('menu.item.classmap.editable'));
+            },
+            ItemBlockRenderer::class => function(ContainerInterface $c) {
+                return new ItemBlockRenderer($c->get('menu.item.classmap'));
+            },
+            ItemBlockRendererEditable::class => function(ContainerInterface $c) {
+                return new ItemBlockRendererEditable($c->get('menu.item.classmap.editable'));
+            },
+            ItemTrashRenderer::class => function(ContainerInterface $c) {
+                return new ItemTrashRenderer($c->get('menu.item.classmap'));
+            },
+            ItemTrashRendererEditable::class => function(ContainerInterface $c) {
+                return new ItemTrashRendererEditable($c->get('menu.item.classmap.editable'));
+            },
         ###########################
         # select template renderer
         ###########################
@@ -141,10 +169,10 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
         ###########################
         #  multipage renderer
         ###########################
-        MultipageRenderer::class => function(ContainerInterface $c) {
+            MultipageRenderer::class => function(ContainerInterface $c) {
                 return new MultipageRenderer($c->get('authored.classmap'));   //používá paper classmapu - přejmenovat společnou classmapu??
             },
-        MultipageRendererEditable::class => function(ContainerInterface $c) {
+            MultipageRendererEditable::class => function(ContainerInterface $c) {
                 return new MultipageRendererEditable($c->get('authored.editable.classmap'));   //používá paper classmapu - přejmenovat společnou classmapu??
             },
         ###########################

@@ -2,7 +2,7 @@
 namespace Component\Renderer\Html\Authored\Multipage;
 
 use Component\Renderer\Html\Authored\AuthoredRendererAbstract;
-use Component\ViewModel\Authored\Multipage\MultipageViewModelInterface;
+use Component\ViewModel\MenuItem\Authored\Multipage\MultipageViewModelInterface;
 use Component\View\MenuItem\Authored\Multipage\MultipageComponent;
 use Component\View\MenuItem\Authored\AuthoredComponentAbstract;
 

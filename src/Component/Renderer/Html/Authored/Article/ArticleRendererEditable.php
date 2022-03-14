@@ -7,6 +7,7 @@ use Red\Model\Entity\ArticleInterface;
 
 use Component\View\MenuItem\Authored\AuthoredComponentAbstract;
 use Component\ViewModel\MenuItem\Authored\Article\ArticleViewModelInterface;
+use Component\View\MenuItem\Authored\Article\ArticleComponent;
 
 use Red\Middleware\Redactor\Controler\ArticleControler;
 
@@ -25,12 +26,14 @@ class ArticleRendererEditable extends AuthoredRendererAbstract {
 
         $html =
                 Html::tag('div', ['class'=>$this->classMap->get('Template', 'div.templateArticle')],
-                    Html::tag('article', ['data-red-renderer'=>'PaperRendererEditable', "data-red-datasource"=> "paper {$article->getId()} for item {$article->getMenuItemIdFk()}"],
+                    Html::tag('article', ['data-red-renderer'=>'ArticleRendererEditable', "data-red-datasource"=> "article {$article->getId()} for item {$article->getMenuItemIdFk()}"],
                         [
                             $viewModel->getContextVariable(AuthoredComponentAbstract::BUTTON_EDIT_CONTENT) ?? '',
-                            $this->renderSelectTemplate($viewModel),
+//                            $this->renderSelectTemplate($viewModel),
+                            $viewModel->getContextVariable(ArticleComponent::SELECT_TEMPLATE) ?? '',
                             $this->renderRibbon($viewModel),
                             $this->getFormWithContent($viewModel),
+
                         ]
                     )
                 );

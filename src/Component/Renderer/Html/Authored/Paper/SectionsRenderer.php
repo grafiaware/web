@@ -41,13 +41,13 @@ class SectionsRenderer extends HtmlRendererAbstract {
                 $innerHtml[] = $this->renderContent($paperContent);
             }
         } else {
-            $innerHtml[] = 'No paper.';
+            $innerHtml[] = '';
         }
         return $innerHtml;
     }
 
     private function renderContent(PaperContentInterface $paperContent) {
-        $html =  
+        $html =
                 Html::tag('section', ['class'=>$this->classMap->get('Content', 'section')],
                     Html::tag('content', [
                                 'id' => "content_{$paperContent->getId()}",

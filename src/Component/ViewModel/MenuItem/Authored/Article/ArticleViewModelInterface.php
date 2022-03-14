@@ -1,7 +1,7 @@
 <?php
 namespace Component\ViewModel\MenuItem\Authored\Article;
 
-use Component\ViewModel\Authored\AuthoredViewModelInterface;
+use Component\ViewModel\MenuItem\Authored\AuthoredViewModelInterface;
 
 use Red\Model\Entity\ArticleInterface;
 

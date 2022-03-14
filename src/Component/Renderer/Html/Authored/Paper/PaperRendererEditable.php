@@ -5,7 +5,7 @@ use Component\Renderer\Html\Authored\AuthoredRendererAbstract;
 
 use Component\View\MenuItem\Authored\Paper\PaperComponent;
 
-use Component\ViewModel\Authored\Paper\PaperViewModelInterface;
+use Component\ViewModel\MenuItem\Authored\Paper\PaperViewModelInterface;
 
 use Red\Model\Entity\PaperAggregatePaperContentInterface;
 

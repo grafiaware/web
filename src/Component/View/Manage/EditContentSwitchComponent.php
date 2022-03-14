@@ -32,10 +32,10 @@ class EditContentSwitchComponent extends StatusComponentAbstract implements Inhe
      * @return void
      */
     public function beforeRenderingHook(): void {
-        if($this->isAllowedToPresent(AccessPresentationEnum::EDIT)) {
-            $this->setRendererName(EditContentSwitchRenderer::class);
-        } else {
-            $this->setRendererName(NoPermittedContentRenderer::class);
-        }
+//        if($this->isAllowedToPresent(AccessPresentationEnum::EDIT)) {
+//            $this->setRendererName(EditContentSwitchRenderer::class);
+//        } else {
+//            $this->setRendererName(NoPermittedContentRenderer::class);
+//        }
     }
 }

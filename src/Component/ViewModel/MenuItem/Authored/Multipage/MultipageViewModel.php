@@ -15,7 +15,6 @@ use Red\Model\Repository\HierarchyJoinMenuItemRepo;
 use Red\Model\Entity\MultipageInterface;
 use Red\Model\Entity\MenuItemAggregateHierarchyInterface;
 
-use TemplateService\TemplateSeekerInterface;
 use Red\Model\Enum\AuthoredTypeEnum;
 /**
  * Description of PaperViewModelAnstract
@@ -51,15 +50,16 @@ class MultipageViewModel extends AuthoredViewModelAbstract implements MultipageV
      *
      * @param type $menuItemType
      */
-    public function getAuthoredContentType() {
+    public function getAuthoredContentType(): string {
         return AuthoredTypeEnum::MULTIPAGE;
     }
 
-    public function getAuthoredTemplateName() {
-        return $this->getMultipage()->getTemplate();
+    public function getAuthoredTemplateName(): ?string {
+        $multipage = $this->getMultipage();
+        return isset($multipage) ? $multipage->getTemplate() : null;
     }
 
-    public function getAuthoredContentId() {
+    public function getAuthoredContentId(): string {
         return $this->getMultipage()->getId();
     }
 
@@ -71,10 +71,7 @@ class MultipageViewModel extends AuthoredViewModelAbstract implements MultipageV
      * @return MultipageInterface|null
      */
     public function getMultipage(): ?MultipageInterface {
-        if (isset($this->menuItemId)) {
-            $multipage = $this->multipageRepo->getByReference($this->menuItemId);
-        }
-        return $multipage ?? null;
+        return $this->multipageRepo->getByReference($this->getMenuItem()->getUidFk());
     }
 
     /**
@@ -85,17 +82,17 @@ class MultipageViewModel extends AuthoredViewModelAbstract implements MultipageV
     public function getSubNodes() {
         $multipage = $this->getMultipage();
         if (isset($multipage)) {
-            $langCode = $this->statusPresentationRepo->get()->getLanguage()->getLangCode();
+            $langCode = $this->getStatus()->getPresentedLanguage()->getLangCode();
             $menuItem = $this->menuItemRepo->getById($multipage->getMenuItemIdFk());
             $nodes = $this->hierarchyRepo->getSubNodes($langCode, $menuItem->getUidFk());  // neomezená maxDepth
             return $nodes;
         }
     }
 
-    public function getIterator() {
-        $this->appendData(['multipage'=> $this->getMultipage()]);
-        return parent::getIterator();
-    }
+//    public function getIterator() {
+//        $this->appendData(['multipage'=> $this->getMultipage()]);
+//        return parent::getIterator();
+//    }
 
 
 }

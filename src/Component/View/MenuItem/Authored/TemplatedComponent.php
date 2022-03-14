@@ -14,24 +14,15 @@ use Component\ViewModel\StatusViewModelInterface;
 use Access\AccessPresentationInterface;
 use TemplateService\TemplateSeekerInterface;
 
-
-use Pes\View\Renderer\RendererInterface;
 use Pes\View\Template\PhpTemplate;
 
 use Red\Model\Enum\AuthoredTypeEnum;
 
-use Component\ViewModel\Authored\AuthoredViewModelInterface;
+use Component\ViewModel\MenuItem\Authored\AuthoredViewModelInterface;
 
 use Component\View\MenuItem\Authored\AuthoredComponentAbstract;
-use Component\Renderer\Html\Authored\Paper\Buttons;
-use Component\Renderer\Html\Authored\Paper\ElementWrapper;
 
 use Pes\View\Template\ImplodeTemplate;
-
-use Component\Renderer\Html\Authored\Paper\HeadlineRenderer;
-use Component\Renderer\Html\Authored\Paper\PerexRenderer;
-use Component\Renderer\Html\Authored\Paper\SectionsRenderer;
-use Component\View\MenuItem\Authored\Paper\PaperComponent;  // pracovní verze TemplatedC pro paper
 
 use Pes\View\ViewInterface;
 use Pes\View\InheritDataViewInterface;

@@ -11,5 +11,7 @@ use Red\Model\Entity\MenuItemInterface;
  * @author pes2704
  */
 class ItemTrashRenderer extends ItemRenderer {
-
+    public function render($viewModel = NULL) {
+        return parent::render($viewModel);
+    }
 }

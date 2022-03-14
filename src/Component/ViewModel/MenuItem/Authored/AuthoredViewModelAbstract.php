@@ -25,11 +25,11 @@ abstract class AuthoredViewModelAbstract extends MenuItemViewModel implements Au
 
     protected $menuItemType;
 
-    abstract public function getAuthoredContentType();
+    abstract public function getAuthoredContentType(): string;
 
-    abstract public function getAuthoredTemplateName();
+    abstract public function getAuthoredTemplateName(): ?string;
 
-    abstract public function getAuthoredContentId();
+    abstract public function getAuthoredContentId(): string;
 
 
     // zatím mimo interface!

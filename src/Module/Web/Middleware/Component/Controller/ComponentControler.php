@@ -18,6 +18,11 @@ use Red\Model\Enum\AuthoredTypeEnum;
 //TODO: oprávnění pro routy
 use Access\Enum\AllowedActionEnum;
 
+// view model
+use Component\ViewModel\MenuItem\Authored\Paper\PaperViewModel;
+use Component\ViewModel\MenuItem\Authored\Article\ArticleViewModel;
+use Component\ViewModel\MenuItem\Authored\Multipage\MultipageViewModel;
+
 // komponenty
 use Component\View\MenuItem\TypeSelect\ItemTypeSelectComponent;
 use Component\View\MenuItem\Authored\Paper\PaperComponent;
@@ -73,9 +78,11 @@ class ComponentControler extends FrontControlerAbstract {
 
     public function paper(ServerRequestInterface $request, $menuItemId) {
         if($this->isAllowed(AllowedActionEnum::GET)) {
+            /** @var PaperViewModel $paperViewModel */
+            $paperViewModel = $this->container->get(PaperViewModel::class);
+            $paperViewModel->setMenuItemId($menuItemId);
             /** @var PaperComponentInterface $view */
             $view = $this->container->get(PaperComponent::class);
-            $view->setItemId($menuItemId);
         } else {
             $view =  $this->getNonPermittedContentView(AllowedActionEnum::GET, AuthoredTypeEnum::PAPER);
         }
@@ -83,21 +90,24 @@ class ComponentControler extends FrontControlerAbstract {
     }
 
     public function article(ServerRequestInterface $request, $menuItemId) {
+        /** @var ArticleViewModel $viewModel */
+        $viewModel = $this->container->get(ArticleViewModel::class);
+        $viewModel->setMenuItemId($menuItemId);
         /** @var ArticleComponentInterface $view */
         $view = $this->container->get(ArticleComponent::class);
-        $view->setItemId($menuItemId);
         return $this->createResponseFromView($request, $view);
     }
 
     public function multipage(ServerRequestInterface $request, $menuItemId) {
+        /** @var MultipageViewModel $viewModel */
+        $viewModel = $this->container->get(MultipageViewModel::class);
+        $viewModel->setMenuItemId($menuItemId);
         /** @var MultipageComponentInterface $view */
         $view = $this->container->get(MultipageComponent::class);
-        $view->setItemId($menuItemId);
         return $this->createResponseFromView($request, $view);
     }
 
     public function unknown(ServerRequestInterface $request) {
-        /** @var MultipageComponentInterface $view */
         $view = $this->container->get(View::class);
         $view->setData([Html::tag('div', ['style'=>'display: none;' ], 'Unknown content.')]);
         $view->setRenderer(new ImplodeRenderer());

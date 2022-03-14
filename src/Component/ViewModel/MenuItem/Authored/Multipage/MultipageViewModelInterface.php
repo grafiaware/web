@@ -1,7 +1,7 @@
 <?php
-namespace Component\ViewModel\Authored\Multipage;
+namespace Component\ViewModel\MenuItem\Authored\Multipage;
 
-use Component\ViewModel\Authored\AuthoredViewModelInterface;
+use Component\ViewModel\MenuItem\Authored\AuthoredViewModelInterface;
 
 use Red\Model\Entity\MultipageInterface;
 use Red\Model\Entity\HierarchyAggregateInterface;

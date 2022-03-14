@@ -19,6 +19,9 @@ use FrontControler\FrontControlerInterface;
 use Red\Model\Entity\MenuItemInterface;
 use Red\Model\Entity\PaperAggregatePaperContent;
 
+// view modely
+use Component\ViewModel\MenuItem\Authored\Paper\PaperViewModel;
+
 // komponenty
 use Component\View\MenuItem\Authored\AuthoredComponentInterface;
 use Component\View\MenuItem\Authored\PaperTemplate\PaperTemplateComponent;
@@ -158,10 +161,12 @@ class TemplateControler extends FrontControlerAbstract {
             $filename = $this->templateSeeker->seekTemplate(AuthoredTemplateTypeEnum::PAPER, $templateName);
 
             $menuItemId = $presentedMenuItem->getId();
+            /** @var PaperViewModel $paperViewModel */
+            $paperViewModel = $this->container->get(PaperViewModel::class);
+            $paperViewModel->setMenuItemId($menuItemId);
             /** @var PaperTemplateComponentInterface $view */
             $view = $this->container->get(PaperTemplateComponent::class);
             $view->setSelectedPaperTemplateFileName($filename);
-            $view->setItemId($menuItemId);
             $this->statusPresentationRepo->get()->setLastTemplateName($templateName);
 
         } else {
@@ -202,9 +207,6 @@ class TemplateControler extends FrontControlerAbstract {
             try {
                 $templatePath = $this->templateSeeker->seekTemplate(AuthoredTemplateTypeEnum::PAPER, $paperAggregate->getTemplate());
                 $this->setTemplate(new PhpTemplate($templatePath));  // exception
-                // renderery musí být definovány v Renderer kontejneru - tam mohou dostat classMap do konstruktoru
-//                $this->addChildRendererName('headline', HeadlineRenderer::class);
-//                $this->adoptChildRenderers($template);   // jako shared data do template objektu
             } catch (NoTemplateFileException $noTemplExc) {
                 user_error("Neexistuje soubor šablony '$templatePath'", E_USER_WARNING);
                 $this->setTemplate(null);

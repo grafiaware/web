@@ -34,46 +34,47 @@ class PaperComponent extends AuthoredComponentAbstract implements PaperComponent
     const SECTIONS = 'sections';
 
     public function beforeRenderingHook(): void {
-        if($this->getStatus()->presentEditableContent()) {
-            if($this->isAllowedToPresent(AccessPresentationEnum::EDIT)) {
-                if($this->contextData->getAuthoredContentAction()) {
-                    $this->setEditableRenderers();
-                    $this->getComponentView(self::BUTTON_EDIT_CONTENT)->setRendererName(EditContentSwitchRenderer::class);
-                } else {
-                    $this->setNoneditableRenderers();
-                    $this->getComponentView(self::BUTTON_EDIT_CONTENT)->setRendererName(EditContentSwitchRenderer::class);
-                }
-            } else {
-                if($this->isAllowedToPresent(AccessPresentationEnum::DISPLAY)) {
-                    $this->setNoneditableRenderers();
-                    $this->getComponentView(self::BUTTON_EDIT_CONTENT)->setRendererName(EditContentSwitchRenderer::class);
-                } else {
-                    $this->setNoneditableRenderers(); // musí být nastaveny, jinak při renderování vznikne výjimka a nedojde k renderování NoPermittedContentRenderer
-                    $this->setRendererName(NoPermittedContentRenderer::class);
-                }
-            }
-        } else {
-            if($this->isAllowedToPresent(AccessPresentationEnum::DISPLAY)) {
-                $this->setNoneditableRenderers();
-            } else {
-                $this->setNoneditableRenderers(); // musí být nastaveny, jinak při renderování vznikne výjimka a nedojde k renderování NoPermittedContentRenderer
-                $this->setRendererName(NoPermittedContentRenderer::class);
-            }
-        }
+        return;
+//        if($this->getStatus()->presentEditableContent()) {
+//            if($this->isAllowedToPresent(AccessPresentationEnum::EDIT)) {
+//                if($this->contextData->userPerformAuthoredContentAction()) {
+//                    $this->setEditableRenderers();
+//                    $this->getComponentView(self::BUTTON_EDIT_CONTENT)->setRendererName(EditContentSwitchRenderer::class);
+//                } else {
+//                    $this->setNoneditableRenderers();
+//                    $this->getComponentView(self::BUTTON_EDIT_CONTENT)->setRendererName(EditContentSwitchRenderer::class);
+//                }
+//            } else {
+//                if($this->isAllowedToPresent(AccessPresentationEnum::DISPLAY)) {
+//                    $this->setNoneditableRenderers();
+//                    $this->getComponentView(self::BUTTON_EDIT_CONTENT)->setRendererName(EditContentSwitchRenderer::class);
+//                } else {
+//                    $this->setNoneditableRenderers(); // musí být nastaveny, jinak při renderování vznikne výjimka a nedojde k renderování NoPermittedContentRenderer
+//                    $this->setRendererName(NoPermittedContentRenderer::class);
+//                }
+//            }
+//        } else {
+//            if($this->isAllowedToPresent(AccessPresentationEnum::DISPLAY)) {
+//                $this->setNoneditableRenderers();
+//            } else {
+//                $this->setNoneditableRenderers(); // musí být nastaveny, jinak při renderování vznikne výjimka a nedojde k renderování NoPermittedContentRenderer
+//                $this->setRendererName(NoPermittedContentRenderer::class);
+//            }
+//        }
     }
 
-    protected function setNoneditableRenderers() {
-        $this->setRendererName(PaperRenderer::class);
-        $this->getComponentView(self::CONTENT)->getComponentView(self::HEADLINE)->setRendererName(HeadlineRenderer::class);
-        $this->getComponentView(self::CONTENT)->getComponentView(self::PEREX)->setRendererName(PerexRenderer::class);
-        $this->getComponentView(self::CONTENT)->getComponentView(self::SECTIONS)->setRendererName(SectionsRenderer::class);
-    }
-
-    protected function setEditableRenderers() {
-        $this->setRendererName(PaperRendererEditable::class);
-        $this->getComponentView(self::CONTENT)->getComponentView(self::HEADLINE)->setRendererName(HeadlineRendererEditable::class);
-        $this->getComponentView(self::CONTENT)->getComponentView(self::PEREX)->setRendererName(PerexRendererEditable::class);
-        $this->getComponentView(self::CONTENT)->getComponentView(self::SECTIONS)->setRendererName(SectionsRendererEditable::class);
-    }
+//    protected function setNoneditableRenderers() {
+//        $this->setRendererName(PaperRenderer::class);
+//        $this->getComponentView(self::CONTENT)->getComponentView(self::HEADLINE)->setRendererName(HeadlineRenderer::class);
+//        $this->getComponentView(self::CONTENT)->getComponentView(self::PEREX)->setRendererName(PerexRenderer::class);
+//        $this->getComponentView(self::CONTENT)->getComponentView(self::SECTIONS)->setRendererName(SectionsRenderer::class);
+//    }
+//
+//    protected function setEditableRenderers() {
+//        $this->setRendererName(PaperRendererEditable::class);
+//        $this->getComponentView(self::CONTENT)->getComponentView(self::HEADLINE)->setRendererName(HeadlineRendererEditable::class);
+//        $this->getComponentView(self::CONTENT)->getComponentView(self::PEREX)->setRendererName(PerexRendererEditable::class);
+//        $this->getComponentView(self::CONTENT)->getComponentView(self::SECTIONS)->setRendererName(SectionsRendererEditable::class);
+//    }
 
 }
