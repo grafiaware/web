@@ -71,7 +71,7 @@ class MultipageViewModel extends AuthoredViewModelAbstract implements MultipageV
      * @return MultipageInterface|null
      */
     public function getMultipage(): ?MultipageInterface {
-        return $this->multipageRepo->getByReference($this->getMenuItem()->getUidFk());
+        return $this->multipageRepo->getByReference($this->getMenuItem()->getId());
     }
 
     /**
