@@ -62,15 +62,18 @@ class ItemTrashRendererEditable extends ItemRendererEditable {
         $innerHtml[] = $buttonsHtml ? Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttons')], $buttonsHtml) : '';
         $innerHtml[] = $this->viewModel->getInnerHtml();
 
-        $html =
-            Html::tag('form', [],
-                Html::tag('li',
-                ['class'=>[
+        $liClass = ['class'=>[
                     $this->classMap->resolve($this->viewModel->isLeaf(), 'Item', 'li.leaf', ($this->viewModel->getRealDepth() == 1) ? 'li.dropdown' : 'li.item'),
                     $this->classMap->resolve($this->viewModel->isCutted(), 'Item', 'li.cut', 'li')
                     ],
-                ],
-                $innerHtml)
+                ];
+        $innerHtml = implode('', $innerHtml);
+        $li = Html::tag('li',
+                $liClass,
+                $innerHtml);
+       $html =
+            Html::tag('form', [],
+                    $li
             );
         return $html;
     }

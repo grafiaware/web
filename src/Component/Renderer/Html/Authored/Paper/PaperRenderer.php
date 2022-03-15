@@ -24,12 +24,15 @@ class PaperRenderer  extends HtmlRendererAbstract {
     public function render(iterable $viewModel=NULL) {
         /** @var PaperViewModelInterface $viewModel */
         $paperAggregate = $viewModel->getPaper();  // vrací PaperAggregate
-        $html =
-                Html::tag('div', ['class'=>$this->classMap->get('Template', 'div.templatePaper')],
-                    Html::tag('article', ['data-red-renderer'=>'PaperRenderer', "data-red-datasource"=> "paper {$paperAggregate->getId()} for item {$paperAggregate->getMenuItemIdFk()}"],
+        if (isset($paperAggregate)) {
+            $html = Html::tag('div', ['class'=>$this->classMap->get('Template', 'div.templatePaper')],
+                        Html::tag('article', ['data-red-renderer'=>'PaperRenderer', "data-red-datasource"=> "paper {$paperAggregate->getId()} for item {$paperAggregate->getMenuItemIdFk()}"],
                             $viewModel->getContextVariable(PaperComponent::CONTENT) ?? ''
                     )
                 );
-        return $html ?? '';
+        } else {
+            $html = '';
+        }                    
+        return $html;
     }
 }
