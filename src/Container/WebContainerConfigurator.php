@@ -61,7 +61,10 @@ use Component\View\MenuItem\Authored\Paper\PaperComponent;
 use Component\View\MenuItem\Authored\Article\ArticleComponent;
 use Component\View\MenuItem\Authored\Multipage\MultipageComponent;
 use Component\View\MenuItem\Authored\TemplatedComponent;
+
 use Component\View\MenuItem\Authored\PaperTemplate\PaperTemplateComponent;
+use Component\View\MenuItem\Authored\PaperTemplate\MultipageTemplateComponent;
+
 use Component\View\Manage\SelectTemplateComponent;
 use Component\View\Element\ElementInheritDataComponent;
 
@@ -427,6 +430,17 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
 
                 return $component;
             },
+            MultipageTemplateComponent::class => function(ContainerInterface $c) {
+                $component = new MultipageTemplateComponent(
+                                $c->get(ComponentConfiguration::class),
+                        $c->get(StatusViewModel::class),
+                        $c->get(AccessPresentation::class)
+                     );
+                $component->setData($c->get(MultipageViewModel::class));
+                $component->setRendererContainer($c->get('rendererContainer'));
+
+                return $component;
+            },                    
             ArticleComponent::class => function(ContainerInterface $c)   {
                 $component = new ArticleComponent(
                         $c->get(ComponentConfiguration::class),
@@ -476,6 +490,8 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
 
                     if($viewModel->userPerformAuthoredContentAction()) {
                         $component->setRendererName(MultipageRendererEditable::class);
+                        $selectTemplateComponent = $c->get(SelectTemplateComponent::class);
+                        $component->appendComponentView($selectTemplateComponent, PaperComponent::SELECT_TEMPLATE);                        
                     } else {
                         $component->setRendererName(MultipageRenderer::class);
                     }

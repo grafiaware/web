@@ -75,10 +75,9 @@ class ApiRegistrator {
         $registry->register($this->getPrototype->withUrlPattern('/web/v1/templateslist/:type'));
         $registry->register($this->getPrototype->withUrlPattern('/web/v1/papertemplate/:folder'));
         $registry->register($this->getPrototype->withUrlPattern('/web/v1/articletemplate/:folder'));
+        $registry->register($this->getPrototype->withUrlPattern('/web/v1/multipagetemplate/:folder'));
         $registry->register($this->getPrototype->withUrlPattern('/web/v1/authortemplate/:name'));
-
-
-        #
+        
         #### UserActionController ####
 
         #### PresentationActionControler ####
@@ -99,7 +98,10 @@ class ApiRegistrator {
         #### ArticleController ####
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/article/:articleId'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/article/:articleId/template'));
-
+        
+        #### MultipageControler ####        
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/multipage/:multipageId/template'));
+        
         #### ContentController ####
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/section'));
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/section/:contentId'));

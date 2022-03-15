@@ -1,3 +1,4 @@
+<<<<<<< OURS
 <?php
 
 /*
@@ -21,11 +22,14 @@ use Red\Model\Entity\PaperAggregatePaperContent;
 
 // view modely
 use Component\ViewModel\MenuItem\Authored\Paper\PaperViewModel;
+use Component\ViewModel\MenuItem\Authored\Multipage\MultipageViewModel;
 
 // komponenty
 use Component\View\MenuItem\Authored\AuthoredComponentInterface;
 use Component\View\MenuItem\Authored\PaperTemplate\PaperTemplateComponent;
 use Component\View\MenuItem\Authored\PaperTemplate\PaperTemplateComponentInterface;
+use Component\View\MenuItem\Authored\PaperTemplate\MultipageTemplateComponent;
+use Component\View\MenuItem\Authored\PaperTemplate\MultipageTemplateComponentInterface;
 
 ####################
 use Status\Model\Repository\StatusSecurityRepo;
@@ -42,6 +46,9 @@ use Pes\Text\Message;
 use Pes\View\View;
 use Pes\View\Template\PhpTemplate;
 use \View\Includer;
+
+use Pes\View\Template\ImplodeTemplate;
+
 /**
  * Description of GetController
  *
@@ -74,7 +81,8 @@ class TemplateControler extends FrontControlerAbstract {
 
     public function templatesList(ServerRequestInterface $request, $templatesType) {
         $templates['multipage'] = [
-                [ 'title' => 'template article test', 'description' => 'popis',       'url' => 'web/v1/multipagetemplate/test'],
+                [ 'title' => 'template multipage test', 'description' => 'popis',       'url' => 'web/v1/multipagetemplate/test'],
+                [ 'title' => 'template multipage carousel', 'description' => 'popis',       'url' => 'web/v1/multipagetemplate/carousel'],
             ];
        // [ 'title' => 'template article test', 'description' => 'popis',       'url' => 'web/v1/articletemplate/test'],
        // [ 'title' => 'Prázdná šablona', 'description' => 'Tato šablona nemá předepsaný styl. Po uložení šablony využijte editační lištu pro formátování.',       'url' => 'web/v1/articletemplate/empty'],
@@ -85,6 +93,7 @@ class TemplateControler extends FrontControlerAbstract {
         [ 'title' => 'Kousíčková šablona', 'description' => 'Popis knihy i autora, obrázky a důležité informace.',       'url' => 'web/v1/articletemplate/book_description_Lebenhart'],
         [ 'title' => 'Šablona pro kurz', 'description' => 'Hlavní stránka kurzu. Napište lidem základní informace i recenze od účastníků.',       'url' => 'web/v1/articletemplate/retraining_course'],
         [ 'title' => 'Šablona pro produkt / službu', 'description' => 'Zviditelněte svůj produkt či službu.',       'url' => 'web/v1/articletemplate/product_page'],
+        [ 'title' => 'Šablona pro produkt / službu 2', 'description' => 'Zviditelněte svůj produkt či službu.',       'url' => 'web/v1/articletemplate/introduce_subject'],
              ];
 
        // [ 'title' => 'template paper test', 'description' => 'popis',       'url' => 'web/v1/papertemplate/test'],
@@ -101,6 +110,7 @@ class TemplateControler extends FrontControlerAbstract {
         [ 'title' => 'template paper divided_rows', 'description' => 'popis',       'url' => 'web/v1/papertemplate/divided_rows'],
         [ 'title' => 'template paper bordered_rows', 'description' => 'popis',       'url' => 'web/v1/papertemplate/bordered_rows'],
         [ 'title' => 'template paper rows', 'description' => 'popis',       'url' => 'web/v1/papertemplate/rows'],
+        [ 'title' => 'template paper carousel', 'description' => 'popis',       'url' => 'web/v1/papertemplate/carousel'],
             ];
         $templates['author'] = [
         [ 'title' => 'Kontakt', 'description' => 'Grafia web - kontakt',       'url' => 'web/v1/authortemplate/kontakt'],
@@ -108,6 +118,8 @@ class TemplateControler extends FrontControlerAbstract {
         [ 'title' => 'Publikace - 2', 'description' => 'Vložení publikací na stránku', 'url' => 'web/v1/authortemplate/eshop_radka'],
         [ 'title' => 'Obrázek vlevo a text', 'description' => 'Bez obtékání. Dva sloupce', 'url' => 'web/v1/authortemplate/obrazekVlevo_blok'],
         [ 'title' => 'Obrázek vpravo a text', 'description' => 'Bez obtékání. Dva sloupce', 'url' => 'web/v1/authortemplate/obrazekVpravo_blok'],
+        [ 'title' => 'Blok pro citaci', 'description' => 'Bez obtékání. Dva sloupce', 'url' => 'web/v1/authortemplate/citation'],
+        [ 'title' => 'Vnitřní ohraničení bloků', 'description' => 'Bez obtékání. Dva sloupce', 'url' => 'web/v1/authortemplate/celled_blocks'],
         [ 'title' => 'Ohraničený obsah s odkazem - 1 položka', 'description' => 'Vložení ohraničené položky na stránku. Položka obsahuje odkaz, připojte správnou adresu či odkaz odeberte', 'url' => 'web/v1/authortemplate/menu_1polozka_2'],
         [ 'title' => 'Ohraničený obsah s odkazem - 1 položka rozdělená na sloupce', 'description' => 'Vložení ohraničené položky na stránku. Položka obsahuje odkaz, připojte správnou adresu či odkaz odeberte', 'url' => 'web/v1/authortemplate/menu_1polozka'],
         [ 'title' => 'Ohraničený obsah s odkazem - 2 položky', 'description' => 'Vložení 2 položek na stránku. Každá položka obsahuje odkaz, připojte správnou adresu či odkaz odeberte', 'url' => 'web/v1/authortemplate/menu_2polozky'],
@@ -185,7 +197,30 @@ class TemplateControler extends FrontControlerAbstract {
         }
         return $this->createResponseFromView($request, $view);
     }
+    
+    public function multipagetemplate(ServerRequestInterface $request, $templateName) {
+        $presentedMenuItem = $this->statusPresentationRepo->get()->getMenuItem();
+        if (isset($presentedMenuItem)) {
+            $filename = $this->templateSeeker->seekTemplate(AuthoredTemplateTypeEnum::MULTIPAGE, $templateName);
 
+            $menuItemId = $presentedMenuItem->getId();
+            /** @var PaperViewModel $paperViewModel */
+            $paperViewModel = $this->container->get(MultipageViewModel::class);
+            $paperViewModel->setMenuItemId($menuItemId);
+            /** @var MultipageTemplateComponentInterface $view */
+            $view = $this->container->get(MultipageTemplateComponent::class);
+            $view->setSelectedPaperTemplateFileName($filename);
+            $this->statusPresentationRepo->get()->setLastTemplateName($templateName);
+        } else {
+            $view = $this->container->get(View::class)
+                                    ->setTemplate(new ImplodeTemplate)
+                                    ->setData([
+                                        'Neumím to, multipage jsou ee.',
+                                    ]);            
+        }
+        return $this->createResponseFromView($request, $view);        
+    }
+        
     /**
      * Odesílá obsah authoringové šablony. Obsah načte ze souboru a renderuje jako PhpTemplate.
      * @param ServerRequestInterface $request

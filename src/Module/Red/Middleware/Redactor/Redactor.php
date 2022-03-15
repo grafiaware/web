@@ -17,7 +17,7 @@ use Container\{
 };
 
 use Red\Middleware\Redactor\Controler\{
-    UserActionControler, HierarchyControler, EditItemControler, ItemActionControler, PaperControler, ArticleControler, SectionsControler, TemplateController,
+    UserActionControler, HierarchyControler, EditItemControler, ItemActionControler, PaperControler, ArticleControler, SectionsControler, TemplateController, MultipageControler,
     FilesUploadControler
 };
 
@@ -147,6 +147,14 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
                 return $ctrl->template($request, $articleId);
         });
 
+        #### MultipageControler ####
+
+        $routeGenerator->addRouteForAction('POST', '/red/v1/multipage/:multipageId/template', function(ServerRequestInterface $request, $multipageId) {
+                /** @var MultipageControler $ctrl */
+                $ctrl = $this->container->get(MultipageControler::class);
+                return $ctrl->template($request, $multipageId);
+        });
+        
         #### ContentController ####
         $routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId/section', function(ServerRequestInterface $request, $paperId) {
                 /** @var ContentController $ctrl */
