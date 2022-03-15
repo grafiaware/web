@@ -253,7 +253,7 @@ class ConfigurationStyles extends ConfigurationRed {
                      'Template' => [
                         'div.templateMultipage' => 'template-multipage',
                         'div.templateMultipageTrash' => 'template-multipage trash',
-                        'div.templatePaper' => 'template-paper',
+                        'div.templatePaper' => 'template-paperedit',
                         'div.templatePaperTrash' => 'template-paper trash',
                         'div.templateArticle' => 'template-articleedit',
                         'div.templateArticleTrash' => 'template-articleedit trash',
