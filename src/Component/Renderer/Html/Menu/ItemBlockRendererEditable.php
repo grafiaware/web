@@ -24,8 +24,6 @@ class ItemBlockRendererEditable extends ItemRendererEditable {
      * @return string
      */
     protected function renderEditableItem(MenuItemInterface $menuItem) {
-        $menuNode = $this->viewModel->getHierarchyAggregate();
-        $menuItem = $menuNode->getMenuItem();
         $active = $menuItem->getActive();
 
         $innerHtml =

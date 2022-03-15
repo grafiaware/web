@@ -18,9 +18,6 @@ class ItemTrashRendererEditable extends ItemRendererEditable {
      * @return string
      */
     protected function renderEditableItem(MenuItemInterface $menuItem) {
-        $menuNode = $this->viewModel->getHierarchyAggregate();
-        $menuItem = $menuNode->getMenuItem();
-
         $presentedEditable = ($this->viewModel->isPresented() AND $this->viewModel->isMenuEditable());
         $active = $menuItem->getActive();
         $pasteMode = $this->viewModel->isPasteMode();
@@ -32,9 +29,9 @@ class ItemTrashRendererEditable extends ItemRendererEditable {
                             $this->classMap->get('Item', 'li a'),
                             $this->classMap->resolve($this->viewModel->isPresented(), 'Item', 'li.presented', 'li'),
                             ],
-                        'href'=>"web/v1/page/item/{$menuNode->getUid()}",
+                        'href'=>"web/v1/page/item/{$menuItem->getUidFk()}",
                          ],
-                        $menuNode->getMenuItem()->getTitle()
+                        $menuItem->getTitle()
                         .Html::tag('span', ['class'=>$this->classMap->get('Item', 'semafor')],
                             Html::tag('i', [
                                 'class'=> $this->classMap->get('Icons', 'semafor.trashed'),
@@ -63,19 +60,18 @@ class ItemTrashRendererEditable extends ItemRendererEditable {
         $innerHtml[] = $this->viewModel->getInnerHtml();
 
         $liClass = ['class'=>[
-                    $this->classMap->resolve($this->viewModel->isLeaf(), 'Item', 'li.leaf', ($this->viewModel->getRealDepth() == 1) ? 'li.dropdown' : 'li.item'),
-                    $this->classMap->resolve($this->viewModel->isCutted(), 'Item', 'li.cut', 'li')
+                    (string) $this->classMap->resolve($this->viewModel->isLeaf(), 'Item', 'li.leaf', ($this->viewModel->getRealDepth() == 1) ? 'li.dropdown' : 'li.item'),
+                    (string) $this->classMap->resolve($this->viewModel->isCutted(), 'Item', 'li.cut', 'li')
                     ],
                 ];
         $innerHtml = implode('', $innerHtml);
-        $li = Html::tag('li',
-                $liClass,
-                $innerHtml);
+        $li = Html::tag('li', $liClass, $innerHtml);
        $html =
             Html::tag('form', [],
                     $li
             );
-        return $html;
+
+       return $html;
     }
 
     private function renderButtons(MenuItemInterface $menuItem) {

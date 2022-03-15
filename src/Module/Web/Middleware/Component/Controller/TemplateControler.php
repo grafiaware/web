@@ -27,8 +27,9 @@ use Component\ViewModel\MenuItem\Authored\Multipage\MultipageViewModel;
 use Component\View\MenuItem\Authored\AuthoredComponentInterface;
 use Component\View\MenuItem\Authored\PaperTemplate\PaperTemplateComponent;
 use Component\View\MenuItem\Authored\PaperTemplate\PaperTemplateComponentInterface;
-use Component\View\MenuItem\Authored\PaperTemplate\MultipageTemplateComponent;
-use Component\View\MenuItem\Authored\PaperTemplate\MultipageTemplateComponentInterface;
+
+use Component\View\MenuItem\Authored\Multipage\MultipageTemplatePreviewComponent;
+use Component\ViewModel\MenuItem\Authored\Multipage\MultipageTemplatePreviewViewModel;
 
 ####################
 use Status\Model\Repository\StatusSecurityRepo;
@@ -196,30 +197,31 @@ class TemplateControler extends FrontControlerAbstract {
         }
         return $this->createResponseFromView($request, $view);
     }
-    
+
     public function multipagetemplate(ServerRequestInterface $request, $templateName) {
         $presentedMenuItem = $this->statusPresentationRepo->get()->getMenuItem();
         if (isset($presentedMenuItem)) {
-            $filename = $this->templateSeeker->seekTemplate(AuthoredTemplateTypeEnum::MULTIPAGE, $templateName);
+//            $filename = $this->templateSeeker->seekTemplate(AuthoredTemplateTypeEnum::MULTIPAGE, $templateName);
 
             $menuItemId = $presentedMenuItem->getId();
-            /** @var PaperViewModel $paperViewModel */
-            $paperViewModel = $this->container->get(MultipageViewModel::class);
-            $paperViewModel->setMenuItemId($menuItemId);
-            /** @var MultipageTemplateComponentInterface $view */
-            $view = $this->container->get(MultipageTemplateComponent::class);
-            $view->setSelectedPaperTemplateFileName($filename);
+            /** @var MultipageTemplatePreviewViewModel $templatePreviewModel */
+            $templatePreviewModel = $this->container->get(MultipageTemplatePreviewViewModel::class);
+            $templatePreviewModel->setMenuItemId($menuItemId);
+            $templatePreviewModel->setPreviewTemplateName($templateName);
+            /** @var MultipageTemplatePreviewComponent $view */
+            $view = $this->container->get(MultipageTemplatePreviewComponent::class);
+//            $view->setSelectedPaperTemplateFileName($filename);
             $this->statusPresentationRepo->get()->setLastTemplateName($templateName);
         } else {
             $view = $this->container->get(View::class)
                                     ->setTemplate(new ImplodeTemplate)
                                     ->setData([
                                         'Neumím to, multipage jsou ee.',
-                                    ]);            
+                                    ]);
         }
-        return $this->createResponseFromView($request, $view);        
+        return $this->createResponseFromView($request, $view);
     }
-        
+
     /**
      * Odesílá obsah authoringové šablony. Obsah načte ze souboru a renderuje jako PhpTemplate.
      * @param ServerRequestInterface $request

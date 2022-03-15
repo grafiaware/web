@@ -62,8 +62,9 @@ use Component\View\MenuItem\Authored\Article\ArticleComponent;
 use Component\View\MenuItem\Authored\Multipage\MultipageComponent;
 use Component\View\MenuItem\Authored\TemplatedComponent;
 
+use Component\View\MenuItem\Authored\Multipage\MultipageTemplatePreviewComponent;
+
 use Component\View\MenuItem\Authored\PaperTemplate\PaperTemplateComponent;
-use Component\View\MenuItem\Authored\PaperTemplate\MultipageTemplateComponent;
 
 use Component\View\Manage\SelectTemplateComponent;
 use Component\View\Element\ElementInheritDataComponent;
@@ -89,6 +90,8 @@ use Component\ViewModel\Menu\MenuViewModel;
 use Component\ViewModel\MenuItem\Authored\Paper\PaperViewModel;
 use Component\ViewModel\MenuItem\Authored\Article\ArticleViewModel;
 use Component\ViewModel\MenuItem\Authored\Multipage\MultipageViewModel;
+
+use Component\ViewModel\MenuItem\Authored\Multipage\MultipageTemplatePreviewViewModel;
 
 use Component\ViewModel\MenuItem\TypeSelect\ItemTypeSelectViewModel;
 
@@ -430,17 +433,6 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
 
                 return $component;
             },
-            MultipageTemplateComponent::class => function(ContainerInterface $c) {
-                $component = new MultipageTemplateComponent(
-                                $c->get(ComponentConfiguration::class),
-                        $c->get(StatusViewModel::class),
-                        $c->get(AccessPresentation::class)
-                     );
-                $component->setData($c->get(MultipageViewModel::class));
-                $component->setRendererContainer($c->get('rendererContainer'));
-
-                return $component;
-            },                    
             ArticleComponent::class => function(ContainerInterface $c)   {
                 $component = new ArticleComponent(
                         $c->get(ComponentConfiguration::class),
@@ -491,7 +483,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                     if($viewModel->userPerformAuthoredContentAction()) {
                         $component->setRendererName(MultipageRendererEditable::class);
                         $selectTemplateComponent = $c->get(SelectTemplateComponent::class);
-                        $component->appendComponentView($selectTemplateComponent, PaperComponent::SELECT_TEMPLATE);                        
+                        $component->appendComponentView($selectTemplateComponent, PaperComponent::SELECT_TEMPLATE);
                     } else {
                         $component->setRendererName(MultipageRenderer::class);
                     }
@@ -500,6 +492,26 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 }
                 return $component;
             },
+            MultipageTemplatePreviewComponent::class => function(ContainerInterface $c) {
+                $viewModel = $c->get(MultipageTemplatePreviewViewModel::class);
+                $component = new MultipageTemplatePreviewComponent(
+                        $c->get(ComponentConfiguration::class),
+                        $c->get(StatusViewModel::class),
+                        $c->get(AccessPresentation::class)
+                     );
+                $component->setData($viewModel);
+                $component->setRendererContainer($c->get('rendererContainer'));
+
+                // komponent s obsahem
+                /** @var TemplatedComponent $templatedComponent */
+                $templatedComponent = $c->get(TemplatedComponent::class);
+                // přidání komponent do article
+                $component->appendComponentView($templatedComponent, MultipageComponent::CONTENT);
+
+                $component->setRendererName(MultipageRenderer::class);
+                return $component;
+            },
+
             ####
             # komponenty - pro editační režim authored komponent
             #
@@ -783,7 +795,14 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                             $c->get(HierarchyJoinMenuItemRepo::class)
                     );
             },
-
+            MultipageTemplatePreviewViewModel::class => function(ContainerInterface $c) {
+                return new MultipageTemplatePreviewViewModel(
+                            $c->get(StatusViewModel::class),
+                            $c->get(MenuItemRepo::class),
+                            $c->get(MultipageRepo::class),
+                            $c->get(HierarchyJoinMenuItemRepo::class)
+                    );
+            },
             LanguageSelectViewModel::class => function(ContainerInterface $c) {
                 return new LanguageSelectViewModel(
                             $c->get(StatusViewModel::class),
