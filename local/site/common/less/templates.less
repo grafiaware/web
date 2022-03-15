@@ -13,7 +13,16 @@
 *******************************/
 @import (optional) "../../@{sitename}/semantic/src/site/globals/site.variables";  
 
+/*******************************
+         styly pro šablony static v site
+         layout.less: @import (optional) "../../@{sitename}/@{siteStylesFolder}/static-templates.less"       
+*******************************/ 
+@import (optional) "../../@{sitename}/@{siteStylesFolder}/static-templates.less"; 
  
+/*******************************
+         styly pro šablony article v site
+*******************************/ 
+
 &{    
 @templateType: "article";                                                                                   
 @siteTemplatePath: "../../@{sitename}/@{siteTemplatesFolder}/@{templateType}/site-template.less";
@@ -44,10 +53,6 @@
 *******************************/       
 @import (optional) "../../@{sitename}/@{siteStylesFolder}/templates.less";        
 
-/*******************************
-         styly pro šablony static v site
-         layout.less: @import (optional) "../../@{sitename}/@{siteStylesFolder}/static-templates.less"       
-*******************************/
-@import (optional) "../../@{sitename}/@{siteStylesFolder}/static-templates.less";     
+    
 
 
