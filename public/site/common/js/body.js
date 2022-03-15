@@ -96,6 +96,7 @@ function initLoadedEditableElements() {
             tinymce.init(editMceEditableConfig);
             tinymce.init(selectTemplateArticleConfig);
             tinymce.init(selectTemplatePaperConfig);
+            tinymce.init(selectTemplateMultipageConfig);
 
             //pro editaci pracovního popisu pro přihlášené uživatele
             tinymce.init(editWorkDataConfig);
@@ -292,7 +293,7 @@ function initLoadedElements() {
 //carousel
 //
 //
-            var jsTemplateCarousel = document.querySelectorAll('.template-paper [data-template="carousel"]');
+            var jsTemplateCarousel = document.querySelectorAll('.template-multipage [data-template="carousel"]');
             if (jsTemplateCarousel.length !== 0) {
                 (function($){
                     var carouselObal = $(".carousel-wrap"); 
