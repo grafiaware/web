@@ -26,7 +26,8 @@ class MultipageRendererEditable  extends AuthoredRendererAbstract {
                   Html::tag('div', ['data-red-renderer'=>'MultipageRendererEditable', "data-red-datasource"=> "multipage {$multipage->getId()} for item {$multipage->getMenuItemIdFk()}"],
                         [
                             $viewModel->getContextVariable(AuthoredComponentAbstract::BUTTON_EDIT_CONTENT) ?? '',
-                            $this->renderSelectTemplate($viewModel),
+//                            $this->renderSelectTemplate($viewModel),
+                            $viewModel->getContextVariable(MultipageComponent::SELECT_TEMPLATE) ?? '',
                             $this->renderRibbon($viewModel),
                             $viewModel->getContextVariable(MultipageComponent::CONTENT) ?? '',
                         ]
@@ -34,7 +35,25 @@ class MultipageRendererEditable  extends AuthoredRendererAbstract {
                 );
         return $html ?? '';
     }
+    
+    protected function renderSelectTemplateButtons(MultipageViewModelInterface $viewModel): array {
+        $onclick = (string) "togleTemplateSelect(event, '{$this->getTemplateSelectId($viewModel)}');";   // ! chybná syntaxe javascriptu vede k volání form action (s nesmyslným uri)        
+        $buttons = [];
 
+        $buttons[] = Html::tag('button', [
+                'class'=>$this->classMap->get('Buttons', 'button'),
+                'data-tooltip'=> 'Vybrat šablonu stránky',
+                'data-position'=>'top right',
+                'formtarget'=>'_self',
+                'formmethod'=>'post',
+                'formaction'=>"",
+                'onclick'=>$onclick
+                ],
+                Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.template')])
+            );
+            return $buttons;
+    }
+    
     /**
      * Nemá buttony
      *

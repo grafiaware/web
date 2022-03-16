@@ -21,11 +21,15 @@ use Red\Model\Entity\PaperAggregatePaperContent;
 
 // view modely
 use Component\ViewModel\MenuItem\Authored\Paper\PaperViewModel;
+use Component\ViewModel\MenuItem\Authored\Multipage\MultipageViewModel;
 
 // komponenty
 use Component\View\MenuItem\Authored\AuthoredComponentInterface;
 use Component\View\MenuItem\Authored\PaperTemplate\PaperTemplateComponent;
 use Component\View\MenuItem\Authored\PaperTemplate\PaperTemplateComponentInterface;
+
+use Component\View\MenuItem\Authored\Multipage\MultipageTemplatePreviewComponent;
+use Component\ViewModel\MenuItem\Authored\Multipage\MultipageTemplatePreviewViewModel;
 
 ####################
 use Status\Model\Repository\StatusSecurityRepo;
@@ -42,6 +46,9 @@ use Pes\Text\Message;
 use Pes\View\View;
 use Pes\View\Template\PhpTemplate;
 use \View\Includer;
+
+use Pes\View\Template\ImplodeTemplate;
+
 /**
  * Description of GetController
  *
@@ -74,7 +81,8 @@ class TemplateControler extends FrontControlerAbstract {
 
     public function templatesList(ServerRequestInterface $request, $templatesType) {
         $templates['multipage'] = [
-                [ 'title' => 'template article test', 'description' => 'popis',       'url' => 'web/v1/multipagetemplate/test'],
+                [ 'title' => 'template multipage test', 'description' => 'popis',       'url' => 'web/v1/multipagetemplate/test'],
+                [ 'title' => 'template multipage carousel', 'description' => 'popis',       'url' => 'web/v1/multipagetemplate/carousel'],
             ];
        // [ 'title' => 'template article test', 'description' => 'popis',       'url' => 'web/v1/articletemplate/test'],
        // [ 'title' => 'Prázdná šablona', 'description' => 'Tato šablona nemá předepsaný styl. Po uložení šablony využijte editační lištu pro formátování.',       'url' => 'web/v1/articletemplate/empty'],
@@ -185,6 +193,30 @@ class TemplateControler extends FrontControlerAbstract {
                                     ->setTemplate($this->setTemplateByName($templateName))
                                     ->setData([
                                         'paperAggregate' => $paperAggregate,
+                                    ]);
+        }
+        return $this->createResponseFromView($request, $view);
+    }
+
+    public function multipagetemplate(ServerRequestInterface $request, $templateName) {
+        $presentedMenuItem = $this->statusPresentationRepo->get()->getMenuItem();
+        if (isset($presentedMenuItem)) {
+//            $filename = $this->templateSeeker->seekTemplate(AuthoredTemplateTypeEnum::MULTIPAGE, $templateName);
+
+            $menuItemId = $presentedMenuItem->getId();
+            /** @var MultipageTemplatePreviewViewModel $templatePreviewModel */
+            $templatePreviewModel = $this->container->get(MultipageTemplatePreviewViewModel::class);
+            $templatePreviewModel->setMenuItemId($menuItemId);
+            $templatePreviewModel->setPreviewTemplateName($templateName);
+            /** @var MultipageTemplatePreviewComponent $view */
+            $view = $this->container->get(MultipageTemplatePreviewComponent::class);
+//            $view->setSelectedPaperTemplateFileName($filename);
+            $this->statusPresentationRepo->get()->setLastTemplateName($templateName);
+        } else {
+            $view = $this->container->get(View::class)
+                                    ->setTemplate(new ImplodeTemplate)
+                                    ->setData([
+                                        'Neumím to, multipage jsou ee.',
                                     ]);
         }
         return $this->createResponseFromView($request, $view);

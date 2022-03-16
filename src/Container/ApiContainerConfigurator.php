@@ -32,6 +32,7 @@ use \Red\Middleware\Redactor\Controler\EditItemControler;
 use Red\Middleware\Redactor\Controler\ItemActionControler;
 use \Red\Middleware\Redactor\Controler\PaperControler;
 use \Red\Middleware\Redactor\Controler\ArticleControler;
+use Red\Middleware\Redactor\Controler\MultipageControler;
 use \Red\Middleware\Redactor\Controler\SectionsControler;
 use Red\Middleware\Redactor\Controler\FilesUploadControler;
 
@@ -143,6 +144,13 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
                         $c->get(ArticleRepo::class));
+            },
+            MultipageControler::class => function(ContainerInterface $c) {
+                return new MultipageControler(
+                        $c->get(StatusSecurityRepo::class),
+                        $c->get(StatusFlashRepo::class),
+                        $c->get(StatusPresentationRepo::class),
+                        $c->get(MultipageRepo::class));
             },
             SectionsControler::class => function(ContainerInterface $c) {
                 return new SectionsControler(

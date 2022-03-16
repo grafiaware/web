@@ -65,6 +65,7 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract {
             Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsWrap')],
                 [
                     $this->renderButtonsDiv($this->renderItemControlButtons($viewModel)),
+                    $this->renderButtonsDiv($this->renderSelectTemplateButtons($viewModel)),                    
                     $this->renderButtonsDiv($this->renderContentControlButtons($viewModel)),
                 ]
             )

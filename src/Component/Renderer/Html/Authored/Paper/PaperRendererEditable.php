@@ -38,12 +38,8 @@ class PaperRendererEditable  extends AuthoredRendererAbstract {
     }
 
 ####################################
-
-    protected function renderContentControlButtons(PaperViewModelInterface $viewModel): array {
-        $templateName = $viewModel->getAuthoredTemplateName() ?? '';
-        $paper = $viewModel->getPaper();
-        $paperId = $paper->getId();
-        $onclick = (string) "togleTemplateSelect(event, '{$this->getTemplateSelectId($viewModel)}');";   // ! chybná syntaxe javascriptu vede k volání form action (s nesmyslným uri)
+    protected function renderSelectTemplateButtons(PaperViewModelInterface $viewModel): array {
+        $onclick = (string) "togleTemplateSelect(event, '{$this->getTemplateSelectId($viewModel)}');";   // ! chybná syntaxe javascriptu vede k volání form action (s nesmyslným uri)        
         $buttons = [];
 
         $buttons[] = Html::tag('button', [
@@ -57,6 +53,14 @@ class PaperRendererEditable  extends AuthoredRendererAbstract {
                 ],
                 Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.template')])
             );
+            return $buttons;
+    }
+    
+    protected function renderContentControlButtons(PaperViewModelInterface $viewModel): array {
+        $templateName = $viewModel->getAuthoredTemplateName() ?? '';
+        $paper = $viewModel->getPaper();
+        $paperId = $paper->getId();
+        $buttons = [];
 
         if ($paper instanceof PaperAggregatePaperContentInterface AND $paper->getPaperContentsArray()) {
             $buttons[] = Html::tag('button', [
