@@ -43,6 +43,9 @@ class AccessPresentation implements AccessPresentationInterface {
             if (array_key_exists($activeRole, $permissions) AND array_key_exists($action, $permissions[$activeRole])) {
                 $permittedResource = $permissions[$activeRole][$action];
                 $isAllowed = ($resource instanceof $permittedResource) ? true : false;
+                if ($isAllowed) {
+                    break;
+                }
             }
         }
         return $isAllowed;

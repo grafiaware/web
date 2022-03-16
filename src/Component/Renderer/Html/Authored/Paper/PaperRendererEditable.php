@@ -39,7 +39,9 @@ class PaperRendererEditable  extends AuthoredRendererAbstract {
 
 ####################################
     protected function renderSelectTemplateButtons(PaperViewModelInterface $viewModel): array {
-        $onclick = (string) "togleTemplateSelect(event, '{$this->getTemplateSelectId($viewModel)}');";   // ! chybná syntaxe javascriptu vede k volání form action (s nesmyslným uri)        
+        $paper = $viewModel->getPaper();
+        $paperId = $paper->getId();
+        $onclick = (string) "togleTemplateSelect(event, '{$this->getTemplateSelectId($viewModel)}');";   // ! chybná syntaxe javascriptu vede k volání form action (s nesmyslným uri)
         $buttons = [];
 
         $buttons[] = Html::tag('button', [
@@ -53,9 +55,19 @@ class PaperRendererEditable  extends AuthoredRendererAbstract {
                 ],
                 Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.template')])
             );
-            return $buttons;
+        $buttons[] = Html::tag('button', [
+                'class'=>$this->classMap->get('Buttons', 'button'),
+                'data-tooltip'=> 'Odstranit šablonu stránky',
+                'data-position'=>'top right',
+                'formtarget'=>'_self',
+                'formmethod'=>'post',
+                'formaction'=>"red/v1/paper/$paperId/templateremove",
+                ],
+                Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.templateremove')])
+            );
+        return $buttons;
     }
-    
+
     protected function renderContentControlButtons(PaperViewModelInterface $viewModel): array {
         $templateName = $viewModel->getAuthoredTemplateName() ?? '';
         $paper = $viewModel->getPaper();

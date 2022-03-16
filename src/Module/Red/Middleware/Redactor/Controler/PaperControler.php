@@ -281,4 +281,22 @@ class PaperControler extends AuthoredControlerAbstract {
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
+    /**
+     *
+     * @param ServerRequestInterface $request
+     * @param type $paperId
+     * @return ResponseInterface
+     */
+    public function templateRemove(ServerRequestInterface $request, $paperId): ResponseInterface {
+        $paper = $this->paperAggregateRepo->get($paperId);
+        if (!isset($paper)) {
+            user_error("Neexistuje paper se zadaným id.$paperId");
+        } else {
+            $oldTemplate = $paper->getTemplate();
+            $paper->setTemplate('');
+            $this->addFlashMessage("Removed paper template $oldTemplate.", FlashSeverityEnum::SUCCESS);
+        }
+        return $this->redirectSeeLastGet($request); // 303 See Other
+    }
+
 }
