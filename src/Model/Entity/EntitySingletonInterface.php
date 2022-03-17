@@ -14,8 +14,4 @@ namespace Model\Entity;
  * @author pes2704
  */
 interface EntitySingletonInterface {
-    public function setPersisted(): EntityInterface;
-    public function setUnpersisted(): EntityInterface;
-    public function isPersisted();
-
 }

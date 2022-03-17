@@ -21,25 +21,24 @@ class Enroll extends EntityAbstract implements EnrollInterface {
     private $loginName;
     private $eventid;
 
-
     private $keyAttribute = 'id';
+    
+    public function getKeyAttribute() {
+        return $this->keyAttribute;
+    }
+
 
     public function getId(): ?int {
         return $this->id;
     }
-
-
     public function getLoginName(): ?string {
         return $this->loginName;
     }
-
     public function getEventid(): ?string {
         return $this->eventid;
     }
 
-    public function getKeyAttribute() {
-        return $this->keyAttribute;
-    }
+    
 
     public function setId($id): EnrollInterface {
         $this->id = $id;
@@ -49,7 +48,6 @@ class Enroll extends EntityAbstract implements EnrollInterface {
         $this->loginName = $loginName;
         return $this;
     }
-
     public function setEventid($eventid = null): EnrollInterface {
         $this->eventid = $eventid;
         return $this;

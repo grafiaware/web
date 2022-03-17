@@ -212,12 +212,7 @@ WHERE `login_name` = :login_name AND `short_name` = :short_name AND `position_na
     }
 
     public function delete($row) {
-        $sql = "
-DELETE FROM `veletrhprace`.`visitor_data_post`
-WHERE `login_name` = :login_name AND `short_name` = :short_name AND `position_name` = :position_name";
-
-
-        return $this->execDelete($sql, [':login_name'=>$row['login_name'], ':short_name'=>$row['short_name'], ':position_name'=>$row['position_name']]);
+        return $this->execDelete(`visitor_data_post`, [':login_name'=>$row['login_name'], ':short_name'=>$row['short_name'], ':position_name'=>$row['position_name']]);
     }
 
 }
