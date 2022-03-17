@@ -78,7 +78,8 @@ class ConfigurationStyles extends ConfigurationRed {
                             'icon.delete' => 'trash icon',
                             'icon.exclamation' => 'corner red exclamation icon',
                             'icon.templateSelect' => 'clone outline icon',
-                            'icon.template' => 'file alternate icon',
+                            'icon.template' => 'stamp alternate icon',
+                            'icon.templateremove' => 'stamp red alternate icon',
                             'icon.arrange' => 'sort numeric down icon',
                             'icon.editMode' => 'pencil alternate icon',
                             'icon.changedisplaydate' => 'violet calendar alternate icon',
@@ -324,7 +325,7 @@ class ConfigurationStyles extends ConfigurationRed {
                      'Template' => [
                         'div.templateMultipage' => 'template-multipage',
                         'div.templateMultipageTrash' => 'template-multipage trash',
-                        'div.templatePaper' => 'template-paper',
+                        'div.templatePaper' => 'template-paperedit',
                         'div.templatePaperTrash' => 'template-paper trash',
                         'div.templateArticle' => 'template-articleedit',
                         'div.templateArticleTrash' => 'template-articleedit trash',

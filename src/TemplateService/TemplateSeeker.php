@@ -48,7 +48,7 @@ class TemplateSeeker implements TemplateSeekerInterface {
         $templateExtension = $this->configuration->getDefaultExtension();
         $templatesFolders = $this->configuration->getFolders();
         if (!array_key_exists($templatesType, $templatesFolders)) {
-            throw new UnknownTemplateTypeException("Hledaný typ template '$templatesType' neexistuje v konfiguraci složek template.");
+            throw new UnknownTemplateTypeException("Hledaný typ template '$templatesType' neexistuje v konfiguraci složek template ('folders').");
         }
         foreach ($templatesFolders[$templatesType] as $templatesFolder) {
             $filename = $templatesFolder.$templateName.$templateExtension;
@@ -56,6 +56,6 @@ class TemplateSeeker implements TemplateSeekerInterface {
                 return $filename;
             }
         }
-        throw new TemplateNotFoundException("Nebyly nalezen soubor template se jménem '$templateName' s příponou '$templateExtension' ve složkách zadaných konfigurací.");
+        throw new TemplateNotFoundException("Nebyl nalezen soubor template '$templateName$templateExtension' ve složkách zadaných v konfiguraci ('folders').");
     }
 }

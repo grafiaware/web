@@ -288,6 +288,43 @@ function initLoadedElements() {
                       cw = clockwise(true/false) 
                 */
             }
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                        
+//carousel
+//
+//
+            var jsTemplateCarousel = document.querySelectorAll('.template-multipage [data-template="carousel"]');
+            if (jsTemplateCarousel.length !== 0) {
+                (function($){
+                    var carouselObal = $(".carousel-wrap"); 
+
+                    carouselObal.children(":not(:last)").hide(); 
+
+                    var sliderInterval = setInterval(function() { 
+                        carouselObal.children(":last").fadeOut(2000, function() { 
+                                $(this).prependTo(carouselObal); 
+                        }).prev().fadeIn(2000);
+                    }, 4000);
+                    
+                    carouselObal.on("click", function() { 
+                        clearInterval(sliderInterval); 
+                    });
+                    
+
+                    $(".angle.left").click(function(){
+                        clearInterval(sliderInterval); 
+                        carouselObal.children(":first").fadeOut(0, function() { 
+                                $(this).appendTo(carouselObal); 
+                        }).prev().fadeIn(0);
+                    });
+                    $(".angle.right").click(function(){
+                        clearInterval(sliderInterval);
+                        carouselObal.children(":last").fadeOut(0, function() { 
+                                $(this).prependTo(carouselObal); 
+                        }).prev().fadeIn(0);
+                    });
+                })(jQuery);
+            }
            
            
                     

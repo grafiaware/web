@@ -7,8 +7,8 @@
 @borderStyle: solid;  
 @borderRadius: 5px;
 @fontBold: bold;
-@mediumGrey: darken(@lightGrey, 15);   
-@barvaEditButtony: #FBFBE7; 
+@mediumGrey: darken(@lightGrey, 15);    
+@barvaEditButtony: #FBFBE7;   
 @barvaEditButtonyTmava: #FFF1D5; 
 @barvaKos: #F8F3FF;
 @barvaButtonSablony: #EDF7FF;
@@ -90,31 +90,31 @@
 
 //Paper
 //Buttony pro paper
-@button2PaperPositionTop: 50px; //.editPage
-@button2PaperPositionRight: -6px;
-@button2SegmentPaperPositionRight: 18px;
-@button2PaperBackgroundColor: @barvaEditButtony;
-@button1PaperPositionTop: 20px;
-@button1PaperPositionRight: 26px; //.changePaperTemplate
-@button1SegmentPaperPositionRight: 48px;
-@button1SegmentPaperHeight: 32px;
-@button1PaperBackgroundColor: @barvaButtonSablony;
+//@button2PaperPositionTop: 50px; //.editPage
+//@button2PaperPositionRight: -6px;
+//@button2SegmentPaperPositionRight: 18px;
+//@button2PaperBackgroundColor: @barvaEditButtony;
+//@button1PaperPositionTop: 20px;
+//@button1PaperPositionRight: 26px; //.changePaperTemplate
+//@button1SegmentPaperPositionRight: 48px;
+//@button1SegmentPaperHeight: 32px;
+//@button1PaperBackgroundColor: @barvaButtonSablony;
 //Zmena, vyber sablony
-@divSelectWidth: 200px;
-@divSelectPositionTop: 31px;
-@divSelectPositionLeft: -162px;
-@divSelectBackgroundColor: @barvaButtonSablony;
-@divSelectBorder: @borderWidth @borderStyle @lightGrey;
-@divSelectBorderRadius: @borderRadius @hodnota0 @borderRadius @borderRadius;
-@divSelectPadding: 10px;
-@divSelectHeaderBackgroundColor: transparent;
-@divSelectHeaderBackgroundColorHover: transparent;
-@divSelectHeaderCursor: auto;
-@compactDropdownPositionLeft: 50%;
-@compactDropdownTransform: translateX(-50%) translateY(-20%);
-@scrollhintMenuPositionLeft: 6px;
-@scrollhintMenuPositionTop: 37px;
-@scrollhintMenuItemFontSize: 0.95rem;
+//@divSelectWidth: 200px;
+//@divSelectPositionTop: 31px;
+//@divSelectPositionLeft: -162px;
+//@divSelectBackgroundColor: @barvaButtonSablony;
+//@divSelectBorder: @borderWidth @borderStyle @lightGrey;
+//@divSelectBorderRadius: @borderRadius @hodnota0 @borderRadius @borderRadius;
+//@divSelectPadding: 10px;
+//@divSelectHeaderBackgroundColor: transparent;
+//@divSelectHeaderBackgroundColorHover: transparent;
+//@divSelectHeaderCursor: auto;
+//@compactDropdownPositionLeft: 50%;
+//@compactDropdownTransform: translateX(-50%) translateY(-20%);
+//@scrollhintMenuPositionLeft: 6px;
+//@scrollhintMenuPositionTop: 37px;
+//@scrollhintMenuItemFontSize: 0.95rem;
 
 /*OHRANIČENÍ EDITAČNÍCH PRVKŮ RŮZNÝCH TYPŮ*/
 @sectionRendererMargin: initial;
@@ -567,7 +567,7 @@ body{
     /*používané třídy pro buttony k paperu
         .editPage - všechny buttony týkající se operace s vnitřkem paperu (přidat obsah, seřadit obsahy)
         .changePaperTemplate - div vypadající jako button na výměnu šablony stránky - funguje jako dropdown */
-    .editPage, .dropdown.changePaperTemplate{
+/*    .editPage, .dropdown.changePaperTemplate{
         position: absolute;
     }
     .editPage{
@@ -589,15 +589,15 @@ body{
         right: @button1PaperPositionRight;
         background-color: @button1PaperBackgroundColor !important;
     }
-    /*VYBER SABLONY*/
-    /*používané třídy pro div se selectem
+    VYBER SABLONY
+    používané třídy pro div se selectem
         .changePaperTemplate - div vypadající jako button na výměnu šablony stránky - funguje jako dropdown
-        .selectTemplate - obalovací div pro selection dropdown (select)*/
+        .selectTemplate - obalovací div pro selection dropdown (select)
     .dropdown.changePaperTemplate{
         &[data-tooltip]::after{
             font-weight: @buttonDataTooltipFontWeight;
         }
-        /*po najetí na vnořený div .selectTemplate se v edit.js přidá třída .nodatatooltip, aby nebyl vidět popisek divu .changePaperTemplate*/
+        po najetí na vnořený div .selectTemplate se v edit.js přidá třída .nodatatooltip, aby nebyl vidět popisek divu .changePaperTemplate
         &.nodatatooltip[data-tooltip]::after,
         &.nodatatooltip[data-tooltip]::before{
             display: none;
@@ -609,7 +609,7 @@ body{
             background-color: @divSelectBackgroundColor;
             border: @divSelectBorder;
             border-radius: @divSelectBorderRadius;
-            /* u .header zároveň třída .item pro funkčnost dropdownu*/
+             u .header zároveň třída .item pro funkčnost dropdownu
             .header{
                 cursor: @divSelectHeaderCursor;
                 background-color: @divSelectHeaderBackgroundColor;
@@ -617,22 +617,22 @@ body{
                     background-color: @divSelectHeaderBackgroundColorHover;
                 }
             }
-            /*dropdown, který vypadá jako select*/
+            dropdown, který vypadá jako select
             .selection.dropdown{
                 left: @compactDropdownPositionLeft;
                 transform: @compactDropdownTransform;
-                /*rozbalená nabídka*/
+                rozbalená nabídka
                 .scrollhint.menu{
                     left: @scrollhintMenuPositionLeft;
                     top: @scrollhintMenuPositionTop;
-                    /*jednotlivé položky*/
+                    jednotlivé položky
                     .item{
                         font-size: @scrollhintMenuItemFontSize;
                     }
                 }
             }
         }
-    }
+    }*/
     /*OHRANIČENÍ EDITAČNÍCH PRVKŮ RŮZNÝCH TYPŮ*/
      section[data-red-renderer]{
         margin: @sectionRendererMargin;

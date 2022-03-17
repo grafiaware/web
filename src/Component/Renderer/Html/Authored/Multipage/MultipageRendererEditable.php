@@ -2,6 +2,8 @@
 namespace Component\Renderer\Html\Authored\Multipage;
 
 use Component\Renderer\Html\Authored\AuthoredRendererAbstract;
+
+use Component\ViewModel\MenuItem\Authored\AuthoredViewModelInterface;
 use Component\ViewModel\MenuItem\Authored\Multipage\MultipageViewModelInterface;
 use Component\View\MenuItem\Authored\Multipage\MultipageComponent;
 use Component\View\MenuItem\Authored\AuthoredComponentAbstract;
@@ -35,9 +37,11 @@ class MultipageRendererEditable  extends AuthoredRendererAbstract {
                 );
         return $html ?? '';
     }
-    
-    protected function renderSelectTemplateButtons(MultipageViewModelInterface $viewModel): array {
-        $onclick = (string) "togleTemplateSelect(event, '{$this->getTemplateSelectId($viewModel)}');";   // ! chybná syntaxe javascriptu vede k volání form action (s nesmyslným uri)        
+
+    protected function renderEditControlButtons(AuthoredViewModelInterface $viewModel): string {
+        /** @var PaperViewModelInterface $viewModel */
+        $authoredId = $viewModel->getAuthoredContentId();
+        $onclick = (string) "togleTemplateSelect(event, '{$this->getTemplateSelectId($viewModel)}');";   // ! chybná syntaxe javascriptu vede k volání form action (s nesmyslným uri)
         $buttons = [];
 
         $buttons[] = Html::tag('button', [
@@ -51,17 +55,19 @@ class MultipageRendererEditable  extends AuthoredRendererAbstract {
                 ],
                 Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.template')])
             );
-            return $buttons;
+        $buttons[] = Html::tag('button', [
+                'class'=>$this->classMap->get('Buttons', 'button'),
+                'data-tooltip'=> 'Odstranit šablonu stránky',
+                'data-position'=>'top right',
+                'formtarget'=>'_self',
+                'formmethod'=>'post',
+                'formaction'=>"red/v1/multipage/$authoredId/templateremove",
+                ],
+                Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.templateremove')])
+            );
+
+        return $this->renderButtonsDiv($buttons);
     }
-    
-    /**
-     * Nemá buttony
-     *
-     * @param MultipageViewModelInterface $viewModel
-     * @return array
-     */
-    protected function renderContentControlButtons(MultipageViewModelInterface $viewModel): array {
-        return [];
-    }
+
 
 }

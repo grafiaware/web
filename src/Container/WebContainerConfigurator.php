@@ -62,6 +62,7 @@ use Component\View\MenuItem\Authored\Article\ArticleComponent;
 use Component\View\MenuItem\Authored\Multipage\MultipageComponent;
 use Component\View\MenuItem\Authored\TemplatedComponent;
 
+use Component\View\MenuItem\Authored\Paper\PaperTemplatePreviewComponent;
 use Component\View\MenuItem\Authored\Multipage\MultipageTemplatePreviewComponent;
 
 use Component\View\MenuItem\Authored\PaperTemplate\PaperTemplateComponent;
@@ -91,6 +92,7 @@ use Component\ViewModel\MenuItem\Authored\Paper\PaperViewModel;
 use Component\ViewModel\MenuItem\Authored\Article\ArticleViewModel;
 use Component\ViewModel\MenuItem\Authored\Multipage\MultipageViewModel;
 
+use Component\ViewModel\MenuItem\Authored\Paper\PaperTemplatePreviewViewModel;
 use Component\ViewModel\MenuItem\Authored\Multipage\MultipageTemplatePreviewViewModel;
 
 use Component\ViewModel\MenuItem\TypeSelect\ItemTypeSelectViewModel;
@@ -366,60 +368,78 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 $component->setData($viewModel);
                 $component->setRendererContainer($c->get('rendererContainer'));
 
+                if ($component->isAllowedToPresent(AccessPresentationEnum::DISPLAY)) {
+                    // komponent s obsahem
+                    /** @var TemplatedComponent $templatedComponent */
+                    $templatedComponent = $c->get(TemplatedComponent::class);
+                    $templatedComponent->appendComponentView($c->get(ElementInheritDataComponent::class), PaperComponent::HEADLINE);
+                    $templatedComponent->appendComponentView($c->get(ElementInheritDataComponent::class), PaperComponent::PEREX);
+                    $templatedComponent->appendComponentView($c->get(ElementInheritDataComponent::class), PaperComponent::SECTIONS);
 
-                // podmíněné přidání komponent do paper - jen pro editační režim PaperComponentu
-                if ($component->getStatus()->presentEditableContent() AND $component->isAllowedToPresent(AccessPresentationEnum::EDIT)) {
-                    $editContentSwithComponent = $c->get(EditContentSwitchComponent::class);
-                    // komponent - view s buttonem zapni/vypni editaci (tužtička)
-                    $component->appendComponentView($editContentSwithComponent, PaperComponent::BUTTON_EDIT_CONTENT);
-                    if ($viewModel->userPerformAuthoredContentAction()) {   // v této chvíli musí mít komponent nasteveno setMenuItemId() - v kontroleru
-                        $component->setRendererName(PaperRendererEditable::class);
-                        // komponent s obsahem
-                        /** @var TemplatedComponent $templatedComponent */
-                        $templatedComponent = $c->get(TemplatedComponent::class);
-                        $templatedComponent->appendComponentView($c->get(ElementInheritDataComponent::class), PaperComponent::HEADLINE);
-                        $templatedComponent->appendComponentView($c->get(ElementInheritDataComponent::class), PaperComponent::PEREX);
-                        $templatedComponent->appendComponentView($c->get(ElementInheritDataComponent::class), PaperComponent::SECTIONS);
-                        // přidání komponentu do paper
-                        $component->appendComponentView($templatedComponent, PaperComponent::CONTENT);
-                        $component->getComponentView(PaperComponent::CONTENT)->getComponentView(PaperComponent::HEADLINE)->setRendererName(HeadlineRendererEditable::class);
-                        $component->getComponentView(PaperComponent::CONTENT)->getComponentView(PaperComponent::PEREX)->setRendererName(PerexRendererEditable::class);
-                        $component->getComponentView(PaperComponent::CONTENT)->getComponentView(PaperComponent::SECTIONS)->setRendererName(SectionsRendererEditable::class);
-                        $selectTemplateComponent = $c->get(SelectTemplateComponent::class);
-                        $component->appendComponentView($selectTemplateComponent, PaperComponent::SELECT_TEMPLATE);
+                    // přidání komponentu do paper
+                    $component->appendComponentView($templatedComponent, PaperComponent::CONTENT);
+                    if ($component->getStatus()->presentEditableContent() AND $component->isAllowedToPresent(AccessPresentationEnum::EDIT)) {
+                        $editContentSwithComponent = $c->get(EditContentSwitchComponent::class); // komponent - view s buttonem zapni/vypni editaci (tužtička)
+                        $component->appendComponentView($editContentSwithComponent, PaperComponent::BUTTON_EDIT_CONTENT);
+                        if ($viewModel->userPerformAuthoredContentAction()) {   // v této chvíli musí mít komponent nastaveno setMenuItemId() - v kontroleru
+                            $component->setRendererName(PaperRendererEditable::class);
+
+                            $templatedComponent->getComponentView(PaperComponent::HEADLINE)->setRendererName(HeadlineRendererEditable::class);
+                            $templatedComponent->getComponentView(PaperComponent::PEREX)->setRendererName(PerexRendererEditable::class);
+                            $templatedComponent->getComponentView(PaperComponent::SECTIONS)->setRendererName(SectionsRendererEditable::class);
+
+                            $selectTemplateComponent = $c->get(SelectTemplateComponent::class);
+                            $component->appendComponentView($selectTemplateComponent, PaperComponent::SELECT_TEMPLATE);
+                        } else {
+                            $component->setRendererName(PaperRenderer::class);
+
+                            $templatedComponent->getComponentView(PaperComponent::HEADLINE)->setRendererName(HeadlineRenderer::class);
+                            $templatedComponent->getComponentView(PaperComponent::PEREX)->setRendererName(PerexRenderer::class);
+                            $templatedComponent->getComponentView(PaperComponent::SECTIONS)->setRendererName(SectionsRenderer::class);
+                        }
                     } else {
-                        $component->setRendererName(PaperRenderer::class);
-                        // komponent s obsahem
-                        /** @var TemplatedComponent $templatedComponent */
-                        $templatedComponent = $c->get(TemplatedComponent::class);
-                        $templatedComponent->appendComponentView($c->get(ElementInheritDataComponent::class), PaperComponent::HEADLINE);
-                        $templatedComponent->appendComponentView($c->get(ElementInheritDataComponent::class), PaperComponent::PEREX);
-                        $templatedComponent->appendComponentView($c->get(ElementInheritDataComponent::class), PaperComponent::SECTIONS);
-                        // přidání komponentu do paper
-                        $component->appendComponentView($templatedComponent, PaperComponent::CONTENT);
-                        $component->getComponentView(PaperComponent::CONTENT)->getComponentView(PaperComponent::HEADLINE)->setRendererName(HeadlineRenderer::class);
-                        $component->getComponentView(PaperComponent::CONTENT)->getComponentView(PaperComponent::PEREX)->setRendererName(PerexRenderer::class);
-                        $component->getComponentView(PaperComponent::CONTENT)->getComponentView(PaperComponent::SECTIONS)->setRendererName(SectionsRenderer::class);
+                            $component->setRendererName(PaperRenderer::class);
+
+                            $templatedComponent->getComponentView(PaperComponent::HEADLINE)->setRendererName(HeadlineRenderer::class);
+                            $templatedComponent->getComponentView(PaperComponent::PEREX)->setRendererName(PerexRenderer::class);
+                            $templatedComponent->getComponentView(PaperComponent::SECTIONS)->setRendererName(SectionsRenderer::class);
                     }
                 } else {
-                    if ($component->isAllowedToPresent(AccessPresentationEnum::DISPLAY)) {
-                        $component->setRendererName(PaperRenderer::class);
-                        // komponent s obsahem
-                        /** @var TemplatedComponent $templatedComponent */
-                        $templatedComponent = $c->get(TemplatedComponent::class);
-                        $templatedComponent->appendComponentView($c->get(ElementInheritDataComponent::class), PaperComponent::HEADLINE);
-                        $templatedComponent->appendComponentView($c->get(ElementInheritDataComponent::class), PaperComponent::PEREX);
-                        $templatedComponent->appendComponentView($c->get(ElementInheritDataComponent::class), PaperComponent::SECTIONS);
-                        // přidání komponentu do paper
-                        $component->appendComponentView($templatedComponent, PaperComponent::CONTENT);
-                        $component->getComponentView(PaperComponent::CONTENT)->getComponentView(PaperComponent::HEADLINE)->setRendererName(HeadlineRenderer::class);
-                        $component->getComponentView(PaperComponent::CONTENT)->getComponentView(PaperComponent::PEREX)->setRendererName(PerexRenderer::class);
-                        $component->getComponentView(PaperComponent::CONTENT)->getComponentView(PaperComponent::SECTIONS)->setRendererName(SectionsRenderer::class);
-                    } else {
-                        $component->setRendererName(NoPermittedContentRenderer::class);
-                    }
+                    $component->setRendererName(NoPermittedContentRenderer::class);
                 }
+                return $component;
+            },
+            PaperTemplatePreviewComponent::class => function(ContainerInterface $c) {
+                /** @var PaperTemplatePreviewViewModel $viewModel */
+                $viewModel = $c->get(PaperTemplatePreviewViewModel::class);
 
+                $component = new PaperTemplatePreviewComponent(
+                        $c->get(ComponentConfiguration::class),
+                        $c->get(StatusViewModel::class),
+                        $c->get(AccessPresentation::class)
+                     );
+                $component->setData($viewModel);
+                $component->setRendererContainer($c->get('rendererContainer'));
+
+                if ($component->isAllowedToPresent(AccessPresentationEnum::DISPLAY)) {
+                    // komponent s obsahem
+                    /** @var TemplatedComponent $templatedComponent */
+                    $templatedComponent = $c->get(TemplatedComponent::class);
+                    $templatedComponent->appendComponentView($c->get(ElementInheritDataComponent::class), PaperComponent::HEADLINE);
+                    $templatedComponent->appendComponentView($c->get(ElementInheritDataComponent::class), PaperComponent::PEREX);
+                    $templatedComponent->appendComponentView($c->get(ElementInheritDataComponent::class), PaperComponent::SECTIONS);
+
+                    // přidání komponentu do paper
+                    $component->appendComponentView($templatedComponent, PaperComponent::CONTENT);
+
+                    $component->setRendererName(PaperRenderer::class);
+
+                    $templatedComponent->getComponentView(PaperComponent::HEADLINE)->setRendererName(HeadlineRenderer::class);
+                    $templatedComponent->getComponentView(PaperComponent::PEREX)->setRendererName(PerexRenderer::class);
+                    $templatedComponent->getComponentView(PaperComponent::SECTIONS)->setRendererName(SectionsRenderer::class);
+                } else {
+                    $component->setRendererName(NoPermittedContentRenderer::class);
+                }
                 return $component;
             },
             PaperTemplateComponent::class => function(ContainerInterface $c) {
@@ -789,6 +809,14 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             MultipageViewModel::class => function(ContainerInterface $c) {
                 return new MultipageViewModel(
+                            $c->get(StatusViewModel::class),
+                            $c->get(MenuItemRepo::class),
+                            $c->get(MultipageRepo::class),
+                            $c->get(HierarchyJoinMenuItemRepo::class)
+                    );
+            },
+            PaperTemplatePreviewViewModel::class => function(ContainerInterface $c) {
+                return new PaperTemplatePreviewViewModel(
                             $c->get(StatusViewModel::class),
                             $c->get(MenuItemRepo::class),
                             $c->get(MultipageRepo::class),

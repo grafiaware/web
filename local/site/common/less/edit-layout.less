@@ -50,8 +50,10 @@
 @presmerovaniMenuItemMaginRight: 20px; 
 
 //Paper  
-@paperMargin: @hodnota0 10px;
-@paperNotFirstMargin: 40px 0 0 0;
+//@paperMargin: @hodnota0 10px;
+//@paperNotFirstMargin: 40px 0 0 0;
+
+//Paper
 //Headline
 @headlineHorizontalMargin: 0;
 @headlineMarginTop: 0.55em;   
@@ -73,17 +75,10 @@
 
  
 body{
-    /*celá stránka v editačním režimu posunutá napravo*/
-    .editable > .ui.container{
-        position: relative;
-        margin: @containerMargin !important;
-        right: @containerPositionRight; 
-    }
-    
     form{
         margin: @formMargin;
     }
-    
+      
     /***HEADER***/
     /*header posunutý od horního okraje pouze v edit. režimu kvůli data-tooltip u buttonů*/ 
     header{
@@ -194,12 +189,16 @@ body{
     }
     
     /***PAPER***/
-    .paper.editable{
+    /*?????*/
+/*    .paper.editable{
         margin: @paperMargin;
         &:not(:first-of-type){
             margin: @paperNotFirstMargin;
         }
-    }
+    }*/
+    /******/
+    
+    
     /*HEADLINE*/
     headline{    
         margin-top: @headlineMarginTop !important ;
@@ -229,6 +228,16 @@ body{
     }
     .page-content div > form{
         position: relative;
+    }
+    
+    //sablony - carousel
+    [data-template="carousel"]{
+        .carousel-wrap{
+            position: relative;
+        }
+        .carousel-item{
+            position: relative;
+        }
     }
     
     //import pravidel specifických pro projekt

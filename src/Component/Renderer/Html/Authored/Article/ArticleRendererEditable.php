@@ -6,6 +6,8 @@ use Component\Renderer\Html\Authored\AuthoredRendererAbstract;
 use Red\Model\Entity\ArticleInterface;
 
 use Component\View\MenuItem\Authored\AuthoredComponentAbstract;
+
+use Component\ViewModel\MenuItem\Authored\AuthoredViewModelInterface;
 use Component\ViewModel\MenuItem\Authored\Article\ArticleViewModelInterface;
 use Component\View\MenuItem\Authored\Article\ArticleComponent;
 
@@ -61,14 +63,16 @@ class ArticleRendererEditable extends AuthoredRendererAbstract {
 ####################################
 
 
-    protected function renderContentControlButtons(ArticleViewModelInterface $viewModel): array {
+    protected function renderEditControlButtons(AuthoredViewModelInterface $viewModel): string {
+        /** @var ArticleViewModelInterface $viewModel */
         $templateName = $viewModel->getAuthoredTemplateName() ?? '';
         $onclick = (string) "togleTemplateSelect(event, '{$this->getTemplateSelectId($viewModel)}');";   // ! chybná syntaxe javascriptu vede k volání form action (s nesmyslným uri)
         $buttons = [];
         $disabled = $templateName ? 'disabled' : '';
+        $tooltip = $templateName ? 'Nelze podruhé vybrat šablonu stránky' : 'Vybrat šablonu stránky';
         $buttons[] = Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', $disabled ? 'button.disabled':'button'),
-                'data-tooltip'=> 'Vybrat šablonu stránky',
+                'data-tooltip'=> $tooltip,
                 'data-position'=>'top right',
                 'formtarget'=>'_self',
                 'formmethod'=>'post',
@@ -77,6 +81,6 @@ class ArticleRendererEditable extends AuthoredRendererAbstract {
                 ],
                 Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.template')])
             );
-        return $buttons;
+        return $this->renderButtonsDiv($buttons);
     }
 }

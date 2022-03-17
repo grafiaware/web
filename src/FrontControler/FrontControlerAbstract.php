@@ -118,6 +118,10 @@ abstract class FrontControlerAbstract implements FrontControlerInterface {
      */
     public function createResponseFromView(ServerRequestInterface $request, ViewInterface $view): ResponseInterface {
         $stringContent = $view->getString();
+        if(is_null($stringContent)) {
+            $cls = get_class($view);
+            $stringContent = "No string content returned by $cls method getString().";
+        }
         return $this->createResponseFromString($request, $stringContent);
     }
 

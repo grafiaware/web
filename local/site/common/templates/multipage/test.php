@@ -1,4 +1,8 @@
-            <section>
+<?php
+
+$a = 1;
+?>
+<section>
                     <headline class="ui header">
                         <div class="edit-text">
                             <h1>Headline</h1>
