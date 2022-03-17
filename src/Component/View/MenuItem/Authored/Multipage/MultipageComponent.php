@@ -51,11 +51,13 @@ class MultipageComponent extends AuthoredComponentAbstract implements MultipageC
         $subNodes = $this->contextData->getSubNodes();  //včetně kořene podstromu - tedy včetně multipage položky
         // odstraní kořenový uzel, tj. uzel odpovídající vlastní multipage, zbydou jen potomci
         array_shift($subNodes);   //odstraní první prvek s indexem [0] a výsledné pole opět začína prvkem s indexem [0]
-
+        $pages = [];
         foreach ($subNodes as $subNode) {
             $item = $subNode->getMenuItem();
             $contentView->appendComponentView($this->getContentLoadScript($item), $item->getTypeFk().'_'.$item->getId());
+            $pages[$item->getTypeFk().'_'.$item->getId()] = $this->getContentLoadScript($item);
         }
+        $contentView->getData()->offsetSet('pages', $pages);
 //        $this->appendComponentView($contentView, self::CONTENT);
 
 //        // zvolí MultipageRenderer nebo MultipageRendererEditable
