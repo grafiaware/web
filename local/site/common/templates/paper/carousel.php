@@ -2,11 +2,8 @@
         <div class="ui grid">
             <div class="sixteen wide column">
                 <section class="carousel-info">
-                        <?= $headline ?>
-                        <?= $perex ?> 
+                        <?= $pag ?>
                 </section>
-                <?= $this->repeat(PROJECT_PATH."local/site/common/templates/paper-content/carousel.php", $sections, 'paperSection'); ?>
             </div>
         </div>
     </div>
-    
