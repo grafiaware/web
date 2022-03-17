@@ -38,14 +38,6 @@ class MultipageComponent extends AuthoredComponentAbstract implements MultipageC
      */
     public function beforeRenderingHook(): void {
 
-        // vytvoří komponentní view z šablony paperu nebo s ImplodeTemplate, pokud šablona multipage není nastavena
-//        try {
-            // konstruktor PhpTemplate vyhazuje výjimku NoTemplateFileException pro neexistující (nečitený) soubor s template
-//            $template = new PhpTemplate($this->contextData->seekTemplate());
-//        } catch (NoTemplateFileException $noTemplExc) {
-//            $template = new ImplodeTemplate();
-//        }
-//        $contentView = (new CompositeView())->setTemplate($template)->setRendererContainer($this->rendererContainer);  // "nedědí" contextData
         $contentView = $this->getComponentView(self::CONTENT);
 
         $subNodes = $this->contextData->getSubNodes();  //včetně kořene podstromu - tedy včetně multipage položky
@@ -55,7 +47,9 @@ class MultipageComponent extends AuthoredComponentAbstract implements MultipageC
         foreach ($subNodes as $subNode) {
             $item = $subNode->getMenuItem();
             $contentView->appendComponentView($this->getContentLoadScript($item), $item->getTypeFk().'_'.$item->getId());
+            $pages[] = $this->getContentLoadScript($item);
         }
+        $this->contextData->offsetSet('pages', $pages);
 //        $this->appendComponentView($contentView, self::CONTENT);
 
 //        // zvolí MultipageRenderer nebo MultipageRendererEditable
