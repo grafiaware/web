@@ -74,27 +74,4 @@ class PaperViewModel extends AuthoredViewModelAbstract implements PaperViewModel
         return $paper ?? null;
     }
 
-    /**
-     * Hodnoty iterátoru se použijí
-     * - v template (pokud je v paperu nastavena (a použita v componentě)
-     * - v Implode rendereru, pokud v paperu není definována šablona
-     *
-     *
-     * ContextData mají jako default typ iterátoru vraceného IteratorAggregate (v konstruktoru) nastaveno ArrayIterator
-     * V této metodě lze:
-     * - pro ViewModel, který nemá jako předka ViewModel: volat ->appendData() s parametrem typu pole a skončit, je vrácen ArrayIterator objektu ContextData
-     * - pro ViewModel, který má jako předka ViewModel: volat ->appendData() s parametrem typu pole a následně parent::getIterator() - připoji se také položky iterátoru, které přidává rodič
-     *
-     * Pozor! Všechny položky iterátoru musí být převeditelné na string. V průběhu renderování komponentních view dochází k převádění na string.
-     * Data typu objekt, která je potřeba předat do Php šablony lze přidat metodou šablony setSharedData().
-     *
-     * @return type
-     */
-//    public function getIterator() {
-//        //TODO: isEditable - asi nevyužito - je v PaperViewModel a ArticleViewModel
-//        $this->appendData(['isEditable'=> $this->presentEditableContent()]);
-//        return parent::getIterator();
-//    }
-
-
 }

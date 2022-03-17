@@ -31,6 +31,8 @@ use Component\View\MenuItem\Authored\PaperTemplate\PaperTemplateComponentInterfa
 use Component\View\MenuItem\Authored\Multipage\MultipageTemplatePreviewComponent;
 use Component\ViewModel\MenuItem\Authored\Multipage\MultipageTemplatePreviewViewModel;
 
+use TemplateService\Exception\TemplateServiceExceptionInterface;
+
 ####################
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;
@@ -171,16 +173,22 @@ class TemplateControler extends FrontControlerAbstract {
         $presentedMenuItem = $this->statusPresentationRepo->get()->getMenuItem();
         if (isset($presentedMenuItem)) {
             $filename = $this->templateSeeker->seekTemplate(AuthoredTemplateTypeEnum::PAPER, $templateName);
-
-            $menuItemId = $presentedMenuItem->getId();
-            /** @var PaperViewModel $paperViewModel */
-            $paperViewModel = $this->container->get(PaperViewModel::class);
-            $paperViewModel->setMenuItemId($menuItemId);
-            /** @var PaperTemplateComponentInterface $view */
-            $view = $this->container->get(PaperTemplateComponent::class);
-            $view->setSelectedPaperTemplateFileName($filename);
-            $this->statusPresentationRepo->get()->setLastTemplateName($templateName);
-
+            try {
+                $filename = $this->templateSeeker->seekTemplate(AuthoredTemplateTypeEnum::PAPER, $templateName);
+                $menuItemId = $presentedMenuItem->getId();
+                /** @var PaperViewModel $paperViewModel */
+                $paperViewModel = $this->container->get(PaperViewModel::class);
+                $paperViewModel->setMenuItemId($menuItemId);
+                /** @var PaperTemplateComponentInterface $view */
+                $view = $this->container->get(PaperTemplateComponent::class);
+                $view->setSelectedPaperTemplateFileName($filename);
+                $this->statusPresentationRepo->get()->setLastTemplateName($templateName);
+            } catch (TemplateServiceExceptionInterface $exc) {
+                $message = "Nenalezen soubor pro hodnoty vracené metodami ViewModel getItemTemplate(): '$templateName' a getItemType(): '$itemType'.";
+                $view = $this->container->get(View::class)
+                                    ->setTemplate(new ImplodeTemplate)
+                                    ->setData([$message]);
+            }
         } else {
             // není item - asi chyba
             $paperAggregate = new PaperAggregatePaperContent();

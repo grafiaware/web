@@ -72,4 +72,22 @@ class MultipageControler extends AuthoredControlerAbstract {
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
+
+    /**
+     *
+     * @param ServerRequestInterface $request
+     * @param type $multipageId
+     * @return ResponseInterface
+     */
+    public function templateRemove(ServerRequestInterface $request, $multipageId): ResponseInterface {
+        $multipage = $this->multipageRepo->get($multipageId);
+        if (!isset($multipage)) {
+            user_error("Neexistuje multipage se zadaným id $multipageId");
+        } else {
+            $oldTemplate = $multipage->getTemplate();
+            $multipage->setTemplate('');
+            $this->addFlashMessage("Removed multipage template $oldTemplate.", FlashSeverityEnum::SUCCESS);
+        }
+        return $this->redirectSeeLastGet($request); // 303 See Other
+    }
 }
