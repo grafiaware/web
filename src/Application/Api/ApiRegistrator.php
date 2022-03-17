@@ -102,6 +102,7 @@ class ApiRegistrator {
 
         #### MultipageControler ####
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/multipage/:multipageId/template'));
+        $registry->register($this->postPrototype->withUrlPattern('/red/v1/multipage/:multipageId/templateremove'));
 
         #### ContentController ####
         $registry->register($this->postPrototype->withUrlPattern('/red/v1/paper/:paperId/section'));

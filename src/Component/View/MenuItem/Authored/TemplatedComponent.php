@@ -14,6 +14,9 @@ use Component\ViewModel\StatusViewModelInterface;
 use Access\AccessPresentationInterface;
 use TemplateService\TemplateSeekerInterface;
 
+use TemplateService\Exception\TemplateServiceExceptionInterface;
+use TemplateService\Exception\TemplateNotFoundException;
+
 use Pes\View\Template\PhpTemplate;
 
 use Red\Model\Enum\AuthoredTypeEnum;
@@ -89,15 +92,17 @@ class TemplatedComponent extends AuthoredComponentAbstract implements InheritDat
             }
             try {
                 $templateFileName = $this->templateSeeker->seekTemplate($templatesType, $templateName);
+                try {
+                    // konstruktor PhpTemplate vyhazuje výjimku NoTemplateFileException pro neexistující (nečitený) soubor s template
+                    $template = new PhpTemplate($templateFileName);
+                } catch (NoTemplateFileException $noTemplExc) {
+                    $template = new ImplodeTemplate();
+                }
             } catch (TemplateServiceExceptionInterface $exc) {
-                throw new ItemTemplateNotFoundException("Nenalezen soubor pro hodnoty vracené metodami ViewModel getItemTemplate(): '$templateName' a getItemType(): '$itemType'.", 0, $exc);
-            }
-            try {
-                // konstruktor PhpTemplate vyhazuje výjimku NoTemplateFileException pro neexistující (nečitený) soubor s template
-                $template = new PhpTemplate($templateFileName);
-            } catch (NoTemplateFileException $noTemplExc) {
+//                throw new ItemTemplateNotFoundException("Nenalezen soubor pro hodnoty vracené metodami ViewModel getItemTemplate(): '$templateName' a getItemType(): '$itemType'.", 0, $exc);
                 $template = new ImplodeTemplate();
             }
+
         } else {
             $template = new ImplodeTemplate();
         }

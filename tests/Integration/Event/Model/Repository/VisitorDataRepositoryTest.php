@@ -12,9 +12,14 @@ use PHPUnit\Framework\TestCase;
 
 use Pes\Container\Container;
 
-use Container\DbUpgradeContainerConfigurator;
+//use Container\DbUpgradeContainerConfigurator;
 use Container\HierarchyContainerConfigurator;
-use Test\Integration\Model\Container\TestModelContainerConfigurator;
+//use Test\Integration\Model\Container\TestModelContainerConfigurator;
+
+use Test\Integration\Event\Container\EventsContainerConfigurator;
+use Test\Integration\Event\Container\DbEventsContainerConfigurator;
+
+
 
 use Events\Model\Entity\VisitorData;
 use Events\Model\Dao\VisitorDataDao;
@@ -53,12 +58,20 @@ class VisitorDataRepositoryTest extends TestCase {
             include '../vendor/pes/pes/src/Bootstrap/Bootstrap.php';
         }
 
-        $container =
-                (new TestModelContainerConfigurator())->configure(  // přepisuje ContextFactory
-                    (new HierarchyContainerConfigurator())->configure(
-                       (new DbUpgradeContainerConfigurator())->configure(new Container())
+//        $container =
+//                (new EventsContainerConfigurator())->configure(  // přepisuje ContextFactory
+//                    (new HierarchyContainerConfigurator())->configure(
+//                       (new DbEventsContainerConfigurator())->configure(new Container())
+//                    )
+//                );
+         $container =
+            (new EventsContainerConfigurator())->configure(
+                (new DbEventsContainerConfigurator())->configure(
+                    (new Container(
+                        )
                     )
-                );
+                )
+            );
 
         // mazání - zde jen pro případ, že minulý test nebyl dokončen
         self::deleteRecords($container);
@@ -104,9 +117,9 @@ class VisitorDataRepositoryTest extends TestCase {
 
     protected function setUp(): void {
         $this->container =
-                (new TestModelContainerConfigurator())->configure(  // přepisuje ContextFactory
+                (new EventsContainerConfigurator())->configure(  // přepisuje ContextFactory
                     (new HierarchyContainerConfigurator())->configure(
-                       (new DbUpgradeContainerConfigurator())->configure(new Container())
+                       (new DbEventsContainerConfigurator())->configure(new Container())
                     )
                 );
         $this->visitorDataRepo = $this->container->get(VisitorDataRepo::class);
@@ -118,9 +131,9 @@ class VisitorDataRepositoryTest extends TestCase {
 
     public static function tearDownAfterClass(): void {
         $container =
-                (new TestModelContainerConfigurator())->configure(  // přepisuje ContextFactory
+                (new EventsContainerConfigurator())->configure(  // přepisuje ContextFactory
                     (new HierarchyContainerConfigurator())->configure(
-                       (new DbUpgradeContainerConfigurator())->configure(new Container())
+                       (new DbEventsContainerConfigurator())->configure(new Container())
                     )
                 );
 

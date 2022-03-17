@@ -64,15 +64,14 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract {
         return Html::tag('form', ['method'=>'POST', 'action'=>""],
             Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsWrap')],
                 [
-                    $this->renderButtonsDiv($this->renderItemControlButtons($viewModel)),
-                    $this->renderButtonsDiv($this->renderSelectTemplateButtons($viewModel)),                    
-                    $this->renderButtonsDiv($this->renderContentControlButtons($viewModel)),
+                    $this->renderItemControlButtons($viewModel),
+                    $this->renderEditControlButtons($viewModel),
                 ]
             )
         );
     }
 
-    protected function renderItemControlButtons(AuthoredViewModelInterface $viewModel): array {
+    protected function renderItemControlButtons(AuthoredViewModelInterface $viewModel): string {
         $menuItem = $viewModel->getMenuItem();
         $uid = $menuItem->getUidFk();
         $active = $menuItem->getActive();
@@ -101,7 +100,11 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract {
                 ],
                 Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.movetotrash')])
             );
-        return $buttons;
+        return $this->renderButtonsDiv($buttons);
+    }
+
+    protected function renderEditControlButtons(AuthoredViewModelInterface $viewModel): string {
+        return '';
     }
 
     protected function getTemplateSelectId(AuthoredViewModelInterface $viewModel) {
@@ -110,7 +113,7 @@ abstract class AuthoredRendererAbstract extends HtmlRendererAbstract {
         return "select_template_{$type}_{$contentId}";
     }
 
-    private function renderButtonsDiv(array $buttons) {
+    protected function renderButtonsDiv(array $buttons) {
         return Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttons')], implode('', $buttons));
     }
 }

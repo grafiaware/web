@@ -267,7 +267,7 @@ class PaperControler extends AuthoredControlerAbstract {
     public function template(ServerRequestInterface $request, $paperId): ResponseInterface {
         $paper = $this->paperAggregateRepo->get($paperId);
         if (!isset($paper)) {
-            user_error("Neexistuje paper se zadaným id.$paperId");
+            user_error("Neexistuje paper se zadaným id $paperId");
         } else {
             $postTemplateName = (new RequestParams())->getParam($request, 'template_'.$paperId, '');
             $postTemplateContent = (new RequestParams())->getParam($request, 'article_'.$paperId, '');
@@ -281,6 +281,7 @@ class PaperControler extends AuthoredControlerAbstract {
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
+
     /**
      *
      * @param ServerRequestInterface $request
@@ -290,7 +291,7 @@ class PaperControler extends AuthoredControlerAbstract {
     public function templateRemove(ServerRequestInterface $request, $paperId): ResponseInterface {
         $paper = $this->paperAggregateRepo->get($paperId);
         if (!isset($paper)) {
-            user_error("Neexistuje paper se zadaným id.$paperId");
+            user_error("Neexistuje paper se zadaným id $paperId");
         } else {
             $oldTemplate = $paper->getTemplate();
             $paper->setTemplate('');

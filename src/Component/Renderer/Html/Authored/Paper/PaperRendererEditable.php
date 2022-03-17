@@ -5,6 +5,7 @@ use Component\Renderer\Html\Authored\AuthoredRendererAbstract;
 
 use Component\View\MenuItem\Authored\Paper\PaperComponent;
 
+use Component\ViewModel\MenuItem\Authored\AuthoredViewModelInterface;
 use Component\ViewModel\MenuItem\Authored\Paper\PaperViewModelInterface;
 
 use Red\Model\Entity\PaperAggregatePaperContentInterface;
@@ -38,13 +39,13 @@ class PaperRendererEditable  extends AuthoredRendererAbstract {
     }
 
 ####################################
-    protected function renderSelectTemplateButtons(PaperViewModelInterface $viewModel): array {
-        $paper = $viewModel->getPaper();
-        $paperId = $paper->getId();
+    protected function renderEditControlButtons(AuthoredViewModelInterface $viewModel): string {
+        /** @var PaperViewModelInterface $viewModel */
+        $authoredId = $viewModel->getAuthoredContentId();
         $onclick = (string) "togleTemplateSelect(event, '{$this->getTemplateSelectId($viewModel)}');";   // ! chybná syntaxe javascriptu vede k volání form action (s nesmyslným uri)
-        $buttons = [];
+        $buttons1 = [];
 
-        $buttons[] = Html::tag('button', [
+        $buttons1[] = Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button'),
                 'data-tooltip'=> 'Vybrat šablonu stránky',
                 'data-position'=>'top right',
@@ -55,27 +56,23 @@ class PaperRendererEditable  extends AuthoredRendererAbstract {
                 ],
                 Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.template')])
             );
-        $buttons[] = Html::tag('button', [
+        $buttons1[] = Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button'),
                 'data-tooltip'=> 'Odstranit šablonu stránky',
                 'data-position'=>'top right',
                 'formtarget'=>'_self',
                 'formmethod'=>'post',
-                'formaction'=>"red/v1/paper/$paperId/templateremove",
+                'formaction'=>"red/v1/paper/$authoredId/templateremove",
                 ],
                 Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.templateremove')])
             );
-        return $buttons;
-    }
 
-    protected function renderContentControlButtons(PaperViewModelInterface $viewModel): array {
-        $templateName = $viewModel->getAuthoredTemplateName() ?? '';
         $paper = $viewModel->getPaper();
-        $paperId = $paper->getId();
-        $buttons = [];
+
+        $buttons2 = [];
 
         if ($paper instanceof PaperAggregatePaperContentInterface AND $paper->getPaperContentsArray()) {
-            $buttons[] = Html::tag('button', [
+            $buttons2[] = Html::tag('button', [
                     'class'=>$this->classMap->get('Buttons', 'button'),
                     'data-tooltip'=> 'Seřadit podle data',
                     'data-position'=>'top right',
@@ -85,14 +82,14 @@ class PaperRendererEditable  extends AuthoredRendererAbstract {
                     Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.arrange')])
                 );
         } else {
-            $buttons[] =  Html::tag('button',
+            $buttons2[] =  Html::tag('button',
                     ['class'=>$this->classMap->get('Buttons', 'button'),
                     'data-tooltip'=>'Přidat sekci',
                     'type'=>'submit',
                     'name'=>'button',
                     'value' => '',
                     'formmethod'=>'post',
-                    'formaction'=>"red/v1/paper/$paperId/section",
+                    'formaction'=>"red/v1/paper/$authoredId/section",
                     ],
                     Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icons')],
                         Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.addcontent')])
@@ -101,7 +98,7 @@ class PaperRendererEditable  extends AuthoredRendererAbstract {
                 );
         }
 
-        return $buttons;
+        return $this->renderButtonsDiv($buttons1).$this->renderButtonsDiv($buttons2);
     }
 
 //    private function renderRibbon(PaperViewModelInterface $viewModel) {

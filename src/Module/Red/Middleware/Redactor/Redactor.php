@@ -159,6 +159,11 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
                 $ctrl = $this->container->get(MultipageControler::class);
                 return $ctrl->template($request, $multipageId);
         });
+        $routeGenerator->addRouteForAction('POST', '/red/v1/multipage/:multipageId/templateremove', function(ServerRequestInterface $request, $multipageId) {
+                /** @var MultipageControler $ctrl */
+                $ctrl = $this->container->get(MultipageControler::class);
+                return $ctrl->templateRemove($request, $multipageId);
+        });
 
         #### ContentController ####
         $routeGenerator->addRouteForAction('POST', '/red/v1/paper/:paperId/section', function(ServerRequestInterface $request, $paperId) {
