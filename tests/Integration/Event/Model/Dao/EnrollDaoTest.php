@@ -11,9 +11,8 @@ use Test\AppRunner\AppRunner;
 
 use Pes\Container\Container;
 
-use Container\DbUpgradeContainerConfigurator;
-use Container\HierarchyContainerConfigurator;
-use Test\Integration\Model\Container\TestModelContainerConfigurator;
+use Test\Integration\Event\Container\EventsContainerConfigurator;
+use Test\Integration\Event\Container\DbEventsContainerConfigurator;
 
 use Events\Model\Dao\EnrollDao;
 
@@ -38,27 +37,19 @@ class EnrollDaoTest extends AppRunner {
     private static $id;
 
     public static function setUpBeforeClass(): void {
-
         self::bootstrapBeforeClass();
-
-        $container =
-                (new TestModelContainerConfigurator())->configure(  // přepisuje ContextFactory
-                    (new HierarchyContainerConfigurator())->configure(
-                       (new DbUpgradeContainerConfigurator())->configure(new Container())
-                    )
-                );
-
     }
 
     protected function setUp(): void {
         $this->container =
-                (new TestModelContainerConfigurator())->configure(  // přepisuje ContextFactory
-                    (new HierarchyContainerConfigurator())->configure(
-                       (new DbUpgradeContainerConfigurator())->configure(new Container())
+            (new EventsContainerConfigurator())->configure(
+                (new DbEventsContainerConfigurator())->configure(
+                    (new Container(
+                        )
                     )
-                );
+                )
+            );
         $this->dao = $this->container->get(EnrollDao::class);  // vždy nový objekt
-
     }
 
     protected function tearDown(): void {

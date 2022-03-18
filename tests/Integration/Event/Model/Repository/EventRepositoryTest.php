@@ -67,26 +67,20 @@ class EventRepositoryTest extends TestCase {
         // toto je příprava testu
         /** @var EventDao $eventDao */
         $eventDao = $container->get(EventDao::class);
-//            id,
-//            published,
-//            start,
-//            end,
-//            event_type_id_fk,
-//            event_content_id_fk
-
-        self::$startTimestamp = (new \DateTime())->format('Y-m-d H:i:s');
-        $eventDao->insert([
-            'published' => true,
-            'start' => self::$startTimestamp,
-            'end' => (new \DateTime())->modify("+24 hours")->format('Y-m-d H:i:s'),
-        ]);
+        $rowData = new RowData();
+        $rowData->offsetSet('published', true);
+        $rowData->offsetSet('start', self::$startTimestamp);
+        $rowData->offsetSet('end', (new \DateTime())->modify("+24 hours")->format('Y-m-d H:i:s'));
+        $eventDao->insert($rowData);
         self::$id = $eventDao->getLastInsertedId();
     }
 
     private static function deleteRecords(Container $container) {
         /** @var EventDao $eventDao */
         $eventDao = $container->get(EventDao::class);
-        $eventDao->delete(['login_name'=>"testEvent"]);  // nesmysl Event namá login_name - vyhodí chybu - !! je třeba vymyslet mazání testovacích datz databáze!
+        $rowData = new RowData();
+        $rowData->offsetSet('id', self::$id);
+        $eventDao->delete($rowData);
     }
 
     protected function setUp(): void {
@@ -119,7 +113,7 @@ class EventRepositoryTest extends TestCase {
     }
 
     public function testGetNonExisted() {
-        $event = $this->eventRepo->get("QWER45T6U7I89OPOLKJHGFD");
+        $event = $this->eventRepo->get(-1);
         $this->assertNull($event);
     }
 

@@ -7,7 +7,7 @@ use Red\Model\Entity\EntityGeneratedKeyInterface;
 
 
 /**
- * Description 
+ * Description
  *
  * @author pes2704
  */
@@ -19,23 +19,20 @@ class Event extends EntityAbstract implements EventInterface {
     private $published;
     private $start;
     private $end;
-    private $enrollLinkIdFk;
-    private $enterLinkIdFk;
+    private $eventTypeIdFk;
     private $eventContentIdFk;
-   
-    
+
+
     public function getKeyAttribute() {
         return $this->keyAttribute;
     }
-    
-    
 
     public function getId(): ?int {
         return $this->id;
     }
 
-    public function getPublished() {
-        return $this->published;
+    public function getPublished(): bool {
+        return (bool) $this->published;
     }
 
     public function getStart(): ?\DateTime {
@@ -45,13 +42,9 @@ class Event extends EntityAbstract implements EventInterface {
     public function getEnd(): ?\DateTime {
         return $this->end;
     }
-   
-    public function getEnrollLinkIdFk(): ?int {
-        return $this->enrollLinkIdFk;
-    }
 
-    public function getEnterLinkIdFk(): ?int {
-        return $this->enterLinkIdFk;
+    public function getEventTypeIdFk(): ?int {
+        return $this->eventTypeIdFk;
     }
 
     public function getEventContentIdFk(): ?int {
@@ -78,16 +71,10 @@ class Event extends EntityAbstract implements EventInterface {
         return $this;
     }
 
-    public function setEnrollLinkIdFk($enrollLinkIdFk) : EventInterface {
-        $this->enrollLinkIdFk = $enrollLinkIdFk;
+    public function setEventTypeIdFk($eventTypeIdFk): EventInterface {
+        $this->eventTypeIdFk = $eventTypeIdFk;
         return $this;
     }
-
-    public function setEnterLinkIdFk($enterLinkIdFk) :  EventInterface {
-        $this->enterLinkIdFk = $enterLinkIdFk;
-        return $this;
-    }
-   
 
     public function setEventContentIdFk($event_content_id_fk): EventInterface {
         $this->eventContentIdFk = $event_content_id_fk;

@@ -37,13 +37,8 @@ class EventContentTypeRepositoryTest extends AppRunner {
     public static function setUpBeforeClass(): void {
         self::bootstrapBeforeClass();
 
-        $container =
             (new EventsContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(
-                    (new Container(
-                        )
-                    )
-                )
+                (new DbEventsContainerConfigurator())->configure(new Container())
             );
 
         // mazání - zde jen pro případ, že minulý test nebyl dokončen
@@ -83,11 +78,7 @@ class EventContentTypeRepositoryTest extends AppRunner {
     public static function tearDownAfterClass(): void {
         $container =
             (new EventsContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(
-                    (new Container(
-                        )
-                    )
-                )
+                (new DbEventsContainerConfigurator())->configure(new Container())
             );
 
         self::deleteRecords($container);

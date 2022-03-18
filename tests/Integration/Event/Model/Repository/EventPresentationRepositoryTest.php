@@ -51,11 +51,7 @@ class EventPresentationRepositoryTest extends TestCase {
 
         $container =
             (new EventsContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(
-                    (new Container(
-                        )
-                    )
-                )
+                (new DbEventsContainerConfigurator())->configure(new Container())
             );
 
         // mazání - zde jen pro případ, že minulý test nebyl dokončen
@@ -95,11 +91,7 @@ class EventPresentationRepositoryTest extends TestCase {
     public static function tearDownAfterClass(): void {
         $container =
             (new EventsContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(
-                    (new Container(
-                        )
-                    )
-                )
+                (new DbEventsContainerConfigurator())->configure(new Container())
             );
 
         self::deleteRecords($container);

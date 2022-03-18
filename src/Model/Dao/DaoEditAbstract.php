@@ -49,21 +49,11 @@ abstract class DaoEditAbstract extends DaoReadonlyAbstract {
      * @return aray
      */
     protected function execInsertWithKeyVerification($tableName, array $keyNames, RowDataInterface $rowData) {
-        $dbhTransact = $this->dbHandler;
         try {
             $this->dbHandler->beginTransaction();
             $found = $this->getWithinTransaction($tableName, $keyNames, $rowData);
             if  (! $found)   {
                 $this->execInsert($tableName, $rowData);   // předpokládám, že changed je i sloupec s klíčem
-//                $names = array_merge(array_keys($rowData->changedNames()), $whereNames);
-//                $cols = implode(', ', $names);
-//                $values = ':'.implode(', :', $names);
-//                $sql = "INSERT INTO $tableName (".$cols.")  VALUES (" .$values.")";
-//                $statement = $this->getPreparedStatement($sql);
-//                $this->bindParams($statement, $rowData->changedNames());
-//                $success = $statement->execute();
-//                $this->lastInsertRowCount = $statement->rowCount();
-//                $this->rowCount = $this->lastInsertRowCount;
             } else {
                 foreach ($keyNames as $name) {
                     $k[] = $rowData->offsetGet($name);

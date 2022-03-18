@@ -15,5 +15,6 @@ use Model\RowData\RowDataInterface;
  * @author pes2704
  */
 interface DaoReadonlyInterface {
+//    public function get(...$id);
 
 }

@@ -14,7 +14,7 @@ use Pes\Container\Container;
 use Test\Integration\Event\Container\EventsContainerConfigurator;
 use Test\Integration\Event\Container\DbEventsContainerConfigurator;
 
-use Events\Model\Dao\EventContentTypeDao;
+use Events\Model\Dao\EventContentDao;
 use Model\Dao\Exception\DaoForbiddenOperationException;
 use Model\Dao\Exception\DaoKeyVerificationFailedException;
 use Model\RowData\RowData;
@@ -24,14 +24,14 @@ use Model\RowData\RowDataInterface;
  *
  * @author pes2704
  */
-class EventContentTypeDaoTest extends AppRunner {
+class EventContentDaoTest extends AppRunner {
 
 
     private $container;
 
     /**
      *
-     * @var EventContentTypeDao
+     * @var EventContentDao
      */
     private $dao;
 
@@ -46,7 +46,7 @@ class EventContentTypeDaoTest extends AppRunner {
             (new EventsContainerConfigurator())->configure(
                 (new DbEventsContainerConfigurator())->configure(new Container())
             );
-        $this->dao = $this->container->get(EventContentTypeDao::class);  // vždy nový objekt
+        $this->dao = $this->container->get(EventContentDao::class);  // vždy nový objekt
     }
 
     protected function tearDown(): void {
@@ -57,27 +57,21 @@ class EventContentTypeDaoTest extends AppRunner {
     }
 
     public function testSetUp() {
-        $this->assertInstanceOf(EventContentTypeDao::class, $this->dao);
+        $this->assertInstanceOf(EventContentDao::class, $this->dao);
 
     }
-    public function testInsertException() {
+    public function testInsert() {
         $rowData = new RowData();
-        $rowData->offsetSet('type', "testEventContentType");
-        $rowData->offsetSet('name', "test_name_" . (string) (random_int(0, 999)));
-        $this->expectException(DaoForbiddenOperationException::class);
+        $rowData->offsetSet('title', "testEventContentDao-title");
+        $rowData->offsetSet('perex', "testEventContentDao-perex");
+        $rowData->offsetSet('party', "testEventContentDao-party");
+        $rowData->offsetSet('event_content_type_type_fk', null);
+        $rowData->offsetSet('institution_id_fk', null);
         $this->dao->insert($rowData);
-    }
-
-
-    public function testInsertWithKeyVerification() {
-        $rowData = new RowData();
-        $type =  "testEventContentType";
-        $rowData->offsetSet('type', $type);
-        $rowData->offsetSet('name', "test_name_" . (string) (random_int(0, 999)));
-        $this->dao->insertWithKeyVerification($rowData);
-        self::$id =  $type;
-        $this->expectException(DaoKeyVerificationFailedException::class);
-        $this->dao->insertWithKeyVerification($rowData);
+        self::$id =  $this->dao->getLastInsertedId();
+        $this->assertGreaterThan(0, (int) self::$id);
+        $numRows = $this->dao->getRowCount();
+        $this->assertEquals(1, $numRows);
     }
 
     public function testGetExistingRow() {
@@ -85,26 +79,26 @@ class EventContentTypeDaoTest extends AppRunner {
         $this->assertInstanceOf(RowDataInterface::class, $eventContentTypeRow);
     }
 
-    public function test2Columns() {
+    public function test6Columns() {
         $eventContentTypeRow = $this->dao->get(self::$id);
-        $this->assertCount(2, $eventContentTypeRow);
+        $this->assertCount(6, $eventContentTypeRow);
     }
 
     public function testUpdate() {
         $eventContentTypeRow = $this->dao->get(self::$id);
-        $name = $eventContentTypeRow['name'];
-        $this->assertIsString($eventContentTypeRow['name']);
+        $name = $eventContentTypeRow['title'];
+        $this->assertIsString($eventContentTypeRow['title']);
         //
         $this->setUp();
-        $updated = str_replace('test_name_', 'test_name_updated_', $name);
-        $eventContentTypeRow['name'] = $updated;
+        $updated = str_replace('-title', '-title_updated', $name);
+        $eventContentTypeRow['title'] = $updated;
         $this->dao->update($eventContentTypeRow);
         $this->assertEquals(1, $this->dao->getRowCount());
 
         $this->setUp();
         $eventContentTypeRowRereaded = $this->dao->get(self::$id);
         $this->assertEquals($eventContentTypeRow, $eventContentTypeRowRereaded);
-        $this->assertContains('test_name_updated', $eventContentTypeRowRereaded['name']);
+        $this->assertContains('-title_updated', $eventContentTypeRowRereaded['title']);
     }
 
     public function testFind() {

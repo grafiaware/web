@@ -14,10 +14,15 @@ use Model\RowData\PdoRowData;
 
 // repo
 use Events\Model\Context\ContextFactory;
+use Test\Integration\Event\Model\Context\ContextPublishedFactoryMock;
 
 use Events\Model\Dao\LoginDao;
 use Events\Model\Hydrator\LoginHydrator;
 use Events\Model\Repository\LoginRepo;
+
+use Events\Model\Dao\EnrollDao;
+use Events\Model\Hydrator\EnrollHydrator;
+use Events\Model\Repository\EnrollRepo;
 
 use Events\Model\Dao\EventDao;
 use Events\Model\Hydrator\EventHydrator;
@@ -132,13 +137,27 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             ContextFactory::class => function(ContainerInterface $c) {
                 return new ContextFactory(); // TODO:     ($statusSecurityRepo, $statusPresentationRepo)
             },
+            ContextPublishedFactoryMock::class => function(ContainerInterface $c) {
+                return new ContextPublishedFactoryMock(false);
+            },
+
+            // enroll
+            EnrollDao::class => function(ContainerInterface $c) {
+                return new EnrollDao($c->get(Handler::class), PdoRowData::class);
+            },
+            EnrollHydrator::class => function(ContainerInterface $c) {
+                return new EnrollHydrator();
+            },
+            EnrollRepo::class => function(ContainerInterface $c) {
+                return new EnrollRepo($c->get(EnrollDao::class), $c->get(EnrollHydrator::class));
+            },
 
             // login
             LoginDao::class => function(ContainerInterface $c) {
                 return new LoginDao($c->get(Handler::class), PdoRowData::class);
             },
             LoginHydrator::class => function(ContainerInterface $c) {
-                return new \Events\Model\Hydrator\LoginHydrator();
+                return new LoginHydrator();
             },
             LoginRepo::class => function(ContainerInterface $c) {
                 return new LoginRepo($c->get(LoginDao::class), $c->get(LoginHydrator::class));
