@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+namespace Test\Integration\Repository;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -37,8 +38,14 @@ class EventContentTypeRepositoryTest extends AppRunner {
     public static function setUpBeforeClass(): void {
         self::bootstrapBeforeClass();
 
+
+            $container =
             (new EventsContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(new Container())
+                (new DbEventsContainerConfigurator())->configure(
+                    (new Container(
+                        )
+                    )
+                )
             );
 
         // mazání - zde jen pro případ, že minulý test nebyl dokončen
