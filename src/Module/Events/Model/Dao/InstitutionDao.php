@@ -16,7 +16,7 @@ use Model\Dao\Exception\DaoForbiddenOperationException;
  *
  * @author vlse2610
  */
-class InstitutionDao  extends DaoTableAbstract implements /*DaoKeyDbVerifiedInterface */ DaoAutoincrementKeyInterface {
+class InstitutionDao  extends DaoTableAbstract implements  DaoAutoincrementKeyInterface {
 
     use LastInsertIdTrait;
 
