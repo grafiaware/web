@@ -35,7 +35,7 @@ class EventContentDao extends DaoTableAbstract implements DaoAutoincrementKeyInt
             `event_content`.`title`,
             `event_content`.`perex`,
             `event_content`.`party`,
-            `event_content`.`event_content_type_type_fk`,
+            `event_content`.`event_content_type_fk`,
             `event_content`.`institution_id_fk`");
         $from = $this->from("`event_content`");
         $where = $this->where("`event_content`.`id` = :id");
@@ -50,7 +50,7 @@ class EventContentDao extends DaoTableAbstract implements DaoAutoincrementKeyInt
             `event_content`.`title`,
             `event_content`.`perex`,
             `event_content`.`party`,
-            `event_content`.`event_content_type_type_fk`,
+            `event_content`.`event_content_type_fk`,
             `event_content`.`institution_id_fk`
             ");
         $from = $this->from("`event_content` ");

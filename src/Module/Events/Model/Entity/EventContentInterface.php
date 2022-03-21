@@ -24,7 +24,7 @@ interface EventContentInterface extends EntityInterface {
 
     public function getParty(): ?string;
 
-    public function getEventContentTypeTypeFk(): ?string;
+    public function getEventContentTypeFk(): ?string;
 
     public function getInstitutionIdFk(): ?int;
 
@@ -36,7 +36,7 @@ interface EventContentInterface extends EntityInterface {
 
     public function setParty($party = null): EventContentInterface;
 
-    public function setEventContentTypeTypeFk($eventContentTypeTypeFk = null): EventContentInterface;
+    public function setEventContentTypeFk($eventContentTypeTypeFk = null): EventContentInterface;
 
     public function setInstitutionIdFk($institutionIdFk = null): EventContentInterface;
 

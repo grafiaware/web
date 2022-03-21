@@ -7,7 +7,7 @@ use Model\Entity\EntityInterface;
  *
  * @author vlse2610 
  */
-interface LinkInterface  extends EntityInterface {
+interface EventLinkInterface  extends EntityInterface {
     
 
     public function getId() : ?int  ;
@@ -22,16 +22,16 @@ interface LinkInterface  extends EntityInterface {
     public function getLinkPhaseIdFk(): ?int  ;
     
 
-    public function setId($id) :LinkInterface;
+    public function setId($id) :EventLinkInterface;
     
 
-    public function setShow($show) :LinkInterface;
+    public function setShow($show) :EventLinkInterface;
     
 
-    public function setHref( string $href=null) :LinkInterface;      
+    public function setHref( string $href=null) :EventLinkInterface;      
     
     
-    public function setLinkPhaseIdFk($linkPhaseIdFk) :LinkInterface;
+    public function setLinkPhaseIdFk($linkPhaseIdFk) :EventLinkInterface;
     
 
     

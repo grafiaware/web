@@ -20,6 +20,8 @@ class Event extends EntityAbstract implements EventInterface {
     private $start;
     private $end;
     private $eventTypeIdFk;
+    
+    
     private $eventContentIdFk;
 
 

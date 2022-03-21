@@ -2,7 +2,7 @@
 
 namespace Events\Model\Entity;
 
-use Events\Model\Entity\LinkInterface;
+use Events\Model\Entity\EventLinkInterface;
 use Model\Entity\EntityAbstract;
 
 /**
@@ -10,7 +10,7 @@ use Model\Entity\EntityAbstract;
  *
  * @author vlse2610
  */
-class Link extends EntityAbstract implements LinkInterface {
+class EventLink extends EntityAbstract implements EventLinkInterface {
     private $id;
     private $show;
     private $href;
@@ -41,22 +41,22 @@ class Link extends EntityAbstract implements LinkInterface {
         return $this->linkPhaseIdFk;
     }
 
-    public function setId($id) :LinkInterface {
+    public function setId($id) :EventLinkInterface {
         $this->id = $id;
         return $this;
     }
 
-    public function setShow($show) :LinkInterface{
+    public function setShow($show) :EventLinkInterface{
         $this->show = $show;
         return $this;
     }
 
-    public function setHref( string $href=null) :LinkInterface{
+    public function setHref( string $href=null) :EventLinkInterface{
         $this->href = $href;
         return $this;
     }
 
-    public function setLinkPhaseIdFk($linkPhaseIdFk) :LinkInterface {
+    public function setLinkPhaseIdFk($linkPhaseIdFk) :EventLinkInterface {
         $this->linkPhaseIdFk = $linkPhaseIdFk;
         return $this;
     }
