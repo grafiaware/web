@@ -68,14 +68,17 @@ class LoginRepositoryTest extends TestCase {
         // toto je příprava testu
         /** @var LoginDao $loginDao */
         $loginDao = $container->get(LoginDao::class);
-
-        $loginDao->insertWithKeyVerification(['login_name'=>"testLogin"]);
+        $rowData = new RowData();
+        $rowData->offsetSet('login_name', 'testLogin');
+        $loginDao->insertWithKeyVerification($rowData);
     }
 
     private static function deleteRecords(Container $container) {
         /** @var LoginDao $loginDao */
         $loginDao = $container->get(LoginDao::class);
-        $loginDao->delete(['login_name'=>"testLogin"]);
+        $rowData = new RowData();
+        $rowData->offsetSet('login_name', "testLogin");
+        $loginDao->delete($rowData);
     }
 
     protected function setUp(): void {

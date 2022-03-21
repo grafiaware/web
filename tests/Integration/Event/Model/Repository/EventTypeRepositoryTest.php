@@ -64,17 +64,18 @@ class EventTypeRepositoryTest extends TestCase {
         // toto je příprava testu
         /** @var EventTypeDao $eventTypeDao */
         $eventTypeDao = $container->get(EventTypeDao::class);
-
-        $eventTypeDao->insert([
-            'value' => 'testEventType',
-        ]);
+        $rowData = new RowData();
+        $rowData->offsetSet('value', 'testEventType');
+        $eventTypeDao->insert($rowData);
         self::$id = $eventTypeDao->getLastInsertedId();
     }
 
     private static function deleteRecords(Container $container) {
         /** @var EventTypeDao $eventDao */
         $eventDao = $container->get(EventTypeDao::class);
-        $eventDao->delete(['id'=>0]);
+        $rowData = new RowData();
+        $rowData->offsetSet('id', self::$id);
+        $eventDao->delete($rowData);
     }
 
     protected function setUp(): void {
