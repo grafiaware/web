@@ -10,7 +10,6 @@ namespace Events\Model\Repository;
 
 use Model\Repository\RepoInterface;
 
-use Events\Model\Entity\EventInterface;
 
 /**
  *

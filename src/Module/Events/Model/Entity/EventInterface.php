@@ -6,7 +6,7 @@ use Model\Entity\EntityInterface;
 
 /**
  *
- * @author pes2704
+ * @author 
  */
 interface EventInterface extends EntityInterface {
 
@@ -17,8 +17,10 @@ interface EventInterface extends EntityInterface {
     public function getStart(): ?\DateTime;
 
     public function getEnd():  ?\DateTime;
+    
+    public function getEnrollLinkIdFk() : ?int;   
 
-    public function getEventTypeIdFk(): ?int;
+    public function getEnterLinkIdFk() : ?int ;        
 
     public function getEventContentIdFk():?int;
 
@@ -30,7 +32,9 @@ interface EventInterface extends EntityInterface {
 
     public function setEnd(\DateTime $end = null): EventInterface;
 
-    public function setEventTypeIdFk($eventTypeIdFk): EventInterface;
-
+    public function setEnrollLinkIdFk($enrollLinkFk) :EventInterface ;
+    
+    public function setEnterLinkIdFk($enterLinkFk)  :EventInterface ;
+   
     public function setEventContentIdFk($eventContentIdFk): EventInterface;
 }
