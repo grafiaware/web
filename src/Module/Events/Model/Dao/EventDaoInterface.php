@@ -10,7 +10,25 @@ use Model\Dao\DaoAutoincrementKeyInterface;
  */
 interface EventDaoInterface extends DaoAutoincrementKeyInterface {
     
-    public function getByEventContentIdFk( $eventContentIdFk )  ;
     
-    
+
+    /**
+     * Vrací jednu řádku tabulky 'event' ve formě asociativního pole podle primárního klíče.
+     *
+     * @param int $id Hodnota primárního klíče
+     * @return array Asociativní pole
+     */   
+    public function get( int $id) ;
+        
+    public function getOutOfContext(...$id) ;        
+        
+    /**
+     * 
+     * @param int $eventContentIdFk
+     * @return array
+     */
+    public function getByEventContentIdFk( int $eventContentIdFk ) ;
+           
+    public function find($whereClause="", $touplesToBind=[]) ;   
+      
 }

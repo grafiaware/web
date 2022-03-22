@@ -17,5 +17,22 @@ use Model\Repository\RepoInterface;
  */
 interface EventRepoInterface extends RepoInterface  {
 
+  /**
+     *
+     * @param type $id
+     * @return LoginInterface|null
+     */
+    public function get($id): ?EventInterface;
+    
 
+    public function findAll(): array;
+    
+
+    public function add(EventInterface $event);
+    
+
+    public function remove(EventInterface $event);
+    
+    
+    
 }

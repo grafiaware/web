@@ -26,7 +26,7 @@ class EventContentDao extends DaoTableAbstract implements DaoAutoincrementKeyInt
     /**
      * Vrací jednu řádku tabulky 'event' ve formě asociativního pole podle primárního klíče.
      *
-     * @param string $id Hodnota primárního klíče
+     * @param int $id Hodnota primárního klíče
      * @return array Asociativní pole
      * @throws StatementFailureException
      */

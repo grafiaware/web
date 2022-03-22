@@ -42,11 +42,10 @@ class EventDao extends DaoContextualAbstract implements EventDaoInterface {
     /**
      * Vrací jednu řádku tabulky 'event' ve formě asociativního pole podle primárního klíče.
      *
-     * @param string $id Hodnota primárního klíče
+     * @param int $id Hodnota primárního klíče
      * @return array Asociativní pole
-     * @throws StatementFailureException
-     */
-    public function get($id) {
+     */   
+    public function get( $id) {
         $select = $this->select("
             `event`.`id`,
             `event`.`published`,
@@ -61,6 +60,7 @@ class EventDao extends DaoContextualAbstract implements EventDaoInterface {
         $touplesToBind = [':id' => $id];
         return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
+    
     public function getOutOfContext(...$id) {
         ;
     }
@@ -71,7 +71,7 @@ class EventDao extends DaoContextualAbstract implements EventDaoInterface {
      * @param type $eventContentIdFk
      * @return array
      */
-    public function getByEventContentIdFk( $eventContentIdFk ) {
+    public function getByEventContentIdFk(  int $eventContentIdFk ) {
         $select = $this->select("
             `event`.`id`,
             `event`.`published`,

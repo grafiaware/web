@@ -39,7 +39,7 @@ class EventRepo extends RepoAbstract implements EventRepoInterface {
         return $this->getEntity($id);
     }
 
-    public function findAll() {
+    public function findAll(): array{
         return $this->findEntities();
     }
 
