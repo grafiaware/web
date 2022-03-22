@@ -7,8 +7,6 @@
  * Created: 21. 3. 2022
  */
 
-DELETE FROM `events`.`enroll`;
-
 ALTER TABLE `events`.`enroll`
 DROP COLUMN `id`,
 CHANGE COLUMN `login_name` `login_login_name_fk` VARCHAR(50) NOT NULL DEFAULT '' ,
