@@ -15,9 +15,13 @@ use Test\Integration\Event\Container\EventsContainerConfigurator;
 use Test\Integration\Event\Container\DbEventsContainerConfigurator;
 
 use Events\Model\Dao\EnrollDao;
+use Events\Model\Dao\LoginDao;
+use Events\Model\Dao\EventDao;
 
 use Model\RowData\RowData;
 use Model\RowData\RowDataInterface;
+
+use Model\Dao\Exception\DaoKeyVerificationFailedException;
 
 /**
  *
@@ -34,10 +38,45 @@ class EnrollDaoTest extends AppRunner {
      */
     private $dao;
 
-    private static $id;
+    private static $login_login_name_fk;
+    private static $event_id_fk;
+    private static $event_id_fk_2;
 
     public static function setUpBeforeClass(): void {
         self::bootstrapBeforeClass();
+        $container =
+            (new EventsContainerConfigurator())->configure(
+                (new DbEventsContainerConfigurator())->configure(
+                    (new Container(
+                        )
+                    )
+                )
+            );
+        // nový login login_name a event id pro TestCase
+        $prefix = "testVisitorForEnrollDaoTest";
+        /** @var LoginDao $loginDao */
+        $loginDao = $container->get(LoginDao::class);
+        // prefix + uniquid - bez zamykání db
+        do {
+            $loginName = $prefix."_".uniqid();
+            $login = $loginDao->get($loginName);
+        } while ($login);
+
+        $loginData = new RowData();
+        $loginData->offsetSet('login_name', $loginName);
+        $loginDao->insertWithKeyVerification($loginData);
+
+        self::$login_login_name_fk = $loginDao->get($loginName)['login_name'];
+        /** @var EventDao $eventDao */
+        $eventDao = $container->get(EventDao::class);
+        $eventData = new RowData();
+        $eventData->offsetSet("published", 1);
+        $eventDao->insert($eventData);  // id je autoincrement
+        self::$event_id_fk = $eventDao->getLastInsertedId();
+        $eventData = new RowData();
+        $eventData->offsetSet("published", 1);
+        $eventDao->insert($eventData);  // id je autoincrement
+        self::$event_id_fk_2 = $eventDao->getLastInsertedId();
     }
 
     protected function setUp(): void {
@@ -60,63 +99,64 @@ class EnrollDaoTest extends AppRunner {
     }
 
     public function testSetUp() {
+        $this->assertIsString(self::$login_login_name_fk);
+        $this->assertIsString(self::$event_id_fk);
         $this->assertInstanceOf(EnrollDao::class, $this->dao);
 
     }
 
     public function testInsert() {
         $rowData = new RowData();
-        $rowData->offsetSet('login_name', "testEnroll login name");
-        $rowData->offsetSet('eventid', "test_eventid_" . (string) (1000+random_int(0, 999)));
+        $rowData->offsetSet('login_login_name_fk', self::$login_login_name_fk);
+        $rowData->offsetSet('event_id_fk', self::$event_id_fk);
         $this->dao->insert($rowData);
-        self::$id = $this->dao->getLastInsertedId();
-        $this->assertIsString(self::$id);  // lastInsertId je vždy string
-        $this->assertIsInt((int) self::$id);
         $this->assertEquals(1, $this->dao->getRowCount());
     }
 
     public function testGetExistingRow() {
-        $enrollRow = $this->dao->get(self::$id);
+        $enrollRow = $this->dao->get(self::$login_login_name_fk);
         $this->assertInstanceOf(RowDataInterface::class, $enrollRow);
     }
 
-    public function test3Columns() {
-        $enrollRow = $this->dao->get(self::$id);
-        $this->assertCount(3, $enrollRow);
+    public function test2Columns() {
+        $enrollRow = $this->dao->get(self::$login_login_name_fk);
+        $this->assertCount(2, $enrollRow);
     }
 
     public function testUpdate() {
-        $enrollRow = $this->dao->get(self::$id);
-        $eventId = $enrollRow['eventid'];
-        $this->assertIsInt($enrollRow['id']);
+        $enrollRow = $this->dao->get(self::$login_login_name_fk);
+        $eventId = $enrollRow['event_id_fk'];
+        $this->assertIsString($enrollRow['login_login_name_fk']);
+        $this->assertIsInt($enrollRow['event_id_fk']);
         //
         $this->setUp();
-        $updated = str_replace('eventid', 'eventid_updated', $eventId);
-        $enrollRow['eventid'] = $updated;
+        $enrollRow['event_id_fk'] = self::$event_id_fk_2;
         $this->dao->update($enrollRow);
         $this->assertEquals(1, $this->dao->getRowCount());
 
         $this->setUp();
-        $enrollRowRereaded = $this->dao->get(self::$id);
-        $this->assertEquals($enrollRow, $enrollRowRereaded);
-        $this->assertContains('eventid_updated', $enrollRowRereaded['eventid']);
+        $enrollRowRereaded = $this->dao->get(self::$login_login_name_fk);
+        $this->assertInstanceOf(RowDataInterface::class, $enrollRowRereaded);
+        $this->assertEquals(self::$event_id_fk_2, $enrollRowRereaded['event_id_fk']);
 
     }
 
     public function testFind() {
-        $enrollRow = $this->dao->find();
-        $this->assertIsArray($enrollRow);
-        $this->assertGreaterThanOrEqual(1, count($enrollRow));
-        $this->assertInstanceOf(RowDataInterface::class, $enrollRow[0]);
+        $enrollRowsArray = $this->dao->find();
+        $this->assertIsArray($enrollRowsArray);
+        $this->assertGreaterThanOrEqual(1, count($enrollRowsArray));
+        $this->assertInstanceOf(RowDataInterface::class, $enrollRowsArray[0]);
     }
 
     public function testDelete() {
-        $enrollRow = $this->dao->get(self::$id);
+        $enrollRow = $this->dao->get(self::$login_login_name_fk);
+
         $this->dao->delete($enrollRow);
         $this->assertEquals(1, $this->dao->getRowCount());
 
         $this->setUp();
-        $enrollRow = $this->dao->get(self::$id);
-        $this->assertNull($enrollRow);
+        $this->dao->delete($enrollRow);
+        $this->assertEquals(0, $this->dao->getRowCount());
+
     }
 }

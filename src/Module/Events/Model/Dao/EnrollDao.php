@@ -9,7 +9,7 @@
 namespace Events\Model\Dao;
 
 use Model\Dao\DaoTableAbstract;
-use Model\Dao\DaoAutoincrementKeyInterface;
+use Model\Dao\DaoKeyDbVerifiedInterface;
 use \Model\Dao\LastInsertIdTrait;
 use Model\RowData\RowDataInterface;
 
@@ -18,24 +18,22 @@ use Model\RowData\RowDataInterface;
  *
  * @author pes2704
  */
-class EnrollDao extends DaoTableAbstract implements DaoAutoincrementKeyInterface {
+class EnrollDao extends DaoTableAbstract {
 
-    use LastInsertIdTrait;
-
-    public function get($id) {
-        $select = $this->select("`enroll`.`id`,
-                `enroll`.`login_name`,
-                `enroll`.`eventid`");
+    public function get($loginLoginNameFk) {
+        $select = $this->select("
+            `enroll`.`login_login_name_fk`,
+            `enroll`.`event_id_fk`");
         $from = $this->from("`enroll`");
-        $where = $this->where("`enroll`.`id` = :id");
-        $touples = [':id' => $id];
+        $where = $this->where("`enroll`.`login_login_name_fk` = :login_login_name_fk");
+        $touples = [':login_login_name_fk' => $loginLoginNameFk];
         return $this->selectOne($select, $from, $where, $touples, true);
     }
 
     public function find($whereClause="", $touplesToBind=[]) {
-        $select = $this->select("`enroll`.`id`,
-                `enroll`.`login_name`,
-                `enroll`.`eventid`");
+        $select = $this->select("
+            `enroll`.`login_login_name_fk`,
+            `enroll`.`event_id_fk`");
         $from = $this->from("`enroll`");
         $where = $this->where($whereClause);
         return $this->selectMany($select, $from, $where, $touplesToBind);
@@ -46,10 +44,10 @@ class EnrollDao extends DaoTableAbstract implements DaoAutoincrementKeyInterface
     }
 
     public function update(RowDataInterface $rowData) {
-        return $this->execUpdate('enroll', ['id'], $rowData);
+        return $this->execUpdate('enroll', ['login_login_name_fk'], $rowData);
     }
 
     public function delete(RowDataInterface $rowData) {
-        return $this->execDelete('enroll', ['id'], $rowData);
+        return $this->execDelete('enroll', ['login_login_name_fk'], $rowData);
     }
 }

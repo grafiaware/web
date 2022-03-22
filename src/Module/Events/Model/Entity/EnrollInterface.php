@@ -16,27 +16,12 @@ use Model\Entity\EntityInterface;
  */
 interface EnrollInterface extends EntityInterface {
 
-    public function getId(): ?int;
+    public function getLoginLoginNameFk(): string;
 
-    public function getLoginName(): ?string;
+    public function getEventFdFk(): int;
 
-    /**
-     * Určeno pro eventid z array modelu EventList
-     *
-     * @return string|null
-     */
-    public function getEventid(): ?string;
+    public function setLoginLoginNameFk($loginLoginNameFk): EnrollInterface;
 
-    public function setId($id): EnrollInterface;
-
-    public function setLoginName($loginName = null): EnrollInterface;
-
-    /**
-     * Určeno pro eventid z array modelu EventList
-     *
-     * @param type $eventid
-     * @return EnrollInterface
-     */
-    public function setEventid($eventid = null): EnrollInterface;
+    public function setEventFdFk($eventFdFk): EnrollInterface;
 
 }
