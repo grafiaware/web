@@ -9,6 +9,7 @@
 namespace Events\Model\Repository;
 
 use Model\Repository\RepoInterface;
+use Events\Model\Entity\EventInterface;
 
 
 /**
@@ -20,7 +21,7 @@ interface EventRepoInterface extends RepoInterface  {
   /**
      *
      * @param type $id
-     * @return LoginInterface|null
+     * @return EventInterface|null
      */
     public function get($id): ?EventInterface;
     

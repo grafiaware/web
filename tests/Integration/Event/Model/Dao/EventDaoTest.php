@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 
 use Test\AppRunner\AppRunner;
+use PHPUnit\Framework\TestCase;
 
 use Pes\Container\Container;
 
@@ -84,26 +85,30 @@ class EventDaoTest extends AppRunner {
         $this->assertInstanceOf(RowDataInterface::class, $eventRow);
     }
 
-    public function test6Columns() {
+    public function test7Columns() {
         $eventRow = $this->dao->get(self::$id);
-        $this->assertCount(6, $eventRow);
+        $this->assertCount(7, $eventRow);
     }
+    
+    
 
     public function testUpdate() {
         $eventRow = $this->dao->get(self::$id);
-        $name = $eventRow['title'];
-        $this->assertIsString($eventRow['title']);
+        
+        //$this->asertIsString($eventRow['title']);  #############################
+        $this->assertIsString( $eventRow['start']);
+        $ret = $eventRow['start'];
         //
         $this->setUp();
-        $updated = str_replace('-title', '-title_updated', $name);
-        $eventRow['title'] = $updated;
+        $retUpdated = str_replace('2011-01-01', '2011-03-03', $ret);
+        $eventRow['start'] = $retUpdated;
         $this->dao->update($eventRow);
         $this->assertEquals(1, $this->dao->getRowCount());
 
         $this->setUp();
         $eventRowRereaded = $this->dao->get(self::$id);
         $this->assertEquals($eventRow, $eventRowRereaded);
-        $this->assertContains('-title_updated', $eventRowRereaded['title']);
+        $this->assertContains('2011-03-03', $eventRowRereaded['start']);
     }
 
     public function testFind() {

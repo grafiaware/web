@@ -59,7 +59,7 @@ abstract class DaoEditAbstract extends DaoReadonlyAbstract {
                     $k[] = $rowData->offsetGet($name);
                 }
                 $key = implode(', ', $k);
-                throw new DaoKeyVerificationFailedException("Hodnota klíče type '$key' již v tabulece $tableNames existuje.");
+                throw new DaoKeyVerificationFailedException("Hodnota klíče type '$key' již v tabulce $tableName existuje.");
             }
             /*** commit the transaction ***/
             $this->dbHandler->commit();
