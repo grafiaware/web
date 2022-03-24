@@ -323,8 +323,8 @@ class ConfigurationStyles extends ConfigurationRed {
                 return new ClassMap (
                     [
                      'Template' => [
-                        'div.templateMultipage' => 'template-multipage',
-                        'div.templateMultipageTrash' => 'template-multipage trash',
+                        'div.templateMultipage' => 'template-multipageedit',
+                        'div.templateMultipageTrash' => 'template-multipageedit trash',
                         'div.templatePaper' => 'template-paperedit',
                         'div.templatePaperTrash' => 'template-paper trash',
                         'div.templateArticle' => 'template-articleedit',

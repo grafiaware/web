@@ -643,7 +643,7 @@ body{
      .template-article, .template-articleedit{
         margin: @articleRendererMargin;
     }
-    .template-multipage, .template-article, .template-articleedit, .template-paper, .template-paperedit{
+    .template-multipage, .template-multipageedit, .template-article, .template-articleedit, .template-paper, .template-paperedit{
         position: relative;
         padding: @rendererPadding;
         padding-top: @rendererPaddingTop;
@@ -685,7 +685,7 @@ body{
     .template-article > .zapnout_editaci{
         right: @zapnoutEditaciArticlePositionRight;
     }
-    .template-multipage{ //[data-red-renderer="MultipageRenderer"]
+    .template-multipage, .template-multipageedit{ //[data-red-renderer="MultipageRenderer"]
         margin: @rendererMultipageMargin;
         box-shadow: @rendererMultipageBoxShadow;
         border-radius: @rendererBorderRadius;
