@@ -27,6 +27,8 @@ interface EntityInterface extends EntitySingletonInterface {
     public function isPersisted():bool;
 
     public function lock(): EntityInterface;
+    
+    public function unlock(): EntityInterface;
 
     public function isLocked(): bool;
 

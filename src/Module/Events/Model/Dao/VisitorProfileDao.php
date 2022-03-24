@@ -9,17 +9,14 @@
 namespace Events\Model\Dao;
 
 use Model\Dao\DaoTableAbstract;
-use Model\Dao\DaoKeyDbVerifiedInterface;
 use Model\RowData\RowDataInterface;
-
-use Model\Dao\Exception\DaoForbiddenOperationException;
 
 /**
  * Description of EnrollDao
  *
  * @author pes2704
  */
-class VisitorProfileDao extends DaoTableAbstract implements DaoKeyDbVerifiedInterface {
+class VisitorProfileDao extends DaoTableAbstract {
 
     /**
      * Pro tabulky s auto increment id.
@@ -69,12 +66,8 @@ class VisitorProfileDao extends DaoTableAbstract implements DaoKeyDbVerifiedInte
         return $this->selectMany($select, $from, $where, $touplesToBind);
     }
 
-    public function insertWithKeyVerification(RowDataInterface $rowData) {
-        return $this->execInsert('visitor_profile', $rowData);
-    }
-
     public function insert(RowDataInterface $rowData) {
-        throw new DaoForbiddenOperationException("Object neumožňuje insertovat bez ověření duplicity klíče. Nelze vkládat metodou insert(), je nutné používat insertWithKeyVerification().");
+        return $this->execInsert('visitor_profile', $rowData);
     }
 
     public function update(RowDataInterface $rowData) {

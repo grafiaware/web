@@ -348,6 +348,7 @@ abstract class RepoAbstract {
 //                    $this->addAssociated($rowData, $entity);
                     $this->addAssociated($rowData);
                     $entity->setPersisted();
+                    $entity->unlock();
                     $this->new = []; // při dalším pokusu o find se bude volat recteateEntity, entita se zpětně načte z db (včetně případného autoincrement id a dalších generovaných sloupců)
                 }
                 $this->flushChildRepos();  //pokud je vnořená agregovaná entita - musí se provést její insert
@@ -381,6 +382,7 @@ abstract class RepoAbstract {
             foreach ($this->removed as $index => $entity) {
                 $this->dataManager->delete($this->data[$index]);
                 $entity->setUnpersisted();
+                $entity->unlock();
                 unset($this->data[$index]);
             }
             $this->removed = [];

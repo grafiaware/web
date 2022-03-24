@@ -44,12 +44,12 @@ class VisitorProfileRepo extends RepoAbstract implements VisitorProfileRepoInter
         return $this->findEntities();
     }
 
-    public function add(VisitorProfileInterface $visitorData) {
-        $this->addEntity($visitorData);
+    public function add(VisitorProfileInterface $visitorProfile) {
+        $this->addEntity($visitorProfile);
     }
 
-    public function remove(VisitorProfileInterface $visitorData) {
-        $this->removeEntity($visitorData);
+    public function remove(VisitorProfileInterface $visitorProfile) {
+        $this->removeEntity($visitorProfile);
     }
 
     protected function createEntity() {
@@ -60,12 +60,12 @@ class VisitorProfileRepo extends RepoAbstract implements VisitorProfileRepoInter
         return $loginName;
     }
 
-    protected function indexFromEntity(VisitorProfileInterface $visitorData) {
-        return $visitorData->getLoginName();
+    protected function indexFromEntity(VisitorProfileInterface $visitorProfile) {
+        return $visitorProfile->getLoginLoginName();
     }
 
     protected function indexFromRow($row) {
-        return $row['login_name'];
+        return $row['login_login_name'];
     }
 
 
