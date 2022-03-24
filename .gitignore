@@ -4,11 +4,12 @@
 /node_modules/
 /_www_gr_files/
 /_www_vp_files/
+/_www_tz_files/
 /local/site/tydenzdravi/templates/static/__compiled/
 /_www_vp_logs/
 /local/site/veletrhprace/templates/static/__compiled/
 /tests/Logs/
 /tests/Test_reports/
-/_www_tz_files/
+/tests/.phpunit.result.cache
 /_files/
 /_docs/
