@@ -24,7 +24,7 @@ class EventContentDao extends DaoTableAbstract implements DaoAutoincrementKeyInt
     use LastInsertIdTrait;
 
     /**
-     * Vrací jednu řádku tabulky 'event' ve formě asociativního pole podle primárního klíče.
+     * Vrací jednu řádku tabulky 'event_content' ve formě asociativního pole podle primárního klíče.
      *
      * @param int $id Hodnota primárního klíče
      * @return array Asociativní pole

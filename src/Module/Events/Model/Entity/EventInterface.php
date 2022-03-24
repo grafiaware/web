@@ -32,9 +32,9 @@ interface EventInterface extends EntityInterface {
 
     public function setEnd(\DateTime $end = null): EventInterface;
 
-    public function setEnrollLinkIdFk($enrollLinkFk) :EventInterface ;
+    public function setEnrollLinkIdFk($enrollLinkIdFk) :EventInterface ;
     
-    public function setEnterLinkIdFk($enterLinkFk)  :EventInterface ;
+    public function setEnterLinkIdFk($enterLinkIdFk)  :EventInterface ;
    
     public function setEventContentIdFk($eventContentIdFk): EventInterface;
 }

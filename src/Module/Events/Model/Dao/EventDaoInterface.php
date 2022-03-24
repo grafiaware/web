@@ -18,7 +18,7 @@ interface EventDaoInterface extends DaoAutoincrementKeyInterface {
      * @param int $id Hodnota primárního klíče
      * @return array Asociativní pole
      */   
-    public function get( int $id) ;
+    public function get(  $id) ;
         
     public function getOutOfContext(...$id) ;        
         

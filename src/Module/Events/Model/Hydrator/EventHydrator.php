@@ -36,13 +36,13 @@ class EventHydrator implements HydratorInterface {
      */
     public function hydrate(EntityInterface $event, RowDataInterface $rowData) {
         /** @var EventInterface $event */
-        $event
+        $event           
             ->setId($rowData->offsetGet('id'))
             ->setPublished($rowData->offsetGet('published'))
             ->setStart($rowData->offsetGet('start') ? \DateTime::createFromFormat('Y-m-d H:i:s', $rowData->offsetGet('start')) : NULL)
             ->setEnd($rowData->offsetGet('end') ? \DateTime::createFromFormat('Y-m-d H:i:s', $rowData->offsetGet('end')) : NULL)
-            ->setEventTypeIdFk($rowData->offsetGet('enroll_link_id_fk'))    
-            ->setEventTypeIdFk($rowData->offsetGet('enter_link_id_fk'))              
+            ->setEnrollLinkIdFk($rowData->offsetGet('enroll_link_id_fk'))    
+            ->setEnterLinkIdFk($rowData->offsetGet('enter_link_id_fk'))              
             ->setEventContentIdFk($rowData->offsetGet('event_content_id_fk'));
     }
 

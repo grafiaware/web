@@ -20,7 +20,7 @@ class Event extends EntityAbstract implements EventInterface {
     private $start;
     private $end;
     private $enrollLinkIdFk;
-    private $enterLinkFIdk; 
+    private $enterLinkIdFk; 
     private $eventContentIdFk;
 
 
@@ -79,12 +79,12 @@ class Event extends EntityAbstract implements EventInterface {
     }
 
     public function setEnrollLinkIdFk($enrollLinkFk) : EventInterface  {
-        $this->enrollLinkFk = $enrollLinkFk;
+        $this->enrollLinkIdFk = $enrollLinkFk;
         return $this;
     }
 
     public function setEnterLinkIdFk($enterLinkFk)  : EventInterface {
-        $this->enterLinkFk = $enterLinkFk;
+        $this->enterLinkIdFk = $enterLinkFk;
         return $this;
     }
 
