@@ -25,11 +25,18 @@ class RowData extends \ArrayObject implements RowDataInterface {
 
     /**
      * V kostruktoru se mastaví způsob zápisu dat do RowData objektu na ARRAY_AS_PROPS a pokud je zadán parametr $data, zapíší se tato data
-     * do interní storage objektu. Nastavení ARRAY_AS_PROPS způsobí, že každý zápis dalších dat je prováděn metodou offsetSet.
+     * do interní storage objektu. Nastavení ARRAY_AS_PROPS způsobí, že každý zápis dalších dat je prováděn metodou offsetSet a vyhodnocuje se, jestli data byla změněna.
+     * Pokud parament data je Traversable, jsou tato data zadaná do konstruktoru zapsána jako změněná.
+     *
      * @param type $data
      */
     public function __construct($data=[]) {
         parent::__construct($data, \ArrayObject::ARRAY_AS_PROPS);
+        if (is_iterable($data)) {
+            foreach ($data as $index => $value) {
+                $this->changed[$index] = $index;
+            }
+        }
     }
 
     public function isChanged(): bool {
