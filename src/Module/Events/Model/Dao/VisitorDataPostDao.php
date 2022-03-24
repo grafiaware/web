@@ -13,6 +13,9 @@ use Model\Dao\DaoEditAbstract;
 use Pes\Database\Handler\HandlerInterface;
 use Model\Dao\DaoKeyDbVerifiedInterface;
 use Model\Dao\Exception\DaoKeyVerificationFailedException;
+
+use Model\RowData\RowDataInterface;
+
 /**
  * Description of EnrollDao
  *
@@ -92,7 +95,7 @@ class VisitorDataPostDao extends DaoEditAbstract implements DaoKeyDbVerifiedInte
         }
     }
 
-    public function insertWithKeyVerification($row) {
+    public function insertWithKeyVerification(RowDataInterface $row) {
         $dbhTransact = $this->dbHandler;
         try {
             $dbhTransact->beginTransaction();

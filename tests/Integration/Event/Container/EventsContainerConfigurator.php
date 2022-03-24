@@ -48,6 +48,10 @@ use Events\Model\Dao\VisitorDao;
 use Events\Model\Hydrator\VisitorHydrator;
 use Events\Model\Repository\VisitorRepo;
 
+use Events\Model\Dao\VisitorProfileDao;
+use Events\Model\Hydrator\VisitorProfileHydrator;
+use Events\Model\Repository\VisitorProfileRepo;
+
 // database
 use Pes\Database\Handler\Account;
 use Pes\Database\Handler\AccountInterface;
@@ -218,7 +222,6 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new EventPresentationRepo($c->get(EventPresentationDao::class), $c->get(EventPresentationHydrator::class));
             },
 
-            // EventPresentation
             VisitorDao::class => function(ContainerInterface $c) {
                 return new VisitorDao($c->get(Handler::class), PdoRowData::class);
             },
@@ -227,6 +230,16 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             VisitorRepo::class => function(ContainerInterface $c) {
                 return new VisitorRepo($c->get(VisitorDao::class), $c->get(VisitorHydrator::class));
+            },
+
+            VisitorProfileDao::class => function(ContainerInterface $c) {
+                return new VisitorProfileDao($c->get(Handler::class), PdoRowData::class);
+            },
+            VisitorProfileHydrator::class => function(ContainerInterface $c) {
+                return new VisitorProfileHydrator();
+            },
+            VisitorProfileRepo::class => function(ContainerInterface $c) {
+                return new VisitorProfileRepo($c->get(VisitorProfileDao::class), $c->get(VisitorProfileHydrator::class));
             },
         ];
     }

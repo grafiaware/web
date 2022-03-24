@@ -50,7 +50,7 @@ use Events\Model\Arraymodel\Event;
 
 // events
 use Events\Model\Repository\EnrollRepo;
-use Events\Model\Repository\VisitorDataRepo;
+use Events\Model\Repository\VisitorProfileRepo;
 use Events\Model\Repository\VisitorDataPostRepo;
 
 // dao
@@ -185,7 +185,7 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
-                        $c->get(VisitorDataRepo::class),
+                        $c->get(VisitorProfileRepo::class),
                         $c->get(VisitorDataPostRepo::class))
                         )->injectContainer($c);
             },

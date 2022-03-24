@@ -9,8 +9,6 @@
 namespace Events\Model\Dao;
 
 use Model\Dao\DaoTableAbstract;
-use Model\Dao\DaoKeyDbVerifiedInterface;
-use \Model\Dao\LastInsertIdTrait;
 use Model\RowData\RowDataInterface;
 
 /**

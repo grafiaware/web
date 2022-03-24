@@ -10,21 +10,19 @@ namespace Events\Model\Repository;
 
 use Model\Repository\RepoAbstract;
 
-use Events\Model\Entity\VisitorDataInterface;
-use Events\Model\Entity\VisitorData;
-use Events\Model\Dao\VisitorDataDao;
-use Events\Model\Hydrator\VisitorDataHydrator;
-
-use Model\Repository\Exception\UnableRecreateEntityException;
+use Events\Model\Entity\VisitorProfileInterface;
+use Events\Model\Entity\VisitorProfile;
+use Events\Model\Dao\VisitorProfileDao;
+use Events\Model\Hydrator\VisitorProfileHydrator;
 
 /**
  * Description of Menu
  *
  * @author pes2704
  */
-class VisitorDataRepo extends RepoAbstract implements VisitorDataRepoInterface {
+class VisitorProfileRepo extends RepoAbstract implements VisitorProfileRepoInterface {
 
-    public function __construct(VisitorDataDao $visitorDataDao, VisitorDataHydrator $visitorDataHydrator) {
+    public function __construct(VisitorProfileDao $visitorDataDao, VisitorProfileHydrator $visitorDataHydrator) {
         $this->dataManager = $visitorDataDao;
         $this->registerHydrator($visitorDataHydrator);
     }
@@ -32,9 +30,9 @@ class VisitorDataRepo extends RepoAbstract implements VisitorDataRepoInterface {
     /**
      *
      * @param type $loginName
-     * @return VisitorDataInterface|null
+     * @return VisitorProfileInterface|null
      */
-    public function get($loginName): ?VisitorDataInterface {
+    public function get($loginName): ?VisitorProfileInterface {
         return $this->getEntity($loginName);
     }
 
@@ -46,23 +44,23 @@ class VisitorDataRepo extends RepoAbstract implements VisitorDataRepoInterface {
         return $this->findEntities();
     }
 
-    public function add(VisitorDataInterface $visitorData) {
+    public function add(VisitorProfileInterface $visitorData) {
         $this->addEntity($visitorData);
     }
 
-    public function remove(VisitorDataInterface $visitorData) {
+    public function remove(VisitorProfileInterface $visitorData) {
         $this->removeEntity($visitorData);
     }
 
     protected function createEntity() {
-        return new VisitorData();
+        return new VisitorProfile();
     }
 
     protected function indexFromKeyParams($loginName) {
         return $loginName;
     }
 
-    protected function indexFromEntity(VisitorDataInterface $visitorData) {
+    protected function indexFromEntity(VisitorProfileInterface $visitorData) {
         return $visitorData->getLoginName();
     }
 

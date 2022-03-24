@@ -9,14 +9,14 @@
 namespace Events\Model\Repository;
 
 use Model\Repository\RepoInterface;
-use Events\Model\Entity\VisitorDataInterface;
+use Events\Model\Entity\VisitorProfileInterface;
 
 /**
  *
  * @author pes2704
  */
-interface VisitorDataRepoInterface extends RepoInterface {
-    public function get($id): ?VisitorDataInterface;
-    public function add(VisitorDataInterface $enroll);
-    public function remove(VisitorDataInterface $enroll);
+interface VisitorProfileRepoInterface extends RepoInterface {
+    public function get($id): ?VisitorProfileInterface;
+    public function add(VisitorProfileInterface $enroll);
+    public function remove(VisitorProfileInterface $enroll);
 }

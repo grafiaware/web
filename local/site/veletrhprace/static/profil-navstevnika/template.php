@@ -7,7 +7,7 @@ use Site\Configuration;
 use Auth\Model\Entity\LoginAggregateFullInterface;
 use Events\Model\Repository\EnrollRepo;
 use Status\Model\Repository\StatusSecurityRepo;
-use Events\Model\Repository\VisitorDataRepo;
+use Events\Model\Repository\VisitorProfileRepo;
 
 use Pes\Text\Html;
 use Pes\Text\Text;
@@ -26,7 +26,7 @@ if (isset($loginAggregate)) {
 // poue pro default roli 'visitor'
 if (isset($role) AND $role==(Configuration::loginLogoutController()['roleVisitor'])) {
 
-    $visitorDataRepo = $container->get(VisitorDataRepo::class);
+    $visitorDataRepo = $container->get(VisitorProfileRepo::class);
     $visitorData = $visitorDataRepo->get($loginName);
 
     $enrollRepo = $container->get(EnrollRepo::class);
