@@ -69,6 +69,10 @@ use Events\Model\Dao\VisitorProfileDao;
 use Events\Model\Hydrator\VisitorProfileHydrator;
 use Events\Model\Repository\VisitorProfileRepo;
 
+use Events\Model\Dao\DocumentDao;
+use Events\Model\Hydrator\DocumentHydrator;
+use Events\Model\Repository\DocumentRepo;
+
 // database
 use Pes\Database\Handler\Account;
 use Pes\Database\Handler\AccountInterface;
@@ -305,6 +309,17 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             VisitorProfileRepo::class => function(ContainerInterface $c) {
                 return new VisitorProfileRepo($c->get(VisitorProfileDao::class), $c->get(VisitorProfileHydrator::class));
             },
+
+            DocumentDao::class => function(ContainerInterface $c) {
+                return new DocumentDao($c->get(Handler::class), PdoRowData::class);
+            },
+            DocumentHydrator::class => function(ContainerInterface $c) {
+                return new DocumentHydrator();
+            },
+            DocumentRepo::class => function(ContainerInterface $c) {
+                return new DocumentRepo($c->get(DocumentDao::class), $c->get(DocumentHydrator::class));
+            },
+
         ];
     }
 
