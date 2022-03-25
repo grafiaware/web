@@ -8,23 +8,20 @@ use Model\Dao\DaoKeyDbVerifiedInterface;
 use Model\RowData\RowDataInterface;
 use Model\Dao\DaoAutoincrementKeyInterface;
 
-use Model\Dao\Exception\DaoForbiddenOperationException;
-use Events\Model\Dao\InstitutionDaoInterface;
+use Events\Model\Dao\InstitutionTypeDaoInterface;
 use Model\Dao\LastInsertIdTrait;
 
 
-
 /**
- * Description of InstitutionDao
+ * Description of InstitutionTypeDao
  *
  * @author vlse2610
  */
-class InstitutionDao  extends DaoTableAbstract implements  InstitutionDaoInterface {
-
+class InstitutionTypeDao extends DaoTableAbstract implements  InstitutionTypeDaoInterface { 
     use LastInsertIdTrait;
 
     /**
-     * Vrací jednu řádku tabulky 'institution' ve formě asociativního pole podle primárního klíče.
+     * Vrací jednu řádku tabulky 'institution_type' ve formě asociativního pole podle primárního klíče.
      *
      * @param string $id Hodnota primárního klíče
      * @return array Asociativní pole
@@ -32,36 +29,35 @@ class InstitutionDao  extends DaoTableAbstract implements  InstitutionDaoInterfa
      */
     public function get($id) {
         $select = $this->select("
-            `institution`.`id`,
-            `institution`.`name`,
-            `institution`.`institution_type_id`
+            `institution_type`.`id`,
+            `institution_type`.`institution_type`
             ");
-        $from = $this->from("`events`.`institution`");
-        $where = $this->where("`institution`.`id` = :id");
+        $from = $this->from("`events`.`institution_type`");
+        $where = $this->where("`institution_type`.`id` = :id");
         $touplesToBind = [':id' => $id];
         return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
     public function find($whereClause="", $touplesToBind=[]) {
         $select = $this->select("
-            `institution`.`id`,
-            `institution`.`name`,
-            `institution`.`institution_type_id`
+            `institution_type`.`id`,
+            `institution_type`.`institution_type`
             ");
-        $from = $this->from("`events`.`institution`");
+        $from = $this->from("`events`.`institution_type`");
         $where = $this->where($whereClause);
         return $this->selectMany($select, $from, $where, $touplesToBind);
     }
 
     public function insert(RowDataInterface $rowData) {
-        return $this->execInsert('institution', $rowData);
+        return $this->execInsert('institution_type', $rowData);
     }
 
     public function update(RowDataInterface $rowData) {
-        return $this->execUpdate('institution', ['id'], $rowData);
+        return $this->execUpdate('institution_type', ['id'], $rowData);
     }
 
     public function delete(RowDataInterface $rowData) {
-        return $this->execDelete('institution', ['id'], $rowData);
+        return $this->execDelete('institution_type', ['id'], $rowData);
     }
-}
+    
+}    

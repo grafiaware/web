@@ -15,7 +15,7 @@ use Model\RowData\RowDataInterface;
 use Events\Model\Entity\EventContentInterface;
 
 /**
- * Description of EventHydrator
+ * Description of EventContentHydrator
  *
  * @author pes2704
  */

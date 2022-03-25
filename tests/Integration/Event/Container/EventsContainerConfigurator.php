@@ -42,15 +42,24 @@ use Events\Model\Repository\EventContentRepo;
 
 use Events\Model\Dao\EventLinkDao;
 use Events\Model\Hydrator\EventLinkHydrator;
-//use Events\Model\Repository\EventLinkRepo;
+use Events\Model\Repository\EventLinkRepo;
 
 use Events\Model\Dao\EventLinkPhaseDao;
 use Events\Model\Hydrator\EventLinkPhaseHydrator;
-//use Events\Model\Repository\EventLinkRepo;
+use Events\Model\Repository\EventLinkPhaseRepo;
 
 use Events\Model\Dao\EventPresentationDao;
 use Events\Model\Hydrator\EventPresentationHydrator;
 use Events\Model\Repository\EventPresentationRepo;
+
+use Events\Model\Dao\InstitutionDao;
+use Events\Model\Hydrator\InstitutionHydrator;
+use Events\Model\Repository\InstitutionRepo;
+
+use Events\Model\Dao\InstitutionTypeDao;
+use Events\Model\Hydrator\InstitutionTypeHydrator;
+use Events\Model\Repository\InstitutionTypeRepo;
+
 
 use Events\Model\Dao\VisitorDao;
 use Events\Model\Hydrator\VisitorHydrator;
@@ -251,7 +260,32 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             EventPresentationRepo::class => function(ContainerInterface $c) {
                 return new EventPresentationRepo($c->get(EventPresentationDao::class), $c->get(EventPresentationHydrator::class));
             },
-
+                    
+            //Institution        
+            InstitutionDao::class => function(ContainerInterface $c) {
+                return new InstitutionDao($c->get(Handler::class), PdoRowData::class);
+            },
+            InstitutionHydrator::class => function(ContainerInterface $c) {
+                return new InstitutionHydrator();
+            },
+            InstitutionRepo::class => function(ContainerInterface $c) {
+                return new InstitutionRepo($c->get(InstitutionDao::class), $c->get(InstitutionHydrator::class));
+            },    
+                    
+             //InstitutionType    
+            InstitutionTypeDao::class => function(ContainerInterface $c) {
+                return new InstitutionTypeDao($c->get(Handler::class), PdoRowData::class);
+            },
+            InstitutionTypeHydrator::class => function(ContainerInterface $c) {
+                return new InstitutionTypeHydrator();
+            },
+            InstitutionTypeRepo::class => function(ContainerInterface $c) {
+                return new InstitutionTypeRepo($c->get(InstitutionTypeDao::class), $c->get(InstitutionTypeHydrator::class));
+            },      
+                    
+                    
+                    
+            //Visitor
             VisitorDao::class => function(ContainerInterface $c) {
                 return new VisitorDao($c->get(Handler::class), PdoRowData::class);
             },
