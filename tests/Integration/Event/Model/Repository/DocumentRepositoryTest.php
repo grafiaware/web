@@ -44,12 +44,18 @@ class DocumentRepositoryTest extends AppRunner {
 
     private static $idCv;
     private static $idLetter;
+    private static $idCvAdded;
 
     public static function setUpBeforeClass(): void {
         self::bootstrapBeforeClass();
+        $container =
+            (new EventsContainerConfigurator())->configure(
+                (new DbEventsContainerConfigurator())->configure(new Container())
+            );
+        self::insertRecords($container);
     }
 
-    private static function insertRecord(Container $container) {
+    private static function insertRecords(Container $container) {
         /** @var DocumentDao $documentDao */
         $documentDao = $container->get(DocumentDao::class);
         $finfo = finfo_open(FILEINFO_MIME_TYPE); // return mime type ala mimetype extension
@@ -71,30 +77,24 @@ class DocumentRepositoryTest extends AppRunner {
             'document_mimetype' => $cvMime,
         ]);
         $documentDao->insert($rowData);
-        self::$idCv = (int) $documentDao->getLastInsertedId();
+        self::$idCv = (int) $documentDao->getLastInsertId();
         $rowData = new RowData([
             'document' => $letterContent,
             'document_filename' => $letterFilepathName,
             'document_mimetype' => $letterMime,
         ]);
         $documentDao->insert($rowData);
-        self::$idLetter = (int) $documentDao->getLastInsertedId();
+        self::$idLetter = (int) $documentDao->getLastInsertId();
     }
 
     private static function deleteRecords(Container $container) {
-        /** @var VisitorProfileDao $visitorDataDao */
-        $visitorDataDao = $container->get(VisitorProfileDao::class);
+        /** @var DocumentDao $documentDao */
+        $documentDao = $container->get(DocumentDao::class);
 
-        $cvFilename = "CV.doc";
-        $letterFilename = "DOPIS.doc";
-
-        $rows = $visitorDataDao->find("document_filename LIKE '%$cvFilename'", []);
+        $dir = __DIR__;
+        $rows = $documentDao->find("document_filename LIKE '$dir%'", []);
         foreach($rows as $row) {
-            $visitorDataDao->delete($row);
-        }
-        $rows = $visitorDataDao->find("document_filename LIKE '%$letterFilename'", []);
-        foreach($rows as $row) {
-            $visitorDataDao->delete($row);
+            $documentDao->delete($row);
         }
     }
 
@@ -103,7 +103,7 @@ class DocumentRepositoryTest extends AppRunner {
             (new EventsContainerConfigurator())->configure(
                 (new DbEventsContainerConfigurator())->configure(new Container())
             );
-        $this->DocumentRepo = $this->container->get(VisitorProfileRepo::class);
+        $this->DocumentRepo = $this->container->get(DocumentRepo::class);
     }
 
     protected function tearDown(): void {
@@ -130,7 +130,7 @@ class DocumentRepositoryTest extends AppRunner {
 
     public function testGetAfterSetup() {
         $visitorProfile = $this->DocumentRepo->get(self::$idCv);    // !!!! jenom po insertu v setUp - hodnotu vrací dao
-        $this->assertInstanceOf(VisitorProfile::class, $visitorProfile);
+        $this->assertInstanceOf(Document::class, $visitorProfile);
     }
 
     public function testAdd() {
@@ -147,31 +147,30 @@ class DocumentRepositoryTest extends AppRunner {
         $document->setDocumentFilename($filepathName);
 
         $this->DocumentRepo->add($document);
-        $this->assertTrue($document->isLocked());
-        self::$visitorProfileAdded = $document;
+        $this->assertTrue($document->isPersisted());  // DocumentDao je DaoAutoincrementKeyInterface, k zápisu dojde ihned
 
 //        $cvFinfo = new \SplFileInfo($cvFilepathName);
 //        $file = $cvFinfo->openFile();
     }
 
-    public function testGetAfterAdd() {
-        $visitorProfile = $this->DocumentRepo->get(self::$loginNameAdded);
-        $this->assertInstanceOf(VisitorProfile::class, $visitorProfile);
-    }
-
     public function testAddAndReread() {
-        $loginName = self::insertLoginRecord($this->container);
+        $document = new Document();
+        $cvFilename = "CV.doc";
+        $letterFilename = "DOPIS.doc";
 
-        $visitorProfile = new VisitorProfile();
-        $visitorProfile->setLoginLoginName($loginName);
-        $visitorProfile->setPrefix("Trdlo.");
-        $visitorProfile->setName("Julián");
-        $visitorProfile->setSurname("Bublifuk");
-        $this->DocumentRepo->add($visitorProfile);
+        $filepathName = __DIR__."/".$cvFilename;
+        $finfo = finfo_open(FILEINFO_MIME_TYPE); // return mime type ala mimetype extension
+        $mime = finfo_file($finfo, $filepathName);
+        $content = file_get_contents($filepathName);
+        $document->setDocument($content);
+        $document->setDocumentMimetype($mime);
+        $document->setDocumentFilename($filepathName);
+
+        $this->DocumentRepo->add($document);
         $this->DocumentRepo->flush();
-        $visitorProfileRereaded = $this->DocumentRepo->get($loginName);
-        $this->assertInstanceOf(VisitorProfile::class, $visitorProfileRereaded);
-        $this->assertTrue($visitorProfileRereaded->isPersisted());
+        $documentRereaded = $this->DocumentRepo->get($document->getId());
+        $this->assertInstanceOf(Document::class, $documentRereaded);
+        $this->assertTrue($documentRereaded->isPersisted());
     }
 
     public function testFindAll() {
@@ -180,22 +179,22 @@ class DocumentRepositoryTest extends AppRunner {
     }
 
     public function testFind() {
-        $prefix = self::$loginNamePrefix;
-        $visitorsProfile = $this->DocumentRepo->find("login_login_name LIKE '$prefix%'", []);
-        $this->assertTrue(is_array($visitorsProfile));
+        $dir = __DIR__;
+        $documents = $this->DocumentRepo->find("document_filename LIKE '$dir%'", []);
+        $this->assertTrue(is_array($documents));
     }
 
     public function testRemove() {
-        $visitorProfile = $this->DocumentRepo->get(self::$idCv);    // !!!! jenom po insertu v setUp - hodnotu vrací dao
-        $this->assertInstanceOf(VisitorProfile::class, $visitorProfile);
-        $this->DocumentRepo->remove($visitorProfile);
-        $this->assertFalse($visitorProfile->isPersisted());
-        $this->assertTrue($visitorProfile->isLocked());   // maže až při flush
+        $document = $this->DocumentRepo->get(self::$idCv);    // !!!! jenom po insertu v setUp - hodnotu vrací dao
+        $this->assertInstanceOf(Document::class, $document);
+        $this->DocumentRepo->remove($document);
+        $this->assertFalse($document->isPersisted());
+        $this->assertTrue($document->isLocked());   // maže až při flush
         $this->DocumentRepo->flush();
-        $this->assertFalse($visitorProfile->isLocked());
+        $this->assertFalse($document->isLocked());
         // pokus o čtení
-        $visitorProfile = $this->DocumentRepo->get(self::$idCv);
-        $this->assertNull($visitorProfile);
+        $document = $this->DocumentRepo->get(self::$idCv);
+        $this->assertNull($document);
     }
 
 }

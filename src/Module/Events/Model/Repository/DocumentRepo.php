@@ -39,6 +39,10 @@ class DocumentRepo extends RepoAbstract implements DocumentRepoInterface {
         return $this->getEntity($id);
     }
 
+    public function find($whereClause=null, $touplesToBind=[]) {
+        return $this->findEntities($whereClause, $touplesToBind);
+    }
+    
     public function findAll() {
         return $this->findEntities();
     }

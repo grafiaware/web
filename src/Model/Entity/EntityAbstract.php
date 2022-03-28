@@ -13,7 +13,7 @@ namespace Model\Entity;
  *
  * @author pes2704
  */
-abstract class EntityAbstract implements EntityInterface {
+abstract class EntityAbstract implements EntitySingletonInterface {
 
     private $persisted = false;
 

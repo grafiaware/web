@@ -42,7 +42,7 @@ class DocumentHydrator implements HydratorInterface {
      */
     public function extract(EntityInterface $document, RowDataInterface $rowData) {
         /** @var DocumentInterface $document */
-            $rowData->offsetSet('id', $document->getId());
+//            $rowData->offsetSet('id', $document->getId() ?? null);   // id je autoincrement
             $rowData->offsetSet('document', $document->getDocument());
             $rowData->offsetSet('document_filename', $document->getDocumentFilename());
             $rowData->offsetSet('document_mimetype', $document->getDocumentMimetype());

@@ -18,15 +18,6 @@ use Model\RowData\RowDataInterface;
  */
 class VisitorProfileDao extends DaoTableAbstract {
 
-    /**
-     * Pro tabulky s auto increment id.
-     *
-     * @return type
-     */
-    public function getLastInsertedId() {
-        return $this->getLastInsertedId();
-    }
-
     public function get($loginName) {
         $select = $this->select("
     `visitor_profile`.`login_login_name`,

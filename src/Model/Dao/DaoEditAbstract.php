@@ -9,18 +9,17 @@
 namespace Model\Dao;
 
 use Model\RowData\RowDataInterface;
-use Model\RowData\Filter\NominateFilter;
 
 use Model\Dao\Exception\DaoUnexpectecCallOutOfTransactionException;
 use Model\Dao\Exception\DaoKeyVerificationFailedException;
+use Model\Dao\DaoAutoincrementKeyInterface;
+
 /**
  * Description of DaoEditAbstract
  *
  * @author pes2704
  */
 abstract class DaoEditAbstract extends DaoReadonlyAbstract {
-
-    protected $lastInsertRowCount;
 
     protected $rowCount;
 
@@ -104,8 +103,7 @@ abstract class DaoEditAbstract extends DaoReadonlyAbstract {
         $statement = $this->getPreparedStatement($sql);
         $this->bindParams($statement, $rowData, $changedNames);
         $success = $statement->execute();
-        $this->lastInsertRowCount = $statement->rowCount();
-        $this->rowCount = $this->lastInsertRowCount;
+        $this->rowCount = $statement->rowCount();
         return $success ?? false;
     }
 

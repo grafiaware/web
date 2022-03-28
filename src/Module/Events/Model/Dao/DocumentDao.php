@@ -9,6 +9,9 @@
 namespace Events\Model\Dao;
 
 use Model\Dao\DaoTableAbstract;
+use Model\Dao\DaoAutoincrementKeyInterface;
+use Model\Dao\DaoAutoincrementTrait;
+
 use Model\RowData\RowDataInterface;
 
 /**
@@ -16,15 +19,15 @@ use Model\RowData\RowDataInterface;
  *
  * @author pes2704
  */
-class DocumentDao extends DaoTableAbstract {
+class DocumentDao extends DaoTableAbstract implements DaoAutoincrementKeyInterface {
 
-    /**
-     * Pro tabulky s auto increment id.
-     *
-     * @return type
-     */
-    public function getLastInsertedId() {
-        return $this->getLastInsertedId();
+    use DaoAutoincrementTrait;
+    
+//TODO: název tabulky -> do sql, getKeyAttribute do insert, update, delete; getKeyAttribute do where v get: get(...$id) a skutečné proměnné přiřadit do pole podle jmen polí atributu, s polem volat where
+    private $keyAttribute = 'id';
+
+    public function getKeyAttribute() {
+        return $this->keyAttribute;
     }
 
     public function get($id) {

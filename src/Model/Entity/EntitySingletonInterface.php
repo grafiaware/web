@@ -14,4 +14,25 @@ namespace Model\Entity;
  * @author pes2704
  */
 interface EntitySingletonInterface {
+
+    public function setPersisted(): EntityInterface;
+
+    /**
+     *
+     * @return \Model\Entity\EntityInterface
+     */
+    public function setUnpersisted(): EntityInterface;
+
+    /**
+     *
+     * @return bool
+     */
+    public function isPersisted():bool;
+
+    public function lock(): EntityInterface;
+
+    public function unlock(): EntityInterface;
+
+    public function isLocked(): bool;
+
 }

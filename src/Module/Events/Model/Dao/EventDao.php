@@ -3,7 +3,8 @@
 namespace Events\Model\Dao;
 
 use Model\Dao\DaoContextualAbstract;
-use Model\Dao\LastInsertIdTrait;
+use Model\Dao\DaoAutoincrementKeyInterface;
+use Model\Dao\DaoAutoincrementTrait;
 use Model\RowData\RowDataInterface;
 
 use Events\Model\Dao\EventDaoInterface;
@@ -15,7 +16,7 @@ use Events\Model\Dao\EventDaoInterface;
  */
 class EventDao extends DaoContextualAbstract implements EventDaoInterface {
 
-    use LastInsertIdTrait;
+    use DaoAutoincrementTrait;
 
 
     protected function getContextConditions() {

@@ -11,7 +11,7 @@ namespace Events\Model\Dao;
 
 use Model\Dao\DaoTableAbstract;
 use Model\Dao\DaoAutoincrementKeyInterface;
-use \Model\Dao\LastInsertIdTrait;
+use \Model\Dao\DaoAutoincrementTrait;
 use Model\RowData\RowDataInterface;
 
 /**
@@ -21,7 +21,7 @@ use Model\RowData\RowDataInterface;
  */
 class EventContentDao extends DaoTableAbstract implements DaoAutoincrementKeyInterface {
 
-    use LastInsertIdTrait;
+    use DaoAutoincrementTrait;
 
     /**
      * Vrací jednu řádku tabulky 'event_content' ve formě asociativního pole podle primárního klíče.

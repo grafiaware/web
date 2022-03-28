@@ -7,30 +7,11 @@ namespace Model\Entity;
  */
 
 /**
- *
+ * Interface entity, která se vyskytuje vevíce instancí odlišených od sebe identitou (klíčem).
+ * 
  * @author pes2704
  */
 interface EntityInterface extends EntitySingletonInterface {
-
-    public function setPersisted(): EntityInterface;
-
-    /**
-     *
-     * @return \Model\Entity\EntityInterface
-     */
-    public function setUnpersisted(): EntityInterface;
-
-    /**
-     *
-     * @return bool
-     */
-    public function isPersisted():bool;
-
-    public function lock(): EntityInterface;
-    
-    public function unlock(): EntityInterface;
-
-    public function isLocked(): bool;
 
     public function getKeyAttribute();
 }

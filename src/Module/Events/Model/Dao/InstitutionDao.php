@@ -21,7 +21,7 @@ use Model\Dao\LastInsertIdTrait;
  */
 class InstitutionDao  extends DaoTableAbstract implements  InstitutionDaoInterface {
 
-    use LastInsertIdTrait;
+    use DaoAutoincrementTrait;
 
     /**
      * Vrací jednu řádku tabulky 'institution' ve formě asociativního pole podle primárního klíče.

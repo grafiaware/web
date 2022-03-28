@@ -6,13 +6,13 @@
  * and open the template in the editor.
  */
 
-namespace Model\Dao;
+namespace Model\Dao\Exception;
 
 /**
+ * Description of DaoKeyVerificationFailedException
  *
  * @author pes2704
  */
-interface DaoReadonlyInterface {
-    public function getKeyAttribute();
+class DaoAutoicrementedKeyAttributeFieldNameException extends \LogicException implements DaoExceptionInterface {
 
 }
