@@ -2,8 +2,8 @@
 
 namespace Events\Model\Dao;
 
+use Model\Dao\DaoTableAbstract;
 
-use Model\Dao\DaoContextualAbstract;
 use \Model\Dao\DaoAutoincrementTrait;
 use Model\RowData\RowDataInterface;
 
@@ -15,7 +15,7 @@ use Events\Model\Dao\EventLinkPhaseDaoInterface;
  *
  * @author vlse2610
  */
-class EventLinkPhaseDao extends DaoContextualAbstract implements EventLinkPhaseDaoInterface {
+class EventLinkPhaseDao extends DaoTableAbstract implements EventLinkPhaseDaoInterface {
 
     use DaoAutoincrementTrait;
 
@@ -24,22 +24,6 @@ class EventLinkPhaseDao extends DaoContextualAbstract implements EventLinkPhaseD
     public function getKeyAttribute() {
         return $this->keyAttribute;
     }
-
-    protected function getContextConditions() {
-        $contextConditions = [];
-        if (isset($this->contextFactory)) {
-            $publishedContext = $this->contextFactory->createPublishedContext();
-            if ($publishedContext) {
-                if ($publishedContext->selectPublished()) {
-                    $contextConditions['published'] = "event.published = 1";
-                }
-            }
-        }
-
-        return $contextConditions;
-    }
-
-
 
     /**
      * Vrací jednu řádku tabulky 'event_link_phase' ve formě asociativního pole podle primárního klíče.
