@@ -9,6 +9,8 @@
 namespace Red\Model\Dao;
 
 use Model\Dao\DaoTableAbstract;
+use Model\Dao\DaoAutoincrementKeyInterface;
+use \Model\Dao\DaoAutoincrementTrait;
 use Model\RowData\RowDataInterface;
 
 /**
@@ -16,7 +18,15 @@ use Model\RowData\RowDataInterface;
  *
  * @author pes2704
  */
-class MultipageDao extends DaoTableAbstract {
+class MultipageDao extends DaoTableAbstract implements DaoAutoincrementKeyInterface {
+
+    use DaoAutoincrementTrait;
+
+    private $keyAttribute = 'id';
+
+    public function getKeyAttribute() {
+        return $this->keyAttribute;
+    }
 
     /**
      * Vrací jednu řádku tabulky 'multipage' ve formě asociativního pole podle primárního klíče.

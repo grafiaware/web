@@ -21,6 +21,12 @@ use Model\Dao\Exception\DaoForbiddenOperationException;
  */
 class MenuItemDao extends DaoContextualAbstract {
 
+    private $keyAttribute = ['lang_code_fk', 'uid_fk'];
+
+    public function getKeyAttribute() {
+        return $this->keyAttribute;
+    }
+
     /**
      *
      * @var ContextFactoryInterface

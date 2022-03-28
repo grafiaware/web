@@ -14,6 +14,12 @@ use Pes\Database\Handler\HandlerInterface;
  */
 class RegistrationDao extends DaoTableAbstract {
 
+    private $keyAttribute = 'login_name_fk';
+
+    public function getKeyAttribute() {
+        return $this->keyAttribute;
+    }
+
     public function get($loginNameFK) {
         $select = $this->select("
             `registration`.`login_name_fk`,

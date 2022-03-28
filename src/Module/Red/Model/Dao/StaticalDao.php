@@ -9,13 +9,23 @@
 namespace Red\Model\Dao;
 
 use Model\Dao\DaoTableAbstract;
+use Model\Dao\DaoAutoincrementKeyInterface;
+use \Model\Dao\DaoAutoincrementTrait;
 
 /**
  * Description of RsDao
  *
  * @author pes2704
  */
-class StaticalDao extends DaoTableAbstract {
+class StaticalDao extends DaoTableAbstract implements DaoAutoincrementKeyInterface {
+
+    use DaoAutoincrementTrait;
+
+    private $keyAttribute = 'id';
+
+    public function getKeyAttribute() {
+        return $this->keyAttribute;
+    }
 
     /**
      * Vrací jednu řádku tabulky 'paper' ve formě asociativního pole podle primárního klíče.

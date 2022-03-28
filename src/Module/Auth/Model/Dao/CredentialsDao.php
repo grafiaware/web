@@ -13,6 +13,12 @@ use Model\RowData\RowDataInterface;
  */
 class CredentialsDao extends DaoTableAbstract {
 
+    private $keyAttribute = 'login_name_fk';
+
+    public function getKeyAttribute() {
+        return $this->keyAttribute;
+    }
+
     /**
      *
      *

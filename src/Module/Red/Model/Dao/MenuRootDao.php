@@ -20,6 +20,12 @@ use Pes\Database\Handler\HandlerInterface;
  */
 class MenuRootDao extends DaoTableAbstract {
 
+    private $keyAttribute = 'name';
+
+    public function getKeyAttribute() {
+        return $this->keyAttribute;
+    }
+
     /**
      * Vrací asociativní pole.
      *
