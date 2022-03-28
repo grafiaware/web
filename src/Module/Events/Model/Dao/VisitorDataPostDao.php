@@ -23,6 +23,12 @@ use Model\RowData\RowDataInterface;
  */
 class VisitorDataPostDao extends DaoEditAbstract implements DaoKeyDbVerifiedInterface {
 
+    private $keyAttribute = 'login_name';
+
+    public function getKeyAttribute() {
+        return $this->keyAttribute;
+    }
+
     public function get($loginName, $shortName, $positionName) {
         $select = $this->select("
     `visitor_data_post`.`login_name`,

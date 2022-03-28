@@ -4,6 +4,7 @@ namespace Events\Model\Dao;
 use Model\Dao\DaoAutoincrementKeyInterface;
 use Model\Dao\DaoTableAbstract;
 
+use Model\Dao\DaoAutoincrementTrait;
 
 /**
  * Description of CompanyDao
@@ -12,15 +13,20 @@ use Model\Dao\DaoTableAbstract;
  */
 class CompanyDao  extends DaoTableAbstract implements  DaoAutoincrementKeyInterface {
 
-     use LastInsertIdTrait;
-     
-     
-       /**
+     use DaoAutoincrementTrait;
+
+    private $keyAttribute = 'id';
+
+    public function getKeyAttribute() {
+        return $this->keyAttribute;
+    }
+
+    /**
      * Vrací jednu řádku tabulky 'company' ve formě asociativního pole podle primárního klíče.
      *
      * @param string $id Hodnota primárního klíče
      * @return array Asociativní pole
-     */     
+     */
     public function get($id) {
         $select = $this->select("
             `company`.`id`,
@@ -55,5 +61,5 @@ class CompanyDao  extends DaoTableAbstract implements  DaoAutoincrementKeyInterf
     public function delete(RowDataInterface $rowData) {
         return $this->execDelete('company', ['id'], $rowData);
     }
-    
+
 }

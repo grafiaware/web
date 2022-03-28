@@ -23,6 +23,12 @@ use Model\Dao\Exception\DaoForbiddenOperationException;
  */
 class EventContentTypeDao extends DaoTableAbstract implements DaoKeyDbVerifiedInterface {
 
+    private $keyAttribute = 'type';
+
+    public function getKeyAttribute() {
+        return $this->keyAttribute;
+    }
+
     /**
      * Vrací jednu řádku tabulky 'event' ve formě asociativního pole podle primárního klíče.
      *

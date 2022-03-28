@@ -18,6 +18,12 @@ use Model\RowData\RowDataInterface;
  */
 class VisitorProfileDao extends DaoTableAbstract {
 
+    private $keyAttribute = 'login_login_name';
+
+    public function getKeyAttribute() {
+        return $this->keyAttribute;
+    }
+
     public function get($loginName) {
         $select = $this->select("
     `visitor_profile`.`login_login_name`,

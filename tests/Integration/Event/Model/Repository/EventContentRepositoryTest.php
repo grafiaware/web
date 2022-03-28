@@ -142,7 +142,7 @@ class EventContentRepositoryTest extends TestCase {
         $eventContent->setPerex("testEventContent Přednáška kjrhrkjh rkh rktjh erůjkhlkjhlkjhg welkfh ůh ů§h §h ů§fh lůfjkhů fkjh fůsdjefhů fhsůjh ksjh ůjh ůsdhdůfh sůheůrjheů");
         $eventContent->setTitle("testEventContentPřednáška");
         $this->eventContentRepo->add($eventContent);
-        $this->assertTrue($eventContent->isLocked());
+        $this->assertTrue($eventContent->isPersisted());
     }
 
 //    public function testFindAll() {

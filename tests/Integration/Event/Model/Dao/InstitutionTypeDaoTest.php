@@ -60,7 +60,7 @@ class InstitutionTypeDaoTest extends AppRunner {
         $rowData->offsetSet('institution_type', "testInstitutionTypeDao-tt--type");
         
         $this->dao->insert($rowData);
-        self::$id =  $this->dao->getLastInsertedId();
+        self::$id =  $this->dao->getLastInsertId();
         $this->assertGreaterThan(0, (int) self::$id);
         $numRows = $this->dao->getRowCount();
         $this->assertEquals(1, $numRows);

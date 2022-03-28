@@ -4,7 +4,7 @@ namespace Events\Model\Dao;
 
 
 use Model\Dao\DaoContextualAbstract;
-use Model\Dao\LastInsertIdTrait;
+use \Model\Dao\DaoAutoincrementTrait;
 use Model\RowData\RowDataInterface;
 
 use Events\Model\Dao\EventLinkPhaseDaoInterface;
@@ -16,8 +16,14 @@ use Events\Model\Dao\EventLinkPhaseDaoInterface;
  * @author vlse2610
  */
 class EventLinkPhaseDao extends DaoContextualAbstract implements EventLinkPhaseDaoInterface {
-     
-    use LastInsertIdTrait;
+
+    use DaoAutoincrementTrait;
+
+    private $keyAttribute = 'id';
+
+    public function getKeyAttribute() {
+        return $this->keyAttribute;
+    }
 
     protected function getContextConditions() {
         $contextConditions = [];
@@ -32,37 +38,37 @@ class EventLinkPhaseDao extends DaoContextualAbstract implements EventLinkPhaseD
 
         return $contextConditions;
     }
-    
-    
-    
+
+
+
     /**
      * Vrací jednu řádku tabulky 'event_link_phase' ve formě asociativního pole podle primárního klíče.
      *
      * @param int $id Hodnota primárního klíče
      * @return array Asociativní pole
-     */   
+     */
     public function get( $id) {
-  
+
         $select = $this->select("
             `event_link_phase`.`id`,
-            `event_link_phase`.`text`             
+            `event_link_phase`.`text`
             ");
         $from = $this->from("`event_link_phase`");
         $where = $this->where("`event_link_phase`.`id` = :id");
         $touplesToBind = [':id' => $id];
         return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
-    
+
     public function getOutOfContext(...$id) {
         ;
     }
-    
-    
-     
+
+
+
     public function find($whereClause="", $touplesToBind=[]) {
         $select = $this->select("
             `event_link_phase`.`id`,
-            `event_link_phase`.`text`      
+            `event_link_phase`.`text`
             ");
         $from = $this->from("`event_link_phase`");
         $where = $this->where($this->and($this->getContextConditions(), $whereClause));
@@ -80,7 +86,7 @@ class EventLinkPhaseDao extends DaoContextualAbstract implements EventLinkPhaseD
     public function delete(RowDataInterface $rowData) {
         return $this->execDelete('event_link_phase', ['id'], $rowData);
     }
-    
-    
-    
+
+
+
 }

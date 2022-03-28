@@ -20,10 +20,10 @@ use Model\RowData\RowDataInterface;
  * @author pes2704
  */
 class DocumentDao extends DaoTableAbstract implements DaoAutoincrementKeyInterface {
+//TODO: název tabulky -> do sql, getKeyAttribute do insert, update, delete; getKeyAttribute do where v get: get(...$id) a skutečné proměnné přiřadit do pole podle jmen polí atributu, s polem volat where
 
     use DaoAutoincrementTrait;
-    
-//TODO: název tabulky -> do sql, getKeyAttribute do insert, update, delete; getKeyAttribute do where v get: get(...$id) a skutečné proměnné přiřadit do pole podle jmen polí atributu, s polem volat where
+
     private $keyAttribute = 'id';
 
     public function getKeyAttribute() {

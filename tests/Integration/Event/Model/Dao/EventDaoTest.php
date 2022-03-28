@@ -64,7 +64,7 @@ class EventDaoTest extends AppRunner {
         $rowData->offsetSet('event_content_id_fk', null);
      
         $this->dao->insert($rowData);
-        self::$id =  $this->dao->getLastInsertedId();
+        self::$id =  $this->dao->getLastInsertId();
         $this->assertGreaterThan(0, (int) self::$id);
         $numRows = $this->dao->getRowCount();
         $this->assertEquals(1, $numRows);
@@ -129,7 +129,7 @@ class EventDaoTest extends AppRunner {
         $rowData->offsetSet('event_content_id_fk', 100);
      
         $this->dao->insert($rowData);
-        $lastId = $this->dao->getLastInsertedId();
+        $lastId = $this->dao->getLastInsertId();
         $this->assertGreaterThan(0, (int) $lastId);
 
         $eventRow = $this->dao->getByEventContentIdFk(100);

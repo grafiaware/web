@@ -2,7 +2,7 @@
 namespace Events\Model\Dao;
 
 use Model\Dao\DaoContextualAbstract;
-use Model\Dao\LastInsertIdTrait;
+use Model\Dao\DaoAutoincrementTrait;
 use Model\RowData\RowDataInterface;
 
 use Events\Model\Dao\EventLinkDaoInterface;
@@ -13,8 +13,14 @@ use Events\Model\Dao\EventLinkDaoInterface;
  * @author vlse2610
  */
 class EventLinkDao  extends DaoContextualAbstract implements EventLinkDaoInterface {
-    
-    use LastInsertIdTrait;
+
+    use DaoAutoincrementTrait;
+
+    private $keyAttribute = 'id';
+
+    public function getKeyAttribute() {
+        return $this->keyAttribute;
+    }
 
     protected function getContextConditions() {
         $contextConditions = [];
@@ -29,41 +35,37 @@ class EventLinkDao  extends DaoContextualAbstract implements EventLinkDaoInterfa
 
         return $contextConditions;
     }
-    
-    
-    
+
     /**
      * Vrací jednu řádku tabulky 'event_link' ve formě asociativního pole podle primárního klíče.
      *
      * @param int $id Hodnota primárního klíče
      * @return array Asociativní pole
-     */   
+     */
     public function get( $id) {
-  
+
         $select = $this->select("
             `event_link`.`id`,
             `event_link`.`show` ,
             `event_link`.`href`,
-            `event_link`.`link_phase_id_fk`  
+            `event_link`.`link_phase_id_fk`
             ");
         $from = $this->from("`event_link`");
         $where = $this->where("`event_link`.`id` = :id");
         $touplesToBind = [':id' => $id];
         return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
-    
+
     public function getOutOfContext(...$id) {
         ;
     }
-    
-    
-     
+
     public function find($whereClause="", $touplesToBind=[]) {
         $select = $this->select("
             `event_link`.`id`,
             `event_link`.`show` ,
             `event_link`.`href`,
-            `event_link`.`link_phase_id_fk`  
+            `event_link`.`link_phase_id_fk`
             ");
         $from = $this->from("`event_link` ");
         $where = $this->where($this->and($this->getContextConditions(), $whereClause));
@@ -82,6 +84,6 @@ class EventLinkDao  extends DaoContextualAbstract implements EventLinkDaoInterfa
         return $this->execDelete('event_link', ['id'], $rowData);
     }
 
- 
-    
+
+
 }

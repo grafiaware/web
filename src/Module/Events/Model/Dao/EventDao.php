@@ -3,7 +3,6 @@
 namespace Events\Model\Dao;
 
 use Model\Dao\DaoContextualAbstract;
-use Model\Dao\DaoAutoincrementKeyInterface;
 use Model\Dao\DaoAutoincrementTrait;
 use Model\RowData\RowDataInterface;
 
@@ -18,6 +17,11 @@ class EventDao extends DaoContextualAbstract implements EventDaoInterface {
 
     use DaoAutoincrementTrait;
 
+    private $keyAttribute = 'id';
+
+    public function getKeyAttribute() {
+        return $this->keyAttribute;
+    }
 
     protected function getContextConditions() {
         $contextConditions = [];
@@ -38,7 +42,7 @@ class EventDao extends DaoContextualAbstract implements EventDaoInterface {
      *
      * @param int $id Hodnota primárního klíče
      * @return array Asociativní pole
-     */   
+     */
     public function get( $id) {
         $select = $this->select("
             `event`.`id`,
@@ -46,7 +50,7 @@ class EventDao extends DaoContextualAbstract implements EventDaoInterface {
             `event`.`start`,
             `event`.`end`,
             `event`.`enroll_link_id_fk`,
-            `event`.`enter_link_id_fk`,            
+            `event`.`enter_link_id_fk`,
             `event`.`event_content_id_fk`
             ");
         $from = $this->from("`event`");
@@ -54,14 +58,14 @@ class EventDao extends DaoContextualAbstract implements EventDaoInterface {
         $touplesToBind = [':id' => $id];
         return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
-    
+
     public function getOutOfContext(...$id) {
         ;
     }
 
-    
+
     /**
-     * 
+     *
      * @param type $eventContentIdFk
      * @return array
      */
@@ -72,7 +76,7 @@ class EventDao extends DaoContextualAbstract implements EventDaoInterface {
             `event`.`start`,
             `event`.`end`,
             `event`.`enroll_link_id_fk`,
-            `event`.`enter_link_id_fk`,           
+            `event`.`enter_link_id_fk`,
             `event`.`event_content_id_fk`
             ");
         $from = $this->from("`event`");
@@ -80,10 +84,10 @@ class EventDao extends DaoContextualAbstract implements EventDaoInterface {
         $touplesToBind = [':event_content_id_fk' => $eventContentIdFk];
         return $this->selectMany($select, $from, $where, $touplesToBind, true);
     }
-   
-    
-    
-    
+
+
+
+
     public function find($whereClause="", $touplesToBind=[]) {
         $select = $this->select("
             `event`.`id`,
@@ -91,7 +95,7 @@ class EventDao extends DaoContextualAbstract implements EventDaoInterface {
             `event`.`start`,
             `event`.`end`,
             `event`.`enroll_link_id_fk`,
-            `event`.`enter_link_id_fk`,           
+            `event`.`enter_link_id_fk`,
             `event`.`event_content_id_fk`
             ");
         $from = $this->from("`event`");

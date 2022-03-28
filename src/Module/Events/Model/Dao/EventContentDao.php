@@ -11,7 +11,8 @@ namespace Events\Model\Dao;
 
 use Model\Dao\DaoTableAbstract;
 use Model\Dao\DaoAutoincrementKeyInterface;
-use \Model\Dao\DaoAutoincrementTrait;
+use Model\Dao\DaoAutoincrementTrait;
+
 use Model\RowData\RowDataInterface;
 
 /**
@@ -22,6 +23,12 @@ use Model\RowData\RowDataInterface;
 class EventContentDao extends DaoTableAbstract implements DaoAutoincrementKeyInterface {
 
     use DaoAutoincrementTrait;
+
+    private $keyAttribute = 'id';
+
+    public function getKeyAttribute() {
+        return $this->keyAttribute;
+    }
 
     /**
      * Vrací jednu řádku tabulky 'event_content' ve formě asociativního pole podle primárního klíče.

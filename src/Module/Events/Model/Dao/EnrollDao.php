@@ -18,6 +18,12 @@ use Model\RowData\RowDataInterface;
  */
 class EnrollDao extends DaoTableAbstract {
 
+    private $keyAttribute = 'login_login_name_fk';
+
+    public function getKeyAttribute() {
+        return $this->keyAttribute;
+    }
+
     public function get($loginLoginNameFk) {
         $select = $this->select("
             `enroll`.`login_login_name_fk`,

@@ -72,7 +72,7 @@ class EventRepositoryTest extends TestCase {
         $rowData->offsetSet('start', self::$startTimestamp);
         $rowData->offsetSet('end', (new \DateTime())->modify("+24 hours")->format('Y-m-d H:i:s'));
         $eventDao->insert($rowData);
-        self::$id = $eventDao->getLastInsertedId();
+        self::$id = $eventDao->getLastInsertId();
     }
 
     private static function deleteRecords(Container $container) {
@@ -136,7 +136,7 @@ class EventRepositoryTest extends TestCase {
         $event->setStart((new\DateTime())->setDate(1999, 7, 11)->setTime(14, 55));
         $event->setEnd( ( clone $event->getStart())->modify("+1 hour"));
         $this->eventRepo->add($event);
-        $this->assertTrue($event->isLocked());
+        $this->assertTrue($event->isPersisted());
     }
 
     public function testFindAll() {

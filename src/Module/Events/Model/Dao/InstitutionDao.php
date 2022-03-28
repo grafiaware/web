@@ -1,16 +1,11 @@
 <?php
 namespace Events\Model\Dao;
 
-use Pes\Database\Handler\HandlerInterface;
-
 use Model\Dao\DaoTableAbstract;
-use Model\Dao\DaoKeyDbVerifiedInterface;
 use Model\RowData\RowDataInterface;
-use Model\Dao\DaoAutoincrementKeyInterface;
 
-use Model\Dao\Exception\DaoForbiddenOperationException;
 use Events\Model\Dao\InstitutionDaoInterface;
-use Model\Dao\LastInsertIdTrait;
+use Model\Dao\DaoAutoincrementTrait;
 
 
 
@@ -22,6 +17,12 @@ use Model\Dao\LastInsertIdTrait;
 class InstitutionDao  extends DaoTableAbstract implements  InstitutionDaoInterface {
 
     use DaoAutoincrementTrait;
+
+    private $keyAttribute = 'id';
+
+    public function getKeyAttribute() {
+        return $this->keyAttribute;
+    }
 
     /**
      * Vrací jednu řádku tabulky 'institution' ve formě asociativního pole podle primárního klíče.

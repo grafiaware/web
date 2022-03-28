@@ -70,10 +70,10 @@ class EnrollDaoTest extends AppRunner {
         $eventDao = $container->get(EventDao::class);
         $eventData = new RowData(["published" => 1]);
         $eventDao->insert($eventData);  // id je autoincrement
-        self::$event_id_fk = $eventDao->getLastInsertedId();
+        self::$event_id_fk = $eventDao->getLastInsertId();
         $eventData = new RowData(["published" => 1]);
         $eventDao->insert($eventData);  // id je autoincrement
-        self::$event_id_fk_2 = $eventDao->getLastInsertedId();
+        self::$event_id_fk_2 = $eventDao->getLastInsertId();
     }
 
     protected function setUp(): void {

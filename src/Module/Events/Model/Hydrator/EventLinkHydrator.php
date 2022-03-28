@@ -6,7 +6,7 @@ use Model\Hydrator\HydratorInterface;
 use Model\Entity\EntityInterface;
 use Model\RowData\RowDataInterface;
 use Events\Model\Entity\EventLinkInterface;
-        
+
 
 /**
  * Description of EventLinkHydrator
@@ -17,10 +17,10 @@ class EventLinkHydrator implements HydratorInterface {
 //   `event_link`.`id` ,
 //   `event_link`.`show` ,
 //   `event_link`.`href`,
-//   `event_link`.`link_phase_id_fk`  
-    
+//   `event_link`.`link_phase_id_fk`
+
     /**
-     * 
+     *
      * @param EntityInterface $eventLink
      * @param RowDataInterface $rowData
      */
@@ -40,7 +40,7 @@ class EventLinkHydrator implements HydratorInterface {
      */
     public function extract(EntityInterface $eventLink, RowDataInterface $rowData) {
         /** @var EventLinkInterface $eventLink */
-        $rowData->offsetSet('id', $eventLink->getId()); // id je autoincrement - readonly, hodnota pro where
+        // id je autoincrement
         $rowData->offsetSet('show', $eventLink->getShow());
         $rowData->offsetSet('href', $eventLink->getHref());
         $rowData->offsetSet('link_phase_id_fk', $eventLink->getLinkPhaseIdFk());

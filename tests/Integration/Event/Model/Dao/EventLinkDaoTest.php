@@ -61,7 +61,7 @@ class EventLinkDaoTest extends AppRunner {
         $rowData->offsetSet('link_phase_id_fk', null);
      
         $this->dao->insert($rowData);
-        self::$id =  $this->dao->getLastInsertedId();
+        self::$id =  $this->dao->getLastInsertId();
         $this->assertGreaterThan(0, (int) self::$id);
         $numRows = $this->dao->getRowCount();
         $this->assertEquals(1, $numRows);

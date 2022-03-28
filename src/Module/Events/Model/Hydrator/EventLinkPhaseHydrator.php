@@ -14,15 +14,15 @@ use Events\Model\Entity\EventLinkPhaseInterface;
  * @author vlse2610
  */
 class EventLinkPhaseHydrator implements HydratorInterface {
-    
+
 //    `event_link_phase`.`id` ,
-//    `event_link_phase`.`text` 
-    
-    
-    
+//    `event_link_phase`.`text`
+
+
+
       public function hydrate(EntityInterface $eventLinkPhase, RowDataInterface $rowData) {
         /** @var EventLinkPhaseInterface $eventLinkPhase */
-        $eventLinkPhase       
+        $eventLinkPhase
             ->setId($rowData->offsetGet('id'))
             ->setText($rowData->offsetGet('text'));
     }
@@ -34,9 +34,9 @@ class EventLinkPhaseHydrator implements HydratorInterface {
      */
     public function extract(EntityInterface $event, RowDataInterface $rowData) {
         /** @var EventLinkPhaseInterface $eventLinkPhase */
-        $rowData->offsetSet('id', $eventLinkPhase->getId()); // id je autoincrement - readonly, hodnota pro where
+        // id je autoincrement
         $rowData->offsetSet('text', $eventLinkPhase->getText());
     }
 
-    
+
 }

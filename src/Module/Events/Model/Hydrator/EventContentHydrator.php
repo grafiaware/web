@@ -51,7 +51,7 @@ class EventContentHydrator implements HydratorInterface {
      */
     public function extract(EntityInterface $eventContent, RowDataInterface $rowData) {
         /** @var EventContentInterface $eventContent */
-        $rowData->offsetSet('id', $eventContent->getId()); // id je autoincrement - readonly, hodnota pro where
+        // id je autoincrement
         $rowData->offsetSet('title', $eventContent->getTitle());
         $rowData->offsetSet('perex', $eventContent->getPerex());
         $rowData->offsetSet('party', $eventContent->getParty());
