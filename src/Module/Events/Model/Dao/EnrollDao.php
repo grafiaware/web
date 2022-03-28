@@ -9,8 +9,6 @@
 namespace Events\Model\Dao;
 
 use Model\Dao\DaoTableAbstract;
-use Model\Dao\DaoAutoincrementKeyInterface;
-use \Model\Dao\LastInsertIdTrait;
 use Model\RowData\RowDataInterface;
 
 /**
@@ -18,38 +16,42 @@ use Model\RowData\RowDataInterface;
  *
  * @author pes2704
  */
-class EnrollDao extends DaoTableAbstract implements DaoAutoincrementKeyInterface {
+class EnrollDao extends DaoTableAbstract {
 
-    use LastInsertIdTrait;
+    private $keyAttribute = 'login_login_name_fk';
 
-    public function get($id) {
-        $select = $this->select("`enrolled`.`id`,
-                `enrolled`.`login_name`,
-                `enrolled`.`eventid`");
-        $from = $this->from("`enrolled`");
-        $where = $this->where("`enrolled`.`id` = :id");
-        $touples = [':id' => $id];
+    public function getKeyAttribute() {
+        return $this->keyAttribute;
+    }
+
+    public function get($loginLoginNameFk) {
+        $select = $this->select("
+            `enroll`.`login_login_name_fk`,
+            `enroll`.`event_id_fk`");
+        $from = $this->from("`enroll`");
+        $where = $this->where("`enroll`.`login_login_name_fk` = :login_login_name_fk");
+        $touples = [':login_login_name_fk' => $loginLoginNameFk];
         return $this->selectOne($select, $from, $where, $touples, true);
     }
 
     public function find($whereClause="", $touplesToBind=[]) {
-        $select = $this->select("`enrolled`.`id`,
-                `enrolled`.`login_name`,
-                `enrolled`.`eventid`");
-        $from = $this->from("`enrolled`");
+        $select = $this->select("
+            `enroll`.`login_login_name_fk`,
+            `enroll`.`event_id_fk`");
+        $from = $this->from("`enroll`");
         $where = $this->where($whereClause);
         return $this->selectMany($select, $from, $where, $touplesToBind);
     }
 
     public function insert(RowDataInterface $rowData) {
-        return $this->execInsert('enrolled', $rowData);
+        return $this->execInsert('enroll', $rowData);
     }
 
     public function update(RowDataInterface $rowData) {
-        return $this->execUpdate('enrolled', ['id'], $rowData);
+        return $this->execUpdate('enroll', ['login_login_name_fk'], $rowData);
     }
 
     public function delete(RowDataInterface $rowData) {
-        return $this->execDelete('enrolled', ['id'], $rowData);
+        return $this->execDelete('enroll', ['login_login_name_fk'], $rowData);
     }
 }

@@ -11,7 +11,8 @@ namespace Events\Model\Dao;
 
 use Model\Dao\DaoTableAbstract;
 use Model\Dao\DaoAutoincrementKeyInterface;
-use \Model\Dao\LastInsertIdTrait;
+use Model\Dao\DaoAutoincrementTrait;
+
 use Model\RowData\RowDataInterface;
 
 /**
@@ -21,12 +22,18 @@ use Model\RowData\RowDataInterface;
  */
 class EventContentDao extends DaoTableAbstract implements DaoAutoincrementKeyInterface {
 
-    use LastInsertIdTrait;
+    use DaoAutoincrementTrait;
+
+    private $keyAttribute = 'id';
+
+    public function getKeyAttribute() {
+        return $this->keyAttribute;
+    }
 
     /**
-     * Vrací jednu řádku tabulky 'event' ve formě asociativního pole podle primárního klíče.
+     * Vrací jednu řádku tabulky 'event_content' ve formě asociativního pole podle primárního klíče.
      *
-     * @param string $id Hodnota primárního klíče
+     * @param int $id Hodnota primárního klíče
      * @return array Asociativní pole
      * @throws StatementFailureException
      */
@@ -35,7 +42,7 @@ class EventContentDao extends DaoTableAbstract implements DaoAutoincrementKeyInt
             `event_content`.`title`,
             `event_content`.`perex`,
             `event_content`.`party`,
-            `event_content`.`event_content_type_type_fk`,
+            `event_content`.`event_content_type_fk`,
             `event_content`.`institution_id_fk`");
         $from = $this->from("`event_content`");
         $where = $this->where("`event_content`.`id` = :id");
@@ -50,7 +57,7 @@ class EventContentDao extends DaoTableAbstract implements DaoAutoincrementKeyInt
             `event_content`.`title`,
             `event_content`.`perex`,
             `event_content`.`party`,
-            `event_content`.`event_content_type_type_fk`,
+            `event_content`.`event_content_type_fk`,
             `event_content`.`institution_id_fk`
             ");
         $from = $this->from("`event_content` ");

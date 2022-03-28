@@ -15,7 +15,7 @@ use Model\RowData\RowDataInterface;
 use Events\Model\Entity\EventContentInterface;
 
 /**
- * Description of EventHydrator
+ * Description of EventContentHydrator
  *
  * @author pes2704
  */
@@ -40,7 +40,7 @@ class EventContentHydrator implements HydratorInterface {
             ->setTitle($rowData->offsetGet('title'))
             ->setPerex($rowData->offsetGet('perex'))
             ->setParty($rowData->offsetGet('party'))
-            ->setEventContentTypeTypeFk($rowData->offsetGet('event_content_type_type_fk'))
+            ->setEventContentTypeFk($rowData->offsetGet('event_content_type_fk'))
             ->setInstitutionIdFk($rowData->offsetGet('institution_id_fk'));
     }
 
@@ -51,11 +51,11 @@ class EventContentHydrator implements HydratorInterface {
      */
     public function extract(EntityInterface $eventContent, RowDataInterface $rowData) {
         /** @var EventContentInterface $eventContent */
-        $rowData->offsetSet('id', $eventContent->getId()); // id je autoincrement - readonly, hodnota pro where
+        // id je autoincrement
         $rowData->offsetSet('title', $eventContent->getTitle());
         $rowData->offsetSet('perex', $eventContent->getPerex());
         $rowData->offsetSet('party', $eventContent->getParty());
-        $rowData->offsetSet('event_content_type_type_fk', $eventContent->getEventContentTypeTypeFk());
+        $rowData->offsetSet('event_content_type_fk', $eventContent->getEventContentTypeFk());
         $rowData->offsetSet('institution_id_fk', $eventContent->getInstitutionIdFk());
     }
 

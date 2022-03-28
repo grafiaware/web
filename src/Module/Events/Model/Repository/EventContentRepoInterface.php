@@ -9,14 +9,28 @@
 namespace Events\Model\Repository;
 
 use Model\Repository\RepoInterface;
-
-use Events\Model\Entity\EventInterface;
+use Events\Model\Entity\EventContentInterface;
 
 /**
  *
  * @author pes2704
  */
 interface EventContentRepoInterface extends RepoInterface  {
+  /**
+     *
+     * @param string $id
+     * @return EventContentInterface|null
+     */
+    public function get($id): ?EventContentInterface ;
+   
 
+    public function findAll() :array ;
+    
 
+    public function add(EventContentInterface $eventContentType);
+    
+
+    public function remove(EventContentInterface $eventContent) ;
+    
+ 
 }

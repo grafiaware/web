@@ -24,6 +24,12 @@ use Model\Dao\Exception\DaoForbiddenOperationException;
  */
 class LoginDao extends DaoTableAbstract implements DaoKeyDbVerifiedInterface {
 
+    private $keyAttribute = 'login_name';
+
+    public function getKeyAttribute() {
+        return $this->keyAttribute;
+    }
+
     public function get($loginName) {
         $select = $this->select("`login`.`login_name`");
         $from = $this->from("`login`");

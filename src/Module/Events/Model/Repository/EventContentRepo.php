@@ -31,7 +31,7 @@ class EventContentRepo extends RepoAbstract implements EventContentRepoInterface
     }
 
     /**
-     *d
+     *
      * @param string $id
      * @return EventContentInterface|null
      */
@@ -39,7 +39,7 @@ class EventContentRepo extends RepoAbstract implements EventContentRepoInterface
         return $this->getEntity($id);
     }
 
-    public function findAll() {
+    public function findAll() :array {
         return $this->findEntities();
     }
 
@@ -51,7 +51,7 @@ class EventContentRepo extends RepoAbstract implements EventContentRepoInterface
         $this->removeEntity($eventContent);
     }
 
-    protected function createEntity() {
+    protected function createEntity() : EventContentInterface {
         return new EventContent();
     }
 

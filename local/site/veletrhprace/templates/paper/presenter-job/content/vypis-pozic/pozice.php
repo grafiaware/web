@@ -8,8 +8,8 @@ use Status\Model\Repository\StatusSecurityRepo;
 use Auth\Model\Entity\LoginAggregateFullInterface;
 
 use Events\Middleware\Events\Controller\VisitorDataController;
-use Events\Model\Repository\VisitorDataRepo;
-use Events\Model\Entity\VisitorDataInterface;
+use Events\Model\Repository\VisitorProfileRepo;
+use Events\Model\Entity\VisitorProfileInterface;
 use Events\Model\Repository\VisitorDataPostRepo;
 use Events\Model\Entity\VisitorDataPostInterface;
 
@@ -61,9 +61,9 @@ if (isset($loginAggregate)) {
     $isPresenter = (($role==Configuration::loginLogoutController()['rolePresenter']) AND ($presenterPerson['shortName']==$shortName));
 
     if ($isVisitor) {
-        /** @var VisitorDataRepo $visitorDataRepo */
-        $visitorDataRepo = $container->get(VisitorDataRepo::class);
-        /** @var VisitorDataInterface $visitorData */
+        /** @var VisitorProfileRepo $visitorDataRepo */
+        $visitorDataRepo = $container->get(VisitorProfileRepo::class);
+        /** @var VisitorProfileInterface $visitorData */
         $visitorData = $visitorDataRepo->get($loginName);
 
         /** @var VisitorDataPostInterface $visitorDataPost */

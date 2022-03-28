@@ -15,6 +15,7 @@ use Events\Model\Entity\Event;
 use Events\Model\Entity\EventInterface;
 
 use Events\Model\Dao\EventDao;
+use Events\Model\Repository\EventRepoInterface;
 
 /**
  * Description of MenuItemRepo
@@ -33,13 +34,13 @@ class EventRepo extends RepoAbstract implements EventRepoInterface {
     /**
      *
      * @param type $id
-     * @return LoginInterface|null
+     * @return EventInterface|null
      */
     public function get($id): ?EventInterface {
         return $this->getEntity($id);
     }
 
-    public function findAll() {
+    public function findAll(): array{
         return $this->findEntities();
     }
 

@@ -1,11 +1,6 @@
 <?php
 declare(strict_types=1);
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 use Test\AppRunner\AppRunner;
 
@@ -24,7 +19,7 @@ use Model\RowData\RowDataInterface;
  *
  * @author pes2704
  */
-class EnrollDaoTest extends AppRunner {
+class EventContentTypeDaoTest extends AppRunner {
 
 
     private $container;
@@ -39,15 +34,6 @@ class EnrollDaoTest extends AppRunner {
 
     public static function setUpBeforeClass(): void {
         self::bootstrapBeforeClass();
-
-        $container =
-            (new EventsContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(
-                    (new Container(
-                        )
-                    )
-                )
-            );
     }
 
     protected function setUp(): void {

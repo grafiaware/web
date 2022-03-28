@@ -51,11 +51,7 @@ class EventPresentationRepositoryTest extends TestCase {
 
         $container =
             (new EventsContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(
-                    (new Container(
-                        )
-                    )
-                )
+                (new DbEventsContainerConfigurator())->configure(new Container())
             );
 
         // mazání - zde jen pro případ, že minulý test nebyl dokončen
@@ -69,7 +65,7 @@ class EventPresentationRepositoryTest extends TestCase {
         $rowData->offsetSet('platform', "testEventPresentation Platform");
         $rowData->offsetSet('url', "https://tqwrqwztrrwqz.zu?44654s6d5f46sd54f6s54f654sdf654sd65f4");
         $eventTPresentationDao->insert($rowData);
-        self::$id = $eventTPresentationDao->getLastInsertedId();
+        self::$id = $eventTPresentationDao->getLastInsertId();
     }
 
     private static function deleteRecords(Container $container) {
@@ -95,11 +91,7 @@ class EventPresentationRepositoryTest extends TestCase {
     public static function tearDownAfterClass(): void {
         $container =
             (new EventsContainerConfigurator())->configure(
-                (new DbEventsContainerConfigurator())->configure(
-                    (new Container(
-                        )
-                    )
-                )
+                (new DbEventsContainerConfigurator())->configure(new Container())
             );
 
         self::deleteRecords($container);

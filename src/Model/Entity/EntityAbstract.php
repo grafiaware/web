@@ -13,7 +13,7 @@ namespace Model\Entity;
  *
  * @author pes2704
  */
-abstract class EntityAbstract {
+abstract class EntityAbstract implements EntitySingletonInterface {
 
     private $persisted = false;
 
@@ -46,6 +46,11 @@ abstract class EntityAbstract {
 
     public function lock(): EntityInterface {
         $this->locked = true;
+        return $this;
+    }
+
+    public function unlock(): EntityInterface {
+        $this->locked = false;
         return $this;
     }
 

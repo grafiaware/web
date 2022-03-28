@@ -93,9 +93,9 @@ use Events\Model\Dao\EnrollDao;
 use Events\Model\Hydrator\EnrollHydrator;
 use Events\Model\Repository\EnrollRepo;
 
-use Events\Model\Dao\VisitorDataDao;
-use Events\Model\Hydrator\VisitorDataHydrator;
-use Events\Model\Repository\VisitorDataRepo;
+use Events\Model\Dao\VisitorProfileDao;
+use Events\Model\Hydrator\VisitorProfileHydrator;
+use Events\Model\Repository\VisitorProfileRepo;
 
 use Events\Model\Dao\VisitorDataPostDao;
 use Events\Model\Hydrator\VisitorDataPostHydrator;
@@ -343,16 +343,16 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
                     );
             },
 
-            VisitorDataDao::class => function(ContainerInterface $c) {
-                return new VisitorDataDao($c->get(HandlerInterface::class), PdoRowData::class);
+            VisitorProfileDao::class => function(ContainerInterface $c) {
+                return new VisitorProfileDao($c->get(HandlerInterface::class), PdoRowData::class);
             },
-            VisitorDataHydrator::class => function(ContainerInterface $c) {
-                return new VisitorDataHydrator();
+            VisitorProfileHydrator::class => function(ContainerInterface $c) {
+                return new VisitorProfileHydrator();
             },
-            VisitorDataRepo::class => function(ContainerInterface $c) {
-                return new VisitorDataRepo(
-                        $c->get(VisitorDataDao::class),
-                        $c->get(VisitorDataHydrator::class)
+            VisitorProfileRepo::class => function(ContainerInterface $c) {
+                return new VisitorProfileRepo(
+                        $c->get(VisitorProfileDao::class),
+                        $c->get(VisitorProfileHydrator::class)
                     );
             },
 

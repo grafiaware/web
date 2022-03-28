@@ -83,7 +83,7 @@ class VisitorRepositoryTest extends TestCase {
         $visitorDao->insert([
             'login_login_name' => 'testVisitor',
         ]);
-        self::$id = $visitorDao->getLastInsertedId();
+        self::$id = $visitorDao->getLastInsertId();
     }
 
     private static function deleteRecords(Container $container) {

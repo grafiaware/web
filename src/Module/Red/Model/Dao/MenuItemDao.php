@@ -9,7 +9,7 @@
 namespace Red\Model\Dao;
 
 use Pes\Database\Handler\HandlerInterface;
-use Model\Dao\DaoTableAbstract;
+use Model\Dao\DaoContextualAbstract;
 use Model\Context\ContextFactoryInterface;
 use Model\RowData\RowDataInterface;
 use Model\Dao\Exception\DaoForbiddenOperationException;
@@ -19,7 +19,7 @@ use Model\Dao\Exception\DaoForbiddenOperationException;
  *
  * @author pes2704
  */
-class MenuItemDao extends DaoTableAbstract {
+class MenuItemDao extends DaoContextualAbstract {
 
     /**
      *
@@ -75,6 +75,7 @@ class MenuItemDao extends DaoTableAbstract {
         $touples = [':lang_code_fk' => $langCodeFk, ':uid_fk'=> $uidFk];
         return $this->selectOne($select, $from, $where, $touples, true);
     }
+
     /**
      * Vrací řádek menu_item vyhledaný podle lang_code_fk a prettyuri - pro statické stránky
      *

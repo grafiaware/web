@@ -13,15 +13,15 @@ use Model\Hydrator\HydratorInterface;
 
 use Events\Model\Entity\EventContentType;
 use Events\Model\Entity\EventContentTypeInterface;
-
 use Events\Model\Dao\EventContentTypeDao;
+use Events\Model\Repository\EventContentTypeRepoInterface;
 
 /**
  * Description of EventTypeTypeRepo
  *
  * @author pes2704
  */
-class EventContentTypeRepo extends RepoAbstract implements EventTypeRepoInterface {
+class EventContentTypeRepo extends RepoAbstract implements EventContentTypeRepoInterface {
 
     protected $dao;
 

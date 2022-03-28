@@ -17,41 +17,33 @@ use Model\Entity\EntityAbstract;
  */
 class Enroll extends EntityAbstract implements EnrollInterface {
 
-    private $id;
-    private $loginName;
-    private $eventid;
+    private $loginLoginNameFk;
+    private $eventFdFk;
 
-    private $keyAttribute = 'id';
-    
+    private $keyAttribute = 'login_login_name_fk';
+
     public function getKeyAttribute() {
         return $this->keyAttribute;
     }
 
-
-    public function getId(): ?int {
-        return $this->id;
-    }
-    public function getLoginName(): ?string {
-        return $this->loginName;
-    }
-    public function getEventid(): ?string {
-        return $this->eventid;
+    public function getLoginLoginNameFk(): string {
+        return $this->loginLoginNameFk;
     }
 
-    
+    public function getEventFdFk(): int {
+        return $this->eventFdFk;
+    }
 
-    public function setId($id): EnrollInterface {
-        $this->id = $id;
+    public function setLoginLoginNameFk($loginLoginNameFk): EnrollInterface {
+        $this->loginLoginNameFk = $loginLoginNameFk;
         return $this;
     }
-    public function setLoginName($loginName = null): EnrollInterface {
-        $this->loginName = $loginName;
+
+    public function setEventFdFk($eventFdFk): EnrollInterface {
+        $this->eventFdFk = $eventFdFk;
         return $this;
     }
-    public function setEventid($eventid = null): EnrollInterface {
-        $this->eventid = $eventid;
-        return $this;
-    }
+
 
 
 }

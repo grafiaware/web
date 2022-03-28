@@ -29,9 +29,8 @@ class EnrollHydrator implements HydratorInterface {
     public function hydrate(EntityInterface $enroll, RowDataInterface $rowData) {
         /** @var EnrollInterface $enroll */
         $enroll
-            ->setId($rowData->offsetGet('id'))
-            ->setLoginName($rowData->offsetGet('login_name'))
-            ->setEventid($rowData->offsetGet('eventid'))
+            ->setLoginLoginNameFk($rowData->offsetGet('login_login_name_fk'))
+            ->setEventFdFk($rowData->offsetGet('event_id_fk'))
             ;
     }
 
@@ -42,9 +41,8 @@ class EnrollHydrator implements HydratorInterface {
      */
     public function extract(EntityInterface $enroll, RowDataInterface $rowData) {
         /** @var EnrollInterface $enroll */
-        $rowData->offsetSet('id', $enroll->getId()); // id je autoincrement - readonly, hodnota pro where
-        $rowData->offsetSet('login_name', $enroll->getLoginName());
-        $rowData->offsetSet('eventid', $enroll->getEventid());
+        $rowData->offsetSet('login_login_name_fk', $enroll->getLoginLoginNameFk());
+        $rowData->offsetSet('event_id_fk', $enroll->getEventFdFk());
     }
 
 }
