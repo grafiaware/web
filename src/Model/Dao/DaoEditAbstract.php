@@ -23,14 +23,22 @@ abstract class DaoEditAbstract extends DaoReadonlyAbstract {
 
     protected $rowCount;
 
-    protected function set($set) {
-        return implode(", ", $set);
+    protected function columns($cols) {
+        $columns = "";
+        foreach ($cols as $col) {
+            $c[] = $this->identificator($col);
+        }
+        return implode(", ", $c);
+    }
+
+    protected function set($setTouples) {
+        return implode(", ", $setTouples);
     }
 
     private function touples(array $names): array {
         $touples = [];
         foreach ($names as $name) {
-            $touples[] = $name . " = :" . $name;
+            $touples[] = $this->identificator($name) . " = :" . $name;
         }
         return $touples;
     }
@@ -70,7 +78,7 @@ abstract class DaoEditAbstract extends DaoReadonlyAbstract {
 
     private function getWithinTransaction($tableName, array $keyNames, RowDataInterface $rowData) {
         if ($this->dbHandler->inTransaction()) {
-                $cols = implode(', ', $keyNames);
+                $cols = $this->columns($keyNames);
                 $whereTouples = $this->touples($keyNames);
                 $sql = $this->select($cols).$this->from($tableName).$this->where($this->and($whereTouples))." LOCK IN SHARE MODE";   //nelze použít LOCK TABLES - to commitne aktuální transakci!
                 $stmt = $this->getPreparedStatement($sql);
@@ -97,7 +105,8 @@ abstract class DaoEditAbstract extends DaoReadonlyAbstract {
      */
     protected function execInsert($tableName, RowDataInterface $rowData) {
         $changedNames = $rowData->changedNames();
-        $cols = implode(', ', $changedNames);
+        $cols = $this->columns($changedNames);
+        array_walk($changedNames, function($name) {return $this->identificator($name);});
         $values = ':'.implode(', :', $changedNames);
         $sql = "INSERT INTO $tableName ($cols)  VALUES ($values)";
         $statement = $this->getPreparedStatement($sql);
