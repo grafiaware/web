@@ -19,7 +19,7 @@ class EventContent extends EntityAbstract implements EventContentInterface {
     private $title;
     private $perex;
     private $party;
-    private $eventContentTypeTypeFk;
+    private $eventContentTypeFk;
     private $institutionIdFk;
 
     public function getKeyAttribute() {
@@ -41,8 +41,8 @@ class EventContent extends EntityAbstract implements EventContentInterface {
         return $this->party;
     }
 
-    public function getEventContentTypeTypeFk(): ?string {
-        return $this->eventContentTypeTypeFk;
+    public function getEventContentTypeFk(): ?string {
+        return $this->eventContentTypeFk;
     }
 
     public function getInstitutionIdFk(): ?int {
@@ -69,8 +69,8 @@ class EventContent extends EntityAbstract implements EventContentInterface {
         return $this;
     }
 
-    public function setEventContentTypeTypeFk($eventContentTypeTypeFk = null): EventContentInterface {
-        $this->eventContentTypeTypeFk = $eventContentTypeTypeFk;
+    public function setEventContentTypeFk($eventContentTypeTypeFk = null): EventContentInterface {
+        $this->eventContentTypeFk = $eventContentTypeTypeFk;
         return $this;
     }
 

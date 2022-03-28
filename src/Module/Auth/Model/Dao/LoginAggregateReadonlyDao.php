@@ -11,6 +11,12 @@ use Model\Dao\DaoReadonlyAbstract;
  */
 class LoginAggregateReadonlyDao extends DaoReadonlyAbstract {
 
+    private $keyAttribute = 'login_name';
+
+    public function getKeyAttribute() {
+        return $this->keyAttribute;
+    }
+
     public function get($loginName) {
         $select = $this->select("
             `login`.`login_name`,

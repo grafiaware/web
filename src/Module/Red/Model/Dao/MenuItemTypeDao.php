@@ -19,6 +19,12 @@ use Model\Dao\Exception\DaoForbiddenOperationException;
  */
 class MenuItemTypeDao extends DaoTableAbstract {
 
+    private $keyAttribute = 'type';
+
+    public function getKeyAttribute() {
+        return $this->keyAttribute;
+    }
+
     public function get($type) {
         $select = $this->select("type");
         $from = $this->from("menu_item_type");

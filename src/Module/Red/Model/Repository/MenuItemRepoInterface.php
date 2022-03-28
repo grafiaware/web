@@ -20,12 +20,22 @@ use Red\Model\Entity\MenuItemInterface;
 interface MenuItemRepoInterface extends RepoInterface, RepoAssotiatedOneInterface  {
 
     /**
+     * Hledá podle promárního klíče a podle kontextu.
      *
      * @param type $langCodeFk
      * @param type $uidFk
      * @return MenuItemInterface|null
      */
     public function get($langCodeFk, $uidFk): ?MenuItemInterface;
+
+    /**
+     * Hledá pouze podle primárního klíče bez použití kontextu.
+     *
+     * @param type $langCodeFk
+     * @param type $uidFk
+     * @return MenuItemInterface|null
+     */
+    public function getOutOfContext($langCodeFk, $uidFk): ?MenuItemInterface;
 
     /**
      *

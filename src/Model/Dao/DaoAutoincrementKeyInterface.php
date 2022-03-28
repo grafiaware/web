@@ -8,10 +8,13 @@
 
 namespace Model\Dao;
 
+use Model\RowData\RowDataInterface;
+
 /**
  *
  * @author pes2704
  */
 interface DaoAutoincrementKeyInterface extends DaoTableInterface {
-    public function getLastInsertedId();
+    public function getLastInsertId();
+    public function setAutoincrementedValue(RowDataInterface $rowdata);
 }

@@ -17,6 +17,12 @@ use Model\Dao\DaoReadonlyAbstract;
  */
 class OpravneniDao extends DaoReadonlyAbstract {
 
+    private $keyAttribute = 'user';
+
+    public function getKeyAttribute() {
+        return $this->keyAttribute;
+    }
+
     /**
      * Vrací asociativní pole s jménem uživatele - user. Jde o část řádky tabulky opravneni.
      *

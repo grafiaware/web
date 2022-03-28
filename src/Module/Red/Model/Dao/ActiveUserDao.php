@@ -19,6 +19,12 @@ use Model\RowData\RowDataInterface;
  */
 class ActiveUserDao extends DaoTableAbstract {
 
+    private $keyAttribute = 'user';
+
+    public function getKeyAttribute() {
+        return $this->keyAttribute;
+    }
+
     /**
      * Vrací asociativní pole s polžkami - user, stranka, akce. Sloupec akce je timestamp nastavovaný automaticky ON UPDAET.
      *

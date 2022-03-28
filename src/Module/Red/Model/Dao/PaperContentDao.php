@@ -12,6 +12,8 @@ use Pes\Database\Handler\HandlerInterface;
 use Model\Context\ContextFactoryInterface;
 
 use Model\Dao\DaoTableAbstract;
+use Model\Dao\DaoAutoincrementKeyInterface;
+use \Model\Dao\DaoAutoincrementTrait;
 use Model\RowData\RowDataInterface;
 
 /**
@@ -19,7 +21,15 @@ use Model\RowData\RowDataInterface;
  *
  * @author pes2704
  */
-class PaperContentDao extends DaoTableAbstract {
+class PaperContentDao extends DaoTableAbstract implements DaoAutoincrementKeyInterface {
+
+    use DaoAutoincrementTrait;
+
+    private $keyAttribute = 'id';
+
+    public function getKeyAttribute() {
+        return $this->keyAttribute;
+    }
 
     /**
      *

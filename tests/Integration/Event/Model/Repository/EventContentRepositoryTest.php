@@ -76,7 +76,7 @@ class EventContentRepositoryTest extends TestCase {
         $rowData->offsetSet('perex', "testEventContent Přednáška kjrhrkjh rkh rktjh erůjkhlkjhlkjhg welkfh ůh ů§h §h ů§fh lůfjkhů fkjh fůsdjefhů fhsůjh ksjh ůjh ůsdhdůfh sůheůrjheů");
         $rowData->offsetSet('title', "testEventContentPřednáška");
         $eventTContentDao->insert($rowData);
-        self::$id = $eventTContentDao->getLastInsertedId();
+        self::$id = $eventTContentDao->getLastInsertId();
     }
 
     private static function deleteRecords(Container $container) {
@@ -142,7 +142,7 @@ class EventContentRepositoryTest extends TestCase {
         $eventContent->setPerex("testEventContent Přednáška kjrhrkjh rkh rktjh erůjkhlkjhlkjhg welkfh ůh ů§h §h ů§fh lůfjkhů fkjh fůsdjefhů fhsůjh ksjh ůjh ůsdhdůfh sůheůrjheů");
         $eventContent->setTitle("testEventContentPřednáška");
         $this->eventContentRepo->add($eventContent);
-        $this->assertTrue($eventContent->isLocked());
+        $this->assertTrue($eventContent->isPersisted());
     }
 
 //    public function testFindAll() {

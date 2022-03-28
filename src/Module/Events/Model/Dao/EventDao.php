@@ -1,25 +1,27 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Events\Model\Dao;
 
 use Model\Dao\DaoContextualAbstract;
-use Model\Dao\DaoAutoincrementKeyInterface;
-use \Model\Dao\LastInsertIdTrait;
+use Model\Dao\DaoAutoincrementTrait;
+use Model\RowData\RowDataInterface;
+
+use Events\Model\Dao\EventDaoInterface;
 
 /**
  * Description of LoginDao
  *
  * @author pes2704
  */
-class EventDao extends DaoContextualAbstract implements DaoAutoincrementKeyInterface {
+class EventDao extends DaoContextualAbstract implements EventDaoInterface {
 
-    use LastInsertIdTrait;
+    use DaoAutoincrementTrait;
+
+    private $keyAttribute = 'id';
+
+    public function getKeyAttribute() {
+        return $this->keyAttribute;
+    }
 
     protected function getContextConditions() {
         $contextConditions = [];
@@ -38,17 +40,17 @@ class EventDao extends DaoContextualAbstract implements DaoAutoincrementKeyInter
     /**
      * Vrací jednu řádku tabulky 'event' ve formě asociativního pole podle primárního klíče.
      *
-     * @param string $id Hodnota primárního klíče
+     * @param int $id Hodnota primárního klíče
      * @return array Asociativní pole
-     * @throws StatementFailureException
      */
-    public function get($id) {
+    public function get( $id) {
         $select = $this->select("
             `event`.`id`,
             `event`.`published`,
             `event`.`start`,
             `event`.`end`,
-            `event`.`event_type_id_fk`,
+            `event`.`enroll_link_id_fk`,
+            `event`.`enter_link_id_fk`,
             `event`.`event_content_id_fk`
             ");
         $from = $this->from("`event`");
@@ -57,27 +59,34 @@ class EventDao extends DaoContextualAbstract implements DaoAutoincrementKeyInter
         return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
+    public function getOutOfContext(...$id) {
+        ;
+    }
+
+
     /**
-     * Vrací jednu řádku tabulky 'paper' ve formě asociativního pole podle cizího klíče s vazbou 1:1.
      *
-     * @param string $menuItemIdFk Hodnota cizího klíče
-     * @return array Asociativní pole
-     * @throws StatementFailureException
+     * @param type $eventContentIdFk
+     * @return array
      */
-    public function getByTypeFk($eventTypeFk) {
+    public function getByEventContentIdFk(  int $eventContentIdFk ) {
         $select = $this->select("
             `event`.`id`,
             `event`.`published`,
             `event`.`start`,
             `event`.`end`,
-            `event`.`event_type_id_fk`,
+            `event`.`enroll_link_id_fk`,
+            `event`.`enter_link_id_fk`,
             `event`.`event_content_id_fk`
             ");
         $from = $this->from("`event`");
-        $where = $this->where($this->and($this->getContextConditions(), ["`paper`.`event_type_id_fk` = :event_type_id_fk"]));
-        $touplesToBind = [':event_type_id_fk' => $eventTypeFk];
-        return $this->selectOne($select, $from, $where, $touplesToBind, true);
+        $where = $this->where($this->and($this->getContextConditions(), ["`event`.`event_content_id_fk` = :event_content_id_fk"] ));
+        $touplesToBind = [':event_content_id_fk' => $eventContentIdFk];
+        return $this->selectMany($select, $from, $where, $touplesToBind, true);
     }
+
+
+
 
     public function find($whereClause="", $touplesToBind=[]) {
         $select = $this->select("
@@ -85,7 +94,8 @@ class EventDao extends DaoContextualAbstract implements DaoAutoincrementKeyInter
             `event`.`published`,
             `event`.`start`,
             `event`.`end`,
-            `event`.`event_type_id_fk`,
+            `event`.`enroll_link_id_fk`,
+            `event`.`enter_link_id_fk`,
             `event`.`event_content_id_fk`
             ");
         $from = $this->from("`event`");
@@ -93,65 +103,15 @@ class EventDao extends DaoContextualAbstract implements DaoAutoincrementKeyInter
         return $this->selectMany($select, $from, $where, $touplesToBind);
     }
 
-    public function insert($row) {
-        // autoincrement id
-        $sql = "
-            INSERT INTO `event`
-            (`published`,
-            `start`,
-            `end`,
-            `event_type_id_fk`,
-            `event_content_id_fk`)
-            VALUES
-            (:published,
-            :start,
-            :end,
-            :event_type_id_fk,
-            :event_content_id_fk)";
-        return $this->execInsert($sql,
-            [
-                ':published'=>$row['published'],
-                ':start'=>$row['start'],
-                ':end'=>$row['end'],
-                ':event_type_id_fk'=>$row['event_type_id_fk'] ?? null,   // m§že býz null
-                ':event_content_id_fk'=>$row['event_content_id_fk'] ?? null,   // m§že býz null
-            ]);
+    public function insert(RowDataInterface $rowData) {
+        return $this->execInsert('event', $rowData);
     }
 
-    /**
-     * Pro tabulky s auto increment id.
-     *
-     * @return type
-     */
-    public function getLastInsertedId() {
-        return $this->getLastInsertedIdForOneRowInsert();
+    public function update(RowDataInterface $rowData) {
+        return $this->execUpdate('event', ['id'], $rowData);
     }
 
-    public function update($row) {
-        $sql = "
-            UPDATE `event`
-            SET
-            `published` = :published,
-            `start` = :start,
-            `end` = :end,
-            `event_type_id_fk` = :event_type_id_fk,
-            `event_content_id_fk` = :event_content_id_fk
-            WHERE `id` = :id";
-        return $this->execUpdate($sql,
-            [
-                ':published'=>$row['published'],
-                ':start'=>$row['start'],
-                ':end'=>$row['end'],
-                ':event_type_id_fk'=>$row['event_type_id_fk'] ?? null,   // m§že býz null
-                ':event_content_id_fk'=>$row['event_content_id_fk'] ?? null,   // m§že býz null
-                ':id'=>$row['id']
-            ]);
-    }
-
-    public function delete($row) {
-        $sql = "
-            DELETE FROM `event`
-            WHERE `id` = :id";
-        return $this->execDelete($sql, [':id'=>$row['id']]);
+    public function delete(RowDataInterface $rowData) {
+        return $this->execDelete('event', ['id'], $rowData);
     }
 }

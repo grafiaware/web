@@ -22,6 +22,8 @@ class EventContentType extends EntityAbstract implements EventContentTypeInterfa
      */
     private $name;
 
+    
+    
     public function getKeyAttribute() {
         return $this->keyAttribute;
     }

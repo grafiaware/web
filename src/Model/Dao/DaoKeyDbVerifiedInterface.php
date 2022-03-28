@@ -8,6 +8,9 @@
 
 namespace Model\Dao;
 use Model\Dao\Exception\DaoKeyVerificationFailedException;
+
+use Model\RowData\RowDataInterface;
+
 /**
  *
  * @author pes2704
@@ -16,9 +19,9 @@ interface DaoKeyDbVerifiedInterface {
 
     /**
      *
-     * @param array $row
+     * @param RowDataInterface $row
      * @throws DaoKeyVerificationFailedException Objekt musí vyhazovat výjimku DaoKeyVerificationFailedException, pokud se nepodařilo ověřit nastavený primární klíč entity jako platný (použitelný).
      *
      */
-    public function insertWithKeyVerification($row);
+    public function insertWithKeyVerification(RowDataInterface $row);
 }

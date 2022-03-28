@@ -25,7 +25,7 @@ class InstitutionType  extends EntityAbstract implements InstitutionTypeInterfac
 
     
     
-    public function getId(): ?int {
+    public function getId(): int {
         return $this->id;
     }
 
@@ -38,7 +38,7 @@ class InstitutionType  extends EntityAbstract implements InstitutionTypeInterfac
         return $this;
     }
 
-    public function setInstitutionType(string $value=null): InstitutionTypeInterface {
+    public function setInstitutionType( string $value=null ): InstitutionTypeInterface {
         $this->institutionType = $value;
         return $this;
     }

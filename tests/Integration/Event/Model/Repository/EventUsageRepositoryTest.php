@@ -23,9 +23,6 @@ use Model\RowData\RowData;
 // eventrepo
 use Events\Model\Repository\EventRepo;
 use Events\Model\Entity\EventInterface;
-// event type repo
-use Events\Model\Repository\EventTypeRepo;
-use Events\Model\Entity\VisitorInterface;
 // event content repo
 use Events\Model\Repository\EventContentRepo;
 use Events\Model\Entity\EventContentInterface;
@@ -106,7 +103,7 @@ class EventUsageRepositoryTest extends TestCase {
 //            'perex' => "testEventContent Přednáška kjrhrkjh rkh rktjh erůjkhlkjhlkjhg welkfh ůh ů§h §h ů§fh lůfjkhů fkjh fůsdjefhů fhsůjh ksjh ůjh ůsdhdůfh sůheůrjheů",
 //            'title' => "testEventContentPřednáška",
 //        ]);
-//        self::$id = $eventTContentDao->getLastInsertedId();
+//        self::$id = $eventTContentDao->getLastInsertId();
     }
 
     private static function deleteRecords(Container $container) {
@@ -153,10 +150,6 @@ class EventUsageRepositoryTest extends TestCase {
         $this->eventContentRepo = $this->container->get(EventContentRepo::class);
         $eventContents = $this->eventContentRepo->findAll();
         $this->assertTrue(is_array($eventContents));
-
-        $this->eventTypeRepo = $this->container->get(EventTypeRepo::class);
-        $eventTypes = $this->eventTypeRepo->findAll();
-        $this->assertTrue(is_array($eventTypes));
 
         $this->eventContentTypeRepo = $this->container->get(EventContentTypeRepo::class);
         $eventContentTypes = $this->eventContentTypeRepo->findAll();

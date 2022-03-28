@@ -10,6 +10,8 @@ namespace Model\Repository;
 
 use Model\Dao\DaoTableInterface;
 use Model\Dao\DaoKeyDbVerifiedInterface;
+use Model\Dao\DaoAutoincrementKeyInterface;
+
 use Model\Dao\Exception\DaoKeyVerificationFailedException;
 
 use Model\Hydrator\HydratorInterface;
@@ -229,24 +231,24 @@ abstract class RepoAbstract {
         }
     }
 
-//    protected function getKey($row) {
-//        $keyAttribute = $this->getKeyAttribute();
-//        if (is_array($keyAttribute)) {
-//            foreach ($keyAttribute as $field) {
-//                if( ! array_key_exists($field, $row)) {
-//                    throw new UnableRecreateEntityException("Nelze vytvořit klíč entity. Atribut klíče obsahuje pole $field a pole řádku dat pro vytvoření entity neobsahuje prvek s takovým kménem.");
-//                }
-//                $key[$field] = $row[$field];
-//            }
-//        } else {
-//            $key = $row[$keyAttribute];
-//        }
-//        return $key;
-//    }
+    protected function getKey($row) {
+        $keyAttribute = $this->dataManager->getKeyAttribute();
+        if (is_array($keyAttribute)) {
+            foreach ($keyAttribute as $field) {
+                if( ! array_key_exists($field, $row)) {
+                    throw new UnableRecreateEntityException("Nelze vytvořit klíč entity. Atribut klíče obsahuje pole $field a pole řádku dat pro vytvoření entity neobsahuje prvek s takovým kménem.");
+                }
+                $key[$field] = $row[$field];
+            }
+        } else {
+            $key = $row[$keyAttribute];
+        }
+        return $key;
+    }
 
     protected function indexFromKey($key) {
         if (is_array($key)) {
-            return implode(array_values($key));
+            return implode("", array_values($key));
         } else{
             return $key;
         }
@@ -263,7 +265,17 @@ abstract class RepoAbstract {
         if ($entity->isPersisted()) {
             $this->collection[$this->indexFromEntity($entity)] = $entity;
         } else {
-            if ( $this->dataManager instanceof DaoKeyDbVerifiedInterface ) {
+            if ($this->dataManager instanceof DaoAutoincrementKeyInterface) {
+                $rowData = $this->createRowData();
+                $this->extract($entity, $rowData);
+                $this->dataManager->insert($rowData);
+                $entity->setPersisted();
+                $this->dataManager->setAutoincrementedValue($rowData);
+                $this->hydrate($entity, $rowData);  //získá hodnotu klíče
+                $index = $this->indexFromEntity($entity);  // z hodnoty klíče
+                $this->collection[$index] = $entity;
+                $this->addData($index, $rowData);  // natvrdo dá rowData do $this->data
+            } elseif ($this->dataManager instanceof DaoKeyDbVerifiedInterface ) {
                 $rowData = $this->createRowData();
                 $this->extract($entity, $rowData);
                 try {
@@ -345,9 +357,9 @@ abstract class RepoAbstract {
                     $rowData = $this->createRowData();
                     $this->extract($entity, $rowData);
                     $this->dataManager->insert($rowData);
-//                    $this->addAssociated($rowData, $entity);
                     $this->addAssociated($rowData);
                     $entity->setPersisted();
+                    $entity->unlock();
                     $this->new = []; // při dalším pokusu o find se bude volat recteateEntity, entita se zpětně načte z db (včetně případného autoincrement id a dalších generovaných sloupců)
                 }
                 $this->flushChildRepos();  //pokud je vnořená agregovaná entita - musí se provést její insert
@@ -381,6 +393,7 @@ abstract class RepoAbstract {
             foreach ($this->removed as $index => $entity) {
                 $this->dataManager->delete($this->data[$index]);
                 $entity->setUnpersisted();
+                $entity->unlock();
                 unset($this->data[$index]);
             }
             $this->removed = [];

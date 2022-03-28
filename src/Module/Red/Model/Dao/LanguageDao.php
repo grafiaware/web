@@ -18,6 +18,12 @@ use Model\RowData\RowDataInterface;
  */
 class LanguageDao extends DaoTableAbstract {
 
+    private $keyAttribute = 'lang_code';
+
+    public function getKeyAttribute() {
+        return $this->keyAttribute;
+    }
+
     /**
      * Vrací jednu řádku tabulky
      *

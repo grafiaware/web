@@ -13,12 +13,21 @@ use Model\Dao\DaoEditAbstract;
 use Pes\Database\Handler\HandlerInterface;
 use Model\Dao\DaoKeyDbVerifiedInterface;
 use Model\Dao\Exception\DaoKeyVerificationFailedException;
+
+use Model\RowData\RowDataInterface;
+
 /**
  * Description of EnrollDao
  *
  * @author pes2704
  */
 class VisitorDataPostDao extends DaoEditAbstract implements DaoKeyDbVerifiedInterface {
+
+    private $keyAttribute = 'login_name';
+
+    public function getKeyAttribute() {
+        return $this->keyAttribute;
+    }
 
     public function get($loginName, $shortName, $positionName) {
         $select = $this->select("
@@ -92,7 +101,7 @@ class VisitorDataPostDao extends DaoEditAbstract implements DaoKeyDbVerifiedInte
         }
     }
 
-    public function insertWithKeyVerification($row) {
+    public function insertWithKeyVerification(RowDataInterface $row) {
         $dbhTransact = $this->dbHandler;
         try {
             $dbhTransact->beginTransaction();

@@ -6,22 +6,22 @@ use Model\Entity\EntityInterface;
 
 /**
  *
- * @author pes2704
+ * @author 
  */
 interface EventInterface extends EntityInterface {
 
     public function getId(): ?int;
 
-    public function getPublished();
+    public function getPublished(): bool;
 
     public function getStart(): ?\DateTime;
 
     public function getEnd():  ?\DateTime;
-
-    public function getEnrollLinkIdFk(): ?int;
     
-    public function getEnterLinkIdFk(): ?int ;
-        
+    public function getEnrollLinkIdFk() : ?int;   
+
+    public function getEnterLinkIdFk() : ?int ;        
+
     public function getEventContentIdFk():?int;
 
     public function setId($id): EventInterface;
@@ -32,9 +32,9 @@ interface EventInterface extends EntityInterface {
 
     public function setEnd(\DateTime $end = null): EventInterface;
 
-    public function setEnrollLinkIdFk($enrollLinkIdFk) : EventInterface ;
+    public function setEnrollLinkIdFk($enrollLinkIdFk) :EventInterface ;
     
-    public function setEnterLinkIdFk($enterLinkIdFk) :  EventInterface ;
-        
+    public function setEnterLinkIdFk($enterLinkIdFk)  :EventInterface ;
+   
     public function setEventContentIdFk($eventContentIdFk): EventInterface;
 }

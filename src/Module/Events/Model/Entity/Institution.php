@@ -25,10 +25,10 @@ class Institution extends EntityAbstract implements InstitutionInterface {
     public function getId(): ?int {
         return $this->id;
     }    
-    function getName(): ?string {
+    public function getName(): ?string {
         return $this->name;
     }
-    function getInstitutionTypeId() : ?int {
+    public function getInstitutionTypeId() : ?int {
         return $this->institutionTypeId;
     }
    
@@ -39,11 +39,11 @@ class Institution extends EntityAbstract implements InstitutionInterface {
         return $this;
     }
     
-    function setName($name): InstitutionInterface {
+    public function setName( $name ): InstitutionInterface {
         $this->name = $name;
     }
 
-    function setInstitutionTypeId($institutionTypeId): InstitutionInterface {
+    public function setInstitutionTypeId($institutionTypeId): InstitutionInterface {
         $this->institutionTypeId = $institutionTypeId;
     }
    

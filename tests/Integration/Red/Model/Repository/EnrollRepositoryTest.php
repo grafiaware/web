@@ -70,7 +70,7 @@ class EnrollRepositoryTest extends AppRunner {
             'login_name' => "testEnroll login name",
             'eventid' => "test_eventid_" . (string) (1000+random_int(0, 999)),
         ]);
-        self::$id = $enrollDao->getLastInsertedId();
+        self::$id = $enrollDao->getLastInsertId();
     }
 
     private static function deleteRecords(Container $container) {

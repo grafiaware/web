@@ -9,18 +9,17 @@
 namespace Model\Dao;
 
 use Model\RowData\RowDataInterface;
-use Model\RowData\Filter\NominateFilter;
 
 use Model\Dao\Exception\DaoUnexpectecCallOutOfTransactionException;
 use Model\Dao\Exception\DaoKeyVerificationFailedException;
+use Model\Dao\DaoAutoincrementKeyInterface;
+
 /**
  * Description of DaoEditAbstract
  *
  * @author pes2704
  */
 abstract class DaoEditAbstract extends DaoReadonlyAbstract {
-
-    protected $lastInsertRowCount;
 
     protected $rowCount;
 
@@ -49,27 +48,17 @@ abstract class DaoEditAbstract extends DaoReadonlyAbstract {
      * @return aray
      */
     protected function execInsertWithKeyVerification($tableName, array $keyNames, RowDataInterface $rowData) {
-        $dbhTransact = $this->dbHandler;
         try {
             $this->dbHandler->beginTransaction();
             $found = $this->getWithinTransaction($tableName, $keyNames, $rowData);
             if  (! $found)   {
                 $this->execInsert($tableName, $rowData);   // předpokládám, že changed je i sloupec s klíčem
-//                $names = array_merge(array_keys($rowData->changedNames()), $whereNames);
-//                $cols = implode(', ', $names);
-//                $values = ':'.implode(', :', $names);
-//                $sql = "INSERT INTO $tableName (".$cols.")  VALUES (" .$values.")";
-//                $statement = $this->getPreparedStatement($sql);
-//                $this->bindParams($statement, $rowData->changedNames());
-//                $success = $statement->execute();
-//                $this->lastInsertRowCount = $statement->rowCount();
-//                $this->rowCount = $this->lastInsertRowCount;
             } else {
                 foreach ($keyNames as $name) {
                     $k[] = $rowData->offsetGet($name);
                 }
                 $key = implode(', ', $k);
-                throw new DaoKeyVerificationFailedException("Hodnota klíče type '$key' již v tabulece $tableNames existuje.");
+                throw new DaoKeyVerificationFailedException("Hodnota klíče type '$key' již v tabulce $tableName existuje.");
             }
             /*** commit the transaction ***/
             $this->dbHandler->commit();
@@ -114,8 +103,7 @@ abstract class DaoEditAbstract extends DaoReadonlyAbstract {
         $statement = $this->getPreparedStatement($sql);
         $this->bindParams($statement, $rowData, $changedNames);
         $success = $statement->execute();
-        $this->lastInsertRowCount = $statement->rowCount();
-        $this->rowCount = $this->lastInsertRowCount;
+        $this->rowCount = $statement->rowCount();
         return $success ?? false;
     }
 

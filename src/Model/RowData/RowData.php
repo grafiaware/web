@@ -25,11 +25,18 @@ class RowData extends \ArrayObject implements RowDataInterface {
 
     /**
      * V kostruktoru se mastaví způsob zápisu dat do RowData objektu na ARRAY_AS_PROPS a pokud je zadán parametr $data, zapíší se tato data
-     * do interní storage objektu. Nastavení ARRAY_AS_PROPS způsobí, že každý zápis dalších dat je prováděn metodou offsetSet.
+     * do interní storage objektu. Nastavení ARRAY_AS_PROPS způsobí, že každý zápis dalších dat je prováděn metodou offsetSet a vyhodnocuje se, jestli data byla změněna.
+     * Pokud parament data je Traversable, jsou tato data zadaná do konstruktoru zapsána jako změněná.
+     *
      * @param type $data
      */
     public function __construct($data=[]) {
         parent::__construct($data, \ArrayObject::ARRAY_AS_PROPS);
+        if (is_iterable($data)) {
+            foreach ($data as $index => $value) {
+                $this->changed[$index] = $index;
+            }
+        }
     }
 
     public function isChanged(): bool {
@@ -82,15 +89,26 @@ class RowData extends \ArrayObject implements RowDataInterface {
      */
     public function offsetSet($index, $value) {
         // změněná nebo nová data
-        if (!parent::offsetExists($index) OR parent::offsetGet($index) !== $value) {
-            parent::offsetSet($index, $value);
-            $this->changed[$index] = $index;
+        if (parent::offsetExists($index)) {
+            if (parent::offsetGet($index) !== $value) {
+                $this->setNewValue($index, $value);
+            }
+        } else {
+            if (isset($value)) {
+                $this->setNewValue($index, $value);
+            }
         }
     }
 
+    private function setNewValue($index, $value) {
+        parent::offsetSet($index, $value);
+        $this->changed[$index] = $index;
+    }
+
     // pro PdoRowData
-    // pro asociované entity v agregátech - přidání asociované entity do rodičovské entity metodou offsetSet by vždy vedlo k tomu, že asoiciovaná entota je v rodičovském RowData
+    // - pro asociované entity v agregátech - přidání asociované entity do rodičovské entity metodou offsetSet by vždy vedlo k tomu, že asoiciovaná entota je v rodičovském RowData
     // vložena jako changed
+    // pro generované hodnoty - autoincement
     public function forcedSet($index, $value) {
         parent::offsetSet($index, $value);
     }

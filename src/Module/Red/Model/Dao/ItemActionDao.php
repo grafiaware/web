@@ -18,6 +18,12 @@ use Model\RowData\RowDataInterface;
  */
 class ItemActionDao extends DaoTableAbstract {
 
+    private $keyAttribute = ['type_fk', 'item_id'];
+
+    public function getKeyAttribute() {
+        return $this->keyAttribute;
+    }
+
     /**
      * Vrací jednu řádku tabulky 'item_action' ve formě asociativního pole podle primárního klíče, klíč je kompozitní.
      *

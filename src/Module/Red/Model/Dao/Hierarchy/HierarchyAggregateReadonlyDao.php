@@ -43,6 +43,12 @@ class HierarchyAggregateReadonlyDao extends DaoReadonlyAbstract implements Hiera
      */
     protected $contextFactory;
 
+    private $keyAttribute = ['lang_code_fk', 'uid'];
+
+    public function getKeyAttribute() {
+        return $this->keyAttribute;
+    }
+
     /**
      *
      * @param HandlerInterface $handler
