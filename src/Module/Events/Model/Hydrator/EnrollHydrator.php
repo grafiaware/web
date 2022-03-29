@@ -30,7 +30,7 @@ class EnrollHydrator implements HydratorInterface {
         /** @var EnrollInterface $enroll */
         $enroll
             ->setLoginLoginNameFk($rowData->offsetGet('login_login_name_fk'))
-            ->setEventFdFk($rowData->offsetGet('event_id_fk'))
+            ->setEventIdFk($rowData->offsetGet('event_id_fk'))
             ;
     }
 
@@ -42,7 +42,7 @@ class EnrollHydrator implements HydratorInterface {
     public function extract(EntityInterface $enroll, RowDataInterface $rowData) {
         /** @var EnrollInterface $enroll */
         $rowData->offsetSet('login_login_name_fk', $enroll->getLoginLoginNameFk());
-        $rowData->offsetSet('event_id_fk', $enroll->getEventFdFk());
+        $rowData->offsetSet('event_id_fk', $enroll->getEventIdFk());
     }
 
 }

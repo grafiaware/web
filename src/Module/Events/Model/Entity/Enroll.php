@@ -18,7 +18,7 @@ use Model\Entity\EntityAbstract;
 class Enroll extends EntityAbstract implements EnrollInterface {
 
     private $loginLoginNameFk;
-    private $eventFdFk;
+    private $eventIdFk;
 
     private $keyAttribute = 'login_login_name_fk';
 
@@ -30,8 +30,8 @@ class Enroll extends EntityAbstract implements EnrollInterface {
         return $this->loginLoginNameFk;
     }
 
-    public function getEventFdFk(): int {
-        return $this->eventFdFk;
+    public function getEventIdFk(): int {
+        return $this->eventIdFk;
     }
 
     public function setLoginLoginNameFk($loginLoginNameFk): EnrollInterface {
@@ -39,8 +39,8 @@ class Enroll extends EntityAbstract implements EnrollInterface {
         return $this;
     }
 
-    public function setEventFdFk($eventFdFk): EnrollInterface {
-        $this->eventFdFk = $eventFdFk;
+    public function setEventIdFk($eventFdFk): EnrollInterface {
+        $this->eventIdFk = $eventFdFk;
         return $this;
     }
 

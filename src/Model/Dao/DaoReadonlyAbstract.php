@@ -53,6 +53,11 @@ abstract class DaoReadonlyAbstract implements DaoReadonlyInterface {
         return $condition ? " WHERE ".$condition." " : "";
     }
 
+    protected function identificator($name) {
+        $id = "`".trim(trim($name), "`")."`";
+        return $id;
+    }
+
     /**
      *
      * @param array $conditions Jedno nebo více asociativních polí.
