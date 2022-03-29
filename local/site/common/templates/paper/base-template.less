@@ -15,32 +15,33 @@
 .horizontalne-prohodit{
     flex-direction: row-reverse; 
 }
-.template-multipageedit{
+.template-multipageedit, .template-paperedit{
     [data-template="carousel"]{
-        #carousel{
+        .carousel, .carouselPaper{
             i.angle{
                 display: none;
             }
         }
-        [data-template="carousel-item"]{
-            headline{
-                font-size: 1.3em;
-                background: 0 0;
-                color: #000;
-            }
-            perex{
-                font-size: 1.1em;
-            }
-            img{
-                width: 100%;
-                height: 500px;
-                object-fit: cover;
+        .carousel{
+            [data-template="carousel-item"]{
+                headline{
+                    font-size: 1.3em;
+                    background: 0 0;
+                    color: #000;
+                }
+                perex{
+                    font-size: 1.1em;
+                }
+                img{
+                    width: 100%;
+                    height: 500px;
+                    object-fit: cover;
+                }
             }
         }
     }
 }
-.template-multipageedit .template-multipage, .template-multipage{
-    //form{position:absolute}
+.template-multipageedit .template-multipage, .template-multipage, .template-paperedit, .template-paper{
     [data-template="carousel"]{
         .template-paperedit, .template-paper{
             box-shadow: 0 0 !important;
@@ -52,11 +53,9 @@
                 padding: 0;
             }
         }
-        #carousel{
+        .carousel, .carouselPaper{
             display: block;
             position: relative;
-            height: auto;
-            min-height: 500px;
             i.angle{
                position: absolute; 
                top: 44%;
@@ -76,49 +75,57 @@
                 opacity: 0.7;
             }
         }
-        .carousel-wrap{
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 500px;
-            overflow: hidden;
-        }
-        [data-template="carousel-item"]{
-            width: 100%;
-            height: 100%;
-            headline, perex{
+        .carousel{
+            height: auto;
+            min-height: 500px;
+            .carousel-wrap{
                 position: absolute;
-                width: 50%;
-                left: 60px;
-                background: #ffffff91 !important;
-                z-index: 10;
-            }
-            headline{
-                font-size: 1.3em !important;
-                color: #000 !important;
-                top: 105px !important;
-            }
-            perex{
-                font-size: 1.1em !important;
-                top: 195px !important;
-            }
-            img{
+                top: 0;
+                left: 0;
                 width: 100%;
                 height: 500px;
-                object-fit: cover;
-                position: absolute;
-                top: -25px;
-                left: 0;
+                overflow: hidden;
             }
-            &:last-child{
-                display: block !important;
+            [data-template="carousel-item"]{
+                width: 100%;
+                height: 100%;
+                headline, perex{
+                    position: absolute;
+                    width: 50%;
+                    left: 60px;
+                    background: #ffffff91 !important;
+                    z-index: 10;
+                }
+                headline{
+                    font-size: 1.3em !important;
+                    color: #000 !important;
+                    top: 105px !important;
+                }
+                perex{
+                    font-size: 1.1em !important;
+                    top: 195px !important;
+                }
+                img{
+                    width: 100%;
+                    height: 500px;
+                    object-fit: cover;
+                    position: absolute;
+                    top: -25px;
+                    left: 0;
+                }
+                &:last-child{
+                    display: block !important;
 
+                }
             }
+        }
+        .carouselPaper{
+            .carousel-wrap{}
+            [data-template="carousel-item"]{}
         }
     }
 /*    [data-template="carousel"]{
-        #carousel{
+        .carousel{
             display: block;
             position: relative;
             height: auto;

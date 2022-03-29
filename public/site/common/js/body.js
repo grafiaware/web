@@ -293,7 +293,7 @@ function initLoadedElements() {
 //carousel
 //
 //
-            var jsTemplateCarousel = document.querySelectorAll('.template-multipage [data-template="carousel"]');
+            var jsTemplateCarousel = document.querySelectorAll('[data-template="carousel"]');
             if (jsTemplateCarousel.length !== 0) {
                 (function($){
                     var carouselObal = $(".carousel-wrap"); 

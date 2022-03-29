@@ -112,7 +112,7 @@ class TemplateControler extends FrontControlerAbstract {
         [ 'title' => 'template paper divided_rows', 'description' => 'popis',       'url' => 'web/v1/papertemplate/divided_rows'],
         [ 'title' => 'template paper bordered_rows', 'description' => 'popis',       'url' => 'web/v1/papertemplate/bordered_rows'],
         [ 'title' => 'template paper rows', 'description' => 'popis',       'url' => 'web/v1/papertemplate/rows'],
-        [ 'title' => 'template paper carousel', 'description' => 'popis',       'url' => 'web/v1/papertemplate/carousel'],
+        [ 'title' => 'template paper carousel', 'description' => 'popis',       'url' => 'web/v1/papertemplate/carouselForPaper'],
             ];
         $templates['author'] = [
         [ 'title' => 'Kontakt', 'description' => 'Grafia web - kontakt',       'url' => 'web/v1/authortemplate/kontakt'],
