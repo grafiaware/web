@@ -28,8 +28,7 @@ use View\Thief;
                     <div class="row">
                         <div class="sixteen wide column">
                             <iframe  src="about:blank" frameborder="0" id="steal" width=100% frameborder="0" marginheight="0" marginwidth="0">
-                                Načítání…
-
+<?= $iframe ?>
                             </iframe>
 <script>
 document.querySelector('iframe').contentDocument.write("<?= $iframe ?>");
