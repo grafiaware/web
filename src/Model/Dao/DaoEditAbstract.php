@@ -130,7 +130,7 @@ abstract class DaoEditAbstract extends DaoReadonlyAbstract {
             $changedNames = $rowData->changedNames();
             $set = $this->touples($changedNames);
             $whereTouples = $this->touples($keyNames);
-            $names = array_merge($changedNames, $keyNames);
+            $names = $this->merge_unique($changedNames, $keyNames);
             $sql = "UPDATE $tableName SET ".$this->set($set).$this->where($this->and($whereTouples));
             $statement = $this->getPreparedStatement($sql);
             $this->bindParams($statement, $rowData, $names);
@@ -140,6 +140,24 @@ abstract class DaoEditAbstract extends DaoReadonlyAbstract {
         return $success ?? false;
     }
 
+    /**
+     * Sloučí dvě numerická pole tak, že hodnoty duplicitní v obou polích nevytvoří duplicitní položky ve sloučeném poli
+     * @param array $array1
+     * @param array $array2
+     * @return array
+     */
+    private function merge_unique($changedNames, $keyNames) {
+        foreach ($changedNames as $name) {
+            $ret[] = $name;
+            if(in_array($name, $keyNames)) {
+                unset($keyNames[$name]);
+            }
+        }
+        foreach ($keyNames as $name) {
+            $ret[] = $name;
+        }
+        return $ret;
+    }
     /**
      * Očekává SQL string s příkazem DELETE. Provede ho s použitím parametrů a vrací výsledek metody PDOStatement->execute().
      *

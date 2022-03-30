@@ -56,6 +56,17 @@ use Events\Model\Dao\InstitutionTypeDao;
 use Events\Model\Hydrator\InstitutionTypeHydrator;
 use Events\Model\Repository\InstitutionTypeRepo;
 
+use Events\Model\Dao\CompanyDao;
+use Events\Model\Hydrator\CompanyHydrator;
+use Events\Model\Repository\CompanyRepo;
+
+use Events\Model\Dao\CompanyAddressDao;
+use Events\Model\Hydrator\CompanyAddressHydrator;
+use Events\Model\Repository\CompanyAddressRepo;
+
+use Events\Model\Dao\CompanyContactDao;
+use Events\Model\Hydrator\CompanyContactHydrator;
+use Events\Model\Repository\CompanyContactRepo;
 
 use Events\Model\Dao\VisitorDao;
 use Events\Model\Hydrator\VisitorHydrator;
@@ -261,7 +272,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new InstitutionRepo($c->get(InstitutionDao::class), $c->get(InstitutionHydrator::class));
             },
 
-             //InstitutionType
+            //InstitutionType
             InstitutionTypeDao::class => function(ContainerInterface $c) {
                 return new InstitutionTypeDao($c->get(Handler::class), PdoRowData::class);
             },
@@ -272,8 +283,42 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new InstitutionTypeRepo($c->get(InstitutionTypeDao::class), $c->get(InstitutionTypeHydrator::class));
             },
 
+             
+            //Company
+            CompanyDao::class => function(ContainerInterface $c) {
+                return new CompanyDao($c->get(Handler::class), PdoRowData::class);
+            },
+            CompanyHydrator::class => function(ContainerInterface $c) {
+                return new CompanyHydrator();
+            },
+            CompanyRepo::class => function(ContainerInterface $c) {
+                return new CompanyRepo($c->get(CompanyDao::class), $c->get(CompanyHydrator::class));
+            },        
 
-
+            
+            //Company
+            CompanyAddressDao::class => function(ContainerInterface $c) {
+                return new CompanyAddressDao($c->get(Handler::class), PdoRowData::class);
+            },
+            CompanyAddressHydrator::class => function(ContainerInterface $c) {
+                return new CompanyAddressHydrator();
+            },
+            CompanyAddressRepo::class => function(ContainerInterface $c) {
+                return new CompanyAddressRepo($c->get(CompanyAddressDao::class), $c->get(CompanyAddressHydrator::class));
+            },                 
+                    
+            
+            //Company
+            CompanyContactDao::class => function(ContainerInterface $c) {
+                return new CompanyContactDao($c->get(Handler::class), PdoRowData::class);
+            },
+            CompanyContactHydrator::class => function(ContainerInterface $c) {
+                return new CompanyContactHydrator();
+            },
+            CompanyContactRepo::class => function(ContainerInterface $c) {
+                return new CompanyContactRepo($c->get(CompanyContactDao::class), $c->get(CompanyContactHydrator::class));
+            },                
+                    
             //Visitor
             VisitorDao::class => function(ContainerInterface $c) {
                 return new VisitorDao($c->get(Handler::class), PdoRowData::class);

@@ -61,11 +61,11 @@ class CompanyAddress extends EntityAbstract implements CompanyAddressInterface {
     }
     /**
      * 
-     * @param int $company_id
+     * @param int $companyId
      * @return $this
      */
     public function setCompanyId( int $companyId) {
-        $this->companyId = $company_id;
+        $this->companyId = $companyId;
         return $this;
     }
     /**

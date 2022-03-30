@@ -36,7 +36,7 @@ interface CompanyAddressInterface extends EntityInterface {
     public function getObec() :?string ;    
     /**
      * 
-     * @param int $company_id
+     * @param int $companyId
      * @return $this
      */
     public function setCompanyId( int $companyId);    
