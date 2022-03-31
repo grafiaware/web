@@ -23,7 +23,7 @@ abstract class DaoEditAbstract extends DaoReadonlyAbstract {
 
     protected $rowCount;
 
-    protected function columns($cols) {
+    private function columns($cols) {
         $columns = "";
         foreach ($cols as $col) {
             $c[] = $this->identificator($col);
@@ -31,7 +31,11 @@ abstract class DaoEditAbstract extends DaoReadonlyAbstract {
         return implode(", ", $c);
     }
 
-    protected function set($setTouples) {
+    private function values($names) {
+        return ':'.implode(', :', $names);
+    }
+
+    private function set($setTouples) {
         return implode(", ", $setTouples);
     }
 
@@ -106,8 +110,7 @@ abstract class DaoEditAbstract extends DaoReadonlyAbstract {
     protected function execInsert($tableName, RowDataInterface $rowData) {
         $changedNames = $rowData->changedNames();
         $cols = $this->columns($changedNames);
-        array_walk($changedNames, function($name) {return $this->identificator($name);});
-        $values = ':'.implode(', :', $changedNames);
+        $values = $this->values($changedNames);
         $sql = "INSERT INTO $tableName ($cols)  VALUES ($values)";
         $statement = $this->getPreparedStatement($sql);
         $this->bindParams($statement, $rowData, $changedNames);

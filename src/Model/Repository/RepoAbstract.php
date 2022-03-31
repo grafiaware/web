@@ -285,7 +285,7 @@ abstract class RepoAbstract {
                     $this->collection[$index] = $entity;
                     $this->addData($index, $rowData);  // natvrdo dá rowData do $this->data
                 } catch ( DaoKeyVerificationFailedException $verificationFailedExc) {
-                    throw new UnableAddEntityException('Entitu s nastavenou hodnotou klíče nelze zapsat do databáze.', 0, $verificationFailedExc);
+                    throw new UnableAddEntityException('Entita má nastavenu hodnotou klíče, která již v databázi existuje, nelze zapsat do databáze.', 0, $verificationFailedExc);
                 }
             } else {
                 $this->new[] = $entity;
