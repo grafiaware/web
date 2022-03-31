@@ -27,6 +27,6 @@ interface EventDaoInterface extends DaoAutoincrementKeyInterface {
      */
     public function getByEventContentIdFk( int $eventContentIdFk ) ;
 
-    public function find($whereClause="", $touplesToBind=[]) ;
+    //public function find($whereClause="", $touplesToBind=[]) ;
 
 }

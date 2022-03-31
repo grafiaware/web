@@ -20,7 +20,7 @@ use Events\Model\Entity\CompanyAddress;
 /**
  * 
  */
-class CompanyAddressTest  extends AppRunner {
+class CompanyAddressDaoTest  extends AppRunner {
 
     private $container;
 
@@ -57,11 +57,7 @@ class CompanyAddressTest  extends AppRunner {
         // nova company 
         /** @var CompanyDao $companyDao */
         $companyDao = $container->get(CompanyDao::class);      
-//        do {
-//            $idCompany = uniqid();
-//            $company = $companyDao->get($idCompany);
-//        } while ($company);
-//        
+     
         $rowData = new RowData();
         $rowData->offsetSet('name', "Company-nameNNN");        
         $rowData->offsetSet('eventInstitutionName30', null);
@@ -74,14 +70,6 @@ class CompanyAddressTest  extends AppRunner {
         $companyDao->insert($rowData);
         self::$company_company_id_fk2 =  $companyDao->getLastInsertId();
 
-//        /** @var EventDao $eventDao */
-//        $eventDao = $container->get(EventDao::class);
-//        $eventData = new RowData(["published" => 1]);
-//        $eventDao->insert($eventData);  // id je autoincrement
-//        self::$event_id_fk = $eventDao->getLastInsertId();
-//        $eventData = new RowData(["published" => 1]);
-//        $eventDao->insert($eventData);  // id je autoincrement
-//        self::$event_id_fk_2 = $eventDao->getLastInsertId();
     }
 
     protected function setUp(): void {
@@ -138,35 +126,35 @@ class CompanyAddressTest  extends AppRunner {
         $this->dao->update($companyAddressRow);
         $this->assertEquals(1, $this->dao->getRowCount());
         
-        $this->setUp();
+        $this->setUp(); //nove dao
         $rowRereaded = $this->dao->get(self::$company_company_id_fk);
         $this->assertEquals("mala firma", $rowRereaded['name']);
 
         
-        $this->setUp(); //nove dao
-        $companyAddressRow['company_id'] = self::$company_company_id_fk2;
-        $this->dao->update($companyAddressRow);
-        $this->assertEquals(1, $this->dao->getRowCount());
+//        $this->setUp(); //nove dao
+//        $companyAddressRow['company_id'] = self::$company_company_id_fk2;
+//        $this->dao->update($companyAddressRow);
+//        $this->assertEquals(1, $this->dao->getRowCount());
         
  
     }
-//
-//    public function testFind() {
-//        $enrollRowsArray = $this->dao->find();
-//        $this->assertIsArray($enrollRowsArray);
-//        $this->assertGreaterThanOrEqual(1, count($enrollRowsArray));
-//        $this->assertInstanceOf(RowDataInterface::class, $enrollRowsArray[0]);
-//    }
-//
-//    public function testDelete() {
-//        $enrollRow = $this->dao->get(self::$login_login_name_fk);
-//
-//        $this->dao->delete($enrollRow);
-//        $this->assertEquals(1, $this->dao->getRowCount());
-//
-//        $this->setUp();
-//        $this->dao->delete($enrollRow);
-//        $this->assertEquals(0, $this->dao->getRowCount());
-//
-//    }
+
+    public function testFind() {
+        $companyAddressRowArray = $this->dao->find();
+        $this->assertIsArray($companyAddressRowArray);
+        $this->assertGreaterThanOrEqual(1, count($companyAddressRowArray));
+        $this->assertInstanceOf(RowDataInterface::class, $companyAddressRowArray[0]);
+    }
+
+    public function testDelete() {
+        $companyAddressRow = $this->dao->get(self::$company_company_id_fk);
+
+        $this->dao->delete($companyAddressRow);
+        $this->assertEquals(1, $this->dao->getRowCount());
+
+        $this->setUp();
+        $this->dao->delete($companyAddressRow);
+        $this->assertEquals(0, $this->dao->getRowCount());
+
+    }
 }

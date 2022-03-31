@@ -24,7 +24,7 @@ class InstitutionTypeHydrator  implements HydratorInterface {
         /** @var InstitutionTypeInterface $institutionType */
         $institutionType
             ->setId($rowData->offsetGet('id'))
-            ->setInstitutionType($rowData->offsetGet('institution_type'));
+            ->setInstitutionType($rowData->offsetGet('institution_type')  );
     }
 
     /**
@@ -35,7 +35,7 @@ class InstitutionTypeHydrator  implements HydratorInterface {
     public function extract(EntityInterface $institutionType, RowDataInterface $rowData) {
         /** @var InstitutionTypeInterface $institutionType */
         // id je autoincrement
-        $rowData->offsetSet('institution_type', $institutionType->getInstitutionType() );
+        $rowData->offsetSet('institution_type', $institutionType->getInstitutionType()  );
     }
 
 }

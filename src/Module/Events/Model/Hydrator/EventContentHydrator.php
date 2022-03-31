@@ -1,11 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Events\Model\Hydrator;
 
 use Model\Hydrator\HydratorInterface;
@@ -37,11 +31,11 @@ class EventContentHydrator implements HydratorInterface {
         /** @var EventContentInterface $eventContent */
         $eventContent
             ->setId($rowData->offsetGet('id'))
-            ->setTitle($rowData->offsetGet('title'))
-            ->setPerex($rowData->offsetGet('perex'))
-            ->setParty($rowData->offsetGet('party'))
-            ->setEventContentTypeFk($rowData->offsetGet('event_content_type_fk'))
-            ->setInstitutionIdFk($rowData->offsetGet('institution_id_fk'));
+            ->setTitle($rowData->offsetGet('title') )
+            ->setPerex($rowData->offsetGet('perex') )
+            ->setParty($rowData->offsetGet('party')  )
+            ->setEventContentTypeFk($rowData->offsetGet('event_content_type_fk')  )
+            ->setInstitutionIdFk($rowData->offsetGet('institution_id_fk')  );
     }
 
     /**
@@ -52,11 +46,11 @@ class EventContentHydrator implements HydratorInterface {
     public function extract(EntityInterface $eventContent, RowDataInterface $rowData) {
         /** @var EventContentInterface $eventContent */
         // id je autoincrement
-        $rowData->offsetSet('title', $eventContent->getTitle());
-        $rowData->offsetSet('perex', $eventContent->getPerex());
-        $rowData->offsetSet('party', $eventContent->getParty());
-        $rowData->offsetSet('event_content_type_fk', $eventContent->getEventContentTypeFk());
-        $rowData->offsetSet('institution_id_fk', $eventContent->getInstitutionIdFk());
+        $rowData->offsetSet('title', $eventContent->getTitle() );
+        $rowData->offsetSet('perex', $eventContent->getPerex()  );
+        $rowData->offsetSet('party', $eventContent->getParty()  );
+        $rowData->offsetSet('event_content_type_fk', $eventContent->getEventContentTypeFk()  );
+        $rowData->offsetSet('institution_id_fk', $eventContent->getInstitutionIdFk() );
     }
 
 }

@@ -29,8 +29,8 @@ class EventLinkHydrator implements HydratorInterface {
         $eventLink
             ->setId($rowData->offsetGet('id'))
             ->setShow($rowData->offsetGet('show'))
-            ->setHref($rowData->offsetGet('href'))
-            ->setLinkPhaseIdFk($rowData->offsetGet('link_phase_id_fk'));
+            ->setHref($rowData->offsetGet('href') )
+            ->setLinkPhaseIdFk($rowData->offsetGet('link_phase_id_fk')  );
     }
 
     /**
@@ -41,9 +41,9 @@ class EventLinkHydrator implements HydratorInterface {
     public function extract(EntityInterface $eventLink, RowDataInterface $rowData) {
         /** @var EventLinkInterface $eventLink */
         // id je autoincrement
-        $rowData->offsetSet('show', $eventLink->getShow());
-        $rowData->offsetSet('href', $eventLink->getHref());
-        $rowData->offsetSet('link_phase_id_fk', $eventLink->getLinkPhaseIdFk());
+        $rowData->offsetSet('show', $eventLink->getShow()  );
+        $rowData->offsetSet('href', $eventLink->getHref()  );
+        $rowData->offsetSet('link_phase_id_fk', $eventLink->getLinkPhaseIdFk()  );
     }
 
 }
