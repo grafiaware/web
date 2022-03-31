@@ -158,6 +158,18 @@ abstract class DaoEditAbstract extends DaoReadonlyAbstract {
         }
         return $ret;
     }
+//    private function merge_unique($changedNames, $keyNames) {
+//        foreach ($changedNames as $name) {           
+//            if (!(in_array($name, $keyNames))) {
+//                 $ret[] = $name;
+//            } 
+//        }
+//        foreach ($keyNames as $name) {
+//            $ret[] = $name;
+//        }
+//        return $ret;
+//    }
+    
     /**
      * Očekává SQL string s příkazem DELETE. Provede ho s použitím parametrů a vrací výsledek metody PDOStatement->execute().
      *
