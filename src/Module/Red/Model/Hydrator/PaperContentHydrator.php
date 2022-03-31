@@ -42,7 +42,7 @@ class PaperContentHydrator implements HydratorInterface {
             ->setEventStartTime($rowData->offsetGet('event_start_time') ? \DateTime::createFromFormat('Y-m-d', $rowData->offsetGet('event_start_time')) : NULL)
             ->setEventEndTime($rowData->offsetGet('event_end_time') ? \DateTime::createFromFormat('Y-m-d', $rowData->offsetGet('event_end_time')) : NULL)
             ->setEditor($rowData->offsetGet('editor'))
-            ->setUpdated(\DateTime::createFromFormat('Y-m-d H:i:s', $rowData->offsetGet('updated')) )  // včetně času
+            ->setUpdated($rowData->offsetGet('updated') ? \DateTime::createFromFormat('Y-m-d H:i:s', $rowData->offsetGet('updated')) : NULL)  // včetně času
             ->setActual($rowData->offsetGet('actual'));
     }
 

@@ -120,8 +120,6 @@ class ComponentControler extends FrontControlerAbstract {
         $view->setRenderer(new ImplodeRenderer());
         return $this->createResponseFromView($request, $view);
     }
-    ######################
-
 
 
     /**
