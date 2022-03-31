@@ -296,7 +296,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             },        
 
             
-            //Company
+            //CompanyAddress
             CompanyAddressDao::class => function(ContainerInterface $c) {
                 return new CompanyAddressDao($c->get(Handler::class), PdoRowData::class);
             },
@@ -308,7 +308,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             },                 
                     
             
-            //Company
+            //CompanyContact
             CompanyContactDao::class => function(ContainerInterface $c) {
                 return new CompanyContactDao($c->get(Handler::class), PdoRowData::class);
             },

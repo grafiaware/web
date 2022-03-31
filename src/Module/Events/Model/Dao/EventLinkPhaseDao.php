@@ -55,7 +55,8 @@ class EventLinkPhaseDao extends DaoTableAbstract implements EventLinkPhaseDaoInt
             `event_link_phase`.`text`
             ");
         $from = $this->from("`event_link_phase`");
-        $where = $this->where($this->and($this->getContextConditions(), $whereClause));
+        //$where = $this->where($this->and($this->getContextConditions(), $whereClause));
+        $where = $this->where( $whereClause);
         return $this->selectMany($select, $from, $where, $touplesToBind);
     }
 

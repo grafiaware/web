@@ -75,46 +75,46 @@ class EventContentDaoTest extends AppRunner {
     }
 
     public function testGetExistingRow() {
-        $eventContentTypeRow = $this->dao->get(self::$id);
-        $this->assertInstanceOf(RowDataInterface::class, $eventContentTypeRow);
+        $eventContentRow = $this->dao->get(self::$id);
+        $this->assertInstanceOf(RowDataInterface::class, $eventContentRow);
     }
 
     public function test6Columns() {
-        $eventContentTypeRow = $this->dao->get(self::$id);
-        $this->assertCount(6, $eventContentTypeRow);
+        $eventContentRow = $this->dao->get(self::$id);
+        $this->assertCount(6, $eventContentRow);
     }
 
     public function testUpdate() {
-        $eventContentTypeRow = $this->dao->get(self::$id);
-        $name = $eventContentTypeRow['title'];
-        $this->assertIsString($eventContentTypeRow['title']);
+        $eventContentRow = $this->dao->get(self::$id);
+        $name = $eventContentRow['title'];
+        $this->assertIsString($eventContentRow['title']);
         //
         $this->setUp();
         $updated = str_replace('-title', '-title_updated', $name);
-        $eventContentTypeRow['title'] = $updated;
-        $this->dao->update($eventContentTypeRow);
+        $eventContentRow['title'] = $updated;
+        $this->dao->update($eventContentRow);
         $this->assertEquals(1, $this->dao->getRowCount());
 
         $this->setUp();
-        $eventContentTypeRowRereaded = $this->dao->get(self::$id);
-        $this->assertEquals($eventContentTypeRow, $eventContentTypeRowRereaded);
-        $this->assertContains('-title_updated', $eventContentTypeRowRereaded['title']);
-    }
+        $eventContentRowRereaded = $this->dao->get(self::$id);
+        $this->assertEquals($eventContentRow, $eventContentRowRereaded);
+        $this->assertContains('-title_updated', $eventContentRowRereaded['title']) ;
+    }    
 
     public function testFind() {
-        $eventContentTypeRow = $this->dao->find();
+        $eventContentRow = $this->dao->find();
         $this->assertIsArray($eventContentTypeRow);
-        $this->assertGreaterThanOrEqual(1, count($eventContentTypeRow));
-        $this->assertInstanceOf(RowDataInterface::class, $eventContentTypeRow[0]);
+        $this->assertGreaterThanOrEqual(1, count($eventContenRow));
+        $this->assertInstanceOf(RowDataInterface::class, $eventContentRow[0]);
     }
 
     public function testDelete() {
-        $eventContentTypeRow = $this->dao->get(self::$id);
-        $this->dao->delete($eventContentTypeRow);
+        $eventContentRow = $this->dao->get(self::$id);
+        $this->dao->delete($eventContentRow);
         $this->assertEquals(1, $this->dao->getRowCount());
 
         $this->setUp();
-        $eventContentTypeRow = $this->dao->get(self::$id);
-        $this->assertNull($eventContentTypeRow);
+        $eventContentRow = $this->dao->get(self::$id);
+        $this->assertNull($eventContenRow);
     }
 }
