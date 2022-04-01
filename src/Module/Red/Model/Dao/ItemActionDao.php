@@ -8,7 +8,7 @@
 
 namespace Red\Model\Dao;
 
-use Model\Dao\DaoTableAbstract;
+use Model\Dao\DaoEditAbstract;
 use Model\RowData\RowDataInterface;
 
 /**
@@ -16,11 +16,11 @@ use Model\RowData\RowDataInterface;
  *
  * @author pes2704
  */
-class ItemActionDao extends DaoTableAbstract {
+class ItemActionDao extends DaoEditAbstract {
 
     private $keyAttribute = ['type_fk', 'item_id'];
 
-    public function getKeyAttribute() {
+    public function getPrimaryKeyAttribute() {
         return $this->keyAttribute;
     }
 
@@ -49,7 +49,7 @@ class ItemActionDao extends DaoTableAbstract {
      * Vrací všechny řádky tabulky 'item_action' ve formě asociativního pole.
      * @return array
      */
-    public function find($whereClause="", $touplesToBind=[]) {
+    public function find($whereClause="", $touplesToBind=[]): iterable{
         $select = $this->select("
                 `item_action`.`type_fk`,
                 `item_action`.`item_id`,

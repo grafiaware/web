@@ -14,8 +14,7 @@ use Model\RowData\RowDataInterface;
  *
  * @author pes2704
  */
-interface DaoTableInterface extends DaoReadonlyInterface {
-    public function find($whereClause="", $touplesToBind=[]) ;
+interface DaoEditInterface extends DaoReadonlyInterface {
     public function insert(RowDataInterface $rowData);
     public function update(RowDataInterface $rowData);
     public function delete(RowDataInterface $rowData);

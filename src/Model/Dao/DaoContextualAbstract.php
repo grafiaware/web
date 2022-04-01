@@ -4,6 +4,8 @@ namespace Model\Dao;
 
 use Pes\Database\Handler\HandlerInterface;
 
+use Model\Builder\SqlInterface;
+
 use Model\Context\ContextFactoryInterface;
 
 /**
@@ -11,7 +13,7 @@ use Model\Context\ContextFactoryInterface;
  *
  * @author pes2704
  */
-abstract class DaoContextualAbstract extends DaoTableAbstract implements DaoContextualAbstractInterface {
+abstract class DaoContextualAbstract extends DaoEditAbstract implements DaoContextualAbstractInterface {
 
     /**
      * @var ContextFactoryInterface
@@ -19,8 +21,8 @@ abstract class DaoContextualAbstract extends DaoTableAbstract implements DaoCont
     private $contextFactory;
 
 
-    public function __construct(HandlerInterface $handler, $fetchClassName="", ContextFactoryInterface $contextFactory=null) {
-        parent::__construct($handler, $fetchClassName);
+    public function __construct(HandlerInterface $handler, SqlInterface $sql, $fetchClassName, ContextFactoryInterface $contextFactory=null) {
+        parent::__construct($handler, $sql, $fetchClassName);
         $this->contextFactory = $contextFactory;
     }
 

@@ -2,7 +2,7 @@
 
 namespace Events\Model\Dao;
 
-use Model\Dao\DaoTableAbstract;
+use Model\Dao\DaoEditAbstract;
 
 use \Model\Dao\DaoAutoincrementTrait;
 use Model\RowData\RowDataInterface;
@@ -15,13 +15,13 @@ use Events\Model\Dao\EventLinkPhaseDaoInterface;
  *
  * @author vlse2610
  */
-class EventLinkPhaseDao extends DaoTableAbstract implements EventLinkPhaseDaoInterface {
+class EventLinkPhaseDao extends DaoEditAbstract implements EventLinkPhaseDaoInterface {
 
     use DaoAutoincrementTrait;
 
     private $keyAttribute = 'id';
 
-    public function getKeyAttribute() {
+    public function getPrimaryKeyAttribute() {
         return $this->keyAttribute;
     }
 
@@ -49,7 +49,7 @@ class EventLinkPhaseDao extends DaoTableAbstract implements EventLinkPhaseDaoInt
 
 
 
-    public function find($whereClause="", $touplesToBind=[]) {
+    public function find($whereClause="", $touplesToBind=[]): iterable{
         $select = $this->select("
             `event_link_phase`.`id`,
             `event_link_phase`.`text`

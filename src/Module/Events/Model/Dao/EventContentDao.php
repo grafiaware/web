@@ -9,7 +9,7 @@
 namespace Events\Model\Dao;
 
 
-use Model\Dao\DaoTableAbstract;
+use Model\Dao\DaoEditAbstract;
 use Model\Dao\DaoAutoincrementKeyInterface;
 use Model\Dao\DaoAutoincrementTrait;
 
@@ -20,13 +20,13 @@ use Model\RowData\RowDataInterface;
  *
  * @author pes2704
  */
-class EventContentDao extends DaoTableAbstract implements DaoAutoincrementKeyInterface {
+class EventContentDao extends DaoEditAbstract implements DaoAutoincrementKeyInterface {
 
     use DaoAutoincrementTrait;
 
     private $keyAttribute = 'id';
 
-    public function getKeyAttribute() {
+    public function getPrimaryKeyAttribute() {
         return $this->keyAttribute;
     }
 
@@ -51,7 +51,7 @@ class EventContentDao extends DaoTableAbstract implements DaoAutoincrementKeyInt
 
     }
 
-    public function find($whereClause="", $touplesToBind=[]) {
+    public function find($whereClause="", $touplesToBind=[]): iterable{
         $select = $this->select("
         `event_content`.`id`,
             `event_content`.`title`,

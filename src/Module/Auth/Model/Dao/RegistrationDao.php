@@ -2,7 +2,7 @@
 
 namespace Auth\Model\Dao;
 
-use Model\Dao\DaoTableAbstract;
+use Model\Dao\DaoEditAbstract;
 use Model\RowData\RowDataInterface;
 
 use Pes\Database\Handler\HandlerInterface;
@@ -12,11 +12,11 @@ use Pes\Database\Handler\HandlerInterface;
  *
  * @author pes2704
  */
-class RegistrationDao extends DaoTableAbstract {
+class RegistrationDao extends DaoEditAbstract {
 
     private $keyAttribute = 'login_name_fk';
 
-    public function getKeyAttribute() {
+    public function getPrimaryKeyAttribute() {
         return $this->keyAttribute;
     }
 
@@ -66,6 +66,21 @@ class RegistrationDao extends DaoTableAbstract {
         $where = $this->where("`registration`.`uid` = :uid");
         $touplesToBind = [':uid' => $uid];
         return $this->selectOne($select, $from, $where, $touplesToBind, true);
+    }
+
+    public function find($whereClause = "", $touplesToBind = []) {
+        $select = $this->select("
+            `registration`.`login_name_fk`,
+           `registration`.`password_hash`,
+           `registration`.`email`,
+           `registration`.`email_time`,
+           `registration`.`uid`,
+           `registration`.`info`,
+           `registration`.`created`
+           ");
+        $from = $this->from("`registration`");
+        $where = $this->where($whereClause);
+        return $this->selectMany($select, $from, $where, $touplesToBind);
     }
 
     public function insert /*Unique*/ ($row) {

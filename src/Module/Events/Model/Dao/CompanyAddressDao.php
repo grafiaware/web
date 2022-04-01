@@ -1,7 +1,7 @@
 <?php
 namespace Events\Model\Dao;
 
-use Model\Dao\DaoTableAbstract;
+use Model\Dao\DaoEditAbstract;
 use Model\RowData\RowDataInterface;
 
 /**
@@ -9,11 +9,11 @@ use Model\RowData\RowDataInterface;
  *
  * @author vlse2610
  */
-class CompanyAddressDao extends DaoTableAbstract {
+class CompanyAddressDao extends DaoEditAbstract {
 
     private $keyAttribute = 'company_id';  //primarni klic a cizi klic
 
-    public function getKeyAttribute() {
+    public function getPrimaryKeyAttribute() {
         return $this->keyAttribute;
     }
 
@@ -31,7 +31,7 @@ class CompanyAddressDao extends DaoTableAbstract {
         return $this->selectOne($select, $from, $where, $touples, true);
     }
 
-    public function find($whereClause="", $touplesToBind=[]) {
+    public function find($whereClause="", $touplesToBind=[]): iterable{
         $select = $this->select("
             `company_address`.`company_id`,  
             `company_address`.`name`,

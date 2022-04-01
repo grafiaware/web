@@ -8,7 +8,7 @@
 
 namespace Events\Model\Dao;
 
-use Model\Dao\DaoTableAbstract;
+use Model\Dao\DaoEditAbstract;
 use Model\RowData\RowDataInterface;
 
 /**
@@ -16,11 +16,11 @@ use Model\RowData\RowDataInterface;
  *
  * @author pes2704
  */
-class EnrollDao extends DaoTableAbstract {
+class EnrollDao extends DaoEditAbstract {
 
     private $keyAttribute = 'login_login_name_fk';
 
-    public function getKeyAttribute() {
+    public function getPrimaryKeyAttribute() {
         return $this->keyAttribute;
     }
 
@@ -34,7 +34,7 @@ class EnrollDao extends DaoTableAbstract {
         return $this->selectOne($select, $from, $where, $touples, true);
     }
 
-    public function find($whereClause="", $touplesToBind=[]) {
+    public function find($whereClause="", $touplesToBind=[]): iterable{
         $select = $this->select("
             `enroll`.`login_login_name_fk`,
             `enroll`.`event_id_fk`");

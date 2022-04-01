@@ -10,7 +10,7 @@ namespace Events\Model\Dao;
 
 use Pes\Database\Handler\HandlerInterface;
 
-use Model\Dao\DaoTableAbstract;
+use Model\Dao\DaoEditAbstract;
 use Model\Dao\DaoKeyDbVerifiedInterface;
 use Model\RowData\RowDataInterface;
 
@@ -22,11 +22,11 @@ use Model\Dao\Exception\DaoForbiddenOperationException;
  *
  * @author pes2704
  */
-class LoginDao extends DaoTableAbstract implements DaoKeyDbVerifiedInterface {
+class LoginDao extends DaoEditAbstract implements DaoKeyDbVerifiedInterface {
 
     private $keyAttribute = 'login_name';
 
-    public function getKeyAttribute() {
+    public function getPrimaryKeyAttribute() {
         return $this->keyAttribute;
     }
 
@@ -38,6 +38,13 @@ class LoginDao extends DaoTableAbstract implements DaoKeyDbVerifiedInterface {
         return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
+    public function find($whereClause = "", $touplesToBind = []) {
+        $select = $this->select("`login`.`login_name`");
+        $from = $this->from("`login`");
+        $where = $this->where($whereClause);
+        return $this->selectMany($select, $from, $where, $touplesToBind);
+    }
+    
     public function insertWithKeyVerification($rowData) {
         $this->execInsertWithKeyVerification('login', ['login_name'], $rowData);
     }

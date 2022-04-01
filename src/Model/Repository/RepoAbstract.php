@@ -8,7 +8,7 @@
 
 namespace Model\Repository;
 
-use Model\Dao\DaoTableInterface;
+use Model\Dao\DaoEditInterface;
 use Model\Dao\DaoKeyDbVerifiedInterface;
 use Model\Dao\DaoAutoincrementKeyInterface;
 

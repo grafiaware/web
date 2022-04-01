@@ -11,8 +11,7 @@ namespace Model\Dao;
 use Pes\Database\Handler\HandlerInterface;
 use Pes\Database\Statement\StatementInterface;
 
-use Model\RowData\RowDataInterface;
-use Model\RowData\Filter\NominateFilter;
+use Model\Builder\SqlInterface;
 
 /**
  * Description of DaoAbstract
@@ -22,12 +21,16 @@ use Model\RowData\Filter\NominateFilter;
 abstract class DaoReadonlyAbstract implements DaoReadonlyInterface {
 
     /**
-     *
      * @var HandlerInterface
      */
     protected $dbHandler;
 
     protected $fetchMode;
+
+    /**
+     * @var SqlInterface
+     */
+    protected $sql;
 
     /**
      * Prepared statements cache
@@ -36,62 +39,22 @@ abstract class DaoReadonlyAbstract implements DaoReadonlyInterface {
      */
     private $preparedStatements = [];
 
-    public function __construct(HandlerInterface $handler, $fetchClassName) {
+    public function __construct(HandlerInterface $handler, SqlInterface $sql, $fetchClassName) {
         $this->dbHandler = $handler;
         $this->fetchMode = [\PDO::FETCH_CLASS, $fetchClassName];
+        $this->sql = $sql;
     }
 
-    protected function select($fields = "") {
-        return " SELECT ".$fields." ";
+
+    public function getAttributes(): array {
+        return $this->getPrimaryKeyAttribute() + $this->getNonPrimaryKeyAttribute();
     }
 
-    protected function from($name) {
-        return " FROM ".$name." ";
-    }
-
-    protected function where($condition = "") {
-        return $condition ? " WHERE ".$condition." " : "";
-    }
-
-    protected function identificator($name) {
-        $id = "`".trim(trim($name), "`")."`";
-        return $id;
-    }
-
-    /**
-     *
-     * @param array $conditions Jedno nebo více asociativních polí.
-     * @return string
-     */
-    protected function and(...$conditions) {
-        $merged = $this->merge($conditions);
-        return $merged ? implode(" AND ", $merged) : "";
-    }
-
-    /**
-     *
-     * @param array $conditions Jedno nebo více asociativních polí.
-     * @return string
-     */
-    protected function or(...$conditions) {
-        $merged = $this->merge($conditions);
-        return $merged ? "(".implode(" OR ", $merged).")" : "";  // závorky pro prioritu OR před případnými AND spojujícími jednotlivé OR výrazy
-    }
-
-    private function merge($conditions): array {
-        $merged = [];
-        if ($conditions) {
-            foreach ($conditions as $condition) {
-                if ($condition) {
-                    if (is_array($condition)) {
-                        $merged = array_merge_recursive($merged, $condition);
-                    } else {
-                        $merged = array_merge_recursive($merged, [$condition]);
-                    }
-                }
-            }
-        }
-        return $merged;
+    public function find($whereClause="", $touplesToBind=[]): iterable{
+        $select = $this->sql->select($this->getAttributes());
+        $from = $this->sql->from($this->getTableName());
+        $where = $this->where($whereClause);
+        return $this->selectMany($select, $from, $where, $touplesToBind);
     }
 
     /**
@@ -160,6 +123,17 @@ abstract class DaoReadonlyAbstract implements DaoReadonlyInterface {
             $this->preparedStatements[$sql] = $statement;
         }
         return $this->preparedStatements[$sql];
+    }
+
+    protected function getPrimaryKeyTouplesToBind($id) {
+        $touples = [];
+        foreach ($this->getPrimaryKeyAttribute() as $field) {
+            if (!array_key_exists($field, $id)) {
+                throw new UnexpectedValueException("v předaném klíči není prvek pro pole primárního klíče '$field'.");
+            }
+            $touples[":".$field] = $id[$field];
+        }
+        return $touples;
     }
 
     /**

@@ -8,7 +8,7 @@
 
 namespace Events\Model\Dao;
 
-use Model\Dao\DaoTableAbstract;
+use Model\Dao\DaoEditAbstract;
 use Model\RowData\RowDataInterface;
 
 /**
@@ -16,11 +16,11 @@ use Model\RowData\RowDataInterface;
  *
  * @author pes2704
  */
-class VisitorProfileDao extends DaoTableAbstract {
+class VisitorProfileDao extends DaoEditAbstract {
 
     private $keyAttribute = 'login_login_name';
 
-    public function getKeyAttribute() {
+    public function getPrimaryKeyAttribute() {
         return $this->keyAttribute;
     }
 

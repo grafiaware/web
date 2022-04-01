@@ -10,7 +10,7 @@ namespace Events\Model\Dao;
 
 use Pes\Database\Handler\HandlerInterface;
 
-use Model\Dao\DaoTableAbstract;
+use Model\Dao\DaoEditAbstract;
 use Model\Dao\DaoKeyDbVerifiedInterface;
 use Model\RowData\RowDataInterface;
 
@@ -21,11 +21,11 @@ use Model\Dao\Exception\DaoForbiddenOperationException;
  *
  * @author pes2704
  */
-class EventContentTypeDao extends DaoTableAbstract implements DaoKeyDbVerifiedInterface {
+class EventContentTypeDao extends DaoEditAbstract implements DaoKeyDbVerifiedInterface {
 
     private $keyAttribute = 'type';
 
-    public function getKeyAttribute() {
+    public function getPrimaryKeyAttribute() {
         return $this->keyAttribute;
     }
 
@@ -45,7 +45,7 @@ class EventContentTypeDao extends DaoTableAbstract implements DaoKeyDbVerifiedIn
         return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
-    public function find($whereClause="", $touplesToBind=[]) {
+    public function find($whereClause="", $touplesToBind=[]): iterable{
         $select = $this->select("`event_content_type`.`type`,
                 `event_content_type`.`name`");
         $from = $this->from("`event_content_type`");

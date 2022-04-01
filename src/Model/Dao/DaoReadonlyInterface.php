@@ -13,6 +13,11 @@ namespace Model\Dao;
  * @author pes2704
  */
 interface DaoReadonlyInterface {
-    public function getKeyAttribute();
+    public function getPrimaryKeyAttribute(): array;
+    public function getNonPrimaryKeyAttribute(): array;
+    public function getAttributes(): array;
+    public function getTableName(): string;
+
+    public function find($whereClause="", $touplesToBind=[]): iterable;
 
 }

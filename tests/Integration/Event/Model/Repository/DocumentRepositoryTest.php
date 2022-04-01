@@ -77,14 +77,14 @@ class DocumentRepositoryTest extends AppRunner {
             'document_mimetype' => $cvMime,
         ]);
         $documentDao->insert($rowData);
-        self::$idCv = (int) $documentDao->getLastInsertId();
+        self::$idCv = (int) $documentDao->getLastInsertIdTouple();
         $rowData = new RowData([
             'document' => $letterContent,
             'document_filename' => $letterFilepathName,
             'document_mimetype' => $letterMime,
         ]);
         $documentDao->insert($rowData);
-        self::$idLetter = (int) $documentDao->getLastInsertId();
+        self::$idLetter = (int) $documentDao->getLastInsertIdTouple();
     }
 
     private static function deleteRecords(Container $container) {

@@ -19,7 +19,7 @@ class OpravneniDao extends DaoReadonlyAbstract {
 
     private $keyAttribute = 'user';
 
-    public function getKeyAttribute() {
+    public function getPrimaryKeyAttribute() {
         return $this->keyAttribute;
     }
 
@@ -36,5 +36,12 @@ class OpravneniDao extends DaoReadonlyAbstract {
         $where = $this->where("user=:user");
         $touplesToBind = [':user' => $user];
         return $this->selectOne($select, $from, $where, $touplesToBind, true);
+    }
+
+    public function find($whereClause = "", $touplesToBind = []) {
+        $select = $this->select("*");
+        $from = $this->from("opravneni");
+        $where = $this->where($whereClause);
+        return $this->selectMany($select, $from, $where, $touplesToBind);
     }
 }

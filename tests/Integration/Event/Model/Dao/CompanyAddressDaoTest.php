@@ -62,13 +62,13 @@ class CompanyAddressDaoTest  extends AppRunner {
         $rowData->offsetSet('name', "Company-nameNNN");        
         $rowData->offsetSet('eventInstitutionName30', null);
         $companyDao->insert($rowData);
-        self::$company_company_id_fk =  $companyDao->getLastInsertId();
+        self::$company_company_id_fk =  $companyDao->getLastInsertIdTouple();
         
         $rowData = new RowData();
         $rowData->offsetSet('name', "Company-nameNNN");        
         $rowData->offsetSet('eventInstitutionName30', null);
         $companyDao->insert($rowData);
-        self::$company_company_id_fk2 =  $companyDao->getLastInsertId();
+        self::$company_company_id_fk2 =  $companyDao->getLastInsertIdTouple();
 
     }
 

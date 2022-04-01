@@ -1,7 +1,7 @@
 <?php
 namespace Events\Model\Dao;
 
-use Model\Dao\DaoTableAbstract;
+use Model\Dao\DaoEditAbstract;
 use Model\RowData\RowDataInterface;
 
 use Events\Model\Dao\InstitutionDaoInterface;
@@ -14,13 +14,13 @@ use Model\Dao\DaoAutoincrementTrait;
  *
  * @author vlse2610
  */
-class InstitutionDao  extends DaoTableAbstract implements  InstitutionDaoInterface {
+class InstitutionDao  extends DaoEditAbstract implements  InstitutionDaoInterface {
 
     use DaoAutoincrementTrait;
 
     private $keyAttribute = 'id';
 
-    public function getKeyAttribute() {
+    public function getPrimaryKeyAttribute() {
         return $this->keyAttribute;
     }
 
@@ -43,7 +43,7 @@ class InstitutionDao  extends DaoTableAbstract implements  InstitutionDaoInterfa
         return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
-    public function find($whereClause="", $touplesToBind=[]) {
+    public function find($whereClause="", $touplesToBind=[]): iterable{
         $select = $this->select("
             `institution`.`id`,
             `institution`.`name`,

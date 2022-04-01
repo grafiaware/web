@@ -8,7 +8,7 @@
 
 namespace Red\Model\Dao;
 
-use Model\Dao\DaoTableAbstract;
+use Model\Dao\DaoEditAbstract;
 
 use Model\RowData\RowDataInterface;
 
@@ -17,11 +17,11 @@ use Model\RowData\RowDataInterface;
  *
  * @author pes2704
  */
-class ActiveUserDao extends DaoTableAbstract {
+class ActiveUserDao extends DaoEditAbstract {
 
     private $keyAttribute = 'user';
 
-    public function getKeyAttribute() {
+    public function getPrimaryKeyAttribute() {
         return $this->keyAttribute;
     }
 

@@ -3,7 +3,7 @@
 
 namespace Auth\Model\Dao;
 
-use Model\Dao\DaoTableAbstract;
+use Model\Dao\DaoEditAbstract;
 use Model\RowData\RowDataInterface;
 
 /**
@@ -11,11 +11,11 @@ use Model\RowData\RowDataInterface;
  *
  * @author pes2704
  */
-class CredentialsDao extends DaoTableAbstract {
+class CredentialsDao extends DaoEditAbstract {
 
     private $keyAttribute = 'login_name_fk';
 
-    public function getKeyAttribute() {
+    public function getPrimaryKeyAttribute() {
         return $this->keyAttribute;
     }
 
@@ -50,6 +50,19 @@ class CredentialsDao extends DaoTableAbstract {
         $where = $this->where("`credentials`.`login_name_fk` = :login_name_fk");
         $touplesToBind = [':login_name_fk' => $loginNameFk];
         return $this->selectOne($select, $from, $where, $touplesToBind, true);
+    }
+
+    public function find($whereClause = "", $touplesToBind = []) {
+        $select = $this->select("
+            `credentials`.`login_name_fk`,
+            `credentials`.`password_hash`,
+            `credentials`.`role`,
+            `credentials`.`created`,
+            `credentials`.`updated`
+            ");
+        $from = $this->from("`credentials`");
+        $where = $this->where($whereClause);
+        return $this->selectMany($select, $from, $where, $touplesToBind);
     }
 
     public function insert(RowDataInterface $rowData) {

@@ -31,10 +31,16 @@ trait DaoAutoincrementTrait {
      *
      * @return string
      */
-    public function getLastInsertId() {
+    public function getLastInsertIdTouple() {
         /** @var DaoAutoincrementKeyInterface $this */
         if ($this->rowCount == 1) {
-            return $this->dbHandler->lastInsertId();
+            $value = $this->dbHandler->lastInsertId();
+            $pk = $this->getPrimaryKeyAttribute();
+            if (count($pk) != 1) {
+                throw new UnexpectedValueException("Primární klíč pro Dao typu DaoAutoincrementKeyInterface nesmí být kompozitní (musí mít jen jedno pole).");
+            }
+            $name = end($pk);
+            return [$name => $value];
         } else {
             throw new DaoLastInsertIdFailedAfterMultipleRowInsertException("Metoda getLastInsertedId vrací platnou hodnotu jen při vložení právě jednoho řádku. Poslední insert vložil řádky: $this->rowCount.");
         }
@@ -42,12 +48,12 @@ trait DaoAutoincrementTrait {
 
     public function setAutoincrementedValue(RowDataInterface $rowdata) {
         /** @var DaoAutoincrementKeyInterface $this */
-        $name = $this->getKeyAttribute();
+        $name = $this->getPrimaryKeyAttribute();
         if (!is_string($name)) {
             $type = gettype($name);
             throw new DaoAutoicrementedKeyAttributeFieldNameException("Jmémno pole atributu klíče, které je autoincrement musí být string, předán typ $type.");
         }
-        $rowdata->forcedSet($name, $this->getLastInsertId());
+        $rowdata->forcedSet($name, $this->getLastInsertIdTouple());
     }
 
 }

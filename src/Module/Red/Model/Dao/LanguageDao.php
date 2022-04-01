@@ -8,7 +8,7 @@
 
 namespace Red\Model\Dao;
 
-use Model\Dao\DaoTableAbstract;
+use Model\Dao\DaoEditAbstract;
 use Model\RowData\RowDataInterface;
 
 /**
@@ -16,11 +16,11 @@ use Model\RowData\RowDataInterface;
  *
  * @author pes2704
  */
-class LanguageDao extends DaoTableAbstract {
+class LanguageDao extends DaoEditAbstract {
 
     private $keyAttribute = 'lang_code';
 
-    public function getKeyAttribute() {
+    public function getPrimaryKeyAttribute() {
         return $this->keyAttribute;
     }
 
@@ -42,7 +42,7 @@ class LanguageDao extends DaoTableAbstract {
      *
      * @return array
      */
-    public function find($whereClause="", $touplesToBind=[]) {
+    public function find($whereClause="", $touplesToBind=[]): iterable{
         $select = $this->select("lang_code, locale, name, collation, state");
         $from = $this->from("language");
         $where = $this->where($whereClause);

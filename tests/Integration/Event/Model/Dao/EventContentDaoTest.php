@@ -68,7 +68,7 @@ class EventContentDaoTest extends AppRunner {
         $rowData->offsetSet('event_content_type_fk', null);
         $rowData->offsetSet('institution_id_fk', null);
         $this->dao->insert($rowData);
-        self::$id =  $this->dao->getLastInsertId();
+        self::$id =  $this->dao->getLastInsertIdTouple();
         $this->assertGreaterThan(0, (int) self::$id);
         $numRows = $this->dao->getRowCount();
         $this->assertEquals(1, $numRows);

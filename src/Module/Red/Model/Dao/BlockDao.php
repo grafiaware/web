@@ -8,7 +8,7 @@
 
 namespace Red\Model\Dao;
 
-use Model\Dao\DaoTableAbstract;
+use Model\Dao\DaoEditAbstract;
 use Model\RowData\RowDataInterface;
 
 use Pes\Database\Handler\HandlerInterface;
@@ -18,11 +18,11 @@ use Pes\Database\Handler\HandlerInterface;
  *
  * @author pes2704
  */
-class BlockDao extends DaoTableAbstract {
+class BlockDao extends DaoEditAbstract {
 
     private $keyAttribute = 'name';
 
-    public function getKeyAttribute() {
+    public function getPrimaryKeyAttribute() {
         return $this->keyAttribute;
     }
 
@@ -44,7 +44,7 @@ class BlockDao extends DaoTableAbstract {
      *
      * @return array
      */
-    public function find($whereClause="", $touplesToBind=[]) {
+    public function find($whereClause="", $touplesToBind=[]): iterable{
         $select = $this->select("name, uid_fk");
         $from = $this->from("block");
         $where = $this->where($whereClause);

@@ -19,7 +19,7 @@ class EventDao extends DaoContextualAbstract implements EventDaoInterface {
 
     private $keyAttribute = 'id';
 
-    public function getKeyAttribute() {
+    public function getPrimaryKeyAttribute() {
         return $this->keyAttribute;
     }
 
@@ -88,7 +88,7 @@ class EventDao extends DaoContextualAbstract implements EventDaoInterface {
 
 
 
-    public function find($whereClause="", $touplesToBind=[]) {
+    public function find($whereClause="", $touplesToBind=[]): iterable{
         $select = $this->select("
             `event`.`id`,
             `event`.`published`,

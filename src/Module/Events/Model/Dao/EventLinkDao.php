@@ -1,7 +1,7 @@
 <?php
 namespace Events\Model\Dao;
 
-use Model\Dao\DaoTableAbstract;
+use Model\Dao\DaoEditAbstract;
 
 use Model\Dao\DaoAutoincrementTrait;
 use Model\RowData\RowDataInterface;
@@ -13,13 +13,13 @@ use Events\Model\Dao\EventLinkDaoInterface;
  *
  * @author vlse2610
  */
-class EventLinkDao  extends DaoTableAbstract implements EventLinkDaoInterface {
+class EventLinkDao  extends DaoEditAbstract implements EventLinkDaoInterface {
 
     use DaoAutoincrementTrait;
 
     private $keyAttribute = 'id';
 
-    public function getKeyAttribute() {
+    public function getPrimaryKeyAttribute() {
         return $this->keyAttribute;
     }
 
@@ -47,7 +47,7 @@ class EventLinkDao  extends DaoTableAbstract implements EventLinkDaoInterface {
 //        ;
 //    }
 
-    public function find($whereClause="", $touplesToBind=[]) {
+    public function find($whereClause="", $touplesToBind=[]): iterable{
         $select = $this->select("
             `event_link`.`id`,
             `event_link`.`show` ,

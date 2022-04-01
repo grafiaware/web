@@ -23,7 +23,7 @@ class MenuItemDao extends DaoContextualAbstract {
 
     private $keyAttribute = ['lang_code_fk', 'uid_fk'];
 
-    public function getKeyAttribute() {
+    public function getPrimaryKeyAttribute() {
         return $this->keyAttribute;
     }
 

@@ -25,7 +25,7 @@ class VisitorDataPostDao extends DaoEditAbstract implements DaoKeyDbVerifiedInte
 
     private $keyAttribute = 'login_name';
 
-    public function getKeyAttribute() {
+    public function getPrimaryKeyAttribute() {
         return $this->keyAttribute;
     }
 
