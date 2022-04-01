@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 use Test\AppRunner\AppRunner;
+
 use Pes\Container\Container;
 
 use Test\Integration\Event\Container\EventsContainerConfigurator;
@@ -56,6 +57,8 @@ class CompanyContactDaoTest extends AppRunner {
         
         
     }
+    
+    
 
     protected function setUp(): void {
         $this->container =
@@ -65,75 +68,73 @@ class CompanyContactDaoTest extends AppRunner {
         $this->dao = $this->container->get(CompanyContactDao::class);  // vždy nový objekt
     }
 
+    
     protected function tearDown(): void {
     }
-
     public static function tearDownAfterClass(): void {
-
     }
 
     
     public function testSetUp() {
         $this->assertInstanceOf(CompanyContactDao::class, $this->dao);
-
     }
-//    public function testInsert() {
-//        $rowData = new RowData();
-//        
-////$rowData->offsetSet('company_id', "testEvenao-title");        
-//        $rowData->offsetSet('name', null);
-//        $rowData->offsetSet('phones', null);
-//        $rowData->offsetSet('mobiles', null);
-//        $rowData->offsetSet('emails', null);
-// 
-//        $this->dao->insert($rowData);
-//        self::$id =  $this->dao->getLastInsertId();
-//        $this->assertGreaterThan(0, (int) self::$id);
-//        $numRows = $this->dao->getRowCount();
-//        $this->assertEquals(1, $numRows);
-//    }
-//
-//    public function testGetExistingRow() {
-//        $companyContactRow = $this->dao->get(self::$id);
-//        $this->assertInstanceOf(RowDataInterface::class, $companyContactRow);
-//    }
-//
-//    public function test6Columns() {
-//        $companyContactRow = $this->dao->get(self::$id);
-//        $this->assertCount(6, $companyContactRow);
-//    }
+    
+    public function testInsert() {
+        $rowData = new RowData();
+        
+        $rowData->offsetSet('company_id', self::$company_company_id_fk );        
+        $rowData->offsetSet('name', null);
+        $rowData->offsetSet('phones', null);
+        $rowData->offsetSet('mobiles', null);
+        $rowData->offsetSet('emails', null);
+ 
+        $this->dao->insert($rowData);
+        self::$id =  $this->dao->getLastInsertId();
+        $this->assertGreaterThan(0, (int) self::$id);
+        $numRows = $this->dao->getRowCount();
+        $this->assertEquals(1, $numRows);
+    }
 
-//    public function testUpdate() {
-//        $companyContactRow = $this->dao->get(self::$id);
-//        $name = $companyContactRow['mk'];
-//        $this->assertIsString($companyContactRow['title']);
-//        //
-//        $this->setUp();
-//        $updated = str_replace('-title', '-title_updated', $name);
-//        $eventContentTypeRow['title'] = $updated;
-//        $this->dao->update($eventContentTypeRow);
-//        $this->assertEquals(1, $this->dao->getRowCount());
-//
-//        $this->setUp();
-//        $eventContentTypeRowRereaded = $this->dao->get(self::$id);
-//        $this->assertEquals($eventContentTypeRow, $eventContentTypeRowRereaded);
-//        $this->assertContains('-title_updated', $eventContentTypeRowRereaded['title']);
-//    }
-//
-//    public function testFind() {
-//        $eventContentTypeRow = $this->dao->find();
-//        $this->assertIsArray($eventContentTypeRow);
-//        $this->assertGreaterThanOrEqual(1, count($eventContentTypeRow));
-//        $this->assertInstanceOf(RowDataInterface::class, $eventContentTypeRow[0]);
-//    }
-//
-//    public function testDelete() {
-//        $eventContentTypeRow = $this->dao->get(self::$id);
-//        $this->dao->delete($eventContentTypeRow);
-//        $this->assertEquals(1, $this->dao->getRowCount());
-//
-//        $this->setUp();
-//        $eventContentTypeRow = $this->dao->get(self::$id);
-//        $this->assertNull($eventContentTypeRow);
-//    }
+    public function testGetExistingRow() {
+        $companyContactRow = $this->dao->get(self::$id);
+        $this->assertInstanceOf(RowDataInterface::class, $companyContactRow);
+    }
+
+    public function test6Columns() {
+        $companyContactRow = $this->dao->get(self::$id);
+        $this->assertCount(6, $companyContactRow);
+    }
+
+    public function testUpdate() {
+        $companyContactRow = $this->dao->get(self::$id);
+        $name = $companyContactRow['name'];
+        $this->assertNull($companyContactRow['name']);
+        //
+        $this->setUp(); //nove dao
+        $companyContactRow['name'] = 'name_updated';
+        $this->dao->update($companyContactRow);
+        $this->assertEquals(1, $this->dao->getRowCount());
+
+        $this->setUp(); //nove dao
+        $companyContactRowRereaded = $this->dao->get(self::$id);
+        $this->assertEquals($companyContactRow, $companyContactRowRereaded);
+        $this->assertContains('name_updated', $companyContactRowRereaded['name']);
+    }
+
+    public function testFind() {
+        $companyContactRow = $this->dao->find();
+        $this->assertIsArray($companyContactRow);
+        $this->assertGreaterThanOrEqual(1, count($companyContactRow));
+        $this->assertInstanceOf(RowDataInterface::class, $companyContactRow[0]);
+    }
+
+    public function testDelete() {
+        $companyContactRow = $this->dao->get(self::$id);
+        $this->dao->delete($companyContactRow);
+        $this->assertEquals(1, $this->dao->getRowCount());
+
+        $this->setUp();
+        $companyContactRow = $this->dao->get(self::$id);
+        $this->assertNull($companyContactRow);
+    }
 }

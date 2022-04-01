@@ -36,11 +36,11 @@ class CompanyContactDao extends DaoTableAbstract implements  CompanyContactDaoIn
     */
     public function get($id) {
         $select = $this->select("
-            `company_contact`.`id`  
-            `company_contact`.`company_id`  
-            `company_contact`.`name`  
-            `company_contact`.`phones`
-            `company_contact`.`mobiles` 
+            `company_contact`.`id`,  
+            `company_contact`.`company_id` , 
+            `company_contact`.`name`,  
+            `company_contact`.`phones`,
+            `company_contact`.`mobiles`, 
             `company_contact`.`emails` 
             ");
         $from = $this->from("`events`.`company_contact`");
@@ -52,11 +52,11 @@ class CompanyContactDao extends DaoTableAbstract implements  CompanyContactDaoIn
     
     public function find($whereClause="", $touplesToBind=[]) {
         $select = $this->select("
-            `company_contact`.`id`  
-            `company_contact`.`company_id`  
-            `company_contact`.`name`  
-            `company_contact`.`phones`
-            `company_contact`.`mobiles` 
+            `company_contact`.`id`,  
+            `company_contact`.`company_id`, 
+            `company_contact`.`name`,
+            `company_contact`.`phones`,
+            `company_contact`.`mobiles`, 
             `company_contact`.`emails` 
             ");
         $from = $this->from("`events`.`company_contact`");

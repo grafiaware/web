@@ -37,10 +37,10 @@ class PozadovaneVzdelani extends EntityAbstract implements PozadovaneVzdelaniInt
     }
     /**
      * 
-     * @param int $stupen
+     * @param type $stupen
      * @return PozadovaneVzdelaniInterface
      */
-    public function setStupen(int $stupen) : PozadovaneVzdelaniInterface {
+    public function setStupen( $stupen) : PozadovaneVzdelaniInterface {
         $this->stupen = $stupen;
         return $this;
     }
