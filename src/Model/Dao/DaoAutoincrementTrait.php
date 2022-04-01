@@ -14,6 +14,8 @@ use Model\RowData\RowDataInterface;
 use Model\Dao\Exception\DaoLastInsertIdFailedAfterMultipleRowInsertException;
 use Model\Dao\Exception\DaoAutoicrementedKeyAttributeFieldNameException;
 
+use UnexpectedValueException;
+
 /**
  * Trait pro implementaci metody rozhranní DaoAutoincrementKeyInterface
  *
@@ -24,36 +26,46 @@ trait DaoAutoincrementTrait {
     protected $lastInsertRowCount;
 
     /**
-     * Vrací hodnotu primárního klíče, pokud je typu autoincrement. Metoda vrací platnou hodnotu jen při vložení právě jednoho řádku.
-     * Pokud poslední příkaz vložil více než jeden řádek, metoda vyhazuje výjimku.
+     * Vrací pole primárního klíče, pokud je dao typu autoincrement.
+     * Metoda vrací platnou hodnotu jen při vložení právě jednoho řádku, jinak vyhazuje výjimku.
      * Poznámka: v transakci je třeba volat metodu před příkazem commit.
      * Poznámka: Metoda je funkční pro MySQL a MariaDB, pro jiné databáze záleží na driveru.
      *
      * @return string
      */
-    public function getLastInsertIdTouple() {
+    public function getLastInsertIdTouple(): array {
+        $value = $this->lastInsertIdValue();
+        $name = end($this->getPrimaryKeyFieldName());
+        return [$name => $value];
+    }
+
+    /**
+     * Vrací hodnotu autoincrement klíče vzniklého při posledním provedeném insertu.
+     * Metoda vrací platnou hodnotu jen při vložení právě jednoho řádku, jinak vyhazuje výjimku.
+     *
+     * @return type
+     * @throws DaoLastInsertIdFailedAfterMultipleRowInsertException
+     */
+    public function lastInsertIdValue() {
         /** @var DaoAutoincrementKeyInterface $this */
         if ($this->rowCount == 1) {
-            $value = $this->dbHandler->lastInsertId();
-            $pk = $this->getPrimaryKeyAttribute();
-            if (count($pk) != 1) {
-                throw new UnexpectedValueException("Primární klíč pro Dao typu DaoAutoincrementKeyInterface nesmí být kompozitní (musí mít jen jedno pole).");
-            }
-            $name = end($pk);
-            return [$name => $value];
+            return  $this->dbHandler->lastInsertId();
         } else {
-            throw new DaoLastInsertIdFailedAfterMultipleRowInsertException("Metoda getLastInsertedId vrací platnou hodnotu jen při vložení právě jednoho řádku. Poslední insert vložil řádky: $this->rowCount.");
+            throw new DaoLastInsertIdFailedAfterMultipleRowInsertException("Metoda lastInsertIdValue() vrací platnou hodnotu jen při vložení právě jednoho řádku. Poslední insert vložil řádky: $this->rowCount.");
         }
     }
 
     public function setAutoincrementedValue(RowDataInterface $rowdata) {
         /** @var DaoAutoincrementKeyInterface $this */
-        $name = $this->getPrimaryKeyAttribute();
-        if (!is_string($name)) {
-            $type = gettype($name);
-            throw new DaoAutoicrementedKeyAttributeFieldNameException("Jmémno pole atributu klíče, které je autoincrement musí být string, předán typ $type.");
-        }
+        $name = $this->getPrimaryKeyFieldName();
         $rowdata->forcedSet($name, $this->getLastInsertIdTouple());
     }
 
+    private function getPrimaryKeyFieldName() {
+        $pk = $this->getPrimaryKeyAttribute();
+        if (count($pk) != 1) {
+            throw new UnexpectedValueException("Primární klíč pro Dao typu DaoAutoincrementKeyInterface nesmí být kompozitní (musí mít jen jedno pole).");
+        }
+        return $pk;
+    }
 }

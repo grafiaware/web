@@ -35,7 +35,7 @@ abstract class DaoEditAbstract extends DaoReadonlyAbstract {
     }
 
     ####################################################################
-    
+
     /**
      * Očekává SQL string s příkazem INSERT. Provede ho s použitím parametrů a vrací výsledek metody PDOStatement->execute().
      *
@@ -150,7 +150,7 @@ abstract class DaoEditAbstract extends DaoReadonlyAbstract {
         $tableName = $this->getTableName();
         $keyNames = $this->getPrimaryKeyAttribute();
         $where = $this->sql->touples($keyNames);
-        $sql = "DELETE FROM $tableName ".$this->where($this->sql->and($where));
+        $sql = "DELETE FROM $tableName ".$this->sql->where($this->sql->and($where));
         $statement = $this->getPreparedStatement($sql);
         $this->bindParams($statement, $rowData, $keyNames);
         $success = $statement->execute();

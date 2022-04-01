@@ -13,6 +13,8 @@ use Pes\Database\Statement\StatementInterface;
 
 use Model\Builder\SqlInterface;
 
+use UnexpectedValueException;
+
 /**
  * Description of DaoAbstract
  *
@@ -45,15 +47,30 @@ abstract class DaoReadonlyAbstract implements DaoReadonlyInterface {
         $this->sql = $sql;
     }
 
+    public function createPrimaryKeyTouple($primaryFieldsValue): array {
+        $pkAttribute = $this->getPrimaryKeyAttribute();
+        if (count($pkAttribute)==1) {
+            return [end($pkAttribute) => $primaryFieldsValue];
+        }
+        throw new UnexpectedValueException("nelze automaticky vytvořit dvojici primárního klíče. Atribut promárního klíče má více nž jedno pole, primární klíč je kompozitní.");
+    }
 
     public function getAttributes(): array {
-        return $this->getPrimaryKeyAttribute() + $this->getNonPrimaryKeyAttribute();
+        return array_merge($this->getPrimaryKeyAttribute(), $this->getNonPrimaryKeyAttribute());
+    }
+
+    public function get($id) {
+        $select = $this->sql->select($this->getAttributes());
+        $from = $this->sql->from($this->getTableName());
+        $where = $this->sql->where($this->sql->and($this->sql->touples($this->getPrimaryKeyAttribute())));
+        $touplesToBind = $this->getPrimaryKeyTouplesToBind($id);
+        return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
     public function find($whereClause="", $touplesToBind=[]): iterable{
         $select = $this->sql->select($this->getAttributes());
         $from = $this->sql->from($this->getTableName());
-        $where = $this->where($whereClause);
+        $where = $this->sql->where($whereClause);
         return $this->selectMany($select, $from, $where, $touplesToBind);
     }
 
