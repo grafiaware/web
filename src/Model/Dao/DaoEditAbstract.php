@@ -61,7 +61,7 @@ abstract class DaoEditAbstract extends DaoReadonlyAbstract implements DaoEditInt
             $this->dbHandler->beginTransaction();
             $found = $this->getWithinTransaction($tableName, $keyNames, $rowData);
             if  (! $found)   {
-                $this->execInsert($tableName, $rowData);   // předpokládám, že changed je i sloupec s klíčem
+                $this->execInsert($rowData);   // předpokládám, že changed je i sloupec s klíčem
             } else {
                 foreach ($keyNames as $name) {
                     $k[] = $rowData->offsetGet($name);

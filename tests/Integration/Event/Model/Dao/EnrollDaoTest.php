@@ -21,8 +21,6 @@ use Events\Model\Dao\EventDao;
 use Model\RowData\RowData;
 use Model\RowData\RowDataInterface;
 
-use Model\Dao\Exception\DaoKeyVerificationFailedException;
-
 /**
  *
  * @author pes2704
@@ -63,17 +61,17 @@ class EnrollDaoTest extends AppRunner {
         } while ($login);
 
         $loginData = new RowData(['login_name' => $loginName]);
-        $loginDao->insertWithKeyVerification($loginData);
+        $loginDao->insert($loginData);
 
         self::$login_login_name_fk = $loginDao->get(['login_name' => $loginName])['login_name'];
         /** @var EventDao $eventDao */
         $eventDao = $container->get(EventDao::class);
         $eventData = new RowData(["published" => 1]);
         $eventDao->insert($eventData);  // id je autoincrement
-        self::$event_id_fk = $eventDao->getLastInsertId();
+        self::$event_id_fk = $eventDao->lastInsertIdValue();
         $eventData = new RowData(["published" => 1]);
         $eventDao->insert($eventData);  // id je autoincrement
-        self::$event_id_fk_2 = $eventDao->getLastInsertId();
+        self::$event_id_fk_2 = $eventDao->lastInsertIdValue();
     }
 
     protected function setUp(): void {

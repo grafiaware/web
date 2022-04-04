@@ -19,7 +19,7 @@ use Model\RowData\RowDataInterface;
 class EnrollDao extends DaoEditAbstract {
 
     public function getPrimaryKeyAttribute(): array {
-        return 'login_login_name_fk';
+        return ['login_login_name_fk'];
     }
 
     public function getAttributes(): array {

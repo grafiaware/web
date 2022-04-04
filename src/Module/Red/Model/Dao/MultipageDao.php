@@ -22,10 +22,22 @@ class MultipageDao extends DaoEditAbstract implements DaoAutoincrementKeyInterfa
 
     use DaoAutoincrementTrait;
 
-    private $keyAttribute = 'id';
-
     public function getPrimaryKeyAttribute(): array {
-        return $this->keyAttribute;
+        return ['id'];
+    }
+
+    public function getAttributes(): array {
+        return [
+            'id',
+            'menu_item_id_fk',
+            'template',
+            'editor',
+            'updated'
+        ];
+    }
+
+    public function getTableName(): string {
+        ;
     }
 
     /**
