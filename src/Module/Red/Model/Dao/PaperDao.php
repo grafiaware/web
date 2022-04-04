@@ -24,7 +24,7 @@ class PaperDao extends DaoEditAbstract implements DaoAutoincrementKeyInterface {
 
     private $keyAttribute = 'id';
 
-    public function getPrimaryKeyAttribute() {
+    public function getPrimaryKeyAttribute(): array {
         return $this->keyAttribute;
     }
 

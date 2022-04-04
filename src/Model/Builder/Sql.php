@@ -23,7 +23,7 @@ class Sql implements SqlInterface {
     }
 
     public function select(array $fields = []): string {
-        if ($fields) {
+        if (count($fields)!==1 OR $fields[0]!='*') {
             $select = $this->columns($fields);
         } else {
             $select = '*';
@@ -88,6 +88,11 @@ class Sql implements SqlInterface {
         return implode(", ", $setTouples);
     }
 
+    /**
+     * Z pole jmen vytvoí pole výrazů sloupec = :placeholder. Sloupec je jméno použité jako identifikátor a placeholder je placeholder púro prepared statement.
+     * @param array $names
+     * @return array
+     */
     public function touples(array $names): array {
         $touples = [];
         foreach ($names as $name) {

@@ -16,35 +16,17 @@ use Model\RowData\RowDataInterface;
  */
 class LoginDao extends DaoEditAbstract implements DaoKeyDbVerifiedInterface {
 
-    private $keyAttribute = 'login_name';
 
-    public function getPrimaryKeyAttribute() {
-        return $this->keyAttribute;
+    public function getPrimaryKeyAttribute(): array {
+        return ['login_name'];
     }
 
-    public function get($loginName) {
-        $select = $this->select("`login`.`login_name`");
-        $from = $this->from("`login`");
-        $where = $this->where("`login`.`login_name` = :login_name");
-        $touplesToBind = [':login_name' => $loginName];
-        return $this->selectOne($select, $from, $where, $touplesToBind, true);
+    public function getAttributes(): array {
+        return ['login_name'];
     }
 
-    public function findAll() {
-        $select = $this->select("`login`.`login_name`");
-        $from = $this->from("`login`");
-        return $this->selectMany($select, $from, $where, []);
-    }
-
-    public function find($whereClause = "", $touplesToBind = []) {
-        $select = $this->select("`login`.`login_name`");
-        $from = $this->from("`login`");
-        $where = $this->where($whereClause);
-        return $this->selectMany($select, $from, $where, $touplesToBind);
-    }
-
-    public function insertWithKeyVerification($rowData) {
-        $this->execInsertWithKeyVerification('login', ['login_name'], $rowData);
+    public function getTableName(): string {
+        return 'login';
     }
 
     public function insert(RowDataInterface $rowData) {
@@ -53,9 +35,5 @@ class LoginDao extends DaoEditAbstract implements DaoKeyDbVerifiedInterface {
 
     public function update(RowDataInterface $rowData) {
         throw new DaoForbiddenOperationException("Nelze měnit unikátní identifikátor login name.");
-    }
-
-    public function delete(RowDataInterface $rowData) {
-        return $this->execDelete('login', ['login_name'], $rowData);
     }
 }

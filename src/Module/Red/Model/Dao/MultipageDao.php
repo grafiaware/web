@@ -24,7 +24,7 @@ class MultipageDao extends DaoEditAbstract implements DaoAutoincrementKeyInterfa
 
     private $keyAttribute = 'id';
 
-    public function getPrimaryKeyAttribute() {
+    public function getPrimaryKeyAttribute(): array {
         return $this->keyAttribute;
     }
 

@@ -99,12 +99,12 @@ class EventContentDaoTest extends AppRunner {
         $eventContentRowRereaded = $this->dao->get(self::$id);
         $this->assertEquals($eventContentRow, $eventContentRowRereaded);
         $this->assertContains('-title_updated', $eventContentRowRereaded['title']) ;
-    }    
+    }
 
     public function testFind() {
         $eventContentRow = $this->dao->find();
-        $this->assertIsArray($eventContentTypeRow);
-        $this->assertGreaterThanOrEqual(1, count($eventContenRow));
+        $this->assertIsArray($eventContentRow);
+        $this->assertGreaterThanOrEqual(1, count($eventContentRow));
         $this->assertInstanceOf(RowDataInterface::class, $eventContentRow[0]);
     }
 
@@ -115,6 +115,6 @@ class EventContentDaoTest extends AppRunner {
 
         $this->setUp();
         $eventContentRow = $this->dao->get(self::$id);
-        $this->assertNull($eventContenRow);
+        $this->assertNull($eventContentRow);
     }
 }

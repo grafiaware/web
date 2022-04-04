@@ -18,46 +18,16 @@ use Model\RowData\RowDataInterface;
  */
 class LanguageDao extends DaoEditAbstract {
 
-    private $keyAttribute = 'lang_code';
-
-    public function getPrimaryKeyAttribute() {
-        return $this->keyAttribute;
+    public function getPrimaryKeyAttribute(): array {
+        return ['lang_code'];
     }
 
-    /**
-     * Vrací jednu řádku tabulky
-     *
-     * @param string $lang_code
-     * @return array Asociativní pole
-     */
-    public function get($lang_code) {
-        $select = $this->select("lang_code, locale, name, collation, state");
-        $from = $this->from("language");
-        $where = $this->where("lang_code=:lang_code");
-        $touplesToBind = [':lang_code'=>$lang_code];
-        return $this->selectOne($select, $from, $where, $touplesToBind, true);
+    public function getAttributes(): array {
+        return ['lang_code', 'locale', 'name', 'collation', 'state'];
     }
 
-    /**
-     *
-     * @return array
-     */
-    public function find($whereClause="", $touplesToBind=[]): iterable{
-        $select = $this->select("lang_code, locale, name, collation, state");
-        $from = $this->from("language");
-        $where = $this->where($whereClause);
-        return $this->selectMany($select, $from, $where, $touplesToBind);
+    public function getTableName(): string {
+        return 'language';
     }
 
-    public function insert(RowDataInterface $rowData) {
-        return $this->execInsert('language', $rowData);
-    }
-
-    public function update(RowDataInterface $rowData) {
-        return $this->execUpdate('language', ['lang_code'], $rowData);
-    }
-
-    public function delete(RowDataInterface $rowData) {
-        return $this->execDelete('language', ['lang_code'], $rowData);
-    }
 }

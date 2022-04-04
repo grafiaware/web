@@ -8,6 +8,8 @@
 
 namespace Model\Dao;
 
+use Model\Dao\DaoEditInterface;
+
 use Model\RowData\RowDataInterface;
 
 use Model\Dao\Exception\DaoUnexpectecCallOutOfTransactionException;
@@ -18,9 +20,13 @@ use Model\Dao\Exception\DaoKeyVerificationFailedException;
  *
  * @author pes2704
  */
-abstract class DaoEditAbstract extends DaoReadonlyAbstract {
+abstract class DaoEditAbstract extends DaoReadonlyAbstract implements DaoEditInterface {
 
     protected $rowCount;
+
+    public function insertWithKeyVerification(RowDataInterface $rowData) {
+        return $this->execInsertWithKeyVerification($rowData);
+    }
 
     public function insert(RowDataInterface $rowData) {
         return $this->execInsert($rowData);

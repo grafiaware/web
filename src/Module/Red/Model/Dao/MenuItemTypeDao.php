@@ -21,7 +21,7 @@ class MenuItemTypeDao extends DaoEditAbstract {
 
     private $keyAttribute = 'type';
 
-    public function getPrimaryKeyAttribute() {
+    public function getPrimaryKeyAttribute(): array {
         return $this->keyAttribute;
     }
 

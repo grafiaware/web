@@ -24,56 +24,23 @@ class EventContentDao extends DaoEditAbstract implements DaoAutoincrementKeyInte
 
     use DaoAutoincrementTrait;
 
-    private $keyAttribute = 'id';
-
-    public function getPrimaryKeyAttribute() {
-        return $this->keyAttribute;
+    public function getPrimaryKeyAttribute(): array {
+        return ['id'];
     }
 
-    /**
-     * Vrací jednu řádku tabulky 'event_content' ve formě asociativního pole podle primárního klíče.
-     *
-     * @param int $id Hodnota primárního klíče
-     * @return array Asociativní pole
-     * @throws StatementFailureException
-     */
-    public function get($id) {
-        $select = $this->select("`event_content`.`id`,
-            `event_content`.`title`,
-            `event_content`.`perex`,
-            `event_content`.`party`,
-            `event_content`.`event_content_type_fk`,
-            `event_content`.`institution_id_fk`");
-        $from = $this->from("`event_content`");
-        $where = $this->where("`event_content`.`id` = :id");
-        $touples = [':id' => $id];
-        return $this->selectOne($select, $from, $where, $touples, TRUE);
-
+    public function getAttributes(): array {
+        return [
+            'id',
+            'title',
+            'perex',
+            'party',
+            'event_content_type_fk',
+            'institution_id_fk'
+        ];
     }
 
-    public function find($whereClause="", $touplesToBind=[]): iterable{
-        $select = $this->select("
-        `event_content`.`id`,
-            `event_content`.`title`,
-            `event_content`.`perex`,
-            `event_content`.`party`,
-            `event_content`.`event_content_type_fk`,
-            `event_content`.`institution_id_fk`
-            ");
-        $from = $this->from("`event_content` ");
-        $where = $this->where($whereClause);
-        return $this->selectMany($select, $from, $where, $touplesToBind);
+    public function getTableName(): string {
+        return 'event_content';
     }
 
-    public function insert(RowDataInterface $rowData) {
-        return $this->execInsert('event_content', $rowData);
-    }
-
-    public function update(RowDataInterface $rowData) {
-        return $this->execUpdate('event_content', ['id'], $rowData);
-    }
-
-    public function delete(RowDataInterface $rowData) {
-        return $this->execDelete('event_content', ['id'], $rowData);
-    }
 }

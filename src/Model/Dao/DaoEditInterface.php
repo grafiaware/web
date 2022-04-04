@@ -15,6 +15,7 @@ use Model\RowData\RowDataInterface;
  * @author pes2704
  */
 interface DaoEditInterface extends DaoReadonlyInterface {
+    public function insertWithKeyVerification(RowDataInterface $rowData);
     public function insert(RowDataInterface $rowData);
     public function update(RowDataInterface $rowData);
     public function delete(RowDataInterface $rowData);

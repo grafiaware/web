@@ -45,7 +45,7 @@ class HierarchyAggregateReadonlyDao extends DaoReadonlyAbstract implements Hiera
 
     private $keyAttribute = ['lang_code_fk', 'uid'];
 
-    public function getPrimaryKeyAttribute() {
+    public function getPrimaryKeyAttribute(): array {
         return $this->keyAttribute;
     }
 

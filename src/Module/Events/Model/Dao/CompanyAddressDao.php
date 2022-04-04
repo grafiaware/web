@@ -15,8 +15,8 @@ class CompanyAddressDao extends DaoEditAbstract {
         return ['company_id'];  //primarni klic a cizi klic
     }
 
-    public function getNonPrimaryKeyAttribute(): array {
-        return ['name', 'lokace', 'psc', 'obec'];
+    public function getAttributes(): array {
+        return ['company_id', 'name', 'lokace', 'psc', 'obec'];
     }
 
     public function getTableName(): string {

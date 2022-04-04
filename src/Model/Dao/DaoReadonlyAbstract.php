@@ -50,16 +50,13 @@ abstract class DaoReadonlyAbstract implements DaoReadonlyInterface {
     public function createPrimaryKeyTouple($primaryFieldsValue): array {
         $pkAttribute = $this->getPrimaryKeyAttribute();
         if (count($pkAttribute)==1) {
-            return [end($pkAttribute) => $primaryFieldsValue];
+            end($pkAttribute);
+            return [current($pkAttribute) => $primaryFieldsValue];
         }
         throw new UnexpectedValueException("nelze automaticky vytvořit dvojici primárního klíče. Atribut promárního klíče má více nž jedno pole, primární klíč je kompozitní.");
     }
 
-    public function getAttributes(): array {
-        return array_merge($this->getPrimaryKeyAttribute(), $this->getNonPrimaryKeyAttribute());
-    }
-
-    public function get($id) {
+    public function get(array $id) {
         $select = $this->sql->select($this->getAttributes());
         $from = $this->sql->from($this->getTableName());
         $where = $this->sql->where($this->sql->and($this->sql->touples($this->getPrimaryKeyAttribute())));
@@ -67,11 +64,17 @@ abstract class DaoReadonlyAbstract implements DaoReadonlyInterface {
         return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
-    public function find($whereClause="", $touplesToBind=[]): iterable{
+    public function find($whereClause="", $touplesToBind=[]): iterable {
         $select = $this->sql->select($this->getAttributes());
         $from = $this->sql->from($this->getTableName());
         $where = $this->sql->where($whereClause);
         return $this->selectMany($select, $from, $where, $touplesToBind);
+    }
+
+    public function findAll(): iterable {
+        $select = $this->sql->select($this->getAttributes());
+        $from = $this->sql->from($this->getTableName());
+        return $this->selectMany($select, $from, $where, []);
     }
 
     /**
@@ -142,13 +145,31 @@ abstract class DaoReadonlyAbstract implements DaoReadonlyInterface {
         return $this->preparedStatements[$sql];
     }
 
-    protected function getPrimaryKeyTouplesToBind($id) {
+    /**
+     * Z pole hodnot vytvoří asociativní pole hodnot indexovaných pomocí placeholderů.
+     *
+     * @param array $values
+     * @return array
+     * @throws UnexpectedValueException
+     */
+    protected function getPrimaryKeyTouplesToBind(array $values) {
         $touples = [];
         foreach ($this->getPrimaryKeyAttribute() as $field) {
-            if (!array_key_exists($field, $id)) {
+            if (!array_key_exists($field, $values)) {
                 throw new UnexpectedValueException("v předaném klíči není prvek pro pole primárního klíče '$field'.");
             }
-            $touples[":".$field] = $id[$field];
+            $touples[":".$field] = $values[$field];
+        }
+        return $touples;
+    }
+
+    protected function getTouplesToBind(array $attributeValues) {
+        $touples = [];
+        foreach ($attributeValues as $field => $value) {
+            if (!array_key_exists($field, $values)) {
+                throw new UnexpectedValueException("v předaném klíči není prvek pro pole primárního klíče '$field'.");
+            }
+            $touples[":".$field] = $value;
         }
         return $touples;
     }

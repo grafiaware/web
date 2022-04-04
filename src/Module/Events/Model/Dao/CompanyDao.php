@@ -20,8 +20,8 @@ class CompanyDao  extends DaoEditAbstract implements  DaoAutoincrementKeyInterfa
         return ['id'];
     }
 
-    public function getNonPrimaryKeyAttribute(): array {
-        return ['name', 'eventInstitutionName30'];
+    public function getAttributes(): array {
+        return ['id', 'name', 'eventInstitutionName30'];
     }
 
     public function getTableName(): string {

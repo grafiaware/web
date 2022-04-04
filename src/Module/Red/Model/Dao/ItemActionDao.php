@@ -18,59 +18,21 @@ use Model\RowData\RowDataInterface;
  */
 class ItemActionDao extends DaoEditAbstract {
 
-    private $keyAttribute = ['type_fk', 'item_id'];
-
-    public function getPrimaryKeyAttribute() {
-        return $this->keyAttribute;
+    public function getPrimaryKeyAttribute(): array {
+        return ['type_fk', 'item_id'];
     }
 
-    /**
-     * Vrací jednu řádku tabulky 'item_action' ve formě asociativního pole podle primárního klíče, klíč je kompozitní.
-     *
-     * @param string $type_fk Hodnota prvního atributu primárního klíče
-     * @param string $item_id Hodnota druhého atributu primárního klíče
-     * @return array Asociativní pole
-     * @throws StatementFailureException
-     */
-    public function get($type_fk, $item_id) {
-        $select = $this->select("
-                `item_action`.`type_fk`,
-                `item_action`.`item_id`,
-                `item_action`.`editor_login_name`,
-                `item_action`.`created`
-                ");
-        $from = $this->from("`item_action`");
-        $where = $this->where("`item_action`.`type_fk` = :type_fk AND `item_action`.`item_id` = :item_id");
-        $touplesToBind = [':type_fk'=>$type_fk, ':item_id'=>$item_id];
-        return $this->selectOne($select, $from, $where, $touplesToBind, true);
+    public function getAttributes(): array {
+        return [
+            'type_fk',
+            'item_id',
+            'editor_login_name',
+            'created'
+        ];
     }
 
-    /**
-     * Vrací všechny řádky tabulky 'item_action' ve formě asociativního pole.
-     * @return array
-     */
-    public function find($whereClause="", $touplesToBind=[]): iterable{
-        $select = $this->select("
-                `item_action`.`type_fk`,
-                `item_action`.`item_id`,
-                `item_action`.`editor_login_name`,
-                `item_action`.`created`
-                ");
-        $from = $this->from("`item_action`");
-        $where = $this->where($whereClause);
-        return $this->selectMany($select, $from, $where, $touplesToBind);
-    }
-
-    public function insert(RowDataInterface $rowData) {
-        return $this->execInsert('item_action', $rowData);
-    }
-
-    public function update(RowDataInterface $rowData) {
-        return $this->execUpdate('item_action', ['type_fk', 'item_id'], $rowData);
-    }
-
-    public function delete(RowDataInterface $rowData) {
-        return $this->execDelete('item_action', ['type_fk', 'item_id'], $rowData);
+    public function getTableName(): string {
+        return 'item_action';
     }
 
 }

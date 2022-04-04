@@ -35,7 +35,7 @@ trait DaoAutoincrementTrait {
      */
     public function getLastInsertIdTouple(): array {
         $value = $this->lastInsertIdValue();
-        $name = end($this->getPrimaryKeyFieldName());
+        $name = $this->getPrimaryKeyFieldName();
         return [$name => $value];
     }
 
@@ -58,7 +58,7 @@ trait DaoAutoincrementTrait {
     public function setAutoincrementedValue(RowDataInterface $rowdata) {
         /** @var DaoAutoincrementKeyInterface $this */
         $name = $this->getPrimaryKeyFieldName();
-        $rowdata->forcedSet($name, $this->getLastInsertIdTouple());
+        $rowdata->forcedSet($name, $this->lastInsertIdValue());
     }
 
     private function getPrimaryKeyFieldName() {
@@ -66,6 +66,7 @@ trait DaoAutoincrementTrait {
         if (count($pk) != 1) {
             throw new UnexpectedValueException("Primární klíč pro Dao typu DaoAutoincrementKeyInterface nesmí být kompozitní (musí mít jen jedno pole).");
         }
-        return $pk;
+        end($pk);
+        return current($pk);
     }
 }
