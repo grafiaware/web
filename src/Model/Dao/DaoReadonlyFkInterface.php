@@ -9,11 +9,11 @@
 namespace Model\Dao;
 
 /**
- * Description of DaoTableAbstract
- * Tenká vrstva - abstract, který vynucuje implementaci metod DaoTableInterface.
  *
  * @author pes2704
  */
-abstract class DaoTableAbstract extends DaoEditAbstract implements DaoTableInterface {
-    //put your code here
+interface DaoReadonlyFkInterface {
+
+    public function getByFk(array $fk);
+
 }

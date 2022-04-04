@@ -9,12 +9,4 @@ use Model\Dao\DaoAutoincrementKeyInterface;
  */
 interface CompanyContactDaoInterface  extends DaoAutoincrementKeyInterface {
 
-    public function get($id) ;
-    
-
-    
-    //public function find($whereClause="", $touplesToBind=[]) ;
-    
-
-    
 }

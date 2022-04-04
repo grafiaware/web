@@ -8,7 +8,7 @@
 
 namespace Red\Model\Dao;
 
-use Model\Dao\DaoTableAbstract;
+use Model\Dao\DaoEditAbstract;
 use Model\RowData\RowDataInterface;
 use Model\Dao\Exception\DaoForbiddenOperationException;
 
@@ -17,11 +17,11 @@ use Model\Dao\Exception\DaoForbiddenOperationException;
  *
  * @author pes2704
  */
-class MenuItemTypeDao extends DaoTableAbstract {
+class MenuItemTypeDao extends DaoEditAbstract {
 
     private $keyAttribute = 'type';
 
-    public function getKeyAttribute() {
+    public function getPrimaryKeyAttribute(): array {
         return $this->keyAttribute;
     }
 
@@ -33,7 +33,7 @@ class MenuItemTypeDao extends DaoTableAbstract {
         return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
-    public function find($whereClause="", $touplesToBind=[]) {
+    public function find($whereClause="", $touplesToBind=[]): iterable{
         $select = $this->select("type");
         $from = $this->from("menu_item_type");
         $where = $this->where($whereClause);

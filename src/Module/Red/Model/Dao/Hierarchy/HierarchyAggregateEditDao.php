@@ -26,7 +26,7 @@ class HierarchyAggregateEditDao extends DaoEditAbstract implements HierarchyAggr
 
     private $keyAttribute = ['lang_code_fk', 'uid'];
 
-    public function getKeyAttribute() {
+    public function getPrimaryKeyAttribute(): array {
         return $this->keyAttribute;
     }
 

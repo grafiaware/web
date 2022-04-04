@@ -12,6 +12,6 @@ namespace Model\Dao;
  *
  * @author pes2704
  */
-interface DaoChildInterface extends DaoTableInterface {
+interface DaoChildInterface extends DaoEditInterface {
     public function getByFk($idFk);
 }

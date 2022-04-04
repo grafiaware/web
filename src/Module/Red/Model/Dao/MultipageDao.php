@@ -8,7 +8,7 @@
 
 namespace Red\Model\Dao;
 
-use Model\Dao\DaoTableAbstract;
+use Model\Dao\DaoEditAbstract;
 use Model\Dao\DaoAutoincrementKeyInterface;
 use \Model\Dao\DaoAutoincrementTrait;
 use Model\RowData\RowDataInterface;
@@ -18,13 +18,13 @@ use Model\RowData\RowDataInterface;
  *
  * @author pes2704
  */
-class MultipageDao extends DaoTableAbstract implements DaoAutoincrementKeyInterface {
+class MultipageDao extends DaoEditAbstract implements DaoAutoincrementKeyInterface {
 
     use DaoAutoincrementTrait;
 
     private $keyAttribute = 'id';
 
-    public function getKeyAttribute() {
+    public function getPrimaryKeyAttribute(): array {
         return $this->keyAttribute;
     }
 

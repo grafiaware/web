@@ -16,7 +16,7 @@ use Model\RowData\RowData;
 use Model\RowData\RowDataInterface;
 
 /**
- * 
+ *
  */
 class CompanyContactDaoTest extends AppRunner {
 
@@ -34,7 +34,7 @@ class CompanyContactDaoTest extends AppRunner {
 
     public static function setUpBeforeClass(): void {
         self::bootstrapBeforeClass();
-       
+
         $container =
             (new EventsContainerConfigurator())->configure(
                 (new DbEventsContainerConfigurator())->configure(
@@ -43,22 +43,22 @@ class CompanyContactDaoTest extends AppRunner {
                     )
                 )
             );
-        
- 
-        // nova company 
+
+
+        // nova company
         /** @var CompanyDao $companyDao */
-        $companyDao = $container->get(CompanyDao::class);      
-     
+        $companyDao = $container->get(CompanyDao::class);
+
         $rowData = new RowData();
-        $rowData->offsetSet('name', "Company-nameNNN");        
+        $rowData->offsetSet('name', "Company-nameNNN");
         $rowData->offsetSet('eventInstitutionName30', null);
         $companyDao->insert($rowData);
-        self::$company_company_id_fk =  $companyDao->getLastInsertId();
-        
-        
+        self::$company_company_id_fk =  $companyDao->lastInsertIdValue();
+
+
     }
-    
-    
+
+
 
     protected function setUp(): void {
         $this->container =
@@ -68,29 +68,29 @@ class CompanyContactDaoTest extends AppRunner {
         $this->dao = $this->container->get(CompanyContactDao::class);  // vždy nový objekt
     }
 
-    
+
     protected function tearDown(): void {
     }
     public static function tearDownAfterClass(): void {
     }
 
-    
+
     public function testSetUp() {
         $this->assertInstanceOf(CompanyContactDao::class, $this->dao);
     }
-    
+
     public function testInsert() {
         $rowData = new RowData();
-        
-        $rowData->offsetSet('company_id', self::$company_company_id_fk );        
+
+        $rowData->offsetSet('company_id', self::$company_company_id_fk );
         $rowData->offsetSet('name', null);
         $rowData->offsetSet('phones', null);
         $rowData->offsetSet('mobiles', null);
         $rowData->offsetSet('emails', null);
- 
+
         $this->dao->insert($rowData);
-        self::$id =  $this->dao->getLastInsertId();
-        $this->assertGreaterThan(0, (int) self::$id);
+        self::$id =  $this->dao->getLastInsertIdTouple();
+        $this->assertIsArray(self::$id);
         $numRows = $this->dao->getRowCount();
         $this->assertEquals(1, $numRows);
     }

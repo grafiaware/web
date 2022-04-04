@@ -18,7 +18,7 @@ use Events\Model\Dao\CompanyAddressDao;
 use Events\Model\Entity\CompanyAddress;
 
 /**
- * 
+ *
  */
 class CompanyAddressDaoTest  extends AppRunner {
 
@@ -29,18 +29,18 @@ class CompanyAddressDaoTest  extends AppRunner {
      * @var CompanyAddressDao
      */
     private $dao;
-    
-//            `company_address`.`company_id`,  
+
+//            `company_address`.`company_id`,
 //            `company_address`.`name`,
 //            `company_address`.`lokace`,
 //            `company_address`.`psc`,
-//            `company_address`.`obec` " 
-    
-    
+//            `company_address`.`obec` "
+
+
     private static $company_company_id_fk;
     private static $company_company_id_fk2;
 
-    
+
 
     public static function setUpBeforeClass(): void {
         self::bootstrapBeforeClass();
@@ -52,23 +52,23 @@ class CompanyAddressDaoTest  extends AppRunner {
                     )
                 )
             );
-        
- 
-        // nova company 
+
+
+        // nova company
         /** @var CompanyDao $companyDao */
-        $companyDao = $container->get(CompanyDao::class);      
-     
+        $companyDao = $container->get(CompanyDao::class);
+
         $rowData = new RowData();
-        $rowData->offsetSet('name', "Company-nameNNN");        
+        $rowData->offsetSet('name', "Company-nameNNN");
         $rowData->offsetSet('eventInstitutionName30', null);
         $companyDao->insert($rowData);
-        self::$company_company_id_fk =  $companyDao->getLastInsertId();
-        
+        self::$company_company_id_fk =  $companyDao->lastInsertIdValue();
+
         $rowData = new RowData();
-        $rowData->offsetSet('name', "Company-nameNNN");        
+        $rowData->offsetSet('name', "Company-nameNNN");
         $rowData->offsetSet('eventInstitutionName30', null);
         $companyDao->insert($rowData);
-        self::$company_company_id_fk2 =  $companyDao->getLastInsertId();
+        self::$company_company_id_fk2 =  $companyDao->lastInsertIdValue();
 
     }
 
@@ -98,7 +98,7 @@ class CompanyAddressDaoTest  extends AppRunner {
 
     public function testInsert() {
         $rowData = new RowData(
-               ['company_id' => self::$company_company_id_fk, 
+               ['company_id' => self::$company_company_id_fk,
                 'name' => 'VelkaFirma',
                 'lokace' => 'Mars ',
                 'psc' => '02020' ] );
@@ -107,17 +107,17 @@ class CompanyAddressDaoTest  extends AppRunner {
     }
 
     public function testGetExistingRow() {
-        $companyAddressRow = $this->dao->get(self::$company_company_id_fk);
+        $companyAddressRow = $this->dao->get($this->dao->createPrimaryKeyTouple(self::$company_company_id_fk));
         $this->assertInstanceOf(RowDataInterface::class, $companyAddressRow);
     }
 
     public function test5Columns() {
-        $companyAddressRow = $this->dao->get(self::$company_company_id_fk);
+        $companyAddressRow = $this->dao->get($this->dao->createPrimaryKeyTouple(self::$company_company_id_fk));
         $this->assertCount(5, $companyAddressRow);
     }
 
     public function testUpdate() {
-        $companyAddressRow = $this->dao->get(self::$company_company_id_fk);
+        $companyAddressRow = $this->dao->get($this->dao->createPrimaryKeyTouple(self::$company_company_id_fk));
         $companyAddressId = $companyAddressRow['company_id'];
         $this->assertIsInt($companyAddressRow['company_id']);
         //
@@ -125,18 +125,18 @@ class CompanyAddressDaoTest  extends AppRunner {
         $companyAddressRow['name'] = "mala firma";
         $this->dao->update($companyAddressRow);
         $this->assertEquals(1, $this->dao->getRowCount());
-        
+
         $this->setUp(); //nove dao
-        $rowRereaded = $this->dao->get(self::$company_company_id_fk);
+        $rowRereaded = $this->dao->get($this->dao->createPrimaryKeyTouple(self::$company_company_id_fk));
         $this->assertEquals("mala firma", $rowRereaded['name']);
 
-        
+
 //        $this->setUp(); //nove dao
 //        $companyAddressRow['company_id'] = self::$company_company_id_fk2;
 //        $this->dao->update($companyAddressRow);
 //        $this->assertEquals(1, $this->dao->getRowCount());
-        
- 
+
+
     }
 
     public function testFind() {
@@ -147,7 +147,7 @@ class CompanyAddressDaoTest  extends AppRunner {
     }
 
     public function testDelete() {
-        $companyAddressRow = $this->dao->get(self::$company_company_id_fk);
+        $companyAddressRow = $this->dao->get($this->dao->createPrimaryKeyTouple(self::$company_company_id_fk));
 
         $this->dao->delete($companyAddressRow);
         $this->assertEquals(1, $this->dao->getRowCount());

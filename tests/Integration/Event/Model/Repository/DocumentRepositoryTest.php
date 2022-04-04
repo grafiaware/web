@@ -77,14 +77,14 @@ class DocumentRepositoryTest extends AppRunner {
             'document_mimetype' => $cvMime,
         ]);
         $documentDao->insert($rowData);
-        self::$idCv = (int) $documentDao->getLastInsertId();
+        self::$idCv = $documentDao->getLastInsertIdTouple();
         $rowData = new RowData([
             'document' => $letterContent,
             'document_filename' => $letterFilepathName,
             'document_mimetype' => $letterMime,
         ]);
         $documentDao->insert($rowData);
-        self::$idLetter = (int) $documentDao->getLastInsertId();
+        self::$idLetter = $documentDao->getLastInsertIdTouple();
     }
 
     private static function deleteRecords(Container $container) {
@@ -124,12 +124,12 @@ class DocumentRepositoryTest extends AppRunner {
     }
 
     public function testGetNonExisted() {
-        $document = $this->DocumentRepo->get(-1);
+        $document = $this->DocumentRepo->get(['id' => -1]);
         $this->assertNull($document);
     }
 
     public function testGetAfterSetup() {
-        $visitorProfile = $this->DocumentRepo->get(self::$idCv);    // !!!! jenom po insertu v setUp - hodnotu vrací dao
+        $visitorProfile = $this->DocumentRepo->get(self::$idCv['id']);    // !!!! jenom po insertu v setUp - hodnotu vrací dao
         $this->assertInstanceOf(Document::class, $visitorProfile);
     }
 

@@ -17,24 +17,16 @@ use Model\Dao\DaoReadonlyAbstract;
  */
 class OpravneniDao extends DaoReadonlyAbstract {
 
-    private $keyAttribute = 'user';
 
-    public function getKeyAttribute() {
-        return $this->keyAttribute;
+    public function getPrimaryKeyAttribute(): array {
+        return 'user';
     }
 
-    /**
-     * Vrací asociativní pole s jménem uživatele - user. Jde o část řádky tabulky opravneni.
-     *
-     * @param type $user
-     * @return array
-     * @throws StatementFailureException
-     */
-    public function get($user) {
-        $select = $this->select("*");
-        $from = $this->from("opravneni");
-        $where = $this->where("user=:user");
-        $touplesToBind = [':user' => $user];
-        return $this->selectOne($select, $from, $where, $touplesToBind, true);
+    public function getAttributes(): array {
+        return ['*'];
+    }
+
+    public function getTableName(): string {
+        return 'opravneni';
     }
 }

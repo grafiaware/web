@@ -14,7 +14,8 @@ use Model\RowData\RowDataInterface;
  *
  * @author pes2704
  */
-interface DaoAutoincrementKeyInterface extends DaoTableInterface {
-    public function getLastInsertId();
+interface DaoAutoincrementKeyInterface extends DaoEditInterface {
+    public function lastInsertIdValue();
+    public function getLastInsertIdTouple(): array;
     public function setAutoincrementedValue(RowDataInterface $rowdata);
 }

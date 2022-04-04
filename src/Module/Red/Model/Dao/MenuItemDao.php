@@ -10,8 +10,12 @@ namespace Red\Model\Dao;
 
 use Pes\Database\Handler\HandlerInterface;
 use Model\Dao\DaoContextualAbstract;
+use Model\Dao\DaoReadonlyFkInterface;
 use Model\Context\ContextFactoryInterface;
 use Model\RowData\RowDataInterface;
+
+use \Model\Dao\DaoReadonlyFkTrait;
+
 use Model\Dao\Exception\DaoForbiddenOperationException;
 
 /**
@@ -19,29 +23,20 @@ use Model\Dao\Exception\DaoForbiddenOperationException;
  *
  * @author pes2704
  */
-class MenuItemDao extends DaoContextualAbstract {
+class MenuItemDao extends DaoContextualAbstract implements DaoReadonlyFkInterface {
 
-    private $keyAttribute = ['lang_code_fk', 'uid_fk'];
+    use DaoReadonlyFkTrait;
 
-    public function getKeyAttribute() {
-        return $this->keyAttribute;
+    public function getPrimaryKeyAttribute(): array {
+        return ['lang_code_fk', 'uid_fk'];
     }
 
-    /**
-     *
-     * @var ContextFactoryInterface
-     */
-    protected $contextFactory;
+    public function getAttributes(): array {
+        return ['lang_code_fk', 'uid_fk', 'type_fk', 'id', 'title', 'prettyuri', 'active'];
+    }
 
-    /**
-     *
-     * @param HandlerInterface $handler
-     * @param strimg $nestedSetTableName Jméno tabulky obsahující nested set hierarchii položek. Používá se pro editaci hierarchie.
-     * @param ContextFactoryInterface $contextFactory
-     */
-    public function __construct(HandlerInterface $handler, $fetchClassName="", ContextFactoryInterface $contextFactory=null) {
-        parent::__construct($handler, $fetchClassName);
-        $this->contextFactory = $contextFactory;
+    public function getTableName(): string {
+        return 'menu_item';
     }
 
     protected function getContextConditions() {
@@ -57,30 +52,6 @@ class MenuItemDao extends DaoContextualAbstract {
         return $contextConditions;
     }
 
-    /**
-     * Vrací jednu řádku tabulky 'menu_item' ve formě asociativního pole vybranou podle atributů primárního klíče
-     *
-     * @param string $langCodeFk
-     * @param string $uidFk
-     * @param bool $active Nepovinný parametr, default=TRUE. Defaultně metoda hledá jen aktivní (zveřejněné) stránky.
-     * @param bool $actual Nepovinný parametr, default=TRUE. Defaultně metoda hledá jen aktuální stránky.
-     * @return array
-     */
-    public function get($langCodeFk, $uidFk) {
-        $select = $this->select("lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active ");
-        $from = $this->from("menu_item ");
-        $where = $this->where($this->and($this->getContextConditions(), ['menu_item.lang_code_fk = :lang_code_fk', 'menu_item.uid_fk=:uid_fk']));
-        $touplesToBind = [':lang_code_fk' => $langCodeFk, ':uid_fk'=> $uidFk];
-        return $this->selectOne($select, $from, $where, $touplesToBind, true);
-    }
-
-    public function getOutOfContext($langCodeFk, $uidFk) {
-        $select = $this->select("lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active ");
-        $from = $this->from("menu_item ");
-        $where = $this->where($this->and( ['menu_item.lang_code_fk = :lang_code_fk', 'menu_item.uid_fk=:uid_fk']));
-        $touples = [':lang_code_fk' => $langCodeFk, ':uid_fk'=> $uidFk];
-        return $this->selectOne($select, $from, $where, $touples, true);
-    }
 
     /**
      * Vrací řádek menu_item vyhledaný podle lang_code_fk a prettyuri - pro statické stránky
@@ -103,11 +74,11 @@ class MenuItemDao extends DaoContextualAbstract {
      * @param string $prettyUri
      * @return type
      */
-    public function getByPrettyUri($prettyUri) {
-        $select = $this->select("lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active ");
-        $from = $this->from("menu_item ");
-        $where = $this->where($this->and($this->getContextConditions(), ['menu_item.prettyuri=:prettyuri']));
-        $touplesToBind = [':prettyuri'=> $prettyUri];
+    public function getByPrettyUri(array $prettyUri) {
+        $select = $this->sql->select($this->getAttributes());
+        $from = $this->sql->from($this->getTableName());
+        $where = $this->sql->where($this->sql->and($this->sql->touples(['prettyuri=:prettyuri'])));
+        $touplesToBind = $this->getTouplesToBind($prettyUri);
         return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
@@ -202,15 +173,6 @@ class MenuItemDao extends DaoContextualAbstract {
 
     public function insert(RowDataInterface $rowData) {
         throw new DaoForbiddenOperationException("Nelze samostatně vložit novou položku menu_item. Nové položky lze vytvořit pouze voláním metod Node (Hierarchy) dao.");
-    }
-
-    /**
-     *
-     * @param RowDataInterface $rowData
-     * @return type
-     */
-    public function update(RowDataInterface $rowData) {
-        return $this->execUpdate('menu_item', ['lang_code_fk','uid_fk'], $rowData);
     }
 
     /**

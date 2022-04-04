@@ -8,7 +8,7 @@
 
 namespace Events\Model\Dao;
 
-use Model\Dao\DaoTableAbstract;
+use Model\Dao\DaoEditAbstract;
 use Model\RowData\RowDataInterface;
 
 /**
@@ -16,42 +16,21 @@ use Model\RowData\RowDataInterface;
  *
  * @author pes2704
  */
-class EnrollDao extends DaoTableAbstract {
+class EnrollDao extends DaoEditAbstract {
 
-    private $keyAttribute = 'login_login_name_fk';
 
-    public function getKeyAttribute() {
-        return $this->keyAttribute;
+    public function getPrimaryKeyAttribute(): array {
+        return 'login_login_name_fk';
     }
 
-    public function get($loginLoginNameFk) {
-        $select = $this->select("
-            `enroll`.`login_login_name_fk`,
-            `enroll`.`event_id_fk`");
-        $from = $this->from("`enroll`");
-        $where = $this->where("`enroll`.`login_login_name_fk` = :login_login_name_fk");
-        $touples = [':login_login_name_fk' => $loginLoginNameFk];
-        return $this->selectOne($select, $from, $where, $touples, true);
+    public function getAttributes(): array {
+        return [
+            'login_login_name_fk',
+            'event_id_fk'
+        ];
     }
 
-    public function find($whereClause="", $touplesToBind=[]) {
-        $select = $this->select("
-            `enroll`.`login_login_name_fk`,
-            `enroll`.`event_id_fk`");
-        $from = $this->from("`enroll`");
-        $where = $this->where($whereClause);
-        return $this->selectMany($select, $from, $where, $touplesToBind);
-    }
-
-    public function insert(RowDataInterface $rowData) {
-        return $this->execInsert('enroll', $rowData);
-    }
-
-    public function update(RowDataInterface $rowData) {
-        return $this->execUpdate('enroll', ['login_login_name_fk'], $rowData);
-    }
-
-    public function delete(RowDataInterface $rowData) {
-        return $this->execDelete('enroll', ['login_login_name_fk'], $rowData);
+    public function getTableName(): string {
+        return 'enroll';
     }
 }

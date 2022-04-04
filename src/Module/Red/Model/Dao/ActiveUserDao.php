@@ -8,7 +8,7 @@
 
 namespace Red\Model\Dao;
 
-use Model\Dao\DaoTableAbstract;
+use Model\Dao\DaoEditAbstract;
 
 use Model\RowData\RowDataInterface;
 
@@ -17,37 +17,17 @@ use Model\RowData\RowDataInterface;
  *
  * @author pes2704
  */
-class ActiveUserDao extends DaoTableAbstract {
+class ActiveUserDao extends DaoEditAbstract {
 
-    private $keyAttribute = 'user';
-
-    public function getKeyAttribute() {
-        return $this->keyAttribute;
+    public function getPrimaryKeyAttribute(): array {
+        return ['user'];
     }
 
-    /**
-     * Vrací asociativní pole s polžkami - user, stranka, akce. Sloupec akce je timestamp nastavovaný automaticky ON UPDAET.
-     *
-     * @param string $user Hodnota primárního klíče user
-     * @return array
-     */
-    public function get($user) {
-        $select = $this->select("user, stranka, akce");
-        $from = $this->from("activ_user");
-        $where = $this->where("user=:user");
-        $touplesToBind = [':user'=>$user];
-        return $this->selectOne($select, $from, $where, $touplesToBind, true);
+    public function getAttributes(): array {
+        return ['user', 'stranka', 'akce'];
     }
 
-    public function insert(RowDataInterface $rowData) {
-        return $this->execInsert('activ_user', $rowData);
-    }
-
-    public function update(RowDataInterface $rowData) {
-        return $this->execUpdate('activ_user', ['user'], $rowData);
-    }
-
-    public function delete(RowDataInterface $rowData) {
-        return $this->execDelete('activ_user', ['user'], $rowData);
+    public function getTableName(): string {
+        return 'user';
     }
 }

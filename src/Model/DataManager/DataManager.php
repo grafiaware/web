@@ -8,7 +8,7 @@
 
 namespace Model\DataManager;
 
-use Model\Dao\DaoTableInterface;
+use Model\Dao\DaoEditInterface;
 
 use Model\RowData\RowDataInterface;
 
@@ -20,7 +20,7 @@ use Model\RowData\RowDataInterface;
 abstract class DataManager implements DataManagerInterface {
 
     /**
-     * @var DaoTableInterface
+     * @var DaoEditInterface
      */
     private $dao;
     private $persitedData;
@@ -29,7 +29,7 @@ abstract class DataManager implements DataManagerInterface {
 
     private $flushed = false;
 
-    public function __construct(DaoTableInterface $dao) {
+    public function __construct(DaoEditInterface $dao) {
         $this->dao = $dao;
         $this->persitedData = new \ArrayObject();
         $this->dataToAdd = new \ArrayObject();

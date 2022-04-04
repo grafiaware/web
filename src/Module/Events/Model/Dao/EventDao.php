@@ -4,7 +4,6 @@ namespace Events\Model\Dao;
 
 use Model\Dao\DaoContextualAbstract;
 use Model\Dao\DaoAutoincrementTrait;
-use Model\RowData\RowDataInterface;
 
 use Events\Model\Dao\EventDaoInterface;
 
@@ -17,10 +16,24 @@ class EventDao extends DaoContextualAbstract implements EventDaoInterface {
 
     use DaoAutoincrementTrait;
 
-    private $keyAttribute = 'id';
+    public function getPrimaryKeyAttribute(): array {
+        return ['id'];
+    }
 
-    public function getKeyAttribute() {
-        return $this->keyAttribute;
+    public function getAttributes(): array {
+        return [
+            'id',
+            'published',
+            'start',
+            'end',
+            'enroll_link_id_fk',
+            'enter_link_id_fk',
+            'event_content_id_fk'
+        ];
+    }
+
+    public function getTableName(): string {
+        return 'event';
     }
 
     protected function getContextConditions() {
@@ -38,80 +51,16 @@ class EventDao extends DaoContextualAbstract implements EventDaoInterface {
     }
 
     /**
-     * Vrací jednu řádku tabulky 'event' ve formě asociativního pole podle primárního klíče.
-     *
-     * @param int $id Hodnota primárního klíče
-     * @return array Asociativní pole
-     */
-    public function get( $id) {
-        $select = $this->select("
-            `event`.`id`,
-            `event`.`published`,
-            `event`.`start`,
-            `event`.`end`,
-            `event`.`enroll_link_id_fk`,
-            `event`.`enter_link_id_fk`,
-            `event`.`event_content_id_fk`
-            ");
-        $from = $this->from("`event`");
-        $where = $this->where("`event`.`id` = :id");
-        $touplesToBind = [':id' => $id];
-        return $this->selectOne($select, $from, $where, $touplesToBind, true);
-    }
-
-    public function getOutOfContext(...$id) {
-        ;
-    }
-
-
-    /**
      *
      * @param type $eventContentIdFk
      * @return array
      */
-    public function getByEventContentIdFk(  int $eventContentIdFk ) {
-        $select = $this->select("
-            `event`.`id`,
-            `event`.`published`,
-            `event`.`start`,
-            `event`.`end`,
-            `event`.`enroll_link_id_fk`,
-            `event`.`enter_link_id_fk`,
-            `event`.`event_content_id_fk`
-            ");
-        $from = $this->from("`event`");
-        $where = $this->where($this->and($this->getContextConditions(), ["`event`.`event_content_id_fk` = :event_content_id_fk"] ));
-        $touplesToBind = [':event_content_id_fk' => $eventContentIdFk];
-        return $this->selectMany($select, $from, $where, $touplesToBind, true);
+    public function getByEventContentIdFk(array $eventContentIdFk ) {
+        $select = $this->sql->select($this->getAttributes());
+        $from = $this->sql->from($this->getTableName());
+        $where = $this->sql->where($this->sql->and($this->getContextConditions(), $this->sql->touples(['event_content_id_fk'])));
+        $touplesToBind = $this->getTouplesToBind(array_combine(['event_content_id_fk'], $eventContentIdFk));
+        return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
-
-
-
-    public function find($whereClause="", $touplesToBind=[]) {
-        $select = $this->select("
-            `event`.`id`,
-            `event`.`published`,
-            `event`.`start`,
-            `event`.`end`,
-            `event`.`enroll_link_id_fk`,
-            `event`.`enter_link_id_fk`,
-            `event`.`event_content_id_fk`
-            ");
-        $from = $this->from("`event`");
-        $where = $this->where($this->and($this->getContextConditions(), $whereClause));
-        return $this->selectMany($select, $from, $where, $touplesToBind);
-    }
-
-    public function insert(RowDataInterface $rowData) {
-        return $this->execInsert('event', $rowData);
-    }
-
-    public function update(RowDataInterface $rowData) {
-        return $this->execUpdate('event', ['id'], $rowData);
-    }
-
-    public function delete(RowDataInterface $rowData) {
-        return $this->execDelete('event', ['id'], $rowData);
-    }
 }
