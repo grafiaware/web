@@ -17,11 +17,4 @@ use Model\RowData\RowDataInterface;
  */
 interface DaoKeyDbVerifiedInterface {
 
-    /**
-     *
-     * @param RowDataInterface $row
-     * @throws DaoKeyVerificationFailedException Objekt musí vyhazovat výjimku DaoKeyVerificationFailedException, pokud se nepodařilo ověřit nastavený primární klíč entity jako platný (použitelný).
-     *
-     */
-    public function insertWithKeyVerification(RowDataInterface $row);
 }

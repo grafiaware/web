@@ -34,8 +34,4 @@ class EventContentTypeDao extends DaoEditAbstract implements DaoKeyDbVerifiedInt
     public function getTableName(): string {
         return 'event_content_type';
     }
-
-    public function insert(RowDataInterface $rowData) {
-        throw new DaoForbiddenOperationException("Object EventContentTypeDao neumožňuje insertovat bez ověření duplicity klíče. Nelze vkládat metodou insert(), je nutné používat insertWithKeyVerification().");
-    }
 }

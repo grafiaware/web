@@ -18,8 +18,6 @@ use Model\RowData\RowDataInterface;
  */
 class VisitorProfileDao extends DaoEditAbstract {
 
-    private $keyAttribute = 'login_login_name';
-
     public function getPrimaryKeyAttribute(): array {
         return 'login_login_name';
     }

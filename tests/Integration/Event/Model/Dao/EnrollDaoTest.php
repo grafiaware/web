@@ -59,13 +59,13 @@ class EnrollDaoTest extends AppRunner {
         // prefix + uniquid - bez zamykání db
         do {
             $loginName = $prefix."_".uniqid();
-            $login = $loginDao->get($loginName);
+            $login = $loginDao->get(['login_name' => $loginName]);
         } while ($login);
 
         $loginData = new RowData(['login_name' => $loginName]);
         $loginDao->insertWithKeyVerification($loginData);
 
-        self::$login_login_name_fk = $loginDao->get($loginName)['login_name'];
+        self::$login_login_name_fk = $loginDao->get(['login_name' => $loginName])['login_name'];
         /** @var EventDao $eventDao */
         $eventDao = $container->get(EventDao::class);
         $eventData = new RowData(["published" => 1]);
@@ -109,17 +109,17 @@ class EnrollDaoTest extends AppRunner {
     }
 
     public function testGetExistingRow() {
-        $enrollRow = $this->dao->get(self::$login_login_name_fk);
+        $enrollRow = $this->dao->get(['login_login_name_fk' => self::$login_login_name_fk]);
         $this->assertInstanceOf(RowDataInterface::class, $enrollRow);
     }
 
     public function test2Columns() {
-        $enrollRow = $this->dao->get(self::$login_login_name_fk);
+        $enrollRow = $this->dao->get(['login_login_name_fk' => self::$login_login_name_fk]);
         $this->assertCount(2, $enrollRow);
     }
 
     public function testUpdate() {
-        $enrollRow = $this->dao->get(self::$login_login_name_fk);
+        $enrollRow = $this->dao->get(['login_login_name_fk' => self::$login_login_name_fk]);
         $eventId = $enrollRow['event_id_fk'];
         $this->assertIsString($enrollRow['login_login_name_fk']);
         $this->assertIsInt($enrollRow['event_id_fk']);
@@ -130,7 +130,7 @@ class EnrollDaoTest extends AppRunner {
         $this->assertEquals(1, $this->dao->getRowCount());
 
         $this->setUp();
-        $enrollRowRereaded = $this->dao->get(self::$login_login_name_fk);
+        $enrollRowRereaded = $this->dao->get(['login_login_name_fk' => self::$login_login_name_fk]);
         $this->assertInstanceOf(RowDataInterface::class, $enrollRowRereaded);
         $this->assertEquals(self::$event_id_fk_2, $enrollRowRereaded['event_id_fk']);
 
@@ -144,7 +144,7 @@ class EnrollDaoTest extends AppRunner {
     }
 
     public function testDelete() {
-        $enrollRow = $this->dao->get(self::$login_login_name_fk);
+        $enrollRow = $this->dao->get(['login_login_name_fk' => self::$login_login_name_fk]);
 
         $this->dao->delete($enrollRow);
         $this->assertEquals(1, $this->dao->getRowCount());

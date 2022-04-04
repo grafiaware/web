@@ -26,8 +26,6 @@ abstract class DaoContextualAbstract extends DaoEditAbstract implements DaoConte
         $this->contextFactory = $contextFactory;
     }
 
-//            $where = $this->where($this->and($this->getContextConditions(), ["`event`.`event_content_id_fk` = :event_content_id_fk"] ));
-
     public function get(array $id) {
         $select = $this->sql->select($this->getAttributes());
         $from = $this->sql->from($this->getTableName());
@@ -41,14 +39,7 @@ abstract class DaoContextualAbstract extends DaoEditAbstract implements DaoConte
     }
 
     public function getOutOfContext(array $id) {
-        $select = $this->sql->select($this->getAttributes());
-        $from = $this->sql->from($this->getTableName());
-        $where = $this->sql->where($this->sql->and(
-                        $this->sql->touples($this->getPrimaryKeyAttribute())
-                    )
-                );
-        $touplesToBind = $this->getPrimaryKeyTouplesToBind($id);
-        return $this->selectOne($select, $from, $where, $touplesToBind, true);
+        return parent::get($id);
     }
 
     public function find($whereClause = "", $touplesToBind = []): iterable {

@@ -36,7 +36,4 @@ class LoginDao extends DaoEditAbstract implements DaoKeyDbVerifiedInterface {
         return 'login';
     }
 
-    public function insert(RowDataInterface $rowData) {
-        throw new DaoForbiddenOperationException("Object neumožňuje insertovat bez ověření duplicity klíče. Nelze vkládat metodou insert(), je nutné používat insertWithKeyVerification().");
-    }
 }

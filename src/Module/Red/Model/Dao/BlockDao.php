@@ -9,9 +9,6 @@
 namespace Red\Model\Dao;
 
 use Model\Dao\DaoEditAbstract;
-use Model\RowData\RowDataInterface;
-
-use Pes\Database\Handler\HandlerInterface;
 
 /**
  * Description of ComponentDao

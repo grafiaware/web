@@ -8,9 +8,9 @@
 
 namespace Model\Dao;
 
-use Model\Dao\DaoEditInterface;
-
 use Model\RowData\RowDataInterface;
+
+use Model\Dao\DaoKeyDbVerifiedInterface;
 
 use Model\Dao\Exception\DaoUnexpectecCallOutOfTransactionException;
 use Model\Dao\Exception\DaoKeyVerificationFailedException;
@@ -24,12 +24,12 @@ abstract class DaoEditAbstract extends DaoReadonlyAbstract implements DaoEditInt
 
     protected $rowCount;
 
-    public function insertWithKeyVerification(RowDataInterface $rowData) {
-        return $this->execInsertWithKeyVerification($rowData);
-    }
-
     public function insert(RowDataInterface $rowData) {
-        return $this->execInsert($rowData);
+        if ($this instanceof DaoKeyDbVerifiedInterface) {
+            return $this->execInsertWithKeyVerification($rowData);
+        } else {
+            return $this->execInsert($rowData);
+        }
     }
 
     public function update(RowDataInterface $rowData) {
@@ -79,13 +79,15 @@ abstract class DaoEditAbstract extends DaoReadonlyAbstract implements DaoEditInt
 
     private function getWithinTransaction($tableName, array $keyNames, RowDataInterface $rowData) {
         if ($this->dbHandler->inTransaction()) {
-                $cols = $this->sql->columns($keyNames);
-                $whereTouples = $this->sql->touples($keyNames);
-                $sql = $this->sql->select($cols).$this->sql->from($tableName).$this->sql->where($this->sql->and($whereTouples))." LOCK IN SHARE MODE";   //nelze použít LOCK TABLES - to commitne aktuální transakci!
-                $stmt = $this->getPreparedStatement($sql);
-                $this->bindParams($stmt , $rowData, $keyNames );
-                $stmt->execute();
-                $count = $stmt->rowCount();
+            $select = $this->sql->select($this->getAttributes());
+            $whereTouples = $this->sql->touples($keyNames);
+            $from = $this->sql->from($tableName);
+            $where = $this->sql->where($this->sql->and($whereTouples));
+            $sql = $select.$from.$where." LOCK IN SHARE MODE";   //nelze použít LOCK TABLES - to commitne aktuální transakci!
+            $stmt = $this->getPreparedStatement($sql);
+            $this->bindParams($stmt , $rowData, $keyNames );
+            $stmt->execute();
+            $count = $stmt->rowCount();
             return  $count ? true : false;
         } else {
             throw new DaoUnexpectecCallOutOfTransactionException('Metodu '.__METHOD__.' lze volat pouze v průběhu spuštěné databázové transakce.');
