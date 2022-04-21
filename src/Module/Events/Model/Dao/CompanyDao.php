@@ -5,6 +5,7 @@ use Model\Dao\DaoAutoincrementKeyInterface;
 use Model\Dao\DaoTableAbstract;
 
 use Model\Dao\DaoAutoincrementTrait;
+use Model\RowData\RowDataInterface;
 
 /**
  * Description of CompanyDao

@@ -249,11 +249,11 @@ function initLoadedElements() {
             }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//                        
+//
 //contents in circle
 //
 //
-            
+
 //            var jsTemplateCircleEdit = document.querySelectorAll('.qqqwokk');
             var jsTemplateCircleEdit = document.querySelectorAll('[data-template="contents_in_circle"]');
             if (jsTemplateCircleEdit.length !== 0) {
@@ -285,47 +285,47 @@ function initLoadedElements() {
                       wh = width/height of divs,
                       idd = id of main div(ellipse),
                       cls = className of divs;
-                      cw = clockwise(true/false) 
+                      cw = clockwise(true/false)
                 */
             }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//                        
+//
 //carousel
 //
 //
             var jsTemplateCarousel = document.querySelectorAll('[data-template="carousel"]');
             if (jsTemplateCarousel.length !== 0) {
                 (function($){
-                    var carouselObal = $(".carousel-wrap"); 
+                    var carouselObal = $(".carousel-wrap");
 
-                    carouselObal.children(":not(:last)").hide(); 
+                    carouselObal.children(":not(:last)").hide();
 
-                    var sliderInterval = setInterval(function() { 
-                        carouselObal.children(":last").fadeOut(2000, function() { 
-                                $(this).prependTo(carouselObal); 
+                    var sliderInterval = setInterval(function() {
+                        carouselObal.children(":last").fadeOut(2000, function() {
+                                $(this).prependTo(carouselObal);
                         }).prev().fadeIn(2000);
                     }, 4000);
-                    
-                    carouselObal.on("click", function() { 
-                        clearInterval(sliderInterval); 
+
+                    carouselObal.on("click", function() {
+                        clearInterval(sliderInterval);
                     });
-                    
+
 
                     $(".angle.left").click(function(){
-                        clearInterval(sliderInterval); 
-                        carouselObal.children(":first").fadeOut(0, function() { 
-                                $(this).appendTo(carouselObal); 
+                        clearInterval(sliderInterval);
+                        carouselObal.children(":first").fadeOut(0, function() {
+                                $(this).appendTo(carouselObal);
                         }).prev().fadeIn(0);
                     });
                     $(".angle.right").click(function(){
                         clearInterval(sliderInterval);
-                        carouselObal.children(":last").fadeOut(0, function() { 
-                                $(this).prependTo(carouselObal); 
+                        carouselObal.children(":last").fadeOut(0, function() {
+                                $(this).prependTo(carouselObal);
                         }).prev().fadeIn(0);
                     });
                 })(jQuery);
             }
-           
-           
-                    
+
+
+
 }

@@ -23,11 +23,13 @@ class CompanyHydrator implements HydratorInterface {
     public function hydrate(EntityInterface $company, RowDataInterface $rowData) {
         /** @var CompanyInterface $company */
         $company
-                --------------- ssssssss  
-                id name eventInstitutionName30
-            ->setType($rowData->offsetGet(''))
-            ->setName($rowData->offsetGet(''));
-    }
+                //`company`.`id`,
+                //`company`.`name`,
+                //`company`.`eventInstitutionName30`
+            ->sesId($rowData->offsetGet('id'))   
+            ->setName($rowData->offsetGet('name'))
+            ->setEventInstitutionName30($rowData->offsetGet('eventInstitutionName30'));
+    } 
 
     /**
      *
@@ -35,9 +37,10 @@ class CompanyHydrator implements HydratorInterface {
      * @param array $row
      */
     public function extract(EntityInterface $eventContentType, RowDataInterface $rowData) {
-        /** @var EventContentTypeInterface $eventContentType */
-        $rowData->offsetSet('type', $eventContentType->getType()); // readonly, hodnota pro where
-        $rowData->offsetSet('name', $eventContentType->getName());
+        /** @var CompanyInterface $company */
+        // id je autoincrement       
+        $rowData->offsetSet('name', $company->getName() );
+        $rowData->offsetSet('eventInstitutionName30', $company->getEventInstitutionName30() ); 
     }
 
 }

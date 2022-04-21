@@ -17,7 +17,7 @@ interface EventLinkDaoInterface extends DaoAutoincrementKeyInterface {
      */   
     public function get($id) ;
         
-    public function getOutOfContext(...$id) ;        
+    //public function getOutOfContext(...$id) ;        
                    
     public function find($whereClause="", $touplesToBind=[]) ;   
       
