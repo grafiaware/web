@@ -103,23 +103,7 @@ use Pes\Database\Handler\HandlerInterface;
 class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getParams(): iterable {
-        return [
-            #################################
-            # Sekce konfigurace uživatele databáze
-            #
-            # - konfigurováni dva uživatelé - jeden pro vývoj a druhý pro běh na produkčním stroji
-            # - uživatelé musí mít právo select k databázi s tabulkou uživatelských oprávnění
-            # MySQL 5.6: délka jména max 16 znaků
-
-            'events.db.account.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'xxxxxx' : 'vp_events',  // nelze použít jméno uživatele použité pro db upgrade - došlo by k duplicitě jmen v build create
-            'events.db.account.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'xxxxx' : 'vp_events',
-
-            'events.logs.database.directory' => 'TestLogs/Events',
-            'events.logs.database.file' => 'Database.log',
-            #
-            ###################################
-
-        ];
+        return [];
     }
 
     public function getFactoriesDefinitions(): iterable {
