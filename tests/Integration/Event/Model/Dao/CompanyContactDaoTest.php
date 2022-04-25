@@ -30,7 +30,7 @@ class CompanyContactDaoTest extends AppRunner {
     private $dao;
 
     private static $company_company_id_fk;
-    private static $id;
+    private static $id;     //touple dvojice
 
     public static function setUpBeforeClass(): void {
         self::bootstrapBeforeClass();
