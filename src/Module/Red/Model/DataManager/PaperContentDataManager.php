@@ -1,7 +1,7 @@
 <?php
 namespace Red\Model\DataManager;
 
-use Model\DataManager\DataManager;
+use Model\DataManager\DataManagerAbstract;
 use Model\RowData\RowDataInterface;
 
 /*
@@ -15,7 +15,7 @@ use Model\RowData\RowDataInterface;
  *
  * @author pes2704
  */
-class PaperContentDataManager extends DataManager {
+class PaperContentDataManager extends DataManagerAbstract {
 
     protected function indexFromKeyParams($id) {
         return $id;

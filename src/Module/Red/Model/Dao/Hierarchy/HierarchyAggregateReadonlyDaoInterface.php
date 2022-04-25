@@ -17,15 +17,6 @@ use Model\Dao\DaoReadonlyInterface;
 interface HierarchyAggregateReadonlyDaoInterface extends DaoReadonlyInterface {
 
     /**
-     *
-     * @param type $langCode Hodnota existující v sloupci tabulky language.lang_code
-     * @param type $uid
-     *
-     * @return array
-     */
-    public function get($langCode, $uid);
-
-    /**
      * JEN POMOCNÁ FUNKCE PRO LADĚNÍ
      * Vrací node podle hodnoty lang_code a title.
      * Hodnota title v řádku view nesmí být prázná, prázdnou nelze selectovat. Vybírá case insensitive. Pokud je více položek se stejným title, vrací jen první.
@@ -34,7 +25,7 @@ interface HierarchyAggregateReadonlyDaoInterface extends DaoReadonlyInterface {
      * @param string $title
      * @return array
      */
-    public function getByTitleHelper($langCode, $title);
+    public function getByTitleHelper(array $langCodeAndTitle);
 
     /**
      * Full tree ve formě řazeného seznamu získaného traverzováním okolo stronu. V položkách seznamu vrací name, id, depth, breadcrumb.
@@ -121,7 +112,7 @@ interface HierarchyAggregateReadonlyDaoInterface extends DaoReadonlyInterface {
      * @return type
      */
     public function getFullPathWithSiblings($langCode, $rootUid, $uid);
-    
+
     /**
      * Vrací jednu položku. Položka obsahuje depth a breadcrumb.
      * Brad crumb je řetězec dvojic uid|title (uid a title jsou oddělené znakem |) oddělených navzájem znakem /

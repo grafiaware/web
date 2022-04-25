@@ -4,6 +4,7 @@ namespace Red\Model\Dao\Hierarchy;
 
 use Model\Dao\DaoReadonlyAbstract;
 use Pes\Database\Handler\HandlerInterface;
+use Model\Builder\SqlInterface;
 
 use Model\Context\ContextFactoryInterface;
 
@@ -43,10 +44,20 @@ class HierarchyAggregateReadonlyDao extends DaoReadonlyAbstract implements Hiera
      */
     protected $contextFactory;
 
-    private $keyAttribute = ['lang_code_fk', 'uid'];
-
     public function getPrimaryKeyAttribute(): array {
-        return $this->keyAttribute;
+        return ['lang_code_fk', 'uid'];
+    }
+
+    public function getAttributes(): array {
+        ;
+    }
+
+    public function getTableName(): string {
+        return 'hierarchy';
+    }
+
+    private function getItemTableName(): string {
+        return 'menu_item';
     }
 
     /**
@@ -55,10 +66,10 @@ class HierarchyAggregateReadonlyDao extends DaoReadonlyAbstract implements Hiera
      * @param string $nestedSetTableName Jméno databázové tabulky menu nested set
      * @param string $itemTableName Jméno databázové tabulky menu item
      */
-    public function __construct(HandlerInterface $handler, $nestedSetTableName, $itemTableName, $fetchClassName="", ContextFactoryInterface $contextFactory=null) {
-        parent::__construct($handler, $fetchClassName);
-        $this->nestedSetTableName =$nestedSetTableName;
-        $this->itemTableName = $itemTableName;
+    public function __construct(HandlerInterface $handler, SqlInterface $sql, $fetchClassName="", ContextFactoryInterface $contextFactory=null) {
+        parent::__construct($handler, $sql, $fetchClassName);
+        $this->nestedSetTableName = $this->getTableName();
+        $this->itemTableName = $this->getItemTableName();
         $this->contextFactory = $contextFactory;
     }
 
@@ -92,7 +103,7 @@ class HierarchyAggregateReadonlyDao extends DaoReadonlyAbstract implements Hiera
      * @param string $uid
      * @return array
      */
-    public function get($langCode, $uid) {
+    public function get(array $id) {
         $sql =
             "SELECT "
             .$this->selected()
@@ -109,10 +120,10 @@ class HierarchyAggregateReadonlyDao extends DaoReadonlyAbstract implements Hiera
                 ) AS nested_set
                     INNER JOIN
                 $this->itemTableName AS menu_item ON (nested_set.uid = menu_item.uid_fk)"
-                .$this->where($this->and($this->getContextConditions(), ["menu_item.lang_code_fk = :lang_code", "nested_set.uid = :uid"]));
+                .$this->sql->where($this->sql->and($this->getContextConditions(), ["menu_item.lang_code_fk = :lang_code", "nested_set.uid = :uid"]));
         $stmt = $this->getPreparedStatement($sql);
-        $stmt->bindParam(':uid', $uid, \PDO::PARAM_STR);
-        $stmt->bindParam(':lang_code', $langCode, \PDO::PARAM_STR);
+        $stmt->bindParam(':uid', $id['uid_fk'], \PDO::PARAM_STR);
+        $stmt->bindParam(':lang_code', $id['lang_code_fk'], \PDO::PARAM_STR);
         $stmt->execute();
         return $stmt->rowCount() == 1 ? $stmt->fetch() : NULL;
     }
@@ -123,7 +134,7 @@ class HierarchyAggregateReadonlyDao extends DaoReadonlyAbstract implements Hiera
      * @param string $title
      * @return array
      */
-    public function getByTitleHelper($langCode, $title) {
+    public function getByTitleHelper(array $langCodeAndTitle) {
         $sql =
             "SELECT "
             .$this->selected()
@@ -138,12 +149,12 @@ class HierarchyAggregateReadonlyDao extends DaoReadonlyAbstract implements Hiera
                 ) AS nested_set
                     INNER JOIN
                 $this->itemTableName AS menu_item ON (nested_set.uid = menu_item.uid_fk)"
-                .$this->where($this->and($this->getContextConditions(), ["menu_item.lang_code_fk = :lang_code", "menu_item.title = :title"]))
+                .$this->sql->where($this->sql->and($this->getContextConditions(), ["menu_item.lang_code_fk = :lang_code", "menu_item.title = :title"]))
                 ;
         $stmt = $this->getPreparedStatement($sql);
-        $stmt->bindParam(':title', $title, \PDO::PARAM_STR);
-        $stmt->bindParam(':lang_code', $langCode, \PDO::PARAM_STR);
-        $stmt->execute();
+        $stmt->bindParam(':title', $langCodeAndTitle['title'], \PDO::PARAM_STR);
+        $stmt->bindParam(':lang_code', $langCodeAndTitle['lang_code_fk'], \PDO::PARAM_STR);
+        $success = $stmt->execute();
         return $stmt->rowCount() >= 1 ? $stmt->fetch() : NULL;
     }
 
@@ -174,7 +185,7 @@ class HierarchyAggregateReadonlyDao extends DaoReadonlyAbstract implements Hiera
                 GROUP BY node.uid) AS nested_set
                     INNER JOIN
                 $this->itemTableName ON (nested_set.uid = menu_item.uid_fk)"
-                .$this->where($this->and($this->getContextConditions(), ["menu_item.lang_code_fk = :lang_code"]))
+                .$this->sql->where($this->sql->and($this->getContextConditions(), ["menu_item.lang_code_fk = :lang_code"]))
             ." ORDER BY nested_set.left_node"
                 ;
         $stmt = $this->getPreparedStatement($sql);
@@ -210,7 +221,7 @@ class HierarchyAggregateReadonlyDao extends DaoReadonlyAbstract implements Hiera
                 .") AS nested_set
                     INNER JOIN
                 $this->itemTableName ON (nested_set.uid = menu_item.uid_fk)"
-                .$this->where($this->and($this->getContextConditions(), ["menu_item.lang_code_fk = :lang_code"]))
+                .$this->sql->where($this->sql->and($this->getContextConditions(), ["menu_item.lang_code_fk = :lang_code"]))
             ." ORDER BY nested_set.left_node"
                 ;
         $stmt = $this->getPreparedStatement($sql);
@@ -248,7 +259,7 @@ class HierarchyAggregateReadonlyDao extends DaoReadonlyAbstract implements Hiera
                 GROUP BY parent.uid) AS nested_set
                     INNER JOIN
                 $this->itemTableName ON (nested_set.uid = menu_item.uid_fk)"
-                .$this->where($this->and($this->getContextConditions(), ["menu_item.lang_code_fk = :lang_code"]))
+                .$this->sql->where($this->sql->and($this->getContextConditions(), ["menu_item.lang_code_fk = :lang_code"]))
                 ;
         $stmt = $this->getPreparedStatement($sql);
         $stmt->bindParam(':uid', $uid, \PDO::PARAM_STR);
@@ -289,7 +300,7 @@ class HierarchyAggregateReadonlyDao extends DaoReadonlyAbstract implements Hiera
                   )  AS nested_set
                 INNER JOIN
                 $this->itemTableName ON (nested_set.uid = menu_item.uid_fk)"
-                .$this->where($this->and($this->getContextConditions(), ["menu_item.lang_code_fk = :lang_code"]))
+                .$this->sql->where($this->sql->and($this->getContextConditions(), ["menu_item.lang_code_fk = :lang_code"]))
             ." ORDER BY nested_set.left_node"
                 ;
         $stmt = $this->getPreparedStatement($sql);
@@ -360,7 +371,7 @@ class HierarchyAggregateReadonlyDao extends DaoReadonlyAbstract implements Hiera
                 .") AS nested_set
                     INNER JOIN
                 $this->itemTableName ON (nested_set.uid = menu_item.uid_fk)"
-                .$this->where($this->and($this->getContextConditions(), ["menu_item.lang_code_fk = :lang_code"]))
+                .$this->sql->where($this->sql->and($this->getContextConditions(), ["menu_item.lang_code_fk = :lang_code"]))
                 ." ORDER BY nested_set.left_node"
             ;
         $stmt = $this->getPreparedStatement($sql);
@@ -405,7 +416,7 @@ class HierarchyAggregateReadonlyDao extends DaoReadonlyAbstract implements Hiera
 
             INNER JOIN
                 $this->itemTableName ON (nested_set.uid = menu_item.uid_fk)"
-                .$this->where($this->and($this->getContextConditions(), ["menu_item.lang_code_fk = :lang_code"]))
+                .$this->sql->where($this->sql->and($this->getContextConditions(), ["menu_item.lang_code_fk = :lang_code"]))
             ." ORDER BY nested_set.left_node DESC
             LIMIT 1"
                 ;
@@ -453,7 +464,7 @@ class HierarchyAggregateReadonlyDao extends DaoReadonlyAbstract implements Hiera
                 ) AS nested_set
                     INNER JOIN
                 $this->itemTableName ON (nested_set.uid = menu_item.uid_fk)"
-                .$this->where($this->and($this->getContextConditions(), ["menu_item.lang_code_fk = :lang_code"]))
+                .$this->sql->where($this->sql->and($this->getContextConditions(), ["menu_item.lang_code_fk = :lang_code"]))
             ." ORDER BY nested_set.left_node"
             ;
         $stmt = $this->getPreparedStatement($sql);

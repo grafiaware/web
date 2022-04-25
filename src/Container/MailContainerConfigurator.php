@@ -30,21 +30,21 @@ use Auth\Model\Repository\RegistrationRepo;
  */
 class MailContainerConfigurator extends ContainerConfiguratorAbstract {
 
-    public function getParams() {
+    public function getParams(): iterable {
         return Configuration::mail();
     }
 
-    public function getFactoriesDefinitions() {
+    public function getFactoriesDefinitions(): iterable {
         return [];
     }
 
-    public function getAliases() {
+    public function getAliases(): iterable {
         return [
 
         ];
     }
 
-    public function getServicesDefinitions() {
+    public function getServicesDefinitions(): iterable {
         return [
             'mailLogger' => function(ContainerInterface $c) {
                 return FileLogger::getInstance($c->get('mail.logs.directory'), $c->get('mail.logs.file'), FileLogger::APPEND_TO_LOG); //new NullLogger();
@@ -69,7 +69,4 @@ class MailContainerConfigurator extends ContainerConfiguratorAbstract {
         ];
     }
 
-    public function getServicesOverrideDefinitions() {
-        return [];
-    }
 }

@@ -24,7 +24,7 @@ class InstitutionDao  extends DaoEditAbstract implements  InstitutionDaoInterfac
 
     public function getAttributes(): array {
         return [
-            'id', 'name', 'institution'
+            'id', 'name', 'institution_type_id'
         ];
     }
 

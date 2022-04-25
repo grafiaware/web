@@ -42,7 +42,8 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
      * @return MenuItemInterface|null
      */
     public function get($langCodeFk, $uidFk): ?MenuItemInterface {
-        return $this->getEntity($langCodeFk, $uidFk);
+        $key = $this->getPrimaryKeyTouples(['lang_code_fk'=>$langCodeFk, 'uid_fk'=>$uidFk]);
+        return $this->getEntity($key);
     }
 
     /**
@@ -56,7 +57,8 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
     public function getOutOfContext($langCodeFk, $uidFk): ?MenuItemInterface {
         $index = $this->indexFromKeyParams($langCodeFk, $uidFk);
         if (!isset($this->collection[$index])) {   // collection je private
-            $rowData = $this->dataManager->getOutOfContext($langCodeFk, $uidFk);
+            $key = $this->getPrimaryKeyTouples(['lang_code_fk'=>$langCodeFk, 'uid_fk'=>$uidFk]);
+            $rowData = $this->dataManager->getOutOfContext($key);
             $this->addData($index, $rowData);  // natvrdo dá rowData do $this->data // private
             $this->recreateEntity($index, $rowData);  // private
         }
@@ -70,21 +72,20 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
      * @param type $id
      * @return MenuItemInterface|null
      */
-    public function getById($id): ?MenuItemInterface {
+    public function getById(array $id): ?MenuItemInterface {
         $rowData = $this->dataManager->getById($id);  // zatím je tu MenuItemDao!
         return $this->addEntityByRowData($rowData);
     }
 
     /**
-     * Vrací MenuItem podle kódu jazyka a hodnoty prettyUri.
+     * Vrací MenuItem podle hodnoty prettyUri.
      * Vrací jen položky, které jsou aktivní a aktuální.
      *
-     * @param type $langCodeFk
      * @param type $prettyUri
      * @return MenuItemInterface|null
      */
-    public function getByPrettyUri($langCodeFk, $prettyUri): ?MenuItemInterface {
-        $rowData = $this->dataManager->getByPrettyUri($langCodeFk, $prettyUri);
+    public function getByPrettyUri($prettyUri): ?MenuItemInterface {
+        $rowData = $this->dataManager->getByPrettyUri(['prettyuri'=>$prettyUri]);
         return $this->addEntityByRowData($rowData);
     }
 
@@ -94,7 +95,7 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
      * @return EntityInterface|null
      */
     public function getByReference($id): ?EntityInterface {
-        return $this->get($id['lang_code_fk'], $id['uid_fk']);
+        return $this->get($id);
     }
 
     /**
@@ -133,8 +134,8 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
         return new MenuItem();
     }
 
-    protected function indexFromKeyParams($langCodeFk, $uidFk) {
-        return $langCodeFk.$uidFk;
+    protected function indexFromKeyParams($key) {
+        return $key['lang_code_fk'].$key['uid_fk'];
     }
 
     protected function indexFromEntity(MenuItemInterface $menuItem) {

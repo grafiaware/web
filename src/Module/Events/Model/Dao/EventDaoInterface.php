@@ -16,6 +16,6 @@ interface EventDaoInterface extends DaoContextualInterface, DaoAutoincrementKeyI
      * @param int $eventContentIdFk
      * @return array
      */
-    public function getByEventContentIdFk(array $eventContentIdFk ) ;
+    public function findByEventContentIdFk(array $eventContentIdFk ) ;
 
 }

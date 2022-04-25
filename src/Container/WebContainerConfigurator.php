@@ -186,17 +186,17 @@ use \Pes\View\ViewFactory;
  */
 class WebContainerConfigurator extends ContainerConfiguratorAbstract {
 
-    public function getParams() {
+    public function getParams(): iterable {
         return array_merge(
                 Configuration::web(),  //db
                 Configuration::component(),
                 Configuration::menu(),
-                Configuration::renderer(),
+//                Configuration::renderer(),
                 Configuration::templateController()
                 );
     }
 
-    public function getFactoriesDefinitions() {
+    public function getFactoriesDefinitions(): iterable {
         return [
         // components
 
@@ -670,7 +670,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
         ];
     }
 
-    public function getAliases() {
+    public function getAliases(): iterable {
         return [
             CredentialsInterface::class => Credentials::class,
             AccountInterface::class => Account::class,
@@ -678,7 +678,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
         ];
     }
 
-    public function getServicesDefinitions() {
+    public function getServicesDefinitions(): iterable {
         return [
             // configuration
             ComponentConfiguration::class => function(ContainerInterface $c) {
@@ -879,14 +879,6 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                             $c->get(ItemActionRepo::class)
                     );
             },
-        ];
-    }
-
-    public function getServicesOverrideDefinitions() {
-        return [
-            //  má AppContainer jako delegáta
-            //
-
             // session user - tato služba se používá pro vytvoření objetu Account a tedy pro připojení k databázi
             LoginAggregateFullInterface::class => function(ContainerInterface $c) {
                 /** @var StatusSecurityRepo $securityStatusRepo */

@@ -53,8 +53,10 @@ abstract class DaoReadonlyAbstract implements DaoReadonlyInterface {
             end($pkAttribute);
             return [current($pkAttribute) => $primaryFieldsValue];
         }
-        throw new UnexpectedValueException("nelze automaticky vytvořit dvojici primárního klíče. Atribut promárního klíče má více nž jedno pole, primární klíč je kompozitní.");
+        throw new UnexpectedValueException("nelze automaticky vytvořit dvojici jméno=>hodnota primárního klíče z jednoduché hodnoty. Atribut promárního klíče má více nž jedno pole, primární klíč je kompozitní.");
     }
+
+############################################
 
     public function get(array $id) {
         $select = $this->sql->select($this->getAttributes());
@@ -165,9 +167,10 @@ abstract class DaoReadonlyAbstract implements DaoReadonlyInterface {
 
     protected function getTouplesToBind(array $attributeValues) {
         $touples = [];
-        foreach ($attributeValues as $field => $value) {
-            if (!array_key_exists($field, $values)) {
-                throw new UnexpectedValueException("v předaném klíči není prvek pro pole primárního klíče '$field'.");
+        $attributes = $this->getAttributes();
+        foreach ($attributeValues as $field=>$value) {
+            if (!in_array($field, $attributes)) {
+                throw new UnexpectedValueException("v předaném poli dvojic je prvek '$field', který nemá odpovídající atribut (sloupec tabulky).");
             }
             $touples[":".$field] = $value;
         }

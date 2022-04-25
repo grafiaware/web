@@ -59,15 +59,15 @@ use Application\Api\ApiRegistrator;
  */
 class AppContainerConfigurator extends ContainerConfiguratorAbstract {
 
-    public function getParams() {
+    public function getParams(): iterable {
         return Configuration::app();
     }
 
-    public function getFactoriesDefinitions() {
+    public function getFactoriesDefinitions(): iterable {
         return [];
     }
 
-    public function getAliases() {
+    public function getAliases(): iterable {
         return [
             SessionStatusHandlerInterface::class => SessionStatusHandler::class,
             CredentialsInterface::class => Credentials::class,
@@ -76,7 +76,7 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
         ];
     }
 
-    public function getServicesDefinitions() {
+    public function getServicesDefinitions(): iterable {
         return [
 
             #################################
@@ -165,12 +165,6 @@ class AppContainerConfigurator extends ContainerConfiguratorAbstract {
             RouteSegmentGenerator::class => function(ContainerInterface $c) {
                 return new RouteSegmentGenerator($c->get(ResourceRegistry::class));
             },
-        ];
-    }
-
-    public function getServicesOverrideDefinitions() {
-        return [
-
         ];
     }
 }

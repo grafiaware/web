@@ -55,12 +55,12 @@ class EventDao extends DaoContextualAbstract implements EventDaoInterface {
      * @param type $eventContentIdFk
      * @return array
      */
-    public function getByEventContentIdFk(array $eventContentIdFk ) {
+    public function findByEventContentIdFk(array $eventContentIdFk ) {
         $select = $this->sql->select($this->getAttributes());
         $from = $this->sql->from($this->getTableName());
         $where = $this->sql->where($this->sql->and($this->getContextConditions(), $this->sql->touples(['event_content_id_fk'])));
-        $touplesToBind = $this->getTouplesToBind(array_combine(['event_content_id_fk'], $eventContentIdFk));
-        return $this->selectOne($select, $from, $where, $touplesToBind, true);
+        $touplesToBind = $this->getTouplesToBind($eventContentIdFk);
+        return $this->selectMany($select, $from, $where, $touplesToBind);
     }
 
 }

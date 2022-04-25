@@ -39,20 +39,9 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
 
-//        $this->container =
-//            (new WebContainerConfigurator())->configure(
-//                (new HierarchyContainerConfigurator())->configure(
-//                    (new DbUpgradeContainerConfigurator())->configure(
-//                            new Container($this->getApp()->getAppContainer())
-//                    )
-//                )
-//            );
-        $this->container =
-            (new WebContainerConfigurator())->configure(
-                $this->getApp()->getAppContainer()
-            );
-
         $response = $handler->handle($request);
+        $this->container = $this->getApp()->getAppContainer();
+
         $newBody = new Body(fopen('php://temp', 'r+'));
         $newBody->write($this->transform($response->getBody()->getContents()));
         return $response->withBody($newBody);

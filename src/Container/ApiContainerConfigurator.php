@@ -80,15 +80,15 @@ use Red\Model\Repository\ItemActionRepo;
  */
 class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
 
-    public function getParams() {
+    public function getParams(): iterable {
         return Configuration::api();
     }
 
-    public function getFactoriesDefinitions() {
+    public function getFactoriesDefinitions(): iterable {
         return [];
     }
 
-    public function getAliases() {
+    public function getAliases(): iterable {
         return [
             RouterInterface::class => Router::class,
             LoginAggregateCredentialsInterface::class => LoginAggregate::class,
@@ -97,7 +97,7 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
         ];
     }
 
-    public function getServicesDefinitions() {
+    public function getServicesDefinitions(): iterable {
         return [
             UserActionControler::class => function(ContainerInterface $c) {
                 return new UserActionControler(
@@ -240,13 +240,6 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
             'renderLogger' => function(ContainerInterface $c) {
                 return FileLogger::getInstance($c->get('api.logs.view.directory'), $c->get('api.logs.view.file'), FileLogger::REWRITE_LOG);
             },
-        ];
-    }
-
-    public function getServicesOverrideDefinitions() {
-        return [
-            //  má AppContainer jako delegáta
-            //
             // session LoginAggregate - vyzvedává LoginAggregate entitu z session - tato služba se používá pro vytvoření objetu Account a tedy pro připojení k databázi
             LoginAggregate::class => function(ContainerInterface $c) {
                 /** @var StatusSecurityRepo $securityStatusRepo */

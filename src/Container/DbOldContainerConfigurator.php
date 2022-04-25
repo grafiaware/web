@@ -26,21 +26,21 @@ use Pes\Database\Handler\AttributesProvider\AttributesProvider;
  */
 class DbOldContainerConfigurator extends ContainerConfiguratorAbstract {
 
-    public function getParams() {
+    public function getParams(): iterable {
         return Configuration::dbOld();
     }
 
-    public function getFactoriesDefinitions() {
+    public function getFactoriesDefinitions(): iterable {
         return [];
     }
 
-    public function getAliases() {
+    public function getAliases(): iterable {
         return [
 
         ];
     }
 
-    public function getServicesDefinitions() {
+    public function getServicesDefinitions(): iterable {
         return [
 
             // database
@@ -78,12 +78,6 @@ class DbOldContainerConfigurator extends ContainerConfiguratorAbstract {
                 }
                 return $attributesProvider;
             },
-        ];
-    }
-
-    public function getServicesOverrideDefinitions() {
-        return [
-
         ];
     }
 }

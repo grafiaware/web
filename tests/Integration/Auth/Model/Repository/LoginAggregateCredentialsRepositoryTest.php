@@ -61,7 +61,7 @@ class LoginAggregateCredentialsRepositoryTest extends AppRunner {
         try {
             /** @var LoginDao $loginDao */
             $loginDao = $container->get(LoginDao::class);
-            $loginDao->insertWithKeyVerification(new RowData(['login_name'=>"testLoginAggregate1"]));
+            $loginDao->insert(new RowData(['login_name'=>"testLoginAggregate1"]));
         } catch (DaoKeyVerificationFailedException $keyExistsExc) {
 
         }
@@ -122,9 +122,9 @@ class LoginAggregateCredentialsRepositoryTest extends AppRunner {
     }
 
     public function testGet() {
-        $loginAgg = $this->loginAggCredRepo->get("QWER45T6U7I89OPOLKJHGFD");
+        $loginAgg = $this->loginAggCredRepo->get(['login_name'=>"QWER45T6U7I89OPOLKJHGFD"]);
         $this->assertNull($loginAgg);
-        $loginAgg = $this->loginAggCredRepo->get("pes2704");
+        $loginAgg = $this->loginAggCredRepo->get(['login_name'=>"pes2704"]);
         $this->assertInstanceOf(LoginAggregateCredentials::class, $loginAgg);
     }
 

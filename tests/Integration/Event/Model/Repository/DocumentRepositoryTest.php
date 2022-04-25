@@ -40,7 +40,7 @@ class DocumentRepositoryTest extends AppRunner {
      *
      * @var VisitorProfileRepo
      */
-    private $DocumentRepo;
+    private $documentRepo;
 
     private static $idCv;
     private static $idLetter;
@@ -103,11 +103,11 @@ class DocumentRepositoryTest extends AppRunner {
             (new EventsContainerConfigurator())->configure(
                 (new DbEventsContainerConfigurator())->configure(new Container())
             );
-        $this->DocumentRepo = $this->container->get(DocumentRepo::class);
+        $this->documentRepo = $this->container->get(DocumentRepo::class);
     }
 
     protected function tearDown(): void {
-        $this->DocumentRepo->flush();
+        $this->documentRepo->flush();
     }
 
     public static function tearDownAfterClass(): void {
@@ -120,16 +120,16 @@ class DocumentRepositoryTest extends AppRunner {
     }
 
     public function testSetUp() {
-        $this->assertInstanceOf(DocumentRepo::class, $this->DocumentRepo);
+        $this->assertInstanceOf(DocumentRepo::class, $this->documentRepo);
     }
 
     public function testGetNonExisted() {
-        $document = $this->DocumentRepo->get(['id' => -1]);
+        $document = $this->documentRepo->get(['id' => -1]);
         $this->assertNull($document);
     }
 
     public function testGetAfterSetup() {
-        $visitorProfile = $this->DocumentRepo->get(self::$idCv['id']);    // !!!! jenom po insertu v setUp - hodnotu vrací dao
+        $visitorProfile = $this->documentRepo->get(self::$idCv);    // !!!! jenom po insertu v setUp - hodnotu vrací dao
         $this->assertInstanceOf(Document::class, $visitorProfile);
     }
 
@@ -146,7 +146,7 @@ class DocumentRepositoryTest extends AppRunner {
         $document->setDocumentMimetype($mime);
         $document->setDocumentFilename($filepathName);
 
-        $this->DocumentRepo->add($document);
+        $this->documentRepo->add($document);
         $this->assertTrue($document->isPersisted());  // DocumentDao je DaoAutoincrementKeyInterface, k zápisu dojde ihned
 
 //        $cvFinfo = new \SplFileInfo($cvFilepathName);
@@ -166,34 +166,34 @@ class DocumentRepositoryTest extends AppRunner {
         $document->setDocumentMimetype($mime);
         $document->setDocumentFilename($filepathName);
 
-        $this->DocumentRepo->add($document);
-        $this->DocumentRepo->flush();
-        $documentRereaded = $this->DocumentRepo->get($document->getId());
+        $this->documentRepo->add($document);
+        $this->documentRepo->flush();
+        $documentRereaded = $this->documentRepo->get(['id'=>$document->getId()]);
         $this->assertInstanceOf(Document::class, $documentRereaded);
         $this->assertTrue($documentRereaded->isPersisted());
     }
 
     public function testFindAll() {
-        $visitorProfile = $this->DocumentRepo->findAll();
+        $visitorProfile = $this->documentRepo->findAll();
         $this->assertTrue(is_array($visitorProfile));
     }
 
     public function testFind() {
         $dir = __DIR__;
-        $documents = $this->DocumentRepo->find("document_filename LIKE '$dir%'", []);
+        $documents = $this->documentRepo->find("document_filename LIKE '$dir%'", []);
         $this->assertTrue(is_array($documents));
     }
 
     public function testRemove() {
-        $document = $this->DocumentRepo->get(self::$idCv);    // !!!! jenom po insertu v setUp - hodnotu vrací dao
+        $document = $this->documentRepo->get(self::$idCv);    // !!!! jenom po insertu v setUp - hodnotu vrací dao
         $this->assertInstanceOf(Document::class, $document);
-        $this->DocumentRepo->remove($document);
+        $this->documentRepo->remove($document);
         $this->assertFalse($document->isPersisted());
         $this->assertTrue($document->isLocked());   // maže až při flush
-        $this->DocumentRepo->flush();
+        $this->documentRepo->flush();
         $this->assertFalse($document->isLocked());
         // pokus o čtení
-        $document = $this->DocumentRepo->get(self::$idCv);
+        $document = $this->documentRepo->get(self::$idCv);
         $this->assertNull($document);
     }
 

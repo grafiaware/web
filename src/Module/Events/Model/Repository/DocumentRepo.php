@@ -42,7 +42,7 @@ class DocumentRepo extends RepoAbstract implements DocumentRepoInterface {
     public function find($whereClause=null, $touplesToBind=[]) {
         return $this->findEntities($whereClause, $touplesToBind);
     }
-    
+
     public function findAll() {
         return $this->findEntities();
     }
@@ -60,7 +60,7 @@ class DocumentRepo extends RepoAbstract implements DocumentRepoInterface {
     }
 
     protected function indexFromKeyParams($id) {
-        return $id;
+        return $id['id'];
     }
 
     protected function indexFromEntity(DocumentInterface $document) {

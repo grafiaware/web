@@ -6,6 +6,8 @@ use Model\Dao\DaoEditAbstract;
 
 use Pes\Database\Handler\HandlerInterface;
 use Model\Context\ContextFactoryInterface;
+use Model\Builder\SqlInterface;
+
 use Red\Model\Dao\Hierarchy\HookedMenuItemActorInterface;
 
 /**
@@ -24,22 +26,28 @@ class HierarchyAggregateEditDao extends DaoEditAbstract implements HierarchyAggr
      */
     protected $contextFactory;
 
-    private $keyAttribute = ['lang_code_fk', 'uid'];
-
-    public function getPrimaryKeyAttribute(): array {
-        return $this->keyAttribute;
-    }
-
     /**
      *
      * @param HandlerInterface $handler
      * @param strimg $nestedSetTableName Jméno tabulky obsahující nested set hierarchii položek. Používá se pro editaci hierarchie.
      * @param ContextFactoryInterface $contextFactory
      */
-    public function __construct(HandlerInterface $handler, $nestedSetTableName, $fetchClassName="", ContextFactoryInterface $contextFactory=null) {
-        parent::__construct($handler, $fetchClassName);
-        $this->nestedSetTableName = $nestedSetTableName;
+    public function __construct(HandlerInterface $handler, SqlInterface $sql, $fetchClassName="", ContextFactoryInterface $contextFactory=null) {
+        parent::__construct($handler, $sql, $fetchClassName);
+        $this->nestedSetTableName = $this->getTableName();
         $this->contextFactory = $contextFactory;
+    }
+
+    public function getPrimaryKeyAttribute(): array {
+        return ['lang_code_fk', 'uid'];
+    }
+
+    public function getAttributes(): array {
+        ;
+    }
+
+    public function getTableName(): string {
+        return 'hierarchy';
     }
 
     /**

@@ -102,7 +102,7 @@ use Pes\Database\Handler\HandlerInterface;
  */
 class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
 
-    public function getParams() {
+    public function getParams(): iterable {
         return [
             #################################
             # Sekce konfigurace uživatele databáze
@@ -114,7 +114,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             'events.db.account.everyone.name' => PES_RUNNING_ON_PRODUCTION_HOST ? 'xxxxxx' : 'vp_events',  // nelze použít jméno uživatele použité pro db upgrade - došlo by k duplicitě jmen v build create
             'events.db.account.everyone.password' => PES_RUNNING_ON_PRODUCTION_HOST ? 'xxxxx' : 'vp_events',
 
-            'events.logs.database.directory' => 'Logs/Events',
+            'events.logs.database.directory' => 'TestLogs/Events',
             'events.logs.database.file' => 'Database.log',
             #
             ###################################
@@ -122,11 +122,11 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
         ];
     }
 
-    public function getFactoriesDefinitions() {
+    public function getFactoriesDefinitions(): iterable {
         return [];
     }
 
-    public function getAliases() {
+    public function getAliases(): iterable {
         return [
             AccountInterface::class => Account::class,
             HandlerInterface::class => Handler::class,
@@ -135,7 +135,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
         ];
     }
 
-    public function getServicesDefinitions() {
+    public function getServicesDefinitions(): iterable {
         return [
             // LoginContainer musí mít DbOld kontejner jako delegáta
             //
@@ -360,7 +360,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
         ];
     }
 
-    public function getServicesOverrideDefinitions() {
+    public function getServicesOverrideDefinitions(): iterable {
         return [];
     }
 }

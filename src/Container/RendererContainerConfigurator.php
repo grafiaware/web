@@ -52,31 +52,19 @@ use Component\Renderer\Html\Authored\TypeSelect\ItemTypeSelectRenderer;
  */
 class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
 
-    public function getParams() {
-        return Configuration::renderer();
+    public function getParams(): iterable {
+        return [];
     }
 
-    public function getAliases() {
+    public function getAliases(): iterable {
         return [
 //            PhpTemplateRendererInterface::class => PhpTemplateRenderer::class,
         ];
     }
 
-    public function getServicesDefinitions() {
-        return [
-
-
-        ];
-    }
-
-    public function getFactoriesDefinitions() {
-        return [
-
-        ];
-    }
-
-    public function getServicesOverrideDefinitions() {
-        return [
+    public function getServicesDefinitions(): iterable {
+        return array_merge(Configuration::renderer(),
+                [
         ###########################
         # menu item renderer
         ###########################
@@ -196,6 +184,13 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
 //            PhpTemplateRenderer::class => function(ContainerInterface $c) {
 //                return new PhpTemplateRenderer();
 //            },
+        ]);
+
+    }
+
+    public function getFactoriesDefinitions(): iterable {
+        return [
+
         ];
     }
 }

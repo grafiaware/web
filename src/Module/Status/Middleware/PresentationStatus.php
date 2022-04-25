@@ -13,7 +13,6 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 
 use Pes\Middleware\AppMiddlewareAbstract;
-use Pes\Application\UriInfoInterface;
 
 use Application\WebAppFactory;
 use Site\Configuration;
@@ -42,13 +41,7 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
 
-        $this->container =
-        //      $this->getApp()->getAppContainer();
-                (new HierarchyContainerConfigurator())->configure(   // jen kvůli languageRepo z kontejneru - výkonostní problém - viz níže
-                    (new DbUpgradeContainerConfigurator())->configure(
-                        $this->getApp()->getAppContainer()
-                    )
-                );
+        $this->container = $this->getApp()->getAppContainer();
 
         $statusPresentation = $this->createStatusIfNotExists();
         $this->presetPresentationLanguage($statusPresentation, $request);

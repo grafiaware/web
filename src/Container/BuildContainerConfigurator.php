@@ -52,11 +52,11 @@ use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusF
  */
 class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
 
-    public function getParams() {
+    public function getParams(): iterable {
         return Configuration::build();
     }
 
-    public function getFactoriesDefinitions() {
+    public function getFactoriesDefinitions(): iterable {
         return [
                 'build.config.copy' => function(ContainerInterface $c) {
                     return [
@@ -117,7 +117,7 @@ class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
                 ];
     }
 
-    public function getAliases() {
+    public function getAliases(): iterable {
         return [
             RouterInterface::class => Router::class,
             HierarchyAggregateReadonlyDaoInterface::class => HierarchyAggregateReadonlyDao::class,
@@ -125,7 +125,7 @@ class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
         ];
     }
 
-    public function getServicesDefinitions() {
+    public function getServicesDefinitions(): iterable {
         return [
             'dropLogger' => function(ContainerInterface $c) {
                 return FileLogger::getInstance($c->get('build.db.logs.directory'), $c->get('build.db.logs.file.drop'), FileLogger::REWRITE_LOG); //new NullLogger();
@@ -199,12 +199,7 @@ class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class)))->injectContainer($c);
-            }
-        ];
-    }
-
-    public function getServicesOverrideDefinitions() {
-        return [
+            },
             // Account a Handler "přetěžují" Account a Handler z DbOld kontejneru
             Account::class => function(ContainerInterface $c) {
                 return new Account(

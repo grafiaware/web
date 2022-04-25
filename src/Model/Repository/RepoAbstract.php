@@ -18,7 +18,7 @@ use Model\Hydrator\HydratorInterface;
 use Model\Entity\EntityInterface;
 use Model\RowData\RowDataInterface;
 use Model\RowData\PdoRowData;
-use Model\DataManager\DataManager;
+use Model\DataManager\DataManagerAbstract;
 
 use Model\Repository\Association\AssociationOneToOne;
 use Model\Repository\Association\AssociationOneToMany;
@@ -66,7 +66,7 @@ abstract class RepoAbstract {
     private $hydrators = [];
 
     /**
-     * @var  DataManager
+     * @var  DataManagerAbstract
      */
     protected $dataManager;
 
@@ -111,15 +111,27 @@ abstract class RepoAbstract {
         throw new BadImplemntastionOfChildRepository("Child repository must implement method createEntity().");
     }
 
+    protected function getPrimaryKeyTouples(array $row): array {
+        $keyAttribute = $this->dataManager->getPrimaryKeyAttribute();
+        $key = [];
+        foreach ($keyAttribute as $field) {
+            if( ! array_key_exists($field, $row)) {
+                throw new UnableRecreateEntityException("Nelze vytvořit klíč entity. Atribut klíče obsahuje pole '$field' a pole dat pro vytvoření klíče neobsahuje prvek s takovým jménem.");
+            }
+            $key[$field] = $row[$field];
+        }
+        return $key;
+    }
+
     /**
      *
      * @param variadic $id
      * @return EntityInterface|null
      */
-    protected function getEntity(...$id) {
-        $index = $this->indexFromKeyParams(...$id);
+    protected function getEntity(array $id) {
+        $index = $this->indexFromRow($id);
         if (!isset($this->collection[$index]) AND !isset($this->removed[$index])) {
-            $this->recreateEntity($index, $this->recreateData($index, ...$id));
+            $this->recreateEntity($index, $this->recreateData($index, $id));
         }
         return $this->collection[$index] ?? NULL;
     }
@@ -129,17 +141,17 @@ abstract class RepoAbstract {
      * @param variadic $referenceId
      * @return EntityInterface|null
      */
-    protected function getEntityByReference(...$referenceId): ?EntityInterface {
+    protected function getEntityByReference(array $referenceId): ?EntityInterface {
         // vždy čte data - neví jestli jsou v $this->data
-        $rowData = $this->dataManager->getByFk(...$referenceId);
+        $rowData = $this->dataManager->getByFk($referenceId);
         return $this->addEntityByRowData($rowData);
     }
 
-    protected function findEntities($whereClause=null, $touplesToBind=[]) {
+    protected function findEntities($whereClause="", $touplesToBind=[]) {
         return $this->addEntitiesByRowDataArray($this->dataManager->find($whereClause, $touplesToBind));
     }
 
-    protected function findEntitiesByReference(...$referenceId) {
+    protected function findEntitiesByReference(array $referenceId) {
         return $this->addEntitiesByRowDataArray($this->dataManager->findByFk(...$referenceId));
     }
 
@@ -186,8 +198,8 @@ abstract class RepoAbstract {
 
 
 
-    private function recreateData($index, ...$id) {
-        $rowData = $this->dataManager->get(...$id);
+    private function recreateData($index, array $id) {
+        $rowData = $this->dataManager->get($id);
         if(isset($rowData)) {
             $this->addData($index, $rowData);
         }
@@ -228,29 +240,6 @@ abstract class RepoAbstract {
             } else {
                 throw new \LogicException("Neznámý typ asociace pro $interfaceName");
             }
-        }
-    }
-
-    protected function getKey($row) {
-        $keyAttribute = $this->dataManager->getKeyAttribute();
-        if (is_array($keyAttribute)) {
-            foreach ($keyAttribute as $field) {
-                if( ! array_key_exists($field, $row)) {
-                    throw new UnableRecreateEntityException("Nelze vytvořit klíč entity. Atribut klíče obsahuje pole $field a pole řádku dat pro vytvoření entity neobsahuje prvek s takovým kménem.");
-                }
-                $key[$field] = $row[$field];
-            }
-        } else {
-            $key = $row[$keyAttribute];
-        }
-        return $key;
-    }
-
-    protected function indexFromKey($key) {
-        if (is_array($key)) {
-            return implode("", array_values($key));
-        } else{
-            return $key;
         }
     }
 

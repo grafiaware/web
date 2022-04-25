@@ -18,7 +18,7 @@ class InstitutionTypeDao extends DaoEditAbstract implements InstitutionTypeDaoIn
     use DaoAutoincrementTrait;
 
     public function getPrimaryKeyAttribute(): array {
-        return 'id';
+        return ['id'];
     }
 
     public function getAttributes(): array {

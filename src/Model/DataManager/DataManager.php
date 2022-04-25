@@ -17,7 +17,7 @@ use Model\RowData\RowDataInterface;
  *
  * @author pes2704
  */
-abstract class DataManager implements DataManagerInterface {
+abstract class DataManagerAbstract implements DataManagerInterface {
 
     /**
      * @var DaoEditInterface
@@ -36,28 +36,16 @@ abstract class DataManager implements DataManagerInterface {
         $this->dataToRemove = new \ArrayObject();
     }
 
-    public function get(...$id): ?RowDataInterface {
-        $index = $this->indexFromKeyParams(...$id);
+    public function get(array $id): ?RowDataInterface {
+        $index = $this->indexFromKeyParams($id);
         if ($this->dataToAdd->offsetExists($index)) {
             return $this->dataToAdd->offsetGet($index);
         } elseif (!$this->persitedData->offsetExists($index)) {
-            $data = $this->dao->get(...$id);
+            $data = $this->dao->get($id);
             $this->persitedData->offsetSet($index, $data);
             $this->flushed = false;
         }
         return $this->persitedData->offsetExists($index) ? $this->persitedData->offsetGet($index) : null;
-    }
-
-    public function getByReference(...$referenceId): ?RowDataInterface {
-        $rowData = $this->dao->getByFk(...$referenceId);
-        if (!$rowData) {
-            return null;
-        }
-        $index = $this->indexFromRowData($rowData);
-        if (!$this->persitedData->offsetExists($index)) {
-            $this->persitedData->offsetSet($index, $rowData);
-        }
-        return $rowData;
     }
 
     public function find($whereClause="", $touplesToBind=[]): iterable {
