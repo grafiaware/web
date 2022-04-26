@@ -108,12 +108,13 @@ abstract class DaoEditAbstract extends DaoReadonlyAbstract implements DaoEditInt
      */
     protected function execInsert(RowDataInterface $rowData) {
         $tableName = $this->getTableName();
-        $changedNames = $rowData->changedNames();
+        $changed = $rowData->fetchChanged();
+        $changedNames = array_keys($changed);
         $cols = $this->sql->columns($changedNames);
         $values = $this->sql->values($changedNames);
         $sql = "INSERT INTO $tableName ($cols)  VALUES ($values)";
         $statement = $this->getPreparedStatement($sql);
-        $this->bindParams($statement, $rowData, $changedNames);
+        $this->bindParams($statement, $changed);
         $success = $statement->execute();
         $this->rowCount = $statement->rowCount();
         return $success ?? false;
@@ -131,14 +132,15 @@ abstract class DaoEditAbstract extends DaoReadonlyAbstract implements DaoEditInt
     protected function execUpdate(RowDataInterface $rowData) {
         if ($rowData->isChanged()) {
             $tableName = $this->getTableName();
-            $keyNames = $this->getPrimaryKeyAttribute();
-            $changedNames = $rowData->changedNames();
-            $set = $this->sql->touples($changedNames);
-            $whereTouples = $this->sql->touples($keyNames);
-            $names = array_merge($changedNames, $keyNames);
-            $sql = "UPDATE $tableName SET ".$this->sql->set($set).$this->sql->where($this->sql->and($whereTouples));
+            $whereTouples = $this->sql->touples($this->getPrimaryKeyAttribute(), 'key_');
+            $oldData = $rowData->getArrayCopy();
+            $changed = $rowData->fetchChanged();
+            $changedNames = array_keys($changed);
+            $setTouples = $this->sql->touples($changedNames);
+            $sql = "UPDATE $tableName SET ".$this->sql->set($setTouples).$this->sql->where($this->sql->and($whereTouples));
             $statement = $this->getPreparedStatement($sql);
-            $this->bindParams($statement, $rowData, $names);
+            $this->bindParams($statement, $changed);
+            $this->bindParams($statement, $oldData, $this->getPrimaryKeyAttribute(), 'key_');
             $success = $statement->execute();
             $this->rowCount = $statement->rowCount();
         }

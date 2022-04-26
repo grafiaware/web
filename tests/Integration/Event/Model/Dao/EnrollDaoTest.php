@@ -106,18 +106,32 @@ class EnrollDaoTest extends AppRunner {
         $this->assertEquals(1, $this->dao->getRowCount());
     }
 
-    public function testGetExistingRow() {
-        $enrollRow = $this->dao->get(['login_login_name_fk' => self::$login_login_name_fk]);
+    public function testGetByPk() {
+        $enrollRow = $this->dao->get(['login_login_name_fk' => self::$login_login_name_fk, 'event_id_fk' => self::$event_id_fk]);
         $this->assertInstanceOf(RowDataInterface::class, $enrollRow);
     }
 
     public function test2Columns() {
-        $enrollRow = $this->dao->get(['login_login_name_fk' => self::$login_login_name_fk]);
+        $enrollRow = $this->dao->get(['login_login_name_fk' => self::$login_login_name_fk, 'event_id_fk' => self::$event_id_fk]);
         $this->assertCount(2, $enrollRow);
     }
 
+    public function testFindExistingRowsByLoginName() {
+        $enrollRows = $this->dao->findByLoginNameFk(['login_login_name_fk' => self::$login_login_name_fk]);
+        $this->assertIsArray($enrollRows);
+        $this->assertGreaterThan(0, count($enrollRows));
+        $this->assertInstanceOf(RowDataInterface::class, $enrollRows[0]);
+    }
+
+    public function testFindExistingRowsByEventId() {
+        $enrollRows = $this->dao->findByEventIdFk(['event_id_fk' => self::$event_id_fk]);
+        $this->assertIsArray($enrollRows);
+        $this->assertGreaterThan(0, count($enrollRows));
+        $this->assertInstanceOf(RowDataInterface::class, $enrollRows[0]);
+    }
+
     public function testUpdate() {
-        $enrollRow = $this->dao->get(['login_login_name_fk' => self::$login_login_name_fk]);
+        $enrollRow = $this->dao->get(['login_login_name_fk' => self::$login_login_name_fk, 'event_id_fk' => self::$event_id_fk]);
         $eventId = $enrollRow['event_id_fk'];
         $this->assertIsString($enrollRow['login_login_name_fk']);
         $this->assertIsInt($enrollRow['event_id_fk']);
@@ -128,10 +142,24 @@ class EnrollDaoTest extends AppRunner {
         $this->assertEquals(1, $this->dao->getRowCount());
 
         $this->setUp();
-        $enrollRowRereaded = $this->dao->get(['login_login_name_fk' => self::$login_login_name_fk]);
+        $enrollRowRereaded = $this->dao->get(['login_login_name_fk' => self::$login_login_name_fk, 'event_id_fk' => self::$event_id_fk_2]);
         $this->assertInstanceOf(RowDataInterface::class, $enrollRowRereaded);
         $this->assertEquals(self::$event_id_fk_2, $enrollRowRereaded['event_id_fk']);
 
+    }
+
+    public function testFindByLoginNameFk() {
+        $enrollRowsRereaded = $this->dao->findByLoginNameFk(['login_login_name_fk' => self::$login_login_name_fk]);
+        $this->assertIsArray($enrollRowsRereaded);
+        $this->assertGreaterThanOrEqual(1, count($enrollRowsRereaded));
+        $this->assertInstanceOf(RowDataInterface::class, $enrollRowsRereaded[0]);
+    }
+
+    public function testFindByEventIdFk() {
+        $enrollRowsRereaded = $this->dao->findByEventIdFk(['event_id_fk' => self::$event_id_fk_2]);
+        $this->assertIsArray($enrollRowsRereaded);
+        $this->assertGreaterThanOrEqual(1, count($enrollRowsRereaded));
+        $this->assertInstanceOf(RowDataInterface::class, $enrollRowsRereaded[0]);
     }
 
     public function testFind() {
@@ -142,7 +170,7 @@ class EnrollDaoTest extends AppRunner {
     }
 
     public function testDelete() {
-        $enrollRow = $this->dao->get(['login_login_name_fk' => self::$login_login_name_fk]);
+        $enrollRow = $this->dao->get(['login_login_name_fk' => self::$login_login_name_fk, 'event_id_fk' => self::$event_id_fk_2]);
 
         $this->dao->delete($enrollRow);
         $this->assertEquals(1, $this->dao->getRowCount());

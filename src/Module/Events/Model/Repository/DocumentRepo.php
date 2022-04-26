@@ -36,7 +36,8 @@ class DocumentRepo extends RepoAbstract implements DocumentRepoInterface {
      * @return DocumentInterface|null
      */
     public function get($id): ?DocumentInterface {
-        return $this->getEntity($id);
+        $key = $this->getPrimaryKeyTouples(['id'=>$id]);
+        return $this->getEntity($key);
     }
 
     public function find($whereClause=null, $touplesToBind=[]) {
@@ -57,10 +58,6 @@ class DocumentRepo extends RepoAbstract implements DocumentRepoInterface {
 
     protected function createEntity() {
         return new Document();
-    }
-
-    protected function indexFromKeyParams($id) {
-        return $id['id'];
     }
 
     protected function indexFromEntity(DocumentInterface $document) {

@@ -12,6 +12,7 @@ use Pes\Database\Handler\HandlerInterface;
 use Pes\Database\Statement\StatementInterface;
 
 use Model\Builder\SqlInterface;
+use Model\Dao\DaoContextualInterface;
 
 use UnexpectedValueException;
 
@@ -185,27 +186,48 @@ abstract class DaoReadonlyAbstract implements DaoReadonlyInterface {
      * @param iterable $filterNames
      * @return \PDOStatement
      */
-    protected function bindParams(\PDOStatement $statement, iterable $touplesToBind, iterable $filterNames=[]) {
+    protected function bindParams(\PDOStatement $statement, iterable $touplesToBind, iterable $filterNames=[], $placeholderPrefix='') {
         if($filterNames) {
             foreach ($filterNames as $name) {
-                $value = $touplesToBind[$name];  // nelze použít isset($touplesToBind[$name]) - vrací true i pro hodnoty null
+                $value = $this->getValue($touplesToBind, $name);
                 if (isset($value)) {
-                    $statement->bindValue($name, $value);
+                    $statement->bindValue($placeholderPrefix.$name, $value);
                 } else {
-                    $statement->bindValue($name, null, \PDO::PARAM_INT);
+                    $statement->bindValue($placeholderPrefix.$name, null, \PDO::PARAM_INT);
                 }
             }
         } else {
             foreach ($touplesToBind as $name => $value) {
                 if (isset($value)) {
-                    $statement->bindValue($name, $value);
+                    $statement->bindValue($placeholderPrefix.$name, $value);
                 } else {
-                    $statement->bindValue($name, null, \PDO::PARAM_INT);
+                    $statement->bindValue($placeholderPrefix.$name, null, \PDO::PARAM_INT);
                 }
             }
         }
 
         return $statement;
+    }
+
+    private function getValue($touplesToBind, $name) {
+        // nelze použít isset($touplesToBind[$name]) - vrací true i pro hodnoty null
+        if (is_array($touplesToBind)) {
+            if (array_key_exists($name, $touplesToBind)) {
+                $val = $touplesToBind[$name];
+            } else {
+                throw new UnexpectedValueException("Pole obsahující dvojice jméno/hodnota pro bind parametrů sql příkazu neobsahuje položku se jménem '$name'.");
+            }
+        } elseif($touplesToBind instanceof \ArrayAccess) {
+            if ($touplesToBind->offsetExists($name)) {
+                $val = $touplesToBind->offsetGet($name);
+            } else {
+                throw new UnexpectedValueException("Objekt obsahující dvojice jméno/hodnota pro bind parametrů sql příkazu neobsahuje položku se jménem '$name'.");
+            }
+        } else {
+            $t = gettype($touplesToBind);
+            throw new UnexpectedValueException("Proměnná obsahující dvojice jméno/hodnota pro bind parametrů sql příkazu není typu array ani ArrayAccess. Je typu '$t'.");
+        }
+        return $val;
     }
 
 }

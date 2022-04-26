@@ -76,7 +76,7 @@ class EventContentRepositoryTest extends TestCase {
         $rowData->offsetSet('perex', "testEventContent Přednáška kjrhrkjh rkh rktjh erůjkhlkjhlkjhg welkfh ůh ů§h §h ů§fh lůfjkhů fkjh fůsdjefhů fhsůjh ksjh ůjh ůsdhdůfh sůheůrjheů");
         $rowData->offsetSet('title', "testEventContentPřednáška");
         $eventTContentDao->insert($rowData);
-        self::$id = $eventTContentDao->getLastInsertIdTouple();
+        self::$id = $eventTContentDao->lastInsertIdValue();
     }
 
     private static function deleteRecords(Container $container) {
@@ -117,7 +117,7 @@ class EventContentRepositoryTest extends TestCase {
     }
 
     public function testGetNonExisted() {
-        $event = $this->eventContentRepo->get(0);
+        $event = $this->eventContentRepo->get(['id' => 0]);
         $this->assertNull($event);
     }
 

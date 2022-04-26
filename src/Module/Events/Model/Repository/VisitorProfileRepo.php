@@ -56,10 +56,6 @@ class VisitorProfileRepo extends RepoAbstract implements VisitorProfileRepoInter
         return new VisitorProfile();
     }
 
-    protected function indexFromKeyParams($loginName) {
-        return $loginName;
-    }
-
     protected function indexFromEntity(VisitorProfileInterface $visitorProfile) {
         return $visitorProfile->getLoginLoginName();
     }

@@ -53,4 +53,14 @@ abstract class DaoContextualAbstract extends DaoEditAbstract implements DaoConte
         return parent::find($whereClause, $touplesToBind);
     }
 
+    public function findAll(): iterable {
+        $select = $this->sql->select($this->getAttributes());
+        $from = $this->sql->from($this->getTableName());
+        $where = $this->sql->where($this->getContextConditions());
+        return $this->selectMany($select, $from, $where, []);
+    }
+
+    public function findAllOutOfContext(): iterable {
+        return parent::findAll();
+    }
 }

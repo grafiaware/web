@@ -56,10 +56,6 @@ class EventRepo extends RepoAbstract implements EventRepoInterface {
         return new Event();
     }
 
-    protected function indexFromKeyParams($id) {
-        return $id;
-    }
-
     protected function indexFromEntity(EventInterface $event) {
         return $event->getId();
     }

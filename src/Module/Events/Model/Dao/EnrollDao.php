@@ -9,17 +9,27 @@
 namespace Events\Model\Dao;
 
 use Model\Dao\DaoEditAbstract;
-use Model\RowData\RowDataInterface;
+use Model\Dao\DaoReadonlyFkInterface;
+use Model\Dao\DaoReadonlyFkTrait;
 
 /**
  * Description of EnrollDao
  *
  * @author pes2704
  */
-class EnrollDao extends DaoEditAbstract {
+class EnrollDao extends DaoEditAbstract implements DaoReadonlyFkInterface {
+
+    use DaoReadonlyFkTrait;
 
     public function getPrimaryKeyAttribute(): array {
-        return ['login_login_name_fk'];
+        return ['login_login_name_fk', 'event_id_fk'];
+    }
+
+    public function getForeignKeyAttributes(): array {
+        return [
+            'login_login_name_fk'=>['login_login_name_fk'],
+            'event_id_fk'=>['event_id_fk']
+        ];
     }
 
     public function getAttributes(): array {
@@ -31,5 +41,13 @@ class EnrollDao extends DaoEditAbstract {
 
     public function getTableName(): string {
         return 'enroll';
+    }
+
+    public function findByLoginNameFk(array $loginNameFk ) {
+        return $this->findByFk('login_login_name_fk', $loginNameFk);
+    }
+
+    public function findByEventIdFk(array $eventContentIdFk ) {
+        return $this->findByFk('event_id_fk', $eventContentIdFk);
     }
 }

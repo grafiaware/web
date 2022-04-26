@@ -52,10 +52,6 @@ class LoginRepo extends RepoAbstract implements LoginRepoInterface {
         return new Login();
     }
 
-    protected function indexFromKeyParams($loginName) {
-        return $loginName;
-    }
-
     protected function indexFromEntity(LoginInterface $login) {
         return $login->getLoginName();
     }

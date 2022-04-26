@@ -268,7 +268,7 @@ abstract class RepoAbstract {
                 $rowData = $this->createRowData();
                 $this->extract($entity, $rowData);
                 try {
-                    $this->dataManager->insertWithKeyVerification($rowData);
+                    $this->dataManager->insert($rowData);
                     $entity->setPersisted();
                     $index = $this->indexFromEntity($entity);
                     $this->collection[$index] = $entity;

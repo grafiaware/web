@@ -11,10 +11,10 @@ namespace Red\Model\Dao;
 use Model\Dao\DaoEditAbstract;
 
 use Model\Dao\DaoAutoincrementKeyInterface;
-use Model\Dao\DaoReadonlyFkInterface;
+use Model\Dao\DaoReadonlyFkUniqueInterface;
 
 use \Model\Dao\DaoAutoincrementTrait;
-use \Model\Dao\DaoReadonlyFkTrait;
+use \Model\Dao\DaoReadonlyFkUniqueTrait;
 
 use Model\RowData\RowDataInterface;
 
@@ -23,10 +23,10 @@ use Model\RowData\RowDataInterface;
  *
  * @author pes2704
  */
-class PaperDao extends DaoEditAbstract implements DaoAutoincrementKeyInterface, DaoReadonlyFkInterface {
+class PaperDao extends DaoEditAbstract implements DaoAutoincrementKeyInterface, DaoReadonlyFkUniqueInterface {
 
     use DaoAutoincrementTrait;
-    use DaoReadonlyFkTrait;
+    use DaoReadonlyFkUniqueTrait;
 
     public function getPrimaryKeyAttribute(): array {
         return ['id'];

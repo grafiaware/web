@@ -89,14 +89,18 @@ class Sql implements SqlInterface {
     }
 
     /**
-     * Z pole jmen vytvoí pole výrazů sloupec = :placeholder. Sloupec je jméno použité jako identifikátor a placeholder je placeholder púro prepared statement.
+     * Z pole jmen vytvoří pole výrazů sloupec = :placeholder. Sloupec je jméno použité jako identifikátor a placeholder je placeholder pro prepared statement.
+     * Pokud je zadán parametr placeholder prefix, jsou placeholdery prefixovány. To je třeba pro případ, že je nutné vytvořit sql s opakujícími (duplikátními)
+     * plaeholdery. Opakovaným voláním metody bez prefixu a s různými prefixy lze předejít duplicitám.
+     *
      * @param array $names
+     * @param type $placeholderPrefix
      * @return array
      */
-    public function touples(array $names): array {
+    public function touples(array $names, $placeholderPrefix=''): array {
         $touples = [];
         foreach ($names as $name) {
-            $touples[] = $this->identificator($name) . " = :" . $name;
+            $touples[] = $this->identificator($name) . " = :".$placeholderPrefix.$name;
         }
         return $touples;
     }

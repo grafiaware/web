@@ -67,10 +67,6 @@ class VisitorDataPostRepo extends RepoAbstract implements VisitorDataPostRepoInt
         return new VisitorDataPost();
     }
 
-    protected function indexFromKeyParams($loginName, $shortName, $positionName) {
-        return $loginName.$shortName.$positionName;
-    }
-
     protected function indexFromEntity(VisitorDataPostInterface $visitorDataPost) {
         return $visitorDataPost->getLoginName().$visitorDataPost->getShortName().$visitorDataPost->getPositionName();
     }

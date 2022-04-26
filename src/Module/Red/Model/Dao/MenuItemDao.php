@@ -8,12 +8,10 @@
 
 namespace Red\Model\Dao;
 
-use Pes\Database\Handler\HandlerInterface;
 use Model\Dao\DaoContextualAbstract;
-use Model\Dao\DaoReadonlyFkInterface;
-use Model\Context\ContextFactoryInterface;
 use Model\RowData\RowDataInterface;
 
+use Model\Dao\DaoReadonlyFkInterface;
 use \Model\Dao\DaoReadonlyFkTrait;
 
 use Model\Dao\Exception\DaoForbiddenOperationException;
@@ -34,7 +32,14 @@ class MenuItemDao extends DaoContextualAbstract implements DaoReadonlyFkInterfac
     public function getAttributes(): array {
         return ['lang_code_fk', 'uid_fk', 'type_fk', 'id', 'title', 'prettyuri', 'active'];
     }
-
+    
+    public function getForeignKeyAttributes(): array {
+        return [
+            'lang_code_fk'=>['lang_code_fk'],
+            'uid_fk'=>['uid_fk'],
+            'type_fk'=>['type_fk']
+        ];
+    }
     public function getTableName(): string {
         return 'menu_item';
     }

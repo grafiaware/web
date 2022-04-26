@@ -36,8 +36,8 @@ class EventContentRepo extends RepoAbstract implements EventContentRepoInterface
      * @return EventContentInterface|null
      */
     public function get($id): ?EventContentInterface {
-        return $this->getEntity($id);
-    }
+        $key = $this->getPrimaryKeyTouples(['id'=>$id]);
+        return $this->getEntity($key);    }
 
     public function findAll() :array {
         return $this->findEntities();
@@ -53,10 +53,6 @@ class EventContentRepo extends RepoAbstract implements EventContentRepoInterface
 
     protected function createEntity() : EventContentInterface {
         return new EventContent();
-    }
-
-    protected function indexFromKeyParams($id) {
-        return $id;
     }
 
     protected function indexFromEntity(EventContentInterface $eventContent) {

@@ -5,16 +5,16 @@ namespace Auth\Model\Dao;
 
 use Model\Dao\DaoEditAbstract;
 
-use Model\Dao\DaoReadonlyFkInterface;
-use Model\Dao\DaoReadonlyFkTrait;
+use Model\Dao\DaoReadonlyFkUniqueInterface;
+use Model\Dao\DaoReadonlyFkUniqueTrait;
 /**
  * Description of UserDao
  *
  * @author pes2704
  */
-class CredentialsDao extends DaoEditAbstract implements DaoReadonlyFkInterface {
+class CredentialsDao extends DaoEditAbstract implements DaoReadonlyFkUniqueInterface {
 
-    use DaoReadonlyFkTrait;
+    use DaoReadonlyFkUniqueTrait;
 
     public function getPrimaryKeyAttribute(): array {
         return [
@@ -29,6 +29,12 @@ class CredentialsDao extends DaoEditAbstract implements DaoReadonlyFkInterface {
             'role',
             'created',
             'updated'
+        ];
+    }
+
+    public function getForeignKeyAttributes(): array {
+        return [
+            'login_name_fk' => ['login_name_fk',]
         ];
     }
 

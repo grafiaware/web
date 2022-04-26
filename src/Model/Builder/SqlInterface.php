@@ -15,7 +15,7 @@ interface SqlInterface {
     public function values(array $names): string;
     public function set(array $setTouples): string;
 
-    public function touples(array $names): array;
+    public function touples(array $names, $placeholderPrefix=''): array;
 
     public function and(...$conditions): string;
     public function or(...$conditions): string;

@@ -6,15 +6,13 @@
  * and open the template in the editor.
  */
 
-namespace Model\Dao;
+namespace Model\Dao\Exception;
 
 /**
+ * Description of DaoKeyVerificationFailedException
  *
  * @author pes2704
  */
-interface DaoReadonlyFkInterface {
-    public function getForeignKeyAttributes(): array;
-
-    public function findByFk($name, array $fk);
+class DaoUnknownForeignAttributeNameException extends \LogicException implements DaoExceptionInterface {
 
 }
