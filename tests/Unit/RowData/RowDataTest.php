@@ -53,7 +53,7 @@ class RowDataTest extends TestCase {
         $oldDataArray = $rowData->getArrayCopy();
         $this->assertIsArray($oldDataArray);
         $this->assertCount(4, $oldDataArray);
-        $this->assertEquals(['a', null, 'null'=>null, 1=>'TRTRTS', 'abcd'=>new \stdClass()], $oldDataArray);
+        $this->assertEquals(['a', 'null'=>null, 1=>'TRTRTS', 'abcd'=>new \stdClass()], $oldDataArray);
 
         $changedDataArrayObject = $rowData->yieldChanged();
         $this->assertInstanceOf(\ArrayObject::class, $changedDataArrayObject);

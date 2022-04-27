@@ -83,7 +83,7 @@ class EventContentRepositoryTest extends TestCase {
         /** @var EventContentDao $eventContentDao */
         $eventContentDao = $container->get(EventContentDao::class);
         $rowData = new RowData();
-        $rowData->offsetSet('id', 0);
+        $rowData->offsetSet('id', self::$id);
         $eventContentDao->delete($rowData);
     }
 

@@ -32,11 +32,6 @@ class RowData extends \ArrayObject implements RowDataInterface {
      */
     public function __construct($data=[]) {
         parent::__construct($data, \ArrayObject::ARRAY_AS_PROPS);
-        if (is_iterable($data)) {
-            foreach ($data as $index => $value) {
-                $this->setNewValue($index, $value);
-            }
-        }
     }
 
     public function isChanged(): bool {
@@ -93,6 +88,13 @@ class RowData extends \ArrayObject implements RowDataInterface {
         $this->changed[$index] = null;
     }
 
+    public function import(iterable $iterablaData) {
+        if (is_iterable($iterablaData)) {
+            foreach ($iterablaData as $index => $value) {
+                $this->setNewValue($index, $value);
+            }
+        }
+    }
 
     public function exchangeArray($data) {
         // Zde by se musely v cyklu vyhodnocovat varianty byla/nebyla data x jsou/nejsou nová data

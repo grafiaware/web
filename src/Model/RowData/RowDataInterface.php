@@ -43,6 +43,8 @@ interface RowDataInterface extends \IteratorAggregate, \ArrayAccess, \Serializab
      * @return \ArrayObject
      */
     public function yieldChanged(): \ArrayObject;
+    
+    public function import(iterable $iterablaData);
 
     /**
      * Přidá hodnotu do objektu bez kontroly, zda jde o změněná data a bez vlivu na hodnoty zaregistrované ja změněné.

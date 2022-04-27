@@ -14,6 +14,7 @@ use Pes\Database\Statement\StatementInterface;
 use Model\Builder\SqlInterface;
 use Model\Dao\DaoContextualInterface;
 
+use Model\Dao\Exception\DaoParamsBindNamesMismatchException;
 use UnexpectedValueException;
 
 /**
@@ -171,7 +172,7 @@ abstract class DaoReadonlyAbstract implements DaoReadonlyInterface {
         $attributes = $this->getAttributes();
         foreach ($attributeValues as $field=>$value) {
             if (!in_array($field, $attributes)) {
-                throw new UnexpectedValueException("v předaném poli dvojic je prvek '$field', který nemá odpovídající atribut (sloupec tabulky).");
+                throw new DaoParamsBindNamesMismatchException("v předaném poli dvojic je prvek '$field', který nemá odpovídající atribut (sloupec tabulky).");
             }
             $touples[":".$field] = $value;
         }
@@ -215,17 +216,17 @@ abstract class DaoReadonlyAbstract implements DaoReadonlyInterface {
             if (array_key_exists($name, $touplesToBind)) {
                 $val = $touplesToBind[$name];
             } else {
-                throw new UnexpectedValueException("Pole obsahující dvojice jméno/hodnota pro bind parametrů sql příkazu neobsahuje položku se jménem '$name'.");
+                throw new DaoParamsBindNamesMismatchException("Pole obsahující dvojice jméno/hodnota pro bind parametrů sql příkazu neobsahuje položku se jménem '$name'.");
             }
         } elseif($touplesToBind instanceof \ArrayAccess) {
             if ($touplesToBind->offsetExists($name)) {
                 $val = $touplesToBind->offsetGet($name);
             } else {
-                throw new UnexpectedValueException("Objekt obsahující dvojice jméno/hodnota pro bind parametrů sql příkazu neobsahuje položku se jménem '$name'.");
+                throw new DaoParamsBindNamesMismatchException("Objekt obsahující dvojice jméno/hodnota pro bind parametrů sql příkazu neobsahuje položku se jménem '$name'.");
             }
         } else {
             $t = gettype($touplesToBind);
-            throw new UnexpectedValueException("Proměnná obsahující dvojice jméno/hodnota pro bind parametrů sql příkazu není typu array ani ArrayAccess. Je typu '$t'.");
+            throw new DaoParamsBindNamesMismatchException("Proměnná obsahující dvojice jméno/hodnota pro bind parametrů sql příkazu není typu array ani ArrayAccess. Je typu '$t'.");
         }
         return $val;
     }

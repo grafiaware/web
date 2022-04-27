@@ -60,16 +60,19 @@ class EnrollDaoTest extends AppRunner {
             $login = $loginDao->get(['login_name' => $loginName]);
         } while ($login);
 
-        $loginData = new RowData(['login_name' => $loginName]);
+        $loginData = new RowData();
+        $loginData->import(['login_name' => $loginName]);
         $loginDao->insert($loginData);
 
         self::$login_login_name_fk = $loginDao->get(['login_name' => $loginName])['login_name'];
         /** @var EventDao $eventDao */
         $eventDao = $container->get(EventDao::class);
-        $eventData = new RowData(["published" => 1]);
+        $eventData = new RowData();
+        $eventData->import(["published" => 1]);
         $eventDao->insert($eventData);  // id je autoincrement
         self::$event_id_fk = $eventDao->lastInsertIdValue();
-        $eventData = new RowData(["published" => 1]);
+        $eventData = new RowData();
+        $eventData->import(["published" => 1]);
         $eventDao->insert($eventData);  // id je autoincrement
         self::$event_id_fk_2 = $eventDao->lastInsertIdValue();
     }
@@ -101,7 +104,8 @@ class EnrollDaoTest extends AppRunner {
     }
 
     public function testInsert() {
-        $rowData = new RowData(['login_login_name_fk' => self::$login_login_name_fk, 'event_id_fk' => self::$event_id_fk]);
+        $rowData = new RowData();
+        $rowData->import(['login_login_name_fk' => self::$login_login_name_fk, 'event_id_fk' => self::$event_id_fk]);
         $this->dao->insert($rowData);
         $this->assertEquals(1, $this->dao->getRowCount());
     }

@@ -59,7 +59,7 @@ abstract class DaoEditAbstract extends DaoReadonlyAbstract implements DaoEditInt
         $keyNames = $this->getPrimaryKeyAttribute();
         try {
             $this->dbHandler->beginTransaction();
-            $found = $this->getWithinTransaction($tableName, $keyNames, $rowData);
+            $found = $this->getWithinTransaction($tableName, $keyNames, $rowData->yieldChanged());
             if  (! $found)   {
                 $this->execInsert($rowData);   // předpokládám, že changed je i sloupec s klíčem
             } else {
@@ -77,7 +77,7 @@ abstract class DaoEditAbstract extends DaoReadonlyAbstract implements DaoEditInt
         }
     }
 
-    private function getWithinTransaction($tableName, array $keyNames, RowDataInterface $rowData) {
+    private function getWithinTransaction($tableName, array $keyNames, iterable $rowData) {
         if ($this->dbHandler->inTransaction()) {
             $select = $this->sql->select($this->getAttributes());
             $whereTouples = $this->sql->touples($keyNames);
@@ -107,16 +107,18 @@ abstract class DaoEditAbstract extends DaoReadonlyAbstract implements DaoEditInt
      * @return aray
      */
     protected function execInsert(RowDataInterface $rowData) {
-        $tableName = $this->getTableName();
-        $changed = $rowData->fetchChanged();
-        $changedNames = array_keys($changed);
-        $cols = $this->sql->columns($changedNames);
-        $values = $this->sql->values($changedNames);
-        $sql = "INSERT INTO $tableName ($cols)  VALUES ($values)";
-        $statement = $this->getPreparedStatement($sql);
-        $this->bindParams($statement, $changed);
-        $success = $statement->execute();
-        $this->rowCount = $statement->rowCount();
+        if ($rowData->isChanged()) {
+            $tableName = $this->getTableName();
+            $changed = $rowData->fetchChanged();
+            $changedNames = array_keys($changed);
+            $cols = $this->sql->columns($changedNames);
+            $values = $this->sql->values($changedNames);
+            $sql = "INSERT INTO $tableName ($cols)  VALUES ($values)";
+            $statement = $this->getPreparedStatement($sql);
+            $this->bindParams($statement, $changed);
+            $success = $statement->execute();
+            $this->rowCount = $statement->rowCount();
+        }
         return $success ?? false;
     }
 

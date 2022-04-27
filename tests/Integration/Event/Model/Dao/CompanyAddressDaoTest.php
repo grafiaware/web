@@ -97,7 +97,8 @@ class CompanyAddressDaoTest  extends AppRunner {
     }
 
     public function testInsert() {
-        $rowData = new RowData(
+        $rowData = new RowData();
+        $rowData->import(
                ['company_id' => self::$company_company_id_fk,
                 'name' => 'VelkaFirma',
                 'lokace' => 'Mars ',

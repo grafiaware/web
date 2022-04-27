@@ -71,14 +71,16 @@ class DocumentRepositoryTest extends AppRunner {
         $letterMime = finfo_file($finfo, $letterFilepathName);
         $letterContent = file_get_contents($letterFilepathName);
 
-        $rowData = new RowData([
+        $rowData = new RowData();
+        $rowData->import([
             'document' => $cvContent,
             'document_filename' => $cvFilepathName,
             'document_mimetype' => $cvMime,
         ]);
         $documentDao->insert($rowData);
         self::$idCv = $documentDao->lastInsertIdValue();
-        $rowData = new RowData([
+        $rowData = new RowData();
+        $rowData->import([
             'document' => $letterContent,
             'document_filename' => $letterFilepathName,
             'document_mimetype' => $letterMime,
