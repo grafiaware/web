@@ -33,7 +33,8 @@ class VisitorProfileRepo extends RepoAbstract implements VisitorProfileRepoInter
      * @return VisitorProfileInterface|null
      */
     public function get($loginName): ?VisitorProfileInterface {
-        return $this->getEntity($loginName);
+        $key = $this->getPrimaryKeyTouples(['login_login_name'=>$loginName]);
+        return $this->getEntity($key);
     }
 
     public function find($whereClause=null, $touplesToBind=[]) {

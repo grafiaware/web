@@ -22,15 +22,15 @@ interface EventContentRepoInterface extends RepoInterface  {
      * @return EventContentInterface|null
      */
     public function get($id): ?EventContentInterface ;
-   
 
+    public function find($whereClause="", $touplesToBind=[]): array;
     public function findAll() :array ;
-    
+
 
     public function add(EventContentInterface $eventContentType);
-    
+
 
     public function remove(EventContentInterface $eventContent) ;
-    
- 
+
+
 }

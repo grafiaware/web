@@ -37,7 +37,12 @@ class EventContentRepo extends RepoAbstract implements EventContentRepoInterface
      */
     public function get($id): ?EventContentInterface {
         $key = $this->getPrimaryKeyTouples(['id'=>$id]);
-        return $this->getEntity($key);    }
+        return $this->getEntity($key);
+    }
+
+    public function find($whereClause="", $touplesToBind=[]): array {
+        return $this->findEntities($whereClause, $touplesToBind);
+    }
 
     public function findAll() :array {
         return $this->findEntities();
