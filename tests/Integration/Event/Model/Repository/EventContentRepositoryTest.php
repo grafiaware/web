@@ -29,6 +29,8 @@ use Events\Model\Entity\EventInterface;
 use Events\Model\Repository\EventTypeRepo;
 use Events\Model\Entity\EventType;
 
+use Pes\Database\Statement\Exception\ExecuteException;
+
 /**
  *
  * @author pes2704
@@ -84,7 +86,11 @@ class EventContentRepositoryTest extends TestCase {
         $eventContentDao = $container->get(EventContentDao::class);
         $rows = $eventContentDao->find("perex LIKE 'testEventContent%'", []);
         foreach($rows as $row) {
-            $eventContentDao->delete($row);
+            try {
+                $eventContentDao->delete($row);
+            } catch (\PDOException $e) {
+                echo $e->getMessage();
+            }
         }
     }
 
@@ -118,7 +124,7 @@ class EventContentRepositoryTest extends TestCase {
     }
 
     public function testGetNonExisted() {
-        $event = $this->eventContentRepo->get(['id' => 0]);
+        $event = $this->eventContentRepo->get(0);
         $this->assertNull($event);
     }
 

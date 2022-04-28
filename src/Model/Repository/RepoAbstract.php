@@ -116,9 +116,14 @@ abstract class RepoAbstract {
         $key = [];
         foreach ($keyAttribute as $field) {
             if( ! array_key_exists($field, $row)) {
-                throw new UnableRecreateEntityException("Nelze vytvořit klíč entity. Atribut klíče obsahuje pole '$field' a pole dat pro vytvoření klíče neobsahuje prvek s takovým jménem.");
+                throw new UnableRecreateEntityException("Nelze vytvořit dvojice jméno/hodnota pro klíč entity. Atribut klíče obsahuje pole '$field' a pole dat pro vytvoření klíče neobsahuje prvek s takovým jménem.");
             }
-            $key[$field] = $row[$field];
+            if (is_scalar($row[$field])) {
+                $key[$field] = $row[$field];
+            } else {
+                $t = gettype($row[$field]);
+                throw new UnableRecreateEntityException("Nelze vytvořit dvojice jméno/hodnota pro klíč entity. Zadaný atribut klíče obsahuje v položce '$field' neskalární hodnotu. Hodnoty v položce '$field' je typu '$t'.");
+            }
         }
         return $key;
     }
