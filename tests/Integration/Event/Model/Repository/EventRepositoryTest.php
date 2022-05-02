@@ -72,15 +72,15 @@ class EventRepositoryTest extends TestCase {
         $rowData->offsetSet('start', self::$startTimestamp);
         $rowData->offsetSet('end', (new \DateTime())->modify("+24 hours")->format('Y-m-d H:i:s'));
         $eventDao->insert($rowData);
-        self::$id = $eventDao->getLastInsertId();
+        self::$id = $eventDao->lastInsertIdValue();
     }
 
     private static function deleteRecords(Container $container) {
         /** @var EventDao $eventDao */
-        $eventDao = $container->get(EventDao::class);
-        $rowData = new RowData();
-        $rowData->offsetSet('id', self::$id);
-        $eventDao->delete($rowData);
+//        $eventDao = $container->get(EventDao::class);
+//        $rowData = new RowData();
+//        $rowData->import(['id'=>self::$id]);
+//        $eventDao->delete($rowData);
     }
 
     protected function setUp(): void {

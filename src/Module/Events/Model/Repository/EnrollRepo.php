@@ -37,7 +37,8 @@ class EnrollRepo extends RepoAbstract implements EnrollRepoInterface {
      */
     public function get($id): ?EnrollInterface {
         $key = $this->getPrimaryKeyTouples(['login_login_name_fk'=>$id]);
-        return $this->getEntity($key);    }
+        return $this->getEntity($key);
+    }
 
     public function findByLoginName($loginName) {
         return $this->findEntities("login_name = :login_name", [":login_name"=>$loginName]);
