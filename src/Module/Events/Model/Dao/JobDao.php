@@ -1,20 +1,18 @@
 <?php
+
 namespace Events\Model\Dao;
 
 use Model\Dao\DaoEditAbstract;
-use Model\RowData\RowDataInterface;
-
 use Model\Dao\DaoAutoincrementKeyInterface;
 use Model\Dao\DaoAutoincrementTrait;
 
 
-
 /**
- * Description of InstitutionDao
+ * Description of JobDao
  *
  * @author vlse2610
  */
-class InstitutionDao  extends DaoEditAbstract implements DaoAutoincrementKeyInterface {
+class JobDao extends DaoEditAbstract implements DaoAutoincrementKeyInterface {
 
     use DaoAutoincrementTrait;
 
@@ -24,11 +22,18 @@ class InstitutionDao  extends DaoEditAbstract implements DaoAutoincrementKeyInte
 
     public function getAttributes(): array {
         return [
-            'id', 'name', 'institution_type_id'
+            'id',
+            'company_id',
+            `pozadovane_vzdelani_stupen` ,
+            `nazev`,
+            `misto_vykonu`,
+            `popis_pozice`,
+            `pozadujeme`,
+            `nabizime`
         ];
     }
 
     public function getTableName(): string {
-        return 'institution';
+        return 'job';
     }
 }

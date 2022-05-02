@@ -13,9 +13,9 @@ use Model\Entity\EntityAbstract;
  */
 class Job extends EntityAbstract implements JobInterface {
 //    `job` 
-//  `id` // NULL AUTO_INCREMENT,
-//  `company_id` // int NOT NULL,
-//  `pozadovane_vzdelani_stupen` //int(11) NOT NULL,
+//  `id` // NOT NULL AUTO_INCREMENT,
+//  `company_id` // int NOT NULL,     fk
+//  `pozadovane_vzdelani_stupen` //int(11) NOT NULL,   fk
 //  `nazev` varchar(45) 
 //  `misto_vykonu` varchar(45) 
 //  `popis_pozice` varchar(1000) 

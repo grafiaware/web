@@ -9,7 +9,6 @@
 namespace Events\Model\Dao;
 
 use Model\Dao\DaoEditAbstract;
-use Model\Dao\DaoReadonlyFkInterface;
 use Model\Dao\DaoReadonlyFkTrait;
 
 /**
@@ -17,7 +16,7 @@ use Model\Dao\DaoReadonlyFkTrait;
  *
  * @author pes2704
  */
-class EnrollDao extends DaoEditAbstract implements DaoReadonlyFkInterface {
+class EnrollDao extends DaoEditAbstract implements EnrollInterface {
 
     use DaoReadonlyFkTrait;
 

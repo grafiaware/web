@@ -3,9 +3,10 @@
 namespace Events\Model\Dao;
 
 use Model\Dao\DaoEditAbstract;
-use Model\RowData\RowDataInterface;
-use Events\Model\Dao\CompanyContactDaoInterface;
+use Model\Dao\DaoAutoincrementKeyInterface;
+
 use Model\Dao\DaoAutoincrementTrait;
+use Events\Model\Dao\CompanyContactDaoInterface;
 
 
 /**
@@ -13,7 +14,7 @@ use Model\Dao\DaoAutoincrementTrait;
  *
  * @author vlse2610
  */
-class CompanyContactDao extends DaoEditAbstract implements CompanyContactDaoInterface {
+class CompanyContactDao extends DaoEditAbstract implements DaoAutoincrementKeyInterface {
 
     use DaoAutoincrementTrait;
 
