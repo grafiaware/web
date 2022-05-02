@@ -2,9 +2,9 @@
 /vendor/
 /public/site/common/css/
 /node_modules/
-/local/site/tydenzdravi/templates/static/__compiled/
-/local/site/veletrhprace/templates/static/__compiled/
-/local/site/grafia/templates/static/__compiled/
+/local/site/tydenzdravi/static/__compiled/
+/local/site/veletrhprace/static/__compiled/
+/local/site/grafia/static/__compiled/
 /tests/Logs/
 /tests/TestLogs/
 /tests/Test_reports/
