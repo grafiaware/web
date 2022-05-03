@@ -100,7 +100,7 @@ use Events\Model\Dao\VisitorProfileDao;
 use Events\Model\Hydrator\VisitorProfileHydrator;
 use Events\Model\Repository\VisitorProfileRepo;
 
-use Events\Model\Dao\VisitorDataPostDao;
+use Events\Model\Dao\VisitorJobRequestDao;
 use Events\Model\Hydrator\VisitorDataPostHydrator;
 use Events\Model\Repository\VisitorDataPostRepo;
 
@@ -390,8 +390,8 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
                     );
             },
 
-            VisitorDataPostDao::class => function(ContainerInterface $c) {
-                return new VisitorDataPostDao(
+            VisitorJobRequestDao::class => function(ContainerInterface $c) {
+                return new VisitorJobRequestDao(
                         $c->get(HandlerInterface::class),
                         $c->get(Sql::class),
                         PdoRowData::class);
@@ -401,7 +401,7 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             VisitorDataPostRepo::class => function(ContainerInterface $c) {
                 return new VisitorDataPostRepo(
-                        $c->get(VisitorDataPostDao::class),
+                        $c->get(VisitorJobRequestDao::class),
                         $c->get(VisitorDataPostHydrator::class)
                     );
             },

@@ -35,7 +35,7 @@ class EnrollRepo extends RepoAbstract implements EnrollRepoInterface {
      * @param type $id
      * @return EnrollInterface|null
      */
-    public function get($id): ?EnrollInterface {
+    public function get($id): ?EnrollDaoInterface {
         $key = $this->getPrimaryKeyTouples(['login_login_name_fk'=>$id]);
         return $this->getEntity($key);
     }
@@ -48,11 +48,11 @@ class EnrollRepo extends RepoAbstract implements EnrollRepoInterface {
         return $this->findEntities();
     }
 
-    public function add(EnrollInterface $enroll) {
+    public function add(EnrollDaoInterface $enroll) {
         $this->addEntity($enroll);
     }
 
-    public function remove(EnrollInterface $enroll) {
+    public function remove(EnrollDaoInterface $enroll) {
         $this->removeEntity($enroll);
     }
 
@@ -60,7 +60,7 @@ class EnrollRepo extends RepoAbstract implements EnrollRepoInterface {
         return new Enroll();
     }
 
-    protected function indexFromEntity(EnrollInterface $enroll) {
+    protected function indexFromEntity(EnrollDaoInterface $enroll) {
         return $enroll->getId();
     }
 

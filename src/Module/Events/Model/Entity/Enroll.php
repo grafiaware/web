@@ -15,7 +15,7 @@ use Model\Entity\EntityAbstract;
  *
  * @author pes2704
  */
-class Enroll extends EntityAbstract implements EnrollInterface {
+class Enroll extends EntityAbstract implements EnrollDaoInterface {
 
     private $loginLoginNameFk;
     private $eventIdFk;
@@ -34,12 +34,12 @@ class Enroll extends EntityAbstract implements EnrollInterface {
         return $this->eventIdFk;
     }
 
-    public function setLoginLoginNameFk($loginLoginNameFk): EnrollInterface {
+    public function setLoginLoginNameFk($loginLoginNameFk): EnrollDaoInterface {
         $this->loginLoginNameFk = $loginLoginNameFk;
         return $this;
     }
 
-    public function setEventIdFk($eventFdFk): EnrollInterface {
+    public function setEventIdFk($eventFdFk): EnrollDaoInterface {
         $this->eventIdFk = $eventFdFk;
         return $this;
     }

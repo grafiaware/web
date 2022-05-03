@@ -16,7 +16,7 @@ use Model\Dao\DaoReadonlyFkTrait;
  *
  * @author pes2704
  */
-class EnrollDao extends DaoEditAbstract implements EnrollInterface {
+class EnrollDao extends DaoEditAbstract implements EnrollDaoInterface {
 
     use DaoReadonlyFkTrait;
 
@@ -42,11 +42,11 @@ class EnrollDao extends DaoEditAbstract implements EnrollInterface {
         return 'enroll';
     }
 
-    public function findByLoginNameFk(array $loginNameFk ) {
+    public function findByLoginNameFk(array $loginNameFk ): array {
         return $this->findByFk('login_login_name_fk', $loginNameFk);
     }
 
-    public function findByEventIdFk(array $eventContentIdFk ) {
+    public function findByEventIdFk(array $eventContentIdFk ): array {
         return $this->findByFk('event_id_fk', $eventContentIdFk);
     }
 }

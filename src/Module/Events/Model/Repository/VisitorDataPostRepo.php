@@ -13,7 +13,7 @@ use Model\Entity\EntityInterface;
 
 use Events\Model\Entity\VisitorDataPostInterface;
 use Events\Model\Entity\VisitorDataPost;
-use Events\Model\Dao\VisitorDataPostDao;
+use Events\Model\Dao\VisitorJobRequestDao;
 use Events\Model\Hydrator\VisitorDataPostHydrator;
 
 use Model\Repository\Exception\UnableRecreateEntityException;
@@ -25,7 +25,7 @@ use Model\Repository\Exception\UnableRecreateEntityException;
  */
 class VisitorDataPostRepo extends RepoAbstract implements VisitorDataPostRepoInterface {
 
-    public function __construct(VisitorDataPostDao $visitorDataPostDao, VisitorDataPostHydrator $visitorDataPostHydrator) {
+    public function __construct(VisitorJobRequestDao $visitorDataPostDao, VisitorDataPostHydrator $visitorDataPostHydrator) {
         $this->dataManager = $visitorDataPostDao;
         $this->registerHydrator($visitorDataPostHydrator);
     }
