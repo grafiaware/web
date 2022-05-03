@@ -126,7 +126,7 @@ class VisitorDataController extends FrontControlerAbstract {
         return $this->redirectSeeLastGet($request);
     }
 
-    private function sendMail($positionName, VisitorDataPostInterface $visitorDataPost, LoginAggregateFullInterface $loginAggregateCredentials) {
+    private function sendMail($positionName, VisitorJobRequestInterface $visitorDataPost, LoginAggregateFullInterface $loginAggregateCredentials) {
 
         /** @var Mail $mail */
         $mail = $this->container->get(Mail::class);
@@ -187,8 +187,8 @@ class VisitorDataController extends FrontControlerAbstract {
 
             if (!isset($visitorDataPost)) {
                 $visitorDataPost = new VisitorDataPost();
-                $visitorDataPost->setLoginName($loginName);
-                $visitorDataPost->setShortName($shortName);
+                $visitorDataPost->setLoginLoginName($loginName);
+                $visitorDataPost->setJobId($shortName);
                 $visitorDataPost->setPositionName($positionName);
                 $this->visitorDataPostRepo->add($visitorDataPost);
             }

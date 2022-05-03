@@ -17,7 +17,7 @@ use Model\Dao\Exception\DaoKeyVerificationFailedException;
 use Model\RowData\RowDataInterface;
 
 /**
- * Description of EnrollDao
+ * Description of VisitorJobRequestDao
  *
  * @author pes2704
  */

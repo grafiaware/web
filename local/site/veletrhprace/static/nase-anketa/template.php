@@ -35,7 +35,7 @@ use Red\Model\Repository\VisitorDataRepo;
     $loginAggregate = $statusSecurity->getLoginAggregate();
 
     if (isset($loginAggregate)) {
-        $loginName = $loginAggregate->getLoginName();
+        $loginName = $loginAggregate->getLoginLoginName();
         $role = $loginAggregate->getCredentials()->getRole() ?? '';
     }
 
@@ -52,7 +52,7 @@ use Red\Model\Repository\VisitorDataRepo;
             '190219785' => $visitorData->getSurname() ?? '',
             '1783510966' => $visitorData->getName() ?? '',
             '1428572852' => $visitorData->getEmail() ?? '',
-            '742183994' => $visitorData->getLoginName() ?? '',
+            '742183994' => $visitorData->getLoginLoginName() ?? '',
         ];
     } else {
         $entries = [

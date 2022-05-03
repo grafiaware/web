@@ -10,23 +10,23 @@ namespace Events\Model\Repository;
 
 use Model\Repository\RepoInterface;
 
-use Events\Model\Entity\VisitorDataPostInterface;
+use Events\Model\Entity\VisitorJobRequestInterface;
 
 /**
  *
  * @author pes2704
  */
-interface VisitorDataPostRepoInterface extends RepoInterface {
+interface VisitorJobRequestRepoInterface extends RepoInterface {
     /**
      *
      * @param string $loginName
      * @param string $shortName
      * @param string $positionName
-     * @return VisitorDataPostInterface|null
+     * @return VisitorJobRequestInterface|null
      */
-    public function get($loginName, $shortName, $positionName): ?VisitorDataPostInterface;
+    public function get($loginName, $shortName, $positionName): ?VisitorJobRequestInterface;
 
-    public function add(VisitorDataPostInterface $visitorDataPost);
+    public function add(VisitorJobRequestInterface $visitorDataPost);
 
-    public function remove(VisitorDataPostInterface $visitorDataPost);
+    public function remove(VisitorJobRequestInterface $visitorDataPost);
 }

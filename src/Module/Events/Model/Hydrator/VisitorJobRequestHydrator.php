@@ -12,23 +12,23 @@ use Model\Entity\EntityInterface;
 use Model\Hydrator\HydratorInterface;
 use Model\RowData\RowDataInterface;
 
-use Events\Model\Entity\VisitorDataPostInterface;
+use Events\Model\Entity\VisitorJobRequestInterface;
 
 /**
  * Description of PaperHydrator
  *
  * @author pes2704
  */
-class VisitorDataPostHydrator implements HydratorInterface {
+class VisitorJobRequestHydrator implements HydratorInterface {
 
     /**
      *
-     * @param VisitorDataPostInterface $visitorDataPost
+     * @param VisitorJobRequestInterface $visitorJobRequest
      * @param type $rowData
      */
-    public function hydrate(EntityInterface $visitorDataPost, RowDataInterface $rowData) {
-        /** @var VisitorDataPostInterface $visitorDataPost */
-        $visitorDataPost
+    public function hydrate(EntityInterface $visitorJobRequest, RowDataInterface $rowData) {
+        /** @var VisitorJobRequestInterface $visitorJobRequest */
+        $visitorJobRequest
             ->setPrefix($rowData->offsetGet('prefix'))
             ->setName($rowData->offsetGet('name'))
             ->setSurname($rowData->offsetGet('surname'))
@@ -38,24 +38,20 @@ class VisitorDataPostHydrator implements HydratorInterface {
             ->setCvEducationText($rowData->offsetGet('cv_education_text'))
             ->setCvSkillsText($rowData->offsetGet('cv_skills_text'))
             ->setCvDocument($rowData->offsetGet('cv_document'))
-            ->setCvDocumentFilename($rowData->offsetGet('cv_document_filename'))
-            ->setCvDocumentMimetype($rowData->offsetGet('cv_document_mimetype'))
             ->setLetterDocument($rowData->offsetGet('letter_document'))
-            ->setLetterDocumentFilename($rowData->offsetGet('letter_document_filename'))
-            ->setLetterDocumentMimetype($rowData->offsetGet('letter_document_mimetype'))
             // primary key
-            ->setLoginName($rowData->offsetGet('login_name'))
-            ->setShortName($rowData->offsetGet('short_name'))
+            ->setLoginLoginName($rowData->offsetGet('login_name'))
+            ->setJobId($rowData->offsetGet('short_name'))
             ->setPositionName($rowData->offsetGet('position_name'));
     }
 
     /**
      *
-     * @param VisitorDataPostInterface $visitorDataPost
+     * @param VisitorJobRequestInterface $visitorDataPost
      * @param type $row
      */
     public function extract(EntityInterface $visitorDataPost, RowDataInterface $rowData) {
-        /** @var VisitorDataPostInterface $visitorDataPost */
+        /** @var VisitorJobRequestInterface $visitorDataPost */
             $rowData->offsetSet('prefix', $visitorDataPost->getPrefix());
             $rowData->offsetSet('name', $visitorDataPost->getName());
             $rowData->offsetSet('surname', $visitorDataPost->getSurname());
@@ -65,14 +61,10 @@ class VisitorDataPostHydrator implements HydratorInterface {
             $rowData->offsetSet('cv_education_text', $visitorDataPost->getCvEducationText());
             $rowData->offsetSet('cv_skills_text', $visitorDataPost->getCvSkillsText());
             $rowData->offsetSet('cv_document', $visitorDataPost->getCvDocument());
-            $rowData->offsetSet('cv_document_filename', $visitorDataPost->getCvDocumentFilename());
-            $rowData->offsetSet('cv_document_mimetype', $visitorDataPost->getCvDocumentMimetype());
             $rowData->offsetSet('letter_document', $visitorDataPost->getLetterDocument());
-            $rowData->offsetSet('letter_document_filename', $visitorDataPost->getLetterDocumentFilename());
-            $rowData->offsetSet('letter_document_mimetype', $visitorDataPost->getLetterDocumentMimetype());
             // primary key
-            $rowData->offsetSet('login_name', $visitorDataPost->getLoginName());
-            $rowData->offsetSet('short_name', $visitorDataPost->getShortName());
+            $rowData->offsetSet('login_name', $visitorDataPost->getLoginLoginName());
+            $rowData->offsetSet('short_name', $visitorDataPost->getJobId());
             $rowData->offsetSet('position_name', $visitorDataPost->getPositionName());
     }
 

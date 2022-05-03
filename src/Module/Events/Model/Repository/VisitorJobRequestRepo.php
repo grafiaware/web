@@ -11,10 +11,10 @@ namespace Events\Model\Repository;
 use Model\Repository\RepoAbstract;
 use Model\Entity\EntityInterface;
 
-use Events\Model\Entity\VisitorDataPostInterface;
-use Events\Model\Entity\VisitorDataPost;
+use Events\Model\Entity\VisitorJobRequestInterface;
+use Events\Model\Entity\VisitorJobRequest;
 use Events\Model\Dao\VisitorJobRequestDao;
-use Events\Model\Hydrator\VisitorDataPostHydrator;
+use Events\Model\Hydrator\VisitorJobRequestHydrator;
 
 use Model\Repository\Exception\UnableRecreateEntityException;
 
@@ -23,10 +23,10 @@ use Model\Repository\Exception\UnableRecreateEntityException;
  *
  * @author pes2704
  */
-class VisitorDataPostRepo extends RepoAbstract implements VisitorDataPostRepoInterface {
+class VisitorJobRequestRepo extends RepoAbstract implements VisitorJobRequestRepoInterface {
 
-    public function __construct(VisitorJobRequestDao $visitorDataPostDao, VisitorDataPostHydrator $visitorDataPostHydrator) {
-        $this->dataManager = $visitorDataPostDao;
+    public function __construct(VisitorJobRequestDao $visitorJobRequestDao, VisitorJobRequestHydrator $visitorDataPostHydrator) {
+        $this->dataManager = $visitorJobRequestDao;
         $this->registerHydrator($visitorDataPostHydrator);
     }
 
@@ -35,9 +35,9 @@ class VisitorDataPostRepo extends RepoAbstract implements VisitorDataPostRepoInt
      * @param string $loginName
      * @param string $shortName
      * @param string $positionName
-     * @return VisitorDataPostInterface|null
+     * @return VisitorJobRequestInterface|null
      */
-    public function get($loginName, $shortName, $positionName): ?VisitorDataPostInterface {
+    public function get($loginName, $shortName, $positionName): ?VisitorJobRequestInterface {
         return $this->getEntity($loginName, $shortName, $positionName);
     }
 
@@ -55,20 +55,20 @@ class VisitorDataPostRepo extends RepoAbstract implements VisitorDataPostRepoInt
         return $this->findEntities($whereClause, $touplesToBind);
     }
 
-    public function add(VisitorDataPostInterface $visitorDataPost) {
+    public function add(VisitorJobRequestInterface $visitorDataPost) {
         $this->addEntity($visitorDataPost);
     }
 
-    public function remove(VisitorDataPostInterface $visitorDataPost) {
+    public function remove(VisitorJobRequestInterface $visitorDataPost) {
         $this->removeEntity($visitorDataPost);
     }
 
     protected function createEntity() {
-        return new VisitorDataPost();
+        return new VisitorJobRequest();
     }
 
-    protected function indexFromEntity(VisitorDataPostInterface $visitorDataPost) {
-        return $visitorDataPost->getLoginName().$visitorDataPost->getShortName().$visitorDataPost->getPositionName();
+    protected function indexFromEntity(VisitorJobRequestInterface $visitorDataPost) {
+        return $visitorDataPost->getLoginLoginName().$visitorDataPost->getJobId().$visitorDataPost->getPositionName();
     }
 
     protected function indexFromRow($row) {

@@ -51,7 +51,7 @@ use Events\Model\Arraymodel\Event;
 // events
 use Events\Model\Repository\EnrollRepo;
 use Events\Model\Repository\VisitorProfileRepo;
-use Events\Model\Repository\VisitorDataPostRepo;
+use Events\Model\Repository\VisitorJobRequestRepo;
 
 // dao
 use Red\Model\Dao\Hierarchy\HierarchyAggregateEditDao;
@@ -186,7 +186,7 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
                         $c->get(VisitorProfileRepo::class),
-                        $c->get(VisitorDataPostRepo::class))
+                        $c->get(VisitorJobRequestRepo::class))
                         )->injectContainer($c);
             },
             // generator service

@@ -101,8 +101,8 @@ use Events\Model\Hydrator\VisitorProfileHydrator;
 use Events\Model\Repository\VisitorProfileRepo;
 
 use Events\Model\Dao\VisitorJobRequestDao;
-use Events\Model\Hydrator\VisitorDataPostHydrator;
-use Events\Model\Repository\VisitorDataPostRepo;
+use Events\Model\Hydrator\VisitorJobRequestHydrator;
+use Events\Model\Repository\VisitorJobRequestRepo;
 
 //aggregate
 use Red\Model\Repository\MenuItemAggregatePaperRepo;
@@ -396,13 +396,13 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(Sql::class),
                         PdoRowData::class);
             },
-            VisitorDataPostHydrator::class => function(ContainerInterface $c) {
-                return new VisitorDataPostHydrator();
+            VisitorJobRequestHydrator::class => function(ContainerInterface $c) {
+                return new VisitorJobRequestHydrator();
             },
-            VisitorDataPostRepo::class => function(ContainerInterface $c) {
-                return new VisitorDataPostRepo(
+            VisitorJobRequestRepo::class => function(ContainerInterface $c) {
+                return new VisitorJobRequestRepo(
                         $c->get(VisitorJobRequestDao::class),
-                        $c->get(VisitorDataPostHydrator::class)
+                        $c->get(VisitorJobRequestHydrator::class)
                     );
             },
 
