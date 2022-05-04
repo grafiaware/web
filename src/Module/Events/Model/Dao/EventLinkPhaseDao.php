@@ -15,7 +15,7 @@ use Events\Model\Dao\EventLinkPhaseDaoInterface;
  *
  * @author vlse2610
  */
-class EventLinkPhaseDao extends DaoEditAbstract implements EventLinkPhaseDaoInterface {
+class EventLinkPhaseDao extends DaoEditAbstract implements DaoAutoincrementKeyInterface /*EventLinkPhaseDaoInterface*/ {
 
     use DaoAutoincrementTrait;
 

@@ -4,16 +4,19 @@ namespace Events\Model\Dao;
 
 use Model\Dao\DaoEditAbstract;
 use Model\Dao\DaoEditInterface;
-//use Model\Dao\DaoReadonlyFkTrait;
+use Model\Dao\DaoReadonlyFkTrait;
+use Events\Model\Dao\JobToTagDaoInterface;
+
 
 /**
  * Description of JobToTagDao
  *
  * @author vlse2610
  */
-class JobToTagDao  extends DaoEditAbstract  implements DaoEditInterface{
+class JobToTagDao  extends DaoEditAbstract  implements JobToTagDaoInterface {
 
-    //use DaoReadonlyFkTrait;
+    use DaoReadonlyFkTrait;
+ 
 
     public function getPrimaryKeyAttribute(): array {
         return ['job_id', 'job_tag_id'];
@@ -37,11 +40,11 @@ class JobToTagDao  extends DaoEditAbstract  implements DaoEditInterface{
         return 'job_to_tag';
     }
 
-//    public function findByJobIdFk( array $jobIdFk ) {
-//        return $this->findByFk('job_id', $jobIdFk);
-//    }
-//
-//    public function findByJobTagFk( array $jobTagFk ) {
-//        return $this->findByFk('job_tag_id', $jobTagFk);
-//    }
+    public function findByJobIdFk( array $jobIdFk ) {
+        return $this->findByFk('job_id', $jobIdFk);
+    }
+
+    public function findByJobTagFk( array $jobTagFk ) {
+        return $this->findByFk('job_tag_id', $jobTagFk);
+    }
 }

@@ -5,6 +5,7 @@ namespace Events\Model\Dao;
 use Events\Model\Dao\RepresentativeDaoInterface;
 use Model\Dao\DaoEditAbstract;
 use Model\Dao\DaoReadonlyFkTrait;
+use \Model\Dao\DaoReadonlyFkUniqueTrait;
 
 /**
  * Description of RepresentativeDao
@@ -14,6 +15,7 @@ use Model\Dao\DaoReadonlyFkTrait;
 class RepresentativeDao extends DaoEditAbstract implements RepresentativeDaoInterface {
 
     use DaoReadonlyFkTrait;
+    use DaoReadonlyFkUniqueTrait;
 
     public function getPrimaryKeyAttribute(): array {
         return ['company_id' , 'login_login_name_fk'];
@@ -44,7 +46,7 @@ class RepresentativeDao extends DaoEditAbstract implements RepresentativeDaoInte
         $this->findByFk('company_id', $companyIdFk);
     }
     
-    public function findByLoginNameFk(array $loginNameFk ): array {
-        return $this->findByFk('login_login_name_fk', $loginNameFk);
+    public function getByLoginNameFk(array $loginNameFk ): array {
+        return $this->getByFk('login_login_name_fk', $loginNameFk);
     }
 }

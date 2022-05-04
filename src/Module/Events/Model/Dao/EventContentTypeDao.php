@@ -1,23 +1,12 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Events\Model\Dao;
-
-use Pes\Database\Handler\HandlerInterface;
 
 use Model\Dao\DaoEditAbstract;
 use Model\Dao\DaoKeyDbVerifiedInterface;
-use Model\RowData\RowDataInterface;
 
-use Model\Dao\Exception\DaoForbiddenOperationException;
 
 /**
- * Description of LoginDao
+ * Description of EventContentTypeDao
  *
  * @author pes2704
  */
