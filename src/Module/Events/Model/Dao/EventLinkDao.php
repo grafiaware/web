@@ -2,9 +2,7 @@
 namespace Events\Model\Dao;
 
 use Model\Dao\DaoEditAbstract;
-
 use Model\Dao\DaoAutoincrementTrait;
-
 use Events\Model\Dao\EventLinkDaoInterface;
 
 /**

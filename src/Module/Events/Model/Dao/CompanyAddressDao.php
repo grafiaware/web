@@ -2,7 +2,6 @@
 namespace Events\Model\Dao;
 
 use Model\Dao\DaoEditAbstract;
-use Model\RowData\RowDataInterface;
 
 /**
  * Description of CompanyAddressDao

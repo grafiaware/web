@@ -12,10 +12,10 @@ use Test\Integration\Event\Container\DbEventsContainerConfigurator;
 use Model\RowData\RowData;
 use Model\RowData\RowDataInterface;
 
-use Model\Dao\Exception\DaoKeyVerificationFailedException;
+//use Model\Dao\Exception\DaoKeyVerificationFailedException;
 use Events\Model\Dao\CompanyDao;
 use Events\Model\Dao\CompanyAddressDao;
-use Events\Model\Entity\CompanyAddress;
+//use Events\Model\Entity\CompanyAddress;
 
 /**
  *
@@ -29,7 +29,6 @@ class CompanyAddressDaoTest  extends AppRunner {
      * @var CompanyAddressDao
      */
     private $dao;
-
 //            `company_address`.`company_id`,
 //            `company_address`.`name`,
 //            `company_address`.`lokace`,

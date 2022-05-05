@@ -3,11 +3,8 @@
 namespace Events\Model\Dao;
 
 use Model\Dao\DaoEditAbstract;
-
-use \Model\Dao\DaoAutoincrementTrait;
-use Model\RowData\RowDataInterface;
-
-use Events\Model\Dao\EventLinkPhaseDaoInterface;
+use Model\Dao\DaoAutoincrementTrait;
+use Model\Dao\DaoAutoincrementKeyInterface;
 
 
 /**
@@ -15,7 +12,7 @@ use Events\Model\Dao\EventLinkPhaseDaoInterface;
  *
  * @author vlse2610
  */
-class EventLinkPhaseDao extends DaoEditAbstract implements DaoAutoincrementKeyInterface /*EventLinkPhaseDaoInterface*/ {
+class EventLinkPhaseDao extends DaoEditAbstract implements DaoAutoincrementKeyInterface  {
 
     use DaoAutoincrementTrait;
 

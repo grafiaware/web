@@ -4,11 +4,10 @@ namespace Events\Model\Dao;
 
 use Model\Dao\DaoContextualAbstract;
 use Model\Dao\DaoAutoincrementTrait;
-
 use Events\Model\Dao\EventDaoInterface;
 
 /**
- * Description of LoginDao
+ * Description of EventDao
  *
  * @author pes2704
  */

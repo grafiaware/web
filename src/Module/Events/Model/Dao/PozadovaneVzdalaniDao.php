@@ -5,7 +5,7 @@ use Model\Dao\DaoEditAbstract;
 use Model\Dao\DaoKeyDbVerifiedInterface;
 
 /**
- * Description of JobToTagDao
+ * Description of PozadovaneVzdalaniDao
  *
  * @author vlse2610
  */

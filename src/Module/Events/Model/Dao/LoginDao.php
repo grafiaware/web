@@ -12,10 +12,7 @@ use Pes\Database\Handler\HandlerInterface;
 
 use Model\Dao\DaoEditAbstract;
 use Model\Dao\DaoKeyDbVerifiedInterface;
-use Model\RowData\RowDataInterface;
 
-use Model\Dao\Exception\DaoKeyVerificationFailedException;
-use Model\Dao\Exception\DaoForbiddenOperationException;
 
 /**
  * Description of LoginDao

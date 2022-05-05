@@ -3,7 +3,6 @@
 namespace Events\Model\Dao;
 
 use Model\Dao\DaoEditAbstract;
-use Model\Dao\DaoEditInterface;
 use Model\Dao\DaoReadonlyFkTrait;
 use Events\Model\Dao\JobToTagDaoInterface;
 
