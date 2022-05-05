@@ -71,9 +71,9 @@ use Events\Model\Dao\CompanyContactDao;
 use Events\Model\Hydrator\CompanyContactHydrator;
 use Events\Model\Repository\CompanyContactRepo;
 
-use Events\Model\Dao\VisitorDao;
-use Events\Model\Hydrator\VisitorHydrator;
-use Events\Model\Repository\VisitorRepo;
+use Events\Model\Dao\VisitorJobRequestDao;
+use Events\Model\Hydrator\VisitorJobRequestHydrator;
+use Events\Model\Repository\VisitorJobRequestRepo;
 
 use Events\Model\Dao\VisitorProfileDao;
 use Events\Model\Hydrator\VisitorProfileHydrator;
@@ -327,14 +327,14 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             },
 
             //Visitor
-            VisitorDao::class => function(ContainerInterface $c) {
-                return new VisitorDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
+            VisitorJobRequestDao::class => function(ContainerInterface $c) {
+                return new VisitorJobRequestDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
             },
-            VisitorHydrator::class => function(ContainerInterface $c) {
-                return new VisitorHydrator();
+            VisitorJobRequestHydrator::class => function(ContainerInterface $c) {
+                return new VisitorJobRequestHydrator();
             },
-            VisitorRepo::class => function(ContainerInterface $c) {
-                return new VisitorRepo($c->get(VisitorDao::class), $c->get(VisitorHydrator::class));
+            VisitorJobRequestRepo::class => function(ContainerInterface $c) {
+                return new VisitorJobRequestRepo($c->get(VisitorJobRequestDao::class), $c->get(VisitorJobRequestHydrator::class));
             },
 
             VisitorProfileDao::class => function(ContainerInterface $c) {

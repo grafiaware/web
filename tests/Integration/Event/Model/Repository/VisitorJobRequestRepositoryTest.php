@@ -20,6 +20,7 @@ use Test\Integration\Event\Container\EventsContainerConfigurator;
 use Test\Integration\Event\Container\DbEventsContainerConfigurator;
 
 use Events\Model\Dao\LoginDao;
+use Events\Model\Dao\JobDao;
 
 use Events\Model\Entity\VisitorJobRequest;
 use Events\Model\Dao\VisitorJobRequestDao;
@@ -46,6 +47,8 @@ class VisitorJobRequestRepositoryTest extends AppRunner {
     private $visitorJobRequestRepo;
 
     private static $loginNamePrefix;
+    private static $jobPrefix;
+
     private static $loginName;
     private static $loginNameAdded;
     private static $visitorJobRequestAdded;
@@ -96,6 +99,23 @@ class VisitorJobRequestRepositoryTest extends AppRunner {
             'login_name' => $loginName,
         ]);
         $loginDao->insert($rowData);
+
+        return $loginName;
+    }
+    private static function insertJobRecord(Container $container) {
+        /** @var JobDao $jobDao */
+        $jobDao = $container->get(JobDao::class);
+        // prefix + uniquid - bez zamykání db
+        do {
+            $loginName = self::$loginNamePrefix."_".uniqid();
+            $login = $jobDao->get(['login_name' => $loginName]);
+        } while ($login);
+
+        $rowData = new RowData();
+        $rowData->import([
+            'login_name' => $loginName,
+        ]);
+        $jobDao->insert($rowData);
 
         return $loginName;
     }
