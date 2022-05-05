@@ -77,12 +77,13 @@ abstract class DaoEditAbstract extends DaoReadonlyAbstract implements DaoEditInt
         $keyNames = $this->getPrimaryKeyAttribute();
         try {
             $this->dbHandler->beginTransaction();
-            $found = $this->getWithinTransaction($tableName, $keyNames, $rowData->yieldChanged());
+            $changed = $rowData->yieldChanged();
+            $found = $this->getWithinTransaction($tableName, $keyNames, $changed);
             if  (! $found)   {
                 $this->execInsert($rowData);   // předpokládám, že changed je i sloupec s klíčem
             } else {
                 foreach ($keyNames as $name) {
-                    $k[] = $rowData->offsetGet($name);
+                    $k[] = $changed[$name];
                 }
                 $key = implode(', ', $k);
                 throw new DaoKeyVerificationFailedException("Hodnota klíče type '$key' již v tabulce $tableName existuje.");

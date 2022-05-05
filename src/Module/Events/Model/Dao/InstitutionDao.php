@@ -2,8 +2,6 @@
 namespace Events\Model\Dao;
 
 use Model\Dao\DaoEditAbstract;
-use Model\RowData\RowDataInterface;
-
 use Model\Dao\DaoAutoincrementKeyInterface;
 use Model\Dao\DaoAutoincrementTrait;
 
