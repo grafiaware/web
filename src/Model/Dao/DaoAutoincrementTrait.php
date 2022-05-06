@@ -27,21 +27,28 @@ trait DaoAutoincrementTrait {
 
     /**
      * Vrací pole primárního klíče, pokud je dao typu autoincrement.
-     * Metoda vrací platnou hodnotu jen při vložení právě jednoho řádku, jinak vyhazuje výjimku.
+     * Metoda vrací platnou hodnotu jen po vložení právě jednoho řádku, jinak vyhazuje výjimku.
      * Poznámka: v transakci je třeba volat metodu před příkazem commit.
      * Poznámka: Metoda je funkční pro MySQL a MariaDB, pro jiné databáze záleží na driveru.
      *
-     * @return string
+     * @return array
+     * @throws DaoLastInsertIdFailedAfterMultipleRowInsertException
      */
     public function getLastInsertIdTouple(): array {
-        $value = $this->lastInsertIdValue();
+        try {
+            $value = $this->lastInsertIdValue();
+        } catch (DaoLastInsertIdFailedAfterMultipleRowInsertException $daoExc) {
+            throw $daoExc;
+        }
         $name = $this->getPrimaryKeyFieldName();
         return [$name => $value];
     }
 
     /**
      * Vrací hodnotu autoincrement klíče vzniklého při posledním provedeném insertu.
-     * Metoda vrací platnou hodnotu jen při vložení právě jednoho řádku, jinak vyhazuje výjimku.
+     * Metoda vrací platnou hodnotu jen po vložení právě jednoho řádku, jinak vyhazuje výjimku.
+     * Poznámka: v transakci je třeba volat metodu před příkazem commit.
+     * Poznámka: Metoda je funkční pro MySQL a MariaDB, pro jiné databáze záleží na driveru.
      *
      * @return type
      * @throws DaoLastInsertIdFailedAfterMultipleRowInsertException
@@ -55,10 +62,25 @@ trait DaoAutoincrementTrait {
         }
     }
 
+    /**
+     * Metoda nastaví objektu RowData hodnotu pole primárního klíče, kterou databáze vygenerovala
+     * při posledním provedeném příkazu insert.
+     * Metoda vrací platnou hodnotu jen po vložení právě jednoho řádku, jinak vyhazuje výjimku.
+     * Poznámka: v transakci je třeba volat metodu před příkazem commit.
+     * Poznámka: Metoda je funkční pro MySQL a MariaDB, pro jiné databáze záleží na driveru.
+     *
+     * @param RowDataInterface $rowdata
+     * @throws DaoLastInsertIdFailedAfterMultipleRowInsertException
+     */
     public function setAutoincrementedValue(RowDataInterface $rowdata) {
+        try {
+            $value = $this->lastInsertIdValue();
+        } catch (DaoLastInsertIdFailedAfterMultipleRowInsertException $daoExc) {
+            throw $daoExc;
+        }
         /** @var DaoAutoincrementKeyInterface $this */
         $name = $this->getPrimaryKeyFieldName();
-        $rowdata->forcedSet($name, $this->lastInsertIdValue());
+        $rowdata->forcedSet($name, $value);
     }
 
     private function getPrimaryKeyFieldName() {

@@ -11,31 +11,31 @@ namespace Events\Model\Repository;
 use Model\Repository\RepoAbstract;
 use Model\Hydrator\HydratorInterface;
 
-use Events\Model\Entity\EventContent;
-use Events\Model\Entity\EventContentInterface;
+use Events\Model\Entity\EventLink;
+use Events\Model\Entity\EventLinkInterface;
 
-use Events\Model\Dao\EventContentDao;
+use Events\Model\Dao\EventLinkDao;
 
 /**
- * Description of EventContentRepo
+ * Description of EventLinkRepo
  *
  * @author pes2704
  */
-class EventContentRepo extends RepoAbstract implements EventContentRepoInterface {
+class EventLinkRepo extends RepoAbstract implements EventLinkRepoInterface {
 
     protected $dao;
 
-    public function __construct(EventContentDao $eventContentDao, HydratorInterface $eventContentHydrator) {
-        $this->dataManager = $eventContentDao;
-        $this->registerHydrator($eventContentHydrator);
+    public function __construct(EventLinkDao $eventLinkDao, HydratorInterface $eventLinkHydrator) {
+        $this->dataManager = $eventLinkDao;
+        $this->registerHydrator($eventLinkHydrator);
     }
 
     /**
      *
      * @param string $id
-     * @return EventContentInterface|null
+     * @return EventLinkInterface|null
      */
-    public function get($id): ?EventContentInterface {
+    public function get($id): ?EventLinkInterface {
         $key = $this->getPrimaryKeyTouples(['id'=>$id]);
         return $this->getEntity($key);
     }
@@ -48,19 +48,19 @@ class EventContentRepo extends RepoAbstract implements EventContentRepoInterface
         return $this->findEntities();
     }
 
-    public function add(EventContentInterface $eventContent) {
+    public function add(EventLinkInterface $eventContent) {
         $this->addEntity($eventContent);
     }
 
-    public function remove(EventContentInterface $eventContent) {
+    public function remove(EventLinkInterface $eventContent) {
         $this->removeEntity($eventContent);
     }
 
-    protected function createEntity() : EventContentInterface {
-        return new EventContent();
+    protected function createEntity() : EventLinkInterface {
+        return new EventLink();
     }
 
-    protected function indexFromEntity(EventContentInterface $eventLink) {
+    protected function indexFromEntity(EventLinkInterface $eventLink) {
         return $eventLink->getId();
     }
 
