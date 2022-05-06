@@ -1,12 +1,6 @@
 <?php
 declare(strict_types=1);
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 use Test\AppRunner\AppRunner;
 
 use Pes\Container\Container;
@@ -27,15 +21,12 @@ use Model\RowData\RowDataInterface;
  */
 class EnrollDaoTest extends AppRunner {
 
-
     private $container;
-
     /**
      *
      * @var EnrollDao
      */
     private $dao;
-
     private static $login_login_name_fk;
     private static $event_id_fk;
     private static $event_id_fk_2;

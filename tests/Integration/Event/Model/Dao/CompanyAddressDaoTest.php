@@ -1,7 +1,6 @@
 <?php
 declare(strict_types=1);
 
-
 use Test\AppRunner\AppRunner;
 
 use Pes\Container\Container;
@@ -12,10 +11,8 @@ use Test\Integration\Event\Container\DbEventsContainerConfigurator;
 use Model\RowData\RowData;
 use Model\RowData\RowDataInterface;
 
-//use Model\Dao\Exception\DaoKeyVerificationFailedException;
 use Events\Model\Dao\CompanyDao;
 use Events\Model\Dao\CompanyAddressDao;
-//use Events\Model\Entity\CompanyAddress;
 
 /**
  *
@@ -23,19 +20,16 @@ use Events\Model\Dao\CompanyAddressDao;
 class CompanyAddressDaoTest  extends AppRunner {
 
     private $container;
-
     /**
      *
      * @var CompanyAddressDao
      */
     private $dao;
-//            `company_address`.`company_id`,
-//            `company_address`.`name`,
-//            `company_address`.`lokace`,
-//            `company_address`.`psc`,
-//            `company_address`.`obec` "
-
-
+        // `company_address`.`company_id`,
+        // `company_address`.`name`,
+        // `company_address`.`lokace`,
+        // `company_address`.`psc`,
+        // `company_address`.`obec` "
     private static $company_company_id_fk;
     private static $company_company_id_fk2;
 
@@ -52,8 +46,7 @@ class CompanyAddressDaoTest  extends AppRunner {
                 )
             );
 
-
-        // nova company
+        // nova company - priprava potrebne propojene tabulky
         /** @var CompanyDao $companyDao */
         $companyDao = $container->get(CompanyDao::class);
 
@@ -68,9 +61,9 @@ class CompanyAddressDaoTest  extends AppRunner {
         $rowData->offsetSet('eventInstitutionName30', null);
         $companyDao->insert($rowData);
         self::$company_company_id_fk2 =  $companyDao->lastInsertIdValue();
-
     }
 
+    //-------------------------------------------------------------------------
     protected function setUp(): void {
         $this->container =
             (new EventsContainerConfigurator())->configure(
@@ -87,7 +80,6 @@ class CompanyAddressDaoTest  extends AppRunner {
     }
 
     public static function tearDownAfterClass(): void {
-
     }
 
     public function testSetUp() {
@@ -148,13 +140,16 @@ class CompanyAddressDaoTest  extends AppRunner {
 
     public function testDelete() {
         $companyAddressRow = $this->dao->get($this->dao->createPrimaryKeyTouple(self::$company_company_id_fk));
-
         $this->dao->delete($companyAddressRow);
         $this->assertEquals(1, $this->dao->getRowCount());
 
         $this->setUp();
         $this->dao->delete($companyAddressRow);
         $this->assertEquals(0, $this->dao->getRowCount());
+        
+        $this->setUp();
+        $companyAddressRow = $this->dao->get($this->dao->createPrimaryKeyTouple(self::$company_company_id_fk));
+        $this->assertNull($companyAddressRow);
 
     }
 }

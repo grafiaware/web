@@ -10,8 +10,6 @@ use Test\Integration\Event\Container\DbEventsContainerConfigurator;
 
 use Events\Model\Dao\CompanyContactDao;
 use Events\Model\Dao\CompanyDao;
-use Model\Dao\Exception\DaoForbiddenOperationException;
-use Model\Dao\Exception\DaoKeyVerificationFailedException;
 use Model\RowData\RowData;
 use Model\RowData\RowDataInterface;
 
@@ -20,17 +18,14 @@ use Model\RowData\RowDataInterface;
  */
 class CompanyContactDaoTest extends AppRunner {
 
-
     private $container;
-
     /**
      *
      * @var CompanyContactDao
      */
     private $dao;
-
     private static $company_company_id_fk;
-    private static $id;     //touple dvojice
+    private static $id;     //treba tvorit touple dvojice
 
     public static function setUpBeforeClass(): void {
         self::bootstrapBeforeClass();
@@ -44,7 +39,6 @@ class CompanyContactDaoTest extends AppRunner {
                 )
             );
 
-
         // nova company
         /** @var CompanyDao $companyDao */
         $companyDao = $container->get(CompanyDao::class);
@@ -54,12 +48,10 @@ class CompanyContactDaoTest extends AppRunner {
         $rowData->offsetSet('eventInstitutionName30', null);
         $companyDao->insert($rowData);
         self::$company_company_id_fk =  $companyDao->lastInsertIdValue();
-
-
     }
 
 
-
+    //----------------------------------------------------------------------------
     protected function setUp(): void {
         $this->container =
             (new EventsContainerConfigurator())->configure(
@@ -74,30 +66,36 @@ class CompanyContactDaoTest extends AppRunner {
     public static function tearDownAfterClass(): void {
     }
 
-
+    //-------------------------------------------------------------------------
     public function testSetUp() {
         $this->assertInstanceOf(CompanyContactDao::class, $this->dao);
     }
 
     public function testInsert() {
-        $rowData = new RowData();
-
-        $rowData->offsetSet('company_id', self::$company_company_id_fk );
-        $rowData->offsetSet('name', null);
-        $rowData->offsetSet('phones', null);
-        $rowData->offsetSet('mobiles', null);
-        $rowData->offsetSet('emails', null);
+        $rowData = new RowData();        
+        $rowData->import(
+               ['company_id' => self::$company_company_id_fk,
+                'name' => null,
+                'phones' => null,
+                'mobiles' => null,
+                'emails' => null] );                
+//        $rowData->offsetSet('company_id', self::$company_company_id_fk );
+//        $rowData->offsetSet('name', null);
+//        $rowData->offsetSet('phones', null);
+//        $rowData->offsetSet('mobiles', null);
+//        $rowData->offsetSet('emails', null);
 
         $this->dao->insert($rowData);
-        self::$id =  $this->dao->getLastInsertIdTouple();
+        self::$id =  $this->dao->getLastInsertIdTouple(); //pro autoincrement
         $this->assertIsArray(self::$id);
+        
         $numRows = $this->dao->getRowCount();
         $this->assertEquals(1, $numRows);
     }
 
     public function testGetExistingRow() {
         $companyContactRow = $this->dao->get(self::$id);
-        $this->assertInstanceOf(RowDataInterface::class, $companyContactRow);
+        $this->assertInstanceOf(RowDataInterface::class, $companyContactRow);        
     }
 
     public function test6Columns() {
@@ -132,6 +130,10 @@ class CompanyContactDaoTest extends AppRunner {
         $companyContactRow = $this->dao->get(self::$id);
         $this->dao->delete($companyContactRow);
         $this->assertEquals(1, $this->dao->getRowCount());
+        
+        $this->setUp();
+        $this->dao->delete($companyContactRow);
+        $this->assertEquals(0, $this->dao->getRowCount());        
 
         $this->setUp();
         $companyContactRow = $this->dao->get(self::$id);
