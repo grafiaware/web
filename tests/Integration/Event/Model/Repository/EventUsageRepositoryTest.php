@@ -24,7 +24,7 @@ use Model\RowData\RowData;
 use Events\Model\Repository\EventRepo;
 use Events\Model\Entity\EventInterface;
 // event content repo
-use Events\Model\Repository\EventContentRepo;
+use Events\Model\Repository\EventLinkRepo;
 use Events\Model\Entity\EventContentInterface;
 // event content type repo
 use Events\Model\Repository\EventContentTypeRepo;
@@ -55,7 +55,7 @@ class EventUsageRepositoryTest extends TestCase {
 
     /**
      *
-     * @var EventContentRepo
+     * @var EventLinkRepo
      */
     private $eventContentRepo;
 
@@ -117,7 +117,7 @@ class EventUsageRepositoryTest extends TestCase {
             (new EventsContainerConfigurator())->configure(
                 (new DbEventsContainerConfigurator())->configure(new Container())
             );
-        $this->eventContentRepo = $this->container->get(EventContentRepo::class);
+        $this->eventContentRepo = $this->container->get(EventLinkRepo::class);
     }
 
     protected function tearDown(): void {
@@ -138,7 +138,7 @@ class EventUsageRepositoryTest extends TestCase {
     }
 
     public function testSetUp() {
-        $this->assertInstanceOf(EventContentRepo::class, $this->eventContentRepo);
+        $this->assertInstanceOf(EventLinkRepo::class, $this->eventContentRepo);
     }
 
     public function testUpdateEventsWithEventContents() {
@@ -147,7 +147,7 @@ class EventUsageRepositoryTest extends TestCase {
         $events = $this->eventRepo->findAll();
         $this->assertTrue(is_array($events));
 
-        $this->eventContentRepo = $this->container->get(EventContentRepo::class);
+        $this->eventContentRepo = $this->container->get(EventLinkRepo::class);
         $eventContents = $this->eventContentRepo->findAll();
         $this->assertTrue(is_array($eventContents));
 

@@ -15,10 +15,10 @@ use Pes\Container\Container;
 use Test\Integration\Event\Container\EventsContainerConfigurator;
 use Test\Integration\Event\Container\DbEventsContainerConfigurator;
 
-use Events\Model\Dao\EventPresentationDao;
-use Events\Model\Repository\EventPresentationRepo;
+use Events\Model\Dao\EventLinkDao;
+use Events\Model\Repository\EventLinkRepo;
 
-use Events\Model\Entity\EventPresentation;
+use Events\Model\Entity\EventLink;
 
 use Model\RowData\RowData;
 
@@ -26,7 +26,7 @@ use Model\RowData\RowData;
  *
  * @author pes2704
  */
-class EventPresentationRepositoryTest extends TestCase {
+class EventLinkRepositoryTest extends TestCase {
 
     private $container;
 
@@ -34,20 +34,12 @@ class EventPresentationRepositoryTest extends TestCase {
      *
      * @var EventPresentationRepo
      */
-    private $eventPresentationRepo;
+    private $eventLinkRepo;
 
-    private static $id;
+    private static $idTouple;
 
     public static function setUpBeforeClass(): void {
-        if ( !defined('PES_DEVELOPMENT') AND !defined('PES_PRODUCTION') ) {
-            define('PES_FORCE_DEVELOPMENT', 'force_development');
-            //// nebo
-            //define('PES_FORCE_PRODUCTION', 'force_production');
-
-            define('PROJECT_PATH', 'c:/ApacheRoot/web/');
-
-            include '../vendor/pes/pes/src/Bootstrap/Bootstrap.php';
-        }
+        self::bootstrapBeforeClass();
 
         $container =
             (new EventsContainerConfigurator())->configure(
@@ -58,21 +50,24 @@ class EventPresentationRepositoryTest extends TestCase {
         self::deleteRecords($container);
 
         // toto je příprava testu
-        /** @var EventPresentationDao $eventTPresentationDao */
-        $eventTPresentationDao = $container->get(EventPresentationDao::class);
+        /** @var EventLinkDao $eventLinkDao */
+        $eventLinkDao = $container->get(EventLinkDao::class);
+//            'id',
+//            'show',
+//            'href',
+//            'link_phase_id_fk'
         $rowData = new RowData();
         $rowData->offsetSet('show', true);
-        $rowData->offsetSet('platform', "testEventPresentation Platform");
-        $rowData->offsetSet('url', "https://tqwrqwztrrwqz.zu?44654s6d5f46sd54f6s54f654sdf654sd65f4");
-        $eventTPresentationDao->insert($rowData);
-        self::$id = $eventTPresentationDao->getLastInsertIdTouple();
+        $rowData->offsetSet('href', "https://tqwrqwztrrwqz.zu?44654s6d5f46sd54f6s54f654sdf654sd65f4");
+        $eventLinkDao->insert($rowData);
+        self::$idTouple = $eventLinkDao->getLastInsertIdTouple();
     }
 
     private static function deleteRecords(Container $container) {
-        /** @var EventPresentationDao $eventPresentationDao */
-        $eventPresentationDao = $container->get(EventPresentationDao::class);
+        /** @var EventLinkDao $eventPresentationDao */
+        $eventPresentationDao = $container->get(EventLinkDao::class);
         $rowData = new RowData();
-        $rowData->offsetSet('id', self::$id);
+        $rowData->offsetSet('id', self::$idTouple);
         $eventPresentationDao->delete($rowData);
     }
 
@@ -81,11 +76,11 @@ class EventPresentationRepositoryTest extends TestCase {
             (new EventsContainerConfigurator())->configure(
                 (new DbEventsContainerConfigurator())->configure(new Container())
             );
-        $this->eventPresentationRepo = $this->container->get(EventPresentationRepo::class);
+        $this->eventLinkRepo = $this->container->get(EventPresentationRepo::class);
     }
 
     protected function tearDown(): void {
-        $this->eventPresentationRepo->flush();
+        $this->eventLinkRepo->flush();
     }
 
     public static function tearDownAfterClass(): void {
@@ -98,24 +93,24 @@ class EventPresentationRepositoryTest extends TestCase {
     }
 
     public function testSetUp() {
-        $this->assertInstanceOf(EventPresentationRepo::class, $this->eventPresentationRepo);
+        $this->assertInstanceOf(EventPresentationRepo::class, $this->eventLinkRepo);
     }
 
     public function testGetNonExisted() {
-        $event = $this->eventPresentationRepo->get(0);
+        $event = $this->eventLinkRepo->get(0);
         $this->assertNull($event);
     }
 
     public function testGetAndRemoveAfterSetup() {
-        $event = $this->eventPresentationRepo->get(self::$id);    // !!!! jenom po insertu v setUp - hodnotu vrací dao
+        $event = $this->eventLinkRepo->get(self::$idTouple);    // !!!! jenom po insertu v setUp - hodnotu vrací dao
         $this->assertInstanceOf(EventPresentation::class, $event);
 
-        $event = $this->eventPresentationRepo->remove($event);
+        $event = $this->eventLinkRepo->remove($event);
         $this->assertNull($event);
     }
 
     public function testGetAfterRemove() {
-        $event = $this->eventPresentationRepo->get(self::$id);
+        $event = $this->eventLinkRepo->get(self::$idTouple);
         $this->assertNull($event);
     }
 
@@ -126,12 +121,12 @@ class EventPresentationRepositoryTest extends TestCase {
         $eventContent->setShow(false);
         $eventContent->setPlatform("testEventPresentation Platform test add");
         $eventContent->setUrl("https://tqwrqwztrrwqz.zu?aaaa=555@ddd=6546546");
-        $this->eventPresentationRepo->add($eventContent);
+        $this->eventLinkRepo->add($eventContent);
         $this->assertTrue($eventContent->isLocked());
     }
 
     public function testfindAll() {
-        $eventContents = $this->eventPresentationRepo->findAll();
+        $eventContents = $this->eventLinkRepo->findAll();
         $this->assertTrue(is_array($eventContents));
     }
 

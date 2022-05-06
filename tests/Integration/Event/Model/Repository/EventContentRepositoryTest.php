@@ -16,7 +16,7 @@ use Test\Integration\Event\Container\EventsContainerConfigurator;
 use Test\Integration\Event\Container\DbEventsContainerConfigurator;
 
 use Events\Model\Dao\EventContentDao;
-use Events\Model\Repository\EventContentRepo;
+use Events\Model\Repository\EventLinkRepo;
 
 use Events\Model\Entity\EventContent;
 
@@ -41,7 +41,7 @@ class EventContentRepositoryTest extends TestCase {
 
     /**
      *
-     * @var EventContentRepo
+     * @var EventLinkRepo
      */
     private $eventContentRepo;
 
@@ -99,7 +99,7 @@ class EventContentRepositoryTest extends TestCase {
             (new EventsContainerConfigurator())->configure(
                 (new DbEventsContainerConfigurator())->configure(new Container())
             );
-        $this->eventContentRepo = $this->container->get(EventContentRepo::class);
+        $this->eventContentRepo = $this->container->get(EventLinkRepo::class);
     }
 
     protected function tearDown(): void {
@@ -120,7 +120,7 @@ class EventContentRepositoryTest extends TestCase {
     }
 
     public function testSetUp() {
-        $this->assertInstanceOf(EventContentRepo::class, $this->eventContentRepo);
+        $this->assertInstanceOf(EventLinkRepo::class, $this->eventContentRepo);
     }
 
     public function testGetNonExisted() {

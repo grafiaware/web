@@ -15,7 +15,7 @@ use Events\Model\Entity\EventContentInterface;
  *
  * @author pes2704
  */
-interface EventContentRepoInterface extends RepoInterface  {
+interface EventLinkRepoInterface extends RepoInterface  {
   /**
      *
      * @param string $id

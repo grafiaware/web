@@ -15,7 +15,26 @@ use Model\RowData\RowDataInterface;
  * @author pes2704
  */
 interface DaoAutoincrementKeyInterface extends DaoEditInterface {
+    
+    /**
+     * Metoda musí vracet hodnotu databází generované hodnoty pole orimárního klíče,
+     * kterou databáze vygenerovala při posledním provedeném příkazu insert.
+     */
     public function lastInsertIdValue();
+
+    /**
+     * Metoda musí vracet asociativní pole s dvojicí jméno-hodnota pro jméno pole primárního klíče a hodnoty pole
+     * primárního klíče, kterou databáze vygenerovala při posledním provedeném příkazu insert.
+     *
+     * @return array
+     */
     public function getLastInsertIdTouple(): array;
+
+    /**
+     * Metoda nastaví objektu RowData hodnotu pole
+     * primárního klíče, kterou databáze vygenerovala při posledním provedeném příkazu insert.
+     *
+     * @param RowDataInterface $rowdata
+     */
     public function setAutoincrementedValue(RowDataInterface $rowdata);
 }

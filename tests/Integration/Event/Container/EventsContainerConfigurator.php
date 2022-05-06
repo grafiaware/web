@@ -37,19 +37,15 @@ use Events\Model\Repository\EventContentTypeRepo;
 
 use Events\Model\Dao\EventContentDao;
 use Events\Model\Hydrator\EventContentHydrator;
-use Events\Model\Repository\EventContentRepo;
-
-use Events\Model\Dao\EventLinkDao;
-use Events\Model\Hydrator\EventLinkHydrator;
-use Events\Model\Repository\EventLinkRepo;
+use Events\Model\Repository\Eventco;
 
 use Events\Model\Dao\EventLinkPhaseDao;
 use Events\Model\Hydrator\EventLinkPhaseHydrator;
 use Events\Model\Repository\EventLinkPhaseRepo;
 
-use Events\Model\Dao\EventPresentationDao;
-use Events\Model\Hydrator\EventPresentationHydrator;
-use Events\Model\Repository\EventPresentationRepo;
+use Events\Model\Dao\EventLinkDao;
+use Events\Model\Hydrator\EventLinkHydrator;
+use Events\Model\Repository\EventLinkRepo;
 
 use Events\Model\Dao\InstitutionDao;
 use Events\Model\Hydrator\InstitutionHydrator;
@@ -231,8 +227,8 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             EventContentHydrator::class => function(ContainerInterface $c) {
                 return new EventContentHydrator();
             },
-            EventContentRepo::class => function(ContainerInterface $c) {
-                return new EventContentRepo($c->get(EventContentDao::class), $c->get(EventContentHydrator::class));
+            EventLinkRepo::class => function(ContainerInterface $c) {
+                return new Eventc($c->get(EventContentDao::class), $c->get(EventContentHydrator::class));
             },
 
             // eventLink
@@ -255,17 +251,6 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             EventLinkPhaseRepo::class => function(ContainerInterface $c) {
                 return new EventLinkPhaseRepo($c->get(EventLinkPhaseDao::class), $c->get(EventLinkPhaseHydrator::class));
-            },
-
-            // EventPresentation
-            EventPresentationDao::class => function(ContainerInterface $c) {
-                return new EventPresentationDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
-            },
-            EventPresentationHydrator::class => function(ContainerInterface $c) {
-                return new EventPresentationHydrator();
-            },
-            EventPresentationRepo::class => function(ContainerInterface $c) {
-                return new EventPresentationRepo($c->get(EventPresentationDao::class), $c->get(EventPresentationHydrator::class));
             },
 
             //Institution
