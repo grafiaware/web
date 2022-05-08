@@ -41,8 +41,12 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
 
-        $this->container = $this->getApp()->getAppContainer();
-
+        $this->container =
+                (new HierarchyContainerConfigurator())->configure(
+                    (new DbUpgradeContainerConfigurator())->configure(
+                            new Container($this->getApp()->getAppContainer())
+                    )
+            );
         $statusPresentation = $this->createStatusIfNotExists();
         $this->presetPresentationLanguage($statusPresentation, $request);
         $response = $handler->handle($request);
@@ -93,7 +97,7 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
         if (!isset($language)) {
             user_error("Podle hlavičky requestu Accept-Language je požadován kód jazyka $requestedLangCode. "
                     . "Takový kód jazyka nebyl nalezen mezi jazyky v databázi. Nastaven default jazyk aplikace.", E_USER_NOTICE);
-            $language = $languageRepo->get(Configuration::statusPresentationManager()['default_lang_code']);
+            $language = $languageRepo->get(Configuration::presentationStatus()['default_lang_code']);
             if (!isset($language)) {
                 throw new UnexpectedValueException("Kód jazyka nastavený v konfiguraci jako výchozí jazyk nebyl nalezen mezi jazyky v databázi.");
             }

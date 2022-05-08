@@ -93,11 +93,6 @@ class DbUpgradeContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get('dbUpgrade.db.port'));
             },
             // db objekty
-            Account::class => function(ContainerInterface $c) {
-                return new Account(
-                        $c->get('dbUpgrade.db.user.name'),   // konfigurace hierarchy
-                        $c->get('dbUpgrade.db.user.password'));
-            },
             Handler::class => function(ContainerInterface $c) : HandlerInterface {
                 // povinný logger do kostruktoru = pro logování exception při intancování Handleru a PDO
                 $logger = $c->get('dbUpgradeLogger');

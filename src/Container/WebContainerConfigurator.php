@@ -674,7 +674,6 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
         return [
             CredentialsInterface::class => Credentials::class,
             AccountInterface::class => Account::class,
-            HandlerInterface::class => Handler::class,
         ];
     }
 
@@ -918,20 +917,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 return $account;
             },
 
-            // database handler
-                ## konfigurována jen jedna databáze pro celou aplikaci
-                ## konfigurováno více možností připojení k databázi - jedno pro vývoj a druhé pro běh na produkčním stroji
-                ## pro web middleware se používá zde definovaný Account, ostatní objekty jsou společné - z App kontejneru
-            Handler::class => function(ContainerInterface $c) : HandlerInterface {
-                $handler = new Handler(
-                        $c->get(Account::class),
-                        $c->get(ConnectionInfo::class),
-                        $c->get(DsnProviderMysql::class),
-                        $c->get(OptionsProviderMysql::class),
-                        $c->get(AttributesProvider::class),
-                        $c->get('dbUpgradeLogger'));
-                return $handler;
-            },
+
 
 
         ];

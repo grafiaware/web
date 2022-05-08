@@ -405,16 +405,6 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(VisitorJobRequestHydrator::class)
                     );
             },
-
-            ### StatusPresentationManager ###
-
-            StatusPresentationManager::class => function(ContainerInterface $c) {
-            return (new StatusPresentationManager(
-                        $c->get(LanguageRepo::class),
-                        $c->get(MenuRootRepo::class),
-                        $c->get('MenuItemAllRepo'),
-                    ));
-            },
         ];
     }
 }
