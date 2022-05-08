@@ -45,11 +45,12 @@ class HierarchyAggregateReadonlyDao extends DaoReadonlyAbstract implements Hiera
     protected $contextFactory;
 
     public function getPrimaryKeyAttribute(): array {
-        return ['lang_code_fk', 'uid'];
+        return ["lang_code_fk", "uid_fk"];
     }
 
     public function getAttributes(): array {
-        ;
+        return ["uid", "depth", "left_node", "right_node"," parent_uid",
+        "lang_code_fk", "uid_fk", "type_fk", "id", "title", "prettyuri", "active"];
     }
 
     public function getTableName(): string {
@@ -120,7 +121,7 @@ class HierarchyAggregateReadonlyDao extends DaoReadonlyAbstract implements Hiera
                 ) AS nested_set
                     INNER JOIN
                 $this->itemTableName AS menu_item ON (nested_set.uid = menu_item.uid_fk)"
-                .$this->sql->where($this->sql->and($this->getContextConditions(), ["menu_item.lang_code_fk = :lang_code", "nested_set.uid = :uid"]));
+                .$this->sql->where($this->sql->and($this->getContextConditions(), ["menu_item.lang_code_fk = :lang_code", "menu_item.uid_fk = :uid"]));
         $stmt = $this->getPreparedStatement($sql);
         $stmt->bindParam(':uid', $id['uid_fk'], \PDO::PARAM_STR);
         $stmt->bindParam(':lang_code', $id['lang_code_fk'], \PDO::PARAM_STR);

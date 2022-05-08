@@ -7,6 +7,8 @@ use Site\Configuration;
 use Pes\Container\ContainerConfiguratorAbstract;
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
 
+use Pes\View\Renderer\PhpTemplateRenderer;
+
 use Component\Renderer\Html\Menu\ItemRenderer;
 use Component\Renderer\Html\Menu\ItemRendererEditable;
 use Component\Renderer\Html\Menu\ItemBlockRenderer;
@@ -58,7 +60,7 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getAliases(): iterable {
         return [
-//            PhpTemplateRendererInterface::class => PhpTemplateRenderer::class,
+            PhpTemplateRendererInterface::class => PhpTemplateRenderer::class,
         ];
     }
 
@@ -181,9 +183,9 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
         ###########################
         #  default template renderer
         ###########################
-//            PhpTemplateRenderer::class => function(ContainerInterface $c) {
-//                return new PhpTemplateRenderer();
-//            },
+            PhpTemplateRenderer::class => function(ContainerInterface $c) {
+                return new PhpTemplateRenderer();
+            },
         ]);
 
     }

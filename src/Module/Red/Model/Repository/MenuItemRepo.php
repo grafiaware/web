@@ -72,8 +72,8 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
      * @param type $id
      * @return MenuItemInterface|null
      */
-    public function getById(array $id): ?MenuItemInterface {
-        $rowData = $this->dataManager->getById($id);  // zatím je tu MenuItemDao!
+    public function getById($id): ?MenuItemInterface {
+        $rowData = $this->dataManager->get($id);  // zatím je tu MenuItemDao!
         return $this->addEntityByRowData($rowData);
     }
 
@@ -95,7 +95,8 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
      * @return EntityInterface|null
      */
     public function getByReference($id): ?EntityInterface {
-        return $this->get($id);
+        $rowData = $this->dataManager->get($id);  // zatím je tu MenuItemDao!
+        return $this->addEntityByRowData($rowData);
     }
 
     /**

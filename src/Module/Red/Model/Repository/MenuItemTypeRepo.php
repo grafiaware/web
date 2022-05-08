@@ -36,7 +36,8 @@ class MenuItemTypeRepo extends RepoAbstract implements MenuItemTypeRepoInterface
      * @return MenuItemTypeInterface|null
      */
     public function get($type): ?MenuItemTypeInterface {
-        return $this->getEntity($type);
+        $key = $this->getPrimaryKeyTouples(['type'=>$type]);
+        return $this->getEntity($key);
     }
 
     /**

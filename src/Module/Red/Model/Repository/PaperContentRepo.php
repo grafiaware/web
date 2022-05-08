@@ -37,7 +37,8 @@ class PaperContentRepo extends RepoAbstract implements PaperContentRepoInterface
      * @return PaperContentInterface|null
      */
     public function get($id): ?PaperContentInterface {
-        return $this->getEntity($id);
+        $key = $this->getPrimaryKeyTouples(['id'=>$id]);
+        return $this->getEntity($key);
     }
 
     /**

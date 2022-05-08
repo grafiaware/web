@@ -32,7 +32,7 @@ class MenuItemDao extends DaoContextualAbstract implements DaoReadonlyFkInterfac
     public function getAttributes(): array {
         return ['lang_code_fk', 'uid_fk', 'type_fk', 'id', 'title', 'prettyuri', 'active'];
     }
-    
+
     public function getForeignKeyAttributes(): array {
         return [
             'lang_code_fk'=>['lang_code_fk'],
@@ -59,21 +59,6 @@ class MenuItemDao extends DaoContextualAbstract implements DaoReadonlyFkInterfac
 
 
     /**
-     * Vrací řádek menu_item vyhledaný podle lang_code_fk a prettyuri - pro statické stránky
-     *
-     * @param type $langCodeFk
-     * @param type $prettyUri
-     * @return type
-     */
-    public function getById($id) {
-        $select = $this->select("lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active ");
-        $from = $this->from("menu_item ");
-        $where = $this->where($this->and($this->getContextConditions(), ['menu_item.id=:id']));
-        $touplesToBind = [':id'=> $id];
-        return $this->selectOne($select, $from, $where, $touplesToBind, true);
-    }
-
-    /**
      * Vrací řádek menu_item vyhledaný podle prettyuri - pro statické stránky
      *
      * @param string $prettyUri
@@ -97,17 +82,17 @@ class MenuItemDao extends DaoContextualAbstract implements DaoReadonlyFkInterfac
      * @return array
      */
     public function getByList($langCodeFk, $list, $active=true, $actual=true) {
-        $select = $this->select("lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active ");
-        $from = $this->from("menu_item ");
-        $where = $this->where($this->and(['menu_item.lang_code_fk = :lang_code_fk', 'menu_item.list=:list']));
+        $select = $this->sql->select("lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active ");
+        $from = $this->sql->from("menu_item ");
+        $where = $this->sql->where($this->sql->and(['menu_item.lang_code_fk = :lang_code_fk', 'menu_item.list=:list']));
         $touplesToBind = [':lang_code_fk'=>$langCodeFk, ':list' => $list];
         return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
     public function findAllLanguageVersions($uidFk) {
-        $select = $this->select("lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active ");
-        $from = $this->from("menu_item ");
-        $where = $this->where($this->and($this->getContextConditions(), ['menu_item.uid_fk=:uid_fk']));
+        $select = $this->sql->select("lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active ");
+        $from = $this->sql->from("menu_item ");
+        $where = $this->sql->where($this->sql->and($this->getContextConditions(), ['menu_item.uid_fk=:uid_fk']));
         $touplesToBind = [':uid_fk' => $uidFk];
         return $this->selectMany($select, $from, $where, $touplesToBind);
     }
@@ -144,13 +129,13 @@ class MenuItemDao extends DaoContextualAbstract implements DaoReadonlyFkInterfac
         $scoreLimitHeadline = '1';  // musí být string - císlo 0.2 se převede na string 0,2
         $scoreLimitContent = '0.2';  // musí být string - císlo 0.2 se převede na string 0,2
 
-        $select = $this->select("lang_code_fk, uid_fk, type_fk, active_menu_item.id AS id, title, prettyuri, active
+        $select = $this->sql->select("lang_code_fk, uid_fk, type_fk, active_menu_item.id AS id, title, prettyuri, active
                 , searched_paper.headline, searched_paper.perex
                 , active_content.content
                 , active_menu_item.active AS active,
                 score_h,
                 score_c");
-        $from = $this->from("(SELECT lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active, multipage
+        $from = $this->sql->from("(SELECT lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active, multipage
                     FROM menu_item "
                         .$this->where($this->and(['menu_item.lang_code_fk = :lang_code_fk', "menu_item.type_fk = 'paper'"]))
                         ."
@@ -167,7 +152,7 @@ class MenuItemDao extends DaoContextualAbstract implements DaoReadonlyFkInterfac
                 ) AS active_content
             ON (active_content.paper_id_fk=searched_paper.id)
             ");
-        $where = $this->where("score_h > $scoreLimitHeadline
+        $where = $this->sql->where("score_h > $scoreLimitHeadline
                      OR
                 score_c > $scoreLimitContent
             ORDER BY score_h DESC, score_c DESC");
@@ -176,7 +161,7 @@ class MenuItemDao extends DaoContextualAbstract implements DaoReadonlyFkInterfac
 
     }
 
-    public function insert(RowDataInterface $rowData) {
+    public function insert(RowDataInterface $rowData): bool {
         throw new DaoForbiddenOperationException("Nelze samostatně vložit novou položku menu_item. Nové položky lze vytvořit pouze voláním metod Node (Hierarchy) dao.");
     }
 
@@ -185,7 +170,7 @@ class MenuItemDao extends DaoContextualAbstract implements DaoReadonlyFkInterfac
      * @param RowDataInterface $rowData
      * @throws DaoForbiddenOperationException
      */
-    public function delete(RowDataInterface $rowData) {
+    public function delete(RowDataInterface $rowData): bool {
         throw new DaoForbiddenOperationException("Nelze samostatně smazat položku menu_item. Položky lze mazat pouze voláním metod Node (Hierarchy) dao.");
     }
 }

@@ -20,6 +20,7 @@ use Site\Configuration;
 use Pes\Container\Container;
 use Container\DbUpgradeContainerConfigurator;
 use Container\HierarchyContainerConfigurator;
+use Container\PresentationStatusComfigurator;
 
 use Status\Model\Entity\StatusPresentation;
 use Status\Model\Repository\StatusPresentationRepo;
@@ -42,10 +43,12 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
 
         $this->container =
-                (new HierarchyContainerConfigurator())->configure(
-                    (new DbUpgradeContainerConfigurator())->configure(
-                            new Container($this->getApp()->getAppContainer())
-                    )
+                (new PresentationStatusComfigurator())->configure(
+                    (new HierarchyContainerConfigurator())->configure(
+                        (new DbUpgradeContainerConfigurator())->configure(
+                                new Container($this->getApp()->getAppContainer())
+                        )
+                )
             );
         $statusPresentation = $this->createStatusIfNotExists();
         $this->presetPresentationLanguage($statusPresentation, $request);

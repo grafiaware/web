@@ -43,20 +43,17 @@ class Component extends AppMiddlewareAbstract implements MiddlewareInterface {
         //      -> delegát aplikační kontejner
         // operace s menu používají databázi z menu kontejneru (upgrade), ostatní používají starou databázi z app kontejneru (připojovací informace
         // jsou v jednotlivých kontejnerech)
-//        $this->container =
-//                (new WebContainerConfigurator())->configure(
-//                    (new HierarchyContainerConfigurator())->configure(
-//                       (new DbUpgradeContainerConfigurator())->configure(
-//                            (new Container(
-////                                    (new LoginContainerConfigurator())->configure(
-//                                        new Container($this->getApp()->getAppContainer())
-////                                    )
-//                                )
-//                            )
-//                        )
-//                    )
-//                );
-        $this->container = $this->getApp()->getAppContainer();
+        $this->container =
+            (new WebContainerConfigurator())->configure(
+                (new HierarchyContainerConfigurator())->configure(
+                    (new DbUpgradeContainerConfigurator())->configure(
+                            new Container($this->getApp()->getAppContainer())
+                    )
+                )
+            );
+        // Nový kontejner nastaví jako kontejner aplikace - pro middleware Transformator
+        $this->getApp()->setAppContainer($this->container);
+
 ####################################
         /** @var RouteSegmentGenerator $routeGenerator */
         $routeGenerator = $this->container->get(RouteSegmentGenerator::class);
