@@ -2,7 +2,7 @@
 
 namespace Events\Model\Dao;
 
-use Model\Dao\DaoContextualAbstract;
+use Model\Dao\DaoEditContextualAbstract;
 use Model\Dao\DaoAutoincrementTrait;
 use Events\Model\Dao\EventDaoInterface;
 
@@ -11,7 +11,7 @@ use Events\Model\Dao\EventDaoInterface;
  *
  * @author pes2704
  */
-class EventDao extends DaoContextualAbstract implements EventDaoInterface {
+class EventDao extends DaoEditContextualAbstract implements EventDaoInterface {
 
     use DaoAutoincrementTrait;
 

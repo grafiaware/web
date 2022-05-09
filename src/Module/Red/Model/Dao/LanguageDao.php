@@ -9,14 +9,14 @@
 namespace Red\Model\Dao;
 
 use Model\Dao\DaoEditAbstract;
-use Model\Dao\DaoKeyDbVerifiedInterface;
+use Model\Dao\DaoEditKeyDbVerifiedInterface;
 
 /**
  * Description of LanguageDao
  *
  * @author pes2704
  */
-class LanguageDao extends DaoEditAbstract implements DaoKeyDbVerifiedInterface {
+class LanguageDao extends DaoEditAbstract implements DaoEditKeyDbVerifiedInterface {
 
     public function getPrimaryKeyAttribute(): array {
         return ['lang_code'];

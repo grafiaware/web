@@ -19,6 +19,8 @@ interface DataManagerInterface {
     public function getAttributes(): array;
     public function getTableName(): string;
 
+    public function getPrimaryKeyTouples(array $primaryFieldsValue): array;
+
     public function get(array $id): ?RowDataInterface;
     public function getByReference(array $referenceId): ?RowDataInterface;
     public function find($whereClause="", $touplesToBind=[]): iterable;

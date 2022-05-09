@@ -2,7 +2,7 @@
 namespace Events\Model\Dao;
 
 use Model\Dao\DaoEditAbstract;
-use Model\Dao\DaoKeyDbVerifiedInterface;
+use Model\Dao\DaoEditKeyDbVerifiedInterface;
 
 
 /**
@@ -10,7 +10,7 @@ use Model\Dao\DaoKeyDbVerifiedInterface;
  *
  * @author pes2704
  */
-class EventContentTypeDao extends DaoEditAbstract implements DaoKeyDbVerifiedInterface {
+class EventContentTypeDao extends DaoEditAbstract implements DaoEditKeyDbVerifiedInterface {
 
     public function getPrimaryKeyAttribute(): array {
         return ['type'];

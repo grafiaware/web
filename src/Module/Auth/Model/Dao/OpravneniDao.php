@@ -8,14 +8,14 @@
 
 namespace Auth\Model\Dao;
 
-use Model\Dao\DaoReadonlyAbstract;
+use Model\Dao\DaoAbstract;
 
 /**
  * Description of RsDao
  *
  * @author pes2704
  */
-class OpravneniDao extends DaoReadonlyAbstract {
+class OpravneniDao extends DaoAbstract {
 
 
     public function getPrimaryKeyAttribute(): array {

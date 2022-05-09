@@ -3,13 +3,13 @@
 namespace Events\Model\Dao;
 
 use Model\Dao\DaoContextualInterface;
-use Model\Dao\DaoAutoincrementKeyInterface;
+use Model\Dao\DaoEditAutoincrementKeyInterface;
 
 /**
  *
  * @author vlse2610
  */
-interface EventDaoInterface extends DaoContextualInterface, DaoAutoincrementKeyInterface {
+interface EventDaoInterface extends DaoContextualInterface, DaoEditAutoincrementKeyInterface {
 
     /**
      *

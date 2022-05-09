@@ -51,7 +51,7 @@ class HierarchyJoinMenuItemRepo extends RepoAbstract {  // HierarchyAggregateMen
      * @return HierarchyAggregateInterface|null
      */
     public function get($langCodeFk, $uidFk): ?HierarchyAggregateInterface {
-        $key = $this->getPrimaryKeyTouples(['lang_code_fk'=>$langCodeFk, 'uid_fk'=>$uidFk]);
+        $key = $this->dataManager->getPrimaryKeyTouples(['lang_code_fk'=>$langCodeFk, 'uid_fk'=>$uidFk]);
         return $this->getEntity($key);
     }
 

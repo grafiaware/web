@@ -1,7 +1,7 @@
 <?php
 namespace Events\Model\Dao;
 
-use Model\Dao\DaoAutoincrementKeyInterface;
+use Model\Dao\DaoEditAutoincrementKeyInterface;
 use Model\Dao\DaoEditAbstract;
 
 use Model\Dao\DaoAutoincrementTrait;
@@ -11,7 +11,7 @@ use Model\Dao\DaoAutoincrementTrait;
  *
  * @author vlse2610
  */
-class CompanyDao  extends DaoEditAbstract implements  DaoAutoincrementKeyInterface {
+class CompanyDao  extends DaoEditAbstract implements  DaoEditAutoincrementKeyInterface {
 
     use DaoAutoincrementTrait;
 

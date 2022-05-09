@@ -34,7 +34,7 @@ class LanguageRepo extends RepoAbstract {
      * @return LanguageInterface|null
      */
     public function get($langCode): ?LanguageInterface {
-        $key = $this->getPrimaryKeyTouples(['lang_code'=>$langCode]);
+        $key = $this->dataManager->getPrimaryKeyTouples(['lang_code'=>$langCode]);
         return $this->getEntity($key);
     }
 

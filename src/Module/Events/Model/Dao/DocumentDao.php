@@ -3,7 +3,7 @@
 namespace Events\Model\Dao;
 
 use Model\Dao\DaoEditAbstract;
-use Model\Dao\DaoAutoincrementKeyInterface;
+use Model\Dao\DaoEditAutoincrementKeyInterface;
 use Model\Dao\DaoAutoincrementTrait;
 
 
@@ -12,7 +12,7 @@ use Model\Dao\DaoAutoincrementTrait;
  *
  * @author pes2704
  */
-class DocumentDao extends DaoEditAbstract implements DaoAutoincrementKeyInterface {
+class DocumentDao extends DaoEditAbstract implements DaoEditAutoincrementKeyInterface {
 //TODO: název tabulky -> do sql, getKeyAttribute do insert, update, delete; getKeyAttribute do where v get: get(...$id) a skutečné proměnné přiřadit do pole podle jmen polí atributu, s polem volat where
 
     use DaoAutoincrementTrait;

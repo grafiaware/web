@@ -8,9 +8,8 @@
 
 namespace Model\Repository;
 
-use Model\Dao\DaoEditInterface;
-use Model\Dao\DaoKeyDbVerifiedInterface;
-use Model\Dao\DaoAutoincrementKeyInterface;
+use Model\Dao\DaoEditKeyDbVerifiedInterface;
+use Model\Dao\DaoEditAutoincrementKeyInterface;
 
 use Model\Dao\Exception\DaoKeyVerificationFailedException;
 
@@ -18,7 +17,7 @@ use Model\Hydrator\HydratorInterface;
 use Model\Entity\EntityInterface;
 use Model\RowData\RowDataInterface;
 use Model\RowData\PdoRowData;
-use Model\DataManager\DataManagerAbstract;
+use Model\DataManager\DataManagerInterface;
 
 use Model\Repository\Association\AssociationOneToOne;
 use Model\Repository\Association\AssociationOneToMany;
@@ -66,7 +65,7 @@ abstract class RepoAbstract {
     private $hydrators = [];
 
     /**
-     * @var  DataManagerAbstract
+     * @var  DataManagerInterface
      */
     protected $dataManager;
 
@@ -111,23 +110,6 @@ abstract class RepoAbstract {
         throw new BadImplemntastionOfChildRepository("Child repository must implement method createEntity().");
     }
 
-    protected function getPrimaryKeyTouples(array $row): array {
-        $keyAttribute = $this->dataManager->getPrimaryKeyAttribute();
-        $key = [];
-        foreach ($keyAttribute as $field) {
-            if( ! array_key_exists($field, $row)) {
-                throw new UnableRecreateEntityException("Nelze vytvořit dvojice jméno/hodnota pro klíč entity. Atribut klíče obsahuje pole '$field' a pole dat pro vytvoření klíče neobsahuje prvek s takovým jménem.");
-            }
-            if (is_scalar($row[$field])) {
-                $key[$field] = $row[$field];
-            } else {
-                $t = gettype($row[$field]);
-                throw new UnableRecreateEntityException("Nelze vytvořit dvojice jméno/hodnota pro klíč entity. Zadaný atribut klíče obsahuje v položce '$field' neskalární hodnotu. Hodnoty v položce '$field' je typu '$t'.");
-            }
-        }
-        return $key;
-    }
-
     /**
      *
      * @param variadic $id
@@ -146,9 +128,9 @@ abstract class RepoAbstract {
      * @param variadic $referenceId
      * @return EntityInterface|null
      */
-    protected function getEntityByReference(array $referenceId): ?EntityInterface {
+    protected function getEntityByReference($referenceName, array $referenceId): ?EntityInterface {
         // vždy čte data - neví jestli jsou v $this->data
-        $rowData = $this->dataManager->getByFk($referenceId);
+        $rowData = $this->dataManager->getByFk($referenceName, $referenceId);
         return $this->addEntityByRowData($rowData);
     }
 
@@ -156,8 +138,8 @@ abstract class RepoAbstract {
         return $this->addEntitiesByRowDataArray($this->dataManager->find($whereClause, $touplesToBind));
     }
 
-    protected function findEntitiesByReference(array $referenceId) {
-        return $this->addEntitiesByRowDataArray($this->dataManager->findByFk(...$referenceId));
+    protected function findEntitiesByReference($referenceName, array $referenceId) {
+        return $this->addEntitiesByRowDataArray($this->dataManager->findByFk($referenceName, $referenceId));
     }
 
     /**
@@ -259,7 +241,7 @@ abstract class RepoAbstract {
         if ($entity->isPersisted()) {
             $this->collection[$this->indexFromEntity($entity)] = $entity;
         } else {
-            if ($this->dataManager instanceof DaoAutoincrementKeyInterface) {
+            if ($this->dataManager instanceof DaoEditAutoincrementKeyInterface) {
                 $rowData = $this->createRowData();
                 $this->extract($entity, $rowData);
                 $this->dataManager->insert($rowData);
@@ -346,7 +328,7 @@ abstract class RepoAbstract {
         }
         if ( !($this instanceof RepoReadonlyInterface)) {
             /** @var \Model\Entity\EntityAbstract $entity */
-            if ( ! ($this->dataManager instanceof DaoKeyDbVerifiedInterface)) {   // DaoKeyDbVerifiedInterface musí ukládat (insert) vždy již při nastavování hodnoty primárního klíče
+            if ( ! ($this->dataManager instanceof DaoEditKeyDbVerifiedInterface)) {   // DaoKeyDbVerifiedInterface musí ukládat (insert) vždy již při nastavování hodnoty primárního klíče
                 foreach ($this->new as $entity) {
                     $rowData = $this->createRowData();
                     $this->extract($entity, $rowData);

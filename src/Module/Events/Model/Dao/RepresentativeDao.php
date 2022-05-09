@@ -4,8 +4,8 @@ namespace Events\Model\Dao;
 
 use Events\Model\Dao\RepresentativeDaoInterface;
 use Model\Dao\DaoEditAbstract;
-use Model\Dao\DaoReadonlyFkTrait;
-use \Model\Dao\DaoReadonlyFkUniqueTrait;
+use Model\Dao\DaoFkNonuniqueTrait;
+use \Model\Dao\DaoFkUniqueTrait;
 
 /**
  * Description of RepresentativeDao
@@ -14,8 +14,8 @@ use \Model\Dao\DaoReadonlyFkUniqueTrait;
  */
 class RepresentativeDao extends DaoEditAbstract implements RepresentativeDaoInterface {
 
-    use DaoReadonlyFkTrait;
-    use DaoReadonlyFkUniqueTrait;
+    use DaoFkNonuniqueTrait;
+    use DaoFkUniqueTrait;
 
     public function getPrimaryKeyAttribute(): array {
         return ['company_id' , 'login_login_name_fk'];

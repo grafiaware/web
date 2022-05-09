@@ -10,7 +10,7 @@ namespace Model\Dao;
 
 use Model\RowData\RowDataInterface;
 
-use Model\Dao\DaoKeyDbVerifiedInterface;
+use Model\Dao\DaoEditKeyDbVerifiedInterface;
 
 use Model\Dao\Exception\DaoUnexpectecCallOutOfTransactionException;
 use Model\Dao\Exception\DaoKeyVerificationFailedException;
@@ -20,19 +20,19 @@ use Model\Dao\Exception\DaoKeyVerificationFailedException;
  *
  * @author pes2704
  */
-abstract class DaoEditAbstract extends DaoReadonlyAbstract implements DaoEditInterface {
+abstract class DaoEditAbstract extends DaoAbstract implements DaoEditInterface {
 
     protected $rowCount;
 
     /**
      * Přídá změněná data do databáze.
      *
-     * Ukládá pouze data 
+     * Ukládá pouze data
      * @param RowDataInterface $rowData
      * @return bool
      */
     public function insert(RowDataInterface $rowData): bool {
-        if ($this instanceof DaoKeyDbVerifiedInterface) {
+        if ($this instanceof DaoEditKeyDbVerifiedInterface) {
             return $this->execInsertWithKeyVerification($rowData);
         } else {
             return $this->execInsert($rowData);

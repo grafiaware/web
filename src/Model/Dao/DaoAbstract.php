@@ -12,7 +12,8 @@ use Pes\Database\Handler\HandlerInterface;
 use Pes\Database\Statement\StatementInterface;
 
 use Model\Builder\SqlInterface;
-use Model\Dao\DaoContextualInterface;
+
+use Model\Dao\DaoFkUniqueInterface;
 
 use Model\Dao\Exception\DaoParamsBindNamesMismatchException;
 use UnexpectedValueException;
@@ -22,7 +23,7 @@ use UnexpectedValueException;
  *
  * @author pes2704
  */
-abstract class DaoReadonlyAbstract implements DaoReadonlyInterface {
+abstract class DaoAbstract implements DaoInterface {
 
     /**
      * @var HandlerInterface
@@ -49,13 +50,21 @@ abstract class DaoReadonlyAbstract implements DaoReadonlyInterface {
         $this->sql = $sql;
     }
 
-    public function createPrimaryKeyTouple($primaryFieldsValue): array {
-        $pkAttribute = $this->getPrimaryKeyAttribute();
-        if (count($pkAttribute)==1) {
-            end($pkAttribute);
-            return [current($pkAttribute) => $primaryFieldsValue];
+    public function getPrimaryKeyTouples(array $row): array {
+        $keyAttribute = $this->getPrimaryKeyAttribute();
+        $key = [];
+        foreach ($keyAttribute as $field) {
+            if( ! array_key_exists($field, $row)) {
+                throw new UnexpectedValueException("Nelze vytvořit dvojice jméno/hodnota pro klíč entity. Atribut klíče obsahuje pole '$field' a pole dat pro vytvoření klíče neobsahuje prvek s takovým jménem.");
+            }
+            if (is_scalar($row[$field])) {
+                $key[$field] = $row[$field];
+            } else {
+                $t = gettype($row[$field]);
+                throw new UnexpectedValueException("Nelze vytvořit dvojice jméno/hodnota pro klíč entity. Zadaný atribut klíče obsahuje v položce '$field' neskalární hodnotu. Hodnoty v položce '$field' je typu '$t'.");
+            }
         }
-        throw new UnexpectedValueException("nelze automaticky vytvořit dvojici jméno=>hodnota primárního klíče z jednoduché hodnoty. Atribut promárního klíče má více nž jedno pole, primární klíč je kompozitní.");
+        return $key;
     }
 
 ############################################

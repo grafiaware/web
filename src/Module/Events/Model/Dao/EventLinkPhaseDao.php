@@ -4,7 +4,7 @@ namespace Events\Model\Dao;
 
 use Model\Dao\DaoEditAbstract;
 use Model\Dao\DaoAutoincrementTrait;
-use Model\Dao\DaoAutoincrementKeyInterface;
+use Model\Dao\DaoEditAutoincrementKeyInterface;
 
 
 /**
@@ -12,7 +12,7 @@ use Model\Dao\DaoAutoincrementKeyInterface;
  *
  * @author vlse2610
  */
-class EventLinkPhaseDao extends DaoEditAbstract implements DaoAutoincrementKeyInterface  {
+class EventLinkPhaseDao extends DaoEditAbstract implements DaoEditAutoincrementKeyInterface  {
 
     use DaoAutoincrementTrait;
 

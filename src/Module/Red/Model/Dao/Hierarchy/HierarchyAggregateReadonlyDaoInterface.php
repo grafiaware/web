@@ -8,13 +8,13 @@
 
 namespace Red\Model\Dao\Hierarchy;
 
-use Model\Dao\DaoReadonlyInterface;
+use Model\Dao\DaoInterface;
 
 /**
  *
  * @author pes2704
  */
-interface HierarchyAggregateReadonlyDaoInterface extends DaoReadonlyInterface {
+interface HierarchyAggregateReadonlyDaoInterface extends DaoInterface {
 
     /**
      * JEN POMOCNÁ FUNKCE PRO LADĚNÍ

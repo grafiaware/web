@@ -2,7 +2,7 @@
 
 namespace Red\Model\Dao\Hierarchy;
 
-use Model\Dao\DaoReadonlyAbstract;
+use Model\Dao\DaoAbstract;
 use Pes\Database\Handler\HandlerInterface;
 use Model\Builder\SqlInterface;
 
@@ -29,7 +29,7 @@ use Model\Context\ContextFactoryInterface;
  *
  * V obou případech jsou např. publikované uzly, které mají nějakého nepublikovaného předka v menu nedostupné. Jsou jen v menu v "editačním" modu, kdy se zobrazijí i neaktivní a neaktuální uzly.
  */
-class HierarchyAggregateReadonlyDao extends DaoReadonlyAbstract implements HierarchyAggregateReadonlyDaoInterface {
+class HierarchyAggregateReadonlyDao extends DaoAbstract implements HierarchyAggregateReadonlyDaoInterface {
 
     const UID_TITLE_SEPARATOR = '|';
     const BREADCRUMB_SEPARATOR = '/';

@@ -1,7 +1,7 @@
 <?php
 namespace Events\Model\Dao;
 
-use Model\Dao\DaoReadonlyFkInterface;
+use Model\Dao\DaoFkNonuniqueInterface;
 
 
 /**
@@ -9,7 +9,7 @@ use Model\Dao\DaoReadonlyFkInterface;
  *
  * @author vlse2610
  */
-interface JobToTagDaoInterface extends DaoReadonlyFkInterface {    
+interface JobToTagDaoInterface extends DaoFkNonuniqueInterface {    
     
     public function findByJobIdFk( array $jobIdFk ): array ;   
 

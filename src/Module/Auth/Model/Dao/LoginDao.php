@@ -4,7 +4,7 @@ namespace Auth\Model\Dao;
 use Pes\Database\Handler\HandlerInterface;
 
 use Model\Dao\DaoEditAbstract;
-use Model\Dao\DaoKeyDbVerifiedInterface;
+use Model\Dao\DaoEditKeyDbVerifiedInterface;
 use Model\Dao\Exception\DaoKeyVerificationFailedException;
 use Model\Dao\Exception\DaoForbiddenOperationException;
 use Model\RowData\RowDataInterface;
@@ -14,7 +14,7 @@ use Model\RowData\RowDataInterface;
  *
  * @author pes2704
  */
-class LoginDao extends DaoEditAbstract implements DaoKeyDbVerifiedInterface {
+class LoginDao extends DaoEditAbstract implements DaoEditKeyDbVerifiedInterface {
 
 
     public function getPrimaryKeyAttribute(): array {

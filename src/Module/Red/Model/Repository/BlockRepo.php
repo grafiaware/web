@@ -34,7 +34,7 @@ class BlockRepo extends RepoAbstract implements BlockRepoInterface, RepoReadonly
      * @return BlockInterface|null
      */
     public function get($name):?BlockInterface {
-        $key = $this->getPrimaryKeyTouples(['name'=>$name]);
+        $key = $this->dataManager->getPrimaryKeyTouples(['name'=>$name]);
         return $this->getEntity($key);
     }
 

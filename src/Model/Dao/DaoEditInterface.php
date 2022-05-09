@@ -14,7 +14,7 @@ use Model\RowData\RowDataInterface;
  *
  * @author pes2704
  */
-interface DaoEditInterface extends DaoReadonlyInterface {
+interface DaoEditInterface extends DaoInterface {
     public function insert(RowDataInterface $rowData);
     public function update(RowDataInterface $rowData);
     public function delete(RowDataInterface $rowData);

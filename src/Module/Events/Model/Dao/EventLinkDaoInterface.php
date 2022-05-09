@@ -1,14 +1,14 @@
 <?php
 namespace Events\Model\Dao;
 
-use Model\Dao\DaoAutoincrementKeyInterface;
+use Model\Dao\DaoEditAutoincrementKeyInterface;
 
 
 /**
  *
  * @author vlse2610
  */
-interface EventLinkDaoInterface extends DaoAutoincrementKeyInterface {
+interface EventLinkDaoInterface extends DaoEditAutoincrementKeyInterface {
 
 
 }

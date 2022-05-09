@@ -11,7 +11,7 @@ namespace Events\Model\Dao;
 use Pes\Database\Handler\HandlerInterface;
 
 use Model\Dao\DaoEditAbstract;
-use Model\Dao\DaoKeyDbVerifiedInterface;
+use Model\Dao\DaoEditKeyDbVerifiedInterface;
 
 
 /**
@@ -19,7 +19,7 @@ use Model\Dao\DaoKeyDbVerifiedInterface;
  *
  * @author pes2704
  */
-class LoginDao extends DaoEditAbstract implements DaoKeyDbVerifiedInterface {
+class LoginDao extends DaoEditAbstract implements DaoEditKeyDbVerifiedInterface {
 
     public function getPrimaryKeyAttribute(): array {
         return ['login_name'];

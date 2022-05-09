@@ -42,7 +42,7 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
      * @return MenuItemInterface|null
      */
     public function get($langCodeFk, $uidFk): ?MenuItemInterface {
-        $key = $this->getPrimaryKeyTouples(['lang_code_fk'=>$langCodeFk, 'uid_fk'=>$uidFk]);
+        $key = $this->dataManager->getPrimaryKeyTouples(['lang_code_fk'=>$langCodeFk, 'uid_fk'=>$uidFk]);
         return $this->getEntity($key);
     }
 
@@ -57,7 +57,7 @@ class MenuItemRepo extends RepoAbstract implements MenuItemRepoInterface {
     public function getOutOfContext($langCodeFk, $uidFk): ?MenuItemInterface {
         $index = $this->indexFromKeyParams($langCodeFk, $uidFk);
         if (!isset($this->collection[$index])) {   // collection je private
-            $key = $this->getPrimaryKeyTouples(['lang_code_fk'=>$langCodeFk, 'uid_fk'=>$uidFk]);
+            $key = $this->dataManager->getForeignKeyTouples(['lang_code_fk'=>$langCodeFk, 'uid_fk'=>$uidFk]);
             $rowData = $this->dataManager->getOutOfContext($key);
             $this->addData($index, $rowData);  // natvrdo dá rowData do $this->data // private
             $this->recreateEntity($index, $rowData);  // private

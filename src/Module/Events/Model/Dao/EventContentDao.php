@@ -3,7 +3,7 @@
 namespace Events\Model\Dao;
 
 use Model\Dao\DaoEditAbstract;
-use Model\Dao\DaoAutoincrementKeyInterface;
+use Model\Dao\DaoEditAutoincrementKeyInterface;
 use Model\Dao\DaoAutoincrementTrait;
 
 /**
@@ -11,7 +11,7 @@ use Model\Dao\DaoAutoincrementTrait;
  *
  * @author pes2704
  */
-class EventContentDao extends DaoEditAbstract implements DaoAutoincrementKeyInterface {
+class EventContentDao extends DaoEditAbstract implements DaoEditAutoincrementKeyInterface {
 
     use DaoAutoincrementTrait;
 

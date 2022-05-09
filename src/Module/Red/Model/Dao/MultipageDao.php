@@ -9,18 +9,20 @@
 namespace Red\Model\Dao;
 
 use Model\Dao\DaoEditAbstract;
-use Model\Dao\DaoAutoincrementKeyInterface;
-use \Model\Dao\DaoAutoincrementTrait;
-use Model\RowData\RowDataInterface;
+use Model\Dao\DaoEditAutoincrementKeyInterface;
+use Model\Dao\DaoFkUniqueInterface;
+use Model\Dao\DaoAutoincrementTrait;
+use Model\Dao\DaoFkUniqueTrait;
 
 /**
  * Description of RsDao
  *
  * @author pes2704
  */
-class MultipageDao extends DaoEditAbstract implements DaoAutoincrementKeyInterface {
+class MultipageDao extends DaoEditAbstract implements DaoEditAutoincrementKeyInterface, DaoFkUniqueInterface  {
 
     use DaoAutoincrementTrait;
+    use DaoFkUniqueTrait;
 
     public function getPrimaryKeyAttribute(): array {
         return ['id'];
@@ -36,8 +38,14 @@ class MultipageDao extends DaoEditAbstract implements DaoAutoincrementKeyInterfa
         ];
     }
 
+    public function getForeignKeyAttributes(): array {
+        return [
+            'menu_item_id_fk'=>['menu_item_id_fk']
+        ];
+    }
+
     public function getTableName(): string {
-        ;
+        return 'multipage';
     }
 
     /**

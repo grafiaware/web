@@ -14,7 +14,7 @@ use Model\RowData\RowDataInterface;
  *
  * @author pes2704
  */
-interface DaoAutoincrementKeyInterface extends DaoEditInterface {
+interface DaoEditAutoincrementKeyInterface extends DaoEditInterface {
     
     /**
      * Metoda musí vracet hodnotu databází generované hodnoty pole orimárního klíče,

@@ -2,14 +2,14 @@
 
 namespace Auth\Model\Dao;
 
-use Model\Dao\DaoReadonlyAbstract;
+use Model\Dao\DaoAbstract;
 
 /**
  * Description of UserDao
  *
  * @author pes2704
  */
-class LoginAggregateReadonlyDao extends DaoReadonlyAbstract {
+class LoginAggregateReadonlyDao extends DaoAbstract {
 
     public function getPrimaryKeyAttribute(): array {
         return 'login_name';

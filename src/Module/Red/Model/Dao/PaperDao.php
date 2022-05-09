@@ -10,23 +10,20 @@ namespace Red\Model\Dao;
 
 use Model\Dao\DaoEditAbstract;
 
-use Model\Dao\DaoAutoincrementKeyInterface;
-use Model\Dao\DaoReadonlyFkUniqueInterface;
-
-use \Model\Dao\DaoAutoincrementTrait;
-use \Model\Dao\DaoReadonlyFkUniqueTrait;
-
-use Model\RowData\RowDataInterface;
+use Model\Dao\DaoEditAutoincrementKeyInterface;
+use Model\Dao\DaoFkUniqueInterface;
+use Model\Dao\DaoAutoincrementTrait;
+use Model\Dao\DaoFkUniqueTrait;
 
 /**
  * Description of PaperDao
  *
  * @author pes2704
  */
-class PaperDao extends DaoEditAbstract implements DaoAutoincrementKeyInterface, DaoReadonlyFkUniqueInterface {
+class PaperDao extends DaoEditAbstract implements DaoEditAutoincrementKeyInterface, DaoFkUniqueInterface {
 
     use DaoAutoincrementTrait;
-    use DaoReadonlyFkUniqueTrait;
+    use DaoFkUniqueTrait;
 
     public function getPrimaryKeyAttribute(): array {
         return ['id'];
@@ -42,6 +39,12 @@ class PaperDao extends DaoEditAbstract implements DaoAutoincrementKeyInterface, 
             'keywords',
             'editor',
             'updated'
+        ];
+    }
+
+    public function getForeignKeyAttributes(): array {
+        return [
+            'menu_item_id_fk'=>['menu_item_id_fk']
         ];
     }
 

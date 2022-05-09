@@ -36,7 +36,7 @@ class EventLinkRepo extends RepoAbstract implements EventLinkRepoInterface {
      * @return EventLinkInterface|null
      */
     public function get($id): ?EventLinkInterface {
-        $key = $this->getPrimaryKeyTouples(['id'=>$id]);
+        $key = $this->dataManager->getForeignKeyTouples(['id'=>$id]);
         return $this->getEntity($key);
     }
 

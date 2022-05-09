@@ -2,14 +2,14 @@
 namespace Events\Model\Dao;
 
 use Model\Dao\DaoEditAbstract;
-use Model\Dao\DaoKeyDbVerifiedInterface;
+use Model\Dao\DaoEditKeyDbVerifiedInterface;
 
 /**
  * Description of PozadovaneVzdalaniDao
  *
  * @author vlse2610
  */
-class PozadovaneVzdalaniDao  extends DaoEditAbstract  implements DaoKeyDbVerifiedInterface {
+class PozadovaneVzdalaniDao  extends DaoEditAbstract  implements DaoEditKeyDbVerifiedInterface {
 
     public function getPrimaryKeyAttribute(): array {
         return ['stupen'];

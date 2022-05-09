@@ -11,7 +11,7 @@ namespace Red\Model\Dao;
 use Model\Dao\DaoEditAbstract;
 use Model\RowData\RowDataInterface;
 
-use Model\Dao\DaoKeyDbVerifiedInterface;
+use Model\Dao\DaoEditKeyDbVerifiedInterface;
 
 use Model\Dao\Exception\DaoForbiddenOperationException;
 
@@ -20,7 +20,7 @@ use Model\Dao\Exception\DaoForbiddenOperationException;
  *
  * @author pes2704
  */
-class MenuItemTypeDao extends DaoEditAbstract implements DaoKeyDbVerifiedInterface {
+class MenuItemTypeDao extends DaoEditAbstract implements DaoEditKeyDbVerifiedInterface {
 
     public function getPrimaryKeyAttribute(): array {
         return ['type'];

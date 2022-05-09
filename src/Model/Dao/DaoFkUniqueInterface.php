@@ -12,9 +12,8 @@ namespace Model\Dao;
  *
  * @author pes2704
  */
-interface DaoReadonlyFkInterface {
-    public function getForeignKeyAttributes(): array;
+interface DaoFkUniqueInterface extends DaoFkCommonInterface {
 
-    public function findByFk($name, array $fk);
+    public function getByFk($fkAttributesName, array $fkNameValueTouples);
 
 }

@@ -12,7 +12,7 @@ use Events\Model\Dao\VisitorJobRequestDaoInterface;
 class VisitorJobRequestDao extends DaoEditAbstract implements VisitorJobRequestDaoInterface {
 
 
-    use \Model\Dao\DaoReadonlyFkTrait;
+    use \Model\Dao\DaoFkNonuniqueTrait;
 
     public function getPrimaryKeyAttribute(): array {
         return 'login_login_name';

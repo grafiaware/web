@@ -13,7 +13,7 @@ use Model\Context\ContextFactoryInterface;
  *
  * @author pes2704
  */
-abstract class DaoContextualAbstract extends DaoEditAbstract implements DaoContextualInterface {
+abstract class DaoEditContextualAbstract extends DaoEditAbstract implements DaoContextualInterface {
 
     /**
      * @var ContextFactoryInterface

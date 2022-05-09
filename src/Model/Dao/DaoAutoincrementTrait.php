@@ -8,7 +8,7 @@
 
 namespace Model\Dao;
 
-use Model\Dao\DaoAutoincrementKeyInterface;
+use Model\Dao\DaoEditAutoincrementKeyInterface;
 
 use Model\RowData\RowDataInterface;
 use Model\Dao\Exception\DaoLastInsertIdFailedAfterMultipleRowInsertException;
@@ -54,7 +54,7 @@ trait DaoAutoincrementTrait {
      * @throws DaoLastInsertIdFailedAfterMultipleRowInsertException
      */
     public function lastInsertIdValue() {
-        /** @var DaoAutoincrementKeyInterface $this */
+        /** @var DaoEditAutoincrementKeyInterface $this */
         if ($this->rowCount == 1) {
             return  $this->dbHandler->lastInsertId();
         } else {
@@ -78,7 +78,7 @@ trait DaoAutoincrementTrait {
         } catch (DaoLastInsertIdFailedAfterMultipleRowInsertException $daoExc) {
             throw $daoExc;
         }
-        /** @var DaoAutoincrementKeyInterface $this */
+        /** @var DaoEditAutoincrementKeyInterface $this */
         $name = $this->getPrimaryKeyFieldName();
         $rowdata->forcedSet($name, $value);
     }

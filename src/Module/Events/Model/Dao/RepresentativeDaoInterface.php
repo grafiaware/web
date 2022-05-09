@@ -1,14 +1,14 @@
 <?php
 
 namespace Events\Model\Dao;
-use Model\Dao\DaoReadonlyFkInterface;
-use Model\Dao\DaoReadonlyFkUniqueInterface;
+use Model\Dao\DaoFkNonuniqueInterface;
+use Model\Dao\DaoFkUniqueInterface;
 
 /**
  *
  * @author vlse2610
  */
-interface RepresentativeDaoInterface extends DaoReadonlyFkInterface, DaoReadonlyFkUniqueInterface {
+interface RepresentativeDaoInterface extends DaoFkNonuniqueInterface, DaoFkUniqueInterface {
 
     public function findByCompanyIdFk(array $companyIdFk): array ;
     

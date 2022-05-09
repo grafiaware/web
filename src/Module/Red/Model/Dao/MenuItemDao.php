@@ -8,11 +8,11 @@
 
 namespace Red\Model\Dao;
 
-use Model\Dao\DaoContextualAbstract;
+use Model\Dao\DaoEditContextualAbstract;
 use Model\RowData\RowDataInterface;
 
-use Model\Dao\DaoReadonlyFkInterface;
-use \Model\Dao\DaoReadonlyFkTrait;
+use Model\Dao\DaoFkNonuniqueInterface;
+use \Model\Dao\DaoFkNonuniqueTrait;
 
 use Model\Dao\Exception\DaoForbiddenOperationException;
 
@@ -21,9 +21,9 @@ use Model\Dao\Exception\DaoForbiddenOperationException;
  *
  * @author pes2704
  */
-class MenuItemDao extends DaoContextualAbstract implements DaoReadonlyFkInterface {
+class MenuItemDao extends DaoEditContextualAbstract implements DaoFkNonuniqueInterface {
 
-    use DaoReadonlyFkTrait;
+    use DaoFkNonuniqueTrait;
 
     public function getPrimaryKeyAttribute(): array {
         return ['lang_code_fk', 'uid_fk'];

@@ -12,9 +12,11 @@ use Pes\Database\Handler\HandlerInterface;
 use Model\Context\ContextFactoryInterface;
 
 use Model\Dao\DaoEditAbstract;
-use Model\Dao\DaoAutoincrementKeyInterface;
+use Model\Dao\DaoEditAutoincrementKeyInterface;
+use Model\Dao\DaoFkNonuniqueInterface;
 use Model\Dao\DaoAutoincrementTrait;
-use Model\Dao\DaoReadonlyAbstract;
+use Model\Dao\DaoFkNonuniqueTrait;
+use Model\Dao\DaoAbstract;
 
 use Model\RowData\RowDataInterface;
 
@@ -23,9 +25,10 @@ use Model\RowData\RowDataInterface;
  *
  * @author pes2704
  */
-class PaperContentDao extends DaoEditAbstract implements DaoAutoincrementKeyInterface {
+class PaperContentDao extends DaoEditAbstract implements DaoEditAutoincrementKeyInterface, DaoFkNonuniqueInterface {
 
     use DaoAutoincrementTrait;
+    use DaoFkNonuniqueTrait;
 
     public function getPrimaryKeyAttribute(): array {
         return ['id'];
@@ -48,7 +51,11 @@ class PaperContentDao extends DaoEditAbstract implements DaoAutoincrementKeyInte
             'updated',
         ];
     }
-
+    public function getForeignKeyAttributes(): array {
+        return [
+            'paper_id_fk'=>['paper_id_fk']
+        ];
+    }
     public function getTableName(): string {
         return 'paper_content';
     }

@@ -39,7 +39,7 @@ class MenuRootRepo extends RepoAbstract {
      * @return MenuRootInterface|null
      */
     public function get($name): ?MenuRootInterface {
-        $key = $this->getPrimaryKeyTouples(['name'=>$name]);
+        $key = $this->dataManager->getPrimaryKeyTouples(['name'=>$name]);
         return $this->getEntity($key);
     }
 

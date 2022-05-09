@@ -12,15 +12,15 @@ namespace Model\Dao;
  *
  * @author pes2704
  */
-interface DaoReadonlyInterface {
+interface DaoInterface {
 
     // metody musí implemtovat jednotlivá Dao
     public function getPrimaryKeyAttribute(): array;
     public function getAttributes(): array;
     public function getTableName(): string;
 
-    // metody implementované v DaoReadonlyAbstract
-    public function createPrimaryKeyTouple($primaryFieldsValue): array;
+    // metody implementované v DaoAbstract
+    public function getPrimaryKeyTouples(array $primaryFieldsValue): array;
     public function get(array $id);
     public function find($whereClause="", $touplesToBind=[]): iterable;
     public function findAll(): iterable;
