@@ -11,21 +11,14 @@ use Events\Model\Entity\JobTagInterface;
  * @author vlse2610
  */
 class JobTag  extends EntityAbstract implements JobTagInterface {
-    private $id;
     private $tag;
     
-    private $keyAttribute = 'id';
+    private $keyAttribute = 'tag';
         
     public function getKeyAttribute() {
         return $this->keyAttribute;
     }
-    /**
-     * 
-     * @return int
-     */
-    public function getId() :int {
-        return $this->id;
-    }
+    
     /**
      * 
      * @return string|null
@@ -34,16 +27,7 @@ class JobTag  extends EntityAbstract implements JobTagInterface {
         return $this->tag;
     }
     
-    /**
-     * 
-     * @param type $id
-     * @return JobTagInterface
-     */
-    public function setId($id) : JobTagInterface {
-        $this->id = $id;
-        return $this;
-    }
-    
+       
     /**
      * 
      * @param string $tag

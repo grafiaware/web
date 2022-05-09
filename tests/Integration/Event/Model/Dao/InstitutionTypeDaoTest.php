@@ -9,8 +9,6 @@ use Test\Integration\Event\Container\EventsContainerConfigurator;
 use Test\Integration\Event\Container\DbEventsContainerConfigurator;
 
 use Events\Model\Dao\InstitutionTypeDao;
-use Model\Dao\Exception\DaoForbiddenOperationException;
-use Model\Dao\Exception\DaoKeyVerificationFailedException;
 use Model\RowData\RowData;
 use Model\RowData\RowDataInterface;
 
@@ -56,7 +54,6 @@ class InstitutionTypeDaoTest extends AppRunner {
     }
       public function testInsert() {
         $rowData = new RowData();
-        //$rowData->offsetSet('id', "e");
         $rowData->offsetSet('institution_type', "testInstitutionTypeDao-tt--type");
 
         $this->dao->insert($rowData);

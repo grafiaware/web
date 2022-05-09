@@ -22,7 +22,7 @@ class JobToTagHydrator implements HydratorInterface {
         /** @var JobToTag $jobToTag */
         $jobToTag                
             ->setJobId($rowData->offsetGet('job_id'))
-            ->setJobTagId($rowData->offsetGet('job_tag_id'));
+            ->setJobTagTag($rowData->offsetGet('job_tag_tag'));
     } 
 
     /**
@@ -35,7 +35,7 @@ class JobToTagHydrator implements HydratorInterface {
         
         // neni autoincrement       
         $rowData->offsetSet('jobId', $jobToTag->getJobId() );
-        $rowData->offsetSet('jobTagId', $jobToTag->getJobTagId() ); 
+        $rowData->offsetSet('jobTagTag', $jobToTag->getJobTagTag() ); 
     }
     
     

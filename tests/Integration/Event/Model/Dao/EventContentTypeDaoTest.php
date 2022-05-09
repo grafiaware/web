@@ -10,7 +10,7 @@ use Test\Integration\Event\Container\EventsContainerConfigurator;
 use Test\Integration\Event\Container\DbEventsContainerConfigurator;
 
 use Events\Model\Dao\EventContentTypeDao;
-use Model\Dao\Exception\DaoForbiddenOperationException;
+//use Model\Dao\Exception\DaoForbiddenOperationException;
 use Model\Dao\Exception\DaoKeyVerificationFailedException;
 use Model\RowData\RowData;
 use Model\RowData\RowDataInterface;

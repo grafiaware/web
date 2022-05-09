@@ -1,12 +1,6 @@
 <?php
 declare(strict_types=1);
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 use Test\AppRunner\AppRunner;
 
 use Pes\Container\Container;
@@ -15,8 +9,6 @@ use Test\Integration\Event\Container\EventsContainerConfigurator;
 use Test\Integration\Event\Container\DbEventsContainerConfigurator;
 
 use Events\Model\Dao\EventContentDao;
-use Model\Dao\Exception\DaoForbiddenOperationException;
-use Model\Dao\Exception\DaoKeyVerificationFailedException;
 use Model\RowData\RowData;
 use Model\RowData\RowDataInterface;
 

@@ -3,8 +3,6 @@
 namespace Events\Model\Dao;
 
 use Model\Dao\DaoEditAbstract;
-use Model\Dao\DaoAutoincrementKeyInterface;
-use Model\Dao\DaoAutoincrementTrait;
 
 
 /**
@@ -12,17 +10,14 @@ use Model\Dao\DaoAutoincrementTrait;
  *
  * @author vlse2610
  */
-class JobTagDao  extends DaoEditAbstract implements DaoAutoincrementKeyInterface {
-
-    use DaoAutoincrementTrait;
+class JobTagDao  extends DaoEditAbstract   {
 
     public function getPrimaryKeyAttribute(): array {
-        return ['id'];
+        return ['tag'];
     }
 
     public function getAttributes(): array {
-        return [
-            'id',
+        return [            
             'tag'
         ];
     }
