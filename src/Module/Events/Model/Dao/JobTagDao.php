@@ -17,12 +17,11 @@ class JobTagDao  extends DaoEditAbstract implements DaoEditAutoincrementKeyInter
     use DaoAutoincrementTrait;
 
     public function getPrimaryKeyAttribute(): array {
-        return ['id'];
+        return ['tag'];
     }
 
     public function getAttributes(): array {
         return [
-            'id',
             'tag'
         ];
     }

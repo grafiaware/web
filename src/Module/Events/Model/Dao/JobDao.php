@@ -22,8 +22,8 @@ class JobDao extends DaoEditAbstract implements DaoEditAutoincrementKeyInterface
 
     public function getAttributes(): array {
         return [
-            'id',
-            'company_id',
+            `id`,
+            `company_id`,
             `pozadovane_vzdelani_stupen` ,
             `nazev`,
             `misto_vykonu`,

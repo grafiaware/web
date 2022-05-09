@@ -22,7 +22,7 @@ class JobTagHydrator implements HydratorInterface {
     public function hydrate(EntityInterface $jobTag, RowDataInterface $rowData) {
         /** @var  JobTag $jobTag */
         $jobTag                
-            ->setId($rowData->offsetGet('id'))   
+             
             ->setTag($rowData->offsetGet('tag'));
     } 
 
@@ -33,7 +33,6 @@ class JobTagHydrator implements HydratorInterface {
      */
     public function extract(EntityInterface $jobTag, RowDataInterface $rowData) {
         /** @var  JobTag $jobTag */
-        // id je autoincrement       
         $rowData->offsetSet('tag', $jobTag->getTag() ); 
     }
 }
