@@ -67,6 +67,18 @@ use Events\Model\Dao\CompanyContactDao;
 use Events\Model\Hydrator\CompanyContactHydrator;
 use Events\Model\Repository\CompanyContactRepo;
 
+use Events\Model\Dao\JobDao;
+use Events\Model\Hydrator\JobHydrator;
+use Events\Model\Repository\JobRepo;
+
+use Events\Model\Dao\JobToTagDao;
+use Events\Model\Hydrator\JobToTagHydrator;
+use Events\Model\Repository\JobToTagRepo;
+
+use Events\Model\Dao\JobTagDao;
+use Events\Model\Hydrator\JobTagHydrator;
+use Events\Model\Repository\JobTagRepo;
+
 use Events\Model\Dao\VisitorJobRequestDao;
 use Events\Model\Hydrator\VisitorJobRequestHydrator;
 use Events\Model\Repository\VisitorJobRequestRepo;
@@ -310,6 +322,42 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             CompanyContactRepo::class => function(ContainerInterface $c) {
                 return new CompanyContactRepo($c->get(CompanyContactDao::class), $c->get(CompanyContactHydrator::class));
             },
+              
+                    
+            //Job  
+             JobDao::class => function(ContainerInterface $c) {
+                return new JobDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
+            },
+            JobHydrator::class => function(ContainerInterface $c) {
+                return new JobHydrator();
+            },
+            JobRepo::class => function(ContainerInterface $c) {
+                return new JobRepo($c->get(JobDao::class), $c->get(JobHydrator::class));
+            },        
+                    
+            //JobToTag
+             JobToTag::class => function(ContainerInterface $c) {
+                return new JobToTagDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
+            },
+            JobToTagHydrator::class => function(ContainerInterface $c) {
+                return new JobToTagHydrator();
+            },
+            JobToTagRepo::class => function(ContainerInterface $c) {
+                return new JobToTagRepo($c->get(JobToTagDao::class), $c->get(JobToTagHydrator::class));
+            },                
+                    
+             //JobTag
+             JobTagDao::class => function(ContainerInterface $c) {
+                return new JobTagDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
+            },
+            JobTagHydrator::class => function(ContainerInterface $c) {
+                return new JobTagHydrator();
+            },
+            JobTagRepo::class => function(ContainerInterface $c) {
+                return new JobTagRepo($c->get(JobTagDao::class), $c->get(JobTagHydrator::class));
+            },       
+                    
+                    
 
             //Visitor
             VisitorJobRequestDao::class => function(ContainerInterface $c) {

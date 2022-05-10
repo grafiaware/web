@@ -13,6 +13,6 @@ interface JobToTagDaoInterface extends DaoReadonlyFkInterface {
     
     public function findByJobIdFk( array $jobIdFk ): array ;   
 
-    public function findByJobTagFk( array $jobTagFk ) : array ;
+    public function findByJobTagFk( array $jobTagTagFk ) : array ;
    
 }
