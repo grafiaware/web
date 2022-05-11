@@ -17,7 +17,7 @@ use Model\Dao\DaoEditAbstract;
  */
 class BlockDao extends DaoEditAbstract {
 
-    public function getPrimaryKeyAttribute(): array {
+    public function getPrimaryKeyAttributes(): array {
         return ['name'];
     }
 

@@ -23,7 +23,7 @@ class StaticalDao extends DaoEditAbstract implements DaoEditAutoincrementKeyInte
 
     private $keyAttribute = 'id';
 
-    public function getPrimaryKeyAttribute(): array {
+    public function getPrimaryKeyAttributes(): array {
         return $this->keyAttribute;
     }
 

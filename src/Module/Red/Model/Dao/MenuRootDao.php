@@ -22,7 +22,7 @@ class MenuRootDao extends DaoEditAbstract {
 
     private $keyAttribute = 'name';
 
-    public function getPrimaryKeyAttribute(): array {
+    public function getPrimaryKeyAttributes(): array {
         return ['name'];
     }
 

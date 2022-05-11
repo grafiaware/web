@@ -30,7 +30,7 @@ class PaperContentDao extends DaoEditAbstract implements DaoEditAutoincrementKey
     use DaoAutoincrementTrait;
     use DaoFkNonuniqueTrait;
 
-    public function getPrimaryKeyAttribute(): array {
+    public function getPrimaryKeyAttributes(): array {
         return ['id'];
     }
 

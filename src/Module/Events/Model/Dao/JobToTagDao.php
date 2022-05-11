@@ -17,7 +17,7 @@ class JobToTagDao  extends DaoEditAbstract  implements JobToTagDaoInterface {
     use DaoFkNonuniqueTrait;
  
 
-    public function getPrimaryKeyAttribute(): array {
+    public function getPrimaryKeyAttributes(): array {
         return ['job_id', 'job_tag_id'];
     }
 

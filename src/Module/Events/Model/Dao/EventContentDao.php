@@ -15,7 +15,7 @@ class EventContentDao extends DaoEditAbstract implements DaoEditAutoincrementKey
 
     use DaoAutoincrementTrait;
 
-    public function getPrimaryKeyAttribute(): array {
+    public function getPrimaryKeyAttributes(): array {
         return ['id'];
     }
 

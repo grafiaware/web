@@ -16,7 +16,7 @@ class JobDao extends DaoEditAbstract implements DaoEditAutoincrementKeyInterface
 
     use DaoAutoincrementTrait;
 
-    public function getPrimaryKeyAttribute(): array {
+    public function getPrimaryKeyAttributes(): array {
         return ['id'];
     }
 

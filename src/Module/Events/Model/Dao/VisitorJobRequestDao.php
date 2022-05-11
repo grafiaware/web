@@ -14,7 +14,7 @@ class VisitorJobRequestDao extends DaoEditAbstract implements VisitorJobRequestD
 
     use \Model\Dao\DaoFkNonuniqueTrait;
 
-    public function getPrimaryKeyAttribute(): array {
+    public function getPrimaryKeyAttributes(): array {
         return 'login_login_name';
     }
 

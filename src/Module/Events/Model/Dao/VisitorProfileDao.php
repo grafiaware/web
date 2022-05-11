@@ -11,7 +11,7 @@ use Model\Dao\DaoEditAbstract;
  */
 class VisitorProfileDao extends DaoEditAbstract {
 
-    public function getPrimaryKeyAttribute(): array {
+    public function getPrimaryKeyAttributes(): array {
         return ['login_login_name'];
     }
 

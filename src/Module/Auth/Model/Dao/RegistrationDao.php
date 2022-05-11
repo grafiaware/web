@@ -15,7 +15,7 @@ use Pes\Database\Handler\HandlerInterface;
 class RegistrationDao extends DaoEditAbstract {
 
 
-    public function getPrimaryKeyAttribute(): array {
+    public function getPrimaryKeyAttributes(): array {
         return ['login_name_fk'];
     }
 

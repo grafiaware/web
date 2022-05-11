@@ -10,7 +10,7 @@ use Model\Dao\DaoEditAbstract;
  */
 class CompanyAddressDao extends DaoEditAbstract {
 
-    public function getPrimaryKeyAttribute(): array {
+    public function getPrimaryKeyAttributes(): array {
         return ['company_id'];  //primarni klic a cizi klic
     }
 

@@ -18,7 +18,7 @@ use Model\Dao\DaoAbstract;
 class OpravneniDao extends DaoAbstract {
 
 
-    public function getPrimaryKeyAttribute(): array {
+    public function getPrimaryKeyAttributes(): array {
         return 'user';
     }
 

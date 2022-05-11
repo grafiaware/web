@@ -16,7 +16,7 @@ class CredentialsDao extends DaoEditAbstract implements DaoFkUniqueInterface {
 
     use DaoFkUniqueTrait;
 
-    public function getPrimaryKeyAttribute(): array {
+    public function getPrimaryKeyAttributes(): array {
         return [
             'login_name_fk'
         ];

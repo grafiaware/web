@@ -25,7 +25,7 @@ class MenuItemDao extends DaoEditContextualAbstract implements DaoFkNonuniqueInt
 
     use DaoFkNonuniqueTrait;
 
-    public function getPrimaryKeyAttribute(): array {
+    public function getPrimaryKeyAttributes(): array {
         return ['lang_code_fk', 'uid_fk'];
     }
 
@@ -57,6 +57,9 @@ class MenuItemDao extends DaoEditContextualAbstract implements DaoFkNonuniqueInt
         return $contextConditions;
     }
 
+    public function getById(array $id) {
+        return $this->getUnique($id);
+    }
 
     /**
      * Vrací řádek menu_item vyhledaný podle prettyuri - pro statické stránky
@@ -65,36 +68,23 @@ class MenuItemDao extends DaoEditContextualAbstract implements DaoFkNonuniqueInt
      * @return type
      */
     public function getByPrettyUri(array $prettyUri) {
-        $select = $this->sql->select($this->getAttributes());
-        $from = $this->sql->from($this->getTableName());
-        $where = $this->sql->where($this->sql->and($this->sql->touples(['prettyuri=:prettyuri'])));
-        $touplesToBind = $this->getTouplesToBind($prettyUri);
-        return $this->selectOne($select, $from, $where, $touplesToBind, true);
+        return $this->getUnique($prettyUri);
     }
 
     /**
      * Vrací řádek menu_item vyhledaný podle lang_code_fk a list - pro transformaci starého obsahu.
+     * Kombinace lang_code_fk a list je unikátní.
      *
      * @param string $langCodeFk
      * @param string $list
-     * @param bool $active Nepovinný parametr, default=TRUE. Defaultně metoda hledá jen aktivní (zveřejněné) stránky.
-     * @param bool $actual Nepovinný parametr, default=TRUE. Defaultně metoda hledá jen aktuální stránky.
      * @return array
      */
-    public function getByList($langCodeFk, $list, $active=true, $actual=true) {
-        $select = $this->sql->select("lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active ");
-        $from = $this->sql->from("menu_item ");
-        $where = $this->sql->where($this->sql->and(['menu_item.lang_code_fk = :lang_code_fk', 'menu_item.list=:list']));
-        $touplesToBind = [':lang_code_fk'=>$langCodeFk, ':list' => $list];
-        return $this->selectOne($select, $from, $where, $touplesToBind, true);
+    public function getByList(array $langCodeFkAndList) {
+        return $this->getUnique($langCodeFkAndList);
     }
 
     public function findAllLanguageVersions($uidFk) {
-        $select = $this->sql->select("lang_code_fk, uid_fk, type_fk, id, title, prettyuri, active ");
-        $from = $this->sql->from("menu_item ");
-        $where = $this->sql->where($this->sql->and($this->getContextConditions(), ['menu_item.uid_fk=:uid_fk']));
-        $touplesToBind = [':uid_fk' => $uidFk];
-        return $this->selectMany($select, $from, $where, $touplesToBind);
+        $this->find($this->sql->and($this->getContextConditions(), ['menu_item.uid_fk=:uid_fk']), ['uid_fk'=>$uidFk]);
     }
 
     /**

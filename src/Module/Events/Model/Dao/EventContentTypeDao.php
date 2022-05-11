@@ -12,7 +12,7 @@ use Model\Dao\DaoEditKeyDbVerifiedInterface;
  */
 class EventContentTypeDao extends DaoEditAbstract implements DaoEditKeyDbVerifiedInterface {
 
-    public function getPrimaryKeyAttribute(): array {
+    public function getPrimaryKeyAttributes(): array {
         return ['type'];
     }
 

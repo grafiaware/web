@@ -24,7 +24,7 @@ class ArticleDao extends DaoEditAbstract implements DaoEditAutoincrementKeyInter
     use DaoAutoincrementTrait;
     use DaoFkUniqueTrait;
 
-    public function getPrimaryKeyAttribute(): array {
+    public function getPrimaryKeyAttributes(): array {
         return ['id'];
     }
 

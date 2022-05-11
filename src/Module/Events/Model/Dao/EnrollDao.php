@@ -14,7 +14,7 @@ class EnrollDao extends DaoEditAbstract implements EnrollDaoInterface {
 
     use DaoFkNonuniqueTrait;
 
-    public function getPrimaryKeyAttribute(): array {
+    public function getPrimaryKeyAttributes(): array {
         return ['login_login_name_fk', 'event_id_fk'];
     }
 

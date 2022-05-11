@@ -15,7 +15,7 @@ class EventLinkDao  extends DaoEditAbstract implements EventLinkDaoInterface {
     use DaoAutoincrementTrait;
 
 
-    public function getPrimaryKeyAttribute(): array {
+    public function getPrimaryKeyAttributes(): array {
         return ['id'];
     }
 

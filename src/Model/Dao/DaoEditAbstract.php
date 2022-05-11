@@ -74,7 +74,7 @@ abstract class DaoEditAbstract extends DaoAbstract implements DaoEditInterface {
      */
     protected function execInsertWithKeyVerification(RowDataInterface $rowData): bool {
         $tableName = $this->getTableName();
-        $keyNames = $this->getPrimaryKeyAttribute();
+        $keyNames = $this->getPrimaryKeyAttributes();
         try {
             $this->dbHandler->beginTransaction();
             $changed = $rowData->yieldChanged();
@@ -156,7 +156,7 @@ abstract class DaoEditAbstract extends DaoAbstract implements DaoEditInterface {
     protected function execUpdate(RowDataInterface $rowData): bool {
         if ($rowData->isChanged()) {
             $tableName = $this->getTableName();
-            $whereTouples = $this->sql->touples($this->getPrimaryKeyAttribute(), 'key_');
+            $whereTouples = $this->sql->touples($this->getPrimaryKeyAttributes(), 'key_');
             $oldData = $rowData->getArrayCopy();
             $changed = $rowData->fetchChanged();
             $changedNames = array_keys($changed);
@@ -164,7 +164,7 @@ abstract class DaoEditAbstract extends DaoAbstract implements DaoEditInterface {
             $sql = "UPDATE $tableName SET ".$this->sql->set($setTouples).$this->sql->where($this->sql->and($whereTouples));
             $statement = $this->getPreparedStatement($sql);
             $this->bindParams($statement, $changed);
-            $this->bindParams($statement, $oldData, $this->getPrimaryKeyAttribute(), 'key_');
+            $this->bindParams($statement, $oldData, $this->getPrimaryKeyAttributes(), 'key_');
             $success = $statement->execute();
             $this->rowCount = $statement->rowCount();
         }
@@ -184,7 +184,7 @@ abstract class DaoEditAbstract extends DaoAbstract implements DaoEditInterface {
      */
     protected function execDelete(RowDataInterface $rowData): bool {
         $tableName = $this->getTableName();
-        $keyNames = $this->getPrimaryKeyAttribute();
+        $keyNames = $this->getPrimaryKeyAttributes();
         $where = $this->sql->touples($keyNames);
         $sql = "DELETE FROM $tableName ".$this->sql->where($this->sql->and($where));
         $statement = $this->getPreparedStatement($sql);

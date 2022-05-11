@@ -50,8 +50,10 @@ abstract class DaoAbstract implements DaoInterface {
         $this->sql = $sql;
     }
 
+## public ##########################################
+
     public function getPrimaryKeyTouples(array $row): array {
-        $keyAttribute = $this->getPrimaryKeyAttribute();
+        $keyAttribute = $this->getPrimaryKeyAttributes();
         $key = [];
         foreach ($keyAttribute as $field) {
             if( ! array_key_exists($field, $row)) {
@@ -67,16 +69,41 @@ abstract class DaoAbstract implements DaoInterface {
         return $key;
     }
 
-############################################
-
+    /**
+     * {@inheritDoc}
+     *
+     * @param array $id
+     * @return type
+     */
     public function get(array $id) {
         $select = $this->sql->select($this->getAttributes());
         $from = $this->sql->from($this->getTableName());
-        $where = $this->sql->where($this->sql->and($this->sql->touples($this->getPrimaryKeyAttribute())));
+        $where = $this->sql->where($this->sql->and($this->sql->touples($this->getPrimaryKeyAttributes())));
         $touplesToBind = $this->getPrimaryKeyTouplesToBind($id);
         return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param array $unique
+     * @return type
+     */
+    public function getUnique(array $unique) {
+        $select = $this->sql->select($this->getAttributes());
+        $from = $this->sql->from($this->getTableName());
+        $where = $this->sql->where($this->sql->and($this->sql->touples(array_keys($unique))));
+        $touplesToBind = $this->getTouplesToBind($unique);
+        return $this->selectOne($select, $from, $where, $touplesToBind, true);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param type $whereClause
+     * @param type $touplesToBind
+     * @return iterable
+     */
     public function find($whereClause="", $touplesToBind=[]): iterable {
         $select = $this->sql->select($this->getAttributes());
         $from = $this->sql->from($this->getTableName());
@@ -84,6 +111,11 @@ abstract class DaoAbstract implements DaoInterface {
         return $this->selectMany($select, $from, $where, $touplesToBind);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return iterable
+     */
     public function findAll(): iterable {
         $select = $this->sql->select($this->getAttributes());
         $from = $this->sql->from($this->getTableName());
@@ -119,7 +151,7 @@ abstract class DaoAbstract implements DaoInterface {
             }
         }
         $rowData = $statement->fetch();  // vrací rowDta nebo false
-        return $rowData ? $rowData : null; // vrací rowDta nebo null
+        return $rowData ? $rowData : null; // vrací rowData nebo null
     }
 
     /**
@@ -167,7 +199,7 @@ abstract class DaoAbstract implements DaoInterface {
      */
     protected function getPrimaryKeyTouplesToBind(array $values) {
         $touples = [];
-        foreach ($this->getPrimaryKeyAttribute() as $field) {
+        foreach ($this->getPrimaryKeyAttributes() as $field) {
             if (!array_key_exists($field, $values)) {
                 throw new UnexpectedValueException("v předaném klíči není prvek pro pole primárního klíče '$field'.");
             }

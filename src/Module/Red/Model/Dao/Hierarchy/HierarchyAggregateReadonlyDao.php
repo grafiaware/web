@@ -44,7 +44,7 @@ class HierarchyAggregateReadonlyDao extends DaoAbstract implements HierarchyAggr
      */
     protected $contextFactory;
 
-    public function getPrimaryKeyAttribute(): array {
+    public function getPrimaryKeyAttributes(): array {
         return ["lang_code_fk", "uid_fk"];
     }
 

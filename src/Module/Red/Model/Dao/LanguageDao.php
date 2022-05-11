@@ -18,7 +18,7 @@ use Model\Dao\DaoEditKeyDbVerifiedInterface;
  */
 class LanguageDao extends DaoEditAbstract implements DaoEditKeyDbVerifiedInterface {
 
-    public function getPrimaryKeyAttribute(): array {
+    public function getPrimaryKeyAttributes(): array {
         return ['lang_code'];
     }
 

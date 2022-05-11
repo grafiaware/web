@@ -11,7 +11,7 @@ use Model\Dao\DaoEditKeyDbVerifiedInterface;
  */
 class PozadovaneVzdalaniDao  extends DaoEditAbstract  implements DaoEditKeyDbVerifiedInterface {
 
-    public function getPrimaryKeyAttribute(): array {
+    public function getPrimaryKeyAttributes(): array {
         return ['stupen'];
     }
 

@@ -31,7 +31,7 @@ abstract class DaoEditContextualAbstract extends DaoEditAbstract implements DaoC
         $from = $this->sql->from($this->getTableName());
         $where = $this->sql->where($this->sql->and(
                         $this->getContextConditions(),
-                        $this->sql->touples($this->getPrimaryKeyAttribute())
+                        $this->sql->touples($this->getPrimaryKeyAttributes())
                     )
                 );
         $touplesToBind = $this->getPrimaryKeyTouplesToBind($id);
@@ -40,6 +40,23 @@ abstract class DaoEditContextualAbstract extends DaoEditAbstract implements DaoC
 
     public function getOutOfContext(array $id) {
         return parent::get($id);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param array $unique
+     * @return type
+     */
+    public function getUniqueOutOfContext(array $unique) {
+        $select = $this->sql->select($this->getAttributes());
+        $from = $this->sql->from($this->getTableName());
+        $where = $this->sql->where($this->sql->and(
+                                        $this->getContextConditions(),
+                                        $this->sql->touples(array_keys($unique)))
+                                  );
+        $touplesToBind = $this->getPrimaryKeyTouplesToBind($unique);
+        return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
     public function find($whereClause = "", $touplesToBind = []): iterable {

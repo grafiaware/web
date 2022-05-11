@@ -68,10 +68,6 @@ class ArticleRepo extends RepoAbstract implements ArticleRepoInterface {
         return new Article();
     }
 
-    protected function indexFromKeyParams($id) {
-        return $id;
-    }
-
     protected function indexFromEntity(ArticleInterface $article) {
         return $article->getId();
     }

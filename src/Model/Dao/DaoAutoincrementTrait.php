@@ -84,7 +84,7 @@ trait DaoAutoincrementTrait {
     }
 
     private function getPrimaryKeyFieldName() {
-        $pk = $this->getPrimaryKeyAttribute();
+        $pk = $this->getPrimaryKeyAttributes();
         if (count($pk) != 1) {
             throw new UnexpectedValueException("Primární klíč pro Dao typu DaoAutoincrementKeyInterface nesmí být kompozitní (musí mít jen jedno pole).");
         }

@@ -18,7 +18,7 @@ trait DaoFkUniqueTrait {
         /** @var DaoFkUniqueInterface $this */
         $select = $this->sql->select($this->getAttributes());
         $from = $this->sql->from($this->getTableName());
-        $where = $this->sql->where($this->sql->and($this->sql->touples($this->getPrimaryKeyAttribute())));
+        $where = $this->sql->where($this->sql->and($this->sql->touples($this->getPrimaryKeyAttributes())));
 
         $fkAttribute = $this->getFkAttribute($fkAttributesName);
 

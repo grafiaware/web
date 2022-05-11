@@ -38,7 +38,7 @@ class HierarchyAggregateEditDao extends DaoEditAbstract implements HierarchyAggr
         $this->contextFactory = $contextFactory;
     }
 
-    public function getPrimaryKeyAttribute(): array {
+    public function getPrimaryKeyAttributes(): array {
         return ['lang_code_fk', 'uid'];
     }
 

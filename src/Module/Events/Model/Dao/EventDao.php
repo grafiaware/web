@@ -15,7 +15,7 @@ class EventDao extends DaoEditContextualAbstract implements EventDaoInterface {
 
     use DaoAutoincrementTrait;
 
-    public function getPrimaryKeyAttribute(): array {
+    public function getPrimaryKeyAttributes(): array {
         return ['id'];
     }
 

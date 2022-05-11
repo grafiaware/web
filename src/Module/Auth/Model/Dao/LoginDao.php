@@ -17,7 +17,7 @@ use Model\RowData\RowDataInterface;
 class LoginDao extends DaoEditAbstract implements DaoEditKeyDbVerifiedInterface {
 
 
-    public function getPrimaryKeyAttribute(): array {
+    public function getPrimaryKeyAttributes(): array {
         return ['login_name'];
     }
 

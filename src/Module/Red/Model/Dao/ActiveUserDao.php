@@ -19,7 +19,7 @@ use Model\RowData\RowDataInterface;
  */
 class ActiveUserDao extends DaoEditAbstract {
 
-    public function getPrimaryKeyAttribute(): array {
+    public function getPrimaryKeyAttributes(): array {
         return ['user'];
     }
 

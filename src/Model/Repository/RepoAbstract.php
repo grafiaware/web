@@ -163,7 +163,7 @@ abstract class RepoAbstract {
     }
 
     /**
-     * Přidá entitu na základě Rowdata objektu.
+     * Přidá entitu na základě RowData objektu.
      *
      * Metoda je vhodná pro případy, kdy jsou načtena z úložiště současně data pro rodičovskou i potomkovskou entitu
      * - například pomocí SELECT FROM table1 JOIN table2

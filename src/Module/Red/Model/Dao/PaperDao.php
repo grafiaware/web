@@ -25,7 +25,7 @@ class PaperDao extends DaoEditAbstract implements DaoEditAutoincrementKeyInterfa
     use DaoAutoincrementTrait;
     use DaoFkUniqueTrait;
 
-    public function getPrimaryKeyAttribute(): array {
+    public function getPrimaryKeyAttributes(): array {
         return ['id'];
     }
 
