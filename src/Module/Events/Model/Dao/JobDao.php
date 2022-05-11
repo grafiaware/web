@@ -22,17 +22,24 @@ class JobDao extends DaoEditAbstract implements DaoEditAutoincrementKeyInterface
 
     public function getAttributes(): array {
         return [
-            `id`,
-            `company_id`,
-            `pozadovane_vzdelani_stupen` ,
-            `nazev`,
-            `misto_vykonu`,
-            `popis_pozice`,
-            `pozadujeme`,
-            `nabizime`
+            'id',
+            'company_id',
+            'pozadovane_vzdelani_stupen',
+            'nazev',
+            'misto_vykonu',
+            'popis_pozice',
+            'pozadujeme',
+            'nabizime'
         ];
     }
 
+     public function getForeignKeyAttributes(): array {
+        return [
+            `pozadovane_vzdelani_stupen` => ['pozadovane_vzdelani_stupen'] 
+           
+        ];
+    }
+    
     public function getTableName(): string {
         return 'job';
     }

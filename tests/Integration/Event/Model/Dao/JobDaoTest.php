@@ -30,6 +30,12 @@ class JobDaoTest  extends AppRunner {
 
     public static function setUpBeforeClass(): void {
         self::bootstrapBeforeClass();
+        
+    //do company ulozit     -- company_id
+    // do pozadovane vzdelani  -- stupen    
+    // company_id ,stupen  do job ---id je autoincrement
+        
+        
     }
 
     protected function setUp(): void {
@@ -51,17 +57,17 @@ class JobDaoTest  extends AppRunner {
         $this->assertInstanceOf(JobDao::class, $this->dao);
 
     }
-      public function testInsert() {
-        $rowData = new RowData();
-5455        $rowData->offsetSet('name', "testCompany-nameNNN");
-        $rowData->offsetSet('eventInstitutionName30', null);
-
-        $this->dao->insert($rowData);
-        self::$id = $this->dao->getLastInsertIdTouple();
-        $this->assertIsArray(self::$id);
-        $numRows = $this->dao->getRowCount();
-        $this->assertEquals(1, $numRows);
-    }
+//      public function testInsert() {
+//        $rowData = new RowData();
+//5455        $rowData->offsetSet('name', "testCompany-nameNNN");
+//        $rowData->offsetSet('eventInstitutionName30', null);
+//
+//        $this->dao->insert($rowData);
+//        self::$id = $this->dao->getLastInsertIdTouple();
+//        $this->assertIsArray(self::$id);
+//        $numRows = $this->dao->getRowCount();
+//        $this->assertEquals(1, $numRows);
+//    }
 //
 //    public function testGetExistingRow() {
 //        $companyRow = $this->dao->get(self::$id);
