@@ -79,6 +79,10 @@ use Events\Model\Dao\JobTagDao;
 use Events\Model\Hydrator\JobTagHydrator;
 use Events\Model\Repository\JobTagRepo;
 
+use Events\Model\Dao\PozadovaneVzdelaniDao;
+use Events\Model\Hydrator\PozadovaneVzdelaniHydrator;
+use Events\Model\Repository\PozadovaneVzdelaniRepo;
+
 use Events\Model\Dao\VisitorJobRequestDao;
 use Events\Model\Hydrator\VisitorJobRequestHydrator;
 use Events\Model\Repository\VisitorJobRequestRepo;
@@ -346,8 +350,8 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new JobToTagRepo($c->get(JobToTagDao::class), $c->get(JobToTagHydrator::class));
             },                
                     
-             //JobTag
-             JobTagDao::class => function(ContainerInterface $c) {
+            //JobTag
+            JobTagDao::class => function(ContainerInterface $c) {
                 return new JobTagDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
             },
             JobTagHydrator::class => function(ContainerInterface $c) {
@@ -357,6 +361,17 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new JobTagRepo($c->get(JobTagDao::class), $c->get(JobTagHydrator::class));
             },       
                     
+                    
+            //PozadovaneVzdelani
+            PozadovaneVzdelaniDao::class => function(ContainerInterface $c) {
+                return new PozadovaneVzdelaniDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
+            },
+            PozadovaneVzdelaniHydrator::class => function(ContainerInterface $c) {
+                return new PozadovaneVzdelaniHydrator();
+            },
+            PozadovaneVzdelaniRepo::class => function(ContainerInterface $c) {
+                return new PozadovaneVzdelaniRepo($c->get(PozadovaneVzdelaniDao::class), $c->get(PozadovaneVzdelaniHydrator::class));
+            },               
                     
 
             //Visitor
