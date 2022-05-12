@@ -51,7 +51,7 @@ class RegistrationDao extends DaoEditAbstract {
         return $this->selectOne($select, $from, $where, $touplesToBind, true);
     }
 
-    public function insert(RowDataInterface $rowData) {
+    public function insert(RowDataInterface $rowData): bool {
         throw new DaoForbiddenOperationException("Object LoginDao neumožňuje insertovat bez ověření duplicity klíče. Nelze vkládat metodou insert(), je nutné používat insertWithKeyVerification().");
     }
 }

@@ -47,6 +47,9 @@ use Component\Renderer\Html\Generated\SearchPhraseRenderer;
 use Component\Renderer\Html\Generated\SearchResultRenderer;
 use Component\Renderer\Html\Authored\TypeSelect\ItemTypeSelectRenderer;
 
+use Pes\View\Renderer\ImplodeRenderer;
+use Pes\View\Renderer\InterpolateRenderer;
+use Component\Renderer\Html\NoPermittedContentRenderer;
 /**
  *
  *
@@ -67,6 +70,16 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
     public function getServicesDefinitions(): iterable {
         return array_merge(Configuration::renderer(),
                 [
+        ImplodeRenderer::class => function(ContainerInterface $c) {
+            return new ImplodeRenderer();
+        },
+        InterpolateRenderer::class => function(ContainerInterface $c) {
+            return new InterpolateRenderer();
+        },
+        NoPermittedContentRenderer::class => function(ContainerInterface $c) {
+            return new NoPermittedContentRenderer();
+        },
+
         ###########################
         # menu item renderer
         ###########################

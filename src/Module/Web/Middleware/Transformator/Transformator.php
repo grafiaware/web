@@ -116,7 +116,7 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
                     $query = parse_url($url, PHP_URL_QUERY);
                     parse_str($query, $pairs);
                     if (array_key_exists($key, $pairs)) {
-                        $row = $dao->getByList($langCode, $pairs[$key]);
+                        $row = $dao->getByList(['lang_code_fk'=>$langCode, 'uid_fk'=>$pairs[$key]]);
                         if ($row) {
                             $transform[$url] = "web/v1/page/item/{$row['uid_fk']}";
                         } else {

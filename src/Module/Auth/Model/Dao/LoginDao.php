@@ -1,12 +1,9 @@
 <?php
 
 namespace Auth\Model\Dao;
-use Pes\Database\Handler\HandlerInterface;
 
 use Model\Dao\DaoEditAbstract;
 use Model\Dao\DaoEditKeyDbVerifiedInterface;
-use Model\Dao\Exception\DaoKeyVerificationFailedException;
-use Model\Dao\Exception\DaoForbiddenOperationException;
 use Model\RowData\RowDataInterface;
 
 /**
@@ -29,7 +26,7 @@ class LoginDao extends DaoEditAbstract implements DaoEditKeyDbVerifiedInterface 
         return 'login';
     }
 
-    public function update(RowDataInterface $rowData) {
-        throw new DaoForbiddenOperationException("Nelze měnit unikátní identifikátor login name.");
+    public function update(RowDataInterface $rowData): bool {
+        return parent::update($rowData);
     }
 }

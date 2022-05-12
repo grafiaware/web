@@ -35,7 +35,7 @@ class EditMenuSwitchComponent  extends StatusComponentAbstract {
     public function getComponentPermissions(): array {
         return [
             RoleEnum::SUP => [AccessPresentationEnum::DISPLAY => \Component\View\StatusComponentAbstract::class],
-//            RoleEnum::EDITOR => [AllowedViewEnum::DISPLAY => \Component\View\StatusComponentAbstract::class],
+//            RoleEnum::EDITOR => [AccessPresentationEnum::DISPLAY => \Component\View\StatusComponentAbstract::class],
         ];
     }
 }

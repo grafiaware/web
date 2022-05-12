@@ -34,11 +34,13 @@ class CredentialsRepo extends RepoAbstract implements CredentialsRepoInterface {
      * @return CredentialsInterface|null
      */
     public function get($loginNameFk): ?CredentialsInterface {
-        return $this->getEntity($loginNameFk);
+        $key = $this->dataManager->getPrimaryKeyTouples(['login_name_fk'=>$loginNameFk]);
+        return $this->getEntity($key);
     }
 
     public function getByReference($loginNameFk): ?EntityInterface {
-        return $this->getEntityByReference($loginNameFk);
+        $key = $this->dataManager->getPrimaryKeyTouples(['login_name_fk'=>$loginNameFk]);
+        return $this->getEntity($key);
     }
 
     public function add(CredentialsInterface $credentials) {
