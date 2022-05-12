@@ -9,7 +9,7 @@ use Model\Dao\DaoEditKeyDbVerifiedInterface;
  *
  * @author vlse2610
  */
-class PozadovaneVzdalaniDao  extends DaoEditAbstract  implements DaoEditKeyDbVerifiedInterface {
+class PozadovaneVzdelaniDao  extends DaoEditAbstract  implements DaoEditKeyDbVerifiedInterface {
 
     public function getPrimaryKeyAttributes(): array {
         return ['stupen'];
