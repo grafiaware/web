@@ -57,13 +57,16 @@ class JobDaoTest  extends AppRunner {
         
          /** @var PozadovaneVzdelaniDao $pozadovaneVzdelaniDao */
         $pozadovaneVzdelaniDao = $container->get(PozadovaneVzdelaniDao::class);
-//        $pozadovaneVzdelaniData = new RowData();
-//        $pozadovaneVzdelaniData->import(['stupen' => "999" ]);
-//        $pozadovaneVzdelaniData->import(['vzdelani' => "vzdelani 999" ]);
-//        $pozadovaneVzdelaniDao->insert($pozadovaneVzdelaniData);                       
-        self::$stupen_fk = $pozadovaneVzdelaniDao->get(['stupen' => "999" ]) ['stupen'] ;
-        
-        
+        if (!($pozadovaneVzdelaniDao->get(['stupen' => "999" ]) ['stupen'] )) {        
+            $pozadovaneVzdelaniData = new RowData();
+            $pozadovaneVzdelaniData->import(['stupen' => "999" ]);
+            $pozadovaneVzdelaniData->import(['vzdelani' => "vzdelani 999" ]);
+            $pozadovaneVzdelaniDao->insert($pozadovaneVzdelaniData);      
+            self::$stupen_fk = $pozadovaneVzdelaniDao->get(['stupen' => "999" ]) ['stupen'] ;
+        }
+        else  {
+            self::$stupen_fk = $pozadovaneVzdelaniDao->get(['stupen' => "999" ]) ['stupen'] ;            
+        }
     }
 
     protected function setUp(): void {
@@ -87,17 +90,22 @@ class JobDaoTest  extends AppRunner {
                 )
             );
                 
-//        /** @var JobDao $jobDao */
-//        $jobDao = $container->get(JobDao::class);    
-//        $jobData = $jobDao->get(['id' => self::$id ]);
-//        $jobDao->delete($jobData);
-//        $this->assertEquals(1, $jobDao->getRowCount());   
-//        
-//        /** @var PozadovaneVzdelaniDao $pozadovaneVzdelaniDao */
-//        $pozadovaneVzdelaniDao = $container->get(PozadovaneVzdelaniDao::class);    
-//        $pozadovaneVzdelaniData = $pozadovaneVzdelaniDao->get(['stupen' => "999"]);
-//        $pozadovaneVzdelaniDao->delete($pozadovaneVzdelaniData);
-//        $this->assertEquals(1, $pozadovaneVzdelaniDao->getRowCount());                        
+        /** @var JobDao $jobDao */
+        $jobDao = $container->get(JobDao::class);    
+        $jobData = $jobDao->get(['id' => self::$id ]);
+        if  ($jobData) {
+            $jobDao->delete($jobData);
+        }
+        
+        /** @var PozadovaneVzdelaniDao $pozadovaneVzdelaniDao */
+        $pozadovaneVzdelaniDao = $container->get(PozadovaneVzdelaniDao::class);    
+        $pozadovaneVzdelaniData = $pozadovaneVzdelaniDao->get(['stupen' => "999"]);
+        $ok = $pozadovaneVzdelaniDao->delete($pozadovaneVzdelaniData);
+         
+        /** @var CompanyDao $companyDao */
+        $companyDao = $container->get(CompanyDao::class);    
+        $companyData = $companyDao->get(['id' =>  self::$company_id ]);
+        $ok = $companyDao->delete($companyData);
     }
 
     public function testSetUp() {
@@ -153,14 +161,14 @@ class JobDaoTest  extends AppRunner {
         $this->assertGreaterThanOrEqual(1, count($jobRow));
         $this->assertInstanceOf(RowDataInterface::class, $jobRow[0]);
     }
-//
-//    public function testDelete() {
-//        $companyRow = $this->dao->get(self::$id);
-//        $this->dao->delete($companyRow);
-//        $this->assertEquals(1, $this->dao->getRowCount());
-//
-//        $this->setUp();
-//        $companyRow = $this->dao->get(self::$id);
-//        $this->assertNull($companyRow);
-//    }
+
+    public function testDelete() {
+        $jobRow = $this->dao->get(self::$id);
+        $this->dao->delete($jobRow);
+        $this->assertEquals(1, $this->dao->getRowCount());
+
+        $this->setUp();
+        $companyRow = $this->dao->get(self::$id);
+        $this->assertNull($companyRow);
+    }
 }

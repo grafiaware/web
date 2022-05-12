@@ -37,7 +37,6 @@ use Events\Model\Repository\EventContentTypeRepo;
 
 use Events\Model\Dao\EventContentDao;
 use Events\Model\Hydrator\EventContentHydrator;
-use Events\Model\Repository\Eventco;
 
 use Events\Model\Dao\EventLinkPhaseDao;
 use Events\Model\Hydrator\EventLinkPhaseHydrator;
@@ -340,7 +339,7 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             },        
                     
             //JobToTag
-             JobToTag::class => function(ContainerInterface $c) {
+             JobToTagDao::class => function(ContainerInterface $c) {
                 return new JobToTagDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
             },
             JobToTagHydrator::class => function(ContainerInterface $c) {
