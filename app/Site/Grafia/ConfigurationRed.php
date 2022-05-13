@@ -84,7 +84,6 @@ class ConfigurationRed extends ConfigurationDb {
         return [
             'component.logs.directory' => 'Logs/App/Web',
             'component.logs.render' => 'Render.log',
-            // common layout templates
             'component.template.flash' => self::RED_TEMPLATES_COMMON.'layout/info/flashMessages.php',
             'component.template.login' => self::RED_TEMPLATES_COMMON.'layout/status/login.php',
             'component.template.register' => self::RED_TEMPLATES_COMMON.'layout/status/register.php',

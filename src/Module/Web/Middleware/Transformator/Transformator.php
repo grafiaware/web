@@ -116,7 +116,7 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
                     $query = parse_url($url, PHP_URL_QUERY);
                     parse_str($query, $pairs);
                     if (array_key_exists($key, $pairs)) {
-                        $row = $dao->getByList(['lang_code_fk'=>$langCode, 'uid_fk'=>$pairs[$key]]);
+                        $row = $dao->getByList(['lang_code_fk'=>$langCode, 'list'=>$pairs[$key]]);
                         if ($row) {
                             $transform[$url] = "web/v1/page/item/{$row['uid_fk']}";
                         } else {
@@ -133,8 +133,9 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
             /** @var StatusFlashRepo $statusFlashRepo */
             $statusFlashRepo = $this->container->get(StatusFlashRepo::class);
             foreach ($notFound as $url) {
-                $statusFlashRepo->get()->setMessage("Nenalezen odkaz $url v databázi.");
-//                user_error("Nenalezen odkaz $url v databázi.", E_USER_WARNING);
+                if (PES_DEVELOPMENT) {
+                    $statusFlashRepo->get()->setMessage("Nenalezen odkaz $url v databázi.");
+                }
                 if ($this->hasLogger()) {
                     $this->getLogger()->notice("Pro uri $requestUri nenalezen v obsahu stránky v databázi odkaz $url.");
                 }
