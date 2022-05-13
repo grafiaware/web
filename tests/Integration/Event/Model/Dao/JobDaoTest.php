@@ -57,16 +57,11 @@ class JobDaoTest  extends AppRunner {
         
          /** @var PozadovaneVzdelaniDao $pozadovaneVzdelaniDao */
         $pozadovaneVzdelaniDao = $container->get(PozadovaneVzdelaniDao::class);
-        if (!($pozadovaneVzdelaniDao->get(['stupen' => "999" ]) ['stupen'] )) {        
-            $pozadovaneVzdelaniData = new RowData();
-            $pozadovaneVzdelaniData->import(['stupen' => "999" ]);
-            $pozadovaneVzdelaniData->import(['vzdelani' => "vzdelani 999" ]);
-            $pozadovaneVzdelaniDao->insert($pozadovaneVzdelaniData);      
-            self::$stupen_fk = $pozadovaneVzdelaniDao->get(['stupen' => "999" ]) ['stupen'] ;
-        }
-        else  {
-            self::$stupen_fk = $pozadovaneVzdelaniDao->get(['stupen' => "999" ]) ['stupen'] ;            
-        }
+        $pozadovaneVzdelaniData = new RowData();
+        $pozadovaneVzdelaniData->import(['stupen' => "999" ]);
+        $pozadovaneVzdelaniData->import(['vzdelani' => "vzdelani 999" ]);
+        $pozadovaneVzdelaniDao->insert($pozadovaneVzdelaniData);      
+        self::$stupen_fk = $pozadovaneVzdelaniDao->get(['stupen' => "999" ]) ['stupen'] ;      
     }
 
     protected function setUp(): void {
