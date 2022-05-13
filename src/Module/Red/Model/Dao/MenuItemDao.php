@@ -30,7 +30,9 @@ class MenuItemDao extends DaoEditContextualAbstract implements DaoFkNonuniqueInt
     }
 
     public function getAttributes(): array {
-        return ['lang_code_fk', 'uid_fk', 'type_fk', 'id', 'title', 'prettyuri', 'active'];
+        // POZOR! Musí obsahovat jméno 'list'. Není v entitě atd., ale používá se v Transformator middleware pro transformaci obsahu starých stránek.
+        // Transformator middleware používá data čtená přímo pomocí tohoto Dao
+        return ['lang_code_fk', 'uid_fk', 'type_fk', 'id', 'list',  'title', 'prettyuri', 'active'];
     }
 
     public function getForeignKeyAttributes(): array {

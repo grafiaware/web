@@ -32,6 +32,8 @@ use Pes\Http\Body;
  */
 class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface {
 
+    const HEADER = 'X-RED-Transformation-Time';
+
     /**
      * @var ContainerInterface
      */
@@ -43,7 +45,10 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
         $this->container = $this->getApp()->getAppContainer();
 
         $newBody = new Body(fopen('php://temp', 'r+'));
+        $startTime = microtime(true);
         $newBody->write($this->transform($response->getBody()->getContents()));
+
+        $response = $response->withHeader(self::HEADER, sprintf('%2.3fms', (microtime(true) - $startTime) * 1000));
         return $response->withBody($newBody);
     }
 
