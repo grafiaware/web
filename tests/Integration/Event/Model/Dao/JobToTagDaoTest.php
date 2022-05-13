@@ -16,9 +16,7 @@ use Events\Model\Dao\JobToTagDao;
 use Events\Model\Dao\PozadovaneVzdelaniDao;
 use Events\Model\Dao\CompanyDao;
 
-
 use Model\RowData\RowData;
-use Model\RowData\RowDataInterface;
 
 /**
  *
@@ -48,8 +46,7 @@ class JobToTagDaoTest extends AppRunner {
                     )
                 )
             );
-               
-        
+                     
         // nový  Company, PozadovaneVzdelani, Job, JobTtag,
         $companyDao = $container->get(CompanyDao::class);
         $companyData = new RowData();
@@ -60,32 +57,29 @@ class JobToTagDaoTest extends AppRunner {
         
          /** @var PozadovaneVzdelaniDao $pozadovaneVzdelaniDao */
         $pozadovaneVzdelaniDao = $container->get(PozadovaneVzdelaniDao::class);
-        if (!($pozadovaneVzdelaniDao->get(['stupen' => "999" ]) ['stupen'] )) {        
-            $pozadovaneVzdelaniData = new RowData();
-            $pozadovaneVzdelaniData->import(['stupen' => "999" ]);
-            $pozadovaneVzdelaniData->import(['vzdelani' => "vzdelani 999" ]);
-            $pozadovaneVzdelaniDao->insert($pozadovaneVzdelaniData);      
-            self::$stupen_fk = $pozadovaneVzdelaniDao->get(['stupen' => "999" ]) ['stupen'] ;
-        }
-        else  {
-            self::$stupen_fk = $pozadovaneVzdelaniDao->get(['stupen' => "999" ]) ['stupen'] ;            
-        }
+        $pozadovaneVzdelaniData = new RowData();
+        $pozadovaneVzdelaniData->import(['stupen' => "999" ]);
+        $pozadovaneVzdelaniData->import(['vzdelani' => "vzdelani 999" ]);
+        $pozadovaneVzdelaniDao->insert($pozadovaneVzdelaniData);      
+        self::$stupen_fk = $pozadovaneVzdelaniDao->get(['stupen' => "999" ]) ['stupen'] ;
+       
 
-        
+         /** @var JobDao $jobDao */
         $jobDao = $container->get(JobDao::class);
         $jobData = new RowData();
         $jobData->import([ 'company_id' => self::$company_id,
                            'pozadovane_vzdelani_stupen' => self::$stupen_fk
-            ]);
+                         ]);
         $ok = $jobDao->insert($jobData);      
         self::$job_id_fk = $jobDao->lastInsertIdValue();
 
-     
-        $jobTagDao = $container->get(JobTagDao::class);
+        /** @var JobTagDao $jobTagDao */
+        $jobTagDao = $container->get(JobTagDao::class); 
         $jobTagData = new RowData();                
         $jobTagData->import(["tag" => "nalepka moje"  ]);
         $ok =  $jobTagDao->insert($jobTagData);  
-        self::$job_tag_tag_fk = $jobTagDao->lastInsertIdValue(); //to je vlastne "nalepka" . 
+        self::$job_tag_tag_fk = "nalepka moje";
+        //$jobTagDao->lastInsertIdValue(); //to je vlastne "nalepka"  //lastInsertId vraci z DB string
 
     }
 
@@ -118,12 +112,12 @@ class JobToTagDaoTest extends AppRunner {
         
         /** @var JobDao $jobDao */
         $jobDao = $container->get(JobDao::class);    
-        $jobRow = $jobDao->get(self::$job_id_fk);
-        $ok = $this->dao->delete($jobRow);
+        $jobRow = $jobDao->get( [ 'id' => self::$job_id_fk ] );
+        $ok = $jobDao->delete($jobRow);
         
         /** @var PozadovaneVzdelaniDao $pozadovaneVzdelaniDao */
         $pozadovaneVzdelaniDao = $container->get(PozadovaneVzdelaniDao::class);    
-        $pozadovaneVzdelaniData = $pozadovaneVzdelaniDao->get(['stupen' => "999"]);
+        $pozadovaneVzdelaniData = $pozadovaneVzdelaniDao->get(['stupen' => 999]);
         $ok = $pozadovaneVzdelaniDao->delete($pozadovaneVzdelaniData);
          
         /** @var CompanyDao $companyDao */
@@ -133,36 +127,40 @@ class JobToTagDaoTest extends AppRunner {
         
         /** @var $jobTagDao $jobTagDao */
         $jobTagDao = $container->get(JobTagDao::class);
-        $jobTagData->get(['tag' =>  self::$job_tag_tag_fk ]);
+        $jobTagData = $jobTagDao->get(['tag' =>  self::$job_tag_tag_fk ]);
         $ok = $jobTagDao->delete($jobTagData);
        
     }
 
     public function testSetUp() {
-        $this->assertIsInt(self::$job_id_fk);
+        $this->assertIsString(self::$job_id_fk);   //lastInsertId vraci z DB string
         $this->assertIsString(self::$job_tag_tag_fk);
-        $this->assertInstanceOf(JobToTag::class, $this->dao);
+        $this->assertInstanceOf(JobToTagDao::class, $this->dao);
     }
 
 //**    
     
-//    public function testInsert() {
-//        $rowData = new RowData();
-//        $rowData->import(['login_login_name_fk' => self::$login_login_name_fk, 'event_id_fk' => self::$event_id_fk]);
-//        $this->dao->insert($rowData);
-//        $this->assertEquals(1, $this->dao->getRowCount());
-//    }
-//
-//    public function testGetByPk() {
-//        $enrollRow = $this->dao->get(['login_login_name_fk' => self::$login_login_name_fk, 'event_id_fk' => self::$event_id_fk]);
-//        $this->assertInstanceOf(RowDataInterface::class, $enrollRow);
-//    }
-//
-//    public function test2Columns() {
-//        $enrollRow = $this->dao->get(['login_login_name_fk' => self::$login_login_name_fk, 'event_id_fk' => self::$event_id_fk]);
-//        $this->assertCount(2, $enrollRow);
-//    }
-//
+    public function testInsert() {
+        $rowData = new RowData();
+        $rowData->import(['job_id' =>  self::$job_id_fk ]);
+        $rowData->import(['job_tag_tag' =>  self::$job_tag_tag_fk ]);        
+        $this->dao->insert($rowData);
+        $this->assertEquals(1, $this->dao->getRowCount());
+    }
+  
+    public function test2Columns() {
+        $jobToTagRow = $this->dao->get(['job_id' =>  self::$job_id_fk, 'job_tag_tag' =>  self::$job_tag_tag_fk] );
+        $this->assertCount(2, $jobToTagRow);
+    }
+
+    
+    
+    
+    public function testFindByPk() {
+        $jobToTagRows = $this->dao->findByJobIdFk( ['job_id' =>  self::$job_id_fk /*,  'job_tag_tag' =>  self::$job_tag_tag_fk */] );
+        $this->assertInstanceOf(RowDataInterface::class, $jobToTagRows[0] );
+    }
+    
 //    public function testFindExistingRowsByLoginName() {
 //        $enrollRows = $this->dao->findByLoginNameFk(['login_login_name_fk' => self::$login_login_name_fk]);
 //        $this->assertIsArray($enrollRows);
@@ -194,6 +192,9 @@ class JobToTagDaoTest extends AppRunner {
 //        $this->assertEquals(self::$event_id_fk_2, $enrollRowRereaded['event_id_fk']);
 //
 //    }
+//
+//
+   
 //
 //    public function testFindByLoginNameFk() {
 //        $enrollRowsRereaded = $this->dao->findByLoginNameFk(['login_login_name_fk' => self::$login_login_name_fk]);

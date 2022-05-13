@@ -7,6 +7,7 @@ use Model\Dao\DaoFkNonuniqueTrait;
 use Events\Model\Dao\JobToTagDaoInterface;
 
 
+
 /**
  * Description of JobToTagDao
  *
@@ -39,11 +40,11 @@ class JobToTagDao  extends DaoEditAbstract  implements JobToTagDaoInterface {
         return 'job_to_tag';
     }
 
-    public function findByJobIdFk( array $jobIdFk ) {
+    public function findByJobIdFk( array $jobIdFk ): array {
         return $this->findByFk('job_id', $jobIdFk);
     }
 
-    public function findByJobTagFk( array $jobTagTagFk ) {
-        return $this->findByFk('job_tag_tag', $jobTagFk);
+    public function findByJobTagFk( array $jobTagTagFk ) : array{
+        return $this->findByFk('job_tag_tag', $jobTagTagFk);
     }
 }
