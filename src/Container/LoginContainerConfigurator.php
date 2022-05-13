@@ -1,7 +1,7 @@
 <?php
 namespace Container;
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 // kontejner
 use Pes\Container\ContainerConfiguratorAbstract;
@@ -75,7 +75,7 @@ use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusF
 class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getParams(): iterable {
-        return Configuration::login();
+        return ConfigurationCache::login();
     }
 
     public function getFactoriesDefinitions(): iterable {

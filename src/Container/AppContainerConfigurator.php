@@ -2,7 +2,7 @@
 
 namespace Container;
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 // kontejner
 use Pes\Container\ContainerConfiguratorAbstract;
@@ -60,7 +60,7 @@ use Application\Api\ApiRegistrator;
 class AppContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getParams(): iterable {
-        return Configuration::app();
+        return ConfigurationCache::app();
     }
 
     public function getFactoriesDefinitions(): iterable {

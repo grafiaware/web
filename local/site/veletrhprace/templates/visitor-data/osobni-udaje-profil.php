@@ -4,7 +4,7 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Pes\Text\Text;
 use Pes\Text\Html;
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 use Red\Model\Entity\LoginAggregateFullInterface;
 
 use Events\Middleware\Events\Controller\VisitorDataController;
@@ -15,7 +15,7 @@ use Red\Model\Entity\VisitorData;
 /** @var LoginAggregateFullInterface $loginAggregate */
 
 $userHash = $loginAggregate->getLoginNameHash();
-$accept = implode(", ", Configuration::filesUploadController()['upload.events.acceptedextensions']);
+$accept = implode(", ", ConfigurationCache::filesUploadController()['upload.events.acceptedextensions']);
 $uploadedCvFilename = VisitorDataController::UPLOADED_KEY_CV.$userHash;
 $uploadedLetterFilename = VisitorDataController::UPLOADED_KEY_LETTER.$userHash;
 

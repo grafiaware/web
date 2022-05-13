@@ -2,7 +2,7 @@
 
 namespace Container;
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 // kontejner
 use Pes\Container\ContainerConfiguratorAbstract;
@@ -27,7 +27,7 @@ use Pes\Database\Handler\AttributesProvider\AttributesProvider;
 class DbOldContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getParams(): iterable {
-        return Configuration::dbOld();
+        return ConfigurationCache::dbOld();
     }
 
     public function getFactoriesDefinitions(): iterable {

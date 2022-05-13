@@ -34,7 +34,7 @@ class MenuItemTypeDao extends DaoEditAbstract implements DaoEditKeyDbVerifiedInt
         return 'menu_item_type';
     }
 
-    public function update(RowDataInterface $rowData) {
+    public function update(RowDataInterface $rowData): bool {
         throw new DaoForbiddenOperationException("Není implemtováno - nelze měnit primární klíč type.");
     }
 }

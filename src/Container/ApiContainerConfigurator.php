@@ -2,7 +2,7 @@
 namespace Container;
 
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 // kontejner
 use Pes\Container\ContainerConfiguratorAbstract;
@@ -81,7 +81,7 @@ use Red\Model\Repository\ItemActionRepo;
 class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getParams(): iterable {
-        return Configuration::api();
+        return ConfigurationCache::api();
     }
 
     public function getFactoriesDefinitions(): iterable {

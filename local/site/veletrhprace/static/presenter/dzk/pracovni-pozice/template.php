@@ -1,5 +1,5 @@
 <?php
-use Site\Configuration;
+use Site\ConfigurationCache;
 use Events\Model\Arraymodel\Event;
 
 use Pes\View\Renderer\PhpTemplateRendererInterface;
@@ -11,6 +11,6 @@ $perex = '';
 ?>
     <div id="pracovni-pozice">
        <?php
-           include Configuration::componentController()['templates']."paper/presenter-job.php";
+           include ConfigurationCache::componentController()['templates']."paper/presenter-job.php";
         ?>
     </div>

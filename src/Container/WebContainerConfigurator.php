@@ -1,7 +1,7 @@
 <?php
 namespace Container;
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 // kontejner
 use Pes\Container\ContainerConfiguratorAbstract;
@@ -188,11 +188,11 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getParams(): iterable {
         return array_merge(
-                Configuration::web(),  //db
-                Configuration::component(),
-                Configuration::menu(),
+                ConfigurationCache::web(),  //db
+                ConfigurationCache::component(),
+                ConfigurationCache::menu(),
 //                Configuration::renderer(),
-                Configuration::templateController()
+                ConfigurationCache::templateController()
                 );
     }
 

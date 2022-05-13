@@ -2,7 +2,7 @@
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 /** @var PhpTemplateRendererInterface $this */
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 use Status\Model\Repository\StatusSecurityRepo;
 
@@ -32,7 +32,7 @@ if (isset($loginAggregate)) {
     $presenterModel = new Presenter();
     $presenterPerson = $presenterModel->getPerson($loginName);
 
-    if(isset($role) AND $role==Configuration::loginLogoutController()['rolePresenter']) {
+    if(isset($role) AND $role==ConfigurationCache::loginLogoutController()['rolePresenter']) {
         $isPresenter = true;
 
         $presenterJobs = array();

@@ -1,7 +1,7 @@
 <?php
 namespace Auth\Middleware\Login\Controller;
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 use Mail\Mail;
 use Mail\MessageFactory\HtmlMessage;
@@ -59,8 +59,8 @@ class RegistrationController extends LoginControllerAbstract
         $register = $requestParams->getParsedBodyParam($request, 'register', FALSE);
 
         if ($register) {
-            $fieldNameJmeno = Configuration::loginLogoutController()['fieldNameJmeno'];
-            $fieldNameHeslo = Configuration::loginLogoutController()['fieldNameHeslo'];
+            $fieldNameJmeno = ConfigurationCache::loginLogoutController()['fieldNameJmeno'];
+            $fieldNameHeslo = ConfigurationCache::loginLogoutController()['fieldNameHeslo'];
 
             $registerJmeno = $requestParams->getParsedBodyParam($request, $fieldNameJmeno, FALSE);
             $registerHeslo = $requestParams->getParsedBodyParam($request, $fieldNameHeslo, FALSE);
@@ -115,7 +115,7 @@ class RegistrationController extends LoginControllerAbstract
                     $body = $mailMessageFactory->create(__DIR__."/Messages/registration.php", ['confirmationUrl'=>$confirmationUrl ]);
 
                     $attachments = [ (new Attachment())
-                                    ->setFileName(Configuration::mail()['mail.attachments'].'logo_grafia.png')
+                                    ->setFileName(ConfigurationCache::mail()['mail.attachments'].'logo_grafia.png')
                                     ->setAltText('Logo Grafia')
                                    ];
                     $params = (new Params())
@@ -149,7 +149,7 @@ class RegistrationController extends LoginControllerAbstract
                     $body = $mailMessageFactory->create(__DIR__."/Messages/registration.php", ['confirmationUrl'=>$confirmationUrl ]);
 
                     $attachments = [ (new Attachment())
-                                    ->setFileName(Configuration::mail()['mail.attachments'].'logo_grafia.png')
+                                    ->setFileName(ConfigurationCache::mail()['mail.attachments'].'logo_grafia.png')
                                     ->setAltText('Logo Grafia')
                                    ];
                     $params = (new Params())
@@ -183,7 +183,7 @@ class RegistrationController extends LoginControllerAbstract
                                                              'registerInfo' => $registerInfo,
                                                             ]);
                         $attachments = [ (new Attachment())
-                                        ->setFileName(Configuration::mail()['mail.attachments'].'logo_grafia.png')
+                                        ->setFileName(ConfigurationCache::mail()['mail.attachments'].'logo_grafia.png')
                                         ->setAltText('Logo Grafia')
                                        ];
                         $params = (new Params())
@@ -224,9 +224,9 @@ class RegistrationController extends LoginControllerAbstract
         $register = $requestParams->getParsedBodyParam($request, 'register', FALSE);
 
         if ($register) {
-            $fieldNameJmeno = Configuration::loginLogoutController()['fieldNameJmeno'];
-            $fieldNameHeslo = Configuration::loginLogoutController()['fieldNameHeslo'];
-            $fieldNameEmail = Configuration::loginLogoutController()['fieldNameEmail'];
+            $fieldNameJmeno = ConfigurationCache::loginLogoutController()['fieldNameJmeno'];
+            $fieldNameHeslo = ConfigurationCache::loginLogoutController()['fieldNameHeslo'];
+            $fieldNameEmail = ConfigurationCache::loginLogoutController()['fieldNameEmail'];
 
             $registerJmeno = $requestParams->getParsedBodyParam($request, $fieldNameJmeno, FALSE);
             $registerHeslo = $requestParams->getParsedBodyParam($request, $fieldNameHeslo, FALSE);

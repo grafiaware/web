@@ -5,7 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Pes\Text\FriendlyUrl;
@@ -18,11 +18,11 @@ $shortName = 'grafia';
 ############################
 
 
-$monitorFilename = Configuration::files()['presenter'].$shortName.'/movies/monitor-stanek.jpg';
+$monitorFilename = ConfigurationCache::files()['presenter'].$shortName.'/movies/monitor-stanek.jpg';
 $monitorIsReadable = is_readable($monitorFilename);
-$videoMp4Filename = Configuration::files()['presenter'].$shortName.'/movies/video-stanek-MP4.mp4';
+$videoMp4Filename = ConfigurationCache::files()['presenter'].$shortName.'/movies/video-stanek-MP4.mp4';
 $videoMp4IsReadable = is_readable($videoMp4Filename);
-$videoWebmFilename = Configuration::files()['presenter'].$shortName.'/movies/video-stanek-WEBM.webm';
+$videoWebmFilename = ConfigurationCache::files()['presenter'].$shortName.'/movies/video-stanek-WEBM.webm';
 $videoWebmIsReadable = is_readable($videoWebmFilename);
 $stanek_ref = '/assets/stanek.png';
 
@@ -52,7 +52,7 @@ $firma = [
         $videoWebmIsReadable ? ['src' => $videoWebmFilename, 'type' => 'video/webm'] : null,
     ],
     'imgStankuAttributes' => [
-        'src' => Configuration::files()['presenter'].$shortName.$stanek_ref,
+        'src' => ConfigurationCache::files()['presenter'].$shortName.$stanek_ref,
         'alt' => 'stánek firmy',
     ],
     'socialniSiteIframe' => [
@@ -69,7 +69,7 @@ $firma = [
             'nazevSocialniSite' => 'LinkedIn',
             'btnClass' => 'btn-in',
             'modalID' => 'modal_linkedin',
-            'iframe' => '<a href="https://cz.linkedin.com/company/grafia-s.r.o./" target="_blank"><img src="'.Configuration::files()['presenter'].$shortName.'/assets/linkedin.png" alt="profil LinkednIn" height="" width="100%"/></a>',
+            'iframe' => '<a href="https://cz.linkedin.com/company/grafia-s.r.o./" target="_blank"><img src="'.ConfigurationCache::files()['presenter'].$shortName.'/assets/linkedin.png" alt="profil LinkednIn" height="" width="100%"/></a>',
             'odkazNaProfil' => 'https://cz.linkedin.com/company/grafia-s.r.o.'
         ],
         [

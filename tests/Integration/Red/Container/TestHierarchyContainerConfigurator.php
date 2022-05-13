@@ -12,14 +12,13 @@ use Container\HierarchyContainerConfigurator;
 
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
 
+use Site\ConfigurationCache;
+
 // context
 use Model\Context\ContextFactoryInterface;
 use Test\Integration\Red\Model\Context\ContextFactoryMock;
 
 use Pes\Database\Handler\Account;
-use Pes\Database\Handler\Handler;
-use Pes\Database\Handler\HandlerInterface;
-use Pes\Database\Handler\DbTypeEnum;
 
 /**
  * Description of MenuContainerFactory
@@ -27,12 +26,16 @@ use Pes\Database\Handler\DbTypeEnum;
  * @author pes2704
  */
 class TestHierarchyContainerConfigurator extends HierarchyContainerConfigurator {
+    public function getParams(): iterable {
+        return ConfigurationCache::web()
+                +parent::getParams();
+    }
 
     public function getAliases(): iterable {
         return [
             ContextFactoryInterface::class => ContextFactoryMock::class,
-        ]+
-        parent::getAliases();
+        ]
+        +parent::getAliases();
     }
 
     public function getServicesDefinitions(): iterable {
@@ -40,7 +43,13 @@ class TestHierarchyContainerConfigurator extends HierarchyContainerConfigurator 
                 ContextFactoryMock::class => function(ContainerInterface $c) {
                     return new ContextFactoryMock(false, false);
                 },
-            ]+
-            parent::getServicesDefinitions();
+            ##
+            // database account
+            Account::class => function(ContainerInterface $c) {
+                $account = new Account($c->get('web.db.account.administrator.name'), $c->get('web.db.account.administrator.password'));
+                return $account;
+            },
+            ]
+            +parent::getServicesDefinitions();
     }
 }

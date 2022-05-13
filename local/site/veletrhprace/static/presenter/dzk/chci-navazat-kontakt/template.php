@@ -1,5 +1,5 @@
 <?php
-use Site\Configuration;
+use Site\ConfigurationCache;
 use Events\Model\Arraymodel\Event;
 
 use Pes\View\Renderer\PhpTemplateRendererInterface;
@@ -26,6 +26,6 @@ $corporateAddress = [
        <?php
        
         
-        include Configuration::componentController()['templates']."paper/presenter-contacts.php";
+        include ConfigurationCache::componentController()['templates']."paper/presenter-contacts.php";
         ?>
     </div>

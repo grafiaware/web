@@ -2,7 +2,7 @@
 
 namespace Events\Middleware\Events\Controller;
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 use FrontControler\FrontControlerAbstract;
 
@@ -105,7 +105,7 @@ class VisitorDataController extends FrontControlerAbstract {
             $response = (new ResponseFactory())->createResponse();
             return $response->withStatus(401);  // Unaathorized
         } else {
-            $isPresenter = $loginAggregateCredentials->getCredentials()->getRole()=== Configuration::loginLogoutController()['rolePresenter'];
+            $isPresenter = $loginAggregateCredentials->getCredentials()->getRole()=== ConfigurationCache::loginLogoutController()['rolePresenter'];
             if ($isPresenter) {
                 // POST data
                 $shortName = (new RequestParams())->getParsedBodyParam($request, 'short-name');
@@ -481,7 +481,7 @@ class VisitorDataController extends FrontControlerAbstract {
 //            $this->addFlashMessage("Chybné kméno souboru.");
 ////                header("HTTP/1.1 400 Invalid file name.");
 //        } else
-            if (array_search(pathinfo($clientFileName,  PATHINFO_EXTENSION ), Configuration::filesUploadController()['upload.events.acceptedextensions'])) {
+            if (array_search(pathinfo($clientFileName,  PATHINFO_EXTENSION ), ConfigurationCache::filesUploadController()['upload.events.acceptedextensions'])) {
             $response = (new ResponseFactory())->createResponse();
             $response = $response->withStatus(400, "Bad Request. Invalid file extesion.");
             $this->addFlashMessage("Chybná přípona souboru.");

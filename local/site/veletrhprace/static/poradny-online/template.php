@@ -1,5 +1,5 @@
 <?php
-use Site\Configuration;
+use Site\ConfigurationCache;
 use Psr\Container\ContainerInterface;
 use Events\Model\Arraymodel\Event;
 
@@ -30,7 +30,7 @@ $statusSecurity = $statusSecurityRepo->get();
 $event = (new Event($statusSecurity))->getEventList($eventTypeName, $institutionName, [], true);   // enrolling = true
 
 //include Configuration::componentController()['templates']."paper/timecolumn.php";
-include Configuration::componentController()['templates']."paper/timeline-boxes.php";
+include ConfigurationCache::componentController()['templates']."paper/timeline-boxes.php";
 //include Configuration::componentController()['templates']."paper/timeline-leafs.php";
 
 ?>

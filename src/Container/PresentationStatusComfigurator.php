@@ -2,7 +2,7 @@
 
 namespace Container;
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 // kontejner
 use Pes\Container\ContainerConfiguratorAbstract;
@@ -19,7 +19,7 @@ use Pes\Database\Handler\Account;
 class PresentationStatusComfigurator extends ContainerConfiguratorAbstract {
 
     public function getParams(): iterable {
-        return Configuration::web();
+        return ConfigurationCache::web();
     }
 
     public function getFactoriesDefinitions(): iterable {

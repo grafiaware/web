@@ -1,7 +1,7 @@
 <?php
 namespace Component\View\MenuItem\Authored\Multipage;
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 use Pes\View\View;
 use Pes\View\Template\PhpTemplate;
@@ -37,38 +37,18 @@ class MultipageComponent extends AuthoredComponentAbstract implements MultipageC
      *
      */
     public function beforeRenderingHook(): void {
-
-        $contentView = $this->getComponentView(self::CONTENT);
-
         $subNodes = $this->contextData->getSubNodes();  //včetně kořene podstromu - tedy včetně multipage položky
         // odstraní kořenový uzel, tj. uzel odpovídající vlastní multipage, zbydou jen potomci
-        array_shift($subNodes);   //odstraní první prvek s indexem [0] a výsledné pole opět začína prvkem s indexem [0]
-
-        foreach ($subNodes as $subNode) {
-            $item = $subNode->getMenuItem();
-            $contentView->appendComponentView($this->getContentLoadScript($item), $item->getTypeFk().'_'.$item->getId());
-            $pages[] = $this->getContentLoadScript($item);
+        if (count($subNodes)>1) {
+            array_shift($subNodes);   //odstraní první prvek s indexem [0] a výsledné pole opět začína prvkem s indexem [0]
+            foreach ($subNodes as $subNode) {
+                $contentView = $this->getComponentView(self::CONTENT);
+                $item = $subNode->getMenuItem();
+                $contentView->appendComponentView($this->getContentLoadScript($item), $item->getTypeFk().'_'.$item->getId());
+                $pages[] = $this->getContentLoadScript($item);
+            }
+            $this->contextData->offsetSet('pages', $pages);
         }
-        $this->contextData->offsetSet('pages', $pages);
-//        $this->appendComponentView($contentView, self::CONTENT);
-
-//        // zvolí MultipageRenderer nebo MultipageRendererEditable
-//        if($this->contextData->presentEditableContent() AND $this->isAllowed(AccessPresentationEnum::EDIT)) {
-//            if ($this->userPerformActionWithItem()) {
-//                $this->setRendererName(MultipageRendererEditable::class);
-//            } else {
-//                $this->setRendererName(MultipageRenderer::class);
-//            }
-//
-//            // vytvoří komponent - view s buttonem ButtonEditContent
-//            $buttonEditContentComponent = new EditContentSwitchComponent($this->configuration);
-//            $buttonEditContentComponent->setData($this->contextData);
-//            $buttonEditContentComponent->setRendererContainer($this->rendererContainer);
-//            $this->appendComponentView($buttonEditContentComponent, self::BUTTON_EDIT_CONTENT);
-//
-//        } else {
-//            $this->setRendererName(MultipageRenderer::class);
-//        }
     }
 
     public function getString() {
@@ -90,7 +70,7 @@ class MultipageComponent extends AuthoredComponentAbstract implements MultipageC
                         'loaderWrapperElementId' => "content_for_item_{$id}_with_type_{$menuItemType}",
                         'apiUri' => "web/v1/$menuItemType/$id"
                         ]);
-        $view->setTemplate(new PhpTemplate(Configuration::layoutController()['templates.loaderElement']));  //TODO: loader element oddělit samostatně
+        $view->setTemplate(new PhpTemplate(ConfigurationCache::layoutController()['templates.loaderElement']));  //TODO: loader element oddělit samostatně
         $view->setRendererContainer($this->rendererContainer);
         return $view;
     }

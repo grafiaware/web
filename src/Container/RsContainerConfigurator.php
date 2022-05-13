@@ -1,7 +1,7 @@
 <?php
 namespace Container;
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 // kontejner
 use Pes\Container\ContainerConfiguratorAbstract;
@@ -46,7 +46,7 @@ use Red\Model\Dao\PaperContentDao;
 class RsContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getParams(): iterable {
-        return Configuration::rs();
+        return ConfigurationCache::rs();
     }
 
     public function getFactoriesDefinitions(): iterable {

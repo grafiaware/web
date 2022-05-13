@@ -8,24 +8,18 @@
 
 namespace Red\Model\Dao;
 
-use Pes\Database\Handler\HandlerInterface;
-use Model\Context\ContextFactoryInterface;
-
-use Model\Dao\DaoEditAbstract;
+use Model\Dao\DaoEditContextualAbstract;
 use Model\Dao\DaoEditAutoincrementKeyInterface;
 use Model\Dao\DaoFkNonuniqueInterface;
 use Model\Dao\DaoAutoincrementTrait;
 use Model\Dao\DaoFkNonuniqueTrait;
-use Model\Dao\DaoAbstract;
-
-use Model\RowData\RowDataInterface;
 
 /**
  * Description of RsDao
  *
  * @author pes2704
  */
-class PaperContentDao extends DaoEditAbstract implements DaoEditAutoincrementKeyInterface, DaoFkNonuniqueInterface {
+class PaperContentDao extends DaoEditContextualAbstract implements DaoEditAutoincrementKeyInterface, DaoFkNonuniqueInterface {
 
     use DaoAutoincrementTrait;
     use DaoFkNonuniqueTrait;

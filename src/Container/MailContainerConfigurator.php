@@ -1,7 +1,7 @@
 <?php
 namespace Container;
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 // kontejner
 use Pes\Container\ContainerConfiguratorAbstract;
@@ -31,7 +31,7 @@ use Auth\Model\Repository\RegistrationRepo;
 class MailContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getParams(): iterable {
-        return Configuration::mail();
+        return ConfigurationCache::mail();
     }
 
     public function getFactoriesDefinitions(): iterable {

@@ -8,7 +8,7 @@
 
 namespace Auth\Middleware\Login\Controller;
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -58,8 +58,8 @@ class LoginLogoutController extends LoginControllerAbstract {
 
         if ($login) {
             // používá názvy z konfigurace pro omezení množství našeptávaných jmen při vypl%nování formuláře v prohlížečích
-            $fieldNameJmeno = Configuration::loginLogoutController()['fieldNameJmeno'];
-            $fieldNameHeslo = Configuration::loginLogoutController()['fieldNameHeslo'];
+            $fieldNameJmeno = ConfigurationCache::loginLogoutController()['fieldNameJmeno'];
+            $fieldNameHeslo = ConfigurationCache::loginLogoutController()['fieldNameHeslo'];
             $loginJmeno = $requestParams->getParsedBodyParam($request, $fieldNameJmeno, FALSE);
             $loginHeslo = $requestParams->getParsedBodyParam($request, $fieldNameHeslo, FALSE);
 

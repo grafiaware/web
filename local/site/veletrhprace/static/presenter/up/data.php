@@ -5,7 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Pes\Text\FriendlyUrl;
@@ -42,14 +42,14 @@ foreach ($buttonTitle as $title) {
 $firma = [
     'nazev' => 'Úřad práce&nbsp;ČR a&nbsp;EURES',
     'videoAttributes' => [
-        'poster' => Configuration::files()['presenter'].$shortName.$monitor_ref,
+        'poster' => ConfigurationCache::files()['presenter'].$shortName.$monitor_ref,
     ],
     'videoSourceSrc' => [
-        ['src' => Configuration::files()['presenter'].$shortName.$video_MP4_ref, 'type' => 'video/mp4'],
-        ['src' => Configuration::files()['presenter'].$shortName.$video_WEBM_ref, 'type' => 'video/webm'],
+        ['src' => ConfigurationCache::files()['presenter'].$shortName.$video_MP4_ref, 'type' => 'video/mp4'],
+        ['src' => ConfigurationCache::files()['presenter'].$shortName.$video_WEBM_ref, 'type' => 'video/webm'],
     ],
     'imgStankuAttributes' => [
-        'src' => Configuration::files()['presenter'].$shortName.$stanek_ref,
+        'src' => ConfigurationCache::files()['presenter'].$shortName.$stanek_ref,
         'alt' => 'stánek firmy',
     ],
     'socialniSiteIframe' => [

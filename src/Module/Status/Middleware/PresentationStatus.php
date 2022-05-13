@@ -15,7 +15,7 @@ use Psr\Http\Message\ResponseInterface;
 use Pes\Middleware\AppMiddlewareAbstract;
 
 use Application\WebAppFactory;
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 use Pes\Container\Container;
 use Container\DbUpgradeContainerConfigurator;
@@ -100,7 +100,7 @@ class PresentationStatus extends AppMiddlewareAbstract implements MiddlewareInte
         if (!isset($language)) {
             user_error("Podle hlavičky requestu Accept-Language je požadován kód jazyka $requestedLangCode. "
                     . "Takový kód jazyka nebyl nalezen mezi jazyky v databázi. Nastaven default jazyk aplikace.", E_USER_NOTICE);
-            $language = $languageRepo->get(Configuration::presentationStatus()['default_lang_code']);
+            $language = $languageRepo->get(ConfigurationCache::presentationStatus()['default_lang_code']);
             if (!isset($language)) {
                 throw new UnexpectedValueException("Kód jazyka nastavený v konfiguraci jako výchozí jazyk nebyl nalezen mezi jazyky v databázi.");
             }

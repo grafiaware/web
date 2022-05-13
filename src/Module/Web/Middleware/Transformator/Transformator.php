@@ -3,7 +3,7 @@
 namespace Web\Middleware\Transformator;
 
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 use Pes\Middleware\AppMiddlewareAbstract;
 use Pes\Container\Container;
@@ -54,15 +54,15 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
      */
     private function transform($text) {
 
-        $downloadDirectory = Configuration::files()['@download'];
-        $siteImagesDirectory = Configuration::files()['@siteimages'];
-        $siteMoviesDirectory = Configuration::files()['@sitemovies'];
-        $commonImagesDirectory = Configuration::files()['@commonimages'];
-        $commonMoviesDirectory = Configuration::files()['@commonmovies'];
-        $filesDirectory = Configuration::files()['files'];
+        $downloadDirectory = ConfigurationCache::files()['@download'];
+        $siteImagesDirectory = ConfigurationCache::files()['@siteimages'];
+        $siteMoviesDirectory = ConfigurationCache::files()['@sitemovies'];
+        $commonImagesDirectory = ConfigurationCache::files()['@commonimages'];
+        $commonMoviesDirectory = ConfigurationCache::files()['@commonmovies'];
+        $filesDirectory = ConfigurationCache::files()['files'];
 
-        $publicDirectory = Configuration::transformator()['publicDirectory'];
-        $siteDirectory = Configuration::transformator()['siteDirectory'];
+        $publicDirectory = ConfigurationCache::transformator()['publicDirectory'];
+        $siteDirectory = ConfigurationCache::transformator()['siteDirectory'];
 
         $transform = array(
             // RED

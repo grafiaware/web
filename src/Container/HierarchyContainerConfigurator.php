@@ -8,7 +8,7 @@
 
 namespace Container;
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 use Pes\Container\ContainerConfiguratorAbstract;
 
@@ -125,7 +125,7 @@ use Red\Model\HierarchyHooks\MenuListStyles;
 class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getParams(): iterable {
-        return Configuration::hierarchy();
+        return ConfigurationCache::hierarchy();
     }
 
     public function getFactoriesDefinitions(): iterable {

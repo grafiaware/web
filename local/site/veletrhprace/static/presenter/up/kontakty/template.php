@@ -1,5 +1,5 @@
 <?php
-use Site\Configuration;
+use Site\ConfigurationCache;
 use Events\Model\Arraymodel\Event;
 
 use Pes\View\Renderer\PhpTemplateRendererInterface;
@@ -27,7 +27,7 @@ $corporateAddress = [
        <?php
        
         
-        include Configuration::componentController()['templates']."paper/presenter-contacts.php";
+        include ConfigurationCache::componentController()['templates']."paper/presenter-contacts.php";
         ?>
         <p class="text nastred"><a href="https://www.uradprace.cz/plzen" target="_blank">Všechny kontaktní údaje</a></p>
     </div>

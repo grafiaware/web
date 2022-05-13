@@ -8,7 +8,7 @@
 
 namespace Container;
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 use Pes\Container\ContainerConfiguratorAbstract;
 
@@ -43,7 +43,7 @@ use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDaoInterface;
 class DbUpgradeContainerConfigurator extends ContainerConfiguratorAbstract {
 
     public function getParams(): iterable {
-        return Configuration::dbUpgrade();
+        return ConfigurationCache::dbUpgrade();
     }
 
     public function getFactoriesDefinitions(): iterable {

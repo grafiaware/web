@@ -1,7 +1,7 @@
 <?php
 namespace Container;
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 // kontejner
 use Pes\Container\ContainerConfiguratorAbstract;
@@ -68,7 +68,7 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
     }
 
     public function getServicesDefinitions(): iterable {
-        return array_merge(Configuration::renderer(),
+        return array_merge(ConfigurationCache::renderer(),
                 [
         ImplodeRenderer::class => function(ContainerInterface $c) {
             return new ImplodeRenderer();

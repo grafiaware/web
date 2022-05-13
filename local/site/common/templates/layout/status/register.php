@@ -1,5 +1,5 @@
 <?php
-use Site\Configuration;
+use Site\ConfigurationCache;
 ?>
 <form class="ui inverted form centered" method="POST" action="auth/v1/register">
         <div class="ui icon left pointing dropdown button">
@@ -10,12 +10,12 @@ use Site\Configuration;
             <div class="item header"><p><i class="user icon"></i>Registrovat se</p></div>
 
                 <div class="ui input">
-                    <input type="text" name="<?=Configuration::loginLogoutController()['fieldNameJmeno']?>" placeholder="Jméno" required>
+                    <input type="text" name="<?=ConfigurationCache::loginLogoutController()['fieldNameJmeno']?>" placeholder="Jméno" required>
                 </div>
                 <div class="ui input">
-                    <input type="password" name="<?=Configuration::loginLogoutController()['fieldNameHeslo']?>" placeholder="Heslo"
-                           pattern="<?=Configuration::loginLogoutController()['passwordPattern']?>"
-                           title ="<?=Configuration::loginLogoutController()['passwordInfo']?>"
+                    <input type="password" name="<?=ConfigurationCache::loginLogoutController()['fieldNameHeslo']?>" placeholder="Heslo"
+                           pattern="<?=ConfigurationCache::loginLogoutController()['passwordPattern']?>"
+                           title ="<?=ConfigurationCache::loginLogoutController()['passwordInfo']?>"
                            required >
                 </div>
                 <div class="ui input">

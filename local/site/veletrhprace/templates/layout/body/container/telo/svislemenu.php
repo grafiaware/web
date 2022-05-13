@@ -1,5 +1,5 @@
 <?php
-use Site\Configuration;
+use Site\ConfigurationCache;
 ?>
         <div id="mySidenav">
             <div class="close-item">

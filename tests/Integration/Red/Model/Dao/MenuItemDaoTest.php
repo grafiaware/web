@@ -47,7 +47,7 @@ class MenuItemDaoTest extends AppRunner {
         $this->container =
                 (new TestHierarchyContainerConfigurator())->configure(
                            (new TestDbUpgradeContainerConfigurator())->configure(new Container())
-                        );  // přepisuje getParams a ContextFactory
+                        );
         $this->dao = $this->container->get(MenuItemDao::class);  // vždy nový objekt
 
         /** @var HierarchyAggregateReadonlyDao $hierarchy */

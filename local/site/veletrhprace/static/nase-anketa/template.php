@@ -5,7 +5,7 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Pes\Text\Text;
 /** @var PhpTemplateRendererInterface $this */
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 // visitor
 use Red\Model\Entity\LoginAggregateFullInterface;
@@ -40,7 +40,7 @@ use Red\Model\Repository\VisitorDataRepo;
     }
 
     // poue pro default roli 'visitor'
-    if (isset($role) AND $role==(Configuration::loginLogoutController()['roleVisitor'])) {
+    if (isset($role) AND $role==(ConfigurationCache::loginLogoutController()['roleVisitor'])) {
         $visitorDataRepo = $container->get(VisitorDataRepo::class);
         $visitorData = $visitorDataRepo->get($loginName);
     }

@@ -1,5 +1,5 @@
 <?php
-use Site\Configuration;
+use Site\ConfigurationCache;
 ?>
 <h3> Veletrh práce a vzdělávání </h3>
 <p> Vaše registrace byla dokončena. Děkujeme Vám za spolupráci.  </p> 
