@@ -8,58 +8,26 @@
 
 namespace Red\Model\Dao;
 
-use Model\Dao\DaoTableAbstract;
-use Model\RowData\RowDataInterface;
-
-use Pes\Database\Handler\HandlerInterface;
+use Model\Dao\DaoEditAbstract;
 
 /**
  * Description of ComponentDao
  *
  * @author pes2704
  */
-class BlockDao extends DaoTableAbstract {
+class BlockDao extends DaoEditAbstract {
 
-    private $keyAttribute = 'name';
-
-    public function getKeyAttribute() {
-        return $this->keyAttribute;
+    public function getPrimaryKeyAttributes(): array {
+        return ['name'];
     }
 
-    /**
-     * Vrací asociativní pole.
-     *
-     * @param string $name Hodnota primárního klíče user
-     * @return array|false
-     */
-    public function get($name) {
-        $select = $this->select("name, uid_fk");
-        $from = $this->from("block");
-        $where = $this->where("name=:name");
-        $touplesToBind = [':name'=>$name];
-        return $this->selectOne($select, $from, $where, $touplesToBind, true);
+    public function getAttributes(): array {
+        return [
+            'name', 'uid_fk'
+        ];
     }
 
-    /**
-     *
-     * @return array
-     */
-    public function find($whereClause="", $touplesToBind=[]) {
-        $select = $this->select("name, uid_fk");
-        $from = $this->from("block");
-        $where = $this->where($whereClause);
-        return $this->selectMany($select, $from, $where, $touplesToBind);
-    }
-
-    public function insert(RowDataInterface $rowData) {
-        return $this->execInsert('block', $rowData);
-    }
-
-    public function update(RowDataInterface $rowData) {
-        return $this->execUpdate('block', ['name'], $rowData);
-    }
-
-    public function delete(RowDataInterface $rowData) {
-        return $this->execDelete('block', ['name'], $rowData);
+    public function getTableName(): string {
+        return 'block';
     }
 }

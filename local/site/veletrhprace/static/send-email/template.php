@@ -3,12 +3,12 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Red\Model\Entity\PaperAggregatePaperContentInterface;
 /** @var PhpTemplateRendererInterface $this */
 /** @var PaperAggregatePaperContentInterface $paperAggregate */
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 
 $msg = '';
 
-$pathToFolder = Configuration::files()['presenter']."uploads/";
+$pathToFolder = ConfigurationCache::files()['presenter']."uploads/";
 
 
 

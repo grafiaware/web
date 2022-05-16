@@ -1,69 +1,35 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Events\Model\Dao;
 
-use Model\Dao\DaoTableAbstract;
-use Model\Dao\DaoAutoincrementKeyInterface;
+use Model\Dao\DaoEditAbstract;
+use Model\Dao\DaoEditAutoincrementKeyInterface;
 use Model\Dao\DaoAutoincrementTrait;
 
-use Model\RowData\RowDataInterface;
 
 /**
- * Description of EnrollDao
+ * Description of DocumentDao
  *
  * @author pes2704
  */
-class DocumentDao extends DaoTableAbstract implements DaoAutoincrementKeyInterface {
+class DocumentDao extends DaoEditAbstract implements DaoEditAutoincrementKeyInterface {
 //TODO: název tabulky -> do sql, getKeyAttribute do insert, update, delete; getKeyAttribute do where v get: get(...$id) a skutečné proměnné přiřadit do pole podle jmen polí atributu, s polem volat where
 
     use DaoAutoincrementTrait;
 
-    private $keyAttribute = 'id';
-
-    public function getKeyAttribute() {
-        return $this->keyAttribute;
+    public function getPrimaryKeyAttributes(): array {
+        return ['id'];
     }
 
-    public function get($id) {
-        $select = $this->select("
-    `document`.`id`,
-    `document`.`document`,
-    `document`.`document_filename`,
-    `document`.`document_mimetype`
-    ");
-        $from = $this->from("`document`");
-        $where = $this->where("`document`.`id` = :id");
-        $touplesToBind = [':id' => $id];
-        return $this->selectOne($select, $from, $where, $touplesToBind, TRUE);
+    public function getAttributes(): array {
+        return [
+            'id',
+            'document',
+            'document_filename',
+            'document_mimetype'
+        ];
     }
-
-    public function find($whereClause=null, $touplesToBind=[]) {
-        $select = $this->select("
-    `document`.`id`,
-    `document`.`document`,
-    `document`.`document_filename`,
-    `document`.`document_mimetype`
-    ");
-        $from = $this->from("`document`");
-        $where = $this->where($whereClause);
-        return $this->selectMany($select, $from, $where, $touplesToBind);
-    }
-
-    public function insert(RowDataInterface $rowData) {
-        return $this->execInsert('document', $rowData);
-    }
-
-    public function update(RowDataInterface $rowData) {
-        return $this->execUpdate('document', ['id'], $rowData);
-    }
-
-    public function delete(RowDataInterface $rowData) {
-        return $this->execDelete('document', ['id'], $rowData);
+    public function getTableName(): string {
+        return 'document';
     }
 }

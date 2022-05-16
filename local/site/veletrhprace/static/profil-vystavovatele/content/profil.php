@@ -1,7 +1,7 @@
 <?php
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 use Pes\Text\Text;
 use Pes\Text\Html;
@@ -19,7 +19,7 @@ use Pes\Text\Html;
                 <br/>
             </div>
         </div>
-        <?php include Configuration::componentController()['templates']."presenter-job/content/vypis-pozic.php"; ?>
+        <?php include ConfigurationCache::componentController()['templates']."presenter-job/content/vypis-pozic.php"; ?>
 
         <p class="nadpis podtrzeny nastred nadpis-scroll show-on-scroll">Náš program</p>
         <?php include 'profil/harmonogram.php' ?>

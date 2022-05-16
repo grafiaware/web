@@ -1,7 +1,7 @@
 <?php
 namespace Container;
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 // kontejner
 use Pes\Container\ContainerConfiguratorAbstract;
@@ -22,12 +22,6 @@ use Auth\Model\Entity\LoginAggregateFullInterface;
 // database
 use Pes\Database\Handler\Account;
 use Pes\Database\Handler\AccountInterface;
-use Pes\Database\Handler\ConnectionInfo;
-use Pes\Database\Handler\DsnProvider\DsnProviderMysql;
-use Pes\Database\Handler\OptionsProvider\OptionsProviderMysql;
-use Pes\Database\Handler\AttributesProvider\AttributesProvider;
-use Pes\Database\Handler\Handler;
-use Pes\Database\Handler\HandlerInterface;
 
 // configuration
 use Configuration\ComponentConfiguration;
@@ -186,17 +180,17 @@ use \Pes\View\ViewFactory;
  */
 class WebContainerConfigurator extends ContainerConfiguratorAbstract {
 
-    public function getParams() {
+    public function getParams(): iterable {
         return array_merge(
-                Configuration::web(),  //db
-                Configuration::component(),
-                Configuration::menu(),
-                Configuration::renderer(),
-                Configuration::templateController()
+                ConfigurationCache::web(),  //db
+                ConfigurationCache::component(),
+                ConfigurationCache::menu(),
+//                Configuration::renderer(),
+                ConfigurationCache::templateController()
                 );
     }
 
-    public function getFactoriesDefinitions() {
+    public function getFactoriesDefinitions(): iterable {
         return [
         // components
 
@@ -232,7 +226,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                     );
                 $menuComponent->setRendererContainer($c->get('rendererContainer'));
                 if ($menuComponent->getStatus()->presentEditableContent()) {
-                    $menuComponent->appendComponentView($c->get(EditMenuSwitchComponent::class), MenuComponent::TOGGLE_EDIT_MENU);
+                    $menuComponent->appendComponentView($c->get(EditMenuSwitchComponent::class), MenuComponent::TOGGLE_EDIT_MENU_BUTTON);
                 }
                 return $menuComponent;
             },
@@ -670,15 +664,14 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
         ];
     }
 
-    public function getAliases() {
+    public function getAliases(): iterable {
         return [
             CredentialsInterface::class => Credentials::class,
             AccountInterface::class => Account::class,
-            HandlerInterface::class => Handler::class,
         ];
     }
 
-    public function getServicesDefinitions() {
+    public function getServicesDefinitions(): iterable {
         return [
             // configuration
             ComponentConfiguration::class => function(ContainerInterface $c) {
@@ -879,14 +872,6 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                             $c->get(ItemActionRepo::class)
                     );
             },
-        ];
-    }
-
-    public function getServicesOverrideDefinitions() {
-        return [
-            //  má AppContainer jako delegáta
-            //
-
             // session user - tato služba se používá pro vytvoření objetu Account a tedy pro připojení k databázi
             LoginAggregateFullInterface::class => function(ContainerInterface $c) {
                 /** @var StatusSecurityRepo $securityStatusRepo */
@@ -926,20 +911,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 return $account;
             },
 
-            // database handler
-                ## konfigurována jen jedna databáze pro celou aplikaci
-                ## konfigurováno více možností připojení k databázi - jedno pro vývoj a druhé pro běh na produkčním stroji
-                ## pro web middleware se používá zde definovaný Account, ostatní objekty jsou společné - z App kontejneru
-            Handler::class => function(ContainerInterface $c) : HandlerInterface {
-                $handler = new Handler(
-                        $c->get(Account::class),
-                        $c->get(ConnectionInfo::class),
-                        $c->get(DsnProviderMysql::class),
-                        $c->get(OptionsProviderMysql::class),
-                        $c->get(AttributesProvider::class),
-                        $c->get('dbUpgradeLogger'));
-                return $handler;
-            },
+
 
 
         ];

@@ -8,78 +8,45 @@
 
 namespace Red\Model\Dao;
 
-use Model\Dao\DaoTableAbstract;
-use Model\Dao\DaoAutoincrementKeyInterface;
-use \Model\Dao\DaoAutoincrementTrait;
-use Model\RowData\RowDataInterface;
+use Model\Dao\DaoEditAbstract;
+use Model\Dao\DaoEditAutoincrementKeyInterface;
+use Model\Dao\DaoFkUniqueInterface;
+use Model\Dao\DaoAutoincrementTrait;
+use Model\Dao\DaoFkUniqueTrait;
 
 /**
  * Description of RsDao
  *
  * @author pes2704
  */
-class MultipageDao extends DaoTableAbstract implements DaoAutoincrementKeyInterface {
+class MultipageDao extends DaoEditAbstract implements DaoEditAutoincrementKeyInterface, DaoFkUniqueInterface  {
 
     use DaoAutoincrementTrait;
+    use DaoFkUniqueTrait;
 
-    private $keyAttribute = 'id';
-
-    public function getKeyAttribute() {
-        return $this->keyAttribute;
+    public function getPrimaryKeyAttributes(): array {
+        return ['id'];
     }
 
-    /**
-     * Vrací jednu řádku tabulky 'multipage' ve formě asociativního pole podle primárního klíče.
-     *
-     * @param string $id Hodnota primárního klíče
-     * @return array Asociativní pole
-     * @throws StatementFailureException
-     */
-    public function get($id) {
-        $select = $this->select("
-            `multipage`.`id`,
-            `multipage`.`menu_item_id_fk`,
-            `multipage`.`template`,
-            `multipage`.`editor`,
-            `multipage`.`updated`
-            ");
-        $from = $this->from("`multipage`");
-        $where = $this->where("`multipage`.`id` = :id");
-        $touplesToBind = [':id' => $id];
-        return $this->selectOne($select, $from, $where, $touplesToBind, true);
+    public function getAttributes(): array {
+        return [
+            'id',
+            'menu_item_id_fk',
+            'template',
+            'editor',
+            'updated'
+        ];
     }
 
-    /**
-     * Vrací jednu řádku tabulky 'article' ve formě asociativního pole podle cizího klíče s vazbou 1:1.
-     *
-     * @param string $menuItemIdFk Hodnota cizího klíče
-     * @return array Asociativní pole
-     * @throws StatementFailureException
-     */
-    public function getByFk($menuItemIdFk) {
-        $select = $this->select("
-            `multipage`.`id`,
-            `multipage`.`menu_item_id_fk`,
-            `multipage`.`template`,
-            `multipage`.`editor`,
-            `multipage`.`updated`
-            ");
-        $from = $this->from("`multipage`");
-        $where = $this->where("`multipage`.`menu_item_id_fk` = :menu_item_id_fk");
-        $touplesToBind = [':menu_item_id_fk' => $menuItemIdFk];
-        return $this->selectOne($select, $from, $where, $touplesToBind, true);
+    public function getForeignKeyAttributes(): array {
+        return [
+            'menu_item_id_fk'=>['menu_item_id_fk']
+        ];
     }
 
-    public function insert(RowDataInterface $rowData) {
-        return $this->execInsert('multipage', $rowData);
+    public function getTableName(): string {
+        return 'multipage';
     }
 
-    public function update(RowDataInterface $rowData) {
-        return $this->execUpdate('multipage', ['id'], $rowData);
-    }
-
-    public function delete(RowDataInterface $rowData) {
-        return $this->execDelete('multipage', ['id'], $rowData);
-    }
 }
 

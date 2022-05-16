@@ -45,21 +45,9 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
         // operace s menu používají databázi z menu kontejneru (upgrade), ostatní používají starou databázi z app kontejneru (připojovací informace
         // jsou v jednotlivých kontejnerech)
         $this->container =
-//                (new ApiContainerConfigurator())->configure(
-//                    (new HierarchyContainerConfigurator())->configure(
-//                       (new DbUpgradeContainerConfigurator())->configure(
-//                            (new Container(
-//                                    (new LoginContainerConfigurator())->configure(
-//                                        (new MailContainerConfigurator())->configure(
-//                                            new Container($this->getApp()->getAppContainer())
-//                                        )
-//                                    )
-//                                )
-//                            )
-//                        )
-//                    )
-//                );
                 (new ApiContainerConfigurator())->configure(
+                    (new HierarchyContainerConfigurator())->configure(
+                       (new DbUpgradeContainerConfigurator())->configure(
                             (new Container(
 //                                    (new LoginContainerConfigurator())->configure(
                                         (new MailContainerConfigurator())->configure(
@@ -68,7 +56,19 @@ class Redactor extends AppMiddlewareAbstract implements MiddlewareInterface {
 //                                    )
                                 )
                             )
+                        )
+                    )
                 );
+//                (new ApiContainerConfigurator())->configure(
+//                            (new Container(
+////                                    (new LoginContainerConfigurator())->configure(
+//                                        (new MailContainerConfigurator())->configure(
+//                                            new Container($this->getApp()->getAppContainer())
+//                                        )
+////                                    )
+//                                )
+//                            )
+//                );
 
 ####################################
         /** @var RouteSegmentGenerator $routeGenerator */

@@ -5,7 +5,7 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Pes\Text\Text;
 /** @var PhpTemplateRendererInterface $this */
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 // visitor
 use Red\Model\Entity\LoginAggregateFullInterface;
@@ -35,12 +35,12 @@ use Red\Model\Repository\VisitorDataRepo;
     $loginAggregate = $statusSecurity->getLoginAggregate();
 
     if (isset($loginAggregate)) {
-        $loginName = $loginAggregate->getLoginName();
+        $loginName = $loginAggregate->getLoginLoginName();
         $role = $loginAggregate->getCredentials()->getRole() ?? '';
     }
 
     // poue pro default roli 'visitor'
-    if (isset($role) AND $role==(Configuration::loginLogoutController()['roleVisitor'])) {
+    if (isset($role) AND $role==(ConfigurationCache::loginLogoutController()['roleVisitor'])) {
         $visitorDataRepo = $container->get(VisitorDataRepo::class);
         $visitorData = $visitorDataRepo->get($loginName);
     }
@@ -52,7 +52,7 @@ use Red\Model\Repository\VisitorDataRepo;
             '190219785' => $visitorData->getSurname() ?? '',
             '1783510966' => $visitorData->getName() ?? '',
             '1428572852' => $visitorData->getEmail() ?? '',
-            '742183994' => $visitorData->getLoginName() ?? '',
+            '742183994' => $visitorData->getLoginLoginName() ?? '',
         ];
     } else {
         $entries = [

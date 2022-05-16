@@ -3,7 +3,7 @@
 namespace Web\Middleware\Transformator;
 
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 use Pes\Middleware\AppMiddlewareAbstract;
 use Pes\Container\Container;
@@ -32,6 +32,8 @@ use Pes\Http\Body;
  */
 class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface {
 
+    const HEADER = 'X-RED-Transformation-Time';
+
     /**
      * @var ContainerInterface
      */
@@ -39,22 +41,14 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
 
-//        $this->container =
-//            (new WebContainerConfigurator())->configure(
-//                (new HierarchyContainerConfigurator())->configure(
-//                    (new DbUpgradeContainerConfigurator())->configure(
-//                            new Container($this->getApp()->getAppContainer())
-//                    )
-//                )
-//            );
-        $this->container =
-            (new WebContainerConfigurator())->configure(
-                $this->getApp()->getAppContainer()
-            );
-
         $response = $handler->handle($request);
+        $this->container = $this->getApp()->getAppContainer();
+
         $newBody = new Body(fopen('php://temp', 'r+'));
+        $startTime = microtime(true);
         $newBody->write($this->transform($response->getBody()->getContents()));
+
+        $response = $response->withHeader(self::HEADER, sprintf('%2.3fms', (microtime(true) - $startTime) * 1000));
         return $response->withBody($newBody);
     }
 
@@ -65,15 +59,15 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
      */
     private function transform($text) {
 
-        $downloadDirectory = Configuration::files()['@download'];
-        $siteImagesDirectory = Configuration::files()['@siteimages'];
-        $siteMoviesDirectory = Configuration::files()['@sitemovies'];
-        $commonImagesDirectory = Configuration::files()['@commonimages'];
-        $commonMoviesDirectory = Configuration::files()['@commonmovies'];
-        $filesDirectory = Configuration::files()['files'];
+        $downloadDirectory = ConfigurationCache::files()['@download'];
+        $siteImagesDirectory = ConfigurationCache::files()['@siteimages'];
+        $siteMoviesDirectory = ConfigurationCache::files()['@sitemovies'];
+        $commonImagesDirectory = ConfigurationCache::files()['@commonimages'];
+        $commonMoviesDirectory = ConfigurationCache::files()['@commonmovies'];
+        $filesDirectory = ConfigurationCache::files()['files'];
 
-        $publicDirectory = Configuration::transformator()['publicDirectory'];
-        $siteDirectory = Configuration::transformator()['siteDirectory'];
+        $publicDirectory = ConfigurationCache::transformator()['publicDirectory'];
+        $siteDirectory = ConfigurationCache::transformator()['siteDirectory'];
 
         $transform = array(
             // RED
@@ -127,7 +121,7 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
                     $query = parse_url($url, PHP_URL_QUERY);
                     parse_str($query, $pairs);
                     if (array_key_exists($key, $pairs)) {
-                        $row = $dao->getByList($langCode, $pairs[$key]);
+                        $row = $dao->getByList(['lang_code_fk'=>$langCode, 'list'=>$pairs[$key]]);
                         if ($row) {
                             $transform[$url] = "web/v1/page/item/{$row['uid_fk']}";
                         } else {
@@ -144,8 +138,9 @@ class Transformator extends AppMiddlewareAbstract implements MiddlewareInterface
             /** @var StatusFlashRepo $statusFlashRepo */
             $statusFlashRepo = $this->container->get(StatusFlashRepo::class);
             foreach ($notFound as $url) {
-                $statusFlashRepo->get()->setMessage("Nenalezen odkaz $url v databázi.");
-//                user_error("Nenalezen odkaz $url v databázi.", E_USER_WARNING);
+                if (PES_DEVELOPMENT) {
+                    $statusFlashRepo->get()->setMessage("Nenalezen odkaz $url v databázi.");
+                }
                 if ($this->hasLogger()) {
                     $this->getLogger()->notice("Pro uri $requestUri nenalezen v obsahu stránky v databázi odkaz $url.");
                 }

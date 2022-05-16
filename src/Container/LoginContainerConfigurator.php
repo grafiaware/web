@@ -1,7 +1,7 @@
 <?php
 namespace Container;
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 // kontejner
 use Pes\Container\ContainerConfiguratorAbstract;
@@ -15,6 +15,9 @@ use Auth\Model\Entity\Credentials;
 
 // rowdata
 use Model\RowData\PdoRowData;
+
+//builder
+use Model\Builder\Sql;
 
 //login & credentials - db
 use Auth\Model\Dao\CredentialsDao;
@@ -71,15 +74,15 @@ use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusF
  */
 class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
 
-    public function getParams() {
-        return Configuration::login();
+    public function getParams(): iterable {
+        return ConfigurationCache::login();
     }
 
-    public function getFactoriesDefinitions() {
+    public function getFactoriesDefinitions(): iterable {
         return [];
     }
 
-    public function getAliases() {
+    public function getAliases(): iterable {
         return [
             AccountInterface::class => Account::class,
             HandlerInterface::class => Handler::class,
@@ -88,7 +91,7 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
         ];
     }
 
-    public function getServicesDefinitions() {
+    public function getServicesDefinitions(): iterable {
         return [
             // LoginContainer musí mít DbOld kontejner jako delegáta
             //
@@ -120,9 +123,17 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(AttributesProvider::class),
                         $c->get('loginDbLogger'));
             },
+
+            Sql::class => function(ContainerInterface $c) {
+                return new Sql();
+            },
+
             // db login & credentials repo
             LoginAggregateReadonlyDao::class => function(ContainerInterface $c) {
-                return new LoginAggregateReadonlyDao($c->get(Handler::class), PdoRowData::class);
+                return new LoginAggregateReadonlyDao(
+                        $c->get(Handler::class),
+                        $c->get(Sql::class),
+                        PdoRowData::class);
             },
             LoginAggregateReadonlyRepo::class => function(ContainerInterface $c) {
                 return new LoginAggregateReadonlyRepo(
@@ -132,10 +143,16 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
                         );
             },
             LoginDao::class => function(ContainerInterface $c) {
-                return new LoginDao($c->get(Handler::class), PdoRowData::class);
+                return new LoginDao(
+                        $c->get(Handler::class),
+                        $c->get(Sql::class),
+                        PdoRowData::class);
             },
             CredentialsDao::class => function(ContainerInterface $c) {
-                return new CredentialsDao($c->get(Handler::class), PdoRowData::class);
+                return new CredentialsDao(
+                        $c->get(Handler::class),
+                        $c->get(Sql::class),
+                        PdoRowData::class);
             },
             CredentialsRepo::class => function(ContainerInterface $c) {
                 return new CredentialsRepo($c->get(CredentialsDao::class), new CredentialsHydrator());
@@ -149,7 +166,10 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
                         );
             },
             RegistrationDao::class => function(ContainerInterface $c) {
-                return new RegistrationDao($c->get(Handler::class), PdoRowData::class);
+                return new RegistrationDao(
+                        $c->get(Handler::class),
+                        $c->get(Sql::class),
+                        PdoRowData::class);
             },
             RegistrationRepo::class => function(ContainerInterface $c) {
                 return new RegistrationRepo($c->get(RegistrationDao::class), new RegistrationHydrator());
@@ -220,9 +240,5 @@ class LoginContainerConfigurator extends ContainerConfiguratorAbstract {
                     ;
             }
         ];
-    }
-
-    public function getServicesOverrideDefinitions() {
-        return [];
     }
 }

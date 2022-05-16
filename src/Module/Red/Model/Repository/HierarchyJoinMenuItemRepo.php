@@ -50,8 +50,9 @@ class HierarchyJoinMenuItemRepo extends RepoAbstract {  // HierarchyAggregateMen
      * @param type $uid
      * @return HierarchyAggregateInterface|null
      */
-    public function get($langCode, $uid): ?HierarchyAggregateInterface {
-        return $this->getEntity($langCode, $uid);
+    public function get($langCodeFk, $uidFk): ?HierarchyAggregateInterface {
+        $key = $this->dataManager->getPrimaryKeyTouples(['lang_code_fk'=>$langCodeFk, 'uid_fk'=>$uidFk]);
+        return $this->getEntity($key);
     }
 
     /**
@@ -63,8 +64,8 @@ class HierarchyJoinMenuItemRepo extends RepoAbstract {  // HierarchyAggregateMen
      * @param string $title
      * @return HierarchyAggregateInterface|null
      */
-    public function getNodeByTitle($langCode, $title): ?HierarchyAggregateInterface {
-        $rowData = $this->dataManager->getByTitleHelper($langCode, $title);
+    public function getNodeByTitle($key): ?HierarchyAggregateInterface {
+        $rowData = $this->dataManager->getByTitleHelper($key);
 //        $index = $langCode.$row['uid_fk']; // index z parametru a row
 //        if (!isset($this->collection[$index])) {
 //            $this->recreateEntity($index, $row);
@@ -167,8 +168,8 @@ class HierarchyJoinMenuItemRepo extends RepoAbstract {  // HierarchyAggregateMen
 //        }
 //    }
 
-    protected function indexFromKeyParams($langCodeFk, $uid) {
-        return $langCodeFk.$uid;
+    protected function indexFromKeyParams($id) {
+        return $id['lang_code_fk'].$id['uid_fk'];
     }
 
     protected function indexFromEntity(HierarchyAggregateInterface $menuNode) {
@@ -176,6 +177,6 @@ class HierarchyJoinMenuItemRepo extends RepoAbstract {  // HierarchyAggregateMen
     }
 
     protected function indexFromRow($row) {
-        return $row['lang_code_fk'].$row['uid'];
+        return $row['lang_code_fk'].$row['uid_fk'];
     }
 }

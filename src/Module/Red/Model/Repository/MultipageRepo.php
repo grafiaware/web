@@ -14,7 +14,7 @@ use Model\Entity\EntityInterface;
 use Red\Model\Entity\MultipageInterface;
 use Red\Model\Entity\Multipage;
 use Red\Model\Dao\MultipageDao;
-use Model\Dao\DaoChildInterface;
+use Model\Dao\DaoFkUniqueInterface;
 use Red\Model\Hydrator\MultipageHydrator;
 
 /**
@@ -25,9 +25,9 @@ use Red\Model\Hydrator\MultipageHydrator;
 class MultipageRepo extends RepoAbstract implements MultipageRepoInterface {
 
     /**
-     * @var DaoChildInterface
+     * @var DaoFkUniqueInterface
      */
-    protected $dao;  // přetěžuje $dao v AbstractRepo - typ DaoChildInterface
+    protected $dataManager;  // přetěžuje $dao v AbstractRepo - typ DaoChildInterface
 
     public function __construct(MultipageDao $multipageDao, MultipageHydrator $multipageHydrator) {
         $this->dataManager = $multipageDao;
@@ -40,16 +40,18 @@ class MultipageRepo extends RepoAbstract implements MultipageRepoInterface {
      * @return MultipageInterface|null
      */
     public function get($id): ?MultipageInterface {
-        return $this->getEntity($id);
+        $key = $this->dataManager->getPrimaryKeyTouples(['id'=>$id]);
+        return $this->getEntity($key);
     }
 
     /**
      *
      * @param type $menuItemIdFk
-     * @return MultipageInterface|null
+     * @return PaperInterface|null
      */
     public function getByReference($menuItemIdFk): ?EntityInterface {
-        return $this->getEntityByReference($menuItemIdFk);
+        $key = $this->dataManager->getForeignKeyTouples('menu_item_id_fk', ['menu_item_id_fk'=>$menuItemIdFk]);
+        return $this->getEntityByReference('menu_item_id_fk', $key);
     }
 
     public function add(MultipageInterface $multipage) {
@@ -62,9 +64,6 @@ class MultipageRepo extends RepoAbstract implements MultipageRepoInterface {
 
     protected function createEntity() {
         return new Multipage();
-    }
-    protected function indexFromKeyParams($id) {
-        return $id;
     }
 
     protected function indexFromEntity(MultipageInterface $multipage) {

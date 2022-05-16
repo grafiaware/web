@@ -3,15 +3,15 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Pes\Text\Text;
 use Pes\Text\Html;
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 use Status\Model\Repository\StatusSecurityRepo;
 use Auth\Model\Entity\LoginAggregateFullInterface;
 
 use Events\Middleware\Events\Controller\VisitorDataController;
 use Events\Model\Repository\VisitorProfileRepo;
 use Events\Model\Entity\VisitorProfileInterface;
-use Events\Model\Repository\VisitorDataPostRepo;
-use Events\Model\Entity\VisitorDataPostInterface;
+use Events\Model\Repository\VisitorJobRequestRepo;
+use Events\Model\Entity\VisitorJobRequestInterface;
 
 use Events\Model\Arraymodel\Presenter;
 /** @var PhpTemplateRendererInterface $this */
@@ -48,8 +48,8 @@ $loginAggregate = $statusSecurity->getLoginAggregate();
 $presenterModel = new Presenter();
 
 
-/** @var VisitorDataPostRepo $visitorDataPostRepo */
-$visitorDataPostRepo = $container->get(VisitorDataPostRepo::class);
+/** @var VisitorJobRequestRepo $visitorDataPostRepo */
+$visitorDataPostRepo = $container->get(VisitorJobRequestRepo::class);
 
 
 if (isset($loginAggregate)) {
@@ -57,8 +57,8 @@ if (isset($loginAggregate)) {
     $role = $loginAggregate->getCredentials()->getRole() ?? '';
     $presenterPerson = $presenterModel->getPerson($loginName);
 
-    $isVisitor = $role==Configuration::loginLogoutController()['roleVisitor'];
-    $isPresenter = (($role==Configuration::loginLogoutController()['rolePresenter']) AND ($presenterPerson['shortName']==$shortName));
+    $isVisitor = $role==ConfigurationCache::loginLogoutController()['roleVisitor'];
+    $isPresenter = (($role==ConfigurationCache::loginLogoutController()['rolePresenter']) AND ($presenterPerson['shortName']==$shortName));
 
     if ($isVisitor) {
         /** @var VisitorProfileRepo $visitorDataRepo */
@@ -66,13 +66,13 @@ if (isset($loginAggregate)) {
         /** @var VisitorProfileInterface $visitorData */
         $visitorData = $visitorDataRepo->get($loginName);
 
-        /** @var VisitorDataPostInterface $visitorDataPost */
+        /** @var VisitorJobRequestInterface $visitorDataPost */
         $visitorDataPost = $visitorDataPostRepo->get($loginName, $shortName, $positionName);
 
         // formulář
         // unikátní jména souborů pro upload
         $userHash = $loginAggregate->getLoginNameHash();
-        $accept = implode(", ", Configuration::filesUploadController()['upload.events.acceptedextensions']);
+        $accept = implode(", ", ConfigurationCache::filesUploadController()['upload.events.acceptedextensions']);
         $uploadedCvFilename = VisitorDataController::UPLOADED_KEY_CV.$userHash;
         $uploadedLetterFilename = VisitorDataController::UPLOADED_KEY_LETTER.$userHash;
 
@@ -122,7 +122,7 @@ if (isset($loginAggregate)) {
     }
 
     if ($isPresenter) {
-        /** @var VisitorDataPostInterface $visitorDataPost */
+        /** @var VisitorJobRequestInterface $visitorDataPost */
         $visitorDataPosts = $visitorDataPostRepo->findAllForPosition($shortName, $positionName);
         $visitorDataCount = count($visitorDataPosts);
         $allFormVisitorDataPost = [];
@@ -137,7 +137,7 @@ if (isset($loginAggregate)) {
             $visitorFormData['isVisitor'] = $isVisitor;
             $visitorFormData['presenterEmail'] = $loginAggregate->getRegistration() ? $loginAggregate->getRegistration()->getEmail() : 'Nezadána mail adresa!';
             foreach ($visitorDataPosts as $visitorDataPost) {
-                $visitorFormData['visitorLoginName'] = $visitorDataPost->getLoginName();  // pro hidden pole
+                $visitorFormData['visitorLoginName'] = $visitorDataPost->getLoginLoginName();  // pro hidden pole
                 $visitorFormData['prefix'] = $visitorDataPost->getPrefix();
                 $visitorFormData['email'] = $visitorDataPost->getEmail();
                 $visitorFormData['readonlyEmail'] = $visitorDataPost->getEmail() ? 'readonly="1"' : '';  // proměnná pro input email
@@ -242,7 +242,7 @@ if (isset($loginAggregate)) {
                                             <div class="profil hidden">
                                                 <?php
                                                     // pokud je $visitorDataPosted je nastaveno readonly
-                                                    include Configuration::componentController()['templates'].'visitor-data/osobni-udaje.php'; ?>
+                                                    include ConfigurationCache::componentController()['templates'].'visitor-data/osobni-udaje.php'; ?>
                                             </div>
                                         </div>
                                         <?php
@@ -259,7 +259,7 @@ if (isset($loginAggregate)) {
                                             </div>
                                             <div class="sixteen wide column">
                                                 <div class="profil hidden">
-                                                    <?= $this->repeat(Configuration::componentController()['templates'].'visitor-data/osobni-udaje.php', $allFormVisitorDataPost); ?>
+                                                    <?= $this->repeat(ConfigurationCache::componentController()['templates'].'visitor-data/osobni-udaje.php', $allFormVisitorDataPost); ?>
                                                 </div>
                                             </div>
                                             <?php

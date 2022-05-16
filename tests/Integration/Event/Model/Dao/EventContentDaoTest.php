@@ -1,12 +1,6 @@
 <?php
 declare(strict_types=1);
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 use Test\AppRunner\AppRunner;
 
 use Pes\Container\Container;
@@ -15,8 +9,6 @@ use Test\Integration\Event\Container\EventsContainerConfigurator;
 use Test\Integration\Event\Container\DbEventsContainerConfigurator;
 
 use Events\Model\Dao\EventContentDao;
-use Model\Dao\Exception\DaoForbiddenOperationException;
-use Model\Dao\Exception\DaoKeyVerificationFailedException;
 use Model\RowData\RowData;
 use Model\RowData\RowDataInterface;
 
@@ -68,53 +60,53 @@ class EventContentDaoTest extends AppRunner {
         $rowData->offsetSet('event_content_type_fk', null);
         $rowData->offsetSet('institution_id_fk', null);
         $this->dao->insert($rowData);
-        self::$id =  $this->dao->getLastInsertId();
+        self::$id =  $this->dao->getLastInsertIdTouple();
         $this->assertGreaterThan(0, (int) self::$id);
         $numRows = $this->dao->getRowCount();
         $this->assertEquals(1, $numRows);
     }
 
     public function testGetExistingRow() {
-        $eventContentTypeRow = $this->dao->get(self::$id);
-        $this->assertInstanceOf(RowDataInterface::class, $eventContentTypeRow);
+        $eventContentRow = $this->dao->get(self::$id);
+        $this->assertInstanceOf(RowDataInterface::class, $eventContentRow);
     }
 
     public function test6Columns() {
-        $eventContentTypeRow = $this->dao->get(self::$id);
-        $this->assertCount(6, $eventContentTypeRow);
+        $eventContentRow = $this->dao->get(self::$id);
+        $this->assertCount(6, $eventContentRow);
     }
 
     public function testUpdate() {
-        $eventContentTypeRow = $this->dao->get(self::$id);
-        $name = $eventContentTypeRow['title'];
-        $this->assertIsString($eventContentTypeRow['title']);
+        $eventContentRow = $this->dao->get(self::$id);
+        $name = $eventContentRow['title'];
+        $this->assertIsString($eventContentRow['title']);
         //
         $this->setUp();
         $updated = str_replace('-title', '-title_updated', $name);
-        $eventContentTypeRow['title'] = $updated;
-        $this->dao->update($eventContentTypeRow);
+        $eventContentRow['title'] = $updated;
+        $this->dao->update($eventContentRow);
         $this->assertEquals(1, $this->dao->getRowCount());
 
         $this->setUp();
-        $eventContentTypeRowRereaded = $this->dao->get(self::$id);
-        $this->assertEquals($eventContentTypeRow, $eventContentTypeRowRereaded);
-        $this->assertContains('-title_updated', $eventContentTypeRowRereaded['title']);
+        $eventContentRowRereaded = $this->dao->get(self::$id);
+        $this->assertEquals($eventContentRow, $eventContentRowRereaded);
+        $this->assertContains('-title_updated', $eventContentRowRereaded['title']) ;
     }
 
     public function testFind() {
-        $eventContentTypeRow = $this->dao->find();
-        $this->assertIsArray($eventContentTypeRow);
-        $this->assertGreaterThanOrEqual(1, count($eventContentTypeRow));
-        $this->assertInstanceOf(RowDataInterface::class, $eventContentTypeRow[0]);
+        $eventContentRow = $this->dao->find();
+        $this->assertIsArray($eventContentRow);
+        $this->assertGreaterThanOrEqual(1, count($eventContentRow));
+        $this->assertInstanceOf(RowDataInterface::class, $eventContentRow[0]);
     }
 
     public function testDelete() {
-        $eventContentTypeRow = $this->dao->get(self::$id);
-        $this->dao->delete($eventContentTypeRow);
+        $eventContentRow = $this->dao->get(self::$id);
+        $this->dao->delete($eventContentRow);
         $this->assertEquals(1, $this->dao->getRowCount());
 
         $this->setUp();
-        $eventContentTypeRow = $this->dao->get(self::$id);
-        $this->assertNull($eventContentTypeRow);
+        $eventContentRow = $this->dao->get(self::$id);
+        $this->assertNull($eventContentRow);
     }
 }

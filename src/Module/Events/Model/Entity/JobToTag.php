@@ -13,9 +13,10 @@ use Events\Model\Entity\JobToTagInterface;
 class JobToTag extends EntityAbstract implements JobToTagInterface {
  
     private $jobId;  //NOT NULL
-    private $companyId;   //NOT NULL
+    private $jobTagTag;   //NOT NULL
     
-    private $keyAttribute = 'job_id';
+    private $keyAttribute = ['job_id', 
+                             'job_tag_tag'];
       
     public function getKeyAttribute() {
         return $this->keyAttribute;
@@ -31,33 +32,31 @@ class JobToTag extends EntityAbstract implements JobToTagInterface {
     }
     /**
      * 
-     * @return int
-     */
-    public function getCompanyId() : int{
-        return $this->companyId;
+     * @return string
+     */ 
+    public function getJobTagTag() : string{
+        return $this->jobTagTag;
     }
+   
     /**
      * 
      * @param int $jobId
      * @return JobToTagInterface
      */
-    public function setJobId(int $jobId) : JobToTagInterface {
+    public function setJobId( int $jobId) : JobToTagInterface {
         $this->jobId = $jobId;
         return $this;
-    }
+    }            
+   
     /**
      * 
-     * @param int $companyId
+     * @param string $jobTagTag
      * @return JobToTagInterface
      */
-     public function setCompanyId(int $companyId) : JobToTagInterface {
-        $this->companyId = $companyId;
+    public function setJobTagTag( string $jobTagTag) : JobToTagInterface {
+        $this->jobTagTag = $jobTagTag;
         return $this;
     }
 
-    
-    
-    
-    
     
 }

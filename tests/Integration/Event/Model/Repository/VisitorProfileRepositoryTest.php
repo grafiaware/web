@@ -71,7 +71,8 @@ class VisitorProfileRepositoryTest extends AppRunner {
         /** @var VisitorProfileDao $visitorProfileDao */
         $visitorProfileDao = $container->get(VisitorProfileDao::class);
 
-        $rowData = new RowData([
+        $rowData = new RowData();
+        $rowData->import([
             'login_login_name' => $loginName,
             'name' => "Name" . (string) (1000+random_int(0, 999)),
             'surname' => "Name" . (string) (1000+random_int(0, 999)),
@@ -87,13 +88,14 @@ class VisitorProfileRepositoryTest extends AppRunner {
         // prefix + uniquid - bez zamykání db
         do {
             $loginName = self::$loginNamePrefix."_".uniqid();
-            $login = $loginDao->get($loginName);
+            $login = $loginDao->get(['login_name' => $loginName]);
         } while ($login);
 
-        $rowData = new RowData([
+        $rowData = new RowData();
+        $rowData->import([
             'login_name' => $loginName,
         ]);
-        $loginDao->insertWithKeyVerification($rowData);
+        $loginDao->insert($rowData);
 
         return $loginName;
     }

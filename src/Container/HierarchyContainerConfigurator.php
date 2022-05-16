@@ -8,22 +8,15 @@
 
 namespace Container;
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 use Pes\Container\ContainerConfiguratorAbstract;
 
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
 
 // db Handler
-use Pes\Database\Handler\Account;
-use Pes\Database\Handler\ConnectionInfo;
-use Pes\Database\Handler\DbTypeEnum;
-use Pes\Database\Handler\DsnProvider\DsnProviderMysql;
-use Pes\Database\Handler\OptionsProvider\OptionsProviderMysql;
-use Pes\Database\Handler\AttributesProvider\AttributesProvider;
 use Pes\Database\Handler\Handler;
 use Pes\Database\Handler\HandlerInterface;
-use Pes\Logger\FileLogger;
 
 // models
 
@@ -36,8 +29,11 @@ use Status\Model\Repository\StatusPresentationRepo;
 // rowdata
 use Model\RowData\PdoRowData;
 
+//builder
+use Model\Builder\Sql;
+
 // data manager
-use Model\DataManager\DataManager;
+use Model\DataManager\DataManagerAbstract;
 
 //dao + hydrator + repo
 use Red\Model\Dao\Hierarchy\HierarchyAggregateEditDao;
@@ -97,9 +93,9 @@ use Events\Model\Dao\VisitorProfileDao;
 use Events\Model\Hydrator\VisitorProfileHydrator;
 use Events\Model\Repository\VisitorProfileRepo;
 
-use Events\Model\Dao\VisitorDataPostDao;
-use Events\Model\Hydrator\VisitorDataPostHydrator;
-use Events\Model\Repository\VisitorDataPostRepo;
+use Events\Model\Dao\VisitorJobRequestDao;
+use Events\Model\Hydrator\VisitorJobRequestHydrator;
+use Events\Model\Repository\VisitorJobRequestRepo;
 
 //aggregate
 use Red\Model\Repository\MenuItemAggregatePaperRepo;
@@ -121,36 +117,35 @@ use Red\Model\HierarchyHooks\MenuListStyles;
  */
 class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
 
-    public function getParams() {
-        return Configuration::hierarchy();
+    public function getParams(): iterable {
+        return ConfigurationCache::hierarchy();
     }
 
-    public function getFactoriesDefinitions() {
+    public function getFactoriesDefinitions(): iterable {
         return [];
     }
 
-    public function getAliases() {
+    public function getAliases(): iterable {
         return [
-            HandlerInterface::class => Handler::class,
-            RouterInterface::class => Router::class,
             ContextFactoryInterface::class => ContextFactory::class,
             HierarchyAggregateReadonlyDaoInterface::class => HierarchyAggregateReadonlyDao::class,
             HierarchyAggregateEditDaoInterface::class => HierarchyAggregateEditDao::class,
         ];
     }
 
-    public function getServicesDefinitions() {
+    public function getServicesDefinitions(): iterable {
         return [
             ContextFactory::class => function(ContainerInterface $c) {
                 return new ContextFactory($c->get(StatusSecurityRepo::class),
                                 $c->get(StatusPresentationRepo::class));
             },
-
+            Sql::class => function(ContainerInterface $c) {
+                return new Sql();
+            },
             HierarchyAggregateReadonlyDao::class => function(ContainerInterface $c) : HierarchyAggregateReadonlyDao {
                 return new HierarchyAggregateReadonlyDao(
                         $c->get(Handler::class),
-                        $c->get('hierarchy.table'),
-                        $c->get('hierarchy.menu_item_table'),
+                        $c->get(Sql::class),
                         PdoRowData::class,
                         $c->get(ContextFactoryInterface::class));
             },
@@ -158,7 +153,7 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
                 /** @var HierarchyAggregateEditDao $editHierarchy */
                 $editHierarchy = (new HierarchyAggregateEditDao(
                         $c->get(Handler::class),
-                        $c->get('hierarchy.table'),
+                        $c->get(Sql::class),
                         PdoRowData::class,
                         $c->get(ContextFactoryInterface::class))
                         );
@@ -172,6 +167,7 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
             MenuItemDao::class => function(ContainerInterface $c) {
                 return new MenuItemDao(
                         $c->get(HandlerInterface::class),
+                        $c->get(Sql::class),
                         PdoRowData::class,
                         $c->get(ContextFactoryInterface::class));
             },
@@ -208,7 +204,10 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(HierarchyChildHydrator::class));
             },
             MenuItemTypeDao::class => function(ContainerInterface $c) {
-                return new MenuItemTypeDao($c->get(HandlerInterface::class), PdoRowData::class);
+                return new MenuItemTypeDao(
+                        $c->get(HandlerInterface::class),
+                        $c->get(Sql::class),
+                        PdoRowData::class);
             },
             MenuItemTypeHydrator::class => function(ContainerInterface $c) {
                 return new MenuItemTypeHydrator();
@@ -217,7 +216,10 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new MenuItemTypeRepo($c->get(MenuItemTypeDao::class), $c->get(MenuItemTypeHydrator::class));
             },
             PaperDao::class => function(ContainerInterface $c) {
-                return new PaperDao($c->get(HandlerInterface::class), PdoRowData::class);
+                return new PaperDao(
+                        $c->get(HandlerInterface::class),
+                        $c->get(Sql::class),
+                        PdoRowData::class);
             },
             PaperHydrator::class => function(ContainerInterface $c) {
                 return new PaperHydrator();
@@ -228,6 +230,7 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
             PaperContentDao::class => function(ContainerInterface $c) {
                 return new PaperContentDao(
                         $c->get(HandlerInterface::class),
+                        $c->get(Sql::class),
                         PdoRowData::class,
                         $c->get(ContextFactoryInterface::class));
             },
@@ -259,7 +262,10 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
                         );
             },
             ArticleDao::class => function(ContainerInterface $c) {
-                return new ArticleDao($c->get(HandlerInterface::class), PdoRowData::class);
+                return new ArticleDao(
+                        $c->get(HandlerInterface::class),
+                        $c->get(Sql::class),
+                        PdoRowData::class);
             },
             ArticleHydrator::class => function(ContainerInterface $c) {
                 return new ArticleHydrator();
@@ -268,7 +274,10 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new ArticleRepo($c->get(ArticleDao::class), $c->get(ArticleHydrator::class));
             },
             MultipageDao::class => function(ContainerInterface $c) {
-                return new MultipageDao($c->get(HandlerInterface::class), PdoRowData::class);
+                return new MultipageDao(
+                        $c->get(HandlerInterface::class),
+                        $c->get(Sql::class),
+                        PdoRowData::class);
             },
             MultipageHydrator::class => function(ContainerInterface $c) {
                 return new MultipageHydrator();
@@ -277,7 +286,10 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new MultipageRepo($c->get(MultipageDao::class), $c->get(MultipageHydrator::class));
             },
             ItemActionDao::class => function(ContainerInterface $c) {
-                return new ItemActionDao($c->get(HandlerInterface::class), PdoRowData::class);
+                return new ItemActionDao(
+                        $c->get(HandlerInterface::class),
+                        $c->get(Sql::class),
+                        PdoRowData::class);
             },
             ItemActionHydrator::class => function(ContainerInterface $c) {
                 return new ItemActionHydrator();
@@ -286,7 +298,10 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new ItemActionRepo($c->get(ItemActionDao::class), $c->get(ItemActionHydrator::class));
             },
             BlockDao::class => function(ContainerInterface $c) {
-                return new BlockDao($c->get(HandlerInterface::class), PdoRowData::class);
+                return new BlockDao(
+                        $c->get(HandlerInterface::class),
+                        $c->get(Sql::class),
+                        PdoRowData::class);
             },
             BlockHydrator::class => function(ContainerInterface $c) {
                 return new BlockHydrator($c->get(BlockDao::class));
@@ -310,7 +325,10 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
             },
 
             MenuRootDao::class => function(ContainerInterface $c) {
-                return new MenuRootDao($c->get(HandlerInterface::class), PdoRowData::class);
+                return new MenuRootDao(
+                        $c->get(HandlerInterface::class),
+                        $c->get(Sql::class),
+                        PdoRowData::class);
             },
             MenuRootHydrator::class => function(ContainerInterface $c) {
                 return new MenuRootHydrator();
@@ -320,7 +338,10 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
             },
 
             LanguageDao::class => function(ContainerInterface $c) {
-                return new LanguageDao($c->get(HandlerInterface::class), PdoRowData::class);
+                return new LanguageDao(
+                        $c->get(HandlerInterface::class),
+                        $c->get(Sql::class),
+                        PdoRowData::class);
             },
             LanguageHydrator::class => function(ContainerInterface $c) {
                 return new LanguageHydrator();
@@ -331,7 +352,10 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
 
             ### Enroll ###
             EnrollDao::class => function(ContainerInterface $c) {
-                return new EnrollDao($c->get(HandlerInterface::class), PdoRowData::class);
+                return new EnrollDao(
+                        $c->get(HandlerInterface::class),
+                        $c->get(Sql::class),
+                        PdoRowData::class);
             },
             EnrollHydrator::class => function(ContainerInterface $c) {
                 return new EnrollHydrator();
@@ -344,7 +368,10 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
             },
 
             VisitorProfileDao::class => function(ContainerInterface $c) {
-                return new VisitorProfileDao($c->get(HandlerInterface::class), PdoRowData::class);
+                return new VisitorProfileDao(
+                        $c->get(HandlerInterface::class),
+                        $c->get(Sql::class),
+                        PdoRowData::class);
             },
             VisitorProfileHydrator::class => function(ContainerInterface $c) {
                 return new VisitorProfileHydrator();
@@ -356,56 +383,20 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
                     );
             },
 
-            VisitorDataPostDao::class => function(ContainerInterface $c) {
-                return new VisitorDataPostDao($c->get(HandlerInterface::class), PdoRowData::class);
+            VisitorJobRequestDao::class => function(ContainerInterface $c) {
+                return new VisitorJobRequestDao(
+                        $c->get(HandlerInterface::class),
+                        $c->get(Sql::class),
+                        PdoRowData::class);
             },
-            VisitorDataPostHydrator::class => function(ContainerInterface $c) {
-                return new VisitorDataPostHydrator();
+            VisitorJobRequestHydrator::class => function(ContainerInterface $c) {
+                return new VisitorJobRequestHydrator();
             },
-            VisitorDataPostRepo::class => function(ContainerInterface $c) {
-                return new VisitorDataPostRepo(
-                        $c->get(VisitorDataPostDao::class),
-                        $c->get(VisitorDataPostHydrator::class)
+            VisitorJobRequestRepo::class => function(ContainerInterface $c) {
+                return new VisitorJobRequestRepo(
+                        $c->get(VisitorJobRequestDao::class),
+                        $c->get(VisitorJobRequestHydrator::class)
                     );
-            },
-
-            ### StatusPresentationManager ###
-
-            StatusPresentationManager::class => function(ContainerInterface $c) {
-            return (new StatusPresentationManager(
-                        $c->get(LanguageRepo::class),
-                        $c->get(MenuRootRepo::class),
-                        $c->get('MenuItemAllRepo'),
-                    ));
-            },
-
-########################
-
-
-//            MenuListStyles::class => function() {
-//                return new MenuListStyles();
-//            }
-        ];
-    }
-
-    public function getServicesOverrideDefinitions() {
-        return [
-            // db objekty
-            Account::class => function(ContainerInterface $c) {
-                return new Account(
-                        $c->get('dbUpgrade.db.user.name'),
-                        $c->get('dbUpgrade.db.user.password'));
-            },
-            Handler::class => function(ContainerInterface $c) : HandlerInterface {
-                // povinný logger do kostruktoru = pro logování exception při intancování Handleru a PDO
-                $logger = $c->get('dbUpgradeLogger');
-                return new Handler(
-                        $c->get(Account::class),
-                        $c->get(ConnectionInfo::class),
-                        $c->get(DsnProviderMysql::class),
-                        $c->get(OptionsProviderMysql::class),
-                        $c->get(AttributesProvider::class),
-                        $logger);
             },
         ];
     }

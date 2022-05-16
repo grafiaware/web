@@ -8,7 +8,7 @@
 
 namespace Component\Renderer\Html\Generated;
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
 use Component\ViewModel\Generated\LanguageSelectViewModel;
@@ -28,7 +28,7 @@ class LanguageSelectRenderer extends HtmlRendererAbstract {
     public function render($viewModel=NULL) {
         /** @var LanguageSelectViewModel $viewModel */
         $presentedLangCode = $viewModel->getPresentedLangCode();
-        $path = Configuration::languageSelectRenderer()['assets'];
+        $path = ConfigurationCache::languageSelectRenderer()['assets'];
         foreach ($viewModel->getLanguages() as $language) {
             $flagfile = $path.$language->getState().".png";
             /* @var $language LanguageInterface */

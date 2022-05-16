@@ -2,7 +2,7 @@
 
 namespace Events\Middleware\Events\Controller;
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 use FrontControler\FrontControlerAbstract;
 
@@ -105,7 +105,7 @@ class VisitorDataController extends FrontControlerAbstract {
             $response = (new ResponseFactory())->createResponse();
             return $response->withStatus(401);  // Unaathorized
         } else {
-            $isPresenter = $loginAggregateCredentials->getCredentials()->getRole()=== Configuration::loginLogoutController()['rolePresenter'];
+            $isPresenter = $loginAggregateCredentials->getCredentials()->getRole()=== ConfigurationCache::loginLogoutController()['rolePresenter'];
             if ($isPresenter) {
                 // POST data
                 $shortName = (new RequestParams())->getParsedBodyParam($request, 'short-name');
@@ -126,7 +126,7 @@ class VisitorDataController extends FrontControlerAbstract {
         return $this->redirectSeeLastGet($request);
     }
 
-    private function sendMail($positionName, VisitorDataPostInterface $visitorDataPost, LoginAggregateFullInterface $loginAggregateCredentials) {
+    private function sendMail($positionName, VisitorJobRequestInterface $visitorDataPost, LoginAggregateFullInterface $loginAggregateCredentials) {
 
         /** @var Mail $mail */
         $mail = $this->container->get(Mail::class);
@@ -187,8 +187,8 @@ class VisitorDataController extends FrontControlerAbstract {
 
             if (!isset($visitorDataPost)) {
                 $visitorDataPost = new VisitorDataPost();
-                $visitorDataPost->setLoginName($loginName);
-                $visitorDataPost->setShortName($shortName);
+                $visitorDataPost->setLoginLoginName($loginName);
+                $visitorDataPost->setJobId($shortName);
                 $visitorDataPost->setPositionName($positionName);
                 $this->visitorDataPostRepo->add($visitorDataPost);
             }
@@ -481,7 +481,7 @@ class VisitorDataController extends FrontControlerAbstract {
 //            $this->addFlashMessage("Chybné kméno souboru.");
 ////                header("HTTP/1.1 400 Invalid file name.");
 //        } else
-            if (array_search(pathinfo($clientFileName,  PATHINFO_EXTENSION ), Configuration::filesUploadController()['upload.events.acceptedextensions'])) {
+            if (array_search(pathinfo($clientFileName,  PATHINFO_EXTENSION ), ConfigurationCache::filesUploadController()['upload.events.acceptedextensions'])) {
             $response = (new ResponseFactory())->createResponse();
             $response = $response->withStatus(400, "Bad Request. Invalid file extesion.");
             $this->addFlashMessage("Chybná přípona souboru.");

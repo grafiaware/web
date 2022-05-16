@@ -2,7 +2,7 @@
 
 namespace Auth\Middleware\Login\Controller;
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 use Mail\Mail;
 use Mail\MessageFactory\HtmlMessage;
@@ -54,7 +54,7 @@ class PasswordController extends LoginControllerAbstract {
 
         if ($forgottenpassword) {
             // používá názvy z konfigurace pro omezení množství našeptávaných jmen při vypl%nování formuláře v prohlížečích
-            $fieldNameJmeno = Configuration::loginLogoutController()['fieldNameJmeno'];
+            $fieldNameJmeno = ConfigurationCache::loginLogoutController()['fieldNameJmeno'];
             $loginJmeno = $requestParams->getParsedBodyParam($request, $fieldNameJmeno, FALSE);
 
             if ($loginJmeno ) {
@@ -89,7 +89,7 @@ class PasswordController extends LoginControllerAbstract {
                                                             ]);
 
                         $attachments = [ (new Attachment())
-                                        ->setFileName(Configuration::mail()['mail.attachments'].'logo_grafia.png')
+                                        ->setFileName(ConfigurationCache::mail()['mail.attachments'].'logo_grafia.png')
                                         ->setAltText('Logo Grafia')
                                        ];
                         $params = (new Params())
@@ -147,8 +147,8 @@ class PasswordController extends LoginControllerAbstract {
         $changedPassword = $requestParams->getParsedBodyParam($request, 'changepassword', FALSE);
 
         if ($changedPassword ) {
-            $fieldNameJmeno = Configuration::loginLogoutController()['fieldNameJmeno'];
-            $fieldNameHeslo = Configuration::loginLogoutController()['fieldNameHeslo'];
+            $fieldNameJmeno = ConfigurationCache::loginLogoutController()['fieldNameJmeno'];
+            $fieldNameHeslo = ConfigurationCache::loginLogoutController()['fieldNameHeslo'];
             $loginJmeno = $requestParams->getParsedBodyParam($request, $fieldNameJmeno, FALSE);
             $changeHeslo = $requestParams->getParsedBodyParam($request, $fieldNameHeslo, FALSE);
 

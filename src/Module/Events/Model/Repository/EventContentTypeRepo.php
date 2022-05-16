@@ -36,8 +36,8 @@ class EventContentTypeRepo extends RepoAbstract implements EventContentTypeRepoI
      * @return EventContentTypeInterface|null
      */
     public function get($type): ?EventContentTypeInterface {
-        return $this->getEntity($type);
-    }
+        $key = $this->dataManager->getForeignKeyTouples(['type'=>$type]);
+        return $this->getEntity($key);    }
 
     public function findAll() {
         return $this->findEntities();
@@ -53,10 +53,6 @@ class EventContentTypeRepo extends RepoAbstract implements EventContentTypeRepoI
 
     protected function createEntity() {
         return new EventContentType();
-    }
-
-    protected function indexFromKeyParams($type) {
-        return $type;
     }
 
     protected function indexFromEntity(EventContentTypeInterface $eventContentType) {

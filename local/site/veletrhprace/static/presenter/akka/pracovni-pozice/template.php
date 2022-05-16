@@ -1,5 +1,5 @@
 <?php
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 $headline = 'Pracovní pozice';
 $perex = '';
@@ -7,6 +7,6 @@ $perex = '';
 ?>
     <div id="pracovni-pozice">
        <?php
-        include Configuration::componentController()['templates']."paper/presenter-job.php";
+        include ConfigurationCache::componentController()['templates']."paper/presenter-job.php";
         ?>
     </div>

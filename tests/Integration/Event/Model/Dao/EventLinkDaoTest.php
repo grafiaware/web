@@ -9,8 +9,6 @@ use Test\Integration\Event\Container\EventsContainerConfigurator;
 use Test\Integration\Event\Container\DbEventsContainerConfigurator;
 
 use Events\Model\Dao\EventLinkDao;
-//use Model\Dao\Exception\DaoForbiddenOperationException;
-//use Model\Dao\Exception\DaoKeyVerificationFailedException;
 use Model\RowData\RowData;
 use Model\RowData\RowDataInterface;
 
@@ -20,7 +18,7 @@ use Model\RowData\RowDataInterface;
  * @author vlse2610
  */
 class EventLinkDaoTest extends AppRunner {
-    
+
 
     private $container;
 
@@ -52,20 +50,20 @@ class EventLinkDaoTest extends AppRunner {
     public function testSetUp() {
         $this->assertInstanceOf(EventLinkDao::class, $this->dao);
     }
-    
-    
+
+
      public function testInsert() {
         $rowData = new RowData();
         $rowData->offsetSet('show', 1);
         $rowData->offsetSet('href', "httpassdrooosaasdas");
         $rowData->offsetSet('link_phase_id_fk', null);
-     
+
         $this->dao->insert($rowData);
-        self::$id =  $this->dao->getLastInsertId();
-        $this->assertGreaterThan(0, (int) self::$id);
+        self::$id =  $this->dao->getLastInsertIdTouple();
+        $this->assertIsArray(self::$id);
         $numRows = $this->dao->getRowCount();
         $this->assertEquals(1, $numRows);
-                
+
     }
 
 
@@ -79,11 +77,11 @@ class EventLinkDaoTest extends AppRunner {
         $eventRow = $this->dao->get(self::$id);
         $this->assertCount(4, $eventRow);
     }
-    
-    
+
+
 
     public function testUpdate() {
-        $eventRow = $this->dao->get(self::$id);        
+        $eventRow = $this->dao->get(self::$id);
         $this->assertIsString( $eventRow['href']);
         $ret = $eventRow['href'];
         //
@@ -115,6 +113,6 @@ class EventLinkDaoTest extends AppRunner {
         $eventRow = $this->dao->get(self::$id);
         $this->assertNull($eventRow);
     }
-    
-    
+
+
 }

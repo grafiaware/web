@@ -17,7 +17,7 @@ use Events\Model\Entity\EventContentInterface;
 use Events\Model\Dao\EventContentDao;
 
 /**
- * Description of EventTypeTypeRepo
+ * Description of EventContentRepo
  *
  * @author pes2704
  */
@@ -25,9 +25,9 @@ class EventContentRepo extends RepoAbstract implements EventContentRepoInterface
 
     protected $dao;
 
-    public function __construct(EventContentDao $eventContentTypeDao, HydratorInterface $eventContentTypeHydrator) {
-        $this->dataManager = $eventContentTypeDao;
-        $this->registerHydrator($eventContentTypeHydrator);
+    public function __construct(EventContentDao $eventContentDao, HydratorInterface $eventContentHydrator) {
+        $this->dataManager = $eventContentDao;
+        $this->registerHydrator($eventContentHydrator);
     }
 
     /**
@@ -36,15 +36,20 @@ class EventContentRepo extends RepoAbstract implements EventContentRepoInterface
      * @return EventContentInterface|null
      */
     public function get($id): ?EventContentInterface {
-        return $this->getEntity($id);
+        $key = $this->dataManager->getForeignKeyTouples(['id'=>$id]);
+        return $this->getEntity($key);
     }
 
-    public function findAll() :array {
+    public function find($whereClause="", $touplesToBind=[]): array {
+        return $this->findEntities($whereClause, $touplesToBind);
+    }
+
+    public function findAll(): array {
         return $this->findEntities();
     }
 
-    public function add(EventContentInterface $eventContentType) {
-        $this->addEntity($eventContentType);
+    public function add(EventContentInterface $eventContent) {
+        $this->addEntity($eventContent);
     }
 
     public function remove(EventContentInterface $eventContent) {
@@ -55,12 +60,8 @@ class EventContentRepo extends RepoAbstract implements EventContentRepoInterface
         return new EventContent();
     }
 
-    protected function indexFromKeyParams($id) {
-        return $id;
-    }
-
-    protected function indexFromEntity(EventContentInterface $eventContent) {
-        return $eventContent->getId();
+    protected function indexFromEntity(EventContentInterface $eventLink) {
+        return $eventLink->getId();
     }
 
     protected function indexFromRow($row) {

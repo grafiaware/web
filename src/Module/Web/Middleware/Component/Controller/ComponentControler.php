@@ -8,7 +8,7 @@
 
 namespace Web\Middleware\Component\Controller;
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 use FrontControler\FrontControlerAbstract;
 
 use Psr\Http\Message\ServerRequestInterface;
@@ -178,9 +178,9 @@ class ComponentControler extends FrontControlerAbstract {
      * @return string
      */
     private function getCompiledContent(ServerRequestInterface $request, $staticName) {
-        $templatePath = Configuration::componentController()['static'].$staticName;
+        $templatePath = ConfigurationCache::componentController()['static'].$staticName;
         $templateFilename = $templatePath."/template.php";
-        $compiledPath = Configuration::componentController()['compiled'];
+        $compiledPath = ConfigurationCache::componentController()['compiled'];
         $compiledFileName = $compiledPath.$staticName.".html";
 
 //        if (is_readable($compiledFileName)) {

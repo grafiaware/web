@@ -2,7 +2,7 @@
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 /** @var PhpTemplateRendererInterface $this */
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 $headline = 'Katalog firem';
 $perex = '';

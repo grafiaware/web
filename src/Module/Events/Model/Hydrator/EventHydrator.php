@@ -1,14 +1,7 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Events\Model\Hydrator;
 
-use Model\Hydrator\HydratorInterface;
+use Model\Hydrator\DatetimeHydrator;
 use Model\Entity\EntityInterface;
 use Model\RowData\RowDataInterface;
 
@@ -19,7 +12,7 @@ use Events\Model\Entity\EventInterface;
  *
  * @author pes2704
  */
-class EventHydrator implements HydratorInterface {
+class EventHydrator extends DatetimeHydrator {
 
     //  `event`.`id`
     //  `event`.`published`
@@ -32,18 +25,20 @@ class EventHydrator implements HydratorInterface {
     /**
      *
      * @param EntityInterface $event
-     * @param type $rowData
+     * @param RowDataInterface $rowData
      */
     public function hydrate(EntityInterface $event, RowDataInterface $rowData) {
+
+        $s = \DateTime::createFromFormat('Y-m-d H:i:s', $rowData->offsetGet('start'));
         /** @var EventInterface $event */
         $event
             ->setId($rowData->offsetGet('id'))
-            ->setPublished($rowData->offsetGet('published'))
-            ->setStart($rowData->offsetGet('start') ? \DateTime::createFromFormat('Y-m-d H:i:s', $rowData->offsetGet('start')) : NULL)
-            ->setEnd($rowData->offsetGet('end') ? \DateTime::createFromFormat('Y-m-d H:i:s', $rowData->offsetGet('end')) : NULL)
-            ->setEnrollLinkIdFk($rowData->offsetGet('enroll_link_id_fk'))
+            ->setPublished($rowData->offsetGet('published') )
+            ->setStart($this->getPhpDatetime($rowData, 'start'))
+            ->setEnd($this->getPhpDatetime($rowData, 'end'))
+            ->setEnrollLinkIdFk($rowData->offsetGet('enroll_link_id_fk')  )
             ->setEnterLinkIdFk($rowData->offsetGet('enter_link_id_fk'))
-            ->setEventContentIdFk($rowData->offsetGet('event_content_id_fk'));
+            ->setEventContentIdFk($rowData->offsetGet('event_content_id_fk')  );
     }
 
     /**
@@ -55,8 +50,8 @@ class EventHydrator implements HydratorInterface {
         /** @var EventInterface $event */
         // id je autoincrement
         $rowData->offsetSet('published', $event->getPublished());
-        $rowData->offsetSet('start', $event->getStart() ? $event->getStart()->format('Y-m-d H:i:s') : NULL) ;
-        $rowData->offsetSet('end', $event->getEnd() ? $event->getEnd()->format('Y-m-d H:i:s') : NULL) ;
+        $rowData->offsetSet('start', $this->getSqlDatetime($event->getStart()));
+        $rowData->offsetSet('end', $this->getSqlDatetime($event->getEnd()));
         $rowData->offsetSet('enroll_link_id_fk', $event->getEnrollLinkIdFk());
         $rowData->offsetSet('enter_link_id_fk', $event->getEnterLinkIdFk());
         $rowData->offsetSet('event_content_id_fk', $event->getEventContentIdFk());

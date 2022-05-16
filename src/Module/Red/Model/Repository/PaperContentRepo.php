@@ -37,7 +37,8 @@ class PaperContentRepo extends RepoAbstract implements PaperContentRepoInterface
      * @return PaperContentInterface|null
      */
     public function get($id): ?PaperContentInterface {
-        return $this->getEntity($id);
+        $key = $this->dataManager->getPrimaryKeyTouples(['id'=>$id]);
+        return $this->getEntity($key);
     }
 
     /**
@@ -46,7 +47,8 @@ class PaperContentRepo extends RepoAbstract implements PaperContentRepoInterface
      * @return iterable
      */
     public function findByReference($paperIdFk): iterable {
-        return $this->findEntitiesByReference($paperIdFk);
+        $key = $this->dataManager->getForeignKeyTouples('paper_id_fk', ['paper_id_fk'=>$paperIdFk]);
+        return $this->findEntitiesByReference('paper_id_fk', $key);
     }
 
     public function add(PaperContentInterface $paperContent) {

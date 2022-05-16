@@ -2,7 +2,7 @@
 
 namespace FrontControler;
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UploadedFileInterface;

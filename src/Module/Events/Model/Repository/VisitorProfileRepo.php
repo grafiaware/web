@@ -33,7 +33,8 @@ class VisitorProfileRepo extends RepoAbstract implements VisitorProfileRepoInter
      * @return VisitorProfileInterface|null
      */
     public function get($loginName): ?VisitorProfileInterface {
-        return $this->getEntity($loginName);
+        $key = $this->dataManager->getForeignKeyTouples(['login_login_name'=>$loginName]);
+        return $this->getEntity($key);
     }
 
     public function find($whereClause=null, $touplesToBind=[]) {
@@ -54,10 +55,6 @@ class VisitorProfileRepo extends RepoAbstract implements VisitorProfileRepoInter
 
     protected function createEntity() {
         return new VisitorProfile();
-    }
-
-    protected function indexFromKeyParams($loginName) {
-        return $loginName;
     }
 
     protected function indexFromEntity(VisitorProfileInterface $visitorProfile) {

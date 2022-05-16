@@ -8,8 +8,8 @@
 
 namespace Red\Model\Dao;
 
-use Model\Dao\DaoTableAbstract;
-use Model\Dao\DaoAutoincrementKeyInterface;
+use Model\Dao\DaoEditAbstract;
+use Model\Dao\DaoEditAutoincrementKeyInterface;
 use \Model\Dao\DaoAutoincrementTrait;
 
 /**
@@ -17,13 +17,13 @@ use \Model\Dao\DaoAutoincrementTrait;
  *
  * @author pes2704
  */
-class StaticalDao extends DaoTableAbstract implements DaoAutoincrementKeyInterface {
+class StaticalDao extends DaoEditAbstract implements DaoEditAutoincrementKeyInterface {
 
     use DaoAutoincrementTrait;
 
     private $keyAttribute = 'id';
 
-    public function getKeyAttribute() {
+    public function getPrimaryKeyAttributes(): array {
         return $this->keyAttribute;
     }
 

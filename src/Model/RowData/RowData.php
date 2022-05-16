@@ -26,17 +26,12 @@ class RowData extends \ArrayObject implements RowDataInterface {
     /**
      * V kostruktoru se mastaví způsob zápisu dat do RowData objektu na ARRAY_AS_PROPS a pokud je zadán parametr $data, zapíší se tato data
      * do interní storage objektu. Nastavení ARRAY_AS_PROPS způsobí, že každý zápis dalších dat je prováděn metodou offsetSet a vyhodnocuje se, jestli data byla změněna.
-     * Pokud parament data je Traversable, jsou tato data zadaná do konstruktoru zapsána jako změněná.
+     * Pokud parament data je iterable, jsou tato data zadaná do konstruktoru zapsána jako změněná.
      *
      * @param type $data
      */
     public function __construct($data=[]) {
         parent::__construct($data, \ArrayObject::ARRAY_AS_PROPS);
-        if (is_iterable($data)) {
-            foreach ($data as $index => $value) {
-                $this->changed[$index] = $index;
-            }
-        }
     }
 
     public function isChanged(): bool {
@@ -48,9 +43,9 @@ class RowData extends \ArrayObject implements RowDataInterface {
      *
      * @return array
      */
-    public function changedNames(): array {
-        $changed = array_keys($this->changed);
-        $this->changed = [];
+    public function fetchChanged(): array {
+        $changed = $this->changed;
+        $this->flipData();
         return $changed;
     }
 
@@ -60,15 +55,6 @@ class RowData extends \ArrayObject implements RowDataInterface {
 
     public function offsetExists($index) {
         return parent::offsetExists($index);
-    }
-
-    public function exchangeArray($data) {
-        // Zde by se musely v cyklu vyhodnocovat varianty byla/nebyla data x jsou/nejsou nová data
-        throw new \LogicException('Nelze použít metodu exchangeArray(). Použijte offsetSet().');
-    }
-
-    public function append($value) {
-        throw new \LogicException('Nelze vkládat neindexovaná data. Použijte offsetSet().');
     }
 
     /**
@@ -94,15 +80,29 @@ class RowData extends \ArrayObject implements RowDataInterface {
                 $this->setNewValue($index, $value);
             }
         } else {
-            if (isset($value)) {
+            $this->setNewValue($index, $value);
+        }
+    }
+
+    public function offsetUnset($index) {
+        $this->changed[$index] = null;
+    }
+
+    public function import(iterable $iterablaData) {
+        if (is_iterable($iterablaData)) {
+            foreach ($iterablaData as $index => $value) {
                 $this->setNewValue($index, $value);
             }
         }
     }
 
-    private function setNewValue($index, $value) {
-        parent::offsetSet($index, $value);
-        $this->changed[$index] = $index;
+    public function exchangeArray($data) {
+        // Zde by se musely v cyklu vyhodnocovat varianty byla/nebyla data x jsou/nejsou nová data
+        throw new \LogicException('Nelze použít metodu exchangeArray(). Použijte offsetSet().');
+    }
+
+    public function append($value) {
+        throw new \LogicException('Nelze vkládat neindexovaná data. Použijte offsetSet().');
     }
 
     // pro PdoRowData
@@ -119,6 +119,29 @@ class RowData extends \ArrayObject implements RowDataInterface {
      * @return \ArrayObject
      */
     public function yieldChanged(): \ArrayObject {
-        return new \ArrayObject(array_intersect_key($this->getArrayCopy(), array_flip($this->changed)));
+//        return new \ArrayObject(array_intersect_key($this->getArrayCopy(), array_flip($this->changed)));
+        return new \ArrayObject($this->changed);
+    }
+
+    ###################
+
+
+    private function setNewValue($index, $value) {
+        $this->changed[$index] = $value;
+    }
+
+    private function flipData() {
+        if ($this->isChanged()) {
+            foreach ($this->changed as $index => $value) {
+                if (isset($value)) {
+                    parent::offsetSet($index, $value);
+                } else {
+                    if (parent::offsetExists($index)) {
+                        parent::offsetUnset($index);
+                    }
+                }
+            }
+            $this->changed = [];
+        }
     }
 }

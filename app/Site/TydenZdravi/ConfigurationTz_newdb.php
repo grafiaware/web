@@ -464,7 +464,7 @@ class ConfigurationTz_newdb {
                         'LevelWrap' => [
                             'ul' => 'menu'
                         ],
-                        'Item' => array_merge(Configuration::rendererDefaults()['menu_edit_items'],
+                        'Item' => array_merge(ConfigurationCache::rendererDefaults()['menu_edit_items'],
                             [
                             'li' => 'item',
                             'li.onpath' => 'item onpath',
@@ -481,13 +481,13 @@ class ConfigurationTz_newdb {
                         'LevelWrap' => [
                             'ul' => 'menu'
                         ],
-                        'Item' => array_merge(Configuration::rendererDefaults()['menu_edit_items'],
+                        'Item' => array_merge(ConfigurationCache::rendererDefaults()['menu_edit_items'],
                             [
                             'li' => 'item',
                             'li.onpath' => 'item onpath',
                             'li a' => '',
                             ]),
-                        'Buttons' => Configuration::rendererDefaults()['menu_edit_buttons'],
+                        'Buttons' => ConfigurationCache::rendererDefaults()['menu_edit_buttons'],
                     ]
                 );
             },
@@ -517,14 +517,14 @@ class ConfigurationTz_newdb {
                         'LevelWrap' => [
                             'ul' => 'menu'
                         ],
-                        'Item' => array_merge(Configuration::rendererDefaults()['menu_edit_items'],
+                        'Item' => array_merge(ConfigurationCache::rendererDefaults()['menu_edit_items'],
                             [
                             'li' => 'item',
                             'li.onpath' => 'item onpath',
                             'li a' => 'ui primary button',
                             ]),
 //                        'Item' => Configuration::rendererDefaults()['menu_edit_items'],
-                        'Buttons' => Configuration::rendererDefaults()['menu_edit_buttons'],
+                        'Buttons' => ConfigurationCache::rendererDefaults()['menu_edit_buttons'],
                     ]
                 );
             },
@@ -537,7 +537,7 @@ class ConfigurationTz_newdb {
                         'LevelWrap' => [
                             'ul' => 'menu',
                             ],
-                        'Item' => Configuration::rendererDefaults()['menu_edit_items'],
+                        'Item' => ConfigurationCache::rendererDefaults()['menu_edit_items'],
                     ]);
             },
             'menu.svisle.classmap.editable' => function() {
@@ -549,8 +549,8 @@ class ConfigurationTz_newdb {
                         'LevelWrap' => [
                             'ul' => 'menu'
                         ],
-                        'Item' => Configuration::rendererDefaults()['menu_edit_items'],
-                        'Buttons' => Configuration::rendererDefaults()['menu_edit_buttons'],
+                        'Item' => ConfigurationCache::rendererDefaults()['menu_edit_items'],
+                        'Buttons' => ConfigurationCache::rendererDefaults()['menu_edit_buttons'],
                     ]);
             },
             'menu.bloky.classmap.editable' => function() { //bloky
@@ -562,8 +562,8 @@ class ConfigurationTz_newdb {
                         'LevelWrap' => [
                             'ul' => 'menu'
                         ],
-                        'Item' => Configuration::rendererDefaults()['menu_edit_items'],
-                        'Buttons' => Configuration::rendererDefaults()['block_edit_buttons'],
+                        'Item' => ConfigurationCache::rendererDefaults()['menu_edit_items'],
+                        'Buttons' => ConfigurationCache::rendererDefaults()['block_edit_buttons'],
                     ]);
             },
             'menu.kos.classmap' => function() { //kos
@@ -575,8 +575,8 @@ class ConfigurationTz_newdb {
                         'LevelWrap' => [
                             'ul' => 'menu'
                         ],
-                        'Item' => Configuration::rendererDefaults()['menu_edit_items'],
-                        'Buttons' => Configuration::rendererDefaults()['trash_edit_buttons'],
+                        'Item' => ConfigurationCache::rendererDefaults()['menu_edit_items'],
+                        'Buttons' => ConfigurationCache::rendererDefaults()['trash_edit_buttons'],
                     ]);
             },
         ###########################
@@ -635,11 +635,11 @@ class ConfigurationTz_newdb {
                         'content'=>'borderDance',
                         'div.trash_content'=>'trash_content'
                         ],
-                     'PaperTemplateButtons' => Configuration::rendererDefaults()['paper_template_edit_buttons'],
-                     'PaperTemplateSelect' => Configuration::rendererDefaults()['paper_template_select'],
-                     'PaperButtons' => Configuration::rendererDefaults()['paper_edit_buttons'],
-                     'ContentButtons' => Configuration::rendererDefaults()['content_edit_buttons'],
-                     'TrashButtons' => Configuration::rendererDefaults()['deleted_content_buttons'],
+                     'PaperTemplateButtons' => ConfigurationCache::rendererDefaults()['paper_template_edit_buttons'],
+                     'PaperTemplateSelect' => ConfigurationCache::rendererDefaults()['paper_template_select'],
+                     'PaperButtons' => ConfigurationCache::rendererDefaults()['paper_edit_buttons'],
+                     'ContentButtons' => ConfigurationCache::rendererDefaults()['content_edit_buttons'],
+                     'TrashButtons' => ConfigurationCache::rendererDefaults()['deleted_content_buttons'],
                     ]
                 );
             },
@@ -690,10 +690,10 @@ class ConfigurationTz_newdb {
                         'content'=>'borderDance',
                         'div.trash_content'=>'trash_content'
                         ],
-                    'PaperTemplateButtons' => Configuration::rendererDefaults()['paper_template_edit_buttons'],
-                    'PaperButtons' => Configuration::rendererDefaults()['paper_edit_buttons'],
-                    'ContentButtons' => Configuration::rendererDefaults()['content_edit_buttons'],
-                    'TrashButtons' => Configuration::rendererDefaults()['deleted_content_buttons'],
+                    'PaperTemplateButtons' => ConfigurationCache::rendererDefaults()['paper_template_edit_buttons'],
+                    'PaperButtons' => ConfigurationCache::rendererDefaults()['paper_edit_buttons'],
+                    'ContentButtons' => ConfigurationCache::rendererDefaults()['content_edit_buttons'],
+                    'TrashButtons' => ConfigurationCache::rendererDefaults()['deleted_content_buttons'],
                     ]
                 );
             },

@@ -11,7 +11,7 @@ use Container\AppContainerConfigurator;
 use Pes\Container\Container;
 use Pes\Container\AutowiringContainer;
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 use Container\WebContainerConfigurator;
 use Container\HierarchyContainerConfigurator;
@@ -52,25 +52,25 @@ $environment = (new EnvironmentFactory())->createFromGlobals();
 $basepath = "";
 $tinyToolsbarsLang = "cs";
 $view = $appContainer->get(View::class)
-                    ->setTemplate(new PhpTemplate(Configuration::layoutController()['scriptsEditableMode']))
+                    ->setTemplate(new PhpTemplate(ConfigurationCache::layoutController()['scriptsEditableMode']))
                     ->setData([
                         'tinyMCEConfig' => $appContainer->get(View::class)
-                                ->setTemplate(new InterpolateTemplate(Configuration::layoutController()['tinyConfig']))
+                                ->setTemplate(new InterpolateTemplate(ConfigurationCache::layoutController()['tinyConfig']))
                                 ->setData([
                                     // pro tiny_config.js
                                     'basePath' => $basepath,
                                     'toolbarsLang' => $tinyToolsbarsLang,
                                     // prvky pole contentCSS - tyto tři proměnné jsou prvky pole - pole je v tiny_config.js v proměnné contentCss
-                                    'urlStylesCss' => Configuration::layoutController()['urlStylesCss'],
-                                    'urlSemanticCss' => Configuration::layoutController()['urlSemanticCss'],
-                                    'urlContentTemplatesCss' => Configuration::layoutController()['urlContentTemplatesCss']
+                                    'urlStylesCss' => ConfigurationCache::layoutController()['urlStylesCss'],
+                                    'urlSemanticCss' => ConfigurationCache::layoutController()['urlSemanticCss'],
+                                    'urlContentTemplatesCss' => ConfigurationCache::layoutController()['urlContentTemplatesCss']
                         ]),
 
-                        'urlTinyMCE' => Configuration::layoutController()['urlTinyMCE'],
-                        'urlJqueryTinyMCE' => Configuration::layoutController()['urlJqueryTinyMCE'],
+                        'urlTinyMCE' => ConfigurationCache::layoutController()['urlTinyMCE'],
+                        'urlJqueryTinyMCE' => ConfigurationCache::layoutController()['urlJqueryTinyMCE'],
 
-                        'urlTinyInit' => Configuration::layoutController()['urlTinyInit'],
-                        'editScript' => Configuration::layoutController()['urlEditScript'],
+                        'urlTinyInit' => ConfigurationCache::layoutController()['urlTinyInit'],
+                        'editScript' => ConfigurationCache::layoutController()['urlEditScript'],
                     ]);
 
 

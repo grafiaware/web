@@ -2,7 +2,7 @@
 
 namespace Auth\Middleware\Login\Controller;
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 use Mail\Mail;
 use Mail\MessageFactory\HtmlMessage;
@@ -77,7 +77,7 @@ class ConfirmController extends LoginControllerAbstract
                         $credentials = new Credentials();
                         $credentials->setPasswordHash( (new Password())->getPasswordHash($password) );
                         $credentials->setLoginNameFk($loginNameFk);
-                        $credentials->setRole(Configuration::loginLogoutController()['roleVisitor']);
+                        $credentials->setRole(ConfigurationCache::loginLogoutController()['roleVisitor']);
                         $loginAggregateCredentialsEntity->setCredentials($credentials);
 
                         // vymazání hesla z registrace
@@ -95,7 +95,7 @@ class ConfirmController extends LoginControllerAbstract
                         $body = $mailMessageFactory->create(__DIR__."/Messages/confirm.php", []);
 
                         $attachments = [ (new Attachment())
-                                        ->setFileName(Configuration::mail()['mail.attachments'].'logo_grafia.png')
+                                        ->setFileName(ConfigurationCache::mail()['mail.attachments'].'logo_grafia.png')
                                         ->setAltText('Logo Grafia')
                                        ];
                         $params = (new Params())

@@ -17,26 +17,29 @@ interface JobToTagInterface extends EntityInterface {
     */
     public function getJobId() : int;
     
-    /**
+     /**
      * 
-     * @return int
-     */
-    public function getCompanyId() : int;
+     * @return string
+     */ 
+    public function getJobTagTag() : string;
+        
     
     /**
      * 
      * @param int $jobId
      * @return JobToTagInterface
      */
-    public function setJobId(int $jobId) : JobToTagInterface ;
-    
+    public function setJobId( int $jobId) : JobToTagInterface ;                    
+   
+           
     /**
      * 
-     * @param int $companyId
+     * @param string $jobTagTag
      * @return JobToTagInterface
      */
-    public function setCompanyId(int $companyId) : JobToTagInterface ;
+    public function setJobTagTag( string $jobTagTag) : JobToTagInterface;
     
+
     
     
 }

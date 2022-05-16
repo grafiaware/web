@@ -51,20 +51,20 @@ class EventDaoTest extends AppRunner {
     public function testSetUp() {
         $this->assertInstanceOf(EventDao::class, $this->dao);
     }
-    
-    
+
+
     public function testInsert() {
         $rowData = new RowData();
         $rowData->offsetSet('published', 1);
         $rowData->offsetSet('start', "2011-01-01 15:03:01" );
-        $rowData->offsetSet('end', "2011-01-02 1:00:00");        
-        
+        $rowData->offsetSet('end', "2011-01-02 1:00:00");
+
         $rowData->offsetSet('enroll_link_id_fk', null);
         $rowData->offsetSet('enter_link_id_fk', null);
         $rowData->offsetSet('event_content_id_fk', null);
-     
+
         $this->dao->insert($rowData);
-        self::$id =  $this->dao->getLastInsertId();
+        self::$id =  $this->dao->getLastInsertIdTouple();
         $this->assertGreaterThan(0, (int) self::$id);
         $numRows = $this->dao->getRowCount();
         $this->assertEquals(1, $numRows);
@@ -81,11 +81,11 @@ class EventDaoTest extends AppRunner {
         $eventRow = $this->dao->get(self::$id);
         $this->assertCount(7, $eventRow);
     }
-    
-    
+
+
 
     public function testUpdate() {
-        $eventRow = $this->dao->get(self::$id);        
+        $eventRow = $this->dao->get(self::$id);
         $this->assertIsString( $eventRow['start']);
         $ret = $eventRow['start'];
         //
@@ -117,24 +117,25 @@ class EventDaoTest extends AppRunner {
         $eventRow = $this->dao->get(self::$id);
         $this->assertNull($eventRow);
     }
-    
+
     public function testGetByEventContentIdFk() {
         $rowData = new RowData();
         $rowData->offsetSet('published', 1);
         $rowData->offsetSet('start', "2011-01-01 15:03:01" );
-        $rowData->offsetSet('end', "2011-01-02 1:00:00");        
-        
+        $rowData->offsetSet('end', "2011-01-02 1:00:00");
+
         $rowData->offsetSet('enroll_link_id_fk', null);
         $rowData->offsetSet('enter_link_id_fk', null);
         $rowData->offsetSet('event_content_id_fk', 100);
-     
+
         $this->dao->insert($rowData);
-        $lastId = $this->dao->getLastInsertId();
+        $lastId = $this->dao->lastInsertIdValue();
         $this->assertGreaterThan(0, (int) $lastId);
 
-        $eventRow = $this->dao->getByEventContentIdFk(100);
-        $this->assertInstanceOf(RowDataInterface::class, $eventRow[0]); 
+        $eventRows = $this->dao->findByEventContentIdFk(['event_content_id_fk'=> 100]);
+        $this->assertIsArray($eventRows);
+        $this->assertGreaterThan(0, count($eventRows));
     }
-    
-    
+
+
 }

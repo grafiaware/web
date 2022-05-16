@@ -1,5 +1,5 @@
 <?php
-use Site\Configuration;
+use Site\ConfigurationCache;
 use Events\Model\Arraymodel\Event;
 
 use Pes\View\Renderer\PhpTemplateRendererInterface;
@@ -42,5 +42,5 @@ $event = $eventList->getEventList(null, $institutionName, $eventIds, false);   /
     Můj harmonogram
 </div>
 <div class="content">
-    <?php include Configuration::componentController()['templates']."timeline-leafs/content/timeline.php"; ?>
+    <?php include ConfigurationCache::componentController()['templates']."timeline-leafs/content/timeline.php"; ?>
 </div>

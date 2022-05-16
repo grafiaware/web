@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-namespace Test\Integration\Model\Context;
+namespace Test\Integration\Red\Model\Context;
 
 use Model\Context\ContextFactoryInterface;
 use Model\Context\PublishedContextInterface;
@@ -27,6 +27,10 @@ class ContextFactoryMock implements ContextFactoryInterface {
         $this->actual = (bool) $actual;
     }
 
+    /**
+     * Produkční PublishedContext odvozuje kontext z presentation statusu
+     * @return PublishedContextInterface
+     */
     public function createPublishedContext(): PublishedContextInterface {
         return new PublishedContext($this->active, $this->actual);
     }

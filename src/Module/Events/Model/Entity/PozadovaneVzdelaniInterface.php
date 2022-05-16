@@ -2,7 +2,7 @@
 namespace Events\Model\Entity;
 
 use Model\Entity\EntityInterface;
-use Events\Model\Entity\PozadovaneVzdelaniInterface;
+use Events\Model\Entity\PozadovaneVzdelani;
 
 /**
  *

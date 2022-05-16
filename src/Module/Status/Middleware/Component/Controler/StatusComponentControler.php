@@ -8,7 +8,7 @@
 
 namespace Status\Middleware\Component\Controller;
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 use FrontControler\FrontControlerAbstract;
 

@@ -38,7 +38,8 @@ class LoginRepo extends RepoAbstract implements LoginRepoInterface {
      * @return LoginInterface|null
      */
     public function get($loginName): ?LoginInterface {
-        return $this->getEntity($loginName);
+        $key = $this->dataManager->getPrimaryKeyTouples(['login_name'=>$loginName]);
+        return $this->getEntity($key);
     }
 
     public function add(LoginInterface $login) {
@@ -51,9 +52,6 @@ class LoginRepo extends RepoAbstract implements LoginRepoInterface {
 
     protected function createEntity() {
         return new Login();
-    }
-    protected function indexFromKeyParams($loginName) {
-        return $loginName;
     }
 
     protected function indexFromEntity(LoginInterface $login) {

@@ -30,8 +30,8 @@ class PaperContentHydrator implements HydratorInterface {
     public function hydrate(EntityInterface $paperContent, RowDataInterface $rowData) {
         /** @var PaperContentInterface $paperContent */
         $paperContent
-            ->setPaperIdFk($rowData->offsetGet('paper_id_fk'))
             ->setId($rowData->offsetGet('id'))
+            ->setPaperIdFk($rowData->offsetGet('paper_id_fk'))
             ->setContent($rowData->offsetGet('content'))
             ->setTemplateName($rowData->offsetGet('template_name'))
             ->setTemplate($rowData->offsetGet('template'))
@@ -43,7 +43,7 @@ class PaperContentHydrator implements HydratorInterface {
             ->setEventEndTime($rowData->offsetGet('event_end_time') ? \DateTime::createFromFormat('Y-m-d', $rowData->offsetGet('event_end_time')) : NULL)
             ->setEditor($rowData->offsetGet('editor'))
             ->setUpdated($rowData->offsetGet('updated') ? \DateTime::createFromFormat('Y-m-d H:i:s', $rowData->offsetGet('updated')) : NULL)  // včetně času
-            ->setActual($rowData->offsetGet('actual'));
+            ;
     }
 
     /**
@@ -53,8 +53,8 @@ class PaperContentHydrator implements HydratorInterface {
      */
     public function extract(EntityInterface $paperContent, RowDataInterface $rowData) {
         /** @var PaperContentInterface $paperContent */
-        $rowData->offsetSet('paper_id_fk',  $paperContent->getPaperIdFk());
         $rowData->offsetSet('id',  $paperContent->getId());
+        $rowData->offsetSet('paper_id_fk',  $paperContent->getPaperIdFk());
         $rowData->offsetSet('content',  $paperContent->getContent());
         $rowData->offsetSet('template_name',  $paperContent->getTemplateName());
         $rowData->offsetSet('template',  $paperContent->getTemplate());

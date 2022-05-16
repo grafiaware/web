@@ -1,11 +1,13 @@
 <?php
 namespace Container;
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 // kontejner
 use Pes\Container\ContainerConfiguratorAbstract;
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
+
+use Pes\View\Renderer\PhpTemplateRenderer;
 
 use Component\Renderer\Html\Menu\ItemRenderer;
 use Component\Renderer\Html\Menu\ItemRendererEditable;
@@ -43,7 +45,11 @@ use Component\Renderer\Html\Manage\EditContentSwitchDisabledRenderer;
 use Component\Renderer\Html\Generated\LanguageSelectRenderer;
 use Component\Renderer\Html\Generated\SearchPhraseRenderer;
 use Component\Renderer\Html\Generated\SearchResultRenderer;
-use Component\Renderer\Html\Authored\TypeSelect\ItemTypeSelectRenderer;
+use Component\Renderer\Html\MenuItem\TypeSelect\ItemTypeSelectRenderer;
+
+use Pes\View\Renderer\ImplodeRenderer;
+use Pes\View\Renderer\InterpolateRenderer;
+use Component\Renderer\Html\NoPermittedContentRenderer;
 
 /**
  *
@@ -52,31 +58,29 @@ use Component\Renderer\Html\Authored\TypeSelect\ItemTypeSelectRenderer;
  */
 class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
 
-    public function getParams() {
-        return Configuration::renderer();
+    public function getParams(): iterable {
+        return [];
     }
 
-    public function getAliases() {
+    public function getAliases(): iterable {
         return [
-//            PhpTemplateRendererInterface::class => PhpTemplateRenderer::class,
+            PhpTemplateRendererInterface::class => PhpTemplateRenderer::class,
         ];
     }
 
-    public function getServicesDefinitions() {
-        return [
+    public function getServicesDefinitions(): iterable {
+        return array_merge(ConfigurationCache::renderer(),
+                [
+        ImplodeRenderer::class => function(ContainerInterface $c) {
+            return new ImplodeRenderer();
+        },
+        InterpolateRenderer::class => function(ContainerInterface $c) {
+            return new InterpolateRenderer();
+        },
+        NoPermittedContentRenderer::class => function(ContainerInterface $c) {
+            return new NoPermittedContentRenderer();
+        },
 
-
-        ];
-    }
-
-    public function getFactoriesDefinitions() {
-        return [
-
-        ];
-    }
-
-    public function getServicesOverrideDefinitions() {
-        return [
         ###########################
         # menu item renderer
         ###########################
@@ -193,9 +197,16 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
         ###########################
         #  default template renderer
         ###########################
-//            PhpTemplateRenderer::class => function(ContainerInterface $c) {
-//                return new PhpTemplateRenderer();
-//            },
+            PhpTemplateRenderer::class => function(ContainerInterface $c) {
+                return new PhpTemplateRenderer();
+            },
+        ]);
+
+    }
+
+    public function getFactoriesDefinitions(): iterable {
+        return [
+
         ];
     }
 }

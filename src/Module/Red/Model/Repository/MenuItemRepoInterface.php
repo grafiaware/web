@@ -46,11 +46,10 @@ interface MenuItemRepoInterface extends RepoInterface, RepoAssotiatedOneInterfac
 
     /**
      *
-     * @param type $langCodeFk
      * @param type $prettyUri
      * @return MenuItemInterface|null
      */
-    public function getByPrettyUri($langCodeFk, $prettyUri): ?MenuItemInterface;
+    public function getByPrettyUri($prettyUri): ?MenuItemInterface;
 
     /**
      *

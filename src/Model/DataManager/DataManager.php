@@ -8,7 +8,7 @@
 
 namespace Model\DataManager;
 
-use Model\Dao\DaoTableInterface;
+use Model\Dao\DaoEditInterface;
 
 use Model\RowData\RowDataInterface;
 
@@ -17,10 +17,10 @@ use Model\RowData\RowDataInterface;
  *
  * @author pes2704
  */
-abstract class DataManager implements DataManagerInterface {
+abstract class DataManagerAbstract implements DataManagerInterface {
 
     /**
-     * @var DaoTableInterface
+     * @var DaoEditInterface
      */
     private $dao;
     private $persitedData;
@@ -29,35 +29,23 @@ abstract class DataManager implements DataManagerInterface {
 
     private $flushed = false;
 
-    public function __construct(DaoTableInterface $dao) {
+    public function __construct(DaoEditInterface $dao) {
         $this->dao = $dao;
         $this->persitedData = new \ArrayObject();
         $this->dataToAdd = new \ArrayObject();
         $this->dataToRemove = new \ArrayObject();
     }
 
-    public function get(...$id): ?RowDataInterface {
-        $index = $this->indexFromKeyParams(...$id);
+    public function get(array $id): ?RowDataInterface {
+        $index = $this->indexFromKeyParams($id);
         if ($this->dataToAdd->offsetExists($index)) {
             return $this->dataToAdd->offsetGet($index);
         } elseif (!$this->persitedData->offsetExists($index)) {
-            $data = $this->dao->get(...$id);
+            $data = $this->dao->get($id);
             $this->persitedData->offsetSet($index, $data);
             $this->flushed = false;
         }
         return $this->persitedData->offsetExists($index) ? $this->persitedData->offsetGet($index) : null;
-    }
-
-    public function getByReference(...$referenceId): ?RowDataInterface {
-        $rowData = $this->dao->getByFk(...$referenceId);
-        if (!$rowData) {
-            return null;
-        }
-        $index = $this->indexFromRowData($rowData);
-        if (!$this->persitedData->offsetExists($index)) {
-            $this->persitedData->offsetSet($index, $rowData);
-        }
-        return $rowData;
     }
 
     public function find($whereClause="", $touplesToBind=[]): iterable {

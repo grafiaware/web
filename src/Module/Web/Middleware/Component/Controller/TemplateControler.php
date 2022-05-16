@@ -10,7 +10,7 @@ namespace Web\Middleware\Component\Controller;
 
 use Psr\Http\Message\ServerRequestInterface;
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 use Configuration\TemplateControlerConfigurationInterface;
 
 use FrontControler\FrontControlerAbstract;
@@ -255,6 +255,6 @@ class TemplateControler extends FrontControlerAbstract {
                 user_error("Neexistuje soubor šablony '$templatePath'", E_USER_WARNING);
                 $this->setTemplate(null);
             }
-        return new PhpTemplate(Configuration::templateController()['templates.paperFolder']."$name/".Configuration::templateController()['templates.defaultExtension']);
+        return new PhpTemplate(ConfigurationCache::templateController()['templates.paperFolder']."$name/".ConfigurationCache::templateController()['templates.defaultExtension']);
     }
 }

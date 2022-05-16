@@ -70,19 +70,8 @@ class UserActionControler extends FrontControlerAbstract {
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
-//    public function setPresentedItem(ServerRequestInterface $request) {
-//        $requestedUid = (new RequestParams())->getParsedBodyParam($request, 'uid');
-//        $statusPresentation = $this->statusPresentationRepo->get();
-//        $langCodeFk = $statusPresentation->getLanguage()->getLangCode();
-//        $menuItem = $this->menuItemRepo->get($langCodeFk, $requestedUid);
-//        $statusPresentation->setHierarchyAggregate($menuItem);  // bez kontroly
-//        $this->addFlashMessage("setPresentedItem({$menuItem->getTitle()})");
-//        return $this->redirectSeeLastGet($request); // 303 See Other
-//    }
-
     public function setEditMode(ServerRequestInterface $request) {
         $edit = (new RequestParams())->getParsedBodyParam($request, self::FORM_USER_ACTION_EDIT_MODE);
-//        $this->switchEditable('article', $edit);
 
         //TODO: nejdřív vypnu editable a pak teprve volám isPresentedItemActive() - pokud menuItem není active, tak se s vypnutým editable už v metodě isPresentedItemActive() nenačte - ?? obráceně?
         $this->statusPresentationRepo->get()->getUserActions()->setEditableContent($edit);

@@ -5,7 +5,7 @@ use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Pes\Text\Text;
 /** @var PhpTemplateRendererInterface $this */
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 use View\Thief;
 
         $urlPostfix = "index.php?lay=";

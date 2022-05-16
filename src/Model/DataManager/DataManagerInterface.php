@@ -15,8 +15,14 @@ use Model\RowData\RowDataInterface;
  * @author pes2704
  */
 interface DataManagerInterface {
-    public function get(...$id): ?RowDataInterface;
-    public function getByReference(...$referenceId): ?RowDataInterface;
+    public function getPrimaryKeyAttribute(): array;
+    public function getAttributes(): array;
+    public function getTableName(): string;
+
+    public function getPrimaryKeyTouples(array $primaryFieldsValue): array;
+
+    public function get(array $id): ?RowDataInterface;
+    public function getByReference(array $referenceId): ?RowDataInterface;
     public function find($whereClause="", $touplesToBind=[]): iterable;
     public function set($index, RowDataInterface $data): void;
     public function unset($index): void;

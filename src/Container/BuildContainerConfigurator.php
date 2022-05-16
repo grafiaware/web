@@ -8,7 +8,7 @@
 
 namespace Container;
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 use Pes\Container\ContainerConfiguratorAbstract;
 
@@ -52,11 +52,11 @@ use Status\Model\Repository\{StatusSecurityRepo, StatusPresentationRepo, StatusF
  */
 class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
 
-    public function getParams() {
-        return Configuration::build();
+    public function getParams(): iterable {
+        return ConfigurationCache::build();
     }
 
-    public function getFactoriesDefinitions() {
+    public function getFactoriesDefinitions(): iterable {
         return [
                 'build.config.copy' => function(ContainerInterface $c) {
                     return [
@@ -75,7 +75,7 @@ class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
                     },
                 'build.config.users.everyone' => function(ContainerInterface $c) {
                     return array_merge(
-                        Configuration::build()['build.config.users.everyone'],
+                        ConfigurationCache::build()['build.config.users.everyone'],
                         [
                         'host' => $c->get('dbUpgrade.db.connection.host'),
                         'database' => $c->get('dbUpgrade.db.connection.name'),
@@ -88,7 +88,7 @@ class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
                     },
                 'build.config.users.granted' => function(ContainerInterface $c) {
                     return array_merge(
-                        Configuration::build()['build.config.users.granted'],
+                        ConfigurationCache::build()['build.config.users.granted'],
                         [
                         'host' => $c->get('dbUpgrade.db.connection.host'),
                         'database' => $c->get('dbUpgrade.db.connection.name'),
@@ -101,23 +101,23 @@ class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
                     },
                 'build.config.make' => function(ContainerInterface $c) {
                     return [
-                        'items' =>  Configuration::build()['build.config.make.items'],
-                        'roots' =>  Configuration::build()['build.config.make.roots'],
+                        'items' =>  ConfigurationCache::build()['build.config.make.items'],
+                        'roots' =>  ConfigurationCache::build()['build.config.make.roots'],
                         ];
                     },
                 'build.config.convert' => function(ContainerInterface $c) {
                     return [
-                        'source_table_name' =>  $c->get('dbold.db.connection.name').'.'.Configuration::build()['build.config.convert.copy']['source'],
-                        'target_table_name' => $c->get('dbUpgrade.db.connection.name').'.'.Configuration::build()['build.config.convert.copy']['target'],
-                        'repairs' => Configuration::build()['build.config.convert.repairs'] ?? [],
-                        'updatestranky' =>  Configuration::build()['build.config.convert.updatestranky'],
-                        'home' =>  Configuration::build()['build.config.convert.home'],
+                        'source_table_name' =>  $c->get('dbold.db.connection.name').'.'.ConfigurationCache::build()['build.config.convert.copy']['source'],
+                        'target_table_name' => $c->get('dbUpgrade.db.connection.name').'.'.ConfigurationCache::build()['build.config.convert.copy']['target'],
+                        'repairs' => ConfigurationCache::build()['build.config.convert.repairs'] ?? [],
+                        'updatestranky' =>  ConfigurationCache::build()['build.config.convert.updatestranky'],
+                        'home' =>  ConfigurationCache::build()['build.config.convert.home'],
                         ];
                     },
                 ];
     }
 
-    public function getAliases() {
+    public function getAliases(): iterable {
         return [
             RouterInterface::class => Router::class,
             HierarchyAggregateReadonlyDaoInterface::class => HierarchyAggregateReadonlyDao::class,
@@ -125,7 +125,7 @@ class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
         ];
     }
 
-    public function getServicesDefinitions() {
+    public function getServicesDefinitions(): iterable {
         return [
             'dropLogger' => function(ContainerInterface $c) {
                 return FileLogger::getInstance($c->get('build.db.logs.directory'), $c->get('build.db.logs.file.drop'), FileLogger::REWRITE_LOG); //new NullLogger();
@@ -199,12 +199,7 @@ class BuildContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class)))->injectContainer($c);
-            }
-        ];
-    }
-
-    public function getServicesOverrideDefinitions() {
-        return [
+            },
             // Account a Handler "přetěžují" Account a Handler z DbOld kontejneru
             Account::class => function(ContainerInterface $c) {
                 return new Account(

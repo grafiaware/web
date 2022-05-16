@@ -58,13 +58,13 @@ class EventContentTypeRepositoryTest extends AppRunner {
         $type =  "testEvCtTypeType";
         $rowData->offsetSet('type', $type);
         $rowData->offsetSet('name', "testEventContentTypeName");
-        $eventContentTypeDao->insertWithKeyVerification($rowData);
+        $eventContentTypeDao->insert($rowData);
     }
 
     private static function deleteRecords(Container $container) {
         /** @var EventContentTypeDao $eventContentTypeDao */
         $eventContentTypeDao = $container->get(EventContentTypeDao::class);
-        $row = $eventContentTypeDao->get('testEvCtTypeType');
+        $row = $eventContentTypeDao->get(['type'=>'testEvCtTypeType']);
         if (isset($row)) {
             $eventContentTypeDao->delete($row);
         }

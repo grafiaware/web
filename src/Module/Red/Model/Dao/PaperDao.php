@@ -8,83 +8,47 @@
 
 namespace Red\Model\Dao;
 
-use Model\Dao\DaoTableAbstract;
-use Model\Dao\DaoAutoincrementKeyInterface;
-use \Model\Dao\DaoAutoincrementTrait;
-use Model\RowData\RowDataInterface;
+use Model\Dao\DaoEditAbstract;
+
+use Model\Dao\DaoEditAutoincrementKeyInterface;
+use Model\Dao\DaoFkUniqueInterface;
+use Model\Dao\DaoAutoincrementTrait;
+use Model\Dao\DaoFkUniqueTrait;
 
 /**
  * Description of PaperDao
  *
  * @author pes2704
  */
-class PaperDao extends DaoTableAbstract implements DaoAutoincrementKeyInterface {
+class PaperDao extends DaoEditAbstract implements DaoEditAutoincrementKeyInterface, DaoFkUniqueInterface {
 
     use DaoAutoincrementTrait;
+    use DaoFkUniqueTrait;
 
-    private $keyAttribute = 'id';
-
-    public function getKeyAttribute() {
-        return $this->keyAttribute;
+    public function getPrimaryKeyAttributes(): array {
+        return ['id'];
     }
 
-    /**
-     * Vrací jednu řádku tabulky 'paper' ve formě asociativního pole podle primárního klíče.
-     *
-     * @param string $id Hodnota primárního klíče
-     * @return array Asociativní pole
-     * @throws StatementFailureException
-     */
-    public function get($id) {
-
-        $select = $this->select("
-        `paper`.`id` AS `id`,
-        `paper`.`menu_item_id_fk` AS `menu_item_id_fk`,
-        `paper`.`headline` AS `headline`,
-        `paper`.`perex` AS `perex`,
-        `paper`.`template` AS `template`,
-        `paper`.`keywords` AS `keywords`,
-        `paper`.`editor` AS `editor`,
-        `paper`.`updated` AS `updated`");
-        $from = $this->from("`paper`");
-        $where = $this->where("`paper`.`id` = :id");
-        $touplesToBind = [':id' => $id];
-        return $this->selectOne($select, $from, $where, $touplesToBind, true);
+    public function getAttributes(): array {
+        return [
+            'id',
+            'menu_item_id_fk',
+            'headline',
+            'perex',
+            'template',
+            'keywords',
+            'editor',
+            'updated'
+        ];
     }
 
-    /**
-     * Vrací jednu řádku tabulky 'paper' ve formě asociativního pole podle cizího klíče s vazbou 1:1.
-     *
-     * @param string $menuItemIdFk Hodnota cizího klíče
-     * @return array Asociativní pole
-     * @throws StatementFailureException
-     */
-    public function getByFk($menuItemIdFk) {
-
-        $select = $this->select("
-        `paper`.`id` AS `id`,
-        `paper`.`menu_item_id_fk` AS `menu_item_id_fk`,
-        `paper`.`headline` AS `headline`,
-        `paper`.`perex` AS `perex`,
-        `paper`.`template` AS `template`,
-        `paper`.`keywords` AS `keywords`,
-        `paper`.`editor` AS `editor`,
-        `paper`.`updated` AS `updated`");
-        $from = $this->from("`paper`");
-        $where = $this->where("`paper`.`menu_item_id_fk` = :menu_item_id_fk");
-        $touplesToBind = [':menu_item_id_fk' => $menuItemIdFk];
-        return $this->selectOne($select, $from, $where, $touplesToBind, true);
+    public function getForeignKeyAttributes(): array {
+        return [
+            'menu_item_id_fk'=>['menu_item_id_fk']
+        ];
     }
 
-    public function insert(RowDataInterface $rowData) {
-        return $this->execInsert('paper', $rowData);
-    }
-
-    public function update(RowDataInterface $rowData) {
-        return $this->execUpdate('paper', ['id'], $rowData);
-    }
-
-    public function delete(RowDataInterface $rowData) {
-        return $this->execDelete('paper', ['id'], $rowData);
+    public function getTableName(): string {
+        return 'paper';
     }
 }

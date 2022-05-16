@@ -8,7 +8,7 @@
 
 namespace Web\Middleware\Page\Controller;
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 use FrontControler\PresentationFrontControlerAbstract;
 use Psr\Http\Message\ServerRequestInterface;
@@ -134,18 +134,18 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
     private function getLayoutView(ServerRequestInterface $request) {
         /** @var ViewInterface $view */
         $view = $this->container->get(View::class);
-        $view->setTemplate(new PhpTemplate(Configuration::layoutController()['layout']));
+        $view->setTemplate(new PhpTemplate(ConfigurationCache::layoutController()['layout']));
         $view->setData(
                 [
                     // v layout.php
                     'basePath' => $this->getBasePath($request),  // stejná metoda dává base path i do tinyConfig.js
                     'langCode' => $this->getPresentationLangCode(),
-                    'title' => Configuration::layoutController()['title'],
+                    'title' => ConfigurationCache::layoutController()['title'],
                     // podmínění insert css souborů v head/css.php
                     'isEditableMode' => $this->isPartInEditableMode(),
                     // na mnoha místech - cesty k souborům zadané v konfiguraci
-                    'linksCommon' => Configuration::layoutController()['linksCommon'],
-                    'linksSite' => Configuration::layoutController()['linksSite'],
+                    'linksCommon' => ConfigurationCache::layoutController()['linksCommon'],
+                    'linksSite' => ConfigurationCache::layoutController()['linksSite'],
                     // atributy div v container.php
                     'bodyContainerAttributes' => $this->getBodyContainerAttributes(),
                 ]);
@@ -229,7 +229,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
      * @return View[]
      */
     private function getAuthoredLayoutBlockLoaders() {
-        $map = Configuration::layoutController()['layout_blocks'];
+        $map = ConfigurationCache::layoutController()['layout_blocks'];
         $componets = [];
 
         // pro neexistující bloky nedělá nic
@@ -269,7 +269,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
                             'loaderWrapperElementId' => "content_for_item_{$id}_with_type_{$menuItemType}",
                             'apiUri' => "web/v1/$menuItemType/$id"
                             ]);
-            $view->setTemplate(new PhpTemplate(Configuration::layoutController()['templates.loaderElement']));
+            $view->setTemplate(new PhpTemplate(ConfigurationCache::layoutController()['templates.loaderElement']));
         } else {
             $u++;
             $view->setRenderer(new ImplodeRenderer());
@@ -305,7 +305,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
         $userActions = $this->statusPresentationRepo->get()->getUserActions();
 
         $components = [];
-        foreach (Configuration::menu()['menu.contextServiceMap'] as $contextName => $serviceName) {
+        foreach (ConfigurationCache::menu()['menu.contextServiceMap'] as $contextName => $serviceName) {
             $components[$contextName] = $this->container->get($serviceName);
         }
         return $components;
@@ -322,30 +322,30 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
      */
     private function getScriptsEditableModeView(ServerRequestInterface $request) {
         if ($this->isPartInEditableMode()) {
-            $tinyLanguage = Configuration::layoutController()['tinyLanguage'];
+            $tinyLanguage = ConfigurationCache::layoutController()['tinyLanguage'];
             $langCode =$this->statusPresentationRepo->get()->getLanguage()->getLangCode();
-            $tinyToolsbarsLang = array_key_exists($langCode, $tinyLanguage) ? $tinyLanguage[$langCode] : Configuration::presentationStatus()['default_lang_code'];
+            $tinyToolsbarsLang = array_key_exists($langCode, $tinyLanguage) ? $tinyLanguage[$langCode] : ConfigurationCache::presentationStatus()['default_lang_code'];
             return
                 $this->container->get(View::class)
-                    ->setTemplate(new PhpTemplate(Configuration::layoutController()['scriptsEditableMode']))
+                    ->setTemplate(new PhpTemplate(ConfigurationCache::layoutController()['scriptsEditableMode']))
                     ->setData([
                         'tinyMCEConfig' => $this->container->get(View::class)
-                                ->setTemplate(new InterpolateTemplate(Configuration::layoutController()['tinyConfig']))
+                                ->setTemplate(new InterpolateTemplate(ConfigurationCache::layoutController()['tinyConfig']))
                                 ->setData([
                                     // pro tiny_config.js
                                     'basePath' => $this->getBasePath($request),  // stejná metoda dáva base path i do layout.php
                                     'toolbarsLang' => $tinyToolsbarsLang,
                                     // prvky pole contentCSS - tyto tři proměnné jsou prvky pole - pole je v tiny_config.js v proměnné contentCss
-                                    'urlStylesCss' => Configuration::layoutController()['urlStylesCss'],
-                                    'urlSemanticCss' => Configuration::layoutController()['urlSemanticCss'],
-                                    'urlContentTemplatesCss' => Configuration::layoutController()['urlContentTemplatesCss']
+                                    'urlStylesCss' => ConfigurationCache::layoutController()['urlStylesCss'],
+                                    'urlSemanticCss' => ConfigurationCache::layoutController()['urlSemanticCss'],
+                                    'urlContentTemplatesCss' => ConfigurationCache::layoutController()['urlContentTemplatesCss']
                         ]),
 
-                        'urlTinyMCE' => Configuration::layoutController()['urlTinyMCE'],
-                        'urlJqueryTinyMCE' => Configuration::layoutController()['urlJqueryTinyMCE'],
+                        'urlTinyMCE' => ConfigurationCache::layoutController()['urlTinyMCE'],
+                        'urlJqueryTinyMCE' => ConfigurationCache::layoutController()['urlJqueryTinyMCE'],
 
-                        'urlTinyInit' => Configuration::layoutController()['urlTinyInit'],
-                        'editScript' => Configuration::layoutController()['urlEditScript'],
+                        'urlTinyInit' => ConfigurationCache::layoutController()['urlTinyInit'],
+                        'editScript' => ConfigurationCache::layoutController()['urlEditScript'],
                     ]);
         }
     }

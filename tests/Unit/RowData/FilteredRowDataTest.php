@@ -28,7 +28,7 @@ class FilteredRowDataTest extends TestCase {
         $rowData->offsetSet(2, 'TRTRTS');
         $rowData->offsetSet('newnull', null);
         $this->assertTrue($rowData->isChanged());
-        $changed = $rowData->changedNames();
+        $changed = $rowData->fetchChanged();
         $this->assertEquals([2, 'newnull'], $changed);
         $filter = new NominateFilter($rowData->getIterator());
         $filter->nominate($changed);

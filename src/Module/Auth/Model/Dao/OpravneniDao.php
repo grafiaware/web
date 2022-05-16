@@ -8,33 +8,25 @@
 
 namespace Auth\Model\Dao;
 
-use Model\Dao\DaoReadonlyAbstract;
+use Model\Dao\DaoAbstract;
 
 /**
  * Description of RsDao
  *
  * @author pes2704
  */
-class OpravneniDao extends DaoReadonlyAbstract {
+class OpravneniDao extends DaoAbstract {
 
-    private $keyAttribute = 'user';
 
-    public function getKeyAttribute() {
-        return $this->keyAttribute;
+    public function getPrimaryKeyAttributes(): array {
+        return 'user';
     }
 
-    /**
-     * Vrací asociativní pole s jménem uživatele - user. Jde o část řádky tabulky opravneni.
-     *
-     * @param type $user
-     * @return array
-     * @throws StatementFailureException
-     */
-    public function get($user) {
-        $select = $this->select("*");
-        $from = $this->from("opravneni");
-        $where = $this->where("user=:user");
-        $touplesToBind = [':user' => $user];
-        return $this->selectOne($select, $from, $where, $touplesToBind, true);
+    public function getAttributes(): array {
+        return ['*'];
+    }
+
+    public function getTableName(): string {
+        return 'opravneni';
     }
 }

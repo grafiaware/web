@@ -10,38 +10,54 @@ namespace Model\Dao;
 
 use Model\RowData\RowDataInterface;
 
+use Model\Dao\DaoEditKeyDbVerifiedInterface;
+
 use Model\Dao\Exception\DaoUnexpectecCallOutOfTransactionException;
 use Model\Dao\Exception\DaoKeyVerificationFailedException;
-use Model\Dao\DaoAutoincrementKeyInterface;
 
 /**
  * Description of DaoEditAbstract
  *
  * @author pes2704
  */
-abstract class DaoEditAbstract extends DaoReadonlyAbstract {
+abstract class DaoEditAbstract extends DaoAbstract implements DaoEditInterface {
 
     protected $rowCount;
 
-    protected function columns($cols) {
-        $columns = "";
-        foreach ($cols as $col) {
-            $c[] = $this->identificator($col);
+    /**
+     * Přídá změněná data do databáze.
+     *
+     * Ukládá pouze data
+     * @param RowDataInterface $rowData
+     * @return bool
+     */
+    public function insert(RowDataInterface $rowData): bool {
+        if ($this instanceof DaoEditKeyDbVerifiedInterface) {
+            return $this->execInsertWithKeyVerification($rowData);
+        } else {
+            return $this->execInsert($rowData);
         }
-        return implode(", ", $c);
     }
 
-    protected function set($setTouples) {
-        return implode(", ", $setTouples);
+    /**
+     *
+     * @param RowDataInterface $rowData
+     * @return bool
+     */
+    public function update(RowDataInterface $rowData): bool {
+        return $this->execUpdate($rowData);
     }
 
-    private function touples(array $names): array {
-        $touples = [];
-        foreach ($names as $name) {
-            $touples[] = $this->identificator($name) . " = :" . $name;
-        }
-        return $touples;
+    /**
+     *
+     * @param RowDataInterface $rowData
+     * @return bool
+     */
+    public function delete(RowDataInterface $rowData): bool {
+        return $this->execDelete($rowData);
     }
+
+    ####################################################################
 
     /**
      * Očekává SQL string s příkazem INSERT. Provede ho s použitím parametrů a vrací výsledek metody PDOStatement->execute().
@@ -51,40 +67,47 @@ abstract class DaoEditAbstract extends DaoReadonlyAbstract {
      * - Nahradí placeholdery zadanými parametry pomocí bindParams().
      * - Provede příkaz a vrací výsledek metody PDOStatement->execute().
      *
-     * @param string $sql SQL příkaz s případnými placeholdery.
-     * @param array $touplesToBind Pole parametrů pro bind, nepovinný parametr, default prázdné pole.
-     * @return aray
+     * @param RowDataInterface $rowData
+     * @return bool
+     * @throws \Exception
+     * @throws DaoKeyVerificationFailedException
      */
-    protected function execInsertWithKeyVerification($tableName, array $keyNames, RowDataInterface $rowData) {
+    protected function execInsertWithKeyVerification(RowDataInterface $rowData): bool {
+        $tableName = $this->getTableName();
+        $keyNames = $this->getPrimaryKeyAttributes();
         try {
             $this->dbHandler->beginTransaction();
-            $found = $this->getWithinTransaction($tableName, $keyNames, $rowData);
+            $changed = $rowData->yieldChanged();
+            $found = $this->getWithinTransaction($tableName, $keyNames, $changed);
             if  (! $found)   {
-                $this->execInsert($tableName, $rowData);   // předpokládám, že changed je i sloupec s klíčem
+                $this->execInsert($rowData);   // předpokládám, že changed je i sloupec s klíčem
             } else {
                 foreach ($keyNames as $name) {
-                    $k[] = $rowData->offsetGet($name);
+                    $k[] = $changed[$name];
                 }
                 $key = implode(', ', $k);
                 throw new DaoKeyVerificationFailedException("Hodnota klíče type '$key' již v tabulce $tableName existuje.");
             }
             /*** commit the transaction ***/
-            $this->dbHandler->commit();
+            $success = $this->dbHandler->commit();
         } catch(\Exception $e) {
             $this->dbHandler->rollBack();
             throw $e;
         }
+        return $success ?? false;
     }
 
-    private function getWithinTransaction($tableName, array $keyNames, RowDataInterface $rowData) {
+    private function getWithinTransaction($tableName, array $keyNames, iterable $rowData) {
         if ($this->dbHandler->inTransaction()) {
-                $cols = $this->columns($keyNames);
-                $whereTouples = $this->touples($keyNames);
-                $sql = $this->select($cols).$this->from($tableName).$this->where($this->and($whereTouples))." LOCK IN SHARE MODE";   //nelze použít LOCK TABLES - to commitne aktuální transakci!
-                $stmt = $this->getPreparedStatement($sql);
-                $this->bindParams($stmt , $rowData, $keyNames );
-                $stmt->execute();
-                $count = $stmt->rowCount();
+            $select = $this->sql->select($this->getAttributes());
+            $whereTouples = $this->sql->touples($keyNames);
+            $from = $this->sql->from($tableName);
+            $where = $this->sql->where($this->sql->and($whereTouples));
+            $sql = $select.$from.$where." LOCK IN SHARE MODE";   //nelze použít LOCK TABLES - to commitne aktuální transakci!
+            $stmt = $this->getPreparedStatement($sql);
+            $this->bindParams($stmt , $rowData, $keyNames );
+            $stmt->execute();
+            $count = $stmt->rowCount();
             return  $count ? true : false;
         } else {
             throw new DaoUnexpectecCallOutOfTransactionException('Metodu '.__METHOD__.' lze volat pouze v průběhu spuštěné databázové transakce.');
@@ -99,20 +122,23 @@ abstract class DaoEditAbstract extends DaoReadonlyAbstract {
      * - Nahradí placeholdery zadanými parametry pomocí bindParams().
      * - Provede příkaz a vrací výsledek metody PDOStatement->execute().
      *
-     * @param string $sql SQL příkaz s případnými placeholdery.
-     * @param array $touplesToBind Pole parametrů pro bind, nepovinný parametr, default prázdné pole.
-     * @return aray
+     *
+     * @param RowDataInterface $rowData
+     * @return bool
      */
-    protected function execInsert($tableName, RowDataInterface $rowData) {
-        $changedNames = $rowData->changedNames();
-        $cols = $this->columns($changedNames);
-        array_walk($changedNames, function($name) {return $this->identificator($name);});
-        $values = ':'.implode(', :', $changedNames);
-        $sql = "INSERT INTO $tableName ($cols)  VALUES ($values)";
-        $statement = $this->getPreparedStatement($sql);
-        $this->bindParams($statement, $rowData, $changedNames);
-        $success = $statement->execute();
-        $this->rowCount = $statement->rowCount();
+    protected function execInsert(RowDataInterface $rowData): bool {
+        if ($rowData->isChanged()) {
+            $tableName = $this->getTableName();
+            $changed = $rowData->fetchChanged();
+            $changedNames = array_keys($changed);
+            $cols = $this->sql->columns($changedNames);
+            $values = $this->sql->values($changedNames);
+            $sql = "INSERT INTO $tableName ($cols)  VALUES ($values)";
+            $statement = $this->getPreparedStatement($sql);
+            $this->bindParams($statement, $changed);
+            $success = $statement->execute();
+            $this->rowCount = $statement->rowCount();
+        }
         return $success ?? false;
     }
 
@@ -124,33 +150,26 @@ abstract class DaoEditAbstract extends DaoReadonlyAbstract {
      * - Nahradí placeholdery zadanými parametry pomocí bindParams().
      * - Provede příkaz a vrací výsledek metody PDOStatement->execute().
      *
+     * @param RowDataInterface $rowData
+     * @return bool
      */
-    protected function execUpdate($tableName, array $keyNames, RowDataInterface $rowData) {
+    protected function execUpdate(RowDataInterface $rowData): bool {
         if ($rowData->isChanged()) {
-            $changedNames = $rowData->changedNames();
-            $set = $this->touples($changedNames);
-            $whereTouples = $this->touples($keyNames);
-            $names = array_merge($changedNames, $keyNames);
-            $sql = "UPDATE $tableName SET ".$this->set($set).$this->where($this->and($whereTouples));
+            $tableName = $this->getTableName();
+            $whereTouples = $this->sql->touples($this->getPrimaryKeyAttributes(), 'key_');
+            $oldData = $rowData->getArrayCopy();
+            $changed = $rowData->fetchChanged();
+            $changedNames = array_keys($changed);
+            $setTouples = $this->sql->touples($changedNames);
+            $sql = "UPDATE $tableName SET ".$this->sql->set($setTouples).$this->sql->where($this->sql->and($whereTouples));
             $statement = $this->getPreparedStatement($sql);
-            $this->bindParams($statement, $rowData, $names);
+            $this->bindParams($statement, $changed);
+            $this->bindParams($statement, $oldData, $this->getPrimaryKeyAttributes(), 'key_');
             $success = $statement->execute();
             $this->rowCount = $statement->rowCount();
         }
         return $success ?? false;
     }
-
-//    private function merge_unique($changedNames, $keyNames) {
-//        foreach ($changedNames as $name) {
-//            if (!(in_array($name, $keyNames))) {
-//                 $ret[] = $name;
-//            }
-//        }
-//        foreach ($keyNames as $name) {
-//            $ret[] = $name;
-//        }
-//        return $ret;
-//    }
 
     /**
      * Očekává SQL string s příkazem DELETE. Provede ho s použitím parametrů a vrací výsledek metody PDOStatement->execute().
@@ -160,10 +179,14 @@ abstract class DaoEditAbstract extends DaoReadonlyAbstract {
      * - Nahradí placeholdery zadanými parametry pomocí bindParams().
      * - Provede příkaz a vrací výsledek metody PDOStatement->execute().
      *
+     * @param RowDataInterface $rowData
+     * @return bool
      */
-    protected function execDelete($tableName, array $keyNames, RowDataInterface $rowData) {
-        $where = $this->touples($keyNames);
-        $sql = "DELETE FROM $tableName ".$this->where($this->and($where));
+    protected function execDelete(RowDataInterface $rowData): bool {
+        $tableName = $this->getTableName();
+        $keyNames = $this->getPrimaryKeyAttributes();
+        $where = $this->sql->touples($keyNames);
+        $sql = "DELETE FROM $tableName ".$this->sql->where($this->sql->and($where));
         $statement = $this->getPreparedStatement($sql);
         $this->bindParams($statement, $rowData, $keyNames);
         $success = $statement->execute();
@@ -176,7 +199,7 @@ abstract class DaoEditAbstract extends DaoReadonlyAbstract {
      *
      * Správná funkce předpokládá nastavení atributu handleru PDO::MYSQL_ATTR_FOUND_ROWS = true
      *
-	 * @return int
+     * @return int
      */
     public function getRowCount(): int {
         return $this->rowCount;

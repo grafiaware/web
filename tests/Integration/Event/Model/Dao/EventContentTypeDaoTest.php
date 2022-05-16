@@ -10,6 +10,8 @@ use Test\Integration\Event\Container\EventsContainerConfigurator;
 use Test\Integration\Event\Container\DbEventsContainerConfigurator;
 
 use Events\Model\Dao\EventContentTypeDao;
+use Model\Dao\DaoEditKeyDbVerifiedInterface;
+
 use Model\Dao\Exception\DaoForbiddenOperationException;
 use Model\Dao\Exception\DaoKeyVerificationFailedException;
 use Model\RowData\RowData;
@@ -55,24 +57,25 @@ class EventContentTypeDaoTest extends AppRunner {
         $this->assertInstanceOf(EventContentTypeDao::class, $this->dao);
 
     }
-    public function testInsertException() {
-        $rowData = new RowData();
-        $rowData->offsetSet('type', "testEventContentType");
-        $rowData->offsetSet('name', "test_name_" . (string) (random_int(0, 999)));
-        $this->expectException(DaoForbiddenOperationException::class);
-        $this->dao->insert($rowData);
-    }
 
-
-    public function testInsertWithKeyVerification() {
-        $rowData = new RowData();
+    public function testInsert() {
         $type =  "testEventContentType";
+        self::$id =  ['type'=>$type];
+
+        $rowData = new RowData();
         $rowData->offsetSet('type', $type);
         $rowData->offsetSet('name', "test_name_" . (string) (random_int(0, 999)));
-        $this->dao->insertWithKeyVerification($rowData);
-        self::$id =  $type;
+        $this->dao->insert($rowData);
+        $this->assertEquals(1, $this->dao->getRowCount());
+    }
+
+    public function testInsertDaoKeyVerificationFailedException() {
+        $type =  "testEventContentType";
+        $rowData = new RowData();
+        $rowData->offsetSet('type', $type);
+        $rowData->offsetSet('name', "test_name_" . (string) (random_int(0, 999)));
         $this->expectException(DaoKeyVerificationFailedException::class);
-        $this->dao->insertWithKeyVerification($rowData);
+        $this->dao->insert($rowData);
     }
 
     public function testGetExistingRow() {

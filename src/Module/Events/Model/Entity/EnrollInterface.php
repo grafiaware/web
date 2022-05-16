@@ -20,8 +20,8 @@ interface EnrollInterface extends EntityInterface {
 
     public function getEventIdFk(): int;
 
-    public function setLoginLoginNameFk($loginLoginNameFk): EnrollInterface;
+    public function setLoginLoginNameFk($loginLoginNameFk): EnrollDaoInterface;
 
-    public function setEventIdFk($eventFdFk): EnrollInterface;
+    public function setEventIdFk($eventFdFk): EnrollDaoInterface;
 
 }

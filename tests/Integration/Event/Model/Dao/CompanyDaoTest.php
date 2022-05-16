@@ -9,8 +9,6 @@ use Test\Integration\Event\Container\EventsContainerConfigurator;
 use Test\Integration\Event\Container\DbEventsContainerConfigurator;
 
 use Events\Model\Dao\CompanyDao;
-use Model\Dao\Exception\DaoForbiddenOperationException;
-use Model\Dao\Exception\DaoKeyVerificationFailedException;
 use Model\RowData\RowData;
 use Model\RowData\RowDataInterface;
 
@@ -58,12 +56,12 @@ class CompanyDaoTest  extends AppRunner {
       public function testInsert() {
         $rowData = new RowData();
         //$rowData->offsetSet('id', "e");
-        $rowData->offsetSet('name', "testCompany-nameNNN");        
+        $rowData->offsetSet('name', "testCompany-nameNNN");
         $rowData->offsetSet('eventInstitutionName30', null);
-        
+
         $this->dao->insert($rowData);
-        self::$id =  $this->dao->getLastInsertId();
-        $this->assertGreaterThan(0, (int) self::$id);
+        self::$id = $this->dao->getLastInsertIdTouple();
+        $this->assertIsArray(self::$id);
         $numRows = $this->dao->getRowCount();
         $this->assertEquals(1, $numRows);
     }

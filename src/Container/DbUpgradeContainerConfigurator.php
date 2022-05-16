@@ -8,7 +8,7 @@
 
 namespace Container;
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 use Pes\Container\ContainerConfiguratorAbstract;
 
@@ -42,30 +42,21 @@ use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDaoInterface;
  */
 class DbUpgradeContainerConfigurator extends ContainerConfiguratorAbstract {
 
-    public function getParams() {
-        return Configuration::dbUpgrade();
+    public function getParams(): iterable {
+        return ConfigurationCache::dbUpgrade();
     }
 
-    public function getFactoriesDefinitions() {
+    public function getFactoriesDefinitions(): iterable {
         return [];
     }
 
-    public function getAliases() {
+    public function getAliases(): iterable {
         return [
             HandlerInterface::class => Handler::class,
-            RouterInterface::class => Router::class,
-            HierarchyAggregateReadonlyDaoInterface::class => HierarchyAggregateReadonlyDao::class,
-            HierarchyAggregateEditDaoInterface::class => HierarchyAggregateEditDao::class,
         ];
     }
 
-    public function getServicesDefinitions() {
-        return [
-
-        ];
-    }
-
-    public function getServicesOverrideDefinitions() {
+    public function getServicesDefinitions(): iterable {
         return [
             // db objekty - služby stejného jména jsou v db old konfiguraci - tedy v db old kontejneru, který musí delegátem
             'dbUpgradeLogger' => function(ContainerInterface $c) {
@@ -100,6 +91,18 @@ class DbUpgradeContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get('dbUpgrade.db.charset'),
                         $c->get('dbUpgrade.db.collation'),
                         $c->get('dbUpgrade.db.port'));
+            },
+            // db objekty
+            Handler::class => function(ContainerInterface $c) : HandlerInterface {
+                // povinný logger do kostruktoru = pro logování exception při intancování Handleru a PDO
+                $logger = $c->get('dbUpgradeLogger');
+                return new Handler(
+                        $c->get(Account::class),
+                        $c->get(ConnectionInfo::class),
+                        $c->get(DsnProviderMysql::class),
+                        $c->get(OptionsProviderMysql::class),
+                        $c->get(AttributesProvider::class),
+                        $logger);
             },
         ];
     }

@@ -2,7 +2,7 @@
 namespace Container;
 
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 // kontejner
 use Pes\Container\ContainerConfiguratorAbstract;
@@ -51,7 +51,7 @@ use Events\Model\Arraymodel\Event;
 // events
 use Events\Model\Repository\EnrollRepo;
 use Events\Model\Repository\VisitorProfileRepo;
-use Events\Model\Repository\VisitorDataPostRepo;
+use Events\Model\Repository\VisitorJobRequestRepo;
 
 // dao
 use Red\Model\Dao\Hierarchy\HierarchyAggregateEditDao;
@@ -80,24 +80,23 @@ use Red\Model\Repository\ItemActionRepo;
  */
 class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
 
-    public function getParams() {
-        return Configuration::api();
+    public function getParams(): iterable {
+        return ConfigurationCache::api();
     }
 
-    public function getFactoriesDefinitions() {
+    public function getFactoriesDefinitions(): iterable {
         return [];
     }
 
-    public function getAliases() {
+    public function getAliases(): iterable {
         return [
             RouterInterface::class => Router::class,
             LoginAggregateCredentialsInterface::class => LoginAggregate::class,
             AccountInterface::class => Account::class,
-            HandlerInterface::class => Handler::class,
         ];
     }
 
-    public function getServicesDefinitions() {
+    public function getServicesDefinitions(): iterable {
         return [
             UserActionControler::class => function(ContainerInterface $c) {
                 return new UserActionControler(
@@ -186,7 +185,7 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
                         $c->get(VisitorProfileRepo::class),
-                        $c->get(VisitorDataPostRepo::class))
+                        $c->get(VisitorJobRequestRepo::class))
                         )->injectContainer($c);
             },
             // generator service
@@ -240,13 +239,6 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
             'renderLogger' => function(ContainerInterface $c) {
                 return FileLogger::getInstance($c->get('api.logs.view.directory'), $c->get('api.logs.view.file'), FileLogger::REWRITE_LOG);
             },
-        ];
-    }
-
-    public function getServicesOverrideDefinitions() {
-        return [
-            //  má AppContainer jako delegáta
-            //
             // session LoginAggregate - vyzvedává LoginAggregate entitu z session - tato služba se používá pro vytvoření objetu Account a tedy pro připojení k databázi
             LoginAggregate::class => function(ContainerInterface $c) {
                 /** @var StatusSecurityRepo $securityStatusRepo */
@@ -281,21 +273,6 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                     $account = new Account($c->get('api.db.everyone.name'), $c->get('api.db.everyone.password'));
                 }
                 return $account;
-            },
-
-            // database handler
-                ## konfigurována jen jedna databáze pro celou aplikaci
-                ## konfiguroványdvě připojení k databázi - jedno pro vývoj a druhé pro běh na produkčním stroji
-                ## pro web middleware se používá zde definovaný Account, ostatní objekty jsou společné - z App kontejneru
-            Handler::class => function(ContainerInterface $c) : HandlerInterface {
-                $handler = new Handler(
-                        $c->get(Account::class),
-                        $c->get(ConnectionInfo::class),
-                        $c->get(DsnProviderMysql::class),
-                        $c->get(OptionsProviderMysql::class),
-                        $c->get(AttributesProvider::class),
-                        $c->get('dbUpgradeLogger'));
-                return $handler;
             },
         ];
     }

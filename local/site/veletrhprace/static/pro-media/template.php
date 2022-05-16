@@ -2,7 +2,7 @@
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 /** @var PhpTemplateRendererInterface $this */
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 include 'data.php';
 ?>
@@ -15,6 +15,6 @@ include 'data.php';
         <?php include "perex.php" ?>
     </perex>
     <content>
-        <?= $this->insert(Configuration::componentController()['templates']."zprava"."/template.php", $tiskovaZprava) ?>
+        <?= $this->insert(ConfigurationCache::componentController()['templates']."zprava"."/template.php", $tiskovaZprava) ?>
     </content>
 </div>

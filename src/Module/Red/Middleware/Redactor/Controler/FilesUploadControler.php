@@ -2,7 +2,7 @@
 
 namespace Red\Middleware\Redactor\Controler;
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 use FrontControler\FilesUploadControllerAbstract;
 
@@ -39,7 +39,7 @@ class FilesUploadControler extends FilesUploadControllerAbstract {
 
         // vytvoří složku se jménem 'item_' a id menuItem
         $itemFolder = "item_".$item->getId().'/';
-        $fullFilePath = Configuration::filesUploadController()['upload.red'].Directory::normalizePath($itemFolder);
+        $fullFilePath = ConfigurationCache::filesUploadController()['upload.red'].Directory::normalizePath($itemFolder);
         Directory::createDirectory($fullFilePath);
         $targetFilename = $fullFilePath.urldecode($file->getClientFilename());  // někdy - např po ImageTools editaci je název souboru z Tiny url kódován
         $file->moveTo($targetFilename);
@@ -73,7 +73,7 @@ class FilesUploadControler extends FilesUploadControllerAbstract {
         $size = 0;
         $item = $this->statusPresentationRepo->get()->getMenuItem();
 
-        $targetFilename = Configuration::filesUploadControler()['upload.events.visitor'].$item->getLangCodeFk()."_".$item->getId()."-".$file->getClientFilename();
+        $targetFilename = ConfigurationCache::filesUploadControler()['upload.events.visitor'].$item->getLangCodeFk()."_".$item->getId()."-".$file->getClientFilename();
         $file->moveTo($targetFilename);
         $json = json_encode(array('location' => $targetFilename));  // toto jméno použije timyMCE pro změnu url obrázku ve výsledném html
         return $this->createResponseFromString($request, $json);

@@ -8,7 +8,7 @@
 
 namespace Sendmail\Middleware\Sendmail\Controller;
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 use FrontControler\PresentationFrontControlerAbstract;
 
@@ -80,19 +80,19 @@ class MailController extends PresentationFrontControlerAbstract {
                         $attachments = [
 
                                         (new Attachment())
-                                        ->setFileName(Configuration::mail()['mail.attachments'].'Katalog veletrhPRACE.online 2021.pdf')
+                                        ->setFileName(ConfigurationCache::mail()['mail.attachments'].'Katalog veletrhPRACE.online 2021.pdf')
                                         ->setAltText('Katalog veletrhPRACE.online 2021'),
                                         (new Attachment())
-                                        ->setFileName(Configuration::mail()['mail.attachments'].'Letak nabor studenti POSSEHL.pdf')
+                                        ->setFileName(ConfigurationCache::mail()['mail.attachments'].'Letak nabor studenti POSSEHL.pdf')
                                         ->setAltText('Leták nábor studenti_POSSEHL'),
                                         (new Attachment())
-                                        ->setFileName(Configuration::mail()['mail.attachments'].'MD ELEKTRONIK Serizovac min.pdf')
+                                        ->setFileName(ConfigurationCache::mail()['mail.attachments'].'MD ELEKTRONIK Serizovac min.pdf')
                                         ->setAltText('Leták MD ELEKTRONIK Seřizovač'),
                                         (new Attachment())
-                                        ->setFileName(Configuration::mail()['mail.attachments'].'GRAFIA letaky.pdf')
+                                        ->setFileName(ConfigurationCache::mail()['mail.attachments'].'GRAFIA letaky.pdf')
                                         ->setAltText('Letáky Grafia'),
                                         (new Attachment())
-                                        ->setFileName(Configuration::mail()['mail.attachments'].'logo_grafia.png')
+                                        ->setFileName(ConfigurationCache::mail()['mail.attachments'].'logo_grafia.png')
                                         ->setAltText('Logo Grafia'),
 
 

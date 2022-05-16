@@ -19,20 +19,24 @@ class EventLinkPhaseHydrator implements HydratorInterface {
 //    `event_link_phase`.`text`
 
 
-
-      public function hydrate(EntityInterface $eventLinkPhase, RowDataInterface $rowData) {
+    /**
+     * 
+     * @param EntityInterface $eventLinkPhase
+     * @param RowDataInterface $rowData
+     */
+    public function hydrate(EntityInterface $eventLinkPhase, RowDataInterface $rowData) {
         /** @var EventLinkPhaseInterface $eventLinkPhase */
         $eventLinkPhase
             ->setId($rowData->offsetGet('id'))
-            ->setText($rowData->offsetGet('text'));
+            ->setText($rowData->offsetGet('text')  );
     }
 
     /**
      *
      * @param EntityInterface $event
-     * @param array $row
+     * @param RowDataInterface $rowData
      */
-    public function extract(EntityInterface $event, RowDataInterface $rowData) {
+    public function extract(EntityInterface $eventLinkPhase, RowDataInterface $rowData) {
         /** @var EventLinkPhaseInterface $eventLinkPhase */
         // id je autoincrement
         $rowData->offsetSet('text', $eventLinkPhase->getText());

@@ -32,7 +32,7 @@ use Pes\Logger\FileLogger;
  */
 class DbEventsContainerConfigurator extends ContainerConfiguratorAbstract {
 
-    public function getParams() {
+    public function getParams(): iterable {
         return [
             #####################################
             # Konfigurace připojení k databázi Events
@@ -49,7 +49,7 @@ class DbEventsContainerConfigurator extends ContainerConfiguratorAbstract {
             ###################################
             # Konfigurace logu databáze
             #
-            'dbEvents.logs.db.directory' => 'Logs/DbEvents',
+            'dbEvents.logs.db.directory' => 'TestLogs/Events',
             'dbEvents.logs.db.file' => 'Database.log',
             #
             #################################
@@ -58,23 +58,16 @@ class DbEventsContainerConfigurator extends ContainerConfiguratorAbstract {
         ];
     }
 
-    public function getFactoriesDefinitions() {
+    public function getFactoriesDefinitions(): iterable {
         return [];
     }
 
-    public function getAliases() {
+    public function getAliases(): iterable {
         return [
-            HandlerInterface::class => Handler::class,
         ];
     }
 
-    public function getServicesDefinitions() {
-        return [
-
-        ];
-    }
-
-    public function getServicesOverrideDefinitions() {
+    public function getServicesDefinitions(): iterable {
         return [
             // db objekty - služby stejného jména jsou v db old konfiguraci - tedy v db old kontejneru, který musí delegátem
             'dbRventsLogger' => function(ContainerInterface $c) {

@@ -8,6 +8,7 @@ use Events\Model\Entity\InstitutionInterface;
 
 
 
+
 /**
  * Description of InstitutionHydrator
  *
@@ -24,8 +25,8 @@ class InstitutionHydrator  implements HydratorInterface {
         /** @var InstitutionInterface $institution */
         $institution
             ->setId($rowData->offsetGet('id'))
-            ->setName($rowData->offsetGet('name'))
-            ->setInstitutionTypeId($rowData->offsetGet('institution_type_id')); //tj.fk
+            ->setName($rowData->offsetGet('name')  )
+            ->setInstitutionTypeId($rowData->offsetGet('institution_type_id')  ); //tj.fk
     }
 
     /**
@@ -36,8 +37,8 @@ class InstitutionHydrator  implements HydratorInterface {
     public function extract(EntityInterface $institution, RowDataInterface $rowData) {
         /** @var InstitutionInterface $institution */
         // id je autoincrement
-        $rowData->offsetSet('name', $institution->getName());
-        $rowData->offsetSet('institution_type_id', $institution->getInstitutionTypeId());
+        $rowData->offsetSet('name', $institution->getName() );
+        $rowData->offsetSet('institution_type_id', $institution->getInstitutionTypeId()  );
     }
 
 }

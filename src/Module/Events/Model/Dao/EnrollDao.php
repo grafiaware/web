@@ -1,57 +1,46 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Events\Model\Dao;
 
-use Model\Dao\DaoTableAbstract;
-use Model\RowData\RowDataInterface;
+use Model\Dao\DaoEditAbstract;
+use Model\Dao\DaoFkNonuniqueTrait;
+use Events\Model\Dao\EnrollDaoInterface;
 
 /**
  * Description of EnrollDao
  *
  * @author pes2704
  */
-class EnrollDao extends DaoTableAbstract {
+class EnrollDao extends DaoEditAbstract implements EnrollDaoInterface {
 
-    private $keyAttribute = 'login_login_name_fk';
+    use DaoFkNonuniqueTrait;
 
-    public function getKeyAttribute() {
-        return $this->keyAttribute;
+    public function getPrimaryKeyAttributes(): array {
+        return ['login_login_name_fk', 'event_id_fk'];
     }
 
-    public function get($loginLoginNameFk) {
-        $select = $this->select("
-            `enroll`.`login_login_name_fk`,
-            `enroll`.`event_id_fk`");
-        $from = $this->from("`enroll`");
-        $where = $this->where("`enroll`.`login_login_name_fk` = :login_login_name_fk");
-        $touples = [':login_login_name_fk' => $loginLoginNameFk];
-        return $this->selectOne($select, $from, $where, $touples, true);
+    public function getForeignKeyAttributes(): array {
+        return [
+            'login_login_name_fk'=>['login_login_name_fk'],
+            'event_id_fk'=>['event_id_fk']
+        ];
     }
 
-    public function find($whereClause="", $touplesToBind=[]) {
-        $select = $this->select("
-            `enroll`.`login_login_name_fk`,
-            `enroll`.`event_id_fk`");
-        $from = $this->from("`enroll`");
-        $where = $this->where($whereClause);
-        return $this->selectMany($select, $from, $where, $touplesToBind);
+    public function getAttributes(): array {
+        return [
+            'login_login_name_fk',
+            'event_id_fk'
+        ];
     }
 
-    public function insert(RowDataInterface $rowData) {
-        return $this->execInsert('enroll', $rowData);
+    public function getTableName(): string {
+        return 'enroll';
     }
 
-    public function update(RowDataInterface $rowData) {
-        return $this->execUpdate('enroll', ['login_login_name_fk'], $rowData);
+    public function findByLoginNameFk(array $loginNameFk ): array {
+        return $this->findByFk('login_login_name_fk', $loginNameFk);
     }
 
-    public function delete(RowDataInterface $rowData) {
-        return $this->execDelete('enroll', ['login_login_name_fk'], $rowData);
+    public function findByEventIdFk(array $eventContentIdFk ): array {
+        return $this->findByFk('event_id_fk', $eventContentIdFk);
     }
 }

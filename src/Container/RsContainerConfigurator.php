@@ -1,7 +1,7 @@
 <?php
 namespace Container;
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 // kontejner
 use Pes\Container\ContainerConfiguratorAbstract;
@@ -45,15 +45,15 @@ use Red\Model\Dao\PaperContentDao;
  */
 class RsContainerConfigurator extends ContainerConfiguratorAbstract {
 
-    public function getParams() {
-        return Configuration::rs();
+    public function getParams(): iterable {
+        return ConfigurationCache::rs();
     }
 
-    public function getFactoriesDefinitions() {
+    public function getFactoriesDefinitions(): iterable {
         return [];
     }
 
-    public function getAliases() {
+    public function getAliases(): iterable {
         return [
             CredentialsInterface::class => Credentials::class,
             AccountInterface::class => Account::class,
@@ -61,7 +61,7 @@ class RsContainerConfigurator extends ContainerConfiguratorAbstract {
         ];
     }
 
-    public function getServicesDefinitions() {
+    public function getServicesDefinitions(): iterable {
         return [
             // LoginContainer má AppContainer jako delegáta
             //
@@ -112,9 +112,5 @@ class RsContainerConfigurator extends ContainerConfiguratorAbstract {
             },
 
         ];
-    }
-
-    public function getServicesOverrideDefinitions() {
-        return [];
     }
 }

@@ -10,7 +10,7 @@ namespace Web\Middleware\Page\Controller;
 
 use Psr\Http\Message\ServerRequestInterface;
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 use Red\Model\Entity\MenuItemInterface;
 
 // komponenty
@@ -39,7 +39,7 @@ class PageController extends LayoutControllerAbstract {
      * @throws \UnexpectedValueException
      */
     public function home(ServerRequestInterface $request) {
-        $homePage = Configuration::layoutController()['home_page'];
+        $homePage = ConfigurationCache::layoutController()['home_page'];
         switch ($homePage[0]) {
             case 'block':
                 $menuItem = $this->getMenuItemForBlock($homePage[1]);

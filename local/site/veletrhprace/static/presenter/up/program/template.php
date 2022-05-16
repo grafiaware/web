@@ -1,5 +1,5 @@
 <?php
-use Site\Configuration;
+use Site\ConfigurationCache;
 use Events\Model\Arraymodel\Event;
 
 use Pes\View\Renderer\PhpTemplateRendererInterface;
@@ -29,7 +29,7 @@ use Status\Model\Repository\StatusSecurityRepo;
     <div id="nas-program">
         <?php
         //include Configuration::componentController()['templates']."timecolumn/template.php";
-        include Configuration::componentController()['templates']."paper/timeline-boxes.php";
+        include ConfigurationCache::componentController()['templates']."paper/timeline-boxes.php";
         ?>
         
     </div>

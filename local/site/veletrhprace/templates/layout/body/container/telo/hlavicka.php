@@ -1,5 +1,5 @@
 <?php
-use Site\Configuration;
+use Site\ConfigurationCache;
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Red\Model\Entity\PaperAggregatePaperContentInterface;
 use Pes\Text\Text;

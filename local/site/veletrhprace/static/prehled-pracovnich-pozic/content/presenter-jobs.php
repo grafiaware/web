@@ -3,7 +3,7 @@
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 /** @var PhpTemplateRendererInterface $this */
 
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 ?>
             <div id="<?= $shortName ?>">
@@ -22,5 +22,5 @@ use Site\Configuration;
                 ?>
 
 
-                <?= $this->insert( Configuration::componentController()['templates']."paper/presenter-job/content/vypis-pozic.php", $presenterJobs); ?>
+                <?= $this->insert( ConfigurationCache::componentController()['templates']."paper/presenter-job/content/vypis-pozic.php", $presenterJobs); ?>
             </div>

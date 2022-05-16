@@ -10,47 +10,27 @@ namespace Events\Model\Dao;
 
 use Pes\Database\Handler\HandlerInterface;
 
-use Model\Dao\DaoTableAbstract;
-use Model\Dao\DaoKeyDbVerifiedInterface;
-use Model\RowData\RowDataInterface;
+use Model\Dao\DaoEditAbstract;
+use Model\Dao\DaoEditKeyDbVerifiedInterface;
 
-use Model\Dao\Exception\DaoKeyVerificationFailedException;
-use Model\Dao\Exception\DaoForbiddenOperationException;
 
 /**
  * Description of LoginDao
  *
  * @author pes2704
  */
-class LoginDao extends DaoTableAbstract implements DaoKeyDbVerifiedInterface {
+class LoginDao extends DaoEditAbstract implements DaoEditKeyDbVerifiedInterface {
 
-    private $keyAttribute = 'login_name';
-
-    public function getKeyAttribute() {
-        return $this->keyAttribute;
+    public function getPrimaryKeyAttributes(): array {
+        return ['login_name'];
     }
 
-    public function get($loginName) {
-        $select = $this->select("`login`.`login_name`");
-        $from = $this->from("`login`");
-        $where = $this->where("`login`.`login_name` = :login_name");
-        $touplesToBind = [':login_name' => $loginName];
-        return $this->selectOne($select, $from, $where, $touplesToBind, true);
+    public function getAttributes(): array {
+        return ['login_name'];
     }
 
-    public function insertWithKeyVerification($rowData) {
-        $this->execInsertWithKeyVerification('login', ['login_name'], $rowData);
+    public function getTableName(): string {
+        return 'login';
     }
 
-    public function insert(RowDataInterface $rowData) {
-        throw new DaoForbiddenOperationException("Object neumožňuje insertovat bez ověření duplicity klíče. Nelze vkládat metodou insert(), je nutné používat insertWithKeyVerification().");
-    }
-
-    public function update(RowDataInterface $rowData) {
-        throw new DaoForbiddenOperationException("Nelze měnit unikátní identifikátor login name.");
-    }
-
-    public function delete(RowDataInterface $rowData) {
-        return $this->execDelete('login', ['login_name'], $rowData);
-    }
 }

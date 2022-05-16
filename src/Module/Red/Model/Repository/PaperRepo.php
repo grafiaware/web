@@ -14,10 +14,8 @@ use Model\Entity\EntityInterface;
 use Red\Model\Entity\PaperInterface;
 use Red\Model\Entity\Paper;
 use Red\Model\Dao\PaperDao;
-use Model\Dao\DaoChildInterface;
+use Model\Dao\DaoFkUniqueInterface;
 use Red\Model\Hydrator\PaperHydrator;
-
-use Model\Repository\Exception\UnableRecreateEntityException;
 
 /**
  * Description of Menu
@@ -27,9 +25,9 @@ use Model\Repository\Exception\UnableRecreateEntityException;
 class PaperRepo extends RepoAbstract implements PaperRepoInterface {
 
     /**
-     * @var DaoChildInterface
+     * @var DaoFkUniqueInterface
      */
-    protected $dao;  // přetěžuje $dao v AbstractRepo - typ DaoChildInterface
+    protected $dataManager;  // přetěžuje $dao v AbstractRepo - typ DaoChildInterface
 
     public function __construct(PaperDao $paperDao, PaperHydrator $paperHydrator) {
         $this->dataManager = $paperDao;
@@ -42,7 +40,8 @@ class PaperRepo extends RepoAbstract implements PaperRepoInterface {
      * @return PaperInterface|null
      */
     public function get($id): ?PaperInterface {
-        return $this->getEntity($id);
+        $key = $this->dataManager->getPrimaryKeyTouples(['id'=>$id]);
+        return $this->getEntity($key);
     }
 
     /**
@@ -51,7 +50,8 @@ class PaperRepo extends RepoAbstract implements PaperRepoInterface {
      * @return PaperInterface|null
      */
     public function getByReference($menuItemIdFk): ?EntityInterface {
-        return $this->getEntityByReference($menuItemIdFk);
+        $key = $this->dataManager->getForeignKeyTouples('menu_item_id_fk', ['menu_item_id_fk'=>$menuItemIdFk]);
+        return $this->getEntityByReference('menu_item_id_fk', $key);
     }
 
     public function add(PaperInterface $paper) {
@@ -64,10 +64,6 @@ class PaperRepo extends RepoAbstract implements PaperRepoInterface {
 
     protected function createEntity() {
         return new Paper();
-    }
-
-    protected function indexFromKeyParams($id) {
-        return $id;
     }
 
     protected function indexFromEntity(PaperInterface $paper) {

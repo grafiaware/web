@@ -1,5 +1,5 @@
 <?php
-use Site\Configuration;
+use Site\ConfigurationCache;
 
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Red\Model\Entity\PaperAggregatePaperContentInterface;
@@ -10,9 +10,9 @@ $headline = 'Videonávody';
 $perex = 'Podívejte se, jak se registrovat, přihlásit nebo jak vložit životopis k pracovní pozici u vybrané firmy';
 
 
-$videoMp4Filename = Configuration::files()['@sitemovies'].'navod-MP4.m4v';
+$videoMp4Filename = ConfigurationCache::files()['@sitemovies'].'navod-MP4.m4v';
 $videoMp4IsReadable = is_readable($videoMp4Filename);
-$videoWebmFilename = Configuration::files()['@sitemovies'].'navod-WEBM.webm';
+$videoWebmFilename = ConfigurationCache::files()['@sitemovies'].'navod-WEBM.webm';
 $videoWebmIsReadable = is_readable($videoWebmFilename);
 
 $videonavody = [

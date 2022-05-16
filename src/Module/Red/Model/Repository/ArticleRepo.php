@@ -14,7 +14,7 @@ use Model\Entity\EntityInterface;
 use Red\Model\Entity\ArticleInterface;
 use Red\Model\Entity\Article;
 use Red\Model\Dao\ArticleDao;
-use Model\Dao\DaoChildInterface;
+use Model\Dao\DaoFkUniqueInterface;
 use Red\Model\Hydrator\ArticleHydrator;
 
 use Model\Repository\Exception\UnableRecreateEntityException;
@@ -27,9 +27,9 @@ use Model\Repository\Exception\UnableRecreateEntityException;
 class ArticleRepo extends RepoAbstract implements ArticleRepoInterface {
 
     /**
-     * @var DaoChildInterface
+     * @var DaoFkUniqueInterface
      */
-    protected $dao;  // přetěžuje $dao v AbstractRepo - typ DaoChildInterface
+    protected $dataManager;  // přetěžuje $dao v AbstractRepo - typ DaoChildInterface
 
     public function __construct(ArticleDao $articleDao, ArticleHydrator $articleHydrator) {
         $this->dataManager = $articleDao;
@@ -42,16 +42,18 @@ class ArticleRepo extends RepoAbstract implements ArticleRepoInterface {
      * @return PaperInterface|null
      */
     public function get($id): ?ArticleInterface {
-        return $this->getEntity($id);
+        $key = $this->dataManager->getPrimaryKeyTouples(['id'=>$id]);
+        return $this->getEntity($key);
     }
 
     /**
      *
      * @param type $menuItemIdFk
-     * @return ArticleInterface|null
+     * @return PaperInterface|null
      */
     public function getByReference($menuItemIdFk): ?EntityInterface {
-        return $this->getEntityByReference($menuItemIdFk);
+        $key = $this->dataManager->getForeignKeyTouples('menu_item_id_fk', ['menu_item_id_fk'=>$menuItemIdFk]);
+        return $this->getEntityByReference('menu_item_id_fk', $key);
     }
 
     public function add(ArticleInterface $article) {
@@ -64,10 +66,6 @@ class ArticleRepo extends RepoAbstract implements ArticleRepoInterface {
 
     protected function createEntity() {
         return new Article();
-    }
-
-    protected function indexFromKeyParams($id) {
-        return $id;
     }
 
     protected function indexFromEntity(ArticleInterface $article) {

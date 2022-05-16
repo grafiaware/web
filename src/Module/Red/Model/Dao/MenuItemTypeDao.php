@@ -8,8 +8,11 @@
 
 namespace Red\Model\Dao;
 
-use Model\Dao\DaoTableAbstract;
+use Model\Dao\DaoEditAbstract;
 use Model\RowData\RowDataInterface;
+
+use Model\Dao\DaoEditKeyDbVerifiedInterface;
+
 use Model\Dao\Exception\DaoForbiddenOperationException;
 
 /**
@@ -17,38 +20,21 @@ use Model\Dao\Exception\DaoForbiddenOperationException;
  *
  * @author pes2704
  */
-class MenuItemTypeDao extends DaoTableAbstract {
+class MenuItemTypeDao extends DaoEditAbstract implements DaoEditKeyDbVerifiedInterface {
 
-    private $keyAttribute = 'type';
-
-    public function getKeyAttribute() {
-        return $this->keyAttribute;
+    public function getPrimaryKeyAttributes(): array {
+        return ['type'];
     }
 
-    public function get($type) {
-        $select = $this->select("type");
-        $from = $this->from("menu_item_type");
-        $where = $this->where("type=:type");
-        $touplesToBind = [':type' => $type];
-        return $this->selectOne($select, $from, $where, $touplesToBind, true);
+    public function getAttributes(): array {
+        return ['type'];
     }
 
-    public function find($whereClause="", $touplesToBind=[]) {
-        $select = $this->select("type");
-        $from = $this->from("menu_item_type");
-        $where = $this->where($whereClause);
-        return $this->selectMany($select, $from, $where, $touplesToBind);
+    public function getTableName(): string {
+        return 'menu_item_type';
     }
 
-    public function insert(RowDataInterface $rowData) {
-        return $this->execInsert('menu_item_type', $rowData);
-    }
-
-    public function update(RowDataInterface $rowData) {
+    public function update(RowDataInterface $rowData): bool {
         throw new DaoForbiddenOperationException("Není implemtováno - nelze měnit primární klíč type.");
-    }
-
-    public function delete(RowDataInterface $rowData) {
-        return $this->execDelete('menu_item_type', ['type'], $rowData);
     }
 }

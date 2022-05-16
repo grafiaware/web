@@ -12,15 +12,14 @@ use Test\AppRunner\AppRunner;
 
 use Pes\Container\Container;
 
-use Container\DbUpgradeContainerConfigurator;
-use Container\HierarchyContainerConfigurator;
-use Test\Integration\Model\Container\TestModelContainerConfigurator;
+use Test\Integration\Red\Container\TestDbUpgradeContainerConfigurator;
+use Test\Integration\Red\Container\TestHierarchyContainerConfigurator;
 
 use Events\Model\Dao\EnrollDao;
 use Events\Model\Repository\EnrollRepo;
 
 use Events\Model\Entity\Enroll;
-
+use Model\RowData\RowData;
 
 /**
  *
@@ -53,39 +52,35 @@ class EnrollRepositoryTest extends AppRunner {
         self::bootstrapBeforeClass();
 
         $container =
-                (new TestModelContainerConfigurator())->configure(  // přepisuje ContextFactory
-                    (new HierarchyContainerConfigurator())->configure(
-                       (new DbUpgradeContainerConfigurator())->configure(new Container())
-                    )
-                );
-
+                (new TestHierarchyContainerConfigurator())->configure(
+                           (new TestDbUpgradeContainerConfigurator())->configure(new Container())
+                        );
         // mazání - zde jen pro případ, že minulý test nebyl dokončen
         self::deleteRecords($container);
 
         // toto je příprava testu
         /** @var EventContentDao $enrollDao */
         $enrollDao = $container->get(EnrollDao::class);
-
-        $enrollDao->insert([
+        $testRowData = new RowData();
+        $testRowData->import([
             'login_name' => "testEnroll login name",
             'eventid' => "test_eventid_" . (string) (1000+random_int(0, 999)),
         ]);
-        self::$id = $enrollDao->getLastInsertId();
+        $enrollDao->insert($testRowData);
+        self::$id = $enrollDao->getLastInsertIdTouple();
     }
 
     private static function deleteRecords(Container $container) {
         /** @var EventContentDao $enrollDao */
-        $enrollDao = $container->get(EnrollDao::class);
-        $enrollDao->delete(['id'=>0]);
+//        $enrollDao = $container->get(EnrollDao::class);
+//        $enrollDao->delete(['id'=>0]);
     }
 
     protected function setUp(): void {
         $this->container =
-                (new TestModelContainerConfigurator())->configure(  // přepisuje ContextFactory
-                    (new HierarchyContainerConfigurator())->configure(
-                       (new DbUpgradeContainerConfigurator())->configure(new Container())
-                    )
-                );
+            (new TestHierarchyContainerConfigurator())->configure(
+                       (new TestDbUpgradeContainerConfigurator())->configure(new Container())
+                    );
         $this->enrollRepo = $this->container->get(EnrollRepo::class);
     }
 
@@ -95,11 +90,9 @@ class EnrollRepositoryTest extends AppRunner {
 
     public static function tearDownAfterClass(): void {
         $container =
-                (new TestModelContainerConfigurator())->configure(  // přepisuje ContextFactory
-                    (new HierarchyContainerConfigurator())->configure(
-                       (new DbUpgradeContainerConfigurator())->configure(new Container())
-                    )
-                );
+            (new TestHierarchyContainerConfigurator())->configure(
+                       (new TestDbUpgradeContainerConfigurator())->configure(new Container())
+                    );
 
         self::deleteRecords($container);
     }
