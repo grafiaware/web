@@ -31,6 +31,7 @@ use Model\Repository\Exception\BadImplemntastionOfChildRepository;
 
 use Model\Repository\Exception\UnableAddEntityException;
 use Model\Repository\Exception\OperationWithLockedEntityException;
+use Model\Repository\Exception\UnableAddAssotiationsException;
 
 /**
  * Description of RepoAbstract
@@ -279,6 +280,10 @@ abstract class RepoAbstract {
 //    private function addAssociated($row, EntityInterface $entity) {
         foreach ($this->associations as $interfaceName => $association) {
             if (isset($row[$interfaceName])) {
+                if (!($row[$interfaceName] instanceof \Traversable)) {
+                    $cls = get_called_class();
+                    throw new UnableAddAssotiationsException("Nelze přidat asociované entity v repository '$cls'. V řádku dat (rowData) je položka pro asociované entity '$interfaceName', ale není Traversable.");
+                }
                 foreach ($row[$interfaceName] as $assocEntity) {  // asociovaná entita nemusí existovat - agregát je i tak validní
                     if (!$assocEntity->isPersisted()) {
                         $association->addAssociatedEntity($assocEntity);  // child repo add
