@@ -101,7 +101,7 @@ class EnrollDaoTest extends AppRunner {
         $this->assertEquals(1, $this->dao->getRowCount());
     }
 
-    public function testGetByPk() {
+    public function testGet() {
         $enrollRow = $this->dao->get(['login_login_name_fk' => self::$login_login_name_fk, 'event_id_fk' => self::$event_id_fk]);
         $this->assertInstanceOf(RowDataInterface::class, $enrollRow);
     }
