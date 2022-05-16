@@ -1,10 +1,127 @@
+@carouselAnglePositionTop: 44%;
+@carouselAngleColor: #c40105;
+@carouselAngleHoverBackgroundColor: white;
+@carouselHeight: 500px;
+@carouselWidth: 100%;
+@carouselHeadlinePerexWidth: 50%;
+@carouselHeadlinePerexPositionLeft: 60px;
+@carouselHeadlinePerexBackground: #ffffff91;
+@carouselHeadlineFontSize: 1.3em;
+@carouselPerexFontSize: 1.1em;
+@carouselHeadlinePositionTop: 105px;
+@carouselPerexPositionTop: 195px;
+@carouselImageObjectFit: cover;
 
-[data-red-templatetype="@{templateType}"]{
-    //default sada stylů
-      
-    
-    
-    //import změněných stylů šablony (specifických pro projekt)    
-    @import (optional) "@{siteTemplatePath}";  
-    
+
+/*******************************
+            šablony multipage v site
+*******************************/   
+@import (optional) "@{siteTemplatePath}";  
+
+.template-multipageedit, .template-paperedit{
+    [data-template="carousel"]{
+        .carousel, .carouselPaper{
+            i.angle{
+                display: none;
+            }
+        }
+        .carousel{
+            [data-template="carousel-item"]{
+                headline{
+                    font-size: @carouselHeadlineFontSize;
+                    background: 0 0;
+                    color: #000;
+                }
+                perex{
+                    font-size: @carouselPerexFontSize;
+                }
+                img{
+                    width: @carouselWidth;
+                    height: @carouselHeight;
+                    object-fit: @carouselImageObjectFit;
+                }
+            }
+        }
+    }
+}
+.template-multipageedit .template-multipage, .template-multipage, 
+.template-multipageedit .template-paper, .template-paper{
+    [data-template="carousel"]{ 
+        .template-paperedit, .template-paper{
+            box-shadow: 0 0 !important;
+            position: relative;
+            margin: 0;
+            padding: 0;
+            article{
+                margin: 0;
+                padding: 0;
+            }
+        }
+        .carousel, .carouselPaper{
+            display: block;
+            position: relative;
+            i.angle{
+               position: absolute; 
+               top: @carouselAnglePositionTop;
+               color: @carouselAngleColor;
+               z-index: 5;
+               cursor: pointer; 
+               display: inline-block;
+               &:first-child{
+                   left: 0;
+               }
+               &:last-child{
+                   right: 0;
+               }
+            }
+            &:hover i.angle{
+                background-color: @carouselAngleHoverBackgroundColor;
+                opacity: 0.7;
+            }
+        }
+        .carousel{
+            height: auto;
+            min-height: @carouselHeight;
+            .carousel-wrap{
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: @carouselWidth;
+                height: @carouselHeight;
+                overflow: hidden;
+            }
+            [data-template="carousel-item"]{
+                width: 100%;
+                height: 100%;
+                headline, perex{
+                    position: absolute;
+                    width: @carouselHeadlinePerexWidth;
+                    left: @carouselHeadlinePerexPositionLeft;
+                    background: @carouselHeadlinePerexBackground !important;
+                    z-index: 10;
+                }
+                headline{
+                    font-size: @carouselHeadlineFontSize !important;
+                    top: @carouselHeadlinePositionTop !important;
+                    color: #000 !important;
+                }
+                perex{
+                    font-size: @carouselPerexFontSize !important;
+                    top: @carouselPerexPositionTop !important;
+                }
+                img{
+                    width: @carouselWidth;
+                    height: @carouselHeight; 
+                    object-fit: @carouselImageObjectFit;
+                    position: relative;
+                }
+                &:last-child{
+                    display: block !important;
+                }
+                &:not(:last-child){
+                    display: none !important;
+                }
+            }
+        }
+    }
 }
