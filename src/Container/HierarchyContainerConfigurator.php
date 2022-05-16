@@ -15,15 +15,8 @@ use Pes\Container\ContainerConfiguratorAbstract;
 use Psr\Container\ContainerInterface;   // pro parametr closure function(ContainerInterface $c) {}
 
 // db Handler
-use Pes\Database\Handler\Account;
-use Pes\Database\Handler\ConnectionInfo;
-use Pes\Database\Handler\DbTypeEnum;
-use Pes\Database\Handler\DsnProvider\DsnProviderMysql;
-use Pes\Database\Handler\OptionsProvider\OptionsProviderMysql;
-use Pes\Database\Handler\AttributesProvider\AttributesProvider;
 use Pes\Database\Handler\Handler;
 use Pes\Database\Handler\HandlerInterface;
-use Pes\Logger\FileLogger;
 
 // models
 

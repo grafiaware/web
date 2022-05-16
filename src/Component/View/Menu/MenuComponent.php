@@ -23,7 +23,7 @@ use Access\Enum\AccessPresentationEnum;
  */
 class MenuComponent extends StatusComponentAbstract implements MenuComponentInterface {
 
-    const TOGGLE_EDIT_MENU = 'toggleEditMenuButton';
+    const TOGGLE_EDIT_MENU_BUTTON = 'toggleEditMenuButton';
 
     /**
      * @var MenuViewModelInterface
@@ -78,11 +78,12 @@ class MenuComponent extends StatusComponentAbstract implements MenuComponentInte
         if (!isset($this->rendererContainer)) {
             throw new \LogicException("Komponent ".get_called_class()." nemá nastaven renderer kontejner metodou setRendererContainer().");
         }
-        /** @var MenuWrapRendererInterface $renderer */
-        $renderer = $this->rendererContainer->get($this->rendererName);
-        $renderer->setLevelWrapRenderer($this->rendererContainer->get($this->levelWrapRendererName));
-        $this->setRenderer($renderer);
+        /** @var MenuWrapRendererInterface $menuWrapRenderer */
+        $menuWrapRenderer = $this->rendererContainer->get($this->rendererName);
+        $menuWrapRenderer->setLevelWrapRenderer($this->rendererContainer->get($this->levelWrapRendererName));
+        $this->setRenderer($menuWrapRenderer);
 
+        // minimální hloubka u menu bez zobrazení kořenového prvku je 2 (pro 1 je nodes pole v modelu prázdné), u menu se zobrazením kořenového prvku je minimálmí hloubka 1, ale nodes pak obsahuje jen kořenový prvek
         $this->contextData->setMaxDepth(null);
 
         $this->createItemViews();
@@ -101,24 +102,6 @@ class MenuComponent extends StatusComponentAbstract implements MenuComponentInte
             }
         }
         $this->contextData->setSubTreeItemViews($views);
-    }
-
-    private function getMenuRendererMap($type) {
-        $map = [
-            'items' => ['noneditable' => 'menu.itemrenderer', 'editable' => 'menu.itemrenderer.editable'],
-            'blocks' => ['noneditable' => 'menu.itemblockrenderer', 'editable' => 'menu.itemblockrenderer.editable'],
-            'trash' => ['noneditable' => 'menu.itemtrashrenderer', 'editable' => 'menu.itemtrashrenderer.editable'],
-        ];
-        switch ($type) {
-            case '':
-
-
-                break;
-
-            default:
-                break;
-        }
-        return $map;
     }
 
 }

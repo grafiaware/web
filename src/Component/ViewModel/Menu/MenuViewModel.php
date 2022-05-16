@@ -177,8 +177,13 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
         //editable menu
         $menuEditable = $this->status->presentEditableMenu();
 
+        // minimální hloubka u menu bez zobrazení kořenového prvku je 2 (pro 1 je nodes pole v modelu prázdné), u menu se zobrazením kořenového prvku je minimálmí hloubka 1, ale nodes pak obsahuje jen kořenový prvek
+        if (empty($nodes)) {
+            $rootDepth = 1;
+        } else {
 //        since PHP 7.3 the first value of $array may be accessed with $array[array_key_first($array)];
-        $rootDepth = reset($nodes)->getDepth();  //jako side efekt resetuje pointer
+            $rootDepth = reset($nodes)->getDepth();  //jako side efekt resetuje pointer
+        }
         $models = [];
         foreach ($nodes as $key => $node) {
             /** @var HierarchyAggregateInterface $node */

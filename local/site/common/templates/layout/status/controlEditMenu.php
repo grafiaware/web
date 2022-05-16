@@ -11,7 +11,8 @@ use Red\Middleware\Redactor\Controler\UserActionControler;
                             value="<?= empty($editMenu) ? 1 : 0 ?>"
                             formtarget="_self"
                             formaction="red/v1/presentation/edit_menu"
-                            disabled>
+                            <?= empty($disabled) ? '' : 'disabled'?>
+                            >
                         <i class="pencil alternate icon"></i>
                     </button>
                 </form>

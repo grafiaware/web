@@ -22,12 +22,6 @@ use Auth\Model\Entity\LoginAggregateFullInterface;
 // database
 use Pes\Database\Handler\Account;
 use Pes\Database\Handler\AccountInterface;
-use Pes\Database\Handler\ConnectionInfo;
-use Pes\Database\Handler\DsnProvider\DsnProviderMysql;
-use Pes\Database\Handler\OptionsProvider\OptionsProviderMysql;
-use Pes\Database\Handler\AttributesProvider\AttributesProvider;
-use Pes\Database\Handler\Handler;
-use Pes\Database\Handler\HandlerInterface;
 
 // configuration
 use Configuration\ComponentConfiguration;
@@ -232,7 +226,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                     );
                 $menuComponent->setRendererContainer($c->get('rendererContainer'));
                 if ($menuComponent->getStatus()->presentEditableContent()) {
-                    $menuComponent->appendComponentView($c->get(EditMenuSwitchComponent::class), MenuComponent::TOGGLE_EDIT_MENU);
+                    $menuComponent->appendComponentView($c->get(EditMenuSwitchComponent::class), MenuComponent::TOGGLE_EDIT_MENU_BUTTON);
                 }
                 return $menuComponent;
             },

@@ -45,11 +45,12 @@ use Component\Renderer\Html\Manage\EditContentSwitchDisabledRenderer;
 use Component\Renderer\Html\Generated\LanguageSelectRenderer;
 use Component\Renderer\Html\Generated\SearchPhraseRenderer;
 use Component\Renderer\Html\Generated\SearchResultRenderer;
-use Component\Renderer\Html\Authored\TypeSelect\ItemTypeSelectRenderer;
+use Component\Renderer\Html\MenuItem\TypeSelect\ItemTypeSelectRenderer;
 
 use Pes\View\Renderer\ImplodeRenderer;
 use Pes\View\Renderer\InterpolateRenderer;
 use Component\Renderer\Html\NoPermittedContentRenderer;
+
 /**
  *
  *
