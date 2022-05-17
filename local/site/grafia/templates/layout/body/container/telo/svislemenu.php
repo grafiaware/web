@@ -4,7 +4,7 @@
             <nav class="svisle-menu bloky">
                 <?= $bloky ?? ''?>
             </nav>
-            <nav class="svisle-menu">
+            <nav class="svisle-menu hlavni-menu">
                 <?= $menuSvisle ?>
             </nav>
             <nav class="svisle-menu kos">

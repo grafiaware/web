@@ -43,6 +43,18 @@ $("body").on("click", '.button.hideCalendarWrap',
         }
     );
 
+//Vyuziti lokalniho uloziste pro menu
+//ulozeni pozice vertikalni rolovaci listy u menu v editacnim rezimu
+$("nav.hlavni-menu li").click(function(){
+    var itemPosition = $("nav.hlavni-menu").scrollTop();
+    localStorage.setItem('itemPosition', itemPosition);
+});
+$(document).ready(function(){
+    //po nacteni stranky menu odroluje na pozici, ktera se ulozila
+    $('nav.hlavni-menu').scrollTop(
+        localStorage.getItem('itemPosition')
+    );
+});
 
 //.borderDance - animovaný border kolem editačního tagu (mravenci), animace nastavena v author.less
 function showHeight(height, width) {
