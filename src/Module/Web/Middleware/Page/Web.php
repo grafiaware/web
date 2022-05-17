@@ -22,6 +22,8 @@ use Web\Middleware\Page\Controller\PageController;
 
 class Web extends AppMiddlewareAbstract implements MiddlewareInterface {
 
+    const HEADER = 'X-RED-Web-Time';
+
     private $container;
 
     /**
@@ -80,7 +82,11 @@ class Web extends AppMiddlewareAbstract implements MiddlewareInterface {
         $router = $this->container->get(RouterInterface::class);
         $router->exchangeRoutes($routeGenerator);
 
-        return $router->process($request, $handler) ;
+        $startTime = microtime(true);
+        $response =  $router->process($request, $handler) ;
+
+        return $response->withHeader(self::HEADER, sprintf('%2.3fms', (microtime(true) - $startTime) * 1000));
+
     }
 }
 
