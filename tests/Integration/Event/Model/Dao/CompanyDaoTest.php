@@ -32,6 +32,9 @@ class CompanyDaoTest  extends AppRunner {
 
     public static function setUpBeforeClass(): void {
         self::bootstrapBeforeClass();
+        
+        
+        
     }
 
     protected function setUp(): void {
@@ -53,9 +56,9 @@ class CompanyDaoTest  extends AppRunner {
         $this->assertInstanceOf(CompanyDao::class, $this->dao);
 
     }
-      public function testInsert() {
+    
+    public function testInsert() {                    
         $rowData = new RowData();
-        //$rowData->offsetSet('id', "e");
         $rowData->offsetSet('name', "testCompany-nameNNN");
         $rowData->offsetSet('eventInstitutionName30', null);
 
@@ -64,6 +67,19 @@ class CompanyDaoTest  extends AppRunner {
         $this->assertIsArray(self::$id);
         $numRows = $this->dao->getRowCount();
         $this->assertEquals(1, $numRows);
+        
+        //zavisla tabulka company_address
+        $rowDataCompanyAddress = new RowData();
+        $rowDataCompanyAddress->import(
+               ['company_id' => self::$id ['id'] ,
+                'name' => 'VelkaFirma',
+                'lokace' => 'Mars ',
+                'psc' => '02020' ] );
+        $this->dao->insert($rowDataCompanyAddress);
+        $this->assertEquals(1, $this->dao->getRowCount());
+        
+        
+        
     }
 
     public function testGetExistingRow() {

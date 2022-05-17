@@ -74,8 +74,9 @@ class JobToTagDaoTest extends AppRunner {
                            'pozadovane_vzdelani_stupen' => self::$stupen_fk
                          ]);
         $ok = $jobDao->insert($jobData);      
-        self::$job_id_fk = $jobDao->lastInsertIdValue();
-
+        self::$job_id_fk = $jobDao->lastInsertIdValue();  //lastInsertIdValue vraci z DB string
+        //lastInsertIdValue je metoda z  DaoAutoincrementTrait
+        
         /** @var JobTagDao $jobTagDao */
         $jobTagDao = $container->get(JobTagDao::class); 
         $jobTagData = new RowData();                
@@ -87,8 +88,6 @@ class JobToTagDaoTest extends AppRunner {
         $jobTagData->import(["tag" => "nalepka moje druha"  ]);
         $ok =  $jobTagDao->insert($jobTagData);  
         self::$job_tag_tag_fk2 = "nalepka moje druha";
-        //$jobTagDao->lastInsertIdValue(); //to je vlastne "nalepka"  //lastInsertId vraci z DB string
-
     }
 
     protected function setUp(): void {
@@ -216,36 +215,37 @@ class JobToTagDaoTest extends AppRunner {
     }
    
 
-//    public function testFindByLoginNameFk() {
-//        $enrollRowsRereaded = $this->dao->findByLoginNameFk(['login_login_name_fk' => self::$login_login_name_fk]);
-//        $this->assertIsArray($enrollRowsRereaded);
-//        $this->assertGreaterThanOrEqual(1, count($enrollRowsRereaded));
-//        $this->assertInstanceOf(RowDataInterface::class, $enrollRowsRereaded[0]);
-//    }
-//
-//    public function testFindByEventIdFk() {
-//        $enrollRowsRereaded = $this->dao->findByEventIdFk(['event_id_fk' => self::$event_id_fk_2]);
-//        $this->assertIsArray($enrollRowsRereaded);
-//        $this->assertGreaterThanOrEqual(1, count($enrollRowsRereaded));
-//        $this->assertInstanceOf(RowDataInterface::class, $enrollRowsRereaded[0]);
-//    }
-//
-//    public function testFind() {
-//        $enrollRowsArray = $this->dao->find();
-//        $this->assertIsArray($enrollRowsArray);
-//        $this->assertGreaterThanOrEqual(1, count($enrollRowsArray));
-//        $this->assertInstanceOf(RowDataInterface::class, $enrollRowsArray[0]);
-//    }
-//
-//    public function testDelete() {
-//        $enrollRow = $this->dao->get(['login_login_name_fk' => self::$login_login_name_fk, 'event_id_fk' => self::$event_id_fk_2]);
-//
-//        $this->dao->delete($enrollRow);
-//        $this->assertEquals(1, $this->dao->getRowCount());
-//
-//        $this->setUp();
-//        $this->dao->delete($enrollRow);
-//        $this->assertEquals(0, $this->dao->getRowCount());
-//
-//    }
+    public function testFindByJobIdFk() {
+        $jobToTagRowsRereaded = $this->dao->findByJobIdFk(['job_id' => self::$job_id_fk]);
+        $this->assertIsArray($jobToTagRowsRereaded);
+        $this->assertGreaterThanOrEqual(1, count($jobToTagRowsRereaded));
+        $this->assertInstanceOf(RowDataInterface::class, $jobToTagRowsRereaded[0]);
+    }
+
+    public function testFindByJobTagTagFk() {
+        $jobToTagRowsRereaded = $this->dao->findByJobTagFk(['job_tag_tag' => self::$job_tag_tag_fk2]);
+        $this->assertIsArray($jobToTagRowsRereaded);
+        $this->assertGreaterThanOrEqual(1, count($jobToTagRowsRereaded));
+        $this->assertInstanceOf(RowDataInterface::class, $jobToTagRowsRereaded[0]);
+    }
+
+    public function testFind() {
+        $jobToTagRowsArray = $this->dao->find();
+        $this->assertIsArray($jobToTagRowsArray);
+        $this->assertGreaterThanOrEqual(1, count($jobToTagRowsArray));
+        $this->assertInstanceOf(RowDataInterface::class, $jobToTagRowsArray[0]);
+    }
+
+    
+    public function testDelete() {
+        $jobToTagRow = $this->dao->get( ['job_id' =>  self::$job_id_fk ,  'job_tag_tag' =>  self::$job_tag_tag_fk2 ] );
+
+        $this->dao->delete($jobToTagRow);
+        $this->assertEquals(1, $this->dao->getRowCount());
+
+        $this->setUp();
+        $this->dao->delete($jobToTagRow);
+        $this->assertEquals(0, $this->dao->getRowCount());
+
+    }
 }
