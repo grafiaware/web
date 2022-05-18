@@ -43,18 +43,13 @@ $("body").on("click", '.button.hideCalendarWrap',
         }
     );
 
-//Vyuziti lokalniho uloziste pro menu
-//ulozeni pozice vertikalni rolovaci listy u menu v editacnim rezimu
-$("nav.hlavni-menu li").click(function(){
-    var itemPosition = $("nav.hlavni-menu").scrollTop();
-    localStorage.setItem('itemPosition', itemPosition);
-});
-$(document).ready(function(){
-    //po nacteni stranky menu odroluje na pozici, ktera se ulozila
-    $('nav.hlavni-menu').scrollTop(
-        localStorage.getItem('itemPosition')
-    );
-});
+////pokus: vybraná položka menu zůstane viditelná (rolovaní) - s ID u html::p v ItemRendererEditable
+////potřeba vyřešit rolování pouze v menu nav, teď se posouvá celá stránka
+////a vyřešit odsazení (top), aby u položky byly vidět buttony
+//$(document).ready(function(){
+//      var element = document.getElementById("presd");
+//      element.scrollIntoView();
+//});
 
 //.borderDance - animovaný border kolem editačního tagu (mravenci), animace nastavena v author.less
 function showHeight(height, width) {
