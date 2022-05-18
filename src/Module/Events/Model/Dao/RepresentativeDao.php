@@ -5,7 +5,7 @@ namespace Events\Model\Dao;
 use Events\Model\Dao\RepresentativeDaoInterface;
 use Model\Dao\DaoEditAbstract;
 use Model\Dao\DaoFkNonuniqueTrait;
-use \Model\Dao\DaoFkUniqueTrait;
+use Model\Dao\DaoFkUniqueTrait;
 
 /**
  * Description of RepresentativeDao
