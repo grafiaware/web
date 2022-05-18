@@ -22,6 +22,8 @@ use Web\Middleware\Component\Controller\TemplateControler;
 
 class Component extends AppMiddlewareAbstract implements MiddlewareInterface {
 
+    const HEADER = 'X-RED-Component-Time';
+
     ## proměnné třídy - pro dostupnost v Closure definovaných v routách ##
     private $request;
 
@@ -137,7 +139,10 @@ class Component extends AppMiddlewareAbstract implements MiddlewareInterface {
         $router = $this->container->get(RouterInterface::class);
         $router->exchangeRoutes($routeGenerator);
 
-        return $router->process($request, $handler) ;
+        $startTime = microtime(true);
+        $response =  $router->process($request, $handler) ;
+
+        return $response->withHeader(self::HEADER, sprintf('%2.3fms', (microtime(true) - $startTime) * 1000));
     }
 }
 
