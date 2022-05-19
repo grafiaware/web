@@ -31,7 +31,7 @@
   -webkit-box-shadow: 0 0;
           box-shadow: 0 0;
   border-radius: 0.33333333rem;
-  min-height: 2.83333333em;
+  min-height: 1.16666667em;
 }
 .ui.menu:after {
   content: '';
@@ -86,7 +86,7 @@
       -ms-user-select: none;
           user-select: none;
   background: none;
-  padding: 0.91666667em 1.16666667em;
+  padding: 0.08333333em 1.16666667em;
   text-transform: none;
   color: rgba(0, 0, 0, 0.87);
   font-weight: normal;
@@ -614,7 +614,7 @@ Floated Menu / Item
 }
 .ui.vertical.menu .menu .item {
   background: none;
-  padding: 0.5em 1.36111111em;
+  padding: 0.08333333em 1.36111111em;
   font-size: 1em;
   color: rgba(0, 0, 0, 0.5);
 }
@@ -672,7 +672,7 @@ Floated Menu / Item
   border-left: 1px solid transparent;
   border-right: 1px solid transparent;
   border-top: 2px solid transparent;
-  padding: 0.91666667em 1.41666667em;
+  padding: 0.08333333em 1.41666667em;
   color: rgba(0, 0, 0, 0.87);
 }
 .ui.tabular.menu .item:before {
@@ -826,7 +826,7 @@ Floated Menu / Item
 /* Active */
 .ui.pagination.menu .active.item {
   border-top: none;
-  padding-top: 0.91666667em;
+  padding-top: 0.08333333em;
   background-color: rgba(0, 0, 0, 0.05);
   color: rgba(0, 0, 0, 0.95);
   -webkit-box-shadow: none;
@@ -1752,8 +1752,8 @@ Floated Menu / Item
 .ui.horizontally.fitted.menu .item,
 .ui.horizontally.fitted.menu .item .menu .item,
 .ui.menu .horizontally.fitted.item {
-  padding-top: 0.91666667em;
-  padding-bottom: 0.91666667em;
+  padding-top: 0.08333333em;
+  padding-bottom: 0.08333333em;
 }
 .ui.vertically.fitted.menu .item,
 .ui.vertically.fitted.menu .item .menu .item,

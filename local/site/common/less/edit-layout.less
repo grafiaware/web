@@ -29,12 +29,13 @@
 @svisleMenuWidth: 107%;
 @svisleMenuHeight: 650px; //pro overflow
 @svisleMenuParagraphMarginLeft: -3px;
+@svisleMenuParagraphMarginBottom: 0; 
 @svisleMenuMargin: @hodnota0 @hodnota0 @hodnota0 -8px;
 @svisleMenuOverflow: hidden scroll;
 @svisleMenuParagraphPadding: 10px 20px;
 @svisleMenuLiPadding: 3px;
 @svisleMenuFirstMargin: 0 auto;
-@svisleMenuNthMargin: 30px auto;
+@svisleMenuNthMargin: 30px auto;    
 @svisleMenuLastMargin: 0 auto 30px auto;
 @svisleMenuMarginLeft: -15px;   
 @svisleMenuPaddingLeft: 8px;
@@ -120,14 +121,15 @@ body{
     }
     .svisle-menu{
         &:not(.bloky):not(.kos){
-            overflow: @svisleMenuOverflow;
+            overflow: @svisleMenuOverflow; 
             height: @svisleMenuHeight;
         }
         width: @svisleMenuWidth;
         margin: @svisleMenuMargin;
         padding-left: @svisleMenuPaddingLeft; 
         p{
-            margin-left: @svisleMenuParagraphMarginLeft !important ; 
+            margin-left: @svisleMenuParagraphMarginLeft ;  
+            margin-bottom: @svisleMenuParagraphMarginBottom ;
         }
         .menu.edit{ 
             .menu {

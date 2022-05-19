@@ -11,7 +11,7 @@
 @poznamkyPositionBottom: auto;
 @poznamkyFontSize: @fontSize;     
 @poznamkyWidth: 250px; 
-@poznamkyContentPadding: 10px;    
+@poznamkyContentPadding: 10px;      
 @poznamkyParagraphMarginBottom: 0.7em;
 @poznamkyLastParagraphMarginBottom: 0;
 @flashContentHeight: 110px; 
@@ -47,13 +47,13 @@
 *******************************/ 
 @import (optional) "../../@{sitename}/@{siteStylesFolder}/overrides-layout.less";                
 
-.breakPre(@poznamkyBreakPre) when (@poznamkyBreakPre){
-    white-space: pre-wrap;
+.breakPre(@poznamkyBreakPre) when (@poznamkyBreakPre){   
+    white-space: pre-wrap;  
     word-wrap: break-word;
 }
 
 body{
-    /*poznámky a flash mají stejný styl, jen jinou pozici*/
+    /*poznámky a flash mají stejný styl, jen jinou pozici*/     
     .btn-poznamky{
         position: fixed;
         top: @buttonPoznamkyPositionTop;

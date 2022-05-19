@@ -23,7 +23,8 @@
         }
     }
 }
-.ui.button:disabled, .ui.buttons .disabled.button:not(.basic), .ui.disabled.active.button, .ui.disabled.button, .ui.disabled.button:hover {
+.ui.button:disabled, .ui.buttons .disabled.button:not(.basic), 
+.ui.disabled.active.button, .ui.disabled.button, .ui.disabled.button:hover {
     pointer-events: auto !important;
     opacity: 1 !important;  
     color: fade(@white, 70%);  
@@ -68,5 +69,4 @@
     &.black{
         background-color: fade(@black, @transparency); 
     }
-
 }
