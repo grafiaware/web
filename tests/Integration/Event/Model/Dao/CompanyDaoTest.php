@@ -77,8 +77,9 @@ class CompanyDaoTest  extends AppRunner {
         $this->dao = $this->container->get(CompanyDao::class);  // vždy nový objekt
         $this->companyAddressDao = $this->container->get(CompanyAddressDao::class);  // vždy nový objekt
         $this->companyContactDao = $this->container->get(CompanyContactDao::class);  // vždy nový objekt
-        $this->representativeDao = $this->container->get(RepresentativeDao::class);  // vždy nový objekt
-        $this->loginDao = $this->container->get(LoginDao::class);  // vždy nový objekt
+
+//        $this->representativeDao = $this->container->get(RepresentativeDao::class);  // vždy nový objekt
+//        $this->loginDao = $this->container->get(LoginDao::class);  // vždy nový objekt
 
     }
 
@@ -125,20 +126,20 @@ class CompanyDaoTest  extends AppRunner {
         $this->companyContactDao->insert($rowDataCompanyContact);
         $this->assertEquals(1, $this->companyContactDao->getRowCount());
         
-        //zavisla tabulka representative a  login             
-        $rowDataLogin = new RowData();
-        $rowDataLogin->import(
-               [ 'login_name' => 'VelkaOsoba'  ] );        
-        $this->LoginDao->insert($rowDataLogin);
-        $this->assertEquals(1, $this->LoginDao->getRowCount());
-        
-        $rowDataRepresentative = new RowData();
-        $rowDataRepresentative->import(
-               ['company_id' => self::$id ['id'] ,
-                'login_login_name' => 'VelkaOsoba'                
-                ] );
-        $this->representativeDao->insert($rowDataRepresentative);
-        $this->assertEquals(1, $this->representativeDao->getRowCount());
+//        //zavisla tabulka representative a  login             
+//        $rowDataLogin = new RowData();
+//        $rowDataLogin->import(
+//               [ 'login_name' => 'VelkaOsoba'  ] );        
+//        $this->LoginDao->insert($rowDataLogin);
+//        $this->assertEquals(1, $this->LoginDao->getRowCount());
+//        
+//        $rowDataRepresentative = new RowData();
+//        $rowDataRepresentative->import(
+//               ['company_id' => self::$id ['id'] ,
+//                'login_login_name' => 'VelkaOsoba'                
+//                ] );
+//        $this->representativeDao->insert($rowDataRepresentative);
+//        $this->assertEquals(1, $this->representativeDao->getRowCount());
         
         
     }

@@ -5,7 +5,6 @@ namespace Events\Model\Dao;
 use Events\Model\Dao\RepresentativeDaoInterface;
 use Model\Dao\DaoEditAbstract;
 use Model\Dao\DaoFkNonuniqueTrait;
-use Model\Dao\DaoFkUniqueTrait;
 
 /**
  * Description of RepresentativeDao
@@ -15,16 +14,15 @@ use Model\Dao\DaoFkUniqueTrait;
 class RepresentativeDao extends DaoEditAbstract implements RepresentativeDaoInterface {
 
     use DaoFkNonuniqueTrait;
-    use DaoFkUniqueTrait;
 
     public function getPrimaryKeyAttributes(): array {
-        return ['company_id' , 'login_login_name_fk'];
+        return [ 'login_login_name'];
     }
 
     public function getForeignKeyAttributes(): array {
         return [
-            'company_id_fk'=>['company_id'],
-            'login_login_name_fk'=>['login_login_name_fk']
+            'company_id'=>['company_id'],
+            'login_login_name'=>['login_login_name']
             
         ];
     }
@@ -32,7 +30,7 @@ class RepresentativeDao extends DaoEditAbstract implements RepresentativeDaoInte
     public function getAttributes(): array {
         return [            
             'company_id',
-            'login_login_name_fk'
+            'login_login_name'
         ];
     }
 
@@ -43,10 +41,8 @@ class RepresentativeDao extends DaoEditAbstract implements RepresentativeDaoInte
     
     
     public function findByCompanyIdFk(array $companyIdFk): array {
-        $this->findByFk('company_id', $companyIdFk);
+        return $this->findByFk('company_id', $companyIdFk);
     }
     
-    public function getByLoginNameFk(array $loginNameFk ): array {
-        return $this->getByFk('login_login_name_fk', $loginNameFk);
-    }
+   
 }

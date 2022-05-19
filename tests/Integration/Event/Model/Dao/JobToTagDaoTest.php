@@ -120,7 +120,7 @@ class JobToTagDaoTest extends AppRunner {
         
         
         //maze po sobe  vyrobene věty v tabulkach 
-        /** @var $jobToTagDao $jobToTagDao */
+        /** @var JobToTagDao $jobToTagDao */
         $jobToTagDao = $container->get(JobToTagDao::class);  ////aby slo smazat  job a job_tag
         $jobToTagData = $jobToTagDao->get(['job_tag_tag' =>  self::$job_tag_tag_fk, 'job_id' => self::$job_id_fk  ]);
         if ($jobToTagData) {
@@ -133,7 +133,7 @@ class JobToTagDaoTest extends AppRunner {
         $jobDao = $container->get(JobDao::class);    
         $jobRow = $jobDao->get( [ 'id' => self::$job_id_fk ] );
         $ok = $jobDao->delete($jobRow);                       
-        /** @var $jobTagDao $jobTagDao */ 
+        /** @var JobTagDao $jobTagDao */ 
         $jobTagDao = $container->get(JobTagDao::class);
         $jobTagData = $jobTagDao->get(['tag' =>  self::$job_tag_tag_fk ]);
         $ok = $jobTagDao->delete($jobTagData);           
