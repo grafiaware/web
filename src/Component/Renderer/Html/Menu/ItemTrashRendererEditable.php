@@ -32,12 +32,12 @@ class ItemTrashRendererEditable extends ItemRendererEditable {
                         'href'=>"web/v1/page/item/{$menuItem->getUidFk()}",
                          ],
                         $menuItem->getTitle()
-                        .Html::tag('span', ['class'=>$this->classMap->get('Item', 'semafor')],
-                            Html::tag('i', [
-                                'class'=> $this->classMap->get('Icons', 'semafor.trashed'),
-                                'title'=> "smazaná položka"
-                                ])
-                        )
+//                        .Html::tag('span', ['class'=>$this->classMap->get('Item', 'semafor')],
+//                            Html::tag('i', [
+//                                'class'=> $this->classMap->get('Icons', 'semafor.trashed'),
+//                                'title'=> "smazaná položka"
+//                                ])
+//                        )
                     );
         $innerHtml[] = Html::tag('i', ['class'=>$this->classMap->resolve($this->viewModel->getInnerHtml(), 'Item', 'li.isnotleaf icon', 'li.leaf')]);
 

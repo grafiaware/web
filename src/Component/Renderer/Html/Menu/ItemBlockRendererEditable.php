@@ -39,9 +39,9 @@ class ItemBlockRendererEditable extends ItemRendererEditable {
                 'data-uid'=>$menuItem->getUidFk(),
                 ],
                 $menuItem->getTitle()
-                .Html::tag('span', ['class'=>$this->classMap->get('Item', 'semafor')],
-                    Html::tag('i', ['class'=> $this->classMap->resolve($active, 'Icons', 'semafor.published', 'semafor.notpublished')])
-                )
+//                .Html::tag('span', ['class'=>$this->classMap->get('Item', 'semafor')],
+//                    Html::tag('i', ['class'=> $this->classMap->resolve($active, 'Icons', 'semafor.published', 'semafor.notpublished')])
+//                )
             )
             .Html::tag('i', ['class'=>$this->classMap->resolve($this->viewModel->getInnerHtml(), 'Icons', 'li.isnotleaf icon', '')])
             .$this->renderButtons($menuItem)

@@ -1,7 +1,6 @@
 <?php
 namespace  Component\Renderer\Html\Menu;
 
-use Component\Renderer\Html\HtmlRendererAbstract;
 use Component\ViewModel\Menu\Item\ItemViewModelInterface;
 
 use Red\Model\Entity\MenuItemInterface;
@@ -20,12 +19,8 @@ use Pes\Text\Html;
  *
  * @author pes2704
  */
-class ItemRenderer extends HtmlRendererAbstract {
+class ItemRenderer extends ItemRendererAbstract {
 
-    /**
-     *
-     * @var ItemViewModelInterface
-     */
     protected $viewModel;
 
     public function render($viewModel=NULL) {
@@ -66,15 +61,6 @@ class ItemRenderer extends HtmlRendererAbstract {
 
     }
 
-    private function semafor(MenuItemInterface $menuItem) {
-        $active =$menuItem->getActive();
-        return Html::tag('span', ['class'=>$this->classMap->get('Item', 'semafor')],
-                    Html::tag('i', [
-                        'class'=> $this->classMap->resolve($active, 'Icons', 'semafor.published', 'semafor.notpublished'),
-                        'title'=> $active ? "published" :  "not published"
-                        ])
-                );
-    }
     private function redLiEditableStyle() {
         return
             ($this->viewModel->isOnPath() ? "onpath " : "")

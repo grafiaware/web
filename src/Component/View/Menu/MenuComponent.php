@@ -7,8 +7,7 @@ use Component\ViewModel\Menu\MenuViewModelInterface;
 use Component\ViewModel\Menu\Item\ItemViewModel;
 use Component\ViewModel\Menu\Item\ItemViewModelInterface;
 
-use Pes\View\Renderer\RendererInterface;
-use Pes\View\CompositeView;
+use Component\View\Element\ElementComponent;
 
 use Component\Renderer\Html\Menu\MenuWrapRendererInterface;
 use Component\Renderer\Html\Menu\ItemRenderer;
@@ -96,9 +95,9 @@ class MenuComponent extends StatusComponentAbstract implements MenuComponentInte
             /** @var ItemViewModelInterface $itemViewModel */
             // pokud render používá classMap musí být konfigurován v Renderer kontejneru - tam dostane classMap
             if($editableMode AND $itemViewModel->isPresented()) {
-                $views[] =  (new CompositeView())->setData($itemViewModel)->setRendererName($this->itemEditableRendererName)->setRendererContainer($this->rendererContainer);
+                $views[] =  (new ElementComponent($this->configuration))->setData($itemViewModel)->setRendererName($this->itemEditableRendererName)->setRendererContainer($this->rendererContainer);
             } else {
-                $views[] =  (new CompositeView())->setData($itemViewModel)->setRendererName($this->itemRendererName)->setRendererContainer($this->rendererContainer);
+                $views[] =  (new ElementComponent($this->configuration))->setData($itemViewModel)->setRendererName($this->itemRendererName)->setRendererContainer($this->rendererContainer);
             }
         }
         $this->contextData->setSubTreeItemViews($views);

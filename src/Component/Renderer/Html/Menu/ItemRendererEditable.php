@@ -1,8 +1,7 @@
 <?php
 namespace  Component\Renderer\Html\Menu;
 
-use Component\Renderer\Html\HtmlRendererAbstract;
-use Component\ViewModel\Menu\Item\ItemViewModelInterface;
+use Component\Renderer\Html\HtmlRendererAbstract;use Component\ViewModel\Menu\Item\ItemViewModelInterface;
 
 use Red\Model\Entity\MenuItemInterface;
 use Red\Model\Entity\HierarchyAggregateInterface;
@@ -20,13 +19,7 @@ use Pes\Text\Html;
  *
  * @author pes2704
  */
-class ItemRendererEditable extends HtmlRendererAbstract {
-
-    /**
-     *
-     * @var ItemViewModelInterface
-     */
-    protected $viewModel;
+class ItemRendererEditable extends ItemRendererAbstract {
 
     public function render($viewModel=NULL) {
         $this->viewModel = $viewModel;
@@ -36,6 +29,8 @@ class ItemRendererEditable extends HtmlRendererAbstract {
     }
 
     protected function renderEditableItem(MenuItemInterface $menuItem) {
+        $semafor = $this->viewModel->isMenuEditable() ? $this->semafor($menuItem) : "";
+
         $liInnerHtml[] =
             Html::tag('p',
                 [
@@ -58,7 +53,7 @@ class ItemRendererEditable extends HtmlRendererAbstract {
                     $menuItem->getTitle()
                     .Html::tag('i', ['class'=>$this->classMap->resolve($this->viewModel->isLeaf(), 'Item', 'li i', 'li i.dropdown')])
                 )
-                .$this->semafor($menuItem)
+                        . $semafor
 
             );
 
@@ -82,16 +77,6 @@ class ItemRendererEditable extends HtmlRendererAbstract {
                 $liInnerHtml)
             );
         return $html;
-    }
-
-    private function semafor(MenuItemInterface $menuItem) {
-        $active =$menuItem->getActive();
-        return Html::tag('span', ['class'=>$this->classMap->get('Item', 'semafor')],
-                    Html::tag('i', [
-                        'class'=> $this->classMap->resolve($active, 'Icons', 'semafor.published', 'semafor.notpublished'),
-                        'title'=> $active ? "published" :  "not published"
-                        ])
-                );
     }
 
     private function redLiEditableStyle() {
@@ -125,7 +110,7 @@ class ItemRendererEditable extends HtmlRendererAbstract {
         $buttons[] = $this->getButtonTrash($menuItem);
         return $buttons;
     }
-    
+
     private function expandButtons($expandedButtons, $expandsionIconClass) {
         return
             Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsChangeView')],
