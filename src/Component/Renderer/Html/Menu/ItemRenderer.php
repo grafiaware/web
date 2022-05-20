@@ -31,7 +31,7 @@ class ItemRenderer extends ItemRendererAbstract {
     }
 
     private function renderNoneditableItem(MenuItemInterface $menuItem) {
-        $semafor = $this->viewModel->isMenuEditable() ? $this->semafor($menuItem) : "";
+//        $semafor = $this->viewModel->isMenuEditable() ? $this->semafor($menuItem) : "";
         $innerHtml = Html::tag('a',
                         [
                             'class'=>[
@@ -44,7 +44,7 @@ class ItemRenderer extends ItemRendererAbstract {
                             $menuItem->getTitle()
                             .Html::tag('i', ['class'=>$this->classMap->resolve($this->viewModel->isLeaf(), 'Item', 'li i', 'li i.dropdown')])
                         )
-                        . $semafor
+//                        . $semafor
                     )
                     .$this->viewModel->getInnerHtml();
         $html = Html::tag(     'li',

@@ -318,7 +318,6 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
         # authored komponenty
         #
         #
-
             ElementInheritDataComponent::class => function(ContainerInterface $c) {
                 $component = new ElementInheritDataComponent($c->get(ComponentConfiguration::class));
                 $component->setRendererContainer($c->get('rendererContainer'));

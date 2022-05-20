@@ -31,41 +31,60 @@ class ItemRendererEditable extends ItemRendererAbstract {
     protected function renderEditableItem(MenuItemInterface $menuItem) {
         $semafor = $this->viewModel->isMenuEditable() ? $this->semafor($menuItem) : "";
 
-        $liInnerHtml[] =
-            Html::tag('p',
-                [
-                'class'=>[
-                    $this->classMap->get('Item', 'li a'),   // class - 'editable' v kontejneru
-                    $this->classMap->resolve($this->viewModel->isPresented(), 'Item', 'li.presented', 'li'),
-                    ],
-                'data-href'=>"web/v1/page/item/{$menuItem->getUidFk()}",
-                'tabindex'=>0,
-                ],
 
-                // POZOR: závislost na edit.js
-                // ve skriptu edit.js je element k editaci textu položky vybírán pravidlem (selektorem) acceptedElement = targetElement.nodeName === 'SPAN' && targetElement.parentNode.nodeName === 'P',
-                // vyvírá <span>, který má rodiče <p>
-                Html::tag('span', [
-                    'contenteditable'=> "true",
-                    'data-original-title'=>$menuItem->getTitle(),
-                    'data-uid'=>$menuItem->getUidFk(),
+
+        if ($this->viewModel->isPresented()) {
+            $liInnerHtml[] =
+                Html::tag('p',
+                    [
+                    'class'=>[
+                        $this->classMap->get('Item', 'li a'),   // class - 'editable' v kontejneru
+                        $this->classMap->resolve($this->viewModel->isPresented(), 'Item', 'li.presented', 'li'),
+                        ],
+                    'data-href'=>"web/v1/page/item/{$menuItem->getUidFk()}",
+                    'tabindex'=>0,
                     ],
+
+                    // POZOR: závislost na edit.js
+                    // ve skriptu edit.js je element k editaci textu položky vybírán pravidlem (selektorem) acceptedElement = targetElement.nodeName === 'SPAN' && targetElement.parentNode.nodeName === 'P',
+                    // vyvírá <span>, který má rodiče <p>
+                    Html::tag('span', [
+                        'contenteditable'=> "true",
+                        'data-original-title'=>$menuItem->getTitle(),
+                        'data-uid'=>$menuItem->getUidFk(),
+                        ],
+                        $menuItem->getTitle()
+                        .Html::tag('i', ['class'=>$this->classMap->resolve($this->viewModel->isLeaf(), 'Item', 'li i', 'li i.dropdown')])
+                    )
+                            . $semafor
+
+                );
+            $liInnerHtml[] = Html::tag('div',
+                    ['class'=>$this->classMap->get('Buttons', 'div.buttons')],
+                    $this->renderButtons($menuItem));
+        } else {
+            $liInnerHtml[] = Html::tag('a',
+                [
+                    'class'=>[
+                        $this->classMap->get('Item', 'li a'),
+                        $this->classMap->resolve($this->viewModel->isPresented(), 'Item', 'li.presented', 'li'),
+                        ],
+                    'href'=> "web/v1/page/item/{$menuItem->getUidFk()}"
+                ],
+                Html::tag('span', ['class'=>$this->classMap->get('Item', 'li a span')],
                     $menuItem->getTitle()
                     .Html::tag('i', ['class'=>$this->classMap->resolve($this->viewModel->isLeaf(), 'Item', 'li i', 'li i.dropdown')])
                 )
-                        . $semafor
-
+                . $semafor
             );
-
-        $liInnerHtml[] = Html::tag('div',
-                ['class'=>$this->classMap->get('Buttons', 'div.buttons')],
-                $this->renderButtons($menuItem));
-
+        }
         $liInnerHtml[] = $this->viewModel->getInnerHtml();
 
-        $html =
-            Html::tag('form', [],
-                Html::tag(     'li',
+        if ($this->viewModel->isPresented()) {
+            $liInnerHtml = Html::tag('form', [], $liInnerHtml);
+        }
+
+        $liHtml = Html::tag(     'li',
                 ['class'=>[
                     $this->classMap->resolve($this->viewModel->isLeaf(), 'Item', 'li.leaf', ($this->viewModel->getRealDepth() == 1) ? 'li.dropdown' : 'li.item'),
                     $this->classMap->resolve($this->viewModel->isOnPath(), 'Item', 'li.parent', 'li'),
@@ -74,9 +93,10 @@ class ItemRendererEditable extends ItemRendererAbstract {
                  'data-red-style'=> $this->redLiEditableStyle()
 
                 ],
-                $liInnerHtml)
-            );
-        return $html;
+                $liInnerHtml);
+
+
+        return $liHtml;
     }
 
     private function redLiEditableStyle() {

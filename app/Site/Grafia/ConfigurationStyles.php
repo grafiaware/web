@@ -137,23 +137,23 @@ class ConfigurationStyles extends ConfigurationRed {
         # menu renderer
         ###########################
             'menu.presmerovani.menuwraprenderer' => function(ContainerInterface $c) {
-                return new MenuWrapRenderer($c->get('menu.presmerovani.classmap'), $c->get('menu.presmerovani.classmap.editable'));
+                return new MenuWrapRenderer($c->get('menu.presmerovani.classmap'));
             },
             'menu.presmerovani.levelwraprenderer' => function(ContainerInterface $c) {
-                return new LevelWrapRenderer($c->get('menu.presmerovani.classmap'), $c->get('menu.presmerovani.classmap.editable'));
+                return new LevelWrapRenderer($c->get('menu.presmerovani.classmap'));
             },
             'menu.presmerovani.itemrenderer' => function(ContainerInterface $c) {
-                return new ItemRenderer($c->get('menu.presmerovani.classmap'), $c->get('menu.presmerovani.classmap.editable'));
+                return new ItemRenderer($c->get('menu.presmerovani.classmap'));
             },
 
             'menu.vodorovne.menuwraprenderer' => function(ContainerInterface $c) {
-                return new MenuWrapRenderer($c->get('menu.vodorovne.classmap'), $c->get('menu.vodorovne.classmap.editable'));
+                return new MenuWrapRenderer($c->get('menu.vodorovne.classmap'));
             },
             'menu.vodorovne.levelwraprenderer' => function(ContainerInterface $c) {
-                return new LevelWrapRenderer($c->get('menu.vodorovne.classmap'), $c->get('menu.vodorovne.classmap.editable'));
+                return new LevelWrapRenderer($c->get('menu.vodorovne.classmap'));
             },
             'menu.vodorovne.itemrenderer' => function(ContainerInterface $c) {
-                return new ItemRenderer($c->get('menu.vodorovne.classmap'), $c->get('menu.vodorovne.classmap.editable'));
+                return new ItemRenderer($c->get('menu.vodorovne.classmap'));
             },
 
             'menu.svisle.menuwraprenderer' => function(ContainerInterface $c) {

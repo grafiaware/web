@@ -94,7 +94,7 @@ class MenuComponent extends StatusComponentAbstract implements MenuComponentInte
         foreach ($this->contextData->getItemModels() as $depth => $itemViewModel) {
             /** @var ItemViewModelInterface $itemViewModel */
             // pokud render používá classMap musí být konfigurován v Renderer kontejneru - tam dostane classMap
-            if($editableMode AND $itemViewModel->isPresented()) {
+            if($editableMode) {
                 $views[] =  (new ElementComponent($this->configuration))->setData($itemViewModel)->setRendererName($this->itemEditableRendererName)->setRendererContainer($this->rendererContainer);
             } else {
                 $views[] =  (new ElementComponent($this->configuration))->setData($itemViewModel)->setRendererName($this->itemRendererName)->setRendererContainer($this->rendererContainer);
