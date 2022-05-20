@@ -40,7 +40,7 @@ class UserActionComponent extends StatusComponentAbstract {
 
     public function getComponentPermissions(): array {
         return [
-            RoleEnum::AUTHENTICATED => [AccessPresentationEnum::DISPLAY => \Component\View\StatusComponentAbstract::class],
+            RoleEnum::AUTHENTICATED => [AccessPresentationEnum::DISPLAY => static::class],
         ];
     }
 }

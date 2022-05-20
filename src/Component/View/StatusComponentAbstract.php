@@ -49,10 +49,10 @@ abstract class StatusComponentAbstract extends ComponentAbstract implements Stat
 
     public function getComponentPermissions(): array {
         return [
-            RoleEnum::SUP => [AccessPresentationEnum::DISPLAY => \Component\View\StatusComponentAbstract::class, AccessPresentationEnum::EDIT => \Component\View\StatusComponentAbstract::class],
-            RoleEnum::EDITOR => [AccessPresentationEnum::DISPLAY => \Component\View\StatusComponentAbstract::class, AccessPresentationEnum::EDIT => \Component\View\StatusComponentAbstract::class],
-            RoleEnum::AUTHENTICATED => [AccessPresentationEnum::DISPLAY => \Component\View\StatusComponentAbstract::class],
-            RoleEnum::ANONYMOUS => [AccessPresentationEnum::DISPLAY => \Component\View\StatusComponentAbstract::class]
+            RoleEnum::SUP => [AccessPresentationEnum::DISPLAY => static::class, AccessPresentationEnum::EDIT => static::class],
+            RoleEnum::EDITOR => [AccessPresentationEnum::DISPLAY => static::class, AccessPresentationEnum::EDIT => static::class],
+            RoleEnum::AUTHENTICATED => [AccessPresentationEnum::DISPLAY => static::class],
+            RoleEnum::ANONYMOUS => [AccessPresentationEnum::DISPLAY => static::class]
         ];
     }
 

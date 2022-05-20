@@ -6,6 +6,7 @@ use Component\Renderer\Html\NoPermittedContentRenderer;
 use Component\Renderer\Html\Manage\EditContentSwitchRenderer;
 
 use Access\Enum\AccessPresentationEnum;
+use Access\Enum\RoleEnum;
 
 use Pes\View\ViewInterface;
 use Pes\View\InheritDataViewInterface;
@@ -26,16 +27,10 @@ class EditContentSwitchComponent extends StatusComponentAbstract implements Inhe
         return $this->setData($data);
     }
 
-    /**
-     * Pro oprávnění 'edit' renderuje ButtonEditContentRenderer jinak NonPermittedContentRenderer.
-     *
-     * @return void
-     */
-    public function beforeRenderingHook(): void {
-//        if($this->isAllowedToPresent(AccessPresentationEnum::EDIT)) {
-//            $this->setRendererName(EditContentSwitchRenderer::class);
-//        } else {
-//            $this->setRendererName(NoPermittedContentRenderer::class);
-//        }
+    public function getComponentPermissions(): array {
+        return [
+            RoleEnum::SUP => [AccessPresentationEnum::DISPLAY => static::class],
+            RoleEnum::EDITOR => [AccessPresentationEnum::DISPLAY => static::class],
+        ];
     }
 }

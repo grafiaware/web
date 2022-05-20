@@ -14,7 +14,7 @@ use Component\ViewModel\StatusViewModel;
  *
  * @author pes2704
  */
-class ToggleEditMenuViewModel extends StatusViewModel implements ToggleEditMenuViewModelInterface {
+class EditMenuSwitchViewModel extends StatusViewModel implements ToggleEditMenuViewModelInterface {
     public function getIterator() {
         $this->appendData([
             'editMenu' => $this->presentEditableMenu(),

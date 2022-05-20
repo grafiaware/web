@@ -94,7 +94,7 @@ use Component\ViewModel\MenuItem\TypeSelect\ItemTypeSelectViewModel;
 use Component\ViewModel\Manage\LoginLogoutViewModel;
 use Component\ViewModel\Manage\StatusBoardViewModel;
 use Component\ViewModel\Manage\UserActionViewModel;
-use Component\ViewModel\Manage\ToggleEditMenuViewModel;
+use Component\ViewModel\Manage\EditMenuSwitchViewModel;
 
 use Component\ViewModel\Generated\LanguageSelectViewModel;
 use Component\ViewModel\Generated\SearchResultViewModel;
@@ -343,7 +343,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(AccessPresentation::class)
                      );
                 $component->setRendererContainer($c->get('rendererContainer'));
-                if($component->isAllowedToPresent(AccessPresentationEnum::EDIT)) {
+                if($component->isAllowedToPresent(AccessPresentationEnum::DISPLAY)) {
                     $component->setRendererName(EditContentSwitchRenderer::class);
                 } else {
                     $component->setRendererName(NoPermittedContentRenderer::class);
@@ -652,12 +652,20 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 return $component;
             },
             EditMenuSwitchComponent::class => function(ContainerInterface $c) {
+                $configuration = $c->get(ComponentConfiguration::class);
                 $component = new EditMenuSwitchComponent(
-                        $c->get(ComponentConfiguration::class),
+                        $configuration,
                         $c->get(StatusViewModel::class),
                         $c->get(AccessPresentation::class)
                      );
-                $component->setData($c->get(ToggleEditMenuViewModel::class));
+                $component->setData($c->get(EditMenuSwitchViewModel::class));
+
+        if($component->isAllowedToPresent(AccessPresentationEnum::DISPLAY)) {
+            $component->setTemplate(new PhpTemplate($configuration->getTemplateControlEditMenu()));
+        } else {
+            $component->setRendererName(NoPermittedContentRenderer::class);
+        }
+
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
@@ -864,8 +872,8 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                             $c->get(StatusViewModel::class)
                     );
             },
-            ToggleEditMenuViewModel::class => function(ContainerInterface $c) {
-                return new ToggleEditMenuViewModel(
+            EditMenuSwitchViewModel::class => function(ContainerInterface $c) {
+                return new EditMenuSwitchViewModel(
                             $c->get(StatusSecurityRepo::class),
                             $c->get(StatusPresentationRepo::class),
                             $c->get(StatusFlashRepo::class),

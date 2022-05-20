@@ -22,20 +22,10 @@ use Access\Enum\AccessPresentationEnum;
  */
 class EditMenuSwitchComponent  extends StatusComponentAbstract {
 
-    //renderuje template nebo NonPermittedContentRenderer
-
-    public function beforeRenderingHook(): void {
-        if($this->isAllowedToPresent(AccessPresentationEnum::DISPLAY)) {
-            $this->setTemplate(new PhpTemplate($this->configuration->getTemplateControlEditMenu()));
-        } else {
-            $this->setRendererName(NoPermittedContentRenderer::class);
-        }
-    }
-
     public function getComponentPermissions(): array {
         return [
-            RoleEnum::SUP => [AccessPresentationEnum::DISPLAY => \Component\View\StatusComponentAbstract::class],
-//            RoleEnum::EDITOR => [AccessPresentationEnum::DISPLAY => \Component\View\StatusComponentAbstract::class],
+            RoleEnum::SUP => [AccessPresentationEnum::DISPLAY => static::class],
+            RoleEnum::EDITOR => [AccessPresentationEnum::DISPLAY => static::class],
         ];
     }
 }
