@@ -34,37 +34,30 @@ class CompanyDaoTest  extends AppRunner {
      */
     private $dao;
     
-    /**
-     *
-     * @var CompanyAddressDao
-     */
-    private $companyAddressDao;
-    /**
-     * 
-     * @var CompanyContactDao
-     */
-    private $companyContactDao;
-    /**
-     * 
-     * @var ReperesentativeDao
-     */
-    private $representativeDao;
-    /**
-     * 
-     * @var LoginDao
-     */
-    private $loginDao;
-
-    
-    
-    
-    
-    
+    private static $login_login_name;
     private static $id;
+       
+        
 
     public static function setUpBeforeClass(): void {
         self::bootstrapBeforeClass();
+        $container =
+            (new EventsContainerConfigurator())->configure(
+                (new DbEventsContainerConfigurator())->configure(new Container())
+            );
         
+        // nový login login_name a company_id pro TestCase
+        $prefix = "CompanyDaoTestVelkaOsoba";
+        /** @var LoginDao $loginDao */
+        $loginDao = $container->get(LoginDao::class);
+        do {
+            $loginName = $prefix."_".uniqid();
+            $loginPouzit = $loginDao->get(['login_name' => $loginName]);
+        } while ($loginPouzit);
+        $loginData = new RowData();
+        $loginData->import(['login_name' => $loginName]);
+        $loginDao->insert($loginData);
+        self::$login_login_name = $loginDao->get(['login_name' => $loginName])['login_name'];         
         
         
     }
@@ -74,26 +67,30 @@ class CompanyDaoTest  extends AppRunner {
             (new EventsContainerConfigurator())->configure(
                 (new DbEventsContainerConfigurator())->configure(new Container())
             );
-        $this->dao = $this->container->get(CompanyDao::class);  // vždy nový objekt
-        $this->companyAddressDao = $this->container->get(CompanyAddressDao::class);  // vždy nový objekt
-        $this->companyContactDao = $this->container->get(CompanyContactDao::class);  // vždy nový objekt
-
-//        $this->representativeDao = $this->container->get(RepresentativeDao::class);  // vždy nový objekt
-//        $this->loginDao = $this->container->get(LoginDao::class);  // vždy nový objekt
-
+        $this->dao = $this->container->get(CompanyDao::class);  // vždy nový objekt     
     }
 
     protected function tearDown(): void {
     }
 
     public static function tearDownAfterClass(): void {
+        $container =
+            (new EventsContainerConfigurator())->configure(
+                (new DbEventsContainerConfigurator())->configure(new Container())
+            );
+         
+        /** @var LoginDao $loginDao */
+        $loginDao = $container->get(LoginDao::class);   
+        $loginRow = $loginDao->get(['login_name' => self::$login_login_name ]);
+        $loginDao->delete($loginRow);
+
 
     }
 
     public function testSetUp() {
         $this->assertInstanceOf(CompanyDao::class, $this->dao);
-
     }
+    
     
     public function testInsert() {                    
         $rowData = new RowData();
@@ -106,40 +103,40 @@ class CompanyDaoTest  extends AppRunner {
         $numRows = $this->dao->getRowCount();
         $this->assertEquals(1, $numRows);
         
-        //zavisla tabulka company_address        
+        //zavisla tabulka company_address    
+        /** @var CompanyAddressDao $companyAddressDao */
+        $companyAddressDao = $this->container->get(CompanyAddressDao::class);  // vždy nový objekt
         $rowDataCompanyAddress = new RowData();
         $rowDataCompanyAddress->import(
                ['company_id' => self::$id ['id'] ,
                 'name' => 'VelkaFirma',
                 'lokace' => 'Mars ',
                 'psc' => '02020' ] );
-        $this->companyAddressDao->insert($rowDataCompanyAddress);
-        $this->assertEquals(1, $this->companyAddressDao->getRowCount());
+        $companyAddressDao->insert($rowDataCompanyAddress);
+        $this->assertEquals(1, $companyAddressDao->getRowCount());
         
-        //zavisla tabulka company_contact        
+        //zavisla tabulka company_contact       
+        /** @var CompanyContactDao $companyContactDao */
+        $companyContactDao = $this->container->get(CompanyContactDao::class);  // vždy nový objekt
         $rowDataCompanyContact = new RowData();
         $rowDataCompanyContact->import(
                ['company_id' => self::$id ['id'] ,
                 'name' => 'VelkaOsoba',
                 'phones' => '123456789'
                 ] );
-        $this->companyContactDao->insert($rowDataCompanyContact);
-        $this->assertEquals(1, $this->companyContactDao->getRowCount());
+        $companyContactDao->insert($rowDataCompanyContact);
+        $this->assertEquals(1, $companyContactDao->getRowCount());
         
-//        //zavisla tabulka representative a  login             
-//        $rowDataLogin = new RowData();
-//        $rowDataLogin->import(
-//               [ 'login_name' => 'VelkaOsoba'  ] );        
-//        $this->LoginDao->insert($rowDataLogin);
-//        $this->assertEquals(1, $this->LoginDao->getRowCount());
-//        
-//        $rowDataRepresentative = new RowData();
-//        $rowDataRepresentative->import(
-//               ['company_id' => self::$id ['id'] ,
-//                'login_login_name' => 'VelkaOsoba'                
-//                ] );
-//        $this->representativeDao->insert($rowDataRepresentative);
-//        $this->assertEquals(1, $this->representativeDao->getRowCount());
+        //zavisla tabulka representative          
+        /** @var RepresentativeDao $representativeDao */
+        $representativeDao = $this->container->get(RepresentativeDao::class ) ; 
+        $rowDataRepresentative = new RowData();
+        $rowDataRepresentative->import(
+               ['company_id' => self::$id ['id'] ,
+                'login_login_name' => self::$login_login_name                
+               ] );
+        $representativeDao->insert($rowDataRepresentative);
+        $this->assertEquals(1, $representativeDao->getRowCount());
         
         
     }
@@ -182,16 +179,30 @@ class CompanyDaoTest  extends AppRunner {
         $companyRow = $this->dao->get(self::$id);
         $this->dao->delete($companyRow);
         $this->assertEquals(1, $this->dao->getRowCount());
+        
         //je-li nastavenao cascade na company_address.company_id, smaže i zavislou radku v company_address
-        $companyAddressRow = $this->companyAddressDao->get( [  'company_id'=> self::$id['id'] ] );
+        /** @var CompanyAddressDao $companyAddressDao */
+        $companyAddressDao = $this->container->get(CompanyAddressDao::class);  
+        $companyAddressRow = $companyAddressDao->get( [  'company_id'=> self::$id['id'] ] );
         $this->assertNull($companyAddressRow);        
         //je-li nastavenao cascade na company_contact.company_id, smaže i zavislou radku v company_contact
-        $companyContactRows = $this->companyContactDao->find(  $whereClause = " company_id = :company_id", $touplesToBind =  [  'company_id'=> self::$id['id'] ]  );
+        /** @var CompanyContactDao $companyContactDao */
+        $companyContactDao = $this->container->get(CompanyContactDao::class);  
+        $companyContactRows = $companyContactDao->find(  $whereClause = " company_id = :company_id", $touplesToBind =  [  'company_id'=> self::$id['id'] ]  );
         $this->assertIsArray( $companyContactRows) ;
         $this->assertEquals( 0, count($companyContactRows) ) ;
-
         
+        //je-li nastavenao cascade na representaive.company_id, smaže i zavislou radku v representative
+        /** @var RepresentativeDao $representativeDao */
+        $representativeDao = $this->container->get(RepresentativeDao::class);  
+        $representativeRows = $representativeDao->find(  $whereClause = " company_id = :company_id", $touplesToBind =  [  'company_id'=> self::$id['id'] ]  );
+        $this->assertIsArray( $representativeRows) ;
+        $this->assertEquals( 0, count($representativeRows) ) ;
+        //nebo take
+        $representativeRow = $representativeDao->get(  [  'company_id' => self::$id['id'], 'login_login_name'  => self::$login_login_name ] ) ;
+        $this->assertNull( $representativeRow );
                 
+        
         $this->setUp();
         $companyRow = $this->dao->get(self::$id);
         $this->assertNull($companyRow);
