@@ -31,37 +31,36 @@ class ItemRendererEditable extends ItemRendererAbstract {
     protected function renderEditableItem(MenuItemInterface $menuItem) {
         $semafor = $this->viewModel->isMenuEditable() ? $this->semafor($menuItem) : "";
 
-
-
         if ($this->viewModel->isPresented()) {
             $liInnerHtml[] =
-                Html::tag('p',
-                    [
-                    'class'=>[
-                        $this->classMap->get('Item', 'li a'),   // class - 'editable' v kontejneru
-                        $this->classMap->resolve($this->viewModel->isPresented(), 'Item', 'li.presented', 'li'),
+                Html::tag('form', [],
+                    Html::tag('p',
+                        [
+                        'class'=>[
+                            $this->classMap->get('Item', 'li a'),   // class - 'editable' v kontejneru
+                            $this->classMap->resolve($this->viewModel->isPresented(), 'Item', 'li.presented', 'li'),
+                            ],
+                        'data-href'=>"web/v1/page/item/{$menuItem->getUidFk()}",
+                        'tabindex'=>0,
                         ],
-                    'data-href'=>"web/v1/page/item/{$menuItem->getUidFk()}",
-                    'tabindex'=>0,
-                    ],
 
-                    // POZOR: závislost na edit.js
-                    // ve skriptu edit.js je element k editaci textu položky vybírán pravidlem (selektorem) acceptedElement = targetElement.nodeName === 'SPAN' && targetElement.parentNode.nodeName === 'P',
-                    // vyvírá <span>, který má rodiče <p>
-                    Html::tag('span', [
-                        'contenteditable'=> "true",
-                        'data-original-title'=>$menuItem->getTitle(),
-                        'data-uid'=>$menuItem->getUidFk(),
-                        ],
-                        $menuItem->getTitle()
-                        .Html::tag('i', ['class'=>$this->classMap->resolve($this->viewModel->isLeaf(), 'Item', 'li i', 'li i.dropdown')])
+                        // POZOR: závislost na edit.js
+                        // ve skriptu edit.js je element k editaci textu položky vybírán pravidlem (selektorem) acceptedElement = targetElement.nodeName === 'SPAN' && targetElement.parentNode.nodeName === 'P',
+                        // t.j. selektor vybírá <span>, který má rodiče <p>
+                        Html::tag('span', [
+                            'contenteditable'=> "true",
+                            'data-original-title'=>$menuItem->getTitle(),
+                            'data-uid'=>$menuItem->getUidFk(),
+                            ],
+                            $menuItem->getTitle()
+                            .Html::tag('i', ['class'=>$this->classMap->resolve($this->viewModel->isLeaf(), 'Item', 'li i', 'li i.dropdown')])
+                        )
+                        . $semafor
                     )
-                            . $semafor
-
+                    .Html::tag('div',
+                        ['class'=>$this->classMap->get('Buttons', 'div.buttons')],
+                        $this->renderButtons($menuItem))
                 );
-            $liInnerHtml[] = Html::tag('div',
-                    ['class'=>$this->classMap->get('Buttons', 'div.buttons')],
-                    $this->renderButtons($menuItem));
         } else {
             $liInnerHtml[] = Html::tag('a',
                 [
@@ -79,10 +78,6 @@ class ItemRendererEditable extends ItemRendererAbstract {
             );
         }
         $liInnerHtml[] = $this->viewModel->getInnerHtml();
-
-        if ($this->viewModel->isPresented()) {
-            $liInnerHtml = Html::tag('form', [], $liInnerHtml);
-        }
 
         $liHtml = Html::tag(     'li',
                 ['class'=>[
@@ -211,7 +206,6 @@ class ItemRendererEditable extends ItemRendererAbstract {
                 'data-tooltip'=>'Vybrat k přesunutí',
                 'data-position'=>'top right',
                 'type'=>'submit',
-                'name'=>'move',
                 'formmethod'=>'post',
                 'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/cut",
                     ],
@@ -224,7 +218,6 @@ class ItemRendererEditable extends ItemRendererAbstract {
                 'data-tooltip'=>'Zkopírovat položku',
                 'data-position'=>'top right',
                 'type'=>'submit',
-                'name'=>'move',
                 'formmethod'=>'post',
                 'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/copy",
                     ],
@@ -237,7 +230,6 @@ class ItemRendererEditable extends ItemRendererAbstract {
                 'data-tooltip'=>'Zrušit přesunutí',
                 'data-position'=>'top right',
                 'type'=>'submit',
-                'name'=>'move',
                 'formmethod'=>'post',
                 'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/cutescape",
                     ],
