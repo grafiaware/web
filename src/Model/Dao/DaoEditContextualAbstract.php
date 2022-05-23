@@ -60,10 +60,12 @@ abstract class DaoEditContextualAbstract extends DaoEditAbstract implements DaoC
     }
 
     public function find($whereClause = "", $touplesToBind = []): iterable {
+        $select = $this->sql->select($this->getAttributes());
+        $from = $this->sql->from($this->getTableName());
         $where = $this->sql->where($this->sql->and(
                         $this->getContextConditions(),
                         $whereClause));
-        return parent::find($where, $touplesToBind);
+        return $this->selectMany($select, $from, $where, $touplesToBind);        
     }
 
     public function findOutOfContext($whereClause = "", $touplesToBind = []): iterable {

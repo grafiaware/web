@@ -9,6 +9,7 @@
 namespace Red\Model\Entity;
 
 use Model\Entity\EntityInterface;
+use DateTime;
 
 /**
  * Description of PaperInterface
@@ -33,7 +34,7 @@ interface PaperInterface extends EntityInterface {
 
     public function getEditor();
 
-    public function getUpdated(): \DateTime;
+    public function getUpdated(): ?DateTime;
 
     public function setId($id): PaperInterface;
 
@@ -51,6 +52,6 @@ interface PaperInterface extends EntityInterface {
 
     public function setEditor($editor): PaperInterface;
 
-    public function setUpdated(\DateTime $updated): PaperInterface;
+    public function setUpdated(DateTime $updated=null): PaperInterface;
 
 }

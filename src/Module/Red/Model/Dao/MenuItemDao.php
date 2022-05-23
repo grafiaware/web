@@ -85,8 +85,8 @@ class MenuItemDao extends DaoEditContextualAbstract implements DaoFkNonuniqueInt
         return $this->getUnique($langCodeFkAndList);
     }
 
-    public function findAllLanguageVersions($uidFk) {
-        $this->find($this->sql->and($this->getContextConditions(), ['menu_item.uid_fk=:uid_fk']), ['uid_fk'=>$uidFk]);
+    public function findAllLanguageVersions(array $uidFk) {
+        return $this->find($this->sql->and($this->getContextConditions(), ['menu_item.uid_fk=:uid_fk']), $uidFk);
     }
 
     /**
