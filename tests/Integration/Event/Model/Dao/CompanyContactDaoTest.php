@@ -44,7 +44,7 @@ class CompanyContactDaoTest extends AppRunner {
         $companyDao = $container->get(CompanyDao::class);
 
         $rowData = new RowData();
-        $rowData->offsetSet('name', "Company-nameNNN");
+        $rowData->offsetSet('name', "CompanyName");
         $rowData->offsetSet('eventInstitutionName30', null);
         $companyDao->insert($rowData);
         self::$company_company_id_fk =  $companyDao->lastInsertIdValue();
@@ -64,6 +64,15 @@ class CompanyContactDaoTest extends AppRunner {
     protected function tearDown(): void {
     }
     public static function tearDownAfterClass(): void {
+        $container =
+            (new EventsContainerConfigurator())->configure(
+                (new DbEventsContainerConfigurator())->configure(new Container())
+            );
+        /** @var CompanyDao $companyDao */
+        $companyDao = $container->get(CompanyDao::class);        
+        $companyRow = $companyDao->get( ['id'  => self::$company_company_id_fk ] );
+        $companyDao->delete($companyRow);
+        
     }
 
     //-------------------------------------------------------------------------
