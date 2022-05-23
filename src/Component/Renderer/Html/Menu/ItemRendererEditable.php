@@ -1,10 +1,10 @@
 <?php
 namespace  Component\Renderer\Html\Menu;
 
-use Component\Renderer\Html\HtmlRendererAbstract;use Component\ViewModel\Menu\Item\ItemViewModelInterface;
+use Component\Renderer\Html\HtmlRendererAbstract;
+use Component\ViewModel\Menu\Item\ItemViewModelInterface;
 
 use Red\Model\Entity\MenuItemInterface;
-use Red\Model\Entity\HierarchyAggregateInterface;
 
 use Pes\Text\Html;
 
@@ -19,7 +19,13 @@ use Pes\Text\Html;
  *
  * @author pes2704
  */
-class ItemRendererEditable extends ItemRendererAbstract {
+class ItemRendererEditable extends HtmlRendererAbstract {
+
+    /**
+     *
+     * @var ItemViewModelInterface
+     */
+    protected $viewModel;
 
     public function render($viewModel=NULL) {
         $this->viewModel = $viewModel;
@@ -102,6 +108,21 @@ class ItemRendererEditable extends ItemRendererAbstract {
             .($this->viewModel->isCutted() ? "cutted " : "") ;
     }
 
+    protected function semafor(MenuItemInterface $menuItem) {
+        if ($this->viewModel->isMenuEditable()) {
+            $active =$menuItem->getActive();
+            $html = Html::tag('span', ['class'=>$this->classMap->get('Item', 'semafor')],
+                        Html::tag('i', [
+                            'class'=> $this->classMap->resolve($active, 'Icons', 'semafor.published', 'semafor.notpublished'),
+                            'title'=> $active ? "published" :  "not published"
+                            ])
+                    );
+        } else {
+            $html = "";
+        }
+        return $html;
+    }
+
     private function renderButtons(MenuItemInterface $menuItem) {
         $buttonsHtml = '';
 
@@ -112,17 +133,20 @@ class ItemRendererEditable extends ItemRendererAbstract {
                 $buttonsHtml = $this->renderPasteButtons($menuItem);
             }
         } else {
-            $buttonsHtml = $this->renderStandardButtons($menuItem);
+            $buttonsHtml = array_merge($this->getItemButtons($menuItem),$this->renderMenuManipulationButtons($menuItem));
         }
         return $buttonsHtml;
     }
 
-    private function renderStandardButtons(MenuItemInterface $menuItem) {
+    private function getItemButtons(MenuItemInterface $menuItem) {
         $buttons[] = $this->getButtonActive($menuItem);
+        $buttons[] = $this->getButtonTrash($menuItem);
+        return $buttons;
+    }
+
+    private function renderMenuManipulationButtons(MenuItemInterface $menuItem) {
         $buttons[] = $this->expandButtons($this->getButtonAdd($menuItem), $this->classMap->get('Icons', 'icon.plus'));
         $buttons[] = $this->expandButtons($this->getButtonCut($menuItem).$this->getButtonCopy($menuItem), $this->classMap->get('Icons', 'icon.object'));
-
-        $buttons[] = $this->getButtonTrash($menuItem);
         return $buttons;
     }
 
@@ -135,6 +159,7 @@ class ItemRendererEditable extends ItemRendererAbstract {
                 )
             );
     }
+
     private function renderPasteButtons(MenuItemInterface $menuItem) {
         $buttons[] = $this->getButtonPaste($menuItem);
         $buttons[] = $this->getButtonCutted($menuItem);

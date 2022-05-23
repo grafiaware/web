@@ -659,11 +659,47 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                      );
                 $component->setData($c->get(EditMenuSwitchViewModel::class));
 
-        if($component->isAllowedToPresent(AccessPresentationEnum::DISPLAY)) {
-            $component->setTemplate(new PhpTemplate($configuration->getTemplateControlEditMenu()));
-        } else {
-            $component->setRendererName(NoPermittedContentRenderer::class);
-        }
+                if($component->isAllowedToPresent(AccessPresentationEnum::DISPLAY)) {
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplateControlEditMenu()));
+                } else {
+                    $component->setRendererName(NoPermittedContentRenderer::class);
+                }
+
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;
+            },
+            ButtonsItemManipulationComponent::class => function(ContainerInterface $c) {
+                $configuration = $c->get(ComponentConfiguration::class);
+                $component = new ButtonsItemManipulationComponent(
+                        $configuration,
+                        $c->get(StatusViewModel::class),
+                        $c->get(AccessPresentation::class)
+                     );
+                $component->setData($c->get(EditMenuSwitchViewModel::class));
+
+                if($component->isAllowedToPresent(AccessPresentationEnum::DISPLAY)) {
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplateControlEditMenu()));
+                } else {
+                    $component->setRendererName(NoPermittedContentRenderer::class);
+                }
+
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;
+            },
+            ButtonsMenuManipulationComponent::class => function(ContainerInterface $c) {
+                $configuration = $c->get(ComponentConfiguration::class);
+                $component = new ButtonsMenuManipulationComponent(
+                        $configuration,
+                        $c->get(StatusViewModel::class),
+                        $c->get(AccessPresentation::class)
+                     );
+                $component->setData($c->get(EditMenuSwitchViewModel::class));
+
+                if($component->isAllowedToPresent(AccessPresentationEnum::DISPLAY)) {
+                    $component->setTemplate(new PhpTemplate($configuration->getTemplateControlEditMenu()));
+                } else {
+                    $component->setRendererName(NoPermittedContentRenderer::class);
+                }
 
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;

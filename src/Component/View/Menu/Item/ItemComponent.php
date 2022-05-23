@@ -1,6 +1,8 @@
 <?php
 namespace Component\View\Menu\Item;
 
+use Component\View\ComponentAbstract;
+
 use Access\Enum\AccessPresentationEnum;
 use Component\ViewModel\Menu\Item\ItemViewModelInterface;
 
@@ -9,7 +11,7 @@ use Component\ViewModel\Menu\Item\ItemViewModelInterface;
  *
  * @author pes2704
  */
-class ItemComponent implements ItemComponentInterface {
+class ItemComponent extends ComponentAbstract implements ItemComponentInterface {
 
     /**
      *
@@ -17,12 +19,4 @@ class ItemComponent implements ItemComponentInterface {
      */
     protected $contextData;
 
-    /**
-     * Přetěžuje metodu View. Pokud je eneruje PHP template z názvu template a použije ji.
-     */
-    public function beforeRenderingHook(): void {
-        if($this->contextData->isMenuEditable() AND $this->isAllowed(AccessPresentationEnum::EDIT)) {
-            $this->contextData->isPresented();
-        }
-    }
 }
