@@ -25,10 +25,15 @@ class MenuWrapRenderer extends MenuWrapRendererAbstract {
 
     public function render(iterable $viewModel=NULL) {
         /** @var MenuViewModelInterface $viewModel */
-        $menuLevelHtml = $this->renderSubtreeItemModels($viewModel->getSubTreeItemViews());
+        // MenuViewModel exteduje ContextData, má getIterator(), která iteruje ContextData, v ContextData jsou vyrenderované komponentní views
+        $levelItemsHtml = "";
+        foreach ($viewModel as $itemHtml) {
+            $levelItemsHtml .= $itemHtml;
+        }
         $html = [];
         $html[] = $viewModel->offsetExists(MenuComponent::TOGGLE_EDIT_MENU_BUTTON) ? $viewModel->offsetGet(MenuComponent::TOGGLE_EDIT_MENU_BUTTON) : "";
-        $html[] = Html::tag('ul', ['class'=>$this->classMap->get('MenuWrap', 'ul')],$menuLevelHtml);
+        $html[] = Html::tag('ul', ['class'=>$this->classMap->get('MenuWrap', 'ul')],$levelItemsHtml);
         return implode('', $html);
     }
+
 }

@@ -10,6 +10,7 @@ namespace Component\ViewModel\Menu\Item;
 
 use Component\ViewModel\ViewModelAbstract;
 use Red\Model\Entity\HierarchyAggregateInterface;
+use Pes\View\CompositeViewInterface;
 
 /**
  * Description of ItemViwModel
@@ -31,7 +32,7 @@ class ItemViewModel extends ViewModelAbstract implements ItemViewModelInterface 
     private $isCutted;
     private $menuEditable;
 
-    private $innerHtml;
+    private $child;
 
     public function __construct(HierarchyAggregateInterface $hierarchaAggregate, $realDepth, $isOnPath, $isLeaf, $isPresented, $pasteMode, $isCutted, $menuEditable) {
         $this->hierarchyAggregate = $hierarchaAggregate;
@@ -45,8 +46,8 @@ class ItemViewModel extends ViewModelAbstract implements ItemViewModelInterface 
         parent::__construct();
     }
 
-    public function setInnerHtml($innerHtml): void {
-        $this->innerHtml = $innerHtml;
+    public function setChild(CompositeViewInterface $child): void {
+        $this->child = $child;
     }
 
     /**
@@ -78,8 +79,8 @@ class ItemViewModel extends ViewModelAbstract implements ItemViewModelInterface 
         return $this->isCutted;
     }
 
-    public function getInnerHtml() {
-        return $this->innerHtml ?? '';
+    public function getChild(): ?CompositeViewInterface {
+        return $this->child;
     }
 
     public function isMenuEditable() {

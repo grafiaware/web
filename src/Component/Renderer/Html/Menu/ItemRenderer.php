@@ -4,6 +4,7 @@ namespace  Component\Renderer\Html\Menu;
 use Component\Renderer\Html\HtmlRendererAbstract;
 
 use Red\Model\Entity\MenuItemInterface;
+use Component\ViewModel\Menu\Item\ItemViewModelInterface;
 
 use Pes\Text\Html;
 
@@ -20,6 +21,10 @@ use Pes\Text\Html;
  */
 class ItemRenderer extends HtmlRendererAbstract {
 
+    /**
+     *
+     * @var ItemViewModelInterface
+     */
     protected $viewModel;
 
     public function render($viewModel=NULL) {
@@ -31,6 +36,8 @@ class ItemRenderer extends HtmlRendererAbstract {
 
     private function renderNoneditableItem(MenuItemInterface $menuItem) {
 //        $semafor = $this->viewModel->isMenuEditable() ? $this->semafor($menuItem) : "";
+        $childComponent = $this->viewModel->getChild();
+        $childHtml = isset($childComponent) ? implode("", $childComponent->getComponentViewsArray()) : "";
         $innerHtml = Html::tag('a',
                         [
                             'class'=>[
@@ -45,7 +52,7 @@ class ItemRenderer extends HtmlRendererAbstract {
                         )
 //                        . $semafor
                     )
-                    .$this->viewModel->getInnerHtml();
+                    .$childHtml;
         $html = Html::tag(     'li',
                 ['class'=>[
                     $this->classMap->resolve($this->viewModel->isLeaf(), 'Item', 'li.leaf', ($this->viewModel->getRealDepth() == 1) ? 'li.dropdown' : 'li.item'),

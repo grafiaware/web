@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/box4pes/pes.git",
-                "reference": "b6e63170a99fc5e4ed8dcf4f0342146ed2e2506f"
+                "reference": "9c7ef84552d22a84a0eab8d5ebdf08003782734f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/box4pes/pes/zipball/b6e63170a99fc5e4ed8dcf4f0342146ed2e2506f",
-                "reference": "b6e63170a99fc5e4ed8dcf4f0342146ed2e2506f",
+                "url": "https://api.github.com/repos/box4pes/pes/zipball/9c7ef84552d22a84a0eab8d5ebdf08003782734f",
+                "reference": "9c7ef84552d22a84a0eab8d5ebdf08003782734f",
                 "shasum": ""
             },
             "require": {
@@ -28,6 +28,7 @@
                 "psr/http-server-middleware": ">=0.5",
                 "psr/log": "^1.1"
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -58,7 +59,7 @@
                 "issues": "https://github.com/box4pes/pes/issues",
                 "source": "https://github.com/box4pes/pes/tree/master"
             },
-            "time": "2022-05-12T19:45:20+00:00"
+            "time": "2022-05-24T07:34:06+00:00"
         },
         {
             "name": "phpmailer/phpmailer",
@@ -126,6 +127,10 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
+            "support": {
+                "issues": "https://github.com/PHPMailer/PHPMailer/issues",
+                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.6.0"
+            },
             "funding": [
                 {
                     "url": "https://github.com/Synchro",
@@ -176,6 +181,10 @@
                 "container-interop",
                 "psr"
             ],
+            "support": {
+                "issues": "https://github.com/php-fig/container/issues",
+                "source": "https://github.com/php-fig/container/tree/1.1.1"
+            },
             "time": "2021-03-05T17:36:06+00:00"
         },
         {
@@ -228,6 +237,9 @@
                 "request",
                 "response"
             ],
+            "support": {
+                "source": "https://github.com/php-fig/http-factory/tree/master"
+            },
             "time": "2019-04-30T12:38:16+00:00"
         },
         {
@@ -278,6 +290,9 @@
                 "request",
                 "response"
             ],
+            "support": {
+                "source": "https://github.com/php-fig/http-message/tree/master"
+            },
             "time": "2016-08-06T14:39:51+00:00"
         },
         {
@@ -331,6 +346,10 @@
                 "response",
                 "server"
             ],
+            "support": {
+                "issues": "https://github.com/php-fig/http-server-handler/issues",
+                "source": "https://github.com/php-fig/http-server-handler/tree/master"
+            },
             "time": "2018-10-30T16:46:14+00:00"
         },
         {
@@ -384,6 +403,10 @@
                 "request",
                 "response"
             ],
+            "support": {
+                "issues": "https://github.com/php-fig/http-server-middleware/issues",
+                "source": "https://github.com/php-fig/http-server-middleware/tree/master"
+            },
             "time": "2018-10-30T17:12:04+00:00"
         },
         {
@@ -431,6 +454,9 @@
                 "psr",
                 "psr-3"
             ],
+            "support": {
+                "source": "https://github.com/php-fig/log/tree/1.1.4"
+            },
             "time": "2021-05-03T11:20:27+00:00"
         }
     ],
@@ -444,5 +470,5 @@
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "1.1.0"
+    "plugin-api-version": "2.1.0"
 }

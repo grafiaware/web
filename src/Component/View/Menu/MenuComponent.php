@@ -7,9 +7,10 @@ use Component\ViewModel\Menu\MenuViewModelInterface;
 use Component\ViewModel\Menu\Item\ItemViewModel;
 use Component\ViewModel\Menu\Item\ItemViewModelInterface;
 
-
 use Component\Renderer\Html\Menu\MenuWrapRendererInterface;
 use Component\View\Menu\LevelComponent;
+use Component\View\Menu\LevelComponentInterface;
+use Component\View\Element\ElementComponent;
 
 use Access\Enum\AccessPresentationEnum;
 
@@ -32,6 +33,11 @@ class MenuComponent extends StatusComponentAbstract implements MenuComponentInte
     private $itemEditableRendererName;
 
     private $withTitle = false;
+
+    public function getString() {
+        $str = parent::getString();
+        return $str;
+    }
 
     /**
      *
@@ -95,13 +101,14 @@ class MenuComponent extends StatusComponentAbstract implements MenuComponentInte
 //            }
 //        }
         $this->addSubtreeComponents($this->contextData->getItemModels());
+
     }
 
     protected function addSubtreeComponents($subtreeItemModels) {
         $editableMode = $this->contextData->presentEditableMenu() AND $this->isAllowedToPresent(AccessPresentationEnum::EDIT);
 
         if (!$subtreeItemModels) {
-            $wrap = '';
+            $level = '';
         } else {
             $itemTags = [];
             $first = true;
@@ -125,37 +132,53 @@ class MenuComponent extends StatusComponentAbstract implements MenuComponentInte
                 }
             }
             $this->addStackedItems($currDepth, $rootDepth, $itemViewModelStack, $editableMode);
-            $wrap = $this->addLastLevel($itemViewModelStack[$rootDepth], $editableMode);
+            $level = $this->addLastLevel($itemViewModelStack[$rootDepth], $editableMode);
         }
-        return $wrap;
+        return $level;
     }
 
     private function addStackedItems($currDepth, $targetDepth, &$itemViewModelStack, $editableMode) {
         for ($i=$currDepth; $i>$targetDepth; $i--) {
-            $level = [];
-            foreach ($itemViewModelStack[$i] as $stackedItemModel) {
-                /** @var ItemViewModelInterface $stackedItemModel */
-//                $level[] = $this->itemRenderer->render($stackedItemModel);
-                $level[] = $stackedItemModel;
+            $levelComponent = new LevelComponent($this->configuration);
+            $levelComponent->setRendererName($this->levelWrapRendererName);
+            $levelComponent->setRendererContainer($this->rendererContainer);
+            $index = 0;
+            foreach ($itemViewModelStack[$i] as $itemViewModel) {
+                /** @var ItemViewModelInterface $itemViewModel */
+                if($editableMode) {
+                    $item = (new ElementComponent($this->configuration))->setData($itemViewModel)->setRendererName($this->itemEditableRendererName)->setRendererContainer($this->rendererContainer);
+                } else {
+                    $item =  (new ElementComponent($this->configuration))->setData($itemViewModel)->setRendererName($this->itemRendererName)->setRendererContainer($this->rendererContainer);
+                }
+                $nextLevel = $itemViewModel->getChild();
+                if (isset($nextLevel)) {
+                    $item->appendComponentView($nextLevel, 'level'.$itemViewModel->getRealDepth());
+                }
+                $index++;  // udělátko
+                $levelComponent->appendComponentView($item, 'item'.$index);
             }
-            $wrap = $this->levelWrapRenderer->render(implode(PHP_EOL, $level));
             unset($itemViewModelStack[$i]);
-            end($itemViewModelStack[$i-1])->getData()->setInnerHtml($wrap);
+            end($itemViewModelStack[$i-1])->setChild($levelComponent);
         }
     }
 
-    private function addLastLevel($itemViewModelStack, $editableMode) {
-        $level = new LevelComponent();
-        foreach ($itemViewModelStack as $stackedItemModel) {
-            /** @var ItemViewModelInterface $stackedItemModel */
+    private function addLastLevel($itemViewModelStack, $editableMode): void {
+        $this->setRendererName($this->levelWrapRendererName);
+        $this->setRendererContainer($this->rendererContainer);
+        $index = 0;
+        foreach ($itemViewModelStack as $itemViewModel) {
+            /** @var ItemViewModelInterface $itemViewModel */
             if($editableMode) {
-                $child  (new ElementComponent($this->configuration))->setData($itemViewModel)->setRendererName($this->itemEditableRendererName)->setRendererContainer($this->rendererContainer);
+                $item = (new ElementComponent($this->configuration))->setData($itemViewModel)->setRendererName($this->itemEditableRendererName)->setRendererContainer($this->rendererContainer);
             } else {
-                $child =  (new ElementComponent($this->configuration))->setData($itemViewModel)->setRendererName($this->itemRendererName)->setRendererContainer($this->rendererContainer);
+                $item =  (new ElementComponent($this->configuration))->setData($itemViewModel)->setRendererName($this->itemRendererName)->setRendererContainer($this->rendererContainer);
             }
-            $level->
+            $nextLevel = $itemViewModel->getChild();
+            if (isset($nextLevel)) {
+                $item->appendComponentView($nextLevel, 'level'.$itemViewModel->getRealDepth());
+            }
+            $index++;  // udělátko
+            $this->appendComponentView($item, 'item'.$index);
         }
-        $wrap = implode(PHP_EOL, $level);                // nejvyšší úroveň stromu je renderována je do "li", "ul" pak udělá menuWrapRenderer, který je nastaven jako renderer celé komponenty ($this->renderer)
-        return $wrap;
     }
 }

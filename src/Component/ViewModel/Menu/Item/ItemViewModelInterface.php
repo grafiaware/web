@@ -9,6 +9,7 @@
 namespace Component\ViewModel\Menu\Item;
 
 use Red\Model\Entity\HierarchyAggregateInterface;
+use Pes\View\CompositeViewInterface;
 
 /**
  *
@@ -16,14 +17,14 @@ use Red\Model\Entity\HierarchyAggregateInterface;
  */
 interface ItemViewModelInterface {
 
-    public function setInnerHtml($innerHtml): void;
+    public function setChild(CompositeViewInterface $childComponent): void;
 
     public function isOnPath();
     public function isLeaf();
     public function isPresented();
     public function isPasteMode();
     public function isCutted();
-    public function getInnerHtml();
+    public function getChild(): ?CompositeViewInterface;
     public function getRealDepth();
     public function isMenuEditable();
 
