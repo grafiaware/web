@@ -11,6 +11,7 @@ use Test\Integration\Event\Container\DbEventsContainerConfigurator;
 use Events\Model\Dao\EventContentDao;
 use Model\RowData\RowData;
 use Model\RowData\RowDataInterface;
+use Events\Model\Dao\InstitutionDao;
 
 /**
  *
@@ -28,9 +29,27 @@ class EventContentDaoTest extends AppRunner {
     private $dao;
 
     private static $id;
+    private static $idInstitutionTouple;
 
     public static function setUpBeforeClass(): void {
         self::bootstrapBeforeClass();
+        
+        $container =
+            (new EventsContainerConfigurator())->configure(
+                (new DbEventsContainerConfigurator())->configure(new Container())
+            );
+        
+        //tabulka institution
+        /** @var InstitutionDao $institutionDao */         
+        $institutionDao = $container->get(InstitutionDao::class);
+        $rowData = new RowData();        
+        //$rowData->offsetSet('name', "testEventContentDao-name");
+        //$rowData->offsetSet('institution_type_id', null);
+        $rowData->import( [ 'name' => "testEventContentDao-name" , 'institution_type_id' => null ]);
+        $institutionDao->insert($rowData);
+        self::$idInstitutionTouple =  $institutionDao->getLastInsertIdTouple();
+        
+        
     }
 
     protected function setUp(): void {
@@ -45,7 +64,15 @@ class EventContentDaoTest extends AppRunner {
     }
 
     public static function tearDownAfterClass(): void {
-
+        $container =
+            (new EventsContainerConfigurator())->configure(
+                (new DbEventsContainerConfigurator())->configure(new Container())
+            );
+        //uklidit institution ?
+        /** @var InstitutionDao $institutionDao */         
+        $institutionDao = $container->get(InstitutionDao::class);
+        $institutionRow = $institutionDao->get(self::$idInstitutionTouple);     
+        $institutionDao->delete($institutionRow);
     }
 
     public function testSetUp() {
@@ -58,7 +85,7 @@ class EventContentDaoTest extends AppRunner {
         $rowData->offsetSet('perex', "testEventContentDao-perex");
         $rowData->offsetSet('party', "testEventContentDao-party");
         $rowData->offsetSet('event_content_type_fk', null);
-        $rowData->offsetSet('institution_id_fk', null);
+        $rowData->offsetSet('institution_id_fk', self::$idInstitutionTouple ['id'] ) ;
         $this->dao->insert($rowData);
         self::$id =  $this->dao->getLastInsertIdTouple();
         $this->assertGreaterThan(0, (int) self::$id);
@@ -108,5 +135,12 @@ class EventContentDaoTest extends AppRunner {
         $this->setUp();
         $eventContentRow = $this->dao->get(self::$id);
         $this->assertNull($eventContentRow);
+                
+        //v institution  zbývá záznam
+        /** @var InstitutionDao $institutionDao */         
+        $institutionDao = $this->container->get(InstitutionDao::class);
+        $institutionRow = $institutionDao->get(self::$idInstitutionTouple);        
+        $this->assertInstanceOf(RowDataInterface::class, $institutionRow);
+        
     }
 }
