@@ -4,6 +4,7 @@ namespace  Component\Renderer\Html\Menu;
 use Pes\Text\Html;
 use Red\Model\Entity\HierarchyAggregateInterface;
 use Red\Model\Entity\MenuItemInterface;
+use Component\ViewModel\Menu\Item\ItemViewModelInterface;
 
 /**
  * Description of ItemTrashEditableRenderer
@@ -17,17 +18,18 @@ class ItemTrashRendererEditable extends ItemRendererEditable {
      *
      * @return string
      */
-    protected function renderEditableItem(MenuItemInterface $menuItem) {
-        $presentedEditable = ($this->viewModel->isPresented() AND $this->viewModel->isMenuEditable());
-        $active = $menuItem->getActive();
-        $pasteMode = $this->viewModel->isPasteMode();
-        $cutted = $this->viewModel->isCutted();
+    protected function renderEditableItem(ItemViewModelInterface $viewModel) {
+        $menuItem = $viewModel->getHierarchyAggregate()->getMenuItem();
+        $presentedEditable = ($viewModel->isPresented() AND $viewModel->isMenuEditable());
+//        $active = $menuItem->getActive();
+        $pasteMode = $viewModel->isPasteMode();
+        $cutted = $viewModel->isCutted();
 
         // element a s potomkem span - needitovalný titulek
         $innerHtml[] = Html::tag('a', [
                         'class'=>[
                             $this->classMap->get('Item', 'li a'),
-                            $this->classMap->resolve($this->viewModel->isPresented(), 'Item', 'li.presented', 'li'),
+                            $this->classMap->resolve($viewModel->isPresented(), 'Item', 'li.presented', 'li'),
                             ],
                         'href'=>"web/v1/page/item/{$menuItem->getUidFk()}",
                          ],
@@ -39,7 +41,7 @@ class ItemTrashRendererEditable extends ItemRendererEditable {
 //                                ])
 //                        )
                     );
-        $innerHtml[] = Html::tag('i', ['class'=>$this->classMap->resolve($this->viewModel->getChild(), 'Item', 'li.isnotleaf icon', 'li.leaf')]);
+        $innerHtml[] = Html::tag('i', ['class'=>$this->classMap->resolve($viewModel->getChild(), 'Item', 'li.isnotleaf icon', 'li.leaf')]);
 
         $buttonsHtml = '';
         if ($presentedEditable) {
@@ -56,20 +58,17 @@ class ItemTrashRendererEditable extends ItemRendererEditable {
             }
         }
 
-        $innerHtml[] = $buttonsHtml ? Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttons')], $buttonsHtml) : '';
-        $innerHtml[] = $this->viewModel->getChild();
+        $innerHtml[] = $buttonsHtml ? Html::tag('form', [], Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttons')], $buttonsHtml)) : '';
+        $innerHtml[] = $viewModel->getChild();
 
         $liClass = ['class'=>[
-                    (string) $this->classMap->resolve($this->viewModel->isLeaf(), 'Item', 'li.leaf', ($this->viewModel->getRealDepth() == 1) ? 'li.dropdown' : 'li.item'),
-                    (string) $this->classMap->resolve($this->viewModel->isCutted(), 'Item', 'li.cut', 'li')
+                    (string) $this->classMap->resolve($viewModel->isLeaf(), 'Item', 'li.leaf', ($viewModel->getRealDepth() == 1) ? 'li.dropdown' : 'li.item'),
+                    (string) $this->classMap->resolve($viewModel->isCutted(), 'Item', 'li.cut', 'li')
                     ],
                 ];
         $innerHtml = implode('', $innerHtml);
-        $li = Html::tag('li', $liClass, $innerHtml);
-       $html =
-            Html::tag('form', [],
-                    $li
-            );
+        $html = Html::tag('li', $liClass, $innerHtml);
+
 
        return $html;
     }

@@ -23,9 +23,8 @@ use Pes\Text\Message;
  */
 class SearchResultRenderer extends HtmlRendererAbstract implements RendererModelAwareInterface {
 
-    public function render($data=NULL) {
+    public function render(iterable $viewModel=NULL) {
         /** @var SearchResultViewModel $viewModel */
-        $viewModel = $this->viewModel;
         $html = '';
         $n = 0;
         foreach($viewModel->getSearchedMenuItems() as $menuItem) {

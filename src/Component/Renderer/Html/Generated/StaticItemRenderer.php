@@ -21,11 +21,10 @@ use Pes\Text\Html;
  *
  * @author pes2704
  */
-class StaticItemRenderer extends HtmlRendererAbstract implements RendererModelAwareInterface {
+class StaticItemRenderer extends HtmlRendererAbstract {
 
-    public function render($data=NULL) {
+    public function render(iterable $viewModel=NULL) {
         /** @var ItemTypeSelectViewModel $viewModel */
-        $viewModel = $this->viewModel;
         $typeFk = $viewModel->getMenuItem()->getTypeFk();
         $menuItemUidFk = $viewModel->getMenuItem()->getUidFk();
         $radioHtml = '';

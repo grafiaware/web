@@ -90,16 +90,6 @@ class MenuComponent extends StatusComponentAbstract implements MenuComponentInte
         $this->contextData->setMaxDepth(null);
 
         $editableMode = $this->contextData->presentEditableMenu() AND $this->isAllowedToPresent(AccessPresentationEnum::EDIT);
-//        $views = [];
-//        foreach ($this->contextData->getItemModels() as $itemViewModel) {
-//            /** @var ItemViewModelInterface $itemViewModel */
-//            // pokud render používá classMap musí být konfigurován v Renderer kontejneru - tam dostane classMap
-//            if($editableMode) {
-//                $views[] =  (new ElementComponent($this->configuration))->setData($itemViewModel)->setRendererName($this->itemEditableRendererName)->setRendererContainer($this->rendererContainer);
-//            } else {
-//                $views[] =  (new ElementComponent($this->configuration))->setData($itemViewModel)->setRendererName($this->itemRendererName)->setRendererContainer($this->rendererContainer);
-//            }
-//        }
         $this->addSubtreeComponents($this->contextData->getItemModels());
 
     }
@@ -131,7 +121,7 @@ class MenuComponent extends StatusComponentAbstract implements MenuComponentInte
                     $itemViewModelStack[$currDepth][] = $itemViewModel;
                 }
             }
-//            $this->addStackedItems($currDepth, $rootDepth, $itemViewModelStack, $editableMode);
+            $this->addStackedItems($currDepth, $rootDepth, $itemViewModelStack, $editableMode);
             $level = $this->addLastLevel($itemViewModelStack[$rootDepth], $editableMode);
         }
         return $level;

@@ -18,11 +18,10 @@ use Pes\View\Renderer\RendererModelAwareInterface;
  *
  * @author pes2704
  */
-class FlashRenderer extends HtmlRendererAbstract implements RendererModelAwareInterface {
+class FlashRenderer extends HtmlRendererAbstract {
 
-    public function render(iterable $data = NULL) {
+    public function render(iterable $viewModel=NULL) {
         /** @var FlashViewModelForRendererInterface $viewModel */
-        $viewModel = $this->viewModel;
         return $viewModel->getMessage();
     }
 }

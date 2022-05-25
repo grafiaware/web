@@ -68,6 +68,14 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
         ];
     }
 
+    /**
+     * ###############  POZOR! ###############
+     * Všechny renderery jsou vyráběny jako service (singleton). Ve skutečnosti většina z nich dědí HtmlRendererAbstract, který má konstruktor a přijímá classMap.
+     * To znamená, že render jednoho typu vznikne jen jeden a používá se stéle tentýž renderer se stejnou class mapou
+     * #######################################
+     *
+     * @return iterable
+     */
     public function getServicesDefinitions(): iterable {
         return array_merge(ConfigurationCache::renderer(),
                 [

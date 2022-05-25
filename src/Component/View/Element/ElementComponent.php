@@ -9,5 +9,5 @@ use Component\View\ComponentAbstract;
  * @author pes2704
  */
 class ElementComponent extends ComponentAbstract {
-    //
+
 }

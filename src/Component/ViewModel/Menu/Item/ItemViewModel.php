@@ -19,6 +19,9 @@ use Pes\View\CompositeViewInterface;
  */
 class ItemViewModel extends ViewModelAbstract implements ItemViewModelInterface {
 
+    private $uniqid;
+
+
     /**
      * @var HierarchyAggregateInterface
      */
@@ -35,6 +38,9 @@ class ItemViewModel extends ViewModelAbstract implements ItemViewModelInterface 
     private $child;
 
     public function __construct(HierarchyAggregateInterface $hierarchaAggregate, $realDepth, $isOnPath, $isLeaf, $isPresented, $pasteMode, $isCutted, $menuEditable) {
+
+        $this->uniqid = uniqid();
+
         $this->hierarchyAggregate = $hierarchaAggregate;
         $this->realDepth = $realDepth;
         $this->isOnPath = $isOnPath;

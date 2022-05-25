@@ -27,25 +27,34 @@ class ItemRendererEditable extends HtmlRendererAbstract {
      */
     protected $viewModel;
 
-    public function render($viewModel=NULL) {
-        $this->viewModel = $viewModel;
-        $menuItem = $this->viewModel->getHierarchyAggregate()->getMenuItem();
-
-            return $this->renderEditableItem($menuItem);
+    public function render(iterable $viewModel=NULL) {
+        return $this->renderEditableItem($viewModel);
     }
 
-    protected function renderEditableItem(MenuItemInterface $menuItem) {
-        $semafor = $this->viewModel->isMenuEditable() ? $this->semafor($menuItem) : "";
-        $levelComponent = $this->viewModel->getChild();
-        $levelHtml = isset($levelComponent) ? implode("", $levelComponent->getData()) :"";
-        if ($this->viewModel->isPresented()) {
+    protected function renderEditableItem(ItemViewModelInterface $viewModel) {
+        $menuItem = $viewModel->getHierarchyAggregate()->getMenuItem();
+        $semafor = $viewModel->isMenuEditable() ? $this->semafor($menuItem) : "";
+        $levelComponent = $viewModel->getChild();
+        $levelHtml = isset($levelComponent) ? $levelComponent->getString() :"";
+        if ($viewModel->isPresented()) {
+            $buttonsHtml = '';
+            if ($viewModel->isPasteMode()) {
+                if($viewModel->isCutted()) {
+                    $buttonsHtml = $this->renderCuttedItemButtons($menuItem);
+                } else {
+                    $buttonsHtml = $this->renderPasteButtons($menuItem);
+                }
+            } else {
+                $buttonsHtml = array_merge($this->getItemButtons($menuItem),$this->renderMenuManipulationButtons($menuItem));
+            }
+
             $liInnerHtml[] =
                 Html::tag('form', [],
                     Html::tag('p',
                         [
                         'class'=>[
                             $this->classMap->get('Item', 'li a'),   // class - 'editable' v kontejneru
-                            $this->classMap->resolve($this->viewModel->isPresented(), 'Item', 'li.presented', 'li'),
+                            $this->classMap->resolve($viewModel->isPresented(), 'Item', 'li.presented', 'li'),
                             ],
                         'data-href'=>"web/v1/page/item/{$menuItem->getUidFk()}",
                         'tabindex'=>0,
@@ -60,26 +69,26 @@ class ItemRendererEditable extends HtmlRendererAbstract {
                             'data-uid'=>$menuItem->getUidFk(),
                             ],
                             $menuItem->getTitle()
-                            .Html::tag('i', ['class'=>$this->classMap->resolve($this->viewModel->isLeaf(), 'Item', 'li i', 'li i.dropdown')])
+                            .Html::tag('i', ['class'=>$this->classMap->resolve($viewModel->isLeaf(), 'Item', 'li i', 'li i.dropdown')])
                         )
                         . $semafor
                     )
                     .Html::tag('div',
                         ['class'=>$this->classMap->get('Buttons', 'div.buttons')],
-                        $this->renderButtons($menuItem))
+                        $buttonsHtml)
                 );
         } else {
             $liInnerHtml[] = Html::tag('a',
                 [
                     'class'=>[
                         $this->classMap->get('Item', 'li a'),
-                        $this->classMap->resolve($this->viewModel->isPresented(), 'Item', 'li.presented', 'li'),
+                        $this->classMap->resolve($viewModel->isPresented(), 'Item', 'li.presented', 'li'),
                         ],
                     'href'=> "web/v1/page/item/{$menuItem->getUidFk()}"
                 ],
                 Html::tag('span', ['class'=>$this->classMap->get('Item', 'li a span')],
                     $menuItem->getTitle()
-                    .Html::tag('i', ['class'=>$this->classMap->resolve($this->viewModel->isLeaf(), 'Item', 'li i', 'li i.dropdown')])
+                    .Html::tag('i', ['class'=>$this->classMap->resolve($viewModel->isLeaf(), 'Item', 'li i', 'li i.dropdown')])
                 )
                 . $semafor
             );
@@ -88,11 +97,11 @@ class ItemRendererEditable extends HtmlRendererAbstract {
 
         $liHtml = Html::tag(     'li',
                 ['class'=>[
-                    $this->classMap->resolve($this->viewModel->isLeaf(), 'Item', 'li.leaf', ($this->viewModel->getRealDepth() == 1) ? 'li.dropdown' : 'li.item'),
-                    $this->classMap->resolve($this->viewModel->isOnPath(), 'Item', 'li.parent', 'li'),
-                    $this->classMap->resolve($this->viewModel->isCutted(), 'Item', 'li.cut', 'li')
+                    $this->classMap->resolve($viewModel->isLeaf(), 'Item', 'li.leaf', ($viewModel->getRealDepth() == 1) ? 'li.dropdown' : 'li.item'),
+                    $this->classMap->resolve($viewModel->isOnPath(), 'Item', 'li.parent', 'li'),
+                    $this->classMap->resolve($viewModel->isCutted(), 'Item', 'li.cut', 'li')
                     ],
-                 'data-red-style'=> $this->redLiEditableStyle()
+                 'data-red-style'=> $this->redLiEditableStyle($viewModel)
 
                 ],
                 $liInnerHtml);
@@ -101,42 +110,23 @@ class ItemRendererEditable extends HtmlRendererAbstract {
         return $liHtml;
     }
 
-    private function redLiEditableStyle() {
+    private function redLiEditableStyle($viewModel) {
         return
-            ($this->viewModel->isOnPath() ? "onpath " : "")
-            .(($this->viewModel->getRealDepth() == 1) ? "dropdown " : "")
-            .($this->viewModel->isPresented() ? "presented " : "")
-            .($this->viewModel->isCutted() ? "cutted " : "") ;
+            ($viewModel->isOnPath() ? "onpath " : "")
+            .(($viewModel->getRealDepth() == 1) ? "dropdown " : "")
+            .($viewModel->isPresented() ? "presented " : "")
+            .($viewModel->isCutted() ? "cutted " : "") ;
     }
 
-    protected function semafor(MenuItemInterface $menuItem) {
-        if ($this->viewModel->isMenuEditable()) {
-            $active =$menuItem->getActive();
-            $html = Html::tag('span', ['class'=>$this->classMap->get('Item', 'semafor')],
-                        Html::tag('i', [
-                            'class'=> $this->classMap->resolve($active, 'Icons', 'semafor.published', 'semafor.notpublished'),
-                            'title'=> $active ? "published" :  "not published"
-                            ])
-                    );
-        } else {
-            $html = "";
-        }
+    private function semafor(MenuItemInterface $menuItem) {
+        $active =$menuItem->getActive();
+        $html = Html::tag('span', ['class'=>$this->classMap->get('Item', 'semafor')],
+                    Html::tag('i', [
+                        'class'=> $this->classMap->resolve($active, 'Icons', 'semafor.published', 'semafor.notpublished'),
+                        'title'=> $active ? "published" :  "not published"
+                        ])
+                );
         return $html;
-    }
-
-    private function renderButtons(MenuItemInterface $menuItem) {
-        $buttonsHtml = '';
-
-        if ($this->viewModel->isPasteMode()) {
-            if($this->viewModel->isCutted()) {
-                $buttonsHtml = $this->renderCuttedItemButtons($menuItem);
-            } else {
-                $buttonsHtml = $this->renderPasteButtons($menuItem);
-            }
-        } else {
-            $buttonsHtml = array_merge($this->getItemButtons($menuItem),$this->renderMenuManipulationButtons($menuItem));
-        }
-        return $buttonsHtml;
     }
 
     private function getItemButtons(MenuItemInterface $menuItem) {
