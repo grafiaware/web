@@ -37,7 +37,7 @@ class ItemRenderer extends HtmlRendererAbstract {
     private function renderNoneditableItem(MenuItemInterface $menuItem) {
 //        $semafor = $this->viewModel->isMenuEditable() ? $this->semafor($menuItem) : "";
         $levelComponent = $this->viewModel->getChild();
-        $levelHtml = isset($levelComponent) ? $levelComponent->getString() : "";
+        $levelHtml = isset($levelComponent) ? implode("", $levelComponent->getData()) :"";
         $innerHtml = Html::tag('a',
                         [
                             'class'=>[
@@ -71,6 +71,7 @@ class ItemRenderer extends HtmlRendererAbstract {
             ($this->viewModel->isLeaf() ? "leaf " : "")
             .($this->viewModel->isOnPath() ? "onpath " : "")
             .("realDepth:".$this->viewModel->getRealDepth()." ")
+            .(($this->viewModel->getRealDepth() == 1) ? "dropdown " : "")
             .($this->viewModel->isPresented() ? "presented " : "")
             .($this->viewModel->isCutted() ? "cutted " : "") ;
     }

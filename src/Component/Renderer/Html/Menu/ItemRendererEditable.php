@@ -36,8 +36,8 @@ class ItemRendererEditable extends HtmlRendererAbstract {
 
     protected function renderEditableItem(MenuItemInterface $menuItem) {
         $semafor = $this->viewModel->isMenuEditable() ? $this->semafor($menuItem) : "";
-        $childComponent = $this->viewModel->getChild();
-        $childHtml = isset($childComponent) ? implode("", $childComponent->getComponentViewsArray()) : "";
+        $levelComponent = $this->viewModel->getChild();
+        $levelHtml = isset($levelComponent) ? implode("", $levelComponent->getData()) :"";
         if ($this->viewModel->isPresented()) {
             $liInnerHtml[] =
                 Html::tag('form', [],
@@ -84,7 +84,7 @@ class ItemRendererEditable extends HtmlRendererAbstract {
                 . $semafor
             );
         }
-        $liInnerHtml[] = $childHtml;
+        $liInnerHtml[] = $levelHtml;
 
         $liHtml = Html::tag(     'li',
                 ['class'=>[

@@ -131,7 +131,7 @@ class MenuComponent extends StatusComponentAbstract implements MenuComponentInte
                     $itemViewModelStack[$currDepth][] = $itemViewModel;
                 }
             }
-            $this->addStackedItems($currDepth, $rootDepth, $itemViewModelStack, $editableMode);
+//            $this->addStackedItems($currDepth, $rootDepth, $itemViewModelStack, $editableMode);
             $level = $this->addLastLevel($itemViewModelStack[$rootDepth], $editableMode);
         }
         return $level;
@@ -163,7 +163,6 @@ class MenuComponent extends StatusComponentAbstract implements MenuComponentInte
     private function addLastLevel($itemViewModelStack, $editableMode): void {
         $this->setRendererName($this->levelWrapRendererName);
         $this->setRendererContainer($this->rendererContainer);
-        $index = 0;
         foreach ($itemViewModelStack as $itemViewModel) {
             /** @var ItemViewModelInterface $itemViewModel */
             if($editableMode) {
@@ -175,7 +174,6 @@ class MenuComponent extends StatusComponentAbstract implements MenuComponentInte
             if (isset($nextLevel)) {
                 $item->appendComponentView($nextLevel, uniqid('level')); //'level'.$itemViewModel->getRealDepth());
             }
-            $index++;  // udělátko
             $this->appendComponentView($item, uniqid('item'));
         }
     }
