@@ -25,12 +25,13 @@ class LevelWrapRenderer extends HtmlRendererAbstract {
         foreach ($contextData as $itemHtml) {
             $levelItemsHtml .= $itemHtml;
         }
-        return Html::tag('ul', ['class'=>[
+        $ul = Html::tag('ul', ['class'=>[
                                 //$this->classMap->get('LevelWrap', 'ul'),
 //                                $this->classMap->resolve($this->viewModel->isOnPath(), 'LevelWrap', 'ul.onpath', 'ul'),
                                 $this->classMap->get('LevelWrap', 'ul'),
                                 ]],
                             $levelItemsHtml);
+        return $ul;
     }
 
 }

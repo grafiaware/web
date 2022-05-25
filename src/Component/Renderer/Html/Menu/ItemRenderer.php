@@ -36,8 +36,8 @@ class ItemRenderer extends HtmlRendererAbstract {
 
     private function renderNoneditableItem(MenuItemInterface $menuItem) {
 //        $semafor = $this->viewModel->isMenuEditable() ? $this->semafor($menuItem) : "";
-        $childComponent = $this->viewModel->getChild();
-        $childHtml = isset($childComponent) ? implode("", $childComponent->getComponentViewsArray()) : "";
+        $levelComponent = $this->viewModel->getChild();
+        $levelHtml = isset($levelComponent) ? $levelComponent->getString() : "";
         $innerHtml = Html::tag('a',
                         [
                             'class'=>[
@@ -52,7 +52,7 @@ class ItemRenderer extends HtmlRendererAbstract {
                         )
 //                        . $semafor
                     )
-                    .$childHtml;
+                    .$levelHtml;
         $html = Html::tag(     'li',
                 ['class'=>[
                     $this->classMap->resolve($this->viewModel->isLeaf(), 'Item', 'li.leaf', ($this->viewModel->getRealDepth() == 1) ? 'li.dropdown' : 'li.item'),
@@ -64,13 +64,13 @@ class ItemRenderer extends HtmlRendererAbstract {
                 $innerHtml
                 );
         return $html;
-
     }
 
     private function redLiEditableStyle() {
         return
-            ($this->viewModel->isOnPath() ? "onpath " : "")
-            .(($this->viewModel->getRealDepth() == 1) ? "dropdown " : "")
+            ($this->viewModel->isLeaf() ? "leaf " : "")
+            .($this->viewModel->isOnPath() ? "onpath " : "")
+            .("realDepth:".$this->viewModel->getRealDepth()." ")
             .($this->viewModel->isPresented() ? "presented " : "")
             .($this->viewModel->isCutted() ? "cutted " : "") ;
     }

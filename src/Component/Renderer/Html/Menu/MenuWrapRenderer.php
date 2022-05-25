@@ -33,7 +33,8 @@ class MenuWrapRenderer extends MenuWrapRendererAbstract {
         $html = [];
         $html[] = $viewModel->offsetExists(MenuComponent::TOGGLE_EDIT_MENU_BUTTON) ? $viewModel->offsetGet(MenuComponent::TOGGLE_EDIT_MENU_BUTTON) : "";
         $html[] = Html::tag('ul', ['class'=>$this->classMap->get('MenuWrap', 'ul')],$levelItemsHtml);
-        return implode('', $html);
+        $ul = implode('', $html);
+        return $ul;
     }
 
 }

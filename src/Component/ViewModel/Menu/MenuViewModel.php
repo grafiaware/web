@@ -160,9 +160,9 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
         $rootNode = reset($nodes);
             // remove root
 //        since PHP 7.3 the first value of $array may be accessed with $array[array_key_first($array)];
-//        if (!$this->withRootItem) {
-//            $removed = array_shift($nodes);   //odstraní první prvek s indexem [0] a výsledné pole opět začína prvkem s indexem [0]
-//        }
+        if (!$this->withRootItem) {
+            $removed = array_shift($nodes);   //odstraní první prvek s indexem [0] a výsledné pole opět začína prvkem s indexem [0]
+        }
         $presentedNode = $this->getPresentedMenuNode($rootNode);
         if (isset($presentedNode)) {
             $presentedUid = $presentedNode->getUid();
@@ -199,7 +199,9 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
             $nodeUid = $node->getUid();
             $isPresented = isset($presentedUid) ? ($presentedUid == $nodeUid) : FALSE;
             $isCutted = $pasteUid == $nodeUid;
-
+        if (!$isLeaf) {
+            $title = $node->getMenuItem()->getTitle();
+        }
             $itemViewModel = new ItemViewModel($node, $realDepth, $isOnPath, $isLeaf, $isPresented, $pasteMode, $isCutted, $menuEditable);
 
             $models[] = $itemViewModel;

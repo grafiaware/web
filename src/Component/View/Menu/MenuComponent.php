@@ -142,7 +142,6 @@ class MenuComponent extends StatusComponentAbstract implements MenuComponentInte
             $levelComponent = new LevelComponent($this->configuration);
             $levelComponent->setRendererName($this->levelWrapRendererName);
             $levelComponent->setRendererContainer($this->rendererContainer);
-            $index = 0;
             foreach ($itemViewModelStack[$i] as $itemViewModel) {
                 /** @var ItemViewModelInterface $itemViewModel */
                 if($editableMode) {
@@ -152,10 +151,9 @@ class MenuComponent extends StatusComponentAbstract implements MenuComponentInte
                 }
                 $nextLevel = $itemViewModel->getChild();
                 if (isset($nextLevel)) {
-                    $item->appendComponentView($nextLevel, 'level'.$itemViewModel->getRealDepth());
+                    $item->appendComponentView($nextLevel, uniqid('level'));
                 }
-                $index++;  // udělátko
-                $levelComponent->appendComponentView($item, 'item'.$index);
+                $levelComponent->appendComponentView($item, uniqid('item'));
             }
             unset($itemViewModelStack[$i]);
             end($itemViewModelStack[$i-1])->setChild($levelComponent);
@@ -175,10 +173,10 @@ class MenuComponent extends StatusComponentAbstract implements MenuComponentInte
             }
             $nextLevel = $itemViewModel->getChild();
             if (isset($nextLevel)) {
-                $item->appendComponentView($nextLevel, 'level'.$itemViewModel->getRealDepth());
+                $item->appendComponentView($nextLevel, uniqid('level')); //'level'.$itemViewModel->getRealDepth());
             }
             $index++;  // udělátko
-            $this->appendComponentView($item, 'item'.$index);
+            $this->appendComponentView($item, uniqid('item'));
         }
     }
 }
