@@ -3,9 +3,6 @@ declare(strict_types=1);
 
 
 use Test\AppRunner\AppRunner;
-
-use Pes\Container\Container;
-
 use Test\Integration\Event\Container\EventsContainerConfigurator;
 use Test\Integration\Event\Container\DbEventsContainerConfigurator;
 
@@ -13,10 +10,14 @@ use Events\Model\Dao\EventContentTypeDao;
 use Events\Model\Dao\EventContentDao;
 
 use Model\Dao\Exception\DaoKeyVerificationFailedException;
+//use Model\Dao\Exception\DaoParamsBindNamesMismatchException;
+
 use Model\RowData\RowData;
 use Model\RowData\RowDataInterface;
 
+use Pes\Container\Container;
 use Pes\Database\Statement\Exception\ExecuteException;
+
 /**
  *
  * @author pes2704
@@ -55,12 +56,12 @@ class EventContentTypeDaoTest extends AppRunner {
             (new EventsContainerConfigurator())->configure(
                 (new DbEventsContainerConfigurator())->configure(new Container())
         );
-        //event_content uklidit
-        /** @var EventContentDao $eventContentDao */         
-        $eventContentDao = $container->get(EventContentDao::class);
-        $rowData = new RowData();
-        $rowData->import(self::$eventContentIdTouple);
-        $eventContentDao->delete($rowData);
+        //event_content uklidit -  neni treba
+//        /** @var EventContentDao $eventContentDao */         
+//        $eventContentDao = $container->get(EventContentDao::class);
+//        $rowData = new RowData();
+//        $rowData->import(self::$eventContentIdTouple); //nevim, zda se da naplnovat pro delete takto
+//        $eventContentDao->delete($rowData);
     }
 
     public function testSetUp() {
@@ -92,16 +93,18 @@ class EventContentTypeDaoTest extends AppRunner {
 
         
     }
-
-    public function testInsertDaoKeyVerificationFailedException() {
-        $type =  "testEventContentType";
+    
+    // ######################### test na neco co nevim ####################################
+    public function testInsertDaoKeyVerificationFailedException() {        
         $rowData = new RowData();
-        $rowData->offsetSet('type', $type);
-        $rowData->offsetSet('name', "test_name_" . (string) (random_int(0, 999)));
+        //$rowData->offsetSet('type', $type  );
+        $rowData->import( self::$eventContentTypeTouple);
+        $rowData->offsetSet('name', "name_pro testContenTypeDao" );          //. (string) (random_int(0, 999)
         $this->expectException(DaoKeyVerificationFailedException::class);
         $this->dao->insert($rowData);
     }
 
+    
     public function testGetExistingRow() {
         $eventContentTypeRow = $this->dao->get(self::$eventContentTypeTouple);
         $this->assertInstanceOf(RowDataInterface::class, $eventContentTypeRow);
@@ -137,16 +140,26 @@ class EventContentTypeDaoTest extends AppRunner {
     }
     
     public function testDeleteException() {
-        $this->expectException(ExecuteException:);
+//        $eventContentTypeRow = new RowData();
+//        $eventContentTypeRow->import( ['type' => self::$eventContentTypeTouple['type'] ] );
+//        //$this->expectException(ExecuteException::class);
+//        $this->expectException(DaoParamsBindNamesMismatchException::class);
+//        $this->dao->delete($eventContentTypeRow);
+        
+        $eventContentTypeRow = $this->dao->get(self::$eventContentTypeTouple);
+        $this->expectException(ExecuteException::class);
         $this->dao->delete($eventContentTypeRow);
+
     }
     
     public function testDelete() {
         /** @var EventContentDao $eventContentDao */         
-        $eventContentDao = $container->get(EventContentDao::class);
-        $rowData = new RowData();
-        $rowData->import(self::$eventContentIdTouple);
-        $eventContentDao->delete($rowData);                
+        $eventContentDao = $this->container->get(EventContentDao::class);
+        $eventContentRow = $eventContentDao->get( self::$eventContentIdTouple );
+        $eventContentDao->delete($eventContentRow);                
+//        $rowData = new RowData();
+//        $rowData->import( ['id' => self::$eventContentIdTouple['id'] ] );
+//        $eventContentDao->delete($rowData);                
         
         $eventContentTypeRow = $this->dao->get(self::$eventContentTypeTouple);
         $this->dao->delete($eventContentTypeRow);
