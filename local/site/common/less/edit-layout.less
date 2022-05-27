@@ -28,6 +28,9 @@
 //Svislé menu
 @svisleMenuWidth: 107%;
 @svisleMenuHeight: 650px; //pro overflow
+@svisleMenuParagraphMarginTop: 10px;
+@svisleMenuParagraphMarginRight: auto;
+@svisleMenuParagraphMarginBottom: 0;
 @svisleMenuParagraphMarginLeft: -3px;
 @svisleMenuMargin: @hodnota0 @hodnota0 @hodnota0 -8px;
 @svisleMenuOverflow: hidden scroll;
@@ -127,7 +130,7 @@ body{
         margin: @svisleMenuMargin;
         padding-left: @svisleMenuPaddingLeft; 
         p{
-            margin-left: @svisleMenuParagraphMarginLeft !important ; 
+            margin: @svisleMenuParagraphMarginTop @svisleMenuParagraphMarginRight @svisleMenuParagraphMarginBottom @svisleMenuParagraphMarginLeft !important; 
         }
         .menu.edit{ 
             .menu {
@@ -167,11 +170,11 @@ body{
     }
     /*PRESMEROVANI MENU*/
     .presmerovani-menu{
-        .menu.edit .item{
+        .item{
             margin-right: @presmerovaniMenuItemMaginRight;
         }
         .semafor{
-            left: -15px; 
+            left: -5px; 
         }
     }
     /*VODOROVNE MENU*/

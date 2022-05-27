@@ -244,6 +244,7 @@ var plugins = [
        'table', // adds table management functionality
        'template', // adds support for custom templates. It also adds a menu item and a toolbar button
        //'quickbars',
+       'textpattern'
     ];
 
 
@@ -368,7 +369,15 @@ var editHtmlConfig = {
     file_picker_callback: file_picker_callback_function,
     images_upload_handler: image_upload_handler,
 
-    setup: editorFunction  // callback that will be executed before the TinyMCE editor instance is rendered
+    setup: editorFunction,  // callback that will be executed before the TinyMCE editor instance is rendered
+    
+    
+    /**/
+    paste_as_text: true,
+    text_patterns: [
+        { start: '*', end: '*', format: 'italic' },
+        { start: '**', end: '**', format: 'bold' },
+    ],
 };
 var editMceEditableConfig = {
     selector: 'form .edit-mceeditable',
