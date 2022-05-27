@@ -2,6 +2,8 @@
 
 namespace Component\View\Menu;
 
+use Pes\View\ViewInterface;
+
 use Component\View\StatusComponentAbstract;
 use Component\ViewModel\Menu\MenuViewModelInterface;
 use Component\ViewModel\Menu\Item\ItemViewModel;
@@ -89,17 +91,11 @@ class MenuComponent extends StatusComponentAbstract implements MenuComponentInte
         // minimální hloubka u menu bez zobrazení kořenového prvku je 2 (pro 1 je nodes pole v modelu prázdné), u menu se zobrazením kořenového prvku je minimálmí hloubka 1, ale nodes pak obsahuje jen kořenový prvek
         $this->contextData->setMaxDepth(null);
 
-        $editableMode = $this->contextData->presentEditableMenu() AND $this->isAllowedToPresent(AccessPresentationEnum::EDIT);
-        $this->addSubtreeComponents($this->contextData->getItemModels());
-
-    }
-
-    protected function addSubtreeComponents($subtreeItemModels) {
+        $subtreeItemModels = $this->contextData->getItemModels();
         $editableMode = $this->contextData->presentEditableMenu() AND $this->isAllowedToPresent(AccessPresentationEnum::EDIT);
 
-        if (!$subtreeItemModels) {
+        if ($subtreeItemModels) {
             $level = '';
-        } else {
             $itemTags = [];
             $first = true;
             foreach ($subtreeItemModels as $itemViewModel) {
@@ -114,46 +110,35 @@ class MenuComponent extends StatusComponentAbstract implements MenuComponentInte
                     $itemViewModelStack[$itemDepth][] = $itemViewModel;
                     $currDepth = $itemDepth;
                 } elseif ($itemDepth<$currDepth) {
-                    $this->addStackedItems($currDepth, $itemDepth, $itemViewModelStack, $editableMode);
+                    $this->createLevelComponent($currDepth, $itemDepth, $itemViewModelStack, $editableMode);
                     $itemViewModelStack[$itemDepth][] = $itemViewModel;
                     $currDepth = $itemDepth;
                 } else {
                     $itemViewModelStack[$currDepth][] = $itemViewModel;
                 }
             }
-            $this->addStackedItems($currDepth, $rootDepth, $itemViewModelStack, $editableMode);
-            $level = $this->addLastLevel($itemViewModelStack[$rootDepth], $editableMode);
+            $this->createLevelComponent($currDepth, $rootDepth, $itemViewModelStack, $editableMode);
+            $this->addLastLevelItemComponents($itemViewModelStack[$rootDepth], $editableMode);
         }
-        return $level;
     }
 
-    private function addStackedItems($currDepth, $targetDepth, &$itemViewModelStack, $editableMode) {
+    private function createLevelComponent($currDepth, $targetDepth, &$itemViewModelStack, $editableMode) {
         for ($i=$currDepth; $i>$targetDepth; $i--) {
             $levelComponent = new LevelComponent($this->configuration);
-            $levelComponent->setRendererName($this->levelWrapRendererName);
-            $levelComponent->setRendererContainer($this->rendererContainer);
-            foreach ($itemViewModelStack[$i] as $itemViewModel) {
-                /** @var ItemViewModelInterface $itemViewModel */
-                if($editableMode) {
-                    $item = (new ElementComponent($this->configuration))->setData($itemViewModel)->setRendererName($this->itemEditableRendererName)->setRendererContainer($this->rendererContainer);
-                } else {
-                    $item =  (new ElementComponent($this->configuration))->setData($itemViewModel)->setRendererName($this->itemRendererName)->setRendererContainer($this->rendererContainer);
-                }
-                $nextLevel = $itemViewModel->getChild();
-                if (isset($nextLevel)) {
-                    $item->appendComponentView($nextLevel, uniqid('level'));
-                }
-                $levelComponent->appendComponentView($item, uniqid('item'));
-            }
+            $this->appendItemComponents($levelComponent, $itemViewModelStack[$i], $editableMode);
             unset($itemViewModelStack[$i]);
             end($itemViewModelStack[$i-1])->setChild($levelComponent);
         }
     }
 
-    private function addLastLevel($itemViewModelStack, $editableMode): void {
-        $this->setRendererName($this->levelWrapRendererName);
-        $this->setRendererContainer($this->rendererContainer);
-        foreach ($itemViewModelStack as $itemViewModel) {
+    private function addLastLevelItemComponents(&$itemViewModelStackLevel, $editableMode): void {
+        $this->appendItemComponents($this, $itemViewModelStackLevel, $editableMode);
+    }
+
+    private function appendItemComponents(ViewInterface $component, $itemViewModelStackLevel, $editableMode) {
+        $component->setRendererName($this->levelWrapRendererName);
+        $component->setRendererContainer($this->rendererContainer);
+        foreach ($itemViewModelStackLevel as $itemViewModel) {
             /** @var ItemViewModelInterface $itemViewModel */
             if($editableMode) {
                 $item = (new ElementComponent($this->configuration))->setData($itemViewModel)->setRendererName($this->itemEditableRendererName)->setRendererContainer($this->rendererContainer);
@@ -164,7 +149,7 @@ class MenuComponent extends StatusComponentAbstract implements MenuComponentInte
             if (isset($nextLevel)) {
                 $item->appendComponentView($nextLevel, uniqid('level')); //'level'.$itemViewModel->getRealDepth());
             }
-            $this->appendComponentView($item, uniqid('item'));
+            $component->appendComponentView($item, uniqid('item'));
         }
     }
 }

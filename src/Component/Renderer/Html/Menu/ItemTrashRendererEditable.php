@@ -79,11 +79,6 @@ class ItemTrashRendererEditable extends ItemRendererEditable {
         return $buttons;
     }
 
-    private function renderCuttedItemButtons(MenuItemInterface $menuItem) {
-        $buttons[] = $this->getButtonCutted($menuItem);
-        return $buttons;
-    }
-
     private function getButtonDelete(MenuItemInterface $menuItem) {
         return
             Html::tag('button', [
@@ -99,34 +94,6 @@ class ItemTrashRendererEditable extends ItemRendererEditable {
                         Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.delete'),])
                         .Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.exclamation'),])
                 )
-            );
-    }
-
-    private function getButtonCut(MenuItemInterface $menuItem) {
-        return
-            Html::tag('button', [
-                'class'=>$this->classMap->get('Buttons', 'button'),
-                'data-tooltip'=>'Vybrat k přesunutí',
-                'data-position'=>'top right',
-                'type'=>'submit',
-                'formmethod'=>'post',
-                'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/cut",
-
-                    ],
-                Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.cut')])
-            );
-    }
-    private function getButtonCutted(MenuItemInterface $menuItem) {
-        return  Html::tag('button', [
-                'class'=>$this->classMap->get('Buttons', 'button'),
-                'data-tooltip'=>'Zrušit přesunutí',
-                'data-position'=>'top right',
-                'type'=>'submit',
-                'name'=>'move',
-                'formmethod'=>'post',
-                'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/cut",
-                    ],
-                Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.cutted')])
             );
     }
 

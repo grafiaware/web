@@ -45,7 +45,7 @@ class ItemRendererEditable extends HtmlRendererAbstract {
                     $buttonsHtml = $this->renderPasteButtons($menuItem);
                 }
             } else {
-                $buttonsHtml = array_merge($this->getItemButtons($menuItem),$this->renderMenuManipulationButtons($menuItem));
+                $buttonsHtml = array_merge($this->renderItemManipulationButtons($menuItem),$this->renderMenuManipulationButtons($menuItem));
             }
 
             $liInnerHtml[] =
@@ -129,7 +129,7 @@ class ItemRendererEditable extends HtmlRendererAbstract {
         return $html;
     }
 
-    private function getItemButtons(MenuItemInterface $menuItem) {
+    private function renderItemManipulationButtons(MenuItemInterface $menuItem) {
         $buttons[] = $this->getButtonActive($menuItem);
         $buttons[] = $this->getButtonTrash($menuItem);
         return $buttons;
