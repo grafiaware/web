@@ -44,15 +44,15 @@ class ItemActionControler extends FrontControlerAbstract {
 
     public function addUserItemAction(ServerRequestInterface $request, $typeFk, $itemId) {
         $userActions = $this->statusPresentationRepo->get()->getUserActions();
-        $typeFk = (new AuthoredTypeEnum())($typeFk);
-        if (! $userActions->hasUserItemAction($typeFk, $itemId)) {
+        $typeFkEnumValue = (new AuthoredTypeEnum())($typeFk);
+        if (! $userActions->hasUserItemAction($typeFkEnumValue, $itemId)) {
             $itemAction = new ItemAction();
-            $itemAction->setTypeFk($typeFk);
+            $itemAction->setTypeFk($typeFkEnumValue);
             $itemAction->setItemId($itemId);
             $itemAction->setEditorLoginName($this->statusSecurityRepo->get()->getLoginAggregate()->getLoginName());
             $this->itemActionRepo->add($itemAction);  // do repo
             $userActions->addUserItemAction($itemAction);  // do statusu
-            $this->addFlashMessage("add user action for $typeFk (item $itemId)", FlashSeverityEnum::INFO);
+            $this->addFlashMessage("add user action for $typeFkEnumValue (item $itemId)", FlashSeverityEnum::INFO);
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
