@@ -13,20 +13,12 @@ use Model\Entity\EntityGeneratedKeyInterface;
  */
 class EventContentType extends EntityAbstract implements EventContentTypeInterface {
 
-    private $keyAttribute = 'type';
-
     private $type;
 
     /**
      * @var string
      */
     private $name;
-
-    
-    
-    public function getKeyAttribute() {
-        return $this->keyAttribute;
-    }
 
     public function getType(): ?string {
         return $this->type;

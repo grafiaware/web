@@ -3,19 +3,20 @@ declare(strict_types=1);
 
 
 use Test\AppRunner\AppRunner;
-
-use Pes\Container\Container;
-
 use Test\Integration\Event\Container\EventsContainerConfigurator;
 use Test\Integration\Event\Container\DbEventsContainerConfigurator;
 
 use Events\Model\Dao\EventContentTypeDao;
-use Model\Dao\DaoEditKeyDbVerifiedInterface;
+use Events\Model\Dao\EventContentDao;
 
-use Model\Dao\Exception\DaoForbiddenOperationException;
 use Model\Dao\Exception\DaoKeyVerificationFailedException;
+//use Model\Dao\Exception\DaoParamsBindNamesMismatchException;
+
 use Model\RowData\RowData;
 use Model\RowData\RowDataInterface;
+
+use Pes\Container\Container;
+use Pes\Database\Statement\Exception\ExecuteException;
 
 /**
  *
@@ -32,7 +33,8 @@ class EventContentTypeDaoTest extends AppRunner {
      */
     private $dao;
 
-    private static $id;
+    private static $eventContentTypeTouple;
+    private static $eventContentIdTouple;
 
     public static function setUpBeforeClass(): void {
         self::bootstrapBeforeClass();
@@ -50,7 +52,16 @@ class EventContentTypeDaoTest extends AppRunner {
     }
 
     public static function tearDownAfterClass(): void {
-
+        $container =
+            (new EventsContainerConfigurator())->configure(
+                (new DbEventsContainerConfigurator())->configure(new Container())
+        );
+        //event_content uklidit -  neni treba
+//        /** @var EventContentDao $eventContentDao */         
+//        $eventContentDao = $container->get(EventContentDao::class);
+//        $rowData = new RowData();
+//        $rowData->import(self::$eventContentIdTouple); //nevim, zda se da naplnovat pro delete takto
+//        $eventContentDao->delete($rowData);
     }
 
     public function testSetUp() {
@@ -59,37 +70,53 @@ class EventContentTypeDaoTest extends AppRunner {
     }
 
     public function testInsert() {
-        $type =  "testEventContentType";
-        self::$id =  ['type'=>$type];
+        $type =  "testEventContentType". uniqid();
+        self::$eventContentTypeTouple =  ['type'=>$type];
 
         $rowData = new RowData();
         $rowData->offsetSet('type', $type);
         $rowData->offsetSet('name', "test_name_" . (string) (random_int(0, 999)));
         $this->dao->insert($rowData);
         $this->assertEquals(1, $this->dao->getRowCount());
-    }
-
-    public function testInsertDaoKeyVerificationFailedException() {
-        $type =  "testEventContentType";
+        
+        //event_content
+        /** @var EventContentDao $eventContentDao */         
+        $eventContentDao = $this->container->get(EventContentDao::class);
         $rowData = new RowData();
-        $rowData->offsetSet('type', $type);
-        $rowData->offsetSet('name', "test_name_" . (string) (random_int(0, 999)));
+        $rowData->offsetSet('title', "testEventTypeContentDao-title");
+        $rowData->offsetSet('perex', "-perex");
+        $rowData->offsetSet('party', "-party");
+        $rowData->offsetSet('event_content_type_fk', $type);
+        $rowData->offsetSet('institution_id_fk',null ) ;
+        $eventContentDao->insert($rowData);
+        self::$eventContentIdTouple =  $eventContentDao->getLastInsertIdTouple();
+
+        
+    }
+    
+    // ######################### test na neco co nevim ####################################
+    public function testInsertDaoKeyVerificationFailedException() {        
+        $rowData = new RowData();
+        //$rowData->offsetSet('type', $type  );
+        $rowData->import( self::$eventContentTypeTouple);
+        $rowData->offsetSet('name', "name_pro testContenTypeDao" );          //. (string) (random_int(0, 999)
         $this->expectException(DaoKeyVerificationFailedException::class);
         $this->dao->insert($rowData);
     }
 
+    
     public function testGetExistingRow() {
-        $eventContentTypeRow = $this->dao->get(self::$id);
+        $eventContentTypeRow = $this->dao->get(self::$eventContentTypeTouple);
         $this->assertInstanceOf(RowDataInterface::class, $eventContentTypeRow);
     }
 
     public function test2Columns() {
-        $eventContentTypeRow = $this->dao->get(self::$id);
+        $eventContentTypeRow = $this->dao->get(self::$eventContentTypeTouple);
         $this->assertCount(2, $eventContentTypeRow);
     }
 
     public function testUpdate() {
-        $eventContentTypeRow = $this->dao->get(self::$id);
+        $eventContentTypeRow = $this->dao->get(self::$eventContentTypeTouple);
         $name = $eventContentTypeRow['name'];
         $this->assertIsString($eventContentTypeRow['name']);
         //
@@ -100,7 +127,7 @@ class EventContentTypeDaoTest extends AppRunner {
         $this->assertEquals(1, $this->dao->getRowCount());
 
         $this->setUp();
-        $eventContentTypeRowRereaded = $this->dao->get(self::$id);
+        $eventContentTypeRowRereaded = $this->dao->get(self::$eventContentTypeTouple);
         $this->assertEquals($eventContentTypeRow, $eventContentTypeRowRereaded);
         $this->assertContains('test_name_updated', $eventContentTypeRowRereaded['name']);
     }
@@ -111,14 +138,36 @@ class EventContentTypeDaoTest extends AppRunner {
         $this->assertGreaterThanOrEqual(1, count($eventContentTypeRow));
         $this->assertInstanceOf(RowDataInterface::class, $eventContentTypeRow[0]);
     }
+    
+    public function testDeleteException() {
+//        $eventContentTypeRow = new RowData();
+//        $eventContentTypeRow->import( ['type' => self::$eventContentTypeTouple['type'] ] );
+//        //$this->expectException(ExecuteException::class);
+//        $this->expectException(DaoParamsBindNamesMismatchException::class);
+//        $this->dao->delete($eventContentTypeRow);
+        
+        $eventContentTypeRow = $this->dao->get(self::$eventContentTypeTouple);
+        $this->expectException(ExecuteException::class);
+        $this->dao->delete($eventContentTypeRow);
 
+    }
+    
     public function testDelete() {
-        $eventContentTypeRow = $this->dao->get(self::$id);
+        /** @var EventContentDao $eventContentDao */         
+        $eventContentDao = $this->container->get(EventContentDao::class);
+        $eventContentRow = $eventContentDao->get( self::$eventContentIdTouple );
+        $eventContentDao->delete($eventContentRow);                
+//        $rowData = new RowData();
+//        $rowData->import( ['id' => self::$eventContentIdTouple['id'] ] );
+//        $eventContentDao->delete($rowData);                
+        
+        $eventContentTypeRow = $this->dao->get(self::$eventContentTypeTouple);
         $this->dao->delete($eventContentTypeRow);
         $this->assertEquals(1, $this->dao->getRowCount());
 
         $this->setUp();
-        $eventContentTypeRow = $this->dao->get(self::$id);
-        $this->assertNull($eventContentTypeRow);
+        $eventContentTypeRowRev = $this->dao->get(self::$eventContentTypeTouple);
+        $this->assertNull($eventContentTypeRowRev);
+                
     }
 }

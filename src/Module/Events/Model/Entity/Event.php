@@ -9,24 +9,17 @@ use Events\Model\Entity\EventInterface;
 /**
  * Description
  *
- * @author 
+ * @author
  */
 class Event extends EntityAbstract implements EventInterface {
-
-    private $keyAttribute = 'id';
 
     private $id;
     private $published;
     private $start;
     private $end;
     private $enrollLinkIdFk;
-    private $enterLinkIdFk; 
+    private $enterLinkIdFk;
     private $eventContentIdFk;
-
-
-    public function getKeyAttribute() {
-        return $this->keyAttribute;
-    }
 
     public function getId(): ?int {
         return $this->id;
@@ -43,7 +36,7 @@ class Event extends EntityAbstract implements EventInterface {
     public function getEnd(): ?\DateTime {
         return $this->end;
     }
-    
+
     public function getEnrollLinkIdFk() : ?int {
         return $this->enrollLinkIdFk;
     }
@@ -51,12 +44,12 @@ class Event extends EntityAbstract implements EventInterface {
     public function getEnterLinkIdFk() : ?int {
         return $this->enterLinkIdFk;
     }
-    
-    public function getEventContentIdFk(): ?int {        
+
+    public function getEventContentIdFk(): ?int {
         return $this->eventContentIdFk;
     }
-       
-    
+
+
 
     public function setId($id): EventInterface {
         $this->id = $id;

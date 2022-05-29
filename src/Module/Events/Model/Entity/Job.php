@@ -12,98 +12,82 @@ use Model\Entity\EntityAbstract;
  * @author vlse2610
  */
 class Job extends EntityAbstract implements JobInterface {
-//    `job` 
-//  `id` // NOT NULL AUTO_INCREMENT,
-//  `company_id` // int NOT NULL,     fk
-//  `pozadovane_vzdelani_stupen` //int(11) NOT NULL,   fk
-//  `nazev` varchar(45) 
-//  `misto_vykonu` varchar(45) 
-//  `popis_pozice` varchar(1000) 
-//  `pozadujeme` varchar(1000) 
-//  `nabizime` varchar(1000) 
-    
-    private $keyAttribute = 'id';
-    
+
     private $id;
     private $companyId;
-    private $pozadovaneVzdelaniStupen; 
+    private $pozadovaneVzdelaniStupen;
     private $nazev;
     private $mistoVykonu;
     private $popisPozice;
-    private $pozadujeme; 
+    private $pozadujeme;
     private $nabizime;
-    
-    public function getKeyAttribute() {
-        return $this->keyAttribute;
-    }
-    
-    
+
     public function getId()  {
         return $this->id;
     }
-    
+
     /**
-     * 
+     *
      * @return int
      */
     public function getCompanyId() : int {
         return $this->companyId;
     }
     /**
-     * 
+     *
      * @return int
      */
     public function getPozadovaneVzdelaniStupen() : int {
         return $this->pozadovaneVzdelaniStupen;
     }
     /**
-     * 
+     *
      * @return string|null
      */
     public function getNazev(): ?string {
         return $this->nazev;
     }
     /**
-     * 
+     *
      * @return string|null
      */
     public function getMistoVykonu() : ?string{
         return $this->mistoVykonu;
     }
     /**
-     * 
+     *
      * @return string|null
      */
     public function getPopisPozice() : ?string{
         return $this->popisPozice;
     }
     /**
-     * 
+     *
      * @return string|null
      */
     public function getPozadujeme() : ?string{
         return $this->pozadujeme;
     }
     /**
-     * 
+     *
      * @return string|null
      */
     public function getNabizime(): ?string {
         return $this->nabizime;
     }
 
-    
+
     /**
-     * 
+     *
      * @param type $id
      * @return JobInterface
      */
     public function setId($id) : JobInterface{
         $this->id = $id;
         return $this;
-    } 
+    }
     /**
-     * 
+     *
      * @param int $companyId
      * @return JobInterface
      */
@@ -112,7 +96,7 @@ class Job extends EntityAbstract implements JobInterface {
         return $this;
     }
     /**
-     * 
+     *
      * @param int $pozadovaneVzdelaniStupen
      * @return JobInterface
      */
@@ -121,7 +105,7 @@ class Job extends EntityAbstract implements JobInterface {
         return $this;
     }
     /**
-     * 
+     *
      * @param string $nazev
      * @return JobInterface
      */
@@ -130,7 +114,7 @@ class Job extends EntityAbstract implements JobInterface {
         return $this;
     }
     /**
-     * 
+     *
      * @param string $mistoVykonu
      * @return JobInterface
      */
@@ -138,9 +122,9 @@ class Job extends EntityAbstract implements JobInterface {
         $this->mistoVykonu = $mistoVykonu;
         return $this;
     }
-    
+
     /**
-     * 
+     *
      * @param string $popisPozice
      * @return JobInterface
      */
@@ -149,7 +133,7 @@ class Job extends EntityAbstract implements JobInterface {
         return $this;
     }
    /**
-    * 
+    *
     * @param string $pozadujeme
     * @return JobInterface
     */
@@ -158,7 +142,7 @@ class Job extends EntityAbstract implements JobInterface {
         return $this;
     }
     /**
-     * 
+     *
      * @param string $nabizime
      * @return JobInterface
      */
@@ -168,5 +152,5 @@ class Job extends EntityAbstract implements JobInterface {
     }
 
 
- 
+
 }

@@ -23,6 +23,10 @@ use Events\Model\Dao\LoginDao;
 use Events\Model\Hydrator\LoginHydrator;
 use Events\Model\Repository\LoginRepo;
 
+use Events\Model\Dao\RepresentativeDao;
+use Events\Model\Hydrator\RepresentativeHydrator;
+//use RepresentativeRepo
+
 use Events\Model\Dao\EnrollDao;
 use Events\Model\Hydrator\EnrollHydrator;
 use Events\Model\Repository\EnrollRepo;
@@ -37,6 +41,7 @@ use Events\Model\Repository\EventContentTypeRepo;
 
 use Events\Model\Dao\EventContentDao;
 use Events\Model\Hydrator\EventContentHydrator;
+use Events\Model\Repository\EventContentRepo;
 
 use Events\Model\Dao\EventLinkPhaseDao;
 use Events\Model\Hydrator\EventLinkPhaseHydrator;
@@ -212,6 +217,17 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
             LoginRepo::class => function(ContainerInterface $c) {
                 return new LoginRepo($c->get(LoginDao::class), $c->get(LoginHydrator::class));
             },
+                    
+            // representative    
+            RepresentativeDao::class => function(ContainerInterface $c) {
+                return new RepresentativeDao($c->get(Handler::class), $c->get(Sql::class), PdoRowData::class);
+            },
+            RepresentativeHydrator::class => function(ContainerInterface $c) {
+                return new RepresentativeHydrator();
+            },
+            RepresentativeRepo::class => function(ContainerInterface $c) {
+                return new RepresentativeRepo($c->get(RepresentativeDao::class), $c->get(RepresentativeHydrator::class));
+            },
 
             // event
             EventDao::class => function(ContainerInterface $c) {
@@ -326,6 +342,8 @@ class EventsContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new CompanyContactRepo($c->get(CompanyContactDao::class), $c->get(CompanyContactHydrator::class));
             },
               
+                    
+                    
                     
             //Job  
              JobDao::class => function(ContainerInterface $c) {

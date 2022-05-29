@@ -22,12 +22,6 @@ class Statical extends EntityAbstract implements PaperInterface {
     private $path;
     private $folded;
 
-    private $keyAttribute = 'id';
-
-    public function getKeyAttribute() {
-        return $this->keyAttribute;
-    }
-
     public function getId() {
         return $this->id;
     }

@@ -22,12 +22,6 @@ class Document extends EntityAbstract implements DocumentInterface {
     private $documentFilename;
     private $documentMimetype;
 
-    private $keyAttribute = 'id';
-
-    public function getKeyAttribute() {
-        return $this->keyAttribute;
-    }
-
     public function getId() {
         return $this->id;
     }

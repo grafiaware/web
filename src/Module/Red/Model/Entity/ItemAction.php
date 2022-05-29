@@ -22,11 +22,6 @@ class ItemAction extends EntityAbstract implements ItemActionInterface {
     private $editorLoginName;
     private $created;
 
-    private $keyAttribute = ['type_fk', 'item_id'];
-
-    public function getKeyAttribute() {
-        return $this->keyAttribute;
-    }
     public function getTypeFk(): string {
         return $this->typeFk;
     }

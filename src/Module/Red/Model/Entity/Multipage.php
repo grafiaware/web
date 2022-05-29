@@ -24,8 +24,6 @@ class Multipage extends EntityAbstract implements MultipageInterface {
     private $editor;
     private $updated;
 
-    private $keyAttribute = 'id';
-
     public function getId() {
         return $this->id;
     }
@@ -49,10 +47,6 @@ class Multipage extends EntityAbstract implements MultipageInterface {
      */
     public function getUpdated(): ?DateTime {
         return $this->updated;
-    }
-
-    public function getKeyAttribute() {
-        return $this->keyAttribute;
     }
 
     public function setId($id): MultipageInterface {
