@@ -29,12 +29,6 @@ class VisitorProfile extends EntityAbstract implements VisitorProfileInterface {
     private $cvDocument;
     private $letterDocument;
 
-
-    private $keyAttribute = 'login_login_name';
-
-    public function getKeyAttribute() {
-        return $this->keyAttribute;
-    }
     public function getLoginLoginName() {
         return $this->loginLoginName;
     }

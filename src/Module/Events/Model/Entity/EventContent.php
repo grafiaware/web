@@ -13,8 +13,6 @@ use Model\Entity\EntityGeneratedKeyInterface;
  */
 class EventContent extends EntityAbstract implements EventContentInterface {
 
-    private $keyAttribute = 'id';
-
     private $id;
     private $title;
     private $perex;
@@ -22,9 +20,6 @@ class EventContent extends EntityAbstract implements EventContentInterface {
     private $eventContentTypeFk;
     private $institutionIdFk;
 
-    public function getKeyAttribute() {
-        return $this->keyAttribute;
-    }
     public function getId(): ?int {
         return $this->id;
     }

@@ -10,65 +10,59 @@ use Events\Model\Entity\CompanyContactInterface;
  * @author vlse2610
  */
 class CompanyContact extends EntityAbstract implements CompanyContactInterface {
-    
+
     private $id;  //NOT NULL
     private $companyId;   //NOT NULL
-        
+
     private $name;
     private $phones;
     private $mobiles;
     private $emails;
-        
-    private $keyAttribute = 'id';
-    
-    public function getKeyAttribute() {
-        return $this->keyAttribute;
-    }
-    
+
     /**
-     * 
+     *
      * @return int
      */
     public function getId() : int {
         return $this->id;
     }
     /**
-     * 
+     *
      * @return int
      */
     public function getCompanyId() : int {
         return $this->companyId;
     }
     /**
-     * 
+     *
      * @return string|null
      */
     public function getName() :?string {
         return $this->name;
     }
     /**
-     * 
+     *
      * @return string|null
      */
     public function getPhones() :?string {
         return $this->phones;
     }
     /**
-     * 
+     *
      * @return string|null
      */
     public function getMobiles() :?string {
         return $this->mobiles;
     }
     /**
-     * 
+     *
      * @return string|null
      */
     public function getEmails() :?string {
         return $this->emails;
     }
     /**
-     * 
+     *
      * @param type $id
      * @return CompanyContactInterface
      */
@@ -77,7 +71,7 @@ class CompanyContact extends EntityAbstract implements CompanyContactInterface {
         return $this;
     }
     /**
-     * 
+     *
      * @param int $company_id
      * @return CompanyContactInterface
      */
@@ -86,7 +80,7 @@ class CompanyContact extends EntityAbstract implements CompanyContactInterface {
         return $this;
     }
     /**
-     * 
+     *
      * @param string $name
      * @return CompanyContactInterface
      */
@@ -95,7 +89,7 @@ class CompanyContact extends EntityAbstract implements CompanyContactInterface {
         return $this;
     }
     /**
-     * 
+     *
      * @param string $phones
      * @return CompanyContactInterface
      */
@@ -104,7 +98,7 @@ class CompanyContact extends EntityAbstract implements CompanyContactInterface {
         return $this;
     }
     /**
-     * 
+     *
      * @param string $mobiles
      * @return CompanyContactInterface
      */
@@ -113,7 +107,7 @@ class CompanyContact extends EntityAbstract implements CompanyContactInterface {
         return $this;
     }
     /**
-     * 
+     *
      * @param string $emails
      * @return CompanyContactInterface
      */
@@ -121,5 +115,5 @@ class CompanyContact extends EntityAbstract implements CompanyContactInterface {
         $this->emails = $emails;
         return $this;
     }
-    
+
 }

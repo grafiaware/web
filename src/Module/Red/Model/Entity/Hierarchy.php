@@ -25,12 +25,6 @@ class Hierarchy extends EntityAbstract implements HierarchyInterface {
     private $depth;
     private $parentUid;
 
-    private $keyAttribute = 'uid';
-
-    public function getKeyAttribute() {
-        return $this->keyAttribute;
-    }
-
     public function getLeftNode() {
         return $this->leftNode;
     }

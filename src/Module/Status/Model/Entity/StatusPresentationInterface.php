@@ -8,7 +8,7 @@
 
 namespace Status\Model\Entity;
 
-use Model\Entity\EntitySingletonInterface;
+use Model\Entity\EntityInterface;
 
 use Red\Model\Entity\MenuItemInterface;
 use Red\Model\Entity\LanguageInterface;
@@ -21,7 +21,7 @@ use Status\Model\Entity\StatusPresentationInterface;
  *
  * @author pes2704
  */
-interface StatusPresentationInterface extends EntitySingletonInterface {
+interface StatusPresentationInterface extends EntityInterface {
 
     /**
      *

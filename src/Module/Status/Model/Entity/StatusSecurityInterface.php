@@ -8,7 +8,7 @@
 
 namespace Status\Model\Entity;
 
-use Model\Entity\EntitySingletonInterface;
+use Model\Entity\EntityInterface;
 
 use Auth\Model\Entity\LoginAggregateFullInterface;
 
@@ -23,7 +23,7 @@ use Auth\Model\Entity\LoginAggregateFullInterface;
  *
  * @author pes2704
  */
-interface StatusSecurityInterface extends EntitySingletonInterface {
+interface StatusSecurityInterface extends EntityInterface {
 
     /**
      *

@@ -24,13 +24,6 @@ class ActiveUser implements ActiveUserInterface {
 
     private $locker;
 
-
-    private $keyAttribute = 'user';
-
-    public function getKeyAttribute() {
-        return $this->keyAttribute;
-    }
-
     public function setHookedLocker(Closure $hookedLocker) {
         $this->locker = $hookedLocker;
     }

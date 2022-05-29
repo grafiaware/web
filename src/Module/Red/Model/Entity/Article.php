@@ -25,8 +25,6 @@ class Article extends EntityAbstract implements ArticleInterface {
     private $editor;
     private $updated;
 
-    private $keyAttribute = 'id';
-
     public function getId() {
         return $this->id;
     }
@@ -54,10 +52,6 @@ class Article extends EntityAbstract implements ArticleInterface {
      */
     public function getUpdated(): ?DateTime {
         return $this->updated;
-    }
-
-    public function getKeyAttribute() {
-        return $this->keyAttribute;
     }
 
     public function setId($id): ArticleInterface {

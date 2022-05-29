@@ -15,15 +15,7 @@ class EventLink extends EntityAbstract implements EventLinkInterface {
     private $show;
     private $href;
     private $linkPhaseIdFk;
-        
-    private $keyAttribute = 'id';
-        
-    public function getKeyAttribute() {
-        return $this->keyAttribute;
-    }
-    
-    
-    
+
     public function getId() : int {
         return $this->id;
     }

@@ -23,12 +23,6 @@ class Language extends EntityAbstract implements LanguageInterface {
     private $collation;
     private $state;
 
-    private $keyAttribute = 'lang_code';
-
-    public function getKeyAttribute() {
-        return $this->keyAttribute;
-    }
-
     public function getLangCode() {
         return $this->langCode;
     }

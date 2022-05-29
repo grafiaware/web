@@ -20,12 +20,6 @@ class Enroll extends EntityAbstract implements EnrollDaoInterface {
     private $loginLoginNameFk;
     private $eventIdFk;
 
-    private $keyAttribute = 'login_login_name_fk';
-
-    public function getKeyAttribute() {
-        return $this->keyAttribute;
-    }
-
     public function getLoginLoginNameFk(): string {
         return $this->loginLoginNameFk;
     }

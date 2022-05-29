@@ -28,12 +28,6 @@ class Paper extends EntityAbstract implements PaperInterface {
     private $editor;
     private $updated;
 
-    private $keyAttribute = 'id';
-
-    public function getKeyAttribute() {
-        return $this->keyAttribute;
-    }
-
     public function getId() {
         return $this->id;
     }

@@ -10,41 +10,34 @@ use Events\Model\Entity\CompanyInterface;
  * @author vlse2610
  */
 class Company  extends EntityAbstract implements CompanyInterface {
-    
+
     private $id;
     private $name;
     private $eventInstitutionName30;
-        
-    private $keyAttribute = 'id';
-        
-    public function getKeyAttribute() {
-        return $this->keyAttribute;
-    }
-    
-   
+
     /**
-     * 
+     *
      * @return int
-     */       
+     */
     public function getId() : int {
         return $this->id;
     }
     /**
-     * 
+     *
      * @return string|null
      */
     public function getName() : ?string {
         return $this->name;
-    }   
+    }
     /**
-     * 
+     *
      * @return string|null
-     */ 
+     */
     public function getEventInstitutionName30() : ?string {
         return $this->eventInstitutionName30;
     }
     /**
-     * 
+     *
      * @param type $id
      * @return CompanyInterface
      */
@@ -53,16 +46,16 @@ class Company  extends EntityAbstract implements CompanyInterface {
         return $this;
     }
     /**
-     * 
+     *
      * @param string $name
      * @return CompanyInterface
      */
     public function setName( string $name=null) :CompanyInterface {
         $this->name = $name;
         return $this;
-    }       
+    }
     /**
-     * 
+     *
      * @param string $eventInstitutionName30
      * @return CompanyInterface
      */
@@ -70,6 +63,6 @@ class Company  extends EntityAbstract implements CompanyInterface {
         $this->eventInstitutionName30 = $eventInstitutionName30;
         return $this;
     }
-      
+
 }
 

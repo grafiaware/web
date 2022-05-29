@@ -54,8 +54,8 @@ class EnrollDaoTest extends AppRunner {
         $loginData = new RowData();
         $loginData->import(['login_name' => $loginName]);
         $loginDao->insert($loginData);
-
         self::$login_login_name_fk = $loginDao->get(['login_name' => $loginName])['login_name'];
+        
         /** @var EventDao $eventDao */
         $eventDao = $container->get(EventDao::class);
         $eventData = new RowData();
@@ -84,6 +84,24 @@ class EnrollDaoTest extends AppRunner {
     }
 
     public static function tearDownAfterClass(): void {
+        $container =
+            (new EventsContainerConfigurator())->configure(
+                (new DbEventsContainerConfigurator())->configure(
+                    (new Container(
+                        )
+                    )
+                )
+            );
+        
+        $eventDao = $container->get(EventDao::class);
+        $eventRow = $eventDao->get( [ 'id' => self::$event_id_fk ] );
+        $eventDao->delete($eventRow);      
+        $eventRow = $eventDao->get( [ 'id' => self::$event_id_fk_2 ] );
+        $eventDao->delete($eventRow);      
+                
+        $loginDao = $container->get(LoginDao::class);
+        $loginRow  = $loginDao->get( ['login_name' => self::$login_login_name_fk  ] );
+        $loginDao->delete($loginRow); 
 
     }
 
@@ -98,10 +116,11 @@ class EnrollDaoTest extends AppRunner {
         $rowData = new RowData();
         $rowData->import(['login_login_name_fk' => self::$login_login_name_fk, 'event_id_fk' => self::$event_id_fk]);
         $this->dao->insert($rowData);
-        $this->assertEquals(1, $this->dao->getRowCount());
+        $this->assertEquals(1, $this->dao->getRowCount());       
+                
     }
 
-    public function testGetByPk() {
+    public function testGet() {
         $enrollRow = $this->dao->get(['login_login_name_fk' => self::$login_login_name_fk, 'event_id_fk' => self::$event_id_fk]);
         $this->assertInstanceOf(RowDataInterface::class, $enrollRow);
     }
@@ -173,6 +192,11 @@ class EnrollDaoTest extends AppRunner {
         $this->setUp();
         $this->dao->delete($enrollRow);
         $this->assertEquals(0, $this->dao->getRowCount());
+        
+       
+        
+        
+        
 
     }
 }
