@@ -14,16 +14,10 @@ use Auth\Model\Entity\EntityGeneratedKeyInterface;
  */
 class Login extends EntityAbstract implements LoginInterface {
 
-    private $keyAttribute = 'login_name';
-
     /**
      * @var string
      */
     private $loginName;
-
-    public function getKeyAttribute() {
-        return $this->keyAttribute;
-    }
 
     /**
      * Metoda vrací hash logiName pro účely generování tokenu uživatele. Neukládá v sobě token (není pak součástí serializovaných dat).

@@ -11,33 +11,26 @@ use Model\Entity\EntityAbstract;
  * @author vlse2610
  */
 class Representative  extends EntityAbstract implements RepresentativeInterface {
-    
+
     private $companyId;
     private $loginLoginName;
 
-    private $keyAttribute = 'company_id';
-    
-    public function getKeyAttribute() {
-        return $this->keyAttribute;
-    }
-    
-    
     /**
-     * 
+     *
      * @return int
      */
     public function getCompanyId() : int {
         return $this->companyId;
     }
     /**
-     * 
+     *
      * @return string
      */
     public function getLoginLoginName() :string {
         return $this->loginLoginName;
     }
     /**
-     * 
+     *
      * @param int $companyId
      * @return RepresentativeInterface
      */
@@ -46,7 +39,7 @@ class Representative  extends EntityAbstract implements RepresentativeInterface 
         return $this;
     }
     /**
-     * 
+     *
      * @param string $loginLoginName
      * @return RepresentativeInterface
      */
@@ -56,8 +49,8 @@ class Representative  extends EntityAbstract implements RepresentativeInterface 
     }
 
 
-    
-    
-    
-    
+
+
+
+
 }

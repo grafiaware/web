@@ -29,12 +29,6 @@ class VisitorJobRequest extends EntityAbstract implements VisitorJobRequestInter
     private $cvDocument;
     private $letterDocument;
 
-    private $keyAttribute = 'login_name';
-
-    public function getKeyAttribute() {
-        return $this->keyAttribute;
-    }
-
     public function getLoginLoginName() {
         return $this->loginLoginName;
     }

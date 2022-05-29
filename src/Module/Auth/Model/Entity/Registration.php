@@ -44,13 +44,6 @@ class Registration extends EntityAbstract implements RegistrationInterface {
      */
     private $created;
 
-
-    private $keyAttribute = 'login_name_fk';
-
-    public function getKeyAttribute() {
-        return $this->keyAttribute;
-    }
-
     /**
      *
      * @return string|null

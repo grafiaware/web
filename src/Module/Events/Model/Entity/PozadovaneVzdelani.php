@@ -14,29 +14,22 @@ class PozadovaneVzdelani extends EntityAbstract implements PozadovaneVzdelaniInt
     private $stupen;  //int NOT NULL
     private $vzdelani;   //NOT NULL
     
-    private $keyAttribute = 'stupen';
-      
-    public function getKeyAttribute() {
-        return $this->keyAttribute;
-    }
-    
-    
     /**
-     * 
+     *
      * @return int
      */
     public function getStupen() :int {
         return $this->stupen;
     }
     /**
-     * 
+     *
      * @return string
      */
     public function getVzdelani() :string {
         return $this->vzdelani;
     }
     /**
-     * 
+     *
      * @param type $stupen
      * @return PozadovaneVzdelaniInterface
      */
@@ -45,7 +38,7 @@ class PozadovaneVzdelani extends EntityAbstract implements PozadovaneVzdelaniInt
         return $this;
     }
     /**
-     * 
+     *
      * @param string $vzdelani
      * @return PozadovaneVzdelaniInterface
      */
@@ -55,5 +48,5 @@ class PozadovaneVzdelani extends EntityAbstract implements PozadovaneVzdelaniInt
     }
 
 
-    
+
 }

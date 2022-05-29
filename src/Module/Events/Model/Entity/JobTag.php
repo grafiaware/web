@@ -12,24 +12,18 @@ use Events\Model\Entity\JobTagInterface;
  */
 class JobTag  extends EntityAbstract implements JobTagInterface {
     private $tag;
-    
-    private $keyAttribute = 'tag';
-        
-    public function getKeyAttribute() {
-        return $this->keyAttribute;
-    }
-    
+
     /**
-     * 
+     *
      * @return string|null
      */
     public function getTag() : ?string {
         return $this->tag;
     }
-    
-       
+
+
     /**
-     * 
+     *
      * @param string $tag
      * @return JobTagInterface
      */
@@ -39,6 +33,6 @@ class JobTag  extends EntityAbstract implements JobTagInterface {
     }
 
 
-    
-    
+
+
 }

@@ -20,12 +20,6 @@ class MenuRoot extends EntityAbstract implements MenuRootInterface {
     private $name;
     private $uidFk;
 
-    private $keyAttribute = 'name';
-
-    public function getKeyAttribute() {
-        return $this->keyAttribute;
-    }
-
     public function getName() {
         return $this->name;
     }
