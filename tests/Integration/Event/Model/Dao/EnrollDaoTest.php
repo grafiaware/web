@@ -99,6 +99,7 @@ class EnrollDaoTest extends AppRunner {
         $eventRow = $eventDao->get( [ 'id' => self::$event_id_fk_2 ] );
         $eventDao->delete($eventRow);      
                 
+        /** @var LoginDao $loginDao */
         $loginDao = $container->get(LoginDao::class);
         $loginRow  = $loginDao->get( ['login_name' => self::$login_login_name_fk  ] );
         $loginDao->delete($loginRow); 
@@ -193,10 +194,17 @@ class EnrollDaoTest extends AppRunner {
         $this->dao->delete($enrollRow);
         $this->assertEquals(0, $this->dao->getRowCount());
         
-       
         
         
         
+        //zbytecny test
+        //smazal enroll,  nesmazal login  = OK
+        /** @var LoginDao $loginDao */
+        $loginDao = $this->container->get(LoginDao::class);
+        $loginRow  = $loginDao->get( ['login_name' => self::$login_login_name_fk  ] );       
+        $this->assertCount(1, $loginRow);
+
+         
 
     }
 }
