@@ -125,7 +125,7 @@ class CompanyContactDaoTest extends AppRunner {
         $this->setUp(); //nove dao
         $companyContactRowRereaded = $this->dao->get(self::$id);
         $this->assertEquals($companyContactRow, $companyContactRowRereaded);
-        $this->assertContains('name_updated', $companyContactRowRereaded['name']);
+        $this->assertStringContainsString('name_updated', $companyContactRowRereaded['name']);
     }
 
     public function testFind() {

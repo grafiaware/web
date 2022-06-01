@@ -194,10 +194,9 @@ class EnrollDaoTest extends AppRunner {
         $this->dao->delete($enrollRow);
         $this->assertEquals(0, $this->dao->getRowCount());
         
+      
         
-        
-        
-        //zbytecny test
+        //kontrola RESTRICT
         //smazal enroll,  nesmazal login  = OK
         /** @var LoginDao $loginDao */
         $loginDao = $this->container->get(LoginDao::class);
@@ -205,6 +204,6 @@ class EnrollDaoTest extends AppRunner {
         $this->assertCount(1, $loginRow);
 
          
-
+        //smazat v event vetu s  id=self::$event_id_fk - provede v tearDownAfterClass
     }
 }

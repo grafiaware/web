@@ -175,7 +175,7 @@ class EventDaoTest extends AppRunner {
         $this->setUp();
         $eventRowRereaded = $this->dao->get(self::$eventIdTouple);
         $this->assertEquals($eventRow, $eventRowRereaded);
-        $this->assertContains('2011-03-03', $eventRowRereaded['start']);
+        $this->assertStringContainsString('2011-03-03', $eventRowRereaded['start']);
     }
 
     public function testFind() {
@@ -231,6 +231,7 @@ class EventDaoTest extends AppRunner {
         
         
         //zkontrolovat, ze smazal i radku v enroll = hledat a nenajit
+        // kontrola CASCADE
          /** @var EnrollDao $enrollDao */
         $enrollDao = $this->container->get(EnrollDao::class);
         $this->assertCount( 0 ,$enrollDao->findByEventIdFk( ['event_id_fk' => self::$eventIdTouple['id']  ] ) );                       

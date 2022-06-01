@@ -9,8 +9,10 @@ use Test\Integration\Event\Container\EventsContainerConfigurator;
 use Test\Integration\Event\Container\DbEventsContainerConfigurator;
 
 use Events\Model\Dao\InstitutionTypeDao;
+use Events\Model\Dao\InstitutionDao;
 use Model\RowData\RowData;
 use Model\RowData\RowDataInterface;
+use Pes\Database\Statement\Exception\ExecuteException;
 
 /**
  *
@@ -27,10 +29,15 @@ class InstitutionTypeDaoTest extends AppRunner {
      */
     private $dao;
 
-    private static $id;
+    private static $idInstitutionTypeTouple;
+    private static $institutionIdTouple;
 
-    public static function setUpBeforeClass(): void {
+    public static function setUpBeforeClass(): void {                
         self::bootstrapBeforeClass();
+        
+        
+        
+        
     }
 
     protected function setUp(): void {
@@ -52,29 +59,38 @@ class InstitutionTypeDaoTest extends AppRunner {
         $this->assertInstanceOf(InstitutionTypeDao::class, $this->dao);
 
     }
+    
       public function testInsert() {
         $rowData = new RowData();
-        $rowData->offsetSet('institution_type', "testInstitutionTypeDao-tt--type");
-
+        $rowData->offsetSet('institution_type', "testInstitutionTypeDao-tt-");
         $this->dao->insert($rowData);
-        self::$id =  $this->dao->getLastInsertIdTouple();
-        $this->assertIsArray(self::$id);
+        self::$idInstitutionTypeTouple =  $this->dao->getLastInsertIdTouple();
+        $this->assertIsArray(self::$idInstitutionTypeTouple);
         $numRows = $this->dao->getRowCount();
         $this->assertEquals(1, $numRows);
+        
+        //vyrobit Institution vetu
+        $institutionDao = $this->container->get( InstitutionDao::class);
+        $institutionData = new RowData();
+        $institutionData->import( ['name' => 'proInstitutionTypeDaoTest'   ] );
+        $institutionData->import( ['institution_type_id' => self::$idInstitutionTypeTouple['id']  ] );
+        $institutionDao->insert($institutionData);    
+        self::$institutionIdTouple = $institutionDao->getLastInsertIdTouple();
+        
     }
 
     public function testGetExistingRow() {
-        $institutionTypeRow = $this->dao->get(self::$id);
+        $institutionTypeRow = $this->dao->get(self::$idInstitutionTypeTouple);
         $this->assertInstanceOf(RowDataInterface::class, $institutionTypeRow);
     }
 
     public function test2Columns() {
-        $institutionTypeRow = $this->dao->get(self::$id);
+        $institutionTypeRow = $this->dao->get(self::$idInstitutionTypeTouple);
         $this->assertCount(2, $institutionTypeRow);
     }
 
     public function testUpdate() {
-        $institutionTypeRow = $this->dao->get(self::$id);
+        $institutionTypeRow = $this->dao->get(self::$idInstitutionTypeTouple);
         $name = $institutionTypeRow['institution_type'];
         $this->assertIsString($institutionTypeRow['institution_type']);
         //
@@ -85,9 +101,9 @@ class InstitutionTypeDaoTest extends AppRunner {
         $this->assertEquals(1, $this->dao->getRowCount());
 
         $this->setUp();
-        $institutionTypeRowRereaded = $this->dao->get(self::$id);
+        $institutionTypeRowRereaded = $this->dao->get(self::$idInstitutionTypeTouple);
         $this->assertEquals($institutionTypeRow, $institutionTypeRowRereaded);
-        $this->assertContains('-tt-updated', $institutionTypeRowRereaded['institution_type']);
+        $this->assertStringContainsString('-tt-updated', $institutionTypeRowRereaded['institution_type']);
     }
 
     public function testFind() {
@@ -98,12 +114,31 @@ class InstitutionTypeDaoTest extends AppRunner {
     }
 
     public function testDelete() {
-        $institutionTypeRow = $this->dao->get(self::$id);
+         // kontrola RESTRICT = ze nevymaže institution, zustane
+        $institutionTypeRow = $this->dao->get(self::$idInstitutionTypeTouple);
+        $this->expectException(ExecuteException::class);
+        $this->dao->delete($institutionTypeRow);
+       
+        //nejde vymazat
+        /**  @var InstitutionDao  $institutionDao */
+        $institutionDao = $this->container->get( InstitutionDao::class);
+        $institutionData = $institutionDao->get(self::$institutionIdTouple);        
+        $this->assertEquals(  self::$idInstitutionTypeTouple['id'], $institutionData['institution_type_id'] );
+        
+         //smazat Institution  
+        $institutionRow = $institutionDao->get(self::$institutionIdTouple);
+        $institutionDao->delete($institutionRow);
+        $this->assertEquals(1, $institutionDao->getRowCount());
+                
+        //pak smazat InstitutionType
+        $this->setUp();
+        $institutionTypeRow = $this->dao->get(self::$idInstitutionTypeTouple);
         $this->dao->delete($institutionTypeRow);
         $this->assertEquals(1, $this->dao->getRowCount());
 
         $this->setUp();
-        $institutionTypeRow = $this->dao->get(self::$id);
+        $institutionTypeRow = $this->dao->get(self::$idInstitutionTypeTouple) ;
         $this->assertNull($institutionTypeRow);
+        
     }
 }

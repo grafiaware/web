@@ -134,7 +134,7 @@ class EventContentDaoTest extends AppRunner {
         $this->setUp();
         $eventContentRowRereaded = $this->dao->get(self::$idEventContentTouple);
         $this->assertEquals($eventContentRow, $eventContentRowRereaded);
-        $this->assertContains('-title_updated', $eventContentRowRereaded['title']) ;
+        $this->assertStringContainsString('-title_updated', $eventContentRowRereaded['title']) ;
     }
 
     public function testFind() {
@@ -153,6 +153,7 @@ class EventContentDaoTest extends AppRunner {
         $eventContentRow = $this->dao->get(self::$idEventContentTouple);
         $this->assertNull($eventContentRow);
         
+        // kontrola SET
         // zda se nastavil event.event_content_id_fk NULL
         /** @var EventDao $eventDao */
         $eventDao = $this->container->get(EventDao::class);

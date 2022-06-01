@@ -125,7 +125,7 @@ class EventContentTypeDaoTest extends AppRunner {
         $this->setUp();
         $eventContentTypeRowRereaded = $this->dao->get(self::$eventContentTypeTouple);
         $this->assertEquals($eventContentTypeRow, $eventContentTypeRowRereaded);
-        $this->assertContains('test_name_updated', $eventContentTypeRowRereaded['name']);
+        $this->assertStringContainsString('test_name_updated', $eventContentTypeRowRereaded['name']);
     }
 
     public function testFind() {
@@ -137,6 +137,7 @@ class EventContentTypeDaoTest extends AppRunner {
     
     
     // Test , ze nejde smazat věta v  event_content_type, kdyz je pouzito type v event_content.event_content_type_fk
+    // problem import x forcedSet
     public function testDeleteException() {
         //nelze mazat pomoci new RowData + RowData->import!
         //protože v RowData jsou pak "nova" data, a  "nova" data nelze mazat  metodou ->delete!
@@ -155,6 +156,20 @@ class EventContentTypeDaoTest extends AppRunner {
     }
     
     public function testDelete() {
+        
+        //kontrola RESTRICT       
+        $eventContentTypeRow = $this->dao->get(self::$eventContentTypeTouple);
+        $this->expectException(ExecuteException::class);
+        $this->dao->delete($eventContentTypeRow);
+        
+        /** @var EventContentDao $eventContentDao */         
+        $eventContentDao = $this->container->get(EventContentDao::class);
+        $eventContentRow = $eventContentDao->get( self::$eventContentIdTouple );
+        $this->assertEquals (self::$eventContentTypeTouple['type'], $eventContentRow['event_content_type_fk']);
+        
+        
+        
+        
         //napred vymazu Content
         /** @var EventContentDao $eventContentDao */         
         $eventContentDao = $this->container->get(EventContentDao::class);

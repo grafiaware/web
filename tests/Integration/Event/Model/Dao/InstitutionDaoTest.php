@@ -10,8 +10,9 @@ use Test\Integration\Event\Container\EventsContainerConfigurator;
 use Test\Integration\Event\Container\DbEventsContainerConfigurator;
 
 use Events\Model\Dao\InstitutionDao;
-use Model\RowData\RowData;
 use Model\RowData\RowDataInterface;
+use Model\RowData\RowData;
+
 
 /**
  *
@@ -29,9 +30,18 @@ class InstitutionDaoTest extends AppRunner {
     private $dao;
 
     private static $id;
+    
 
-    public static function setUpBeforeClass(): void {
+    public static function setUpBeforeClass(): void {        
         self::bootstrapBeforeClass();
+        
+//        //vyrobit InstitutionType vetu - neni treba
+//        $institutionTypeDao = $container->get( InstitutionTypeDao::class);
+//        $institutionTypeData = new RowData();
+//        $institutionTypeData->import( ['institution_type' => 'nejvyšší úřad'   ] );
+//        $institutionTypeDao->insert($institutionTypeData);    
+//        self::$institutionTypeIdTouple = $institutionTypeDao->getLastInsertIdTouple();
+        
     }
 
     protected function setUp(): void {
@@ -45,6 +55,7 @@ class InstitutionDaoTest extends AppRunner {
     protected function tearDown(): void {
     }
 
+    
     public static function tearDownAfterClass(): void {
 
     }
@@ -55,9 +66,8 @@ class InstitutionDaoTest extends AppRunner {
     }
       public function testInsert() {
         $rowData = new RowData();
-        //$rowData->offsetSet('id', "e");
-        $rowData->offsetSet('name', "testInstitutionDao-nameNNN");
-        $rowData->offsetSet('institution_type_id', null);
+        $rowData->offsetSet('name', "testInstitutionDao-NNN");
+        $rowData->offsetSet('institution_type_id', null );
         $this->dao->insert($rowData);
         self::$id =  $this->dao->getLastInsertIdTouple();
         $this->assertIsArray(self::$id);
@@ -89,7 +99,7 @@ class InstitutionDaoTest extends AppRunner {
         $this->setUp();
         $institutionRowRereaded = $this->dao->get(self::$id);
         $this->assertEquals($institutionRow, $institutionRowRereaded);
-        $this->assertContains('NNN-updated', $institutionRowRereaded['name']);
+        $this->assertStringContainsString('NNN-updated', $institutionRowRereaded['name']);
     }
 
     public function testFind() {

@@ -151,7 +151,7 @@ class EventLinkDaoTest extends AppRunner {
         $this->setUp();
         $eventRowRereaded = $this->dao->get(self::$id1);
         $this->assertEquals($eventRow, $eventRowRereaded);
-        $this->assertContains('nahrada-ooo', $eventRowRereaded['href']);
+        $this->assertStringContainsString('nahrada-ooo', $eventRowRereaded['href']);
     }
 
     public function testFind() {
@@ -172,8 +172,9 @@ class EventLinkDaoTest extends AppRunner {
         $this->assertNull($eventRow);
         
         
-        
+        // kontrola SET
         // kontrola, že  se deletem v event_link tabulce  nastavilo v tabulce event  event.x_link_id_fk = null
+        /** @var EventDao $eventDao */
         $eventDao = $this->container->get( EventDao::class );
         $eventData =  $eventDao->get (self::$eventIdTouple);
         $this->assertNull( $eventData['enroll_link_id_fk'] );
@@ -181,7 +182,7 @@ class EventLinkDaoTest extends AppRunner {
         
         
         //---------------------------------------
-        //smazat v event  id2 vetu - v tearDownAfterClass
+        //smazat v event  id2 vetu - provede tearDownAfterClass
     }
 
 
