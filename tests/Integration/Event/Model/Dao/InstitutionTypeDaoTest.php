@@ -112,26 +112,27 @@ class InstitutionTypeDaoTest extends AppRunner {
         $this->assertGreaterThanOrEqual(1, count($institutionTypeRow));
         $this->assertInstanceOf(RowDataInterface::class, $institutionTypeRow[0]);
     }
-
-    public function testDelete() {
-         // kontrola RESTRICT = ze nevymaže institution, zustane
+    
+    public function testDeleteException() {   
+        // kontrola RESTRICT = ze nevymaže institution, zustane
         $institutionTypeRow = $this->dao->get(self::$idInstitutionTypeTouple);
         $this->expectException(ExecuteException::class);
-        $this->dao->delete($institutionTypeRow);
-       
-        //nejde vymazat
+        $this->dao->delete($institutionTypeRow);                
+    }
+
+    public function testDelete() {
         /**  @var InstitutionDao  $institutionDao */
         $institutionDao = $this->container->get( InstitutionDao::class);
-        $institutionData = $institutionDao->get(self::$institutionIdTouple);        
-        $this->assertEquals(  self::$idInstitutionTypeTouple['id'], $institutionData['institution_type_id'] );
+        $institutionRow = $institutionDao->get(self::$institutionIdTouple);        
+        $this->assertEquals(  self::$idInstitutionTypeTouple['id'], $institutionRow['institution_type_id'] );
         
-         //smazat Institution  
+         //smazat napred Institution  
         $institutionRow = $institutionDao->get(self::$institutionIdTouple);
         $institutionDao->delete($institutionRow);
         $this->assertEquals(1, $institutionDao->getRowCount());
                 
         //pak smazat InstitutionType
-        $this->setUp();
+        //$this->setUp();
         $institutionTypeRow = $this->dao->get(self::$idInstitutionTypeTouple);
         $this->dao->delete($institutionTypeRow);
         $this->assertEquals(1, $this->dao->getRowCount());

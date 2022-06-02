@@ -138,45 +138,39 @@ class EventContentTypeDaoTest extends AppRunner {
     
     // Test , ze nejde smazat věta v  event_content_type, kdyz je pouzito type v event_content.event_content_type_fk
     // problem import x forcedSet
-    public function testDeleteException() {
-        //nelze mazat pomoci new RowData + RowData->import!
-        //protože v RowData jsou pak "nova" data, a  "nova" data nelze mazat  metodou ->delete!
-        //pro takovy zpusob mazaní nutno použít buď:  objekt PdoRowData a metodou ->forcedSet nastavit přříslušná data jako "stará"
-        //nebo postup: napřed přečíst, pak smazat
-        
+    //nelze mazat pomoci new RowData + RowData->import!
+    //protože v RowData jsou pak "nova" data, a  "nova" data nelze mazat  metodou ->delete!
+    //pro takovy zpusob mazaní nutno použít buď:  objekt PdoRowData a metodou ->forcedSet nastavit přříslušná data jako "stará"
+    //nebo postup: napřed přečíst, pak smazat
+    
+    //kontrola RESTRICT    
+    public function testDeleteException1() {              
         $eventContentTypeRowPdo = new PdoRowData();
         $eventContentTypeRowPdo->forcedSet( 'type', self::$eventContentTypeTouple['type'] );
         $this->expectException(ExecuteException::class);
         $this->dao->delete($eventContentTypeRowPdo);
-        
+    }    
+    public function testDeleteException2() {   
         $eventContentTypeRow = $this->dao->get(self::$eventContentTypeTouple);
         $this->expectException(ExecuteException::class);
         $this->dao->delete($eventContentTypeRow);
-
     }
     
+        
     public function testDelete() {
-        
-        //kontrola RESTRICT       
-        $eventContentTypeRow = $this->dao->get(self::$eventContentTypeTouple);
-        $this->expectException(ExecuteException::class);
-        $this->dao->delete($eventContentTypeRow);
-        
         /** @var EventContentDao $eventContentDao */         
         $eventContentDao = $this->container->get(EventContentDao::class);
         $eventContentRow = $eventContentDao->get( self::$eventContentIdTouple );
-        $this->assertEquals (self::$eventContentTypeTouple['type'], $eventContentRow['event_content_type_fk']);
-        
-        
-        
+        $this->assertEquals (self::$eventContentTypeTouple['type'], $eventContentRow['event_content_type_fk']);           
         
         //napred vymazu Content
         /** @var EventContentDao $eventContentDao */         
-        $eventContentDao = $this->container->get(EventContentDao::class);
         $eventContentRow = $eventContentDao->get( self::$eventContentIdTouple );
-        $eventContentDao->delete($eventContentRow);                
+        $eventContentDao->delete($eventContentRow);   
+        $this->assertEquals(1, $eventContentDao->getRowCount());
         
         //pak jde smazet ContentType
+        $this->setUp();
         $eventContentTypeRow = $this->dao->get(self::$eventContentTypeTouple);
         $this->dao->delete($eventContentTypeRow);
         $this->assertEquals(1, $this->dao->getRowCount());
