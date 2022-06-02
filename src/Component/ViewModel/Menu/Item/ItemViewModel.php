@@ -10,7 +10,7 @@ namespace Component\ViewModel\Menu\Item;
 
 use Component\ViewModel\ViewModelAbstract;
 use Red\Model\Entity\HierarchyAggregateInterface;
-use Pes\View\CompositeViewInterface;
+use Component\View\ComponentInterface;
 
 /**
  * Description of ItemViwModel
@@ -52,7 +52,7 @@ class ItemViewModel extends ViewModelAbstract implements ItemViewModelInterface 
         parent::__construct();
     }
 
-    public function setChild(CompositeViewInterface $child): void {
+    public function setChild(ComponentInterface $child): void {
         $this->child = $child;
     }
 
@@ -85,7 +85,7 @@ class ItemViewModel extends ViewModelAbstract implements ItemViewModelInterface 
         return $this->isCutted;
     }
 
-    public function getChild(): ?CompositeViewInterface {
+    public function getChild(): ?ComponentInterface {
         return $this->child;
     }
 

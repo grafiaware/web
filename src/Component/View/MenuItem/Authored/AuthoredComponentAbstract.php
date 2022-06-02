@@ -8,7 +8,7 @@
 
 namespace Component\View\MenuItem\Authored;
 
-use Component\View\MenuItem\MenuItemComponentAbstract;
+use Component\View\ComponentCompositeAbstract;
 use Component\ViewModel\Authored\AuthoredViewModelInterface;
 
 /**
@@ -17,7 +17,7 @@ use Component\ViewModel\Authored\AuthoredViewModelInterface;
  *
  * @author pes2704
  */
-abstract class AuthoredComponentAbstract extends MenuItemComponentAbstract implements AuthoredComponentInterface {
+abstract class AuthoredComponentAbstract extends ComponentCompositeAbstract implements AuthoredComponentInterface {
 
     const BUTTON_EDIT_CONTENT = 'buttonEditContent';
     const SELECT_TEMPLATE = 'selectTemplate';

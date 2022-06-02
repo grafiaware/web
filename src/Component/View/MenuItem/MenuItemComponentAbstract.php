@@ -1,7 +1,7 @@
 <?php
 namespace Component\View\MenuItem;
 
-use Component\View\StatusComponentAbstract;
+use Component\View\ComponentCompositeAbstract;
 use Component\View\MenuItem\MenuItemComponentInterface;
 
 /**
@@ -9,6 +9,6 @@ use Component\View\MenuItem\MenuItemComponentInterface;
  *
  * @author pes2704
  */
-abstract class MenuItemComponentAbstract extends StatusComponentAbstract implements MenuItemComponentInterface {
+abstract class MenuItemComponentAbstract extends ComponentCompositeAbstract implements MenuItemComponentInterface {
 
 }

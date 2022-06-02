@@ -1,17 +1,12 @@
 <?php
 namespace  Component\Renderer\Html\Menu;
-use Component\ViewModel\Menu\MenuViewModelInterface;
-use Component\View\Menu\MenuComponent;
+use Component\View\Menu\ItemComponentInterface;
 use Pes\Text\Html;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- * Description of Svisle
+ * Description of MenuWrapRenderer
+ *
+ * MenuWrapRenderer nahrazuje LevelWrapRendere pro nejvyšší úroveň menu - rozdíl je jen v tom, používá jinou položku class map
  *
  * @author pes2704
  */
@@ -23,18 +18,15 @@ class MenuWrapRenderer extends MenuWrapRendererAbstract {
      */
     protected $viewModel;
 
-    public function render(iterable $viewModel=NULL) {
-        /** @var MenuViewModelInterface $viewModel */
-        // MenuViewModel exteduje ContextData, má getIterator(), která iteruje ContextData, v ContextData jsou vyrenderované komponentní views
-        $levelItemsHtml = "";
-        foreach ($viewModel as $itemHtml) {
-            $levelItemsHtml .= $itemHtml;
-        }
-        $html = [];
-//        $html[] = $viewModel->offsetExists(MenuComponent::TOGGLE_EDIT_MENU_BUTTON) ? $viewModel->offsetGet(MenuComponent::TOGGLE_EDIT_MENU_BUTTON) : "";
-        $html[] = Html::tag('ul', ['class'=>$this->classMap->get('MenuWrap', 'ul')],$levelItemsHtml);
-        $ul = implode('', $html);
-        return $ul;
+    public function render(iterable $contextData=NULL) {
+        // MenuWrapRenderer nedostává zádný view model - view předá fo rendereru jen ContextData, který obsahuje vyrenderované komponentní view (tedy html)
+            $levelItemsHtml = "";
+            foreach ($contextData as $itemComponentHtml) {
+                /** @var ItemComponentInterface $itemComponentHtml */
+                $levelItemsHtml .= $itemComponentHtml;
+            }
+
+        return Html::tag('ul', ['class'=>$this->classMap->get('MenuWrap', 'ul')],$levelItemsHtml);
     }
 
 }

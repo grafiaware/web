@@ -2,6 +2,8 @@
 namespace  Component\Renderer\Html\Menu;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
+use Component\View\Menu\ItemComponentInterface;
+
 use Pes\Type\ContextDataInterface;
 use Pes\Text\Html;
 
@@ -19,18 +21,15 @@ use Pes\Text\Html;
 class LevelWrapRenderer extends HtmlRendererAbstract {
 
     public function render(iterable $contextData=NULL) {
-        // LevelComponent nedostává zádný view model - view předá fo rendereru jen ContextData, který obsahuje vyrenderované komponentní view
-        /** @var ContextDataInterface $contextData */
-        $levelItemsHtml = "";
-        foreach ($contextData as $itemHtml) {
-            $levelItemsHtml .= $itemHtml;
-        }
-        $ul = Html::tag('ul', ['class'=>[
-                                //$this->classMap->get('LevelWrap', 'ul'),
-//                                $this->classMap->resolve($this->viewModel->isOnPath(), 'LevelWrap', 'ul.onpath', 'ul'),
-                                $this->classMap->get('LevelWrap', 'ul'),
-                                ]],
-                            $levelItemsHtml);
+        // LevelComponent nedostává zádný view model - view předá fo rendereru jen ContextData, který obsahuje vyrenderované komponentní view (tedy html)
+            $levelItemsHtml = "";
+            /** @var ContextDataInterface $contextData */
+            foreach ($contextData as $itemComponentHtml) {
+                /** @var ItemComponentInterface $itemComponentHtml */
+                $levelItemsHtml .= $itemComponentHtml;
+            }
+
+        $ul = Html::tag('ul', ['class'=>[$this->classMap->get('LevelWrap', 'ul')]],$levelItemsHtml);
         return $ul;
     }
 

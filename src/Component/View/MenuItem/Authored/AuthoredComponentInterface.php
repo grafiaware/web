@@ -9,12 +9,12 @@
 namespace Component\View\MenuItem\Authored;
 
 use Pes\View\CompositeViewInterface;
-use Component\View\AccessComponentInterface;
+use Component\View\ComponentInterface;
 
 /**
  *
  * @author pes2704
  */
-interface AuthoredComponentInterface extends CompositeViewInterface, AccessComponentInterface {
+interface AuthoredComponentInterface extends CompositeViewInterface, ComponentInterface {
 
 }

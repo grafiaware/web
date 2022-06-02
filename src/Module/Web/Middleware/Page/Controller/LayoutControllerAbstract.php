@@ -29,9 +29,9 @@ use Component\View\Flash\FlashComponent;
 use Red\Model\Entity\MenuItemInterface;
 
 ####################
-use Pes\View\ViewFactory;
 use Pes\View\View;
-use Pes\View\ViewInterface;
+use Pes\View\CompositeView;
+use Pes\View\CompositeViewInterface;
 use Pes\View\Template\PhpTemplate;
 use Pes\View\Template\InterpolateTemplate;
 use Pes\View\Renderer\ImplodeRenderer;
@@ -132,8 +132,8 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
      * @return CompositeView
      */
     private function getLayoutView(ServerRequestInterface $request) {
-        /** @var ViewInterface $view */
-        $view = $this->container->get(View::class);
+        /** @var CompositeViewInterface $view */
+        $view = $this->container->get(CompositeView::class);
         $view->setTemplate(new PhpTemplate(ConfigurationCache::layoutController()['layout']));
         $view->setData(
                 [

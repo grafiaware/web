@@ -216,7 +216,9 @@ class ItemRendererEditable extends HtmlRendererAbstract {
                 Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.addchildren')])
             );
     }
-    private function getButtonCut(MenuItemInterface $menuItem) {
+
+    // i pro trash
+    protected function getButtonCut(MenuItemInterface $menuItem) {
         return  Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button'),
                 'data-tooltip'=>'Vybrat k přesunutí',

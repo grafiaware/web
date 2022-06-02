@@ -8,9 +8,7 @@
 
 namespace Component\View\Manage;
 
-use Component\View\StatusComponentAbstract;
-use Component\Renderer\Html\NoPermittedContentRenderer;
-use Pes\View\Template\PhpTemplate;
+use Component\View\ComponentAbstract;
 
 use Access\Enum\RoleEnum;
 use Access\Enum\AccessPresentationEnum;
@@ -20,7 +18,7 @@ use Access\Enum\AccessPresentationEnum;
  *
  * @author pes2704
  */
-class EditMenuSwitchComponent  extends StatusComponentAbstract {
+class EditMenuSwitchComponent extends ComponentAbstract {
 
     public function getComponentPermissions(): array {
         return [

@@ -1,7 +1,7 @@
 <?php
 namespace Component\View\Manage;
 
-use Component\View\StatusComponentAbstract;
+use Component\View\ComponentCompositeAbstract;
 use Component\Renderer\Html\NoPermittedContentRenderer;
 use Component\Renderer\Html\Manage\SelectTemplateRenderer;
 
@@ -15,7 +15,7 @@ use Pes\View\ViewInterface;
  *
  * @author pes2704
  */
-class SelectTemplateComponent extends StatusComponentAbstract implements InheritDataViewInterface {
+class SelectTemplateComponent extends ComponentCompositeAbstract implements InheritDataViewInterface {
 
     /**
      *

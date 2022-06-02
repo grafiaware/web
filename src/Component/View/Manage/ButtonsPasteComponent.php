@@ -10,11 +10,11 @@ use Pes\View\InheritDataViewInterface;
 use Pes\View\ViewInterface;
 
 /**
- * Description of ButtonsMenuManipulationComponent
+ * Description of ButtonsItemManipulationComponent
  *
  * @author pes2704
  */
-class ButtonsMenuManipulationComponent extends ComponentCollectionAbstract implements InheritDataViewInterface {
+class ButtonsPasteComponent extends ComponentCollectionAbstract implements InheritDataViewInterface {
 
     public function inheritData(iterable $data): ViewInterface {
         $this->setData($data);

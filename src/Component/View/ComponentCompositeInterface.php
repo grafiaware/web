@@ -5,12 +5,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/PHPInterface.php to edit this template
  */
 
-namespace Component\View\Menu;
+namespace Component\View;
+
+use Pes\View\CompositeViewInterface;
 
 /**
  *
  * @author pes2704
  */
-interface LevelComponentInterface {
-
+interface ComponentCompositeInterface extends CompositeViewInterface, ComponentInterface {
+    //put your code here
 }

@@ -8,7 +8,7 @@
 
 namespace Component\View\Manage;
 
-use Component\View\StatusComponentAbstract;
+use Component\View\ComponentCompositeAbstract;
 use Component\Renderer\Html\NoContentForStatusRenderer;
 use Component\ViewModel\StatusViewModelInterface;
 use Pes\View\Template\PhpTemplate;
@@ -21,7 +21,7 @@ use Access\Enum\AccessPresentationEnum;
  *
  * @author pes2704
  */
-class RegisterComponent extends StatusComponentAbstract {
+class RegisterComponent extends ComponentCompositeAbstract {
 
     /**
      * @var StatusViewModelInterface
@@ -31,13 +31,13 @@ class RegisterComponent extends StatusComponentAbstract {
     //renderuje template, definováno v component kontejneru a konfiguraci component kontejneru
 
 //  template nastevena v kontejneru, pokud není user přihlášen (není role) nahrazuji renderer - není to ideální řešení, v kontejneru vytvářím celý objekt template, jen ho nepoužiju
-    public function beforeRenderingHook(): void {
-        if($this->isAllowedToPresent(AccessPresentationEnum::DISPLAY)) {
-            $this->setTemplate(new PhpTemplate($this->configuration->getTemplateRegister()));
-        } else {
-            $this->setRendererName(NoContentForStatusRenderer::class);
-        }
-    }
+//    public function beforeRenderingHook(): void {
+//        if($this->isAllowedToPresent(AccessPresentationEnum::DISPLAY)) {
+//            $this->setTemplate(new PhpTemplate($this->configuration->getTemplateRegister()));
+//        } else {
+//            $this->setRendererName(NoContentForStatusRenderer::class);
+//        }
+//    }
 
     public function getComponentPermissions(): array {
         // komponent vidí jen nepřihlášení

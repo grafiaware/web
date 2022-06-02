@@ -9,6 +9,8 @@ use Psr\Container\ContainerInterface;   // pro parametr closure function(Contain
 
 use Pes\View\Renderer\PhpTemplateRenderer;
 
+use Component\Renderer\Html\Menu\MenuRenderer;
+
 use Component\Renderer\Html\Menu\ItemRenderer;
 use Component\Renderer\Html\Menu\ItemRendererEditable;
 use Component\Renderer\Html\Menu\ItemBlockRenderer;
@@ -20,10 +22,6 @@ use Component\Renderer\Html\Authored\Paper\ButtonsRenderer;
 use Component\Renderer\Html\Authored\Paper\PaperRenderer;
 use Component\Renderer\Html\Authored\Paper\PaperRendererEditable;
 use Component\Renderer\Html\Manage\SelectTemplateRenderer;
-
-//use Component\Renderer\Html\Authored\Paper\ElementWrapper;
-//use Component\Renderer\Html\Authored\Paper\ElementEditableWrapper;
-//use Component\Renderer\Html\Authored\Paper\Buttons;
 
 use Component\Renderer\Html\Authored\Paper\HeadlineRenderer;
 use Component\Renderer\Html\Authored\Paper\PerexRenderer;
@@ -88,7 +86,9 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
         NoPermittedContentRenderer::class => function(ContainerInterface $c) {
             return new NoPermittedContentRenderer();
         },
-
+        MenuRenderer::class => function(ContainerInterface $c) {
+            return new MenuRenderer();
+        },
         ###########################
         # menu item renderer
         ###########################
@@ -128,16 +128,6 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
             PaperRendererEditable::class => function(ContainerInterface $c) {
                 return new PaperRendererEditable($c->get('authored.editable.classmap'));
             },
-//
-//            ElementWrapper::class => function(ContainerInterface $c) {
-//                return new ElementWrapper($c->get('authored.classmap'));
-//            },
-//            ElementEditableWrapper::class => function(ContainerInterface $c) {
-//                return new ElementEditableWrapper($c->get('authored.editable.classmap'));
-//            },
-//            Buttons::class => function(ContainerInterface $c) {
-//                return new Buttons($c->get('authored.editable.classmap'));
-//            },
 
             HeadlineRenderer::class => function(ContainerInterface $c) {
                 return new HeadlineRenderer($c->get('authored.classmap'));

@@ -2,12 +2,11 @@
 namespace Component\Renderer\Html\Manage;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
-
-use Pes\Text\Html;
-use Pes\Type\ContextDataInterface;
-use Component\View\Manage\EditContentSwitchComponent;
 use Component\ViewModel\Authored\AuthoredViewModelInterface;
 use Red\Middleware\Redactor\Controler\UserActionControler;
+
+use Pes\Text\Html;
+
 /**
  * Description of ToggleEditButtonRenderer
  *
@@ -45,10 +44,7 @@ class EditContentSwitchRenderer extends HtmlRendererAbstract {
                         //Html::tag('p', [], isset($editor) ? "Obsah upravuje $editor." : ''),
                         Html::tag('button', [
                             'class'=>$this->classMap->resolve($userPerformActionWithContent, 'Buttons', 'button.offEditMode',  $disabled ? 'button.editMode.disabled':'button.editMode'),
-
                             'data-tooltip' => $tooltip,
-                            'name' => UserActionControler::FORM_USER_ACTION_EDIT_CONTENT,
-                            'value' => '',
                             'type' => $disabled ? 'button':'submit',
                             'formtarget' => '_self',
                             ],

@@ -8,12 +8,18 @@
 
 namespace Component\View\Menu;
 
+use Component\View\Menu\LevelComponentInterface;
+
 /**
  *
  * @author pes2704
  */
-interface MenuComponentInterface  {
-    public function setRenderersNames( $levelWrapRendererName, $itemRendererName, $itemEditableRendererName): MenuComponentInterface;
+interface MenuComponentInterface extends LevelComponentInterface {
+
+    const TOGGLE_EDIT_MENU_BUTTON = 'toggleEditMenuButton';
+    const MENU = 'menu';
+
+    public function setRenderersNames($menuWrapRendererName, $levelWrapRendererName, $itemRendererName, $itemEditableRendererName): MenuComponentInterface;
     public function setMenuRootName($menuRootName): MenuComponentInterface;
     public function withTitleItem($withTitle=false): MenuComponentInterface;
 }

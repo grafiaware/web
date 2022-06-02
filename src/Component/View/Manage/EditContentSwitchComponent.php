@@ -1,9 +1,7 @@
 <?php
 namespace Component\View\Manage;
 
-use Component\View\StatusComponentAbstract;
-use Component\Renderer\Html\NoPermittedContentRenderer;
-use Component\Renderer\Html\Manage\EditContentSwitchRenderer;
+use Component\View\ComponentAbstract;
 
 use Access\Enum\AccessPresentationEnum;
 use Access\Enum\RoleEnum;
@@ -16,7 +14,7 @@ use Pes\View\InheritDataViewInterface;
  *
  * @author pes2704
  */
-class EditContentSwitchComponent extends StatusComponentAbstract implements InheritDataViewInterface {
+class EditContentSwitchComponent extends ComponentAbstract implements InheritDataViewInterface {
 
     /**
      *

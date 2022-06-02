@@ -7,13 +7,12 @@
 
 namespace Component\View;
 
-use Component\ViewModel\StatusViewModelInterface;
+use Pes\View\CollectionViewInterface;
 
 /**
  *
  * @author pes2704
  */
-interface StatusComponentInterface {
-    public function getStatus(): StatusViewModelInterface;
-
+interface ComponentCollectionInterface extends CollectionViewInterface, ComponentInterface {
+    //put your code here
 }

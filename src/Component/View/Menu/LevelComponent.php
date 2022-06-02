@@ -1,13 +1,16 @@
 <?php
 namespace Component\View\Menu;
 
-use Component\View\ComponentAbstract;
+use Component\View\ComponentCollectionAbstract;
 
 /**
  * Description of LevelComponent
  *
+ *  LevelComponent je kontejner na item komponenty - je typu CollectionViewInterface, komponetní view se přidávají jako kolekce (iterable bez pojmenování prvků)
+ *
  * @author pes2704
  */
-class LevelComponent extends ComponentAbstract implements LevelComponentInterface {
-    //put your code here
+class LevelComponent extends ComponentCollectionAbstract implements LevelComponentInterface {
+
+
 }

@@ -8,18 +8,21 @@
 
 namespace Component\View;
 
-use Pes\View\View;
+use Pes\View\CompositeView;
 
-use Component\View\ComponentInterface;
+use Component\View\ComponentCompositeInterface;
 
 use Configuration\ComponentConfigurationInterface;
+
+use Access\Enum\RoleEnum;
+use Access\Enum\AccessPresentationEnum;
 
 /**
  * Description of CompositeComponentAbstract
  *
  * @author pes2704
  */
-abstract class ComponentAbstract extends View implements ComponentInterface {
+abstract class ComponentCompositeAbstract extends CompositeView implements ComponentCompositeInterface {
 
     /**
      *

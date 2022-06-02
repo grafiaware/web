@@ -1,6 +1,6 @@
 <?php
 namespace Component\View\Generated;
-use Component\View\StatusComponentAbstract;
+use Component\View\ComponentCompositeAbstract;
 use Component\ViewModel\Generated\SearchResultViewModel;
 
 use Pes\View\Renderer\RendererInterface;
@@ -18,7 +18,7 @@ use Pes\Text\Message;
  *
  * @author pes2704
  */
-class SearchResultComponent extends StatusComponentAbstract {
+class SearchResultComponent extends ComponentCompositeAbstract {
 
     /**
      * @var SearchResultViewModel

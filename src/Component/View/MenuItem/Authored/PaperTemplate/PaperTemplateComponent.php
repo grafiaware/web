@@ -40,8 +40,7 @@ class PaperTemplateComponent extends AuthoredComponentAbstract implements PaperT
                 try {
                     // konstruktor PhpTemplate vyhazuje výjimku NoTemplateFileException pro neexistující (nečitený) soubor s template
                     $template = new PhpTemplate($this->selectedPaperTemplateFileName);
-                    $contentView = $this->createCompositeViewWithTemplate($template);
-
+                    $contentView = (new CompositeView())->setData($this->contextData)->setTemplate($template)->setRendererContainer($this->rendererContainer);
                     $this->setRendererName(PaperRenderer::class);
                     $this->addChildComponents($contentView);
                     $this->appendComponentView($contentView, PaperComponent::CONTENT);
@@ -59,9 +58,9 @@ class PaperTemplateComponent extends AuthoredComponentAbstract implements PaperT
 
     private function addChildComponents(CompositeViewInterface $view) {
         // renderery musí být definovány v Renderer kontejneru - tam mohou dostat classMap do konstruktoru
-        $view->appendComponentView($this->createCompositeViewWithRenderer(HeadlineRenderer::class), PaperComponent::HEADLINE);
-        $view->appendComponentView($this->createCompositeViewWithRenderer(PerexRenderer::class), PaperComponent::PEREX);
-        $view->appendComponentView($this->createCompositeViewWithRenderer(SectionsRenderer::class), PaperComponent::SECTIONS);
+        $view->appendComponentView((new CompositeView())->setData($this->contextData)->setRendererName(HeadlineRenderer::class)->setRendererContainer($this->rendererContainer), PaperComponent::HEADLINE);
+        $view->appendComponentView((new CompositeView())->setData($this->contextData)->setRendererName(PerexRenderer::class)->setRendererContainer($this->rendererContainer), PaperComponent::PEREX);
+        $view->appendComponentView((new CompositeView())->setData($this->contextData)->setRendererName(SectionsRenderer::class)->setRendererContainer($this->rendererContainer), PaperComponent::SECTIONS);
     }
 
     public function setSelectedPaperTemplateFileName($name): void {

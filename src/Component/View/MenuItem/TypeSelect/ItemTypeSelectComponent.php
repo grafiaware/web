@@ -8,7 +8,7 @@
 
 namespace Component\View\MenuItem\TypeSelect;
 
-use Component\View\MenuItem\MenuItemComponentAbstract;
+use Component\View\ComponentCompositeAbstract;
 use Component\ViewModel\Authored\TypeSelect\ItemTypeSelectViewModel;
 use Component\Renderer\Html\MenuItem\TypeSelect\ItemTypeSelectRenderer;
 use Component\Renderer\Html\Generated\EmptyItemRenderer;
@@ -18,7 +18,7 @@ use Component\Renderer\Html\Generated\EmptyItemRenderer;
  *
  * @author pes2704
  */
-class ItemTypeSelectComponent extends MenuItemComponentAbstract {
+class ItemTypeSelectComponent extends ComponentCompositeAbstract {
 
     /**
      * @var ItemTypeSelectViewModel

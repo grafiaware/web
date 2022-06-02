@@ -41,12 +41,10 @@ class TemplatedComponent extends AuthoredComponentAbstract implements InheritDat
 
     public function __construct(
             ComponentConfigurationInterface $configuration,
-            StatusViewModelInterface $statusViewModel,
-            AccessPresentationInterface $accessView,
             TemplateSeekerInterface $templateSeeker
     ) {
         $this->templateSeeker = $templateSeeker;
-        parent::__construct($configuration, $statusViewModel, $accessView);
+        parent::__construct($configuration);
     }
 
     /**

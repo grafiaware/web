@@ -76,6 +76,11 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
         return isset($loginAggregate) ? $loginAggregate->getLoginName() : null;
     }
 
+    public function isUserLoggedIn(): bool {
+        $loginAggregate = $this->getUserLoginName();
+        return isset($loginAggregate) ? true : false;
+    }
+
     /**
      * {@inheritdoc}
      *

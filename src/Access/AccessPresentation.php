@@ -7,6 +7,7 @@
 
 namespace Access;
 
+use Component\View\ComponentInterface;
 use Component\ViewModel\StatusViewModelInterface;
 use Access\Enum\RoleEnum;
 
@@ -26,17 +27,21 @@ class AccessPresentation implements AccessPresentationInterface {
         $this->statusViewModel = $statusViewModel;
     }
 
+    public function getStatus(): StatusViewModelInterface {
+        return $this->statusViewModel;
+    }
+
     /**
      *
      * @param object $resource Objekt (například view nebo komponent), pro který zjičťuji oprávnění k akci
-     * @param array $permissions Oprávnění
      * @param type $action Akce
      * @return bool
      */
-    public function isAllowed($resource, $permissions, $action): bool {
+    public function isAllowed(ComponentInterface $resource, $action): bool {
         $isAllowed = false;
         $role = $this->statusViewModel->getUserRole();
         $logged = $this->statusViewModel->getUserLoginName() ? true : false;
+        $permissions = $resource->getComponentPermissions();
         $activeRoles = $this->getActiveRoles($logged, $role, $permissions);
         $isAllowed =false;
         foreach ($activeRoles as $activeRole) {
