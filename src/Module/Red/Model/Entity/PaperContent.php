@@ -85,7 +85,7 @@ class PaperContent extends EntityAbstract implements PaperContentInterface {
         return $this->editor;
     }
 
-    public function getUpdated(): \DateTimeInterface {
+    public function getUpdated(): ?\DateTimeInterface {
         return $this->updated;
     }
 
@@ -158,7 +158,7 @@ class PaperContent extends EntityAbstract implements PaperContentInterface {
         return $this;
     }
 
-    public function setUpdated(\DateTimeInterface $updated): PaperContentInterface {
+    public function setUpdated(\DateTimeInterface $updated=null): PaperContentInterface {
         $this->updated = $updated;
         return $this;
     }

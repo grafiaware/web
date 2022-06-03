@@ -131,7 +131,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
      * View s tempate layout.php a data pro template
      * @return CompositeView
      */
-    private function getLayoutView(ServerRequestInterface $request) {
+    private function getLayoutView(ServerRequestInterface $request): CompositeViewInterface {
         /** @var CompositeViewInterface $view */
         $view = $this->container->get(CompositeView::class);
         $view->setTemplate(new PhpTemplate(ConfigurationCache::layoutController()['layout']));

@@ -24,7 +24,7 @@ interface PaperContentInterface extends EntityInterface {
     public function getList();
 
     public function getContent();
-    
+
     public function getTemplateName();
 
     public function getTemplate();
@@ -43,7 +43,7 @@ interface PaperContentInterface extends EntityInterface {
 
     public function getEditor();
 
-    public function getUpdated(): \DateTimeInterface;
+    public function getUpdated(): ?\DateTimeInterface;
 
     public function getActual();
 
@@ -73,7 +73,7 @@ interface PaperContentInterface extends EntityInterface {
 
     public function setEditor($editor): PaperContentInterface;
 
-    public function setUpdated(\DateTimeInterface $updated): PaperContentInterface;
+    public function setUpdated(\DateTimeInterface $updated=null): PaperContentInterface;
 
     public function setActual($actual): PaperContentInterface;
 }
