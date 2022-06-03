@@ -1,7 +1,7 @@
 <?php
 use Site\ConfigurationCache;
 ?>
-    <form class="ui inverted form centered" method="POST" action="auth/v1/login">
+<!--    <form class="ui inverted form centered" method="POST" action="auth/v1/login">
         <div class="ui icon left pointing dropdown button loginEnterKey">
             <i class="user icon"></i>
             <div class="menu">
@@ -17,4 +17,19 @@ use Site\ConfigurationCache;
                 <button class="ui fluid tertiary button" type="submit" name="forgottenpassword" value=1 formaction="auth/v1/forgottenpassword">Zapomněl jsem<br/>heslo</button>
           </div>
         </div>
+    </form>-->
+
+    <form class="ui inverted form centered " method="POST" action="auth/v1/login">
+            <button class="ui icon button btn-login"><i class="user icon"></i></button>
+            <div class="menu-login ">
+                <div class="item header"><p><i class="user icon"></i>Přihlásit se</p></div>
+                <div class="ui input">
+                    <input class="loginEnterKey" type="text" name="<?=ConfigurationCache::loginLogoutController()['fieldNameJmeno']?>" placeholder="Jméno" required>
+                </div>
+                <div class="ui input">
+                    <input class="notRequired" type="password" name="<?=ConfigurationCache::loginLogoutController()['fieldNameHeslo']?>" placeholder="Heslo" required>
+                </div>
+                <button class="ui positive button" type="submit" name="login" value=1>Přihlásit</button>
+                <button class="ui fluid tertiary button" type="submit" name="forgottenpassword" value=1 formaction="auth/v1/forgottenpassword">Zapomněl jsem<br/>heslo</button>
+           </div>
     </form>
