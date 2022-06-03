@@ -25,14 +25,6 @@ class ItemTypeSelectComponent extends ComponentCompositeAbstract {
      */
     protected $contextData;
 
-    public function beforeRenderingHook(): void {
-        if($this->statusViewModel->presentEditableContent()) {
-            $this->setRendererName(ItemTypeSelectRenderer::class);
-        } else {
-            $this->setRendererName(EmptyItemRenderer::class);
-        }
-    }
-
     public function getString() {
         return parent::getString();
     }

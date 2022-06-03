@@ -27,8 +27,8 @@ class EditContentSwitchComponent extends ComponentAbstract implements InheritDat
 
     public function getComponentPermissions(): array {
         return [
-            RoleEnum::SUP => [AccessPresentationEnum::DISPLAY => static::class],
-            RoleEnum::EDITOR => [AccessPresentationEnum::DISPLAY => static::class],
+            RoleEnum::SUP => [AccessPresentationEnum::DISPLAY => static::class, AccessPresentationEnum::EDIT => static::class],
+            RoleEnum::EDITOR => [AccessPresentationEnum::DISPLAY => static::class, AccessPresentationEnum::EDIT => static::class],
         ];
     }
 }

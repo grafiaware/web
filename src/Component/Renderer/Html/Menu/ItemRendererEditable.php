@@ -3,9 +3,9 @@ namespace  Component\Renderer\Html\Menu;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
 use Component\ViewModel\Menu\Item\ItemViewModelInterface;
+use Component\View\Menu\ItemComponentInterface;
 
 use Red\Model\Entity\MenuItemInterface;
-
 use Pes\Text\Html;
 
 /*
@@ -34,8 +34,8 @@ class ItemRendererEditable extends HtmlRendererAbstract {
     protected function renderEditableItem(ItemViewModelInterface $viewModel) {
         $menuItem = $viewModel->getHierarchyAggregate()->getMenuItem();
         $semafor = $viewModel->isMenuEditable() ? $this->semafor($menuItem) : "";
-        $levelComponent = $viewModel->getChild();
-        $levelHtml = isset($levelComponent) ? $levelComponent->getString() :"";
+        $levelHtml = ($viewModel->offsetExists(ItemComponentInterface::LEVEL)) ? $viewModel->offsetGet(ItemComponentInterface::LEVEL) : "";
+
         if ($viewModel->isPresented()) {
             $buttonsHtml = '';
             if ($viewModel->isPasteMode()) {

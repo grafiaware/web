@@ -136,7 +136,8 @@ use Component\Renderer\Html\Manage\SelectTemplateRenderer;
 use Component\Renderer\Html\Generated\LanguageSelectRenderer;
 use Component\Renderer\Html\Generated\SearchPhraseRenderer;
 use Component\Renderer\Html\Generated\SearchResultRenderer;
-use Component\Renderer\Html\Generated\ItemTypeRenderer;
+
+use Component\Renderer\Html\MenuItem\TypeSelect\ItemTypeSelectRenderer;
 
 use Component\Renderer\Html\Flash\FlashRenderer;
 
@@ -358,7 +359,9 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
         #
         #
             ElementComponent::class => function(ContainerInterface $c) {
-                return new ElementComponent($c->get(ComponentConfiguration::class));
+                $component = new ElementComponent($c->get(ComponentConfiguration::class));
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;
             },
             ElementInheritDataComponent::class => function(ContainerInterface $c) {
                 $component = new ElementInheritDataComponent($c->get(ComponentConfiguration::class));
@@ -384,15 +387,32 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 $accessPresentation = $c->get(AccessPresentation::class);
 
                 $component = new EditContentSwitchComponent($c->get(ComponentConfiguration::class));
-                if($accessPresentation->isAllowed($component, AccessPresentationEnum::DISPLAY)) {
-                    $component->setRendererContainer($c->get('rendererContainer'));
+                if($accessPresentation->isAllowed($component, AccessPresentationEnum::EDIT)) {
                     $component->setRendererName(EditContentSwitchRenderer::class);
                 } else {
                     $component = $c->get(ElementComponent::class);
                     $component->setRendererName(NoPermittedContentRenderer::class);
                 }
+                $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
+
+            PaperComponent::HEADLINE => function(ContainerInterface $c) {
+                $component = ($c->get(ElementInheritDataComponent::class))->setRendererName(HeadlineRenderer::class);
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;
+            },
+            PaperComponent::PEREX => function(ContainerInterface $c) {
+                $component = ($c->get(ElementInheritDataComponent::class))->setRendererName(PerexRenderer::class);
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;
+            },
+            PaperComponent::SECTIONS => function(ContainerInterface $c) {
+                $component = ($c->get(ElementInheritDataComponent::class))->setRendererName(SectionsRenderer::class);
+                $component->setRendererContainer($c->get('rendererContainer'));
+                return $component;
+            },
+
             PaperComponent::class => function(ContainerInterface $c) {
                 /** @var PaperViewModel $viewModel */
                 $viewModel = $c->get(PaperViewModel::class);
@@ -406,9 +426,13 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                     $component->setRendererContainer($c->get('rendererContainer'));
                     /** @var TemplatedComponent $templatedComponent */
                     $templatedComponent = $c->get(TemplatedComponent::class);
-                    $templatedComponent->appendComponentView($c->get(ElementInheritDataComponent::class), PaperComponent::HEADLINE);
-                    $templatedComponent->appendComponentView($c->get(ElementInheritDataComponent::class), PaperComponent::PEREX);
-                    $templatedComponent->appendComponentView($c->get(ElementInheritDataComponent::class), PaperComponent::SECTIONS);
+                    $templatedComponent->setRendererContainer($c->get('rendererContainer'));
+                    $headline = $c->get(PaperComponent::HEADLINE);
+                    $perex = $c->get(PaperComponent::PEREX);
+                    $sections = $c->get(PaperComponent::SECTIONS);
+                    $templatedComponent->appendComponentView($headline, PaperComponent::HEADLINE);
+                    $templatedComponent->appendComponentView($perex, PaperComponent::PEREX);
+                    $templatedComponent->appendComponentView($sections, PaperComponent::SECTIONS);
 
                     // přidání komponentu do paper
                     $component->appendComponentView($templatedComponent, PaperComponent::CONTENT);
@@ -417,30 +441,28 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                         $component->appendComponentView($editContentSwithComponent, PaperComponent::BUTTON_EDIT_CONTENT);
                         if ($viewModel->userPerformAuthoredContentAction()) {   // v této chvíli musí mít komponent nastaveno setMenuItemId() - v kontroleru
                             $component->setRendererName(PaperRendererEditable::class);
-
-                            $templatedComponent->getComponentView(PaperComponent::HEADLINE)->setRendererName(HeadlineRendererEditable::class);
-                            $templatedComponent->getComponentView(PaperComponent::PEREX)->setRendererName(PerexRendererEditable::class);
-                            $templatedComponent->getComponentView(PaperComponent::SECTIONS)->setRendererName(SectionsRendererEditable::class);
+                            $headline->setRendererName(HeadlineRendererEditable::class);
+                            $perex->setRendererName(PerexRendererEditable::class);
+                            $sections->setRendererName(SectionsRendererEditable::class);
 
                             $selectTemplateComponent = $c->get(SelectTemplateComponent::class);
                             $component->appendComponentView($selectTemplateComponent, PaperComponent::SELECT_TEMPLATE);
                         } else {
                             $component->setRendererName(PaperRenderer::class);
-
-                            $templatedComponent->getComponentView(PaperComponent::HEADLINE)->setRendererName(HeadlineRenderer::class);
-                            $templatedComponent->getComponentView(PaperComponent::PEREX)->setRendererName(PerexRenderer::class);
-                            $templatedComponent->getComponentView(PaperComponent::SECTIONS)->setRendererName(SectionsRenderer::class);
+                            $headline->setRendererName(HeadlineRenderer::class);
+                            $perex->setRendererName(PerexRenderer::class);
+                            $sections->setRendererName(SectionsRenderer::class);
                         }
                     } else {
                             $component->setRendererName(PaperRenderer::class);
-
-                            $templatedComponent->getComponentView(PaperComponent::HEADLINE)->setRendererName(HeadlineRenderer::class);
-                            $templatedComponent->getComponentView(PaperComponent::PEREX)->setRendererName(PerexRenderer::class);
-                            $templatedComponent->getComponentView(PaperComponent::SECTIONS)->setRendererName(SectionsRenderer::class);
+                            $headline->setRendererName(HeadlineRendererEditable::class);
+                            $perex->setRendererName(PerexRendererEditable::class);
+                            $sections->setRendererName(SectionsRendererEditable::class);
                     }
                 } else {
                     $component = $c->get(ElementComponent::class);
                     $component->setRendererName(NoPermittedContentRenderer::class);
+                    $component->setRendererContainer($c->get('rendererContainer'));
                 }
                 return $component;
             },
@@ -453,42 +475,36 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 $configuration = $c->get(ComponentConfiguration::class);
 
                 $component = new PaperTemplatePreviewComponent($c->get(ComponentConfiguration::class));
-                if($accessPresentation->isAllowed($component, AccessPresentationEnum::DISPLAY)) {
+                if($accessPresentation->isAllowed($component, AccessPresentationEnum::EDIT)) {
                     // komponent s obsahem
                     $component->setData($viewModel);
-                    $component->setRendererContainer($c->get('rendererContainer'));
                     /** @var TemplatedComponent $templatedComponent */
                     $templatedComponent = $c->get(TemplatedComponent::class);
-                    $templatedComponent->appendComponentView($c->get(ElementInheritDataComponent::class), PaperComponent::HEADLINE);
-                    $templatedComponent->appendComponentView($c->get(ElementInheritDataComponent::class), PaperComponent::PEREX);
-                    $templatedComponent->appendComponentView($c->get(ElementInheritDataComponent::class), PaperComponent::SECTIONS);
+                    $templatedComponent->appendComponentView($c->get(PaperComponent::HEADLINE), PaperComponent::HEADLINE);
+                    $templatedComponent->appendComponentView($c->get(PaperComponent::PEREX), PaperComponent::PEREX);
+                    $templatedComponent->appendComponentView($c->get(PaperComponent::SECTIONS), PaperComponent::SECTIONS);
 
                     // přidání komponentu do paper
                     $component->appendComponentView($templatedComponent, PaperComponent::CONTENT);
                     $component->setRendererName(PaperRenderer::class);
-
-                    $templatedComponent->getComponentView(PaperComponent::HEADLINE)->setRendererName(HeadlineRenderer::class);
-                    $templatedComponent->getComponentView(PaperComponent::PEREX)->setRendererName(PerexRenderer::class);
-                    $templatedComponent->getComponentView(PaperComponent::SECTIONS)->setRendererName(SectionsRenderer::class);
                 } else {
                     $component = $c->get(ElementComponent::class);
                     $component->setRendererName(NoPermittedContentRenderer::class);
                 }
+                $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
             // nepoužito
-            PaperTemplateComponent::class => function(ContainerInterface $c) {
-                /** @var AccessPresentationInterface $accessPresentation */
-                $accessPresentation = $c->get(AccessPresentation::class);
-                /** @var ComponentConfigurationInterface $configuration */
-                $configuration = $c->get(ComponentConfiguration::class);
-
-                $component = new PaperTemplateComponent($c->get(ComponentConfiguration::class));
-                $component->setData($c->get(PaperViewModel::class));
-                $component->setRendererContainer($c->get('rendererContainer'));
-
-                return $component;
-            },
+//            PaperTemplateComponent::class => function(ContainerInterface $c) {
+//                /** @var AccessPresentationInterface $accessPresentation */
+//                $accessPresentation = $c->get(AccessPresentation::class);
+//
+//                $component = new PaperTemplateComponent($c->get(ComponentConfiguration::class));
+//                $component->setData($c->get(PaperViewModel::class));
+//                $component->setRendererContainer($c->get('rendererContainer'));
+//
+//                return $component;
+//            },
             ArticleComponent::class => function(ContainerInterface $c)   {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
@@ -499,7 +515,6 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                     /** @var ArticleViewModel $viewModel */
                     $viewModel = $c->get(ArticleViewModel::class);
                     $component->setData($viewModel);
-                    $component->setRendererContainer($c->get('rendererContainer'));
 
                     if ($accessPresentation->getStatus()->presentEditableContent() AND $accessPresentation->isAllowed($component, AccessPresentationEnum::EDIT)) {
                         $component->appendComponentView($c->get(EditContentSwitchComponent::class), ArticleComponent::BUTTON_EDIT_CONTENT);
@@ -518,6 +533,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                     $component = $c->get(ElementComponent::class);
                     $component->setRendererName(NoPermittedContentRenderer::class);
                 }
+                $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
             MultipageComponent::class => function(ContainerInterface $c) {
@@ -554,6 +570,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 } else {
                     $component = $c->get(ElementComponent::class);
                     $component->setRendererName(NoPermittedContentRenderer::class);
+                    $component->setRendererContainer($c->get('rendererContainer'));
                 }
                 return $component;
             },
@@ -564,7 +581,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 $viewModel = $c->get(MultipageTemplatePreviewViewModel::class);
 
                 $component = new MultipageTemplatePreviewComponent($c->get(ComponentConfiguration::class));
-                if($accessPresentation->isAllowed($component, AccessPresentationEnum::DISPLAY)) {
+                if($accessPresentation->isAllowed($component, AccessPresentationEnum::EDIT)) {
                     $component->setData($viewModel);
                     $component->setRendererContainer($c->get('rendererContainer'));
 
@@ -578,6 +595,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 } else {
                     $component = $c->get(ElementComponent::class);
                     $component->setRendererName(NoPermittedContentRenderer::class);
+                    $component->setRendererContainer($c->get('rendererContainer'));
                 }
                 return $component;
             },
@@ -594,7 +612,12 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 $configuration = $c->get(ComponentConfiguration::class);
 
                 $component = new SelectTemplateComponent($c->get(ComponentConfiguration::class));
-                $component->setRendererName(SelectTemplateRenderer::class);
+                if($accessPresentation->isAllowed($component, AccessPresentationEnum::EDIT)) {
+                    $component->setRendererName(SelectTemplateRenderer::class);
+                } else {
+                    $component = $c->get(ElementComponent::class);
+                    $component->setRendererName(NoPermittedContentRenderer::class);
+                }
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
@@ -608,13 +631,16 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
             LanguageSelectComponent::class => function(ContainerInterface $c) {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
-                /** @var ComponentConfigurationInterface $configuration */
-                $configuration = $c->get(ComponentConfiguration::class);
 
                 $component = new LanguageSelectComponent($c->get(ComponentConfiguration::class));
-                $component->setData($c->get(LanguageSelectViewModel::class));
+                if($accessPresentation->isAllowed($component, AccessPresentationEnum::DISPLAY)) {
+                    $component->setData($c->get(LanguageSelectViewModel::class));
+                    $component->setRendererName(LanguageSelectRenderer::class);
+                } else {
+                    $component = $c->get(ElementComponent::class);
+                    $component->setRendererName(NoPermittedContentRenderer::class);
+                }
                 $component->setRendererContainer($c->get('rendererContainer'));
-                $component->setRendererName(LanguageSelectRenderer::class);
                 return $component;
             },
             SearchResultComponent::class => function(ContainerInterface $c) {
@@ -645,7 +671,13 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 $accessPresentation = $c->get(AccessPresentation::class);
 
                 $component = new ItemTypeSelectComponent($c->get(ComponentConfiguration::class));
-                $component->setData($c->get(ItemTypeSelectViewModel::class));
+                if($accessPresentation->isAllowed($component, AccessPresentationEnum::EDIT)) {
+                    $component->setData($c->get(ItemTypeSelectViewModel::class));
+                    $component->setRendererName(ItemTypeSelectRenderer::class);
+                } else {
+                    $component = $c->get(ElementComponent::class);
+                    $component->setRendererName(NoPermittedContentRenderer::class);
+                }
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
@@ -655,13 +687,13 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 /** @var ComponentConfigurationInterface $configuration */
                 $configuration = $c->get(ComponentConfiguration::class);
                 $component = new StatusBoardComponent($configuration);
-                if($accessPresentation->isAllowed($component, AccessPresentationEnum::DISPLAY)) {
+                if($accessPresentation->isAllowed($component, AccessPresentationEnum::EDIT)) {
+                    $component->setData($c->get(StatusBoardViewModel::class));
                     $component->setTemplate(new PhpTemplate($configuration->getTemplateStatusBoard()));
                 } else {
                     $component = $c->get(ElementComponent::class);
                     $component->setRendererName(NoPermittedContentRenderer::class);
                 }
-                $component->setData($c->get(StatusBoardViewModel::class));
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
@@ -682,8 +714,8 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
 
                 $component = new FlashComponent($c->get(ComponentConfiguration::class));
                 $component->setData($c->get(FlashViewModel::class));
-                $component->setRendererContainer($c->get('rendererContainer'));
                 $component->setTemplate(new PhpTemplate($configuration->getTemplateFlash()));
+                $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
             LoginLogoutComponent::class => function(ContainerInterface $c) {
@@ -735,7 +767,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                     $component->setTemplate(new PhpTemplate($configuration->getTemplateUserAction()));
                 } else {
                     $component = $c->get(ElementComponent::class);
-                    $component->setRendererName(NoContentForStatusRenderer::class);
+                    $component->setRendererName(NoPermittedContentRenderer::class);
                 }
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
@@ -753,7 +785,6 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                     $component = $c->get(ElementComponent::class);
                     $component->setRendererName(NoPermittedContentRenderer::class);
                 }
-
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
@@ -762,17 +793,15 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 $accessPresentation = $c->get(AccessPresentation::class);
                 $configuration = $c->get(ComponentConfiguration::class);
 
-                $component = new ButtonsItemManipulationComponent(
-                        $configuration
-                     );
-                $component->setData($c->get(EditMenuSwitchViewModel::class));
-
+                $component = new ButtonsItemManipulationComponent($configuration);
                 if($component->isAllowedToPresent(AccessPresentationEnum::DISPLAY)) {
+                    $component->setData($c->get(EditMenuSwitchViewModel::class));
                     $component->setTemplate(new PhpTemplate($configuration->getTemplateControlEditMenu()));
                 } else {
+                    $component = $c->get(ElementComponent::class);
                     $component->setRendererName(NoPermittedContentRenderer::class);
+                    $component->setRendererContainer($c->get('rendererContainer'));
                 }
-
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
@@ -781,17 +810,14 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 $accessPresentation = $c->get(AccessPresentation::class);
                 $configuration = $c->get(ComponentConfiguration::class);
 
-                $component = new ButtonsMenuManipulationComponent(
-                        $configuration
-                     );
-                $component->setData($c->get(EditMenuSwitchViewModel::class));
-
+                $component = new ButtonsMenuManipulationComponent($configuration);
                 if($component->isAllowedToPresent(AccessPresentationEnum::DISPLAY)) {
+                    $component->setData($c->get(EditMenuSwitchViewModel::class));
                     $component->setTemplate(new PhpTemplate($configuration->getTemplateControlEditMenu()));
                 } else {
+                    $component = $c->get(ElementComponent::class);
                     $component->setRendererName(NoPermittedContentRenderer::class);
                 }
-
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },

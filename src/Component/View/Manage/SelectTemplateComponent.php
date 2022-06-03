@@ -25,17 +25,4 @@ class SelectTemplateComponent extends ComponentCompositeAbstract implements Inhe
     public function inheritData(iterable $data): ViewInterface {
         return $this->setData($data);
     }
-
-    /**
-     * Pro oprávnění 'edit' renderuje ButtonEditContentRenderer jinak NonPermittedContentRenderer.
-     *
-     * @return void
-     */
-    public function beforeRenderingHook(): void {
-        if($this->isAllowedToPresent(AccessPresentationEnum::EDIT)) {
-            $this->setRendererName(SelectTemplateRenderer::class);
-        } else {
-            $this->setRendererName(NoPermittedContentRenderer::class);
-        }
-    }
 }
