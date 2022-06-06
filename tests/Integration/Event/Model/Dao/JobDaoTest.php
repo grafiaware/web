@@ -36,9 +36,9 @@ class JobDaoTest  extends AppRunner {
     private static $stupen_fk;
     private static $company_id;
     private static $jobToTag_jobId;
-    private static $visitorPrimaryKeyTouples;
+   // private static $visitorPrimaryKeyTouples;
     private static $login_login_name;
-    
+    private static $jobTagTouple;
 
     public static function setUpBeforeClass(): void {        
         self::bootstrapBeforeClass();
@@ -73,13 +73,15 @@ class JobDaoTest  extends AppRunner {
         /** @var LoginDao $loginDao */
         $loginDao = $container->get(LoginDao::class);
         do {
-            $loginName = $prefix."_".uniqid();
+            $loginName = /*$prefix."_".*/ uniqid();
             $loginPouzit = $loginDao->get(['login_name' => $loginName]);
         } while ($loginPouzit);
         $loginData = new RowData();
         $loginData->import(['login_name' => $loginName]);
         $loginDao->insert($loginData);
         self::$login_login_name = $loginDao->get(['login_name' => $loginName])['login_name'];
+        
+        self::$jobTagTouple = [ 'job_tag_tag' => 'technická'];
     }
 
     protected function setUp(): void {
@@ -151,7 +153,8 @@ class JobDaoTest  extends AppRunner {
         $this->assertInstanceOf(JobDao::class, $this->dao);
 
     }
-      public function testInsert() {                  
+      public function testInsert() {      
+        //vvrobit job
         $rowData = new RowData();
         $rowData->import( ['company_id' => self::$company_id, 'pozadovane_vzdelani_stupen' => self::$stupen_fk  ]);
         $this->dao->insert($rowData);        
@@ -159,22 +162,21 @@ class JobDaoTest  extends AppRunner {
         $this->assertIsArray(self::$idTouple);
         $numRows = $this->dao->getRowCount();
         $this->assertEquals(1, $numRows);
+                
         
         //vyrobit job_to_tag
         /** @var JobToTagDao $jobToTagDao */
         $jobToTagDao = $this->container->get(JobToTagDao::class);  
         $jobToTagData = new RowData();
-        $jobToTagData->import( ['job_tag_tag' => 'Věda a technika'  ] );
-        $jobToTagDao->insert($jobToTagData);    
-        self::$jobToTag_jobId = $jobToTagDao->getJobId();  
-                        
+        $jobToTagData->import( [ self::$jobTagTouple ['job_tag_tag']  , 'job_id'=>self::$idTouple['id'] ] );
+        $jobToTagDao->insert($jobToTagData);                            
         //vyrobit visitor_job_request
         /** @var VisitorJobRequestDao $visitorJobRequestDao */
         $visitorJobRequestDao =  $this->container->get( VisitorJobRequestDao::class);  
         $visitorJobRequestData = new RowData();        
-        $visitorJobRequestData->import( ['job_tag_tag' => 'Věda a technika', 'login_name' => self::$login_login_name  ] );
+        $visitorJobRequestData->import( ['job_id'=>self::$idTouple['id'], 'login_login_name' => self::$login_login_name,
+                                         'position_name'=>"název pozice" ] );
         $visitorJobRequestDao->insert( $visitorJobRequestData );    
-        self::$visitorPrimaryKeyTouples = $visitorJobRequestDao->getPrimaryKeyTouples(); 
         
     }
 
@@ -228,13 +230,13 @@ class JobDaoTest  extends AppRunner {
         //job_to_tag
         /** @var JobToTagDao $jobToTagDao */
         $jobToTagDao = $this->container->get(JobToTagDao::class);      
-        $jobToTagData = $jobToTagDao->get( ['job_id' => self::$jobToTag_jobId ] );  
+        $jobToTagData = $jobToTagDao->get( ['job_id' => self::$jobToTag_jobId,  self::$jobTagTouple  ] );  
         $this->assertNull($jobToTagData); 
                                     
         //smazat visitor_job_request
         /** @var VisitorJobRequestDao $visitorJobRequestDao */
         $visitorJobRequestDao = $this->container->get( VisitorJobRequestDao::class);  
-        $visitorJobRequestData = $visitorJobRequestDao->get(self::$visitorPrimaryKeyTouples);        
+        $visitorJobRequestData = $visitorJobRequestDao->get( ['login_login_name' => self::$login_login_name] );        
         $this->assertNull($visitorJobRequestData); 
 
     }
