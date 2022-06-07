@@ -35,8 +35,6 @@ class JobDaoTest  extends AppRunner {
     private static $idTouple; 
     private static $stupen_fk;
     private static $company_id;
-    private static $jobToTag_jobId;
-   // private static $visitorPrimaryKeyTouples;
     private static $login_login_name;
     private static $jobTagTouple;
 
@@ -62,18 +60,18 @@ class JobDaoTest  extends AppRunner {
         $companyDao->insert($companyData);
         self::$company_id = $companyDao->lastInsertIdValue();
         
-         /** @var PozadovaneVzdelaniDao $pozadovaneVzdelaniDao */
+        /** @var PozadovaneVzdelaniDao $pozadovaneVzdelaniDao */
         $pozadovaneVzdelaniDao = $container->get(PozadovaneVzdelaniDao::class);
         $pozadovaneVzdelaniData = new RowData();
         $pozadovaneVzdelaniData->import(['stupen' => "999" ]);
-        $pozadovaneVzdelaniData->import(['vzdelani' => "vzdelani 999" ]);
+        $pozadovaneVzdelaniData->import(['vzdelani' => "vzdelani 999 proJobDaoTest" ]);
         $pozadovaneVzdelaniDao->insert($pozadovaneVzdelaniData);      
         self::$stupen_fk = $pozadovaneVzdelaniDao->get(['stupen' => "999" ]) ['stupen'] ;      
         
         /** @var LoginDao $loginDao */
         $loginDao = $container->get(LoginDao::class);
         do {
-            $loginName = /*$prefix."_".*/ uniqid();
+            $loginName =  uniqid();
             $loginPouzit = $loginDao->get(['login_name' => $loginName]);
         } while ($loginPouzit);
         $loginData = new RowData();
@@ -105,12 +103,12 @@ class JobDaoTest  extends AppRunner {
                 )
             );
                 
-        /** @var JobDao $jobDao */
-        $jobDao = $container->get(JobDao::class);    
-        $jobData = $jobDao->get(['id' => self::$idTouple['id'] ]);
-        if  ($jobData) {
-            $jobDao->delete($jobData);
-        }
+//        /** @var JobDao $jobDao */
+//        $jobDao = $container->get(JobDao::class);    
+//        $jobData = $jobDao->get(['id' => self::$idTouple['id'] ]);
+//        if  ($jobData) {
+//            $jobDao->delete($jobData);
+//        }
         
         /** @var PozadovaneVzdelaniDao $pozadovaneVzdelaniDao */
         $pozadovaneVzdelaniDao = $container->get(PozadovaneVzdelaniDao::class);    
@@ -125,24 +123,7 @@ class JobDaoTest  extends AppRunner {
         /** @var LoginDao $loginDao */
         $loginDao = $container->get(LoginDao::class);        
         $loginData = $loginDao->get(['login_name' => self::$login_login_name]);
-        $loginDao->delete($loginData);
-           
-//        //smazat job_to_tag
-//        /** @var JobToTagDao $jobToTagDao */
-//        $jobToTagDao = $container->get(JobToTag::class);      
-//        $jobToTagDao->get(self::$jobToTag_jobId);        
-//        $jobToTagDao->insert($jobToTagData);    
-//        self::$jobToTag_jobId = $jobToTagDao->getJobId();        
-//                
-//        //smayat visitor_job_request
-//        /** @var VisitorJobRequestDao $visitorJobRequestDao */
-//        $visitorJobRequestDao = $container->get( VisitorJobRequestDao::class);  
-//        $visitorJobRequestData = new RowData();
-//        $visitorJobRequestData->import( ['job_tag_tag' => 'Věda a technika'  ] );
-//        $visitorJobRequestDao->insert( $visitorJobRequestData );    
-//        self::$visitorPrima
-       
-        
+        $loginDao->delete($loginData);                          
         
     }
 
@@ -168,8 +149,9 @@ class JobDaoTest  extends AppRunner {
         /** @var JobToTagDao $jobToTagDao */
         $jobToTagDao = $this->container->get(JobToTagDao::class);  
         $jobToTagData = new RowData();
-        $jobToTagData->import( [ self::$jobTagTouple ['job_tag_tag']  , 'job_id'=>self::$idTouple['id'] ] );
-        $jobToTagDao->insert($jobToTagData);                            
+        $jobToTagData->import( [ 'job_tag_tag' => self::$jobTagTouple ['job_tag_tag']  , 'job_id'=>self::$idTouple['id'] ] );
+        $jobToTagDao->insert($jobToTagData);    
+        
         //vyrobit visitor_job_request
         /** @var VisitorJobRequestDao $visitorJobRequestDao */
         $visitorJobRequestDao =  $this->container->get( VisitorJobRequestDao::class);  
@@ -230,13 +212,13 @@ class JobDaoTest  extends AppRunner {
         //job_to_tag
         /** @var JobToTagDao $jobToTagDao */
         $jobToTagDao = $this->container->get(JobToTagDao::class);      
-        $jobToTagData = $jobToTagDao->get( ['job_id' => self::$jobToTag_jobId,  self::$jobTagTouple  ] );  
+        $jobToTagData = $jobToTagDao->get( ['job_id' => self::$idTouple['id'], 'job_tag_tag' => self::$jobTagTouple['job_tag_tag'] ] );  
         $this->assertNull($jobToTagData); 
                                     
-        //smazat visitor_job_request
+        //visitor_job_request
         /** @var VisitorJobRequestDao $visitorJobRequestDao */
         $visitorJobRequestDao = $this->container->get( VisitorJobRequestDao::class);  
-        $visitorJobRequestData = $visitorJobRequestDao->get( ['login_login_name' => self::$login_login_name] );        
+        $visitorJobRequestData = $visitorJobRequestDao->get( ['login_login_name' => self::$login_login_name ] );        
         $this->assertNull($visitorJobRequestData); 
 
     }

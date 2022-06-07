@@ -44,9 +44,7 @@ class EventContentDaoTest extends AppRunner {
         //tabulka institution
         /** @var InstitutionDao $institutionDao */         
         $institutionDao = $container->get(InstitutionDao::class);
-        $rowData = new RowData();        
-        //$rowData->offsetSet('name', "testEventContentDao-name");
-        //$rowData->offsetSet('institution_type_id', null);
+        $rowData = new RowData();               
         $rowData->import( [ 'name' => "testEventContentDao-name" , 'institution_type_id' => null ]);
         $institutionDao->insert($rowData);
         self::$idInstitutionTouple =  $institutionDao->getLastInsertIdTouple();
@@ -159,8 +157,6 @@ class EventContentDaoTest extends AppRunner {
         $eventDao = $this->container->get(EventDao::class);
         $eventData = $eventDao->get( ['id' => self::$event_id  ] );
         $this->assertNull($eventData [ 'event_content_id_fk' ]);
-                
-        
-        
+            
     }
 }
