@@ -69,6 +69,7 @@ class EventLinkPhaseDaoTest extends AppRunner {
         $this->assertEquals(1, $numRows);
         
         //vyrobit EventLink vetu
+        /** @var EventLinkDao $eventLinkDao */
         $eventLinkDao = $this->container->get( EventLinkDao::class);
         $eventLinkData = new RowData();
         $eventLinkData->import( ['show' => 1 ] );

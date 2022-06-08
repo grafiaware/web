@@ -103,12 +103,7 @@ class JobDaoTest  extends AppRunner {
                 )
             );
                 
-//        /** @var JobDao $jobDao */
-//        $jobDao = $container->get(JobDao::class);    
-//        $jobData = $jobDao->get(['id' => self::$idTouple['id'] ]);
-//        if  ($jobData) {
-//            $jobDao->delete($jobData);
-//        }
+
         
         /** @var PozadovaneVzdelaniDao $pozadovaneVzdelaniDao */
         $pozadovaneVzdelaniDao = $container->get(PozadovaneVzdelaniDao::class);    
