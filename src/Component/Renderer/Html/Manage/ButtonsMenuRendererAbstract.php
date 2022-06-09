@@ -29,6 +29,33 @@ abstract class ButtonsMenuRendererAbstract  extends HtmlRendererAbstract {
             );
     }
 
+    protected function getButtonActive(MenuItemInterface $menuItem) {
+        $active = $menuItem->getActive();
+        return Html::tag('button',
+                ['class'=>$this->classMap->get('Buttons', 'button'),
+                'data-tooltip'=> $active ? 'Nepublikovat' : 'Publikovat',
+                'type'=>'submit',
+                'formmethod'=>'post',
+                'formaction'=>"red/v1/menu/{$menuItem->getUidFk()}/toggle",
+                ],
+                Html::tag('i', ['class'=>$this->classMap->resolve($active, 'Icons', 'icon.notpublish', 'icon.publish')])
+            );
+    }
+
+    protected function getButtonTrash(MenuItemInterface $menuItem) {
+        return Html::tag('button', [
+                'class'=>$this->classMap->get('Buttons', 'button'),
+                'data-tooltip'=>'Odstranit položku',
+                'data-position'=>'top right',
+                'type'=>'submit',
+                'formmethod'=>'post',
+                'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/trash",
+                'onclick'=>"return confirm('Jste si jisti?');"
+                    ],
+                Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.movetotrash')])
+            );
+    }
+
     protected function getButtonAdd(MenuItemInterface $menuItem) {
         return Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button'),
@@ -42,7 +69,7 @@ abstract class ButtonsMenuRendererAbstract  extends HtmlRendererAbstract {
     }
 
     protected function getButtonAddChild(MenuItemInterface $menuItem) {
-            Html::tag('button', [
+            return Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button'),
                 'data-tooltip'=>'Přidat potomka',
                 'type'=>'submit',

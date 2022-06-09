@@ -260,6 +260,9 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
             LevelViewModel::class => function(ContainerInterface $c) {
                 return new LevelViewModel();
             },
+            ItemTypeEnum::class => function(ContainerInterface $c) {
+                return new ItemTypeEnum();
+            },
         ####
         # jednotlivé menu komponenty
         # (jsou jen jedna na stránku, pro přehlednost jsou zde)
@@ -278,7 +281,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                     $viewModel = $c->get(MenuViewModel::class);
                     $viewModel->setMenuRootName($menuConfig['rootName']);
                     $viewModel->withRootItem($menuConfig['withRootItem']);
-                    $viewModel->setItemType(ItemTypeEnum::ONELEVEL);
+                    $viewModel->setItemType($c->get(ItemTypeEnum::class)($menuConfig['itemtype']));
                     $component->setData($viewModel);
 
                 } else {
@@ -301,7 +304,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                     $viewModel = $c->get(MenuViewModel::class);
                     $viewModel->setMenuRootName($menuConfig['rootName']);
                     $viewModel->withRootItem($menuConfig['withRootItem']);
-                    $viewModel->setItemType(ItemTypeEnum::ONELEVEL);
+                    $viewModel->setItemType($c->get(ItemTypeEnum::class)($menuConfig['itemtype']));
                     $component->setData($viewModel);
                 } else {
                     $component = $c->get(ElementComponent::class);
@@ -323,7 +326,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                     $viewModel = $c->get(MenuViewModel::class);
                     $viewModel->setMenuRootName($menuConfig['rootName']);
                     $viewModel->withRootItem($menuConfig['withRootItem']);
-                    $viewModel->setItemType(ItemTypeEnum::MULTILEVEL);
+                    $viewModel->setItemType($c->get(ItemTypeEnum::class)($menuConfig['itemtype']));
                     $component->setData($viewModel);
                 } else {
                     $component = $c->get(ElementComponent::class);
@@ -346,7 +349,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                     $viewModel = $c->get(MenuViewModel::class);
                     $viewModel->setMenuRootName($menuConfig['rootName']);
                     $viewModel->withRootItem($menuConfig['withRootItem']);
-                    $viewModel->setItemType(ItemTypeEnum::ONELEVEL);
+                    $viewModel->setItemType($c->get(ItemTypeEnum::class)($menuConfig['itemtype']));
                     $component->setData($viewModel);
                 } else {
                     $component = $c->get(ElementComponent::class);
@@ -368,7 +371,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                     $viewModel = $c->get(MenuViewModel::class);
                     $viewModel->setMenuRootName($menuConfig['rootName']);
                     $viewModel->withRootItem($menuConfig['withRootItem']);
-                    $viewModel->setItemType(ItemTypeEnum::TRASH);
+                    $viewModel->setItemType($c->get(ItemTypeEnum::class)($menuConfig['itemtype']));
                     $component->setData($viewModel);
                 } else {
                     $component = $c->get(ElementComponent::class);
