@@ -51,6 +51,7 @@ use Component\View\ComponentInterface;
 
 use Component\View\Menu\MenuComponent;
 use Component\View\Menu\MenuComponentInterface;
+use Component\View\Menu\LevelComponent;
 
 use Component\View\MenuItem\TypeSelect\ItemTypeSelectComponent;
 use Component\View\MenuItem\Authored\Paper\PaperComponent;
@@ -81,10 +82,14 @@ use Component\View\Manage\StatusBoardComponent;
 use Component\View\Manage\EditMenuSwitchComponent;
 use Component\View\Manage\EditContentSwitchComponent;
 
+// enum pro typ položek menu
+use Component\ViewModel\Menu\Enum\ItemTypeEnum;
+
 // viewModel
 use Component\ViewModel\StatusViewModel;
 
 use Component\ViewModel\Menu\MenuViewModel;
+use Component\ViewModel\Menu\LevelViewModel;
 
 use Component\ViewModel\MenuItem\Authored\Paper\PaperViewModel;
 use Component\ViewModel\MenuItem\Authored\Article\ArticleViewModel;
@@ -228,11 +233,17 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
             MenuComponent::class => function(ContainerInterface $c) {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
-                $component = new MenuComponent($c->get(ComponentConfiguration::class));
+                $component = new MenuComponent($c->get(ComponentConfiguration::class), $c);  // kontejner
                 $component->setRendererContainer($c->get('rendererContainer'));
                 if ($accessPresentation->getStatus()->presentEditableContent() AND $accessPresentation->isAllowed($component, AccessPresentationEnum::EDIT)) {
                     $component->appendComponentView($c->get(EditMenuSwitchComponent::class), MenuComponentInterface::TOGGLE_EDIT_MENU_BUTTON);
                 }
+                return $component;
+            },
+            LevelComponent::class => function(ContainerInterface $c) {
+                $component = new LevelComponent($c->get(ComponentConfiguration::class));
+                $component->setData($c->get(LevelViewModel::class));
+                $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
         ####
@@ -246,24 +257,30 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                             $c->get(MenuRootRepo::class)
                         );
             },
+            LevelViewModel::class => function(ContainerInterface $c) {
+                return new LevelViewModel();
+            },
         ####
         # jednotlivé menu komponenty
         # (jsou jen jedna na stránku, pro přehlednost jsou zde)
         #
             'menu.presmerovani' => function(ContainerInterface $c) {
                 $menuConfig = $c->get('menu.componentsServices')['menu.presmerovani'];
-                /** @var MenuViewModel $viewModel */
-                $viewModel = $c->get(MenuViewModel::class);
-                $viewModel->setMenuRootName($menuConfig['root_name']);
-                $viewModel->withRootItem($menuConfig['with_rootItem']);
+
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 /** @var MenuComponent $component */
                 $component = $c->get(MenuComponent::class);
                 if($accessPresentation->isAllowed($component, AccessPresentationEnum::DISPLAY)) {
                     $component->setRendererName(MenuRenderer::class);
-                    $component->setRenderersNames($menuConfig['menuwraprenderer'], $menuConfig['levelwraprenderer'], ItemRenderer::class, ItemRendererEditable::class);
+                    $component->setRenderersNames($menuConfig['levelRenderer'], ItemRenderer::class, ItemRendererEditable::class);
+                    /** @var MenuViewModel $viewModel */
+                    $viewModel = $c->get(MenuViewModel::class);
+                    $viewModel->setMenuRootName($menuConfig['rootName']);
+                    $viewModel->withRootItem($menuConfig['withRootItem']);
+                    $viewModel->setItemType(ItemTypeEnum::ONELEVEL);
                     $component->setData($viewModel);
+
                 } else {
                     $component = $c->get(ElementComponent::class);
                     $component->setRendererName(NoPermittedContentRenderer::class);
@@ -272,17 +289,19 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             'menu.vodorovne' => function(ContainerInterface $c) {
                 $menuConfig = $c->get('menu.componentsServices')['menu.vodorovne'];
-                /** @var MenuViewModel $viewModel */
-                $viewModel = $c->get(MenuViewModel::class);
-                $viewModel->setMenuRootName($menuConfig['root_name']);
-                $viewModel->withRootItem($menuConfig['with_rootItem']);
+
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 /** @var MenuComponent $component */
                 $component = $c->get(MenuComponent::class);
                 if($accessPresentation->isAllowed($component, AccessPresentationEnum::DISPLAY)) {
                     $component->setRendererName(MenuRenderer::class);
-                    $component->setRenderersNames($menuConfig['menuwraprenderer'], $menuConfig['levelwraprenderer'], ItemRenderer::class, ItemRendererEditable::class);
+                    $component->setRenderersNames($menuConfig['levelRenderer'], ItemRenderer::class, ItemRendererEditable::class);
+                    /** @var MenuViewModel $viewModel */
+                    $viewModel = $c->get(MenuViewModel::class);
+                    $viewModel->setMenuRootName($menuConfig['rootName']);
+                    $viewModel->withRootItem($menuConfig['withRootItem']);
+                    $viewModel->setItemType(ItemTypeEnum::ONELEVEL);
                     $component->setData($viewModel);
                 } else {
                     $component = $c->get(ElementComponent::class);
@@ -292,17 +311,19 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             'menu.svisle' => function(ContainerInterface $c) {
                 $menuConfig = $c->get('menu.componentsServices')['menu.svisle'];
-                /** @var MenuViewModel $viewModel */
-                $viewModel = $c->get(MenuViewModel::class);
-                $viewModel->setMenuRootName($menuConfig['root_name']);
-                $viewModel->withRootItem($menuConfig['with_rootItem']);
+
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 /** @var MenuComponent $component */
                 $component = $c->get(MenuComponent::class);
                 if($accessPresentation->isAllowed($component, AccessPresentationEnum::DISPLAY)) {
                     $component->setRendererName(MenuRenderer::class);
-                    $component->setRenderersNames($menuConfig['menuwraprenderer'], $menuConfig['levelwraprenderer'], ItemRenderer::class, ItemRendererEditable::class);
+                    $component->setRenderersNames($menuConfig['levelRenderer'], ItemRenderer::class, ItemRendererEditable::class);
+                    /** @var MenuViewModel $viewModel */
+                    $viewModel = $c->get(MenuViewModel::class);
+                    $viewModel->setMenuRootName($menuConfig['rootName']);
+                    $viewModel->withRootItem($menuConfig['withRootItem']);
+                    $viewModel->setItemType(ItemTypeEnum::MULTILEVEL);
                     $component->setData($viewModel);
                 } else {
                     $component = $c->get(ElementComponent::class);
@@ -313,17 +334,19 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
             //bloky
             'menu.bloky' => function(ContainerInterface $c) {
                 $menuConfig = $c->get('menu.componentsServices')['menu.bloky'];
-                /** @var MenuViewModel $viewModel */
-                $viewModel = $c->get(MenuViewModel::class);
-                $viewModel->setMenuRootName($menuConfig['root_name']);
-                $viewModel->withRootItem($menuConfig['with_rootItem']);
+
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 /** @var MenuComponent $component */
                 $component = $c->get(MenuComponent::class);
                 if($accessPresentation->isAllowed($component, AccessPresentationEnum::DISPLAY)) {
                     $component->setRendererName(MenuRenderer::class);
-                    $component->setRenderersNames($menuConfig['menuwraprenderer'], $menuConfig['levelwraprenderer'], ItemRenderer::class, ItemRendererEditable::class);
+                    $component->setRenderersNames($menuConfig['levelRenderer'], ItemRenderer::class, ItemRendererEditable::class);
+                    /** @var MenuViewModel $viewModel */
+                    $viewModel = $c->get(MenuViewModel::class);
+                    $viewModel->setMenuRootName($menuConfig['rootName']);
+                    $viewModel->withRootItem($menuConfig['withRootItem']);
+                    $viewModel->setItemType(ItemTypeEnum::ONELEVEL);
                     $component->setData($viewModel);
                 } else {
                     $component = $c->get(ElementComponent::class);
@@ -334,17 +357,18 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
             //kos
             'menu.kos' => function(ContainerInterface $c) {
                 $menuConfig = $c->get('menu.componentsServices')['menu.kos'];
-                /** @var MenuViewModel $viewModel */
-                $viewModel = $c->get(MenuViewModel::class);
-                $viewModel->setMenuRootName($menuConfig['root_name']);
-                $viewModel->withRootItem($menuConfig['with_rootItem']);
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
                 /** @var MenuComponent $component */
                 $component = $c->get(MenuComponent::class);
                 if($accessPresentation->isAllowed($component, AccessPresentationEnum::DISPLAY)) {
                     $component->setRendererName(MenuRenderer::class);
-                    $component->setRenderersNames($menuConfig['menuwraprenderer'], $menuConfig['levelwraprenderer'], ItemRenderer::class, ItemRendererEditable::class);
+                    $component->setRenderersNames($menuConfig['levelRenderer'], ItemRenderer::class, ItemRendererEditable::class);
+                    /** @var MenuViewModel $viewModel */
+                    $viewModel = $c->get(MenuViewModel::class);
+                    $viewModel->setMenuRootName($menuConfig['rootName']);
+                    $viewModel->withRootItem($menuConfig['withRootItem']);
+                    $viewModel->setItemType(ItemTypeEnum::TRASH);
                     $component->setData($viewModel);
                 } else {
                     $component = $c->get(ElementComponent::class);
@@ -494,17 +518,17 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
             },
-            // nepoužito
-//            PaperTemplateComponent::class => function(ContainerInterface $c) {
-//                /** @var AccessPresentationInterface $accessPresentation */
-//                $accessPresentation = $c->get(AccessPresentation::class);
-//
-//                $component = new PaperTemplateComponent($c->get(ComponentConfiguration::class));
-//                $component->setData($c->get(PaperViewModel::class));
-//                $component->setRendererContainer($c->get('rendererContainer'));
-//
-//                return $component;
-//            },
+            // náhled šablony pro výběr šablony v tiny
+            PaperTemplateComponent::class => function(ContainerInterface $c) {
+                /** @var AccessPresentationInterface $accessPresentation */
+                $accessPresentation = $c->get(AccessPresentation::class);
+
+                $component = new PaperTemplateComponent($c->get(ComponentConfiguration::class));
+                $component->setData($c->get(PaperViewModel::class));
+                $component->setRendererContainer($c->get('rendererContainer'));
+
+                return $component;
+            },
             ArticleComponent::class => function(ContainerInterface $c)   {
                 /** @var AccessPresentationInterface $accessPresentation */
                 $accessPresentation = $c->get(AccessPresentation::class);
@@ -687,7 +711,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 /** @var ComponentConfigurationInterface $configuration */
                 $configuration = $c->get(ComponentConfiguration::class);
                 $component = new StatusBoardComponent($configuration);
-                if($accessPresentation->isAllowed($component, AccessPresentationEnum::EDIT)) {
+                if($accessPresentation->isAllowed($component, AccessPresentationEnum::DISPLAY)) {
                     $component->setData($c->get(StatusBoardViewModel::class));
                     $component->setTemplate(new PhpTemplate($configuration->getTemplateStatusBoard()));
                 } else {
@@ -794,13 +818,9 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 $configuration = $c->get(ComponentConfiguration::class);
 
                 $component = new ButtonsItemManipulationComponent($configuration);
-                if($component->isAllowedToPresent(AccessPresentationEnum::DISPLAY)) {
-                    $component->setData($c->get(EditMenuSwitchViewModel::class));
-                    $component->setTemplate(new PhpTemplate($configuration->getTemplateControlEditMenu()));
-                } else {
+                if(!$component->isAllowedToPresent(AccessPresentationEnum::EDIT)) {
                     $component = $c->get(ElementComponent::class);
                     $component->setRendererName(NoPermittedContentRenderer::class);
-                    $component->setRendererContainer($c->get('rendererContainer'));
                 }
                 $component->setRendererContainer($c->get('rendererContainer'));
                 return $component;
@@ -811,10 +831,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 $configuration = $c->get(ComponentConfiguration::class);
 
                 $component = new ButtonsMenuManipulationComponent($configuration);
-                if($component->isAllowedToPresent(AccessPresentationEnum::DISPLAY)) {
-                    $component->setData($c->get(EditMenuSwitchViewModel::class));
-                    $component->setTemplate(new PhpTemplate($configuration->getTemplateControlEditMenu()));
-                } else {
+                if(!$component->isAllowedToPresent(AccessPresentationEnum::EDIT)) {
                     $component = $c->get(ElementComponent::class);
                     $component->setRendererName(NoPermittedContentRenderer::class);
                 }
@@ -972,8 +989,7 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                 return new PaperTemplatePreviewViewModel(
                             $c->get(StatusViewModel::class),
                             $c->get(MenuItemRepo::class),
-                            $c->get(MultipageRepo::class),
-                            $c->get(HierarchyJoinMenuItemRepo::class)
+                            $c->get(PaperAggregateContentsRepo::class)
                     );
             },
             MultipageTemplatePreviewViewModel::class => function(ContainerInterface $c) {

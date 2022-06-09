@@ -6,7 +6,7 @@ use Component\View\ComponentCollectionAbstract;
 /**
  * Description of LevelComponent
  *
- *  LevelComponent je kontejner na item komponenty - je typu CollectionViewInterface, komponetní view se přidávají jako kolekce (iterable bez pojmenování prvků)
+ *  LevelComponent je kontejner na item komponenty - je typu CollectionViewInterface, komponentní view se přidávají jako kolekce (iterable bez pojmenování prvků)
  *
  * @author pes2704
  */

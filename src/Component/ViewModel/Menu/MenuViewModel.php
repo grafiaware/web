@@ -16,6 +16,8 @@ use Red\Model\Repository\MenuRootRepo;
 use Component\ViewModel\Menu\Item\ItemViewModel;
 use Component\ViewModel\Menu\Item\ItemViewModelInterface;
 
+use Component\ViewModel\Menu\Enum\ItemTypeEnum;
+
 /**
  * Description of MenuViewModel
  *
@@ -31,6 +33,7 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
     private $menuRootName;
     private $maxDepth;
     private $withRootItem;
+    private $itemType;
 
     private $models = [];
     private $itemViews = [];
@@ -84,6 +87,15 @@ class MenuViewModel extends ViewModelAbstract implements MenuViewModelInterface 
      */
     public function withRootItem($withRootItem = false): void {
         $this->withRootItem = $withRootItem;
+    }
+
+    public function setItemType($itemType) {
+        $typeEnum = new ItemTypeEnum();
+        $this->itemType = $typeEnum($itemType);
+    }
+
+    public function getItemType() {
+        return $this->itemType;
     }
 
     /**

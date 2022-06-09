@@ -179,46 +179,42 @@ class ConfigurationRed extends ConfigurationDb {
             // parametry menu jsou:
             //      'context_name' => jméno proměnné v šabloně (bez znaku $),
             //      'service_name' => jméno služby component kontejneru,
-            //      'root_name' => jméno kořene menu v db tabulce root_name,
-            //      'with_rootItem' => bool hodnota - true - zobrazuje se i obsah kořenového prvku menu,
+            //      'rootName' => jméno kořene menu v db tabulce rootName,
+            //      'withRootItem' => bool hodnota - true - zobrazuje se i obsah kořenového prvku menu,
             //      'itemtype! => jedna z hodnot 'menu', 'block', 'trash' - určuje výběr rendereru menu item
-            //      'menuwraprenderer' => jméno rendereru obalového elementu menu
+            //      'levelRenderer' => jméno rendereru obalového elementu menu
             //      'levelwraprenderer' => jméno rendereru jedné úrovně menu
         return [
             'menu.componentsServices' => [
                     'menu.presmerovani' => [
-                        'root_name' => 'menu_redirect',
-                        'with_rootItem' => false,
-                        'itemtype' => 'menu',
-                        'menuwraprenderer' => 'menu.presmerovani.menuwraprenderer',
-                        'levelwraprenderer' => 'menu.presmerovani.levelwraprenderer'
+                        'rootName' => 'menu_redirect',
+                        'withRootItem' => false,
+                        'itemtype' => 'onelevel',
+                        'levelRenderer' => 'menu.presmerovani.levelRenderer',
                         ],
                     'menu.vodorovne' => [
-                        'root_name' => 'menu_horizontal',
-                        'with_rootItem' => false,
-                        'itemtype' => 'menu',
-                        'menuwraprenderer' => 'menu.vodorovne.menuwraprenderer',
-                        'levelwraprenderer' => 'menu.vodorovne.levelwraprenderer'
+                        'rootName' => 'menu_horizontal',
+                        'withRootItem' => false,
+                        'itemtype' => 'onelevel',
+                        'levelRenderer' => 'menu.vodorovne.levelRenderer',
                         ],
                     'menu.svisle' => [
-                        'root_name' => 'menu_vertical',
-                        'with_rootItem' => false,
-                        'itemtype' => 'menu',
-                        'menuwraprenderer' => 'menu.svisle.menuwraprenderer',
-                        'levelwraprenderer' => 'menu.svisle.levelwraprenderer'],
+                        'rootName' => 'menu_vertical',
+                        'withRootItem' => false,
+                        'itemtype' => 'multilevel',
+                        'levelRenderer' => 'menu.svisle.levelRenderer',
+                        ],
                     'menu.bloky' => [
-                        'root_name' => 'blocks',
-                        'with_rootItem' => true,
-                        'itemtype' => 'block',
-                        'menuwraprenderer' => 'menu.bloky.menuwraprenderer',
-                        'levelwraprenderer' => 'menu.bloky.levelwraprenderer'
+                        'rootName' => 'blocks',
+                        'withRootItem' => true,
+                        'itemtype' => 'onelevel',
+                        'levelRenderer' => 'menu.bloky.levelRenderer',
                         ],
                     'menu.kos' => [
-                        'root_name' => 'trash',
-                        'with_rootItem' => true,
+                        'rootName' => 'trash',
+                        'withRootItem' => true,
                         'itemtype' => 'trash',
-                        'menuwraprenderer' => 'menu.kos.menuwraprenderer',
-                        'levelwraprenderer' => 'menu.kos.levelwraprenderer'
+                        'levelRenderer' => 'menu.kos.levelRenderer',
                         ],
                 ],
             // parametry kontext - service mapy jsou:

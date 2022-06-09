@@ -22,11 +22,14 @@ use Red\Model\Entity\PaperAggregatePaperContent;
 // view modely
 use Component\ViewModel\MenuItem\Authored\Paper\PaperViewModel;
 use Component\ViewModel\MenuItem\Authored\Multipage\MultipageViewModel;
+use Component\ViewModel\MenuItem\Authored\Paper\PaperTemplatePreviewViewModel;
+use Component\ViewModel\MenuItem\Authored\Paper\PaperTemplatePreviewViewModelInterface;
+use Component\ViewModel\MenuItem\Authored\Multipage\MultipageTemplatePreviewViewModel;
+use Component\ViewModel\MenuItem\Authored\Multipage\MultipageTemplatePreviewViewModelInterface;
 
 // komponenty
 use Component\View\MenuItem\Authored\AuthoredComponentInterface;
-use Component\View\MenuItem\Authored\PaperTemplate\PaperTemplateComponent;
-use Component\View\MenuItem\Authored\PaperTemplate\PaperTemplateComponentInterface;
+use Component\View\MenuItem\Authored\Paper\PaperTemplatePreviewComponent;
 
 use Component\View\MenuItem\Authored\Multipage\MultipageTemplatePreviewComponent;
 use Component\ViewModel\MenuItem\Authored\Multipage\MultipageTemplatePreviewViewModel;
@@ -172,16 +175,15 @@ class TemplateControler extends FrontControlerAbstract {
     public function papertemplate(ServerRequestInterface $request, $templateName) {
         $presentedMenuItem = $this->statusPresentationRepo->get()->getMenuItem();
         if (isset($presentedMenuItem)) {
-            $filename = $this->templateSeeker->seekTemplate(AuthoredTemplateTypeEnum::PAPER, $templateName);
             try {
                 $filename = $this->templateSeeker->seekTemplate(AuthoredTemplateTypeEnum::PAPER, $templateName);
                 $menuItemId = $presentedMenuItem->getId();
                 /** @var PaperViewModel $paperViewModel */
-                $paperViewModel = $this->container->get(PaperViewModel::class);
+                $paperViewModel = $this->container->get(PaperTemplatePreviewViewModel::class);
                 $paperViewModel->setMenuItemId($menuItemId);
-                /** @var PaperTemplateComponentInterface $view */
-                $view = $this->container->get(PaperTemplateComponent::class);
-                $view->setSelectedPaperTemplateFileName($filename);
+                $paperViewModel->setSelectedPaperTemplateFileName($filename);
+                /** @var PaperTemplatePreviewComponent $view */
+                $view = $this->container->get(PaperTemplatePreviewComponent::class);
                 $this->statusPresentationRepo->get()->setLastTemplateName($templateName);
             } catch (TemplateServiceExceptionInterface $exc) {
                 $message = "Nenalezen soubor pro hodnoty vracené metodami ViewModel getItemTemplate(): '$templateName' a getItemType(): '$itemType'.";

@@ -10,7 +10,7 @@ namespace  Component\Renderer\Html\Menu;
 
 use Pes\View\Renderer\RendererInterface;
 use Component\Renderer\Html\HtmlRendererAbstract;
-use Component\Renderer\Html\Menu\LevelWrapRenderer;
+use Component\Renderer\Html\Menu\LevelRenderer;
 use Component\Renderer\Html\Menu\ItemRenderer;
 use Component\ViewModel\Menu\Item\ItemViewModelInterface;
 
@@ -24,16 +24,16 @@ abstract class MenuWrapRendererAbstract extends HtmlRendererAbstract implements 
     /**
      * @var LevelWrapRenderer
      */
-    private $levelWrapRenderer;
+//    private $levelWrapRenderer;
 
     /**
      * @var ItemRenderer
      */
-    private $itemRenderer;
-
-    public function setLevelWrapRenderer(RendererInterface $levelWrapRenderer): void {
-        $this->levelWrapRenderer = $levelWrapRenderer;
-    }
+//    private $itemRenderer;
+//
+//    public function setLevelWrapRenderer(RendererInterface $levelWrapRenderer): void {
+//        $this->levelWrapRenderer = $levelWrapRenderer;
+//    }
 
 //    protected function renderSubtreeItemModels($subtreeItemModels) {
 //        if (!$subtreeItemModels) {

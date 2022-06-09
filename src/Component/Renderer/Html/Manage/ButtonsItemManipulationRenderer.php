@@ -3,6 +3,7 @@ namespace Component\Renderer\Html\Manage;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
 use Component\ViewModel\Menu\Item\ItemViewModelInterface;
+use Red\Model\Entity\MenuItemInterface;
 
 use Pes\Text\Html;
 

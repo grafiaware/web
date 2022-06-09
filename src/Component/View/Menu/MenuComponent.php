@@ -3,24 +3,43 @@
 namespace Component\View\Menu;
 
 use Pes\View\CollectionViewInterface;
+use Psr\Container\ContainerInterface;
 
 use Component\View\ComponentCompositeAbstract;
+
+use Configuration\ComponentConfigurationInterface;
+
 use Component\ViewModel\Menu\MenuViewModelInterface;
-use Component\ViewModel\Menu\Item\ItemViewModel;
+use Component\ViewModel\Menu\LevelViewModelInterface;
 use Component\ViewModel\Menu\Item\ItemViewModelInterface;
 
-use Component\Renderer\Html\Menu\MenuWrapRendererInterface;
 use Component\View\Menu\LevelComponent;
 use Component\View\Menu\LevelComponentInterface;
 use Component\View\Menu\ItemButtonsComponent;
 use Component\View\Menu\ItemComponent;
 use Component\View\Menu\ItemComponentInterface;
 
-use Component\View\Manage\ButtonsItemManipulationComponent;
-use Component\View\Manage\ButtonsMenuManipulationComponent;
-use Component\View\Manage\ButtonsPasteComponent;
+use Component\View\Manage\ButtonsMenuItemManipulationComponent;
+use Component\View\Manage\ButtonsMenuAddMultilevelComponent;
+use Component\View\Manage\ButtonsMenuAddOnelevelComponent;
+use Component\View\Manage\ButtonsMenuCutCopyComponent;
+use Component\View\Manage\ButtonsMenuDeleteComponent;
+
+use Component\Renderer\Html\Manage\ButtonsItemManipulationRenderer;
+use Component\Renderer\Html\Manage\ButtonsMenuAddMultilevelRenderer;
+use Component\Renderer\Html\Manage\ButtonsMenuAddOnelevelRenderer;
+use Component\Renderer\Html\Manage\ButtonsMenuCutCopyRenderer;
+use Component\Renderer\Html\Manage\ButtonsMenuDeleteRenderer;
 
 use Access\Enum\AccessPresentationEnum;
+// pro metodu -> do contejneru
+use Access\AccessPresentation;
+use Pes\View\ViewInterface;
+use Component\Renderer\Html\NoPermittedContentRenderer;
+
+use Component\ViewModel\Menu\Enum\ItemTypeEnum;
+
+use LogicException;
 
 /**
  * Description of MenuComponent
@@ -29,20 +48,24 @@ use Access\Enum\AccessPresentationEnum;
  */
 class MenuComponent extends ComponentCompositeAbstract implements MenuComponentInterface {
 
+    private $container;
+
     /**
      * @var MenuViewModelInterface
      */
     protected $contextData;
 
-    private $menuWrapRendererName;
-    private $levelWrapRendererName;
+    private $levelRendererName;
     private $itemRendererName;
     private $itemEditableRendererName;
 
-    private $withTitle = false;
-
     private $rootRealDepth;
     private $editableMode;
+
+    public function __construct(ComponentConfigurationInterface $configuration, ContainerInterface $container) {
+        parent::__construct($configuration);
+        $this->container = $container;
+    }
 
     public function getString() {
         $str = parent::getString();
@@ -51,34 +74,13 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
 
     /**
      *
-     * @param $levelWrapRendererName
+     * @param $levelRendererName
      * @return MenuComponentInterface
      */
-    public function setRenderersNames($menuWrapRendererName, $levelWrapRendererName, $itemRendererName, $itemEditableRendererName): MenuComponentInterface {
-        $this->menuWrapRendererName = $menuWrapRendererName;
-        $this->levelWrapRendererName = $levelWrapRendererName;
+    public function setRenderersNames($levelRendererName, $itemRendererName, $itemEditableRendererName): MenuComponentInterface {
+        $this->levelRendererName = $levelRendererName;
         $this->itemRendererName = $itemRendererName;
         $this->itemEditableRendererName = $itemEditableRendererName;
-        return $this;
-    }
-
-    /**
-     *
-     * @param string $menuRootName
-     * @return MenuComponentInterface
-     */
-    public function setMenuRootName($menuRootName): MenuComponentInterface {
-        $this->contextData->setMenuRootName($menuRootName);
-        return $this;
-    }
-
-    /**
-     *
-     * @param bool $withTitle
-     * @return MenuComponentInterface
-     */
-    public function withTitleItem($withTitle=false): MenuComponentInterface {
-        $this->withTitle = $withTitle;
         return $this;
     }
 
@@ -147,13 +149,12 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
     }
 
     private function createLevelComponent($targetDepth, $itemComponents) {
-        $levelComponent = new LevelComponent($this->configuration);
-        if ($targetDepth==$this->rootRealDepth) {
-            $levelComponent->setRendererName($this->menuWrapRendererName);
-        } else {
-            $levelComponent->setRendererName($this->levelWrapRendererName);
-        }
-        $levelComponent->setRendererContainer($this->rendererContainer);
+        /** @var LevelComponentInterface $levelComponent */
+        $levelComponent = $this->container->get(LevelComponent::class);
+        $levelViewModel = $levelComponent->getData();
+        /** @var LevelViewModelInterface $levelViewModel */
+        $levelViewModel->setLastLevel($targetDepth==$this->rootRealDepth);
+        $levelComponent->setRendererName($this->levelRendererName);
         $levelComponent->appendComponentViewCollection($itemComponents);
         return $levelComponent;
     }
@@ -168,21 +169,15 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
         foreach ($itemViewModelStackLevel as $itemViewModel) {
             /** @var ItemViewModelInterface $itemViewModel */
             $item = new ItemComponent($this->configuration);
+            $item->setData($itemViewModel)->setRendererContainer($this->rendererContainer);
             if($this->editableMode) {
-                $item->setData($itemViewModel)->setRendererName($this->itemEditableRendererName)->setRendererContainer($this->rendererContainer);
-                $itemButtons = new ItemButtonsComponent($this->configuration);  // typu InheritData - dědí ItemViewModel
-                #### buttons ####
-                if ($itemViewModel->isPasteMode()) {
-                    $buttonComponents[] = new ButtonsPasteComponent($this->configuration);  // typu InheritData - dědí ItemViewModel
-                } else {
-                    $buttonComponents[] = new ButtonsItemManipulationComponent($this->configuration);  // typu InheritData - dědí ItemViewModel
-                    $buttonComponents[] = new ButtonsMenuManipulationComponent($this->configuration);  // typu InheritData - dědí ItemViewModel
-                }
-                $this->setRendering($buttonComponents);
-                $itemButtons->appendComponentViewCollection($buttonComponents);
+            $item->setRendererName($this->itemEditableRendererName);
+            if ($itemViewModel->isPresented()) {
+                $itemButtons = $this->createItemButtonsComponent();
                 $item->appendComponentView($itemButtons, ItemComponentInterface::ITEM_BUTTONS);
+            }
             } else {
-                $item->setData($itemViewModel)->setRendererName($this->itemRendererName)->setRendererContainer($this->rendererContainer);
+                $item->setRendererName($this->itemRendererName);
             }
             $nextLevel = $itemViewModel->getChild();
             if (isset($nextLevel)) {
@@ -193,11 +188,43 @@ class MenuComponent extends ComponentCompositeAbstract implements MenuComponentI
         return $items;
     }
 
-    private function setRendering(array $buttons) {
-        foreach ($buttons as $button) {
-            /** @var CollectionViewInterface $button */
-            $button->setRendererContainer($this->rendererContainer);
-            $button->setRendererName($this->itemRendererName);
+    private function createItemButtonsComponent(): ItemButtonsComponent {
+        $itemButtons = new ItemButtonsComponent($this->configuration);  // typu InheritData - dědí ItemViewModel
+        #### buttons ####
+        $buttonComponents = [];
+        switch ((new ItemTypeEnum())($this->contextData->getItemType())) {
+            // ButtonsXXX komponenty jsou typu InheritData - dědí ItemViewModel
+            case ItemTypeEnum::MULTILEVEL:
+                $buttonComponents[] = $this->setRenderingByAccess(new ButtonsMenuItemManipulationComponent($this->configuration), ButtonsItemManipulationRenderer::class);
+                $buttonComponents[] = $this->setRenderingByAccess(new ButtonsMenuAddMultilevelComponent($this->configuration), ButtonsMenuAddMultilevelRenderer::class);
+                $buttonComponents[] = $this->setRenderingByAccess(new ButtonsMenuCutCopyComponent($this->configuration), ButtonsMenuCutCopyRenderer::class);
+                break;
+            case ItemTypeEnum::ONELEVEL:
+                $buttonComponents[] = $this->setRenderingByAccess(new ButtonsMenuItemManipulationComponent($this->configuration), ButtonsItemManipulationRenderer::class);
+                $buttonComponents[] = $this->setRenderingByAccess(new ButtonsMenuAddOnelevelComponent($this->configuration), ButtonsMenuAddOnelevelRenderer::class);
+                $buttonComponents[] = $this->setRenderingByAccess(new ButtonsMenuCutCopyComponent($this->configuration), ButtonsMenuCutCopyRenderer::class);
+                break;
+            case ItemTypeEnum::TRASH:
+                $buttonComponents[] = $this->setRenderingByAccess(new ButtonsMenuCutCopyComponent($this->configuration), ButtonsMenuCutCopyRenderer::class);
+                $buttonComponents[] = $this->setRenderingByAccess(new ButtonsMenuDeleteComponent($this->configuration), ButtonsMenuDeleteRenderer::class);
+                break;
+            default:
+                throw new LogicException("Nerozpoznán typ položek menu (hodnota vrácená metodou viewModel->getItemType())");
+                break;
         }
+        $itemButtons->appendComponentViewCollection($buttonComponents);
+        return $itemButtons;
+    }
+
+    private function setRenderingByAccess(ViewInterface $component, $rendererName) {
+        /** @var AccessPresentationInterface $accessPresentation */
+        $accessPresentation = $this->container->get(AccessPresentation::class);
+        if($accessPresentation->isAllowed($component, AccessPresentationEnum::EDIT)) {
+            $component->setRendererName($rendererName);
+        } else {
+            $component->setRendererName(NoPermittedContentRenderer::class);
+        }
+        $component->setRendererContainer($this->rendererContainer);
+        return $component;
     }
 }

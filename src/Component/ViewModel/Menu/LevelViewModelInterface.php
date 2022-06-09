@@ -5,14 +5,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Scripting/PHPInterface.php to edit this template
  */
 
-namespace Component\View\Menu;
-
-use Component\View\ComponentCollectionInterface;
+namespace Component\ViewModel\Menu;
 
 /**
  *
  * @author pes2704
  */
-interface LevelComponentInterface extends ComponentCollectionInterface {
-
+interface LevelViewModelInterface {
+    public function setLastLevel($level);
+    public function isLastLevel();
 }

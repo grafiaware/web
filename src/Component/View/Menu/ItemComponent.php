@@ -6,8 +6,8 @@ use Component\View\ComponentCompositeAbstract;
 /**
  * Description of ItemComponent
  *
- * ItemComponent je typu CompositeViewInterface - komponentní view se přidávají se jménem metodou ateendComponentView().
- * 
+ * ItemComponent je typu CompositeViewInterface - komponentní view se přidávají se jménem metodou appendComponentView().
+ *
  * Možnosti:
  * - item, který je list v grafu položek menu (nemá pod sebou položky další úrovně) - nemá žádný komponent
  * - item, který není list - má jako komponent LevelComponent

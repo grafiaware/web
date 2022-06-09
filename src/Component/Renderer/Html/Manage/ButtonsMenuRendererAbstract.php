@@ -2,29 +2,24 @@
 namespace Component\Renderer\Html\Manage;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
-use Component\ViewModel\Menu\Item\ItemViewModelInterface;
+use Red\Model\Entity\MenuItemInterface;
 
 use Pes\Text\Html;
 
 /**
- * Description of ButtonsItemManipulationRenderer
+ * Description of ButtonsMenuRendererAbstract
  *
  * @author pes2704
  */
-class ButtonsMenuManipulationRenderer extends HtmlRendererAbstract {
+abstract class ButtonsMenuRendererAbstract  extends HtmlRendererAbstract {
+
     public function render(iterable $viewModel = NULL) {
         /** @var ItemViewModelInterface $viewModel */
         $menuItem = $viewModel->getHierarchyAggregate()->getMenuItem();
         return $this->renderButtons($menuItem);
     }
 
-    protected function renderButtons(MenuItemInterface $menuItem) {
-        $buttons[] = $this->expandButtons($this->getButtonAdd($menuItem), $this->classMap->get('Icons', 'icon.plus'));
-        $buttons[] = $this->expandButtons($this->getButtonCut($menuItem).$this->getButtonCopy($menuItem), $this->classMap->get('Icons', 'icon.object'));
-        return $buttons;
-    }
-
-    private function expandButtons($expandedButtons, $expandsionIconClass) {
+    protected function expandButtons($expandedButtons, $expandsionIconClass) {
         return
             Html::tag('div', ['class'=>$this->classMap->get('Buttons', 'div.buttonsChangeView')],
                 Html::tag('i', ['class'=>$expandsionIconClass])
@@ -34,7 +29,7 @@ class ButtonsMenuManipulationRenderer extends HtmlRendererAbstract {
             );
     }
 
-    private function getButtonAdd(MenuItemInterface $menuItem) {
+    protected function getButtonAdd(MenuItemInterface $menuItem) {
         return Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button'),
                 'data-tooltip'=>'Přidat sourozence',
@@ -43,8 +38,10 @@ class ButtonsMenuManipulationRenderer extends HtmlRendererAbstract {
                 'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/add",
                     ],
                 Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.addsiblings')])
-            )
-            .
+            );
+    }
+
+    protected function getButtonAddChild(MenuItemInterface $menuItem) {
             Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button'),
                 'data-tooltip'=>'Přidat potomka',
@@ -56,7 +53,7 @@ class ButtonsMenuManipulationRenderer extends HtmlRendererAbstract {
             );
     }
 
-    private function getButtonCut(MenuItemInterface $menuItem) {
+    protected function getButtonCut(MenuItemInterface $menuItem) {
         return  Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button'),
                 'data-tooltip'=>'Vybrat k přesunutí',
@@ -69,7 +66,7 @@ class ButtonsMenuManipulationRenderer extends HtmlRendererAbstract {
             );
     }
 
-    private function getButtonCopy(MenuItemInterface $menuItem) {
+    protected function getButtonCopy(MenuItemInterface $menuItem) {
         return  Html::tag('button', [
                 'class'=>$this->classMap->get('Buttons', 'button'),
                 'data-tooltip'=>'Zkopírovat položku',
@@ -82,4 +79,21 @@ class ButtonsMenuManipulationRenderer extends HtmlRendererAbstract {
             );
     }
 
+    protected function getButtonDelete(MenuItemInterface $menuItem) {
+        return
+            Html::tag('button', [
+                'class'=>$this->classMap->get('Buttons', 'button'),
+                'data-tooltip'=>'Trvale odstranit',
+                'data-position'=>'top right',
+                'type'=>'submit',
+                'formmethod'=>'post',
+                'formaction'=>"red/v1/hierarchy/{$menuItem->getUidFk()}/delete",
+                'onclick'=>"return confirm('Jste si jisti?');"
+                    ],
+                Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icons'),],
+                        Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.delete'),])
+                        .Html::tag('i', ['class'=>$this->classMap->get('Icons', 'icon.exclamation'),])
+                )
+            );
+    }
 }

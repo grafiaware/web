@@ -9,9 +9,8 @@
 namespace Site\VeletrhPrace;
 
 use Pes\View\Renderer\ClassMap\ClassMap;
-use Component\Renderer\Html\Menu\MenuWrapRenderer;
+use Component\Renderer\Html\Menu\LevelRenderer;
 use Component\Renderer\Html\Menu\MenuWrapEditableRenderer;
-use Component\Renderer\Html\Menu\LevelWrapRenderer;
 use Component\Renderer\Html\Menu\ItemRenderer;
 use Component\Renderer\Html\Menu\ItemRendererEditable;
 use Component\Renderer\Html\Menu\ItemBlockRenderer;
@@ -137,26 +136,26 @@ class ConfigurationStyles extends ConfigurationRed {
         # menu renderer
         ###########################
             'menu.svisle.menuwraprenderer' => function(ContainerInterface $c) {
-                return new MenuWrapRenderer($c->get('menu.svisle.classmap'));
+                return new LevelRenderer($c->get('menu.svisle.classmap'));
             },
             'menu.svisle.levelwraprenderer' => function(ContainerInterface $c) {
-                return new LevelWrapRenderer($c->get('menu.svisle.classmap'));
+                return new LevelRenderer($c->get('menu.svisle.classmap'));
             },
 
             //bloky
             'menu.bloky.menuwraprenderer' => function(ContainerInterface $c) {
-                return new MenuWrapRenderer($c->get('menu.svisle.classmap'));
+                return new LevelRenderer($c->get('menu.svisle.classmap'));
             },
             'menu.bloky.levelwraprenderer' => function(ContainerInterface $c) {
-                return new LevelWrapRenderer($c->get('menu.svisle.classmap'));
+                return new LevelRenderer($c->get('menu.svisle.classmap'));
             },
 
             //kos
             'menu.kos.menuwraprenderer' => function(ContainerInterface $c) {
-                return new MenuWrapRenderer($c->get('menu.svisle.classmap'));
+                return new LevelRenderer($c->get('menu.svisle.classmap'));
             },
             'menu.kos.levelwraprenderer' => function(ContainerInterface $c) {
-                return new LevelWrapRenderer($c->get('menu.svisle.classmap'));
+                return new LevelRenderer($c->get('menu.svisle.classmap'));
             },
 
         ###########################
@@ -165,10 +164,8 @@ class ConfigurationStyles extends ConfigurationRed {
             'menu.svisle.classmap' => function() {
                 return new ClassMap (
                     [
-                        'MenuWrap' => [
-                            'ul' => 'ui vertical menu' //hidden-submenu pro rozbalení submenu po kliknutí //ui text menu left floated vodorovne_menu
-                        ],
-                        'LevelWrap' => [
+                        'Level' => [
+                            'ul.lastLevel' => 'ui vertical menu', //hidden-submenu pro rozbalení submenu po kliknutí //ui text menu left floated vodorovne_menu
                             'ul' => 'menu onpath',
                             ],
                     ]);
@@ -176,10 +173,8 @@ class ConfigurationStyles extends ConfigurationRed {
             'menu.svisle.classmap.editable' => function() {
                 return new ClassMap (
                     [
-                        'MenuWrap' => [
-                            'ul' => 'ui vertical menu'
-                        ],
-                        'LevelWrap' => [
+                        'Level' => [
+                            'ul.lastLevel' => 'ui vertical menu',
                             'ul' => 'menu onpath',
                         ],
                     ]);
@@ -187,10 +182,8 @@ class ConfigurationStyles extends ConfigurationRed {
             'menu.bloky.classmap.editable' => function() { //bloky
                 return new ClassMap (
                     [
-                        'MenuWrap' => [
-                            'ul' => 'ui vertical menu'
-                        ],
-                        'LevelWrap' => [
+                        'Level' => [
+                            'ul.lastLevel' => 'ui vertical menu',
                             'ul' => 'menu onpath',
                         ],
                     ]);
@@ -198,10 +191,8 @@ class ConfigurationStyles extends ConfigurationRed {
             'menu.kos.classmap.editable' => function() { //kos
                 return new ClassMap (
                     [
-                        'MenuWrap' => [
-                            'ul' => 'ui vertical menu'
-                        ],
-                        'LevelWrap' => [
+                        'Level' => [
+                            'ul.lastLevel' => 'ui vertical menu',
                             'ul' => 'menu onpath',
                         ],
                     ]);

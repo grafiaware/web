@@ -4,7 +4,7 @@ namespace  Component\Renderer\Html\Menu;
 use Component\Renderer\Html\HtmlRendererAbstract;
 use Component\View\Menu\ItemComponentInterface;
 
-use Pes\Type\ContextDataInterface;
+use Component\ViewModel\Menu\LevelViewModelInterface;
 use Pes\Text\Html;
 
 /*
@@ -18,18 +18,19 @@ use Pes\Text\Html;
  *
  * @author pes2704
  */
-class LevelWrapRenderer extends HtmlRendererAbstract {
+class LevelRenderer extends HtmlRendererAbstract {
 
     public function render(iterable $contextData=NULL) {
         // LevelComponent nedostává zádný view model - view předá fo rendereru jen ContextData, který obsahuje vyrenderované komponentní view (tedy html)
             $levelItemsHtml = "";
-            /** @var ContextDataInterface $contextData */
+            /** @var LevelViewModelInterface $contextData */
             foreach ($contextData as $itemComponentHtml) {
                 /** @var ItemComponentInterface $itemComponentHtml */
                 $levelItemsHtml .= $itemComponentHtml;
             }
 
-        $ul = Html::tag('ul', ['class'=>[$this->classMap->get('LevelWrap', 'ul')]],$levelItemsHtml);
+            $ul = Html::tag('ul', ['class'=>[$this->classMap->resolve($contextData->isLastLevel(), 'Level', 'ul.lastLevel', 'ul')]],$levelItemsHtml);
+
         return $ul;
     }
 

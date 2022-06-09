@@ -10,6 +10,7 @@ use Psr\Container\ContainerInterface;   // pro parametr closure function(Contain
 use Pes\View\Renderer\PhpTemplateRenderer;
 
 use Component\Renderer\Html\Menu\MenuRenderer;
+use Component\Renderer\Html\Menu\LevelRenderer;
 
 use Component\Renderer\Html\Menu\ItemRenderer;
 use Component\Renderer\Html\Menu\ItemRendererEditable;
@@ -39,6 +40,12 @@ use Component\Renderer\Html\Authored\Multipage\MultipageRendererEditable;
 use Component\Renderer\Html\Manage\EditContentSwitchRenderer;
 use Component\Renderer\Html\Manage\EditContentSwitchOffRenderer;
 use Component\Renderer\Html\Manage\EditContentSwitchDisabledRenderer;
+
+use Component\Renderer\Html\Manage\ButtonsItemManipulationRenderer;
+use Component\Renderer\Html\Manage\ButtonsMenuAddMultilevelRenderer;
+use Component\Renderer\Html\Manage\ButtonsMenuAddOnelevelRenderer;
+use Component\Renderer\Html\Manage\ButtonsMenuCutCopyRenderer;
+use Component\Renderer\Html\Manage\ButtonsMenuDeleteRenderer;
 
 use Component\Renderer\Html\Generated\LanguageSelectRenderer;
 use Component\Renderer\Html\Generated\SearchPhraseRenderer;
@@ -86,8 +93,29 @@ class RendererContainerConfigurator extends ContainerConfiguratorAbstract {
         NoPermittedContentRenderer::class => function(ContainerInterface $c) {
             return new NoPermittedContentRenderer();
         },
+        // menu
+
+        ButtonsItemManipulationRenderer::class => function(ContainerInterface $c) {
+            return new ButtonsItemManipulationRenderer($c->get('menu.itembuttons.classmap'));
+        },
+        ButtonsMenuAddMultilevelRenderer::class => function(ContainerInterface $c) {
+            return new ButtonsMenuAddMultilevelRenderer($c->get('menu.itembuttons.classmap'));
+        },
+        ButtonsMenuAddOnelevelRenderer::class => function(ContainerInterface $c) {
+            return new ButtonsMenuAddOnelevelRenderer($c->get('menu.itembuttons.classmap'));
+        },
+        ButtonsMenuCutCopyRenderer::class => function(ContainerInterface $c) {
+            return new ButtonsMenuCutCopyRenderer($c->get('menu.itembuttons.classmap'));
+        },
+        ButtonsMenuDeleteRenderer::class => function(ContainerInterface $c) {
+            return new ButtonsMenuDeleteRenderer($c->get('menu.itembuttons.classmap'));
+        },
+
         MenuRenderer::class => function(ContainerInterface $c) {
             return new MenuRenderer();
+        },
+        LevelRenderer::class => function(ContainerInterface $c) {
+            return new LevelRenderer($classMap);
         },
         ###########################
         # menu item renderer
