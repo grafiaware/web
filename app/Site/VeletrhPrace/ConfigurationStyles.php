@@ -135,28 +135,20 @@ class ConfigurationStyles extends ConfigurationRed {
         ###########################
         # menu renderer
         ###########################
-            'menu.svisle.menuwraprenderer' => function(ContainerInterface $c) {
-                return new LevelRenderer($c->get('menu.svisle.classmap'));
-            },
-            'menu.svisle.levelwraprenderer' => function(ContainerInterface $c) {
+            'menu.svisle.levelRenderer' => function(ContainerInterface $c) {
                 return new LevelRenderer($c->get('menu.svisle.classmap'));
             },
 
             //bloky
-            'menu.bloky.menuwraprenderer' => function(ContainerInterface $c) {
-                return new LevelRenderer($c->get('menu.svisle.classmap'));
-            },
-            'menu.bloky.levelwraprenderer' => function(ContainerInterface $c) {
+            'menu.bloky.levelRenderer' => function(ContainerInterface $c) {
                 return new LevelRenderer($c->get('menu.svisle.classmap'));
             },
 
             //kos
-            'menu.kos.menuwraprenderer' => function(ContainerInterface $c) {
+            'menu.kos.levelRenderer' => function(ContainerInterface $c) {
                 return new LevelRenderer($c->get('menu.svisle.classmap'));
             },
-            'menu.kos.levelwraprenderer' => function(ContainerInterface $c) {
-                return new LevelRenderer($c->get('menu.svisle.classmap'));
-            },
+
 
         ###########################
         # menu classmap

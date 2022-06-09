@@ -124,80 +124,79 @@ class ConfigurationStyles extends ConfigurationRed {
         ###########################
         # menu renderer
         ###########################
-            'menu.svisle.menuwraprenderer' => function(ContainerInterface $c) {
-                return new LevelRenderer($c->get('menu.svisle.classmap'));
-            },
-            'menu.svisle.levelwraprenderer' => function(ContainerInterface $c) {
-                return new LevelRenderer($c->get('menu.svisle.classmap'));
-            },
-            'menu.svisle.itemrenderer' => function(ContainerInterface $c) {
-                return new ItemRenderer($c->get('menu.svisle.classmap'));
-            },
-            //bloky
-            'menu.bloky.menuwraprenderer' => function(ContainerInterface $c) {
-                return new LevelRenderer($c->get('menu.svisle.classmap'));
-            },
-            'menu.bloky.levelwraprenderer' => function(ContainerInterface $c) {
+            'menu.svisle.levelRenderer' => function(ContainerInterface $c) {
                 return new LevelRenderer($c->get('menu.svisle.classmap'));
             },
 
+            //bloky
+            'menu.bloky.levelRenderer' => function(ContainerInterface $c) {
+                return new LevelRenderer($c->get('menu.svisle.classmap'));
+            },
+
+            //kos
+            'menu.kos.levelRenderer' => function(ContainerInterface $c) {
+                return new LevelRenderer($c->get('menu.svisle.classmap'));
+            },
         ###########################
         # menu classmap
         ###########################
             'menu.svisle.classmap' => function() {
                 return new ClassMap (
                     [
-                        'MenuWrap' => [
-                            'ul' => 'ui vertical massive menu' //definovat v semantic - použít bez massive
-                        ],
-                        'LevelWrap' => [
+                        'Level' => [
+                            'ul.lastLevel' => 'ui vertical massive menu', //definovat v semantic - použít bez massive
                             'ul' => 'menu',
                             'ul.onpath' => 'menu onpath',
                             ],
-                        'Item' => self::rendererDefaults()['menu_items'],
                     ]);
             },
             'menu.svisle.classmap.editable' => function() {
                 return new ClassMap (
                     [
-                        'MenuWrap' => [
-                            'ul' => 'ui vertical massive menu edit'
-                        ],
-                        'LevelWrap' => [
+                        'Level' => [
+                            'ul.lastLevel' => 'ui vertical massive menu edit',
                             'ul' => 'menu',
                             'ul.onpath' => 'menu onpath',
                         ],
-                        'Item' => self::rendererDefaults()['menu_items'],
-                        'Buttons' => self::rendererDefaults()['buttons'],
-                        'Icons' => self::rendererDefaults()['icons_buttons']
                     ]);
             },
             'menu.bloky.classmap.editable' => function() { //bloky
                 return new ClassMap (
                     [
-                        'MenuWrap' => [
-                            'ul' => 'ui vertical massive menu edit'
-                        ],
-                        'LevelWrap' => [
+                        'Level' => [
+                            'ul.lastLevel' => 'ui vertical massive menu edit',
                             'ul' => 'menu',
                             'ul.onpath' => 'menu onpath',
                         ],
-                        'Item' => self::rendererDefaults()['menu_items'],
-                        'Buttons' => self::rendererDefaults()['buttons'],
-                        'Icons' => self::rendererDefaults()['icons_buttons']
                     ]);
             },
             'menu.kos.classmap.editable' => function() { //kos
                 return new ClassMap (
                     [
-                        'MenuWrap' => [
-                            'ul' => 'ui vertical massive menu'
-                        ],
-                        'LevelWrap' => [
+                        'Level' => [
+                            'ul.lastLevel' => 'ui vertical massive menu',
                             'ul' => 'menu',
                             'ul.onpath' => 'menu onpath',
                         ],
+                    ]);
+            },
+            'menu.item.classmap' => function() {
+                return new ClassMap (
+                    [
                         'Item' => self::rendererDefaults()['menu_items'],
+                    ]);
+            },
+            'menu.item.classmap.editable' => function() {
+                return new ClassMap (
+                    [
+                        'Item' => self::rendererDefaults()['menu_items'],
+                        'Buttons' => self::rendererDefaults()['buttons'],
+                        'Icons' => self::rendererDefaults()['icons_buttons']
+                    ]);
+            },
+            'menu.itembuttons.classmap' => function() {
+                return new ClassMap (
+                    [
                         'Buttons' => self::rendererDefaults()['buttons'],
                         'Icons' => self::rendererDefaults()['icons_buttons']
                     ]);
