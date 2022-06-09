@@ -23,9 +23,12 @@ abstract class TypeHydratorAbstract implements HydratorInterface {
             $value = $rowData->offsetGet($name);
             if (isset($value)) {
                 $get = DateTime::createFromFormat('Y-m-d H:i:s', $value);
+                if ($get===false) {
+                    $get = DateTime::createFromFormat('Y-m-d', $value);
+                }
             }
         }
-        return $get ?? null;
+        return (isset($get) AND $get) ? $get : null;  // $get může být null nebo false nebo DateTime
     }
 
     /**
