@@ -34,7 +34,8 @@ class  JobTagDaoTest extends AppRunner {
 
     private static $jobIdTouple;
     private static $jobTagTouple;
-    private static $jobToTagTouple;
+    private static $jobTagTouple_poUpdate;
+    private static $jobToTagTouples;
     private static $companyIdTouple;
 
 
@@ -45,6 +46,7 @@ class  JobTagDaoTest extends AppRunner {
             (new EventsContainerConfigurator())->configure(
                 (new DbEventsContainerConfigurator())->configure(new Container())
             );
+        
         /** @var CompanyDao $companyDao */
         $companyDao = $container->get(CompanyDao::class);    
         $companyData = new RowData();
@@ -74,16 +76,20 @@ class  JobTagDaoTest extends AppRunner {
     }
     
      
-    public function testInsert() {
+    public function testInsert() {  
         $rowData = new RowData();
         $rowData->offsetSet( 'tag' , "vesmír a okolí"  );
-        $this->dao->insert($rowData);
-        self::$jobTagTouple =  $this->dao->get( ['tag' => "vesmír a okolí"] );
-        //$this->assertIsArray(self::$jobTagIdTouple);
+        $this->dao->insert($rowData);        
+        $rowD =  $this->dao->get( ['tag' => "vesmír a okolí"] );
+       
+        /** @var RowData $rowD */
+        $rowArray = $rowD->getArrayCopy();
+        self::$jobTagTouple =  $this->dao->getPrimaryKeyTouples($rowArray);        
+        $this->assertIsArray(self::$jobTagTouple);
+                
         $numRows = $this->dao->getRowCount();
         $this->assertEquals(1, $numRows);
-        
-        
+                
         
         //vyrobit job vetu
         /** @var JobDao $jobDao */
@@ -98,106 +104,86 @@ class  JobTagDaoTest extends AppRunner {
         $jobToTagDao = $this->container->get(JobToTagDao::class);  
         $jobToTagData = new RowData();
         $jobToTagData->import( [ 'job_tag_tag' => self::$jobTagTouple ['tag']  , 'job_id'=>self::$jobIdTouple['id'] ] );
-        $jobToTagDao->insert($jobToTagData);    
+        $jobToTagDao->insert($jobToTagData);   
+        /**  @var RowData  $row */
         $row = $jobToTagDao->get( [ 'job_tag_tag' => self::$jobTagTouple ['tag']  , 'job_id'=>self::$jobIdTouple['id'] ] );
-                //getPrimaryKeyTouples($jobToTagData);
-                //[ 'job_tag_tag' => self::$jobTagTouple ['tag']  , 'job_id'=>self::$jobIdTouple['id'] ];
-        
+        self::$jobToTagTouples  = $jobToTagDao->getPrimaryKeyTouples($row->getArrayCopy());      
         
    }
-//
-//    public function testGetExistingRow() {
-//        $eventLinkPhaseRow = $this->dao->get(self::$eventLinkPhaseIdTouple);
-//        $this->assertInstanceOf(RowDataInterface::class, $eventLinkPhaseRow);
-//    }
-//
-//    public function test2Columns() {
-//        $eventLinkPhaseRow = $this->dao->get(self::$eventLinkPhaseIdTouple);
-//        $this->assertCount(2, $eventLinkPhaseRow);
-//    }
-//
-//    public function testUpdate() {
-//        $eventLinkPhaseRow = $this->dao->get(self::$eventLinkPhaseIdTouple);
-//        //$name = $eventLinkPhaseRow['text'];
-//        $this->assertIsString($eventLinkPhaseRow['text']);
-//        //
-//        $this->setUp();
-//        $updated = str_replace('texxt', '--text--',$eventLinkPhaseRow['text']);
-//        $eventLinkPhaseRow['text'] = $updated;
-//        $this->dao->update($eventLinkPhaseRow);
-//        $this->assertEquals(1, $this->dao->getRowCount());
-//
-//        $this->setUp();
-//        $eventLinkPhaseRowRereaded = $this->dao->get(self::$eventLinkPhaseIdTouple);
-//        $this->assertEquals($eventLinkPhaseRow, $eventLinkPhaseRowRereaded);
-//        $this->assertStringContainsString('--text--', $eventLinkPhaseRowRereaded['text']);
-//    }
-//
-//    public function testFind() {
-//        $eventLinkPhaseRow = $this->dao->find();
-//        $this->assertIsArray($eventLinkPhaseRow);
-//        $this->assertGreaterThanOrEqual(1, count($eventLinkPhaseRow));
-//        $this->assertInstanceOf(RowDataInterface::class, $eventLinkPhaseRow[0]);
-//    }
+
+    public function testGetExistingRow() {
+        $jobTagRow = $this->dao->get(self::$jobTagTouple);
+        $this->assertInstanceOf(RowDataInterface::class, $jobTagRow);
+    }
+
+    public function test1Columns() {
+        $jobTagRow = $this->dao->get( self::$jobTagTouple );
+        $this->assertCount(1, $jobTagRow);
+    }
+
+   public function testUpdate() {
+         $jobTagRow = $this->dao->get( self::$jobTagTouple );
+         $tag = $jobTagRow['tag'];
+         $this->assertIsString( $jobTagRow['tag'] );
+        
+        $this->setUp();
+        $updated = str_replace('oko', 'kiki',$jobTagRow['tag']);
+        $jobTagRow['tag'] = $updated;
+        $this->dao->update($jobTagRow);
+        $this->assertEquals(1, $this->dao->getRowCount());
+        
+        $rowArray = $jobTagRow->getArrayCopy();
+        self::$jobTagTouple_poUpdate =  $this->dao->getPrimaryKeyTouples($rowArray);  
+
+        $this->setUp();
+        $a = [ 'job_tag_tag' => self::$jobTagTouple_poUpdate ['tag'] , 'job_id'=>self::$jobIdTouple['id'] ] ;
+        $jobTagRowRereaded = $this->dao->get(  self::$jobTagTouple_poUpdate   );
+        $this->assertEquals($jobTagRow, $jobTagRowRereaded);
+        $this->assertStringContainsString('kiki', $jobTagRowRereaded['tag']);  
+        
+        //kontrola CASCADE u update
+        //kontrola, ze v job_to_zag je taky updatovany tag
+        /**  @var JobToTagDao  $jobToTagDao */
+        $jobToTagDao = $this->container->get(JobToTagDao::class);
+        $jobToTagRow = $jobToTagDao->get( [ 'job_tag_tag' => self::$jobTagTouple_poUpdate ['tag']  , 'job_id'=>self::$jobIdTouple['id'] ] );
+        $this->assertEquals( self::$jobTagTouple_poUpdate ['tag'], $jobToTagRow['job_tag_tag'] );
+        
+    }
+
+    
+    public function testFind() {
+        $jobTagRow = $this->dao->find();
+        $this->assertIsArray($jobTagRow);
+        $this->assertGreaterThanOrEqual(1, count($jobTagRow));
+        $this->assertInstanceOf(RowDataInterface::class, $jobTagRow[0]);
+    }
 
    
-//    public function testDeleteException() {     NEJDE smazat
-//        // kontrola RESTRICT = ze nevymaže event_link, zustane
-//        $eventLinkPhaseRow = $this->dao->get(self::$eventLinkPhaseIdTouple);
-//        $this->expectException(ExecuteException::class);
-//        $this->dao->delete($eventLinkPhaseRow);                
-//    }
-//    
+    public function testDeleteException() {   
+        // kontrola RESTRICT = že nevymaže job_tag, kdyz je  pouzit v job_to_tag
+        $jobTagRow = $this->dao->get(self::$jobTagTouple_poUpdate);
+        $this->expectException(ExecuteException::class);
+        $this->dao->delete($jobTagRow);                
+    }
+    
     public function testDelete() {
+        //delete Company - amze job, jobToTag
         /** @var CompanyDao $companyDao */
         $companyDao = $this->container->get(CompanyDao::class);    
-        $companyData = $companyDao->get(self::$companyIdTouple /*['id' =>  self::$company_id ]*/ );
-        $ok = $companyDao->delete($companyData);
+        $companyData = $companyDao->get(self::$companyIdTouple );
+        $ok = $companyDao->delete($companyData);              
                 
-        //smazat job_to_tag vetu    NENI TREBA , NAOPAK  uz je smzano  ---- otestovat asi ne
-        /** @var JobToTagDao $jobToTagDao */
-        $jobToTagDao = $this->container->get(JobToTagDao::class);  
-        //$jobToTagData = $jobToTagDao->get(self::$jobToTagTouple); 
-        $jobToTagData = $jobToTagDao->get([ 'job_tag_tag' => self::$jobTagTouple ['tag']  , 'job_id'=>self::$jobIdTouple['id'] ]);
-        $jobToTagDao->delete($jobToTagData);
-        
-        //smazat job vetu   // taky smazano uz
-        /** @var JobDao $jobDao */
-        $jobDao = $this->container->get(JobDao::class);
-        $jobData = $jobDao->get(self::$jobIdTouple);
-        $jobDao->delete($jobData);    
-        
-        //pak smazat jobTag  ??? asi takz cascade zmizi
-        //$this->setUp();
-        $jobTagRow = $this->dao->get(self::$jobTagTouple);
+        //pak smazat jobTag  
+        $this->setUp();
+        $jobTagRow = $this->dao->get(self::$jobTagTouple_poUpdate);
         $this->dao->delete($jobTagRow);
         $this->assertEquals(1, $this->dao->getRowCount());
 
+        //kontrola, ze smazano
         $this->setUp();
-        $jobTagRow = $this->dao->get(self::$jobTagTouple);
+        $jobTagRow = $this->dao->get(self::$jobTagTouple_poUpdate);
         $this->assertNull($jobTagRow);
-        
-  
-//        /**  @var EventLinkDao  $eventLinkDao */
-//        $eventLinkDao = $this->container->get( EventLinkDao::class);
-//        $eventLinkRow = $eventLinkDao->get(self::$eventLinkIdTouple);        
-//        $this->assertEquals(  self::$eventLinkPhaseIdTouple['id'], $eventLinkRow['link_phase_id_fk'] );
-//        
-//         //smazat napred Institution  
-//        $eventLinkRow = $eventLinkDao->get(self::$eventLinkIdTouple);
-//        $eventLinkDao->delete($eventLinkRow);
-//        $this->assertEquals(1, $eventLinkDao->getRowCount());
-//                        
-//        
-//        //pak smazat event_link_phase
-//        //$this->setUp();
-//        $eventLinkPhaseTypeRow = $this->dao->get(self::$eventLinkPhaseIdTouple);
-//        $this->dao->delete($eventLinkPhaseTypeRow);
-//        $this->assertEquals(1, $this->dao->getRowCount());
-//
-//        $this->setUp();
-//        $eventLinkPhaseTypeRow = $this->dao->get(self::$eventLinkPhaseIdTouple);
-//        $this->assertNull($eventLinkPhaseTypeRow);
+         
    }
 }
 

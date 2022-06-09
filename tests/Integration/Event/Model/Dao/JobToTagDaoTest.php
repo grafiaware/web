@@ -198,7 +198,6 @@ class JobToTagDaoTest extends AppRunner {
     
     public function testUpdate() {
         $jobToTagRows = $this->dao->get( ['job_id' =>  self::$job_id_fk ,  'job_tag_tag' =>  self::$job_tag_tag_fk ] );
-        //$eventId = $jobToTagRows['event_id_fk'];
         $this->assertIsInt($jobToTagRows['job_id']);
         $this->assertIsString($jobToTagRows['job_tag_tag']);
         
