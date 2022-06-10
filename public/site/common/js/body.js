@@ -2,12 +2,23 @@
     $('.ui.dropdown')
       .dropdown()
     ;
+    //prihlaseni (otevreni/zavreni pres ikonu)
     $('.btn-login').click(function(){
         $(this).siblings('.menu-login').toggle();
     });
-//    $('.prihlaseni .dropdown').click(function(){
-//        $(this).children('.menu').toggleClass('active');
-//    });
+    //modalni okno pro prihlaseni
+    $('.ui.page.button').click(function(){
+        $('.page.modal').modal({
+            closable: false,
+            useCSS   : true
+        })
+        .modal('show');
+    });
+    $('.ui.hide.button').click(function(){
+       $('.page.modal').modal('hide');
+    });
+    
+    
     //flash message
     $('.flashtoast')
         .toast({
@@ -27,11 +38,11 @@
 
 
     //odeslani prihlasovaciho formulare pri stisku klavesy Enter
-    $('.loginEnterKey').keyup(function(event){
-        if(event.keyCode === 13){
-            $('.positive.button').click();
-        }
-    });
+//    $('.loginEnterKey').keyup(function(event){
+//        if(event.keyCode === 13){
+//            $('.positive.button').click();
+//        }
+//    });
 
     //veletrh online
     //checkbox v registraci (zastupuji vystavovatele)
