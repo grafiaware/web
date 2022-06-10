@@ -17,24 +17,27 @@ use Model\RowData\RowDataInterface;
 use Pes\Database\Statement\Exception\ExecuteException;
 
 /**
- * Description of JobTagDaoTest
+ * Description of LoginDaoTest
  *
  * @author vlse2610
  */
-class  JobTagDaoTest extends AppRunner {
+class LoginDaoTest extends AppRunner {
     private $container;
+    
+    
+    
 
     /**
      *
-     * @var JobTagDao
+     * @var LoginDao
      */
     private $dao;
 
-    private static $jobIdTouple;
-    private static $jobTagTouple;
-    private static $jobTagTouple_poUpdate;
-    private static $jobToTagTouples;
-    private static $companyIdTouple;
+//    private static $jobIdTouple;
+//    private static $jobTagTouple;
+//    private static $jobTagTouple_poUpdate;
+//    private static $jobToTagTouples;
+//    private static $companyIdTouple;
 
 
 
