@@ -24,8 +24,11 @@ use Status\Model\Repository\StatusFlashRepo;
 use Auth\Model\Repository\CredentialsRepo;
 use Auth\Model\Repository\LoginAggregateFullRepo;
 
+use Red\Model\Entity\UserActions;
 use Auth\Model\Entity\Credentials;
 use Auth\Model\Entity\LoginAggregateFull;
+
+use Status\Model\Entity\StatusSecurityInterface;
 
 /**
  * Description of PostController
@@ -67,13 +70,15 @@ class LoginLogoutController extends LoginControllerAbstract {
                 /** @var LoginAggregateFull $loginAggregateFull */
                 $loginAggregateFull = $this->loginAggregateFullRepo->get($loginJmeno);
 
-                    if (isset($loginAggregateFull) AND $this->authenticator->authenticate($loginAggregateFull, $loginHeslo)) {  // z databáze
-                        $this->statusSecurityRepo->get()->renewSecurityStatus($loginAggregateFull);
-                        $this->addFlashMessage("Jste přihlášeni.");
-                    }
-                    else {
-                        $this->addFlashMessage("Neplatné přihlášení!");
-                    }
+                if (isset($loginAggregateFull) AND $this->authenticator->authenticate($loginAggregateFull, $loginHeslo)) {  // z databáze
+                    $securityStatus = $this->statusSecurityRepo->get();  // ze session
+                    /** @var StatusSecurityInterface $securityStatus */
+                    $securityStatus->renew($loginAggregateFull, new UserActions());
+                    $this->addFlashMessage("Jste přihlášeni.");
+                }
+                else {
+                    $this->addFlashMessage("Neplatné přihlášení!");
+                }
             }
         }
         return $this->redirectSeeLastGet($request); // 303 See Other
@@ -82,7 +87,7 @@ class LoginLogoutController extends LoginControllerAbstract {
     public function logout(ServerRequestInterface $request) {
         $logout = (new RequestParams())->getParsedBodyParam($request, 'logout', FALSE);
         if ($logout) {
-            $this->statusSecurityRepo->get()->renewSecurityStatus(null);  // bez parametru loginAggregateEntity
+            $this->statusSecurityRepo->get()->remove();
             $this->addFlashMessage("Jste odhlášeni.");
         }
         return $this->redirectSeeLastGet($request); // 303 See Other

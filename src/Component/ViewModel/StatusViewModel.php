@@ -90,12 +90,12 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
      * @return bool
      */
     public function presentEditableContent(): bool {
-        $userActions = $this->statusPresentationRepo->get()->getUserActions();
+        $userActions = $this->statusSecurityRepo->get()->getUserActions();
         return $userActions ? $userActions->presentEditableContent() : false;
     }
 
     public function presentEditableMenu(): bool {
-        $userActions = $this->statusPresentationRepo->get()->getUserActions();
+        $userActions = $this->statusSecurityRepo->get()->getUserActions();
         return $userActions ? $userActions->presentEditableMenu() : false;
     }
 
@@ -104,7 +104,7 @@ class StatusViewModel extends ViewModelAbstract implements StatusViewModelInterf
     }
 
     public function getUserActions(): ?UserActionsInterface {
-        return $this->statusPresentationRepo->get()->getUserActions();
+        return $this->statusSecurityRepo->get()->getUserActions();
     }
 
     public function getPresentedMenuItem(): ?MenuItemInterface {

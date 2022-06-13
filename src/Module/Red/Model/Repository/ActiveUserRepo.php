@@ -65,10 +65,6 @@ class ActiveUserRepo {
         ];
     }
 
-    protected function indexFromKeyParams($langCodeFk, $uidFk) {
-        return $langCodeFk.$uidFk;
-    }
-
     protected function indexFromEntity(MenuItemInterface $menuItem) {
         return $menuItem->getLangCodeFk().$menuItem->getUidFk();
     }

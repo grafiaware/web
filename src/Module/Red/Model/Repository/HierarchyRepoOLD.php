@@ -166,10 +166,6 @@ class HierarchyRepoOLD extends RepoAbstract implements RepoReadonlyInterface {
         }
     }
 
-    protected function indexFromKeyParams($langCodeFk, $uid) {
-        return $langCodeFk.$uid;
-    }
-
     protected function indexFromEntity(MenuItemAggregateHierarchyInterface $menuNode) {
         return $menuNode->getHierarchy()->getLangCodeFk().$menuNode->getUid();
     }

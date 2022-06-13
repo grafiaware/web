@@ -482,9 +482,9 @@ class WebContainerConfigurator extends ContainerConfiguratorAbstract {
                         }
                     } else {
                             $component->setRendererName(PaperRenderer::class);
-                            $headline->setRendererName(HeadlineRendererEditable::class);
-                            $perex->setRendererName(PerexRendererEditable::class);
-                            $sections->setRendererName(SectionsRendererEditable::class);
+                            $headline->setRendererName(HeadlineRenderer::class);
+                            $perex->setRendererName(PerexRenderer::class);
+                            $sections->setRendererName(SectionsRenderer::class);
                     }
                 } else {
                     $component = $c->get(ElementComponent::class);

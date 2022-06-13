@@ -302,7 +302,7 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
      */
     private function getMenuComponents() {
 
-        $userActions = $this->statusPresentationRepo->get()->getUserActions();
+        $userActions = $this->statusSecurityRepo->get()->getUserActions();
 
         $components = [];
         foreach (ConfigurationCache::menu()['menu.contextServiceMap'] as $contextName => $serviceName) {
@@ -361,8 +361,8 @@ abstract class LayoutControllerAbstract extends PresentationFrontControlerAbstra
 //    }
 
     private function isPartInEditableMode() {
-        $userActions = $this->statusPresentationRepo->get()->getUserActions();
-        return $userActions->presentAnyInEditableMode();
+        $userActions = $this->statusSecurityRepo->get()->getUserActions();
+        return isset($userActions) ? $userActions->presentAnyInEditableMode() : false;
     }
 
     private function isUserLoggedIn() {

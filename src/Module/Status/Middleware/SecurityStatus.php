@@ -16,6 +16,7 @@ use Pes\Middleware\AppMiddlewareAbstract;
 
 use Status\Model\Entity\StatusSecurity;
 use Status\Model\Repository\StatusSecurityRepo;
+use Red\Model\Entity\UserActions;
 
 /**
  * Description of Status
@@ -38,12 +39,18 @@ class SecurityStatus extends AppMiddlewareAbstract implements MiddlewareInterfac
         //  private 'locked' (Model\Entity\EntityAbstract) => boolean false
 
         // obnoví security status s tím, že login aggregate je null - pro případny privátní obsah musí být vnořen Login middleware
-        if (!isset($statusSecurity) OR !$statusSecurity) {
-            $statusSecurityRepo->add((new StatusSecurity())->renewSecurityStatus());    // obnoví status stím, že login aggregate je null
-        } elseif ( !$statusSecurity->hasSecurityContext()) {
-            $statusSecurity->renewSecurityStatus();
+        if (!isset($statusSecurity)) {
+            $statusSecurity = new StatusSecurity();
+            $statusSecurityRepo->add($statusSecurity);    // obnoví status bez login
+        }
+        if ( !$statusSecurity->hasSecurityContext()) {
+            $statusSecurity->remove();
         }
 
         return $handler->handle($request);
     }
 }
+
+//        if (is_null($statusPresentation->getUserActions())) {
+//            $statusPresentation->setUserActions(new UserActions());  // má default hodnoty
+//        }

@@ -64,10 +64,6 @@ class PaperContentRepo extends RepoAbstract implements PaperContentRepoInterface
         return new PaperContent();
     }
 
-    protected function indexFromKeyParams($id) {
-        return $id;
-    }
-
     protected function indexFromEntity(PaperContentInterface $paperContent) {
         return $paperContent->getId();
     }
