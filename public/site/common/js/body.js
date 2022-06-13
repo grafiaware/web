@@ -10,7 +10,7 @@
     $('.ui.page.button').click(function(){
         $('.page.modal').modal({
             closable: false,
-            useCSS   : true
+            useCSS   : true,
         })
         .modal('show');
     });

@@ -43,6 +43,7 @@ use Site\ConfigurationCache;
     </button>
 
     <div class="ui mini page modal transition hidden login">
+        <i class="white close icon"></i>
         <div class="content">
             <h2>Přihlásit se</h2>
             <form class="ui form centered" method="POST" action="auth/v1/login">
