@@ -11,9 +11,10 @@ use Test\Integration\Event\Container\DbEventsContainerConfigurator;
 use Events\Model\Dao\EventDao;
 use Events\Model\Dao\LoginDao;
 use Events\Model\Dao\EnrollDao;
-//use Model\Dao\Exception\DaoForbiddenOperationException;
-//use Model\Dao\Exception\DaoKeyVerificationFailedException;
+use Events\Model\Dao\EventContentDao;
+
 use Model\RowData\RowData;
+use Model\RowData\PdoRowData;
 use Model\RowData\RowDataInterface;
 
 /**
@@ -31,9 +32,11 @@ class EventDaoTest extends AppRunner {
      */
     private $dao;
 
-    private static $eventIdTouple;
+    private static $eventIdTouple;    
+    private static $lastIdEvent; //vznikne v testFindByEventContentId
     
-    private static $login_login_name_fk;
+    private static $login_login_name_fk; //pomocne
+    private static $event_content_idTouple; //pomocne
 
     public static function setUpBeforeClass(): void {
         self::bootstrapBeforeClass();
@@ -46,7 +49,7 @@ class EventDaoTest extends AppRunner {
         $prefix = "ForEventDaoTest";
         /** @var LoginDao $loginDao */
         $loginDao = $container->get(LoginDao::class);
-        // prefix + uniquid - bez zamykání db
+                // prefix + uniquid - bez zamykání db
         do {
             $loginName = $prefix."_".uniqid();
             $login = $loginDao->get(['login_name' => $loginName]);
@@ -55,7 +58,17 @@ class EventDaoTest extends AppRunner {
         $loginData->import(['login_name' => $loginName]);
         $loginDao->insert($loginData);
         self::$login_login_name_fk = $loginDao->get(['login_name' => $loginName])['login_name'];
- 
+                
+        // nový event_content
+        /** @var EventContentDao $eventContentDao */
+        $eventContentDao = $container->get( EventContentDao::class);
+        $eventContentData = new RowData();
+        $eventContentData->import( ['title' => 'proEventDaoTest' , 
+                                    'perex' => 'AAAA',
+                                    'party' => 'bbbb',
+                                    'event_content_type_fk' => 'Pohovor' ] );
+        $eventContentDao->insert($eventContentData);    
+        self::$event_content_idTouple = $eventContentDao->getLastInsertIdTouple();
     }
 
     protected function setUp(): void {
@@ -69,10 +82,35 @@ class EventDaoTest extends AppRunner {
     protected function tearDown(): void {
     }
     public static function tearDownAfterClass(): void {
+        $container =
+            (new EventsContainerConfigurator())->configure(
+                (new DbEventsContainerConfigurator())->configure(new Container())
+            );
+        
+        //odstranit veta z event_Content, event , login
+        /** @var LoginDao $loginDao */
+        $loginDao = $container->get(LoginDao::class);
+        $rowPdoData = new PdoRowData();
+        $rowPdoData->forcedSet( 'login_name' , self::$login_login_name_fk);
+        $loginDao->delete($rowPdoData);
+        
+        /** @var  EventContentDao $eventContentDao  */
+        $eventContentDao = $container->get( EventContentDao::class);
+        $rowPdoData = new PdoRowData();
+        $rowPdoData->forcedSet( 'id' ,self::$event_content_idTouple['id'] );
+        $eventContentDao->delete($rowPdoData);
+        
+        /** @var  EventDao $eventDao  */
+        $eventDao = $container->get( EventDao::class);
+        $rowPdoData = new PdoRowData();
+        $rowPdoData->forcedSet( 'id' , self::$lastIdEvent );
+        $eventDao->delete($rowPdoData);
+
     }
 
     public function testSetUp() {
         $this->assertInstanceOf(EventDao::class, $this->dao);
+        
     }
 
 
@@ -92,21 +130,19 @@ class EventDaoTest extends AppRunner {
         $numRows = $this->dao->getRowCount();
         $this->assertEquals(1, $numRows);
         
-        //vyrobit enroll
+        //vyrobit enroll  - pro test delete
         /** @var EnrollDao $enrollDao */
         $enrollDao = $this->container->get(EnrollDao::class);
         $enrollRowData = new RowData();        
-        //funguje oboji
-       // $enrollRowData->import( ['login_login_name_fk' => self::$login_login_name_fk,  'event_id_fk' => self::$eventIdTouple ['id']  ]);
+        //funguje oboji - vzdy vzniknou "nova"  data
+        // $enrollRowData->import( ['login_login_name_fk' => self::$login_login_name_fk,  'event_id_fk' => self::$eventIdTouple ['id']  ]);
         $enrollRowData->offsetSet( 'login_login_name_fk', self::$login_login_name_fk  );
         $enrollRowData->offsetSet( 'event_id_fk', self::$eventIdTouple ['id'] );
         $enrollDao->insert($enrollRowData);     
-        
-        
-//pomocne       
+                
+//pomocne
         $numRowsEnroll = $enrollDao->getRowCount();
-        $this->assertEquals(1, $numRowsEnroll);
-        
+        $this->assertEquals(1, $numRowsEnroll);        
         $rowEnroll = $enrollDao->get( ['login_login_name_fk' => self::$login_login_name_fk,  'event_id_fk' => self::$eventIdTouple ['id'] ] );
         
     }
@@ -139,7 +175,7 @@ class EventDaoTest extends AppRunner {
         $this->setUp();
         $eventRowRereaded = $this->dao->get(self::$eventIdTouple);
         $this->assertEquals($eventRow, $eventRowRereaded);
-        $this->assertContains('2011-03-03', $eventRowRereaded['start']);
+        $this->assertStringContainsString('2011-03-03', $eventRowRereaded['start']);
     }
 
     public function testFind() {
@@ -148,23 +184,10 @@ class EventDaoTest extends AppRunner {
         $this->assertGreaterThanOrEqual(1, count($eventRow));
         $this->assertInstanceOf(RowDataInterface::class, $eventRow[0]);
     }
-
-    public function testDelete() {
-        $eventRow = $this->dao->get(self::$eventIdTouple);
-        $this->dao->delete($eventRow);
-        $this->assertEquals(1, $this->dao->getRowCount());
-
-        $this->setUp();
-        $eventRow = $this->dao->get(self::$eventIdTouple);
-        $this->assertNull($eventRow);
-        
-        
-        //zkontrolovat, 6e smazal i radku v enroll
-        
-        
-    }
-
+    
+    
     public function testFindByEventContentIdFk() {
+        //vlozi dalsi vetu event, s event_content_id_fk naplnenym
         $rowData = new RowData();
         $rowData->offsetSet('published', 1);
         $rowData->offsetSet('start', "2011-01-01 15:03:01" );
@@ -172,16 +195,52 @@ class EventDaoTest extends AppRunner {
 
         $rowData->offsetSet('enroll_link_id_fk', null);
         $rowData->offsetSet('enter_link_id_fk', null);
-        $rowData->offsetSet('event_content_id_fk', 100);
+        $rowData->offsetSet('event_content_id_fk', self::$event_content_idTouple['id'] );
 
         $this->dao->insert($rowData);
-        $lastId = $this->dao->lastInsertIdValue();
-        $this->assertGreaterThan(0, (int) $lastId);
+        self::$lastIdEvent = $this->dao->lastInsertIdValue();
+        $this->assertGreaterThan(0, (int) self::$lastIdEvent );
+        
+        //schovat id
+         $eventRow = $this->dao->get(self::$eventIdTouple);
+        
 
-        $eventRows = $this->dao->findByEventContentIdFk(['event_content_id_fk'=> 100]);
+        //hleda tu jednu  vetu s  event_content_id_fk
+        $eventRows = $this->dao->findByEventContentIdFk(['event_content_id_fk' => self::$event_content_idTouple['id'] ]);
         $this->assertIsArray($eventRows);
         $this->assertGreaterThan(0, count($eventRows));
+        $this->assertEquals( 1, count($eventRows));
+        $this->assertEquals( self::$event_content_idTouple['id'], $eventRows[0]['event_content_id_fk'] );
+        //$this->assertInstanceOf(RowDataInterface::class, $eventRows[0]);
+        
+        //schovat id
+         $eventRow = $this->dao->get(self::$eventIdTouple);
+        
+    }
+    
+
+
+    public function testDelete() {
+        $eventRow = $this->dao->get(self::$eventIdTouple);
+        $this->dao->delete($eventRow);          //smaze prvni zapsanou
+        $this->assertEquals(1, $this->dao->getRowCount());
+
+        $this->setUp();
+        $eventRow = $this->dao->get(self::$eventIdTouple);
+        $this->assertNull($eventRow);
+        
+        
+        //zkontrolovat, ze smazal i radku v enroll = hledat a nenajit
+        // kontrola CASCADE
+         /** @var EnrollDao $enrollDao */
+        $enrollDao = $this->container->get(EnrollDao::class);
+        $this->assertCount( 0 ,$enrollDao->findByEventIdFk( ['event_id_fk' => self::$eventIdTouple['id']  ] ) );                       
     }
 
+   
 
+
+    
+    // test getContextConditions
+    
 }

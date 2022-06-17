@@ -44,9 +44,7 @@ class EventContentDaoTest extends AppRunner {
         //tabulka institution
         /** @var InstitutionDao $institutionDao */         
         $institutionDao = $container->get(InstitutionDao::class);
-        $rowData = new RowData();        
-        //$rowData->offsetSet('name', "testEventContentDao-name");
-        //$rowData->offsetSet('institution_type_id', null);
+        $rowData = new RowData();               
         $rowData->import( [ 'name' => "testEventContentDao-name" , 'institution_type_id' => null ]);
         $institutionDao->insert($rowData);
         self::$idInstitutionTouple =  $institutionDao->getLastInsertIdTouple();
@@ -134,7 +132,7 @@ class EventContentDaoTest extends AppRunner {
         $this->setUp();
         $eventContentRowRereaded = $this->dao->get(self::$idEventContentTouple);
         $this->assertEquals($eventContentRow, $eventContentRowRereaded);
-        $this->assertContains('-title_updated', $eventContentRowRereaded['title']) ;
+        $this->assertStringContainsString('-title_updated', $eventContentRowRereaded['title']) ;
     }
 
     public function testFind() {
@@ -153,13 +151,12 @@ class EventContentDaoTest extends AppRunner {
         $eventContentRow = $this->dao->get(self::$idEventContentTouple);
         $this->assertNull($eventContentRow);
         
+        // kontrola SET
         // zda se nastavil event.event_content_id_fk NULL
         /** @var EventDao $eventDao */
         $eventDao = $this->container->get(EventDao::class);
         $eventData = $eventDao->get( ['id' => self::$event_id  ] );
         $this->assertNull($eventData [ 'event_content_id_fk' ]);
-                
-        
-        
+            
     }
 }
