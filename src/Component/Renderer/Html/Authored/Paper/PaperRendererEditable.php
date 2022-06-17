@@ -28,7 +28,6 @@ class PaperRendererEditable  extends AuthoredRendererAbstract {
                     Html::tag('article', ['data-red-renderer'=>'PaperRendererEditable', "data-red-datasource"=> "paper {$article->getId()} for item {$article->getMenuItemIdFk()}"],
                         [
                             $viewModel->getContextVariable(PaperComponent::BUTTON_EDIT_CONTENT) ?? '',
-//                            $this->renderSelectTemplate($viewModel),
                             $viewModel->getContextVariable(PaperComponent::SELECT_TEMPLATE) ?? '',
                             $this->renderRibbon($viewModel),
                             $viewModel->getContextVariable(PaperComponent::CONTENT) ?? '',   // obsah z papet komponenty

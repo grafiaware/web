@@ -1,6 +1,6 @@
 <?php
 
-namespace GeneratorService;
+namespace Service\ContentGenerator;
 
 /**
  *
@@ -16,7 +16,7 @@ interface ContentGeneratorRegistryInterface {
      * @param callable $service
      * @return void
      */
-    public function registerGeneratorService(string $name, callable $service): void;
+    public function registerService(string $name, callable $service): void;
 
     /**
      *

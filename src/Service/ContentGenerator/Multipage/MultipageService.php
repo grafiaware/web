@@ -6,49 +6,49 @@
  * and open the template in the editor.
  */
 
-namespace GeneratorService\Paper;
+namespace Service\ContentGenerator\Multipage;
 
-use GeneratorService\ContentServiceAbstract;
+use Service\ContentGenerator\ContentServiceAbstract;
 
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 use Status\Model\Repository\StatusFlashRepo;
-use Red\Model\Repository\PaperRepo;
+use Red\Model\Repository\MultipageRepo;
 
-use Red\Model\Entity\Paper;
+use Red\Model\Entity\Multipage;
 
 /**
  * Description of PaperService
  *
  * @author pes2704
  */
-class PaperService extends ContentServiceAbstract {
+class MultipageService extends ContentServiceAbstract {
 
     /**
      * @var PaperRepo
      */
-    protected $paperRepo;
+    protected $multipageRepo;
 
     public function __construct(
             StatusSecurityRepo $statusSecurityRepo,
             StatusPresentationRepo $statusPresentationRepo,
             StatusFlashRepo $statusFlashRepo,
-            PaperRepo $paperRepo
+            MultipageRepo $multipageRepo
             ) {
         parent::__construct($statusSecurityRepo, $statusPresentationRepo, $statusFlashRepo);
-        $this->paperRepo = $paperRepo;
+        $this->multipageRepo = $multipageRepo;
     }
 
     /**
-     * Vytvoří nový Paper pro zadané menu item id. Nastaví jako editora právě přihlášeného uživatele. Ostatní vlastnosti entity Paper ponechá prázdné. Entitu přidá do Repository.
+     * Vytvoří nový Article pro zadané menu item id. Nastaví jako editora právě přihlášeného uživatele. Ostatní vlastnosti entity Article ponechá prázdné. Entitu přidá do Repository.
      *
      * @param type $menuItemIdFk
      * @return void
      */
     public function initialize($menuItemIdFk): void {
-        $paper = new Paper();
-        $paper->setEditor($this->statusSecurityRepo->get()->getLoginAggregate()->getLoginName());
-        $paper->setMenuItemIdFk($menuItemIdFk);
-        $this->paperRepo->add($paper);
+        $multipage = new Multipage();
+        $multipage->setEditor($this->statusSecurityRepo->get()->getLoginAggregate()->getLoginName());
+        $multipage->setMenuItemIdFk($menuItemIdFk);
+        $this->multipageRepo->add($multipage);
     }
 }

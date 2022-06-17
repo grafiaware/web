@@ -5,9 +5,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-namespace GeneratorService\StaticTemplate;   // Static je keyword a použití GeneratorService\Static je syntaktická chyba
+namespace Service\ContentGenerator\StaticTemplate;   // Static je keyword a použití Service\ContentGenerator\Static je syntaktická chyba
 
-use GeneratorService\ContentServiceAbstract;
+use Service\ContentGenerator\ContentServiceAbstract;
 
 /**
  * Description of StaticService

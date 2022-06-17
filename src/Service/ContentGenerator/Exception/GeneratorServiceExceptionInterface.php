@@ -1,7 +1,4 @@
 <?php
-namespace TemplateService\Exception;
-
-use UnexpectedValueException;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -9,11 +6,12 @@ use UnexpectedValueException;
  * and open the template in the editor.
  */
 
+namespace Service\ContentGenerator\Exception;
+
 /**
- * Description of UnknownTemplateTypeException
  *
  * @author pes2704
  */
-class TemplateNotFoundException extends UnexpectedValueException implements TemplateServiceExceptionInterface {
+interface ContentGeneratorExceptionInterface {
     //put your code here
 }

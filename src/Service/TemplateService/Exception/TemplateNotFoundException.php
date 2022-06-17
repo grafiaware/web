@@ -1,7 +1,7 @@
 <?php
-namespace TemplateService\Exception;
+namespace Service\TemplateService\Exception;
 
-use LogicException;
+use UnexpectedValueException;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -14,6 +14,6 @@ use LogicException;
  *
  * @author pes2704
  */
-class UnknownTemplateTypeException extends LogicException implements TemplateServiceExceptionInterface {
+class TemplateNotFoundException extends UnexpectedValueException implements TemplateServiceExceptionInterface {
     //put your code here
 }

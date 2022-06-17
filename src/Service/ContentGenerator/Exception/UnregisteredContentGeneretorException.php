@@ -1,5 +1,4 @@
 <?php
-namespace TemplateService\Exception;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -7,10 +6,13 @@ namespace TemplateService\Exception;
  * and open the template in the editor.
  */
 
+namespace Service\ContentGenerator\Exception;
+
 /**
+ * Description of UnknownMenuItemTypeException
  *
  * @author pes2704
  */
-interface TemplateServiceExceptionInterface {
-    //put your code here
+class UnregisteredContentGeneretorException extends \LogicException implements ContentGeneratorExceptionInterface {
+
 }

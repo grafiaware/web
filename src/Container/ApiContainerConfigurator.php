@@ -39,11 +39,11 @@ use Red\Middleware\Redactor\Controler\FilesUploadControler;
 use Events\Middleware\Events\Controller\{EventController, VisitorDataController};
 
 // generator service
-use GeneratorService\ContentGeneratorRegistry;
-use GeneratorService\Paper\PaperService;
-use GeneratorService\Article\ArticleService;
-use GeneratorService\StaticTemplate\StaticService;
-use GeneratorService\Multipage\MultipageService;
+use Service\ContentGenerator\ContentGeneratorRegistry;
+use Service\ContentGenerator\Paper\PaperService;
+use Service\ContentGenerator\Article\ArticleService;
+use Service\ContentGenerator\StaticTemplate\StaticService;
+use Service\ContentGenerator\Multipage\MultipageService;
 
 // array model
 use Events\Model\Arraymodel\Event;
@@ -190,17 +190,17 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             // generator service
 
-            // volání nastavených služeb GeneratorService ->initialize() probíhá při nastevení typu menuItem - teď v Controller/EditItemController->type()
+            // volání nastavených služeb Service\ContentGenerator ->initialize() probíhá při nastevení typu menuItem - teď v Controller/EditItemController->type()
 
             ContentGeneratorRegistry::class => function(ContainerInterface $c) {
                 $factory = new ContentGeneratorRegistry(
                         $c->get(MenuItemTypeRepo::class)
                     );
                 // lazy volání služby kontejneru
-                $factory->registerGeneratorService('paper', function() use ($c) {return $c->get(PaperService::class);});
-                $factory->registerGeneratorService('article', function() use ($c) {return $c->get(ArticleService::class);});
-                $factory->registerGeneratorService('static', function() use ($c) {return $c->get(StaticService::class);});
-                $factory->registerGeneratorService('multipage', function() use ($c) {return $c->get(MultipageService::class);});
+                $factory->registerService('paper', function() use ($c) {return $c->get(PaperService::class);});
+                $factory->registerService('article', function() use ($c) {return $c->get(ArticleService::class);});
+                $factory->registerService('static', function() use ($c) {return $c->get(StaticService::class);});
+                $factory->registerService('multipage', function() use ($c) {return $c->get(MultipageService::class);});
                 return $factory;
             },
             PaperService::class => function(ContainerInterface $c) {

@@ -12,10 +12,10 @@ use Configuration\ComponentConfigurationInterface;
 use Component\ViewModel\StatusViewModelInterface;
 
 use Access\AccessPresentationInterface;
-use TemplateService\TemplateSeekerInterface;
+use Service\TemplateService\TemplateSeekerInterface;
 
-use TemplateService\Exception\TemplateServiceExceptionInterface;
-use TemplateService\Exception\TemplateNotFoundException;
+use Service\TemplateService\Exception\Service\TemplateServiceExceptionInterface;
+use Service\TemplateService\Exception\TemplateNotFoundException;
 
 use Pes\View\Template\PhpTemplate;
 
@@ -96,7 +96,7 @@ class TemplatedComponent extends AuthoredComponentAbstract implements InheritDat
                 } catch (NoTemplateFileException $noTemplExc) {
                     $template = new ImplodeTemplate();
                 }
-            } catch (TemplateServiceExceptionInterface $exc) {
+            } catch (Service\TemplateServiceExceptionInterface $exc) {
 //                throw new ItemTemplateNotFoundException("Nenalezen soubor pro hodnoty vracené metodami ViewModel getItemTemplate(): '$templateName' a getItemType(): '$itemType'.", 0, $exc);
                 $template = new ImplodeTemplate();
             }

@@ -6,13 +6,13 @@
  * and open the template in the editor.
  */
 
-namespace GeneratorService\Exception;
+namespace Service\ContentGenerator\Exception;
 
 /**
  * Description of UnknownMenuItemTypeException
  *
  * @author pes2704
  */
-class UnknownMenuItemTypeException extends \LogicException implements GeneratorServiceExceptionInterface {
-    
+class UnknownMenuItemTypeException extends \LogicException implements ContentGeneratorExceptionInterface {
+
 }

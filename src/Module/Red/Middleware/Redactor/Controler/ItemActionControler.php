@@ -44,7 +44,6 @@ class ItemActionControler extends FrontControlerAbstract {
         $this->itemActionRepo = $itemActionRepo;
     }
 
-
     public function addUserItemAction(ServerRequestInterface $request, $typeFk, $itemId) {
         $statusSecurity = $this->statusSecurityRepo->get();
         $userActions = $statusSecurity->getUserActions();

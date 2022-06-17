@@ -6,9 +6,9 @@
  * and open the template in the editor.
  */
 
-namespace GeneratorService;
+namespace Service\ContentGenerator;
 
-use GeneratorService\Exception;
+use Service\ContentGenerator\Exception;
 
 use Red\Model\Repository\MenuItemTypeRepo;
 
@@ -42,7 +42,7 @@ class ContentGeneratorRegistry implements ContentGeneratorRegistryInterface {
      * @param callable $service
      * @return void
      */
-    public function registerGeneratorService(string $menuItemType, callable $service): void {
+    public function registerService(string $menuItemType, callable $service): void {
         $this->serviceRegister[$menuItemType] = $service;
     }
 

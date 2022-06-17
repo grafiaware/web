@@ -34,14 +34,14 @@ use Component\View\MenuItem\Authored\Paper\PaperTemplatePreviewComponent;
 use Component\View\MenuItem\Authored\Multipage\MultipageTemplatePreviewComponent;
 use Component\ViewModel\MenuItem\Authored\Multipage\MultipageTemplatePreviewViewModel;
 
-use TemplateService\Exception\TemplateServiceExceptionInterface;
+use Service\TemplateService\Exception\Service\TemplateServiceExceptionInterface;
 
 ####################
 use Status\Model\Repository\StatusSecurityRepo;
 use Status\Model\Repository\StatusFlashRepo;
 use Status\Model\Repository\StatusPresentationRepo;
 
-use TemplateService\TemplateSeekerInterface;
+use Service\TemplateService\TemplateSeekerInterface;
 use Red\Model\Enum\AuthoredTemplateTypeEnum;
 
 use Pes\Text\Message;
@@ -185,7 +185,7 @@ class TemplateControler extends FrontControlerAbstract {
                 /** @var PaperTemplatePreviewComponent $view */
                 $view = $this->container->get(PaperTemplatePreviewComponent::class);
                 $this->statusPresentationRepo->get()->setLastTemplateName($templateName);
-            } catch (TemplateServiceExceptionInterface $exc) {
+            } catch (Service\TemplateServiceExceptionInterface $exc) {
                 $message = "Nenalezen soubor pro hodnoty vracené metodami ViewModel getItemTemplate(): '$templateName' a getItemType(): '$itemType'.";
                 $view = $this->container->get(View::class)
                                     ->setTemplate(new ImplodeTemplate)
