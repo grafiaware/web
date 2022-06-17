@@ -42,6 +42,8 @@ class LoginDaoTest extends AppRunner {
     private static $visitorJobTouples;
     private static $visitorProfileTouples;
     private static $representativeIdTouple;
+    
+    private static $nameUpdated;
 
 
 
@@ -183,42 +185,46 @@ class LoginDaoTest extends AppRunner {
         $this->assertCount(1, $loginRow);
     }
 
-   public function testUpdate() {
+   public function testUpdate_and_Exception() {
         $loginRow = $this->dao->get( ['login_name' => "Barbucha"] );
-                $lName = $loginRow['login_name'];
         $this->assertIsString( $loginRow['login_name'] );
-        
-        // RESTRICT
+              
         $this->setUp();
-        $updated = str_replace('bucha', 'bubuchac',$loginRow['login_name']);
-        $loginRow['login_name'] = $updated;
+        self::$nameUpdated = str_replace('bucha', 'bubuchac',$loginRow['login_name']);
+        $loginRow['login_name'] = self::$nameUpdated;
+        $this->expectException(ExecuteException::class);
         $this->dao->update($loginRow);
-        $this->assertEquals(1, $this->dao->getRowCount());
-        
-        $rowArray = $loginRow->getArrayCopy();
-        self::$loginNameTouple_poUpdate =  $this->dao->getPrimaryKeyTouples($rowArray);  
-
-        $this->setUp();
-        $a = [ 'a' => self::$loginNameTouple_poUpdate ['login_name'] ] ;
-        $loginRowRereaded = $this->dao->get(  self::$loginNameTouple_poUpdate  );
-        $this->assertEquals($loginRow, $loginRowRereaded);
-        $this->assertStringContainsString('bubuchac', $loginRowRereaded['login_name']);  
-        
+       // neupdatuje, protoze nastaven RESTRICT na tabulkach propojenych pres login_name
+       // vznikne Exception        
+   }   
+   
+   
 //        //kontrola CASCADE u update
 //        //kontrola, ze v  je taky updatovany tag
 //        /**  @var JobToTagDao  $jobToTagDao */
 //        $jobToTagDao = $this->container->get(JobToTagDao::class);
 //        $jobToTagRow = $jobToTagDao->get( [ 'job_tag_tag' => self::$jobTagTouple_poUpdate ['tag']  , 'job_id'=>self::$jobIdTouple['id'] ] );
 //        $this->assertEquals( self::$jobTagTouple_poUpdate ['tag'], $jobToTagRow['job_tag_tag'] );
-        
-    }
+           
 
+    public function testAfterUpdate_and_Exception()   {  
+        //self::$loginNameTouple_poUpdate =  $this->dao->getPrimaryKeyTouples($rowArray);  
+       // $loginRow = $this->dao->get( self::$loginNameTouple_poUpdate );
+       // $rowArray = $loginRow->getArrayCopy();
+//        self::$loginNameTouple_poUpdate =  $this->dao->getPrimaryKeyTouples($rowArray);  
+//
+//        $this->setUp();
+//        $a = [ 'a' => self::$loginNameTouple_poUpdate ['login_name'] ] ;
+//        $loginRowRereaded = $this->dao->get(  self::$loginNameTouple_poUpdate  );
+//        $this->assertEquals($loginRow, $loginRowRereaded);
+//        $this->assertStringContainsString('bubuchac', $loginRowRereaded['login_name']);  
+    }    
     
     public function testFind() {
-//        $jobTagRow = $this->dao->find();
-//        $this->assertIsArray($jobTagRow);
-//        $this->assertGreaterThanOrEqual(1, count($jobTagRow));
-//        $this->assertInstanceOf(RowDataInterface::class, $jobTagRow[0]);
+        $loginRow = $this->dao->find();
+        $this->assertIsArray($loginRow);
+        $this->assertGreaterThanOrEqual(1, count($loginRow));
+        $this->assertInstanceOf(RowDataInterface::class, $loginRow[0]);
     }
 
    
@@ -230,6 +236,17 @@ class LoginDaoTest extends AppRunner {
 //    }
     
     public function testDelete() {
+         //napred smazat vsechny zavisle, pak login
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
 //        //delete Company - amze job, jobToTag
 //        /** @var LoginDao $companyDao */
 //        $companyDao = $this->container->get(CompanyDao::class);    
