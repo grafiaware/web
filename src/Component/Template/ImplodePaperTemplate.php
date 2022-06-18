@@ -9,7 +9,7 @@
 namespace Component\Template;
 
 use Pes\View\Template\ImplodeTemplate;
-use Component\Renderer\Html\Authored\Paper\PaperRenderer;
+use Component\Renderer\Html\Content\Authored\Paper\PaperRenderer;
 
 /**
  * Description of ImloldeParepTemplate

@@ -8,7 +8,7 @@ namespace Component\Template;
  */
 
 use Pes\View\Template\PhpTemplate;
-use Component\Renderer\Html\Authored\Paper\PaperRendererEditable;
+use Component\Renderer\Html\Content\Authored\Paper\PaperRendererEditable;
 
 /**
  * Description of PaperTemplate

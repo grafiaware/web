@@ -19,19 +19,19 @@ use Red\Model\Enum\AuthoredTypeEnum;
 use Access\Enum\AllowedActionEnum;
 
 // view model
-use Component\ViewModel\MenuItem\Authored\Paper\PaperViewModel;
-use Component\ViewModel\MenuItem\Authored\Article\ArticleViewModel;
-use Component\ViewModel\MenuItem\Authored\Multipage\MultipageViewModel;
-use Component\ViewModel\MenuItem\TypeSelect\ItemTypeSelectViewModel;
+use Component\ViewModel\Content\Authored\Paper\PaperViewModel;
+use Component\ViewModel\Content\Authored\Article\ArticleViewModel;
+use Component\ViewModel\Content\Authored\Multipage\MultipageViewModel;
+use Component\ViewModel\Content\TypeSelect\ItemTypeSelectViewModel;
 
 // komponenty
-use Component\View\MenuItem\TypeSelect\ItemTypeSelectComponent;
-use Component\View\MenuItem\Authored\Paper\PaperComponent;
-use Component\View\MenuItem\Authored\Paper\PaperComponentInterface;
-use Component\View\MenuItem\Authored\Article\ArticleComponent;
-use Component\View\MenuItem\Authored\Article\ArticleComponentInterface;
-use Component\View\MenuItem\Authored\Multipage\MultipageComponent;
-use Component\View\MenuItem\Authored\Multipage\MultipageComponentInterface;
+use Component\View\Content\TypeSelect\ItemTypeSelectComponent;
+use Component\View\Content\Authored\Paper\PaperComponent;
+use Component\View\Content\Authored\Paper\PaperComponentInterface;
+use Component\View\Content\Authored\Article\ArticleComponent;
+use Component\View\Content\Authored\Article\ArticleComponentInterface;
+use Component\View\Content\Authored\Multipage\MultipageComponent;
+use Component\View\Content\Authored\Multipage\MultipageComponentInterface;
 
 // renderery
 use Pes\View\Renderer\PhpTemplateRenderer;

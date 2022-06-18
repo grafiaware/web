@@ -19,23 +19,23 @@ use Component\Renderer\Html\Menu\ItemBlockRendererEditable;
 use Component\Renderer\Html\Menu\ItemTrashRenderer;
 use Component\Renderer\Html\Menu\ItemTrashRendererEditable;
 
-use Component\Renderer\Html\Authored\Paper\ButtonsRenderer;
-use Component\Renderer\Html\Authored\Paper\PaperRenderer;
-use Component\Renderer\Html\Authored\Paper\PaperRendererEditable;
+use Component\Renderer\Html\Content\Authored\Paper\ButtonsRenderer;
+use Component\Renderer\Html\Content\Authored\Paper\PaperRenderer;
+use Component\Renderer\Html\Content\Authored\Paper\PaperRendererEditable;
 use Component\Renderer\Html\Manage\SelectTemplateRenderer;
 
-use Component\Renderer\Html\Authored\Paper\HeadlineRenderer;
-use Component\Renderer\Html\Authored\Paper\PerexRenderer;
-use Component\Renderer\Html\Authored\Paper\SectionsRenderer;
-use Component\Renderer\Html\Authored\Paper\HeadlineRendererEditable;
-use Component\Renderer\Html\Authored\Paper\PerexRendererEditable;
-use Component\Renderer\Html\Authored\Paper\SectionsRendererEditable;
+use Component\Renderer\Html\Content\Authored\Paper\HeadlineRenderer;
+use Component\Renderer\Html\Content\Authored\Paper\PerexRenderer;
+use Component\Renderer\Html\Content\Authored\Paper\SectionsRenderer;
+use Component\Renderer\Html\Content\Authored\Paper\HeadlineRendererEditable;
+use Component\Renderer\Html\Content\Authored\Paper\PerexRendererEditable;
+use Component\Renderer\Html\Content\Authored\Paper\SectionsRendererEditable;
 
-use Component\Renderer\Html\Authored\Article\ArticleRenderer;
-use Component\Renderer\Html\Authored\Article\ArticleRendererEditable;
+use Component\Renderer\Html\Content\Authored\Article\ArticleRenderer;
+use Component\Renderer\Html\Content\Authored\Article\ArticleRendererEditable;
 
-use Component\Renderer\Html\Authored\Multipage\MultipageRenderer;
-use Component\Renderer\Html\Authored\Multipage\MultipageRendererEditable;
+use Component\Renderer\Html\Content\Authored\Multipage\MultipageRenderer;
+use Component\Renderer\Html\Content\Authored\Multipage\MultipageRendererEditable;
 
 use Component\Renderer\Html\Manage\EditContentSwitchRenderer;
 use Component\Renderer\Html\Manage\EditContentSwitchOffRenderer;
@@ -50,7 +50,7 @@ use Component\Renderer\Html\Manage\ButtonsMenuDeleteRenderer;
 use Component\Renderer\Html\Generated\LanguageSelectRenderer;
 use Component\Renderer\Html\Generated\SearchPhraseRenderer;
 use Component\Renderer\Html\Generated\SearchResultRenderer;
-use Component\Renderer\Html\MenuItem\TypeSelect\ItemTypeSelectRenderer;
+use Component\Renderer\Html\Content\TypeSelect\ItemTypeSelectRenderer;
 
 use Pes\View\Renderer\ImplodeRenderer;
 use Pes\View\Renderer\InterpolateRenderer;

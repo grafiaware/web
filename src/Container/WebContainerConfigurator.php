@@ -53,16 +53,16 @@ use Component\View\Menu\MenuComponent;
 use Component\View\Menu\MenuComponentInterface;
 use Component\View\Menu\LevelComponent;
 
-use Component\View\MenuItem\TypeSelect\ItemTypeSelectComponent;
-use Component\View\MenuItem\Authored\Paper\PaperComponent;
-use Component\View\MenuItem\Authored\Article\ArticleComponent;
-use Component\View\MenuItem\Authored\Multipage\MultipageComponent;
-use Component\View\MenuItem\Authored\TemplatedComponent;
+use Component\View\Content\TypeSelect\ItemTypeSelectComponent;
+use Component\View\Content\Authored\Paper\PaperComponent;
+use Component\View\Content\Authored\Article\ArticleComponent;
+use Component\View\Content\Authored\Multipage\MultipageComponent;
+use Component\View\Content\Authored\TemplatedComponent;
 
-use Component\View\MenuItem\Authored\Paper\PaperTemplatePreviewComponent;
-use Component\View\MenuItem\Authored\Multipage\MultipageTemplatePreviewComponent;
+use Component\View\Content\Authored\Paper\PaperTemplatePreviewComponent;
+use Component\View\Content\Authored\Multipage\MultipageTemplatePreviewComponent;
 
-use Component\View\MenuItem\Authored\PaperTemplate\PaperTemplateComponent;
+use Component\View\Content\Authored\PaperTemplate\PaperTemplateComponent;
 
 use Component\View\Manage\SelectTemplateComponent;
 
@@ -91,14 +91,14 @@ use Component\ViewModel\StatusViewModel;
 use Component\ViewModel\Menu\MenuViewModel;
 use Component\ViewModel\Menu\LevelViewModel;
 
-use Component\ViewModel\MenuItem\Authored\Paper\PaperViewModel;
-use Component\ViewModel\MenuItem\Authored\Article\ArticleViewModel;
-use Component\ViewModel\MenuItem\Authored\Multipage\MultipageViewModel;
+use Component\ViewModel\Content\Authored\Paper\PaperViewModel;
+use Component\ViewModel\Content\Authored\Article\ArticleViewModel;
+use Component\ViewModel\Content\Authored\Multipage\MultipageViewModel;
 
-use Component\ViewModel\MenuItem\Authored\Paper\PaperTemplatePreviewViewModel;
-use Component\ViewModel\MenuItem\Authored\Multipage\MultipageTemplatePreviewViewModel;
+use Component\ViewModel\Content\Authored\Paper\PaperTemplatePreviewViewModel;
+use Component\ViewModel\Content\Authored\Multipage\MultipageTemplatePreviewViewModel;
 
-use Component\ViewModel\MenuItem\TypeSelect\ItemTypeSelectViewModel;
+use Component\ViewModel\Content\TypeSelect\ItemTypeSelectViewModel;
 
 use Component\ViewModel\Manage\LoginLogoutViewModel;
 use Component\ViewModel\Manage\StatusBoardViewModel;
@@ -120,20 +120,20 @@ use Component\Renderer\Html\Menu\ItemBlockRendererEditable;
 use Component\Renderer\Html\Menu\ItemTrashRenderer;
 use Component\Renderer\Html\Menu\ItemTrashRendererEditable;
 
-use Component\Renderer\Html\Authored\Paper\PaperRenderer;
-use Component\Renderer\Html\Authored\Paper\HeadlineRenderer;
-use Component\Renderer\Html\Authored\Paper\PerexRenderer;
-use Component\Renderer\Html\Authored\Paper\SectionsRenderer;
-use Component\Renderer\Html\Authored\Paper\PaperRendererEditable;
-use Component\Renderer\Html\Authored\Paper\HeadlineRendererEditable;
-use Component\Renderer\Html\Authored\Paper\PerexRendererEditable;
-use Component\Renderer\Html\Authored\Paper\SectionsRendererEditable;
+use Component\Renderer\Html\Content\Authored\Paper\PaperRenderer;
+use Component\Renderer\Html\Content\Authored\Paper\HeadlineRenderer;
+use Component\Renderer\Html\Content\Authored\Paper\PerexRenderer;
+use Component\Renderer\Html\Content\Authored\Paper\SectionsRenderer;
+use Component\Renderer\Html\Content\Authored\Paper\PaperRendererEditable;
+use Component\Renderer\Html\Content\Authored\Paper\HeadlineRendererEditable;
+use Component\Renderer\Html\Content\Authored\Paper\PerexRendererEditable;
+use Component\Renderer\Html\Content\Authored\Paper\SectionsRendererEditable;
 
-use Component\Renderer\Html\Authored\Article\ArticleRenderer;
-use Component\Renderer\Html\Authored\Article\ArticleRendererEditable;
+use Component\Renderer\Html\Content\Authored\Article\ArticleRenderer;
+use Component\Renderer\Html\Content\Authored\Article\ArticleRendererEditable;
 
-use Component\Renderer\Html\Authored\Multipage\MultipageRenderer;
-use Component\Renderer\Html\Authored\Multipage\MultipageRendererEditable;
+use Component\Renderer\Html\Content\Authored\Multipage\MultipageRenderer;
+use Component\Renderer\Html\Content\Authored\Multipage\MultipageRendererEditable;
 
 use Component\Renderer\Html\Manage\EditContentSwitchRenderer;
 use Component\Renderer\Html\Manage\SelectTemplateRenderer;
@@ -142,7 +142,7 @@ use Component\Renderer\Html\Generated\LanguageSelectRenderer;
 use Component\Renderer\Html\Generated\SearchPhraseRenderer;
 use Component\Renderer\Html\Generated\SearchResultRenderer;
 
-use Component\Renderer\Html\MenuItem\TypeSelect\ItemTypeSelectRenderer;
+use Component\Renderer\Html\Content\TypeSelect\ItemTypeSelectRenderer;
 
 use Component\Renderer\Html\Flash\FlashRenderer;
 
