@@ -13,25 +13,25 @@ namespace Red\Model\Entity;
  *
  * @author pes2704
  */
-class PaperAggregatePaperContent extends Paper implements PaperAggregatePaperContentInterface {
+class PaperAggregatePaperSection extends Paper implements PaperAggregatePaperSectionInterface {
 
     /**
-     * @var PaperContent array of
+     * @var PaperSection array of
      */
     private $contents = [];
 
     /**
      *
      * @param int $id id paper content
-     * @return PaperContentInterface|null
+     * @return PaperSectionInterface|null
      */
-    public function getPaperContent($id): ?PaperContentInterface {
+    public function getPaperSection($id): ?PaperSectionInterface {
         return array_key_exists($id, $this->contents) ? $this->contents[$id] : null;
     }
 
     /**
      *
-     * @return PaperContentInterface array of
+     * @return PaperSectionInterface array of
      */
     public function getPaperContentsArray(): array {
         return $this->contents;
@@ -39,7 +39,7 @@ class PaperAggregatePaperContent extends Paper implements PaperAggregatePaperCon
 
     /**
      *
-     * @return PaperContentInterface array of
+     * @return PaperSectionInterface array of
      */
     public function getPaperContentsArraySorted($sortType = self::BY_PRIORITY): array {
         $contents = $this->contents;
@@ -58,7 +58,7 @@ class PaperAggregatePaperContent extends Paper implements PaperAggregatePaperCon
      * @param array $contents
      * @return \Model\Entity\MenuItemAggregatePaperInterface
      */
-    public function exchangePaperContentsArray(array $contents=[]): PaperAggregatePaperContentInterface {
+    public function exchangePaperContentsArray(array $contents=[]): PaperAggregatePaperSectionInterface {
         $this->contents = $contents;
         return $this;
     }
@@ -67,13 +67,13 @@ class PaperAggregatePaperContent extends Paper implements PaperAggregatePaperCon
     /**
      * Compare funkce pro usort - řadí shora od nejvyšší priority
      *
-     * @param PaperContentInterface $c1
-     * @param PaperContentInterface $c2
+     * @param PaperSectionInterface $c1
+     * @param PaperSectionInterface $c2
      * @return int
      */
     private function compareByPriority($c1, $c2) {
-        /** @var PaperContentInterface $c1 */
-        /** @var PaperContentInterface $c2 */
+        /** @var PaperSectionInterface $c1 */
+        /** @var PaperSectionInterface $c2 */
         if ($c1->getPriority() == $c2->getPriority()) {
             return 0;
         }

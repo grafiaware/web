@@ -9,10 +9,10 @@
 namespace Component\Renderer\Html\Content\Authored\Paper;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
-use Component\ViewModel\Authored\Paper\PaperViewModelInterface;
+use Component\ViewModel\Content\Authored\Paper\PaperViewModelInterface;
 
-use Red\Model\Entity\PaperAggregatePaperContentInterface;
-use Red\Model\Entity\PaperContentInterface;
+use Red\Model\Entity\PaperAggregatePaperSectionInterface;
+use Red\Model\Entity\PaperSectionInterface;
 
 use Pes\Text\Html;
 
@@ -34,10 +34,10 @@ class SectionsRenderer extends HtmlRendererAbstract {
         $paperAggregate = $viewModel->getPaper();
         if ($paperAggregate instanceof PaperAggregatePaperContentInterface) {
 
-            $contents = $paperAggregate->getPaperContentsArraySorted(PaperAggregatePaperContentInterface::BY_PRIORITY);
+            $contents = $paperAggregate->getPaperContentsArraySorted(PaperAggregatePaperSectionInterface::BY_PRIORITY);
             $innerHtml = [];
             foreach ($contents as $paperContent) {
-                /** @var PaperContentInterface $paperContent */
+                /** @var PaperSectionInterface $paperContent */
                 $innerHtml[] = $this->renderContent($paperContent);
             }
         } else {
@@ -46,7 +46,7 @@ class SectionsRenderer extends HtmlRendererAbstract {
         return $innerHtml;
     }
 
-    private function renderContent(PaperContentInterface $paperContent) {
+    private function renderContent(PaperSectionInterface $paperContent) {
         $html =
                 Html::tag('section', ['class'=>$this->classMap->get('Content', 'section')],
                     Html::tag('content', [

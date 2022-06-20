@@ -68,7 +68,7 @@ use Red\Model\Repository\MenuRootRepo;
 use Red\Model\Repository\MenuItemAggregatePaperRepo;
 use Red\Model\Repository\PaperAggregateContentsRepo;
 use Red\Model\Repository\PaperRepo;
-use Red\Model\Repository\PaperContentRepo;
+use Red\Model\Repository\PaperSectionRepo;
 use Red\Model\Repository\ArticleRepo;
 use Red\Model\Repository\MultipageRepo;
 use Red\Model\Repository\ItemActionRepo;
@@ -156,7 +156,7 @@ class ApiContainerConfigurator extends ContainerConfiguratorAbstract {
                         $c->get(StatusSecurityRepo::class),
                         $c->get(StatusFlashRepo::class),
                         $c->get(StatusPresentationRepo::class),
-                        $c->get(PaperContentRepo::class));
+                        $c->get(PaperSectionRepo::class));
             },
             FilesUploadControler::class => function(ContainerInterface $c) {
                 return new FilesUploadControler(

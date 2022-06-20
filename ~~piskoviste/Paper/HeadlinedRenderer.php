@@ -9,8 +9,8 @@
 namespace Component\Renderer\Html\Paper;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
-use Component\ViewModel\Authored\Paper\PaperViewModelInterface;
-use Component\ViewModel\Authored\Paper\NamedPaperViewModelInterface;
+use Component\ViewModel\Content\Authored\Paper\PaperViewModelInterface;
+use Component\ViewModel\Content\Authored\Paper\NamedPaperViewModelInterface;
 use Pes\Text\Html;
 
 /**
@@ -36,7 +36,7 @@ class HeadlinedRenderer extends HtmlRendererAbstract {
             $innerHtml = Html::tag('div', ['class'=>$this->classMap->get('Component', 'div div')],
                             Html::tag('headline', ['class'=>$this->classMap->get('Component', 'div div headline')], $paper->getPaper())
                         )
-                        .Html::tag('content', ['class'=>$this->classMap->get('Component', 'div content')], $paper->getPaperContent());
+                        .Html::tag('content', ['class'=>$this->classMap->get('Component', 'div content')], $paper->getPaperSection());
             $style = "display: block;";
         } else {
             $innerHtml = Html::tag('div', [], 'No data item or article for rendering.');

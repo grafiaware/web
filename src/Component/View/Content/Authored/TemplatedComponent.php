@@ -97,7 +97,6 @@ class TemplatedComponent extends AuthoredComponentAbstract implements InheritDat
                     $template = new ImplodeTemplate();
                 }
             } catch (Service\TemplateServiceExceptionInterface $exc) {
-//                throw new ItemTemplateNotFoundException("Nenalezen soubor pro hodnoty vracené metodami ViewModel getItemTemplate(): '$templateName' a getItemType(): '$itemType'.", 0, $exc);
                 $template = new ImplodeTemplate();
             }
 

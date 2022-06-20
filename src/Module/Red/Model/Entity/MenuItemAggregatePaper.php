@@ -20,15 +20,15 @@ use Red\Model\Entity\Paper;
 class MenuItemAggregatePaper extends MenuItem implements MenuItemAggregatePaperInterface {
 
     /**
-     * @var PaperAggregatePaperContentInterface
+     * @var PaperAggregatePaperSectionInterface
      */
     private $paper;
 
     /**
      *
-     * @return PaperAggregatePaperContentInterface
+     * @return PaperAggregatePaperSectionInterface
      */
-    public function getPaper(): PaperAggregatePaperContentInterface {
+    public function getPaper(): PaperAggregatePaperSectionInterface {
         return $this->paper;
     }
 
@@ -37,7 +37,7 @@ class MenuItemAggregatePaper extends MenuItem implements MenuItemAggregatePaperI
      * @param Paper $paperAggregate
      * @return \Model\Entity\MenuItemAggregatePaperInterface
      */
-    public function setPaper(PaperAggregatePaperContentInterface $paperAggregate): MenuItemAggregatePaperInterface {
+    public function setPaper(PaperAggregatePaperSectionInterface $paperAggregate): MenuItemAggregatePaperInterface {
         $this->paper = $paperAggregate;
         return $this;
     }

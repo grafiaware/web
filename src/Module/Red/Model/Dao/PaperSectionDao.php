@@ -19,7 +19,7 @@ use Model\Dao\DaoFkNonuniqueTrait;
  *
  * @author pes2704
  */
-class PaperContentDao extends DaoEditContextualAbstract implements DaoEditAutoincrementKeyInterface, DaoFkNonuniqueInterface {
+class PaperSectionDao extends DaoEditContextualAbstract implements DaoEditAutoincrementKeyInterface, DaoFkNonuniqueInterface {
 
     use DaoAutoincrementTrait;
     use DaoFkNonuniqueTrait;
@@ -51,7 +51,7 @@ class PaperContentDao extends DaoEditContextualAbstract implements DaoEditAutoin
         ];
     }
     public function getTableName(): string {
-        return 'paper_content';
+        return 'paper_section';
     }
 
     protected function getContextConditions() {
@@ -60,8 +60,8 @@ class PaperContentDao extends DaoEditContextualAbstract implements DaoEditAutoin
             $publishedContext = $this->contextFactory->createPublishedContext();
             if ($publishedContext) {
                 if ($publishedContext->selectPublished()) {
-                    $contextConditions['active'] = "paper_content.active = 1";
-                    $contextConditions['actual'] = "(ISNULL(paper_content.show_time) OR paper_content.show_time<=CURDATE()) AND (ISNULL(paper_content.hide_time) OR CURDATE()<=paper_content.hide_time)";
+                    $contextConditions['active'] = "paper_section.active = 1";
+                    $contextConditions['actual'] = "(ISNULL(paper_section.show_time) OR paper_section.show_time<=CURDATE()) AND (ISNULL(paper_section.hide_time) OR CURDATE()<=paper_section.hide_time)";
                 }
             }
         }

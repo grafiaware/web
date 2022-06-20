@@ -9,7 +9,7 @@
 namespace Red\Model\Entity;
 
 use Red\Model\Entity\MenuItemAggregatePaperInterface;
-use Red\Model\Entity\PaperAggregatePaperContentInterface;
+use Red\Model\Entity\PaperAggregatePaperSectionInterface;
 
 /**
  * Description of PaperInterface
@@ -20,10 +20,10 @@ interface MenuItemAggregatePaperInterface extends MenuItemInterface {
 
     /**
      *
-     * @return PaperAggregatePaperContentInterface
+     * @return PaperAggregatePaperSectionInterface
      */
-    public function getPaper(): PaperAggregatePaperContentInterface;
+    public function getPaper(): PaperAggregatePaperSectionInterface;
 
-    public function setPaper(PaperAggregatePaperContentInterface $headline): MenuItemAggregatePaperInterface;
+    public function setPaper(PaperAggregatePaperSectionInterface $headline): MenuItemAggregatePaperInterface;
 
 }

@@ -24,9 +24,9 @@ use Status\Model\Repository\StatusPresentationRepo;
 
 use Status\Model\Enum\FlashSeverityEnum;
 
-use Red\Model\Repository\PaperContentRepo;
-use Red\Model\Entity\PaperContentInterface;
-use Red\Model\Entity\PaperContent;
+use Red\Model\Repository\PaperSectionRepo;
+use Red\Model\Entity\PaperSectionInterface;
+use Red\Model\Entity\PaperSection;
 
 use Pes\Text\Message;
 
@@ -43,7 +43,7 @@ class SectionsControler extends FrontControlerAbstract {
             StatusSecurityRepo $statusSecurityRepo,
             StatusFlashRepo $statusFlashRepo,
             StatusPresentationRepo $statusPresentationRepo,
-            PaperContentRepo $paperContentRepo) {
+            PaperSectionRepo $paperContentRepo) {
         parent::__construct($statusSecurityRepo, $statusFlashRepo, $statusPresentationRepo);
         $this->paperContentRepo = $paperContentRepo;
     }
@@ -156,7 +156,7 @@ class SectionsControler extends FrontControlerAbstract {
         $selectedContentPriority = $content->getPriority();
         $shifted = false;
         foreach ($contents as $contentItem) {
-            /** @var PaperContentInterface $contentItem */
+            /** @var PaperSectionInterface $contentItem */
             if ($contentItem->getPriority() == $selectedContentPriority+1) {  // obsahy s vyšší nebo stejnou prioritou - zvětším jim prioriru o 1 - vznikne díra pro $selectedContentPriority
                 $contentItem->setPriority($selectedContentPriority);
                 $content->setPriority($selectedContentPriority+1);
@@ -175,7 +175,7 @@ class SectionsControler extends FrontControlerAbstract {
         $selectedContentPriority = $content->getPriority();
         $shifted = false;
         foreach ($contents as $contentItem) {
-            /** @var PaperContentInterface $contentItem */
+            /** @var PaperSectionInterface $contentItem */
             if ($contentItem->getPriority() == $selectedContentPriority-1) {  // obsahy s vyšší nebo stejnou prioritou - zvětším jim prioriru o 1 - vznikne díra pro $selectedContentPriority
                 $contentItem->setPriority($selectedContentPriority);
                 $content->setPriority($selectedContentPriority-1);
@@ -193,13 +193,11 @@ class SectionsControler extends FrontControlerAbstract {
         // pro případ volání add i v situaci, kdy již existuje obsah
         $contents = $this->paperContentRepo->findByReference($paperId);
         foreach ($contents as $contentItem) {
-            /** @var PaperContentInterface $contentItem */
-            if ($contentItem->getPriority()>$priority) {
-                $contentItem->setPriority($contentItem->getPriority()+1);
-            }
+            /** @var PaperSectionInterface $contentItem */
+            $contentItem->setPriority($contentItem->getPriority()+1);
         }
         $this->paperContentRepo->add($this->createNewContent($paperId, $priority));
-        $this->addFlashMessage("Section add - Nový obsah, priorita $priority", FlashSeverityEnum::SUCCESS);
+        $this->addFlashMessage("Section add - Nová sekce, priorita $priority", FlashSeverityEnum::SUCCESS);
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
@@ -208,14 +206,14 @@ class SectionsControler extends FrontControlerAbstract {
         $content = $this->paperContentRepo->get($contentId);
         $priority = $content->getPriority();
         foreach ($contents as $contentItem) {
-            /** @var PaperContentInterface $contentItem */
+            /** @var PaperSectionInterface $contentItem */
             $itemPriority = $contentItem->getPriority();
             if ($itemPriority>$priority) {  // obsahy s vyšší prioritou - zvětším jim prioritu o 1 - vznikne díra pro nový content
                 $contentItem->setPriority($itemPriority+1);
             }
         }
         $this->paperContentRepo->add($this->createNewContent($paperId, $priority+1));
-        $this->addFlashMessage("Section addAbove - Nový obsah, priorita $priority", FlashSeverityEnum::SUCCESS);
+        $this->addFlashMessage("Section addAbove - priorita $priority", FlashSeverityEnum::SUCCESS);
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
@@ -224,19 +222,19 @@ class SectionsControler extends FrontControlerAbstract {
         $content = $this->paperContentRepo->get($contentId);
         $priority = $content->getPriority();
         foreach ($contents as $contentItem) {
-            /** @var PaperContentInterface $contentItem */
+            /** @var PaperSectionInterface $contentItem */
             $itemPriority = $contentItem->getPriority();
             if ($itemPriority >= $priority) {  // obsahy s vyšší nebo rovnou prioritou - zvětším jim prioritu o 1 - vznikne díra pro nový content
                 $contentItem->setPriority($itemPriority+1);
             }
         }
         $this->paperContentRepo->add($this->createNewContent($paperId, $priority));
-        $this->addFlashMessage("Section addBelow - Nový obsah, priorita $priority", FlashSeverityEnum::SUCCESS);
+        $this->addFlashMessage("Section addBelow - priorita $priority", FlashSeverityEnum::SUCCESS);
         return $this->redirectSeeLastGet($request); // 303 See Other
     }
 
     private function createNewContent($paperId, $priority) {
-        $newContent = new PaperContent();
+        $newContent = new PaperSection();
         $newContent->setPaperIdFk($paperId);
         $newContent->setPriority($priority);
         $newContent->setActive(0);   //active je integer
@@ -250,7 +248,7 @@ class SectionsControler extends FrontControlerAbstract {
         $content->setPriority(0);   // "koš" - s prioritou 0 může být více contentů
         $content->setActive(0);
         foreach ($contents as $contentItem) {
-            /** @var PaperContentInterface $contentItem */
+            /** @var PaperSectionInterface $contentItem */
             $itemPriority = $contentItem->getPriority();
             if ($itemPriority>$priority) {  // obsahy s vyšší prioritou - zmenším jim prioritu o 1 - zavřu díru po odloženém do "koše"
                 $contentItem->setPriority($itemPriority-1);
@@ -266,7 +264,7 @@ class SectionsControler extends FrontControlerAbstract {
         $content = $this->paperContentRepo->get($contentId);
         $priority = $content->getPriority();
         foreach ($contents as $contentItem) {
-            /** @var PaperContentInterface $contentItem */
+            /** @var PaperSectionInterface $contentItem */
             $itemPriority = $contentItem->getPriority();
             if ($itemPriority != 0) {  // mimo obsahů v "koši"
                 $contentItem->setPriority($itemPriority+1); // uvolním pozici s prioritou 1

@@ -21,7 +21,7 @@ function getNoContentMessage($lang) {
 }
 
 function createDatabaseContent(Psr\Container\ContainerInterface $mwContainer, $list, $lang, $edit, $klic) {
-    $article = (new Model\Repository\MenuItemAggregatePaperRepo($mwContainer->get(\Model\Dao\PaperContentDao::class)))->get($lang, $list);
+    $article = (new Model\Repository\MenuItemAggregatePaperRepo($mwContainer->get(\Model\Dao\PaperSectionDao::class)))->get($lang, $list);
     if($article) {
         if ($edit) {
             include Web\Middleware\Page\AppContext::getScriptsDirectory().'templates/layout/body/telo/tiny_config.php';    // tinymce
@@ -32,7 +32,7 @@ function createDatabaseContent(Psr\Container\ContainerInterface $mwContainer, $l
             $content[] =        "<button class='ui mini basic icon button save'><i class='save green outline big icon'></i></button>";
             $content[] =    "</div>";
             $content[] =    "<div class='articleContent-editable' name='obsah'>"
-                                .$article->getPaperContent().
+                                .$article->getPaperSection().
                             "</div>";
             $content[] = "</form>";
         } else {
@@ -40,7 +40,7 @@ function createDatabaseContent(Psr\Container\ContainerInterface $mwContainer, $l
             $content[] =    "<h1>" . $article->getHeadline(). "</h1>";
             $content[] = "</div>";
             $content[] = "<div class='articleContent'>"
-                            .$article->getPaperContent().
+                            .$article->getPaperSection().
                          "</div>";
         }
     } else {

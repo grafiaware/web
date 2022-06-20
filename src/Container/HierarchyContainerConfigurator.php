@@ -68,9 +68,9 @@ use Red\Model\Dao\PaperDao;
 use Red\Model\Hydrator\PaperHydrator;
 use Red\Model\Repository\PaperRepo;
 
-use Red\Model\Dao\PaperContentDao;
-use Red\Model\Hydrator\PaperContentHydrator;
-use Red\Model\Repository\PaperContentRepo;
+use Red\Model\Dao\PaperSectionDao;
+use Red\Model\Hydrator\PaperSectionHydrator;
+use Red\Model\Repository\PaperSectionRepo;
 
 use Red\Model\Dao\ArticleDao;
 use Red\Model\Hydrator\ArticleHydrator;
@@ -227,18 +227,18 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
             PaperRepo::class => function(ContainerInterface $c) {
                 return new PaperRepo($c->get(PaperDao::class), $c->get(PaperHydrator::class));
             },
-            PaperContentDao::class => function(ContainerInterface $c) {
-                return new PaperContentDao(
+            PaperSectionDao::class => function(ContainerInterface $c) {
+                return new PaperSectionDao(
                         $c->get(HandlerInterface::class),
                         $c->get(Sql::class),
                         PdoRowData::class,
                         $c->get(ContextFactoryInterface::class));
             },
-            PaperContentHydrator::class => function(ContainerInterface $c) {
-                return new PaperContentHydrator();
+            PaperSectionHydrator::class => function(ContainerInterface $c) {
+                return new PaperSectionHydrator();
             },
-            PaperContentRepo::class => function(ContainerInterface $c) {
-                return new PaperContentRepo($c->get(PaperContentDao::class), $c->get(PaperContentHydrator::class));
+            PaperSectionRepo::class => function(ContainerInterface $c) {
+                return new PaperSectionRepo($c->get(PaperSectionDao::class), $c->get(PaperSectionHydrator::class));
             },
             MenuItemChildHierarchyHydrator::class => function(ContainerInterface $c) {
                 return new MenuItemChildHierarchyHydrator();
@@ -251,7 +251,7 @@ class HierarchyContainerConfigurator extends ContainerConfiguratorAbstract {
             },
             PaperAggregateContentsRepo::class => function(ContainerInterface $c) {
                 return new PaperAggregateContentsRepo($c->get(PaperDao::class), $c->get(PaperHydrator::class),
-                        $c->get(PaperContentRepo::class), $c->get(PaperChildHydrator::class));
+                        $c->get(PaperSectionRepo::class), $c->get(PaperChildHydrator::class));
             },
             MenuItemAggregatePaperRepo::class => function(ContainerInterface $c) {
                 return new MenuItemAggregatePaperRepo(

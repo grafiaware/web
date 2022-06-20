@@ -15,7 +15,7 @@ use Model\Entity\EntityAbstract;
  *
  * @author pes2704
  */
-class PaperContent extends EntityAbstract implements PaperContentInterface {
+class PaperSection extends EntityAbstract implements PaperSectionInterface {
 
     private $id;
     private $paperIdFk;
@@ -93,77 +93,77 @@ class PaperContent extends EntityAbstract implements PaperContentInterface {
         return $this->actual;
     }
 
-    public function setId($id): PaperContentInterface {
+    public function setId($id): PaperSectionInterface {
         $this->id = $id;
         return $this;
     }
 
-    public function setPaperIdFk($paperIdFk): PaperContentInterface {
+    public function setPaperIdFk($paperIdFk): PaperSectionInterface {
         $this->paperIdFk = $paperIdFk;
         return $this;
     }
 
-    public function setList($list): PaperContentInterface {
+    public function setList($list): PaperSectionInterface {
         $this->list = $list;
         return $this;
     }
 
-    public function setContent($content): PaperContentInterface {
+    public function setContent($content): PaperSectionInterface {
         $this->content = $content;
         return $this;
     }
 
-    public function setTemplateName($templateName): PaperContentInterface {
+    public function setTemplateName($templateName): PaperSectionInterface {
         $this->templateName = $templateName;
         return $this;
     }
 
-    public function setTemplate($template): PaperContentInterface {
+    public function setTemplate($template): PaperSectionInterface {
         $this->template = $template;
         return $this;
     }
 
-    public function setActive($active): PaperContentInterface {
+    public function setActive($active): PaperSectionInterface {
         $this->active = $active;
         return $this;
     }
 
-    public function setPriority($priority): PaperContentInterface {
+    public function setPriority($priority): PaperSectionInterface {
         $this->priority = $priority;
         return $this;
     }
 
-    public function setShowTime(\DateTimeInterface $showTime=null): PaperContentInterface {
+    public function setShowTime(\DateTimeInterface $showTime=null): PaperSectionInterface {
         $this->showTime = $showTime;
         return $this;
     }
 
-    public function setHideTime(\DateTimeInterface $hideTime=null): PaperContentInterface {
+    public function setHideTime(\DateTimeInterface $hideTime=null): PaperSectionInterface {
         $this->hideTime = $hideTime;
         return $this;
     }
 
-    public function setEventStartTime(\DateTimeInterface $eventStartTime=null): PaperContentInterface {
+    public function setEventStartTime(\DateTimeInterface $eventStartTime=null): PaperSectionInterface {
         $this->eventStartTime = $eventStartTime;
         return $this;
     }
 
-    public function setEventEndTime(\DateTimeInterface $eventEndTime=null): PaperContentInterface {
+    public function setEventEndTime(\DateTimeInterface $eventEndTime=null): PaperSectionInterface {
         $this->eventEndTime = $eventEndTime;
         return $this;
     }
 
-    public function setEditor($editor): PaperContentInterface {
+    public function setEditor($editor): PaperSectionInterface {
         $this->editor = $editor;
         return $this;
     }
 
-    public function setUpdated(\DateTimeInterface $updated=null): PaperContentInterface {
+    public function setUpdated(\DateTimeInterface $updated=null): PaperSectionInterface {
         $this->updated = $updated;
         return $this;
     }
 
-    public function setActual($actual): PaperContentInterface {
+    public function setActual($actual): PaperSectionInterface {
         $this->actual = $actual;
         return $this;
     }

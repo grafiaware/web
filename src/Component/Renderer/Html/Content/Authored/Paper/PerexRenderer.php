@@ -10,7 +10,7 @@ namespace Component\Renderer\Html\Content\Authored\Paper;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
 
-use Component\ViewModel\Authored\Paper\PaperViewModelInterface;
+use Component\ViewModel\Content\Authored\Paper\PaperViewModelInterface;
 
 use Pes\Text\Html;
 

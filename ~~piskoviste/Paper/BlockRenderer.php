@@ -9,8 +9,8 @@
 namespace Component\Renderer\Html\Paper;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
-use Component\ViewModel\Authored\Paper\PaperViewModelInterface;
-use Component\ViewModel\Authored\Paper\NamedPaperViewModelInterface;
+use Component\ViewModel\Content\Authored\Paper\PaperViewModelInterface;
+use Component\ViewModel\Content\Authored\Paper\NamedPaperViewModelInterface;
 
 use Pes\Text\Html;
 
@@ -35,7 +35,7 @@ class BlockRenderer extends HtmlRendererAbstract {
         }
 
         if (isset($menuNode) AND isset($paper)) {
-            $innerHtml = $paper->getPaperContent();
+            $innerHtml = $paper->getPaperSection();
             $style = "display: block;";
         } else {
             $innerHtml = Html::tag('div', ['data-component'=>$name], 'No data item or article for rendering.');

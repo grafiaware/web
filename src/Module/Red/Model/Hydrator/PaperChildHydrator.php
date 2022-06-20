@@ -12,8 +12,8 @@ use Model\Hydrator\HydratorInterface;
 use Model\Entity\EntityInterface;
 use Model\RowData\RowDataInterface;
 
-use Red\Model\Entity\PaperAggregatePaperContentInterface;
-use Red\Model\Entity\PaperContentInterface;
+use Red\Model\Entity\PaperAggregatePaperSectionInterface;
+use Red\Model\Entity\PaperSectionInterface;
 
 /**
  * Description of PaperPaperContentAggregateHydrator
@@ -25,21 +25,21 @@ class PaperChildHydrator implements HydratorInterface {
     /**
      * Nastaví do agregátu contents, pokud existuje. Contents jsou závislé na kontextu a tedy mohou být null (neaktivní nebo neaktuální content) a pole může být prázdné
      *
-     * @param PaperAggregatePaperContentInterface $menuItemPaperAggregate
+     * @param PaperAggregatePaperSectionInterface $menuItemPaperAggregate
      * @param type $rowData
      */
     public function hydrate(EntityInterface $paperPaperContentsAggregate, RowDataInterface $rowData) {
-        /** @var PaperAggregatePaperContentInterface $menuItemPaperAggregate */
+        /** @var PaperAggregatePaperSectionInterface $menuItemPaperAggregate */
         $paperPaperContentsAggregate
-            ->exchangePaperContentsArray($rowData->offsetGet(PaperContentInterface::class));
+            ->exchangePaperContentsArray($rowData->offsetGet(PaperSectionInterface::class));
     }
 
     /**
      *
-     * @param PaperAggregatePaperContentInterface $paperAggregate
+     * @param PaperAggregatePaperSectionInterface $paperAggregate
      * @param type $rowData
      */
     public function extract(EntityInterface $paperAggregate, RowDataInterface $rowData) {
-        /** @var PaperAggregatePaperContentInterface $paperAggregate */
-        $rowData->offsetSet(PaperContentInterface::class, $paperAggregate->getPaperContentsArray());
+        /** @var PaperAggregatePaperSectionInterface $paperAggregate */
+        $rowData->offsetSet(PaperSectionInterface::class, $paperAggregate->getPaperContentsArray());
     }}

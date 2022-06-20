@@ -9,10 +9,10 @@
 namespace Component\Renderer\Html\Content\Authored\Paper;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
-use Component\ViewModel\Authored\Paper\PaperViewModelInterface;
+use Component\ViewModel\Content\Authored\Paper\PaperViewModelInterface;
 
-use Red\Model\Entity\PaperAggregatePaperContentInterface;
-use Red\Model\Entity\PaperContentInterface;
+use Red\Model\Entity\PaperAggregatePaperSectionInterface;
+use Red\Model\Entity\PaperSectionInterface;
 
 use Pes\Text\Html;
 
@@ -34,10 +34,10 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
         $paperAggregate = $viewModel->getPaper();
         if ($paperAggregate instanceof PaperAggregatePaperContentInterface) {
 
-            $contents = $paperAggregate->getPaperContentsArraySorted(PaperAggregatePaperContentInterface::BY_PRIORITY);
+            $contents = $paperAggregate->getPaperContentsArraySorted(PaperAggregatePaperSectionInterface::BY_PRIORITY);
             $sections = [];
             foreach ($contents as $paperContent) {
-                /** @var PaperContentInterface $paperContent */
+                /** @var PaperSectionInterface $paperContent */
                 if ($paperContent->getPriority() > 0) {  // není v koši
                     $sections[] = $this->getContent($paperContent);
                 } else {  // je v koši
@@ -51,7 +51,7 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
         return $sections;
     }
 
-    private function getContent(PaperContentInterface $paperContent) {
+    private function getContent(PaperSectionInterface $paperContent) {
         $active = $paperContent->getActive();
         $actual = $paperContent->getActual();
         $now =  new \DateTime("now");
@@ -119,7 +119,7 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
             );
     }
 
-    private function getContentButtons(PaperContentInterface $paperContent) {
+    private function getContentButtons(PaperSectionInterface $paperContent) {
         //TODO: atributy data-tooltip a data-position jsou pro semantic - zde jsou napevno zadané
         $show = $paperContent->getShowTime();
         $hide = $paperContent->getHideTime();
@@ -325,7 +325,7 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
         );
     }
 
-    private function getTrashButtons(PaperContentInterface $paperContent) {
+    private function getTrashButtons(PaperSectionInterface $paperContent) {
         //TODO: atributy data-tooltip a data-position jsou pro semantic - zde jsou napevno zadané
         $paperIdFk = $paperContent->getPaperIdFk();
         $paperContentId = $paperContent->getId();

@@ -8,7 +8,7 @@ use Component\View\Content\Authored\Paper\PaperComponent;
 use Component\ViewModel\Content\Authored\AuthoredViewModelInterface;
 use Component\ViewModel\Content\Authored\Paper\PaperViewModelInterface;
 
-use Red\Model\Entity\PaperAggregatePaperContentInterface;
+use Red\Model\Entity\PaperAggregatePaperSectionInterface;
 
 use Pes\Text\Html;
 

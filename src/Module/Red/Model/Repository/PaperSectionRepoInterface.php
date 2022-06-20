@@ -10,15 +10,15 @@ namespace Red\Model\Repository;
 
 use Model\Repository\RepoAssotiatedManyInterface;
 
-use Red\Model\Entity\PaperContentInterface;
+use Red\Model\Entity\PaperSectionInterface;
 
 /**
  *
  * @author pes2704
  */
-interface PaperContentRepoInterface extends RepoAssotiatedManyInterface {
-    public function get($id): ?PaperContentInterface;
+interface PaperSectionRepoInterface extends RepoAssotiatedManyInterface {
+    public function get($id): ?PaperSectionInterface;
     public function findByReference($paperIdFk): iterable;
-    public function add(PaperContentInterface $paper);
-    public function remove(PaperContentInterface $paper);
+    public function add(PaperSectionInterface $paper);
+    public function remove(PaperSectionInterface $paper);
 }

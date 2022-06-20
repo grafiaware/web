@@ -27,6 +27,7 @@ abstract class MenuItemViewModel extends ViewModelAbstract implements MenuItemVi
      */
     protected $status;
 
+    private $uid;
 
     public function __construct(
             StatusViewModelInterface $status,
@@ -34,11 +35,13 @@ abstract class MenuItemViewModel extends ViewModelAbstract implements MenuItemVi
             ) {
         $this->status = $status;
         $this->menuItemRepo = $menuItemRepo;
-        $this->uuid = uniqid();   // Gets a prefixed unique identifier based on the current time in microseconds.
+        $this->uid = uniqid();
+        // Gets a prefixed unique identifier based on the current time in microseconds.
+        // With an empty <code>prefix</code>, the returned string will be 13 characters long.
     }
 
-    public function getComponentUuid() {
-
+    public function getComponentUid() {
+        return $this->uid;
     }
 
     public function getStatus(): StatusViewModelInterface {

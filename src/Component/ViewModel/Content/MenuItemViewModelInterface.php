@@ -13,6 +13,6 @@ interface MenuItemViewModelInterface {
     public function getStatus(): StatusViewModelInterface;
     public function setMenuItemId($menuItemId);
     public function getMenuItem(): MenuItemInterface;
-    public function getComponentUuid();
+    public function getComponentUid();
 
 }

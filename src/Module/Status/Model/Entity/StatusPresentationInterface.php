@@ -72,9 +72,17 @@ interface StatusPresentationInterface extends EntityInterface {
      */
     public function setMenuItem(MenuItemInterface $menuItem): StatusPresentationInterface;
 
-
+    /**
+     * Jméno poslední template zobrazené v náhledu template
+     */
     public function getLastTemplateName();
 
+    /**
+     * Jméno poslední template zobrazené v náhledu template
+     *
+     * @param type $templateName
+     * @return StatusPresentationInterface
+     */
     public function setLastTemplateName($templateName): StatusPresentationInterface;
 
     /**

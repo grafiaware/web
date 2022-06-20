@@ -2,7 +2,7 @@
 use Site\ConfigurationCache;
 
 use Pes\View\Renderer\PhpTemplateRendererInterface;
-use Red\Model\Entity\PaperAggregatePaperContentInterface;
+use Red\Model\Entity\PaperAggregatePaperSectionInterface;
 
 $letakAttributesClass = ['class' => 'letak-v-igelitce'];
 

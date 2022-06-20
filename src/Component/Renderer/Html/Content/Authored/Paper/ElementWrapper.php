@@ -10,9 +10,9 @@ namespace Component\Renderer\Html\Content\Authored\Paper;
 
 use Pes\View\Renderer\ClassMap\ClassMapInterface;
 
-use Red\Model\Entity\PaperAggregatePaperContentInterface;
+use Red\Model\Entity\PaperAggregatePaperSectionInterface;
 use Red\Model\Entity\PaperInterface;
-use Red\Model\Entity\PaperContentInterface;
+use Red\Model\Entity\PaperSectionInterface;
 
 use Pes\Text\Html;
 
@@ -53,7 +53,7 @@ class ElementWrapper {
                 );
     }
 
-    public function wrapContent(PaperContentInterface $paperContent) {
+    public function wrapContent(PaperSectionInterface $paperContent) {
         return  Html::tag('content', [
                             'id' => "content_{$paperContent->getId()}",
                             'class'=>$this->classMap->get('Content', 'content'),

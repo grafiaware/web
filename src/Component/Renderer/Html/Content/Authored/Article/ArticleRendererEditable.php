@@ -45,12 +45,13 @@ class ArticleRendererEditable extends AuthoredRendererAbstract {
 ##### article
     private function getFormWithContent(ArticleViewModelInterface $viewModel) {
         $id = $viewModel->getAuthoredContentId();
+        $componentUid = $viewModel->getComponentUid();
         $templateName = $viewModel->getAuthoredTemplateName();
 
         return Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/article/$id"],
                 Html::tag('div',
                     [
-                        'id'=> ArticleControler::ARTICLE_CONTENT.$id,           // POZOR - id musí být unikátní - jinak selhává tiny selektor
+                        'id'=> ArticleControler::ARTICLE_CONTENT.$id."_".$componentUid,           // POZOR - id musí být unikátní - jinak selhává tiny selektor
                         'class'=>'edit-html',
                         "data-templatename"=>$templateName,   // toto je selektor pro template css - nastaveno v base-template.less souboru
                     ],

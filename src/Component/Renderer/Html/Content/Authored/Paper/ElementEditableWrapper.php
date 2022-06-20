@@ -10,9 +10,9 @@ namespace Component\Renderer\Html\Content\Authored\Paper;
 
 use Pes\View\Renderer\ClassMap\ClassMapInterface;
 
-use Red\Model\Entity\PaperAggregatePaperContentInterface;
+use Red\Model\Entity\PaperAggregatePaperSectionInterface;
 use Red\Model\Entity\PaperInterface;
-use Red\Model\Entity\PaperContentInterface;
+use Red\Model\Entity\PaperSectionInterface;
 
 use Pes\Text\Html;
 
@@ -78,8 +78,8 @@ class ElementEditableWrapper {
         return $form;
     }
 
-    public function wrapContent(PaperContentInterface $paperContent) {
-        /** @var PaperContentInterface $paperContent */
+    public function wrapContent(PaperSectionInterface $paperContent) {
+        /** @var PaperSectionInterface $paperContent */
         if ($paperContent->getPriority() > 0) {  // není v koši
             $form = $this->getContentForm($paperContent);
         } else {  // je v koši
@@ -88,7 +88,7 @@ class ElementEditableWrapper {
         return $form;
     }
 
-    private function getContentForm(PaperContentInterface $paperContent) {
+    private function getContentForm(PaperSectionInterface $paperContent) {
         $active = $paperContent->getActive();
         $actual = $paperContent->getActual();
         $now =  new \DateTime("now");
@@ -160,7 +160,7 @@ class ElementEditableWrapper {
             );
     }
 
-    protected function renderNewContent(PaperAggregatePaperContentInterface $paperAggregate) {
+    protected function renderNewContent(PaperAggregatePaperSectionInterface $paperAggregate) {
         $paperId = $paperAggregate->getId();
 
         return
@@ -182,7 +182,7 @@ class ElementEditableWrapper {
     }
 
 
-    public function getContentButtonsForm(PaperContentInterface $paperContent) {
+    public function getContentButtonsForm(PaperSectionInterface $paperContent) {
         //TODO: atributy data-tooltip a data-position jsou pro semantic - zde jsou napevno zadané
         $show = $paperContent->getShowTime();
         $hide = $paperContent->getHideTime();
@@ -368,7 +368,7 @@ class ElementEditableWrapper {
         );
     }
 
-    public function getTrashButtonsForm(PaperContentInterface $paperContent) {
+    public function getTrashButtonsForm(PaperSectionInterface $paperContent) {
         //TODO: atributy data-tooltip a data-position jsou pro semantic - zde jsou napevno zadané
         $paperIdFk = $paperContent->getPaperIdFk();
         $paperContentId = $paperContent->getId();
@@ -409,7 +409,7 @@ class ElementEditableWrapper {
 
     }
 
-    public function getNewContentButtonsForm(PaperAggregatePaperContentInterface $paperAggregate) {
+    public function getNewContentButtonsForm(PaperAggregatePaperSectionInterface $paperAggregate) {
         $paperId = $paperAggregate->getId();
 
         return

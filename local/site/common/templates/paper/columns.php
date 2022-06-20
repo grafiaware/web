@@ -2,11 +2,11 @@
 use Pes\View\Renderer\PhpTemplateRendererInterface;
 use Component\Renderer\Html\Content\Authored\Paper\ElementWrapper;
 use Component\Renderer\Html\Content\Authored\Paper\Buttons;
-use Red\Model\Entity\PaperAggregatePaperContentInterface;
+use Red\Model\Entity\PaperAggregatePaperSectionInterface;
 /** @var PhpTemplateRendererInterface $this */
 /** @var ElementWrapper $elementWrapper */
 /** @var Buttons $buttons */
-/** @var PaperAggregatePaperContentInterface $paperAggregate */
+/** @var PaperAggregatePaperSectionInterface $paperAggregate */
 
 ?>
 

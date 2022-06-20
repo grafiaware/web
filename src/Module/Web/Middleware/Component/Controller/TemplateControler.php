@@ -17,7 +17,7 @@ use FrontControler\FrontControlerAbstract;
 use FrontControler\FrontControlerInterface;
 
 use Red\Model\Entity\MenuItemInterface;
-use Red\Model\Entity\PaperAggregatePaperContent;
+use Red\Model\Entity\PaperAggregatePaperSection;
 
 // view modely
 use Component\ViewModel\Content\Authored\Paper\PaperViewModel;
@@ -30,11 +30,9 @@ use Component\ViewModel\Content\Authored\Multipage\MultipageTemplatePreviewViewM
 // komponenty
 use Component\View\Content\Authored\AuthoredComponentInterface;
 use Component\View\Content\Authored\Paper\PaperTemplatePreviewComponent;
-
 use Component\View\Content\Authored\Multipage\MultipageTemplatePreviewComponent;
-use Component\ViewModel\Content\Authored\Multipage\MultipageTemplatePreviewViewModel;
 
-use Service\TemplateService\Exception\Service\TemplateServiceExceptionInterface;
+use Service\TemplateService\Exception\TemplateServiceExceptionInterface;
 
 ####################
 use Status\Model\Repository\StatusSecurityRepo;
@@ -175,25 +173,17 @@ class TemplateControler extends FrontControlerAbstract {
     public function papertemplate(ServerRequestInterface $request, $templateName) {
         $presentedMenuItem = $this->statusPresentationRepo->get()->getMenuItem();
         if (isset($presentedMenuItem)) {
-            try {
-                $filename = $this->templateSeeker->seekTemplate(AuthoredTemplateTypeEnum::PAPER, $templateName);
                 $menuItemId = $presentedMenuItem->getId();
-                /** @var PaperViewModel $paperViewModel */
-                $paperViewModel = $this->container->get(PaperTemplatePreviewViewModel::class);
-                $paperViewModel->setMenuItemId($menuItemId);
-                $paperViewModel->setSelectedPaperTemplateFileName($filename);
+                /** @var PaperTemplatePreviewViewModel $templatePreviewiewModel */
+                $templatePreviewiewModel = $this->container->get(PaperTemplatePreviewViewModel::class);
+                $templatePreviewiewModel->setMenuItemId($menuItemId);
+                $templatePreviewiewModel->setPreviewTemplateName($templateName);
                 /** @var PaperTemplatePreviewComponent $view */
                 $view = $this->container->get(PaperTemplatePreviewComponent::class);
                 $this->statusPresentationRepo->get()->setLastTemplateName($templateName);
-            } catch (Service\TemplateServiceExceptionInterface $exc) {
-                $message = "Nenalezen soubor pro hodnoty vracené metodami ViewModel getItemTemplate(): '$templateName' a getItemType(): '$itemType'.";
-                $view = $this->container->get(View::class)
-                                    ->setTemplate(new ImplodeTemplate)
-                                    ->setData([$message]);
-            }
         } else {
             // není item - asi chyba
-            $paperAggregate = new PaperAggregatePaperContent();
+            $paperAggregate = new PaperAggregatePaperSection();
             $paperAggregate->exchangePaperContentsArray([])   //  ['content'=> Message::t('Contents')]
                     ->setTemplate($templateName)
                     ->setHeadline(Message::t('Headline'))

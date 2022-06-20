@@ -12,28 +12,28 @@ namespace Red\Model\Entity;
  *
  * @author pes2704
  */
-interface PaperAggregatePaperContentInterface extends PaperInterface {
+interface PaperAggregatePaperSectionInterface extends PaperInterface {
 
     const BY_PRIORITY = 'sort descending by content priority (highest on top)';
 
     /**
      *
      * @param type $id
-     * @return PaperContentInterface|null
+     * @return PaperSectionInterface|null
      */
-    public function getPaperContent($id): ?PaperContentInterface;
+    public function getPaperSection($id): ?PaperSectionInterface;
 
     /**
      *
-     * @return PaperContentInterface array of
+     * @return PaperSectionInterface array of
      */
     public function getPaperContentsArray(): array;
 
     /**
      *
-     * @return PaperContentInterface array of
+     * @return PaperSectionInterface array of
      */
     public function getPaperContentsArraySorted($sortType): array;
 
-    public function exchangePaperContentsArray(array $contents=[]): PaperAggregatePaperContentInterface;
+    public function exchangePaperContentsArray(array $contents=[]): PaperAggregatePaperSectionInterface;
 }

@@ -5,7 +5,7 @@ use Pes\View\Template\PhpTemplate;
 use Pes\View\CompositeViewInterface;
 
 use Component\View\Content\Authored\AuthoredComponentAbstract;
-use Component\ViewModel\Authored\Paper\PaperViewModelInterface;
+use Component\ViewModel\Content\Authored\Paper\PaperViewModelInterface;
 use Component\Renderer\Html\Content\Authored\Paper\PaperRenderer;
 use Component\Renderer\Html\Content\Authored\EmptyContentRenderer;
 

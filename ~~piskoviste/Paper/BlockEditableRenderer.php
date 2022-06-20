@@ -10,8 +10,8 @@ namespace Component\Renderer\Html\Paper;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
 
-use Component\ViewModel\Authored\Paper\PaperViewModelInterface;
-use Component\ViewModel\Authored\Paper\NamedPaperViewModelInterface;
+use Component\ViewModel\Content\Authored\Paper\PaperViewModelInterface;
+use Component\ViewModel\Content\Authored\Paper\NamedPaperViewModelInterface;
 use Pes\Text\Html;
 
 use Model\Entity\MenuItemAggregateHierarchyInterface;
@@ -40,7 +40,7 @@ class BlockEditableRenderer extends HtmlRendererAbstract {
         if (isset($menuNode) AND isset($paper)) {
             $innerHtml = 
                     $this->renderButtons($menuNode, $paper)
-                    .$paper->getPaperContent();
+                    .$paper->getPaperSection();
             $style = "display: block;";
         } else {
             $innerHtml = Html::tag('div', ['data-component'=>$name], 'No data item or article for rendering.');

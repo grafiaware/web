@@ -10,9 +10,9 @@ namespace Red\Model\Repository;
 
 use Model\Repository\RepoAbstract;
 
-use Red\Model\Entity\PaperContentInterface;
-use Red\Model\Entity\PaperContent;
-use Red\Model\Dao\PaperContentDao;
+use Red\Model\Entity\PaperSectionInterface;
+use Red\Model\Entity\PaperSection;
+use Red\Model\Dao\PaperSectionDao;
 use Model\Hydrator\HydratorInterface;
 
 use Model\Repository\Exception\UnableRecreateEntityException;
@@ -22,11 +22,11 @@ use Model\Repository\Exception\UnableRecreateEntityException;
  *
  * @author pes2704
  */
-class PaperContentRepo extends RepoAbstract implements PaperContentRepoInterface {
+class PaperSectionRepo extends RepoAbstract implements PaperSectionRepoInterface {
 
     protected $dao;
 
-    public function __construct(PaperContentDao $paperContentDao, HydratorInterface $contentHydrator) {
+    public function __construct(PaperSectionDao $paperContentDao, HydratorInterface $contentHydrator) {
         $this->dataManager = $paperContentDao;
         $this->registerHydrator($contentHydrator);
     }
@@ -34,9 +34,9 @@ class PaperContentRepo extends RepoAbstract implements PaperContentRepoInterface
     /**
      *
      * @param int $contentId
-     * @return PaperContentInterface|null
+     * @return PaperSectionInterface|null
      */
-    public function get($id): ?PaperContentInterface {
+    public function get($id): ?PaperSectionInterface {
         $key = $this->dataManager->getPrimaryKeyTouples(['id'=>$id]);
         return $this->getEntity($key);
     }
@@ -51,20 +51,20 @@ class PaperContentRepo extends RepoAbstract implements PaperContentRepoInterface
         return $this->findEntitiesByReference('paper_id_fk', $key);
     }
 
-    public function add(PaperContentInterface $paperContent) {
+    public function add(PaperSectionInterface $paperContent) {
         $this->addEntity($paperContent);
 
     }
 
-    public function remove(PaperContentInterface $paperContent) {
+    public function remove(PaperSectionInterface $paperContent) {
         $this->removeEntity($paperContent);
     }
 
     protected function createEntity() {
-        return new PaperContent();
+        return new PaperSection();
     }
 
-    protected function indexFromEntity(PaperContentInterface $paperContent) {
+    protected function indexFromEntity(PaperSectionInterface $paperContent) {
         return $paperContent->getId();
     }
 

@@ -20,7 +20,7 @@ use Red\Model\Dao\Hierarchy\HierarchyAggregateReadonlyDao;
 use Red\Model\Repository\MenuItemAggregatePaperRepo;
 
 use Red\Model\Entity\MenuItemAggregatePaper;
-use Red\Model\Entity\PaperAggregatePaperContent;
+use Red\Model\Entity\PaperAggregatePaperSection;
 /**
  * Description of MenuItemPaperRepositoryTest
  *
@@ -82,9 +82,9 @@ class MenuItemAggregateRepositoryTest extends AppRunner {
         $entity = $this->menuItemAggRepo->get($this->langCode, $this->uid);
         $this->assertInstanceOf(MenuItemAggregatePaper::class, $entity);
         $this->assertEquals($this->title, $entity->getTitle());
-        /** @var PaperAggregatePaperContent $paper */      // není interface
+        /** @var PaperAggregatePaperSection $paper */      // není interface
         $paper = $entity->getPaper();
-        $this->assertInstanceOf(PaperAggregatePaperContent::class, $paper);
+        $this->assertInstanceOf(PaperAggregatePaperSection::class, $paper);
         $contents = $paper->getPaperContentsArray();
         $this->assertIsArray($contents);
         $this->assertTrue(count($contents)>0, "Nenalezen žádný obsah");
@@ -95,9 +95,9 @@ class MenuItemAggregateRepositoryTest extends AppRunner {
         $entity = $this->menuItemAggRepo->getById($this->id);
         $this->assertInstanceOf(MenuItemAggregatePaper::class, $entity);
         $this->assertEquals($this->title, $entity->getTitle());
-        /** @var PaperAggregatePaperContent $paper */      // není interface
+        /** @var PaperAggregatePaperSection $paper */      // není interface
         $paper = $entity->getPaper();
-        $this->assertInstanceOf(PaperAggregatePaperContent::class, $paper);
+        $this->assertInstanceOf(PaperAggregatePaperSection::class, $paper);
         $contents = $paper->getPaperContentsArray();
         $this->assertIsArray($contents);
         $this->assertTrue(count($contents)>0, "Nenalezen žádný obsah");

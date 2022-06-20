@@ -29,13 +29,13 @@ use Red\Model\Entity\MenuItemAggregatePaperInterface;
 
 // pro contents repo
 use Pes\Database\Handler\HandlerInterface;
-use Red\Model\Dao\PaperContentDao;
-use Red\Model\Hydrator\PaperContentHydrator;
-use Red\Model\Repository\PaperContentRepo;
+use Red\Model\Dao\PaperSectionDao;
+use Red\Model\Hydrator\PaperSectionHydrator;
+use Red\Model\Repository\PaperSectionRepo;
 
-use Red\Model\Entity\PaperContentInterface;
-use Red\Model\Entity\PaperContent;
-use Red\Model\Entity\PaperAggregatePaperContentInterface;
+use Red\Model\Entity\PaperSectionInterface;
+use Red\Model\Entity\PaperSection;
+use Red\Model\Entity\PaperAggregatePaperSectionInterface;
 
 
 /**
@@ -159,7 +159,7 @@ class MenuitemAggPaperContentManipulationTest extends TestCase {
     }
 
     public function testPaperContentType() {
-        $this->assertInstanceOf(PaperContentInterface::class, $this->paper->getPaperContentsArray()[0]);
+        $this->assertInstanceOf(PaperSectionInterface::class, $this->paper->getPaperContentsArray()[0]);
     }
 
     public function testAdd() {
@@ -169,7 +169,7 @@ class MenuitemAggPaperContentManipulationTest extends TestCase {
 
         $paperIdFk = $this->paper->getId();
         $this->paper->exchangePaperContentsArray($this->addContent($this->createContent($paperIdFk), $oldContentsArray));
-        /** @var PaperContentRepo $paperContentRepo */
+        /** @var PaperSectionRepo $paperContentRepo */
 //        $paperContentRepo = $this->container->get(PaperContentRepo::class);
 //        $paperContentRepo->add($newContent);
 
@@ -180,7 +180,7 @@ $this->menuItemAggRepo->flush();
         // a obdobně PaperContentRepo obsažené v PaperAggregateRepo
         $this->container->reset(MenuItemAggregatePaperRepo::class);
         $this->container->reset(PaperAggregateContentsRepo::class);
-        $this->container->reset(PaperContentRepo::class);
+        $this->container->reset(PaperSectionRepo::class);
         /** @var MenuItemAggregatePaperRepo $menuItemAggRepo */
         $this->menuItemAggRepo = $this->container->get(MenuItemAggregatePaperRepo::class);
         $this->menuItemAgg = $this->menuItemAggRepo->get($this->langCode, $this->uid);
@@ -195,7 +195,7 @@ $this->menuItemAggRepo->flush();
     }
 
     private function createContent($paperIdFk) {
-        $newContent = new PaperContent();
+        $newContent = new PaperSection();
         $newContent->setContent(file_get_contents('http://loripsum.net/api/3/short/headers'));
         $newContent->setPaperIdFk($paperIdFk);
         $newContent->setShowTime((new \DateTime("now"))->modify("-1 week"));
@@ -207,7 +207,7 @@ $this->menuItemAggRepo->flush();
         return $newContent;
     }
 
-    private function addContent(PaperContentInterface $newContent, $oldContentsArray) {
+    private function addContent(PaperSectionInterface $newContent, $oldContentsArray) {
         $newContent->setPriority(count($oldContentsArray)+1);
         $oldContentsArray[] = $newContent;
         return $oldContentsArray;

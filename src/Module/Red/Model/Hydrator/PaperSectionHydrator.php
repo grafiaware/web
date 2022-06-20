@@ -13,7 +13,7 @@ use Model\Hydrator\TypeHydratorAbstract;
 use Model\Entity\EntityInterface;
 use Model\RowData\RowDataInterface;
 
-use Red\Model\Entity\PaperContentInterface;
+use Red\Model\Entity\PaperSectionInterface;
 use Pes\Type\Date;
 
 /**
@@ -21,7 +21,7 @@ use Pes\Type\Date;
  *
  * @author pes2704
  */
-class PaperContentHydrator extends TypeHydratorAbstract implements HydratorInterface {
+class PaperSectionHydrator extends TypeHydratorAbstract implements HydratorInterface {
 
     /**
      *
@@ -29,7 +29,7 @@ class PaperContentHydrator extends TypeHydratorAbstract implements HydratorInter
      * @param type $rowData
      */
     public function hydrate(EntityInterface $paperContent, RowDataInterface $rowData) {
-        /** @var PaperContentInterface $paperContent */
+        /** @var PaperSectionInterface $paperContent */
         $paperContent
             ->setId($this->getPhpValue($rowData, 'id'))
             ->setPaperIdFk($this->getPhpValue($rowData, 'paper_id_fk'))
@@ -53,7 +53,7 @@ class PaperContentHydrator extends TypeHydratorAbstract implements HydratorInter
      * @param type $rowData
      */
     public function extract(EntityInterface $paperContent, RowDataInterface $rowData) {
-        /** @var PaperContentInterface $paperContent */
+        /** @var PaperSectionInterface $paperContent */
         $this->setSqlValue($rowData, 'id', $paperContent->getId());
         $this->setSqlValue($rowData, 'paper_id_fk',  $paperContent->getPaperIdFk());
         $this->setSqlValue($rowData, 'content',  $paperContent->getContent());

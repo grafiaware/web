@@ -9,10 +9,11 @@
 namespace Component\Renderer\Html\Content\Authored\Paper;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
-use Component\ViewModel\Authored\Paper\PaperViewModelInterface;
+use Component\ViewModel\Content\Authored\Paper\PaperViewModelInterface;
 
-use Red\Model\Entity\PaperAggregatePaperContentInterface;
-use Red\Model\Entity\PaperContentInterface;
+use Red\Model\Entity\PaperAggregatePaperSectionInterface;
+use Red\Model\Entity\PaperSectionInterface;
+use Red\Middleware\Redactor\Controler\PaperControler;
 
 use Pes\Text\Html;
 
@@ -22,6 +23,7 @@ use Pes\Text\Html;
  * @author pes2704
  */
 class SectionsRendererEditable extends HtmlRendererAbstract {
+
     /**
      * Renderuje bloky s atributem id pro TinyMCE jméno proměnné ve formuláři
      *
@@ -32,13 +34,13 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
     public function render(iterable $viewModel=NULL) {
         /** @var PaperViewModelInterface $viewModel */
         $paperAggregate = $viewModel->getPaper();
-        if ($paperAggregate instanceof PaperAggregatePaperContentInterface) {
-            $contents = $paperAggregate->getPaperContentsArraySorted(PaperAggregatePaperContentInterface::BY_PRIORITY);
+        if ($paperAggregate instanceof PaperAggregatePaperSectionInterface) {
+            $contents = $paperAggregate->getPaperContentsArraySorted(PaperAggregatePaperSectionInterface::BY_PRIORITY);
             $sections = [];
             foreach ($contents as $paperContent) {
-                /** @var PaperContentInterface $paperContent */
+                /** @var PaperSectionInterface $paperContent */
                 if ($paperContent->getPriority() > 0) {  // není v koši
-                    $sections[] = $this->getContentForm($paperAggregate, $paperContent);
+                    $sections[] = $this->getContentForm($viewModel, $paperAggregate, $paperContent);
                 } else {  // je v koši
                     $sections[] = $this->getTrashContent($paperContent);
                 }
@@ -91,7 +93,7 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
         return $right;
     }
 
-    private function getContentForm(PaperAggregatePaperContentInterface $paperAggregate, PaperContentInterface $paperContent) {
+    private function getContentForm(PaperViewModelInterface $viewModel, PaperAggregatePaperSectionInterface $paperAggregate, PaperSectionInterface $paperContent) {
         return
         Html::tag('section', ['class'=>$this->classMap->get('Content', 'section')],
             Html::tag("form", ['method'=>'POST', "action"=>"javascript:void(0);"],  // potlačí submit po stisku Enter
@@ -103,7 +105,7 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
             Html::tag('form', ['method'=>'POST', 'action'=>"red/v1/paper/{$paperAggregate->getId()}/section/{$paperContent->getId()}"],
                 Html::tag('content',
                     [
-                    'id' => "content_{$paperContent->getId()}",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
+                    'id' => PaperControler::SECTION_CONTENT."{$paperContent->getId()}_{$viewModel->getComponentUid()}",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
                     'class'=>$this->classMap->get('Content', 'content'),
                     'data-owner'=>$paperContent->getEditor()
                     ],
@@ -113,7 +115,7 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
         );
     }
 
-    private function getTrashContent(PaperContentInterface $paperContent) {
+    private function getTrashContent(PaperSectionInterface $paperContent) {
         return
         Html::tag('section', ['class'=>$this->classMap->get('Content', 'section.trash')],
             Html::tag("form", ['method'=>'POST', "action"=>"javascript:void(0);"],  // potlačí submit po stisku Enter
@@ -127,7 +129,7 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
 //            )
             .Html::tag('div',
                 [
-                    'id' => "content_{$paperContent->getId()}",  // id musí být na stránce unikátní - skládám ze slova content_ a id, v kontroléru lze toto jméno také složit a hledat v POST proměnných
+                    'id' => "content_{$paperContent->getId()}",  // id nemusí být na stránce unikátní není proměnná formu
                     'class'=>$this->classMap->get('Content', 'div.trash_content'),
                     'data-owner'=>$paperContent->getEditor()
                 ],
@@ -136,7 +138,7 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
         );
     }
 
-    private function getRibbonContent(PaperContentInterface $paperContent) {
+    private function getRibbonContent(PaperSectionInterface $paperContent) {
         $priority = $paperContent->getPriority();
         $active = $paperContent->getActive();
         $actual = $paperContent->getActual();
@@ -217,7 +219,7 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
         ;
     }
 
-    private function getRibbonTagOld(PaperContentInterface $paperContent) {
+    private function getRibbonTagOld(PaperSectionInterface $paperContent) {
 //       return Html::tag('div', ['class'=>$this->classMap->get('Content', 'div.semafor')],
 //                    Html::tag('div',
 //                       [
@@ -250,27 +252,27 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
 //                )
     }
 
-    private function getShowTimeText(PaperContentInterface $paperContent) {
+    private function getShowTimeText(PaperSectionInterface $paperContent) {
         $showTime = $paperContent->getShowTime();
         return isset($showTime) ? $showTime->format("d.m.Y") : '';
     }
 
-    private function getHideTimeText(PaperContentInterface $paperContent) {
+    private function getHideTimeText(PaperSectionInterface $paperContent) {
         $hideTime = $paperContent->getHideTime();
         return isset($hideTime) ? $hideTime->format("d.m.Y") : '';
     }
 
-    private function getEventStartTimeText(PaperContentInterface $paperContent) {
+    private function getEventStartTimeText(PaperSectionInterface $paperContent) {
         $eventStartTime = $paperContent->getEventStartTime();
         return isset($eventStartTime) ? $eventStartTime->format("d.m.Y") : '';
     }
 
-    private function getEventEndTimeText(PaperContentInterface $paperContent) {
+    private function getEventEndTimeText(PaperSectionInterface $paperContent) {
         $eventEndTime = $paperContent->getEventEndTime();
         return isset($eventEndTime) ? $eventEndTime->format("d.m.Y") : '';
     }
 
-    private function textDatumyZobrazeni(PaperContentInterface $paperContent) {
+    private function textDatumyZobrazeni(PaperSectionInterface $paperContent) {
         $showTimeText = $this->getShowTimeText($paperContent);
         $hideTimeText = $this->getHideTimeText($paperContent);
         if ($showTimeText) {
@@ -287,7 +289,7 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
         return $textDatumyZobrazeni;
     }
 
-    private function textDatumyUdalosti(PaperContentInterface $paperContent) {
+    private function textDatumyUdalosti(PaperSectionInterface $paperContent) {
         $eventStartTimeText = $this->getEventStartTimeText($paperContent);
         $eventEndTimeText = $this->getEventEndTimeText($paperContent);
         if ($eventStartTimeText) {
@@ -304,7 +306,7 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
         return $textDatumyUdalosti;
     }
 
-    private function getContentButtons(PaperContentInterface $paperContent) {
+    private function getContentButtons(PaperSectionInterface $paperContent) {
 
         $paperIdFk = $paperContent->getPaperIdFk();
         $paperContentId = $paperContent->getId();
@@ -529,7 +531,7 @@ class SectionsRendererEditable extends HtmlRendererAbstract {
             );
     }
 
-    private function getTrashButtons(PaperContentInterface $paperContent) {
+    private function getTrashButtons(PaperSectionInterface $paperContent) {
         //TODO: atributy data-tooltip a data-position jsou pro semantic - zde jsou napevno zadané
         $paperIdFk = $paperContent->getPaperIdFk();
         $paperContentId = $paperContent->getId();

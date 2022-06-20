@@ -9,11 +9,11 @@
 namespace Component\Renderer\Html\Content\Authored\Paper;
 
 use Component\Renderer\Html\HtmlRendererAbstract;
-use Component\ViewModel\Authored\Paper\PaperViewModelInterface;
+use Component\ViewModel\Content\Authored\Paper\PaperViewModelInterface;
 
 use Red\Model\Entity\PaperInterface;
-use Red\Model\Entity\PaperAggregatePaperContentInterface;
-use Red\Model\Entity\PaperContentInterface;
+use Red\Model\Entity\PaperAggregatePaperSectionInterface;
+use Red\Model\Entity\PaperSectionInterface;
 
 use Pes\Text\Html;
 

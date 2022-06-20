@@ -10,7 +10,7 @@ namespace Component\ViewModel\Content\Authored\Paper;
 
 use Component\ViewModel\Content\Authored\AuthoredViewModelInterface;
 
-use Red\Model\Entity\PaperAggregatePaperContentInterface;
+use Red\Model\Entity\PaperAggregatePaperSectionInterface;
 
 /**
  *
@@ -21,8 +21,8 @@ interface PaperViewModelInterface extends AuthoredViewModelInterface {
     /**
      * Vrací PaperAggregate, pokud existuje a je aktivní (zveřejněný) nebo prezentace je v editačním režimu.
      *
-     * @return PaperAggregatePaperContentInterface|null
+     * @return PaperAggregatePaperSectionInterface|null
      */
-    public function getPaper(): ?PaperAggregatePaperContentInterface;
+    public function getPaper(): ?PaperAggregatePaperSectionInterface;
 
 }

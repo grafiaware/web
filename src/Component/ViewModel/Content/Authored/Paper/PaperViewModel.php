@@ -8,7 +8,7 @@
 
 namespace Component\ViewModel\Content\Authored\Paper;
 
-use Red\Model\Entity\PaperAggregatePaperContentInterface;
+use Red\Model\Entity\PaperAggregatePaperSectionInterface;
 use Red\Model\Entity\PaperInterface;
 
 use Component\ViewModel\Content\Authored\AuthoredViewModelAbstract;
@@ -65,9 +65,9 @@ class PaperViewModel extends AuthoredViewModelAbstract implements PaperViewModel
      *
      * MenuItem musí být aktivní nebo prezentace musí být v režimu article editable - jinak repository nevrací menuItem a nevznikne PaperAggregate, metoda vrací null.
      *
-     * @return PaperAggregatePaperContentInterface|null
+     * @return PaperAggregatePaperSectionInterface|null
      */
-    public function getPaper(): ?PaperAggregatePaperContentInterface {
+    public function getPaper(): ?PaperAggregatePaperSectionInterface {
         if (isset($this->menuItemId)) {
             $paper = $this->paperAggregateRepo->getByReference($this->menuItemId);
         }
