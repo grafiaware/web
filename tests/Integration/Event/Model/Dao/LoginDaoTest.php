@@ -106,12 +106,10 @@ class LoginDaoTest extends AppRunner {
         $companyDao = $container->get(CompanyDao::class);        
         $companyRow = $companyDao->get( ['id' => self::$companyIdTouple ['id']  ]);
         $companyDao->delete($companyRow);
-        
-         //Job se smazalo uz kdyz se smazalo company
-//        /** @var JobDao $jobDao */  
-//        $jobDao = $container->get(JobDao::class);        
-//        $jobRow = $jobDao->get( ['id' => self::$companyIdTouple ['id']  ]);
-//        $jobDao->delete($jobRow);
+       
+        //smazani company smazalo job, company_contact, company_address, representative
+        //smazani job smazalo visitor_job_request, job_to_tag
+
         
 
     }
@@ -146,7 +144,6 @@ class LoginDaoTest extends AppRunner {
         /**  @var RowData  $row */
         $row = $representativeDao->get( ['login_login_name' => $rowArray['login_name'], 'company_id' =>self::$companyIdTouple['id']]  );
         self::$representativeIdTouple  = $representativeDao->getPrimaryKeyTouples($row->getArrayCopy());      
-
         
         
         // nova visitor_job_request
@@ -173,7 +170,7 @@ class LoginDaoTest extends AppRunner {
         // nova enroll - priprava potrebne propojene tabulky ...melo by byt take ...a neni udelano
         
         
-   }
+    }
 
     public function testGetExistingRow() {
         $loginRow = $this->dao->get(self::$loginNameTouple);
@@ -185,7 +182,9 @@ class LoginDaoTest extends AppRunner {
         $this->assertCount(1, $loginRow);
     }
 
-   public function testUpdate_and_Exception() {
+    public function testUpdate_and_Exception() {
+        // neupdatuje, protoze nastaven RESTRICT na tabulkach propojenych pres login_name
+        // vznikne Exception       
         $loginRow = $this->dao->get( ['login_name' => "Barbucha"] );
         $this->assertIsString( $loginRow['login_name'] );
               
@@ -194,46 +193,41 @@ class LoginDaoTest extends AppRunner {
         $loginRow['login_name'] = self::$nameUpdated;
         $this->expectException(ExecuteException::class);
         $this->dao->update($loginRow);
-       // neupdatuje, protoze nastaven RESTRICT na tabulkach propojenych pres login_name
-       // vznikne Exception        
+       
    }   
    
-   
-//        //kontrola CASCADE u update
-//        //kontrola, ze v  je taky updatovany tag
-//        /**  @var JobToTagDao  $jobToTagDao */
-//        $jobToTagDao = $this->container->get(JobToTagDao::class);
-//        $jobToTagRow = $jobToTagDao->get( [ 'job_tag_tag' => self::$jobTagTouple_poUpdate ['tag']  , 'job_id'=>self::$jobIdTouple['id'] ] );
-//        $this->assertEquals( self::$jobTagTouple_poUpdate ['tag'], $jobToTagRow['job_tag_tag'] );
+
            
 
     public function testAfterUpdate_and_Exception()   {  
-        //self::$loginNameTouple_poUpdate =  $this->dao->getPrimaryKeyTouples($rowArray);  
-       // $loginRow = $this->dao->get( self::$loginNameTouple_poUpdate );
-       // $rowArray = $loginRow->getArrayCopy();
-//        self::$loginNameTouple_poUpdate =  $this->dao->getPrimaryKeyTouples($rowArray);  
-//
-//        $this->setUp();
-//        $a = [ 'a' => self::$loginNameTouple_poUpdate ['login_name'] ] ;
-//        $loginRowRereaded = $this->dao->get(  self::$loginNameTouple_poUpdate  );
-//        $this->assertEquals($loginRow, $loginRowRereaded);
-//        $this->assertStringContainsString('bubuchac', $loginRowRereaded['login_name']);  
+         // testuji, zda  login_name v login, a login_login_name ve visitor_profile  zustalo stejne         
+        $loginRowRereaded = $this->dao->get( self::$loginNameTouple  );         
+        
+         /** @var VisitorProfileDao $visitorProfileDao */
+        $visitorProfileDao = $this->container->get(VisitorProfileDao::class);  
+        $visitorProfileData = new RowData();
+        /**  @var RowData  $row */
+        $row = $visitorProfileDao->get( [ 'login_login_name' => self::$loginNameTouple ['login_name']  ] );        
+                
+        $this->assertEquals( $row['login_login_name'], $loginRowRereaded['login_name'] );
     }    
     
+    
     public function testFind() {
-        $loginRow = $this->dao->find();
-        $this->assertIsArray($loginRow);
-        $this->assertGreaterThanOrEqual(1, count($loginRow));
-        $this->assertInstanceOf(RowDataInterface::class, $loginRow[0]);
+        $loginRows = $this->dao->find();
+        $this->assertIsArray($loginRows);
+        $this->assertGreaterThanOrEqual(1, count($loginRows));
+        $this->assertInstanceOf(RowDataInterface::class, $loginRows[0]);
     }
 
    
-//    public function testDeleteException() {   
-//        // kontrola RESTRICT = že nevymaže job_tag, kdyz je  pouzit v job_to_tag
-//        $jobTagRow = $this->dao->get(self::$jobTagTouple_poUpdate);
-//        $this->expectException(ExecuteException::class);
-//        $this->dao->delete($jobTagRow);                
-//    }
+    public function testDeleteException() {   
+        // kontrola RESTRICT = že nevymaže login, kdyz je  pouzit v jine tabulce (yde napr. v representative,... atd.)
+        /**  @var RowData  $loginRow */    
+        $loginRow = $this->dao->get( self::$loginNameTouple );
+        $this->expectException(ExecuteException::class);
+        $this->dao->delete($loginRow);                
+       }
     
     public function testDelete() {
          //napred smazat vsechny zavisle, pak login
