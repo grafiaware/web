@@ -38,7 +38,7 @@ use Site\ConfigurationCache;
     </form>-->
 
 <!--prihlaseni je modalni okno, jde zavrit pouze pri stisku buttonu 'zavrit'-->
-    <button class="ui page icon button">
+    <button class="ui page icon button btn-login">
         <i class="user icon"></i>
     </button>
 
