@@ -177,13 +177,10 @@ class ConfigurationRed extends ConfigurationDb {
             // 'jméno služby kontejneru' => [pole parametrů menu]
             // 'jméno služby kontejneru' - jmébo služby kontejneru, která vrací příslušný menu komponent
             // parametry menu jsou:
-            //      'context_name' => jméno proměnné v šabloně (bez znaku $),
-            //      'service_name' => jméno služby component kontejneru,
             //      'rootName' => jméno kořene menu v db tabulce rootName,
             //      'withRootItem' => bool hodnota - true - zobrazuje se i obsah kořenového prvku menu,
-            //      'itemtype! => jedna z hodnot 'menu', 'block', 'trash' - určuje výběr rendereru menu item
-            //      'levelRenderer' => jméno rendereru obalového elementu menu
-            //      'levelwraprenderer' => jméno rendereru jedné úrovně menu
+            //      'itemtype! => jedna z hodnot 'onelevel', 'multilevel', 'trash' - určuje výběr rendereru menu item
+            //      'levelRenderer' => jméno služby pro získání rendereru jedné úrovně menu - konfigurace je v ConfigurationStyles, tam se předávají příslušné ClassMap
         return [
             'menu.componentsServices' => [
                     'menu.presmerovani' => [
