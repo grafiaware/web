@@ -9,7 +9,7 @@
 namespace Events\Model\Repository;
 
 use Model\Repository\RepoInterface;
-use Events\Model\Entity\EventContentInterface;
+use Events\Model\Entity\EventLinkInterface;
 
 /**
  *
@@ -19,18 +19,18 @@ interface EventLinkRepoInterface extends RepoInterface  {
   /**
      *
      * @param string $id
-     * @return EventContentInterface|null
+     * @return EventLinkInterface|null
      */
-    public function get($id): ?EventContentInterface ;
+    public function get($id): ?EventLinkInterface ;
 
     public function find($whereClause="", $touplesToBind=[]): array;
     public function findAll() :array ;
 
 
-    public function add(EventContentInterface $eventContentType);
+    public function add(EventLinkInterface $eventLink);
 
 
-    public function remove(EventContentInterface $eventContent) ;
+    public function remove(EventLinkInterface $eventLink) ;
 
 
 }
